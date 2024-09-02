@@ -67,7 +67,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
 
 
-class TestAddon(BaseAddon):
+class NoOpAddon(BaseAddon):
     """Testing add-on doing nothing."""
 
     settings_form = BaseAddonForm
@@ -76,11 +76,11 @@ class TestAddon(BaseAddon):
     description = "Test add-on"
 
 
-class TestError(Exception):
+class CrashAddonError(Exception):
     pass
 
 
-class TestCrashAddon(UpdateBaseAddon):
+class CrashAddon(UpdateBaseAddon):
     """Testing add-on doing nothing."""
 
     name = "weblate.base.crash"
@@ -89,7 +89,7 @@ class TestCrashAddon(UpdateBaseAddon):
 
     def update_translations(self, component: Component, previous_head: str) -> None:
         if previous_head:
-            raise TestError("Test error")
+            raise CrashAddonError("Test error")
 
     @classmethod
     def can_install(cls, component: Component, user: User | None) -> bool:  # noqa: ARG003
@@ -99,22 +99,22 @@ class TestCrashAddon(UpdateBaseAddon):
 class TestAddonMixin:
     def setUp(self) -> None:
         super().setUp()
-        ADDONS.data[TestAddon.name] = TestAddon
+        ADDONS.data[NoOpAddon.name] = NoOpAddon
         ADDONS.data[ExampleAddon.name] = ExampleAddon
-        ADDONS.data[TestCrashAddon.name] = TestCrashAddon
+        ADDONS.data[CrashAddon.name] = CrashAddon
         ADDONS.data[ExamplePreAddon.name] = ExamplePreAddon
 
     def tearDown(self) -> None:
         super().tearDown()
-        del ADDONS.data[TestAddon.name]
+        del ADDONS.data[NoOpAddon.name]
         del ADDONS.data[ExampleAddon.name]
-        del ADDONS.data[TestCrashAddon.name]
+        del ADDONS.data[CrashAddon.name]
         del ADDONS.data[ExamplePreAddon.name]
 
 
 class AddonBaseTest(TestAddonMixin, ViewTestCase):
     def test_can_install(self) -> None:
-        self.assertTrue(TestAddon.can_install(self.component, None))
+        self.assertTrue(NoOpAddon.can_install(self.component, None))
 
     def test_example(self) -> None:
         self.assertTrue(ExampleAddon.can_install(self.component, None))
@@ -122,26 +122,26 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         addon.pre_commit(None, "", True)
 
     def test_create(self) -> None:
-        addon = TestAddon.create(component=self.component)
+        addon = NoOpAddon.create(component=self.component)
         self.assertEqual(addon.name, "weblate.base.test")
         self.assertEqual(self.component.addon_set.count(), 1)
 
     def test_create_project_addon(self) -> None:
         self.component.project.acting_user = self.component.acting_user
-        addon = TestAddon.create(project=self.component.project)
+        addon = NoOpAddon.create(project=self.component.project)
         self.assertEqual(addon.name, "weblate.base.test")
         self.assertEqual(self.component.project.addon_set.count(), 1)
         self.assertEqual("Test add-on: Test", str(addon.instance))
 
     def test_create_site_wide_addon(self) -> None:
-        addon = TestAddon.create(acting_user=self.user)
+        addon = NoOpAddon.create(acting_user=self.user)
         self.assertEqual(addon.name, "weblate.base.test")
         addon_object = Addon.objects.filter(name="weblate.base.test")
         self.assertEqual(addon_object.count(), 1)
         self.assertEqual("Test add-on: site-wide", str(addon.instance))
 
     def test_add_form(self) -> None:
-        form = TestAddon.get_add_form(None, component=self.component, data={})
+        form = NoOpAddon.get_add_form(None, component=self.component, data={})
         self.assertTrue(form.is_valid())
         form.save()
         self.assertEqual(self.component.addon_set.count(), 1)
@@ -150,7 +150,7 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         self.assertEqual(addon.name, "weblate.base.test")
 
     def test_add_form_project_addon(self) -> None:
-        form = TestAddon.get_add_form(None, project=self.component.project, data={})
+        form = NoOpAddon.get_add_form(None, project=self.component.project, data={})
         self.assertTrue(form.is_valid())
         form.save()
         self.assertEqual(self.component.project.addon_set.count(), 1)
@@ -159,7 +159,7 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         self.assertEqual(addon.name, "weblate.base.test")
 
     def test_add_form_site_wide_addon(self) -> None:
-        form = TestAddon.get_add_form(None, data={})
+        form = NoOpAddon.get_add_form(None, data={})
         self.assertTrue(form.is_valid())
         form.save()
         addon_object = Addon.objects.filter(name="weblate.base.test")
@@ -180,7 +180,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
 
     def test_commit(self) -> None:
         GenerateMoAddon.create(component=self.component)
-        TestAddon.create(component=self.component)
+        NoOpAddon.create(component=self.component)
         rev = self.component.repository.last_revision
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
@@ -191,7 +191,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
     def test_add(self) -> None:
         UpdateLinguasAddon.create(component=self.component)
         UpdateConfigureAddon.create(component=self.component)
-        TestAddon.create(component=self.component)
+        NoOpAddon.create(component=self.component)
         rev = self.component.repository.last_revision
         self.component.add_new_language(Language.objects.get(code="sk"), None)
         self.assertNotEqual(rev, self.component.repository.last_revision)
@@ -202,7 +202,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
     def test_update(self) -> None:
         rev = self.component.repository.last_revision
         MsgmergeAddon.create(component=self.component)
-        TestAddon.create(component=self.component)
+        NoOpAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         self.component.trigger_post_update(
@@ -226,11 +226,11 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         )
 
     def test_crash(self) -> None:
-        addon = TestCrashAddon.create(component=self.component)
-        self.assertTrue(Addon.objects.filter(name=TestCrashAddon.name).exists())
-        ADDONS[TestCrashAddon.get_identifier()] = TestCrashAddon
+        addon = CrashAddon.create(component=self.component)
+        self.assertTrue(Addon.objects.filter(name=CrashAddon.name).exists())
+        ADDONS[CrashAddon.get_identifier()] = CrashAddon
 
-        with self.assertRaises(TestError):
+        with self.assertRaises(CrashAddonError):
             addon.post_update(self.component, "head", False)
 
         # The crash should be handled here and addon uninstalled
@@ -238,10 +238,10 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
             self.component.repository.last_revision, False
         )
 
-        self.assertFalse(Addon.objects.filter(name=TestCrashAddon.name).exists())
+        self.assertFalse(Addon.objects.filter(name=CrashAddon.name).exists())
 
     def test_process_error(self) -> None:
-        addon = TestAddon.create(component=self.component)
+        addon = NoOpAddon.create(component=self.component)
         addon.execute_process(self.component, ["false"])
         self.assertEqual(len(addon.alerts), 1)
 
