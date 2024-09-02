@@ -907,17 +907,21 @@ class Profile(models.Model):
         )
 
     def log_2fa(self, request: AuthenticatedHttpRequest, device: Device):
-        from weblate.accounts.utils import get_key_name
+        from weblate.accounts.utils import get_key_name, get_key_type
 
         # Audit log entry
         AuditLog.objects.create(
             self.user, request, "twofactor-login", device=get_key_name(device)
         )
-        # Store preferred method
+        # Store preferred method (skipping recovery codes)
+        device_type = get_key_type(device)
+        if device_type not in {self.last_2fa, "recovery"}:
+            self.last_2fa = device_type
+            self.save(update_fields=["last_2fa"])
 
     def get_second_factor_type(self) -> Literal["totp", "webauthn"]:
         if self.last_2fa in self.second_factor_types:
-            return self.last_2f
+            return self.last_2fa
         for tested in ("webauthn", "totp"):
             if tested in self.second_factor_types:
                 return tested

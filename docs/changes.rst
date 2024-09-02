@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* :ref:`2fa` remembers last method used by user.
+
 **Bug fixes**
 
 * Updating of translations from the repository in linked components.
