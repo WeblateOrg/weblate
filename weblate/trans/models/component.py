@@ -2026,10 +2026,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 ):
                     translation.store_hash()
 
+        self.store_local_revision()
+
         # Fire postponed post commit signals
         for component in components.values():
             component.send_post_commit_signal()
-            component.store_local_revision()
             component.update_import_alerts(delete=False)
 
         # Push if enabled
@@ -2131,8 +2132,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.local_revision = self.repository.last_revision
         # Avoid using using save as that does complex things and we
         # just want to update the database
-        Component.objects.filter(pk=self.pk).update(
-            local_revision=self.repository.last_revision
+        Component.objects.filter(Q(pk=self.pk) | Q(linked_component=self)).update(
+            local_revision=self.local_revision
         )
 
     @perform_on_link
