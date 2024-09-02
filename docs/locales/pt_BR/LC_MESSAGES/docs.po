@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 11:27+0200\n"
-"PO-Revision-Date: 2024-09-02 10:19+0000\n"
+"PO-Revision-Date: 2024-09-02 12:37+0000\n"
 "Last-Translator: Jose Delvani <jsdelvani@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -16331,56 +16331,39 @@ msgstr ""
 "volumes de dados, mas eles não são cobertos por este documento."
 
 #: ../../admin/install/docker.rst:1885
-#, fuzzy
-#| msgid ""
-#| "The data volume is used to store Weblate persistent data such as cloned "
-#| "repositories or to customize Weblate installation."
 msgid ""
 "The ``data`` volume is mounted as :file:`/app/data` and is used to store "
 "Weblate persistent data such as cloned repositories or to customize Weblate "
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
-"O volume de dados é usado para armazenar dados persistentes do Weblate, como "
-"repositórios clonados ou para personalizar a instalação do Weblate."
+"O volume ``dados`` é montado como :file:`/app/data`` e é utilizado para "
+"armazenar dados persistentes do Weblate, como repositórios clonados ou para "
+"personalizar a instalação do Weblate."
 
 #: ../../admin/install/docker.rst:1889
-#, fuzzy
-#| msgid ""
-#| "The placement of the Docker volume on host system depends on your Docker "
-#| "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
-#| "weblate-docker_weblate-data/_data/` (the path consist of name of your "
-#| "docker-compose directory, container, and volume names). In the container "
-#| "it is mounted as :file:`/app/data`."
 msgid ""
 "The placement of the Docker volume on host system depends on your Docker "
 "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
 "weblate-docker_weblate-data/_data/` (the path consist of name of your docker-"
 "compose directory, container, and volume names)."
 msgstr ""
-"O posicionamento do volume Docker no sistema hospedeiro depende da "
-"configuração do Docker, mas geralmente é armazenado em :file:`/var/lib/"
-"docker/volumes/weblate-docker_weblate-data/_data/` (o caminho consiste no "
-"nome de seu diretório docker-compose, contêiner e nomes de volume). No "
-"contêiner, ele é montado como :file:`/app/data`."
+"O posicionamento do volume do Docker no sistema host depende da configuração "
+"do Docker, mas geralmente ele é armazenado em :file:`/var/lib/docker/volumes/"
+"weblate-docker_weblate-data/_data/` (o caminho consiste no nome do diretório "
+"docker-compose, do contêiner e dos nomes dos volumes)."
 
 #: ../../admin/install/docker.rst:1894
-#, fuzzy
-#| msgid ""
-#| "The cache volume is mounted as :file:`/app/cache` and is used to store "
-#| "static files and :setting:`CACHE_DIR`. Its content is recreated on "
-#| "container startup and the volume can be mounted using ephemeral "
-#| "filesystem such as `tmpfs`."
 msgid ""
 "The ``cache`` volume is mounted as :file:`/app/cache` and is used to store "
 "static files and :setting:`CACHE_DIR`. Its content is recreated on container "
 "startup and the volume can be mounted using ephemeral filesystem such as "
 "`tmpfs`."
 msgstr ""
-"O volume de cache é montado como :file:`/app/cache` e é usado para armazenar "
-"arquivos estáticos e :setting:`CACHE_DIR`. Seu conteúdo é recriado na "
-"inicialização do contêiner e o volume pode ser montado usando um sistema de "
-"arquivos efêmero, como o `tmpfs`."
+"O volume do ``cache`` é montado como :file:`/app/cache` e é usado para "
+"armazenar arquivos estáticos e :setting:`CACHE_DIR`. Seu conteúdo é recriado "
+"na inicialização do contêiner e o volume pode ser montado usando um sistema "
+"de arquivos efêmero, como o `tmpfs`."
 
 #: ../../admin/install/docker.rst:1898
 msgid ""
@@ -16391,15 +16374,12 @@ msgstr ""
 "pois é o usuário usado dentro do contêiner."
 
 #: ../../admin/install/docker.rst:1903
-#, fuzzy
-#| msgid ""
-#| "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/engine/storage/"
 "volumes/>`_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 msgstr ""
-"`Documentação sobre volumes do Docker <https://docs.docker.com/storage/"
-"volumes/>`_"
+"`Documentação sobre volumes do Docker <https://docs.docker.com/engine/"
+"storage/volumes/>`_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 
 #: ../../admin/install/docker.rst:1908
 msgid "Read-only root filesystem"
@@ -17420,14 +17400,11 @@ msgstr ""
 "idioma individuais e evitar macroidiomas."
 
 #: ../../admin/languages.rst:94
-#, fuzzy
-#| msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
 msgid ""
 "`Macrolanguages at Wikipedia <https://en.wikipedia.org/wiki/"
 "ISO_639_macrolanguage>`_"
 msgstr ""
-"`Ponto e vírgula na Wikipédia <https://pt.wikipedia.org/wiki/"
-"Ponto_e_vírgula>`_"
+"`Macrolíngua na Wikipédia <https://pt.wikipedia.org/wiki/Macrol%C3%ADngua>`_"
 
 #: ../../admin/languages.rst:99
 msgid "Each language consists of following fields:"
@@ -17837,10 +17814,8 @@ msgstr ""
 "index>`_"
 
 #: ../../admin/machine.rst:118
-#, fuzzy
-#| msgid "Untranslated"
 msgid "Cyrtranslit"
-msgstr "Não traduzido"
+msgstr "Cyrtranslit"
 
 #: ../../admin/machine.rst:122
 msgid "``cyrtranslit``"
@@ -17852,10 +17827,8 @@ msgid "`This service has no configuration.`"
 msgstr "`Este serviço não tem configuração.`"
 
 #: ../../admin/machine.rst:125
-#, fuzzy
-#| msgid "Machine translation service provided by Systran."
 msgid "Machine translation service using the Cyrtranslit library."
-msgstr "Serviço de tradução automática fornecido pela Systran."
+msgstr "Serviço de tradução automática usando a biblioteca Cyrtranslit."
 
 #: ../../admin/machine.rst:127
 msgid ""
@@ -18490,10 +18463,8 @@ msgid "``auto`` -- Automatic selection"
 msgstr "``auto`` -- Seleção automática"
 
 #: ../../admin/machine.rst:460
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-4o`` -- GPT-4o"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:462
 msgid "``gpt-4-1106-preview`` -- GPT-4 Turbo"
@@ -18504,20 +18475,16 @@ msgid "``gpt-4`` -- GPT-4"
 msgstr "``gpt-4`` -- GPT-4"
 
 #: ../../admin/machine.rst:466
-#, fuzzy
-#| msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 msgid "``gpt-3.5-turbo-1106`` -- Updated GPT 3.5 Turbo"
-msgstr "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
+msgstr "``gpt-3.5-turbo-1106`` -- GPT 3.5 Turbo atualizado"
 
 #: ../../admin/machine.rst:468
 msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 msgstr "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 
 #: ../../admin/machine.rst:470
-#, fuzzy
-#| msgid "``auto`` -- Automatic selection"
 msgid "``custom`` -- Custom model"
-msgstr "``auto`` -- Seleção automática"
+msgstr "``custom`` -- Modelo personalizado"
 
 #: ../../admin/machine.rst:472
 msgid "``custom_model``"
@@ -18586,10 +18553,8 @@ msgstr ""
 "das traduções."
 
 #: ../../admin/machine.rst:493
-#, fuzzy
-#| msgid "Support for v4 variant of this format was added."
 msgid "Support for custom model and base URL was added."
-msgstr "O suporte para a variante v4 deste formato foi adicionado."
+msgstr "Foi adicionado o suporte para modelo personalizado e URL de base."
 
 #: ../../admin/machine.rst:497
 msgid ""
@@ -38870,7 +38835,7 @@ msgstr ""
 
 #: ../../contributing/index.rst:35
 msgid "Contribute to Weblate documentation"
-msgstr "Contribua para a documentação do Weblate"
+msgstr "Contribuir com a documentação do Weblate"
 
 #: ../../contributing/index.rst:37
 msgid ""
@@ -47152,11 +47117,11 @@ msgstr "`Arquivo YAML`"
 
 #: ../../latexindex.rst:7 ../../toc-user.rst:1
 msgid "User docs"
-msgstr "Documentação de usuário"
+msgstr "Documentação para usuários"
 
 #: ../../latexindex.rst:12 ../../toc-admin.rst:1
 msgid "Administrator docs"
-msgstr "Documentação de administrador"
+msgstr "Documentação para administradores"
 
 #: ../../toc-devel.rst:1
 msgid "Application developer guide"
@@ -47164,7 +47129,7 @@ msgstr "Guia de desenvolvedor de aplicativo"
 
 #: ../../latexindex.rst:17 ../../toc-contrib.rst:1
 msgid "Contributor docs"
-msgstr "Documentação de colaborador"
+msgstr "Documentação para colaboradores"
 
 #: ../../toc-changes.rst:1
 msgid "Change history"
