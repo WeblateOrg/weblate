@@ -2614,9 +2614,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Update last processed revision
         self.processed_revision = current_revision
         # Avoid using save() here
-        Component.objects.filter(pk=self.pk).update(
-            processed_revision=self.current_revision
-        )
+        Component.objects.filter(pk=self.pk).update(processed_revision=current_revision)
 
         self.log_info("updating completed")
         return was_change
