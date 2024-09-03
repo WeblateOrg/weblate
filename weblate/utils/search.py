@@ -13,7 +13,6 @@ from operator import and_, or_
 from typing import Any, cast, overload
 
 from dateparser import parse
-from dateutil.parser import ParserError
 from django.db import transaction
 from django.db.models import Q, Value
 from django.db.utils import DataError
@@ -238,18 +237,17 @@ class BaseTermExpr:
                     tzinfo=tzinfo,
                 ),
             )
-        try:
-            # Here we inject 5:55:55 time and if that was not changed
-            # during parsing, we assume it was not specified while
-            # generating the query
-            result = parse(text)
-        except ParserError as error:
-            raise ValueError(gettext("Invalid timestamp: {}").format(error)) from error
-        if result.hour == 5 and result.minute == 55 and result.second == 55:
+
+        # Attempts to parse the text using dateparser
+        # If the text is unparsable it will return None
+        result = parse(text)
+        if not result:
+            result = timezone.now()
             return (
                 result.replace(hour=0, minute=0, second=0, microsecond=0),
                 result.replace(hour=23, minute=59, second=59, microsecond=999999),
             )
+
         return result
 
     def convert_change_action(self, text: str) -> int:
