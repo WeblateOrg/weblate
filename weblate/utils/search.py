@@ -12,7 +12,8 @@ from itertools import chain
 from operator import and_, or_
 from typing import Any, cast, overload
 
-from dateutil.parser import ParserError, parse
+from dateparser import parse
+from dateutil.parser import ParserError
 from django.db import transaction
 from django.db.models import Q, Value
 from django.db.utils import DataError
@@ -241,12 +242,7 @@ class BaseTermExpr:
             # Here we inject 5:55:55 time and if that was not changed
             # during parsing, we assume it was not specified while
             # generating the query
-            result = parse(
-                text,
-                default=timezone.now().replace(
-                    hour=hour, minute=minute, second=second, microsecond=microsecond
-                ),
-            )
+            result = parse(text)
         except ParserError as error:
             raise ValueError(gettext("Invalid timestamp: {}").format(error)) from error
         if result.hour == 5 and result.minute == 55 and result.second == 55:
