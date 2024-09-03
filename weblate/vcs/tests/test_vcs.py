@@ -1358,6 +1358,18 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             self.repo.get_fork_path("ssh://git@gitlab.company:222/aaa/bbb.git"),
             "aaa%2Fbbb",
         )
+        self.assertEqual(
+            self.repo.get_fork_path(
+                "git@gitlab.domain.com:group1/subgroup/project.git"
+            ),
+            "group1%2Fsubgroup%2Fproject",
+        )
+        self.assertEqual(
+            self.repo.parse_repo_url(
+                "git@gitlab.domain.com:group1/subgroup/project.git"
+            ),
+            (None, "gitlab.domain.com", "group1", "subgroup/project"),
+        )
 
     @override_settings(
         GITLAB_CREDENTIALS={
