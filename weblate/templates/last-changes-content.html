@@ -59,7 +59,7 @@
                 {% endif %}
                 <label>{{ change.unit.translation.component.source_language }}</label>
                 {% format_unit_source change.unit value=change.get_source %}
-                <label>
+                <label class="tags-list">
                     {{ change.unit.translation.language }}
                     {% comment %}Translators: Number of edits on a change in Damerau–Levenshtein distance{% endcomment %}
                     <span class="badge">{% blocktrans count count=change.get_distance %}{{ count }} character edited{% plural %}{{ count }} characters edited{% endblocktrans %}</span>
