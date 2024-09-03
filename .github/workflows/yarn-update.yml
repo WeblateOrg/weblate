@@ -43,7 +43,7 @@ jobs:
         commit_message: 'chore(js): update vendored libraries'
     - name: Create Pull Request
       if: github.ref == 'refs/heads/main'
-      uses: peter-evans/create-pull-request@v6
+      uses: peter-evans/create-pull-request@v7
       with:
         branch: create-pull-request/yarn-update
         title: 'chore(js): update vendored libraries'
