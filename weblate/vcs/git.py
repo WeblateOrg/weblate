@@ -48,8 +48,22 @@ class GitRepository(Repository):
     """Repository implementation for Git."""
 
     _cmd = "git"
-    _cmd_last_revision = ["log", "-n", "1", "--format=format:%H", "HEAD"]
-    _cmd_last_remote_revision = ["log", "-n", "1", "--format=format:%H", "@{upstream}"]
+    _cmd_last_revision = [
+        "log",
+        "-n",
+        "1",
+        "--format=format:%H",
+        "HEAD",
+        "--",
+    ]
+    _cmd_last_remote_revision = [
+        "log",
+        "-n",
+        "1",
+        "--format=format:%H",
+        "@{upstream}",
+        "--",
+    ]
     _cmd_list_changed_files = ["diff", "--name-status"]
     _cmd_push = ["push"]
     _cmd_status = ["--no-optional-locks", "status"]
