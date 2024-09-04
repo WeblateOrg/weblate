@@ -1,7 +1,7 @@
 Weblate 5.7.2
 -------------
 
-Not yet released.
+Released on September 5th 2024.
 
 **New features**
 
