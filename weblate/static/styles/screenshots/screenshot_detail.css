@@ -1,0 +1,26 @@
+/*
+ * Copyright © Michal Čihař <michal@weblate.org>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+#sources-listing {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+@media (max-width: 767px) {
+  #sources-listing {
+    max-height: 300px;
+  }
+
+  #sources-listing td > .btn {
+    margin-bottom: 5px;
+  }
+
+  .panel-footer {
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+}

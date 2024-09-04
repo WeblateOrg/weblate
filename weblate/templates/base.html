@@ -101,8 +101,11 @@ var _rollbarConfig = {
   <meta property="og:title" content="{% if title %}{{ title }}{% elif object %}{{ object }}{% elif page_user %}{{ page_user }}{% else %}{{ site_title }}{% endif %}" />
   <meta property="og:description" content="{{ description }}" />
 
-{% block extra_meta %}
-{% endblock %}
+  {% block extra_meta %}
+  {% endblock %}
+
+  {% block extra_styles %}
+  {% endblock %}
 
  </head>
 

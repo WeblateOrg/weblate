@@ -13,6 +13,10 @@
 {% endcompress %}
 {% endblock %}
 
+{% block extra_styles %}
+  <link rel="stylesheet" href="{% static 'styles/screenshots/screenshot_detail.css' %}{{ cache_param }}" />
+{% endblock %}
+
 {% block breadcrumbs %}
 {% path_object_breadcrumbs object.translation.component %}
 <li><a href="{% url 'screenshots' path=object.translation.component.get_url_path %}">{% trans "Screenshots" %}</a></li>
