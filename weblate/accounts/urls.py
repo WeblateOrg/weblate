@@ -9,6 +9,10 @@ from django.views.i18n import JavaScriptCatalog
 
 import weblate.accounts.views
 import weblate.auth.views
+from weblate.utils.urls import register_weblate_converters
+
+register_weblate_converters()
+
 
 # Follows copy of social_django.urls with few changes:
 # - authentication requires POST (issue submitted upstream)
