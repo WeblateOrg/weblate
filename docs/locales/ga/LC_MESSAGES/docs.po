@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-08-27 15:11+0000\n"
+"PO-Revision-Date: 2024-09-04 15:43+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
@@ -18,9 +18,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 5.7.1-dev\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :("
+"n>6 && n<11) ? 3 : 4;\n"
+"X-Generator: Weblate 5.7.2-rc\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
 msgid "Access control"
@@ -2242,6 +2242,9 @@ msgid ""
 "as :ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the "
 "translation file in sync with the base file."
 msgstr ""
+"I gcás formáidí ina bhfuil ábhar breise seachas teaghráin aistriúcháin ("
+"amhail :ref:`html`, :ref:`winrc`, nó :ref:`odf`) tugann sé seo an comhad "
+"aistriúcháin ar shioncronú leis an mbunchomhad."
 
 #: ../../admin/addons.rst:167
 msgid "Add missing languages"
@@ -14199,6 +14202,8 @@ msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgstr ""
+"Is féidir suiteáil a úsáideann Docker a chumrú chun socrú Soilire "
+"aonphróisis a úsáid trí :envvar:`CELERY_SINGLE_PROCESS` a shocrú."
 
 #: ../../admin/install.rst:1606
 msgid "This will have a noticeable performance impact on Weblate."
@@ -14941,20 +14946,21 @@ msgstr "Is féidir leat catagóirí oibrithe aonair a mhionchoigeartú freisin:"
 msgid ""
 "Memory usage can be further reduced by running only a single Celery process:"
 msgstr ""
+"Is féidir úsáid na cuimhne a laghdú tuilleadh trí phróiseas Soilire amháin a "
+"rith:"
 
 #: ../../admin/install/docker.rst:377
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-#| "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-#| "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-#| "`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
 msgid ""
 ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
 "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
 "`CELERY_BEAT_OPTIONS`, :envvar:`CELERY_SINGLE_PROCESS`, :envvar:`WEB_WORKERS`"
-msgstr "! BEAT_OPTIONS`, :envvar :`WEB_OIBRITHE`"
+msgstr ""
+":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`CELERY_SINGLE_PROCESS`, "
+":envvar:`WEB_WORKERS`"
 
 #: ../../admin/install/docker.rst:390
 msgid "Scaling horizontally"
@@ -16444,6 +16450,9 @@ msgid ""
 "This variable can be set to ``1`` to run only one celery process. This "
 "reduces memory usage but may impact Weblate performance."
 msgstr ""
+"Is féidir an athróg seo a shocrú go ``1`` chun próiseas soilire amháin a "
+"rith. Laghdaíonn sé seo úsáid chuimhne ach d'fhéadfadh tionchar a bheith "
+"aige ar fheidhmíocht Weblate."
 
 #: ../../admin/install/docker.rst:1860
 #, fuzzy
@@ -27260,16 +27269,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS ar Vicipéid <https://ga.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.7.1"
 msgid "Weblate 5.7.2"
-msgstr "Gréasán 5.7.1"
+msgstr "Gréasán 5.7.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on September 15th 2022."
 msgid "Released on September 5th 2024."
-msgstr "Foilsithe ar 15 Meán Fómhair 2022."
+msgstr "Foilsithe ar 5 Meán Fómhair 2024."
 
 #: ../../changes.rst:6 ../../changes.rst:62 ../../changes.rst:158
 #: ../../changes.rst:270 ../../changes.rst:307 ../../changes.rst:418
@@ -27289,11 +27294,12 @@ msgstr "**feabhsuithe**"
 
 #: ../../changes.rst:10
 msgid ":ref:`2fa` remembers last method used by user."
-msgstr ""
+msgstr ":ref: Is cuimhin le `2fa` an modh deireanach a d'úsáid an t-úsáideoir."
 
 #: ../../changes.rst:11
 msgid "Instead of redirecting, the sign-out now displays a page."
 msgstr ""
+"In ionad atreorú a dhéanamh, taispeánann an síniú amach leathanach anois."
 
 #: ../../changes.rst:13 ../../changes.rst:39 ../../changes.rst:85
 #: ../../changes.rst:118 ../../changes.rst:143 ../../changes.rst:173
@@ -27308,10 +27314,8 @@ msgid "**Bug fixes**"
 msgstr "**Fabhtcheartaithe**"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid "Updating of translations from the repository in linked components."
-msgstr "Tionscadail agus comhpháirteanna aistriúcháin a chur leis"
+msgstr "Aistriúcháin ón stór i gcomhpháirteanna nasctha a nuashonrú."
 
 #: ../../changes.rst:17 ../../changes.rst:91 ../../changes.rst:181
 #: ../../changes.rst:343 ../../changes.rst:449 ../../changes.rst:502
@@ -27364,70 +27368,68 @@ msgid "**Contributors**"
 msgstr "**Ranníocóirí**"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/125?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion < https://github.com/WeblateOrg/weblate/milestone/125?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"126?closed=1>`__."
 
 #: ../../changes.rst:30
 msgid "Weblate 5.7.1"
 msgstr "Gréasán 5.7.1"
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Released on August 15th 2024."
 msgid "Released on August 30th 2024."
-msgstr "Foilsithe ar 15 Lúnasa 2024."
+msgstr "Foilsithe ar 30 Lúnasa 2024."
 
 #: ../../changes.rst:36
 msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
 msgstr ""
+"Ainmneacha teanga nuashonraithe chun cur síos níos fearr a dhéanamh ar "
+"scripteanna éagsúla agus ar theangacha Sinteacha."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ""
 ":ref:`addon-weblate.cleanup.generic` is now automatically installed for "
 "formats which need it to update non-translation content in the translated "
 "files."
 msgstr ""
-"Úsáid :ref:`addon-weblate.cleanup.generic` mura bhfuil uait ach "
-"seaneochracha aistriúcháin a bhaint."
+":ref: Tá `addon-weblate.cleanup.generic` suiteáilte go huathoibríoch anois "
+"le haghaidh formáidí a dteastaíonn sé uathu chun ábhar neamhaistrithe sna "
+"comhaid aistrithe a nuashonrú."
 
 #: ../../changes.rst:41
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
 msgstr ""
+"Tacaíocht le húsáid ainmneacha líonra Docker i socruithe moltaí "
+"uathoibríocha."
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Fixed authentication using some third party providers."
 msgid "Fixed authentication using some third-party providers such as Azure."
 msgstr ""
-"Fíordheimhniú seasta ag baint úsáide as roinnt soláthraithe tríú páirtí."
+"Fíordheimhniú seasta ag baint úsáide as roinnt soláthraithe tríú páirtí "
+"cosúil le Azure."
 
 #: ../../changes.rst:43
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
 msgstr ""
+"Tacaíocht do Phortaingéilis fhoirmiúla agus neamhfhoirmiúla i :tag:`mt-"
+"deepl`."
 
 #: ../../changes.rst:44
 msgid "QR code for TOTP is now black/white even in dark mode."
-msgstr ""
+msgstr "Tá an cód QR le haghaidh TOTP dubh/bán anois fiú sa mhód dorcha."
 
 #: ../../changes.rst:45
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
 msgstr ""
+"Fíordheimhniú TOTP seasta nuair a bhíonn WebAuthn cumraithe don úsáideoir "
+"freisin."
 
 #: ../../changes/contributors/5.7.1.rst:2 ../../changes/contributors/5.7.rst:2
 msgid "Code contributions"
@@ -27435,7 +27437,7 @@ msgstr "Ranníocaíochtaí cód"
 
 #: ../../changes/contributors/5.7.1.rst:3
 msgid "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
-msgstr ""
+msgstr "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
 
 #: ../../changes/contributors/5.7.1.rst:5 ../../changes/contributors/5.7.rst:5
 msgid "Translations contributions"
@@ -27454,6 +27456,16 @@ msgid ""
 "Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
 "Saranpat Visetrit, Vlăduț Ilie"
 msgstr ""
+"Michal Čihař, Miguel A. Bouzada, Ldm Public, gallegonovato, Besnik Bleta, "
+"Yaron Shahrabani, Alefsander Ribeiro Nascimento, Aindriú Mac Giolla Eoin, "
+"Massimo Pissarello, hugoalh, Xzonn, Jose Delvani, 大王叫我来巡山, Сергей, "
+"Milo Ivir, VfBFan, Blueberry, Ihor Hordiichuk, Christian Wia, Fjuro, simmon, "
+"Chikita Isaac, Oğuz Ersen, 马牛逼（Felix）, Sketch6580, Emin Tufan Çetin, "
+"Simona Iacob, Andi Chandler, Jorge Gemetto, Assem Askarova, Julien Humbert, "
+"Peter Vančo, Wuzzy, ovl-1, Jim Kats, WaldiS, Nicolas MAGERE, Eduard Ereza "
+"Martínez, Kaya Zeren, Pierfrancesco Passerini, Dick Groskamp, Chang-Chia "
+"Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
+"Saranpat Visetrit, Vlăduț Ilie"
 
 #: ../../changes/contributors/5.7.1.rst:8 ../../changes/contributors/5.7.rst:8
 msgid "Documentation contributions"
@@ -27461,7 +27473,7 @@ msgstr "Ranníocaíochtaí doiciméadaithe"
 
 #: ../../changes/contributors/5.7.1.rst:9
 msgid "Michal Čihař, Robin"
-msgstr ""
+msgstr "Michal Čihař, Robin"
 
 #: ../../changes.rst:55
 msgid ""
@@ -39070,7 +39082,7 @@ msgstr "`Nua-phíb e.V. < https://newpipe-ev.de> `_"
 
 #: ../../../BACKERS.rst:26
 msgid "Daniel Leidert"
-msgstr ""
+msgstr "Daniel Leidert"
 
 #: ../../../BACKERS.rst:28
 msgid ""
@@ -47161,12 +47173,6 @@ msgstr ""
 "sonraí agus rúndacht."
 
 #: ../../legal.rst:36
-#, fuzzy
-#| msgid ""
-#| "Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as "
-#| "publicly available libre software, it should not be subject to EAR (see "
-#| "`Encryption items NOT Subject to the EAR <https://www.bis.gov/"
-#| "node/6204>`_)."
 msgid ""
 "Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as "
 "publicly available libre software, it should not be subject to EAR (see "
@@ -47174,9 +47180,10 @@ msgid ""
 "policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_)."
 msgstr ""
 "Is dóichí go ndéanfaí Weblate a rangú mar ECCN 5D002 nó 5D992 agus, mar "
-"bhogearraí atá ar fáil go poiblí, níor cheart go mbeadh sé faoi réir EAR "
-"(féach `Míreanna criptithe NOT Faoi réir an EAR < https://www.bis.gov/"
-"node/6204 >`_)."
+"bhogearraí atá ar fáil go poiblí, níor cheart go mbeadh sé faoi réir EAR ("
+"féach `Míreanna criptithe NOT Faoi réir an EAR <https://www.bis.doc.gov/"
+"index .php/policy-guidance/encryption/1-encryption-items-not-subject-to-the-"
+"ear>`_)."
 
 #: ../../legal.rst:41
 msgid ""
