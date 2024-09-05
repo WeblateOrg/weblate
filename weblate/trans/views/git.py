@@ -67,7 +67,7 @@ def update(request: AuthenticatedHttpRequest, path):
     if result:
         return redirect(
             "{}?info=1".format(
-                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+                reverse("show_progress", kwargs={"path": obj.get_url_path()})
             )
         )
     return result
@@ -104,7 +104,7 @@ def reset(request: AuthenticatedHttpRequest, path):
     if result:
         return redirect(
             "{}?info=1".format(
-                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+                reverse("show_progress", kwargs={"path": obj.get_url_path()})
             )
         )
     return result
@@ -159,7 +159,7 @@ def file_scan(request: AuthenticatedHttpRequest, path):
     if result:
         return redirect(
             "{}?info=1".format(
-                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+                reverse("show_progress", kwargs={"path": obj.get_url_path()})
             )
         )
     return result

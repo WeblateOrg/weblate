@@ -932,19 +932,43 @@ $(function () {
   });
 
   /* Generic messages progress */
+  const progressBars = document.querySelectorAll(".progress-bar");
   $("[data-task]").each(function () {
     const $message = $(this);
     const $bar = $message.find(".progress-bar");
+    $bar.attr("data-completed", "0");
 
-    const taskInterval = setInterval(() => {
-      $.get($message.data("task"), (data) => {
-        $bar.width(`${data.progress}%`);
-        if (data.completed) {
-          clearInterval(taskInterval);
-          $message.text(data.result.message);
-        }
-      });
-    }, 1000);
+    const progressCompleted = () => {
+      $bar.attr("data-completed", "1");
+      clearInterval(taskInterval);
+      if (
+        $("#progress-redirect").prop("checked") &&
+        Array.from(progressBars.values()).every((element) => {
+          return element.getAttribute("data-completed") === "1";
+        })
+      ) {
+        window.location = $("#progress-return").attr("href");
+      }
+    };
+
+    const taskInterval = setInterval(
+      () => {
+        $.get($message.data("task"), (data) => {
+          $bar.width(`${data.progress}%`);
+          if (data.completed) {
+            progressCompleted();
+            if (data.result.message) {
+              $message.text(data.result.message);
+            }
+          }
+        }).fail((jqXhr) => {
+          if (jqXhr.status === 404) {
+            progressCompleted();
+          }
+        });
+      },
+      1000 * Math.max(progressBars.length / 5, 1),
+    );
   });
 
   /* Disable invalid file format choices */

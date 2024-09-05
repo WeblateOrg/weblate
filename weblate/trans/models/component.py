@@ -2386,7 +2386,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         self.log_info("scheduling update in background")
         # We skip request here as it is not serializable
-        perform_load.apply_async(
+        task = perform_load.apply_async(
             args=(self.pk,),
             kwargs={
                 "force": force,
@@ -2396,6 +2396,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 "change": change,
             },
         )
+        self.store_background_task(task)
         return False
 
     def create_translations_task(
