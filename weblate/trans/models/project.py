@@ -39,8 +39,11 @@ from weblate.utils.validators import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.auth.models import User
     from weblate.trans.backups import BackupListDict
+    from weblate.trans.models.component import Component
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
 
@@ -436,7 +439,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         return self.on_repo_components(False, "can_push")
 
     @cached_property
-    def all_repo_components(self):
+    def all_repo_components(self) -> Iterable[Component]:
         """Return list of all unique VCS components."""
         result = list(self.component_set.with_repo())
         included = {component.id for component in result}
