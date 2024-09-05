@@ -9,6 +9,7 @@ Released on September 5th 2024.
 
 * :ref:`2fa` remembers last method used by user.
 * Instead of redirecting, the sign-out now displays a page.
+* Improved readability of exception logs.
 
 **Bug fixes**
 

@@ -133,7 +133,7 @@ def tools(request: AuthenticatedHttpRequest) -> HttpResponse:
                     send_test_mail(**email_form.cleaned_data)
                     messages.success(request, gettext("Test e-mail sent."))
                 except Exception as error:
-                    report_error()
+                    report_error("E-mail sending failed")
                     messages.error(
                         request, gettext("Could not send test e-mail: %s") % error
                     )
@@ -199,7 +199,7 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
         try:
             support.refresh()
         except Timeout:
-            report_error()
+            report_error("Activation timeout")
             messages.error(
                 request,
                 gettext(
@@ -207,7 +207,7 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
                 ),
             )
         except HTTPError as error:
-            report_error()
+            report_error("Activation error")
             if error.response.status_code == 404:
                 messages.error(
                     request,
@@ -224,7 +224,7 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
                     ),
                 )
         except Exception as error:
-            report_error()
+            report_error("Activation error")
             messages.error(
                 request,
                 gettext("Could not activate your installation: %s") % error,

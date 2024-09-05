@@ -38,11 +38,11 @@ def execute_locked(
             gettext("Could not lock the repository, another operation is in progress."),
         )
         if isinstance(obj, Project):
-            report_error(project=obj)
+            report_error("Repository lock timeout", project=obj)
         elif isinstance(obj, Component):
-            report_error(project=obj.project)
+            report_error("Repository lock timeout", project=obj.project)
         else:
-            report_error(project=obj.component.project)
+            report_error("Repository lock timeout", project=obj.component.project)
 
     return redirect_param(obj, "#repository")
 

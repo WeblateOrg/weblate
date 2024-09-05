@@ -21,7 +21,7 @@ def main(argv=None, developer_mode: bool = False) -> None:
         try:
             from weblate.utils.errors import report_error
 
-            report_error()
+            report_error("Command failed")
         except ImportError:
             pass
         raise

@@ -48,7 +48,7 @@ def is_spam(text, request: AuthenticatedHttpRequest):
                 comment_type="comment",
             )
         except (OSError, AkismetServerError):
-            report_error()
+            report_error("Akismet error")
             return True
         if result:
             report_error("Akismet reported spam", level="info", message=True)
@@ -70,4 +70,4 @@ def report_spam(text, user_ip, user_agent) -> None:
             comment_type="comment",
         )
     except (OSError, AkismetServerError):
-        report_error()
+        report_error("Akismet error")

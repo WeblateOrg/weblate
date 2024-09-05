@@ -1419,19 +1419,19 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
     try:
         response = complete(request, backend)
     except InvalidEmail:
-        report_error()
+        report_error("Could not register")
         return auth_redirect_token(request)
     except AuthMissingParameter as error:
-        report_error()
+        report_error("Could not register")
         result = handle_missing_parameter(request, backend, error)
         if result:
             return result
         raise
     except (AuthStateMissing, AuthStateForbidden):
-        report_error()
+        report_error("Could not register")
         return auth_redirect_state(request)
     except AuthFailed:
-        report_error()
+        report_error("Could not register")
         return auth_fail(
             request,
             gettext(
@@ -1440,10 +1440,10 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
             ),
         )
     except AuthCanceled:
-        report_error()
+        report_error("Could not register")
         return auth_fail(request, gettext("Authentication cancelled."))
     except AuthForbidden:
-        report_error()
+        report_error("Could not register")
         return auth_fail(request, gettext("The server does not allow authentication."))
     except EmailAlreadyAssociated:
         return registration_fail(
@@ -1465,7 +1465,7 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
             ),
         )
     except ValidationError as error:
-        report_error()
+        report_error("Could not register")
         return registration_fail(request, str(error))
 
     # Finish second factor authentication
