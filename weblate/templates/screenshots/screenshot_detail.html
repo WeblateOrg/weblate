@@ -30,8 +30,12 @@
 
 
 <div class="panel panel-default" id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Assigned source strings" %}</h4></div>
-  {% include "screenshots/screenshot_sources_body.html" with sources=objects.units.order %}
+  <div class="panel-heading">
+    <h4 class="panel-title">{% trans "Assigned source strings" %}</h4>
+  </div>
+  <div id="strings-table-container">
+    {% include "screenshots/screenshot_sources_body.html" with sources=objects.units.order %}
+  </div>
   <div class="panel-footer">
     {% trans "Screenshot is shown to add visual context for all listed source strings." %}
   </div>
@@ -56,7 +60,7 @@
     </div>
     <form class="form-inline double-submission">
       {% csrf_token %}
-      <input type="text" required="yes" name="q" id="search-input" placeholder="{% trans "Source string search" %}" />
+      <input class="textinput form-control" type="text" required="yes" name="q" id="search-input" placeholder="{% trans "Source string search" %}" />
       <button data-href="{% url 'screenshot-js-search' pk=object.pk %}" class="btn btn-primary" id="screenshots-search">{% trans "Search" %}</button>
     </form>
   </div>
