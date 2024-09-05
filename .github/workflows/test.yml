@@ -66,10 +66,10 @@ jobs:
       PYTHONUNBUFFERED: 1
     steps:
     - uses: actions/checkout@v4
-    - uses: hynek/setup-cached-uv@v2
+    - uses: astral-sh/setup-uv@v1
       with:
-        cache-dependency-path: pyproject.toml
-        cache-date-suffix: ''
+        enable-cache: true
+        cache-dependency-glob: pyproject.toml
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies

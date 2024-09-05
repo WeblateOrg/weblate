@@ -24,10 +24,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: hynek/setup-cached-uv@v2
+    - uses: astral-sh/setup-uv@v1
       with:
-        cache-dependency-path: docs/requirements.txt
-        cache-date-suffix: ''
+        enable-cache: true
+        cache-dependency-glob: docs/requirements.txt
     - name: Set up Python
       uses: actions/setup-python@v5
       with:

@@ -24,9 +24,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: hynek/setup-cached-uv@v2
-      with:
-        if-use-cache: false
+    - uses: astral-sh/setup-uv@v1
     - name: Set up Python
       uses: actions/setup-python@v5
       with:

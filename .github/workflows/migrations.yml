@@ -40,10 +40,10 @@ jobs:
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
-    - uses: hynek/setup-cached-uv@v2
+    - uses: astral-sh/setup-uv@v1
       with:
-        cache-dependency-path: pyproject.toml
-        cache-date-suffix: ''
+        enable-cache: true
+        cache-dependency-glob: pyproject.toml
     - name: Set up Python 3.11
       uses: actions/setup-python@v5
       with:
