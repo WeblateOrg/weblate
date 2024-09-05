@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-05 02:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-09-05 10:25+0000\n"
+"Last-Translator: Sketch6580 <Sketch6580@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -2087,6 +2087,8 @@ msgid ""
 "as :ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the "
 "translation file in sync with the base file."
 msgstr ""
+"对于包含翻译字符串外的其他内容格式（如 :ref:`html`、 :ref:`winrc` 或 "
+":ref:`odf`），这也会使翻译文件与基文件同步。"
 
 #: ../../admin/addons.rst:167
 msgid "Add missing languages"
@@ -12987,7 +12989,8 @@ msgstr ""
 msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
-msgstr ""
+msgstr "通过设置 :envvar:`CELERY_SINGLE_PROCESS`，可使用 Docker "
+"的安装配置为使用单进程 Celery 设置。"
 
 #: ../../admin/install.rst:1606
 msgid "This will have a noticeable performance impact on Weblate."
@@ -13665,7 +13668,7 @@ msgstr "你还可以微调单个工作进程类别："
 #: ../../admin/install/docker.rst:368
 msgid ""
 "Memory usage can be further reduced by running only a single Celery process:"
-msgstr ""
+msgstr "只运行单个 Celery 进程可进一步减少内存使用："
 
 #: ../../admin/install/docker.rst:377
 msgid ""
@@ -15053,7 +15056,8 @@ msgstr ""
 msgid ""
 "This variable can be set to ``1`` to run only one celery process. This "
 "reduces memory usage but may impact Weblate performance."
-msgstr ""
+msgstr "此变量可以设置为 ``1``，以便只运行一个 Celery 进程。这会减少内存使用，"
+"但可能会影响 Weblate 性能。"
 
 #: ../../admin/install/docker.rst:1860
 msgid ":ref:`minimal-celery`"
@@ -24971,11 +24975,11 @@ msgstr "**改进**"
 
 #: ../../changes.rst:10
 msgid ":ref:`2fa` remembers last method used by user."
-msgstr ""
+msgstr ":ref:`2fa` 记住用户最后使用的方法。"
 
 #: ../../changes.rst:11
 msgid "Instead of redirecting, the sign-out now displays a page."
-msgstr ""
+msgstr "退出登录现在显示一个页面，而不是重定向。"
 
 #: ../../changes.rst:13 ../../changes.rst:39 ../../changes.rst:85
 #: ../../changes.rst:118 ../../changes.rst:143 ../../changes.rst:173
@@ -24990,10 +24994,8 @@ msgid "**Bug fixes**"
 msgstr "**缺陷修复**"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid "Updating of translations from the repository in linked components."
-msgstr "添加翻译项目和部件"
+msgstr "从链接部件的仓库更新译文。"
 
 #: ../../changes.rst:17 ../../changes.rst:91 ../../changes.rst:181
 #: ../../changes.rst:343 ../../changes.rst:449 ../../changes.rst:502
@@ -25044,68 +25046,56 @@ msgid "**Contributors**"
 msgstr "**贡献者**"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/125?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/125?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"126?closed=1>`__。"
 
 #: ../../changes.rst:30
 msgid "Weblate 5.7.1"
 msgstr "Weblate 5.7.1"
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Released on August 15th 2024."
 msgid "Released on August 30th 2024."
-msgstr "发布于 2024 年 8 月 15 日。"
+msgstr "发布于 2024 年 8 月 30 日。"
 
 #: ../../changes.rst:36
 msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
-msgstr ""
+msgstr "更新了语言名称以更好地描述不同的字母和汉语。"
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ""
 ":ref:`addon-weblate.cleanup.generic` is now automatically installed for "
 "formats which need it to update non-translation content in the translated "
 "files."
-msgstr ""
-"如果只想删除陈旧的翻译键，那么使用 :ref:`addon-weblate.cleanup.generic`。"
+msgstr "对于需要它更新翻译文件中的非翻译内容的格式，现在会自动安装 :ref:`addon-"
+"weblate.cleanup.generic`。"
 
 #: ../../changes.rst:41
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
-msgstr ""
+msgstr "支持在自动建议设置中使用 Docker 网络名称。"
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Fixed authentication using some third party providers."
 msgid "Fixed authentication using some third-party providers such as Azure."
-msgstr "修复了使用第三方提供商的身份验证。"
+msgstr "修复了使用 Azure 等第三方提供商的身份验证问题。"
 
 #: ../../changes.rst:43
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
-msgstr ""
+msgstr "支持 :ref:`mt-deepl` 中正式和非正式葡萄牙语。"
 
 #: ../../changes.rst:44
 msgid "QR code for TOTP is now black/white even in dark mode."
-msgstr ""
+msgstr "即使在深色模式下，TOTP 的二维码现在也是黑/白色的。"
 
 #: ../../changes.rst:45
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
-msgstr ""
+msgstr "修复了为用户配置 WebAuthn 时的 TOTP 身份验证问题。"
 
 #: ../../changes/contributors/5.7.1.rst:2 ../../changes/contributors/5.7.rst:2
 msgid "Code contributions"
@@ -25113,7 +25103,7 @@ msgstr "代码贡献"
 
 #: ../../changes/contributors/5.7.1.rst:3
 msgid "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
-msgstr ""
+msgstr "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
 
 #: ../../changes/contributors/5.7.1.rst:5 ../../changes/contributors/5.7.rst:5
 msgid "Translations contributions"
@@ -25132,16 +25122,24 @@ msgid ""
 "Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
 "Saranpat Visetrit, Vlăduț Ilie"
 msgstr ""
+"Michal Čihař, Miguel A. Bouzada, Ldm Public, gallegonovato, Besnik Bleta, "
+"Yaron Shahrabani, Alefsander Ribeiro Nascimento, Aindriú Mac Giolla Eoin, "
+"Massimo Pissarello, hugoalh, Xzonn, Jose Delvani, 大王叫我来巡山, Сергей, "
+"Milo Ivir, VfBFan, Blueberry, Ihor Hordiichuk, Christian Wia, Fjuro, simmon, "
+"Chikita Isaac, Oğuz Ersen, 马牛逼（Felix）, Sketch6580, Emin Tufan Çetin, "
+"Simona Iacob, Andi Chandler, Jorge Gemetto, Assem Askarova, Julien Humbert, "
+"Peter Vančo, Wuzzy, ovl-1, Jim Kats, WaldiS, Nicolas MAGERE, Eduard Ereza "
+"Martínez, Kaya Zeren, Pierfrancesco Passerini, Dick Groskamp, Chang-Chia "
+"Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
+"Saranpat Visetrit, Vlăduț Ilie"
 
 #: ../../changes/contributors/5.7.1.rst:8 ../../changes/contributors/5.7.rst:8
 msgid "Documentation contributions"
 msgstr "文档贡献者"
 
 #: ../../changes/contributors/5.7.1.rst:9
-#, fuzzy
-#| msgid "Michal Čihař"
 msgid "Michal Čihař, Robin"
-msgstr "Michal Čihař"
+msgstr "Michal Čihař, Robin"
 
 #: ../../changes.rst:55
 msgid ""
@@ -35813,7 +35811,7 @@ msgstr "`Newpipe e.V. <https://newpipe-ev.de>`_"
 
 #: ../../../BACKERS.rst:26
 msgid "Daniel Leidert"
-msgstr ""
+msgstr "Daniel Leidert"
 
 #: ../../../BACKERS.rst:28
 msgid ""
@@ -43236,21 +43234,16 @@ msgstr ""
 "密进行身份验证、数据完整性和机密性。"
 
 #: ../../legal.rst:36
-#, fuzzy
-#| msgid ""
-#| "Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as "
-#| "publicly available libre software, it should not be subject to EAR (see "
-#| "`Encryption items NOT Subject to the EAR <https://www.bis.gov/"
-#| "node/6204>`_)."
 msgid ""
 "Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as "
 "publicly available libre software, it should not be subject to EAR (see "
 "`Encryption items NOT Subject to the EAR <https://www.bis.doc.gov/index.php/"
 "policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_)."
 msgstr ""
-"Weblate 很可能会被归类为 ECCN 5D002 或 5D992，并且作为公开可用的自由软件，它"
-"不应受 EAR 约束（请参阅`加密项目不受 EAR 约束 <https://www.bis.gov/"
-"node/6204>`_)。"
+"Weblate 很可能会被归类为 ECCN 5D002 或 5D992，并且作为公开可用的自由软件，"
+"它不应受 EAR 约束（请参阅`加密项目不受 EAR 约束<https://www.bis.doc.gov/index"
+".php/policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_ "
+"）。"
 
 #: ../../legal.rst:41
 msgid ""
