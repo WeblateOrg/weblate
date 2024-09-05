@@ -1362,12 +1362,13 @@ def handle_missing_parameter(
     request: AuthenticatedHttpRequest, backend: str, error: AuthMissingParameter
 ):
     if backend != "email" and error.parameter == "email":
-        return auth_fail(
-            request,
+        messages = [
             gettext("Got no e-mail address from third party authentication service.")
-            + " "
-            + gettext("Please register using e-mail instead."),
-        )
+        ]
+        if "email" in get_auth_keys():
+            # Show only if e-mail authentication is turned on
+            messages.append(gettext("Please register using e-mail instead."))
+        return auth_fail(request, " ".join(messages))
     if error.parameter in {"email", "user", "expires"}:
         return auth_redirect_token(request)
     if error.parameter in {"state", "code"}:
