@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-05 02:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-09-05 15:33+0000\n"
+"Last-Translator: Jose Delvani <jsdelvani@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.7.2-rc\n"
+"X-Generator: Weblate 5.8-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -2224,6 +2224,9 @@ msgid ""
 "as :ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the "
 "translation file in sync with the base file."
 msgstr ""
+"Para formatos que contêm conteúdo adicional além dos textos de tradução ("
+"como :ref:`html`, :ref:`winrc` ou :ref:`odf`), isso também sincroniza o "
+"arquivo de tradução com o arquivo base."
 
 #: ../../admin/addons.rst:167
 msgid "Add missing languages"
@@ -14040,6 +14043,9 @@ msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgstr ""
+"Uma instalação que usa o Docker pode ser configurada para usar uma "
+"configuração do Celery de processo único, definindo "
+":envvar:`CELERY_SINGLE_PROCESS`."
 
 #: ../../admin/install.rst:1606
 msgid "This will have a noticeable performance impact on Weblate."
@@ -14770,24 +14776,21 @@ msgstr "Você também pode ajustar as categorias de workers individuais:"
 msgid ""
 "Memory usage can be further reduced by running only a single Celery process:"
 msgstr ""
+"O uso da memória pode ser reduzido ainda mais com a execução de apenas um "
+"único processo do Celery:"
 
 #: ../../admin/install/docker.rst:377
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-#| "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-#| "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-#| "`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
 msgid ""
 ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
 "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
 "`CELERY_BEAT_OPTIONS`, :envvar:`CELERY_SINGLE_PROCESS`, :envvar:`WEB_WORKERS`"
 msgstr ""
-":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-"`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-"`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-"`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
+":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`CELERY_SINGLE_PROCESS`, "
+":envvar:`WEB_WORKERS`"
 
 #: ../../admin/install/docker.rst:390
 msgid "Scaling horizontally"
@@ -16263,6 +16266,8 @@ msgid ""
 "This variable can be set to ``1`` to run only one celery process. This "
 "reduces memory usage but may impact Weblate performance."
 msgstr ""
+"Essa variável pode ser definida como ``1`` para executar apenas um processo "
+"celery. Isso reduz o uso de memória, mas pode afetar o desempenho do Weblate."
 
 #: ../../admin/install/docker.rst:1860
 msgid ":ref:`minimal-celery`"
@@ -24947,8 +24952,9 @@ msgid "Returns labels for a project."
 msgstr "Retorna etiquetas para um projeto."
 
 #: ../../api.rst:0
+#, fuzzy
 msgid ">json int id"
-msgstr ""
+msgstr ">json int id"
 
 #: ../../api.rst:1196
 msgid "ID of the label"
@@ -24958,15 +24964,16 @@ msgstr "ID da etiqueta"
 #, fuzzy
 #| msgid "string age"
 msgid ">json string name"
-msgstr "idade do texto"
+msgstr ">json string name"
 
 #: ../../api.rst:1197 ../../api.rst:1208
 msgid "name of the label"
 msgstr "nome da etiqueta"
 
 #: ../../api.rst:0
+#, fuzzy
 msgid ">json string color"
-msgstr ""
+msgstr ">json string color"
 
 #: ../../api.rst:1198 ../../api.rst:1209
 msgid "color of the label"
@@ -24980,11 +24987,12 @@ msgstr "Cria uma etiqueta para um projeto."
 #, fuzzy
 #| msgid "string age"
 msgid "<json string name"
-msgstr "idade do texto"
+msgstr "<json string name"
 
 #: ../../api.rst:0
+#, fuzzy
 msgid "<json string color"
-msgstr ""
+msgstr "<json string color"
 
 #: ../../api.rst:1213 ../../api.rst:1791
 msgid "Returns contributor credits for a project."
@@ -26296,8 +26304,9 @@ msgid "Component ID"
 msgstr "ID do componente"
 
 #: ../../api.rst:0
+#, fuzzy
 msgid ">json array results"
-msgstr ""
+msgstr ">json array results"
 
 #: ../../api.rst:2493
 msgid "Associate component with a component list."
@@ -26638,7 +26647,7 @@ msgstr "tipo de id"
 #, fuzzy
 #| msgid "Project configuration"
 msgid ">json object configuration"
-msgstr "Configuração de projeto"
+msgstr ">json object configuration"
 
 #: ../../api.rst:2666 ../../api.rst:2676
 msgid "Optional category configuration"
@@ -26962,16 +26971,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS na Wikipédia <https://pt.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.7.1"
 msgid "Weblate 5.7.2"
-msgstr "Weblate 5.7.1"
+msgstr "Weblate 5.7.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on September 15th 2022."
 msgid "Released on September 5th 2024."
-msgstr "Lançado em 15 de setembro de 2022."
+msgstr "Lançado em 5 de setembro de 2024."
 
 #: ../../changes.rst:6 ../../changes.rst:62 ../../changes.rst:158
 #: ../../changes.rst:270 ../../changes.rst:307 ../../changes.rst:418
@@ -26991,11 +26996,11 @@ msgstr "**Aprimoramentos**"
 
 #: ../../changes.rst:10
 msgid ":ref:`2fa` remembers last method used by user."
-msgstr ""
+msgstr ":ref:`2fa` lembra o último método usado pelo usuário."
 
 #: ../../changes.rst:11
 msgid "Instead of redirecting, the sign-out now displays a page."
-msgstr ""
+msgstr "Em vez de redirecionar, a saída agora exibe uma página."
 
 #: ../../changes.rst:13 ../../changes.rst:39 ../../changes.rst:85
 #: ../../changes.rst:118 ../../changes.rst:143 ../../changes.rst:173
@@ -27010,10 +27015,8 @@ msgid "**Bug fixes**"
 msgstr "**Correções de erros**"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid "Updating of translations from the repository in linked components."
-msgstr "Adicionando projetos e componentes de tradução"
+msgstr "Atualização de traduções do repositório em componentes vinculados."
 
 #: ../../changes.rst:17 ../../changes.rst:91 ../../changes.rst:181
 #: ../../changes.rst:343 ../../changes.rst:449 ../../changes.rst:502
@@ -27065,69 +27068,65 @@ msgid "**Contributors**"
 msgstr "**Colaboradores**"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/125?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/125?closed=1>`__."
+"milestone/126?closed=1>`__."
 
 #: ../../changes.rst:30
 msgid "Weblate 5.7.1"
 msgstr "Weblate 5.7.1"
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Released on August 15th 2024."
 msgid "Released on August 30th 2024."
-msgstr "Lançado em 15 de agosto de 2024."
+msgstr "Lançado em 30 de agosto de 2024."
 
 #: ../../changes.rst:36
 msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
 msgstr ""
+"Atualização dos nomes de idiomas para descrever melhor os diferentes scripts "
+"e línguas siníticas."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ""
 ":ref:`addon-weblate.cleanup.generic` is now automatically installed for "
 "formats which need it to update non-translation content in the translated "
 "files."
 msgstr ""
-"Use :ref:`addon-weblate.cleanup.generic` se você só quiser remover chaves de "
-"tradução obsoletas."
+":ref:`addon-weblate.cleanup.generic` agora é instalado automaticamente para "
+"formatos que precisam dele para atualizar o conteúdo não traduzido nos "
+"arquivos traduzidos."
 
 #: ../../changes.rst:41
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
 msgstr ""
+"Suporte para o uso de nomes de rede do Docker em configurações de sugestão "
+"automática."
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Fixed authentication using some third party providers."
 msgid "Fixed authentication using some third-party providers such as Azure."
-msgstr "Corrigida a autenticação usando alguns provedores de terceiros."
+msgstr ""
+"Autenticação corrigida usando alguns provedores terceirizados, como o Azure."
 
 #: ../../changes.rst:43
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
-msgstr ""
+msgstr "Suporte para o português formal e informal em :ref:`mt-deepl`."
 
 #: ../../changes.rst:44
 msgid "QR code for TOTP is now black/white even in dark mode."
-msgstr ""
+msgstr "O código QR para TOTP agora é preto/branco, mesmo no modo escuro."
 
 #: ../../changes.rst:45
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
 msgstr ""
+"Corrigida a autenticação TOTP quando o WebAuthn também é configurado para o "
+"usuário."
 
 #: ../../changes/contributors/5.7.1.rst:2 ../../changes/contributors/5.7.rst:2
 msgid "Code contributions"
@@ -27135,7 +27134,7 @@ msgstr "Contribuições ao código"
 
 #: ../../changes/contributors/5.7.1.rst:3
 msgid "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
-msgstr ""
+msgstr "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
 
 #: ../../changes/contributors/5.7.1.rst:5 ../../changes/contributors/5.7.rst:5
 msgid "Translations contributions"
@@ -27154,16 +27153,24 @@ msgid ""
 "Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
 "Saranpat Visetrit, Vlăduț Ilie"
 msgstr ""
+"Michal Čihař, Miguel A. Bouzada, Ldm Public, gallegonovato, Besnik Bleta, "
+"Yaron Shahrabani, Alefsander Ribeiro Nascimento, Aindriú Mac Giolla Eoin, "
+"Massimo Pissarello, hugoalh, Xzonn, Jose Delvani, 大王叫我来巡山, Сергей, "
+"Milo Ivir, VfBFan, Blueberry, Ihor Hordiichuk, Christian Wia, Fjuro, simmon, "
+"Chikita Isaac, Oğuz Ersen, 马牛逼（Felix）, Sketch6580, Emin Tufan Çetin, "
+"Simona Iacob, Andi Chandler, Jorge Gemetto, Assem Askarova, Julien Humbert, "
+"Peter Vančo, Wuzzy, ovl-1, Jim Kats, WaldiS, Nicolas MAGERE, Eduard Ereza "
+"Martínez, Kaya Zeren, Pierfrancesco Passerini, Dick Groskamp, Chang-Chia "
+"Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
+"Saranpat Visetrit, Vlăduț Ilie"
 
 #: ../../changes/contributors/5.7.1.rst:8 ../../changes/contributors/5.7.rst:8
 msgid "Documentation contributions"
 msgstr "Contribuições para a documentação"
 
 #: ../../changes/contributors/5.7.1.rst:9
-#, fuzzy
-#| msgid "Michal Čihař"
 msgid "Michal Čihař, Robin"
-msgstr "Michal Čihař"
+msgstr "Michal Čihař, Robin"
 
 #: ../../changes.rst:55
 msgid ""
@@ -28499,91 +28506,73 @@ msgid "Released on October 25th 2023."
 msgstr "Lançado em 25 de outubro de 2023."
 
 #: ../../changes.rst:587
-#, fuzzy
-#| msgid ""
-#| "Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose."
 msgid ""
 ":ref:`addon-weblate.consistency.languages` now uses a dedicated user for "
 "changes."
 msgstr ""
-"Renomeada :ref:`addon-weblate.consistency.languages` para esclarecer seu "
-"propósito."
+":ref:`addon-weblate.consistency.languages` agora usa um usuário dedicado "
+"para alterações."
 
 #: ../../changes.rst:588
-#, fuzzy
-#| msgid "Added notifications for string removals."
 msgid "Added button for sharing on Fediverse."
-msgstr "Adicioonadas notificações para remoções de texto."
+msgstr "Adicionado botão para compartilhar no Fediverse."
 
 #: ../../changes.rst:589
-#, fuzzy
-#| msgid "Added notifications for string removals."
 msgid "Added validation for VCS integration credentials."
-msgstr "Adicioonadas notificações para remoções de texto."
+msgstr "Adicionada validação para credenciais de integração VCS."
 
 #: ../../changes.rst:590
 msgid "Reduced overhead of statistics collection."
-msgstr ""
+msgstr "Redução da sobrecarga de coleta de estatísticas."
 
 #: ../../changes.rst:594
 msgid "Added plurals validation when editing string using the API."
-msgstr ""
+msgstr "Adicionada validação de plurais ao editar textos usando a API."
 
 #: ../../changes.rst:595
 msgid "Replacing a file using upload when existing is corrupted."
 msgstr ""
+"Substituir um arquivo usando upload quando o existente estiver corrompido."
 
 #: ../../changes.rst:603
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/106?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"milestone/106?closed=1>`__."
 
 #: ../../changes.rst:606
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.1"
 
 #: ../../changes.rst:608
-#, fuzzy
-#| msgid "Released on October 15th 2020."
 msgid "Released on October 16th 2023."
-msgstr "Lançado em 15 de outubro de 2020."
+msgstr "Lançado em 16 de outubro de 2023."
 
 #: ../../changes.rst:612
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid ":ref:`mt-yandex-v2` machine translation service."
-msgstr ":ref:`mt-yandex-v2` serviço de tradução de máquina."
+msgstr ":ref:`mt-yandex-v2` serviço de tradução automática."
 
 #: ../../changes.rst:613
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on "
-#| "newly added strings."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` "
 "are now stored with a dedicated user as an author."
 msgstr ""
-"Corrigido o acionamento da extensão :ref:`addon-weblate.autotranslate."
-"autotranslate` em textos recém-adicionados."
+":ref:`addon-weblate.autotranslate.autotranslate` e :ref:`auto-translation` "
+"agora são armazenados com um usuário dedicado como autor."
 
 #: ../../changes.rst:614
 msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
 msgstr ""
+"As alterações de textos em :ref:`addons` agora são armazenadas com um "
+"usuário dedicado como autor."
 
 #: ../../changes.rst:615
 msgid ":ref:`download-multi` can now convert file formats."
-msgstr ""
+msgstr ":ref:`download-multi` agora pode converter formatos de arquivo."
 
 #: ../../changes.rst:616
 #, fuzzy
