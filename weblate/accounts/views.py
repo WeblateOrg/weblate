@@ -76,6 +76,7 @@ from social_core.backends.open_id import OpenIdAuth
 from social_core.exceptions import (
     AuthAlreadyAssociated,
     AuthCanceled,
+    AuthException,
     AuthFailed,
     AuthForbidden,
     AuthMissingParameter,
@@ -1314,7 +1315,12 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
                 salt="weblate.authid",
             )
         )
-    return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
+    try:
+        return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
+    except AuthException as error:
+        report_error("Could not authenticate")
+        messages.error(request, gettext("Could not authenticate: %s") % error)
+        return redirect("login")
 
 
 def auth_fail(request: AuthenticatedHttpRequest, message: str):
