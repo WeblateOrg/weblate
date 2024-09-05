@@ -26,8 +26,6 @@ Weblate 5.7.2
 
 Released on September 5th 2024.
 
-**New features**
-
 **Improvements**
 
 * :ref:`2fa` remembers last method used by user.
@@ -38,8 +36,6 @@ Released on September 5th 2024.
 
 * Updating of translations from the repository in linked components.
 * Improved rendering of digest notification e-mails.
-
-**Compatibility**
 
 **Upgrading**
 
