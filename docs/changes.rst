@@ -14,6 +14,7 @@ Released on September 5th 2024.
 **Bug fixes**
 
 * Updating of translations from the repository in linked components.
+* Improved rendering of digest notification e-mails.
 
 **Compatibility**
 
