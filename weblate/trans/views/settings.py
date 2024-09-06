@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import os
+from collections import deque
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -175,11 +176,18 @@ def dismiss_alert(request: AuthenticatedHttpRequest, path):
     return redirect_param(obj, "#alerts")
 
 
-def flag_categories_to_delete(categories):
-    while len(categories) > 0:
-        category = categories.pop()
+def flag_categories_to_delete(categories) -> None:
+    categories_queue = deque(categories)
+    processed = set()
+
+    while categories_queue:
+        category = categories_queue.popleft()
+        if category.pk in processed:
+            continue
+        processed.add(category.pk)
+
         Category.objects.filter(pk=category.pk).update(to_delete=True)
-        categories += category.category_set.all()
+        categories_queue.extend(category.category_set.exclude(pk__in=processed))
         category.component_set.update(to_delete=True)
 
 
