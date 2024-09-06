@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 07:52+0000\n"
-"PO-Revision-Date: 2024-08-26 07:11+0000\n"
+"PO-Revision-Date: 2024-09-06 15:44+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.1-dev\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1079,7 +1079,7 @@ msgstr ""
 #: weblate/accounts/views.py:625 weblate/templates/accounts/hosting.html:62
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr "Ücretsiz deneme"
+msgstr "Bedava deneme"
 
 #: weblate/accounts/views.py:802 weblate/templates/403.html:18
 #: weblate/templates/404.html:18 weblate/templates/accounts/2fa.html:8
@@ -1094,10 +1094,8 @@ msgid "Sign in"
 msgstr "Oturum aç"
 
 #: weblate/accounts/views.py:866
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "Oturumu kapat"
+msgstr "Oturum kapatıldı"
 
 #: weblate/accounts/views.py:972
 msgid "Register e-mail"
@@ -1749,7 +1747,7 @@ msgstr "Kaynak ve hedef farklı diller olmak zorundadır."
 
 #: weblate/addons/forms.py:645
 msgid "Enable case-sensitive key sorting"
-msgstr "Büyük/küçük harfe duyarlı anahtar sıralamasını açar"
+msgstr "Büyük/küçük harfe duyarlı anahtar sıralaması kullanılsın"
 
 #: weblate/addons/generate.py:33
 msgid "Statistics generator"
@@ -1857,7 +1855,7 @@ msgstr "Git işlemelerini bir araya toplar"
 
 #: weblate/addons/git.py:26
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Değişiklikleri itmeden önce Git işlemelerini bir araya toplar."
+msgstr "Değişiklikleri yollamadan önce Git işlemelerini bir araya toplar."
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
@@ -2017,7 +2015,7 @@ msgstr "Fatura bilgilerini görüntüle"
 #. Translators: Permission name
 #: weblate/auth/data.py:23
 msgid "Download changes"
-msgstr "Değişiklikleri indirme"
+msgstr "Değişiklikleri indir"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:25
@@ -2032,7 +2030,7 @@ msgstr "Yorum silme"
 #. Translators: Permission name
 #: weblate/auth/data.py:29
 msgid "Resolve comment"
-msgstr "Yorum çözümleme"
+msgstr "Yorumu çözümleme"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:31
@@ -2042,7 +2040,7 @@ msgstr "Bileşen ayarlarını düzenleme"
 #. Translators: Permission name
 #: weblate/auth/data.py:33
 msgid "Lock component, preventing translations"
-msgstr "Bileşen kilitleme, çevirileri engelleme"
+msgstr "Bileşeni kilitleme, çevirileri engelleme"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:35
@@ -2072,7 +2070,7 @@ msgstr "Sözlük kayıtları yükleme"
 #. Translators: Permission name
 #: weblate/auth/data.py:45
 msgid "Use automatic suggestions"
-msgstr "Kendiliğinden önerileri kullanma"
+msgstr "Kendiliğinden önerileri kullanmak"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:47
@@ -2199,7 +2197,7 @@ msgstr "Çeviri dosyasını indirme"
 #. Translators: Permission name
 #: weblate/auth/data.py:95
 msgid "Add several languages for translation"
-msgstr "Çevirilecek birkaç dil ekleme"
+msgstr "Çevirilecek birkaç dil ekleyin"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:97
@@ -2229,7 +2227,7 @@ msgstr "Değişiklikleri iç depoya işleme"
 #. Translators: Permission name
 #: weblate/auth/data.py:107
 msgid "Push change from the internal repository"
-msgstr "İç depodaki değişiklikleri itme"
+msgstr "İç depodaki değişiklikleri işleme"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:109
@@ -2606,7 +2604,7 @@ msgstr "Yönetici, takıma kullanıcı ekleyebilir veya kaldırabilir."
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:190
 msgid "Enforced two-factor authentication"
-msgstr "İki adımlı doğrulamayı dayatmak"
+msgstr "Dayatılan iki adımlı doğrulama"
 
 #: weblate/auth/models.py:197
 msgid "Requires users to have two-factor authentication configured."
@@ -3711,11 +3709,11 @@ msgstr "C biçim dizgesi kaynaktaki ile aynı değil"
 
 #: weblate/checks/format.py:532
 msgid "Perl brace format"
-msgstr "Perl brace biçimi"
+msgstr "Perl çengelli parantez biçimi"
 
 #: weblate/checks/format.py:533
 msgid "Perl brace format string does not match source"
-msgstr "Perl brace biçim dizgesi kaynaktaki ile aynı değil"
+msgstr "Perl çengelli parantez biçim dizgesi kaynaktaki ile aynı değil"
 
 #: weblate/checks/format.py:545
 msgid "Perl format"
@@ -5536,7 +5534,7 @@ msgstr "Weblate hakkında"
 #: weblate/templates/about/index.html:18 weblate/templates/base.html:311
 #: weblate/templates/footer.html:18 weblate/templates/manage/index.html:96
 msgid "Donate to Weblate"
-msgstr "Weblate projesine bağış yapın"
+msgstr "Weblate için bağış yapın"
 
 #: weblate/templates/about/index.html:25
 msgid "Hosting translations"
@@ -6713,10 +6711,8 @@ msgid "Configure add-on"
 msgstr "Eklentiyi yapılandır"
 
 #: weblate/templates/addons/addon_detail.html:44
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
-msgstr "Bu eklenti bir betik yürütür."
+msgstr "Bu eklentinin herhangi bir ayarı yok."
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
@@ -7241,7 +7237,7 @@ msgstr "Belgeler"
 
 #: weblate/templates/base.html:310
 msgid "Contribute to Weblate"
-msgstr "Weblate projesine katkıda bulunun"
+msgstr "Weblate’e katkıda bulunun"
 
 #: weblate/templates/base.html:336 weblate/templates/manage/index.html:46
 msgid ""
@@ -7504,7 +7500,7 @@ msgstr "Proje erişim denetimini değiştirme izniniz yok."
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:84
 #: weblate/templates/snippets/billing-failure.html:12
 msgid "Check your billing status"
-msgstr "Fatura durumunuzu denetleyin"
+msgstr "Faturalama durumunuzu denetleyin"
 
 #: weblate/templates/browse.html:19
 #: weblate/templates/snippets/list-objects.html:153
@@ -9424,7 +9420,7 @@ msgstr "Sistem kodlaması"
 
 #: weblate/templates/manage/performance.html:128
 msgid "Web server"
-msgstr "Site sunucusu"
+msgstr "İnternet sunucusu"
 
 #: weblate/templates/manage/performance.html:128
 msgid "Celery worker"
@@ -9921,16 +9917,12 @@ msgid "Please try again later."
 msgstr "Lütfen bir süre sonra yeniden deneyin."
 
 #: weblate/templates/registration/logged_out.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for using Weblate"
-msgstr "Weblate kullandığınız için teşekkür ederiz."
+msgstr "Weblate kullandığınız için teşekkür ederiz"
 
 #: weblate/templates/registration/logged_out.html:17
-#, fuzzy
-#| msgid "Show on dashboard"
 msgid "Return to dashboard"
-msgstr "Panoda görüntülensin"
+msgstr "Panoya dön"
 
 #: weblate/templates/replace.html:13
 msgid "Please review and confirm the search and replace results."
@@ -10626,7 +10618,7 @@ msgstr "Şu anda çeviri eklenemez"
 #: weblate/templates/translate.html:24 weblate/templates/translation.html:131
 #: weblate/templates/translation.html:203
 msgid "Translate"
-msgstr "Çevirme"
+msgstr "Çevir"
 
 #: weblate/templates/snippets/list-objects.html:247
 #: weblate/templates/snippets/project-workflow-settings.html:11
@@ -12001,7 +11993,7 @@ msgstr "Kaynak değişikliği"
 
 #: weblate/templates/translate.html:122
 msgid "Intermediate language"
-msgstr "Ara dil"
+msgstr "Orta düzey dil"
 
 #: weblate/templates/translate.html:132 weblate/templates/translate.html:624
 #: weblate/templates/zen-units.html:31 weblate/trans/forms.py:507
@@ -16178,15 +16170,15 @@ msgstr "Barındırılan hizmet"
 
 #: weblate/wladmin/models.py:125
 msgid "Basic self-hosted support"
-msgstr "Temel kendiniz barındırma desteği"
+msgstr "Temel kendi kendine barındırma desteği"
 
 #: weblate/wladmin/models.py:126
 msgid "Extended self-hosted support"
-msgstr "Genişletilmiş kendiniz barındırma desteği"
+msgstr "Genişletilmiş kendi kendine barındırma desteği"
 
 #: weblate/wladmin/models.py:127
 msgid "Premium self-hosted support"
-msgstr "Ücretli kendiniz barındırma desteği"
+msgstr "Ücretli kendi kendine barındırma desteği"
 
 #: weblate/wladmin/models.py:240
 msgid "Backup repository URL"
