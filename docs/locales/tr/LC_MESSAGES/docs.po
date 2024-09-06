@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-05 02:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-09-06 15:44+0000\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.2-rc\n"
+"X-Generator: Weblate 5.8-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -175,10 +175,9 @@ msgid ""
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
-"`Herkese açık`, `Korunmuş` ve `Kişisel` projelerde kullanıcılar için "
-"varsayılan olarak var olan gerçek izinler kümesi, Weblate kopyasının "
-"yöneticisi tarafından :ref:`özel ayar <custom-acl>` kullanılarak "
-"değiştirilebilir."
+"Kopya yöneticileri `Herkese açık`, `Korunmuş` ve `Kişisel` projelerde "
+"kullanıcıların kullanabileceği varsayılan izin kümelerini :ref:`özel ayarlar "
+"<custom-acl>` kullanarak değiştirilebilir."
 
 #: ../../admin/access.rst:83
 msgid ":ref:`project-access_control`"
@@ -198,10 +197,10 @@ msgid ""
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
-"Kullanıcılara :guilabel:`Proje erişimi yönetimi` (ayrıntılı bilgi almak "
-"için: :ref:`ayrıcalıklar`) izni verilmesi, `Herkese açık`, `Korunmuş` ve "
-"`Kişisel` (ancak `Özel` değil) projelerde diğer kullanıcıları takımlara "
-"ekleyerek atamalarını sağlar."
+"Kullanıcılara :guilabel:`Proje erişimi yönetimi` (ayrıntılı bilgi almak için:"
+" :ref:`privileges`) izni verilmesi, onlara `Herkese açık`, `Korunmuş` ve "
+"`Kişisel` (ancak `Özel` olmayan) projelerde takımlara ekleyerek diğer "
+"kullanıcıları atamalarını sağlar."
 
 #: ../../admin/access.rst:96
 msgid ""
@@ -237,7 +236,7 @@ msgstr "Yalnızca `Korunmuş` ve `Kişisel` projeler için:"
 
 #: ../../admin/access.rst:109
 msgid "Translate"
-msgstr "Çevirme"
+msgstr "Çevir"
 
 #: ../../admin/access.rst:110
 msgid "Translate the project and upload translations made offline."
@@ -1029,7 +1028,7 @@ msgstr "Değişiklikler"
 
 #: ../../admin/access.rst:479
 msgid "Download changes"
-msgstr "Değişiklikleri indirme"
+msgstr "Değişiklikleri indir"
 
 #: ../../admin/access.rst:479 ../../admin/access.rst:483
 #: ../../admin/access.rst:487 ../../admin/access.rst:507
@@ -1064,7 +1063,7 @@ msgstr "Yorum silme"
 
 #: ../../admin/access.rst:485
 msgid "Resolve comment"
-msgstr "Yorum çözümleme"
+msgstr "Yorumu çözümleme"
 
 #: ../../admin/access.rst:485 ../../admin/access.rst:529
 #: ../../admin/access.rst:531
@@ -1081,7 +1080,7 @@ msgstr "Bileşen ayarlarını düzenleme"
 
 #: ../../admin/access.rst:489
 msgid "Lock component, preventing translations"
-msgstr "Bileşen kilitleme, çevirileri engelleme"
+msgstr "Bileşeni kilitleme, çevirileri engelleme"
 
 #: ../../admin/access.rst:489 ../../admin/access.rst:561
 #: ../../admin/access.rst:563 ../../admin/access.rst:565
@@ -1125,7 +1124,7 @@ msgstr "Kendiliğinden öneriler"
 
 #: ../../admin/access.rst:501
 msgid "Use automatic suggestions"
-msgstr "Kendiliğinden önerileri kullanma"
+msgstr "Kendiliğinden önerileri kullanmak"
 
 #: ../../admin/access.rst:503 ../../user/translating.rst:302
 msgid "Translation memory"
@@ -1313,7 +1312,7 @@ msgstr ""
 
 #: ../../admin/access.rst:551
 msgid "Add several languages for translation"
-msgstr "Çevirilecek birkaç dil ekleme"
+msgstr "Çevirilecek birkaç dil ekleyin"
 
 #: ../../admin/access.rst:553
 msgid "Uploads"
@@ -1349,7 +1348,7 @@ msgstr "Değişiklikleri iç depoya işleme"
 
 #: ../../admin/access.rst:563
 msgid "Push change from the internal repository"
-msgstr "İç depodaki değişiklikleri itme"
+msgstr "İç depodaki değişiklikleri işleme"
 
 #: ../../admin/access.rst:565
 msgid "Reset changes in the internal repository"
@@ -2219,6 +2218,9 @@ msgid ""
 "as :ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the "
 "translation file in sync with the base file."
 msgstr ""
+"Çeviri dizgelerinin yanı sıra ek içerik barındıran biçimler için (:ref:`html`"
+", :ref:`winrc` veya :ref:`odf` gibi) bu işlem çeviri dosyasını temel "
+"dosyayla eşitler."
 
 #: ../../admin/addons.rst:167
 msgid "Add missing languages"
@@ -3477,7 +3479,7 @@ msgstr "depoya işlendikten sonra"
 
 #: ../../admin/addons.rst:745
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Değişiklikleri itmeden önce Git işlemelerini bir araya toplar."
+msgstr "Değişiklikleri yollamadan önce Git işlemelerini bir araya toplar."
 
 #: ../../admin/addons.rst:747
 msgid ""
@@ -3593,7 +3595,7 @@ msgstr "``case_sensitive``"
 
 #: ../../admin/addons.rst:793
 msgid "Enable case-sensitive key sorting"
-msgstr "Büyük/küçük harfe duyarlı anahtar sıralamasını açar"
+msgstr "Büyük/küçük harfe duyarlı anahtar sıralaması kullanılsın"
 
 #: ../../admin/addons.rst:797
 msgid "Formats and sorts the Java properties file."
@@ -11598,7 +11600,7 @@ msgstr "Mimari özeti"
 
 #: ../../admin/install.rst:126
 msgid "Web server"
-msgstr "Site sunucusu"
+msgstr "İnternet sunucusu"
 
 #: ../../admin/install.rst:127
 msgid "Handling incoming HTTP requests, :ref:`static-files`."
@@ -14051,6 +14053,8 @@ msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgstr ""
+"Docker kullanan bir kurulum, :envvar:`CELERY_SINGLE_PROCESS` ayarıyla tek "
+"işlemli bir Celery kurulumu kullanacak şekilde yapılandırılabilir."
 
 #: ../../admin/install.rst:1606
 msgid "This will have a noticeable performance impact on Weblate."
@@ -14787,24 +14791,21 @@ msgstr "Ayrıca her işleyici kategorisi için ince ayar yapabilirsiniz:"
 msgid ""
 "Memory usage can be further reduced by running only a single Celery process:"
 msgstr ""
+"Yalnızca tek bir Celery işlemi çalıştırılarak bellek kullanımı daha da "
+"azaltılabilir:"
 
 #: ../../admin/install/docker.rst:377
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-#| "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-#| "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-#| "`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
 msgid ""
 ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
 "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
 "`CELERY_BEAT_OPTIONS`, :envvar:`CELERY_SINGLE_PROCESS`, :envvar:`WEB_WORKERS`"
 msgstr ""
-":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-"`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-"`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-"`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
+":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`CELERY_SINGLE_PROCESS`, "
+":envvar:`WEB_WORKERS`"
 
 #: ../../admin/install/docker.rst:390
 msgid "Scaling horizontally"
@@ -16311,6 +16312,9 @@ msgid ""
 "This variable can be set to ``1`` to run only one celery process. This "
 "reduces memory usage but may impact Weblate performance."
 msgstr ""
+"Bu değişken yalnızca bir Celery işlemini çalıştırmak için ``1`` olarak "
+"ayarlanabilir. Bu ayar bellek kullanımını azaltır ancak Weblate başarımını "
+"etkileyebilir."
 
 #: ../../admin/install/docker.rst:1860
 msgid ":ref:`minimal-celery`"
@@ -21228,7 +21232,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:206
 msgid "Enforced two-factor authentication"
-msgstr "İki adımlı doğrulamayı dayatmak"
+msgstr "Dayatılan iki adımlı doğrulama"
 
 #: ../../admin/projects.rst:210
 msgid ""
@@ -22562,7 +22566,7 @@ msgid ""
 "Regular expression used to determine the variants of a string, see :ref:"
 "`variants`."
 msgstr ""
-"Bir dizenin değişkenlerini belirlemek için kullanılacak kurallı ifade. "
+"Bir dizgenin değişkenlerini belirlemek için kullanılacak kurallı ifade. "
 "Ayrıntılı bilgi almak için: :ref:`variants'."
 
 #: ../../admin/projects.rst:923
@@ -27019,16 +27023,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`Vikipedi üzerinde RSS <https://tr.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.7.1"
 msgid "Weblate 5.7.2"
-msgstr "Weblate 5.7.1"
+msgstr "Weblate 5.7.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on September 15th 2022."
 msgid "Released on September 5th 2024."
-msgstr "15 Eylül 2022 tarihinde yayınlandı."
+msgstr "5 Eylül 2024 tarihinde yayınlandı."
 
 #: ../../changes.rst:6 ../../changes.rst:62 ../../changes.rst:158
 #: ../../changes.rst:270 ../../changes.rst:307 ../../changes.rst:418
@@ -27049,10 +27049,14 @@ msgstr "**İyileştirmeler**"
 #: ../../changes.rst:10
 msgid ":ref:`2fa` remembers last method used by user."
 msgstr ""
+":ref:`2fa` tarafından kullanıcının son kullandığı yöntemin hatırlanması "
+"sağlandı."
 
 #: ../../changes.rst:11
 msgid "Instead of redirecting, the sign-out now displays a page."
 msgstr ""
+"Oturum kapatıldığında yönlendirme yerine bir sayfanın görüntülenmesi "
+"sağlandı."
 
 #: ../../changes.rst:13 ../../changes.rst:39 ../../changes.rst:85
 #: ../../changes.rst:118 ../../changes.rst:143 ../../changes.rst:173
@@ -27067,10 +27071,8 @@ msgid "**Bug fixes**"
 msgstr "**Hata düzeltmeleri**"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid "Updating of translations from the repository in linked components."
-msgstr "Çeviri projelerini ve bileşenleri eklemek"
+msgstr "Bağlantılı bileşenlerde depodaki çeviriler güncellendi."
 
 #: ../../changes.rst:17 ../../changes.rst:91 ../../changes.rst:181
 #: ../../changes.rst:343 ../../changes.rst:449 ../../changes.rst:502
@@ -27122,71 +27124,69 @@ msgid "**Contributors**"
 msgstr "**Katılımcılar**"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/125?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__."
 msgstr ""
 "`Ayrıntılı olarak tüm değişiklikler <https://github.com/WeblateOrg/weblate/"
-"milestone/125?closed=1>`__."
+"milestone/126?closed=1>`__."
 
 #: ../../changes.rst:30
 msgid "Weblate 5.7.1"
 msgstr "Weblate 5.7.1"
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Released on August 15th 2024."
 msgid "Released on August 30th 2024."
-msgstr "15 Ağustos 2024 tarihinde yayınlandı."
+msgstr "30 Ağustos 2024 tarihinde yayınlandı."
 
 #: ../../changes.rst:36
 msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
 msgstr ""
+"Dil adları, farklı alfabeleri ve Sintik dilleri daha iyi tanımlayacak "
+"şekilde güncellendi."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ""
 ":ref:`addon-weblate.cleanup.generic` is now automatically installed for "
 "formats which need it to update non-translation content in the translated "
 "files."
 msgstr ""
-"Yalnızca eski çeviri anahtarlarını kaldırmak istiyorsanız :ref:`addon-"
-"weblate.cleanup.generic` kullanın."
+"Güncellenmesi gereken biçimler için çevrilmiş dosyalardaki çeviri dışı "
+"içeriklerin :ref:`addon-weblate.cleanup.generic` tarafından otomatik olarak "
+"kurulması sağlandı."
 
 #: ../../changes.rst:41
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
 msgstr ""
+"Otomatik öneri ayarlarında Docker ağ adlarının kullanılması için destek "
+"eklendi."
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Fixed authentication using some third party providers."
 msgid "Fixed authentication using some third-party providers such as Azure."
 msgstr ""
-"Bazı üçüncü taraf hizmet sağlayıcılarında yaşanan kimlik doğrulama sorunu "
-"düzeltildi."
+"Azure gibi bazı üçüncü taraf hizmet sağlayıcıları ile kimlik doğrulamasında "
+"yaşanan sorun düzeltildi."
 
 #: ../../changes.rst:43
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
 msgstr ""
+":ref:`mt-deepl` içine resmi ve resmi olmayan Portekizce desteği eklendi."
 
 #: ../../changes.rst:44
 msgid "QR code for TOTP is now black/white even in dark mode."
 msgstr ""
+"Tek kullanımlık parola QR kodunın karanlık kipte bile siyah/beyaz "
+"görüntülenmesi sağlandı."
 
 #: ../../changes.rst:45
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
 msgstr ""
+"Kullanıcının WebAuthn yapılandırması da varken tek kullanımlık parola kimlik "
+"doğrulamasında yaşanan sorun düzeltildi."
 
 #: ../../changes/contributors/5.7.1.rst:2 ../../changes/contributors/5.7.rst:2
 msgid "Code contributions"
@@ -27194,7 +27194,7 @@ msgstr "Koda katkıda bulunanlar"
 
 #: ../../changes/contributors/5.7.1.rst:3
 msgid "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
-msgstr ""
+msgstr "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
 
 #: ../../changes/contributors/5.7.1.rst:5 ../../changes/contributors/5.7.rst:5
 msgid "Translations contributions"
@@ -27213,16 +27213,24 @@ msgid ""
 "Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
 "Saranpat Visetrit, Vlăduț Ilie"
 msgstr ""
+"Michal Čihař, Miguel A. Bouzada, Ldm Public, gallegonovato, Besnik Bleta, "
+"Yaron Shahrabani, Alefsander Ribeiro Nascimento, Aindriú Mac Giolla Eoin, "
+"Massimo Pissarello, hugoalh, Xzonn, Jose Delvani, 大王叫我来巡山, Сергей, "
+"Milo Ivir, VfBFan, Blueberry, Ihor Hordiichuk, Christian Wia, Fjuro, simmon, "
+"Chikita Isaac, Oğuz Ersen, 马牛逼（Felix）, Sketch6580, Emin Tufan Çetin, "
+"Simona Iacob, Andi Chandler, Jorge Gemetto, Assem Askarova, Julien Humbert, "
+"Peter Vančo, Wuzzy, ovl-1, Jim Kats, WaldiS, Nicolas MAGERE, Eduard Ereza "
+"Martínez, Kaya Zeren, Pierfrancesco Passerini, Dick Groskamp, Chang-Chia "
+"Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
+"Saranpat Visetrit, Vlăduț Ilie"
 
 #: ../../changes/contributors/5.7.1.rst:8 ../../changes/contributors/5.7.rst:8
 msgid "Documentation contributions"
 msgstr "Belgelere katkıda bulunanlar"
 
 #: ../../changes/contributors/5.7.1.rst:9
-#, fuzzy
-#| msgid "Michal Čihař"
 msgid "Michal Čihař, Robin"
-msgstr "Michal Čihař"
+msgstr "Michal Čihař, Robin"
 
 #: ../../changes.rst:55
 msgid ""
@@ -33928,7 +33936,7 @@ msgstr "Weblate 4.16"
 #: ../../changes/v4.rst:155
 msgid "Format string checks now also detects duplicated formats."
 msgstr ""
-"Biçim dizesi denetimlerinin yinelenen biçimleri de algılaması sağlandı."
+"Biçim dizgesi denetimlerinin yinelenen biçimleri de algılaması sağlandı."
 
 #: ../../changes/v4.rst:156
 msgid "Improved search performance for some specially formatted strings."
@@ -38858,7 +38866,7 @@ msgstr "`Newpipe e.V. <https://newpipe-ev.de>`_"
 
 #: ../../../BACKERS.rst:26
 msgid "Daniel Leidert"
-msgstr ""
+msgstr "Daniel Leidert"
 
 #: ../../../BACKERS.rst:28
 msgid ""
@@ -46822,12 +46830,6 @@ msgstr ""
 "kullandığından ihracat denetimlerine tabi olabilir."
 
 #: ../../legal.rst:36
-#, fuzzy
-#| msgid ""
-#| "Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as "
-#| "publicly available libre software, it should not be subject to EAR (see "
-#| "`Encryption items NOT Subject to the EAR <https://www.bis.gov/"
-#| "node/6204>`_)."
 msgid ""
 "Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as "
 "publicly available libre software, it should not be subject to EAR (see "
@@ -46837,7 +46839,8 @@ msgstr ""
 "Büyük olasılıkla Weblate, ECCN 5D002 veya 5D992 olarak sınıflandırılacaktır "
 "ve herkese açık özgür yazılım olarak EAR kapsamına girmemelidir (ayrıntılı "
 "bilgi almak için: `EAR kapsamına girmeyen şifreleme ögeleri <https://www.bis."
-"gov/node/6204>`_)."
+"doc.gov/index.php/policy-guidance/encryption/1-encryption-items-not-subject-"
+"to-the-ear>`_)."
 
 #: ../../legal.rst:41
 msgid ""
@@ -48351,11 +48354,11 @@ msgstr "``Burada %number% elma var``"
 
 #: ../../user/checks.rst:713
 msgid "Perl brace format"
-msgstr "Perl brace biçimi"
+msgstr "Perl çengelli parantez biçimi"
 
 #: ../../user/checks.rst:715
 msgid "Perl brace format string does not match source"
-msgstr "Perl brace biçim dizgesi kaynaktaki ile aynı değil"
+msgstr "Perl çengelli parantez biçim dizgesi kaynaktaki ile aynı değil"
 
 #: ../../user/checks.rst:717
 msgid "``weblate.checks.format.PerlBraceFormatCheck``"
