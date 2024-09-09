@@ -127,7 +127,7 @@
     {% endif %}
     {% trans "The e-mail address can be chosen from verified addresses only." %}
   </p>
-  </div>
+  </div> 
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
   </div>
@@ -195,7 +195,7 @@
       <div class="col-sm-4">
         <h5>{% trans "Security keys (WebAuthn)" %}</h5>
         {% if not webauthn_keys %}
-          <p><em>{% trans "There are currently no WebAuthn keys registered." %}</em></p>
+          <p><em>{% trans "No WebAuthn keys registered yet." %}</em></p>
         {% else %}
           <ul class="list-group">
           {% for key in webauthn_keys %}
@@ -217,7 +217,7 @@
         </template>
 
         <template id="passkey-registration-unavailable-template">
-          <p>{% trans "Unfortunately, your browser has no WebAuthn support." %}</p>
+          <p>{% trans "Your web browser lacks WebAuthn support." %}</p>
         </template>
 
         <span id="passkey-registration-placeholder"></span>
@@ -227,7 +227,7 @@
       <div class="col-sm-4">
         <h5>{% trans "Authenticator apps (TOTP)" %}</h5>
         {% if not totp_keys %}
-          <p><em>{% trans "There are currently no authenticator apps registered." %}</em></p>
+          <p><em>{% trans "No authenticator apps registered yet." %}</em></p>
         {% else %}
           <ul class="list-group">
           {% for key in totp_keys %}
@@ -244,14 +244,14 @@
       <div class="col-sm-4">
         <h5>{% trans "Recovery codes" %}</h5>
         {% if recovery_keys_count == 0 %}
-          <p><em>{% trans "There are currently no recovery codes generated." %}</em></p>
+          <p><em>{% trans "No recovery codes generated yet." %}</em></p>
           <a href="" data-href="{% url "recovery-codes" %}" class="btn btn-primary link-post">{% trans "Generate new recovery codes" %}</a>
         {% else %}
           <p>
             {% blocktranslate count count=recovery_keys_count trimmed %}
-              {{ count }} recovery code is available.
+              {{ count }} recovery code available.
             {% plural %}
-              {{ count }} recovery codes are available.
+              {{ count }} recovery codes available.
             {% endblocktranslate %}
           </p>
           <a href="{% url "recovery-codes" %}" class="btn btn-primary">{% trans "View recovery codes" %}</a>
@@ -300,7 +300,7 @@
   <div class="panel-body">
     {% crispy profileform %}
     <p class="help-block">
-      {% blocktrans %}All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.{% endblocktrans %}
+      {% blocktrans %}All fields on this page are optional and can be deleted at any time. By filling them out, you are consent to their use wherever your user profile appears.{% endblocktrans %}
     </p>
   </div>
   <div class="panel-footer">
@@ -390,7 +390,7 @@
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
   <div class="panel-body">
-    <p>{% blocktrans %}Contact us immediately if you see anything suspicious in the audit log.{% endblocktrans %}</p>
+    <p>{% blocktrans %}Get in contact immediately if you notice anything suspicious in the audit log.{% endblocktrans %}</p>
   </div>
 </div>
 
@@ -414,7 +414,7 @@
 <td>{{ log.user_agent }}</td>
 </tr>
 {% empty %}
-<tr><td colspan="4">{% trans "No recent activity found!" %}</td></tr>
+<tr><td colspan="4">{% trans "No recent activity found." %}</td></tr>
 {% endfor %}
 </tbody>
 </table>
@@ -430,7 +430,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'api' right=True %}{% trans "API access" %}</h4></div>
 <table class="table">
 <tr><td colspan="2">
-    <p>{% blocktrans %}You can control Weblate using the HTTP REST API and your API key is used to authenticate to it.{% endblocktrans %}</p>
+    <p>{% blocktrans %}You can control Weblate using the HTTP REST API, and your API key is used to authenticate to it.{% endblocktrans %}</p>
 </td></tr>
 <tr>
 <th>{% trans "Your personal API key:" %}</th>
