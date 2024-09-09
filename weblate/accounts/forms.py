@@ -466,7 +466,7 @@ class RegistrationForm(EmailForm):
                 ngettext(
                     (
                         "Too many failed registration attempts from this location. "
-                        "Please try again in one minute."
+                        "Please try again in %d minute."
                     ),
                     (
                         "Too many failed registration attempts from this location. "
@@ -979,7 +979,7 @@ class TOTPDeviceForm(forms.Form):
     )
 
     error_messages = {
-        "invalid_token": gettext_lazy("The entered token is wrong."),
+        "invalid_token": gettext_lazy("The entered token is not valid."),
     }
 
     def __init__(self, key, user, metadata=None, **kwargs):
