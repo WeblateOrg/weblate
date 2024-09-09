@@ -323,7 +323,7 @@ def check_unit_delete(user: User, permission: str, obj: Model):
         ):
             return Denied(
                 gettext(
-                    "Cannot remove terminology translation. Remove source string instead."
+                    "Cannot remove terminology translation. Remove the source string instead."
                 )
             )
         obj = obj.translation
