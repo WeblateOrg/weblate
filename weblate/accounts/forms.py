@@ -117,7 +117,7 @@ class UniqueUsernameField(UsernameField):
             existing = User.objects.filter(username=value)
             if existing.exists() and value != self.valid:
                 raise forms.ValidationError(
-                    gettext("This username is already taken. Pick something else.")
+                    gettext("This username is already taken. Please pick something else.")
                 )
 
         return super().clean(value)
