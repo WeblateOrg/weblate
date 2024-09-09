@@ -439,7 +439,7 @@ class EmailForm(UniqueEmailMixin):
 
     email = EmailField(
         label=gettext_lazy("E-mail"),
-        help_text=gettext_lazy("En e-mail with a confirmation link will be sent here."),
+        help_text=gettext_lazy("An e-mail with a confirmation link will be sent here."),
     )
 
 
