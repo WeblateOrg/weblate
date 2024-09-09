@@ -117,7 +117,7 @@ class UniqueUsernameField(UsernameField):
             existing = User.objects.filter(username=value)
             if existing.exists() and value != self.valid:
                 raise forms.ValidationError(
-                    gettext("This username is already taken. Please choose another.")
+                    gettext("This username is already taken. Pick something else.")
                 )
 
         return super().clean(value)
@@ -197,7 +197,7 @@ class CommitForm(ProfileBaseForm):
         label=gettext_lazy("Commit e-mail"),
         choices=[("", gettext_lazy("Use account e-mail address"))],
         help_text=gettext_lazy(
-            "Used in version control commits. The address will stay in the repository forever once changes are committed by Weblate."
+            "Used in version-control commits. The address stays in the repository forever once changes are committed by Weblate."
         ),
         required=False,
         widget=forms.RadioSelect,
@@ -230,7 +230,7 @@ class ProfileForm(ProfileBaseForm):
 
     public_email = forms.ChoiceField(
         label=gettext_lazy("Public e-mail"),
-        choices=[("", gettext_lazy("Do not publicly display e-mail address"))],
+        choices=[("", gettext_lazy("Hide e-mail address from public view"))],
         required=False,
     )
 
@@ -421,7 +421,7 @@ class ContactForm(forms.Form):
         label=gettext_lazy("Message"),
         required=True,
         help_text=gettext_lazy(
-            "Please contact us in English, otherwise we might "
+            "Please contact us in English. Otherwise we might "
             "be unable to process your request."
         ),
         max_length=2000,
@@ -437,7 +437,7 @@ class EmailForm(UniqueEmailMixin):
 
     email = EmailField(
         label=gettext_lazy("E-mail"),
-        help_text=gettext_lazy("E-mail with a confirmation link will be sent here."),
+        help_text=gettext_lazy("En e-mail with a confirmation link will be sent here."),
     )
 
 
@@ -464,7 +464,7 @@ class RegistrationForm(EmailForm):
                 ngettext(
                     (
                         "Too many failed registration attempts from this location. "
-                        "Please try again in %d minute."
+                        "Please try again in one minute."
                     ),
                     (
                         "Too many failed registration attempts from this location. "
@@ -586,7 +586,7 @@ class EmptyConfirmForm(forms.Form):
 class PasswordConfirmForm(EmptyConfirmForm):
     password = PasswordField(
         label=gettext_lazy("Current password"),
-        help_text=gettext_lazy("Leave empty if you have not yet set a password."),
+        help_text=gettext_lazy("Leave empty if you have not set a password yet."),
         required=False,
     )
 
@@ -642,7 +642,7 @@ class LoginForm(forms.Form):
                     ngettext(
                         (
                             "Too many authentication attempts from this location. "
-                            "Please try again in %d minute."
+                            "Please try again in one minute."
                         ),
                         (
                             "Too many authentication attempts from this location. "
@@ -916,7 +916,7 @@ class UserSearchForm(forms.Form):
         sort_by = self.cleaned_data.get("sort_by")
         if sort_by:
             if sort_by not in self.sort_values:
-                raise forms.ValidationError(gettext("Chosen sorting is not supported."))
+                raise forms.ValidationError(gettext("The chosen sorting is not supported."))
             return sort_by
         return None
 
@@ -975,7 +975,7 @@ class TOTPDeviceForm(forms.Form):
     )
 
     error_messages = {
-        "invalid_token": gettext_lazy("Entered token is not valid."),
+        "invalid_token": gettext_lazy("The entered token is wrong."),
     }
 
     def __init__(self, key, user, metadata=None, **kwargs):
@@ -1045,7 +1045,7 @@ class OTPTokenForm(DjangoOTPTokenForm):
     otp_token = forms.CharField(
         label=gettext("Recovery token"),
         help_text=gettext(
-            "Recovery token can be used just once, mark your token as used after using it."
+            "Recovery token can be used just once. Mark your token as used after having using it."
         ),
     )
     device_class: type[Device] = StaticDevice
