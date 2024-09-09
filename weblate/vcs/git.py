@@ -1147,7 +1147,10 @@ class GitMergeRequestBase(GitForcePushRepository):
         self, error: str, pr_url: str, response: requests.Response, data: dict
     ) -> NoReturn:
         status_code = response.status_code
-        self.log(f"Creating pull request via {pr_url} failed ({status_code}): {data}")
+        self.log(
+            f"Creating pull request via {pr_url} failed ({status_code}): {data!r}",
+            level=logging.WARNING,
+        )
         raise RepositoryError(
             -1, f"Could not create pull request {status_code}: {error}"
         )
