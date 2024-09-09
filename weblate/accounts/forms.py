@@ -1049,7 +1049,7 @@ class OTPTokenForm(DjangoOTPTokenForm):
     otp_token = forms.CharField(
         label=gettext("Recovery token"),
         help_text=gettext(
-            "Recovery token can be used just once. Mark your token as used after having using it."
+            "Recovery codes can only be used once. Remember to mark used ones as expired."
         ),
     )
     device_class: type[Device] = StaticDevice
