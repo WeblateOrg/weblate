@@ -916,7 +916,9 @@ class UserSearchForm(forms.Form):
         sort_by = self.cleaned_data.get("sort_by")
         if sort_by:
             if sort_by not in self.sort_values:
-                raise forms.ValidationError(gettext("The chosen sorting is not supported."))
+                raise forms.ValidationError(
+                    gettext("The chosen sorting is not supported.")
+                )
             return sort_by
         return None
 
