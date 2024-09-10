@@ -115,6 +115,8 @@ class DeepLTranslation(
             "tag_handling": "xml",
             "ignore_tags": ["x"],
         }
+        if context := self.settings.get("context", ""):
+            params["context"] = context
         if language.endswith("@FORMAL"):
             params["target_lang"] = language[:-7]
             params["formality"] = "more"

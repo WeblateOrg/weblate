@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* :ref`mt-deepl` now supports specifying translation context.
+
 **Bug fixes**
 
 * Displaying :ref:`workflow-customization` setting in some cases.
