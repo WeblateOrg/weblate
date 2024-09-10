@@ -449,21 +449,21 @@ class ChecksumForm(forms.Form):
         self.unit_set = unit_set
         super().__init__(*args, **kwargs)
 
-    def clean_checksum(self) -> None:
+    def clean_checksum(self) -> None | str:
         """Validate whether checksum is valid and fetches unit for it."""
         if "checksum" not in self.cleaned_data:
-            return
+            return None
 
         unit_set = self.unit_set
 
+        checksum = self.cleaned_data["checksum"]
         try:
-            self.cleaned_data["unit"] = unit_set.filter(
-                id_hash=self.cleaned_data["checksum"]
-            )[0]
+            self.cleaned_data["unit"] = unit_set.filter(id_hash=checksum)[0]
         except (Unit.DoesNotExist, IndexError) as error:
             raise ValidationError(
                 gettext("The string you wanted to translate is no longer available.")
             ) from error
+        return checksum
 
 
 class UnitForm(forms.Form):
