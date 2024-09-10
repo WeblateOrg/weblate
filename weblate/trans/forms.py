@@ -2906,16 +2906,19 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         data=None,
         files=None,
         *,
-        instance=None,
+        instance: WorkflowSetting | None = None,
         prefix=None,
         initial=None,
         project: Project | None = None,
         **kwargs,
     ) -> None:
         if instance is not None:
+            # The enable field indicates presence of the instance,
+            # untoggling it removes it
             initial = {"enable": True}
-            if project is not None:
-                initial["translation_review"] = project.translation_review
+        elif project is not None:
+            # Default review setting based on the project one
+            initial = {"translation_review": project.translation_review}
 
         self.project = project
         self.instance = instance
@@ -2945,7 +2948,17 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
             ),
         )
 
-    def save(self, commit=True):
+    def clean_translation_review(self) -> None | bool:
+        if "translation_review" not in self.cleaned_data:
+            return None
+        translation_review = self.cleaned_data["translation_review"]
+        if not self.project:
+            return translation_review
+        if translation_review and not self.project.enable_review:
+            raise ValidationError("Please turn on reviews on the project first.")
+        return translation_review
+
+    def save(self, commit: bool = True):
         if self.cleaned_data["enable"]:
             return super().save(commit=commit)
         if self.instance and self.instance.pk:

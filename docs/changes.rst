@@ -9,6 +9,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Displaying :ref:`workflow-customization` setting in some cases.
+
 **Compatibility**
 
 **Upgrading**
