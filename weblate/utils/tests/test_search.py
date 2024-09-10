@@ -5,14 +5,14 @@
 from datetime import datetime, timedelta, timezone
 
 from django.db.models import Q
-from django.test import SimpleTestCase, TestCase
+from django.test import TestCase
 
 from weblate.auth.models import User
-from weblate.trans.models import Change, Unit
+from weblate.trans.models import Change, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import using_postgresql
-from weblate.utils.search import Comparer, parse_query
+from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -20,19 +20,6 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
-
-
-class ComparerTest(SimpleTestCase):
-    def test_different(self) -> None:
-        self.assertLessEqual(Comparer().similarity("a", "b"), 50)
-
-    def test_same(self) -> None:
-        self.assertEqual(Comparer().similarity("a", "a"), 100)
-
-    def test_unicode(self) -> None:
-        # Test fallback to Python implementation in jellyfish
-        # for unicode strings
-        self.assertEqual(Comparer().similarity("NICHOLASŸ", "NICHOLAS"), 88)
 
 
 class SearchMixin:
@@ -268,6 +255,13 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             Q(translation__component__slug__iexact="hello")
             | Q(translation__component__name__icontains="hello"),
         )
+
+    def test_path(self) -> None:
+        # Non-existing project still searches, but matches nothing
+        self.assert_query("path:hello", Q(translation=None))
+
+        project = Project.objects.create(slug="testslug", name="Test Name")
+        self.assert_query("path:testslug", Q(translation__component__project=project))
 
     def test_project(self) -> None:
         self.assert_query(

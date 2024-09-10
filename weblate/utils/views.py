@@ -158,6 +158,7 @@ def get_paginator(request: AuthenticatedHttpRequest, object_list, page_limit=Non
 
 class PathViewMixin(View):
     supported_path_types: tuple[type[Model | BaseURLMixin] | None, ...] = ()
+    request: AuthenticatedHttpRequest
 
     def get_path_object(self):
         if not self.supported_path_types:
@@ -206,7 +207,7 @@ def get_sort_name(request: AuthenticatedHttpRequest, obj=None):
 
 
 def parse_path(  # noqa: C901
-    request,
+    request: AuthenticatedHttpRequest | None,
     path: list[str] | tuple[str, ...] | None,
     types: tuple[type[Model | BaseURLMixin] | None, ...],
     *,
@@ -214,6 +215,8 @@ def parse_path(  # noqa: C901
 ):
     if None in types and not path:
         return None
+    if not skip_acl and request is None:
+        raise TypeError("Request needs to be provided for ACL check")
 
     allowed_types = {x for x in types if x is not None}
     acting_user = request.user if request else None
@@ -253,7 +256,7 @@ def parse_path(  # noqa: C901
         raise UnsupportedPathObjectError("No remaining supported object type")
 
     # Component/category structure
-    current = project
+    current: Project | Category | Component = project
     category_args = {"category": None}
     while path:
         slug = path.pop(0)

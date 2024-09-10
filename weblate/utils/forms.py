@@ -17,7 +17,6 @@ from weblate.trans.defines import EMAIL_LENGTH, USERNAME_LENGTH
 from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
 from weblate.utils.errors import report_error
-from weblate.utils.search import parse_query
 
 from .validators import WeblateServiceURLValidator, validate_email, validate_username
 
@@ -34,6 +33,8 @@ class QueryField(forms.CharField):
         super().__init__(**kwargs)
 
     def clean(self, value):
+        from weblate.utils.search import parse_query
+
         if not value:
             if self.required:
                 raise ValidationError(gettext("Missing query string."))

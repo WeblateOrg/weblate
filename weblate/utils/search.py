@@ -16,6 +16,7 @@ from dateutil.parser import ParserError, parse
 from django.db import transaction
 from django.db.models import Q, Value
 from django.db.utils import DataError
+from django.http import Http404
 from django.utils import timezone
 from django.utils.translation import gettext
 from pyparsing import (
@@ -29,9 +30,10 @@ from pyparsing import (
     infix_notation,
     one_of,
 )
-from rapidfuzz.distance import DamerauLevenshtein
 
 from weblate.checks.parser import RawQuotedString
+from weblate.lang.models import Language
+from weblate.trans.models import Category, Component, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import (
@@ -41,18 +43,8 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
-
-
-class Comparer:
-    """
-    String comparer abstraction.
-
-    The reason is to be able to change implementation.
-    """
-
-    def similarity(self, first, second):
-        """Return string similarity in range 0 - 100%."""
-        return int(100 * DamerauLevenshtein.normalized_similarity(first, second))
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.views import parse_path
 
 
 # Helper parsing objects
@@ -472,6 +464,45 @@ class UnitTermExpr(BaseTermExpr):
             )
 
         return super().has_field(text, context)
+
+    def path_field(self, text: str, context: dict) -> Q:
+        try:
+            obj = parse_path(
+                None,
+                text.split("/"),
+                (
+                    Translation,
+                    Component,
+                    Project,
+                    ProjectLanguage,
+                    Category,
+                    CategoryLanguage,
+                    Language,
+                ),
+                skip_acl=True,
+            )
+        except Http404:
+            return Q(translation=None)
+
+        if isinstance(obj, Translation):
+            return Q(translation=obj)
+        if isinstance(obj, Component):
+            return Q(translation__component=obj)
+        if isinstance(obj, Project):
+            return Q(translation__component__project=obj)
+        if isinstance(obj, ProjectLanguage):
+            return Q(translation__component__project=obj.project) & Q(
+                translation__language=obj.language
+            )
+        if isinstance(obj, Category):
+            return Q(translation__component_id__in=obj.all_component_ids)
+        if isinstance(obj, CategoryLanguage):
+            return Q(translation__component_id__in=obj.category.all_component_ids) & Q(
+                translation__language=obj.language
+            )
+        if isinstance(obj, Language):
+            return Q(translation__language=obj)
+        raise TypeError(f"Unsupported path lookup: {obj}")
 
     def convert_change_time(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
