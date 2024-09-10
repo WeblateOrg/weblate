@@ -291,7 +291,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         super().__init__(*args, **kwargs)
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
-        self.acting_user = None
+        self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
         self.label_cleanups: None | TranslationQuerySet = None
         self.languages_cache: dict[str, Language] = {}

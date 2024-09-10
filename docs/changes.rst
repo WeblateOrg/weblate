@@ -5,6 +5,8 @@ Not yet released.
 
 **New features**
 
+* :ref:`Searching` now supports filtering by object path.
+
 **Improvements**
 
 **Bug fixes**
