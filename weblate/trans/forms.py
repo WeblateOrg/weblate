@@ -1175,7 +1175,11 @@ class NewLanguageForm(NewLanguageOwnerForm):
         codes = BASIC_LANGUAGES
         if settings.BASIC_LANGUAGES is not None:
             codes = settings.BASIC_LANGUAGES
-        return super().get_lang_objects().filter(code__in=codes)
+        return (
+            super()
+            .get_lang_objects()
+            .filter(Q(code__in=codes) | Q(component__project=self.component.project))
+        )
 
     def __init__(self, component, *args, **kwargs) -> None:
         super().__init__(component, *args, **kwargs)

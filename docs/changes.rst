@@ -15,6 +15,7 @@ Not yet released.
 **Bug fixes**
 
 * Displaying :ref:`workflow-customization` setting in some cases.
+* Users can add component in any language already existing in a project.
 
 **Compatibility**
 
