@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 07:52+0000\n"
-"PO-Revision-Date: 2024-08-29 11:58+0000\n"
+"PO-Revision-Date: 2024-09-11 23:50+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.1-dev\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -57,7 +57,7 @@ msgstr "Commitadres"
 
 #: weblate/accounts/forms.py:198
 msgid "Use account e-mail address"
-msgstr "E-mailadres van account gebruiken"
+msgstr "Gebruik e-mailadres account"
 
 #: weblate/accounts/forms.py:200
 msgid ""
@@ -1097,10 +1097,8 @@ msgid "Sign in"
 msgstr "Inloggen"
 
 #: weblate/accounts/views.py:866
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "Uitloggen"
+msgstr "Uitgelogd"
 
 #: weblate/accounts/views.py:972
 msgid "Register e-mail"
@@ -1311,7 +1309,7 @@ msgstr "Voorbeelduitbreiding"
 
 #: weblate/addons/example.py:22
 msgid "This add-on does nothing it is just an example."
-msgstr "Deze uitbreiding doet niets en dient enkel als voorbeeld."
+msgstr "Deze uitbreiding doet niets en dient slechts als voorbeeld."
 
 #: weblate/addons/example_pre.py:19
 msgid "Execute script before commit"
@@ -1331,10 +1329,10 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Bij het importeren van een nieuwe brontekenreeks geïmporteerd uit het "
-"versiecontrolesysteem, wordt deze aangeduidt als ‘Aanpassing nodig’. Op deze "
+"Wanneer een nieuwe brontekenreeks wordt geïmporteerd uit het "
+"versiecontrolesysteem, wordt deze aangeduid als ‘Aanpassing nodig’. Op deze "
 "manier kunt u eenvoudig de door de ontwikkelaars geschreven brontekenreeksen "
-"geschreven filteren en bewerken."
+"filteren en bewerken."
 
 #: weblate/addons/flags.py:57
 msgid "Flag new translations as \"Needs editing\""
@@ -1347,9 +1345,9 @@ msgid ""
 "translations created by the developers."
 msgstr ""
 "Als er een nieuwe vertaalbare tekenreeks geïmporteerd wordt uit het "
-"versiecontrolesysteem, wordt deze door Weblate aangeduidt als ‘Aanpassing "
-"nodig’. Op deze manier kunt u eenvoudig vertalingen gemaakt door "
-"ontwikkelaars filteren en bewerken."
+"versiecontrolesysteem, wordt deze door Weblate aangeduid als ‘Aanpassing "
+"nodig’. Op deze manier kunt u eenvoudig vertalingen, gemaakt door "
+"ontwikkelaars, filteren en bewerken."
 
 #: weblate/addons/flags.py:75
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -1420,7 +1418,7 @@ msgstr "Regels afbreken bij 77 tekens en nieuwe regels (standaard in xgettext)"
 
 #: weblate/addons/forms.py:129
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
-msgstr "Enkel afbreken op nieuwe regels (xgettext --no-wrap)"
+msgstr "Alleen afbreken op nieuwe regels (xgettext --no-wrap)"
 
 #: weblate/addons/forms.py:131 weblate/addons/forms.py:243
 msgid "No line wrapping"
@@ -1785,12 +1783,12 @@ msgstr "Vult de brontekenreeksen in de vertaalvakken in."
 
 #: weblate/addons/generate.py:232
 msgid "Fill read-only strings with source"
-msgstr "Alleen-lezentekenreeksen opvullen met brontekenreeks"
+msgstr "Tekenreeksen Alleen-lezen opvullen met brontekenreeks"
 
 #: weblate/addons/generate.py:234
 msgid "Fills in translation of read-only strings with source string."
 msgstr ""
-"Vult de vertaling van alleen-lezentekenreeksen in met de brontekenreeks."
+"Vult de vertaling van tekenreeksen Alleen-lezen in met de brontekenreeks."
 
 #: weblate/addons/gettext.py:33
 msgid "Generate MO files"
@@ -6754,10 +6752,8 @@ msgid "Configure add-on"
 msgstr "Uitbreiding instellen"
 
 #: weblate/templates/addons/addon_detail.html:44
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
-msgstr "Deze uitbreiding voert een script uit."
+msgstr "Deze uitbreiding heeft geen instellingen."
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
@@ -9306,7 +9302,7 @@ msgstr "Vertalingen in alle talen zijn voltooid in %(component)s"
 #: weblate/templates/mail/translated_language_subject.txt:3
 #, python-format
 msgid "%(translation)s has been completed"
-msgstr "%(translation)s zijn voltooid"
+msgstr "%(translation)s is voltooid"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -9984,16 +9980,12 @@ msgid "Please try again later."
 msgstr "Probeer het later opnieuw."
 
 #: weblate/templates/registration/logged_out.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for using Weblate"
-msgstr "We stellen het op prijs dat u Weblate gebruikt."
+msgstr "Bedankt voor het gebruiken van Weblate"
 
 #: weblate/templates/registration/logged_out.html:17
-#, fuzzy
-#| msgid "Show on dashboard"
 msgid "Return to dashboard"
-msgstr "Tonen op overzicht"
+msgstr "Terug naar overzicht"
 
 #: weblate/templates/replace.html:13
 msgid "Please review and confirm the search and replace results."
@@ -11474,7 +11466,7 @@ msgstr ""
 #, python-format
 msgid "Only some of the %(count)s occurrence is shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "Er worden slechts enkele van de %(count)s vermeldingen getoond."
+msgstr[0] "Er wordt slechts een van de %(count)s vermeldingen getoond."
 msgstr[1] "Er worden slechts enkele van de %(count)s vermeldingen getoond."
 
 #: weblate/templates/trans/alert/parseerror.html:4
@@ -12007,7 +11999,7 @@ msgstr "Project importeren"
 
 #: weblate/templates/trans/project_import_info.html:5
 msgid "Importing backup"
-msgstr "Bezig met importeren…"
+msgstr "Back-up importeren"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
@@ -13247,7 +13239,7 @@ msgstr "Te verwijderen vertaalopties"
 
 #: weblate/trans/forms.py:2578
 msgid "Labels to add"
-msgstr "Toe te kennen labels"
+msgstr "Toe te voegen labels"
 
 #: weblate/trans/forms.py:2584
 msgid "Labels to remove"
@@ -15479,7 +15471,7 @@ msgstr ""
 
 #: weblate/trans/views/dashboard.py:174
 msgid "Please set your full name and e-mail in your profile."
-msgstr "Stel uw volledige naam en e-mailadres in in uw profiel."
+msgstr "Vermeld uw volledige naam en e-mailadres in uw profiel."
 
 #: weblate/trans/views/edit.py:79
 #, python-format
@@ -15731,7 +15723,7 @@ msgstr[1] ""
 #: weblate/trans/views/settings.py:79 weblate/trans/views/settings.py:108
 #: weblate/trans/views/settings.py:131
 msgid "Settings saved"
-msgstr "De instellingen zijn opgeslagen."
+msgstr "De instellingen zijn opgeslagen"
 
 #: weblate/trans/views/settings.py:82 weblate/trans/views/settings.py:111
 #: weblate/trans/views/settings.py:134
