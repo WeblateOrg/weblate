@@ -2,12 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import logging
 import os
 from datetime import timedelta
 from email.mime.image import MIMEImage
 from smtplib import SMTP
 from types import MethodType
+from typing import TypedDict
 
 import sentry_sdk
 from celery.schedules import crontab
@@ -22,6 +25,13 @@ from weblate.utils.errors import report_error
 from weblate.utils.html import HTML2Text
 
 LOGGER = logging.getLogger("weblate.smtp")
+
+
+class OutgoingEmail(TypedDict):
+    address: str
+    subject: str
+    body: str
+    headers: str
 
 
 @app.task(trail=False)
@@ -80,7 +90,7 @@ def notify_change(change_id) -> None:
     # The same condition is applied at notify_change.delay, but we need to recheck
     # here to make sure this doesn't break on upgrades when processing older tasks
     if is_notificable_action(change.action):
-        outgoing = []
+        outgoing: list[OutgoingEmail] = []
         for notification_cls in NOTIFICATIONS_ACTIONS[change.action]:
             notification = notification_cls(outgoing, perm_cache)
             notification.notify_immediate(change)
@@ -91,7 +101,7 @@ def notify_change(change_id) -> None:
 def notify_digest(method) -> None:
     from weblate.accounts.notifications import NOTIFICATIONS
 
-    outgoing = []
+    outgoing: list[OutgoingEmail] = []
     for notification_cls in NOTIFICATIONS:
         notification = notification_cls(outgoing)
         getattr(notification, method)()
@@ -161,7 +171,7 @@ def monkey_patch_smtp_logging(connection):
 
 
 @app.task(trail=False)
-def send_mails(mails) -> None:
+def send_mails(mails: list[OutgoingEmail]) -> None:
     """Send multiple mails in single connection."""
     images = []
     with sentry_sdk.start_span(op="email.images"):

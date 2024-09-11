@@ -118,14 +118,9 @@ from weblate.accounts.forms import (
 )
 from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
-    FREQ_INSTANT,
-    FREQ_NONE,
     NOTIFICATIONS,
-    SCOPE_ADMIN,
-    SCOPE_ALL,
-    SCOPE_COMPONENT,
-    SCOPE_PROJECT,
-    SCOPE_WATCHED,
+    NotificationFrequency,
+    NotificationScope,
     send_notification_email,
 )
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
@@ -292,20 +287,24 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
     initials: dict[tuple[int, int, int], dict[str, Any]] = {}
 
     # Ensure watched, admin and all scopes are visible
-    for needed in (SCOPE_WATCHED, SCOPE_ADMIN, SCOPE_ALL):
+    for needed in (
+        NotificationScope.SCOPE_WATCHED,
+        NotificationScope.SCOPE_ADMIN,
+        NotificationScope.SCOPE_ALL,
+    ):
         key = (needed, -1, -1)
         subscriptions[key] = {}
         initials[key] = {"scope": needed, "project": None, "component": None}
-    active = (SCOPE_WATCHED, -1, -1)
+    active = (NotificationScope.SCOPE_WATCHED, -1, -1)
 
     # Include additional scopes from request
     if "notify_project" in request.GET:
         try:
             project = user.allowed_projects.get(pk=request.GET["notify_project"])
-            active = key = (SCOPE_PROJECT, project.pk, -1)
+            active = key = (NotificationScope.SCOPE_PROJECT, project.pk, -1)
             subscriptions[key] = {}
             initials[key] = {
-                "scope": SCOPE_PROJECT,
+                "scope": NotificationScope.SCOPE_PROJECT,
                 "project": project,
                 "component": None,
             }
@@ -316,10 +315,10 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
             component = Component.objects.filter_access(user).get(
                 pk=request.GET["notify_component"],
             )
-            active = key = (SCOPE_COMPONENT, -1, component.pk)
+            active = key = (NotificationScope.SCOPE_COMPONENT, -1, component.pk)
             subscriptions[key] = {}
             initials[key] = {
-                "scope": SCOPE_COMPONENT,
+                "scope": NotificationScope.SCOPE_COMPONENT,
                 "component": component,
             }
         except (ObjectDoesNotExist, ValueError):
@@ -1146,12 +1145,16 @@ def watch(request: AuthenticatedHttpRequest, path):
         project = obj.project
 
         # Mute project level subscriptions
-        mute_real(user, scope=SCOPE_PROJECT, component=None, project=project)
+        mute_real(
+            user, scope=NotificationScope.SCOPE_PROJECT, component=None, project=project
+        )
         # Manually enable component level subscriptions
-        for default_subscription in user.subscription_set.filter(scope=SCOPE_WATCHED):
+        for default_subscription in user.subscription_set.filter(
+            scope=NotificationScope.SCOPE_WATCHED
+        ):
             subscription, created = user.subscription_set.get_or_create(
                 notification=default_subscription.notification,
-                scope=SCOPE_COMPONENT,
+                scope=NotificationScope.SCOPE_COMPONENT,
                 component=obj,
                 project=None,
                 defaults={"frequency": default_subscription.frequency},
@@ -1184,7 +1187,7 @@ def mute_real(user: User, **kwargs) -> None:
         try:
             subscription = user.subscription_set.get_or_create(
                 notification=notification_cls.get_name(),
-                defaults={"frequency": FREQ_NONE},
+                defaults={"frequency": NotificationFrequency.FREQ_NONE},
                 **kwargs,
             )[0]
         except Subscription.MultipleObjectsReturned:
@@ -1195,8 +1198,8 @@ def mute_real(user: User, **kwargs) -> None:
             for subscription in subscriptions[1:]:
                 subscription.delete()
             subscription = subscriptions[0]
-        if subscription.frequency != FREQ_NONE:
-            subscription.frequency = FREQ_NONE
+        if subscription.frequency != NotificationFrequency.FREQ_NONE:
+            subscription.frequency = NotificationFrequency.FREQ_NONE
             subscription.save(update_fields=["frequency"])
 
 
@@ -1205,11 +1208,18 @@ def mute_real(user: User, **kwargs) -> None:
 def mute(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component, Project))
     if isinstance(obj, Component):
-        mute_real(request.user, scope=SCOPE_COMPONENT, component=obj, project=None)
+        mute_real(
+            request.user,
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=obj,
+            project=None,
+        )
         return redirect(
             "{}?notify_component={}#notifications".format(reverse("profile"), obj.pk)
         )
-    mute_real(request.user, scope=SCOPE_PROJECT, component=None, project=obj)
+    mute_real(
+        request.user, scope=NotificationScope.SCOPE_PROJECT, component=None, project=obj
+    )
     return redirect(
         "{}?notify_project={}#notifications".format(reverse("profile"), obj.pk)
     )
@@ -1486,8 +1496,8 @@ def subscribe(request: AuthenticatedHttpRequest):
         subscription = Subscription(
             user=request.user,
             notification=request.POST["onetime"],
-            scope=SCOPE_COMPONENT,
-            frequency=FREQ_INSTANT,
+            scope=NotificationScope.SCOPE_COMPONENT,
+            frequency=NotificationFrequency.FREQ_INSTANT,
             project=component.project,
             component=component,
             onetime=True,
@@ -1508,7 +1518,7 @@ def unsubscribe(request: AuthenticatedHttpRequest):
             subscription = Subscription.objects.get(
                 pk=int(signer.unsign(request.GET["i"], max_age=24 * 3600))
             )
-            subscription.frequency = FREQ_NONE
+            subscription.frequency = NotificationFrequency.FREQ_NONE
             subscription.save(update_fields=["frequency"])
             messages.success(request, gettext("Notification settings adjusted."))
         except (BadSignature, SignatureExpired, Subscription.DoesNotExist):
