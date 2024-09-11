@@ -2115,6 +2115,10 @@ The configuration dictionary consists of credentials defined for each API host.
 The API host might be different from what you use in the web browser, for
 example GitHub API is accessed as ``api.github.com``.
 
+The credentials can also be overridden in :ref:`component-push` or
+:ref:`component-repo` (if push URL is not configured), these take precedence
+over the ones specified in the configuration file.
+
 The following configuration is available for each host:
 
 ``username``

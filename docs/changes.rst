@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 * :ref:`Searching` now supports filtering by object path.
+* Merge requests credentials can now be passed in the repository URL, see :ref:`settings-credentials`.
 
 **Improvements**
 

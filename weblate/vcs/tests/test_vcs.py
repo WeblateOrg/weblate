@@ -1364,11 +1364,19 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             ),
             "group1%2Fsubgroup%2Fproject",
         )
+
+    def test_parse_repo_url(self) -> None:
         self.assertEqual(
             self.repo.parse_repo_url(
                 "git@gitlab.domain.com:group1/subgroup/project.git"
             ),
-            (None, "gitlab.domain.com", "group1", "subgroup/project"),
+            (None, None, None, "gitlab.domain.com", "group1", "subgroup/project"),
+        )
+        self.assertEqual(
+            self.repo.parse_repo_url(
+                "https://bot:glpat@gitlab.com/path/group/repo.git"
+            ),
+            ("https", "bot", "glpat", "gitlab.com", "path", "group/repo"),
         )
 
     @override_settings(
