@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-09 15:37+0000\n"
+"PO-Revision-Date: 2024-09-11 23:50+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -5167,15 +5167,6 @@ msgstr ""
 "l’authentification Django :"
 
 #: ../../admin/auth.rst:627
-#, fuzzy
-#| msgid ""
-#| "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
-#| "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
-#| "able to set their password in Weblate, and authenticate using that. "
-#| "Keeping ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in "
-#| "order to make permissions and facilitate anonymous users. It will also "
-#| "allow you to sign in using a local admin account, if you have created it "
-#| "(e.g. by using :djadmin:`createadmin`)."
 msgid ""
 "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
 "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
@@ -5185,13 +5176,13 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "wladmin:`createadmin`)."
 msgstr ""
-"Vous devriez supprimer ``'social_core.backends.email.EmailAuth'`` du "
-"paramètre :setting:`django:AUTHENTICATION_BACKENDS`, sinon les utilisateurs "
-"seront en mesure de créer un mot de passe sur Weblate et de s’authentifier "
-"avec. Garder ``'weblate.accounts.auth.WeblateUserBackend'`` est encore "
-"nécessaire pour gérer les permissions et permettre l’utilisation anonyme. "
-"Cela permet aussi de s’identifier avec un compte admin local, si vous en "
-"avez créé un (p. ex. en utilisant :djadmin:`createadmin`)."
+"Vous devez supprimer ``'social_core.backends.email.EmailAuth'`` du paramètre "
+":setting:`django:AUTHENTICATION_BACKENDS`, sinon les utilisateurs seront en "
+"mesure de définir leur mot de passe sur Weblate et de s’authentifier avec. "
+"Garder ``'weblate.accounts.auth.WeblateUserBackend'`` est encore nécessaire "
+"pour gérer les permissions et autoriser l’utilisation anonyme. Cela permet "
+"aussi de s’identifier avec un compte administrateur local, si vous en avez "
+"créé un (p. ex. en utilisant :wladmin:`createadmin`)."
 
 #: ../../admin/auth.rst:636
 msgid "Using bind password"
@@ -5324,10 +5315,8 @@ msgstr ""
 "connecter."
 
 #: ../../admin/auth.rst:791
-#, fuzzy
-#| msgid "It offers the following options:"
 msgid "Weblate supports the following second factors:"
-msgstr "Il offre les options suivantes :"
+msgstr "Weblate reconnait les seconds facteurs suivants :"
 
 #: ../../admin/auth.rst:793
 msgid "Security keys (WebAuthn)"
@@ -9765,6 +9754,8 @@ msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 msgstr ""
+":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`, "
+":doc:`auth`"
 
 #: ../../admin/config.rst:1595
 #, fuzzy
@@ -9810,6 +9801,8 @@ msgid ""
 "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
+"Ceci est implémenté dans :ref:`sample-configuration`. Pour Docker, utiliser "
+":envvar:`WEBLATE_REQUIRE_LOGIN`."
 
 #: ../../admin/config.rst:1640
 msgid "SENTRY_DSN"
@@ -51629,6 +51622,10 @@ msgid ""
 "translation. It can be any authenticated user if the project is public, or a "
 "user with :guilabel:`Translate` permission to the project."
 msgstr ""
+"Dans les chapîtres suivants, *tout utilisateur* signifie un utilisateur qui "
+"a accès à la traduction. Cela peut être n'importe quel utilisateur "
+"authentifié si le projet est public, ou un utilisateur avec les droits "
+":guilabel:`Traducteur` sur le projet."
 
 #: ../../workflows.rst:61
 #, fuzzy
@@ -51682,10 +51679,13 @@ msgid ""
 "translators, but only by reviewers. Translators can only add suggestions to "
 "it."
 msgstr ""
+"La traduction a été approuvée lors de la relecture. Elle ne peut plus être "
+"modifiée par les traducteurs, mais uniquement par les relecteurs. Les "
+"traducteurs ne peuvent que lui ajouter des suggestions."
 
 #: ../../workflows.rst:78
 msgid "This state is only available when reviews are enabled."
-msgstr ""
+msgstr "Cet état n'existe que lorsque les relectures sont autorisées."
 
 #: ../../workflows.rst:79
 msgid "Read-only"
@@ -51697,20 +51697,21 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
+"La chaîne est en mode lecture seule car elle comporte ``read-only`` :ref:`"
+"flag <custom-checks>`, qu'il s'agisse d'une chaîne source non éditable, ou "
+"marquée comme telle dans le fichier de traduction."
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
 msgstr ""
+"Les suggestions sont rangées dans Weblate et non pas dans le fichier de "
+"traduction."
 
 #: ../../workflows.rst:86
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "filemask."
 msgid "The states are represented in the translation files when possible."
 msgstr ""
-"Expression rationnelle utilisée pour filtrer les fichiers de traduction lors "
-"de la recherche d’un motif de fichier."
+"Lorsque c'est possible, les états sont représentés dans les fichiers de "
+"traduction."
 
 #: ../../workflows.rst:90
 msgid ""
@@ -51718,12 +51719,14 @@ msgid ""
 "to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
 "strings as needing editing."
 msgstr ""
+"Si le format que vous utilisez ne prend pas en charge les états "
+"d'enregistrement, vous pouvez utiliser le greffon :ref:`addon-weblate.flags."
+"same_edit` pour marquer les chaînes non modifiées comme devant être "
+"modifiées."
 
 #: ../../workflows.rst:96
-#, fuzzy
-#| msgid ":ref:`privileges`, :ref:`workflows`"
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
-msgstr ":ref:`privileges`, :ref:`workflows`"
+msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
 
 #: ../../workflows.rst:101
 msgid "Direct translation"
@@ -51734,6 +51737,8 @@ msgid ""
 "The most common setup for smaller teams, where anybody can translate "
 "directly. This is also the default setup in Weblate."
 msgstr ""
+"Paramètre le plus commun pour les équipes plus petites où chacun peut "
+"traduire directement. C'est aussi la valeur par défaut dans Weblate."
 
 #: ../../workflows.rst:105
 msgid "*Any user* can edit translations."
@@ -51769,12 +51774,10 @@ msgid "on"
 msgstr "actif"
 
 #: ../../workflows.rst:114 ../../workflows.rst:179
-#, fuzzy
-#| msgid "It is useful for users to be able to suggest when they are not sure."
 msgid "Useful for users to be able to suggest when they are not sure."
 msgstr ""
-"Il est utile que les utilisateurs puissent suggérer quand ils ne sont pas "
-"sûrs."
+"Utile pour que les utilisateurs puissent faire des suggestions quand ils ne "
+"sont pas certains."
 
 #: ../../workflows.rst:121 ../../workflows.rst:153 ../../workflows.rst:186
 msgid "Translators group"
@@ -51786,7 +51789,7 @@ msgstr "Ou `Traduire` avec :ref:`per-project access control <manage-acl>`."
 
 #: ../../workflows.rst:125 ../../workflows.rst:157 ../../workflows.rst:190
 msgid "Reviewers group"
-msgstr ""
+msgstr "Groupe des relecteurs"
 
 #: ../../workflows.rst:125 ../../workflows.rst:157
 msgid "N/A"
@@ -51827,14 +51830,16 @@ msgstr ""
 #: ../../workflows.rst:150
 msgid "You can set higher value to require more peer reviews."
 msgstr ""
+"Vous pouvez définir une valeur plus grande afin de demander davantage de "
+"relecteurs."
 
 #: ../../workflows.rst:157
 msgid "Not used, all translators review."
-msgstr ""
+msgstr "Non utilisé, tous les traducteurs peuvent relire."
 
 #: ../../workflows.rst:163
 msgid "Dedicated reviewers"
-msgstr ""
+msgstr "Relecteurs dédiés"
 
 #: ../../workflows.rst:165
 msgid ""
@@ -51842,6 +51847,9 @@ msgid ""
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
 msgstr ""
+"Avec des relecteurs dédiés, vous avez deux groupes d'utilisateurs, un groupe "
+"qui peut soumettre les traductions et l'autre qui peut les relire pour "
+"s'assurer qu'elles sont cohérentes et que leur qualité est satisfaisante."
 
 #: ../../workflows.rst:169
 msgid "*Any user* can edit unapproved translations."
@@ -51865,12 +51873,13 @@ msgstr ""
 "chaînes approuvées."
 
 #: ../../workflows.rst:190
+#, fuzzy
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
-msgstr ""
+msgstr "Ou `Relecture` avec :ref:`per-project access control <manage-acl>`."
 
 #: ../../workflows.rst:196
 msgid "Turning on reviews"
-msgstr ""
+msgstr "Activer les relectures"
 
 #: ../../workflows.rst:198
 msgid ""
@@ -51878,10 +51887,13 @@ msgid ""
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → :guilabel:`Settings` menu):"
 msgstr ""
+"Les relectures peuvent être activées dans la configuration du projet, à "
+"partir de la sous-page :guilabel:`Flux de travail` des paramètres du projet ("
+"accessible par le menu :guilabel:`Gestion` → :guilabel:`Paramètres`) :"
 
 #: ../../workflows.rst:207
 msgid "Quality gateway for the source strings"
-msgstr ""
+msgstr "Passerelle pour la qualité des chaînes sources"
 
 #: ../../workflows.rst:209
 msgid ""
@@ -51892,6 +51904,13 @@ msgid ""
 "can help you address this - there is an additional quality gateway for the "
 "strings between developers and translators."
 msgstr ""
+"Dans la plupart des cas, le chaînes de caractères de la langue source "
+"originale viennent des développeurs parce qu'ils écrivent le code et "
+"fournissent donc les chaînes initiales. Néanmoins leur langue maternelle "
+"n'est pas souvent celle de la langue source et n'a pas la qualité souhaitée "
+"pour les chaînes source. La traduction intermédiaire peut donc vous aider à "
+"remettre cela en forme - il existe entre les développeurs et les traducteurs "
+"une passerelle supplémentaire concernant la qualité des chaînes."
 
 #: ../../workflows.rst:215
 msgid ""
@@ -51900,6 +51919,11 @@ msgid ""
 "done, strings are available for translations to target languages, based on "
 "what is now a polished source language."
 msgstr ""
+"En définissant :ref:`component-intermediate`, ce fichier est utilisé pour "
+"traduire les chaînes dans la langue source par les traducteurs ou les "
+"éditeurs. Après cette étape, les chaînes sont disponibles pour être "
+"traduites dans les langues cibles, en partant maintenant d'une langue source "
+"remise en forme."
 
 #: ../../workflows.rst:259
 msgid ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
@@ -51917,6 +51941,10 @@ msgid ""
 "strings. The actual process depends on whether bilingual or monolingual "
 "formats are in use."
 msgstr ""
+"Si :ref:`project-source_review` est activé, le processus de relecture peut "
+"être appliqué aux chaînes de la source et les utilisateurs peuvent rapporter "
+"les problèmes liés à ces chaînes. Le processus dépend du format en cours "
+"utilisé, bilingue ou monolingue."
 
 #: ../../workflows.rst:272
 msgid ""
@@ -51924,6 +51952,9 @@ msgid ""
 "`reviews` — once an issue with a source string is reported, it is marked as :"
 "guilabel:`Needs editing`."
 msgstr ""
+"Pour les formats à une seule langue, la relecture des chaînes de caractères "
+"des sources suit le même principe que :ref:`reviews` — dès qu'un problème "
+"sur une chaîne source est rapporté, elle est marquée :guilabel:`A corriger`."
 
 #: ../../workflows.rst:276
 msgid ""
@@ -51933,6 +51964,12 @@ msgid ""
 "translators. You should review such strings and either edit them in the "
 "source code, or remove the label."
 msgstr ""
+"Les formats bilingues ne permettent pas de modifier directement les chaînes "
+"de caractères dans les sources (elles sont typiquement extraites directement "
+"du code source). Dans ce cas une marque :guilabel:`Source à relire` est "
+"attachée à chaque chaîne fournie par les traducteurs. Il vous faut alors "
+"relire ces chaînes et soit les corriger dans le code source, soit supprimer "
+"la marque."
 
 #: ../../workflows.rst:284
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
