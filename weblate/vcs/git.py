@@ -981,8 +981,16 @@ class GitMergeRequestBase(GitForcePushRepository):
     ) -> str:
         hostname = credentials["hostname"]
         username = credentials["username"]
+        try:
+            data = response.json()
+        except JSONDecodeError:
+            data = response.text
+        self.log(
+            f"Creating fork via {response.url} failed ({response.status_code}): {data!r}",
+            level=logging.WARNING,
+        )
         if response.status_code == 404:
-            error = f"Repository not found. Check whether exists and {username} has access to it."
+            error = f"Repository not found. Check whether exists and user '{username}' has access to it."
         if error.strip():
             return f"Could not fork repository at {hostname}: {error}"
         return f"Could not fork repository at {hostname}"
