@@ -802,12 +802,14 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def parse_repo_url(
         self, repo: str | None = None
-    ) -> tuple[str | None, str, str, str]:
+    ) -> tuple[str | None, str | None, str | None, str, str, str]:
         if repo is None:
-            repo = self.component.repo
+            repo = self.component.push or self.component.repo
         parsed = urllib.parse.urlparse(repo)
         host = parsed.hostname
         scheme: str | None = parsed.scheme
+        username: str | None = parsed.username
+        password: str | None = parsed.password
         if not host:
             # Assume SSH URL
             host, path = repo.split(":")
@@ -829,7 +831,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                 continue
             slug_parts.insert(-1, part)
         slug = "/".join(slug_parts)
-        return (scheme, host, owner, slug)
+        return (scheme, username, password, host, owner, slug)
 
     def format_url(
         self, scheme: str, hostname: str, owner: str, slug: str, **extra: str
@@ -878,9 +880,13 @@ class GitMergeRequestBase(GitForcePushRepository):
         return getattr(settings, cls.get_credentials_name())
 
     def get_credentials(self) -> dict[str, str]:
-        scheme, host, owner, slug = self.parse_repo_url()
+        scheme, username, password, host, owner, slug = self.parse_repo_url()
         hostname = self.format_api_host(host).lower()
         credentials = self.get_credentials_by_hostname(hostname)
+
+        if not username or not password:
+            username = credentials["username"]
+            password = credentials["token"]
 
         # Scheme override
         if "scheme" in credentials:
@@ -894,8 +900,8 @@ class GitMergeRequestBase(GitForcePushRepository):
             "owner": owner,
             "slug": slug,
             "hostname": hostname,
-            "username": credentials["username"],
-            "token": credentials["token"],
+            "username": username,
+            "token": password,
             "scheme": scheme,
         }
 
@@ -1211,7 +1217,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
     def parse_repo_url(
         self, repo: str | None = None
-    ) -> tuple[str | None, str, str, str]:
+    ) -> tuple[str | None, str | None, str | None, str, str, str]:
         if repo is None:
             repo = self.component.repo
 
@@ -1220,7 +1226,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         if not re.match(scheme_regex, repo):
             repo = f"ssh://{repo}"  # assume all links without schema are ssh links
 
-        (scheme, host, owner, slug) = super().parse_repo_url(repo)
+        (scheme, username, password, host, owner, slug) = super().parse_repo_url(repo)
 
         # ssh links are in a subdomain, the API link doesn't have that so remove it
         if host.startswith("ssh."):
@@ -1237,7 +1243,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             owner = owner + "/" + parts[0]  # we want owner to be org/project
             slug = parts[1]
 
-        return scheme, host, owner, slug
+        return (scheme, username, password, host, owner, slug)
 
     def get_headers(self, credentials: dict) -> dict[str, str]:
         headers = super().get_headers(credentials)
@@ -1358,7 +1364,9 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         """
         cmd = ["remote", "get-url", "--push", remote]
         fork_remotes = self.execute(cmd, needs_lock=False, merge_err=False).splitlines()
-        (_, hostname, owner, slug) = self.parse_repo_url(fork_remotes[0])
+        (_scheme, _username, _password, hostname, owner, slug) = self.parse_repo_url(
+            fork_remotes[0]
+        )
         url = self.format_url("https", hostname, owner, slug)
 
         # Get repo info
@@ -1717,7 +1725,7 @@ class GitLabRepository(GitMergeRequestBase):
     )
 
     def get_fork_path(self, repo: str) -> str:
-        _scheme, _host, owner, slug = self.parse_repo_url(repo)
+        _scheme, _username, _password, _host, owner, slug = self.parse_repo_url(repo)
         return urllib.parse.quote(f"{owner}/{slug}", safe="")
 
     def get_forked_url(self, credentials: dict) -> str:
