@@ -124,6 +124,15 @@ class WeblateAccountsConf(AppConf):
         prefix = ""
 
 
+class SubscriptionQuerySet(models.QuerySet["Subscription"]):
+    def order(self):
+        """Ordering in project scope by priority."""
+        return self.order_by("user", "scope")
+
+    def prefetch(self):
+        return self.prefetch_related("component", "project")
+
+
 class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     notification = models.CharField(
@@ -138,6 +147,8 @@ class Subscription(models.Model):
         "trans.Component", on_delete=models.deletion.CASCADE, null=True
     )
     onetime = models.BooleanField(default=False)
+
+    objects = SubscriptionQuerySet.as_manager()
 
     class Meta:
         unique_together = [("notification", "scope", "project", "component", "user")]
