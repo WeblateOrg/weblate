@@ -539,7 +539,10 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         responses.add(
             responses.POST,
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks",
-            json={"ssh_url": "git@github.com:test/test.git"},
+            json={
+                "ssh_url": "git@gitea.io:test/test.git",
+                "clone_url": "https://gitea.io/test/test.git",
+            },
             match=[matchers.header_matcher({"Content-Type": "application/json"})],
         )
         responses.add(
@@ -724,7 +727,10 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         responses.add(
             responses.POST,
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories",
-            json={"sshUrl": "git@ssh.dev.azure.com:v3/organization/WeblateOrg/test"},
+            json={
+                "sshUrl": "git@ssh.dev.azure.com:v3/organization/WeblateOrg/test",
+                "remoteUrl": "https://dev.azure.com/v3/organization/WeblateOrg/test.git",
+            },
         )
         responses.add(
             responses.GET,
@@ -918,6 +924,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
                     {
                         "project": {"name": "test"},
                         "sshUrl": "git@ssh.dev.azure.com:v3/organization/WeblateOrg/test",
+                        "remoteUrl": "https://dev.azure.com/organization/WeblateOrg/test.git",
                     }
                 ]
             },
@@ -1046,7 +1053,10 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         responses.add(
             responses.POST,
             "https://api.github.com/repos/WeblateOrg/test/forks",
-            json={"ssh_url": "git@github.com:test/test.git"},
+            json={
+                "ssh_url": "git@github.com:test/test.git",
+                "clone_url": "https://github.com/test/test.git",
+            },
         )
         responses.add(
             responses.POST,
@@ -1234,6 +1244,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                 "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
                 json={
                     "ssh_url_to_repo": "git@gitlab.com:test/test-6184.git",
+                    "http_url_to_repo": "https://gitlab.com/test/test-6184.git",
                     "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
                 },
             )
@@ -1252,6 +1263,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                 "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
                 json={
                     "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+                    "http_url_to_repo": "https://gitlab.com/test/test.git",
                     "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
                 },
             )
@@ -1399,6 +1411,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                 "slug": "test",
                 "hostname": "gitlab.example.com",
                 "scheme": "https",
+                "push_scheme": "ssh",
                 "username": "test",
                 "token": "token",
             },
@@ -1412,8 +1425,23 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                 "slug": "bar/test",
                 "hostname": "gitlab.example.com",
                 "scheme": "https",
+                "push_scheme": "ssh",
                 "username": "test",
                 "token": "token",
+            },
+        )
+        self.repo.component.repo = "https://bot:pat@gitlab.example.com/foo/bar/test.git"
+        self.assertEqual(
+            self.repo.get_credentials(),
+            {
+                "url": "https://gitlab.example.com/api/v4/projects/foo%2Fbar%2Ftest",
+                "owner": "foo",
+                "slug": "bar/test",
+                "hostname": "gitlab.example.com",
+                "scheme": "https",
+                "push_scheme": "https",
+                "username": "bot",
+                "token": "pat",
             },
         )
 
@@ -1458,6 +1486,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             get_forks=[
                 {
                     "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+                    "http_url_to_repo": "https://gitlab.com/test/test.git",
                     "owner": {"username": "test"},
                     "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
                 }
@@ -1887,9 +1916,13 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         "links": {
             "clone": [
                 {
-                    "name": "ssh",
+                    "name": "http",
                     "href": "https://api.selfhosted.com/bb_fork_pk/bb_fork.git",
-                }
+                },
+                {
+                    "name": "ssh",
+                    "href": "ssh://git@api.selfhosted.com/bb_fork_pk/bb_fork.git",
+                },
             ]
         },
     }
