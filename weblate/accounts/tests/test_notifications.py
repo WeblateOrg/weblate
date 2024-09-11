@@ -15,17 +15,9 @@ from django.test.utils import override_settings
 
 from weblate.accounts.models import AuditLog, Profile, Subscription
 from weblate.accounts.notifications import (
-    FREQ_DAILY,
-    FREQ_INSTANT,
-    FREQ_MONTHLY,
-    FREQ_NONE,
-    FREQ_WEEKLY,
-    SCOPE_ADMIN,
-    SCOPE_ALL,
-    SCOPE_COMPONENT,
-    SCOPE_PROJECT,
-    SCOPE_WATCHED,
     MergeFailureNotification,
+    NotificationFrequency,
+    NotificationScope,
 )
 from weblate.accounts.tasks import (
     notify_change,
@@ -78,14 +70,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             # Remove any conflicting notifications
             Subscription.objects.filter(
                 user=self.user,
-                scope=SCOPE_WATCHED,
+                scope=NotificationScope.SCOPE_WATCHED,
                 notification=notification,
             ).delete()
             Subscription.objects.create(
                 user=self.user,
-                scope=SCOPE_WATCHED,
+                scope=NotificationScope.SCOPE_WATCHED,
                 notification=notification,
-                frequency=FREQ_INSTANT,
+                frequency=NotificationFrequency.FREQ_INSTANT,
             )
         self.thirduser = User.objects.create_user(
             "thirduser", "noreply+third@example.org", "testpassword"
@@ -119,9 +111,9 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         Subscription.objects.filter(notification="LockNotification").delete()
         Subscription.objects.create(
             user=self.user,
-            scope=SCOPE_WATCHED,
+            scope=NotificationScope.SCOPE_WATCHED,
             notification="LockNotification",
-            frequency=FREQ_INSTANT,
+            frequency=NotificationFrequency.FREQ_INSTANT,
             onetime=True,
         )
         self.component.change_set.create(
@@ -415,13 +407,13 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_digest(
         self,
-        frequency=FREQ_DAILY,
+        frequency=NotificationFrequency.FREQ_DAILY,
         notify=notify_daily,
         change=Change.ACTION_FAILED_MERGE,
         subj="Repository operation failed",
     ) -> None:
         Subscription.objects.filter(
-            frequency=FREQ_INSTANT,
+            frequency=NotificationFrequency.FREQ_INSTANT,
             notification__in=("MergeFailureNotification", "NewTranslationNotificaton"),
         ).update(frequency=frequency)
         self.component.change_set.create(
@@ -443,10 +435,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertNotIn('img src="/', content)
 
     def test_digest_weekly(self) -> None:
-        self.test_digest(FREQ_WEEKLY, notify_weekly)
+        self.test_digest(NotificationFrequency.FREQ_WEEKLY, notify_weekly)
 
     def test_digest_monthly(self) -> None:
-        self.test_digest(FREQ_MONTHLY, notify_monthly)
+        self.test_digest(NotificationFrequency.FREQ_MONTHLY, notify_monthly)
 
     def test_digest_new_lang(self) -> None:
         self.test_digest(
@@ -456,14 +448,16 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_reminder(
         self,
-        frequency=FREQ_DAILY,
+        frequency=NotificationFrequency.FREQ_DAILY,
         notify=notify_daily,
         notification="ToDoStringsNotification",
         subj="4 unfinished strings in Test/Test",
     ) -> None:
         self.user.subscription_set.filter(frequency=frequency).delete()
         self.user.subscription_set.create(
-            scope=SCOPE_WATCHED, notification=notification, frequency=frequency
+            scope=NotificationScope.SCOPE_WATCHED,
+            notification=notification,
+            frequency=frequency,
         )
         # Check mail
         self.assertEqual(len(mail.outbox), 0)
@@ -473,10 +467,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(1, f"[Weblate] {subj}")
 
     def test_reminder_weekly(self) -> None:
-        self.test_reminder(FREQ_WEEKLY, notify_weekly)
+        self.test_reminder(NotificationFrequency.FREQ_WEEKLY, notify_weekly)
 
     def test_reminder_monthly(self) -> None:
-        self.test_reminder(FREQ_MONTHLY, notify_monthly)
+        self.test_reminder(NotificationFrequency.FREQ_MONTHLY, notify_monthly)
 
     def test_reminder_suggestion(self) -> None:
         unit = self.get_unit()
@@ -502,101 +496,101 @@ class SubscriptionTest(ViewTestCase):
         self.user.profile.watched.add(self.project)
         # Not subscriptions
         self.user.subscription_set.all().delete()
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
-        self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_DAILY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_WEEKLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_MONTHLY)), 0)
         # Default subscription
         self.user.subscription_set.create(
-            scope=SCOPE_WATCHED,
+            scope=NotificationScope.SCOPE_WATCHED,
             notification=self.notification.get_name(),
-            frequency=FREQ_MONTHLY,
+            frequency=NotificationFrequency.FREQ_MONTHLY,
         )
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
-        self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 1)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_DAILY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_WEEKLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_MONTHLY)), 1)
         # Admin subscription
         self.user.subscription_set.create(
-            scope=SCOPE_ADMIN,
+            scope=NotificationScope.SCOPE_ADMIN,
             notification=self.notification.get_name(),
-            frequency=FREQ_WEEKLY,
+            frequency=NotificationFrequency.FREQ_WEEKLY,
         )
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
-        self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 1)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_DAILY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_WEEKLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_MONTHLY)), 1)
 
         self.component.project.add_user(self.user, "Administration")
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
-        self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 1)
-        self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_DAILY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_WEEKLY)), 1)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_MONTHLY)), 0)
         # Project subscription
         self.user.subscription_set.create(
-            scope=SCOPE_PROJECT,
+            scope=NotificationScope.SCOPE_PROJECT,
             project=self.project,
             notification=self.notification.get_name(),
-            frequency=FREQ_DAILY,
+            frequency=NotificationFrequency.FREQ_DAILY,
         )
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
-        self.assertEqual(len(self.get_users(FREQ_DAILY)), 1)
-        self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_DAILY)), 1)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_WEEKLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_MONTHLY)), 0)
         # Component subscription
         subscription = self.user.subscription_set.create(
-            scope=SCOPE_COMPONENT,
+            scope=NotificationScope.SCOPE_COMPONENT,
             project=self.project,
             notification=self.notification.get_name(),
-            frequency=FREQ_INSTANT,
+            frequency=NotificationFrequency.FREQ_INSTANT,
         )
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 1)
-        self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 1)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_DAILY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_WEEKLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_MONTHLY)), 0)
         # Disabled notification for component
-        subscription.frequency = FREQ_NONE
+        subscription.frequency = NotificationFrequency.FREQ_NONE
         subscription.save()
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
-        self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_DAILY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_WEEKLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_MONTHLY)), 0)
 
     def test_all_scope(self) -> None:
         self.user.subscription_set.all().delete()
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
-        self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_DAILY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_WEEKLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_MONTHLY)), 0)
         self.user.subscription_set.create(
-            scope=SCOPE_ALL,
+            scope=NotificationScope.SCOPE_ALL,
             notification=self.notification.get_name(),
-            frequency=FREQ_MONTHLY,
+            frequency=NotificationFrequency.FREQ_MONTHLY,
         )
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
-        self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
-        self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 1)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_DAILY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_WEEKLY)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_MONTHLY)), 1)
 
     def test_skip(self) -> None:
         self.user.profile.watched.add(self.project)
         # Not subscriptions
         self.user.subscription_set.all().delete()
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
         # Default subscription
         self.user.subscription_set.create(
-            scope=SCOPE_WATCHED,
+            scope=NotificationScope.SCOPE_WATCHED,
             notification=self.notification.get_name(),
-            frequency=FREQ_INSTANT,
+            frequency=NotificationFrequency.FREQ_INSTANT,
         )
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 1)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 1)
         # Subscribe to parent event
         self.user.subscription_set.create(
-            scope=SCOPE_WATCHED,
+            scope=NotificationScope.SCOPE_WATCHED,
             notification="NewAlertNotificaton",
-            frequency=FREQ_INSTANT,
+            frequency=NotificationFrequency.FREQ_INSTANT,
         )
-        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
 
 
 class SendMailsTest(SimpleTestCase):

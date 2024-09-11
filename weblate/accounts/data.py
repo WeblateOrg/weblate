@@ -5,28 +5,62 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from weblate.accounts.notifications import (
-    FREQ_INSTANT,
-    FREQ_WEEKLY,
-    SCOPE_ADMIN,
-    SCOPE_ALL,
-    SCOPE_WATCHED,
-)
+from weblate.accounts.notifications import NotificationFrequency, NotificationScope
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
 
 DEFAULT_NOTIFICATIONS = [
-    (SCOPE_ALL, FREQ_INSTANT, "MentionCommentNotificaton"),
-    (SCOPE_WATCHED, FREQ_INSTANT, "LastAuthorCommentNotificaton"),
-    (SCOPE_WATCHED, FREQ_INSTANT, "MentionCommentNotificaton"),
-    (SCOPE_WATCHED, FREQ_INSTANT, "NewAnnouncementNotificaton"),
-    (SCOPE_WATCHED, FREQ_WEEKLY, "NewStringNotificaton"),
-    (SCOPE_ADMIN, FREQ_INSTANT, "MergeFailureNotification"),
-    (SCOPE_ADMIN, FREQ_INSTANT, "ParseErrorNotification"),
-    (SCOPE_ADMIN, FREQ_INSTANT, "NewTranslationNotificaton"),
-    (SCOPE_ADMIN, FREQ_INSTANT, "NewAlertNotificaton"),
-    (SCOPE_ADMIN, FREQ_INSTANT, "NewAnnouncementNotificaton"),
+    (
+        NotificationScope.SCOPE_ALL,
+        NotificationFrequency.FREQ_INSTANT,
+        "MentionCommentNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_WATCHED,
+        NotificationFrequency.FREQ_INSTANT,
+        "LastAuthorCommentNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_WATCHED,
+        NotificationFrequency.FREQ_INSTANT,
+        "MentionCommentNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_WATCHED,
+        NotificationFrequency.FREQ_INSTANT,
+        "NewAnnouncementNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_WATCHED,
+        NotificationFrequency.FREQ_WEEKLY,
+        "NewStringNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_ADMIN,
+        NotificationFrequency.FREQ_INSTANT,
+        "MergeFailureNotification",
+    ),
+    (
+        NotificationScope.SCOPE_ADMIN,
+        NotificationFrequency.FREQ_INSTANT,
+        "ParseErrorNotification",
+    ),
+    (
+        NotificationScope.SCOPE_ADMIN,
+        NotificationFrequency.FREQ_INSTANT,
+        "NewTranslationNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_ADMIN,
+        NotificationFrequency.FREQ_INSTANT,
+        "NewAlertNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_ADMIN,
+        NotificationFrequency.FREQ_INSTANT,
+        "NewAnnouncementNotificaton",
+    ),
 ]
 
 
