@@ -14,9 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 07:52+0000\n"
-"PO-Revision-Date: 2024-08-21 14:23+0000\n"
-"Last-Translator: Assem Askarova <assask499@users.noreply.hosted.weblate."
-"org>\n"
+"PO-Revision-Date: 2024-09-12 20:48+0000\n"
+"Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -24,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.7\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1085,10 +1084,8 @@ msgid "Sign in"
 msgstr "サインイン"
 
 #: weblate/accounts/views.py:866
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "サインアウト"
+msgstr "サインアウトしました"
 
 #: weblate/accounts/views.py:972
 msgid "Register e-mail"
@@ -3717,7 +3714,7 @@ msgstr "Python ブレース形式の文字列が原文と不一致"
 
 #: weblate/checks/format.py:611
 msgid "Single {} encountered in the format string."
-msgstr ""
+msgstr "単一の {} が書式文字列内にあります。"
 
 #: weblate/checks/format.py:638
 msgid "C# format"
@@ -4423,7 +4420,7 @@ msgstr "Fluent ファイル"
 
 #: weblate/formats/txt.py:89
 msgid "Should be a directory with metadata files!"
-msgstr ""
+msgstr "メタデータファイルのあるディレクトリにしてください！"
 
 #: weblate/formats/txt.py:196
 msgid "App store metadata files"
@@ -5066,20 +5063,18 @@ msgid "Automatic selection"
 msgstr "自動選択"
 
 #: weblate/machinery/forms.py:290
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "カスタム"
+msgstr "カスタムモデル"
 
 #: weblate/machinery/forms.py:295
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "OpenAI API ベース URL"
 
 #: weblate/machinery/forms.py:299
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
-msgstr ""
+msgstr "OpenAI の既定の URL と異なる場合、OpenAI API のベース URL"
 
 #: weblate/machinery/forms.py:306
 msgctxt "Automatic suggestion service configuration"
@@ -5087,15 +5082,13 @@ msgid "OpenAI model"
 msgstr "OpenAI モデル"
 
 #: weblate/machinery/forms.py:314
-#, fuzzy
-#| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
-msgstr "コンポーネント名のカスタマイズ"
+msgstr "カスタムモデル名"
 
 #: weblate/machinery/forms.py:316
 msgid "Only needed when model is set to 'Custom model'"
-msgstr ""
+msgstr "モデルが「カスタムモデル」に設定されていた場合のみ必要"
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5121,14 +5114,12 @@ msgid ""
 msgstr "翻訳スタイルについて説明します。例: 「くだけた言い回しを使用する」"
 
 #: weblate/machinery/forms.py:347
-#, fuzzy
-#| msgid "Missing username or e-mail."
 msgid "Missing custom model name."
-msgstr "ユーザー名もしくはメールアドレスが入力されていません。"
+msgstr "カスタムモデル名がありません。"
 
 #: weblate/machinery/forms.py:351
 msgid "Choose custom model here to enable it."
-msgstr ""
+msgstr "有効にするカスタムモデルを選んでください。"
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5589,7 +5580,7 @@ msgstr "統計データ"
 
 #: weblate/templates/accounts/2fa.html:24
 msgid "Second factor sign-in"
-msgstr ""
+msgstr "第二要素サインイン"
 
 #: weblate/templates/accounts/2fa.html:30
 msgid "Please complete your sign-in using second factor credential."
