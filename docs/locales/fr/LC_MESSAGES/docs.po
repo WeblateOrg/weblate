@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-11 23:50+0000\n"
+"PO-Revision-Date: 2024-09-12 20:48+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -4676,10 +4676,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:163
-#, fuzzy
-#| msgid ":doc:`psa:backends/github`"
 msgid ":doc:`psa:backends/github_enterprise`"
-msgstr ":doc:`psa:backends/github`"
+msgstr ":doc:`psa:backends/github_enterprise`"
 
 #: ../../admin/auth.rst:168
 msgid "Bitbucket authentication"
@@ -4849,6 +4847,8 @@ msgid ""
 "*Application (client) ID* can be obtained from application page. *Object ID* "
 "is not used in Weblate."
 msgstr ""
+"L'*identifiant de l'application du client* peut être obtenu à partir de la "
+"page de l'application. *Object ID*n'est pas utilisé dans Weblate."
 
 #: ../../admin/auth.rst:338
 msgid ""
@@ -5333,12 +5333,18 @@ msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
 msgstr ""
+"Les clés de passe valident votre identité en utilisant l'empreinte digitale, "
+"la reconnaissance faciale, un mot de passe de l'appareil, ou un code PIN "
+"puisqu'elles incluent la vérification de l'utilisateur."
 
 #: ../../admin/auth.rst:798
 msgid ""
 "Security keys are WebAuthn credentials that can only be used as a second "
 "factor of authentication, and these only validate user presence."
 msgstr ""
+"Les clés de sécurité sont des informations confidentielles WebAuthn qui ne "
+"peuvent être utilisées qu'en tant que second facteur d'authentification et "
+"elles ne servent qu'à valider la présence de l'utilisateur."
 
 #: ../../admin/auth.rst:800
 #, fuzzy
@@ -5353,6 +5359,11 @@ msgid ""
 "time passwords that are used as a second factor to verify your identity when "
 "prompted during sign-in."
 msgstr ""
+"Les applications d'authentification et les extensions des navigateurs telles "
+"que Aegis, Bitwarden, Google Authenticator, 1Password, Authy, Microsoft "
+"Authenticator, etc. génèrent des mots de passe uniques utilisés en tant que "
+"second facteur pour vérifier votre identité lorsqu'elle vous est demandée à "
+"la connexion."
 
 #: ../../admin/auth.rst:806
 msgid "Recovery codes"
@@ -5372,24 +5383,34 @@ msgid ""
 "Keep your recovery codes as safe as your password. We recommend saving them "
 "with a password manager such as Bitwarden, 1Password, Authy, or Keeper."
 msgstr ""
+"Gardez vos codes de récupération dans un endroit sûr tout comme vos mots de "
+"passe. Nous recommandons de les enregistrer avec un gestionnaire de mots de "
+"passe tel que Bitwarden, 1Password, Authy, ou Keeper."
 
 #: ../../admin/auth.rst:811
 msgid ""
 "Each user can configure this in :ref:`profile-account` and second factor "
 "will be required to sign in addition to the existing authentication method."
 msgstr ""
+"Chaque utilisateur peut configurer cela dans :ref:`profile-account` et le "
+"second facteur vous sera demandé lors de la connexion en complément de la "
+"méthode d'authentification existante."
 
 #: ../../admin/auth.rst:814
 msgid ""
 "This can be enforced for users at the project (see :ref:`project-"
 "enforced_2fa`) or team level."
 msgstr ""
+"Ceci peut être décidé pour les utilisateurs au niveau du projet (voir :ref"
+":`project-enforced_2fa`) ou du groupe ."
 
 #: ../../admin/auth.rst:816
 msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
 msgstr ""
+"Les privilèges d'un groupe utilisant l'authentification à deux facteurs ne "
+"seront pas appliqués aux utilisateurs qui ne l'auront pas configurée."
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -5459,6 +5480,8 @@ msgstr ""
 #: ../../admin/backup.rst:35
 msgid "Use the generated file to import project when :ref:`adding-projects`."
 msgstr ""
+"Utiliser le fichier généré pour importer le projet quand :ref:`adding-"
+"projects`."
 
 #: ../../admin/backup.rst:39
 msgid ""
@@ -9820,27 +9843,32 @@ msgstr ""
 
 #: ../../admin/config.rst:1651
 msgid "SENTRY_ENVIRONMENT"
-msgstr ""
+msgstr "SENTRY_ENVIRONMENT"
 
 #: ../../admin/config.rst:1653
 msgid "Configures environment for Sentry. Defaults to ``devel``."
-msgstr ""
+msgstr "Configure l'environment pour Sentry. Valeur par défaut ``devel``."
 
 #: ../../admin/config.rst:1658
 msgid "SENTRY_PROFILES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_PROFILES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1660
 msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
+"Configurer le taux d'échantillonnage pour la gestion des performances. "
+"Mettre à 1 pour tracer tous les événements, 0 (valeur par défaut) désactive "
+"toutes les traces."
 
 #: ../../admin/config.rst:1664
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_"
 msgstr ""
+"`Gestion des performances Sentry <https://docs.sentry.io/product/performance/"
+">`_"
 
 #: ../../admin/config.rst:1669
 #, fuzzy
@@ -9853,6 +9881,8 @@ msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "off by default."
 msgstr ""
+"Autorise Sentry à collecter certaines informations personnelles permettant "
+"l'identification. Désactivé par défaut."
 
 #: ../../admin/config.rst:1675
 #, fuzzy
@@ -9862,7 +9892,7 @@ msgstr "Cette fonction est désactivée par défaut."
 
 #: ../../admin/config.rst:1680
 msgid "SENTRY_TRACES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_TRACES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1682
 msgid ""
@@ -47083,11 +47113,11 @@ msgstr "Exemples :"
 
 #: ../../user/checks.rst:1687
 msgid "Warns?"
-msgstr ""
+msgstr "Avertir ?"
 
 #: ../../user/checks.rst:1687
 msgid "Reason"
-msgstr ""
+msgstr "Motif"
 
 #: ../../user/checks.rst:1689
 #, fuzzy
@@ -47097,7 +47127,7 @@ msgstr "``threshold``"
 
 #: ../../user/checks.rst:1689
 msgid "The ``<four`` part would be lost as ``.innerHTML``."
-msgstr ""
+msgstr "La partie ``<four`` sera ignorée en tant que ``.innerHTML``."
 
 #: ../../user/checks.rst:1690
 #, fuzzy
@@ -47107,7 +47137,7 @@ msgstr "``threshold``"
 
 #: ../../user/checks.rst:1690
 msgid "The ``.innerHTML`` would match the ``.textContent``."
-msgstr ""
+msgstr "``.innerHTML`` devrait correspondre à ``.textContent``."
 
 #: ../../user/checks.rst:1691
 #, fuzzy
@@ -47130,6 +47160,8 @@ msgstr "``threshold``"
 #: ../../user/checks.rst:1692
 msgid "``four`` is not a HTML void element, so should not self-close."
 msgstr ""
+"``four`` n'est pas un élément void HTML, donc l'auto-fermeture n'est pas "
+"autorisée."
 
 #: ../../user/checks.rst:1693
 #, fuzzy
@@ -47139,27 +47171,27 @@ msgstr "``md-text``"
 
 #: ../../user/checks.rst:1693
 msgid "Custom element tag with a matching closing tag."
-msgstr ""
+msgstr "Balise d'élément personnalisée avec sa balise fermante associée."
 
 #: ../../user/checks.rst:1694
 msgid "``a <img/> b``"
-msgstr ""
+msgstr "``a <img/> b``"
 
 #: ../../user/checks.rst:1694
 msgid "``img`` is a HTML void element. Self-closing is allowed."
-msgstr ""
+msgstr "``img`` est un élément void HTML. L'auto-fermeture est autorisée."
 
 #: ../../user/checks.rst:1695
 msgid "``a <br> b``"
-msgstr ""
+msgstr "``a <br> b``"
 
 #: ../../user/checks.rst:1695
 msgid "``br`` is a HTML void element."
-msgstr ""
+msgstr "``br`` est un élément void HTML."
 
 #: ../../user/checks.rst:1696
 msgid "``<img class=a/>``"
-msgstr ""
+msgstr "``<img class=a/>``"
 
 #: ../../user/checks.rst:1696
 #, fuzzy
@@ -50214,16 +50246,12 @@ msgstr ""
 "certain temps jusqu’à ce que vous puissiez recommencer l’opération."
 
 #: ../../user/translating.rst:398
-#, fuzzy
-#| msgid ""
-#| "The default limits are described in the administrative manual in :ref:"
-#| "`rate-limit`, but can be tweaked by configuration."
 msgid ""
 "Default limits and fine-tuning is described in the administrative manual, "
 "see :ref:`rate-limit`."
 msgstr ""
-"Les limites par défaut sont décrites dans le manuel d’administration dans :"
-"ref:`rate-limit`, mais elles peuvent être configurées."
+"Les limites par défaut et l'affinage du paramètrage sont décrits dans le "
+"manuel d’administration, voir :ref:`rate-limit`."
 
 #: ../../user/translating.rst:404
 msgid "Search and replace"
@@ -50236,42 +50264,30 @@ msgid ""
 msgstr ""
 
 #: ../../user/translating.rst:411
-#, fuzzy
-#| msgid ""
-#| "Don’t worry about messing up the strings. This is a two-step process "
-#| "showing a preview of edited strings before the actual change is confirmed."
 msgid ""
 "Don't worry about messing up the strings, as it is a two-step process. A "
 "preview of edited strings is shown before confirming the change."
 msgstr ""
-"Rassurez-vous, il n’y a aucun risque de causer des dommages. Il s’agit d’un "
-"processus à deux étapes affichant d’abord un aperçu des chaînes modifiées "
-"avant que les modifications ne soient confirmées."
+"Rassurez-vous, il n’y a aucun risque de causer des dommages car il s’agit d’"
+"un processus à deux étapes. Un aperçu des chaînes modifiées est d'abord "
+"affiché avant de confirmer les modifications."
 
 #: ../../user/translating.rst:419
-#, fuzzy
-#| msgid ""
-#| "Bulk edit allows you to perform operation on number of strings. You "
-#| "define search strings and operation to perform and all matching strings "
-#| "are updated. Following operations are supported:"
 msgid ""
 "Bulk editing allows performing one operation for multiple strings. Define "
 "strings by searching for them and actions to perform on matching ones. "
 "Supported operations:"
 msgstr ""
-"La modification en masse vous permet d’effectuer des opérations sur un "
-"certain nombre de chaînes de caractères. Vous définissez les chaînes de "
-"recherche et l’opération à effectuer et toutes les chaînes correspondantes "
-"sont mises à jour. Les opérations suivantes sont prises en charge :"
+"La modification en masse vous permet d’effectuer une opération sur plusieurs "
+"chaînes de caractères. Vous définissez les chaînes cible en les recherchant "
+"et vous effectuez les opérations sur les chaînes ainsi trouvées. Les "
+"opérations suivantes sont prises en charge :"
 
 #: ../../user/translating.rst:423
-#, fuzzy
-#| msgid ""
-#| "Changing string state (for example to approve all unreviewed strings)."
 msgid "Change string state (for example to approve all unreviewed strings)."
 msgstr ""
-"Changement de l’état des chaînes (par exemple pour approuver toutes les "
-"chaînes non révisées)."
+"Changer l’état des chaînes (par exemple pour approuver toutes les chaînes "
+"non révisées)."
 
 #: ../../user/translating.rst:424
 msgid "Adjust translation flags (see :ref:`custom-checks`)"
@@ -50282,26 +50298,18 @@ msgid "Adjust string labels (see :ref:`labels`)"
 msgstr "Ajustement des libellés de chaînes de caractères (voir :ref:`labels`)"
 
 #: ../../user/translating.rst:429
-#, fuzzy
-#| msgid ""
-#| "This tool is called :guilabel:`Bulk edit` accessible in the :guilabel:"
-#| "`Tools` menu for each project, component or translation."
 msgid ""
 "This tool is called :guilabel:`Bulk edit`, accessible in the :guilabel:"
 "`Tools` menu of each project, component or translation."
 msgstr ""
-"Cet outil est appelé :guilabel:`Modification en masse` accessible dans le "
-"menu :guilabel:`Outils` pour chaque projet, composant et traduction."
+"Cet outil est appelé :guilabel:`Modification en masse` accessible dans le "
+"menu :guilabel:`Outils` de chaque projet, composant et traduction."
 
 #: ../../user/translating.rst:436
-#, fuzzy
-#| msgid ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
-msgstr ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
+msgstr ":ref:`greffon de modification en masse <addon-weblate.flags.bulk>`"
 
 #: ../../user/translating.rst:439
-#, fuzzy
-#| msgid "Matrix view"
 msgid "Matrix View"
 msgstr "Vue matricielle"
 
@@ -50320,8 +50328,6 @@ msgid ""
 msgstr ""
 
 #: ../../user/translating.rst:450
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Zen Mode"
 msgstr "Mode Zen"
 
@@ -50832,14 +50838,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:346
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:"
-#| "`GITHUB_TOKEN`, :setting:`GITHUB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :"
-"setting:`GITHUB_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:355
 msgid "GitLab merge requests"
@@ -50868,20 +50868,12 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:372
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:"
-#| "`GITLAB_TOKEN`, :setting:`GITLAB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :"
-"setting:`GITLAB_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:381
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull requests"
-msgstr "Demande de tirage GitHub"
+msgstr "Tirages GitHub demandés"
 
 #: ../../vcs.rst:385
 msgid ""
@@ -50906,20 +50898,12 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:400
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:"
-#| "`GITLAB_TOKEN`, :setting:`GITLAB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :"
-"setting:`GITLAB_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:409
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Bitbucket Server pull requests"
-msgstr "Demande de tirage Gitea"
+msgstr "Poussées Bitbucket Server demandées"
 
 #: ../../vcs.rst:413
 msgid ""
@@ -50949,14 +50933,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:433
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:"
-#| "`GITHUB_TOKEN`, :setting:`GITHUB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :"
-"setting:`GITHUB_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
 
 #: ../../vcs.rst:442
 msgid "Pagure merge requests"
@@ -50985,10 +50963,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:461
-#, fuzzy
-#| msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgid ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
-msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
+msgstr ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
 
 #: ../../vcs.rst:469
 msgid "Gerrit"
@@ -51008,10 +50984,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:482
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull requests"
-msgstr "Pull request du serveur Bitbucket"
+msgstr "Poussées Azure DevOps demandées"
 
 #: ../../vcs.rst:484
 msgid ""
@@ -51035,10 +51009,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:497
-#, fuzzy
-#| msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgid ":ref:`push-changes`, :setting:`AZURE_DEVOPS_CREDENTIALS`"
-msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
+msgstr ":ref:`push-changes`, :setting:`AZURE_DEVOPS_CREDENTIALS`"
 
 #: ../../vcs.rst:507
 msgid "Mercurial"
@@ -51213,6 +51185,9 @@ msgid ""
 "see :ref:`wlc-config`. The URL should end with ``/api/``, for example "
 "``https://hosted.weblate.org/api/``."
 msgstr ""
+"Spécifier l'URL de l'API. Redéfinit toute valeur présente dans le fichier de "
+"configuration, voir :ref:`wlc-config`. L’URL doit se terminer par ``/api/``, "
+"par exemple ``https://hosted.weblate.org/api/``."
 
 #: ../../wlc.rst:121
 msgid ""
@@ -51489,6 +51464,7 @@ msgstr "Le fichier de configuration est un fichier INI, par exemple :"
 #: ../../wlc.rst:330
 msgid "Additionally API keys can be stored in the ``[keys]`` section:"
 msgstr ""
+"De plus, les clés d'API peuvent être stockées dans la section ``[keys]`` :"
 
 #: ../../wlc.rst:337
 msgid ""
@@ -51496,6 +51472,9 @@ msgid ""
 "file:`.weblate` configuration in the VCS repository so that wlc knows which "
 "server it should talk to."
 msgstr ""
+"Cela vous permet de stocker les clés dans vos paramètres personnels tout en "
+"utilisant les paramètres :file:`.weblate` dans le dépôt VCS de sorte à ce "
+"que wlc sache avec quel serveur il doit dialoguer."
 
 #: ../../wlc.rst:342
 msgid "Examples"
@@ -51515,37 +51494,36 @@ msgstr "Téléverser un fichier de traduction :"
 
 #: ../../wlc.rst:368
 msgid "You can also designate what project wlc should work on:"
-msgstr ""
+msgstr "Vous pouvez aussi déclarer le projet sur lequel wlc va travailler :"
 
 #: ../../wlc.rst:396
 msgid ""
 "With this setup it is easy to commit pending changes in the current project:"
 msgstr ""
+"Avec ce paramètre il est facile de valider les modifications en attente dans "
+"le projet en cours :"
 
 #: ../../workflows.rst:4
 msgid "Translation workflows"
 msgstr "Flux de travail de traduction"
 
 #: ../../workflows.rst:6
-#, fuzzy
-#| msgid ""
-#| "Using Weblate is a process that brings your users closer to you, by "
-#| "bringing you closer to your translators.  It is up to you to decide how "
-#| "many of its features you want to make use of."
 msgid ""
 "Using Weblate raises quality, reduces manual work, and brings everyone "
 "involved in the localization process closer to each other. It is up to you "
 "to decide how many of Weblate features you want to make use of."
 msgstr ""
-"L’utilisation de Weblate est un processus qui rapproche vos utilisateurs de "
-"vous, en vous rapprochant de vos traducteurs. C’est à vous de décider du "
-"nombre de fonctionnalités que vous souhaitez utiliser."
+"L’utilisation de Weblate améliore la qualité, réduit le travail manuel, et "
+"permet de rapprocher les traducteurs. C’est à vous de décider du nombre de "
+"fonctionnalités Weblate que vous souhaitez utiliser."
 
 #: ../../workflows.rst:10
 msgid ""
 "The following is not a complete list of ways to configure Weblate. You can "
 "base other workflows on the examples listed here."
 msgstr ""
+"Ce qui suit n'est pas la liste complète des moyens de configurer Weblate. "
+"Vous pouvez baser les autres flux de travail sur les exemples fournis ici."
 
 #: ../../workflows.rst:16
 msgid "Workflow customization"
@@ -51558,16 +51536,24 @@ msgid ""
 "`component-suggestion_voting`, and :ref:`component-suggestion_autoaccept`), "
 "the translation workflow can be customized per language."
 msgstr ""
+"En plus des paramètres sur :ref:`project` et :ref:`component` (comme :ref"
+":`project-translation_review`, :ref:`component-enable_suggestions`, :ref"
+":`component-suggestion_voting`, et :ref:`component-suggestion_autoaccept`), "
+"le flux de travail des traductions peut être personnalisé par langue."
 
 #: ../../workflows.rst:24
 msgid ""
 "Site-wide workflow customization can be done while :ref:`changing-languages`."
 msgstr ""
+"La personnalisation du flux de travail gloabal au site peut être faite "
+"pendant :ref:`changing-languages`."
 
 #: ../../workflows.rst:26
 msgid ""
 "Per-project customization can be done on each language page of the project."
 msgstr ""
+"La personnalisation par projet peut être faite sur chaque page de langue du "
+"projet."
 
 #: ../../workflows.rst:28
 msgid ""
@@ -51575,34 +51561,34 @@ msgid ""
 "`project-translation_review` needs to be turned on and can only be disabled "
 "in customization."
 msgstr ""
+"Tous les paramètres du flux de travail peuvent être redéfinis, la seule "
+"limitation est que :ref:`project-translation_review` doit être activé et ne "
+"peut être désactivé que par personnalisation."
 
 #: ../../workflows.rst:32
 msgid "The first existing setting applies:"
-msgstr ""
+msgstr "Les premiers paramètres existants sont appliqués :"
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid "Project language to remove"
 msgid "Project-language customization"
-msgstr "Langue du projet à supprimer"
+msgstr "Personnaliser la langue du projet"
 
 #: ../../workflows.rst:35
-#, fuzzy
-#| msgid "Reset customization"
 msgid "Language customization"
-msgstr "Ré-initialiser la personnalisation"
+msgstr "Personnaliser la langue"
 
 #: ../../workflows.rst:36
-#, fuzzy
-#| msgid "Move component"
 msgid "The project/component settings"
-msgstr "Déplacer le composant"
+msgstr "Paramètres du projet ou du composant"
 
 #: ../../workflows.rst:40
 msgid ""
 "Please be careful when using site-wide override as that applies to all "
 "projects (unless they have own overrides for a given language)."
 msgstr ""
+"Soyez très attentif quand vous utilisez des redéfinitions globales à tout le "
+"site car celles-ci s'appliquent à tous les projets (sauf si à leur tour "
+"elles possèdent des redéfinitions pour une langue donnée)."
 
 #: ../../workflows.rst:45
 msgid "Translation access"
@@ -51615,6 +51601,10 @@ msgid ""
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
+"Le :ref:`contrôle d'accès <access-control>` n'est pas détaillé complètement "
+"dans les flux de travail, car la plupart de ses options peuvent être "
+"appliquées à n'importe quel d'entre-eux. Voir la documentation respective "
+"sur la manière de gérer l'accès aux traductions."
 
 #: ../../workflows.rst:52
 msgid ""
@@ -51628,10 +51618,8 @@ msgstr ""
 ":guilabel:`Traducteur` sur le projet."
 
 #: ../../workflows.rst:61
-#, fuzzy
-#| msgid "Each translated string can be in one of following states:"
 msgid "Each translated string can be in one of the following states:"
-msgstr "Chaque chaîne traduite peut être dans l'un des états suivants :"
+msgstr "Chaque chaîne traduite peut être dans l'un des états suivants :"
 
 #: ../../workflows.rst:63
 msgid "Untranslated"
@@ -51656,6 +51644,11 @@ msgid ""
 "the file, depending on the file format it might be marked as needing edit "
 "(for example as it gets a ``fuzzy`` flag in the gettext file)."
 msgstr ""
+"Traduction à modifier, c'est habituellement le résultat d'une modification "
+"de la chaîne de caractères source, d'une diffusion générale ou d'une action "
+"du traducteur. La traduction est stockée dans le fichier, en fonction du "
+"format de celui-ci, elle peut être marquée comme nécessitant une correction ("
+"par exemple quand elle reçoit une marque ``fuzzy`` dans le fichier gettext)."
 
 #: ../../workflows.rst:70
 msgid "Waiting for review"
@@ -51873,9 +51866,8 @@ msgstr ""
 "chaînes approuvées."
 
 #: ../../workflows.rst:190
-#, fuzzy
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
-msgstr "Ou `Relecture` avec :ref:`per-project access control <manage-acl>`."
+msgstr "Ou `Relecture` avec :ref:`contrôle d'accès par projet <manage-acl>`."
 
 #: ../../workflows.rst:196
 msgid "Turning on reviews"
@@ -51973,7 +51965,7 @@ msgstr ""
 
 #: ../../workflows.rst:284
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
-msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 
 #~ msgid "Not yet released."
 #~ msgstr "Version non publiée pour le moment."
