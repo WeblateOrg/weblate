@@ -12,7 +12,9 @@ from itertools import chain
 from operator import and_, or_
 from typing import Any, cast, overload
 
-from dateparser import parse
+from dateparser import parse as dateparser_parse
+from dateutil.parser import ParserError
+from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
 from django.db.models import Q, Value
 from django.db.utils import DataError
@@ -203,6 +205,7 @@ class BaseTermExpr:
         microsecond: int = 0,
     ) -> datetime: ...
     def convert_datetime(self, text, hour=5, minute=55, second=55, microsecond=0):
+        tzinfo = timezone.get_current_timezone()
         if isinstance(text, RangeExpr):
             return (
                 self.convert_datetime(
@@ -214,7 +217,6 @@ class BaseTermExpr:
             )
         if text.isdigit() and len(text) == 4:
             year = int(text)
-            tzinfo = timezone.get_current_timezone()
             return (
                 datetime(
                     year=year,
@@ -240,9 +242,31 @@ class BaseTermExpr:
 
         # Attempts to parse the text using dateparser
         # If the text is unparsable it will return None
-        result = parse(text)
+        result = dateparser_parse(text)
         if not result:
-            result = timezone.now()
+            try:
+                # Here we inject 5:55:55 time and if that was not changed
+                # during parsing, we assume it was not specified while
+                # generating the query
+                result = dateutil_parse(
+                    text,
+                    default=timezone.now().replace(
+                        hour=hour, minute=minute, second=second, microsecond=microsecond
+                    ),
+                )
+            except ParserError as error:
+                raise ValueError(
+                    gettext("Invalid timestamp: {}").format(error)
+                ) from error
+
+        result = result.replace(
+            hour=hour,
+            minute=minute,
+            second=second,
+            microsecond=microsecond,
+            tzinfo=tzinfo,
+        )
+        if result.hour == 5 and result.minute == 55 and result.second == 55:
             return (
                 result.replace(hour=0, minute=0, second=0, microsecond=0),
                 result.replace(hour=23, minute=59, second=59, microsecond=999999),
