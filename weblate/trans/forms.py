@@ -1179,6 +1179,7 @@ class NewLanguageForm(NewLanguageOwnerForm):
             super()
             .get_lang_objects()
             .filter(Q(code__in=codes) | Q(component__project=self.component.project))
+            .distinct()
         )
 
     def __init__(self, component, *args, **kwargs) -> None:
