@@ -58,31 +58,7 @@ $(document).ready(() => {
               if (!results || results.length === 0) {
                 $searchPreview.text(gettext("No results found"));
               } else {
-                for (const result of results) {
-                  const key = result.context;
-                  const source = result.source;
-                  const sourceHighlighted = highlightMatch(
-                    userSearchInput,
-                    source.toString(),
-                  );
-
-                  // Make the URL relative
-                  const url = result.web_url.replace(/^(?:\/\/|[^/]+)*\//, "/");
-                  const resultHtml = `
-                    <a href="${url}" target="_blank" id="search-result" rel="noopener noreferrer">
-                      <small>${key}</small>
-                      <div>
-                        ${sourceHighlighted}
-                      </div>
-                    </a>
-                  `;
-
-                  // Some results are not relevant (case in-sensetive), so we filter them out
-                  if (sourceHighlighted === source) {
-                    return;
-                  }
-                  $searchPreview.append(resultHtml);
-                }
+                showResults(results, userSearchInput);
               }
             },
             error: (error) => {
@@ -119,6 +95,40 @@ $(document).ready(() => {
       $searchPreview.html("");
       $searchPreview.hide();
     });
+
+    /**
+     * Handles the search results and displays them in the preview element.
+     * @param {any} results fetched search results
+     * @param {string} userSearchInput the search input from the user unmofified
+     * @returns void
+     */
+    function showResults(results, userSearchInput) {
+      for (const result of results) {
+        const key = result.context;
+        const source = result.source;
+        const sourceHighlighted = highlightMatch(
+          userSearchInput,
+          source.toString(),
+        );
+
+        // Make the URL relative
+        const url = result.web_url.replace(/^[a-zA-Z]+:\/\/[^/]+\//, "/");
+        const resultHtml = `
+          <a href="${url}" target="_blank" id="search-result" rel="noopener noreferrer">
+            <small>${key}</small>
+            <div>
+              ${sourceHighlighted}
+            </div>
+          </a>
+        `;
+
+        // Some results are not relevant (case in-sensetive), so we filter them out
+        if (sourceHighlighted === source) {
+          return;
+        }
+        $searchPreview.append(resultHtml);
+      }
+    }
   }
 
   /**
