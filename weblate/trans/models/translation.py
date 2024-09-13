@@ -998,6 +998,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 state,
                 change_action=Change.ACTION_UPLOAD,
                 propagate=propagate,
+                author=request.user,
+                request=request,
             )
 
         if accepted > 0:
