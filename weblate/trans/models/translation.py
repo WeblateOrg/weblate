@@ -571,14 +571,14 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return User.objects.get(pk=self.stats.last_author).get_visible_name()
 
     @transaction.atomic
-    def commit_pending(self, reason: str, user: User, skip_push: bool = False):
+    def commit_pending(self, reason: str, user: User | None, skip_push: bool = False):
         """Commit any pending changes."""
         if not self.needs_commit():
             return False
         return self.component.commit_pending(reason, user, skip_push=skip_push)
 
     @transaction.atomic
-    def _commit_pending(self, reason: str, user: User) -> bool:
+    def _commit_pending(self, reason: str, user: User | None) -> bool:
         """
         Commit pending translation.
 
@@ -667,7 +667,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def git_commit(
         self,
-        user,
+        user: User | None,
         author: str,
         timestamp: datetime | None = None,
         skip_push=False,
@@ -998,6 +998,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 state,
                 change_action=Change.ACTION_UPLOAD,
                 propagate=propagate,
+                author=request.user,
+                request=request,
             )
 
         if accepted > 0:

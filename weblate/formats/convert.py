@@ -119,7 +119,7 @@ class ConvertFormat(TranslationFormat):
     can_delete_unit = False
     can_edit_base: bool = False
     unit_class: type[TranslationUnit] = ConvertPoUnit
-    autoaddon = {"weblate.flags.same_edit": {}}
+    autoaddon = {"weblate.flags.same_edit": {}, "weblate.cleanup.generic": {}}
     create_style = "copy"
     units: list[TranslateToolkitUnit]
     store: TranslationStore

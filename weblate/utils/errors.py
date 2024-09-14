@@ -35,7 +35,7 @@ except ImportError:
 
 
 def report_error(
-    cause: str = "Handled exception",
+    cause: str,
     *,
     level: Literal[
         "fatal", "critical", "error", "warning", "info", "debug"

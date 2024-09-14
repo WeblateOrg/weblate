@@ -1,9 +1,16 @@
 {% extends "mail/base.html" %}
 
+{% load static %}
+{% load compress %}
+
 {% load i18n %}{% load translations %}
 
+{% block extra_styles %}
+    <style>
+        {% include "mail/styles/digest.css" %}
+    </style>
+{% endblock %}
+
 {% block content %}
-
-{% include "last-changes-content.html" with in_email=True last_changes=changes %}
-
+    {% include "last-changes-content.html" with in_email=True last_changes=changes %}
 {% endblock %}

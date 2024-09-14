@@ -345,6 +345,7 @@ class BaseStats:
 
     def clear(self) -> None:
         """Clear local cache."""
+        self._loaded = True
         self._data = {}
 
     def store(self, key: str, value: StatItem) -> None:

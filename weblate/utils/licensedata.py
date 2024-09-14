@@ -1115,6 +1115,24 @@ LICENSES = (
         True,
     ),
     ("DOC", "DOC License", "https://spdx.org/licenses/DOC.html", False),
+    (
+        "DocBook-Schema",
+        "DocBook Schema License",
+        "https://spdx.org/licenses/DocBook-Schema.html",
+        False,
+    ),
+    (
+        "DocBook-Stylesheet",
+        "DocBook Stylesheet License",
+        "https://spdx.org/licenses/DocBook-Stylesheet.html",
+        False,
+    ),
+    (
+        "DocBook-XML",
+        "DocBook XML License",
+        "https://spdx.org/licenses/DocBook-XML.html",
+        False,
+    ),
     ("Dotseqn", "Dotseqn License", "https://spdx.org/licenses/Dotseqn.html", False),
     ("DSDP", "DSDP License", "https://spdx.org/licenses/DSDP.html", False),
     ("dvipdfm", "dvipdfm License", "https://spdx.org/licenses/dvipdfm.html", False),
@@ -2015,6 +2033,12 @@ LICENSES = (
         False,
     ),
     (
+        "MIT-Click",
+        "MIT Click License",
+        "https://spdx.org/licenses/MIT-Click.html",
+        False,
+    ),
+    (
         "MIT-Festival",
         "MIT Festival Variant",
         "https://spdx.org/licenses/MIT-Festival.html",
@@ -2127,7 +2151,6 @@ LICENSES = (
         "https://spdx.org/licenses/NBPL-1.0.html",
         False,
     ),
-    ("Net-SNMP", "Net-SNMP License", "https://spdx.org/licenses/Net-SNMP.html", False),
     ("NetCDF", "NetCDF license", "https://spdx.org/licenses/NetCDF.html", False),
     (
         "NGPL",
@@ -2913,7 +2936,19 @@ LICENSES = (
         "https://spdx.org/licenses/TOSL.html",
         False,
     ),
+    (
+        "TrustedQSL",
+        "TrustedQSL License",
+        "https://spdx.org/licenses/TrustedQSL.html",
+        False,
+    ),
     ("TTYP0", "TTYP0 License", "https://spdx.org/licenses/TTYP0.html", False),
+    (
+        "Ubuntu-font-1.0",
+        "Ubuntu Font Licence v1.0",
+        "https://spdx.org/licenses/Ubuntu-font-1.0.html",
+        False,
+    ),
     ("UCAR", "UCAR License", "https://spdx.org/licenses/UCAR.html", False),
     ("ulem", "ulem License", "https://spdx.org/licenses/ulem.html", False),
     (
@@ -2993,7 +3028,7 @@ LICENSES = (
         "W3C-20150513",
         "W3C Software Notice and Document License (2015-05-13)",
         "https://spdx.org/licenses/W3C-20150513.html",
-        False,
+        True,
     ),
     (
         "W3C-19980720",

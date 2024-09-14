@@ -27,7 +27,7 @@ $(document).ready(() => {
             const blob = await clipboardItem.getType(type);
             const reader = new FileReader();
             reader.onload = (_event) => {
-              if ($screenshotFileInput.length) {
+              if ($screenshotFileInput.length > 0) {
                 // Load the file data into the form input
                 const fileName = `screenshot_${Date.now()}.${type.split("/")[1]}`;
                 const imageFile = new File([blob], fileName, { type: type });

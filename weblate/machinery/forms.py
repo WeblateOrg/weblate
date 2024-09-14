@@ -313,6 +313,17 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         initial="default",
         required=False,
     )
+    context = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Translation context",
+        ),
+        widget=forms.Textarea,
+        help_text=gettext_lazy(
+            "Describe the context of the translation to improve the accuracy of the translation."
+        ),
+        required=False,
+    )
 
 
 class OpenAIMachineryForm(KeyMachineryForm):

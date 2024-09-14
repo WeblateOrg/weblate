@@ -28,7 +28,7 @@ from weblate.lang.models import Language, PluralMapper
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.requests import request
-from weblate.utils.search import Comparer
+from weblate.utils.similarity import Comparer
 from weblate.utils.site import get_site_url
 
 if TYPE_CHECKING:

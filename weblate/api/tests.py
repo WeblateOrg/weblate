@@ -29,6 +29,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.test_models import fixup_languages_seq
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
+from weblate.utils.data import data_dir
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
@@ -1396,6 +1397,33 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertIn("file_format", response.data)
 
+    def test_create_component_link(self) -> None:
+        repo_url = self.format_local_path(self.git_repo_path)
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "repo": "weblate://test/test",
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+        self.assertEqual(Component.objects.count(), 3)
+        component = Component.objects.get(slug="api-project", project__slug="test")
+        self.assertEqual(component.repo, "weblate://test/test")
+        self.assertEqual(component.full_path, self.component.full_path)
+        self.assertEqual(response.data["repo"], repo_url)
+
+        # Verify that the repo was not checked out
+        real_path = os.path.join(data_dir("vcs"), *component.get_url_path())
+        self.assertFalse(os.path.exists(real_path))
+
     def test_create_component_no_push(self) -> None:
         repo_url = self.format_local_path(self.git_repo_path)
         response = self.do_request(
@@ -1414,7 +1442,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Component.objects.count(), 3)
-        # Auto linking in place
+        # Verify auto linking is in place
         self.assertEqual(
             Component.objects.get(slug="api-project", project__slug="test").repo,
             "weblate://test/test",
@@ -1445,7 +1473,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Component.objects.count(), 3)
-        # Auto linking in place
+        # Verify auto linking is in place
         self.assertEqual(
             Component.objects.get(slug="api-project", project__slug="test").repo,
             "weblate://test/test",

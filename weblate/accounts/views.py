@@ -22,7 +22,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView, LogoutView, RedirectURLMixin
+from django.contrib.auth.views import LoginView, RedirectURLMixin
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.core.mail.message import EmailMultiAlternatives
 from django.core.signing import (
@@ -76,6 +76,7 @@ from social_core.backends.open_id import OpenIdAuth
 from social_core.exceptions import (
     AuthAlreadyAssociated,
     AuthCanceled,
+    AuthException,
     AuthFailed,
     AuthForbidden,
     AuthMissingParameter,
@@ -117,14 +118,9 @@ from weblate.accounts.forms import (
 )
 from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
-    FREQ_INSTANT,
-    FREQ_NONE,
     NOTIFICATIONS,
-    SCOPE_ADMIN,
-    SCOPE_ALL,
-    SCOPE_COMPONENT,
-    SCOPE_PROJECT,
-    SCOPE_WATCHED,
+    NotificationFrequency,
+    NotificationScope,
     send_notification_email,
 )
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
@@ -142,6 +138,7 @@ from weblate.auth.models import (
     AuthenticatedHttpRequest,
     Invitation,
     User,
+    get_anonymous,
     get_auth_keys,
 )
 from weblate.auth.utils import format_address
@@ -290,20 +287,24 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
     initials: dict[tuple[int, int, int], dict[str, Any]] = {}
 
     # Ensure watched, admin and all scopes are visible
-    for needed in (SCOPE_WATCHED, SCOPE_ADMIN, SCOPE_ALL):
+    for needed in (
+        NotificationScope.SCOPE_WATCHED,
+        NotificationScope.SCOPE_ADMIN,
+        NotificationScope.SCOPE_ALL,
+    ):
         key = (needed, -1, -1)
         subscriptions[key] = {}
         initials[key] = {"scope": needed, "project": None, "component": None}
-    active = (SCOPE_WATCHED, -1, -1)
+    active = (NotificationScope.SCOPE_WATCHED, -1, -1)
 
     # Include additional scopes from request
     if "notify_project" in request.GET:
         try:
             project = user.allowed_projects.get(pk=request.GET["notify_project"])
-            active = key = (SCOPE_PROJECT, project.pk, -1)
+            active = key = (NotificationScope.SCOPE_PROJECT, project.pk, -1)
             subscriptions[key] = {}
             initials[key] = {
-                "scope": SCOPE_PROJECT,
+                "scope": NotificationScope.SCOPE_PROJECT,
                 "project": project,
                 "component": None,
             }
@@ -314,10 +315,10 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
             component = Component.objects.filter_access(user).get(
                 pk=request.GET["notify_component"],
             )
-            active = key = (SCOPE_COMPONENT, -1, component.pk)
+            active = key = (NotificationScope.SCOPE_COMPONENT, -1, component.pk)
             subscriptions[key] = {}
             initials[key] = {
-                "scope": SCOPE_COMPONENT,
+                "scope": NotificationScope.SCOPE_COMPONENT,
                 "component": component,
             }
         except (ObjectDoesNotExist, ValueError):
@@ -839,23 +840,31 @@ class WeblateLoginView(LoginView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class WeblateLogoutView(LogoutView):
-    """Logout handler, just a wrapper around standard Django logout."""
+class WeblateLogoutView(TemplateView):
+    """
+    Logout handler, just a reimplementation of standard Django logout.
 
+    - no redirect support
+    - login_required decorator
+    """
+
+    http_method_names = ["post", "options"]
+    template_name = "registration/logged_out.html"
     request: AuthenticatedHttpRequest
 
     @method_decorator(require_POST)
     @method_decorator(login_required)
     @method_decorator(never_cache)
-    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
-        messages.info(self.request, gettext("Thank you for using Weblate."))
-        return super().dispatch(request, *args, **kwargs)
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
+        """Logout may be done via POST."""
+        auth_logout(request)
+        request.user = get_anonymous()
+        return super().get(request, *args, **kwargs)
 
-    def get_default_redirect_url(self):
-        # Avoid need for LOGOUT_REDIRECT_URL to be configured
-        if not settings.LOGOUT_REDIRECT_URL:
-            return reverse("home")
-        return super().get_default_redirect_url()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = gettext("Signed out")
+        return context
 
 
 def fake_email_sent(request: AuthenticatedHttpRequest, reset: bool = False):
@@ -1136,12 +1145,16 @@ def watch(request: AuthenticatedHttpRequest, path):
         project = obj.project
 
         # Mute project level subscriptions
-        mute_real(user, scope=SCOPE_PROJECT, component=None, project=project)
+        mute_real(
+            user, scope=NotificationScope.SCOPE_PROJECT, component=None, project=project
+        )
         # Manually enable component level subscriptions
-        for default_subscription in user.subscription_set.filter(scope=SCOPE_WATCHED):
+        for default_subscription in user.subscription_set.filter(
+            scope=NotificationScope.SCOPE_WATCHED
+        ):
             subscription, created = user.subscription_set.get_or_create(
                 notification=default_subscription.notification,
-                scope=SCOPE_COMPONENT,
+                scope=NotificationScope.SCOPE_COMPONENT,
                 component=obj,
                 project=None,
                 defaults={"frequency": default_subscription.frequency},
@@ -1174,7 +1187,7 @@ def mute_real(user: User, **kwargs) -> None:
         try:
             subscription = user.subscription_set.get_or_create(
                 notification=notification_cls.get_name(),
-                defaults={"frequency": FREQ_NONE},
+                defaults={"frequency": NotificationFrequency.FREQ_NONE},
                 **kwargs,
             )[0]
         except Subscription.MultipleObjectsReturned:
@@ -1185,8 +1198,8 @@ def mute_real(user: User, **kwargs) -> None:
             for subscription in subscriptions[1:]:
                 subscription.delete()
             subscription = subscriptions[0]
-        if subscription.frequency != FREQ_NONE:
-            subscription.frequency = FREQ_NONE
+        if subscription.frequency != NotificationFrequency.FREQ_NONE:
+            subscription.frequency = NotificationFrequency.FREQ_NONE
             subscription.save(update_fields=["frequency"])
 
 
@@ -1195,11 +1208,18 @@ def mute_real(user: User, **kwargs) -> None:
 def mute(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component, Project))
     if isinstance(obj, Component):
-        mute_real(request.user, scope=SCOPE_COMPONENT, component=obj, project=None)
+        mute_real(
+            request.user,
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=obj,
+            project=None,
+        )
         return redirect(
             "{}?notify_component={}#notifications".format(reverse("profile"), obj.pk)
         )
-    mute_real(request.user, scope=SCOPE_PROJECT, component=None, project=obj)
+    mute_real(
+        request.user, scope=NotificationScope.SCOPE_PROJECT, component=None, project=obj
+    )
     return redirect(
         "{}?notify_project={}#notifications".format(reverse("profile"), obj.pk)
     )
@@ -1305,7 +1325,12 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
                 salt="weblate.authid",
             )
         )
-    return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
+    try:
+        return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
+    except AuthException as error:
+        report_error("Could not authenticate")
+        messages.error(request, gettext("Could not authenticate: %s") % error)
+        return redirect("login")
 
 
 def auth_fail(request: AuthenticatedHttpRequest, message: str):
@@ -1347,12 +1372,13 @@ def handle_missing_parameter(
     request: AuthenticatedHttpRequest, backend: str, error: AuthMissingParameter
 ):
     if backend != "email" and error.parameter == "email":
-        return auth_fail(
-            request,
+        messages = [
             gettext("Got no e-mail address from third party authentication service.")
-            + " "
-            + gettext("Please register using e-mail instead."),
-        )
+        ]
+        if "email" in get_auth_keys():
+            # Show only if e-mail authentication is turned on
+            messages.append(gettext("Please register using e-mail instead."))
+        return auth_fail(request, " ".join(messages))
     if error.parameter in {"email", "user", "expires"}:
         return auth_redirect_token(request)
     if error.parameter in {"state", "code"}:
@@ -1404,19 +1430,19 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
     try:
         response = complete(request, backend)
     except InvalidEmail:
-        report_error()
+        report_error("Could not register")
         return auth_redirect_token(request)
     except AuthMissingParameter as error:
-        report_error()
+        report_error("Could not register")
         result = handle_missing_parameter(request, backend, error)
         if result:
             return result
         raise
     except (AuthStateMissing, AuthStateForbidden):
-        report_error()
+        report_error("Could not register")
         return auth_redirect_state(request)
     except AuthFailed:
-        report_error()
+        report_error("Could not register")
         return auth_fail(
             request,
             gettext(
@@ -1425,10 +1451,10 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
             ),
         )
     except AuthCanceled:
-        report_error()
+        report_error("Could not register")
         return auth_fail(request, gettext("Authentication cancelled."))
     except AuthForbidden:
-        report_error()
+        report_error("Could not register")
         return auth_fail(request, gettext("The server does not allow authentication."))
     except EmailAlreadyAssociated:
         return registration_fail(
@@ -1450,7 +1476,7 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
             ),
         )
     except ValidationError as error:
-        report_error()
+        report_error("Could not register")
         return registration_fail(request, str(error))
 
     # Finish second factor authentication
@@ -1470,8 +1496,8 @@ def subscribe(request: AuthenticatedHttpRequest):
         subscription = Subscription(
             user=request.user,
             notification=request.POST["onetime"],
-            scope=SCOPE_COMPONENT,
-            frequency=FREQ_INSTANT,
+            scope=NotificationScope.SCOPE_COMPONENT,
+            frequency=NotificationFrequency.FREQ_INSTANT,
             project=component.project,
             component=component,
             onetime=True,
@@ -1492,7 +1518,7 @@ def unsubscribe(request: AuthenticatedHttpRequest):
             subscription = Subscription.objects.get(
                 pk=int(signer.unsign(request.GET["i"], max_age=24 * 3600))
             )
-            subscription.frequency = FREQ_NONE
+            subscription.frequency = NotificationFrequency.FREQ_NONE
             subscription.save(update_fields=["frequency"])
             messages.success(request, gettext("Notification settings adjusted."))
         except (BadSignature, SignatureExpired, Subscription.DoesNotExist):

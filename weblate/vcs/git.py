@@ -48,8 +48,22 @@ class GitRepository(Repository):
     """Repository implementation for Git."""
 
     _cmd = "git"
-    _cmd_last_revision = ["log", "-n", "1", "--format=format:%H", "HEAD"]
-    _cmd_last_remote_revision = ["log", "-n", "1", "--format=format:%H", "@{upstream}"]
+    _cmd_last_revision = [
+        "log",
+        "-n",
+        "1",
+        "--format=format:%H",
+        "HEAD",
+        "--",
+    ]
+    _cmd_last_remote_revision = [
+        "log",
+        "-n",
+        "1",
+        "--format=format:%H",
+        "@{upstream}",
+        "--",
+    ]
     _cmd_list_changed_files = ["diff", "--name-status"]
     _cmd_push = ["push"]
     _cmd_status = ["--no-optional-locks", "status"]
@@ -788,12 +802,14 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def parse_repo_url(
         self, repo: str | None = None
-    ) -> tuple[str | None, str, str, str]:
+    ) -> tuple[str | None, str | None, str | None, str, str, str]:
         if repo is None:
-            repo = self.component.repo
+            repo = self.component.push or self.component.repo
         parsed = urllib.parse.urlparse(repo)
         host = parsed.hostname
         scheme: str | None = parsed.scheme
+        username: str | None = parsed.username
+        password: str | None = parsed.password
         if not host:
             # Assume SSH URL
             host, path = repo.split(":")
@@ -815,7 +831,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                 continue
             slug_parts.insert(-1, part)
         slug = "/".join(slug_parts)
-        return (scheme, host, owner, slug)
+        return (scheme, username, password, host, owner, slug)
 
     def format_url(
         self, scheme: str, hostname: str, owner: str, slug: str, **extra: str
@@ -864,28 +880,37 @@ class GitMergeRequestBase(GitForcePushRepository):
         return getattr(settings, cls.get_credentials_name())
 
     def get_credentials(self) -> dict[str, str]:
-        scheme, host, owner, slug = self.parse_repo_url()
+        scheme, username, password, host, owner, slug = self.parse_repo_url()
         hostname = self.format_api_host(host).lower()
         credentials = self.get_credentials_by_hostname(hostname)
 
         # Scheme override
         if "scheme" in credentials:
             scheme = credentials["scheme"]
+
         # Fallback to https
         if not scheme or scheme == "ssh":
             scheme = "https"
+
+        # Credentials from URL
+        push_scheme = scheme
+        if not username or not password:
+            push_scheme = "ssh"
+            username = credentials["username"]
+            password = credentials["token"]
 
         return {
             "url": self.format_url(scheme, hostname, owner, slug),
             "owner": owner,
             "slug": slug,
             "hostname": hostname,
-            "username": credentials["username"],
-            "token": credentials["token"],
+            "username": username,
+            "token": password,
             "scheme": scheme,
+            "push_scheme": push_scheme,
         }
 
-    def get_credentials_by_hostname(self, hostname):
+    def get_credentials_by_hostname(self, hostname: str) -> dict[str, str]:
         configuration = self.get_credentials_configuration()
         try:
             credentials = configuration[hostname]
@@ -900,7 +925,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         return bool(cls.get_credentials_configuration())
 
     def push_to_fork(
-        self, credentials: dict, local_branch: str, fork_branch: str
+        self, credentials: dict[str, str], local_branch: str, fork_branch: str
     ) -> None:
         """Push given local branch to branch in forked repository."""
         self.execute(
@@ -912,8 +937,15 @@ class GitMergeRequestBase(GitForcePushRepository):
             ]
         )
 
-    def configure_fork_remote(self, push_url: str, remote_name: str) -> None:
+    def configure_fork_remote(
+        self, ssh_url: str, http_url: str, credentials: dict[str, str]
+    ) -> None:
         """Configure fork remote repository."""
+        remote_name = credentials["username"]
+        if credentials["push_scheme"] == "ssh":
+            push_url = ssh_url
+        else:
+            push_url = self.authenticate_url(http_url, credentials)
         self.log(
             f"Configuring fork remote '{remote_name}': {push_url}", level=logging.INFO
         )
@@ -959,22 +991,49 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.push_to_fork(credentials, self.branch, fork_branch)
         self.create_pull_request(credentials, self.branch, fork_remote, fork_branch)
 
-    def create_fork(self, credentials: dict) -> None:
+    def authenticate_url(self, url: str, credentials: dict[str, str]) -> str:
+        """Inject credentials into URL."""
+        parsed_url = urllib.parse.urlparse(url)
+        return urllib.parse.urlunparse(
+            (
+                parsed_url[0],
+                "{}:{}@{}".format(
+                    urllib.parse.quote(credentials["username"], safe=""),
+                    urllib.parse.quote(credentials["token"], safe=""),
+                    parsed_url[1],
+                ),
+                *parsed_url[2:],
+            )
+        )
+
+    def create_fork(self, credentials: dict[str, str]) -> None:
         raise NotImplementedError
 
     def get_fork_failed_message(
-        self, error: str, credentials: dict, response: requests.Response
+        self, error: str, credentials: dict[str, str], response: requests.Response
     ) -> str:
         hostname = credentials["hostname"]
         username = credentials["username"]
+        try:
+            data = response.json()
+        except JSONDecodeError:
+            data = response.text
+        self.log(
+            f"Creating fork via {response.url} failed ({response.status_code}): {data!r}",
+            level=logging.WARNING,
+        )
         if response.status_code == 404:
-            error = f"Repository not found. Check whether exists and {username} has access to it."
+            error = f"Repository not found. Check whether exists and user '{username}' has access to it."
         if error.strip():
             return f"Could not fork repository at {hostname}: {error}"
         return f"Could not fork repository at {hostname}"
 
     def create_pull_request(
-        self, credentials: dict, origin_branch: str, fork_remote: str, fork_branch: str
+        self,
+        credentials: dict[str, str],
+        origin_branch: str,
+        fork_remote: str,
+        fork_branch: str,
     ) -> None:
         raise NotImplementedError
 
@@ -987,13 +1046,15 @@ class GitMergeRequestBase(GitForcePushRepository):
     def format_api_host(self, host):
         return host
 
-    def get_headers(self, credentials: dict) -> dict[str, str]:
+    def get_headers(self, credentials: dict[str, str]) -> dict[str, str]:
         return {
             "Accept": "application/json",
             "Authorization": f"token {credentials['token']}",
         }
 
-    def get_auth(self, credentials: dict) -> None | tuple[str, str] | AuthBase:
+    def get_auth(
+        self, credentials: dict[str, str]
+    ) -> None | tuple[str, str] | AuthBase:
         return None
 
     def get_error_message(self, response_data: dict) -> str:
@@ -1055,7 +1116,7 @@ class GitMergeRequestBase(GitForcePushRepository):
     def request(
         self,
         method: str,
-        credentials: dict,
+        credentials: dict[str, str],
         url: str,
         *,
         data: dict | None = None,
@@ -1133,7 +1194,10 @@ class GitMergeRequestBase(GitForcePushRepository):
         self, error: str, pr_url: str, response: requests.Response, data: dict
     ) -> NoReturn:
         status_code = response.status_code
-        self.log(f"Creating pull request via {pr_url} failed ({status_code}): {data}")
+        self.log(
+            f"Creating pull request via {pr_url} failed ({status_code}): {data!r}",
+            level=logging.WARNING,
+        )
         raise RepositoryError(
             -1, f"Could not create pull request {status_code}: {error}"
         )
@@ -1172,7 +1236,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         if response.status_code == 203:
             raise RepositoryError(0, "Invalid token")
 
-    def fork(self, credentials: dict) -> None:
+    def fork(self, credentials: dict[str, str]) -> None:
         remotes = self.execute(["remote"]).splitlines()
         if credentials["username"] not in remotes:
             self.create_fork(credentials)
@@ -1186,7 +1250,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
     def parse_repo_url(
         self, repo: str | None = None
-    ) -> tuple[str | None, str, str, str]:
+    ) -> tuple[str | None, str | None, str | None, str, str, str]:
         if repo is None:
             repo = self.component.repo
 
@@ -1195,7 +1259,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         if not re.match(scheme_regex, repo):
             repo = f"ssh://{repo}"  # assume all links without schema are ssh links
 
-        (scheme, host, owner, slug) = super().parse_repo_url(repo)
+        (scheme, username, password, host, owner, slug) = super().parse_repo_url(repo)
 
         # ssh links are in a subdomain, the API link doesn't have that so remove it
         if host.startswith("ssh."):
@@ -1212,17 +1276,19 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             owner = owner + "/" + parts[0]  # we want owner to be org/project
             slug = parts[1]
 
-        return scheme, host, owner, slug
+        return (scheme, username, password, host, owner, slug)
 
-    def get_headers(self, credentials: dict) -> dict[str, str]:
+    def get_headers(self, credentials: dict[str, str]) -> dict[str, str]:
         headers = super().get_headers(credentials)
         headers["Accept"] = "application/json; api-version=7.0"
         return headers
 
-    def get_auth(self, credentials: dict) -> None | tuple[str, str] | AuthBase:
+    def get_auth(
+        self, credentials: dict[str, str]
+    ) -> None | tuple[str, str] | AuthBase:
         return ("", credentials["token"])
 
-    def create_fork(self, credentials: dict) -> None:
+    def create_fork(self, credentials: dict[str, str]) -> None:
         # url without repository name
         fork_url = "/".join(list(credentials["url"].split("/")[0:-1]))
 
@@ -1239,7 +1305,9 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         found_fork = self.__find_fork(credentials)
 
         if found_fork is not None:
-            self.configure_fork_remote(found_fork["sshUrl"], credentials["username"])
+            self.configure_fork_remote(
+                found_fork["sshUrl"], found_fork["remoteUrl"], credentials
+            )
             return
 
         request = {
@@ -1267,12 +1335,14 @@ class AzureDevOpsRepository(GitMergeRequestBase):
                 "post", credentials, fork_url, json=request
             )
 
-        if "sshUrl" not in response_data:
+        if "sshUrl" not in response_data or "remoteUrl" not in response_data:
             raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
 
-        self.configure_fork_remote(response_data["sshUrl"], credentials["username"])
+        self.configure_fork_remote(
+            response_data["sshUrl"], response_data["remoteUrl"], credentials
+        )
 
     def get_credentials(self) -> dict[str, str]:
         super_credentials = super().get_credentials()
@@ -1286,7 +1356,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
     def create_pull_request(
         self,
-        credentials: dict,
+        credentials: dict[str, str],
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
@@ -1323,7 +1393,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
             self.failed_pull_request(error_message, pr_url, response, response_data)
 
-    def __get_forked_id(self, credentials: dict, remote: str) -> str:
+    def __get_forked_id(self, credentials: dict[str, str], remote: str) -> str:
         """
         Return ID of the forked Azure DevOps repository.
 
@@ -1333,7 +1403,9 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         """
         cmd = ["remote", "get-url", "--push", remote]
         fork_remotes = self.execute(cmd, needs_lock=False, merge_err=False).splitlines()
-        (_, hostname, owner, slug) = self.parse_repo_url(fork_remotes[0])
+        (_scheme, _username, _password, hostname, owner, slug) = self.parse_repo_url(
+            fork_remotes[0]
+        )
         url = self.format_url("https", hostname, owner, slug)
 
         # Get repo info
@@ -1351,7 +1423,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
         return None
 
-    def __get_forks(self, credentials: dict) -> list:
+    def __get_forks(self, credentials: dict[str, str]) -> list:
         forks_url = "{}/forks/{}".format(credentials["url"], self.__get_org_id())
         response_data, response, error = self.request("get", credentials, forks_url)
 
@@ -1416,7 +1488,7 @@ class GithubRepository(GitMergeRequestBase):
             suffix = "api/v3/"
         return super().format_url(scheme, hostname, owner, slug, suffix=suffix, **extra)
 
-    def get_headers(self, credentials: dict) -> dict[str, str]:
+    def get_headers(self, credentials: dict[str, str]) -> dict[str, str]:
         headers = super().get_headers(credentials)
         headers["Accept"] = "application/vnd.github.v3+json"
         return headers
@@ -1433,7 +1505,7 @@ class GithubRepository(GitMergeRequestBase):
             return True
         return False
 
-    def create_fork(self, credentials: dict) -> None:
+    def create_fork(self, credentials: dict[str, str]) -> None:
         fork_url = "{}/forks".format(credentials["url"])
 
         # GitHub API returns the entire data of the fork, in case the fork
@@ -1444,11 +1516,13 @@ class GithubRepository(GitMergeRequestBase):
             raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
-        self.configure_fork_remote(response_data["ssh_url"], credentials["username"])
+        self.configure_fork_remote(
+            response_data["ssh_url"], response_data["clone_url"], credentials
+        )
 
     def create_pull_request(
         self,
-        credentials: dict,
+        credentials: dict[str, str],
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
@@ -1512,7 +1586,7 @@ class GiteaRepository(GitMergeRequestBase):
     API_TEMPLATE = "{scheme}://{host}/api/v1/repos/{owner}/{slug}"
     push_label = gettext_lazy("This will push changes and create a Gitea pull request.")
 
-    def create_fork(self, credentials: dict) -> None:
+    def create_fork(self, credentials: dict[str, str]) -> None:
         fork_url = "{}/forks".format(credentials["url"])
 
         # Empty json body is required here, otherwise we'll get an
@@ -1532,11 +1606,13 @@ class GiteaRepository(GitMergeRequestBase):
             raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
-        self.configure_fork_remote(response_data["ssh_url"], credentials["username"])
+        self.configure_fork_remote(
+            response_data["ssh_url"], response_data["clone_url"], credentials
+        )
 
     def create_pull_request(
         self,
-        credentials: dict,
+        credentials: dict[str, str],
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
@@ -1692,10 +1768,10 @@ class GitLabRepository(GitMergeRequestBase):
     )
 
     def get_fork_path(self, repo: str) -> str:
-        _scheme, _host, owner, slug = self.parse_repo_url(repo)
+        _scheme, _username, _password, _host, owner, slug = self.parse_repo_url(repo)
         return urllib.parse.quote(f"{owner}/{slug}", safe="")
 
-    def get_forked_url(self, credentials: dict) -> str:
+    def get_forked_url(self, credentials: dict[str, str]) -> str:
         """
         Return GitLab API URL for the forked repository.
 
@@ -1709,12 +1785,12 @@ class GitLabRepository(GitMergeRequestBase):
         fork_path = self.get_fork_path(fork_remotes[0])
         return credentials["url"].replace(target_path, fork_path)
 
-    def get_headers(self, credentials: dict) -> dict[str, str]:
+    def get_headers(self, credentials: dict[str, str]) -> dict[str, str]:
         headers = super().get_headers(credentials)
         headers["Authorization"] = f"Bearer {credentials['token']}"
         return headers
 
-    def get_target_project_id(self, credentials: dict):
+    def get_target_project_id(self, credentials: dict[str, str]):
         response_data, _response, error = self.request(
             "get", credentials, credentials["url"]
         )
@@ -1722,7 +1798,9 @@ class GitLabRepository(GitMergeRequestBase):
             raise RepositoryError(0, f"Could not get project: {error}")
         return response_data["id"]
 
-    def configure_fork_features(self, credentials: dict, forked_url: str) -> None:
+    def configure_fork_features(
+        self, credentials: dict[str, str], forked_url: str
+    ) -> None:
         """
         Disable features in fork.
 
@@ -1745,7 +1823,7 @@ class GitLabRepository(GitMergeRequestBase):
         if "web_url" not in response_data:
             raise RepositoryError(0, f"Could not modify fork {error}")
 
-    def create_fork(self, credentials: dict) -> None:
+    def create_fork(self, credentials: dict[str, str]) -> None:
         get_fork_url = "{}/forks?owned=True".format(credentials["url"])
         fork_url = "{}/fork".format(credentials["url"])
         forked_repo = None
@@ -1780,18 +1858,26 @@ class GitLabRepository(GitMergeRequestBase):
                     json={"name": fork_name, "path": fork_name},
                 )
 
-            if "ssh_url_to_repo" not in forked_repo:
+            if (
+                "ssh_url_to_repo" not in forked_repo
+                or "http_url_to_repo" not in forked_repo
+            ):
                 raise RepositoryError(
                     0, self.get_fork_failed_message(error, credentials, response)
                 )
 
         self.configure_fork_features(credentials, forked_repo["_links"]["self"])
+
         self.configure_fork_remote(
-            forked_repo["ssh_url_to_repo"], credentials["username"]
+            forked_repo["ssh_url_to_repo"], forked_repo["http_url_to_repo"], credentials
         )
 
     def create_pull_request(
-        self, credentials: dict, origin_branch: str, fork_remote: str, fork_branch: str
+        self,
+        credentials: dict[str, str],
+        origin_branch: str,
+        fork_remote: str,
+        fork_branch: str,
     ) -> None:
         """
         Create pull request.
@@ -1835,7 +1921,7 @@ class PagureRepository(GitMergeRequestBase):
         "This will push changes and create a Pagure merge request."
     )
 
-    def create_fork(self, credentials: dict) -> None:
+    def create_fork(self, credentials: dict[str, str]) -> None:
         fork_url = "{}/fork".format(credentials["url"])
 
         base_params = {
@@ -1866,11 +1952,18 @@ class PagureRepository(GitMergeRequestBase):
                 0, self.get_fork_failed_message(error, credentials, response)
             )
 
-        url = "ssh://git@{hostname}/forks/{username}/{slug}.git".format(**credentials)
-        self.configure_fork_remote(url, credentials["username"])
+        self.configure_fork_remote(
+            "ssh://git@{hostname}/forks/{username}/{slug}.git".format(**credentials),
+            "https://{hostname}/forks/{username}/{slug}.git".format(**credentials),
+            credentials,
+        )
 
     def create_pull_request(
-        self, credentials: dict, origin_branch: str, fork_remote: str, fork_branch: str
+        self,
+        credentials: dict[str, str],
+        origin_branch: str,
+        fork_remote: str,
+        fork_branch: str,
     ) -> None:
         """
         Create pull request.
@@ -1930,12 +2023,12 @@ class BitbucketServerRepository(GitMergeRequestBase):
         "This will push changes and create a Bitbucket Server pull request."
     )
 
-    def get_headers(self, credentials: dict) -> dict[str, str]:
+    def get_headers(self, credentials: dict[str, str]) -> dict[str, str]:
         headers = super().get_headers(credentials)
         headers["Authorization"] = f"Bearer {credentials['token']}"
         return headers
 
-    def create_fork(self, credentials: dict) -> None:
+    def create_fork(self, credentials: dict[str, str]) -> None:
         bb_fork, response, error_message = self.request(
             "post", credentials, credentials["url"], json={}
         )
@@ -1969,21 +2062,23 @@ class BitbucketServerRepository(GitMergeRequestBase):
 
                 page += 1
 
-        remote_url = None
+        ssh_url = http_url = None
         if "links" in self.bb_fork:
             clone_urls = self.bb_fork["links"]["clone"]
             for link in clone_urls:
                 if link["name"] == "ssh":
-                    remote_url = link["href"]
+                    ssh_url = link["href"]
+                if link["name"] == "http":
+                    http_url = link["href"]
 
-        if not remote_url:
+        if not ssh_url or not http_url:
             raise RepositoryError(
                 0, self.get_fork_failed_message(error_message, credentials, response)
             )
 
-        self.configure_fork_remote(remote_url, credentials["username"])
+        self.configure_fork_remote(ssh_url, http_url, credentials)
 
-    def get_default_reviewers(self, credentials: dict, fork_branch: str):
+    def get_default_reviewers(self, credentials: dict[str, str], fork_branch: str):
         target_repo, _response, error_message = self.request(
             "get", credentials, credentials["url"]
         )
@@ -2007,7 +2102,11 @@ class BitbucketServerRepository(GitMergeRequestBase):
         return [{"user": user} for user in users]
 
     def create_pull_request(
-        self, credentials: dict, origin_branch: str, fork_remote: str, fork_branch: str
+        self,
+        credentials: dict[str, str],
+        origin_branch: str,
+        fork_remote: str,
+        fork_branch: str,
     ) -> None:
         # Make sure there's always a fork reference
         if not self.bb_fork:

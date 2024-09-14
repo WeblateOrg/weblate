@@ -15,6 +15,6 @@
   {% include "snippets/project/billing-trial.html" %}
 {% endif %}
 
-{% if object.enforced_2fa and not user.is_verified %}
+{% if object.enforced_2fa and not user.is_verified and not user.is_anonymous %}
   {% include "snippets/enforced_2fa.html" with project=1 %}
 {% endif %}

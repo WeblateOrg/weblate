@@ -149,7 +149,7 @@ def vcs_service_hook(request: AuthenticatedHttpRequest, service):
         service_data = hook_helper(data, request)
     except Exception:
         LOGGER.error("failed to parse service %s data", service)
-        report_error()
+        report_error("Invalid service data")
         return HttpResponseBadRequest("Invalid data in json payload!")
 
     # This happens on ping request upon installation

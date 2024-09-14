@@ -29,7 +29,9 @@
 
       <h5>{% trans "Scan the QR code" %}</h5>
 
-      {{ totp_svg }}
+      <div class="totp-qr">
+        {{ totp_svg }}
+      </div>
 
       <p>
         {% trans "You can also enter the secret key manually:" %}
