@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-14 08:23+0000\n"
+"PO-Revision-Date: 2024-09-14 23:35+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -55,16 +55,12 @@ msgstr ""
 "切り替えてください。"
 
 #: ../../admin/access.rst:22
-#, fuzzy
-#| msgid ""
-#| "You can limit user’s access to individual projects by selecting a "
-#| "different :ref:`project-access_control` setting. Available options are:"
 msgid ""
 "Limit user access to individual projects by selecting a different :ref:"
 "`project-access_control` setting. The available options are:"
 msgstr ""
-"プロジェクトごとに別の :ref:`project-access_control` 設定を選択することで、"
-"ユーザーのアクセスを制限できます。使用可能なオプション:"
+"プロジェクトごとに別の :ref:`project-access_control` "
+"設定を選択することで、ユーザーのアクセスを制限できます。使用可能なオプション:"
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:489
 msgid ":guilabel:`Public`"
@@ -154,9 +150,6 @@ msgstr ""
 "guilabel:`設定`）の :guilabel:`アクセス` タブで変更できます。"
 
 #: ../../admin/access.rst:68
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr "デフォルト値は :setting:`DEFAULT_ACCESS_CONTROL` で変更できます。"
@@ -166,21 +159,19 @@ msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
 msgstr ""
+"たとえプロジェクトがプライベート設定であっても、その統計情報はサイト全体の統"
+"計と言語サマリーに含まれます。ただし、プロジェクト名やその他の情報は公開され"
+"ません。"
 
 #: ../../admin/access.rst:78
-#, fuzzy
-#| msgid ""
-#| "The actual set of permissions available for users by default in `Public`, "
-#| "`Protected`, and `Private` projects can be redefined by Weblate instance "
-#| "administrator using :ref:`custom settings <custom-acl>`."
 msgid ""
 "Instance administrators can modify the default permission sets available to "
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
-"`公開`、`保護`、および `プライベート` プロジェクトでユーザーがデフォルトで使"
-"用できる実際の権限のセットは、Weblate インスタンス管理者が :ref:`カスタム設"
-"定 <custom-acl>` から再定義できます。"
+"インスタンス管理者は、:ref:`カスタム設定 <custom-acl>` "
+"を使用して、`公開`、`保護`、および `プライベート` "
+"プロジェクトのユーザーが使用できるデフォルトの権限セットを変更できます。"
 
 #: ../../admin/access.rst:83
 msgid ":ref:`project-access_control`"
@@ -200,38 +191,36 @@ msgid ""
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
+"ユーザーに :guilabel:`プロジェクトのアクセス制御` (参照: :ref:`privileges`) "
+"の権限を与えると、他のユーザーを `公開`、`保護`、`非公開` "
+"プロジェクトのチームに追加できます。（`カスタム` プロジェクトは除く）。"
 
 #: ../../admin/access.rst:96
 msgid ""
 "These are the default teams provided with Weblate; teams can be added or "
 "modified by users with sufficient privileges:"
-msgstr ""
+msgstr "これは Weblate がデフォルトで提供しているチームです。チームの追加または変更が"
+"できるアクセス権:"
 
 #: ../../admin/access.rst:99
 msgid "Administration"
 msgstr "管理"
 
 #: ../../admin/access.rst:100
-#, fuzzy
-#| msgid "Includes all permissions available for the project."
 msgid "All available permissions for the project."
-msgstr "プロジェクトで使用できるアクセス権をすべて含みます。"
+msgstr "プロジェクトで使用できるすべてのアクセス権。"
 
 #: ../../admin/access.rst:102
 msgid "Review"
 msgstr "査読"
 
 #: ../../admin/access.rst:103
-#, fuzzy
-#| msgid "Can approve translations during review."
 msgid "Approve translations in a review."
 msgstr "査読中に翻訳を承認するアクセス権。"
 
 #: ../../admin/access.rst:105
-#, fuzzy
-#| msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
 msgid "Available only if :ref:`review workflow <reviews>` is on."
-msgstr "査読（ :ref:`review workflow <reviews>` が有効化されている場合のみ）"
+msgstr ":ref:`査読処理 <reviews>` が有効化されている場合のみ。"
 
 #: ../../admin/access.rst:107
 msgid "For `Protected` and `Private` projects only:"
@@ -242,27 +231,19 @@ msgid "Translate"
 msgstr "翻訳"
 
 #: ../../admin/access.rst:110
-#, fuzzy
-#| msgid "Can translate the project and upload translations made offline."
 msgid "Translate the project and upload translations made offline."
-msgstr ""
-"プロジェクトを翻訳し、オフラインで作成した翻訳をアップロードするアクセス権。"
+msgstr "プロジェクトを翻訳し、オフラインで作成した翻訳をアップロードするアクセス権。"
 
 #: ../../admin/access.rst:112 ../../devel/community.rst:48
 msgid "Sources"
 msgstr "原文"
 
 #: ../../admin/access.rst:113
-#, fuzzy
-#| msgid ""
-#| "Can edit source strings (if allowed in the :ref:`project settings "
-#| "<component-manage_units>`) and source string info."
 msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
-msgstr ""
-"原文（`プロジェクトの設定` で許可している場合）および :ref:`monolingual` と原"
-"文情報を編集するアクセス権。"
+msgstr "原文（`プロジェクトの設定` "
+"で許可されている場合）および原文情報を編集するアクセス権。"
 
 #: ../../admin/access.rst:116 ../../admin/access.rst:283
 #: ../../admin/access.rst:299 ../../admin/access.rst:413 ../../api.rst:708
@@ -271,10 +252,8 @@ msgid "Languages"
 msgstr "言語"
 
 #: ../../admin/access.rst:117
-#, fuzzy
-#| msgid "Can manage translated languages (add or remove translations)."
 msgid "Manage translated languages (add or remove translations)."
-msgstr "翻訳言語を管理するアクセス権（翻訳の追加または削除）。"
+msgstr "翻訳された言語を管理するアクセス権（翻訳の追加または削除）。"
 
 #: ../../admin/access.rst:119 ../../admin/access.rst:491 ../../api.rst:2509
 #: ../../user/glossary.rst:4 ../../user/translating.rst:304
@@ -282,21 +261,16 @@ msgid "Glossary"
 msgstr "用語集"
 
 #: ../../admin/access.rst:120
-#, fuzzy
-#| msgid "Can manage glossary (add or remove entries, also upload)."
 msgid "Manage glossary (add, remove, and upload entries)."
-msgstr ""
-"用語集を管理するアクセス権（エントリの追加、削除、またはアップロード）。"
+msgstr "用語集を管理するアクセス権（エントリの追加、削除、またはアップロード）。"
 
 #: ../../admin/access.rst:122 ../../api.rst:2101
 msgid "Memory"
 msgstr "翻訳メモリ"
 
 #: ../../admin/access.rst:123
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "Manage translation memory."
-msgstr "翻訳メモリの管理"
+msgstr "翻訳メモリを管理するアクセス権。"
 
 #: ../../admin/access.rst:125 ../../admin/access.rst:513 ../../api.rst:2255
 #: ../../user/translating.rst:291
@@ -304,13 +278,8 @@ msgid "Screenshots"
 msgstr "スクリーンショット"
 
 #: ../../admin/access.rst:126
-#, fuzzy
-#| msgid ""
-#| "Can manage screenshots (add or remove them, and associate them to source "
-#| "strings)."
 msgid "Manage screenshots (add, remove, and associate them to source strings)."
-msgstr ""
-"スクリーンショットを管理するアクセス権（追加または削除、原文への関連付け）。"
+msgstr "スクリーンショットを管理するアクセス権（追加または削除、原文への関連付け）。"
 
 #: ../../admin/access.rst:129 ../../admin/addons.rst:24
 #: ../../admin/continuous.rst:484 ../../user/translating.rst:355
@@ -326,39 +295,32 @@ msgid "VCS"
 msgstr "VCS"
 
 #: ../../admin/access.rst:133
-#, fuzzy
-#| msgid "Can manage VCS and access the exported repository."
 msgid "Manage VCS and access the exported repository."
-msgstr "VCS を管理し、リポジトリをエクスポートするアクセス権。"
+msgstr "VCS を管理し、エクスポートされたリポジトリのアクセス権。"
 
 #: ../../admin/access.rst:135 ../../admin/optionals.rst:69
 msgid "Billing"
 msgstr "課金"
 
 #: ../../admin/access.rst:136
-#, fuzzy
-#| msgid "Can access billing info and settings (see :ref:`billing`)."
 msgid "Access billing info and settings (see :ref:`billing`)."
-msgstr "請求情報と請求の設定をするアクセス権（参照: :ref:`billing`）。"
+msgstr "請求情報と請求の設定ができるアクセス権（参照: :ref:`billing`）。"
 
 #: ../../admin/access.rst:140
-#, fuzzy
-#| msgid ""
-#| "These features are available on the :guilabel:`Access control` page, "
-#| "which can be accessed from the project’s menu :guilabel:`Manage` ↓ :"
-#| "guilabel:`Users`."
 msgid ""
 "These features are available on the :guilabel:`Access control` page in the "
 "project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`."
 msgstr ""
-"この機能は、プロジェクトにあるメニューの :guilabel:`管理` ↓ :guilabel:`ユー"
-"ザー` から操作できる :guilabel:`アクセス制御` のページで設定します。"
+"この機能は、プロジェクトにあるメニューの :guilabel:`管理` ↓ "
+":guilabel:`ユーザー` から操作できる :guilabel:`アクセス制御` "
+"のページで設定します。"
 
 #: ../../admin/access.rst:145
 msgid ""
 "You can limit teams to languages or components, and assign them designated "
 "access roles (see :ref:`privileges`)."
-msgstr ""
+msgstr "チームを言語またはコンポーネントに制限し、指定したアクセス "
+"ロールを割り当てることができます (:ref:`権限` を参照)。"
 
 #: ../../admin/access.rst:150
 msgid "Team administrators"
@@ -426,38 +388,27 @@ msgid "Blocking users"
 msgstr "ユーザーのブロック"
 
 #: ../../admin/access.rst:192
-#, fuzzy
-#| msgid ""
-#| "In case some users behave badly in your project, you have an option to "
-#| "block them from contributing. The blocked user still will be able to see "
-#| "the project if he has permissions for that, but he won't be able to "
-#| "contribute."
 msgid ""
 "If users misbehave in your project, you can block them from contributing. "
 "With the relevant permissions blocked, users can still see the project, but "
 "won't be able to contribute."
 msgstr ""
-"プロジェクトで悪事を働くユーザーがいる場合、そのユーザーの投稿をブロックでき"
-"ます。ブロックされたユーザーは、権限があれば引き続きプロジェクトの閲覧はでき"
-"ますが、貢献はできなくなります。"
+"もしユーザーがプロジェクト内で不適切な行動をした場合、貢献をブロックできます"
+"。関連する権限がブロックされた状態では、ユーザーはプロジェクトの閲覧はできま"
+"すが、貢献することはでなくなります。"
 
 #: ../../admin/access.rst:197
 msgid "Per-project permission management"
 msgstr "プロジェクトごとのアクセス権の管理"
 
 #: ../../admin/access.rst:199
-#, fuzzy
-#| msgid ""
-#| "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
-#| "(see :ref:`acl`), and :ref:`manage users <manage-acl>` per-project in the "
-#| "Weblate user interface."
 msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"Weblate のユーザー インターフェイスから、プロジェクトごとに :guilabel:`保護` "
-"または :guilabel:`プライベート` に設定（参照: :ref:`acl`）することや :ref:`"
-"ユーザーの管理 <manage-acl>` ができます。"
+"プロジェクトごとに公開範囲を :guilabel:`保護` または :guilabel:`プライベート`"
+" に設定できます（参照: :ref:`acl`）。また、プロジェクトごとに :ref:`"
+"ユーザーの管理 <manage-acl>` でアクセス権限を設定できます。"
 
 #: ../../admin/access.rst:202
 msgid ""
@@ -495,19 +446,14 @@ msgid "This feature is unavailable on Hosted Weblate."
 msgstr "この機能は、 Hosted Weblate では使用できません。"
 
 #: ../../admin/access.rst:220
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on teams and roles, where roles define a "
-#| "set of permissions, and teams link them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on roles defining a set of permissions, and "
 "teams linking roles to users and translations, read :ref:`auth-model` for "
 "more details."
 msgstr ""
-"権限システムはチームとロールに基づいています。ロールはアクセス権の組み合わせ"
-"を設定し、チームはロールをユーザーと翻訳に結び付けます。詳しくは :ref:`auth-"
-"model` を確認してください。"
+"アクセス権の仕組みは、権限のセットを定義するロールと、ロールをユーザーと翻訳"
+"に紐づけるチームに基づいています。詳しくは :ref:`auth-model` "
+"を確認してください。"
 
 #: ../../admin/access.rst:224
 msgid ""
@@ -630,32 +576,21 @@ msgid "**Example:**"
 msgstr "**例:**"
 
 #: ../../admin/access.rst:271
-#, fuzzy
-#| msgid ""
-#| "If you want (for whatever reason) to allow translation to a specific "
-#| "language (lets say `Czech`) only to a closed set of reliable translators "
-#| "while keeping translations to other languages public, you will have to:"
 msgid ""
 "Restricting translation to `Czech` to a selected set of translators, (while "
 "keeping translations to other languages public):"
-msgstr ""
-"（何らかの理由で）特定の言語（`チェコ語` など）への翻訳を、信頼できる限られた"
-"翻訳者にのみ許可し、他の言語への翻訳を公開する方法:"
+msgstr "`チェコ語`への翻訳を特定の翻訳者に限定する方法（他の言語への翻訳は公開したま"
+"ま）:"
 
 #: ../../admin/access.rst:274
-#, fuzzy
-#| msgid ""
-#| "Remove the permission to translate `Czech` from all the users. In the "
-#| "default configuration this can be done by altering the `Users` :ref:"
-#| "`default team <default-teams>`."
 msgid ""
 "Remove the permission to translate `Czech` from all users. In the default "
 "configuration this can be done by altering the `Users` :ref:`default team "
 "<default-teams>`."
 msgstr ""
-"すべてのユーザーから `チェコ語` を翻訳するアクセス権を削除する。デフォルトの"
-"設定では、これは :ref:`デフォルトのチーム <default-teams>` `ユーザー` を変更"
-"することで可能となる。"
+"すべてのユーザーから `チェコ語` "
+"を翻訳するアクセス権を削除する。デフォルトの設定では、これは :ref:`"
+"デフォルトのチーム <default-teams>` `ユーザー` を変更することで可能となる。"
 
 #: ../../admin/access.rst:278
 msgid "Group `Users`"
@@ -706,18 +641,13 @@ msgid "Add users you wish to give the permissions to into this team."
 msgstr "アクセス権を付与したいユーザーを、このチームに追加する。"
 
 #: ../../admin/access.rst:306
-#, fuzzy
-#| msgid ""
-#| "As you can see, permissions management this way is powerful, but can be "
-#| "quite a tedious job. You can’t delegate it to another user, unless "
-#| "granting superuser permissions."
 msgid ""
 "Management permissions this way is powerful, but can be quite a tedious job. "
 "You can only delegate it to other users by granting them Superuser status."
 msgstr ""
-"ご覧のとおり、この方法でのアクセス権の管理は強力ですが、非常に面倒な作業で"
-"す。スーパーユーザーにアクセス権を付与しない限り、別のユーザーには委任できま"
-"せん。"
+"この方法で管理権限を付与するのは強力ですが、非常に面倒な作業になることがあり"
+"ます。他のユーザーに管理権限を委任するには、スーパーユーザー "
+"ステータスの付与が必要です。"
 
 #: ../../admin/access.rst:312
 msgid "Users, roles, teams, and permissions"
@@ -732,39 +662,27 @@ msgid "`Permission`"
 msgstr "`アクセス権`"
 
 #: ../../admin/access.rst:317
-#, fuzzy
-#| msgid ""
-#| "Individual permission defined by Weblate. Permissions cannot be assigned "
-#| "to users. This can only be done through assignment of roles."
 msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users, only through assignment of roles."
 msgstr ""
-"Weblate に定義済みの個別アクセス権。アクセス権は、ユーザーに付与できません。"
-"アクセス権は、ロールを通じて付与します。"
+"Weblate に定義済みの個別のアクセス権。アクセス権は、ユーザーに直接割り当てる"
+"ことはできません。アクセス権は、ロールの割り当てを通じてのみ付与できます。"
 
 #: ../../admin/access.rst:319
 msgid "`Role`"
 msgstr "`ロール`"
 
 #: ../../admin/access.rst:320
-#, fuzzy
-#| msgid ""
-#| "A role defines a set of permissions. This allows reuse of these sets in "
-#| "several places, making the administration easier."
 msgid ""
 "A role defines a set of permissions (and can be reused in several places)."
-msgstr ""
-"ロールは、複数のアクセス権をまとめたものです。まとめたアクセス権は、複数の場"
-"所に再設定できるので、アクセス権の管理が簡単になります。"
+msgstr "ロールは、複数のアクセス権のセットです（そして複数の場所で再利用できます）。"
 
 #: ../../admin/access.rst:322
 msgid "`User`"
 msgstr "`ユーザー`"
 
 #: ../../admin/access.rst:323
-#, fuzzy
-#| msgid "User can belong to several teams."
 msgid "A user can belong to several teams."
 msgstr "ユーザーは複数のチームに所属できます。"
 
@@ -773,16 +691,11 @@ msgid "`Group`"
 msgstr "`グループ`"
 
 #: ../../admin/access.rst:325
-#, fuzzy
-#| msgid ""
-#| "Group connect roles, users, and authentication objects (projects, "
-#| "languages, and component lists)."
 msgid ""
 "Groups connect roles and users with authentication objects (projects, "
 "languages, components, and component lists)."
-msgstr ""
-"グループはロール、ユーザー、認証オブジェクト（プロジェクト、言語、コンポーネ"
-"ント リスト）を紐づけます。"
+msgstr "グループはロール、ユーザー、認証オブジェクト（プロジェクト、言語、コンポーネ"
+"ント、コンポーネント リスト）を紐づけます。"
 
 #: ../../admin/access.rst:343
 msgid ""
@@ -793,10 +706,8 @@ msgstr ""
 "覧できる場合は、アクセス権の割り当ては必要ありません（下記参照）。"
 
 #: ../../admin/access.rst:347
-#, fuzzy
-#| msgid "Project access control"
 msgid "Project-browsing access"
-msgstr "プロジェクトのアクセス制御"
+msgstr "プロジェクト閲覧権限"
 
 #: ../../admin/access.rst:349
 msgid ""
@@ -811,10 +722,8 @@ msgstr ""
 "ています。参照: :ref:`default-teams`）は必要ありません。"
 
 #: ../../admin/access.rst:355
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Component-browsing access"
-msgstr "コンポーネントの警告"
+msgstr "コンポーネント閲覧権限"
 
 #: ../../admin/access.rst:357
 msgid ""
@@ -823,6 +732,10 @@ msgid ""
 "restricted` on, access to components (or component lists) are granted "
 "explicitly."
 msgstr ""
+"あるプロジェクトでユーザーに閲覧権限を付与すると、紐づいた閲覧権限を持つすべ"
+"てのコンポーネントにアクセスできるようになります。:ref:`component-restricted`"
+" を有効にすると、コンポーネント（またはコンポーネント "
+"リスト）へのアクセス権を個別に設定できます。"
 
 #: ../../admin/access.rst:365
 msgid "Scope of teams"
@@ -905,16 +818,12 @@ msgstr ""
 "ての言語またはプロジェクトを自動的に一括で設定できます。"
 
 #: ../../admin/access.rst:402
-#, fuzzy
-#| msgid ""
-#| "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
-#| "``foo/baz`` and the following team:"
 msgid ""
 "A project ``foo`` with the components: ``foo/bar`` and ``foo/baz``, with "
 "reviewing and management rights, in the following team:"
 msgstr ""
-"``foo`` プロジェクトにはコンポーネント ``foo/bar`` および ``foo/baz`` が含ま"
-"れていて、次のチームがある場合:"
+"以下のチームで、査読および管理権限を持つプロジェクト ``foo`` "
+"とそのサブコンポーネント ``foo/bar`` および ``foo/baz`` がある場合:"
 
 #: ../../admin/access.rst:406
 msgid "Group `Spanish Admin-Reviewers`"
@@ -937,14 +846,10 @@ msgid "`Spanish`"
 msgstr "`スペイン語`"
 
 #: ../../admin/access.rst:418
-#, fuzzy
-#| msgid ""
-#| "Members of that team will have following permissions (assuming the "
-#| "default role settings):"
 msgid ""
 "Members of that team will have these permissions (assuming the default role "
 "settings):"
-msgstr "チームの登録者に与えられるアクセス権（既定のロール設定を前提とする）:"
+msgstr "そのチームの登録者に与えられるアクセス権（既定のロール設定を前提とする）:"
 
 #: ../../admin/access.rst:420
 msgid ""
@@ -1474,19 +1379,14 @@ msgid "Manage site-wide add-ons"
 msgstr "サイト全体のアドオンの管理"
 
 #: ../../admin/access.rst:600
-#, fuzzy
-#| msgid ""
-#| "Site-wide privileges are not granted to any default role. These are "
-#| "powerful and quite close to superuser status. Most of them affect all "
-#| "projects in your Weblate installation."
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to the Superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
 "サイト全体のアクセス権は、デフォルトのどのロールにも付与されません。これは強"
-"力で、スーパーユーザーの状態と変わりません。ほとんどのアクセス権は、インス"
-"トールした Weblate のプロジェクトすべてに影響します。"
+"力で、スーパーユーザーの状態と変わりません。ほとんどのアクセス権は、"
+"インストールした Weblate のプロジェクトすべてに影響します。"
 
 #: ../../admin/access.rst:605
 msgid "List of built-in roles"
@@ -1497,33 +1397,6 @@ msgid "`Administration`"
 msgstr "`管理`"
 
 #: ../../admin/access.rst:611
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:"
-#| "`Post comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, :"
-#| "guilabel:`Edit component settings`, :guilabel:`Lock component, preventing "
-#| "translations`, :guilabel:`Add glossary entry`, :guilabel:`Delete glossary "
-#| "entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary "
-#| "entries`, :guilabel:`Use automatic suggestions`, :guilabel:`Delete "
-#| "translation memory`, :guilabel:`Edit translation memory`, :guilabel:`Edit "
-#| "project settings`, :guilabel:`Manage project access`, :guilabel:`Download "
-#| "reports`, :guilabel:`Add screenshot`, :guilabel:`Delete screenshot`, :"
-#| "guilabel:`Edit screenshot`, :guilabel:`Edit additional string info`, :"
-#| "guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:"
-#| "`Delete suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Add "
-#| "language for translation`, :guilabel:`Add several languages for "
-#| "translation`, :guilabel:`Perform automatic translation`, :guilabel:"
-#| "`Delete existing translation`, :guilabel:`Download translation file`, :"
-#| "guilabel:`Add new string`, :guilabel:`Dismiss failing check`, :guilabel:"
-#| "`Remove a string`, :guilabel:`Edit strings`, :guilabel:`Edit string when "
-#| "suggestions are enforced`, :guilabel:`Review strings`, :guilabel:`Edit "
-#| "source strings`, :guilabel:`Define author of uploaded translation`, :"
-#| "guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload "
-#| "translations`, :guilabel:`Access the internal repository`, :guilabel:"
-#| "`Commit changes to the internal repository`, :guilabel:`Push change from "
-#| "the internal repository`, :guilabel:`Reset changes in the internal "
-#| "repository`, :guilabel:`Update the internal repository`, :guilabel:`View "
-#| "upstream repository location`"
 msgid ""
 ":guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:`Post "
 "comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, :guilabel:"
@@ -1553,25 +1426,26 @@ msgid ""
 msgstr ""
 ":guilabel:`請求情報の表示`、:guilabel:`変更のダウンロード`、:guilabel:`コメン"
 "トの投稿`、:guilabel:`コメントの削除`、:guilabel:`コメントの解決`、:guilabel:"
-"`コンポーネント設定の編集`、 :guilabel:`コンポーネントをロックして翻訳を防止"
-"`、:guilabel:`用語集エントリの追加`、:guilabel:`用語集エントリの削除`、:"
-"guilabel:`用語集エントリの編集`、:guilabel:`用語集エントリのアップロード`、:"
-"guilabel:`自動提案を使用`、:guilabel:`翻訳メモリの削除`、:guilabel:`翻訳メモ"
-"リの編集`、:guilabel:`プロジェクト設定の編集`、:guilabel:`プロジェクト アクセ"
-"スの管理`、:guilabel:`レポートのダウンロード`、 :guilabel:`スクリーンショット"
-"追加`、:guilabel:`スクリーンショット削除`、:guilabel:`スクリーンショット編集"
-"`、:guilabel:`追加の文字列情報の編集`、:guilabel:`提案の受入れ`、:guilabel:`"
-"提案の追加`、 :guilabel:`提案の削除`、:guilabel:`提案に投票`、:guilabel:`翻訳"
-"対象言語の追加`、:guilabel:`複数の翻訳対象言語の追加`、:guilabel:`自動翻訳の"
-"実行`、:guilabel:`既存の翻訳を削除`、:guilabel:`翻訳ファイルのダウンロード"
-"`、:guilabel:`新しい文字列の追加`、:guilabel:`検査不合格の無視`、:guilabel:`"
-"文字列の削除`、:guilabel:`文字列の編集`、 :guilabel:`提案が強制されている場合"
-"に文字列を編集`、:guilabel:`文字列の査読`、:guilabel:`原文の編集`、:guilabel:"
-"`アップロードされた翻訳の作成者の設定`、:guilabel:`アップロードで既存の文字列"
-"を上書き` 、:guilabel:`翻訳のアップロード`、:guilabel:`内部リポジトリにアクセ"
-"ス`、:guilabel:`変更を内部リポジトリにコミット`、:guilabel:`内部リポジトリか"
-"ら変更をプッシュ`、:guilabel:`内部リポジトリの変更をリセット`、:guilabel:`内"
-"部リポジトリの更新`、:guilabel:`上流のリポジトリの場所を表示`"
+"`コンポーネント設定の編集`、 :guilabel:`コンポーネントをロックして翻訳を防止`"
+"、:guilabel:`用語集エントリの追加`、:guilabel:`用語集エントリの削除`、:guilab"
+"el:`用語集エントリの編集`、:guilabel:`用語集に用語の追加`、:guilabel:`用語集"
+"エントリのアップロード`、:guilabel:`自動提案を使用`、:guilabel:`翻訳メモリの"
+"削除`、:guilabel:`翻訳メモリの編集`、:guilabel:`プロジェクト設定の編集`、:gui"
+"label:`プロジェクト アクセスの管理`、:guilabel:`レポートのダウンロード`、 :gu"
+"ilabel:`スクリーンショット追加`、:guilabel:`スクリーンショット削除`、:guilabe"
+"l:`スクリーンショット編集`、:guilabel:`追加の文字列情報の編集`、:guilabel:`提"
+"案の受入れ`、:guilabel:`提案の追加`、 :guilabel:`提案の削除`、:guilabel:`提案"
+"に投票`、:guilabel:`翻訳対象言語の追加`、:guilabel:`複数の翻訳対象言語の追加`"
+"、:guilabel:`自動翻訳の実行`、:guilabel:`既存の翻訳を削除`、:guilabel:`翻訳フ"
+"ァイルのダウンロード`、:guilabel:`新しい文字列の追加`、:guilabel:`検査不合格"
+"の無視`、:guilabel:`文字列の削除`、:guilabel:`文字列の編集`、 :guilabel:`提案"
+"が強制されている場合に文字列を編集`、:guilabel:`文字列の査読`、:guilabel:`原"
+"文の編集`、:guilabel:`アップロードされた翻訳の作成者の設定`、:guilabel:`アッ"
+"プロードで既存の文字列を上書き` 、:guilabel:`翻訳のアップロード`、:guilabel:`"
+"内部リポジトリにアクセス`、:guilabel:`変更を内部リポジトリにコミット`、:guila"
+"bel:`内部リポジトリから変更をプッシュ`、:guilabel:`内部リポジトリの変更をリセ"
+"ット`、:guilabel:`内部リポジトリの更新`、:guilabel:`上流のリポジトリの場所を"
+"表示`"
 
 #: ../../admin/access.rst:612
 msgid "`Edit source`"
@@ -1617,17 +1491,14 @@ msgid "`Manage glossary`"
 msgstr "`用語集の管理`"
 
 #: ../../admin/access.rst:619
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :"
-#| "guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`"
 msgid ""
 ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:"
 "`Edit glossary entry`, :guilabel:`Add glossary terminology`, :guilabel:"
 "`Upload glossary entries`"
 msgstr ""
-":guilabel:`用語集エントリの追加`、:guilabel:`用語集エントリの削除`、:"
-"guilabel:`用語集エントリの編集`、:guilabel:`用語集エントリのアップロード`"
+":guilabel:`用語集エントリの追加`、:guilabel:`用語集エントリの削除`、:guilabel"
+":`用語集エントリの編集`、:guilabel:`用語集の用語の追加`、:guilabel:`用語集エ"
+"ントリのアップロード`"
 
 #: ../../admin/access.rst:620
 msgid "`Power user`"
@@ -1795,13 +1666,9 @@ msgstr ""
 "`ANONYMOUS_USER_NAME`)。"
 
 #: ../../admin/access.rst:655
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this team to limit permissions for non-"
-#| "authenticated users."
 msgid ""
 "Remove roles from this team to limit permissions for non-authenticated users."
-msgstr "このチームからロールを削除して、未認証ユーザーの権限を制限できる。"
+msgstr "このチームからロールを削除して、未認証ユーザーの権限を制限できます。"
 
 #: ../../admin/access.rst:658
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -1812,16 +1679,11 @@ msgid "`Viewers`"
 msgstr "`閲覧者`"
 
 #: ../../admin/access.rst:661
-#, fuzzy
-#| msgid ""
-#| "This role ensures visibility of public projects for all users. By "
-#| "default, all users are members of this team."
 msgid ""
 "This role ensures the visibility of public projects to all users. By "
 "default, all users are members of this team."
-msgstr ""
-"このロールにより、すべてのユーザーが公開プロジェクトを参照できる。デフォルト"
-"では、すべてのユーザーがこのチームのメンバーである。"
+msgstr "このロールは、すべてのユーザーが公開プロジェクトを参照できます。デフォルトで"
+"は、すべてのユーザーがこのチームのメンバーです。"
 
 #: ../../admin/access.rst:664 ../../admin/access.rst:672
 msgid ""
@@ -1885,19 +1747,14 @@ msgid "Default roles: `Add new projects`"
 msgstr "デフォルトのロール: `新しいプロジェクトの追加`"
 
 #: ../../admin/access.rst:696
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate teams and users as this can lead to "
-#| "unexpected problems! If you have no use for them, you can removing all "
-#| "their privileges instead."
 msgid ""
 "Never remove the predefined Weblate teams and users, as that can lead to "
 "unexpected problems! If you have no use for them, simply remove all their "
 "privileges instead."
 msgstr ""
-"想定外の問題が発生することあるので、デフォルトで設定済みの Weblate チームと"
-"ユーザーは決して削除しないでください。これらの権限が不要な場合は、権限をすべ"
-"て削除できます。"
+"想定外の問題が発生することがあるので、デフォルトで設定済みの Weblate チームと"
+"ユーザーは決して削除しないでください。削除する代わりに、アクセス権をすべて削"
+"除してください。"
 
 #: ../../admin/access.rst:701
 msgid "Additional access restrictions"
@@ -4618,16 +4475,12 @@ msgid "Google OAuth 2"
 msgstr "Google OAuth 2"
 
 #: ../../admin/auth.rst:197
-#, fuzzy
-#| msgid ""
-#| "To use Google OAuth 2, you need to register an application on <https://"
-#| "console.developers.google.com/> and enable the Google+ API."
 msgid ""
 "To use Google OAuth 2, you need to register an application at <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
-"Google OAuth 2 を使用するには、<https://console.developers.google.com/> にア"
-"プリケーションを登録して、Google+API を有効にすることが必要です。"
+"Google OAuth 2 を使用するには、<https://console.developers.google.com/> "
+"にアプリケーションを登録して、Google+API を有効にすることが必要です。"
 
 #: ../../admin/auth.rst:200
 msgid ""
@@ -4670,16 +4523,12 @@ msgid "GitLab OAuth 2"
 msgstr "GitLab OAuth 2"
 
 #: ../../admin/auth.rst:257
-#, fuzzy
-#| msgid ""
-#| "For using GitLab OAuth 2, you need to register an application on <https://"
-#| "gitlab.com/profile/applications>."
 msgid ""
 "For using GitLab OAuth 2, you need to register an application at <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
-"GitLab OAuth 2 を使用するには、<https://gitlab.com/profile/applications> にア"
-"プリケーションを必ず登録してください。"
+"GitLab OAuth 2 を使用するには、<https://gitlab.com/profile/applications> "
+"にアプリケーションを必ず登録してください。"
 
 #: ../../admin/auth.rst:260
 msgid ""
@@ -4694,32 +4543,22 @@ msgid ":doc:`psa:backends/gitlab`"
 msgstr ":doc:`psa:backends/gitlab`"
 
 #: ../../admin/auth.rst:289
-#, fuzzy
-#| msgid "GitLab OAuth 2"
 msgid "Gitea OAuth 2"
-msgstr "GitLab OAuth 2"
+msgstr "Gitea OAuth 2"
 
 #: ../../admin/auth.rst:291
-#, fuzzy
-#| msgid ""
-#| "For using GitLab OAuth 2, you need to register an application on <https://"
-#| "gitlab.com/profile/applications>."
 msgid ""
 "For using Gitea OAuth 2, you need to register an application at ``https://"
 "GITEA SERVER/user/settings/applications``."
 msgstr ""
-"GitLab OAuth 2 を使用するには、<https://gitlab.com/profile/applications> にア"
-"プリケーションを必ず登録してください。"
+"Gitea OAuth 2 を使用するには、<https://GITEA SERVER/user/settings/"
+"applications> にアプリケーションを必ず登録してください。"
 
 #: ../../admin/auth.rst:294
-#, fuzzy
-#| msgid ""
-#| "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``."
-msgstr ""
-"リダイレクト URL は ``https://WEBLATE SERVER/accounts/complete/slack/`` で"
-"す。"
+msgstr "リダイレクト URL は ``https://WEBLATE SERVER/accounts/complete/gitea/`` "
+"です。"
 
 #: ../../admin/auth.rst:316
 msgid ""
@@ -4727,12 +4566,13 @@ msgid ""
 "production deployment with Forgejo, see `Codeberg Translate <http://"
 "translate.codeberg.org>`_"
 msgstr ""
+"上記の設定は Forgejo でも機能します。Forgejo "
+"を使用した本番環境のデプロイメントの例については、`Codeberg Translate "
+"<http://translate.codeberg.org>`_ を参照してください。"
 
 #: ../../admin/auth.rst:322
-#, fuzzy
-#| msgid ":doc:`psa:backends/gitlab`"
 msgid ":doc:`psa:backends/gitea`"
-msgstr ":doc:`psa:backends/gitlab`"
+msgstr ":doc:`psa:backends/gitea`"
 
 #: ../../admin/auth.rst:327
 msgid "Microsoft Azure Active Directory"
@@ -4790,16 +4630,12 @@ msgid "Slack"
 msgstr "Slack"
 
 #: ../../admin/auth.rst:385
-#, fuzzy
-#| msgid ""
-#| "For using Slack OAuth 2, you need to register an application on <https://"
-#| "api.slack.com/apps>."
 msgid ""
 "For using Slack OAuth 2, you need to register an application at <https://api."
 "slack.com/apps>."
 msgstr ""
-"Slack OAuth 2 を使用するには、 <https://api.slack.com/apps> でアプリケーショ"
-"ンを登録する必要があります。"
+"Slack OAuth 2 を使用するには、 <https://api.slack.com/apps> "
+"でアプリケーションを登録する必要があります。"
 
 #: ../../admin/auth.rst:388
 msgid ""
@@ -5205,38 +5041,34 @@ msgstr "二要素認証は、パスワードだけでなく、追加の認証要
 "のセキュリティをより強固にします。"
 
 #: ../../admin/auth.rst:791
-#, fuzzy
-#| msgid "Weblate does following escaping of strings:"
 msgid "Weblate supports the following second factors:"
-msgstr "Weblate がエスケープする文字列:"
+msgstr "Weblate は次の二要素認証に対応しています。"
 
 #: ../../admin/auth.rst:793
 msgid "Security keys (WebAuthn)"
 msgstr "セキュリティ キー（WebAuthn）"
 
 #: ../../admin/auth.rst:794
-#, fuzzy
-#| msgid "No other database servers are supported."
 msgid "Both, Passkeys and security keys are supported."
-msgstr "他のデータベース サーバーには対応していません。"
+msgstr "パス キーと秘密鍵の両方に対応しています。"
 
 #: ../../admin/auth.rst:796
 msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
-msgstr ""
+msgstr "パスキーにはユーザー認証が含まれており、タッチ、顔認識、デバイスのパスワード"
+"、または PIN を使用して ID を検証します。"
 
 #: ../../admin/auth.rst:798
 msgid ""
 "Security keys are WebAuthn credentials that can only be used as a second "
 "factor of authentication, and these only validate user presence."
-msgstr ""
+msgstr "セキュリティ キーは、認証の 2 番目の要素としてのみ使用できる WebAuthn "
+"資格情報であり、ユーザーの存在のみを検証します。"
 
 #: ../../admin/auth.rst:800
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator app (TOTP)"
-msgstr "認証"
+msgstr "認証アプリ（TOTP）"
 
 #: ../../admin/auth.rst:801
 msgid ""
@@ -5245,6 +5077,10 @@ msgid ""
 "time passwords that are used as a second factor to verify your identity when "
 "prompted during sign-in."
 msgstr ""
+"Aegis、Bitwarden、Google Authenticator、1Password、Authy、Microsoft "
+"Authenticator などの認証アプリやブラウザ拡張機能は、サインイン時に求められた"
+"場合に、あなたの身元を確認するための第二要素として使用する、ワンタイムパスワ"
+"ードを生成します。"
 
 #: ../../admin/auth.rst:806
 msgid "Recovery codes"
@@ -5263,24 +5099,31 @@ msgid ""
 "Keep your recovery codes as safe as your password. We recommend saving them "
 "with a password manager such as Bitwarden, 1Password, Authy, or Keeper."
 msgstr ""
+"回復コードをパスワードと同じくらい安全な場所に保管してください。Bitwarden、1P"
+"assword、Authy、または Keeper "
+"などのパスワードマネージャーに保存することをお勧めします。"
 
 #: ../../admin/auth.rst:811
 msgid ""
 "Each user can configure this in :ref:`profile-account` and second factor "
 "will be required to sign in addition to the existing authentication method."
 msgstr ""
+"各ユーザーは、これを :ref:`profile-account` で設定することができます。"
+"既存の認証方法に加えてサインインには 2 番目の要素が必要となります。"
 
 #: ../../admin/auth.rst:814
 msgid ""
 "This can be enforced for users at the project (see :ref:`project-"
 "enforced_2fa`) or team level."
-msgstr ""
+msgstr "この設定は、プロジェクト（参照: :ref:project-"
+"enforced_2fa）またはチーム単位で、ユーザーに対して強制適用できます。"
 
 #: ../../admin/auth.rst:816
 msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
-msgstr ""
+msgstr "二要素認証を強制しているチームの権限は、それを設定していないユーザーには適用"
+"されません。"
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -7940,14 +7783,12 @@ msgid "OCR trained data for :ref:`screenshots`."
 msgstr ":ref:`screenshots` の OCR 学習済みデーター。"
 
 #: ../../admin/config.rst:311
-#, fuzzy
-#| msgid ""
-#| "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 msgid ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, "
 "CSP_FORM_SRC"
 msgstr ""
-"CSP_SCRIPT_SRC、CSP_IMG_SRC、CSP_CONNECT_SRC、CSP_STYLE_SRC、CSP_FONT_SRC"
+"CSP_SCRIPT_SRC、CSP_IMG_SRC、CSP_CONNECT_SRC、CSP_STYLE_SRC、CSP_FONT_SRC、CS"
+"P_FORM_SRC"
 
 #: ../../admin/config.rst:313
 msgid ""
@@ -8466,10 +8307,8 @@ msgid "ENABLE_HTTPS"
 msgstr "ENABLE_HTTPS"
 
 #: ../../admin/config.rst:702
-#, fuzzy
-#| msgid "Weblate now requires Python 3.7 or newer."
 msgid "Weblate now requires https for WebAuthn support."
-msgstr "Weblate は、Python 3.7 以降が必須となりました。"
+msgstr "Weblate では、WebAuthn に対応するため https が必要になりました。"
 
 #: ../../admin/config.rst:704
 msgid ""
@@ -9629,20 +9468,14 @@ msgid "SENTRY_SEND_PII"
 msgstr "SENTRY_SEND_PII"
 
 #: ../../admin/config.rst:1671
-#, fuzzy
-#| msgid ""
-#| "Allow Sentry to collect certain personally identifiable information. "
-#| "Turned on by default."
 msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "off by default."
-msgstr "Sentry が特定の個人情報を収集することを許可します。デフォルトは有効。"
+msgstr "Sentry が特定の個人情報を収集することを許可します。デフォルトは無効。"
 
 #: ../../admin/config.rst:1675
-#, fuzzy
-#| msgid "This is turned off by default."
 msgid "This is turned off by default now, used to be turned on by default."
-msgstr "デフォルトで無効です。"
+msgstr "これはデフォルトで無効になっていますが、以前はデフォルトで有効でした。"
 
 #: ../../admin/config.rst:1680
 msgid "SENTRY_TRACES_SAMPLE_RATE"
@@ -9658,10 +9491,9 @@ msgstr ""
 "す。"
 
 #: ../../admin/config.rst:1686
-#, fuzzy
-#| msgid "`Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
 msgid "`Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
-msgstr "`Sentry プロファイリング <https://docs.sentry.io/product/profiling/>`_"
+msgstr "`Sentry プロファイリング <https://docs.sentry.io/product/explore/profiling/"
+">`_"
 
 #: ../../admin/config.rst:1691
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
@@ -10042,23 +9874,22 @@ msgstr ""
 "コンポーネントからアドオンをアンインストールしてください。"
 
 #: ../../admin/config.rst:2018
-#, fuzzy
-#| msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgid ""
 ":ref:`addons`, :setting:`DEFAULT_ADDONS`, :setting:"
 "`ADDON_ACTIVITY_LOG_EXPIRY`"
-msgstr ":ref:`addons`、:setting:`DEFAULT_ADDONS`"
+msgstr ""
+":ref:`addons`、:setting:`DEFAULT_ADDONS`、:setting:`ADDON_ACTIVITY_LOG_EXPIRY"
+"`"
 
 #: ../../admin/config.rst:2025
-#, fuzzy
-#| msgid "AUDITLOG_EXPIRY"
 msgid "ADDON_ACTIVITY_LOG_EXPIRY"
-msgstr "AUDITLOG_EXPIRY"
+msgstr "ADDON_ACTIVITY_LOG_EXPIRY"
 
 #: ../../admin/config.rst:2029
 msgid ""
 "Configures how long activity logs for add-ons are kept. Defaults to 180 days."
-msgstr ""
+msgstr "アドオンのアクティビティ ログを保持する期間を構成します。デフォルトは 180 "
+"日です。"
 
 #: ../../admin/config.rst:2034
 msgid "WEBLATE_EXPORTERS"
@@ -13497,17 +13328,13 @@ msgstr ""
 "は変更が必要です。"
 
 #: ../../admin/install.rst:1372
-#, fuzzy
-#| msgid ""
-#| ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
-#| "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 msgid ""
 ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
-":setting:`CSP_SCRIPT_SRC`、:setting:`CSP_IMG_SRC`、:setting:"
-"`CSP_CONNECT_SRC`、:setting:`CSP_STYLE_SRC`、:setting:`CSP_FONT_SRC`"
+":setting:`CSP_SCRIPT_SRC`、:setting:`CSP_IMG_SRC`、:setting:`CSP_CONNECT_SRC`"
+"、:setting:`CSP_STYLE_SRC`、:setting:`CSP_FONT_SRC`、:setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install.rst:1382
 msgid "Sample configuration for NGINX and uWSGI"
@@ -13837,6 +13664,9 @@ msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgstr ""
+"Docker を使用したインストールでは、:envvar:`CELERY_SINGLE_PROCESS` "
+"を設定することで、単一プロセスの Celery "
+"セットアップを使用するように設定できます。"
 
 #: ../../admin/install.rst:1606
 msgid "This will have a noticeable performance impact on Weblate."
@@ -13916,18 +13746,13 @@ msgstr ""
 "`SENTRY_PROFILES_SAMPLE_RATE` を使用して設定できます。"
 
 #: ../../admin/install.rst:1651
-#, fuzzy
-#| msgid ""
-#| "`Sentry Performance Monitoring <https://docs.sentry.io/product/"
-#| "performance/>`_, `Sentry Profiling <https://docs.sentry.io/product/"
-#| "profiling/>`_"
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 msgstr ""
 "`Sentry パフォーマンス モニタリング <https://docs.sentry.io/product/"
 "performance/>`_ 、`Sentry プロファイリング <https://docs.sentry.io/product/"
-"profiling/>`_"
+"explore/profiling/>`_"
 
 #: ../../admin/install.rst:1655
 msgid "Rollbar"
@@ -14560,25 +14385,20 @@ msgstr "個々のワーカーのカテゴリを詳細に設定する方法:"
 #: ../../admin/install/docker.rst:368
 msgid ""
 "Memory usage can be further reduced by running only a single Celery process:"
-msgstr ""
+msgstr "Celery プロセスを 1 つだけ実行して、メモリ使用量をさらに削減する方法:"
 
 #: ../../admin/install/docker.rst:377
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-#| "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-#| "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-#| "`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
 msgid ""
 ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
 "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
 "`CELERY_BEAT_OPTIONS`, :envvar:`CELERY_SINGLE_PROCESS`, :envvar:`WEB_WORKERS`"
 msgstr ""
-":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-"`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-"`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-"`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
+":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`CELERY_SINGLE_PROCESS`, "
+":envvar:`WEB_WORKERS`"
 
 #: ../../admin/install/docker.rst:390
 msgid "Scaling horizontally"
@@ -14597,21 +14417,16 @@ msgstr ""
 "app/cache` ボリュームは、コンテナごとに別々にしてください。"
 
 #: ../../admin/install/docker.rst:399
-#, fuzzy
-#| msgid ""
-#| "Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE` "
-#| "environment variable. Please follow carefully the documentation as some "
-#| "of the services should be running just once in the cluster and the "
-#| "ordering of the services matters as well."
 msgid ""
 "Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE` "
 "environment variable. Please follow carefully the documentation as some of "
 "the services should be running just once in the cluster, and the order of "
 "the services matters as well."
 msgstr ""
-"各 Weblate コンテナには、:envvar:`WEBLATE_SERVICE` 環境変数を使用して役割が定"
-"義されています。一部のサービスはクラスター内で 1 回だけ実行すべきで、サービス"
-"の順序も重要であるため、ドキュメントに注意して従ってください。"
+"各 Weblate コンテナには、:envvar:`WEBLATE_SERVICE` "
+"環境変数を使用して役割が定義されています。一部のサービスはクラスター内で 1 回"
+"だけ実行すべきで、サービスの順序も重要であるため、ドキュメントに注意して従っ"
+"てください。"
 
 #: ../../admin/install/docker.rst:404
 msgid ""
@@ -14783,19 +14598,23 @@ msgstr ""
 #: ../../admin/install/docker.rst:546
 msgid ""
 "Whether to sent e-mail to admins upon server error. Turned on by default."
-msgstr ""
+msgstr "サーバー エラーが発生したときに、管理者にメールを送信するかどうか。デフォルト"
+"では有効です。"
 
 #: ../../admin/install/docker.rst:548
 msgid ""
 "You might want to use other error collection like Sentry or Rollbar and turn "
 "this off."
-msgstr ""
+msgstr "Sentry やRollbar のような他のエラー収集ツールを使うことを検討し、可能ならこれ"
+"を無効にしてください。"
 
 #: ../../admin/install/docker.rst:552
 msgid ""
 ":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, :envvar:"
 "`SENTRY_DSN`"
 msgstr ""
+":ref:`django:logging-security-"
+"implications`、:envvar:`ROLLBAR_KEY`、:envvar:`SENTRY_DSN`"
 
 #: ../../admin/install/docker.rst:558
 msgid "The email address that error messages are sent from."
@@ -15114,17 +14933,14 @@ msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgstr "``Content-Security-Policy`` HTTP ヘッダーの変更を可能にします。"
 
 #: ../../admin/install/docker.rst:849
-#, fuzzy
-#| msgid ""
-#| ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
-#| "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 msgid ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
-":ref:`csp`、:setting:`CSP_SCRIPT_SRC`、:setting:`CSP_IMG_SRC`、:setting:"
-"`CSP_CONNECT_SRC`、:setting:`CSP_STYLE_SRC`、:setting:`CSP_FONT_SRC`"
+":ref:`csp`、:setting:`CSP_SCRIPT_SRC`、:setting:`CSP_IMG_SRC`、:setting:`CSP_"
+"CONNECT_SRC`、:setting:`CSP_STYLE_SRC`、:setting:`CSP_FONT_SRC`、:setting:`CS"
+"P_FORM_SRC`"
 
 #: ../../admin/install/docker.rst:859
 msgid "Configures :setting:`LICENSE_FILTER`."
@@ -15234,16 +15050,12 @@ msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr ":setting:`UNUSED_ALERT_DAYS` の設定。"
 
 #: ../../admin/install/docker.rst:997
-#, fuzzy
-#| msgid "Allow CORS requests from given origins."
 msgid "Allow CORS requests to API from given origins."
-msgstr "指定したオリジンからの CORS 要求を許可します。"
+msgstr "指定したオリジンからの API への CORS 要求を許可します。"
 
 #: ../../admin/install/docker.rst:1010
-#, fuzzy
-#| msgid "Allow CORS requests from given origins."
 msgid "Allows CORS requests to API from all origins."
-msgstr "指定したオリジンからの CORS 要求を許可します。"
+msgstr "すべてのオリジンからの API への CORS リクエストを許可します。"
 
 #: ../../admin/install/docker.rst:1017
 msgid "Configures maximal body size accepted by the built-in web server."
@@ -15916,16 +15728,12 @@ msgstr ""
 "です。"
 
 #: ../../admin/install/docker.rst:1710
-#, fuzzy
-#| msgid "Configures :setting:`SENTRY_SEND_PII`."
 msgid "Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`."
-msgstr ":setting:`SENTRY_SEND_PII` を設定します。"
+msgstr ":setting:`SENTRY_TRACES_SAMPLE_RATE` を設定します。"
 
 #: ../../admin/install/docker.rst:1721
-#, fuzzy
-#| msgid "Configures :setting:`SENTRY_SEND_PII`."
 msgid "Configures :setting:`SENTRY_PROFILES_SAMPLE_RATE`."
-msgstr ":setting:`SENTRY_SEND_PII` を設定します。"
+msgstr ":setting:`SENTRY_PROFILES_SAMPLE_RATE` を設定します。"
 
 #: ../../admin/install/docker.rst:1732
 msgid "Configures :setting:`SENTRY_SEND_PII`."
@@ -15967,11 +15775,9 @@ msgstr ""
 ":ref:`weblate-cdn`、:setting:`LOCALIZE_CDN_URL`、:setting:`LOCALIZE_CDN_PATH`"
 
 #: ../../admin/install/docker.rst:1768
-#, fuzzy
-#| msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgid ""
 "Changing enabled apps, checks, add-ons, machine translation or autofixes"
-msgstr "有効なアプリ、検査、アドオン、または自動修正の変更"
+msgstr "有効なアプリ、検査、アドオン、機械翻訳、または自動修正の変更"
 
 #: ../../admin/install/docker.rst:1770
 msgid ""
@@ -15980,16 +15786,12 @@ msgid ""
 msgstr "組み込まれた有効な品質検査、アドオン、または自動修正を設定する変数:"
 
 #: ../../admin/install/docker.rst:1799
-#, fuzzy
-#| msgid ""
-#| ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:"
-#| "`WEBLATE_ADDONS`, :setting:`django:INSTALLED_APPS`"
 msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS` :setting:`WEBLATE_MACHINERY`"
 msgstr ""
-":setting:`CHECK_LIST`、:setting:`AUTOFIX_LIST`、:setting:`WEBLATE_ADDONS`、:"
-"setting:`django:INSTALLED_APPS`"
+":setting:`CHECK_LIST`、:setting:`AUTOFIX_LIST`、:setting:`WEBLATE_ADDONS`、:s"
+"etting:`django:INSTALLED_APPS`、:setting:`WEBLATE_MACHINERY`"
 
 #: ../../admin/install/docker.rst:1806
 msgid "Container settings"
@@ -16048,6 +15850,9 @@ msgid ""
 "This variable can be set to ``1`` to run only one celery process. This "
 "reduces memory usage but may impact Weblate performance."
 msgstr ""
+"この変数を ``1`` に設定すると、celery プロセスを 1 "
+"つだけ実行できます。これによりメモリ使用量は減りますが、Weblate "
+"の性能に影響がでることがあります。"
 
 #: ../../admin/install/docker.rst:1860
 msgid ":ref:`minimal-celery`"
@@ -16142,20 +15947,15 @@ msgid "Docker container volumes"
 msgstr "Docker コンテナのボリューム"
 
 #: ../../admin/install/docker.rst:1904
-#, fuzzy
-#| msgid ""
-#| "There are two volumes (data and cache) exported by the Weblate container. "
-#| "The other service containers (PostgreSQL or Redis) have their data "
-#| "volumes as well, but those are not covered by this document."
 msgid ""
 "There are two volumes (``data`` and ``cache``) exported by the Weblate "
 "container. The other service containers (PostgreSQL or Redis) have their "
 "data volumes as well, but those are not covered by this document."
 msgstr ""
-"Weblate コンテナによってエクスポートされた 2 つのボリューム（データおよび"
-"キャッシュ）があります。他のサービス コンテナ（PostgreSQL または Redis）にも"
-"データーボリュームがありますが、そのことについてはこのドキュメントでは説明し"
-"ません。"
+"Weblate コンテナによってエクスポートされた 2 つのボリューム（``データ`` "
+"および ``キャッシュ``）があります。他のサービス コンテナ（PostgreSQL または R"
+"edis）にもデーターボリュームがありますが、そのことについてはこのドキュメント"
+"では説明しません。"
 
 #: ../../admin/install/docker.rst:1908
 #, fuzzy
@@ -16172,42 +15972,28 @@ msgstr ""
 "り、Weblate のインストールをカスタマイズするために使用します。"
 
 #: ../../admin/install/docker.rst:1912
-#, fuzzy
-#| msgid ""
-#| "The placement of the Docker volume on host system depends on your Docker "
-#| "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
-#| "weblate-docker_weblate-data/_data/` (the path consist of name of your "
-#| "docker-compose directory, container, and volume names). In the container "
-#| "it is mounted as :file:`/app/data`."
 msgid ""
 "The placement of the Docker volume on host system depends on your Docker "
 "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
 "weblate-docker_weblate-data/_data/` (the path consist of name of your docker-"
 "compose directory, container, and volume names)."
 msgstr ""
-"ホストシステム上の Docker ボリュームの配置は Docker 設定によって異なります"
-"が、通常は次の場所に格納されます。:file:`/var/lib/docker/volumes/weblate-"
-"docker_weblate-data/_data/` （パスは、docker-compose ディレクトリの名前、コン"
-"テナ、およびボリューム名で構成される）。コンテナでは、:file:`/app/data` とし"
-"てマウントされます。"
+"ホストシステム上の Docker ボリュームの配置は Docker "
+"設定によって異なりますが、通常は次の場所に格納されます。:file:`/var/lib/"
+"docker/volumes/weblate-docker_weblate-data/_data/` （パスは、docker-compose "
+"ディレクトリの名前、コンテナ、およびボリューム名で構成される）。"
 
 #: ../../admin/install/docker.rst:1917
-#, fuzzy
-#| msgid ""
-#| "The cache volume is mounted as :file:`/app/cache` and is used to store "
-#| "static files and :setting:`CACHE_DIR`. Its content is recreated on "
-#| "container startup and the volume can be mounted using ephemeral "
-#| "filesystem such as `tmpfs`."
 msgid ""
 "The ``cache`` volume is mounted as :file:`/app/cache` and is used to store "
 "static files and :setting:`CACHE_DIR`. Its content is recreated on container "
 "startup and the volume can be mounted using ephemeral filesystem such as "
 "`tmpfs`."
 msgstr ""
-"キャッシュ ボリュームは、:file:`/app/cache` としてマウントされ、静的ファイル"
-"と :setting:`CACHE_DIR` を保存するために使用します。その内容はコンテナの起動"
-"時に再作成され、`tmpfs` などの一時ファイルシステムを使用してボリュームをマウ"
-"ントできます。"
+"``キャッシュ`` ボリュームは、:file:`/app/cache` としてマウントされ、"
+"静的ファイルと :setting:`CACHE_DIR` "
+"を保存するために使用します。その内容はコンテナの起動時に再作成され、`tmpfs` "
+"などの一時ファイルシステムを使用してボリュームをマウントできます。"
 
 #: ../../admin/install/docker.rst:1921
 msgid ""
@@ -16218,14 +16004,12 @@ msgstr ""
 "必要です。これは、コンテナ内でユーザーが使用するディレクトリです。"
 
 #: ../../admin/install/docker.rst:1926
-#, fuzzy
-#| msgid ""
-#| "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/engine/storage/"
 "volumes/>`_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 msgstr ""
-"`Docker ボリューム ドキュメント <https://docs.docker.com/storage/volumes/>`_"
+"`Docker ボリューム ドキュメント <https://docs.docker.com/engine/storage/"
+"volumes/>`_ 、:setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 
 #: ../../admin/install/docker.rst:1931
 msgid "Read-only root filesystem"
@@ -17222,14 +17006,12 @@ msgstr ""
 "ロランゲージは使用しないことを推奨します。"
 
 #: ../../admin/languages.rst:94
-#, fuzzy
-#| msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
 msgid ""
 "`Macrolanguages at Wikipedia <https://en.wikipedia.org/wiki/"
 "ISO_639_macrolanguage>`_"
 msgstr ""
-"`セミコロン Wikipedia 参照: <https://ja.wikipedia.org/wiki/"
-"%E3%82%BB%E3%83%9F%E3%82%B3%E3%83%AD%E3%83%B3>`_"
+"`Wikipedia のマクロ言語 <https://en.wikipedia.org/wiki/"
+"ISO_639_macrolanguage>`_"
 
 #: ../../admin/languages.rst:99
 msgid "Each language consists of following fields:"
@@ -17629,10 +17411,8 @@ msgstr ""
 "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 
 #: ../../admin/machine.rst:118
-#, fuzzy
-#| msgid "Untranslated"
 msgid "Cyrtranslit"
-msgstr "未翻訳"
+msgstr "Cyrtranslit"
 
 #: ../../admin/machine.rst:122
 msgid "``cyrtranslit``"
@@ -17644,22 +17424,23 @@ msgid "`This service has no configuration.`"
 msgstr "`このサービスには設定がありません。`"
 
 #: ../../admin/machine.rst:125
-#, fuzzy
-#| msgid "Machine translation service provided by Systran."
 msgid "Machine translation service using the Cyrtranslit library."
-msgstr "シストランが提供する機械翻訳サービス。"
+msgstr "Cyrtranslit ライブラリを使用した機械翻訳サービス。"
 
 #: ../../admin/machine.rst:127
 msgid ""
 "This service converts text between Cyrillic and Latin scripts for languages "
 "that have both scripts."
-msgstr ""
+msgstr "このサービスは、キリル文字とラテン文字の両方の文字セットを持つ言語のテキスト"
+"を相互変換します。"
 
 #: ../../admin/machine.rst:131
 msgid ""
 "`Cyrtranslit repository <https://github.com/opendatakosovo/cyrillic-"
 "transliteration>`_"
 msgstr ""
+"`Cyrtranslit リポジトリ <https://github.com/opendatakosovo/cyrillic-"
+"transliteration>`_"
 
 #: ../../admin/machine.rst:136
 msgid "DeepL"
@@ -18112,6 +17893,9 @@ msgid ""
 "<https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-"
 "dictionary>`_, see :ref:`glossary-mt`."
 msgstr ""
+"このサービスは、`動的辞書 <https://learn.microsoft.com/en-us/azure/"
+"ai-services/translator/dynamic-dictionary>`_ を介して :ref:`glossary` "
+"を自動的に使用します。参照: :ref:`glossary-mt`。"
 
 #: ../../admin/machine.rst:357
 msgid "Translator Text API V2"
@@ -18247,7 +18031,7 @@ msgstr "OpenAI"
 
 #: ../../admin/machine.rst:454
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "OpenAI API ベース URL"
 
 #: ../../admin/machine.rst:454
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
@@ -18266,10 +18050,8 @@ msgid "``auto`` -- Automatic selection"
 msgstr "``auto`` -- 自動選択"
 
 #: ../../admin/machine.rst:460
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-4o`` -- GPT-4o"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:462
 msgid "``gpt-4-1106-preview`` -- GPT-4 Turbo"
@@ -18280,30 +18062,24 @@ msgid "``gpt-4`` -- GPT-4"
 msgstr "``gpt-4`` -- GPT-4"
 
 #: ../../admin/machine.rst:466
-#, fuzzy
-#| msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 msgid "``gpt-3.5-turbo-1106`` -- Updated GPT 3.5 Turbo"
-msgstr "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
+msgstr "``gpt-3.5-turbo-1106`` -- GPT 3.5 Turbo 更新"
 
 #: ../../admin/machine.rst:468
 msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 msgstr "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 
 #: ../../admin/machine.rst:470
-#, fuzzy
-#| msgid "``auto`` -- Automatic selection"
 msgid "``custom`` -- Custom model"
-msgstr "``auto`` -- 自動選択"
+msgstr "``custom`` -- カスタムモデル"
 
 #: ../../admin/machine.rst:472
 msgid "``custom_model``"
 msgstr "``custom_model``"
 
 #: ../../admin/machine.rst:472
-#, fuzzy
-#| msgid "Customize the component name"
 msgid "Custom model name"
-msgstr "コンポーネント名のカスタマイズ"
+msgstr "カスタム モデル名"
 
 #: ../../admin/machine.rst:472
 msgid "Only needed when model is set to 'Custom model'"
@@ -18359,10 +18135,8 @@ msgstr ""
 "は OpenAI のプロンプトで使用することにより翻訳スタイルを変更できます。"
 
 #: ../../admin/machine.rst:493
-#, fuzzy
-#| msgid "Support for v2 variant of this format was added."
 msgid "Support for custom model and base URL was added."
-msgstr "この形式の v2 版に対応しました。"
+msgstr "カスタム モデルとベース URL に対応しました。"
 
 #: ../../admin/machine.rst:497
 msgid ""
@@ -18539,6 +18313,9 @@ msgid ""
 "`Translated`, :guilabel:`Approved`, or :guilabel:`Read-only` :ref:`states "
 "<states>` inside Weblate."
 msgstr ""
+"Weblate の機械翻訳サービスは、Weblate内の ``翻訳済み``、``承認済み``、または "
+"``翻訳禁止``、``翻訳文の状態 <states>`` "
+"に現在存在する文字列と完全に一致する場合に翻訳を提供できます。"
 
 #: ../../admin/machine.rst:612
 msgid "Weblate Translation Memory"
@@ -18549,11 +18326,6 @@ msgid "``weblate-translation-memory``"
 msgstr "``weblate-translation-memory``"
 
 #: ../../admin/machine.rst:617
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`translation-memory` as a machine translation service. Any "
-#| "string that has been translated in past (or uploaded to the translation "
-#| "memory) can be translated in this way."
 msgid ""
 "Use :ref:`translation-memory` as a machine translation service. Any string "
 "that has been translated before (or uploaded to the translation memory) can "
@@ -18561,11 +18333,12 @@ msgid ""
 msgstr ""
 "機械翻訳サービスとして :ref:`translation-memory` を使用します。過去に翻訳され"
 "た（または翻訳メモリにアップロードされた）文字列は、この方法で翻訳できます。"
+"この提案ソースは、あいまい一致で機能します。"
 
 #: ../../admin/machine.rst:624
 msgid ""
 "Recreating :ref:`translation-memory` reduces capabilities of this TM source."
-msgstr ""
+msgstr ":ref:`translation-memory` を再作成すると、この TM ソースの機能が低下します。"
 
 #: ../../admin/machine.rst:629
 msgid "Yandex"
@@ -19943,7 +19716,8 @@ msgstr ""
 #: ../../admin/optionals.rst:30
 msgid ""
 "Git exporter is turned on in our official Docker image. To turn it of, use:"
-msgstr ""
+msgstr "公式 Docker イメージでは Git "
+"エクスポーターが有効になっています。無効にするには、次のコマンドを使用:"
 
 #: ../../admin/optionals.rst:37 ../../admin/optionals.rst:102
 #: ../../admin/optionals.rst:179 ../../faq.rst:299
@@ -20014,7 +19788,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:91
 msgid "Billing plan creation and assignment"
-msgstr ""
+msgstr "料金プランの作成と割り当て"
 
 #: ../../admin/optionals.rst:93
 msgid ""
@@ -20022,25 +19796,33 @@ msgid ""
 "`Administration` section (represented by the wrench icon) and open the "
 "`Tools` screen. From there, proceed to the `Django admin interface`."
 msgstr ""
+"請求を開始するには、まず料金プランを作成が必要です。"
+"画面左上のレンチアイコンから `管理` セクションを開き、`ツール` "
+"メニューを選択してください。そして、`Django 管理画面` に進んでください。"
 
 #: ../../admin/optionals.rst:95
 msgid ""
 "In the Django admin interface, locate the `BILLING` section and add a "
 "billing plan. For instance, you can add a `Free` plan with no cost."
 msgstr ""
+"Django 管理画面で、`請求` "
+"セクションを見つけて、料金プランを追加してください。例えば、"
+"コストがかからない `無料` プランを追加することができます。"
 
 #: ../../admin/optionals.rst:97
 msgid ""
 "If you wish to assign a billing plan to an existing project, this can also "
 "be done within the `Django admin interface` using the `Customer billings` "
 "option."
-msgstr ""
+msgstr "既存のプロジェクトに料金プランを割り当てる場合は、`Django 管理画面` 内で "
+"`顧客課金` オプションを使用して行うこともできます。"
 
 #: ../../admin/optionals.rst:99
 msgid ""
 "Lastly, the `Django admin interface` provides an `Invoice` option for "
 "logging your customer payments."
-msgstr ""
+msgstr "最後に、`Django 管理インターフェース` には、顧客の支払いを記録するための "
+"`請求` オプションが用意されています。"
 
 #: ../../admin/optionals.rst:104
 msgid ""
@@ -20905,7 +20687,8 @@ msgstr "強制的な二要素認証"
 msgid ""
 "Enforce :ref:`2fa` for all contributors. Users won’t be allowed to perform "
 "any operations within the project without having it configured."
-msgstr ""
+msgstr "すべての貢献者に :ref:`2fa` を適用します。ユーザーは設定しないと、プロジェク"
+"ト内でいかなる操作も実行できなくなります。"
 
 #: ../../admin/projects.rst:216 ../../workflows.rst:112 ../../workflows.rst:144
 #: ../../workflows.rst:177
@@ -25770,10 +25553,8 @@ msgid "event changed text"
 msgstr "イベントで変更されたテキストや詳細"
 
 #: ../../api.rst:2250
-#, fuzzy
-#| msgid "Previous"
 msgid "previous text"
-msgstr "前へ"
+msgstr "前のテキスト"
 
 #: ../../api.rst:2251
 msgid "additional details about the change"
@@ -27077,28 +26858,20 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:111
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/119?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/119?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"116?closed=1>`__。"
 
 #: ../../changes.rst:114
-#, fuzzy
-#| msgid "Weblate 5.5.2"
 msgid "Weblate 5.6.2"
-msgstr "Weblate 5.5.2"
+msgstr "Weblate 5.6.2"
 
 #: ../../changes.rst:116
-#, fuzzy
-#| msgid "Released on July 1st 2022."
 msgid "Released on July 1st 2024."
-msgstr "2022 年 7 月 1 日にリリース。"
+msgstr "2024 年 7 月 1 日にリリース。"
 
 #: ../../changes.rst:120
 #, fuzzy
@@ -38217,10 +37990,8 @@ msgstr ""
 "を試してみてください。"
 
 #: ../../contributing/issues.rst:19
-#, fuzzy
-#| msgid "How to report a security issue?"
 msgid "Reporting security issues"
-msgstr "セキュリティ問題をどのように報告すれば良いですか？"
+msgstr "セキュリティ問題の報告"
 
 #: ../../contributing/issues.rst:21
 msgid ""
@@ -43632,16 +43403,12 @@ msgid ""
 msgstr ""
 
 #: ../../formats/android.rst:87
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid "``commonMain/composeResources/values-*/strings.xml``"
-msgstr "``res/values-*/strings.xml``"
+msgstr "``commonMain/composeResources/values-*/strings.xml``"
 
 #: ../../formats/android.rst:89
-#, fuzzy
-#| msgid "``res/values/strings.xml``"
 msgid "``commonMain/composeResources/values/strings.xml``"
-msgstr "``res/values/strings.xml``"
+msgstr "``commonMain/composeResources/values/strings.xml``"
 
 #: ../../formats/apple.rst:4
 msgid "Apple iOS strings"
@@ -50417,16 +50184,12 @@ msgid "``state:TEXT``"
 msgstr "``state:TEXT``"
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string states (``approved``, ``translated``, ``needs-"
-#| "editing``, ``empty``, ``read-only``), supports :ref:`search-operators`."
 msgid ""
 "Search for string states (``approved``, ``translated``, ``needs-editing``, "
 "``empty``, ``read-only``)."
 msgstr ""
 "文字列の状態を検索（``approved``, ``translated``, ``needs-editing``, "
-"``empty``, ``read-only``）。:ref:`search-operators` に対応。"
+"``empty``, ``read-only``）。"
 
 #: ../../user/search.rst:50
 msgid ""
@@ -50468,60 +50231,48 @@ msgid "Filters string on a condition:"
 msgstr ""
 
 #: ../../user/search.rst:58
-#, fuzzy
-#| msgid "``read-only``"
 msgid "``read-only`` or ``readonly``"
-msgstr "``read-only``"
+msgstr "``read-only`` または ``readonly``"
 
 #: ../../user/search.rst:59
 msgid "Read-only strings, same as ``state:read-only``."
-msgstr ""
+msgstr "翻訳禁止文字列、``state:read-only`` と同じ。"
 
 #: ../../user/search.rst:60
 msgid "``approved``"
 msgstr "``approved``"
 
 #: ../../user/search.rst:61
-#, fuzzy
-#| msgid "Add as approved translation (``approve``)"
 msgid "Approved strings, same as ``state:approved``."
-msgstr "承認された翻訳として追加 (``approve``)"
+msgstr "承認済みの文字列。``state:approved`` と同じです。"
 
 #: ../../user/search.rst:62
 msgid "``needs-editing`` or ``fuzzy``"
-msgstr ""
+msgstr "``needs-editing`` または ``fuzzy``"
 
 #: ../../user/search.rst:63
 msgid "Needing editing strings, same as ``state:needs-editing``."
-msgstr ""
+msgstr "要編集な文字列。``state:needs-editing`` と同じです。"
 
 #: ../../user/search.rst:65
-#, fuzzy
-#| msgid "Change translated strings (``replace-translated``)"
 msgid "Translated strings, same as ``state:>translated``."
-msgstr "翻訳された文字列を変更する (``replace-translation``)"
+msgstr "翻訳済みの文字列、``state:>translated`` と同じ。"
 
 #: ../../user/search.rst:66
-#, fuzzy
-#| msgid "``translated``"
 msgid "``untranslated``:"
-msgstr "``translated``"
+msgstr "``untranslated``:"
 
 #: ../../user/search.rst:67
-#, fuzzy
-#| msgid "Change translated strings (``replace-translated``)"
 msgid "Untranslated strings, same as ``state:<translated``."
-msgstr "翻訳された文字列を変更する (``replace-translation``)"
+msgstr "未翻訳の文字列、``state:<translated`` と同じ。"
 
 #: ../../user/search.rst:68
 msgid "``pending``"
 msgstr "``pending``"
 
 #: ../../user/search.rst:69
-#, fuzzy
-#| msgid "Pending changes not yet committed to the Weblate repository"
 msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
-msgstr "Weblate のリポジトリにコミットされていない保留中の変更"
+msgstr "まだファイルに保存されていない翻訳待ちの文字列（参照: :ref:`lazy-commit`）。"
 
 #: ../../user/search.rst:70 ../../user/search.rst:191
 msgid "``language:TEXT``"
@@ -50866,24 +50617,17 @@ msgid "``translates:TEXT``"
 msgstr "``translates:TEXT``"
 
 #: ../../user/search.rst:196
-#, fuzzy
-#| msgid "User has contributed to a given language in the past month."
 msgid "User has contributed to a given language in the past 90 days."
-msgstr "ユーザーは過去 1 か月間、特定の言語に貢献しました。"
+msgstr "過去 90 日間に特定の言語に貢献したユーザー。"
 
 #: ../../user/search.rst:197
 msgid "``contributes:TEXT``"
 msgstr "``contributes:TEXT``"
 
 #: ../../user/search.rst:198
-#, fuzzy
-#| msgid ""
-#| "User has contributed to a given project or component in the past month."
 msgid ""
 "User has contributed to a given project or component in the past 90 days."
-msgstr ""
-"ユーザーは過去 1 か月間、特定のプロジェクトまたはコンポーネントに貢献しまし"
-"た。"
+msgstr "過去 90 日間に特定のプロジェクトまたはコンポーネントに貢献したユーザー。"
 
 #: ../../user/search.rst:200
 msgid "Additional lookups are available in the :ref:`management-interface`:"
@@ -50918,10 +50662,8 @@ msgid "Translating using Weblate"
 msgstr "Weblate を使用した翻訳"
 
 #: ../../user/translating.rst:4
-#, fuzzy
-#| msgid "Thank you for your interest in trying Weblate!"
 msgid "Thank you for your interest in translating with Weblate!"
-msgstr "Weblate の試用に興味をお寄せいただきありがとうございます！"
+msgstr "Weblate での翻訳に興味を持っていただき、ありがとうございます！"
 
 #: ../../user/translating.rst:6
 msgid ""
@@ -50929,22 +50671,20 @@ msgid ""
 "direct translations * Project accepts the suggestions made by users. "
 "Sometimes, anonymous suggestions are accepted as well."
 msgstr ""
+"通常使用する、2 種類の翻訳方法:　プロジェクトが翻訳を直接受け付ける方式、ユー"
+"ザーからの翻訳提案を受け付ける方式。場合によっては、匿名の提案も取り入れられ"
+"ることがあります。"
 
 #: ../../user/translating.rst:11
-#, fuzzy
-#| msgid ""
-#| "There are several review based workflows available in Weblate, see :ref:"
-#| "`workflows`."
 msgid "There are more translation workflows detailed in :ref:`workflows`."
-msgstr ""
-"Weblate では、査読のためのワークフローを複数用意しています。参照: :ref:"
-"`workflows`。"
+msgstr ":ref:`workflows` には、さらに詳しい翻訳ワークフローを記載しています。"
 
 #: ../../user/translating.rst:13
 msgid ""
 "Projects, or the components in them are either visible to everyone, or only "
 "to a certain group of translators."
-msgstr ""
+msgstr "プロジェクトや、それに含まれるコンポーネントは公開範囲が設定できます。全員に"
+"公開することも、特定の翻訳者グループだけに限定することもできます。"
 
 #: ../../user/translating.rst:18
 msgid ":ref:`access-control`, :ref:`workflows`"
@@ -50963,14 +50703,6 @@ msgid "Translation links"
 msgstr "翻訳リンク"
 
 #: ../../user/translating.rst:33
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to its actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Untranslated strings` or :guilabel:`Unfinished strings`. "
-#| "If the whole project is translated, without error, :guilabel:`All "
-#| "strings` is still available. Alternatively you can use the search field "
-#| "to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -50981,40 +50713,30 @@ msgid ""
 msgstr ""
 "コンポーネントには、翻訳の編集画面に移動できるリンクの一覧があります。さらに"
 "翻訳は、例えば :guilabel:`未翻訳の文字列` や :guilabel:`翻訳未完了の文字列` "
-"のような個別の検査結果に分類されています。プロジェクト全体で不合格とならずに"
-"翻訳できた場合であっても、:guilabel:`すべての文字列` が使用できます。また、検"
-"索フィールドを使用して特定の文字列または用語の検索もできます。"
+"のような個別の検査結果に分類されています。プロジェクト全体がエラーなしで翻訳"
+"済みの場合であっても、:guilabel:`すべての文字列` を確認できます。また、:ref:`"
+"検索 <Searching>` 機能を使用して特定の文字列または用語の検索もできます。"
 
 #: ../../user/translating.rst:48
 msgid "Actual permissions might vary depending on your Weblate configuration."
 msgstr "実際の権限は、Weblate の構成によって異なります。"
 
 #: ../../user/translating.rst:50
-#, fuzzy
-#| msgid ""
-#| "Anonymous users can only (by default) forward suggestions. Doing so is "
-#| "still available to signed-in users, in cases where uncertainty about the "
-#| "translation arises, prompting other translators to review it."
 msgid ""
 "Anonymous users (by default) can only forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about a translation "
 "arises, prompting other translators to review it."
 msgstr ""
-"匿名のユーザーは、（デフォルトでは）候補の提案しかできません。サインインして"
-"いるユーザーも、翻訳に不安がある場合は、他の翻訳者に翻訳を確認してもらうため"
-"に使用できます。"
+"匿名のユーザーは、（デフォルトでは）提案しかできません。サインインしているユ"
+"ーザーも、翻訳に不安がある場合は、他の翻訳者に翻訳を確認してもらうために提案"
+"を使用できます。"
 
 #: ../../user/translating.rst:54
-#, fuzzy
-#| msgid ""
-#| "The suggestions are scanned on a daily basis to remove duplicates and "
-#| "suggestions matching the current translation."
 msgid ""
 "All suggestions are scanned on a daily basis to remove duplicates and those "
 "matching current translations."
-msgstr ""
-"提案は、重複や現在の翻訳と一致する提案を削除するために、毎日スキャンされま"
-"す。"
+msgstr "すべての提案は毎日スキャンされ、重複したものや現在の翻訳に一致するものが削除"
+"されます。"
 
 #: ../../user/translating.rst:62
 msgid ""
@@ -51022,38 +50744,28 @@ msgid ""
 "strings * for reporting source string bugs when this functionality is turned "
 "on using :ref:`project-source_review`."
 msgstr ""
+"投稿できる 3 種類のコメント:　"
+"翻訳に関するコメント、原文に関するコメント、原文の間違いの報告、:ref"
+":`project-source_review` "
+"の設定でこの機能を有効にした場合、原文の間違いを報告できます。"
 
 #: ../../user/translating.rst:68
-#, fuzzy
-#| msgid ""
-#| "Three types of comments can be posted: for translations, source strings, "
-#| "or to report source string bugs when this functionality is turned on "
-#| "using :ref:`project-source_review`. Choose the one suitable to topic you "
-#| "want to discuss. Source string comments are in any event good for "
-#| "providing feedback on the original string, for example that it should be "
-#| "rephrased or to ask questions about it."
 msgid ""
 "Choose the suitable type for the topic you want to discuss. Source string "
 "comments are in any event good for providing feedback on the original "
 "string, for example that it should be rephrased, or to ask questions about "
 "it."
 msgstr ""
-"次の 3 種類のコメントが投稿できます。翻訳、原文に対して、または、:ref:"
-"`project-source_review` で有効にした場合の原文のバグの報告。議論する内容に合"
-"わせたものを選択します。原文へのコメントは、たとえば、原文の言い換えや原文に"
-"対する質問など、元の文字列へのフィードバックを提供するのに適しています。"
+"議論したい内容に合わせて種類を選んでください。原文に関するコメントは、元の文"
+"字列に関するフィードバック（言い換えるべき点など）を提供したり、質問したりす"
+"るのに適しています。"
 
 #: ../../user/translating.rst:73
-#, fuzzy
-#| msgid ""
-#| "You can use Markdown syntax in all comments and mention other users using "
-#| "``@mention``."
 msgid ""
 "Markdown syntax can be used in all comments, as well as mentioning other "
 "users by using``@username``."
-msgstr ""
-"すべてのコメントに Markdown 構文を使用でき、``@mention`` を使用して他のユー"
-"ザーにメンションできます。"
+msgstr "すべてのコメントに Markdown 構文を使用でき、``@mention`` "
+"を使用して他のユーザーにメンションできます。"
 
 #: ../../user/translating.rst:78
 msgid ""
@@ -51062,19 +50774,14 @@ msgstr ""
 ":ref:`report-source`、:ref:`source-reviews`、:ref:`project-source_review`"
 
 #: ../../user/translating.rst:85
-#, fuzzy
-#| msgid ""
-#| "Variants are used to group different length variants of the string. The "
-#| "frontend of your project can then use different strings depending on the "
-#| "screen or window size."
 msgid ""
 "Variants are used to group different-length variants of a string. The "
 "frontend of your project can then utilize different strings depending on the "
 "size of a screen or window."
 msgstr ""
-"別表記は、同じ意味で長さの違う文字列をグループ化するために使用します。プロ"
-"ジェクトのフロントエンドでは、画面またはウィンドウのサイズに応じて異なる文字"
-"列を使用できます。"
+"別表記は、同じ意味で長さの違う文字列をグループ化するために使用します。プロジ"
+"ェクトのフロントエンドでは、画面またはウィンドウのサイズに応じて異なる文字列"
+"を使用できます。"
 
 #: ../../user/translating.rst:91
 msgid ":ref:`variants`, :ref:`glossary-variants`"
@@ -51101,8 +50808,6 @@ msgid "Automatically translated"
 msgstr "自動翻訳された文字列"
 
 #: ../../user/translating.rst:103
-#, fuzzy
-#| msgid "String was translated using :ref:`auto-translation`."
 msgid "String translated using :ref:`auto-translation`."
 msgstr "文字列は :ref:`auto-translation` により翻訳されました。"
 
@@ -51111,8 +50816,6 @@ msgid "Source needs review"
 msgstr "査読が必要な原文"
 
 #: ../../user/translating.rst:105
-#, fuzzy
-#| msgid "String was marked for review using :ref:`source-reviews`."
 msgid "String marked for review using :ref:`source-reviews`."
 msgstr ":ref:`source-reviews` により、査読とマークされた文字列です。"
 
@@ -51167,15 +50870,6 @@ msgid "Plurals"
 msgstr "複数形"
 
 #: ../../user/translating.rst:135
-#, fuzzy
-#| msgid ""
-#| "Words changing form to account of their numeric designation are called "
-#| "plurals. Each language has its own definition of plurals. English, for "
-#| "example, supports one. In the singular definition of for example \"car\", "
-#| "implicitly one car is referenced, in the plural definition, \"cars\" two "
-#| "or more cars are referenced (or the concept of cars as a noun). Languages "
-#| "like for example Czech or Arabic have more plurals and also their rules "
-#| "for plurals are different."
 msgid ""
 "Words changing form to account for their numeric designation are called "
 "plurals. Each language has its own definition of them. English, for example, "
@@ -51186,20 +50880,13 @@ msgid ""
 "plurals are different as well."
 msgstr ""
 "数詞を考慮して形を変える単語を複数形といいます。複数形の定義は言語ごとに異な"
-"ります。例えば、英語では1つの複数形があります。例えば「car」という単数形の定"
-"義では、暗黙のうちに1台の車を指しますが、「cars」という複数形の定義では、2台"
-"以上の車（または、名詞としての車の概念）を指します。チェコ語やアラビア語など"
-"の言語にはもっと多くの複数形があり、複数形のルールも異なります。"
+"ります。例えば、英語では 1 "
+"つに対する複数形があります。例えば「car」という単数形の定義では、"
+"暗黙のうちに 1 台の車を指しますが、「cars」という複数形の定義では、2 台以上の"
+"車（または、名詞としての車の概念）を指します。チェコ語やアラビア語などの言語"
+"にはもっと多くの複数形があり、複数形のルールも異なります。"
 
 #: ../../user/translating.rst:142
-#, fuzzy
-#| msgid ""
-#| "Weblate has full support for each of these forms, in each respective "
-#| "language (by translating every plural separately). The number of fields "
-#| "and how it is in turn used in the translated application or project "
-#| "depends on the configured plural formula. Weblate shows the basic info, "
-#| "and the `Language Plural Rules`_ by the Unicode Consortium is a more "
-#| "detailed description."
 msgid ""
 "Weblate has full support for each of these forms, in each respective "
 "language. Each grammatical number is translated in a separate field for a "
@@ -51209,11 +50896,12 @@ msgid ""
 "shows the basic information and the `Language Plural Rules`_ by the Unicode "
 "Consortium is a more detailed description."
 msgstr ""
-"Weblate は、それぞれの言語に対して、これらの形式に完全に対応しています（すべ"
-"ての複数形を別々に翻訳する方法を採用）。入力枠の数と、それが翻訳するアプリ"
-"ケーションやプロジェクトでどのように使用されるのかは、複数形判定式の設定に"
-"よって異なります。Weblate には簡単な説明しかありませんが、Unicode コンソーシ"
-"アムの `Language Plural Rules`_ には詳しい説明があります。"
+"Weblate は、それぞれの言語に対して、これらの形式に完全に対応しています。各文"
+"法的な数は、翻訳言語に固有の事前に定義された基数集合に対して個別のフィールド"
+"で翻訳されます。入力枠の数と、それが翻訳するアプリケーションやプロジェクトで"
+"どのように使用されるのかは、複数形判定式の設定によって異なります。Weblate "
+"には簡単な説明しかありませんが、Unicode コンソーシアムの `Language Plural "
+"Rules`_ には詳しい説明があります。"
 
 #: ../../user/translating.rst:154
 msgid ":ref:`plural-definitions`"
@@ -51472,16 +51160,12 @@ msgid "Toggle the :guilabel:`Needs editing` checkbox."
 msgstr ":guilabel:`要編集` にチェックを付ける。"
 
 #: ../../user/translating.rst:260
-#, fuzzy
-#| msgid ":kbd:`Alt+↑` or"
 msgid ":kbd:`→` and"
-msgstr ":kbd:`Alt+↑` または"
+msgstr ":kbd:`→` または"
 
 #: ../../user/translating.rst:262
-#, fuzzy
-#| msgid ":kbd:`Cmd+↑`"
 msgid ":kbd:`←`"
-msgstr ":kbd:`Cmd+↑`"
+msgstr ":kbd:`←`"
 
 #: ../../user/translating.rst:260
 msgid "Browse the next translation strings."
@@ -51496,19 +51180,13 @@ msgid "Visual keyboard"
 msgstr "ビジュアル キーボード"
 
 #: ../../user/translating.rst:270
-#, fuzzy
-#| msgid ""
-#| "A small visual keyboard row is shown just above the translation field. "
-#| "This can be useful to keep local punctuation in mind (as the row is local "
-#| "to each language), or have characters otherwise hard to type handy."
 msgid ""
 "A small visual keyboard row is shown just above the translation field. Its "
 "rows are specific to each language; it can be useful for local punctuation "
 "or characters that are hard to type by hand."
 msgstr ""
-"翻訳入力枠のすぐ右上に、複数の小さな記号文字を並べて表示します。これにより翻"
-"訳する言語の句読点を意識でき（並ぶ記号文字は言語に合わせて変わります）、ま"
-"た、変換するのが難しい文字を簡単に入力できます。"
+"翻訳入力枠のすぐ右上に、複数の小さな記号文字を並べて表示されます。この列は言"
+"語ごとに異なり、手打ちが難しい現地語の句読点や文字を入力する際に便利です。"
 
 #: ../../user/translating.rst:274
 msgid "The shown symbols factor into three categories:"
@@ -51521,10 +51199,6 @@ msgid ""
 msgstr "ユーザーが、:ref:`user-profile` に設定した :ref:`profile-specialchars`"
 
 #: ../../user/translating.rst:277
-#, fuzzy
-#| msgid ""
-#| "Per-language characters provided by Weblate (e.g. quotes or RTL specific "
-#| "characters)"
 msgid ""
 "Per-language characters provided by Weblate (e.g. quotes or RTL-specific "
 "characters)"
@@ -51565,17 +51239,11 @@ msgid "Nearby strings"
 msgstr "前後の文字列"
 
 #: ../../user/translating.rst:295
-#, fuzzy
-#| msgid ""
-#| "Displays neighbouring messages from the translation file. These are "
-#| "usually also used in a similar context and prove useful in keeping the "
-#| "translation consistent."
 msgid ""
 "Displays neighbouring strings from the translation file. These are usually "
 "also used in a similar context and prove useful in keeping the translation "
 "consistent."
-msgstr ""
-"翻訳する文字列の前後の文字列を表示します。通常、前後の文字列は同じ文脈内で使"
+msgstr "翻訳する文字列の前後の文字列を表示します。通常、前後の文字列は同じ文脈内で使"
 "用されるので、翻訳の一貫性を保つ手助けになります。"
 
 #: ../../user/translating.rst:298
@@ -51629,11 +51297,6 @@ msgid "Translation history"
 msgstr "翻訳履歴"
 
 #: ../../user/translating.rst:317
-#, fuzzy
-#| msgid ""
-#| "Every change is by default (unless turned off in component settings) "
-#| "saved in the database, and can be reverted. Optionally one can still also "
-#| "revert anything in the underlying version control system."
 msgid ""
 "Every change is by default (unless turned-off in component settings) saved "
 "in the database, and can be reverted. Optionally, translations can also be "
@@ -51656,14 +51319,6 @@ msgstr ""
 "設定できます。"
 
 #: ../../user/translating.rst:328
-#, fuzzy
-#| msgid ""
-#| "The default limitation for translation is ten times longer than the "
-#| "source string. This can be turned off by :setting:"
-#| "`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. In case you are hitting "
-#| "this, it might be also caused by a monolingual translation erroneously "
-#| "set up as bilingual one, making Weblate mistaking the translation key for "
-#| "the actual source string. See :ref:`bimono` for more info."
 msgid ""
 "The default limitation for translation is ten times longer than the source "
 "string. This can be modified with :setting:"
@@ -51672,34 +51327,24 @@ msgid ""
 "bilingual one, making Weblate mistaking the translation key for the actual "
 "source string. See :ref:`bimono` for more info."
 msgstr ""
-"デフォルトの翻訳文の長さ制限は、原文の 10 倍です。無効にするには、:setting:"
-"`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` を設定します。制限の影響を受けた"
-"場合、間違ってバイリンガルとして設定したモノリンガルの翻訳が原因であり、"
-"Weblate が翻訳キーを実際の原文と間違えたことも考えられます。詳細については、:"
-"ref:`bimono` を確認してください。"
+"デフォルトの翻訳文の長さ制限は、原文の 10 "
+"倍です。この制限は、:setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` の設"
+"定で変更で。この制限に達している場合、モノリンガル翻訳がバイリンガル翻訳とし"
+"て誤って設定され、Weblate が翻訳キーを実際の原文と間違えたことも考えられます"
+"。詳細については、:ref:`bimono` を確認してください。"
 
 #: ../../user/translating.rst:333
-#, fuzzy
-#| msgid ""
-#| "Maximal length in characters defined by translation file or flag, see :"
-#| "ref:`check-max-length`."
 msgid ""
 "Maximum length in characters defined by the translation file or flag, as "
 "per :ref:`check-max-length`."
-msgstr ""
-"翻訳ファイルまたはフラグによって定義した文字の最大長。参照: :ref:`check-max-"
+msgstr "翻訳ファイルまたはフラグによって定義した文字の最大長。参照: :ref:`check-max-"
 "length`。"
 
 #: ../../user/translating.rst:335
-#, fuzzy
-#| msgid ""
-#| "Maximal rendered size in pixels defined by flags, see :ref:`check-max-"
-#| "size`."
 msgid ""
 "Maximal rendered size in pixels as defined by flags; see :ref:`check-max-"
 "size`."
-msgstr ""
-"フラグで定義するピクセル単位の最大表示サイズ。参照: :ref:`check-max-size`。"
+msgstr "フラグで定義するピクセル単位の最大表示サイズ。参照: :ref:`check-max-size`。"
 
 #: ../../user/translating.rst:342
 msgid ""
@@ -51779,12 +51424,6 @@ msgstr ""
 "られます。"
 
 #: ../../user/translating.rst:393
-#, fuzzy
-#| msgid ""
-#| "To avoid abuse of the interface, rate limiting is applied to several "
-#| "operations like searching, sending contact forms or translating. If "
-#| "affected by it, you are blocked for a certain period until you can "
-#| "perform the operation again."
 msgid ""
 "To avoid abuse of the interface, rate limiting is applied to several "
 "operations like searching, sending contact forms, or translating. If "
@@ -51816,23 +51455,13 @@ msgstr ""
 "` メニューから :guilabel:`検索と置換` を使用します。"
 
 #: ../../user/translating.rst:411
-#, fuzzy
-#| msgid ""
-#| "Don't worry about messing up the strings. This is a two-step process "
-#| "showing a preview of edited strings before the actual change is confirmed."
 msgid ""
 "Don't worry about messing up the strings, as it is a two-step process. A "
 "preview of edited strings is shown before confirming the change."
-msgstr ""
-"文字列が破壊されるかどうかの心配をする必要はありません。変更は 2 段階で行わ"
-"れ、実際に変更を確定する前にプレビュー表示で確認をします。"
+msgstr "文字列が破壊されるかどうかの心配をする必要はありません。変更は 2 "
+"段階で行われ、実際に変更を確定する前にプレビュー表示で確認をします。"
 
 #: ../../user/translating.rst:419
-#, fuzzy
-#| msgid ""
-#| "Bulk editing allows performing one operation on number of strings. You "
-#| "define strings by searching for them and set up something to be done for "
-#| "matching ones. The following operations are supported:"
 msgid ""
 "Bulk editing allows performing one operation for multiple strings. Define "
 "strings by searching for them and actions to perform on matching ones. "
@@ -51842,9 +51471,6 @@ msgstr ""
 "文字列を設定し、一致するすべての文字列を更新します。対応する操作:"
 
 #: ../../user/translating.rst:423
-#, fuzzy
-#| msgid ""
-#| "Changing string state (for example to approve all unreviewed strings)."
 msgid "Change string state (for example to approve all unreviewed strings)."
 msgstr "文字列の状態の変更（例: 査読待ちのすべての文字列の承認）。"
 
@@ -51857,16 +51483,13 @@ msgid "Adjust string labels (see :ref:`labels`)"
 msgstr "文字列ラベルの変更（参照: :ref:`labels`）"
 
 #: ../../user/translating.rst:429
-#, fuzzy
-#| msgid ""
-#| "This tool is called :guilabel:`Bulk edit` accessible in the :guilabel:"
-#| "`Tools` menu of each project, component or translation."
 msgid ""
 "This tool is called :guilabel:`Bulk edit`, accessible in the :guilabel:"
 "`Tools` menu of each project, component or translation."
 msgstr ""
-"このツールは :guilabel:`一括編集` と呼ばれ、それぞれのプロジェクト、コンポー"
-"ネント、または翻訳の :guilabel:`ツール` メニューから操作します。"
+"このツールは :guilabel:`一括編集` "
+"と呼ばれ、それぞれのプロジェクト、コンポーネント、または翻訳の "
+":guilabel:`ツール` メニューから操作します。"
 
 #: ../../user/translating.rst:436
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
@@ -51877,34 +51500,22 @@ msgid "Matrix View"
 msgstr "マトリックス表示"
 
 #: ../../user/translating.rst:441
-#, fuzzy
-#| msgid ""
-#| "To compare different languages efficiently you can use the matrix view. "
-#| "It is available on every component page under the :guilabel:`Tools` menu. "
-#| "First select all languages you want to compare and confirm your "
-#| "selection, after that you can click on any translation to open and edit "
-#| "it quickly."
 msgid ""
 "You can compare different languages efficiently using this view It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
 msgstr ""
-"異なる言語を効率的に比較するには、マトリックス表示を使用します。各コンポーネ"
-"ントページの下部にある :guilabel:`Tools` メニューから使用できます。まず、比較"
-"する言語をすべて選択し、選択内容を確認します。その後、翻訳をクリックして表示"
-"させてすぐに編集できます。"
+"異なる言語を効率的に比較するには、マトリックス表示を使用します。"
+"各コンポーネントページの下部にある :guilabel:`Tools` メニューから使用できます"
+"。まず、比較する言語をすべて選択し、選択内容を確認します。その後、翻訳をクリ"
+"ックして表示させてすぐに編集できます。"
 
 #: ../../user/translating.rst:446
-#, fuzzy
-#| msgid ""
-#| "The matrix view is also a very good starting point to find missing "
-#| "translations in different languages and quickly add them from one view."
 msgid ""
 "The matrix view is also a very good starting point to find missing "
 "translations in different languages, and quickly add them from one view."
-msgstr ""
-"マトリックス表示は、ひとつの表示から異なる言語に不足している翻訳を見つけ、た"
+msgstr "マトリックス表示は、ひとつの表示から異なる言語に不足している翻訳を見つけ、た"
 "だちに追加したいときの始め方として最適です。"
 
 #: ../../user/translating.rst:450
@@ -51918,23 +51529,23 @@ msgid ""
 "clicking the :guilabel:`Zen` button on the top-right of the regular editor "
 "(translation of a string)."
 msgstr ""
+"このモードでは、レイアウトがシンプルになり、:guilabel:`前後の文字列` または "
+":guilabel:`用語集` などの追加の UI "
+"要素が非表示になります。通常のエディタ（文字列の翻訳）の右上にある "
+":guilabel:`Zen` "
+"ボタンをクリックすると、このモードに切り替えることができます。"
 
 #: ../../user/translating.rst:456
-#, fuzzy
-#| msgid ""
-#| "You can select the Zen editor as your default editor using the :ref:"
-#| "`profile-preferences` tab on your :ref:`user-profile`. Here you can also "
-#| "choose between having translations listed :guilabel:`Top to bottom` or :"
-#| "guilabel:`Side by side` depending on your personal preference."
 msgid ""
 "You can select the Zen editor as your default editor using the :ref:`profile-"
 "preferences` tab on your :ref:`user-profile`. You can also choose there "
 "between having translations listed :guilabel:`Top to bottom` or :guilabel:"
 "`Side by side`, depending on your personal preference."
 msgstr ""
-":ref:`user-profile` の :ref:`profile-preferences` タブでは、デフォルトのエ"
-"ディタとして、Zen エディタを設定できます。さらにここでは、翻訳一覧の表示を :"
-"guilabel:`縦表示` または :guilabel:`横表示` のどちらにするか選択できます。"
+":ref:`user-profile` の :ref:`profile-preferences` "
+"タブから、デフォルトのエディタとして、Zen "
+"エディタを設定できます。さらにここでは、翻訳一覧の表示を :guilabel:`縦表示` "
+"または :guilabel:`横表示` のどちらにするか選択できます。"
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
@@ -53481,6 +53092,9 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
+"文字列は、``read-only`` :ref:`flag <custom-checks>` が指定されているか、編集"
+"不可能な原文であるか、または翻訳ファイル内でそのようにマークされているため、"
+"翻訳禁止です。"
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
