@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 07:52+0000\n"
-"PO-Revision-Date: 2024-09-14 07:11+0000\n"
+"PO-Revision-Date: 2024-09-14 08:23+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -5583,7 +5583,7 @@ msgstr "二要素認証"
 
 #: weblate/templates/accounts/2fa.html:30
 msgid "Please complete your sign-in using second factor credential."
-msgstr ""
+msgstr "二要素認証でサインインを完了してください。"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -5959,26 +5959,23 @@ msgstr "新しいユーザー認証方法の追加"
 
 #: weblate/templates/accounts/profile.html:188
 #: weblate/templates/accounts/user.html:326
-#, fuzzy
-#| msgid "Authentication"
 msgid "Two-factor authentication"
-msgstr "認証"
+msgstr "二要素認証"
 
 #: weblate/templates/accounts/profile.html:192
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
-msgstr ""
+msgstr "二要素認証は、パスワードだけでなく、追加の認証要素を要求することでアカウント"
+"のセキュリティをより強固にします。"
 
 #: weblate/templates/accounts/profile.html:196
 msgid "Security keys (WebAuthn)"
-msgstr ""
+msgstr "セキュリティ キー（WebAuthn）"
 
 #: weblate/templates/accounts/profile.html:198
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no WebAuthn keys registered."
-msgstr "現在、バックアップはありません。"
+msgstr "現在、WebAuthn キーは登録されていません。"
 
 #: weblate/templates/accounts/profile.html:203
 #: weblate/templates/accounts/profile.html:235
@@ -5994,67 +5991,57 @@ msgstr "削除"
 
 #: weblate/templates/accounts/profile.html:213
 msgid "Name your security key"
-msgstr ""
+msgstr "セキュリティ キー名の設定"
 
 #: weblate/templates/accounts/profile.html:214
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new security key"
-msgstr "新規登録"
+msgstr "新しいセキュリティ キーの登録"
 
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr ""
+msgstr "残念ながら、ご使用のブラウザは WebAuthn に対応していません。"
 
 #: weblate/templates/accounts/profile.html:228
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator apps (TOTP)"
-msgstr "認証"
+msgstr "認証アプリ（TOTP）"
 
 #: weblate/templates/accounts/profile.html:230
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no authenticator apps registered."
-msgstr "現在、バックアップはありません。"
+msgstr "現在、認証アプリは登録されていません。"
 
 #: weblate/templates/accounts/profile.html:242
 #: weblate/templates/accounts/totp.html:11
 #: weblate/templates/accounts/totp.html:22
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new authenticator app"
-msgstr "新規登録"
+msgstr "新しい認証アプリの登録"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/accounts/recovery-codes.html:11
 #: weblate/templates/accounts/recovery-codes.html:33
 msgid "Recovery codes"
-msgstr ""
+msgstr "回復コード"
 
 #: weblate/templates/accounts/profile.html:247
 #: weblate/templates/accounts/recovery-codes.html:41
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no recovery codes generated."
-msgstr "現在、バックアップはありません。"
+msgstr "現在、回復コードは生成されていません。"
 
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/accounts/recovery-codes.html:44
 #: weblate/templates/accounts/recovery-codes.html:51
 msgid "Generate new recovery codes"
-msgstr ""
+msgstr "新しい回復コードの生成"
 
 #: weblate/templates/accounts/profile.html:251
 #, python-format
 msgid "%(count)s recovery code is available."
 msgid_plural "%(count)s recovery codes are available."
-msgstr[0] ""
+msgstr[0] "%(count)s の回復コードが使用できます。"
 
 #: weblate/templates/accounts/profile.html:257
 msgid "View recovery codes"
-msgstr ""
+msgstr "回復コードの表示"
 
 #: weblate/templates/accounts/profile.html:269
 msgid "User data"
@@ -6220,13 +6207,15 @@ msgstr "個々の翻訳のライセンス"
 
 #: weblate/templates/accounts/recovery-codes.html:20
 msgid "Two-factor recovery codes"
-msgstr ""
+msgstr "ニ要素認証用の回復コード"
 
 #: weblate/templates/accounts/recovery-codes.html:25
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
+"回復コードは、デバイスへのアクセスができない場合、または二要素認証コードを受"
+"け取ることができない場合、アカウントにアクセスするために使用します。"
 
 #: weblate/templates/accounts/recovery-codes.html:29
 msgid ""
@@ -6235,29 +6224,30 @@ msgid ""
 "password and other second factors. If you cannot find these codes when "
 "needed, you will lose access to your account."
 msgstr ""
+"回復コードは、パスワード マネージャーなどの安全な場所に保管してください。この"
+"コードは、パスワード認証や二要素認証ができない場合に、アカウントにアクセスす"
+"るための最後の手段です。肝心な時に回復コードが見つからない場合、アカウントに"
+"アクセスできなくなります。"
 
 #: weblate/templates/accounts/recovery-codes.html:39
-#, fuzzy
-#| msgid "Repository URL copied to clipboard."
 msgid "Recovery codes copied to clipboard."
-msgstr "リポジトリの URL をクリップボードにコピーしました。"
+msgstr "回復コードをクリップボードにコピーしました。"
 
 #: weblate/templates/accounts/recovery-codes.html:47
 msgid ""
 "When you generate new recovery codes, you must download or print the new "
 "codes."
-msgstr ""
+msgstr "回復コードを新しく生成した場合は、必ず新しい回復コードをダウンロードまたは印"
+"刷してください。"
 
 #: weblate/templates/accounts/recovery-codes.html:48
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr ""
+msgstr "古い回復コードは無効化され、使用できなくなります。"
 
 #: weblate/templates/accounts/recovery-codes.html:55
 #: weblate/templates/accounts/totp.html:49
-#, fuzzy
-#| msgid "Edit component settings"
 msgid "Back to account settings"
-msgstr "コンポーネント設定の編集"
+msgstr "アカウント設定に戻る"
 
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
@@ -6331,21 +6321,20 @@ msgstr "パスワードをリセットする"
 msgid ""
 "Authenticator apps generate one-time passwords that are used as a second "
 "factor to verify your identity when prompted during sign-in."
-msgstr ""
+msgstr "認証アプリは、ニ要素認証でのサインイン時に必要なワンタイム "
+"パスワードを生成します。"
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
-msgstr ""
+msgstr "QR コードをスキャンしてください"
 
 #: weblate/templates/accounts/totp.html:37
 msgid "You can also enter the secret key manually:"
-msgstr ""
+msgstr "秘密鍵を手動で入力する場合:"
 
 #: weblate/templates/accounts/totp.html:40
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Secret key copied to clipboard."
-msgstr "API キーをクリップボードにコピーしました。"
+msgstr "秘密鍵をクリップボードにコピーしました。"
 
 #: weblate/templates/accounts/totp.html:45
 #: weblate/templates/mail/shared-registration.html:22
@@ -6478,10 +6467,8 @@ msgid "Edit"
 msgstr "編集"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "最近の活動が見つかりませんでした！"
+msgstr "最近、貢献されていません。"
 
 #: weblate/templates/accounts/user.html:171
 msgid "Browse all translations with contribution"
@@ -6540,27 +6527,20 @@ msgid "Unblock user"
 msgstr "ユーザーのブロック解除"
 
 #: weblate/templates/accounts/user.html:314
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit user"
-msgstr "原文の編集"
+msgstr "ユーザーの編集"
 
 #: weblate/templates/accounts/user.html:331
-#, fuzzy
-#| msgid "Used to authenticate user if configured"
 msgid "User has two-factor authentication configured."
-msgstr "設定すると、ユーザーの認証に使用されます"
+msgstr "二要素認証は有効。"
 
 #: weblate/templates/accounts/user.html:333
-#, fuzzy
-#| msgid "Used to authenticate user if configured"
 msgid "User doesn't have two-factor authentication configured."
-msgstr "設定すると、ユーザーの認証に使用されます"
+msgstr "二要素認証は無効。"
 
 #: weblate/templates/accounts/user.html:338
 msgid "Disable two-factor authentication"
-msgstr ""
+msgstr "二要素認証の無効化"
 
 #: weblate/templates/accounts/user.html:345
 #, fuzzy
