@@ -5,8 +5,23 @@
  */
 
 :root {
-  --border-radius-sm: 2px;
-  --border-radius: 4px;
-  --border-radius-lg: 10px;
+  --border-radius-xs: 2px;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius: 10px;
+  --border-radius-lg: 14px;
   --border-radius-xl: 20px;
+
+  --box-shadow-sm: 1px 1px 2px #0000001a;
+  --box-shadow: 1px 2px 4px #0000001a;
+  --border: 1px solid #0000001a;
+
+  --color-primary: #2eccaa;
+  --text-color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #d9d3cc;
+  }
 }
