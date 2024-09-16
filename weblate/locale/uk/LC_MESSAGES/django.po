@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 07:52+0000\n"
-"PO-Revision-Date: 2024-09-16 14:34+0000\n"
+"PO-Revision-Date: 2024-09-16 14:58+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -5684,11 +5684,11 @@ msgstr "Статистика"
 
 #: weblate/templates/accounts/2fa.html:24
 msgid "Second factor sign-in"
-msgstr ""
+msgstr "Вхід за другим фактором"
 
 #: weblate/templates/accounts/2fa.html:30
 msgid "Please complete your sign-in using second factor credential."
-msgstr ""
+msgstr "Будь ласка, завершіть ваш вхід за допомогою другого фактора."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -6095,10 +6095,8 @@ msgid "Security keys (WebAuthn)"
 msgstr "Ключі безпеки (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:198
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no WebAuthn keys registered."
-msgstr "Резервних копій зараз немає."
+msgstr "Не зареєстровано жодного ключа WebAuthn."
 
 #: weblate/templates/accounts/profile.html:203
 #: weblate/templates/accounts/profile.html:235
@@ -6114,70 +6112,60 @@ msgstr "Видалити"
 
 #: weblate/templates/accounts/profile.html:213
 msgid "Name your security key"
-msgstr ""
+msgstr "Назва вашого ключа захисту"
 
 #: weblate/templates/accounts/profile.html:214
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new security key"
-msgstr "Зареєструвати новий обліковий запис"
+msgstr "Зареєструвати новий ключ захисту"
 
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr ""
+msgstr "На жаль, у вашому браузері не передбачено підтримки WebAuthn."
 
 #: weblate/templates/accounts/profile.html:228
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator apps (TOTP)"
-msgstr "Розпізнавання"
+msgstr "Програми для розпізнавання (TOTP)"
 
 #: weblate/templates/accounts/profile.html:230
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no authenticator apps registered."
-msgstr "Резервних копій зараз немає."
+msgstr "Не зареєстровано жодної програми для розпізнавання."
 
 #: weblate/templates/accounts/profile.html:242
 #: weblate/templates/accounts/totp.html:11
 #: weblate/templates/accounts/totp.html:22
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new authenticator app"
-msgstr "Зареєструвати новий обліковий запис"
+msgstr "Зареєструвати нову програму для розпізнавання"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/accounts/recovery-codes.html:11
 #: weblate/templates/accounts/recovery-codes.html:33
 msgid "Recovery codes"
-msgstr ""
+msgstr "Коди відновлення"
 
 #: weblate/templates/accounts/profile.html:247
 #: weblate/templates/accounts/recovery-codes.html:41
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no recovery codes generated."
-msgstr "Резервних копій зараз немає."
+msgstr "Кодів відновлення не створено."
 
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/accounts/recovery-codes.html:44
 #: weblate/templates/accounts/recovery-codes.html:51
 msgid "Generate new recovery codes"
-msgstr ""
+msgstr "Створити нові коди відновлення"
 
 #: weblate/templates/accounts/profile.html:251
 #, python-format
 msgid "%(count)s recovery code is available."
 msgid_plural "%(count)s recovery codes are available."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Доступним є %(count)s код відновлення."
+msgstr[1] "Доступним є %(count)s коди відновлення."
+msgstr[2] "Доступним є %(count)s кодів відновлення."
+msgstr[3] "Доступним є %(count)s код відновлення."
 
 #: weblate/templates/accounts/profile.html:257
 msgid "View recovery codes"
-msgstr ""
+msgstr "Переглянути коди відновлення"
 
 #: weblate/templates/accounts/profile.html:269
 msgid "User data"
@@ -6348,13 +6336,16 @@ msgstr "Ліцензії на окремі переклади"
 
 #: weblate/templates/accounts/recovery-codes.html:20
 msgid "Two-factor recovery codes"
-msgstr ""
+msgstr "Двофакторні коди відновлення"
 
 #: weblate/templates/accounts/recovery-codes.html:25
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
+"Кодами відновлення можна скористатися для доступу до вашого облікового "
+"запису, якщо ви втратите доступ до вашого пристрою і не зможете отримати "
+"двофакторні коди розпізнавання."
 
 #: weblate/templates/accounts/recovery-codes.html:29
 msgid ""
@@ -6363,29 +6354,32 @@ msgid ""
 "password and other second factors. If you cannot find these codes when "
 "needed, you will lose access to your account."
 msgstr ""
+"Зберігайте ваші коди відновлення у безпечному місці, зокрема за допомогою "
+"програми для керування паролями. Ці коди є найостаннішим способом отримати "
+"доступ до вашого облікового запису, якщо ви втратите пароль або інші "
+"вторинні фактори. Якщо ви не зможете знайти ці коди, якщо у цьому виникне "
+"потреба, ви втратите доступ до вашого облікового запису."
 
 #: weblate/templates/accounts/recovery-codes.html:39
-#, fuzzy
-#| msgid "Repository URL copied to clipboard."
 msgid "Recovery codes copied to clipboard."
-msgstr "Адресу репозиторію скопійовано до буфера."
+msgstr "Коди відновлення скопійовано до буфера."
 
 #: weblate/templates/accounts/recovery-codes.html:47
 msgid ""
 "When you generate new recovery codes, you must download or print the new "
 "codes."
 msgstr ""
+"Коли ви створите нові коди відновлення, вам доведеться отримати або "
+"роздрукувати нові коди."
 
 #: weblate/templates/accounts/recovery-codes.html:48
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr ""
+msgstr "Ваші старі коди втратять чинність і більше не працюватимуть."
 
 #: weblate/templates/accounts/recovery-codes.html:55
 #: weblate/templates/accounts/totp.html:49
-#, fuzzy
-#| msgid "Edit component settings"
 msgid "Back to account settings"
-msgstr "Змінити налаштування складників"
+msgstr "Повернутися до параметрів облікового запису"
 
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
@@ -6461,20 +6455,21 @@ msgid ""
 "Authenticator apps generate one-time passwords that are used as a second "
 "factor to verify your identity when prompted during sign-in."
 msgstr ""
+"Програми для розпізнавання створюють одноразові паролі, які використовують "
+"як другий фактор для перевірки вашої ідентичності, коли у цьому виникне "
+"потреба під час входу до системи."
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
-msgstr ""
+msgstr "Сканувати QR-код"
 
 #: weblate/templates/accounts/totp.html:37
 msgid "You can also enter the secret key manually:"
-msgstr ""
+msgstr "Ви також можете ввести ключ захисту вручну:"
 
 #: weblate/templates/accounts/totp.html:40
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Secret key copied to clipboard."
-msgstr "Ключ до програмного інтерфейсу скопійовано до буфера."
+msgstr "Ключ захисту скопійовано до буфера."
 
 #: weblate/templates/accounts/totp.html:45
 #: weblate/templates/mail/shared-registration.html:22
@@ -6626,10 +6621,8 @@ msgid "Edit"
 msgstr "Редагувати"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "Не помічено нещодавньої активності!"
+msgstr "Не знайдено нещодавніх внесків."
 
 #: weblate/templates/accounts/user.html:171
 msgid "Browse all translations with contribution"
@@ -6688,31 +6681,24 @@ msgid "Unblock user"
 msgstr "Розблокувати користувача"
 
 #: weblate/templates/accounts/user.html:314
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit user"
-msgstr "Змінити джерельний рядок"
+msgstr "Змінити запис користувача"
 
 #: weblate/templates/accounts/user.html:331
 msgid "User has two-factor authentication configured."
-msgstr ""
+msgstr "Для користувача налаштовано двофакторне розпізнавання."
 
 #: weblate/templates/accounts/user.html:333
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "User doesn't have two-factor authentication configured."
-msgstr "Сервер не дозволяє автентифікацію."
+msgstr "Для користувача не налаштовано двофакторне розпізнавання."
 
 #: weblate/templates/accounts/user.html:338
 msgid "Disable two-factor authentication"
-msgstr ""
+msgstr "Вимкнути двофакторне розпізнавання"
 
 #: weblate/templates/accounts/user.html:345
-#, fuzzy
-#| msgid "Account removal deletes all your private data."
 msgid "Account removal deletes all user private data."
-msgstr "Вилучення облікового запису видаляє всі Ваші особисті дані."
+msgstr "Вилучення облікового запису вилучає усі особисті дані користувача."
 
 #: weblate/templates/accounts/user.html:348
 #: weblate/templates/accounts/user.html:362
@@ -6780,7 +6766,7 @@ msgstr "Участь у перекладах"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
-msgstr ""
+msgstr "Вхід за допомогою ключа захисту"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_detail.html:12
@@ -6799,17 +6785,13 @@ msgid "Configure add-on"
 msgstr "Налаштувати додаток"
 
 #: weblate/templates/addons/addon_detail.html:44
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
-msgstr "Цей додаток виконує скрипт."
+msgstr "У цього додатка немає параметрів."
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "The add-on can only be installed on the component."
-msgstr "Додатки також можна встановити на рівні проєкту та складника."
+msgstr "Додаток можна встановлювати лише на рівні складника."
 
 #: weblate/templates/addons/addon_head.html:9
 msgid "This add-on is used for all components sharing this repository."
@@ -7194,10 +7176,8 @@ msgid "Automatic assignment"
 msgstr "Автоматичне призначення"
 
 #: weblate/templates/auth/teams-name.html:4
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Requires two-factor authentication"
-msgstr "Сервер не дозволяє автентифікацію."
+msgstr "Потребує двофакторного розпізнавання"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7879,10 +7859,9 @@ msgid "Component is being updated…"
 msgstr "Складник оновлюється…"
 
 #: weblate/templates/component-progress.html:31
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Continue to %(return_target)s"
-msgstr "Запрошення до %(project_name)s"
+msgstr "Продовжити з %(return_target)s"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
