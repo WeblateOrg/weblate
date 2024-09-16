@@ -518,10 +518,6 @@ class User(AbstractBaseUser):
     def is_authenticated(self) -> bool:  # type: ignore[override]
         return not self.is_anonymous
 
-    # django_otp integration, this is overridden in OTPMiddleware
-    def is_verified(self) -> bool:
-        return False
-
     def get_full_name(self):
         return self.full_name
 
@@ -708,7 +704,7 @@ class User(AbstractBaseUser):
         with sentry_sdk.start_span(op="permissions", description=self.username):
             for group in self.cached_groups:
                 # Skip permissions for not verified users
-                if group.enforced_2fa and not self.is_verified():
+                if group.enforced_2fa and not self.profile.has_2fa:
                     continue
                 if group.language_selection == SELECTION_ALL:
                     languages = None
