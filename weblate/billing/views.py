@@ -73,6 +73,8 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
         billing.save()
     elif "terminate" in request.POST:
         billing.state = Billing.STATE_TERMINATED
+        billing.expiry = None
+        billing.removal = None
         billing.save()
     elif billing.valid_libre:
         if "approve" in request.POST and request.user.has_perm("billing.manage"):
