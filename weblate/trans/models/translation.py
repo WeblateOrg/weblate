@@ -1224,7 +1224,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         orig_user = None
         if (
             author_email
-            and author_email != request.user.email
+            and (request.user is None and author_email != request.user.email)
             and User.objects.filter(
                 pk=request.user.pk, social_auth__verifiedemail__email=author_email
             ).exists()
