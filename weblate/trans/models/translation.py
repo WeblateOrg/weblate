@@ -1216,14 +1216,19 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     ):
         """Top level handler for file uploads."""
         from weblate.accounts.models import AuditLog
+        from weblate.auth.models import User
 
         component = self.component
 
         # Optionally set authorship
         orig_user = None
-        if author_email:
-            from weblate.auth.models import User
-
+        if (
+            author_email
+            and author_email != request.user.email
+            and User.objects.filter(
+                pk=request.user.pk, social_auth__verifiedemail__email=author_email
+            ).exists()
+        ):
             orig_user = request.user
             request.user, created = User.objects.get_or_create(
                 email=author_email,
