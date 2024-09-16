@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 07:52+0000\n"
-"PO-Revision-Date: 2024-09-16 14:06+0000\n"
+"PO-Revision-Date: 2024-09-16 14:34+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -351,23 +351,23 @@ msgid "Verify the code from the app"
 msgstr "Перевірити код з програми"
 
 #: weblate/accounts/forms.py:978
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "Entered token is not valid."
-msgstr "Цей переклад не є правильним XML"
+msgstr "Введений жетон є некоректним."
 
 #: weblate/accounts/forms.py:1046
 msgid "Recovery token"
-msgstr ""
+msgstr "Жетон відновлення"
 
 #: weblate/accounts/forms.py:1048
 msgid ""
 "Recovery token can be used just once, mark your token as used after using it."
 msgstr ""
+"Жетон відновлення можна використати лише раз, позначте ваш жетон як "
+"використаний після його використання."
 
 #: weblate/accounts/forms.py:1105
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "Введіть код з програми"
 
 #: weblate/accounts/models.py:152
 msgid "Password changed."
@@ -503,26 +503,26 @@ msgstr "З команди {team} було вилучено користувач�
 
 #: weblate/accounts/models.py:186
 msgid "Two-factor authentication recovery codes were generated"
-msgstr ""
+msgstr "Було створено коди відновлення для двофакторного розпізнавання"
 
 #: weblate/accounts/models.py:189
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr ""
+msgstr "Коди відновлення для двофакторного розпізнавання переглянуто"
 
 #: weblate/accounts/models.py:191
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "Додано двофакторне розпізнавання: {device}"
 
 #: weblate/accounts/models.py:192
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "Двофакторне розпізнавання вилучено: {device}"
 
 #: weblate/accounts/models.py:193
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "Вхід за допомогою двофакторного розпізнавання на основі {device}"
 
 #: weblate/accounts/models.py:198
 msgid "Configured password to sign in."
@@ -883,18 +883,14 @@ msgid "Suggestion was added"
 msgstr "Було додано пропозицію"
 
 #: weblate/accounts/notifications.py:535
-#, fuzzy
-#| msgid "Long untranslated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "Тривалий час не перекладено"
+msgstr "Переклад мовою завершено"
 
 #: weblate/accounts/notifications.py:543
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "Імпортувати як перекладене"
+msgstr "Складник перекладено"
 
 #: weblate/accounts/notifications.py:551
 msgctxt "Notification name"
@@ -1008,29 +1004,25 @@ msgstr ""
 
 #: weblate/accounts/templatetags/authnames.py:53
 msgid "Use security key (WebAuthn)"
-msgstr ""
+msgstr "Використати ключ захисту (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "Розпізнавання"
+msgstr "Використати програму для розпізнавання (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
-msgstr ""
+msgstr "Використати коди відновлення"
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "Політика безпеки"
+msgstr "Ключ захисту (%s)"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Розпізнавання"
+msgstr "Програма для розпізнавання (%s)"
 
 #: weblate/accounts/views.py:209 weblate/accounts/views.py:1043
 #: weblate/accounts/views.py:1109 weblate/templates/accounts/reset.html:7
@@ -1113,10 +1105,8 @@ msgid "Sign in"
 msgstr "Увійти"
 
 #: weblate/accounts/views.py:866
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "Вийти"
+msgstr "Здійснено вихід"
 
 #: weblate/accounts/views.py:972
 msgid "Register e-mail"
@@ -1227,32 +1217,26 @@ msgstr ""
 "сповіщення."
 
 #: weblate/accounts/views.py:1629
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
-msgstr "Запрошення користувача вилучено."
+msgstr "Код захисту вилучено."
 
 #: weblate/accounts/views.py:1630
 #, python-format
 msgid "The security key %s was registered."
-msgstr ""
+msgstr "Ключ захисту %s зареєстровано."
 
 #: weblate/accounts/views.py:1667
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "Запрошення користувача вилучено."
+msgstr "Програму для розпізнавання вилучено."
 
 #: weblate/accounts/views.py:1668
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "Програму для розпізнавання %s зареєстровано."
 
 #: weblate/accounts/views.py:1801
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Second factor sign in"
-msgstr "Останній вхід"
+msgstr "Вхід за другим фактором"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -2084,10 +2068,8 @@ msgstr "Додати запис до глосарія"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "Додати запис до глосарія"
+msgstr "Додано термінологію глосарія"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2643,13 +2625,11 @@ msgstr ""
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:190
 msgid "Enforced two-factor authentication"
-msgstr ""
+msgstr "Примусове двофакторне розпізнавання"
 
 #: weblate/auth/models.py:197
-#, fuzzy
-#| msgid "Redirecting you to the authentication provider."
 msgid "Requires users to have two-factor authentication configured."
-msgstr "Перенаправляємо вас на постачальника розпізнавання."
+msgstr "Потребує налаштовування користувачами двофакторного розпізнавання."
 
 #: weblate/auth/models.py:373 weblate/utils/forms.py:70
 #: weblate/utils/validators.py:173
@@ -2757,6 +2737,8 @@ msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
 msgstr ""
+"Для цього проєкту потрібне двофакторне розпізнавання, налаштуйте його у "
+"вашому профілі."
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:175
 #: weblate/templates/translate.html:231
@@ -3812,7 +3794,7 @@ msgstr "Рядок, формату Python brace, не відповідає дж�
 
 #: weblate/checks/format.py:611
 msgid "Single {} encountered in the format string."
-msgstr ""
+msgstr "У рядку форматування виявлено одну {}."
 
 #: weblate/checks/format.py:638
 msgid "C# format"
@@ -4523,11 +4505,11 @@ msgstr "Файл Fluent"
 
 #: weblate/formats/txt.py:89
 msgid "Should be a directory with metadata files!"
-msgstr ""
+msgstr "Має бути каталогом із файлами метаданих!"
 
 #: weblate/formats/txt.py:196
 msgid "App store metadata files"
-msgstr "Файли метаданих крамниці застосунків"
+msgstr "Файли метаданих крамниці програм"
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -5171,20 +5153,20 @@ msgid "Automatic selection"
 msgstr "Автовибір"
 
 #: weblate/machinery/forms.py:290
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "Власний"
+msgstr "Нетипова модель"
 
 #: weblate/machinery/forms.py:295
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "Базова адреса програмного інтерфейсу OpenAI"
 
 #: weblate/machinery/forms.py:299
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgstr ""
+"Базова адреса програмного інтерфейсу OpenAI, якщо вона відрізняється від "
+"типової адреси OpenAI"
 
 #: weblate/machinery/forms.py:306
 msgctxt "Automatic suggestion service configuration"
@@ -5192,15 +5174,13 @@ msgid "OpenAI model"
 msgstr "Модель OpenAI"
 
 #: weblate/machinery/forms.py:314
-#, fuzzy
-#| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
-msgstr "Налаштувати назву складника"
+msgstr "Назва нетипової моделі"
 
 #: weblate/machinery/forms.py:316
 msgid "Only needed when model is set to 'Custom model'"
-msgstr ""
+msgstr "Потрібне, лише якщо встановлено модель «Нетипова модель»"
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5227,14 +5207,12 @@ msgstr ""
 "Опишіть стиль перекладу. Наприклад: \"Використовуйте неформальну мову\"."
 
 #: weblate/machinery/forms.py:347
-#, fuzzy
-#| msgid "Missing username or e-mail."
 msgid "Missing custom model name."
-msgstr "Не вказано імені користувача або адреси електронної пошти."
+msgstr "Не вказано назви нетипової моделі."
 
 #: weblate/machinery/forms.py:351
 msgid "Choose custom model here to enable it."
-msgstr ""
+msgstr "Тут ви можете вибрати нетипову модель для її вмикання."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -6102,7 +6080,7 @@ msgstr "Додати новий профіль користувача"
 #: weblate/templates/accounts/profile.html:188
 #: weblate/templates/accounts/user.html:326
 msgid "Two-factor authentication"
-msgstr "Двофакторна автентифікація"
+msgstr "Двофакторне розпізнавання"
 
 #: weblate/templates/accounts/profile.html:192
 msgid ""
