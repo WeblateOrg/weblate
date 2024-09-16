@@ -27,7 +27,7 @@ Per-project customization can be done on each language page of the project.
 
 All workflow settings can be overridden, the only limitation is that
 :ref:`project-translation_review` needs to be turned on and can only be
-disabled in customization.
+disabled in the per-language customization.
 
 The first existing setting applies:
 
@@ -270,8 +270,8 @@ source strings. Once enabled, users can report issues with source strings.
 The actual process depends on whether bilingual or monolingual formats are in use.
 
 For monolingual formats, source string review functions similarly to
-:ref:`reviews` — once an issue with a source string is reported, it is marked as
-:guilabel:`Needs editing`.
+:ref:`reviews` — once an issue with a source string is reported, the source
+string is marked as :guilabel:`Needs editing`.
 
 Bilingual formats do not allow direct editing of source strings (these
 are typically extracted directly from the source code). In this case, a
