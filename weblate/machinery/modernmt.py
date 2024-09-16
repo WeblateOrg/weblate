@@ -8,7 +8,6 @@ import os
 import tempfile
 
 from dateutil.parser import isoparse
-from django.core.cache import cache
 
 import weblate.utils.version
 
@@ -34,6 +33,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh-CN",
     }
+    glossary_count_limit = 1000
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
@@ -115,22 +115,11 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
         return super().get_error_message(exc)
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
-        return (source_language, target_language) in self.get_glossary_language_pairs()
-
-    def get_glossary_language_pairs(self) -> set[tuple[str, str]]:
-        cache_key = self.get_cache_key("glossary_languages")
-        if languages := cache.get(cache_key):
-            return set(languages)
-        response = self.request("get", self.get_api_url("memories"))
-        languages: set[tuple[str, str]] = set()
-        for memory in response.json()["data"]:
-            if match := self.match_name_format(memory["name"]):
-                languages.add((match.group(2), match.group(3)))
-
-        cache.set(cache_key, languages, 24 * 36000)
-        return languages
+        """Check whether given language combination is supported by service for glossary."""
+        return self.is_supported(source_language, target_language)
 
     def list_glossaries(self) -> dict[str, str]:
+        """List all glossaries from service."""
         response = self.request("get", self.get_api_url("memories"))
         return {
             glossary["name"]: glossary["id"]
@@ -139,10 +128,11 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
         }
 
     def delete_glossary(self, glossary_id: str) -> None:
+        """Delete single glossary."""
         self.request("delete", self.get_api_url("memories", str(glossary_id)))
-        self._clear_glossary_caches()
 
     def delete_oldest_glossary(self) -> None:
+        """Delete oldest glossary if any."""
         response = self.request("get", self.get_api_url("memories"))
         glossaries: list[dict] = sorted(
             [
@@ -158,7 +148,11 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
     def create_glossary(
         self, source_language: str, target_language: str, name: str, tsv: str
     ) -> None:
-        # create a memory
+        """
+        Create glossary in service.
+
+        Create a memory with the given name and the populate with tsv content.
+        """
         response = self.request(
             "post",
             self.get_api_url("memories"),
@@ -188,12 +182,6 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
                         "csv": file_content,
                     },
                 )
-            self._clear_glossary_caches()
         finally:
             if os.path.exists(temp_filename):
                 os.unlink(temp_filename)
-
-    def _clear_glossary_caches(self):
-        cache.delete_many(
-            [self.get_cache_key("glossaries"), self.get_cache_key("glossary_languages")]
-        )

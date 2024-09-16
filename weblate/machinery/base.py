@@ -681,6 +681,10 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
 
     glossary_count_limit = 0
 
+    def delete_cache(self) -> None:
+        super().delete_cache()
+        cache.delete(self.get_cache_key("glossaries"))
+
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
         return True
 
@@ -726,13 +730,12 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         translation = unit.translation
 
         # Check glossary support for a language pair
-        machine_glossary_available: bool = self.is_glossary_supported(
-            source_language, target_language
-        )
+        if not self.is_glossary_supported(source_language, target_language):
+            return None
 
         # Check if there is a glossary
         glossary_tsv = get_glossary_tsv(translation)
-        if not machine_glossary_available and not glossary_tsv:
+        if not glossary_tsv:
             return None
 
         # Calculate hash to check for changes
@@ -786,6 +789,11 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         return glossaries[glossary_name]
 
     def match_name_format(self, string: str) -> re.Match | None:
+        """
+        Match glossary name against format.
+
+        Only way so far to identify glossaries from memories
+        """
         return re.match(self.glossary_name_format_pattern, string)
 
 

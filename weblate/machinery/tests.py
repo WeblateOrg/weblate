@@ -1110,6 +1110,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         )
 
     def mock_languages(self) -> None:
+        """Set up mock responses for languages list from ModernMT API."""
         responses.add(
             responses.GET,
             "https://api.modernmt.com/languages",
@@ -1121,6 +1122,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         )
 
     def mock_response(self) -> None:
+        """Set up mock responses for ModernMT API."""
         self.mock_languages()
         responses.add(
             responses.GET,
@@ -1138,26 +1140,8 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             content_type="text/json",
         )
 
-    @responses.activate
-    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
-    def test_glossary(self) -> None:
-        def request_callback(request: AuthenticatedHttpRequest):
-            payload = json.loads(request.body)
-            self.assertIn("glossaries", payload)
-            return (200, {}, json.dumps(MODERNMT_REPONSE))
-
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
-        machine.delete_cache()
-
-        self.mock_languages()
-        self.mock_response()
-
-        responses.add_callback(
-            responses.GET,
-            "https://api.modernmt.com/translate",
-            callback=request_callback,
-        )
-
+    def mock_create_glossary(self, glossary_id: int, glossary_name: str) -> None:
+        """Set up mock responses for creating glossary in ModernMT."""
         # creating the memory
         responses.add(
             responses.POST,
@@ -1165,9 +1149,9 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             json={
                 "status": 200,
                 "data": {
-                    "id": 37784,
+                    "id": glossary_id,
                     "creationDate": "2021-04-12T15:24:26+00:00",
-                    "name": "weblate:1:en:it:9e250d830c11d70f",
+                    "name": glossary_name,
                 },
             },
         )
@@ -1175,26 +1159,28 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         # storing content in memory as glossary
         responses.add(
             responses.POST,
-            "https://api.modernmt.com/memories/37784/glossary",
+            f"https://api.modernmt.com/memories/{glossary_id}/glossary",
             json={
                 "status": 200,
                 "data": {
                     "id": "00000000-0000-0000-0000-0000000379fc",
-                    "memory": 37784,
+                    "memory": glossary_id,
                     "size": 18818,
                     "progress": 0,
                 },
             },
         )
+        # list glossaries
+
         responses.add(
             responses.GET,
             "https://api.modernmt.com/memories",
             json={
                 "data": [
                     {
-                        "id": 37784,
+                        "id": glossary_id,
                         "creationDate": "2021-04-12T15:24:26+00:00",
-                        "name": "weblate:1:en:it:9e250d830c11d70f",
+                        "name": glossary_name,
                     }
                 ],
                 "status": 200,
@@ -1202,23 +1188,90 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             status=200,
         )
 
-        self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
+    @responses.activate
+    def test_glossary(self) -> None:
+        """Test that glossary is used in translation request when available."""
+
+        def translate_request_callback(request: AuthenticatedHttpRequest):
+            """Check 'glossaries' included in request params."""
+            self.assertIn("glossaries", request.params)
+            return (200, {}, json.dumps(MODERNMT_REPONSE))
+
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+
+        responses.add_callback(
+            responses.GET,
+            "https://api.modernmt.com/translate",
+            callback=translate_request_callback,
+        )
+
+        self.mock_response()
+
+        self.mock_create_glossary(37784, "weblate:1:en:it:9e250d830c11d70f")
+
+        with patch(
+            "weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar"
+        ):
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
+
+        # change tsv, check that old memory is deleted and new one is created
+        def delete_request_callback(request: AuthenticatedHttpRequest):
+            self.assertTrue(request.url.endswith("memories/37784"))
+            return (200, {}, "{}")
+
+        responses.add_callback(
+            responses.DELETE,
+            r"https://api.modernmt.com/memories/(\d+)",
+            callback=delete_request_callback,
+        )
+
+        self.mock_create_glossary(37785, "weblate:1:en:it:7d3c463b6bb01e5d")
+
+        with patch(
+            "weblate.glossary.models.get_glossary_tsv",
+            new=lambda _: "foo\tbar\nnew\tentry",
+        ):
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
+
+        def delete_oldest_request_callback(request: AuthenticatedHttpRequest):
+            self.assertTrue(request.url.endswith("memories/37785"))
+            return (200, {}, "{}")
+
+        responses.add_callback(
+            responses.DELETE,
+            r"https://api.modernmt.com/memories/(\d+)",
+            callback=delete_oldest_request_callback,
+        )
+
+        # change count limit, check that the oldest glossary is deleted
+        with patch(
+            "weblate.machinery.modernmt.ModernMTTranslation.glossary_count_limit",
+            new=lambda: 0,
+        ):
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
 
     @responses.activate
     def test_context_vector(self) -> None:
-        def request_callback(request: AuthenticatedHttpRequest):
-            payload = json.loads(request.body)
-            self.assertIn("context_vector", payload)
-            return (200, {}, json.dumps(MODERNMT_REPONSE))
+        """Test that context vector is sent with the request when configured."""
 
-        self.mock_languages()
-        self.mock_response()
+        def request_callback(request: AuthenticatedHttpRequest):
+            """Check 'context_vector' included in request body."""
+            self.assertIn("context_vector", request.params)
+            return (200, {}, json.dumps(MODERNMT_REPONSE))
 
         responses.add_callback(
             responses.GET,
             "https://api.modernmt.com/translate",
             callback=request_callback,
         )
+        self.mock_response()
 
         self.CONFIGURATION["context_vector"] = "1234:0.123"
         self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
@@ -1226,12 +1279,16 @@ class ModernMTHubTest(BaseMachineTranslationTest):
     @responses.activate
     @respx.mock
     def test_clean_custom(self) -> None:
+        """Check that validation of context_vector settings works."""
         self.mock_response()
         settings = self.CONFIGURATION.copy()
         machine = self.MACHINE_CLS
+
+        # no context vector
         form = self.MACHINE_CLS.settings_form(machine, settings)
         self.assertTrue(form.is_valid())
 
+        # valid context vector
         settings["context_vector"] = "1234:0.123,456:0.134"
         form = self.MACHINE_CLS.settings_form(machine, settings)
         self.assertTrue(form.is_valid())
@@ -1242,12 +1299,12 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         self.assertFalse(form.is_valid())
 
         # weight can only be 3 digits decimal
-        settings["context_vector"] = "1234:0.123;456:0.1345"
+        settings["context_vector"] = "1234:0.123,456:0.1345"
         form = self.MACHINE_CLS.settings_form(machine, settings)
         self.assertFalse(form.is_valid())
 
         # weight cannot be greater than 1
-        settings["context_vector"] = "1234:1.123;456:0.1345"
+        settings["context_vector"] = "1234:1.123,456:0.1345"
         form = self.MACHINE_CLS.settings_form(machine, settings)
         self.assertFalse(form.is_valid())
 

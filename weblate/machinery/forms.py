@@ -266,13 +266,8 @@ class ModernMTMachineryForm(KeyURLMachineryForm):
     )
 
     def clean_context_vector(self):
-        """
-        Validate context_vector field.
-
-        A context vector is represented by a string which contains a list of couples separated by a comma.
-        Each couple contains the memory id and the corresponding weight separated by a colon.
-        """
-        pattern = r"^\d+:\d(?:\.\d{1,3})?"
+        """Validate context_vector field."""
+        pattern = r"^\d+:\d(?:\.\d{1,3})?$"
         context_vector = self.cleaned_data["context_vector"]
         if context_vector:
             for couple in context_vector.split(","):
