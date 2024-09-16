@@ -66,11 +66,11 @@ if TYPE_CHECKING:
     from weblate.auth.permissions import PermissionResult
     from weblate.wladmin.models import SupportStatusDict
 
-    SimplePermissionList = list[tuple[set[str], set[Language] | None]]
+    SimplePermissionList = list[tuple[set[str], set[int] | None]]
 
     # This is SimplePermissionList with additional None instead of permissions
     # to indicate user block
-    PermissionList = list[tuple[set[str] | None, set[Language] | None]]
+    PermissionList = list[tuple[set[str] | None, set[int] | None]]
 
     PermissionCacheType = dict[int, PermissionList]
     SimplePermissionCacheType = dict[int, SimplePermissionList]
@@ -301,6 +301,31 @@ class UserQuerySet(models.QuerySet["User"]):
         else:
             result = self.filter(parse_query(query, parser=parser, **context))
         return result.distinct()
+
+    def get_author_by_email(
+        self,
+        author_name: str | None,
+        author_email: str | None,
+        fallback: User | None,
+        request: AuthenticatedHttpRequest,
+    ) -> User:
+        from weblate.accounts.models import AuditLog
+
+        if author_email and (fallback is None or not fallback.has_email(author_email)):
+            author, created = User.objects.get_or_create(
+                email=author_email,
+                defaults={
+                    "username": author_email,
+                    "full_name": author_name or author_email,
+                },
+            )
+            if created:
+                AuditLog.objects.create(author, request, "autocreated")
+            if fallback is None and author.is_anonymous:
+                return author
+            if author.is_active and not author.is_bot and not author.is_anonymous:
+                return author
+        return fallback
 
 
 @functools_cache
@@ -752,8 +777,8 @@ class User(AbstractBaseUser):
                     projects[-group.project_selection].append((permissions, languages))
                 else:
                     # Project specific permissions
-                    for project in group.projects.all():
-                        projects[project.id].append((permissions, languages))
+                    for project_obj in group.projects.all():
+                        projects[project_obj.id].append((permissions, languages))
         # Apply blocking
         now = timezone.now()
         for block in self.userblock_set.all():
@@ -851,6 +876,14 @@ class User(AbstractBaseUser):
             if request is not None and request.user
             else None,
             team=team.name,
+        )
+
+    def has_email(self, email: str) -> bool:
+        return (
+            email == self.email
+            or User.objects.filter(
+                pk=self.pk, social_auth__verifiedemail__email=email
+            ).exists()
         )
 
 
