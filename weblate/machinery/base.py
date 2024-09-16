@@ -682,6 +682,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     glossary_count_limit = 0
 
     def delete_cache(self) -> None:
+        """Delete general caches and glossary cache."""
         super().delete_cache()
         cache.delete(self.get_cache_key("glossaries"))
 

@@ -115,7 +115,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
         return super().get_error_message(exc)
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
-        """Check whether given language combination is supported by service for glossary."""
+        """Check whether given languages pair is supported by service glossaries."""
         return self.is_supported(source_language, target_language)
 
     def list_glossaries(self) -> dict[str, str]:

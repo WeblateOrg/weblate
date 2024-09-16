@@ -275,16 +275,10 @@ class ModernMTMachineryForm(KeyURLMachineryForm):
                     raise ValidationError(
                         gettext("The context vector is not valid: %s") % couple
                     )
-                try:
-                    if not 0 < (weight := float(couple.split(":")[1])) < 1:
-                        raise ValidationError(
-                            gettext("The weight value must be between 0 and 1: %s")
-                            % weight
-                        )
-                except ValueError as error:
+                if not 0 < (weight := float(couple.split(":")[1])) < 1:
                     raise ValidationError(
-                        gettext("The context vector is not valid: %s") % couple
-                    ) from error
+                        gettext("The weight value must be between 0 and 1: %s") % weight
+                    )
         return self.cleaned_data["context_vector"]
 
 
@@ -383,6 +377,7 @@ class OpenAIMachineryForm(KeyMachineryForm):
     )
 
     def clean(self) -> None:
+        """Validate `custom_model, model` fields."""
         has_custom_model = bool(self.cleaned_data.get("custom_model"))
         model = self.cleaned_data.get("model")
         if model == "custom" and not has_custom_model:

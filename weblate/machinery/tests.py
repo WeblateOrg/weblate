@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+import re
 from copy import copy
 from io import StringIO
 from typing import TYPE_CHECKING, NoReturn
@@ -1132,12 +1133,25 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             content_type="text/json",
         )
 
+        self.mock_list_glossaries()
+
+    def mock_list_glossaries(self, *id_name_date: tuple[int, str, str]):
+        """Set up mock responses for list of glossaries in ModernMT."""
+        data: list[dict] = [
+            {
+                "id": _id,
+                "creationDate": _date or "2021-04-12T15:24:26+00:00",
+                "name": _name,
+            }
+            for _id, _name, _date in id_name_date
+        ]
         responses.add(
             responses.GET,
             "https://api.modernmt.com/memories",
-            json={"data": [], "status": 200},
-            status=200,
-            content_type="text/json",
+            json={
+                "status": 200,
+                "data": data,
+            },
         )
 
     def mock_create_glossary(self, glossary_id: int, glossary_name: str) -> None:
@@ -1170,22 +1184,14 @@ class ModernMTHubTest(BaseMachineTranslationTest):
                 },
             },
         )
-        # list glossaries
 
-        responses.add(
-            responses.GET,
-            "https://api.modernmt.com/memories",
-            json={
-                "data": [
-                    {
-                        "id": glossary_id,
-                        "creationDate": "2021-04-12T15:24:26+00:00",
-                        "name": glossary_name,
-                    }
-                ],
-                "status": 200,
-            },
-            status=200,
+        # list glossaries
+        self.mock_list_glossaries(
+            (
+                glossary_id,
+                glossary_name,
+                "2021-04-12T15:24:26+00:00",
+            )
         )
 
     @responses.activate
@@ -1218,14 +1224,19 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             )
 
         # change tsv, check that old memory is deleted and new one is created
-        def delete_request_callback(request: AuthenticatedHttpRequest):
+
+        # return current list of glossaries
+        self.mock_list_glossaries(*[(37784, "weblate:1:en:it:9e250d830c11d70f", None)])
+
+        def delete_stale_glossary_callback(request: AuthenticatedHttpRequest):
+            """Check that the stale glossary is being deleted."""
             self.assertTrue(request.url.endswith("memories/37784"))
             return (200, {}, "{}")
 
         responses.add_callback(
             responses.DELETE,
-            r"https://api.modernmt.com/memories/(\d+)",
-            callback=delete_request_callback,
+            re.compile(r"https://api.modernmt.com/memories/(\d+)"),
+            callback=delete_stale_glossary_callback,
         )
 
         self.mock_create_glossary(37785, "weblate:1:en:it:7d3c463b6bb01e5d")
@@ -1238,20 +1249,92 @@ class ModernMTHubTest(BaseMachineTranslationTest):
                 self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
             )
 
-        def delete_oldest_request_callback(request: AuthenticatedHttpRequest):
+        def delete_stale_glossary_callback(request: AuthenticatedHttpRequest):
+            """Check that the stale glossary is being deleted."""
             self.assertTrue(request.url.endswith("memories/37785"))
             return (200, {}, "{}")
 
         responses.add_callback(
             responses.DELETE,
-            r"https://api.modernmt.com/memories/(\d+)",
+            re.compile(r"https://api.modernmt.com/memories/(\d+)"),
+            callback=delete_stale_glossary_callback,
+        )
+
+        def delete_oldest_request_callback(request: AuthenticatedHttpRequest):
+            """Check that the oldest glossary is the one being deleted."""
+            self.assertTrue(request.url.endswith("memories/37782"))
+            return (200, {}, "{}")
+
+        responses.add_callback(
+            responses.DELETE,
+            re.compile(r"https://api.modernmt.com/memories/(\d+)"),
             callback=delete_oldest_request_callback,
         )
 
         # change count limit, check that the oldest glossary is deleted
-        with patch(
-            "weblate.machinery.modernmt.ModernMTTranslation.glossary_count_limit",
-            new=lambda: 0,
+        self.mock_list_glossaries(
+            *[
+                (
+                    37782,
+                    "weblate:1:en:fr:8c123d830c177e90b",
+                    "2021-01-12T15:24:26+00:00",
+                ),
+                (
+                    37783,
+                    "weblate:1:en:cs:a85e314d2f7614eb",
+                    "2021-03-12T15:24:26+00:00",
+                ),
+                (
+                    37785,
+                    "weblate:1:en:it:7d3c463b6bb01e5d",
+                    "2021-04-12T15:24:26+00:00",
+                ),
+            ]
+        )
+
+        self.mock_list_glossaries(
+            *[
+                (
+                    37782,
+                    "weblate:1:en:fr:8c123d830c177e90b",
+                    "2021-01-12T15:24:26+00:00",
+                ),
+                (
+                    37783,
+                    "weblate:1:en:cs:a85e314d2f7614eb",
+                    "2021-03-12T15:24:26+00:00",
+                ),
+                (
+                    37785,
+                    "weblate:1:en:it:7d3c463b6bb01e5d",
+                    "2021-04-12T15:24:26+00:00",
+                ),
+            ]
+        )
+
+        self.mock_list_glossaries(
+            *[
+                (
+                    37783,
+                    "weblate:1:en:cs:a85e314d2f7614eb",
+                    "2021-03-12T15:24:26+00:00",
+                ),
+                (
+                    37785,
+                    "weblate:1:en:it:54c0ca90b9d0e369",
+                    "2021-04-12T15:24:26+00:00",
+                ),
+            ]
+        )
+        with (
+            patch(
+                "weblate.machinery.modernmt.ModernMTTranslation.glossary_count_limit",
+                new=1,
+            ),
+            patch(
+                "weblate.glossary.models.get_glossary_tsv",
+                new=lambda _: "foo\tbar\ndifferent\tentry",
+            ),
         ):
             self.assert_translate(
                 self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
