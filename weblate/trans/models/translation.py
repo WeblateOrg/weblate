@@ -1222,12 +1222,14 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
         # Optionally set authorship
         orig_user = None
-        if (
-            author_email
-            and (request.user is None and author_email != request.user.email)
-            and User.objects.filter(
-                pk=request.user.pk, social_auth__verifiedemail__email=author_email
-            ).exists()
+        if author_email and (
+            request.user is None
+            or (
+                author_email != request.user.email
+                and User.objects.filter(
+                    pk=request.user.pk, social_auth__verifiedemail__email=author_email
+                ).exists()
+            )
         ):
             orig_user = request.user
             request.user, created = User.objects.get_or_create(
