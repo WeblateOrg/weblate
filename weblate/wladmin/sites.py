@@ -27,6 +27,11 @@ class WeblateAdminSite(AdminSite):
 
         return AdminLoginForm
 
+    def logout(self, request, extra_context=None):
+        from weblate.accounts.views import WeblateLogoutView
+
+        return WeblateLogoutView.as_view()(request)
+
     @property
     def site_url(self):
         if settings.URL_PREFIX:
