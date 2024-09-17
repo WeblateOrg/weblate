@@ -61,13 +61,10 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
     glossary_translations = prefetch_stats(
         Translation.objects.filter(
             component__project=project, component__is_glossary=True
-        )
+        ).exclude(language__id__in=languages_in_non_glossary_components)
     )
     for glossary in glossary_translations:
-        if (
-            glossary.stats.translated == 0
-            and glossary.language_id not in languages_in_non_glossary_components
-        ):
+        if glossary.stats.translated == 0:
             glossary.remove()
             transaction.on_commit(glossary.stats.update_parents)
             transaction.on_commit(glossary.component.schedule_update_checks)
