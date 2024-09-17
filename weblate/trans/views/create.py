@@ -238,9 +238,7 @@ class CreateComponent(BaseCreateView):
         return result
 
     def get_success_url(self):
-        return reverse(
-            "component_progress", kwargs={"path": self.object.get_url_path()}
-        )
+        return reverse("show_progress", kwargs={"path": self.object.get_url_path()})
 
     def warn_outdated(self, form) -> None:
         linked = form.instance.linked_component
@@ -519,7 +517,7 @@ class CreateComponentSelection(CreateComponent):
             project = form.cleaned_data["project"]
             component = project.scratch_create_component(**form.cleaned_data)
             return redirect(
-                reverse("component_progress", kwargs={"path": component.get_url_path()})
+                reverse("show_progress", kwargs={"path": component.get_url_path()})
             )
         component = form.cleaned_data["component"]
         if self.origin == "existing":
@@ -534,9 +532,7 @@ class CreateComponentSelection(CreateComponent):
         if self.origin == "branch":
             form.instance.save()
             return redirect(
-                reverse(
-                    "component_progress", kwargs={"path": form.instance.get_url_path()}
-                )
+                reverse("show_progress", kwargs={"path": form.instance.get_url_path()})
             )
 
         return redirect("create-component")

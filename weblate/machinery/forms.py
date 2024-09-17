@@ -276,12 +276,25 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         initial="default",
         required=False,
     )
+    context = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Translation context",
+        ),
+        widget=forms.Textarea,
+        help_text=gettext_lazy(
+            "Describe the context of the translation to improve the accuracy of the translation."
+        ),
+        required=False,
+    )
 
 
 class OpenAIMachineryForm(KeyMachineryForm):
     # Ordering choices here defines priority for automatic selection
     MODEL_CHOICES = (
         ("auto", pgettext_lazy("OpenAI model selection", "Automatic selection")),
+        ("o1-mini", "OpenAI o1-mini"),
+        ("o1-preview", "OpenAI o1-preview"),
         ("gpt-4o-mini", "GPT-4o mini"),
         ("gpt-4o", "GPT-4o"),
         ("gpt-4-turbo", "GPT-4 Turbo"),

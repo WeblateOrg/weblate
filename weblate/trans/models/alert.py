@@ -452,10 +452,11 @@ class UnsupportedConfiguration(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | None | dict:
-        return (
-            component.vcs not in VCS_REGISTRY
-            or component.file_format not in FILE_FORMATS
-        )
+        vcs = component.vcs not in VCS_REGISTRY
+        file_format = component.file_format not in FILE_FORMATS
+        if vcs or file_format:
+            return {"file_format": file_format, "vcs": vcs}
+        return False
 
 
 @register

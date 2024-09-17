@@ -73,6 +73,8 @@ Fields
    Component slug or name case-insensitive search, see :ref:`component-slug` and :ref:`component-name`.
 ``project:TEXT``
    Project slug, see :ref:`project-slug`.
+``path:TEXT``
+   Path to the object to limit searching inside component, category, project, or translation.
 ``changed_by:TEXT``
    String was changed by author with given username.
 ``changed:DATETIME``

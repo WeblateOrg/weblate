@@ -449,21 +449,21 @@ class ChecksumForm(forms.Form):
         self.unit_set = unit_set
         super().__init__(*args, **kwargs)
 
-    def clean_checksum(self) -> None:
+    def clean_checksum(self) -> None | str:
         """Validate whether checksum is valid and fetches unit for it."""
         if "checksum" not in self.cleaned_data:
-            return
+            return None
 
         unit_set = self.unit_set
 
+        checksum = self.cleaned_data["checksum"]
         try:
-            self.cleaned_data["unit"] = unit_set.filter(
-                id_hash=self.cleaned_data["checksum"]
-            )[0]
+            self.cleaned_data["unit"] = unit_set.filter(id_hash=checksum)[0]
         except (Unit.DoesNotExist, IndexError) as error:
             raise ValidationError(
                 gettext("The string you wanted to translate is no longer available.")
             ) from error
+        return checksum
 
 
 class UnitForm(forms.Form):
@@ -1175,7 +1175,12 @@ class NewLanguageForm(NewLanguageOwnerForm):
         codes = BASIC_LANGUAGES
         if settings.BASIC_LANGUAGES is not None:
             codes = settings.BASIC_LANGUAGES
-        return super().get_lang_objects().filter(code__in=codes)
+        return (
+            super()
+            .get_lang_objects()
+            .filter(Q(code__in=codes) | Q(component__project=self.component.project))
+            .distinct()
+        )
 
     def __init__(self, component, *args, **kwargs) -> None:
         super().__init__(component, *args, **kwargs)
@@ -2906,16 +2911,19 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         data=None,
         files=None,
         *,
-        instance=None,
+        instance: WorkflowSetting | None = None,
         prefix=None,
         initial=None,
         project: Project | None = None,
         **kwargs,
     ) -> None:
         if instance is not None:
+            # The enable field indicates presence of the instance,
+            # untoggling it removes it
             initial = {"enable": True}
-            if project is not None:
-                initial["translation_review"] = project.translation_review
+        elif project is not None:
+            # Default review setting based on the project one
+            initial = {"translation_review": project.translation_review}
 
         self.project = project
         self.instance = instance
@@ -2945,7 +2953,17 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
             ),
         )
 
-    def save(self, commit=True):
+    def clean_translation_review(self) -> None | bool:
+        if "translation_review" not in self.cleaned_data:
+            return None
+        translation_review = self.cleaned_data["translation_review"]
+        if not self.project:
+            return translation_review
+        if translation_review and not self.project.enable_review:
+            raise ValidationError("Please turn on reviews on the project first.")
+        return translation_review
+
+    def save(self, commit: bool = True):
         if self.cleaned_data["enable"]:
             return super().save(commit=commit)
         if self.instance and self.instance.pk:

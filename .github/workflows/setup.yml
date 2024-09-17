@@ -29,10 +29,14 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
+    - uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: pyproject.toml
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.12'
     - name: Used versions
       run: ./ci/print-versions
     - name: Install Python dependencies
@@ -64,10 +68,14 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
+    - uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: pyproject.toml
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.12'
     - name: Used versions
       run: ./ci/print-versions
     - name: Install Python dependencies
@@ -85,16 +93,17 @@ jobs:
     permissions:
       # Needed for Sigstore
       id-token: write
-
+      # Needed for attestations
+      attestations: write
     steps:
     - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v3
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.12'
     - name: Install Python dependencies
       run: |
-        python -m pip install $(sed -n 's/.*"\(uv==\([^"]*\)\)".*/\1/p' pyproject.toml)
         uv pip install --system $(sed -n 's/.*"\(twine==\([^"]*\)\)".*/\1/p' pyproject.toml)
         uv pip install --system $(sed -n 's/.*"\(build==\([^"]*\)\)".*/\1/p' pyproject.toml)
     - name: build
@@ -106,6 +115,11 @@ jobs:
       uses: sigstore/gh-action-sigstore-python@v3.0.0
       with:
         inputs: dist/*
+    - name: Attest
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
+      uses: actions/attest-build-provenance@v1
+      with:
+        subject-path: dist/*
     - uses: actions/upload-artifact@v4
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
       with:
@@ -116,18 +130,20 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: docs/requirements.txt
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.12'
     - name: Install apt dependencies
       run: |
         sudo apt update
         sudo apt install -y graphviz pandoc
     - name: Install Python dependencies
-      run: |
-        python -m pip install $(sed -n 's/.*"\(uv==\([^"]*\)\)".*/\1/p' pyproject.toml)
-        uv pip install --system -r docs/requirements.txt
+      run: uv pip install --system -r docs/requirements.txt
     - name: Sphinx build
       run: ./ci/run-docs
     - name: Convert release notes

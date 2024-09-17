@@ -40,10 +40,14 @@ jobs:
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
+    - uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: pyproject.toml
     - name: Set up Python 3.11
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.12'
     - name: Install Python dependencies
       run: ./ci/pip-install migrations
     - name: Check missing migrations
@@ -62,6 +66,8 @@ jobs:
       run: ./ci/run-migrate 5.5
     - name: Migrate from 5.6
       run: ./ci/run-migrate 5.6
+    - name: Migrate from 5.7
+      run: ./ci/run-migrate 5.7
     - name: Coverage
       run: |
         coverage combine

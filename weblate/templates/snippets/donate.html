@@ -1,0 +1,14 @@
+{% load i18n %}
+<p>
+    {% trans "While Weblate remains free for all users, its development requires continuous investment." %}
+    {% trans "We prioritize your privacy; we never display ads or sell your data." %}
+    {% trans "The invaluable support of the community through subscriptions and donations ensures that Weblate continues to grow and thrive." %}
+    {% trans "Join us in shaping the future of localization and contribute today!" %}
+</p>
+
+<p class="buttons">
+    {% if not support_status.has_support %}
+        <a href="{{ support_url }}" class="btn btn-primary btn-lg">{% trans "Purchase a support package" %}</a>
+    {% endif %}
+    <a href="{{ donate_url }}" class="btn btn-primary btn-lg">{% trans "Give to Weblate" %}</a>
+</p>

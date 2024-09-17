@@ -75,7 +75,7 @@ The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. note::
 
-    Instance administraotrs can modify the default permission sets available to users
+    Instance administrators can modify the default permission sets available to users
     in `Public`, `Protected`, and `Private` projects by using :ref:`custom settings <custom-acl>`.
 
 .. seealso::
@@ -90,7 +90,7 @@ Managing per-project access control
 For `Public`, `Protected` and `Private` projects:
 
 Granting users :guilabel:`Manage project access` (see :ref:`privileges`)
-allows them to assign other users in Public`, `Protected` and
+allows them to assign other users in `Public`, `Protected` and
 `Private` (but not `Custom`) projects via adding them to teams.
 
 These are the default teams provided with Weblate; teams can

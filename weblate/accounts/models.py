@@ -32,7 +32,11 @@ from social_django.models import UserSocialAuth
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.data import create_default_notifications
-from weblate.accounts.notifications import FREQ_CHOICES, NOTIFICATIONS, SCOPE_CHOICES
+from weblate.accounts.notifications import (
+    NOTIFICATIONS,
+    NotificationFrequency,
+    NotificationScope,
+)
 from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.lang.models import Language
@@ -124,13 +128,22 @@ class WeblateAccountsConf(AppConf):
         prefix = ""
 
 
+class SubscriptionQuerySet(models.QuerySet["Subscription"]):
+    def order(self):
+        """Ordering in project scope by priority."""
+        return self.order_by("user", "scope")
+
+    def prefetch(self):
+        return self.prefetch_related("component", "project")
+
+
 class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     notification = models.CharField(
         choices=[n.get_choice() for n in NOTIFICATIONS], max_length=100
     )
-    scope = models.IntegerField(choices=SCOPE_CHOICES)
-    frequency = models.IntegerField(choices=FREQ_CHOICES)
+    scope = models.IntegerField(choices=NotificationScope.choices)
+    frequency = models.IntegerField(choices=NotificationFrequency.choices)
     project = models.ForeignKey(
         "trans.Project", on_delete=models.deletion.CASCADE, null=True
     )
@@ -138,6 +151,8 @@ class Subscription(models.Model):
         "trans.Component", on_delete=models.deletion.CASCADE, null=True
     )
     onetime = models.BooleanField(default=False)
+
+    objects = SubscriptionQuerySet.as_manager()
 
     class Meta:
         unique_together = [("notification", "scope", "project", "component", "user")]
@@ -907,17 +922,21 @@ class Profile(models.Model):
         )
 
     def log_2fa(self, request: AuthenticatedHttpRequest, device: Device):
-        from weblate.accounts.utils import get_key_name
+        from weblate.accounts.utils import get_key_name, get_key_type
 
         # Audit log entry
         AuditLog.objects.create(
             self.user, request, "twofactor-login", device=get_key_name(device)
         )
-        # Store preferred method
+        # Store preferred method (skipping recovery codes)
+        device_type = get_key_type(device)
+        if device_type not in {self.last_2fa, "recovery"}:
+            self.last_2fa = device_type
+            self.save(update_fields=["last_2fa"])
 
     def get_second_factor_type(self) -> Literal["totp", "webauthn"]:
         if self.last_2fa in self.second_factor_types:
-            return self.last_2f
+            return self.last_2fa
         for tested in ("webauthn", "totp"):
             if tested in self.second_factor_types:
                 return tested

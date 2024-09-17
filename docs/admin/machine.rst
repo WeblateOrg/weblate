@@ -136,13 +136,15 @@ DeepL
 -----
 
 :Service ID: ``deepl``
-:Configuration: +---------------+-----------+-------------------------------------------------------------------------+
-                | ``url``       | API URL   |                                                                         |
-                +---------------+-----------+-------------------------------------------------------------------------+
-                | ``key``       | API key   |                                                                         |
-                +---------------+-----------+-------------------------------------------------------------------------+
-                | ``formality`` | Formality | Uses the specified formality if language is not specified as (in)formal |
-                +---------------+-----------+-------------------------------------------------------------------------+
+:Configuration: +---------------+---------------------+-------------------------------------------------------------------------------------+
+                | ``url``       | API URL             |                                                                                     |
+                +---------------+---------------------+-------------------------------------------------------------------------------------+
+                | ``key``       | API key             |                                                                                     |
+                +---------------+---------------------+-------------------------------------------------------------------------------------+
+                | ``formality`` | Formality           | Uses the specified formality if language is not specified as (in)formal             |
+                +---------------+---------------------+-------------------------------------------------------------------------------------+
+                | ``context``   | Translation context | Describe the context of the translation to improve the accuracy of the translation. |
+                +---------------+---------------------+-------------------------------------------------------------------------------------+
 
 DeepL is paid service providing good machine translation for a few languages.
 You need to purchase :guilabel:`DeepL API` subscription or you can use legacy
@@ -173,6 +175,9 @@ Replace the XXX with your auth_key. If you receive a JSON object which contains
 
 Weblate supports DeepL formality, it will choose matching one based on the
 language (for example, there is ``de@formal`` and ``de@informal``).
+
+The translation context can optionally be specified to improve translations quality. Read more on that in
+`DeepL translation context documentatin <https://developers.deepl.com/docs/best-practices/working-with-context>`_.
 
 The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 

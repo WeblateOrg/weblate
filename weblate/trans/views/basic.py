@@ -768,7 +768,7 @@ def new_language(request: AuthenticatedHttpRequest, path):
                         )
                         result = "{}?info=1".format(
                             reverse(
-                                "component_progress",
+                                "show_progress",
                                 kwargs={"path": result.get_url_path()},
                             )
                         )

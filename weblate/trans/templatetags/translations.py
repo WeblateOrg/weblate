@@ -1088,7 +1088,7 @@ def component_alerts(
         yield (
             "state/update.svg",
             gettext("Updating translation component…"),
-            reverse("component_progress", kwargs={"path": component.get_url_path()})
+            reverse("show_progress", kwargs={"path": component.get_url_path()})
             + "?info=1",
         )
 

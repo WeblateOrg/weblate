@@ -604,7 +604,6 @@ LOGOUT_URL = f"{URL_PREFIX}/accounts/logout/"
 
 # Default location for login
 LOGIN_REDIRECT_URL = f"{URL_PREFIX}/"
-LOGOUT_REDIRECT_URL = f"{URL_PREFIX}/"
 
 # Opt-in for Django 6.0 default
 FORMS_URLFIELD_ASSUME_HTTPS = True

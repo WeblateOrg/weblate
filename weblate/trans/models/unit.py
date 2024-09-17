@@ -44,7 +44,6 @@ from weblate.utils import messages
 from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
-from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -170,6 +169,8 @@ class UnitQuerySet(models.QuerySet):
 
     def search(self, query, **context):
         """High level wrapper for searching."""
+        from weblate.utils.search import parse_query
+
         result = self.filter(parse_query(query, **context))
         return result.distinct()
 

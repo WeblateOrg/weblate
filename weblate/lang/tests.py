@@ -61,7 +61,7 @@ TEST_LANGUAGES = (
         "ltr",
         "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
         "(n%100<10 || n%100>=20) ? 1 : 2",
-        "Serbian (latin)",
+        "Serbian (Latin script)",
         False,
     ),
     (
@@ -70,7 +70,7 @@ TEST_LANGUAGES = (
         "ltr",
         "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
         "(n%100<10 || n%100>=20) ? 1 : 2",
-        "Serbian (latin)",
+        "Serbian (Latin script)",
         False,
     ),
     (
@@ -79,7 +79,7 @@ TEST_LANGUAGES = (
         "ltr",
         "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
         "(n%100<10 || n%100>=20) ? 1 : 2",
-        "Serbian (latin)",
+        "Serbian (Latin script)",
         False,
     ),
     (
@@ -88,7 +88,7 @@ TEST_LANGUAGES = (
         "ltr",
         "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
         "(n%100<10 || n%100>=20) ? 1 : 2",
-        "Serbian (latin)",
+        "Serbian (Latin script)",
         False,
     ),
     (
@@ -100,20 +100,34 @@ TEST_LANGUAGES = (
         True,
     ),
     ("en_CZ", "en_CZ", "ltr", "n != 1", "English (en_CZ)", True),
-    ("zh_CN", "zh_Hans", "ltr", "0", "Chinese (Simplified)", False),
-    ("zh-CN", "zh_Hans", "ltr", "0", "Chinese (Simplified)", False),
-    ("zh_HANT", "zh_Hant", "ltr", "0", "Chinese (Traditional)", False),
-    ("zh-HANT", "zh_Hant", "ltr", "0", "Chinese (Traditional)", False),
-    ("zh-CN@test", "zh_CN@test", "ltr", "0", "Chinese (Simplified) (zh_CN@test)", True),
-    ("zh-rCN", "zh_Hans", "ltr", "0", "Chinese (Simplified)", False),
-    ("zh_rCN", "zh_Hans", "ltr", "0", "Chinese (Simplified)", False),
-    ("zh_HK", "zh_Hant_HK", "ltr", "0", "Chinese (Traditional, Hong Kong)", False),
+    ("zh_CN", "zh_Hans", "ltr", "0", "Chinese (Simplified Han script)", False),
+    ("zh-CN", "zh_Hans", "ltr", "0", "Chinese (Simplified Han script)", False),
+    ("zh_HANT", "zh_Hant", "ltr", "0", "Chinese (Traditional Han script)", False),
+    ("zh-HANT", "zh_Hant", "ltr", "0", "Chinese (Traditional Han script)", False),
+    (
+        "zh-CN@test",
+        "zh_CN@test",
+        "ltr",
+        "0",
+        "Chinese (Simplified Han script) (zh_CN@test)",
+        True,
+    ),
+    ("zh-rCN", "zh_Hans", "ltr", "0", "Chinese (Simplified Han script)", False),
+    ("zh_rCN", "zh_Hans", "ltr", "0", "Chinese (Simplified Han script)", False),
+    (
+        "zh_HK",
+        "zh_Hant_HK",
+        "ltr",
+        "0",
+        "Chinese (Traditional Han script, Hong Kong)",
+        False,
+    ),
     (
         "zh_Hant-rHK",
         "zh_Hant_HK",
         "ltr",
         "0",
-        "Chinese (Traditional, Hong Kong)",
+        "Chinese (Traditional Han script, Hong Kong)",
         False,
     ),
     (
@@ -153,7 +167,7 @@ TEST_LANGUAGES = (
         "zh_Hant_HK",
         "ltr",
         "0",
-        "Chinese (Traditional, Hong Kong)",
+        "Chinese (Traditional Han script, Hong Kong)",
         False,
     ),
     (

@@ -1,19 +1,78 @@
-Weblate 5.7.1
--------------
+Weblate 5.8
+-----------
 
 Not yet released.
 
 **New features**
 
+* :ref:`Searching` now supports filtering by object path.
+* Merge requests credentials can now be passed in the repository URL, see :ref:`settings-credentials`.
+
 **Improvements**
 
 * Stale empty glossaries are now automatically removed
+* :ref`mt-deepl` now supports specifying translation context.
+
+**Bug fixes**
+
+* Displaying :ref:`workflow-customization` setting in some cases.
+* Users can add component in any language already existing in a project.
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.8.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/122?closed=1>`__.
+
+Weblate 5.7.2
+-------------
+
+Released on September 5th 2024.
+
+**Improvements**
+
+* :ref:`2fa` remembers last method used by user.
+* Instead of redirecting, the sign-out now displays a page.
+* Improved readability of exception logs.
+
+**Bug fixes**
+
+* Updating of translations from the repository in linked components.
+* Improved rendering of digest notification e-mails.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.7.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?closed=1>`__.
+
+Weblate 5.7.1
+-------------
+
+Released on August 30th 2024.
+
+**Improvements**
+
+* Updated language names to better describe different scripts and Sintic languages.
+* :ref:`addon-weblate.cleanup.generic` is now automatically installed for formats which need it to update non-translation content in the translated files.
 
 **Bug fixes**
 
 * Support for using Docker network names in automatic suggestion settings.
-
-**Compatibility**
+* Fixed authentication using some third-party providers such as Azure.
+* Support for formal and informal Portuguese in :ref:`mt-deepl`.
+* QR code for TOTP is now black/white even in dark mode.
+* Fixed TOTP authentication when WebAuthn is also configured for the user.
 
 **Upgrading**
 

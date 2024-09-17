@@ -59,7 +59,6 @@ var _rollbarConfig = {
 </script>
 {% endif %}
   <script defer data-cfasync="false" src="{% static 'vendor/jquery.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/js.cookie.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/autosize.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/multi.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap.js' %}{{ cache_param }}"></script>
@@ -102,8 +101,11 @@ var _rollbarConfig = {
   <meta property="og:title" content="{% if title %}{{ title }}{% elif object %}{{ object }}{% elif page_user %}{{ page_user }}{% else %}{{ site_title }}{% endif %}" />
   <meta property="og:description" content="{{ description }}" />
 
-{% block extra_meta %}
-{% endblock %}
+  {% block extra_meta %}
+  {% endblock %}
+
+  {% block extra_styles %}
+  {% endblock %}
 
  </head>
 
@@ -229,7 +231,7 @@ var _rollbarConfig = {
         {% if registration_open %}
         <li><a class="button" id="register-button" href="{% url 'register' %}">{% trans "Register" %}</a></li>
         {% endif %}
-        <li><a class="button" id="login-button" href="{% url 'login' %}{% if not skip_next %}?next={{ login_redirect_url|urlencode }}{% endif %}">{% trans "Sign in" %}</a></li>
+        <li><a class="button" id="login-button" href="{% url 'login' %}{% if not skip_next and login_redirect_url %}?next={{ login_redirect_url|urlencode }}{% endif %}">{% trans "Sign in" %}</a></li>
         {% endif %}
 
         {# Adding new translations #}
@@ -338,7 +340,7 @@ var _rollbarConfig = {
   {% show_message 'warning' msg %}
 {% endif %}
 
-{% if user.is_authenticated and not user.is_verified and user.group_enforces_2fa %}
+{% if user.is_authenticated and not user.profile.has_2fa and user.group_enforces_2fa %}
   {% include "snippets/enforced_2fa.html" %}
 {% endif %}
 

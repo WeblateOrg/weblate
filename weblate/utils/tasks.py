@@ -160,7 +160,7 @@ def database_backup() -> None:
                 stderr=error.stderr,
             )
             LOGGER.error("failed database backup: %s", error.stderr)
-            report_error()
+            report_error("Database backup failed")
             raise
 
         if compress:

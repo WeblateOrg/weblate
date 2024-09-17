@@ -6,7 +6,7 @@
 {% block breadcrumbs %}
 {% path_object_breadcrumbs object %}
 
-<li><a href="{% url 'component_progress' path=object.get_url_path %}">{% trans "Progress" %}</a></li>
+<li><a href="{% url 'show_progress' path=object.get_url_path %}">{% trans "Progress" %}</a></li>
 {% endblock %}
 
 {% block content %}

@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import re
 from collections import defaultdict
 from itertools import chain
 from typing import TYPE_CHECKING, Literal, overload
@@ -38,6 +39,7 @@ You do not include transliteration.
 {glossary}
 """
 SEPARATOR = "\n==WEBLATE_PART==\n"
+SEPARATOR_RE = re.compile("\n *==WEBLATE_PART== *\n")
 SEPARATOR_PROMPT = f"""
 You receive an input as strings separated by {SEPARATOR} and
 your answer separates strings by {SEPARATOR}.
@@ -255,7 +257,9 @@ class OpenAITranslation(BatchMachineTranslation):
             )
             raise MachineTranslationError("Blank assistant reply")
 
-        translations = translations_string.split(SEPARATOR)
+        # Ignore extra whitespace in response as OpenAI can be creative in that
+        # (see https://github.com/WeblateOrg/weblate/issues/12456)
+        translations = SEPARATOR_RE.split(translations_string)
         if not rephrase and len(translations) != len(texts):
             self.report_error(
                 "Failed to parse assistant reply",

@@ -121,8 +121,13 @@ def weblate_context(request: AuthenticatedHttpRequest):
     """Context processor to inject various useful variables into context."""
     if url_has_allowed_host_and_scheme(request.GET.get("next", ""), allowed_hosts=None):
         login_redirect_url = request.GET["next"]
-    else:
+    elif request.resolver_match is None or (
+        not request.resolver_match.view_name.startswith("social:")
+        and request.resolver_match.view_name != "logout"
+    ):
         login_redirect_url = request.get_full_path()
+    else:
+        login_redirect_url = ""
 
     # Load user translations if user is authenticated
     watched_projects = None
