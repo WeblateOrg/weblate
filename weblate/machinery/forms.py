@@ -313,6 +313,7 @@ class BaseOpenAIMachineryForm(KeyMachineryForm):
         required=False,
     )
 
+
 class OpenAIMachineryForm(BaseOpenAIMachineryForm):
     # Ordering choices here defines priority for automatic selection
     MODEL_CHOICES = (
@@ -367,6 +368,7 @@ class OpenAIMachineryForm(BaseOpenAIMachineryForm):
             )
         super().clean()
 
+
 class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
     azure_endpoint = WeblateServiceURLField(
         label=pgettext_lazy(
@@ -374,9 +376,7 @@ class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
             "Azure OpenAI Endpoint URL",
         ),
         widget=forms.TextInput,
-        help_text=gettext_lazy(
-            "Endpoint URL of the Azure OpenAI API"
-        ),
+        help_text=gettext_lazy("Endpoint URL of the Azure OpenAI API"),
     )
     deployment = forms.CharField(
         label=pgettext_lazy(
@@ -384,7 +384,5 @@ class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
             "AzureOpenAI deployment",
         ),
         widget=forms.TextInput,
-        help_text=gettext_lazy(
-            "Deployment name of the Azure OpenAI model"
-        ),
+        help_text=gettext_lazy("Deployment name of the Azure OpenAI model"),
     )

@@ -19,7 +19,7 @@ from .base import (
     DownloadMultipleTranslations,
     MachineTranslationError,
 )
-from .forms import OpenAIMachineryForm, AzureOpenAIMachineryForm
+from .forms import AzureOpenAIMachineryForm, OpenAIMachineryForm
 
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
@@ -246,6 +246,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
                 }
             )
 
+
 class OpenAITranslation(BaseOpenAITranslation):
     name = "OpenAI"
 
@@ -300,7 +301,7 @@ class AzureOpenAITranslation(BaseOpenAITranslation):
             api_version="2024-06-01",
             timeout=self.request_timeout,
             azure_endpoint=self.settings.get("azure_endpoint") or None,
-            azure_deployment=self.settings["deployment"]
+            azure_deployment=self.settings["deployment"],
         )
 
     def get_model(self) -> str:

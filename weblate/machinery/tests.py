@@ -52,7 +52,7 @@ from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
-from weblate.machinery.openai import OpenAITranslation, AzureOpenAITranslation
+from weblate.machinery.openai import AzureOpenAITranslation, OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
 from weblate.machinery.tmserver import TMServerTranslation
