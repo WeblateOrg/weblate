@@ -7,6 +7,7 @@ from __future__ import annotations
 import json
 import re
 from copy import copy
+from functools import partial
 from io import StringIO
 from typing import TYPE_CHECKING, NoReturn
 from unittest import SkipTest
@@ -1228,15 +1229,17 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         # return current list of glossaries
         self.mock_list_glossaries(*[(37784, "weblate:1:en:it:9e250d830c11d70f", None)])
 
-        def delete_stale_glossary_callback(request: AuthenticatedHttpRequest):
+        def delete_glossary_callback(
+            request: AuthenticatedHttpRequest, expected_id: int
+        ):
             """Check that the stale glossary is being deleted."""
-            self.assertTrue(request.url.endswith("memories/37784"))
+            self.assertTrue(request.url.endswith(f"memories/{expected_id}"))
             return (200, {}, "{}")
 
         responses.add_callback(
             responses.DELETE,
             re.compile(r"https://api.modernmt.com/memories/(\d+)"),
-            callback=delete_stale_glossary_callback,
+            callback=partial(delete_glossary_callback, expected_id=37784),
         )
 
         self.mock_create_glossary(37785, "weblate:1:en:it:7d3c463b6bb01e5d")
@@ -1249,82 +1252,68 @@ class ModernMTHubTest(BaseMachineTranslationTest):
                 self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
             )
 
-        def delete_stale_glossary_callback(request: AuthenticatedHttpRequest):
-            """Check that the stale glossary is being deleted."""
-            self.assertTrue(request.url.endswith("memories/37785"))
-            return (200, {}, "{}")
-
+        # stale glossary delete
         responses.add_callback(
             responses.DELETE,
             re.compile(r"https://api.modernmt.com/memories/(\d+)"),
-            callback=delete_stale_glossary_callback,
+            callback=partial(delete_glossary_callback, expected_id=37785),
         )
 
-        def delete_oldest_request_callback(request: AuthenticatedHttpRequest):
-            """Check that the oldest glossary is the one being deleted."""
-            self.assertTrue(request.url.endswith("memories/37782"))
-            return (200, {}, "{}")
-
+        # oldest glossary delete
         responses.add_callback(
             responses.DELETE,
             re.compile(r"https://api.modernmt.com/memories/(\d+)"),
-            callback=delete_oldest_request_callback,
+            callback=partial(delete_glossary_callback, expected_id=37782),
         )
 
         # change count limit, check that the oldest glossary is deleted
         self.mock_list_glossaries(
-            *[
-                (
-                    37782,
-                    "weblate:1:en:fr:8c123d830c177e90b",
-                    "2021-01-12T15:24:26+00:00",
-                ),
-                (
-                    37783,
-                    "weblate:1:en:cs:a85e314d2f7614eb",
-                    "2021-03-12T15:24:26+00:00",
-                ),
-                (
-                    37785,
-                    "weblate:1:en:it:7d3c463b6bb01e5d",
-                    "2021-04-12T15:24:26+00:00",
-                ),
-            ]
+            (
+                37782,
+                "weblate:1:en:fr:8c123d830c177e90b",
+                "2021-01-12T15:24:26+00:00",
+            ),
+            (
+                37783,
+                "weblate:1:en:cs:a85e314d2f7614eb",
+                "2021-03-12T15:24:26+00:00",
+            ),
+            (
+                37785,
+                "weblate:1:en:it:7d3c463b6bb01e5d",
+                "2021-04-12T15:24:26+00:00",
+            ),
         )
 
         self.mock_list_glossaries(
-            *[
-                (
-                    37782,
-                    "weblate:1:en:fr:8c123d830c177e90b",
-                    "2021-01-12T15:24:26+00:00",
-                ),
-                (
-                    37783,
-                    "weblate:1:en:cs:a85e314d2f7614eb",
-                    "2021-03-12T15:24:26+00:00",
-                ),
-                (
-                    37785,
-                    "weblate:1:en:it:7d3c463b6bb01e5d",
-                    "2021-04-12T15:24:26+00:00",
-                ),
-            ]
+            (
+                37782,
+                "weblate:1:en:fr:8c123d830c177e90b",
+                "2021-01-12T15:24:26+00:00",
+            ),
+            (
+                37783,
+                "weblate:1:en:cs:a85e314d2f7614eb",
+                "2021-03-12T15:24:26+00:00",
+            ),
+            (
+                37785,
+                "weblate:1:en:it:7d3c463b6bb01e5d",
+                "2021-04-12T15:24:26+00:00",
+            ),
         )
 
         self.mock_list_glossaries(
-            *[
-                (
-                    37783,
-                    "weblate:1:en:cs:a85e314d2f7614eb",
-                    "2021-03-12T15:24:26+00:00",
-                ),
-                (
-                    37785,
-                    "weblate:1:en:it:54c0ca90b9d0e369",
-                    "2021-04-12T15:24:26+00:00",
-                ),
-            ]
+            (
+                37783,
+                "weblate:1:en:cs:a85e314d2f7614eb",
+                "2021-03-12T15:24:26+00:00",
+            ),
+            (
+                37785,
+                "weblate:1:en:it:54c0ca90b9d0e369",
+                "2021-04-12T15:24:26+00:00",
+            ),
         )
         with (
             patch(
