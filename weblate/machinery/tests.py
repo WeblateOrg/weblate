@@ -225,6 +225,15 @@ MS_SUPPORTED_LANG_RESP = {
     "translation": {"cs": "data", "en": "data", "es": "data", "de": "data"}
 }
 
+AWS_LANGUAGES_RESPONSE = {
+    "Languages": [
+        {"LanguageName": "Afrikaans", "LanguageCode": "af"},
+        {"LanguageName": "Czech", "LanguageCode": "cs"},
+        {"LanguageName": "German", "LanguageCode": "de"},
+        {"LanguageName": "English", "LanguageCode": "en"},
+    ]
+}
+
 
 class BaseMachineTranslationTest(TestCase):
     """Testing of machine translation core."""
@@ -259,9 +268,10 @@ class BaseMachineTranslationTest(TestCase):
 
     @responses.activate
     @respx.mock
-    def test_support(self) -> None:
+    def test_support(self, machine_translation=None) -> None:
         self.mock_response()
-        machine_translation = self.get_machine()
+        if machine_translation is None:
+            machine_translation = self.get_machine()
         self.assertTrue(machine_translation.is_supported(self.ENGLISH, self.SUPPORTED))
         if self.NOTSUPPORTED:
             self.assertFalse(
@@ -1378,9 +1388,23 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def mock_response(self) -> None:
         pass
 
+    def test_support(self) -> None:
+        machine = self.get_machine()
+        machine.delete_cache()
+        with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
+            super().test_support(machine)
+
     def test_validate_settings(self) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
             stubber.add_response(
                 "translate_text",
                 {
@@ -1395,6 +1419,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def test_translate(self, **kwargs) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
             stubber.add_response(
                 "translate_text",
                 {
@@ -1414,6 +1442,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def test_translate_language_map(self, **kwargs) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
             stubber.add_response(
                 "translate_text",
                 {
@@ -1447,6 +1479,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             machine = self.get_machine()
         with Stubber(machine.client) as stubber:
             stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
+            stubber.add_response(
                 "translate_text",
                 {
                     "TranslatedText": "Hallo",
@@ -1473,6 +1509,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                 new=1,
             ),
         ):
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
             # glossary list with stale glossary response
             stubber.add_response(
                 "list_terminologies",
