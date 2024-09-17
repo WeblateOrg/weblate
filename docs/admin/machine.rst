@@ -88,6 +88,8 @@ Amazon Translate
 Amazon Translate is a neural machine translation service for translating text
 to and from English across a breadth of supported languages.
 
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+
 .. seealso::
 
     `Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_
