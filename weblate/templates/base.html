@@ -340,7 +340,7 @@ var _rollbarConfig = {
   {% show_message 'warning' msg %}
 {% endif %}
 
-{% if user.is_authenticated and not user.is_verified and user.group_enforces_2fa %}
+{% if user.is_authenticated and not user.profile.has_2fa and user.group_enforces_2fa %}
   {% include "snippets/enforced_2fa.html" %}
 {% endif %}
 
