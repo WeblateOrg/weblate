@@ -1461,6 +1461,128 @@ class AWSTranslationTest(BaseMachineTranslationTest):
         # Stubbing here is tricky
         raise SkipTest("Not tested")
 
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_glossary(self) -> None:
+        """Test translation with glossary (terminology)."""
+        machine = self.get_machine()
+
+        with (
+            Stubber(machine.client) as stubber,
+            patch(
+                "weblate.machinery.aws.AWSTranslation.glossary_count_limit",
+                new=1,
+            ),
+        ):
+            # glossary list with stale glossary response
+            stubber.add_response(
+                "list_terminologies",
+                {
+                    "TerminologyPropertiesList": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
+                            "SourceLanguageCode": "en",
+                            "TargetLanguageCodes": ["de"],
+                            "CreatedAt": "2021-03-03T14:16:18.329Z",
+                            "Directionality": "UNI",
+                            "Format": "TSV",
+                        }
+                    ]
+                },
+            )
+
+            # glossary list with stale glossary response
+            stubber.add_response(
+                "list_terminologies",
+                {
+                    "TerminologyPropertiesList": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
+                            "SourceLanguageCode": "en",
+                            "TargetLanguageCodes": ["de"],
+                            "CreatedAt": "2021-03-03T14:16:18.329Z",
+                            "Directionality": "UNI",
+                            "Format": "TSV",
+                        }
+                    ]
+                },
+            )
+
+            # delete stale glossary response
+            stubber.add_response(
+                "delete_terminology",
+                {},
+                {"Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb"},
+            )
+
+            # create glossary response
+            stubber.add_response(
+                "import_terminology",
+                {
+                    "AuxiliaryDataLocation": {
+                        "Location": "location",
+                        "RepositoryType": "type",
+                    },
+                    "TerminologyProperties": {},
+                },
+                {
+                    "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                    "MergeStrategy": "OVERWRITE",
+                    "TerminologyData": {
+                        "File": b"en\tcs\nfoo\tbar",
+                        "Format": "TSV",
+                        "Directionality": "UNI",
+                    },
+                },
+            )
+
+            # return glossary list with newly created glossary
+            stubber.add_response(
+                "list_terminologies",
+                {
+                    "TerminologyPropertiesList": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                            "SourceLanguageCode": "en",
+                            "TargetLanguageCodes": ["cs"],
+                            "CreatedAt": "2021-08-03T14:16:18.329Z",
+                            "Directionality": "UNI",
+                            "Format": "TSV",
+                        },
+                    ]
+                },
+            )
+
+            # translate with glossary
+            stubber.add_response(
+                "translate_text",
+                {
+                    "TranslatedText": "Ahoj",
+                    "SourceLanguageCode": "en",
+                    "TargetLanguageCode": "cs",
+                    "AppliedTerminologies": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                            "Terms": [
+                                {"SourceText": "foo", "TargetText": "bar"},
+                            ],
+                        },
+                    ],
+                },
+                {
+                    "SourceLanguageCode": ANY,
+                    "TargetLanguageCode": ANY,
+                    "Text": ANY,
+                    "TerminologyNames": ["weblate_-_1_-_en_-_cs_-_9e250d830c11d70f"],
+                },
+            )
+
+            self.assert_translate(
+                self.SUPPORTED,
+                self.SOURCE_TRANSLATED,
+                self.EXPECTED_LEN,
+                machine=machine,
+            )
+
 
 class AlibabaTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = AlibabaTranslation

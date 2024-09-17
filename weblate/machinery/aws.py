@@ -2,13 +2,16 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+
+import operator
+
 from django.utils.functional import cached_property
 
-from .base import DownloadTranslations, MachineTranslation
+from .base import DownloadTranslations, GlossaryMachineTranslationMixin
 from .forms import AWSMachineryForm
 
 
-class AWSTranslation(MachineTranslation):
+class AWSTranslation(GlossaryMachineTranslationMixin):
     """AWS machine translation."""
 
     name = "Amazon Translate"
@@ -18,6 +21,13 @@ class AWSTranslation(MachineTranslation):
         "zh_Hans": "zh",
     }
     settings_form = AWSMachineryForm
+
+    # glossary name must match the pattern ^([A-Za-z0-9-]_?)+$
+    glossary_name_format = (
+        "weblate_-_{project}_-_{source_language}_-_{target_language}_-_{checksum}"
+    )
+
+    glossary_count_limit = 100
 
     @classmethod
     def get_identifier(cls) -> str:
@@ -128,12 +138,70 @@ class AWSTranslation(MachineTranslation):
         user,
         threshold: int = 75,
     ) -> DownloadTranslations:
-        response = self.client.translate_text(
-            Text=text, SourceLanguageCode=source, TargetLanguageCode=language
-        )
+        params = {
+            "Text": text,
+            "SourceLanguageCode": source,
+            "TargetLanguageCode": language,
+        }
+
+        glossary_name: str | None = self.get_glossary_id(source, language, unit)
+        if glossary_name:
+            params["TerminologyNames"] = [glossary_name]
+
+        response = self.client.translate_text(**params)
         yield {
             "text": response["TranslatedText"],
             "quality": self.max_score,
             "service": self.name,
             "source": text,
         }
+
+    def create_glossary(
+        self, source_language: str, target_language: str, name: str, tsv: str
+    ) -> None:
+        """Create glossary in the service."""
+        # add header with source and target languages
+        tsv = f"{source_language}\t{target_language}\n{tsv}"
+        self.client.import_terminology(
+            Name=name,
+            MergeStrategy="OVERWRITE",
+            TerminologyData={
+                "File": tsv.encode(),
+                "Format": "TSV",
+                "Directionality": "UNI",
+            },
+        )
+
+    def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
+        """Check whether given language combination is supported for glossary."""
+        return self.is_supported(source_language, target_language)
+
+    def list_glossaries(self) -> dict[str, str]:
+        """List all glossaries from service."""
+        result = (
+            self.client.get_paginator("list_terminologies")
+            .paginate()
+            .build_full_result()
+        )
+        return {
+            terminology["Name"]: terminology["Name"]
+            for terminology in result["TerminologyPropertiesList"]
+        }
+
+    def delete_glossary(self, glossary_id: str) -> None:
+        """Delete a single glossary from service."""
+        self.client.delete_terminology(Name=glossary_id)
+
+    def delete_oldest_glossary(self) -> None:
+        """Delete oldest glossary if any."""
+        result = (
+            self.client.get_paginator("list_terminologies")
+            .paginate()
+            .build_full_result()
+        )
+        glossaries = sorted(
+            result["TerminologyPropertiesList"],
+            key=operator.itemgetter("CreatedAt"),
+        )
+        if glossaries:
+            self.delete_glossary(glossaries[0]["Name"])
