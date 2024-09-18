@@ -10,7 +10,7 @@ Not yet released.
 
 **Improvements**
 
-* Stale empty glossaries are now automatically removed
+* Stale, empty glossaries are now automatically removed.
 * :ref`mt-deepl` now supports specifying translation context.
 
 **Bug fixes**
