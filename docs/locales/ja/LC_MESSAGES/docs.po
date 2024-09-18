@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-18 16:35+0000\n"
-"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2024-09-19 00:02+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -15968,18 +15968,16 @@ msgstr ""
 "では説明しません。"
 
 #: ../../admin/install/docker.rst:1908
-#, fuzzy
-#| msgid ""
-#| "The data volume is used to store Weblate persistent data such as cloned "
-#| "repositories or to customize Weblate installation."
 msgid ""
 "The ``data`` volume is mounted as :file:`/app/data` and is used to store "
 "Weblate persistent data such as cloned repositories or to customize Weblate "
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
-"データー ボリュームは、複製したリポジトリなどの Weblate 永続データを格納した"
-"り、Weblate のインストールをカスタマイズするために使用します。"
+"``data`` ボリュームは :file:`/app/data` としてマウントされ、"
+"クローンされたリポジトリなどの Weblate 永続データを保存したり、Weblate "
+"インストールをカスタマイズしたりするために使用されます。:setting:`DATA_DIR` "
+"には、ここに何が保存されるか、より詳細な説明がされています。"
 
 #: ../../admin/install/docker.rst:1912
 msgid ""
@@ -22890,19 +22888,14 @@ msgid "Docker image upgrades"
 msgstr "Docker イメージのアップグレード"
 
 #: ../../admin/upgrade.rst:7
-#, fuzzy
-#| msgid ""
-#| "The official Docker image (see :doc:`install/docker`) has all Weblate "
-#| "upgrade steps integrated. There are typically no manual steps needed "
-#| "besides pulling latest version."
 msgid ""
 "The official Weblate Docker image (see :doc:`install/docker`) integrates all "
 "upgrade steps. Typically, no manual interaction is needed beyond pulling the "
 "latest (or at least newer) version."
 msgstr ""
 "公式の Docker イメージ（参照: :doc:`install/docker`）には、Weblate をアップグ"
-"レードする手順がすべて組み込まれています。通常、最新バージョンを入手するだけ"
-"です。他に必要な操作はありません。"
+"レードする手順がすべて組み込まれています。通常、最新（または少なくとも新しい"
+"）バージョンを入手するだけです。他に必要な操作はありません。"
 
 #: ../../admin/upgrade.rst:13
 msgid ":ref:`upgrading-docker`"
@@ -22913,32 +22906,18 @@ msgid "Generic upgrade instructions"
 msgstr "一般的なアップグレード方法"
 
 #: ../../admin/upgrade.rst:20
-#, fuzzy
-#| msgid ""
-#| "Before upgrading, please check the current :ref:`requirements` as they "
-#| "might have changed. Once all requirements are installed or updated, "
-#| "please adjust your :file:`settings.py` to match changes in the "
-#| "configuration (consult :file:`settings_example.py` for correct values)."
 msgid ""
 "Always look for new changes to :ref:`requirements` before upgrading. Once "
 "all requirements are installed or upgraded, ensure your :file:`settings.py` "
 "matches the changes in the configuration (consult :file:`settings_example."
 "py` for correct values)."
 msgstr ""
-"アップグレードをする前に、現在の :ref:`requirements` に変更があるかもしれない"
-"ので確認してください。すべての要件がインストールまたは更新されたあと、設定の"
-"変更に合わせて :file:`settings.py` を設定してください（正しい値については :"
-"file:`settings_example.py` を確認）。"
+"アップグレードする前に、必ず :ref:`requirements` に新しい変更がないか確認して"
+"ください。すべての要件がインストールまたはアップグレードされたら、:file:`sett"
+"ings.py` の設定が変更内容と一致していることを確認してください（"
+"正しい値については :file:`settings_example.py` を参照してください）。"
 
 #: ../../admin/upgrade.rst:25
-#, fuzzy
-#| msgid ""
-#| "Always check :ref:`version-specific-instructions` before upgrade. In case "
-#| "you are skipping some versions, please follow instructions for all "
-#| "versions you are skipping in the upgrade. Sometimes it's better to "
-#| "upgrade to some intermediate version to ensure a smooth migration. "
-#| "Upgrading across multiple releases should work, but is not as well tested "
-#| "as single version upgrades."
 msgid ""
 "Always check :ref:`version-specific-instructions` before upgrading. If you "
 "are skipping any version(s), be sure to follow instructions for all versions "
@@ -22949,24 +22928,19 @@ msgid ""
 msgstr ""
 "アップグレードする前に、必ず :ref:`version-specific-instructions` を確認して"
 "ください。バージョンをスキップする場合は、アップグレードでスキップしたすべて"
-"のバージョンの指示に従ってください。スムーズな移行を確実にするために、中間"
-"バージョンにアップグレードする方が良い場合があります。複数のリリース間での"
-"アップグレードは機能するはずですが、単一バージョンのアップグレードほど十分な"
-"テストされていません。"
+"のバージョンの指示に従ってください。スムーズな移行を確実にするために、段階的"
+"に中間バージョンにアップグレードしてください。複数のリリース間でのアップグレ"
+"ードは可能ですが、単一バージョンのアップグレードほど十分なテストはされていま"
+"せん！"
 
 #: ../../admin/upgrade.rst:33
-#, fuzzy
-#| msgid ""
-#| "It is recommended to perform a full database backup prior to upgrade so "
-#| "that you can roll back the database in case upgrade fails, see :doc:"
-#| "`backup`."
 msgid ""
 "Always back up the full database before upgrading, so that you can roll back "
 "the database if the upgrade fails, see :doc:`backup`."
 msgstr ""
-"アップグレードが失敗した場合、データベースをロールバックできるように、アップ"
-"グレードの前に完全なデータベース バックアップを実行してください（ 参照: :doc:"
-"`backup`）。"
+"アップグレードが失敗した場合にデータベースをロールバックできるように、アップ"
+"グレードする前に必ずデータベース全体をバックアップしてください（ 参照: "
+":doc:`backup`）。"
 
 #: ../../admin/upgrade.rst:36
 msgid ""
@@ -22978,8 +22952,6 @@ msgstr ""
 "ます。"
 
 #: ../../admin/upgrade.rst:39
-#, fuzzy
-#| msgid "Upgrading Weblate"
 msgid "Upgrade Weblate"
 msgstr "Weblate のアップグレード"
 
@@ -22997,22 +22969,13 @@ msgstr ""
 "すべてのオプションの依存関係をインストールせずに、インストールする方法:"
 
 #: ../../admin/upgrade.rst:59
-#, fuzzy
-#| msgid ""
-#| "With Git checkout you need to fetch new source code and update your "
-#| "installation:"
 msgid ""
 "Using Git checkout, you need to fetch new source code and update your "
 "installation:"
-msgstr ""
-"Gitチェックアウトでは、新しいソースコードを取得して、インストールを更新するこ"
-"とが必要です。取得と更新方法:"
+msgstr "Git チェックアウトを使用して、新しいソースコードを取得して、インストールを更"
+"新することが必要です。取得と更新方法:"
 
 #: ../../admin/upgrade.rst:72
-#, fuzzy
-#| msgid ""
-#| "New Weblate release might have new :ref:`python-deps`, please check if "
-#| "they cover features you want."
 msgid ""
 "New Weblate releases might have new :ref:`python-deps`, check if they cover "
 "the features you want."
@@ -23021,23 +22984,16 @@ msgstr ""
 "あります。必要な機能が含まれていることを確認してください。"
 
 #: ../../admin/upgrade.rst:75
-#, fuzzy
-#| msgid ""
-#| "Upgrade configuration file, refer to :file:`settings_example.py` or :ref:"
-#| "`version-specific-instructions` for needed steps."
 msgid ""
 "Upgrade the configuration file by following either :file:`settings_example."
 "py`, or :ref:`version-specific-instructions`."
 msgstr ""
-"設定ファイルをアップグレードするための、必要な手順については、 :file:"
-"`settings_example.py` または :ref:`version-specific-instructions` を確認して"
-"ください。"
+"file:`settings_example.py` または :ref:`version-specific-instructions` "
+"に従って、設定ファイルをアップグレードしてください。"
 
 #: ../../admin/upgrade.rst:78
-#, fuzzy
-#| msgid "Backup the database:"
 msgid "Upgrade the database:"
-msgstr "データベースのバックアップ:"
+msgstr "データベースのアップグレード:"
 
 #: ../../admin/upgrade.rst:84
 msgid ""
@@ -23054,15 +23010,10 @@ msgstr ""
 "`production-compress`）:"
 
 #: ../../admin/upgrade.rst:96
-#, fuzzy
-#| msgid ""
-#| "If you are running version from Git, you should also regenerate locale "
-#| "files every time you are upgrading. You can do this by invoking:"
 msgid ""
 "If you are running an installation from Git, you should also regenerate "
 "locale files every time you upgrade. You can do this by invoking:"
-msgstr ""
-"Git のバージョンを実行している場合は、アップグレードするたびに言語ファイルを"
+msgstr "もし Git からインストールしている場合、アップグレードするたびに言語ファイルを"
 "再生成してください。再生成させるコマンド:"
 
 #: ../../admin/upgrade.rst:103
@@ -23070,16 +23021,12 @@ msgid "Verify that your setup is sane (see also :ref:`production`):"
 msgstr "設定が正常であるかを確認する（参照: :ref:`production`）:"
 
 #: ../../admin/upgrade.rst:109
-#, fuzzy
-#| msgid "Restart Celery worker (see :ref:`celery`)."
 msgid "Restart the Celery worker (see :ref:`celery`)."
 msgstr "Celery ワーカーを再起動する（参照: :ref:`celery`）。"
 
 #: ../../admin/upgrade.rst:114
-#, fuzzy
-#| msgid "Version specific instructions"
 msgid "Version-specific instructions"
-msgstr "バージョン固有の手順"
+msgstr "バージョン別の手順"
 
 #: ../../admin/upgrade.rst:118
 msgid ""
@@ -23145,98 +23092,70 @@ msgid "Migrating from other databases to PostgreSQL"
 msgstr "他のデータベースから PostgreSQL に移行"
 
 #: ../../admin/upgrade.rst:143
-#, fuzzy
-#| msgid ""
-#| "If you are running Weblate on other dabatase than PostgreSQL, you should "
-#| "consider migrating to PostgreSQL as Weblate performs best with it. The "
-#| "following steps will guide you in migrating your data between the "
-#| "databases. Please remember to stop both web and Celery servers prior to "
-#| "the migration, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are not running Weblate with a different database than PostgreSQL, "
 "consider migrating to PostgreSQL for better performance by doing the "
 "following steps. Remember to stop both, the web and Celery servers "
 "beforehand, otherwise you might end up with inconsistent data."
 msgstr ""
-"PostgreSQL 以外のデータベースで Weblate を実行している場合は、Weblate が最適"
-"に動作できるように PostgreSQL への移行を検討してください。次の手順に従って、"
-"データベース間でデータを移行します 。移行前に Web サーバと Celery サーバの両"
-"方を停止させてください。停止していない場合は、データの不整合が発生することが"
-"あります。"
+"PostgreSQL 以外のデータベースで Weblate を運用している場合は、Weblate "
+"が最適に動作できるように PostgreSQL への移行を検討してください。"
+"次の手順で移行できます 。移行前に Web サーバと Celery サーバの両方を必ず停止"
+"させてください。停止せずに移行作業を行うと、データの不整合が発生することがあ"
+"ります。"
 
 #: ../../admin/upgrade.rst:151
-#, fuzzy
-#| msgid ""
-#| "It is usually a good idea to run Weblate in a separate database, and "
-#| "separate user account:"
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and a "
 "separate user account:"
-msgstr ""
-"通常は、Weblate を専用のデータベースと、専用のユーザーアカウントで実行してく"
-"ださい。設定例:"
+msgstr "通常は、Weblate "
+"を専用のデータベースと、専用のユーザーアカウントで実行してください。設定例:"
 
 #: ../../admin/upgrade.rst:167
 msgid "Migrating to PostgreSQL using pgloader"
 msgstr "pgloader を使用した PostgreSQL への移行"
 
 #: ../../admin/upgrade.rst:169
-#, fuzzy
-#| msgid ""
-#| "The `pgloader`_ is a generic migration tool to migrate data to "
-#| "PostgreSQL. You can use it to migrate Weblate database."
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate your Weblate database."
 msgstr ""
-"`pgloader`_ は、PostgreSQL にデータを移行するための一般的な移行ツールです。こ"
-"の機能を使用して、Weblate データベースを移行します。"
+"`pgloader`_ は、データを PostgreSQL "
+"に移行するための一般的な移行ツールです。この機能を使用して、Weblate "
+"データベースを移行します。"
 
 #: ../../admin/upgrade.rst:172
-#, fuzzy
-#| msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as database."
-msgstr ""
-"PostgreSQL をデータベースとして使用するように :file:`settings.py` を調整す"
-"る。"
+msgstr "PostgreSQL をデータベースとして使用するように :file:`settings.py` "
+"を調整する。"
 
 #: ../../admin/upgrade.rst:174
 msgid "Migrate the schema in the PostgreSQL database:"
 msgstr "PostgreSQL データベース内のスキーマを移行する:"
 
 #: ../../admin/upgrade.rst:181
-#, fuzzy
-#| msgid ""
-#| "Run the pgloader to transfer the data. The following script can be used "
-#| "to migrate the database, but you might want to learn more about "
-#| "`pgloader`_ to understand what it does and tweak it to match your setup:"
 msgid ""
 "3. Run the pgloader to transfer the data. The following script can be used "
 "to migrate the database, but you might want to learn more about `pgloader`_ "
 "to better understand what it does, and tweak it to match your setup:"
 msgstr ""
-"pgloader を実行してデータを転送します。以下のスクリプトを使用してデータベース"
-"を移行する（できれば、`pgloader`_ の機能を理解し、設定に合わせて修正してくだ"
-"さい）:"
+"3. pgloader を実行してデータを転送します。以下のスクリプトを使用してデータベ"
+"ースを移行する（できれば、`pgloader`_ "
+"の機能をよく理解し、設定に合わせて修正してください）:"
 
 #: ../../admin/upgrade.rst:203
 msgid "Migrating from Pootle"
 msgstr "Pootle から移行"
 
 #: ../../admin/upgrade.rst:205
-#, fuzzy
-#| msgid ""
-#| "As Weblate was originally written as replacement from Pootle, it is "
-#| "supported to migrate user accounts from Pootle. You can dump the users "
-#| "from Pootle and import them using :wladmin:`importusers`."
 msgid ""
 "As Weblate was originally written as a replacement for Pootle, it is "
 "supported to migrate the user accounts from it. You can dump the users from "
 "Pootle and import them using :wladmin:`importusers`."
 msgstr ""
-"Weblate は、そもそも Pootle を置き換えるために開発されたので、Pootle からの"
-"ユーザー アカウントの移行にも対応しています。Pootle からユーザーをダンプし"
-"て、:wladmin:`importusers` を使用してインポートします。"
+"Weblate は、そもそも Pootle を置き換えるために開発されたので、Pootle "
+"からのユーザー アカウントの移行にも対応しています。Pootle "
+"からユーザーをダンプして、:wladmin:`importusers` を使用してインポートします。"
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
@@ -24109,16 +24028,10 @@ msgstr ""
 "変更リストへの URL。参照: :http:get:`/api/projects/(string:project)/changes/`"
 
 #: ../../api.rst:848
-#, fuzzy
-#| msgid ""
-#| "URL to repository status; see :http:get:`/api/projects/(string:project)/"
-#| "repository/`"
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/projects/(string:"
 "project)/credits/`"
-msgstr ""
-"リポジトリステータスへのURL。参照: :http:get:`/api/projects/(string:project)/"
-"repository/`"
+msgstr "貢献者一覧の URL。参照: :http:get:`/api/projects/(string:project)/credits/`"
 
 #: ../../api.rst:849
 msgid ":ref:`project-translation_review`"
@@ -24457,10 +24370,8 @@ msgid "<json string color"
 msgstr "<json string color"
 
 #: ../../api.rst:1213 ../../api.rst:1791
-#, fuzzy
-#| msgid "Returns statistics for a project."
 msgid "Returns contributor credits for a project."
-msgstr "返り値は、プロジェクトの統計情報です。"
+msgstr "プロジェクトの貢献者一覧を返します。"
 
 #: ../../api.rst:1219 ../../api.rst:1797
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
@@ -24471,28 +24382,20 @@ msgid "Upper-bound ISO 8601 timestamp (mandatory)"
 msgstr "ISO 8601 形式による最大日時（必須）"
 
 #: ../../api.rst:1223 ../../api.rst:1801
-#, fuzzy
-#| msgid "Language code style"
 msgid "Language code to search for"
-msgstr "言語コード スタイル"
+msgstr "検索する言語コード"
 
 #: ../../api.rst:1225 ../../api.rst:1803
-#, fuzzy
-#| msgid "New contributor"
 msgid "Email of the contributor"
-msgstr "新しい貢献者"
+msgstr "貢献者のメールアドレス"
 
 #: ../../api.rst:1226 ../../api.rst:1804
-#, fuzzy
-#| msgid "full name of a user"
 msgid "Full name of the contributor"
-msgstr "ユーザーのフルネーム"
+msgstr "貢献者のフルネーム"
 
 #: ../../api.rst:1227 ../../api.rst:1805
-#, fuzzy
-#| msgid "Number of plurals used in the language."
 msgid "Number of changes done in the time range"
-msgstr "言語で使用する複数形の数。"
+msgstr "時間範囲内で行われた変更の数"
 
 #: ../../api.rst:1234
 msgid ""
@@ -24754,16 +24657,12 @@ msgstr ""
 "(str:uuid)/`"
 
 #: ../../api.rst:1302
-#, fuzzy
-#| msgid ""
-#| "URL to lock status; see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/lock/`"
 msgid ""
 "URL to to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
 msgstr ""
-"ステータスをロックする URL。参照: :http:get:`/api/components/(string:"
-"project)/(string:component)/lock/`"
+"貢献者一覧の URL。参照: :http:get:`/api/components/"
+"(string:project)/(string:component)/credits/`"
 
 #: ../../api.rst:1350
 msgid "Edit a component by a :http:method:`PATCH` request."
@@ -25460,10 +25359,8 @@ msgid "string age"
 msgstr "翻訳開始日"
 
 #: ../../api.rst:2176
-#, fuzzy
-#| msgid "string age"
 msgid "last string update"
-msgstr "翻訳開始日"
+msgstr "文字列の最終更新日"
 
 #: ../../api.rst:2182
 msgid "Performs partial update on translation unit."
@@ -25559,10 +25456,8 @@ msgid "text description of action"
 msgstr "アクションのテキスト説明"
 
 #: ../../api.rst:2249
-#, fuzzy
-#| msgid "event changed text or detail"
 msgid "event changed text"
-msgstr "イベントで変更されたテキストや詳細"
+msgstr "テキストが変更されたイベント"
 
 #: ../../api.rst:2250
 msgid "previous text"
@@ -26429,16 +26324,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.5.1"
 msgid "Weblate 5.7.2"
-msgstr "Weblate 5.5.1"
+msgstr "Weblate 5.7.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on September 15th 2022."
 msgid "Released on September 5th 2024."
-msgstr "2022 年 9 月 15 日にリリース。"
+msgstr "2024 年 9 月 5 日にリリース。"
 
 #: ../../changes.rst:6 ../../changes.rst:62 ../../changes.rst:158
 #: ../../changes.rst:270 ../../changes.rst:307 ../../changes.rst:418
@@ -26477,10 +26368,8 @@ msgid "**Bug fixes**"
 msgstr "**バグの修正**"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid "Updating of translations from the repository in linked components."
-msgstr "翻訳プロジェクトとコンポーネントの追加"
+msgstr "リンクされたコンポーネントのリポジトリからの翻訳の更新。"
 
 #: ../../changes.rst:17 ../../changes.rst:91 ../../changes.rst:181
 #: ../../changes.rst:343 ../../changes.rst:449 ../../changes.rst:502
@@ -26527,34 +26416,24 @@ msgid ""
 msgstr "更新するには、:ref:`generic-upgrade-instructions` に従ってください。"
 
 #: ../../changes.rst:23 ../../changes.rst:51 ../../changes.rst:107
-#, fuzzy
-#| msgid "Contributors"
 msgid "**Contributors**"
-msgstr "貢献者"
+msgstr "**貢献者**"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/120?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"126?closed=1>`__ 。"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Weblate 5.5.1"
 msgid "Weblate 5.7.1"
-msgstr "Weblate 5.5.1"
+msgstr "Weblate 5.7.1"
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Released on August 15th 2019."
 msgid "Released on August 30th 2024."
-msgstr "2019 年 8 月 15 日にリリース。"
+msgstr "2024 年 8 月 30 日にリリース。"
 
 #: ../../changes.rst:36
 msgid ""
@@ -26563,17 +26442,14 @@ msgid ""
 msgstr "多くの文字とシナ語派の言語を、より適切に説明するために言語名を更新。"
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ""
 ":ref:`addon-weblate.cleanup.generic` is now automatically installed for "
 "formats which need it to update non-translation content in the translated "
 "files."
 msgstr ""
-"古い翻訳キーのみを削除する場合は、:ref:`addon-weblate.cleanup.generic` を使用"
-"します。"
+"翻訳ファイル内の翻訳以外のコンテンツを更新するために必要なフォーマットに対し"
+"て、:ref:`addon-weblate.cleanup.generic` "
+"が自動的にインストールされるようになりました。"
 
 #: ../../changes.rst:41
 msgid ""
@@ -26581,10 +26457,8 @@ msgid ""
 msgstr "自動提案設定で Docker ネットワーク名に対応。"
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Fixed authentication using some third party providers."
 msgid "Fixed authentication using some third-party providers such as Azure."
-msgstr "一部のサード パーティ プロバイダーを使用した認証を修正。"
+msgstr "Azure などの一部のサードパーティ プロバイダーを使用した認証の修正。"
 
 #: ../../changes.rst:43
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
@@ -26683,10 +26557,8 @@ msgid ":ref:`labels` now include description to explain them."
 msgstr ":ref:`labels` をラベルを説明する説明を含むように改良。"
 
 #: ../../changes.rst:68
-#, fuzzy
-#| msgid "Prevents further translation of a component."
 msgid "New :ref:`subscriptions` for completed translation and component."
-msgstr "今後、コンポーネントの翻訳を防ぎます。"
+msgstr "完了した翻訳とコンポーネント用の新しい :ref:`subscriptions`。"
 
 #: ../../changes.rst:69
 msgid ""
@@ -26696,19 +26568,12 @@ msgstr ":ref:`mt-openai` をカスタム モデルと URL "
 "に対応、既存の文字列の言い換えも提供できるように改良。"
 
 #: ../../changes.rst:70
-#, fuzzy
-#| msgid ":ref:`mt-alibaba` automatic suggestion service."
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
-msgstr ":ref:`mt-alibaba` 自動提案サービス。"
+msgstr ":ref:`mt-cyrtranslit` 自動提案サービス。"
 
 #: ../../changes.rst:74
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
-msgstr ""
-":ref:`addon-weblate.discovery.discovery` はスキップされたエントリを報告するよ"
-"うになりました。"
+msgstr ":ref:`addon-weblate.properties.sort` は大文字と小文字を区別したソートに対応。"
 
 #: ../../changes.rst:75
 msgid ""
@@ -26722,37 +26587,26 @@ msgid ":ref:`reports` are now available for categories."
 msgstr ":ref:`reports` をカテゴリーに対応。"
 
 #: ../../changes.rst:77
-#, fuzzy
-#| msgid "Highlight placeables in translation editor."
 msgid "Highlight newlines in the editor."
-msgstr "翻訳エディタで置換可能な要素を強調表示。"
+msgstr "エディターで改行を強調表示。"
 
 #: ../../changes.rst:78
-#, fuzzy
-#| msgid ":doc:`/formats/excel` better handles blank cells."
 msgid ":doc:`/formats/csv` better handle with with two fields only."
-msgstr ":doc:`/formats/excel` は空白セルをより適切に処理します。"
+msgstr "/doc/ フォーマット /csv は、2 つのフィールドのみを扱うのに適しています。"
 
 #: ../../changes.rst:79
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr "閲覧モードを、キーボードを使用した操作に対応、参照: :ref:`keyboard`。"
 
 #: ../../changes.rst:80
-#, fuzzy
-#| msgid ""
-#| "Please use :http:get:`/api/components/(string:project)/(string:component)/"
-#| "statistics/` and :http:get:`/api/translations/(string:project)/(string:"
-#| "component)/(string:language)/statistics/` instead; it allows access to "
-#| "ACL controlled projects as well."
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
 "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
 "components and projects."
 msgstr ""
-":http:get:`/api/components/(string:project)/(string:component)/statistics/` "
-"および :http:get:`/api/translations/(string:project)/(string:component)/"
-"(string:language)/statistics/` を代わりに使用してください。ACL で制御するプロ"
-"ジェクトへのアクセスも許可します。"
+"コンポーネントとプロジェクトの :http:get:`/api/components/"
+"(string:project)/(string:component)/credits/` および :http:get:`/api/"
+"projects/(string:project)/credits/` API エンドポイント。"
 
 #: ../../changes.rst:81
 msgid ""
@@ -26764,16 +26618,13 @@ msgstr ""
 "権限を持つユーザーのみが作成できるように改良。"
 
 #: ../../changes.rst:82
-#, fuzzy
-#| msgid "Skip the :ref:`check-python-brace-format` quality check."
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
-msgstr ":ref:`check-python-brace-format` の品質検査を除外する。"
+msgstr ":ref:`check-python-brace-format` は余分な中括弧を検出します。"
 
 #: ../../changes.rst:83
-#, fuzzy
-#| msgid "WebP is now supported for :ref:`screenshots`."
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
-msgstr "WebP を :ref:`screenshots` に対応。"
+msgstr "スクリーンショットをクリップボードから :ref:`screenshots` "
+"に貼り付けることができるようになりました。"
 
 #: ../../changes.rst:87
 msgid "Accessibility of keyboard navigation."
@@ -26785,11 +26636,9 @@ msgstr ":ref:`git-exporter` が、すべての Git ベースの :ref:`vcs` "
 "で動作するように改良。"
 
 #: ../../changes.rst:89
-#, fuzzy
-#| msgid ":ref:`check-max-size` better displays rendered text."
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
-msgstr ""
-":ref:`check-max-size` により、レンダリングされたテキストがより適切に表示。"
+msgstr ":ref:`check-max-size` "
+"がスクリーンショットのレンダリングに失敗することがあります。"
 
 #: ../../changes.rst:93
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
@@ -26817,10 +26666,8 @@ msgstr ""
 "のサポートを廃止。"
 
 #: ../../changes.rst:97
-#, fuzzy
-#| msgid "Default value of BASE_DIR has been changed."
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
-msgstr "BASE_DIR のデフォルト値を変更。"
+msgstr ":setting:`SENTRY_SEND_PII` のデフォルト値が変更。"
 
 #: ../../changes.rst:98
 msgid ""
@@ -26829,20 +26676,16 @@ msgid ""
 msgstr "JSON 形式の信用情報レポートの項目のフォーマットを変更。"
 
 #: ../../changes.rst:104
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, "
 "``SOCIAL_AUTH_PIPELINE`` and ``MIDDLEWARE``; please adjust your settings "
 "accordingly."
 msgstr ""
-":file:`settings_example.py` に変更があります。特に ``CACHES`` と "
-"``SOCIAL_AUTH_PIPELINE`` に変更があります。変更に合わせて設定を修正してくださ"
-"い。"
+":file:`settings_example.py` にはいくつかの変更点がありますが、"
+"最も注目すべきは :ref:`2fa` の新しい設定と "
+"``INSTALLED_APPS``、``SOCIAL_AUTH_PIPELINE``、``MIDDLEWARE`` "
+"の変更です。それぞれ設定を適切に調整してください。"
 
 #: ../../changes.rst:105
 msgid ""
@@ -26913,32 +26756,25 @@ msgid "Released on July 1st 2024."
 msgstr "2024 年 7 月 1 日にリリース。"
 
 #: ../../changes.rst:120
-#, fuzzy
-#| msgid "Rendering of release notes on GitHub."
 msgid "Rendering of :ref:`labels` color selection widget."
-msgstr "GitHub 上でのリリース ノートのレンダリング。"
+msgstr ":ref:`labels` カラー選択ウィジェットのレンダリング。"
 
 #: ../../changes.rst:121
-#, fuzzy
-#| msgid "More detailed status of outgoing commits."
 msgid "Detection of pending outgoing commits."
-msgstr "送信コミットのより詳細なステータス追加。"
+msgstr "保留中の送信コミットの検出。"
 
 #: ../../changes.rst:122
 msgid ":ref:`addons` button layout."
 msgstr ":ref:`addons` ボタンのレイアウト。"
 
 #: ../../changes.rst:123
-#, fuzzy
-#| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
-msgstr ":ref:`manage`、:ref:`addon-weblate.discovery.discovery`"
+msgstr ":ref:`addon-weblate.discovery.discovery` "
+"アドオンのインストール時にクラッシュします。"
 
 #: ../../changes.rst:124
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Removal of source strings in :ref:`glossary`."
-msgstr "%s 内の原文の査読"
+msgstr ":ref:`glossary` 内の原文の削除。"
 
 #: ../../changes.rst:125
 msgid ""
@@ -26949,28 +26785,20 @@ msgstr ""
 "674x-6q4p)。"
 
 #: ../../changes.rst:131
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/119?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/124?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/119?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"124?closed=1>`__。"
 
 #: ../../changes.rst:134
-#, fuzzy
-#| msgid "Weblate 5.5.1"
 msgid "Weblate 5.6.1"
-msgstr "Weblate 5.5.1"
+msgstr "Weblate 5.6.1"
 
 #: ../../changes.rst:136
-#, fuzzy
-#| msgid "Released on June 19th 2020."
 msgid "Released on June 24th 2024."
-msgstr "2020 年 6 月 19 日にリリース。"
+msgstr "2024 年 6 月 24 日にリリース。"
 
 #: ../../changes.rst:140
 msgid ""
@@ -26988,60 +26816,44 @@ msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr ":http:get:`/api/metrics/` に OpenMetrics 互換性を追加。"
 
 #: ../../changes.rst:145
-#, fuzzy
-#| msgid ":doc:`/admin/machine`"
 msgid "Language aliases in :doc:`/admin/machine`."
-msgstr ":doc:`/admin/machine`"
+msgstr "言語のエイリアスは、:doc:`/admin/machine`にあります。"
 
 #: ../../changes.rst:151
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/123?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/120?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"123?closed=1>`__。"
 
 #: ../../changes.rst:154
-#, fuzzy
-#| msgid "Weblate 5.5"
 msgid "Weblate 5.6"
-msgstr "Weblate 5.5"
+msgstr "Weblate 5.6"
 
 #: ../../changes.rst:156
-#, fuzzy
-#| msgid "Released on June 19th 2020."
 msgid "Released on June 19th 2024."
-msgstr "2020 年 6 月 19 日にリリース。"
+msgstr "2024 年 6 月 19 日にリリース。"
 
 #: ../../changes.rst:160
 msgid ":ref:`addons` activity log for tracking add-on activity."
 msgstr "アドオンの活動を追跡するための :ref:`addons` 活動ログ。"
 
 #: ../../changes.rst:161
-#, fuzzy
-#| msgid "Improved UX of languages selection in profile."
 msgid "Improved date range selection in :ref:`reports`."
-msgstr "プロフィールの言語選択の UX を改良。"
+msgstr ":ref:`reports` の日付範囲選択の改良。"
 
 #: ../../changes.rst:165
 msgid ":ref:`subscriptions` now include strings which need updating."
 msgstr ":ref:`subscriptions` に更新が必要な文字列が含まれるように改良。"
 
 #: ../../changes.rst:166
-#, fuzzy
-#| msgid "Improved compatibility with some Subversion setups."
 msgid "Improved compatibility with password managers."
-msgstr "一部の Subversion の設定の互換性を改良。"
+msgstr "パスワード マネージャーとの互換性の改良."
 
 #: ../../changes.rst:167
-#, fuzzy
-#| msgid "Improved merging of upstream changes."
 msgid "Improved tracking of uploaded changes."
-msgstr "上流の変更点のマージを改良。"
+msgstr "アップロードされた変更の追跡の改良。"
 
 #: ../../changes.rst:168
 msgid ""
@@ -27055,110 +26867,78 @@ msgstr ":http:get:`/api/units/(int:id)/` に `last_updated` "
 "のタイムスタンプを含むようになりました。"
 
 #: ../../changes.rst:170
-#, fuzzy
-#| msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
 msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
-msgstr ":http:get:`/api/categories/(int:id)/statistics/` の追加。"
+msgstr ":http:get:`/api/changes/(int:id)/` に `old` と `details` "
+"が含まれるようになりました。"
 
 #: ../../changes.rst:171
-#, fuzzy
-#| msgid "Extend metrics usage to improve performance of several pages."
 msgid "Reduced memory usage and increased performance of some views."
-msgstr "メトリックスの利用を増やし、いくつかのページの性能を改善。"
+msgstr "一部のビューのメモリ使用量を削減し、パフォーマンスを向上させました。"
 
 #: ../../changes.rst:175
-#, fuzzy
-#| msgid "Caching counts of strings with failing checks."
 msgid "Loading of strings with many glossary matches."
-msgstr "検査不合格の文字列の数をキャッシュする。"
+msgstr "用語集に一致する文字列を多数読み込みます。"
 
 #: ../../changes.rst:176
-#, fuzzy
-#| msgid "Daily execution of some :ref:`addons`."
 msgid "Fixed behavior of some site-wide :ref:`addons`."
-msgstr "複数の :ref:`addons` を毎日実行。"
+msgstr "サイト全体の :ref:`addons` の動作の修正。"
 
 #: ../../changes.rst:177
-#, fuzzy
-#| msgid "Plural forms handling in :doc:`/formats/qt`."
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
-msgstr ":doc:`/formats/qt` での複数形の取り扱い。"
+msgstr "編集が必要な文字列を :doc:`/formats/winrc` に保存。"
 
 #: ../../changes.rst:178
-#, fuzzy
-#| msgid ":ref:`check-max-size` better displays rendered text."
 msgid ":ref:`check-xml-tags` better handle XML entities."
-msgstr ""
-":ref:`check-max-size` により、レンダリングされたテキストがより適切に表示。"
+msgstr ":ref:`check-xml-tags` は XML エンティティをより適切に処理します。"
 
 #: ../../changes.rst:179
-#, fuzzy
-#| msgid "Automatic translation using already translated strings."
 msgid ""
 "Automatic suggestions could mix up replacements between translated strings."
-msgstr "すでに翻訳された文字列を使用した自動翻訳の追加。"
+msgstr "自動提案により、翻訳された文字列間の置換が混在する可能性があります。"
 
 #: ../../changes.rst:183
-#, fuzzy
-#| msgid "Compatibility with Django 2.1."
 msgid "Compatibility with Django 5.1."
-msgstr "Django 2.1 への互換性に対応。"
+msgstr "Django 5.1 への互換性に対応。"
 
 #: ../../changes.rst:189
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/119?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/114?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/119?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"114?closed=1>`__。"
 
 #: ../../changes.rst:192
-#, fuzzy
-#| msgid "Weblate 5.5.4"
 msgid "Weblate 5.5.5"
-msgstr "Weblate 5.5.4"
+msgstr "Weblate 5.5.5"
 
 #: ../../changes.rst:194
-#, fuzzy
-#| msgid "Released on May 9th 2024."
 msgid "Released on May 13th 2024."
-msgstr "2024 年 5 月 9 日にリリース。"
+msgstr "2024 年 5 月 13 日にリリース。"
 
 #: ../../changes.rst:198
 msgid "False-positive merge failure alert when using push branch."
 msgstr "プッシュ ブランチの使用時に、誤検知のマージ失敗アラートが発生。"
 
 #: ../../changes.rst:199
-#, fuzzy
-#| msgid "Status of repositories"
 msgid "Cleanup of stale repositories."
-msgstr "リポジトリの状態"
+msgstr "古くなったリポジトリのクリーンアップ。"
 
 #: ../../changes.rst:205
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/121?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/120?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"121?closed=1>`__。"
 
 #: ../../changes.rst:208
 msgid "Weblate 5.5.4"
 msgstr "Weblate 5.5.4"
 
 #: ../../changes.rst:210
-#, fuzzy
-#| msgid "Released on May 10th 2012."
 msgid "Released on May 10th 2024."
-msgstr "2012 年 5 月 10 日にリリース。"
+msgstr "2024 年 5 月 10 日にリリース。"
 
 #: ../../changes.rst:214
 msgid "Visually highlight explanation in :ref:`glossary`."
@@ -27202,11 +26982,10 @@ msgid "Improved performance of rendering large lists of objects."
 msgstr "大規模なオブジェクト リストのレンダリングのパフォーマンスの向上。"
 
 #: ../../changes.rst:237
-#, fuzzy
-#| msgid "Added links to manage other scope :ref:`addons`."
 msgid ""
 "Component management: added links to manage project/site-wide :ref:`addons`."
-msgstr "他のスコープを管理するためのリンクの追加。参照: :ref:`addons`。"
+msgstr "コンポーネント管理: プロジェクト/サイト全体の :ref:`addons` "
+"を管理するためのリンクの追加。"
 
 #: ../../changes.rst:241
 msgid "Fixed crashes with librsvg older than 2.46."
@@ -37317,10 +37096,8 @@ msgstr "インストールを続行する前に、次の前提条件を満たし
 "。"
 
 #: ../../contributing/frontend.rst:30
-#, fuzzy
-#| msgid "Nodes"
 msgid "Node.js."
-msgstr "ノード数"
+msgstr "Node.js."
 
 #: ../../contributing/frontend.rst:31
 msgid "Yarn package manager installed on your system."
@@ -37335,22 +37112,16 @@ msgid "Run ``yarn install``"
 msgstr "``yarn install`` を実行。"
 
 #: ../../contributing/frontend.rst:36
-#, fuzzy
-#| msgid "Installation"
 msgid "1- Installation"
-msgstr "インストール"
+msgstr "1 - インストール"
 
 #: ../../contributing/frontend.rst:38
-#, fuzzy
-#| msgid "To enable support for Rollbar, set the following:"
 msgid "To install a library, 1st run the following command:"
-msgstr "Rollbar への対応を有効にする設定方法:"
+msgstr "ライブラリをインストールするためのコマンド:"
 
 #: ../../contributing/frontend.rst:45
-#, fuzzy
-#| msgid "Importing to Weblate"
 msgid "2- Importing the Library"
-msgstr "Weblate へのインポート"
+msgstr "2 - ライブラリのインポート"
 
 #: ../../contributing/frontend.rst:47
 msgid "Then, there are two ways to import the library:"
@@ -37435,16 +37206,11 @@ msgid "Coding style"
 msgstr "コーディング規約"
 
 #: ../../contributing/frontend.rst:86
-#, fuzzy
-#| msgid ""
-#| "Weblate relies on `Prettier`_ for the code formatting for CSS files and "
-#| "`Biome`_ for formatting and linting the JavaScript code."
 msgid ""
 "Weblate relies on `Biome`_ for formatting and linting the JavaScript and CSS "
 "code."
-msgstr ""
-"Weblate は、CSS ファイルのコード整形には `Prettier`_ を使用し、JavaScript "
-"コード整形と lint には `Biome`_ を使用します。"
+msgstr "Weblate は、JavaScript および CSS コードのフォーマットと lint に `Biome`_ "
+"を使用します。"
 
 #: ../../contributing/frontend.rst:92
 msgid "Localization"
@@ -38029,17 +37795,11 @@ msgstr ""
 "は GitHub で管理しています。"
 
 #: ../../contributing/issues.rst:8
-#, fuzzy
-#| msgid ""
-#| "Feel welcome to report any issues you have, or suggest improvement for "
-#| "Weblate there. There are various templates prepared to comfortably guide "
-#| "you through the issue report."
 msgid ""
 "Feel welcome to report any issues you have or suggest improvements for "
 "Weblate there. There are various templates prepared to comfortably guide you "
 "through the issue report."
-msgstr ""
-"Weblate の問題の報告や、改善の提案を歓迎します。問題の報告が快適にできるよう"
+msgstr "Weblate の問題の報告や、改善の提案を歓迎します。問題の報告が快適にできるよう"
 "に様々なテンプレートを用意しています。"
 
 #: ../../contributing/issues.rst:11
@@ -38108,22 +37868,17 @@ msgid "**Sending encrypted reports**"
 msgstr "**暗号化したレポートの送信**"
 
 #: ../../contributing/issues.rst:42
-#, fuzzy
-#| msgid ""
-#| "If you don't want to use HackerOne, for whatever reason, you can send the "
-#| "report by e-mail to michal@weblate.org. You can choose to encrypt it "
-#| "using this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`. "
-#| "You can also get the PGP key from `Keybase <https://keybase.io/nijel>`_."
 msgid ""
 "If you want to send an encrypted email (*optional*), please use the public "
 "key  for michal@weblate.org with ID ``3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 "
 "B313 42B7 511D``. This public key is available on the most commonly used key "
 "servers, and from  `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
-"何らかの理由で HackerOne を使用したくない場合は、レポートをメールで "
-"michal@weblate.com に送信してください。この PGP キー `3CB 1DF1 EF12 CF2A "
-"C0EE  5A32 9C27 B313 42B7 511D` を使用して暗号化することもできます。`Keybase "
-"<https://keybase.io/nijel>`_ からも PGP 鍵を取得できます。"
+"暗号化されたメール（*オプション*）を送信する場合は、ID が ``3CB 1DF1 EF12 "
+"CF2A C0EE 5A32 9C27 B313 42B7 511D`` である michal@weblate.org "
+"の公開鍵を使用してください。この公開鍵は、"
+"最も一般的に使用されている鍵サーバーおよび `Keybase <https://keybase.io/"
+"nijel>`_ から入手できます。"
 
 #: ../../contributing/issues.rst:49
 msgid ""
@@ -38949,29 +38704,19 @@ msgstr ""
 "す。"
 
 #: ../../contributing/security.rst:8
-#, fuzzy
-#| msgid ""
-#| "Development of Weblate adheres to the `Best Practices of the Linux "
-#| "Foundation's Core Infrastructure Initiative <https://bestpractices."
-#| "coreinfrastructure.org/projects/552>`_."
 msgid ""
 "Development of Weblate adheres to the `Best Practices of the Linux "
 "Foundation's Core Infrastructure Initiative <https://www.bestpractices.dev/"
 "en/projects/552>`_."
 msgstr ""
-"Weblate の開発は、`Linux Foundation の Core Infrastructure Initiative のベス"
-"トプラクティス <https://bestpractices.coreinfrastructure.org/projects/552>`_ "
+"Weblate の開発は、`Linux Foundation の Core Infrastructure Initiative "
+"のベストプラクティス <https://www.bestpractices.dev/en/projects/552>`_ "
 "に従っています。"
 
 #: ../../contributing/security.rst:12
-#, fuzzy
-#| msgid ""
-#| "If what you have found is a security issue in Weblate, please consult "
-#| "the :ref:`security` section below."
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
-msgstr ""
-"Weblate のセキュリティ上の問題を発見したときは、下記の :ref:`security` のセク"
-"ションを確認してください。"
+msgstr "Weblate のセキュリティ上の問題を発見したときは、:ref:`security` "
+"を確認してください。"
 
 #: ../../contributing/security.rst:15
 msgid "Security updates"
@@ -39148,18 +38893,16 @@ msgstr ""
 "projects` に進んでください。"
 
 #: ../../contributing/start.rst:84
-#, fuzzy
-#| msgid ""
-#| "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are "
-#| "located in the :file:`dev-docker` directory."
 msgid ""
 "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located "
 "in the :file:`dev-docker` directory. For easier access to the database "
 "during development, the container running PostgreSQL is exposed on port "
 "``5433``."
 msgstr ""
-":file:`Dockerfile` と :file:`docker-compose.yml` は、:file:`dev-docker` ディ"
-"レクトリにあります。"
+"このための :file:`Dockerfile` と :file:`docker-compose.yml` は :file:`dev-"
+"docker` "
+"ディレクトリにあります。開発中にデータベースに簡単にアクセスできるように、"
+"PostgreSQL を実行するコンテナはポート ``5433`` で公開されます。"
 
 #: ../../contributing/start.rst:88
 msgid ""
@@ -39382,10 +39125,8 @@ msgstr ""
 "ください。これは、``pip install -e .[test]`` によって実行できます。"
 
 #: ../../contributing/tests.rst:52
-#, fuzzy
-#| msgid "Translating using Weblate"
 msgid "Testing using pytest"
-msgstr "Weblate を使用した翻訳"
+msgstr "pytest を使用したテスト"
 
 #: ../../contributing/tests.rst:53 ../../contributing/tests.rst:100
 msgid ""
@@ -39396,20 +39137,16 @@ msgstr ""
 "ファイルの存在に依存しているためです。静的ファイルの収集方法:"
 
 #: ../../contributing/tests.rst:59
-#, fuzzy
-#| msgid "To run a testsuite locally, use:"
 msgid "You can use `pytest` to run a testsuite locally:"
-msgstr "テストスイートをローカルで実行するコマンド:"
+msgstr "`pytest` を使用してテストスイートをローカルで実行するコマンド:"
 
 #: ../../contributing/tests.rst:65
 msgid "Running an individual test file:"
 msgstr "個々のテストファイルの実行:"
 
 #: ../../contributing/tests.rst:72
-#, fuzzy
-#| msgid "Installing using Docker"
 msgid "Testing using Django"
-msgstr "Docker を使用したインストール"
+msgstr "Django を使用したテスト"
 
 #: ../../contributing/tests.rst:74
 msgid "Alternatively, Django built-in tests should also work:"
@@ -40353,40 +40090,28 @@ msgstr ""
 "スを非公開にできます。"
 
 #: ../../devel/integration.rst:7
-#, fuzzy
-#| msgid "Importing localization project into Weblate"
 msgid "Importing a localization project into Weblate"
 msgstr "現地語化プロジェクトを Weblate にインポート"
 
 #: ../../devel/integration.rst:9
-#, fuzzy
-#| msgid ""
-#| "Weblate has been developed with VCS integration in mind as it’s core "
-#| "feature, so the easiest way is to grant Weblate the access to your "
-#| "repository. The import process will guide you through configuring your "
-#| "translations into components."
 msgid ""
 "Weblate has been developed with VCS integration in mind as it’s core "
 "feature, so the easiest way is to grant Weblate the access to your "
 "repository. The import process will guide you through configuring your "
 "translations into Weblate components."
 msgstr ""
-"Weblate は基本機能として、VCS との連携を前提に開発されています。そのため、イ"
-"ンポートする最も簡単な方法は、Weblate に対してリポジトリへのアクセス権を付与"
-"することです。インポートの処理では、翻訳をコンポーネントへ変換する設定の方法"
-"が表示されます。"
+"Weblate は基本機能として、VCS "
+"との連携を前提に開発されています。そのため、インポートする最も簡単な方法は、"
+"Weblate "
+"に対してリポジトリへのアクセス権を付与することです。インポートの処理では、"
+"翻訳を Weblate コンポーネントへ変換する設定の方法が表示されます。"
 
 #: ../../devel/integration.rst:14
-#, fuzzy
-#| msgid ""
-#| "Alternatively, you can use Weblate to set up a local repository "
-#| "containing all the translations without integration."
 msgid ""
 "Alternatively, you can let Weblate set up a local-only repository containing "
 "all the translations without integration."
-msgstr ""
-"また、Weblate では翻訳を統合せずに、翻訳をすべてローカル リポジトリに含める設"
-"定もできます。"
+msgstr "また、Weblate では翻訳を統合せずに、すべての翻訳を含むローカル専用のリポジト"
+"リを設定することもできます。。"
 
 #: ../../devel/integration.rst:19
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
@@ -40397,12 +40122,6 @@ msgid "Fetching updated translations from Weblate"
 msgstr "Weblate の機能で更新済みの翻訳の取得"
 
 #: ../../devel/integration.rst:25
-#, fuzzy
-#| msgid ""
-#| "Weblate stores updated strings in a database and commits them to a local "
-#| "version control repository. You can add Weblate repository (when :ref:"
-#| "`git-exporter` is turned on) as additional remote and fetch translations "
-#| "update from it."
 msgid ""
 "Weblate stores updated strings in a database and commits them to a local "
 "version-control repository. You can add a Weblate repository (when :ref:`git-"
@@ -40411,24 +40130,20 @@ msgid ""
 msgstr ""
 "Weblate は、更新された文字列をデータベースに保存し、ローカルのバージョン管理"
 "リポジトリにコミットします。 Weblate リポジトリ（ :ref:`git-exporter` が有効"
-"になっている場合）を追加のリモートとして追加し、そこから翻訳更新を取得できま"
-"す。"
+"になっている場合）を別のリモートリポジトリとして追加し、そこから翻訳の更新を"
+"取得できます。"
 
 #: ../../devel/integration.rst:30
-#, fuzzy
-#| msgid ""
-#| "Prior to this, you might want to commit any pending changes (see :ref:"
-#| "`lazy-commit`). You can do so in the user interface (in the :guilabel:"
-#| "`Repository maintenance`) or from the command-line using :ref:`wlc`."
 msgid ""
 "Prior to this, you might want to commit any pending local changes made in "
 "Weblate (see :ref:`lazy-commit`). This can be done from the user interface "
 "(in the :guilabel:`Repository maintenance`), or from the command-line using :"
 "ref:`wlc`."
 msgstr ""
-"事前に、保留中の変更をコミットしておいてください（参照: :ref:`lazy-"
-"commit`）。操作は、ユーザーインターフェイス（ :guilabel:`リポジトリのメンテナ"
-"ンス` ）または、:ref:`wlc` を使用してコマンドラインから行います。"
+"事前に、Weblate で行った保留中の変更をコミットしておいてください（参照: :ref"
+":`lazy-commit`）。これは、ユーザーインターフェイス（ "
+":guilabel:`リポジトリのメンテナンス` ）または、:ref:`wlc` "
+"を使用してコマンドラインから行います。"
 
 #: ../../devel/integration.rst:34
 msgid ""
@@ -40441,14 +40156,11 @@ msgstr ""
 "ref:`push-changes`。"
 
 #: ../../devel/integration.rst:37
-#, fuzzy
-#| msgid ""
-#| "Alternatively, you can use :doc:`/api` to update translations to match "
-#| "their latest version."
 msgid ""
 "Alternatively, use :doc:`/api` to update translations so that they match the "
 "latest version from the upstream in your remote VCS repository."
-msgstr "あるいは、:doc:`/api` を使用して、翻訳を最新バージョンに更新できます。"
+msgstr "または、:doc:`/api` を使用して、リモート VCS "
+"リポジトリの上流から最新バージョンに一致するように翻訳を更新してください。"
 
 #: ../../devel/integration.rst:42
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
@@ -40459,49 +40171,33 @@ msgid "Fetching remote changes into Weblate"
 msgstr "リモートでの変更を Weblate に取り込む"
 
 #: ../../devel/integration.rst:49
-#, fuzzy
-#| msgid ""
-#| "To fetch the strings newly updated in your repository into Weblate, just "
-#| "let it pull from the upstream repository. This can be achieved in the "
-#| "user interface (in the :guilabel:`Repository maintenance`), or from the "
-#| "command-line using :ref:`wlc`."
 msgid ""
 "To fetch any strings recently updated in your remote VCS repository into "
 "Weblate, allow Weblate to pull from the upstream repository. This can be "
 "achieved in the user interface (in the :guilabel:`Repository maintenance`), "
 "or from the command-line using :ref:`wlc`."
 msgstr ""
-"リポジトリ内で新しく更新された文字列を Weblate に取り込むには、上流のリポジト"
-"リからプルするだけです。これは、ユーザーインターフェイス （:guilabel:`リポジ"
-"トリのメンテナンス` から）、またはコマンドラインから :ref:`wlc` を使用して行"
-"います。"
+"Weblate が、リモート VCS リポジトリで最近更新された文字列を取得するには、"
+"Weblate に上流リポジトリからプルすることを許可してください。これは、"
+"ユーザーインターフェイス （:guilabel:`リポジトリのメンテナンス` から）、"
+"またはコマンドラインから :ref:`wlc` を使用して行います。"
 
 #: ../../devel/integration.rst:54
-#, fuzzy
-#| msgid ""
-#| "This can be automated by setting a webhook in your repository to trigger "
-#| "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
-#| "details."
 msgid ""
 "This can be automated by setting a webhook in your repository to trigger "
 "Weblate whenever there is a new commit. See :ref:`update-vcs` for more "
 "details."
 msgstr ""
-"これを自動化するには、リポジトリ内の Webhook を設定し、新しいコミットがあるた"
-"びに Weblate を起動するようにします。詳細は、:ref:`update-vcs` を確認してくだ"
-"さい。"
+"これを自動化するには、リポジトリ内の Webhook を設定し、"
+"新しいコミットがあるたびに Weblate を起動するようにします。詳細は、:ref"
+":`update-vcs` を確認してください。"
 
 #: ../../devel/integration.rst:57
-#, fuzzy
-#| msgid ""
-#| "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
-#| "update translations to match your code base."
 msgid ""
 "If not using VCS integration, you can use the UI or :doc:`/api` to update "
 "the translations so that they match your codebase."
-msgstr ""
-"VCS との連携を使用しない場合は、UI または :doc:`/api` を使用して、あなたの"
-"コード ベースに合うように翻訳を更新します。"
+msgstr "VCS との連携を使用しない場合は、UI または :doc:`/api` "
+"を使用して、翻訳データをコードベースと同期させることができます。"
 
 #: ../../devel/integration.rst:62
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
@@ -40570,20 +40266,10 @@ msgstr ""
 "Weblate で文字列を追加するには、:ref:`component-manage_units` が必要です。"
 
 #: ../../devel/integration.rst:94
-#, fuzzy
-#| msgid "Updating target language files"
 msgid "Updating target-language files"
 msgstr "翻訳対象の言語ファイルの更新"
 
 #: ../../devel/integration.rst:96
-#, fuzzy
-#| msgid ""
-#| "For monolingual files (see :ref:`formats`) Weblate might add new "
-#| "translation strings not present in the :ref:`component-template`, and not "
-#| "in actual translations. It does not however perform any automatic cleanup "
-#| "of stale strings as that might have unexpected outcomes. If you want to "
-#| "do this, please install :ref:`addon-weblate.cleanup.generic` add-on which "
-#| "will handle the cleanup according to your requirements."
 msgid ""
 "For monolingual files (see :ref:`formats`), Weblate might add new "
 "translation strings present in the :ref:`component-template`, and not in "
@@ -40592,30 +40278,26 @@ msgid ""
 "do this, please install the :ref:`addon-weblate.cleanup.generic` add-on, "
 "which handles cleanup according to your requirements."
 msgstr ""
-"モノリンガル ファイル（参照: :ref:`formats`）の場合、Weblate は、実際の翻訳に"
-"も、:ref:`component-template` にも存在しない新しい原文を追加することがありま"
-"す。そのため、予想外の結果となることもあり、古い文字列の自動クリーンアップは"
-"実行されません。必要に応じてクリーンアップを行う場合は、クリーンアップを処理"
-"する :ref:`addon-weblate.cleanup.generic` アドオンをインストールしてくださ"
-"い。"
+"モノリンガル ファイル（参照: :ref:`formats`）の場合、Weblate は、:ref"
+":`component-template` に存在するが、実際の翻訳には存在しない新しい翻訳文字列"
+"を追加することがあります。ただし、Weblate は、古い翻訳文字列を自動的に削除す"
+"ることはしません。これは、予期しない結果が生じる可能性があるためです。必要に"
+"応じてクリーンアップを行う場合は、クリーンアップを処理する :ref:`addon-"
+"weblate.cleanup.generic` アドオンをインストールしてください。このアドオンは、"
+"あなたの要件に応じてクリーンアップを処理します。"
 
 #: ../../devel/integration.rst:103
-#, fuzzy
-#| msgid ""
-#| "Weblate also will not try to update bilingual files in any way, so if you "
-#| "need :file:`po` files being updated from :file:`pot`, you need to do it "
-#| "yourself using :guilabel:`Update source strings` :ref:`upload-method` or "
-#| "using :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgid ""
 "Weblate will also not try to update bilingual files when the source changes, "
 "so if you need :file:`po` files to be updated from :file:`pot`, do it "
 "yourself by using :guilabel:`Update source strings` :ref:`upload-method`, or "
 "by using the :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgstr ""
-"また、Weblate はバイリンガル ファイルの更新をすることは一切ありません。そのた"
-"め、:file:`pot` から :file:`po` ファイルを更新することが必要な場合は、手動"
-"で :guilabel:`Update source strings`、:ref:`upload-method` または :ref:"
-"`addon-weblate.gettext.msgmerge` アドオンを使用してください。"
+"また、Weblate はソースが変更されてもバイリンガル "
+"ファイルを更新しません。そのため、:file:`pot` ファイルから :file:`po` "
+"ファイルを更新することが必要な場合は、手動で :guilabel:`Update source "
+"strings`、:ref:`upload-method` または :ref:`addon-weblate.gettext.msgmerge` "
+"アドオンを使用してください。"
 
 #: ../../devel/integration.rst:110
 msgid ""
@@ -40650,21 +40332,15 @@ msgstr ""
 "勧めします。"
 
 #: ../../devel/integration.rst:130
-#, fuzzy
-#| msgid ""
-#| "Monolingual formats need addition of the new string to :ref:`component-"
-#| "template`. This is typically done by the developers during developing the "
-#| "code. You might want to introduce review of those strings using :ref:"
-#| "`source-quality-gateway`."
 msgid ""
 "Monolingual formats need to be configured so that new strings are added to :"
 "ref:`component-template`. This is typically done by developers, as they "
 "write the code. You might want to use a review process of those strings "
 "using :ref:`source-quality-gateway`."
 msgstr ""
-"モノリンガル形式では、新しい文字列を :ref:`component-template` に追加すること"
-"が必要です。これは通常、コードの開発中に開発者が追加します。この文字列の査読"
-"は、:ref:`source-quality-gateway` を使用して導入できます。"
+"モノリンガル形式では、新しい文字列が :ref:`component-template` に追加されるよ"
+"うに設定することが必要です。これは通常、コードの開発中に開発者が追加します。"
+"この文字列の査読は、:ref:`source-quality-gateway` を使用してください。"
 
 #: ../../devel/integration.rst:135
 msgid ""
@@ -40707,39 +40383,28 @@ msgstr ""
 ":ref:`updating-target-files`、:doc:`/devel/gettext`、:doc:`/devel/sphinx`"
 
 #: ../../devel/integration.rst:160
-#, fuzzy
-#| msgid "Managing version control repository"
 msgid "Managing the local VCS repository"
-msgstr "バージョン コントロール リポジトリの管理"
+msgstr "ローカル VCS リポジトリの管理"
 
 #: ../../devel/integration.rst:162
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all translation the version control repository. It can be "
-#| "either connected to upstream one, or it can be only internal. The :"
-#| "guilabel:`Repository maintenance` lets you manipulate with the repository."
 msgid ""
 "Weblate stores all translations in its underlying version control "
 "repository. It is suggested to be connected to a remote one, but internal-"
 "only setup is also possible. The :guilabel:`Repository maintenance` allows "
 "controlling this repository."
 msgstr ""
-"Weblate は、すべての翻訳をバージョン コントロール リポジトリに格納します。リ"
-"ポジトリは上流に接続でき、また内部だけに接続することもできます。:guilabel:`リ"
-"ポジトリのメンテナンス` からリポジトリを操作します。"
+"Weblate は、すべての翻訳を基礎となるバージョン管理リポジトリに保存します。"
+"リモート リポジトリに接続することをお勧めしますが、内部のみの設定も可能です。"
+":guilabel:`リポジトリのメンテナンス` "
+"を使用すると、このリポジトリを管理できます。"
 
 #: ../../devel/integration.rst:169
-#, fuzzy
-#| msgid ""
-#| "With :doc:`/admin/continuous` the repository is automatically pushed "
-#| "whenever there are changes and there is usually no need to manually "
-#| "manipulate with it."
 msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
 "repository, so there is usually no need to manually manage it manually."
 msgstr ""
-":doc:`/admin/continuous` を使用すると、変更があるたびにリポジトリが自動的に"
-"プッシュするので、手動での操作は通常では必要ありません。"
+":doc:`/admin/continuous` を使用すると、変更はリポジトリから自動的にプッシュさ"
+"れるため、通常は手動で管理する必要はありません。"
 
 #: ../../devel/integration.rst:176
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
@@ -43416,10 +43081,6 @@ msgstr ""
 "ても便利な文字列が翻訳禁止かどうかを確認するための設定方法:"
 
 #: ../../formats/android.rst:62
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, :doc:`tt:formats/android`"
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, `JetBrains Compose Multiplatform Kotlin "
@@ -43427,13 +43088,14 @@ msgid ""
 "images-resources.html>`_, :doc:`tt:formats/android`"
 msgstr ""
 "`Android 文字列リソースのドキュメント <https://developer.android.com/guide/"
-"topics/resources/string-resource>`_ 、:doc:`tt:formats/android`"
+"topics/resources/string-resource>`_ 、`JetBrains Compose "
+"マルチプラットフォーム Kotlin リソース <https://www.jetbrains.com/help/"
+"kotlin-multiplatform-dev/compose-images-resources.html>`_ 、:doc:`tt:formats/"
+"android`"
 
 #: ../../formats/android.rst:67
-#, fuzzy
-#| msgid "Better support for Android resources."
 msgid "Weblate configuration for Android resource strings"
-msgstr "Android リソースへの対応を強化。"
+msgstr "Android リソース文字列の Weblate 設定"
 
 #: ../../formats/android.rst:70 ../../formats/android.rst:85
 #: ../../formats/apple.rst:26 ../../formats/appstore.rst:26
