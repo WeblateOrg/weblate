@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
 "PO-Revision-Date: 2024-09-19 00:02+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Last-Translator: Hotripak <hotr1pak@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -38179,6 +38179,8 @@ msgid ""
 "Git commits should follow `Conventional Commits <https://www."
 "conventionalcommits.org/>`_ specification."
 msgstr ""
+"Git-комміти повинні відповідати специфікації `Conventional Commits "
+"<https://www.conventionalcommits.org/>`_."
 
 #: ../../contributing/snippets/pre-commit.rst:2
 msgid "Coding standard and linting the code"
@@ -38584,16 +38586,22 @@ msgid ""
 "how to install and manage 3rd party libraries used by the `client side` of "
 "Weblate using `Webpack`."
 msgstr ""
+"Встановлення та керування бібліотеками `3rd party` у `клієнті` проекту "
+"django може бути дещо складним. Цей документ містить покрокову інструкцію "
+"щодо встановлення та керування бібліотеками сторонніх розробників, які "
+"використовуються `клієнтською частиною` Weblate за допомогою `Webpack`."
 
 #: ../../contributing/frontend.rst:26
 msgid "Prerequisites"
-msgstr ""
+msgstr "Передумови"
 
 #: ../../contributing/frontend.rst:28
 msgid ""
 "Before proceeding with an installation, make sure you have the following "
 "prerequisites:"
 msgstr ""
+"Перш ніж приступити до встановлення, переконайтеся, що у вас є наступні "
+"передумови:"
 
 #: ../../contributing/frontend.rst:30
 msgid "Node.js."
@@ -38601,15 +38609,15 @@ msgstr "Node.js."
 
 #: ../../contributing/frontend.rst:31
 msgid "Yarn package manager installed on your system."
-msgstr ""
+msgstr "У вашій системі встановлено менеджер пакунків Yarn."
 
 #: ../../contributing/frontend.rst:32
 msgid "Run ``cd client``."
-msgstr ""
+msgstr "Запустити ``cd client``."
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``yarn install``"
-msgstr ""
+msgstr "Запустити ``yarn install``"
 
 #: ../../contributing/frontend.rst:36
 msgid "1- Installation"
@@ -38625,62 +38633,74 @@ msgstr "2- Імпортування бібліотеки"
 
 #: ../../contributing/frontend.rst:47
 msgid "Then, there are two ways to import the library:"
-msgstr ""
+msgstr "Існує два способи імпортувати бібліотеку:"
 
 #: ../../contributing/frontend.rst:49
 msgid "If it is a project-wide library (it is used/needed in all/most pages):"
 msgstr ""
+"Якщо це бібліотека всього проекту (використовується/потрібна на всіх/"
+"більшості сторінок):"
 
 #: ../../contributing/frontend.rst:50
 msgid "Import the library in ``src/main.js``."
-msgstr ""
+msgstr "Імпортуйте бібліотеку в ``src/main.js``."
 
 #: ../../contributing/frontend.rst:52
 msgid ""
 "If it is page-specific library (library is used in a specific page or "
 "template):"
 msgstr ""
+"Якщо це сторінка-специфічна бібліотека (бібліотека використовується в "
+"конкретній сторінці або шаблоні):"
 
 #: ../../contributing/frontend.rst:53
 msgid "Create a new file named ``src/<lib-name>.js``."
-msgstr ""
+msgstr "Створіть новий файл з назвою ``src/<lib-name>.js``."
 
 #: ../../contributing/frontend.rst:54
 msgid "Import the library in it."
-msgstr ""
+msgstr "Імпортуйте бібліотеку до нього."
 
 #: ../../contributing/frontend.rst:55
 msgid ""
 "Add an entry in ``webpack.config.js``: ``<lib-name>: \"src/<lib-name>.js\"``."
 msgstr ""
+"Додайте запис до ``webpack.config.js``: ``<lib-name>: «src/<lib-name>.js»``."
 
 #: ../../contributing/frontend.rst:58
 msgid ""
 "Note: Replace ``<lib-name>`` with the actual name of the 3rd party library."
 msgstr ""
+"Примітка: Замініть ``<lib-name>`` на справжню назву сторонньої бібліотеки."
 
 #: ../../contributing/frontend.rst:61
 msgid "3- Building the Library"
-msgstr ""
+msgstr "3- Побудова бібліотеки"
 
 #: ../../contributing/frontend.rst:63
 msgid "Build the libraries used by the project, run the following command:"
 msgstr ""
+"Щоб зібрати бібліотеки, які використовуються проектом, виконайте наступну "
+"команду:"
 
 #: ../../contributing/frontend.rst:70
 msgid "4- Including the Library"
-msgstr ""
+msgstr "4- Включаючи бібліотеку"
 
 #: ../../contributing/frontend.rst:72
 msgid ""
 "Now the library is built and ready for use. To include it follow these steps:"
 msgstr ""
+"Тепер бібліотека зібрана і готова до використання. Щоб включити її, "
+"виконайте наступні кроки:"
 
 #: ../../contributing/frontend.rst:74
 msgid ""
 "If the library was imported in ``src/main.js``, no further steps are "
 "required (as it is already included in ``base.html``)."
 msgstr ""
+"Якщо бібліотеку було імпортовано в ``rc/main.js``, подальших дій не потрібно "
+"(оскільки вона вже включена в ``base.html``)."
 
 #: ../../contributing/frontend.rst:76
 msgid ""
@@ -38688,6 +38708,9 @@ msgid ""
 "``weblate/templates``` use the include tags to link to the built static "
 "JavaScript file:"
 msgstr ""
+"Якщо бібліотека була імпортована в окремому файлі ``src/<lib-name>.js``, в ``"
+"weblate/templates`` використовуйте теги include для посилання на зібраний "
+"статичний файл JavaScript:"
 
 #: ../../contributing/frontend.rst:84
 msgid "Coding style"
@@ -38901,6 +38924,9 @@ msgid ""
 "are in `docs/requirements.txt`. You will also need :program:`graphviz` to "
 "build the documentation."
 msgstr ""
+"Документацію також можна редагувати та збирати локально, вимоги до Python "
+"знаходяться у файлі `docs/requirements.txt`. Для створення документації вам "
+"також знадобиться :program:`graphviz`."
 
 #: ../../contributing/index.rst:61
 msgid ""
@@ -39044,15 +39070,15 @@ msgstr "24eme.fr"
 
 #: ../../../BACKERS.rst:24
 msgid "Fotema Gallery App"
-msgstr ""
+msgstr "Додаток Fotema Gallery"
 
 #: ../../../BACKERS.rst:25
 msgid "`Newpipe e.V. <https://newpipe-ev.de>`_"
-msgstr ""
+msgstr "`Newpipe e.V. <https://newpipe-ev.de>`_"
 
 #: ../../../BACKERS.rst:26
 msgid "Daniel Leidert"
-msgstr ""
+msgstr "Даніель Лейдерт"
 
 #: ../../../BACKERS.rst:28
 msgid ""
@@ -39326,6 +39352,10 @@ msgid ""
 "policies that are geared toward delivering timely security updates to "
 "Weblate."
 msgstr ""
+"Команда розробників Weblate твердо прихильна до відповідального звітування "
+"та розкриття інформації про проблеми, пов'язані з безпекою. Ми прийняли і "
+"дотримуємося політики, яка спрямована на своєчасне надання оновлень безпеки "
+"Weblate."
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -39334,6 +39364,10 @@ msgid ""
 "sensitive nature of security issues, we ask that they not be publicly "
 "reported in this fashion."
 msgstr ""
+"Про більшість звичайних помилок у Weblate повідомляється на наш "
+"загальнодоступний `GitHub issues tracker <https://github.com/WeblateOrg/"
+"weblate/issues>`_, але через делікатний характер питань безпеки, ми просимо "
+"не повідомляти про них публічно у такий спосіб."
 
 #: ../../contributing/issues.rst:30
 msgid ""
@@ -39342,35 +39376,36 @@ msgid ""
 "org, `GitHub <https://github.com/WeblateOrg/weblate/security/advisories/"
 "new>`_, or using `HackerOne <https://hackerone.com/weblate>`_."
 msgstr ""
+"Натомість, якщо ви вважаєте, що знайшли у Weblate щось, що може вплинути на "
+"безпеку, будь ласка, надішліть опис проблеми на security@weblate.org, `"
+"GitHub <https://github.com/WeblateOrg/weblate/security/advisories/new>`_ або "
+"за допомогою `HackerOne <https://hackerone.com/weblate>`_."
 
 #: ../../contributing/issues.rst:35
 msgid ""
 "A member of the security team will respond to you within 48 hours, and "
 "depending on what action is taken, you may get more follow-up emails."
 msgstr ""
+"Співробітник служби безпеки відповість вам протягом 48 годин, і в залежності "
+"від того, які дії будуть вжиті, ви можете отримати додаткові електронні "
+"листи."
 
 #: ../../contributing/issues.rst:40
 msgid "**Sending encrypted reports**"
-msgstr ""
+msgstr "**Надсилання зашифрованих звітів**"
 
 #: ../../contributing/issues.rst:42
-#, fuzzy
-#| msgid ""
-#| "If you don't want to use HackerOne, for whatever reason, you can send the "
-#| "report by e-mail to michal@weblate.org. You can choose to encrypt it "
-#| "using this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`. "
-#| "You can also get the PGP key from `Keybase <https://keybase.io/nijel>`_."
 msgid ""
 "If you want to send an encrypted email (*optional*), please use the public "
 "key  for michal@weblate.org with ID ``3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 "
 "B313 42B7 511D``. This public key is available on the most commonly used key "
 "servers, and from  `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
-"Якщо з якоїсь причини ви не хочете користуватися HackerOne, ви можете "
-"надіслати звіт електронною поштою до michal@weblate.org. Ви можете "
-"зашифрувати повідомлення за допомогою цього ключа PGP: `3CB 1DF1 EF12 CF2A "
-"C0EE  5A32 9C27 B313 42B7 511D`. Ви також можете отримати ключ PGP з "
-"`Keybase <https://keybase.io/nijel>`_."
+"Якщо ви хочете надіслати зашифрований лист (*необов'язково*), будь ласка, "
+"використовуйте відкритий ключ для michal@weblate.org з ідентифікатором ``3CB "
+"1DF1 EF12 CF2A C0EE 5A32 9C27 B313 42B7 511D``. Цей відкритий ключ доступний "
+"на найбільш поширених серверах ключів, а також з `Keybase <https://keybase."
+"io/nijel>`_."
 
 #: ../../contributing/issues.rst:49
 msgid ""
@@ -40661,7 +40696,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:65
 msgid "Running an individual test file:"
-msgstr ""
+msgstr "Запуск індивідуального тестового файлу:"
 
 #: ../../contributing/tests.rst:72
 msgid "Testing using Django"
@@ -40669,7 +40704,7 @@ msgstr "Тестування за допомогою Django"
 
 #: ../../contributing/tests.rst:74
 msgid "Alternatively, Django built-in tests should also work:"
-msgstr ""
+msgstr "Крім того, вбудовані тести Django також повинні працювати:"
 
 #: ../../contributing/tests.rst:82
 msgid ""
@@ -41730,16 +41765,13 @@ msgstr ""
 "`складнику перекладу<component>`, див. :ref:`push-changes`."
 
 #: ../../devel/integration.rst:37
-#, fuzzy
-#| msgid ""
-#| "Alternatively, you can use :doc:`/api` to update translations to match "
-#| "their latest version."
 msgid ""
 "Alternatively, use :doc:`/api` to update translations so that they match the "
 "latest version from the upstream in your remote VCS repository."
 msgstr ""
-"Крім того, ви можете скористатися :doc:`/api` для оновлення перекладів у "
-"відповідності з найсвіжішою версією."
+"Крім того, використовуйте :doc:`/api` для оновлення перекладів, щоб вони "
+"відповідали найновішій версії з висхідного потоку у вашому віддаленому "
+"сховищі VCS."
 
 #: ../../devel/integration.rst:42
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
@@ -41816,6 +41848,10 @@ msgid ""
 "buttons :guilabel:`Singular` and :guilabel:`Plural` inside the form. Select "
 "the appropriate form of the new translation string to be added."
 msgstr ""
+"Вручну, використовуючи :guilabel:`Додати новий рядок перекладу` з меню "
+":guilabel:`Тул` мовою оригіналу. Ви можете вибрати між перемикачами "
+":guilabel:`Singular` і :guilabel:`Plural` всередині форми. Виберіть "
+"відповідну форму нового рядка перекладу, який потрібно додати."
 
 #: ../../devel/integration.rst:82
 msgid ""
@@ -41880,6 +41916,8 @@ msgid ""
 "Source string extraction tools, such as :program:`xgettext` or :program:"
 "`lupdate`, need to be executed outside of Weblate."
 msgstr ""
+"Інструменти вилучення вихідних рядків, такі як :program:`xgettext` або "
+":program:`lupdate`, потрібно запускати за межами Weblate."
 
 #: ../../devel/integration.rst:114
 msgid ""
@@ -41906,22 +41944,16 @@ msgstr ""
 "коді, які призводять до їхнього додавання."
 
 #: ../../devel/integration.rst:130
-#, fuzzy
-#| msgid ""
-#| "Monolingual formats need addition of the new string to :ref:`component-"
-#| "template`. This is typically done by the developers during developing the "
-#| "code. You might want to introduce review of those strings using :ref:"
-#| "`source-quality-gateway`."
 msgid ""
 "Monolingual formats need to be configured so that new strings are added to :"
 "ref:`component-template`. This is typically done by developers, as they "
 "write the code. You might want to use a review process of those strings "
 "using :ref:`source-quality-gateway`."
 msgstr ""
-"Для одномовних форматів потрібне додавання нового рядка до :ref:`component-"
-"template`. Типово, це має бути зроблено розробниками під час написання коду. "
-"Можливо, вам слід впровадити рецензування таких рядків за допомогою :ref:"
-"`source-quality-gateway`."
+"Одномовні формати потрібно налаштувати так, щоб нові рядки додавалися до :ref"
+":`component-template`. Зазвичай це роблять розробники під час написання "
+"коду. Можливо, ви захочете використати процес перевірки цих рядків за "
+"допомогою :ref:`source-quality-gateway`."
 
 #: ../../devel/integration.rst:135
 msgid ""
@@ -41970,34 +42002,24 @@ msgid "Managing the local VCS repository"
 msgstr "Керування локальним сховищем керування версіями"
 
 #: ../../devel/integration.rst:162
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all translation the version control repository. It can be "
-#| "either connected to upstream one, or it can be only internal. The :"
-#| "guilabel:`Repository maintenance` lets you manipulate with the repository."
 msgid ""
 "Weblate stores all translations in its underlying version control "
 "repository. It is suggested to be connected to a remote one, but internal-"
 "only setup is also possible. The :guilabel:`Repository maintenance` allows "
 "controlling this repository."
 msgstr ""
-"Weblate зберігає весь переклад сховища керування версіями. Він може бути або "
-"під'єднаний до основного віддаленого, або може бути тільки внутрішнім. За "
-"допомогою поля :guilabel:`Супровід сховища` ви можете керувати сховищем."
+"Weblate зберігає всі переклади у власному репозиторії контролю версій. "
+"Рекомендується підключати його до віддаленого, але можливе також "
+"налаштування лише для внутрішнього використання. За допомогою :guilabel:`"
+"Обслуговування сховища` можна керувати цим сховищем."
 
 #: ../../devel/integration.rst:169
-#, fuzzy
-#| msgid ""
-#| "With :doc:`/admin/continuous` the repository is automatically pushed "
-#| "whenever there are changes and there is usually no need to manually "
-#| "manipulate with it."
 msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
 "repository, so there is usually no need to manually manage it manually."
 msgstr ""
-"За допомогою :doc:`/admin/continuous` до сховища автоматично надсилаються "
-"зміни щоразу, коли вони з'являються, і, як правило, нема потреби виконувати "
-"з ними дії власноруч."
+"За допомогою :doc:`/admin/continuous` будь-які зміни автоматично "
+"виштовхуються зі сховища, тому зазвичай немає потреби керувати ним вручну."
 
 #: ../../devel/integration.rst:176
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
@@ -44698,6 +44720,8 @@ msgid ""
 "The same file format is also used by JetBrains Compose Multiplatform Kotlin "
 "Resources."
 msgstr ""
+"Той самий формат файлів також використовується JetBrains Compose "
+"Multiplatform Kotlin Resources."
 
 #: ../../formats/android.rst:14
 msgid ""
@@ -44849,6 +44873,7 @@ msgstr "`рядковий ресурс Android`"
 msgid ""
 "Weblate configuration for JetBrains Compose Multiplatform Kotlin Resources"
 msgstr ""
+"Конфігурація Weblate для багатоплатформних ресурсів JetBrains Compose Kotlin"
 
 #: ../../formats/android.rst:87
 msgid "``commonMain/composeResources/values-*/strings.xml``"
@@ -45366,6 +45391,10 @@ msgid ""
 "include these, :program:`msgmerge` has to be executed with ``--previous`` "
 "and the resulting PO file then contains lines such as:"
 msgstr ""
+"Weblate може витягувати попередні вихідні рядки з PO-файлів, якщо вони є, і "
+"на основі цього показувати різницю рядків, які потребують редагування. Щоб "
+"включити їх, :program:`msgmerge` має бути виконано з ``--previous`` і "
+"отриманий PO-файл буде містити такі рядки, як:"
 
 #: ../../formats/gettext.rst:44
 msgid "PO file header"
@@ -46076,6 +46105,9 @@ msgid ""
 "different format which matches :doc:`/formats/android`, please use that "
 "instead."
 msgstr ""
+"Існує також JetBrains Compose Multiplatform Kotlin Resources, який "
+"використовує інший формат, що відповідає :doc:`/formats/android`, будь "
+"ласка, використовуйте його замість цього."
 
 #: ../../formats/moko.rst:23
 msgid "``shared/src/commonMain/resources/MR/*/plurals.xml``"
@@ -51819,6 +51851,9 @@ msgid ""
 "strings can be performed as ``state:>=translated``, searching for strings "
 "needing translation as ``state:<translated``."
 msgstr ""
+"Це поле також підтримує :ref:`search-operators`, тому пошук завершених "
+"рядків можна виконувати як ``state:>=translated``, а пошук рядків, що "
+"потребують перекладу, як ``state:<translated``."
 
 #: ../../user/search.rst:51
 msgid "``pending:BOOLEAN``"
@@ -52309,6 +52344,9 @@ msgid ""
 "direct translations * Project accepts the suggestions made by users. "
 "Sometimes, anonymous suggestions are accepted as well."
 msgstr ""
+"Як правило, існує два найбільш поширені способи перекладу: * Проект приймає "
+"прямі переклади * Проект приймає пропозиції від користувачів. Іноді "
+"приймаються також анонімні пропозиції."
 
 #: ../../user/translating.rst:11
 msgid "There are more translation workflows detailed in :ref:`workflows`."
@@ -52321,6 +52359,8 @@ msgid ""
 "Projects, or the components in them are either visible to everyone, or only "
 "to a certain group of translators."
 msgstr ""
+"Проекти або компоненти в них видно або всім, або тільки певній групі "
+"перекладачів."
 
 #: ../../user/translating.rst:18
 msgid ":ref:`access-control`, :ref:`workflows`"
@@ -52372,16 +52412,12 @@ msgstr ""
 "перекладу."
 
 #: ../../user/translating.rst:54
-#, fuzzy
-#| msgid ""
-#| "The suggestions are scanned on a daily basis to remove duplicates and "
-#| "suggestions matching the current translation."
 msgid ""
 "All suggestions are scanned on a daily basis to remove duplicates and those "
 "matching current translations."
 msgstr ""
-"Сканування пропозицій відбувається щоденно для вилучення дублікатів або "
-"пропозицій, які відповідають поточному перекладу."
+"Усі пропозиції скануються щодня, щоб видалити дублікати і ті, що збігаються "
+"з поточними перекладами."
 
 #: ../../user/translating.rst:62
 msgid ""
@@ -52389,6 +52425,9 @@ msgid ""
 "strings * for reporting source string bugs when this functionality is turned "
 "on using :ref:`project-source_review`."
 msgstr ""
+"Можна залишати три типи коментарів: * для перекладів * для вихідних текстів *"
+" для повідомлення про помилки у вихідних текстах, якщо цю функцію увімкнено "
+"за допомогою :ref:`project-source_review`."
 
 #: ../../user/translating.rst:68
 msgid ""
@@ -52403,16 +52442,12 @@ msgstr ""
 "хочете щось спитати щодо нього."
 
 #: ../../user/translating.rst:73
-#, fuzzy
-#| msgid ""
-#| "You can use Markdown syntax in all comments and mention other users using "
-#| "``@mention``."
 msgid ""
 "Markdown syntax can be used in all comments, as well as mentioning other "
 "users by using``@username``."
 msgstr ""
-"Ви можете скористатися синтаксисом Markdown в усіх коментарях і згадувати "
-"інших користувачів за допомогою записів — ``@згадка``."
+"Синтаксис markdown можна використовувати у всіх коментарях, а також "
+"згадувати інших користувачів за допомогою ``@ім'я користувача``."
 
 #: ../../user/translating.rst:78
 msgid ""
@@ -53163,20 +53198,14 @@ msgstr ""
 "справжні зміни буде внесено."
 
 #: ../../user/translating.rst:419
-#, fuzzy
-#| msgid ""
-#| "Bulk editing allows performing one operation on number of strings. You "
-#| "define strings by searching for them and set up something to be done for "
-#| "matching ones. The following operations are supported:"
 msgid ""
 "Bulk editing allows performing one operation for multiple strings. Define "
 "strings by searching for them and actions to perform on matching ones. "
 "Supported operations:"
 msgstr ""
-"За допомогою пакетного редагування ви можете виконувати одну дію для "
-"декількох рядків одночасно. Ви визначаєте критерій пошуку рядків і дію для "
-"виконання, а програма оновлює усі відповідні рядки. Передбачено підтримку "
-"таких дій:"
+"Масове редагування дозволяє виконувати одну операцію над кількома рядками. "
+"Визначайте рядки шляхом їх пошуку та дії, які слід виконати над рядками, що "
+"збігаються. Підтримувані операції:"
 
 #: ../../user/translating.rst:423
 msgid "Change string state (for example to approve all unreviewed strings)."
@@ -53242,6 +53271,10 @@ msgid ""
 "clicking the :guilabel:`Zen` button on the top-right of the regular editor "
 "(translation of a string)."
 msgstr ""
+"Цей режим спрощує компонування і прибирає додаткові елементи інтерфейсу, "
+"такі як :guilabel:`Nearby strings` або :guilabel:`Glossary`. Він доступний "
+"за натисканням кнопки :guilabel:`Zen` у правому верхньому куті звичайного "
+"редактора (переклад рядка)."
 
 #: ../../user/translating.rst:456
 msgid ""
@@ -54863,6 +54896,9 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
+"Рядок доступний лише для читання внаслідок того, що він має `` read-only`` "
+":ref:``прапор <custom-checks>`, є нередагованим вихідним рядком або "
+"позначений як такий у файлі перекладу."
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
