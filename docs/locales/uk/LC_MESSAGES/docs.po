@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-18 16:02+0000\n"
+"PO-Revision-Date: 2024-09-18 16:27+0000\n"
 "Last-Translator: Hotripak <hotr1pak@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -18460,6 +18460,9 @@ msgid ""
 "<https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-"
 "dictionary>`_, see :ref:`glossary-mt`."
 msgstr ""
+"Сервіс автоматично використовує :ref:`glossary` через `динамічний словник "
+"<https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-"
+"dictionary>`_, див. :ref:`glossary-mt`."
 
 #: ../../admin/machine.rst:357
 msgid "Translator Text API V2"
@@ -18599,7 +18602,7 @@ msgstr "OpenAI"
 
 #: ../../admin/machine.rst:454
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "Базова URL-адреса API OpenAI"
 
 #: ../../admin/machine.rst:454
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
@@ -18708,10 +18711,8 @@ msgstr ""
 "стилю перекладів."
 
 #: ../../admin/machine.rst:493
-#, fuzzy
-#| msgid "Support for v2 variant of this format was added."
 msgid "Support for custom model and base URL was added."
-msgstr "Додано підтримку версії 2 цього формату."
+msgstr "Додано підтримку користувацької моделі та базової URL-адреси."
 
 #: ../../admin/machine.rst:497
 msgid ""
@@ -18891,6 +18892,10 @@ msgid ""
 "`Translated`, :guilabel:`Approved`, or :guilabel:`Read-only` :ref:`states "
 "<states>` inside Weblate."
 msgstr ""
+"Служба машинного перекладу Weblate може надавати переклад на основі точних "
+"збігів рядка з існуючими рядками у :guilabel:`Translated`, "
+":guilabel:`Approved` або :guilabel:`Read-only` :ref:`states <стани>` "
+"всередині Weblate."
 
 #: ../../admin/machine.rst:612
 msgid "Weblate Translation Memory"
@@ -18901,24 +18906,21 @@ msgid "``weblate-translation-memory``"
 msgstr "``weblate-translation-memory``"
 
 #: ../../admin/machine.rst:617
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`translation-memory` as a machine translation service. Any "
-#| "string that has been translated in past (or uploaded to the translation "
-#| "memory) can be translated in this way."
 msgid ""
 "Use :ref:`translation-memory` as a machine translation service. Any string "
 "that has been translated before (or uploaded to the translation memory) can "
 "be translated in this way. This suggestion source works with fuzzy matching."
 msgstr ""
-"Скористайтеся :ref:`пам'яттю перекладів <translation-memory>` як службою "
-"комп'ютерного перекладу. У цей спосіб можна перекласти усі рядки, які раніше "
-"було перекладено (або вивантажено до пам'яті перекладів)."
+"Використовуйте :ref:`translation-memory` як службу машинного перекладу. Будь-"
+"який рядок, який було перекладено раніше (або завантажено до пам'яті "
+"перекладів), може бути перекладено у такий спосіб. Це джерело пропозицій "
+"працює з нечітким зіставленням."
 
 #: ../../admin/machine.rst:624
 msgid ""
 "Recreating :ref:`translation-memory` reduces capabilities of this TM source."
 msgstr ""
+"Відтворення :ref:`translation-memory` зменшує можливості цього джерела ТМ."
 
 #: ../../admin/machine.rst:629
 msgid "Yandex"
@@ -20336,6 +20338,8 @@ msgstr ""
 msgid ""
 "Git exporter is turned on in our official Docker image. To turn it of, use:"
 msgstr ""
+"Експортер Git'а увімкнено у нашому офіційному образі Docker. Щоб увімкнути "
+"його, скористайтеся:"
 
 #: ../../admin/optionals.rst:37 ../../admin/optionals.rst:102
 #: ../../admin/optionals.rst:179 ../../faq.rst:299
@@ -20408,7 +20412,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:91
 msgid "Billing plan creation and assignment"
-msgstr ""
+msgstr "Створення та призначення тарифного плану"
 
 #: ../../admin/optionals.rst:93
 msgid ""
@@ -20416,12 +20420,18 @@ msgid ""
 "`Administration` section (represented by the wrench icon) and open the "
 "`Tools` screen. From there, proceed to the `Django admin interface`."
 msgstr ""
+"Щоб активувати білінг, спочатку потрібно створити тарифний план. Перейдіть "
+"до розділу `Адміністрування` (представлений іконкою гайкового ключа) і "
+"відкрийте екран `Інструменти`. Звідти перейдіть до `інтерфейсу "
+"адміністратора Django`."
 
 #: ../../admin/optionals.rst:95
 msgid ""
 "In the Django admin interface, locate the `BILLING` section and add a "
 "billing plan. For instance, you can add a `Free` plan with no cost."
 msgstr ""
+"В інтерфейсі адміністратора Django знайдіть розділ `BILLING` і додайте "
+"тарифний план. Наприклад, ви можете додати тарифний план `Free` без вартості."
 
 #: ../../admin/optionals.rst:97
 msgid ""
@@ -20429,12 +20439,17 @@ msgid ""
 "be done within the `Django admin interface` using the `Customer billings` "
 "option."
 msgstr ""
+"Якщо ви хочете призначити план виставлення рахунків для існуючого проекту, "
+"це також можна зробити в інтерфейсі адміністратора Django за допомогою опції "
+"`Виставлення рахунків клієнтам`."
 
 #: ../../admin/optionals.rst:99
 msgid ""
 "Lastly, the `Django admin interface` provides an `Invoice` option for "
 "logging your customer payments."
 msgstr ""
+"Нарешті, в `інтерфейсі адміністратора Django` передбачена опція `Рахунок` "
+"для реєстрації платежів ваших клієнтів."
 
 #: ../../admin/optionals.rst:104
 msgid ""
@@ -21327,6 +21342,8 @@ msgid ""
 "Enforce :ref:`2fa` for all contributors. Users won’t be allowed to perform "
 "any operations within the project without having it configured."
 msgstr ""
+"Впровадити :ref:`2fa` для всіх дописувачів. Користувачам не буде дозволено "
+"виконувати будь-які операції у проекті без його налаштування."
 
 #: ../../admin/projects.rst:216 ../../workflows.rst:112 ../../workflows.rst:144
 #: ../../workflows.rst:177
@@ -23613,19 +23630,14 @@ msgid "Docker image upgrades"
 msgstr "Оновлення образу Docker"
 
 #: ../../admin/upgrade.rst:7
-#, fuzzy
-#| msgid ""
-#| "The official Docker image (see :doc:`install/docker`) has all Weblate "
-#| "upgrade steps integrated. There are typically no manual steps needed "
-#| "besides pulling latest version."
 msgid ""
 "The official Weblate Docker image (see :doc:`install/docker`) integrates all "
 "upgrade steps. Typically, no manual interaction is needed beyond pulling the "
 "latest (or at least newer) version."
 msgstr ""
-"До офіційного образу Docker (див. :ref:`install/docker`) інтегровано усі "
-"кроки оновлення. Кроків, які слід виконати вручну, окрім отримання коду "
-"найсвіжішої версії, немає."
+"Офіційний образ Weblate Docker (див. :doc:`install/docker`) містить усі "
+"кроки оновлення. Зазвичай, не потрібно втручатися вручну, окрім витягування "
+"останньої (або принаймні новішої) версії."
 
 #: ../../admin/upgrade.rst:13
 msgid ":ref:`upgrading-docker`"
@@ -23636,33 +23648,18 @@ msgid "Generic upgrade instructions"
 msgstr "Загальні настанови щодо оновлення"
 
 #: ../../admin/upgrade.rst:20
-#, fuzzy
-#| msgid ""
-#| "Before upgrading, please check the current :ref:`requirements` as they "
-#| "might have changed. Once all requirements are installed or updated, "
-#| "please adjust your :file:`settings.py` to match changes in the "
-#| "configuration (consult :file:`settings_example.py` for correct values)."
 msgid ""
 "Always look for new changes to :ref:`requirements` before upgrading. Once "
 "all requirements are installed or upgraded, ensure your :file:`settings.py` "
 "matches the changes in the configuration (consult :file:`settings_example."
 "py` for correct values)."
 msgstr ""
-"Перед оновленням, будь ласка, ознайомтеся із поточними :ref:"
-"`вимогами<requirements>`, оскільки їх могло бути змінено. Щойно усі потрібні "
-"пакунки буде встановлено або оновлено, будь ласка, скоригуйте ваш :file:"
-"`settings.py` так, щоб він відповідав змінам у налаштуваннях (зверніться до :"
-"file:`settings_example.py`, щоб дізнатися більше про правильні значення)."
+"Завжди перевіряйте наявність нових змін у :ref:`requirements` перед "
+"оновленням. Після встановлення або оновлення всіх вимог переконайтеся, що "
+"ваш :file:`settings.py` відповідає змінам у конфігурації (зверніться до "
+":file:`settings_example.py` для отримання правильних значень)."
 
 #: ../../admin/upgrade.rst:25
-#, fuzzy
-#| msgid ""
-#| "Always check :ref:`version-specific-instructions` before upgrade. In case "
-#| "you are skipping some versions, please follow instructions for all "
-#| "versions you are skipping in the upgrade. Sometimes it's better to "
-#| "upgrade to some intermediate version to ensure a smooth migration. "
-#| "Upgrading across multiple releases should work, but is not as well tested "
-#| "as single version upgrades."
 msgid ""
 "Always check :ref:`version-specific-instructions` before upgrading. If you "
 "are skipping any version(s), be sure to follow instructions for all versions "
@@ -23671,33 +23668,29 @@ msgid ""
 "across multiple releases should work, but is not as well tested as single "
 "version upgrades!"
 msgstr ""
-"Завжди ознайомлюйтеся з :ref:`настановами щодо специфіки версії<version-"
-"specific-instructions>` до оновлення. Якщо ви пропустили кілька попередніх "
-"версій, виконайте настанови для всіх версій, які ви пропускаєте під час "
-"оновлення. Іноді краще оновитися до проміжної версії, щоб забезпечити "
-"безпроблемне перенесення даних. Оновлення з пропусканням кількох випусків "
-"мають працювати, але їхня перевірка на коректність виконується набагато менш "
-"ретельно, ніж перевірка оновлень без пропуску версій."
+"Завжди перевіряйте :ref:`version-specific-instructions` перед оновленням. "
+"Якщо ви пропускаєте якусь версію (версії), обов'язково дотримуйтесь "
+"інструкцій для всіх версій, які ви пропускаєте під час такого оновлення. "
+"Іноді краще поступово перейти на проміжну версію, щоб забезпечити плавний "
+"перехід. Оновлення між кількома випусками має працювати, але воно не так "
+"добре протестоване, як оновлення однієї версії!"
 
 #: ../../admin/upgrade.rst:33
-#, fuzzy
-#| msgid ""
-#| "It is recommended to perform a full database backup prior to upgrade so "
-#| "that you can roll back the database in case upgrade fails, see :doc:"
-#| "`backup`."
 msgid ""
 "Always back up the full database before upgrading, so that you can roll back "
 "the database if the upgrade fails, see :doc:`backup`."
 msgstr ""
-"До оновлення рекомендуємо вам створити повну резервну копію бази даних, щоб "
-"ви могли повернутися до попереднього стану бази даних, якщо не вдасться "
-"виконати оновлення, див. :doc:`backup`."
+"Завжди робіть резервну копію всієї бази даних перед оновленням, щоб мати "
+"можливість відкотити базу даних, якщо оновлення завершиться невдало, див. "
+":doc:`backup`."
 
 #: ../../admin/upgrade.rst:36
 msgid ""
 "Stop the WSGI and Celery processes to avoid old processes running while "
 "upgrading. Otherwise incompatible changes in the database might occur."
 msgstr ""
+"Зупиніть процеси WSGI і Celery, щоб уникнути запуску старих процесів під час "
+"оновлення. Інакше це може призвести до несумісних змін у базі даних."
 
 #: ../../admin/upgrade.rst:39
 msgid "Upgrade Weblate"
@@ -23733,23 +23726,16 @@ msgstr ""
 "забезпечують вони роботу потрібних вам можливостей."
 
 #: ../../admin/upgrade.rst:75
-#, fuzzy
-#| msgid ""
-#| "Upgrade configuration file, refer to :file:`settings_example.py` or :ref:"
-#| "`version-specific-instructions` for needed steps."
 msgid ""
 "Upgrade the configuration file by following either :file:`settings_example."
 "py`, or :ref:`version-specific-instructions`."
 msgstr ""
-"Оновіть файл налаштувань. Зверніться до файла :file:`settings_example.py` "
-"або :ref:`специфічних для випуску настанов<version-specific-instructions>`, "
-"щоб ознайомитися із потрібними для цього діями."
+"Оновіть конфігураційний файл, дотримуючись або :file:`settings_example.py`, "
+"або :ref:`version-specific-instructions`."
 
 #: ../../admin/upgrade.rst:78
-#, fuzzy
-#| msgid "Backup the database:"
 msgid "Upgrade the database:"
-msgstr "Резервне копіювання бази даних:"
+msgstr "Оновити базу даних:"
 
 #: ../../admin/upgrade.rst:84
 msgid ""
@@ -23765,17 +23751,12 @@ msgstr ""
 "compress`):"
 
 #: ../../admin/upgrade.rst:96
-#, fuzzy
-#| msgid ""
-#| "If you are running version from Git, you should also regenerate locale "
-#| "files every time you are upgrading. You can do this by invoking:"
 msgid ""
 "If you are running an installation from Git, you should also regenerate "
 "locale files every time you upgrade. You can do this by invoking:"
 msgstr ""
-"Якщо ви працюєте із версією з Git, вам слід також повторно створювати файли "
-"локалей кожного разу після оновлення. Зробити це можна за допомогою такої "
-"команди:"
+"Якщо ви запускаєте встановлення з Git'у, вам також слід регенерувати файли "
+"локалі щоразу після оновлення. Це можна зробити за допомогою виклику:"
 
 #: ../../admin/upgrade.rst:103
 msgid "Verify that your setup is sane (see also :ref:`production`):"
@@ -23855,25 +23836,16 @@ msgid "Migrating from other databases to PostgreSQL"
 msgstr "Перенесення даних з інших баз даних до PostgreSQL"
 
 #: ../../admin/upgrade.rst:143
-#, fuzzy
-#| msgid ""
-#| "If you are running Weblate on other dabatase than PostgreSQL, you should "
-#| "consider migrating to PostgreSQL as Weblate performs best with it. The "
-#| "following steps will guide you in migrating your data between the "
-#| "databases. Please remember to stop both web and Celery servers prior to "
-#| "the migration, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are not running Weblate with a different database than PostgreSQL, "
 "consider migrating to PostgreSQL for better performance by doing the "
 "following steps. Remember to stop both, the web and Celery servers "
 "beforehand, otherwise you might end up with inconsistent data."
 msgstr ""
-"Якщо ви працюєте з Weblate на основі бази даних, відмінної від PostgreSQL, "
-"вам слід перенести базу даних до PostgreSQL, оскільки із ним Weblate працює "
-"оптимально. Нижче наведено список кроків, які слід виконати для перенесення "
-"ваших даних з однієї бази даних до іншої. Будь ласка, не забудьте зупинити "
-"вебсервер та сервер Celery перед перенесенням даних, інакше дані може бути "
-"пошкоджено."
+"Якщо ви використовуєте Weblate з базою даних, відмінною від PostgreSQL, "
+"розгляньте можливість міграції на PostgreSQL для кращої продуктивності, "
+"виконавши наступні кроки. Не забудьте заздалегідь зупинити як веб-сервер, "
+"так і сервер Celery, інакше ви можете отримати неузгоджені дані."
 
 #: ../../admin/upgrade.rst:151
 msgid ""
@@ -24814,16 +24786,12 @@ msgstr ""
 "адреса списку змін, див. :http:get:`/api/projects/(string:project)/changes/`"
 
 #: ../../api.rst:848
-#, fuzzy
-#| msgid ""
-#| "URL to repository status; see :http:get:`/api/projects/(string:project)/"
-#| "repository/`"
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/projects/(string:"
 "project)/credits/`"
 msgstr ""
-"адреса стану сховища, див. :http:get:`/api/projects/(string:project)/"
-"repository/`"
+"URL для перегляду списку авторів; див. :http:get:`/api/projects/"
+"(string:project)/credits/`"
 
 #: ../../api.rst:849
 msgid ":ref:`project-translation_review`"
@@ -25163,42 +25131,32 @@ msgid "<json string color"
 msgstr "<json string color"
 
 #: ../../api.rst:1213 ../../api.rst:1791
-#, fuzzy
-#| msgid "Returns statistics for a project."
 msgid "Returns contributor credits for a project."
-msgstr "Повертає статистику проєкту."
+msgstr "Повертає кредити дописувача для проекту."
 
 #: ../../api.rst:1219 ../../api.rst:1797
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Нижня межа мітки часу ISO 8601 (обов'язкова)"
 
 #: ../../api.rst:1221 ../../api.rst:1799
 msgid "Upper-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Верхня межа мітки часу ISO 8601 (обов'язкова)"
 
 #: ../../api.rst:1223 ../../api.rst:1801
-#, fuzzy
-#| msgid "Language code style"
 msgid "Language code to search for"
-msgstr "Стиль коду мови"
+msgstr "Код мови для пошуку"
 
 #: ../../api.rst:1225 ../../api.rst:1803
-#, fuzzy
-#| msgid "New contributor"
 msgid "Email of the contributor"
-msgstr "Новий учасник"
+msgstr "Електронна пошта дописувача"
 
 #: ../../api.rst:1226 ../../api.rst:1804
-#, fuzzy
-#| msgid "full name of a user"
 msgid "Full name of the contributor"
-msgstr "повне ім'я користувача"
+msgstr "Повне ім'я дописувача"
 
 #: ../../api.rst:1227 ../../api.rst:1805
-#, fuzzy
-#| msgid "Number of plurals used in the language."
 msgid "Number of changes done in the time range"
-msgstr "Кількість форм множини, які використовуються у мові."
+msgstr "Кількість змін, зроблених у часовому діапазоні"
 
 #: ../../api.rst:1234
 msgid ""
@@ -25460,16 +25418,12 @@ msgstr ""
 "(str:uuid)/`"
 
 #: ../../api.rst:1302
-#, fuzzy
-#| msgid ""
-#| "URL to lock status; see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/lock/`"
 msgid ""
 "URL to to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
 msgstr ""
-"Адреса для стану блокування, див. :http:get:`/api/components/(string:"
-"project)/(string:component)/lock/`"
+"URL для перегляду списку авторів; див. :http:get:`/api/components/"
+"(string:project)/(string:component)/credits/`"
 
 #: ../../api.rst:1350
 msgid "Edit a component by a :http:method:`PATCH` request."
@@ -26690,6 +26644,8 @@ msgid ""
 "Metrics can now be exposed in OpenMetrics compatible format with ``?"
 "format=openmetrics``."
 msgstr ""
+"Метрики тепер можна виставляти у форматі, сумісному з OpenMetrics, за "
+"допомогою ``?format=openmetrics``."
 
 #: ../../api.rst:2604
 msgid "Number of units"
@@ -27171,11 +27127,11 @@ msgstr "**Удосконалення**"
 
 #: ../../changes.rst:10
 msgid ":ref:`2fa` remembers last method used by user."
-msgstr ""
+msgstr ":ref:`2fa` запам'ятовує останній метод, який використовував користувач."
 
 #: ../../changes.rst:11
 msgid "Instead of redirecting, the sign-out now displays a page."
-msgstr ""
+msgstr "Замість перенаправлення при виході тепер відображається сторінка."
 
 #: ../../changes.rst:13 ../../changes.rst:39 ../../changes.rst:85
 #: ../../changes.rst:118 ../../changes.rst:143 ../../changes.rst:173
@@ -27190,10 +27146,8 @@ msgid "**Bug fixes**"
 msgstr "**Виправлення вад**"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid "Updating of translations from the repository in linked components."
-msgstr "Додавання проєктів і складників перекладу"
+msgstr "Оновлення перекладів зі сховища у зв'язаних компонентах."
 
 #: ../../changes.rst:17 ../../changes.rst:91 ../../changes.rst:181
 #: ../../changes.rst:343 ../../changes.rst:449 ../../changes.rst:502
@@ -27265,25 +27219,24 @@ msgstr "Випущено 30 серпня 2024 року."
 msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
-msgstr ""
+msgstr "Оновлені назви мов для кращого опису різних скриптів і синтійських мов."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ""
 ":ref:`addon-weblate.cleanup.generic` is now automatically installed for "
 "formats which need it to update non-translation content in the translated "
 "files."
 msgstr ""
-"Скористайтеся :ref:`addon-weblate.cleanup.generic`, якщо ви хочете лише "
-"вилучити застарілі переклади."
+":ref:`addon-weblate.cleanup.generic` тепер автоматично встановлюється для "
+"форматів, які потребують його для оновлення неперекладеного вмісту у "
+"перекладених файлах."
 
 #: ../../changes.rst:41
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
 msgstr ""
+"Підтримка використання імен мереж Docker у налаштуваннях автоматичних "
+"пропозицій."
 
 #: ../../changes.rst:42
 msgid "Fixed authentication using some third-party providers such as Azure."
@@ -27294,15 +27247,18 @@ msgstr ""
 #: ../../changes.rst:43
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
 msgstr ""
+"Підтримка формальної та неформальної португальської мови у :ref:`mt-deepl`."
 
 #: ../../changes.rst:44
 msgid "QR code for TOTP is now black/white even in dark mode."
-msgstr ""
+msgstr "QR-код для TOTP тепер чорно-білий навіть у темному режимі."
 
 #: ../../changes.rst:45
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
 msgstr ""
+"Виправлено автентифікацію TOTP, коли для користувача також налаштовано "
+"WebAuthn."
 
 #: ../../changes/contributors/5.7.1.rst:2 ../../changes/contributors/5.7.rst:2
 msgid "Code contributions"
@@ -27369,61 +27325,62 @@ msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
 msgstr ""
+":ref:`2fa` тепер підтримується за допомогою Passkeys, WebAuthn, програм "
+"автентифікації (TOTP) та кодів відновлення."
 
 #: ../../changes.rst:65
 msgid ":ref:`2fa` can be enforced at the team or project level."
-msgstr ""
+msgstr ":ref:`2fa` може бути застосовано на рівні команди або проекту."
 
 #: ../../changes.rst:66
 msgid ""
 ":ref:`adding-new-strings` can now create plural strings in the user "
 "interface."
 msgstr ""
+":ref:`adding-new-strings` тепер може створювати множинні рядки у "
+"користувацькому інтерфейсі."
 
 #: ../../changes.rst:67
 msgid ":ref:`labels` now include description to explain them."
-msgstr ""
+msgstr ":ref:`labels` тепер містять опис для їх пояснення."
 
 #: ../../changes.rst:68
-#, fuzzy
-#| msgid "Prevents further translation of a component."
 msgid "New :ref:`subscriptions` for completed translation and component."
-msgstr "Забороняє подальший переклад складника."
+msgstr "Нові :ref:`subscriptions` для завершеного перекладу та компонента."
 
 #: ../../changes.rst:69
 msgid ""
 ":ref:`mt-openai` now supports custom models and URLs and offers rephrasing "
 "of existing strings."
 msgstr ""
+":ref:`mt-openai` тепер підтримує користувацькі моделі та URL-адреси, а також "
+"пропонує перефразування існуючих рядків."
 
 #: ../../changes.rst:70
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
 msgstr "Служба автоматичних пропозицій :ref:`mt-cyrtranslit`."
 
 #: ../../changes.rst:74
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
 msgstr ""
-"У новій версії :ref:`addon-weblate.discovery.discovery` реалізовано "
-"звітування щодо пропущених записів."
+":ref:`addon-weblate.properties.sort` тепер може виконувати сортування з "
+"урахуванням регістру."
 
 #: ../../changes.rst:75
 msgid ""
 "The status widgets are now supported site-wide and language-wide, see :ref:"
 "`promotion`."
 msgstr ""
+"Віджети статусів тепер підтримуються на всьому сайті і для всіх мов, див. "
+":ref:`promotion`."
 
 #: ../../changes.rst:76
 msgid ":ref:`reports` are now available for categories."
-msgstr ""
+msgstr ":ref:`reports` тепер доступні для категорій."
 
 #: ../../changes.rst:77
-#, fuzzy
-#| msgid "Highlight placeables in translation editor."
 msgid "Highlight newlines in the editor."
-msgstr "Реалізовано підсвічування замінників у редакторі перекладів."
+msgstr "Виділіть нові рядки в редакторі."
 
 #: ../../changes.rst:78
 #, fuzzy
