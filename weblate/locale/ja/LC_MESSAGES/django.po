@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 07:52+0000\n"
-"PO-Revision-Date: 2024-09-14 08:23+0000\n"
+"PO-Revision-Date: 2024-09-14 23:35+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -6543,10 +6543,8 @@ msgid "Disable two-factor authentication"
 msgstr "二要素認証の無効化"
 
 #: weblate/templates/accounts/user.html:345
-#, fuzzy
-#| msgid "Account removal deletes all your private data."
 msgid "Account removal deletes all user private data."
-msgstr "アカウントを削除すると、すべての個人情報が削除されます。"
+msgstr "アカウントを削除すると、すべての個人情報は削除されます。"
 
 #: weblate/templates/accounts/user.html:348
 #: weblate/templates/accounts/user.html:362
@@ -6614,7 +6612,7 @@ msgstr "貢献した翻訳"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
-msgstr ""
+msgstr "秘密鍵を使用してサインイン"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_detail.html:12
@@ -6633,18 +6631,13 @@ msgid "Configure add-on"
 msgstr "アドオンの設定"
 
 #: weblate/templates/addons/addon_detail.html:44
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
-msgstr "このアドオンは、スクリプトを実行します。"
+msgstr "このアドオンには設定項目がありません。"
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "The add-on can only be installed on the component."
-msgstr ""
-"アドオンは、プロジェクトおよびコンポーネント単位でもインストールできます。"
+msgstr "このアドオンは、コンポーネントにのみインストールできます。"
 
 #: weblate/templates/addons/addon_head.html:9
 msgid "This add-on is used for all components sharing this repository."
@@ -7020,10 +7013,8 @@ msgid "Automatic assignment"
 msgstr "自動割り当て"
 
 #: weblate/templates/auth/teams-name.html:4
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Requires two-factor authentication"
-msgstr "サーバーは認証を許可していません。"
+msgstr "二要素認証してください"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7707,20 +7698,17 @@ msgid "Component is being updated…"
 msgstr "コンポーネントを更新しています…"
 
 #: weblate/templates/component-progress.html:31
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Continue to %(return_target)s"
-msgstr "%(project_name)s への招待"
+msgstr "%(return_target)s へ戻る"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
 msgstr "更新の中止"
 
 #: weblate/templates/component-progress.html:38
-#, fuzzy
-#| msgid "Return to the component after completion"
 msgid "Continue after completion"
-msgstr "完了後はコンポーネントに戻る"
+msgstr "完了後に継続"
 
 #: weblate/templates/component.html:36 weblate/wladmin/views.py:80
 msgid "Alerts"
@@ -9817,16 +9805,12 @@ msgid "Please try again later."
 msgstr "後でもう一度やり直してください。"
 
 #: weblate/templates/registration/logged_out.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for using Weblate"
-msgstr "Weblate のご利用ありがとうございました。"
+msgstr "Weblate のご利用ありがとうございました"
 
 #: weblate/templates/registration/logged_out.html:17
-#, fuzzy
-#| msgid "Show on dashboard"
 msgid "Return to dashboard"
-msgstr "ダッシュボードに表示"
+msgstr "ダッシュボードに戻る"
 
 #: weblate/templates/replace.html:13
 msgid "Please review and confirm the search and replace results."
@@ -9889,10 +9873,8 @@ msgid "Add to screenshot"
 msgstr "スクリーンショットに追加"
 
 #: weblate/templates/screenshots/snippets/paste-button.html:4
-#, fuzzy
-#| msgid "Copy token to clipboard"
 msgid "Paste from clipboard"
-msgstr "トークンをクリップボードにコピー"
+msgstr "クリップボードから貼り付け"
 
 #: weblate/templates/search.html:25
 #: weblate/templates/snippets/embed-units.html:114
@@ -10037,19 +10019,21 @@ msgstr "結果を読み込んでいます…"
 
 #: weblate/templates/snippets/enforced_2fa.html:7
 msgid "Configure two-factor authentication"
-msgstr ""
+msgstr "二要素認証を設定してください"
 
 #: weblate/templates/snippets/enforced_2fa.html:9
 msgid ""
 "This project requires two-factor authentication from all contributors. You "
 "won’t be able to contribute until you configure it."
-msgstr ""
+msgstr "このプロジェクトでは、すべての貢献者に二要素認証を要求しています。有効にしな"
+"いと貢献できません。"
 
 #: weblate/templates/snippets/enforced_2fa.html:11
 msgid ""
 "You are a member of the team that requires two-factor authentication. You "
 "won’t be able to use any of its privileges until you configure 2FA."
-msgstr ""
+msgstr "あなたは二要素認証が必須のチームのメンバーです。二要素認証を有効にするまで、"
+"チームのアクセス権は無効です。"
 
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:378
@@ -10377,7 +10361,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:7
 msgid "Libre project with open-source code"
-msgstr ""
+msgstr "オープンソース コードによる Libre プロジェクト"
 
 #: weblate/templates/snippets/libre-basic.html:9
 #, python-format
@@ -10392,15 +10376,11 @@ msgstr ""
 "る必要があります。"
 
 #: weblate/templates/snippets/libre-basic.html:10
-#, fuzzy
-#| msgid ""
-#| "All the source code has to be publicly available in a supported version "
-#| "control system."
 msgid ""
 "All the source code has to be libre-licensed and publicly available in a "
 "supported version control system."
-msgstr ""
-"すべてのソースコードは、対応している VCS で公開している必要があります。"
+msgstr "すべてのソースコードは、Libre ライセンスとして対応しているバージョン管理シス"
+"テム上で公開されていることが必要です。"
 
 #: weblate/templates/snippets/libre-basic.html:11
 msgid ""
@@ -12987,10 +12967,8 @@ msgid "Untranslatable term"
 msgstr "翻訳禁止の用語"
 
 #: weblate/trans/forms.py:2501
-#, fuzzy
-#| msgid "You currently do not have permission to create projects."
 msgid "You do not have permission to create terminology."
-msgstr "現時点ではプロジェクトを作成する権限がありません。"
+msgstr "用語集を作成するアクセス権がありません。"
 
 #: weblate/trans/forms.py:2567
 msgid "State to set"
@@ -13063,10 +13041,8 @@ msgid "Author username"
 msgstr "翻訳者のユーザー名"
 
 #: weblate/trans/forms.py:2762
-#, fuzzy
-#| msgid "Changes pushed"
 msgid "Change period"
-msgstr "変更のプッシュ"
+msgstr "期間の変更"
 
 #: weblate/trans/forms.py:2774
 msgid "Could not find matching user!"
@@ -13703,10 +13679,8 @@ msgstr "原文アップロードによる翻訳更新"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:508
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Component translation completed"
-msgstr "翻訳完了"
+msgstr "コンポーネント翻訳完了"
 
 #: weblate/trans/models/change.py:592
 msgid "The component was automatically locked because of an alert."
@@ -13724,10 +13698,9 @@ msgstr "%(time)s に %(user)s が実施した、 %(translation)s に対する %(
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:681
-#, fuzzy, python-format
-#| msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(time)s に %(user)s が実施した、 %(translation)s に対する %(action)s"
+msgstr "%(time)s に、 %(translation)s で %(action)s"
 
 #: weblate/trans/models/change.py:850
 msgid "The “{}” file was changed."
@@ -14477,10 +14450,8 @@ msgid "Component list to assign"
 msgstr "割り当てるコンポーネント リスト"
 
 #: weblate/trans/models/label.py:28
-#, fuzzy
-#| msgid "Description"
 msgid "Label description"
-msgstr "説明"
+msgstr "説明のラベル"
 
 #: weblate/trans/models/project.py:126
 msgid "Public"
@@ -14543,7 +14514,7 @@ msgstr ""
 msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
-msgstr ""
+msgstr "貢献するには、二要素認証の有効化が必須です。"
 
 #: weblate/trans/models/project.py:198 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
@@ -15127,7 +15098,7 @@ msgstr "新しい翻訳に対するリクエストをプロジェクトのメン
 
 #: weblate/trans/views/basic.py:766
 msgid "All languages have been added, updates of translations are in progress."
-msgstr ""
+msgstr "すべての言語に対して翻訳が追加されました。更新の作業中です。"
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -15206,10 +15177,8 @@ msgid "Your suggestion has been identified as spam!"
 msgstr "あなたからの提案は迷惑投稿と判断されています！"
 
 #: weblate/trans/views/edit.py:319
-#, fuzzy
-#| msgid "Only suggestions are allowed in this translation!"
 msgid "Your suggestion is similar to the current translation!"
-msgstr "この翻訳では、提案だけができることになっています！"
+msgstr "あなたの提案は、現在の翻訳と似ています！"
 
 #: weblate/trans/views/edit.py:324
 msgid "Your suggestion already exists!"
@@ -15341,18 +15310,16 @@ msgstr "リポジトリのロックに失敗しました。他の処理が実行
 #: weblate/trans/views/git.py:61
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
-msgstr ""
+msgstr "すべてのリポジトリを更新しました。翻訳の更新作業中です。"
 
 #: weblate/trans/views/git.py:84
 msgid "All repositories were pushed."
 msgstr "すべてのリポジトリにプッシュしました。"
 
 #: weblate/trans/views/git.py:99
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
-msgstr "すべてのリポジトリをリセットしました。"
+msgstr "すべてのリポジトリをリセットしました。翻訳の更新作業中です。"
 
 #: weblate/trans/views/git.py:123
 msgid "All repositories have been cleaned up."
@@ -15363,10 +15330,8 @@ msgid "Translation files have been synchronized."
 msgstr "翻訳ファイルが同期されました。"
 
 #: weblate/trans/views/git.py:155
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Updates of translations are in progress."
-msgstr "自動翻訳中"
+msgstr "翻訳の更新作業中です。"
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
@@ -15731,10 +15696,8 @@ msgid "This e-mail address is disallowed."
 msgstr "無効なメールアドレスです。"
 
 #: weblate/utils/validators.py:195
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Invalid e-mail address: {}"
-msgstr "正確なメールアドレスを入力してください。"
+msgstr "無効なメールアドレス: {}"
 
 #: weblate/utils/validators.py:207
 msgid "Could not evaluate plural formula: {}"
