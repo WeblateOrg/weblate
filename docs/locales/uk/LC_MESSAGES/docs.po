@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-18 16:33+0000\n"
+"PO-Revision-Date: 2024-09-18 16:35+0000\n"
 "Last-Translator: Hotripak <hotr1pak@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -27407,9 +27407,9 @@ msgid ""
 "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
 "components and projects."
 msgstr ""
-"Кінцеві точки програмного інтерфейсу :http:get:`/api/components/"
-"(string:project)/(string:component)/credits/` і :http:get:`/api/projects/"
-"(string:project)/credits/` для складників та проєктів."
+":http:get:`/api/components/(string:project)/(string:component)/credits/` та "
+":http:get:`/api/projects/(string:project)/credits/` кінцеві точки API для "
+"компонентів та проєктів."
 
 #: ../../changes.rst:81
 msgid ""
@@ -27431,7 +27431,7 @@ msgstr ""
 
 #: ../../changes.rst:87
 msgid "Accessibility of keyboard navigation."
-msgstr ""
+msgstr "Доступність клавіатурної навігації."
 
 #: ../../changes.rst:88
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
@@ -27447,23 +27447,27 @@ msgstr ""
 
 #: ../../changes.rst:93
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
-msgstr ""
+msgstr "Weblate тепер використовує омелу замість місаки як рендеринг Markdown."
 
 #: ../../changes.rst:94
 msgid ":ref:`csp` is now stricter what might block third-party customizations."
-msgstr ""
+msgstr ":ref:`csp` тепер суворіше, що може заблокувати сторонні кастомізації."
 
 #: ../../changes.rst:95
 msgid ""
 "Monolingual formats no longer copy comments from :ref:`component-template` "
 "when adding strings to translation."
 msgstr ""
+"Одномовні формати більше не копіюють коментарі з :ref:`component-template` "
+"під час додавання рядків до перекладу."
 
 #: ../../changes.rst:96
 msgid ""
 "Dropped support for Amagama in :ref:`machine-translation-setup` as the "
 "service is no longer maintained."
 msgstr ""
+"Припинено підтримку Amagama у :ref:`machine-translation-setup`, оскільки "
+"сервіс більше не підтримується."
 
 #: ../../changes.rst:97
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
@@ -27474,22 +27478,19 @@ msgid ""
 "Translation credit reports in the JSON format now follows a different format "
 "for entries."
 msgstr ""
+"Кредитні звіти про переклади у форматі JSON тепер мають інший формат записів."
 
 #: ../../changes.rst:104
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, "
 "``SOCIAL_AUTH_PIPELINE`` and ``MIDDLEWARE``; please adjust your settings "
 "accordingly."
 msgstr ""
-"До :file:`settings_example.py` внесено декілька змін. Найпомітнішою є зміна "
-"у ``CACHES`` і ``SOCIAL_AUTH_PIPELINE``. Будь ласка, скоригуйте параметри "
-"відповідним чином."
+"У файлі :file:`settings_example.py` відбулося кілька змін, найпомітнішими з "
+"яких є нові налаштування для :ref:`2fa` та зміни у розділах "
+"``INSTALLED_APPS``, ``SOCIAL_AUTH_PIPELINE`` і ``MIDDLEWARE``; будь ласка, "
+"внесіть відповідні зміни у свої налаштування."
 
 #: ../../changes.rst:105
 msgid ""
@@ -27497,6 +27498,9 @@ msgid ""
 "use HTTPS, please silence related check as described in :setting:"
 "`ENABLE_HTTPS` documentation."
 msgstr ""
+"Для підтримки WebAuthn тепер потрібен параметр :setting:`ENABLE_HTTPS`. Якщо "
+"ви не можете використовувати HTTPS, вимкніть відповідну перевірку, як "
+"описано у документації до :setting:`ENABLE_HTTPS`."
 
 #: ../../changes/contributors/5.7.rst:3
 msgid ""
@@ -27504,6 +27508,9 @@ msgid ""
 "Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
 "michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey, Bastien Montagne"
 msgstr ""
+"Міхал Чихар, Жоао Феррейра, Пол Гаррієт Асіньєро, gers, Бенджамін Алан "
+"Джеймі, Джон Р. Д'Ораціо, Тобіас Шлаттер, Макс Віттіг, Мехді Елуалі, michael-"
+"smt, Йохен Спрікергоф, Вінсент, Дуейн Бейлі, Бастьєн Монтань"
 
 #: ../../changes/contributors/5.7.rst:6
 msgid ""
@@ -27518,12 +27525,24 @@ msgid ""
 "Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
 "Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 msgstr ""
+"Хосе Дельвані, Джулія Джулі, Енді Чендлер, pan93412, Milo Ivir, "
+"gallegonovato, ngocanhtve, kapatych, Marco Ciampa, Úr Balázs, Artemka, Ricky "
+"From Hong Kong, Massimo Pissarello, dreigiau, Igor Hordiichuk, Allan "
+"Nordhøy, Selyan Sliman Amiri, iwonder, Besnik Bleta, Nathan, yangyangdaji, "
+"Priit Jõerüüt, Aindriú Mac Giolla Eoin, Diego Beraldin, Marino Díaz, پرویز "
+"قادر, Horus68, ssantos, M. Д. Кулькарні (MDK), Мігель А. Бузада, А. Бенто, "
+"mpt. c, ovl-1, Fjuro, Luna, Antônio Breno, alefsanderribeiro, Alefsander "
+"Ribeiro Nascimento, Ian Perdiansah, amano, Petter Reinholdtsen, Malik "
+"Shoaib, Emin Tufan Çetin, John kh, Sergey, tygyh, Semih, Balázs Meskó, "
+"Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 
 #: ../../changes/contributors/5.7.rst:9
 msgid ""
 "Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
 "Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 msgstr ""
+"Міхал Чихар, Бенджамін Алан Джеймі, Пол Гаррієт Асіньєро, Аллан Нордхой, "
+"Макс Віттіг, Мехді Елуалі, Вінсент, LE MEILLAT, gers, lotigara"
 
 #: ../../changes.rst:111
 msgid ""
@@ -27593,6 +27612,10 @@ msgid ""
 "`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :"
 "envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` for CORS handling in API."
 msgstr ""
+"Докер контейнер приймає :envvar:`WEBLATE_REMOVE_ADDONS` та "
+":envvar:`WEBLATE_ADD_MACHINERY` для налаштування сервісів автоматичних "
+"пропозицій та :envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` для обробки CORS в "
+"API."
 
 #: ../../changes.rst:141
 msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
