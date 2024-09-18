@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-16 13:14+0000\n"
-"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2024-09-18 16:02+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -2139,9 +2139,9 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"すべての翻訳ファイルを、モノリンガル用の基礎となる翻訳ファイルと一致するよう"
-"に更新します。ほとんどのファイル形式で、基礎となる翻訳ファイルに存在しない、"
-"無効な翻訳キーは削除されます。"
+"すべての翻訳ファイルを、モノリンガル用の基礎となる翻訳ファイルに初期化されま"
+"す。ほとんどのファイル形式で、基礎となる翻訳ファイルに存在しない、無効な翻訳"
+"キーは削除されます。"
 
 #: ../../admin/addons.rst:156
 msgid ""
@@ -2149,6 +2149,9 @@ msgid ""
 "as :ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the "
 "translation file in sync with the base file."
 msgstr ""
+"翻訳文字列以外の追加コンテンツを含む形式（:ref:`html`、:ref:`winrc`、:ref:`od"
+"f` など）の場合、クリーンアップにより翻訳ファイルも基礎となる翻訳ファイルに初"
+"期化されます。"
 
 #: ../../admin/addons.rst:167
 msgid "Add missing languages"
@@ -3870,13 +3873,15 @@ msgstr "アドオン活動ログの記録"
 msgid ""
 "Add-on activity log keeps track of the add-on execution and can be used to "
 "keep track of add-on activity."
-msgstr ""
+msgstr "アドオン活動ログは、アドオンの実行を記録し、アドオンの活動を追跡するために使"
+"用できます。"
 
 #: ../../admin/addons.rst:1051
 msgid ""
 "The logs can be pruned after a certain time interval by configuring the :"
 "setting:`ADDON_ACTIVITY_LOG_EXPIRY`."
-msgstr ""
+msgstr "ログは、:setting:`ADDON_ACTIVITY_LOG_EXPIRY` "
+"を設定して、一定の時間経過後に削除できます。"
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:114
 msgid "Management interface"
@@ -8352,6 +8357,11 @@ msgid ""
 "SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not work for sites without "
 "HTTPS."
 msgstr ""
+"これが無効化されている場合、Weblate は ``otp_webauthn.E031`` "
+"エラーで起動に失敗します。このエラーを "
+":setting:`django:SILENCED_SYSTEM_CHECKS` "
+"に追加してエラーを非表示にできます。しかし、WebAuthn は HTTPS "
+"ではないサイトでは機能しません。"
 
 #: ../../admin/config.rst:725
 msgid ""
@@ -22963,6 +22973,9 @@ msgid ""
 "Stop the WSGI and Celery processes to avoid old processes running while "
 "upgrading. Otherwise incompatible changes in the database might occur."
 msgstr ""
+"アップグレード中に古いプロセスが実行されないように、WSGI および Celery プロセ"
+"スを停止してください。停止しない場合、データベースに互換性のない変更が発生し"
+"ます。"
 
 #: ../../admin/upgrade.rst:39
 #, fuzzy
@@ -24451,11 +24464,11 @@ msgstr "返り値は、プロジェクトの統計情報です。"
 
 #: ../../api.rst:1219 ../../api.rst:1797
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "ISO 8601 形式による最小日時（必須）"
 
 #: ../../api.rst:1221 ../../api.rst:1799
 msgid "Upper-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "ISO 8601 形式による最大日時（必須）"
 
 #: ../../api.rst:1223 ../../api.rst:1801
 #, fuzzy
@@ -25557,7 +25570,7 @@ msgstr "前のテキスト"
 
 #: ../../api.rst:2251
 msgid "additional details about the change"
-msgstr ""
+msgstr "変更に関する追加の詳細"
 
 #: ../../api.rst:2252
 msgid "change identifier"
@@ -25961,7 +25974,8 @@ msgstr "サーバーのメトリックスを返します。"
 msgid ""
 "Metrics can now be exposed in OpenMetrics compatible format with ``?"
 "format=openmetrics``."
-msgstr ""
+msgstr "メトリックは、``?format=openmetrics`` を使用して OpenMetrics "
+"互換形式で公開できるようになりました。"
 
 #: ../../api.rst:2604
 msgid "Number of units"
@@ -26444,11 +26458,11 @@ msgstr "**改善点**"
 
 #: ../../changes.rst:10
 msgid ":ref:`2fa` remembers last method used by user."
-msgstr ""
+msgstr ":ref:`2fa` は、ユーザーが最後に使用した方法を保存。"
 
 #: ../../changes.rst:11
 msgid "Instead of redirecting, the sign-out now displays a page."
-msgstr ""
+msgstr "リダイレクトする代わりに、サインアウト時にページを表示するように改良。"
 
 #: ../../changes.rst:13 ../../changes.rst:39 ../../changes.rst:85
 #: ../../changes.rst:118 ../../changes.rst:143 ../../changes.rst:173
@@ -26546,7 +26560,7 @@ msgstr "2019 年 8 月 15 日にリリース。"
 msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
-msgstr ""
+msgstr "多くの文字や人工的に作られた言語を、より適切に説明するために言語名を更新。"
 
 #: ../../changes.rst:37
 #, fuzzy
@@ -26564,7 +26578,7 @@ msgstr ""
 #: ../../changes.rst:41
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
-msgstr ""
+msgstr "自動提案設定で Docker ネットワーク名に対応。"
 
 #: ../../changes.rst:42
 #, fuzzy
@@ -26574,16 +26588,17 @@ msgstr "一部のサード パーティ プロバイダーを使用した認証�
 
 #: ../../changes.rst:43
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
-msgstr ""
+msgstr ":ref:`mt-deepl` "
+"で、フォーマルなポルトガル語とインフォーマルなポルトガル語に対応。"
 
 #: ../../changes.rst:44
 msgid "QR code for TOTP is now black/white even in dark mode."
-msgstr ""
+msgstr "TOTP の QR コードを、ダーク モードや白黒の表示に対応。"
 
 #: ../../changes.rst:45
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
-msgstr ""
+msgstr "ユーザーに WebAuthn も設定されている場合の TOTP 認証を修正。"
 
 #: ../../changes/contributors/5.7.1.rst:2 ../../changes/contributors/5.7.rst:2
 #, fuzzy
@@ -26593,7 +26608,7 @@ msgstr "貢献者"
 
 #: ../../changes/contributors/5.7.1.rst:3
 msgid "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
-msgstr ""
+msgstr "Michal Čihař、Mehdi El Oualy、Mehdi Eloualy"
 
 #: ../../changes/contributors/5.7.1.rst:5 ../../changes/contributors/5.7.rst:5
 #, fuzzy
@@ -26614,12 +26629,20 @@ msgid ""
 "Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
 "Saranpat Visetrit, Vlăduț Ilie"
 msgstr ""
+"Michal Čihař、Miguel A. Bouzada、Ldm Public、gallegonovato、Besnik Bleta、"
+"Yaron Shahrabani、Alefsander Ribeiro Nascimento、Aindriú Mac Giolla Eoin、"
+"Massimo Pissarello、hugoalh、Xzonn、Jose Delvani、大王叫我来巡山、Сергей、"
+"Milo Ivir、VfBFan、Blueberry、Ihor Hordiichuk、Christian Wia、Fjuro、simmon、"
+"Chikita Isaac、Oğuz Ersen、马牛逼（Felix）、Sketch6580、Emin Tufan Çetin、"
+"Simona Iacob、Andi Chandler、Jorge Gemetto、Assem Askarova、Julien Humbert、"
+"Peter Vančo、Wuzzy、ovl-1、Jim Kats、WaldiS、Nicolas MAGERE、Eduard Ereza "
+"Martínez、Kaya Zeren、Pierfrancesco Passerini、Dick Groskamp、Chang-Chia "
+"Tseng、Anon、Priit Jõerüüt、이정희、Taufik Adi Wicaksono、Balázs Úr、"
+"Saranpat Visetrit、Vlăduț Ilie"
 
 #: ../../changes/contributors/5.7.1.rst:8 ../../changes/contributors/5.7.rst:8
-#, fuzzy
-#| msgid "Documentation updates."
 msgid "Documentation contributions"
-msgstr "ドキュメントの更新。"
+msgstr "ドキュメントの貢献"
 
 #: ../../changes/contributors/5.7.1.rst:9
 #, fuzzy
@@ -26655,21 +26678,23 @@ msgstr "2019 年 8 月 15 日にリリース。"
 msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
-msgstr ""
+msgstr "Passkeys、WebAuthn、認証アプリ（TOTP）、およびリカバリ "
+"コードを使用した二要素認証（2FA）に対応。"
 
 #: ../../changes.rst:65
 msgid ":ref:`2fa` can be enforced at the team or project level."
-msgstr ""
+msgstr ":ref:`2fa` はチームレベルまたはプロジェクトレベルで適用できる。"
 
 #: ../../changes.rst:66
 msgid ""
 ":ref:`adding-new-strings` can now create plural strings in the user "
 "interface."
-msgstr ""
+msgstr ":ref:`adding-new-strings` により、ユーザー "
+"インターフェイスで複数形の文字列の作成に対応。"
 
 #: ../../changes.rst:67
 msgid ":ref:`labels` now include description to explain them."
-msgstr ""
+msgstr ":ref:`labels` をラベルを説明する説明を含むように改良。"
 
 #: ../../changes.rst:68
 #, fuzzy
@@ -26681,7 +26706,8 @@ msgstr "今後、コンポーネントの翻訳を防ぎます。"
 msgid ""
 ":ref:`mt-openai` now supports custom models and URLs and offers rephrasing "
 "of existing strings."
-msgstr ""
+msgstr ":ref:`mt-openai` をカスタム モデルと URL "
+"に対応、既存の文字列の言い換えも提供できるように改良。"
 
 #: ../../changes.rst:70
 #, fuzzy
@@ -26702,11 +26728,12 @@ msgstr ""
 msgid ""
 "The status widgets are now supported site-wide and language-wide, see :ref:"
 "`promotion`."
-msgstr ""
+msgstr "ステータスウィジェットを、現在サイト全体および言語全体に対応、参照: "
+":ref:`promotion`。"
 
 #: ../../changes.rst:76
 msgid ":ref:`reports` are now available for categories."
-msgstr ""
+msgstr "ref:`reports` をカテゴリーに対応。"
 
 #: ../../changes.rst:77
 #, fuzzy
@@ -26722,7 +26749,7 @@ msgstr ":doc:`/formats/excel` は空白セルをより適切に処理します�
 
 #: ../../changes.rst:79
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
-msgstr ""
+msgstr "閲覧モードを、キーボードを使用した操作に対応、参照: :ref:`keyboard`。"
 
 #: ../../changes.rst:80
 #, fuzzy
@@ -26746,6 +26773,9 @@ msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
 msgstr ""
+"用語集の :ref:`glossary-terminology` "
+"エントリを、:guilabel:`用語集の用語の追加` "
+"権限を持つユーザーのみが作成できるように改良。"
 
 #: ../../changes.rst:82
 #, fuzzy
@@ -26761,11 +26791,12 @@ msgstr "WebP を :ref:`screenshots` に対応。"
 
 #: ../../changes.rst:87
 msgid "Accessibility of keyboard navigation."
-msgstr ""
+msgstr "キーボード操作の操作性の改良。"
 
 #: ../../changes.rst:88
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
-msgstr ""
+msgstr ":ref:`git-exporter` が、すべての Git ベースの :ref:`vcs` "
+"で動作するように改良。"
 
 #: ../../changes.rst:89
 #, fuzzy
@@ -26776,23 +26807,27 @@ msgstr ""
 
 #: ../../changes.rst:93
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
-msgstr ""
+msgstr "Weblate の Markdown レンダラーを misaka から mistletoe に変更。"
 
 #: ../../changes.rst:94
 msgid ":ref:`csp` is now stricter what might block third-party customizations."
-msgstr ""
+msgstr "ref:`csp`は厳格化され、サードパーティによる変更をブロックすることがある。"
 
 #: ../../changes.rst:95
 msgid ""
 "Monolingual formats no longer copy comments from :ref:`component-template` "
 "when adding strings to translation."
-msgstr ""
+msgstr "モノリンガル形式では、文字列を翻訳に追加する際に、:ref:`component-template` "
+"からコメントをコピーされないように改良。"
 
 #: ../../changes.rst:96
 msgid ""
 "Dropped support for Amagama in :ref:`machine-translation-setup` as the "
 "service is no longer maintained."
 msgstr ""
+":ref:`machine-translation-"
+"setup`で、サービスがもはやメンテナンスされていないため、Amagama "
+"への対応を中止。"
 
 #: ../../changes.rst:97
 #, fuzzy
@@ -26804,7 +26839,7 @@ msgstr "BASE_DIR のデフォルト値を変更。"
 msgid ""
 "Translation credit reports in the JSON format now follows a different format "
 "for entries."
-msgstr ""
+msgstr "JSON 形式の信用情報レポートの項目のフォーマットを変更。"
 
 #: ../../changes.rst:104
 #, fuzzy
@@ -26828,6 +26863,9 @@ msgid ""
 "use HTTPS, please silence related check as described in :setting:"
 "`ENABLE_HTTPS` documentation."
 msgstr ""
+"WebAuthn に対応するには、:setting:`ENABLE_HTTPS` の設定を有効にしてください。"
+"HTTPS を使用できない場合は、:setting:`ENABLE_HTTPS` "
+"のドキュメントに記載されている方法で、関連するチェックを無効化してください。"
 
 #: ../../changes/contributors/5.7.rst:3
 msgid ""
@@ -26835,6 +26873,9 @@ msgid ""
 "Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
 "michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey, Bastien Montagne"
 msgstr ""
+"Michal Čihař、João Ferreira、Paul Harriet Asiñero、gers、Benjamin Alan "
+"Jamie、John R. D'Orazio、Tobias Schlatter、Max Wittig、Mehdi Eloualy"
+"、michael-smt、Jochen Sprickerhof、Vincent、Dwayne Bailey、Bastien Montagne"
 
 #: ../../changes/contributors/5.7.rst:6
 msgid ""
@@ -26849,12 +26890,24 @@ msgid ""
 "Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
 "Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 msgstr ""
+"Jose Delvani、Julija Juli、Andi Chandler、pan93412、Milo "
+"Ivir、gallegonovato、ngocanhtve、kapatych、Marco Ciampa、Balázs Úr、Artemka、"
+"Ricky From Hong Kong、Massimo Pissarello、dreigiau、Ihor Hordiichuk、Allan "
+"Nordhøy、Selyan Sliman Amiri、iwonder、Besnik Bleta、Nathan、yangyangdaji、"
+"Priit Jõerüüt、Aindriú Mac Giolla Eoin、Diego Beraldin、Marino Díaz、پرویز "
+"قادر、Horus68、ssantos、M. D. Kulkarni (MDK)、Miguel A. Bouzada、A. "
+"Bento、mpt.c、ovl-1、Fjuro、Luna、Antônio Breno、alefsanderribeiro、"
+"Alefsander Ribeiro Nascimento、Ian Perdiansah、amano、Petter Reinholdtsen、"
+"Malik Shoaib、Emin Tufan Çetin、John kh、Сергей、tygyh、Semih、Balázs Meskó、"
+"Martin Najemi、Yaron Shahrabani、Rhoslyn Prys"
 
 #: ../../changes/contributors/5.7.rst:9
 msgid ""
 "Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
 "Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 msgstr ""
+"Michal Čihař、Benjamin Alan Jamie、Paul Harriet Asiñero、Allan Nordhøy、Max "
+"Wittig、Mehdi Eloualy、Vincent、LE MEILLAT、gers、lotigara"
 
 #: ../../changes.rst:111
 msgid ""
@@ -26886,7 +26939,7 @@ msgstr "送信コミットのより詳細なステータス追加。"
 
 #: ../../changes.rst:122
 msgid ":ref:`addons` button layout."
-msgstr ""
+msgstr ":ref:`addons` ボタンのレイアウト。"
 
 #: ../../changes.rst:123
 #, fuzzy
@@ -26905,6 +26958,8 @@ msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / "
 "GHSA-jfgp-674x-6q4p)."
 msgstr ""
+"復元時の :ref:`projectbackup` ZIP ファイルの検証 (CVE-2024-39303 / GHSA-jfgp-"
+"674x-6q4p)。"
 
 #: ../../changes.rst:131
 #, fuzzy
@@ -26936,10 +26991,14 @@ msgid ""
 "`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :"
 "envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` for CORS handling in API."
 msgstr ""
+"Docker コンテナは、自動提案サービスをカスタマイズするための "
+":envvar:`WEBLATE_REMOVE_ADDONS` と :envvar:`WEBLATE_ADD_MACHINERY` と、API "
+"での CORS 処理のための :envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` "
+"を受け入れます。"
 
 #: ../../changes.rst:141
 msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
-msgstr ""
+msgstr ":http:get:`/api/metrics/` に OpenMetrics 互換性を追加。"
 
 #: ../../changes.rst:145
 #, fuzzy
@@ -26973,7 +27032,7 @@ msgstr "2020 年 6 月 19 日にリリース。"
 
 #: ../../changes.rst:160
 msgid ":ref:`addons` activity log for tracking add-on activity."
-msgstr ""
+msgstr "アドオンの活動を追跡するための :ref:`addons` 活動ログ。"
 
 #: ../../changes.rst:161
 #, fuzzy
@@ -26983,7 +27042,7 @@ msgstr "プロフィールの言語選択の UX を改良。"
 
 #: ../../changes.rst:165
 msgid ":ref:`subscriptions` now include strings which need updating."
-msgstr ""
+msgstr ":ref:`subscriptions` に更新が必要な文字列が含まれるように改良。"
 
 #: ../../changes.rst:166
 #, fuzzy
@@ -27001,11 +27060,12 @@ msgstr "上流の変更点のマージを改良。"
 msgid ""
 "Gracefully handle temporary machine translation errors in automatic "
 "suggestions."
-msgstr ""
+msgstr "自動提案における一時的な機械翻訳エラーを適切に処理。"
 
 #: ../../changes.rst:169
 msgid ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
-msgstr ""
+msgstr ":http:get:`/api/units/(int:id)/` に、`last_updated` "
+"のタイムスタンプを含まように改良."
 
 #: ../../changes.rst:170
 #, fuzzy
@@ -27083,7 +27143,7 @@ msgstr "2024 年 5 月 9 日にリリース。"
 
 #: ../../changes.rst:198
 msgid "False-positive merge failure alert when using push branch."
-msgstr ""
+msgstr "プッシュ ブランチの使用時に、誤検知のマージ失敗アラートが発生。"
 
 #: ../../changes.rst:199
 #, fuzzy
@@ -27123,11 +27183,12 @@ msgstr "管理に :ref:`addons` 履歴タブ追加。"
 
 #: ../../changes.rst:216
 msgid "New :ref:`alerts` when :ref:`glossary` might not work as expected."
-msgstr ""
+msgstr ":ref:`glossary` が期待どおりに動作しない場合に通知する新しい :ref:`alerts` "
+"の追加。"
 
 #: ../../changes.rst:217
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
-msgstr ""
+msgstr ":doc:`/admin/announcements` は project/language スコープに投稿できます."
 
 #: ../../changes.rst:221
 msgid "Improved handling placeables in :ref:`mt-openai`."
@@ -36863,6 +36924,8 @@ msgid ""
 "Git commits should follow `Conventional Commits <https://www."
 "conventionalcommits.org/>`_ specification."
 msgstr ""
+"Git コミットは `Conventional Commits <https://www.conventionalcommits.org/>`"
+"_ 仕様に従う必要があります。"
 
 #: ../../contributing/snippets/pre-commit.rst:2
 msgid "Coding standard and linting the code"
@@ -37250,16 +37313,21 @@ msgid ""
 "how to install and manage 3rd party libraries used by the `client side` of "
 "Weblate using `Webpack`."
 msgstr ""
+"Django プロジェクトの `クライアント` で `サードパーティ` のライブラリをインス"
+"トールおよび管理することは手間がかかります。このドキュメントでは、`Webpack` "
+"を使用して Weblate の `クライアント側` で使用するサードパーティのライブラリを"
+"インストールおよび管理する方法を提供しています。"
 
 #: ../../contributing/frontend.rst:26
 msgid "Prerequisites"
-msgstr ""
+msgstr "前提条件"
 
 #: ../../contributing/frontend.rst:28
 msgid ""
 "Before proceeding with an installation, make sure you have the following "
 "prerequisites:"
-msgstr ""
+msgstr "インストールを続行する前に、次の前提条件を満たしていることを確認してください"
+"。"
 
 #: ../../contributing/frontend.rst:30
 #, fuzzy
@@ -37269,15 +37337,15 @@ msgstr "ノード数"
 
 #: ../../contributing/frontend.rst:31
 msgid "Yarn package manager installed on your system."
-msgstr ""
+msgstr "Yarn パッケージ マネージャーがシステムにインストール済み。"
 
 #: ../../contributing/frontend.rst:32
 msgid "Run ``cd client``."
-msgstr ""
+msgstr "``cd client`` を実行。"
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``yarn install``"
-msgstr ""
+msgstr "``yarn install`` を実行。"
 
 #: ../../contributing/frontend.rst:36
 #, fuzzy
@@ -37299,62 +37367,71 @@ msgstr "Weblate へのインポート"
 
 #: ../../contributing/frontend.rst:47
 msgid "Then, there are two ways to import the library:"
-msgstr ""
+msgstr "次に、ライブラリをインポートする 2 つの方法:"
 
 #: ../../contributing/frontend.rst:49
 msgid "If it is a project-wide library (it is used/needed in all/most pages):"
-msgstr ""
+msgstr "プロジェクト全体のライブラリである場合（すべてのページまたはほとんどのページ"
+"で使用または必要となる場合）:"
 
 #: ../../contributing/frontend.rst:50
 msgid "Import the library in ``src/main.js``."
-msgstr ""
+msgstr "``src/main.js`` ファイルにライブラリをインポートする。"
 
 #: ../../contributing/frontend.rst:52
 msgid ""
 "If it is page-specific library (library is used in a specific page or "
 "template):"
-msgstr ""
+msgstr "ページ固有のライブラリの場合（ライブラリが特定のページまたはテンプレートで使"
+"用されている場合）:"
 
 #: ../../contributing/frontend.rst:53
 msgid "Create a new file named ``src/<lib-name>.js``."
-msgstr ""
+msgstr "``src/<lib-name>.js`` という新しいファイル名を作成する。"
 
 #: ../../contributing/frontend.rst:54
 msgid "Import the library in it."
-msgstr ""
+msgstr "その中にライブラリをインポートする。"
 
 #: ../../contributing/frontend.rst:55
 msgid ""
 "Add an entry in ``webpack.config.js``: ``<lib-name>: \"src/<lib-name>.js\"``."
 msgstr ""
+"``webpack.config.js``:``<lib-name>: \"src/<lib-name>.js\"`` "
+"にエントリーを追加する。"
 
 #: ../../contributing/frontend.rst:58
 msgid ""
 "Note: Replace ``<lib-name>`` with the actual name of the 3rd party library."
-msgstr ""
+msgstr "注意: ``<lib-name>`` を実際のサードパーティ "
+"ライブラリの名前に置き換えてください。"
 
 #: ../../contributing/frontend.rst:61
 msgid "3- Building the Library"
-msgstr ""
+msgstr "3 - ライブラリーの構築"
 
 #: ../../contributing/frontend.rst:63
 msgid "Build the libraries used by the project, run the following command:"
-msgstr ""
+msgstr "プロジェクトで使用するライブラリをビルドするために実行するコマンド:"
 
 #: ../../contributing/frontend.rst:70
 msgid "4- Including the Library"
-msgstr ""
+msgstr "4 - ライブラリのインポート"
 
 #: ../../contributing/frontend.rst:72
 msgid ""
 "Now the library is built and ready for use. To include it follow these steps:"
-msgstr ""
+msgstr "これでライブラリが構築され、使用できるようになりました。ライブラリを追加する"
+"方法:"
 
 #: ../../contributing/frontend.rst:74
 msgid ""
 "If the library was imported in ``src/main.js``, no further steps are "
 "required (as it is already included in ``base.html``)."
 msgstr ""
+"もし、ライブラリが ``src/main.js`` "
+"にインポートされている場合、追加の手順は必要ありません（すでに ``base.html`` "
+"に含まれているため）。"
 
 #: ../../contributing/frontend.rst:76
 msgid ""
@@ -37362,6 +37439,9 @@ msgid ""
 "``weblate/templates``` use the include tags to link to the built static "
 "JavaScript file:"
 msgstr ""
+"ライブラリが特定のファイル ``src/<lib-name>.js`` にインポートされた場合は、 "
+"``weblate/templates`` で include タグを使用して、構築された静的 JavaScript "
+"ファイルにリンクします。"
 
 #: ../../contributing/frontend.rst:84
 msgid "Coding style"
@@ -37572,6 +37652,9 @@ msgid ""
 "are in `docs/requirements.txt`. You will also need :program:`graphviz` to "
 "build the documentation."
 msgstr ""
+"ドキュメントはローカルで編集およびビルドすることもできます。Python "
+"の必要条件は `docs/requirements.txt` に記載されています。また、"
+"ドキュメントをビルドするには :program:`graphviz` も必要です。"
 
 #: ../../contributing/index.rst:61
 msgid ""
@@ -37714,15 +37797,15 @@ msgstr "24eme.fr"
 
 #: ../../../BACKERS.rst:24
 msgid "Fotema Gallery App"
-msgstr ""
+msgstr "Fotema Gallery App"
 
 #: ../../../BACKERS.rst:25
 msgid "`Newpipe e.V. <https://newpipe-ev.de>`_"
-msgstr ""
+msgstr "`Newpipe e.V. <https://newpipe-ev.de>`_"
 
 #: ../../../BACKERS.rst:26
 msgid "Daniel Leidert"
-msgstr ""
+msgstr "Daniel Leidert"
 
 #: ../../../BACKERS.rst:28
 msgid ""
@@ -37999,6 +38082,9 @@ msgid ""
 "policies that are geared toward delivering timely security updates to "
 "Weblate."
 msgstr ""
+"Weblate の開発チームは、セキュリティ関連の問題を責任を持って報告し、開示する"
+"ことに全力で取り組んでいます。私たちは、Weblate にタイムリーなセキュリティ更"
+"新を提供することを目的としたポリシーを採用し、それに従っています。"
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -38007,6 +38093,9 @@ msgid ""
 "sensitive nature of security issues, we ask that they not be publicly "
 "reported in this fashion."
 msgstr ""
+"Weblate の通常のバグのほとんどは、公開済みの `GitHub 課題管理ツール "
+"<https://github.com/WeblateOrg/weblate/issues>`_ で報告していますが、セキュリ"
+"ティ問題は機密性が高いため、この形式で公開報告しないようにお願いします。"
 
 #: ../../contributing/issues.rst:30
 msgid ""
@@ -38015,16 +38104,21 @@ msgid ""
 "org, `GitHub <https://github.com/WeblateOrg/weblate/security/advisories/"
 "new>`_, or using `HackerOne <https://hackerone.com/weblate>`_."
 msgstr ""
+"代わりに、Weblate でセキュリティに関する問題を発見した場合、security@weblate."
+"org、`GitHub <https://github.com/WeblateOrg/weblate/security/advisories/"
+"new>`_、または `HackerOne <https://hackerone.com/weblate>`_ "
+"を使用して、問題の説明を送信してください。"
 
 #: ../../contributing/issues.rst:35
 msgid ""
 "A member of the security team will respond to you within 48 hours, and "
 "depending on what action is taken, you may get more follow-up emails."
-msgstr ""
+msgstr "セキュリティ チームのメンバーが 48 時間以内に返信し、その対応に基づいて、"
+"さらなるフォローアップ メールが届くこともあります。"
 
 #: ../../contributing/issues.rst:40
 msgid "**Sending encrypted reports**"
-msgstr ""
+msgstr "**暗号化したレポートの送信**"
 
 #: ../../contributing/issues.rst:42
 #, fuzzy
@@ -39322,7 +39416,7 @@ msgstr "テストスイートをローカルで実行するコマンド:"
 
 #: ../../contributing/tests.rst:65
 msgid "Running an individual test file:"
-msgstr ""
+msgstr "個々のテストファイルの実行:"
 
 #: ../../contributing/tests.rst:72
 #, fuzzy
@@ -39332,7 +39426,7 @@ msgstr "Docker を使用したインストール"
 
 #: ../../contributing/tests.rst:74
 msgid "Alternatively, Django built-in tests should also work:"
-msgstr ""
+msgstr "または、Django 付属のテスト機能を実行する方法:"
 
 #: ../../contributing/tests.rst:82
 msgid ""
@@ -40186,6 +40280,8 @@ msgid ""
 "Additionally, components within projects can be structured using categories. "
 "Components can belong to a category, and categories can be nested."
 msgstr ""
+"さらに、プロジェクト内のコンポーネントは、カテゴリを使用して構造化できます。"
+"コンポーネントはカテゴリに属することができ、カテゴリは入れ子にできます。"
 
 #: ../../snippets/basics.rst:17
 msgid ""
@@ -40455,6 +40551,10 @@ msgid ""
 "buttons :guilabel:`Singular` and :guilabel:`Plural` inside the form. Select "
 "the appropriate form of the new translation string to be added."
 msgstr ""
+"手動で、原文言語の :guilabel:`ツール` メニューから "
+":guilabel:`新しい翻訳文字列を追加` を使用します。フォーム内のラジオ ボタン "
+":guilabel:`単数形` と :guilabel:`複数形` "
+"を選択できます。追加する新しい翻訳文字列の適切な形式を選択します。"
 
 #: ../../devel/integration.rst:82
 msgid ""
@@ -40535,6 +40635,8 @@ msgid ""
 "Source string extraction tools, such as :program:`xgettext` or :program:"
 "`lupdate`, need to be executed outside of Weblate."
 msgstr ""
+":program:`xgettext` や :program:`lupdate` などの原文抽出ツールは、Weblate "
+"の外部での実行が必要です。"
 
 #: ../../devel/integration.rst:114
 msgid ""
@@ -43247,7 +43349,8 @@ msgstr "アプリケーションを翻訳するための Android 固有のファ
 msgid ""
 "The same file format is also used by JetBrains Compose Multiplatform Kotlin "
 "Resources."
-msgstr ""
+msgstr "同じファイル形式は、JetBrains Compose Multiplatform Kotlin Resources "
+"でも使用されます。"
 
 #: ../../formats/android.rst:14
 msgid ""
@@ -43399,7 +43502,7 @@ msgstr "`Android 文字列リソース`"
 #: ../../formats/android.rst:82
 msgid ""
 "Weblate configuration for JetBrains Compose Multiplatform Kotlin Resources"
-msgstr ""
+msgstr "JetBrains Compose Multiplatform Kotlin Resources 用の Weblate 設定"
 
 #: ../../formats/android.rst:87
 msgid "``commonMain/composeResources/values-*/strings.xml``"
@@ -43910,6 +44013,10 @@ msgid ""
 "include these, :program:`msgmerge` has to be executed with ``--previous`` "
 "and the resulting PO file then contains lines such as:"
 msgstr ""
+"Weblate は、PO ファイルに以前のソース文字列が存在する場合、それを抽出して、編"
+"集が必要な文字列の差異を表示できます。この機能を利用するには、:program:`msgme"
+"rge` を ``--previous`` オプション付きで実行し、生成された PO "
+"ファイルに以下のような行を含めることが必要です:"
 
 #: ../../formats/gettext.rst:44
 msgid "PO file header"
@@ -44604,6 +44711,9 @@ msgid ""
 "different format which matches :doc:`/formats/android`, please use that "
 "instead."
 msgstr ""
+"JetBrains Compose Multiplatform Kotlin Resources という別の形式もあり、"
+"これは :doc:`/formats/android` "
+"と互換性があります。代わりにこの形式を使用してください。"
 
 #: ../../formats/moko.rst:23
 msgid "``shared/src/commonMain/resources/MR/*/plurals.xml``"
@@ -45490,7 +45600,7 @@ msgstr "統計"
 
 #: ../../../README.rst:72
 msgid "Repobeats analytics image"
-msgstr ""
+msgstr "Repobeats 分析画像"
 
 #: ../../../README.rst:85
 msgid ""
@@ -50196,6 +50306,9 @@ msgid ""
 "strings can be performed as ``state:>=translated``, searching for strings "
 "needing translation as ``state:<translated``."
 msgstr ""
+"このフィールドは、:ref:`search-operators` にも対応しているため、"
+"翻訳済みの文字列を検索するには ``state:>=translated``、"
+"要編集の文字列を検索するには ``state:<translated`` と検索します。"
 
 #: ../../user/search.rst:51
 msgid "``pending:BOOLEAN``"
@@ -50227,7 +50340,7 @@ msgstr "``is:TEXT``"
 
 #: ../../user/search.rst:56
 msgid "Filters string on a condition:"
-msgstr ""
+msgstr "条件に基づいた文字列のフィルタリング:"
 
 #: ../../user/search.rst:58
 msgid "``read-only`` or ``readonly``"
