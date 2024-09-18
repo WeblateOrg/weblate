@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-18 09:31+0000\n"
+"PO-Revision-Date: 2024-09-18 12:11+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -23921,33 +23921,19 @@ msgid "Generic upgrade instructions"
 msgstr "Allgemeine Upgrade-Anweisungen"
 
 #: ../../admin/upgrade.rst:20
-#, fuzzy
-#| msgid ""
-#| "Before upgrading, please check the current :ref:`requirements` as they "
-#| "might have changed. Once all requirements are installed or updated, "
-#| "please adjust your :file:`settings.py` to match changes in the "
-#| "configuration (consult :file:`settings_example.py` for correct values)."
 msgid ""
 "Always look for new changes to :ref:`requirements` before upgrading. Once "
 "all requirements are installed or upgraded, ensure your :file:`settings.py` "
 "matches the changes in the configuration (consult :file:`settings_example."
 "py` for correct values)."
 msgstr ""
-"Bevor Sie ein Upgrade durchführen, überprüfen Sie bitte die aktuellen :ref:"
-"`requirements`, da sich diese geändert haben könnten. Sobald alle "
-"Anforderungen installiert oder aktualisiert sind, passen Sie bitte Ihre :"
-"file:`settings.py` an die Änderungen in der Konfiguration an (siehe :file:"
-"`settings_example.py` für korrekte Werte)."
+"Suchen Sie immer nach neuen Änderungen der :ref:`requirements`, bevor Sie "
+"ein Upgrade durchführen. Sobald alle Anforderungen installiert oder "
+"aktualisiert sind, stellen Sie sicher, dass die :file:`settings.py` mit den "
+"Änderungen in der Konfiguration übereinstimmt (siehe :file:`settings_example."
+"py` für korrekte Werte)."
 
 #: ../../admin/upgrade.rst:25
-#, fuzzy
-#| msgid ""
-#| "Always check :ref:`version-specific-instructions` before upgrade. In case "
-#| "you are skipping some versions, please follow instructions for all "
-#| "versions you are skipping in the upgrade. Sometimes it's better to "
-#| "upgrade to some intermediate version to ensure a smooth migration. "
-#| "Upgrading across multiple releases should work, but is not as well tested "
-#| "as single version upgrades."
 msgid ""
 "Always check :ref:`version-specific-instructions` before upgrading. If you "
 "are skipping any version(s), be sure to follow instructions for all versions "
@@ -23957,38 +23943,35 @@ msgid ""
 "version upgrades!"
 msgstr ""
 "Prüfen Sie vor dem Upgrade immer die :ref:`versionsspezifischen Anweisungen "
-"<version-specific-instructions>`. Bitte folgen Sie den Anweisungen für alle "
-"Versionen, die sie eventuell beim Upgrade überspringen. Manchmal ist es "
-"besser, ein Upgrade auf eine Zwischenversion durchzuführen, um eine "
-"reibungslose Migration zu gewährleisten. Upgrades über mehrere Versionen "
-"hinweg sollten funktionieren, sind aber nicht so gut getestet wie Upgrades "
-"einzelner Versionen."
+"<version-specific-instructions>`. Wenn Sie eine oder mehrere Versionen "
+"überspringen, befolgen Sie unbedingt die Anweisungen für alle Versionen, die "
+"Sie während eines solchen Upgrades überspringen. Manchmal ist es besser, "
+"schrittweise auf eine Zwischenversion zu aktualisieren, um eine reibungslose "
+"Migration zu gewährleisten. Upgrades über mehrere Versionen hinweg sollten "
+"funktionieren, sind aber nicht so gut getestet wie Upgrades einzelner "
+"Versionen!"
 
 #: ../../admin/upgrade.rst:33
-#, fuzzy
-#| msgid ""
-#| "It is recommended to perform a full database backup prior to upgrade so "
-#| "that you can roll back the database in case upgrade fails, see :doc:"
-#| "`backup`."
 msgid ""
 "Always back up the full database before upgrading, so that you can roll back "
 "the database if the upgrade fails, see :doc:`backup`."
 msgstr ""
-"Es wird empfohlen, vor dem Upgrade eine vollständige Datenbanksicherung "
-"durchzuführen, damit Sie bei einem fehlgeschlagenen Upgrade die Datenbank "
-"zurücksetzen können, siehe :doc:`backup`."
+"Sichern Sie immer die gesamte Datenbank, bevor Sie ein Upgrade durchführen, "
+"damit Sie die Datenbank zurücksetzen können, wenn das Upgrade fehlschlägt, "
+"siehe :doc:`backup`."
 
 #: ../../admin/upgrade.rst:36
 msgid ""
 "Stop the WSGI and Celery processes to avoid old processes running while "
 "upgrading. Otherwise incompatible changes in the database might occur."
 msgstr ""
+"Die WSGI- und Celery-Prozesse stoppen, um zu vermeiden, dass alte Prozesse "
+"während des Upgrades weiterlaufen. Andernfalls kann es zu inkompatiblen "
+"Änderungen in der Datenbank kommen."
 
 #: ../../admin/upgrade.rst:39
-#, fuzzy
-#| msgid "Upgrading Weblate"
 msgid "Upgrade Weblate"
-msgstr "Aktualisieren von Weblate"
+msgstr "Weblate aktualisieren"
 
 #: ../../admin/upgrade.rst:41
 msgid "For pip installs it can be achieved by:"
@@ -24005,44 +23988,33 @@ msgstr ""
 "dies:"
 
 #: ../../admin/upgrade.rst:59
-#, fuzzy
-#| msgid ""
-#| "With Git checkout you need to fetch new source code and update your "
-#| "installation:"
 msgid ""
 "Using Git checkout, you need to fetch new source code and update your "
 "installation:"
 msgstr ""
-"Beim Git-Checkout müssen Sie den neuen Quellcode abrufen und Ihre "
+"Mithilfe von Git-Checkout müssen Sie den neuen Quellcode abrufen und Ihre "
 "Installation aktualisieren:"
 
 #: ../../admin/upgrade.rst:72
-#, fuzzy
-#| msgid ""
-#| "New Weblate release might have new :ref:`python-deps`, please check if "
-#| "they cover features you want."
 msgid ""
 "New Weblate releases might have new :ref:`python-deps`, check if they cover "
 "the features you want."
 msgstr ""
-"Neue Weblate-Versionen haben möglicherweise neue :ref:`python-deps`, bitte "
-"prüfen, ob die gewünschten Funktionen abgedeckt werden."
+"Neue Weblate-Versionen haben möglicherweise neue :ref:`python-deps`, prüfen "
+"Sie, ob diese die gewünschten Funktionen abdecken."
 
 #: ../../admin/upgrade.rst:75
-#, fuzzy
-#| msgid ""
-#| "Upgrade configuration file, refer to :file:`settings_example.py` or :ref:"
-#| "`version-specific-instructions` for needed steps."
 msgid ""
 "Upgrade the configuration file by following either :file:`settings_example."
 "py`, or :ref:`version-specific-instructions`."
 msgstr ""
-"Konfigurationsdatei aktualisieren, siehe :file:`settings_example.py` oder :"
-"ref:`version-specific-instructions` für die notwendigen Schritte."
+"Die Konfigurationsdatei aktualisieren, indem Sie entweder "
+":file:`settings_example.py`, oder :ref:`version-specific-instructions` "
+"befolgen."
 
 #: ../../admin/upgrade.rst:78
 msgid "Upgrade the database:"
-msgstr "Aktualisieren der Datenbank:"
+msgstr "Die Datenbank aktualisieren:"
 
 #: ../../admin/upgrade.rst:84
 msgid ""
@@ -24059,17 +24031,13 @@ msgstr ""
 "compress`):"
 
 #: ../../admin/upgrade.rst:96
-#, fuzzy
-#| msgid ""
-#| "If you are running version from Git, you should also regenerate locale "
-#| "files every time you are upgrading. You can do this by invoking:"
 msgid ""
 "If you are running an installation from Git, you should also regenerate "
 "locale files every time you upgrade. You can do this by invoking:"
 msgstr ""
-"Wenn eine Version von Git verwendet wird, sollten bei jedem durchgeführten "
-"Upgrade auch die Gebietsschemadateien jedes Mal neu generiert werden. Dies "
-"kann durch folgenden Aufruf erfolgen:"
+"Wenn Sie eine Installation von Git aus betrieben, sollten bei jedem Upgrade "
+"auch die Gebietsschemadateien neu generiert werden. Dies kann durch "
+"folgenden Aufruf erfolgen:"
 
 #: ../../admin/upgrade.rst:103
 msgid "Verify that your setup is sane (see also :ref:`production`):"
@@ -24149,99 +24117,70 @@ msgid "Migrating from other databases to PostgreSQL"
 msgstr "Migration von anderen Datenbanken zu PostgreSQL"
 
 #: ../../admin/upgrade.rst:143
-#, fuzzy
-#| msgid ""
-#| "If you are running Weblate on other dabatase than PostgreSQL, you should "
-#| "consider migrating to PostgreSQL as Weblate performs best with it. The "
-#| "following steps will guide you in migrating your data between the "
-#| "databases. Please remember to stop both web and Celery servers prior to "
-#| "the migration, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are not running Weblate with a different database than PostgreSQL, "
 "consider migrating to PostgreSQL for better performance by doing the "
 "following steps. Remember to stop both, the web and Celery servers "
 "beforehand, otherwise you might end up with inconsistent data."
 msgstr ""
-"Wenn Sie Weblate auf einer anderen Datenbank als PostgreSQL betreiben, "
-"sollten Sie eine Migration zu PostgreSQL in Betracht ziehen, da Weblate "
-"damit am besten funktioniert. Die folgenden Schritte werden Sie bei der "
-"Migration Ihrer Daten zwischen den Datenbanken anleiten. Bitte denken Sie "
-"daran, sowohl den Web- als auch den Celery-Server vor der Migration zu "
-"stoppen, da es sonst zu inkonsistenten Daten kommen kann."
+"Wenn Sie Weblate mit einer anderen Datenbank als PostgreSQL betreiben, "
+"sollten Sie eine Migration zu PostgreSQL in Erwägung ziehen, um eine bessere "
+"Leistung zu erzielen, indem Sie die folgenden Schritte durchführen. Denken "
+"Sie daran, vorher sowohl den Web- als auch den Celery-Server zu stoppen, da "
+"es sonst zu inkonsistenten Daten kommen kann."
 
 #: ../../admin/upgrade.rst:151
-#, fuzzy
-#| msgid ""
-#| "It is usually a good idea to run Weblate in a separate database, and "
-#| "separate user account:"
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and a "
 "separate user account:"
 msgstr ""
-"Normalerweise ist es eine gute Idee, Weblate in einer separaten Datenbank "
-"und unter einem separaten Benutzerkonto laufen zu lassen:"
+"In der Regel ist es ratsam, Weblate in einer separaten Datenbank und einem "
+"separaten Benutzerkonto zu betreiben:"
 
 #: ../../admin/upgrade.rst:167
 msgid "Migrating to PostgreSQL using pgloader"
 msgstr "Migration zu PostgreSQL mit pgloader"
 
 #: ../../admin/upgrade.rst:169
-#, fuzzy
-#| msgid ""
-#| "The `pgloader`_ is a generic migration tool to migrate data to "
-#| "PostgreSQL. You can use it to migrate Weblate database."
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate your Weblate database."
 msgstr ""
 "Der `pgloader`_ ist ein allgemeines Migrationswerkzeug für die Migration von "
-"Daten nach PostgreSQL. Sie können es verwenden, um Weblate-Datenbanken zu "
-"migrieren."
+"Daten nach PostgreSQL. Sie können es verwenden, um Ihre Weblate-Datenbanken "
+"zu migrieren."
 
 #: ../../admin/upgrade.rst:172
-#, fuzzy
-#| msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as database."
-msgstr ""
-":file:`settings.py` anpassen, um PostgreSQL als Datenbank zu verwenden."
+msgstr ":file:`settings.py` anpassen, um PostgreSQL als Datenbank zu verwenden."
 
 #: ../../admin/upgrade.rst:174
 msgid "Migrate the schema in the PostgreSQL database:"
 msgstr "Das Schema in der PostgreSQL-Datenbank migrieren:"
 
 #: ../../admin/upgrade.rst:181
-#, fuzzy
-#| msgid ""
-#| "Run the pgloader to transfer the data. The following script can be used "
-#| "to migrate the database, but you might want to learn more about "
-#| "`pgloader`_ to understand what it does and tweak it to match your setup:"
 msgid ""
 "3. Run the pgloader to transfer the data. The following script can be used "
 "to migrate the database, but you might want to learn more about `pgloader`_ "
 "to better understand what it does, and tweak it to match your setup:"
 msgstr ""
-"Den pgloader ausführen, um die Daten zu übertragen. Das folgende Skript kann "
-"verwendet werden, um die Datenbank zu migrieren, aber vielleicht möchten Sie "
-"mehr über `pgloader`_ erfahren, um zu verstehen, was es tut und um es an "
-"Ihre Einrichtung anzupassen:"
+"3. Den pgloader ausführen, um die Daten zu übertragen. Das folgende Skript "
+"kann für die Migration der Datenbank verwendet werden, aber vielleicht "
+"möchten Sie mehr über `pgloader`_ erfahren, um besser zu verstehen, was es "
+"tut, und es an Ihre Einrichtung anpassen:"
 
 #: ../../admin/upgrade.rst:203
 msgid "Migrating from Pootle"
 msgstr "Migration von Pootle"
 
 #: ../../admin/upgrade.rst:205
-#, fuzzy
-#| msgid ""
-#| "As Weblate was originally written as replacement from Pootle, it is "
-#| "supported to migrate user accounts from Pootle. You can dump the users "
-#| "from Pootle and import them using :wladmin:`importusers`."
 msgid ""
 "As Weblate was originally written as a replacement for Pootle, it is "
 "supported to migrate the user accounts from it. You can dump the users from "
 "Pootle and import them using :wladmin:`importusers`."
 msgstr ""
 "Da Weblate ursprünglich als Ersatz für Pootle geschrieben wurde, ist es "
-"möglich, Benutzerkonten aus Pootle zu migrieren. Sie können die Benutzer aus "
+"möglich, Benutzerkonten von Pootle zu migrieren. Sie können die Benutzer aus "
 "Pootle auslagern und sie mit :wladmin:`importusers` importieren."
 
 #: ../../api.rst:8
@@ -25130,16 +25069,12 @@ msgstr ""
 "changes/`"
 
 #: ../../api.rst:848
-#, fuzzy
-#| msgid ""
-#| "URL to repository status; see :http:get:`/api/projects/(string:project)/"
-#| "repository/`"
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/projects/(string:"
 "project)/credits/`"
 msgstr ""
-"URL zum Repository-Status; siehe :http:get:`/api/projects/(string:project)/"
-"repository/`"
+"URL zum Mitwirkenden-Nachweis; siehe :http:get:`/api/projects/"
+"(string:project)/credits/`"
 
 #: ../../api.rst:849
 msgid ":ref:`project-translation_review`"
@@ -25489,42 +25424,32 @@ msgid "<json string color"
 msgstr "<json string color"
 
 #: ../../api.rst:1213 ../../api.rst:1791
-#, fuzzy
-#| msgid "Returns statistics for a project."
 msgid "Returns contributor credits for a project."
-msgstr "Gibt Statistiken für ein Projekt zurück."
+msgstr "Gibt Mitwirkenden-Nachweis für ein Projekt zurück."
 
 #: ../../api.rst:1219 ../../api.rst:1797
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Untergrenze ISO-8601-Zeitstempel (obligatorisch)"
 
 #: ../../api.rst:1221 ../../api.rst:1799
 msgid "Upper-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Obergrenze ISO-8601-Zeitstempel (obligatorisch)"
 
 #: ../../api.rst:1223 ../../api.rst:1801
-#, fuzzy
-#| msgid "Language code style"
 msgid "Language code to search for"
-msgstr "Stil des Sprachcodes"
+msgstr "Zu suchender Sprachcode"
 
 #: ../../api.rst:1225 ../../api.rst:1803
-#, fuzzy
-#| msgid "New contributor"
 msgid "Email of the contributor"
-msgstr "Neuer Mitwirkender"
+msgstr "E-Mail-Adresse des Mitwirkenden"
 
 #: ../../api.rst:1226 ../../api.rst:1804
-#, fuzzy
-#| msgid "full name of a user"
 msgid "Full name of the contributor"
-msgstr "Vollständiger Name eines Benutzers"
+msgstr "Vollständiger Name des Mitwirkenden"
 
 #: ../../api.rst:1227 ../../api.rst:1805
-#, fuzzy
-#| msgid "Number of plurals used in the language."
 msgid "Number of changes done in the time range"
-msgstr "Anzahl der in der Sprache verwendeten Pluralformen."
+msgstr "Anzahl der durchgeführten Änderungen im Zeitbereich"
 
 #: ../../api.rst:1234
 msgid ""
@@ -25787,16 +25712,12 @@ msgstr ""
 "(str:uuid)/`"
 
 #: ../../api.rst:1302
-#, fuzzy
-#| msgid ""
-#| "URL to lock status; see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/lock/`"
 msgid ""
 "URL to to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
 msgstr ""
-"URL zum Sperrstatus; siehe :http:get:`/api/components/(string:project)/"
-"(string:component)/lock/`"
+"URL zum Mitwirkenden-Nachweis; siehe :http:get:`/api/components/"
+"(string:project)/(string:component)/credits/`"
 
 #: ../../api.rst:1350
 msgid "Edit a component by a :http:method:`PATCH` request."
@@ -26298,7 +26219,7 @@ msgstr "Hochgeladene Datei"
 
 #: ../../api.rst:2042
 msgid "Author e-mail"
-msgstr "Autor-E-Mail"
+msgstr "Autor-E-Mail-Adresse"
 
 #: ../../api.rst:2043
 msgid "Author name"
@@ -27029,6 +26950,8 @@ msgid ""
 "Metrics can now be exposed in OpenMetrics compatible format with ``?"
 "format=openmetrics``."
 msgstr ""
+"Metriken können jetzt im OpenMetrics-kompatiblen Format mit "
+"``?format=openmetrics`` dargestellt werden."
 
 #: ../../api.rst:2604
 msgid "Number of units"
@@ -27512,11 +27435,12 @@ msgstr "**Verbesserungen**"
 
 #: ../../changes.rst:10
 msgid ":ref:`2fa` remembers last method used by user."
-msgstr ""
+msgstr ":ref:`2fa` merkt sich die letzte vom Benutzer verwendete Methode."
 
 #: ../../changes.rst:11
 msgid "Instead of redirecting, the sign-out now displays a page."
 msgstr ""
+"Anstatt einer Weiterleitung wird beim Abmelden nun eine Seite angezeigt."
 
 #: ../../changes.rst:13 ../../changes.rst:39 ../../changes.rst:85
 #: ../../changes.rst:118 ../../changes.rst:143 ../../changes.rst:173
@@ -27531,10 +27455,10 @@ msgid "**Bug fixes**"
 msgstr "**Fehlerbehebungen**"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid "Updating of translations from the repository in linked components."
-msgstr "Übersetzungsprojekte und Komponenten hinzufügen"
+msgstr ""
+"Aktualisierung von Übersetzungen aus dem Repository in verlinkten "
+"Komponenten."
 
 #: ../../changes.rst:17 ../../changes.rst:91 ../../changes.rst:181
 #: ../../changes.rst:343 ../../changes.rst:449 ../../changes.rst:502
@@ -27607,6 +27531,8 @@ msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
 msgstr ""
+"Aktualisierte Sprachnamen zur besseren Beschreibung der verschiedenen "
+"Skripte und sinitischen Sprachen."
 
 #: ../../changes.rst:37
 msgid ""
