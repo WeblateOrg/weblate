@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 07:52+0000\n"
-"PO-Revision-Date: 2024-05-29 15:12+0000\n"
+"PO-Revision-Date: 2024-09-18 12:11+0000\n"
 "Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -335,33 +335,31 @@ msgid "Add team"
 msgstr "Lisää joukkue"
 
 #: weblate/accounts/forms.py:961
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Name your authentication app"
-msgstr "Käännöksen nimi"
+msgstr "Nimeä todennussovelluksesi"
 
 #: weblate/accounts/forms.py:964
 msgid "Verify the code from the app"
-msgstr ""
+msgstr "Tarkista sovelluksen koodi"
 
 #: weblate/accounts/forms.py:978
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "Entered token is not valid."
-msgstr "Käännös ei ole kelvollista XML:ää"
+msgstr "Syötetty tunnus ei kelpaa."
 
 #: weblate/accounts/forms.py:1046
 msgid "Recovery token"
-msgstr ""
+msgstr "Palautustunnus"
 
 #: weblate/accounts/forms.py:1048
 msgid ""
 "Recovery token can be used just once, mark your token as used after using it."
 msgstr ""
+"Palautustunnusta voi käyttää vain kerran, merkitse tunnuksesi käytetyksi "
+"käytön jälkeen."
 
 #: weblate/accounts/forms.py:1105
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "Syötä koodi sovelluksesta"
 
 #: weblate/accounts/models.py:152
 msgid "Password changed."
@@ -485,7 +483,7 @@ msgstr "Järjestelmänvalvoja on poistanut käyttäjän käytöstä."
 
 #: weblate/accounts/models.py:182
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Puolivuosittainen tuen tilakatsaus näytettiin."
 
 #: weblate/accounts/models.py:183
 #, python-brace-format
@@ -499,26 +497,26 @@ msgstr ""
 
 #: weblate/accounts/models.py:186
 msgid "Two-factor authentication recovery codes were generated"
-msgstr ""
+msgstr "Kaksivaiheiset todennuksen palautuskoodit luotiin"
 
 #: weblate/accounts/models.py:189
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr ""
+msgstr "Kaksivaiheiset todennuksen palautuskoodit katseltiin"
 
 #: weblate/accounts/models.py:191
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "Kaksivaiheinen todennus lisätty: {device}"
 
 #: weblate/accounts/models.py:192
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "Kaksivaiheinen todennus poistettu: {device}"
 
 #: weblate/accounts/models.py:193
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "Kaksivaiheinen todennus sisäänkirjautuminen {device}:a käyttäen"
 
 #: weblate/accounts/models.py:198
 msgid "Configured password to sign in."
@@ -601,7 +599,7 @@ msgstr "Teema"
 #: weblate/accounts/models.py:455
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "Synkronoi järjestelmän kanssa"
 
 #: weblate/accounts/models.py:456
 msgctxt "Theme selection"
@@ -856,12 +854,9 @@ msgid "Parse error occurred"
 msgstr "Tapahtui jäsennysvirhe"
 
 #: weblate/accounts/notifications.py:507
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New string is available for translation"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Uusi teksti käännettäväksi"
+msgstr "Merkkijono on saatavilla käännettäväksi"
 
 #: weblate/accounts/notifications.py:517
 msgctxt "Notification name"
@@ -874,18 +869,14 @@ msgid "Suggestion was added"
 msgstr "Ehdotus lisättiin"
 
 #: weblate/accounts/notifications.py:535
-#, fuzzy
-#| msgid "Message is translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "Viesti on käännetty"
+msgstr "Kieli käännettiin"
 
 #: weblate/accounts/notifications.py:543
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "Tuo käännettynä"
+msgstr "Komponentti käännettiin"
 
 #: weblate/accounts/notifications.py:551
 msgctxt "Notification name"
@@ -1002,29 +993,25 @@ msgstr ""
 
 #: weblate/accounts/templatetags/authnames.py:53
 msgid "Use security key (WebAuthn)"
-msgstr ""
+msgstr "Käytä turva-avainta (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "Tunnistautuminen"
+msgstr "Käytä todennussovellusta (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
-msgstr ""
+msgstr "Käytä palautuskoodeja"
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "Turvallisuuskäytännöt"
+msgstr "Turva-avain (%s)"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Tunnistautuminen"
+msgstr "Todennussovellus (%s)"
 
 #: weblate/accounts/views.py:209 weblate/accounts/views.py:1043
 #: weblate/accounts/views.py:1109 weblate/templates/accounts/reset.html:7
@@ -1107,10 +1094,8 @@ msgid "Sign in"
 msgstr "Kirjaudu"
 
 #: weblate/accounts/views.py:866
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "Kirjaudu ulos"
+msgstr "Uloskirjautunut"
 
 #: weblate/accounts/views.py:972
 msgid "Register e-mail"
@@ -1216,32 +1201,26 @@ msgstr ""
 "muuttaaksesi ilmoitusasetuksia."
 
 #: weblate/accounts/views.py:1629
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
-msgstr "Käyttäjän kutsu poistettiin."
+msgstr "Turva-avain poistettiin."
 
 #: weblate/accounts/views.py:1630
 #, python-format
 msgid "The security key %s was registered."
-msgstr ""
+msgstr "Turva-avain %s rekisteröitiin."
 
 #: weblate/accounts/views.py:1667
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "Käyttäjän kutsu poistettiin."
+msgstr "Todennussovellus poistettiin."
 
 #: weblate/accounts/views.py:1668
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "Todennussovellus %s rekisteröitiin."
 
 #: weblate/accounts/views.py:1801
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Second factor sign in"
-msgstr "Viimeinen sisäänkirjautuminen"
+msgstr "Toisen tekijän sisäänkirjautuminen"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -2074,10 +2053,8 @@ msgstr "Lisää sanastoon merkintä"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "Lisää sanastoon merkintä"
+msgstr "Lisää sanastoterminologiaa"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2627,17 +2604,15 @@ msgstr "Joukkueen järjestelmänvalvojat"
 
 #: weblate/auth/models.py:189
 msgid "The administrator can add or remove users from a team."
-msgstr ""
+msgstr "Ylläpitäjä voi lisätä tai poistaa käyttäjiä joukkueesta."
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:190
 msgid "Enforced two-factor authentication"
-msgstr ""
+msgstr "Pakotettu kaksivaiheinen todennus"
 
 #: weblate/auth/models.py:197
-#, fuzzy
-#| msgid "Redirecting you to the authentication provider."
 msgid "Requires users to have two-factor authentication configured."
-msgstr "Sinut ohjataan tunnistautumispalvelun tarjoajalle."
+msgstr "Edellyttää, että käyttäjillä on kaksivaiheinen todennus määritetty."
 
 #: weblate/auth/models.py:373 weblate/utils/forms.py:70
 #: weblate/utils/validators.py:173
@@ -2725,11 +2700,11 @@ msgstr "Kirjoita olemassa olevan Weblate-tilin nimi tai sähköpostiosoite."
 
 #: weblate/auth/models.py:1074
 msgid "Suggest username for the user. It can be changed later."
-msgstr ""
+msgstr "Ehdota käyttäjälle käyttäjänimeä. Se voidaan muuttaa myöhemmin."
 
 #: weblate/auth/models.py:1083
 msgid "Suggest full name for the user. It can be changed later."
-msgstr ""
+msgstr "Ehdota käyttäjälle koko nimeä. Se voidaan muuttaa myöhemmin."
 
 #: weblate/auth/models.py:1089 weblate/templates/accounts/profile.html:326
 #: weblate/templates/accounts/user.html:266
@@ -2745,6 +2720,7 @@ msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
 msgstr ""
+"Tämä hanke edellyttää kaksivaiheista todennusta; määritä se profiilissasi."
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:175
 #: weblate/templates/translate.html:231
@@ -3621,29 +3597,25 @@ msgid ""
 msgstr ""
 
 #: weblate/checks/fluent/references.py:670
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "Asetukset"
+msgstr "Fluent-viittaukset"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
-msgstr ""
+msgstr "Fluent-viittausten tulee täsmätä"
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "Fluent-syntaksivirhe: {error}."
 
 #: weblate/checks/fluent/syntax.py:46
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "Täytä lähdetekstillä"
+msgstr "Fluent-lähdesyntaksi"
 
 #: weblate/checks/fluent/syntax.py:47
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "Fluent-syntaksivirhe lähteessä"
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
@@ -3683,16 +3655,12 @@ msgid "C format string does not match source"
 msgstr "C-muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:532
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "Perl-muoto"
+msgstr "Perl brace -muoto"
 
 #: weblate/checks/format.py:533
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl brace format string does not match source"
-msgstr "Perl-muotoinen teksti ei vastaa lähdettä"
+msgstr "Perl brace -muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:545
 msgid "Perl format"
@@ -4336,10 +4304,8 @@ msgid ".NET resource file"
 msgstr ".NET-resurssitiedosto"
 
 #: weblate/formats/ttkit.py:1452
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
-msgstr "Android-tekstiresurssi"
+msgstr "Mobiili Kotlin-resurssi"
 
 #: weblate/formats/ttkit.py:1466
 #, python-format
@@ -4464,7 +4430,7 @@ msgstr "Fluent-tiedosto"
 
 #: weblate/formats/txt.py:89
 msgid "Should be a directory with metadata files!"
-msgstr ""
+msgstr "Pitäisi olla hakemisto metatietotiedostoineen!"
 
 #: weblate/formats/txt.py:196
 msgid "App store metadata files"
@@ -4758,7 +4724,7 @@ msgstr "Monikon tyyppi"
 
 #: weblate/lang/models.py:923
 msgid "Example counts for this plural form."
-msgstr ""
+msgstr "Esimerkki laskemista tälle monikkomuodolle."
 
 #: weblate/lang/models.py:932 weblate/templates/translation.html:310
 #: weblate/templates/translation.html:336
@@ -4984,15 +4950,14 @@ msgid "Application base URL"
 msgstr "Sovelluksen pohja URL-osoite"
 
 #: weblate/machinery/forms.py:149
-#, fuzzy
-#| msgid "Authentication"
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service URL"
-msgstr "Tunnistautuminen"
+msgstr "Todennuspalvelun URL"
 
 #: weblate/machinery/forms.py:158
 msgid "Regional or multi-service can be specified using region field below."
 msgstr ""
+"Alueellinen tai monipalvelu voidaan määrittää alla olevalla aluekentällä."
 
 #: weblate/machinery/forms.py:164
 msgctxt "Automatic suggestion service configuration"
@@ -5009,6 +4974,7 @@ msgctxt "Automatic suggestion service configuration"
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
 msgstr ""
+"Määritä mukautettu järjestelmäluokkatunnus käyttääksesi sitä yleisen sijaan."
 
 #: weblate/machinery/forms.py:183
 msgctxt "Automatic suggestion service configuration"
@@ -5018,7 +4984,7 @@ msgstr "Google Kääntäjä -palvelutilin tiedot"
 #: weblate/machinery/forms.py:188
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "Syötä palvelutilille JSON-avain."
 
 #: weblate/machinery/forms.py:193
 msgctxt "Automatic suggestion service configuration"
@@ -5028,7 +4994,7 @@ msgstr "Google Kääntäjä -projekti"
 #: weblate/machinery/forms.py:197
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "Syötä Google Cloud -hankkeesi numeerinen tai aakkosnumeerinen tunnus."
 
 #: weblate/machinery/forms.py:202
 msgctxt "Automatic suggestion service configuration"
@@ -5041,6 +5007,8 @@ msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
 msgstr ""
+"Valitse Google Cloud Translation -alue, jota käytetään Google Cloud -"
+"hankkeessa tai joka on lähimpänä sinua."
 
 #: weblate/machinery/forms.py:211
 #, fuzzy
@@ -5085,20 +5053,14 @@ msgid "Access key ID"
 msgstr "Pääsyavaimen tunnus"
 
 #: weblate/machinery/forms.py:245
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgctxt "Alibaba Translate configuration"
 msgid "Access key secret"
-msgstr "Pääsyavaimen tunnus"
+msgstr "Pääsyavaimen salaisuus"
 
 #: weblate/machinery/forms.py:248
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgctxt "Alibaba Translate configuration"
 msgid "Region ID"
-msgstr "Alueen nimi"
+msgstr "Aluetunnus"
 
 #: weblate/machinery/forms.py:265
 msgctxt "Automatic suggestion service configuration"
@@ -5115,11 +5077,9 @@ msgid "Automatic selection"
 msgstr "Automaattinen valinta"
 
 #: weblate/machinery/forms.py:290
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "Mukautettu"
+msgstr "Mukautettu malli"
 
 #: weblate/machinery/forms.py:295
 msgctxt "Automatic suggestion service configuration"
@@ -5136,15 +5096,13 @@ msgid "OpenAI model"
 msgstr "OpenAI-malli"
 
 #: weblate/machinery/forms.py:314
-#, fuzzy
-#| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
-msgstr "Muokkaa komponentin nimeä"
+msgstr "Mukautetun mallin nimi"
 
 #: weblate/machinery/forms.py:316
 msgid "Only needed when model is set to 'Custom model'"
-msgstr ""
+msgstr "Tarvitaan vain, kun malliksi on asetettu \"Mukautettu malli\""
 
 #: weblate/machinery/forms.py:322
 #, fuzzy
@@ -5170,14 +5128,12 @@ msgid ""
 msgstr ""
 
 #: weblate/machinery/forms.py:347
-#, fuzzy
-#| msgid "Missing username or e-mail."
 msgid "Missing custom model name."
-msgstr "Puuttuva käyttäjänimi tai sähköpostiosoite."
+msgstr "Puuttuva muokatun mallin nimi."
 
 #: weblate/machinery/forms.py:351
 msgid "Choose custom model here to enable it."
-msgstr ""
+msgstr "Valitse mukautettu malli tästä ottaaksesi sen käyttöön."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5331,14 +5287,12 @@ msgid "Screenshot name"
 msgstr "Ruudunkaappauskuvan nimi"
 
 #: weblate/screenshots/models.py:57
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "Käännettävä arkistohaara"
+msgstr "Tietovaraston polku kuvakaappaukseen"
 
 #: weblate/screenshots/models.py:58
 msgid "Scan for screenshot file change on repository update."
-msgstr ""
+msgstr "Etsi kuvakaappaustiedoston muutos tietovaraston päivityksen yhteydessä."
 
 #: weblate/screenshots/models.py:63
 #: weblate/templates/screenshots/screenshot_detail.html:63
@@ -5357,11 +5311,8 @@ msgstr ""
 "lähdeteksteihin."
 
 #: weblate/screenshots/views.py:249
-#, fuzzy
-#| msgid "Failed to upload screenshot, please fix errors below."
 msgid "Could not upload screenshot, please fix errors below."
-msgstr ""
-"Ruudunkaappauskuvan lataaminen ei onnistu, korjaa alla näkyvät virheet."
+msgstr "Kuvakaappauksen uloslataaminen epäonnistui. Korjaa virheet alla."
 
 #: weblate/screenshots/views.py:305
 #, python-format
@@ -5445,9 +5396,9 @@ msgstr ""
 "päälle (ainakin tälle sivulle tai saman lähteen \"same-origin\" pyynnöille)."
 
 #: weblate/templates/403_csrf.html:21
-#, python-format
+#, fuzzy, python-format
 msgid "CSRF failure reason: %(reason)s"
-msgstr ""
+msgstr "CSRF-virheen syyt: %(reason)"
 
 #: weblate/templates/404.html:5 weblate/templates/404.html:11
 #: weblate/trans/views/error.py:33
