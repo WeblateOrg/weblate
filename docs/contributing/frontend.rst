@@ -73,7 +73,7 @@ Now the library is built and ready for use. To include it follow these steps:
 
 1. If the library was imported in ``src/main.js``, no further steps are required (as it is already included in ``base.html``).
 
-2. If the library was imported in its specific file ``src/<lib-name>.js``, in ``weblate/templates``` use the include tags to link to the built static JavaScript file:
+2. If the library was imported in its specific file ``src/<lib-name>.js``, in ``weblate/templates`` use the include tags to link to the built static JavaScript file:
 
 .. code-block:: django
 
