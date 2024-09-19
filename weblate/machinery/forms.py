@@ -403,7 +403,9 @@ class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
             "Azure OpenAI endpoint URL",
         ),
         widget=forms.TextInput,
-        help_text=gettext_lazy("Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."),
+        help_text=gettext_lazy(
+            "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
+        ),
     )
     deployment = forms.CharField(
         label=pgettext_lazy(
