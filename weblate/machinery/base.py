@@ -226,8 +226,7 @@ class BatchMachineTranslation:
 
     def map_language_code(self, code: str) -> str:
         """Map language code to service specific."""
-        if code.endswith("_devel"):
-            code = code[:-6]
+        code = code.removesuffix("_devel")
         if code in self.language_map:
             return self.language_map[code]
         return code
