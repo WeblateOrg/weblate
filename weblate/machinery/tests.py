@@ -243,6 +243,15 @@ MS_SUPPORTED_LANG_RESP = {
     "translation": {"cs": "data", "en": "data", "es": "data", "de": "data"}
 }
 
+AWS_LANGUAGES_RESPONSE = {
+    "Languages": [
+        {"LanguageName": "Afrikaans", "LanguageCode": "af"},
+        {"LanguageName": "Czech", "LanguageCode": "cs"},
+        {"LanguageName": "German", "LanguageCode": "de"},
+        {"LanguageName": "English", "LanguageCode": "en"},
+    ]
+}
+
 
 class BaseMachineTranslationTest(TestCase):
     """Testing of machine translation core."""
@@ -277,9 +286,10 @@ class BaseMachineTranslationTest(TestCase):
 
     @responses.activate
     @respx.mock
-    def test_support(self) -> None:
+    def test_support(self, machine_translation=None) -> None:
         self.mock_response()
-        machine_translation = self.get_machine()
+        if machine_translation is None:
+            machine_translation = self.get_machine()
         self.assertTrue(machine_translation.is_supported(self.ENGLISH, self.SUPPORTED))
         if self.NOTSUPPORTED:
             self.assertFalse(
@@ -1635,9 +1645,23 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def mock_response(self) -> None:
         pass
 
+    def test_support(self) -> None:
+        machine = self.get_machine()
+        machine.delete_cache()
+        with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
+            super().test_support(machine)
+
     def test_validate_settings(self) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
             stubber.add_response(
                 "translate_text",
                 {
@@ -1652,6 +1676,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def test_translate(self, **kwargs) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
             stubber.add_response(
                 "translate_text",
                 {
@@ -1671,6 +1699,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def test_translate_language_map(self, **kwargs) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
             stubber.add_response(
                 "translate_text",
                 {
@@ -1704,6 +1736,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             machine = self.get_machine()
         with Stubber(machine.client) as stubber:
             stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
+            stubber.add_response(
                 "translate_text",
                 {
                     "TranslatedText": "Hallo",
@@ -1717,6 +1753,132 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def test_clean(self) -> NoReturn:
         # Stubbing here is tricky
         raise SkipTest("Not tested")
+
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_glossary(self) -> None:
+        """Test translation with glossary (terminology)."""
+        machine = self.get_machine()
+
+        with (
+            Stubber(machine.client) as stubber,
+            patch(
+                "weblate.machinery.aws.AWSTranslation.glossary_count_limit",
+                new=1,
+            ),
+        ):
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
+            # glossary list with stale glossary response
+            stubber.add_response(
+                "list_terminologies",
+                {
+                    "TerminologyPropertiesList": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
+                            "SourceLanguageCode": "en",
+                            "TargetLanguageCodes": ["de"],
+                            "CreatedAt": "2021-03-03T14:16:18.329Z",
+                            "Directionality": "UNI",
+                            "Format": "TSV",
+                        }
+                    ]
+                },
+            )
+
+            # glossary list with stale glossary response
+            stubber.add_response(
+                "list_terminologies",
+                {
+                    "TerminologyPropertiesList": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
+                            "SourceLanguageCode": "en",
+                            "TargetLanguageCodes": ["de"],
+                            "CreatedAt": "2021-03-03T14:16:18.329Z",
+                            "Directionality": "UNI",
+                            "Format": "TSV",
+                        }
+                    ]
+                },
+            )
+
+            # delete stale glossary response
+            stubber.add_response(
+                "delete_terminology",
+                {},
+                {"Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb"},
+            )
+
+            # create glossary response
+            stubber.add_response(
+                "import_terminology",
+                {
+                    "AuxiliaryDataLocation": {
+                        "Location": "location",
+                        "RepositoryType": "type",
+                    },
+                    "TerminologyProperties": {},
+                },
+                {
+                    "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                    "MergeStrategy": "OVERWRITE",
+                    "TerminologyData": {
+                        "File": b"en\tcs\nfoo\tbar",
+                        "Format": "TSV",
+                        "Directionality": "UNI",
+                    },
+                },
+            )
+
+            # return glossary list with newly created glossary
+            stubber.add_response(
+                "list_terminologies",
+                {
+                    "TerminologyPropertiesList": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                            "SourceLanguageCode": "en",
+                            "TargetLanguageCodes": ["cs"],
+                            "CreatedAt": "2021-08-03T14:16:18.329Z",
+                            "Directionality": "UNI",
+                            "Format": "TSV",
+                        },
+                    ]
+                },
+            )
+
+            # translate with glossary
+            stubber.add_response(
+                "translate_text",
+                {
+                    "TranslatedText": "Ahoj",
+                    "SourceLanguageCode": "en",
+                    "TargetLanguageCode": "cs",
+                    "AppliedTerminologies": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                            "Terms": [
+                                {"SourceText": "foo", "TargetText": "bar"},
+                            ],
+                        },
+                    ],
+                },
+                {
+                    "SourceLanguageCode": ANY,
+                    "TargetLanguageCode": ANY,
+                    "Text": ANY,
+                    "TerminologyNames": ["weblate_-_1_-_en_-_cs_-_9e250d830c11d70f"],
+                },
+            )
+
+            self.assert_translate(
+                self.SUPPORTED,
+                self.SOURCE_TRANSLATED,
+                self.EXPECTED_LEN,
+                machine=machine,
+            )
 
 
 class AlibabaTranslationTest(BaseMachineTranslationTest):

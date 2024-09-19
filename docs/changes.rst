@@ -10,8 +10,9 @@ Not yet released.
 
 **Improvements**
 
-* :ref`mt-deepl` now supports specifying translation context.
 * :ref:`mt-modernmt` supports :ref:`glossary-mt`.
+* :ref:`mt-deepl` now supports specifying translation context.
+* :ref:`mt-aws` now supports :ref:`glossary-mt`.
 
 **Bug fixes**
 
