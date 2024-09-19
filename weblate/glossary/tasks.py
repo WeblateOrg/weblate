@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from django.db import transaction
 
+from weblate.auth.models import get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils.celery import app
@@ -65,7 +66,7 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
     )
     for glossary in glossary_translations:
         if glossary.stats.translated == 0:
-            glossary.remove()
+            glossary.remove(get_anonymous())
             transaction.on_commit(glossary.stats.update_parents)
             transaction.on_commit(glossary.component.schedule_update_checks)
 
