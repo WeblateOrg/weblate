@@ -819,8 +819,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             path = parsed.path
         parts = path.split(":")[-1].rstrip("/").split("/")
         last_part = parts[-1]
-        if last_part.endswith(".git"):
-            last_part = last_part[:-4]
+        last_part = last_part.removesuffix(".git")
         slug_parts = [last_part]
         owner = ""
         for part in parts[:-1]:
@@ -1262,8 +1261,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         (scheme, username, password, host, owner, slug) = super().parse_repo_url(repo)
 
         # ssh links are in a subdomain, the API link doesn't have that so remove it
-        if host.startswith("ssh."):
-            host = host[len("ssh.") :]
+        host = host.removeprefix("ssh.")
 
         # https urls have /_git/ between owner and slug
         if "/_git/" in slug:

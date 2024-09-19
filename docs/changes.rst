@@ -11,7 +11,8 @@ Not yet released.
 **Improvements**
 
 * Stale, empty glossaries are now automatically removed.
-* :ref`mt-deepl` now supports specifying translation context.
+* :ref:`mt-deepl` now supports specifying translation context.
+* :ref:`mt-aws` now supports :ref:`glossary-mt`.
 
 **Bug fixes**
 
