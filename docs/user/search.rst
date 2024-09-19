@@ -44,9 +44,6 @@ Fields
    String position in the translation file.
 ``added:DATETIME``
    Timestamp for when the string was added to Weblate.
-``added:TEXT``
-   String containing adverb of time like ``yesterday``, ``last month``, and ``2 days ago``.
-   It also supports :ref:`search-operators`.
 ``state:TEXT``
    Search for string states (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``).
 
@@ -82,9 +79,6 @@ Fields
    String was changed by author with given username.
 ``changed:DATETIME``
    String content was changed on date, supports :ref:`search-operators`.
-``changed:TEXT``
-   String containing adverb of time like ``yesterday``, ``last month``, and ``2 days ago``.
-   It also supports :ref:`search-operators`.
 ``change_time:DATETIME``
    String was changed on date, supports :ref:`search-operators`, unlike
    ``changed`` this includes event which don't change content and you can apply
@@ -213,3 +207,17 @@ Additional lookups are available in the :ref:`management-interface`:
    Search for active users.
 ``email:TEXT``
    Search by e-mail.
+
+
+Fuzzy values for DATETIME fields
+++++++++++++++++++++++++++++++++
+
+Instead of using DATETIME values like MM-DD-YYYY, a string containing adverb
+of time like ``yesterday``, ``last month``, and ``2 days ago`` can be used as
+values in the DATETIME fields.
+
+Examples:
+``changed:>="2 weeks ago"``
+    Returns strings that are changed 2 weeks ago from the current date and time.
+``changed:>="yesterday"``
+    Returns strings that are changed starting yesterday.
