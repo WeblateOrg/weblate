@@ -400,16 +400,16 @@ class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
     azure_endpoint = WeblateServiceURLField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
-            "Azure OpenAI Endpoint URL",
+            "Azure OpenAI endpoint URL",
         ),
         widget=forms.TextInput,
-        help_text=gettext_lazy("Endpoint URL of the Azure OpenAI API"),
+        help_text=gettext_lazy("Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."),
     )
     deployment = forms.CharField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
-            "AzureOpenAI deployment",
+            "Azure OpenAI deployment",
         ),
         widget=forms.TextInput,
-        help_text=gettext_lazy("Deployment name of the Azure OpenAI model"),
+        help_text=gettext_lazy("The model's unique deployment name."),
     )
