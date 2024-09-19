@@ -11,6 +11,7 @@ Not yet released.
 
 **Improvements**
 
+* :ref:`mt-modernmt` supports :ref:`glossary-mt`.
 * :ref:`mt-deepl` now supports specifying translation context.
 * :ref:`mt-aws` now supports :ref:`glossary-mt`.
 * :ref:`autofix` for Devanagari danda now better handles latin script.

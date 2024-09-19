@@ -674,7 +674,16 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     glossary_name_format = (
         "weblate:{project}:{source_language}:{target_language}:{checksum}"
     )
+    glossary_name_format_pattern = (
+        r"weblate:(\d+):([A-z0-9@_-]+):([A-z0-9@_-]+):([a-f0-9]+)"
+    )
+
     glossary_count_limit = 0
+
+    def delete_cache(self) -> None:
+        """Delete general caches and glossary cache."""
+        super().delete_cache()
+        cache.delete(self.get_cache_key("glossaries"))
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
         return True
@@ -778,6 +787,14 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         # Fetch glossaries again, without using cache
         glossaries = self.get_glossaries(use_cache=False)
         return glossaries[glossary_name]
+
+    def match_name_format(self, string: str) -> re.Match | None:
+        """
+        Match glossary name against format.
+
+        Only way so far to identify glossaries from memories
+        """
+        return re.match(self.glossary_name_format_pattern, string)
 
 
 class XMLMachineTranslationMixin:
