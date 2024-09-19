@@ -283,8 +283,11 @@ def redirect_profile(page: str | None = None):
 
 def get_notification_forms(request: AuthenticatedHttpRequest):
     user = request.user
-    subscriptions: dict[tuple[int, int, int], dict[str, int]] = defaultdict(dict)
-    initials: dict[tuple[int, int, int], dict[str, Any]] = {}
+    subscriptions: dict[tuple[NotificationScope, int, int], dict[str, int]] = (
+        defaultdict(dict)
+    )
+    initials: dict[tuple[NotificationScope, int, int], dict[str, Any]] = {}
+    key: tuple[NotificationScope, int, int]
 
     # Ensure watched, admin and all scopes are visible
     for needed in (
