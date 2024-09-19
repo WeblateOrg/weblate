@@ -15,7 +15,7 @@ from django.core.checks import (
 
 from weblate.utils.docs import get_doc_url
 
-DOC_LINKS: dict[str, tuple[str, ...]] = {
+DOC_LINKS: dict[str, tuple[str] | tuple[str, str]] = {
     "security.W001": ("admin/upgdade", "up-3-1"),
     "security.W002": ("admin/upgdade", "up-3-1"),
     "security.W003": ("admin/upgdade", "up-3-1"),
