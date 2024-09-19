@@ -70,6 +70,7 @@ jobs:
       with:
         enable-cache: true
         cache-dependency-glob: pyproject.toml
+        cache-suffix: ${{ matrix.python-version }}
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
