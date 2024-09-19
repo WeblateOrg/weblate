@@ -289,7 +289,32 @@ class DeepLMachineryForm(KeyURLMachineryForm):
     )
 
 
-class OpenAIMachineryForm(KeyMachineryForm):
+class BaseOpenAIMachineryForm(KeyMachineryForm):
+    persona = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Translator persona",
+        ),
+        widget=forms.Textarea,
+        help_text=gettext_lazy(
+            "Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.”"
+        ),
+        required=False,
+    )
+    style = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Translator style",
+        ),
+        widget=forms.Textarea,
+        help_text=gettext_lazy(
+            "Describe the style of translation. For example: “Use informal language.”"
+        ),
+        required=False,
+    )
+
+
+class OpenAIMachineryForm(BaseOpenAIMachineryForm):
     # Ordering choices here defines priority for automatic selection
     MODEL_CHOICES = (
         ("auto", pgettext_lazy("OpenAI model selection", "Automatic selection")),
@@ -329,28 +354,6 @@ class OpenAIMachineryForm(KeyMachineryForm):
         help_text=gettext_lazy("Only needed when model is set to 'Custom model'"),
         required=False,
     )
-    persona = forms.CharField(
-        label=pgettext_lazy(
-            "Automatic suggestion service configuration",
-            "Translator persona",
-        ),
-        widget=forms.Textarea,
-        help_text=gettext_lazy(
-            "Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.”"
-        ),
-        required=False,
-    )
-    style = forms.CharField(
-        label=pgettext_lazy(
-            "Automatic suggestion service configuration",
-            "Translator style",
-        ),
-        widget=forms.Textarea,
-        help_text=gettext_lazy(
-            "Describe the style of translation. For example: “Use informal language.”"
-        ),
-        required=False,
-    )
 
     def clean(self) -> None:
         has_custom_model = bool(self.cleaned_data.get("custom_model"))
@@ -364,3 +367,22 @@ class OpenAIMachineryForm(KeyMachineryForm):
                 {"model": gettext("Choose custom model here to enable it.")}
             )
         super().clean()
+
+
+class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
+    azure_endpoint = WeblateServiceURLField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Azure OpenAI Endpoint URL",
+        ),
+        widget=forms.TextInput,
+        help_text=gettext_lazy("Endpoint URL of the Azure OpenAI API"),
+    )
+    deployment = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "AzureOpenAI deployment",
+        ),
+        widget=forms.TextInput,
+        help_text=gettext_lazy("Deployment name of the Azure OpenAI model"),
+    )

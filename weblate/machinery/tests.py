@@ -52,7 +52,7 @@ from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
-from weblate.machinery.openai import OpenAITranslation
+from weblate.machinery.openai import AzureOpenAITranslation, OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
 from weblate.machinery.tmserver import TMServerTranslation
@@ -1843,6 +1843,48 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
         settings["model"] = "auto"
         form = self.MACHINE_CLS.settings_form(machine, settings)
         self.assertFalse(form.is_valid())
+
+
+class AzureOpenAITranslationTest(OpenAITranslationTest):
+    MACHINE_CLS = AzureOpenAITranslation
+    CONFIGURATION = {
+        "key": "x",
+        "deployment": "my-deployment",
+        "persona": "",
+        "style": "",
+        "azure_endpoint": "https://my-instance.openai.azure.com",
+    }
+
+    def mock_response(self) -> None:
+        respx.post(
+            "https://my-instance.openai.azure.com/openai/deployments/my-deployment/chat/completions?api-version=2024-06-01",
+        ).mock(
+            httpx.Response(
+                200,
+                json={
+                    "id": "chatcmpl-123",
+                    "object": "chat.completion",
+                    "created": 1677652288,
+                    "model": "my-deployment",
+                    "system_fingerprint": "fp_44709d6fcb",
+                    "choices": [
+                        {
+                            "index": 0,
+                            "message": {
+                                "role": "assistant",
+                                "content": "Ahoj světe",
+                            },
+                            "finish_reason": "stop",
+                        }
+                    ],
+                    "usage": {
+                        "prompt_tokens": 9,
+                        "completion_tokens": 12,
+                        "total_tokens": 21,
+                    },
+                },
+            )
+        )
 
 
 class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
