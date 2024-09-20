@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-04 15:43+0000\n"
+"PO-Revision-Date: 2024-09-20 19:19+0000\n"
 "Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.7.2-rc\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1115,10 +1115,9 @@ msgstr ""
 "Prosím nejdříve přidejte další uživatelskou identity s potvrzením e-mailu."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "Nepodařilo se vytvořit klíč: %s"
+msgstr "Nepodařilo se autentifikovat: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -5087,26 +5086,23 @@ msgid "Region ID"
 msgstr "ID regionu"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "Kontext"
+msgstr "Vektor kontextu"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
-msgstr ""
+msgstr "Čárkou oddělený seznam ID paměti:váha. Např.: 1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "Tento překlad není platné XML"
+msgstr "Tento vektor kontextu není platný: %s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "Hodnota váhy musí být mezi 0 a 1: %s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5118,23 +5114,15 @@ msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr "Použije zadanou formálnost, pokud jazyk není určen jako (ne)formální"
 
 #: weblate/machinery/forms.py:308
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation context"
-msgstr "Komentář k překladu"
+msgstr "Kontext překladu"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
-"Popište osobnost překladatele, abyste zlepšili přesnost překladu. Například: "
-"„You are a squirrel breeder.“"
+msgstr "Popište kontext překladu pro zlepšení přesnosti překladu."
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5204,26 +5192,25 @@ msgid "Choose custom model here to enable it."
 msgstr "Zde vyberte vlastní model pro jeho povolení."
 
 #: weblate/machinery/forms.py:403
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr "Adresa URL koncového bodu aplikace"
+msgstr "Adresa URL koncového bodu Azure OpenAI"
 
 #: weblate/machinery/forms.py:407
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr ""
+"Adresa URL koncového bodu instance, např.: https://moje-instance.openai.azure"
+".com."
 
 #: weblate/machinery/forms.py:413
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "Nasazení Azure OpenAI"
 
 #: weblate/machinery/forms.py:416
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "Unikátní název nasazení modelu."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5446,49 +5433,34 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "Selhalo ověření typu CSRF. Požadavek byl zadržen."
 
 #: weblate/templates/403_csrf.html:15
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
 "that your browser is not being hijacked by third parties."
 msgstr ""
-"Tento web v protokolu HTTPS požaduje hlavičku 'Referer' od vašeho webového "
-"prohlížeče. Hlavička je požadována z bezpečnostních důvodů, aby se "
-"zajistilo, že vašeho prohlížeče se nezmocnil někdo další."
+"Tento web v protokolu HTTPS požaduje od vašeho webového prohlížeče hlavičku "
+"„Referer“. Tato hlavička je vyžadována z bezpečnostních důvodů a zaručuje, "
+"že váš prohlížeč nebyl zneužit třetími stranami."
 
 #: weblate/templates/403_csrf.html:16
-#, fuzzy
-#| msgid ""
-#| "If you have set up your web browser to not send 'Referer' headers, please "
-#| "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests)."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
-"Pokud má váš prohlížeč záhlaví 'Referer' vypnuté, žádáme vás o jeho zapnutí, "
-"alespoň pro tento web nebo pro spojení typu HTTPS nebo pro požadavky "
-"stejného původu („same-origin“)."
+"Pokud máte nastavený prohlížeč tak, aby neposílal hlavičky „Referer“,  je "
+"třeba je zapnout (alespoň pro tento web, připojení HTTPS nebo požadavky "
+"„same-origin“)."
 
 #: weblate/templates/403_csrf.html:18
-#, fuzzy
-#| msgid ""
-#| "This site requires a CSRF cookie when submitting forms. This cookie is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-"Tento web při odesílání formulářů požaduje v souboru cookie údaj CSRF, a to "
-"z bezpečnostních důvodů, aby se zajistilo, že se vašeho prohlížeče nezmocnil "
-"někdo další."
+"Náš web vyžaduje pro správnou funkčnost formulářů relační soubor cookie. "
+"Tento soubor je vyžadován z bezpečnostních důvodů a zaručuje, že váš "
+"prohlížeč nebyl zneužit třetími stranami."
 
 #: weblate/templates/403_csrf.html:19
 msgid ""
@@ -5496,18 +5468,17 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"Může se stát, že váš relační soubor cookie vypršel z důvodu neaktivity. Může "
+"se to snadno stát u neověřených požadavků, kde je omezena platnost relace. V "
+"takovém případě byste možná měli zkusit zamýšlenou akci provést znovu."
 
 #: weblate/templates/403_csrf.html:20
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again (at-least for this site, or for 'same-origin' requests)."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"Pokud má váš prohlížeč soubory cookie vypnuté, žádáme vás o jejich zapnutí, "
-"alespoň pro tento web nebo pro požadavky stejného původu („same-origin“)."
+"Pokud má váš prohlížeč soubory cookie vypnuté, musíte jejich ukládání "
+"zapnout (alespoň pro tento web, nebo pro požadavky „same-origin“)."
 
 #: weblate/templates/403_csrf.html:22
 #, python-format
@@ -6653,8 +6624,6 @@ msgid "User ID"
 msgstr "Identifikátor uživatele"
 
 #: weblate/templates/accounts/user.html:236
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
 msgstr "Upozornění"
 
@@ -6664,7 +6633,7 @@ msgstr "Rozsah"
 
 #: weblate/templates/accounts/user.html:238
 msgid "Frequency"
-msgstr ""
+msgstr "Frekvence"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
@@ -7870,7 +7839,7 @@ msgstr "Postup"
 
 #: weblate/templates/component-progress.html:17
 msgid "Component is being updated…"
-msgstr "Součást je aktualizována…"
+msgstr "Probíhá aktualizace součásti…"
 
 #: weblate/templates/component-progress.html:31
 #: weblate/templates/multi-progress.html:26
@@ -9863,10 +9832,8 @@ msgid "Delete announcement"
 msgstr "Odstranit oznámení"
 
 #: weblate/templates/multi-progress.html:15
-#, fuzzy
-#| msgid "Component is being updated…"
 msgid "Components are being updated…"
-msgstr "Součást je aktualizována…"
+msgstr "Probíhá aktualizace součástí…"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -10945,7 +10912,7 @@ msgstr "Všechny nepřeložené řetězce přidané během posledního měsíce"
 
 #: weblate/templates/snippets/query-builder.html:111
 msgid "Filter changed strings 2 weeks ago"
-msgstr ""
+msgstr "Filtr změnil řetězce před 2 týdny"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"
