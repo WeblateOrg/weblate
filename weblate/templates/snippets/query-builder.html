@@ -107,6 +107,11 @@
         <td><code>added:&gt;={{ month_ago|date:"Y-m-d" }} AND state:&lt;=needs-editing</code>
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
+    <tr>
+        <th>{% trans "Filter changed strings 2 weeks ago" %}</th>
+        <td><code>changed:&gt;="2 weeks ago"</code>
+        <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
+    </tr>
     {% if not language %}
     {% with languages=user.profile.all_languages %}
     <tr>
