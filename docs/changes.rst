@@ -15,6 +15,7 @@ Not yet released.
 * :ref:`mt-deepl` now supports specifying translation context.
 * :ref:`mt-aws` now supports :ref:`glossary-mt`.
 * :ref:`autofix` for Devanagari danda now better handles latin script.
+* :ref:`autofix` for French and Breton now uses a non-breaking space before colons instead of a narrow one.
 
 **Bug fixes**
 
