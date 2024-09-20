@@ -855,8 +855,11 @@ class GitMergeRequestBase(GitForcePushRepository):
             if not isinstance(key, str) or key.lower().startswith(
                 ("http://", "https://")
             ):
+                replacement = (
+                    key.lower().removeprefix("https://").removeprefix("http://")
+                )
                 result.append(
-                    f"Include hostname only in the {credentials_name} keys: {key}"
+                    f'{credentials_name} should include only hostname, use "{replacement}" instead of "{key}"'
                 )
             result.extend(
                 f"{credentials_name}[{key}]: Missing required configuration: {current}"
