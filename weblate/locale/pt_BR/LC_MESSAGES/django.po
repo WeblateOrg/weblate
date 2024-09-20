@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-12 06:18+0000\n"
+"PO-Revision-Date: 2024-09-20 19:19+0000\n"
 "Last-Translator: Jose Delvani <jsdelvani@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -1135,10 +1135,9 @@ msgstr ""
 "Adicione outra identidade para confirmar seu endereço de e-mail primeiro."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "Não foi possível gerar a chave: %s"
+msgstr "Não foi possível autenticar: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -5140,26 +5139,25 @@ msgid "Region ID"
 msgstr "ID da região"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "Contexto"
+msgstr "Vetor de contexto"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
+"Lista separada por vírgulas de IDs de memória:peso. Por exemplo: 1234:0."
+"123,4567:0.456"
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "A tradução não é um XML válido"
+msgstr "O vetor de contexto não é válido: %s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "O valor do peso deve estar entre 0 e 1: %s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5180,17 +5178,10 @@ msgid "Translation context"
 msgstr "Comentário da tradução"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
-"Could not parse JSON file: %sDescreva a personalidade do tradutor para "
-"melhorar a precisão da tradução. Por exemplo: “Você é um criador de "
-"esquilos.”"
+msgstr "Descreva o contexto da tradução para melhorar a precisão da tradução."
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5260,26 +5251,25 @@ msgid "Choose custom model here to enable it."
 msgstr "Escolha o modelo personalizado aqui para habilitá-lo."
 
 #: weblate/machinery/forms.py:403
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr "URL do endpoint do aplicativo"
+msgstr "URL para o endpoint do Azure OpenAI"
 
 #: weblate/machinery/forms.py:407
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr ""
+"URL para o endpoint da instância, por exemplo: https://my-instance.openai."
+"azure.com."
 
 #: weblate/machinery/forms.py:413
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "Implementação do Azure OpenAI"
 
 #: weblate/machinery/forms.py:416
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "O nome de implementação exclusivo do modelo."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5507,50 +5497,35 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "Verificação CSRF falhou. Pedido cancelado."
 
 #: weblate/templates/403_csrf.html:15
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
 "that your browser is not being hijacked by third parties."
 msgstr ""
-"Este site HTTPS exige que um \"cabeçalho Referer\" seja enviado pelo seu "
-"navegador web, mas nenhum foi enviado. Este cabeçalho é necessário por "
-"razões de segurança, que garanta que o seu navegador web não esteja sendo "
-"invadido por terceiros."
+"Este site HTTPS exige que um cabeçalho \"Referer\" seja enviado por seu "
+"navegador da Web, mas nenhum foi enviado. Esse cabeçalho é necessário por "
+"motivos de segurança, garantindo que seu navegador não seja invadido por "
+"terceiros."
 
 #: weblate/templates/403_csrf.html:16
-#, fuzzy
-#| msgid ""
-#| "If you have set up your web browser to not send 'Referer' headers, please "
-#| "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests)."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
-"Se você tiver configurado o seu navegador web para não enviar os cabeçalhos "
-"\"Referer\", ative isso (pelo menos para este site, para conexões HTTPS ou "
-"para pedidos de \"same-origin\")."
+"Se você configurou seu navegador da Web para não enviar cabeçalhos \"Referer"
+"\", é necessário ativá-lo (pelo menos para este site, conexões HTTPS ou "
+"solicitações de \"same-origin\")."
 
 #: weblate/templates/403_csrf.html:18
-#, fuzzy
-#| msgid ""
-#| "This site requires a CSRF cookie when submitting forms. This cookie is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-"Este site requer um cookie CSRF no envio de formulários. Este cookie é "
-"necessário por razões de segurança, para garantir que o seu navegador web "
-"não está sendo sequestrado por terceiros."
+"Nosso site requer um cookie de sessão para que os formulários funcionem. "
+"Esse cookie é necessário por motivos de segurança, garantindo que seu "
+"navegador não seja invadido por terceiros."
 
 #: weblate/templates/403_csrf.html:19
 msgid ""
@@ -5558,18 +5533,19 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"Pode ter acontecido que o cookie da sua sessão tenha expirado devido à "
+"inatividade. Isso pode acontecer facilmente com solicitações não "
+"autenticadas em que a validade da sessão é limitada. Você pode querer tentar "
+"a ação pretendida novamente nesse caso."
 
 #: weblate/templates/403_csrf.html:20
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again (at-least for this site, or for 'same-origin' requests)."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"Se você tiver configurado seu navegador para não salvar os cookies, ative-os "
-"de novo (pelo menos para este site, ou para solicitações de \"same-origin\")."
+"Se você configurou seu navegador para não salvar cookies, você precisa "
+"habilitar o salvamento deles (pelo menos para este site ou solicitações de "
+"'same-origin')."
 
 #: weblate/templates/403_csrf.html:22
 #, python-format
@@ -6723,10 +6699,8 @@ msgid "User ID"
 msgstr "ID de usuário"
 
 #: weblate/templates/accounts/user.html:236
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
-msgstr "Notificações"
+msgstr "Notificação"
 
 #: weblate/templates/accounts/user.html:237 weblate/trans/forms.py:1078
 msgid "Scope"
@@ -6734,7 +6708,7 @@ msgstr "Escopo"
 
 #: weblate/templates/accounts/user.html:238
 msgid "Frequency"
-msgstr ""
+msgstr "Freqüência"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
@@ -9937,10 +9911,8 @@ msgid "Delete announcement"
 msgstr "Excluir anúncio"
 
 #: weblate/templates/multi-progress.html:15
-#, fuzzy
-#| msgid "Component is being updated…"
 msgid "Components are being updated…"
-msgstr "Componente sendo atualizado…"
+msgstr "Atualizando os componentes…"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -11027,7 +10999,7 @@ msgstr "Todos os textos não traduzidos adicionados no último mês"
 
 #: weblate/templates/snippets/query-builder.html:111
 msgid "Filter changed strings 2 weeks ago"
-msgstr ""
+msgstr "Filtrar por textos alterados há mais de 2 semanas"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"
