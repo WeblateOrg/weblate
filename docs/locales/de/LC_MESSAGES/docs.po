@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-20 13:08+0000\n"
+"PO-Revision-Date: 2024-09-20 19:19+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -1983,7 +1983,7 @@ msgstr "``nottranslated`` -- Nicht übersetzte Zeichenketten"
 
 #: ../../admin/addons.rst:44
 msgid "``todo`` -- Unfinished strings"
-msgstr "``todo`` -- Unfertige Zeichenketten"
+msgstr "``todo`` -- Unvollständige Zeichenketten"
 
 #: ../../admin/addons.rst:46
 msgid "``fuzzy`` -- Strings marked for edit"
@@ -18296,7 +18296,7 @@ msgid ""
 "subscription and want Weblate to use that."
 msgstr ""
 "Früher wurde Weblate von DeepL als CAT-Tool eingestuft und sollte daher die "
-"v1-API verwenden, aber jetzt soll es die v2-API verwenden. Daher ist v2 "
+"v1-API verwenden, aber jetzt soll die v2-API verwendet werden. Daher ist v2 "
 "voreingestellt, und Sie können es auf v1 ändern, falls Sie ein bestehendes "
 "CAT-Abonnement haben und möchten, dass Weblate dieses nutzt."
 
@@ -45294,8 +45294,8 @@ msgid ""
 msgstr ""
 "Für die korrekte Verwendung einsprachiger Dateien benötigt Weblate Zugriff "
 "auf eine Datei, die eine vollständige Liste der zu übersetzenden "
-"Zeichenketten mit ihrem Quelltext enthält – diese Datei heißt in Weblate :"
-"ref:`component-template`, obwohl die Benennung in Ihrem Paradigma variieren "
+"Zeichenketten mit ihrem Quelltext enthält – diese Datei heißt in Weblate :ref"
+":`component-template`, obwohl die Benennung in Ihrem Paradigma abweichen "
 "kann."
 
 #: ../../formats.rst:388
@@ -52881,12 +52881,10 @@ msgid "``pending``"
 msgstr "``pending``"
 
 #: ../../user/search.rst:69
-#, fuzzy
-#| msgid "Pending changes not yet committed to the Weblate repository"
 msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
 msgstr ""
-"Ausstehende Änderungen, die noch nicht an das Weblate-Repository committet "
-"wurden"
+"Ausstehende Zeichenketten, die noch nicht in die Datei committet wurden ("
+"siehe :ref:`lazy-commit`)."
 
 #: ../../user/search.rst:70 ../../user/search.rst:193
 msgid "``language:TEXT``"
@@ -53340,10 +53338,8 @@ msgid "Translating using Weblate"
 msgstr "Mit Weblate übersetzen"
 
 #: ../../user/translating.rst:4
-#, fuzzy
-#| msgid "Thank you for your interest in trying Weblate!"
 msgid "Thank you for your interest in translating with Weblate!"
-msgstr "Vielen Dank für Ihr Interesse, Weblate auszuprobieren!"
+msgstr "Vielen Dank für Ihr Interesse, mit Weblate zu übersetzen!"
 
 #: ../../user/translating.rst:6
 msgid ""
@@ -53351,22 +53347,22 @@ msgid ""
 "direct translations * Project accepts the suggestions made by users. "
 "Sometimes, anonymous suggestions are accepted as well."
 msgstr ""
+"Im Allgemeinen gibt es zwei gängige Arten der Übersetzung: * Das Projekt "
+"nimmt direkte Übersetzungen an * Das Projekt nimmt die "
+"Übersetzungsvorschläge der Benutzer an. Manchmal werden auch anonyme "
+"Übersetzungsvorschläge angenommen."
 
 #: ../../user/translating.rst:11
-#, fuzzy
-#| msgid ""
-#| "There are several review based workflows available in Weblate, see :ref:"
-#| "`workflows`."
 msgid "There are more translation workflows detailed in :ref:`workflows`."
-msgstr ""
-"Es gibt mehrere überprüfungsbasierte Arbeitsabläufe in Weblate, siehe :ref:"
-"`workflows`."
+msgstr "Weitere Übersetzungsabläufe finden Sie unter :ref:`workflows`."
 
 #: ../../user/translating.rst:13
 msgid ""
 "Projects, or the components in them are either visible to everyone, or only "
 "to a certain group of translators."
 msgstr ""
+"Projekte bzw. die darin enthaltenen Komponenten sind entweder für alle oder "
+"nur für eine bestimmte Gruppe von Übersetzern sichtbar."
 
 #: ../../user/translating.rst:18
 msgid ":ref:`access-control`, :ref:`workflows`"
@@ -53385,14 +53381,6 @@ msgid "Translation links"
 msgstr "Übersetzungslinks"
 
 #: ../../user/translating.rst:33
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to its actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Untranslated strings` or :guilabel:`Unfinished strings`. "
-#| "If the whole project is translated, without error, :guilabel:`All "
-#| "strings` is still available. Alternatively you can use the search field "
-#| "to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -53401,47 +53389,39 @@ msgid ""
 "strings` is still available. Alternatively you can use the :ref:`Search "
 "<Searching>` feature to find a specific string or term."
 msgstr ""
-"Nachdem man zu einer Komponente navigiert hat, führt eine Reihe von Links "
-"zur eigentlichen Übersetzung. Die Übersetzung ist weiter unterteilt in "
-"einzelne Qualitätsprüfungen, wie :guilabel:`Nicht übersetzte Zeichenketten` "
-"oder :guilabel:`Unvollständige Zeichenketten`. Wenn das gesamte Projekt "
+"Nach der Navigation zu einer Komponente führen eine Reihe von Links zur "
+"eigentlichen Übersetzung. Die Übersetzung ist weiter unterteilt in einzelne "
+"Qualitätsprüfungen, wie :guilabel:`Nicht übersetzte Zeichenketten` oder "
+":guilabel:`Unvollständige Zeichenketten`. Wenn das gesamte Projekt bereits "
 "fehlerfrei übersetzt wurde, ist :guilabel:`Alle Zeichenketten` weiterhin "
-"verfügbar. Alternativ können Sie auch das Suchfeld verwenden, um eine "
-"bestimmte Zeichenkette oder einen bestimmten Begriff zu finden."
+"verfügbar. Alternativ können Sie auch die :ref:`Such <Searching>`-Funktion "
+"verwenden, um eine bestimmte Zeichenkette oder einen bestimmten Begriff zu "
+"finden."
 
 #: ../../user/translating.rst:48
 msgid "Actual permissions might vary depending on your Weblate configuration."
 msgstr ""
 "Die tatsächlichen Berechtigungen können je nach Konfiguration von Ihrer "
-"Weblate-Installation variieren."
+"Weblate-Installation abweichen."
 
 #: ../../user/translating.rst:50
-#, fuzzy
-#| msgid ""
-#| "Anonymous users can only (by default) forward suggestions. Doing so is "
-#| "still available to signed-in users, in cases where uncertainty about the "
-#| "translation arises, prompting other translators to review it."
 msgid ""
 "Anonymous users (by default) can only forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about a translation "
 "arises, prompting other translators to review it."
 msgstr ""
 "Anonyme Benutzer können (standardmäßig) nur Übersetzungsvorschläge "
-"übermitteln. Dies steht angemeldeten Benutzern weiterhin zur Verfügung, "
-"falls Unklarheiten über die Übersetzung auftauchen, um zu veranlassen, dass "
-"andere Übersetzer sie überprüfen."
+"übermitteln. Angemeldete Benutzer können dies dennoch tun, wenn eine "
+"Übersetzung unklar ist, und andere Übersetzer dazu auffordern, sie zu "
+"überprüfen."
 
 #: ../../user/translating.rst:54
-#, fuzzy
-#| msgid ""
-#| "The suggestions are scanned on a daily basis to remove duplicates and "
-#| "suggestions matching the current translation."
 msgid ""
 "All suggestions are scanned on a daily basis to remove duplicates and those "
 "matching current translations."
 msgstr ""
-"Die Übersetzungsvorschläge werden täglich gescannt, um Duplikate und "
-"Vorschläge zu entfernen, die der aktuellen Übersetzung entsprechen."
+"Alle Übersetzungsvorschläge werden täglich gescannt, um Duplikate und "
+"solche, die mit aktuellen Übersetzungen übereinstimmen, zu entfernen."
 
 #: ../../user/translating.rst:62
 msgid ""
@@ -53449,41 +53429,29 @@ msgid ""
 "strings * for reporting source string bugs when this functionality is turned "
 "on using :ref:`project-source_review`."
 msgstr ""
+"Es gibt drei Arten von Kommentaren: * für Übersetzungen * für "
+"Ausgangszeichenketten * für das Melden von Fehlern in Ausgangszeichenketten, "
+"wenn diese Funktion mit :ref:`project-source_review` eingeschaltet wurde."
 
 #: ../../user/translating.rst:68
-#, fuzzy
-#| msgid ""
-#| "Three types of comments can be posted: for translations, source strings, "
-#| "or to report source string bugs when this functionality is turned on "
-#| "using :ref:`project-source_review`. Choose the one suitable to topic you "
-#| "want to discuss. Source string comments are in any event good for "
-#| "providing feedback on the original string, for example that it should be "
-#| "rephrased or to ask questions about it."
 msgid ""
 "Choose the suitable type for the topic you want to discuss. Source string "
 "comments are in any event good for providing feedback on the original "
 "string, for example that it should be rephrased, or to ask questions about "
 "it."
 msgstr ""
-"Es können drei Arten von Kommentaren erstellt werden: für Übersetzungen, "
-"Ausgangszeichenketten oder um Fehler im Quellcode zu melden, wenn diese "
-"Funktion mit :ref:`project-source_review` einschaltet wurde. Wählen Sie das "
-"passende Thema aus, welches Sie diskutieren möchten. Ausgangszeichenkette-"
-"Kommentare sind in jedem Fall gut geeignet, um Rückmeldung zum Quellcode zu "
-"geben, zum Beispiel, dass er umformuliert werden sollte oder um Fragen dazu "
-"zu stellen."
+"Wählen Sie den passenden Typ für das Thema, welches Sie diskutieren möchten. "
+"Kommentare zu Ausgangszeichenketten sind in jedem Fall gut geeignet, um "
+"Rückmeldungen zur ursprünglichen Zeichenkette zu geben, z. B. dass sie "
+"umformuliert werden sollte, oder um Fragen dazu zu stellen."
 
 #: ../../user/translating.rst:73
-#, fuzzy
-#| msgid ""
-#| "You can use Markdown syntax in all comments and mention other users using "
-#| "``@mention``."
 msgid ""
 "Markdown syntax can be used in all comments, as well as mentioning other "
 "users by using``@username``."
 msgstr ""
-"Sie können die Markdown-Syntax in allen Kommentaren verwenden und andere "
-"Benutzer mit ``@mention`` erwähnen."
+"Die Markdown-Syntax kann in allen Kommentaren verwendet werden, ebenso wie "
+"das Erwähnen anderer Benutzer durch Verwenden von ``@username``."
 
 #: ../../user/translating.rst:78
 msgid ""
@@ -53492,19 +53460,14 @@ msgstr ""
 ":ref:`report-source`, :ref:`source-reviews`, :ref:`project-source_review`"
 
 #: ../../user/translating.rst:85
-#, fuzzy
-#| msgid ""
-#| "Variants are used to group different length variants of the string. The "
-#| "frontend of your project can then use different strings depending on the "
-#| "screen or window size."
 msgid ""
 "Variants are used to group different-length variants of a string. The "
 "frontend of your project can then utilize different strings depending on the "
 "size of a screen or window."
 msgstr ""
-"Varianten werden verwendet, um verschiedene Längenvarianten der Zeichenkette "
-"zu gruppieren. Das Frontend Ihres Projekts kann dann je nach Bildschirm- "
-"oder Fenstergröße unterschiedliche Zeichenketten verwenden."
+"Varianten werden verwendet, um unterschiedlich lange Varianten einer "
+"Zeichenkette zu gruppieren. Das Frontend Ihres Projekts kann dann je nach "
+"Bildschirm- oder Fenstergröße unterschiedliche Zeichenketten verwenden."
 
 #: ../../user/translating.rst:91
 msgid ":ref:`variants`, :ref:`glossary-variants`"
@@ -53540,11 +53503,8 @@ msgid "Source needs review"
 msgstr "Ausgangszeichenkette muss überprüft werden"
 
 #: ../../user/translating.rst:105
-#, fuzzy
-#| msgid "String was marked for review using :ref:`source-reviews`."
 msgid "String marked for review using :ref:`source-reviews`."
-msgstr ""
-"Zeichenkette wurde mittels :ref:`source-reviews` zur Überprüfung markiert."
+msgstr "Zeichenkette mit :ref:`source-reviews` zur Überprüfung markiert."
 
 #: ../../user/translating.rst:109
 msgid ":ref:`labels`"
@@ -53602,15 +53562,6 @@ msgid "Plurals"
 msgstr "Plural"
 
 #: ../../user/translating.rst:135
-#, fuzzy
-#| msgid ""
-#| "Words changing form to account of their numeric designation are called "
-#| "plurals. Each language has its own definition of plurals. English, for "
-#| "example, supports one. In the singular definition of for example \"car\", "
-#| "implicitly one car is referenced, in the plural definition, \"cars\" two "
-#| "or more cars are referenced (or the concept of cars as a noun). Languages "
-#| "like for example Czech or Arabic have more plurals and also their rules "
-#| "for plurals are different."
 msgid ""
 "Words changing form to account for their numeric designation are called "
 "plurals. Each language has its own definition of them. English, for example, "
@@ -53620,24 +53571,16 @@ msgid ""
 "example, Czech or Arabic have more forms of plurals, and their rules for "
 "plurals are different as well."
 msgstr ""
-"Wörter, die aufgrund ihrer numerischen Bezeichnung ihre Form ändern, werden "
-"Pluralformen genannt. Jede Sprache hat ihre eigene Definition von "
-"Pluralformen. Im Englischen zum Beispiel gibt es eine Pluralform. In der "
-"Singular-Definition von z. B. „car“ ist implizit ein Auto gemeint, in der "
-"Plural-Definition „cars“ sind zwei oder mehrere Autos gemeint (oder das "
+"Wörter, die aufgrund ihrer numerischen Bezeichnung die Form ändern, werden "
+"als Pluralformen bezeichnet. Jede Sprache hat ihre eigene Definition für "
+"sie. Im Englischen zum Beispiel gibt es eine Pluralform. In der "
+"Singulardefinition von z. B. „car“ ist implizit ein Auto gemeint, in der "
+"Pluraldefinition von „cars“ sind zwei oder mehr Autos gemeint (oder das "
 "Konzept von Autos als Substantiv). Sprachen wie z. B. Tschechisch oder "
-"Arabisch haben mehr Pluralformen und auch ihre Regeln für Pluralformen sind "
-"unterschiedlich."
+"Arabisch haben mehr Pluralformen, und ihre Regeln für Pluralformen sind "
+"ebenfalls unterschiedlich."
 
 #: ../../user/translating.rst:142
-#, fuzzy
-#| msgid ""
-#| "Weblate has full support for each of these forms, in each respective "
-#| "language (by translating every plural separately). The number of fields "
-#| "and how it is in turn used in the translated application or project "
-#| "depends on the configured plural formula. Weblate shows the basic info, "
-#| "and the `Language Plural Rules`_ by the Unicode Consortium is a more "
-#| "detailed description."
 msgid ""
 "Weblate has full support for each of these forms, in each respective "
 "language. Each grammatical number is translated in a separate field for a "
@@ -53648,11 +53591,13 @@ msgid ""
 "Consortium is a more detailed description."
 msgstr ""
 "Weblate bietet volle Unterstützung für jede dieser Formen in der jeweiligen "
-"Sprache (indem jeder Plural separat übersetzt wird). Die Anzahl der Felder "
-"und die Art der Verwendung in der übersetzten Anwendung oder dem Projekt "
-"hängt von der konfigurierten Pluralformel ab. Weblate zeigt die "
-"grundlegenden Informationen, und die `Plural-Sprachregeln`_ des Unicode-"
-"Konsortiums ist eine ausführlichere Beschreibung."
+"Sprache. Jede grammatikalische Zahl wird in einem separaten Feld für einen "
+"vordefinierten Satz von Grundzahlen übersetzt, die für die jeweilige "
+"Übersetzung spezifisch sind. Die Anzahl der Felder und deren Verwendung in "
+"der übersetzten Anwendung oder dem Projekt hängt von der konfigurierten "
+"Pluralformel ab. Weblate zeigt die grundlegenden Informationen an und die "
+"`Plural-Sprachregeln`_ des Unicode-Konsortiums ist eine detailliertere "
+"Beschreibung."
 
 #: ../../user/translating.rst:154
 msgid ":ref:`plural-definitions`"
@@ -53928,36 +53873,27 @@ msgid ":kbd:`←`"
 msgstr ":kbd:`←`"
 
 #: ../../user/translating.rst:260
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation strings."
-msgstr "Neue Übersetzung hinzufügen"
+msgstr "Die nächsten Übersetzungszeichenketten durchsuchen."
 
 #: ../../user/translating.rst:262
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation strings."
-msgstr "Frühere msgids der übersetzten Zeichenketten beibehalten"
+msgstr "Die vorherigen Übersetzungszeichenketten durchsuchen."
 
 #: ../../user/translating.rst:268
 msgid "Visual keyboard"
 msgstr "Visuelle Tastatur"
 
 #: ../../user/translating.rst:270
-#, fuzzy
-#| msgid ""
-#| "A small visual keyboard row is shown just above the translation field. "
-#| "This can be useful to keep local punctuation in mind (as the row is local "
-#| "to each language), or have characters otherwise hard to type handy."
 msgid ""
 "A small visual keyboard row is shown just above the translation field. Its "
 "rows are specific to each language; it can be useful for local punctuation "
 "or characters that are hard to type by hand."
 msgstr ""
 "Eine kleine visuelle Tastaturzeile wird direkt über dem Übersetzungsfeld "
-"angezeigt. Dies kann nützlich sein, um die lokale Zeichensetzung im Auge zu "
-"behalten (da die Zeile für jede Sprache lokal ist) oder um schwer zu "
-"tippende Zeichen zur Hand zu haben."
+"angezeigt. Die Zeilen sind für jede Sprache spezifisch; sie können nützlich "
+"sein für lokale Interpunktion oder Zeichen, die schwer mit der Hand zu "
+"tippen sind."
 
 #: ../../user/translating.rst:274
 msgid "The shown symbols factor into three categories:"
@@ -54084,11 +54020,6 @@ msgid "Translation history"
 msgstr "Übersetzungsverlauf"
 
 #: ../../user/translating.rst:317
-#, fuzzy
-#| msgid ""
-#| "Every change is by default (unless turned off in component settings) "
-#| "saved in the database, and can be reverted. Optionally one can still also "
-#| "revert anything in the underlying version control system."
 msgid ""
 "Every change is by default (unless turned-off in component settings) saved "
 "in the database, and can be reverted. Optionally, translations can also be "
@@ -54096,8 +54027,8 @@ msgid ""
 msgstr ""
 "Jede Änderung wird standardmäßig (sofern nicht in den Komponenten-"
 "Einstellungen ausgeschaltet) in der Datenbank gespeichert und kann "
-"rückgängig gemacht werden. Optional kann auch alles in der zugrundeliegenden "
-"Versionsverwaltung rückgängig gemacht werden."
+"rückgängig gemacht werden. Optional können Übersetzungen auch in der "
+"zugrunde liegenden Versionsverwaltung rückgängig gemacht werden."
 
 #: ../../user/translating.rst:323
 msgid "Translated string length"
@@ -54112,14 +54043,6 @@ msgstr ""
 "um sicherzustellen, dass die übersetzte Zeichenkette nicht zu lang ist:"
 
 #: ../../user/translating.rst:328
-#, fuzzy
-#| msgid ""
-#| "The default limitation for translation is ten times longer than the "
-#| "source string. This can be turned off by :setting:"
-#| "`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. In case you are hitting "
-#| "this, it might be also caused by a monolingual translation erroneously "
-#| "set up as bilingual one, making Weblate mistaking the translation key for "
-#| "the actual source string. See :ref:`bimono` for more info."
 msgid ""
 "The default limitation for translation is ten times longer than the source "
 "string. This can be modified with :setting:"
@@ -54129,36 +54052,29 @@ msgid ""
 "source string. See :ref:`bimono` for more info."
 msgstr ""
 "Die Standardbegrenzung für Übersetzungen ist die zehnfache Länge der "
-"Ausgangszeichenkette. Dies kann durch :setting:"
-"`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` ausgeschaltet werden. Falls Sie "
-"auf dieses Problem stoßen, kann es auch daran liegen, dass eine einsprachige "
-"Übersetzung fälschlicherweise als zweisprachig eingerichtet wurde, so dass "
-"Weblate den Übersetzungsschlüssel mit der eigentlichen Ausgangszeichenkette "
-"verwechselt. Siehe :ref:`bimono` für weitere Informationen."
+"Ausgangszeichenkette. Dies kann mit "
+":setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` geändert werden. Wenn "
+"Sie auf dieses Problem stoßen, kann es auch daran liegen, dass eine "
+"einsprachige Übersetzung fälschlicherweise als zweisprachig eingerichtet "
+"wurde, so dass Weblate den Übersetzungsschlüssel mit der eigentlichen "
+"Ausgangszeichenkette verwechselt. Siehe :ref:`bimono` für weitere "
+"Informationen."
 
 #: ../../user/translating.rst:333
-#, fuzzy
-#| msgid ""
-#| "Maximal length in characters defined by translation file or flag, see :"
-#| "ref:`check-max-length`."
 msgid ""
 "Maximum length in characters defined by the translation file or flag, as "
 "per :ref:`check-max-length`."
 msgstr ""
 "Maximale Länge in Zeichen, definiert durch die Übersetzungsdatei oder -"
-"Markierung, siehe :ref:`check-max-length`."
+"Markierung gemäß :ref:`check-max-length`."
 
 #: ../../user/translating.rst:335
-#, fuzzy
-#| msgid ""
-#| "Maximal rendered size in pixels defined by flags, see :ref:`check-max-"
-#| "size`."
 msgid ""
 "Maximal rendered size in pixels as defined by flags; see :ref:`check-max-"
 "size`."
 msgstr ""
-"Maximale gerenderte Größe in Pixeln, definiert durch Markierungen, siehe :"
-"ref:`check-max-size`."
+"Maximale gerenderte Größe in Pixel, wie durch Markierungen definiert; siehe "
+":ref:`check-max-size`."
 
 #: ../../user/translating.rst:342
 msgid ""
@@ -54249,12 +54165,6 @@ msgstr ""
 "übersetzt` gekennzeichnet."
 
 #: ../../user/translating.rst:393
-#, fuzzy
-#| msgid ""
-#| "To avoid abuse of the interface, rate limiting is applied to several "
-#| "operations like searching, sending contact forms or translating. If "
-#| "affected by it, you are blocked for a certain period until you can "
-#| "perform the operation again."
 msgid ""
 "To avoid abuse of the interface, rate limiting is applied to several "
 "operations like searching, sending contact forms, or translating. If "
@@ -54262,9 +54172,9 @@ msgid ""
 "the operation again."
 msgstr ""
 "Um einen Missbrauch der Schnittstelle zu vermeiden, wird die Geschwindigkeit "
-"bei verschiedenen Vorgängen wie Suchen, Senden von Kontaktformularen oder "
-"Übersetzen begrenzt. Wenn Sie davon betroffen sind, werden Sie für eine "
-"bestimmte Zeit gesperrt, bis Sie den Vorgang wieder ausführen können."
+"bei verschiedenen Vorgängen wie Suchen, Senden von Kontaktformularen, oder "
+"Übersetzen begrenzt. Wenn Sie davon betroffen sind, werden Sie für einen "
+"bestimmten Zeitraum gesperrt, bis Sie den Vorgang erneut ausführen können."
 
 #: ../../user/translating.rst:398
 msgid ""
@@ -54288,39 +54198,27 @@ msgstr ""
 "korrigieren."
 
 #: ../../user/translating.rst:411
-#, fuzzy
-#| msgid ""
-#| "Don’t worry about messing up the strings. This is a two-step process "
-#| "showing a preview of edited strings before the actual change is confirmed."
 msgid ""
 "Don't worry about messing up the strings, as it is a two-step process. A "
 "preview of edited strings is shown before confirming the change."
 msgstr ""
-"Machen Sie sich keine Sorgen, dass Sie die Zeichenketten durcheinander "
-"bringen. Dies ist ein zweistufiger Prozess, der eine Vorschau der "
-"bearbeiteten Zeichenketten anzeigt, bevor die tatsächliche Änderung "
-"bestätigt wird."
+"Machen Sie sich keine Sorgen, dass Sie die Zeichenketten "
+"durcheinanderbringen könnten, denn es handelt sich um einen zweistufigen "
+"Prozess. Eine Vorschau der bearbeiteten Zeichenketten wird angezeigt, bevor "
+"die Änderung bestätigt wird."
 
 #: ../../user/translating.rst:419
-#, fuzzy
-#| msgid ""
-#| "Bulk editing allows performing one operation on number of strings. You "
-#| "define strings by searching for them and set up something to be done for "
-#| "matching ones. The following operations are supported:"
 msgid ""
 "Bulk editing allows performing one operation for multiple strings. Define "
 "strings by searching for them and actions to perform on matching ones. "
 "Supported operations:"
 msgstr ""
 "Die Massenbearbeitung ermöglicht das Durchführen eines Vorgangs für mehrere "
-"Zeichenketten. Sie definieren Zeichenketten, indem Sie nach ihnen suchen und "
-"festlegen, was mit den übereinstimmenden Zeichenketten geschehen soll. Die "
-"folgenden Operationen werden unterstützt:"
+"Zeichenketten. Definieren Sie Zeichenketten, indem Sie nach ihnen suchen, "
+"und führen Sie Aktionen für die entsprechenden Zeichenketten durch. "
+"Unterstützte Operationen:"
 
 #: ../../user/translating.rst:423
-#, fuzzy
-#| msgid ""
-#| "Changing string state (for example to approve all unreviewed strings)."
 msgid "Change string state (for example to approve all unreviewed strings)."
 msgstr ""
 "Ändern des Zeichenkettenstatus (z. B. um alle ungeprüften Zeichenketten zu "
@@ -54335,16 +54233,12 @@ msgid "Adjust string labels (see :ref:`labels`)"
 msgstr "Anpassen der Zeichenkette-Labels (siehe :ref:`labels`)"
 
 #: ../../user/translating.rst:429
-#, fuzzy
-#| msgid ""
-#| "This tool is called :guilabel:`Bulk edit` accessible in the :guilabel:"
-#| "`Tools` menu of each project, component or translation."
 msgid ""
 "This tool is called :guilabel:`Bulk edit`, accessible in the :guilabel:"
 "`Tools` menu of each project, component or translation."
 msgstr ""
-"Dieses Werkzeug heißt :guilabel:`Massenbearbeitung` und ist im Menü :"
-"guilabel:`Werkzeuge` jedes Projekts, jeder Komponente und jeder Übersetzung "
+"Dieses Werkzeug heißt :guilabel:`Massenbearbeitung` und ist über das Menü "
+":guilabel:`Werkzeuge` jedes Projekts, jeder Komponente und jeder Übersetzung "
 "zugänglich."
 
 #: ../../user/translating.rst:436
@@ -54356,37 +54250,25 @@ msgid "Matrix View"
 msgstr "Matrixansicht"
 
 #: ../../user/translating.rst:441
-#, fuzzy
-#| msgid ""
-#| "To compare different languages efficiently you can use the matrix view. "
-#| "It is available on every component page under the :guilabel:`Tools` menu. "
-#| "First select all languages you want to compare and confirm your "
-#| "selection, after that you can click on any translation to open and edit "
-#| "it quickly."
 msgid ""
 "You can compare different languages efficiently using this view It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
 msgstr ""
-"Um verschiedene Sprachen effizient zu vergleichen, können Sie die "
-"Matrixansicht verwenden. Sie ist auf jeder Komponentenseite unter dem "
-"Menüpunkt :guilabel:`Werkzeuge` verfügbar. Wählen Sie zunächst alle Sprachen "
-"aus, die Sie vergleichen möchten, und bestätigen Sie die Auswahl. Danach "
-"können Sie auf jede Übersetzung klicken, um sie schnell zu öffnen und zu "
-"bearbeiten."
+"Mit dieser Ansicht können Sie verschiedene Sprachen effizient vergleichen. "
+"Sie ist auf jeder Seite einer Komponente über das Menü :guilabel:`Werkzeuge` "
+"verfügbar. Wählen Sie zunächst alle Sprachen aus, die Sie vergleichen "
+"möchten, bestätigen Sie die Auswahl und klicken Sie dann auf eine "
+"Übersetzung, um sie zu öffnen und zu bearbeiten."
 
 #: ../../user/translating.rst:446
-#, fuzzy
-#| msgid ""
-#| "The matrix view is also a very good starting point to find missing "
-#| "translations in different languages and quickly add them from one view."
 msgid ""
 "The matrix view is also a very good starting point to find missing "
 "translations in different languages, and quickly add them from one view."
 msgstr ""
 "Die Matrixansicht ist auch ein sehr guter Ausgangspunkt, um fehlende "
-"Übersetzungen in verschiedenen Sprachen zu finden und sie schnell von einer "
+"Übersetzungen in verschiedenen Sprachen zu finden, und sie schnell von einer "
 "Ansicht aus hinzuzufügen."
 
 #: ../../user/translating.rst:450
@@ -54400,14 +54282,12 @@ msgid ""
 "clicking the :guilabel:`Zen` button on the top-right of the regular editor "
 "(translation of a string)."
 msgstr ""
+"Dieser Modus vereinfacht das Layout und entfernt zusätzliche Bedienelemente "
+"wie :guilabel:`Benachbarte Zeichenketten` oder das :guilabel:`Glossar`. Er "
+"wird durch Klicken auf die Schaltfläche :guilabel:`Zen` oben rechts im "
+"regulären Editor (Übersetzung einer Zeichenkette) aufgerufen."
 
 #: ../../user/translating.rst:456
-#, fuzzy
-#| msgid ""
-#| "You can select the Zen editor as your default editor using the :ref:"
-#| "`profile-preferences` tab on your :ref:`user-profile`. Here you can also "
-#| "choose between having translations listed :guilabel:`Top to bottom` or :"
-#| "guilabel:`Side by side` depending on your personal preference."
 msgid ""
 "You can select the Zen editor as your default editor using the :ref:`profile-"
 "preferences` tab on your :ref:`user-profile`. You can also choose there "
@@ -54416,7 +54296,7 @@ msgid ""
 msgstr ""
 "Sie können den Zen-Editor als Standard-Editor auswählen, indem Sie den "
 "Reiter :ref:`profile-preferences` in Ihrem :ref:`user-profile` verwenden. "
-"Hier können Sie auch auswählen, ob die Übersetzungen :guilabel:`Von oben "
+"Dort können Sie auch auswählen, ob die Übersetzungen :guilabel:`Von oben "
 "nach unten` oder :guilabel:`Nebeneinander` aufgelistet werden sollen, je "
 "nach Ihrer persönlichen Vorliebe."
 
@@ -56068,6 +55948,9 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
+"Die Zeichenkette ist schreibgeschützt, weil sie die :ref:`Markierung <custom-"
+"checks>` ``read-only`` hat, eine nicht editierbare Ausgangszeichenkette ist, "
+"oder in der Übersetzungsdatei als solche markiert wurde."
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
