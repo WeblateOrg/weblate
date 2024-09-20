@@ -217,6 +217,7 @@ of time like ``yesterday``, ``last month``, and ``2 days ago`` can be used as
 values in the DATETIME fields.
 
 Examples:
+
 ``changed:>="2 weeks ago"``
     Returns strings that are changed 2 weeks ago from the current date and time.
 ``changed:>="yesterday"``
