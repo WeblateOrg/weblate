@@ -113,7 +113,9 @@ class PunctuationSpacing(AutoFix):
         ):
             # Fix existing
             new_target = re.sub(FRENCH_PUNCTUATION_FIXUP_RE_NBSP, "\u00a0\\2", target)
-            new_target = re.sub(FRENCH_PUNCTUATION_FIXUP_RE_NNBSP, "\u202f\\2", new_target)
+            new_target = re.sub(
+                FRENCH_PUNCTUATION_FIXUP_RE_NNBSP, "\u202f\\2", new_target
+            )
             # Do not add missing as that is likely to trigger issues with other content
             # such as URLs or Markdown syntax.
             return new_target, new_target != target
