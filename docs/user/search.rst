@@ -208,6 +208,7 @@ Additional lookups are available in the :ref:`management-interface`:
 ``email:TEXT``
    Search by e-mail.
 
+.. _date-search:
 
 Fuzzy values for DATETIME fields
 ++++++++++++++++++++++++++++++++
@@ -220,5 +221,5 @@ Examples:
 
 ``changed:>="2 weeks ago"``
     Returns strings that are changed 2 weeks ago from the current date and time.
-``changed:>="yesterday"``
+``changed:>=yesterday``
     Returns strings that are changed starting yesterday.
