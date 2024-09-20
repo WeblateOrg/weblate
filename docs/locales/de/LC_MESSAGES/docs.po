@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-04 09:53+0200\n"
-"PO-Revision-Date: 2024-09-20 11:02+0000\n"
+"PO-Revision-Date: 2024-09-20 11:36+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -39111,31 +39111,37 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:50
 msgid "Import the library in ``src/main.js``."
-msgstr ""
+msgstr "Die Bibliothek in ``src/main.js`` importieren."
 
 #: ../../contributing/frontend.rst:52
 msgid ""
 "If it is page-specific library (library is used in a specific page or "
 "template):"
 msgstr ""
+"Wenn es sich um eine seitenspezifische Bibliothek handelt (sie wird auf "
+"einer bestimmten Seite oder Vorlage verwendet):"
 
 #: ../../contributing/frontend.rst:53
 msgid "Create a new file named ``src/<lib-name>.js``."
-msgstr ""
+msgstr "Eine neue Datei mit dem Namen ``src/<lib-name>.js`` erstellen."
 
 #: ../../contributing/frontend.rst:54
 msgid "Import the library in it."
-msgstr ""
+msgstr "Die Bibliothek darin importieren."
 
 #: ../../contributing/frontend.rst:55
 msgid ""
 "Add an entry in ``webpack.config.js``: ``<lib-name>: \"src/<lib-name>.js\"``."
 msgstr ""
+"Einen Eintrag in ``webpack.config.js``: ``<lib-name>: \"src/<lib-name>.js\"``"
+" hinzufügen."
 
 #: ../../contributing/frontend.rst:58
 msgid ""
 "Note: Replace ``<lib-name>`` with the actual name of the 3rd party library."
 msgstr ""
+"Hinweis: ``<lib-name>`` durch den tatsächlichen Namen der Drittanbieter-"
+"Bibliothek ersetzen."
 
 #: ../../contributing/frontend.rst:61
 msgid "3- Building the Library"
@@ -39144,6 +39150,8 @@ msgstr "3- Erstellen der Bibliothek"
 #: ../../contributing/frontend.rst:63
 msgid "Build the libraries used by the project, run the following command:"
 msgstr ""
+"Erstellen Sie die vom Projekt verwendeten Bibliotheken, indem Sie den "
+"folgenden Befehl ausführen:"
 
 #: ../../contributing/frontend.rst:70
 msgid "4- Including the Library"
@@ -39153,12 +39161,16 @@ msgstr "4- Einbinden der Bibliothek"
 msgid ""
 "Now the library is built and ready for use. To include it follow these steps:"
 msgstr ""
+"Jetzt ist die Bibliothek erstellt und einsatzbereit. Um sie einzubinden, "
+"führen Sie folgende Schritte aus:"
 
 #: ../../contributing/frontend.rst:74
 msgid ""
 "If the library was imported in ``src/main.js``, no further steps are "
 "required (as it is already included in ``base.html``)."
 msgstr ""
+"Wenn die Bibliothek in ``src/main.js`` importiert wurde, sind keine weiteren "
+"Schritte erforderlich (da sie bereits in ``base.html`` enthalten ist)."
 
 #: ../../contributing/frontend.rst:76
 msgid ""
@@ -39166,6 +39178,9 @@ msgid ""
 "``weblate/templates``` use the include tags to link to the built static "
 "JavaScript file:"
 msgstr ""
+"Wenn die Bibliothek in ihre spezifischen Datei ``src/<lib-name>.js`` "
+"importiert wurde, verwenden Sie in ``weblate/templates`` die Include-Tags, "
+"um sie mit der erstellten statischen JavaScript-Datei zu verknüpfen:"
 
 #: ../../contributing/frontend.rst:84
 msgid "Coding style"
@@ -39211,9 +39226,9 @@ msgid ""
 "Weblate currently uses material design icons. In case you are looking for "
 "new symbol, check `Material Design Icons`_ or `Material Design Resources`_."
 msgstr ""
-"Weblate verwendet derzeit Material Design Symbole. Falls Sie auf der Suche "
-"nach neuen Symbolen sind, schauen Sie unter `Material Design Icons`_ oder "
-"`Material Design Resources`_."
+"Weblate verwendet derzeit Material-Design-Symbole. Falls Sie auf der Suche "
+"nach neuen Symbolen sind, schauen Sie unter `Material Design Icons`_ oder `"
+"Material Design Resources`_."
 
 #: ../../contributing/frontend.rst:121
 msgid ""
@@ -39382,6 +39397,9 @@ msgid ""
 "are in `docs/requirements.txt`. You will also need :program:`graphviz` to "
 "build the documentation."
 msgstr ""
+"Die Dokumentation kann auch lokal bearbeitet und erstellt werden, die Python-"
+"Anforderungen befinden sich in `docs/requirements.txt`. Sie benötigen "
+"außerdem :program:`graphviz`, um die Dokumentation zu erstellen."
 
 #: ../../contributing/index.rst:61
 msgid ""
@@ -39774,23 +39792,18 @@ msgid ""
 "Weblate `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
 "hosted at GitHub."
 msgstr ""
-"Weblate `Issue Tracker <https://github.com/WeblateOrg/weblate/issues>`_ wird "
-"auf GitHub gehostet."
+"Weblates `Issue Tracker <https://github.com/WeblateOrg/weblate/issues>`_ "
+"wird auf GitHub gehostet."
 
 #: ../../contributing/issues.rst:8
-#, fuzzy
-#| msgid ""
-#| "Feel welcome to report any issues you have, or suggest improvement for "
-#| "Weblate there. There are various templates prepared to comfortably guide "
-#| "you through the issue report."
 msgid ""
 "Feel welcome to report any issues you have or suggest improvements for "
 "Weblate there. There are various templates prepared to comfortably guide you "
 "through the issue report."
 msgstr ""
-"Sie können dort gerne alle Probleme melden, die Sie haben, oder "
-"Verbesserungsvorschläge für Weblate machen. Es gibt verschiedene Vorlagen, "
-"die Sie bequem durch den Problembericht führen."
+"Gerne können Sie dort Probleme melden oder Verbesserungsvorschläge für "
+"Weblate machen. Es stehen verschiedene Vorlagen zur Verfügung, die Sie "
+"bequem durch den Problembericht führen."
 
 #: ../../contributing/issues.rst:11
 msgid ""
@@ -39820,6 +39833,10 @@ msgid ""
 "policies that are geared toward delivering timely security updates to "
 "Weblate."
 msgstr ""
+"Das Entwicklungsteam von Weblate hat sich verpflichtet, sicherheitsrelevante "
+"Probleme verantwortungsbewusst zu melden und offenzulegen. Wir haben "
+"Richtlinien eingeführt und befolgen diese, die darauf ausgerichtet sind, "
+"Weblate zeitnah mit Sicherheitsupdates zu versorgen."
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -39828,6 +39845,10 @@ msgid ""
 "sensitive nature of security issues, we ask that they not be publicly "
 "reported in this fashion."
 msgstr ""
+"Die meisten normalen Fehler in Weblate werden an unseren öffentlichen "
+"`GitHub-Issues-Tracker <https://github.com/WeblateOrg/weblate/issues>`_ "
+"gemeldet, aber aufgrund der sensiblen Natur von Sicherheitsproblemen bitten "
+"wir darum, sie nicht auf diese Weise öffentlich zu melden."
 
 #: ../../contributing/issues.rst:30
 msgid ""
@@ -39836,16 +39857,24 @@ msgid ""
 "org, `GitHub <https://github.com/WeblateOrg/weblate/security/advisories/"
 "new>`_, or using `HackerOne <https://hackerone.com/weblate>`_."
 msgstr ""
+"Wenn Sie stattdessen glauben, etwas in Weblate gefunden zu haben, das "
+"Auswirkungen auf die Sicherheit hat, senden Sie bitte eine Beschreibung des "
+"Problems an security@weblate.org, `GitHub <https://github.com/WeblateOrg/"
+"weblate/security/advisories/new>`_ oder über `HackerOne <https://hackerone."
+"com/weblate>`_."
 
 #: ../../contributing/issues.rst:35
 msgid ""
 "A member of the security team will respond to you within 48 hours, and "
 "depending on what action is taken, you may get more follow-up emails."
 msgstr ""
+"Ein Mitglied des Sicherheitsteams wird Ihnen innerhalb von 48 Stunden "
+"antworten, und je nachdem, welche Maßnahmen ergriffen werden, können Sie "
+"weitere E-Mails erhalten."
 
 #: ../../contributing/issues.rst:40
 msgid "**Sending encrypted reports**"
-msgstr ""
+msgstr "**Senden verschlüsselter Berichte**"
 
 #: ../../contributing/issues.rst:42
 #, fuzzy
