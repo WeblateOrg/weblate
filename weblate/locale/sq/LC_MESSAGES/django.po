@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-20 19:19+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-09-21 02:45+0000\n"
+"Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
 "Language: sq\n"
@@ -1132,10 +1132,9 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr "Shtoni një identitet tjetër, duke ripohuar së pari adresën tuaj email."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "S’u arrit të prodhohej kyç: %s"
+msgstr "S’u arrit të bëhej mirëfilltësimi: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -1768,6 +1767,7 @@ msgstr "Burimi dhe synimi duhet të jenë në gjuhë të ndryshme."
 #: weblate/addons/forms.py:645
 msgid "Enable case-sensitive key sorting"
 msgstr ""
+"Aktivizo renditje kyçesh që merr parasysh shkrimin me të madhe a me të vogël"
 
 #: weblate/addons/generate.py:33
 msgid "Statistics generator"
@@ -3800,7 +3800,7 @@ msgstr "Vargu në format kllapash Python nuk përputhet me burimin"
 
 #: weblate/checks/format.py:611
 msgid "Single {} encountered in the format string."
-msgstr ""
+msgstr "U has {} njëshe në varg formati."
 
 #: weblate/checks/format.py:638
 msgid "C# format"
@@ -5147,26 +5147,23 @@ msgid "Region ID"
 msgstr "ID Rajoni"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "Kontekst"
+msgstr "Vektor konteksti"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
-msgstr ""
+msgstr "Listë IDs:weight kujtese, ndarë me presje. P.sh.: 1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "Përkthimi s’është XML e vlefshme"
+msgstr "Vektori i kontekstit s’është i vlefshëm: %s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "Vlera e peshës duhet të jetë mes 0 dhe 1: %s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5185,16 +5182,11 @@ msgid "Translation context"
 msgstr "Kontekst përkthimi"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
 msgstr ""
-"Përshkruan persona-n e përkthyesit, për të përmirësuar përpikërinë e "
-"përkthimit. Për shembull: “Jeni një mbarështues lopësh”."
+"Përshkruani kontekstin e përkthimit, për të përmirësuar përpikërinë e tij."
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5262,26 +5254,24 @@ msgid "Choose custom model here to enable it."
 msgstr "Zgjidhni këtu model vetjak për t’u aktivizuar."
 
 #: weblate/machinery/forms.py:403
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr "URL pikëmbarimi aplikacioni"
+msgstr "URL pikëmbarimi Azure OpenAI"
 
 #: weblate/machinery/forms.py:407
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr ""
+"URL pikëmbarimi e instancës, p.sh: https://my-instance.openai.azure.com."
 
 #: weblate/machinery/forms.py:413
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "Sendërtim Azure OpenAI"
 
 #: weblate/machinery/forms.py:416
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "Emri unik i sendërtimit të modelit."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5503,11 +5493,6 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "Verifikimi CSRF dështoi. Kërkesa u ndërpre."
 
 #: weblate/templates/403_csrf.html:15
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
