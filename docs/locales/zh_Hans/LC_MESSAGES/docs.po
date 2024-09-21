@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-21 04:52+0000\n"
+"PO-Revision-Date: 2024-09-21 06:12+0000\n"
 "Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
 "org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -9523,6 +9523,8 @@ msgid ""
 "`component-repo` (if push URL is not configured), these take precedence over "
 "the ones specified in the configuration file."
 msgstr ""
+"凭据也可以在 :ref:`component-push` 或 :ref:`component-repo`中被覆盖（"
+"如果没有配置 URL），这些凭据的优先级高于配置文件中所指定的凭据。"
 
 #: ../../admin/config.rst:2125
 msgid "API user, required."
@@ -16685,6 +16687,9 @@ msgid ""
 "quality. Read more on that in `DeepL translation context documentatin "
 "<https://developers.deepl.com/docs/best-practices/working-with-context>`_."
 msgstr ""
+"可以指定翻译上下文改进翻译质量（可选）。关于上下文的更多内容，请阅读 `DeepL "
+"翻译上下文文档 <https://developers.deepl.com/docs/best-practices/working-"
+"with-context>`_ 。"
 
 #: ../../admin/machine.rst:188
 msgid ""
@@ -17100,7 +17105,7 @@ msgstr "Azure OpenAI 端点网址"
 #: ../../admin/machine.rst:401
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
-msgstr ""
+msgstr "实例的端点 URL，如：https://my-instance.openai.azure.com。"
 
 #: ../../admin/machine.rst:403
 msgid "``deployment``"
@@ -17112,7 +17117,7 @@ msgstr "Azure OpenAI 部署"
 
 #: ../../admin/machine.rst:403
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "模型的唯一部署名。"
 
 #: ../../admin/machine.rst:406
 msgid "Performs translation using `OpenAI`_ hosted on Azure."
@@ -17136,7 +17141,7 @@ msgstr "上下文向量"
 
 #: ../../admin/machine.rst:425
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
-msgstr ""
+msgstr "英文逗号分隔的列表，分别表示记忆 ID和权重。形如 1234:0.123,4567:0.456"
 
 #: ../../admin/machine.rst:432
 msgid "`ModernMT API <https://www.modernmt.com/api/#translation>`_"
@@ -25051,13 +25056,13 @@ msgstr "**新功能**"
 msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
-msgstr ""
+msgstr ":ref:`Searching` 现在支持按照对象路径和 :ref:`date-search`进行筛选。"
 
 #: ../../changes.rst:9
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, see :ref:"
 "`settings-credentials`."
-msgstr ""
+msgstr "现在可以在仓库 URL 中传递合并请求凭据，见 :ref:`settings-credentials`。"
 
 #: ../../changes.rst:10
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
@@ -25087,7 +25092,7 @@ msgstr ":ref:`mt-aws` 现支持 :ref:`glossary-mt`."
 
 #: ../../changes.rst:17
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
-msgstr ""
+msgstr "梵文天城体 danda 符号的:ref:`autofix` 现在更好地处理拉丁字母。"
 
 #: ../../changes.rst:19 ../../changes.rst:47 ../../changes.rst:72
 #: ../../changes.rst:118 ../../changes.rst:151 ../../changes.rst:176
@@ -25215,6 +25220,10 @@ msgid ""
 "Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
 "Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 msgstr ""
+"Christian Wia, Ihor Hordiichuk, Hanaa MSB, Hoseok Seo, پرویز قادر, Reno Tx, "
+"Jose Delvani, Artemka, Blueberry, Elisabeth Pieringer, VfBFan, ɴᴇᴋᴏ, Andi "
+"Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
+"Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
@@ -35541,7 +35550,7 @@ msgstr "安装前，请确保你具备下列前提条件："
 
 #: ../../contributing/frontend.rst:30
 msgid "``Nodejs`` version 14 or higher."
-msgstr ""
+msgstr "``Nodejs`` 14 或更高版本。"
 
 #: ../../contributing/frontend.rst:31
 msgid "The ``yarn`` package manager installed on your system."
@@ -35581,7 +35590,7 @@ msgstr "导入 ``src/main.js`` 中的库。"
 
 #: ../../contributing/frontend.rst:51
 msgid "And declare it in the global scope (if needed)."
-msgstr ""
+msgstr "并在全部范围内声明它（如果需要）。"
 
 #: ../../contributing/frontend.rst:53
 msgid ""
@@ -42074,7 +42083,7 @@ msgstr "i18next JSON 文件 v4"
 #: ../../formats/i18next.rst:29
 msgid ""
 "Choose this format if unsure. It stores plurals using standard CLDR suffixes."
-msgstr ""
+msgstr "如果不确定，选择此格式。它使用标准的 CLDR 后缀存储复数。"
 
 #: ../../formats/i18next.rst:32
 msgid "i18next JSON file v3"
@@ -42082,7 +42091,7 @@ msgstr "i18next JSON 文件 v3"
 
 #: ../../formats/i18next.rst:34
 msgid "Use for legacy projects which are using numeric suffixes for plurals."
-msgstr ""
+msgstr "用于特定的旧项目，这些项目使用数字后缀表示复数。"
 
 #: ../../formats/i18next.rst:38
 msgid ""
@@ -47917,7 +47926,7 @@ msgstr "``path:TEXT``"
 msgid ""
 "Path to the object to limit searching inside component, category, project, "
 "or translation."
-msgstr ""
+msgstr "对象路径，以限制在部件、类别、项目或翻译中进行搜索。"
 
 #: ../../user/search.rst:78
 msgid "``changed_by:TEXT``"
@@ -48262,7 +48271,7 @@ msgstr "按电子邮箱搜索。"
 
 #: ../../user/search.rst:214
 msgid "Fuzzy values for DATETIME fields"
-msgstr ""
+msgstr "DATETIME 字段的模糊值"
 
 #: ../../user/search.rst:216
 msgid ""
@@ -48270,6 +48279,8 @@ msgid ""
 "of time like ``yesterday``, ``last month``, and ``2 days ago`` can be used "
 "as values in the DATETIME fields."
 msgstr ""
+"在 DATETIME 字段中可以使用包含时间副词的字符串，如 ``yesterday``, ``last "
+"month`` 和 ``2 days ago`` 替换如 MM-DD-YYYY 格式的 DATETIME 值。"
 
 #: ../../user/search.rst:222
 msgid "``changed:>=\"2 weeks ago\"``"
@@ -48278,7 +48289,7 @@ msgstr "``changed:>=\"2 周前\"``"
 #: ../../user/search.rst:223
 msgid ""
 "Returns strings that are changed 2 weeks ago from the current date and time."
-msgstr ""
+msgstr "返回距当下日期和时间 2 周内更改的字符串。"
 
 #: ../../user/search.rst:224
 msgid "``changed:>=yesterday``"
@@ -48286,7 +48297,7 @@ msgstr "``changed:>=昨天``"
 
 #: ../../user/search.rst:225
 msgid "Returns strings that are changed starting yesterday."
-msgstr ""
+msgstr "返回昨天起更改的字符串。"
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
@@ -50026,7 +50037,7 @@ msgstr "Weblate 客户端是单独提供的，包括 Python 模块。要使用�
 #: ../../wlc.rst:24
 msgid ""
 "You can also use this :program:`wlc` as a Python module, see :mod:`wlc`."
-msgstr ""
+msgstr "你可以将 :program:`wlc`用作 Python 模块，见 :mod:`wlc`。"
 
 #: ../../wlc.rst:29
 msgid "Docker usage"
