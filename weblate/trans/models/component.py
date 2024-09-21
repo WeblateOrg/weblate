@@ -2543,7 +2543,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     )
                     self.handle_parse_error(error.__cause__, filename=self.template)
                     self.update_import_alerts()
-                    raise error.__cause__ from error
+                    raise error.__cause__ from error  # pylint: disable=E0710
                 was_change |= bool(translation.reason)
                 translations[translation.id] = translation
                 languages[lang.code] = translation
