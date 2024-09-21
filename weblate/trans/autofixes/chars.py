@@ -10,7 +10,8 @@ from typing import TYPE_CHECKING
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.chars import (
-    FRENCH_PUNCTUATION_FIXUP_RE,
+    FRENCH_PUNCTUATION_FIXUP_RE_NBSP,
+    FRENCH_PUNCTUATION_FIXUP_RE_NNBSP,
     EndEllipsisCheck,
     PunctuationSpacingCheck,
     ZeroWidthSpaceCheck,
@@ -111,7 +112,10 @@ class PunctuationSpacing(AutoFix):
             and "ignore-punctuation-spacing" not in unit.all_flags
         ):
             # Fix existing
-            new_target = re.sub(FRENCH_PUNCTUATION_FIXUP_RE, "\u202f\\2", target)
+            new_target = re.sub(FRENCH_PUNCTUATION_FIXUP_RE_NBSP, "\u00a0\\2", target)
+            new_target = re.sub(
+                FRENCH_PUNCTUATION_FIXUP_RE_NNBSP, "\u202f\\2", new_target
+            )
             # Do not add missing as that is likely to trigger issues with other content
             # such as URLs or Markdown syntax.
             return new_target, new_target != target
