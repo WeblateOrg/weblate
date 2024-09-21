@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-20 19:19+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-09-21 13:59+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
 "Language: ga\n"
@@ -1142,10 +1142,9 @@ msgstr ""
 "Cuir aitheantas eile leis trí do sheoladh r-phoist a dheimhniú ar dtús."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "Níorbh fhéidir eochair a ghiniúint: %s"
+msgstr "Níorbh fhéidir a fhíordheimhniú: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -5166,26 +5165,25 @@ msgid "Region ID"
 msgstr "Aitheantas Réigiúin"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "Comhthéacs"
+msgstr "Comhthéacs veicteoir"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
+"Liosta aitheantais cuimhne camóg-scartha: meáchan. m.sh: 1234:0.123,4567:0."
+"456"
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "Níl an t-aistriúchán bailí XML"
+msgstr "Níl an veicteoir comhthéacs bailí: %s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "Caithfidh an luach meáchain a bheith idir 0 agus 1: %s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5204,16 +5202,12 @@ msgid "Translation context"
 msgstr "Comhthéacs aistriúcháin"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
 msgstr ""
-"Déan cur síos ar phearsa an aistritheora chun cruinneas an aistriúcháin a "
-"fheabhsú. Mar shampla: “Is póraitheoir iora thú.”"
+"Déan cur síos ar chomhthéacs an aistriúcháin chun cruinneas an aistriúcháin "
+"a fheabhsú."
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5285,21 +5279,21 @@ msgstr "Roghnaigh múnla saincheaptha anseo chun é a chumasú."
 #: weblate/machinery/forms.py:403
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr ""
+msgstr "URL críochphointe Azure OpenAI"
 
 #: weblate/machinery/forms.py:407
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
-msgstr ""
+msgstr "URL críochphointe an ásc, m.sh.: https://my-instance.openai.azure.com."
 
 #: weblate/machinery/forms.py:413
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "Imscaradh Azure OpenAI"
 
 #: weblate/machinery/forms.py:416
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "Ainm imscaradh uathúil an tsamhail."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5526,11 +5520,6 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "Theip ar fhíorú CSRF. Cuireadh deireadh leis an iarratas."
 
 #: weblate/templates/403_csrf.html:15
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
@@ -5538,38 +5527,28 @@ msgid ""
 msgstr ""
 "Teastaíonn ceanntásc ‘Referer’ ón suíomh HTTPS seo le bheith seolta ag do "
 "bhrabhsálaí gréasáin, ach níor seoladh ceann ar bith. Tá an ceanntásc seo ag "
-"teastáil ar chúiseanna slándála, chun a chinntiú nach bhfuadóidh tríú "
-"páirtithe do bhrabhsálaí."
+"teastáil ar chúiseanna slándála, ag cinntiú nach bhfuil do bhrabhsálaí á "
+"fuadach ag tríú páirtithe."
 
 #: weblate/templates/403_csrf.html:16
-#, fuzzy
-#| msgid ""
-#| "If you have set up your web browser to not send 'Referer' headers, please "
-#| "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests)."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
 "Má tá do bhrabhsálaí gréasáin socraithe agat chun gan ceanntásca ‘Tagairtí’ "
-"a sheoladh, cuir ar siúl é le do thoil (ar a laghad don suíomh seo, do naisc "
-"HTTPS, nó d’iarratais den ‘bhunús céanna’)."
+"a sheoladh, ní mór duit é sin a chur ar siúl (ar a laghad i gcás an tsuímh "
+"seo, naisc HTTPS, nó iarratais ‘an tionscnaimh chéanna’)."
 
 #: weblate/templates/403_csrf.html:18
-#, fuzzy
-#| msgid ""
-#| "This site requires a CSRF cookie when submitting forms. This cookie is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-"Teastaíonn fianán CSRF ón suíomh seo agus foirmeacha á gcur isteach. Tá an "
-"fianán seo ag teastáil ar chúiseanna slándála, lena chinntiú nach bhfuil do "
-"bhrabhsálaí á fuadach ag tríú páirtithe."
+"Teastaíonn fianán seisiúin ar ár suíomh chun go n-oibreoidh na foirmeacha. "
+"Tá an fianán seo ag teastáil ar chúiseanna slándála, ag cinntiú nach bhfuil "
+"do bhrabhsálaí á fuadach ag tríú páirtithe."
 
 #: weblate/templates/403_csrf.html:19
 msgid ""
@@ -5577,19 +5556,20 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"Seans gur tharla gur chuaigh do fhianán seisiúin in éag mar gheall ar "
+"neamhghníomhaíocht. Is féidir leis seo tarlú go héasca d’iarratais "
+"neamhfhíordheimhnithe nuair a bhíonn bailíocht seisiúin teoranta. B'fhéidir "
+"gur mhaith leat triail a bhaint as an ngníomh atá beartaithe agat arís i "
+"gcás dá leithéid."
 
 #: weblate/templates/403_csrf.html:20
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again (at-least for this site, or for 'same-origin' requests)."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"Má tá do bhrabhsálaí socraithe agat chun gan fianáin a shábháil, cuir ar "
-"siúl arís iad (ar an suíomh seo ar a laghad, nó le haghaidh iarratais ar an "
-"‘tionscnamh céanna’)."
+"Má tá do bhrabhsálaí socraithe agat chun nach sábhálfaidh tú fianáin, ní mór "
+"duit iad a shábháil (ar a laghad don suíomh seo, nó iarratais 'ar an mbunús "
+"céanna')."
 
 #: weblate/templates/403_csrf.html:22
 #, python-format
@@ -6789,10 +6769,8 @@ msgid "User ID"
 msgstr "ID Úsáideora"
 
 #: weblate/templates/accounts/user.html:236
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
-msgstr "Fógraí"
+msgstr "Fógra"
 
 #: weblate/templates/accounts/user.html:237 weblate/trans/forms.py:1078
 msgid "Scope"
@@ -6800,7 +6778,7 @@ msgstr "Raon feidhme"
 
 #: weblate/templates/accounts/user.html:238
 msgid "Frequency"
-msgstr ""
+msgstr "Minicíocht"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
@@ -10100,10 +10078,8 @@ msgid "Delete announcement"
 msgstr "Scrios fógra"
 
 #: weblate/templates/multi-progress.html:15
-#, fuzzy
-#| msgid "Component is being updated…"
 msgid "Components are being updated…"
-msgstr "Comhpháirt á nuashonrú…"
+msgstr "Comhpháirteanna á nuashonrú…"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -11214,7 +11190,7 @@ msgstr "Cuireadh gach teaghrán neamhaistrithe leis an mhí seo caite"
 
 #: weblate/templates/snippets/query-builder.html:111
 msgid "Filter changed strings 2 weeks ago"
-msgstr ""
+msgstr "D'athraigh an scagaire teaghráin 2 sheachtain ó shin"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"
