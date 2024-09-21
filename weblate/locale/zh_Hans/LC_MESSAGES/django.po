@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-21 04:43+0000\n"
+"PO-Revision-Date: 2024-09-21 06:12+0000\n"
 "Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
 "org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -1081,10 +1081,9 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr "通过首先确认您的电子邮箱地址来添加其他身份。"
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "无法生成密钥：%s"
+msgstr "无法验证： %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -4944,26 +4943,23 @@ msgid "Region ID"
 msgstr "区域 ID"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "上下文"
+msgstr "上下文矢量"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
-msgstr ""
+msgstr "英文逗号分隔的列表，分别表示记忆 ID和权重。形如 1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "该译文不是有效的 XML"
+msgstr "上下文矢量无效：%s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "权重值必须在 0 和 1 之间：%s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5048,26 +5044,23 @@ msgid "Choose custom model here to enable it."
 msgstr "在此处选择自定义模型以开启。"
 
 #: weblate/machinery/forms.py:403
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr "应用端点网址"
+msgstr "Azure OpenAI 端点 URL"
 
 #: weblate/machinery/forms.py:407
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
-msgstr ""
+msgstr "实例的端点 URL，如：https://my-instance.openai.azure.com。"
 
 #: weblate/machinery/forms.py:413
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "Azure OpenAI 部署"
 
 #: weblate/machinery/forms.py:416
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "模型的唯一部署名。"
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5287,46 +5280,30 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF验证失败。请求被中断。"
 
 #: weblate/templates/403_csrf.html:15
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
 "that your browser is not being hijacked by third parties."
 msgstr ""
 "这个HTTPS站点需要浏览器发送 ‘Referer HTTP头‘，但是目前没有被发送。出于安全考"
-"虑，浏览器必须发送该HTTP头，以确保您的浏览器没有被第三方劫持。"
+"虑，浏览器必须发送该HTTP头，确保您的浏览器没有被第三方劫持。"
 
 #: weblate/templates/403_csrf.html:16
-#, fuzzy
-#| msgid ""
-#| "If you have set up your web browser to not send 'Referer' headers, please "
-#| "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests)."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
-"如果您已经设置网络浏览器不发送 ‘Referer’ 头，请至少针对这个站点，全部 HTTPS "
+"如果您已将网络浏览器设置为不发送 ‘Referer’ 头，你需要至少对这个站点， HTTPS "
 "请求，或者同源请求（same-origin）启用发送该 HTTP 头。"
 
 #: weblate/templates/403_csrf.html:18
-#, fuzzy
-#| msgid ""
-#| "This site requires a CSRF cookie when submitting forms. This cookie is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
-msgstr ""
-"该站点在提交表单时需要一个 CSRF cookie。此项是出于安全考虑，以确保您的浏览器"
-"没有被第三方劫持。"
+msgstr "该站点在提交表单时需要一个会话 cookie。此 cookie "
+"是出于安全考虑，确保您的浏览器没有被第三方劫持。"
 
 #: weblate/templates/403_csrf.html:19
 msgid ""
@@ -5334,18 +5311,16 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"你的会话 cookie 可能由于不活动而过期。会话有效性有限的未经验证的请求很容易出"
+"现这种情况。遇到这种情况，你可能需要再次尝试你打算进行的操作。"
 
 #: weblate/templates/403_csrf.html:20
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again (at-least for this site, or for 'same-origin' requests)."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"如果您已经设置浏览器不保存 cookies，请至少针对这个站点，全部 HTTPS 请求，或者"
-"同源请求（same-origin）启用 cookies。"
+"如果您已将浏览器设置为不保存 cookies，你需要至少对这个站点， HTTPS "
+"请求，或者同源请求（same-origin）启用 cookies 保存。"
 
 #: weblate/templates/403_csrf.html:22
 #, python-format
@@ -5417,7 +5392,7 @@ msgstr[0] "GitHub 星标"
 msgctxt "Label on engage page"
 msgid "Open issues"
 msgid_plural "Open issues"
-msgstr[0] "未解决问题"
+msgstr[0] "待解决问题"
 
 #: weblate/templates/about/donate.html:37
 msgctxt "Label on engage page"
@@ -6427,8 +6402,6 @@ msgid "User ID"
 msgstr "用户 ID"
 
 #: weblate/templates/accounts/user.html:236
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
 msgstr "通知"
 
@@ -6438,7 +6411,7 @@ msgstr "范围"
 
 #: weblate/templates/accounts/user.html:238
 msgid "Frequency"
-msgstr ""
+msgstr "频率"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
@@ -9487,8 +9460,6 @@ msgid "Delete announcement"
 msgstr "删除公告"
 
 #: weblate/templates/multi-progress.html:15
-#, fuzzy
-#| msgid "Component is being updated…"
 msgid "Components are being updated…"
 msgstr "正在更新部件…"
 
@@ -10511,7 +10482,7 @@ msgstr "过去一个月添加的所有未翻译字符串"
 
 #: weblate/templates/snippets/query-builder.html:111
 msgid "Filter changed strings 2 weeks ago"
-msgstr ""
+msgstr "筛选 2 周前更改的字符串"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"
