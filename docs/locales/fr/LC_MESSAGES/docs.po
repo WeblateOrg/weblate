@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-22 01:54+0000\n"
+"PO-Revision-Date: 2024-09-22 20:38+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -4675,6 +4675,11 @@ msgid ""
 "If you decide to use GitHub App, you need to enable `Access: Read-only` "
 "permission for Users - <Email addresses> and Organisation - <Members>."
 msgstr ""
+"Au lieu de GitHub OAuth App, vous pouvez aussi utiliser GitHub App. Avec "
+"GitHub App il est possible d'attributer des droits sur les répertoires, "
+"l'organisation et/ou le niveau utilisateur. Si vous choisissez d'utiliser "
+"GitHub App, vous devez activer les droits `Accès : Read-only` pour les "
+"Utilisateurs - <Adresses courriel> et les Organisations - <Membres>."
 
 #: ../../admin/auth.rst:163
 msgid ":doc:`psa:backends/github_enterprise`"
@@ -4792,12 +4797,13 @@ msgid ""
 "production deployment with Forgejo, see `Codeberg Translate <http://"
 "translate.codeberg.org>`_"
 msgstr ""
+"La configuration ci-dessus fonctionne également avec Forgejo ; pour un "
+"exemple de déploiement en production avec Forgejo, voir `Codeberg Translate "
+"<http ://translate.codeberg.org>`_"
 
 #: ../../admin/auth.rst:322
-#, fuzzy
-#| msgid ":doc:`psa:backends/gitlab`"
 msgid ":doc:`psa:backends/gitea`"
-msgstr ":doc:`psa:backends/gitlab`"
+msgstr ":doc:`psa:backends/gitea`"
 
 #: ../../admin/auth.rst:327
 msgid "Microsoft Azure Active Directory"
@@ -4822,9 +4828,8 @@ msgstr ""
 "azuread-tenant-oauth2/`` pour les tenants spécifiques à l’authentification."
 
 #: ../../admin/auth.rst:335
-#, fuzzy
 msgid "You will need following:"
-msgstr "Vous aurez besoin des éléments suivants :"
+msgstr "Vous aurez besoin des éléments suivants :"
 
 #: ../../admin/auth.rst:337
 msgid ""
@@ -49905,34 +49910,28 @@ msgid ":kbd:`Cmd+Shift+Enter`"
 msgstr ":kbd:`Cmd+Shift+Entrée`"
 
 #: ../../user/translating.rst:208
-#, fuzzy
-#| msgid "Unmarks translation as need edit and submits it."
 msgid "Unmark translation as needing edit and submit it."
-msgstr "Supprime la traduction comme À vérifier et l’envoie."
+msgstr "Supprime la marque À modifier et envoie la traduction."
 
 #: ../../user/translating.rst:212
-#, fuzzy
-#| msgid ":kbd:`Alt Enter` or"
 msgid ":kbd:`Alt+Enter` or"
-msgstr ":kbd:`Alt + Entrée` ou"
+msgstr ":kbd:`Alt+Entrée` ou"
 
 #: ../../user/translating.rst:214
-#, fuzzy
-#| msgid ":kbd:`Cmd+Enter`"
 msgid ":kbd:`Option+Enter`"
-msgstr ":kbd:`Cmd+Entrée`"
+msgstr ":kbd:`Option+Entrée`"
 
 #: ../../user/translating.rst:212
 msgid ""
 "Submit the string as a suggestion; this is same as pressing :guilabel:"
 "`Suggest` while editing translation."
 msgstr ""
+"Soumettre la chaîne en tant que suggestion; c'est la même chose que de "
+"presser :guilabel:`Suggérer` pendant la traduction."
 
 #: ../../user/translating.rst:216
-#, fuzzy
-#| msgid ":kbd:`Ctrl E` or"
 msgid ":kbd:`Ctrl+E` or"
-msgstr ":kbd:`Ctrl + E` ou"
+msgstr ":kbd:`Ctrl+E` ou"
 
 #: ../../user/translating.rst:218
 msgid ":kbd:`Cmd+E`"
@@ -49943,10 +49942,8 @@ msgid "Focus translation editor."
 msgstr "Placer le focus dans l’éditeur de traduction."
 
 #: ../../user/translating.rst:220
-#, fuzzy
-#| msgid ":kbd:`Ctrl U` or"
 msgid ":kbd:`Ctrl+U` or"
-msgstr ":kbd:`Ctrl + U` ou"
+msgstr ":kbd:`Ctrl+U` ou"
 
 #: ../../user/translating.rst:222
 msgid ":kbd:`Cmd+U`"
@@ -49957,10 +49954,8 @@ msgid "Focus comment editor."
 msgstr "Placer le focus dans l’éditeur de commentaire."
 
 #: ../../user/translating.rst:224
-#, fuzzy
-#| msgid ":kbd:`Ctrl M` or"
 msgid ":kbd:`Ctrl+M` or"
-msgstr ":kbd:`Ctrl + M` ou"
+msgstr ":kbd:`Ctrl+M` ou"
 
 #: ../../user/translating.rst:226
 msgid ":kbd:`Cmd+M`"
@@ -49974,10 +49969,8 @@ msgstr ""
 "translation`."
 
 #: ../../user/translating.rst:228
-#, fuzzy
-#| msgid ":kbd:`Ctrl 1` to :kbd:`Ctrl 9` or"
 msgid ":kbd:`Ctrl+1` to :kbd:`Ctrl+9` or"
-msgstr ":kbd:`Ctrl + 1` à :kbd:`Ctrl + 9` ou"
+msgstr ":kbd:`Ctrl+1` à :kbd:`Ctrl+9` ou"
 
 #: ../../user/translating.rst:230
 #, fuzzy
@@ -51222,6 +51215,9 @@ msgid ""
 "azure-devops` creates pull requests. The latter is not needed for merely "
 "accessing Git repositories."
 msgstr ""
+":ref:`vcs-git` pousse les modifications directement dans un répertoire, "
+"alors que :ref:`vcs-azure-devops` crée des demandes de récupération. Ces "
+"dernières ne sont pas nécessaires pour accéder à la plupart des dépôts Git."
 
 #: ../../vcs.rst:491
 msgid ""
@@ -51229,6 +51225,10 @@ msgid ""
 "in the Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Azure DevOps` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Vous devez configurer les données de connexion API "
+"(:setting:`AZURE_DEVOPS_CREDENTIALS`) dans les paramètres Weblate pour que "
+"cela fonctionne. Une fois configuré vous verrez une option :guilabel:`Azure "
+"DevOps` quand vous sélectionnerez :ref:`component-vcs`."
 
 #: ../../vcs.rst:497
 msgid ":ref:`push-changes`, :setting:`AZURE_DEVOPS_CREDENTIALS`"
@@ -51263,6 +51263,10 @@ msgid ""
 "Perl script that lets subversion be used by a Git client, enabling users to "
 "maintain a full clone of the internal repository and commit locally."
 msgstr ""
+"Weblate utilise `git-svn`_ pour interagir avec les répertoires `subversion`_ "
+". C'est un script Perl qui permet aux subversions d'être utilisés par un "
+"client Git, autorisant les utilisateurs à maintenir un clone complet du "
+"dépôt interne et à valider localement."
 
 #: ../../vcs.rst:533
 msgid ""
