@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-21 07:49+0000\n"
+"PO-Revision-Date: 2024-09-22 11:11+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -1114,10 +1114,9 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr "先に別のメールアドレスを承認して、認証方法を追加してください。"
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "鍵の生成に失敗しました: %s"
+msgstr "認証できませんでした: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -5054,26 +5053,23 @@ msgid "Region ID"
 msgstr "リージョンID"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "コンテキスト"
+msgstr "コンテキストベクトル"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
-msgstr ""
+msgstr "メモリー ID:ウェイト のコンマ区切りのリスト。例: 1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "翻訳文が XML として正しくない"
+msgstr "コンテキストベクトルが不正です: %s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "ウェイトの値は 0 から 1 の間である必要があります: %s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5092,16 +5088,10 @@ msgid "Translation context"
 msgstr "翻訳情報"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
-"翻訳の正確性を高めるために、翻訳者の人物像を記述します。例: 「あなたはリスの"
-"繁殖業者です。」"
+msgstr "翻訳の正確性を高めるために、翻訳の文脈を記述します。"
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
