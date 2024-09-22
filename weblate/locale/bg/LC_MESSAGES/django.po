@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-21 16:15+0000\n"
+"PO-Revision-Date: 2024-09-22 11:11+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -336,10 +336,8 @@ msgid "Add team"
 msgstr "Добавяне на екип"
 
 #: weblate/accounts/forms.py:954
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Name your authentication app"
-msgstr "Добавяне като друг превод"
+msgstr "Дайте име на удостоверителното си приложение"
 
 #: weblate/accounts/forms.py:957
 msgid "Verify the code from the app"
@@ -858,12 +856,9 @@ msgid "Parse error occurred"
 msgstr "Грешка при анализиране"
 
 #: weblate/accounts/notifications.py:529
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New string is available for translation"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Има нов низ за превод"
+msgstr "Низ е наличен за превод"
 
 #: weblate/accounts/notifications.py:539
 msgctxt "Notification name"
@@ -876,18 +871,14 @@ msgid "Suggestion was added"
 msgstr "Беше добавено предложение"
 
 #: weblate/accounts/notifications.py:557
-#, fuzzy
-#| msgid "Message is translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "Съобщението е преведено"
+msgstr "Език беше преведен"
 
 #: weblate/accounts/notifications.py:565
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "Внасяне като преведени"
+msgstr "Компонент беше преведен"
 
 #: weblate/accounts/notifications.py:573
 msgctxt "Notification name"
@@ -1007,10 +998,8 @@ msgid "Use security key (WebAuthn)"
 msgstr "Използване на секретен ключ (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "Удостоверяване"
+msgstr "Използване на удостоверително приложение (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
@@ -1107,10 +1096,8 @@ msgid "Sign in"
 msgstr "Вписване"
 
 #: weblate/accounts/views.py:869
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "Излизане"
+msgstr "Отписан(а)"
 
 #: weblate/accounts/views.py:975
 msgid "Register e-mail"
@@ -1141,10 +1128,9 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr "Добавете друга самоличност, като първо потвърдите е-пощата си."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "Неуспешно създаване на ключ: %s"
+msgstr "Неуспешно удостоверяване: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -1225,10 +1211,8 @@ msgstr ""
 "настроите известията."
 
 #: weblate/accounts/views.py:1649
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
-msgstr "Поканата към потребителя е премахната."
+msgstr "Секретният ключ е премахнат."
 
 #: weblate/accounts/views.py:1650
 #, python-format
@@ -1236,10 +1220,8 @@ msgid "The security key %s was registered."
 msgstr "Секретният ключ %s беше регистриран."
 
 #: weblate/accounts/views.py:1687
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "Поканата към потребителя е премахната."
+msgstr "Удостоверителното приложение е премахнато."
 
 #: weblate/accounts/views.py:1688
 #, python-format
@@ -5804,11 +5786,11 @@ msgstr "Статистика"
 
 #: weblate/templates/accounts/2fa.html:24
 msgid "Second factor sign-in"
-msgstr ""
+msgstr "Вписване чрез втората стъпка"
 
 #: weblate/templates/accounts/2fa.html:30
 msgid "Please complete your sign-in using second factor credential."
-msgstr ""
+msgstr "Моля, завършете вписването си чрез данните от втората стъпка."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -7085,11 +7067,11 @@ msgstr "Подробности"
 
 #: weblate/templates/addons/addon_logs.html:35
 msgid "Timestamp"
-msgstr ""
+msgstr "Времево клеймо"
 
 #: weblate/templates/addons/addon_logs.html:58
 msgid "No add-on activity logs available."
-msgstr ""
+msgstr "Няма налични журнали за дейността на добавката."
 
 #: weblate/templates/addons/addon_logs.html:71
 #: weblate/templates/snippets/position-field.html:9
@@ -8786,6 +8768,7 @@ msgstr ""
 #: weblate/templates/js/git-status.html:129
 msgid "It also removes stale branches which are not used by Weblate."
 msgstr ""
+"То също премахва и остарелите клони, които вече не се ползват от Weblate."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Use when there is some garbage left in the Weblate repository."
@@ -10354,20 +10337,28 @@ msgid ""
 "While Weblate remains free for all users, its development requires "
 "continuous investment."
 msgstr ""
+"Въпреки че Weblate е безплатна за ползване система за всички потребители, "
+"разработката ѝ изисква непрекъснато финансиране."
 
 #: weblate/templates/snippets/donate.html:4
 msgid "We prioritize your privacy; we never display ads or sell your data."
 msgstr ""
+"Поверителността на Вашите данни е наш приоритет. Ние никога не показваме "
+"реклами, нито продаваме данните Ви."
 
 #: weblate/templates/snippets/donate.html:5
 msgid ""
 "The invaluable support of the community through subscriptions and donations "
 "ensures that Weblate continues to grow and thrive."
 msgstr ""
+"Подкрепата на общността чрез абонаменти и дарения е безценна и подсигурява "
+"развитието и разрастването на Weblate."
 
 #: weblate/templates/snippets/donate.html:6
 msgid "Join us in shaping the future of localization and contribute today!"
 msgstr ""
+"Присъединете се към нас и дайте своя принос – така заедно ще оформим "
+"бъдещето на локализацията!"
 
 #: weblate/templates/snippets/donate.html:11
 msgid "Purchase a support package"
@@ -10408,19 +10399,25 @@ msgstr "Зареждане на резултатите…"
 
 #: weblate/templates/snippets/enforced_2fa.html:7
 msgid "Configure two-factor authentication"
-msgstr ""
+msgstr "Настройте двустепенно удостоверяване"
 
 #: weblate/templates/snippets/enforced_2fa.html:9
 msgid ""
 "This project requires two-factor authentication from all contributors. You "
 "won’t be able to contribute until you configure it."
 msgstr ""
+"Този проект изисква всички участници да ползват двустепенно удостоверяване. "
+"Няма да можете да допринасяте към проекта, докато не го настроите за акаунта "
+"си."
 
 #: weblate/templates/snippets/enforced_2fa.html:11
 msgid ""
 "You are a member of the team that requires two-factor authentication. You "
 "won’t be able to use any of its privileges until you configure 2FA."
 msgstr ""
+"Вие сте член на екипа, който изисква двустепенно удостоверяване. Няма да "
+"може да използвате никакви допълнителни права, докато не го настроите за "
+"акаунта си."
 
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:377
@@ -10759,7 +10756,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:7
 msgid "Libre project with open-source code"
-msgstr ""
+msgstr "Свободен проект с отворен код"
 
 #: weblate/templates/snippets/libre-basic.html:9
 #, python-format
@@ -10793,7 +10790,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:12
 msgid "Non-code projects are welcome as well."
-msgstr ""
+msgstr "Проектите, които не са свързани с код, също са добре дошли."
 
 #: weblate/templates/snippets/libre-basic.html:15
 #, fuzzy
@@ -10822,7 +10819,7 @@ msgstr "Наблюдавани проекти"
 
 #: weblate/templates/snippets/libre-basic.html:23
 msgid "The project receives a reasonable number of contributions."
-msgstr ""
+msgstr "Проектът получава сериозен принос от доста участници."
 
 #: weblate/templates/snippets/libre-basic.html:24
 msgid "The project has had active development for at least three months."
@@ -11115,7 +11112,7 @@ msgstr "Всички непреведени низове, добавени в п
 
 #: weblate/templates/snippets/query-builder.html:111
 msgid "Filter changed strings 2 weeks ago"
-msgstr ""
+msgstr "Филтриране на низовете променени преди 2 седмици"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"
@@ -11123,7 +11120,7 @@ msgstr "Преведени на определен език низове"
 
 #: weblate/templates/snippets/query-field.html:6
 msgid "Filters"
-msgstr ""
+msgstr "Филтри"
 
 #: weblate/templates/snippets/query-field.html:15
 #: weblate/templates/snippets/user-query-field.html:5 weblate/utils/forms.py:27
@@ -11145,6 +11142,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
 msgstr ""
+"<a href=\"%(url)s\">Организирайте проекта</a>, за да промените краткото име "
+"за адреса му, или да го премахнете."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
@@ -11152,6 +11151,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
+"<a href=\"%(url)s\">Организирайте компонента</a>, за да промените краткото "
+"име за адреса му, или да го премахнете."
 
 #: weblate/templates/snippets/share-menu.html:6
 msgid "Share"
@@ -11228,6 +11229,8 @@ msgid ""
 "Weblate utilizes the IP addresses listed below to access repositories or "
 "initiate webhooks."
 msgstr ""
+"Weblate използва IP адресите изброени по-долу, когато работи с хранилища или "
+"уеб-куки."
 
 #: weblate/templates/snippets/ssh-key.html:46
 #, fuzzy
@@ -11454,6 +11457,10 @@ msgid ""
 "forge author permissions for the repository/branch or have to use the squash "
 "addon on this component in Weblate."
 msgstr ""
+"Gerrit забрани изпращането на тези промени. Може да имате нужда от акаунт в "
+"gerrit, който има съответните права за редактиране на хранилището/клона или "
+"ще трябва да използвате добавката за смачкване на подаванията за този "
+"компонент в Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:16
 msgid ""
@@ -11626,12 +11633,16 @@ msgid ""
 "Using monolingual files as a glossary is not recommended because adding "
 "strings to target language only is not possible in monolingual files."
 msgstr ""
+"Използването на едноезични файлове като речник не е препоръчително, тъй като "
+"добавянето на низове на целеви език не е възможно в едноезичните файлове."
 
 #: weblate/templates/trans/alert/monolingualglossary.html:6
 msgid ""
 "You can continue using the glossary this way, but some features will be "
 "unavailable."
 msgstr ""
+"Може да продължите да използвате речника по този начин, но някои "
+"функционалности няма да бъдат налични."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
@@ -12033,6 +12044,8 @@ msgid ""
 "The glossary component automatically maintains translation for each language "
 "used in the project, a removed language might be re-added again."
 msgstr ""
+"Компонентът с речника автоматично поддържа преводи за всеки език, който се "
+"ползва в проекта. Премахнат език може да бъде добавен отново."
 
 #: weblate/templates/trans/delete-translation.html:16
 #, python-format
@@ -12064,6 +12077,7 @@ msgstr ""
 msgid ""
 "Open an existing checkout of the upstream repository or perform a fresh one."
 msgstr ""
+"Отворете съществуващо копие на отдалеченото хранилище или направете ново."
 
 #: weblate/templates/trans/merge_instructions.html:13
 msgid ""
@@ -12698,7 +12712,7 @@ msgstr "Впишете се, за да можете да видите преду
 
 #: weblate/templates/weblate_auth/invitation_detail.html:23
 msgid "This invitation belongs to a different user."
-msgstr ""
+msgstr "Тази покана принадлежи на друг потребител."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:41
 #, python-format
@@ -15038,6 +15052,8 @@ msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
 msgstr ""
+"Изисква участниците да имат настроено двустепенно удостоверяване, преди да "
+"могат да участват."
 
 #: weblate/trans/models/project.py:201 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
@@ -15652,7 +15668,7 @@ msgstr "Заявка за нов език е изпратена до отгов�
 
 #: weblate/trans/views/basic.py:766
 msgid "All languages have been added, updates of translations are in progress."
-msgstr ""
+msgstr "Всички езици са добавени. Извършва се актуализация на преводите."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -15870,7 +15886,7 @@ msgstr ""
 #: weblate/trans/views/git.py:61
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
-msgstr ""
+msgstr "Всички хранилища са обновени. Извършва се актуализация на превода."
 
 #: weblate/trans/views/git.py:84
 msgid "All repositories were pushed."
