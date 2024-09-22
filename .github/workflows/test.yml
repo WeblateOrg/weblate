@@ -69,6 +69,7 @@ jobs:
     - uses: astral-sh/setup-uv@v3
       with:
         enable-cache: true
+        cache-dependency-glob: ''
         cache-suffix: ${{ matrix.python-version }}
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
