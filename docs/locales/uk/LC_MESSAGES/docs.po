@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-22 01:54+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2024-09-23 09:05+0000\n"
+"Last-Translator: Hotripak <hotr1pak@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -10316,6 +10316,9 @@ msgid ""
 "`component-repo` (if push URL is not configured), these take precedence over "
 "the ones specified in the configuration file."
 msgstr ""
+"Облікові дані також можна перевизначити у :ref:`component-push` або :ref"
+":`component-repo` (якщо не налаштовано URL для push), вони мають пріоритет "
+"над тими, що вказані у файлі конфігурації."
 
 #: ../../admin/config.rst:2125
 msgid "API user, required."
@@ -18153,6 +18156,9 @@ msgid ""
 "quality. Read more on that in `DeepL translation context documentatin "
 "<https://developers.deepl.com/docs/best-practices/working-with-context>`_."
 msgstr ""
+"Для покращення якості перекладу можна додатково вказати контекст перекладу. "
+"Докладніше про це читайте у статті `DeepL контекст перекладу документації "
+"<https://developers.deepl.com/docs/best-practices/working-with-context>`_."
 
 #: ../../admin/machine.rst:188
 msgid ""
@@ -18606,6 +18612,8 @@ msgstr "URL-адреси кінцевої точки Azure OpenAI"
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr ""
+"URL-адреса кінцевої точки екземпляра, наприклад: https://my-instance.openai."
+"azure.com."
 
 #: ../../admin/machine.rst:403
 msgid "``deployment``"
@@ -18617,13 +18625,11 @@ msgstr "Розгортання Azure OpenAI"
 
 #: ../../admin/machine.rst:403
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "Унікальне ім'я розгортання моделі."
 
 #: ../../admin/machine.rst:406
-#, fuzzy
-#| msgid "Performs translation using `OpenAI`_."
 msgid "Performs translation using `OpenAI`_ hosted on Azure."
-msgstr "Виконує переклад за допомогою `OpenAI`_."
+msgstr "Виконує переклад за допомогою `OpenAI`_, розміщеного на Azure."
 
 #: ../../admin/machine.rst:415
 msgid "ModernMT"
@@ -18638,14 +18644,14 @@ msgid "``context_vector``"
 msgstr "``context_vector``"
 
 #: ../../admin/machine.rst:425
-#, fuzzy
-#| msgid "Context"
 msgid "Context vector"
-msgstr "Контекст"
+msgstr "Вектор контексту"
 
 #: ../../admin/machine.rst:425
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
+"Список ідентифікаторів пам'яті:вага, розділених комами, наприклад: 1234:0."
+"123,4567:0.456"
 
 #: ../../admin/machine.rst:432
 msgid "`ModernMT API <https://www.modernmt.com/api/#translation>`_"
@@ -27212,12 +27218,16 @@ msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
+":ref:`Search` тепер підтримує фільтрацію за шляхом до об'єкта та :ref:`date-"
+"search`."
 
 #: ../../changes.rst:9
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, see :ref:"
 "`settings-credentials`."
 msgstr ""
+"Облікові дані запитів на злиття тепер можна передавати в URL-адресі сховища, "
+"див. :ref:`settings-credentials`."
 
 #: ../../changes.rst:10
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
@@ -27238,22 +27248,16 @@ msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-modernmt` підтримує :ref:`glossary-mt`."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ":ref:`mt-deepl` now supports specifying translation context."
-msgstr ""
-"У новій версії у :ref:`xliff` передбачено підтримку показу даних щодо "
-"розташування початкового рядка."
+msgstr ":ref:`mt-deepl` тепер підтримує вказівку контексту перекладу."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgid ":ref:`mt-aws` now supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-translator` підтримує :ref:`glossary-mt`."
+msgstr ":ref:`mt-aws` тепер підтримує :ref:`glossary-mt`."
 
 #: ../../changes.rst:17
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
-msgstr ""
+msgstr ":ref:`autofix` для Devanagari danda тепер краще обробляє латиницю."
 
 #: ../../changes.rst:19 ../../changes.rst:47 ../../changes.rst:72
 #: ../../changes.rst:118 ../../changes.rst:151 ../../changes.rst:176
@@ -27268,16 +27272,14 @@ msgid "**Bug fixes**"
 msgstr "**Виправлення вад**"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Improved :ref:`workflow-customization` configuration forms."
 msgid "Displaying :ref:`workflow-customization` setting in some cases."
-msgstr "Удосконалено форми налаштовування :ref:`workflow-customization`."
+msgstr "Відображення параметра :ref:`workflow-customization` у деяких випадках."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Component with this name already exists in the project."
 msgid "Users can add component in any language already existing in a project."
-msgstr "У проєкті вже є складник із цією назвою."
+msgstr ""
+"Користувачі можуть додавати компоненти будь-якою мовою, яка вже існує в "
+"проекті."
 
 #: ../../changes.rst:24 ../../changes.rst:124 ../../changes.rst:214
 #: ../../changes.rst:376 ../../changes.rst:482 ../../changes.rst:535
@@ -27355,20 +27357,16 @@ msgid "Instead of redirecting, the sign-out now displays a page."
 msgstr "Замість переспрямовування після виходу програма показує сторінку."
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid "Improved handling of whitespace in flags."
 msgid "Improved readability of exception logs."
-msgstr "Удосконалено обробку пробілів у прапорцях."
+msgstr "Покращена читабельність журналів винятків."
 
 #: ../../changes.rst:49
 msgid "Updating of translations from the repository in linked components."
 msgstr "Оновлення перекладів зі сховища у пов'язаних складниках."
 
 #: ../../changes.rst:50
-#, fuzzy
-#| msgid "Improved look of notification e-mails."
 msgid "Improved rendering of digest notification e-mails."
-msgstr "Удосконалено вигляд повідомлень електронної пошти зі сповіщеннями."
+msgstr "Покращено відображення повідомлень про дайджест на електронну пошту."
 
 #: ../../changes/contributors/5.7.1.rst:2
 #: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
@@ -27391,6 +27389,10 @@ msgid ""
 "Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
 "Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 msgstr ""
+"Крістіан Віа, Ігор Гордійчук, Hanaa MSB, Hoseok Seo, پرویز قادر, Reno Tx, "
+"Jose Delvani, Artemka, Blueberry, Elisabeth Pieringer, VfBFan, ɴᴇᴋᴏ, Andi "
+"Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
+"Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
@@ -38764,12 +38766,6 @@ msgid "Dependency management"
 msgstr "Керування залежностями"
 
 #: ../../contributing/frontend.rst:21
-#, fuzzy
-#| msgid ""
-#| "Installing and managing `3rd party` libraries in the `client` of a django "
-#| "project can be a bit tricky. This document provides a step-by-step guide "
-#| "on how to install and manage 3rd party libraries used by the `client "
-#| "side` of Weblate using `Webpack`."
 msgid ""
 "Installing and managing `3rd party` libraries in the `client` of a django "
 "project can be a bit tricky. This section provides a step-by-step guide on "
@@ -38777,8 +38773,8 @@ msgid ""
 "Weblate using `Webpack`."
 msgstr ""
 "Встановлення та керування бібліотеками `3rd party` у `клієнті` проекту "
-"django може бути дещо складним. Цей документ містить покрокову інструкцію "
-"щодо встановлення та керування бібліотеками сторонніх розробників, які "
+"django може бути дещо складним. Цей розділ містить покрокову інструкцію щодо "
+"встановлення та керування бібліотеками сторонніх розробників, які "
 "використовуються `клієнтською частиною` Weblate за допомогою `Webpack`."
 
 #: ../../contributing/frontend.rst:26
@@ -38795,7 +38791,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:30
 msgid "``Nodejs`` version 14 or higher."
-msgstr ""
+msgstr "``Nodejs`` версії 14 або вище."
 
 #: ../../contributing/frontend.rst:31
 msgid "The ``yarn`` package manager installed on your system."
@@ -38837,7 +38833,7 @@ msgstr "Імпортуйте бібліотеку в ``src/main.js``."
 
 #: ../../contributing/frontend.rst:51
 msgid "And declare it in the global scope (if needed)."
-msgstr ""
+msgstr "І оголосити його в глобальній області видимості (якщо потрібно)."
 
 #: ../../contributing/frontend.rst:53
 msgid ""
@@ -38872,13 +38868,10 @@ msgid "3- Building the Library"
 msgstr "3- Побудова бібліотеки"
 
 #: ../../contributing/frontend.rst:64
-#, fuzzy
-#| msgid "Build the libraries used by the project, run the following command:"
 msgid ""
 "Build the libraries used by the project, by running the following command:"
 msgstr ""
-"Щоб зібрати бібліотеки, які використовуються проектом, виконайте наступну "
-"команду:"
+"Зберіть бібліотеки, що використовуються проектом, виконавши наступну команду:"
 
 #: ../../contributing/frontend.rst:71
 msgid "4- Including the Library"
@@ -45883,6 +45876,8 @@ msgstr "Файл JSON i18next v4"
 msgid ""
 "Choose this format if unsure. It stores plurals using standard CLDR suffixes."
 msgstr ""
+"Вибирайте цей формат, якщо не впевнені. Він зберігає множини за допомогою "
+"стандартних суфіксів CLDR."
 
 #: ../../formats/i18next.rst:32
 msgid "i18next JSON file v3"
@@ -45891,6 +45886,8 @@ msgstr "Файл JSON i18next v3"
 #: ../../formats/i18next.rst:34
 msgid "Use for legacy projects which are using numeric suffixes for plurals."
 msgstr ""
+"Використовуйте для застарілих проектів, які використовують числові суфікси "
+"для множини."
 
 #: ../../formats/i18next.rst:38
 msgid ""
@@ -52178,6 +52175,8 @@ msgid ""
 "Path to the object to limit searching inside component, category, project, "
 "or translation."
 msgstr ""
+"Шлях до об'єкта, щоб обмежити пошук всередині компонента, категорії, проекту "
+"або перекладу."
 
 #: ../../user/search.rst:78
 msgid "``changed_by:TEXT``"
@@ -52551,7 +52550,7 @@ msgstr "Пошук за адресою електронної пошти."
 
 #: ../../user/search.rst:214
 msgid "Fuzzy values for DATETIME fields"
-msgstr ""
+msgstr "Нечіткі значення для полів DATETIME"
 
 #: ../../user/search.rst:216
 msgid ""
@@ -52559,6 +52558,9 @@ msgid ""
 "of time like ``yesterday``, ``last month``, and ``2 days ago`` can be used "
 "as values in the DATETIME fields."
 msgstr ""
+"Замість використання значень DATETIME типу MM-DD-YYYY, в якості значень в "
+"полях DATETIME можна використовувати рядок, що містить прислівник часу, "
+"наприклад, ``вчора``, ``минулого місяця`` і ``2 дні тому``."
 
 #: ../../user/search.rst:222
 msgid "``changed:>=\"2 weeks ago\"``"
@@ -52568,6 +52570,7 @@ msgstr "``changed:>=\"2 тижні тому\"``"
 msgid ""
 "Returns strings that are changed 2 weeks ago from the current date and time."
 msgstr ""
+"Повертає рядки, які було змінено 2 тижні тому від поточної дати та часу."
 
 #: ../../user/search.rst:224
 msgid "``changed:>=yesterday``"
@@ -52575,7 +52578,7 @@ msgstr "``changed:>=учора``"
 
 #: ../../user/search.rst:225
 msgid "Returns strings that are changed starting yesterday."
-msgstr ""
+msgstr "Повертає рядки, які було змінено починаючи зі вчорашнього дня."
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
@@ -54525,6 +54528,8 @@ msgstr ""
 msgid ""
 "You can also use this :program:`wlc` as a Python module, see :mod:`wlc`."
 msgstr ""
+"Ви також можете використовувати цей :program:`wlc` як модуль Python, див. "
+":mod:`wlc`."
 
 #: ../../wlc.rst:29
 msgid "Docker usage"
