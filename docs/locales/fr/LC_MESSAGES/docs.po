@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-23 09:05+0000\n"
+"PO-Revision-Date: 2024-09-23 15:08+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -4846,10 +4846,13 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:339
+#, fuzzy
 msgid ""
 "*Secret value* is displayed once you generate a secret for an application. "
 "*Secret ID* is not used in Weblate."
 msgstr ""
+"La *valeur secrète* est affichée une fois que vous générez un mot secret "
+"pour une application. Le *Secret ID* n'est pas utilisé dans Weblate."
 
 #: ../../admin/auth.rst:378
 msgid ":doc:`psa:backends/azuread`"
@@ -5986,10 +5989,13 @@ msgid "Dumped data for backups"
 msgstr "Données supprimées pour les sauvegardes"
 
 #: ../../admin/backup.rst:294
+#, fuzzy
 msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
 msgstr ""
+"Le vidage de l'environment a été ajouté dans :file:`environment.yml` pour "
+"aider à restituer les environnements Docker."
 
 #: ../../admin/backup.rst:297
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
@@ -6021,7 +6027,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:305
 msgid "Environment dump as :file:`environment.yml`."
-msgstr ""
+msgstr "Vidage de l'environnement dans :file:`environment.yml`."
 
 #: ../../admin/backup.rst:307
 msgid ""
@@ -51079,7 +51085,7 @@ msgstr ""
 
 #: ../../vcs.rst:419
 msgid "This does not support Bitbucket Cloud API."
-msgstr ""
+msgstr "Ceci ne prend pas en charge l'API Bitbucket Cloud."
 
 #: ../../vcs.rst:422
 msgid ""
@@ -51088,6 +51094,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-server` creates pull request."
 msgstr ""
+"Il n'est pas nécessaire d'utiliser cela pour accéder aux dépôts Git, "
+"d'ordinaire :ref:`vcs-git` fonctionne de la même manière, la seule "
+"différence réside dans la façon de pousser sur un dépôt. Avec :ref:`vcs-git`"
+", les modifications sont poussées directement sur le dépôt, tandis qu'avec "
+":ref:`vcs-bitbucket-server`, une demande de tirage est créée."
 
 #: ../../vcs.rst:427
 msgid ""
@@ -51096,6 +51107,10 @@ msgid ""
 "Once configured, you will see a :guilabel:`Bitbucket Server` option when "
 "selecting :ref:`component-vcs`."
 msgstr ""
+"Vous devez configurer les informations de connexion à l'API "
+"(:setting:`BITBUCKETSERVER_CREDENTIALS`) dans les paramètres de Weblate pour "
+"que cela fonctionne. Une fois configuré, vous pourrez voir une option  "
+":guilabel:`Bitbucket Server` quand vous sélectionnerez :ref:`component-vcs`."
 
 #: ../../vcs.rst:433
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
@@ -51111,6 +51126,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
+"Ajoute un niveau élémentaire par-dessus :ref:`vcs-git` en utilisant `Pagure "
+"API`_ pour permettre de pousser les modifications de traductions en tant que "
+"requêtes de fusion au lieu de les pousser directement sur le dépôt."
 
 #: ../../vcs.rst:450
 msgid ""
@@ -51119,6 +51137,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-pagure` creates merge request."
 msgstr ""
+"Il n'est pas utile d'utiliser ceci pour accéder aux dépôts Git, d'ordinaire "
+":ref:`vcs-git` fonctionne de la même façon, mais la seule différence réside "
+"dans la manière de pousser sur un dépôt. Avecles modifications :ref:`vcs-git`"
+" sont poussées directement sur le dépôt, alors que :ref:`vcs-pagure` crée "
+"une demande de fusion."
 
 #: ../../vcs.rst:455
 msgid ""
