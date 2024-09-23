@@ -1422,8 +1422,10 @@ $(function () {
   $("input[name='period']").daterangepicker(
     {
       autoApply: false,
+      autoUpdateInput: false,
       startDate:
-        $("input[name='period']#id_period").attr("data-start-date") || moment(),
+        $("input[name='period']#id_period").attr("data-start-date") ||
+        moment().subtract(1, "months"),
       endDate:
         $("input[name='period']#id_period").attr("data-end-date") || moment(),
       alwaysShowCalendars: true,
