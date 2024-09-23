@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-23 19:36+0000\n"
+"PO-Revision-Date: 2024-09-24 02:26+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -6188,6 +6188,9 @@ msgid ""
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgstr ""
+"`Mise à jour de Python 2 vers Python 3 dans la documentation Weblate 3.11.1 "
+"<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
+"from-python-2-to-python-3>`_, :ref:`database-migration`"
 
 #: ../../admin/checks.rst:2 ../../user/checks.rst:2
 msgid "Checks and fixups"
@@ -6253,13 +6256,16 @@ msgstr "Chaîne source, voir :ref:`additional`."
 
 #: ../../admin/checks.rst:34
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
-msgstr ""
+msgstr "Drapeaux par chaîne extraits du format de fichier, voir :ref:`formats`."
 
 #: ../../admin/checks.rst:35
+#, fuzzy
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string)."
 msgstr ""
+"Drapeaux de traduction (actuellement uniquement le drapeau ``read-only`` "
+"pour une chaîne source en deux langues)."
 
 #: ../../admin/checks.rst:36
 msgid "File-format specific flags."
@@ -50280,54 +50286,40 @@ msgstr ""
 "Consultez :ref:`bimono` pour plus d’informations."
 
 #: ../../user/translating.rst:333
-#, fuzzy
-#| msgid ""
-#| "Maximal length in characters defined by translation file or flag, see :"
-#| "ref:`check-max-length`."
 msgid ""
 "Maximum length in characters defined by the translation file or flag, as "
 "per :ref:`check-max-length`."
 msgstr ""
 "Longueur maximale en caractères définie par le fichier de traduction ou le "
-"drapeau, voir :ref:`check-max-length`."
+"drapeau, voir :ref:`check-max-length`."
 
 #: ../../user/translating.rst:335
-#, fuzzy
-#| msgid ""
-#| "Maximal rendered size in pixels defined by flags, see :ref:`check-max-"
-#| "size`."
 msgid ""
 "Maximal rendered size in pixels as defined by flags; see :ref:`check-max-"
 "size`."
 msgstr ""
-"Taille maximale du rendu en pixels définie par des drapeaux, voir :ref:"
-"`check-max-size`."
+"Taille maximale du rendu en pixels définie par des drapeaux ; voir :ref"
+":`check-max-size`."
 
 #: ../../user/translating.rst:342
-#, fuzzy
-#| msgid ""
-#| "Based on configuration and your translated language, Weblate provides you "
-#| "suggestions from several machine translation tools and :ref:`translation-"
-#| "memory`. All machine translations are available in a single tab of each "
-#| "translation page."
 msgid ""
 "Based on configuration and your translated language, Weblate provides "
 "suggestions from several machine translation tools and :ref:`translation-"
 "memory`. All machine translations are available in a single tab of each "
 "translation page."
 msgstr ""
-"En fonction de la configuration et de la langue que vous traduisez, Weblate "
-"vous fournit des suggestions provenant de plusieurs outils de traduction "
-"automatique et :ref:`translation-memory`. Toutes les traductions "
-"automatiques sont disponibles dans un seul onglet pour chaque page de "
-"traduction."
+"En fonction de la configuration et de la langue dans laquelle vous "
+"traduisez, Weblate vous fournit des suggestions provenant de plusieurs "
+"outils de traduction automatique et de :ref:`translation-memory`. Toutes les "
+"traductions automatiques sont disponibles dans un seul onglet pour chaque "
+"page de traduction."
 
 #: ../../user/translating.rst:346
-#, fuzzy
-#| msgid "Built-in translation memory, see :ref:`translation-memory`."
 msgid ""
 "You can also perform a concordance search on the :ref:`translation-memory`."
-msgstr "Mémoire de traduction intégré, voir :ref:`translation-memory`."
+msgstr ""
+"Vous pouvez aussi réaliser une recherche de concordance sur le :ref"
+":`translation-memory`."
 
 #: ../../user/translating.rst:350
 msgid ""
@@ -50379,22 +50371,17 @@ msgstr ""
 "utilisées avec des filtres larges tels que :guilabel:`Toutes les chaînes`."
 
 #: ../../user/translating.rst:376
-#, fuzzy
-#| msgid ""
-#| "Useful in several situations like consolidating translation between "
-#| "different components (for example website and application) or when "
-#| "bootstrapping translation for a new component using existing translations "
-#| "(translation memory)."
 msgid ""
 "Useful in several situations like consolidating translation between "
 "different components (for example the application and its website) or when "
 "bootstrapping a translation for a new component using existing translations "
 "(translation memory)."
 msgstr ""
-"Cela peut s’avérer utile dans plusieurs situations, notamment lors de la "
-"consolidation de la traduction entre différents composants (par exemple, "
-"site web et application) ou de l’amorçage d’une traduction pour un nouveau "
-"composant en utilisant des traductions existantes (mémoire de traduction)."
+"Cela peut s’avérer utile dans plusieurs situations, comme la consolidation "
+"de la traduction entre différents composants (par exemple entre "
+"l'application et son site web) ou de l’amorçage d’une traduction pour un "
+"nouveau composant en utilisant des traductions existantes (mémoire de "
+"traduction)."
 
 #: ../../user/translating.rst:381
 msgid ""
@@ -51065,6 +51052,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitea` creates pull requests."
 msgstr ""
+"Il n'est pas nécessaire d'utiliser ceci pour accéder aux dépôts Git, le "
+"simple :ref:`vcs-git` fonctionne de la même manière, la seule différence est "
+"dans la manière de pousser sur le dépôt. Avec :ref:`vcs-git` les "
+"modifications sont poussées directement sur le dépôt, alors que :ref:`vcs-"
+"gitea` crée des demandes de tirage."
 
 #: ../../vcs.rst:394
 msgid ""
@@ -51072,6 +51064,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Gitea` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Vous devez configurer les données de connexion à l'API ( "
+":setting:`GITEA_CREDENTIALS`) dans les paramètres de Weblate pour que cela "
+"fonctionne. Une fois configuré, vous verrez une option :guilabel:`Gitea` "
+"quand vous sélectionnerez :ref:`component-vcs`."
 
 #: ../../vcs.rst:400
 msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
@@ -51087,6 +51083,10 @@ msgid ""
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
+"Ceci ajoute simplement un niveau par dessus :ref:`vcs-git` en utilisant `"
+"Bitbucket Server API`_ pour permettre de pousser les modifcations de "
+"traduction en tant que demandes de tirage, au lieu de les pousser "
+"directement sur le dépôt."
 
 #: ../../vcs.rst:419
 msgid "This does not support Bitbucket Cloud API."
