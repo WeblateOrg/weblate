@@ -824,7 +824,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
-        changed_key_filter = False
         changed_setup = False
         changed_template = False
         changed_variant = False
@@ -854,6 +853,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             )
             if changed_setup:
                 old.commit_pending("changed setup", None)
+                if old.key_filter != self.key_filter:
+                    self.drop_key_filter_cache()
+
             changed_variant = old.variant_regex != self.variant_regex
             # Generate change entries for changes
             self.generate_changes(old)
@@ -868,11 +870,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 old.component_set.update(repo=self.get_repo_link_url())
             if changed_git:
                 self.drop_repository_cache()
-
-            changed_key_filter = old.key_filter != self.key_filter
-            if changed_key_filter:
-                # This drops the cached key_filter value if a new value is detected
-                self.drop_key_filter_cache()
 
             create = False
         elif self.is_glossary:
@@ -906,7 +903,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if settings.CELERY_TASK_ALWAYS_EAGER:
             self.after_save(
                 changed_git=changed_git,
-                changed_key_filter=changed_key_filter,
                 changed_setup=changed_setup,
                 changed_template=changed_template,
                 changed_variant=changed_variant,
@@ -917,7 +913,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             task = component_after_save.delay(
                 self.pk,
                 changed_git=changed_git,
-                changed_key_filter=changed_key_filter,
                 changed_setup=changed_setup,
                 changed_template=changed_template,
                 changed_variant=changed_variant,
@@ -3162,7 +3157,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self,
         *,
         changed_git: bool,
-        changed_key_filter: bool,
         changed_setup: bool,
         changed_template: bool,
         changed_variant: bool,
@@ -3188,6 +3182,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             was_change = self.create_translations(
                 force=True, changed_template=changed_template, run_async=True
             )
+            # This fires if a pattern exist and the file format is monolingual
+            with transaction.atomic():
+                translations = Translation.objects.filter(component=self)
+                for translation in translations:
+                    translation.check_sync(force=True)
+
         elif changed_git:
             was_change = self.create_translations(run_async=True)
 
@@ -3202,17 +3202,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Invalidate stats on template change
         if changed_template:
             self.invalidate_cache()
-
-        if (
-            changed_key_filter
-            and self.key_filter_re.pattern
-            and self.file_format_cls.monolingual
-        ):
-            # This fires if a pattern exist and the file format is monolingual
-            with transaction.atomic():
-                translations = Translation.objects.filter(component=self)
-                for translation in translations:
-                    translation.check_sync(force=True)
 
         # Make sure we create glossary
         if create and settings.CREATE_GLOSSARIES:
