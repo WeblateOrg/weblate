@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext, gettext_lazy
 from pyparsing import ParseException
 
+from weblate.formats.helpers import CONTROLCHARS
 from weblate.trans.defines import EMAIL_LENGTH, USERNAME_LENGTH
 from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
@@ -116,6 +117,10 @@ class UserField(forms.CharField):
             if self.required:
                 raise ValidationError(gettext("Missing username or e-mail."))
             return None
+        if any(char in value for char in CONTROLCHARS):
+            raise ValidationError(
+                gettext("String contains control character: %s") % repr(value)
+            )
         try:
             return User.objects.get(Q(username=value) | Q(email=value))
         except User.DoesNotExist as error:
