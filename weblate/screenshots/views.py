@@ -269,6 +269,9 @@ class ScreenshotDetail(DetailView):
                 result["edit_form"] = self._edit_form
             else:
                 result["edit_form"] = ScreenshotEditForm(instance=result["object"])
+        # Blank list for search results, this is populated later via JavaScript
+        result["units"] = []
+        result["search_query"] = ""
         return result
 
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
@@ -345,6 +348,7 @@ def search_results(request: AuthenticatedHttpRequest, code, obj, units=None):
                     "object": obj,
                     "units": units,
                     "user": request.user,
+                    "search_query": "",
                 },
             ),
         }
@@ -467,5 +471,5 @@ def get_sources(request: AuthenticatedHttpRequest, pk):
     return render(
         request,
         "screenshots/screenshot_sources_body.html",
-        {"object": obj},
+        {"object": obj, "search_query": ""},
     )

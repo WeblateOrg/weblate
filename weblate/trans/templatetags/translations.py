@@ -1299,7 +1299,7 @@ def get_message_kind(tags):
 
 
 @register.simple_tag
-def any_unit_has_context(units):
+def any_unit_has_context(units: Iterable[Unit]):
     return any(unit.context for unit in units)
 
 
