@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-24 09:37+0000\n"
+"PO-Revision-Date: 2024-09-24 14:19+0000\n"
 "Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
@@ -493,7 +493,7 @@ msgstr "{username} lisäsi käyttäjän {team}-joukkueeseen."
 #: weblate/accounts/models.py:199
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "{username} poisti käyttäjän työryhmästä {team}."
 
 #: weblate/accounts/models.py:201
 msgid "Two-factor authentication recovery codes were generated"
@@ -1125,10 +1125,9 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr "Lisää uusi henkilöllisyys vahvistamalla ensin sähköpostiosoitteesi."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "Avaimen luominen epäonnistui: %s"
+msgstr "Ei voitu todentaa: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -1517,7 +1516,7 @@ msgstr "Sarkaimet"
 
 #: weblate/addons/forms.py:222
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "Sisällytä sulkeva tunniste tyhjille XML-tunnisteille"
 
 #: weblate/addons/forms.py:230
 msgid "YAML indentation"
@@ -1753,7 +1752,7 @@ msgstr "Lähteen ja kohteen täytyy olla erikieliset."
 
 #: weblate/addons/forms.py:645
 msgid "Enable case-sensitive key sorting"
-msgstr ""
+msgstr "Ota käyttöön isojen ja pienten kirjainten välinen avainten lajittelu"
 
 #: weblate/addons/generate.py:33
 msgid "Statistics generator"
@@ -10138,10 +10137,8 @@ msgid "Please try again later."
 msgstr "Yritä myöhemmin uudelleen."
 
 #: weblate/templates/registration/logged_out.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for using Weblate"
-msgstr "Kiitoksia Weblaten käyttämisestä."
+msgstr "Kiitoksia Weblaten käyttämisestä"
 
 #: weblate/templates/registration/logged_out.html:17
 #, fuzzy
