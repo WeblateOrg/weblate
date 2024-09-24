@@ -31,6 +31,7 @@ from weblate.trans.models import (
     Announcement,
     Category,
     Component,
+    ComponentList,
     ContributorAgreement,
     Project,
     Translation,
@@ -58,6 +59,8 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
 
     from django_stubs_ext import StrOrPromise
+
+    from weblate.metrics.wrapper import MetricsWrapper
 
 register = template.Library()
 
@@ -1488,3 +1491,34 @@ def list_objects_percent(
         value_formatted=gettext("%(value)s of %(all)s")
         % {"value": intcomma(value), "all": intcomma(total)},
     )
+
+
+@register.inclusion_tag("snippets/info.html")
+def show_info(
+    *,
+    project: Project | None = None,
+    component: Component | None = None,
+    translation: Translation | None = None,
+    language: Language | None = None,
+    componentlist: ComponentList | None = None,
+    stats: BaseStats | None = None,
+    metrics: MetricsWrapper | None = None,
+    show_source: bool = False,
+    show_global: bool = False,
+):
+    """
+    Render project information table.
+
+    This merely exists to be able to pass default values to {% include %}.
+    """
+    return {
+        "project": project,
+        "component": component,
+        "translation": translation,
+        "language": language,
+        "componentlist": componentlist,
+        "stats": stats,
+        "metrics": metrics,
+        "show_source": show_source,
+        "show_global": show_global,
+    }
