@@ -4,11 +4,11 @@ paths:
   /hooks/update/{project}/:
     get:
       tags:
-        - hooks
+      - hooks
       summary: Triggers update of all components in a project (pulling from VCS and scanning for translation changes)
       description: '**Deprecated since version 2.6:** Please use `POST /api/projects/{project}/repository/` instead which works properly with authentication for ACL limited projects.'
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       responses:
         '200':
           $ref: '#/components/responses/OK'
@@ -18,35 +18,35 @@ paths:
           $ref: '#/components/responses/NotFound'
       deprecated: true
       security:
-        - TokenAuth: []
+      - TokenAuth: []
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /hooks/update/{project}/{component}/:
     get:
       tags:
-        - hooks
+      - hooks
       summary: Triggers update of a component (pulling from VCS and scanning for translation changes)
       description: '**Deprecated since version 2.6:** Please use `POST /api/components/{project}/{component}/repository/` instead which works properly with authentication for ACL limited projects.'
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
       responses:
         '200':
           $ref: '#/components/responses/OK'
@@ -56,30 +56,30 @@ paths:
           $ref: '#/components/responses/NotFound'
       deprecated: true
       security:
-        - TokenAuth: []
+      - TokenAuth: []
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /hooks/github/:
     post:
       tags:
-        - hooks
+      - hooks
       summary: Special hook for handling GitHub notifications and automatically updating matching components
       description: |
         **Note:**
@@ -99,30 +99,30 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /hooks/gitlab/:
     post:
       tags:
-        - hooks
+      - hooks
       summary: Special hook for handling GitLab notifications and automatically updating matching components
       description: |
         **See also:**
@@ -138,30 +138,30 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /hooks/bitbucket/:
     post:
       tags:
-        - hooks
+      - hooks
       summary: Special hook for handling BitBucket notifications and automatically updating matching components
       description: |
         **See also:**
@@ -177,30 +177,30 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /hooks/pagure/:
     post:
       tags:
-        - hooks
+      - hooks
       summary: Special hook for handling Pagure notifications and automatically updating matching components
       description: |
         **See also:**
@@ -216,30 +216,30 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /hooks/azure/:
     post:
       tags:
-        - hooks
+      - hooks
       summary: Special hook for handling Azure DevOps notifications and automatically updating matching components
       description: |
         **Note:**
@@ -259,30 +259,30 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /hooks/gitea/:
     post:
       tags:
-        - hooks
+      - hooks
       summary: Special hook for handling Gitea notifications and automatically updating matching components
       description: |
         [Automatically receiving changes from Gitea](https://docs.weblate.org/en/latest/admin/continuous.html#gitea-setup)
@@ -296,30 +296,30 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /hooks/gitee/:
     post:
       tags:
-        - hooks
+      - hooks
       summary: Special hook for handling Gitee notifications and automatically updating matching components
       description: |
         [Automatically receiving changes from Gitee](https://docs.weblate.org/en/latest/admin/continuous.html#gitee-setup)
@@ -333,40 +333,40 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
 components:
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     NotFound:
-      $ref: 'common.yaml#/components/responses/NotFound'
+      $ref: common.yaml#/components/responses/NotFound
 
   parameters:
     projectInPath:
-      $ref: 'projects.yaml#/components/parameters/projectInPath'
+      $ref: projects.yaml#/components/parameters/projectInPath
 
     componentInPath:
-      $ref: 'components.yaml#/components/parameters/componentInPath'
+      $ref: components.yaml#/components/parameters/componentInPath

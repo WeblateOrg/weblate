@@ -4,11 +4,11 @@ paths:
   /addons/:
     get:
       tags:
-        -  addons
+      - addons
       summary: Returns a list of add-ons
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -35,10 +35,10 @@ paths:
   /addons/{id}/:
     get:
       tags:
-        - addons
+      - addons
       summary: Returns information about add-on information
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           description: OK
@@ -51,10 +51,10 @@ paths:
 
     put:
       tags:
-        - addons
+      - addons
       summary: Edit full information about add-on
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/AddonUpdated'
@@ -63,14 +63,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     patch:
       tags:
-        - addons
+      - addons
       summary: Edit partial information about add-on
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/AddonUpdated'
@@ -79,14 +79,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - addons
+      - addons
       summary: Delete add-on
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -95,16 +95,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /components/{project}/{component}/addons/:
     post:
       tags:
-        - addons
+      - addons
       summary: Creates a new add-on
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
       responses:
         '201':
           $ref: '#/components/responses/AddonCreated'
@@ -113,7 +113,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
 components:
   schemas:
@@ -139,16 +139,16 @@ components:
 
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Created:
-      $ref: 'common.yaml#/components/responses/Created'
+      $ref: common.yaml#/components/responses/Created
 
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     NotFound:
       description: Not Found
@@ -180,10 +180,10 @@ components:
 
   parameters:
     idInPath:
-      $ref: 'common.yaml#/components/parameters/idInPath'
+      $ref: common.yaml#/components/parameters/idInPath
 
     projectInPath:
-      $ref: 'projects.yaml#/components/parameters/projectInPath'
+      $ref: projects.yaml#/components/parameters/projectInPath
 
     componentInPath:
-      $ref: 'components.yaml#/components/parameters/componentInPath'
+      $ref: components.yaml#/components/parameters/componentInPath

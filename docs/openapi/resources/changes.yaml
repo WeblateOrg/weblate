@@ -4,12 +4,12 @@ paths:
   /changes/:
     get:
       tags:
-        - changes
+      - changes
       summary: Returns a list of translation changes
       description: '**Changed in version 4.1:** Filtering of changes was introduced in the 4.1 release.'
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -36,10 +36,10 @@ paths:
   /changes/{id}/:
     get:
       tags:
-        - changes
+      - changes
       summary: Returns information about translation change
       parameters:
-        - $ref: 'common.yaml#/components/parameters/idInPath'
+      - $ref: common.yaml#/components/parameters/idInPath
       responses:
         '200':
           $ref: '#/components/responses/Change'
@@ -82,32 +82,32 @@ components:
           type: string
         details:
           oneOf:
-            - type: object
-              properties:
-                new_head:
+          - type: object
+            properties:
+              new_head:
+                type: string
+              previous_head:
+                type: string
+          - type: object
+            properties:
+              repos:
+                type: array
+                items:
                   type: string
-                previous_head:
-                  type: string
-            - type: object
-              properties:
-                repos:
-                  type: array
-                  items:
-                    type: string
-                    format: uri
-            - type: object
-              properties:
-                state:
-                  type: integer
-                source:
-                  type: string
-                old_state: integer
-            - type: object
-              properties:
-                reason:
-                  type: string
-                filename:
-                  type: string
+                  format: uri
+          - type: object
+            properties:
+              state:
+                type: integer
+              source:
+                type: string
+              old_state: integer
+          - type: object
+            properties:
+              reason:
+                type: string
+              filename:
+                type: string
         id:
           type: integer
         action_name:
@@ -140,4 +140,4 @@ components:
 
   parameters:
     idInPath:
-      $ref: 'common.yaml#/components/parameters/idInPath'
+      $ref: common.yaml#/components/parameters/idInPath

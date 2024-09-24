@@ -4,11 +4,11 @@ paths:
   /projects/:
     get:
       tags:
-        - projects
+      - projects
       summary: Returns a list of all projects
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -34,7 +34,7 @@ paths:
 
     post:
       tags:
-        - projects
+      - projects
       summary: Creates a new project
       requestBody:
         $ref: '#/components/requestBodies/CreateProject'
@@ -44,15 +44,15 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /projects/{project}/:
     get:
       tags:
-        - projects
+      - projects
       summary: Returns information about a project
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       responses:
         '200':
           $ref: '#/components/responses/Project'
@@ -61,10 +61,10 @@ paths:
 
     put:
       tags:
-        - projects
+      - projects
       summary: Edit a project by a PUT request
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       responses:
         '200':
           $ref: '#/components/responses/ProjectUpdated'
@@ -75,14 +75,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     patch:
       tags:
-        - projects
+      - projects
       summary: Edit a project by a PATCH request
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       responses:
         '200':
           $ref: '#/components/responses/ProjectUpdated'
@@ -91,14 +91,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - projects
+      - projects
       summary: Deletes a project
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -107,18 +107,18 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /projects/{project}/changes/:
     get:
       tags:
-        - projects
+      - projects
       summary: Returns a list of project changes
       description: This is essentially a project-scoped `GET /api/changes/` which accepts the same parameters.
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -140,17 +140,17 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: 'changes.yaml#/components/schemas/Change'
+                      $ref: changes.yaml#/components/schemas/Change
         '404':
           $ref: '#/components/responses/NotFound'
 
   /projects/{project}/file/:
     get:
       tags:
-        - projects
+      - projects
       description: Downloads all available translations associated with the project as an archive file using the requested format and language.
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       responses:
         '200':
           description: OK
@@ -165,11 +165,11 @@ paths:
   /projects/{project}/repository/:
     get:
       tags:
-        - projects
+      - projects
       summary: Returns information about VCS repository status
       description: This endpoint contains only an overall summary for all repositories for the project. To get more detailed status use `GET /api/components/{project}/{component}/repository/`.
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       responses:
         '200':
           description: OK
@@ -182,14 +182,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     post:
       tags:
-        - projects
+      - projects
       summary: Performs the given operation on the VCS repository
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateProjectRepository'
       responses:
@@ -209,17 +209,17 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /projects/{project}/components/:
     get:
       tags:
-        - projects
+      - projects
       summary: Returns a list of translation components in the given project
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -247,8 +247,8 @@ paths:
 
     post:
       tags:
-        - projects
-        - components
+      - projects
+      - components
       summary: Creates translation components in the given project
       description: |
         **Changed in version 4.3:** The `zipfile` and `docfile` parameters are now accepted for VCS-less components, see [Local files](https://docs.weblate.org/en/latest/vcs.html#vcs-local).
@@ -263,7 +263,7 @@ paths:
 
         Most of the component creation happens in the background. Check the `task_url` attribute of created component and follow the progress there.
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       requestBody:
         $ref: '#/components/requestBodies/CreateProjectComponent'
       responses:
@@ -274,15 +274,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /projects/{project}/languages/:
     get:
       tags:
-        - projects
+      - projects
       summary: Returns paginated statistics for all languages within a project
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       responses:
         '200':
           description: OK
@@ -291,18 +291,18 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'statistics.yaml#/components/schemas/Statistics'
+                  $ref: statistics.yaml#/components/schemas/Statistics
         '404':
           $ref: '#/components/responses/NotFound'
 
   /projects/{project}/statistics/:
     get:
       tags:
-        - projects
-        - statistics
+      - projects
+      - statistics
       summary: Returns statistics for a project
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       responses:
         '200':
           description: OK
@@ -316,13 +316,13 @@ paths:
   /projects/{project}/categories/:
     get:
       tags:
-        - projects
+      - projects
       summary: Returns categories for a project
       description: Added in version 5.0.
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -344,20 +344,20 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: 'categories.yaml#/components/schemas/Category'
+                      $ref: categories.yaml#/components/schemas/Category
         '404':
           $ref: '#/components/responses/NotFound'
 
   /projects/{project}/labels/:
     get:
       tags:
-        - projects
+      - projects
       summary: Returns labels for a project
       description: Added in version 5.3.
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -385,10 +385,10 @@ paths:
 
     post:
       tags:
-        - projects
+      - projects
       summary: Creates a label for a project
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       requestBody:
         $ref: '#/components/requestBodies/CreateProjectLabel'
       responses:
@@ -401,19 +401,19 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /projects/{project}/credits/:
     #TODO: returns 400 Bad Request, need to check requestBody
     get:
       tags:
-        - projects
+      - projects
       summary: Returns contributor credits for a project
       description: Added in version 5.7.
       requestBody:
         $ref: '#/components/requestBodies/ReadProjectCredits'
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       responses:
         '200':
           description: OK
@@ -434,7 +434,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
 components:
   schemas:
@@ -519,9 +519,9 @@ components:
         translation_review: false
         source_review: false
         set_language_team: true
-        instructions: ""
+        instructions: ''
         enable_hooks: true
-        language_aliases: ""
+        language_aliases: ''
         enforced_2fa: false
 
     # The difference with 'components.yaml#/schemas/Component'
@@ -536,7 +536,7 @@ components:
         id:
           type: integer
         source_language:
-          $ref: 'languages.yaml#/components/schemas/Language'
+          $ref: languages.yaml#/components/schemas/Language
         vcs:
           type: string
         repo:
@@ -740,7 +740,7 @@ components:
           linked_component:
 
     ProjectStatistics:
-      $ref: 'statistics.yaml#/components/schemas/StatisticsUrl'
+      $ref: statistics.yaml#/components/schemas/StatisticsUrl
 
     ProjectLabel:
       type: object
@@ -774,22 +774,22 @@ components:
 
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Created:
-      $ref: 'common.yaml#/components/responses/Created'
+      $ref: common.yaml#/components/responses/Created
 
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     BadRequest:
-      $ref: 'common.yaml#/components/responses/BadRequest'
+      $ref: common.yaml#/components/responses/BadRequest
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     Forbidden:
-      $ref: 'common.yaml#/components/responses/Forbidden'
+      $ref: common.yaml#/components/responses/Forbidden
 
     NotFound:
       description: Not Found
@@ -831,7 +831,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: 'components.yaml#/components/schemas/Component'
+            $ref: components.yaml#/components/schemas/Component
 
     ProjectLabelCreated:
       description: Created
@@ -880,9 +880,9 @@ components:
                 format: uri
                 description: Project website.
             required:
-              - name
-              - slug
-              - web
+            - name
+            - slug
+            - web
       required: true
 
     UpdateProject:
@@ -902,9 +902,9 @@ components:
                 format: uri
                 description: Project website.
             required:
-              - name
-              - slug
-              - web
+            - name
+            - slug
+            - web
       required: true
 
     UpdateProjectRepository:
@@ -916,11 +916,11 @@ components:
               operation:
                 type: string
                 enum:
-                  - commit
-                  - pull
-                  - push
-                  - reset
-                  - cleanup
+                - commit
+                - pull
+                - push
+                - reset
+                - cleanup
           example:
             operation: pull
 
@@ -933,7 +933,7 @@ components:
             type: object
             properties:
               name:
-               type: string
+                type: string
               slug:
                 type: string
               repo:
@@ -950,18 +950,18 @@ components:
                 type: string
                 description: How to handle requests for creating new translations.
                 enum:
-                  - contact
-                  - url
-                  - add
-                  - none
+                - contact
+                - url
+                - add
+                - none
             required:
-              - name
-              - slug
-              - repo
-              - filemask
-              - file_format
-              - new_base
-              - new_lang
+            - name
+            - slug
+            - repo
+            - filemask
+            - file_format
+            - new_base
+            - new_lang
           examples:
             NewComponentFromGit:
               name: Weblate
@@ -994,8 +994,8 @@ components:
               color:
                 type: string
             required:
-              - name
-              - color
+            - name
+            - color
       required: true
 
     ReadProjectCredits:
@@ -1016,6 +1016,6 @@ components:
                 type: string
                 description: Language code to search for.
             required:
-              - start
-              - end
+            - start
+            - end
       required: true

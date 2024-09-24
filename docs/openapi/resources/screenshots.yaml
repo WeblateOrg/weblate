@@ -4,11 +4,11 @@ paths:
   /screenshots/:
     get:
       tags:
-        - screenshots
+      - screenshots
       summary: Returns a list of screenshot string information
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -34,7 +34,7 @@ paths:
 
     post:
       tags:
-        - screenshots
+      - screenshots
       summary: Creates a new screenshot
       requestBody:
         $ref: '#/components/requestBodies/CreateScreenshot'
@@ -48,15 +48,15 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /screenshots/{id}/:
     get:
       tags:
-        - screenshots
+      - screenshots
       summary: Returns information about screenshot information
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/Screenshot'
@@ -65,10 +65,10 @@ paths:
 
     put:
       tags:
-        - screenshots
+      - screenshots
       summary: Edit full information about screenshot
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/ScreenshotUpdated'
@@ -81,14 +81,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     patch:
       tags:
-        - screenshots
+      - screenshots
       summary: Edit partial information about screenshot
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/ScreenshotUpdated'
@@ -101,14 +101,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - screenshots
+      - screenshots
       summary: Delete screenshot
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -119,15 +119,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /screenshots/{id}/file/:
     get:
       tags:
-        - screenshots
+      - screenshots
       summary: Download the screenshot image
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/ScreenshotFile'
@@ -136,10 +136,10 @@ paths:
 
     post:
       tags:
-        - screenshots
+      - screenshots
       summary: Replace screenshot image
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/ScreenshotFileUpdated'
@@ -150,15 +150,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /screenshots/{id}/units/:
     post:
       tags:
-        - screenshots
+      - screenshots
       summary: Associate source string with screenshot
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/ScreenshotUpdated'
@@ -169,16 +169,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /screenshots/{id}/units/{unit_id}/:
     delete:
       tags:
-        - screenshots
+      - screenshots
       summary: Remove source string association with screenshot
       parameters:
-        - $ref: '#/components/parameters/idInPath'
-        - $ref: '#/components/parameters/unitIdInPath'
+      - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/unitIdInPath'
       responses:
         '200':
           $ref: '#/components/responses/ScreenshotUpdated'
@@ -187,7 +187,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
 components:
   schemas:
@@ -214,30 +214,30 @@ components:
             type: string
             format: uri
           example:
-            - https://weblate.example.com/api/units/95376/
-            - https://weblate.example.com/api/units/95377/
+          - https://weblate.example.com/api/units/95376/
+          - https://weblate.example.com/api/units/95377/
         url:
           type: string
           format: uri
 
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Created:
-      $ref: 'common.yaml#/components/responses/Created'
+      $ref: common.yaml#/components/responses/Created
 
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     BadRequest:
-      $ref: 'common.yaml#/components/responses/BadRequest'
+      $ref: common.yaml#/components/responses/BadRequest
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     Forbidden:
-      $ref: 'common.yaml#/components/responses/Forbidden'
+      $ref: common.yaml#/components/responses/Forbidden
 
     NotFound:
       description: Not Found
@@ -291,10 +291,10 @@ components:
 
   parameters:
     idInPath:
-      $ref: 'common.yaml#/components/parameters/idInPath'
+      $ref: common.yaml#/components/parameters/idInPath
 
     unitIdInPath:
-      $ref: 'units.yaml#/components/parameters/unitIdInPath'
+      $ref: units.yaml#/components/parameters/unitIdInPath
 
   requestBodies:
     CreateScreenshot:
@@ -315,9 +315,9 @@ components:
                 type: string
                 format: binary
             required:
-              - component_slug
-              - project_slug
-              - language_code
-              - name
-              - image
+            - component_slug
+            - project_slug
+            - language_code
+            - name
+            - image
       required: true

@@ -4,15 +4,15 @@ paths:
   /metrics/:
     get:
       tags:
-        - metrics
+      - metrics
       summary: Returns server metrics
-      description: "**Changed in version 5.6.1:** Metrics can now be exposed in OpenMetrics compatible format with `?format=openmetrics`."
+      description: '**Changed in version 5.6.1:** Metrics can now be exposed in OpenMetrics compatible format with `?format=openmetrics`.'
       parameters:
-        - name: format
-          in: query
-          schema:
-            type: string
-            example: openmetrics
+      - name: format
+        in: query
+        schema:
+          type: string
+          example: openmetrics
       responses:
         '200':
           $ref: '#/components/responses/Statistics'

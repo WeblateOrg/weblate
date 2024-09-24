@@ -4,11 +4,11 @@ paths:
   /translations/:
     get:
       tags:
-        - translations
+      - translations
       summary: Returns a list of translations
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -35,12 +35,12 @@ paths:
   /translations/{project}/{component}/{language}/:
     get:
       tags:
-        - translations
+      - translations
       summary: Returns information about a translation
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
       responses:
         '200':
           $ref: '#/components/responses/Translation'
@@ -49,12 +49,12 @@ paths:
 
     delete:
       tags:
-        - translations
+      - translations
       summary: Deletes a translation
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -63,20 +63,20 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /translations/{project}/{component}/{language}/changes/:
     get:
       tags:
-        - translations
+      - translations
       summary: Returns a list of translation changes
       description: This is essentially a translations-scoped GET /api/changes/ accepting the same parameters.
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -98,21 +98,21 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: 'changes.yaml#/components/schemas/Change'
+                      $ref: changes.yaml#/components/schemas/Change
         '404':
           $ref: '#/components/responses/NotFound'
 
   /translations/{project}/{component}/{language}/units/:
     get:
       tags:
-        - translations
+      - translations
       summary: Returns a list of translation units
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -134,21 +134,21 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: 'units.yaml#/components/schemas/Unit'
+                      $ref: units.yaml#/components/schemas/Unit
         '404':
           $ref: '#/components/responses/NotFound'
 
     post:
       tags:
-        - translations
+      - translations
       summary: Add a new unit
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
       responses:
         '200':
-          $ref: 'units.yaml#/components/responses/Unit'
+          $ref: units.yaml#/components/responses/Unit
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -165,18 +165,18 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /translations/{project}/{component}/{language}/autotranslate/:
     #TODO: 200 response is undocumented, needs testing: what does it return?
     post:
       tags:
-        - translations
+      - translations
       summary: Trigger automatic translation
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
       responses:
         '200':
           $ref: '#/components/responses/OK'
@@ -196,17 +196,17 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /translations/{project}/{component}/{language}/file/:
     get:
       tags:
-        - translations
+      - translations
       description: Download current translation file as it is stored in the VCS (without the format parameter) or converted to another format (see [Downloading translations](https://docs.weblate.org/en/latest/user/files.html#download)).
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
       responses:
         '200':
           $ref: '#/components/responses/OK'
@@ -226,16 +226,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     post:
       tags:
-        - translations
+      - translations
       summary: Upload new file with translations
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
       responses:
         '200':
           $ref: '#/components/responses/OK'
@@ -244,17 +244,17 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /translations/{project}/{component}/{language}/repository/:
     get:
       tags:
-        - translations
+      - translations
       summary: Returns information about VCS repository status
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
       responses:
         '200':
           $ref: '#/components/responses/TranslationRepository'
@@ -263,12 +263,12 @@ paths:
 
     post:
       tags:
-        - translations
+      - translations
       summary: Performs given operation on the VCS repository
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
       responses:
         '200':
           description: OK
@@ -284,18 +284,18 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /translations/{project}/{component}/{language}/statistics/:
     get:
       tags:
-        - translations
-        - statistics
+      - translations
+      - statistics
       summary: Returns detailed translation statistics
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
       responses:
         '200':
           $ref: '#/components/responses/TranslationStatistics'
@@ -308,9 +308,9 @@ components:
       type: object
       properties:
         language:
-          $ref: 'languages.yaml#/components/schemas/Language'
+          $ref: languages.yaml#/components/schemas/Language
         component:
-          $ref: 'components.yaml#/components/schemas/Component'
+          $ref: components.yaml#/components/schemas/Component
         language_code:
           type: string
           description: Language code used in the repository; this can be different from language code in the language object.
@@ -423,11 +423,11 @@ components:
               formula: n != 1
               type: 1
             aliases:
-              - en_en
-              - base
-              - source
-              - enp
-              - eng
+            - en_en
+            - base
+            - source
+            - enp
+            - eng
             direction: ltr
             population: 1636485517
             web_url: http://weblate.example.com/languages/en/
@@ -448,11 +448,11 @@ components:
                 formula: n != 1
                 type: 1
               aliases:
-                - en_en
-                - base
-                - source
-                - enp
-                - eng
+              - en_en
+              - base
+              - source
+              - enp
+              - eng
               direction: ltr
               population: 1636485517
               web_url: http://weblate.example.com/languages/en/
@@ -476,25 +476,25 @@ components:
               translation_review: false
               source_review: false
               set_language_team: true
-              instructions: ""
+              instructions: ''
               enable_hooks: true
-              language_aliases: ""
+              language_aliases: ''
               enforced_2fa: false
             vcs: git
             repo: https://weblate.example.com/project.git
             git_export: http://weblate.example.com/git/test-project/test-component/
             branch: master
-            push_branch: ""
+            push_branch: ''
             filemask: assets/voxygen/i18n/*/main.ftl
-            screenshot_filemask: ""
-            template: ""
+            screenshot_filemask: ''
+            template: ''
             edit_template: true
-            intermediate: ""
-            new_base: ""
+            intermediate: ''
+            new_base: ''
             file_format: fluent
-            license: ""
-            license_url: null
-            agreement: ""
+            license: ''
+            license_url:
+            agreement: ''
             web_url: http://weblate.example.com/projects/test-project/test-component/
             url: http://weblate.example.com/api/components/test-project/test-component/
             repository_url: http://weblate.example.com/api/components/test-project/test-component/repository/
@@ -503,17 +503,17 @@ components:
             lock_url: http://weblate.example.com/api/components/test-project/test-component/lock/
             links_url: http://weblate.example.com/api/components/test-project/test-component/links/
             changes_list_url: http://weblate.example.com/api/components/test-project/test-component/changes/
-            task_url: null
+            task_url:
             credits_url: http://weblate.example.com/api/components/test-project/test-component/credits/
             new_lang: contact
-            language_code_style: ""
-            push: ""
-            check_flags: ""
+            language_code_style: ''
+            push: ''
+            check_flags: ''
             priority: 100
             enforced_checks: []
             restricted: false
-            repoweb: ""
-            report_source_bugs: ""
+            repoweb: ''
+            report_source_bugs: ''
             merge_style: rebase
             commit_message: "Translated using Weblate ({{ language_name }})\n\nCurrently translated at {{ stats.translated_percent }}% ({{ stats.translated }} of {{ stats.all }} strings)\n\nTranslation: {{ project_name }}/{{ component_name }}\nTranslate-URL: {{ url }}"
             add_message: "Added translation using Weblate ({{ language_name }})\n\n"
@@ -529,17 +529,17 @@ components:
             push_on_commit: true
             commit_pending_age: 24
             auto_lock_error: true
-            language_regex: "^[^.]+$"
-            variant_regex: ""
+            language_regex: ^[^.]+$
+            variant_regex: ''
             addons: []
             is_glossary: false
             glossary_color: silver
-            category: null
-            linked_component: null
+            category:
+            linked_component:
           language_code: en
           id: 63
-          filename: ""
-          revision: ""
+          filename: ''
+          revision: ''
           web_url: http://weblate.example.com/projects/test-project/test-component/en/
           share_url: http://weblate.example.com/engage/test-project/-/en/
           translate_url: http://weblate.example.com/translate/test-project/test-component/en/
@@ -559,8 +559,8 @@ components:
           failing_checks_percent: 52.9
           have_suggestion: 0
           have_comment: 0
-          last_change: "2024-09-19T18:48:47.104585Z"
-          last_author: null
+          last_change: '2024-09-19T18:48:47.104585Z'
+          last_author:
           repository_url: http://weblate.example.com/api/translations/test-project/test-component/en/repository/
           file_url: http://weblate.example.com/api/translations/test-project/test-component/en/file/
           statistics_url: http://weblate.example.com/api/translations/test-project/test-component/en/statistics/
@@ -568,7 +568,7 @@ components:
           units_list_url: http://weblate.example.com/api/translations/test-project/test-component/en/units/
 
     TranslationStatistics:
-      $ref: 'statistics.yaml#/components/schemas/Statistics'
+      $ref: statistics.yaml#/components/schemas/Statistics
 
     # Similar to the 'projects.yaml#/schemas/Repository' schema,
     # but with additional fields
@@ -627,35 +627,35 @@ components:
           needs_merge: false
           needs_push: false
           url: http://weblate.example.com/api/translations/test-project/test-component/en/repository/
-          remote_commit: null
+          remote_commit:
           weblate_commit:
             revision: 9d8a98d840dfe5a17c0627be4007139730ff5faf
             shortrevision: 9d8a98d84
             author: John Doe <johndoe@example.com>
             author_name: johndoe
             author_email: johndoe@example.com@gmail.com
-            authordate: "2024-09-18T08:02:16Z"
+            authordate: '2024-09-18T08:02:16Z'
             commit: johndoe <johndoe@example.com@gmail.com>
             commit_name: johndoe
             commit_email: johndoe@example.com@gmail.com
-            commitdate: "2024-09-18T08:02:16Z"
+            commitdate: '2024-09-18T08:02:16Z'
             message: Merge branch 'weblate-translation' into 'master'\n\nUpdate translation files (Weblate)
             summary: Merge branch 'weblate-translation' into 'master'
           status: On branch master\nYour branch is up to date with 'origin/master'.\n\nnothing to commit, working tree clean\n
-          merge_failure: null
+          merge_failure:
 
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Created:
-      $ref: 'common.yaml#/components/responses/Created'
+      $ref: common.yaml#/components/responses/Created
 
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     NotFound:
       description: Not Found
@@ -694,10 +694,10 @@ components:
 
   parameters:
     projectInPath:
-      $ref: 'projects.yaml#/components/parameters/projectInPath'
+      $ref: projects.yaml#/components/parameters/projectInPath
 
     componentInPath:
-      $ref: 'components.yaml#/components/parameters/componentInPath'
+      $ref: components.yaml#/components/parameters/componentInPath
 
     languageInPath:
-      $ref: 'languages.yaml#/components/parameters/languageInPath'
+      $ref: languages.yaml#/components/parameters/languageInPath

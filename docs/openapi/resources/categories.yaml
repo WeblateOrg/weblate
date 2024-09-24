@@ -4,7 +4,7 @@ paths:
   /categories/:
     get:
       tags:
-        - categories
+      - categories
       summary: Lists available categories
       description: Added in version 5.0.
       responses:
@@ -32,7 +32,7 @@ paths:
 
     post:
       tags:
-        - categories
+      - categories
       summary: Creates a new category
       description: Added in version 5.0.
       responses:
@@ -41,15 +41,15 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /categories/{id}/:
     get:
       tags:
-        - categories
+      - categories
       description: Added in version 5.0.
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           description: OK
@@ -62,11 +62,11 @@ paths:
 
     put:
       tags:
-        - categories
+      - categories
       summary: Edit full information about category
       description: Added in version 5.0.
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/CategoryUpdated'
@@ -75,15 +75,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     patch:
       tags:
-        - categories
+      - categories
       summary: Edit partial information about category
       description: Added in version 5.0.
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/CategoryUpdated'
@@ -92,15 +92,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - categories
+      - categories
       summary: Delete category
       description: Added in version 5.0.
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -109,17 +109,17 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /categories/{id}/statistics/:
     get:
       tags:
-        - categories
-        - statistics
+      - categories
+      - statistics
       summary: Returns statistics for a category
       description: Added in version 5.5.
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           description: OK
@@ -155,20 +155,20 @@ components:
           format: uri
 
     CategoryStatistics:
-      $ref: 'statistics.yaml#/components/schemas/StatisticsUrl'
+      $ref: statistics.yaml#/components/schemas/StatisticsUrl
 
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Created:
-      $ref: 'common.yaml#/components/responses/Created'
+      $ref: common.yaml#/components/responses/Created
 
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     NotFound:
       description: Not Found
@@ -200,4 +200,4 @@ components:
 
   parameters:
     idInPath:
-      $ref: 'common.yaml#/components/parameters/idInPath'
+      $ref: common.yaml#/components/parameters/idInPath

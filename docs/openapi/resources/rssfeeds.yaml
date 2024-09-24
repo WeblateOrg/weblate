@@ -4,164 +4,164 @@ paths:
   /exports/rss/:
     get:
       tags:
-        - rssFeeds
+      - rssFeeds
       summary: Retrieves RSS feed with recent changes for Weblate instance
       responses:
         '200':
           $ref: '#/components/responses/RSSFeed'
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /exports/rss/{project}/:
     get:
       tags:
-        - rssFeeds
+      - rssFeeds
       summary: Retrieves RSS feed with recent changes for a project
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/projectInPath'
       responses:
         '200':
           $ref: '#/components/responses/RSSFeed'
         '404':
           $ref: '#/components/responses/NotFound'
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /exports/rss/{project}/{component}/:
     get:
       tags:
-        - rssFeeds
+      - rssFeeds
       summary: Retrieves RSS feed with recent changes for a component
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
       responses:
         '200':
           $ref: '#/components/responses/RSSFeed'
         '404':
           $ref: '#/components/responses/NotFound'
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /exports/rss/{project}/{component}/{language}/:
     get:
       tags:
-        - rssFeeds
+      - rssFeeds
       summary: Retrieves RSS feed with recent changes for a translation
       parameters:
-        - $ref: '#/components/parameters/projectInPath'
-        - $ref: '#/components/parameters/componentInPath'
-        - $ref: '#/components/parameters/languageInPath'
+      - $ref: '#/components/parameters/projectInPath'
+      - $ref: '#/components/parameters/componentInPath'
+      - $ref: '#/components/parameters/languageInPath'
       responses:
         '200':
           $ref: '#/components/responses/RSSFeed'
         '404':
           $ref: '#/components/responses/NotFound'
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
   /exports/rss/language/{language}/:
     get:
       tags:
-        - rssFeeds
+      - rssFeeds
       summary: Retrieves RSS feed with recent changes for a language
       parameters:
-        - $ref: '#/components/parameters/languageInPath'
+      - $ref: '#/components/parameters/languageInPath'
       responses:
         '200':
           $ref: '#/components/responses/RSSFeed'
         '404':
           $ref: '#/components/responses/NotFound'
       servers:
-        - url: https://hosted.weblate.org
-          description: The official Weblate cloud instance
-        - url: '{scheme}://{hostname}{port}'
-          description: A Weblate instance of your choice
-          variables:
-            scheme:
-              enum:
-                - http
-                - https
-              default: https
-              description: The HTTP protocol variant used for connecting to the API.
-            hostname:
-              default: ""
-              description: The host where the Weblate API is exposed.
-            port:
-              default: ""
-              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+      - url: https://hosted.weblate.org
+        description: The official Weblate cloud instance
+      - url: '{scheme}://{hostname}{port}'
+        description: A Weblate instance of your choice
+        variables:
+          scheme:
+            enum:
+            - http
+            - https
+            default: https
+            description: The HTTP protocol variant used for connecting to the API.
+          hostname:
+            default: ''
+            description: The host where the Weblate API is exposed.
+          port:
+            default: ''
+            description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
 
 components:
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     NotFound:
-      $ref: 'common.yaml#/components/responses/NotFound'
+      $ref: common.yaml#/components/responses/NotFound
 
     RSSFeed:
       description: OK
@@ -172,10 +172,10 @@ components:
 
   parameters:
     projectInPath:
-      $ref: 'projects.yaml#/components/parameters/projectInPath'
+      $ref: projects.yaml#/components/parameters/projectInPath
 
     componentInPath:
-      $ref: 'components.yaml#/components/parameters/componentInPath'
+      $ref: components.yaml#/components/parameters/componentInPath
 
     languageInPath:
-      $ref: 'languages.yaml#/components/parameters/languageInPath'
+      $ref: languages.yaml#/components/parameters/languageInPath

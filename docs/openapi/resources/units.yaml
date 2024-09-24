@@ -4,11 +4,11 @@ paths:
   /units/:
     get:
       tags:
-        - units
+      - units
       summary: Returns list of translation units
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -35,10 +35,10 @@ paths:
   /units/{id}/:
     get:
       tags:
-        - units
+      - units
       summary: Returns information about translation unit
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/Unit'
@@ -47,10 +47,10 @@ paths:
 
     put:
       tags:
-        - units
+      - units
       summary: Performs full update on translation unit
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateUnit'
       responses:
@@ -61,14 +61,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     patch:
       tags:
-        - units
+      - units
       summary: Performs partial update on translation unit
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/OK'
@@ -77,14 +77,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - units
+      - units
       summary: Deletes a translation unit
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -93,7 +93,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
 components:
   schemas:
@@ -205,15 +205,15 @@ components:
         Unit:
           translation: http://weblate.example.com/api/translations/test-project/test-component/en/
           source:
-            - main-username
-          previous_source: ""
+          - main-username
+          previous_source: ''
           target:
-            - main-username
+          - main-username
           id_hash: 6147199891469790000
           content_hash: 6147199891469790000
-          location: ""
-          context: ""
-          note: ""
+          location: ''
+          context: ''
+          note: ''
           flags: fluent-type:Message
           labels: []
           state: 100
@@ -230,23 +230,23 @@ components:
           id: 1427
           web_url: http://weblate.example.com/translate/test-project/test-component/en/?checksum=d54f3dbb66606bb6
           url: http://weblate.example.com/api/units/1427/
-          explanation: ""
-          extra_flags: ""
+          explanation: ''
+          extra_flags: ''
           pending: false
-          timestamp: "2024-09-19T18:48:44.563186Z"
-          last_updated: "2024-09-19T18:48:44.563198Z"
+          timestamp: '2024-09-19T18:48:44.563186Z'
+          last_updated: '2024-09-19T18:48:44.563198Z'
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Created:
-      $ref: 'common.yaml#/components/responses/Created'
+      $ref: common.yaml#/components/responses/Created
 
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     NotFound:
       description: Not Found
@@ -271,7 +271,7 @@ components:
 
   parameters:
     idInPath:
-      $ref: 'common.yaml#/components/parameters/idInPath'
+      $ref: common.yaml#/components/parameters/idInPath
 
     unitIdInPath:
       name: unit_id
@@ -296,5 +296,5 @@ components:
                 items:
                   type: string
             required:
-              - target
-              - labels
+            - target
+            - labels

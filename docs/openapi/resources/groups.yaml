@@ -4,11 +4,11 @@ paths:
   /groups/:
     get:
       tags:
-        - groups
+      - groups
       description: Returns a list of groups if you have permissions to manage groups. If not, then you get to see only the groups the user is a part of.
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -34,7 +34,7 @@ paths:
 
     post:
       tags:
-        - groups
+      - groups
       summary: Creates a new group
       requestBody:
         $ref: '#/components/requestBodies/CreateGroup'
@@ -48,15 +48,15 @@ paths:
         '403':
           $ref: '#/components/responses/NoManageGroups'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/:
     get:
       tags:
-        - groups
+      - groups
       summary: Returns information about a group
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/Group'
@@ -65,10 +65,10 @@ paths:
 
     put:
       tags:
-        - groups
+      - groups
       summary: Changes the group parameters
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateGroup'
       responses:
@@ -90,14 +90,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     patch:
       tags:
-        - groups
+      - groups
       summary: Changes the group parameters
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateGroup'
       responses:
@@ -108,14 +108,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - groups
+      - groups
       summary: Deletes the group
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -124,15 +124,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/roles/:
     post:
       tags:
-        - groups
+      - groups
       summary: Associate roles with a group
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateGroupRoles'
       responses:
@@ -151,15 +151,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/components/:
     post:
       tags:
-        - groups
+      - groups
       summary: Associate components with a group
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateGroupComponents'
       responses:
@@ -170,16 +170,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/components/{component_id}/:
     delete:
       tags:
-        - groups
+      - groups
       summary: Delete a component from a group
       parameters:
-        - $ref: '#/components/parameters/idInPath'
-        - $ref: 'components.yaml#/components/parameters/componentIdInPath'
+      - $ref: '#/components/parameters/idInPath'
+      - $ref: components.yaml#/components/parameters/componentIdInPath
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -189,15 +189,15 @@ paths:
           $ref: '#/components/responses/NotFound'
 
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/projects/:
     post:
       tags:
-        - groups
+      - groups
       summary: Associate projects with a group
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateGroupProjects'
       responses:
@@ -208,16 +208,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/projects/{project_id}/:
     delete:
       tags:
-        - groups
+      - groups
       summary: Delete a project from a group
       parameters:
-        - $ref: '#/components/parameters/idInPath'
-        - $ref: 'projects.yaml#/components/parameters/projectIdInPath'
+      - $ref: '#/components/parameters/idInPath'
+      - $ref: projects.yaml#/components/parameters/projectIdInPath
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -226,15 +226,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/languages/:
     post:
       tags:
-        - groups
+      - groups
       summary: Associate languages with a group
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateGroupLanguages'
       responses:
@@ -245,16 +245,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/languages/{language_code}/:
     delete:
       tags:
-        - groups
+      - groups
       summary: Delete a language from a group
       parameters:
-        - $ref: '#/components/parameters/idInPath'
-        - $ref: 'languages.yaml#/components/parameters/languageCodeInPath'
+      - $ref: '#/components/parameters/idInPath'
+      - $ref: languages.yaml#/components/parameters/languageCodeInPath
       responses:
         '200':
           $ref: '#/components/responses/GroupUpdated'
@@ -265,15 +265,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/componentlists/:
     post:
       tags:
-        - groups
+      - groups
       summary: Associate componentlists with a group
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateGroupComponentLists'
       responses:
@@ -284,16 +284,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/componentlists/{component_list_id}/:
     delete:
       tags:
-        - groups
+      - groups
       summary: Delete a componentlist from a group
       parameters:
-        - $ref: '#/components/parameters/idInPath'
-        - $ref: 'componentlists.yaml#/components/parameters/componentListIdInPath'
+      - $ref: '#/components/parameters/idInPath'
+      - $ref: componentlists.yaml#/components/parameters/componentListIdInPath
       responses:
         '200':
           $ref: '#/components/responses/GroupUpdated'
@@ -302,15 +302,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/admins/:
     post:
       tags:
-        - groups
+      - groups
       summary: Make user a group admin
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateGroupAdmins'
       responses:
@@ -323,22 +323,22 @@ paths:
                 items:
                   type: string
             example:
-              - Administration rights granted.
+            - Administration rights granted.
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /groups/{id}/admins/{user_id}/:
     delete:
       tags:
-        - groups
+      - groups
       summary: Delete a user from group admins
       parameters:
-        - $ref: '#/components/parameters/idInPath'
-        - $ref: 'users.yaml#/components/parameters/userIdInPath'
+      - $ref: '#/components/parameters/idInPath'
+      - $ref: users.yaml#/components/parameters/userIdInPath
       responses:
         '200':
           $ref: '#/components/responses/GroupUpdated'
@@ -347,7 +347,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
 components:
   schemas:
@@ -406,20 +406,20 @@ components:
       example:
         id: 1
         name: Viewers
-        defining_project: null
+        defining_project:
         project_selection: 3
         language_selection: 1
         url: http://weblate.example.com/api/groups/1/
         roles:
-          - http://weblate.example.com/api/roles/1/
-          - http://weblate.example.com/api/roles/2/
+        - http://weblate.example.com/api/roles/1/
+        - http://weblate.example.com/api/roles/2/
         languages:
-          - http://weblate.example.com/api/languages/en/
-          - http://weblate.example.com/api/languages/cs/
+        - http://weblate.example.com/api/languages/en/
+        - http://weblate.example.com/api/languages/cs/
         projects: []
         componentlists: []
         components:
-          - http://weblate.example.com/api/components/demo/weblate/
+        - http://weblate.example.com/api/components/demo/weblate/
         enforced_2fa: false
 
     UserGroup:
@@ -446,19 +446,19 @@ components:
 
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Created:
-      $ref: 'common.yaml#/components/responses/Created'
+      $ref: common.yaml#/components/responses/Created
 
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     BadRequest:
-      $ref: 'common.yaml#/components/responses/BadRequest'
+      $ref: common.yaml#/components/responses/BadRequest
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     NotFound:
       description: Not Found
@@ -512,7 +512,7 @@ components:
 
   parameters:
     idInPath:
-      $ref: 'common.yaml#/components/parameters/idInPath'
+      $ref: common.yaml#/components/parameters/idInPath
 
   requestBodies:
     CreateGroup:
@@ -537,7 +537,7 @@ components:
                 type: boolean
                 default: false
             required:
-              - name
+            - name
       required: true
 
     UpdateGroup:
@@ -562,7 +562,7 @@ components:
                 type: boolean
                 default: false
             required:
-              - name
+            - name
       required: true
 
     UpdateGroupRoles:
@@ -575,7 +575,7 @@ components:
                 type: string
                 description: The unique role ID.
             required:
-              - role_id
+            - role_id
       required: true
 
     UpdateGroupComponents:
@@ -610,7 +610,7 @@ components:
                 type: string
                 description: The unique language code.
             required:
-              - language_code
+            - language_code
       required: true
 
     UpdateGroupComponentLists:
@@ -634,5 +634,5 @@ components:
                 type: string
                 description: The user’s ID.
             required:
-              - user_id
+            - user_id
       required: true

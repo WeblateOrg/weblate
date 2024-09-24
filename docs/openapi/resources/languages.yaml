@@ -4,11 +4,11 @@ paths:
   /languages/:
     get:
       tags:
-        - languages
+      - languages
       summary: Returns a list of all languages the user has access to
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -34,7 +34,7 @@ paths:
 
     post:
       tags:
-        - languages
+      - languages
       summary: Creates a new language
       requestBody:
         $ref: '#/components/requestBodies/CreateLanguage'
@@ -44,15 +44,15 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /languages/{language_code}/:
     get:
       tags:
-        - languages
+      - languages
       summary: Returns information about a language
       parameters:
-        - $ref: '#/components/parameters/languageCodeInPath'
+      - $ref: '#/components/parameters/languageCodeInPath'
       responses:
         '200':
           $ref: '#/components/responses/Language'
@@ -61,10 +61,10 @@ paths:
 
     put:
       tags:
-        - languages
+      - languages
       summary: Changes the language parameters
       parameters:
-        - $ref: '#/components/parameters/languageCodeInPath'
+      - $ref: '#/components/parameters/languageCodeInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateLanguage'
       responses:
@@ -75,14 +75,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     patch:
       tags:
-        - languages
+      - languages
       summary: Changes the language parameters
       parameters:
-        - $ref: '#/components/parameters/languageCodeInPath'
+      - $ref: '#/components/parameters/languageCodeInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateLanguage'
       responses:
@@ -93,14 +93,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - languages
+      - languages
       summary: Deletes the language
       parameters:
-        - $ref: '#/components/parameters/languageCodeInPath'
+      - $ref: '#/components/parameters/languageCodeInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -109,16 +109,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /languages/{language_code}/statistics/:
     get:
       tags:
-        - languages
-        - statistics
+      - languages
+      - statistics
       summary: Returns statistics for a language
       parameters:
-        - $ref: '#/components/parameters/languageCodeInPath'
+      - $ref: '#/components/parameters/languageCodeInPath'
       responses:
         '200':
           description: OK
@@ -131,7 +131,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
 components:
   schemas:
@@ -190,7 +190,7 @@ components:
           formula: n != 1
           type: 1
         aliases:
-          - aar
+        - aar
         direction: ltr
         population: 2119662
         web_url: http://weblate.example.com/languages/aa/
@@ -198,20 +198,20 @@ components:
         statistics_url: http://weblate.example.com/api/languages/aa/statistics/
 
     LanguageStatistics:
-      $ref: 'statistics.yaml#/components/schemas/StatisticsUrl'
+      $ref: statistics.yaml#/components/schemas/StatisticsUrl
 
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Created:
-      $ref: 'common.yaml#/components/responses/Created'
+      $ref: common.yaml#/components/responses/Created
 
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     NotFound:
       description: Not Found
@@ -288,8 +288,8 @@ components:
                   type:
                     type: integer
             required:
-              - code
-              - plural
+            - code
+            - plural
       required: true
 
     UpdateLanguage:
@@ -304,5 +304,5 @@ components:
               plural:
                 type: object
             required:
-              - code
+            - code
       required: true

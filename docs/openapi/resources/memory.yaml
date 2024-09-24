@@ -4,11 +4,11 @@ paths:
   /memory/:
     get:
       tags:
-        - memory
+      - memory
       summary: Returns a list of memory results
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -36,15 +36,15 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /memory/{memory_object_id}/:
     delete:
       tags:
-        - memory
+      - memory
       summary: Deletes a memory object
       parameters:
-        - $ref: '#/components/parameters/memoryObjectIdInPath'
+      - $ref: '#/components/parameters/memoryObjectIdInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -55,7 +55,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
 components:
   schemas:
@@ -84,13 +84,13 @@ components:
 
   responses:
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     Forbidden:
-      $ref: 'common.yaml#/components/responses/Forbidden'
+      $ref: common.yaml#/components/responses/Forbidden
 
     NotFound:
       description: Not Found

@@ -4,7 +4,7 @@ paths:
   /tasks/:
     get:
       tags:
-        - tasks
+      - tasks
       summary: Listing of the tasks is currently not available
       responses:
         '200':
@@ -13,10 +13,10 @@ paths:
   /tasks/{uuid}/:
     get:
       tags:
-        - tasks
+      - tasks
       summary: Returns information about a task
       parameters:
-        - $ref: '#/components/parameters/uuidInPath'
+      - $ref: '#/components/parameters/uuidInPath'
       responses:
         '200':
           $ref: '#/components/responses/Screenshot'
@@ -43,7 +43,7 @@ components:
 
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Screenshot:
       description: OK

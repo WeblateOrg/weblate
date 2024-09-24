@@ -4,11 +4,11 @@ paths:
   /users/:
     get:
       tags:
-        - users
+      - users
       description: Returns a list of users if you have permission to manage users. If not, then you get to see limited details about user accounts.
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -31,12 +31,12 @@ paths:
                     type: array
                     items:
                       oneOf:
-                        - $ref: '#/components/schemas/User'
-                        - $ref: '#/components/schemas/UserSimple'
+                      - $ref: '#/components/schemas/User'
+                      - $ref: '#/components/schemas/UserSimple'
 
     post:
       tags:
-        - users
+      - users
       summary: Creates a new user
       requestBody:
         $ref: '#/components/requestBodies/CreateUser'
@@ -48,15 +48,15 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /users/{username}/:
     get:
       tags:
-        - users
+      - users
       summary: Returns information about users
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/usernameInPath'
       responses:
         '200':
           $ref: '#/components/responses/User'
@@ -65,10 +65,10 @@ paths:
 
     put:
       tags:
-        - users
+      - users
       summary: Changes the user parameters
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/usernameInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateUser'
       responses:
@@ -79,14 +79,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     patch:
       tags:
-        - users
+      - users
       summary: Changes the user parameters
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/usernameInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateUser'
       responses:
@@ -97,14 +97,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - users
+      - users
       summary: Deletes all user information and marks the user inactive
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/usernameInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -113,15 +113,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /users/{username}/groups/:
     post:
       tags:
-        - users
+      - users
       summary: Associate groups with a user
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/usernameInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateUserGroup'
       responses:
@@ -134,14 +134,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - users
+      - users
       summary: Remove user from a group
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/usernameInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateUserGroup'
       responses:
@@ -154,16 +154,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /users/{username}/statistics/:
     get:
       tags:
-        - users
-        - statistics
+      - users
+      - statistics
       summary: List statistics of a user
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/usernameInPath'
       responses:
         '200':
           description: OK
@@ -177,12 +177,12 @@ paths:
   /users/{username}/notifications/:
     get:
       tags:
-        - users
+      - users
       summary: List subscriptions of a user
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: '#/components/parameters/usernameInPath'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -210,10 +210,10 @@ paths:
 
     post:
       tags:
-        - users
+      - users
       summary: Associate subscriptions with a user
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/usernameInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateUserNotification'
       responses:
@@ -228,16 +228,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /users/{username}/notifications/{subscription_id}/:
     get:
       tags:
-        - users
+      - users
       summary: Get a subscription associated with a user
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
-        - $ref: '#/components/parameters/subscriptionIdInPath'
+      - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/subscriptionIdInPath'
       responses:
         '200':
           $ref: '#/components/responses/UserNotification'
@@ -246,11 +246,11 @@ paths:
 
     put:
       tags:
-        - users
+      - users
       summary: Edit a subscription associated with a user
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
-        - $ref: '#/components/parameters/subscriptionIdInPath'
+      - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/subscriptionIdInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateUserNotification'
       responses:
@@ -263,15 +263,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     patch:
       tags:
-        - users
+      - users
       summary: Edit a subscription associated with a user
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
-        - $ref: '#/components/parameters/subscriptionIdInPath'
+      - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/subscriptionIdInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateUserNotification'
       responses:
@@ -284,15 +284,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - users
+      - users
       summary: Delete a subscription associated with a user
       parameters:
-        - $ref: '#/components/parameters/usernameInPath'
-        - $ref: '#/components/parameters/subscriptionIdInPath'
+      - $ref: '#/components/parameters/usernameInPath'
+      - $ref: '#/components/parameters/subscriptionIdInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -303,7 +303,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
 
 components:
@@ -357,14 +357,14 @@ components:
         full_name: Anonymous
         username: anonymous
         groups:
-          - http://weblate.example.com/api/groups/2/
-          - http://weblate.example.com/api/groups/1/
+        - http://weblate.example.com/api/groups/2/
+        - http://weblate.example.com/api/groups/1/
         notifications: http://weblate.example.com/api/users/anonymous/notifications/
         is_superuser: false
         is_active: false
         is_bot: false
-        date_joined: "2024-09-17T10:09:10.262130Z"
-        last_login: null
+        date_joined: '2024-09-17T10:09:10.262130Z'
+        last_login:
         url: http://weblate.example.com/api/users/anonymous/
         statistics_url: http://weblate.example.com/api/users/anonymous/statistics/
 
@@ -427,16 +427,16 @@ components:
 
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     BadRequest:
-      $ref: 'common.yaml#/components/responses/BadRequest'
+      $ref: common.yaml#/components/responses/BadRequest
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     NotFound:
       description: Not Found
@@ -473,8 +473,8 @@ components:
         application/json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/User'
-              - $ref: '#/components/schemas/UserSimple'
+            - $ref: '#/components/schemas/User'
+            - $ref: '#/components/schemas/UserSimple'
 
     UserCreated:
       description: Created
@@ -545,7 +545,7 @@ components:
               email:
                 type: string
                 format: email
-                default: null
+                default:
               is_superuser:
                 type: boolean
                 default: false
@@ -556,14 +556,14 @@ components:
                 type: boolean
                 default: false
               date_joined:
-                  type: string
-                  format: date-time
+                type: string
+                format: date-time
               last_login:
                 type: string
                 format: date-time
             required:
-              - full_name
-              - username
+            - full_name
+            - username
       required: true
 
     UpdateUser:
@@ -592,8 +592,8 @@ components:
                 type: string
                 format: date-time
             required:
-              - full_name
-              - username
+            - full_name
+            - username
       required: true
 
     UpdateUserGroup:
@@ -605,7 +605,7 @@ components:
               group_id:
                 type: integer
             required:
-              - group_id
+            - group_id
       required: true
 
     UpdateUserNotification:
@@ -621,7 +621,7 @@ components:
               frequency:
                 type: integer
             required:
-              - notification
-              - scope
-              - frequency
+            - notification
+            - scope
+            - frequency
       required: true

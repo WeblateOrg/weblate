@@ -4,12 +4,12 @@ paths:
   /roles/:
     get:
       tags:
-        - roles
+      - roles
       summary: Returns a list of all roles associated with the user
       description: If the user is superuser, then a list of all existing roles is returned.
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -31,11 +31,11 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Role"
+                      $ref: '#/components/schemas/Role'
 
     post:
       tags:
-        - roles
+      - roles
       summary: Creates a new role
       requestBody:
         $ref: '#/components/requestBodies/CreateRole'
@@ -45,15 +45,15 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /roles/{id}/:
     get:
       tags:
-        - roles
+      - roles
       summary: Returns information about a role
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '200':
           $ref: '#/components/responses/Role'
@@ -62,10 +62,10 @@ paths:
 
     put:
       tags:
-        - roles
+      - roles
       summary: Changes the role parameters
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateRole'
       responses:
@@ -76,14 +76,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     patch:
       tags:
-        - roles
+      - roles
       summary: Changes the role parameters
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       requestBody:
         $ref: '#/components/requestBodies/UpdateRole'
       responses:
@@ -94,14 +94,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - roles
+      - roles
       summary: Deletes a role
       parameters:
-        - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/idInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -110,7 +110,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
 components:
   schemas:
@@ -131,19 +131,19 @@ components:
 
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Created:
-      $ref: 'common.yaml#/components/responses/Created'
+      $ref: common.yaml#/components/responses/Created
 
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     BadRequest:
-      $ref: 'common.yaml#/components/responses/BadRequest'
+      $ref: common.yaml#/components/responses/BadRequest
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     NotFound:
       description: Not Found
@@ -164,7 +164,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Role"
+            $ref: '#/components/schemas/Role'
 
     RoleCreated:
       description: Created
@@ -182,7 +182,7 @@ components:
 
   parameters:
     idInPath:
-      $ref: 'common.yaml#/components/parameters/idInPath'
+      $ref: common.yaml#/components/parameters/idInPath
 
   requestBodies:
     CreateRole:
@@ -198,8 +198,8 @@ components:
                 items:
                   type: string
             required:
-              - name
-              - permissions
+            - name
+            - permissions
       required: true
 
     UpdateRole:
@@ -215,6 +215,6 @@ components:
                 items:
                   type: string
             required:
-              - name
-              - permissions
+            - name
+            - permissions
       required: true

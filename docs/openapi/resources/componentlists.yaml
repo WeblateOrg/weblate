@@ -4,11 +4,11 @@ paths:
   /component-lists/:
     get:
       tags:
-        - componentLists
+      - componentLists
       summary: Returns a list of component lists
       parameters:
-        - $ref: 'common.yaml#/components/parameters/pageInQuery'
-        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      - $ref: common.yaml#/components/parameters/pageInQuery
+      - $ref: common.yaml#/components/parameters/pageSizeInQuery
       responses:
         '200':
           description: OK
@@ -34,7 +34,7 @@ paths:
 
     post:
       tags:
-        - componentLists
+      - componentLists
       summary: Creates a new component list
       responses:
         '200':
@@ -44,15 +44,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /component-lists/{slug}/:
     get:
       tags:
-        - componentLists
+      - componentLists
       summary: Returns information about component list
       parameters:
-        - $ref: '#/components/parameters/slugInPath'
+      - $ref: '#/components/parameters/slugInPath'
       responses:
         '200':
           $ref: '#/components/responses/ComponentList'
@@ -61,10 +61,10 @@ paths:
 
     put:
       tags:
-        - componentLists
+      - componentLists
       summary: Changes the component list parameters
       parameters:
-        - $ref: '#/components/parameters/slugInPath'
+      - $ref: '#/components/parameters/slugInPath'
       responses:
         '200':
           $ref: '#/components/responses/ComponentListUpdated'
@@ -73,14 +73,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     patch:
       tags:
-        - componentLists
+      - componentLists
       summary: Changes the component list parameters
       parameters:
-        - $ref: '#/components/parameters/slugInPath'
+      - $ref: '#/components/parameters/slugInPath'
       responses:
         '200':
           $ref: '#/components/responses/ComponentListUpdated'
@@ -89,14 +89,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
     delete:
       tags:
-        - componentLists
+      - componentLists
       summary: Deletes the component list
       parameters:
-        - $ref: '#/components/parameters/slugInPath'
+      - $ref: '#/components/parameters/slugInPath'
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -105,15 +105,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /component-lists/{slug}/components/:
     get:
       tags:
-        - componentLists
+      - componentLists
       description: '**Added in version 5.0.1:** List components in a component list.'
       parameters:
-        - $ref: '#/components/parameters/slugInPath'
+      - $ref: '#/components/parameters/slugInPath'
       responses:
         '200':
           $ref: '#/components/responses/OK'
@@ -122,10 +122,10 @@ paths:
 
     post:
       tags:
-        - componentLists
+      - componentLists
       summary: Associate component with a component list
       parameters:
-        - $ref: '#/components/parameters/slugInPath'
+      - $ref: '#/components/parameters/slugInPath'
       responses:
         '200':
           $ref: '#/components/responses/ComponentList'
@@ -134,16 +134,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
   /component-lists/{slug}/components/{component_slug}/:
     delete:
       tags:
-        - componentLists
+      - componentLists
       summary: Disassociate a component from the component list
       parameters:
-        - $ref: '#/components/parameters/slugInPath'
-        - $ref: '#/components/parameters/componentSlugInPath'
+      - $ref: '#/components/parameters/slugInPath'
+      - $ref: '#/components/parameters/componentSlugInPath'
       responses:
         '200':
           $ref: '#/components/responses/ComponentList'
@@ -152,7 +152,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       security:
-        - TokenAuth: []
+      - TokenAuth: []
 
 
 components:
@@ -173,7 +173,7 @@ components:
           type: array
           description: Link to associated components.
           items:
-            $ref: 'components.yaml#/components/schemas/Component'
+            $ref: components.yaml#/components/schemas/Component
         auto_assign:
           type: array
           description: Automatic assignment rules.
@@ -183,16 +183,16 @@ components:
 
   responses:
     OK:
-      $ref: 'common.yaml#/components/responses/OK'
+      $ref: common.yaml#/components/responses/OK
 
     Created:
-      $ref: 'common.yaml#/components/responses/Created'
+      $ref: common.yaml#/components/responses/Created
 
     NoContent:
-      $ref: 'common.yaml#/components/responses/NoContent'
+      $ref: common.yaml#/components/responses/NoContent
 
     Unauthorized:
-      $ref: 'common.yaml#/components/responses/Unauthorized'
+      $ref: common.yaml#/components/responses/Unauthorized
 
     NotFound:
       description: Not Found
