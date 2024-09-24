@@ -1,0 +1,189 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /addons/:
+    get:
+      tags:
+        -  addons
+      summary: Returns a list of add-ons
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Addon'
+
+  /addons/{id}/:
+    get:
+      tags:
+        - addons
+      summary: Returns information about add-on information
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Addon'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - addons
+      summary: Edit full information about add-on
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/AddonUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    patch:
+      tags:
+        - addons
+      summary: Edit partial information about add-on
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/AddonUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - addons
+      summary: Delete add-on
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /components/{project}/{component}/addons/:
+    post:
+      tags:
+        - addons
+      summary: Creates a new add-on
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+      responses:
+        '201':
+          $ref: '#/components/responses/AddonCreated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+components:
+  schemas:
+    Addon:
+      type: object
+      properties:
+        component:
+          type: string
+          format: uri
+        project:
+          type: string
+          format: uri
+          nullable: true
+        name:
+          type: string
+        id:
+          type: integer
+        configuration:
+          type: object
+        url:
+          type: string
+          format: uri
+
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    Created:
+      $ref: 'common.yaml#/components/responses/Created'
+
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            AddonNotFound:
+              value:
+                detail: No Addon matches the given query.
+
+    AddonCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Addon'
+
+    AddonUpdated:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Addon'
+
+  parameters:
+    idInPath:
+      $ref: 'common.yaml#/components/parameters/idInPath'
+
+    projectInPath:
+      $ref: 'projects.yaml#/components/parameters/projectInPath'
+
+    componentInPath:
+      $ref: 'components.yaml#/components/parameters/componentInPath'

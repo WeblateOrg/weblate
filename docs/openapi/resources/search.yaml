@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /search/:
+    get:
+      tags:
+        - search
+      summary: Returns site-wide search results as a list
+      description: |
+        Added in version 4.18.
+
+        There is no pagination on the result set, only the first few matches are returned for each category.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Name of the matched item.
+                  url:
+                    type: string
+                    format: uri
+                    description: Web URL of the matched item.
+                  category:
+                    type: string
+                    description: Category of the matched item.

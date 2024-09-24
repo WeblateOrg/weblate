@@ -1,0 +1,80 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+components:
+  responses:
+    OK:
+      description: OK
+
+    Created:
+      description: Created
+
+    NoContent:
+      description: No Content
+
+    BadRequest:
+      description: Bad Request
+
+    Unauthorized:
+      description: Unauthorized
+      headers:
+        WWW-Authenticate:
+          schema:
+            type: string
+            example: Token
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            AuthCredsNotProvided:
+              value:
+                detail: Authentication credentials were not provided
+            InvalidToken:
+              value:
+                detail: Invalid token
+
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            AccessNotAllowed:
+              value:
+                detail: Access not allowed
+            NotPermission:
+              value:
+                detail: You do not have permission to perform this action.
+
+    NotFound:
+      description: Not Found
+
+  parameters:
+    idInPath:
+      name: id
+      in: path
+      description: Numerical identifier of a given resource.
+      required: true
+      schema:
+        type: integer
+
+    pageInQuery:
+      name: page
+      in: query
+      schema:
+        type: integer
+
+    pageSizeInQuery:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        maximum: 1000
+        default: 50

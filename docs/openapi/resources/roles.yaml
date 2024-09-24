@@ -1,0 +1,220 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /roles/:
+    get:
+      tags:
+        - roles
+      summary: Returns a list of all roles associated with the user
+      description: If the user is superuser, then a list of all existing roles is returned.
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Role"
+
+    post:
+      tags:
+        - roles
+      summary: Creates a new role
+      requestBody:
+        $ref: '#/components/requestBodies/CreateRole'
+      responses:
+        '201':
+          $ref: '#/components/responses/RoleCreated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      security:
+        - TokenAuth: []
+
+  /roles/{id}/:
+    get:
+      tags:
+        - roles
+      summary: Returns information about a role
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Role'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - roles
+      summary: Changes the role parameters
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateRole'
+      responses:
+        '200':
+          $ref: '#/components/responses/RoleUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    patch:
+      tags:
+        - roles
+      summary: Changes the role parameters
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateRole'
+      responses:
+        '200':
+          $ref: '#/components/responses/RoleUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - roles
+      summary: Deletes a role
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+components:
+  schemas:
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          format: uri
+
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    Created:
+      $ref: 'common.yaml#/components/responses/Created'
+
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    BadRequest:
+      $ref: 'common.yaml#/components/responses/BadRequest'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            RoleNotFound:
+              value:
+                detail: No Role matches the given query.
+
+    Role:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Role"
+
+    RoleCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Role'
+
+    RoleUpdated:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Role'
+
+  parameters:
+    idInPath:
+      $ref: 'common.yaml#/components/parameters/idInPath'
+
+  requestBodies:
+    CreateRole:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              permissions:
+                type: array
+                items:
+                  type: string
+            required:
+              - name
+              - permissions
+      required: true
+
+    UpdateRole:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              permissions:
+                type: array
+                items:
+                  type: string
+            required:
+              - name
+              - permissions
+      required: true

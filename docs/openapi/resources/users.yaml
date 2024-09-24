@@ -1,0 +1,627 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /users/:
+    get:
+      tags:
+        - users
+      description: Returns a list of users if you have permission to manage users. If not, then you get to see limited details about user accounts.
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      oneOf:
+                        - $ref: '#/components/schemas/User'
+                        - $ref: '#/components/schemas/UserSimple'
+
+    post:
+      tags:
+        - users
+      summary: Creates a new user
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUser'
+      responses:
+        '201':
+          $ref: '#/components/responses/UserCreated'
+        '400':
+          $ref: '#/components/responses/UserAlreadyExists'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      security:
+        - TokenAuth: []
+
+  /users/{username}/:
+    get:
+      tags:
+        - users
+      summary: Returns information about users
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/User'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - users
+      summary: Changes the user parameters
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateUser'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    patch:
+      tags:
+        - users
+      summary: Changes the user parameters
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateUser'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - users
+      summary: Deletes all user information and marks the user inactive
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /users/{username}/groups/:
+    post:
+      tags:
+        - users
+      summary: Associate groups with a user
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateUserGroup'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserUpdated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - users
+      summary: Remove user from a group
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateUserGroup'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserUpdated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /users/{username}/statistics/:
+    get:
+      tags:
+        - users
+        - statistics
+      summary: List statistics of a user
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStatistics'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /users/{username}/notifications/:
+    get:
+      tags:
+        - users
+      summary: List subscriptions of a user
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserNotification'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags:
+        - users
+      summary: Associate subscriptions with a user
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateUserNotification'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotification'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /users/{username}/notifications/{subscription_id}/:
+    get:
+      tags:
+        - users
+      summary: Get a subscription associated with a user
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+        - $ref: '#/components/parameters/subscriptionIdInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserNotification'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - users
+      summary: Edit a subscription associated with a user
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+        - $ref: '#/components/parameters/subscriptionIdInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateUserNotification'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserNotification'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/NoManageUsers'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    patch:
+      tags:
+        - users
+      summary: Edit a subscription associated with a user
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+        - $ref: '#/components/parameters/subscriptionIdInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateUserNotification'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserNotification'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/NoManageUsers'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - users
+      summary: Delete a subscription associated with a user
+      parameters:
+        - $ref: '#/components/parameters/usernameInPath'
+        - $ref: '#/components/parameters/subscriptionIdInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/NoManageUsers'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+          format: email
+          nullable: true
+        full_name:
+          type: string
+        username:
+          type: string
+        groups:
+          type: array
+          items:
+            type: string
+            format: uri
+        notifications:
+          type: string
+          format: uri
+        is_superuser:
+          type: boolean
+          default: false
+        is_active:
+          type: boolean
+          default: true
+        is_bot:
+          type: boolean
+          default: false
+        date_joined:
+          type: string
+          format: date-time
+        last_login:
+          type: string
+          format: date-time
+          nullable: true
+        url:
+          type: string
+          format: uri
+        statistics_url:
+          type: string
+          format: uri
+      example:
+        id: 1
+        email: noreply@weblate.example.com
+        full_name: Anonymous
+        username: anonymous
+        groups:
+          - http://weblate.example.com/api/groups/2/
+          - http://weblate.example.com/api/groups/1/
+        notifications: http://weblate.example.com/api/users/anonymous/notifications/
+        is_superuser: false
+        is_active: false
+        is_bot: false
+        date_joined: "2024-09-17T10:09:10.262130Z"
+        last_login: null
+        url: http://weblate.example.com/api/users/anonymous/
+        statistics_url: http://weblate.example.com/api/users/anonymous/statistics/
+
+    UserSimple:
+      type: object
+      description: If you don't have permissions to see manage users, you can only see limited details about users.
+      properties:
+        id:
+          type: integer
+        full_name:
+          type: string
+        username:
+          type: string
+      example:
+        id: 1
+        full_name: Anonymous
+        username: anonymous
+
+    UserStatistics:
+      type: object
+      properties:
+        translated:
+          type: integer
+          description: Number of translations by user.
+        suggested:
+          type: integer
+          description: Number of suggestions by user.
+        uploaded:
+          type: integer
+          description: Number of uploads by user.
+        commented:
+          type: integer
+          description: Number of comments by user.
+        languages:
+          type: integer
+          description: Number of languages user can translate.
+
+    UserNotification:
+      type: object
+      properties:
+        notification:
+          type: string
+          description: Name of notification registered.
+        id:
+          type: integer
+        scope:
+          type: integer
+          description: Scope of notification from the available choices.
+        frequency:
+          type: string
+          description: Frequency choices for notifications.
+        project:
+          type: string
+          format: uri
+          nullable: true
+        component:
+          type: string
+          format: uri
+          nullable: true
+
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    BadRequest:
+      $ref: 'common.yaml#/components/responses/BadRequest'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            UserNotFound:
+              value:
+                detail: No User matches the given query.
+            UserSubscriptionNotFound:
+              value:
+                detail: Subscription matching query does not exist.
+
+    NoManageUsers:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          example:
+            detail: Can not manage Users
+
+    User:
+      description: OK
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/User'
+              - $ref: '#/components/schemas/UserSimple'
+
+    UserCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+
+    UserUpdated:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+
+    UserAlreadyExists:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+          example:
+            username: A user with that username already exists.
+
+    UserNotification:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserNotification'
+
+  parameters:
+    usernameInPath:
+      name: username
+      in: path
+      required: true
+      schema:
+        type: string
+
+    userIdInPath:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+    subscriptionIdInPath:
+      name: subscription_id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  requestBodies:
+    CreateUser:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              full_name:
+                type: string
+              email:
+                type: string
+                format: email
+                default: null
+              is_superuser:
+                type: boolean
+                default: false
+              is_active:
+                type: boolean
+                default: true
+              is_bot:
+                type: boolean
+                default: false
+              date_joined:
+                  type: string
+                  format: date-time
+              last_login:
+                type: string
+                format: date-time
+            required:
+              - full_name
+              - username
+      required: true
+
+    UpdateUser:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              full_name:
+                type: string
+              email:
+                type: string
+                format: email
+              is_superuser:
+                type: boolean
+              is_active:
+                type: boolean
+              is_bot:
+                type: boolean
+              date_joined:
+                type: string
+                format: date-time
+              last_login:
+                type: string
+                format: date-time
+            required:
+              - full_name
+              - username
+      required: true
+
+    UpdateUserGroup:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              group_id:
+                type: integer
+            required:
+              - group_id
+      required: true
+
+    UpdateUserNotification:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              notification:
+                type: string
+              scope:
+                type: integer
+              frequency:
+                type: integer
+            required:
+              - notification
+              - scope
+              - frequency
+      required: true

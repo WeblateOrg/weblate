@@ -1,0 +1,1021 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /projects/:
+    get:
+      tags:
+        - projects
+      summary: Returns a list of all projects
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+
+    post:
+      tags:
+        - projects
+      summary: Creates a new project
+      requestBody:
+        $ref: '#/components/requestBodies/CreateProject'
+      responses:
+        '201':
+          $ref: '#/components/responses/ProjectCreated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      security:
+        - TokenAuth: []
+
+  /projects/{project}/:
+    get:
+      tags:
+        - projects
+      summary: Returns information about a project
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Project'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - projects
+      summary: Edit a project by a PUT request
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ProjectUpdated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    patch:
+      tags:
+        - projects
+      summary: Edit a project by a PATCH request
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ProjectUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - projects
+      summary: Deletes a project
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /projects/{project}/changes/:
+    get:
+      tags:
+        - projects
+      summary: Returns a list of project changes
+      description: This is essentially a project-scoped `GET /api/changes/` which accepts the same parameters.
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: 'changes.yaml#/components/schemas/Change'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /projects/{project}/file/:
+    get:
+      tags:
+        - projects
+      description: Downloads all available translations associated with the project as an archive file using the requested format and language.
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /projects/{project}/repository/:
+    get:
+      tags:
+        - projects
+      summary: Returns information about VCS repository status
+      description: This endpoint contains only an overall summary for all repositories for the project. To get more detailed status use `GET /api/components/{project}/{component}/repository/`.
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Repository'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    post:
+      tags:
+        - projects
+      summary: Performs the given operation on the VCS repository
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateProjectRepository'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                example:
+                  result: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /projects/{project}/components/:
+    get:
+      tags:
+        - projects
+      summary: Returns a list of translation components in the given project
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProjectComponent'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags:
+        - projects
+        - components
+      summary: Creates translation components in the given project
+      description: |
+        **Changed in version 4.3:** The `zipfile` and `docfile` parameters are now accepted for VCS-less components, see [Local files](https://docs.weblate.org/en/latest/vcs.html#vcs-local).
+
+        **Changed in version 4.6:** The cloned repositories are now automatically shared within a project using [Weblate internal URLs](https://docs.weblate.org/en/latest/vcs.html#internal-urls). Use `disable_autoshare` to turn off this.
+
+        **Hint:**
+
+        Use [Weblate internal URLs](https://docs.weblate.org/en/latest/vcs.html#internal-urls) when creating multiple components from a single VCS repository.
+
+        **Note:**
+
+        Most of the component creation happens in the background. Check the `task_url` attribute of created component and follow the progress there.
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/CreateProjectComponent'
+      responses:
+        '201':
+          $ref: '#/components/responses/ProjectComponentCreated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /projects/{project}/languages/:
+    get:
+      tags:
+        - projects
+      summary: Returns paginated statistics for all languages within a project
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'statistics.yaml#/components/schemas/Statistics'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /projects/{project}/statistics/:
+    get:
+      tags:
+        - projects
+        - statistics
+      summary: Returns statistics for a project
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectStatistics'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /projects/{project}/categories/:
+    get:
+      tags:
+        - projects
+      summary: Returns categories for a project
+      description: Added in version 5.0.
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: 'categories.yaml#/components/schemas/Category'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /projects/{project}/labels/:
+    get:
+      tags:
+        - projects
+      summary: Returns labels for a project
+      description: Added in version 5.3.
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProjectLabel'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags:
+        - projects
+      summary: Creates a label for a project
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/CreateProjectLabel'
+      responses:
+        '201':
+          $ref: '#/components/responses/ProjectLabelCreated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /projects/{project}/credits/:
+    #TODO: returns 400 Bad Request, need to check requestBody
+    get:
+      tags:
+        - projects
+      summary: Returns contributor credits for a project
+      description: Added in version 5.7.
+      requestBody:
+        $ref: '#/components/requestBodies/ReadProjectCredits'
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    format: email
+                  full_name:
+                    type: string
+                  change_count:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+components:
+  schemas:
+    Project:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Project name.
+        slug:
+          type: string
+          description: Project slug.
+        id:
+          type: integer
+        web:
+          type: string
+          format: uri
+          description: Project website.
+        web_url:
+          type: string
+          format: uri
+        url:
+          type: string
+          format: uri
+        components_list_url:
+          type: string
+          format: uri
+          description: URL to components list.
+        repository_url:
+          type: string
+          format: uri
+          description: URL to repository status.
+        statistics_url:
+          type: string
+          format: uri
+        categories_url:
+          type: string
+          format: uri
+        changes_list_url:
+          type: string
+          format: uri
+          description: URL to changes list.
+        languages_url:
+          type: string
+          format: uri
+        labels_url:
+          type: string
+          format: uri
+        credits_url:
+          type: string
+          format: uri
+          description: URL to list contributor credits.
+        translation_review:
+          type: boolean
+        source_review:
+          type: boolean
+        set_language_team:
+          type: boolean
+        instructions:
+          type: string
+        enable_hooks:
+          type: boolean
+        language_aliases:
+          type: string
+        enforced_2fa:
+          type: boolean
+      example:
+        name: Test Project
+        slug: test-project
+        id: 2
+        web: https://example.com/testproject
+        web_url: http://weblate.example.com/projects/test-project/
+        url: http://weblate.example.com/api/projects/test-project/
+        components_list_url: http://weblate.example.com/api/projects/test-project/components/
+        repository_url: http://weblate.example.com/api/projects/test-project/repository/
+        statistics_url: http://weblate.example.com/api/projects/test-project/statistics/
+        categories_url: http://weblate.example.com/api/projects/test-project/categories/
+        changes_list_url: http://weblate.example.com/api/projects/test-project/changes/
+        languages_url: http://weblate.example.com/api/projects/test-project/languages/
+        labels_url: http://weblate.example.com/api/projects/test-project/labels/
+        credits_url: http://weblate.example.com/api/projects/test-project/credits/
+        translation_review: false
+        source_review: false
+        set_language_team: true
+        instructions: ""
+        enable_hooks: true
+        language_aliases: ""
+        enforced_2fa: false
+
+    # The difference with 'components.yaml#/schemas/Component'
+    # is that this schema does NOT have a 'project' property, it is implicit.
+    ProjectComponent:
+      type: object
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        id:
+          type: integer
+        source_language:
+          $ref: 'languages.yaml#/components/schemas/Language'
+        vcs:
+          type: string
+        repo:
+          type: string
+          format: uri
+          description: Source code repository, this is the actual repository URL even when Weblate internal URLs are used, use linked_component to detect this situation.
+        git_export:
+          type: string
+          format: uri
+        branch:
+          type: string
+          description: Repository branch, this is the actual repository branch even when Weblate internal URLs are used.
+        push_branch:
+          type: string
+          description: Push branch, this is the actual repository branch even when Weblate internal URLs are used.
+        filemask:
+          type: string
+        screenshot_filemask:
+          type: string
+        template:
+          type: string
+        edit_template:
+          type: boolean
+        intermediate:
+          type: string
+        new_base:
+          type: string
+        file_format:
+          type: string
+        license:
+          type: string
+        license_url:
+          type: string
+          format: uri
+          nullable: true
+        agreement:
+          type: string
+        web_url:
+          type: string
+          format: uri
+        url:
+          type: string
+          format: uri
+        repository_url:
+          type: string
+          format: uri
+        translations_url:
+          type: string
+          format: uri
+        statistics_url:
+          type: string
+          format: uri
+        lock_url:
+          type: string
+          format: uri
+        links_url:
+          type: string
+          format: uri
+        changes_list_url:
+          type: string
+          format: uri
+        task_url:
+          type: string
+          format: uri
+          nullable: true
+        credits_url:
+          type: string
+          format: uri
+        new_lang:
+          type: string
+        language_code_style:
+          type: string
+        push:
+          type: string
+        check_flags:
+          type: string
+        priority:
+          type: integer
+        enforced_checks:
+          type: array
+        restricted:
+          type: boolean
+        repoweb:
+          type: string
+        report_source_bugs:
+          type: string
+        merge_style:
+          type: string
+        commit_message:
+          type: string
+        add_message:
+          type: string
+        delete_message:
+          type: string
+        merge_message:
+          type: string
+        addon_message:
+          type: string
+        pull_message:
+          type: string
+        allow_translation_propagation:
+          type: boolean
+        manage_units:
+          type: boolean
+        enable_suggestions:
+          type: boolean
+        suggestion_voting:
+          type: boolean
+        suggestion_autoaccept:
+          type: integer
+        push_on_commit:
+          type: boolean
+        commit_pending_age:
+          type: integer
+        auto_lock_error:
+          type: boolean
+        language_regex:
+          type: string
+          format: regex
+        variant_regex:
+          type: string
+          format: regex
+        addons:
+          type: array
+          items:
+            type: string
+            format: uri
+        is_glossary:
+          type: boolean
+        glossary_color:
+          type: string
+        category:
+          type: string
+          format: uri
+          nullable: true
+        linked_component:
+          type: string
+          format: uri
+          description: Component whose repository is linked via [Weblate internal URLs](https://docs.weblate.org/en/latest/vcs.html#internal-urls).
+          nullable: true
+      examples:
+        NewProjectComponent:
+          slug:
+          id: 3
+          source_language:
+          vcs:
+          repo:
+          git_export:
+          branch:
+          push_branch:
+          filemask:
+          screenshot_filemask:
+          template:
+          edit_template:
+          intermediate:
+          new_base:
+          file_format:
+          license:
+          license_url:
+          agreement:
+          web_url:
+          url:
+          repository_url:
+          translations_url:
+          statistics_url:
+          lock_url:
+          links_url:
+          changes_list_url:
+          task_url:
+          credits_url:
+          new_lang:
+          language_code_style:
+          push:
+          check_flags:
+          priority:
+          enforced_checks:
+          restricted:
+          repoweb:
+          report_source_bugs:
+          merge_style:
+          commit_message:
+          add_message:
+          delete_message:
+          merge_message:
+          addon_message:
+          pull_message:
+          allow_translation_propagation:
+          manage_units:
+          enable_suggestions:
+          suggestion_voting:
+          suggestion_autoaccept:
+          push_on_commit:
+          commit_pending_age:
+          auto_lock_error:
+          language_regex:
+          variant_regex:
+          addons:
+          is_glossary:
+          glossary_color:
+          category:
+          linked_component:
+
+    ProjectStatistics:
+      $ref: 'statistics.yaml#/components/schemas/StatisticsUrl'
+
+    ProjectLabel:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+
+    Repository:
+      type: object
+      properties:
+        needs_commit:
+          type: boolean
+        needs_merge:
+          type: boolean
+        needs_push:
+          type: boolean
+        url:
+          type: string
+          format: uri
+      example:
+        needs_commit: false
+        needs_merge: false
+        needs_push: false
+        url: http://weblate.example.com/api/projects/test-project/repository/
+
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    Created:
+      $ref: 'common.yaml#/components/responses/Created'
+
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    BadRequest:
+      $ref: 'common.yaml#/components/responses/BadRequest'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    Forbidden:
+      $ref: 'common.yaml#/components/responses/Forbidden'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            ProjectNotFound:
+              value:
+                detail: No Project matches the given query.
+
+    Project:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Project'
+
+    ProjectCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Project'
+
+    ProjectUpdated:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Project'
+
+    ProjectComponentCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: 'components.yaml#/components/schemas/Component'
+
+    ProjectLabelCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProjectLabel'
+
+  parameters:
+    projectInPath:
+      name: project
+      in: path
+      required: true
+      schema:
+        type: string
+
+    projectSlugInPath:
+      name: project_slug
+      in: path
+      required: true
+      schema:
+        type: string
+
+    projectIdInPath:
+      name: project_id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  requestBodies:
+    CreateProject:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Project name.
+              slug:
+                type: string
+                description: Project slug.
+              web:
+                type: string
+                format: uri
+                description: Project website.
+            required:
+              - name
+              - slug
+              - web
+      required: true
+
+    UpdateProject:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Project name.
+              slug:
+                type: string
+                description: Project slug.
+              web:
+                type: string
+                format: uri
+                description: Project website.
+            required:
+              - name
+              - slug
+              - web
+      required: true
+
+    UpdateProjectRepository:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              operation:
+                type: string
+                enum:
+                  - commit
+                  - pull
+                  - push
+                  - reset
+                  - cleanup
+          example:
+            operation: pull
+
+      required: true
+
+    CreateProjectComponent:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+               type: string
+              slug:
+                type: string
+              repo:
+                type: string
+                format: uri
+                description: Source code repository, this is the actual repository URL even when Weblate internal URLs are used, use linked_component to detect this situation.
+              filemask:
+                type: string
+              file_format:
+                type: string
+              new_base:
+                type: string
+              new_lang:
+                type: string
+                description: How to handle requests for creating new translations.
+                enum:
+                  - contact
+                  - url
+                  - add
+                  - none
+            required:
+              - name
+              - slug
+              - repo
+              - filemask
+              - file_format
+              - new_base
+              - new_lang
+          examples:
+            NewComponentFromGit:
+              name: Weblate
+              slug: weblate
+              repo: https://github.com/WeblateOrg/hello.git
+              filemask: po/*.po
+              file_format: po
+              new_base: po/hello.pot
+              new_lang: pl
+            NewComponentFromComponent:
+              name: Weblate
+              slug: weblate
+              repo: weblate://weblate/hello
+              filemask: po/*.po
+              file_format: po
+              new_base: po/hello.pot
+              new_lang: pl
+      required: true
+
+    CreateProjectLabel:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              color:
+                type: string
+            required:
+              - name
+              - color
+      required: true
+
+    ReadProjectCredits:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              start:
+                type: string
+                format: date
+                description: Lower-bound ISO 8601 timestamp.
+              end:
+                type: string
+                format: date
+                description: Upper-bound ISO 8601 timestamp.
+              lang:
+                type: string
+                description: Language code to search for.
+            required:
+              - start
+              - end
+      required: true

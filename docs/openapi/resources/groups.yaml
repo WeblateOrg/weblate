@@ -1,0 +1,638 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /groups/:
+    get:
+      tags:
+        - groups
+      description: Returns a list of groups if you have permissions to manage groups. If not, then you get to see only the groups the user is a part of.
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Group'
+
+    post:
+      tags:
+        - groups
+      summary: Creates a new group
+      requestBody:
+        $ref: '#/components/requestBodies/CreateGroup'
+      responses:
+        '201':
+          $ref: '#/components/responses/GroupCreated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/NoManageGroups'
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/:
+    get:
+      tags:
+        - groups
+      summary: Returns information about a group
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Group'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - groups
+      summary: Changes the group parameters
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroup'
+      responses:
+        '200':
+          $ref: '#/components/responses/GroupUpdated'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: array
+                    items:
+                      type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    patch:
+      tags:
+        - groups
+      summary: Changes the group parameters
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroup'
+      responses:
+        '200':
+          $ref: '#/components/responses/GroupUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - groups
+      summary: Deletes the group
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/roles/:
+    post:
+      tags:
+        - groups
+      summary: Associate roles with a group
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroupRoles'
+      responses:
+        '200':
+          $ref: '#/components/responses/GroupUpdated'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/components/:
+    post:
+      tags:
+        - groups
+      summary: Associate components with a group
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroupComponents'
+      responses:
+        '200':
+          $ref: '#/components/responses/GroupUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/components/{component_id}/:
+    delete:
+      tags:
+        - groups
+      summary: Delete a component from a group
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+        - $ref: 'components.yaml#/components/parameters/componentIdInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/projects/:
+    post:
+      tags:
+        - groups
+      summary: Associate projects with a group
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroupProjects'
+      responses:
+        '200':
+          $ref: '#/components/responses/GroupUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/projects/{project_id}/:
+    delete:
+      tags:
+        - groups
+      summary: Delete a project from a group
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+        - $ref: 'projects.yaml#/components/parameters/projectIdInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/languages/:
+    post:
+      tags:
+        - groups
+      summary: Associate languages with a group
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroupLanguages'
+      responses:
+        '200':
+          $ref: '#/components/responses/GroupUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/languages/{language_code}/:
+    delete:
+      tags:
+        - groups
+      summary: Delete a language from a group
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+        - $ref: 'languages.yaml#/components/parameters/languageCodeInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/GroupUpdated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/componentlists/:
+    post:
+      tags:
+        - groups
+      summary: Associate componentlists with a group
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroupComponentLists'
+      responses:
+        '200':
+          $ref: '#/components/responses/GroupUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/componentlists/{component_list_id}/:
+    delete:
+      tags:
+        - groups
+      summary: Delete a componentlist from a group
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+        - $ref: 'componentlists.yaml#/components/parameters/componentListIdInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/GroupUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/admins/:
+    post:
+      tags:
+        - groups
+      summary: Make user a group admin
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroupAdmins'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+            example:
+              - Administration rights granted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /groups/{id}/admins/{user_id}/:
+    delete:
+      tags:
+        - groups
+      summary: Delete a user from group admins
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+        - $ref: 'users.yaml#/components/parameters/userIdInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/GroupUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+components:
+  schemas:
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          description: Name of a group.
+        defining_project:
+          type: string
+          description: Link to the defining project, used for Managing per-project access control.
+          nullable: true
+        project_selection:
+          type: integer
+          description: Integer corresponding to group of projects.
+        language_selection:
+          type: integer
+          description: Integer corresponding to group of languages.
+        url:
+          type: string
+          format: uri
+        roles:
+          type: array
+          description: Link to associated roles.
+          items:
+            type: string
+            format: uri
+        languages:
+          type: array
+          items:
+            type: string
+            format: uri
+        projects:
+          type: array
+          description: Link to associated projects.
+          items:
+            type: string
+            format: uri
+        componentlists:
+          type: array
+          description: – Link to associated componentlist.
+          items:
+            type: string
+            format: uri
+        components:
+          type: array
+          description: Link to associated components.
+          items:
+            type: string
+            format: uri
+        enforced_2fa:
+          type: boolean
+      example:
+        id: 1
+        name: Viewers
+        defining_project: null
+        project_selection: 3
+        language_selection: 1
+        url: http://weblate.example.com/api/groups/1/
+        roles:
+          - http://weblate.example.com/api/roles/1/
+          - http://weblate.example.com/api/roles/2/
+        languages:
+          - http://weblate.example.com/api/languages/en/
+          - http://weblate.example.com/api/languages/cs/
+        projects: []
+        componentlists: []
+        components:
+          - http://weblate.example.com/api/components/demo/weblate/
+        enforced_2fa: false
+
+    UserGroup:
+      type: object
+      properties:
+        username:
+          type: string
+        project_selection:
+          type: integer
+        language_selection:
+          type: integer
+        roles:
+          type: array
+          items:
+            type: integer
+        projects:
+          type: string
+        components:
+          type: string
+        componentlists:
+          type: string
+        defining_project:
+          type: string
+
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    Created:
+      $ref: 'common.yaml#/components/responses/Created'
+
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    BadRequest:
+      $ref: 'common.yaml#/components/responses/BadRequest'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            GroupNotFound:
+              value:
+                detail: No Group matches the given query.
+            GroupComponentNotFound:
+              value:
+                detail: Component matching query does not exist.
+
+    NoManageGroups:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          example:
+            detail: Can not manage groups
+
+    Group:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Group'
+
+    GroupCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Group'
+
+    GroupUpdated:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Group'
+
+  parameters:
+    idInPath:
+      $ref: 'common.yaml#/components/parameters/idInPath'
+
+  requestBodies:
+    CreateGroup:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name
+              defining_project:
+                type: string
+                description: Link to the defining project, used for [Managing per-project access control](https://docs.weblate.org/en/latest/admin/access.html#manage-acl).
+              project_selection:
+                type: integer
+                description: Group of project selection from given options.
+              language_selection:
+                type: integer
+                description: Group of languages selected from given options.
+              enforced_2fa:
+                type: boolean
+                default: false
+            required:
+              - name
+      required: true
+
+    UpdateGroup:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name
+              defining_project:
+                type: string
+                description: Link to the defining project, used for [Managing per-project access control](https://docs.weblate.org/en/latest/admin/access.html#manage-acl).
+              project_selection:
+                type: integer
+                description: Group of project selection from given options.
+              language_selection:
+                type: integer
+                description: Group of languages selected from given options.
+              enforced_2fa:
+                type: boolean
+                default: false
+            required:
+              - name
+      required: true
+
+    UpdateGroupRoles:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              role_id:
+                type: string
+                description: The unique role ID.
+            required:
+              - role_id
+      required: true
+
+    UpdateGroupComponents:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              component_id:
+                type: string
+                description: The unique component ID.
+      required: true
+
+    UpdateGroupProjects:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              project_id:
+                type: string
+                description: The unique project ID.
+      required: true
+
+    UpdateGroupLanguages:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              language_code:
+                type: string
+                description: The unique language code.
+            required:
+              - language_code
+      required: true
+
+    UpdateGroupComponentLists:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              component_list_id:
+                type: string
+                description: The unique componentlist ID.
+      required: true
+
+    UpdateGroupAdmins:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user_id:
+                type: string
+                description: The user’s ID.
+            required:
+              - user_id
+      required: true

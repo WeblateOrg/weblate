@@ -1,0 +1,308 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /languages/:
+    get:
+      tags:
+        - languages
+      summary: Returns a list of all languages the user has access to
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Language'
+
+    post:
+      tags:
+        - languages
+      summary: Creates a new language
+      requestBody:
+        $ref: '#/components/requestBodies/CreateLanguage'
+      responses:
+        '201':
+          $ref: '#/components/responses/LanguageCreated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      security:
+        - TokenAuth: []
+
+  /languages/{language_code}/:
+    get:
+      tags:
+        - languages
+      summary: Returns information about a language
+      parameters:
+        - $ref: '#/components/parameters/languageCodeInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Language'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - languages
+      summary: Changes the language parameters
+      parameters:
+        - $ref: '#/components/parameters/languageCodeInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateLanguage'
+      responses:
+        '200':
+          $ref: '#/components/responses/LanguageUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    patch:
+      tags:
+        - languages
+      summary: Changes the language parameters
+      parameters:
+        - $ref: '#/components/parameters/languageCodeInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateLanguage'
+      responses:
+        '200':
+          $ref: '#/components/responses/LanguageUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - languages
+      summary: Deletes the language
+      parameters:
+        - $ref: '#/components/parameters/languageCodeInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /languages/{language_code}/statistics/:
+    get:
+      tags:
+        - languages
+        - statistics
+      summary: Returns statistics for a language
+      parameters:
+        - $ref: '#/components/parameters/languageCodeInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LanguageStatistics'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+components:
+  schemas:
+    Language:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+          description: Language code.
+        name:
+          type: string
+          description: Display name for the language.
+        plural:
+          type: object
+          description: Object of language plural information.
+          properties:
+            id:
+              type: integer
+            source:
+              type: integer
+            number:
+              type: integer
+            formula:
+              type: string
+            type:
+              type: integer
+        aliases:
+          type: array
+          description: Array of aliases for language.
+          items:
+            type: string
+        direction:
+          type: string
+          description: Text direction.
+        population:
+          type: integer
+        web_url:
+          type: string
+          format: uri
+        url:
+          type: string
+          format: uri
+        statistics_url:
+          type: string
+          format: uri
+      example:
+        id: 1
+        code: aa
+        name: Afar
+        plural:
+          id: 1
+          source: 0
+          number: 2
+          formula: n != 1
+          type: 1
+        aliases:
+          - aar
+        direction: ltr
+        population: 2119662
+        web_url: http://weblate.example.com/languages/aa/
+        url: http://weblate.example.com/api/languages/aa/
+        statistics_url: http://weblate.example.com/api/languages/aa/statistics/
+
+    LanguageStatistics:
+      $ref: 'statistics.yaml#/components/schemas/StatisticsUrl'
+
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    Created:
+      $ref: 'common.yaml#/components/responses/Created'
+
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            LanguageNotFound:
+              value:
+                detail: No Language matches the given query.
+
+    Language:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Language'
+
+    LanguageCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Language'
+
+    LanguageUpdated:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Language'
+
+  parameters:
+    languageInPath:
+      name: language
+      in: path
+      required: true
+      schema:
+        type: string
+
+    languageCodeInPath:
+      name: language_code
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  requestBodies:
+    CreateLanguage:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Language code.
+              plural:
+                type: object
+                description: Object of language plural information.
+                properties:
+                  id:
+                    type: integer
+                  source:
+                    type: integer
+                  number:
+                    type: integer
+                  formula:
+                    type: string
+                  type:
+                    type: integer
+            required:
+              - code
+              - plural
+      required: true
+
+    UpdateLanguage:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Language code.
+              plural:
+                type: object
+            required:
+              - code
+      required: true

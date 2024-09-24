@@ -1,0 +1,703 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /translations/:
+    get:
+      tags:
+        - translations
+      summary: Returns a list of translations
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Translation'
+
+  /translations/{project}/{component}/{language}/:
+    get:
+      tags:
+        - translations
+      summary: Returns information about a translation
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+        - $ref: '#/components/parameters/languageInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Translation'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags:
+        - translations
+      summary: Deletes a translation
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+        - $ref: '#/components/parameters/languageInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /translations/{project}/{component}/{language}/changes/:
+    get:
+      tags:
+        - translations
+      summary: Returns a list of translation changes
+      description: This is essentially a translations-scoped GET /api/changes/ accepting the same parameters.
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+        - $ref: '#/components/parameters/languageInPath'
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: 'changes.yaml#/components/schemas/Change'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /translations/{project}/{component}/{language}/units/:
+    get:
+      tags:
+        - translations
+      summary: Returns a list of translation units
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+        - $ref: '#/components/parameters/languageInPath'
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: 'units.yaml#/components/schemas/Unit'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags:
+        - translations
+      summary: Add a new unit
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+        - $ref: '#/components/parameters/languageInPath'
+      responses:
+        '200':
+          $ref: 'units.yaml#/components/responses/Unit'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                example:
+                  detail: Adding strings is disabled in the component configuration.
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /translations/{project}/{component}/{language}/autotranslate/:
+    #TODO: 200 response is undocumented, needs testing: what does it return?
+    post:
+      tags:
+        - translations
+      summary: Trigger automatic translation
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+        - $ref: '#/components/parameters/languageInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                example:
+                  detail: Can not auto translate
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /translations/{project}/{component}/{language}/file/:
+    get:
+      tags:
+        - translations
+      description: Download current translation file as it is stored in the VCS (without the format parameter) or converted to another format (see [Downloading translations](https://docs.weblate.org/en/latest/user/files.html#download)).
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+        - $ref: '#/components/parameters/languageInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                example:
+                  detail: You do not have permission to perform this action.
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    post:
+      tags:
+        - translations
+      summary: Upload new file with translations
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+        - $ref: '#/components/parameters/languageInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /translations/{project}/{component}/{language}/repository/:
+    get:
+      tags:
+        - translations
+      summary: Returns information about VCS repository status
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+        - $ref: '#/components/parameters/languageInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/TranslationRepository'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags:
+        - translations
+      summary: Performs given operation on the VCS repository
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+        - $ref: '#/components/parameters/languageInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /translations/{project}/{component}/{language}/statistics/:
+    get:
+      tags:
+        - translations
+        - statistics
+      summary: Returns detailed translation statistics
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+        - $ref: '#/components/parameters/languageInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/TranslationStatistics'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  schemas:
+    Translation:
+      type: object
+      properties:
+        language:
+          $ref: 'languages.yaml#/components/schemas/Language'
+        component:
+          $ref: 'components.yaml#/components/schemas/Component'
+        language_code:
+          type: string
+          description: Language code used in the repository; this can be different from language code in the language object.
+        id:
+          type: integer
+        filename:
+          type: string
+          description: Translation filename.
+        revision:
+          type: string
+          description: Revision hash for the file.
+        web_url:
+          type: string
+          format: uri
+        share_url:
+          type: string
+          format: uri
+          description: URL for sharing leading to engagement page.
+        translate_url:
+          type: string
+          format: uri
+          description: URL for translating.
+        url:
+          type: string
+          format: uri
+        is_template:
+          type: boolean
+          description: Whether the translation has a monolingual base.
+        is_source:
+          type: boolean
+        total:
+          type: integer
+          description: Total number of strings.
+        total_words:
+          type: integer
+          description: Total number of words.
+        translated:
+          type: integer
+          description: Number of translated strings.
+        translated_words:
+          type: integer
+          description: Number of translated words.
+        translated_percent:
+          type: number
+          format: float
+          description: Percentage of translated strings.
+        fuzzy:
+          type: integer
+          description: Number of fuzzy (marked for edit) strings.
+        fuzzy_words:
+          type: integer
+          description: Number of words in fuzzy (marked for edit) strings.
+        fuzzy_percent:
+          type: number
+          format: float
+          description: Percentage of fuzzy (marked for edit) strings.
+        failing_checks:
+          type: integer
+          description: Number of strings failing checks.
+        failing_checks_words:
+          type: integer
+          description: Number of words with failing checks.
+        failing_checks_percent:
+          type: number
+          format: float
+          description: Percentage of strings failing checks.
+        have_suggestion:
+          type: integer
+          description: Number of strings with suggestion.
+        have_comment:
+          type: integer
+          description: Number of strings with comment.
+        last_change:
+          type: string
+          format: date-time
+          description: Last change timestamp.
+        last_author:
+          type: string
+          description: Name of last author.
+          nullable: true
+        repository_url:
+          type: string
+          format: uri
+          description: URL to repository status.
+        file_url:
+          type: string
+          format: uri
+          description: URL to file object.
+        statistics_url:
+          type: string
+          format: uri
+        changes_list_url:
+          type: string
+          format: uri
+          description: URL to changes list.
+        units_list_url:
+          type: string
+          format: uri
+          description: URL to strings list.
+      examples:
+        Translation:
+          language:
+            id: 177
+            code: en
+            name: English
+            plural:
+              id: 177
+              source: 0
+              number: 2
+              formula: n != 1
+              type: 1
+            aliases:
+              - en_en
+              - base
+              - source
+              - enp
+              - eng
+            direction: ltr
+            population: 1636485517
+            web_url: http://weblate.example.com/languages/en/
+            url: http://weblate.example.com/api/languages/en/
+            statistics_url: http://weblate.example.com/api/languages/en/statistics/
+          component:
+            name: test component
+            slug: test-component
+            id: 3
+            source_language:
+              id: 177
+              code: en
+              name: English
+              plural:
+                id: 177
+                source: 0
+                number: 2
+                formula: n != 1
+                type: 1
+              aliases:
+                - en_en
+                - base
+                - source
+                - enp
+                - eng
+              direction: ltr
+              population: 1636485517
+              web_url: http://weblate.example.com/languages/en/
+              url: http://weblate.example.com/api/languages/en/
+              statistics_url: http://weblate.example.com/api/languages/en/statistics/
+            project:
+              name: Test Project
+              slug: test-project
+              id: 2
+              web: https://example.com/testproject
+              web_url: http://weblate.example.com/projects/test-project/
+              url: http://weblate.example.com/api/projects/test-project/
+              components_list_url: http://weblate.example.com/api/projects/test-project/components/
+              repository_url: http://weblate.example.com/api/projects/test-project/repository/
+              statistics_url: http://weblate.example.com/api/projects/test-project/statistics/
+              categories_url: http://weblate.example.com/api/projects/test-project/categories/
+              changes_list_url: http://weblate.example.com/api/projects/test-project/changes/
+              languages_url: http://weblate.example.com/api/projects/test-project/languages/
+              labels_url: http://weblate.example.com/api/projects/test-project/labels/
+              credits_url: http://weblate.example.com/api/projects/test-project/credits/
+              translation_review: false
+              source_review: false
+              set_language_team: true
+              instructions: ""
+              enable_hooks: true
+              language_aliases: ""
+              enforced_2fa: false
+            vcs: git
+            repo: https://weblate.example.com/project.git
+            git_export: http://weblate.example.com/git/test-project/test-component/
+            branch: master
+            push_branch: ""
+            filemask: assets/voxygen/i18n/*/main.ftl
+            screenshot_filemask: ""
+            template: ""
+            edit_template: true
+            intermediate: ""
+            new_base: ""
+            file_format: fluent
+            license: ""
+            license_url: null
+            agreement: ""
+            web_url: http://weblate.example.com/projects/test-project/test-component/
+            url: http://weblate.example.com/api/components/test-project/test-component/
+            repository_url: http://weblate.example.com/api/components/test-project/test-component/repository/
+            translations_url: http://weblate.example.com/api/components/test-project/test-component/translations/
+            statistics_url: http://weblate.example.com/api/components/test-project/test-component/statistics/
+            lock_url: http://weblate.example.com/api/components/test-project/test-component/lock/
+            links_url: http://weblate.example.com/api/components/test-project/test-component/links/
+            changes_list_url: http://weblate.example.com/api/components/test-project/test-component/changes/
+            task_url: null
+            credits_url: http://weblate.example.com/api/components/test-project/test-component/credits/
+            new_lang: contact
+            language_code_style: ""
+            push: ""
+            check_flags: ""
+            priority: 100
+            enforced_checks: []
+            restricted: false
+            repoweb: ""
+            report_source_bugs: ""
+            merge_style: rebase
+            commit_message: "Translated using Weblate ({{ language_name }})\n\nCurrently translated at {{ stats.translated_percent }}% ({{ stats.translated }} of {{ stats.all }} strings)\n\nTranslation: {{ project_name }}/{{ component_name }}\nTranslate-URL: {{ url }}"
+            add_message: "Added translation using Weblate ({{ language_name }})\n\n"
+            delete_message: "Deleted translation using Weblate ({{ language_name }})\n\n"
+            merge_message: "Merge branch '{{ component_remote_branch }}' into Weblate.\n\n"
+            addon_message: "Update translation files\n\nUpdated by \"{{ addon_name }}\" add-on in Weblate.\n\nTranslation: {{ project_name }}/{{ component_name }}\nTranslate-URL: {{ url }}"
+            pull_message: "Translations update from {{ site_title }}\n\nTranslations update from [{{ site_title }}]({{ site_url }}) for [{{ project_name }}/{{ component_name }}]({{url}}).\n\n{% if component_linked_childs %}\nIt also includes following components:\n{% for linked in component_linked_childs %}\n* [{{ linked.project_name }}/{{ linked.name }}]({{ linked.url }})\n{% endfor %}\n{% endif %}\n\nCurrent translation status:\n\n![Weblate translation status]({{widget_url}})\n"
+            allow_translation_propagation: true
+            manage_units: false
+            enable_suggestions: true
+            suggestion_voting: false
+            suggestion_autoaccept: 0
+            push_on_commit: true
+            commit_pending_age: 24
+            auto_lock_error: true
+            language_regex: "^[^.]+$"
+            variant_regex: ""
+            addons: []
+            is_glossary: false
+            glossary_color: silver
+            category: null
+            linked_component: null
+          language_code: en
+          id: 63
+          filename: ""
+          revision: ""
+          web_url: http://weblate.example.com/projects/test-project/test-component/en/
+          share_url: http://weblate.example.com/engage/test-project/-/en/
+          translate_url: http://weblate.example.com/translate/test-project/test-component/en/
+          url: http://weblate.example.com/api/translations/test-project/test-component/en/
+          is_template: false
+          is_source: true
+          total: 68
+          total_words: 68
+          translated: 68
+          translated_words: 68
+          translated_percent: 100
+          fuzzy: 0
+          fuzzy_words: 0
+          fuzzy_percent: 0
+          failing_checks: 36
+          failing_checks_words: 36
+          failing_checks_percent: 52.9
+          have_suggestion: 0
+          have_comment: 0
+          last_change: "2024-09-19T18:48:47.104585Z"
+          last_author: null
+          repository_url: http://weblate.example.com/api/translations/test-project/test-component/en/repository/
+          file_url: http://weblate.example.com/api/translations/test-project/test-component/en/file/
+          statistics_url: http://weblate.example.com/api/translations/test-project/test-component/en/statistics/
+          changes_list_url: http://weblate.example.com/api/translations/test-project/test-component/en/changes/
+          units_list_url: http://weblate.example.com/api/translations/test-project/test-component/en/units/
+
+    TranslationStatistics:
+      $ref: 'statistics.yaml#/components/schemas/Statistics'
+
+    # Similar to the 'projects.yaml#/schemas/Repository' schema,
+    # but with additional fields
+    TranslationRepository:
+      type: object
+      properties:
+        needs_commit:
+          type: boolean
+        needs_merge:
+          type: boolean
+        needs_push:
+          type: boolean
+        url:
+          type: string
+          format: uri
+        remote_commit:
+          nullable: true
+        weblate_commit:
+          type: object
+          properties:
+            revision:
+              type: string
+            shortrevision:
+              type: 9d8a98d84
+            author:
+              type: string
+            author_name:
+              type: string
+            author_email:
+              type: string
+              format: email
+            authordate:
+              type: string
+              format: date-time
+            commit:
+              type: string
+            commit_name:
+              type: string
+            commit_email:
+              type: string
+              format: email
+            commitdate:
+              type: string
+              format: date-time
+            message:
+              type: string
+            summary:
+              type: string
+        status:
+          type: string
+        merge_failure:
+          nullable: true
+      examples:
+        TranslationRepository:
+          needs_commit: false
+          needs_merge: false
+          needs_push: false
+          url: http://weblate.example.com/api/translations/test-project/test-component/en/repository/
+          remote_commit: null
+          weblate_commit:
+            revision: 9d8a98d840dfe5a17c0627be4007139730ff5faf
+            shortrevision: 9d8a98d84
+            author: John Doe <johndoe@example.com>
+            author_name: johndoe
+            author_email: johndoe@example.com@gmail.com
+            authordate: "2024-09-18T08:02:16Z"
+            commit: johndoe <johndoe@example.com@gmail.com>
+            commit_name: johndoe
+            commit_email: johndoe@example.com@gmail.com
+            commitdate: "2024-09-18T08:02:16Z"
+            message: Merge branch 'weblate-translation' into 'master'\n\nUpdate translation files (Weblate)
+            summary: Merge branch 'weblate-translation' into 'master'
+          status: On branch master\nYour branch is up to date with 'origin/master'.\n\nnothing to commit, working tree clean\n
+          merge_failure: null
+
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    Created:
+      $ref: 'common.yaml#/components/responses/Created'
+
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            TranslationNotFound:
+              value:
+                detail: No Translation matches the given query.
+
+    Translation:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Translation'
+
+    TranslationRepository:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TranslationRepository'
+
+    TranslationStatistics:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TranslationStatistics'
+
+  parameters:
+    projectInPath:
+      $ref: 'projects.yaml#/components/parameters/projectInPath'
+
+    componentInPath:
+      $ref: 'components.yaml#/components/parameters/componentInPath'
+
+    languageInPath:
+      $ref: 'languages.yaml#/components/parameters/languageInPath'

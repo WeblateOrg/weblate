@@ -1,0 +1,143 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /changes/:
+    get:
+      tags:
+        - changes
+      summary: Returns a list of translation changes
+      description: '**Changed in version 4.1:** Filtering of changes was introduced in the 4.1 release.'
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Change'
+
+  /changes/{id}/:
+    get:
+      tags:
+        - changes
+      summary: Returns information about translation change
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Change'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  schemas:
+    Change:
+      type: object
+      properties:
+        unit:
+          type: string
+          format: uri
+          nullable: true
+        component:
+          type: string
+          format: uri
+          nullable: true
+        translation:
+          type: string
+          format: uri
+          nullable: true
+        user:
+          type: string
+          format: uri
+          nullable: true
+        author:
+          type: string
+          format: uri
+          nullable: true
+        timestamp:
+          type: string
+          format: date-time
+        action:
+          type: integer
+        target:
+          type: string
+        old:
+          type: string
+        details:
+          oneOf:
+            - type: object
+              properties:
+                new_head:
+                  type: string
+                previous_head:
+                  type: string
+            - type: object
+              properties:
+                repos:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+            - type: object
+              properties:
+                state:
+                  type: integer
+                source:
+                  type: string
+                old_state: integer
+            - type: object
+              properties:
+                reason:
+                  type: string
+                filename:
+                  type: string
+        id:
+          type: integer
+        action_name:
+          type: string
+        url:
+          type: string
+          format: uri
+
+  responses:
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            ChangeNotFound:
+              value:
+                detail: No Change matches the given query.
+
+    Change:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Change'
+
+  parameters:
+    idInPath:
+      $ref: 'common.yaml#/components/parameters/idInPath'

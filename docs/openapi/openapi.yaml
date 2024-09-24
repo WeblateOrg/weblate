@@ -1,0 +1,541 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+# Weblate version in test Docker container: 5.7.2
+
+openapi: 3.1.0
+info:
+  title: Weblate REST API
+  description: |
+    The API is based on [Django REST framework](https://www.django-rest-framework.org).
+    You can interact with the API using the [Weblate Client](https://docs.weblate.org/en/latest/wlc.html)
+    or a third-party REST client of your choice.
+
+    ## Authentication
+
+    Authentication works with tokens placed in the `Authorization` HTTP request header:
+
+    - Each user has a personal access token which can be obtained in their respective user profile. Newly generated user tokens have the `wlu_` prefix.
+    - It is possible to create project-scoped tokens to grant a project access to the API. These tokens can be identified by the `wlp_` prefix.
+
+    Although some of the API operations are available without authentication,
+    it is still recommended to authenticate your requests:
+
+    - Operations such as `GET /api/users/` return an incomplete representation of the
+    requested resources if the request has not been authenticated and authorized.
+    - Unauthenticated requests are heavily rate limited, by default, to 100
+    requests per day. On the other hand, authenticated requests are rate limited
+    to 5000 requests per hour by default.
+
+    ## API rate limiting
+
+    Rate limiting can be adjusted in the `settings.py` file; see [Throttling in Django REST framework documentation](https://www.django-rest-framework.org/api-guide/throttling/)
+    for more details on how to configure it.
+
+    In the Docker container, this can be configured with the [WEBLATE_API_RATELIMIT_ANON](https://docs.weblate.org/en/latest/admin/install/docker.html#envvar-WEBLATE_API_RATELIMIT_ANON) and the [WEBLATE_API_RATELIMIT_USER](https://docs.weblate.org/en/latest/admin/install/docker.html#envvar-WEBLATE_API_RATELIMIT_USER) environment variables.
+
+    **Changed in version 4.1:**
+    Added HTTP response headers indicating status of rate-limiting.
+
+    Those HTTP headers are:
+
+    <table>
+      <thead>
+        <tr>
+          <td>Header name</td>
+          <td>Description</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>X-RateLimit-Limit</td>
+          <td>Rate limiting limit of requests to perform.</td>
+        </tr>
+        <tr>
+          <td>X-RateLimit-Remaining</td>
+          <td>Remaining limit of requests.</td>
+        </tr>
+        <tr>
+          <td>X-RateLimit-Reset</td>
+          <td>Number of seconds until ratelimit window resets.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    ## Components and categories
+
+    To access a component which is nested inside a [Category](https://docs.weblate.org/en/latest/admin/projects.html#category),
+    you need to URL encode the category name into a component name separated with a slash.
+
+    For example, usage placed in a `docs` category needs to be used as `docs%252Fusage`.
+    In this case, the full URL could be:
+
+    `https://weblate.example.com/api/components/hello/docs%252Fusage/repository/`
+  license:
+    name: GNU General Public License v3.0 or later
+    identifier: GPL-3.0-or-later
+  version: 0.1.0
+
+servers:
+  - url: https://hosted.weblate.org/api
+    description: The official Weblate cloud instance
+  - url: '{scheme}://{hostname}{port}/api'
+    description: A Weblate instance of your choice
+    variables:
+      scheme:
+        enum:
+          - http
+          - https
+        default: https
+        description: The HTTP protocol variant used for connecting to the API.
+      hostname:
+        default: ""
+        description: The host where the Weblate API is exposed.
+      port:
+        default: ""
+        description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080"'
+
+paths:
+  /:
+    get:
+      tags:
+        - root
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RootObject'
+              example:
+                users: https://weblate.example.com/api/users/
+                groups: https://weblate.example.com/api/groups/
+                roles: https://weblate.example.com/api/roles/
+                projects: https://weblate.example.com/api/projects/
+                components: https://weblate.example.com/api/components/
+                translations: https://weblate.example.com/api/translations/
+                memory: https://weblate.example.com/api/memory/
+                languages: https://weblate.example.com/api/languages/
+                component-lists: https://weblate.example.com/api/component-lists/
+                changes: https://weblate.example.com/api/changes/
+                units: https://weblate.example.com/api/units/
+                screenshots: https://weblate.example.com/api/screenshots/
+                addons: https://weblate.example.com/api/addons/
+                categories: https://weblate.example.com/api/categories/
+
+  # Resource: User
+  /users/:
+    $ref: 'resources/users.yaml#/paths/~1users~1'
+
+  /users/{username}/:
+    $ref: 'resources/users.yaml#/paths/~1users~1{username}~1'
+
+  /users/{username}/groups/:
+    $ref: 'resources/users.yaml#/paths/~1users~1{username}~1groups~1'
+
+  /users/{username}/statistics/:
+    $ref: 'resources/users.yaml#/paths/~1users~1{username}~1statistics~1'
+
+  /users/{username}/notifications/:
+    $ref: 'resources/users.yaml#/paths/~1users~1{username}~1notifications~1'
+
+  /users/{username}/notifications/{subscription_id}/:
+    $ref: 'resources/users.yaml#/paths/~1users~1{username}~1notifications~1{subscription_id}~1'
+
+  # Resource: Group
+  /groups/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1'
+
+  /groups/{id}/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1'
+
+  /groups/{id}/roles/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1roles~1'
+
+  /groups/{id}/components/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1components~1'
+
+  /groups/{id}/components/{component_id}/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1components~1{component_id}~1'
+
+  /groups/{id}/projects/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1projects~1'
+
+  /groups/{id}/projects/{project_id}/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1projects~1{project_id}~1'
+
+  /groups/{id}/languages/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1languages~1'
+
+  /groups/{id}/languages/{language_code}/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1languages~1{language_code}~1'
+
+  /groups/{id}/componentlists/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1componentlists~1'
+
+  /groups/{id}/componentlists/{component_list_id}/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1componentlists~1{component_list_id}~1'
+
+  /groups/{id}/admins/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1admins~1'
+
+  /groups/{id}/admins/{user_id}/:
+    $ref: 'resources/groups.yaml#/paths/~1groups~1{id}~1admins~1{user_id}~1'
+
+  # Resource: Role
+  /roles/:
+    $ref: 'resources/roles.yaml#/paths/~1roles~1'
+
+  /roles/{id}/:
+    $ref: 'resources/roles.yaml#/paths/~1roles~1{id}~1'
+
+  # Resource: Language
+  /languages/:
+    $ref: 'resources/languages.yaml#/paths/~1languages~1'
+
+  /languages/{language_code}/:
+    $ref: 'resources/languages.yaml#/paths/~1languages~1{language_code}~1'
+
+  /languages/{language_code}/statistics/:
+    $ref: 'resources/languages.yaml#/paths/~1languages~1{language_code}~1statistics~1'
+
+  # Resource: Project
+  /projects/:
+    $ref: 'resources/projects.yaml#/paths/~1projects~1'
+
+  /projects/{project}/:
+    $ref: 'resources/projects.yaml#/paths/~1projects~1{project}~1'
+
+  /projects/{project}/changes/:
+    $ref: 'resources/projects.yaml#/paths/~1projects~1{project}~1changes~1'
+
+  /projects/{project}/file/:
+    $ref: 'resources/projects.yaml#/paths/~1projects~1{project}~1file~1'
+
+  /projects/{project}/repository/:
+    $ref: 'resources/projects.yaml#/paths/~1projects~1{project}~1repository~1'
+
+  /projects/{project}/components/:
+    $ref: 'resources/projects.yaml#/paths/~1projects~1{project}~1components~1'
+
+  /projects/{project}/languages/:
+    $ref: 'resources/projects.yaml#/paths/~1projects~1{project}~1languages~1'
+
+  /projects/{project}/statistics/:
+    $ref: 'resources/projects.yaml#/paths/~1projects~1{project}~1statistics~1'
+
+  /projects/{project}/categories/:
+    $ref: 'resources/projects.yaml#/paths/~1projects~1{project}~1categories~1'
+
+  /projects/{project}/labels/:
+    $ref: 'resources/projects.yaml#/paths/~1projects~1{project}~1labels~1'
+
+  /projects/{project}/credits/:
+    $ref: 'resources/projects.yaml#/paths/~1projects~1{project}~1credits~1'
+
+  # Resource: Component
+  /components/:
+    $ref: 'resources/components.yaml#/paths/~1components~1'
+
+  /components/{project}/{component}/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1'
+
+  /components/{project}/{component}/changes/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1changes~1'
+
+  /components/{project}/{component}/file/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1file~1'
+
+  /components/{project}/{component}/screenshots/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1screenshots~1'
+
+  /components/{project}/{component}/lock/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1lock~1'
+
+  /components/{project}/{component}/repository/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1repository~1'
+
+  /components/{project}/{component}/monolingual_base/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1monolingual_base~1'
+
+  /components/{project}/{component}/new_template/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1new_template~1'
+
+  /components/{project}/{component}/translations/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1translations~1'
+
+  /components/{project}/{component}/statistics/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1statistics~1'
+
+  /components/{project}/{component}/links/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1links~1'
+
+  /components/{project}/{component}/links/{project_slug}/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1links~1{project_slug}~1'
+
+  /components/{project}/{component}/credits/:
+    $ref: 'resources/components.yaml#/paths/~1components~1{project}~1{component}~1credits~1'
+
+  # Resource: Translation
+  /translations/:
+    $ref: 'resources/translations.yaml#/paths/~1translations~1'
+
+  /translations/{project}/{component}/{language}/:
+    $ref: 'resources/translations.yaml#/paths/~1translations~1{project}~1{component}~1{language}~1'
+
+  /translations/{project}/{component}/{language}/changes/:
+    $ref: 'resources/translations.yaml#/paths/~1translations~1{project}~1{component}~1{language}~1changes~1'
+
+  /translations/{project}/{component}/{language}/units/:
+    $ref: 'resources/translations.yaml#/paths/~1translations~1{project}~1{component}~1{language}~1units~1'
+
+  /translations/{project}/{component}/{language}/autotranslate/:
+    $ref: 'resources/translations.yaml#/paths/~1translations~1{project}~1{component}~1{language}~1autotranslate~1'
+
+  /translations/{project}/{component}/{language}/file/:
+    $ref: 'resources/translations.yaml#/paths/~1translations~1{project}~1{component}~1{language}~1file~1'
+
+  /translations/{project}/{component}/{language}/repository/:
+    $ref: 'resources/translations.yaml#/paths/~1translations~1{project}~1{component}~1{language}~1repository~1'
+
+  /translations/{project}/{component}/{language}/statistics/:
+    $ref: 'resources/translations.yaml#/paths/~1translations~1{project}~1{component}~1{language}~1statistics~1'
+
+  # Resource: Memory
+  /memory/:
+    $ref: 'resources/memory.yaml#/paths/~1memory~1'
+
+  /memory/{memory_object_id}/:
+    $ref: 'resources/memory.yaml#/paths/~1memory~1{memory_object_id}~1'
+
+  # Resource: Unit
+  /units/:
+    $ref: 'resources/units.yaml#/paths/~1units~1'
+
+  /units/{id}/:
+    $ref: 'resources/units.yaml#/paths/~1units~1{id}~1'
+
+  # Resource: Change
+  /changes/:
+    $ref: 'resources/changes.yaml#/paths/~1changes~1'
+
+  /changes/{id}/:
+    $ref: 'resources/changes.yaml#/paths/~1changes~1{id}~1'
+
+  # Resource: Screenshot
+  /screenshots/:
+    $ref: 'resources/screenshots.yaml#/paths/~1screenshots~1'
+
+  /screenshots/{id}/:
+    $ref: 'resources/screenshots.yaml#/paths/~1screenshots~1{id}~1'
+
+  /screenshots/{id}/file/:
+    $ref: 'resources/screenshots.yaml#/paths/~1screenshots~1{id}~1file~1'
+
+  /screenshots/{id}/units/:
+    $ref: 'resources/screenshots.yaml#/paths/~1screenshots~1{id}~1units~1'
+
+  /screenshots/{id}/units/{unit_id}/:
+    $ref: 'resources/screenshots.yaml#/paths/~1screenshots~1{id}~1units~1{unit_id}~1'
+
+  # Resource: Addon
+  /addons/:
+    $ref: 'resources/addons.yaml#/paths/~1addons~1'
+
+  /addons/{id}/:
+    $ref: 'resources/addons.yaml#/paths/~1addons~1{id}~1'
+
+  /components/{project}/{component}/addons/:
+    $ref: 'resources/addons.yaml#/paths/~1components~1{project}~1{component}~1addons~1'
+
+  # Resource: Component List
+  /component-lists/:
+    $ref: 'resources/componentlists.yaml#/paths/~1component-lists~1'
+
+  /component-lists/{slug}/:
+    $ref: 'resources/componentlists.yaml#/paths/~1component-lists~1{slug}~1'
+
+  /component-lists/{slug}/components/:
+    $ref: 'resources/componentlists.yaml#/paths/~1component-lists~1{slug}~1components~1'
+
+  /component-lists/{slug}/components/{component_slug}/:
+    $ref: 'resources/componentlists.yaml#/paths/~1component-lists~1{slug}~1components~1{component_slug}~1'
+
+  # Resource: Task
+  /tasks/:
+    $ref: 'resources/tasks.yaml#/paths/~1tasks~1'
+
+  /tasks/{uuid}/:
+    $ref: 'resources/tasks.yaml#/paths/~1tasks~1{uuid}~1'
+
+  # Resource: Metrics
+  /metrics/:
+    $ref: 'resources/metrics.yaml#/paths/~1metrics~1'
+
+  # Resource: Search
+  /search/:
+    $ref: 'resources/search.yaml#/paths/~1search~1'
+
+  # Resource: Category
+  /categories/:
+    $ref: 'resources/categories.yaml#/paths/~1categories~1'
+
+  /categories/{id}/:
+    $ref: 'resources/categories.yaml#/paths/~1categories~1{id}~1'
+
+  /categories/{id}/statistics/:
+    $ref: 'resources/categories.yaml#/paths/~1categories~1{id}~1statistics~1'
+
+  # Resource: Hook
+  /hooks/update/{project}/:
+    $ref: 'resources/hooks.yaml#/paths/~1hooks~1update~1{project}~1'
+
+  /hooks/update/{project}/{component}/:
+    $ref: 'resources/hooks.yaml#/paths/~1hooks~1update~1{project}~1{component}~1'
+
+  /hooks/github/:
+    $ref: 'resources/hooks.yaml#/paths/~1hooks~1github~1'
+
+  /hooks/gitlab/:
+    $ref: 'resources/hooks.yaml#/paths/~1hooks~1gitlab~1'
+
+  /hooks/bitbucket/:
+    $ref: 'resources/hooks.yaml#/paths/~1hooks~1bitbucket~1'
+
+  /hooks/pagure/:
+    $ref: 'resources/hooks.yaml#/paths/~1hooks~1pagure~1'
+
+  /hooks/azure/:
+    $ref: 'resources/hooks.yaml#/paths/~1hooks~1azure~1'
+
+  /hooks/gitea/:
+    $ref: 'resources/hooks.yaml#/paths/~1hooks~1gitea~1'
+
+  /hooks/gitee/:
+    $ref: 'resources/hooks.yaml#/paths/~1hooks~1gitee~1'
+
+  # Resource: Export
+  /exports/stats/{project}/{component}/:
+    $ref: 'resources/exports.yaml#/paths/~1exports~1stats~1{project}~1{component}~1'
+
+  # Resource: RSS Feed
+  /exports/rss/:
+    $ref: 'resources/rssfeeds.yaml#/paths/~1exports~1rss~1'
+
+  /exports/rss/{project}/:
+    $ref: 'resources/rssfeeds.yaml#/paths/~1exports~1rss~1{project}~1'
+
+  /exports/rss/{project}/{component}/:
+    $ref: 'resources/rssfeeds.yaml#/paths/~1exports~1rss~1{project}~1{component}~1'
+
+  /exports/rss/{project}/{component}/{language}/:
+    $ref: 'resources/rssfeeds.yaml#/paths/~1exports~1rss~1{project}~1{component}~1{language}~1'
+
+  /exports/rss/language/{language}/:
+    $ref: 'resources/rssfeeds.yaml#/paths/~1exports~1rss~1language~1{language}~1'
+
+components:
+  schemas:
+    RootObject:
+      type: object
+      properties:
+        users:
+          type: string
+          format: uri
+        groups:
+          type: string
+          format: uri
+        roles:
+          type: string
+          format: uri
+        projects:
+          type: string
+          format: uri
+        components:
+          type: string
+          format: uri
+        translations:
+          type: string
+          format: uri
+        memory:
+          type: string
+          format: uri
+        languages:
+          type: string
+          format: uri
+        component-lists:
+          type: string
+          format: uri
+        changes:
+          type: string
+          format: uri
+        units:
+          type: string
+          format: uri
+        screenshots:
+          type: string
+          format: uri
+        addons:
+          type: string
+          format: uri
+        categories:
+          type: string
+          format: uri
+
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      description: |
+        For example:
+
+        `Token wlu_ztrPajDM3BowB13vKSeqidWY3LzvPf2rJZaW`
+      name: Authorization
+      in: header
+
+security:
+  - {}
+  - TokenAuth: []
+
+tags:
+  - name: root
+    description: The API root entry point.
+  - name: users
+    description: Added in version 4.0.
+  - name: groups
+    description: Added in version 4.0.
+  - name: roles
+  - name: languages
+  - name: projects
+  - name: components
+  - name: translations
+  - name: memory
+    description: Added in version 4.14.
+  - name: units
+    description: A unit is a single piece of a translation which pairs a source string with a corresponding translated string and also contains some related metadata. The term is derived from the Translate Toolkit and XLIFF.
+  - name: changes
+  - name: screenshots
+  - name: addons
+    description: Added in version 4.4.1.
+  - name: componentLists
+    description: Added in version 4.0.
+  - name: glossary
+    description: '**Changed in version 4.5:** Glossaries are now stored as regular components, translations and strings, please use respective API instead.'
+  - name: tasks
+    description: Added in version 4.4.
+  - name: statistics
+    description: Many endpoints support displaying statistics for their objects.
+  - name: metrics
+  - name: search
+    description: Added in version 4.18.
+  - name: categories
+  - name: hooks
+    description: |
+      Notification hooks allow external applications to notify Weblate that the VCS repository has been updated.
+
+      You can use repository endpoints for projects, components and translations to update individual repositories.
+  - name: exports
+    description: Weblate provides various exports to allow you to further process the data.
+  - name: rssFeeds
+    description: Changes in translations are exported in RSS feeds.
+
+externalDocs:
+  description: Official documentation for the latest version of Weblate
+  url: https://docs.weblate.org

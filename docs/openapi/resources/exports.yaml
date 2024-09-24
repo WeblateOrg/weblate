@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /exports/stats/{project}/{component}/:
+    get:
+      tags:
+        - exports
+      summary: Retrieves statistics for given component in given format
+      description: '**Deprecated since version 2.6:** Please use `GET /api/components/{project}/{component}/statistics/` and `GET /api/translations/{project}/{component}/{language}/statistics/` instead; it allows access to ACL controlled projects as well.'
+      parameters:
+        - $ref: '#/components/parameters/projectInPath'
+        - $ref: '#/components/parameters/componentInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'statistics.yaml#/components/schemas/Statistics'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      deprecated: true
+      servers:
+        - url: https://hosted.weblate.org
+          description: The official Weblate cloud instance
+        - url: '{scheme}://{hostname}{port}'
+          description: A Weblate instance of your choice
+          variables:
+            scheme:
+              enum:
+                - http
+                - https
+              default: https
+              description: The HTTP protocol variant used for connecting to the API.
+            hostname:
+              default: ""
+              description: The host where the Weblate API is exposed.
+            port:
+              default: ""
+              description: '(Optional) The transport layer port number where the API is listening to, preceded by a colon. For example: ":8080".'
+
+
+components:
+  responses:
+    NotFound:
+      $ref: 'common.yaml#/components/responses/NotFound'
+
+  parameters:
+    projectInPath:
+      $ref: 'projects.yaml#/components/parameters/projectInPath'
+
+    componentInPath:
+      $ref: 'components.yaml#/components/parameters/componentInPath'

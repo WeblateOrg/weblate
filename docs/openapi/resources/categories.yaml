@@ -1,0 +1,203 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /categories/:
+    get:
+      tags:
+        - categories
+      summary: Lists available categories
+      description: Added in version 5.0.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Category'
+
+    post:
+      tags:
+        - categories
+      summary: Creates a new category
+      description: Added in version 5.0.
+      responses:
+        '201':
+          $ref: '#/components/responses/CategoryCreated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      security:
+        - TokenAuth: []
+
+  /categories/{id}/:
+    get:
+      tags:
+        - categories
+      description: Added in version 5.0.
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - categories
+      summary: Edit full information about category
+      description: Added in version 5.0.
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/CategoryUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    patch:
+      tags:
+        - categories
+      summary: Edit partial information about category
+      description: Added in version 5.0.
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/CategoryUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - categories
+      summary: Delete category
+      description: Added in version 5.0.
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /categories/{id}/statistics/:
+    get:
+      tags:
+        - categories
+        - statistics
+      summary: Returns statistics for a category
+      description: Added in version 5.5.
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryStatistics'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        project:
+          type: string
+          format: uri
+        category:
+          type: string
+          nullable: true
+        url:
+          type: string
+          format: uri
+        statistics_url:
+          type: string
+          format: uri
+
+    CategoryStatistics:
+      $ref: 'statistics.yaml#/components/schemas/StatisticsUrl'
+
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    Created:
+      $ref: 'common.yaml#/components/responses/Created'
+
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            CategoryNotFound:
+              value:
+                detail: No Category matches the given query.
+
+    CategoryCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Category'
+
+    CategoryUpdated:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Category'
+
+  parameters:
+    idInPath:
+      $ref: 'common.yaml#/components/parameters/idInPath'

@@ -1,0 +1,300 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /units/:
+    get:
+      tags:
+        - units
+      summary: Returns list of translation units
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Unit'
+
+  /units/{id}/:
+    get:
+      tags:
+        - units
+      summary: Returns information about translation unit
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Unit'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - units
+      summary: Performs full update on translation unit
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateUnit'
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    patch:
+      tags:
+        - units
+      summary: Performs partial update on translation unit
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - units
+      summary: Deletes a translation unit
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+components:
+  schemas:
+    Unit:
+      type: object
+      properties:
+        translation:
+          type: string
+          format: uri
+          description: URL of a related translation object.
+        source:
+          type: array
+          items:
+            type: string
+          description: Source string.
+        previous_source:
+          type: string
+        target:
+          type: array
+          items:
+            type: string
+          description: Target string.
+        id_hash:
+          type: integer
+          description: Unique identifier of the unit.
+        content_hash:
+          type: integer
+          description: Unique identifier of the source string.
+        location:
+          type: string
+          description: Location of the unit in source code.
+        context:
+          type: string
+          description: Translation unit context.
+        note:
+          type: string
+          description: Translation unit note.
+        flags:
+          type: string
+          description: Translation unit flags.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Translation unit labels, available on source units.
+        state:
+          type: integer
+          description: Unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read only
+          enum: [0, 10, 20, 30, 100]
+        fuzzy:
+          type: boolean
+          description: Whether the unit is fuzzy or marked for review.
+        translated:
+          type: boolean
+          description: Whether the unit is translated.
+        approved:
+          type: boolean
+          description: Whether the translation is approved.
+        position:
+          type: integer
+          description: Unit position in translation file.
+        has_suggestion:
+          type: boolean
+          description: Whether the unit has suggestions.
+        has_comment:
+          type: boolean
+          description: Whether the unit has comments.
+        has_failing_check:
+          type: boolean
+          description: Whether the unit has failing checks.
+        num_words:
+          type: integer
+          description: Number of source words.
+        source_unit:
+          type: string
+          description: Source unit link.
+        priority:
+          type: integer
+          default: 100
+          description: Translation priority; 100 is default.
+        id:
+          type: integer
+          description: Unit identifier.
+        web_url:
+          type: string
+          format: uri
+          description: URL where the unit can be edited.
+        url:
+          type: string
+          format: uri
+        explanation:
+          type: string
+          description: String explanation, available on source units.
+        extra_flags:
+          type: string
+          description: Additional string flags, available on source units.
+        pending:
+          type: boolean
+          description: Whether the unit is pending for write.
+        timestamp:
+          type: string
+          format: date-time
+          description: String age.
+        last_updated:
+          type: string
+          format: date-time
+          description: Last string update.
+      examples:
+        Unit:
+          translation: http://weblate.example.com/api/translations/test-project/test-component/en/
+          source:
+            - main-username
+          previous_source: ""
+          target:
+            - main-username
+          id_hash: 6147199891469790000
+          content_hash: 6147199891469790000
+          location: ""
+          context: ""
+          note: ""
+          flags: fluent-type:Message
+          labels: []
+          state: 100
+          fuzzy: false
+          translated: true
+          approved: false
+          position: 1
+          has_suggestion: false
+          has_comment: false
+          has_failing_check: false
+          num_words: 1
+          source_unit: http://weblate.example.com/api/units/1427/
+          priority: 100
+          id: 1427
+          web_url: http://weblate.example.com/translate/test-project/test-component/en/?checksum=d54f3dbb66606bb6
+          url: http://weblate.example.com/api/units/1427/
+          explanation: ""
+          extra_flags: ""
+          pending: false
+          timestamp: "2024-09-19T18:48:44.563186Z"
+          last_updated: "2024-09-19T18:48:44.563198Z"
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    Created:
+      $ref: 'common.yaml#/components/responses/Created'
+
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            UnitNotFound:
+              value:
+                detail: No Unit matches the given query.
+
+    Unit:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Unit'
+
+  parameters:
+    idInPath:
+      $ref: 'common.yaml#/components/parameters/idInPath'
+
+    unitIdInPath:
+      name: unit_id
+      in: path
+      schema:
+        type: integer
+      required: true
+
+  requestBodies:
+    UpdateUnit:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              target:
+                type: array
+                items:
+                  type: string
+              labels:
+                type: array
+                items:
+                  type: string
+            required:
+              - target
+              - labels

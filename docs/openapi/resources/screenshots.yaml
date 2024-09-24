@@ -1,0 +1,323 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /screenshots/:
+    get:
+      tags:
+        - screenshots
+      summary: Returns a list of screenshot string information
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Screenshot'
+
+    post:
+      tags:
+        - screenshots
+      summary: Creates a new screenshot
+      requestBody:
+        $ref: '#/components/requestBodies/CreateScreenshot'
+      responses:
+        '201':
+          $ref: '#/components/responses/ScreenshotCreated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      security:
+        - TokenAuth: []
+
+  /screenshots/{id}/:
+    get:
+      tags:
+        - screenshots
+      summary: Returns information about screenshot information
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Screenshot'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - screenshots
+      summary: Edit full information about screenshot
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ScreenshotUpdated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    patch:
+      tags:
+        - screenshots
+      summary: Edit partial information about screenshot
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ScreenshotUpdated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - screenshots
+      summary: Delete screenshot
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /screenshots/{id}/file/:
+    get:
+      tags:
+        - screenshots
+      summary: Download the screenshot image
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ScreenshotFile'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags:
+        - screenshots
+      summary: Replace screenshot image
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ScreenshotFileUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /screenshots/{id}/units/:
+    post:
+      tags:
+        - screenshots
+      summary: Associate source string with screenshot
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ScreenshotUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /screenshots/{id}/units/{unit_id}/:
+    delete:
+      tags:
+        - screenshots
+      summary: Remove source string association with screenshot
+      parameters:
+        - $ref: '#/components/parameters/idInPath'
+        - $ref: '#/components/parameters/unitIdInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ScreenshotUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+components:
+  schemas:
+    Screenshot:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          description: Name of a screenshot.
+        repository_filename:
+          type: string
+        translation:
+          type: string
+          format: uri
+        file_url:
+          type: string
+          format: uri
+          description: URL to download a file.
+        units:
+          type: array
+          items:
+            type: string
+            format: uri
+          example:
+            - https://weblate.example.com/api/units/95376/
+            - https://weblate.example.com/api/units/95377/
+        url:
+          type: string
+          format: uri
+
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    Created:
+      $ref: 'common.yaml#/components/responses/Created'
+
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    BadRequest:
+      $ref: 'common.yaml#/components/responses/BadRequest'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    Forbidden:
+      $ref: 'common.yaml#/components/responses/Forbidden'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            ScreenshotNotFound:
+              value:
+                detail: No Screenshot matches the given query.
+
+    Screenshot:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Screenshot'
+
+    ScreenshotCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Screenshot'
+
+    ScreenshotUpdated:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Screenshot'
+
+    ScreenshotFile:
+      description: OK
+      content:
+        application/binary:
+          schema:
+            type: string
+            format: binary
+
+    ScreenshotFileUpdated:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Screenshot'
+
+  parameters:
+    idInPath:
+      $ref: 'common.yaml#/components/parameters/idInPath'
+
+    unitIdInPath:
+      $ref: 'units.yaml#/components/parameters/unitIdInPath'
+
+  requestBodies:
+    CreateScreenshot:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              component_slug:
+                type: string
+              project_slug:
+                type: string
+              language_code:
+                type: string
+              name:
+                type: string
+              image:
+                type: string
+                format: binary
+            required:
+              - component_slug
+              - project_slug
+              - language_code
+              - name
+              - image
+      required: true

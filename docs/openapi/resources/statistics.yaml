@@ -1,0 +1,264 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+components:
+  schemas:
+    # The Statistics object has variants according to what combination of these
+    # additional properties it has:
+    # 1. code
+    # 2. url
+    # 3. translate_url
+
+    # This Statistics variant has all 3 additional properties.
+    Statistics:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Total number of strings.
+        total_words:
+          type: integer
+          description: Total number of words.
+        total_chars:
+          type: integer
+          description: Total number of characters.
+        last_change:
+          type: string
+          format: date-time
+          description: Date of last change.
+        recent_changes:
+          type: integer
+        translated:
+          type: integer
+          description: Number of translated strings.
+        translated_words:
+          type: integer
+          description: Number of translated words.
+        translated_percent:
+          type: number
+          format: float
+          description: Percentage of translated strings.
+        translated_words_percent:
+          type: number
+          format: float
+          description: Percentage of translated words.
+        translated_chars:
+          type: integer
+          description: Number of translated characters.
+        translated_chars_percent:
+          type: number
+          format: float
+          description: Percentage of translated characters.
+        fuzzy:
+          type: integer
+          description: Number of fuzzy (marked for edit) strings.
+        fuzzy_percent:
+          type: number
+          format: float
+          description: Percentage of fuzzy (marked for edit) strings.
+        fuzzy_words:
+          type: integer
+          description: Number of fuzzy (marked for edit) words.
+        fuzzy_words_percent:
+          type: number
+          format: float
+          description: Percentage of fuzzy (marked for edit) words.
+        fuzzy_chars:
+          type: integer
+          description: Number of fuzzy (marked for edit) characters.
+        fuzzy_chars_percent:
+          type: number
+          format: float
+          description: Percentage of fuzzy (marked for edit) characters.
+        failing:
+          type: integer
+          description: Number of failing checks.
+        failing_percent:
+          type: number
+          format: float
+          description: Percentage of failing checks.
+        approved:
+          type: integer
+          description: Number of approved strings.
+        approved_percent:
+          type: number
+          format: float
+          description: Percentage of approved strings.
+        approved_words:
+          type: integer
+          description: Number of approved words.
+        approved_words_percent:
+          type: number
+          format: float
+          description: Percentage of approved words.
+        approved_chars:
+          type: integer
+          description: Number of approved characters.
+        approved_chars_percent:
+          type: number
+          format: float
+          description: Percentage of approved characters.
+        readonly:
+          type: integer
+          description: Number of read-only strings.
+        readonly_percent:
+          type: number
+          format: float
+          description: Percentage of read-only strings.
+        readonly_words:
+          type: integer
+          description: Number of read-only words.
+        readonly_words_percent:
+          type: number
+          format: float
+          description: Percentage of read-only words.
+        readonly_chars:
+          type: integer
+          description: Number of read-only characters.
+        readonly_char_percent:
+          type: number
+          format: float
+          description: Percentage of read-only characters.
+        suggestions:
+          type: integer
+          description: Number of strings with suggestions.
+        comments:
+          type: integer
+          description: Number of strings with comments.
+        code:
+          type: string
+          description: Language code.
+        name:
+          type: string
+          description: Object name.
+        url:
+          type: string
+          format: uri
+          description: URL to access the object.
+        translate_url:
+          type: string
+          format: uri
+          description: URL to access the translation.
+
+    # This Statistics variant has only the "url" additional property.
+    StatisticsUrl:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Total number of strings.
+        total_words:
+          type: integer
+          description: Total number of words.
+        total_chars:
+          type: integer
+          description: Total number of characters.
+        last_change:
+          type: string
+          format: date-time
+          description: Date of last change.
+        recent_changes:
+          type: integer
+        translated:
+          type: integer
+          description: Number of translated strings.
+        translated_words:
+          type: integer
+          description: Number of translated words.
+        translated_percent:
+          type: number
+          format: float
+          description: Percentage of translated strings.
+        translated_words_percent:
+          type: number
+          format: float
+          description: Percentage of translated words.
+        translated_chars:
+          type: integer
+          description: Number of translated characters.
+        translated_chars_percent:
+          type: number
+          format: float
+          description: Percentage of translated characters.
+        fuzzy:
+          type: integer
+          description: Number of fuzzy (marked for edit) strings.
+        fuzzy_percent:
+          type: number
+          format: float
+          description: Percentage of fuzzy (marked for edit) strings.
+        fuzzy_words:
+          type: integer
+          description: Number of fuzzy (marked for edit) words.
+        fuzzy_words_percent:
+          type: number
+          format: float
+          description: Percentage of fuzzy (marked for edit) words.
+        fuzzy_chars:
+          type: integer
+          description: Number of fuzzy (marked for edit) characters.
+        fuzzy_chars_percent:
+          type: number
+          format: float
+          description: Percentage of fuzzy (marked for edit) characters.
+        failing:
+          type: integer
+          description: Number of failing checks.
+        failing_percent:
+          type: number
+          format: float
+          description: Percentage of failing checks.
+        approved:
+          type: integer
+          description: Number of approved strings.
+        approved_percent:
+          type: number
+          format: float
+          description: Percentage of approved strings.
+        approved_words:
+          type: integer
+          description: Number of approved words.
+        approved_words_percent:
+          type: number
+          format: float
+          description: Percentage of approved words.
+        approved_chars:
+          type: integer
+          description: Number of approved characters.
+        approved_chars_percent:
+          type: number
+          format: float
+          description: Percentage of approved characters.
+        readonly:
+          type: integer
+          description: Number of read-only strings.
+        readonly_percent:
+          type: number
+          format: float
+          description: Percentage of read-only strings.
+        readonly_words:
+          type: integer
+          description: Number of read-only words.
+        readonly_words_percent:
+          type: number
+          format: float
+          description: Percentage of read-only words.
+        readonly_chars:
+          type: integer
+          description: Number of read-only characters.
+        readonly_char_percent:
+          type: number
+          format: float
+          description: Percentage of read-only characters.
+        suggestions:
+          type: integer
+          description: Number of strings with suggestions.
+        comments:
+          type: integer
+          description: Number of strings with comments.
+        name:
+          type: string
+          description: Object name.
+        url:
+          type: string
+          format: uri
+          description: URL to access the object.

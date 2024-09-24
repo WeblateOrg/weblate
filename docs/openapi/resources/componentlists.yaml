@@ -1,0 +1,254 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /component-lists/:
+    get:
+      tags:
+        - componentLists
+      summary: Returns a list of component lists
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ComponentList'
+
+    post:
+      tags:
+        - componentLists
+      summary: Creates a new component list
+      responses:
+        '200':
+          $ref: '#/components/responses/ComponentListCreated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /component-lists/{slug}/:
+    get:
+      tags:
+        - componentLists
+      summary: Returns information about component list
+      parameters:
+        - $ref: '#/components/parameters/slugInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ComponentList'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - componentLists
+      summary: Changes the component list parameters
+      parameters:
+        - $ref: '#/components/parameters/slugInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ComponentListUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    patch:
+      tags:
+        - componentLists
+      summary: Changes the component list parameters
+      parameters:
+        - $ref: '#/components/parameters/slugInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ComponentListUpdated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+    delete:
+      tags:
+        - componentLists
+      summary: Deletes the component list
+      parameters:
+        - $ref: '#/components/parameters/slugInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /component-lists/{slug}/components/:
+    get:
+      tags:
+        - componentLists
+      description: '**Added in version 5.0.1:** List components in a component list.'
+      parameters:
+        - $ref: '#/components/parameters/slugInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags:
+        - componentLists
+      summary: Associate component with a component list
+      parameters:
+        - $ref: '#/components/parameters/slugInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ComponentList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+  /component-lists/{slug}/components/{component_slug}/:
+    delete:
+      tags:
+        - componentLists
+      summary: Disassociate a component from the component list
+      parameters:
+        - $ref: '#/components/parameters/slugInPath'
+        - $ref: '#/components/parameters/componentSlugInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ComponentList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+
+components:
+  schemas:
+    ComponentList:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of a component list.
+        slug:
+          type: string
+          description: Slug of a component list.
+        show_dashboard:
+          type: boolean
+          description: Whether to show it on a dashboard.
+        components:
+          type: array
+          description: Link to associated components.
+          items:
+            $ref: 'components.yaml#/components/schemas/Component'
+        auto_assign:
+          type: array
+          description: Automatic assignment rules.
+          items:
+            type: string
+
+
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    Created:
+      $ref: 'common.yaml#/components/responses/Created'
+
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            ComponentListNotFound:
+              value:
+                detail: No ComponentList matches the given query.
+
+    ComponentList:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ComponentList'
+
+    ComponentListCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ComponentList'
+
+    ComponentListUpdated:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ComponentList'
+
+  parameters:
+    slugInPath:
+      name: slug
+      in: path
+      description: Component list slug.
+      required: true
+      schema:
+        type: string
+
+    componentSlugInPath:
+      name: component_slug
+      in: path
+      description: Component slug.
+      required: true
+      schema:
+        type: string
+
+    componentListIdInPath:
+      name: component_list_id
+      in: path
+      required: true
+      schema:
+        type: integer

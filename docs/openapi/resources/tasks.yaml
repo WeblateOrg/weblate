@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /tasks/:
+    get:
+      tags:
+        - tasks
+      summary: Listing of the tasks is currently not available
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+
+  /tasks/{uuid}/:
+    get:
+      tags:
+        - tasks
+      summary: Returns information about a task
+      parameters:
+        - $ref: '#/components/parameters/uuidInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Screenshot'
+
+
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        completed:
+          type: boolean
+          description: Whether the task has completed.
+        progress:
+          type: integer
+          description: Task progress in percent.
+        result:
+          type: object
+          description: Task result or progress details.
+          nullable: true
+        log:
+          type: string
+          description: Task log.
+
+  responses:
+    OK:
+      $ref: 'common.yaml#/components/responses/OK'
+
+    Screenshot:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Task'
+
+  parameters:
+    uuidInPath:
+      name: uuid
+      in: path
+      required: true
+      schema:
+        type: string

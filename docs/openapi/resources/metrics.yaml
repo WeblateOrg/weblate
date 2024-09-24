@@ -1,0 +1,70 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /metrics/:
+    get:
+      tags:
+        - metrics
+      summary: Returns server metrics
+      description: "**Changed in version 5.6.1:** Metrics can now be exposed in OpenMetrics compatible format with `?format=openmetrics`."
+      parameters:
+        - name: format
+          in: query
+          schema:
+            type: string
+            example: openmetrics
+      responses:
+        '200':
+          $ref: '#/components/responses/Statistics'
+
+components:
+  schemas:
+    Metrics:
+      type: object
+      properties:
+        units:
+          type: integer
+          description: Number of units.
+        units_translated:
+          type: integer
+          description: Number of translated units.
+        users:
+          type: integer
+          description: Number of users.
+        changes:
+          type: integer
+          description: Number of changes.
+        projects:
+          type: integer
+          description: Number of projects.
+        components:
+          type: integer
+          description: Number of components.
+        translations:
+          type: integer
+          description: Number of translations.
+        languages:
+          type: integer
+          description: Number of used languages.
+        checks:
+          type: integer
+          description: Number of triggered quality checks.
+        configuration_errors:
+          type: integer
+          description: Number of configuration errors.
+        suggestions:
+          type: integer
+          description: Number of pending suggestions.
+        celery_queues:
+          type: object
+        name:
+          type: string
+          description: Configured server name.
+
+  responses:
+    Statistics:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Metrics'

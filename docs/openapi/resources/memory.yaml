@@ -1,0 +1,115 @@
+# SPDX-FileCopyrightText: 2024 Javier Pérez <68171111+walpox@users.noreply.github.com>
+
+paths:
+  /memory/:
+    get:
+      tags:
+        - memory
+      summary: Returns a list of memory results
+      parameters:
+        - $ref: 'common.yaml#/components/parameters/pageInQuery'
+        - $ref: 'common.yaml#/components/parameters/pageSizeInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Memory'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      security:
+        - TokenAuth: []
+
+  /memory/{memory_object_id}/:
+    delete:
+      tags:
+        - memory
+      summary: Deletes a memory object
+      parameters:
+        - $ref: '#/components/parameters/memoryObjectIdInPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - TokenAuth: []
+
+components:
+  schemas:
+    Memory:
+      type: object
+      properties:
+        id:
+          type: integer
+        source:
+          type: string
+        target:
+          type: string
+        source_language:
+          type: integer
+        target_language:
+          type: integer
+        origin:
+          type: string
+        project:
+          type: integer
+          nullable: true
+        from_file:
+          type: boolean
+        shared:
+          type: boolean
+
+  responses:
+    NoContent:
+      $ref: 'common.yaml#/components/responses/NoContent'
+
+    Unauthorized:
+      $ref: 'common.yaml#/components/responses/Unauthorized'
+
+    Forbidden:
+      $ref: 'common.yaml#/components/responses/Forbidden'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+          examples:
+            MemoryNotFound:
+              value:
+                detail: No Memory matches the given query.
+
+  parameters:
+    memoryObjectIdInPath:
+      name: memory_object_id
+      in: path
+      required: true
+      schema:
+        type: integer
