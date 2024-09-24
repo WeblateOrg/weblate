@@ -928,6 +928,7 @@ class AutoForm(forms.Form):
             ("mt", gettext_lazy("Machine translation")),
         ],
         initial="others",
+        widget=forms.RadioSelect,
     )
     component = forms.ChoiceField(
         label=gettext_lazy("Component"),
@@ -1035,7 +1036,7 @@ class AutoForm(forms.Form):
         self.helper.layout = Layout(
             Field("mode"),
             Field("filter_type"),
-            InlineRadios("auto_source", id="select_auto_source"),
+            InlineRadios("auto_source"),
             Div("component", css_id="auto_source_others"),
             Div("engines", "threshold", css_id="auto_source_mt"),
         )
