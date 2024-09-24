@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-21 04:17+0000\n"
-"Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
+"PO-Revision-Date: 2024-09-24 14:19+0000\n"
+"Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -833,10 +833,8 @@ msgstr ""
 "в параметрах профиля."
 
 #: weblate/accounts/models.py:1009
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "Недостаточно привилегий для сохранения переводов."
+msgstr "Пожалуйста, укажите адрес электронной почты для отправки переводов."
 
 #: weblate/accounts/notifications.py:49
 msgid "No notification"
@@ -894,11 +892,9 @@ msgid "Suggestion was added"
 msgstr "Было добавлено предложение"
 
 #: weblate/accounts/notifications.py:557
-#, fuzzy
-#| msgid "Message is translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "Сообщение переведено"
+msgstr "Перевод на язык завершён"
 
 #: weblate/accounts/notifications.py:565
 msgctxt "Notification name"
@@ -1020,10 +1016,8 @@ msgid "Use security key (WebAuthn)"
 msgstr "Использовать ключ безопасности (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "Авторизация"
+msgstr "Использовать приложение для аутентификации (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
@@ -1035,10 +1029,9 @@ msgid "Security key (%s)"
 msgstr "Ключ безопасности (%s)"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Авторизация"
+msgstr "Приложение для авторизации (%s)"
 
 #: weblate/accounts/views.py:205 weblate/accounts/views.py:1046
 #: weblate/accounts/views.py:1112 weblate/templates/accounts/reset.html:7
@@ -1121,10 +1114,8 @@ msgid "Sign in"
 msgstr "Войти"
 
 #: weblate/accounts/views.py:869
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "Выйти"
+msgstr "Выполнен выход"
 
 #: weblate/accounts/views.py:975
 msgid "Register e-mail"
@@ -1155,10 +1146,9 @@ msgstr ""
 "Добавьте другое удостоверение, сперва подтвердив свою электронную почту."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "Не удалось создать ключ: %s"
+msgstr "Не удалось пройти аутентификацию: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -1244,8 +1234,6 @@ msgstr ""
 "войдите, чтобы настроить уведомления."
 
 #: weblate/accounts/views.py:1649
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
 msgstr "Ключ безопасности удалён."
 
@@ -1255,21 +1243,17 @@ msgid "The security key %s was registered."
 msgstr "Ключ безопасности %s зарегистрирован."
 
 #: weblate/accounts/views.py:1687
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "Приглашение пользователя было удалено."
+msgstr "Приложение для аутентификации было удалено."
 
 #: weblate/accounts/views.py:1688
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "Приложение для аутентификации %s зарегистрировано."
 
 #: weblate/accounts/views.py:1821
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Second factor sign in"
-msgstr "Последний вход"
+msgstr "Вход по второму фактору"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -1797,7 +1781,7 @@ msgstr "«Исходные строки» и «целевой перевод» �
 
 #: weblate/addons/forms.py:645
 msgid "Enable case-sensitive key sorting"
-msgstr ""
+msgstr "Включить сортировку ключей с учётом регистра"
 
 #: weblate/addons/generate.py:33
 msgid "Statistics generator"
@@ -2100,10 +2084,8 @@ msgstr "Добавление записей в словарь"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "Добавление записей в словарь"
+msgstr "Добавление терминологии в словарь"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2657,7 +2639,7 @@ msgstr "Администратор может добавлять или удал
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:193
 msgid "Enforced two-factor authentication"
-msgstr ""
+msgstr "Принудительная двухфакторная аутентификация"
 
 #: weblate/auth/models.py:197
 msgid "Requires users to have two-factor authentication configured."
@@ -3111,10 +3093,8 @@ msgid "Mismatched interrobang"
 msgstr "Несовпадающий интерробанг"
 
 #: weblate/checks/chars.py:312
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression"
-msgstr "Источник и перевод не заканчиваются оба многоточием"
+msgstr "Источник и перевод не заканчиваются интерробенгом"
 
 #: weblate/checks/chars.py:326
 msgid "Mismatched ellipsis"
@@ -5182,21 +5162,18 @@ msgid "Region ID"
 msgstr "Идентификатор (ID) региона"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "Контекст"
+msgstr "Вектор контекста"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "Перевод не является корректным XML"
+msgstr "Некорректный вектор контекста: %s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
@@ -5219,16 +5196,10 @@ msgid "Translation context"
 msgstr "Контекст перевода"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
-"Опишите личность переводчика, чтобы повысить точность перевода. Например: "
-"\"Вы разводите белок.\""
+msgstr "Опишите контекст перевода, чтобы повысить точность перевода."
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5259,11 +5230,9 @@ msgid "Automatic selection"
 msgstr "Автоматический выбор"
 
 #: weblate/machinery/forms.py:354
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "Настраиваемый"
+msgstr "Настраиваемая модель"
 
 #: weblate/machinery/forms.py:359
 msgctxt "Automatic suggestion service configuration"
@@ -5280,21 +5249,17 @@ msgid "OpenAI model"
 msgstr "Модель OpenAI"
 
 #: weblate/machinery/forms.py:378
-#, fuzzy
-#| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
-msgstr "Настроить название компонента"
+msgstr "Название настраиваемой модели"
 
 #: weblate/machinery/forms.py:380
 msgid "Only needed when model is set to 'Custom model'"
 msgstr ""
 
 #: weblate/machinery/forms.py:390
-#, fuzzy
-#| msgid "Missing username or e-mail."
 msgid "Missing custom model name."
-msgstr "Не указано имя пользователя или эл. почта."
+msgstr "Не указано название настраиваемой модели."
 
 #: weblate/machinery/forms.py:394
 msgid "Choose custom model here to enable it."
@@ -5544,11 +5509,6 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "Ошибка проверки CSRF. Запрос отклонён."
 
 #: weblate/templates/403_csrf.html:15
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
@@ -5561,20 +5521,15 @@ msgstr ""
 "перехвачен или подменён."
 
 #: weblate/templates/403_csrf.html:16
-#, fuzzy
-#| msgid ""
-#| "If you have set up your web browser to not send 'Referer' headers, please "
-#| "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests)."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
 "Если вы настроили свой браузер таким образом, чтобы запретить ему передавать "
-"заголовок 'Referer', пожалуйста, разрешите ему отсылать данный заголовок по "
-"крайней мере для HTTPS-соединений c данным сайтом, или для запросов из того "
-"же источника 'same-origin'."
+"заголовок 'Referer', необходимо, разрешите ему отсылать данный заголовок (по "
+"крайней мере, для этого сайта, HTTPS-соединений или для запросов 'same-"
+"origin'."
 
 #: weblate/templates/403_csrf.html:18
 #, fuzzy
@@ -6007,10 +5962,8 @@ msgid "Set up your libre project"
 msgstr "Настройте свой свободный проект"
 
 #: weblate/templates/accounts/hosting.html:35
-#, fuzzy
-#| msgid "Your trial offer"
 msgid "Your trial"
-msgstr "Ваш пробный период"
+msgstr "Ваша пробная версия"
 
 #: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
@@ -6217,13 +6170,11 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:196
 msgid "Security keys (WebAuthn)"
-msgstr ""
+msgstr "Ключи безопасности (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:198
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no WebAuthn keys registered."
-msgstr "В настоящее время резервных копий нет."
+msgstr "В настоящее время не зарегистрировано ни одного ключа WebAuthn."
 
 #: weblate/templates/accounts/profile.html:203
 #: weblate/templates/accounts/profile.html:235
@@ -6239,13 +6190,11 @@ msgstr "Удалить"
 
 #: weblate/templates/accounts/profile.html:213
 msgid "Name your security key"
-msgstr ""
+msgstr "Название вашего ключа безопасности"
 
 #: weblate/templates/accounts/profile.html:214
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new security key"
-msgstr "Зарегистрировать новую учётную запись"
+msgstr "Зарегистрировать новый ключ безопасности"
 
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
@@ -6253,24 +6202,20 @@ msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
 #: weblate/templates/accounts/profile.html:228
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator apps (TOTP)"
-msgstr "Авторизация"
+msgstr "Приложения для аутентификации (TOTP)"
 
 #: weblate/templates/accounts/profile.html:230
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no authenticator apps registered."
-msgstr "В настоящее время резервных копий нет."
+msgstr ""
+"В настоящее время не зарегистрировано ни одного приложения для "
+"аутентификации."
 
 #: weblate/templates/accounts/profile.html:242
 #: weblate/templates/accounts/totp.html:11
 #: weblate/templates/accounts/totp.html:22
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new authenticator app"
-msgstr "Зарегистрировать новую учётную запись"
+msgstr "Зарегистрировать новое приложение для аутентификации"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/accounts/recovery-codes.html:11
@@ -6280,10 +6225,8 @@ msgstr "Коды восстановления"
 
 #: weblate/templates/accounts/profile.html:247
 #: weblate/templates/accounts/recovery-codes.html:41
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no recovery codes generated."
-msgstr "В настоящее время резервных копий нет."
+msgstr "На данный момент коды восстановления не сгенерированы."
 
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/accounts/recovery-codes.html:44
@@ -6295,13 +6238,13 @@ msgstr "Сгенерировать новые коды восстановлен�
 #, python-format
 msgid "%(count)s recovery code is available."
 msgid_plural "%(count)s recovery codes are available."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%(count)s код восстановления доступен."
+msgstr[1] "%(count)s кода восстановления доступно."
+msgstr[2] "%(count)s кодов восстановления доступно."
 
 #: weblate/templates/accounts/profile.html:257
 msgid "View recovery codes"
-msgstr ""
+msgstr "Просмотреть коды восстановления"
 
 #: weblate/templates/accounts/profile.html:269
 msgid "User data"
@@ -6473,13 +6416,16 @@ msgstr "Лицензии для отдельных переводов"
 
 #: weblate/templates/accounts/recovery-codes.html:20
 msgid "Two-factor recovery codes"
-msgstr ""
+msgstr "Двухфакторные коды восстановления"
 
 #: weblate/templates/accounts/recovery-codes.html:25
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
+"Коды восстановления можно использовать для доступа к вашей учетной записи, "
+"если вы потеряете доступ к своему устройству и не можете получить коды "
+"двухфакторной аутентификации."
 
 #: weblate/templates/accounts/recovery-codes.html:29
 msgid ""
@@ -6488,12 +6434,15 @@ msgid ""
 "password and other second factors. If you cannot find these codes when "
 "needed, you will lose access to your account."
 msgstr ""
+"Коды восстановления всегда храните в надёжном месте, например в менеджере "
+"паролей. Эти коды являются последним средством доступа к вашей учётной "
+"записи в случае потери пароля и других вторых факторов. Если в случае "
+"необходимости вы не сможете найти эти коды, то потеряете доступ к своей "
+"учётной записи."
 
 #: weblate/templates/accounts/recovery-codes.html:39
-#, fuzzy
-#| msgid "Repository URL copied to clipboard."
 msgid "Recovery codes copied to clipboard."
-msgstr "URL (адрес) репозитория скопирован в буфер обмена."
+msgstr "Коды восстановления скопированы в буфер обмена."
 
 #: weblate/templates/accounts/recovery-codes.html:47
 msgid ""
@@ -6509,10 +6458,8 @@ msgstr ""
 
 #: weblate/templates/accounts/recovery-codes.html:55
 #: weblate/templates/accounts/totp.html:49
-#, fuzzy
-#| msgid "Edit component settings"
 msgid "Back to account settings"
-msgstr "Правка настроек компонентов"
+msgstr "Вернуться к настройкам учётной записи"
 
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
@@ -6597,10 +6544,8 @@ msgid "You can also enter the secret key manually:"
 msgstr "Вы также можете ввести секретный ключ самостоятельно:"
 
 #: weblate/templates/accounts/totp.html:40
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Secret key copied to clipboard."
-msgstr "API ключ скопирован в буфер обмена."
+msgstr "Секретный ключ скопирован в буфер обмена."
 
 #: weblate/templates/accounts/totp.html:45
 #: weblate/templates/mail/shared-registration.html:22
@@ -6919,7 +6864,7 @@ msgstr "Переводы со вкладом"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
-msgstr ""
+msgstr "Вход с помощью ключа безопасности"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_detail.html:12
@@ -8030,10 +7975,9 @@ msgstr "Компонент обновляется…"
 
 #: weblate/templates/component-progress.html:31
 #: weblate/templates/multi-progress.html:26
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Continue to %(return_target)s"
-msgstr "Приглашение на %(project_name)s"
+msgstr "Продолжить с %(return_target)s"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
@@ -9507,16 +9451,14 @@ msgstr[1] "%(count)s незавершённые строки"
 msgstr[2] "%(count)s незавершённых строк"
 
 #: weblate/templates/mail/translated_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "The translations in several languages have failing checks"
+#, python-format
 msgid "Translations in all languages have been completed in %(component)s"
-msgstr "Переводы на несколько языков имеют неудачные проверки"
+msgstr "Переводы на все языки завершены в %(component)s"
 
 #: weblate/templates/mail/translated_language_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translations have been updated."
+#, python-format
 msgid "%(translation)s has been completed"
-msgstr "Переводы были обновлены."
+msgstr "%(translation)s завершено"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -10207,10 +10149,8 @@ msgid "Please try again later."
 msgstr "Повторите попытку позже."
 
 #: weblate/templates/registration/logged_out.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for using Weblate"
-msgstr "Благодарим за использование Weblate."
+msgstr "Благодарим за использование Weblate"
 
 #: weblate/templates/registration/logged_out.html:17
 #, fuzzy
@@ -11133,7 +11073,7 @@ msgstr "Все непереведённые строки, добавленные
 
 #: weblate/templates/snippets/query-builder.html:111
 msgid "Filter changed strings 2 weeks ago"
-msgstr ""
+msgstr "Фильтровать изменённые строки за 2 недели"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"
@@ -13750,10 +13690,8 @@ msgid "Component seems unused."
 msgstr "Компонент похож на неиспользуемый."
 
 #: weblate/trans/models/alert.py:666
-#, fuzzy
-#| msgid "The translation uses monolingual files."
 msgid "Glossary using monolingual files."
-msgstr "Перевод использует одноязычные файлы."
+msgstr "Словарь использует одноязычные файлы."
 
 #: weblate/trans/models/announcement.py:104
 #, fuzzy
@@ -14165,17 +14103,13 @@ msgstr "Строка добавлена в репозиторий"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:502
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String updated in the upload"
-msgstr "Строка обновлена в репозитории"
+msgstr "Строка обновлена при загрузке"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:504
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "String added in the upload"
-msgstr "Строка добавлена в репозиторий"
+msgstr "Строка добавлена при загрузке"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:506
@@ -14989,10 +14923,8 @@ msgid "Component list to assign"
 msgstr "Список компонентов для прикрепления"
 
 #: weblate/trans/models/label.py:28
-#, fuzzy
-#| msgid "Description"
 msgid "Label description"
-msgstr "Описание"
+msgstr "Описание метки"
 
 #: weblate/trans/models/project.py:129
 msgid "Public"
