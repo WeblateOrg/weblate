@@ -467,5 +467,5 @@ def get_sources(request: AuthenticatedHttpRequest, pk):
     return render(
         request,
         "screenshots/screenshot_sources_body.html",
-        {"sources": obj.units.order(), "object": obj},
+        {"object": obj},
     )
