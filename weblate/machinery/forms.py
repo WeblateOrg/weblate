@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
+import re
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -254,6 +255,31 @@ class ModernMTMachineryForm(KeyURLMachineryForm):
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         initial="https://api.modernmt.com/",
     )
+    context_vector = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration", "Context vector"
+        ),
+        help_text=gettext_lazy(
+            "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
+        ),
+        required=False,
+    )
+
+    def clean_context_vector(self):
+        """Validate context_vector field."""
+        pattern = r"^\d+:\d(?:\.\d{1,3})?$"
+        context_vector = self.cleaned_data["context_vector"]
+        if context_vector:
+            for couple in context_vector.split(","):
+                if not re.match(pattern, couple):
+                    raise ValidationError(
+                        gettext("The context vector is not valid: %s") % couple
+                    )
+                if not 0 < (weight := float(couple.split(":")[1])) < 1:
+                    raise ValidationError(
+                        gettext("The weight value must be between 0 and 1: %s") % weight
+                    )
+        return self.cleaned_data["context_vector"]
 
 
 class DeepLMachineryForm(KeyURLMachineryForm):
@@ -356,6 +382,7 @@ class OpenAIMachineryForm(BaseOpenAIMachineryForm):
     )
 
     def clean(self) -> None:
+        """Validate `custom_model, model` fields."""
         has_custom_model = bool(self.cleaned_data.get("custom_model"))
         model = self.cleaned_data.get("model")
         if model == "custom" and not has_custom_model:
@@ -373,16 +400,18 @@ class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
     azure_endpoint = WeblateServiceURLField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
-            "Azure OpenAI Endpoint URL",
+            "Azure OpenAI endpoint URL",
         ),
         widget=forms.TextInput,
-        help_text=gettext_lazy("Endpoint URL of the Azure OpenAI API"),
+        help_text=gettext_lazy(
+            "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
+        ),
     )
     deployment = forms.CharField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
-            "AzureOpenAI deployment",
+            "Azure OpenAI deployment",
         ),
         widget=forms.TextInput,
-        help_text=gettext_lazy("Deployment name of the Azure OpenAI model"),
+        help_text=gettext_lazy("The model's unique deployment name."),
     )

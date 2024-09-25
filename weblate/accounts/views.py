@@ -1095,7 +1095,7 @@ def reset_password(request: AuthenticatedHttpRequest):
                     "reset-nonexisting",
                     context={
                         "address": get_ip_address(request),
-                        "user_agent:": get_user_agent(request),
+                        "user_agent": get_user_agent(request),
                         "registration_hint": get_registration_hint(email),
                     },
                 )

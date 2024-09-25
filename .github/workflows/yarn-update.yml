@@ -32,7 +32,7 @@ jobs:
     - run: |
         if [ -d client ] ; then
           cd client
-          yarn install
+          yarn install --check-files
           yarn build
           cd ..
         fi

@@ -1793,14 +1793,15 @@ class Unit(models.Model, LoggerMixin):
         file_format_support = (
             self.translation.component.file_format_cls.supports_explanation
         )
-        units: Iterable[Unit]
+        units: Iterable[Unit] = []
         if file_format_support:
             if self.is_source:
                 units = self.unit_set.exclude(id=self.id)
                 units.update(pending=True)
             else:
-                units = [self]
                 self.pending = True
+            # Always generate change for self
+            units = [*units, self]
         if save:
             self.save(update_fields=["explanation", "pending"], only_save=True)
 

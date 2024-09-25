@@ -21,7 +21,7 @@ from django.utils.functional import cached_property
 from django.utils.timezone import make_aware
 from django.utils.translation import gettext_lazy, gettext_noop
 
-from weblate.configuration.models import Setting
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
@@ -617,7 +617,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         return get_glossary_automaton(self)
 
     def get_machinery_settings(self):
-        settings = Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
+        settings = Setting.objects.get_settings_dict(SettingCategory.MT)
         for item, value in self.machinery_settings.items():
             if value is None:
                 if item in settings:

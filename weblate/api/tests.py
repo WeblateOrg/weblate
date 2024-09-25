@@ -237,7 +237,9 @@ class UserAPITest(APIBaseTest):
             code=200,
             request={"group_id": group.id},
         )
-        self.assertIn("http://example.com/api/groups/2/", response.data["groups"])
+        self.assertIn(
+            f"http://example.com/api/groups/{group.id}/", response.data["groups"]
+        )
         response = self.do_request(
             "api:user-groups",
             kwargs={"username": username},
@@ -246,7 +248,9 @@ class UserAPITest(APIBaseTest):
             code=200,
             request={"group_id": group.id},
         )
-        self.assertNotIn("http://example.com/api/groups/2/", response.data["groups"])
+        self.assertNotIn(
+            "http://example.com/api/groups/{group.id}/", response.data["groups"]
+        )
 
     def test_list_notifications(self) -> None:
         response = self.do_request(

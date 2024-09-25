@@ -5,14 +5,17 @@ Not yet released.
 
 **New features**
 
-* :ref:`Searching` now supports filtering by object path.
+* :ref:`Searching` now supports filtering by object path and :ref:`date-search`.
 * Merge requests credentials can now be passed in the repository URL, see :ref:`settings-credentials`.
 * :ref:`mt-azure-openai` automatic suggestion service.
 
 **Improvements**
 
+* :ref:`mt-modernmt` supports :ref:`glossary-mt`.
 * :ref:`mt-deepl` now supports specifying translation context.
 * :ref:`mt-aws` now supports :ref:`glossary-mt`.
+* :ref:`autofix` for Devanagari danda now better handles latin script.
+* :ref:`autofix` for French and Breton now uses a non-breaking space before colons instead of a narrow one.
 
 **Bug fixes**
 

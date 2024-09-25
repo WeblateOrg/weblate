@@ -449,7 +449,7 @@ Related :file:`docker-compose.yml` might look like:
 
 .. seealso::
 
-   `How to use secrets in Docker Compose <https://docs.docker.com/compose/use-secrets/>`_
+   `How to use secrets in Docker Compose <https://docs.docker.com/compose/how-tos/use-secrets/>`_
 
 Generic settings
 ++++++++++++++++

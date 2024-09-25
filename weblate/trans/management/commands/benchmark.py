@@ -58,7 +58,16 @@ class Command(BaseCommand):
             file_format=options["format"],
             project=project,
         )
-        profiler.runcall(component.after_save, True, False, False, False, True, True)
+        profiler.enable()
+        component.after_save(
+            changed_git=True,
+            changed_setup=False,
+            changed_template=False,
+            changed_variant=False,
+            skip_push=True,
+            create=True,
+        )
+        profiler.disable()
         stats = pstats.Stats(profiler, stream=self.stdout)
         stats.sort_stats(options["profile_sort"])
         stats.print_stats(options["profile_filter"], options["profile_count"])

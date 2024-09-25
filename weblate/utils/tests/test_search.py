@@ -177,8 +177,15 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             )
             & action_change,
         )
+        self.assert_query(
+            "changed:>'March 1, 2019'",
+            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=timezone.utc))
+            & action_change,
+        )
         with self.assertRaises(ValueError):
-            self.assert_query("changed:>=2010-01-", Q())
+            self.assert_query("changed:>'Not a date'", Q())
+        with self.assertRaises(ValueError):
+            self.assert_query("changed:>'Invalid 1, 2019'", Q())
 
     def test_date_range(self) -> None:
         self.assert_query(

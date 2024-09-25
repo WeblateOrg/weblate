@@ -19,12 +19,22 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Unit
 
-FRENCH_PUNCTUATION = {";", ":", "?", "!"}
+FRENCH_PUNCTUATION_NBSP = {":"}
+FRENCH_PUNCTUATION_NNBSP = {";", "?", "!"}
+FRENCH_PUNCTUATION = FRENCH_PUNCTUATION_NBSP.union(FRENCH_PUNCTUATION_NNBSP)
 FRENCH_PUNCTUATION_SPACING = {"Zs", "Ps", "Pe"}
-FRENCH_PUNCTUATION_FIXUP_RE = "([ \u00a0\u2009])([{}])".format(
-    "".join(FRENCH_PUNCTUATION)
+FRENCH_PUNCTUATION_FIXUP_RE_NBSP = "([ \u2009\u202f])([{}])".format(
+    "".join(FRENCH_PUNCTUATION_NBSP)
 )
-FRENCH_PUNCTUATION_MISSING_RE = "([^\u202f])([{}])".format("".join(FRENCH_PUNCTUATION))
+FRENCH_PUNCTUATION_FIXUP_RE_NNBSP = "([ \u00a0\u2009])([{}])".format(
+    "".join(FRENCH_PUNCTUATION_NNBSP)
+)
+FRENCH_PUNCTUATION_MISSING_RE_NBSP = "([^\u00a0])([{}])".format(
+    "".join(FRENCH_PUNCTUATION_NBSP)
+)
+FRENCH_PUNCTUATION_MISSING_RE_NNBSP = "([^\u202f])([{}])".format(
+    "".join(FRENCH_PUNCTUATION_NNBSP)
+)
 MY_QUESTION_MARK = "\u1038\u104b"
 INTERROBANGS = ("?!", "!?", "？！", "！？", "⁈", "⁉")
 
@@ -487,13 +497,23 @@ class PunctuationSpacingCheck(TargetCheck):
         return [
             # First fix possibly wrong whitespace
             (
-                FRENCH_PUNCTUATION_FIXUP_RE,
+                FRENCH_PUNCTUATION_FIXUP_RE_NBSP,
+                "\u00a0$2",
+                "gu",
+            ),
+            (
+                FRENCH_PUNCTUATION_FIXUP_RE_NNBSP,
                 "\u202f$2",
                 "gu",
             ),
             # Then add missing ones
             (
-                FRENCH_PUNCTUATION_MISSING_RE,
+                FRENCH_PUNCTUATION_MISSING_RE_NBSP,
+                "$1\u00a0$2",
+                "gu",
+            ),
+            (
+                FRENCH_PUNCTUATION_MISSING_RE_NNBSP,
                 "$1\u202f$2",
                 "gu",
             ),
