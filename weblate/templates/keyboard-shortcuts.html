@@ -5,7 +5,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans " Close" %}">
+        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}">
           <span aria-hidden="true">&times;
         </button>
         <h4 id="shortcutsModal" class="panel-title">{% trans "Available Shortcuts" %}</h4>
@@ -33,7 +33,7 @@
             </tr>
             <tr>
               <td>
-                <kbd>Alt</kbd> + <kbd>PageUp</kbd> {% trans "or" %} <br>
+                <kbd>Alt</kbd> + <kbd>PageUp</kbd> {% translate "or" context "between keyboard shortcuts" %} <br>
                 <kbd>Ctrl</kbd> + <kbd>↑</kbd> {% trans "or" %} <br>
                 <kbd>Alt</kbd> + <kbd>↑</kbd> {% trans "or" %} <br>
                 <kbd>Cmd</kbd> + <kbd>↑</kbd> {% trans "or" %} <br>
@@ -153,7 +153,11 @@
               <td>
                 <kbd>→</kbd> and <br> <kbd>←</kbd>
               </td>
-              <td>{% trans "Browse the next translation strings. <br> Browse the previous translation strings."%}</td>
+              <td>
+                {% trans "Browse the next translation strings." %}
+                <br>
+                {% trans "Browse the previous translation strings."%}
+              </td>
             </tr>
           </tbody>
         </table>
