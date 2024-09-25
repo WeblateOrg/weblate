@@ -35,7 +35,7 @@ from weblate.auth.models import AuthenticatedHttpRequest, Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
-from weblate.configuration.models import Setting
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
@@ -969,7 +969,7 @@ class AutoForm(forms.Form):
         else:
             # Site-wide add-ons
             self.components = Component.objects.all()
-            machinery_settings = Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
+            machinery_settings = Setting.objects.get_settings_dict(SettingCategory.MT)
 
         # Fetching first few entries is faster than doing a count query on possibly
         # thousands of components

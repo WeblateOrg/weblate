@@ -30,7 +30,7 @@ from google.cloud.translate import (
 
 import weblate.machinery.models
 from weblate.checks.tests.test_checks import MockTranslation, MockUnit
-from weblate.configuration.models import Setting
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.lang.models import Language
 from weblate.machinery.alibaba import AlibabaTranslation
 from weblate.machinery.apertium import ApertiumAPYTranslation
@@ -2220,7 +2220,7 @@ class ViewsTest(FixtureTestCase):
         if service.get_identifier() not in weblate.machinery.models.MACHINERY:
             weblate.machinery.models.MACHINERY[service.get_identifier()] = service
         Setting.objects.create(
-            category=Setting.CATEGORY_MT, name=service.get_identifier(), value={}
+            category=SettingCategory.MT, name=service.get_identifier(), value={}
         )
         return service
 
@@ -2296,13 +2296,13 @@ class ViewsTest(FixtureTestCase):
         self.client.post(edit_url, {"delete": "1"})
         self.assertFalse(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=service.get_identifier()
+                category=SettingCategory.MT, name=service.get_identifier()
             ).exists()
         )
         self.client.post(edit_url, {"install": "1"})
         self.assertTrue(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=service.get_identifier()
+                category=SettingCategory.MT, name=service.get_identifier()
             ).exists()
         )
 
@@ -2327,7 +2327,7 @@ class ViewsTest(FixtureTestCase):
         self.client.post(edit_url, {"delete": "1"})
         self.assertTrue(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=service.get_identifier()
+                category=SettingCategory.MT, name=service.get_identifier()
             ).exists()
         )
         project = Project.objects.get(pk=self.project.id)
@@ -2335,7 +2335,7 @@ class ViewsTest(FixtureTestCase):
         self.client.post(edit_url, {"enable": "1"})
         self.assertTrue(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=service.get_identifier()
+                category=SettingCategory.MT, name=service.get_identifier()
             ).exists()
         )
         project = Project.objects.get(pk=self.component.project_id)
@@ -2346,7 +2346,7 @@ class ViewsTest(FixtureTestCase):
         self.user.save()
 
         identifier = "nonexisting"
-        Setting.objects.create(category=Setting.CATEGORY_MT, name=identifier, value={})
+        Setting.objects.create(category=SettingCategory.MT, name=identifier, value={})
         list_url = reverse("manage-machinery")
         edit_url = reverse("machinery-edit", kwargs={"machinery": identifier})
         response = self.client.get(list_url)
@@ -2355,14 +2355,14 @@ class ViewsTest(FixtureTestCase):
         self.client.post(edit_url, {"delete": "1"})
         self.assertFalse(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=identifier
+                category=SettingCategory.MT, name=identifier
             ).exists()
         )
         response = self.client.post(edit_url, {"install": "1"})
         self.assertEqual(response.status_code, 404)
         self.assertFalse(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=identifier
+                category=SettingCategory.MT, name=identifier
             ).exists()
         )
 
