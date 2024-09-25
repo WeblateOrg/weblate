@@ -2258,7 +2258,14 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
     _apihost = "bitbucket.org"
 
     def mock_responses(self):
-        # list repo forks
+        """
+        Mock the successful responses Bitbucket Cloud API.
+
+            - list repo forks
+            - create a fork
+            - list default reviewers
+            - create a pull request
+        """
         responses.add(
             responses.GET,
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
@@ -2270,7 +2277,6 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
             status=200,
         )
 
-        # create a fork
         responses.add(
             responses.POST,
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
@@ -2301,7 +2307,6 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
             status=200,
         )
 
-        # list default reviewers
         responses.add(
             responses.GET,
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/default-reviewers",
@@ -2319,7 +2324,6 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
             status=200,
         )
 
-        # create a pull request
         responses.add(
             responses.POST,
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/pullrequests",
@@ -2336,6 +2340,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
 
     @responses.activate
     def test_push(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud."""
         self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
         self.mock_responses()
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
@@ -2343,6 +2348,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
 
     @responses.activate
     def test_push_with_http(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud with HTTP repo link."""
         self.repo.component.repo = "https://bitbucket.org/WeblateOrg/test.git"
         self.mock_responses()
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
@@ -2350,6 +2356,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
 
     @responses.activate
     def test_push_with_missing_permission(self, branch: str = "") -> None:
+        """Test push with missing permission for App Password."""
         self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
 
         self.mock_responses()
@@ -2373,6 +2380,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
 
     @responses.activate
     def test_default_reviewers_error(self, branch: str = "") -> None:
+        """Test default reviewers error, push expected to be successful."""
         self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
         self.mock_responses()
 
@@ -2396,6 +2404,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
 
     @responses.activate
     def test_paginated_reviewers_list(self, branch: str = "") -> None:
+        """Test the 'build_full_paginated_result' with default reviewers list."""
         self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
         self.mock_responses()
 
@@ -2446,6 +2455,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
 
     @responses.activate
     def test_push_nothing_to_merge(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud with no changes to be merged."""
         self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
         self.mock_responses()
 
@@ -2464,6 +2474,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
 
     @responses.activate
     def test_fork_already_exists(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud with HTTP repo link."""
         self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
         self.mock_responses()
 
@@ -2501,6 +2512,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
 
     @responses.activate
     def test_fork_name_already_taken(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud with HTTP repo link."""
         self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
         responses.add(
             responses.POST,

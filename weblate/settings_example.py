@@ -220,6 +220,10 @@ GITLAB_CREDENTIALS = {}
 # Please see the documentation for more details.
 BITBUCKETSERVER_CREDENTIALS = {}
 
+# Bitbucket username, app-password and workspace for sending merge requests.
+# Please see the documentation for more details.
+BITBUCKETCLOUD_CREDENTIALS = {}
+
 # Authentication configuration
 AUTHENTICATION_BACKENDS: tuple[str, ...] = (
     "social_core.backends.email.EmailAuth",

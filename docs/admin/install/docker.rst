@@ -1112,6 +1112,14 @@ Or the path to a file containing the Python dictionary:
 
     Configures :ref:`vcs-bitbucket-server` by changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
 
+.. envvar:: WEBLATE_BITBUCKETCLOUD_USERNAME
+.. envvar:: WEBLATE_BITBUCKETCLOUD_WORKSPACE
+.. envvar:: WEBLATE_BITBUCKETCLOUD_TOKEN
+.. envvar:: WEBLATE_BITBUCKETCLOUD_HOST
+.. envvar:: WEBLATE_BITBUCKETCLOUD_CREDENTIALS
+
+    Configures :ref:`vcs-bitbucket-cloud` by changing :setting:`BITBUCKETCLOUD_CREDENTIALS`.
+
     .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
 .. envvar:: WEBLATE_AZURE_DEVOPS_USERNAME

@@ -1121,7 +1121,6 @@ class GitMergeRequestBase(GitForcePushRepository):
         data: dict | None = None,
         params: dict | None = None,
         json: dict | None = None,
-        auth: tuple[str, str] | None = None,
         retry: int = 0,
     ) -> tuple[dict, requests.Response, str]:
         do_retry = False
@@ -1150,7 +1149,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                         data=data,
                         params=params,
                         json=json,
-                        auth=auth or self.get_auth(credentials),
+                        auth=self.get_auth(credentials),
                         timeout=5,
                     )
                 except (OSError, HTTPError) as error:
@@ -2164,20 +2163,24 @@ class BitbucketCloudRepository(GitMergeRequestBase):
     REQUIRED_CONFIG = {"username", "token", "workspace"}
 
     def get_credentials(self) -> dict[str, str]:
+        """Return credentials for Bitbucket Cloud."""
         super_credentials = super().get_credentials()
         credentials = self.get_credentials_by_hostname(super_credentials["hostname"])
         super_credentials["workspace"] = credentials["workspace"]
         return super_credentials
 
     def get_auth(self, credentials: dict[str, str]) -> tuple[str, str]:
+        """Return Bitbucket Cloud authentication App Password credentials."""
         return credentials["username"], credentials["token"]
 
     def get_headers(self, credentials: dict[str, str]) -> dict[str, str]:
+        """Return HTTP headers for Bitbucket Cloud API requests."""
         return {
             "Accept": "application/json",
         }
 
     def get_default_reviewers_uuids(self, credentials: dict[str, str]) -> list[str]:
+        """Get a list of uuids of default reviewers for a repository."""
         list_reviewers_url = "{}/default-reviewers".format(credentials["url"])
         try:
             reviewers = self.build_full_paginated_result(
@@ -2194,6 +2197,12 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         url: str,
         error_message: str,
     ) -> list[Any]:
+        """
+        Build result from paginated endpoint of Bitbucket Cloud.
+
+        This method assumes that the result is an array of objects
+        and that the request method is "GET"
+        """
         result: list[Any] = []
         next_url = url
 
@@ -2217,6 +2226,11 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         fork_remote: str,
         fork_branch: str,
     ) -> None:
+        """
+        Create pull request on Bitbucket Cloud.
+
+        Returns the PR data is PR already exists
+        """
         pr_url = "{}/pullrequests".format(credentials["url"])
         title, description = self.get_merge_message()
 
@@ -2250,6 +2264,13 @@ class BitbucketCloudRepository(GitMergeRequestBase):
             self.failed_pull_request(error, pr_url, response, response_data)
 
     def create_fork(self, credentials: dict[str, str]) -> None:
+        """
+        Create a fork of the given repository.
+
+        This method will first check if a fork already exists.
+        If it does, it will use that fork.
+        If not, it will create a new fork.
+        """
         fork_url = "{}/forks".format(credentials["url"])
         payload = {"workspace": {"slug": credentials["workspace"]}}
 
@@ -2298,7 +2319,8 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         self.configure_fork_remote(ssh_url_to_repo, http_url_to_repo, credentials)
 
     def list_repo_forks(self, credentials: dict[str, str]) -> list[dict[str, Any]]:
-        list_forks_url = "{}/forks?role=owner".format(credentials["url"])
+        """List all forks of a repository."""
+        list_forks_url = "{}/forks".format(credentials["url"])
         return self.build_full_paginated_result(
             credentials, list_forks_url, "Forks listing error: "
         )
