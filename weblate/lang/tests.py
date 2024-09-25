@@ -291,7 +291,7 @@ class BasicLanguagesTest(TestCase):
             )
 
 
-class TestSequenceMeta(type):
+class LanguageTestSequenceMeta(type):
     def __new__(mcs, name, bases, dict):  # noqa: N804, A002
         def gen_test(original, expected, direction, plural, name, create):
             def test(self) -> None:
@@ -310,7 +310,7 @@ class TestSequenceMeta(type):
         return type.__new__(mcs, name, bases, dict)
 
 
-class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
+class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
     def setUp(self) -> None:
         # Ensure we're using English
         activate("en")
