@@ -271,6 +271,10 @@ class Notification:
                     "headers": headers,
                 }
             )
+            # Avoid building huge queue of notifications
+            if len(self.outgoing) > 200:
+                send_mails.delay(self.outgoing)
+                self.outgoing.clear()
 
     def render_template(self, suffix: str, context: dict, digest: bool = False) -> str:
         """Render single mail template with given context."""
