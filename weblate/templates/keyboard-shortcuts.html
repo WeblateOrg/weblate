@@ -1,12 +1,4 @@
-{% load compress %}
 {% load i18n %}
-{% load static %}
-
-{% block extra_script%}
-{% compress js %}
-<script defer data-cfasync="false" src="{% static 'js/keyboard-shortcuts.js' %}{{ cache_param }}"></script>
-{% endcompress%}
-{% endblock %}
 
 <!-- Modal that shows available keyboard shortcuts  -->
 <div class="modal fade " id="shortcuts-modal" tabindex="-1" role="dialog" aria-labelledby="shortcutsModal">
