@@ -2375,7 +2375,10 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
             },
         )
 
-        with self.assertRaises(RepositoryError):
+        with (
+            self.assertRaises(RepositoryError),
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""),
+        ):
             super().test_push(branch)
 
     @responses.activate
@@ -2530,4 +2533,27 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
         )
         self.mock_responses()
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_fork_error(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud with HTTP repo link."""
+        self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
+        self.mock_responses()
+        responses.replace(
+            responses.POST,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
+            json={
+                "type": "error",
+                "error": {
+                    "message": "name: Unknown error not related to name.",
+                    "fields": {"name": ["Unknown error not related to name."]},
+                },
+            },
+            status=400,
+        )
+        with (
+            self.assertRaises(RepositoryError),
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""),
+        ):
             super().test_push(branch)

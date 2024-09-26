@@ -391,12 +391,14 @@ class GitRepository(Repository):
             (
                 'remote "origin"',
                 "fetch",
-                dumps(
-                    f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
-                    ensure_ascii=False,
-                )
-                if fast
-                else "+refs/heads/*:refs/remotes/origin/*",
+                (
+                    dumps(
+                        f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
+                        ensure_ascii=False,
+                    )
+                    if fast
+                    else "+refs/heads/*:refs/remotes/origin/*"
+                ),
             ),
             # Disable fetching tags
             ('remote "origin"', "tagOpt", "--no-tags"),
@@ -2159,6 +2161,8 @@ class BitbucketServerRepository(GitMergeRequestBase):
 
 
 class BitbucketCloudRepository(GitMergeRequestBase):
+    """Bitbucket Cloud repository implementation."""
+
     name = gettext_lazy("Bitbucket Cloud merge request")
     identifier = "bitbucketcloud"
     _version = None
@@ -2309,14 +2313,20 @@ class BitbucketCloudRepository(GitMergeRequestBase):
             forked_repo = response_data
 
         ssh_url_to_repo = next(
-            link["href"]
-            for link in forked_repo["links"]["clone"]
-            if link["name"] == "ssh"
+            (
+                link["href"]
+                for link in forked_repo["links"]["clone"]
+                if link["name"] == "ssh"
+            ),
+            "",
         )
         http_url_to_repo = next(
-            link["href"]
-            for link in forked_repo["links"]["clone"]
-            if link["name"] == "https"
+            (
+                link["href"]
+                for link in forked_repo["links"]["clone"]
+                if link["name"] == "https"
+            ),
+            "",
         )
 
         self.configure_fork_remote(ssh_url_to_repo, http_url_to_repo, credentials)
