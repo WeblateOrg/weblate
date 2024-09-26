@@ -1427,6 +1427,7 @@ $(function () {
       endDate:
         $("input[name='period']#id_period").attr("data-end-date") || moment(),
       alwaysShowCalendars: true,
+      cancelButtonClasses: "btn-warning",
       opens: "left",
       locale: {
         customRangeLabel: gettext("Custom range"),
