@@ -8,6 +8,7 @@ Not yet released.
 * :ref:`Searching` now supports filtering by object path and :ref:`date-search`.
 * Merge requests credentials can now be passed in the repository URL, see :ref:`settings-credentials`.
 * :ref:`mt-azure-openai` automatic suggestion service.
+* :ref:`vcs-bitbucket-cloud`.
 
 **Improvements**
 
