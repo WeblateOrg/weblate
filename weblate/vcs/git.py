@@ -15,7 +15,7 @@ import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
 from json import JSONDecodeError, dumps
 from time import sleep, time
-from typing import TYPE_CHECKING, NoReturn
+from typing import TYPE_CHECKING, Any, NoReturn
 from zipfile import ZipFile
 
 import requests
@@ -391,12 +391,14 @@ class GitRepository(Repository):
             (
                 'remote "origin"',
                 "fetch",
-                dumps(
-                    f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
-                    ensure_ascii=False,
-                )
-                if fast
-                else "+refs/heads/*:refs/remotes/origin/*",
+                (
+                    dumps(
+                        f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
+                        ensure_ascii=False,
+                    )
+                    if fast
+                    else "+refs/heads/*:refs/remotes/origin/*"
+                ),
             ),
             # Disable fetching tags
             ('remote "origin"', "tagOpt", "--no-tags"),
@@ -2156,3 +2158,182 @@ class BitbucketServerRepository(GitMergeRequestBase):
             if pr_exist_message in error_message:
                 return
             self.failed_pull_request(error_message, pr_url, response, response_data)
+
+
+class BitbucketCloudRepository(GitMergeRequestBase):
+    """Bitbucket Cloud repository implementation."""
+
+    name = gettext_lazy("Bitbucket Cloud merge request")
+    identifier = "bitbucketcloud"
+    _version = None
+    API_TEMPLATE = "{scheme}://api.{host}/2.0/repositories/{owner}/{slug}"
+    REQUIRED_CONFIG = {"username", "token", "workspace"}
+
+    def get_credentials(self) -> dict[str, str]:
+        """Return credentials for Bitbucket Cloud."""
+        super_credentials = super().get_credentials()
+        credentials = self.get_credentials_by_hostname(super_credentials["hostname"])
+        super_credentials["workspace"] = credentials["workspace"]
+        return super_credentials
+
+    def get_auth(self, credentials: dict[str, str]) -> tuple[str, str]:
+        """Return Bitbucket Cloud authentication App Password credentials."""
+        return credentials["username"], credentials["token"]
+
+    def get_headers(self, credentials: dict[str, str]) -> dict[str, str]:
+        """Return HTTP headers for Bitbucket Cloud API requests."""
+        return {
+            "Accept": "application/json",
+        }
+
+    def get_default_reviewers_uuids(self, credentials: dict[str, str]) -> list[str]:
+        """Get a list of uuids of default reviewers for a repository."""
+        list_reviewers_url = "{}/default-reviewers".format(credentials["url"])
+        try:
+            reviewers = self.build_full_paginated_result(
+                credentials, list_reviewers_url, "Reviewers listing error: "
+            )
+        except RepositoryError:
+            return []
+
+        return [reviewer["uuid"] for reviewer in reviewers]
+
+    def build_full_paginated_result(
+        self,
+        credentials: dict[str, str],
+        url: str,
+        error_message: str,
+    ) -> list[Any]:
+        """
+        Build result from paginated endpoint of Bitbucket Cloud.
+
+        This method assumes that the result is an array of objects
+        and that the request method is "GET"
+        """
+        result: list[Any] = []
+        next_url = url
+
+        while next_url:
+            response_data, _response, error = self.request("get", credentials, next_url)
+
+            if error:
+                raise RepositoryError(
+                    0,
+                    f"{error_message} {error}",
+                )
+
+            result.extend(response_data["values"])
+            next_url = response_data.get("next")
+        return result
+
+    def create_pull_request(
+        self,
+        credentials: dict[str, str],
+        origin_branch: str,
+        fork_remote: str,
+        fork_branch: str,
+    ) -> None:
+        """
+        Create pull request on Bitbucket Cloud.
+
+        Returns the PR data is PR already exists
+        """
+        pr_url = "{}/pullrequests".format(credentials["url"])
+        title, description = self.get_merge_message()
+
+        payload = {
+            "title": title,
+            "description": {"raw": description},
+            "source": {
+                "branch": {"name": fork_branch},
+                "repository": {"type": "repository", "name": fork_remote},
+            },
+            "destination": {
+                "branch": {"name": origin_branch},
+            },
+            "reviewers": [
+                {"uuid": reviewer}
+                for reviewer in self.get_default_reviewers_uuids(credentials)
+            ],
+        }
+
+        response_data, response, error = self.request(
+            "post", credentials, pr_url, json=payload
+        )
+        # Bitbucket Cloud handles Pull request already exists
+        # and just returns its data
+
+        if response_data["type"] == "error":
+            # gracefully handle nothing to merge case
+            if "There are no changes to be pulled" in error:
+                return
+
+            self.failed_pull_request(error, pr_url, response, response_data)
+
+    def create_fork(self, credentials: dict[str, str]) -> None:
+        """
+        Create a fork of the given repository.
+
+        This method will first check if a fork already exists.
+        If it does, it will use that fork.
+        If not, it will create a new fork.
+        """
+        fork_url = "{}/forks".format(credentials["url"])
+        payload = {"workspace": {"slug": credentials["workspace"]}}
+
+        forked_repo: dict | None = None
+
+        # list forks of users, if fork already exist, set remote_fork as fork
+        for fork in self.list_repo_forks(credentials):
+            if fork["owner"]["username"] == credentials["workspace"]:
+                forked_repo = fork
+
+        if forked_repo is None:
+            response_data, response, error = self.request(
+                "post", credentials, fork_url, json=payload
+            )
+
+            # if name is already taken, append an numeric value at the end
+            if "already has a repository with this name" in error:
+                fork_name = "{}-{}".format(
+                    credentials["slug"],
+                    random.randint(1000, 9999),  # noqa: S311
+                )
+                payload["name"] = fork_name
+
+                response_data, response, error = self.request(
+                    "post", credentials, fork_url, json=payload
+                )
+
+            if response_data["type"] == "error":
+                raise RepositoryError(
+                    0, self.get_fork_failed_message(error, credentials, response)
+                )
+
+            forked_repo = response_data
+
+        ssh_url_to_repo = next(
+            (
+                link["href"]
+                for link in forked_repo["links"]["clone"]
+                if link["name"] == "ssh"
+            ),
+            "",
+        )
+        http_url_to_repo = next(
+            (
+                link["href"]
+                for link in forked_repo["links"]["clone"]
+                if link["name"] == "https"
+            ),
+            "",
+        )
+
+        self.configure_fork_remote(ssh_url_to_repo, http_url_to_repo, credentials)
+
+    def list_repo_forks(self, credentials: dict[str, str]) -> list[dict[str, Any]]:
+        """List all forks of a repository."""
+        list_forks_url = "{}/forks".format(credentials["url"])
+        return self.build_full_paginated_result(
+            credentials, list_forks_url, "Forks listing error: "
+        )
