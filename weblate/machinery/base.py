@@ -14,7 +14,7 @@ from collections.abc import Iterable, Iterator
 from hashlib import md5
 from html import escape, unescape
 from itertools import chain
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, NotRequired, TypedDict
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -79,16 +79,15 @@ class SettingsDict(TypedDict, total=False):
     custom_model: str
 
 
-class TranslationResultDict(TypedDict, total=False):
+class TranslationResultDict(TypedDict):
     text: str
     quality: int
     service: str
     source: str
-    # TODO: only following are actually optional, but this can be specified
-    # in Python 3.11+, mark these by NotRequired
-    show_quality: bool
-    origin: str
-    origin_url: str
+    show_quality: NotRequired[bool]
+    origin: NotRequired[str]
+    origin_url: NotRequired[str]
+    delete_url: NotRequired[str]
 
 
 class UnitMemoryResultDict(TypedDict, total=False):

@@ -8,7 +8,7 @@ import codecs
 import os
 import tempfile
 from itertools import chain
-from typing import TYPE_CHECKING, BinaryIO, TypedDict
+from typing import TYPE_CHECKING, BinaryIO, NotRequired, TypedDict
 
 import sentry_sdk
 from django.core.cache import cache
@@ -61,17 +61,15 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
-class NewUnitParams(TypedDict, total=False):
-    # TODO: only some are actually optional, mark these by NotRequired
-    # in Python 3.11+
-    context: str
+class NewUnitParams(TypedDict):
+    context: NotRequired[str]
     source: str | list[str]
-    target: str | list[str] | None
-    auto_context: bool
-    extra_flags: str | None
-    explanation: str
-    state: int | None
-    skip_existing: bool
+    target: NotRequired[str | list[str] | None]
+    auto_context: NotRequired[bool]
+    extra_flags: NotRequired[str | None]
+    explanation: NotRequired[str]
+    state: NotRequired[int | None]
+    skip_existing: NotRequired[bool]
 
 
 class TranslationManager(models.Manager):
