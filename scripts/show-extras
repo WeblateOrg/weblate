@@ -5,8 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
-
-import tomli
+import tomllib
 
 print(
     """
@@ -22,7 +21,7 @@ print(
 )
 
 with open("pyproject.toml", "rb") as handle:
-    toml_dict = tomli.load(handle)
+    toml_dict = tomllib.load(handle)
 
 for section, data in toml_dict["project"]["optional-dependencies"].items():
     if section in {"all", "ci", "dev", "lint", "mypy", "test"}:
