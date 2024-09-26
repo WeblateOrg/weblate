@@ -1423,13 +1423,20 @@ class Unit(models.Model, LoggerMixin):
         if not self.is_batch_update and (create or old_checks):
             self.translation.invalidate_cache()
 
-    def nearby(self, count):
+    def nearby(self, count: int):
         """Return list of nearby messages based on location."""
+        if self.position == 0:
+            return Unit.objects.none()
         with sentry_sdk.start_span(op="unit.nearby"):
-            result = self.translation.unit_set.prefetch_full().order_by("position")
-            result = result.filter(
-                position__gte=self.position - count,
-                position__lte=self.position + count,
+            # Limiting the query is needed to avoid issues when unit
+            # position is not properly populated
+            result = (
+                self.translation.unit_set.prefetch_full()
+                .order_by("position")
+                .filter(
+                    position__gte=self.position - count,
+                    position__lte=self.position + count,
+                )[: ((2 * count) + 1)]
             )
             # Force materializing the query
             list(result)
