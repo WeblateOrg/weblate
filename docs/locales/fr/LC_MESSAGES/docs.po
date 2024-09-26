@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-26 16:32+0000\n"
+"PO-Revision-Date: 2024-09-27 02:37+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -50629,6 +50629,8 @@ msgid ""
 "The Weblate public key is visible to all users browsing the :guilabel:"
 "`About` page."
 msgstr ""
+"La clé publique Weblate est visible pour tous les utilisateurs en affichant "
+"la page :guilabel:`A propos`."
 
 #: ../../vcs.rst:97
 msgid ""
@@ -50636,12 +50638,17 @@ msgid ""
 "the connection (from :guilabel:`SSH keys`) on the admin interface landing "
 "page."
 msgstr ""
+"Les administrateurs peuvent générer ou afficher la clé publique utilisée "
+"actuellement par Weblate pour la connexion (de :guilabel:`clé SSH`) sur la "
+"page de l'interface administrateur."
 
 #: ../../vcs.rst:102
 msgid ""
 "The corresponding private SSH key can not currently have a password, so "
 "ensure it is well protected."
 msgstr ""
+"La clé privée SSH correspondante ne peut pas avoir actuellement de mot de "
+"passe donc assurez-vous qu'elle soit bien protégée."
 
 #: ../../vcs.rst:107
 msgid "Make a backup of the generated private Weblate SSH key."
@@ -50876,12 +50883,17 @@ msgid ""
 "also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see :setting:"
 "`DATA_DIR`), otherwise Git executed by Weblate will not use it."
 msgstr ""
+"La configuration du proxy doit être faite avec un utilisateur qui exécute "
+"Weblate (voir aussi :ref:`file-permissions`) et avec ``HOME=$DATA_DIR/home`` "
+"(voir :setting:`DATA_DIR`), sinon Git executé par Weblate ne l'utilisera pas."
 
 #: ../../vcs.rst:255
 msgid ""
 "`The cURL manpage <https://curl.se/docs/manpage.html>`_, `Git config "
 "documentation <https://git-scm.com/docs/git-config>`_"
 msgstr ""
+"`Manuel cURL <https://curl.se/docs/manpage.html>`_, `Documentation de "
+"configuration Git <https://git-scm.com/docs/git-config>`_"
 
 #: ../../vcs.rst:262
 msgid "Git"
@@ -50909,6 +50921,9 @@ msgid ""
 "always force pushes. This is intended only in the case of using a separate "
 "repository for translations."
 msgstr ""
+"Cela se comporte exactement comme Git lui-même, la seule différence étant "
+"que les poussées sont toujours forcées. Ceci est prévu dans le cas "
+"uniquement où vous utilisez un dépôt séparé pour les traductions."
 
 #: ../../vcs.rst:283
 msgid ""
@@ -50928,6 +50943,9 @@ msgid ""
 "`DATA_DIR`), therefore editing the user configuration needs to be done in "
 "``DATA_DIR/home/.git``."
 msgstr ""
+"Weblate utilise toutes les commandes VCS avec ``HOME=$DATA_DIR/home`` (voir "
+":setting:`DATA_DIR`), c'est pourquoi pour modifier la configuration de "
+"l'utilisateur il faut être dans ``DATA_DIR/home/.git``."
 
 #: ../../vcs.rst:296
 msgid "Git remote helpers"
@@ -50938,6 +50956,9 @@ msgid ""
 "You can also use Git `remote helpers`_ for additionally supporting other "
 "version control systems, but be prepared to debug problems this may lead to."
 msgstr ""
+"Vous pouvez aussi utiliser Git `remote helpers`_ pour prendre en charge "
+"d'autres systèmes de contrôle de version supplémentaires, mais attendez-vous "
+"à avoir à déboguer les problèmes éventuels."
 
 #: ../../vcs.rst:301
 msgid ""
@@ -50947,6 +50968,11 @@ msgid ""
 "bin`). Make sure you have the corresponding version control systems "
 "installed."
 msgstr ""
+"Actuellement, les assistants pour Bazaar et Mercurial sont disponibles avec "
+"des dépôts séparés sur GitHub : `git-remote-hg`_ et `git-remote-bzr`_. "
+"Téléchargez-les manuellement et mettez à jour votre chemin de recherche (par "
+"exemple :file:`~/bin`). Assurez-vous que les systèmes de contrôle des "
+"versions sont installés."
 
 #: ../../vcs.rst:307
 msgid ""
@@ -50966,10 +50992,14 @@ msgid "For the ``hello`` repository from selenic.com using Mercurial::"
 msgstr "Pour le dépôt ``hello`` de selenic.com en utilisant Mercurial::"
 
 #: ../../vcs.rst:324
+#, fuzzy
 msgid ""
 "The inconvenience of using Git remote helpers is for example with Mercurial, "
 "the remote helper sometimes creates a new tip when pushing changes back."
 msgstr ""
+"L'inconvénient d'utiliser des assistants Git à distance est par exemple avec "
+"Mercurial, que l'assistant distant crée quelquefois un nouveau conseil quand "
+"vous poussez les modifications à nouveau"
 
 #: ../../vcs.rst:331
 msgid "GitHub pull requests"
@@ -51001,6 +51031,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitHub` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Vous devez configurer vos informations de connexion à l'API ( "
+":setting:`GITHUB_CREDENTIALS`) dans les paramètres Weblate pour que cela "
+"fonctionne. Une fois configuré, vous verrez l'option :guilabel:`GitHub` "
+"quand vous sélectionnerez :ref:`component-vcs`."
 
 #: ../../vcs.rst:346
 msgid ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
@@ -51039,6 +51073,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitLab` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Vous devez configurer vos informations de connexion à l'API ( "
+":setting:`GITLAB_CREDENTIALS`) dans les paramètres Weblate pour que cela "
+"fonctionne. Une fois configuré, vous verrez l'option :guilabel:`GitLab` "
+"quand vous sélectionnerez :ref:`component-vcs`."
 
 #: ../../vcs.rst:372
 msgid ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
