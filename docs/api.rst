@@ -11,6 +11,16 @@ The API is accessible on the ``/api/`` URL and it is based on
 `Django REST framework <https://www.django-rest-framework.org/>`_.
 You can use it directly or by :ref:`wlc`.
 
+The API is also documented using OpenAPI 3.0 on the ``/api/schema/`` URL, you
+can browse it using Swagger at ``/api/schema/swagger-ui/`` or Redoc at
+``/api/schema/redoc/``.
+
+.. note::
+
+   OpenAPI is available as a feature preview. The documentation is most likely
+   incomplete at this point and subject to change. Please consult the
+   documentation below for more detailed information on the API.
+
 .. _api-generic:
 
 Authentication and generic parameters
