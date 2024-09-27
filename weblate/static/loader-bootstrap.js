@@ -1423,11 +1423,8 @@ $(function () {
     {
       autoApply: false,
       autoUpdateInput: false,
-      startDate:
-        $("input[name='period']#id_period").attr("data-start-date") ||
-        moment().subtract(1, "months"),
-      endDate:
-        $("input[name='period']#id_period").attr("data-end-date") || moment(),
+      startDate: $("input[name='period']#id_period").attr("data-start-date"),
+      endDate: $("input[name='period']#id_period").attr("data-end-date"),
       alwaysShowCalendars: true,
       cancelButtonClasses: "btn-warning",
       opens: "left",
@@ -1486,6 +1483,12 @@ $(function () {
     },
     (start, end, label) => {},
   );
+
+  $("input[name='period']").on("apply.daterangepicker", function (ev, picker) {
+    $(this).val(
+      `${picker.startDate.format("MM/DD/YYYY")} - ${picker.endDate.format("MM/DD/YYYY")}`,
+    );
+  });
 
   $("input[name='period']").on("cancel.daterangepicker", (_ev, picker) => {
     picker.element.val("");
