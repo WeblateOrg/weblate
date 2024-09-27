@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-26 14:39+0000\n"
+"PO-Revision-Date: 2024-09-27 09:30+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -545,9 +545,11 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
-"新しいカスタム チームも定義できます。このチームの権限をサイト全体で管理するに"
-"は、適切な値をプロジェクトの選択（:guilabel:`すべてのプロジェクト` または :"
-"guilabel:`すべての公開プロジェクト` など）で指定します。"
+"新しいカスタム "
+"チームも定義できます。これらのチームの権限をサイト全体で管理するには、"
+"適切な値を "
+":guilabel:`プロジェクトの選択`で指定します（:guilabel:`すべてのプロジェクト` "
+"または :guilabel:`すべての公開プロジェクト` など）。"
 
 #: ../../admin/access.rst:262
 msgid "Custom permissions for languages, components or projects"
@@ -1022,8 +1024,8 @@ msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power "
 "user`, :guilabel:`Review strings`, :guilabel:`Translate`"
 msgstr ""
-":guilabel:`管理`、:guilabel:`原文の編集`、:guilabel:`パワー ユーザー`、:"
-"guilabel:`査読`、`翻訳`"
+":guilabel:`管理`、:guilabel:`原文の編集`、:guilabel:`パワー "
+"ユーザー`、:guilabel:`査読`、:guilabel:`翻訳`"
 
 #: ../../admin/access.rst:483
 msgid "Delete comment"
@@ -5541,7 +5543,7 @@ msgid ""
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
 "Weblate の設定ファイル（:file:`backups/settings.py`、参照: :ref:`backup-"
-"dumps`）を正しい場所にコピーする。"
+"dumps`）を正しい場所にコピーする。参照: :ref:`configuration`。"
 
 #: ../../admin/backup.rst:188
 msgid ""
@@ -5950,9 +5952,8 @@ msgid ""
 "translation. The flags are merged from following sources:"
 msgstr ""
 "フラグを使用して、Weblate の動作を詳細に設定できます。フラグは翻訳者に視覚的"
-"なフィードバックを提供し、翻訳の改善を支援します。これは、原文の段階（参照: :"
-"ref:`additional`）、または :ref:`component` （ :ref:`component-check_flags`）"
-"で詳細に設定できます。フラグがマージされた以下の原文:"
+"なフィードバックを提供し、翻訳の改善を支援します。フラグは以下の情報から集め"
+"ます。"
 
 #: ../../admin/checks.rst:33
 msgid "Source string, see :ref:`additional`."
@@ -12977,9 +12978,8 @@ msgstr ""
 msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
-msgstr ""
-"新しい秘密鍵の生成には、Weblate 付属の :file:`weblate/examples/generate-"
-"secret-key` を使用します。"
+msgstr "新しい秘密鍵の生成には、Weblate 付属の :program:`weblate-generate-secret-key`"
+" を使用できます。"
 
 #: ../../admin/install.rst:1158
 msgid ":setting:`SECRET_KEY`"
@@ -14812,8 +14812,8 @@ msgstr "``HTTP_`` 接頭辞の追加"
 
 #: ../../admin/install/docker.rst:703
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
-"したがって、``X-Forwarded-For`` は ``HTTP_X_FORWARDED_FOR`` に配置されます。"
+msgstr "したがって、``X-Forwarded-For`` は ``HTTP_X_FORWARDED_FOR`` "
+"にマッピングされます。"
 
 #: ../../admin/install/docker.rst:716
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
@@ -14825,9 +14825,9 @@ msgid ""
 "header in preference to the SERVER_PORT META variable. This should only be "
 "enabled if a proxy which sets this header is in use."
 msgstr ""
-"このブール値は、SERVER_PORT META 変数の代わりに、X-Forwarded-Port ヘッダーを"
-"使用するかどうかを指定します。このヘッダーを設定するプロキシが使用されている"
-"場合にのみ有効にしてください。"
+"このブール値は、SERVER_PORT META 変数の代わりに :http:header:`X-Forwarded-"
+"Port` ヘッダーを使用するかどうかを指定します。このヘッダーを設定するプロキシ"
+"が使用されている場合にのみ有効にしてください。"
 
 #: ../../admin/install/docker.rst:728
 msgid ":setting:`django:USE_X_FORWARDED_PORT`"
@@ -27552,9 +27552,8 @@ msgstr ""
 
 #: ../../changes.rst:401
 msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
-msgstr ""
-":ref:addon-weblate.generate.pseudolocale アドオンをインストール時のクラッシュ"
-"を回避する。"
+msgstr ":ref:`addon-weblate.generate.pseudolocale` "
+"アドオンをインストールするときのクラッシュを回避する。"
 
 #: ../../changes.rst:402
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
@@ -27839,7 +27838,9 @@ msgstr "統計のメモリ使用量を削減。"
 msgid ""
 ":ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:"
 "`glossary-mt`."
-msgstr ":ref:`mt-deepl` は自動翻訳の性能が向上し、 :ref:`glossary-mt` に対応。"
+msgstr ""
+":ref:`auto-translation` の :ref:`mt-deepl` は性能が向上し、 :ref:`glossary-"
+"mt` に対応。"
 
 #: ../../changes.rst:526
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
@@ -27970,8 +27971,8 @@ msgstr ""
 msgid ""
 "Use :http:header:`Accept-Language` to order translations for unauthenticated "
 "users."
-msgstr ""
-"未認証ユーザーの翻訳の取得には、:http:header:Accept-Language を使用する。"
+msgstr "未認証ユーザーが翻訳を表示するときの並べ替えのために :http:header:`Accept-"
+"Language` を使用する。"
 
 #: ../../changes.rst:588
 msgid ""
@@ -28385,7 +28386,7 @@ msgstr "2023 年 8 月 24 日にリリース。"
 
 #: ../../changes.rst:762
 msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
-msgstr "doc:`/formats/markdown` に対応、Anders Kaplan 氏に感謝。"
+msgstr ":doc:`/formats/markdown` に対応、Anders Kaplan 氏に感謝。"
 
 #: ../../changes.rst:763
 msgid ":ref:`category` can now organize components within a project."
@@ -28463,9 +28464,8 @@ msgstr "用語集への用語追加の高速化。"
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
-msgstr ""
-"doc:`/formats/html` と :doc:`/formats/txt` のソースファイル変更時の翻訳保持の"
-"改良。"
+msgstr ":doc:`/formats/html` と :doc:`/formats/txt` "
+"のソースファイル変更時の翻訳保持の改良。"
 
 #: ../../changes.rst:782
 msgid "Added indication of automatic assignment to team listing."
@@ -33192,9 +33192,9 @@ msgid ""
 "`django:STATIC_ROOT`. You might need to adjust :ref:`static-files` "
 "accordingly."
 msgstr ""
-"setting:`CACHE_DIR` の導入により、 :setting:`django:STATIC_ROOT` のデフォルト"
-"値を変更。それに応じて :ref:`static-files` を調整する必要があるかもしれませ"
-"ん。"
+":setting:`CACHE_DIR` の導入により、 :setting:`django:STATIC_ROOT` "
+"のデフォルト値を変更。それに応じて :ref:`static-files` "
+"を調整する必要があるかもしれません。"
 
 #: ../../changes/v4.rst:181
 msgid "Weblate 4.15.2"
@@ -44413,9 +44413,9 @@ msgid ""
 "ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
 "`addon-weblate.cleanup.generic`"
 msgstr ""
-"`Java properties Wikipedia 参照: <https://en.wikipedia.org/wiki/."
-"properties>`_ 、:doc:`tt:formats/properties`、:ref:`mi18n-lang`、:ref:"
-"`updating-target-files`、:ref:`addon-weblate.properties.sort`、:ref:`addon-"
+"`Java properties（Wikipedia） <https://en.wikipedia.org/wiki/.properties>`_ "
+"、:doc:`tt:formats/properties`、:ref:`mi18n-lang`、:ref:`gwt`、:ref"
+":`updating-target-files`、:ref:`addon-weblate.properties.sort`、:ref:`addon-"
 "weblate.cleanup.generic`"
 
 #: ../../formats/java.rst:46
@@ -52649,17 +52649,14 @@ msgid "Getting started"
 msgstr "はじめに"
 
 #: ../../wlc.rst:69
-#, fuzzy
-#| msgid ""
-#| "The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-"
-#| "config` for other locations), please create it to match your environment:"
 msgid ""
 "The :program:`wlc` configuration is stored in ``~/.config/weblate`` (see :"
 "ref:`wlc-config` for other locations), please create it to match your "
 "environment:"
 msgstr ""
-"wlc 設定は ``~/.config/weblate`` に保存されます（他の場所については :ref:"
-"`wlc-config` for other locations を参照:）。環境に合わせて作成してください:"
+":program:`wlc` の設定は ``~/.config/weblate`` に保存されます（"
+"他の場所については :ref:`wlc-config` "
+"を参照）。環境に合わせて作成してください:"
 
 #: ../../wlc.rst:81
 msgid "You can then invoke commands on the default server:"
@@ -52986,18 +52983,14 @@ msgid "Additionally API keys can be stored in the ``[keys]`` section:"
 msgstr "さらに、API キーは次の ``[keys]`` セクションに保存が可能:"
 
 #: ../../wlc.rst:341
-#, fuzzy
-#| msgid ""
-#| "This allows you to store keys in your personal settings, while using the :"
-#| "file:`.weblate` configuration in the VCS repository so that wlc knows "
-#| "which server it should talk to."
 msgid ""
 "This allows you to store keys in your personal settings, while using the :"
 "file:`.weblate` configuration in the VCS repository so that :program:`wlc` "
 "knows which server it should talk to."
 msgstr ""
-"これにより、VCS リポジトリー内の :file:`.weblate` 設定を使用して、wlc がどの"
-"サーバーと通信すべきかを認識しながら、個人設定に鍵を保管できます。"
+"これにより、VCS リポジトリ内の :file:`.weblate` "
+"の設定を使用して、:program:`wlc` "
+"がどのサーバーと通信すべきかを認識しながら、個人設定に鍵を保管できます。"
 
 #: ../../wlc.rst:346
 msgid "Examples"
