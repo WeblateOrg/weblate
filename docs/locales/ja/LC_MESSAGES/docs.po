@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-27 14:29+0000\n"
+"PO-Revision-Date: 2024-09-27 16:32+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -10017,6 +10017,9 @@ msgid ""
 "`component-repo` (if push URL is not configured), these take precedence over "
 "the ones specified in the configuration file."
 msgstr ""
+"資格情報は、:ref:`component-push` または :ref:`component-repo` （プッシュ "
+"URL が設定されていない場合）でも上書きできます。これは、設定ファイルで指定さ"
+"れた資格情報よりも優先されます。"
 
 #: ../../admin/config.rst:2125
 msgid "API user, required."
@@ -17625,6 +17628,9 @@ msgid ""
 "quality. Read more on that in `DeepL translation context documentatin "
 "<https://developers.deepl.com/docs/best-practices/working-with-context>`_."
 msgstr ""
+"翻訳コンテキストは、翻訳の質を向上させるためにオプションで指定できます。"
+"詳細は `DeepL translation context documentatin <https://developers.deepl.com/"
+"docs/best-practices/working-with-context>`_ を確認してください。"
 
 #: ../../admin/machine.rst:188
 msgid ""
@@ -18014,10 +18020,8 @@ msgstr ""
 "reference#authenticating-with-an-access-token>`_"
 
 #: ../../admin/machine.rst:389
-#, fuzzy
-#| msgid "OpenAI"
 msgid "Azure OpenAI"
-msgstr "OpenAI"
+msgstr "Azure OpenAI"
 
 #: ../../admin/machine.rst:393
 msgid "``azure-openai``"
@@ -18053,11 +18057,8 @@ msgid "``azure_endpoint``"
 msgstr "``azure_endpoint``"
 
 #: ../../admin/machine.rst:401
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgid "Azure OpenAI endpoint URL"
-msgstr "アプリケーションのエンドポイント URL"
+msgstr "Azure OpenAI エンドポイントの URL"
 
 #: ../../admin/machine.rst:401
 msgid ""
@@ -18069,21 +18070,16 @@ msgid "``deployment``"
 msgstr "``deployment``"
 
 #: ../../admin/machine.rst:403
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgid "Azure OpenAI deployment"
-msgstr "アプリケーションのエンドポイント URL"
+msgstr "Azure OpenAI のデプロイ"
 
 #: ../../admin/machine.rst:403
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "モデル固有のデプロイメント名。"
 
 #: ../../admin/machine.rst:406
-#, fuzzy
-#| msgid "Performs translation using `OpenAI`_."
 msgid "Performs translation using `OpenAI`_ hosted on Azure."
-msgstr "`OpenAI`_ を使用して翻訳を実行します。"
+msgstr "Azure 上で動作する `OpenAI`_ を使用して翻訳を実行します。"
 
 #: ../../admin/machine.rst:415
 msgid "ModernMT"
@@ -26442,10 +26438,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.7"
 msgid "Weblate 5.8"
-msgstr "Weblate 5.7"
+msgstr "Weblate 5.8"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -26462,19 +26456,20 @@ msgstr "**新機能**"
 msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
-msgstr ""
+msgstr ":ref:`Searching` を、オブジェクト パスと :ref:`date-search` "
+"によるフィルタリングに対応。"
 
 #: ../../changes.rst:9
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, see :ref:"
 "`settings-credentials`."
 msgstr ""
+"マージリクエストの認証情報を、リポジトリの URL "
+"に直接渡せるようになりました、参照: :ref:`settings-credentials`。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`mt-openai` automatic suggestion service."
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
-msgstr ":ref:`mt-openai` 自動提案サービス。"
+msgstr ":ref:`mt-azure-openai` 自動提案サービス。"
 
 #: ../../changes.rst:12 ../../changes.rst:41 ../../changes.rst:67
 #: ../../changes.rst:105 ../../changes.rst:171 ../../changes.rst:196
@@ -26487,26 +26482,21 @@ msgid "**Improvements**"
 msgstr "**改善点**"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-translator` は :ref:`glossary-mt` に対応。"
+msgstr ":ref:`mt-modernmt` を :ref:`glossary-mt` に対応。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ":ref:`mt-deepl` now supports specifying translation context."
-msgstr ":ref:`xliff` が原文の位置表示に対応。"
+msgstr ":ref:`mt-deepl` が翻訳コンテキストの指定に対応。"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgid ":ref:`mt-aws` now supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-translator` は :ref:`glossary-mt` に対応。"
+msgstr ":ref:`mt-aws` が :ref:`glossary-mt` に対応。"
 
 #: ../../changes.rst:17
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
-msgstr ""
+msgstr "デーヴァナーガリー ダンダの :ref:`autofix` "
+"が、ラテン文字をより適切に処理できるようになった。"
 
 #: ../../changes.rst:19 ../../changes.rst:47 ../../changes.rst:72
 #: ../../changes.rst:118 ../../changes.rst:151 ../../changes.rst:176
@@ -26521,16 +26511,12 @@ msgid "**Bug fixes**"
 msgstr "**バグの修正**"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Improved :ref:`workflow-customization` configuration forms."
 msgid "Displaying :ref:`workflow-customization` setting in some cases."
-msgstr ":ref:`workflow-customization` 設定フォームの改良。"
+msgstr "場合によっては :ref:`workflow-customization` 設定を表示する。"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Component with this name already exists in the project."
 msgid "Users can add component in any language already existing in a project."
-msgstr "この名前のコンポーネントは既にプロジェクトに存在します。"
+msgstr "ユーザーは、プロジェクト内に既に存在する言語でコンポーネントを追加できる。"
 
 #: ../../changes.rst:24 ../../changes.rst:124 ../../changes.rst:214
 #: ../../changes.rst:376 ../../changes.rst:482 ../../changes.rst:535
@@ -26582,16 +26568,12 @@ msgid "**Contributors**"
 msgstr "**貢献者**"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/126?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/126?"
-"closed=1>`__ 。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"122?closed=1>`__ 。"
 
 #: ../../changes.rst:37
 msgid "Weblate 5.7.2"
@@ -26610,20 +26592,16 @@ msgid "Instead of redirecting, the sign-out now displays a page."
 msgstr "リダイレクトする代わりに、サインアウト時にページを表示するように改良。"
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid "Improved handling of whitespace in flags."
 msgid "Improved readability of exception logs."
-msgstr "フラグの空白の処理の改善。"
+msgstr "例外ログの可読性の改良。"
 
 #: ../../changes.rst:49
 msgid "Updating of translations from the repository in linked components."
 msgstr "リンクされたコンポーネントのリポジトリからの翻訳の更新。"
 
 #: ../../changes.rst:50
-#, fuzzy
-#| msgid "Improved look of notification e-mails."
 msgid "Improved rendering of digest notification e-mails."
-msgstr "通知メールの見栄えの改良。"
+msgstr "ダイジェスト通知メールのレンダリングの改良。"
 
 #: ../../changes/contributors/5.7.1.rst:2
 #: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
@@ -26631,10 +26609,8 @@ msgid "Code contributions"
 msgstr "コードに貢献"
 
 #: ../../changes/contributors/5.7.2.rst:3
-#, fuzzy
-#| msgid "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
 msgid "Michal Čihař, Mehdi Eloualy"
-msgstr "Michal Čihař、Mehdi El Oualy、Mehdi Eloualy"
+msgstr "Michal Čihař、Mehdi Eloualy"
 
 #: ../../changes/contributors/5.7.1.rst:5
 #: ../../changes/contributors/5.7.2.rst:5 ../../changes/contributors/5.7.rst:5
@@ -26648,6 +26624,10 @@ msgid ""
 "Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
 "Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 msgstr ""
+"Christian Wia、Ihor Hordiichuk, Hanaa MSB, Hoseok Seo、پرویز قادر、Reno Tx、"
+"Jose Delvani、Artemka, Blueberry、Elisabeth Pieringer、VfBFan、ɴᴇᴋᴏ、Andi "
+"Chandler、Yaron Shahrabani、Michal Čihař、Miguel A. Bouzada、gallegonovato、"
+"Besnik Bleta、Sketch6580、Aindriú Mac Giolla Eoin、Fjuro、大王叫我来巡山"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
@@ -26655,10 +26635,8 @@ msgid "Documentation contributions"
 msgstr "ドキュメントに貢献"
 
 #: ../../changes/contributors/5.7.2.rst:9
-#, fuzzy
-#| msgid "Michal Čihař, Robin"
 msgid "Michal Čihař"
-msgstr "Michal Čihař、Robin"
+msgstr "Michal Čihař"
 
 #: ../../changes.rst:60
 msgid ""
@@ -26826,10 +26804,8 @@ msgid "Highlight newlines in the editor."
 msgstr "エディターで改行を強調表示。"
 
 #: ../../changes.rst:111
-#, fuzzy
-#| msgid ":doc:`/formats/csv` better handle with with two fields only."
 msgid ":doc:`/formats/csv` better handle files with two fields only."
-msgstr ":doc:`/formats/csv` で、2 つのフィールドのみの CSV の取り扱いを改善。"
+msgstr ":doc:`/formats/csv` で、2 つのフィールドのみファイルの取り扱いの改良。"
 
 #: ../../changes.rst:112
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
@@ -37317,12 +37293,6 @@ msgid "Dependency management"
 msgstr "依存関係の管理"
 
 #: ../../contributing/frontend.rst:21
-#, fuzzy
-#| msgid ""
-#| "Installing and managing `3rd party` libraries in the `client` of a django "
-#| "project can be a bit tricky. This document provides a step-by-step guide "
-#| "on how to install and manage 3rd party libraries used by the `client "
-#| "side` of Weblate using `Webpack`."
 msgid ""
 "Installing and managing `3rd party` libraries in the `client` of a django "
 "project can be a bit tricky. This section provides a step-by-step guide on "
@@ -37330,7 +37300,7 @@ msgid ""
 "Weblate using `Webpack`."
 msgstr ""
 "Django プロジェクトの `クライアント` で `サードパーティ` のライブラリをインス"
-"トールおよび管理することは手間がかかります。このドキュメントでは、`Webpack` "
+"トールおよび管理することは手間がかかります。このセクションでは、`Webpack` "
 "を使用して Weblate の `クライアント側` で使用するサードパーティのライブラリを"
 "インストールおよび管理する方法を提供しています。"
 
@@ -37348,13 +37318,11 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:30
 msgid "``Nodejs`` version 14 or higher."
-msgstr ""
+msgstr "``Nodejs`` バージョン 14 以上。"
 
 #: ../../contributing/frontend.rst:31
-#, fuzzy
-#| msgid "Yarn package manager installed on your system."
 msgid "The ``yarn`` package manager installed on your system."
-msgstr "Yarn パッケージ マネージャーがシステムにインストール済み。"
+msgstr "``yarn`` パッケージ マネージャーがシステムにインストール済み。"
 
 #: ../../contributing/frontend.rst:32
 msgid "Run ``cd client``."
@@ -37392,7 +37360,7 @@ msgstr "``src/main.js`` ファイルにライブラリをインポートする�
 
 #: ../../contributing/frontend.rst:51
 msgid "And declare it in the global scope (if needed)."
-msgstr ""
+msgstr "そして、それをグローバル スコープで宣言します（必要な場合）。"
 
 #: ../../contributing/frontend.rst:53
 msgid ""
@@ -37429,11 +37397,9 @@ msgid "3- Building the Library"
 msgstr "3 - ライブラリーの構築"
 
 #: ../../contributing/frontend.rst:64
-#, fuzzy
-#| msgid "Build the libraries used by the project, run the following command:"
 msgid ""
 "Build the libraries used by the project, by running the following command:"
-msgstr "プロジェクトで使用するライブラリをビルドするために実行するコマンド:"
+msgstr "プロジェクトで使用するライブラリをビルドするための実行コマンド:"
 
 #: ../../contributing/frontend.rst:71
 msgid "4- Including the Library"
@@ -37455,11 +37421,6 @@ msgstr ""
 "要ありません（すでに ``base.html`` に含まれているため）。"
 
 #: ../../contributing/frontend.rst:77
-#, fuzzy
-#| msgid ""
-#| "If the library was imported in its specific file ``src/<lib-name>.js``, "
-#| "in ``weblate/templates``` use the include tags to link to the built "
-#| "static JavaScript file:"
 msgid ""
 "If the library was imported in its specific file ``src/<lib-name>.js``, in "
 "``weblate/templates`` use the include tags to link to the built static "
@@ -39003,17 +38964,12 @@ msgid "Tracking dependencies for vulnerabilities"
 msgstr "脆弱性の依存関係の追跡"
 
 #: ../../contributing/security.rst:22
-#, fuzzy
-#| msgid ""
-#| "Security issues in our dependencies are monitored using `Dependabot`_. "
-#| "This covers the Python and JavaScript libraries, and the latest stable "
-#| "release has its dependencies updated to avoid vulnerabilities."
 msgid ""
 "Security issues in our dependencies are monitored using `Renovate`_. This "
 "covers the Python and JavaScript libraries, and the latest stable release "
 "has its dependencies updated to avoid vulnerabilities."
 msgstr ""
-"依存関係のセキュリティ問題は、`Dependabot`_ を使用して監視されます。これは "
+"依存関係のセキュリティ問題は、`Renovate`_ を使用して監視されます。これは "
 "Python と JavaScript ライブラリを含み、最新の安定版リリースでは脆弱性を避ける"
 "ために依存関係が更新されています。"
 
@@ -44227,7 +44183,8 @@ msgstr "i18next JSON v4 ファイル"
 #: ../../formats/i18next.rst:29
 msgid ""
 "Choose this format if unsure. It stores plurals using standard CLDR suffixes."
-msgstr ""
+msgstr "不明な場合はこの形式を選択してください。標準の CLDR "
+"接尾辞を使用して複数形を保存します。"
 
 #: ../../formats/i18next.rst:32
 msgid "i18next JSON file v3"
@@ -44235,7 +44192,7 @@ msgstr "i18next JSON v3 ファイル"
 
 #: ../../formats/i18next.rst:34
 msgid "Use for legacy projects which are using numeric suffixes for plurals."
-msgstr ""
+msgstr "複数形に数値接尾辞を使用しているレガシー プロジェクトに使用します。"
 
 #: ../../formats/i18next.rst:38
 msgid ""
@@ -50349,16 +50306,15 @@ msgid "Project slug, see :ref:`project-slug`."
 msgstr "プロジェクトのスラッグ。参照: :ref:`project-slug`。"
 
 #: ../../user/search.rst:76
-#, fuzzy
-#| msgid "``state:TEXT``"
 msgid "``path:TEXT``"
-msgstr "``state:TEXT``"
+msgstr "``path:TEXT``"
 
 #: ../../user/search.rst:77
 msgid ""
 "Path to the object to limit searching inside component, category, project, "
 "or translation."
-msgstr ""
+msgstr "コンポーネント、カテゴリ、プロジェクト、または翻訳内の検索を制限するオブジェ"
+"クトへのパス。"
 
 #: ../../user/search.rst:78
 msgid "``changed_by:TEXT``"
@@ -50717,7 +50673,7 @@ msgstr "メールアドレスで検索する。"
 
 #: ../../user/search.rst:214
 msgid "Fuzzy values for DATETIME fields"
-msgstr ""
+msgstr "DATETIME フィールドのあいまいな値"
 
 #: ../../user/search.rst:216
 msgid ""
@@ -50725,27 +50681,26 @@ msgid ""
 "of time like ``yesterday``, ``last month``, and ``2 days ago`` can be used "
 "as values in the DATETIME fields."
 msgstr ""
+"MM-DD-YYYY のような形式の DATETIME 値の代わりに、``yesterday``、``last "
+"month``、``2 days ago`` といった時間に関する副詞を含む文字列を DATETIME "
+"フィールドの値として使用できます。"
 
 #: ../../user/search.rst:222
-#, fuzzy
-#| msgid "``changed:2019``"
 msgid "``changed:>=\"2 weeks ago\"``"
-msgstr "``changed:2019``"
+msgstr "``changed:>=\"2 weeks ago\"``"
 
 #: ../../user/search.rst:223
 msgid ""
 "Returns strings that are changed 2 weeks ago from the current date and time."
-msgstr ""
+msgstr "現在の日時から 2 週間前に変更された文字列を返します。"
 
 #: ../../user/search.rst:224
-#, fuzzy
-#| msgid "``changed:2019``"
 msgid "``changed:>=yesterday``"
-msgstr "``changed:2019``"
+msgstr "``changed:>=yesterday``"
 
 #: ../../user/search.rst:225
 msgid "Returns strings that are changed starting yesterday."
-msgstr ""
+msgstr "昨日以降に変更された文字列を返します。"
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
@@ -52584,21 +52539,19 @@ msgid "Weblate Client"
 msgstr "Weblate クライアント"
 
 #: ../../wlc.rst:15
-#, fuzzy
-#| msgid ""
-#| "The Weblate Client is shipped separately and includes the Python module. "
-#| "To use the commands below, you need to install :mod:`wlc`:"
 msgid ""
 "The Weblate Client is shipped separately and includes the Python module. To "
 "use the commands below, you need to install :program:`wlc` using pip:"
 msgstr ""
-"Weblate クライアントは個別に提供され、Python モジュールを含んでいます。以下の"
-"コマンドを使用するには、:mod:`wlc` をインストールすることが必要です。"
+"Weblate クライアントは個別に提供され、Python "
+"モジュールを含んでいます。以下のコマンドを使用するには、pip を使用して "
+":program:`wlc` をインストールすることが必要です。"
 
 #: ../../wlc.rst:24
 msgid ""
 "You can also use this :program:`wlc` as a Python module, see :mod:`wlc`."
-msgstr ""
+msgstr "この :program:`wlc` を Python モジュールとして使用することもできます、参照: "
+":mod:`wlc`。"
 
 #: ../../wlc.rst:29
 msgid "Docker usage"
@@ -53006,10 +52959,8 @@ msgid "Upload translation file:"
 msgstr "翻訳ファイルのアップロード方法:"
 
 #: ../../wlc.rst:372
-#, fuzzy
-#| msgid "You can also designate what project wlc should work on:"
 msgid "You can also designate what project :program:`wlc` should work on:"
-msgstr "wlc で作業するプロジェクトの指定方法:"
+msgstr ":program:`wlc` で作業するプロジェクトの指定方法:"
 
 #: ../../wlc.rst:400
 msgid ""
@@ -53068,19 +53019,14 @@ msgstr ""
 "プロジェクトごとのカスタマイズは、プロジェクトの各言語ページで設定できます。"
 
 #: ../../workflows.rst:28
-#, fuzzy
-#| msgid ""
-#| "All workflow settings can be overridden, the only limitation is that :ref:"
-#| "`project-translation_review` needs to be turned on and can only be "
-#| "disabled in customization."
 msgid ""
 "All workflow settings can be overridden, the only limitation is that :ref:"
 "`project-translation_review` needs to be turned on and can only be disabled "
 "in the per-language customization."
 msgstr ""
 "すべてのワークフロー設定は上書きできます。唯一の制限は、:ref:`project-"
-"translation_review` を有効にする必要があり、カスタマイズでのみ無効にできるこ"
-"とです。"
+"translation_review` "
+"を有効にする必要があり、言語ごとのカスタマイズでのみ無効にできることです。"
 
 #: ../../workflows.rst:32
 msgid "The first existing setting applies:"
@@ -53427,18 +53373,14 @@ msgstr ""
 "とモノリンガル形式のどちらを使用するかで変わります。"
 
 #: ../../workflows.rst:272
-#, fuzzy
-#| msgid ""
-#| "For monolingual formats, source string review functions similarly to :ref:"
-#| "`reviews` — once an issue with a source string is reported, it is marked "
-#| "as :guilabel:`Needs editing`."
 msgid ""
 "For monolingual formats, source string review functions similarly to :ref:"
 "`reviews` — once an issue with a source string is reported, the source "
 "string is marked as :guilabel:`Needs editing`."
 msgstr ""
-"モノリンガル形式の場合、原文の査読は :ref:`reviews` と同じように動作します。"
-"原文で問題が報告されると、:guilabel:`要編集` と設定されます。"
+"モノリンガル形式の場合、原文の査読は :ref:`reviews` "
+"と同じように動作します。原文で問題が報告されると、原文は :guilabel:`要編集` "
+"と設定されます。"
 
 #: ../../workflows.rst:276
 msgid ""
