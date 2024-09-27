@@ -17,7 +17,7 @@ from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db import transaction
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
-from django.utils.html import escape
+from django.utils.html import escape, format_html
 from django.utils.translation import activate, gettext, gettext_lazy, ngettext, pgettext
 from django_otp.forms import OTPTokenForm as DjangoOTPTokenForm
 from django_otp.forms import otp_verification_failed
@@ -528,13 +528,13 @@ class CaptchaForm(forms.Form):
 
     def set_label(self) -> None:
         # Set correct label
-        self.fields["captcha"].label = (
+        self.fields["captcha"].label = format_html(
             pgettext(
                 "Question for a mathematics-based CAPTCHA, "
                 "the %s is an arithmetic problem",
                 "What is %s?",
-            )
-            % self.mathcaptcha.display
+            ).replace("%s", "{}"),
+            self.mathcaptcha.display,
         )
         if self.is_bound:
             self["captcha"].label = cast(str, self.fields["captcha"].label)
