@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-24 14:19+0000\n"
+"PO-Revision-Date: 2024-09-27 13:27+0000\n"
 "Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "documentation/fi/>\n"
@@ -360,6 +360,10 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
+"Olemassa olevien käyttäjien lisääminen lähettää heille vahvistuskutsun. "
+":setting:`REGISTRATION_OPEN` avulla järjestelmänvalvoja voi kutsua uusia "
+"käyttäjiä myös sähköpostitse. Kutsuttujen käyttäjien on suoritettava "
+"rekisteröintiprosessi saadakseen pääsyn projektiin."
 
 #: ../../admin/access.rst:168
 msgid ""
@@ -1706,6 +1710,13 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
+"Jos haluat käyttää Weblate-asennusta vähemmän julkisesti, eli sallia uusia "
+"käyttäjiä vain kutsutulla tavalla, voit tehdä sen määrittämällä Weblate "
+"siten, että vain tunnetuilla käyttäjillä on pääsy siihen. Voit tehdä tämän "
+"asettamalla :setting:`REGISTRATION_OPEN` arvoon ``False`` estääksesi uusien "
+"käyttäjien rekisteröinnin ja asettaa :setting:`REQUIRE_LOGIN` arvoon ``/.*`` "
+"vaatiaksesi kirjautumista päästä sivuston kaikille sivuille. Tämä on "
+"periaatteessa tapa lukita Weblate-asennus."
 
 #: ../../admin/access.rst:712
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -3858,6 +3869,9 @@ msgid ""
 "silenced using :setting:`django:SILENCED_SYSTEM_CHECKS`, see also :doc:"
 "`django:howto/deployment/checklist`."
 msgstr ""
+":guilabel:`Järjestelmän tarkistukset` luettelee mahdolliset kokoonpano-"
+"ongelmat. Nämä voidaan hiljentää :setting:`django:SILENCED_SYSTEM_CHECKS`:ta "
+"käyttäen, katso myös :doc:`django:howto/deployment/checklist`."
 
 #: ../../admin/admin.rst:40
 msgid ""
@@ -3889,6 +3903,8 @@ msgid ""
 "The colors are currently used in both dark and light theme, so be careful "
 "when choosing them."
 msgstr ""
+"Tällä hetkellä värejä käytetään sekä tummissa että vaaleassa teemassa, joten "
+"ole varovainen valitessasi niitä."
 
 #: ../../admin/admin.rst:63
 msgid "Colors, fonts, and page appearance can be customized here."
@@ -4017,6 +4033,8 @@ msgid ""
 "Image showing an announcement that reads: \"Translations will be used only "
 "if they reach 60%\" atop the dashboard view."
 msgstr ""
+"Kuvassa ilmoitus, jossa lukee: \"Käännöksiä käytetään vain, jos ne "
+"saavuttavat 60 %\" kojelautanäkymän yläosassa."
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
@@ -4032,7 +4050,7 @@ msgstr "Ei määriteltyä kontekstia"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
-msgstr ""
+msgstr "Näytetään kojelaudassa (aloitussivulla)."
 
 #: ../../admin/announcements.rst:34
 msgid "Project specified"
@@ -4084,12 +4102,18 @@ msgid ""
 "new user can contribute or authenticate by using one of the third party "
 "services."
 msgstr ""
+"Weblate-sovelluksen oletusasetus on käyttää python-social-auth-lomaketta, "
+"joka on verkkosivustolla uusien käyttäjien rekisteröintiä varten. "
+"Vahvistettuaan sähköpostinsa uusi käyttäjä voi osallistua tai todentaa "
+"käyttämällä jotakin kolmannen osapuolen palveluista."
 
 #: ../../admin/auth.rst:11
 msgid ""
 "You can also turn off registration of new users using :setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"Voit myös poistaa uusien käyttäjien rekisteröinnin käytöstä käyttämällä "
+":setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
@@ -5000,6 +5024,9 @@ msgid ""
 "your consent no data is sent to the backup repository obtained through the "
 "registration process."
 msgstr ""
+"Manuaalinen vaihe, jossa kaikki kytketään päälle, on turvallisuutesi vuoksi. "
+"Ilman suostumustasi tietoja ei lähetetä rekisteröintiprosessin kautta "
+"saatuun varmuuskopiotietovarastoon."
 
 #: ../../admin/backup.rst:111
 msgid "Using custom backup storage"
@@ -5499,6 +5526,9 @@ msgid ""
 "with colon. You can use quotes to include whitespaces or special characters "
 "in the string. For example:"
 msgstr ""
+"Liput on erotettu pilkuilla; jos niillä on parametreja, ne erotetaan "
+"kaksoispisteellä. Voit käyttää lainausmerkkejä lisätäksesi välilyöntejä tai "
+"erikoismerkkejä merkkijonoon. Esimerkiksi:"
 
 #: ../../admin/checks.rst:47
 msgid ""
@@ -6657,12 +6687,17 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
+"Määritä useita komponenttiluetteloita, jotka näkyvät vaihtoehtoina käyttäjän "
+"hallintapaneelissa, joista käyttäjät voivat valita yhden oletusnäkymäkseen. "
+"Katso :ref:`dashboard` saadaksesi lisätietoja."
 
 #: ../../admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
 msgstr ""
+"Jokaisen kojelaudassa näytettävän komponenttiluettelon kohdalla näytetään "
+"tila."
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -6677,6 +6712,9 @@ msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
 msgstr ""
+"Muuta hallintapaneelin asetuksia anonyymeille käyttäjille "
+"järjestelmänvalvojan käyttöliittymästä ja muuta todentamattomille "
+"käyttäjille näytettävää hallintapaneelia."
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
@@ -8564,6 +8602,9 @@ msgid ""
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
 msgstr ""
+"Luettelo todennustaustaohjelmista, joista rekisteröinti sallitaan. Tämä "
+"rajoittaa vain uusia rekisteröintejä, käyttäjät voivat silti todentaa ja "
+"lisätä todennusta käyttämällä kaikkia määritettyjä todennustaustaohjelmia."
 
 #: ../../admin/config.rst:1520
 msgid ""
@@ -8571,6 +8612,9 @@ msgid ""
 "registration backends, otherwise users will be able to register, but Weblate "
 "will not show links to register in the user interface."
 msgstr ""
+"Suosittelemme pitämään :setting:`REGISTRATION_OPEN` päällä ja rajoittamaan "
+"rekisteröinnin taustaohjelmia, muuten käyttäjät voivat rekisteröityä, mutta "
+"Weblate ei näytä käyttöliittymässä linkkejä rekisteröitymiseen."
 
 #: ../../admin/config.rst:1532
 msgid "The backend names match names used in the URL for authentication."
@@ -8589,6 +8633,7 @@ msgid ""
 "Whether registration of new accounts is protected by a CAPTCHA. Defaults to "
 "enabled."
 msgstr ""
+"Suojaako uusien tilien rekisteröinti CAPTCHA:lla. Oletusarvo on käytössä."
 
 #: ../../admin/config.rst:1546
 msgid ""
@@ -8598,7 +8643,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1548
 msgid "New account registration."
-msgstr ""
+msgstr "Uuden tilin rekisteröinti."
 
 #: ../../admin/config.rst:1549
 msgid "Password recovery."
@@ -8627,6 +8672,8 @@ msgstr ""
 #: ../../admin/config.rst:1562
 msgid "You can use it to restrict registration to a single e-mail domain:"
 msgstr ""
+"Voit käyttää sitä rajoittamaan rekisteröinnin yhteen "
+"sähköpostiverkkotunnukseen:"
 
 #: ../../admin/config.rst:1571
 msgid "REGISTRATION_OPEN"
@@ -8637,6 +8684,8 @@ msgid ""
 "Whether registration of new accounts is currently permitted. Defaults to "
 "enabled."
 msgstr ""
+"Onko uusien tilien rekisteröinti tällä hetkellä sallittu. Oletusarvo on "
+"käytössä."
 
 #: ../../admin/config.rst:1576
 msgid ""
@@ -8644,6 +8693,10 @@ msgid ""
 "the Python Social Auth (you can whitelist certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
+"Tämä asetus vaikuttaa sisäänrakennettuun sähköpostiosoitteen tai Python "
+"Social Authin kautta tapahtuvaan todentamiseen (voit lisätä tiettyjä "
+"taustaohjelmia sallittujen luetteloon käyttämällä "
+":setting:`REGISTRATION_ALLOW_BACKENDS`)."
 
 #: ../../admin/config.rst:1582
 msgid ""
@@ -8651,6 +8704,9 @@ msgid ""
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
 msgstr ""
+"Jos käytät kolmannen osapuolen todennusmenetelmiä, kuten :ref:`ldap-auth`, "
+"se vain piilottaa rekisteröintilomakkeen, mutta uudet käyttäjät saattavat "
+"silti pystyä kirjautumaan sisään ja luomaan tilejä."
 
 #: ../../admin/config.rst:1588
 msgid ""
@@ -8661,10 +8717,8 @@ msgstr ""
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 
 #: ../../admin/config.rst:1595
-#, fuzzy
-#| msgid "REGISTRATION_OPEN"
 msgid "REGISTRATION_REBIND"
-msgstr "REGISTRATION_OPEN"
+msgstr "REGISTRATION_REBIND"
 
 #: ../../admin/config.rst:1599
 msgid ""
@@ -8871,6 +8925,10 @@ msgid ""
 "actually only single project in Weblate. Alternatively, set the project "
 "slug, and it will redirect unconditionally to this project."
 msgstr ""
+"Ohjaa käyttäjät suoraan projektiin tai komponenttiin hallintapaneelin "
+"näyttämisen sijaan. Voit joko asettaa sen arvoon \"True\", joten se toimii "
+"vain, jos Weblatessa on vain yksi projekti. Vaihtoehtoisesti voit asettaa "
+"projektin slug, ja se ohjaa ehdoitta tähän projektiin."
 
 #: ../../admin/config.rst:1792
 msgid "SSH_EXTRA_ARGS"
@@ -11386,6 +11444,8 @@ msgstr "``DEFAULT_FROM_EMAIL``"
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
 msgstr ""
+"Sähköpostin lähettäjän osoite lähteville sähköpostiviesteille, esimerkiksi "
+"rekisteröintisähköpostille."
 
 #: ../../admin/install.rst:834
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
@@ -11436,6 +11496,9 @@ msgid ""
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
 msgstr ""
+"Kun olet valmis, tarkista myös :guilabel:`Suorituskykyraportti`"
+"järjestelmänvalvojan käyttöliittymässä, joka antaa vihjeitä mahdollisista "
+"epäoptimaalisista määrityksistä sivustollasi."
 
 #: ../../admin/install.rst:873
 msgid ":ref:`config`, :ref:`privileges`"
@@ -11508,6 +11571,10 @@ msgid ""
 "or registration e-mails will not work. This is configured using :setting:"
 "`SITE_DOMAIN` which should contain site domain name."
 msgstr ""
+"Säädä sivuston nimi ja verkkotunnus järjestelmänvalvojan käyttöliittymässä, "
+"muuten linkit RSS:ssä tai rekisteröintisähköpostissa eivät toimi. Tämä on "
+"määritetty käyttämällä :setting:`SITE_DOMAIN`, jonka tulee sisältää sivuston "
+"verkkotunnuksen nimi."
 
 #: ../../admin/install.rst:945
 msgid ""
@@ -11661,6 +11728,8 @@ msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
 msgstr ""
+"Tämä poistaa *kaikkien* sähköpostien toimituksen, mukaan lukien "
+"rekisteröinnin tai salasanan nollaussähköpostit."
 
 #: ../../admin/install.rst:1116
 msgid ""
@@ -11946,6 +12015,9 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
+"ÄLÄ KÄYTÄ TÄTÄ PALVELINTA TUOTANTOASETUKSESSA. Se ei ole käynyt läpi "
+"tietoturvatarkastuksia tai suorituskykytestejä. Katso myös Django-"
+"dokumentaatio :djadmin:`django:runserver`."
 
 #: ../../admin/install.rst:1325
 msgid ""
@@ -13145,18 +13217,20 @@ msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"Määrittää, ovatko rekisteröinnit auki vaihtamalla "
+":std:setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/install/docker.rst:614
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
+"Määritä, mitä todennusmenetelmiä voidaan käyttää uuden tilin luomiseen "
+"kohdassa :setting:`REGISTRATION_ALLOW_BACKENDS`."
 
 #: ../../admin/install/docker.rst:630
-#, fuzzy
-#| msgid ":setting:`DEFAULT_COMMITER_EMAIL`"
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
-msgstr ":setting:`DEFAULT_COMMITER_EMAIL`"
+msgstr "Asettaa :std:setting:`REGISTRATION_REBIND`."
 
 #: ../../admin/install/docker.rst:634
 msgid ""
@@ -17711,6 +17785,10 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
+"Pääsy tietovarastojen selaamiseen rajoitetuilla käyttöoikeuksilla ("
+"yksityinen :ref:`pääsyn hallinta <acl>` tai kun :setting:`REQUIRE_LOGIN` on "
+"käytössä) vaatii API-tunnuksen, jonka voit hankkia :ref:`"
+"käyttäjäprofiilistasi. <käyttäjäprofiili>`:"
 
 #: ../../admin/optionals.rst:61
 msgid ""
@@ -19025,7 +19103,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:560
 msgid "Translation file format, see also :ref:`formats`."
-msgstr ""
+msgstr "Käännöstiedostomuoto, katso myös :ref:`formats`."
 
 #: ../../admin/projects.rst:565
 msgid "Source string bug reporting address"
@@ -20542,7 +20620,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:103
 msgid "Verify that your setup is sane (see also :ref:`production`):"
-msgstr ""
+msgstr "Varmista, että asetuksesi ovat järkevät (katso myös :ref:`production`):"
 
 #: ../../admin/upgrade.rst:109
 msgid "Restart the Celery worker (see :ref:`celery`)."
@@ -20812,6 +20890,9 @@ msgid ""
 "Each user has a personal access token which can be obtained in the user "
 "profile. Newly generated user tokens have the ``wlu_`` prefix."
 msgstr ""
+"Jokaisella käyttäjällä on henkilökohtainen käyttöoikeustunnus, jonka saa "
+"käyttäjäprofiilista. Äskettäin luoduissa käyttäjätunnuksissa on "
+"``wlu_``-etuliite."
 
 #: ../../api.rst:70
 msgid ""
@@ -22994,7 +23075,7 @@ msgstr ""
 
 #: ../../api.rst:2449 ../../api.rst:2461 ../../api.rst:2471
 msgid "whether to show it on a dashboard"
-msgstr ""
+msgstr "näytetäänkö se kojelaudassa"
 
 #: ../../api.rst:2451
 msgid "automatic assignment rules"
@@ -24579,7 +24660,7 @@ msgstr "Iso tilamerkki"
 
 #: ../../changes.rst:314
 msgid "Added list of managed projects to the dashboard view."
-msgstr ""
+msgstr "Hallittujen projektien luettelo lisätty hallintapaneelinäkymään."
 
 #: ../../changes.rst:315
 msgid "More detailed status of outgoing commits."
@@ -25249,7 +25330,7 @@ msgstr "Viimeksi päivitetty"
 
 #: ../../changes.rst:582
 msgid "Better e-mail selection in user profile."
-msgstr ""
+msgstr "Parempi sähköpostin valinta käyttäjäprofiilissa."
 
 #: ../../changes.rst:583
 msgid ":ref:`autofix` are now applied to suggestions as well."
@@ -26315,7 +26396,7 @@ msgstr ""
 
 #: ../../changes/v1.rst:34
 msgid "Captcha protection for registration."
-msgstr ""
+msgstr "Captcha-suojaus rekisteröintiä varten."
 
 #: ../../changes/v1.rst:37
 msgid "Weblate 1.7"
@@ -26389,7 +26470,7 @@ msgstr ""
 
 #: ../../changes/v1.rst:60
 msgid "Nicer error handling on registration."
-msgstr ""
+msgstr "Parempi virheenkäsittely rekisteröinnissä."
 
 #: ../../changes/v1.rst:61
 msgid "Browsing of changes."
@@ -26572,6 +26653,8 @@ msgstr ""
 #: ../../changes/v1.rst:113
 msgid "Provide hints for production setup in admin interface."
 msgstr ""
+"Anna vihjeitä tuotannon määrittämiseen järjestelmänvalvojan "
+"käyttöliittymässä."
 
 #: ../../changes/v1.rst:114
 msgid "Added per language widgets and engage page."
@@ -26785,7 +26868,7 @@ msgstr ""
 
 #: ../../changes/v1.rst:174
 msgid "Supports (and requires) django-registration 0.8."
-msgstr ""
+msgstr "Tukee ja vaatii django-rekisteröinnin 0.8."
 
 #: ../../changes/v1.rst:175
 msgid "Caching counts of strings with failing checks."
@@ -26919,6 +27002,8 @@ msgid ""
 "Added componentlists overview to dashboard and per component list overview "
 "pages."
 msgstr ""
+"Lisätty komponenttiluetteloiden yleiskatsaus kojelautaan ja "
+"komponenttiluetteloiden yleiskatsaussivuille."
 
 #: ../../changes/v2.rst:22
 msgid "Added support for DeepL machine translation service."
@@ -27112,7 +27197,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:90
 msgid "Added support for blocking certain e-mails from registration."
-msgstr ""
+msgstr "Lisätty tuki tiettyjen sähköpostien rekisteröinnin estämiseen."
 
 #: ../../changes/v2.rst:91
 msgid "Users can now delete their own comments."
@@ -27401,7 +27486,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:187
 msgid "Default dashboard for unauthenticated users can be configured."
-msgstr ""
+msgstr "Todentamattomien käyttäjien oletushallintapaneeli voidaan määrittää."
 
 #: ../../changes/v2.rst:188
 msgid "Add option to browse 25 random strings for review."
@@ -27973,7 +28058,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:367
 msgid "Added configurable dashboard views."
-msgstr ""
+msgstr "Muokattavat kojelautanäkymät lisätty."
 
 #: ../../changes/v2.rst:368
 msgid "Improved notifications on parse errors."
@@ -28111,6 +28196,8 @@ msgid ""
 "Direct login/registration links to third-party service if that's the only "
 "one."
 msgstr ""
+"Suorat kirjautumis-/rekisteröintilinkit kolmannen osapuolen palveluun, jos "
+"se on ainoa."
 
 #: ../../changes/v2.rst:407
 msgid "Commit pending changes on account removal."
@@ -28303,7 +28390,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:467
 msgid "Allow to hide completed translations from dashboard."
-msgstr ""
+msgstr "Salli piilottaa valmiit käännökset hallintapaneelista."
 
 #: ../../changes/v2.rst:470
 msgid "Weblate 2.0"
@@ -28359,7 +28446,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:486
 msgid "Give more hints to translators about plurals."
-msgstr ""
+msgstr "Anna kääntäjille lisää vihjeitä monikkomuodoista."
 
 #: ../../changes/v2.rst:487
 msgid "Fixed Git repository locking."
@@ -28720,7 +28807,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:114
 msgid "Improved translations listing on dashboard."
-msgstr ""
+msgstr "Paranneltu käännösluettelo kojelaudassa."
 
 #: ../../changes/v3.rst:115
 msgid "Improved HTTP responses for webhooks."
@@ -28854,7 +28941,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:156
 msgid "Reduced risk of registration token invalidation."
-msgstr ""
+msgstr "Pienempi rekisteröintitunnuksen mitätöimisen riski."
 
 #: ../../changes/v3.rst:157
 msgid "Fixed account removal hitting rate limiter."
@@ -30043,7 +30130,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:23
 msgid "Fixed CSS compression with dark theme."
-msgstr ""
+msgstr "Korjattu CSS-pakkaus tummalla teemalla."
 
 #: ../../changes/v4.rst:25
 msgid ""
@@ -30132,6 +30219,8 @@ msgstr "Käytä automaattisia ehdotuksia"
 #: ../../changes/v4.rst:45
 msgid "Added dark theme; browser-following and manual setting are available."
 msgstr ""
+"Lisätty tumma teema; selaimen seuraaminen ja manuaalinen asetus ovat "
+"käytettävissä."
 
 #: ../../changes/v4.rst:46
 msgid "The Docker container can now be used with read-only root filesystem."
@@ -30220,10 +30309,8 @@ msgstr ""
 "käyttäen."
 
 #: ../../changes/v4.rst:72
-#, fuzzy
-#| msgid "Improved performance of Matrix view."
 msgid "Improved performance of public user profiles."
-msgstr "Parempi Matrix-näkymän suorituskyky."
+msgstr "Parempi julkisten käyttäjäprofiilien suorituskyky."
 
 #: ../../changes/v4.rst:73
 #, fuzzy
@@ -30845,7 +30932,7 @@ msgstr "Väärin määritetty yksikielinen käännös."
 
 #: ../../changes/v4.rst:266
 msgid "Fixed CAPTCHA entering on unsuccessful registration."
-msgstr ""
+msgstr "Korjattu CAPTCHA-syöttäminen epäonnistuneen rekisteröinnin yhteydessä."
 
 #: ../../changes/v4.rst:267
 #, fuzzy
@@ -33991,7 +34078,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1245
 msgid "Improved sign in and registration pages."
-msgstr ""
+msgstr "Parannetut kirjautumis- ja rekisteröintisivut."
 
 #: ../../changes/v4.rst:1246
 msgid ""
@@ -34041,7 +34128,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1257
 msgid "Fixed occasional problems with registration mails."
-msgstr ""
+msgstr "Korjattu satunnaiset rekisteröintiviestien ongelmat."
 
 #: ../../changes/v4.rst:1258
 msgid "Improved LINGUAS update add-on to handle more syntax variants."
@@ -34370,6 +34457,9 @@ msgid ""
 "Any new code should utilize :pep:`484` type hints. We're not checking this "
 "in our CI yet as existing code does not yet include them."
 msgstr ""
+"Jokaisen uuden koodin tulee käyttää :pep:`484`-tyyppisiä vihjeitä. Emme "
+"tarkista tätä vielä CI:ssämme, koska olemassa oleva koodi ei vielä sisällä "
+"niitä."
 
 #: ../../contributing/snippets/code-guide.rst:15
 msgid ""
@@ -35439,6 +35529,8 @@ msgid ""
 "More detailed licensing information is available in the Weblate source code "
 "and follows `REUSE 3.0 specification <https://reuse.software/>`_."
 msgstr ""
+"Yksityiskohtaisemmat lisenssitiedot ovat saatavilla Weblate-lähdekoodissa, "
+"ja ne noudattavat `REUSE 3.0 specification <https://reuse.software/>`_."
 
 #: ../../../README.rst:78 ../../contributing/license.rst:7
 msgid "Copyright © Michal Čihař michal@weblate.org"
@@ -35451,6 +35543,10 @@ msgid ""
 "Software Foundation, either version 3 of the License, or (at your option) "
 "any later version."
 msgstr ""
+"Tämä ohjelma on ilmainen ohjelmisto: voit jakaa sitä uudelleen ja/tai "
+"muokata sitä Free Software Foundationin julkaiseman GNU General Public "
+"License -lisenssin ehtojen mukaisesti, joko lisenssin version 3 tai valinnan "
+"mukaan minkä tahansa myöhemmän version."
 
 #: ../../contributing/license.rst:14
 msgid ""
@@ -35459,12 +35555,18 @@ msgid ""
 "FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
 "more details."
 msgstr ""
+"Tätä ohjelmaa jaetaan siinä toivossa, että siitä on hyötyä, mutta ILMAN "
+"MITÄÄN TAKUUTA; ilman edes oletettua takuuta MYYNTIKELPOISUUDESTA tai "
+"SOVELTUVUUDESTA TIETTYYN TARKOITUKSEEN. Katso tarkemmat yksityiskohdat GNU "
+"General Public License -lisenssistä."
 
 #: ../../contributing/license.rst:18
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program. If not, see <https://www.gnu.org/licenses/>."
 msgstr ""
+"Sinun olisi pitänyt saada kopio GNU General Public License -lisenssistä "
+"tämän ohjelman mukana. Jos ei, katso <https://www.gnu.org/licenses/>."
 
 #: ../../contributing/modules.rst:2
 #, fuzzy
@@ -36044,10 +36146,8 @@ msgid "**hide\\_completed**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Hide completed translations on the dashboard"
 msgid "*Hide completed translations on the dashboard*"
-msgstr "Piilota valmiit käännökset kojelaudasta"
+msgstr "*Piilota valmiit käännökset kojelaudasta*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*boolean*"
@@ -36129,11 +36229,11 @@ msgstr "Erikoismerkit"
 
 #: ../../contributing/schemas.rst:19
 msgid "theme"
-msgstr ""
+msgstr "teema"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Theme*"
-msgstr ""
+msgstr "*Teema*"
 
 #: ../../contributing/schemas.rst:19
 msgid "auto"
@@ -36144,20 +36244,16 @@ msgid "^(auto|dark|light)$"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default dashboard view"
 msgid "**dashboard\\_view**"
-msgstr "Oletuskojelautanäkymä"
+msgstr "**kojelautanäkymä**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default dashboard view"
 msgid "*Default dashboard view*"
-msgstr "Oletuskojelautanäkymä"
+msgstr "*Oletuskojelautanäkymä*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**dashboard\\_component\\_list**"
-msgstr ""
+msgstr "**kojelauta\\_komponentti\\_luettelo**"
 
 #: ../../contributing/schemas.rst:19
 #, fuzzy
@@ -37397,13 +37493,11 @@ msgstr ""
 
 #: ../../snippets/basics.rst:2
 msgid "Weblate basics"
-msgstr ""
+msgstr "Weblaten perusteet"
 
 #: ../../snippets/basics.rst:5
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project and component structure"
-msgstr "Projektit vailla komponentteja"
+msgstr "Projekti ja komponenttirakenne"
 
 #: ../../snippets/basics.rst:7
 msgid ""
@@ -37414,12 +37508,20 @@ msgid ""
 "help you organize component into logical sets (for example to group all "
 "translations used within one application)."
 msgstr ""
+"Weblatessa käännökset on järjestetty projekteihin ja komponentteihin. "
+"Jokainen projekti voi sisältää useita osia ja ne sisältävät käännöksiä "
+"yksittäisille kielille. Komponentti vastaa yhtä käännettävää tiedostoa ("
+"esimerkiksi :ref:`gettext` tai :ref:`aresource`). Projektien avulla voit "
+"järjestää komponentit loogisiksi ryhmiksi (esimerkiksi ryhmitellä kaikki "
+"yhdessä sovelluksessa käytetyt käännökset)."
 
 #: ../../snippets/basics.rst:14
 msgid ""
 "Additionally, components within projects can be structured using categories. "
 "Components can belong to a category, and categories can be nested."
 msgstr ""
+"Lisäksi projektien komponentit voidaan jäsentää luokkien avulla. Komponentit "
+"voivat kuulua luokkaan ja luokat voivat olla sisäkkäisiä."
 
 #: ../../snippets/basics.rst:17
 msgid ""
@@ -37429,12 +37531,15 @@ msgid ""
 "disabled per :ref:`component` using :ref:`component-"
 "allow_translation_propagation` in case the translations should diverge."
 msgstr ""
+"Sisäisesti, jokaisessa projektissa on oletusarvoisesti käännökset yhteisiin "
+"merkkijonoihin, jotka levitetään muiden komponenttien kesken. Tämä keventää "
+"toistuvan ja moniversion kääntämisen taakkaa. Käännöksen eteneminen voidaan "
+"poistaa käytöstä :ref:`component` avulla käyttämällä :ref:`component-"
+"allow_translation_propagation`, jos käännökset poikkeavat toisistaan."
 
 #: ../../snippets/basics.rst:24
-#, fuzzy
-#| msgid "Repository initialization"
 msgid "Repository integration"
-msgstr "Arkiston alustaminen"
+msgstr "Tietovaraston integrointi"
 
 #: ../../snippets/basics.rst:26
 msgid ""
@@ -37442,16 +37547,17 @@ msgid ""
 "`/admin/continuous` describes building blocks and how the changes flow "
 "between them."
 msgstr ""
+"Weblate on rakennettu integroitumaan ylävirran "
+"versionhallintatietovarastoon, :doc:`/admin/continuous` kuvaa "
+"rakennuspalikoita ja kuinka muutokset kulkevat niiden välillä."
 
 #: ../../snippets/basics.rst:32
 msgid ":ref:`architecture` describes how Weblate works internally."
 msgstr ""
 
 #: ../../snippets/basics.rst:35
-#, fuzzy
-#| msgid "User registration"
 msgid "User attribution"
-msgstr "Käyttäjän rekisteröinti"
+msgstr "Käyttäjien ansioksi lukeminen"
 
 #: ../../snippets/basics.rst:37
 msgid ""
@@ -37461,6 +37567,11 @@ msgid ""
 "allows services like GitHub to associate your contributions done in Weblate "
 "with your GitHub profile."
 msgstr ""
+"Weblate pitää kääntäjien oikein kirjoittamat käännökset "
+"versionhallintavarastossa nimen ja sähköpostiosoitteen avulla. Todellisen "
+"sähköpostin liittäminen sitoumukseen noudattaa hajautettua versionhallintaa "
+"ja antaa GitHubin kaltaisille palveluille mahdollisuuden liittää Weblatessa "
+"tekemäsi tekstit GitHub-profiiliisi."
 
 #: ../../snippets/basics.rst:43
 msgid ""
@@ -37469,23 +37580,32 @@ msgid ""
 "(such as GitHub), there is effectively no way to redact it. Weblate allows "
 "choosing a private commit e-mail in :ref:`profile-account` to avoid this."
 msgstr ""
+"Tämä ominaisuus tuo myös riskin käyttää väärin versionhallintatoimituksissa "
+"julkaistua sähköpostia. Lisäksi, kun tällainen sitoumus on julkaistu "
+"julkisessa isännöinnissä (kuten GitHubissa), sitä ei käytännössä voi "
+"muokata. Verkkosivusto sallii yksityisen toimitussähköpostin valitsemisen "
+":ref:`profile-account`:ssa tämän välttämiseksi."
 
 #: ../../snippets/basics.rst:48
 msgid "Therefore, admins should consider this while configuring Weblate:"
 msgstr ""
+"Siksi järjestelmänvalvojien tulee ottaa tämä huomioon määrittäessään "
+"Weblatea:"
 
 #: ../../snippets/basics.rst:50
 msgid ""
 "Such a usage of e-mail should be clearly described in service terms in case "
 "such document is needed. :ref:`legal` can help with that."
 msgstr ""
+"Tällainen sähköpostin käyttö tulee kuvata selvästi palveluehdoissa, mikäli "
+"tällaista asiakirjaa tarvitaan. :ref:`legal` voi auttaa tässä."
 
 #: ../../snippets/basics.rst:51
-#, fuzzy
-#| msgid ":setting:`DEFAULT_COMMITER_EMAIL`"
 msgid ""
 ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` can make e-mails private by default."
-msgstr ":setting:`DEFAULT_COMMITER_EMAIL`"
+msgstr ""
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` voi muuttaa sähköpostit oletuksena "
+"yksityisiksi."
 
 #: ../../devel/integration.rst:7
 #, fuzzy
@@ -37751,6 +37871,10 @@ msgid ""
 "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
 "the dashboard, any translation component, or project:"
 msgstr ""
+"Ominaisuuksien raportointi antaa käsityksen käännösten edistymisestä tietyn "
+"ajanjakson aikana. Toimitetaan yhteenveto minkä tahansa komponentin "
+"panoksesta ajan mittaan. Raportointityökalu löytyy kojelaudan, minkä tahansa "
+"käännöskomponentin tai projektin :guilabel:`Insights`-valikosta:"
 
 #: ../../devel/reporting.rst:11
 msgid ""
@@ -37957,6 +38081,8 @@ msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
 msgstr ""
+"Projektin tai komponentin aktiviteettiraportit ovat käytettävissä sen "
+"kojelaudassa :guilabel:`Tiedot`-välilehdellä."
 
 #: ../../devel/review.rst:18
 msgid ""
@@ -42081,6 +42207,11 @@ msgid ""
 "FITNESS FOR A PARTICULAR PURPOSE. See the `GNU General Public License "
 "<https://www.gnu.org/licenses/gpl-3.0.html>`_ for more details."
 msgstr ""
+"Tätä ohjelmaa jaetaan siinä toivossa, että siitä on hyötyä, mutta ILMAN "
+"MITÄÄN TAKUUTA; ilman edes oletettua takuuta MYYNTIKELPOISUUDESTA tai "
+"SOVELTUVUUDESTA TIETTYYN TARKOITUKSEEN. Katso tarkemmat yksityiskohdat `GNU "
+"General Public License -lisenssistä <https://www.gnu.org/licenses/gpl-3.0."
+"html>`_."
 
 #: ../../index.rst:16
 msgid "Indices and tables"
@@ -45296,6 +45427,8 @@ msgid ""
 "From the project or component dashboard, translatable files can be "
 "downloaded in the :guilabel:`Files` menu."
 msgstr ""
+"Projektin tai komponentin hallintapaneelista voi ladata käännettävät "
+"tiedostot :guilabel:`Tiedostot`-valikosta."
 
 #: ../../user/files.rst:21
 msgid ""
@@ -45860,7 +45993,7 @@ msgstr ""
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
-msgstr ""
+msgstr "Rekisteröityminen ja käyttäjäprofiili"
 
 #: ../../user/profile.rst:7
 msgid ""
@@ -45875,15 +46008,16 @@ msgstr ""
 
 #: ../../user/profile.rst:13
 msgid "Fill out the registration form with your credentials."
-msgstr ""
+msgstr "Täytä rekisteröintilomake valtuustiedoillasi."
 
 #: ../../user/profile.rst:14
 msgid "Activate registration by following the link in the e-mail you receive."
 msgstr ""
+"Aktivoi rekisteröinti seuraamalla saamassasi sähköpostissa olevaa linkkiä."
 
 #: ../../user/profile.rst:15
 msgid "Optionally adjust your profile to choose which languages you know."
-msgstr ""
+msgstr "Vaihtoehtoisesti muokkaa profiiliasi valitaksesi mitkä kielet osaat."
 
 #: ../../user/profile.rst:20
 msgid "Dashboard"
@@ -45894,26 +46028,32 @@ msgid ""
 "When you sign in, you will see an overview of projects and components, as "
 "well as their respective translation progression."
 msgstr ""
+"Kun kirjaudut sisään, näet yleiskatsauksen projekteista ja komponenteista "
+"sekä niiden käännösten etenemisestä."
 
 #: ../../user/profile.rst:25
 msgid ""
 "Components of projects you are watching are shown by default, and cross-"
 "referenced with your preferred languages."
 msgstr ""
+"Katsomiesi projektien osat näytetään oletusarvoisesti, ja niihin viitataan "
+"haluamillasi kielillä."
 
 #: ../../user/profile.rst:30
 msgid "You can switch to different views using the navigation tabs."
-msgstr ""
+msgstr "Voit vaihtaa eri näkymiin navigointivälilehtien avulla."
 
 #: ../../user/profile.rst:34
 msgid "The menu has these options:"
-msgstr ""
+msgstr "Valikossa on seuraavat vaihtoehdot:"
 
 #: ../../user/profile.rst:36
 msgid ""
 ":guilabel:`Projects` > :guilabel:`Browse all projects` in the main menu "
 "showing translation status for each project on the Weblate instance."
 msgstr ""
+":guilabel:`Projektit` > :guilabel:`Selaa kaikkia projekteja` päävalikossa, "
+"joka näyttää jokaisen Weblate-esiintymän projektin käännöstilan."
 
 #: ../../user/profile.rst:38
 msgid ""
@@ -45921,6 +46061,8 @@ msgid ""
 "translation status of all projects, filtered by one of your primary "
 "languages."
 msgstr ""
+"Kielen valitseminen päävalikosta :guilabel:`Kielet` näyttää kaikkien "
+"projektien käännöstilan suodatettuna yhden ensisijaisista kielistäsi."
 
 #: ../../user/profile.rst:40
 msgid ""
@@ -45928,6 +46070,8 @@ msgid ""
 "status of only those projects you are watching, filtered by your primary "
 "languages."
 msgstr ""
+":guilabel: \"Katsotut käännökset\" kojelaudassa näyttää vain katsomiesi "
+"projektien käännöstilan ensisijaisen kielen mukaan suodatettuna."
 
 #: ../../user/profile.rst:43
 msgid ""
@@ -45935,12 +46079,17 @@ msgid ""
 "sets of project components preconfigured by the Weblate administrator, see :"
 "ref:`componentlists`."
 msgstr ""
+"Lisäksi pudotusvalikko voi näyttää myös minkä tahansa määrän "
+"*komponenttiluetteloita*, Weblate-järjestelmänvalvojan ennalta määrittämiä "
+"projektikomponenttijoukkoja, katso :ref:`componentlists`."
 
 #: ../../user/profile.rst:47
 msgid ""
 "You can configure your personal default dashboard view in the :guilabel:"
 "`Preferences` section of your user profile settings."
 msgstr ""
+"Voit määrittää henkilökohtaisen oletuskoontinäkymäsi "
+"käyttäjäprofiiliasetusten :guilabel:`Asetukset` -osiossa."
 
 #: ../../user/profile.rst:52
 msgid ""
@@ -45959,12 +46108,16 @@ msgid ""
 "The user profile is accessible by clicking your user icon in the top-right "
 "of the top menu, then the :guilabel:`Settings` menu."
 msgstr ""
+"Käyttäjäprofiiliin pääsee klikkaamalla ylävalikon oikeassa yläkulmassa "
+"olevaa käyttäjäkuvaketta ja sitten :guilabel:`Asetukset`-valikkoa."
 
 #: ../../user/profile.rst:63
 msgid ""
 "The user profile contains your preferences. Name and e-mail address is used "
 "in VCS commits, so keep this info accurate."
 msgstr ""
+"Käyttäjäprofiili sisältää asetuksesi. Nimeä ja sähköpostiosoitetta käytetään "
+"VCS-toimituksissa, joten pidä nämä tiedot oikeina."
 
 #: ../../user/profile.rst:68
 msgid "All language selections only offer currently translated languages."
@@ -46023,6 +46176,8 @@ msgid ""
 "Choose whether Weblate follows system settings for dark or light theme, or "
 "choose one of them manually."
 msgstr ""
+"Valitse, seuraako Weblate järjestelmäasetuksia tumman tai vaalean teeman "
+"osalta, tai valitse jokin niistä manuaalisesti."
 
 #: ../../user/profile.rst:116
 msgid "Default dashboard view"
@@ -48014,6 +48169,9 @@ msgid ""
 "also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see :setting:"
 "`DATA_DIR`), otherwise Git executed by Weblate will not use it."
 msgstr ""
+"Välityspalvelimen asetukset on tehtävä Weblatea käyttävässä käyttäjässä ("
+"katso myös :ref:`file-permissions`) ja ``HOME=$DATA_DIR/home`` (katso "
+":setting:`DATA_DIR`), muuten Weblate suorittaa Gitin. ei käytä sitä."
 
 #: ../../vcs.rst:255
 msgid ""
