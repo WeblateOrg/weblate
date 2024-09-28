@@ -47,7 +47,7 @@ $(document).ready(() => {
               if (!results || results.length === 0) {
                 $searchPreview.text(gettext("No results found"));
               } else {
-                showResults(results, $searchElment);
+                showResults(results, response.count);
               }
             },
           });
@@ -90,14 +90,15 @@ $(document).ready(() => {
     /**
      * Handles the search results and displays them in the preview element.
      * @param {any} results fetched search results
-     * @param {jQuery} $searchElment The search input element
+     * @param {number} count The number of search results
      * @returns void
      */
-    function showResults(results, $searchElment) {
+    function showResults(results, count) {
       // Show the number of results
-      if (results.length > 0) {
-        $searchElment.after(
-          `<h4 id="results-num">${gettext("Found: ")} ${results.length}</h4>`,
+      if (count > 0) {
+        const t = ngettext("%s matching string", "%s matching strings", count);
+        $searchPreview.append(
+          `<h4 id="results-num">${interpolate(t, [count])}</h4>`,
         );
       } else {
         $("#results-num").remove();
@@ -137,10 +138,13 @@ $(document).ready(() => {
     let builtSearchQuery = "";
 
     // Add path lookup to the search query
-    const pathSplited = window.location.pathname.split("/");
-    const projectPath = `${pathSplited[2]}/${pathSplited[3]}`;
+    const projectPath = $searchElment
+      .closest("form")
+      .find("input[name=path]")
+      .val();
     if (projectPath) {
       builtSearchQuery = `path:${projectPath}`;
+      console.log(builtSearchQuery);
     }
 
     // Add filters to the search query
