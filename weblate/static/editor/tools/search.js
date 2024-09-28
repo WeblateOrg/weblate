@@ -144,7 +144,6 @@ $(document).ready(() => {
       .val();
     if (projectPath) {
       builtSearchQuery = `path:${projectPath}`;
-      console.log(builtSearchQuery);
     }
 
     // Add filters to the search query
