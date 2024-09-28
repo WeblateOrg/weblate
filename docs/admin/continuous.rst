@@ -90,6 +90,8 @@ source.
   * :ref:`azure-setup`
   * :ref:`gitea-setup`
 
+  You must also :ref:`project-enable_hooks` for this to work.
+
 * Manually trigger update either in the repository management or using :ref:`api` or :ref:`wlc`
 
 * Enable :setting:`AUTO_UPDATE` to automatically update all components on your Weblate instance
