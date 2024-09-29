@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-20 19:19+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-09-29 12:15+0000\n"
+"Last-Translator: Hoseok Seo <ddinghoya@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -1070,10 +1070,8 @@ msgid "Sign in"
 msgstr "로그인"
 
 #: weblate/accounts/views.py:869
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "로그아웃"
+msgstr "로그아웃됨"
 
 #: weblate/accounts/views.py:975
 msgid "Register e-mail"
@@ -1102,10 +1100,9 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr "먼저 전자 우편 주소를 확인하여 다른 ID를 추가합니다."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "키를 생성할 수 없습니다: %s"
+msgstr "인증할 수 없음: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -5019,26 +5016,23 @@ msgid "Region ID"
 msgstr "지역 ID"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "상황・문맥"
+msgstr "컨텍스트 벡터"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
-msgstr ""
+msgstr "메모리 ID의 쉼표로 구분된 목록:가중치. 예: 1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "번역이 유효한 XML이 아닙니다"
+msgstr "컨텍스트 벡터가 유효하지 않음: %s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "가중치 값은 0과 1 사이여야 함: %s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5050,23 +5044,15 @@ msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr "언어가 (비)공식으로 지정되지 않은 경우 지정된 형식을 사용함"
 
 #: weblate/machinery/forms.py:308
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation context"
-msgstr "번역 의견"
+msgstr "번역 맥락"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
-"번역의 정확성을 높이기 위해 번역가의 페르소나를 설명하세요. 예를 들어: \"당신"
-"은 다람쥐 사육자입니다.\""
+msgstr "번역의 정확성을 높이기 위해 번역의 맥락을 설명하세요."
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5133,12 +5119,9 @@ msgid "Choose custom model here to enable it."
 msgstr "여기에서 커스텀 모델을 선택하여 활성화하세요."
 
 #: weblate/machinery/forms.py:403
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr "응용프로그램 엔드포인트 URL"
+msgstr "애저 OpenAI 엔드포인트 URL"
 
 #: weblate/machinery/forms.py:407
 msgid ""
