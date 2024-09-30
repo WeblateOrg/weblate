@@ -235,6 +235,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
     objects = ProjectQuerySet.as_manager()
 
+    # Used when updating for object removal
+    billings_to_update: list[int]
+
     class Meta:
         app_label = "trans"
         verbose_name = "Project"
