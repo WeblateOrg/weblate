@@ -593,7 +593,10 @@ class UserTermExpr(BaseTermExpr):
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
         if field == "translates":
             return query & Q(
-                change__timestamp__date__gte=timezone.now().date() - timedelta(days=90)
+                change__timestamp__gte=timezone.now().replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
+                - timedelta(days=90)
             )
 
         return super().field_extra(field, query, match)
@@ -610,7 +613,10 @@ class UserTermExpr(BaseTermExpr):
         else:
             query = Q(change__project__slug__iexact=text)
         return query & Q(
-            change__timestamp__date__gte=timezone.now().date() - timedelta(days=90)
+            change__timestamp__gte=timezone.now().replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
+            - timedelta(days=90)
         )
 
 
