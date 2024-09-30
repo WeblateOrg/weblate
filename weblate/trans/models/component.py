@@ -850,6 +850,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 or (old.edit_template != self.edit_template)
                 or (old.new_base != self.new_base)
                 or changed_template
+                or old.key_filter != self.key_filter
             )
             if changed_setup:
                 old.commit_pending("changed setup", None)
@@ -3182,12 +3183,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             was_change = self.create_translations(
                 force=True, changed_template=changed_template, run_async=True
             )
-            # This fires if a pattern exist and the file format is monolingual
-            with transaction.atomic():
-                translations = Translation.objects.filter(component=self)
-                for translation in translations:
-                    translation.check_sync(force=True)
-
         elif changed_git:
             was_change = self.create_translations(run_async=True)
 

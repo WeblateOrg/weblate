@@ -1515,9 +1515,6 @@ class ComponentSettingsForm(
             pk=self.instance.project.pk
         )
 
-        if self.instance and not self.instance.file_format_cls.monolingual:
-            self.fields["key_filter"].disabled = True
-
         self.helper.layout = Layout(
             TabHolder(
                 Tab(
@@ -1655,6 +1652,9 @@ class ComponentSettingsForm(
         data = self.cleaned_data
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
+
+        if self.instance and not self.instance.file_format_cls.monolingual:
+            raise ValidationError(gettext("The file format must be monolingual."))
 
 
 class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
