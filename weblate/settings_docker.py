@@ -779,6 +779,8 @@ INSTALLED_APPS = [
     "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
     "django_otp_webauthn",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
 ]
 
 modify_env_list(INSTALLED_APPS, "APPS")
@@ -1204,6 +1206,20 @@ REST_FRAMEWORK = {
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
     "EXCEPTION_HANDLER": "weblate.api.views.weblate_exception_handler",
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+SPECTACULAR_SETTINGS = {
+    "SWAGGER_UI_DIST": "SIDECAR",
+    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    "REDOC_DIST": "SIDECAR",
+    "SERVE_URLCONF": "weblate.api.urls",
+    "TITLE": "Weblate's REST API",
+    "DESCRIPTION": """
+The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
+
+The OpenAPI specification is available as feature preview, feedback welcome!
+    """,
+    "VERSION": None,
 }
 
 # Fonts CDN URL

@@ -31,23 +31,23 @@ jobs:
         database: [postgresql]
         experimental: [false]
         include:
-          # Reduced testing for mysql
-        - python-version: 3.11
+        # Reduced testing for mysql
+        - python-version: '3.11'
           requirements: latest
           database: mysql
           experimental: false
-          # Reduced testing for mariadb
-        - python-version: 3.11
+        # Reduced testing for mariadb
+        - python-version: '3.11'
           requirements: latest
           database: mariadb
           experimental: false
-          # Reduced testing for minimal deps
+        # Reduced testing for minimal deps
         - python-version: '3.11'
           requirements: minimal
           database: postgresql
           experimental: false
-          # Reduced testing for edge deps
-        - python-version: 3.11
+        # Reduced testing for edge deps
+        - python-version: '3.11'
           requirements: edge
           database: postgresql
           experimental: true
