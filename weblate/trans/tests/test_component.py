@@ -1098,5 +1098,9 @@ class ComponentKeyFilterTest(ViewTestCase):
         component = self.create_po(
             name="Bilingual Test", project=project, key_filter=r"^tr"
         )
+        self.assertRaisesMessage(
+            ValidationError,
+            "To use the key filter, the file format must be monolingual.",
+        )
         self.assertEqual(component.key_filter, "")
         self.assertEqual(component.key_filter_re.pattern, "")
