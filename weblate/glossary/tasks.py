@@ -88,7 +88,6 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
         - it is not the only glossary in the project
         - it is managed by Weblate (i.e. repo == 'local:')
         """
-        # TODO: optimize DB hits
         return all(
             [
                 _glossary.stats.translated == 0,

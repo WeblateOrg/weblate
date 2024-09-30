@@ -3324,7 +3324,7 @@ class TranslationAPITest(APIBaseTest):
 
     def test_delete(self) -> None:
         def _translation_count():
-            # ignore glossaries as stale glossaries are also cleaned out
+            # exclude glossaries because stale glossaries are also cleaned out
             return Translation.objects.filter(component__is_glossary=False).count()
 
         start_count = _translation_count()

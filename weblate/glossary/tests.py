@@ -479,13 +479,35 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
 
     def test_stale_glossaries_cleanup(self) -> None:
         initial_count = self.glossary_component.translation_set.count()
-        # delete one translation
+
+        # check glossary not deleted because it has a valid translation
+        cleanup_stale_glossaries(self.project.id)
+        self.assertEqual(self.glossary_component.translation_set.count(), initial_count)
+
+        # delete translation
         german = Language.objects.get(code="de")
         self.component.translation_set.get(language=german).remove(self.user)
 
+        # check glossary not deleted because project only has one glossary
         cleanup_stale_glossaries(self.project.id)
+        self.assertEqual(self.glossary_component.translation_set.count(), initial_count)
+        self._create_component(
+            "po", "po/*.po", project=self.project, is_glossary=True, name="Glossary-2"
+        )
 
-        # check that only the one glossary has been deleted
+        # check glossary not deleted because glossary is managed outside weblate
+        self.glossary_component.repo = "git://example.com/test/project.git"
+        self.glossary_component.save()
+
+        cleanup_stale_glossaries(self.project.id)
+        self.assertEqual(self.glossary_component.translation_set.count(), initial_count)
+
+        # make glossary managed by weblate
+        self.glossary_component.repo = "local:"
+        self.glossary_component.save()
+
+        # check that one glossary has been deleted
+        cleanup_stale_glossaries(self.project.id)
         self.assertEqual(
             self.glossary_component.translation_set.count(), initial_count - 1
         )
