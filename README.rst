@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FWeblateOrg%2Fweblate.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FWeblateOrg%2Fweblate?ref=badge_shield)
+
 .. image:: https://s.weblate.org/cdn/Logo-Darktext-borders.png
    :alt: Weblate
    :target: https://weblate.org/
@@ -88,3 +90,6 @@ PARTICULAR PURPOSE. See the `GNU General Public License
 <https://www.gnu.org/licenses/gpl-3.0.html>`_ for more details.
 
 .. _weblate.org: https://weblate.org/
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FWeblateOrg%2Fweblate.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FWeblateOrg%2Fweblate?ref=badge_large)
