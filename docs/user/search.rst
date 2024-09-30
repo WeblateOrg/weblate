@@ -73,6 +73,8 @@ Fields
    Component slug or name case-insensitive search, see :ref:`component-slug` and :ref:`component-name`.
 ``project:TEXT``
    Project slug, see :ref:`project-slug`.
+``path:TEXT``
+   Path to the object to limit searching inside component, category, project, or translation.
 ``changed_by:TEXT``
    String was changed by author with given username.
 ``changed:DATETIME``
@@ -205,3 +207,19 @@ Additional lookups are available in the :ref:`management-interface`:
    Search for active users.
 ``email:TEXT``
    Search by e-mail.
+
+.. _date-search:
+
+Fuzzy values for DATETIME fields
+++++++++++++++++++++++++++++++++
+
+Instead of using DATETIME values like MM-DD-YYYY, a string containing adverb
+of time like ``yesterday``, ``last month``, and ``2 days ago`` can be used as
+values in the DATETIME fields.
+
+Examples:
+
+``changed:>="2 weeks ago"``
+    Returns strings that are changed 2 weeks ago from the current date and time.
+``changed:>=yesterday``
+    Returns strings that are changed starting yesterday.

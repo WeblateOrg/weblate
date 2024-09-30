@@ -8,13 +8,18 @@
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ subject }}</title>
+    <title>{{ subject }}</title>
+
 {% compress css inline %}
-  <style>
-    {% include "mail/style.css" %}
-  </style>
+    <style>
+        {% include "mail/style.css" %}
+    </style>
+    {% block extra_styles %}
+    {% endblock %}
 {% endcompress %}
- </head>
+
+
+</head>
 
  <body>
  {% filter add_site_url %}

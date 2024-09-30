@@ -387,8 +387,8 @@ real_patterns = [
     ),
     path(
         "progress/<object_path:path>/",
-        weblate.trans.views.settings.component_progress,
-        name="component_progress",
+        weblate.trans.views.settings.show_progress,
+        name="show_progress",
     ),
     # Announcements
     path(

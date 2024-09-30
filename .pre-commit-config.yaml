@@ -18,7 +18,7 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.20.0
+  rev: 1.21.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '5.0']
@@ -27,7 +27,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.6.2
+  rev: v0.6.8
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
@@ -53,15 +53,16 @@ repos:
   - id: mdformat
     additional_dependencies:
     - mdformat-gfm==0.3.6
-    - mdformat-black==0.1.1
+    - mdformat-ruff==0.1.3
     - mdformat-shfmt==0.1.0
+    - mdformat_tables==1.0.0
 - repo: https://github.com/awebdeveloper/pre-commit-stylelint
   rev: 0.0.2
   hooks:
   - id: stylelint
     args: [--formatter=compact]
     additional_dependencies:
-    - stylelint@16.8.2
+    - stylelint@16.9.0
 - repo: https://github.com/fsfe/reuse-tool
   rev: v3.0.2
   hooks:
@@ -73,13 +74,13 @@ repos:
     require_serial: true
     args: [-x]
 - repo: https://github.com/biomejs/pre-commit
-  rev: v0.4.0
+  rev: v0.5.0
   hooks:
   - id: biome-check
     additional_dependencies:
-    - '@biomejs/biome@1.8.3'
+    - '@biomejs/biome@1.9.2'
 - repo: https://github.com/abravalheri/validate-pyproject
-  rev: v0.19
+  rev: v0.20.2
   hooks:
   - id: validate-pyproject
 - repo: https://github.com/codespell-project/codespell

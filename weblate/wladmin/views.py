@@ -35,7 +35,7 @@ from weblate.auth.models import (
     Invitation,
     User,
 )
-from weblate.configuration.models import Setting
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.configuration.views import CustomCSSView
 from weblate.trans.forms import AnnouncementForm
 from weblate.trans.models import Alert, Announcement, Component, Project
@@ -133,7 +133,7 @@ def tools(request: AuthenticatedHttpRequest) -> HttpResponse:
                     send_test_mail(**email_form.cleaned_data)
                     messages.success(request, gettext("Test e-mail sent."))
                 except Exception as error:
-                    report_error()
+                    report_error("E-mail sending failed")
                     messages.error(
                         request, gettext("Could not send test e-mail: %s") % error
                     )
@@ -199,7 +199,7 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
         try:
             support.refresh()
         except Timeout:
-            report_error()
+            report_error("Activation timeout")
             messages.error(
                 request,
                 gettext(
@@ -207,7 +207,7 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
                 ),
             )
         except HTTPError as error:
-            report_error()
+            report_error("Activation error")
             if error.response.status_code == 404:
                 messages.error(
                     request,
@@ -224,7 +224,7 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
                     ),
                 )
         except Exception as error:
-            report_error()
+            report_error("Activation error")
             messages.error(
                 request,
                 gettext("Could not activate your installation: %s") % error,
@@ -447,12 +447,12 @@ def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @management_access
 def appearance(request: AuthenticatedHttpRequest) -> HttpResponse:
-    current = Setting.objects.get_settings_dict(Setting.CATEGORY_UI)
+    current = Setting.objects.get_settings_dict(SettingCategory.UI)
     form = AppearanceForm(initial=current)
 
     if request.method == "POST":
         if "reset" in request.POST:
-            Setting.objects.filter(category=Setting.CATEGORY_UI).delete()
+            Setting.objects.filter(category=SettingCategory.UI).delete()
             CustomCSSView.drop_cache()
             return redirect("manage-appearance")
         form = AppearanceForm(request.POST)
@@ -461,19 +461,19 @@ def appearance(request: AuthenticatedHttpRequest) -> HttpResponse:
                 if name not in current:
                     # New setting previously not set
                     Setting.objects.create(
-                        category=Setting.CATEGORY_UI, name=name, value=value
+                        category=SettingCategory.UI, name=name, value=value
                     )
                 else:
                     if value != current[name]:
                         # Update setting
                         Setting.objects.filter(
-                            category=Setting.CATEGORY_UI, name=name
+                            category=SettingCategory.UI, name=name
                         ).update(value=value)
                     current.pop(name)
             # Drop stale settings
             if current:
                 Setting.objects.filter(
-                    category=Setting.CATEGORY_UI, name__in=current.keys()
+                    category=SettingCategory.UI, name__in=current.keys()
                 ).delete()
 
             # Flush cache

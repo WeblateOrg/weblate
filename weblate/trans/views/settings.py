@@ -192,6 +192,7 @@ def remove(request: AuthenticatedHttpRequest, path):
         show_form_errors(request, form)
         return redirect_param(obj, "#organize")
 
+    parent: Component | Category | Project | str
     if isinstance(obj, Translation):
         parent = obj.component
         obj.remove(request.user)
@@ -338,14 +339,40 @@ def announcement_delete(request: AuthenticatedHttpRequest, pk):
 
 
 @login_required
-def component_progress(request: AuthenticatedHttpRequest, path):
+def show_progress(request: AuthenticatedHttpRequest, path):
     """
     Show component update progress.
 
     The target 'return to' URL can be either the component itself,
     or one of its languages.
     """
-    obj = parse_path(request, path, (Component, Translation))
+    obj = parse_path(request, path, (Project, Category, Component, Translation))
+    if isinstance(obj, Project | Category):
+        return multi_progress(request, obj)
+
+    return component_progress(request, obj)
+
+
+def multi_progress(request: AuthenticatedHttpRequest, obj: Category | Project):
+    components = list(obj.all_repo_components)
+    return_target = obj
+    # There is no guide as in component view here
+    return_url = "show"
+    if not any(component.in_progress() for component in components):
+        return redirect(return_url, path=return_target.get_url_path())
+    return render(
+        request,
+        "multi-progress.html",
+        {
+            "object": obj,
+            "return_target": return_target,
+            "return_url": return_url,
+            "components": components,
+        },
+    )
+
+
+def component_progress(request: AuthenticatedHttpRequest, obj: Component | Translation):
     component = obj if isinstance(obj, Component) else obj.component
     return_target = obj
     return_url = "show" if "info" in request.GET else "guide"
@@ -368,8 +395,8 @@ def component_progress(request: AuthenticatedHttpRequest, path):
     )
 
 
-class BackupsMixin:
-    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+class BackupsMixin(View):
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         super().setup(request, *args, **kwargs)
         self.obj = parse_path(request, [kwargs["project"]], (Project,))
         if not request.user.has_perm("project.edit", self.obj):
@@ -391,13 +418,13 @@ class BackupsView(BackupsMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["keep_count"] = settings.PROJECT_BACKUP_KEEP_COUNT
         context["keep_days"] = settings.PROJECT_BACKUP_KEEP_DAYS
-        context["object"] = self.obj
+        context["object"] = context["project"] = self.obj
         context["backups"] = self.obj.list_backups()
         return context
 
 
 @method_decorator(login_required, name="dispatch")
-class BackupsDownloadView(BackupsMixin, View):
+class BackupsDownloadView(BackupsMixin):
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         for backup in self.obj.list_backups():
             if backup["name"] != kwargs["backup"]:

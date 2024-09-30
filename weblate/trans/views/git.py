@@ -38,11 +38,11 @@ def execute_locked(
             gettext("Could not lock the repository, another operation is in progress."),
         )
         if isinstance(obj, Project):
-            report_error(project=obj)
+            report_error("Repository lock timeout", project=obj)
         elif isinstance(obj, Component):
-            report_error(project=obj.project)
+            report_error("Repository lock timeout", project=obj.project)
         else:
-            report_error(project=obj.component.project)
+            report_error("Repository lock timeout", project=obj.component.project)
 
     return redirect_param(obj, "#repository")
 
@@ -67,7 +67,7 @@ def update(request: AuthenticatedHttpRequest, path):
     if result:
         return redirect(
             "{}?info=1".format(
-                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+                reverse("show_progress", kwargs={"path": obj.get_url_path()})
             )
         )
     return result
@@ -104,7 +104,7 @@ def reset(request: AuthenticatedHttpRequest, path):
     if result:
         return redirect(
             "{}?info=1".format(
-                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+                reverse("show_progress", kwargs={"path": obj.get_url_path()})
             )
         )
     return result
@@ -159,7 +159,7 @@ def file_scan(request: AuthenticatedHttpRequest, path):
     if result:
         return redirect(
             "{}?info=1".format(
-                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+                reverse("show_progress", kwargs={"path": obj.get_url_path()})
             )
         )
     return result

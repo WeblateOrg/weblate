@@ -20,7 +20,10 @@ from weblate.utils.stats import CategoryStats
 from weblate.utils.validators import validate_slug
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.auth.models import User
+    from weblate.trans.models import Component
 
 
 class CategoryQuerySet(models.QuerySet):
@@ -196,7 +199,7 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         )
 
     @cached_property
-    def all_components(self):
+    def all_components(self) -> Iterable[Component]:
         from weblate.trans.models import Component
 
         return Component.objects.filter(
@@ -204,6 +207,22 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             | Q(category__category=self)
             | Q(category__category__category=self)
         )
+
+    @property
+    def all_repo_components(self) -> Iterable[Component]:
+        included = set()
+        # Yield all components with repo
+        for component in self.all_components:
+            if not component.linked_component_id:
+                included.add(component.pk)
+                yield component
+        # Include possibly linked components outside the category
+        for component in self.all_components:
+            if (
+                component.linked_component_id
+                and component.linked_component_id not in included
+            ):
+                yield component.linked_component
 
     @cached_property
     def all_component_ids(self):
@@ -239,3 +258,7 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return set(
             self.all_components.values_list("source_language_id", flat=True).distinct()
         )
+
+    def get_widgets_url(self) -> str:
+        """Return absolute URL for widgets."""
+        return self.project.get_widgets_url()

@@ -33,7 +33,6 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS
-from weblate.glossary.models import get_glossary_sources
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.defines import (
     BRANCH_LENGTH,
@@ -1411,7 +1410,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def get_clean_slug(self, slug):
         if slug.endswith(".git"):
-            slug = slug[:-4]
+            return slug[:-4]
         return slug
 
     def get_bitbucket_git_repoweb_template(self) -> str | None:
@@ -1964,7 +1963,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         ]
 
     @perform_on_link
-    def commit_pending(self, reason: str, user: User, skip_push: bool = False) -> bool:  # noqa: C901
+    def commit_pending(  # noqa: C901
+        self, reason: str, user: User | None, skip_push: bool = False
+    ) -> bool:
         """Check whether there is any translation to be committed."""
 
         def reuse_self(translation):
@@ -2033,10 +2034,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 ):
                     translation.store_hash()
 
+        self.store_local_revision()
+
         # Fire postponed post commit signals
         for component in components.values():
             component.send_post_commit_signal()
-            component.store_local_revision()
             component.update_import_alerts(delete=False)
 
         # Push if enabled
@@ -2138,8 +2140,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.local_revision = self.repository.last_revision
         # Avoid using using save as that does complex things and we
         # just want to update the database
-        Component.objects.filter(pk=self.pk).update(
-            local_revision=self.repository.last_revision
+        Component.objects.filter(Q(pk=self.pk) | Q(linked_component=self)).update(
+            local_revision=self.local_revision
         )
 
     @perform_on_link
@@ -2392,7 +2394,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         self.log_info("scheduling update in background")
         # We skip request here as it is not serializable
-        perform_load.apply_async(
+        task = perform_load.apply_async(
             args=(self.pk,),
             kwargs={
                 "force": force,
@@ -2402,6 +2404,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 "change": change,
             },
         )
+        self.store_background_task(task)
         return False
 
     def create_translations_task(
@@ -2447,17 +2450,17 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         """Load translations from VCS."""
         self.store_background_task()
 
+        # Store the revision as add-ons might update it later
+        current_revision = self.local_revision
+
         if (
-            self.processed_revision == self.local_revision
+            self.processed_revision == current_revision
             and self.local_revision
             and not force
         ):
             self.log_info("this revision has been already parsed, skipping update")
             self.progress_step(100)
             return False
-
-        # Store the revision as add-ons might update it later
-        parsed_revision = self.local_revision
 
         # Ensure we start from fresh template
         self.drop_template_store_cache()
@@ -2547,7 +2550,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     )
                     self.handle_parse_error(error.__cause__, filename=self.template)
                     self.update_import_alerts()
-                    raise error.__cause__ from error
+                    raise error.__cause__ from error  # pylint: disable=E0710
                 was_change |= bool(translation.reason)
                 translations[translation.id] = translation
                 languages[lang.code] = translation
@@ -2574,7 +2577,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     # Indicate a change to invalidate stats
                     was_change = True
 
+        # Update import alerts
         self.update_import_alerts()
+        # Clean no matches alert if there are translations:
+        if translations:
+            self.delete_alert("NoMaskMatches")
 
         # Process linked repos
         for pos, component in enumerate(self.linked_childs):
@@ -2619,10 +2626,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.run_batched_checks()
 
         # Update last processed revision
-        self.processed_revision = parsed_revision
-        Component.objects.filter(pk=self.pk).update(
-            processed_revision=self.processed_revision
-        )
+        self.processed_revision = current_revision
+        # Avoid using save() here
+        Component.objects.filter(pk=self.pk).update(processed_revision=current_revision)
 
         self.log_info("updating completed")
         return was_change
@@ -2663,6 +2669,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     @cached_property
     def glossary_sources(self):
+        from weblate.glossary.models import get_glossary_sources
+
         result = cache.get(self.glossary_sources_key)
         if result is None:
             result = get_glossary_sources(self)
@@ -3135,6 +3143,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def after_save(
         self,
+        *,
         changed_git: bool,
         changed_setup: bool,
         changed_template: bool,

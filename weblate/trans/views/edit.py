@@ -923,6 +923,7 @@ def zen(request: AuthenticatedHttpRequest, path):
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "filter_count": len(search_result["ids"]),
+            "filter_pos": 0,
             "sort_name": sort["name"],
             "sort_query": sort["query"],
             "last_section": search_result["last_section"],

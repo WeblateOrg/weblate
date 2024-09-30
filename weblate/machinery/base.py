@@ -14,7 +14,7 @@ from collections.abc import Iterable, Iterator
 from hashlib import md5
 from html import escape, unescape
 from itertools import chain
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, NotRequired, TypedDict
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -28,7 +28,7 @@ from weblate.lang.models import Language, PluralMapper
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.requests import request
-from weblate.utils.search import Comparer
+from weblate.utils.similarity import Comparer
 from weblate.utils.site import get_site_url
 
 if TYPE_CHECKING:
@@ -79,16 +79,15 @@ class SettingsDict(TypedDict, total=False):
     custom_model: str
 
 
-class TranslationResultDict(TypedDict, total=False):
+class TranslationResultDict(TypedDict):
     text: str
     quality: int
     service: str
     source: str
-    # TODO: only following are actually optional, but this can be specified
-    # in Python 3.11+, mark these by NotRequired
-    show_quality: bool
-    origin: str
-    origin_url: str
+    show_quality: NotRequired[bool]
+    origin: NotRequired[str]
+    origin_url: NotRequired[str]
+    delete_url: NotRequired[str]
 
 
 class UnitMemoryResultDict(TypedDict, total=False):
@@ -226,8 +225,7 @@ class BatchMachineTranslation:
 
     def map_language_code(self, code: str) -> str:
         """Map language code to service specific."""
-        if code.endswith("_devel"):
-            code = code[:-6]
+        code = code.removesuffix("_devel")
         if code in self.language_map:
             return self.language_map[code]
         return code
@@ -675,7 +673,16 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     glossary_name_format = (
         "weblate:{project}:{source_language}:{target_language}:{checksum}"
     )
+    glossary_name_format_pattern = (
+        r"weblate:(\d+):([A-z0-9@_-]+):([A-z0-9@_-]+):([a-f0-9]+)"
+    )
+
     glossary_count_limit = 0
+
+    def delete_cache(self) -> None:
+        """Delete general caches and glossary cache."""
+        super().delete_cache()
+        cache.delete(self.get_cache_key("glossaries"))
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
         return True
@@ -779,6 +786,14 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         # Fetch glossaries again, without using cache
         glossaries = self.get_glossaries(use_cache=False)
         return glossaries[glossary_name]
+
+    def match_name_format(self, string: str) -> re.Match | None:
+        """
+        Match glossary name against format.
+
+        Only way so far to identify glossaries from memories
+        """
+        return re.match(self.glossary_name_format_pattern, string)
 
 
 class XMLMachineTranslationMixin:

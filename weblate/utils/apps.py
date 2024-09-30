@@ -25,8 +25,6 @@ from django.db.models.lookups import Lookup, Regex
 from django.utils import timezone
 from packaging.version import Version
 
-from weblate.utils.urls import register_weblate_converters
-
 from .celery import is_celery_queue_long
 from .checks import weblate_check
 from .data import data_dir
@@ -465,7 +463,6 @@ class UtilsConfig(AppConfig):
 
     def ready(self) -> None:
         super().ready()
-        register_weblate_converters()
         init_error_collection()
 
         lookups: list[tuple[type[Lookup]] | tuple[type[Lookup], str]]

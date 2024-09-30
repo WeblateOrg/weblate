@@ -111,8 +111,9 @@ class SeleniumTests(
         options.add_experimental_option("prefs", {"intl.accept_languages": "en,en_US"})
 
         # Need to revert fontconfig custom config for starting chrome
-        backup_fc = os.environ["FONTCONFIG_FILE"]
-        del os.environ["FONTCONFIG_FILE"]
+        backup_fc = os.environ.get("FONTCONFIG_FILE")
+        if backup_fc is not None:
+            del os.environ["FONTCONFIG_FILE"]
 
         # Force English locales, the --lang and accept_language settings does not
         # work in some cases
@@ -127,7 +128,8 @@ class SeleniumTests(
                 raise
 
         # Restore custom fontconfig settings
-        os.environ["FONTCONFIG_FILE"] = backup_fc
+        if backup_fc is not None:
+            os.environ["FONTCONFIG_FILE"] = backup_fc
         # Restore locales
         if backup_lang is None:
             del os.environ["LANG"]
@@ -285,7 +287,7 @@ class SeleniumTests(
             self.click(htmlid="logout-button")
 
         # We should be back on home page
-        self.driver.find_element(By.ID, "browse-projects")
+        self.driver.find_element(By.ID, "dashboard-return")
 
     def register_user(self):
         # registration page
@@ -1105,7 +1107,6 @@ class SeleniumTests(
         self.create_temp()
         try:
             self.open_manage()
-            self.screenshot("support.png")
             with self.wait_for_page_load():
                 self.click("Backups")
             element = self.driver.find_element(By.ID, "id_repository")
@@ -1123,6 +1124,12 @@ class SeleniumTests(
             self.screenshot("support-discovery.png")
         finally:
             self.remove_temp()
+
+    def test_manage(self) -> None:
+        self.open_manage()
+        self.screenshot("support.png")
+        self.click("Appearance")
+        self.screenshot("appearance-settings.png")
 
     def test_explanation(self) -> None:
         project = self.create_component()

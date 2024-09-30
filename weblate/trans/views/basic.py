@@ -296,7 +296,7 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
             "delete_form": optional_form(
                 ProjectLanguageDeleteForm, user, "translation.delete", obj, obj=obj
             ),
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
+            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -361,7 +361,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
             "delete_form": optional_form(
                 CategoryLanguageDeleteForm, user, "translation.delete", obj, obj=obj
             ),
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
+            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -440,7 +440,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
                 request=request,
                 instance=obj,
             ),
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
+            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -523,7 +523,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
                 request=request,
                 instance=obj,
             ),
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
+            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -569,7 +569,7 @@ def show_component(request: AuthenticatedHttpRequest, obj):
             "translations": translations,
             "reports_form": ReportsForm({"component": obj}),
             "last_changes": last_changes,
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
+            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -666,7 +666,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
                 user=user,
             ),
             "search_form": search_form,
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
+            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -768,7 +768,7 @@ def new_language(request: AuthenticatedHttpRequest, path):
                         )
                         result = "{}?info=1".format(
                             reverse(
-                                "component_progress",
+                                "show_progress",
                                 kwargs={"path": result.get_url_path()},
                             )
                         )

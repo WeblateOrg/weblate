@@ -20,11 +20,11 @@ def add_site_url(content):
     """Automatically add site URL to any relative links or images."""
     parser = etree.HTMLParser(collect_ids=False)
     tree = etree.parse(StringIO(content), parser)  # noqa: S320
-    for link in tree.findall("//a"):
+    for link in tree.findall(".//a"):
         url = link.get("href")
         if url.startswith("/"):
             link.set("href", get_site_url(url))
-    for link in tree.findall("//img"):
+    for link in tree.findall(".//img"):
         url = link.get("src")
         if url.startswith("/"):
             link.set("src", get_site_url(url))

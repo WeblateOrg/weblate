@@ -240,6 +240,11 @@ PAGURE_CREDENTIALS = get_env_credentials("PAGURE")
 # Please see the documentation for more details.
 BITBUCKETSERVER_CREDENTIALS = get_env_credentials("BITBUCKETSERVER")
 
+# Bitbucket username and token for sending merge requests.
+# Please see the documentation for more details.
+BITBUCKETCLOUD_CREDENTIALS = get_env_credentials("BITBUCKETCLOUD")
+
+
 # Default pull request message.
 # Please see the documentation for more details.
 if "WEBLATE_DEFAULT_PULL_MESSAGE" in os.environ:
@@ -917,7 +922,6 @@ LOGOUT_URL = f"{URL_PREFIX}/accounts/logout/"
 
 # Default location for login
 LOGIN_REDIRECT_URL = f"{URL_PREFIX}/"
-LOGOUT_REDIRECT_URL = f"{URL_PREFIX}/"
 
 # Opt-in for Django 6.0 default
 FORMS_URLFIELD_ASSUME_HTTPS = True

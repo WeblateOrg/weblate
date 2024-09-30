@@ -449,7 +449,7 @@ Related :file:`docker-compose.yml` might look like:
 
 .. seealso::
 
-   `How to use secrets in Docker Compose <https://docs.docker.com/compose/use-secrets/>`_
+   `How to use secrets in Docker Compose <https://docs.docker.com/compose/how-tos/use-secrets/>`_
 
 Generic settings
 ++++++++++++++++
@@ -1111,6 +1111,14 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_BITBUCKETSERVER_CREDENTIALS
 
     Configures :ref:`vcs-bitbucket-server` by changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
+
+.. envvar:: WEBLATE_BITBUCKETCLOUD_USERNAME
+.. envvar:: WEBLATE_BITBUCKETCLOUD_WORKSPACE
+.. envvar:: WEBLATE_BITBUCKETCLOUD_TOKEN
+.. envvar:: WEBLATE_BITBUCKETCLOUD_HOST
+.. envvar:: WEBLATE_BITBUCKETCLOUD_CREDENTIALS
+
+    Configures :ref:`vcs-bitbucket-cloud` by changing :setting:`BITBUCKETCLOUD_CREDENTIALS`.
 
     .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
@@ -2000,7 +2008,7 @@ To override settings at the Docker image level instead of from the data volume:
         USER root
 
         COPY weblate_customization /usr/src/weblate_customization
-        RUN pip install --no-cache-dir /usr/src/weblate_customization
+        RUN /app/venv/bin/uv pip install --no-cache-dir /usr/src/weblate_customization
         ENV DJANGO_SETTINGS_MODULE=weblate_customization.settings
 
         USER 1000

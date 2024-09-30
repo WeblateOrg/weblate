@@ -12,17 +12,13 @@ class SettingQuerySet(models.QuerySet):
         return dict(self.filter(category=category).values_list("name", "value"))
 
 
-class Setting(models.Model):
-    CATEGORY_UI = 1
-    CATEGORY_MT = 2
+class SettingCategory(models.IntegerChoices):
+    UI = 1, "User Interface"
+    MT = 2, "Machine Translation"
 
-    category = models.IntegerField(
-        choices=(
-            (CATEGORY_UI, "UI"),
-            (CATEGORY_MT, "MT"),
-        ),
-        db_index=True,
-    )
+
+class Setting(models.Model):
+    category = models.IntegerField(choices=SettingCategory.choices)
     name = models.CharField(max_length=100)
     value = models.JSONField()
 

@@ -44,7 +44,6 @@ from weblate.utils import messages
 from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
-from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -170,6 +169,8 @@ class UnitQuerySet(models.QuerySet):
 
     def search(self, query, **context):
         """High level wrapper for searching."""
+        from weblate.utils.search import parse_query
+
         result = self.filter(parse_query(query, **context))
         return result.distinct()
 
@@ -1422,13 +1423,20 @@ class Unit(models.Model, LoggerMixin):
         if not self.is_batch_update and (create or old_checks):
             self.translation.invalidate_cache()
 
-    def nearby(self, count):
+    def nearby(self, count: int):
         """Return list of nearby messages based on location."""
+        if self.position == 0:
+            return Unit.objects.none()
         with sentry_sdk.start_span(op="unit.nearby"):
-            result = self.translation.unit_set.prefetch_full().order_by("position")
-            result = result.filter(
-                position__gte=self.position - count,
-                position__lte=self.position + count,
+            # Limiting the query is needed to avoid issues when unit
+            # position is not properly populated
+            result = (
+                self.translation.unit_set.prefetch_full()
+                .order_by("position")
+                .filter(
+                    position__gte=self.position - count,
+                    position__lte=self.position + count,
+                )[: ((2 * count) + 1)]
             )
             # Force materializing the query
             list(result)
@@ -1792,14 +1800,15 @@ class Unit(models.Model, LoggerMixin):
         file_format_support = (
             self.translation.component.file_format_cls.supports_explanation
         )
-        units: Iterable[Unit]
+        units: Iterable[Unit] = []
         if file_format_support:
             if self.is_source:
                 units = self.unit_set.exclude(id=self.id)
                 units.update(pending=True)
             else:
-                units = [self]
                 self.pending = True
+            # Always generate change for self
+            units = [*units, self]
         if save:
             self.save(update_fields=["explanation", "pending"], only_save=True)
 

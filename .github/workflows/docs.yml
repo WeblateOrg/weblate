@@ -19,35 +19,34 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Sphinx
 
     steps:
     - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v3
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.12'
     - name: Install apt dependencies
       run: |
         sudo apt update
         sudo apt install -y graphviz
     - name: Install Python dependencies
-      run: |
-        pip install uv
-        uv pip install --system -r docs/requirements.txt
+      run: uv pip install --system -r docs/requirements.txt
     - name: Sphinx build
       run: |
         echo "::add-matcher::.github/matchers/sphinx.json"
         ./ci/run-docs
         echo "::remove-matcher owner=sphinx::"
-    - uses: actions/upload-artifact@v4.3.6
+    - uses: actions/upload-artifact@v4.4.0
       with:
         name: Documentation
         path: docs/_build/html
 
   linkcheck:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Linkcheck
 
     steps:
@@ -55,15 +54,14 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
-        cache-dependency-path: docs/requirements.txt
+        python-version: '3.12'
+    - uses: astral-sh/setup-uv@v3
     - name: Install apt dependencies
       run: |
         sudo apt update
         sudo apt install -y graphviz
     - name: Install Python dependencies
       run: |
-        pip install uv
         uv pip install --system -r docs/requirements.txt
     - name: Sphinx linkcheck
       run: |
@@ -76,7 +74,7 @@ jobs:
         sed 's@^@docs/@' docs/_build/linkcheck/output.txt
         echo "::remove-matcher owner=sphinx::"
         echo "::remove-matcher owner=sphinx-warn::"
-    - uses: actions/upload-artifact@v4.3.6
+    - uses: actions/upload-artifact@v4.4.0
       if: always()
       with:
         name: Linkcheck report

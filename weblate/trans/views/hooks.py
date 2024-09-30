@@ -149,7 +149,7 @@ def vcs_service_hook(request: AuthenticatedHttpRequest, service):
         service_data = hook_helper(data, request)
     except Exception:
         LOGGER.error("failed to parse service %s data", service)
-        report_error()
+        report_error("Invalid service data")
         return HttpResponseBadRequest("Invalid data in json payload!")
 
     # This happens on ping request upon installation
@@ -425,8 +425,7 @@ def gitlab_hook_helper(data, request: AuthenticatedHttpRequest):
         data["repository"]["homepage"],
     ]
     full_name = ssh_url.split(":", 1)[1]
-    if full_name.endswith(".git"):
-        full_name = full_name[:-4]
+    full_name = full_name.removesuffix(".git")
 
     return {
         "service_long_name": "GitLab",

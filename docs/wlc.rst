@@ -13,11 +13,15 @@ Installation
 ++++++++++++
 
 The Weblate Client is shipped separately and includes the Python module.
-To use the commands below, you need to install :mod:`wlc`:
+To use the commands below, you need to install :program:`wlc` using pip:
 
 .. code-block:: sh
 
     pip install wlc
+
+.. hint::
+
+   You can also use this :program:`wlc` as a Python module, see :mod:`wlc`.
 
 .. _docker-wlc:
 
@@ -62,7 +66,7 @@ volume:
 Getting started
 +++++++++++++++
 
-The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-config`
+The :program:`wlc` configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-config`
 for other locations), please create it to match your environment:
 
 .. code-block:: ini
@@ -335,7 +339,7 @@ Additionally API keys can be stored in the ``[keys]`` section:
     https://hosted.weblate.org/api/ = APIKEY
 
 This allows you to store keys in your personal settings, while using the
-:file:`.weblate` configuration in the VCS repository so that wlc knows which
+:file:`.weblate` configuration in the VCS repository so that :program:`wlc` knows which
 server it should talk to.
 
 Examples
@@ -365,7 +369,7 @@ Upload translation file:
 
    $ wlc upload project/component/language --input /tmp/hello.po
 
-You can also designate what project wlc should work on:
+You can also designate what project :program:`wlc` should work on:
 
 .. code-block:: sh
 

@@ -196,8 +196,6 @@ def password_reset(
         session = strategy.request.session
         # Store user ID
         session["perform_reset"] = user.pk
-        # Set short session expiry
-        session.set_expiry(90)
         # Redirect to form to change password
         return redirect("password_reset")
     return None
@@ -220,7 +218,6 @@ def remove_account(
         strategy.really_clean_partial_pipeline(current_partial.token)
         # Set short session expiry
         session = strategy.request.session
-        session.set_expiry(90)
         session["remove_confirm"] = True
         # Reset rate limit to allow form submission
         reset_rate_limit("remove", strategy.request)

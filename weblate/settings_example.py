@@ -220,6 +220,10 @@ GITLAB_CREDENTIALS = {}
 # Please see the documentation for more details.
 BITBUCKETSERVER_CREDENTIALS = {}
 
+# Bitbucket username, app-password and workspace for sending merge requests.
+# Please see the documentation for more details.
+BITBUCKETCLOUD_CREDENTIALS = {}
+
 # Authentication configuration
 AUTHENTICATION_BACKENDS: tuple[str, ...] = (
     "social_core.backends.email.EmailAuth",
@@ -604,7 +608,6 @@ LOGOUT_URL = f"{URL_PREFIX}/accounts/logout/"
 
 # Default location for login
 LOGIN_REDIRECT_URL = f"{URL_PREFIX}/"
-LOGOUT_REDIRECT_URL = f"{URL_PREFIX}/"
 
 # Opt-in for Django 6.0 default
 FORMS_URLFIELD_ASSUME_HTTPS = True

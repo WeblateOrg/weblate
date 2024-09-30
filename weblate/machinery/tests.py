@@ -5,7 +5,9 @@
 from __future__ import annotations
 
 import json
+import re
 from copy import copy
+from functools import partial
 from io import StringIO
 from typing import TYPE_CHECKING, NoReturn
 from unittest import SkipTest
@@ -28,7 +30,7 @@ from google.cloud.translate import (
 
 import weblate.machinery.models
 from weblate.checks.tests.test_checks import MockTranslation, MockUnit
-from weblate.configuration.models import Setting
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.lang.models import Language
 from weblate.machinery.alibaba import AlibabaTranslation
 from weblate.machinery.apertium import ApertiumAPYTranslation
@@ -52,7 +54,7 @@ from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
-from weblate.machinery.openai import OpenAITranslation
+from weblate.machinery.openai import AzureOpenAITranslation, OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
 from weblate.machinery.tmserver import TMServerTranslation
@@ -193,6 +195,22 @@ SYSTRAN_LANGUAGE_JSON = {
 with open(get_test_file("googlev3.json")) as handle:
     GOOGLEV3_KEY = handle.read()
 
+MODERNMT_REPONSE = {
+    "data": {
+        "contextVector": {
+            "entries": [
+                {
+                    "memory": {"id": 1, "name": "europarl"},
+                    "score": 0.20658109,
+                },
+                {"memory": {"id": 2, "name": "ibm"}, "score": 0.0017772929},
+            ]
+        },
+        "translation": "Ciao",
+    },
+    "status": 200,
+}
+
 DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
 DEEPL_LANG_RESPONSE = [
     {"language": "EN", "name": "English"},
@@ -223,6 +241,15 @@ MICROSOFT_RESPONSE = [{"translations": [{"text": "Svět.", "to": "cs"}]}]
 
 MS_SUPPORTED_LANG_RESP = {
     "translation": {"cs": "data", "en": "data", "es": "data", "de": "data"}
+}
+
+AWS_LANGUAGES_RESPONSE = {
+    "Languages": [
+        {"LanguageName": "Afrikaans", "LanguageCode": "af"},
+        {"LanguageName": "Czech", "LanguageCode": "cs"},
+        {"LanguageName": "German", "LanguageCode": "de"},
+        {"LanguageName": "English", "LanguageCode": "en"},
+    ]
 }
 
 
@@ -259,9 +286,10 @@ class BaseMachineTranslationTest(TestCase):
 
     @responses.activate
     @respx.mock
-    def test_support(self) -> None:
+    def test_support(self, machine_translation=None) -> None:
         self.mock_response()
-        machine_translation = self.get_machine()
+        if machine_translation is None:
+            machine_translation = self.get_machine()
         self.assertTrue(machine_translation.is_supported(self.ENGLISH, self.SUPPORTED))
         if self.NOTSUPPORTED:
             self.assertFalse(
@@ -1075,6 +1103,8 @@ class SAPTranslationHubAuthTest(SAPTranslationHubTest):
 class ModernMTHubTest(BaseMachineTranslationTest):
     MACHINE_CLS = ModernMTTranslation
     EXPECTED_LEN = 1
+    ENGLISH = "en"
+    SUPPORTED = "it"
     CONFIGURATION = {
         "key": "KEY",
         "url": "https://api.modernmt.com/",
@@ -1091,7 +1121,8 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             responses.GET, "https://api.modernmt.com/translate", body="", status=500
         )
 
-    def mock_response(self) -> None:
+    def mock_languages(self) -> None:
+        """Set up mock responses for languages list from ModernMT API."""
         responses.add(
             responses.GET,
             "https://api.modernmt.com/languages",
@@ -1101,27 +1132,263 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             },
             status=200,
         )
+
+    def mock_response(self) -> None:
+        """Set up mock responses for ModernMT API."""
+        self.mock_languages()
         responses.add(
             responses.GET,
             "https://api.modernmt.com/translate",
-            json={
-                "data": {
-                    "contextVector": {
-                        "entries": [
-                            {
-                                "memory": {"id": 1, "name": "europarl"},
-                                "score": 0.20658109,
-                            },
-                            {"memory": {"id": 2, "name": "ibm"}, "score": 0.0017772929},
-                        ]
-                    },
-                    "translation": "Ciao",
-                },
-                "status": 200,
-            },
+            json=MODERNMT_REPONSE,
             status=200,
             content_type="text/json",
         )
+
+        self.mock_list_glossaries()
+
+    def mock_list_glossaries(self, *id_name_date: tuple[int, str, str]):
+        """Set up mock responses for list of glossaries in ModernMT."""
+        data: list[dict] = [
+            {
+                "id": _id,
+                "creationDate": _date or "2021-04-12T15:24:26+00:00",
+                "name": _name,
+            }
+            for _id, _name, _date in id_name_date
+        ]
+        responses.add(
+            responses.GET,
+            "https://api.modernmt.com/memories",
+            json={
+                "status": 200,
+                "data": data,
+            },
+        )
+
+    def mock_create_glossary(self, glossary_id: int, glossary_name: str) -> None:
+        """Set up mock responses for creating glossary in ModernMT."""
+        # creating the memory
+        responses.add(
+            responses.POST,
+            "https://api.modernmt.com/memories",
+            json={
+                "status": 200,
+                "data": {
+                    "id": glossary_id,
+                    "creationDate": "2021-04-12T15:24:26+00:00",
+                    "name": glossary_name,
+                },
+            },
+        )
+
+        # storing content in memory as glossary
+        responses.add(
+            responses.POST,
+            f"https://api.modernmt.com/memories/{glossary_id}/glossary",
+            json={
+                "status": 200,
+                "data": {
+                    "id": "00000000-0000-0000-0000-0000000379fc",
+                    "memory": glossary_id,
+                    "size": 18818,
+                    "progress": 0,
+                },
+            },
+        )
+
+        # list glossaries
+        self.mock_list_glossaries(
+            (
+                glossary_id,
+                glossary_name,
+                "2021-04-12T15:24:26+00:00",
+            )
+        )
+
+    @responses.activate
+    def test_glossary(self) -> None:
+        """Test that glossary is used in translation request when available."""
+
+        def translate_request_callback(request: AuthenticatedHttpRequest):
+            """Check 'glossaries' included in request params."""
+            self.assertIn("glossaries", request.params)
+            return (200, {}, json.dumps(MODERNMT_REPONSE))
+
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+
+        responses.add_callback(
+            responses.GET,
+            "https://api.modernmt.com/translate",
+            callback=translate_request_callback,
+        )
+
+        self.mock_response()
+
+        self.mock_create_glossary(37784, "weblate:1:en:it:9e250d830c11d70f")
+
+        with patch(
+            "weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar"
+        ):
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
+
+        # change tsv, check that old memory is deleted and new one is created
+
+        # return current list of glossaries
+        self.mock_list_glossaries(*[(37784, "weblate:1:en:it:9e250d830c11d70f", None)])
+
+        def delete_glossary_callback(
+            request: AuthenticatedHttpRequest, expected_id: int
+        ):
+            """Check that the stale glossary is being deleted."""
+            self.assertTrue(request.url.endswith(f"memories/{expected_id}"))
+            return (200, {}, "{}")
+
+        responses.add_callback(
+            responses.DELETE,
+            re.compile(r"https://api.modernmt.com/memories/(\d+)"),
+            callback=partial(delete_glossary_callback, expected_id=37784),
+        )
+
+        self.mock_create_glossary(37785, "weblate:1:en:it:7d3c463b6bb01e5d")
+
+        with patch(
+            "weblate.glossary.models.get_glossary_tsv",
+            new=lambda _: "foo\tbar\nnew\tentry",
+        ):
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
+
+        # stale glossary delete
+        responses.add_callback(
+            responses.DELETE,
+            re.compile(r"https://api.modernmt.com/memories/(\d+)"),
+            callback=partial(delete_glossary_callback, expected_id=37785),
+        )
+
+        # oldest glossary delete
+        responses.add_callback(
+            responses.DELETE,
+            re.compile(r"https://api.modernmt.com/memories/(\d+)"),
+            callback=partial(delete_glossary_callback, expected_id=37782),
+        )
+
+        # change count limit, check that the oldest glossary is deleted
+        self.mock_list_glossaries(
+            (
+                37782,
+                "weblate:1:en:fr:8c123d830c177e90b",
+                "2021-01-12T15:24:26+00:00",
+            ),
+            (
+                37783,
+                "weblate:1:en:cs:a85e314d2f7614eb",
+                "2021-03-12T15:24:26+00:00",
+            ),
+            (
+                37785,
+                "weblate:1:en:it:7d3c463b6bb01e5d",
+                "2021-04-12T15:24:26+00:00",
+            ),
+        )
+
+        self.mock_list_glossaries(
+            (
+                37782,
+                "weblate:1:en:fr:8c123d830c177e90b",
+                "2021-01-12T15:24:26+00:00",
+            ),
+            (
+                37783,
+                "weblate:1:en:cs:a85e314d2f7614eb",
+                "2021-03-12T15:24:26+00:00",
+            ),
+            (
+                37785,
+                "weblate:1:en:it:7d3c463b6bb01e5d",
+                "2021-04-12T15:24:26+00:00",
+            ),
+        )
+
+        self.mock_list_glossaries(
+            (
+                37783,
+                "weblate:1:en:cs:a85e314d2f7614eb",
+                "2021-03-12T15:24:26+00:00",
+            ),
+            (
+                37785,
+                "weblate:1:en:it:54c0ca90b9d0e369",
+                "2021-04-12T15:24:26+00:00",
+            ),
+        )
+        with (
+            patch(
+                "weblate.machinery.modernmt.ModernMTTranslation.glossary_count_limit",
+                new=1,
+            ),
+            patch(
+                "weblate.glossary.models.get_glossary_tsv",
+                new=lambda _: "foo\tbar\ndifferent\tentry",
+            ),
+        ):
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
+
+    @responses.activate
+    def test_context_vector(self) -> None:
+        """Test that context vector is sent with the request when configured."""
+
+        def request_callback(request: AuthenticatedHttpRequest):
+            """Check 'context_vector' included in request body."""
+            self.assertIn("context_vector", request.params)
+            return (200, {}, json.dumps(MODERNMT_REPONSE))
+
+        responses.add_callback(
+            responses.GET,
+            "https://api.modernmt.com/translate",
+            callback=request_callback,
+        )
+        self.mock_response()
+
+        self.CONFIGURATION["context_vector"] = "1234:0.123"
+        self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
+
+    @responses.activate
+    @respx.mock
+    def test_clean_custom(self) -> None:
+        """Check that validation of context_vector settings works."""
+        self.mock_response()
+        settings = self.CONFIGURATION.copy()
+        machine = self.MACHINE_CLS
+
+        # no context vector
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertTrue(form.is_valid())
+
+        # valid context vector
+        settings["context_vector"] = "1234:0.123,456:0.134"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertTrue(form.is_valid())
+
+        # context_vector couples must be separated by comma
+        settings["context_vector"] = "1234:0.123;456:0.134"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
+
+        # weight can only be 3 digits decimal
+        settings["context_vector"] = "1234:0.123,456:0.1345"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
+
+        # weight cannot be greater than 1
+        settings["context_vector"] = "1234:1.123,456:0.1345"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
 
 
 class DeepLTranslationTest(BaseMachineTranslationTest):
@@ -1378,9 +1645,23 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def mock_response(self) -> None:
         pass
 
+    def test_support(self) -> None:
+        machine = self.get_machine()
+        machine.delete_cache()
+        with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
+            super().test_support(machine)
+
     def test_validate_settings(self) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
             stubber.add_response(
                 "translate_text",
                 {
@@ -1395,6 +1676,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def test_translate(self, **kwargs) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
             stubber.add_response(
                 "translate_text",
                 {
@@ -1414,6 +1699,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def test_translate_language_map(self, **kwargs) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
             stubber.add_response(
                 "translate_text",
                 {
@@ -1447,6 +1736,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             machine = self.get_machine()
         with Stubber(machine.client) as stubber:
             stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
+            stubber.add_response(
                 "translate_text",
                 {
                     "TranslatedText": "Hallo",
@@ -1460,6 +1753,132 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def test_clean(self) -> NoReturn:
         # Stubbing here is tricky
         raise SkipTest("Not tested")
+
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_glossary(self) -> None:
+        """Test translation with glossary (terminology)."""
+        machine = self.get_machine()
+
+        with (
+            Stubber(machine.client) as stubber,
+            patch(
+                "weblate.machinery.aws.AWSTranslation.glossary_count_limit",
+                new=1,
+            ),
+        ):
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
+            # glossary list with stale glossary response
+            stubber.add_response(
+                "list_terminologies",
+                {
+                    "TerminologyPropertiesList": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
+                            "SourceLanguageCode": "en",
+                            "TargetLanguageCodes": ["de"],
+                            "CreatedAt": "2021-03-03T14:16:18.329Z",
+                            "Directionality": "UNI",
+                            "Format": "TSV",
+                        }
+                    ]
+                },
+            )
+
+            # glossary list with stale glossary response
+            stubber.add_response(
+                "list_terminologies",
+                {
+                    "TerminologyPropertiesList": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
+                            "SourceLanguageCode": "en",
+                            "TargetLanguageCodes": ["de"],
+                            "CreatedAt": "2021-03-03T14:16:18.329Z",
+                            "Directionality": "UNI",
+                            "Format": "TSV",
+                        }
+                    ]
+                },
+            )
+
+            # delete stale glossary response
+            stubber.add_response(
+                "delete_terminology",
+                {},
+                {"Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb"},
+            )
+
+            # create glossary response
+            stubber.add_response(
+                "import_terminology",
+                {
+                    "AuxiliaryDataLocation": {
+                        "Location": "location",
+                        "RepositoryType": "type",
+                    },
+                    "TerminologyProperties": {},
+                },
+                {
+                    "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                    "MergeStrategy": "OVERWRITE",
+                    "TerminologyData": {
+                        "File": b"en\tcs\nfoo\tbar",
+                        "Format": "TSV",
+                        "Directionality": "UNI",
+                    },
+                },
+            )
+
+            # return glossary list with newly created glossary
+            stubber.add_response(
+                "list_terminologies",
+                {
+                    "TerminologyPropertiesList": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                            "SourceLanguageCode": "en",
+                            "TargetLanguageCodes": ["cs"],
+                            "CreatedAt": "2021-08-03T14:16:18.329Z",
+                            "Directionality": "UNI",
+                            "Format": "TSV",
+                        },
+                    ]
+                },
+            )
+
+            # translate with glossary
+            stubber.add_response(
+                "translate_text",
+                {
+                    "TranslatedText": "Ahoj",
+                    "SourceLanguageCode": "en",
+                    "TargetLanguageCode": "cs",
+                    "AppliedTerminologies": [
+                        {
+                            "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                            "Terms": [
+                                {"SourceText": "foo", "TargetText": "bar"},
+                            ],
+                        },
+                    ],
+                },
+                {
+                    "SourceLanguageCode": ANY,
+                    "TargetLanguageCode": ANY,
+                    "Text": ANY,
+                    "TerminologyNames": ["weblate_-_1_-_en_-_cs_-_9e250d830c11d70f"],
+                },
+            )
+
+            self.assert_translate(
+                self.SUPPORTED,
+                self.SOURCE_TRANSLATED,
+                self.EXPECTED_LEN,
+                machine=machine,
+            )
 
 
 class AlibabaTranslationTest(BaseMachineTranslationTest):
@@ -1683,6 +2102,48 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
         self.assertFalse(form.is_valid())
 
 
+class AzureOpenAITranslationTest(OpenAITranslationTest):
+    MACHINE_CLS = AzureOpenAITranslation
+    CONFIGURATION = {
+        "key": "x",
+        "deployment": "my-deployment",
+        "persona": "",
+        "style": "",
+        "azure_endpoint": "https://my-instance.openai.azure.com",
+    }
+
+    def mock_response(self) -> None:
+        respx.post(
+            "https://my-instance.openai.azure.com/openai/deployments/my-deployment/chat/completions?api-version=2024-06-01",
+        ).mock(
+            httpx.Response(
+                200,
+                json={
+                    "id": "chatcmpl-123",
+                    "object": "chat.completion",
+                    "created": 1677652288,
+                    "model": "my-deployment",
+                    "system_fingerprint": "fp_44709d6fcb",
+                    "choices": [
+                        {
+                            "index": 0,
+                            "message": {
+                                "role": "assistant",
+                                "content": "Ahoj světe",
+                            },
+                            "finish_reason": "stop",
+                        }
+                    ],
+                    "usage": {
+                        "prompt_tokens": 9,
+                        "completion_tokens": 12,
+                        "total_tokens": 21,
+                    },
+                },
+            )
+        )
+
+
 class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
     def test_empty(self) -> None:
         machine = WeblateTranslation({})
@@ -1759,7 +2220,7 @@ class ViewsTest(FixtureTestCase):
         if service.get_identifier() not in weblate.machinery.models.MACHINERY:
             weblate.machinery.models.MACHINERY[service.get_identifier()] = service
         Setting.objects.create(
-            category=Setting.CATEGORY_MT, name=service.get_identifier(), value={}
+            category=SettingCategory.MT, name=service.get_identifier(), value={}
         )
         return service
 
@@ -1835,13 +2296,13 @@ class ViewsTest(FixtureTestCase):
         self.client.post(edit_url, {"delete": "1"})
         self.assertFalse(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=service.get_identifier()
+                category=SettingCategory.MT, name=service.get_identifier()
             ).exists()
         )
         self.client.post(edit_url, {"install": "1"})
         self.assertTrue(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=service.get_identifier()
+                category=SettingCategory.MT, name=service.get_identifier()
             ).exists()
         )
 
@@ -1866,7 +2327,7 @@ class ViewsTest(FixtureTestCase):
         self.client.post(edit_url, {"delete": "1"})
         self.assertTrue(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=service.get_identifier()
+                category=SettingCategory.MT, name=service.get_identifier()
             ).exists()
         )
         project = Project.objects.get(pk=self.project.id)
@@ -1874,7 +2335,7 @@ class ViewsTest(FixtureTestCase):
         self.client.post(edit_url, {"enable": "1"})
         self.assertTrue(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=service.get_identifier()
+                category=SettingCategory.MT, name=service.get_identifier()
             ).exists()
         )
         project = Project.objects.get(pk=self.component.project_id)
@@ -1885,7 +2346,7 @@ class ViewsTest(FixtureTestCase):
         self.user.save()
 
         identifier = "nonexisting"
-        Setting.objects.create(category=Setting.CATEGORY_MT, name=identifier, value={})
+        Setting.objects.create(category=SettingCategory.MT, name=identifier, value={})
         list_url = reverse("manage-machinery")
         edit_url = reverse("machinery-edit", kwargs={"machinery": identifier})
         response = self.client.get(list_url)
@@ -1894,14 +2355,14 @@ class ViewsTest(FixtureTestCase):
         self.client.post(edit_url, {"delete": "1"})
         self.assertFalse(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=identifier
+                category=SettingCategory.MT, name=identifier
             ).exists()
         )
         response = self.client.post(edit_url, {"install": "1"})
         self.assertEqual(response.status_code, 404)
         self.assertFalse(
             Setting.objects.filter(
-                category=Setting.CATEGORY_MT, name=identifier
+                category=SettingCategory.MT, name=identifier
             ).exists()
         )
 

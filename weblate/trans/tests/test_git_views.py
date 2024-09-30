@@ -30,7 +30,7 @@ class GitNoChangeProjectTest(ViewTestCase):
     def get_expected_redirect_progress(self):
         obj = getattr(self, self.TEST_TYPE)
         return "{}?info=1".format(
-            reverse("component_progress", kwargs={"path": obj.get_url_path()})
+            reverse("show_progress", kwargs={"path": obj.get_url_path()})
         )
 
     def test_commit(self) -> None:
@@ -43,7 +43,7 @@ class GitNoChangeProjectTest(ViewTestCase):
             response,
             self.get_expected_redirect_progress(),
             # Do not attempt to retrieve the redirected URL, the answer
-            # to the `component_progress` view can differ depending on whether
+            # to the `show_progress` view can differ depending on whether
             # there is actually (still) some on-going background processing for
             # the current component, or not.
             fetch_redirect_response=False,
@@ -59,7 +59,7 @@ class GitNoChangeProjectTest(ViewTestCase):
             response,
             self.get_expected_redirect_progress(),
             # Do not attempt to retrieve the redirected URL, the answer
-            # to the `component_progress` view can differ depending on whether
+            # to the `show_progress` view can differ depending on whether
             # there is actually (still) some on-going background processing for
             # the current component, or not.
             fetch_redirect_response=False,
@@ -79,7 +79,7 @@ class GitNoChangeProjectTest(ViewTestCase):
             response,
             self.get_expected_redirect_progress(),
             # Do not attempt to retrieve the redirected URL, the answer
-            # to the `component_progress` view can differ depending on whether
+            # to the `show_progress` view can differ depending on whether
             # there is actually (still) some on-going background processing for
             # the current component, or not.
             fetch_redirect_response=False,

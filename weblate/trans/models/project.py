@@ -21,7 +21,7 @@ from django.utils.functional import cached_property
 from django.utils.timezone import make_aware
 from django.utils.translation import gettext_lazy, gettext_noop
 
-from weblate.configuration.models import Setting
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
@@ -39,8 +39,11 @@ from weblate.utils.validators import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.auth.models import User
     from weblate.trans.backups import BackupListDict
+    from weblate.trans.models.component import Component
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
 
@@ -288,7 +291,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         super().__init__(*args, **kwargs)
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
-        self.acting_user = None
+        self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
         self.label_cleanups: None | TranslationQuerySet = None
         self.languages_cache: dict[str, Language] = {}
@@ -436,7 +439,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         return self.on_repo_components(False, "can_push")
 
     @cached_property
-    def all_repo_components(self):
+    def all_repo_components(self) -> Iterable[Component]:
         """Return list of all unique VCS components."""
         result = list(self.component_set.with_repo())
         included = {component.id for component in result}
@@ -614,7 +617,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         return get_glossary_automaton(self)
 
     def get_machinery_settings(self):
-        settings = Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
+        settings = Setting.objects.get_settings_dict(SettingCategory.MT)
         for item, value in self.machinery_settings.items():
             if value is None:
                 if item in settings:

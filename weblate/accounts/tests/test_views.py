@@ -17,7 +17,7 @@ from jsonschema import validate
 from weblate_schemas import load_schema
 
 from weblate.accounts.models import Profile, Subscription
-from weblate.accounts.notifications import FREQ_DAILY, FREQ_NONE, SCOPE_WATCHED
+from weblate.accounts.notifications import NotificationFrequency, NotificationScope
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.tests.test_models import RepoTestCase
@@ -245,7 +245,7 @@ class ViewTest(RepoTestCase):
 
         # Logout
         response = self.client.post(reverse("logout"))
-        self.assertRedirects(response, reverse("home"))
+        self.assertContains(response, "Thank you for using Weblate")
 
     @social_core_override_settings(
         AUTHENTICATION_BACKENDS=(
@@ -562,7 +562,10 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "notification change link is no longer valid")
 
         subscription = Subscription.objects.create(
-            user=self.user, notification="x", frequency=FREQ_DAILY, scope=SCOPE_WATCHED
+            user=self.user,
+            notification="x",
+            frequency=NotificationFrequency.FREQ_DAILY,
+            scope=NotificationScope.SCOPE_WATCHED,
         )
         response = self.client.get(
             reverse("unsubscribe"),
@@ -572,7 +575,7 @@ class ProfileTest(FixtureTestCase):
         self.assertRedirects(response, reverse("profile") + "#notifications")
         self.assertContains(response, "Notification settings adjusted")
         subscription.refresh_from_db()
-        self.assertEqual(subscription.frequency, FREQ_NONE)
+        self.assertEqual(subscription.frequency, NotificationFrequency.FREQ_NONE)
 
     def test_profile_password_warning(self) -> None:
         with mock.patch.object(User, "has_usable_password", return_value=False):

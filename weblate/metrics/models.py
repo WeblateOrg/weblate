@@ -254,7 +254,10 @@ class MetricManager(models.Manager["Metric"]):
                 timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
             "contributors": Change.objects.filter(
-                timestamp__date__gte=timezone.now().date() - datetime.timedelta(days=30)
+                timestamp__date__gte=timezone.now().date()
+                - datetime.timedelta(days=30),
+                user__is_active=True,
+                user__is_bot=False,
             )
             .values("user")
             .distinct()
@@ -277,6 +280,8 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": changes.filter(
                 timestamp__date__gte=timezone.now().date()
                 - datetime.timedelta(days=30),
+                user__is_active=True,
+                user__is_bot=False,
             )
             .values("user")
             .distinct()
@@ -306,6 +311,8 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": changes.filter(
                 timestamp__date__gte=timezone.now().date()
                 - datetime.timedelta(days=30),
+                user__is_active=True,
+                user__is_bot=False,
             )
             .values("user")
             .distinct()
@@ -338,7 +345,10 @@ class MetricManager(models.Manager["Metric"]):
                 timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
             "contributors": changes.filter(
-                timestamp__date__gte=timezone.now().date() - datetime.timedelta(days=30)
+                timestamp__date__gte=timezone.now().date()
+                - datetime.timedelta(days=30),
+                user__is_active=True,
+                user__is_bot=False,
             )
             .values("user")
             .distinct()
@@ -369,7 +379,10 @@ class MetricManager(models.Manager["Metric"]):
                 timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
             "contributors": project.change_set.filter(
-                timestamp__date__gte=timezone.now().date() - datetime.timedelta(days=30)
+                timestamp__date__gte=timezone.now().date()
+                - datetime.timedelta(days=30),
+                user__is_active=True,
+                user__is_bot=False,
             )
             .values("user")
             .distinct()
@@ -401,7 +414,10 @@ class MetricManager(models.Manager["Metric"]):
                 timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
             "contributors": component.change_set.filter(
-                timestamp__date__gte=timezone.now().date() - datetime.timedelta(days=30)
+                timestamp__date__gte=timezone.now().date()
+                - datetime.timedelta(days=30),
+                user__is_active=True,
+                user__is_bot=False,
             )
             .values("user")
             .distinct()
@@ -419,7 +435,10 @@ class MetricManager(models.Manager["Metric"]):
                 timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
             "contributors": changes.filter(
-                timestamp__date__gte=timezone.now().date() - datetime.timedelta(days=30)
+                timestamp__date__gte=timezone.now().date()
+                - datetime.timedelta(days=30),
+                user__is_active=True,
+                user__is_bot=False,
             )
             .values("user")
             .distinct()
@@ -441,7 +460,10 @@ class MetricManager(models.Manager["Metric"]):
                 timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
             "contributors": translation.change_set.filter(
-                timestamp__date__gte=timezone.now().date() - datetime.timedelta(days=30)
+                timestamp__date__gte=timezone.now().date()
+                - datetime.timedelta(days=30),
+                user__is_active=True,
+                user__is_bot=False,
             )
             .values("user")
             .distinct()
@@ -486,6 +508,8 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": changes.filter(
                 timestamp__date__gte=timezone.now().date()
                 - datetime.timedelta(days=30),
+                user__is_active=True,
+                user__is_bot=False,
             )
             .values("user")
             .distinct()

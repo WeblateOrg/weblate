@@ -62,6 +62,8 @@ Appearance customization
 
 Colors, fonts, and page appearance can be customized here.
 
+.. image:: /screenshots/appearance-settings.webp
+
 If you are looking for more customization, see :doc:`/admin/customize`.
 
 .. _admin-interface:
