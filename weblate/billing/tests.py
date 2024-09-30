@@ -9,7 +9,6 @@ from io import StringIO
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
-from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -24,13 +23,13 @@ from weblate.billing.tasks import (
     schedule_removal,
 )
 from weblate.trans.models import Project
-from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.tests.test_models import BaseTestCase, RepoTestCase
 from weblate.trans.tests.utils import create_test_billing
 
 TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test-data")
 
 
-class BillingTest(TestCase):
+class BillingTest(BaseTestCase):
     def setUp(self) -> None:
         self.user = User.objects.create_user(
             username="bill", password="kill", email="noreply@example.net"
