@@ -96,8 +96,13 @@ class Notification:
     any_watched: bool = False
     required_attr: str | None = None
     skip_when_notify: list[Any] = []
+    perm_cache: dict[int, set[int]]
 
-    def __init__(self, outgoing: list[OutgoingEmail], perm_cache=None) -> None:
+    def __init__(
+        self,
+        outgoing: list[OutgoingEmail],
+        perm_cache: dict[int, set[int]] | None = None,
+    ) -> None:
         self.outgoing: list[OutgoingEmail] = outgoing
         self.subscription_cache: dict[
             tuple[str | None | int, ...], QuerySet[Subscription]
@@ -247,7 +252,9 @@ class Notification:
             last_user.current_subscription = subscription
             yield last_user
 
-    def send(self, address, subject, body, headers) -> None:
+    def send(
+        self, address: str, subject: str, body: str, headers: dict[str, str]
+    ) -> None:
         encoded_email = siphash("Weblate notifier", address)
         if rate_limit(f"notify:rate:{encoded_email}", 1000, 86400):
             LOGGER.info(
@@ -264,15 +271,23 @@ class Notification:
                     "headers": headers,
                 }
             )
+            # Avoid building huge queue of notifications
+            if len(self.outgoing) > 200:
+                send_mails.delay(self.outgoing)
+                self.outgoing.clear()
 
-    def render_template(self, suffix, context, digest=False):
+    def render_template(self, suffix: str, context: dict, digest: bool = False) -> str:
         """Render single mail template with given context."""
         base_name = self.digest_template if digest else self.template_name
         template_name = f"mail/{base_name}{suffix}"
         return render_to_string(template_name, context).strip()
 
     def get_context(
-        self, change=None, subscription=None, extracontext=None, changes=None
+        self,
+        change: Change | None = None,
+        subscription: Subscription | None = None,
+        extracontext: dict | None = None,
+        changes=None,
     ):
         """Return context for rendering mail."""
         result = {

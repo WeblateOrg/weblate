@@ -31,7 +31,7 @@ class OutgoingEmail(TypedDict):
     address: str
     subject: str
     body: str
-    headers: str
+    headers: dict[str, str]
 
 
 @app.task(trail=False)
@@ -85,7 +85,7 @@ def notify_change(change_id) -> None:
     except Change.DoesNotExist:
         # The change was removed meanwhile
         return
-    perm_cache = {}
+    perm_cache: dict[int, set[int]] = {}
 
     # The same condition is applied at notify_change.delay, but we need to recheck
     # here to make sure this doesn't break on upgrades when processing older tasks
@@ -165,7 +165,7 @@ def monkey_patch_smtp_logging(connection):
         backend = connection.connection
         if isinstance(backend, SMTP) and not hasattr(backend, SMTP_DATA_PATCH):
             setattr(backend, SMTP_DATA_PATCH, backend.data)
-            backend.data = MethodType(weblate_logging_smtp_data, backend)
+            backend.data = MethodType(weblate_logging_smtp_data, backend)  # type: ignore[method-assign]
 
     return connection
 

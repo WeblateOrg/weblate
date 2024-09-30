@@ -1421,15 +1421,17 @@ $(function () {
 
   $("input[name='period']").daterangepicker(
     {
-      autoApply: true,
+      autoApply: false,
       startDate:
         $("input[name='period']#id_period").attr("data-start-date") || moment(),
       endDate:
         $("input[name='period']#id_period").attr("data-end-date") || moment(),
       alwaysShowCalendars: true,
+      cancelButtonClasses: "btn-warning",
       opens: "left",
       locale: {
         customRangeLabel: gettext("Custom range"),
+        cancelLabel: gettext("Clear"),
         daysOfWeek: [
           pgettext("Short name of day", "Su"),
           pgettext("Short name of day", "Mo"),
@@ -1482,6 +1484,10 @@ $(function () {
     },
     (start, end, label) => {},
   );
+
+  $("input[name='period']").on("cancel.daterangepicker", (_ev, picker) => {
+    picker.element.val("");
+  });
 
   /* Singular or plural new unit switcher */
   $("input[name='new-unit-form-type']").on("change", function () {

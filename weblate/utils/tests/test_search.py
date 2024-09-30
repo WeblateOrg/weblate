@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from django.db.models import Q
 from django.test import TestCase
@@ -134,8 +134,8 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             "changed:2018",
             Q(
                 change__timestamp__range=(
-                    datetime(2018, 1, 1, 0, 0, tzinfo=timezone.utc),
-                    datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=timezone.utc),
+                    datetime(2018, 1, 1, 0, 0, tzinfo=UTC),
+                    datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=UTC),
                 )
             )
             & Q(change__action__in=Change.ACTIONS_CONTENT),
@@ -144,8 +144,8 @@ class UnitQueryParserTest(TestCase, SearchMixin):
     def test_change_action(self) -> None:
         expected = Q(
             change__timestamp__range=(
-                datetime(2018, 1, 1, 0, 0, tzinfo=timezone.utc),
-                datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=timezone.utc),
+                datetime(2018, 1, 1, 0, 0, tzinfo=UTC),
+                datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=UTC),
             )
         ) & Q(change__action=Change.ACTION_MARKED_EDIT)
         self.assert_query(
@@ -159,34 +159,41 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         action_change = Q(change__action__in=Change.ACTIONS_CONTENT)
         self.assert_query(
             "changed:>20190301",
-            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=timezone.utc))
+            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC))
             & action_change,
         )
         self.assert_query(
             "changed:>2019-03-01",
-            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=timezone.utc))
+            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC))
             & action_change,
         )
         self.assert_query(
             "changed:2019-03-01",
             Q(
                 change__timestamp__range=(
-                    datetime(2019, 3, 1, 0, 0, tzinfo=timezone.utc),
-                    datetime(2019, 3, 1, 23, 59, 59, 999999, tzinfo=timezone.utc),
+                    datetime(2019, 3, 1, 0, 0, tzinfo=UTC),
+                    datetime(2019, 3, 1, 23, 59, 59, 999999, tzinfo=UTC),
                 )
             )
             & action_change,
         )
+        self.assert_query(
+            "changed:>'March 1, 2019'",
+            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC))
+            & action_change,
+        )
         with self.assertRaises(ValueError):
-            self.assert_query("changed:>=2010-01-", Q())
+            self.assert_query("changed:>'Not a date'", Q())
+        with self.assertRaises(ValueError):
+            self.assert_query("changed:>'Invalid 1, 2019'", Q())
 
     def test_date_range(self) -> None:
         self.assert_query(
             "changed:[2019-03-01 to 2019-04-01]",
             Q(
                 change__timestamp__range=(
-                    datetime(2019, 3, 1, 0, 0, tzinfo=timezone.utc),
-                    datetime(2019, 4, 1, 23, 59, 59, 999999, tzinfo=timezone.utc),
+                    datetime(2019, 3, 1, 0, 0, tzinfo=UTC),
+                    datetime(2019, 4, 1, 23, 59, 59, 999999, tzinfo=UTC),
                 )
             )
             & Q(change__action__in=Change.ACTIONS_CONTENT),
@@ -195,17 +202,13 @@ class UnitQueryParserTest(TestCase, SearchMixin):
     def test_date_added(self) -> None:
         self.assert_query(
             "added:>2019-03-01",
-            Q(timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=timezone.utc)),
+            Q(timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC)),
         )
 
     def test_source_changed(self) -> None:
         self.assert_query(
             "source_changed:>20190301",
-            Q(
-                source_unit__last_updated__gte=datetime(
-                    2019, 3, 1, 0, 0, tzinfo=timezone.utc
-                )
-            ),
+            Q(source_unit__last_updated__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC)),
         )
 
     def test_bool(self) -> None:
@@ -388,7 +391,7 @@ class UnitQueryParserTest(TestCase, SearchMixin):
     def test_timestamp_format(self) -> None:
         self.assert_query(
             "changed:>=01/20/2020",
-            Q(change__timestamp__gte=datetime(2020, 1, 20, 0, 0, tzinfo=timezone.utc))
+            Q(change__timestamp__gte=datetime(2020, 1, 20, 0, 0, tzinfo=UTC))
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
@@ -397,8 +400,8 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             "changed:2020-03-27",
             Q(
                 change__timestamp__range=(
-                    datetime(2020, 3, 27, 0, 0, tzinfo=timezone.utc),
-                    datetime(2020, 3, 27, 23, 59, 59, 999999, tzinfo=timezone.utc),
+                    datetime(2020, 3, 27, 0, 0, tzinfo=UTC),
+                    datetime(2020, 3, 27, 23, 59, 59, 999999, tzinfo=UTC),
                 )
             )
             & Q(change__action__in=Change.ACTIONS_CONTENT),
@@ -479,8 +482,8 @@ class UserQueryParserTest(TestCase, SearchMixin):
             "joined:2018",
             Q(
                 date_joined__range=(
-                    datetime(2018, 1, 1, 0, 0, tzinfo=timezone.utc),
-                    datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=timezone.utc),
+                    datetime(2018, 1, 1, 0, 0, tzinfo=UTC),
+                    datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=UTC),
                 )
             ),
         )
@@ -490,7 +493,7 @@ class UserQueryParserTest(TestCase, SearchMixin):
             "translates:cs",
             Q(change__language__code__iexact="cs")
             & Q(
-                change__timestamp__date__gte=datetime.now(tz=timezone.utc).date()
+                change__timestamp__date__gte=datetime.now(tz=UTC).date()
                 - timedelta(days=90)
             ),
         )
@@ -500,7 +503,7 @@ class UserQueryParserTest(TestCase, SearchMixin):
             "contributes:test",
             Q(change__project__slug__iexact="test")
             & Q(
-                change__timestamp__date__gte=datetime.now(tz=timezone.utc).date()
+                change__timestamp__date__gte=datetime.now(tz=UTC).date()
                 - timedelta(days=90)
             ),
         )
@@ -508,7 +511,7 @@ class UserQueryParserTest(TestCase, SearchMixin):
             "contributes:test/test",
             Q(change__component_id__in=[])
             & Q(
-                change__timestamp__date__gte=datetime.now(tz=timezone.utc).date()
+                change__timestamp__date__gte=datetime.now(tz=UTC).date()
                 - timedelta(days=90)
             ),
         )

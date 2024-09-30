@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   migrations:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         database: [postgresql, mysql]
@@ -43,8 +43,9 @@ jobs:
     - uses: astral-sh/setup-uv@v3
       with:
         enable-cache: true
-        cache-dependency-glob: pyproject.toml
-    - name: Set up Python 3.11
+        cache-dependency-glob: ''
+        cache-suffix: '3.12'
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.12'

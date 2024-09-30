@@ -5,7 +5,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Setting
+from .models import Setting, SettingCategory
 from .views import CustomCSSView
 
 
@@ -20,12 +20,12 @@ class SettingsTestCase(TestCase):
 
     def test_cache(self) -> None:
         Setting.objects.create(
-            category=Setting.CATEGORY_UI, name="hide_footer", value=True
+            category=SettingCategory.UI, name="hide_footer", value=True
         )
         response = self.client.get(reverse("css-custom"))
         self.assertNotEqual(response.content.decode().strip(), "")
         # Delete all UI settings
-        Setting.objects.filter(category=Setting.CATEGORY_UI).delete()
+        Setting.objects.filter(category=SettingCategory.UI).delete()
         # The response should be cached
         response = self.client.get(reverse("css-custom"))
         self.assertNotEqual(response.content.decode().strip(), "")

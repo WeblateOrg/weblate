@@ -98,7 +98,7 @@ def get_version_info() -> list[Release]:
     try:
         result = cache.get(CACHE_KEY)
     except AttributeError:
-        # TODO: Remove try/except in Weblate 5.7
+        # TODO: Remove try/except in Weblate 6
         # Can happen on upgrade to 5.4 when unpickling fails because
         # of the Release class was moved between modules
         result = None

@@ -7,7 +7,7 @@ from __future__ import annotations
 import copy
 import json
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 from secrets import token_hex
 from typing import TYPE_CHECKING, Literal
 
@@ -35,7 +35,7 @@ from weblate.auth.models import AuthenticatedHttpRequest, Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
-from weblate.configuration.models import Setting
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
@@ -90,6 +90,7 @@ from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from weblate.accounts.models import Profile
+    from weblate.trans.mixins import URLMixin
     from weblate.trans.models.translation import NewUnitParams
 
 BUTTON_TEMPLATE = """
@@ -783,7 +784,6 @@ class SearchForm(forms.Form):
                 template="snippets/query-builder.html",
                 context={
                     "user": self.user,
-                    "month_ago": timezone.now() - timedelta(days=31),
                     "show_builder": show_builder,
                     "language": self.language,
                 },
@@ -928,6 +928,7 @@ class AutoForm(forms.Form):
             ("mt", gettext_lazy("Machine translation")),
         ],
         initial="others",
+        widget=forms.RadioSelect,
     )
     component = forms.ChoiceField(
         label=gettext_lazy("Component"),
@@ -969,7 +970,7 @@ class AutoForm(forms.Form):
         else:
             # Site-wide add-ons
             self.components = Component.objects.all()
-            machinery_settings = Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
+            machinery_settings = Setting.objects.get_settings_dict(SettingCategory.MT)
 
         # Fetching first few entries is faster than doing a count query on possibly
         # thousands of components
@@ -1035,7 +1036,7 @@ class AutoForm(forms.Form):
         self.helper.layout = Layout(
             Field("mode"),
             Field("filter_type"),
-            InlineRadios("auto_source", id="select_auto_source"),
+            InlineRadios("auto_source"),
             Div("component", css_id="auto_source_others"),
             Div("engines", "threshold", css_id="auto_source_mt"),
         )
@@ -1948,9 +1949,10 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
         # Allow all VCS now (to handle zip file upload case)
         self.fields["vcs"].choices = VCS_REGISTRY.get_choices()
         self.discovered = self.perform_discovery(request, kwargs)
-        self.fields["discovery"].choices.extend(
+        # Can not use .extend here as it does not update widget
+        self.fields["discovery"].choices += [
             (i, self.render_choice(value)) for i, value in enumerate(self.discovered)
-        )
+        ]
 
     def perform_discovery(self, request: AuthenticatedHttpRequest, kwargs):
         if "data" in kwargs and "create_discovery" in request.session:
@@ -2292,6 +2294,7 @@ class ReplaceForm(forms.Form):
         required=False,
         help_text=gettext_lazy("Optional additional filter applied to the strings"),
     )
+    path = forms.CharField(widget=forms.HiddenInput, required=False)
     search = forms.CharField(
         label=gettext_lazy("Search string"),
         min_length=1,
@@ -2306,13 +2309,15 @@ class ReplaceForm(forms.Form):
         strip=False,
     )
 
-    def __init__(self, *args, **kwargs) -> None:
-        kwargs["auto_id"] = "id_replace_%s"
-        super().__init__(*args, **kwargs)
+    def __init__(self, obj: URLMixin, data: dict | None = None) -> None:
+        super().__init__(
+            data=data, auto_id="id_replace_%s", initial={"path": obj.full_slug}
+        )
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
             SearchField("q"),
+            Field("path"),
             Field("search"),
             Field("replacement"),
             Div(template="snippets/replace-help.html"),

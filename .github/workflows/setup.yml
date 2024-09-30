@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   setup:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     env:
       PYTHONUNBUFFERED: 1
@@ -32,7 +32,8 @@ jobs:
     - uses: astral-sh/setup-uv@v3
       with:
         enable-cache: true
-        cache-dependency-glob: pyproject.toml
+        cache-dependency-glob: ''
+        cache-suffix: '3.12'
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -58,7 +59,7 @@ jobs:
         name: setup
 
   pip:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     env:
       PYTHONUNBUFFERED: 1
@@ -71,7 +72,8 @@ jobs:
     - uses: astral-sh/setup-uv@v3
       with:
         enable-cache: true
-        cache-dependency-glob: pyproject.toml
+        cache-dependency-glob: ''
+        cache-suffix: '3.12'
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -86,7 +88,7 @@ jobs:
       run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
 
   dist:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       PYTHONUNBUFFERED: 1
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
@@ -127,7 +129,7 @@ jobs:
         name: dist
 
   notes:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v4
     - uses: astral-sh/setup-uv@v3
@@ -165,7 +167,7 @@ jobs:
     needs:
     - notes
     - dist
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/download-artifact@v4
     - name: Cleanup dist
@@ -182,7 +184,7 @@ jobs:
     needs:
     - notes
     - dist
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/download-artifact@v4
     - name: Extract notes body

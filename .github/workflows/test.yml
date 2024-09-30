@@ -20,12 +20,11 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
         python-version:
-        - '3.10'
         - '3.11'
         - '3.12'
         requirements: [latest]
@@ -43,7 +42,7 @@ jobs:
           database: mariadb
           experimental: false
           # Reduced testing for minimal deps
-        - python-version: '3.10'
+        - python-version: '3.11'
           requirements: minimal
           database: postgresql
           experimental: false
@@ -69,7 +68,8 @@ jobs:
     - uses: astral-sh/setup-uv@v3
       with:
         enable-cache: true
-        cache-dependency-glob: pyproject.toml
+        cache-dependency-glob: ''
+        cache-suffix: ${{ matrix.python-version }}
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies

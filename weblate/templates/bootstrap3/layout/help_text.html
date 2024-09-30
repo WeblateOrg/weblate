@@ -5,6 +5,6 @@
     {% elif help_text_inline %}
         <span id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</span>
     {% else %}
-        <p id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</p>
+        <div id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</div>
     {% endif %}
 {% endif %}

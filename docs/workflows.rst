@@ -145,9 +145,9 @@ from additional member(s) before it is accepted as a translation.
 +---------------------------------+-------------+------------------------------------+
 | Enable suggestions              | on          |                                    |
 +---------------------------------+-------------+------------------------------------+
-| Suggestion voting               | off         |                                    |
+| Suggestion voting               | on          |                                    |
 +---------------------------------+-------------+------------------------------------+
-| Automatically accept suggestions| 1           | You can set higher value to        |
+| Automatically accept suggestions| 2           | You can set higher value to        |
 |                                 |             | require more peer reviews.         |
 +---------------------------------+-------------+------------------------------------+
 | Translators group               | `Users`     | Or `Translate` with                |
@@ -176,7 +176,7 @@ consistent and that the quality is good.
 +=================================+=============+====================================+
 | Enable reviews                  | on          | Configured at project level.       |
 +---------------------------------+-------------+------------------------------------+
-| Enable suggestions              | off         | Useful for users to be able        |
+| Enable suggestions              | on          | Useful for users to be able        |
 |                                 |             | to suggest when they are not sure. |
 +---------------------------------+-------------+------------------------------------+
 | Suggestion voting               | off         |                                    |
