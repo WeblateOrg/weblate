@@ -1009,32 +1009,41 @@ $(function () {
   });
 
   /* Click to edit position inline. Disable when clicked outside or pressed ESC */
-  $("#position-input").on("click", function () {
+  const $positionInput = $(".position-input");
+  const $positionInputEditable = $(".position-input-editable");
+  const $positionInputEditableInput = $("#position-input-editable-input");
+  $positionInput.on("click", function (event) {
     const $form = $(this).closest("form");
-    $("#position-input").hide();
+    $positionInput.hide();
     $form.find("input[name=offset]").prop("disabled", false);
-    $("#position-input-editable").show();
-    $("#position-input-editable-input").attr("type", "number").focus();
+    $positionInputEditable.show();
+    $positionInputEditableInput.attr("type", "number");
+    $(event.target)
+      .closest(".pagination")
+      .find("#position-input-editable-input")
+      .focus();
     document.addEventListener("click", clickedOutsideEditableInput);
     document.addEventListener("keyup", pressedEscape);
   });
   const clickedOutsideEditableInput = (event) => {
+    // Check if clicked outside of the input and the editable input
     if (
-      !$.contains($("#position-input-editable")[0], event.target) &&
-      event.target !== $("#position-input")[0]
+      !$positionInputEditable.is(event.target) &&
+      !$positionInputEditable.has(event.target).length &&
+      !$positionInput.is(event.target)
     ) {
-      $("#position-input").show();
-      $("#position-input-editable-input").attr("type", "hidden");
-      $("#position-input-editable").hide();
-      document.emoveEventListener("click", clickedOutsideEditableInput);
+      $positionInput.show();
+      $positionInputEditableInput.attr("type", "hidden");
+      $positionInputEditable.hide();
+      document.removeEventListener("click", clickedOutsideEditableInput);
       document.removeEventListener("keyup", pressedEscape);
     }
   };
   const pressedEscape = (event) => {
-    if (event.key === "Escape" && event.target !== $("#position-input")[0]) {
-      $("#position-input").show();
-      $("#position-input-editable-input").attr("type", "hidden");
-      $("#position-input-editable").hide();
+    if (event.key === "Escape" && event.target !== $positionInput[0]) {
+      $positionInput.show();
+      $positionInputEditableInput.attr("type", "hidden");
+      $positionInputEditable.hide();
       document.removeEventListener("click", clickedOutsideEditableInput);
       document.removeEventListener("keyup", pressedEscape);
     }
