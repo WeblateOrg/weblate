@@ -6,10 +6,10 @@
 <li {% if page_obj.number == 1 %}class="disabled"{% endif %}><a href="?page=1&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}" class="green">{% if LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a></li>
 <li {% if not page_obj.has_previous %}class="disabled"{% endif %}><a {% if page_obj.has_previous %}rel="prev" href="?page={{ page_obj.previous_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"{% endif %} class="green">{% if LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a></li>
 <li>
-  <a id="position-input" title="{% trans "Click to edit position" %}" >
+  <a class="position-input" title="{% trans "Click to edit position" %}" >
     {% blocktrans with page_obj.number as position and page_obj.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}
   </a>
-  <a id="position-input-editable" title="{% trans "Go to position" %}" >
+  <a class="position-input-editable" title="{% trans "Go to position" %}" >
     {% if not paginator_form %}
     <form method="GET">
     {% endif %}

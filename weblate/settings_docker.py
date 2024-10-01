@@ -7,6 +7,7 @@ import os
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 
+from weblate.api.spectacular import get_spectacular_settings
 from weblate.utils.environment import (
     get_env_bool,
     get_env_credentials,
@@ -783,6 +784,30 @@ INSTALLED_APPS = [
     "drf_spectacular_sidecar",
 ]
 
+# Legal integration
+LEGAL_INTEGRATION = get_env_str("WEBLATE_LEGAL_INTEGRATION")
+if LEGAL_INTEGRATION:
+    # Hosted Weblate legal documents
+    if LEGAL_INTEGRATION == "wllegal":
+        INSTALLED_APPS.append("wllegal")
+
+    # Enable legal app
+    INSTALLED_APPS.append("weblate.legal")
+
+    # TOS confirmation enforcement
+    if LEGAL_INTEGRATION in {"tos-confirm", "wllegal"}:
+        # Social auth pipeline to confirm TOS upon registration/subsequent sign in
+        SOCIAL_AUTH_PIPELINE.insert(
+            SOCIAL_AUTH_PIPELINE.index(
+                "weblate.accounts.pipeline.second_factor",
+            )
+            + 1,
+            "weblate.legal.pipeline.tos_confirm",
+        )
+        # Middleware to enforce TOS confirmation of signed in users
+        MIDDLEWARE.append("weblate.legal.middleware.RequireTOSMiddleware")
+
+
 modify_env_list(INSTALLED_APPS, "APPS")
 
 # Custom exception reporter to include some details
@@ -1208,20 +1233,7 @@ REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
-SPECTACULAR_SETTINGS = {
-    "REDOC_DIST": "SIDECAR",
-    "SERVE_URLCONF": "weblate.api.urls",
-    "TITLE": "Weblate's REST API",
-    "DESCRIPTION": """
-The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
-
-The OpenAPI specification is available as feature preview, feedback welcome!
-    """,
-    "VERSION": None,
-    "ENUM_NAME_OVERRIDES": {
-        "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
-    },
-}
+SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
 
 # Fonts CDN URL
 FONTS_CDN_URL = None
@@ -1429,30 +1441,6 @@ AKISMET_API_KEY = get_env_str("WEBLATE_AKISMET_API_KEY")
 INTERLEDGER_PAYMENT_POINTERS = get_env_list(
     "WEBLATE_INTERLEDGER_PAYMENT_POINTERS", ["$ilp.uphold.com/ENU7fREdeZi9"]
 )
-
-# Legal integartion
-LEGAL_INTEGRATION = get_env_str("WEBLATE_LEGAL_INTEGRATION")
-if LEGAL_INTEGRATION:
-    # Hosted Weblate legal documents
-    if LEGAL_INTEGRATION == "wllegal":
-        INSTALLED_APPS.append("wllegal")
-
-    # Enable legal app
-    INSTALLED_APPS.append("weblate.legal")
-
-    # TOS confirmation enforcement
-    if LEGAL_INTEGRATION in {"tos-confirm", "wllegal"}:
-        # Social auth pipeline to confirm TOS upon registration/subsequent sign in
-        SOCIAL_AUTH_PIPELINE.insert(
-            SOCIAL_AUTH_PIPELINE.index(
-                "weblate.accounts.pipeline.second_factor",
-            )
-            + 1,
-            "weblate.legal.pipeline.tos_confirm",
-        )
-        # Middleware to enforce TOS confirmation of signed in users
-        MIDDLEWARE.append("weblate.legal.middleware.RequireTOSMiddleware")
-
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"
 if os.path.exists(ADDITIONAL_CONFIG):

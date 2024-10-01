@@ -306,6 +306,7 @@ class CSPBuilder:
         self.build_csp_static_url()
         self.build_csp_cdn()
         self.build_csp_auth()
+        self.build_csp_redoc()
 
     def apply_csp_settings(self) -> None:
         setting_names: dict[str, CSP_KIND] = {
@@ -327,6 +328,14 @@ class CSPBuilder:
             for directive in directives:
                 self.directives[directive].add(domain)
         return domain
+
+    def build_csp_redoc(self) -> None:
+        if (
+            self.request.resolver_match
+            and self.request.resolver_match.view_name == "redoc"
+        ):
+            self.directives["script-src"].add("'unsafe-inline'")
+            self.directives["img-src"].add("data:")
 
     def build_csp_inline(self) -> None:
         if (
