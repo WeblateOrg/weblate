@@ -33,7 +33,7 @@ def get_spectacular_settings(
             },
         },
         "SERVERS": [
-            {"url": site_url, "description": site_title},
+            {"url": site_url.rstrip("/"), "description": site_title},
         ],
         # Document only API (not webauthn and other drf endpoints)
         "SERVE_URLCONF": "weblate.api.urls",
