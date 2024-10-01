@@ -135,7 +135,11 @@ class RedirectMiddleware:
         if (
             path.endswith(("/", ".map"))
             or request.method != "GET"
-            or path.startswith(f"{settings.URL_PREFIX}/api")
+            or (
+                path.startswith(f"{settings.URL_PREFIX}/api")
+                and not path.startswith(f"{settings.URL_PREFIX}/api/doc")
+                and not path.startswith(f"{settings.URL_PREFIX}/api/schema")
+            )
         ):
             return False
         urlconf = getattr(request, "urlconf", None)
