@@ -23,6 +23,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
 from django.utils.translation import gettext
 from django_filters import rest_framework as filters
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
@@ -418,10 +419,16 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
-    @action(
-        detail=True, methods=["get", "post"], serializer_class=NotificationSerializer
+    @extend_schema(
+        request=NotificationSerializer,
+        responses=NotificationSerializer(many=True),
     )
-    def notifications(self, request: Request, **kwargs):
+    @action(
+        detail=True,
+        methods=["get", "post"],
+        serializer_class=NotificationSerializer(many=True),
+    )
+    def notifications(self, request: Request, username: str):
         obj = self.get_object()
         if request.method == "POST":
             self.perm_check(request)
@@ -432,22 +439,29 @@ class UserViewSet(viewsets.ModelViewSet):
                 serializer.is_valid(raise_exception=True)
                 serializer.save(user=obj)
                 return Response(serializer.data, status=HTTP_201_CREATED)
-
         queryset = obj.subscription_set.order_by("id")
         page = self.paginate_queryset(queryset)
         serializer = NotificationSerializer(
             page, many=True, context={"request": request}
         )
-
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter("subscription_id", int, OpenApiParameter.PATH),
+        ],
+        responses=NotificationSerializer,
+        request=NotificationSerializer,
+    )
     @action(
         detail=True,
         methods=["get", "put", "patch", "delete"],
         url_path="notifications/(?P<subscription_id>[0-9]+)",
         serializer_class=NotificationSerializer,
     )
-    def notifications_details(self, request: Request, username, subscription_id):
+    def notifications_details(
+        self, request: Request, username: str, subscription_id: int
+    ):
         obj = self.get_object()
 
         try:
