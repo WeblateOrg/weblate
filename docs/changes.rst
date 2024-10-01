@@ -32,6 +32,9 @@ Not yet released.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
+*
+* There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS`` and changes in ``REST_FRAMEWORK`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
+
 **Contributors**
 
 .. include:: changes/contributors/5.8.rst
