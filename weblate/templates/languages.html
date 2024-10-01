@@ -9,6 +9,6 @@
 {% block content %}
 
 {% perm 'language.add' as user_can_add_language %}
-{% include "snippets/list-objects.html" with objects=languages label=_("Language") project=object global_base=global_stats add_link="language" %}
+{% include "snippets/list-objects.html" with objects=languages label=_("Language") global_base=global_stats add_link="language" %}
 
 {% endblock %}

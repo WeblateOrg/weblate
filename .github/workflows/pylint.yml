@@ -17,11 +17,11 @@ permissions:
 
 jobs:
   pylint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@v4
-    - uses: astral-sh/setup-uv@v2
+    - uses: astral-sh/setup-uv@v3
     - name: Setup Python
       uses: actions/setup-python@v5
       with:

@@ -21,7 +21,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from weblate.configuration.models import Setting
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.machinery.base import (
     BatchMachineTranslation,
     MachineTranslationError,
@@ -44,7 +44,7 @@ class MachineryMixin:
     def global_settings_dict(self) -> dict[str, SettingsDict]:
         return cast(
             dict[str, SettingsDict],
-            Setting.objects.get_settings_dict(Setting.CATEGORY_MT),
+            Setting.objects.get_settings_dict(SettingCategory.MT),
         )
 
 
@@ -297,7 +297,7 @@ class EditMachineryView(FormView):
 class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
     def save_settings(self, data: SettingsDict) -> None:
         setting, created = Setting.objects.get_or_create(
-            category=Setting.CATEGORY_MT,
+            category=SettingCategory.MT,
             name=self.machinery_id,
             defaults={"value": data},
         )
@@ -307,7 +307,7 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
 
     def delete_service(self) -> None:
         Setting.objects.filter(
-            category=Setting.CATEGORY_MT,
+            category=SettingCategory.MT,
             name=self.machinery_id,
         ).delete()
 

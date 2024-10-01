@@ -166,8 +166,7 @@ class LanguageQuerySet(models.QuerySet):
     def sanitize_code(code):
         """Language code sanitization."""
         # Strip b+ prefix from Android
-        if code.startswith("b+"):
-            code = code[2:]
+        code = code.removeprefix("b+")
 
         # Replace -r from Android by _
         if len(code) == 6 and "-r" in code:

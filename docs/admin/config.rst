@@ -869,6 +869,46 @@ List for credentials for Bitbucket servers.
    :ref:`vcs-bitbucket-server`,
    `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
 
+.. setting:: BITBUCKETCLOUD_CREDENTIALS
+
+BITBUCKETCLOUD_CREDENTIALS
+---------------------------
+
+.. versionadded:: 5.8
+
+List for credentials for Bitbucket Cloud servers.
+
+.. code-block:: python
+
+    BITBUCKETCLOUD_CREDENTIALS = {
+        "bitbucket.org": {
+            "username": "your-username",
+            "workspace": "your-workspace-slug",
+            "token": "your-app-password",
+        },
+    }
+
+The configuration dictionary consists of credentials defined for each API host.
+The API host might be different from what you use in the web browser, for
+example GitHub API is accessed as ``api.github.com``.
+
+The following configuration is available for each host:
+
+``username``
+    API user.
+``workspace``
+    The user worskpace slug.
+``token``
+    The App password with `pullrequest:write` permission.
+
+Additional settings not described here can be found at :ref:`settings-credentials`.
+
+.. seealso::
+
+   :ref:`vcs-bitbucket-cloud`,
+   `Create an App password <https://support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`,
+   `App password permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-permissions/>`_
+
 .. setting:: AZURE_DEVOPS_CREDENTIALS
 
 AZURE_DEVOPS_CREDENTIALS
@@ -2114,6 +2154,10 @@ Configuring version control credentials
 The configuration dictionary consists of credentials defined for each API host.
 The API host might be different from what you use in the web browser, for
 example GitHub API is accessed as ``api.github.com``.
+
+The credentials can also be overridden in :ref:`component-push` or
+:ref:`component-repo` (if push URL is not configured), these take precedence
+over the ones specified in the configuration file.
 
 The following configuration is available for each host:
 

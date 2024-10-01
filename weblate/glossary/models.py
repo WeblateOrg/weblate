@@ -22,7 +22,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
 NON_WORD_RE = re.compile(r"\W")
-# All control chars including tab and newline, this is dufferent from
+# All control chars including tab and newline, this is different from
 # weblate.formats.helpers.CONTROLCHARS which contains only chars
 # problematic in XML or SQL scopes.
 CONTROLCHARS = [

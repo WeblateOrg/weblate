@@ -5,11 +5,28 @@ Not yet released.
 
 **New features**
 
+* :ref:`Searching` now supports filtering by object path and :ref:`date-search`.
+* Merge requests credentials can now be passed in the repository URL, see :ref:`settings-credentials`.
+* :ref:`mt-azure-openai` automatic suggestion service.
+* :ref:`vcs-bitbucket-cloud`.
+
 **Improvements**
+
+* :ref:`mt-modernmt` supports :ref:`glossary-mt`.
+* :ref:`mt-deepl` now supports specifying translation context.
+* :ref:`mt-aws` now supports :ref:`glossary-mt`.
+* :ref:`autofix` for Devanagari danda now better handles latin script.
+* :ref:`autofix` for French and Breton now uses a non-breaking space before colons instead of a narrow one.
+* :ref:`api` now has a preview OpenAPI specification.
 
 **Bug fixes**
 
+* Displaying :ref:`workflow-customization` setting in some cases.
+* Users can add component in any language already existing in a project.
+
 **Compatibility**
+
+* Weblate now requires Python 3.11 or newer.
 
 **Upgrading**
 
@@ -96,7 +113,7 @@ Released on August 15th 2024.
 * The status widgets are now supported site-wide and language-wide, see :ref:`promotion`.
 * :ref:`reports` are now available for categories.
 * Highlight newlines in the editor.
-* :doc:`/formats/csv` better handle with with two fields only.
+* :doc:`/formats/csv` better handle files with two fields only.
 * Browse mode can now be navigated using keyboard, see :ref:`keyboard`.
 * :http:get:`/api/components/(string:project)/(string:component)/credits/` and :http:get:`/api/projects/(string:project)/credits/` API endpoints for components and projects.
 * :ref:`glossary-terminology` entries in Glossary can now only be created by users with :guilabel:`Add glossary terminology` permission.

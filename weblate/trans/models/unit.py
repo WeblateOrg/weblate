@@ -44,7 +44,6 @@ from weblate.utils import messages
 from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
-from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -56,6 +55,7 @@ from weblate.utils.state import (
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
+    from datetime import datetime
 
     from weblate.auth.models import User
     from weblate.machinery.base import UnitMemoryResultDict
@@ -170,6 +170,8 @@ class UnitQuerySet(models.QuerySet):
 
     def search(self, query, **context):
         """High level wrapper for searching."""
+        from weblate.utils.search import parse_query
+
         result = self.filter(parse_query(query, **context))
         return result.distinct()
 
@@ -563,33 +565,33 @@ class Unit(models.Model, LoggerMixin):
         }
 
     @property
-    def approved(self):
+    def approved(self) -> bool:
         return self.state == STATE_APPROVED
 
     @property
-    def translated(self):
+    def translated(self) -> bool:
         return self.state >= STATE_TRANSLATED
 
     @property
-    def readonly(self):
+    def readonly(self) -> bool:
         return self.state == STATE_READONLY
 
     @property
-    def fuzzy(self):
+    def fuzzy(self) -> bool:
         return self.state == STATE_FUZZY
 
     @property
-    def has_failing_check(self):
+    def has_failing_check(self) -> bool:
         return bool(self.active_checks)
 
     @property
-    def has_comment(self):
+    def has_comment(self) -> bool:
         # Use bool here as unresolved_comments might be list
         # or a queryset (from prefetch)
         return bool(self.unresolved_comments)
 
     @property
-    def has_suggestion(self):
+    def has_suggestion(self) -> bool:
         return bool(self.suggestions)
 
     def source_unit_save(self) -> None:
@@ -1066,7 +1068,7 @@ class Unit(models.Model, LoggerMixin):
             result = True
         return result
 
-    def commit_if_pending(self, author) -> None:
+    def commit_if_pending(self, author: User) -> None:
         """Commit possible previous changes on this unit."""
         if self.pending:
             change_author = self.get_last_content_change()[0]
@@ -1167,7 +1169,9 @@ class Unit(models.Model, LoggerMixin):
 
         return True
 
-    def update_source_units(self, previous_source, user: User, author) -> None:
+    def update_source_units(
+        self, previous_source: str, user: User, author: User | None
+    ) -> None:
         """
         Update source for units within same component.
 
@@ -1228,7 +1232,7 @@ class Unit(models.Model, LoggerMixin):
         save: bool = True,
         old: str | None = None,
         target: str | None = None,
-    ):
+    ) -> Change:
         """Create Change entry for saving unit."""
         # Notify about new contributor
         if (
@@ -1278,12 +1282,12 @@ class Unit(models.Model, LoggerMixin):
         return change
 
     @cached_property
-    def suggestions(self):
+    def suggestions(self) -> models.QuerySet[Suggestion]:
         """Return all suggestions for this unit."""
         return self.suggestion_set.order()
 
     @cached_property
-    def all_checks(self):
+    def all_checks(self) -> models.QuerySet[Check]:
         result = self.check_set.all()
         # Force fetching
         list(result)
@@ -1294,20 +1298,20 @@ class Unit(models.Model, LoggerMixin):
             del self.__dict__["all_checks"]
 
     @property
-    def all_checks_names(self):
+    def all_checks_names(self) -> set[str]:
         return {check.name for check in self.all_checks}
 
     @property
-    def dismissed_checks(self):
+    def dismissed_checks(self) -> list[Check]:
         return [check for check in self.all_checks if check.dismissed]
 
     @property
-    def active_checks(self):
+    def active_checks(self) -> list[Check]:
         """Return all active (not ignored) checks for this unit."""
         return [check for check in self.all_checks if not check.dismissed]
 
     @cached_property
-    def all_comments(self):
+    def all_comments(self) -> models.QuerySet[Comment]:
         """Return list of target comments."""
         if self.is_source:
             # Add all comments on translation on source string comment
@@ -1318,7 +1322,7 @@ class Unit(models.Model, LoggerMixin):
         return Comment.objects.filter(query).prefetch_related("unit", "user").order()
 
     @cached_property
-    def unresolved_comments(self):
+    def unresolved_comments(self) -> list[Comment]:
         return [
             comment
             for comment in self.all_comments
@@ -1422,19 +1426,26 @@ class Unit(models.Model, LoggerMixin):
         if not self.is_batch_update and (create or old_checks):
             self.translation.invalidate_cache()
 
-    def nearby(self, count):
+    def nearby(self, count: int) -> models.QuerySet[Unit]:
         """Return list of nearby messages based on location."""
+        if self.position == 0:
+            return Unit.objects.none()
         with sentry_sdk.start_span(op="unit.nearby"):
-            result = self.translation.unit_set.prefetch_full().order_by("position")
-            result = result.filter(
-                position__gte=self.position - count,
-                position__lte=self.position + count,
+            # Limiting the query is needed to avoid issues when unit
+            # position is not properly populated
+            result = (
+                self.translation.unit_set.prefetch_full()
+                .order_by("position")
+                .filter(
+                    position__gte=self.position - count,
+                    position__lte=self.position + count,
+                )[: ((2 * count) + 1)]
             )
             # Force materializing the query
             list(result)
             return result
 
-    def nearby_keys(self, count):
+    def nearby_keys(self, count: int) -> Iterable[Unit]:
         # Do not show nearby keys on bilingual
         if not self.translation.component.has_template():
             return []
@@ -1454,7 +1465,7 @@ class Unit(models.Model, LoggerMixin):
             list(result)
             return result
 
-    def variants(self):
+    def variants(self) -> Iterable[Unit]:
         if not self.variant:
             return []
         return (
@@ -1474,7 +1485,7 @@ class Unit(models.Model, LoggerMixin):
         author=None,
         request=None,
         add_alternative: bool = False,
-    ):
+    ) -> bool:
         """
         Store new translation of a unit.
 
@@ -1662,11 +1673,11 @@ class Unit(models.Model, LoggerMixin):
 
         return fallback
 
-    def get_target_hash(self):
+    def get_target_hash(self) -> int:
         return calculate_hash(self.target)
 
     @cached_property
-    def content_hash(self):
+    def content_hash(self) -> int:
         return calculate_hash(self.source, self.context)
 
     @cached_property
@@ -1678,7 +1689,7 @@ class Unit(models.Model, LoggerMixin):
         """
         return self.change_set.content().select_related("author").order_by("-timestamp")
 
-    def get_last_content_change(self, silent=False):
+    def get_last_content_change(self, silent: bool = False) -> tuple[User, datetime]:
         """
         Get last content change metadata.
 
@@ -1792,14 +1803,15 @@ class Unit(models.Model, LoggerMixin):
         file_format_support = (
             self.translation.component.file_format_cls.supports_explanation
         )
-        units: Iterable[Unit]
+        units: Iterable[Unit] = []
         if file_format_support:
             if self.is_source:
                 units = self.unit_set.exclude(id=self.id)
                 units.update(pending=True)
             else:
-                units = [self]
                 self.pending = True
+            # Always generate change for self
+            units = [*units, self]
         if save:
             self.save(update_fields=["explanation", "pending"], only_save=True)
 

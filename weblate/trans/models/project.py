@@ -21,7 +21,7 @@ from django.utils.functional import cached_property
 from django.utils.timezone import make_aware
 from django.utils.translation import gettext_lazy, gettext_noop
 
-from weblate.configuration.models import Setting
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
@@ -235,6 +235,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
     objects = ProjectQuerySet.as_manager()
 
+    # Used when updating for object removal
+    billings_to_update: list[int]
+
     class Meta:
         app_label = "trans"
         verbose_name = "Project"
@@ -291,7 +294,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         super().__init__(*args, **kwargs)
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
-        self.acting_user = None
+        self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
         self.label_cleanups: None | TranslationQuerySet = None
         self.languages_cache: dict[str, Language] = {}
@@ -617,7 +620,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         return get_glossary_automaton(self)
 
     def get_machinery_settings(self):
-        settings = Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
+        settings = Setting.objects.get_settings_dict(SettingCategory.MT)
         for item, value in self.machinery_settings.items():
             if value is None:
                 if item in settings:

@@ -17,7 +17,7 @@ from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db import transaction
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
-from django.utils.html import escape
+from django.utils.html import escape, format_html
 from django.utils.translation import activate, gettext, gettext_lazy, ngettext, pgettext
 from django_otp.forms import OTPTokenForm as DjangoOTPTokenForm
 from django_otp.forms import otp_verification_failed
@@ -28,14 +28,7 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.models import AuditLog, Profile
-from weblate.accounts.notifications import (
-    NOTIFICATIONS,
-    SCOPE_ADMIN,
-    SCOPE_ALL,
-    SCOPE_CHOICES,
-    SCOPE_PROJECT,
-    SCOPE_WATCHED,
-)
+from weblate.accounts.notifications import NOTIFICATIONS, NotificationScope
 from weblate.accounts.utils import (
     adjust_session_expiry,
     cycle_session_keys,
@@ -537,13 +530,13 @@ class CaptchaForm(forms.Form):
 
     def set_label(self) -> None:
         # Set correct label
-        self.fields["captcha"].label = (
+        self.fields["captcha"].label = format_html(
             pgettext(
                 "Question for a mathematics-based CAPTCHA, "
                 "the %s is an arithmetic problem",
                 "What is %s?",
-            )
-            % self.mathcaptcha.display
+            ).replace("%s", "{}"),
+            self.mathcaptcha.display,
         )
         if self.is_bound:
             self["captcha"].label = cast(str, self.fields["captcha"].label)
@@ -699,7 +692,7 @@ class AdminLoginForm(LoginForm):
 
 class NotificationForm(forms.Form):
     scope = forms.ChoiceField(
-        choices=SCOPE_CHOICES, widget=forms.HiddenInput, required=True
+        choices=NotificationScope.choices, widget=forms.HiddenInput, required=True
     )
     project = forms.ModelChoiceField(
         widget=forms.HiddenInput, queryset=Project.objects.none(), required=False
@@ -784,7 +777,7 @@ class NotificationForm(forms.Form):
 
     @cached_property
     def form_scope(self):
-        return int(self.get_form_param("scope", SCOPE_WATCHED))
+        return int(self.get_form_param("scope", NotificationScope.SCOPE_WATCHED))
 
     @cached_property
     def form_project(self):
@@ -796,34 +789,34 @@ class NotificationForm(forms.Form):
 
     def get_name(self):
         scope = self.form_scope
-        if scope == SCOPE_ALL:
+        if scope == NotificationScope.SCOPE_ALL:
             return gettext("Other projects")
-        if scope == SCOPE_WATCHED:
+        if scope == NotificationScope.SCOPE_WATCHED:
             return gettext("Watched projects")
-        if scope == SCOPE_ADMIN:
+        if scope == NotificationScope.SCOPE_ADMIN:
             return gettext("Managed projects")
-        if scope == SCOPE_PROJECT:
+        if scope == NotificationScope.SCOPE_PROJECT:
             return gettext("Project: {}").format(self.form_project)
         return gettext("Component: {}").format(self.form_component)
 
     def get_help_component(self):
         scope = self.form_scope
-        if scope == SCOPE_ALL:
+        if scope == NotificationScope.SCOPE_ALL:
             return gettext(
                 "You will receive a notification for every such event"
                 " in non-watched projects."
             )
-        if scope == SCOPE_WATCHED:
+        if scope == NotificationScope.SCOPE_WATCHED:
             return gettext(
                 "You will receive a notification for every such event"
                 " in your watched projects."
             )
-        if scope == SCOPE_ADMIN:
+        if scope == NotificationScope.SCOPE_ADMIN:
             return gettext(
                 "You will receive a notification for every such event"
                 " in projects where you have admin permissions."
             )
-        if scope == SCOPE_PROJECT:
+        if scope == NotificationScope.SCOPE_PROJECT:
             return gettext(
                 "You will receive a notification for every such event in %(project)s."
             ) % {"project": self.form_project}
@@ -833,22 +826,22 @@ class NotificationForm(forms.Form):
 
     def get_help_translation(self):
         scope = self.form_scope
-        if scope == SCOPE_ALL:
+        if scope == NotificationScope.SCOPE_ALL:
             return gettext(
                 "You will only receive these notifications for your translated "
                 "languages in non-watched projects."
             )
-        if scope == SCOPE_WATCHED:
+        if scope == NotificationScope.SCOPE_WATCHED:
             return gettext(
                 "You will only receive these notifications for your translated "
                 "languages in your watched projects."
             )
-        if scope == SCOPE_ADMIN:
+        if scope == NotificationScope.SCOPE_ADMIN:
             return gettext(
                 "You will only receive these notifications for your translated "
                 "languages in projects where you have admin permissions."
             )
-        if scope == SCOPE_PROJECT:
+        if scope == NotificationScope.SCOPE_PROJECT:
             return gettext(
                 "You will only receive these notifications for your"
                 " translated languages in %(project)s."

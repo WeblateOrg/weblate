@@ -33,7 +33,6 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS
-from weblate.glossary.models import get_glossary_sources
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.defines import (
     BRANCH_LENGTH,
@@ -1404,7 +1403,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def get_clean_slug(self, slug):
         if slug.endswith(".git"):
-            slug = slug[:-4]
+            return slug[:-4]
         return slug
 
     def get_bitbucket_git_repoweb_template(self) -> str | None:
@@ -1957,7 +1956,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         ]
 
     @perform_on_link
-    def commit_pending(self, reason: str, user: User, skip_push: bool = False) -> bool:  # noqa: C901
+    def commit_pending(  # noqa: C901
+        self, reason: str, user: User | None, skip_push: bool = False
+    ) -> bool:
         """Check whether there is any translation to be committed."""
 
         def reuse_self(translation):
@@ -2542,7 +2543,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     )
                     self.handle_parse_error(error.__cause__, filename=self.template)
                     self.update_import_alerts()
-                    raise error.__cause__ from error
+                    raise error.__cause__ from error  # pylint: disable=E0710
                 was_change |= bool(translation.reason)
                 translations[translation.id] = translation
                 languages[lang.code] = translation
@@ -2569,7 +2570,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     # Indicate a change to invalidate stats
                     was_change = True
 
+        # Update import alerts
         self.update_import_alerts()
+        # Clean no matches alert if there are translations:
+        if translations:
+            self.delete_alert("NoMaskMatches")
 
         # Process linked repos
         for pos, component in enumerate(self.linked_childs):
@@ -2657,6 +2662,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     @cached_property
     def glossary_sources(self):
+        from weblate.glossary.models import get_glossary_sources
+
         result = cache.get(self.glossary_sources_key)
         if result is None:
             result = get_glossary_sources(self)
@@ -3129,6 +3136,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def after_save(
         self,
+        *,
         changed_git: bool,
         changed_setup: bool,
         changed_template: bool,
