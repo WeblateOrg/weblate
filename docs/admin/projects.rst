@@ -916,6 +916,8 @@ Some examples of filtering:
 Key filter
 ++++++++++
 
+.. versionadded:: 5.8
+
 A regular expression that is used to filter units by their keys. It displays only
 those units whose keys match the regular expression that was set
 as the value of this field.
