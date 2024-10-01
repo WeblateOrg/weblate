@@ -692,28 +692,6 @@ def cleanup_project_backup_download() -> None:
             staticfiles_storage.delete(full_name)
 
 
-@app.task(trail=False)
-def detect_completed_translation(change_id: int, old_translated: int) -> None:
-    change = Change.objects.get(pk=change_id)
-
-    translated = change.translation.stats.translated
-    if old_translated < translated and translated == change.translation.stats.all:
-        change.translation.change_set.create(
-            action=Change.ACTION_COMPLETE,
-            user=change.user,
-            author=change.author,
-        )
-
-        # check if component is fully translated
-        component = change.translation.component
-        if component.stats.translated == component.stats.all:
-            change.translation.component.change_set.create(
-                action=Change.ACTION_COMPLETED_COMPONENT,
-                user=change.user,
-                author=change.author,
-            )
-
-
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
