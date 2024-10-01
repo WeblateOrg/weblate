@@ -49,6 +49,8 @@ jobs:
       run: ./ci/print-versions
     - name: Install Python dependencies
       run: ./ci/pip-install latest
+    - name: Migrate database
+      run: coverage run ./manage.py migrate --noinput --traceback
     - name: Generate OpenAPI
       run: |
         echo "::add-matcher::.github/matchers/spectacular.json"
