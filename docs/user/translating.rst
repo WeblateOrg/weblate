@@ -181,11 +181,13 @@ The following keyboard shortcuts can be utilized during translation:
 +-------------------------------------------+-----------------------------------------------------------------------+
 | Keyboard shortcut                         | Description                                                           |
 +===========================================+=======================================================================+
-| :kbd:`Alt+Home`                           | Navigate to first translation in current search.                      |
+| :kbd:`?`                                  | Open available keyboard shortcuts.                                    |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt+End`                            | Navigate to last translation in current search.                       |
+| :kbd:`Alt+Home`                           | Navigate to the first translation in the current search.              |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt+PageUp` or                      | Navigate to previous translation in current search.                   |
+| :kbd:`Alt+End`                            | Navigate to the last translation in the current search.               |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Alt+PageUp` or                      | Navigate to the previous translation in the current search.           |
 |                                           |                                                                       |
 | :kbd:`Ctrl+↑` or                          |                                                                       |
 |                                           |                                                                       |
@@ -193,7 +195,7 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+↑`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt+PageDown` or                    | Navigate to next translation in current search.                       |
+| :kbd:`Alt+PageDown` or                    | Navigate to the next translation in the current search.               |
 |                                           |                                                                       |
 | :kbd:`Ctrl+↓` or                          |                                                                       |
 |                                           |                                                                       |
@@ -205,19 +207,19 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           | pressing :guilabel:`Save and continue` while editing translation.     |
 | :kbd:`Cmd+Enter`                          |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+Shift+Enter` or                | Unmark translation as needing edit and submit it.                     |
+| :kbd:`Ctrl+Shift+Enter` or                | Unmark translation as Needing edit and submit it.                     |
 |                                           |                                                                       |
 | :kbd:`Cmd+Shift+Enter`                    |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt+Enter` or                       | Submit the string as a suggestion; this is same as                    |
+| :kbd:`Alt+Enter` or                       | Submit the string as a suggestion; this works the same as             |
 |                                           | pressing :guilabel:`Suggest` while editing translation.               |
 | :kbd:`Option+Enter`                       |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+E` or                          | Focus translation editor.                                             |
+| :kbd:`Ctrl+E` or                          | Focus on translation editor.                                          |
 |                                           |                                                                       |
 | :kbd:`Cmd+E`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+U` or                          | Focus comment editor.                                                 |
+| :kbd:`Ctrl+U` or                          | Focus on comment editor.                                              |
 |                                           |                                                                       |
 | :kbd:`Cmd+U`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
@@ -225,7 +227,7 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           | see :ref:`machine-translation`.                                       |
 | :kbd:`Cmd+M`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+1` to :kbd:`Ctrl+9` or         | Copies placeable of given number from source string.                  |
+| :kbd:`Ctrl+1` to :kbd:`Ctrl+9` or         | Copies placeable of a given number from source string.                |
 |                                           |                                                                       |
 | :kbd:`Cmd+1` to :kbd:`Cmd+9`              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
@@ -245,11 +247,11 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+J`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+S` or                          | Focus search field.                                                   |
+| :kbd:`Ctrl+S` or                          | Focus on search field.                                                |
 |                                           |                                                                       |
 | :kbd:`Cmd+S`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+O` or                          | Copy source string.                                                   |
+| :kbd:`Ctrl+O` or                          | Copy the source string.                                               |
 |                                           |                                                                       |
 | :kbd:`Cmd+O`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
@@ -257,9 +259,9 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+Y`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`→` and                              | Browse the next translation strings.                                  |
-|                                           |                                                                       |
-| :kbd:`←`                                  | Browse the previous translation strings.                              |
+| :kbd:`→`                                  | Browse the next translation string.                                   |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`←`                                  | Browse the previous translation string.                               |
 +-------------------------------------------+-----------------------------------------------------------------------+
 
 .. _visual-keyboard:
