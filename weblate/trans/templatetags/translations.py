@@ -1493,8 +1493,9 @@ def list_objects_percent(
     )
 
 
-@register.inclusion_tag("snippets/info.html")
+@register.inclusion_tag("snippets/info.html", takes_context=True)
 def show_info(
+    context,
     *,
     project: Project | None = None,
     component: Component | None = None,
@@ -1512,6 +1513,7 @@ def show_info(
     This merely exists to be able to pass default values to {% include %}.
     """
     return {
+        "user": context["user"],
         "project": project,
         "component": component,
         "translation": translation,
