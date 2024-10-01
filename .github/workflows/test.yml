@@ -20,35 +20,34 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
         python-version:
-        - '3.10'
         - '3.11'
         - '3.12'
         requirements: [latest]
         database: [postgresql]
         experimental: [false]
         include:
-          # Reduced testing for mysql
-        - python-version: 3.11
+        # Reduced testing for mysql
+        - python-version: '3.11'
           requirements: latest
           database: mysql
           experimental: false
-          # Reduced testing for mariadb
-        - python-version: 3.11
+        # Reduced testing for mariadb
+        - python-version: '3.11'
           requirements: latest
           database: mariadb
           experimental: false
-          # Reduced testing for minimal deps
-        - python-version: '3.10'
+        # Reduced testing for minimal deps
+        - python-version: '3.11'
           requirements: minimal
           database: postgresql
           experimental: false
-          # Reduced testing for edge deps
-        - python-version: 3.11
+        # Reduced testing for edge deps
+        - python-version: '3.11'
           requirements: edge
           database: postgresql
           experimental: true
@@ -66,10 +65,11 @@ jobs:
       PYTHONUNBUFFERED: 1
     steps:
     - uses: actions/checkout@v4
-    - uses: astral-sh/setup-uv@v2
+    - uses: astral-sh/setup-uv@v3
       with:
         enable-cache: true
-        cache-dependency-glob: pyproject.toml
+        cache-dependency-glob: ''
+        cache-suffix: ${{ matrix.python-version }}
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies

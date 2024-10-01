@@ -19,35 +19,36 @@ Older browsers might work, but some features might be limited.
 Dependency management
 ---------------------
 Installing and managing `3rd party` libraries in the `client` of a django project
-can be a bit tricky. This document provides a step-by-step guide on how to install
+can be a bit tricky. This section provides a step-by-step guide on how to install
 and manage 3rd party libraries used by the `client side` of Weblate using `Webpack`.
 
 Prerequisites
-~~~~~~~~~~~~~
+-------------
 
 Before proceeding with an installation, make sure you have the following prerequisites:
 
-- Node.js.
-- Yarn package manager installed on your system.
+- ``Nodejs`` version 14 or higher.
+- The ``yarn`` package manager installed on your system.
 - Run ``cd client``.
 - Run ``yarn install``
 
 1- Installation
-~~~~~~~~~~~~~~~
+---------------
 
 To install a library, 1st run the following command:
 
 .. code-block:: bash
 
-    yarn add lib
+    yarn add <lib-name>
 
 2- Importing the Library
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 Then, there are two ways to import the library:
 
 1. If it is a project-wide library (it is used/needed in all/most pages):
     - Import the library in ``src/main.js``.
+    - And declare it in the global scope (if needed).
 
 2. If it is page-specific library (library is used in a specific page or template):
     - Create a new file named ``src/<lib-name>.js``.
@@ -58,22 +59,22 @@ Then, there are two ways to import the library:
    Note: Replace ``<lib-name>`` with the actual name of the 3rd party library.
 
 3- Building the Library
-~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-Build the libraries used by the project, run the following command:
+Build the libraries used by the project, by running the following command:
 
 .. code-block:: bash
 
     yarn build
 
 4- Including the Library
-~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 Now the library is built and ready for use. To include it follow these steps:
 
 1. If the library was imported in ``src/main.js``, no further steps are required (as it is already included in ``base.html``).
 
-2. If the library was imported in its specific file ``src/<lib-name>.js``, in ``weblate/templates``` use the include tags to link to the built static JavaScript file:
+2. If the library was imported in its specific file ``src/<lib-name>.js``, in ``weblate/templates`` use the include tags to link to the built static JavaScript file:
 
 .. code-block:: django
 

@@ -58,7 +58,7 @@
 </div>
 
 <div class="tab-pane" id="information">
-  {% include "snippets/info.html" with language=None project=category.project stats=language_stats metrics=object|metrics %}
+  {% show_info project=category.project stats=language_stats metrics=object|metrics %}
 </div>
 
 <div class="tab-pane" id="history">

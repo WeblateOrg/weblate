@@ -13,10 +13,6 @@
 {% endcompress %}
 {% endblock %}
 
-{% block extra_meta %}
-<link rel="canonical" href="{{ unit.get_absolute_url }}" />
-{% endblock %}
-
 {% block breadcrumbs %}
 {% path_object_breadcrumbs path_object %}
 <li><a href="{% url 'zen' path=object.get_url_path  %}">{% trans "Zen" %}</a></li>

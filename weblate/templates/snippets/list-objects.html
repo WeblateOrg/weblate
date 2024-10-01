@@ -148,6 +148,7 @@
 {% for category in list_categories %}
   {% get_unique_row_id category as row_id %}
   {% get_search_url category as search_url %}
+  {% get_translate_url category as translate_url %}
   <tr id="{{ row_id }}">
     <td class="actions" rowspan="2">
       <a href="{{ category.get_absolute_url }}" class="btn btn-link green" title="{% trans "Browse" %}" alt="{% trans "Browse" %}">{% icon "folder-multiple-outline.svg" %}</a>

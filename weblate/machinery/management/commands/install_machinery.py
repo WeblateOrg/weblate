@@ -6,7 +6,7 @@ import json
 
 from django.core.management.base import CommandError
 
-from weblate.configuration.models import Setting
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.machinery.models import MACHINERY
 from weblate.utils.management.base import BaseCommand
 
@@ -51,7 +51,7 @@ class Command(BaseCommand):
             self.validate_form(form)
 
         setting, created = Setting.objects.get_or_create(
-            category=Setting.CATEGORY_MT,
+            category=SettingCategory.MT,
             name=options["service"],
             defaults={"value": configuration},
         )

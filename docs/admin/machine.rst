@@ -88,6 +88,8 @@ Amazon Translate
 Amazon Translate is a neural machine translation service for translating text
 to and from English across a breadth of supported languages.
 
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+
 .. seealso::
 
     `Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_
@@ -136,13 +138,15 @@ DeepL
 -----
 
 :Service ID: ``deepl``
-:Configuration: +---------------+-----------+-------------------------------------------------------------------------+
-                | ``url``       | API URL   |                                                                         |
-                +---------------+-----------+-------------------------------------------------------------------------+
-                | ``key``       | API key   |                                                                         |
-                +---------------+-----------+-------------------------------------------------------------------------+
-                | ``formality`` | Formality | Uses the specified formality if language is not specified as (in)formal |
-                +---------------+-----------+-------------------------------------------------------------------------+
+:Configuration: +---------------+---------------------+-------------------------------------------------------------------------------------+
+                | ``url``       | API URL             |                                                                                     |
+                +---------------+---------------------+-------------------------------------------------------------------------------------+
+                | ``key``       | API key             |                                                                                     |
+                +---------------+---------------------+-------------------------------------------------------------------------------------+
+                | ``formality`` | Formality           | Uses the specified formality if language is not specified as (in)formal             |
+                +---------------+---------------------+-------------------------------------------------------------------------------------+
+                | ``context``   | Translation context | Describe the context of the translation to improve the accuracy of the translation. |
+                +---------------+---------------------+-------------------------------------------------------------------------------------+
 
 DeepL is paid service providing good machine translation for a few languages.
 You need to purchase :guilabel:`DeepL API` subscription or you can use legacy
@@ -173,6 +177,9 @@ Replace the XXX with your auth_key. If you receive a JSON object which contains
 
 Weblate supports DeepL formality, it will choose matching one based on the
 language (for example, there is ``de@formal`` and ``de@informal``).
+
+The translation context can optionally be specified to improve translations quality. Read more on that in
+`DeepL translation context documentatin <https://developers.deepl.com/docs/best-practices/working-with-context>`_.
 
 The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
@@ -376,6 +383,32 @@ You can also specify a custom category to use `custom translator <https://learn.
    `"Authenticating with a Multi-service resource" <https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_
    `"Authenticating with an access token" section <https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference#authenticating-with-an-access-token>`_
 
+.. _mt-azure-openai:
+
+Azure OpenAI
+------------
+
+.. versionadded:: 5.8
+
+:Service ID: ``azure-openai``
+:Configuration: +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``            | API key                   |                                                                                                                           |
+                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``        | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``          | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``azure_endpoint`` | Azure OpenAI endpoint URL | Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com.                                                  |
+                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``deployment``     | Azure OpenAI deployment   | The model's unique deployment name.                                                                                       |
+                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+
+Performs translation using `OpenAI`_ hosted on Azure.
+
+.. seealso::
+
+    :ref:`mt-openai`
+
 .. _mt-modernmt:
 
 ModernMT
@@ -384,11 +417,15 @@ ModernMT
 .. versionadded:: 4.2
 
 :Service ID: ``modernmt``
-:Configuration: +---------+---------+--+
-                | ``url`` | API URL |  |
-                +---------+---------+--+
-                | ``key`` | API key |  |
-                +---------+---------+--+
+:Configuration: +--------------------+----------------+-----------------------------------------------------------------------+
+                | ``url``            | API URL        |                                                                       |
+                +--------------------+----------------+-----------------------------------------------------------------------+
+                | ``key``            | API key        |                                                                       |
+                +--------------------+----------------+-----------------------------------------------------------------------+
+                | ``context_vector`` | Context vector | Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456 |
+                +--------------------+----------------+-----------------------------------------------------------------------+
+
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
 .. seealso::
 

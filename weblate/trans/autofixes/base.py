@@ -1,7 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+
 from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 
 class AutoFix:
@@ -16,11 +22,13 @@ class AutoFix:
     def get_related_checks():
         return []
 
-    def fix_single_target(self, target, source, unit) -> tuple[str, bool]:
+    def fix_single_target(
+        self, target: str, source: str, unit: Unit
+    ) -> tuple[str, bool]:
         """Fix a single target, implement this method in subclasses."""
         raise NotImplementedError
 
-    def fix_target(self, target, unit):
+    def fix_target(self, target: str, unit: Unit) -> tuple[list[str], bool]:
         """Return a target translation array with a single fix applied."""
         source_strings = unit.get_source_plurals()
         if unit.translation.component.is_multivalue:

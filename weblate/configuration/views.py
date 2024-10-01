@@ -15,7 +15,7 @@ from django.views.generic import TemplateView
 
 from weblate.utils.hash import calculate_checksum
 
-from .models import Setting
+from .models import Setting, SettingCategory
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -37,7 +37,7 @@ class CustomCSSView(TemplateView):
         if css is None:
             css = render_to_string(
                 "configuration/custom.css",
-                Setting.objects.get_settings_dict(Setting.CATEGORY_UI),
+                Setting.objects.get_settings_dict(SettingCategory.UI),
             ).strip()
             cache.set(cls.cache_key, css, 24 * 3600)
         request.weblate_custom_css = css

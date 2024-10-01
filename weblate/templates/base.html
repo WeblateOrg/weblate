@@ -58,7 +58,7 @@ var _rollbarConfig = {
 // End Rollbar Snippet
 </script>
 {% endif %}
-  <script defer data-cfasync="false" src="{% static 'vendor/jquery.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'js/vendor/main.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/autosize.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/multi.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap.js' %}{{ cache_param }}"></script>
@@ -76,7 +76,6 @@ var _rollbarConfig = {
   <script defer data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/moment.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/daterangepicker.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'js/vendor/main.js' %}{{ cache_param }}"></script>
 {% endcompress %}
 
 {% block extra_script %}
@@ -101,8 +100,11 @@ var _rollbarConfig = {
   <meta property="og:title" content="{% if title %}{{ title }}{% elif object %}{{ object }}{% elif page_user %}{{ page_user }}{% else %}{{ site_title }}{% endif %}" />
   <meta property="og:description" content="{{ description }}" />
 
-{% block extra_meta %}
-{% endblock %}
+  {% block extra_meta %}
+  {% endblock %}
+
+  {% block extra_styles %}
+  {% endblock %}
 
  </head>
 
@@ -337,7 +339,7 @@ var _rollbarConfig = {
   {% show_message 'warning' msg %}
 {% endif %}
 
-{% if user.is_authenticated and not user.is_verified and user.group_enforces_2fa %}
+{% if user.is_authenticated and not user.profile.has_2fa and user.group_enforces_2fa %}
   {% include "snippets/enforced_2fa.html" %}
 {% endif %}
 

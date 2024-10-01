@@ -17,16 +17,17 @@ permissions:
 
 jobs:
   mypy:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@v4
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
-    - uses: astral-sh/setup-uv@v2
+    - uses: astral-sh/setup-uv@v3
       with:
         enable-cache: true
-        cache-dependency-glob: pyproject.toml
+        cache-dependency-glob: ''
+        cache-suffix: '3.12'
     - name: Setup Python
       uses: actions/setup-python@v5
       with:

@@ -4,7 +4,7 @@
 {% load icons %}
 {% load permissions %}
 
-{% perm 'billing.manage' object as user_can_manage_billing %}
+{% perm 'billing.manage' billing as user_can_manage_billing %}
 
   {% with plan=billing.plan %}
   <table class="table">

@@ -24,6 +24,7 @@ from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.vcs.base import Repository, RepositoryError
 from weblate.vcs.git import (
     AzureDevOpsRepository,
+    BitbucketCloudRepository,
     BitbucketServerRepository,
     GiteaRepository,
     GitForcePushRepository,
@@ -64,6 +65,11 @@ class PagureFakeRepository(PagureRepository):
 
 
 class BitbucketServerFakeRepository(BitbucketServerRepository):
+    _is_supported = None
+    _version = None
+
+
+class BitbucketCloudFakeRepository(BitbucketCloudRepository):
     _is_supported = None
     _version = None
 
@@ -539,7 +545,10 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         responses.add(
             responses.POST,
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks",
-            json={"ssh_url": "git@github.com:test/test.git"},
+            json={
+                "ssh_url": "git@gitea.io:test/test.git",
+                "clone_url": "https://gitea.io/test/test.git",
+            },
             match=[matchers.header_matcher({"Content-Type": "application/json"})],
         )
         responses.add(
@@ -724,7 +733,10 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         responses.add(
             responses.POST,
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories",
-            json={"sshUrl": "git@ssh.dev.azure.com:v3/organization/WeblateOrg/test"},
+            json={
+                "sshUrl": "git@ssh.dev.azure.com:v3/organization/WeblateOrg/test",
+                "remoteUrl": "https://dev.azure.com/v3/organization/WeblateOrg/test.git",
+            },
         )
         responses.add(
             responses.GET,
@@ -918,6 +930,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
                     {
                         "project": {"name": "test"},
                         "sshUrl": "git@ssh.dev.azure.com:v3/organization/WeblateOrg/test",
+                        "remoteUrl": "https://dev.azure.com/organization/WeblateOrg/test.git",
                     }
                 ]
             },
@@ -1046,7 +1059,10 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         responses.add(
             responses.POST,
             "https://api.github.com/repos/WeblateOrg/test/forks",
-            json={"ssh_url": "git@github.com:test/test.git"},
+            json={
+                "ssh_url": "git@github.com:test/test.git",
+                "clone_url": "https://github.com/test/test.git",
+            },
         )
         responses.add(
             responses.POST,
@@ -1234,6 +1250,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                 "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
                 json={
                     "ssh_url_to_repo": "git@gitlab.com:test/test-6184.git",
+                    "http_url_to_repo": "https://gitlab.com/test/test-6184.git",
                     "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
                 },
             )
@@ -1252,6 +1269,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                 "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
                 json={
                     "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+                    "http_url_to_repo": "https://gitlab.com/test/test.git",
                     "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
                 },
             )
@@ -1364,11 +1382,19 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             ),
             "group1%2Fsubgroup%2Fproject",
         )
+
+    def test_parse_repo_url(self) -> None:
         self.assertEqual(
             self.repo.parse_repo_url(
                 "git@gitlab.domain.com:group1/subgroup/project.git"
             ),
-            (None, "gitlab.domain.com", "group1", "subgroup/project"),
+            (None, None, None, "gitlab.domain.com", "group1", "subgroup/project"),
+        )
+        self.assertEqual(
+            self.repo.parse_repo_url(
+                "https://bot:glpat@gitlab.com/path/group/repo.git"
+            ),
+            ("https", "bot", "glpat", "gitlab.com", "path", "group/repo"),
         )
 
     @override_settings(
@@ -1391,6 +1417,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                 "slug": "test",
                 "hostname": "gitlab.example.com",
                 "scheme": "https",
+                "push_scheme": "ssh",
                 "username": "test",
                 "token": "token",
             },
@@ -1404,8 +1431,23 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                 "slug": "bar/test",
                 "hostname": "gitlab.example.com",
                 "scheme": "https",
+                "push_scheme": "ssh",
                 "username": "test",
                 "token": "token",
+            },
+        )
+        self.repo.component.repo = "https://bot:pat@gitlab.example.com/foo/bar/test.git"
+        self.assertEqual(
+            self.repo.get_credentials(),
+            {
+                "url": "https://gitlab.example.com/api/v4/projects/foo%2Fbar%2Ftest",
+                "owner": "foo",
+                "slug": "bar/test",
+                "hostname": "gitlab.example.com",
+                "scheme": "https",
+                "push_scheme": "https",
+                "username": "bot",
+                "token": "pat",
             },
         )
 
@@ -1450,6 +1492,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             get_forks=[
                 {
                     "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+                    "http_url_to_repo": "https://gitlab.com/test/test.git",
                     "owner": {"username": "test"},
                     "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
                 }
@@ -1879,9 +1922,13 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         "links": {
             "clone": [
                 {
-                    "name": "ssh",
+                    "name": "http",
                     "href": "https://api.selfhosted.com/bb_fork_pk/bb_fork.git",
-                }
+                },
+                {
+                    "name": "ssh",
+                    "href": "ssh://git@api.selfhosted.com/bb_fork_pk/bb_fork.git",
+                },
             ]
         },
     }
@@ -2193,3 +2240,320 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         with self.assertRaises(RepositoryError):
             super().test_push(branch)
         mock_push_to_fork.stop()
+
+
+@override_settings(
+    BITBUCKETCLOUD_CREDENTIALS={
+        "bitbucket.org": {
+            "username": "weblate",
+            "token": "app-password",
+            "workspace": "test-workspace",
+        }
+    }
+)
+class VCSBitbucketCloudTest(VCSGitUpstreamTest):
+    _class = BitbucketCloudFakeRepository
+    _vcs = "git"
+    _sets_push = False
+    _apihost = "bitbucket.org"
+
+    def mock_responses(self):
+        """
+        Mock the successful responses Bitbucket Cloud API.
+
+            - list repo forks
+            - create a fork
+            - list default reviewers
+            - create a pull request
+        """
+        responses.add(
+            responses.GET,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
+            json={
+                "values": [],
+                "pagelen": 10,
+                "page": 1,
+            },
+            status=200,
+        )
+
+        responses.add(
+            responses.POST,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
+            json={
+                "type": "repository",
+                "fullname": "test-workspace/test",
+                "name": "test",
+                "slug": "test",
+                "parent": {
+                    "type": "repository",
+                    "full_name": "WeblateOrg/test",
+                    "name": "test",
+                },
+                "links": {
+                    "clone": [
+                        {
+                            "name": "https",
+                            "href": "https://weblate@bitbucket.org/test-workspace/test.git",
+                        },
+                        {
+                            "name": "ssh",
+                            "href": "git@bitbucket.org:test-workspace/test.git",
+                        },
+                    ]
+                },
+                "owner": {"username": "test-workspace"},
+            },
+            status=200,
+        )
+
+        responses.add(
+            responses.GET,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/default-reviewers",
+            json={
+                "values": [
+                    {
+                        "type": "default_reviewer",
+                        "display_name": "reviewer_1",
+                        "uuid": "reviewer-uuid",
+                    }
+                ],
+                "pagelen": 10,
+                "page": 1,
+            },
+            status=200,
+        )
+
+        responses.add(
+            responses.POST,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/pullrequests",
+            json={
+                "type": "pullrequest",
+                "id": 1,
+                "title": "PR title",
+                "description": "PR description",
+                "state": "OPEN",
+                "destination": {"branch": {"name": "main"}},
+            },
+            status=200,
+        )
+
+    @responses.activate
+    def test_push(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud."""
+        self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
+        self.mock_responses()
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_push_with_http(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud with HTTP repo link."""
+        self.repo.component.repo = "https://bitbucket.org/WeblateOrg/test.git"
+        self.mock_responses()
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_push_with_missing_permission(self, branch: str = "") -> None:
+        """Test push with missing permission for App Password."""
+        self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
+
+        self.mock_responses()
+        responses.replace(
+            responses.POST,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/pullrequests",
+            json={
+                "type": "error",
+                "error": {
+                    "message": "Your credentials lack one or more required privilege scopes.",
+                    "detail": {
+                        "required": ["pullrequest:write"],
+                        "granted": ["pullrequest"],
+                    },
+                },
+            },
+        )
+
+        with (
+            self.assertRaises(RepositoryError),
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""),
+        ):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_default_reviewers_error(self, branch: str = "") -> None:
+        """Test default reviewers error, push expected to be successful."""
+        self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
+        self.mock_responses()
+
+        responses.replace(
+            responses.GET,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/default-reviewers",
+            json={
+                "type": "error",
+                "error": {
+                    "message": "Some unexpected error.",
+                },
+            },
+            status=400,
+        )
+        credentials = {
+            "url": "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test",
+            "token": "token",
+            "username": "weblate",
+        }
+        self.assertEqual(self.repo.get_default_reviewers_uuids(credentials), [])
+
+    @responses.activate
+    def test_paginated_reviewers_list(self, branch: str = "") -> None:
+        """Test the 'build_full_paginated_result' with default reviewers list."""
+        self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
+        self.mock_responses()
+
+        responses.replace(
+            responses.GET,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/default-reviewers",
+            json={
+                "values": [
+                    {
+                        "type": "default_reviewer",
+                        "display_name": "reviewer_1",
+                        "uuid": "reviewer-uuid-1",
+                    }
+                ],
+                "pagelen": 1,
+                "page": 1,
+                "next": "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/default-reviewers?page=2",
+            },
+            status=200,
+        )
+
+        responses.add(
+            responses.GET,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/default-reviewers?page=2",
+            json={
+                "values": [
+                    {
+                        "type": "default_reviewer",
+                        "display_name": "reviewer_2",
+                        "uuid": "reviewer-uuid-2",
+                    }
+                ],
+                "pagelen": 1,
+                "page": 2,
+            },
+            status=200,
+        )
+
+        credentials = {
+            "url": "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test",
+            "token": "token",
+            "username": "weblate",
+        }
+        self.assertEqual(
+            self.repo.get_default_reviewers_uuids(credentials),
+            ["reviewer-uuid-1", "reviewer-uuid-2"],
+        )
+
+    @responses.activate
+    def test_push_nothing_to_merge(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud with no changes to be merged."""
+        self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
+        self.mock_responses()
+
+        responses.replace(
+            responses.POST,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/pullrequests",
+            json={
+                "type": "error",
+                "error": {"message": "There are no changes to be pulled"},
+            },
+            status=400,
+        )
+
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_fork_already_exists(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud with HTTP repo link."""
+        self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
+        self.mock_responses()
+
+        responses.replace(
+            responses.GET,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
+            json={
+                "values": [
+                    {
+                        "type": "repository",
+                        "full_name": "test-workspace/test",
+                        "links": {
+                            "clone": [
+                                {
+                                    "name": "https",
+                                    "href": "https://weblate@bitbucket.org/test-workspace/test.git",
+                                },
+                                {
+                                    "name": "ssh",
+                                    "href": "git@bitbucket.org:test-workspace/test.git",
+                                },
+                            ]
+                        },
+                        "owner": {"username": "test-workspace"},
+                    }
+                ],
+                "pagelen": 10,
+                "page": 1,
+            },
+            status=200,
+        )
+
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_fork_name_already_taken(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud with HTTP repo link."""
+        self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
+        responses.add(
+            responses.POST,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
+            json={
+                "type": "error",
+                "error": {
+                    "message": "name: weblate already has a repository with this name.",
+                    "fields": {
+                        "name": ["weblate already has a repository with this name."]
+                    },
+                },
+            },
+            status=400,
+        )
+        self.mock_responses()
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_fork_error(self, branch: str = "") -> None:
+        """Test push to bitbucket cloud with HTTP repo link."""
+        self.repo.component.repo = "git@bitbucket.org:WeblateOrg/test.git"
+        self.mock_responses()
+        responses.replace(
+            responses.POST,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
+            json={
+                "type": "error",
+                "error": {
+                    "message": "name: Unknown error not related to name.",
+                    "fields": {"name": ["Unknown error not related to name."]},
+                },
+            },
+            status=400,
+        )
+        with (
+            self.assertRaises(RepositoryError),
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""),
+        ):
+            super().test_push(branch)

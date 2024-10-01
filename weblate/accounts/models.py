@@ -32,7 +32,11 @@ from social_django.models import UserSocialAuth
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.data import create_default_notifications
-from weblate.accounts.notifications import FREQ_CHOICES, NOTIFICATIONS, SCOPE_CHOICES
+from weblate.accounts.notifications import (
+    NOTIFICATIONS,
+    NotificationFrequency,
+    NotificationScope,
+)
 from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.lang.models import Language
@@ -124,13 +128,22 @@ class WeblateAccountsConf(AppConf):
         prefix = ""
 
 
+class SubscriptionQuerySet(models.QuerySet["Subscription"]):
+    def order(self):
+        """Ordering in project scope by priority."""
+        return self.order_by("user", "scope")
+
+    def prefetch(self):
+        return self.prefetch_related("component", "project")
+
+
 class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     notification = models.CharField(
         choices=[n.get_choice() for n in NOTIFICATIONS], max_length=100
     )
-    scope = models.IntegerField(choices=SCOPE_CHOICES)
-    frequency = models.IntegerField(choices=FREQ_CHOICES)
+    scope = models.IntegerField(choices=NotificationScope.choices)
+    frequency = models.IntegerField(choices=NotificationFrequency.choices)
     project = models.ForeignKey(
         "trans.Project", on_delete=models.deletion.CASCADE, null=True
     )
@@ -138,6 +151,8 @@ class Subscription(models.Model):
         "trans.Component", on_delete=models.deletion.CASCADE, null=True
     )
     onetime = models.BooleanField(default=False)
+
+    objects = SubscriptionQuerySet.as_manager()
 
     class Meta:
         unique_together = [("notification", "scope", "project", "component", "user")]

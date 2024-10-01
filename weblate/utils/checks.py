@@ -4,11 +4,18 @@
 
 from __future__ import annotations
 
-from django.core.checks import CheckMessage, Critical
+from django.core.checks import (
+    CheckMessage,
+    Critical,
+    Debug,
+    Error,
+    Info,
+    Warning,  # noqa: A004
+)
 
 from weblate.utils.docs import get_doc_url
 
-DOC_LINKS = {
+DOC_LINKS: dict[str, tuple[str] | tuple[str, str]] = {
     "security.W001": ("admin/upgdade", "up-3-1"),
     "security.W002": ("admin/upgdade", "up-3-1"),
     "security.W003": ("admin/upgdade", "up-3-1"),
@@ -76,6 +83,10 @@ def check_doc_link(docid: str, strict: bool = False) -> str | None:
         return None
 
 
-def weblate_check(check_id, message, cls=Critical) -> CheckMessage:
+def weblate_check(
+    check_id: str,
+    message: str,
+    cls: type[Critical | Debug | Error | Info | Warning] = Critical,
+) -> CheckMessage:
     """Return Django check instance."""
     return cls(message, hint=check_doc_link(check_id), id=check_id)

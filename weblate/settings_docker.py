@@ -240,6 +240,11 @@ PAGURE_CREDENTIALS = get_env_credentials("PAGURE")
 # Please see the documentation for more details.
 BITBUCKETSERVER_CREDENTIALS = get_env_credentials("BITBUCKETSERVER")
 
+# Bitbucket username and token for sending merge requests.
+# Please see the documentation for more details.
+BITBUCKETCLOUD_CREDENTIALS = get_env_credentials("BITBUCKETCLOUD")
+
+
 # Default pull request message.
 # Please see the documentation for more details.
 if "WEBLATE_DEFAULT_PULL_MESSAGE" in os.environ:
@@ -774,6 +779,8 @@ INSTALLED_APPS = [
     "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
     "django_otp_webauthn",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
 ]
 
 modify_env_list(INSTALLED_APPS, "APPS")
@@ -1199,6 +1206,20 @@ REST_FRAMEWORK = {
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
     "EXCEPTION_HANDLER": "weblate.api.views.weblate_exception_handler",
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+SPECTACULAR_SETTINGS = {
+    "SWAGGER_UI_DIST": "SIDECAR",
+    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    "REDOC_DIST": "SIDECAR",
+    "SERVE_URLCONF": "weblate.api.urls",
+    "TITLE": "Weblate's REST API",
+    "DESCRIPTION": """
+The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
+
+The OpenAPI specification is available as feature preview, feedback welcome!
+    """,
+    "VERSION": None,
 }
 
 # Fonts CDN URL
@@ -1268,7 +1289,10 @@ EMAIL_BACKEND = get_env_str(
 SILENCED_SYSTEM_CHECKS = [
     # We have modified django.contrib.auth.middleware.AuthenticationMiddleware
     # as weblate.accounts.middleware.AuthenticationMiddleware
-    "admin.E408"
+    "admin.E408",
+    # Silence drf_spectacular until these are addressed
+    "drf_spectacular.W001",
+    "drf_spectacular.W002",
 ]
 
 # Silence WebAuthn origin error

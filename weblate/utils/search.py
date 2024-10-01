@@ -12,10 +12,13 @@ from itertools import chain
 from operator import and_, or_
 from typing import Any, cast, overload
 
-from dateutil.parser import ParserError, parse
+from dateparser import parse as dateparser_parse
+from dateutil.parser import ParserError
+from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
 from django.db.models import Q, Value
 from django.db.utils import DataError
+from django.http import Http404
 from django.utils import timezone
 from django.utils.translation import gettext
 from pyparsing import (
@@ -29,9 +32,10 @@ from pyparsing import (
     infix_notation,
     one_of,
 )
-from rapidfuzz.distance import DamerauLevenshtein
 
 from weblate.checks.parser import RawQuotedString
+from weblate.lang.models import Language
+from weblate.trans.models import Category, Component, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import (
@@ -41,18 +45,8 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
-
-
-class Comparer:
-    """
-    String comparer abstraction.
-
-    The reason is to be able to change implementation.
-    """
-
-    def similarity(self, first, second):
-        """Return string similarity in range 0 - 100%."""
-        return int(100 * DamerauLevenshtein.normalized_similarity(first, second))
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.views import parse_path
 
 
 # Helper parsing objects
@@ -211,6 +205,7 @@ class BaseTermExpr:
         microsecond: int = 0,
     ) -> datetime: ...
     def convert_datetime(self, text, hour=5, minute=55, second=55, microsecond=0):
+        tzinfo = timezone.get_current_timezone()
         if isinstance(text, RangeExpr):
             return (
                 self.convert_datetime(
@@ -222,7 +217,6 @@ class BaseTermExpr:
             )
         if text.isdigit() and len(text) == 4:
             year = int(text)
-            tzinfo = timezone.get_current_timezone()
             return (
                 datetime(
                     year=year,
@@ -245,23 +239,39 @@ class BaseTermExpr:
                     tzinfo=tzinfo,
                 ),
             )
-        try:
-            # Here we inject 5:55:55 time and if that was not changed
-            # during parsing, we assume it was not specified while
-            # generating the query
-            result = parse(
-                text,
-                default=timezone.now().replace(
-                    hour=hour, minute=minute, second=second, microsecond=microsecond
-                ),
-            )
-        except ParserError as error:
-            raise ValueError(gettext("Invalid timestamp: {}").format(error)) from error
+
+        # Attempts to parse the text using dateparser
+        # If the text is unparsable it will return None
+        result = dateparser_parse(text)
+        if not result:
+            try:
+                # Here we inject 5:55:55 time and if that was not changed
+                # during parsing, we assume it was not specified while
+                # generating the query
+                result = dateutil_parse(
+                    text,
+                    default=timezone.now().replace(
+                        hour=hour, minute=minute, second=second, microsecond=microsecond
+                    ),
+                )
+            except ParserError as error:
+                raise ValueError(
+                    gettext("Invalid timestamp: {}").format(error)
+                ) from error
+
+        result = result.replace(
+            hour=hour,
+            minute=minute,
+            second=second,
+            microsecond=microsecond,
+            tzinfo=tzinfo,
+        )
         if result.hour == 5 and result.minute == 55 and result.second == 55:
             return (
                 result.replace(hour=0, minute=0, second=0, microsecond=0),
                 result.replace(hour=23, minute=59, second=59, microsecond=999999),
             )
+
         return result
 
     def convert_change_action(self, text: str) -> int:
@@ -473,6 +483,45 @@ class UnitTermExpr(BaseTermExpr):
 
         return super().has_field(text, context)
 
+    def path_field(self, text: str, context: dict) -> Q:
+        try:
+            obj = parse_path(
+                None,
+                text.split("/"),
+                (
+                    Translation,
+                    Component,
+                    Project,
+                    ProjectLanguage,
+                    Category,
+                    CategoryLanguage,
+                    Language,
+                ),
+                skip_acl=True,
+            )
+        except Http404:
+            return Q(translation=None)
+
+        if isinstance(obj, Translation):
+            return Q(translation=obj)
+        if isinstance(obj, Component):
+            return Q(translation__component=obj)
+        if isinstance(obj, Project):
+            return Q(translation__component__project=obj)
+        if isinstance(obj, ProjectLanguage):
+            return Q(translation__component__project=obj.project) & Q(
+                translation__language=obj.language
+            )
+        if isinstance(obj, Category):
+            return Q(translation__component_id__in=obj.all_component_ids)
+        if isinstance(obj, CategoryLanguage):
+            return Q(translation__component_id__in=obj.category.all_component_ids) & Q(
+                translation__language=obj.language
+            )
+        if isinstance(obj, Language):
+            return Q(translation__language=obj)
+        raise TypeError(f"Unsupported path lookup: {obj}")
+
     def convert_change_time(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
 
@@ -544,7 +593,10 @@ class UserTermExpr(BaseTermExpr):
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
         if field == "translates":
             return query & Q(
-                change__timestamp__date__gte=timezone.now().date() - timedelta(days=90)
+                change__timestamp__gte=timezone.now().replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
+                - timedelta(days=90)
             )
 
         return super().field_extra(field, query, match)
@@ -561,7 +613,10 @@ class UserTermExpr(BaseTermExpr):
         else:
             query = Q(change__project__slug__iexact=text)
         return query & Q(
-            change__timestamp__date__gte=timezone.now().date() - timedelta(days=90)
+            change__timestamp__gte=timezone.now().replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
+            - timedelta(days=90)
         )
 
 

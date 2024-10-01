@@ -595,12 +595,12 @@ $(function () {
       activeTab = $(
         `.nav [data-toggle=tab][href="${location.hash.substr(0, separator)}"]`,
       );
-      if (activeTab.length) {
+      if (activeTab.length > 0) {
         activeTab.tab("show");
       }
     }
     activeTab = $(`.nav [data-toggle=tab][href="${location.hash}"]`);
-    if (activeTab.length) {
+    if (activeTab.length > 0) {
       activeTab.tab("show");
       window.scrollTo(0, 0);
     } else {
@@ -617,7 +617,7 @@ $(function () {
     activeTab = $(
       `[data-toggle=tab][href="${localStorage.getItem("translate-tab")}"]`,
     );
-    if (activeTab.length) {
+    if (activeTab.length > 0) {
       activeTab.tab("show");
     }
   }
@@ -636,7 +636,7 @@ $(function () {
     } else {
       activeTab = Array();
     }
-    if (activeTab.length) {
+    if (activeTab.length > 0) {
       activeTab.tab("show");
     } else {
       $(".nav-tabs a:first").tab("show");
@@ -977,7 +977,7 @@ $(function () {
   });
 
   // Show the correct toggle button
-  if ($(".sort-field").length) {
+  if ($(".sort-field").length > 0) {
     const sortName = $("#query-sort-dropdown span.search-label").text();
     const sortDropdownValue = $(".sort-field li a")
       .filter(function () {
@@ -1050,14 +1050,14 @@ $(function () {
 
     const $title = $this.find("span.title");
     let text = $this.text();
-    if ($title.length) {
+    if ($title.length > 0) {
       text = $title.text();
     }
     $group.find("span.search-label-auto").text(text);
 
     if ($group.hasClass("sort-field")) {
       $group.find("input[name=sort_by]").val($this.data("sort"));
-      if ($this.closest(".result-page-form").length) {
+      if ($this.closest(".result-page-form").length > 0) {
         $this.closest("form").submit();
       }
     }
@@ -1094,7 +1094,7 @@ $(function () {
       }
     });
     $input.val(sortParams.join(","));
-    if ($this.closest(".result-page-form").length) {
+    if ($this.closest(".result-page-form").length > 0) {
       $this.closest("form").submit();
     }
   });
@@ -1319,7 +1319,9 @@ $(function () {
         events: {
           input: {
             focus() {
-              if (autoCompleteInput.value.length) autoCompleteJs.start();
+              if (autoCompleteInput.value.length > 0) {
+                autoCompleteJs.start();
+              }
             },
             selection(event) {
               const feedback = event.detail;
@@ -1371,7 +1373,9 @@ $(function () {
     events: {
       input: {
         focus() {
-          if (siteSearch.input.value.length) siteSearch.start();
+          if (siteSearch.input.value.length > 0) {
+            siteSearch.start();
+          }
         },
       },
     },
@@ -1417,15 +1421,16 @@ $(function () {
 
   $("input[name='period']").daterangepicker(
     {
-      autoApply: true,
-      startDate:
-        $("input[name='period']#id_period").attr("data-start-date") || moment(),
-      endDate:
-        $("input[name='period']#id_period").attr("data-end-date") || moment(),
+      autoApply: false,
+      autoUpdateInput: false,
+      startDate: $("input[name='period']#id_period").attr("data-start-date"),
+      endDate: $("input[name='period']#id_period").attr("data-end-date"),
       alwaysShowCalendars: true,
+      cancelButtonClasses: "btn-warning",
       opens: "left",
       locale: {
         customRangeLabel: gettext("Custom range"),
+        cancelLabel: gettext("Clear"),
         daysOfWeek: [
           pgettext("Short name of day", "Su"),
           pgettext("Short name of day", "Mo"),
@@ -1478,6 +1483,16 @@ $(function () {
     },
     (start, end, label) => {},
   );
+
+  $("input[name='period']").on("apply.daterangepicker", function (ev, picker) {
+    $(this).val(
+      `${picker.startDate.format("MM/DD/YYYY")} - ${picker.endDate.format("MM/DD/YYYY")}`,
+    );
+  });
+
+  $("input[name='period']").on("cancel.daterangepicker", (_ev, picker) => {
+    picker.element.val("");
+  });
 
   /* Singular or plural new unit switcher */
   $("input[name='new-unit-form-type']").on("change", function () {

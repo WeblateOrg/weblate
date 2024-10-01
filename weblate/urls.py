@@ -13,6 +13,11 @@ from django.urls import include, path, re_path
 from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView, TemplateView
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
 import weblate.accounts.urls
 import weblate.accounts.views
@@ -814,6 +819,19 @@ real_patterns = [
     path("accounts/", include(weblate.accounts.urls)),
     # Auth
     path("api/", include((weblate.api.urls, "weblate.api"), namespace="api")),
+    # YOUR PATTERNS
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    # Optional UI:
+    path(
+        "api/schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    path(
+        "api/schema/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
     # Static pages
     path("contact/", weblate.accounts.views.contact, name="contact"),
     path("hosting/", weblate.accounts.views.hosting, name="hosting"),

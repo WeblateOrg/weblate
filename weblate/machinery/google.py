@@ -18,6 +18,7 @@ class GoogleBaseTranslation(MachineTranslation):
         "fil": "tl",
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh-CN",
+        "ber-Latn": "kab",  # Adding Kabyle language by mapping Tamazight latin
     }
     language_aliases = ({"zh-CN", "zh"},)
 
