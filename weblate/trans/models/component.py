@@ -770,6 +770,16 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     local_revision = models.CharField(max_length=200, default="", blank=True)
     processed_revision = models.CharField(max_length=200, default="", blank=True)
 
+    key_filter = RegexField(
+        verbose_name=gettext_lazy("Key filter"),
+        max_length=500,
+        default="",
+        help_text=gettext_lazy(
+            "Regular expression used to filter keys. This is only available for monolingual formats."
+        ),
+        blank=True,
+    )
+
     objects = ComponentQuerySet.as_manager()
 
     is_lockable = True
@@ -818,6 +828,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         changed_template = False
         changed_variant = False
         create = True
+
+        # Sets the key_filter to blank if the file format is bilingual
+        if self.key_filter and not self.file_format_cls.monolingual:
+            self.key_filter = ""
+
         if self.id:
             old = Component.objects.get(pk=self.id)
             changed_git = (
@@ -835,9 +850,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 or (old.edit_template != self.edit_template)
                 or (old.new_base != self.new_base)
                 or changed_template
+                or old.key_filter != self.key_filter
             )
             if changed_setup:
                 old.commit_pending("changed setup", None)
+                if old.key_filter != self.key_filter:
+                    self.drop_key_filter_cache()
+
             changed_variant = old.variant_regex != self.variant_regex
             # Generate change entries for changes
             self.generate_changes(old)
@@ -852,6 +871,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 old.component_set.update(repo=self.get_repo_link_url())
             if changed_git:
                 self.drop_repository_cache()
+
             create = False
         elif self.is_glossary:
             # Creating new glossary
@@ -3386,6 +3406,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if "addons_cache" in self.__dict__:
             del self.__dict__["addons_cache"]
 
+    def drop_key_filter_cache(self) -> None:
+        """Invalidate the cached value of key_filter."""
+        if "key_filter_re" in self.__dict__:
+            del self.__dict__["key_filter_re"]
+
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
         store = self.file_format_cls(
@@ -3792,6 +3817,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def start_sentry_span(self, op: str):
         return sentry_sdk.start_span(op=op, description=self.full_slug)
+
+    @cached_property
+    def key_filter_re(self) -> re.Pattern:
+        """Provide the cached version of key_filter."""
+        return re.compile(self.key_filter)
 
 
 @receiver(m2m_changed, sender=Component.links.through)
