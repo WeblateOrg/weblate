@@ -32,8 +32,8 @@ Before proceeding with an installation, make sure you have the following prerequ
 - Run ``cd client``.
 - Run ``yarn install``
 
-1- Installation
----------------
+Installation
+++++++++++++
 
 To install a library, 1st run the following command:
 
@@ -41,8 +41,8 @@ To install a library, 1st run the following command:
 
     yarn add <lib-name>
 
-2- Importing the Library
--------------------------
+Importing the Library
++++++++++++++++++++++
 
 Then, there are two ways to import the library:
 
@@ -58,8 +58,8 @@ Then, there are two ways to import the library:
 
    Note: Replace ``<lib-name>`` with the actual name of the 3rd party library.
 
-3- Building the Library
------------------------
+Building the Library
+++++++++++++++++++++
 
 Build the libraries used by the project, by running the following command:
 
@@ -67,8 +67,8 @@ Build the libraries used by the project, by running the following command:
 
     yarn build
 
-4- Including the Library
-------------------------
+Including the Library
++++++++++++++++++++++
 
 Now the library is built and ready for use. To include it follow these steps:
 
