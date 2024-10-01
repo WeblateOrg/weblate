@@ -1233,7 +1233,7 @@ REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
-SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS)
+SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
 
 # Fonts CDN URL
 FONTS_CDN_URL = None

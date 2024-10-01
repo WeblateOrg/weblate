@@ -7,7 +7,9 @@ from __future__ import annotations
 from django.utils.translation import gettext_lazy
 
 
-def get_spectacular_settings(installed_apps: list[str]) -> None:
+def get_spectacular_settings(
+    installed_apps: list[str], site_url: str, site_title: str
+) -> None:
     settings = {
         # Use redoc from sidecar
         # TODO: Should bundle it internally
@@ -30,6 +32,9 @@ def get_spectacular_settings(installed_apps: list[str]) -> None:
                 },
             },
         },
+        "SERVERS": [
+            {"url": site_url, "description": site_title},
+        ],
         # Document only API (not webauthn and other drf endpoints)
         "SERVE_URLCONF": "weblate.api.urls",
         "TITLE": gettext_lazy("Weblate's REST API"),
