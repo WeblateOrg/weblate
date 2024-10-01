@@ -10,6 +10,11 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
+RATELIMIT_LIMIT_HEADER = "X-RateLimit-Limit"
+RATELIMIT_REMAINING_HEADER = "X-RateLimit-Remaining"
+RATELIMIT_RESET_HEADER = "X-RateLimit-Reset"
+
+
 class ThrottlingMiddleware:
     def __init__(self, get_response=None) -> None:
         self.get_response = get_response
@@ -18,8 +23,8 @@ class ThrottlingMiddleware:
         response = self.get_response(request)
         throttling = request.META.get("throttling_state", None)
         if throttling is not None:
-            response["X-RateLimit-Limit"] = throttling.num_requests
-            response["X-RateLimit-Remaining"] = throttling.num_requests - len(
+            response[RATELIMIT_LIMIT_HEADER] = throttling.num_requests
+            response[RATELIMIT_REMAINING_HEADER] = throttling.num_requests - len(
                 throttling.history
             )
             if throttling.history:
@@ -28,5 +33,5 @@ class ThrottlingMiddleware:
                 )
             else:
                 remaining_duration = throttling.duration
-            response["X-RateLimit-Reset"] = int(remaining_duration)
+            response[RATELIMIT_RESET_HEADER] = int(remaining_duration)
         return response

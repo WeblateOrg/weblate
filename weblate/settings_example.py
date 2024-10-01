@@ -9,6 +9,8 @@ import os
 import platform
 from logging.handlers import SysLogHandler
 
+from weblate.api.spectacular import get_spectacular_settings
+
 # Title of site to use
 SITE_TITLE = "Weblate"
 
@@ -830,20 +832,7 @@ REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
-SPECTACULAR_SETTINGS = {
-    "REDOC_DIST": "SIDECAR",
-    "SERVE_URLCONF": "weblate.api.urls",
-    "TITLE": "Weblate's REST API",
-    "DESCRIPTION": """
-The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
-
-The OpenAPI specification is available as feature preview, feedback welcome!
-    """,
-    "VERSION": None,
-    "ENUM_NAME_OVERRIDES": {
-        "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
-    },
-}
+SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS)
 
 # Fonts CDN URL
 FONTS_CDN_URL = None

@@ -816,9 +816,11 @@ real_patterns = [
     # Auth
     path("api/", include((weblate.api.urls, "weblate.api"), namespace="api")),
     # OpenAPI schema
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     # API documentation
-    path("api/docs/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
+    path(
+        "api/docs/", SpectacularRedocView.as_view(url_name="api-schema"), name="redoc"
+    ),
     # Static pages
     path("contact/", weblate.accounts.views.contact, name="contact"),
     path("hosting/", weblate.accounts.views.hosting, name="hosting"),
