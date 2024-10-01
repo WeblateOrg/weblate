@@ -815,13 +815,13 @@ real_patterns = [
         weblate.wladmin.views.performance,
         name="manage-performance",
     ),
-    # Auth
+    # Accounts
     path("accounts/", include(weblate.accounts.urls)),
     # Auth
     path("api/", include((weblate.api.urls, "weblate.api"), namespace="api")),
-    # YOUR PATTERNS
+    # OpenAPI schema
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    # Optional UI:
+    # API documentation
     path(
         "api/schema/swagger-ui/",
         SpectacularSwaggerView.as_view(url_name="schema"),
