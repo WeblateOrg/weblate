@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from functools import partial
 from typing import TYPE_CHECKING, Any, TypedDict
 
 import sentry_sdk
@@ -1095,8 +1096,6 @@ class Unit(models.Model, LoggerMixin):
         This should be always called in a transaction with updated unit
         locked for update.
         """
-        from weblate.trans.tasks import detect_completed_translation
-
         # For case when authorship specified, use user
         author = author or user
 
@@ -1158,7 +1157,13 @@ class Unit(models.Model, LoggerMixin):
             self.translation.invalidate_cache()
 
             # Postpone completed translation detection
-            detect_completed_translation.delay_on_commit(change.pk, old_translated)
+            transaction.on_commit(
+                partial(
+                    self.translation.detect_completed_translation,
+                    change,
+                    old_translated,
+                )
+            )
 
             # Update user stats
             change.author.profile.increase_count("translated")

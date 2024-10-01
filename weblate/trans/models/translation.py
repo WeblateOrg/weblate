@@ -1318,6 +1318,24 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self._invalidate_scheduled = True
         transaction.on_commit(self._invalidate_triger)
 
+    def detect_completed_translation(self, change: Change, old_translated: int) -> None:
+        translated = self.stats.translated
+        if old_translated < translated and translated == self.stats.all:
+            self.change_set.create(
+                action=Change.ACTION_COMPLETE,
+                user=change.user,
+                author=change.author,
+            )
+
+            # check if component is fully translated
+            component = self.component
+            if component.stats.translated == component.stats.all:
+                self.component.change_set.create(
+                    action=Change.ACTION_COMPLETED_COMPONENT,
+                    user=change.user,
+                    author=change.author,
+                )
+
     @property
     def keys_cache_key(self) -> str:
         return f"translation-keys-{self.pk}"
