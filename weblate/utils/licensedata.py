@@ -290,6 +290,12 @@ LICENSES = (
         False,
     ),
     (
+        "Boehm-GC-without-fee",
+        "Boehm-Demers-Weiser GC License (without fee)",
+        "https://spdx.org/licenses/Boehm-GC-without-fee.html",
+        False,
+    ),
+    (
         "BSL-1.0",
         "Boost Software License 1.0",
         "https://spdx.org/licenses/BSL-1.0.html",
