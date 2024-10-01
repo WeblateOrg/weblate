@@ -1220,6 +1220,9 @@ The API is accessible on the ``/api/`` URL and it is based on [Django REST frame
 The OpenAPI specification is available as feature preview, feedback welcome!
     """,
     "VERSION": None,
+    "ENUM_NAME_OVERRIDES": {
+        "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
+    },
 }
 
 # Fonts CDN URL
