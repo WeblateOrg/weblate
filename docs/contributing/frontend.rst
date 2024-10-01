@@ -23,7 +23,7 @@ can be a bit tricky. This section provides a step-by-step guide on how to instal
 and manage 3rd party libraries used by the `client side` of Weblate using `Webpack`.
 
 Prerequisites
--------------
++++++++++++++
 
 Before proceeding with an installation, make sure you have the following prerequisites:
 
