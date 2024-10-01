@@ -1289,7 +1289,10 @@ EMAIL_BACKEND = get_env_str(
 SILENCED_SYSTEM_CHECKS = [
     # We have modified django.contrib.auth.middleware.AuthenticationMiddleware
     # as weblate.accounts.middleware.AuthenticationMiddleware
-    "admin.E408"
+    "admin.E408",
+    # Silence drf_spectacular until these are addressed
+    "drf_spectacular.W001",
+    "drf_spectacular.W002",
 ]
 
 # Silence WebAuthn origin error
