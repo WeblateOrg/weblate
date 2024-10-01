@@ -416,8 +416,8 @@ class ContactForm(forms.Form):
         label=gettext_lazy("Message"),
         required=True,
         help_text=gettext_lazy(
-            "Please contact us in English. Otherwise we might "
-            "be unable to process your request."
+            "Please contact us in English. Otherwise, we might "
+            "not process your request."
         ),
         max_length=2000,
         widget=forms.Textarea,
