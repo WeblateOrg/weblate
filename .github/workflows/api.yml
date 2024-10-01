@@ -49,6 +49,8 @@ jobs:
       run: ./ci/print-versions
     - name: Install Python dependencies
       run: ./ci/pip-install latest
+    - name: Prepare database
+      run: ./ci/prepare-database
     - name: Migrate database
       run: coverage run ./manage.py migrate --noinput --traceback
     - name: Generate OpenAPI
