@@ -36,7 +36,7 @@ The simple execution can look like:
 
 .. code-block:: sh
 
-   . scripts/test-database.sh
+   ./scripts/test-database.sh
    ./ci/run-migrate
    ./ci/run-test
    ./ci/run-docs
