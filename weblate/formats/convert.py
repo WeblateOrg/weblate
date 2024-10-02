@@ -18,14 +18,12 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from translate.convert.po2html import po2html
 from translate.convert.po2idml import translate_idml, write_idml
-from translate.convert.po2md import MarkdownTranslator
 from translate.convert.po2rc import rerc
 from translate.convert.po2txt import po2txt
 from translate.convert.rc2po import rc2po
 from translate.convert.xliff2odf import translate_odf, write_odf
 from translate.storage.html import htmlfile
 from translate.storage.idml import INLINE_ELEMENTS, NO_TRANSLATE_ELEMENTS, open_idml
-from translate.storage.markdown import MarkdownFile
 from translate.storage.odf_io import open_odf
 from translate.storage.odf_shared import inline_elements, no_translate_content_elements
 from translate.storage.po import pofile
@@ -315,12 +313,18 @@ class MarkdownFormat(ConvertFormat):
     check_flags = ("safe-html", "strict-same", "md-text")
 
     def convertfile(self, storefile, template_store):
+        # Lazy import as mistletoe is expensive
+        from translate.storage.markdown import MarkdownFile
+
         # Fake input file with a blank filename
         mdparser = MarkdownFile(inputfile=NamedBytesIO("", storefile.read()))
         return self.convert_to_po(mdparser, template_store, use_location=False)
 
     def save_content(self, handle) -> None:
         """Store content to file."""
+        # Lazy import as mistletoe is expensive
+        from translate.convert.po2md import MarkdownTranslator
+
         converter = MarkdownTranslator(
             inputstore=self.store, includefuzzy=True, outputthreshold=None, maxlength=80
         )
