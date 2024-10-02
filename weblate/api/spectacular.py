@@ -4,12 +4,14 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from django.utils.translation import gettext_lazy
 
 
 def get_spectacular_settings(
     installed_apps: list[str], site_url: str, site_title: str
-) -> None:
+) -> dict[str, Any]:
     settings = {
         # Use redoc from sidecar
         # TODO: Should bundle it internally
