@@ -302,9 +302,7 @@ def execute_addon_event(
 
         try:
             # Execute event in senty span to track performance
-            with sentry_sdk.start_span(
-                op=f"addon.{event.name}", description=addon.name
-            ):
+            with sentry_sdk.start_span(op=f"addon.{event.name}", name=addon.name):
                 if isinstance(method, str):
                     log_result = getattr(addon.addon, method)(*args)
                 else:

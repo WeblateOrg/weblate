@@ -83,7 +83,7 @@ def display_fixups(request: AuthenticatedHttpRequest, fixups) -> None:
 
 def get_other_units(unit):
     """Return other units to show while translating."""
-    with sentry_sdk.start_span(op="unit.others", description=unit.pk):
+    with sentry_sdk.start_span(op="unit.others", name=unit.pk):
         result: dict[str, Any] = {
             "total": 0,
             "skipped": False,
@@ -240,7 +240,7 @@ def search(
         name = ""
         search_items = ()
 
-    with sentry_sdk.start_span(op="unit.search", description=search_url):
+    with sentry_sdk.start_span(op="unit.search", name=search_url):
         search_result = {
             "form": form,
             "offset": cleaned_data.get("offset", 1),
