@@ -19,6 +19,7 @@ Not yet released.
 * :ref:`autofix` for Devanagari danda now better handles latin script.
 * :ref:`autofix` for French and Breton now uses a non-breaking space before colons instead of a narrow one.
 * :ref:`api` now has a preview OpenAPI specification.
+* :kbd:`?` now displays available :ref:`keyboard`.
 
 **Bug fixes**
 
