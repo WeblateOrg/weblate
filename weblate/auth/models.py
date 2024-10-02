@@ -726,7 +726,7 @@ class User(AbstractBaseUser):
         """Fetch all user permissions into a dictionary."""
         projects: PermissionCacheType = defaultdict(list)
         components: SimplePermissionCacheType = defaultdict(list)
-        with sentry_sdk.start_span(op="permissions", description=self.username):
+        with sentry_sdk.start_span(op="permissions", name=self.username):
             for group in self.cached_groups:
                 # Skip permissions for not verified users
                 if group.enforced_2fa and not self.profile.has_2fa:

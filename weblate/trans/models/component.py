@@ -3816,7 +3816,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return [self]
 
     def start_sentry_span(self, op: str):
-        return sentry_sdk.start_span(op=op, description=self.full_slug)
+        return sentry_sdk.start_span(op=op, name=self.full_slug)
 
     @cached_property
     def key_filter_re(self) -> re.Pattern:
