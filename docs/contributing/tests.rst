@@ -26,7 +26,7 @@ There are several jobs to verify different aspects:
 The configuration for the CI is in :file:`.github/workflows` directory. It
 heavily uses helper scripts stored in :file:`ci` directory. The scripts can be
 also executed manually, but they require several environment variables, mostly
-defining Django settings file to use and database connection. The example
+defining Django settings file to use and test database connection. The example
 definition of that is in :file:`scripts/test-database.sh`:
 
 .. literalinclude:: ../../scripts/test-database.sh
