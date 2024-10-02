@@ -3,7 +3,16 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 (() => {
-  Mousetrap.bindGlobal("?", (_event) => {
+  Mousetrap.bindGlobal("?", (event) => {
+    const target = event.target || event.srcElement;
+    const tagName = target.tagName.toLowerCase();
+    if (
+      tagName === "input" ||
+      tagName === "textarea" ||
+      target.isContentEditable
+    ) {
+      return true;
+    }
     $("#shortcuts-modal").modal("show");
     return false;
   });
