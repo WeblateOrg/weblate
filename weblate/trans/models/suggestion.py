@@ -224,6 +224,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         fake_unit = copy(self.unit)
         fake_unit.target = self.target
         fake_unit.state = STATE_TRANSLATED
+        fake_unit.suggestion_id = self.pk
         source = fake_unit.get_source_plurals()
         target = fake_unit.get_target_plurals()
 

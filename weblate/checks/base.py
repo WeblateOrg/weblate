@@ -165,12 +165,15 @@ class BaseCheck:
     def render(self, request: AuthenticatedHttpRequest, unit: Unit) -> StrOrPromise:
         raise Http404("Not supported")
 
-    def get_cache_key(self, unit: Unit, pos: int) -> str:
-        return "check:{}:{}:{}:{}".format(
+    def get_cache_key(
+        self, unit: Unit, pos: int, fake_discriminator: int | None = None
+    ) -> str:
+        return "check:{}:{}:{}:{}:{}".format(
             self.check_id,
             unit.pk,
             siphash("Weblate   Checks", unit.all_flags.format()),
             pos,
+            unit.suggestion_id if hasattr(unit, "suggestion_id") else "",
         )
 
     def get_replacement_function(self, unit: Unit):
