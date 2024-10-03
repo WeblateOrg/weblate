@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-28 08:33+0000\n"
+"PO-Revision-Date: 2024-09-30 13:16+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -7641,6 +7641,10 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
+"Beaucoup de contrôles qualité sont intégrés (voir :ref:`checks`) bien qu'ils "
+"ne puissent pas tous couvrir ce que vous souhaiteriez vérifier. La liste des "
+"contrôles réalisés peut être ajustée en utilisant :setting:`CHECK_LIST`et "
+"vous pouvez aussi ajouter des contrôles personnalisés."
 
 #: ../../admin/checks.rst:389
 msgid "Subclass the `weblate.checks.Check`"
@@ -8062,6 +8066,8 @@ msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
 msgstr ""
+"Les modifications du mot de passe faites avant Weblate 2.15 ne sont pas "
+"soumises à cette règle."
 
 #: ../../admin/config.rst:164
 msgid "AUTOFIX_LIST"
@@ -8110,6 +8116,8 @@ msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 #: ../../admin/config.rst:180
 msgid "Removes zero-width space characters if the source does not contain any."
 msgstr ""
+"Supprime les caractères espaces de largeur nulle si la source n'en contient "
+"aucun."
 
 #: ../../admin/config.rst:181
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
@@ -8117,7 +8125,7 @@ msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:182
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "Supprime les caractères de contrôle si la source n'en contient aucun."
 
 #: ../../admin/config.rst:183
 #, fuzzy
@@ -8139,10 +8147,12 @@ msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
+"Supprime le balisage HTML non sécurisé à l'intéreur des chaînes marquées "
+"``safe-html`` (voir :ref:`check-safe-html`)."
 
 #: ../../admin/config.rst:188
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "Vous pouvez choisir ce qui doit être utilisé :"
 
 #: ../../admin/config.rst:199
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
@@ -8268,7 +8278,7 @@ msgstr ""
 
 #: ../../admin/config.rst:292 ../../admin/config.rst:427
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "Les répertoires suivants existent habituellement :"
 
 #: ../../admin/config.rst:294
 msgid ":file:`fonts`"
@@ -8346,6 +8356,8 @@ msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
+"Fournir un chemin complet vers la classe Python qui implémente l'interface "
+"de vérification."
 
 #: ../../admin/config.rst:343
 msgid "Adjust the list of checks to include ones relevant to you."
@@ -8361,11 +8373,11 @@ msgstr ""
 
 #: ../../admin/config.rst:349
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "Vous pouvez désactiver tous les contrôles :"
 
 #: ../../admin/config.rst:355
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "Vous pouvez en activer que quelques uns :"
 
 #: ../../admin/config.rst:367
 msgid ""
@@ -8387,6 +8399,8 @@ msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
+"Supprimer les commentaires passé un certain nombre de jours. La valeur par "
+"défaut ``None`` signifie aucune suppression."
 
 #: ../../admin/config.rst:386
 msgid "COMMIT_PENDING_HOURS"
@@ -8463,7 +8477,7 @@ msgstr ":file:`home`"
 
 #: ../../admin/config.rst:430
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "Répertoire racine utilisé pour appeler les scripts."
 
 #: ../../admin/config.rst:431
 msgid ":file:`ssh`"
@@ -8528,6 +8542,8 @@ msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
+"Le moyen le plus facile de réaliser cela est de déclarer l'utilisateur en "
+"tant que propriétaire du répertoire :"
 
 #: ../../admin/config.rst:457
 msgid ""
@@ -8549,6 +8565,8 @@ msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
+"Indique si les sauvegardes de la base de données doivent être faites sous le "
+"format texte à plat ou compressé ou ignorées. Les valeurs permises sont :"
 
 #: ../../admin/config.rst:473
 msgid "``\"plain\"``"
@@ -8620,7 +8638,7 @@ msgstr "DEFAULT_RESTRICTED_COMPONENT"
 
 #: ../../admin/config.rst:526
 msgid "The default value for component restriction."
-msgstr ""
+msgstr "Valeur par défaut pour la restriction du composant."
 
 #: ../../admin/config.rst:530
 #, fuzzy
@@ -8656,7 +8674,7 @@ msgstr ""
 
 #: ../../admin/config.rst:561
 msgid "This setting affects only newly created components."
-msgstr ""
+msgstr "Ce paramètre ne concerne que les composants nouvellement créés."
 
 #: ../../admin/config.rst:563 ../../admin/config.rst:1082
 #: ../../admin/config.rst:1325 ../../admin/config.rst:1524
@@ -8728,7 +8746,7 @@ msgstr ":ref:`component-merge_style` pour tout nouveau composant."
 
 #: ../../admin/config.rst:632
 msgid "`rebase` - default"
-msgstr ""
+msgstr "`rebase` - par défaut"
 
 #: ../../admin/config.rst:633
 msgid "`merge`"
@@ -8755,6 +8773,8 @@ msgstr "DEFAULT_TRANSLATION_PROPAGATION"
 #: ../../admin/config.rst:652
 msgid "Default setting for translation propagation, defaults to ``True``."
 msgstr ""
+"Paramètre par défaut pour la propagation de la traduction, par défaut "
+"``True``."
 
 #: ../../admin/config.rst:656
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"

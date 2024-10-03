@@ -363,9 +363,7 @@ class BaseStats:
             self.save(update_parents=update_parents)
 
     def calculate_basic(self) -> None:
-        with sentry_sdk.start_span(
-            op="stats", description=f"CALCULATE {self.cache_key}"
-        ):
+        with sentry_sdk.start_span(op="stats", name=f"CALCULATE {self.cache_key}"):
             self.ensure_loaded()
             self._calculate_basic()
 

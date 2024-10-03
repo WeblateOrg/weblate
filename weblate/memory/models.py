@@ -15,8 +15,6 @@ from django.db.models import Q, Value
 from django.db.models.functions import MD5
 from django.utils.encoding import force_str
 from django.utils.translation import gettext, pgettext
-from jsonschema import validate
-from jsonschema.exceptions import ValidationError
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
 from weblate_schemas import load_schema
@@ -170,6 +168,10 @@ class MemoryManager(models.Manager):
     def import_json(
         self, request: AuthenticatedHttpRequest, fileobj, origin=None, **kwargs
     ):
+        # Lazily import as this is expensive
+        from jsonschema import validate
+        from jsonschema.exceptions import ValidationError
+
         content = fileobj.read()
         try:
             data = json.loads(force_str(content))

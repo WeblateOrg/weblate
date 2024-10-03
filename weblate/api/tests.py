@@ -4538,3 +4538,13 @@ class LabelAPITest(APIBaseTest):
             },
             code=403,
         )
+
+
+class OpenAPITest(APIBaseTest):
+    def test_view(self) -> None:
+        self.do_request(
+            "api-schema",
+        )
+
+    def test_redoc(self) -> None:
+        self.do_request("redoc")

@@ -84,7 +84,7 @@ class WeblateLock:
         self._depth += 1
         if self._depth > 1:
             return
-        with sentry_sdk.start_span(op="lock.wait", description=self._name):
+        with sentry_sdk.start_span(op="lock.wait", name=self._name):
             self._enter_implementation()
 
     def __exit__(self, exc_type, exc_value, traceback):

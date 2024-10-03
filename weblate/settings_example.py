@@ -9,6 +9,8 @@ import os
 import platform
 from logging.handlers import SysLogHandler
 
+from weblate.api.spectacular import get_spectacular_settings
+
 # Title of site to use
 SITE_TITLE = "Weblate"
 
@@ -819,7 +821,10 @@ REST_FRAMEWORK = {
         "weblate.api.throttling.UserRateThrottle",
         "weblate.api.throttling.AnonRateThrottle",
     ),
-    "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "5000/hour"},
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "100/day",
+        "user": "5000/hour",
+    },
     "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
     "PAGE_SIZE": 50,
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
@@ -827,19 +832,7 @@ REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
-SPECTACULAR_SETTINGS = {
-    "SWAGGER_UI_DIST": "SIDECAR",
-    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
-    "REDOC_DIST": "SIDECAR",
-    "SERVE_URLCONF": "weblate.api.urls",
-    "TITLE": "Weblate's REST API",
-    "DESCRIPTION": """
-The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
-
-The OpenAPI specification is available as feature preview, feedback welcome!
-    """,
-    "VERSION": None,
-}
+SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
 
 # Fonts CDN URL
 FONTS_CDN_URL = None
@@ -874,7 +867,10 @@ if REQUIRE_LOGIN:
 SILENCED_SYSTEM_CHECKS = [
     # We have modified django.contrib.auth.middleware.AuthenticationMiddleware
     # as weblate.accounts.middleware.AuthenticationMiddleware
-    "admin.E408"
+    "admin.E408",
+    # Silence drf_spectacular until these are addressed
+    "drf_spectacular.W001",
+    "drf_spectacular.W002",
 ]
 
 # Celery worker configuration for testing

@@ -598,7 +598,7 @@ class Language(models.Model, CacheKeyMixin):
         max_length=3,
         default="",
         choices=(
-            ("", ""),
+            ("", gettext_lazy("Automatically detect text direction")),
             ("ltr", gettext_lazy("Left to right")),
             ("rtl", gettext_lazy("Right to left")),
         ),

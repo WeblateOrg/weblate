@@ -12,8 +12,7 @@ The API is accessible on the ``/api/`` URL and it is based on
 You can use it directly or by :ref:`wlc`.
 
 The API is also documented using OpenAPI 3.0 on the ``/api/schema/`` URL, you
-can browse it using Swagger at ``/api/schema/swagger-ui/`` or Redoc at
-``/api/schema/redoc/``.
+can browse at ``/api/docs/``.
 
 .. note::
 
