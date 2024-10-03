@@ -20,6 +20,7 @@ from django.utils.http import escape_leading_slashes
 from django.utils.translation import gettext_lazy
 from social_core.backends.oauth import OAuthAuth
 from social_core.backends.open_id import OpenIdAuth
+from social_core.backends.saml import SAMLAuth
 from social_django.utils import load_strategy
 
 from weblate.auth.models import AuthenticatedHttpRequest, get_auth_backends
@@ -428,14 +429,27 @@ class CSPBuilder:
             else:
                 social_strategy = load_strategy(self.request)
             for backend in get_auth_backends().values():
-                url = ""
+                urls: list[str] = []
+
                 # Handle OpenId redirect flow
                 if issubclass(backend, OpenIdAuth):
-                    url = backend(social_strategy).openid_url()
+                    urls = [backend(social_strategy).openid_url()]
+
                 # Handle OAuth redirect flow
                 if issubclass(backend, OAuthAuth):
-                    url = backend(social_strategy).authorization_url()
-                if url:
+                    urls = [backend(social_strategy).authorization_url()]
+
+                # Handle SAML redirect flow
+                if issubclass(backend, SAMLAuth):
+                    saml_auth = backend(social_strategy)
+                    urls = [
+                        saml_auth.get_idp(idp_name).sso_url
+                        for idp_name in getattr(
+                            settings, "SOCIAL_AUTH_SAML_ENABLED_IDPS", {}
+                        )
+                    ]
+
+                for url in urls:
                     self.add_csp_host(url, "form-action")
 
 
