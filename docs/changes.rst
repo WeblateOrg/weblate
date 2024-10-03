@@ -20,6 +20,7 @@ Not yet released.
 * :ref:`autofix` for French and Breton now uses a non-breaking space before colons instead of a narrow one.
 * :ref:`api` now has a preview OpenAPI specification.
 * :kbd:`?` now displays available :ref:`keyboard`.
+* Translation and language view in the project now include basic information about the language and plurals.
 
 **Bug fixes**
 

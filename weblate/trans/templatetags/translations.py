@@ -1506,6 +1506,7 @@ def show_info(
     metrics: MetricsWrapper | None = None,
     show_source: bool = False,
     show_global: bool = False,
+    show_full_language: bool = True,
 ):
     """
     Render project information table.
@@ -1523,4 +1524,5 @@ def show_info(
         "metrics": metrics,
         "show_source": show_source,
         "show_global": show_global,
+        "show_full_language": show_full_language,
     }
