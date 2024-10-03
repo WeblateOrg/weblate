@@ -830,7 +830,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         create = True
 
         # Sets the key_filter to blank if the file format is bilingual
-        if self.key_filter and not self.file_format_cls.monolingual:
+        if self.key_filter and not self.has_template():
             self.key_filter = ""
 
         if self.id:
@@ -3104,6 +3104,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             )
             raise ValidationError(
                 {"suggestion_autoaccept": msg, "suggestion_voting": msg}
+            )
+
+        if self.key_filter and not self.has_template():
+            raise ValidationError(
+                gettext("To use the key filter, the file format must be monolingual.")
             )
 
     def get_template_filename(self):
