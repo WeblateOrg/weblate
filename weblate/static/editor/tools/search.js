@@ -47,7 +47,7 @@ $(document).ready(() => {
               if (!results || results.length === 0) {
                 $searchPreview.text(gettext("No results found"));
               } else {
-                showResults(results, response.count);
+                showResults(results, response.count, searchQuery);
               }
             },
           });
@@ -91,15 +91,19 @@ $(document).ready(() => {
      * Handles the search results and displays them in the preview element.
      * @param {any} results fetched search results
      * @param {number} count The number of search results
+     * @param {string} searchQuery The user typed search
      * @returns void
      */
-    function showResults(results, count) {
+    function showResults(results, count, searchQuery) {
       // Show the number of results
       if (count > 0) {
-        const t = ngettext("%s matching string", "%s matching strings", count);
-        $searchPreview.append(
-          `<h4 id="results-num">${interpolate(t, [count])}</h4>`,
+        const t = interpolate(
+          ngettext("%s matching string", "%s matching strings", count),
+          [count],
         );
+        const searchUrl = `/search/?q=${encodeURI(searchQuery)}`;
+        const resultsNumber = `<a href="${searchUrl}" target="_blank" rel="noopener noreferrer" id="results-num">${t}</a>`;
+        $searchPreview.append(resultsNumber);
       } else {
         $("#results-num").remove();
       }
