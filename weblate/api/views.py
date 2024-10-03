@@ -64,6 +64,7 @@ from weblate.api.serializers import (
     LockRequestSerializer,
     LockSerializer,
     MemorySerializer,
+    MetricsSerializer,
     MonolingualUnitSerializer,
     NewUnitSerializer,
     NotificationSerializer,
@@ -82,7 +83,6 @@ from weblate.api.serializers import (
     get_reverse_kwargs,
 )
 from weblate.auth.models import AuthenticatedHttpRequest, Group, Role, User
-from weblate.checks.models import Check
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
@@ -95,7 +95,6 @@ from weblate.trans.models import (
     Component,
     ComponentList,
     Project,
-    Suggestion,
     Translation,
     Unit,
 )
@@ -107,7 +106,7 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.views.files import download_multi
 from weblate.trans.views.reports import generate_credits
-from weblate.utils.celery import get_queue_stats, get_task_progress
+from weblate.utils.celery import get_task_progress
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -120,7 +119,6 @@ from weblate.utils.state import (
 )
 from weblate.utils.stats import GlobalStats
 from weblate.utils.views import download_translation_file, zip_download
-from weblate.wladmin.models import ConfigurationError
 
 from .renderers import OpenMetricsRenderer
 
@@ -1893,28 +1891,12 @@ class Metrics(APIView):
 
     permission_classes = (IsAuthenticated,)
     renderer_classes = (JSONRenderer, BrowsableAPIRenderer, OpenMetricsRenderer)
+    serializer_class = MetricsSerializer
 
     def get(self, request: Request, format=None):  # noqa: A002
         stats = GlobalStats()
-        return Response(
-            {
-                "units": stats.all,
-                "units_translated": stats.translated,
-                "users": User.objects.count(),
-                "changes": stats.total_changes,
-                "projects": Project.objects.count(),
-                "components": Component.objects.count(),
-                "translations": Translation.objects.count(),
-                "languages": stats.languages,
-                "checks": Check.objects.count(),
-                "configuration_errors": ConfigurationError.objects.filter(
-                    ignored=False
-                ).count(),
-                "suggestions": Suggestion.objects.count(),
-                "celery_queues": get_queue_stats(),
-                "name": settings.SITE_TITLE,
-            }
-        )
+        serializer = self.serializer_class(stats)
+        return Response(serializer.data)
 
 
 class Search(APIView):

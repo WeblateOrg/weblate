@@ -4,8 +4,10 @@ Translating using Weblate
 Thank you for your interest in translating with Weblate!
 
 Generally, there are two most used modes of translation:
+
 * Project accepts direct translations
 * Project accepts the suggestions made by users.
+
 Sometimes, anonymous suggestions are accepted as well.
 
 There are more translation workflows detailed in :ref:`workflows`.
