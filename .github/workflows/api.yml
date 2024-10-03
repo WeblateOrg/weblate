@@ -36,7 +36,7 @@ jobs:
       with:
         enable-cache: true
         cache-dependency-glob: ''
-        cache-suffix: ${{ matrix.python-version }}
+        cache-suffix: '3.12'
     - name: Start services
       run: ./ci/services-up $CI_DATABASE
     - name: Install apt dependencies
