@@ -21,7 +21,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 
 from weblate.auth.models import User
-from weblate.configuration.models import Setting
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.models import Component, Project
 from weblate.utils.files import remove_tree
@@ -231,7 +231,7 @@ class RepoTestMixin:
     def configure_mt() -> None:
         for engine in ["weblate", "weblate-translation-memory"]:
             Setting.objects.get_or_create(
-                category=Setting.CATEGORY_MT,
+                category=SettingCategory.MT,
                 name=engine,
                 defaults={"value": {}},
             )

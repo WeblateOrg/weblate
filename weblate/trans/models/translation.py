@@ -8,7 +8,7 @@ import codecs
 import os
 import tempfile
 from itertools import chain
-from typing import TYPE_CHECKING, BinaryIO, TypedDict
+from typing import TYPE_CHECKING, BinaryIO, NotRequired, TypedDict
 
 import sentry_sdk
 from django.core.cache import cache
@@ -61,17 +61,15 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
-class NewUnitParams(TypedDict, total=False):
-    # TODO: only some are actually optional, mark these by NotRequired
-    # in Python 3.11+
-    context: str
+class NewUnitParams(TypedDict):
+    context: NotRequired[str]
     source: str | list[str]
-    target: str | list[str] | None
-    auto_context: bool = False
-    extra_flags: str | None
-    explanation: str
-    state: int | None
-    skip_existing: bool
+    target: NotRequired[str | list[str] | None]
+    auto_context: NotRequired[bool]
+    extra_flags: NotRequired[str | None]
+    explanation: NotRequired[str]
+    state: NotRequired[int | None]
+    skip_existing: NotRequired[bool]
 
 
 class TranslationManager(models.Manager):
@@ -273,7 +271,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def load_store(self, fileobj=None, force_intermediate=False):
         """Load translate-toolkit storage from disk."""
         # Use intermediate store as template for source translation
-        with sentry_sdk.start_span(op="load_store", description=self.get_filename()):
+        with sentry_sdk.start_span(op="load_store", name=self.get_filename()):
             if force_intermediate or (self.is_template and self.component.intermediate):
                 template = self.component.intermediate_store
             else:
@@ -331,7 +329,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             is_new = True
 
         with sentry_sdk.start_span(
-            op="update_from_unit", description=f"{self.full_slug}:{pos}"
+            op="update_from_unit", name=f"{self.full_slug}:{pos}"
         ):
             newunit.update_from_unit(unit, pos, is_new)
 
@@ -340,7 +338,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def check_sync(self, force=False, request=None, change=None) -> None:  # noqa: C901
         """Check whether database is in sync with git and possibly updates."""
-        with sentry_sdk.start_span(op="check_sync", description=self.full_slug):
+        with sentry_sdk.start_span(op="check_sync", name=self.full_slug):
             if change is None:
                 change = Change.ACTION_UPDATE
             user = None if request is None else request.user
@@ -439,6 +437,18 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                                 unit.source = translated_unit.source
                         except UnitNotFoundError:
                             pass
+                    if (
+                        self.component.file_format_cls.monolingual
+                        and self.component.key_filter_re
+                        and self.component.key_filter_re.match(unit.context) is None
+                    ):
+                        # This is where the key filtering take place
+                        self.log_info(
+                            "Doesn't match with key_filter, skipping: %s (%s)",
+                            unit.context,
+                            repr(unit.source),
+                        )
+                        continue
 
                     try:
                         id_hash = unit.id_hash
@@ -571,14 +581,14 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return User.objects.get(pk=self.stats.last_author).get_visible_name()
 
     @transaction.atomic
-    def commit_pending(self, reason: str, user: User, skip_push: bool = False):
+    def commit_pending(self, reason: str, user: User | None, skip_push: bool = False):
         """Commit any pending changes."""
         if not self.needs_commit():
             return False
         return self.component.commit_pending(reason, user, skip_push=skip_push)
 
     @transaction.atomic
-    def _commit_pending(self, reason: str, user: User) -> bool:
+    def _commit_pending(self, reason: str, user: User | None) -> bool:
         """
         Commit pending translation.
 
@@ -667,7 +677,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def git_commit(
         self,
-        user,
+        user: User | None,
         author: str,
         timestamp: datetime | None = None,
         skip_push=False,
@@ -939,7 +949,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return result
 
     def merge_translations(
-        self, request, store2, conflicts: str, method: str, fuzzy: str
+        self,
+        request: AuthenticatedHttpRequest,
+        author: User,
+        store2,
+        conflicts: str,
+        method: str,
+        fuzzy: str,
     ):
         """
         Merge translation unit wise.
@@ -998,6 +1014,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 state,
                 change_action=Change.ACTION_UPLOAD,
                 propagate=propagate,
+                author=author,
+                request=request,
             )
 
         if accepted > 0:
@@ -1006,7 +1024,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
         return (not_found, skipped, accepted, len(store2.content_units))
 
-    def merge_suggestions(self, request: AuthenticatedHttpRequest, store, fuzzy):
+    def merge_suggestions(
+        self, request: AuthenticatedHttpRequest, author: User, store, fuzzy
+    ):
         """Merge content of translate-toolkit store as a suggestions."""
         not_found = 0
         skipped = 0
@@ -1029,7 +1049,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 new_target = [new_target]
             if current_target != new_target and not dbunit.readonly:
                 if Suggestion.objects.add(
-                    dbunit, new_target, request, raise_exception=False
+                    dbunit,
+                    new_target,
+                    request,
+                    raise_exception=False,
+                    user=author,
                 ):
                     accepted += 1
                 else:
@@ -1050,7 +1074,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             self.component.drop_template_store_cache()
 
     def handle_upload_store_change(
-        self, request: AuthenticatedHttpRequest, change_action: int
+        self, request: AuthenticatedHttpRequest, author: User, change_action: int
     ) -> None:
         component = self.component
         if not component.repository.needs_commit(self.filenames):
@@ -1063,14 +1087,14 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self.drop_store_cache()
 
         self.git_commit(
-            request.user,
-            author=request.user.get_author_name(),
+            author,
+            author=author.get_author_name(),
             store_hash=False,
             signals=False,
         )
 
         self.handle_store_change(
-            request, request.user, previous_revision, change=change_action
+            request, author, previous_revision, change=change_action
         )
         # Emit signals later to avoid cleanup add-on to store translation
         # revision before parsing
@@ -1079,7 +1103,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self.create_unit_change_action = Change.ACTION_NEW_UNIT_REPO
         self.update_unit_change_action = Change.ACTION_STRING_REPO_UPDATE
 
-    def handle_source(self, request: AuthenticatedHttpRequest, fileobj):
+    def handle_source(self, request: AuthenticatedHttpRequest, author: User, fileobj):
         """Replace source translations with uploaded one."""
         from weblate.addons.gettext import GettextCustomizeAddon, MsgmergeAddon
 
@@ -1088,7 +1112,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         with component.repository.lock:
             # Commit pending changes
             try:
-                component.commit_pending("source update", request.user)
+                component.commit_pending("source update", author)
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
@@ -1130,11 +1154,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
             # Commit changes
             self.handle_upload_store_change(
-                request, change_action=Change.ACTION_SOURCE_UPLOAD
+                request, author, change_action=Change.ACTION_SOURCE_UPLOAD
             )
         return (0, 0, self.unit_set.count(), self.unit_set.count())
 
-    def handle_replace(self, request: AuthenticatedHttpRequest, fileobj):
+    def handle_replace(self, request: AuthenticatedHttpRequest, author: User, fileobj):
         """Replace file content with uploaded one."""
         filecopy = fileobj.read()
         fileobj.close()
@@ -1142,9 +1166,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         with self.component.repository.lock:
             try:
                 if self.is_source:
-                    self.component.commit_pending("replace file", request.user)
+                    self.component.commit_pending("replace file", author)
                 else:
-                    self.commit_pending("replace file", request.user)
+                    self.commit_pending("replace file", author)
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
@@ -1161,13 +1185,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
             # Commit to VCS
             self.handle_upload_store_change(
-                request, change_action=Change.ACTION_REPLACE_UPLOAD
+                request, author, change_action=Change.ACTION_REPLACE_UPLOAD
             )
 
         return (0, 0, self.unit_set.count(), len(store2.content_units))
 
     def handle_add_upload(
-        self, request: AuthenticatedHttpRequest, store, fuzzy: str = ""
+        self, request: AuthenticatedHttpRequest, author: User, store, fuzzy: str = ""
     ):
         component = self.component
         has_template = component.has_template()
@@ -1202,7 +1226,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return (0, skipped, accepted, len(store.content_units))
 
     @transaction.atomic
-    def handle_upload(  # noqa: C901
+    def handle_upload(
         self,
         request,
         fileobj: BinaryIO,
@@ -1213,104 +1237,85 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         fuzzy: str = "",
     ):
         """Top level handler for file uploads."""
-        from weblate.accounts.models import AuditLog
+        from weblate.auth.models import User
 
         component = self.component
 
-        # Optionally set authorship
-        orig_user = None
-        if author_email:
-            from weblate.auth.models import User
+        # Get User object for author
+        author = User.objects.get_author_by_email(
+            author_name, author_email, request.user, request
+        )
 
-            orig_user = request.user
-            request.user, created = User.objects.get_or_create(
-                email=author_email,
-                defaults={
-                    "username": author_email,
-                    "full_name": author_name or author_email,
-                },
-            )
-            if created:
-                AuditLog.objects.create(
-                    request.user,
-                    request,
-                    "autocreated",
-                )
+        if method == "replace":
+            return self.handle_replace(request, author, fileobj)
 
-        try:
-            if method == "replace":
-                return self.handle_replace(request, fileobj)
+        if method == "source":
+            return self.handle_source(request, author, fileobj)
 
-            if method == "source":
-                return self.handle_source(request, fileobj)
+        filecopy = fileobj.read()
+        fileobj.close()
 
-            filecopy = fileobj.read()
-            fileobj.close()
+        # Strip possible UTF-8 BOM
+        if filecopy[:3] == codecs.BOM_UTF8:
+            filecopy = filecopy[3:]
 
-            # Strip possible UTF-8 BOM
-            if filecopy[:3] == codecs.BOM_UTF8:
-                filecopy = filecopy[3:]
+        # Commit pending changes in template
+        if component.has_template() and component.source_translation.needs_commit():
+            try:
+                component.commit_pending("upload", request.user)
+            except Exception as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % str(error).replace(self.component.full_path, "")
+                ) from error
 
-            # Commit pending changes in template
-            if component.has_template() and component.source_translation.needs_commit():
-                try:
-                    component.commit_pending("upload", request.user)
-                except Exception as error:
-                    raise FailedCommitError(
-                        gettext("Could not commit pending changes: %s")
-                        % str(error).replace(self.component.full_path, "")
-                    ) from error
-
-            # Load backend file
-            if method == "add" and self.is_template:
-                template_store = try_load(
-                    fileobj.name,
-                    filecopy,
-                    component.file_format_cls,
-                    None,
-                    is_template=True,
-                )
-                if isinstance(template_store, component.file_format_cls):
-                    store_post_load.send(
-                        sender=self.__class__, translation=self, store=template_store
-                    )
-            else:
-                template_store = component.template_store
-            store = try_load(
+        # Load backend file
+        if method == "add" and self.is_template:
+            template_store = try_load(
                 fileobj.name,
                 filecopy,
                 component.file_format_cls,
-                template_store,
+                None,
+                is_template=True,
             )
-            if isinstance(store, component.file_format_cls):
+            if isinstance(template_store, component.file_format_cls):
                 store_post_load.send(
-                    sender=self.__class__, translation=self, store=store
+                    sender=self.__class__, translation=self, store=template_store
                 )
+        else:
+            template_store = component.template_store
+        store = try_load(
+            fileobj.name,
+            filecopy,
+            component.file_format_cls,
+            template_store,
+        )
+        if isinstance(store, component.file_format_cls):
+            store_post_load.send(sender=self.__class__, translation=self, store=store)
 
-            # Check valid plural forms
-            if hasattr(store.store, "parseheader"):
-                header = store.store.parseheader()
-                try:
-                    number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
-                except (ValueError, KeyError):
-                    # Formula wrong or missing
-                    pass
-                else:
-                    if not self.plural.same_plural(number, formula):
-                        raise PluralFormsMismatchError
+        # Check valid plural forms
+        if hasattr(store.store, "parseheader"):
+            header = store.store.parseheader()
+            try:
+                number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
+            except (ValueError, KeyError):
+                # Formula wrong or missing
+                pass
+            else:
+                if not self.plural.same_plural(number, formula):
+                    raise PluralFormsMismatchError
 
-            if method in {"translate", "fuzzy", "approve"}:
-                # Merge on units level
-                return self.merge_translations(request, store, conflicts, method, fuzzy)
-            if method == "add":
-                with component.lock:
-                    return self.handle_add_upload(request, store, fuzzy=fuzzy)
+        if method in {"translate", "fuzzy", "approve"}:
+            # Merge on units level
+            return self.merge_translations(
+                request, author, store, conflicts, method, fuzzy
+            )
+        if method == "add":
+            with component.lock:
+                return self.handle_add_upload(request, author, store, fuzzy=fuzzy)
 
-            # Add as suggestions
-            return self.merge_suggestions(request, store, fuzzy)
-        finally:
-            if orig_user:
-                request.user = orig_user
+        # Add as suggestions
+        return self.merge_suggestions(request, author, store, fuzzy)
 
     def _invalidate_triger(self) -> None:
         self._invalidate_scheduled = False
@@ -1324,6 +1329,24 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             return
         self._invalidate_scheduled = True
         transaction.on_commit(self._invalidate_triger)
+
+    def detect_completed_translation(self, change: Change, old_translated: int) -> None:
+        translated = self.stats.translated
+        if old_translated < translated and translated == self.stats.all:
+            self.change_set.create(
+                action=Change.ACTION_COMPLETE,
+                user=change.user,
+                author=change.author,
+            )
+
+            # check if component is fully translated
+            component = self.component
+            if component.stats.translated == component.stats.all:
+                self.component.change_set.create(
+                    action=Change.ACTION_COMPLETED_COMPONENT,
+                    user=change.user,
+                    author=change.author,
+                )
 
     @property
     def keys_cache_key(self) -> str:
@@ -1368,7 +1391,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         )
 
     def handle_store_change(
-        self, request, user, previous_revision: str, change=None
+        self,
+        request: AuthenticatedHttpRequest,
+        user: User,
+        previous_revision: str,
+        change=None,
     ) -> None:
         self.drop_store_cache()
         # Explicit stats invalidation is needed here as the unit removal in
@@ -1408,6 +1435,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         is_batch_update: bool = False,
         skip_existing: bool = False,
         state: StringState | None = None,
+        author: User | None = None,
     ):
         if isinstance(source, list):
             source = join_plural(source)
@@ -1531,7 +1559,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                         changes.append(
                             unit.generate_change(
                                 user=user,
-                                author=user,
+                                author=author or user,
                                 change_action=Change.ACTION_NEW_UNIT,
                                 check_new=False,
                                 save=False,

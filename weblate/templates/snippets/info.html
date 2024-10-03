@@ -491,7 +491,7 @@
           </div>
           <div class="col-sm-3">
             <div class="metric">
-              <a href="{% url "user_list" %}?q={% if object.code %}translates:{{object.code|urlencode}}{% elif object.language.code %}translates:{{object.language.code|urlencode}}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
+              <a href="{% url "user_list" %}?q={% if language %}translates:{{ language.code|urlencode }}{% elif translation %}translates:{{ translation.language.code|urlencode }}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
                 <div class="metric-number">{{ metrics.contributors|number_format }}</div>
                 <div class="metric-text">{% trans "Contributors" %}</div>
               </a>

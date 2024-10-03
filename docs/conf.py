@@ -59,7 +59,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.7.2"
+release = "5.8"
 
 # -- General configuration ---------------------------------------------------
 
@@ -325,6 +325,8 @@ linkcheck_ignore = [
     "https://web.libera.chat/#",
     # Site is unreliable
     "https://docwiki.embarcadero.com/",
+    # Example URL
+    "https://my-instance.openai.azure.com",
     # 403 for linkcheck
     "https://docs.github.com/",
     "https://translate.yandex.com/",

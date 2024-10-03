@@ -418,7 +418,7 @@ class BackupsView(BackupsMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["keep_count"] = settings.PROJECT_BACKUP_KEEP_COUNT
         context["keep_days"] = settings.PROJECT_BACKUP_KEEP_DAYS
-        context["object"] = self.obj
+        context["object"] = context["project"] = self.obj
         context["backups"] = self.obj.list_backups()
         return context
 

@@ -258,3 +258,7 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return set(
             self.all_components.values_list("source_language_id", flat=True).distinct()
         )
+
+    def get_widgets_url(self) -> str:
+        """Return absolute URL for widgets."""
+        return self.project.get_widgets_url()

@@ -18,7 +18,7 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.20.0
+  rev: 1.21.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '5.0']
@@ -27,7 +27,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.6.3
+  rev: v0.6.8
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
@@ -74,13 +74,13 @@ repos:
     require_serial: true
     args: [-x]
 - repo: https://github.com/biomejs/pre-commit
-  rev: v0.4.0
+  rev: v0.5.0
   hooks:
   - id: biome-check
     additional_dependencies:
-    - '@biomejs/biome@1.8.3'
+    - '@biomejs/biome@1.9.3'
 - repo: https://github.com/abravalheri/validate-pyproject
-  rev: v0.19
+  rev: v0.20.2
   hooks:
   - id: validate-pyproject
 - repo: https://github.com/codespell-project/codespell

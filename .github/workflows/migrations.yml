@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   migrations:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         database: [postgresql, mysql]
@@ -40,11 +40,12 @@ jobs:
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
-    - uses: hynek/setup-cached-uv@v2
+    - uses: astral-sh/setup-uv@v3
       with:
-        cache-dependency-path: pyproject.toml
-        cache-date-suffix: ''
-    - name: Set up Python 3.11
+        enable-cache: true
+        cache-dependency-glob: ''
+        cache-suffix: '3.12'
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.12'

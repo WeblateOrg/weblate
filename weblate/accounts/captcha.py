@@ -9,6 +9,8 @@ import operator
 import time
 from random import SystemRandom
 
+from django.utils.html import format_html
+
 from weblate.utils.templatetags.icons import icon
 
 TIMEDELTA = 600
@@ -75,7 +77,9 @@ class MathCaptcha:
     def display(self):
         """Get unicode for display."""
         parts = self.question.split()
-        return parts[0] + " " + self.operators_display[parts[1]] + " " + parts[2]
+        return format_html(
+            "{} {} {}", parts[0], self.operators_display[parts[1]], parts[2]
+        )
 
 
 def eval_expr(expr):

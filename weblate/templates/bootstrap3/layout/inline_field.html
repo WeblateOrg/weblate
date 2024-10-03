@@ -7,16 +7,16 @@
     {% if field|is_checkbox %}
         <div id="div_{{ field.auto_id }}" class="checkbox{% if wrapper_class %} {{ wrapper_class }}{% endif %}">
             <label for="{{ field.id_for_label }}" class="{% if field.field.required %} requiredField{% endif %}">
-                {% crispy_field field 'class' 'checkbox form-control' %}
-                {{ field.label|safe }}
+                {% crispy_field field 'class' 'checkbox' %}
+                {{ field.label }}
             </label>
         </div>
     {% else %}
         <div id="div_{{ field.auto_id }}" class="form-group{% if wrapper_class %} {{ wrapper_class }}{% endif %}">
             <label for="{{ field.id_for_label }}" class="{% if field.field.required %} requiredField{% endif %}">
-                {{ field.label|safe }}
+                {{ field.label }}
             </label>
-            {% crispy_field field 'placeholder' field.label 'class' 'form-control' %}
+            {% crispy_field field 'placeholder' field.label %}
         </div>
     {% endif %}
 {% endif %}

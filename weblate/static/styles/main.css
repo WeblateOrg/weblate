@@ -551,6 +551,11 @@ form + .login-label {
   height: 20px;
 }
 
+#information .table {
+  display: block;
+  overflow-x: auto;
+}
+
 .table-auth .auth-image {
   margin-right: 12px;
 }
@@ -694,13 +699,13 @@ kbd {
   background-color: #f9f9f9;
 }
 
-#position-input-editable {
-  padding: 2px 5px;
+.position-input-editable {
+  padding: 0 !important;
   max-width: 9em;
   display: none;
 }
 
-#position-input-editable input {
+.position-input-editable input {
   height: 31px;
   padding-left: 2px;
   padding-right: 2px;
@@ -708,14 +713,14 @@ kbd {
 }
 
 /* Chrome, Safari, Edge, Opera */
-#position-input-editable input::-webkit-outer-spin-button,
-#position-input-editable input::-webkit-inner-spin-button {
+.position-input-editable input::-webkit-outer-spin-button,
+.position-input-editable input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Firefox */
-#position-input-editable input[type="number"] {
+.position-input-editable input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -1902,7 +1907,7 @@ a.language:hover {
   font-weight: normal;
   vertical-align: top;
   white-space: normal;
-  font-size: 12px;
+  font-size: 14px;
 }
 .unit-state-cell {
   width: 6px;
@@ -2099,4 +2104,26 @@ tbody.warning {
 }
 .totp-qr svg path {
   fill: black !important;
+}
+
+.dropdown-menu {
+  border: none;
+  border-radius: var(--border-radius);
+}
+
+.daterangepicker {
+  border: var(--border) !important;
+}
+
+#shortcuts-table-container {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+#shortcuts-table-container #t-head {
+  font-weight: bold;
+}
+
+#shortcuts-table-container kbd {
+  color: unset;
 }

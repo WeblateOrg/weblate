@@ -154,6 +154,7 @@
 <li><a data-toggle="tab" href="#changes">{% trans "Recent changes" %}</a></li>
 {% if can_edit_user %}
   <li><a data-toggle="tab" href="#identities">{% trans "User identities" %}</a></li>
+  <li><a data-toggle="tab" href="#notifications">{% trans "Notifications" %}</a></li>
   {% if billings %}
     <li><a data-toggle="tab" href="#billing">{% trans "Billing" %}</a></li>
   {% endif %}
@@ -222,6 +223,33 @@
                 {{ verified.email }}{% if not loop.last %},{% endif %}
               {% endfor %}
             </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tab-pane" id="notifications">
+    <table class="table table-listing">
+      <thead>
+        <tr>
+          <th>{% trans "Notification" %}</th>
+          <th>{% trans "Scope" %}</th>
+          <th>{% trans "Frequency" %}</th>
+          <th>{% trans "Project" %}</th>
+          <th>{% trans "Component" %}</th>
+          <th>{% trans "One-time" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for subscription in page_user.subscription_set.prefetch.order %}
+          <tr>
+            <th>{{ subscription.notification }}</th>
+            <td>{{ subscription.get_scope_display }}</td>
+            <td>{{ subscription.get_frequency_display }}</td>
+            <td>{{ subscription.project }}</td>
+            <td>{{ subscription.component }}</td>
+            <td>{{ subscription.onetime }}</td>
           </tr>
         {% endfor %}
       </tbody>

@@ -85,7 +85,7 @@ SOURCE_KEYS = frozenset(
     )
 )
 
-# TODO: Drop in Weblate 5.5
+# TODO: Drop in Weblate 6
 LEGACY_KEYS = {
     "unapproved",
     "unapproved_chars",
@@ -257,7 +257,7 @@ class BaseStats:
             # Legacy keys were calculated on demand before and are precalculated
             # since Weblate 5.2, so they are missing on stats calculated before.
             # Using zero here is most likely a wrong value, but safe and cheap.
-            # TODO: Drop in Weblate 5.5
+            # TODO: Drop in Weblate 6
             if name in LEGACY_KEYS:
                 return 0
             raise
@@ -273,7 +273,7 @@ class BaseStats:
             return self.calculate_percent(name)
 
         if name == "stats_timestamp":
-            # TODO: Drop in Weblate 5.5
+            # TODO: Drop in Weblate 6
             # Migration path for legacy stat data
             return self._data.get(name, 0)
 
@@ -345,6 +345,7 @@ class BaseStats:
 
     def clear(self) -> None:
         """Clear local cache."""
+        self._loaded = True
         self._data = {}
 
     def store(self, key: str, value: StatItem) -> None:
@@ -362,9 +363,7 @@ class BaseStats:
             self.save(update_parents=update_parents)
 
     def calculate_basic(self) -> None:
-        with sentry_sdk.start_span(
-            op="stats", description=f"CALCULATE {self.cache_key}"
-        ):
+        with sentry_sdk.start_span(op="stats", name=f"CALCULATE {self.cache_key}"):
             self.ensure_loaded()
             self._calculate_basic()
 

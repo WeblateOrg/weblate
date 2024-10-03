@@ -1,9 +1,51 @@
+Weblate 5.8
+-----------
+
+Not yet released.
+
+**New features**
+
+* Added :ref:`component-key_filter` in the component.
+* :ref:`Searching` now supports filtering by object path and :ref:`date-search`.
+* Merge requests credentials can now be passed in the repository URL, see :ref:`settings-credentials`.
+* :ref:`mt-azure-openai` automatic suggestion service.
+* :ref:`vcs-bitbucket-cloud`.
+
+**Improvements**
+
+* :ref:`mt-modernmt` supports :ref:`glossary-mt`.
+* :ref:`mt-deepl` now supports specifying translation context.
+* :ref:`mt-aws` now supports :ref:`glossary-mt`.
+* :ref:`autofix` for Devanagari danda now better handles latin script.
+* :ref:`autofix` for French and Breton now uses a non-breaking space before colons instead of a narrow one.
+* :ref:`api` now has a preview OpenAPI specification.
+* :kbd:`?` now displays available :ref:`keyboard`.
+
+**Bug fixes**
+
+* Displaying :ref:`workflow-customization` setting in some cases.
+* Users can add component in any language already existing in a project.
+
+**Compatibility**
+
+* Weblate now requires Python 3.11 or newer.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS`` and changes in ``REST_FRAMEWORK`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
+
+**Contributors**
+
+.. include:: changes/contributors/5.8.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/122?closed=1>`__.
+
 Weblate 5.7.2
 -------------
 
 Released on September 5th 2024.
-
-**New features**
 
 **Improvements**
 
@@ -15,8 +57,6 @@ Released on September 5th 2024.
 
 * Updating of translations from the repository in linked components.
 * Improved rendering of digest notification e-mails.
-
-**Compatibility**
 
 **Upgrading**
 
@@ -77,7 +117,7 @@ Released on August 15th 2024.
 * The status widgets are now supported site-wide and language-wide, see :ref:`promotion`.
 * :ref:`reports` are now available for categories.
 * Highlight newlines in the editor.
-* :doc:`/formats/csv` better handle with with two fields only.
+* :doc:`/formats/csv` better handle files with two fields only.
 * Browse mode can now be navigated using keyboard, see :ref:`keyboard`.
 * :http:get:`/api/components/(string:project)/(string:component)/credits/` and :http:get:`/api/projects/(string:project)/credits/` API endpoints for components and projects.
 * :ref:`glossary-terminology` entries in Glossary can now only be created by users with :guilabel:`Add glossary terminology` permission.

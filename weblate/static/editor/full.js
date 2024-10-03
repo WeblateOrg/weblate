@@ -365,7 +365,7 @@
     });
 
     const $checks = $(".check-item");
-    if (!$checks.length) {
+    if ($checks.length === 0) {
       return;
     }
 

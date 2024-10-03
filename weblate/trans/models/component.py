@@ -33,7 +33,6 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS
-from weblate.glossary.models import get_glossary_sources
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.defines import (
     BRANCH_LENGTH,
@@ -74,7 +73,7 @@ from weblate.trans.validators import (
 )
 from weblate.utils import messages
 from weblate.utils.celery import get_task_progress
-from weblate.utils.colors import COLOR_CHOICES
+from weblate.utils.colors import ColorChoices
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField
@@ -763,13 +762,23 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     glossary_color = models.CharField(
         verbose_name=gettext_lazy("Glossary color"),
         max_length=30,
-        choices=COLOR_CHOICES,
+        choices=ColorChoices.choices,
         blank=False,
-        default="silver",
+        default=ColorChoices.SILVER,
     )
     remote_revision = models.CharField(max_length=200, default="", blank=True)
     local_revision = models.CharField(max_length=200, default="", blank=True)
     processed_revision = models.CharField(max_length=200, default="", blank=True)
+
+    key_filter = RegexField(
+        verbose_name=gettext_lazy("Key filter"),
+        max_length=500,
+        default="",
+        help_text=gettext_lazy(
+            "Regular expression used to filter keys. This is only available for monolingual formats."
+        ),
+        blank=True,
+    )
 
     objects = ComponentQuerySet.as_manager()
 
@@ -819,6 +828,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         changed_template = False
         changed_variant = False
         create = True
+
+        # Sets the key_filter to blank if the file format is bilingual
+        if self.key_filter and not self.file_format_cls.monolingual:
+            self.key_filter = ""
+
         if self.id:
             old = Component.objects.get(pk=self.id)
             changed_git = (
@@ -836,9 +850,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 or (old.edit_template != self.edit_template)
                 or (old.new_base != self.new_base)
                 or changed_template
+                or old.key_filter != self.key_filter
             )
             if changed_setup:
                 old.commit_pending("changed setup", None)
+                if old.key_filter != self.key_filter:
+                    self.drop_key_filter_cache()
+
             changed_variant = old.variant_regex != self.variant_regex
             # Generate change entries for changes
             self.generate_changes(old)
@@ -853,6 +871,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 old.component_set.update(repo=self.get_repo_link_url())
             if changed_git:
                 self.drop_repository_cache()
+
             create = False
         elif self.is_glossary:
             # Creating new glossary
@@ -1404,7 +1423,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def get_clean_slug(self, slug):
         if slug.endswith(".git"):
-            slug = slug[:-4]
+            return slug[:-4]
         return slug
 
     def get_bitbucket_git_repoweb_template(self) -> str | None:
@@ -1957,7 +1976,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         ]
 
     @perform_on_link
-    def commit_pending(self, reason: str, user: User, skip_push: bool = False) -> bool:  # noqa: C901
+    def commit_pending(  # noqa: C901
+        self, reason: str, user: User | None, skip_push: bool = False
+    ) -> bool:
         """Check whether there is any translation to be committed."""
 
         def reuse_self(translation):
@@ -2542,7 +2563,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     )
                     self.handle_parse_error(error.__cause__, filename=self.template)
                     self.update_import_alerts()
-                    raise error.__cause__ from error
+                    raise error.__cause__ from error  # pylint: disable=E0710
                 was_change |= bool(translation.reason)
                 translations[translation.id] = translation
                 languages[lang.code] = translation
@@ -2569,7 +2590,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     # Indicate a change to invalidate stats
                     was_change = True
 
+        # Update import alerts
         self.update_import_alerts()
+        # Clean no matches alert if there are translations:
+        if translations:
+            self.delete_alert("NoMaskMatches")
 
         # Process linked repos
         for pos, component in enumerate(self.linked_childs):
@@ -2657,6 +2682,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     @cached_property
     def glossary_sources(self):
+        from weblate.glossary.models import get_glossary_sources
+
         result = cache.get(self.glossary_sources_key)
         if result is None:
             result = get_glossary_sources(self)
@@ -3129,6 +3156,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def after_save(
         self,
+        *,
         changed_git: bool,
         changed_setup: bool,
         changed_template: bool,
@@ -3377,6 +3405,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def drop_addons_cache(self) -> None:
         if "addons_cache" in self.__dict__:
             del self.__dict__["addons_cache"]
+
+    def drop_key_filter_cache(self) -> None:
+        """Invalidate the cached value of key_filter."""
+        if "key_filter_re" in self.__dict__:
+            del self.__dict__["key_filter_re"]
 
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
@@ -3783,7 +3816,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return [self]
 
     def start_sentry_span(self, op: str):
-        return sentry_sdk.start_span(op=op, description=self.full_slug)
+        return sentry_sdk.start_span(op=op, name=self.full_slug)
+
+    @cached_property
+    def key_filter_re(self) -> re.Pattern:
+        """Provide the cached version of key_filter."""
+        return re.compile(self.key_filter)
 
 
 @receiver(m2m_changed, sender=Component.links.through)

@@ -22,7 +22,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
 NON_WORD_RE = re.compile(r"\W")
-# All control chars including tab and newline, this is dufferent from
+# All control chars including tab and newline, this is different from
 # weblate.formats.helpers.CONTROLCHARS which contains only chars
 # problematic in XML or SQL scopes.
 CONTROLCHARS = [
@@ -45,7 +45,7 @@ def get_glossary_sources(component):
 def get_glossary_automaton(project):
     from weblate.trans.models.component import prefetch_glossary_terms
 
-    with sentry_sdk.start_span(op="glossary.automaton", description=project.slug):
+    with sentry_sdk.start_span(op="glossary.automaton", name=project.slug):
         # Chain terms
         prefetch_glossary_terms(project.glossaries)
         terms = set(
@@ -107,7 +107,7 @@ def get_glossary_terms(
     automaton = project.glossary_automaton
     positions: dict[str, list[tuple[int, int]]] = defaultdict(list)
     # Extract terms present in the source
-    with sentry_sdk.start_span(op="glossary.match", description=project.slug):
+    with sentry_sdk.start_span(op="glossary.match", name=project.slug):
         for _termno, start, end in automaton.find_matches_as_indexes(
             source, overlapping=True
         ):

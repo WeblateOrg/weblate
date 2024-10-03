@@ -35,8 +35,8 @@
 
 {% block content %}
 {% if form.is_valid %}
+  {% include "paginator.html" %}
   {% include "last-changes-content.html" with last_changes=object_list %}
-
   {% include "paginator.html" %}
 {% endif %}
 

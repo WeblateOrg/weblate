@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-<header adminlang="{{ data.0.source_language.code|default:"en" }}" srclang="{{ data.0.source_language.code|default:"en" }}">
+{% if data %}
+  <header adminlang="{{ data.0.source_language.code }}" srclang="{{ data.0.source_language.code }}">
+{% else %}
+  <header adminlang="en" srclang="en">
+{% endif %}
 </header>
 <body>
 {% for item in data %}

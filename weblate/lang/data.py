@@ -27,6 +27,7 @@ UNDERSCORE_EXCEPTIONS = {
     "ro_MD",
     "pt_BR",
     "pa_PK",
+    "hi_Latn",
 }
 AT_EXCEPTIONS = {"ca@valencia"}
 

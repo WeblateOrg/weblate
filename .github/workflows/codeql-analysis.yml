@@ -25,16 +25,17 @@ jobs:
       contents: read  # for actions/checkout to fetch code
       security-events: write  # for github/codeql-action/autobuild to send a status report
     name: Analyze
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
-    - uses: hynek/setup-cached-uv@v2
+    - uses: astral-sh/setup-uv@v3
       with:
-        cache-dependency-path: pyproject.toml
-        cache-date-suffix: ''
+        enable-cache: true
+        cache-dependency-glob: ''
+        cache-suffix: '3.12'
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
