@@ -1064,7 +1064,7 @@ class ComponentKeyFilterTest(ViewTestCase):
     """Test the key filtering implementation in Component."""
 
     def create_component(self):
-        return self.create_android(key_filter=r"^tr")
+        return self.create_android(key_filter="^tr")
 
     def test_get_key_filter_re(self) -> None:
         self.assertEqual(self.component.key_filter_re.pattern, "^tr")
@@ -1076,7 +1076,7 @@ class ComponentKeyFilterTest(ViewTestCase):
         self.assertEqual(units.all()[0].context, "try")
 
     def test_change_key_filter(self) -> None:
-        self.component.key_filter = r"^th"
+        self.component.key_filter = "^th"
         self.component.save()
         self.assertEqual(self.component.key_filter_re.pattern, "^th")
         translations = self.component.translation_set.all()
@@ -1096,11 +1096,16 @@ class ComponentKeyFilterTest(ViewTestCase):
     def test_bilingual_component(self):
         project = self.component.project
         component = self.create_po(
-            name="Bilingual Test", project=project, key_filter=r"^tr"
+            name="Bilingual Test", project=project, key_filter="^tr"
         )
-        self.assertRaisesMessage(
-            ValidationError,
-            "To use the key filter, the file format must be monolingual.",
-        )
+        # Save should remove it
         self.assertEqual(component.key_filter, "")
         self.assertEqual(component.key_filter_re.pattern, "")
+
+        # Verify validation will reject it
+        component.key_filter = "^tr"
+        with self.assertRaisesMessage(
+            ValidationError,
+            "To use the key filter, the file format must be monolingual.",
+        ):
+            component.clean()
