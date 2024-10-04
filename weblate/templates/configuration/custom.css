@@ -17,12 +17,24 @@ body {
 }
 
 body[data-theme="dark"] {
-  --header-color: {{ header_color_split.1 }};
-  --header-text-color: {{ header_text_color_split.1 }};
-  --navi-color: {{ navi_color_split.1 }};
-  --navi-text-color: {{ nav_text_color_split.1 }};
-  --focus-color: {{ focus_color_split.1 }};
-  --hover-color: {{ hover_color_split.1 }};
+  {% if header_color_split.1 %}
+    --header-color: {{ header_color_split.1 }};
+  {% endif %}
+  {% if header_text_color_split.1 %}
+    --header-text-color: {{ header_text_color_split.1 }};
+  {% endif %}
+  {% if navi_color_split.1 %}
+    --header-text-color: {{ navi_color_split.1 }};
+  {% endif %}
+  {% if nav_text_color_split.1 %}
+    --header-text-color: {{ nav_text_color_split.1 }};
+  {% endif %}
+  {% if focus_color_split.1 %}
+    --header-text-color: {{ focus_color_split.1 }};
+  {% endif %}
+  {% if hover_color_split.1 %}
+    --header-text-color: {{ hover_color_split.1 }};
+  {% endif %}
 }
 
 {% if header_color %}

@@ -70,7 +70,10 @@ class ThemeColorWidget(MultiWidget):
 
     def decompress(self, value):
         if value:
-            return value.split(",")
+            colors = value.split(",")
+            if len(colors) == 1:
+                return [colors[0], colors[0]]
+            return colors
         return [None, None]
 
 
