@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-24 14:19+0000\n"
-"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
+"PO-Revision-Date: 2024-10-01 17:34+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -5100,22 +5100,15 @@ msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
 
 #: weblate/machinery/forms.py:308
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation context"
-msgstr "Käännöksen kommentti"
+msgstr "Käännöksen asiayhteys"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Weblate could not parse the translation files while updating the "
-#| "translations."
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
-"Weblate ei voi jäsentää käännöstiedostoja käännösten päivittämisen aikana."
+msgstr "Kuvaile käännöksen asiayhteyttä käännöksen tarkkuuden parantamiseksi."
 
 #: weblate/machinery/forms.py:322
 #, fuzzy
@@ -5457,19 +5450,14 @@ msgstr ""
 "\"same-origin\" pyynnöille)."
 
 #: weblate/templates/403_csrf.html:18
-#, fuzzy
-#| msgid ""
-#| "This site requires a CSRF cookie when submitting forms. This cookie is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-"Tämä sivusto vaatii CSRF-evästeen vastaanottaessaan lomaketietoja. Eväste "
-"vaaditaan turvallisuussyistä varmistamaan etteivät kolmannet osapuolet ole "
-"ottaneet selaintasi haltuun."
+"Tämä sivusto vaatii istuntoevästeen lomakkeita varten. Eväste vaaditaan "
+"turvallisuussyistä varmistamaan etteivät kolmannet osapuolet ole kaapanneet "
+"selaintasi."
 
 #: weblate/templates/403_csrf.html:19
 msgid ""
@@ -5536,13 +5524,11 @@ msgstr ""
 
 #: weblate/templates/about/donate.html:14
 msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
+msgstr "Auta <strong>Weblatea</strong> menestymään"
 
 #: weblate/templates/about/donate.html:18
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
-msgstr "Kiitoksia Weblaten käyttämisestä."
+msgstr "Tervetuloa ja kiitos Weblate-tuesta"
 
 #: weblate/templates/about/donate.html:20
 #, fuzzy
@@ -5554,31 +5540,29 @@ msgstr "Kiitoksia Weblaten käyttämisestä."
 msgid ""
 "the privacy-respecting localization platform committed to open-source values."
 msgstr ""
+"yksityisyyttä kunnioittava lokalisointialusta, joka on sitoutunut avoimen "
+"lähdekoodin arvoihin."
 
 #: weblate/templates/about/donate.html:29
-#, fuzzy
-#| msgid "GitHub username"
 msgctxt "Label on engage page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "GitHub-käyttäjänimi"
-msgstr[1] "GitHub-käyttäjänimi"
+msgstr[0] "GitHub-tähti"
+msgstr[1] "GitHub-tähteä"
 
 #: weblate/templates/about/donate.html:33
 msgctxt "Label on engage page"
 msgid "Open issues"
 msgid_plural "Open issues"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Avoin ongelma"
+msgstr[1] "Avointa ongelmaa"
 
 #: weblate/templates/about/donate.html:37
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on engage page"
 msgid "Recent changes"
 msgid_plural "Recent changes"
-msgstr[0] "Tuoreet muutokset"
-msgstr[1] "Tuoreet muutokset"
+msgstr[0] "Tuore muutos"
+msgstr[1] "Tuoretta muutosta"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:7 weblate/templates/about/stats.html:7
@@ -5613,6 +5597,8 @@ msgid ""
 "Start your gratis trial today and explore our competitively priced "
 "commercial hosting solutions."
 msgstr ""
+"Aloita ilmainen kokeilu tänään ja tutustu kilpailukykyisesti hinnoiteltuihin "
+"kaupallisiin isännöintiratkaisuihimme."
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:258
 #: weblate/templates/snippets/billing-failure.html:9
@@ -5622,12 +5608,12 @@ msgstr "Pyydä Libre hosting-palvelua"
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
 msgid "View hosting plans"
-msgstr "Katso hosting-palvelupaketit"
+msgstr "Katso isännöintisuunnitelmat"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/snippets/billing-failure.html:8
 msgid "Gratis trial for commercial hosting"
-msgstr "Kaupallisen hostauksen ilmainen kokeilujakso"
+msgstr "Ilmainen kokeilujakso kaupalliseen isännöintiin"
 
 #: weblate/templates/about/index.html:41
 msgid "Contact us for commercial hosting"
@@ -5643,7 +5629,7 @@ msgstr "Weblaten avaimet"
 
 #: weblate/templates/about/keys.html:19
 msgid "Commit signing"
-msgstr "Committien allekirjoitus"
+msgstr "Sitoumusten allekirjoitus"
 
 #: weblate/templates/about/keys.html:25
 #: weblate/templates/snippets/ssh-key.html:15
@@ -5688,7 +5674,7 @@ msgstr ""
 
 #: weblate/templates/about/keys.html:31
 msgid "Commit signing is not configured."
-msgstr "Committien allekirjoitusasetuksia ei ole määritelty."
+msgstr "Sitoumusten allekirjoitus ei ole määritelty."
 
 #: weblate/templates/about/stats.html:8
 #: weblate/templates/dashboard/user.html:39 weblate/templates/data.html:52
@@ -5747,41 +5733,32 @@ msgid "You can only contact administrators of the whole server here."
 msgstr "Voit ottaa tässä yhteyttä vain koko palvelimen ylläpitäjiin."
 
 #: weblate/templates/accounts/contact.html:23
-#, fuzzy
-#| msgid ""
-#| "For questions about a specific translation project, contact its "
-#| "maintainers directly, not by this form."
 msgid ""
 "For questions about a specific translation project, don’t use this form. "
 "Refer to the project’s Info tab and contact its maintainers."
 msgstr ""
-"Kysy tiettyä käännösprojektia koskevat kysymykset suoraan sen ylläpitäjiltä, "
-"älä tällä lomakkeella."
+"Jos sinulla on kysyttävää tietystä käännösprojektista, älä käytä tätä "
+"lomaketta. Katso projektin Tiedot-välilehti ja ota yhteyttä sen ylläpitäjiin."
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for another Weblate deployment or want to file a bug "
-#| "report, check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "please check support offerings at %(weblate_link)s or use this form on the "
 "correct server."
 msgstr ""
-"Jos etsit tukea toiselle Weblate-asennukselle tai haluat tehdä "
-"virheraportin, tarkista sen verkkosivusto osoitteesta %(weblate_link)s."
+"Jos etsit tukea jollekin muulle Weblate-käyttöönotolle kuin %(site_title)s, "
+"tarkista tukitarjoukset osoitteesta %(weblate_link)s tai käytä tätä "
+"lomaketta oikealla palvelimella."
 
 #: weblate/templates/accounts/contact.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "Ideas and questions can be sent to the %(link_start)sWeblate issue "
-#| "tracker%(link_end)s."
+#, python-format
 msgid ""
 "Weblate development ideas and questions can be sent to the "
 "%(link_start)sWeblate issue tracker%(link_end)s."
 msgstr ""
-"Ideoita ja kysymyksiä voi lähettää %(link_start)sWeblate-ongelmien "
-"seurantaan%(link_end)s."
+"Verkkosivujen kehittämisideoita ja kysymyksiä voi lähettää %(link_start"
+")sWeblate-ongelmanseurantaan%(link_end)s."
 
 #: weblate/templates/accounts/contact.html:38
 msgid "Contact server administrators"
@@ -5894,10 +5871,8 @@ msgid "Set up your libre project"
 msgstr "Määritä vapaa projektisi"
 
 #: weblate/templates/accounts/hosting.html:35
-#, fuzzy
-#| msgid "Your trial offer"
 msgid "Your trial"
-msgstr "Kokeilutarjouksesi"
+msgstr "Kokeilusi"
 
 #: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
@@ -5916,6 +5891,8 @@ msgid ""
 "We reserve our right to reject inappropriate content (erotic, gambling, "
 "etc.)."
 msgstr ""
+"Pidätämme oikeutemme hylätä sopimattoman sisällön (eroottinen, uhkapeli, "
+"jne.)."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Get started"
@@ -6511,13 +6488,9 @@ msgid "Your trial will last 14 days."
 msgstr "Kokeilusi kestää 14 päivää."
 
 #: weblate/templates/accounts/trial.html:24
-#, fuzzy
-#| msgid ""
-#| "Your trial will run the Enterprise plan, but you can choose any plan "
-#| "later."
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
 msgstr ""
-"Kokeilujaksosi suorittaa yrityssuunnitelman, mutta voit valita minkä tahansa "
+"Kokeilusi suorittaa 640 k -suunnitelman, mutta voit valita minkä tahansa "
 "suunnitelman myöhemmin."
 
 #: weblate/templates/accounts/trial.html:25
@@ -10120,7 +10093,7 @@ msgstr ""
 
 #: weblate/templates/projects.html:19
 msgid "Ask for project hosting"
-msgstr "Pyydä projektillesi hosting-palvelua"
+msgstr "Pyydä hankkeellesi isännöintipalvelua"
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
@@ -10141,10 +10114,8 @@ msgid "Thank you for using Weblate"
 msgstr "Kiitoksia Weblaten käyttämisestä"
 
 #: weblate/templates/registration/logged_out.html:17
-#, fuzzy
-#| msgid "Show on dashboard"
 msgid "Return to dashboard"
-msgstr "Näytä kojelaudalla"
+msgstr "Palaa kojelautaan"
 
 #: weblate/templates/replace.html:13
 msgid "Please review and confirm the search and replace results."
@@ -10300,6 +10271,8 @@ msgid ""
 "While Weblate remains free for all users, its development requires "
 "continuous investment."
 msgstr ""
+"Vaikka Weblate on edelleen ilmainen kaikille käyttäjille, sen kehittäminen "
+"vaatii jatkuvaa investointeja."
 
 #: weblate/templates/snippets/donate.html:4
 msgid "We prioritize your privacy; we never display ads or sell your data."
@@ -10310,10 +10283,13 @@ msgid ""
 "The invaluable support of the community through subscriptions and donations "
 "ensures that Weblate continues to grow and thrive."
 msgstr ""
+"Yhteisön korvaamaton tuki tilauksilla ja lahjoituksilla varmistaa, että "
+"Weblate jatkaa kasvuaan ja kukoistaa."
 
 #: weblate/templates/snippets/donate.html:6
 msgid "Join us in shaping the future of localization and contribute today!"
 msgstr ""
+"Liity meihin muokkaamaan lokalisoinnin tulevaisuutta ja osallistu jo tänään!"
 
 #: weblate/templates/snippets/donate.html:11
 #, fuzzy
@@ -10322,10 +10298,8 @@ msgid "Purchase a support package"
 msgstr "Osta tukipaketti"
 
 #: weblate/templates/snippets/donate.html:13
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Give to Weblate"
-msgstr "Lahjoita Weblatelle"
+msgstr "Anna Weblatelle"
 
 #: weblate/templates/snippets/editor.html:11
 msgid ""
@@ -10702,7 +10676,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:7
 msgid "Libre project with open-source code"
-msgstr ""
+msgstr "Ilmainen projekti avoimella lähdekoodilla"
 
 #: weblate/templates/snippets/libre-basic.html:9
 #, python-format
@@ -10716,16 +10690,12 @@ msgstr ""
 "tunnustaa vapaaksi."
 
 #: weblate/templates/snippets/libre-basic.html:10
-#, fuzzy
-#| msgid ""
-#| "All the source code has to be publicly available in a supported version "
-#| "control system."
 msgid ""
 "All the source code has to be libre-licensed and publicly available in a "
 "supported version control system."
 msgstr ""
-"Kaiken lähdekoodin tulee olla julkisesti saatavilla tuetussa "
-"versionhallintajärjestelmässä."
+"Kaiken lähdekoodin tulee olla vapaasti lisensoitua ja julkisesti saatavilla "
+"tuetussa versionhallintajärjestelmässä."
 
 #: weblate/templates/snippets/libre-basic.html:11
 msgid ""
@@ -10737,7 +10707,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:12
 msgid "Non-code projects are welcome as well."
-msgstr ""
+msgstr "Ei-koodiprojektit ovat myös tervetulleita."
 
 #: weblate/templates/snippets/libre-basic.html:15
 #, fuzzy
@@ -10758,14 +10728,12 @@ msgstr ""
 "kääntäjiä ja auttaa Weblatea olemaan ilmainen myös uusille projekteille."
 
 #: weblate/templates/snippets/libre-basic.html:21
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Established projects"
-msgstr "Seuratut projektit"
+msgstr "Vakiintuneet hankkeet"
 
 #: weblate/templates/snippets/libre-basic.html:23
 msgid "The project receives a reasonable number of contributions."
-msgstr ""
+msgstr "Hanke saa kohtuullisen määrän panostuksia."
 
 #: weblate/templates/snippets/libre-basic.html:24
 msgid "The project has had active development for at least three months."
@@ -11178,6 +11146,8 @@ msgid ""
 "Weblate utilizes the IP addresses listed below to access repositories or "
 "initiate webhooks."
 msgstr ""
+"Weblate käyttää alla lueteltuja IP-osoitteita päästäkseen tietovarastoihin "
+"tai käynnistääkseen verkkokoukkuja."
 
 #: weblate/templates/snippets/ssh-key.html:46
 #, fuzzy
@@ -12810,12 +12780,12 @@ msgstr "Tiedostoa ei ole olemassa."
 #: weblate/trans/feeds.py:31 weblate/trans/feeds.py:68
 #, python-format
 msgid "Recent changes in %s"
-msgstr "Tuoreet muutokset sivustolla %s"
+msgstr "Tuoreet muutokset %s:ssa"
 
 #: weblate/trans/feeds.py:34 weblate/trans/feeds.py:71
 #, python-format
 msgid "All recent changes made using Weblate in %s."
-msgstr "Kaikki Weblatella tehdyt tuoreet muutokset sivustolla %s."
+msgstr "Kaikki Weblatella tehdyt tuoreet muutokset %s:ssa."
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"

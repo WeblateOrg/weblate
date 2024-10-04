@@ -271,7 +271,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def load_store(self, fileobj=None, force_intermediate=False):
         """Load translate-toolkit storage from disk."""
         # Use intermediate store as template for source translation
-        with sentry_sdk.start_span(op="load_store", description=self.get_filename()):
+        with sentry_sdk.start_span(op="load_store", name=self.get_filename()):
             if force_intermediate or (self.is_template and self.component.intermediate):
                 template = self.component.intermediate_store
             else:
@@ -329,7 +329,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             is_new = True
 
         with sentry_sdk.start_span(
-            op="update_from_unit", description=f"{self.full_slug}:{pos}"
+            op="update_from_unit", name=f"{self.full_slug}:{pos}"
         ):
             newunit.update_from_unit(unit, pos, is_new)
 
@@ -338,7 +338,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def check_sync(self, force=False, request=None, change=None) -> None:  # noqa: C901
         """Check whether database is in sync with git and possibly updates."""
-        with sentry_sdk.start_span(op="check_sync", description=self.full_slug):
+        with sentry_sdk.start_span(op="check_sync", name=self.full_slug):
             if change is None:
                 change = Change.ACTION_UPDATE
             user = None if request is None else request.user
@@ -437,6 +437,18 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                                 unit.source = translated_unit.source
                         except UnitNotFoundError:
                             pass
+                    if (
+                        self.component.file_format_cls.monolingual
+                        and self.component.key_filter_re
+                        and self.component.key_filter_re.match(unit.context) is None
+                    ):
+                        # This is where the key filtering take place
+                        self.log_info(
+                            "Doesn't match with key_filter, skipping: %s (%s)",
+                            unit.context,
+                            repr(unit.source),
+                        )
+                        continue
 
                     try:
                         id_hash = unit.id_hash
@@ -1317,6 +1329,24 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             return
         self._invalidate_scheduled = True
         transaction.on_commit(self._invalidate_triger)
+
+    def detect_completed_translation(self, change: Change, old_translated: int) -> None:
+        translated = self.stats.translated
+        if old_translated < translated and translated == self.stats.all:
+            self.change_set.create(
+                action=Change.ACTION_COMPLETE,
+                user=change.user,
+                author=change.author,
+            )
+
+            # check if component is fully translated
+            component = self.component
+            if component.stats.translated == component.stats.all:
+                self.component.change_set.create(
+                    action=Change.ACTION_COMPLETED_COMPONENT,
+                    user=change.user,
+                    author=change.author,
+                )
 
     @property
     def keys_cache_key(self) -> str:

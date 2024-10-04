@@ -7,13 +7,14 @@ from __future__ import annotations
 import os.path
 from contextlib import suppress
 from datetime import timedelta
+from functools import partial
 
 from appconf import AppConf
 from django.conf import settings
 from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Prefetch, Q
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
@@ -599,27 +600,37 @@ def update_project_bill(sender, instance, **kwargs) -> None:
 @receiver(pre_delete, sender=Component)
 @receiver(post_delete, sender=Translation)
 @disable_for_loaddata
-def record_project_bill(sender, instance, **kwargs) -> None:
+def record_project_bill(
+    sender, instance: Project | Component | Translation, **kwargs
+) -> None:
     if isinstance(instance, Translation):
         instance = instance.component
     if isinstance(instance, Component):
         instance = instance.project
-    # Track billings to update for delete_project_bill
-    instance.billings_to_update = list(instance.billing_set.all())
+    # Collect billings to update for delete_project_bill
+    instance.billings_to_update = list(
+        instance.billing_set.values_list("pk", flat=True)
+    )
 
 
 @receiver(post_delete, sender=Project)
 @receiver(post_delete, sender=Component)
 @receiver(post_delete, sender=Translation)
 @disable_for_loaddata
-def delete_project_bill(sender, instance, **kwargs) -> None:
+def delete_project_bill(
+    sender, instance: Project | Component | Translation, **kwargs
+) -> None:
+    from weblate.billing.tasks import billing_check
+
     if isinstance(instance, Translation):
         instance = instance.component
     if isinstance(instance, Component):
         instance = instance.project
-    # This is set in record_project_bill
-    for billing in instance.billings_to_update:
-        billing.check_limits()
+    # This is collected in record_project_bill
+    for billing_id in instance.billings_to_update:
+        transaction.on_commit(partial(billing_check, billing_id))
+    # Clear the list to avoid repeated trigger
+    instance.billings_to_update.clear()
 
 
 @receiver(post_save, sender=Invoice)

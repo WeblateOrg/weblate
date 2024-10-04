@@ -7,6 +7,7 @@ import os
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 
+from weblate.api.spectacular import get_spectacular_settings
 from weblate.utils.environment import (
     get_env_bool,
     get_env_credentials,
@@ -239,6 +240,11 @@ PAGURE_CREDENTIALS = get_env_credentials("PAGURE")
 # Bitbucket username and token for sending merge requests.
 # Please see the documentation for more details.
 BITBUCKETSERVER_CREDENTIALS = get_env_credentials("BITBUCKETSERVER")
+
+# Bitbucket username and token for sending merge requests.
+# Please see the documentation for more details.
+BITBUCKETCLOUD_CREDENTIALS = get_env_credentials("BITBUCKETCLOUD")
+
 
 # Default pull request message.
 # Please see the documentation for more details.
@@ -774,7 +780,33 @@ INSTALLED_APPS = [
     "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
     "django_otp_webauthn",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
 ]
+
+# Legal integration
+LEGAL_INTEGRATION = get_env_str("WEBLATE_LEGAL_INTEGRATION")
+if LEGAL_INTEGRATION:
+    # Hosted Weblate legal documents
+    if LEGAL_INTEGRATION == "wllegal":
+        INSTALLED_APPS.append("wllegal")
+
+    # Enable legal app
+    INSTALLED_APPS.append("weblate.legal")
+
+    # TOS confirmation enforcement
+    if LEGAL_INTEGRATION in {"tos-confirm", "wllegal"}:
+        # Social auth pipeline to confirm TOS upon registration/subsequent sign in
+        SOCIAL_AUTH_PIPELINE.insert(
+            SOCIAL_AUTH_PIPELINE.index(
+                "weblate.accounts.pipeline.second_factor",
+            )
+            + 1,
+            "weblate.legal.pipeline.tos_confirm",
+        )
+        # Middleware to enforce TOS confirmation of signed in users
+        MIDDLEWARE.append("weblate.legal.middleware.RequireTOSMiddleware")
+
 
 modify_env_list(INSTALLED_APPS, "APPS")
 
@@ -1199,7 +1231,9 @@ REST_FRAMEWORK = {
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
     "EXCEPTION_HANDLER": "weblate.api.views.weblate_exception_handler",
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
 
 # Fonts CDN URL
 FONTS_CDN_URL = None
@@ -1268,7 +1302,10 @@ EMAIL_BACKEND = get_env_str(
 SILENCED_SYSTEM_CHECKS = [
     # We have modified django.contrib.auth.middleware.AuthenticationMiddleware
     # as weblate.accounts.middleware.AuthenticationMiddleware
-    "admin.E408"
+    "admin.E408",
+    # Silence drf_spectacular until these are addressed
+    "drf_spectacular.W001",
+    "drf_spectacular.W002",
 ]
 
 # Silence WebAuthn origin error
@@ -1404,30 +1441,6 @@ AKISMET_API_KEY = get_env_str("WEBLATE_AKISMET_API_KEY")
 INTERLEDGER_PAYMENT_POINTERS = get_env_list(
     "WEBLATE_INTERLEDGER_PAYMENT_POINTERS", ["$ilp.uphold.com/ENU7fREdeZi9"]
 )
-
-# Legal integartion
-LEGAL_INTEGRATION = get_env_str("WEBLATE_LEGAL_INTEGRATION")
-if LEGAL_INTEGRATION:
-    # Hosted Weblate legal documents
-    if LEGAL_INTEGRATION == "wllegal":
-        INSTALLED_APPS.append("wllegal")
-
-    # Enable legal app
-    INSTALLED_APPS.append("weblate.legal")
-
-    # TOS confirmation enforcement
-    if LEGAL_INTEGRATION in {"tos-confirm", "wllegal"}:
-        # Social auth pipeline to confirm TOS upon registration/subsequent sign in
-        SOCIAL_AUTH_PIPELINE.insert(
-            SOCIAL_AUTH_PIPELINE.index(
-                "weblate.accounts.pipeline.second_factor",
-            )
-            + 1,
-            "weblate.legal.pipeline.tos_confirm",
-        )
-        # Middleware to enforce TOS confirmation of signed in users
-        MIDDLEWARE.append("weblate.legal.middleware.RequireTOSMiddleware")
-
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"
 if os.path.exists(ADDITIONAL_CONFIG):

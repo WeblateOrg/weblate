@@ -5,7 +5,7 @@ Version control integration
 
 Weblate currently supports :ref:`vcs-git` (with extended support for
 :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`,
-:ref:`vcs-git-svn`, :ref:`vcs-bitbucket-server`, and :ref:`vcs-azure-devops`) and
+:ref:`vcs-git-svn`, :ref:`vcs-bitbucket-cloud`, :ref:`vcs-bitbucket-server`, and :ref:`vcs-azure-devops`) and
 :ref:`vcs-mercurial` as version control back-ends.
 
 .. _vcs-repos:
@@ -194,9 +194,10 @@ approach is also used for Hosted Weblate, there is dedicated
 Weblate internal URLs
 +++++++++++++++++++++
 
-Share one repository setup between different components by referring to
-its placement as ``weblate://project/component`` in other(linked) components. This way linked components
-use the VCS repository configuration of the main(referenced) component.
+Share one repository setup between different components by referring to its
+placement as ``weblate://project/component`` in other (linked) components. This
+way linked components use the VCS repository configuration of the
+main (referenced) component.
 
 .. warning::
 
@@ -434,6 +435,39 @@ Weblate settings to make this work. Once configured, you will see a
    :setting:`BITBUCKETSERVER_CREDENTIALS`
 
 .. _Bitbucket Server API: https://developer.atlassian.com/server/bitbucket/
+
+.. _vcs-bitbucket-cloud:
+.. _bitbucket-cloud-push:
+
+Bitbucket Cloud pull requests
+------------------------------
+
+.. versionadded:: 5.8
+
+This just adds a thin layer atop :ref:`vcs-git` using the
+`Bitbucket Cloud API`_ to allow pushing translation changes as pull requests
+instead of pushing directly to the repository.
+
+.. warning::
+
+    This is different from Bitbucket Server API.
+
+
+There is no need to use this to access Git repositories, ordinary :ref:`vcs-git`
+works the same, the only difference is how pushing to a repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository,
+while :ref:`vcs-bitbucket-cloud` creates pull request.
+
+You need to configure API credentials (:setting:`BITBUCKETCLOUD_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Bitbucket Cloud` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   :ref:`push-changes`,
+   :setting:`BITBUCKETCLOUD_CREDENTIALS`
+
+.. _Bitbucket Cloud API: https://developer.atlassian.com/cloud/bitbucket/
 
 .. _vcs-pagure:
 .. _pagure-push:

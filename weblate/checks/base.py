@@ -216,7 +216,7 @@ class BatchCheckMixin(BaseCheck):
         raise NotImplementedError
 
     def perform_batch(self, component: Component) -> None:
-        with sentry_sdk.start_span(op="check.perform_batch", description=self.check_id):
+        with sentry_sdk.start_span(op="check.perform_batch", name=self.check_id):
             self._perform_batch(component)
 
     def _perform_batch(self, component: Component) -> None:

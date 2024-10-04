@@ -19,13 +19,14 @@
 # Artemka <anonymous58630@gmail.com>, 2024.
 # Сергей <asvmail.as@gmail.com>, 2024.
 # Vin <k3kelm4vw@mozmail.com>, 2024.
+# Andrey <andrey@mailbox.org>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-24 14:19+0000\n"
-"Last-Translator: Сергей <asvmail.as@gmail.com>\n"
+"PO-Revision-Date: 2024-10-03 17:26+0000\n"
+"Last-Translator: Andrey <andrey@mailbox.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -355,7 +356,7 @@ msgstr "Добавить команду"
 
 #: weblate/accounts/forms.py:954
 msgid "Name your authentication app"
-msgstr "Название приложения для аутентификации"
+msgstr "Название приложения для авторизации"
 
 #: weblate/accounts/forms.py:957
 msgid "Verify the code from the app"
@@ -515,7 +516,7 @@ msgstr "Пользователь был удалён из {team} пользов�
 
 #: weblate/accounts/models.py:201
 msgid "Two-factor authentication recovery codes were generated"
-msgstr "Коды восстановления двухфакторной аутентификации сгенерированы"
+msgstr "Коды восстановления двухфакторной авторизации сгенерированы"
 
 #: weblate/accounts/models.py:204
 msgid "Two-factor authentication recovery codes were viewed"
@@ -899,7 +900,7 @@ msgstr "Перевод на язык завершён"
 #: weblate/accounts/notifications.py:565
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "Компонент переведен"
+msgstr "Компонент переведён"
 
 #: weblate/accounts/notifications.py:573
 msgctxt "Notification name"
@@ -1017,7 +1018,7 @@ msgstr "Использовать ключ безопасности (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
 msgid "Use authentication app (TOTP)"
-msgstr "Использовать приложение для аутентификации (TOTP)"
+msgstr "Использовать приложение для авторизации (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
@@ -1148,7 +1149,7 @@ msgstr ""
 #: weblate/accounts/views.py:1335
 #, python-format
 msgid "Could not authenticate: %s"
-msgstr "Не удалось пройти аутентификацию: %s"
+msgstr "Не удалось пройти авторизацию: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -1244,7 +1245,7 @@ msgstr "Ключ безопасности %s зарегистрирован."
 
 #: weblate/accounts/views.py:1687
 msgid "The authentication app was removed."
-msgstr "Приложение для аутентификации было удалено."
+msgstr "Приложение для авторизации было удалено."
 
 #: weblate/accounts/views.py:1688
 #, python-format
@@ -3094,7 +3095,7 @@ msgstr "Несовпадающий интерробанг"
 
 #: weblate/checks/chars.py:312
 msgid "Source and translation do not both end with an interrobang expression"
-msgstr "Источник и перевод не заканчиваются интерробенгом"
+msgstr "Источник и перевод не заканчиваются знаком интерробанга"
 
 #: weblate/checks/chars.py:326
 msgid "Mismatched ellipsis"
@@ -6203,19 +6204,18 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:228
 msgid "Authenticator apps (TOTP)"
-msgstr "Приложения для аутентификации (TOTP)"
+msgstr "Приложения для авторизации (TOTP)"
 
 #: weblate/templates/accounts/profile.html:230
 msgid "There are currently no authenticator apps registered."
 msgstr ""
-"В настоящее время не зарегистрировано ни одного приложения для "
-"аутентификации."
+"В настоящее время не зарегистрировано ни одного приложения для авторизации."
 
 #: weblate/templates/accounts/profile.html:242
 #: weblate/templates/accounts/totp.html:11
 #: weblate/templates/accounts/totp.html:22
 msgid "Register new authenticator app"
-msgstr "Зарегистрировать новое приложение для аутентификации"
+msgstr "Зарегистрировать новое приложение для авторизации"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/accounts/recovery-codes.html:11
@@ -6423,9 +6423,9 @@ msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
-"Коды восстановления можно использовать для доступа к вашей учетной записи, "
+"Коды восстановления можно использовать для доступа к вашей учётной записи, "
 "если вы потеряете доступ к своему устройству и не можете получить коды "
-"двухфакторной аутентификации."
+"двухфакторной авторизации."
 
 #: weblate/templates/accounts/recovery-codes.html:29
 msgid ""
@@ -9458,7 +9458,7 @@ msgstr "Переводы на все языки завершены в %(componen
 #: weblate/templates/mail/translated_language_subject.txt:3
 #, python-format
 msgid "%(translation)s has been completed"
-msgstr "%(translation)s завершено"
+msgstr "%(translation)s – завершено"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -15844,7 +15844,7 @@ msgstr "Все репозитории отправлены."
 #: weblate/trans/views/git.py:99
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
-msgstr "Все репозитории сброшены, идёт обновление переводов."
+msgstr "Все репозитории сброшены, идет обновление переводов."
 
 #: weblate/trans/views/git.py:123
 msgid "All repositories have been cleaned up."

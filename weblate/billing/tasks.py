@@ -17,8 +17,11 @@ from weblate.utils.celery import app
 
 
 @app.task(trail=False)
-def billing_check() -> None:
-    Billing.objects.check_limits()
+def billing_check(billing_id: int | None = None) -> None:
+    if billing_id is None:
+        Billing.objects.check_limits()
+    else:
+        Billing.objects.get(pk=billing_id).check_limits()
 
 
 @app.task(trail=False)

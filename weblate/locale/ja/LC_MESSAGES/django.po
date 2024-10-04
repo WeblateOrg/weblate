@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-22 11:11+0000\n"
+"PO-Revision-Date: 2024-09-29 12:15+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -3011,11 +3011,11 @@ msgstr "原文と翻訳文で一致しない文末の感嘆符"
 
 #: weblate/checks/chars.py:310
 msgid "Mismatched interrobang"
-msgstr "インテロバングの不一致"
+msgstr "感嘆符疑問符の不一致"
 
 #: weblate/checks/chars.py:312
 msgid "Source and translation do not both end with an interrobang expression"
-msgstr "原文と翻訳文で一致しない文末の感嘆疑問符"
+msgstr "原文と翻訳文で一致しない文末の感嘆符疑問符"
 
 #: weblate/checks/chars.py:326
 msgid "Mismatched ellipsis"
@@ -5158,26 +5158,23 @@ msgid "Choose custom model here to enable it."
 msgstr "有効にするカスタムモデルを選んでください。"
 
 #: weblate/machinery/forms.py:403
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr "アプリケーションのエンドポイント URL"
+msgstr "Azure OpenAI エンドポイント URL"
 
 #: weblate/machinery/forms.py:407
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
-msgstr ""
+msgstr "インスタンスのエンドポイント URL、例: https://my-instance.openai.azure.com。"
 
 #: weblate/machinery/forms.py:413
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "Azure OpenAI のデプロイ"
 
 #: weblate/machinery/forms.py:416
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "モデル固有のデプロイメント名。"
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5399,11 +5396,6 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF検証に失敗したため、リクエストは中断されました。"
 
 #: weblate/templates/403_csrf.html:15
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
@@ -5414,34 +5406,24 @@ msgstr ""
 "ラウザーが第三者に乗っ取られていないことを確かめるために必要です。"
 
 #: weblate/templates/403_csrf.html:16
-#, fuzzy
-#| msgid ""
-#| "If you have set up your web browser to not send 'Referer' headers, please "
-#| "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests)."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
-"'Referer' ヘッダーを送信しないようにブラウザーを設定している場合は、設定を許"
-"可にしてください（少なくともこのサイトの HTTPS 接続、または同一生成元の要求に"
-"対しては）。"
+"`Referer` ヘッダーを送信しないようにブラウザーを設定している場合は、送信許可"
+"に設定してください（少なくともこのサイトの HTTPS "
+"接続、または同一生成元の要求に対しては）。"
 
 #: weblate/templates/403_csrf.html:18
-#, fuzzy
-#| msgid ""
-#| "This site requires a CSRF cookie when submitting forms. This cookie is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-"このサイトでは、フォームを送信するときに CSRF Cookie が必要です。この Cookie "
-"は、セキュリティ上の理由から、ブラウザーが第三者に乗っ取られていないことを確"
-"かめるために必要です。"
+"当サイトでは、フォームを機能させるためにセッション Cookie が必要です。この "
+"Cookie は、セキュリティ上の理由から、ブラウザーが第三者に乗っ取られていないこ"
+"とを確かめるために必要です。"
 
 #: weblate/templates/403_csrf.html:19
 msgid ""
@@ -5449,17 +5431,16 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"セッション Cookies が無効であったため期限切れになったようです。これは、セッシ"
+"ョン有効性が制限されている未認証のリクエストで簡単に発生します。このような場"
+"合は、目的の操作をもう一度試してみてください。"
 
 #: weblate/templates/403_csrf.html:20
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again (at-least for this site, or for 'same-origin' requests)."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"Cookie を保存しないようにブラウザーを設定している場合は、再度 Cookie を許可に"
+"Cookie を保存しないようにブラウザーを設定している場合は、Cookie の保存を許可"
 "してください（少なくともこのサイトまたは同一生成元の要求に対しては）。"
 
 #: weblate/templates/403_csrf.html:22
@@ -6087,7 +6068,7 @@ msgstr "新しいセキュリティ キーの登録"
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr "残念ながら、ご使用のブラウザは WebAuthn に対応していません。"
+msgstr "残念ながら、ご使用のブラウザーは WebAuthn に対応していません。"
 
 #: weblate/templates/accounts/profile.html:228
 msgid "Authenticator apps (TOTP)"
@@ -6585,8 +6566,6 @@ msgid "User ID"
 msgstr "ユーザー ID"
 
 #: weblate/templates/accounts/user.html:236
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
 msgstr "通知"
 
@@ -6596,11 +6575,11 @@ msgstr "対象範囲"
 
 #: weblate/templates/accounts/user.html:238
 msgid "Frequency"
-msgstr ""
+msgstr "頻度"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
-msgstr "一括払い"
+msgstr "１回限り"
 
 #: weblate/templates/accounts/user.html:295 weblate/templates/auth/team.html:31
 #: weblate/templates/manage/teams.html:30
@@ -8629,7 +8608,7 @@ msgstr "詳細については、ドキュメントを確認してください。
 
 #: weblate/templates/last-changes-content.html:16
 msgid "Revert"
-msgstr "この翻訳の一つ前に戻す"
+msgstr "取り消す"
 
 #: weblate/templates/last-changes-content.html:22
 #: weblate/templates/snippets/suggestions.html:50
@@ -9758,8 +9737,6 @@ msgid "Delete announcement"
 msgstr "お知らせの削除"
 
 #: weblate/templates/multi-progress.html:15
-#, fuzzy
-#| msgid "Component is being updated…"
 msgid "Components are being updated…"
 msgstr "コンポーネントを更新しています…"
 
@@ -10830,7 +10807,7 @@ msgstr "過去 1 か月に追加された未翻訳の全文字列"
 
 #: weblate/templates/snippets/query-builder.html:111
 msgid "Filter changed strings 2 weeks ago"
-msgstr ""
+msgstr "2 週間前に変更された文字列を抽出"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"

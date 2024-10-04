@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-20 19:19+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-09-26 02:36+0000\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
 "Language: tr\n"
@@ -1124,10 +1124,9 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr "Önce e-posta adresinizi onaylayarak başka bir kimlik ekleyin."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "Anahtar oluşturulamadı: %s"
+msgstr "Kimlik doğrulanamadı: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -5117,26 +5116,25 @@ msgid "Region ID"
 msgstr "Bölge kimliği"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "Bağlam"
+msgstr "Bağlam vektörü"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
+"Bellek kimlikleri:ağırlık listesinin virgül ile ayrılmış listesi. Örnek: "
+"1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "Çeviri geçerli bir XML kodu değil"
+msgstr "Bağlam vektörü geçersiz: %s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "Ağırlık değeri 0 ile 1 arasında olmalıdır: %s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5154,16 +5152,10 @@ msgid "Translation context"
 msgstr "Çeviri bağlamı"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
-"Çevirinin doğruluğunu artırmak için çevirmenin kişiliğini tanımlayın. "
-"Örneğin: “Sen bir sincap yetiştiricisisin.”"
+msgstr "Çevirinin doğruluğunu artırmak için çevirinin bağlamını tanımlayın."
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5231,26 +5223,24 @@ msgid "Choose custom model here to enable it."
 msgstr "Kullanıma almak için özel modeli buradan seçin."
 
 #: weblate/machinery/forms.py:403
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr "Uygulama uç noktası adresi"
+msgstr "Azure OpenAI uç noktası adresi"
 
 #: weblate/machinery/forms.py:407
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr ""
+"Kopyanın uç nokta adresi. Örneğin: https://benim-kopyam.openai.azure.com."
 
 #: weblate/machinery/forms.py:413
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "Azure OpenAI dağıtımı"
 
 #: weblate/machinery/forms.py:416
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "Modelin benzersiz dağıtım adı."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5470,48 +5460,33 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF doğrulaması başarısız oldu. İstek iptal edildi."
 
 #: weblate/templates/403_csrf.html:15
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
 "that your browser is not being hijacked by third parties."
 msgstr ""
-"Bu HTTPS sitesi için, tarayıcınız tarafından gönderilmesi için bir "
-"'Gönderen' üst bilgisi gerekiyor. Ancak herhangi bir üst bilgi gönderilmedi. "
-"Bu üst bilgi, tarayıcınızın üçüncü taraflarca ele geçirilmesini engelleyen "
-"bir güvenlik önlemidir."
+"Bu HTTPS sitesi için, tarayıcınız tarafından gönderilecek bir ‘Yönlendiren’ "
+"üst bilgisi gerekiyor. Ancak herhangi bir üst bilgi gönderilmedi. Bu üst "
+"bilgi, tarayıcınızın üçüncü taraflarca ele geçirilmesini engelleyen bir "
+"güvenlik önlemidir."
 
 #: weblate/templates/403_csrf.html:16
-#, fuzzy
-#| msgid ""
-#| "If you have set up your web browser to not send 'Referer' headers, please "
-#| "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests)."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
 "Tarayıcınızı 'Yönlendiren' üst bilgilerini göndermeyecek şekilde "
-"ayarladıysanız, lütfen bu seçeneği etkinleştirin (en azından bu site için, "
-"HTTPS bağlantıları ya da 'aynı kaynaklı' istekler için) ."
+"ayarladıysanız, bu seçeneği etkinleştirmeniz gerekir (en azından bu site "
+"için, HTTPS bağlantıları ya da 'same-origin' istekleri için) ."
 
 #: weblate/templates/403_csrf.html:18
-#, fuzzy
-#| msgid ""
-#| "This site requires a CSRF cookie when submitting forms. This cookie is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-"Bu sitede, formları göndermek için bir CSRF tanımlama bilgisi kullanılıyor. "
+"Sitemizde, formları işletmek için bir CSRF tanımlama bilgisi kullanılıyor. "
 "Bu tanımlama bilgisi, tarayıcınızın üçüncü taraflarca ele geçirilmesini "
 "engelleyen bir güvenlik önlemidir."
 
@@ -5521,19 +5496,19 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"Herhangi bir etkinlikte bulunmamanız nedeniyle oturum tanımlama bilginizin "
+"süresi dolmuş olabilir. Bu durum, oturum geçerlilik süresinin sınırlı olduğu "
+"kimliği doğrulanmamış istekler için kolayca gerçekleşebilir. Böyle bir "
+"durumda yapmak istediğiniz işlemi yeniden denemek isteyebilirsiniz."
 
 #: weblate/templates/403_csrf.html:20
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again (at-least for this site, or for 'same-origin' requests)."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"Tarayıcınızı tanımlama bilgilerini kaydedecek şekilde ayarladıysanız, lütfen "
-"bunları yeniden etkinleştirin (en azından bu site için ya da 'aynı kaynaklı' "
-"istekler için)."
+"Tarayıcınızı tanımlama bilgilerini kaydetmeyecek şekilde ayarladıysanız, "
+"lütfen bunları yeniden etkinleştirin (en azından bu site için ya da 'same-"
+"origin' istekleri için)."
 
 #: weblate/templates/403_csrf.html:22
 #, python-format
@@ -6671,10 +6646,8 @@ msgid "User ID"
 msgstr "Kullanıcı kimliği"
 
 #: weblate/templates/accounts/user.html:236
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
-msgstr "Bildirimler"
+msgstr "Bildirim"
 
 #: weblate/templates/accounts/user.html:237 weblate/trans/forms.py:1078
 msgid "Scope"
@@ -6682,7 +6655,7 @@ msgstr "Kapsam"
 
 #: weblate/templates/accounts/user.html:238
 msgid "Frequency"
-msgstr ""
+msgstr "Sıklık"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
@@ -9870,10 +9843,8 @@ msgid "Delete announcement"
 msgstr "Duyuruyu sil"
 
 #: weblate/templates/multi-progress.html:15
-#, fuzzy
-#| msgid "Component is being updated…"
 msgid "Components are being updated…"
-msgstr "Bileşen güncelleniyor…"
+msgstr "Bileşenler güncelleniyor…"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -10961,7 +10932,7 @@ msgstr "Geçen ay eklenen tüm çevrilmemiş dizgeler"
 
 #: weblate/templates/snippets/query-builder.html:111
 msgid "Filter changed strings 2 weeks ago"
-msgstr ""
+msgstr "2 hafta önce değiştirilen dizgeleri süz"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"

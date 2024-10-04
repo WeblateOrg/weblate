@@ -177,7 +177,7 @@ def ensure_tesseract_language(lang: str) -> None:
 
             LOGGER.debug("downloading tesseract data %s", url)
 
-            with sentry_sdk.start_span(op="ocr.download", description=url):
+            with sentry_sdk.start_span(op="ocr.download", name=url):
                 response = request("GET", url, allow_redirects=True)
 
             with open(full_name, "xb") as handle:
@@ -384,14 +384,14 @@ def ocr_get_strings(api, image: str, resolution: int = 72):
     else:
         api.SetSourceResolution(resolution)
 
-        with sentry_sdk.start_span(op="ocr.recognize", description=image):
+        with sentry_sdk.start_span(op="ocr.recognize", name=image):
             api.Recognize()
 
-        with sentry_sdk.start_span(op="ocr.iterate", description=image):
+        with sentry_sdk.start_span(op="ocr.iterate", name=image):
             iterator = api.GetIterator()
             level = RIL.TEXTLINE
             for r in iterate_level(iterator, level):
-                with sentry_sdk.start_span(op="ocr.text", description=image):
+                with sentry_sdk.start_span(op="ocr.text", name=image):
                     try:
                         yield r.GetUTF8Text(level)
                     except RuntimeError:
