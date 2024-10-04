@@ -91,7 +91,6 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
         return all(
             [
                 _glossary.stats.translated == 0,
-                len(_glossary.component.project.glossaries) > 1,
                 _glossary.component.repo == "local:",
             ]
         )
