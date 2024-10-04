@@ -6,25 +6,24 @@
 
 set -e
 
-if [ "$1" = "--help" ] || [ "$1" = "-h" ] ; then
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
     echo "Usage: ./scripts/create-release [--tag]"
     exit 1
 fi
 
-if ! git diff --exit-code --quiet ; then
+if ! git diff --exit-code --quiet; then
     echo "There are not committed changes!"
     exit 1
 fi
 
 DO_TAG=0
-if [ "$1" = "--tag" ] ; then
+if [ "$1" = "--tag" ]; then
     DO_TAG=1
     shift
 fi
 
-
 # What are we going to build?
-if [ "$DO_TAG" -eq 1 ] ; then
+if [ "$DO_TAG" -eq 1 ]; then
     ./scripts/prepare-release
 
     # Grab version

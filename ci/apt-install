@@ -53,7 +53,7 @@ apt-get install -y \
 apt-get install -y libleptonica-dev libtesseract-dev
 
 # Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
-if [ "$CI_DATABASE" = "mariadb" ] ; then
+if [ "$CI_DATABASE" = "mariadb" ]; then
     apt-get purge 'mysql-client.*'
     apt-get install -y mariadb-client
 fi

@@ -44,7 +44,6 @@ MSGCAT_FINAL_FLAGS=""
 # 3: Also show all status messages with timestamps
 VERBOSITY="${VERBOSITY:=0}"
 
-
 # Use logical names for arguments:
 BASE="$1"
 LOCAL="$2"
@@ -57,18 +56,17 @@ OUTPUT="$LOCAL"
 # smarter merging fails.
 
 TEMP_FILE="$(mktemp /tmp/merge-po.XXXXXX)"
-if git merge-file --stdout "$LOCAL" "$BASE" "$OTHER" > "$TEMP_FILE" ; then
-    cat "$TEMP_FILE" >  "$OUTPUT"
+if git merge-file --stdout "$LOCAL" "$BASE" "$OTHER" > "$TEMP_FILE"; then
+    cat "$TEMP_FILE" > "$OUTPUT"
     rm "$TEMP_FILE"
     exit 0
 fi
 rm "$TEMP_FILE"
 
-
 ##########################################################################
 # Fallback when gettext tools are not installed:
 
-if ! type msgmerge >/dev/null 2>&1 ; then
+if ! type msgmerge > /dev/null 2>&1; then
     # With Gettext PO files, you might get bit by conflicts in PO file
     # headers. To avoid it, you can use the this merge driver. Use it by
     # putting the following configuration in your .gitconfig:
@@ -98,17 +96,15 @@ fi
 # use names like "local" and "other" instead of e.g. "local.G2wZ.po".
 TEMP="$(mktemp -d /tmp/merge-po.XXXXXX)"
 
-
 # abort on any error and report the details if possible
 set -E
 set -e
 # shellcheck disable=SC2317  # shellcheck does not understand trap below
-on_error()
-{
+on_error() {
     local parent_lineno="$1"
     local code="$2"
     local message="$3"
-    if [[ -n "$message" ]] ; then
+    if [[ -n $message ]]; then
         printf "### $0: error near line %d: status %d: %s\n" "${parent_lineno}" "${code}" "${message}" 1>&2
     else
         printf "### $0: error near line %d: status %d\n" "${parent_lineno}" "${code}" 1>&2
@@ -117,12 +113,9 @@ on_error()
 }
 trap 'on_error ${LINENO} $?' ERR
 
-
 # Maybe print message(s) to stdout with timestamps
-function status()
-{
-    if test "$VERBOSITY" -ge 3
-    then
+function status() {
+    if test "$VERBOSITY" -ge 3; then
         printf "%s %s\n" "$(date '+%Y-%m-%d %H:%M:%S.%3N')" "$@"
     fi
 }
@@ -130,49 +123,43 @@ function status()
 # Quietly take translations from $1 and apply those according to template $2
 # (and do not use fuzzy-matching, always generate output)
 # also supports all flags to msgmerge
-function apply_po_template()
-{
+function apply_po_template() {
     msgmerge --force-po --quiet --no-fuzzy-matching "$@"
 }
 
 # Take stdin, remove the "graveyard strings" and emit the result to stdout
-function strip_graveyard()
-{
+function strip_graveyard() {
     msgattrib --no-obsolete
 }
 
 # Take stdin, keep only conflict lines and emit the result to stdout
-function only_conflicts()
-{
+function only_conflicts() {
     msggrep --msgstr -F -e '#-#-#-#-#' -
     # alternative slightly worse implementation: msgattrib --only-fuzzy
 }
 
 # Take stdin, discard conflict lines and emit the result to stdout
-function without_conflicts()
-{
+function without_conflicts() {
     msggrep -v --msgstr -F -e '#-#-#-#-#' -
     # alternative slightly worse implementation: msgattrib --no-fuzzy
 }
 
 # Select messages from $1 that are also in $2 but whose contents have changed
 # and emit results to stdout
-function extract_changes()
-{
+function extract_changes() {
     # Extract conflicting changes and discard any changes to graveyard area only
-    msgcat -o - "$1" "$2" \
-    | only_conflicts \
-    | apply_po_template -o - "$1" - \
-    | strip_graveyard
+    msgcat -o - "$1" "$2" |
+        only_conflicts |
+        apply_po_template -o - "$1" - |
+        strip_graveyard
 }
 
 # Emit only the header of $1, supports flags of msggrep
-function extract_header()
-{
+function extract_header() {
     # Unfortunately gettext really doesn't support extracting just header
     # so we have to get creative: extract only strings that originate
     # from file called "//" which should result to header only
-     msggrep --force-po -N // "$@"
+    msggrep --force-po -N // "$@"
 
     # Logically msggrep --force-po -v -K -E -e '.' should return the header
     # only but msggrep seems be buggy with msgids with line feeds and output
@@ -180,15 +167,13 @@ function extract_header()
 }
 
 # Take file in $1 and show conflicts with colors in the file to stdout
-function show_conflicts()
-{
+function show_conflicts() {
     filename="$1"
     shift
     # Count number of lines to remove from the output and output conflict lines without the header
     CONFLICT_HEADER_LINES=$(msggrep --force-po --msgstr -F -e '#-#-#-#-#' "$filename" | extract_header - | wc -l)
     CONFLICTS=$(msggrep --force-po --color --msgstr -F -e '#-#-#-#-#' "$filename" | tail -n "-$CONFLICT_HEADER_LINES")
-    if test -n "$CONFLICTS"
-    then
+    if test -n "$CONFLICTS"; then
         #echo "----------------------------"
         #echo "Conflicts after merge:"
         echo "----------------------------"
@@ -202,8 +187,7 @@ test -n "$TEMP" || exit 125
 test -d "$TEMP" || exit 126
 test -w "$TEMP" || exit 127
 
-if test "$VERBOSITY" -ge 1
-then
+if test "$VERBOSITY" -ge 1; then
     printf "Using gettext .PO merge driver: %s ...\n" "$FILENAME"
 fi
 
@@ -212,7 +196,6 @@ extract_header -o "${TEMP}/header" "$LOCAL"
 
 ##########################################################################
 # Following parts can be run partially parallel and "wait" is used to synchronize processing
-
 
 # Clean input files and use logical filenames for possible conflict markers:
 status "Canonicalizing input files ..."
@@ -233,7 +216,7 @@ msgcat --force-po -o - "${TEMP}/other-changes" "${TEMP}/local-changes" | only_co
 
 # Messages changed on local, not on other; and vice-versa:
 status "Computing local-only and other-only changes ..."
-msgcat --force-po -o "${TEMP}/local-only"  --unique "${TEMP}/local-changes"  "${TEMP}/conflicts" &
+msgcat --force-po -o "${TEMP}/local-only" --unique "${TEMP}/local-changes" "${TEMP}/conflicts" &
 msgcat --force-po -o "${TEMP}/other-only" --unique "${TEMP}/other-changes" "${TEMP}/conflicts" &
 wait
 
@@ -264,15 +247,12 @@ rmdir "${TEMP}"
 status "Checking for conflicts in the result ..."
 
 # Check for conflicts in the final merge
-if grep -q '#-#-#-#-#' "$OUTPUT"
-then
-    if test "$VERBOSITY" -ge 1
-    then
+if grep -q '#-#-#-#-#' "$OUTPUT"; then
+    if test "$VERBOSITY" -ge 1; then
         printf "### Conflict(s) detected ###\n"
     fi
 
-    if test "$VERBOSITY" -ge 2
-    then
+    if test "$VERBOSITY" -ge 2; then
         # Verbose diagnostics
         show_conflicts "$OUTPUT"
     fi
