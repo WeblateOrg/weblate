@@ -29,7 +29,7 @@ if CI_DATABASE in {"mysql", "mariadb"}:
         "isolation_level": "read committed",
     }
 elif CI_DATABASE == "postgresql":
-    DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
+    DATABASES["default"]["ENGINE"] = "weblate.utils.postgres_unlogged"
     default_user = "postgres"
 else:
     if not CI_DATABASE:
