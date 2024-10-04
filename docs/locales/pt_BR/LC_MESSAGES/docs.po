@@ -12,13 +12,14 @@
 # Jose Delvani <jsdelvani@users.noreply.hosted.weblate.org>, 2024.
 # alefsanderribeiro <alefsander.pvh14@gmail.com>, 2024.
 # Alefsander Ribeiro Nascimento <alefsander.pvh14@gmail.com>, 2024.
+# Alan Marques <asmasm97@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-24 08:14+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-10-04 23:48+0000\n"
+"Last-Translator: Alan Marques <asmasm97@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -10214,7 +10215,7 @@ msgstr "WEBLATE_MACHINERY"
 
 #: ../../admin/config.rst:2068
 msgid "List of machinery services available for use."
-msgstr "Lista de serviços de tradução disponíveis para uso."
+msgstr "Lista de serviços de maquinário disponíveis para uso."
 
 #: ../../admin/config.rst:2072
 msgid ":doc:`/admin/machine`"
@@ -10230,14 +10231,16 @@ msgstr ""
 "Identidade usada pelo Weblate para assinar os commits Git, por exemplo:"
 
 #: ../../admin/config.rst:2085
+#, fuzzy
 msgid ""
 "The Weblate GPG keyring is searched for a matching key (:file:`home/.gnupg` "
 "under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
 "ref:`gpg-sign` for more details."
 msgstr ""
-"O chaveiro GPG do Weblate é pesquisado por uma chave correspondente (:file:"
-"`home/.gnupg` em :setting:`DATA_DIR`). Se não for encontrado, uma chave é "
-"gerada. Consulte :ref:`gpg-sign` para mais detalhes."
+"O repositório de chaves GPG do Weblate é pesquisado por uma chave "
+"correspondente (:file:`home/.gnupg` em :setting:`DATA_DIR`). Se não for "
+"encontrado, uma chave é gerada, por favor consulte :ref:`gpg-sign` para mais "
+"detalhes."
 
 #: ../../admin/config.rst:2091 ../../admin/install/docker.rst:827
 msgid ":ref:`gpg-sign`"
@@ -10257,7 +10260,7 @@ msgstr ""
 
 #: ../../admin/config.rst:2105
 msgid "Configuring version control credentials"
-msgstr "Configuração de credenciais para controle de versão"
+msgstr "Configurando credenciais para controle de versão"
 
 #: ../../admin/config.rst:2109
 msgid ""
@@ -10277,6 +10280,9 @@ msgid ""
 "`component-repo` (if push URL is not configured), these take precedence over "
 "the ones specified in the configuration file."
 msgstr ""
+"As credenciais também podem ser substituídas em :ref:`component-push` ou :ref"
+":`component-repo` (se o URL de push não estiver configurado), elas têm "
+"precedência sobre as especificadas no arquivo de configuração."
 
 #: ../../admin/config.rst:2125
 msgid "API user, required."
@@ -10381,7 +10387,7 @@ msgid ""
 "Upstream code hosting is not necessary, you can use Weblate with :ref:`vcs-"
 "local` where there is only the repository inside Weblate."
 msgstr ""
-"Hospedagem de código upstream não é necessária, você pode usar o Weblate "
+"A hospedagem de código upstream não é necessária, você pode usar o Weblate "
 "com :ref:`vcs-local` onde há apenas o repositório dentro do Weblate."
 
 #: ../../admin/continuous.rst:79
@@ -18044,6 +18050,10 @@ msgid ""
 "quality. Read more on that in `DeepL translation context documentatin "
 "<https://developers.deepl.com/docs/best-practices/working-with-context>`_."
 msgstr ""
+"O contexto de tradução pode ser opcionalmente especificado para melhorar a "
+"qualidade das traduções. Leia mais sobre isso em `DeepL translation context "
+"documentatin <https://developers.deepl.com/docs/best-practices/working-with-"
+"context>`_."
 
 #: ../../admin/machine.rst:188
 msgid ""
@@ -18442,10 +18452,8 @@ msgstr ""
 "access-token>`_"
 
 #: ../../admin/machine.rst:389
-#, fuzzy
-#| msgid "OpenAI"
 msgid "Azure OpenAI"
-msgstr "OpenAI"
+msgstr "Azure OpenAI"
 
 #: ../../admin/machine.rst:393
 msgid "``azure-openai``"
@@ -27081,12 +27089,16 @@ msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
+":ref:`Searching`agora suporta filtragem por caminho de objeto e:ref:`date-"
+"search`."
 
 #: ../../changes.rst:9
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, see :ref:"
 "`settings-credentials`."
 msgstr ""
+"As credenciais das requests de merge agora podem ser passadas na URL do "
+"repositório, consulte :ref:`settings-credentials`."
 
 #: ../../changes.rst:10
 #, fuzzy
@@ -27125,6 +27137,7 @@ msgstr ":ref:`mt-microsoft-translator` suporta o :ref:`glossário-mt`."
 #: ../../changes.rst:17
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
 msgstr ""
+":ref:`autofix` para Devanagari danda agora lida melhor com escrita latina."
 
 #: ../../changes.rst:19 ../../changes.rst:47 ../../changes.rst:72
 #: ../../changes.rst:118 ../../changes.rst:151 ../../changes.rst:176
@@ -27267,6 +27280,10 @@ msgid ""
 "Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
 "Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 msgstr ""
+"Christian Wia, Ihor Hordiichuk, Hanaa MSB, Hoseok Seo, پرویز قادر, Reno Tx, "
+"Jose Delvani, Artemka, Blueberry, Elisabeth Pieringer, VfBFan, ɴᴇᴋᴏ, Andi "
+"Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
+"Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
@@ -28791,10 +28808,12 @@ msgid ""
 ":ref:`project-translation_review` also shows the approval percentage in "
 "object listings."
 msgstr ""
+":ref:`project-translation_review` também mostra a porcentagem de aprovação "
+"em listagens de objetos."
 
 #: ../../changes.rst:654
 msgid "Project is added to watched upon accepting an invitation."
-msgstr ""
+msgstr "O projeto é adicionado aos monitorados ao aceitar um convite."
 
 #: ../../changes.rst:655
 #, fuzzy
