@@ -31,6 +31,7 @@ Not yet released.
 **Compatibility**
 
 * Weblate now requires Python 3.11 or newer.
+* :ref:`mt-aws` now requires the `TranslateFullAccess` permission
 
 **Upgrading**
 
