@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-20 19:19+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-10-04 23:48+0000\n"
+"Last-Translator: Luna <social.pvxuu@slmail.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
 "Language: da\n"
@@ -339,14 +339,12 @@ msgid "Add team"
 msgstr "Tilføj team"
 
 #: weblate/accounts/forms.py:954
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Name your authentication app"
-msgstr "Navnet på oversættelsen"
+msgstr "Navngiv din godkendelsesapp"
 
 #: weblate/accounts/forms.py:957
 msgid "Verify the code from the app"
-msgstr ""
+msgstr "Godkend koden fra appen"
 
 #: weblate/accounts/forms.py:971
 #, fuzzy
@@ -356,16 +354,18 @@ msgstr "Oversættelsen er ikke gyldig XML"
 
 #: weblate/accounts/forms.py:1039
 msgid "Recovery token"
-msgstr ""
+msgstr "Gendannelsestoken"
 
 #: weblate/accounts/forms.py:1041
 msgid ""
 "Recovery token can be used just once, mark your token as used after using it."
 msgstr ""
+"Gendannelsestoken kan kun bruges én gang. Markér din token som brugt efter "
+"brug."
 
 #: weblate/accounts/forms.py:1098
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "Indtast koden fra appen"
 
 #: weblate/accounts/models.py:167
 msgid "Password changed."
@@ -501,26 +501,26 @@ msgstr "Bruger blev fjernet fra {team} teamet af {username}."
 
 #: weblate/accounts/models.py:201
 msgid "Two-factor authentication recovery codes were generated"
-msgstr ""
+msgstr "Gendannelseskoder til tofaktorgodkendelse blev genereret"
 
 #: weblate/accounts/models.py:204
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr ""
+msgstr "Gendannelseskoder til tofaktorgodkendelse blev set"
 
 #: weblate/accounts/models.py:206
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "Tofaktorgodkendelse tilføjet: {device}"
 
 #: weblate/accounts/models.py:207
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "Tofaktorgodkendelse fjernet: {device}"
 
 #: weblate/accounts/models.py:208
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "Login med tofaktorgodkendelse via {device}"
 
 #: weblate/accounts/models.py:213
 msgid "Configured password to sign in."
@@ -874,18 +874,14 @@ msgid "Suggestion was added"
 msgstr "Forslag blev tilføjet"
 
 #: weblate/accounts/notifications.py:557
-#, fuzzy
-#| msgid "Message is translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "Besked er oversat"
+msgstr "Sprog blev oversat"
 
 #: weblate/accounts/notifications.py:565
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "Importér som oversat"
+msgstr "Komponent blev oversat"
 
 #: weblate/accounts/notifications.py:573
 msgctxt "Notification name"
@@ -999,29 +995,25 @@ msgstr ""
 
 #: weblate/accounts/templatetags/authnames.py:53
 msgid "Use security key (WebAuthn)"
-msgstr ""
+msgstr "Brug sikkerhedsnøgle (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "Godkendelse"
+msgstr "Brug godkendelsesapp (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
-msgstr ""
+msgstr "Brug gendannelseskoder"
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "Sikkerhedspolitik"
+msgstr "Sikkerhedsnøgle (%s)"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Godkendelse"
+msgstr "Godkendelsesapp (%s)"
 
 #: weblate/accounts/views.py:205 weblate/accounts/views.py:1046
 #: weblate/accounts/views.py:1112 weblate/templates/accounts/reset.html:7
@@ -1105,10 +1097,8 @@ msgid "Sign in"
 msgstr "Log ind"
 
 #: weblate/accounts/views.py:869
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "Log ud"
+msgstr "Logget ud"
 
 #: weblate/accounts/views.py:975
 msgid "Register e-mail"
@@ -1137,10 +1127,9 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr "Tilføj en anden identitet ved først at bekræfte din e-mailadresse."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "Kunne ikke generere nøgle: %s"
+msgstr "Kunne ikke godkende: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -1220,26 +1209,22 @@ msgstr ""
 "konfigurere underretninger."
 
 #: weblate/accounts/views.py:1649
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
-msgstr "Brugerinvitation blev fjernet."
+msgstr "Sikkerhedsnøglen blev fjernet."
 
 #: weblate/accounts/views.py:1650
 #, python-format
 msgid "The security key %s was registered."
-msgstr ""
+msgstr "Sikkerhedsnøglen %s blev registreret."
 
 #: weblate/accounts/views.py:1687
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "Brugerinvitation blev fjernet."
+msgstr "Godkendelsesappen blev fjernet."
 
 #: weblate/accounts/views.py:1688
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "Godkendelsesappen %s blev registreret."
 
 #: weblate/accounts/views.py:1821
 #, fuzzy
@@ -2728,7 +2713,7 @@ msgstr "Kan ikke udføre denne handling uden en e-mailadresse."
 msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
-msgstr ""
+msgstr "Dette projekt kræver tofaktorgodkendelse; konfigurer det i din profil."
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:175
 #: weblate/templates/translate.html:231
@@ -3717,16 +3702,12 @@ msgid "C format string does not match source"
 msgstr "C-formatstrengen matcher ikke kilden"
 
 #: weblate/checks/format.py:532
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "Perl-formateret"
+msgstr "Perl brace-format"
 
 #: weblate/checks/format.py:533
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl brace format string does not match source"
-msgstr "Perl-formateret streng matcher ikke kilden"
+msgstr "Perl brace-formateret streng matcher ikke kilden"
 
 #: weblate/checks/format.py:545
 msgid "Perl format"
@@ -4473,7 +4454,7 @@ msgstr "INI-fil"
 
 #: weblate/formats/ttkit.py:1875
 msgid "Inno Setup INI file"
-msgstr ""
+msgstr "Inno Setup INI-fil"
 
 #: weblate/formats/ttkit.py:2044
 msgid "TermBase eXchange file"
