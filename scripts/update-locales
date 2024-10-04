@@ -9,7 +9,6 @@
 # Exit on failure
 set -e
 
-
 . scripts/test-database.sh
 
 version=$(python -c 'import weblate.utils.version; print(weblate.utils.version.VERSION_BASE)')
@@ -17,7 +16,7 @@ version=$(python -c 'import weblate.utils.version; print(weblate.utils.version.V
 COMPONENTS="weblate/application weblate/javascript weblate/documentation"
 
 do_wlc() {
-    for component in $COMPONENTS ; do
+    for component in $COMPONENTS; do
         wlc "$1" "$component"
     done
 }
@@ -43,11 +42,11 @@ find weblate/locale -type d -empty -delete
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs
 
 # Include translations from Django
-for locale in weblate/locale/*/LC_MESSAGES/django.po ; do
+for locale in weblate/locale/*/LC_MESSAGES/django.po; do
     code=${locale#weblate/locale/}
     code=${code%/LC_MESSAGES/django.po}
     file=~/work/django/django/conf/locale/$code/LC_MESSAGES/django.po
-    if [ -f "$file" ] ; then
+    if [ -f "$file" ]; then
         msgmerge --previous -C "$file" -U "$locale" weblate/locale/django.pot
     fi
 done

@@ -6,12 +6,10 @@
 
 set -e
 
-if ! command -v dot &> /dev/null
-then
+if ! command -v dot &> /dev/null; then
     echo "dot command could not be found, please install graphviz"
     exit 1
 fi
-
 
 # Build documentation with warnings treated as errors
 make -C docs "${1:-html}" SPHINXOPTS='-n -W -a --keep-going'
