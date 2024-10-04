@@ -20,7 +20,6 @@ from django.utils.http import escape_leading_slashes
 from django.utils.translation import gettext_lazy
 from social_core.backends.oauth import OAuthAuth
 from social_core.backends.open_id import OpenIdAuth
-from social_core.backends.saml import SAMLAuth
 from social_django.utils import load_strategy
 
 from weblate.auth.models import AuthenticatedHttpRequest, get_auth_backends
@@ -440,7 +439,12 @@ class CSPBuilder:
                     urls = [backend(social_strategy).authorization_url()]
 
                 # Handle SAML redirect flow
-                if issubclass(backend, SAMLAuth):
+                if hasattr(backend, "get_idp"):
+                    # Lazily import here to avoid pulling in xmlsec
+                    from social_core.backends.saml import SAMLAuth
+
+                    assert issubclass(backend, SAMLAuth)  # noqa: S101
+
                     saml_auth = backend(social_strategy)
                     urls = [
                         saml_auth.get_idp(idp_name).sso_url
