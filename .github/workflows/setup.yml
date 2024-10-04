@@ -107,9 +107,8 @@ jobs:
     - name: Install Python dependencies
       run: |
         uv pip install --system $(sed -n 's/.*"\(twine==\([^"]*\)\)".*/\1/p' pyproject.toml)
-        uv pip install --system $(sed -n 's/.*"\(build==\([^"]*\)\)".*/\1/p' pyproject.toml)
     - name: build
-      run: python -m build
+      run: uv build
     - name: Twine check
       run: twine check dist/*
     - name: Sign the dists with Sigstore
@@ -173,8 +172,8 @@ jobs:
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
       run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delete
-    - name: Publish package distributions to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+    - uses: astral-sh/setup-uv@v3
+    - run: uv publish --trusted-publishing always
 
   publish_github:
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
