@@ -428,14 +428,32 @@ class CSPBuilder:
             else:
                 social_strategy = load_strategy(self.request)
             for backend in get_auth_backends().values():
-                url = ""
+                urls: list[str] = []
+
                 # Handle OpenId redirect flow
                 if issubclass(backend, OpenIdAuth):
-                    url = backend(social_strategy).openid_url()
+                    urls = [backend(social_strategy).openid_url()]
+
                 # Handle OAuth redirect flow
                 if issubclass(backend, OAuthAuth):
-                    url = backend(social_strategy).authorization_url()
-                if url:
+                    urls = [backend(social_strategy).authorization_url()]
+
+                # Handle SAML redirect flow
+                if hasattr(backend, "get_idp"):
+                    # Lazily import here to avoid pulling in xmlsec
+                    from social_core.backends.saml import SAMLAuth
+
+                    assert issubclass(backend, SAMLAuth)  # noqa: S101
+
+                    saml_auth = backend(social_strategy)
+                    urls = [
+                        saml_auth.get_idp(idp_name).sso_url
+                        for idp_name in getattr(
+                            settings, "SOCIAL_AUTH_SAML_ENABLED_IDPS", {}
+                        )
+                    ]
+
+                for url in urls:
                     self.add_csp_host(url, "form-action")
 
 

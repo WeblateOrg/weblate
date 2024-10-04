@@ -12,11 +12,20 @@ spaces_around_operators = true
 [*.bat]
 end_of_line = crlf
 
-[*.{py,rst,sh}]
+[*.py]
 indent_size = 4
 
-[*.{js}]
+[*.rst]
+indent_size = 3
+
+[*.js]
 quote_type = double
 
 [*.{markdown,md}]
 trim_trailing_whitespace = false
+
+[[shell]]
+indent_style = space
+indent_size = 4
+space_redirects = true
+simplify = true

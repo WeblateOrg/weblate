@@ -1293,6 +1293,53 @@ class GlobalStats(ParentAggregatingStats):
             for language in Language.objects.have_translation()
         )
 
+    # The following fields are used in MetricsSerializer in API
+    def get_languages(self):
+        return Language.objects.count()
+
+    def get_users(self):
+        from weblate.auth.models import User
+
+        return User.objects.count()
+
+    def get_projects(self):
+        from weblate.trans.models import Project
+
+        return Project.objects.count()
+
+    def get_components(self):
+        from weblate.trans.models import Component
+
+        return Component.objects.count()
+
+    def get_translations(self):
+        from weblate.trans.models import Translation
+
+        return Translation.objects.count()
+
+    def get_checks(self):
+        from weblate.checks.models import Check
+
+        return Check.objects.count()
+
+    def get_configuration_errors(self):
+        from weblate.wladmin.models import ConfigurationError
+
+        return ConfigurationError.objects.filter(ignored=False).count()
+
+    def get_suggestions(self):
+        from weblate.trans.models import Suggestion
+
+        return Suggestion.objects.count()
+
+    def get_celery_queues(self):
+        from weblate.utils.celery import get_queue_stats
+
+        return get_queue_stats()
+
+    def get_name(self):
+        return settings.SITE_TITLE
+
 
 class GhostStats(BaseStats):
     basic_keys = SOURCE_KEYS

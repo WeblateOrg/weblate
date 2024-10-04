@@ -1653,15 +1653,6 @@ class ComponentSettingsForm(
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
 
-        if (
-            self.instance
-            and self.instance.key_filter
-            and not self.instance.file_format_cls.monolingual
-        ):
-            raise ValidationError(
-                gettext("To use the key filter, the file format must be monolingual.")
-            )
-
 
 class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
     """Component creation form."""

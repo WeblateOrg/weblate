@@ -21,6 +21,8 @@ Not yet released.
 * :ref:`api` now has a preview OpenAPI specification.
 * Stale, empty glossaries are now automatically removed.
 * :kbd:`?` now displays available :ref:`keyboard`.
+* Translation and language view in the project now include basic information about the language and plurals.
+* :ref:`bulk-edit` shows a preview of matched strings.
 
 **Bug fixes**
 
