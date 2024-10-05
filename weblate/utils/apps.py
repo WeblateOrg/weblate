@@ -17,6 +17,7 @@ from django.apps import AppConfig
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import CheckMessage, Error, Info, register
+from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import get_connection
 from django.db import DatabaseError
 from django.db.models import CharField, TextField
@@ -27,6 +28,7 @@ from packaging.version import Version
 
 from .celery import is_celery_queue_long
 from .checks import weblate_check
+from .classloader import ClassLoader
 from .data import data_dir
 from .db import (
     MySQLSearchLookup,
@@ -280,6 +282,22 @@ def check_settings(
 
     if not settings.ALLOWED_HOSTS:
         errors.append(weblate_check("weblate.E015", "No allowed hosts are set up"))
+    return errors
+
+
+@register(deploy=True)
+def check_class_loader(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
+    errors: list[CheckMessage] = []
+    for instance in ClassLoader.instances.values():
+        try:
+            instance.load_data()
+        except ImproperlyConfigured as error:
+            errors.append(weblate_check("weblate.E028", str(error)))
     return errors
 
 
