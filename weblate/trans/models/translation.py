@@ -1213,6 +1213,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 split_plural(unit.source),
                 split_plural(unit.target) if not self.is_source else [],
                 is_batch_update=True,
+                state=STATE_READONLY if unit.is_readonly() else None,
             )
             existing.add(idkey)
             accepted += 1
