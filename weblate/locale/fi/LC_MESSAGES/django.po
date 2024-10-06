@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-10-04 23:48+0000\n"
+"PO-Revision-Date: 2024-10-06 23:36+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
@@ -5481,7 +5481,7 @@ msgstr ""
 #: weblate/templates/403_csrf.html:22
 #, fuzzy, python-format
 msgid "CSRF failure reason: %(reason)s"
-msgstr "CSRF-virheen syyt: %(reason)"
+msgstr "CSRF-virheen syy: %(reason)"
 
 #: weblate/templates/404.html:5 weblate/templates/404.html:11
 #: weblate/trans/views/error.py:33
@@ -5531,10 +5531,8 @@ msgid "Welcome and thank you for supporting Weblate"
 msgstr "Tervetuloa ja kiitos Weblate-tuesta"
 
 #: weblate/templates/about/donate.html:20
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for choosing Weblate"
-msgstr "Kiitoksia Weblaten käyttämisestä."
+msgstr "Tervetuloa ja kiitos Weblaten valitsemisesta"
 
 #: weblate/templates/about/donate.html:23
 msgid ""
@@ -5722,11 +5720,11 @@ msgid "Confirm"
 msgstr "Vahvista"
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s server here."
 msgstr ""
-"Täällä voit ottaa yhteyttä vain sivun %(site_title)s järjestelmänvalvojiin."
+"Täällä voit ottaa yhteyttä vain palvelimen %(site_title)s "
+"järjestelmänvalvojiin."
 
 #: weblate/templates/accounts/contact.html:19
 msgid "You can only contact administrators of the whole server here."
@@ -6456,7 +6454,7 @@ msgstr ""
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
-msgstr ""
+msgstr "Lue QR-koodi"
 
 #: weblate/templates/accounts/totp.html:37
 msgid "You can also enter the secret key manually:"
@@ -6664,10 +6662,8 @@ msgid "None"
 msgstr "Ei mitään"
 
 #: weblate/templates/accounts/user.html:310
-#, fuzzy
-#| msgid "Remove user from this group"
 msgid "Remove user from this team"
-msgstr "Poista käyttäjä tästä ryhmästä"
+msgstr "Poista käyttäjä tästä tiimistä"
 
 #: weblate/templates/accounts/user.html:321
 #: weblate/templates/trans/project-access.html:65
@@ -6686,11 +6682,8 @@ msgid "Unblock user"
 msgstr "Poista käyttäjän esto"
 
 #: weblate/templates/accounts/user.html:342
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit user"
-msgstr "Muokkaa lähdetekstiä"
+msgstr "Muokkaa käyttäjää"
 
 #: weblate/templates/accounts/user.html:359
 #, fuzzy
@@ -6709,10 +6702,8 @@ msgid "Disable two-factor authentication"
 msgstr ""
 
 #: weblate/templates/accounts/user.html:373
-#, fuzzy
-#| msgid "Account removal deletes all your private data."
 msgid "Account removal deletes all user private data."
-msgstr "Käyttäjätilin poistaminen tuhoaa kaikki yksityiset tietosi."
+msgstr "Käyttäjätilin poistaminen tuhoaa kaikki käyttäjän yksityiset tiedot."
 
 #: weblate/templates/accounts/user.html:376
 #: weblate/templates/accounts/user.html:390
@@ -6799,10 +6790,8 @@ msgid "Configure add-on"
 msgstr "Määrittele lisäosa"
 
 #: weblate/templates/addons/addon_detail.html:44
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
-msgstr "Tämä lisäosa ajaa skriptin."
+msgstr "Tällä lisäosalla ei ole asetuksia."
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
@@ -6857,23 +6846,19 @@ msgid "No add-ons currently installed"
 msgstr "Asennettuja lisäosia ei ole."
 
 #: weblate/templates/addons/addon_list.html:33
-#, fuzzy, python-format
-#| msgid "Installed add-ons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "Asennetut lisäosat"
-msgstr[1] "Asennetut lisäosat"
+msgstr[0] "Yksi lisäosa asennettu"
+msgstr[1] "%(count)s lisäosaa asennettu"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "Uninstall"
 msgstr "Poista asennus"
 
 #: weblate/templates/addons/addon_list.html:45
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Viewers"
 msgid "View Logs"
-msgstr "Katselijat"
+msgstr "Näytä lokit"
 
 #: weblate/templates/addons/addon_list.html:47 weblate/templates/guide.html:55
 #: weblate/templates/machinery/list.html:41
@@ -6923,10 +6908,8 @@ msgstr ""
 "Jotkut lisäosat pyytävät määrittelemään lisäasetuksia asennuksen aikana."
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Browse all add-on changes"
-msgstr "Selaa kaikkia kielen muutoksia"
+msgstr "Selaa kaikkia lisäosien muutoksia"
 
 #: weblate/templates/addons/addon_logs.html:27
 #, fuzzy
