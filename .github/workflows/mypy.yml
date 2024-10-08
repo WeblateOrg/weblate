@@ -65,8 +65,8 @@ jobs:
       if: always()
       run: |
         echo "::add-matcher::.github/matchers/mypy.json"
-        if [ -f changed-files.txt ] ; then
-          grep -F -f changed-files.txt mypy.log
+        if [ -f changed-files.txt ] && grep --silent --fixed-strings --file=changed-files.txt mypy.log ; then
+          grep --fixed-strings --file=changed-files.txt mypy.log
         else
           cat mypy.log
         fi
