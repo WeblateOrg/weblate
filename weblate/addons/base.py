@@ -437,9 +437,10 @@ class UpdateBaseAddon(BaseAddon):
         self, component: Component, previous_head: str, skip_push: bool
     ) -> None:
         # Ignore file parse error, it will be properly tracked as an alert
-        with suppress(FileParseError):
-            self.update_translations(component, previous_head)
-        self.commit_and_push(component, skip_push=skip_push)
+        with component.repository.lock:
+            with suppress(FileParseError):
+                self.update_translations(component, previous_head)
+            self.commit_and_push(component, skip_push=skip_push)
 
 
 class StoreBaseAddon(BaseAddon):
