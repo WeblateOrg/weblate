@@ -106,10 +106,12 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from datetime import datetime
 
     from weblate.addons.models import Addon
     from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.checks.base import BaseCheck
     from weblate.trans.models import Unit
 
 NEW_LANG_CHOICES = (
@@ -3747,7 +3749,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             for glossary in self.project.glossaries:
                 sync_glossary_languages.delay(glossary.pk)
 
-    def get_unused_enforcements(self):
+    def get_unused_enforcements(self) -> Iterable[dict | BaseCheck]:
         from weblate.trans.models import Unit
 
         for current in self.enforced_checks:
@@ -3755,6 +3757,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 check = CHECKS[current]
             except KeyError:
                 yield {"name": current, "notsupported": True}
+                continue
             # Check is always enabled
             if not check.default_disabled:
                 continue
