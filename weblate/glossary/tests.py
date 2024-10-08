@@ -478,26 +478,19 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         self.assertTrue(all(len(line) == 2 for line in lines))
 
     def test_stale_glossaries_cleanup(self) -> None:
+        # setup: make glossary managed outside weblate
+        self.glossary_component.repo = "git://example.com/test/project.git"
+        self.glossary_component.save()
+
         initial_count = self.glossary_component.translation_set.count()
 
         # check glossary not deleted because it has a valid translation
         cleanup_stale_glossaries(self.project.id)
         self.assertEqual(self.glossary_component.translation_set.count(), initial_count)
 
-        # delete translation
+        # delete translation: should trigger cleanup_stale_glossary task
         german = Language.objects.get(code="de")
         self.component.translation_set.get(language=german).remove(self.user)
-
-        # check glossary not deleted because project only has one glossary
-        cleanup_stale_glossaries(self.project.id)
-        self.assertEqual(self.glossary_component.translation_set.count(), initial_count)
-        self._create_component(
-            "po", "po/*.po", project=self.project, is_glossary=True, name="Glossary-2"
-        )
-
-        # check glossary not deleted because glossary is managed outside weblate
-        self.glossary_component.repo = "git://example.com/test/project.git"
-        self.glossary_component.save()
 
         cleanup_stale_glossaries(self.project.id)
         self.assertEqual(self.glossary_component.translation_set.count(), initial_count)
