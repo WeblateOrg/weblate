@@ -1850,6 +1850,13 @@ class ComponentDocCreateForm(ComponentProjectForm):
         validators=[validate_file_extension],
     )
 
+    target_language = forms.ModelChoiceField(
+        widget=SortedSelect,
+        label=gettext_lazy("Target language"),
+        help_text=gettext_lazy("Target language of the document for bilingual files"),
+        queryset=Language.objects.all(),
+        required=False,
+    )
     field_order = ["docfile", "project", "name", "slug"]
 
     def __init__(self, *args, **kwargs) -> None:
