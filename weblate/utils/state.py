@@ -18,7 +18,7 @@ class StringState(IntegerChoices):
     STATE_FUZZY = 10, pgettext_lazy("String state", "Needs editing")
     STATE_TRANSLATED = 20, pgettext_lazy("String state", "Translated")
     STATE_APPROVED = 30, pgettext_lazy("String state", "Approved")
-    STATE_READONLY = 100, pgettext_lazy("String state", "Read only")
+    STATE_READONLY = 100, pgettext_lazy("String state", "Read-only")
 
 
 STATE_EMPTY = StringState.STATE_EMPTY
