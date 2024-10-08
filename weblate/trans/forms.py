@@ -1654,6 +1654,12 @@ class ComponentSettingsForm(
 class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
     """Component creation form."""
 
+    source_component = forms.ModelChoiceField(
+        queryset=Component.objects.none(),
+        required=False,
+        widget=forms.HiddenInput(),
+    )
+
     class Meta:
         model = Component
         fields = [
@@ -1679,26 +1685,10 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             "language_regex",
             "source_language",
             "is_glossary",
-            "agreement",
-            "merge_style",
-            "commit_message",
-            "add_message",
-            "delete_message",
-            "merge_message",
-            "addon_message",
-            "pull_message",
         ]
         widgets = {
             "source_language": SortedSelect,
             "language_code_style": SortedSelect,
-            "agreement": forms.HiddenInput(),
-            "merge_style": forms.HiddenInput(),
-            "commit_message": forms.HiddenInput(),
-            "add_message": forms.HiddenInput(),
-            "delete_message": forms.HiddenInput(),
-            "merge_message": forms.HiddenInput(),
-            "addon_message": forms.HiddenInput(),
-            "pull_message": forms.HiddenInput(),
         }
 
 

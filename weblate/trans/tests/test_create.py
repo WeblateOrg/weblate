@@ -181,14 +181,27 @@ class CreateTest(ViewTestCase):
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_existing(self) -> None:
+        from weblate.trans.models import Component
+
         # Make superuser
         self.user.is_superuser = True
         self.user.save()
+
+        self.component.agreement = "test agreement"
+        self.component.merge_style = "merge"
+        self.component.commit_message = "test commit_message"
+        self.component.add_message = "test add_message"
+        self.component.delete_message = "test delete_message"
+        self.component.merge_message = "test merge_message"
+        self.component.addon_message = "test addon_message"
+        self.component.pull_message = "test pull_message"
+        self.component.save()
 
         response = self.client.get(
             reverse("create-component") + f"?component={self.component.pk}#existing",
             follow=True,
         )
+        # init step
         self.assertContains(response, "Create component")
 
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
@@ -210,6 +223,65 @@ class CreateTest(ViewTestCase):
             "vcs",
             "source_language",
             "license",
+        ]
+        for field in expected_query_strings:
+            if component_value := getattr(self.component, field):
+                if field == "source_language":
+                    component_value = str(component_value.id)
+                self.assertEqual(parsed_query[field][0], component_value)
+
+        self.assertEqual(parsed_query["source_component"][0], str(self.component.pk))
+
+        # discovery step
+        self.assertContains(response, "Choose translation files to import")
+
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component-vcs")
+                + f"?source_component={self.component.pk}#existing,",
+                {
+                    "name": "Create Component From Existing",
+                    "slug": "create-component-from-existing",
+                    "is_glossary": self.component.is_glossary,
+                    "project": self.component.project_id,
+                    "vcs": self.component.vcs,
+                    "repo": self.component.repo,
+                    "discovery": 28,  # deep/*/locales/*/LC_MESSAGES/messages.po
+                    "source_language": self.component.source_language_id,
+                },
+                follow=True,
+            )
+        self.assertContains(
+            response,
+            "You will be able to edit more options in the component settings after creating it.",
+        )
+
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component-vcs")
+                + f"?source_component={self.component.pk}#existing,",
+                {
+                    "name": "Create Component From Existing",
+                    "slug": "create-component-from-existing",
+                    "is_glossary": self.component.is_glossary,
+                    "project": self.component.project_id,
+                    "vcs": self.component.vcs,
+                    "repo": self.component.repo,
+                    "source_language": self.component.source_language_id,
+                    "file_format": "po",
+                    "filemask": "deep/*/locales/*/LC_MESSAGES/messages.po",
+                    "new_lang": "add",
+                    "new_base": "deep/cs/locales/cs/LC_MESSAGES/messages.po",
+                    "language_regex": "^[^.]+$",
+                    "source_component": self.component.pk,
+                },
+                follow=True,
+            )
+        self.assertContains(response, "Community localization checklist")
+        self.assertContains(response, "Test/Create Component From Existing @ Weblate")
+
+        new_component = Component.objects.get(name="Create Component From Existing")
+        cloned_fields = [
             "agreement",
             "merge_style",
             "commit_message",
@@ -219,11 +291,10 @@ class CreateTest(ViewTestCase):
             "addon_message",
             "pull_message",
         ]
-        for field in expected_query_strings:
-            if component_value := getattr(self.component, field):
-                if field == "source_language":
-                    component_value = str(component_value.id)
-                self.assertEqual(parsed_query[field][0], component_value)
+        for field in cloned_fields:
+            self.assertEqual(
+                getattr(new_component, field), getattr(self.component, field)
+            )
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_branch_fail(self) -> None:

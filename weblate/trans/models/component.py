@@ -628,7 +628,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             "please consult the documentation for more details."
         ),
         validators=[validate_render_commit],
-        blank=True,
         default=settings.DEFAULT_COMMIT_MESSAGE,
     )
     add_message = models.TextField(
