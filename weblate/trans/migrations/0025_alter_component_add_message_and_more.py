@@ -11,7 +11,7 @@ import weblate.utils.render
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0023_alter_label_description"),
+        ("trans", "0024_component_key_filter"),
     ]
 
     operations = [
