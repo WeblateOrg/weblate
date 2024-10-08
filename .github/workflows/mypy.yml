@@ -34,14 +34,11 @@ jobs:
       env:
         ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
       run: |
+        touch changed-files.txt
         for file in ${ALL_CHANGED_FILES}; do
           echo "$file" >> changed-files.txt
         done
-        if [ ! -f changed-files.txt ] ; then
-          echo "No changed files!"
-        else
-          cat changed-files.txt
-        fi
+        cat changed-files.txt
 
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
@@ -66,7 +63,9 @@ jobs:
       run: |
         echo "::add-matcher::.github/matchers/mypy.json"
         if [ -f changed-files.txt ] ; then
-          grep -F -f changed-files.txt mypy.log
+          if grep --silent --fixed-strings --file=changed-files.txt mypy.log ; then
+            grep --fixed-strings --file=changed-files.txt mypy.log
+          fi
         else
           cat mypy.log
         fi

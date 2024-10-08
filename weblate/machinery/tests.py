@@ -544,6 +544,16 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
+    def test_validate_settings(self):
+        self.mock_response()
+        machine = self.get_machine()
+        machine.validate_settings()
+        self.assertEqual(len(responses.calls), 2)
+        _, call_2 = responses.calls
+        self.assertIn("langpair", call_2.request.params)
+        self.assertEqual("eng|spa", call_2.request.params["langpair"])
+
+    @responses.activate
     def test_translations_cache(self) -> None:
         self.mock_response()
         machine = self.MACHINE_CLS(self.CONFIGURATION)

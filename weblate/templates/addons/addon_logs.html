@@ -51,7 +51,7 @@
               {{ log.get_event_display }}
             </td>
             <td>{{ log.details.result }}</td>
-            <td>{{ log.created|date:"Y-m-d H:i" }}</td>
+            <td>{{ log.created|naturaltime }}</td>
           </tr>
         {% empty %}
           <tr>
