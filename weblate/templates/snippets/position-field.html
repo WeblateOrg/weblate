@@ -12,14 +12,14 @@
       <a id="button-prev" class="btn btn-default green disabled" title="{% trans "Previous" %}">{% if LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>
     {% endif %}
   {% endif %}
-    <div class="btn btn-default" id="position-input" title="{% trans "Click to edit position" %}">
+    <div class="btn btn-default position-input" title="{% trans "Click to edit position" %}">
       {% if filter_pos %}
         {% blocktrans with filter_pos=filter_pos|intcomma filter_count=filter_count|intcomma %}{{ filter_pos }} / {{ filter_count }}{% endblocktrans %}
       {% else %}
         {% blocktrans count cnt=filter_count with count=filter_count|intcomma %}{{ count }} string{% plural %}{{ count }} strings{% endblocktrans %}
       {% endif %}
     </div>
-    <div class="btn btn-default" id="position-input-editable" title="{% trans "Go to position" %}" >
+    <div class="btn btn-default position-input-editable" title="{% trans "Go to position" %}" >
           <div class="input-group">
             <input type="hidden" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Jump to" %}" id="position-input-editable-input">
             <span class="input-group-addon">{% blocktrans with filter_count=filter_count|intcomma %}/ {{ filter_count }}{% endblocktrans %}</span>

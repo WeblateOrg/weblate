@@ -20,7 +20,6 @@ export USER_ID
 GROUP_ID=$(id -g)
 export GROUP_ID
 
-
 cd dev-docker/
 
 build() {
@@ -37,45 +36,45 @@ build() {
 }
 
 case $1 in
-    stop)
-        docker compose down
-        ;;
-    logs)
-        shift
-        docker compose logs "$@"
-        ;;
-    test)
-        shift
-        docker compose exec -T -e WEBLATE_DATA_DIR=/tmp/test-data -e WEBLATE_CELERY_EAGER=1 -e WEBLATE_SITE_TITLE=Weblate -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal -e WEBLATE_VCS_FILE_PROTOCOL=1 -e WEBLATE_VCS_API_DELAY=0 weblate weblate test --noinput "$@"
-        ;;
-    check)
-        shift
-        docker compose exec -T weblate weblate check "$@"
-        ;;
-    build)
-        build
-        ;;
-    wait)
-        TIMEOUT=0
-        while ! docker compose ps | grep healthy ; do
-            echo "Waiting for the container startup..."
-            sleep 1
-            docker compose ps
-            TIMEOUT=$((TIMEOUT + 1))
-            if [ $TIMEOUT -gt 120 ] ; then
-              docker compose logs
-              exit 1
-            fi
-        done
-        ;;
-    start|restart|"")
-        build
+stop)
+    docker compose down
+    ;;
+logs)
+    shift
+    docker compose logs "$@"
+    ;;
+test)
+    shift
+    docker compose exec -T -e WEBLATE_DATA_DIR=/tmp/test-data -e WEBLATE_CELERY_EAGER=1 -e WEBLATE_SITE_TITLE=Weblate -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal -e WEBLATE_VCS_FILE_PROTOCOL=1 -e WEBLATE_VCS_API_DELAY=0 weblate weblate test --noinput "$@"
+    ;;
+check)
+    shift
+    docker compose exec -T weblate weblate check "$@"
+    ;;
+build)
+    build
+    ;;
+wait)
+    TIMEOUT=0
+    while ! docker compose ps | grep healthy; do
+        echo "Waiting for the container startup..."
+        sleep 1
+        docker compose ps
+        TIMEOUT=$((TIMEOUT + 1))
+        if [ $TIMEOUT -gt 120 ]; then
+            docker compose logs
+            exit 1
+        fi
+    done
+    ;;
+start | restart | "")
+    build
 
-        # Start it up
-        docker compose up -d --force-recreate
-        echo -e "\n${GREEN}Running development version of Weblate on http://${WEBLATE_HOST}/${NC}\n"
-        ;;
-    *)
-        docker compose "$@"
-        ;;
+    # Start it up
+    docker compose up -d --force-recreate
+    echo -e "\n${GREEN}Running development version of Weblate on http://${WEBLATE_HOST}/${NC}\n"
+    ;;
+*)
+    docker compose "$@"
+    ;;
 esac

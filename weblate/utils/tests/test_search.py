@@ -493,7 +493,9 @@ class UserQueryParserTest(TestCase, SearchMixin):
             "translates:cs",
             Q(change__language__code__iexact="cs")
             & Q(
-                change__timestamp__date__gte=datetime.now(tz=UTC).date()
+                change__timestamp__gte=datetime.now(tz=UTC).replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
                 - timedelta(days=90)
             ),
         )
@@ -503,7 +505,9 @@ class UserQueryParserTest(TestCase, SearchMixin):
             "contributes:test",
             Q(change__project__slug__iexact="test")
             & Q(
-                change__timestamp__date__gte=datetime.now(tz=UTC).date()
+                change__timestamp__gte=datetime.now(tz=UTC).replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
                 - timedelta(days=90)
             ),
         )
@@ -511,7 +515,9 @@ class UserQueryParserTest(TestCase, SearchMixin):
             "contributes:test/test",
             Q(change__component_id__in=[])
             & Q(
-                change__timestamp__date__gte=datetime.now(tz=UTC).date()
+                change__timestamp__gte=datetime.now(tz=UTC).replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
                 - timedelta(days=90)
             ),
         )

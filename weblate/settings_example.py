@@ -9,6 +9,8 @@ import os
 import platform
 from logging.handlers import SysLogHandler
 
+from weblate.api.spectacular import get_spectacular_settings
+
 # Title of site to use
 SITE_TITLE = "Weblate"
 
@@ -438,6 +440,8 @@ INSTALLED_APPS = [
     "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
     "django_otp_webauthn",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
 ]
 
 # Custom exception reporter to include some details
@@ -817,13 +821,18 @@ REST_FRAMEWORK = {
         "weblate.api.throttling.UserRateThrottle",
         "weblate.api.throttling.AnonRateThrottle",
     ),
-    "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "5000/hour"},
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "100/day",
+        "user": "5000/hour",
+    },
     "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
     "PAGE_SIZE": 50,
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
     "EXCEPTION_HANDLER": "weblate.api.views.weblate_exception_handler",
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
 
 # Fonts CDN URL
 FONTS_CDN_URL = None
@@ -858,7 +867,10 @@ if REQUIRE_LOGIN:
 SILENCED_SYSTEM_CHECKS = [
     # We have modified django.contrib.auth.middleware.AuthenticationMiddleware
     # as weblate.accounts.middleware.AuthenticationMiddleware
-    "admin.E408"
+    "admin.E408",
+    # Silence drf_spectacular until these are addressed
+    "drf_spectacular.W001",
+    "drf_spectacular.W002",
 ]
 
 # Celery worker configuration for testing

@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-28 08:33+0000\n"
+"PO-Revision-Date: 2024-10-07 22:13+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -7641,6 +7641,10 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
+"Beaucoup de contrôles qualité sont intégrés (voir :ref:`checks`) bien qu'ils "
+"ne puissent pas tous couvrir ce que vous souhaiteriez vérifier. La liste des "
+"contrôles réalisés peut être ajustée en utilisant :setting:`CHECK_LIST`et "
+"vous pouvez aussi ajouter des contrôles personnalisés."
 
 #: ../../admin/checks.rst:389
 msgid "Subclass the `weblate.checks.Check`"
@@ -8062,6 +8066,8 @@ msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
 msgstr ""
+"Les modifications du mot de passe faites avant Weblate 2.15 ne sont pas "
+"soumises à cette règle."
 
 #: ../../admin/config.rst:164
 msgid "AUTOFIX_LIST"
@@ -8110,6 +8116,8 @@ msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 #: ../../admin/config.rst:180
 msgid "Removes zero-width space characters if the source does not contain any."
 msgstr ""
+"Supprime les caractères espaces de largeur nulle si la source n'en contient "
+"aucun."
 
 #: ../../admin/config.rst:181
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
@@ -8117,7 +8125,7 @@ msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:182
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "Supprime les caractères de contrôle si la source n'en contient aucun."
 
 #: ../../admin/config.rst:183
 #, fuzzy
@@ -8139,10 +8147,12 @@ msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
+"Supprime le balisage HTML non sécurisé à l'intéreur des chaînes marquées "
+"``safe-html`` (voir :ref:`check-safe-html`)."
 
 #: ../../admin/config.rst:188
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "Vous pouvez choisir ce qui doit être utilisé :"
 
 #: ../../admin/config.rst:199
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
@@ -8268,7 +8278,7 @@ msgstr ""
 
 #: ../../admin/config.rst:292 ../../admin/config.rst:427
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "Les répertoires suivants existent habituellement :"
 
 #: ../../admin/config.rst:294
 msgid ":file:`fonts`"
@@ -8346,6 +8356,8 @@ msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
+"Fournir un chemin complet vers la classe Python qui implémente l'interface "
+"de vérification."
 
 #: ../../admin/config.rst:343
 msgid "Adjust the list of checks to include ones relevant to you."
@@ -8361,11 +8373,11 @@ msgstr ""
 
 #: ../../admin/config.rst:349
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "Vous pouvez désactiver tous les contrôles :"
 
 #: ../../admin/config.rst:355
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "Vous pouvez en activer que quelques uns :"
 
 #: ../../admin/config.rst:367
 msgid ""
@@ -8387,6 +8399,8 @@ msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
+"Supprimer les commentaires passé un certain nombre de jours. La valeur par "
+"défaut ``None`` signifie aucune suppression."
 
 #: ../../admin/config.rst:386
 msgid "COMMIT_PENDING_HOURS"
@@ -8463,7 +8477,7 @@ msgstr ":file:`home`"
 
 #: ../../admin/config.rst:430
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "Répertoire racine utilisé pour appeler les scripts."
 
 #: ../../admin/config.rst:431
 msgid ":file:`ssh`"
@@ -8528,6 +8542,8 @@ msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
+"Le moyen le plus facile de réaliser cela est de déclarer l'utilisateur en "
+"tant que propriétaire du répertoire :"
 
 #: ../../admin/config.rst:457
 msgid ""
@@ -8549,6 +8565,8 @@ msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
+"Indique si les sauvegardes de la base de données doivent être faites sous le "
+"format texte à plat ou compressé ou ignorées. Les valeurs permises sont :"
 
 #: ../../admin/config.rst:473
 msgid "``\"plain\"``"
@@ -8620,7 +8638,7 @@ msgstr "DEFAULT_RESTRICTED_COMPONENT"
 
 #: ../../admin/config.rst:526
 msgid "The default value for component restriction."
-msgstr ""
+msgstr "Valeur par défaut pour la restriction du composant."
 
 #: ../../admin/config.rst:530
 #, fuzzy
@@ -8656,7 +8674,7 @@ msgstr ""
 
 #: ../../admin/config.rst:561
 msgid "This setting affects only newly created components."
-msgstr ""
+msgstr "Ce paramètre ne concerne que les composants nouvellement créés."
 
 #: ../../admin/config.rst:563 ../../admin/config.rst:1082
 #: ../../admin/config.rst:1325 ../../admin/config.rst:1524
@@ -8728,7 +8746,7 @@ msgstr ":ref:`component-merge_style` pour tout nouveau composant."
 
 #: ../../admin/config.rst:632
 msgid "`rebase` - default"
-msgstr ""
+msgstr "`rebase` - par défaut"
 
 #: ../../admin/config.rst:633
 msgid "`merge`"
@@ -8755,6 +8773,8 @@ msgstr "DEFAULT_TRANSLATION_PROPAGATION"
 #: ../../admin/config.rst:652
 msgid "Default setting for translation propagation, defaults to ``True``."
 msgstr ""
+"Paramètre par défaut pour la propagation de la traduction, par défaut "
+"``True``."
 
 #: ../../admin/config.rst:656
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
@@ -49933,26 +49953,20 @@ msgid ":kbd:`Ctrl+1` to :kbd:`Ctrl+9` or"
 msgstr ":kbd:`Ctrl+1` à :kbd:`Ctrl+9` ou"
 
 #: ../../user/translating.rst:230
-#, fuzzy
-#| msgid ":kbd:`Cmd 1` to :kbd:`Cmd 9`"
 msgid ":kbd:`Cmd+1` to :kbd:`Cmd+9`"
-msgstr ":kbd:`Cmd + 1` à :kbd:`Cmd + 9`"
+msgstr ":kbd:`Cmd+1` à :kbd:`Cmd+9`"
 
 #: ../../user/translating.rst:228
 msgid "Copies placeable of given number from source string."
 msgstr "Copie l’élément numéroté depuis la chaîne source."
 
 #: ../../user/translating.rst:232
-#, fuzzy
-#| msgid ":kbd:`Ctrl M` :kbd:`1` to :kbd:`9` or"
 msgid ":kbd:`Ctrl+M` followed by :kbd:`1` to :kbd:`9` or"
-msgstr ":kbd:`Ctrl + M` :kbd:`1` à :kbd:`9` ou"
+msgstr ":kbd:`Ctrl+M` suivi de :kbd:`1` à :kbd:`9` ou"
 
 #: ../../user/translating.rst:235
-#, fuzzy
-#| msgid ":kbd:`Cmd M` :kbd:`1` to :kbd:`9`"
 msgid ":kbd:`Cmd+M` followed by :kbd:`1` to :kbd:`9`"
-msgstr ":kbd:`Cmd + M` :kbd:`1` à :kbd:`9`"
+msgstr ":kbd:`Cmd+M` suivi de :kbd:`1` à :kbd:`9`"
 
 #: ../../user/translating.rst:232
 msgid "Copy the machine translation of given number to current translation."
@@ -49960,26 +49974,20 @@ msgstr ""
 "Copie la traduction automatique du numéro donné dans la traduction actuelle."
 
 #: ../../user/translating.rst:238
-#, fuzzy
-#| msgid ":kbd:`Ctrl I` :kbd:`1` to :kbd:`9` or"
 msgid ":kbd:`Ctrl+I` followed by :kbd:`1` to :kbd:`9` or"
-msgstr ":kbd:`Ctrl + I` :kbd:`1` à :kbd:`9` ou"
+msgstr ":kbd:`Ctrl+I` suivi de :kbd:`1` à :kbd:`9` ou"
 
 #: ../../user/translating.rst:241
-#, fuzzy
-#| msgid ":kbd:`Cmd M` :kbd:`1` to :kbd:`9`"
 msgid ":kbd:`Cmd+I` followed by :kbd:`1` to :kbd:`9`"
-msgstr ":kbd:`Cmd + M` :kbd:`1` à :kbd:`9`"
+msgstr ":kbd:`Cmd+I` suivi de :kbd:`1` à :kbd:`9`"
 
 #: ../../user/translating.rst:238
 msgid "Ignore one item in the list of failing checks."
 msgstr "Ignorer un élément de la liste des contrôles de qualité défaillants."
 
 #: ../../user/translating.rst:244
-#, fuzzy
-#| msgid ":kbd:`Ctrl J` or"
 msgid ":kbd:`Ctrl+J` or"
-msgstr ":kbd:`Ctrl + J` ou"
+msgstr ":kbd:`Ctrl+J` ou"
 
 #: ../../user/translating.rst:246
 msgid ":kbd:`Cmd+J`"
@@ -49990,131 +49998,96 @@ msgid "Shows the :guilabel:`Nearby strings` tab."
 msgstr "Affiche l’onglet :guilabel:`Chaînes à proximité`."
 
 #: ../../user/translating.rst:248
-#, fuzzy
-#| msgid ":kbd:`Ctrl S` or"
 msgid ":kbd:`Ctrl+S` or"
-msgstr ":kbd:`Ctrl + S` ou"
+msgstr ":kbd:`Ctrl+S` ou"
 
 #: ../../user/translating.rst:250
 msgid ":kbd:`Cmd+S`"
 msgstr ":kbd:`Cmd + S`"
 
 #: ../../user/translating.rst:248
-#, fuzzy
-#| msgid "Focuses search field."
 msgid "Focus search field."
-msgstr "Place le focus sur le champ de recherche."
+msgstr "Placer le focus sur le champ de recherche."
 
 #: ../../user/translating.rst:252
-#, fuzzy
-#| msgid ":kbd:`Ctrl O` or"
 msgid ":kbd:`Ctrl+O` or"
-msgstr ":kbd:`Ctrl + O` ou"
+msgstr ":kbd:`Ctrl+O` ou"
 
 #: ../../user/translating.rst:254
 msgid ":kbd:`Cmd+O`"
 msgstr ":kbd:`Cmd + O`"
 
 #: ../../user/translating.rst:252
-#, fuzzy
-#| msgid "Copies source string."
 msgid "Copy source string."
-msgstr "Copie la chaîne source."
+msgstr "Copier la chaîne source."
 
 #: ../../user/translating.rst:256
-#, fuzzy
-#| msgid ":kbd:`Ctrl Y` or"
 msgid ":kbd:`Ctrl+Y` or"
-msgstr ":kbd:`Ctrl + Y` ou"
+msgstr ":kbd:`Ctrl+Y` ou"
 
 #: ../../user/translating.rst:258
 msgid ":kbd:`Cmd+Y`"
 msgstr ":kbd:`Cmd + Y`"
 
 #: ../../user/translating.rst:256
-#, fuzzy
-#| msgid "Toggles the :guilabel:`Needs editing` flag."
 msgid "Toggle the :guilabel:`Needs editing` checkbox."
-msgstr "Active/désactive le drapeau :guilabel:`À vérifier`."
+msgstr "Active/désactive la case :guilabel:`À vérifier`."
 
 #: ../../user/translating.rst:260
-#, fuzzy
-#| msgid ":kbd:`Alt ↑` or"
 msgid ":kbd:`→` and"
-msgstr ":kbd:`Alt + ↑` ou"
+msgstr ":kbd:`→` et"
 
 #: ../../user/translating.rst:262
-#, fuzzy
-#| msgid ":kbd:`Cmd E`"
 msgid ":kbd:`←`"
-msgstr ":kbd:`Cmd + E`"
+msgstr ":kbd:`←`"
 
 #: ../../user/translating.rst:260
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation strings."
-msgstr "Ajouter une nouvelle chaîne de traduction"
+msgstr "Afficher les chaînes traduites suivantes."
 
 #: ../../user/translating.rst:262
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation strings."
-msgstr "Conserver les msgids précédents des chaînes traduites"
+msgstr "Afficher les chaînes traduites précédentes."
 
 #: ../../user/translating.rst:268
 msgid "Visual keyboard"
 msgstr "Clavier visuel"
 
 #: ../../user/translating.rst:270
-#, fuzzy
-#| msgid ""
-#| "A small visual keyboard is shown just above the translation field. This "
-#| "can be useful for typing characters not usually found or otherwise hard "
-#| "to type."
 msgid ""
 "A small visual keyboard row is shown just above the translation field. Its "
 "rows are specific to each language; it can be useful for local punctuation "
 "or characters that are hard to type by hand."
 msgstr ""
-"Un petit clavier visuel est affiché juste au-dessus du champ de traduction. "
-"Il peut être utile pour entrer des caractères que l’on ne trouve pas "
-"habituellement sur le clavier ou qui sont difficiles à entrer."
+"Un petit clavier visuel linéaire est affiché juste au-dessus du champ de "
+"traduction. Ses lignes sont spécifiques à chaque langue ; il peut être utile "
+"pour entrer la ponctuation locale ou des caractères difficiles à saisir."
 
 #: ../../user/translating.rst:274
 msgid "The shown symbols factor into three categories:"
 msgstr "Les symboles affichés se répartissent en trois catégories :"
 
 #: ../../user/translating.rst:276
-#, fuzzy
-#| msgid "User configured characters defined in the :ref:`user-profile`"
 msgid ""
 "User configured :ref:`profile-specialchars` defined in the :ref:`user-"
 "profile`"
 msgstr ""
-"Les caractères configurés par l’utilisateur définis dans le fichier :ref:"
-"`user-profile`"
+":ref:`profile-specialchars` configurés par l’utilisateur définis dans :ref"
+":`user-profile`"
 
 #: ../../user/translating.rst:277
-#, fuzzy
-#| msgid ""
-#| "Per-language characters provided by Weblate (e.g. quotes or RTL specific "
-#| "characters)"
 msgid ""
 "Per-language characters provided by Weblate (e.g. quotes or RTL-specific "
 "characters)"
 msgstr ""
-"Les caractères par langue fournis par Weblate (par exemple, les guillemets "
-"ou les caractères spécifiques à RTL)"
+"Caractères par langue fournis par Weblate (par exemple, les guillemets ou "
+"les caractères spécifiques à l'écriture de droite à gauche)"
 
 #: ../../user/translating.rst:278
 msgid "Characters configured using :setting:`SPECIAL_CHARS`"
 msgstr "Les caractères configurés en utilisant :setting:`SPECIAL_CHARS`"
 
 #: ../../user/translating.rst:287
-#, fuzzy
-#| msgid ""
-#| "This contextual description provides related information about the "
-#| "current string."
 msgid ""
 "This contextual description provides related info about the current string."
 msgstr ""
@@ -50146,19 +50119,14 @@ msgid "Nearby strings"
 msgstr "Chaînes à proximité"
 
 #: ../../user/translating.rst:295
-#, fuzzy
-#| msgid ""
-#| "Displays neighbouring messages from the translation file. These are "
-#| "usually also used in a similar context and prove useful in keeping the "
-#| "translation consistent."
 msgid ""
 "Displays neighbouring strings from the translation file. These are usually "
 "also used in a similar context and prove useful in keeping the translation "
 "consistent."
 msgstr ""
-"Affiche les messages à proximité dans le fichier de traduction. Ils sont "
-"généralement utilisés dans un contexte similaire et s’avèrent utiles pour "
-"maintenir la cohérence de la traduction."
+"Affiche les chaînes à proximité dans le fichier de traduction. Elles sont "
+"généralement utilisées dans un contexte similaire et s’avèrent utiles pour "
+"garder la cohérence de la traduction."
 
 #: ../../user/translating.rst:298
 msgid "Other occurrences"
@@ -50201,16 +50169,13 @@ msgid "Project"
 msgstr "Projet"
 
 #: ../../user/translating.rst:309
-#, fuzzy
-#| msgid ""
-#| "Project information like instructions for translators, or information "
-#| "about its version control system repository."
 msgid ""
 "Project info like instructions for translators, or a directory or link to "
 "the string in the version control system repository the project uses."
 msgstr ""
-"Informations sur le projet, comme des instructions pour les traducteurs, ou "
-"des informations sur son dépôt du système de contrôle des versions."
+"Informations sur le projet, comme des instructions pour les traducteurs, un "
+"répertoire ou un lien vers la chaîne dans le dépôt du système de contrôle "
+"des versions utilisé par le projet."
 
 #: ../../user/translating.rst:312
 msgid "If you want direct links, the translation format has to support it."
@@ -50221,11 +50186,6 @@ msgid "Translation history"
 msgstr "Historique de la traduction"
 
 #: ../../user/translating.rst:317
-#, fuzzy
-#| msgid ""
-#| "Every change is by default (unless turned off in component settings) "
-#| "saved in the database, and can be reverted. Optionally one can still also "
-#| "revert anything in the underlying version control system."
 msgid ""
 "Every change is by default (unless turned-off in component settings) saved "
 "in the database, and can be reverted. Optionally, translations can also be "
@@ -50241,26 +50201,14 @@ msgid "Translated string length"
 msgstr "Longueur de la chaîne traduite"
 
 #: ../../user/translating.rst:325
-#, fuzzy
-#| msgid ""
-#| "Weblate can limit length of translation in several ways to ensure the "
-#| "translated string is not too long:"
 msgid ""
 "Weblate can limit the length of a translation in several ways to ensure the "
 "translated string is not too long:"
 msgstr ""
-"Weblate peut limiter la longueur de la traduction de plusieurs façons pour "
-"s’assurer que la chaîne traduite n’est pas trop longue :"
+"Weblate peut limiter la longueur de la traduction de plusieurs façons pour s’"
+"assurer que la chaîne traduite n’est pas trop longue :"
 
 #: ../../user/translating.rst:328
-#, fuzzy
-#| msgid ""
-#| "The default limitation for translation is ten times longer than source "
-#| "string. This can be turned off by :setting:"
-#| "`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. In case you are hitting "
-#| "this, it might be also caused by monolingual translation being configured "
-#| "as bilingual, making Weblate see translation key as source string instead "
-#| "of the actual source string. See :ref:`bimono` for more info."
 msgid ""
 "The default limitation for translation is ten times longer than the source "
 "string. This can be modified with :setting:"
@@ -50270,12 +50218,12 @@ msgid ""
 "source string. See :ref:`bimono` for more info."
 msgstr ""
 "La limite par défaut pour la traduction est dix fois plus longue que la "
-"chaîne source. Elle peut être désactivée à l’aide de :setting:"
-"`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Dans le cas où vous atteignez "
-"cette limite, cela peut également être dû au fait que la traduction "
-"monolingue est configurée comme bilingue, ce qui fait que Weblate voit la "
-"clé de traduction comme chaîne source au lieu de la chaîne source réelle. "
-"Consultez :ref:`bimono` pour plus d’informations."
+"chaîne source. Elle peut être désactivée à l’aide de "
+":setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Dans le cas où vous "
+"atteignez cette limite, cela peut également être dû au fait que la "
+"traduction monolingue est configurée par erreur comme bilingue, ce qui fait "
+"que Weblate voit la clé de traduction comme chaîne source au lieu de la "
+"chaîne source réelle. Voir :ref:`bimono` pour plus d’informations."
 
 #: ../../user/translating.rst:333
 msgid ""
@@ -50733,6 +50681,10 @@ msgid ""
 "access more than one repository, you will hit a GitHub limitation on allowed "
 "SSH key usage (since each key can be used only once)."
 msgstr ""
+"L'accès via SSH est possible (voir :ref:`ssh-repos`), mais si vous voulez "
+"accéder à plusieurs dépôts, vous atteindrez une limitation de GitHub sur "
+"l'utilisation permise de la clé SSH (chaque clé ne pouvant être utilisée "
+"qu'une fois)."
 
 #: ../../vcs.rst:173
 msgid ""
@@ -50740,6 +50692,10 @@ msgid ""
 "and changes pushed through a fork. In case it is set, changes are pushed to "
 "the upstream repository and chosen branch."
 msgstr ""
+"Si :ref:`component-push_branch` n'est pas défini, le projet utilisera un "
+"fork et les modifications seront poussées via le fork. Dans le cas où il est "
+"défini, les modifications sont poussées sur le dépôt amont dans la branche "
+"sélectionnée."
 
 #: ../../vcs.rst:177
 msgid ""
@@ -50759,6 +50715,11 @@ msgid ""
 "translate. This approach is also used for Hosted Weblate, there is "
 "dedicated :guilabel:`weblate` user for that."
 msgstr ""
+"Pour les configurations plus importantes il vaut mieux créer un utilisateur "
+"dédié pour Weblate, lui assigner la clé publique SSH générée par Weblate ("
+"voir :ref:`weblate-ssh-key`) et lui attribuer le droit d'accès à tous les "
+"dépôts que vous souhaitez traduire. Cette approche est aussi utilisée dans "
+"Hosted Weblate, où l'utilisateur dédié est :guilabel:`weblate`."
 
 #: ../../vcs.rst:190
 msgid ":ref:`hosted-push`"
@@ -50775,6 +50736,10 @@ msgid ""
 "This way linked components use the VCS repository configuration of the "
 "main(referenced) component."
 msgstr ""
+"Partager une configuration du dépôt entre différents composants en se "
+"référant à son emplacement tel que ``weblate://project/component`` dans les "
+"autres composants (liés). Ces derniers utilisent ainsi les paramètres du "
+"dépôt VCS du composant principal (référencé)."
 
 #: ../../vcs.rst:203
 msgid "Removing main component also removes linked components."
@@ -50870,7 +50835,6 @@ msgstr ""
 "serveur proxy, configurez le VCS pour qu'il puisse l'utiliser."
 
 #: ../../vcs.rst:239
-#, fuzzy
 msgid ""
 "This can be done using the ``http_proxy``, ``https_proxy``, and "
 "``all_proxy`` environment variables, (as described in the `cURL "
@@ -50997,14 +50961,13 @@ msgid "For the ``hello`` repository from selenic.com using Mercurial::"
 msgstr "Pour le dépôt ``hello`` de selenic.com en utilisant Mercurial::"
 
 #: ../../vcs.rst:324
-#, fuzzy
 msgid ""
 "The inconvenience of using Git remote helpers is for example with Mercurial, "
 "the remote helper sometimes creates a new tip when pushing changes back."
 msgstr ""
 "L'inconvénient d'utiliser des assistants Git à distance est par exemple avec "
 "Mercurial, que l'assistant distant crée quelquefois un nouveau conseil quand "
-"vous poussez les modifications à nouveau"
+"vous poussez à nouveau les modifications."
 
 #: ../../vcs.rst:331
 msgid "GitHub pull requests"
@@ -51340,7 +51303,6 @@ msgid "Subversion credentials"
 msgstr "Identifiants pour Subversion"
 
 #: ../../vcs.rst:547
-#, fuzzy
 msgid ""
 "Weblate expects you to have accepted the certificate up-front (and your "
 "credentials if needed). It will look to insert them into the :setting:"
@@ -51348,9 +51310,9 @@ msgid ""
 "`$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
 "Weblate suppose que vous avez accepté le certificat du serveur (et vos "
-"données de connexion si nécessaire). Il va les insérer dans le répertoire :"
-"setting :`DATA_DIR`. Acceptez le certificat en utilisant `svn` une fois avec "
-"la variable d'environnement `$HOME` initialisée avec :setting :`DATA_DIR` :"
+"données de connexion si nécessaire). Il va les insérer dans le  répertoire "
+":setting:`DATA_DIR`. Acceptez le certificat en utilisant `svn` une fois avec "
+"la variable d'environnement `HOME` initialisée avec :setting:`DATA_DIR`:"
 
 #: ../../vcs.rst:565
 msgid "Local files"
@@ -52301,7 +52263,7 @@ msgstr ""
 
 #: ../../workflows.rst:284
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
-msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 
 #~ msgid ""
 #~ "Even for `Private` projects, some info about your project will be "

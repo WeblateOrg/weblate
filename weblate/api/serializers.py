@@ -585,6 +585,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "commit_pending_age",
             "auto_lock_error",
             "language_regex",
+            "key_filter",
             "variant_regex",
             "zipfile",
             "docfile",
@@ -1490,3 +1491,22 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         result = super().save(**kwargs)
         self.instance.addon.post_configure()
         return result
+
+
+class MetricsSerializer(ReadOnlySerializer):
+    units = serializers.IntegerField(source="all")
+    units_translated = serializers.IntegerField(source="translated")
+    users = serializers.IntegerField(source="get_users")
+    changes = serializers.IntegerField(source="total_changes")
+    projects = serializers.IntegerField(source="get_projects")
+    components = serializers.IntegerField(source="get_components")
+    translations = serializers.IntegerField(source="get_translations")
+
+    languages = serializers.IntegerField(source="get_languages")
+    checks = serializers.IntegerField(source="get_checks")
+    configuration_errors = serializers.IntegerField(source="get_configuration_errors")
+    suggestions = serializers.IntegerField(source="get_suggestions")
+    celery_queues = serializers.DictField(
+        child=serializers.IntegerField(), source="get_celery_queues"
+    )
+    name = serializers.CharField(source="get_name")

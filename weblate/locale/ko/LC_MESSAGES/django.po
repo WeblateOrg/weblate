@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-29 12:15+0000\n"
+"PO-Revision-Date: 2024-09-30 13:16+0000\n"
 "Last-Translator: Hoseok Seo <ddinghoya@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -5126,16 +5126,16 @@ msgstr "애저 OpenAI 엔드포인트 URL"
 #: weblate/machinery/forms.py:407
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
-msgstr ""
+msgstr "인스턴스의 엔드포인트 URL, 예: https://my-instance.openai.azure.com."
 
 #: weblate/machinery/forms.py:413
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "애저 OpenAI 배포"
 
 #: weblate/machinery/forms.py:416
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "모델의 고유한 배포 이름입니다."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5355,48 +5355,32 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF 확인에 실패했습니다. 요청을 중단하였습니다."
 
 #: weblate/templates/403_csrf.html:15
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
 "that your browser is not being hijacked by third parties."
 msgstr ""
-"이 HTTPS 사이트를 사용하려면 웹 브라우저에서 'Referer' 헤더를 보내야 하지만 "
-"아무 것도 보내지 않았습니다. 이 헤더는 보안상의 이유로 브라우저가 제3자에 의"
-"해 해킹되지 않도록 하기 위해 필요합니다."
+"이 HTTPS 사이트는 웹 브라우저에서 'Referer' 헤더를 보내야 하지만 아무것도 "
+"보내지지 않았습니다. 이 헤더는 보안상의 이유로 필요하며, 브라우저가 "
+"제3자에게 하이재킹되지 않도록 보장합니다."
 
 #: weblate/templates/403_csrf.html:16
-#, fuzzy
-#| msgid ""
-#| "If you have set up your web browser to not send 'Referer' headers, please "
-#| "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests)."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
-"웹 브라우저가 'Referer' 헤더를 보내지 않도록 설정했다면 이 기능을 활성화해야 "
-"합니다 (적어도 이 사이트, 보안 HTTPS 연결 또는 'same-origin' 요청의 경우)."
+"웹 브라우저에서 'Referer' 헤더를 보내지 않도록 설정한 경우,  해당 헤더를 "
+"켜야 합니다 (적어도 이 사이트의 경우 HTTPS 연결 또는 'same-origin' 요청)."
 
 #: weblate/templates/403_csrf.html:18
-#, fuzzy
-#| msgid ""
-#| "This site requires a CSRF cookie when submitting forms. This cookie is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-"사이트가 폼을 제출할 때 CSRF 쿠키를 필요로 합니다. 이 쿠키는 보안상의 이유로 "
-"필요하며, 제3자에 의해 당신의 브라우저가 해킹당하고 있지 않다는 것을 보장합니"
-"다."
+"사이트는 양식을 작동시키기 위해 세션 쿠키가 필요합니다. 이 쿠키는 보안상의 "
+"이유로 필요하며, 브라우저가 제3자에게 하이재킹되지 않도록 보장합니다."
 
 #: weblate/templates/403_csrf.html:19
 msgid ""
@@ -5404,18 +5388,17 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"세션 쿠키가 비활성으로 인해 만료되었을 수 있습니다. 이는 세션 유효성이 "
+"제한된 인증되지 않은 요청에서 쉽게 발생할 수 있습니다. 그런 경우 의도한 "
+"작업을 다시 시도하는 것이 좋습니다."
 
 #: weblate/templates/403_csrf.html:20
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again (at-least for this site, or for 'same-origin' requests)."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"쿠키를 저장하지 않도록 브라우저를 설정했다면 쿠키를 다시 켜십시오 (적어도 이 "
-"사이트 또는 'same-origin' 요청에 대해)."
+"브라우저에서 쿠키를 저장하지 않도록 설정한 경우, 쿠키 저장을 허용해야 합니다 "
+"(적어도 이 사이트나 'same-origin' 요청의 경우)."
 
 #: weblate/templates/403_csrf.html:22
 #, python-format
@@ -6519,8 +6502,6 @@ msgid "User ID"
 msgstr "사용자 ID"
 
 #: weblate/templates/accounts/user.html:236
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
 msgstr "알림"
 
@@ -6530,7 +6511,7 @@ msgstr "범위"
 
 #: weblate/templates/accounts/user.html:238
 msgid "Frequency"
-msgstr ""
+msgstr "빈도"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
@@ -6672,10 +6653,8 @@ msgid "Configure add-on"
 msgstr "애드온 구성하기"
 
 #: weblate/templates/addons/addon_detail.html:44
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
-msgstr "이 애드온은 스크립트를 실행합니다."
+msgstr "이 추가 기능에는 설정이 없습니다."
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
@@ -9647,10 +9626,8 @@ msgid "Delete announcement"
 msgstr "공지사항 삭제"
 
 #: weblate/templates/multi-progress.html:15
-#, fuzzy
-#| msgid "Component is being updated…"
 msgid "Components are being updated…"
-msgstr "구성요소 업데이트 중…"
+msgstr "구성 요소가 업데이트되고 있습니다…"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -9808,16 +9785,12 @@ msgid "Please try again later."
 msgstr "잠시 후 다시 시도하시기 바랍니다."
 
 #: weblate/templates/registration/logged_out.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for using Weblate"
-msgstr "웹레이트를 이용해 주셔서 감사합니다."
+msgstr "웹레이트를 사용해주셔서 감사합니다"
 
 #: weblate/templates/registration/logged_out.html:17
-#, fuzzy
-#| msgid "Show on dashboard"
 msgid "Return to dashboard"
-msgstr "참여 프로젝트에 표시하기"
+msgstr "대시보드로 돌아가기"
 
 #: weblate/templates/replace.html:13
 msgid "Please review and confirm the search and replace results."
@@ -10707,7 +10680,7 @@ msgstr "지난 달에 추가된 미번역된 모든 문자열"
 
 #: weblate/templates/snippets/query-builder.html:111
 msgid "Filter changed strings 2 weeks ago"
-msgstr ""
+msgstr "필터가 2주 전에 문자열을 변경했음"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"

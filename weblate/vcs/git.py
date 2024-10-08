@@ -1158,7 +1158,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                 next_api_time = cache.get(cache_id)
                 now = time()
                 if next_api_time is not None and now < next_api_time:
-                    with sentry_sdk.start_span(op="api_sleep", description=vcs_id):
+                    with sentry_sdk.start_span(op="api_sleep", name=vcs_id):
                         sleep(next_api_time - now)
                 try:
                     response = requests.request(

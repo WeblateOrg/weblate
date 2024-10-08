@@ -12,7 +12,6 @@ from itertools import chain
 from operator import and_, or_
 from typing import Any, cast, overload
 
-from dateparser import parse as dateparser_parse
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
@@ -239,6 +238,21 @@ class BaseTermExpr:
                     tzinfo=tzinfo,
                 ),
             )
+
+        return self.human_date_parse(text, hour, minute, second, microsecond)
+
+    def human_date_parse(
+        self,
+        text: str,
+        hour: int = 5,
+        minute: int = 55,
+        second: int = 55,
+        microsecond: int = 0,
+    ) -> datetime | tuple[datetime, datetime]:
+        # Lazily import as this can be expensive
+        from dateparser import parse as dateparser_parse
+
+        tzinfo = timezone.get_current_timezone()
 
         # Attempts to parse the text using dateparser
         # If the text is unparsable it will return None
@@ -593,7 +607,10 @@ class UserTermExpr(BaseTermExpr):
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
         if field == "translates":
             return query & Q(
-                change__timestamp__date__gte=timezone.now().date() - timedelta(days=90)
+                change__timestamp__gte=timezone.now().replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
+                - timedelta(days=90)
             )
 
         return super().field_extra(field, query, match)
@@ -610,7 +627,10 @@ class UserTermExpr(BaseTermExpr):
         else:
             query = Q(change__project__slug__iexact=text)
         return query & Q(
-            change__timestamp__date__gte=timezone.now().date() - timedelta(days=90)
+            change__timestamp__gte=timezone.now().replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
+            - timedelta(days=90)
         )
 
 

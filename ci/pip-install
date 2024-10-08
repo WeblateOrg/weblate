@@ -6,20 +6,26 @@
 
 set -e -x
 
-if [ "${1:-latest}" = migrations ] ; then
+if [ "${1:-latest}" = migrations ]; then
     uv pip install --system -e ".[all,mysql,ci]"
 else
-    if [ "${1:-latest}" = minimal ] ; then
+    if [ "${1:-latest}" = minimal ]; then
         # Adjust deps to force minimal version
         sed -i '/^ *"/ s/>=/==/' pyproject.toml
     fi
 
-    if [ "${1:-latest}" = mypy ] ; then
-      uv pip install --system -e ".[all,mysql,ci,mypy,test]"
+    if [ "${1:-latest}" = mypy ]; then
+        uv pip install --system -e ".[all,mysql,ci,mypy,test]"
     else
-      uv pip install --system -e ".[all,mysql,ci,test]"
+        # TODO: lxml can use wheels once xmlsec has one
+        # see https://github.com/xmlsec/python-xmlsec/issues/327
+        if python -c 'import sys; sys.exit(0 if sys.version_info >= (3,13) else 1)'; then
+            uv pip install --system --no-binary=lxml -e ".[all,mysql,ci,test]"
+        else
+            uv pip install --system -e ".[all,mysql,ci,test]"
+        fi
     fi
-    if [ "${1:-latest}" = edge ] ; then
+    if [ "${1:-latest}" = edge ]; then
         uv pip install --system --upgrade -e ".[all,mysql,test,ci]"
         # Install from git / pre-release
         uv pip install --system --no-deps --upgrade --force-reinstall \
@@ -31,6 +37,6 @@ else
 fi
 
 # Verify that deps are consistent
-if [ "${1:-latest}" != edge ] ; then
+if [ "${1:-latest}" != edge ]; then
     uv pip check
 fi

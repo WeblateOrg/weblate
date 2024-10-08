@@ -19,6 +19,7 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
     language_map = {
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh",
+        "nb_NO": "no",
     }
     settings_form = AWSMachineryForm
 

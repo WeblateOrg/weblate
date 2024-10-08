@@ -52,21 +52,21 @@ cp node_modules/moment/moment.js ../../weblate/static/vendor/
 sed '/font-family/ a font-display: swap;' < node_modules/source-sans/source-sans-3.css > ../../weblate/static/vendor/font-source/source-sans-3.css
 sed '/font-family/ a font-display: swap;' < node_modules/source-code-pro/source-code-pro.css > ../../weblate/static/vendor/font-source/source-code-pro.css
 find node_modules/source-sans/WOFF node_modules/source-sans/WOFF2 node_modules/source-sans/TTF node_modules/source-code-pro/ \
-  -name 'SourceSans3-ExtraLight.*' \
-  -o -name 'SourceSans3-Light.*' \
-  -o -name 'SourceSans3-Semibold.*' \
-  -o -name 'SourceSans3-Black.*' \
-  -o -name 'SourceSans3-Bold.*' \
-  -o -name 'SourceSans3-Regular.*' \
-  -o -name 'SourceSans3-It.*' \
-  -o -name 'SourceSans3-BoldIt.*' \
-  -o -name 'SourceCodePro-Medium.*' \
-  -o -name 'SourceCodePro-Regular.*' \
-  -o -name 'SourceCodePro-Bold.*' \
-  -o -name 'SourceCodePro-Semibold.*' | while read -r name ; do
+    -name 'SourceSans3-ExtraLight.*' \
+    -o -name 'SourceSans3-Light.*' \
+    -o -name 'SourceSans3-Semibold.*' \
+    -o -name 'SourceSans3-Black.*' \
+    -o -name 'SourceSans3-Bold.*' \
+    -o -name 'SourceSans3-Regular.*' \
+    -o -name 'SourceSans3-It.*' \
+    -o -name 'SourceSans3-BoldIt.*' \
+    -o -name 'SourceCodePro-Medium.*' \
+    -o -name 'SourceCodePro-Regular.*' \
+    -o -name 'SourceCodePro-Bold.*' \
+    -o -name 'SourceCodePro-Semibold.*' | while read -r name; do
     target=$(echo "$name" | sed 's@node_modules/source-\(sans\|code-pro\)/@../../weblate/static/vendor/font-source/@')
     dir=$(dirname "$target")
-    if [ ! -d "$dir" ] ; then
+    if [ ! -d "$dir" ]; then
         mkdir -p "$dir"
     fi
     cp "$name" "$target"

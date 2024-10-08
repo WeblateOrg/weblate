@@ -30,7 +30,7 @@ apt-get install -y \
     git-svn \
     gnupg \
     subversion \
-    postgresql-client-16 \
+    postgresql-client-17 \
     pkg-config \
     libxml2-dev \
     libacl1-dev \
@@ -48,8 +48,12 @@ apt-get install -y \
     gir1.2-rsvg-2.0 \
     gir1.2-pango-1.0
 
+# TODO: remove this once Python 3.13 wheels are available, see
+# https://github.com/sirfz/tesserocr/pull/357
+apt-get install -y libleptonica-dev libtesseract-dev
+
 # Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
-if [ "$CI_DATABASE" = "mariadb" ] ; then
+if [ "$CI_DATABASE" = "mariadb" ]; then
     apt-get purge 'mysql-client.*'
     apt-get install -y mariadb-client
 fi

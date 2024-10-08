@@ -5,6 +5,7 @@ Not yet released.
 
 **New features**
 
+* Added :ref:`component-key_filter` in the component.
 * :ref:`Searching` now supports filtering by object path and :ref:`date-search`.
 * Merge requests credentials can now be passed in the repository URL, see :ref:`settings-credentials`.
 * :ref:`mt-azure-openai` automatic suggestion service.
@@ -18,6 +19,10 @@ Not yet released.
 * :ref:`mt-aws` now supports :ref:`glossary-mt`.
 * :ref:`autofix` for Devanagari danda now better handles latin script.
 * :ref:`autofix` for French and Breton now uses a non-breaking space before colons instead of a narrow one.
+* :ref:`api` now has a preview OpenAPI specification.
+* :kbd:`?` now displays available :ref:`keyboard`.
+* Translation and language view in the project now include basic information about the language and plurals.
+* :ref:`bulk-edit` shows a preview of matched strings.
 
 **Bug fixes**
 
@@ -31,6 +36,8 @@ Not yet released.
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS`` and changes in ``REST_FRAMEWORK`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 
 **Contributors**
 

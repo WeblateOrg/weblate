@@ -10,9 +10,11 @@ const copyrightRegex = /Copyright.*\n/;
 
 // REUSE-IgnoreStart
 function extractCopyright(pkg) {
-  const copyrights = pkg.licenseText.match(copyrightRegex);
-  if (copyrights !== null) {
-    return copyrights.join("");
+  if (pkg.licenseText !== null) {
+    const copyrights = pkg.licenseText.match(copyrightRegex);
+    if (copyrights !== null) {
+      return copyrights.join("");
+    }
   }
   return `Copyright ${pkg.author}\n`;
 }

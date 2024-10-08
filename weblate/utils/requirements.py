@@ -58,6 +58,7 @@ REQUIRES = [
     "python-redis-lock",
     "charset-normalizer",
     "cyrtranslit",
+    "drf_spectacular",
 ]
 
 OPTIONAL = [
