@@ -419,7 +419,6 @@ class CreateFromDoc(CreateComponent):
             form.cleaned_data.pop("docfile"),
             form.cleaned_data.pop("target_language", None),
         )
-        # QUESTION: POP target_language from request here ? or put in initial ? or from cleand_data
         # Move to discover phase
         self.stage = "discover"
         self.initial = form.cleaned_data
