@@ -4,6 +4,9 @@
 
 from functools import reduce
 
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext
+
 from .base import (
     DownloadTranslations,
     ResponseStatusMachineTranslation,
@@ -90,6 +93,28 @@ class ApertiumAPYTranslation(ResponseStatusMachineTranslation):
         if code not in self.all_langs and code in LANGUAGE_MAP:
             return LANGUAGE_MAP[code]
         return code
+
+    def validate_settings(self) -> None:
+        try:
+            languages = self.download_languages()
+        except Exception as error:
+            raise ValidationError(
+                gettext("Could not fetch supported languages: %s") % error
+            ) from error
+        try:
+            source, language = languages[0]
+        except IndexError as error:
+            raise ValidationError(
+                gettext("No supported languages found: %s") % error
+            ) from error
+        try:
+            self.download_multiple_translations(
+                source, language, [("test", None)], None, 75
+            )
+        except Exception as error:
+            raise ValidationError(
+                gettext("Could not fetch translation: %s") % error
+            ) from error
 
     def download_languages(self):
         """Download list of supported languages from a service."""
