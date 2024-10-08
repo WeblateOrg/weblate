@@ -56,7 +56,7 @@ jobs:
     - name: Generate OpenAPI
       run: |
         echo "::add-matcher::.github/matchers/spectacular.json"
-        ./manage.py spectacular > weblate-openapi.yaml
+        ./manage.py spectacular --urlconf="weblate.api.urls" > weblate-openapi.yaml
         echo "::remove-matcher owner=spectacular::"
     - name: openapi-lint
       run: npx @redocly/cli lint --format github-actions weblate-openapi.yaml
