@@ -22,6 +22,7 @@ Not yet released.
 * :kbd:`?` now displays available :ref:`keyboard`.
 * Translation and language view in the project now include basic information about the language and plurals.
 * :ref:`bulk-edit` shows a preview of matched strings.
+* Creating component via file upload (Translate document) now supports bilingual files.
 
 **Bug fixes**
 
