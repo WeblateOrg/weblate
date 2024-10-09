@@ -824,6 +824,9 @@ class Change(models.Model, UserDisplayMixin):
         if self.action in {self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE}:
             return render_markdown(self.target)
 
+        if self.action == self.ACTION_COMMENT_DELETE and "comment" in details:
+            return render_markdown(details["comment"])
+
         if self.action in {
             self.ACTION_ADDON_CREATE,
             self.ACTION_ADDON_CHANGE,
