@@ -20,13 +20,14 @@
 # Сергей <asvmail.as@gmail.com>, 2024.
 # Vin <k3kelm4vw@mozmail.com>, 2024.
 # Andrey <andrey@mailbox.org>, 2024.
+# Victor K <ktrace@yandex.ru>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-10-07 17:53+0000\n"
-"Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
+"PO-Revision-Date: 2024-10-09 18:52+0000\n"
+"Last-Translator: Victor K <ktrace@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -533,9 +534,9 @@ msgid "Two-factor authentication removed: {device}"
 msgstr "Двухфакторная авторизация удалена: {device}"
 
 #: weblate/accounts/models.py:208
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "Для входа в систему с двухфакторной авторизацией использован {device}"
 
 #: weblate/accounts/models.py:213
 msgid "Configured password to sign in."
@@ -2733,11 +2734,12 @@ msgstr "Введите имя или эл. почту существующей �
 
 #: weblate/auth/models.py:1103
 msgid "Suggest username for the user. It can be changed later."
-msgstr ""
+msgstr "Выберите имя пользователя. Его можно будет изменить позже."
 
 #: weblate/auth/models.py:1112
+#, fuzzy
 msgid "Suggest full name for the user. It can be changed later."
-msgstr ""
+msgstr "Предложите полное имя для пользователя. Его можно будет изменить позже."
 
 #: weblate/auth/models.py:1118 weblate/templates/accounts/profile.html:326
 #: weblate/templates/accounts/user.html:294
@@ -3812,8 +3814,9 @@ msgid "Python brace format string does not match source"
 msgstr "Форматирование фигурных скобок в Python не соответствует источнику"
 
 #: weblate/checks/format.py:611
+#, fuzzy
 msgid "Single {} encountered in the format string."
-msgstr ""
+msgstr "В строке формата обнаружен один символ {}."
 
 #: weblate/checks/format.py:638
 msgid "C# format"
@@ -4085,9 +4088,11 @@ msgid "Translation rendered text should not exceed given size"
 msgstr "Отрисованный текст перевода не должен превышать заданный размер"
 
 #: weblate/checks/render.py:107
+#, fuzzy
 msgid ""
 "It fits into given boundaries. The rendering is shown for your convenience."
 msgstr ""
+"Он соответствует заданным границам. Отображение показано для вашего удобства."
 
 #: weblate/checks/ruby.py:54
 msgid "Ruby format"
@@ -4530,8 +4535,9 @@ msgid "Fluent file"
 msgstr "Файл Fluent"
 
 #: weblate/formats/txt.py:89
+#, fuzzy
 msgid "Should be a directory with metadata files!"
-msgstr ""
+msgstr "Должен быть каталог с файлами метаданных!"
 
 #: weblate/formats/txt.py:196
 msgid "App store metadata files"
@@ -5071,10 +5077,13 @@ msgid "Category"
 msgstr "Категория"
 
 #: weblate/machinery/forms.py:173
+#, fuzzy
 msgctxt "Automatic suggestion service configuration"
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
 msgstr ""
+"Укажите настраиваемый идентификатор системной категории, чтобы использовать "
+"его вместо общего."
 
 #: weblate/machinery/forms.py:184
 msgctxt "Automatic suggestion service configuration"
@@ -5168,8 +5177,11 @@ msgid "Context vector"
 msgstr "Вектор контекста"
 
 #: weblate/machinery/forms.py:263
+#, fuzzy
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
+"Разделённый запятыми список заметок Идентификатор:вес. Например: 1234:0."
+"123,4567:0.456"
 
 #: weblate/machinery/forms.py:276
 #, python-format
@@ -5177,9 +5189,9 @@ msgid "The context vector is not valid: %s"
 msgstr "Некорректный вектор контекста: %s"
 
 #: weblate/machinery/forms.py:280
-#, python-format
+#, fuzzy, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "Значение веса должно находиться в диапазоне от 0 до 1: %s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5236,13 +5248,14 @@ msgid "Custom model"
 msgstr "Настраиваемая модель"
 
 #: weblate/machinery/forms.py:359
+#, fuzzy
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "Базовый URL API OpenAI"
 
 #: weblate/machinery/forms.py:363
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
-msgstr ""
+msgstr "Базовый URL API OpenAI, если он отличается от URL OpenAI по умолчанию"
 
 #: weblate/machinery/forms.py:370
 msgctxt "Automatic suggestion service configuration"
@@ -5255,16 +5268,20 @@ msgid "Custom model name"
 msgstr "Название настраиваемой модели"
 
 #: weblate/machinery/forms.py:380
+#, fuzzy
 msgid "Only needed when model is set to 'Custom model'"
 msgstr ""
+"Требуется только в том случае, если для модели установлено значение «"
+"Пользовательская модель»"
 
 #: weblate/machinery/forms.py:390
 msgid "Missing custom model name."
 msgstr "Не указано название настраиваемой модели."
 
 #: weblate/machinery/forms.py:394
+#, fuzzy
 msgid "Choose custom model here to enable it."
-msgstr ""
+msgstr "Выберите здесь пользовательскую модель, чтобы её включить."
 
 #: weblate/machinery/forms.py:403
 #, fuzzy
@@ -5275,18 +5292,23 @@ msgid "Azure OpenAI endpoint URL"
 msgstr "Конечный URL приложения"
 
 #: weblate/machinery/forms.py:407
+#, fuzzy
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr ""
+"URL конечной точки экземпляра, например: https://my-instance.openai.azure."
+"com."
 
 #: weblate/machinery/forms.py:413
+#, fuzzy
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "Развертывание Azure OpenAI"
 
 #: weblate/machinery/forms.py:416
+#, fuzzy
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "Уникальное имя развёртывания модели."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5548,11 +5570,16 @@ msgstr ""
 "взломан третьими лицами."
 
 #: weblate/templates/403_csrf.html:19
+#, fuzzy
 msgid ""
 "It might have happened that your session cookie expired due to inactivity. "
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"Возможно, ваш сеансовый cookie-файл истёк из-за бездействия. Это может легко "
+"произойти для неаутентифицированных запросов, где срок действия сеанса "
+"ограничен. В таком случае вы можете попробовать выполнить предполагаемое "
+"действие ещё раз."
 
 #: weblate/templates/403_csrf.html:20
 #, fuzzy
@@ -5625,9 +5652,12 @@ msgid "Welcome and thank you for choosing Weblate"
 msgstr "Добро пожаловать и благодарим за выбор Weblate"
 
 #: weblate/templates/about/donate.html:23
+#, fuzzy
 msgid ""
 "the privacy-respecting localization platform committed to open-source values."
 msgstr ""
+"платформа локализации, уважающая конфиденциальность и придерживающаяся "
+"ценностей открытого исходного кода."
 
 #: weblate/templates/about/donate.html:29
 msgctxt "Label on engage page"
@@ -5683,10 +5713,13 @@ msgstr ""
 
 #: weblate/templates/about/index.html:32
 #: weblate/templates/accounts/hosting.html:58
+#, fuzzy
 msgid ""
 "Start your gratis trial today and explore our competitively priced "
 "commercial hosting solutions."
 msgstr ""
+"Начните свой ознакомительный срок сегодня и изучите наши конкурентоспособные "
+"по цене коммерческие решения для хостинга."
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:258
 #: weblate/templates/snippets/billing-failure.html:9
@@ -5771,12 +5804,14 @@ msgid "Statistics"
 msgstr "Статистика"
 
 #: weblate/templates/accounts/2fa.html:24
+#, fuzzy
 msgid "Second factor sign-in"
-msgstr ""
+msgstr "Вход по второму фактору"
 
 #: weblate/templates/accounts/2fa.html:30
+#, fuzzy
 msgid "Please complete your sign-in using second factor credential."
-msgstr ""
+msgstr "Пожалуйста, завершите вход, используя учётные данные второго фактора."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -5983,6 +6018,8 @@ msgid ""
 "We reserve our right to reject inappropriate content (erotic, gambling, "
 "etc.)."
 msgstr ""
+"Мы оставляем за собой право отклонять неприемлемый контент (эротический, "
+"азартные игры и т. д.)."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Get started"
@@ -6168,6 +6205,8 @@ msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
+"Двухфакторная аутентификация добавляет ещё один уровень безопасности вашей "
+"учётной записи, требуя для входа в систему больше, чем просто пароль."
 
 #: weblate/templates/accounts/profile.html:196
 msgid "Security keys (WebAuthn)"
@@ -6200,7 +6239,7 @@ msgstr "Зарегистрировать новый ключ безопасно�
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr ""
+msgstr "К сожалению, ваш браузер не поддерживает WebAuthn."
 
 #: weblate/templates/accounts/profile.html:228
 msgid "Authenticator apps (TOTP)"
@@ -6454,7 +6493,7 @@ msgstr ""
 
 #: weblate/templates/accounts/recovery-codes.html:48
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr ""
+msgstr "Ваши старые коды станут недействительными и больше не будут работать."
 
 #: weblate/templates/accounts/recovery-codes.html:55
 #: weblate/templates/accounts/totp.html:49
@@ -6534,6 +6573,9 @@ msgid ""
 "Authenticator apps generate one-time passwords that are used as a second "
 "factor to verify your identity when prompted during sign-in."
 msgstr ""
+"Приложения-аутентификаторы генерируют одноразовые пароли, используемые в "
+"качестве второго фактора для подтверждения вашей личности при запросе на "
+"вход в систему."
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
@@ -6735,8 +6777,9 @@ msgid "Scope"
 msgstr "Область"
 
 #: weblate/templates/accounts/user.html:238
+#, fuzzy
 msgid "Frequency"
-msgstr ""
+msgstr "Периодичность"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
@@ -7025,8 +7068,9 @@ msgid "Status"
 msgstr "Статус"
 
 #: weblate/templates/addons/addon_logs.html:33
+#, fuzzy
 msgid "Event"
-msgstr ""
+msgstr "Событие"
 
 #: weblate/templates/addons/addon_logs.html:34
 #, fuzzy
@@ -7035,12 +7079,14 @@ msgid "Details"
 msgstr "Подробности"
 
 #: weblate/templates/addons/addon_logs.html:35
+#, fuzzy
 msgid "Timestamp"
-msgstr ""
+msgstr "Метка времени"
 
 #: weblate/templates/addons/addon_logs.html:58
+#, fuzzy
 msgid "No add-on activity logs available."
-msgstr ""
+msgstr "Журналы активности надстроек отсутствуют."
 
 #: weblate/templates/addons/addon_logs.html:71
 #: weblate/templates/snippets/position-field.html:9
@@ -10314,10 +10360,14 @@ msgid ""
 "While Weblate remains free for all users, its development requires "
 "continuous investment."
 msgstr ""
+"Хотя Weblate остаётся бесплатным для всех пользователей, его развитие "
+"требует постоянных инвестиций."
 
 #: weblate/templates/snippets/donate.html:4
 msgid "We prioritize your privacy; we never display ads or sell your data."
 msgstr ""
+"Мы уделяем первостепенное внимание вашей конфиденциальности; мы никогда не "
+"показываем рекламу и не продаём ваши данные."
 
 #: weblate/templates/snippets/donate.html:5
 msgid ""
@@ -10371,10 +10421,13 @@ msgid "Configure two-factor authentication"
 msgstr ""
 
 #: weblate/templates/snippets/enforced_2fa.html:9
+#, fuzzy
 msgid ""
 "This project requires two-factor authentication from all contributors. You "
 "won’t be able to contribute until you configure it."
 msgstr ""
+"Для этого проекта требуется двухфакторная аутентификация от всех участников. "
+"Пока вы её не настроите её, вы не сможете внести свой вклад."
 
 #: weblate/templates/snippets/enforced_2fa.html:11
 msgid ""
@@ -14983,10 +15036,13 @@ msgstr ""
 "Как ограничить доступ к этому проекту, подробно описано в документации."
 
 #: weblate/trans/models/project.py:196
+#, fuzzy
 msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
 msgstr ""
+"Для участия переводчикам необходимо предварительно настроить двухфакторную "
+"аутентификацию."
 
 #: weblate/trans/models/project.py:201 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
