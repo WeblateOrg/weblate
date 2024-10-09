@@ -16,6 +16,7 @@ from weblate.trans.forms import SimpleUploadForm
 from weblate.trans.models import Change, ComponentList
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.utils.state import STATE_READONLY
 
 TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs.csv")
@@ -29,6 +30,7 @@ TEST_POT_CHARSET = get_test_file("hello-charset.pot")
 TEST_MO = get_test_file("cs.mo")
 TEST_XLIFF = get_test_file("cs.poxliff")
 TEST_ANDROID = get_test_file("strings-cs.xml")
+TEST_ANDROID_READONLY = get_test_file("strings-with-readonly.xml")
 TEST_XLSX = get_test_file("cs.xlsx")
 TEST_TBX = get_test_file("terms.tbx")
 
@@ -378,6 +380,43 @@ class AndroidImportTest(ViewTestCase):
         self.assertEqual(translation.stats.all, 2)
         self.assertTrue(
             translation.change_set.filter(action=Change.ACTION_REPLACE_UPLOAD).exists()
+        )
+
+    def test_readonly_upload_download(self) -> None:
+        """Test upload and download with a file containing a non-translatable string."""
+        project = self.component.project
+        component = self.create_android(name="Component", project=project)
+        self.user.is_superuser = True
+        self.user.save()
+        with open(TEST_ANDROID_READONLY, "rb") as handle:
+            response = self.client.post(
+                reverse(
+                    "upload",
+                    kwargs={"path": component.source_translation.get_url_path()},
+                ),
+                {
+                    "file": handle,
+                    "method": "replace",
+                    "author_name": self.user.full_name,
+                    "author_email": self.user.email,
+                },
+                follow=True,
+            )
+        messages = list(response.context["messages"])
+        self.assertIn("updated: 3", messages[0].message)
+        unit = component.source_translation.unit_set.get(context="string_two")
+        self.assertEqual(unit.state, STATE_READONLY)
+
+        response = self.client.get(
+            reverse(
+                "download",
+                kwargs={"path": component.source_translation.get_url_path()},
+            ),
+            follow=True,
+        )
+        self.assertIn(
+            'name="string_two" translatable="false"',
+            response.getvalue().decode("utf-8"),
         )
 
 

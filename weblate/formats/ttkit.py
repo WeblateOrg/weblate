@@ -56,6 +56,7 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
 
@@ -1080,6 +1081,16 @@ class INIUnit(TTKitUnit):
         return False
 
 
+class AndroidUnit(MonolingualIDUnit):
+    """Wrapper unit for Android Resource."""
+
+    def set_state(self, state) -> None:
+        """Tag unit as translatable/readonly aside from fuzzy and approved flags."""
+        super().set_state(state)
+        if state == STATE_READONLY:
+            self.unit.marktranslatable(False)
+
+
 class BasePoFormat(TTKitFormat):
     loader = pofile
     plural_preference = None
@@ -1433,7 +1444,7 @@ class AndroidFormat(TTKitFormat):
     format_id = "aresource"
     loader = ("aresource", "AndroidResourceFile")
     monolingual = True
-    unit_class = MonolingualIDUnit
+    unit_class = AndroidUnit
     new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
     autoload: tuple[str, ...] = ("strings*.xml", "values*.xml")
     language_format = "android"
