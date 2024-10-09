@@ -32,6 +32,7 @@ jobs:
     - name: Fix Python
       # Workaround for https://github.com/actions/setup-python/issues/577
       run: |
+        brew uninstall --ignore-dependencies python@3.13
         brew uninstall --ignore-dependencies python@3.11
         brew unlink python@3.12
         rm -f /usr/local/bin/{2to3,idle3,pydoc3,python3,python3-config}
