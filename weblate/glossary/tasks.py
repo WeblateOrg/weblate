@@ -98,7 +98,6 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
     for glossary in glossary_translations:
         if can_delete(glossary):
             glossary.remove(get_anonymous())
-            transaction.on_commit(glossary.stats.update_parents)
             if glossary.component not in component_to_check:
                 component_to_check.append(glossary.component)
 
