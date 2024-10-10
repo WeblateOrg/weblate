@@ -12,6 +12,7 @@ Not yet released.
 * :ref:`vcs-bitbucket-cloud`.
 
 **Improvements**
+* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate Component`)
 
 * :ref:`mt-modernmt` supports :ref:`glossary-mt`.
 * :ref:`mt-deepl` now supports specifying translation context.

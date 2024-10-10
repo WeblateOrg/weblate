@@ -1657,6 +1657,12 @@ class ComponentSettingsForm(
 class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
     """Component creation form."""
 
+    source_component = forms.ModelChoiceField(
+        queryset=Component.objects.none(),
+        required=False,
+        widget=forms.HiddenInput(),
+    )
+
     class Meta:
         model = Component
         fields = [
