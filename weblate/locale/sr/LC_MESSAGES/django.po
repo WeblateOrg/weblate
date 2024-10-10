@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-10-09 23:19+0000\n"
+"PO-Revision-Date: 2024-10-10 10:08+0000\n"
 "Last-Translator: Reno Tx <renotx@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/"
 "application/sr/>\n"
@@ -503,19 +503,19 @@ msgid "Two-factor authentication recovery codes were viewed"
 msgstr "Погледани су кодови за опоравак двофакторске аутентификације"
 
 #: weblate/accounts/models.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr "Додата је двофакторска аутентификација: {уређај}"
+msgstr "Додата је двофакторска аутентификација: {device}"
 
 #: weblate/accounts/models.py:207
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr "Уклоњена је двофакторска аутентификација: {уређај}"
+msgstr "Уклоњена је двофакторска аутентификација: {device}"
 
 #: weblate/accounts/models.py:208
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr "Пријавите се користећи двофакторску аутентификацију {уређај}"
+msgstr "Пријавите се користећи двофакторску аутентификацију {device}"
 
 #: weblate/accounts/models.py:213
 msgid "Configured password to sign in."
@@ -1001,7 +1001,7 @@ msgstr "Употребите кодове за опоравак"
 #: weblate/accounts/utils.py:170
 #, python-format
 msgid "Security key (%s)"
-msgstr ""
+msgstr "Безбедносни кључ (%s)"
 
 #: weblate/accounts/utils.py:176
 #, python-format
@@ -1205,32 +1205,26 @@ msgstr ""
 "конфигуришете обавештења."
 
 #: weblate/accounts/views.py:1649
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "The security key was removed."
-msgstr "Активациона порука ће бити послата овде."
+msgstr "Безбедносни кључ је уклоњен."
 
 #: weblate/accounts/views.py:1650
 #, python-format
 msgid "The security key %s was registered."
-msgstr ""
+msgstr "Безбедносни кључ %s је регистрован."
 
 #: weblate/accounts/views.py:1687
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "The authentication app was removed."
-msgstr "Активациона порука ће бити послата овде."
+msgstr "Апликација за аутентификацију је уклоњена."
 
 #: weblate/accounts/views.py:1688
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "Апликација за аутентификацију %s је регистрована."
 
 #: weblate/accounts/views.py:1821
-#, fuzzy
-#| msgid "Last login"
 msgid "Second factor sign in"
-msgstr "Последње пријављивање"
+msgstr "Пријава са другим фактором"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -1748,7 +1742,7 @@ msgstr "Изворни и циљни морају бити различити ј
 
 #: weblate/addons/forms.py:645
 msgid "Enable case-sensitive key sorting"
-msgstr ""
+msgstr "Омогући разликовање великог и малог слова при сортирању кључева"
 
 #: weblate/addons/generate.py:33
 msgid "Statistics generator"
@@ -2047,10 +2041,8 @@ msgstr "Додаје унос у појмовник"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "Додаје унос у појмовник"
+msgstr "Додај терминологију у глосар"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2603,11 +2595,12 @@ msgstr "Администратор може додати или уклонити
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:193
 msgid "Enforced two-factor authentication"
-msgstr ""
+msgstr "Принудна двофакторска аутентификација"
 
 #: weblate/auth/models.py:197
 msgid "Requires users to have two-factor authentication configured."
 msgstr ""
+"Захтева од корисника да имају конфигурисану двофакторску аутентификацију."
 
 #: weblate/auth/models.py:398 weblate/utils/forms.py:71
 #: weblate/utils/validators.py:173
@@ -2711,6 +2704,8 @@ msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
 msgstr ""
+"Овај пројекат захтева двофакторску аутентификацију; конфигуришите је у вашем "
+"профилу."
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:175
 #: weblate/templates/translate.html:231
@@ -3759,7 +3754,7 @@ msgstr "Python формат са заградама не одговара изв
 
 #: weblate/checks/format.py:611
 msgid "Single {} encountered in the format string."
-msgstr ""
+msgstr "Један {} нађен у формату ниске."
 
 #: weblate/checks/format.py:638
 msgid "C# format"
@@ -4473,7 +4468,7 @@ msgstr "Fluent фајл"
 
 #: weblate/formats/txt.py:89
 msgid "Should be a directory with metadata files!"
-msgstr ""
+msgstr "Треба да буде директоријум са метаподацима!"
 
 #: weblate/formats/txt.py:196
 msgid "App store metadata files"
@@ -5176,20 +5171,18 @@ msgid "Automatic selection"
 msgstr "Аутоматски избор"
 
 #: weblate/machinery/forms.py:354
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "Прилагођено"
+msgstr "Прилагођен модел"
 
 #: weblate/machinery/forms.py:359
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "Основни URL OpenAI API"
 
 #: weblate/machinery/forms.py:363
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
-msgstr ""
+msgstr "Основни URL OpenAI API, ако се разликује од подразумеваног OpenAI URL"
 
 #: weblate/machinery/forms.py:370
 msgctxt "Automatic suggestion service configuration"
@@ -5197,15 +5190,13 @@ msgid "OpenAI model"
 msgstr "OpenAI модел"
 
 #: weblate/machinery/forms.py:378
-#, fuzzy
-#| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
-msgstr "Прилагоди назив компоненте"
+msgstr "Име прилагођеног модела"
 
 #: weblate/machinery/forms.py:380
 msgid "Only needed when model is set to 'Custom model'"
-msgstr ""
+msgstr "Потребно само када је модел постављен на 'Прилагођен модел'"
 
 #: weblate/machinery/forms.py:390
 msgid "Missing custom model name."
@@ -5213,7 +5204,7 @@ msgstr "Недостаје назив прилагођеног модела."
 
 #: weblate/machinery/forms.py:394
 msgid "Choose custom model here to enable it."
-msgstr ""
+msgstr "Изаберите прилагођени модел овде да бисте га омогућили."
 
 #: weblate/machinery/forms.py:403
 msgctxt "Automatic suggestion service configuration"
@@ -5725,11 +5716,11 @@ msgstr "Статистика"
 
 #: weblate/templates/accounts/2fa.html:24
 msgid "Second factor sign-in"
-msgstr ""
+msgstr "Пријава са другим фактором"
 
 #: weblate/templates/accounts/2fa.html:30
 msgid "Please complete your sign-in using second factor credential."
-msgstr ""
+msgstr "Молимо вас да завршите пријаву користећи акредитив другог фактора."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -6107,26 +6098,24 @@ msgstr "Додајте нови идентитет корисника"
 
 #: weblate/templates/accounts/profile.html:188
 #: weblate/templates/accounts/user.html:354
-#, fuzzy
-#| msgid "Authentication"
 msgid "Two-factor authentication"
-msgstr "Аутентификација"
+msgstr "Двофакторска аутентификација"
 
 #: weblate/templates/accounts/profile.html:192
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
+"Двофакторска аутентификација додаје још један слој безбедности вашем налогу "
+"захтевајући више од само лозинке за пријаву."
 
 #: weblate/templates/accounts/profile.html:196
 msgid "Security keys (WebAuthn)"
-msgstr ""
+msgstr "Безбедносни кључеви (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:198
-#, fuzzy
-#| msgid "There are no addons currently installed."
 msgid "There are currently no WebAuthn keys registered."
-msgstr "Тренутно нема инсталираних додатака."
+msgstr "Тренутно нема регистрованих WebAuthn кључева."
 
 #: weblate/templates/accounts/profile.html:203
 #: weblate/templates/accounts/profile.html:235
@@ -6142,69 +6131,59 @@ msgstr "Уклони"
 
 #: weblate/templates/accounts/profile.html:213
 msgid "Name your security key"
-msgstr ""
+msgstr "Именујте свој безбедносни кључ"
 
 #: weblate/templates/accounts/profile.html:214
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new security key"
-msgstr "Региструј нови налог"
+msgstr "Региструјте нови безбедносни кључ"
 
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr ""
+msgstr "Нажалост, ваш прегледач не подржава WebAuthn."
 
 #: weblate/templates/accounts/profile.html:228
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator apps (TOTP)"
-msgstr "Аутентификација"
+msgstr "Апликације за аутентификацију (TOTP)"
 
 #: weblate/templates/accounts/profile.html:230
-#, fuzzy
-#| msgid "There are no addons currently installed."
 msgid "There are currently no authenticator apps registered."
-msgstr "Тренутно нема инсталираних додатака."
+msgstr "Тренутно нема регистрованих апликација за аутентификацију."
 
 #: weblate/templates/accounts/profile.html:242
 #: weblate/templates/accounts/totp.html:11
 #: weblate/templates/accounts/totp.html:22
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new authenticator app"
-msgstr "Региструј нови налог"
+msgstr "Региструјте нову апликацију за аутентификацију"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/accounts/recovery-codes.html:11
 #: weblate/templates/accounts/recovery-codes.html:33
 msgid "Recovery codes"
-msgstr ""
+msgstr "Кодови за опоравак"
 
 #: weblate/templates/accounts/profile.html:247
 #: weblate/templates/accounts/recovery-codes.html:41
-#, fuzzy
-#| msgid "There are no addons currently installed."
 msgid "There are currently no recovery codes generated."
-msgstr "Тренутно нема инсталираних додатака."
+msgstr "Тренутно нема генерисаних кодова за опоравак."
 
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/accounts/recovery-codes.html:44
 #: weblate/templates/accounts/recovery-codes.html:51
 msgid "Generate new recovery codes"
-msgstr ""
+msgstr "Генеришите нове кодове за опоравак"
 
 #: weblate/templates/accounts/profile.html:251
 #, python-format
 msgid "%(count)s recovery code is available."
 msgid_plural "%(count)s recovery codes are available."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%(count)s код за опоравак је доступан."
+msgstr[1] "%(count)s кода за опоравак је доступно."
+msgstr[2] "%(count)s кодова за опоравак је доступно."
 
 #: weblate/templates/accounts/profile.html:257
 msgid "View recovery codes"
-msgstr ""
+msgstr "Погледајте кодове за опоравак"
 
 #: weblate/templates/accounts/profile.html:269
 msgid "User data"
@@ -6374,13 +6353,16 @@ msgstr "Лиценце за појединачне преводе"
 
 #: weblate/templates/accounts/recovery-codes.html:20
 msgid "Two-factor recovery codes"
-msgstr ""
+msgstr "Кодови за опоравак са двофакторском аутентификацијом"
 
 #: weblate/templates/accounts/recovery-codes.html:25
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
+"Кодови за опоравак могу се користити за приступ вашем налогу ако изгубите "
+"приступ свом уређају и не можете да примите кодове за двофакторску "
+"аутентификацију."
 
 #: weblate/templates/accounts/recovery-codes.html:29
 msgid ""
@@ -6389,6 +6371,10 @@ msgid ""
 "password and other second factors. If you cannot find these codes when "
 "needed, you will lose access to your account."
 msgstr ""
+"Чувајте своје кодове за опоравак на сигурном месту, као што је менаџер "
+"лозинки. Ови кодови су последња опција за приступ вашем налогу у случају да "
+"изгубите своју лозинку и друге друге факторе. Ако не можете да пронађете ове "
+"кодове када су вам потребни, изгубићете приступ свом налогу."
 
 #: weblate/templates/accounts/recovery-codes.html:39
 msgid "Recovery codes copied to clipboard."
@@ -6399,17 +6385,17 @@ msgid ""
 "When you generate new recovery codes, you must download or print the new "
 "codes."
 msgstr ""
+"Када генеришете нове кодове за опоравак, морате преузети или одштампати нове "
+"кодове."
 
 #: weblate/templates/accounts/recovery-codes.html:48
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr ""
+msgstr "Ваши стари кодови ће постати неважећи и неће више радити."
 
 #: weblate/templates/accounts/recovery-codes.html:55
 #: weblate/templates/accounts/totp.html:49
-#, fuzzy
-#| msgid "Edit component settings"
 msgid "Back to account settings"
-msgstr "Уреди поставке компоненте"
+msgstr "Назад на подешавања налога"
 
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
@@ -6483,14 +6469,16 @@ msgid ""
 "Authenticator apps generate one-time passwords that are used as a second "
 "factor to verify your identity when prompted during sign-in."
 msgstr ""
+"Апликације за аутентификацију генеришу једнократне лозинке које се користе "
+"као други фактор за потврду вашег идентитета када се затражи током пријаве."
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
-msgstr ""
+msgstr "Скенирајте QR код"
 
 #: weblate/templates/accounts/totp.html:37
 msgid "You can also enter the secret key manually:"
-msgstr ""
+msgstr "Такође можете ручно унети тајни кључ:"
 
 #: weblate/templates/accounts/totp.html:40
 msgid "Secret key copied to clipboard."
@@ -6719,15 +6707,12 @@ msgid "Unblock user"
 msgstr "Деблокирај корисника"
 
 #: weblate/templates/accounts/user.html:342
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit user"
-msgstr "Уреди извор"
+msgstr "Уреди корисника"
 
 #: weblate/templates/accounts/user.html:359
 msgid "User has two-factor authentication configured."
-msgstr ""
+msgstr "Корисник има конфигурисану двофакторску аутентификацију."
 
 #: weblate/templates/accounts/user.html:361
 msgid "User doesn't have two-factor authentication configured."
