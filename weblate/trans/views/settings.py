@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import os
+from collections import deque
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -175,6 +176,21 @@ def dismiss_alert(request: AuthenticatedHttpRequest, path):
     return redirect_param(obj, "#alerts")
 
 
+def flag_categories_to_delete(categories) -> None:
+    categories_queue = deque(categories)
+    processed = set()
+
+    while categories_queue:
+        category = categories_queue.popleft()
+        if category.pk in processed:
+            continue
+        processed.add(category.pk)
+
+        Category.objects.filter(pk=category.pk).update(to_delete=True)
+        categories_queue.extend(category.category_set.exclude(pk__in=processed))
+        category.component_set.update(to_delete=True)
+
+
 @login_required
 @require_POST
 def remove(request: AuthenticatedHttpRequest, path):
@@ -199,16 +215,23 @@ def remove(request: AuthenticatedHttpRequest, path):
         messages.success(request, gettext("The translation has been removed."))
     elif isinstance(obj, Component):
         parent = obj.category or obj.project
+        Component.objects.filter(pk=obj.pk).update(to_delete=True)
         component_removal.delay(obj.pk, request.user.pk)
         messages.success(
             request, gettext("The translation component was scheduled for removal.")
         )
     elif isinstance(obj, Category):
         parent = obj.category or obj.project
+        categories = [obj]
+        flag_categories_to_delete(categories)
         category_removal.delay(obj.pk, request.user.pk)
         messages.success(request, gettext("The category was scheduled for removal."))
     elif isinstance(obj, Project):
         parent = reverse("home")
+        Project.objects.filter(pk=obj.pk).update(to_delete=True)
+        obj.component_set.update(to_delete=True)
+        categories = obj.category_set.all()
+        flag_categories_to_delete(categories)
         project_removal.delay(obj.pk, request.user.pk)
         messages.success(request, gettext("The project was scheduled for removal."))
     elif isinstance(obj, ProjectLanguage):
