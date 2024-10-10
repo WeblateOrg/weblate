@@ -38,7 +38,7 @@ class WeblateAdminSite(AdminSite):
             return settings.URL_PREFIX
         return "/"
 
-    def each_context(self, request: AuthenticatedHttpRequest):
+    def each_context(self, request: AuthenticatedHttpRequest):  # type: ignore[override]
         from weblate.wladmin.models import ConfigurationError
 
         result = super().each_context(request)

@@ -50,6 +50,7 @@ from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
 from weblate.vcs.ssh import (
+    KeyType,
     add_host_key,
     can_generate_key,
     generate_ssh_key,
@@ -322,9 +323,8 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @management_access
 def ssh_key(request: AuthenticatedHttpRequest) -> HttpResponse:
-    filename, data = get_key_data_raw(
-        key_type=request.GET.get("type", "rsa"), kind="private"
-    )
+    key_type = cast(KeyType, request.GET.get("type", "rsa"))
+    filename, data = get_key_data_raw(key_type=key_type, kind="private")
     if data is None:
         raise Http404
 
@@ -345,7 +345,8 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
 
     # Generate key if it does not exist yet
     if can_generate and action == "generate":
-        generate_ssh_key(request, key_type=request.POST.get("type", "rsa"))
+        key_type = cast(KeyType, request.POST.get("type", "rsa"))
+        generate_ssh_key(request, key_type=key_type)
         return redirect("manage-ssh")
 
     # Read key data if it exists
@@ -429,14 +430,14 @@ def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
     # Legacy links for care.weblate.org integration
     if "email" in data and "q" not in data:
         data = data.copy()
-        data["q"] = data["email"]
+        data.setlist("q", data.getlist("email"))
     form = AdminUserSearchForm(data)
 
     user_list = None
     if form.is_valid():
-        user_list = User.objects.search(
-            form.cleaned_data.get("q", ""), parser=form.fields["q"].parser
-        )[:2]
+        query = form.cleaned_data.get("q", "")
+        parser = getattr(form.fields["q"], "parser", "unit")
+        user_list = User.objects.search(query, parser=parser)[:2]
         if user_list.count() != 1:
             return redirect_param(
                 "manage-users", "?q={}".format(quote(form.cleaned_data["q"]))
