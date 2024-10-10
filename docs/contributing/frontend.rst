@@ -52,9 +52,12 @@ Then, there are two ways to import the library:
 
 2. If it is page-specific library (library is used in a specific page or template):
     - Create a new file named ``src/<lib-name>.js``.
-    - Import the library in it.
+    - Import the library in it. Then inject it into the ``window`` object to be globally accessible.
     - Add an entry in ``webpack.config.js``:
       ``<lib-name>: "src/<lib-name>.js"``.
+    - Add library name in ``excludePrefixes`` array in ``mainLicenseTransform`` in ``webpack.config.js``.
+    - Add license file name in ``additionalFiles`` in ``LicensePlugin`` in ``plugins`` array in ``webpack.config.js``.
+    - Create a ``<lib-name>LicenseTransfrom`` function for the license file introduced in the previous steps and use it.
 
    Note: Replace ``<lib-name>`` with the actual name of the 3rd party library.
 

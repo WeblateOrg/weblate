@@ -33,18 +33,25 @@ SPDX-License-Identifier: ${licenses}
 `;
 }
 // REUSE-IgnoreEnd
-
 function mainLicenseTransform(packages) {
-  return genericTransform(packages, (pkg) => !pkg.name.startsWith("@sentry"));
+  const excludePrefixes = ["@sentry", "tributejs"];
+  return genericTransform(
+    packages,
+    (pkg) => !excludePrefixes.some((prefix) => pkg.name.startsWith(prefix)),
+  );
 }
 function sentryLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("@sentry"));
+}
+function tributeLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("tributejs"));
 }
 
 module.exports = {
   entry: {
     main: "./src/main.js",
     sentry: "./src/sentry.js",
+    tribute: "./src/tribute.js",
   },
   mode: "production",
   optimization: {
@@ -65,6 +72,7 @@ module.exports = {
       additionalFiles: {
         "main.js.license": mainLicenseTransform,
         "sentry.js.license": sentryLicenseTransform,
+        "tribute.js.license": tributeLicenseTransform,
       },
     }),
   ],
