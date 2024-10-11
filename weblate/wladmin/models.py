@@ -328,12 +328,12 @@ class SupportStatusDict(TypedDict):
 
 def get_support_status(request: AuthenticatedHttpRequest) -> SupportStatusDict:
     if hasattr(request, "weblate_support_status"):
-        support_status = request.weblate_support_status
+        support_status: SupportStatusDict = request.weblate_support_status
     else:
         support_status = cache.get(SUPPORT_STATUS_CACHE_KEY)
         if support_status is None:
             support_status_instance = SupportStatus.objects.get_current()
-            support_status: SupportStatusDict = {
+            support_status = {
                 "has_support": support_status_instance.name != "community",
                 "in_limits": support_status_instance.in_limits,
             }

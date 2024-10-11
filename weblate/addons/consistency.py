@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import warnings
+
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
@@ -9,7 +11,7 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.tasks import language_consistency
 
 
-class LangaugeConsistencyAddon(BaseAddon):
+class LanguageConsistencyAddon(BaseAddon):
     events = (AddonEvent.EVENT_DAILY, AddonEvent.EVENT_POST_ADD)
     name = "weblate.consistency.languages"
     verbose = gettext_lazy("Add missing languages")
@@ -35,3 +37,11 @@ class LangaugeConsistencyAddon(BaseAddon):
             [translation.language_id],
             translation.component.project_id,
         )
+
+
+class LangaugeConsistencyAddon(LanguageConsistencyAddon):
+    warnings.warn(
+        "LangaugeConsistencyAddon is deprecated, use LanguageConsistencyAddon",
+        DeprecationWarning,
+        stacklevel=1,
+    )

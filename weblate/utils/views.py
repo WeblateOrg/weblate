@@ -386,26 +386,31 @@ def guess_filemask_from_doc(data, docfile=None) -> None:
     data["filemask"] = "{}/{}{}".format(data.get("slug", "translations"), "*", ext)
 
 
-def create_component_from_doc(data, docfile):
+def create_component_from_doc(data, docfile, target_language: Language | None = None):
     # Calculate filename
     uploaded = docfile or data["docfile"]
     guess_filemask_from_doc(data, uploaded)
     filemask = data["filemask"]
-    filename = filemask.replace(
-        "*",
-        data["source_language"].code
+    file_language_code = (
+        target_language.code
+        if target_language  # bilingual file
+        else data["source_language"].code
         if "source_language" in data
-        else settings.DEFAULT_LANGUAGE,
+        else settings.DEFAULT_LANGUAGE
     )
+    filename = filemask.replace("*", file_language_code)
     # Create fake component (needed to calculate path)
     fake = Component(
         project=data["project"],
         slug=data["slug"],
         name=data["name"],
         category=data.get("category", None),
-        template=filename,
         filemask=filemask,
     )
+
+    if not target_language:
+        fake.template = filename
+
     # Create repository
     LocalRepository.from_files(fake.full_path, {filename: uploaded.read()})
     return fake
