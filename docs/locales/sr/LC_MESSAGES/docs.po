@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-10-11 04:11+0000\n"
+"PO-Revision-Date: 2024-10-11 08:27+0000\n"
 "Last-Translator: Reno Tx <renotx@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/"
 "documentation/sr/>\n"
@@ -127,7 +127,7 @@ msgstr "Izaberi ovo za projekte koji ne treba uopšte da budu javni"
 
 #: ../../admin/access.rst:49 ../../admin/config.rst:495
 msgid ":guilabel:`Custom`"
-msgstr ""
+msgstr ":guilabel:`Custom`"
 
 #: ../../admin/access.rst:56
 #, fuzzy
@@ -7213,23 +7213,27 @@ msgstr "``\"full\"`` такође ``True``"
 
 #: ../../admin/config.rst:112
 msgid "Update remotes and merge working copy."
-msgstr ""
+msgstr "Ажурирајте удаљене и спојите радну копију."
 
 #: ../../admin/config.rst:116
 msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
 msgstr ""
+"Ово захтева да :ref:`celery` ради, и имаће ефекат након што се поново "
+"покрене."
 
 #: ../../admin/config.rst:121
 msgid "AVATAR_URL_PREFIX"
-msgstr ""
+msgstr "AVATAR_URL_PREFIX"
 
 #: ../../admin/config.rst:123
 msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
+"Префикс за конструисање УРЛ-ова аватара као: ``${AVATAR_URL_PREFIX}/avatar/"
+"${MAIL_HASH}?${PARAMS}``. Следеће услуге су познате да раде:"
 
 #: ../../admin/config.rst:127
 msgid "Gravatar (default), as per https://gravatar.com/"
@@ -7237,7 +7241,7 @@ msgstr ""
 
 #: ../../admin/config.rst:128
 msgid "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
 
 #: ../../admin/config.rst:129
 msgid "Libravatar, as per https://www.libravatar.org/"
@@ -7245,16 +7249,17 @@ msgstr ""
 
 #: ../../admin/config.rst:130
 msgid "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
 
 #: ../../admin/config.rst:134
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 
 #: ../../admin/config.rst:141
 msgid "AUTH_TOKEN_VALID"
-msgstr ""
+msgstr "AUTH_TOKEN_VALID"
 
 #: ../../admin/config.rst:143
 msgid ""
@@ -7265,7 +7270,7 @@ msgstr ""
 
 #: ../../admin/config.rst:148
 msgid "AUTH_PASSWORD_DAYS"
-msgstr ""
+msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:150
 #, fuzzy
@@ -7285,14 +7290,16 @@ msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
 msgstr ""
+"Промене лозинке направљене пре Веблејт 2.15 неће бити узете у обзир у овој "
+"политици."
 
 #: ../../admin/config.rst:164
 msgid "AUTOFIX_LIST"
-msgstr ""
+msgstr "AUTOFIX_LIST"
 
 #: ../../admin/config.rst:166
 msgid "List of automatic fixes to apply when saving a string."
-msgstr ""
+msgstr "Листа аутоматских исправки за примену када се чува ниска."
 
 #: ../../admin/config.rst:170
 msgid ""
@@ -7302,11 +7309,11 @@ msgstr ""
 
 #: ../../admin/config.rst:173
 msgid "Available fixes:"
-msgstr ""
+msgstr "Доступне исправке:"
 
 #: ../../admin/config.rst:175
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:176
 msgid "Matches whitespace at the start and end of the string to the source."
@@ -7314,7 +7321,7 @@ msgstr ""
 
 #: ../../admin/config.rst:177
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 
 #: ../../admin/config.rst:178
 msgid ""
@@ -7324,19 +7331,19 @@ msgstr ""
 
 #: ../../admin/config.rst:179
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 
 #: ../../admin/config.rst:180
 msgid "Removes zero-width space characters if the source does not contain any."
-msgstr ""
+msgstr "Уклања карактере нулте ширине ако извор не садржи ниједан."
 
 #: ../../admin/config.rst:181
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:182
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "Уклања контролне карактере ако извор не садржи ниједан."
 
 #: ../../admin/config.rst:183
 msgid "``weblate.trans.autofixes.chars.DevanagariDanda``"
@@ -7349,21 +7356,23 @@ msgstr ""
 
 #: ../../admin/config.rst:185
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.html.BleachHTML``"
 
 #: ../../admin/config.rst:186
 msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
+"Уклања небезбедне HTML ознаке из низова означених као ``safe-html`` ("
+"погледајте :ref:`check-safe-html`)."
 
 #: ../../admin/config.rst:188
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "Можете изабрати које да употребите:"
 
 #: ../../admin/config.rst:199
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
-msgstr ""
+msgstr ":ref:`autofix`, :ref:`custom-autofix`"
 
 #: ../../admin/config.rst:204
 msgid "BACKGROUND_TASKS"
@@ -7479,7 +7488,7 @@ msgstr ""
 
 #: ../../admin/config.rst:292 ../../admin/config.rst:427
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "Следећи поддиректоријуми обично постоје:"
 
 #: ../../admin/config.rst:294
 msgid ":file:`fonts`"
@@ -7540,17 +7549,19 @@ msgstr ""
 
 #: ../../admin/config.rst:334
 msgid "CHECK_LIST"
-msgstr ""
+msgstr "CHECK_LIST"
 
 #: ../../admin/config.rst:336
 msgid "List of quality checks to perform on a translation."
-msgstr ""
+msgstr "Листа провера квалитета за извршавање на преводу."
 
 #: ../../admin/config.rst:340
 msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
+"Пружите потпуно квалификовану путању до Python класе која имплементира "
+"интерфејс провере."
 
 #: ../../admin/config.rst:343
 msgid "Adjust the list of checks to include ones relevant to you."
@@ -7566,11 +7577,11 @@ msgstr ""
 
 #: ../../admin/config.rst:349
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "Можете искључити све провере:"
 
 #: ../../admin/config.rst:355
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "Можете укључити само неколико:"
 
 #: ../../admin/config.rst:367
 msgid ""
@@ -7581,21 +7592,23 @@ msgstr ""
 
 #: ../../admin/config.rst:373 ../../admin/translating.rst:88
 msgid ":ref:`checks`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`checks`, :ref:`custom-checks`"
 
 #: ../../admin/config.rst:378
 msgid "COMMENT_CLEANUP_DAYS"
-msgstr ""
+msgstr "COMMENT_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:380
 msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
+"Обришите коментаре након датог броја дана. Подразумевано је ``None``, што "
+"значи да нема брисања уопште."
 
 #: ../../admin/config.rst:386
 msgid "COMMIT_PENDING_HOURS"
-msgstr ""
+msgstr "COMMIT_PENDING_HOURS"
 
 #: ../../admin/config.rst:388
 msgid ""
@@ -7645,7 +7658,7 @@ msgstr ""
 
 #: ../../admin/config.rst:422
 msgid "DATA_DIR"
-msgstr ""
+msgstr "DATA_DIR"
 
 #: ../../admin/config.rst:424
 msgid ""
@@ -7660,7 +7673,7 @@ msgstr ":file:`home`"
 
 #: ../../admin/config.rst:430
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "Почетни директоријум који се користи за покретање скрипти."
 
 #: ../../admin/config.rst:431
 msgid ":file:`ssh`"
@@ -7668,7 +7681,7 @@ msgstr ":file:`ssh`"
 
 #: ../../admin/config.rst:432
 msgid "SSH keys and configuration."
-msgstr ""
+msgstr "SSH кључеви и конфигурација."
 
 #: ../../admin/config.rst:433
 msgid ":file:`media`"
@@ -7725,6 +7738,7 @@ msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
+"Најлакши начин да се ово постигне је да корисник буде власник директоријума:"
 
 #: ../../admin/config.rst:457
 msgid ""
@@ -7737,21 +7751,23 @@ msgstr ""
 
 #: ../../admin/config.rst:468
 msgid "DATABASE_BACKUP"
-msgstr ""
+msgstr "DATABASE_BACKUP"
 
 #: ../../admin/config.rst:470
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
+"Да ли би резервне копије базе података требало да буду сачуване као обичан "
+"текст, компримоване или прескочене. Дозвољене вредности су:"
 
 #: ../../admin/config.rst:473
 msgid "``\"plain\"``"
-msgstr ""
+msgstr "``\"plain\"``"
 
 #: ../../admin/config.rst:474
 msgid "``\"compressed\"``"
-msgstr ""
+msgstr "``\"compressed\"``"
 
 #: ../../admin/config.rst:479
 msgid ":ref:`backup`"
@@ -7759,7 +7775,7 @@ msgstr ":ref:`backup`"
 
 #: ../../admin/config.rst:484
 msgid "DEFAULT_ACCESS_CONTROL"
-msgstr ""
+msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:486
 msgid "The default access-control setting for new projects:"
@@ -7809,11 +7825,11 @@ msgstr ":ref:`subscriptions`"
 
 #: ../../admin/config.rst:522
 msgid "DEFAULT_RESTRICTED_COMPONENT"
-msgstr ""
+msgstr "DEFAULT_RESTRICTED_COMPONENT"
 
 #: ../../admin/config.rst:526
 msgid "The default value for component restriction."
-msgstr ""
+msgstr "Подразумевана вредност за ограничење компоненте."
 
 #: ../../admin/config.rst:530
 msgid ":ref:`component-restricted`, :ref:`perm-check`"
@@ -7824,6 +7840,8 @@ msgid ""
 "DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
 "DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 msgstr ""
+"DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
+"DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 
 #: ../../admin/config.rst:542
 msgid ""
@@ -7833,11 +7851,11 @@ msgstr ""
 
 #: ../../admin/config.rst:547
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
-msgstr ""
+msgstr ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
 
 #: ../../admin/config.rst:555
 msgid "DEFAULT_ADDONS"
-msgstr ""
+msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:557
 msgid "Default add-ons to install for every created component."
@@ -7845,7 +7863,7 @@ msgstr ""
 
 #: ../../admin/config.rst:561
 msgid "This setting affects only newly created components."
-msgstr ""
+msgstr "Ово подешавање утиче само на новокреиране компоненте."
 
 #: ../../admin/config.rst:563 ../../admin/config.rst:1082
 #: ../../admin/config.rst:1325 ../../admin/config.rst:1524
@@ -7853,7 +7871,7 @@ msgstr ""
 #: ../../admin/management.rst:92 ../../admin/management.rst:146
 #: ../../admin/management.rst:716 ../../wlc.rst:51
 msgid "Example:"
-msgstr ""
+msgstr "Пример:"
 
 #: ../../admin/config.rst:583
 msgid ":wladmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
@@ -7861,7 +7879,7 @@ msgstr ""
 
 #: ../../admin/config.rst:590
 msgid "DEFAULT_COMMITER_EMAIL"
-msgstr ""
+msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:592
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
@@ -7873,7 +7891,7 @@ msgstr ""
 
 #: ../../admin/config.rst:601
 msgid "DEFAULT_COMMITER_NAME"
-msgstr ""
+msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:603
 msgid "Committer name, defaulting to ``Weblate``."
@@ -7903,7 +7921,7 @@ msgstr ""
 
 #: ../../admin/config.rst:628
 msgid "DEFAULT_MERGE_STYLE"
-msgstr ""
+msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:630
 msgid ":ref:`component-merge_style` for any new components."
@@ -7911,15 +7929,15 @@ msgstr ""
 
 #: ../../admin/config.rst:632
 msgid "`rebase` - default"
-msgstr ""
+msgstr "`ребејз` - подразумевани"
 
 #: ../../admin/config.rst:633
 msgid "`merge`"
-msgstr ""
+msgstr "`спојити`"
 
 #: ../../admin/config.rst:637
 msgid ":ref:`component`, :ref:`component-merge_style`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`component-merge_style`"
 
 #: ../../admin/config.rst:643
 msgid "DEFAULT_SHARED_TM"
@@ -7933,19 +7951,20 @@ msgstr ""
 
 #: ../../admin/config.rst:650
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
-msgstr ""
+msgstr "DEFAULT_TRANSLATION_PROPAGATION"
 
 #: ../../admin/config.rst:652
 msgid "Default setting for translation propagation, defaults to ``True``."
 msgstr ""
+"Подразумевано подешавање за пропагацију превода, подразумевано је ``истина``."
 
 #: ../../admin/config.rst:656
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`component-allow_translation_propagation`"
 
 #: ../../admin/config.rst:664
 msgid "DEFAULT_PULL_MESSAGE"
-msgstr ""
+msgstr "DEFAULT_PULL_MESSAGE"
 
 #: ../../admin/config.rst:666
 msgid "Configures the default title and message for pull requests."
@@ -7953,7 +7972,7 @@ msgstr ""
 
 #: ../../admin/config.rst:671
 msgid "ENABLE_AVATARS"
-msgstr ""
+msgstr "ENABLE_AVATARS"
 
 #: ../../admin/config.rst:673
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -7964,15 +7983,18 @@ msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
+"Аватари се преузимају и кеширају на серверу, смањујући ризик од цурења "
+"приватних информација, убрзавајући корисничко искуство."
 
 #: ../../admin/config.rst:680
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 
 #: ../../admin/config.rst:687
 msgid "ENABLE_HOOKS"
-msgstr ""
+msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:689
 msgid "Whether to turn on anonymous remote hooks."
@@ -7984,7 +8006,7 @@ msgstr ":ref:`hooks`"
 
 #: ../../admin/config.rst:698
 msgid "ENABLE_HTTPS"
-msgstr ""
+msgstr "ENABLE_HTTPS"
 
 #: ../../admin/config.rst:702
 msgid "Weblate now requires https for WebAuthn support."
@@ -7995,6 +8017,8 @@ msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
 msgstr ""
+"Да ли да се везе ка Веблејту шаљу као HTTPS или HTTP. Ово подешавање утиче "
+"на послате имејлове и генерисане апсолутне URL-ове."
 
 #: ../../admin/config.rst:707
 msgid ""
@@ -8031,7 +8055,7 @@ msgstr ""
 
 #: ../../admin/config.rst:734
 msgid "ENABLE_SHARING"
-msgstr ""
+msgstr "ENABLE_SHARING"
 
 #: ../../admin/config.rst:736
 msgid ""
@@ -8199,16 +8223,18 @@ msgstr ""
 
 #: ../../admin/config.rst:917
 msgid "GOOGLE_ANALYTICS_ID"
-msgstr ""
+msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:919
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
 msgstr ""
+"Google Analytics ID за укључивање надгледања Веблејта користећи Google "
+"Analytics."
 
 #: ../../admin/config.rst:924
 msgid "HIDE_REPO_CREDENTIALS"
-msgstr ""
+msgstr "HIDE_REPO_CREDENTIALS"
 
 #: ../../admin/config.rst:926
 msgid ""
@@ -8223,6 +8249,9 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
+"На пример, уместо ``https://user:password@git.example.com/repo.git`` "
+"приказаће само ``https://git.example.com/repo.git``. Такође покушава да "
+"очисти VCS поруке о грешкама на сличан начин."
 
 #: ../../admin/config.rst:936
 msgid "On by default."
@@ -8273,11 +8302,11 @@ msgstr ""
 
 #: ../../admin/config.rst:977
 msgid "IP_BEHIND_REVERSE_PROXY"
-msgstr ""
+msgstr "IP_BEHIND_REVERSE_PROXY"
 
 #: ../../admin/config.rst:979
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr ""
+msgstr "Означава да ли Веблејт ради иза реверсног проксија."
 
 #: ../../admin/config.rst:981
 msgid ""
@@ -8290,30 +8319,36 @@ msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
+"Осигурати да заиста користите реверсни прокси и да он поставља ово заглавље, "
+"у супротном корисници ће моћи да лажирају IP адресу."
 
 #: ../../admin/config.rst:991
 msgid "This is not on by default."
-msgstr ""
+msgstr "Ово није укључено подразумевано."
 
 #: ../../admin/config.rst:995
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
 "setting:`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:1003
 msgid "IP_PROXY_HEADER"
-msgstr ""
+msgstr "IP_PROXY_HEADER"
 
 #: ../../admin/config.rst:1005
 msgid ""
 "Indicates which header Weblate should obtain the IP address from when :"
 "setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
+"Означава из ког заглавља Веблејт треба да добије IP адресу када је "
+":setting:`IP_BEHIND_REVERSE_PROXY` укључено."
 
 #: ../../admin/config.rst:1008
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "Подразумевано је ``HTTP_X_FORWARDED_FOR``."
 
 #: ../../admin/config.rst:1012
 msgid ""
@@ -8321,10 +8356,13 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:1021
 msgid "IP_PROXY_OFFSET"
-msgstr ""
+msgstr "IP_PROXY_OFFSET"
 
 #: ../../admin/config.rst:1025
 #, fuzzy
@@ -8337,6 +8375,8 @@ msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
 msgstr ""
+"Означава који део :setting:`IP_PROXY_HEADER` се користи као IP адреса "
+"клијента."
 
 #: ../../admin/config.rst:1030
 msgid ""
@@ -8365,6 +8405,9 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_HEADER`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_HEADER`"
 
 #: ../../admin/config.rst:1053
 msgid "LEGAL_TOS_DATE"
@@ -8382,11 +8425,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1073
 msgid "LEGAL_URL"
-msgstr ""
+msgstr "LEGAL_URL"
 
 #: ../../admin/config.rst:1075
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr ""
+msgstr "URL где ваша Веблејт инстанца приказује своја правна документа."
 
 #: ../../admin/config.rst:1079
 msgid ""
@@ -8400,27 +8443,29 @@ msgstr ""
 
 #: ../../admin/config.rst:1095
 msgid "LICENSE_EXTRA"
-msgstr ""
+msgstr "LICENSE_EXTRA"
 
 #: ../../admin/config.rst:1097
 msgid "Additional licenses to include in the license choices."
-msgstr ""
+msgstr "Додатне лиценце за укључивање у избор лиценци."
 
 #: ../../admin/config.rst:1101
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
 msgstr ""
+"Свака дефиниција лиценце треба да буде пар кратког имена, дугог имена и "
+"URL-а."
 
 #: ../../admin/config.rst:1103 ../../admin/config.rst:1131
 #: ../../admin/config.rst:1258 ../../admin/projects.rst:464
 #: ../../formats/xliff.rst:77
 msgid "For example:"
-msgstr ""
+msgstr "На пример:"
 
 #: ../../admin/config.rst:1118
 msgid "LICENSE_FILTER"
-msgstr ""
+msgstr "LICENSE_FILTER"
 
 #: ../../admin/config.rst:1122
 msgid "Setting this to blank value now disables license alert."
@@ -8434,7 +8479,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1129
 msgid "This filter uses the short license names."
-msgstr ""
+msgstr "Овај филтер користи кратка имена лиценци."
 
 #: ../../admin/config.rst:1137
 msgid "Following disables the license alert:"
@@ -8446,19 +8491,19 @@ msgstr ":ref:`alerts`"
 
 #: ../../admin/config.rst:1150
 msgid "LICENSE_REQUIRED"
-msgstr ""
+msgstr "LICENSE_REQUIRED"
 
 #: ../../admin/config.rst:1152
 msgid "Defines whether the license attribute in :ref:`component` is required."
-msgstr ""
+msgstr "Дефинише да ли је атрибут лиценце у :ref:`component` обавезан."
 
 #: ../../admin/config.rst:1156
 msgid "This is off by default."
-msgstr ""
+msgstr "Ово је искључено подразумевано."
 
 #: ../../admin/config.rst:1161
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
-msgstr ""
+msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 
 #: ../../admin/config.rst:1163
 msgid ""
@@ -8474,7 +8519,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1172
 msgid "Defaults to ``True``."
-msgstr ""
+msgstr "Подразумевано је ``истина``."
 
 #: ../../admin/config.rst:1178
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
@@ -8498,7 +8543,7 @@ msgstr ":ref:`addon-weblate.cdn.cdnjs`"
 
 #: ../../admin/config.rst:1196
 msgid "LOGIN_REQUIRED_URLS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS"
 
 #: ../../admin/config.rst:1198
 msgid ""
@@ -38792,7 +38837,7 @@ msgstr ""
 
 #: ../../faq.rst:453 ../../vcs.rst:559
 msgid ":setting:`DATA_DIR`"
-msgstr ""
+msgstr ":setting:`DATA_DIR`"
 
 #: ../../faq.rst:457
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
