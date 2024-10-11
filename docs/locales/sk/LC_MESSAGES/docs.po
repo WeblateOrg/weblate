@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Peter Vančo <petervanco347@gmail.com>, 2023, 2024.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024.
+# Milan Šalka <salka.milan@googlemail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 14:27+0200\n"
-"PO-Revision-Date: 2024-09-21 02:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-10-11 17:52+0000\n"
+"Last-Translator: Milan Šalka <salka.milan@googlemail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
 "Language: sk\n"
@@ -31,6 +32,10 @@ msgid ""
 "one or more groups of permissions to users for everything, or individual "
 "projects, components, glossaries, and so on."
 msgstr ""
+"Weblate sa dodáva s jemným systémom oprávnení, ktorý umožňuje priradiť "
+"používateľom oprávnenia pre celú inštanciu s preddefinovanými rolami alebo "
+"priradením jednej alebo viacerých skupín oprávnení používateľom pre všetko "
+"alebo pre jednotlivé projekty, komponenty, slovníky atď."
 
 #: ../../admin/access.rst:14
 msgid "Project access control"
@@ -42,16 +47,21 @@ msgid ""
 "guilabel:`Public`. You can switch to the paid plan if you want to restrict "
 "access to your project."
 msgstr ""
+"Projekty s bezplatným plánom Libre na Hosted Weblate sú vždy "
+":guilabel:`Public`. Ak chcete obmedziť prístup k svojmu projektu, môžete "
+"prejsť na platený plán."
 
 #: ../../admin/access.rst:22
 msgid ""
 "Limit user access to individual projects by selecting a different :ref:"
 "`project-access_control` setting. The available options are:"
 msgstr ""
+"Obmedzte prístup používateľa k jednotlivým projektom výberom iného "
+"nastavenia :ref:`project-access_control`. Dostupné možnosti sú:"
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:489
 msgid ":guilabel:`Public`"
-msgstr ""
+msgstr ":guilabel:`Public`"
 
 #: ../../admin/access.rst:26 ../../admin/access.rst:34
 msgid "Visible to everybody."
@@ -70,10 +80,12 @@ msgid ""
 "**Choose this for open-source projects, or when your Weblate instance is "
 "private or locked-down.**"
 msgstr ""
+"**Túto možnosť vyberte pre projekty s otvoreným zdrojovým kódom alebo ak je "
+"vaša inštancia Weblate súkromná alebo uzamknutá.**"
 
 #: ../../admin/access.rst:33 ../../admin/config.rst:491
 msgid ":guilabel:`Protected`"
-msgstr ""
+msgstr ":guilabel:`Protected`"
 
 #: ../../admin/access.rst:36 ../../admin/access.rst:44
 #: ../../admin/access.rst:52
@@ -90,10 +102,12 @@ msgid ""
 "**Choose this to gain visibility, but still have control over who can "
 "contribute.**"
 msgstr ""
+"**Vyberte si túto možnosť, aby ste sa zviditeľnili, ale zároveň mali "
+"kontrolu nad tým, kto môže prispievať.**"
 
 #: ../../admin/access.rst:41 ../../admin/config.rst:493
 msgid ":guilabel:`Private`"
-msgstr ""
+msgstr ":guilabel:`Private`"
 
 #: ../../admin/access.rst:42 ../../admin/access.rst:50
 msgid "Visible only to chosen users."
@@ -103,26 +117,28 @@ msgstr "Viditeľné iba pre vybraných používateľov."
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
 msgstr ""
+"**Túto možnosť vyberte v prípade projektov, ktoré by vôbec nemali byť "
+"verejne prístupné.**"
 
 #: ../../admin/access.rst:49 ../../admin/config.rst:495
 msgid ":guilabel:`Custom`"
-msgstr ""
+msgstr ":guilabel:`Custom`"
 
 #: ../../admin/access.rst:56
-#, fuzzy
-#| msgid "Log in to use Weblate."
 msgid "Not available on Hosted Weblate."
-msgstr "Pre používanie Weblate sa prihláste."
+msgstr "Nie je k dispozícii v službe Hosted Weblate."
 
 #: ../../admin/access.rst:58
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr ""
+msgstr "Všetky oprávnenia budete musieť nastaviť pomocou :ref:`custom-acl`."
 
 #: ../../admin/access.rst:60
 msgid ""
 "**Choose this on your own Weblate instance if you want to define access in a "
 "specific, finely customizable way.**"
 msgstr ""
+"**Ak chcete definovať prístup špecifickým, jemne prispôsobiteľným spôsobom, "
+"vyberte si túto možnosť vo svojej vlastnej inštancii Weblate.**"
 
 #: ../../admin/access.rst:62
 msgid ""
@@ -130,17 +146,25 @@ msgid ""
 "the configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
+":guilabel:`Access control` možno zmeniť v záložke :guilabel:`Access` "
+"konfigurácie (:guilabel:`Manage` ↓ :guilabel:`Settings`) každého príslušného "
+"projektu."
 
 #: ../../admin/access.rst:68
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Predvolené nastavenie je možné zmeniť aj nastavením "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:72
 msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
 msgstr ""
+"Aj štatistiky `Súkromných` projektov sa započítavajú do štatistík a "
+"jazykového prehľadu celého webu. Tým sa nezverejňujú názvy projektov ani "
+"žiadne iné informácie."
 
 #: ../../admin/access.rst:78
 msgid ""
@@ -148,20 +172,21 @@ msgid ""
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
+"Správcovia inštancie môžu upraviť predvolené sady oprávnení dostupné "
+"používateľom v projektoch `Public`, `Protected` a `Private` pomocou :ref:`"
+"custom settings <custom-acl>`."
 
 #: ../../admin/access.rst:83
 msgid ":ref:`project-access_control`"
 msgstr ":ref:`project-access_control`"
 
 #: ../../admin/access.rst:88
-#, fuzzy
-#| msgid "Version control"
 msgid "Managing per-project access control"
-msgstr "Správa revízií"
+msgstr "Správa riadenia prístupu pre jednotlivé projekty"
 
 #: ../../admin/access.rst:90
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "Pre `verejné`, `chránené` a `súkromné` projekty:"
 
 #: ../../admin/access.rst:92
 msgid ""
@@ -169,6 +194,10 @@ msgid ""
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
+"Pridelenie práv používateľom :guilabel:`Manage project access` (pozri "
+":ref:`privileges`) im umožňuje priradiť iných používateľov do projektov "
+"`Public`, `Protected` a `Private` (ale nie `Custom`) prostredníctvom ich "
+"pridania do tímov."
 
 #: ../../admin/access.rst:96
 msgid ""
