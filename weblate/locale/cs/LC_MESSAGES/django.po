@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-14 13:23+0000\n"
-"PO-Revision-Date: 2024-10-10 10:08+0000\n"
+"PO-Revision-Date: 2024-10-14 18:22+0000\n"
 "Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.8-rc\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1926,19 +1926,19 @@ msgstr ""
 
 #: weblate/api/docs.py:72
 msgid "Rate limiting limit of requests to perform"
-msgstr ""
+msgstr "Limit omezování požadavků k provedení"
 
 #: weblate/api/docs.py:77
 msgid "Remaining limit of requests"
-msgstr ""
+msgstr "Zbývající limit požadavků"
 
 #: weblate/api/docs.py:82
 msgid "Number of seconds until ratelimit window resets"
-msgstr ""
+msgstr "Počet vteřin do resetování okna omezování požadavků"
 
 #: weblate/api/spectacular.py:42 weblate/templates/drf_spectacular/redoc.html:9
 msgid "Weblate's REST API"
-msgstr ""
+msgstr "REST API Weblate"
 
 #: weblate/api/views.py:1917 weblate/auth/models.py:921
 #: weblate/checks/views.py:228 weblate/checks/views.py:235
@@ -4582,10 +4582,8 @@ msgid "Text direction"
 msgstr "Směr textu"
 
 #: weblate/lang/models.py:601
-#, fuzzy
-#| msgid "Automatically accept suggestions"
 msgid "Automatically detect text direction"
-msgstr "Automaticky přijímat návrhy"
+msgstr "Automaticky zjistit směr textu"
 
 #: weblate/lang/models.py:602
 msgid "Left to right"
@@ -4923,10 +4921,9 @@ msgid "Could not fetch supported languages: %s"
 msgstr "Nepodařilo se získat podporované jazyky: %s"
 
 #: weblate/machinery/apertium.py:108
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "No supported languages found: %s"
-msgstr "Nepodařilo se získat podporované jazyky: %s"
+msgstr "Nenalezeny žádné podporované jazyky: %s"
 
 #: weblate/machinery/apertium.py:116 weblate/machinery/base.py:152
 #, python-format
@@ -8696,14 +8693,12 @@ msgid "Repository changes"
 msgstr "Změny repozitáře"
 
 #: weblate/templates/keyboard-shortcuts.html:11
-#, fuzzy
-#| msgid "Available add-ons"
 msgid "Available Shortcuts"
-msgstr "Dostupné doplňky"
+msgstr "Dostupné zkratky"
 
 #: weblate/templates/keyboard-shortcuts.html:17
 msgid "Shortcut"
-msgstr ""
+msgstr "Zkratka"
 
 #: weblate/templates/keyboard-shortcuts.html:18 weblate/trans/forms.py:2781
 msgid "Action"
@@ -8711,18 +8706,16 @@ msgstr "Akce"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Open available keyboard shortcuts."
-msgstr ""
+msgstr "Otevřít dostupné klávesové zkratky."
 
 #: weblate/templates/keyboard-shortcuts.html:28
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to the first translation in the current search."
-msgstr "Tento překlad je nyní uzamčený."
+msgstr "Navigovat na první překlad v aktuálním vyhledávání."
 
 #: weblate/templates/keyboard-shortcuts.html:32
 #: weblate/templates/keyboard-shortcuts.html:41
 msgid "Navigate to the last translation in the current search."
-msgstr ""
+msgstr "Navigovat na poslední překlad v aktuálním vyhledávání."
 
 #: weblate/templates/keyboard-shortcuts.html:36
 #: weblate/templates/keyboard-shortcuts.html:37
@@ -8745,51 +8738,45 @@ msgstr ""
 #: weblate/templates/keyboard-shortcuts.html:134
 #: weblate/templates/keyboard-shortcuts.html:141
 #: weblate/templates/keyboard-shortcuts.html:147
-#, fuzzy
-#| msgid "Port"
 msgctxt "between keyboard shortcuts"
 msgid "or"
-msgstr "Port"
+msgstr "nebo"
 
 #: weblate/templates/keyboard-shortcuts.html:50
 msgid "Navigate to the next translation in the current search."
-msgstr ""
+msgstr "Navigovat na další překlad v aktuálním vyhledávání."
 
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid ""
 "Submit current form; this works the same as pressing Save and continue while "
 "editing translation."
 msgstr ""
+"Odeslat aktuální formulář; funguje stejně jako stisknutí tlačítka Uložit a "
+"pokračovat při úpravě překladu."
 
 #: weblate/templates/keyboard-shortcuts.html:65
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "Přidat jako překlad vyžadující úpravu"
+msgstr "Zrušit označení překladu jako Potřebuje upravit a odeslat jej."
 
 #: weblate/templates/keyboard-shortcuts.html:72
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
 "while editing translation."
 msgstr ""
+"Odeslat řetězec jako návrh; funguje stejně jako stisknutí tlačítka Navrhnout "
+"při úpravě překladu."
 
 #: weblate/templates/keyboard-shortcuts.html:79
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on translation editor."
-msgstr "Zaměřit editor překladu"
+msgstr "Zaměřit na editor překladu."
 
 #: weblate/templates/keyboard-shortcuts.html:86
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on comment editor."
-msgstr "Zaměřit editor překladu"
+msgstr "Zaměřit na editor komentářů."
 
 #: weblate/templates/keyboard-shortcuts.html:93
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgid "Shows Automatic suggestions tab."
-msgstr "Automatické návrhy"
+msgstr "Zobrazit kartu automatických návrhů."
 
 #: weblate/templates/keyboard-shortcuts.html:97
 #: weblate/templates/keyboard-shortcuts.html:99
@@ -8799,68 +8786,50 @@ msgstr "Automatické návrhy"
 #: weblate/templates/keyboard-shortcuts.html:120
 msgctxt "between keyboard shortcuts"
 msgid "to"
-msgstr ""
+msgstr "do"
 
 #: weblate/templates/keyboard-shortcuts.html:102
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "Copies placeable of a given number from source string."
-msgstr "Tento jazyk je používán pro zdrojové řetězce."
+msgstr "Zkopíruje umístitelné číslo ze zdrojového řetězce."
 
 #: weblate/templates/keyboard-shortcuts.html:106
 #: weblate/templates/keyboard-shortcuts.html:108
 #: weblate/templates/keyboard-shortcuts.html:116
 #: weblate/templates/keyboard-shortcuts.html:119
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "followed by"
-msgstr "Nahrál(a)"
+msgstr "následováno"
 
 #: weblate/templates/keyboard-shortcuts.html:112
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded document for "
-#| "translation."
 msgid "Copy the machine translation of a given number to current translation."
-msgstr "Vytvořit novou součást překladu z nahraného dokumentu k překladu."
+msgstr "Zkopírovat strojový překlad daného čísla do aktuálního překladu."
 
 #: weblate/templates/keyboard-shortcuts.html:123
-#, fuzzy
-#| msgid "Ignore failing check"
 msgid "Ignore one item in the list of failing checks."
-msgstr "Ignorovat neúspěšnou kontrolu"
+msgstr "Ignorovat jednu položku v seznamu nezdařilých kontrol."
 
 #: weblate/templates/keyboard-shortcuts.html:130
-#, fuzzy
-#| msgid "Shows nearby strings tab"
 msgid "Shows the Nearby strings tab."
-msgstr "Zobrazí panel okolních řetězců"
+msgstr "Zobrazit kartu Okolní řetězce."
 
 #: weblate/templates/keyboard-shortcuts.html:137
 msgid "Focus on search field."
-msgstr ""
+msgstr "Zaměřit na pole vyhledávání."
 
 #: weblate/templates/keyboard-shortcuts.html:144
-#, fuzzy
-#| msgid "Copies source string"
 msgid "Copy the source string."
-msgstr "Zkopíruje zdrojový řetězec"
+msgstr "Zkopírovat zdrojový řetězec."
 
 #: weblate/templates/keyboard-shortcuts.html:150
 msgid "Toggle the Needs editing checkbox."
-msgstr ""
+msgstr "Přepnout pole Potřebuje upravit."
 
 #: weblate/templates/keyboard-shortcuts.html:157
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation string."
-msgstr "Přidat nový řetězec k překladu"
+msgstr "Přejít na další řetězec k překladu."
 
 #: weblate/templates/keyboard-shortcuts.html:165
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation string."
-msgstr "Zachovat předchozí msgid přeložených řetězců"
+msgstr "Přejít na předchozí řetězec k překladu."
 
 #: weblate/templates/lang/create.html:7
 #: weblate/templates/snippets/list-objects.html:31
@@ -11108,10 +11077,8 @@ msgid "All untranslated strings added the past month"
 msgstr "Všechny nepřeložené řetězce přidané během posledního měsíce"
 
 #: weblate/templates/snippets/query-builder.html:111
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Strings changed in the past two weeks"
-msgstr "Řetězec byl přidán do repozitáře"
+msgstr "Řetězce změněné v posledních dvou týdnech"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"
@@ -12349,7 +12316,7 @@ msgstr "Překlady tohoto řetězce v ostatních jazycích"
 
 #: weblate/templates/translate.html:263
 msgid "Other languages"
-msgstr "Jiné jazyky"
+msgstr "Ostatní jazyky"
 
 #: weblate/templates/translate.html:264
 msgid "List of recent changes done in Weblate"
@@ -13293,15 +13260,12 @@ msgid "Document to translate"
 msgstr "Dokument k překladu"
 
 #: weblate/trans/forms.py:1862
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "Target language"
-msgstr "Spravovat jazyky"
+msgstr "Cílový jazyk"
 
 #: weblate/trans/forms.py:1863
 msgid "Target language of the document for bilingual files"
-msgstr ""
+msgstr "Cílový jazyk dokumentu pro dvojjazyčné soubory"
 
 #: weblate/trans/forms.py:1930
 msgid "Choose translation files to import"
@@ -14598,21 +14562,15 @@ msgid "Glossary color"
 msgstr "Barva glosáře"
 
 #: weblate/trans/models/component.py:776
-#, fuzzy
-#| msgid "Search filter"
 msgid "Key filter"
-msgstr "Filtr vyhledávání"
+msgstr "Filtr klíčů"
 
 #: weblate/trans/models/component.py:780
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "file mask."
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
 msgstr ""
-"Regulární výraz, kterým můžete omezit jazyky, při hledání maskou souborů."
+"Regulární výraz k filtrování klíčů. Dostupné pouze pro jednojazyčné formáty."
 
 #: weblate/trans/models/component.py:1535
 msgid ""
@@ -14827,7 +14785,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:3113
 msgid "To use the key filter, the file format must be monolingual."
-msgstr ""
+msgstr "Pro použití filtru klíčů musí být formát souboru jednojazyčný."
 
 #: weblate/trans/models/component.py:3502
 msgid "Could not add new translation file."
@@ -16361,10 +16319,8 @@ msgstr ""
 "Tímto odešlete změny a vytvoříte žádost o sloučení na Bitbucker Server."
 
 #: weblate/vcs/git.py:2183
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Cloud merge request"
-msgstr "Žádost o sloučení na Bitbucker Server"
+msgstr "Žádost o sloučení na Bitbucker Cloud"
 
 #: weblate/vcs/mercurial.py:45
 msgid "This will push changes to the upstream Mercurial repository."
