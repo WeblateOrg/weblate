@@ -55,6 +55,7 @@ DOC_LINKS: dict[str, tuple[str] | tuple[str, str]] = {
     "weblate.W025": ("admin/install", "optional-deps"),
     "weblate.E026": ("admin/install", "celery"),
     "weblate.E027": ("admin/install", "file-permissions"),
+    "weblate.E028": ("admin/config",),
     "weblate.I028": ("admin/backup",),
     "weblate.C029": ("admin/backup",),
     "weblate.C030": ("admin/install", "celery"),

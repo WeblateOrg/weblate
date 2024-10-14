@@ -105,7 +105,9 @@ def language_consistency(
             )
             if new_lang is None:
                 component.log_warning(
-                    "could not add %s language for language consistency", language
+                    "could not add %s language for language consistency: %s",
+                    language,
+                    component.new_lang_error_message,
                 )
             else:
                 new_lang.log_info("added for language consistency")

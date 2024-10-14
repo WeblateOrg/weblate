@@ -20,9 +20,12 @@ Not yet released.
 * :ref:`autofix` for Devanagari danda now better handles latin script.
 * :ref:`autofix` for French and Breton now uses a non-breaking space before colons instead of a narrow one.
 * :ref:`api` now has a preview OpenAPI specification.
+* Stale, empty glossaries are now automatically removed.
 * :kbd:`?` now displays available :ref:`keyboard`.
 * Translation and language view in the project now include basic information about the language and plurals.
 * :ref:`bulk-edit` shows a preview of matched strings.
+* :ref:`aresource` now supports translatable attribute in its strings.
+* Creating component via file upload (Translate document) now supports bilingual files.
 
 **Bug fixes**
 
@@ -32,6 +35,7 @@ Not yet released.
 **Compatibility**
 
 * Weblate now requires Python 3.11 or newer.
+* :ref:`mt-aws` now requires the `TranslateFullAccess` permission
 
 **Upgrading**
 

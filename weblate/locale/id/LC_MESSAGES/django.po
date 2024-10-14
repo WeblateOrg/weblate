@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-20 19:19+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-10-11 16:27+0000\n"
+"Last-Translator: Linerly <linerly@proton.me>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -1109,10 +1109,8 @@ msgid "Sign in"
 msgstr "Masuk"
 
 #: weblate/accounts/views.py:869
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "Keluar"
+msgstr "Telah keluar"
 
 #: weblate/accounts/views.py:975
 msgid "Register e-mail"
@@ -1141,10 +1139,9 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr "Tambah identitas lain dengan mengonfirmasi surel Anda terlebih dahulu."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "Tidak dapat membuat kunci: %s"
+msgstr "Tidak dapat mengautentikasi: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -5135,26 +5132,24 @@ msgid "Region ID"
 msgstr "ID kawasan"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "Konteks"
+msgstr "Vektor konteks"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
+"Daftar berisi ID:berat memori terpisah oleh koma. Mis. 1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "Terjemahan bukan XML yang valid"
+msgstr "Vektor konteks ini tidak valid: %s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "Nilai berat harus antara 0 dan 1: %s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5168,23 +5163,16 @@ msgstr ""
 "(tidak) formal"
 
 #: weblate/machinery/forms.py:308
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation context"
-msgstr "Komentar terjemahan"
+msgstr "Konteks terjemahan"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
 msgstr ""
-"Deskripsikan persona penerjemah untuk meningkatkan akurasi terjemahan. "
-"Misalnya: “Anda adalah peternak tupai.”"
+"Deskripsikan konteks penerjemahan untuk meningkatkan akurasi terjemahan."
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5252,26 +5240,23 @@ msgid "Choose custom model here to enable it."
 msgstr "Pilih model khusus di sini untuk mengaktifkannya."
 
 #: weblate/machinery/forms.py:403
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr "URL titik akhir aplikasi"
+msgstr "URL titik akhir OpenAI Azure"
 
 #: weblate/machinery/forms.py:407
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
-msgstr ""
+msgstr "URL titik akhir server, mis. https://server-aya.openai.azure.com."
 
 #: weblate/machinery/forms.py:413
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "Penyebaran OpenAI Azure"
 
 #: weblate/machinery/forms.py:416
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "Nama penyebaran unik model."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5498,11 +5483,6 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "Verifikasi CSRF gagal, Permintaan dibatalkan."
 
 #: weblate/templates/403_csrf.html:15
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
@@ -5513,32 +5493,22 @@ msgstr ""
 "keamanan, untuk memastikan peramban Anda tidak dibajak oleh pihak ketiga."
 
 #: weblate/templates/403_csrf.html:16
-#, fuzzy
-#| msgid ""
-#| "If you have set up your web browser to not send 'Referer' headers, please "
-#| "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests)."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
 "Jika Anda telah mengatur peramban web Anda untuk tidak mengirim kepala "
-"'Referer', mohon untuk mengaktifkannya (setidaknya untuk situs ini, untuk "
-"koneksi HTTPS, atau untuk permintaan 'same-origin')."
+"'Referer', Anda perlu mengaktifkannya (setidaknya untuk situs ini, koneksi "
+"HTTPS, atau permintaan 'same-origin')."
 
 #: weblate/templates/403_csrf.html:18
-#, fuzzy
-#| msgid ""
-#| "This site requires a CSRF cookie when submitting forms. This cookie is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-"Situs ini memerlukan kuki CSRF saat mengirimkan formulir. Kuki ini "
+"Situs kami memerlukan kuki sesi until menggunakan formulir. Kuki ini "
 "diperlukan demi alasan keamanan, untuk memastikan bahwa peramban Anda tidak "
 "dibajak oleh pihak ketiga."
 
@@ -5548,18 +5518,18 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"Mungkin saja kuki sesi Anda kedaluwarsa karena tidak aktif. Hal ini dapat "
+"dengan mudah terjadi pada permintaan yang tidak diautentikasi di mana "
+"validitas sesi terbatas. Anda mungkin ingin mencoba tindakan yang Anda "
+"maksudkan lagi dalam kasus seperti ini."
 
 #: weblate/templates/403_csrf.html:20
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again (at-least for this site, or for 'same-origin' requests)."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"Jika Anda telah mengatur peramban Anda untuk tidak menyimpan kuki, harap "
-"aktifkan kembali (setidaknya untuk situs ini atau untuk permintaan 'same-"
+"Jika Anda telah mengatur peramban Anda untuk tidak menyimpan kuki, Anda "
+"harus mengaktifkannya lagi (setidaknya untuk situs ini atau permintaan 'same-"
 "origin')."
 
 #: weblate/templates/403_csrf.html:22
@@ -6699,8 +6669,6 @@ msgid "User ID"
 msgstr "ID Pengguna"
 
 #: weblate/templates/accounts/user.html:236
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
 msgstr "Notifikasi"
 
@@ -6710,7 +6678,7 @@ msgstr "Cakupan"
 
 #: weblate/templates/accounts/user.html:238
 msgid "Frequency"
-msgstr ""
+msgstr "Frekuensi"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
@@ -6852,10 +6820,8 @@ msgid "Configure add-on"
 msgstr "Mengonfigurasi pengaya"
 
 #: weblate/templates/addons/addon_detail.html:44
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
-msgstr "Pengaya ini mengeksekusi suatu skrip."
+msgstr "Pengaya ini tidak memiliki pengaturan."
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
@@ -9884,8 +9850,6 @@ msgid "Delete announcement"
 msgstr "Hapus pengumuman"
 
 #: weblate/templates/multi-progress.html:15
-#, fuzzy
-#| msgid "Component is being updated…"
 msgid "Components are being updated…"
 msgstr "Komponen sedang diperbarui…"
 
@@ -10053,16 +10017,12 @@ msgid "Please try again later."
 msgstr "Silakan coba lagi nanti."
 
 #: weblate/templates/registration/logged_out.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for using Weblate"
-msgstr "Terima kasih telah menggunakan Weblate."
+msgstr "Terima kasih telah menggunakan Weblate"
 
 #: weblate/templates/registration/logged_out.html:17
-#, fuzzy
-#| msgid "Show on dashboard"
 msgid "Return to dashboard"
-msgstr "Perlihatkan di dasbor"
+msgstr "Kembali ke dasbor"
 
 #: weblate/templates/replace.html:13
 msgid "Please review and confirm the search and replace results."
@@ -10972,7 +10932,7 @@ msgstr "Semua string yang tidak diterjemahkan ditambahkan bulan lalu"
 
 #: weblate/templates/snippets/query-builder.html:111
 msgid "Filter changed strings 2 weeks ago"
-msgstr ""
+msgstr "Filter mengubah string 2 minggu yang lalu"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"

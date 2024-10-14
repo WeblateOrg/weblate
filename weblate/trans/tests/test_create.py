@@ -10,13 +10,14 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 
-from weblate.lang.models import get_default_lang
+from weblate.lang.models import Language, get_default_lang
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing, get_test_file
 from weblate.vcs.git import GitRepository
 
 TEST_ZIP = get_test_file("translations.zip")
 TEST_HTML = get_test_file("cs.html")
+TEST_PO = get_test_file("cs.po")
 
 
 class CreateTest(ViewTestCase):
@@ -469,6 +470,26 @@ class CreateTest(ViewTestCase):
             )
         self.assertContains(response, "Adding new translation")
         self.assertContains(response, "*.html")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_doc_bilingual(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        with open(TEST_PO) as handle, override_settings(CREATE_GLOSSARIES=False):
+            response = self.client.post(
+                reverse("create-component-doc"),
+                {
+                    "docfile": handle,
+                    "name": "Bilingual Component From Doc",
+                    "slug": "bilingual-component-from-doc",
+                    "project": self.project.pk,
+                    "source_language": get_default_lang(),
+                    "target_language": Language.objects.get(code="cs").id,
+                },
+            )
+        self.assertContains(response, "Choose translation files to import")
+        self.assertNotContains(response, "gettext PO file (monolingual)")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_scratch(self) -> None:

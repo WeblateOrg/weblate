@@ -7,8 +7,12 @@ from unittest.mock import patch
 
 from django.core.cache import cache
 from django.test import SimpleTestCase
+from django.test.utils import override_settings
 
+from weblate.addons.base import BaseAddon
+from weblate.utils.apps import check_class_loader
 from weblate.utils.celery import is_celery_queue_long
+from weblate.utils.classloader import ClassLoader
 
 
 class CeleryQueueTest(SimpleTestCase):
@@ -56,3 +60,24 @@ class CeleryQueueTest(SimpleTestCase):
             self.assertFalse(is_celery_queue_long())
             self.set_cache({int(time.time() / 3600) - 1: {"translate": 2000}})
             self.assertTrue(is_celery_queue_long())
+
+
+class ClassLoaderCheckTestCase(SimpleTestCase):
+    @override_settings(TEST_ADDONS=("weblate.addons.cleanup.CleanupAddon",))
+    def test_load(self) -> None:
+        loader = ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)
+        loader.load_data()
+        self.assertEqual(len(list(loader.keys())), 1)
+
+    @override_settings(TEST_ADDONS=("weblate.addons.cleanup.CleanupAddon"))
+    def test_invalid(self) -> None:
+        loader = ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)  # noqa: F841
+        errors = check_class_loader(app_configs=None, databases=None)
+        self.assertEqual(len(errors), 1)
+
+    @override_settings(TEST_ADDONS=("weblate.addons.not_found",))
+    def test_not_found(self) -> None:
+        loader = ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)  # noqa: F841
+        errors = check_class_loader(app_configs=None, databases=None)
+        self.assertEqual(len(errors), 1)
+        self.assertIn("does not define a 'not_found' class", errors[0].msg)

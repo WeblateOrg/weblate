@@ -820,11 +820,15 @@ class Change(models.Model, UserDisplayMixin):
         from weblate.utils.markdown import render_markdown
 
         details = self.details
+        action = self.action
 
-        if self.action in {self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE}:
+        if action in {self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE}:
             return render_markdown(self.target)
 
-        if self.action in {
+        if action == self.ACTION_COMMENT_DELETE and "comment" in details:
+            return render_markdown(details["comment"])
+
+        if action in {
             self.ACTION_ADDON_CREATE,
             self.ACTION_ADDON_CHANGE,
             self.ACTION_ADDON_REMOVE,
@@ -834,10 +838,10 @@ class Change(models.Model, UserDisplayMixin):
             except KeyError:
                 return self.target
 
-        if self.action in self.AUTO_ACTIONS and self.auto_status:
-            return str(self.AUTO_ACTIONS[self.action])
+        if action in self.AUTO_ACTIONS and self.auto_status:
+            return str(self.AUTO_ACTIONS[action])
 
-        if self.action == self.ACTION_UPDATE:
+        if action == self.ACTION_UPDATE:
             reason = details.get("reason", "content changed")
             filename = format_html(
                 "<code>{}</code>",
@@ -856,7 +860,7 @@ class Change(models.Model, UserDisplayMixin):
                 raise ValueError(f"Unknown reason: {reason}")
             return format_html(escape(message), filename)
 
-        if self.action == self.ACTION_LICENSE_CHANGE:
+        if action == self.ACTION_LICENSE_CHANGE:
             not_available = pgettext("License information not available", "N/A")
             return gettext(
                 'The license of the "%(component)s" component was changed '
@@ -875,12 +879,12 @@ class Change(models.Model, UserDisplayMixin):
             self.ACTION_INVITE_USER,
             self.ACTION_REMOVE_USER,
         }
-        if self.action == self.ACTION_ACCESS_EDIT:
+        if action == self.ACTION_ACCESS_EDIT:
             for number, name in Project.ACCESS_CHOICES:
                 if number == details["access_control"]:
                     return name
             return "Unknown {}".format(details["access_control"])
-        if self.action in user_actions:
+        if action in user_actions:
             if "username" in details:
                 result = details["username"]
             else:
@@ -888,7 +892,7 @@ class Change(models.Model, UserDisplayMixin):
             if "group" in details:
                 result = f"{result} ({details['group']})"
             return result
-        if self.action in {
+        if action in {
             self.ACTION_ADDED_LANGUAGE,
             self.ACTION_REQUESTED_LANGUAGE,
         }:
@@ -896,18 +900,18 @@ class Change(models.Model, UserDisplayMixin):
                 return Language.objects.get(code=details["language"])
             except Language.DoesNotExist:
                 return details["language"]
-        if self.action == self.ACTION_ALERT:
+        if action == self.ACTION_ALERT:
             try:
                 return ALERTS[details["alert"]].verbose
             except KeyError:
                 return details["alert"]
-        if self.action == self.ACTION_PARSE_ERROR:
+        if action == self.ACTION_PARSE_ERROR:
             return "{filename}: {error_message}".format(**details)
-        if self.action == self.ACTION_HOOK:
+        if action == self.ACTION_HOOK:
             return "{service_long_name}: {repo_url}, {branch}".format(**details)
-        if self.action == self.ACTION_COMMENT and "comment" in details:
+        if action == self.ACTION_COMMENT and "comment" in details:
             return render_markdown(details["comment"])
-        if self.action in {self.ACTION_RESET, self.ACTION_MERGE, self.ACTION_REBASE}:
+        if action in {self.ACTION_RESET, self.ACTION_MERGE, self.ACTION_REBASE}:
             return format_html(
                 "{}<br/><br/>{}<br/>{}",
                 self.get_action_display(),

@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-09-20 12:26+0000\n"
-"PO-Revision-Date: 2024-09-20 19:19+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-10-09 18:52+0000\n"
+"Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
 "application/cy/>\n"
 "Language: cy\n"
@@ -340,33 +340,31 @@ msgid "Add team"
 msgstr "Ychwanegu tîm"
 
 #: weblate/accounts/forms.py:954
-#, fuzzy
-#| msgid "Authentication"
 msgid "Name your authentication app"
-msgstr "Dilysu"
+msgstr "Enwch eich ap dilysu"
 
 #: weblate/accounts/forms.py:957
 msgid "Verify the code from the app"
-msgstr ""
+msgstr "Gwiriwch y cod o'r ap"
 
 #: weblate/accounts/forms.py:971
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "Entered token is not valid."
-msgstr "Nid yw'r cyfieithiad yn XML dilys"
+msgstr "Nid yw'r cyfieithiad yn XML dilys."
 
 #: weblate/accounts/forms.py:1039
 msgid "Recovery token"
-msgstr ""
+msgstr "Tocyn adfer"
 
 #: weblate/accounts/forms.py:1041
 msgid ""
 "Recovery token can be used just once, mark your token as used after using it."
 msgstr ""
+"Dim ond unwaith y gellir defnyddio tocyn adfer, marciwch eich tocyn fel y'i "
+"defnyddiwyd ar ôl ei ddefnyddio."
 
 #: weblate/accounts/forms.py:1098
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "Rhowch y cod o'r"
 
 #: weblate/accounts/models.py:167
 msgid "Password changed."
@@ -504,26 +502,26 @@ msgstr "Cafodd y defnyddiwr ei dynnu o dîm {team} gan {username}."
 
 #: weblate/accounts/models.py:201
 msgid "Two-factor authentication recovery codes were generated"
-msgstr ""
+msgstr "Cynhyrchwyd codau adfer dilysu dau ffactor"
 
 #: weblate/accounts/models.py:204
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr ""
+msgstr "Edrychwyd ar godau adfer dilysu dau ffactor"
 
 #: weblate/accounts/models.py:206
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "Dilysiad dau ffactor wedi'i ychwanegu: {device}"
 
 #: weblate/accounts/models.py:207
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "Dilysiad dau ffactor wedi'i dynnu: {device}"
 
 #: weblate/accounts/models.py:208
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "Mewngofnodi dilysu dau ffactor gan ddefnyddio {device}"
 
 #: weblate/accounts/models.py:213
 msgid "Configured password to sign in."
@@ -877,18 +875,14 @@ msgid "Suggestion was added"
 msgstr "Ychwanegwyd awgrym"
 
 #: weblate/accounts/notifications.py:557
-#, fuzzy
-#| msgid "Long untranslated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "Testunau hir heb eu cyfieithu"
+msgstr "Cyfieithwyd yr iaith"
 
 #: weblate/accounts/notifications.py:565
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "Mewnforio fel cyfieithwyd"
+msgstr "Cyfieithwyd y gydran"
 
 #: weblate/accounts/notifications.py:573
 msgctxt "Notification name"
@@ -1007,29 +1001,25 @@ msgstr ""
 
 #: weblate/accounts/templatetags/authnames.py:53
 msgid "Use security key (WebAuthn)"
-msgstr ""
+msgstr "Defnyddio allwedd ddiogelwch (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "Dilysu"
+msgstr "Defnyddiwch ap dilysu (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
-msgstr ""
+msgstr "Defnyddiwch godau adfer"
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "Polisi Diogelwch"
+msgstr "Allwedd ddiogelwch (%s)"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Dilysu"
+msgstr "Ap dilysu (%s)"
 
 #: weblate/accounts/views.py:205 weblate/accounts/views.py:1046
 #: weblate/accounts/views.py:1112 weblate/templates/accounts/reset.html:7
@@ -1114,10 +1104,8 @@ msgid "Sign in"
 msgstr "Mewngofnodi"
 
 #: weblate/accounts/views.py:869
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "Allgofnodi"
+msgstr "Wedi allgofnodi"
 
 #: weblate/accounts/views.py:975
 msgid "Register e-mail"
@@ -1147,10 +1135,9 @@ msgstr ""
 "Ychwanegu manylion adnabod eraill trwy gadarnhau eich cyfeiriad e-bost."
 
 #: weblate/accounts/views.py:1335
-#, fuzzy, python-format
-#| msgid "Could not generate key: %s"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "Methu cynhyrchu allwedd: %s"
+msgstr "Methu â dilysu: %s"
 
 #: weblate/accounts/views.py:1345
 msgid "Could not complete registration."
@@ -1230,32 +1217,26 @@ msgstr ""
 "ffurfweddu hysbysiadau."
 
 #: weblate/accounts/views.py:1649
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
-msgstr "Cafodd gwahoddiad defnyddiwr ei ddileu."
+msgstr "Tynnwyd yr allwedd ddiogelwch."
 
 #: weblate/accounts/views.py:1650
 #, python-format
 msgid "The security key %s was registered."
-msgstr ""
+msgstr "Cofrestrwyd yr allwedd ddiogelwch %s."
 
 #: weblate/accounts/views.py:1687
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "Cafodd gwahoddiad defnyddiwr ei ddileu."
+msgstr "Tynnwyd yr ap dilysu."
 
 #: weblate/accounts/views.py:1688
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "Cofrestrwyd yr ap dilysu %s."
 
 #: weblate/accounts/views.py:1821
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Second factor sign in"
-msgstr "Mewngofnodiad diwethaf"
+msgstr "Mewngofnodi ail ffactor"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -1783,7 +1764,7 @@ msgstr "Rhaid i’r ieithoedd ffynhonnell a tharged fod yn wahanol."
 
 #: weblate/addons/forms.py:645
 msgid "Enable case-sensitive key sorting"
-msgstr ""
+msgstr "Galluogi didoli allwedd sy'n sensitif i faint"
 
 #: weblate/addons/generate.py:33
 msgid "Statistics generator"
@@ -2088,10 +2069,8 @@ msgstr "Ychwanegu cofnod geirfa"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "Ychwanegu cofnod geirfa"
+msgstr "Ychwanegu geirfa derminoleg"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2645,13 +2624,13 @@ msgstr "Gall y gweinyddwr ychwanegu neu dynnu defnyddwyr o dîm."
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:193
 msgid "Enforced two-factor authentication"
-msgstr ""
+msgstr "Dilysiad dau ffactor gorfodol"
 
 #: weblate/auth/models.py:197
-#, fuzzy
-#| msgid "Redirecting you to the authentication provider."
 msgid "Requires users to have two-factor authentication configured."
-msgstr "Eich ailgyfeirio at y darparwr dilysu."
+msgstr ""
+"Mae'n ei gwneud yn ofynnol i ddefnyddwyr gael dilysiad dau ffactor wedi'i "
+"ffurfweddu."
 
 #: weblate/auth/models.py:398 weblate/utils/forms.py:71
 #: weblate/utils/validators.py:173
@@ -2762,6 +2741,8 @@ msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
 msgstr ""
+"Mae angen dilysu dau ffactor ar gyfer y prosiect hwn; ffurfweddwch ef yn "
+"eich proffil."
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:175
 #: weblate/templates/translate.html:231
@@ -3830,7 +3811,7 @@ msgstr "Nid yw llinyn fformat brace Python yn cyfateb i'r ffynhonnell"
 
 #: weblate/checks/format.py:611
 msgid "Single {} encountered in the format string."
-msgstr ""
+msgstr "Wedi dod ar draws {} sengl yn y llinyn fformat."
 
 #: weblate/checks/format.py:638
 msgid "C# format"
@@ -4543,7 +4524,7 @@ msgstr "Ffeil Fluent"
 
 #: weblate/formats/txt.py:89
 msgid "Should be a directory with metadata files!"
-msgstr ""
+msgstr "Dylai fod yn gyfeiriadur gyda ffeiliau metadata!"
 
 #: weblate/formats/txt.py:196
 msgid "App store metadata files"
@@ -5172,26 +5153,25 @@ msgid "Region ID"
 msgstr "ID rhanbarth"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "Cyd-destun"
+msgstr "Fector cyd-destun"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
+"Rhestr o IDau cof IDs:weight. wedi'u gwahanu gan goma, e.e: 1234:0.123,4567:0"
+".456"
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "Nid yw'r cyfieithiad yn XML dilys"
+msgstr "Nid yw'r fector cyd-destun yn ddilys: %s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "Rhaid i'r gwerth pwysau fod rhwng 0 ac 1: %s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5205,23 +5185,15 @@ msgstr ""
 "(an)ffurfiol"
 
 #: weblate/machinery/forms.py:308
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation context"
-msgstr "Sylw ar gyfieithiad"
+msgstr "Cyd-destun cyfieithu"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
-"Disgrifiwch bersona'r cyfieithydd i wella cywirdeb y cyfieithiad. Er "
-"enghraifft: “Rydych chi'n fridiwr gwiwerod.”"
+msgstr "Disgrifiwch gyd-destun y cyfieithiad i wella cywirdeb y cyfieithiad."
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5254,20 +5226,18 @@ msgid "Automatic selection"
 msgstr "Dewis awtomatig"
 
 #: weblate/machinery/forms.py:354
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "Cyfaddas"
+msgstr "Model cyfaddas"
 
 #: weblate/machinery/forms.py:359
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "URL sylfaen API OpenAI"
 
 #: weblate/machinery/forms.py:363
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
-msgstr ""
+msgstr "URL sylfaenol yr API OpenAI, os yw'n wahanol i URL rhagosodedig OpenAI"
 
 #: weblate/machinery/forms.py:370
 msgctxt "Automatic suggestion service configuration"
@@ -5275,44 +5245,41 @@ msgid "OpenAI model"
 msgstr "Model OpenAI"
 
 #: weblate/machinery/forms.py:378
-#, fuzzy
-#| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
-msgstr "Cyfaddasu enw cydran"
+msgstr "Enw model cyfaddas"
 
 #: weblate/machinery/forms.py:380
 msgid "Only needed when model is set to 'Custom model'"
-msgstr ""
+msgstr "Dim ond ei angen pan fydd y model wedi'i osod i 'Model cyfaddas'"
 
 #: weblate/machinery/forms.py:390
-#, fuzzy
-#| msgid "Missing username or e-mail."
 msgid "Missing custom model name."
-msgstr "Enw defnyddiwr neu e-bost ar goll."
+msgstr "Enw model cyfaddas ar goll."
 
 #: weblate/machinery/forms.py:394
 msgid "Choose custom model here to enable it."
-msgstr ""
+msgstr "Dewiswch fodel cyfaddas yma i'w alluogi."
 
 #: weblate/machinery/forms.py:403
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr ""
+msgstr "URL diweddbwynt Azure OpenAI"
 
 #: weblate/machinery/forms.py:407
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr ""
+"URL diweddbwynt yr enghraifft, e.e: https://my-instance.openai.azure.com."
 
 #: weblate/machinery/forms.py:413
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "Defnydd Azure OpenAI"
 
 #: weblate/machinery/forms.py:416
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "Enw defnydd unigryw'r model."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5536,48 +5503,33 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "Gwirio CSRF wedi methu. Ataliwyd y cais."
 
 #: weblate/templates/403_csrf.html:15
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
 "that your browser is not being hijacked by third parties."
 msgstr ""
-"Mae'r wefan HTTPS hon angen pennyn 'Cyfeirwyr' i'w anfon gan eich porwr gwe, "
-"ond ni anfonwyd yr un. Mae angen y pennyn hwn am resymau diogelwch, er mwyn "
-"sicrhau na chaiff eich porwr ei herwgipio gan drydydd partïon."
+"Mae'r wefan HTTPS hon angen pennawd 'Cyfeirwyr' i'w anfon gan eich porwr "
+"gwe, ond ni anfonwyd yr un. Mae angen y pennawd hwn am resymau diogelwch, "
+"gan sicrhau nad yw eich porwr yn cael ei herwgipio gan drydydd parti."
 
 #: weblate/templates/403_csrf.html:16
-#, fuzzy
-#| msgid ""
-#| "If you have set up your web browser to not send 'Referer' headers, please "
-#| "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests)."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
-"Os ydych chi wedi gosod eich porwr gwe i beidio ag anfon penynnau "
-"'Cyfeiriwr', trowch hwnnw ymlaen (o leiaf ar gyfer y wefan hon, ar gyfer "
-"cysylltiadau HTTPS, neu ar gyfer ceisiadau 'yr un tarddiad')."
+"Os ydych wedi sefydlu'ch porwr gwe i beidio ag anfon penawdau 'Cyfeirwyr', "
+"mae angen i chi droi hynny ymlaen (o leiaf ar gyfer y wefan hon, "
+"cysylltiadau HTTPS, neu geisiadau 'un-darddiad')."
 
 #: weblate/templates/403_csrf.html:18
-#, fuzzy
-#| msgid ""
-#| "This site requires a CSRF cookie when submitting forms. This cookie is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-"Mae angen cwci CSRF ar y wefan hon wrth gyflwyno ffurflenni. Mae angen y "
-"cwci hwn am resymau diogelwch, er mwyn sicrhau nad yw eich porwr yn cael ei "
+"Mae angen cwci CSRF ar ein gwefan i'r ffurflenni weithio. Mae angen y cwci "
+"hwn am resymau diogelwch, er mwyn sicrhau nad yw eich porwr yn cael ei "
 "herwgipio gan drydydd partïon."
 
 #: weblate/templates/403_csrf.html:19
@@ -5586,18 +5538,18 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"Gallai fod wedi digwydd bod eich cwci sesiwn wedi dod i ben oherwydd "
+"anweithgarwch. Gall hyn ddigwydd yn hawdd ar gyfer ceisiadau heb eu dilysu "
+"lle mae dilysrwydd sesiwn yn gyfyngedig. Efallai y byddwch am roi cynnig ar "
+"y camau a fwriadwyd gennych eto mewn achos o'r fath."
 
 #: weblate/templates/403_csrf.html:20
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again (at-least for this site, or for 'same-origin' requests)."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"Os ydych wedi gosod eich porwr i beidio â chadw cwcis, trowch nhw ymlaen eto "
-"(o leiaf ar gyfer y wefan hon, neu ar gyfer ceisiadau 'un tarddiad')."
+"Os ydych chi wedi gosod eich porwr i beidio â chadw cwcis, mae angen i chi "
+"alluogi eu cadw (ar gyfer y wefan hon o leiaf, neu geisiadau 'un tarddiad')."
 
 #: weblate/templates/403_csrf.html:22
 #, python-format
@@ -5817,11 +5769,11 @@ msgstr "Ystadegau"
 
 #: weblate/templates/accounts/2fa.html:24
 msgid "Second factor sign-in"
-msgstr ""
+msgstr "Mewngofnodi ail ffactor"
 
 #: weblate/templates/accounts/2fa.html:30
 msgid "Please complete your sign-in using second factor credential."
-msgstr ""
+msgstr "Cwblhewch eich mewngofnodi gan ddefnyddio manylion ail ffactor."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -6199,26 +6151,24 @@ msgstr "Ychwanegu hunaniaeth defnyddiwr newydd"
 
 #: weblate/templates/accounts/profile.html:188
 #: weblate/templates/accounts/user.html:354
-#, fuzzy
-#| msgid "Authentication"
 msgid "Two-factor authentication"
-msgstr "Dilysu"
+msgstr "Dilysu dau ffactor"
 
 #: weblate/templates/accounts/profile.html:192
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
+"Mae dilysu dau ffactor yn ychwanegu haen arall o ddiogelwch i'ch cyfrif trwy "
+"ofyn am fwy na chyfrinair yn unig i fewngofnodi."
 
 #: weblate/templates/accounts/profile.html:196
 msgid "Security keys (WebAuthn)"
-msgstr ""
+msgstr "Allweddi diogelwch (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:198
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no WebAuthn keys registered."
-msgstr "Nid oes copïau wrth gefn ar gael ar hyn o bryd."
+msgstr "Nid oes unrhyw allweddi WebAuthn wedi'u cofrestru ar hyn o bryd."
 
 #: weblate/templates/accounts/profile.html:203
 #: weblate/templates/accounts/profile.html:235
@@ -6234,72 +6184,62 @@ msgstr "Tynnu"
 
 #: weblate/templates/accounts/profile.html:213
 msgid "Name your security key"
-msgstr ""
+msgstr "Enwch eich allwedd ddiogelwch"
 
 #: weblate/templates/accounts/profile.html:214
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new security key"
-msgstr "Cofrestru cyfrif newydd"
+msgstr "Cofrestru allwedd diogelwch newydd"
 
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr ""
+msgstr "Yn anffodus, nid oes gan eich porwr unrhyw gefnogaeth WebAuthn."
 
 #: weblate/templates/accounts/profile.html:228
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator apps (TOTP)"
-msgstr "Dilysu"
+msgstr "Apiau Dilyswr (TOTP)"
 
 #: weblate/templates/accounts/profile.html:230
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no authenticator apps registered."
-msgstr "Nid oes copïau wrth gefn ar gael ar hyn o bryd."
+msgstr "Nid oes unrhyw apiau dilysu wedi'u cofrestru ar hyn o bryd."
 
 #: weblate/templates/accounts/profile.html:242
 #: weblate/templates/accounts/totp.html:11
 #: weblate/templates/accounts/totp.html:22
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new authenticator app"
-msgstr "Cofrestru cyfrif newydd"
+msgstr "Cofrestru ap dilysu newydd"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/accounts/recovery-codes.html:11
 #: weblate/templates/accounts/recovery-codes.html:33
 msgid "Recovery codes"
-msgstr ""
+msgstr "Codau adfer"
 
 #: weblate/templates/accounts/profile.html:247
 #: weblate/templates/accounts/recovery-codes.html:41
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no recovery codes generated."
-msgstr "Nid oes copïau wrth gefn ar gael ar hyn o bryd."
+msgstr "Nid oes unrhyw godau adfer wedi'u cynhyrchu ar hyn o bryd."
 
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/accounts/recovery-codes.html:44
 #: weblate/templates/accounts/recovery-codes.html:51
 msgid "Generate new recovery codes"
-msgstr ""
+msgstr "Cynhyrchwch godau adfer newydd"
 
 #: weblate/templates/accounts/profile.html:251
 #, python-format
 msgid "%(count)s recovery code is available."
 msgid_plural "%(count)s recovery codes are available."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "Does dim codau adfer ar gael."
+msgstr[1] "Mae %(count)s cod adfer ar gael."
+msgstr[2] "Mae %(count)s cod adfer ar gael."
+msgstr[3] "Mae %(count)s cod adfer ar gael."
+msgstr[4] "Mae %(count)s cod adfer ar gael."
+msgstr[5] "Mae %(count)s cod adfer ar gael."
 
 #: weblate/templates/accounts/profile.html:257
 msgid "View recovery codes"
-msgstr ""
+msgstr "Gweld codau adfer"
 
 #: weblate/templates/accounts/profile.html:269
 msgid "User data"
@@ -6470,13 +6410,15 @@ msgstr "Trwyddedau ar gyfer cyfieithiadau unigol"
 
 #: weblate/templates/accounts/recovery-codes.html:20
 msgid "Two-factor recovery codes"
-msgstr ""
+msgstr "Codau adfer dau ffactor"
 
 #: weblate/templates/accounts/recovery-codes.html:25
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
+"Gellir defnyddio codau adfer i gael mynediad i'ch cyfrif os byddwch yn colli "
+"mynediad i'ch dyfais ac yn methu â derbyn codau dilysu dau ffactor."
 
 #: weblate/templates/accounts/recovery-codes.html:29
 msgid ""
@@ -6485,29 +6427,31 @@ msgid ""
 "password and other second factors. If you cannot find these codes when "
 "needed, you will lose access to your account."
 msgstr ""
+"Cadwch eich codau adfer mewn man diogel, fel mewn rheolwr cyfrinair. Y codau "
+"hyn yw'r dewis olaf ar gyfer cyrchu'ch cyfrif rhag ofn i chi golli'ch "
+"cyfrinair ac ail ffactorau eraill. Os na allwch ddod o hyd i'r codau hyn pan "
+"fo angen, byddwch yn colli mynediad i'ch cyfrif."
 
 #: weblate/templates/accounts/recovery-codes.html:39
-#, fuzzy
-#| msgid "Repository URL copied to clipboard."
 msgid "Recovery codes copied to clipboard."
-msgstr "URL y storfa wedi'i gopïo i'r clipfwrdd."
+msgstr "Codau adfer wedi'u copïo i'r clipfwrdd."
 
 #: weblate/templates/accounts/recovery-codes.html:47
 msgid ""
 "When you generate new recovery codes, you must download or print the new "
 "codes."
 msgstr ""
+"Pan fyddwch chi'n cynhyrchu codau adfer newydd, rhaid i chi lwytho i lawr "
+"neu argraffu'r codau newydd."
 
 #: weblate/templates/accounts/recovery-codes.html:48
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr ""
+msgstr "Bydd eich hen godau'n dod yn annilys ac ni fyddant yn gweithio mwyach."
 
 #: weblate/templates/accounts/recovery-codes.html:55
 #: weblate/templates/accounts/totp.html:49
-#, fuzzy
-#| msgid "Edit component settings"
 msgid "Back to account settings"
-msgstr "Golygu gosodiadau cydran"
+msgstr "Yn ôl i osodiadau cyfrif"
 
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
@@ -6584,20 +6528,20 @@ msgid ""
 "Authenticator apps generate one-time passwords that are used as a second "
 "factor to verify your identity when prompted during sign-in."
 msgstr ""
+"Mae apiau Dilysu yn cynhyrchu cyfrineiriau un-amser a ddefnyddir fel ail "
+"ffactor i wirio'ch hunaniaeth pan ofynnir i chi wrth fewngofnodi."
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
-msgstr ""
+msgstr "Sganiwch y cod QR"
 
 #: weblate/templates/accounts/totp.html:37
 msgid "You can also enter the secret key manually:"
-msgstr ""
+msgstr "Gallwch hefyd nodi'r allwedd gyfrinachol â llaw:"
 
 #: weblate/templates/accounts/totp.html:40
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Secret key copied to clipboard."
-msgstr "Allwedd API wedi'i chopïo i'r clipfwrdd."
+msgstr "Allwedd gyfrinachol wedi'i chopïo i'r clipfwrdd."
 
 #: weblate/templates/accounts/totp.html:45
 #: weblate/templates/mail/shared-registration.html:22
@@ -6757,10 +6701,8 @@ msgid "Edit"
 msgstr "Golygu"
 
 #: weblate/templates/accounts/user.html:171
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "Dim gweithgaredd diweddar!"
+msgstr "Ni ddarganfuwyd unrhyw gyfraniadau diweddar."
 
 #: weblate/templates/accounts/user.html:172
 msgid "Browse all translations with contribution"
@@ -6788,10 +6730,8 @@ msgid "User ID"
 msgstr "ID defnyddiwr"
 
 #: weblate/templates/accounts/user.html:236
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
-msgstr "Hysbysiadau"
+msgstr "Hysbysiad"
 
 #: weblate/templates/accounts/user.html:237 weblate/trans/forms.py:1078
 msgid "Scope"
@@ -6799,7 +6739,7 @@ msgstr "Cwmpas"
 
 #: weblate/templates/accounts/user.html:238
 msgid "Frequency"
-msgstr ""
+msgstr "Amlder"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
@@ -6837,31 +6777,24 @@ msgid "Unblock user"
 msgstr "Dadflocio defnyddiwr"
 
 #: weblate/templates/accounts/user.html:342
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit user"
-msgstr "Golygu ffynhonnell"
+msgstr "Golygu defnyddiwr"
 
 #: weblate/templates/accounts/user.html:359
 msgid "User has two-factor authentication configured."
-msgstr ""
+msgstr "Mae gan y defnyddiwr ddilysiad dau ffactor wedi'i ffurfweddu."
 
 #: weblate/templates/accounts/user.html:361
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "User doesn't have two-factor authentication configured."
-msgstr "Nid yw'r gweinydd yn caniatáu dilysu."
+msgstr "Nid oes gan y defnyddiwr ddilysiad dau ffactor wedi'i ffurfweddu."
 
 #: weblate/templates/accounts/user.html:366
 msgid "Disable two-factor authentication"
-msgstr ""
+msgstr "Analluogu dilysu dau ffactor"
 
 #: weblate/templates/accounts/user.html:373
-#, fuzzy
-#| msgid "Account removal deletes all your private data."
 msgid "Account removal deletes all user private data."
-msgstr "Mae dileu cyfrif yn dileu eich holl ddata preifat."
+msgstr "Mae dileu cyfrif yn dileu'r holl ddata preifat defnyddwyr."
 
 #: weblate/templates/accounts/user.html:376
 #: weblate/templates/accounts/user.html:390
@@ -6929,7 +6862,7 @@ msgstr "Cyfieithiadau gyda chyfraniad"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
-msgstr ""
+msgstr "Mewngofnodwch gan ddefnyddio'r allwedd ddiogelwch"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_detail.html:12
@@ -6948,18 +6881,13 @@ msgid "Configure add-on"
 msgstr "Ffurfweddu ychwanegyn"
 
 #: weblate/templates/addons/addon_detail.html:44
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
-msgstr "Mae'r ychwanegyn hwn yn gweithredo sgript."
+msgstr "Nid oes gan yr ychwanegyn hwn unrhyw osodiadau."
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "The add-on can only be installed on the component."
-msgstr ""
-"Mae modd gosod ychwanegynnau ar gylch gorchwyl prosiect a chydran hefyd."
+msgstr "Dim ond ar y gydran y gellir gosod yr ychwanegyn."
 
 #: weblate/templates/addons/addon_head.html:9
 msgid "This add-on is used for all components sharing this repository."
@@ -7353,10 +7281,8 @@ msgid "Automatic assignment"
 msgstr "Aseiniad awtomatig"
 
 #: weblate/templates/auth/teams-name.html:4
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Requires two-factor authentication"
-msgstr "Nid yw'r gweinydd yn caniatáu dilysu."
+msgstr "Mae angen dilysu dau ffactor"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -8043,10 +7969,9 @@ msgstr "Mae'r gydran yn cael ei diweddaru…"
 
 #: weblate/templates/component-progress.html:31
 #: weblate/templates/multi-progress.html:26
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Continue to %(return_target)s"
-msgstr "Gwahoddiad i %(project_name)s"
+msgstr "Parhau i %(return_target)s"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
@@ -8054,10 +7979,8 @@ msgstr "Atal y diweddariad"
 
 #: weblate/templates/component-progress.html:38
 #: weblate/templates/multi-progress.html:30
-#, fuzzy
-#| msgid "Return to the component after completion"
 msgid "Continue after completion"
-msgstr "Nôl i'r gydran ar ôl ei chwblhau"
+msgstr "Parhewch ar ôl cwblhau"
 
 #: weblate/templates/component.html:36 weblate/wladmin/views.py:80
 msgid "Alerts"
@@ -9589,16 +9512,14 @@ msgstr[4] "%(count)s llinyn heb eu gorffen"
 msgstr[5] "%(count)s llinyn heb eu gorffen"
 
 #: weblate/templates/mail/translated_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "The translations in several languages have failing checks"
+#, python-format
 msgid "Translations in all languages have been completed in %(component)s"
-msgstr "Mae yna gwiriadau anghyflawn ar gyfieithiadau mewn sawl iaith"
+msgstr "Mae cyfieithiadau ym mhob iaith wedi'u cwblhau yn %(component)s"
 
 #: weblate/templates/mail/translated_language_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translations have been updated."
+#, python-format
 msgid "%(translation)s has been completed"
-msgstr "Mae'r cyfieithiadau wedi'u diweddaru."
+msgstr "Mae %(translation)s wedi'u cwblhau"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -10131,10 +10052,8 @@ msgid "Delete announcement"
 msgstr "Dileu cyhoeddiad"
 
 #: weblate/templates/multi-progress.html:15
-#, fuzzy
-#| msgid "Component is being updated…"
 msgid "Components are being updated…"
-msgstr "Mae'r gydran yn cael ei diweddaru…"
+msgstr "Mae cydrannau yn cael eu diweddaru…"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -10303,16 +10222,12 @@ msgid "Please try again later."
 msgstr "Ceisiwch eto nes ymlaen."
 
 #: weblate/templates/registration/logged_out.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for using Weblate"
-msgstr "Diolch am ddefnyddio Weblate."
+msgstr "Diolch am ddefnyddio Weblate"
 
 #: weblate/templates/registration/logged_out.html:17
-#, fuzzy
-#| msgid "Show on dashboard"
 msgid "Return to dashboard"
-msgstr "Dangos ar ddangosffwrdd"
+msgstr "Dychwelyd i'r dangosfwrdd"
 
 #: weblate/templates/replace.html:13
 msgid "Please review and confirm the search and replace results."
@@ -10374,10 +10289,8 @@ msgid "Add to screenshot"
 msgstr "Ychwanegu i llun sgrin"
 
 #: weblate/templates/screenshots/snippets/paste-button.html:4
-#, fuzzy
-#| msgid "Copy token to clipboard"
 msgid "Paste from clipboard"
-msgstr "Copïo tocyn i'r clipfwrdd"
+msgstr "Gludo o'r clipfwrdd"
 
 #: weblate/templates/search.html:25
 #: weblate/templates/snippets/embed-units.html:114
@@ -10534,19 +10447,23 @@ msgstr "Wrthi’n llwytho canlyniadau…"
 
 #: weblate/templates/snippets/enforced_2fa.html:7
 msgid "Configure two-factor authentication"
-msgstr ""
+msgstr "Ffurfweddu dilysu dau ffactor"
 
 #: weblate/templates/snippets/enforced_2fa.html:9
 msgid ""
 "This project requires two-factor authentication from all contributors. You "
 "won’t be able to contribute until you configure it."
 msgstr ""
+"Mae'r prosiect hwn yn gofyn am ddilysiad dau ffactor gan yr holl gyfranwyr. "
+"Ni fyddwch yn gallu cyfrannu nes i chi ei ffurfweddu."
 
 #: weblate/templates/snippets/enforced_2fa.html:11
 msgid ""
 "You are a member of the team that requires two-factor authentication. You "
 "won’t be able to use any of its privileges until you configure 2FA."
 msgstr ""
+"Rydych chi'n aelod o'r tîm sydd angen dilysu dau ffactor. Ni fyddwch yn "
+"gallu defnyddio unrhyw un o'i freintiau nes i chi ffurfweddu 2FA."
 
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:377
@@ -10670,8 +10587,8 @@ msgstr[0] ""
 "Mae awgrymiadau'n cael eu derbyn fel cyfieithiad unwaith iddyn nhw gael "
 "%(count)s pleidlais."
 msgstr[1] ""
-"Mae awgrymiadau gydag un bleidlais yn cael eu derbyn yn awtomatig fel "
-"cyfieithiadau."
+"Mae awgrymiadau'n cael ei dderbyn fel cyfieithiad unwaith iddo gael %(count)"
+"s pleidlais."
 msgstr[2] ""
 "Mae awgrymiadau'n cael eu derbyn fel cyfieithiad unwaith iddyn nhw gael "
 "%(count)s pleidlais."
@@ -10906,16 +10823,12 @@ msgstr ""
 "%(link_fsf_start)sa gydnabyddir yn rhydd gan FSF%(link_end)s."
 
 #: weblate/templates/snippets/libre-basic.html:10
-#, fuzzy
-#| msgid ""
-#| "All the source code has to be publicly available in a supported version "
-#| "control system."
 msgid ""
 "All the source code has to be libre-licensed and publicly available in a "
 "supported version control system."
 msgstr ""
-"Rhaid i'r holl god ffynhonnell fod ar gael i'r cyhoedd mewn system rheoli "
-"fersiwn a gefnogir."
+"Mae'n rhaid i'r holl god ffynhonnell fod wedi'i drwyddedu'n rhydd ac ar gael "
+"i'r cyhoedd mewn system rheoli fersiwn a gefnogir."
 
 #: weblate/templates/snippets/libre-basic.html:11
 msgid ""
@@ -11249,7 +11162,7 @@ msgstr "Pob llinyn heb ei gyfieithu a ychwanegwyd yn ystod y mis diwethaf"
 
 #: weblate/templates/snippets/query-builder.html:111
 msgid "Filter changed strings 2 weeks ago"
-msgstr ""
+msgstr "Newidiodd yr hidlydd llinynnau 2 wythnos yn ôl"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"
@@ -13623,10 +13536,8 @@ msgid "Untranslatable term"
 msgstr "Term anghyfieithiadwy"
 
 #: weblate/trans/forms.py:2506
-#, fuzzy
-#| msgid "You currently do not have permission to create projects."
 msgid "You do not have permission to create terminology."
-msgstr "Nid oes gennych ganiatâd i greu prosiectau ar hyn o bryd."
+msgstr "Nid oes gennych ganiatâd i greu terminoleg."
 
 #: weblate/trans/forms.py:2572
 msgid "State to set"
@@ -13699,10 +13610,8 @@ msgid "Author username"
 msgstr "Enw defnyddiwr yr awdur"
 
 #: weblate/trans/forms.py:2767
-#, fuzzy
-#| msgid "Changes pushed"
 msgid "Change period"
-msgstr "Newidiadau wedi'u gwthio"
+msgstr "Newid cyfnod"
 
 #: weblate/trans/forms.py:2779
 msgid "Could not find matching user!"
@@ -14342,10 +14251,8 @@ msgstr "Cyfieithiad diweddarwyd gan ffynhonnell llwytho i fyny"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:508
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Component translation completed"
-msgstr "Cwblhawyd y cyfieithiad"
+msgstr "Cyfieithiad cydran wedi'i gwblhau"
 
 #: weblate/trans/models/change.py:592
 msgid "The component was automatically locked because of an alert."
@@ -14363,10 +14270,9 @@ msgstr "%(action)s am %(time)s ar %(translation)s gan %(user)s"
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:681
-#, fuzzy, python-format
-#| msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s am %(time)s ar %(translation)s gan %(user)s"
+msgstr "%(action)s am %(time)s ar %(translation)s"
 
 #: weblate/trans/models/change.py:850
 msgid "The “{}” file was changed."
@@ -15141,10 +15047,8 @@ msgid "Component list to assign"
 msgstr "Rhestr cydrannau i'w neilltuo"
 
 #: weblate/trans/models/label.py:28
-#, fuzzy
-#| msgid "Description"
 msgid "Label description"
-msgstr "Disgrifiad"
+msgstr "Disgrifiad label"
 
 #: weblate/trans/models/project.py:129
 msgid "Public"
@@ -15206,6 +15110,8 @@ msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
 msgstr ""
+"Yn ei gwneud yn ofynnol i gyfranwyr gael dilysu dau-ffactor wedi'i "
+"ffurfweddu cyn gallu cyfrannu."
 
 #: weblate/trans/models/project.py:201 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
@@ -15892,6 +15798,8 @@ msgstr "Mae cais am gyfieithiad newydd wedi ei anfon at gynhalwyr y prosiect."
 #: weblate/trans/views/basic.py:766
 msgid "All languages have been added, updates of translations are in progress."
 msgstr ""
+"Mae pob iaith wedi'i hychwanegu, mae diweddariadau o gyfieithiadau ar y "
+"gweill."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -15970,10 +15878,8 @@ msgid "Your suggestion has been identified as spam!"
 msgstr "Mae'ch awgrym wedi'i nodi fel sbam!"
 
 #: weblate/trans/views/edit.py:319
-#, fuzzy
-#| msgid "Memory will be then populated with the current translations."
 msgid "Your suggestion is similar to the current translation!"
-msgstr "Yna bydd y cof yn cael ei boblogi gyda'r cyfieithiadau cyfredol."
+msgstr "Mae eich awgrym yn debyg i'r cyfieithiad presennol!"
 
 #: weblate/trans/views/edit.py:324
 msgid "Your suggestion already exists!"
@@ -16123,17 +16029,19 @@ msgstr "Methu cloi'r storfa, mae gweithrediad arall ar y gweill."
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr ""
+"Mae'r holl storfeydd wedi'u diweddaru, mae diweddariadau o gyfieithiadau ar "
+"y gweill."
 
 #: weblate/trans/views/git.py:84
 msgid "All repositories were pushed."
 msgstr "Gwthiwyd pob storfa."
 
 #: weblate/trans/views/git.py:99
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
-msgstr "Mae'r holl ystorfeydd wedi'u hailosod."
+msgstr ""
+"Mae'r holl storfe3ydd wedi'u hailosod, mae diweddariadau o gyfieithiadau ar "
+"y gweill."
 
 #: weblate/trans/views/git.py:123
 msgid "All repositories have been cleaned up."
@@ -16144,10 +16052,8 @@ msgid "Translation files have been synchronized."
 msgstr "Mae ffeiliau cyfieithu wedi'u cydweddu."
 
 #: weblate/trans/views/git.py:155
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Updates of translations are in progress."
-msgstr "Cyfieithu awtomatig yn digwydd"
+msgstr "Mae diweddariadau o gyfieithiadau ar y gweill."
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
@@ -16524,10 +16430,8 @@ msgid "This e-mail address is disallowed."
 msgstr "Ni chaniateir y cyfeiriad e-bost hwn."
 
 #: weblate/utils/validators.py:195
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Invalid e-mail address: {}"
-msgstr "Rhowch gyfeiriad e-bost dilys."
+msgstr "Cyfeiriad e-bost annilys: {}"
 
 #: weblate/utils/validators.py:207
 msgid "Could not evaluate plural formula: {}"
