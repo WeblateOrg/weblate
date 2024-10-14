@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-14 13:23+0000\n"
-"PO-Revision-Date: 2024-09-21 11:11+0000\n"
+"PO-Revision-Date: 2024-10-14 18:22+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.8-rc\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1968,15 +1968,17 @@ msgstr ""
 
 #: weblate/api/docs.py:72
 msgid "Rate limiting limit of requests to perform"
-msgstr ""
+msgstr "Limitar el número de solicitudes que se realicen"
 
 #: weblate/api/docs.py:77
 msgid "Remaining limit of requests"
-msgstr ""
+msgstr "Límite restante de peticiones"
 
 #: weblate/api/docs.py:82
 msgid "Number of seconds until ratelimit window resets"
 msgstr ""
+"Número de segundos restantes antes de que se restablezca la ventana de "
+"limitación de velocidad"
 
 #: weblate/api/spectacular.py:42 weblate/templates/drf_spectacular/redoc.html:9
 msgid "Weblate's REST API"
@@ -4661,10 +4663,8 @@ msgid "Text direction"
 msgstr "Dirección del texto"
 
 #: weblate/lang/models.py:601
-#, fuzzy
-#| msgid "Automatically accept suggestions"
 msgid "Automatically detect text direction"
-msgstr "Aceptar sugerencias automáticamente"
+msgstr "Detectar automáticamente la orientación del texto"
 
 #: weblate/lang/models.py:602
 msgid "Left to right"
@@ -5007,10 +5007,9 @@ msgid "Could not fetch supported languages: %s"
 msgstr "Error al obtener los idiomas soportados: %s"
 
 #: weblate/machinery/apertium.py:108
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "No supported languages found: %s"
-msgstr "Error al obtener los idiomas soportados: %s"
+msgstr "Sin idiomas compatibles: %s"
 
 #: weblate/machinery/apertium.py:116 weblate/machinery/base.py:152
 #, python-format
@@ -8827,14 +8826,12 @@ msgid "Repository changes"
 msgstr "Cambios del repositorio"
 
 #: weblate/templates/keyboard-shortcuts.html:11
-#, fuzzy
-#| msgid "Available add-ons"
 msgid "Available Shortcuts"
-msgstr "Complementos disponibles"
+msgstr "Atajos disponibles"
 
 #: weblate/templates/keyboard-shortcuts.html:17
 msgid "Shortcut"
-msgstr ""
+msgstr "Atajos"
 
 #: weblate/templates/keyboard-shortcuts.html:18 weblate/trans/forms.py:2781
 msgid "Action"
@@ -8842,18 +8839,16 @@ msgstr "Acción"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Open available keyboard shortcuts."
-msgstr ""
+msgstr "Abrir los atajos de teclado disponibles."
 
 #: weblate/templates/keyboard-shortcuts.html:28
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to the first translation in the current search."
-msgstr "Esta traducción está bloqueada en este momento."
+msgstr "Navega hasta la primera traducción de la búsqueda actual."
 
 #: weblate/templates/keyboard-shortcuts.html:32
 #: weblate/templates/keyboard-shortcuts.html:41
 msgid "Navigate to the last translation in the current search."
-msgstr ""
+msgstr "Navega hasta la última traducción de la búsqueda actual."
 
 #: weblate/templates/keyboard-shortcuts.html:36
 #: weblate/templates/keyboard-shortcuts.html:37
@@ -8876,51 +8871,45 @@ msgstr ""
 #: weblate/templates/keyboard-shortcuts.html:134
 #: weblate/templates/keyboard-shortcuts.html:141
 #: weblate/templates/keyboard-shortcuts.html:147
-#, fuzzy
-#| msgid "Port"
 msgctxt "between keyboard shortcuts"
 msgid "or"
-msgstr "Puerto"
+msgstr "o"
 
 #: weblate/templates/keyboard-shortcuts.html:50
 msgid "Navigate to the next translation in the current search."
-msgstr ""
+msgstr "Navega a la siguiente traducción en la búsqueda actual."
 
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid ""
 "Submit current form; this works the same as pressing Save and continue while "
 "editing translation."
 msgstr ""
+"Enviar el formulario actual; esto funciona igual que presionar Guardar y "
+"continuar mientras se edita la traducción."
 
 #: weblate/templates/keyboard-shortcuts.html:65
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "Añadir como traducción que requiere edición"
+msgstr "Desmarque la traducción como Necesita edición y envíela."
 
 #: weblate/templates/keyboard-shortcuts.html:72
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
 "while editing translation."
 msgstr ""
+"Enviar la cadena como sugerencia; esto funciona igual que presionar Sugerir "
+"mientras se edita la traducción."
 
 #: weblate/templates/keyboard-shortcuts.html:79
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on translation editor."
-msgstr "Centrar en el editor de traducción"
+msgstr "Centrarse en el editor de traducciones."
 
 #: weblate/templates/keyboard-shortcuts.html:86
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on comment editor."
-msgstr "Centrar en el editor de traducción"
+msgstr "Centrarse en el editor de comentarios."
 
 #: weblate/templates/keyboard-shortcuts.html:93
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgid "Shows Automatic suggestions tab."
-msgstr "Sugerencias automáticas"
+msgstr "Muestra la pestaña de sugerencias automáticas."
 
 #: weblate/templates/keyboard-shortcuts.html:97
 #: weblate/templates/keyboard-shortcuts.html:99
@@ -8930,7 +8919,7 @@ msgstr "Sugerencias automáticas"
 #: weblate/templates/keyboard-shortcuts.html:120
 msgctxt "between keyboard shortcuts"
 msgid "to"
-msgstr ""
+msgstr "a"
 
 #: weblate/templates/keyboard-shortcuts.html:102
 #, fuzzy
@@ -8942,10 +8931,8 @@ msgstr "Este idioma se utiliza para las cadenas de origen."
 #: weblate/templates/keyboard-shortcuts.html:108
 #: weblate/templates/keyboard-shortcuts.html:116
 #: weblate/templates/keyboard-shortcuts.html:119
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "followed by"
-msgstr "Cargado por"
+msgstr "seguido por"
 
 #: weblate/templates/keyboard-shortcuts.html:112
 #, fuzzy
@@ -8964,36 +8951,28 @@ msgid "Ignore one item in the list of failing checks."
 msgstr "Ignorar comprobación fallida"
 
 #: weblate/templates/keyboard-shortcuts.html:130
-#, fuzzy
-#| msgid "Shows nearby strings tab"
 msgid "Shows the Nearby strings tab."
-msgstr "Mostrar la pestaña de cadenas cercanas"
+msgstr "Muestra la pestaña Cadenas cercanas."
 
 #: weblate/templates/keyboard-shortcuts.html:137
 msgid "Focus on search field."
-msgstr ""
+msgstr "Centrarse en el campo de búsqueda."
 
 #: weblate/templates/keyboard-shortcuts.html:144
-#, fuzzy
-#| msgid "Copies source string"
 msgid "Copy the source string."
 msgstr "Copia la cadena de origen"
 
 #: weblate/templates/keyboard-shortcuts.html:150
 msgid "Toggle the Needs editing checkbox."
-msgstr ""
+msgstr "Active la casilla de verificación Necesita edición."
 
 #: weblate/templates/keyboard-shortcuts.html:157
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation string."
-msgstr "Añadir cadena de traducción nueva"
+msgstr "Navega por la siguiente cadena de traducción."
 
 #: weblate/templates/keyboard-shortcuts.html:165
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation string."
-msgstr "Conservar los msgid anteriores de las cadenas traducidas"
+msgstr "Navega por la cadena de traducción anterior."
 
 #: weblate/templates/lang/create.html:7
 #: weblate/templates/snippets/list-objects.html:31
@@ -11258,10 +11237,8 @@ msgid "All untranslated strings added the past month"
 msgstr "Todas las cadenas no traducidas añadidas el mes pasado"
 
 #: weblate/templates/snippets/query-builder.html:111
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Strings changed in the past two weeks"
-msgstr "Cadena añadida al repositorio"
+msgstr "Las cadenas cambiaron en las últimas dos semanas"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"
