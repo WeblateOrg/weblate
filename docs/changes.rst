@@ -30,6 +30,7 @@ Not yet released.
 
 * Displaying :ref:`workflow-customization` setting in some cases.
 * Users can add component in any language already existing in a project.
+* :ref:`check-unnamed-format` better handles some strings, such as :ref:`check-python-brace-format`.
 
 **Compatibility**
 
