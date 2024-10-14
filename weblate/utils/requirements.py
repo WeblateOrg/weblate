@@ -69,10 +69,11 @@ OPTIONAL = [
     "tesserocr",
     "akismet",
     "boto3",
-    "zeep",
     "aeidon",
     "iniparse",
     "mysqlclient",
+    "google-cloud-translate",
+    "openai",
 ]
 
 
