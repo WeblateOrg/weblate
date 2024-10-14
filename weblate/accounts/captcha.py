@@ -96,9 +96,9 @@ def eval_expr(expr):
 
 def eval_node(node):
     """Evaluate single AST node."""
-    if isinstance(node, ast.Num):
+    if isinstance(node, ast.Constant):
         # number
-        return node.n
+        return node.value
     if isinstance(node, ast.operator):
         # operator
         return OPERATORS[type(node)]
