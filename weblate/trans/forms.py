@@ -1179,7 +1179,14 @@ class NewLanguageForm(NewLanguageOwnerForm):
         return (
             super()
             .get_lang_objects()
-            .filter(Q(code__in=codes) | Q(component__project=self.component.project))
+            .filter(
+                # Include basic languages
+                Q(code__in=codes)
+                # Include source languages in a project
+                | Q(component__project=self.component.project)
+                # Include translations in a project
+                | Q(translation__component__project=self.component.project)
+            )
             .distinct()
         )
 
