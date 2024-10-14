@@ -909,7 +909,7 @@ class Profile(models.Model):
         return list(self._get_second_factors())
 
     @cached_property
-    def second_factor_types(self) -> set(Literal["totp", "webauthn", "recovery"]):
+    def second_factor_types(self) -> set[Literal["totp", "webauthn", "recovery"]]:
         from weblate.accounts.utils import get_key_type
 
         return {get_key_type(device) for device in self.second_factors}
