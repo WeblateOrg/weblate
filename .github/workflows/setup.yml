@@ -111,6 +111,8 @@ jobs:
       run: uv build
     - name: Twine check
       run: twine check dist/*
+    - name: pydistcheck
+      run: uvx pydistcheck --inspect dist/*
     - name: Sign the dists with Sigstore
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
       uses: sigstore/gh-action-sigstore-python@v3.0.0
