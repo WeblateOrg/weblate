@@ -46,6 +46,7 @@ from weblate.trans.models import Change, ComponentList
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField
+from weblate.utils.html import mail_quote_value
 from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.token import get_token
@@ -351,10 +352,12 @@ class AuditLog(models.Model):
             "site_title": settings.SITE_TITLE,
         }
         for name, value in self.params.items():
-            if name in {"old", "new", "name", "email", "username"}:
-                value = format_html("<code>{}</code>", value)
+            if value is None:
+                value = format_html("<em>{}</em>", value)
+            elif name in {"old", "new", "name", "email", "username"}:
+                value = format_html("<code>{}</code>", mail_quote_value(value))
             elif name in {"device", "project", "site_title", "method"}:
-                value = format_html("<strong>{}</strong>", value)
+                value = format_html("<strong>{}</strong>", mail_quote_value(value))
 
             result[name] = value
 

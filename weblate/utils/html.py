@@ -9,10 +9,12 @@ from collections import defaultdict
 from typing import TYPE_CHECKING
 
 import nh3
+from django.utils.html import format_html, format_html_join
 from html2text import HTML2Text as _HTML2Text
 from lxml.etree import HTMLParser
 
 if TYPE_CHECKING:
+    from django.utils.safestring import SafeString
     from lxml.etree import ParserTarget
 
     from weblate.checks.flags import Flags
@@ -164,3 +166,25 @@ class HTML2Text(_HTML2Text):
             self.o(WEBLATE_TAGS[tag][not start])
             return
         super().handle_tag(tag, attrs, start)
+
+
+def mail_quote_char(text: str) -> str | SafeString:
+    if text in {":", "."}:
+        return format_html("<span>{}</span>", text)
+    return text
+
+
+def mail_quote_value(text: str) -> str | SafeString:
+    """
+    Quote value to be used in e-mail notifications.
+
+    This tries to avoid automatic conversion to links by Gmail
+    and similar services.
+
+    Solution based on https://stackoverflow.com/a/23404042/225718
+    """
+    return format_html_join(
+        "",
+        "{}",
+        ((mail_quote_char(part),) for part in re.split("([.:])", text)),
+    )
