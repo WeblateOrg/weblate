@@ -144,6 +144,8 @@ jobs:
       run: uvx pydistcheck --inspect dist/*
     - name: pyroma
       run: uvx pyroma dist/*.tar.gz
+    - name: check-wheel-contents
+      run: uvx check-wheel-contents dist/*.whl
 
   notes:
     runs-on: ubuntu-24.04

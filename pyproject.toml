@@ -194,6 +194,12 @@ Homepage = "https://weblate.org/"
 "Source Code" = "https://github.com/WeblateOrg/weblate"
 Twitter = "https://twitter.com/WeblateOrg"
 
+[tool.check-wheel-contents]
+ignore = [
+  "W002",  # Triggered by __init__.py or .license files
+  "W004"  # Django migrations fail here
+]
+
 [tool.codespell]
 count = true
 ignore-words-list = "assertIn"
