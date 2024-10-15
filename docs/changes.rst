@@ -3,13 +3,9 @@ Weblate 5.8.1
 
 Not yet released.
 
-**New features**
-
-**Improvements**
-
 **Bug fixes**
 
-**Compatibility**
+* Use lower case name for the Python package.
 
 **Upgrading**
 

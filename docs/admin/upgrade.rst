@@ -42,19 +42,19 @@ releases should work, but is not as well tested as single version upgrades!
 
    .. code-block:: sh
 
-      uv pip install -U "Weblate[all]==version"
+      uv pip install -U "weblate[all]==version"
 
    Or, if you just want to get the latest released version:
 
    .. code-block:: sh
 
-      uv pip install -U "Weblate[all]"
+      uv pip install -U "weblate[all]"
 
    If you don't want to install all of the optional dependencies do:
 
    .. code-block:: sh
 
-      uv pip install -U Weblate
+      uv pip install -U weblate
 
    Using Git checkout, you need to fetch new source code and update your installation:
 

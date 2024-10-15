@@ -268,19 +268,19 @@ When installing using pip, you can directly specify desired features when instal
 
 .. code-block:: sh
 
-   uv pip install "Weblate[Postgres,Amazon,SAML]"
+   uv pip install "weblate[Postgres,Amazon,SAML]"
 
 Or you can install Weblate with all optional features:
 
 .. code-block:: sh
 
-   uv pip install "Weblate[all]"
+   uv pip install "weblate[all]"
 
 Or you can install Weblate without any optional features:
 
 .. code-block:: sh
 
-   uv pip install Weblate
+   uv pip install weblate
 
 Other system requirements
 +++++++++++++++++++++++++

@@ -98,7 +98,7 @@ keywords = [
   "translate"
 ]
 license = {text = "GPLv3+"}
-name = "Weblate"
+name = "weblate"
 requires-python = ">=3.11"
 
 [project.optional-dependencies]
@@ -106,7 +106,7 @@ alibaba = [
   "aliyun-python-sdk-alimt>=3.2.0,<4.0.0"
 ]
 all = [
-  "Weblate[alibaba,amazon,antispam,gerrit,google,ldap,mercurial,openai,postgres,saml,zxcvbn]"
+  "weblate[alibaba,amazon,antispam,gerrit,google,ldap,mercurial,openai,postgres,saml,zxcvbn]"
 ]
 amazon = [
   "boto3>=1.28.62,<1.36.0"
@@ -119,7 +119,7 @@ ci = [
   "twine==5.1.1"
 ]
 dev = [
-  "Weblate[all,ci,test,lint,mypy]",
+  "weblate[all,ci,test,lint,mypy]",
   "django-debug-toolbar==4.4.6",
   "PyICU==2.13.1",
   "reuse==4.0.3",

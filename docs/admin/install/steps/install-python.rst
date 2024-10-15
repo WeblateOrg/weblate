@@ -24,7 +24,7 @@ Python modules
    .. code-block:: sh
 
         # Install Weblate with all optional dependencies
-        uv pip install "Weblate[all]"
+        uv pip install "weblate[all]"
 
    Please check :ref:`python-deps` for fine-tuning of optional dependencies.
 
