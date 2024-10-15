@@ -9,6 +9,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Update outdated plural definitions during the database migration.
+
 **Compatibility**
 
 **Upgrading**
