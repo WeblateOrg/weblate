@@ -11,7 +11,7 @@ Installing on Debian and Ubuntu
       libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev \
       libffi-dev libcairo-dev gir1.2-pango-1.0 gir1.2-rsvg-2.0 libgirepository1.0-dev \
       libacl1-dev liblz4-dev libzstd-dev libxxhash-dev libssl-dev libpq-dev libjpeg-dev build-essential \
-      python3-gdbm python3-dev python3-pip python3-virtualenv virtualenv git
+      python3-gdbm python3-dev git
 
 .. include:: steps/install-system-optional.rst
 
@@ -43,6 +43,7 @@ Installing on Debian and Ubuntu
     # Gettext for the msgmerge add-on
     apt install -y gettext
 
+.. include:: steps/install-uv.rst
 
 .. include:: steps/install-python.rst
 

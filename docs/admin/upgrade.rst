@@ -42,19 +42,19 @@ releases should work, but is not as well tested as single version upgrades!
 
    .. code-block:: sh
 
-      pip install -U "Weblate[all]==version"
+      uv pip install -U "Weblate[all]==version"
 
    Or, if you just want to get the latest released version:
 
    .. code-block:: sh
 
-      pip install -U "Weblate[all]"
+      uv pip install -U "Weblate[all]"
 
    If you don't want to install all of the optional dependencies do:
 
    .. code-block:: sh
 
-      pip install -U Weblate
+      uv pip install -U Weblate
 
    Using Git checkout, you need to fetch new source code and update your installation:
 
@@ -63,11 +63,11 @@ releases should work, but is not as well tested as single version upgrades!
         cd weblate-src
         git pull
         # Update Weblate inside your virtualenv
-        . ~/weblate-env/bin/pip install -e '.[all]'
+        . ~/weblate-env/bin/uv pip install -e '.[all]'
         # Install dependencies directly when not using virtualenv
-        pip install --upgrade -e .
+        uv pip install --upgrade -e .
         # Install optional dependencies directly when not using virtualenv
-        pip install --upgrade -e '.[all]'
+        uv pip install --upgrade -e '.[all]'
 
 #. New Weblate releases might have new :ref:`python-deps`, check if they cover
    the features you want.

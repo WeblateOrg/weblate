@@ -38,7 +38,7 @@ sources.
 
    .. code-block:: sh
 
-      pip install -e '.[all,dev,ci,test,mypy,lint]'
+      uv pip install -e '.[dev]'
 
 3. Start a development server:
 
