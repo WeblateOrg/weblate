@@ -1,4 +1,4 @@
-# Copyright © Michal Čihař <michal@weblate.org>
+# Copyrightct © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -35,5 +35,5 @@ jobs:
     - name: Install Weblate
       run: |
         uv venv --python python3.12 .venv
-        . .venv/bin/activate
+        source .venv/bin/activate
         uv pip install -e .[all,test]
