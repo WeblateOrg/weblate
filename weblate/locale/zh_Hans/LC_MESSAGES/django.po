@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-14 13:23+0000\n"
-"PO-Revision-Date: 2024-10-15 02:45+0000\n"
+"PO-Revision-Date: 2024-10-15 06:55+0000\n"
 "Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
 "org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -4452,10 +4452,8 @@ msgid "Text direction"
 msgstr "文字方向"
 
 #: weblate/lang/models.py:601
-#, fuzzy
-#| msgid "Automatically accept suggestions"
 msgid "Automatically detect text direction"
-msgstr "自动接受建议"
+msgstr "自动检测文本方向"
 
 #: weblate/lang/models.py:602
 msgid "Left to right"
@@ -4786,10 +4784,9 @@ msgid "Could not fetch supported languages: %s"
 msgstr "无法获取受支持的语言：%s"
 
 #: weblate/machinery/apertium.py:108
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "No supported languages found: %s"
-msgstr "无法获取受支持的语言：%s"
+msgstr "未找到支持的语言：%s"
 
 #: weblate/machinery/apertium.py:116 weblate/machinery/base.py:152
 #, python-format
@@ -8384,14 +8381,12 @@ msgid "Repository changes"
 msgstr "仓库变更"
 
 #: weblate/templates/keyboard-shortcuts.html:11
-#, fuzzy
-#| msgid "Available add-ons"
 msgid "Available Shortcuts"
-msgstr "可用的附加组件"
+msgstr "可用的快捷方式"
 
 #: weblate/templates/keyboard-shortcuts.html:17
 msgid "Shortcut"
-msgstr ""
+msgstr "快捷方式"
 
 #: weblate/templates/keyboard-shortcuts.html:18 weblate/trans/forms.py:2781
 msgid "Action"
@@ -8399,7 +8394,7 @@ msgstr "操作"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Open available keyboard shortcuts."
-msgstr ""
+msgstr "打开可用的键盘快捷键。"
 
 #: weblate/templates/keyboard-shortcuts.html:28
 msgid "Navigate to the first translation in the current search."
@@ -8408,7 +8403,7 @@ msgstr "转到当前搜索的第一个翻译。"
 #: weblate/templates/keyboard-shortcuts.html:32
 #: weblate/templates/keyboard-shortcuts.html:41
 msgid "Navigate to the last translation in the current search."
-msgstr ""
+msgstr "转到当前搜索中的最后一条翻译。"
 
 #: weblate/templates/keyboard-shortcuts.html:36
 #: weblate/templates/keyboard-shortcuts.html:37
@@ -8431,21 +8426,19 @@ msgstr ""
 #: weblate/templates/keyboard-shortcuts.html:134
 #: weblate/templates/keyboard-shortcuts.html:141
 #: weblate/templates/keyboard-shortcuts.html:147
-#, fuzzy
-#| msgid "Port"
 msgctxt "between keyboard shortcuts"
 msgid "or"
-msgstr "端口"
+msgstr "或"
 
 #: weblate/templates/keyboard-shortcuts.html:50
 msgid "Navigate to the next translation in the current search."
-msgstr ""
+msgstr "转到当前搜索中的下一条翻译。"
 
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid ""
 "Submit current form; this works the same as pressing Save and continue while "
 "editing translation."
-msgstr ""
+msgstr "提交当前表单；这等同于在翻译时按下“保存”并继续。"
 
 #: weblate/templates/keyboard-shortcuts.html:65
 msgid "Unmark translation as Needing edit and submit it."
@@ -8455,7 +8448,7 @@ msgstr "取消译文“需要编辑”的标记并提交它。"
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
 "while editing translation."
-msgstr ""
+msgstr "将字符串提交为建议；这等同于在编辑翻译时按下“建议”。"
 
 #: weblate/templates/keyboard-shortcuts.html:79
 msgid "Focus on translation editor."
@@ -8466,10 +8459,8 @@ msgid "Focus on comment editor."
 msgstr "聚焦到评论编辑器。"
 
 #: weblate/templates/keyboard-shortcuts.html:93
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgid "Shows Automatic suggestions tab."
-msgstr "自动建议"
+msgstr "显示自动建议选项卡。"
 
 #: weblate/templates/keyboard-shortcuts.html:97
 #: weblate/templates/keyboard-shortcuts.html:99
@@ -8479,7 +8470,7 @@ msgstr "自动建议"
 #: weblate/templates/keyboard-shortcuts.html:120
 msgctxt "between keyboard shortcuts"
 msgid "to"
-msgstr ""
+msgstr "到"
 
 #: weblate/templates/keyboard-shortcuts.html:102
 msgid "Copies placeable of a given number from source string."
@@ -8489,32 +8480,24 @@ msgstr "复制来自源字符串给定编号的 placeable。"
 #: weblate/templates/keyboard-shortcuts.html:108
 #: weblate/templates/keyboard-shortcuts.html:116
 #: weblate/templates/keyboard-shortcuts.html:119
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "followed by"
-msgstr "上传者"
+msgstr "关注者"
 
 #: weblate/templates/keyboard-shortcuts.html:112
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded document for "
-#| "translation."
 msgid "Copy the machine translation of a given number to current translation."
-msgstr "从上传的文档创建新的翻译部件。"
+msgstr "复制给定数字的机器翻译结果到当前翻译。"
 
 #: weblate/templates/keyboard-shortcuts.html:123
 msgid "Ignore one item in the list of failing checks."
 msgstr "忽略未通过的检查列表中的一项。"
 
 #: weblate/templates/keyboard-shortcuts.html:130
-#, fuzzy
-#| msgid "Shows nearby strings tab"
 msgid "Shows the Nearby strings tab."
-msgstr "显示附近字符串选项卡"
+msgstr "显示附近字符串选项卡。"
 
 #: weblate/templates/keyboard-shortcuts.html:137
 msgid "Focus on search field."
-msgstr ""
+msgstr "聚焦到搜索框。"
 
 #: weblate/templates/keyboard-shortcuts.html:144
 msgid "Copy the source string."
@@ -8522,7 +8505,7 @@ msgstr "复制源字符串。"
 
 #: weblate/templates/keyboard-shortcuts.html:150
 msgid "Toggle the Needs editing checkbox."
-msgstr ""
+msgstr "切换“需要编辑”复选框勾选状态。"
 
 #: weblate/templates/keyboard-shortcuts.html:157
 msgid "Browse the next translation string."
@@ -10662,10 +10645,8 @@ msgid "All untranslated strings added the past month"
 msgstr "过去一个月添加的所有未翻译字符串"
 
 #: weblate/templates/snippets/query-builder.html:111
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Strings changed in the past two weeks"
-msgstr "在仓库中添加了字符串"
+msgstr "过去两周更改的字符串"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"
@@ -12709,11 +12690,8 @@ msgid "Document to translate"
 msgstr "要翻译的文档"
 
 #: weblate/trans/forms.py:1862
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "Target language"
-msgstr "管理语言"
+msgstr "目标语言"
 
 #: weblate/trans/forms.py:1863
 msgid "Target language of the document for bilingual files"
@@ -13981,14 +13959,10 @@ msgid "Key filter"
 msgstr "键值筛选器"
 
 #: weblate/trans/models/component.py:780
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "file mask."
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
-msgstr "扫描文件掩码时用于过滤翻译文件的正则表达式。"
+msgstr "用来筛选键值的正则表达式。只对单语言格式可用。"
 
 #: weblate/trans/models/component.py:1535
 msgid ""
@@ -15629,10 +15603,8 @@ msgid "This will push changes and create a Bitbucket Server pull request."
 msgstr "这会推送更改并创建 Bitbucket 服务器拉取请求。"
 
 #: weblate/vcs/git.py:2183
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Cloud merge request"
-msgstr "Bitbucket 服务器拉取请求"
+msgstr "Bitbucket Cloud 合并请求"
 
 #: weblate/vcs/mercurial.py:45
 msgid "This will push changes to the upstream Mercurial repository."
