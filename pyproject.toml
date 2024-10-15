@@ -114,12 +114,8 @@ amazon = [
 antispam = [
   "python-akismet>=0.4.2,<0.5"
 ]
-ci = [
-  "coverage==7.6.3",
-  "twine==5.1.1"
-]
 dev = [
-  "weblate[all,ci,test,lint,mypy]",
+  "weblate[all,test,lint,mypy]",
   "django-debug-toolbar==4.4.6",
   "PyICU==2.13.1",
   "reuse==4.0.3",
@@ -170,6 +166,7 @@ saml = [
   "python3-saml>=1.2.1"
 ]
 test = [
+  "coverage==7.6.3",
   "pytest==8.3.3",
   "pytest-cov==5.0.0",
   "pytest-django==4.9.0",
@@ -196,6 +193,46 @@ Homepage = "https://weblate.org/"
 "Release Notes" = "https://docs.weblate.org/en/latest/changes.html"
 "Source Code" = "https://github.com/WeblateOrg/weblate"
 Twitter = "https://twitter.com/WeblateOrg"
+
+[tool.check-manifest]
+ignore = [
+  ".gitmodules",
+  "scripts/*",
+  "scripts/*/*",
+  "scripts/*/*/*",
+  "scripts/*/*/*/*",
+  "docs/*",
+  "docs/*/*",
+  "docs/*/*/*",
+  "docs/*/*/*/*",
+  "client/*",
+  "client/*/*",
+  "ci/*",
+  "dev-docker/*",
+  "dev-docker/*/*",
+  "LICENSES/*",
+  "*.toml",
+  "*.yml",
+  "*.yaml",
+  "*.json",
+  "rundev.sh",
+  ".editorconfig",
+  ".gitmodules",
+  ".imgbotconfig",
+  ".reuse/dep5",
+  ".stylelintrc",
+  ".weblate",
+  ".yamllint.yml"
+]
+ignore-bad-ideas = [
+  "weblate/trans/tests/data/cs.mo"  # Test data
+]
+
+[tool.check-wheel-contents]
+ignore = [
+  "W002",  # Triggered by __init__.py or .license files
+  "W004"  # Django migrations fail here
+]
 
 [tool.codespell]
 count = true
@@ -297,6 +334,11 @@ module = [
   "django_otp_webauthn.*",
   "qrcode.*"
 ]
+
+[tool.pydistcheck]
+max_allowed_files = 2500
+max_allowed_size_compressed = '100M'
+max_allowed_size_uncompressed = '300M'
 
 [tool.pylint.main]
 disable = [
