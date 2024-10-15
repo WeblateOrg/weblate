@@ -616,7 +616,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         verbose_name=gettext_lazy("Merge style"),
         max_length=10,
         choices=MERGE_CHOICES,
-        blank=True,
         default=settings.DEFAULT_MERGE_STYLE,
         help_text=gettext_lazy(
             "Define whether Weblate should merge the upstream repository "
@@ -639,7 +638,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             "please consult the documentation for more details."
         ),
         validators=[validate_render_commit],
-        blank=True,
         default=settings.DEFAULT_ADD_MESSAGE,
     )
     delete_message = models.TextField(
@@ -649,7 +647,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             "please consult the documentation for more details."
         ),
         validators=[validate_render_commit],
-        blank=True,
         default=settings.DEFAULT_DELETE_MESSAGE,
     )
     merge_message = models.TextField(
@@ -659,7 +656,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             "please consult the documentation for more details."
         ),
         validators=[validate_render_component],
-        blank=True,
         default=settings.DEFAULT_MERGE_MESSAGE,
     )
     addon_message = models.TextField(
@@ -669,7 +665,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             "please consult the documentation for more details."
         ),
         validators=[validate_render_addon],
-        blank=True,
         default=settings.DEFAULT_ADDON_MESSAGE,
     )
     pull_message = models.TextField(
@@ -679,7 +674,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             "please consult the documentation for more details."
         ),
         validators=[validate_render_addon],
-        blank=True,
         default=settings.DEFAULT_PULL_MESSAGE,
     )
     push_on_commit = models.BooleanField(
