@@ -20,6 +20,7 @@ permissions:
 jobs:
   setup:
     runs-on: ubuntu-24.04
+    name: Test manual install
 
     env:
       PYTHONUNBUFFERED: 1
@@ -60,6 +61,7 @@ jobs:
 
   pip:
     runs-on: ubuntu-24.04
+    name: Test pip install
 
     env:
       PYTHONUNBUFFERED: 1
@@ -89,6 +91,7 @@ jobs:
 
   dist:
     runs-on: ubuntu-24.04
+    name: Build packages
     env:
       PYTHONUNBUFFERED: 1
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
@@ -106,10 +109,6 @@ jobs:
         python-version: '3.12'
     - name: build
       run: uv build
-    - name: Twine check
-      run: uvx twine check --strict dist/*
-    - name: pydistcheck
-      run: uvx pydistcheck --inspect dist/*
     - name: Sign the dists with Sigstore
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
       uses: sigstore/gh-action-sigstore-python@v3.0.0
@@ -121,13 +120,34 @@ jobs:
       with:
         subject-path: dist/*
     - uses: actions/upload-artifact@v4
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
       with:
         path: dist/*
         name: dist
 
+  lint:
+    runs-on: ubuntu-24.04
+    name: Lint packages
+    env:
+      PYTHONUNBUFFERED: 1
+    needs:
+    - dist
+    steps:
+    - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v3
+    - uses: actions/download-artifact@v4
+    - name: Cleanup dist
+      # Remove files not supported on PyPI (eg. Sigstore signatures)
+      run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delete
+    - name: twine check
+      run: uvx twine check --strict dist/*
+    - name: pydistcheck
+      run: uvx pydistcheck --inspect dist/*
+    - name: pyroma
+      run: uvx pyroma dist/*.tar.gz
+
   notes:
     runs-on: ubuntu-24.04
+    name: Build release notes
     steps:
     - uses: actions/checkout@v4
     - uses: astral-sh/setup-uv@v3
@@ -158,6 +178,7 @@ jobs:
         name: notes
 
   publish_pypi:
+    name: Publish to PyPI
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
     permissions:
       # this permission is mandatory for trusted publishing
@@ -165,6 +186,7 @@ jobs:
     needs:
     - notes
     - dist
+    - lint
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/download-artifact@v4
@@ -175,6 +197,7 @@ jobs:
     - run: uv publish --trusted-publishing always
 
   publish_github:
+    name: Publish to GitHub
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
     permissions:
       # this permission is mandatory for creating a release
@@ -182,6 +205,7 @@ jobs:
     needs:
     - notes
     - dist
+    - lint
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/download-artifact@v4
