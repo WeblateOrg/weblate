@@ -18,7 +18,7 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.21.0
+  rev: 1.22.1
   hooks:
   - id: django-upgrade
     args: [--target-version, '5.0']
@@ -48,7 +48,7 @@ repos:
   - id: pretty-format-toml
     args: [--autofix]
 - repo: https://github.com/executablebooks/mdformat
-  rev: 0.7.17
+  rev: 0.7.18
   hooks:
   - id: mdformat
     additional_dependencies:
@@ -66,7 +66,7 @@ repos:
   - id: stylelint
     args: [--formatter=compact]
     additional_dependencies:
-    - stylelint@16.9.0
+    - stylelint@16.10.0
 - repo: https://github.com/fsfe/reuse-tool
   rev: v4.0.3
   hooks:

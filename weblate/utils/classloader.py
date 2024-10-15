@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from importlib import import_module
+from weakref import WeakValueDictionary
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -34,6 +37,8 @@ def load_class(name, setting):
 class ClassLoader:
     """Dict like object to lazy load list of classes."""
 
+    instances: WeakValueDictionary[str, ClassLoader] = WeakValueDictionary()
+
     def __init__(
         self,
         name: str,
@@ -47,6 +52,9 @@ class ClassLoader:
         self.collect_errors = collect_errors
         self.errors: dict[str, str | Exception] = {}
         self.base_class: type = base_class
+        obj = self.instances.get(name)
+        if obj is None:
+            self.instances[name] = self
 
     def get_settings(self):
         result = getattr(settings, self.name)

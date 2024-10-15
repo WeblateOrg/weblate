@@ -415,9 +415,10 @@ class CreateFromDoc(CreateComponent):
             return super().form_valid(form)
 
         fake = create_component_from_doc(
-            form.cleaned_data, form.cleaned_data.pop("docfile")
+            form.cleaned_data,
+            form.cleaned_data.pop("docfile"),
+            form.cleaned_data.pop("target_language", None),
         )
-
         # Move to discover phase
         self.stage = "discover"
         self.initial = form.cleaned_data

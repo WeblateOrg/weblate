@@ -22,6 +22,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.html import format_html
 from django.utils.timezone import now
 from django.utils.translation import get_language, gettext, gettext_lazy, pgettext_lazy
 from django_otp.plugins.otp_static.models import StaticDevice
@@ -349,7 +350,14 @@ class AuditLog(models.Model):
         result = {
             "site_title": settings.SITE_TITLE,
         }
-        result.update(self.params)
+        for name, value in self.params.items():
+            if name in {"old", "new", "name", "email", "username"}:
+                value = format_html("<code>{}</code>", value)
+            elif name in {"device", "project", "site_title", "method"}:
+                value = format_html("<strong>{}</strong>", value)
+
+            result[name] = value
+
         if "method" in result:
             # The gettext is here for legacy entries which contained method name
             result["method"] = gettext(get_auth_name(result["method"]))
@@ -363,7 +371,7 @@ class AuditLog(models.Model):
             message = ACCOUNT_ACTIVITY_METHOD[method][activity]
         else:
             message = ACCOUNT_ACTIVITY[activity]
-        return message.format(**self.get_params())
+        return format_html(message, **self.get_params())
 
     def get_extra_message(self):
         if self.activity in EXTRA_MESSAGES:
@@ -909,7 +917,7 @@ class Profile(models.Model):
         return list(self._get_second_factors())
 
     @cached_property
-    def second_factor_types(self) -> set(Literal["totp", "webauthn", "recovery"]):
+    def second_factor_types(self) -> set[Literal["totp", "webauthn", "recovery"]]:
         from weblate.accounts.utils import get_key_type
 
         return {get_key_type(device) for device in self.second_factors}

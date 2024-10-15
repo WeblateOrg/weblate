@@ -1,5 +1,5 @@
-Weblate 5.8.1
------------
+Weblate 5.8.2
+-------------
 
 Not yet released.
 
@@ -15,13 +15,37 @@ Not yet released.
 
 **Upgrading**
 
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
 **Contributors**
 
+.. include:: changes/contributors/5.8.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/129?closed=1>`__.
+
+Weblate 5.8.1
+-------------
+
+Released on October 15th 2024.
+
+**Bug fixes**
+
+* Use lower case name for the Python package.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.8.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/128?closed=1>`__.
 
 Weblate 5.8
 -----------
 
-Not yet released.
+Released on October 15th 2024.
 
 **New features**
 
@@ -39,18 +63,23 @@ Not yet released.
 * :ref:`autofix` for Devanagari danda now better handles latin script.
 * :ref:`autofix` for French and Breton now uses a non-breaking space before colons instead of a narrow one.
 * :ref:`api` now has a preview OpenAPI specification.
+* Stale, empty glossaries are now automatically removed.
 * :kbd:`?` now displays available :ref:`keyboard`.
 * Translation and language view in the project now include basic information about the language and plurals.
 * :ref:`bulk-edit` shows a preview of matched strings.
+* :ref:`aresource` now supports translatable attribute in its strings.
+* Creating component via file upload (Translate document) now supports bilingual files.
 
 **Bug fixes**
 
 * Displaying :ref:`workflow-customization` setting in some cases.
 * Users can add component in any language already existing in a project.
+* :ref:`check-unnamed-format` better handles some strings, such as :ref:`check-python-brace-format`.
 
 **Compatibility**
 
 * Weblate now requires Python 3.11 or newer.
+* :ref:`mt-aws` now requires the `TranslateFullAccess` permission
 
 **Upgrading**
 

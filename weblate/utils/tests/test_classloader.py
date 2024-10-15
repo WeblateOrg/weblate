@@ -53,6 +53,14 @@ class ClassLoaderTestCase(TestCase):
         ):
             loader.load_data()
 
+    @override_settings(TEST_SERVICES=("weblate.addons.not_found",))
+    def test_not_found(self) -> None:
+        loader = ClassLoader("TEST_SERVICES", construct=False, base_class=BaseAddon)
+        with self.assertRaisesRegex(
+            ImproperlyConfigured, "does not define a 'not_found' class"
+        ):
+            loader.load_data()
+
     @override_settings(TEST_SERVICES=("weblate.addons.cleanup",))
     def test_module(self) -> None:
         loader = ClassLoader("TEST_SERVICES", construct=False, base_class=BaseAddon)

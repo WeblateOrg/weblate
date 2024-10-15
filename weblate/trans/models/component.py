@@ -3485,13 +3485,16 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def is_multivalue(self):
         return self.file_format_cls.has_multiple_strings
 
-    def can_add_new_language(self, user: User, fast: bool = False):
+    def can_add_new_language(self, user: User | None, fast: bool = False):
         """
         Check if a new language can be added.
 
         Generic users can add only if configured, in other situations it works if there
         is valid new base.
         """
+        # Consistency and possibly other add-ons
+        if user is not None and user.is_bot and user.username.startswith("addon:"):
+            user = None
         # The user is None in case of consistency or cli invocation
         # The component.edit permission is intentional here as it allows overriding
         # of new_lang configuration for admins and add languages even if adding

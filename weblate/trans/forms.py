@@ -1179,7 +1179,14 @@ class NewLanguageForm(NewLanguageOwnerForm):
         return (
             super()
             .get_lang_objects()
-            .filter(Q(code__in=codes) | Q(component__project=self.component.project))
+            .filter(
+                # Include basic languages
+                Q(code__in=codes)
+                # Include source languages in a project
+                | Q(component__project=self.component.project)
+                # Include translations in a project
+                | Q(translation__component__project=self.component.project)
+            )
             .distinct()
         )
 
@@ -1850,6 +1857,13 @@ class ComponentDocCreateForm(ComponentProjectForm):
         validators=[validate_file_extension],
     )
 
+    target_language = forms.ModelChoiceField(
+        widget=SortedSelect,
+        label=gettext_lazy("Target language"),
+        help_text=gettext_lazy("Target language of the document for bilingual files"),
+        queryset=Language.objects.all(),
+        required=False,
+    )
     field_order = ["docfile", "project", "name", "slug"]
 
     def __init__(self, *args, **kwargs) -> None:

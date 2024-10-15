@@ -17,7 +17,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.checks.base import SourceCheck, TargetCheck
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
 
     from django_stubs_ext import StrOrPromise
 
@@ -258,19 +258,79 @@ def name_format_is_position_based(string: str) -> bool:  # noqa: FURB118
     return not string
 
 
-FLAG_RULES = {
-    "python-format": (PYTHON_PRINTF_MATCH, python_format_is_position_based),
-    "php-format": (PHP_PRINTF_MATCH, c_format_is_position_based),
-    "c-format": (C_PRINTF_MATCH, c_format_is_position_based),
-    "object-pascal-format": (PASCAL_FORMAT_MATCH, pascal_format_is_position_based),
-    "perl-format": (C_PRINTF_MATCH, c_format_is_position_based),
-    "perl-brace-format": (PERL_BRACE_MATCH, name_format_is_position_based),
-    "javascript-format": (C_PRINTF_MATCH, c_format_is_position_based),
-    "lua-format": (C_PRINTF_MATCH, c_format_is_position_based),
-    "python-brace-format": (PYTHON_BRACE_MATCH, name_format_is_position_based),
-    "scheme-format": (SCHEME_PRINTF_MATCH, scheme_format_is_position_based),
-    "c-sharp-format": (C_SHARP_MATCH, name_format_is_position_based),
-    "java-printf-format": (JAVA_MATCH, c_format_is_position_based),
+def extract_string_simple(match: re.Match) -> str:
+    return match.group(1)
+
+
+def extract_string_python_brace(match: re.Match) -> str:
+    # 1 and 2 are escaped braces and 3 is the actual match of format string
+    return match.group(1) or match.group(2) or match.group(3)
+
+
+FLAG_RULES: dict[
+    str,
+    tuple[
+        re.Pattern,
+        Callable[[str], bool],
+        Callable[[re.Match], str],
+    ],
+] = {
+    "python-format": (
+        PYTHON_PRINTF_MATCH,
+        python_format_is_position_based,
+        extract_string_simple,
+    ),
+    "php-format": (
+        PHP_PRINTF_MATCH,
+        c_format_is_position_based,
+        extract_string_simple,
+    ),
+    "c-format": (
+        C_PRINTF_MATCH,
+        c_format_is_position_based,
+        extract_string_simple,
+    ),
+    "object-pascal-format": (
+        PASCAL_FORMAT_MATCH,
+        pascal_format_is_position_based,
+        extract_string_simple,
+    ),
+    "perl-format": (C_PRINTF_MATCH, c_format_is_position_based, extract_string_simple),
+    "perl-brace-format": (
+        PERL_BRACE_MATCH,
+        name_format_is_position_based,
+        extract_string_simple,
+    ),
+    "javascript-format": (
+        C_PRINTF_MATCH,
+        c_format_is_position_based,
+        extract_string_simple,
+    ),
+    "lua-format": (
+        C_PRINTF_MATCH,
+        c_format_is_position_based,
+        extract_string_simple,
+    ),
+    "python-brace-format": (
+        PYTHON_BRACE_MATCH,
+        name_format_is_position_based,
+        extract_string_python_brace,
+    ),
+    "scheme-format": (
+        SCHEME_PRINTF_MATCH,
+        scheme_format_is_position_based,
+        extract_string_simple,
+    ),
+    "c-sharp-format": (
+        C_SHARP_MATCH,
+        name_format_is_position_based,
+        extract_string_simple,
+    ),
+    "java-printf-format": (
+        JAVA_MATCH,
+        c_format_is_position_based,
+        extract_string_simple,
+    ),
 }
 
 
@@ -351,12 +411,12 @@ class BaseFormatCheck(TargetCheck):
         return [m for m in matches if m not in self.normalize_remove]
 
     def extract_string(self, match: re.Match) -> str:
-        return match[0]
+        return extract_string_simple(match)
 
     def extract_matches(self, string: str) -> list[str]:
         return [
-            self.cleanup_string(self.extract_string(x))
-            for x in self.regexp.findall(string)
+            self.cleanup_string(self.extract_string(match))
+            for match in self.regexp.finditer(string)
         ]
 
     def check_format(
@@ -485,10 +545,15 @@ class BasePrintfCheck(BaseFormatCheck):
 
     def __init__(self) -> None:
         super().__init__()
-        self.regexp, self._is_position_based = FLAG_RULES[self.enable_string]
+        self.regexp, self._is_position_based, self._extract_string = FLAG_RULES[
+            self.enable_string
+        ]
 
     def is_position_based(self, string: str):
         return self._is_position_based(string)
+
+    def extract_string(self, match: re.Match) -> str:
+        return self._extract_string(match)
 
     def format_string(self, string: str) -> str:
         return f"%{string}"
@@ -594,8 +659,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     normalize_remove: set[str] = {"{", "}"}
 
     def extract_string(self, match: re.Match) -> str:
-        # 0 and 1 are escaped braces and 2 is the actual match
-        return match[0] or match[1] or match[2]
+        return extract_string_python_brace(match)
 
     def is_position_based(self, string: str):
         return name_format_is_position_based(string)
@@ -761,9 +825,9 @@ class MultipleUnnamedFormatsCheck(SourceCheck):
         if not rules:
             return False
         found = set()
-        for regexp, is_position_based in rules:
+        for regexp, is_position_based, extract_string in rules:
             for match in regexp.finditer(sources[0]):
-                if is_position_based(match[1]):
+                if is_position_based(extract_string(match)):
                     found.add((match.start(0), match.end(0)))
                     if len(found) >= 2:
                         return True
