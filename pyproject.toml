@@ -298,6 +298,11 @@ module = [
   "qrcode.*"
 ]
 
+[tool.pydistcheck]
+max_allowed_files = 2500
+max_allowed_size_compressed = '100M'
+max_allowed_size_uncompressed = '300M'
+
 [tool.pylint.main]
 disable = [
   "C",
