@@ -50,6 +50,7 @@ function sentryLicenseTransform(packages) {
 function tributeLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("tributejs"));
 }
+// REUSE-IgnoreStart
 function autoCompleteLicenseTransform(packages) {
   const pkg = packages.find((pkgsItem) =>
     pkgsItem.name.startsWith("@tarekraafat/autocomplete.js"),
@@ -58,15 +59,16 @@ function autoCompleteLicenseTransform(packages) {
     const author =
       typeof pkg.author === "string"
         ? pkg.author
-        : pkg.author && pkg.author.email
+        : pkg.author?.email
           ? `${pkg.author.name} <${pkg.author.email}>`
-          : pkg.author && pkg.author.name
+          : pkg.author?.name
             ? pkg.author.name
             : "";
     return `SPDX-FileCopyrightText: ${author}\n\nSPDX-License-Identifier: ${pkg.license}`;
   }
   return "";
 }
+// REUSE-IgnoreEnd
 
 module.exports = {
   entry: {
