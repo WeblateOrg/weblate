@@ -194,6 +194,40 @@ Homepage = "https://weblate.org/"
 "Source Code" = "https://github.com/WeblateOrg/weblate"
 Twitter = "https://twitter.com/WeblateOrg"
 
+[tool.check-manifest]
+ignore = [
+  ".gitmodules",
+  "scripts/*",
+  "scripts/*/*",
+  "scripts/*/*/*",
+  "scripts/*/*/*/*",
+  "docs/*",
+  "docs/*/*",
+  "docs/*/*/*",
+  "docs/*/*/*/*",
+  "client/*",
+  "client/*/*",
+  "ci/*",
+  "dev-docker/*",
+  "dev-docker/*/*",
+  "LICENSES/*",
+  "*.toml",
+  "*.yml",
+  "*.yaml",
+  "*.json",
+  "rundev.sh",
+  ".editorconfig",
+  ".gitmodules",
+  ".imgbotconfig",
+  ".reuse/dep5",
+  ".stylelintrc",
+  ".weblate",
+  ".yamllint.yml"
+]
+ignore-bad-ideas = [
+  "weblate/trans/tests/data/cs.mo"  # Test data
+]
+
 [tool.check-wheel-contents]
 ignore = [
   "W002",  # Triggered by __init__.py or .license files

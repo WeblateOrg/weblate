@@ -146,6 +146,8 @@ jobs:
       run: uvx pyroma dist/*.tar.gz
     - name: check-wheel-contents
       run: uvx check-wheel-contents dist/*.whl
+    - name: check-manifest
+      run: uvx check-manifest -v
 
   notes:
     runs-on: ubuntu-24.04
