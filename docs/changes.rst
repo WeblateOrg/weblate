@@ -1,7 +1,7 @@
 Weblate 5.8.1
 -------------
 
-Not yet released.
+Released on October 15th 2024.
 
 **Bug fixes**
 
