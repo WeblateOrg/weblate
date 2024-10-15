@@ -104,13 +104,10 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.12'
-    - name: Install Python dependencies
-      run: |
-        uv pip install --system $(sed -n 's/.*"\(twine==\([^"]*\)\)".*/\1/p' pyproject.toml)
     - name: build
       run: uv build
     - name: Twine check
-      run: twine check dist/*
+      run: uvx twine check --strict dist/*
     - name: pydistcheck
       run: uvx pydistcheck --inspect dist/*
     - name: Sign the dists with Sigstore
