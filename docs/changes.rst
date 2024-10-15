@@ -1,3 +1,23 @@
+Weblate 5.8.1
+-----------
+
+Not yet released.
+
+**New features**
+
+**Improvements**
+
+* :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+**Contributors**
+
+
 Weblate 5.8
 -----------
 

@@ -798,7 +798,7 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         self.mock_languages()
         self.mock_glossary_responses()
 
-        self.CONFIGURATION["bucket-name"] = "test-bucket"
+        self.CONFIGURATION["bucket_name"] = "test-bucket"
 
         with patch(
             "weblate.machinery.googlev3.GoogleV3Translation.delete_glossary"

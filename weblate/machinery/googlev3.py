@@ -75,7 +75,7 @@ class GoogleV3Translation(
 
     @cached_property
     def storage_bucket(self):
-        return self.storage_client.get_bucket(self.settings["bucket-name"])
+        return self.storage_client.get_bucket(self.settings["bucket_name"])
 
     @cached_property
     def parent(self) -> str:
@@ -106,7 +106,7 @@ class GoogleV3Translation(
             "mime_type": "text/html",
         }
         glossary_path: str | None = None
-        if self.settings.get("bucket-name"):
+        if self.settings.get("bucket_name"):
             glossary_path = self.get_glossary_id(source, language, unit)
             request["glossary_config"] = TranslateTextGlossaryConfig(
                 glossary=glossary_path
@@ -163,7 +163,7 @@ class GoogleV3Translation(
         )
         # create glossary
         gcs_source = GcsSource(
-            input_uri=f"gs://{self.settings["bucket-name"]}/{name}.tsv"
+            input_uri=f"gs://{self.settings["bucket_name"]}/{name}.tsv"
         )
         input_config = GlossaryInputConfig(gcs_source=gcs_source)
 
