@@ -1,7 +1,49 @@
+Weblate 5.8.2
+-------------
+
+Not yet released.
+
+**New features**
+
+**Improvements**
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.8.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/129?closed=1>`__.
+
+Weblate 5.8.1
+-------------
+
+Released on October 15th 2024.
+
+**Bug fixes**
+
+* Use lower case name for the Python package.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.8.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/128?closed=1>`__.
+
 Weblate 5.8
 -----------
 
-Not yet released.
+Released on October 15th 2024.
 
 **New features**
 
@@ -31,6 +73,7 @@ Not yet released.
 
 * Displaying :ref:`workflow-customization` setting in some cases.
 * Users can add component in any language already existing in a project.
+* :ref:`check-unnamed-format` better handles some strings, such as :ref:`check-python-brace-format`.
 
 **Compatibility**
 

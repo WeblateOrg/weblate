@@ -21,7 +21,7 @@ The tests are executed using :program:`py.test`. First you need to install test 
 
 .. code-block:: sh
 
-   pip install -e '.[test,lint]'
+   uv pip install -e '.[dev]'
 
 You can then execute the testsuite in the repository checkout:
 

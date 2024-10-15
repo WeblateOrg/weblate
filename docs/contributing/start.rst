@@ -31,14 +31,14 @@ sources.
 
    .. code-block:: sh
 
-      virtualenv .venv
-      . .venv/bin/activate
+      uv venv .venv
+      source .venv/bin/activate
 
 3. Install Weblate (for this you need some system dependencies, see :doc:`../admin/install/source`) and all dependencies useful for development:
 
    .. code-block:: sh
 
-      pip install -e '.[all,dev,ci,test,mypy,lint]'
+      uv pip install -e '.[dev]'
 
 3. Start a development server:
 

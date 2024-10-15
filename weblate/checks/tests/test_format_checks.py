@@ -1626,3 +1626,18 @@ class MultipleUnnamedFormatsCheckTestCase(SimpleTestCase):
                 ["Test %s"], MockUnit(flags="c-format,python-format")
             )
         )
+
+    def test_good_brace_format(self) -> None:
+        self.assertFalse(
+            self.check.check_source(
+                ["Recognition {progress}% ({current_job}/{total_jobs})"],
+                MockUnit(flags="python-brace-format"),
+            )
+        )
+
+    def test_bad_brace_format(self) -> None:
+        self.assertTrue(
+            self.check.check_source(
+                ["Recognition {}% ({}/{})"], MockUnit(flags="python-brace-format")
+            )
+        )
