@@ -162,9 +162,8 @@ class GoogleV3Translation(
             tsv, content_type="text/tab-separated-values"
         )
         # create glossary
-        gcs_source = GcsSource(
-            input_uri=f"gs://{self.settings["bucket_name"]}/{name}.tsv"
-        )
+        bucket_name = self.settings["bucket_name"]
+        gcs_source = GcsSource(input_uri=f"gs://{bucket_name}/{name}.tsv")
         input_config = GlossaryInputConfig(gcs_source=gcs_source)
 
         glossary = Glossary(
