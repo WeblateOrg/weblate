@@ -108,7 +108,10 @@ jobs:
       with:
         python-version: '3.12'
     - name: build
-      run: uv build
+      run: |
+        echo "::add-matcher::.github/matchers/setuptools.json"
+        uv build
+        echo "::remove-matcher owner=setuptools::"
     - name: Sign the dists with Sigstore
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
       uses: sigstore/gh-action-sigstore-python@v3.0.0
