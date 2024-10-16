@@ -6,9 +6,9 @@
 # simmon <simmon@nplob.com>, 2024.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.8\n"
+"Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2024-10-14 13:23+0000\n"
+"POT-Creation-Date: 2024-10-16 12:38+0000\n"
 "PO-Revision-Date: 2024-10-14 18:22+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -53,7 +53,7 @@ msgstr "성명"
 msgid "Name is also used in version control commits."
 msgstr "이름은 버전 제어 시스템의 커밋에서도 사용됩니다."
 
-#: weblate/accounts/forms.py:190 weblate/accounts/models.py:660
+#: weblate/accounts/forms.py:190 weblate/accounts/models.py:671
 msgid "Commit e-mail"
 msgstr "e-mail 커밋"
 
@@ -69,7 +69,7 @@ msgstr ""
 "버전 제어 커밋에 사용됩니다. 주소는 Weblate에서 변경 사항을 커밋하면 저장소"
 "에 영원히 남습니다."
 
-#: weblate/accounts/forms.py:225 weblate/accounts/models.py:654
+#: weblate/accounts/forms.py:225 weblate/accounts/models.py:665
 msgid "Public e-mail"
 msgstr "전자우편 공개"
 
@@ -197,13 +197,13 @@ msgstr "기본 설정을 사용"
 msgid "Other projects"
 msgstr "다른 프로젝트"
 
-#: weblate/accounts/forms.py:793 weblate/accounts/models.py:584
+#: weblate/accounts/forms.py:793 weblate/accounts/models.py:595
 #: weblate/templates/accounts/profile.html:69
 #: weblate/templates/accounts/user.html:152
 msgid "Watched projects"
 msgstr "참여중인 프로젝트"
 
-#: weblate/accounts/forms.py:795 weblate/accounts/models.py:557
+#: weblate/accounts/forms.py:795 weblate/accounts/models.py:568
 #: weblate/templates/accounts/user.html:151
 #: weblate/templates/dashboard/user.html:27
 msgid "Managed projects"
@@ -351,104 +351,104 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr "앱에서 코드 입력"
 
-#: weblate/accounts/models.py:167
+#: weblate/accounts/models.py:169
 msgid "Password changed."
 msgstr "비밀번호가 변경되었습니다."
 
-#: weblate/accounts/models.py:168
+#: weblate/accounts/models.py:170
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
 msgstr "사용자 이름이 {old} 에서 {new} 로 바뀌었습니다."
 
-#: weblate/accounts/models.py:169
+#: weblate/accounts/models.py:171
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
 msgstr "전자 우편 주소가 {old} 에서 {new} 로 바뀌었습니다."
 
-#: weblate/accounts/models.py:170
+#: weblate/accounts/models.py:172
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
 msgstr "전체 이름이 {old} 에서 {new} 로 바뀌었습니다."
 
-#: weblate/accounts/models.py:171
+#: weblate/accounts/models.py:173
 msgid "Password reset requested."
 msgstr "암호 재설정을 요청하였습니다."
 
-#: weblate/accounts/models.py:172
+#: weblate/accounts/models.py:174
 msgid "Password reset confirmed, password turned off."
 msgstr "암호 재설정이 확인되면, 암호는 꺼집니다."
 
-#: weblate/accounts/models.py:173
+#: weblate/accounts/models.py:175
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
 msgstr "{method} ({name}) 이용한 로그인을 구성했습니다."
 
-#: weblate/accounts/models.py:174
+#: weblate/accounts/models.py:176
 #, python-brace-format
 msgid "Removed sign in using {method} ({name})."
 msgstr "{method} ({name}) 이용하는 로그인 제거했습니다."
 
-#: weblate/accounts/models.py:175
+#: weblate/accounts/models.py:177
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
 msgstr "{method} ({name}) 이용하여 로그인 했습니다."
 
-#: weblate/accounts/models.py:176
+#: weblate/accounts/models.py:178
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
 msgstr "새 장치에서 {method} ({name}) 이용하여 로그인했습니다."
 
-#: weblate/accounts/models.py:177
+#: weblate/accounts/models.py:179
 msgid "Somebody attempted to register with your e-mail."
 msgstr "당신의 전자우편으로 누군가 가입시도를 하였습니다."
 
-#: weblate/accounts/models.py:179
+#: weblate/accounts/models.py:181
 msgid "Somebody attempted to register using your e-mail address."
 msgstr "누군가 당신의 전자우편을 이용하여 가입을 시도했습니다."
 
-#: weblate/accounts/models.py:181
+#: weblate/accounts/models.py:183
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
 msgstr "{method} ({name}) 이용하여 로그인 할 수 없습니다."
 
-#: weblate/accounts/models.py:182
+#: weblate/accounts/models.py:184
 msgid "Account locked due to many failed sign in attempts."
 msgstr "계속된 로그인 시도 실패로 계정이 잠겼습니다."
 
-#: weblate/accounts/models.py:183
+#: weblate/accounts/models.py:185
 msgid "Account and all private data removed."
 msgstr "계정과 모든 개인 자료가 제거되었습니다."
 
-#: weblate/accounts/models.py:184
+#: weblate/accounts/models.py:186
 #, python-brace-format
 msgid "Account removal confirmation sent to {email}."
 msgstr "{email}로 계정 삭제 확인이 전송되었습니다."
 
-#: weblate/accounts/models.py:185
+#: weblate/accounts/models.py:187
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
 msgstr "{date} 에 서비스 이용 약관의 내용에 합의했습니다."
 
-#: weblate/accounts/models.py:186
+#: weblate/accounts/models.py:188
 #, python-brace-format
 msgid "Invited to {site_title} by {username}."
 msgstr "{username} 사용자가 {site_title}에 초대했습니다."
 
-#: weblate/accounts/models.py:187
+#: weblate/accounts/models.py:189
 #, python-brace-format
 msgid "Accepted invitation from {username}."
 msgstr "{username}님의 초대를 수락했습니다."
 
-#: weblate/accounts/models.py:188
+#: weblate/accounts/models.py:190
 msgid "Started trial period."
 msgstr "시험판 사용을 시작했습니다."
 
-#: weblate/accounts/models.py:189
+#: weblate/accounts/models.py:191
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
 msgstr "확인용 전자우편을 {email}로 보냈습니다."
 
-#: weblate/accounts/models.py:191
+#: weblate/accounts/models.py:193
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
@@ -456,108 +456,108 @@ msgstr ""
 "다른 사용자가 업로드한 번역의 저자를 추적하기 위해 시스템이 새 사용자를 생성"
 "했습니다."
 
-#: weblate/accounts/models.py:194
+#: weblate/accounts/models.py:196
 #, python-brace-format
 msgid "Access to project {project} was blocked."
 msgstr "{project} 프로젝트에 대한 접근이 차단되었습니다."
 
-#: weblate/accounts/models.py:195
+#: weblate/accounts/models.py:197
 msgid "User was enabled by administrator."
 msgstr "관리자에 의해 사용자가 활성화되었습니다."
 
-#: weblate/accounts/models.py:196
+#: weblate/accounts/models.py:198
 msgid "User was disabled by administrator."
 msgstr "관리자가 사용자를 비활성화했습니다."
 
-#: weblate/accounts/models.py:197
+#: weblate/accounts/models.py:199
 msgid "Semiannual support status review was displayed."
 msgstr "반기별 지원 상태 검토가 표시되었습니다."
 
-#: weblate/accounts/models.py:198
+#: weblate/accounts/models.py:200
 #, python-brace-format
 msgid "User was added to the {team} team by {username}."
 msgstr "사용자가 {username}님에 의해 {team} 팀에 추가되었습니다."
 
-#: weblate/accounts/models.py:199
+#: weblate/accounts/models.py:201
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "{username}이(가) {team} 팀에서 사용자를 제거했습니다."
 
-#: weblate/accounts/models.py:201
+#: weblate/accounts/models.py:203
 msgid "Two-factor authentication recovery codes were generated"
 msgstr "2단계 인증 복구 코드가 생성됨"
 
-#: weblate/accounts/models.py:204
+#: weblate/accounts/models.py:206
 msgid "Two-factor authentication recovery codes were viewed"
 msgstr "2단계 인증 복구 코드가 확인됨"
 
-#: weblate/accounts/models.py:206
+#: weblate/accounts/models.py:208
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
 msgstr "2단계 인증이 추가됨: {device}"
 
-#: weblate/accounts/models.py:207
+#: weblate/accounts/models.py:209
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
 msgstr "2단계 인증이 제거됨: {device}"
 
-#: weblate/accounts/models.py:208
+#: weblate/accounts/models.py:210
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
 msgstr "{device}를 사용하여 2단계 인증 로그인"
 
-#: weblate/accounts/models.py:213
+#: weblate/accounts/models.py:215
 msgid "Configured password to sign in."
 msgstr "로그인을 위한 비밀번호를 구성했습니다."
 
-#: weblate/accounts/models.py:214
+#: weblate/accounts/models.py:216
 msgid "Signed in using password."
 msgstr "비밀번호 사용하여 로그인했습니다."
 
-#: weblate/accounts/models.py:215
+#: weblate/accounts/models.py:217
 msgid "Signed in using password from a new device."
 msgstr "비밀번호를 사용하여 새 장치에서 로그인했습니다."
 
-#: weblate/accounts/models.py:216
+#: weblate/accounts/models.py:218
 msgid "Could not sign in using password."
 msgstr "비밀번호를 사용하여 로그인 할 수 없습니다."
 
-#: weblate/accounts/models.py:219
+#: weblate/accounts/models.py:221
 #, python-brace-format
 msgid "Invited to {project} by {username}."
 msgstr "{username}님이 {project}에 초대되었습니다."
 
-#: weblate/accounts/models.py:222
+#: weblate/accounts/models.py:224
 msgid "Password configured."
 msgstr "비밀번호가 구성되었습니다."
 
-#: weblate/accounts/models.py:228
+#: weblate/accounts/models.py:230
 msgid "To restore access to your account, please reset your password."
 msgstr "계정에 대한 접근을 복원하려면 비밀번호를 다시 설정하십시오."
 
-#: weblate/accounts/models.py:231
+#: weblate/accounts/models.py:233
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr "이것이 부적절하다고 생각되면 프로젝트 관리자에게 문의하십시오."
 
-#: weblate/accounts/models.py:234 weblate/accounts/models.py:237
+#: weblate/accounts/models.py:236 weblate/accounts/models.py:239
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr "본인이 맞다면 비밀번호 재설정을 통해 계정에 다시 접근해 보세요."
 
-#: weblate/accounts/models.py:358 weblate/templates/accounts/profile.html:403
+#: weblate/accounts/models.py:369 weblate/templates/accounts/profile.html:403
 #: weblate/templates/accounts/user.html:271
 msgid "Account activity"
 msgstr "계정 활동"
 
-#: weblate/accounts/models.py:437
+#: weblate/accounts/models.py:448
 msgid "Interface Language"
 msgstr "인터페이스 언어"
 
-#: weblate/accounts/models.py:443
+#: weblate/accounts/models.py:454
 msgid "Translated languages"
 msgstr "번역된 언어"
 
-#: weblate/accounts/models.py:446
+#: weblate/accounts/models.py:457
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
@@ -565,11 +565,11 @@ msgstr ""
 "번역할 수 있는 언어를 선택하세요. 선택한 번역에 쉽게 접근할 수 있도록 참여 프"
 "로젝트에서 번역이 제공됩니다."
 
-#: weblate/accounts/models.py:453
+#: weblate/accounts/models.py:464
 msgid "Secondary languages"
 msgstr "제2언어"
 
-#: weblate/accounts/models.py:455
+#: weblate/accounts/models.py:466
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -577,42 +577,42 @@ msgstr ""
 "이해할 수 있는 언어를 선택하면, 해당 언어의 문자열이 원본 문자열에 추가로 표"
 "시됩니다."
 
-#: weblate/accounts/models.py:467
+#: weblate/accounts/models.py:478
 msgid "Theme"
 msgstr "테마"
 
-#: weblate/accounts/models.py:470
+#: weblate/accounts/models.py:481
 msgctxt "Theme selection"
 msgid "Sync with system"
 msgstr "시스템과 동기화"
 
-#: weblate/accounts/models.py:471
+#: weblate/accounts/models.py:482
 msgctxt "Theme selection"
 msgid "Light"
 msgstr "밝은 테마"
 
-#: weblate/accounts/models.py:472
+#: weblate/accounts/models.py:483
 msgctxt "Theme selection"
 msgid "Dark"
 msgstr "어두운 테마"
 
-#: weblate/accounts/models.py:476
+#: weblate/accounts/models.py:487
 msgid "Hide completed translations on the dashboard"
 msgstr "참여 프로젝트에서 완료된 번역 숨기기"
 
-#: weblate/accounts/models.py:480
+#: weblate/accounts/models.py:491
 msgid "Show secondary translations in the Zen mode"
 msgstr "Zen 모드에서 다른 번역 표시"
 
-#: weblate/accounts/models.py:484
+#: weblate/accounts/models.py:495
 msgid "Hide source if a secondary translation exists"
 msgstr "보조 번역이 있는 경우 원문 숨기기"
 
-#: weblate/accounts/models.py:491
+#: weblate/accounts/models.py:502
 msgid "Editor link"
 msgstr "편집기 링크"
 
-#: weblate/accounts/models.py:493
+#: weblate/accounts/models.py:504
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -622,35 +622,35 @@ msgstr ""
 "{{branch}}, 파일이름으로 {{filename}}, 줄 자리 표시자로 {{line}}로 사용할 수 "
 "있습니다."
 
-#: weblate/accounts/models.py:502
+#: weblate/accounts/models.py:513
 msgid "Translation editor mode"
 msgstr "번역 편집기 모드"
 
-#: weblate/accounts/models.py:504
+#: weblate/accounts/models.py:515
 msgid "Full editor"
 msgstr "전체 편집기"
 
-#: weblate/accounts/models.py:505
+#: weblate/accounts/models.py:516
 msgid "Zen mode"
 msgstr "Zen 모드"
 
-#: weblate/accounts/models.py:512
+#: weblate/accounts/models.py:523
 msgid "Zen editor mode"
 msgstr "Zen 편집기 모드"
 
-#: weblate/accounts/models.py:514
+#: weblate/accounts/models.py:525
 msgid "Top to bottom"
 msgstr "위부터 밑에 까지"
 
-#: weblate/accounts/models.py:515
+#: weblate/accounts/models.py:526
 msgid "Side by side"
 msgstr "나란히"
 
-#: weblate/accounts/models.py:523
+#: weblate/accounts/models.py:534
 msgid "Special characters"
 msgstr "특수 문자"
 
-#: weblate/accounts/models.py:525
+#: weblate/accounts/models.py:536
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
@@ -659,49 +659,49 @@ msgstr ""
 "번역하는 동안 표시 할 추가 특수 시각적 키보드 문자를 지정할 수 있습니다. 자"
 "주 사용하는 문자에 유용하지만, 키보드로 입력하기가 어렵습니다."
 
-#: weblate/accounts/models.py:531
+#: weblate/accounts/models.py:542
 msgid "Number of nearby strings"
 msgstr "주변 문자열의 갯수"
 
-#: weblate/accounts/models.py:535
+#: weblate/accounts/models.py:546
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr "편집기의 각 방향으로 표시할 주변 문자열의 수입니다."
 
-#: weblate/accounts/models.py:539
+#: weblate/accounts/models.py:550
 msgid "Automatically watch projects on contribution"
 msgstr "기여한 프로젝트에 자동으로 참여하기"
 
-#: weblate/accounts/models.py:542
+#: weblate/accounts/models.py:553
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr "프로젝트에서 문자열을 번역할 때마다 해당 문자열을 보기 시작합니다."
 
-#: weblate/accounts/models.py:553 weblate/templates/dashboard/user.html:21
+#: weblate/accounts/models.py:564 weblate/templates/dashboard/user.html:21
 msgid "Watched translations"
 msgstr "참여중인 번역"
 
-#: weblate/accounts/models.py:554 weblate/auth/models.py:164
+#: weblate/accounts/models.py:565 weblate/auth/models.py:164
 #: weblate/templates/dashboard/user.html:23
 msgid "Component lists"
 msgstr "구성요소 목록들"
 
-#: weblate/accounts/models.py:555 weblate/templates/dashboard/user.html:64
+#: weblate/accounts/models.py:566 weblate/templates/dashboard/user.html:64
 msgid "Component list"
 msgstr "구성요소 목록"
 
-#: weblate/accounts/models.py:556 weblate/templates/dashboard/user.html:25
+#: weblate/accounts/models.py:567 weblate/templates/dashboard/user.html:25
 msgid "Suggested translations"
 msgstr "제안된 번역"
 
-#: weblate/accounts/models.py:570
+#: weblate/accounts/models.py:581
 msgid "Default dashboard view"
 msgstr "기본 참여 프로젝트 보기"
 
-#: weblate/accounts/models.py:576
+#: weblate/accounts/models.py:587
 msgid "Default component list"
 msgstr "기본 구성요소 목록"
 
-#: weblate/accounts/models.py:586
+#: weblate/accounts/models.py:597
 #: weblate/templates/snippets/watch-dropdown.html:28
 #: weblate/templates/snippets/watch-dropdown.html:30
 msgid ""
@@ -711,25 +711,25 @@ msgstr ""
 "참여중인 프로젝트에 대한 알림을 받을 수 있으며, 기본적으로 참여 프로젝트에 표"
 "시됩니다."
 
-#: weblate/accounts/models.py:594
+#: weblate/accounts/models.py:605
 msgid "Website URL"
 msgstr "웹레이트 URL"
 
-#: weblate/accounts/models.py:599
+#: weblate/accounts/models.py:610
 msgid "Liberapay username"
 msgstr "리베라페이 사용자 이름"
 
-#: weblate/accounts/models.py:602
+#: weblate/accounts/models.py:613
 msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
 msgstr "리베라페이는 팀, 단체, 개인에게 돈을 기부하는 플랫폼입니다."
 
-#: weblate/accounts/models.py:608
+#: weblate/accounts/models.py:619
 msgid "Fediverse URL"
 msgstr "페디버스 URL"
 
-#: weblate/accounts/models.py:611
+#: weblate/accounts/models.py:622
 msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
@@ -737,49 +737,49 @@ msgstr ""
 "마스토돈 또는 디아스포라*와 같은 연합 서비스를 위한 페디버스 프로파일에 연결"
 "합니다."
 
-#: weblate/accounts/models.py:617
+#: weblate/accounts/models.py:628
 msgid "Code site URL"
 msgstr "코드 사이트 URL"
 
-#: weblate/accounts/models.py:620
+#: weblate/accounts/models.py:631
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr "코드버그 또는 깃랩과 같은 서비스에 대한 코드 프로파일에 연결합니다."
 
-#: weblate/accounts/models.py:625
+#: weblate/accounts/models.py:636
 msgid "GitHub username"
 msgstr "깃허브(GitHub) 사용자 이름"
 
-#: weblate/accounts/models.py:630
+#: weblate/accounts/models.py:641
 msgid "X username"
 msgstr "트위터(X) 사용자 이름"
 
-#: weblate/accounts/models.py:635
+#: weblate/accounts/models.py:646
 msgid "LinkedIn profile name"
 msgstr "링크드인 사용자 이름"
 
-#: weblate/accounts/models.py:637
+#: weblate/accounts/models.py:648
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
 msgstr "linkedin.com/in/profilename으로부터의 링크드인 프로필 이름"
 
-#: weblate/accounts/models.py:644
+#: weblate/accounts/models.py:655
 #: weblate/templates/snippets/embed-units.html:64
 msgid "Location"
 msgstr "위치"
 
-#: weblate/accounts/models.py:649
+#: weblate/accounts/models.py:660
 msgid "Company"
 msgstr "회사"
 
-#: weblate/accounts/models.py:729
+#: weblate/accounts/models.py:740
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr "참여 프로젝트에 표시할 구성요소 목록을 선택하세요."
 
-#: weblate/accounts/models.py:740
+#: weblate/accounts/models.py:751
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr "구성요소 목록을 선택하면 참여 프로젝트에 표시되지 않습니다."
 
-#: weblate/accounts/models.py:873 weblate/trans/views/edit.py:373
+#: weblate/accounts/models.py:884 weblate/trans/views/edit.py:373
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
@@ -788,7 +788,7 @@ msgstr ""
 "당신의 번역된 언어에 %(language)s 을(를) 추가했습니다. 설정에서 조정할 수 있"
 "습니다."
 
-#: weblate/accounts/models.py:1009
+#: weblate/accounts/models.py:1020
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "번역을 제출하려면 이메일 주소를 입력하세요."
 
@@ -4500,227 +4500,227 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "세 개"
 
-#: weblate/lang/models.py:591 weblate/templates/addons/generate_help.html:12
+#: weblate/lang/models.py:619 weblate/templates/addons/generate_help.html:12
 #: weblate/templates/snippets/info.html:191
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Language code"
 msgstr "언어 코드"
 
-#: weblate/lang/models.py:594 weblate/templates/addons/generate_help.html:10
+#: weblate/lang/models.py:622 weblate/templates/addons/generate_help.html:10
 msgid "Language name"
 msgstr "언어명"
 
-#: weblate/lang/models.py:597 weblate/templates/snippets/info.html:210
+#: weblate/lang/models.py:625 weblate/templates/snippets/info.html:210
 msgid "Text direction"
 msgstr "텍스트 방향"
 
-#: weblate/lang/models.py:601
+#: weblate/lang/models.py:629
 #, fuzzy
 #| msgid "Automatically accept suggestions"
 msgid "Automatically detect text direction"
 msgstr "제안을 자동으로 수락함"
 
-#: weblate/lang/models.py:602
+#: weblate/lang/models.py:630
 msgid "Left to right"
 msgstr "왼쪽에서 오른쪽으로"
 
-#: weblate/lang/models.py:603
+#: weblate/lang/models.py:631
 msgid "Right to left"
 msgstr "오른쪽에서 왼쪽으로"
 
-#: weblate/lang/models.py:607 weblate/templates/snippets/info.html:215
+#: weblate/lang/models.py:635 weblate/templates/snippets/info.html:215
 msgid "Number of speakers"
 msgstr "언어 사용자의 수"
 
-#: weblate/lang/models.py:608
+#: weblate/lang/models.py:636
 msgid "Number of people speaking this language."
 msgstr "이 언어를 사용하는 사람들의 수입니다."
 
-#: weblate/lang/models.py:699
+#: weblate/lang/models.py:727
 msgctxt "Plural type"
 msgid "None"
 msgstr "없음"
 
-#: weblate/lang/models.py:703
+#: weblate/lang/models.py:731
 msgctxt "Plural type"
 msgid "One/other"
 msgstr "1/기타"
 
-#: weblate/lang/models.py:707
+#: weblate/lang/models.py:735
 msgctxt "Plural type"
 msgid "One/few/other"
 msgstr "1/몇개/기타"
 
-#: weblate/lang/models.py:711
+#: weblate/lang/models.py:739
 msgctxt "Plural type"
 msgid "Arabic languages"
 msgstr "아랍어족"
 
-#: weblate/lang/models.py:715
+#: weblate/lang/models.py:743
 msgctxt "Plural type"
 msgid "Zero/one/other"
 msgstr "0/1/기타"
 
-#: weblate/lang/models.py:719
+#: weblate/lang/models.py:747
 msgctxt "Plural type"
 msgid "One/two/other"
 msgstr "1/2/기타"
 
-#: weblate/lang/models.py:723
+#: weblate/lang/models.py:751
 msgctxt "Plural type"
 msgid "One/other/two"
 msgstr "1/기타/2"
 
-#: weblate/lang/models.py:727
+#: weblate/lang/models.py:755
 msgctxt "Plural type"
 msgid "One/two/few/other"
 msgstr "1/2/몇개/기타"
 
-#: weblate/lang/models.py:731
+#: weblate/lang/models.py:759
 msgctxt "Plural type"
 msgid "Other/one/two/few"
 msgstr "기타/1/2/몇개"
 
-#: weblate/lang/models.py:735
+#: weblate/lang/models.py:763
 msgctxt "Plural type"
 msgid "One/two/three/other"
 msgstr "1/2/3/기타"
 
-#: weblate/lang/models.py:739
+#: weblate/lang/models.py:767
 msgctxt "Plural type"
 msgid "One/other/zero"
 msgstr "1/기타/0"
 
-#: weblate/lang/models.py:743
+#: weblate/lang/models.py:771
 msgctxt "Plural type"
 msgid "One/few/many/other"
 msgstr "1/몇개/많음/기타"
 
-#: weblate/lang/models.py:747
+#: weblate/lang/models.py:775
 msgctxt "Plural type"
 msgid "Two/other"
 msgstr "2/기타"
 
-#: weblate/lang/models.py:751
+#: weblate/lang/models.py:779
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
 msgstr "1/2/몇개/많음/기타"
 
-#: weblate/lang/models.py:755
+#: weblate/lang/models.py:783
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
 msgstr "0/1/2/몇개/많음/기타"
 
-#: weblate/lang/models.py:759
+#: weblate/lang/models.py:787
 msgctxt "Plural type"
 msgid "Zero/other"
 msgstr "0/기타"
 
-#: weblate/lang/models.py:763
+#: weblate/lang/models.py:791
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
 msgstr "0/1/소수/기타"
 
-#: weblate/lang/models.py:767
+#: weblate/lang/models.py:795
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
 msgstr "0/1/2/소수/기타"
 
-#: weblate/lang/models.py:771
+#: weblate/lang/models.py:799
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
 msgstr "0/1/2/기타"
 
-#: weblate/lang/models.py:775
+#: weblate/lang/models.py:803
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
 msgstr "0/1/소수/다수/기타"
 
-#: weblate/lang/models.py:779
+#: weblate/lang/models.py:807
 msgctxt "Plural type"
 msgid "One/many/other"
 msgstr "1/많음/기타"
 
-#: weblate/lang/models.py:783
+#: weblate/lang/models.py:811
 msgctxt "Plural type"
 msgid "Zero/one/many/other"
 msgstr "0/1/다수/기타"
 
-#: weblate/lang/models.py:787
+#: weblate/lang/models.py:815
 msgctxt "Plural type"
 msgid "One/few/many"
 msgstr "1/몇개/많음"
 
-#: weblate/lang/models.py:791
+#: weblate/lang/models.py:819
 msgctxt "Plural type"
 msgid "One/zero/few/other"
 msgstr "하나/영/몇 개/기타"
 
-#: weblate/lang/models.py:795
+#: weblate/lang/models.py:823
 msgctxt "Plural type"
 msgid "Unknown"
 msgstr "알수없음"
 
-#: weblate/lang/models.py:807
+#: weblate/lang/models.py:835
 msgid "Plural definition source"
 msgstr "복수 정의 소스"
 
-#: weblate/lang/models.py:809
+#: weblate/lang/models.py:837
 msgid "Default plural"
 msgstr "복수 기본값"
 
-#: weblate/lang/models.py:810
+#: weblate/lang/models.py:838
 msgid "gettext plural formula"
 msgstr "gettext 복수형 판정식"
 
-#: weblate/lang/models.py:811
+#: weblate/lang/models.py:839
 msgid "CLDR plural with zero"
 msgstr "0이 포함된 CLDR 복수형"
 
-#: weblate/lang/models.py:812
+#: weblate/lang/models.py:840
 msgid "CLDR v38+ plural"
 msgstr "CLDR v38+ 복수형"
 
-#: weblate/lang/models.py:813
+#: weblate/lang/models.py:841
 msgid "Android plural"
 msgstr "안드로이드 복수형"
 
-#: weblate/lang/models.py:814
+#: weblate/lang/models.py:842
 msgid "Qt Linguist plural"
 msgstr "Qt Linguist 복수형"
 
-#: weblate/lang/models.py:815
+#: weblate/lang/models.py:843
 msgid "Manually entered formula"
 msgstr "수동으로 입력한 공식"
 
-#: weblate/lang/models.py:819 weblate/templates/snippets/plural.html:15
+#: weblate/lang/models.py:847 weblate/templates/snippets/plural.html:15
 msgid "Number of plurals"
 msgstr "복수형 수"
 
-#: weblate/lang/models.py:825 weblate/templates/snippets/plural-formula.html:4
+#: weblate/lang/models.py:853 weblate/templates/snippets/plural-formula.html:4
 #: weblate/templates/snippets/plural.html:38
 msgid "Plural formula"
 msgstr "복수형"
 
-#: weblate/lang/models.py:830 weblate/templates/snippets/plural.html:19
+#: weblate/lang/models.py:858 weblate/templates/snippets/plural.html:19
 msgid "Plural type"
 msgstr "복수형 유형"
 
-#: weblate/lang/models.py:922
+#: weblate/lang/models.py:950
 msgid "Example counts for this plural form."
 msgstr "이 복수형에 대한 예시는 다음과 같습니다."
 
-#: weblate/lang/models.py:931 weblate/templates/translation.html:310
+#: weblate/lang/models.py:959 weblate/templates/translation.html:310
 #: weblate/templates/translation.html:336
 msgid "Singular"
 msgstr "단수형"
 
-#: weblate/lang/models.py:933 weblate/templates/translation.html:314
+#: weblate/lang/models.py:961 weblate/templates/translation.html:314
 #: weblate/templates/translation.html:339
 msgid "Plural"
 msgstr "복수형"
 
-#: weblate/lang/models.py:934
+#: weblate/lang/models.py:962
 #, python-format
 msgid "Plural form %d"
 msgstr "복수형의 %d"
@@ -11002,7 +11002,7 @@ msgstr "IP 주소가 클립보드에 복사되었습니다."
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
-#: weblate/trans/models/change.py:377
+#: weblate/trans/models/change.py:378
 msgid "Suggestion added"
 msgstr "제안 추가됨"
 
@@ -13486,388 +13486,388 @@ msgid "Parent category has to be different!"
 msgstr "상위 카테고리는 달라야 합니다!"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:367
+#: weblate/trans/models/change.py:368
 msgid "Resource updated"
 msgstr "리소스 업데이트됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:369
+#: weblate/trans/models/change.py:370
 msgid "Translation completed"
 msgstr "번역 완료"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:371
+#: weblate/trans/models/change.py:372
 msgid "Translation changed"
 msgstr "번역 변경됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:373
+#: weblate/trans/models/change.py:374
 msgid "Translation added"
 msgstr "번역 추가됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:375
+#: weblate/trans/models/change.py:376
 msgid "Comment added"
 msgstr "의견 추가됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:379 weblate/trans/models/project.py:676
+#: weblate/trans/models/change.py:380 weblate/trans/models/project.py:676
 msgid "Automatically translated"
 msgstr "자동으로 번역됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:381
+#: weblate/trans/models/change.py:382
 msgid "Suggestion accepted"
 msgstr "제안 수락됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:383
+#: weblate/trans/models/change.py:384
 msgid "Translation reverted"
 msgstr "되돌린 번역"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:385
+#: weblate/trans/models/change.py:386
 msgid "Translation uploaded"
 msgstr "업로드된 번역"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:387
+#: weblate/trans/models/change.py:388
 msgid "Source string added"
 msgstr "소스 문자열이 추가됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:389
+#: weblate/trans/models/change.py:390
 msgid "Component locked"
 msgstr "구성요소 잠금"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:391
+#: weblate/trans/models/change.py:392
 msgid "Component unlocked"
 msgstr "구성요소 잠금 해제됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:393
+#: weblate/trans/models/change.py:394
 msgid "Changes committed"
 msgstr "변경 사항 커밋됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:395
+#: weblate/trans/models/change.py:396
 msgid "Changes pushed"
 msgstr "변경 사항이 푸시됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:397
+#: weblate/trans/models/change.py:398
 msgid "Repository reset"
 msgstr "저장소 재설정"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:399
+#: weblate/trans/models/change.py:400
 msgid "Repository merged"
 msgstr "저장소가 병합됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:401
+#: weblate/trans/models/change.py:402
 msgid "Repository rebased"
 msgstr "저장소 리베이스"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:403
+#: weblate/trans/models/change.py:404
 msgid "Repository merge failed"
 msgstr "저장소 병합에 실패함"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:405
+#: weblate/trans/models/change.py:406
 msgid "Repository rebase failed"
 msgstr "저장소 리베이스에 실패함"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:407
+#: weblate/trans/models/change.py:408
 msgid "Repository push failed"
 msgstr "저장소 푸시에 실패함"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:409
+#: weblate/trans/models/change.py:410
 msgid "Parsing failed"
 msgstr "구문 분석에 실패함"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:411
+#: weblate/trans/models/change.py:412
 msgid "Translation removed"
 msgstr "번역이 삭제됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:413
+#: weblate/trans/models/change.py:414
 msgid "Suggestion removed"
 msgstr "제안 삭제됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:415
+#: weblate/trans/models/change.py:416
 msgid "Translation replaced"
 msgstr "번역이 대체됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:417
+#: weblate/trans/models/change.py:418
 msgid "Suggestion removed during cleanup"
 msgstr "정리 도중 삭제된 제안"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:419
+#: weblate/trans/models/change.py:420
 msgid "Source string changed"
 msgstr "원본 문자열이 변경됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:421
+#: weblate/trans/models/change.py:422
 msgid "String added"
 msgstr "문자열이 추가됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:423
+#: weblate/trans/models/change.py:424
 msgid "Bulk status changed"
 msgstr "대량 상태가 변경됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:425
+#: weblate/trans/models/change.py:426
 msgid "Visibility changed"
 msgstr "가시성이 변경됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:427
+#: weblate/trans/models/change.py:428
 msgid "User added"
 msgstr "사용자 추가됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:429
+#: weblate/trans/models/change.py:430
 msgid "User removed"
 msgstr "사용자 제거됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:431
+#: weblate/trans/models/change.py:432
 msgid "Translation approved"
 msgstr "번역 승인됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:433
+#: weblate/trans/models/change.py:434
 msgid "Marked for edit"
 msgstr "편집으로 표시"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:435
+#: weblate/trans/models/change.py:436
 msgid "Component removed"
 msgstr "구성 요소가 제거됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:437
+#: weblate/trans/models/change.py:438
 msgid "Project removed"
 msgstr "프로젝트가 제거됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:439
+#: weblate/trans/models/change.py:440
 msgid "Project renamed"
 msgstr "프로젝트 이름이 변경됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:441
+#: weblate/trans/models/change.py:442
 msgid "Component renamed"
 msgstr "구성 요소 이름이 변경됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:443
+#: weblate/trans/models/change.py:444
 msgid "Moved component"
 msgstr "구성요소 이동함"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:445
+#: weblate/trans/models/change.py:446
 msgid "Contributor joined"
 msgstr "기여자가 참여함"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:447
+#: weblate/trans/models/change.py:448
 msgid "Announcement posted"
 msgstr "공지사항이 게시됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:449
+#: weblate/trans/models/change.py:450
 msgid "Alert triggered"
 msgstr "경고가 발생함"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:451
+#: weblate/trans/models/change.py:452
 msgid "Language added"
 msgstr "언어 추가됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:453
+#: weblate/trans/models/change.py:454
 msgid "Language requested"
 msgstr "언어가 요구됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:455
+#: weblate/trans/models/change.py:456
 msgid "Project created"
 msgstr "프로젝트 생성됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:457
+#: weblate/trans/models/change.py:458
 msgid "Component created"
 msgstr "구성 요소가 생성됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:459
+#: weblate/trans/models/change.py:460
 msgid "User invited"
 msgstr "사용자 초대됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:461
+#: weblate/trans/models/change.py:462
 msgid "Repository notification received"
 msgstr "저장소 알림 수신됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:463
+#: weblate/trans/models/change.py:464
 msgid "Translation replaced file by upload"
 msgstr "업로드한 파일로 번역이 대체됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:465
+#: weblate/trans/models/change.py:466
 msgid "License changed"
 msgstr "라이선스가 변경됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:467
+#: weblate/trans/models/change.py:468
 msgid "Contributor agreement changed"
 msgstr "변경된 기여자 계약"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:469
+#: weblate/trans/models/change.py:470
 msgid "Screenshot added"
 msgstr "스크린숏 추가됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:471
+#: weblate/trans/models/change.py:472
 msgid "Screenshot uploaded"
 msgstr "스크린숏 업로드됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:473
+#: weblate/trans/models/change.py:474
 msgid "String updated in the repository"
 msgstr "저장소에서 업데이트된 문자열"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:475
+#: weblate/trans/models/change.py:476
 msgid "Add-on installed"
 msgstr "애드온이 설치되었습니다"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:477
+#: weblate/trans/models/change.py:478
 msgid "Add-on configuration changed"
 msgstr "애드온 구성이 변경되었습니다"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:479
+#: weblate/trans/models/change.py:480
 msgid "Add-on uninstalled"
 msgstr "애드온이 설치 제거되었습니다"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:481
+#: weblate/trans/models/change.py:482
 msgid "String removed"
 msgstr "문자열이 제거됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:483
+#: weblate/trans/models/change.py:484
 msgid "Comment removed"
 msgstr "댓글 삭제됨"
 
-#: weblate/trans/models/change.py:487
+#: weblate/trans/models/change.py:488
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
 msgstr "의견이 해결되었습니다"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:490
+#: weblate/trans/models/change.py:491
 msgid "Explanation updated"
 msgstr "설명 업데이트"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:492
+#: weblate/trans/models/change.py:493
 msgid "Category removed"
 msgstr "카테고리 삭제됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:494
+#: weblate/trans/models/change.py:495
 msgid "Category renamed"
 msgstr "카테고리 이름이 변경됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:496
+#: weblate/trans/models/change.py:497
 msgid "Category moved"
 msgstr "카테고리 이동됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:498
+#: weblate/trans/models/change.py:499
 msgid "Saving string failed"
 msgstr "문자열 저장에 실패함"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:500
+#: weblate/trans/models/change.py:501
 msgid "String added in the repository"
 msgstr "저장소에 추가된 문자열"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:502
+#: weblate/trans/models/change.py:503
 msgid "String updated in the upload"
 msgstr "업로드 시 문자열이 업데이트됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:504
+#: weblate/trans/models/change.py:505
 msgid "String added in the upload"
 msgstr "업로드에 추가된 문자열"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:506
+#: weblate/trans/models/change.py:507
 msgid "Translation updated by source upload"
 msgstr "소스 업로드로 번역이 업데이트됨"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:508
+#: weblate/trans/models/change.py:509
 msgid "Component translation completed"
 msgstr "구성 요소 번역 완료됨"
 
-#: weblate/trans/models/change.py:592
+#: weblate/trans/models/change.py:593
 msgid "The component was automatically locked because of an alert."
 msgstr "경고 때문에 구성요소가 자동으로 잠겼습니다."
 
-#: weblate/trans/models/change.py:596
+#: weblate/trans/models/change.py:597
 msgid "Fixing an alert automatically unlocked the component."
 msgstr "경고를 수정하면 구성요소가 자동으로 잠금 해제됩니다."
 
 #. Translators: condensed rendering of a change action in history
-#: weblate/trans/models/change.py:674
+#: weblate/trans/models/change.py:675
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s에 의해 %(translation)s에 %(time)s %(action)s"
 
 #. Translators: condensed rendering of a change action in history
-#: weblate/trans/models/change.py:681
+#: weblate/trans/models/change.py:682
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(translation)s에 %(time)s %(action)s"
 
-#: weblate/trans/models/change.py:854
+#: weblate/trans/models/change.py:855
 msgid "The “{}” file was changed."
 msgstr "“{}” 파일이 변경되었습니다."
 
-#: weblate/trans/models/change.py:856
+#: weblate/trans/models/change.py:857
 msgid "Parsing of the “{}” file was enforced."
 msgstr "“{}” 파일의 구문 분석이 강제되었습니다."
 
-#: weblate/trans/models/change.py:858
+#: weblate/trans/models/change.py:859
 msgid "File “{}” was added."
 msgstr "파일 “{}”이 추가되었습니다."
 
-#: weblate/trans/models/change.py:864
+#: weblate/trans/models/change.py:865
 msgctxt "License information not available"
 msgid "N/A"
 msgstr "없음"
 
-#: weblate/trans/models/change.py:866
+#: weblate/trans/models/change.py:867
 #, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
@@ -13876,11 +13876,11 @@ msgstr ""
 "%(component)s 구성요소에 대한 라이선스가 %(old)s에서 %(target)s로 변경됐습니"
 "다."
 
-#: weblate/trans/models/change.py:919
+#: weblate/trans/models/change.py:920
 msgid "Original revision: {}"
 msgstr "기존 리비전: {}"
 
-#: weblate/trans/models/change.py:923
+#: weblate/trans/models/change.py:924
 msgid "New revision: {}"
 msgstr "새로운 리비전: {}"
 
