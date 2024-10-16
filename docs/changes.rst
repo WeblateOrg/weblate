@@ -10,6 +10,7 @@ Not yet released.
 **Bug fixes**
 
 * Update outdated plural definitions during the database migration.
+* Reduced number of database queries when updating multiple strings.
 
 **Compatibility**
 

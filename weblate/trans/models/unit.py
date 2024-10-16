@@ -1475,6 +1475,7 @@ class Unit(models.Model, LoggerMixin):
             return []
         return (
             self.variant.unit_set.filter(translation=self.translation)
+            .prefetch()
             .prefetch_full()
             .order_by("context")
         )
@@ -1647,6 +1648,7 @@ class Unit(models.Model, LoggerMixin):
     def same_source_units(self) -> UnitQuerySet:
         return (
             Unit.objects.same(self)
+            .prefetch()
             .prefetch_full()
             .filter(
                 translation__component__allow_translation_propagation=True,
