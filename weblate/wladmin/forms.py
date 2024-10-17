@@ -4,6 +4,7 @@
 
 from crispy_forms.helper import FormHelper
 from django import forms
+from django.forms.widgets import MultiWidget
 from django.utils.translation import gettext_lazy
 
 from weblate.accounts.forms import EmailField
@@ -59,29 +60,55 @@ class FontField(forms.CharField):
         )
 
 
-class ColorField(forms.CharField):
-    def __init__(self, **kwargs) -> None:
-        super().__init__(widget=forms.TextInput(attrs={"type": "color"}), **kwargs)
+class ThemeColorWidget(MultiWidget):
+    def __init__(self, attrs=None):
+        widgets = (
+            forms.TextInput(attrs={"type": "color", "class": "light-theme"}),
+            forms.TextInput(attrs={"type": "color", "class": "dark-theme"}),
+        )
+        super().__init__(widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            colors = value.split(",")
+            if len(colors) == 1:
+                return [colors[0], colors[0]]
+            return colors
+        return [None, None]
+
+
+class ThemeColorField(forms.MultiValueField):
+    widget = ThemeColorWidget
+
+    def __init__(self, **kwargs):
+        fields = (forms.CharField(required=False), forms.CharField(required=False))
+        super().__init__(fields=fields, require_all_fields=False, **kwargs)
+
+    def compress(self, data_list):
+        return ",".join(data_list) if data_list else None
 
 
 class AppearanceForm(forms.Form):
     page_font = FontField(label=gettext_lazy("Page font"), required=False)
     brand_font = FontField(label=gettext_lazy("Header font"), required=False)
-    header_color = ColorField(
-        label=("Navigation color"), required=False, initial="#2a3744"
+
+    header_color = ThemeColorField(
+        label=gettext_lazy("Navigation color (Light, Dark)"), initial="#2a3744,#1a2634"
     )
-    header_text_color = ColorField(
-        label=("Navigation text color"), required=False, initial="#bfc3c7"
+    header_text_color = ThemeColorField(
+        label=gettext_lazy("Navigation text color (Light, Dark)"),
+        initial="#bfc3c7,#e0e3e7",
     )
-    navi_color = ColorField(
-        label=("Navigation color"), required=False, initial="#1fa385"
+    navi_color = ThemeColorField(
+        label=gettext_lazy("Navigation color (Light, Dark)"), initial="#1fa385,#0f9375"
     )
-    focus_color = ColorField(
-        label=gettext_lazy("Focus color"), required=False, initial="#2eccaa"
+    focus_color = ThemeColorField(
+        label=gettext_lazy("Focus color (Light, Dark)"), initial="#2eccaa,#1ebc9a"
     )
-    hover_color = ColorField(
-        label=gettext_lazy("Hover color"), required=False, initial="#144d3f"
+    hover_color = ThemeColorField(
+        label=gettext_lazy("Hover color (Light, Dark)"), initial="#144d3f,#0a3d2f"
     )
+
     hide_footer = forms.BooleanField(
         label=gettext_lazy("Hide page footer"), required=False
     )
