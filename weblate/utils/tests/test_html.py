@@ -7,7 +7,12 @@ from __future__ import annotations
 from django.test import SimpleTestCase
 
 from weblate.checks.flags import Flags
-from weblate.utils.html import HTML2Text, HTMLSanitizer, extract_html_tags
+from weblate.utils.html import (
+    HTML2Text,
+    HTMLSanitizer,
+    extract_html_tags,
+    mail_quote_value,
+)
 
 
 class HTMLSanitizerTestCase(SimpleTestCase):
@@ -103,4 +108,24 @@ text text text text text
         self.assertEqual(
             html2text.handle("text<ins> </ins>"),
             "text{+ +}\n\n",
+        )
+
+
+class MailQuoteTestCase(SimpleTestCase):
+    def test_plain(self):
+        self.assertEqual(
+            mail_quote_value("text"),
+            "text",
+        )
+
+    def test_dot(self):
+        self.assertEqual(
+            mail_quote_value("example.com"),
+            "example<span>.</span>com",
+        )
+
+    def test_url(self):
+        self.assertEqual(
+            mail_quote_value("https://test.example.com"),
+            "https<span>:</span>//test<span>.</span>example<span>.</span>com",
         )

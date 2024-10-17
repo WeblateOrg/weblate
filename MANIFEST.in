@@ -1,9 +1,8 @@
 include COPYING
 include ChangeLog
-include README.rst
-include BACKERS.rst
-include CONTRIBUTING.md
-include manage.py
+include *.rst
+include *.md
+include *.py
 recursive-include weblate *.py
 recursive-include weblate/static *
 recursive-include weblate/templates *
@@ -15,19 +14,10 @@ recursive-include weblate/locale *.pot
 recursive-include weblate/locale *.po
 recursive-include weblate/locale *.mo
 recursive-include weblate/examples *
-recursive-include docs *.rst
-include docs/images/*
-include docs/schemas/*.json
-include docs/conf.py
-include docs/Makefile
-include docs/make.bat
-include docs/requirements.txt
-include docs/_ext/*.py
-include docs/_templates/*.html
 include weblate/billing/test-data/*
 include weblate/trans/tests/data/*
 include weblate/trans/fixtures/simple-project.json
 exclude weblate/settings.py
-prune docs/_build
 prune data*
-global-exclude *.swp *.swo __pycache__ *.pyc *.pyo
+prune dev-docker/data*
+global-exclude *.swp *.swo *.swn __pycache__ *.pyc *.pyo

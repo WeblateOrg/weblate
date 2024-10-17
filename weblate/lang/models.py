@@ -30,6 +30,7 @@ from weblate_language_data.rtl import RTL_LANGS
 from weblate.checks.format import BaseFormatCheck
 from weblate.checks.models import CHECKS
 from weblate.lang import data
+from weblate.lang.data import FORMULA_WITH_ZERO
 from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin
@@ -460,7 +461,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         """Return English language object."""
         return self.get(code=settings.DEFAULT_LANGUAGE, skip_cache=True)
 
-    def setup(self, update, logger=lambda x: x) -> None:
+    def setup(self, update, logger=lambda x: x) -> None:  # noqa: C901
         """
         Create basic set of languages.
 
@@ -472,7 +473,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         # Invalidate cache, we might change languages
         self.flush_object_cache()
         languages = {language.code: language for language in self.prefetch()}
-        plurals: dict[str, dict[int, list[str]]] = {}
+        plurals: dict[str, dict[int, list[Plural]]] = {}
         # Create Weblate languages
         for code, name, nplurals, plural_formula in LANGUAGES:
             population = POPULATION[code]
@@ -555,7 +556,34 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                         formula=plural_formula,
                         type=get_plural_type(lang.base_code, plural_formula),
                     )
+                    plurals[code][source].append(plural)
                     logger(f"Created plural {plural_formula} for language {code}")
+
+                # CLDR and QT plurals should have just a single of them
+                if source != Plural.SOURCE_GETTEXT and len(plurals[code][source]) > 1:
+                    logger(
+                        f"Removing extra {source} plurals for language {code} ({len(plurals[code][source])})!"
+                    )
+                    for extra_plural in plurals[code][source]:
+                        if extra_plural != plural:
+                            extra_plural.translation_set.update(plural=plural)
+                            extra_plural.delete()
+                    plurals[code][source] = [plural]
+
+        # Sync FORMULA_WITH_ZERO
+        for code, language_plurals in plurals.items():
+            if Plural.SOURCE_CLDR_ZERO in language_plurals:
+                if Plural.SOURCE_CLDR not in language_plurals:
+                    logger(f"Missing CLDR plural for {code}!")
+                    continue
+                zero_plural = language_plurals[Plural.SOURCE_CLDR_ZERO][0]
+                cldr_plural = language_plurals[Plural.SOURCE_CLDR][0]
+                current_formula = FORMULA_WITH_ZERO[cldr_plural.formula]
+                if zero_plural.formula != current_formula:
+                    logger(f"Updating CLDR plural with zero for {code}")
+                    zero_plural.formula = current_formula
+                    zero_plural.number = cldr_plural.number + 1
+                    zero_plural.save(update_fields=["formula", "number"])
 
         self._fixup_plural_types(logger)
 
