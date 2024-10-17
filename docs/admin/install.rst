@@ -230,10 +230,14 @@ Django REST Framework
        - :ref:`mt-google-translate-api-v3`
 
 
+     * -
+       - `google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_
+       - Optional glossary support for :ref:`mt-google-translate-api-v3`
+
+
      * - ``ldap``
        - `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
        - :ref:`ldap-auth`
-
 
 
      * - ``mercurial``

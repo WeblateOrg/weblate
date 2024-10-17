@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
+
 **Bug fixes**
 
 * Update outdated plural definitions during the database migration.
