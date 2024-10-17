@@ -129,7 +129,7 @@ google = [
   "google-cloud-translate>=3.13.0,<4.0"
 ]
 ldap = [
-  "django-auth-ldap>=4.6.0,<5.1.0"
+  "django-auth-ldap>=4.6.0,<6.0.0"
 ]
 lint = [
   "pre-commit==4.0.1",
@@ -196,6 +196,7 @@ Twitter = "https://twitter.com/WeblateOrg"
 
 [tool.check-manifest]
 ignore = [
+  ".well-known/*",
   ".gitmodules",
   "scripts/*",
   "scripts/*/*",
