@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 12:38+0000\n"
-"PO-Revision-Date: 2024-10-09 18:52+0000\n"
+"PO-Revision-Date: 2024-10-17 11:46+0000\n"
 "Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
 "application/cy/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : "
 "(n==3) ? 3 :(n==6) ? 4 : 5;\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.8-rc\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1955,19 +1955,19 @@ msgstr ""
 
 #: weblate/api/docs.py:72
 msgid "Rate limiting limit of requests to perform"
-msgstr ""
+msgstr "Cyfradd sy'n cyfyngu ar nifer y ceisiadau i'w cyflawni"
 
 #: weblate/api/docs.py:77
 msgid "Remaining limit of requests"
-msgstr ""
+msgstr "Terfyn gweddill y ceisiadau"
 
 #: weblate/api/docs.py:82
 msgid "Number of seconds until ratelimit window resets"
-msgstr ""
+msgstr "Nifer o eiliadau nes bod y ffenestr terfyn cyfradd wedi'i hailosod"
 
 #: weblate/api/spectacular.py:42 weblate/templates/drf_spectacular/redoc.html:9
 msgid "Weblate's REST API"
-msgstr ""
+msgstr "API REST Weblate"
 
 #: weblate/api/views.py:1917 weblate/auth/models.py:921
 #: weblate/checks/views.py:228 weblate/checks/views.py:235
@@ -4648,10 +4648,8 @@ msgid "Text direction"
 msgstr "Cyfeiriad testun"
 
 #: weblate/lang/models.py:629
-#, fuzzy
-#| msgid "Automatically accept suggestions"
 msgid "Automatically detect text direction"
-msgstr "Derbyn cynigion yn awtomatig"
+msgstr "Canfod cyfeiriad testun yn awtomatig"
 
 #: weblate/lang/models.py:630
 msgid "Left to right"
@@ -4990,10 +4988,9 @@ msgid "Could not fetch supported languages: %s"
 msgstr "Wedi methu nôl ieithoedd sy'n cael eu cefnogi: %s"
 
 #: weblate/machinery/apertium.py:108
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "No supported languages found: %s"
-msgstr "Wedi methu nôl ieithoedd sy'n cael eu cefnogi: %s"
+msgstr "Heb ganfod unrhyw iaith sy'n cael ei gefnogir: %s"
 
 #: weblate/machinery/apertium.py:116 weblate/machinery/base.py:152
 #, python-format
@@ -8881,14 +8878,12 @@ msgid "Repository changes"
 msgstr "Newidiadau i’r storfa"
 
 #: weblate/templates/keyboard-shortcuts.html:11
-#, fuzzy
-#| msgid "Available add-ons"
 msgid "Available Shortcuts"
-msgstr "Ychwanegynnau sydd ar gael"
+msgstr "Llwybrau Byr Ar Gael"
 
 #: weblate/templates/keyboard-shortcuts.html:17
 msgid "Shortcut"
-msgstr ""
+msgstr "Llwybr byr"
 
 #: weblate/templates/keyboard-shortcuts.html:18 weblate/trans/forms.py:2781
 msgid "Action"
@@ -8896,18 +8891,16 @@ msgstr "Gweithred"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Open available keyboard shortcuts."
-msgstr ""
+msgstr "Agorwch y llwybrau byr bysellfwrdd sydd ar gael."
 
 #: weblate/templates/keyboard-shortcuts.html:28
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to the first translation in the current search."
-msgstr "Mae'r cyfieithiad hwn wedi'i gloi ar hyn o bryd."
+msgstr "Llywiwch i'r cyfieithiad cyntaf yn y chwilio cyfredol."
 
 #: weblate/templates/keyboard-shortcuts.html:32
 #: weblate/templates/keyboard-shortcuts.html:41
 msgid "Navigate to the last translation in the current search."
-msgstr ""
+msgstr "Llywiwch i'r cyfieithiad olaf yn y chwilio cyfredol."
 
 #: weblate/templates/keyboard-shortcuts.html:36
 #: weblate/templates/keyboard-shortcuts.html:37
@@ -8930,51 +8923,45 @@ msgstr ""
 #: weblate/templates/keyboard-shortcuts.html:134
 #: weblate/templates/keyboard-shortcuts.html:141
 #: weblate/templates/keyboard-shortcuts.html:147
-#, fuzzy
-#| msgid "Port"
 msgctxt "between keyboard shortcuts"
 msgid "or"
-msgstr "Porth"
+msgstr "neu"
 
 #: weblate/templates/keyboard-shortcuts.html:50
 msgid "Navigate to the next translation in the current search."
-msgstr ""
+msgstr "Llywiwch i'r cyfieithiad nesaf yn y chwilio cyfredol."
 
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid ""
 "Submit current form; this works the same as pressing Save and continue while "
 "editing translation."
 msgstr ""
+"Cyflwynwch y ffurflen gyfredol; mae hyn yn gweithio'r un ffordd â phwyso "
+"Cadw a pharhau wrth olygu cyfieithu."
 
 #: weblate/templates/keyboard-shortcuts.html:65
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "Ychwanegu fel cyfieithiad sydd angen ei olygu"
+msgstr "Dad-farcio cyfieithiad fel Angen golygu a'i gyflwyno."
 
 #: weblate/templates/keyboard-shortcuts.html:72
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
 "while editing translation."
 msgstr ""
+"Cyflwynwch y llinyn fel awgrym; mae hyn yn gweithio'r un ffordd â phwyso "
+"Awgrymu wrth olygu cyfieithu."
 
 #: weblate/templates/keyboard-shortcuts.html:79
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Focus on translation editor."
-msgstr "Dileu cof cyfieithu"
+msgstr "Canolbwyntiwch ar y golygydd cyfieithu."
 
 #: weblate/templates/keyboard-shortcuts.html:86
-#, fuzzy
-#| msgid "Push on commit"
 msgid "Focus on comment editor."
-msgstr "Gwthio ar draddodi"
+msgstr "Canolbwyntiwch ar y golygydd sylwadau."
 
 #: weblate/templates/keyboard-shortcuts.html:93
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgid "Shows Automatic suggestions tab."
-msgstr "Awgrymiadau awtomatig"
+msgstr "Yn dangos tab awgrymiadau awtomatig."
 
 #: weblate/templates/keyboard-shortcuts.html:97
 #: weblate/templates/keyboard-shortcuts.html:99
@@ -8984,68 +8971,51 @@ msgstr "Awgrymiadau awtomatig"
 #: weblate/templates/keyboard-shortcuts.html:120
 msgctxt "between keyboard shortcuts"
 msgid "to"
-msgstr ""
+msgstr "i"
 
 #: weblate/templates/keyboard-shortcuts.html:102
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "Copies placeable of a given number from source string."
-msgstr "Defnyddir yr iaith hon ar gyfer llinynnau ffynhonnell."
+msgstr "Copïau y mae modd eu gosod o rif penodol o'r llinyn ffynhonnell."
 
 #: weblate/templates/keyboard-shortcuts.html:106
 #: weblate/templates/keyboard-shortcuts.html:108
 #: weblate/templates/keyboard-shortcuts.html:116
 #: weblate/templates/keyboard-shortcuts.html:119
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "followed by"
-msgstr "Uwchlwythwyd gan"
+msgstr "dilyn gan"
 
 #: weblate/templates/keyboard-shortcuts.html:112
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded document for "
-#| "translation."
 msgid "Copy the machine translation of a given number to current translation."
 msgstr ""
-"Creu cydran gyfieithu newydd o ddogfen sydd wedi'i llwytho i fyny i'w "
-"chyfieithu."
+"Copïwch y cyfieithiad peirianyddol o rif penodol i'r cyfieithiad cyfredol."
 
 #: weblate/templates/keyboard-shortcuts.html:123
 msgid "Ignore one item in the list of failing checks."
-msgstr ""
+msgstr "Anwybyddwch un eitem yn y rhestr o wiriadau sy'n methu."
 
 #: weblate/templates/keyboard-shortcuts.html:130
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "Shows the Nearby strings tab."
-msgstr "Llinynnau gerllaw"
+msgstr "Yn dangos y tab llinynnau Gerllaw."
 
 #: weblate/templates/keyboard-shortcuts.html:137
 msgid "Focus on search field."
-msgstr ""
+msgstr "Canolbwyntiwch ar y maes chwilio."
 
 #: weblate/templates/keyboard-shortcuts.html:144
-#, fuzzy
-#| msgid "Update source strings"
 msgid "Copy the source string."
-msgstr "Diweddaru llinynnau ffynhonnell"
+msgstr "Copïwch y llinyn ffynhonnell."
 
 #: weblate/templates/keyboard-shortcuts.html:150
 msgid "Toggle the Needs editing checkbox."
-msgstr ""
+msgstr "Toglo'r blwch ticio golygu Anghenion."
 
 #: weblate/templates/keyboard-shortcuts.html:157
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation string."
-msgstr "Ychwanegu llinyn cyfieithu newydd"
+msgstr "Porwch y llinyn cyfieithu nesaf."
 
 #: weblate/templates/keyboard-shortcuts.html:165
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation string."
-msgstr "Cadw msgids blaenorol o linynnau wedi'u cyfieithu"
+msgstr "Porwch y llinyn cyfieithu blaenorol."
 
 #: weblate/templates/lang/create.html:7
 #: weblate/templates/snippets/list-objects.html:31
@@ -11359,10 +11329,8 @@ msgid "All untranslated strings added the past month"
 msgstr "Pob llinyn heb ei gyfieithu a ychwanegwyd yn ystod y mis diwethaf"
 
 #: weblate/templates/snippets/query-builder.html:111
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Strings changed in the past two weeks"
-msgstr "Llinyn wedi'i ychwanegu yn y gadwrfa"
+msgstr "Newidiodd y llinynnau yn ystod y pythefnos diwethaf"
 
 #: weblate/templates/snippets/query-builder.html:118
 msgid "Translated strings in a certain language"
@@ -13625,15 +13593,12 @@ msgid "Document to translate"
 msgstr "Dogfen i’w chyfieithu"
 
 #: weblate/trans/forms.py:1862
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "Target language"
-msgstr "Rheoli ieithoedd"
+msgstr "Iaith darged"
 
 #: weblate/trans/forms.py:1863
 msgid "Target language of the document for bilingual files"
-msgstr ""
+msgstr "Iaith darged y ddogfen ar gyfer ffeiliau dwyieithog"
 
 #: weblate/trans/forms.py:1930
 msgid "Choose translation files to import"
@@ -14956,21 +14921,16 @@ msgid "Glossary color"
 msgstr "Lliw y geirfa"
 
 #: weblate/trans/models/component.py:776
-#, fuzzy
-#| msgid "Search filter"
 msgid "Key filter"
-msgstr "Hidlydd chwilio"
+msgstr "Hidlydd allwedd"
 
 #: weblate/trans/models/component.py:780
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "file mask."
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
 msgstr ""
-"Mynegiant rheolaidd i hidlydd hidlo yn ei erbyn wrth sganio am masg ffeil."
+"Mynegiant rheolaidd sy'n cael ei ddefnyddio i hidlo bysellau. Dim ond ar "
+"gyfer fformatau uniaith y mae hwn ar gael."
 
 #: weblate/trans/models/component.py:1535
 msgid ""
@@ -15187,6 +15147,7 @@ msgstr ""
 #: weblate/trans/models/component.py:3113
 msgid "To use the key filter, the file format must be monolingual."
 msgstr ""
+"Er mwyn defnyddio'r hidlydd allwedd, rhaid i fformat y ffeil fod yn uniaith."
 
 #: weblate/trans/models/component.py:3502
 msgid "Could not add new translation file."
@@ -16800,10 +16761,8 @@ msgstr ""
 "Bydd hyn yn gwthio newidiadau ac yn creu cais tynnu Gweinydd Bitbucket."
 
 #: weblate/vcs/git.py:2183
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Cloud merge request"
-msgstr "Cais tynnu Bitbucket Server"
+msgstr "Cais uno Bitbucket Cloud"
 
 #: weblate/vcs/mercurial.py:45
 msgid "This will push changes to the upstream Mercurial repository."
