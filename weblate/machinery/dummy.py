@@ -2,7 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .base import DownloadTranslations, MachineTranslation
+from .base import (
+    DownloadTranslations,
+    GlossaryMachineTranslationMixin,
+    MachineTranslation,
+)
 
 
 class DummyTranslation(MachineTranslation):
@@ -52,3 +56,19 @@ class DummyTranslation(MachineTranslation):
                 "service": "Dummy",
                 "source": text,
             }
+
+
+class DummyGlossaryTranslation(DummyTranslation, GlossaryMachineTranslationMixin):
+    def list_glossaries(self):
+        return {"weblate:1:en:it:9e250d830c11d70f": "weblate:1:en:it:9e250d830c11d70f"}
+
+    def delete_glossary(self, glossary_id: str) -> None:
+        pass
+
+    def delete_oldest_glossary(self) -> None:
+        pass
+
+    def create_glossary(
+        self, source_language: str, target_language: str, name: str, tsv: str
+    ) -> None:
+        pass

@@ -44,7 +44,7 @@ from weblate.machinery.base import (
 )
 from weblate.machinery.cyrtranslit import CyrTranslitTranslation
 from weblate.machinery.deepl import DeepLTranslation
-from weblate.machinery.dummy import DummyTranslation
+from weblate.machinery.dummy import DummyGlossaryTranslation, DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
@@ -441,6 +441,34 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             machine_translation.get_cache_key("test"),
             "mt:dummy:test:11364700946005001116",
         )
+
+
+class GlossaryTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = DummyGlossaryTranslation
+
+    def test_glossary_cleanup(self):
+        """
+        Test cleanup of glossary TSV content.
+
+        Any problematic leading character is removed from term
+        """
+        machine = self.get_machine()
+        self.assertEqual(machine.cleanup_glossary_tsv("foo\tbar"), "foo\tbar")
+
+        # prohibited characters cleaned
+        self.assertEqual(machine.cleanup_glossary_tsv("=foo\t=bar"), "foo\tbar")
+        self.assertEqual(machine.cleanup_glossary_tsv("+foo\t+bar"), "foo\tbar")
+        self.assertEqual(machine.cleanup_glossary_tsv("-foo\t-bar"), "foo\tbar")
+        self.assertEqual(machine.cleanup_glossary_tsv("@foo\t@bar"), "foo\tbar")
+        self.assertEqual(machine.cleanup_glossary_tsv("|foo\t|bar"), "foo\tbar")
+        self.assertEqual(machine.cleanup_glossary_tsv("%foo\t%bar"), "foo\tbar")
+
+        # multiple prohibited characters are cleaned
+        self.assertEqual(machine.cleanup_glossary_tsv("==foo\t==bar"), "foo\tbar")
+
+        # no character cleaned
+        self.assertEqual(machine.cleanup_glossary_tsv("foo=\tbar="), "foo=\tbar=")
+        self.assertEqual(machine.cleanup_glossary_tsv(":foo\t:bar"), ":foo\t:bar")
 
 
 class GlosbeTranslationTest(BaseMachineTranslationTest):
