@@ -797,7 +797,15 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
     def test_glossary(self) -> None:
         self.mock_languages()
         self.mock_glossary_responses()
+        self.CONFIGURATION["bucket_name"] = "test-bucket"
 
+        self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
+
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    @patch("weblate.machinery.googlev3.GoogleV3Translation.glossary_count_limit", new=1)
+    def test_glossary_with_calls_check(self) -> None:
+        self.mock_languages()
+        self.mock_glossary_responses()
         self.CONFIGURATION["bucket_name"] = "test-bucket"
 
         with patch(
