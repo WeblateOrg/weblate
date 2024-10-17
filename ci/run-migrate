@@ -32,7 +32,8 @@ uv venv --python python3.11 ".venv-$TAG"
 check
 # shellcheck source=/dev/null
 . ".venv-$TAG/bin/activate"
-uv pip install -e ".[all,mysql]"
+# Need to keep "ci" as Weblate 5.8 and older have the dependency separately
+uv pip install -e ".[all,ci,mysql]"
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
 check

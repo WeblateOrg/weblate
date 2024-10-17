@@ -897,7 +897,7 @@ The following configuration is available for each host:
 ``username``
     API user.
 ``workspace``
-    The user worskpace slug.
+    The user workspace slug.
 ``token``
     The App password with `pullrequest:write` permission.
 

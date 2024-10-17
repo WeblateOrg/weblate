@@ -181,7 +181,7 @@ Weblate supports DeepL formality, it will choose matching one based on the
 language (for example, there is ``de@formal`` and ``de@informal``).
 
 The translation context can optionally be specified to improve translations quality. Read more on that in
-`DeepL translation context documentatin <https://developers.deepl.com/docs/best-practices/working-with-context>`_.
+`DeepL translation context documentation <https://developers.deepl.com/docs/best-practices/working-with-context>`_.
 
 The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 

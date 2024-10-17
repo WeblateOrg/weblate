@@ -137,7 +137,12 @@ class AutoTranslate:
             .filter(source__in=translations.keys())
             .values_list("id", flat=True)
         )
-        units = Unit.objects.filter(pk__in=unit_ids).prefetch_bulk().select_for_update()
+        units = (
+            Unit.objects.filter(pk__in=unit_ids)
+            .prefetch()
+            .prefetch_bulk()
+            .select_for_update()
+        )
         self.progress_steps = len(units)
 
         for pos, unit in enumerate(units):
