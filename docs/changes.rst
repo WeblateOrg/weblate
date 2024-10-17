@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate Component`)
+
 **Bug fixes**
 
 * Update outdated plural definitions during the database migration.
