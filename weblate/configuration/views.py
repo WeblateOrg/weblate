@@ -27,6 +27,12 @@ class CustomCSSView(TemplateView):
     cache_key = "css:custom"
 
     @classmethod
+    def split_colors(cls, hex_color_string):
+        if hex_color_string:
+            return hex_color_string.split(",")
+        return [None, None]
+
+    @classmethod
     def get_css(cls, request: AuthenticatedHttpRequest):
         # Request level caching
         if hasattr(request, "weblate_custom_css"):
@@ -35,13 +41,8 @@ class CustomCSSView(TemplateView):
         # Site level caching
         css = cache.get(cls.cache_key)
         if css is None:
-
-            def split_colors(color_string):
-                if color_string:
-                    return color_string.split(",")
-                return [None, None]
-
             settings = Setting.objects.get_settings_dict(SettingCategory.UI)
+            split_colors = cls.split_colors
             # fmt: off
             custom_theme_settings = {
                 "header_color_light": split_colors(settings.get("header_color"))[0],
