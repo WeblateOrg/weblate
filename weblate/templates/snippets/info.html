@@ -44,6 +44,17 @@
         {% endif %}
         {% endif %}
 
+        {% if project.having_perm %}
+        <tr>
+          <th>{% trans "Project Reviewers" %}</th>
+          <td colspan="2" class="full-cell">
+            {% for reviewer in project.having_perm %}
+              {{ reviewer.profile.get_user_display_link }}
+            {% endfor %}
+          </td>
+        </tr>
+        {% endif %}
+
         {% if project.all_admins %}
         <tr>
           <th>{% trans "Project maintainers" %}</th>
