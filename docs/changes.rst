@@ -11,6 +11,7 @@ Not yet released.
 
 * Update outdated plural definitions during the database migration.
 * Reduced number of database queries when updating multiple strings.
+* Leading problematic characters in :ref:`glossary` terms are now properly stripped in uploaded files.
 
 **Compatibility**
 
