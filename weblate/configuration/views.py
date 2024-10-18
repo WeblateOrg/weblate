@@ -35,10 +35,35 @@ class CustomCSSView(TemplateView):
         # Site level caching
         css = cache.get(cls.cache_key)
         if css is None:
-            css = render_to_string(
-                "configuration/custom.css",
-                Setting.objects.get_settings_dict(SettingCategory.UI),
-            ).strip()
+
+            def split_colors(color_string):
+                if color_string:
+                    return color_string.split(",")
+                return [None, None]
+
+            settings = Setting.objects.get_settings_dict(SettingCategory.UI)
+            # fmt: off
+            custom_theme_settings = {
+                "header_color_light": split_colors(settings.get("header_color"))[0],
+                "header_color_dark": split_colors(settings.get("header_color"))[1],
+                "header_text_color_light": split_colors(settings.get("header_text_color"))[0],
+                "header_text_color_dark": split_colors(settings.get("header_text_color"))[1],
+                "navi_color_light": split_colors(settings.get("navi_color"))[0],
+                "navi_color_dark": split_colors(settings.get("navi_color"))[1],
+                "navi_text_color_light": split_colors(settings.get("navi_text_color"))[0],
+                "navi_text_color_dark": split_colors(settings.get("navi_text_color"))[1],
+                "focus_color_light": split_colors(settings.get("focus_color"))[0],
+                "focus_color_dark": split_colors(settings.get("focus_color"))[1],
+                "hover_color_light": split_colors(settings.get("hover_color"))[0],
+                "hover_color_dark": split_colors(settings.get("hover_color"))[1],
+                "hide_footer": settings.get("hide_footer"),
+                "page_font": settings.get("page_font"),
+                "brand_font": settings.get("brand_font"),
+                "enforce_hamburger": settings.get("enforce_hamburger"),
+            }
+            # fmt: on
+
+            css = render_to_string(cls.template_name, custom_theme_settings).strip()
             cache.set(cls.cache_key, css, 24 * 3600)
         request.weblate_custom_css = css
         return css
