@@ -5,6 +5,8 @@
 #
 # Based on https://github.com/pyparsing/pyparsing/blob/master/examples/inv_regex.py
 
+import string
+
 from pyparsing import (
     Combine,
     Empty,
@@ -154,7 +156,7 @@ def handle_literal(toks):
 def handle_macro(toks):
     macro_char = toks[0][1]
     if macro_char == "d":
-        return CharacterRangeEmitter("0123456789")
+        return CharacterRangeEmitter(string.digits)
     if macro_char == "w":
         return CharacterRangeEmitter(srange("[A-Za-z0-9_]"))
     if macro_char in {"s", "W"}:

@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # We ignore some words which are usually untranslated
+import string
+
 IGNORE_WORDS = {
     "abc",
     "accelerator",
@@ -987,7 +989,7 @@ IGNORE_WORDS = {
     "powerpc",
     "sparc",
     # whole alphabet
-    "abcdefghijklmnopqrstuvwxyz",
+    string.ascii_lowercase,
 }
 
 """
