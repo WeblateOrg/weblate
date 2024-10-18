@@ -444,7 +444,36 @@ class MachineTranslationTest(BaseMachineTranslationTest):
 
 
 class GlossaryTranslationTest(BaseMachineTranslationTest):
+    """Test case for glossary translation functionality."""
+
     MACHINE_CLS = DummyGlossaryTranslation
+
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_translate(self):
+        """Test glossary translation."""
+        machine = self.get_machine()
+        self.assertEqual(machine.list_glossaries(), {})
+        list_glossaries_patcher = patch.object(
+            DummyGlossaryTranslation,
+            "list_glossaries",
+            Mock(
+                side_effect=[
+                    # with stale glossary
+                    {
+                        "weblate:1:en:cs:2d9a814c5f6321a8": "weblate:1:en:cs:2d9a814c5f6321a8"
+                    },
+                    # with new glossary
+                    {
+                        "weblate:1:en:cs:9e250d830c11d70f": "weblate:1:en:cs:9e250d830c11d70f"
+                    },
+                    # with no glossary
+                    {},
+                ]
+            ),
+        )
+        list_glossaries_patcher.start()
+        super().test_translate()
+        list_glossaries_patcher.stop()
 
     def test_glossary_cleanup(self):
         """

@@ -59,16 +59,33 @@ class DummyTranslation(MachineTranslation):
 
 
 class DummyGlossaryTranslation(DummyTranslation, GlossaryMachineTranslationMixin):
+    glossary_count_limit = 1
+
+    """Dummy glossary translation for testing purposes."""
+
+    def download_translations(
+        self, source, language, text: str, unit, user, threshold: int = 75
+    ) -> DownloadTranslations:
+        """Translate with glossary."""
+        self.get_glossary_id(source, language, unit)
+        return super().download_translations(
+            source, language, text, unit, user, threshold
+        )
+
     def list_glossaries(self):
-        return {"weblate:1:en:it:9e250d830c11d70f": "weblate:1:en:it:9e250d830c11d70f"}
+        """List glossaries."""
+        return {}
 
     def delete_glossary(self, glossary_id: str) -> None:
-        pass
+        """Delete glossary."""
+        return
 
     def delete_oldest_glossary(self) -> None:
-        pass
+        """Delete oldest glossary."""
+        return self.delete_glossary("")
 
     def create_glossary(
         self, source_language: str, target_language: str, name: str, tsv: str
     ) -> None:
-        pass
+        """Create glossary."""
+        return
