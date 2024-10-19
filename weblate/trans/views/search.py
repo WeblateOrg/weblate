@@ -158,11 +158,12 @@ def search(request: AuthenticatedHttpRequest, path=None):
             search_form.cleaned_data.get("q", ""), project=context.get("project")
         )
 
+        # Count total strings and sum total words from the search results
         aggregation = units.aggregate(
             total_strings=Count('id'),
             total_words=Sum('num_words')
         )
-
+        # Get the total strings and total words from the aggregation
         total_strings = aggregation['total_strings']
         total_words = aggregation['total_words']
 
