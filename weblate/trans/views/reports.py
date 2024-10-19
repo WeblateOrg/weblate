@@ -86,7 +86,12 @@ def generate_credits(
         .order_by("language__name", "-change_count")
     ):
         result[language].append(
-            {"email": author[0], "full_name": author[1], "change_count": author[2], "username": author[3]}
+            {
+                "email": author[0],
+                "full_name": author[1],
+                "change_count": author[2],
+                "username": author[3],
+            }
         )
 
     return [{language: authors} for language, authors in result.items()]
