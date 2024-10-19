@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models import Sum, Count
 from django.shortcuts import redirect
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
@@ -157,6 +158,14 @@ def search(request: AuthenticatedHttpRequest, path=None):
             search_form.cleaned_data.get("q", ""), project=context.get("project")
         )
 
+        aggregation = units.aggregate(
+            total_strings=Count('id'),
+            total_words=Sum('num_words')
+        )
+
+        total_strings = aggregation['total_strings']
+        total_words = aggregation['total_words']
+
         units = get_paginator(
             request, units.order_by_request(search_form.cleaned_data, obj)
         )
@@ -174,6 +183,8 @@ def search(request: AuthenticatedHttpRequest, path=None):
                 "search_items": search_form.items(),
                 "sort_name": sort["name"],
                 "sort_query": sort["query"],
+                "total_strings": total_strings,
+                "total_words": total_words,
             }
         )
     elif is_ratelimited:

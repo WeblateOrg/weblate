@@ -19,6 +19,10 @@
         {% crispy search_form  %}
     </form>
     {% if page_obj.object_list %}
+        <div class="search-summary">
+          <p>{% trans "Total strings" %}: {{ total_strings }}</p>
+          <p>{% trans "Total words" %}: {{ total_words }}</p>
+        </div>
         {% include "snippets/embed-units.html" with units=page_obj.object_list hide_context=True include_search=True force_source=True show_translation=True %}
         {% include "paginator.html" %}
     {% else %}
