@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 12:38+0000\n"
-"PO-Revision-Date: 2024-10-15 06:55+0000\n"
+"PO-Revision-Date: 2024-10-20 17:01+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -4810,10 +4810,9 @@ msgid "Could not fetch supported languages: %s"
 msgstr "לא ניתן למשוך את השפות הנתמכות: %s"
 
 #: weblate/machinery/apertium.py:108
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "No supported languages found: %s"
-msgstr "לא ניתן למשוך את השפות הנתמכות: %s"
+msgstr "לא נמצאו שפות נתמכות: %s"
 
 #: weblate/machinery/apertium.py:116 weblate/machinery/base.py:152
 #, python-format
@@ -4999,15 +4998,13 @@ msgid "Region ID"
 msgstr "מזהה אזור"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "הקשר"
+msgstr "וקטור הקשר"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
-msgstr ""
+msgstr "רשימה מופרדת בפסיקים של מזהים:משקל. למשל: 1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:276
 #, python-format
@@ -5029,21 +5026,15 @@ msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr "משתמש ברמת הרשמיות שצוינה אם השפה לא צוינה כ(בלתי־)רשמית"
 
 #: weblate/machinery/forms.py:308
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation context"
-msgstr "הערת תרגום"
+msgstr "הקשר תרגום"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr "תיאור דמות המתרגם כדי לשפר את דיוק התרגום. למשל: „אתה מאכיל סנאים.”"
+msgstr "יש לתאר את הקשר התרגום כדי לשפר את דיוק התרגום."
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -5108,26 +5099,23 @@ msgid "Choose custom model here to enable it."
 msgstr "נא לבחור מודל בהתאמה אישית כאן כדי להפעיל אותו."
 
 #: weblate/machinery/forms.py:403
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr "כתובת נק׳ גישה ליישום"
+msgstr "כתובת נק׳ גישה ל־Azure OpenAI"
 
 #: weblate/machinery/forms.py:407
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
-msgstr ""
+msgstr "כתובת נקודת הגישה של המופע, למשל: https://my-instance.openai.azure.com."
 
 #: weblate/machinery/forms.py:413
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "הטמעה של Azure OpenAI"
 
 #: weblate/machinery/forms.py:416
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "השם הייחודי של הטמעת המודל."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -6513,10 +6501,8 @@ msgid "User ID"
 msgstr "מזהה משתמש"
 
 #: weblate/templates/accounts/user.html:236
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
-msgstr "התראות"
+msgstr "התראה"
 
 #: weblate/templates/accounts/user.html:237 weblate/trans/forms.py:1079
 msgid "Scope"
@@ -6524,7 +6510,7 @@ msgstr "היקף"
 
 #: weblate/templates/accounts/user.html:238
 msgid "Frequency"
-msgstr ""
+msgstr "תדירות"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
@@ -8536,14 +8522,12 @@ msgid "Repository changes"
 msgstr "שינויים במאגר"
 
 #: weblate/templates/keyboard-shortcuts.html:11
-#, fuzzy
-#| msgid "Available add-ons"
 msgid "Available Shortcuts"
-msgstr "תוספים זמינים"
+msgstr "קיצורי מקשים זמינים"
 
 #: weblate/templates/keyboard-shortcuts.html:17
 msgid "Shortcut"
-msgstr ""
+msgstr "קיצור מקשים"
 
 #: weblate/templates/keyboard-shortcuts.html:18 weblate/trans/forms.py:2781
 msgid "Action"
@@ -8551,18 +8535,16 @@ msgstr "פעולה"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Open available keyboard shortcuts."
-msgstr ""
+msgstr "פתיחת קיצורי המקשים הזמינים."
 
 #: weblate/templates/keyboard-shortcuts.html:28
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to the first translation in the current search."
-msgstr "תרגום זה נעול כרגע."
+msgstr "ניווט לתרגום הראשון בחיפוש הנוכחי."
 
 #: weblate/templates/keyboard-shortcuts.html:32
 #: weblate/templates/keyboard-shortcuts.html:41
 msgid "Navigate to the last translation in the current search."
-msgstr ""
+msgstr "ניווט לתרגום האחרון בחיפוש הנוכחי."
 
 #: weblate/templates/keyboard-shortcuts.html:36
 #: weblate/templates/keyboard-shortcuts.html:37
@@ -8585,33 +8567,29 @@ msgstr ""
 #: weblate/templates/keyboard-shortcuts.html:134
 #: weblate/templates/keyboard-shortcuts.html:141
 #: weblate/templates/keyboard-shortcuts.html:147
-#, fuzzy
-#| msgid "Port"
 msgctxt "between keyboard shortcuts"
 msgid "or"
-msgstr "פתחה"
+msgstr "או"
 
 #: weblate/templates/keyboard-shortcuts.html:50
 msgid "Navigate to the next translation in the current search."
-msgstr ""
+msgstr "ניווט לתרגום הבא בחיפוש הנוכחי."
 
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid ""
 "Submit current form; this works the same as pressing Save and continue while "
 "editing translation."
-msgstr ""
+msgstr "הגשת הטופס הנוכחי, עובד כמו לחיצה על שמירה והמשך תוך כדי עריכת תרגום."
 
 #: weblate/templates/keyboard-shortcuts.html:65
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "הוספה כתרגום טעון שיפור"
+msgstr "להוריד את סימון טעון שיפור ולהגיש אותה."
 
 #: weblate/templates/keyboard-shortcuts.html:72
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
 "while editing translation."
-msgstr ""
+msgstr "הגשת המחרוזות כהצעות, עובד כמו לחיצה על הצעה תוך עריכת תרגום."
 
 #: weblate/templates/keyboard-shortcuts.html:79
 msgid "Focus on translation editor."
@@ -8636,33 +8614,23 @@ msgid "to"
 msgstr "אל"
 
 #: weblate/templates/keyboard-shortcuts.html:102
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "Copies placeable of a given number from source string."
-msgstr "שפה זו מכהנת כמחרוזת המקור."
+msgstr "העתקת ביטוי הצבה של מספר מסוים ממחרוזת המקור."
 
 #: weblate/templates/keyboard-shortcuts.html:106
 #: weblate/templates/keyboard-shortcuts.html:108
 #: weblate/templates/keyboard-shortcuts.html:116
 #: weblate/templates/keyboard-shortcuts.html:119
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "followed by"
-msgstr "הועלה על ידי"
+msgstr "במעקב על ידי"
 
 #: weblate/templates/keyboard-shortcuts.html:112
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded document for "
-#| "translation."
 msgid "Copy the machine translation of a given number to current translation."
-msgstr "יצירת רכיב תרגום חדש ממסמך שהועלה לתרגום."
+msgstr "העתקת תרגום המכונה במספר מסוים לתרגום הנוכחי."
 
 #: weblate/templates/keyboard-shortcuts.html:123
-#, fuzzy
-#| msgid "Ignore failing check"
 msgid "Ignore one item in the list of failing checks."
-msgstr "התעלמות מבדיקות שנכשלו"
+msgstr "התעלמות מפריט ברשימת הבדיקות שנכשלו."
 
 #: weblate/templates/keyboard-shortcuts.html:130
 msgid "Shows the Nearby strings tab."
@@ -10921,6 +10889,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
 msgstr ""
+"<a href=\"%(url)s\">אפשר לארגן את המיזם</a> כדי לשנות את הכתובת הייצוגית שלו "
+"או להסיר אותו."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
