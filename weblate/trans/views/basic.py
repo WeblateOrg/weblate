@@ -451,7 +451,9 @@ def show_project(request: AuthenticatedHttpRequest, obj):
                 project=obj,
             ),
             "components": components,
-            "categories": prefetch_stats(obj.category_set.filter(category=None)),
+            "categories": prefetch_stats(
+                obj.category_set.filter(category=None, to_delete=False)
+            ),
             "licenses": sorted(
                 (component for component in all_components if component.license),
                 key=lambda component: component.license,
@@ -534,7 +536,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
                 project=obj.project,
             ),
             "components": components,
-            "categories": prefetch_stats(obj.category_set.all()),
+            "categories": prefetch_stats(obj.category_set.filter(to_delete=False)),
             "licenses": sorted(
                 (component for component in all_components if component.license),
                 key=lambda component: component.license,
