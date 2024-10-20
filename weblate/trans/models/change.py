@@ -154,7 +154,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             .values("author")
             .annotate(change_count=Count("id"))
             .values_list(
-                "author__email", "author__full_name", "change_count", *values_list
+                "author__email", "author__username", "author__full_name", "change_count", *values_list
             )
         )
 
