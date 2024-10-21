@@ -9,7 +9,12 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin import AdminSite, sites
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext, gettext_lazy
+from django.views.decorators.cache import never_cache
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -31,6 +36,46 @@ class WeblateAdminSite(AdminSite):
         from weblate.accounts.views import WeblateLogoutView
 
         return WeblateLogoutView.as_view()(request)
+
+    @method_decorator(never_cache)
+    def login(self, request, extra_context=None):
+        """
+        Display the login form for the given HttpRequest.
+
+        Essentially a copy of django.contrib.admin.sites.AdminSite.login
+        """
+        # Since this module gets imported in the application's root package,
+        # it cannot import models from other applications at the module level,
+        # and django.contrib.admin.forms eventually imports User.
+
+        from weblate.accounts.views import BaseLoginView
+
+        if request.method == "GET" and self.has_permission(request):
+            # Already logged-in, redirect to admin index
+            index_path = reverse("admin:index", current_app=self.name)
+            return HttpResponseRedirect(index_path)
+
+        context = {
+            **self.each_context(request),
+            "title": gettext("Sign in"),
+            "subtitle": None,
+            "app_path": request.get_full_path(),
+            "username": request.user.get_username(),
+        }
+        if (
+            REDIRECT_FIELD_NAME not in request.GET
+            and REDIRECT_FIELD_NAME not in request.POST
+        ):
+            context[REDIRECT_FIELD_NAME] = reverse("admin:index", current_app=self.name)
+        context.update(extra_context or {})
+
+        defaults = {
+            "extra_context": context,
+            "authentication_form": self.login_form,
+            "template_name": self.login_template or "admin/login.html",
+        }
+        request.current_app = self.name
+        return BaseLoginView.as_view(**defaults)(request)
 
     @property
     def site_url(self):
