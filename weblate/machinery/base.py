@@ -25,6 +25,7 @@ from requests.exceptions import HTTPError, RequestException
 
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
+from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.requests import request
@@ -737,6 +738,8 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         if not glossary_tsv:
             return None
 
+        glossary_tsv = self.cleanup_glossary_tsv(glossary_tsv)
+
         # Calculate hash to check for changes
         glossary_checksum = hash_to_checksum(calculate_hash(glossary_tsv))
         glossary_name = self.glossary_name_format.format(
@@ -786,6 +789,21 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         # Fetch glossaries again, without using cache
         glossaries = self.get_glossaries(use_cache=False)
         return glossaries[glossary_name]
+
+    def cleanup_glossary_tsv(self, tsv: str) -> str:
+        """Clean up glossary TSV by removing prohibited initial characters."""
+
+        def cleanup(text: str) -> str:
+            """Remove prohibited initial characters from the given text."""
+            if text and text[0] in PROHIBITED_INITIAL_CHARS:
+                text = text.lstrip("".join(PROHIBITED_INITIAL_CHARS))
+            return text
+
+        output = []
+        for terms in tsv.splitlines():
+            terms = [cleanup(term) for term in terms.split("\t")]
+            output.append("\t".join(terms))
+        return "\n".join(output)
 
     def match_name_format(self, string: str) -> re.Match | None:
         """

@@ -26,6 +26,7 @@ from translate.storage.xliff import xlifffile
 import weblate.utils.version
 from weblate.formats.external import XlsxFormat
 from weblate.trans.util import xliff_string_to_rich
+from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 
 from .base import BaseExporter
 
@@ -236,7 +237,7 @@ class CSVExporter(CVSBaseExporter):
 
         Reverse for this is in weblate.formats.ttkit.CSVUnit.unescape_csv
         """
-        if text and text[0] in {"=", "+", "-", "@", "|", "%"}:
+        if text and text[0] in PROHIBITED_INITIAL_CHARS:
             return "'{}'".format(text.replace("|", "\\|"))
         return text
 
