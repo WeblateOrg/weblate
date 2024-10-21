@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 12:38+0000\n"
-"PO-Revision-Date: 2024-10-21 13:26+0000\n"
+"PO-Revision-Date: 2024-10-22 14:16+0000\n"
 "Last-Translator: Horus68 <horus68@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_PT/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.8.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -517,7 +517,7 @@ msgstr "A autenticação de dois fatores foi removida: {device}"
 #: weblate/accounts/models.py:210
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr "Login com autenticação de dois fatores usando {device}"
+msgstr "Autenticação por autenticação de dois fatores usando {device}"
 
 #: weblate/accounts/models.py:215
 msgid "Configured password to sign in."
@@ -591,8 +591,8 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
-"Escolha os idiomas que compreende, as cadeias nesses idiomas serão mostradas "
-"além da cadeia fonte."
+"Escolha os idiomas que compreende. Serão mostradas as entradas nesses "
+"idiomas, para além da entrada fonte."
 
 #: weblate/accounts/models.py:478
 msgid "Theme"
@@ -679,12 +679,12 @@ msgstr ""
 
 #: weblate/accounts/models.py:542
 msgid "Number of nearby strings"
-msgstr "Quantidade de cadeias próximas"
+msgstr "Número de entradas próximas"
 
 #: weblate/accounts/models.py:546
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
-"Quantidade de cadeias próximas para mostrar em cada direção no editor "
+"Quantidade de entradas próximas a mostrar, em cada direção, no editor "
 "completo."
 
 #: weblate/accounts/models.py:550
@@ -947,7 +947,7 @@ msgstr "Existem sugestões pendentes"
 #: weblate/accounts/notifications.py:864
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "Existem cadeias não finalizadas"
+msgstr "Existem entradas não finalizadas"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -1236,7 +1236,7 @@ msgstr "A app de autenticação %s foi registado."
 
 #: weblate/accounts/views.py:1821
 msgid "Second factor sign in"
-msgstr "Login de segundo fator"
+msgstr "Autenticação de segundo fator"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -1248,8 +1248,8 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
-"Traduz automaticamente as cadeias utilizando a tradução automática ou outros "
-"componentes."
+"Traduz automaticamente as entradas utilizando a tradução automática ou "
+"outros componentes."
 
 #: weblate/addons/base.py:398 weblate/trans/views/create.py:251
 msgid ""
@@ -1287,11 +1287,11 @@ msgstr ""
 
 #: weblate/addons/cleanup.py:75
 msgid "Remove blank strings"
-msgstr "Remover cadeias em branco"
+msgstr "Remover entradas em branco"
 
 #: weblate/addons/cleanup.py:77
 msgid "Removes strings without a translation from translation files."
-msgstr "Remove cadeias não traduzidas dos ficheiros de tradução."
+msgstr "Remove entradas não traduzidas dos ficheiros de tradução."
 
 #: weblate/addons/consistency.py:17
 msgid "Add missing languages"
@@ -1401,7 +1401,7 @@ msgstr "Se não especificado, será utilizada a localização do ficheiro PO."
 
 #: weblate/addons/forms.py:56
 msgid "Include strings needing editing"
-msgstr "Incluir cadeias que necessitam edição"
+msgstr "Incluir entradas que necessitem de edição"
 
 #: weblate/addons/forms.py:59
 msgid ""
@@ -1692,15 +1692,15 @@ msgstr "Nome do cookie que armazena a preferência de idioma."
 
 #: weblate/addons/forms.py:518
 msgid "Extract strings from HTML files"
-msgstr "Extrair cadeias de ficheiros de HTML"
+msgstr "Extrair entradas de ficheiros de HTML"
 
 #: weblate/addons/forms.py:521
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"Lista de nomes de ficheiros no repositório atual ou URLs remotas a serem "
-"analisados para obter cadeias traduzíveis."
+"Lista de nomes de ficheiros no repositório atual ou URL remotos a serem "
+"analisados para obter entradas traduzíveis."
 
 #: weblate/addons/forms.py:549
 #, python-format
@@ -1721,7 +1721,7 @@ msgstr "Tradução de destino"
 
 #: weblate/addons/forms.py:568
 msgid "All strings in this translation will be overwritten"
-msgstr "Todas as cadeias nesta tradução serão sobrescritas"
+msgstr "Todas as entradas nesta tradução serão sobrescritas"
 
 #: weblate/addons/forms.py:573 weblate/templates/addons/pseudolocale.html:11
 msgid "Fixed string prefix"
@@ -1753,7 +1753,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:602
 msgid "Include read-only strings"
-msgstr "Incluir cadeias somente leitura"
+msgstr "Incluir entradas de apenas leitura"
 
 #: weblate/addons/forms.py:632
 msgid "The source and target have to be different languages."
@@ -1782,8 +1782,8 @@ msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Gera uma tradução a adicionar um prefixo e sufixo às cadeias de origem "
-"automaticamente."
+"Cria uma tradução ao adicionar automaticamente um prefixo e sufixo às "
+"entradas de origem."
 
 #: weblate/addons/generate.py:201
 msgid "Prefill translation with source"
@@ -1791,15 +1791,15 @@ msgstr "Preencher a tradução com fonte"
 
 #: weblate/addons/generate.py:202
 msgid "Fills in translation strings with source string."
-msgstr "Preenche cadeias de tradução com a cadeia fonte."
+msgstr "Preenche entradas de tradução com a entrada fonte."
 
 #: weblate/addons/generate.py:232
 msgid "Fill read-only strings with source"
-msgstr "Preencher cadeias somente leitura com a fonte"
+msgstr "Preencher entradas de apenas leitura com a fonte"
 
 #: weblate/addons/generate.py:234
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Preenche a tradução de cadeias somente leitura com o cadeia fonte."
+msgstr "Preenche a tradução de entradas de apenas leitura com a entrada fonte."
 
 #: weblate/addons/gettext.py:33
 msgid "Generate MO files"
@@ -1855,7 +1855,7 @@ msgstr ""
 
 #: weblate/addons/gettext.py:348
 msgid "Contributors in comment"
-msgstr "Contribuintes em comentários"
+msgstr "Colaboradores em comentários"
 
 #: weblate/addons/gettext.py:350
 msgid ""
@@ -2172,12 +2172,12 @@ msgstr "Dispensar verificação com falha"
 #. Translators: Permission name
 #: weblate/auth/data.py:71
 msgid "Edit strings"
-msgstr "Editar cadeias"
+msgstr "Editar entradas"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:73
 msgid "Review strings"
-msgstr "Rever cadeias"
+msgstr "Rever entradas"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
@@ -2187,7 +2187,7 @@ msgstr "Editar cadeia quando as sugestões são forçadas"
 #. Translators: Permission name
 #: weblate/auth/data.py:77
 msgid "Edit source strings"
-msgstr "Editar cadeias fonte"
+msgstr "Editar entradas fonte"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:79
@@ -2242,7 +2242,7 @@ msgstr "Definir o autor da tradução enviada"
 #. Translators: Permission name
 #: weblate/auth/data.py:99
 msgid "Overwrite existing strings with upload"
-msgstr "Substituir cadeias existentes com enviadas"
+msgstr "Substituir entradas existentes com as carregadas"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:101
@@ -2378,7 +2378,7 @@ msgstr "Utilizador avançado"
 #: weblate/auth/data.py:205
 msgctxt "Access-control role"
 msgid "Review strings"
-msgstr "Rever cadeias"
+msgstr "Rever entradas"
 
 #: weblate/auth/data.py:208
 msgctxt "Access-control role"
@@ -2793,7 +2793,7 @@ msgstr "Permissões insuficientes para guardar as traduções."
 
 #: weblate/auth/permissions.py:213
 msgid "Insufficient privileges for editing source strings."
-msgstr "Privilégios insuficientes para editar as cadeias de carateres."
+msgstr "Privilégios insuficientes para editar as entradas de carateres."
 
 #: weblate/auth/permissions.py:217
 msgid "Suggestion voting is disabled."
@@ -2811,7 +2811,7 @@ msgstr "Pague as faturas para desbloquear este projeto."
 
 #: weblate/auth/permissions.py:246
 msgid "Source string reviews are not enabled."
-msgstr "As revisões de cadeias fonte não estão ativadas."
+msgstr "As revisões de entradas fonte não estão ativadas."
 
 #: weblate/auth/permissions.py:247
 msgid "Translation reviews are not enabled."
@@ -2847,7 +2847,7 @@ msgstr "Em vez disso, adicione a cadeia ao idioma fonte."
 
 #: weblate/auth/permissions.py:311
 msgid "Adding strings is disabled in the component configuration."
-msgstr "A adição de cadeias está desativada na configuração do componente."
+msgstr "A adição de entradas está desativada na configuração do componente."
 
 #: weblate/auth/permissions.py:326
 msgid "Cannot remove terminology translation, remove source string instead."
@@ -2944,7 +2944,7 @@ msgstr "Número de alterações"
 
 #: weblate/billing/models.py:299 weblate/wladmin/models.py:215
 msgid "Hosted strings"
-msgstr "Cadeias hospedadas"
+msgstr "Entradas hospedadas"
 
 #: weblate/billing/models.py:311 weblate/trans/admin.py:95
 msgid "Source words"
@@ -2952,7 +2952,7 @@ msgstr "Palavras fonte"
 
 #: weblate/billing/models.py:352 weblate/templates/addons/generate_help.html:16
 msgid "Number of strings"
-msgstr "Número de cadeias"
+msgstr "Número de entradas"
 
 #: weblate/billing/models.py:356 weblate/templates/billing/status.html:99
 msgid "Last invoice"
@@ -3204,8 +3204,8 @@ msgstr "Cadeias diferentes são traduzidas da mesma forma."
 #, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "Outra cadeia fonte: %s"
-msgstr[1] "Outras cadeias fonte: %s"
+msgstr[0] "Outra entrada fonte: %s"
+msgstr[1] "Outras entradas fonte: %s"
 
 #: weblate/checks/consistency.py:200
 #, python-format
@@ -5776,11 +5776,12 @@ msgstr "Estatísticas"
 
 #: weblate/templates/accounts/2fa.html:24
 msgid "Second factor sign-in"
-msgstr "Login de segundo fator"
+msgstr "Autenticação de segundo fator"
 
 #: weblate/templates/accounts/2fa.html:30
 msgid "Please complete your sign-in using second factor credential."
-msgstr "Por favor, complete o seu login usando a credencial do segundo fator."
+msgstr ""
+"Por favor, complete a sua autenticação usando a credencial do segundo fator."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -6177,7 +6178,7 @@ msgid ""
 "requiring more than just a password to sign in."
 msgstr ""
 "A autenticação de dois fatores adiciona outra camada de segurança à sua "
-"conta, exigindo mais do que apenas uma palavra-passe para fazer login."
+"conta, exigindo mais do que apenas a senha para se autenticar."
 
 #: weblate/templates/accounts/profile.html:196
 msgid "Security keys (WebAuthn)"
@@ -6540,9 +6541,9 @@ msgid ""
 "Authenticator apps generate one-time passwords that are used as a second "
 "factor to verify your identity when prompted during sign-in."
 msgstr ""
-"As apps autenticadoras geram palavras-passe de uso único que são usadas como "
-"um segundo fator para verificar a sua identidade quando solicitado durante o "
-"login."
+"As apps autenticadoras geram senhas de uso único que são usadas como um "
+"segundo fator para verificar a sua identidade quando solicitado durante "
+"autenticação."
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
@@ -6859,7 +6860,7 @@ msgstr "Traduções com contribuição"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
-msgstr "Faça login usando a chave de segurança"
+msgstr "Autentique-se usando a chave de segurança"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_detail.html:12
@@ -8788,7 +8789,7 @@ msgstr "Ação"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Open available keyboard shortcuts."
-msgstr ""
+msgstr "Abrir atalhos de teclado disponíveis."
 
 #: weblate/templates/keyboard-shortcuts.html:28
 msgid "Navigate to the first translation in the current search."
@@ -8871,10 +8872,8 @@ msgid "to"
 msgstr "para"
 
 #: weblate/templates/keyboard-shortcuts.html:102
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "Copies placeable of a given number from source string."
-msgstr "Este idioma é usado para cadeias fonte."
+msgstr "Cópias posicionáveis de um determinado número da entrada fonte."
 
 #: weblate/templates/keyboard-shortcuts.html:106
 #: weblate/templates/keyboard-shortcuts.html:108
@@ -8884,22 +8883,17 @@ msgid "followed by"
 msgstr "seguido por"
 
 #: weblate/templates/keyboard-shortcuts.html:112
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded document for "
-#| "translation."
 msgid "Copy the machine translation of a given number to current translation."
-msgstr "Criar um componente de tradução de um documento enviado para tradução."
+msgstr ""
+"Copiar a tradução mecânica de um determinado número para a tradução atual."
 
 #: weblate/templates/keyboard-shortcuts.html:123
 msgid "Ignore one item in the list of failing checks."
 msgstr "Ignore um item na lista de verificações falhadas."
 
 #: weblate/templates/keyboard-shortcuts.html:130
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "Shows the Nearby strings tab."
-msgstr "Cadeias próximas"
+msgstr "Mostra a aba das entradas próximas."
 
 #: weblate/templates/keyboard-shortcuts.html:137
 msgid "Focus on search field."
@@ -8914,16 +8908,12 @@ msgid "Toggle the Needs editing checkbox."
 msgstr "Alternar a caixa de seleção de Precisa de edição."
 
 #: weblate/templates/keyboard-shortcuts.html:157
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation string."
-msgstr "Adicionar nova cadeia de tradução"
+msgstr "Navegar para entrada de tradução seguinte."
 
 #: weblate/templates/keyboard-shortcuts.html:165
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation string."
-msgstr "Manter \"msgids\" anteriores das entradas traduzidas"
+msgstr "Navegar para entrada de tradução anterior."
 
 #: weblate/templates/lang/create.html:7
 #: weblate/templates/snippets/list-objects.html:31
@@ -9359,7 +9349,7 @@ msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s "
 "by %(user)s."
 msgstr ""
-"Houve um pedido para um novo idioma em %(component)s em %(site_title)s por "
+"Houve um pedido de um novo idioma para %(component)s em %(site_title)s por "
 "%(user)s."
 
 #: weblate/templates/mail/new_language.html:16
@@ -9573,7 +9563,7 @@ msgstr "As traduções em todos os idiomas foram concluídas em %(component)s"
 #: weblate/templates/mail/translated_language_subject.txt:3
 #, python-format
 msgid "%(translation)s has been completed"
-msgstr "%(translation)s foi concluído"
+msgstr "%(translation)s concluída"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -12782,7 +12772,7 @@ msgstr "Convite para Weblate"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:21
 msgid "Please sign-in to view this invitation."
-msgstr "Faça login para visualizar este convite."
+msgstr "Autentique-se para visualizar este convite."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:23
 msgid "This invitation belongs to a different user."
