@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-21 06:47+0000\n"
-"Last-Translator: Geert-Jan Knapen <geertjanknapen@gmail.com>\n"
+"PO-Revision-Date: 2024-10-21 10:40+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -111,7 +111,7 @@ msgstr ""
 
 #: ../../admin/access.rst:41 ../../admin/config.rst:493
 msgid ":guilabel:`Private`"
-msgstr ""
+msgstr ":guilabel:`Privé`"
 
 #: ../../admin/access.rst:42 ../../admin/access.rst:50
 msgid "Visible only to chosen users."
@@ -198,12 +198,18 @@ msgid ""
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
+"Toewijzen van :guilabel:`Beheren projecttoegang` (bekijk :ref:`privileges`) "
+"stelt gebruikers in staat om andere gebruikers in projecten `Publiek`, "
+"`Beveiligd` en `Privé` (maar niet `Aangepast`) toe te wijzen door ze aan "
+"teams toe te voegen."
 
 #: ../../admin/access.rst:96
 msgid ""
 "These are the default teams provided with Weblate; teams can be added or "
 "modified by users with sufficient privileges:"
 msgstr ""
+"Dit zijn de standaard teams die worden verschaft met Weblate; teams kunnen "
+"worden toegevoegd of aangepast door gebruikers met voldoende rechten:"
 
 #: ../../admin/access.rst:99
 msgid "Administration"
@@ -232,10 +238,11 @@ msgstr "Kan vertalingen goedkeuren tijdens controle."
 #: ../../admin/access.rst:105
 msgid "Available only if :ref:`review workflow <reviews>` is on."
 msgstr ""
+"Alleen beschikbaar als :ref:`werkstroom nakijken <reviews>` is ingeschakeld."
 
 #: ../../admin/access.rst:107
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Alleen voor projecten `Beveiligd` en `Privé`:"
 
 #: ../../admin/access.rst:109
 msgid "Translate"
@@ -256,6 +263,8 @@ msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
+"Brontekenreeksen bewerken (indien toegestaan in de :ref:`projectinstellingen "
+"<component-manage_units>`) en informatie over de brontekenreeks."
 
 #: ../../admin/access.rst:116 ../../admin/access.rst:283
 #: ../../admin/access.rst:299 ../../admin/access.rst:413 ../../api.rst:717
@@ -343,12 +352,17 @@ msgid ""
 "These features are available on the :guilabel:`Access control` page in the "
 "project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`."
 msgstr ""
+"Deze mogelijkheden zijn alleen beschikbaar op de pagina "
+":guilabel:`Toegangsbeheer` in het projectmenu :guilabel:`Beheren` ↓ "
+":guilabel:`Gebruikers`."
 
 #: ../../admin/access.rst:145
 msgid ""
 "You can limit teams to languages or components, and assign them designated "
 "access roles (see :ref:`privileges`)."
 msgstr ""
+"U kunt teams beperken tot talen of componenten, en ze aangewezen rollen voor "
+"toegang toewijzen (bekijk :ref:`privileges`)."
 
 #: ../../admin/access.rst:150
 msgid "Team administrators"
@@ -376,6 +390,10 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
+"Toevoegen van bestaande gebruikers zal ze een invitatie sturen om te "
+"bevestigen. Met :setting:`REGISTRATION_OPEN` kan de beheerder ook nieuwe "
+"gebruikers uitnodigen met e-mail. Uitgenodigde gebruikers moeten het "
+"registratieproces voltooien om toegang te krijgen tot het project."
 
 #: ../../admin/access.rst:168
 msgid ""
@@ -383,30 +401,37 @@ msgid ""
 "access management permission on the project’s scope (e.g. a membership in "
 "the `Administration` team) would be sufficient."
 msgstr ""
+"Het is niet vereist om sitebrede rechten te hebben om dat te doen, rechten "
+"voor toegangsbeheer in het bereik van het project (bijv. een lidmaatschap "
+"van het team `Beheer`) zou voldoende zijn."
 
 #: ../../admin/access.rst:174
 msgid ""
 "If the invited user missed the validity of the invitation, a new invitation "
 "has to be created."
 msgstr ""
+"Als de uitgenodigde gebruiker de geldigheid van de invitatie heeft gemist, "
+"moet een nieuwe invitatie worden gemaakt."
 
 #: ../../admin/access.rst:177
 msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
+"Hetzelfde soort invitaties is sitebreed beschikbaar in de :ref:`interface "
+"Beheren <management-interface>` op de tab :guilabel:`Gebruikers`."
 
 #: ../../admin/access.rst:182
 msgid ""
 "Weblate now does not automatically create accounts or add users to the "
 "teams. This is only done after confirmation from the user."
 msgstr ""
+"Weblate maakt niet automatisch accounts aan of voegt geen gebruikers toe aan "
+"de teams. Dat wordt alleen gedaan na bevestiging door de gebruiker."
 
 #: ../../admin/access.rst:188
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocking users"
-msgstr "Gebruiker verwijderd"
+msgstr "Gebruikers blokkeren"
 
 #: ../../admin/access.rst:192
 msgid ""
@@ -414,24 +439,22 @@ msgid ""
 "With the relevant permissions blocked, users can still see the project, but "
 "won't be able to contribute."
 msgstr ""
+"Als gebruikers zich in uw project misdragen, kunt u hun deelnemen blokkeren. "
+"Met de relevante rechten geblokkeerd, kunnen gebruikers nog steeds het "
+"project zien, maar zij zullen niet in staat zijn deel te nemen."
 
 #: ../../admin/access.rst:197
-#, fuzzy
-#| msgid "Per project permissions"
 msgid "Per-project permission management"
-msgstr "Per project permissies"
+msgstr "Per project rechtenbeheer"
 
 #: ../../admin/access.rst:199
-#, fuzzy
-#| msgid ""
-#| "Set your projects to `Protected` or `Private`, and manage users per "
-#| "project in the Weblate interface."
 msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"Zet uw projecten op `Beschermd` of `Privé`, en beheer gebruikers per project "
-"in de Weblate interface."
+"U kunt uw projecten instellen op :guilabel:`Beveiligd` of :guilabel:`Privé` ("
+"bekijk :ref:`acl`) en :ref:`toegang voor gebruikers beheren <manage-acl>` "
+"per project."
 
 #: ../../admin/access.rst:202
 msgid ""
@@ -442,6 +465,12 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
+"Standaard voorkomt dit dat Weblate toegang verleend die wordt verschaft door "
+"`Gebruikers` en `Kijkers` van :ref:`standaard teams <default-teams>` vanwege "
+"de eigen configuratie van deze teams. Dit voorkomt niet dat u sitebreed "
+"rechten kunt toekennen aan die projecten, door standaard teams te wijzigen, "
+"een nieuw te maken, of aanvullende aangepaste instellingen te maken voor een "
+"individuele component zoals beschreven in :ref:`custom-acl` hieronder."
 
 #: ../../admin/access.rst:208
 msgid ""
@@ -450,37 +479,28 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "team of the project."
 msgstr ""
+"Een van de belangrijkste voordelen van het beheren van rechten via de "
+"gebruikersinterface van Weblate is dat u het kunt delegeren naar andere "
+"gebruikers, zonder ze de rechten voor superuser te geven. Voeg ze, om dit te "
+"kunnen doen, toe aan het team `Beheer` van het project."
 
 #: ../../admin/access.rst:216
-#, fuzzy
-#| msgid "Simple access control"
 msgid "Site-wide access control"
-msgstr "Eenvoudig toegangsbeheer"
+msgstr "Sitebreed toegangsbeheer"
 
 #: ../../snippets/not-hosted.rst:3
-#, fuzzy
-#| msgid ""
-#| "This feature is unavailable for projects running the Libre plan on Hosted "
-#| "Weblate."
 msgid "This feature is unavailable on Hosted Weblate."
-msgstr ""
-"Deze functie is niet beschikbaar voor projecten met het Libre-plan op Hosted "
-"Weblate."
+msgstr "Deze functie is niet beschikbaar op Hosted Weblate."
 
 #: ../../admin/access.rst:220
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups assign them to users and translations, "
-#| "see :ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on roles defining a set of permissions, and "
 "teams linking roles to users and translations, read :ref:`auth-model` for "
 "more details."
 msgstr ""
-"Het permissie systeem is gebaseerd op groepen en rollen, waar rollen een set "
-"van permissies bepalen, en groepen om deze rollen toe te wijzen aan "
-"gebruikers en vertalingen, zie :ref:`auth-model`voor meer details."
+"Het systeem voor rechten is gebaseerd op rollen die een set rechten "
+"definiëren, en teams om deze rollen toe te wijzen aan gebruikers en "
+"vertalingen, lees :ref:`auth-model`voor meer details."
 
 #: ../../admin/access.rst:224
 msgid ""
@@ -490,6 +510,12 @@ msgid ""
 "guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
+"De meest krachtige mogelijkheden voor het beheersysteem voor toegang in "
+"Weblate kan worden geconfigureerd in de :ref:`management-interface`. U kunt "
+"het gebruiken om rechten voor elk project te beheren. U hoeft het niet per "
+"se te schakelen naar :guilabel:`Aangepast` :ref:`toegangsbeheer <acl>` om "
+"het te gebruiken. U moe echter wel rechten als superuser hebben om het te "
+"kunnen gebruiken."
 
 #: ../../admin/access.rst:230
 msgid ""
@@ -499,36 +525,47 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`manage-acl` "
 "section."
 msgstr ""
+"Als u niet bent geïnteresseerd in details voor de implementatie, en slechts "
+"een hele eenvoudige configuratie wilt maken, gebaseerd op de standaarden, of "
+"geen sitebrede toegang heeft tot de gehele installatie van Weblate (zoals op "
+"`Hosted Weblate <https://hosted.weblate.org/>`_), bekijk dan het gedeelte "
+":ref:`manage-acl`."
 
 #: ../../admin/access.rst:236
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Site-wide permission management"
-msgstr "Site-brede toestemmingen"
+msgstr "Sitebreed rechtenbeheer"
 
 #: ../../admin/access.rst:238
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
+"Voeg gebruikers toe aan de toepasselijke :ref:`standaard teams <default-"
+"teams>`, om rechten voor een hele instantie, in een keer, te beheren:"
 
 #: ../../admin/access.rst:241
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
 msgstr ""
+"`Gebruikers` (dit wordt standaard gedaan door de :ref:`automatische "
+"toewijzing teams <autoteam>`)."
 
 #: ../../admin/access.rst:243
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
+"`Nakijkers` (als u de :ref:`werkstroom nakijken <reviews>`gebruikt met "
+"aangewezen nakijkers)."
 
 #: ../../admin/access.rst:245
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"`Beheerders` (als u de meeste bewerkingen voor het beheren wilt delegeren "
+"aan iemand anders)."
 
 #: ../../admin/access.rst:248
 msgid ""
@@ -536,21 +573,20 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
+"U zou alle projecten moeten laten geconfigureerd als `Publiek` (bekijk "
+":ref:`acl`), anders zullen de sitebrede rechten, die worden verschaft door "
+"het lidmaatschap van de teams `Gebruikers` en `Nakijkers`, geen effect "
+"hebben."
 
 #: ../../admin/access.rst:252
-#, fuzzy
-#| msgid ""
-#| "You may also grant some additional permissions of your choice to the "
-#| "default groups. For example, you may want to give a permission to manage "
-#| "screenshots to all the `Users`."
 msgid ""
 "You may also grant some additional permissions of your choice to the default "
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
-"Je kunt ook extra rechten naar keuze toekennen aan de standaard groepen. Je "
-"kunt bijvoorbeeld alle `Gebruikers` toestemming geven om schermafdrukken te "
-"beheren."
+"U kunt ook enkele aanvullende rechten naar keuze toekennen aan de standaard "
+"teams. U kunt bijvoorbeeld alle `Gebruikers` rechten geven om "
+"schermafdrukken te beheren."
 
 #: ../../admin/access.rst:256
 msgid ""
@@ -559,10 +595,14 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
+"U kunt ook enkele nieuwe, aangepaste teams definiëren. Als u uw rechten "
+"sitebreed voor deze teams wilt blijven beheren, kies dan een toepasselijke "
+"waarde voor :guilabel:`Project selecteren` (bijv. :guilabel:`Alle projecten` "
+"of :guilabel:`Alle publieke projecten`)."
 
 #: ../../admin/access.rst:262
 msgid "Custom permissions for languages, components or projects"
-msgstr "Aangepaste rechten instelbaar voor talen, componenten of projecten"
+msgstr "Aangepaste rechten voor talen, componenten of projecten"
 
 #: ../../admin/access.rst:264
 msgid ""
@@ -571,6 +611,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
+"U kunt uw eigen aangewezen teams maken om rechten te beheren voor "
+"afzonderlijke objecten, zoals talen, componenten en projecten. Hoewel deze "
+"teams alleen aanvullende rechten kunnen toekennen, kunt u geen rechten, die "
+"zijn toegekend door sitebrede of per project-teams, door een ander aangepast "
+"team te maken."
 
 #: ../../admin/access.rst:269 ../../admin/access.rst:400
 #: ../../admin/config.rst:247 ../../admin/config.rst:266
@@ -584,13 +629,15 @@ msgstr ""
 #: ../../admin/install/docker.rst:1731 ../../admin/install/docker.rst:1797
 #: ../../admin/install/docker.rst:1843 ../../admin/install/docker.rst:1876
 msgid "**Example:**"
-msgstr ""
+msgstr "**Voorbeeld:**"
 
 #: ../../admin/access.rst:271
 msgid ""
 "Restricting translation to `Czech` to a selected set of translators, (while "
 "keeping translations to other languages public):"
 msgstr ""
+"Vertaling beperken tot `Tsjechisch` voor een geselecteerd aantal vertalers, ("
+"vertalingen voor andere talen tegelijkertijd publiek te houden):"
 
 #: ../../admin/access.rst:274
 msgid ""
@@ -598,79 +645,72 @@ msgid ""
 "configuration this can be done by altering the `Users` :ref:`default team "
 "<default-teams>`."
 msgstr ""
+"Verwijder het recht om `Tsjechisch` te vertalen voor alle gebruikers. In de "
+"standaard configuratie kan dit worden gedaan door het `Gebruikers` :ref:`"
+"standaard team <default-teams>` te wijzigen."
 
 #: ../../admin/access.rst:278
-#, fuzzy
-#| msgid "Groups"
 msgid "Group `Users`"
-msgstr "Groepen"
+msgstr "Groep `Gebruikers`"
 
 #: ../../admin/access.rst:281 ../../admin/access.rst:297
 msgid "Language selection"
-msgstr "Taalselectie"
+msgstr "Taal selecteren"
 
 #: ../../admin/access.rst:282 ../../admin/access.rst:298
-#, fuzzy
-#| msgid "As defined"
 msgid "`As defined`"
-msgstr "Zoals opgegeven"
+msgstr "`Zoals opgegeven`"
 
 #: ../../admin/access.rst:284
 msgid "All but `Czech`"
-msgstr ""
+msgstr "Alles behalve `Tsjechisch`"
 
 #: ../../admin/access.rst:288
 msgid "Add a dedicated team for `Czech` translators."
-msgstr ""
+msgstr "Voeg een toegewezen team toe voor vertalers naar `Tsjechisch`."
 
 #: ../../admin/access.rst:290
-#, fuzzy
-#| msgid "Most active translators"
 msgid "Group `Czech translators`"
-msgstr "Meest actieve vertalers"
+msgstr "Groep `Tsjechische vertalers`"
 
 #: ../../admin/access.rst:293 ../../admin/access.rst:409 ../../api.rst:648
 msgid "Roles"
 msgstr "Rollen"
 
 #: ../../admin/access.rst:294
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Power user"
 msgid "`Power users`"
-msgstr "Ervaren gebruiker"
+msgstr "`Ervaren gebruikers`"
 
 #: ../../admin/access.rst:295
 msgid "Project selection"
-msgstr "Projectselectie"
+msgstr "Project selecteren"
 
 #: ../../admin/access.rst:296
-#, fuzzy
-#| msgid "All public projects"
 msgid "`All public projects`"
-msgstr "Alle openbare projecten"
+msgstr "`Alle publieke projecten`"
 
 #: ../../admin/access.rst:300
-#, fuzzy
-#| msgid "Czech"
 msgid "`Czech`"
-msgstr "Tsjechisch"
+msgstr "`Tsjechisch`"
 
 #: ../../admin/access.rst:304
 msgid "Add users you wish to give the permissions to into this team."
 msgstr ""
+"Voeg de gebruikers toe waarvan u wilt dat die de rechten voor dit team "
+"toekennen."
 
 #: ../../admin/access.rst:306
 msgid ""
 "Management permissions this way is powerful, but can be quite a tedious job. "
 "You can only delegate it to other users by granting them Superuser status."
 msgstr ""
+"Beheren van rechten op deze manier is krachtig, maar kan een behoorlijk "
+"eentonige taak zijn. U kunt het alleen delegeren aan andere gebruikers door "
+"aan hen de status Superuser toe te kennen."
 
 #: ../../admin/access.rst:312
-#, fuzzy
-#| msgid "User has all possible permissions."
 msgid "Users, roles, teams, and permissions"
-msgstr "Deze gebruiker heeft alle mogelijke bevoegdheden."
+msgstr "Gebruikers, rollen, teams en rechten"
 
 #: ../../admin/access.rst:314
 msgid "The authentication models consist of several objects:"
@@ -685,6 +725,8 @@ msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users, only through assignment of roles."
 msgstr ""
+"Individueel recht, gedefinieerd door Weblate. Rechten kunnen niet worden "
+"toegewezen aan gebruikers, alleen door het toewijzen van rollen."
 
 #: ../../admin/access.rst:319
 msgid "`Role`"
@@ -694,16 +736,16 @@ msgstr "`Rol`"
 msgid ""
 "A role defines a set of permissions (and can be reused in several places)."
 msgstr ""
+"Een rol definieert een set rechten (en kan op verscheidene plaatsen opnieuw "
+"gebruikt worden)."
 
 #: ../../admin/access.rst:322
 msgid "`User`"
 msgstr "`Gebruiker`"
 
 #: ../../admin/access.rst:323
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "A user can belong to several teams."
-msgstr "Gebruiker toevoegen aan groep"
+msgstr "Een gebruiker kan tot verschillende teams behoren."
 
 #: ../../admin/access.rst:324
 msgid "`Group`"
@@ -714,18 +756,20 @@ msgid ""
 "Groups connect roles and users with authentication objects (projects, "
 "languages, components, and component lists)."
 msgstr ""
+"Groepen verbinden rollen en gebruikers aan authenticatie-objecten ("
+"projecten, talen, componenten en componentlijsten)."
 
 #: ../../admin/access.rst:343
 msgid ""
 "A team can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
+"Een team hoeft geen rollen aan zich te hebben toegewezen, in dat geval wordt "
+"aangenomen dat iedereen door het project mag bladeren (zie hieronder)."
 
 #: ../../admin/access.rst:347
-#, fuzzy
-#| msgid "Project access control"
 msgid "Project-browsing access"
-msgstr "Project toegangsbeheer"
+msgstr "Projecttoegang bladeren"
 
 #: ../../admin/access.rst:349
 msgid ""
@@ -734,12 +778,14 @@ msgid ""
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
+"Een gebruiker moet een lid zijn van een team dat is gekoppeld aan het "
+"project, of enige component binnen dat project. Lidmaatschap is voldoende, "
+"geen specifieke rechten zijn vereist om door het project te bladeren (dit "
+"wordt gebruikt in het standaard team `Kijkers`, bekijk :ref:`default-teams`)."
 
 #: ../../admin/access.rst:355
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Component-browsing access"
-msgstr "Onderdeelmeldingen"
+msgstr "Componenttoegang bladeren"
 
 #: ../../admin/access.rst:357
 msgid ""
@@ -748,18 +794,22 @@ msgid ""
 "restricted` on, access to components (or component lists) are granted "
 "explicitly."
 msgstr ""
+"Toekennen van toegang om te bladeren aan een gebruiker in een project geeft "
+"toegang tot elke component met afgeleide rechten voor bladeren. Met :ref"
+":`component-restricted` ingeschakeld, wordt expliciet toegang verleend tot "
+"componenten (of componentlijsten)."
 
 #: ../../admin/access.rst:365
-#, fuzzy
-#| msgid "Used in groups"
 msgid "Scope of teams"
-msgstr "Gebruikt in groepen"
+msgstr "Bereik van teams"
 
 #: ../../admin/access.rst:367
 msgid ""
 "The scope of the permission assigned by the roles in the teams are applied "
 "by the following rules:"
 msgstr ""
+"Het bereik van de rechten, die zijn toegewezen aan de rollen in de teams, "
+"worden toegepast met de volgende regels:"
 
 #: ../../admin/access.rst:370
 msgid ""
@@ -769,12 +819,20 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"Als het team een :guilabel:`Componentenlijst`specificeert , worden alle "
+"rechten, die aan leden van dat team zijn toegekend, voor alle componenten in "
+"de componentenlijsten gekoppeld aan het team, en toegang zonder aanvullende "
+"rechten wordt toegewezen voor alle projecten waar deze componenten in staan. "
+":guilabel:`Componenten` en :guilabel:`Projecten` worden genegeerd."
 
 #: ../../admin/access.rst:376
 msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
 msgstr ""
+"Gebruiken van grote componentenlijsten zou enorme impact op de uitvoering "
+"kunnen hebben, overweeg in plaats daarvan het toekennen van toegang via "
+"projecten."
 
 #: ../../admin/access.rst:379
 msgid ""
@@ -783,6 +841,11 @@ msgid ""
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
+"Als het team :guilabel:`Componenten` specificeert, worden alle rechten die "
+"zijn gegeven aan leden van dat team toegewezen aan alle componenten die zijn "
+"gekoppeld aan het team, en toegang zonder aanvullende rechten wordt "
+"toegewezen voor alle projecten waar deze componenten in staan. "
+":guilabel:`Projecten` wordt genegeerd."
 
 #: ../../admin/access.rst:384
 msgid ""
@@ -792,6 +855,12 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
+"Anders, als het team :guilabel:`Projecten`specificeert, ofwel door ze direct "
+"te vermelden of door :guilabel:`Projecten selecteren` te hebben ingesteld op "
+"een waarde als :guilabel:`Alle publieke projecten`, worden al deze rechten "
+"toegepast op alle projecten, wat in feite dezelfde rechten toekent voor "
+"toegang tot alle :ref:`onbeperkte componenten <component-restricted>` van "
+"het project."
 
 #: ../../admin/access.rst:390
 msgid ""
@@ -801,71 +870,81 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
+"De beperkingen die worden opgelegd door :guilabel:`Talen` van een team "
+"worden afzonderlijk toegepast, wanneer geverifieerd is dat een gebruiker "
+"toegang heeft om bepaalde acties uit te voeren. Het wordt namelijk alleen "
+"toegepast op acties die direct zijn gerelateerd aan het vertaalproces zelf, "
+"zoals nakijken, vertalingen opslaan, suggesties toevoegen, etc."
 
 #: ../../admin/access.rst:397
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
+"Gebruik :guilabel:`Taal selecteren` of :guilabel:`Project selecteren` om "
+"automatisch alle talen of projecten op te nemen."
 
 #: ../../admin/access.rst:402
 msgid ""
 "A project ``foo`` with the components: ``foo/bar`` and ``foo/baz``, with "
 "reviewing and management rights, in the following team:"
 msgstr ""
+"Een project ``foo`` met de componenten: ``foo/bar`` en ``foo/baz``, met "
+"rechten voor nakijken en beheren, in het volgende team:"
 
 #: ../../admin/access.rst:406
 msgid "Group `Spanish Admin-Reviewers`"
-msgstr ""
+msgstr "Groep `Spaans Beheer-Nakijken`"
 
 #: ../../admin/access.rst:410
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid "`Review Strings`, `Manage repository`"
-msgstr "Opslagruimte beheren"
+msgstr "`Tekenreeksen nakijken`, `Opslagplaats beheren`"
 
 #: ../../admin/access.rst:411 ../../api.rst:1239
 msgid "Components"
-msgstr "Onderdelen"
+msgstr "Componenten"
 
 #: ../../admin/access.rst:412
+#, fuzzy
 msgid "foo/bar"
-msgstr ""
+msgstr "foo/bar"
 
 #: ../../admin/access.rst:414
-#, fuzzy
-#| msgid "Spanish"
 msgid "`Spanish`"
-msgstr "Spaans"
+msgstr "`Spaans`"
 
 #: ../../admin/access.rst:418
 msgid ""
 "Members of that team will have these permissions (assuming the default role "
 "settings):"
 msgstr ""
+"Leden van dat team zullen deze rechten hebben (uitgaande van de standaard "
+"instellingen voor de rollen):"
 
 #: ../../admin/access.rst:420
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
+"Algemene (bladeren) toegang tot het gehele project ``foo`` inclusief de "
+"beide componenten erin: ``foo/bar`` en ``foo/baz``."
 
 #: ../../admin/access.rst:422
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
+"Tekenreeksen nakijken in ``foo/bar`` Spaanse vertaling (niet ergens anders)."
 
 #: ../../admin/access.rst:423
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
 msgstr ""
+"VCS beheren voor de gehele opslagplaats ``foo/bar``, bijv. indienen van nog "
+"te verwerken wijzigingen die zijn gedaan door vertalers, voor alle talen."
 
 #: ../../admin/access.rst:429
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic team assignments"
-msgstr "Automatische toewijzingen"
+msgstr "Automatisch toewijzen team"
 
 #: ../../admin/access.rst:431
 msgid ""
@@ -874,6 +953,11 @@ msgid ""
 "automatically assign newly created users to a team based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
+"Tijdens het bewerken van het :guilabel:`Team`, kunt u :guilabel:`Automatisch "
+"toewijzen` specificeren, wat een lijst met reguliere expressies is die wordt "
+"gebruikt om automatisch nieuw aangemaakte gebruikers toe te wijzen aan een "
+"team, gebaseerd op hun e-mailadressen. Deze toewijzing wordt alleen "
+"uitgevoerd bij het aanmaken van een account."
 
 #: ../../admin/access.rst:436
 msgid ""
@@ -20865,7 +20949,7 @@ msgstr ""
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
-msgstr "Weblate's REST API"
+msgstr "Weblate REST API"
 
 #: ../../api.rst:10
 msgid ""
@@ -36980,7 +37064,7 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:19
 msgid "**watched**"
-msgstr "**watched**"
+msgstr "**bijhouden**"
 
 #: ../../contributing/schemas.rst:19
 #, fuzzy
@@ -48007,7 +48091,7 @@ msgstr ""
 
 #: ../../user/translating.rst:220
 msgid "Focus on translation editor."
-msgstr "Focus op de \"vertalings editor\""
+msgstr "Focus op de vertalingsbewerker."
 
 #: ../../user/translating.rst:224
 msgid ":kbd:`Ctrl+U` or"
@@ -48019,7 +48103,7 @@ msgstr ""
 
 #: ../../user/translating.rst:224
 msgid "Focus on comment editor."
-msgstr "Focus op de \"reacties editor\""
+msgstr "Focus op de reactiesbewerker."
 
 #: ../../user/translating.rst:228
 msgid ":kbd:`Ctrl+M` or"
@@ -48043,10 +48127,8 @@ msgid ":kbd:`Cmd+1` to :kbd:`Cmd+9`"
 msgstr ""
 
 #: ../../user/translating.rst:232
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "Copies placeable of a given number from source string."
-msgstr "Deze taal wordt gebruikt voor brontekenreeksen."
+msgstr "Te plaatsen kopieën voor opgegeven aantal brontekenreeksen."
 
 #: ../../user/translating.rst:236
 msgid ":kbd:`Ctrl+M` followed by :kbd:`1` to :kbd:`9` or"
@@ -48108,7 +48190,7 @@ msgstr ""
 
 #: ../../user/translating.rst:256
 msgid "Copy the source string."
-msgstr "Kopieer de zin van de bron"
+msgstr "Kopieer de brontekenreeks."
 
 #: ../../user/translating.rst:260
 msgid ":kbd:`Ctrl+Y` or"
