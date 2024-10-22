@@ -278,11 +278,34 @@ strict_settings = false
 
 [tool.djlint]
 blank_line_after_tag = "load,extends,endblock"
+# - reconsider T032 and H014 once formatter is in use
+# T003 - Endblock should have name.
+# H029 - Consider using lowercase form method values.
+# H023 - Do not use entity references.
+# T001 - Variables should be wrapped in a whitespace.
+# H025 - Tag seems to be an orphan.
+# T002 - Double quotes should be used in tags. (makes using tags in attributes hard)
+# H013 - Img tag should have an alt attribute.
+# H006 - Img tag should have height and width attributes.
+# H021 - Inline styles should be avoided.
+# H031 - Consider adding meta keywords.
+# H020 - Empty tag pair found. Consider removing.
+ignore = "T003,H014,T032,T002,H029,H023,H013,T001,H025,H006,H021,H031,H020"
 indent = 2
 max_attribute_length = 80
 max_blank_lines = 2
 preserve_blank_lines = true
 profile = "django"
+
+[tool.djlint.per-file-ignores]
+# TODO
+"weblate/templates/drf_spectacular/redoc.html" = "H005,H030"
+# H005 - Html tag should have lang attribute.
+# H030 - Consider adding a meta description.
+# Mail templates need inline CSS
+"weblate/templates/mail/base.html" = "H030"
+# Test file
+"weblate/trans/tests/data/cs.html" = "H005,H007"
 
 [tool.mypy]
 check_untyped_defs = true
