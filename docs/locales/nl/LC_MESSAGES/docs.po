@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-22 14:16+0000\n"
+"PO-Revision-Date: 2024-10-22 16:22+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -316,11 +316,8 @@ msgid "Billing"
 msgstr "Facturering"
 
 #: ../../admin/access.rst:136
-#, fuzzy
-#| msgid "Can access billing info and settings (see :ref:`billing`)."
 msgid "Access billing info and settings (see :ref:`billing`)."
-msgstr ""
-"Heeft toegang tot facturatie info en instellingen (zie :ref:`billing`)."
+msgstr "Toegang tot facturatie info en instellingen (zie :ref:`billing`)."
 
 #: ../../admin/access.rst:140
 msgid ""
@@ -353,10 +350,8 @@ msgstr ""
 "opzetten."
 
 #: ../../admin/access.rst:161
-#, fuzzy
-#| msgid "Invite new user"
 msgid "Inviting new users"
-msgstr "Gebruiker uitnodigen"
+msgstr "Nieuwe gebruikers uitnodigen"
 
 #: ../../admin/access.rst:163
 msgid ""
@@ -732,7 +727,7 @@ msgid ""
 "languages, components, and component lists)."
 msgstr ""
 "Groepen verbinden rollen en gebruikers aan authenticatie-objecten ("
-"projecten, talen, componenten en componentlijsten)."
+"projecten, talen, onderdelen en onderdelenlijsten)."
 
 #: ../../admin/access.rst:343
 msgid ""
@@ -753,14 +748,14 @@ msgid ""
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
-"Een gebruiker moet een lid zijn van een team dat is gekoppeld aan het "
-"project, of enige component binnen dat project. Lidmaatschap is voldoende, "
-"geen specifieke rechten zijn vereist om door het project te bladeren (dit "
-"wordt gebruikt in het standaard team `Kijkers`, bekijk :ref:`default-teams`)."
+"Een gebruiker moet lid zijn van een team dat is gekoppeld aan het project, "
+"of enig onderdeel binnen dat project. Lidmaatschap is voldoende, geen "
+"specifieke rechten zijn vereist om door het project te bladeren (dit wordt "
+"gebruikt in het standaard team `Kijkers`, bekijk :ref:`default-teams`)."
 
 #: ../../admin/access.rst:355
 msgid "Component-browsing access"
-msgstr "Componenttoegang bladeren"
+msgstr "Onderdeeltoegang bladeren"
 
 #: ../../admin/access.rst:357
 msgid ""
@@ -770,9 +765,9 @@ msgid ""
 "explicitly."
 msgstr ""
 "Toekennen van toegang om te bladeren aan een gebruiker in een project geeft "
-"toegang tot elke component met afgeleide rechten voor bladeren. Met :ref"
+"toegang tot elk onderdeel met afgeleide rechten voor bladeren. Met :ref"
 ":`component-restricted` ingeschakeld, wordt expliciet toegang verleend tot "
-"componenten (of componentlijsten)."
+"onderdelen (of onderdelen lijsten)."
 
 #: ../../admin/access.rst:365
 msgid "Scope of teams"
@@ -794,18 +789,18 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
-"Als het team een :guilabel:`Componentenlijst`specificeert , worden alle "
+"Als het team een :guilabel:`Onderdelenlijst`specificeert , worden alle "
 "rechten, die aan leden van dat team zijn toegekend, voor alle componenten in "
-"de componentenlijsten gekoppeld aan het team, en toegang zonder aanvullende "
-"rechten wordt toegewezen voor alle projecten waar deze componenten in staan. "
-":guilabel:`Componenten` en :guilabel:`Projecten` worden genegeerd."
+"de onderdelen lijsten gekoppeld aan het team, en toegang zonder aanvullende "
+"rechten wordt toegewezen voor alle projecten waar deze onderdelen in staan. "
+":guilabel:`Onderdelen ` en :guilabel:`Projecten` worden genegeerd."
 
 #: ../../admin/access.rst:376
 msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
 msgstr ""
-"Gebruiken van grote componentenlijsten zou enorme impact op de uitvoering "
+"Gebruiken van grote onderdelenlijsten zou enorme impact op de uitvoering "
 "kunnen hebben, overweeg in plaats daarvan het toekennen van toegang via "
 "projecten."
 
@@ -816,10 +811,10 @@ msgid ""
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
-"Als het team :guilabel:`Componenten` specificeert, worden alle rechten die "
-"zijn gegeven aan leden van dat team toegewezen aan alle componenten die zijn "
+"Als het team :guilabel:`Onderdelen` specificeert, worden alle rechten die "
+"zijn gegeven aan leden van dat team toegewezen aan alle onderdelen die zijn "
 "gekoppeld aan het team, en toegang zonder aanvullende rechten wordt "
-"toegewezen voor alle projecten waar deze componenten in staan. "
+"toegewezen voor alle projecten waar deze onderdelen in staan. "
 ":guilabel:`Projecten` wordt genegeerd."
 
 #: ../../admin/access.rst:384
@@ -834,8 +829,8 @@ msgstr ""
 "te vermelden of door :guilabel:`Projecten selecteren` te hebben ingesteld op "
 "een waarde als :guilabel:`Alle publieke projecten`, worden al deze rechten "
 "toegepast op alle projecten, wat in feite dezelfde rechten toekent voor "
-"toegang tot alle :ref:`onbeperkte componenten <component-restricted>` van "
-"het project."
+"toegang tot alle :ref:`onbeperkte onderdelen <component-restricted>` van het "
+"project."
 
 #: ../../admin/access.rst:390
 msgid ""
@@ -941,6 +936,11 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
+"Het meest voorkomende gebruiksgeval voor de mogelijkheid is om alle nieuwe "
+"gebruikers toe te wijzen aan een standaard team. Dit gedrag wordt gebruikt "
+"voor de standaard teams `Gebruikers` en `Gast` (bekijk :ref:`default-teams`)"
+". Gebruik de reguliere uitdrukking ``^.*$`` om alle gebruikers overeen te "
+"laten komen."
 
 #: ../../admin/access.rst:440
 msgid ""
@@ -949,6 +949,10 @@ msgid ""
 "e-mail addresses on your domain, this can be accomplished with an expression "
 "like ``^.*@mycompany.com``."
 msgstr ""
+"Een ander gebruiksgeval voor deze optie zou kunnen zijn om standaard "
+"aanvullende rechten te geven aan werknemers van uw bedrijf. Ervan uitgaande "
+"dat zij allemaal e-mailadressen van het bedrijf op uw domein gebruiken, kan "
+"dit worden bereikt met een uitdrukking als ``^.*@mijnbedrijf.com``."
 
 #: ../../admin/access.rst:447
 msgid ""
@@ -956,6 +960,10 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
+"Automatisch team toewijzen aan `Gebruikers` en `Kijkers` wordt altijd "
+"opnieuw gemaakt bij het upgraden van de ene versie van Weblate naar een "
+"andere. Als u het wilt uitschakelen, stel de reguliere uitdrukking in op "
+"``^$`` (wat met niets overeen zal komen)."
 
 #: ../../admin/access.rst:453
 msgid ""
@@ -963,18 +971,21 @@ msgid ""
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
+"Momenteel is er geen manier om reeds bestaande gebruikers in bul toe te "
+"voegen aan een team via de gebruikersinterface. Daarvoor zou u de :ref:`REST "
+"API <api>` moeten gebruiken."
 
 #: ../../admin/access.rst:457
-#, fuzzy
-#| msgid "Default dashboard view"
 msgid "Default teams and roles"
-msgstr "Standaard overzichtweergave"
+msgstr "Standaard teams en rollen"
 
 #: ../../admin/access.rst:459
 msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
 msgstr ""
+"Na het installeren wordt een standaard set teams gemaakt (bekijk :ref"
+":`default-teams`)."
 
 #: ../../admin/access.rst:461
 msgid ""
@@ -983,12 +994,14 @@ msgid ""
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
+"Deze rollen en teams worden bij het installeren gemaakt. De ingebouwde "
+"rollen worden altijd up-to-date gehouden door de migratie van de database "
+"bij upgraden. U kunt ze niet feitelijk wijzigen, definieer een nieuwe rol "
+"als u uw eigen set met rechten wilt definiëren."
 
 #: ../../admin/access.rst:469
-#, fuzzy
-#| msgid ":ref:`privileges`"
 msgid "List of privileges"
-msgstr ":ref:`privileges`"
+msgstr "Lijst met rechten"
 
 #: ../../admin/access.rst:475 ../../admin/optionals.rst:285
 #: ../../user/checks.rst:0
@@ -997,27 +1010,23 @@ msgstr "Toepassingsgebied"
 
 #: ../../admin/access.rst:475
 msgid "Permission"
-msgstr "Bevoegdheid"
+msgstr "Recht"
 
 #: ../../admin/access.rst:475
-#, fuzzy
-#| msgid "Add language definitions"
 msgid "Built-in roles"
-msgstr "Taaldefinities toevoegen"
+msgstr "Ingebouwde rollen"
 
 #: ../../admin/access.rst:477
 msgid "Billing (see :ref:`billing`)"
-msgstr ""
+msgstr "Facturering (bekijk :ref:`billing`)"
 
 #: ../../admin/access.rst:477
 msgid "View billing info"
-msgstr "Facturatie-informatie tonen"
+msgstr "Informatie factureren tonen"
 
 #: ../../admin/access.rst:477
-#, fuzzy
-#| msgid "Administration"
 msgid ":guilabel:`Administration`, :guilabel:`Billing`"
-msgstr "Administratie"
+msgstr ":guilabel:`Beheer`, :guilabel:`Facturering`"
 
 #: ../../admin/access.rst:479 ../../api.rst:2225
 msgid "Changes"
@@ -1032,10 +1041,8 @@ msgstr "Wijzigingen downloaden"
 #: ../../admin/access.rst:509 ../../admin/access.rst:511
 #: ../../admin/access.rst:521 ../../admin/access.rst:523
 #: ../../admin/access.rst:553
-#, fuzzy
-#| msgid "Administration"
 msgid ":guilabel:`Administration`"
-msgstr "Administratie"
+msgstr ":guilabel:`Beheer`"
 
 #: ../../admin/access.rst:481 ../../user/translating.rst:62
 msgid "Comments"
@@ -1049,12 +1056,12 @@ msgstr "Opmerking plaatsen"
 #: ../../admin/access.rst:525 ../../admin/access.rst:527
 #: ../../admin/access.rst:535 ../../admin/access.rst:541
 #: ../../admin/access.rst:555 ../../admin/access.rst:557
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power "
 "user`, :guilabel:`Review strings`, :guilabel:`Translate`"
-msgstr "Nieuwe vertaling in meer talen starten"
+msgstr ""
+":guilabel:`Beheer`, :guilabel:`Bron bewerken`, :guilabel:`Ervaren gebruiker`"
+", :guilabel:`Tekenreeksen beoordelen`, :guilabel:`Vertalen`"
 
 #: ../../admin/access.rst:483
 msgid "Delete comment"
@@ -1066,10 +1073,8 @@ msgstr "Reactie oplossen"
 
 #: ../../admin/access.rst:485 ../../admin/access.rst:529
 #: ../../admin/access.rst:531
-#, fuzzy
-#| msgid "Edit string when suggestions are enforced"
 msgid ":guilabel:`Administration`, :guilabel:`Review strings`"
-msgstr "Tekenreeks aanpassen als suggesties afgedwongen worden"
+msgstr ":guilabel:`Beheer`, :guilabel:`Tekenreeksen beoordelen`"
 
 #: ../../admin/access.rst:487 ../../admin/addons.rst:56
 msgid "Component"
@@ -1086,25 +1091,22 @@ msgstr "Onderdeel vergrendelen voor vertaling"
 #: ../../admin/access.rst:489 ../../admin/access.rst:561
 #: ../../admin/access.rst:563 ../../admin/access.rst:565
 #: ../../admin/access.rst:569
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid ":guilabel:`Administration`, :guilabel:`Manage repository`"
-msgstr "Opslagruimte beheren"
+msgstr ":guilabel:`Beheer`, :guilabel:`Opslagruimte beheren`"
 
 #: ../../admin/access.rst:491
 msgid "Add glossary entry"
-msgstr "Begrip toevoegen"
+msgstr "Item woordenlijst toevoegen"
 
 #: ../../admin/access.rst:491 ../../admin/access.rst:493
 #: ../../admin/access.rst:495 ../../admin/access.rst:497
 #: ../../admin/access.rst:499
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power "
 "user`"
-msgstr "Nieuwe vertaling in meer talen starten"
+msgstr ""
+":guilabel:`Beheer`, :guilabel:`Woordenlijst beheren`, :guilabel:`Ervaren "
+"gebruiker`"
 
 #: ../../admin/access.rst:493
 msgid "Add glossary terminology"
@@ -1112,15 +1114,15 @@ msgstr "Term woordenlijst toevoegen"
 
 #: ../../admin/access.rst:495
 msgid "Edit glossary entry"
-msgstr "Begrip bewerken"
+msgstr "Item woordenlijst bewerken"
 
 #: ../../admin/access.rst:497
 msgid "Delete glossary entry"
-msgstr "Begrip verwijderen"
+msgstr "Item woordenlijst verwijderen"
 
 #: ../../admin/access.rst:499
 msgid "Upload glossary entries"
-msgstr "Begrippenlijstitems uploaden"
+msgstr "Items woordenlijst uploaden"
 
 #: ../../admin/access.rst:501 ../../admin/machine.rst:4
 #: ../../user/translating.rst:344
@@ -1171,22 +1173,20 @@ msgstr "Verslagen downloaden"
 
 #: ../../admin/access.rst:513
 msgid "Add screenshot"
-msgstr "Schermfoto toevoegen"
+msgstr "Schermafdruk toevoegen"
 
 #: ../../admin/access.rst:513 ../../admin/access.rst:515
 #: ../../admin/access.rst:517
-#, fuzzy
-#| msgid "Add screenshot [`Administration`, `Manage screenshots`]"
 msgid ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
-msgstr "Schermafdruk toevoegen [`Administration`, `Manage screenshots`]"
+msgstr ":guilabel:`Beheer`, :guilabel:`Schermafdrukken beheren`"
 
 #: ../../admin/access.rst:515
 msgid "Edit screenshot"
-msgstr "Schermfoto aanpassen"
+msgstr "Schermafdruk aanpassen"
 
 #: ../../admin/access.rst:517
 msgid "Delete screenshot"
-msgstr "Schermfoto verwijderen"
+msgstr "Schermafdruk verwijderen"
 
 #: ../../admin/access.rst:519 ../../admin/addons.rst:534
 msgid "Source strings"
@@ -1235,11 +1235,10 @@ msgid "Edit source strings"
 msgstr "Brontekenreeksen aanpassen"
 
 #: ../../admin/access.rst:533
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`"
-msgstr "Nieuwe vertaling in meer talen starten"
+msgstr ""
+":guilabel:`Beheer`, :guilabel:`Bron bewerken`, :guilabel:`Ervaren gebruiker`"
 
 #: ../../admin/access.rst:535 ../../user/translating.rst:46
 #: ../../workflows.rst:83
@@ -1255,23 +1254,22 @@ msgid "Add suggestion"
 msgstr "Suggestie toevoegen"
 
 #: ../../admin/access.rst:537
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Add "
 "suggestion`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`"
-msgstr "Nieuwe vertaling in meer talen starten"
+msgstr ""
+":guilabel:`Beheer`, :guilabel:`Bron bewerken`, :guilabel:`Suggestie "
+"toevoegen`, :guilabel:`Ervaren gebruiker`, :guilabel:`Tekenreeksen "
+"beoordelen`, :guilabel:`Vertalen`"
 
 #: ../../admin/access.rst:539
 msgid "Delete suggestion"
 msgstr "Suggestie verwijderen"
 
 #: ../../admin/access.rst:539
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ":guilabel:`Administration`, :guilabel:`Power user`"
-msgstr "Nieuwe vertaling in meer talen starten"
+msgstr ":guilabel:`Beheer`, :guilabel:`Ervaren gebruiker`"
 
 #: ../../admin/access.rst:541
 msgid "Vote on suggestion"
@@ -1286,53 +1284,50 @@ msgid "Add language for translation"
 msgstr "Taal toevoegen om te vertalen"
 
 #: ../../admin/access.rst:543
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Power user`, :guilabel:`Manage "
 "languages`"
-msgstr "Nieuwe vertaling in meer talen starten"
+msgstr ""
+":guilabel:`Beheer`, :guilabel:`Ervaren gebruiker`, :guilabel:`Talen beheren`"
 
 #: ../../admin/access.rst:545
 msgid "Perform automatic translation"
 msgstr "Automatische vertaling uitvoeren"
 
 #: ../../admin/access.rst:545
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid ":guilabel:`Administration`, :guilabel:`Automatic translation`"
-msgstr "Automatische vertaling uitvoeren"
+msgstr ":guilabel:`Beheer`, :guilabel:`Automatische vertaling`"
 
 #: ../../admin/access.rst:547
 msgid "Delete existing translation"
 msgstr "Bestaande vertaling verwijderen"
 
 #: ../../admin/access.rst:547 ../../admin/access.rst:551
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ":guilabel:`Administration`, :guilabel:`Manage languages`"
-msgstr "Nieuwe vertaling in meer talen starten"
+msgstr ":guilabel:`Beheer`, :guilabel:`Talen beheren`"
 
 #: ../../admin/access.rst:549
 msgid "Download translation file"
 msgstr "Vertaalbestand downloaden"
 
 #: ../../admin/access.rst:549
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Access "
 "repository`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`, :guilabel:`Manage languages`"
-msgstr "Nieuwe vertaling in meer talen starten"
+msgstr ""
+":guilabel:`Beheer`, :guilabel:`Bron bewerken`, :guilabel:`Toegang "
+"opslagruimte`, :guilabel:`Ervaren gebruiker`, :guilabel:`Tekenreeksen "
+"beoordelen`, :guilabel:`Vertalen`, :guilabel:`Talen beheren`"
 
 #: ../../admin/access.rst:551
 msgid "Add several languages for translation"
 msgstr "Meerdere talen toevoegen om te vertalen"
 
 #: ../../admin/access.rst:553
+#, fuzzy
 msgid "Uploads"
-msgstr ""
+msgstr "Uploads"
 
 #: ../../admin/access.rst:553
 msgid "Define author of uploaded translation"
@@ -1348,15 +1343,15 @@ msgstr "Vertalingen uploaden"
 
 #: ../../admin/access.rst:559
 msgid "Access the internal repository"
-msgstr "Interne opslagruimte benaderen"
+msgstr "Toegang tot interne opslagruimte"
 
 #: ../../admin/access.rst:559 ../../admin/access.rst:567
-#, fuzzy
-#| msgid "Update the internal repository"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power "
 "user`, :guilabel:`Manage repository`"
-msgstr "Interne opslagruimte bijwerken"
+msgstr ""
+":guilabel:`Beheer`, :guilabel:`Toegang opslagruimte`, :guilabel:`Ervaren "
+"gebruiker`, :guilabel:`Opslagruimte beheren`"
 
 #: ../../admin/access.rst:561
 msgid "Commit changes to the internal repository"
@@ -1380,7 +1375,7 @@ msgstr "Interne opslagruimte bijwerken"
 
 #: ../../admin/access.rst:571
 msgid "Site wide privileges"
-msgstr ""
+msgstr "Sitebrede rechten"
 
 #: ../../admin/access.rst:571
 msgid "Use management interface"
@@ -1391,10 +1386,8 @@ msgid "Add new projects"
 msgstr "Projecten toevoegen"
 
 #: ../../admin/access.rst:573 ../../admin/access.rst:639
-#, fuzzy
-#| msgid "Add new projects"
 msgid ":guilabel:`Add new projects`"
-msgstr "Projecten toevoegen"
+msgstr ":guilabel:`Nieuwe projecten toevoegen`"
 
 #: ../../admin/access.rst:575
 msgid "Add language definitions"
@@ -1430,7 +1423,7 @@ msgstr "Machinevertalingen beheren"
 
 #: ../../admin/access.rst:591
 msgid "Manage component lists"
-msgstr "Onderdeellijsten beheren"
+msgstr "Onderdelenlijsten beheren"
 
 #: ../../admin/access.rst:593
 msgid "Manage billing"
@@ -1438,7 +1431,7 @@ msgstr "Facturatie beheren"
 
 #: ../../admin/access.rst:595
 msgid "Manage site-wide add-ons"
-msgstr "Geïnstalleerde site-brede uitbreidingen"
+msgstr "Geïnstalleerde sitebrede uitbreidingen"
 
 #: ../../admin/access.rst:600
 msgid ""
@@ -1446,16 +1439,17 @@ msgid ""
 "and quite close to the Superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
+"Sitebrede rechten worden niet toegekend aan een standaard rol. Deze zijn "
+"krachtig en liggen dicht bij die van de status Superuser. De meeste ervan "
+"beïnvloeden alle projecten uw installatie van Weblate."
 
 #: ../../admin/access.rst:605
 msgid "List of built-in roles"
-msgstr ""
+msgstr "Lijst met ingebouwde rollen"
 
 #: ../../admin/access.rst:610
-#, fuzzy
-#| msgid "Administration"
 msgid "`Administration`"
-msgstr "Administratie"
+msgstr "`Beheer`"
 
 #: ../../admin/access.rst:611
 msgid ""
@@ -1485,13 +1479,39 @@ msgid ""
 "guilabel:`Update the internal repository`, :guilabel:`View upstream "
 "repository location`"
 msgstr ""
+":guilabel:`Informatie facturatie bekijken`, :guilabel:`Wijzigingen "
+"downloaden`, :guilabel:`Opmerking plaatsen`, :guilabel:`Opmerking "
+"verwijderen`, :guilabel:`Opmerking oplossen`, :guilabel:`Instellingen "
+"onderdelen bewerken`, :guilabel:`Onderdeel vergrendelen, vertalingen "
+"voorkomen`, :guilabel:`item woordenlijst toevoegen`, :guilabel:`Item "
+"woordenlijst verwijderen`, :guilabel:`Item woordenlijst bewerken`, "
+":guilabel:`Terminologie woordenlijst bewerken`, :guilabel:`Items "
+"woordenlijst uploaden`, :guilabel:`Automatische suggesties gebruiken`, "
+":guilabel:`Vertaalgeheugen verwijderen`, :guilabel:`Vertaalgeheugen bewerken`"
+", :guilabel:`Instellingen project bewerken`, :guilabel:`Toegang project "
+"beheren`, :guilabel:`Rapporten downloaden`, :guilabel:`Schermafdruk "
+"toevoegen`, :guilabel:`Schermafdruk verwijderen`, :guilabel:`Schermafdruk "
+"bewerken`, :guilabel:`Aanvullende informatie tekenreeks bewerken`, "
+":guilabel:`Suggestie accepteren`, :guilabel:`Suggestie toevoegen`, "
+":guilabel:`Suggestie verwijderen`, :guilabel:`Stemmen voor suggestie`, "
+":guilabel:`Taal voor vertalen toevoegen`, :guilabel:`Verscheidene talen voor "
+"vertalen toevoegen`, :guilabel:`Automatisch vertalen uitvoeren`, :guilabel:`"
+"Bestaande vertaling verwijderen`, :guilabel:`Vertaalbestand downloaden`, "
+":guilabel:`Nieuwe tekenreeks toevoegen`, :guilabel:`Mislukte controle "
+"verwijderen`, :guilabel:`Tekenreeks verwijderen`, :guilabel:`Tekenreeksen "
+"bewerken`, :guilabel:`Tekenreeks bewerken als suggesties zijn afgedwongen`, "
+":guilabel:`Tekenreeksen beoordelen`, :guilabel:`Brontekenreeksen bewerken`, "
+":guilabel:`Auteur opgeven van geüploade vertaling`, :guilabel:`Bestaande "
+"tekenreeksen overschrijven bij uploaden`, :guilabel:`Vertalingen uploaden`, "
+":guilabel:`Toegang tot interne opslagruimte`, :guilabel:`Wijzigingen "
+"doorvoeren in de interne opslagruimte`, :guilabel:`Wijzigingen vanuit de "
+"interne opslagplaats pushen`, :guilabel:`Wijzigingen in de interne "
+"opslagruimte herstellen`, :guilabel:`Interne opslagruimte bijwerken`, "
+":guilabel:`Locatie opslagruimte upstream bekijken`"
 
 #: ../../admin/access.rst:612
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "`Edit source`"
-msgstr "Bron bewerken"
+msgstr "`Bron bewerken`"
 
 #: ../../admin/access.rst:613
 msgid ""
@@ -1502,53 +1522,51 @@ msgid ""
 "guilabel:`Edit source strings`, :guilabel:`Overwrite existing strings with "
 "upload`, :guilabel:`Upload translations`"
 msgstr ""
+":guilabel:`Opmerking plaatsen`, :guilabel:`Automatische suggesties gebruiken`"
+", :guilabel:`Aanvullende informatie tekenreeks bewerken`, :guilabel:`"
+"Suggestie accepteren`, :guilabel:`Suggestie toevoegen`, :guilabel:`Stemmen "
+"voor suggestie`, :guilabel:`Vertaalbestand downloaden`, :guilabel:`Mislukte "
+"controle verwijderen`, :guilabel:`Tekenreeksen bewerken`, :guilabel:`"
+"Brontekenreeksen bewerken`, :guilabel:`Bestaande tekenreeksen overschrijven "
+"bij uploaden`, :guilabel:`Vertalingen uploaden`"
 
 #: ../../admin/access.rst:614
-#, fuzzy
-#| msgid "Add suggestion"
 msgid "`Add suggestion`"
-msgstr "Suggestie toevoegen"
+msgstr "`Suggestie toevoegen`"
 
 #: ../../admin/access.rst:615
-#, fuzzy
-#| msgid "Add suggestion"
 msgid ":guilabel:`Add suggestion`"
-msgstr "Suggestie toevoegen"
+msgstr ":guilabel:`Suggestie toevoegen`"
 
 #: ../../admin/access.rst:616
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Access repository"
 msgid "`Access repository`"
-msgstr "Opslagruimte benaderen"
+msgstr "`Toegang tot opslagruimte`"
 
 #: ../../admin/access.rst:617
 msgid ""
 ":guilabel:`Download translation file`, :guilabel:`Access the internal "
 "repository`, :guilabel:`View upstream repository location`"
 msgstr ""
+":guilabel:`Vertaalbestand downloaden`, :guilabel:`Toegang tot interne "
+"opslagruimte`, :guilabel:`Locatie opslagruimte upstream bekijken`"
 
 #: ../../admin/access.rst:618
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "`Manage glossary`"
-msgstr "Begrippenlijst beheren"
+msgstr "`Woordenlijst beheren`"
 
 #: ../../admin/access.rst:619
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:"
 "`Edit glossary entry`, :guilabel:`Add glossary terminology`, :guilabel:"
 "`Upload glossary entries`"
-msgstr "Nieuwe vertaling in meer talen starten"
+msgstr ""
+":guilabel:`Item woordenlijst toevoegen`, :guilabel:`Item woordenlijst "
+"verwijderen`, :guilabel:`Item woordenlijst bewerken`, :guilabel:`"
+"Terminologie woordenlijst toevoegen`, :guilabel:`Items woordenlijst uploaden`"
 
 #: ../../admin/access.rst:620
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Power user"
 msgid "`Power user`"
-msgstr "Ervaren gebruiker"
+msgstr "`Ervaren gebruiker`"
 
 #: ../../admin/access.rst:621
 msgid ""
@@ -1563,12 +1581,21 @@ msgid ""
 "guilabel:`Access the internal repository`, :guilabel:`View upstream "
 "repository location`"
 msgstr ""
+":guilabel:`Opmerking plaatsen`, :guilabel:`Item woordenlijst toevoegen`, "
+":guilabel:`Item woordenlijst verwijderen`, :guilabel:`Item woordenlijst "
+"bewerken`, :guilabel:`Items woordenlijst uploaden`, :guilabel:`Automatische "
+"suggesties gebruiken`, :guilabel:`Suggestie accepteren`, :guilabel:`"
+"Suggestie toevoegen`, :guilabel:`Suggestie verwijderen`, :guilabel:`Stemmen "
+"voor suggestie`, :guilabel:`Taal voor vertalen toevoegen`, :guilabel:`"
+"Vertaalbestand downloaden`, :guilabel:`Mislukte controle verwijderen`, "
+":guilabel:`Tekenreeksen bewerken`, :guilabel:`Brontekenreeksen bewerken`, "
+":guilabel:`Bestaande tekenreeksen overschrijven bij uploaden`, :guilabel:`"
+"Vertalingen uploaden`, :guilabel:`Toegang tot interne opslagruimte`, "
+":guilabel:`Locatie opslagruimte upstream bekijken`"
 
 #: ../../admin/access.rst:622
-#, fuzzy
-#| msgid "Review strings"
 msgid "`Review strings`"
-msgstr "Tekenreeksen beoordelen"
+msgstr "`Tekenreeksen beoordelen`"
 
 #: ../../admin/access.rst:623
 msgid ""
@@ -1582,10 +1609,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:624
-#, fuzzy
-#| msgid "Translate"
 msgid "`Translate`"
-msgstr "Vertalen"
+msgstr "`Vertalen`"
 
 #: ../../admin/access.rst:625
 msgid ""
@@ -1597,11 +1622,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:626
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "`Manage languages`"
-msgstr "Talen beheren"
+msgstr "`Talen beheren`"
 
 #: ../../admin/access.rst:627
 msgid ""
@@ -1623,10 +1645,8 @@ msgid ":guilabel:`Perform automatic translation`"
 msgstr "Automatische vertaling uitvoeren"
 
 #: ../../admin/access.rst:630
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "`Manage translation memory`"
-msgstr "Vertaalgeheugen beheren"
+msgstr "`Vertaalgeheugen beheren`"
 
 #: ../../admin/access.rst:631
 #, fuzzy
@@ -1664,26 +1684,20 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:636
-#, fuzzy
-#| msgid "Billing"
 msgid "`Billing`"
-msgstr "Facturering"
+msgstr "`Facturatie`"
 
 #: ../../admin/access.rst:637
-#, fuzzy
-#| msgid "View billing info"
 msgid ":guilabel:`View billing info`"
-msgstr "Facturatie-informatie tonen"
+msgstr ":guilabel:`Informatie facturatie bekijken`"
 
 #: ../../admin/access.rst:638
-#, fuzzy
-#| msgid "Add new projects"
 msgid "`Add new projects`"
-msgstr "Projecten toevoegen"
+msgstr "`Nieuwe projecten toevoegen`"
 
 #: ../../admin/access.rst:644
 msgid "List of teams"
-msgstr ""
+msgstr "Lijst van teams"
 
 #: ../../admin/access.rst:646
 msgid ""
@@ -3766,10 +3780,8 @@ msgid ""
 msgstr "Pas het yaml-uitvoergedrag aan, zoals de regellengte of regeleinden."
 
 #: ../../admin/addons.rst:912
-#, fuzzy
-#| msgid "Checks listing"
 msgid "Customizing list of add-ons"
-msgstr "Lijst van controles"
+msgstr "Lijst van add-ons aanpassen"
 
 #: ../../admin/addons.rst:914
 msgid ""
