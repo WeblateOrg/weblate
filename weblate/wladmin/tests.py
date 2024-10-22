@@ -24,7 +24,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.unittest import tempdir_setting
-from weblate.wladmin.forms import ThemeColorField
+from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
@@ -417,21 +417,22 @@ class TestThemeColorField(TestCase):
 
     def setUp(self):
         self.field = ThemeColorField()
+        self.widget = ThemeColorWidget()
 
     def test_decompress_two_colors(self):
         value = "#ffffff,#000000"
         expected = ["#ffffff", "#000000"]
-        self.assertEqual(self.field.widget.decompress(value), expected)
+        self.assertEqual(self.widget.decompress(value), expected)
 
     def test_decompress_one_color(self):
         value = "#ffffff"
         expected = ["#ffffff", "#ffffff"]
-        self.assertEqual(self.field.widget.decompress(value), expected)
+        self.assertEqual(self.widget.decompress(value), expected)
 
     def test_decompress_no_value(self):
         value = None
         expected = [None, None]
-        self.assertEqual(self.field.widget.decompress(value), expected)
+        self.assertEqual(self.widget.decompress(value), expected)
 
     def test_compress_two_colors(self):
         data_list = ["#ffffff", "#000000"]
