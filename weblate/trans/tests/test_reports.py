@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 from django.urls import reverse
 from django.utils import timezone
 
-from weblate.trans.models.category import Category
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.reports import generate_counts, generate_credits
 
@@ -397,15 +396,12 @@ class ReportsGlobalTest(ReportsComponentTest):
 class ReportsCategoryTest(ReportsComponentTest):
     def setUp(self) -> None:
         super().setUp()
-        self.category = self.create_category()
+        self.setup_category()
 
-    def create_category(self) -> None:
-        category = Category.objects.create(
-            name="test category", slug="test-category", project=self.project
-        )
-        self.component.category = category
+    def setup_category(self) -> None:
+        self.component.category = self.create_category(project=self.project)
         self.component.save()
-        return category
+        self.category = self.component.category
 
     def get_kwargs(self) -> dict[str, tuple]:
         return {"path": self.category.get_url_path()}
