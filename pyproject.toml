@@ -276,6 +276,10 @@ omit = [
 django_settings_module = "weblate.settings_example"
 strict_settings = false
 
+[tool.djlint]
+blank_line_after_tag = "load,extends,endblock"
+indent = 2
+
 [tool.mypy]
 check_untyped_defs = true
 plugins = [
