@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% load translations %}
 
-<form action="{% url 'manage-activate' %}" method="POST">
+<form action="{% url 'manage-activate' %}" method="post">
 {% csrf_token %}
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">

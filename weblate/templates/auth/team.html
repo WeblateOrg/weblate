@@ -20,7 +20,7 @@
 {% block content %}
 {% perm "meta:team.users" object as user_can_edit_team_users %}
 
-<form method="POST">
+<form method="post">
 {% csrf_token %}
 <ul class="nav nav-pills">
   <li role="presentation" class="active"><a href="#basic" role="tab" data-toggle="tab">{% trans "Settings" %}</a></li>
@@ -191,5 +191,5 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
   </form>
-  <form method="GET" id="paginator-form"></form>
+  <form method="get" id="paginator-form"></form>
 {% endblock %}
