@@ -24,6 +24,7 @@ from social_django.utils import load_strategy
 
 from weblate.auth.models import AuthenticatedHttpRequest, get_auth_backends
 from weblate.lang.models import Language
+from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project
 from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
@@ -324,9 +325,18 @@ class CSPBuilder:
 
     def add_csp_host(self, url: str, *directives: CSP_KIND) -> None | str:
         domain = urlparse(url).hostname
+        # Handle domain only URLs (OpenInfraOpenId uses that)
+        if not domain and ":" not in url and "/" not in url:
+            domain = url
         if domain:
             for directive in directives:
                 self.directives[directive].add(domain)
+        else:
+            LOGGER.error(
+                "could not parse domain from '%s', not adding to Content-Security-Policy",
+                url,
+            )
+
         return domain
 
     def build_csp_redoc(self) -> None:
@@ -435,11 +445,11 @@ class CSPBuilder:
                     urls = [backend(social_strategy).openid_url()]
 
                 # Handle OAuth redirect flow
-                if issubclass(backend, OAuthAuth):
+                elif issubclass(backend, OAuthAuth):
                     urls = [backend(social_strategy).authorization_url()]
 
                 # Handle SAML redirect flow
-                if hasattr(backend, "get_idp"):
+                elif hasattr(backend, "get_idp"):
                     # Lazily import here to avoid pulling in xmlsec
                     from social_core.backends.saml import SAMLAuth
 
