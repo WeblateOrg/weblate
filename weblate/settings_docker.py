@@ -1145,6 +1145,7 @@ WEBLATE_MACHINERY = [
     "weblate.machinery.ibm.IBMTranslation",
     "weblate.machinery.systran.SystranTranslation",
     "weblate.machinery.openai.OpenAITranslation",
+    "weblate.machinery.openai.AzureOpenAITranslation",
     "weblate.machinery.weblatetm.WeblateTranslation",
     "weblate.memory.machine.WeblateMemory",
     "weblate.machinery.cyrtranslit.CyrTranslitTranslation",
