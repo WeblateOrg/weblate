@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 12:38+0000\n"
-"PO-Revision-Date: 2024-10-15 10:03+0000\n"
+"PO-Revision-Date: 2024-10-23 17:15+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.8.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -494,26 +494,26 @@ msgstr "O usuario foi retirado do equipo {team} por {username}."
 
 #: weblate/accounts/models.py:203
 msgid "Two-factor authentication recovery codes were generated"
-msgstr "Xeráronse códigos de recuperación da autenticación con dous factores"
+msgstr "Xeráronse códigos de recuperación do segundo factor de autenticación"
 
 #: weblate/accounts/models.py:206
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr "Vironse os códigos de recuperación da autenticación con dous factores"
+msgstr "Vironse os códigos de recuperación do segundo factor de autenticación"
 
 #: weblate/accounts/models.py:208
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr "Engadiuse a autenticación con dous factores: {device}"
+msgstr "Engadiuse a autenticación con segundo factor: {device}"
 
 #: weblate/accounts/models.py:209
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr "Retirouse a autenticación con dous factores: {device}"
+msgstr "Retirouse a autenticación con segundo factor: {device}"
 
 #: weblate/accounts/models.py:210
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr "Acceso con autenticación con dous factores empregando {device}"
+msgstr "Acceso con segundo factor de autenticación empregando {device}"
 
 #: weblate/accounts/models.py:215
 msgid "Configured password to sign in."
@@ -2637,13 +2637,13 @@ msgstr "O administrador pode engadir ou retirar usuarios dun equipo."
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:193
 msgid "Enforced two-factor authentication"
-msgstr "Autenticación con dous factores obrigatoria"
+msgstr "Autenticación obrigatoria con segundo factor"
 
 #: weblate/auth/models.py:197
 msgid "Requires users to have two-factor authentication configured."
 msgstr ""
-"É obrigatorio que os usuarios teñan configurada a autenticación con dous "
-"factores."
+"É obrigatorio que os usuarios teñan configurado o segundo factor de "
+"autenticación."
 
 #: weblate/auth/models.py:398 weblate/utils/forms.py:72
 #: weblate/utils/validators.py:173
@@ -2751,7 +2751,7 @@ msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
 msgstr ""
-"Este proxecto require autenticación con dous factores; configúreo no seu "
+"Este proxecto require do segundo factor de autenticación; configúreo no seu "
 "perfil."
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:175
@@ -6171,14 +6171,14 @@ msgstr "Engadir unha nova identidade de usuario"
 #: weblate/templates/accounts/profile.html:188
 #: weblate/templates/accounts/user.html:354
 msgid "Two-factor authentication"
-msgstr "Autenticación con dous factores"
+msgstr "Autenticación con segundo factor"
 
 #: weblate/templates/accounts/profile.html:192
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
-"A autenticación con dous factores engade unha capa adicional de seguranza á "
+"O segundo factor de autenticación engade unha capa adicional de seguranza á "
 "súa conta ao requirir máis ca un contrasinal para acceder."
 
 #: weblate/templates/accounts/profile.html:196
@@ -6435,7 +6435,7 @@ msgid ""
 msgstr ""
 "Os códigos de recuperación pódense empregar para acceder á súa conta se "
 "perde o acceso ao seu dispositivo e non pode recibir códigos de "
-"autenticación con dous factores."
+"autenticación con segundo factor."
 
 #: weblate/templates/accounts/recovery-codes.html:29
 msgid ""
@@ -6779,15 +6779,15 @@ msgstr "Editar usuario"
 
 #: weblate/templates/accounts/user.html:359
 msgid "User has two-factor authentication configured."
-msgstr "O usuario ten configurada a autenticación con dous factores."
+msgstr "O usuario ten configurada a autenticación con segundo factor."
 
 #: weblate/templates/accounts/user.html:361
 msgid "User doesn't have two-factor authentication configured."
-msgstr "O usuario non ten configurada a autenticación con dous factores."
+msgstr "O usuario non ten configurada a autenticación con segundo factor."
 
 #: weblate/templates/accounts/user.html:366
 msgid "Disable two-factor authentication"
-msgstr "Desactivar a autenticación con dous factores"
+msgstr "Desactivar a autenticación con segundo factor"
 
 #: weblate/templates/accounts/user.html:373
 msgid "Account removal deletes all user private data."
@@ -7271,7 +7271,7 @@ msgstr "Asignación automática"
 
 #: weblate/templates/auth/teams-name.html:4
 msgid "Requires two-factor authentication"
-msgstr "Require autenticación con dous factores"
+msgstr "Require autenticación con segundo factor"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -10472,14 +10472,14 @@ msgstr "Cargando os resultados…"
 
 #: weblate/templates/snippets/enforced_2fa.html:7
 msgid "Configure two-factor authentication"
-msgstr "Configurar a autenticación de dos factores"
+msgstr "Configurar a autenticación con segundo factor"
 
 #: weblate/templates/snippets/enforced_2fa.html:9
 msgid ""
 "This project requires two-factor authentication from all contributors. You "
 "won’t be able to contribute until you configure it."
 msgstr ""
-"Este proxecto require a autenticación con dous factores de todos os "
+"Este proxecto require a autenticación con segundo factor de todos os "
 "colaboradores. Non poderá colaborar ata que a configure."
 
 #: weblate/templates/snippets/enforced_2fa.html:11
@@ -10487,8 +10487,8 @@ msgid ""
 "You are a member of the team that requires two-factor authentication. You "
 "won’t be able to use any of its privileges until you configure 2FA."
 msgstr ""
-"Vde. é membro do equipo que require unha autenticación con dous factores. "
-"Non poderá usar ningún dos seus privilexios ata que configure a A2F."
+"Vde. é membro do equipo que require unha autenticación con segundo factor. "
+"Non poderá usar ningún dos seus privilexios ata que configure o 2FA."
 
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:379
@@ -15100,8 +15100,8 @@ msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
 msgstr ""
-"Require que os colaboradores teñan configurada a autenticación con dous "
-"factores antes de poder colaborar."
+"Require que os colaboradores teñan configurada a autenticación con segundo "
+"factor antes de poder colaborar."
 
 #: weblate/trans/models/project.py:201 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
