@@ -167,7 +167,7 @@
     <td>
       <a href="{{ download_url }}?source_language={{ item.source_language.id }}&amp;target_language={{ item.target_language.id }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
       <a href="{{ download_url }}?format=tmx&amp;source_language={{ item.source_language.id }}&amp;target_language={{ item.target_language.id }}" class="btn btn-primary">{% trans "Download as TMX" %}</a>
-    </tr>
+    </td>
   </tr>
   {% endfor %}
   {% if project %}

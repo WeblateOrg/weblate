@@ -62,25 +62,23 @@
 </div>
     {% endif %}
 
-    <form method="post" class="form-inline">
-<div class="panel panel-default">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    {% documentation_icon 'vcs' 'verify-ssh' right=True %}
-    {% trans "Add host key" %}
-  </h4>
-</div>
-<div class="panel-body">
-    <p>{% trans "To access SSH hosts, its host key needs to be verified. You can get the host key by entering a domain name or IP for the host in the form below." %}</p>
-    {% crispy add_form %}
-    <input type="hidden" name="action" value="add-host" />
-</div>
-  <div class="panel-footer">
-    <input type="submit" id="ssh-add-button" class="btn btn-primary" value="{% trans "Submit" %}" />
+<form method="post" class="form-inline">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'vcs' 'verify-ssh' right=True %}
+        {% trans "Add host key" %}
+      </h4>
     </div>
+    <div class="panel-body">
+        <p>{% trans "To access SSH hosts, its host key needs to be verified. You can get the host key by entering a domain name or IP for the host in the form below." %}</p>
+        {% crispy add_form %}
+        <input type="hidden" name="action" value="add-host" />
     </div>
-    </form>
-
+    <div class="panel-footer">
+      <input type="submit" id="ssh-add-button" class="btn btn-primary" value="{% trans "Submit" %}" />
+    </div>
   </div>
-</div>
+</form>
+
 {% endblock %}

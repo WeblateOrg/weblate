@@ -392,8 +392,8 @@
         <th>{% trans "Similarity" %}</th>
         <th colspan="2">
         {% loading_icon "machinery" %}
-      </th>
-      <tr>
+        </th>
+      </tr>
     </thead>
     <tbody id="machinery-translations"></tbody>
   </table>
@@ -468,7 +468,7 @@
             {% documentation_icon 'user/translating' 'suggestions' right=True %}
             {% icon "suggest.svg" %}
             {% trans "Suggestions" %}
-        </h4>
+        </h5>
         <p class="list-group-item-text">{% blocktrans count count=unit.suggestions|length %}There is {{ count }} suggestion for this string.{% plural %}There are {{ count }} suggestions for this string.{% endblocktrans %}</p>
         <p class="list-group-item-text list-buttons">
             <a href="#suggestions" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
