@@ -46,7 +46,7 @@
       <a href="{{ download_url }}?format=tmx" class="btn btn-primary">{% trans "Download as TMX" %}</a>
       {% if delete_url %}
       <a href="#" data-toggle="modal" data-target="#delete_memory_form" class="btn btn-danger">{% trans "Delete" %}</a>
-        <form action="{{ delete_url }}" method="POST" class="inlineform">
+        <form action="{{ delete_url }}" method="post" class="inlineform">
         {% csrf_token %}
         <input type="hidden" name="confirm" value="1" />
         <div class="modal fade" tabindex="-1" role="dialog" id="delete_memory_form">
@@ -69,7 +69,7 @@
       {% endif %}
       {% if rebuild_url %}
       <a href="#" data-toggle="modal" data-target="#rebuild_memory_form" class="btn btn-warning">{% trans "Rebuild" %}</a>
-        <form action="{{ rebuild_url }}" method="POST" class="inlineform">
+        <form action="{{ rebuild_url }}" method="post" class="inlineform">
         {% csrf_token %}
         <input type="hidden" name="confirm" value="1" />
         <div class="modal fade" tabindex="-1" role="dialog" id="rebuild_memory_form">
@@ -109,7 +109,7 @@
       <a href="{{ download_url }}?format=tmx&amp;origin={{ item.origin }}" class="btn btn-primary">{% trans "Download as TMX" %}</a>
       {% if delete_url %}
       <a href="#" data-toggle="modal" data-target="#delete_memory_form_{{ item.origin|hash_text }}" class="btn btn-danger">{% trans "Delete" %}</a>
-        <form action="{{ delete_url }}" method="POST" class="inlineform">
+        <form action="{{ delete_url }}" method="post" class="inlineform">
         {% csrf_token %}
         <input type="hidden" name="confirm" value="1" />
         <input type="hidden" name="origin" value="{{ item.origin }}" />
@@ -133,7 +133,7 @@
       {% endif %}
       {% if rebuild_url and item.can_rebuild %}
       <a href="#" data-toggle="modal" data-target="#rebuild_memory_form_{{ item.origin|hash_text }}" class="btn btn-warning">{% trans "Rebuild" %}</a>
-        <form action="{{ rebuild_url }}" method="POST" class="inlineform">
+        <form action="{{ rebuild_url }}" method="post" class="inlineform">
         {% csrf_token %}
         <input type="hidden" name="confirm" value="1" />
         <input type="hidden" name="origin" value="{{ item.origin }}" />
@@ -220,7 +220,7 @@
 </div>
 
 {% if upload_form %}
-<form action="{{ upload_url }}" method="POST" enctype="multipart/form-data">
+<form action="{{ upload_url }}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Import translation memory" %}</h4></div>

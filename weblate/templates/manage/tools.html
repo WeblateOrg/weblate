@@ -12,7 +12,7 @@
 {% block content %}
 
 
-<form  method="POST">
+<form  method="post">
 {% csrf_token %}
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">
@@ -43,7 +43,7 @@
   </div>
 </div>
 
-<form  method="POST">
+<form  method="post">
 {% csrf_token %}
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Send test e-mail" %}</h4></div>
@@ -57,7 +57,7 @@
 </form>
 
 {% if has_sentry %}
-<form  method="POST">
+<form  method="post">
 {% csrf_token %}
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Test Sentry integration" %}</h4></div>

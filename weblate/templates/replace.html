@@ -18,7 +18,7 @@
   {% show_message "warning" msg %}
 {% endif %}
 
-<form method="POST">
+<form method="post">
 {% csrf_token %}
 {{ form.q.as_hidden }}
 {{ form.search.as_hidden }}
