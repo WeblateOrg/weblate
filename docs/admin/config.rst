@@ -833,7 +833,7 @@ List for credentials for GitHub servers.
 
 .. note::
 
-   When using fine-grained personal access token, grant read and write access to :guilabel:`Contents` and :guilabel:`Pull requests`.
+   When creating a fine-grained personal access token, grant read and write access to :guilabel:`Contents` and :guilabel:`Pull requests`.
 
 .. hint::
 
