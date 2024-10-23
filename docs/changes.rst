@@ -11,6 +11,7 @@ Not yet released.
 
 * Update outdated plural definitions during the database migration.
 * Reduced number of database queries when updating multiple strings.
+* Improved :ref:`workflow-customization` performance.
 
 **Compatibility**
 
