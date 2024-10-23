@@ -5,11 +5,13 @@
 {% load icons %}
 
 {% if objects or list_categories %}
-  {% if objects.paginator.num_pages > 1 %}
-    <table class="table progress-table autocolspan table-listing">
-  {% else %}
-    <table class="sort table progress-table autocolspan table-listing">
-  {% endif %}
+  <table
+    {% if objects.paginator.num_pages > 1 %}
+      class="table progress-table autocolspan table-listing"
+    {% else %}
+      class="sort table progress-table autocolspan table-listing"
+    {% endif %}
+    >
   {% if not hide_details and not hide_header %}
     <thead class="sticky-header">
       <tr>

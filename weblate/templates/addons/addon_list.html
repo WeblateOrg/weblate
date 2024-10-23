@@ -85,7 +85,11 @@
     {% if scope != "component" and addon.needs_component %}
       <button class="btn btn-primary" disabled title="{% trans "The add-on can only be installed on the component." %}">{% trans "Install" %}</button>
     {% else %}
-      <form method="post" class="inlineform">{% csrf_token %}<input type="hidden" name="name" value="{{ addon.name }}" /><button type="submit" class="btn btn-primary" data-addon="{{ addon.name }}">{% trans "Install" %}</button></form>
+      <form method="post" class="inlineform">
+        {% csrf_token %}
+        <input type="hidden" name="name" value="{{ addon.name }}" />
+        <button type="submit" class="btn btn-primary" data-addon="{{ addon.name }}">{% trans "Install" %}</button>
+      </form>
     {% endif %}
   </td>
   </tr>

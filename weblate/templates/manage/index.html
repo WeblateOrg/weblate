@@ -51,7 +51,10 @@
   {% if support.expiry %}
     {% with support.get_limits_details as limit_details %}
       {% if limit_details %}
+        {# TODO: this rendering will break with no limits #}
+        {# djlint:off #}
         <tr>
+        {# djlint:on #}
         <th rowspan="{{ limit_details|length }}">{% trans "Support package limits" %}</th>
         {% for limit in limit_details %}
           {% if not forloop.first %}
