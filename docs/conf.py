@@ -147,6 +147,11 @@ html_theme_options = {
     },
 }
 
+html_css_files = [
+    "https://s.weblate.org/cdn/font-source/source-sans-3.css",
+    "https://s.weblate.org/cdn/font-source/source-code-pro.css",
+]
+
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.

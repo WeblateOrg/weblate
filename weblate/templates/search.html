@@ -15,7 +15,7 @@
 {% block content %}
 
 {% if show_results %}
-    <form method="GET" class="result-page-form">
+    <form method="get" class="result-page-form">
         {% crispy search_form  %}
     </form>
     {% if page_obj.object_list %}
@@ -27,7 +27,7 @@
     {% endif %}
 
 {% else %}
-    <form method="GET" class="result-page-form">
+    <form method="get" class="result-page-form">
     {% include "snippets/search-form.html" %}
     </form>
 {% endif %}
