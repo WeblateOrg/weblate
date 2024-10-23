@@ -132,7 +132,7 @@
         </table>
         {% if users.paginator.num_pages > 1 %}
           <div class="panel-footer">
-            {% include "paginator.html" with page_obj=users anchor="users" paginator_form="paginator-form"%}
+            {% include "paginator.html" with page_obj=users anchor="users" paginator_form="paginator-form" %}
           </div>
         {% endif %}
         <div class="panel-footer">

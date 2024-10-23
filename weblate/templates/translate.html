@@ -48,7 +48,7 @@
 {% perm 'unit.add' unit.translation as user_can_add_unit %}
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
-<a href="{% url 'zen' path=object.get_url_path  %}?offset={{offset}}&amp;{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Open in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
+<a href="{% url 'zen' path=object.get_url_path  %}?offset={{ offset }}&amp;{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Open in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
 
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
@@ -298,7 +298,7 @@
 {% if others.skipped %}
   <p class="help-block">{% trans "Showing only subset of the strings as there were too many matches." %}</p>
 {% endif %}
-<form method="post" action="{{ unit.translation.get_translate_url}}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
+<form method="post" action="{{ unit.translation.get_translate_url }}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
   {% csrf_token %}
   <table class="table table-condensed">
     <thead>
@@ -565,7 +565,7 @@
   <h4 class="panel-title">
     {% with glossaries=unit.translation.component.project.glossaries %}
       {% for glossary in glossaries %}
-        <a class="pull-right flip btn btn-link btn-xs btn-{{glossary.glossary_color}}" title="{% blocktrans with name=glossary.name %}Browse glossary {{ name }}{% endblocktrans %}" href="{{ glossary.get_absolute_url }}">{% icon "folder-search-outline.svg" %}</a>
+        <a class="pull-right flip btn btn-link btn-xs btn-{{ glossary.glossary_color }}" title="{% blocktrans with name=glossary.name %}Browse glossary {{ name }}{% endblocktrans %}" href="{{ glossary.get_absolute_url }}">{% icon "folder-search-outline.svg" %}</a>
       {% endfor %}
     {% endwith %}
     {% loading_icon "glossary-add" %}

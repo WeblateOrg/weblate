@@ -11,7 +11,7 @@
             <div class="controls {% for offset in bootstrap_checkbox_offsets %}{{ offset }} {% endfor %}{{ field_class }}">
         {% endif %}
     {% endif %}
-    <{% if tag %}{{ tag }}{% else %}div{% endif %} id="div_{{ field.auto_id }}" {% if not field|is_checkbox %}class="form-group{% else %}class="checkbox{% endif %}{% if wrapper_class %} {{ wrapper_class }}{% endif %}{% if form_show_errors%}{% if field.errors %} has-error{% endif %}{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
+    <{% if tag %}{{ tag }}{% else %}div{% endif %} id="div_{{ field.auto_id }}" {% if not field|is_checkbox %}class="form-group{% else %}class="checkbox{% endif %}{% if wrapper_class %} {{ wrapper_class }}{% endif %}{% if form_show_errors %}{% if field.errors %} has-error{% endif %}{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
         {% if field.label and not field|is_checkbox and form_show_labels %}
             <label {% if field.id_for_label and not field|is_radioselect %}for="{{ field.id_for_label }}" {% endif %} class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">
                 {{ field.label }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}

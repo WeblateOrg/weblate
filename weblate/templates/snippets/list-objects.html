@@ -26,7 +26,7 @@
             {% endif %}
           {% elif add_link == "component-category" %}
             {% if user_can_edit_project %}
-              <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-component' %}?project={{ object.project.pk}}&amp;category={{ object.pk }}" title="{% trans "Add new translation component" %}">{% icon "plus.svg" %}</a>
+              <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}" title="{% trans "Add new translation component" %}">{% icon "plus.svg" %}</a>
             {% endif %}
           {% elif add_link == "language" %}
             {% if user_can_add_language %}
@@ -290,7 +290,7 @@
     {% if user_can_add_translation %}
       <a class="btn btn-primary" id="list-add-button" href="{% url "new-language" path=object.get_url_path %}">{% trans "Start new translation" %}</a>
     {% else %}
-      <a class="btn btn-primary" id="list-add-button" disabled href="#" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please sign in to start new translation"%}{% endif %}">{% trans "Start new translation" %}</a>
+      <a class="btn btn-primary" id="list-add-button" disabled href="#" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please sign in to start new translation" %}{% endif %}">{% trans "Start new translation" %}</a>
     {% endif %}
   {% elif add_link == "component" %}
     {% if user_can_edit_project %}
