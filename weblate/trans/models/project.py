@@ -14,7 +14,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.db.models import Count, Q, Value
+from django.db.models import Count, F, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -52,11 +52,35 @@ class ProjectLanguageFactory(dict):
     def __init__(self, project: Project) -> None:
         self._project = project
 
-    def __missing__(self, key: Language):
-        return ProjectLanguage(self._project, key)
+    def __getitem__(self, key: Language):
+        try:
+            return super().__getitem__(key.id)
+        except KeyError:
+            self[key.id] = result = ProjectLanguage(self._project, key)
+            return result
 
     def preload(self):
         return [self[language] for language in self._project.languages]
+
+    def preload_workflow_settings(self):
+        from weblate.trans.models.workflow import WorkflowSetting
+
+        instances = self.preload()
+
+        pending = {instance.language.id: instance for instance in instances}
+
+        for setting in WorkflowSetting.objects.filter(
+            Q(project=None) | Q(project=self._project),
+            language__in=[instance.language for instance in instances],
+        ).order_by(F("project").desc(nulls_last=True)):
+            if setting.language_id not in pending:
+                continue
+            pending[setting.language_id].__dict__["workflow_settings"] = setting
+            del pending[setting.language_id]
+
+        # Indicate that there is no setting
+        for instance in pending.values():
+            instance.__dict__["workflow_settings"] = None
 
 
 class ProjectQuerySet(models.QuerySet):
