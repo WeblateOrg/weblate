@@ -294,11 +294,7 @@ preserve_blank_lines = true
 profile = "django"
 
 [tool.djlint.per-file-ignores]
-# TODO
-"weblate/templates/drf_spectacular/redoc.html" = "H005,H030"
-# H005 - Html tag should have lang attribute.
-# H030 - Consider adding a meta description.
-# Mail templates need inline CSS
+# Mail templates need inline CSS and do not utilize description
 "weblate/templates/mail/base.html" = "H030"
 # Test file
 "weblate/trans/tests/data/cs.html" = "H005,H007,H016,H030"
