@@ -26,7 +26,7 @@
 {% for label in labels %}
 <tr>
 <td>{{ label.name }}</td>
-<td><span class="label label-{{label.color }}">{{ label.get_color_display }}</span></td>
+<td><span class="label label-{{ label.color }}">{{ label.get_color_display }}</span></td>
 <td>{{ label.description }}</td>
 <td class="number">
   <a href="{% url 'search' path=object.get_url_path %}?q={{ label.filter_name }}">

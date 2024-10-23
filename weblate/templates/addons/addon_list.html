@@ -108,7 +108,7 @@
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
-<a class="btn btn-primary" href="{% if object %}{% url 'changes' path=object.get_url_path %}{% else %}{% url 'changes' %}{% endif %}?{% for action in change_actions %}action={{action}}{% if not forloop.last %}&amp;{% endif %}{% endfor %}">{% trans "Browse all add-on changes" %}</a>
+<a class="btn btn-primary" href="{% if object %}{% url 'changes' path=object.get_url_path %}{% else %}{% url 'changes' %}{% endif %}?{% for action in change_actions %}action={{ action }}{% if not forloop.last %}&amp;{% endif %}{% endfor %}">{% trans "Browse all add-on changes" %}</a>
 </div>
 
 </div>

@@ -223,7 +223,7 @@
             </a>
             <form action="{{ group.get_absolute_url }}" method="post" class="inlineform">
               {% csrf_token %}
-              <input type="hidden" name="next" value="{{request.get_full_path}}" />
+              <input type="hidden" name="next" value="{{ request.get_full_path }}" />
               <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_group_title_{{ group.id }}" aria-describedby="delete_group_body_{{ group.id }}" id="delete_group_{{ group.id }}">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
