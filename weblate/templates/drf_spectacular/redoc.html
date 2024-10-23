@@ -3,12 +3,13 @@
 {# Based on upstream template, removes Google fonts and add own font #}
 
 <!DOCTYPE html>
-<html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
   <head>
     {% block head %}
     <title>{% translate "Weblate's REST API" %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ description }}" />
     {% if fonts_cdn_url %}
       <link rel="stylesheet" href="{{ fonts_cdn_url }}font-source/source-sans-3.css" />
       <link rel="stylesheet" href="{{ fonts_cdn_url }}font-source/source-code-pro.css" />
