@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Included username when generating :ref:`credits`.
+
 **Bug fixes**
 
 * Update outdated plural definitions during the database migration.

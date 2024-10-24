@@ -86,7 +86,12 @@ def generate_credits(
         .order_by("language__name", "-change_count")
     ):
         result[language].append(
-            {"email": author[0], "full_name": author[1], "change_count": author[2]}
+            {
+                "email": author[0],
+                "username": author[1],
+                "full_name": author[2],
+                "change_count": author[3],
+            }
         )
 
     return [{language: authors} for language, authors in result.items()]
@@ -132,14 +137,14 @@ def get_credits(request: AuthenticatedHttpRequest, path=None):
             <td><ul>{translators}</ul></td>
         </tr>
         """
-        translator_format = '<li><a href="mailto:{0}">{1}</a> ({2})</li>'
+        translator_format = '<li><a href="mailto:{0}">{2} ({1})</a> - {3}</li>'
         mime = "text/html"
         format_html_or_plain = format_html
         format_html_or_plain_join = format_html_join
     else:
         wrap_format = "{}"
         language_format = "* {language}\n\n{translators}\n"
-        translator_format = "    * {1} <{0}> ({2})"
+        translator_format = "    * {2} ({1}) <{0}> - {3}"
         mime = "text/plain"
         format_html_or_plain = format_plaintext
         format_html_or_plain_join = format_plaintext_join
@@ -155,7 +160,7 @@ def get_credits(request: AuthenticatedHttpRequest, path=None):
                     "\n",
                     translator_format,
                     (
-                        (t["email"], t["full_name"], t["change_count"])
+                        (t["email"], t["username"], t["full_name"], t["change_count"])
                         for t in translators
                     ),
                 ),
