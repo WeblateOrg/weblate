@@ -37,7 +37,7 @@
   <a class="btn btn-link green pull-right flip" href="{{ object.get_absolute_url }}#new">{% icon "plus-circle.svg" %} {{ object.component.get_add_label }}</a>
 {% endif %}
 
-<form method="GET" class="result-page-form">
+<form method="get" class="result-page-form">
   {% crispy search_form  %}
 </form>
 

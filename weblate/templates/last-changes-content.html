@@ -13,7 +13,7 @@
             {% if change.can_revert %}
               {% perm 'unit.edit' change.unit as user_can_translate %}
               {% if user_can_translate %}
-                <a class="btn btn-link" href="{{ change.translation.get_translate_url}}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ change.unit.checksum }}&amp;revert={{ change.id }}" title="{% trans "Revert" %}">{% icon "undo.svg" %}</a>
+                <a class="btn btn-link" href="{{ change.translation.get_translate_url }}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ change.unit.checksum }}&amp;revert={{ change.id }}" title="{% trans "Revert" %}">{% icon "undo.svg" %}</a>
               {% endif %}
             {% endif %}
             {% if change.user and not change.user.is_anonymous and change.project %}

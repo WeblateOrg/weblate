@@ -790,7 +790,33 @@ def redirect_single(request: AuthenticatedHttpRequest, backend: str):
     )
 
 
-class WeblateLoginView(LoginView):
+class BaseLoginView(LoginView):
+    def form_invalid(self, form):
+        rotate_token(self.request)
+        return super().form_invalid(form)
+
+    def form_valid(self, form):
+        """Security check complete. Log the user in."""
+        user = form.get_user()
+        if user.profile.has_2fa:
+            # Store session indication for second factor
+            self.request.session[SESSION_SECOND_FACTOR_USER] = (user.id, user.backend)
+            # Redirect to second factor login
+            redirect_to = self.request.POST.get(
+                self.redirect_field_name, self.request.GET.get(self.redirect_field_name)
+            )
+            login_params: dict[str, str] = {}
+            if redirect_to:
+                login_params[self.redirect_field_name] = redirect_to
+            login_url = reverse(
+                "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
+            )
+            return HttpResponseRedirect(f"{login_url}?{urlencode(login_params)}")
+        auth_login(self.request, user)
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class WeblateLoginView(BaseLoginView):
     """Login handler, just a wrapper around standard Django login."""
 
     form_class = LoginForm  # type: ignore[assignment]
@@ -817,30 +843,6 @@ class WeblateLoginView(LoginView):
             return redirect_single(request, auth_backends.pop())
 
         return super().dispatch(request, *args, **kwargs)
-
-    def form_invalid(self, form):
-        rotate_token(self.request)
-        return super().form_invalid(form)
-
-    def form_valid(self, form):
-        """Security check complete. Log the user in."""
-        user = form.get_user()
-        if user.profile.has_2fa:
-            # Store session indication for second factor
-            self.request.session[SESSION_SECOND_FACTOR_USER] = (user.id, user.backend)
-            # Redirect to second factor login
-            redirect_to = self.request.POST.get(
-                self.redirect_field_name, self.request.GET.get(self.redirect_field_name)
-            )
-            login_params: dict[str, str] = {}
-            if redirect_to:
-                login_params[self.redirect_field_name] = redirect_to
-            login_url = reverse(
-                "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
-            )
-            return HttpResponseRedirect(f"{login_url}?{urlencode(login_params)}")
-        auth_login(self.request, user)
-        return HttpResponseRedirect(self.get_success_url())
 
 
 class WeblateLogoutView(TemplateView):

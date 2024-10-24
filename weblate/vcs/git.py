@@ -827,10 +827,15 @@ class GitMergeRequestBase(GitForcePushRepository):
         username: str | None = parsed.username
         password: str | None = parsed.password
         if not host:
-            # Assume SSH URL
-            host, path = repo.split(":")
-            host = host.split("@")[-1]
-            scheme = None
+            if ":" in repo:
+                # Assume SSH URL
+                host, path = repo.split(":")
+                host = host.split("@")[-1]
+                scheme = None
+            else:
+                host = repo
+                path = ""
+                scheme = None
         else:
             path = parsed.path
         parts = path.split(":")[-1].rstrip("/").split("/")

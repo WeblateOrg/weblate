@@ -46,14 +46,14 @@
       <a href="{{ download_url }}?format=tmx" class="btn btn-primary">{% trans "Download as TMX" %}</a>
       {% if delete_url %}
       <a href="#" data-toggle="modal" data-target="#delete_memory_form" class="btn btn-danger">{% trans "Delete" %}</a>
-        <form action="{{ delete_url }}" method="POST" class="inlineform">
+        <form action="{{ delete_url }}" method="post" class="inlineform">
         {% csrf_token %}
         <input type="hidden" name="confirm" value="1" />
         <div class="modal fade" tabindex="-1" role="dialog" id="delete_memory_form">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
               </div>
               <div class="modal-body">
@@ -69,14 +69,14 @@
       {% endif %}
       {% if rebuild_url %}
       <a href="#" data-toggle="modal" data-target="#rebuild_memory_form" class="btn btn-warning">{% trans "Rebuild" %}</a>
-        <form action="{{ rebuild_url }}" method="POST" class="inlineform">
+        <form action="{{ rebuild_url }}" method="post" class="inlineform">
         {% csrf_token %}
         <input type="hidden" name="confirm" value="1" />
         <div class="modal fade" tabindex="-1" role="dialog" id="rebuild_memory_form">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
               </div>
               <div class="modal-body">
@@ -109,7 +109,7 @@
       <a href="{{ download_url }}?format=tmx&amp;origin={{ item.origin }}" class="btn btn-primary">{% trans "Download as TMX" %}</a>
       {% if delete_url %}
       <a href="#" data-toggle="modal" data-target="#delete_memory_form_{{ item.origin|hash_text }}" class="btn btn-danger">{% trans "Delete" %}</a>
-        <form action="{{ delete_url }}" method="POST" class="inlineform">
+        <form action="{{ delete_url }}" method="post" class="inlineform">
         {% csrf_token %}
         <input type="hidden" name="confirm" value="1" />
         <input type="hidden" name="origin" value="{{ item.origin }}" />
@@ -117,7 +117,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
               </div>
               <div class="modal-body">
@@ -133,7 +133,7 @@
       {% endif %}
       {% if rebuild_url and item.can_rebuild %}
       <a href="#" data-toggle="modal" data-target="#rebuild_memory_form_{{ item.origin|hash_text }}" class="btn btn-warning">{% trans "Rebuild" %}</a>
-        <form action="{{ rebuild_url }}" method="POST" class="inlineform">
+        <form action="{{ rebuild_url }}" method="post" class="inlineform">
         {% csrf_token %}
         <input type="hidden" name="confirm" value="1" />
         <input type="hidden" name="origin" value="{{ item.origin }}" />
@@ -141,7 +141,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
               </div>
               <div class="modal-body">
@@ -167,7 +167,7 @@
     <td>
       <a href="{{ download_url }}?source_language={{ item.source_language.id }}&amp;target_language={{ item.target_language.id }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
       <a href="{{ download_url }}?format=tmx&amp;source_language={{ item.source_language.id }}&amp;target_language={{ item.target_language.id }}" class="btn btn-primary">{% trans "Download as TMX" %}</a>
-    </tr>
+    </td>
   </tr>
   {% endfor %}
   {% if project %}
@@ -220,7 +220,7 @@
 </div>
 
 {% if upload_form %}
-<form action="{{ upload_url }}" method="POST" enctype="multipart/form-data">
+<form action="{{ upload_url }}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Import translation memory" %}</h4></div>

@@ -41,10 +41,10 @@
             <td>
               {% if log.details.error_occured %}
                 <!-- This is a warning sign -->
-                <span class="text-danger">&#9888;</span>
+                <span class="text-danger">⚠</span>
               {% else %}
                 <!-- This is a green tick -->
-                <span class="text-success">&#10004;</span>
+                <span class="text-success">✔</span>
               {% endif %}
             </td>
             <td>
@@ -68,10 +68,10 @@
           <nav>
             <ul class="pagination">
               {% if addon_activity_log.has_previous %}
-                <li><a href="?page={{ addon_activity_log.previous_page_number }}">&laquo; {% trans "Previous" %}</a></li>
+                <li><a href="?page={{ addon_activity_log.previous_page_number }}">« {% trans "Previous" %}</a></li>
               {% endif %}
               {% if addon_activity_log.has_next %}
-                <li><a href="?page={{ addon_activity_log.next_page_number }}">{% trans "Next" %} &raquo;</a></li>
+                <li><a href="?page={{ addon_activity_log.next_page_number }}">{% trans "Next" %} »</a></li>
               {% endif %}
             </ul>
           </nav>

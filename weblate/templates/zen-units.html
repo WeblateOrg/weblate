@@ -42,11 +42,11 @@
 
 
 <tr id="row-source-{{ item.unit.checksum }}">
-{% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}
-<td id="status-{{ item.unit.checksum }}" class="unit-state-cell {% unit_state_class item.unit %}" title="{% unit_state_title item.unit %}">
-{% else %}
-<td>
-{% endif %}
+<td
+  {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}
+   id="status-{{ item.unit.checksum }}" class="unit-state-cell {% unit_state_class item.unit %}" title="{% unit_state_title item.unit %}"
+  {% endif %}
+  >
 </td>
 <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %} class="translatetext">
 

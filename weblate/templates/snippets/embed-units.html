@@ -15,11 +15,9 @@
         <th>{% trans "Language" %}</th>
       {% endif %}
       {% if not hide_context and any_unit_has_context %}
-        {% if include_search %}
-          <th class="sort-cell">
+        <th {% if include_search %}class="sort-cell"{% endif %}>
+          {% if include_search %}
             <a href="?q={{ search_query|urlencode }}&amp;sort_by={% if sort_query == "context" %}-{% endif %}context">
-        {% else %}
-          <th>
         {% endif %}
           {{ component.context_label }}
         {% if include_search %}
@@ -31,11 +29,10 @@
       {% if force_source %}
         <th>{% trans "Source string" %}</th>
       {% elif not hide_source and not translation.is_source %}
-        {% if include_search %}
-          <th class="sort-cell">
+
+        <th {% if include_search %}class="sort-cell"{% endif %}>
+          {% if include_search %}
             <a href="?q={{ search_query|urlencode }}&amp;sort_by={% if sort_query == "source" %}-{% endif %}source">
-        {% else %}
-          <th>
         {% endif %}
           {{ translation.component.source_language }}
         {% if include_search %}
@@ -47,11 +44,9 @@
       {% if show_language or not translation %}
         <th>{% trans "Target string" %}</th>
       {% else %}
+        <th {% if include_search %}class="sort-cell"{% endif %}>
         {% if include_search %}
-          <th class="sort-cell">
             <a href="?q={{ search_query|urlencode }}&amp;sort_by={% if sort_query == "target" %}-{% endif %}target">
-        {% else %}
-          <th>
         {% endif %}
           {{ translation.language }}
         {% if include_search %}
@@ -85,7 +80,7 @@
         <td class="object-link">
           <a href="{{ unit.translation.component.project.get_absolute_url }}">{{ unit.translation.component.project.name }}</a>/<a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a>
           — <a class="tail" href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language }}</a>
-        </th>
+        </td>
       {% endif %}
         {% if show_language %}
           <td class="object-link">
@@ -100,7 +95,7 @@
         {% endif %}
         <td><a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">{% format_unit_target unit search_match=search_query %}</a></td>
         {% if show_location %}
-          <td>{{ unit.location }}</th>
+          <td>{{ unit.location }}</td>
         {% endif %}
         {% if show_screenshots %}
           <td>{{ unit.screenshots__count }}</td>
