@@ -353,10 +353,13 @@ class Billing(models.Model):
     def unit_count(self):
         return sum(p.stats.all for p in self.all_projects)
 
+    def get_last_invoice_object(self):
+        return self.invoice_set.order_by("-start")[0]
+
     @admin.display(description=gettext_lazy("Last invoice"))
     def last_invoice(self):
         try:
-            invoice = self.invoice_set.order_by("-start")[0]
+            invoice = self.get_last_invoice_object()
         except IndexError:
             return gettext("N/A")
         return f"{invoice.start} - {invoice.end}"
