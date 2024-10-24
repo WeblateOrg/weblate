@@ -25,7 +25,7 @@
         {% else %}
         {% perm 'suggestion.delete' suggestion as user_can_delete_suggestion %}
         {% if user_can_vote_suggestion or user_can_accept_suggestion or user_can_delete_suggestion %}
-        <div class="btn-float pull-right flip">
+        <div class="btn-float pull-right flip" style="top: -20px">
             {% if user_can_vote_suggestion %}
             <button type="submit" class="btn btn-link green" name="upvote" value="{{ suggestion.id }}" title="{% trans "Vote for" %}">{% icon "thumb-up.svg" %}</button>
             <button type="submit" class="btn btn-link red" name="downvote" value="{{ suggestion.id }}" title="{% trans "Vote against" %}">{% icon "thumb-down.svg" %}</button>
