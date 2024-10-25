@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-25 12:45+0000\n"
+"PO-Revision-Date: 2024-10-25 18:47+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -4940,23 +4940,27 @@ msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/auth.rst:481
 msgid "SAML authentication"
-msgstr ""
+msgstr "SAML authenticatie"
 
 #: ../../admin/auth.rst:485
 msgid ""
 "Please follow the Python Social Auth instructions for configuration. Notable "
 "differences:"
 msgstr ""
+"Volg de instructies voor Python Social Auth om te configureren. Opvallende "
+"verschillen:"
 
 #: ../../admin/auth.rst:487
 msgid ""
 "Weblate supports single IDP which has to be called ``weblate`` in "
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 msgstr ""
+"Weblate ondersteunt enkele IDP die ``weblate``moet worden genoemd in "
+"``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 
 #: ../../admin/auth.rst:489
 msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
-msgstr ""
+msgstr "De SAML XML URL voor metadata is ``/accounts/metadata/saml/``."
 
 #: ../../admin/auth.rst:490
 msgid ""
@@ -4964,21 +4968,26 @@ msgid ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 msgstr ""
+"De volgende instellingen worden automatisch ingevuld in: "
+"``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
+"``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
 #: ../../admin/auth.rst:494 ../../admin/install/docker.rst:1460
 #: ../../admin/install/docker.rst:1478
 msgid "Example configuration:"
-msgstr ""
+msgstr "Voorbeeld configuratie:"
 
 #: ../../admin/auth.rst:535
 msgid ""
 "The default configuration extracts user details from following attributes, "
 "configure your IDP to provide them:"
 msgstr ""
+"De standaard configuratie neemt details voor de gebruikers uit de volgende "
+"attributen, configureer uw IDP om ze te verschaffen:"
 
 #: ../../admin/auth.rst:539
 msgid "Attribute"
-msgstr ""
+msgstr "Attribuut"
 
 #: ../../admin/auth.rst:539
 msgid "SAML URI reference"
@@ -4990,7 +4999,7 @@ msgstr "Volledige naam"
 
 #: ../../admin/auth.rst:541
 msgid "``urn:oid:2.5.4.3``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.3``"
 
 #: ../../admin/auth.rst:543
 msgid "First name"
@@ -4998,7 +5007,7 @@ msgstr "Voornaam"
 
 #: ../../admin/auth.rst:543
 msgid "``urn:oid:2.5.4.42``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.42``"
 
 #: ../../admin/auth.rst:545
 msgid "Last name"
@@ -5006,7 +5015,7 @@ msgstr "Achternaam"
 
 #: ../../admin/auth.rst:545
 msgid "``urn:oid:2.5.4.4``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.4``"
 
 #: ../../admin/auth.rst:547
 msgid "E-mail"
@@ -5014,7 +5023,7 @@ msgstr "E-mailadres"
 
 #: ../../admin/auth.rst:547
 msgid "``urn:oid:0.9.2342.19200300.100.1.3``"
-msgstr ""
+msgstr "``urn:oid:0.9.2342.19200300.100.1.3``"
 
 #: ../../admin/auth.rst:549 ../../admin/machine.rst:445 ../../api.rst:277
 msgid "Username"
@@ -5022,34 +5031,43 @@ msgstr "Gebruikersnaam"
 
 #: ../../admin/auth.rst:549
 msgid "``urn:oid:0.9.2342.19200300.100.1.1``"
-msgstr ""
+msgstr "``urn:oid:0.9.2342.19200300.100.1.1``"
 
 #: ../../admin/auth.rst:554
 msgid ""
 "The example above and the Docker image define an IDP called ``weblate``. You "
 "might need to configure this string as :guilabel:`Relay` in your IDP."
 msgstr ""
+"Het voorbeeld hierboven en de Docker image definiëren een IDP genaamd "
+"``weblate``. U zou misschien deze tekenreeks als :guilabel:`Relay` in uw IDP "
+"moeten configureren."
 
 #: ../../admin/auth.rst:559
 msgid ""
 ":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 msgstr ""
+":ref:`Configureren van SAML in Docker <docker-saml>`, :doc:`psa:backends/"
+"saml`"
 
 #: ../../admin/auth.rst:565
 msgid "LDAP authentication"
-msgstr ""
+msgstr "LDAP authenticatie"
 
 #: ../../admin/auth.rst:567
 msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
 msgstr ""
+"Authenticatie voor LDAP kan het beste worden verkregen met het pakket "
+"`django-auth-ldap`. U kunt het op de gebruikelijke manier installeren:"
 
 #: ../../admin/auth.rst:580
 msgid ""
 "This package is included in the Docker container, see :doc:`/admin/install/"
 "docker`."
 msgstr ""
+"Dit pakket is opgenomen in de container van Docker, bekijk :doc:`/admin/"
+"install/docker`."
 
 #: ../../admin/auth.rst:584
 msgid ""
@@ -5058,12 +5076,19 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
+"Er zijn enige incompatibiliteiten in de Python LDAP 3.1.0 module, die u "
+"kunnen verhinderen die versie te gebruiken. Als u de fout `AttributeError: "
+"'module' object has no attribute '_trace_level' <https://github.com/"
+"python-ldap/python-ldap/issues/226>`_ krijgt, zou downgraden van python-ldap "
+"naar 3.0.0 kunnen helpen."
 
 #: ../../admin/auth.rst:590
 msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
 msgstr ""
+"Als het pakket eenmaal is geïnstalleerd, kunt u het verbinden met de "
+"authenticatie van Django:"
 
 #: ../../admin/auth.rst:627
 msgid ""
@@ -5075,16 +5100,27 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "wladmin:`createadmin`)."
 msgstr ""
+"U zou ``'social_core.backends.email.EmailAuth'`` moeten verwijderen uit de "
+"instelling :setting:`django:AUTHENTICATION_BACKENDS`, anders zullen "
+"gebruikers in staat zijn hun wachtwoord in te stellen in Weblate, en daarmee "
+"authenticeren. Behouden van ``'weblate.accounts.auth.WeblateUserBackend'`` "
+"is nog steeds nodig om rechten aan te maken en anonieme gebruikers te "
+"faciliteren. Het zal u ook toestaan in te loggen met een lokaal "
+"beheersaccount, als u dat gemaakt heeft (bijv. door :wladmin:`createadmin` "
+"te gebruiken)."
 
 #: ../../admin/auth.rst:636
 msgid "Using bind password"
-msgstr ""
+msgstr "Gebonden wachtwoord gebruiken"
 
 #: ../../admin/auth.rst:638
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
+"Als u niet direct kunt binden aan authenticatie, zult u zoeken moeten "
+"gebruiken en voor de zoekactie een gebruiker moeten verschaffen om aan te "
+"binden. Bijvoorbeeld:"
 
 #: ../../admin/auth.rst:653
 msgid "Active Directory integration"
@@ -5092,16 +5128,18 @@ msgstr "Active Directory-integratie"
 
 #: ../../admin/auth.rst:686
 msgid ":doc:`ldap:index`, :doc:`ldap:authentication`"
-msgstr ""
+msgstr ":doc:`ldap:index`, :doc:`ldap:authentication`"
 
 #: ../../admin/auth.rst:693
 msgid "CAS authentication"
-msgstr ""
+msgstr "CAS authenticatie"
 
 #: ../../admin/auth.rst:695
 msgid ""
 "CAS authentication can be achieved using a package such as `django-cas-ng`."
 msgstr ""
+"Authenticatie voor CAS kan worden verkregen met een pakket zoals `django-cas-"
+"ng`."
 
 #: ../../admin/auth.rst:697
 msgid ""
@@ -5109,20 +5147,29 @@ msgid ""
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
 msgstr ""
+"Stap een is het ontsluiten van het veld e-mail van de gebruiker via CAS. Dat "
+"moet worden geconfigureerd op de server van CAS zelf, en vereist dat u ten "
+"minste CAS v2 uitvoert, omdat CAS v1 in het geheel geen attributen "
+"ondersteunt."
 
 #: ../../admin/auth.rst:701
 msgid "Step two is updating Weblate to use your CAS server and attributes."
 msgstr ""
+"Stap twee is het bijwerken van Weblate om uw server van CAS en attributen te "
+"gebruiken."
 
 #: ../../admin/auth.rst:703
 msgid "To install `django-cas-ng`:"
-msgstr ""
+msgstr "Installeren van `django-cas-ng`:"
 
 #: ../../admin/auth.rst:709
 msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
 msgstr ""
+"Als u het pakket eenmaal hebt geïnstalleerd kunt u het verbinden met het "
+"systeem voor authenticatie van Django door het bestand :file:`settings.py` "
+"aan te passen:"
 
 #: ../../admin/auth.rst:727
 msgid ""
@@ -5131,23 +5178,31 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
+"Tenslotte kan een signaal worden gebruikt om het veld e-mail field te "
+"verbinden aan het object gebruiker. U moet, om dit te laten werken, het "
+"signaal importeren vanuit het pakket `django-cas-ng` en uw code met dit "
+"signaal verbinden. Dit in het bestand met instellingen doen kan problemen "
+"veroorzaken, daarom wordt voorgesteld het te plaatsen:"
 
 #: ../../admin/auth.rst:732
 msgid ""
 "In your app config's :py:meth:`django:django.apps.AppConfig.ready` method"
 msgstr ""
+"In de methode van uw app's configuratie :py:meth:`django:django.apps."
+"AppConfig.ready`"
 
 #: ../../admin/auth.rst:733
 msgid "In the project's :file:`urls.py` file (when no models exist)"
 msgstr ""
+"In het bestand van het project :file:`urls.py` (als er geen modellen bestaan)"
 
 #: ../../admin/auth.rst:750
 msgid "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
-msgstr ""
+msgstr "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
 
 #: ../../admin/auth.rst:753
 msgid "Configuring third party Django authentication"
-msgstr ""
+msgstr "Configureren van derde partij authenticatie voor Django"
 
 #: ../../admin/auth.rst:755
 msgid ""
@@ -5155,10 +5210,14 @@ msgid ""
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
 msgstr ""
+"Over het algemeen zou elke plug-in voor authenticatie van Django moeten "
+"werken met Weblate. Volg eenvoudigweg de instructies voor de plug-in, "
+"onthoud echter wel om de gebruiker backend van Weblate geïnstalleerd te "
+"laten."
 
 #: ../../admin/auth.rst:761
 msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
-msgstr ""
+msgstr ":ref:`ldap-auth`, :ref:`cas-auth`"
 
 #: ../../admin/auth.rst:764
 msgid ""
@@ -5166,6 +5225,10 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
+"Gewoonlijk zal de installatie bestaan uit het toevoegen van een backend voor "
+"authenticatie aan :setting:`django:AUTHENTICATION_BACKENDS` en het "
+"installeren van een app voor authenticatie (als er een is) in "
+":setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/auth.rst:783
 msgid "Two-factor authentication"
@@ -5196,12 +5259,18 @@ msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
 msgstr ""
+"Gegevens voor valideren van uw identiteit gebruiken aanraken, "
+"gezichtsherkenning, een wachtwoord voor een apparaat, of een PIN als zij "
+"verificatie van de gebruiker bevatten."
 
 #: ../../admin/auth.rst:798
 msgid ""
 "Security keys are WebAuthn credentials that can only be used as a second "
 "factor of authentication, and these only validate user presence."
 msgstr ""
+"Beveiligingssleutels zijn WebAuthn inloggegevens die alleen kunnen worden "
+"gebruikt als tweede factor voor authenticatie, en zij valideren alleen de "
+"aanwezigheid van de gebruiker."
 
 #: ../../admin/auth.rst:800
 msgid "Authenticator app (TOTP)"
@@ -5214,6 +5283,10 @@ msgid ""
 "time passwords that are used as a second factor to verify your identity when "
 "prompted during sign-in."
 msgstr ""
+"Apps voor authenticatie en browseruitbreidingen, zoals Aegis, Bitwarden, "
+"Google Authenticator, 1Password, Authy, Microsoft Authenticator, etc., "
+"genereren eenmalige wachtwoorden die als tweede factor worden gebruikt om uw "
+"identiteit te verifiëren als daar bij het inloggen naar wordt gevraagd."
 
 #: ../../admin/auth.rst:806
 msgid "Recovery codes"
@@ -5233,28 +5306,38 @@ msgid ""
 "Keep your recovery codes as safe as your password. We recommend saving them "
 "with a password manager such as Bitwarden, 1Password, Authy, or Keeper."
 msgstr ""
+"Bewaar uw herstelcodes net zo veilig als uw wachtwoord. We raden aan om ze "
+"op te slaan met een wachtwoordbeheerder, zoals Bitwarden, 1Password, Authy "
+"of Keeper."
 
 #: ../../admin/auth.rst:811
 msgid ""
 "Each user can configure this in :ref:`profile-account` and second factor "
 "will be required to sign in addition to the existing authentication method."
 msgstr ""
+"Elke gebruiker kan dit configureren in :ref:`profile-account` en tweede "
+"factor zal zijn vereist om in te loggen, aanvullend aan de bestaande methode "
+"voor authenticatie."
 
 #: ../../admin/auth.rst:814
 msgid ""
 "This can be enforced for users at the project (see :ref:`project-"
 "enforced_2fa`) or team level."
 msgstr ""
+"Dit kan worden afgedwongen voor gebruikers aan het project (bekijk :ref"
+":`project-enforced_2fa`) of op teamniveau."
 
 #: ../../admin/auth.rst:816
 msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
 msgstr ""
+"De rechten van een team met afgedwongen twee-factor authenticatie zullen "
+"niet worden toegepast voor gebruikers die het niet hebben geconfigureerd."
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
-msgstr ""
+msgstr "Weblate back-uppen en verplaatsen"
 
 #: ../../admin/backup.rst:9
 msgid "Project level backups"
@@ -5265,6 +5348,8 @@ msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
 msgstr ""
+"Terugzetten van back-ups wordt alleen ondersteund bij het gebruiken van "
+"PostgreSQL of MariaDB 10.5+ als database."
 
 #: ../../admin/backup.rst:17
 msgid ""
@@ -5272,6 +5357,10 @@ msgid ""
 "components, translations, string comments, suggestions or checks). It is "
 "suitable for transferring a project to another Weblate instance."
 msgstr ""
+"Het project back-upt alle inhoud van vertalingen van Weblate (project, "
+"onderdelen, vertalingen, opmerkingen bij tekenreeksen, suggesties of "
+"controles). Het is geschikt voor het verplaatsen van een project naar een "
+"andere instantie van Weblate."
 
 #: ../../admin/backup.rst:21
 msgid ""
@@ -5279,11 +5368,16 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
+"U kunt een back-up voor een project uitvoeren in :guilabel:`Beheren` ↓ "
+":guilabel:`Back-ups`. De back-up kan worden teruggezet bij het maken van een "
+"project (bekijk :ref:`adding-projects`)."
 
 #: ../../admin/backup.rst:25
 msgid ""
 "The backups currently do not include access control information and history."
 msgstr ""
+"De huidige back-ups bevatten momenteel geen informatie over toegangsbeheer "
+"en geschiedenis."
 
 #: ../../admin/backup.rst:27
 msgid ""
@@ -5291,6 +5385,10 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
+"De opmerkingen en suggesties worden geback-upt met de gebruikersnaam van de "
+"gebruiker die ze maakte. Bij het importeren wordt het toegewezen aan een "
+"overeenkomende gebruiker. Als er geen gebruiker is met die gebruikersnaam, "
+"wordt het toegewezen aan een anonieme gebruiker."
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -5298,10 +5396,16 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
+"De gegenereerde back-ups worden behouden op de server zoals is "
+"geconfigureerd in :setting:`PROJECT_BACKUP_KEEP_DAYS` en "
+":setting:`PROJECT_BACKUP_KEEP_COUNT` (het heeft een standaard van ten "
+"hoogste 3 back-ups voor 30 dagen)."
 
 #: ../../admin/backup.rst:35
 msgid "Use the generated file to import project when :ref:`adding-projects`."
 msgstr ""
+"Gebruik het gegenereerde bestand om het project te importeren bij :ref"
+":`adding-projects`."
 
 #: ../../admin/backup.rst:39
 msgid ""
@@ -5310,10 +5414,15 @@ msgid ""
 "`SIMPLIFY_LANGUAGES`. The restore will tell you which language codes could "
 "not be processed and you can then add missing language definitions manually."
 msgstr ""
+"Terugzetten van de back-up zou kunnen mislukken als de server voor het "
+"terugzetten een andere set :ref:`languages` of andere configuratie van "
+":setting:`SIMPLIFY_LANGUAGES` heeft. Het terugzetten zal u zeggen welke "
+"taalcodes niet werden verwerkt en u kunt dan handmatig ontbrekende "
+"taaldefinities toevoegen."
 
 #: ../../admin/backup.rst:46
 msgid "Automated backup using BorgBackup"
-msgstr ""
+msgstr "Geautomatiseerde back-up met BorgBackup"
 
 #: ../../admin/backup.rst:48
 msgid ""
@@ -5322,18 +5431,26 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
+"Weblate heeft ingebouwde ondersteuning voor het maken van service back-ups "
+"met `BorgBackup`_. Borg maakt ruimtebesparende versleutelde back-ups die "
+"veilig kunnen worden opgeslagen in de cloud. De back-ups kunnen worden "
+"beheerd in de beheerinterface op de tab :guilabel:`Back-ups`."
 
 #: ../../admin/backup.rst:55
 msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
 msgstr ""
+"Zowel databases van PostgreSQL als van MySQL/MariaDB zijn opgenomen in de "
+"geautomatiseerde back-ups."
 
 #: ../../admin/backup.rst:57
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
 msgstr ""
+"De back-ups die Borg gebruikt zijn verhogend en Weblate is geconfigureerd om "
+"de volgende back-ups te behouden:"
 
 #: ../../admin/backup.rst:59
 msgid "Daily backups for 14 days back"
@@ -5341,15 +5458,15 @@ msgstr "Dagelijkse back-ups tot 14 dagen geleden"
 
 #: ../../admin/backup.rst:60
 msgid "Weekly backups for 8 weeks back"
-msgstr ""
+msgstr "Wekelijkse back-ups tot 8 weken terug"
 
 #: ../../admin/backup.rst:61
 msgid "Monthly backups for 6 months back"
-msgstr ""
+msgstr "Maandelijkse back-ups tot 6 maanden terug"
 
 #: ../../admin/backup.rst:68
 msgid "Borg encryption key"
-msgstr ""
+msgstr "Borg sleutel voor versleuteling"
 
 #: ../../admin/backup.rst:70
 msgid ""
@@ -5357,16 +5474,22 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
+"`BorgBackup`_ maakt versleutelde back-ups en u zult ze niet kunnen "
+"terugzetten zonder de beveiligingsfrase. De beveiligingsfrase wordt "
+"gegenereerd bij het toevoegen van een nieuwe service voor back-up en u zou "
+"hem moeten kopiëren en moeten bewaren op een veilige plek."
 
 #: ../../admin/backup.rst:74
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
+"Als u :ref:`cloudbackup` gebruikt, back-up ook uw privé SSH-sleutel, omdat "
+"die wordt gebruikt voor toegang tot uw back-ups."
 
 #: ../../admin/backup.rst:79
 msgid ":doc:`borg:usage/init`"
-msgstr ""
+msgstr ":doc:`borg:usage/init`"
 
 #: ../../admin/backup.rst:82
 msgid "Customizing backup"
@@ -5375,14 +5498,17 @@ msgstr "Back-up aanpassen"
 #: ../../admin/backup.rst:84
 msgid "The database backup can be configured via :setting:`DATABASE_BACKUP`."
 msgstr ""
+"De back-up van de database kan worden geconfigureerd via "
+":setting:`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:85
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgstr ""
+"Het maken van de back-up kan worden aangepast met :setting:`BORG_EXTRA_ARGS`."
 
 #: ../../admin/backup.rst:90
 msgid "Weblate provisioned backup storage"
-msgstr ""
+msgstr "Door Weblate verschafte opslag voor back-up"
 
 #: ../../admin/backup.rst:92
 msgid ""
@@ -5390,26 +5516,35 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
+"De gemakkelijkste manier voor het back-uppen van uw instantie van Weblate is "
+"door het aankopen van de `back-up service op weblate.org <https://weblate."
+"org/support/#backup>`_. Zo krijgt u dat werkend:"
 
 #: ../../admin/backup.rst:96
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
-msgstr ""
+msgstr "Koop de `Back-updienst` op https://weblate.org/support/#backup."
 
 #: ../../admin/backup.rst:97
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr ""
+"Voer de verkregen sleutel in de beheerinterface in, bekijk :ref:`activate-"
+"support`."
 
 #: ../../admin/backup.rst:98
 msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
 msgstr ""
+"Weblate verbindt met de cloudservice en verkrijgt toegangsinformatie voor de "
+"back-ups."
 
 #: ../../admin/backup.rst:99
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
 msgstr ""
+"Schakel de nieuwe configuratie voor de back-up in op de tab :guilabel:`Back-"
+"ups`."
 
 #: ../../admin/backup.rst:100
 msgid ""
@@ -5425,10 +5560,13 @@ msgid ""
 "your consent no data is sent to the backup repository obtained through the "
 "registration process."
 msgstr ""
+"De handmatige stap om alles in te schakelen is er voor uw veiligheid. Zonder "
+"uw instemming worden geen gegevens verzonden naar de opslagruimte voor de "
+"back-up die is verkregen bij het registratieproces."
 
 #: ../../admin/backup.rst:111
 msgid "Using custom backup storage"
-msgstr ""
+msgstr "Aangepaste opslag back-up gebruiken"
 
 #: ../../admin/backup.rst:113
 msgid ""
@@ -5436,10 +5574,13 @@ msgid ""
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
+"U kunt ook uw eigen opslag gebruiken voor de back-ups. SSH kan worden "
+"gebruikt om back-ups op te slaan op de bestemming op afstand, op de "
+"doelserver moet `BorgBackup`_ zijn geïnstalleerd."
 
 #: ../../admin/backup.rst:119
 msgid ":doc:`borg:usage/general` in the Borg documentation"
-msgstr ""
+msgstr ":doc:`borg:usage/general` in de documentatie van Borg"
 
 #: ../../admin/backup.rst:122
 msgid "Local filesystem"
@@ -9729,7 +9870,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
-msgstr "Continue vertaling"
+msgstr "Doorlopende vertaling"
 
 #: ../../admin/continuous.rst:6
 msgid ""
