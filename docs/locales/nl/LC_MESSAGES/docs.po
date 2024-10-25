@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-24 18:15+0000\n"
+"PO-Revision-Date: 2024-10-25 12:45+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -4395,20 +4395,27 @@ msgid ""
 "new user can contribute or authenticate by using one of the third party "
 "services."
 msgstr ""
+"De standaard instelling voor Weblate is om python-social-auth te gebruiken, "
+"een formulier op de website om registratie van nieuwe gebruikers af te "
+"handelen. Na het bevestigen van uw e-mail kan een nieuwe gebruiker deelnemen "
+"of authenticeren door een van de services voor derde partijen te gebruiken."
 
 #: ../../admin/auth.rst:11
 msgid ""
 "You can also turn off registration of new users using :setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"U kunt registreren van nieuwe gebruikers uitschakelen met "
+":setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
 msgstr ""
+"De pogingen voor authenticatie zijn onderworpen aan een :ref:`rate-limit`."
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
-msgstr ""
+msgstr "Authenticatie backends"
 
 #: ../../admin/auth.rst:20
 msgid ""
@@ -4416,33 +4423,45 @@ msgid ""
 "various social options to do so. Using it means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
+"De ingebouwde oplossing van Django wordt gebruikt voor authenticatie, "
+"inclusief verscheidene sociale opties om dat te doen. Gebruiken ervan "
+"betekent dat u de gebruikersdatabase van andere, op Django gebaseerde "
+"projecten, kunt importeren (bekijk :ref:`pootle-migration`)."
 
 #: ../../admin/auth.rst:25
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
 msgstr ""
+"Django kan aanvullend worden ingesteld om ook met andere middelen te "
+"authenticeren."
 
 #: ../../admin/auth.rst:29
 msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
 msgstr ""
+":ref:`docker-auth` beschrijft hoe authenticatie te configureren in de "
+"officiële Docker-image."
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
-msgstr ""
+msgstr "Sociale authenticatie"
 
 #: ../../admin/auth.rst:35
 msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
+"Dankzij :doc:`psa:index`ondersteunt Weblate authenticatie met veel services "
+"van derde partijen, zoals GitLab, Ubuntu, Fedora, etc."
 
 #: ../../admin/auth.rst:38
 msgid ""
 "Please check their documentation for generic configuration instructions in :"
 "doc:`psa:configuration/django`."
 msgstr ""
+"Bekijk hun documentatie voor algemene instructies voor configuratie in "
+":doc:`psa:configuration/django`."
 
 #: ../../admin/auth.rst:43
 msgid ""
@@ -4451,10 +4470,15 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
+"Standaard vertrouwt Weblate op services voor authenticatie van derde "
+"partijen om een gevalideerd e-mailadres te verschaffen. Als enkele van de "
+"services die u wilt gebruiken dit niet ondersteunen, forceer dan valideren "
+"van e-mail aan de kant van Weblate daarvoor FORCE_EMAIL_VALIDATION te "
+"configureren. Bijvoorbeeld:"
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
-msgstr ""
+msgstr ":doc:`psa:pipeline`"
 
 #: ../../admin/auth.rst:54
 msgid ""
@@ -4465,6 +4489,13 @@ msgid ""
 "explicitly, otherwise Weblate will not be able to properly credit "
 "contributions users make."
 msgstr ""
+"Inschakelen van individuele backends is nogal gemakkelijk, het is slechts "
+"een kwestie van het toevoegen van een item aan de instelling "
+":setting:`django:AUTHENTICATION_BACKENDS` en mogelijk het toevoegen van "
+"sleutels die nodig zijn voor een bepaalde methode van authenticatie. Onthoud "
+"dat sommige backends niet standaard e-mail van de gebruiker verschaffen, u "
+"zou het expliciet moeten verzoeken, anders zal Weblate niet in staat zijn om "
+"op de juiste wijze de bijdragen van gebruikers te attribueren."
 
 #: ../../admin/auth.rst:62
 msgid ""
@@ -4473,14 +4504,18 @@ msgid ""
 "setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker "
 "container."
 msgstr ""
+"De meeste backends voor authenticatie vereisen HTTPS. Als HTTPS eenmaal is "
+"ingeschakeld in uw webserver, configureer Weblate om het juist te "
+"rapporteren met :setting:`ENABLE_HTTPS`, of door "
+":envvar:`WEBLATE_ENABLE_HTTPS` in de container van Docker."
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ""
+msgstr ":doc:`Python Social Auth backend <psa:backends/index>`"
 
 #: ../../admin/auth.rst:71
 msgid "OpenID authentication"
-msgstr ""
+msgstr "OpenID authenticatie"
 
 #: ../../admin/auth.rst:73
 msgid ""
@@ -4488,26 +4523,33 @@ msgid ""
 "following section enables OpenID authentication for OpenSUSE, Fedora and "
 "Ubuntu:"
 msgstr ""
+"Voor op OpenID gebaseerde services is het gewoonlijk slechts een kwestie van "
+"het inschakelen ervan. Het volgende gedeelte schakelt authenticatie met "
+"OpenID in voor openSUSE, Fedora en Ubuntu:"
 
 #: ../../admin/auth.rst:89
 msgid ":doc:`psa:backends/openid`"
-msgstr ""
+msgstr ":doc:`psa:backends/openid`"
 
 #: ../../admin/auth.rst:94
 msgid "GitHub authentication"
-msgstr ""
+msgstr "GitHub authenticatie"
 
 #: ../../admin/auth.rst:96
 msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
 msgstr ""
+"U dient een toepassing voor OAuth te registreren in GitHub en dan Weblate "
+"alle geheimen te geven:"
 
 #: ../../admin/auth.rst:112
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://WEBLATE "
 "SERVER/accounts/complete/github/``."
 msgstr ""
+"GitHub zou moeten worden geconfigureerd om een URL voor terugkoppeling te "
+"hebben, zoals ``https://WEBLATE SERVER/accounts/complete/github/``."
 
 #: ../../admin/auth.rst:115
 msgid ""
@@ -4518,6 +4560,13 @@ msgid ""
 "Their callback URLs are ``https://WEBLATE SERVER/accounts/complete/github-"
 "org/`` and ``https://WEBLATE SERVER/accounts/complete/github-teams/``."
 msgstr ""
+"Er zijn soortgelijke backends bekend voor GitHub for Organizations en GitHub "
+"for Teams. Hun instellingen zijn genaamd ``SOCIAL_AUTH_GITHUB_ORG_*`` en "
+"``SOCIAL_AUTH_GITHUB_TEAM_*``, en zij vereisen aanvullende instellingen voor "
+"het bereik - ``SOCIAL_AUTH_GITHUB_ORG_NAME`` or "
+"``SOCIAL_AUTH_GITHUB_TEAM_ID``. Hun URL's voor terugkoppeling zijn ``https://"
+"WEBLATE SERVER/accounts/complete/github-org/`` en ``https://WEBLATE SERVER/"
+"accounts/complete/github-teams/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -4525,10 +4574,14 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
+"De door Weblate verschafte URL, voor terugkoppeling gedurende de "
+"authenticatie, bevat het geconfigureerde domein. Voor het geval u fouten "
+"krijgt met betrekking tot een niet overeenkomende URL, zou u dit misschien "
+"willen repareren, bekijk :ref:`production-site`."
 
 #: ../../admin/auth.rst:126
 msgid ":doc:`psa:backends/github`"
-msgstr ""
+msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:131
 msgid "GitHub EE authentication"
@@ -4539,12 +4592,17 @@ msgid ""
 "You need to register an OAuth App on GitHub EE and then tell Weblate all its "
 "secrets:"
 msgstr ""
+"U moet een OAuth App registreren in GitHub EE en dan Weblate alle geheimen "
+"te vertellen:"
 
 #: ../../admin/auth.rst:151
 msgid ""
 "The GitHub OAuth App should be configured to have callback URL as ``https://"
 "WEBLATE SERVER/accounts/complete/github-enterprise/``."
 msgstr ""
+"De GitHub OAuth App zou moeten worden geconfigureerd om een URL voor "
+"terugkoppeling te hebben zoals ``https://WEBLATE SERVER/accounts/complete/"
+"github-enterprise/``."
 
 #: ../../admin/auth.rst:154
 msgid ""
@@ -4553,24 +4611,31 @@ msgid ""
 "If you decide to use GitHub App, you need to enable `Access: Read-only` "
 "permission for Users - <Email addresses> and Organisation - <Members>."
 msgstr ""
+"In plaats van GitHub OAuth App, kan ook GitHub App worden gebruikt. Met "
+"GitHub App kunnen rechten worden toegewezen aan opslagruimten, organisatie "
+"en/of niveau van gebruiker. Als u besluit om GitHub App te gebruiken, moet u "
+"het recht `Access: Read-only` inschakelen voor Gebruikers - <E-mailadressen> "
+"en Organisatie - <Leden>."
 
 #: ../../admin/auth.rst:163
 msgid ":doc:`psa:backends/github_enterprise`"
-msgstr ""
+msgstr ":doc:`psa:backends/github_enterprise`"
 
 #: ../../admin/auth.rst:168
 msgid "Bitbucket authentication"
-msgstr ""
+msgstr "Bitbucket authenticatie"
 
 #: ../../admin/auth.rst:170
 msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
 msgstr ""
+"U moet een toepassing registreren in Bitbucket en dan Weblate alle geheimen "
+"vertellen:"
 
 #: ../../admin/auth.rst:190
 msgid ":doc:`psa:backends/bitbucket`"
-msgstr ""
+msgstr ":doc:`psa:backends/bitbucket`"
 
 #: ../../admin/auth.rst:195
 msgid "Google OAuth 2"
@@ -4581,55 +4646,68 @@ msgid ""
 "To use Google OAuth 2, you need to register an application at <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
+"U moet, om Google OAuth 2 te gebruiken, een toepassing registreren bij "
+"<https://console.developers.google.com/> en de Google+ API inschakelen."
 
 #: ../../admin/auth.rst:200
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/"
 "``"
 msgstr ""
+"De URL voor de verwijzing is ``https://WEBLATE SERVER/accounts/complete/"
+"google-oauth2/``"
 
 #: ../../admin/auth.rst:219
 msgid ":doc:`psa:backends/google`"
-msgstr ""
+msgstr ":doc:`psa:backends/google`"
 
 #: ../../admin/auth.rst:224
 msgid "Facebook OAuth 2"
-msgstr ""
+msgstr "Facebook OAuth 2"
 
 #: ../../admin/auth.rst:226
 msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
 msgstr ""
+"Zoals gewoonlijk met services van OAuth 2 moet u uw toepassing registreren "
+"bij Facebook. Als dat eenmaal is gedaan, kunt u Weblate instellen om het te "
+"gebruiken:"
 
 #: ../../admin/auth.rst:229
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``"
 msgstr ""
+"De URL voor de verwijzing is ``https://WEBLATE SERVER/accounts/complete/"
+"facebook/``"
 
 #: ../../admin/auth.rst:249
 msgid ":doc:`psa:backends/facebook`"
-msgstr ""
+msgstr ":doc:`psa:backends/facebook`"
 
 #: ../../admin/auth.rst:255
 msgid "GitLab OAuth 2"
-msgstr ""
+msgstr "GitLab OAuth 2"
 
 #: ../../admin/auth.rst:257
 msgid ""
 "For using GitLab OAuth 2, you need to register an application at <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
+"Voor het gebruiken van GitLab OAuth 2 moet u een toepassing registreren bij "
+"<https://gitlab.com/profile/applications>."
 
 #: ../../admin/auth.rst:260
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and "
 "ensure you mark the `read_user` scope."
 msgstr ""
+"De URL voor de verwijzing is ``https://WEBLATE SERVER/accounts/complete/"
+"gitlab/`` en zorg ervoor dat u het bereik `read_user` selecteert."
 
 #: ../../admin/auth.rst:284
 msgid ":doc:`psa:backends/gitlab`"
-msgstr ""
+msgstr ":doc:`psa:backends/gitlab`"
 
 #: ../../admin/auth.rst:289
 msgid "Gitea OAuth 2"
@@ -4640,11 +4718,15 @@ msgid ""
 "For using Gitea OAuth 2, you need to register an application at ``https://"
 "GITEA SERVER/user/settings/applications``."
 msgstr ""
+"Voor het gebruiken van Gitea OAuth 2 moet u een toepassing registreren bij "
+"``https://GITEA SERVER/user/settings/applications``."
 
 #: ../../admin/auth.rst:294
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``."
 msgstr ""
+"De URL voor de verwijzing is ``https://WEBLATE SERVER/accounts/complete/"
+"gitea/``."
 
 #: ../../admin/auth.rst:316
 msgid ""
@@ -4652,20 +4734,25 @@ msgid ""
 "production deployment with Forgejo, see `Codeberg Translate <http://"
 "translate.codeberg.org>`_"
 msgstr ""
+"Bovenstaande configuratie werkt ook met Forgejo; voor een voorbeeld voor "
+"productie uitrollen met Forgejo, bekijk `Codeberg Translate <http://translate"
+".codeberg.org>`_"
 
 #: ../../admin/auth.rst:322
 msgid ":doc:`psa:backends/gitea`"
-msgstr ""
+msgstr ":doc:`psa:backends/gitea`"
 
 #: ../../admin/auth.rst:327
 msgid "Microsoft Azure Active Directory"
-msgstr ""
+msgstr "Microsoft Azure Active Directory"
 
 #: ../../admin/auth.rst:329
 msgid ""
 "Weblate can be configured to use common or specific tenants for "
 "authentication."
 msgstr ""
+"Weblate kan worden geconfigureerd om veel voorkomende of specifieke huurders "
+"voor authenticatie te gebruiken."
 
 #: ../../admin/auth.rst:331
 msgid ""
@@ -4673,55 +4760,68 @@ msgid ""
 "oauth2/`` for common and ``https://WEBLATE SERVER/accounts/complete/azuread-"
 "tenant-oauth2/`` for tenant-specific authentication."
 msgstr ""
+"De URL voor de verwijzing is ``https://WEBLATE SERVER/accounts/complete/"
+"azuread-oauth2/`` voor veel voorkomende en ``https://WEBLATE SERVER/accounts/"
+"complete/azuread-tenant-oauth2/`` voor huurder-specifieke authenticatie."
 
 #: ../../admin/auth.rst:335
 msgid "You will need following:"
-msgstr ""
+msgstr "U heeft het volgende nodig:"
 
 #: ../../admin/auth.rst:337
 msgid ""
 "*Application (client) ID* can be obtained from application page. *Object ID* "
 "is not used in Weblate."
 msgstr ""
+"*Toepassing (client) ID* kan worden verkregen vanaf de pagina van de "
+"toepassing. *Object ID* wordt in Weblate niet gebruikt."
 
 #: ../../admin/auth.rst:338
 msgid ""
 "*Directory (tenant) ID* is needed for tenant scoped authentication, what is "
 "usually desired."
 msgstr ""
+"*Map (huurder) ID* is nodig voor authenticatie in het bereik van huurders, "
+"wat gewoonlijk gewenst is."
 
 #: ../../admin/auth.rst:339
 msgid ""
 "*Secret value* is displayed once you generate a secret for an application. "
 "*Secret ID* is not used in Weblate."
 msgstr ""
+"*Geheime waarde* wordt weergegeven als u eenmaal een geheim genereert voor "
+"een toepassing. *Geheim ID* wordt in Weblate niet gebruikt."
 
 #: ../../admin/auth.rst:378
 msgid ":doc:`psa:backends/azuread`"
-msgstr ""
+msgstr ":doc:`psa:backends/azuread`"
 
 #: ../../admin/auth.rst:383 ../../admin/install/docker.rst:1338
 msgid "Slack"
-msgstr ""
+msgstr "Slack"
 
 #: ../../admin/auth.rst:385
 msgid ""
 "For using Slack OAuth 2, you need to register an application at <https://api."
 "slack.com/apps>."
 msgstr ""
+"Voor het gebruiken van Slack OAuth 2 moet u een toepassing registreren bij "
+"<https://api.slack.com/apps>."
 
 #: ../../admin/auth.rst:388
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
 msgstr ""
+"De URL voor de verwijzing is ``https://WEBLATE SERVER/accounts/complete/"
+"slack/``."
 
 #: ../../admin/auth.rst:407
 msgid ":doc:`psa:backends/slack`"
-msgstr ""
+msgstr ":doc:`psa:backends/slack`"
 
 #: ../../admin/auth.rst:411
 msgid "Overriding authentication method names and icons"
-msgstr ""
+msgstr "Overschrijven namen van methoden voor authenticatie en pictogrammen"
 
 #: ../../admin/auth.rst:413
 msgid ""
@@ -4729,10 +4829,14 @@ msgid ""
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
+"U kunt de weergavenaam van de methode voor authenticatie en het pictogram "
+"overschrijven met instellingen zoals ``SOCIAL_AUTH_<NAME>_IMAGE`` en "
+"``SOCIAL_AUTH_<NAME>_TITLE``. Overschrijven van de naam voor Auth0 zou er "
+"uitzien als:"
 
 #: ../../admin/auth.rst:425
 msgid "Turning off password authentication"
-msgstr ""
+msgstr "Authenticatie met wachtwoord uitschakelen"
 
 #: ../../admin/auth.rst:427
 msgid ""
@@ -4741,62 +4845,83 @@ msgid ""
 "AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
+"Authenticatie met e-mail en wachtwoord kan worden uitgeschakeld door "
+"``social_core.backends.email.EmailAuth`` te verwijderen vanuit "
+":setting:`django:AUTHENTICATION_BACKENDS`. Behoud daar altijd ``weblate."
+"accounts.auth.WeblateUserBackend``, het is nodig voor de functionaliteit van "
+"de bron voor Weblate."
 
 #: ../../admin/auth.rst:433
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
 "functionality – user invitation or password reset feature."
 msgstr ""
+"Uitschakelen van e-mailauthenticatie zal alle aan e-mail gerelateerde "
+"functionaliteit uitschakelen – uitnodigen van gebruikers of de mogelijkheid "
+"voor herstellen van het wachtwoord."
 
 #: ../../admin/auth.rst:438
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/login/``."
 msgstr ""
+"U kunt nog steeds authenticatie met wachtwoord gebruiken voor de "
+"beheerinterface, voor gebruikers maakt u ze daar handmatig. Navigeer gewoon "
+"naar ``/admin/login/``."
 
 #: ../../admin/auth.rst:441
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
 msgstr ""
+"Bijvoorbeeld authenticatie met alleen de provider voor openSUSE Open ID kan "
+"worden bereikt met het volgende:"
 
 #: ../../admin/auth.rst:455
 msgid "Password authentication"
-msgstr ""
+msgstr "Wachtwoord authenticatie"
 
 #: ../../admin/auth.rst:457
 msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgstr ""
+"Het standaard :file:`settings.py` bevat een redelijke set "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`:"
 
 #: ../../admin/auth.rst:460
 msgid "Passwords can't be too similar to your other personal info."
 msgstr ""
+"Wachtwoorden mogen niet te veel lijken op uw andere persoonlijke informatie."
 
 #: ../../admin/auth.rst:461
 msgid "Passwords must contain at least 10 characters."
-msgstr ""
+msgstr "Wachtwoorden moeten ten minste 10 tekens bevatten."
 
 #: ../../admin/auth.rst:462
 msgid "Passwords can't be a commonly used password."
-msgstr ""
+msgstr "Wachtwoorden mogen geen veel voorkomend wachtwoord zijn."
 
 #: ../../admin/auth.rst:463
 msgid "Passwords can't be entirely numeric."
-msgstr ""
+msgstr "Wachtwoorden mogen niet geheel bestaan uit cijfers zijn."
 
 #: ../../admin/auth.rst:464
 msgid "Passwords can't consist of a single character or only whitespace."
 msgstr ""
+"Wachtwoorden mogen niet bestaan uit een enkel teken of alleen witruimte."
 
 #: ../../admin/auth.rst:465
 msgid "Passwords can't match a password you have used in the past."
 msgstr ""
+"Wachtwoorden mogen niet overeenkomen met een wachtwoord dat u in het "
+"verleden hebt gebruikt."
 
 #: ../../admin/auth.rst:467
 msgid "You can customize this setting to match your password policy."
 msgstr ""
+"U kunt deze instelling aanpassen om te voldoen aan uw beleid voor "
+"wachtwoorden."
 
 #: ../../admin/auth.rst:469
 msgid ""
@@ -4804,10 +4929,14 @@ msgid ""
 "project/django-zxcvbn-password/>`_ which gives quite realistic estimates of "
 "password difficulty and allows rejecting passwords below a certain threshold."
 msgstr ""
+"Aanvullend kunt u ook `django-zxcvbn-password <https://pypi.org/project/"
+"django-zxcvbn-password/>`_ installeren, wat behoorlijk realistische "
+"benaderingen van de moeilijkheid van wachtwoorden geeft en het mogelijk "
+"maakt wachtwoorden onder een bepaalde drempel te weigeren."
 
 #: ../../admin/auth.rst:476
 msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ""
+msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/auth.rst:481
 msgid "SAML authentication"
@@ -5314,7 +5443,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:122
 msgid "Local filesystem"
-msgstr ""
+msgstr "Lokaal bestandssysteem"
 
 #: ../../admin/backup.rst:124
 msgid ""
@@ -5323,6 +5452,11 @@ msgid ""
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it but needs the appropriate permissions to do so."
 msgstr ""
+"Aanbevolen wordt om het absolute pad te specificeren voor de lokale back-up, "
+"bijvoorbeeld `/pad/naar/back-up`. In de map moet kunnen worden geschreven "
+"door de gebruiker die Weblate uitvoert (bekijk :ref:`file-permissions`). Als "
+"die niet bestaat, zal Weblate proberen hem te maken, maar het heeft de "
+"toepasselijke rechten nodig om dat te kunnen doen."
 
 #: ../../admin/backup.rst:131
 msgid ""
@@ -5330,24 +5464,35 @@ msgid ""
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker upon restarting the container it is in."
 msgstr ""
+"Bij het uitvoeren van Weblate in Docker, zorg er dan voor dat de locatie "
+"voor de back-up wordt weergegeven als een volume uit de container van "
+"Weblate. Anders zullen de back-ups worden genegeerd door Docker, tot de "
+"container waarin het staat opnieuw wordt gestart."
 
 #: ../../admin/backup.rst:135
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
+"Een optie is om back-ups te plaatsen in een bestaand volume, bijvoorbeeld "
+":file:`/app/data/borgbackup`. Dit is een bestaand volume in de container."
 
 #: ../../admin/backup.rst:138
 msgid ""
 "You can also add a new container for the backups in the Docker Compose file "
 "for example by using :file:`/borgbackup`:"
 msgstr ""
+"U kunt ook een nieuwe container toevoegen voor de back-ups in het Docker "
+"Compose-bestand, bijvoorbeeld door te gebruiken :file:`/borgbackup`:"
 
 #: ../../admin/backup.rst:149
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr ""
+"De map waarin de back-ups zullen worden opgeslagen moeten als eigenaar UID "
+"1000 hebben, anders zal Weblate niet in staat zijn de back-ups daar weg te "
+"schrijven."
 
 #: ../../admin/backup.rst:153
 msgid "Remote backups"
@@ -5359,34 +5504,45 @@ msgid ""
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
+"Voor het maken van back-ups op afstand zult u `BorgBackup`_ moeten "
+"installeren op een andere server, die toegankelijk is voor uw uitgerolde "
+"Weblate via SSH met de sleutel van Weblate voor SSH:"
 
 #: ../../admin/backup.rst:159
 msgid "Prepare a server where your backups will be stored."
-msgstr ""
+msgstr "Een server voorbereiden waar uw back-ups zullen worden opgeslagen."
 
 #: ../../admin/backup.rst:160
 msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
 msgstr ""
+"Installeer de SSH-server erop (u zult dit standaard krijgen bij de meeste "
+"distributies van Linux)."
 
 #: ../../admin/backup.rst:161
 msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
 msgstr ""
+"Installeer `BorgBackup`_ op die server; de meeste distributies van Linux "
+"hebben pakketten beschikbaar (bekijk :doc:`borg:installation`)."
 
 #: ../../admin/backup.rst:162
 msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
 msgstr ""
+"Kies een bestaande gebruiker of maak een nieuwe gebruiker die voor de back-"
+"ups zal worden gebruikt."
 
 #: ../../admin/backup.rst:163
 msgid ""
 "Add Weblate SSH key to the user so that Weblate can SSH to the server "
 "without a password (see :ref:`weblate-ssh-key`)."
 msgstr ""
+"Voeg de sleutel voor Weblate van SSH toe aan de gebruiker, zodat Weblate SSH "
+"naar de server kan zonder een wachtwoord (bekijk :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:164
 msgid ""
@@ -5400,41 +5556,51 @@ msgstr ""
 msgid ""
 ":ref:`cloudbackup` provides you automated remote backups without any effort."
 msgstr ""
+":ref:`cloudbackup` verschaft u zonder enige moeite geautomatiseerde back-ups "
+"op afstand."
 
 #: ../../admin/backup.rst:172
 msgid ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
-msgstr ""
+msgstr ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
 
 #: ../../admin/backup.rst:175
 msgid "Restoring from BorgBackup"
-msgstr ""
+msgstr "Terugzetten vanaf BorgBackup"
 
 #: ../../admin/backup.rst:177
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
+"Herstel toegang tot de opslagruimte van uw back-up en bereid uw wachtwoord "
+"voor uw back-up voor."
 
 #: ../../admin/backup.rst:179
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
-msgstr ""
+msgstr "Vermeld alle back-ups op de server met ``borg list REPOSITORY``."
 
 #: ../../admin/backup.rst:181
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
+"Zet de gewenste back-up terug in de huidige map met ``borg extract "
+"REPOSITORY::ARCHIVE``."
 
 #: ../../admin/backup.rst:183
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
+"Zet de database terug vanuit de SQL dump die is geplaatst in de map "
+"``backup`` in de map met gegevens van Weblate (bekijk :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:185
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
+"Kopieer de configuratie van Weblate (:file:`backups/settings.py`, bekijk :ref"
+":`backup-dumps`) naar de juiste locatie, bekijk :ref:`configuration`."
 
 #: ../../admin/backup.rst:188
 msgid ""
@@ -5443,42 +5609,54 @@ msgid ""
 "file:`environment.yml` file might help you with this (see :ref:`backup-"
 "dumps`)."
 msgstr ""
+"Bij het gebruiken van Docker container, is het bestand met instellingen al "
+"opgenomen in de container en zou u de originele omgevingsvariabelen moeten "
+"terugzetten. Het bestand :file:`environment.yml` zou u daarmee kunnen helpen "
+"(bekijk :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:192
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
+"Kopieer de gehele map met teruggezette gegevens naar de locatie die wordt "
+"geconfigureerd door :setting:`DATA_DIR`."
 
 #: ../../admin/backup.rst:195
 msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
+"Plaats, bij het gebruiken van Docker container, de gegevens in het volume "
+"data, bekijk :ref:`docker-volume`."
 
 #: ../../admin/backup.rst:198
 msgid ""
 "Please ensure the files have correct ownership and permissions, see :ref:"
 "`file-permissions`."
 msgstr ""
+"Zorg ervoor dat de bestanden de juiste eigenaar en rechten hebben, bekijk "
+":ref:`file-permissions`."
 
 #: ../../admin/backup.rst:200
 msgid "The Borg session might look like this:"
-msgstr ""
+msgstr "De sessie van Borg zou er zo uit kunnen zien:"
 
 #: ../../admin/backup.rst:212
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
-msgstr ""
+msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
 #: ../../admin/backup.rst:220
 msgid "Manual backup"
-msgstr ""
+msgstr "Handmatige back-up"
 
 #: ../../admin/backup.rst:222
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr ""
+"Afhankelijk van wat u wilt opslaan, back-up het type gegevens dat Weblate op "
+"elke respectievelijke plaats opslaat."
 
 #: ../../admin/backup.rst:226
 msgid ""
@@ -5487,24 +5665,32 @@ msgid ""
 "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
+"Als u de handmatige back-ups uitvoert, zou u misschien de waarschuwing van "
+"Weblate over een gebrek aan back-ups willen uitschakelen door ``weblate."
+"I028`` toe te voegen aan :setting:`django:SILENCED_SYSTEM_CHECKS` in "
+":file:`settings.py` of :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` voor Docker."
 
 #: ../../admin/backup.rst:236 ../../admin/install.rst:138
 msgid "Database"
-msgstr ""
+msgstr "Database"
 
 #: ../../admin/backup.rst:238
 msgid "The actual storage location depends on your database setup."
 msgstr ""
+"De feitelijke locatie van het opslaan is afhankelijk van de instellingen van "
+"uw database."
 
 #: ../../admin/backup.rst:242
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
 msgstr ""
+"De database is de meest belangrijke opslag. Stel regelmatige back-ups voor "
+"uw database in. Zonder de database zijn alle vertalingen verloren."
 
 #: ../../admin/backup.rst:246
 msgid "Native database backup"
-msgstr ""
+msgstr "Eigen database back-up"
 
 #: ../../admin/backup.rst:248
 msgid ""
@@ -5513,6 +5699,10 @@ msgid ""
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
+"De aanbevolen werkwijze is om een dump van de database op te slaan met eigen "
+"gereedschappen van de database, zoals :program:`pg_dump` of "
+":program:`mysqldump`. Het presteert gewoonlijk beter dan de back-up van "
+"Django, en het zet volledige tabellen met al hun gegevens terug."
 
 #: ../../admin/backup.rst:252
 msgid ""
@@ -5520,10 +5710,14 @@ msgid ""
 "the necessary migrations when running in :wladmin:`migrate`. Please consult :"
 "doc:`upgrade` on more detailed info on how to upgrade between versions."
 msgstr ""
+"U kunt deze back-up terugzetten in een nieuwere uitgave van Weblate, het zal "
+"alle benodigde migraties uitvoeren als het wordt uitgevoerd in "
+":wladmin:`migrate`. Raadpleeg :doc:`upgrade` voor meer gedetailleerde "
+"informatie over hoe te upgraden tussen versies."
 
 #: ../../admin/backup.rst:257
 msgid "Django database backup"
-msgstr ""
+msgstr "Django database back-up"
 
 #: ../../admin/backup.rst:259
 msgid ""
@@ -5531,6 +5725,10 @@ msgid ""
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change the database backend."
 msgstr ""
+"Als alternatief kunt u uw database back-uppen met Django's opdracht "
+":djadmin:`django:dumpdata`. Op die manier wordt de back-up database "
+"agnostisch en kan worden gebruikt in het geval u de backend van de database "
+"wilt wijzigen."
 
 #: ../../admin/backup.rst:263
 msgid ""
@@ -5540,6 +5738,12 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :wladmin:`migrate`."
 msgstr ""
+"Voorafgaande aan het terugzetten van de database moet u exact dezelfde "
+"versie van Weblate uitvoeren als waarop de back-up werd gemaakt. Dit is "
+"noodzakelijk omdat de databasestructuur wijzigt tussen uitgaven en u zou "
+"kunnen eindigen met op een of andere manier corrupte gegevens. Na het "
+"installeren van dezelfde versie, voer alle migraties voor de database uit "
+"met :wladmin:`migrate`."
 
 #: ../../admin/backup.rst:269
 msgid ""
@@ -5548,6 +5752,10 @@ msgid ""
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
+"Daarna zullen sommige items al zijn gemaakt in de database en zult u ze ook "
+"in de back-up van de database hebben. De aanbevolen werkwijze is om "
+"dergelijke items handmatig te verwijderen met de shell voor beheer (bekijk "
+":ref:`invoke-manage`):"
 
 #: ../../admin/backup.rst:280
 msgid "Files"
@@ -5560,20 +5768,26 @@ msgid ""
 "want. The following sections describe what you should back up and what you "
 "can skip in detail."
 msgstr ""
+"Wanneer u voldoende ruimte hebt voor back-ups, back-up eenvoudigweg de "
+"gehele :setting:`DATA_DIR`. Dit is een veilige keuze, zelfs als het wat "
+"bestanden bevat die u niet nodig hebt. De volgende gedeelten beschrijven in "
+"detail wat u zou moeten back-uppen en wat u kunt overslaan."
 
 #: ../../admin/backup.rst:290
 msgid "Dumped data for backups"
-msgstr ""
+msgstr "Gedumpte gegevens voor back-ups"
 
 #: ../../admin/backup.rst:294
 msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
 msgstr ""
+"De omgevingsdump werd toegevoegd als :file:`environment.yml` om te helpen "
+"bij het terugzetten in de omgevingen van Docker."
 
 #: ../../admin/backup.rst:297
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
-msgstr ""
+msgstr "Opgeslagen in :setting:`DATA_DIR` ``/backups``."
 
 #: ../../admin/backup.rst:299
 msgid ""
@@ -5581,39 +5795,50 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate dumpt hier verscheiden gegeven en u kunt deze bestanden opnemen voor "
+"meer complete back-ups. De bestanden worden dagelijks bijgewerkt (vereist "
+"een uitgevoerde Celery beats server, bekijk :ref:`celery`). Momenteel omvat "
+"dit:"
 
 #: ../../admin/backup.rst:303
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
+"Weblate instellingen als :file:`settings.py` (er is ook een uitgebreide "
+"versie in :file:`settings-expanded.py`)."
 
 #: ../../admin/backup.rst:304
 msgid "PostgreSQL database backup as :file:`database.sql`."
-msgstr ""
+msgstr "PostgreSQL database back-up als :file:`database.sql`."
 
 #: ../../admin/backup.rst:305
 msgid "Environment dump as :file:`environment.yml`."
-msgstr ""
+msgstr "Omgevingsdump als :file:`environment.yml`."
 
 #: ../../admin/backup.rst:307
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
+"De back-ups van de database worden standaard als platte tekst opgeslagen, "
+"maar zij kunnen ook worden gecomprimeerd of volledig worden overgeslagen met "
+":setting:`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:310
 msgid ""
 "To restore the database backup load it using database tools, for example:"
 msgstr ""
+"Laad, om de back-up van de database terug te zetten, hem met de "
+"gereedschappen voor de database, bijvoorbeeld:"
 
 #: ../../admin/backup.rst:317
 msgid "Version control repositories"
-msgstr ""
+msgstr "Opslagruimten versiebeheer"
 
 #: ../../admin/backup.rst:319
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
-msgstr ""
+msgstr "Opgeslagen in :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:321
 msgid ""
@@ -5624,15 +5849,23 @@ msgid ""
 "Weblate side as they can be cloned again from the upstream location(s) with "
 "no data loss."
 msgstr ""
+"De opslagruimten voor versiebeheer bevatten een kopie van de opslagruimten "
+"upstream met wijzigingen van Weblate. Als u :ref:`component-push_on_commit` "
+"hebt ingeschakeld voor al uw onderdelen voor vertalingen, worden alle "
+"wijzigingen in Weblate in upstream opgenomen. Geen noodzaak om de "
+"opslagruimten ook aan de kant van Weblate te back-uppen, omdat zij opnieuw "
+"kunnen worden gekloond vanaf de locatie(s) van upstream, zonder "
+"gegevensverlies."
 
 #: ../../admin/backup.rst:328
 msgid "SSH and GPG keys"
-msgstr ""
+msgstr "Sleutels voor SSH en GPG"
 
 #: ../../admin/backup.rst:330
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
 msgstr ""
+"Opgeslagen in :setting:`DATA_DIR` ``/ssh`` en :setting:`DATA_DIR` ``/home``."
 
 #: ../../admin/backup.rst:332
 msgid ""
@@ -5640,24 +5873,27 @@ msgid ""
 "these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
+"Als u sleutels voor SSH of GPG gebruikt die zijn gegenereerd door Weblate "
+"zou u deze locaties moeten back-uppen. Anders zult u de privésleutels "
+"verliezen en zult u nieuwe moeten genereren."
 
 #: ../../admin/backup.rst:337
 msgid "User uploaded files"
-msgstr ""
+msgstr "Door gebruiker geüploade bestanden"
 
 #: ../../admin/backup.rst:339
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
-msgstr ""
+msgstr "Opgeslagen in :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:341
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
-"U zou van alle door gebruikers geuploade bestanden een backup moeten maken "
-"(bijv. :ref:`screenshots`)."
+"U zou alle door gebruikers geüploade bestanden moeten back-uppen (bijv. "
+":ref:`screenshots`)."
 
 #: ../../admin/backup.rst:344
 msgid "Celery tasks"
-msgstr ""
+msgstr "Taken van Celery"
 
 #: ../../admin/backup.rst:346
 msgid ""
@@ -5666,6 +5902,12 @@ msgid ""
 "translation memory. It is recommended to perform the fulltext or repository "
 "update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
+"De wachtrij van taken van Celery zou enige informatie kunnen bevatten, maar "
+"is gewoonlijk niet nodig voor een back-up. U zult ten hoogste bijwerkingen "
+"verliezen die nog niet zijn verwerkt in het vertaalgeheugen. Aanbevolen "
+"wordt toch al om het bijwerken van de volledige tekst of de opslagruimten "
+"uit te voeren bij terugzetten, er bestaat dus geen probleem om ze te "
+"verliezen."
 
 #: ../../admin/backup.rst:353
 msgid ":ref:`celery`"
@@ -5673,41 +5915,48 @@ msgstr ":ref:`celery`"
 
 #: ../../admin/backup.rst:356
 msgid "Command-line for manual backup"
-msgstr ""
+msgstr "Opdrachtregel voor handmatige back-up"
 
 #: ../../admin/backup.rst:358
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
 msgstr ""
+"Met een cron job kunt u een opdracht voor Bash instellen om op dagelijkse "
+"basis te worden uitgevoerd, bijvoorbeeld:"
 
 #: ../../admin/backup.rst:364
 msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
 msgstr ""
+"U kunt de lijst met mappen en bestanden naar uw behoeften aanpassen. Voor "
+"het niet opslaan van het vertaalgeheugen (in de map backups), kunt u "
+"gebruiken:"
 
 #: ../../admin/backup.rst:371
 msgid "Restoring manual backup"
-msgstr ""
+msgstr "Terugzetten van handmatige back-up"
 
 #: ../../admin/backup.rst:373
 msgid "Restore all data you have backed up."
-msgstr ""
+msgstr "Alle gegevens terugzetten die u heeft geback-upt."
 
 #: ../../admin/backup.rst:375
 msgid "Update all repositories using :wladmin:`updategit`."
-msgstr ""
+msgstr "Werk alle opslagruimten bij met :wladmin:`updategit`."
 
 #: ../../admin/backup.rst:382
 msgid "Moving a Weblate installation"
-msgstr ""
+msgstr "Een installatie van Weblate verplaatsen"
 
 #: ../../admin/backup.rst:384
 msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
 msgstr ""
+"Verplaats uw installatie naar een ander systeem door de instructies voor "
+"back-uppen en terugzetten hierboven te volgen."
 
 #: ../../admin/backup.rst:389
 msgid ""
@@ -5715,42 +5964,54 @@ msgid ""
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgstr ""
+"`Upgraden van Python 2 naar Python 3 in de Weblate 3.11.1 documentatie "
+"<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
+"from-python-2-to-python-3>`_, :ref:`database-migration`"
 
 #: ../../admin/checks.rst:2 ../../user/checks.rst:2
 msgid "Checks and fixups"
-msgstr ""
+msgstr "Controles en reparaties"
 
 #: ../../admin/checks.rst:7
 msgid "Custom automatic fixups"
-msgstr ""
+msgstr "Aangepaste automatische reparaties"
 
 #: ../../admin/checks.rst:9
 msgid ""
 "You can also implement your own automatic fixup in addition to the standard "
 "ones and include them in :setting:`AUTOFIX_LIST`."
 msgstr ""
+"U kunt ook uw eigen automatische reparatie implementeren, in aanvulling op "
+"die van de standaard, en ze opnemen in :setting:`AUTOFIX_LIST`."
 
 #: ../../admin/checks.rst:12
 msgid ""
 "The automatic fixes are powerful, but can also cause damage; be careful "
 "when writing one."
 msgstr ""
+"De automatische reparaties zijn krachtig, maar kunnen ook schade toebrengen; "
+"wees voorzichtig bij het schrijven ervan."
 
 #: ../../admin/checks.rst:15
 msgid ""
 "For example, the following automatic fixup would replace every occurrence of "
 "the string ``foo`` in a translation with ``bar``:"
 msgstr ""
+"De volgende automatische reparatie zou, bijvoorbeeld, elke instantie van de "
+"tekenreeks ``foo`` in een vertaling vervangen door ``bar``:"
 
 #: ../../admin/checks.rst:21
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Verschaf, om aangepaste controles te installeren, een volledig "
+"gekwalificeerd pad naar de Python class in de :setting:`AUTOFIX_LIST`, "
+"bekijk :ref:`custom-check-modules`."
 
 #: ../../admin/checks.rst:27
 msgid "Customizing behavior using flags"
-msgstr ""
+msgstr "Gedrag aanpassen met vlaggen"
 
 #: ../../admin/checks.rst:29
 msgid ""
@@ -5758,6 +6019,10 @@ msgid ""
 "visual feedback to the translators and help them to improve their "
 "translation. The flags are merged from following sources:"
 msgstr ""
+"U kunt het gedrag van Weblate fijn afstemmen met vlaggen. De vlaggen "
+"verschaffen visuele terugkoppeling aan de vertalers en helpen ze om hun "
+"vertaling te verbeteren. De vlaggen worden samengevoegd uit de volgende "
+"bronnen:"
 
 #: ../../admin/checks.rst:33
 msgid "Source string, see :ref:`additional`."
@@ -5766,16 +6031,20 @@ msgstr "Brontekenreeks, bekijk :ref:`additional`."
 #: ../../admin/checks.rst:34
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
 msgstr ""
+"Vlaggen per tekenreeks uitgenomen uit de bestandsindeling, bekijk "
+":ref:`formats`."
 
 #: ../../admin/checks.rst:35
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string)."
 msgstr ""
+"Vlaggen voor vertaling (momenteel alleen de vlag ``read-only`` voor "
+"tweetalige brontekenreeks)."
 
 #: ../../admin/checks.rst:36
 msgid "File-format specific flags."
-msgstr ""
+msgstr "Specifieke vlaggen voor bestandsindeling."
 
 #: ../../admin/checks.rst:37
 msgid ":ref:`component` (:ref:`component-check_flags`)."
@@ -5787,12 +6056,17 @@ msgid ""
 "with colon. You can use quotes to include whitespaces or special characters "
 "in the string. For example:"
 msgstr ""
+"De vlaggen worden gescheiden met komma's; als zij parameters hebben worden "
+"die gescheiden door een dubbele punt. U kunt aanhalingstekens gebruiken om "
+"witruimte of speciale tekens in de tekenreeks op te nemen. Bijvoorbeeld:"
 
 #: ../../admin/checks.rst:47
 msgid ""
 "Both single and double quotes are accepted, special characters are being "
 "escaped using backslash:"
 msgstr ""
+"Zowel enkele als dubbele aanhalingstekens worden geaccepteerd, speciale "
+"tekens moeten worden geëscapet met een backslash:"
 
 #: ../../admin/checks.rst:57
 msgid ""
@@ -5800,16 +6074,21 @@ msgid ""
 "A failing check will be triggered if the string '### Index' is translated as "
 "'# Indice'"
 msgstr ""
+"Verifiëren dat vertalers de kop van een document met Markdown niet wijzigen: "
+"Een mislukte controle zal worden geactiveerd wanneer de tekenreeks '### "
+"Index' is vertaald als '# Indice'"
 
 #: ../../admin/checks.rst:64
 msgid ""
 "To ensure that internal links are not being translated (i.e. `[test](../"
 "checks)` does not become `[test](../chequeos)`."
 msgstr ""
+"Zorgen dat interne koppelingen niet worden vertaald (d.i. `[test](../checks)`"
+" mag niet worden `[test](../chequeos)`."
 
 #: ../../admin/checks.rst:69
 msgid "Here is a list of flags currently accepted:"
-msgstr ""
+msgstr "Hier is een lijst met momenteel geaccepteerde vlaggen:"
 
 #: ../../admin/checks.rst:71 ../../devel/sphinx.rst:41
 msgid "``rst-text``"
@@ -5819,6 +6098,8 @@ msgstr "``rst-text``"
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`."
 msgstr ""
+"Behandel tekst als een document met reStructuredText, heeft invloed op :ref"
+":`check-same`."
 
 #: ../../admin/checks.rst:73
 msgid "``dos-eol``"
@@ -5829,12 +6110,18 @@ msgid ""
 "Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of "
 "``\\n``)."
 msgstr ""
+"Gebruikt markeringen van DOS voor einde regel in plaats van die van Unix (``"
+"\\r\\n"
+"`` in plaats van ``\\n"
+"``)."
 
 #: ../../admin/checks.rst:76
 msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
 msgstr ""
+"De tekenreeks is alleen-lezen en zou niet moeten worden bewerkt in Weblate, "
+"bekijk :ref:`read-only-strings`."
 
 #: ../../admin/checks.rst:77
 msgid "``terminology``"
@@ -5846,10 +6133,13 @@ msgid ""
 "can be used consistently in all translations. Also useful in combination "
 "with ``read-only``, for example in product names."
 msgstr ""
+"Gebruikt in :ref:`glossary`. Kopieert de tekenreeks naar alle talen voor de "
+"woordenlijst, zodat het consistent kan worden gebruikt in alle vertalingen. "
+"Ook nuttig in combinatie met ``read-only``, bijvoorbeeld voor productnamen."
 
 #: ../../admin/checks.rst:79
 msgid "``priority:N``"
-msgstr ""
+msgstr "``prioriteit:N``"
 
 #: ../../admin/checks.rst:80
 msgid ""
@@ -5857,16 +6147,22 @@ msgid ""
 "translation. The default priority is 100, the higher priority a string has, "
 "the earlier it is offered for translation."
 msgstr ""
+"Prioriteit van de tekenreeks. Tekenreeksen met een hogere prioriteit worden "
+"als eerste gepresenteerd voor vertaling. De standaard prioriteit is 100, hoe "
+"hoger de prioriteit die een tekenreeks heeft, hoe eerder die wordt "
+"aangeboden voor vertaling."
 
 #: ../../admin/checks.rst:83
 msgid "``max-length:N``"
-msgstr ""
+msgstr "``max-lengte:N``"
 
 #: ../../admin/checks.rst:84
 msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`."
 msgstr ""
+"Beperkt de maximale lengte voor een tekenreeks tot N tekens, bekijk :ref"
+":`check-max-length`."
 
 #: ../../admin/checks.rst:85
 msgid "``xml-text``"
@@ -5877,42 +6173,51 @@ msgid ""
 "Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-"
 "xml-tags`."
 msgstr ""
+"Behandel tekst als een document met XML, heeft invloed op :ref:`check-xml-"
+"invalid` en :ref:`check-xml-tags`."
 
 #: ../../admin/checks.rst:87
 msgid "``font-family:NAME``"
-msgstr ""
+msgstr "``font-family:NAAM``"
 
 #: ../../admin/checks.rst:88
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Definieert familie van lettertype voor controles voor renderen, bekijk "
+":ref:`fonts`."
 
 #: ../../admin/checks.rst:89
 msgid "``font-weight:WEIGHT``"
-msgstr ""
+msgstr "``font-weight:LETTERBEELD``"
 
 #: ../../admin/checks.rst:90
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Definieer het letterbeeld voor controles voor renderen, bekijk :ref:`fonts`."
 
 #: ../../admin/checks.rst:91
 msgid "``font-size:SIZE``"
-msgstr ""
+msgstr "``font-size:GROOTTE``"
 
 #: ../../admin/checks.rst:92
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Definieer grootte voor het lettertype voor controles voor renderen, bekijk "
+":ref:`fonts`."
 
 #: ../../admin/checks.rst:93
 msgid "``font-spacing:SPACING``"
-msgstr ""
+msgstr "``font-spacing:AFSTAND``"
 
 #: ../../admin/checks.rst:94
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Definieer afstand tussen letters voor controles voor renderen, bekijk "
+":ref:`fonts`."
 
 #: ../../admin/checks.rst:95
 msgid "``icu-flags:FLAGS``"
-msgstr ""
+msgstr "``icu-flags:VLAGGEN``"
 
 #: ../../admin/checks.rst:96
 msgid ""
@@ -5924,7 +6229,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:97
 msgid "``icu-tag-prefix:PREFIX``"
-msgstr ""
+msgstr "``icu-tag-prefix:VOORVOEGSEL``"
 
 #: ../../admin/checks.rst:98
 msgid ""
@@ -5936,16 +6241,18 @@ msgstr ""
 
 #: ../../admin/checks.rst:99
 msgid "``placeholders:NAME:NAME2:...``"
-msgstr ""
+msgstr "``placeholders:NAAM:NAAM2:...``"
 
 #: ../../admin/checks.rst:100
 msgid ""
 "Placeholder strings expected in translation, see :ref:`check-placeholders`."
 msgstr ""
+"Tekenreeksen als plaatsvervanger, verwacht in vertaling, bekijk :ref:`check-"
+"placeholders`."
 
 #: ../../admin/checks.rst:101
 msgid "``replacements:FROM:TO:FROM2:TO2...``"
-msgstr ""
+msgstr "``replacements:VAN:NAAR:VAN2:NAAR2...``"
 
 #: ../../admin/checks.rst:102
 msgid ""
@@ -5954,25 +6261,32 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
+"Vervangingen om uit te voeren bij het controleren van resulterende "
+"tekstparameters (bijvoorbeeld in :ref:`check-max-size` of :ref:`check-max-"
+"length`). Een typisch gebruiksgeval hiervoor is om plaatsvervangers uit te "
+"breiden om ervoor te zorgen dat tekstbestanden zelfs met lange waarden "
+"passen, bijvoorbeeld: ``replacements:%s:\"John Doe\"``."
 
 #: ../../admin/checks.rst:106
 msgid "``variants:SOURCE``"
-msgstr ""
+msgstr "``variants:BRON``"
 
 #: ../../admin/checks.rst:107
 msgid ""
 "Mark this string as a variant of string with matching source. See :ref:"
 "`variants`."
 msgstr ""
+"Markeer deze tekenreeks als een variant van een tekenreeks met een "
+"overeenkomende bron. Bekijk :ref:`variants`."
 
 #: ../../admin/checks.rst:108
 msgid "``regex:REGEX``"
-msgstr ""
+msgstr "``regex:REGEX``"
 
 #: ../../admin/checks.rst:109
 msgid "Regular expression to match translation, see :ref:`check-regex`."
 msgstr ""
-"Reguliere expressie om vertalingen mee te vergelijken, zie :ref:`check-"
+"Reguliere expressie om vertalingen mee te vergelijken, bekijk :ref:`check-"
 "regex`."
 
 #: ../../admin/checks.rst:110
@@ -5983,6 +6297,8 @@ msgstr "``forbidden``"
 msgid ""
 "Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`."
 msgstr ""
+"Geeft verboden vertalingen aan in een woordenlijst, bekijk :ref:`glossary-"
+"forbidden`."
 
 #: ../../admin/checks.rst:112
 msgid "``strict-same``"
@@ -5993,6 +6309,8 @@ msgid ""
 "Make \"Unchanged translation\" avoid using built-in words blacklist, see :"
 "ref:`check-same`."
 msgstr ""
+"Vermijd een \"Ongewijzigde vertaling\" door de ingebouwde lijst met verboden "
+"woorden te gebruiken, bekijk :ref:`check-same`."
 
 #: ../../admin/checks.rst:114
 msgid "``strict-format``"
@@ -6003,6 +6321,8 @@ msgid ""
 "Make format checks enforce using format even for plural forms with a single "
 "value, see :ref:`check-formats`."
 msgstr ""
+"Forceren dat controles voor indeling de indeling zelfs voor meervoudsvormen "
+"met een enkele waarde gebruiken, bekijk :ref:`check-formats`."
 
 #: ../../admin/checks.rst:116 ../../user/checks.rst:150
 msgid "``check-glossary``"
@@ -6050,7 +6370,7 @@ msgstr "``i18next-interpolation``"
 
 #: ../../admin/checks.rst:127
 msgid "Enable the :ref:`check-i18next-interpolation` quality check."
-msgstr ""
+msgstr "Schakel de kwaliteitscontrole :ref:`check-i18next-interpolation` in."
 
 #: ../../admin/checks.rst:128 ../../user/checks.rst:526
 #: ../../user/checks.rst:1762
@@ -6107,7 +6427,7 @@ msgstr "``percent-placeholders``"
 
 #: ../../admin/checks.rst:141
 msgid "Enable the :ref:`check-percent-placeholders` quality check."
-msgstr ""
+msgstr "Schakel de kwaliteitscontrole :ref:`check-percent-placeholders` in."
 
 #: ../../admin/checks.rst:142 ../../user/checks.rst:719
 msgid "``perl-brace-format``"
