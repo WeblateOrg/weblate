@@ -607,7 +607,11 @@ def record_project_bill(
     sender, instance: Project | Component | Translation, **kwargs
 ) -> None:
     if isinstance(instance, Translation):
-        instance = instance.component
+        try:
+            instance = instance.component
+        except Component.DoesNotExist:
+            # Happens during component removal
+            return
     if isinstance(instance, Component):
         instance = instance.project
     # Collect billings to update for delete_project_bill
