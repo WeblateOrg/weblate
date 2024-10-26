@@ -75,6 +75,7 @@ class ReportsTest(BaseReportsTest):
                         "email": "weblate@example.org",
                         "full_name": "Weblate <b>Test</b>",
                         "change_count": expected_count,
+                        "username": "testuser",
                     }
                 ]
             }
@@ -152,6 +153,7 @@ class ReportsComponentTest(BaseReportsTest):
                             "email": "weblate@example.org",
                             "full_name": "Weblate <b>Test</b>",
                             "change_count": 1,
+                            "username": "testuser",
                         }
                     ]
                 }
