@@ -734,7 +734,12 @@ class NewAlertNotificaton(Notification):
     required_attr = "alert"
 
     def should_skip(self, user: User, change):
-        if change.alert.obj.link_wide:
+        try:
+            alert = change.alert
+        except Alert.DoesNotExist:
+            # Alert was removed meanwhile
+            return False
+        if alert.obj.link_wide:
             # Notify for main component
             if not change.component.linked_component:
                 return False
@@ -750,7 +755,7 @@ class NewAlertNotificaton(Notification):
                     )
                 )
             )
-        if change.alert.obj.project_wide:
+        if alert.obj.project_wide:
             first_component = change.component.project.component_set.order_by("id")[0]
             # Notify for the first component
             if change.component.id == first_component.id:
