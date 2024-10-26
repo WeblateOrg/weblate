@@ -81,7 +81,7 @@ def generate_credits(
         base.filter(language__in=languages, **kwargs)
         .authors_list(
             (start_date, end_date),
-            values_list=( "author__username","language__name"),
+            values_list=("author__username","language__name"),
         )
         .order_by("language__name", "-change_count")
     ):
