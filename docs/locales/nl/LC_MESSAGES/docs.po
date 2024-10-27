@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-26 18:18+0000\n"
+"PO-Revision-Date: 2024-10-27 18:47+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -9921,21 +9921,26 @@ msgstr ""
 
 #: ../../admin/config.rst:1752
 msgid "Turn this off if you want to different translations for each variant."
-msgstr ""
+msgstr "Schakel dit uit als u verschillende vertalingen voor elke variant wilt."
 
 #: ../../admin/config.rst:1757
 msgid "SITE_DOMAIN"
-msgstr ""
+msgstr "SITE_DOMAIN"
 
 #: ../../admin/config.rst:1759
 msgid ""
 "Configures site domain. Necessary to produce correct absolute links in many "
 "scopes (for example activation e-mails, notifications or RSS feeds)."
 msgstr ""
+"Configureert het domein voor de site. Noodzakelijk om juiste absolute "
+"koppelingen voor vele bereiken te produceren (bijvoorbeeld e-mails voor "
+"activeren, notificaties of RSS-feeds)."
 
 #: ../../admin/config.rst:1762
 msgid "If Weblate is running on a non-standard port, include it here as well."
 msgstr ""
+"Als Weblate wordt uitgevoerd op een niet standaard poort, neem dat hier dan "
+"ook op."
 
 #: ../../admin/config.rst:1776
 msgid ""
@@ -9943,44 +9948,56 @@ msgid ""
 "(turning on and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for "
 "changing the URL, use :setting:`URL_PREFIX`."
 msgstr ""
+"Deze instelling zou alleen de naam van het domein moeten bevatten. Voor "
+"configureren van het protocol (inschakelen en afdwingen van HTTPS), gebruik "
+":setting:`ENABLE_HTTPS` en voor het wijzigen van de URL, gebruik "
+":setting:`URL_PREFIX`."
 
 #: ../../admin/config.rst:1782
 msgid ""
 "On a Docker container, the site domain is configured through :envvar:"
 "`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
+"In een Docker container wordt het domein voor de site geconfigureerd door "
+":envvar:`WEBLATE_ALLOWED_HOSTS`."
 
 #: ../../admin/config.rst:1787
 msgid ""
 ":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
+":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` "
+":envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
 #: ../../admin/config.rst:1796
 msgid "SITE_TITLE"
-msgstr ""
+msgstr "SITE_TITLE"
 
 #: ../../admin/config.rst:1798
 msgid "Site title to be used for the website and sent e-mails."
 msgstr ""
+"Titel voor de site die moet worden gebruikt voor de website en het verzenden "
+"van e-mails."
 
 #: ../../admin/config.rst:1803
 msgid "SPECIAL_CHARS"
-msgstr ""
+msgstr "SPECIAL_CHARS"
 
 #: ../../admin/config.rst:1805
 msgid ""
 "Additional characters to include in the visual keyboard, :ref:`visual-"
 "keyboard`."
 msgstr ""
+"Aanvullende tekens om op te nemen in het visuele toetsenbord, :ref:`visual-"
+"keyboard`."
 
 #: ../../admin/config.rst:1807
 msgid "The default value is:"
-msgstr ""
+msgstr "De standaard waarde is:"
 
 #: ../../admin/config.rst:1816
 msgid "SINGLE_PROJECT"
-msgstr ""
+msgstr "SINGLE_PROJECT"
 
 #: ../../admin/config.rst:1818
 msgid ""
@@ -9989,16 +10006,24 @@ msgid ""
 "actually only single project in Weblate. Alternatively, set the project "
 "slug, and it will redirect unconditionally to this project."
 msgstr ""
+"Verwijst gebruikers direct naar een project of onderdeel in plaats van het "
+"dashboard weer te geven. U kunt het instellen op ``True`` zodat het werkt "
+"alsof er in feite, maar slechts een project in Weblate staat. Als "
+"alternatief, stel de slug voor het project in en het zal u onvoorwaardelijk "
+"naar dat project verwijzen."
 
 #: ../../admin/config.rst:1832
 msgid "SSH_EXTRA_ARGS"
-msgstr ""
+msgstr "SSH_EXTRA_ARGS"
 
 #: ../../admin/config.rst:1836
 msgid ""
 "Allows adding custom parameters when Weblate is invoking SSH. Useful when "
 "connecting to servers using legacy encryption or other non-standard features."
 msgstr ""
+"Staat het toevoegen van aanvullende parameters toe als Weblate SSH uitvoert. "
+"Nuttig bij het verbinden met servers die verouderde versleuteling of andere "
+"niet standaard mogelijkheden gebruiken."
 
 #: ../../admin/config.rst:1839
 msgid ""
@@ -10006,67 +10031,82 @@ msgid ""
 "with legacyhost: no matching key exchange method found. Their offer: diffie-"
 "hellman-group1-sha1`, you can turn that on using:"
 msgstr ""
+"Als bijvoorbeeld de verbinding van SSH in Weblate mislukt met `Unable to "
+"negotiate with legacyhost: no matching key exchange method found. Their "
+"offer: diffie-hellman-group1-sha1`, kunt u dat uitschakelen met:"
 
 #: ../../admin/config.rst:1848
 msgid ""
 "The string is evaluated by the shell, so ensure any whitespace and special "
 "characters is quoted."
 msgstr ""
+"De tekenreeks wordt geëvalueerd door de shell, zorg er dus voor dat, indien "
+"aanwezig, witruimte en speciale tekens tussen aanhalingstekens staan."
 
 #: ../../admin/config.rst:1853
 msgid "`OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_"
-msgstr ""
+msgstr "`OpenSSH verouderde opties <https://www.openssh.com/legacy.html>`_"
 
 #: ../../admin/config.rst:1858
 msgid "STATUS_URL"
-msgstr ""
+msgstr "STATUS_URL"
 
 #: ../../admin/config.rst:1860
 msgid "The URL where your Weblate instance reports its status."
-msgstr ""
+msgstr "De URL waar uw instantie van Weblate zijn status rapporteert."
 
 #: ../../admin/config.rst:1865
 msgid "SUGGESTION_CLEANUP_DAYS"
-msgstr ""
+msgstr "SUGGESTION_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:1867
 msgid ""
 "Automatically deletes suggestions after a given number of days. Defaults to "
 "``None``, meaning no deletions."
 msgstr ""
+"Verwijdert automatisch suggesties na een bepaald aantal dagen. Standaard "
+"``None``, wat betekent dat er niets verwijderd wordt."
 
 #: ../../admin/config.rst:1873
 msgid "SUPPORT_STATUS_CHECK"
-msgstr ""
+msgstr "SUPPORT_STATUS_CHECK"
 
 #: ../../admin/config.rst:1877
 msgid ""
 "Disables semiannual support status check and redirecting superusers upon "
 "login to the donation page in case there is no active support subscription."
 msgstr ""
+"Schakelt de halfjaarlijkse controle voor ondersteuning uit en verwijst "
+"superusers bij het inloggen naar de donatiepagina in het geval er geen "
+"actief abonnement voor ondersteuning is."
 
 #: ../../admin/config.rst:1882
 msgid ""
 "Improve your Weblate experience by purchasing a support subscription and "
 "boosting Weblate progress instead of turning this off."
 msgstr ""
+"Verbeter uw ervaring met Weblate door een onderhoudsabonnement te kopen en "
+"de voortgang van Weblate een boost te geven in plaats van dit uit te "
+"schakelen."
 
 #: ../../admin/config.rst:1887
 msgid "UNUSED_ALERT_DAYS"
-msgstr ""
+msgstr "UNUSED_ALERT_DAYS"
 
 #: ../../admin/config.rst:1891
 msgid ""
 "Configures when the :guilabel:`Component seems unused` alert is triggered."
 msgstr ""
+"Configureert wanneer het alarm :guilabel:`Onderdeel lijkt niet gebruikt` "
+"wordt geactiveerd."
 
 #: ../../admin/config.rst:1893
 msgid "Defaults to 365 days, set to 0 to turn it off."
-msgstr ""
+msgstr "Standaard is 365 dagen, stel het in op 0 om het uit te schakelen."
 
 #: ../../admin/config.rst:1898
 msgid "UPDATE_LANGUAGES"
-msgstr ""
+msgstr "UPDATE_LANGUAGES"
 
 #: ../../admin/config.rst:1902
 msgid ""
@@ -10074,6 +10114,9 @@ msgid ""
 "migration and is on by default. This setting has no effect on invocation of :"
 "wladmin:`setuplang`."
 msgstr ""
+"Beheert of de database met talen zou moeten worden bijgewerkt bij het "
+"uitvoeren van een migratie van de database en staat standaard aan. Deze "
+"instelling heeft geen effect op het aanroepen van :wladmin:`setuplang`."
 
 #: ../../admin/config.rst:1908
 msgid ""
@@ -10081,6 +10124,9 @@ msgid ""
 "definitions expand over time and it will not display language code for the "
 "defined languages."
 msgstr ""
+"De weergave van de talen zou hiermee inconsistent kunnen worden. "
+"Taaldefinities van Weblate breiden zich in de tijd uit en het zal de "
+"taalcode voor de gedefinieerde talen niet weergeven."
 
 #: ../../admin/config.rst:1914
 msgid ":ref:`included-languages`"
@@ -10088,13 +10134,16 @@ msgstr ":ref:`included-languages`"
 
 #: ../../admin/config.rst:1919
 msgid "URL_PREFIX"
-msgstr ""
+msgstr "URL_PREFIX"
 
 #: ../../admin/config.rst:1921
 msgid ""
 "This setting allows you to run Weblate under some path (otherwise it relies "
 "on being run from the webserver root)."
 msgstr ""
+"Deze instelling stelt u in staat Weblate uit te voeren op een bepaald pad ("
+"anders dan dat het erop vertrouwd te worden uitgevoerd vanuit de bron van de "
+"webserver)."
 
 #: ../../admin/config.rst:1926
 msgid ""
@@ -10102,20 +10151,25 @@ msgid ""
 "prefix. For example with WSGI, this can be achieved by setting "
 "``WSGIScriptAlias``."
 msgstr ""
+"U moet, om deze instelling te kunnen gebruiken, ook uw server configureren "
+"om dit voorvoegsel weg te halen. Bijvoorbeeld met WSGI kan dat worden "
+"bereikt door ``WSGIScriptAlias`` in te stellen."
 
 #: ../../admin/config.rst:1931
 msgid "The prefix should start with a ``/``."
-msgstr ""
+msgstr "Het voorvoegsel zou moeten beginnen met een ``/``."
 
 #: ../../admin/config.rst:1941
 msgid ""
 "This setting does not work with Django's built-in server, you would have to "
 "adjust :file:`urls.py` to contain this prefix."
 msgstr ""
+"Deze instelling werkt niet met de ingebouwde server van Django, u zou "
+":file:`urls.py` moeten aanpassen om dit voorvoegsel daarin op te nemen."
 
 #: ../../admin/config.rst:1947
 msgid "VCS_API_DELAY"
-msgstr ""
+msgstr "VCS_API_DELAY"
 
 #: ../../admin/config.rst:1951
 msgid ""
@@ -10123,38 +10177,49 @@ msgid ""
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and :"
 "ref:`vcs-azure-devops`."
 msgstr ""
+"Configureert de minimale vertraging in seconden tussen aanroepen van derde "
+"partijen API in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref"
+":`vcs-pagure` en :ref:`vcs-azure-devops`."
 
 #: ../../admin/config.rst:1955
 msgid ""
 "This rate-limits API calls from Weblate to these services to avoid "
 "overloading them."
 msgstr ""
+"Deze limiet vertraagt aanroepen naar de API vanuit Weblate naar deze "
+"services om het ovebelasten ervan te voorkomen."
 
 #: ../../admin/config.rst:1957
 msgid ""
 "If you are being limited by secondary rate-limiter at GitHub, increasing "
 "this might help."
 msgstr ""
+"Als u wordt beperkt door een tweede limiet op GitHub, zou het verhogen "
+"hiervan kunnen helpen."
 
 #: ../../admin/config.rst:1959
 msgid "The default value is 10."
-msgstr ""
+msgstr "De standaard waarde is 10."
 
 #: ../../admin/config.rst:1964
 msgid "VCS_BACKENDS"
-msgstr ""
+msgstr "VCS_BACKENDS"
 
 #: ../../admin/config.rst:1966
 msgid "Configuration of available VCS backends."
-msgstr ""
+msgstr "Configuratie van beschikbare backends voor VCS (versiebeheersystemen)."
 
 #: ../../admin/config.rst:1970
 msgid "Weblate tries to use all supported back-ends you have the tools for."
 msgstr ""
+"Weblate probeert alle ondersteunde backends te gebruiken waar u de "
+"gereedschappen voor heeft."
 
 #: ../../admin/config.rst:1974
 msgid "You can limit choices or add custom VCS back-ends by using this."
 msgstr ""
+"U kunt keuzes beperken of aangepaste backends voor VCS toevoegen door dit te "
+"gebruiken."
 
 #: ../../admin/config.rst:1982 ../../faq.rst:517
 msgid ":ref:`vcs`"
@@ -10162,11 +10227,11 @@ msgstr ":ref:`vcs`"
 
 #: ../../admin/config.rst:1987
 msgid "VCS_CLONE_DEPTH"
-msgstr ""
+msgstr "VCS_CLONE_DEPTH"
 
 #: ../../admin/config.rst:1989
 msgid "Configures how deep cloning of repositories Weblate should do."
-msgstr ""
+msgstr "Configureert hoe diep Weblate klonen van opslagruimten zou moeten doen."
 
 #: ../../admin/config.rst:1993
 msgid ""
@@ -10176,6 +10241,12 @@ msgid ""
 "`addons`), you might want to increase the depth or turn off shallow clones "
 "completely by setting this to 0."
 msgstr ""
+"Momenteel wordt dit alleen ondersteund in :ref:`vcs-git`. Standaard voert "
+"Weblate oppervlakkig klonen uit op opslagruimten om het klonen sneller te "
+"maken en schijfruimte te besparen. Afhankelijk van uw gebruik (bijvoorbeeld "
+"bij het gebruiken van aangepaste :ref:`addons`), zou u de diepte willen "
+"verhogen of het oppervlakkig klonen helemaal uitschakelen door die in te "
+"stellen op 0."
 
 #: ../../admin/config.rst:2000
 msgid ""
@@ -10183,10 +10254,13 @@ msgid ""
 "<commit hash>'`` error when pushing from Weblate, turn off shallow clones "
 "completely by setting:"
 msgstr ""
+"In het geval u een fout ``fatal: protocol error: expected old/new/ref, got "
+"'shallow <commit hash>'`` krijgt bij het pushen vanuit Weblate, schakel dan "
+"oppervlakkig klonen helemaal uit door in te stellen:"
 
 #: ../../admin/config.rst:2010
 msgid "WEBLATE_ADDONS"
-msgstr ""
+msgstr "WEBLATE_ADDONS"
 
 #: ../../admin/config.rst:2012
 msgid ""
@@ -10195,6 +10269,10 @@ msgid ""
 "ons, when extending the list you will probably want to keep existing ones "
 "enabled, for example:"
 msgstr ""
+"Lijst met te gebruiken beschikbare add-ons. Zij moeten, om te kunnen worden "
+"gebruikt, zijn ingeschakeld voor een bepaald vertaalonderdeel. Standaard "
+"omvat dit alle ingebouwde add-ons, bij het uitbreiden van de lijst zou u "
+"waarschijnlijk de bestaande ingeschakeld willen laten, bijvoorbeeld:"
 
 #: ../../admin/config.rst:2052
 msgid ""
@@ -10202,31 +10280,40 @@ msgid ""
 "Weblate will crash in that case. Please uninstall the add-on from all "
 "components prior to removing it from this list."
 msgstr ""
+"Verwijderen van de add-on uit de lijst deinstalleert het niet uit de "
+"onderdelen. Weblate zal in dat geval crashen. Deinstalleer de add-on uit "
+"alle onderdelen voordat u hem uit deze lijst verwijdert."
 
 #: ../../admin/config.rst:2058
 msgid ""
 ":ref:`addons`, :setting:`DEFAULT_ADDONS`, :setting:"
 "`ADDON_ACTIVITY_LOG_EXPIRY`"
 msgstr ""
+":ref:`addons`, :setting:`DEFAULT_ADDONS`, "
+":setting:`ADDON_ACTIVITY_LOG_EXPIRY`"
 
 #: ../../admin/config.rst:2065
 msgid "ADDON_ACTIVITY_LOG_EXPIRY"
-msgstr ""
+msgstr "ADDON_ACTIVITY_LOG_EXPIRY"
 
 #: ../../admin/config.rst:2069
 msgid ""
 "Configures how long activity logs for add-ons are kept. Defaults to 180 days."
 msgstr ""
+"Configureert hoe lang activiteitenlogs voor add-ons worden behouden. "
+"Standaard is 180 dagen."
 
 #: ../../admin/config.rst:2074
 msgid "WEBLATE_EXPORTERS"
-msgstr ""
+msgstr "WEBLATE_EXPORTERS"
 
 #: ../../admin/config.rst:2078
 msgid ""
 "List of a available exporters offering downloading translations or "
 "glossaries in various file formats."
 msgstr ""
+"Lijst met beschikbare exporteerders die het downloaden van vertalingen of "
+"woordenlijsten in verscheidene indelingen aanbieden."
 
 #: ../../admin/config.rst:2083 ../../admin/config.rst:2098
 msgid ":ref:`formats`"
@@ -10234,23 +10321,23 @@ msgstr ":ref:`formats`"
 
 #: ../../admin/config.rst:2088
 msgid "WEBLATE_FORMATS"
-msgstr ""
+msgstr "WEBLATE_FORMATS"
 
 #: ../../admin/config.rst:2090
 msgid "List of file formats available for use."
-msgstr ""
+msgstr "Lijst van te gebruiken beschikbare bestandsindelingen."
 
 #: ../../admin/config.rst:2094
 msgid "The default list already has the common formats."
-msgstr ""
+msgstr "De standaard lijst bevat al de veel voorkomende indelingen."
 
 #: ../../admin/config.rst:2104
 msgid "WEBLATE_MACHINERY"
-msgstr ""
+msgstr "WEBLATE_MACHINERY"
 
 #: ../../admin/config.rst:2108
 msgid "List of machinery services available for use."
-msgstr ""
+msgstr "Lijst met te gebruiken beschikbare services voor machinevertaling."
 
 #: ../../admin/config.rst:2112
 msgid ":doc:`/admin/machine`"
@@ -10258,11 +10345,13 @@ msgstr ":doc:`/admin/machine`"
 
 #: ../../admin/config.rst:2117
 msgid "WEBLATE_GPG_IDENTITY"
-msgstr ""
+msgstr "WEBLATE_GPG_IDENTITY"
 
 #: ../../admin/config.rst:2119
 msgid "Identity used by Weblate to sign Git commits, for example:"
 msgstr ""
+"Identiteit die door Weblate wordt gebruikt om indieningen van Git te "
+"ondertekenen, bijvoorbeeld:"
 
 #: ../../admin/config.rst:2125
 msgid ""
@@ -10270,6 +10359,10 @@ msgid ""
 "under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
 "ref:`gpg-sign` for more details."
 msgstr ""
+"In de GPG-sleutelring van Weblate wordt gezocht naar een overeenkomende "
+"sleutel (:file:`home/.gnupg` onder :setting:`DATA_DIR`). Indien niet "
+"gevonden wordt een sleutel gemaakt, controleer :ref:`gpg-sign` voor meer "
+"details."
 
 #: ../../admin/config.rst:2131 ../../admin/install/docker.rst:827
 msgid ":ref:`gpg-sign`"
@@ -10277,13 +10370,16 @@ msgstr ":ref:`gpg-sign`"
 
 #: ../../admin/config.rst:2136
 msgid "WEBSITE_REQUIRED"
-msgstr ""
+msgstr "WEBSITE_REQUIRED"
 
 #: ../../admin/config.rst:2138
 msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. On by default, as that suits public server setups."
 msgstr ""
+"Definieert of :ref:`project-web` moet zijn gespecificeerd bij het maken van "
+"een project. Standaard ingeschakeld, omdat dat gewenst is bij het instellen "
+"van publieke servers."
 
 #: ../../admin/config.rst:2145
 msgid "Configuring version control credentials"
@@ -10296,6 +10392,10 @@ msgid ""
 "`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+"Dit gedeelte beschrijft variabelen voor inloggegevens voor VCS, zoals "
+":setting:`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`, "
+":setting:`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/config.rst:2158
 msgid ""
@@ -10303,10 +10403,14 @@ msgid ""
 "`component-repo` (if push URL is not configured), these take precedence over "
 "the ones specified in the configuration file."
 msgstr ""
+"De inloggegevens kunnen worden overschreven in :ref:`component-push` of :ref"
+":`component-repo` (als de URL voor pushen niet is geconfigureerd), deze "
+"hebben voorrang boven die welke zijn gespecificeerd in het "
+"configuratiebestand."
 
 #: ../../admin/config.rst:2165
 msgid "API user, required."
-msgstr ""
+msgstr "API-gebruiker, vereist."
 
 #: ../../admin/config.rst:2168
 msgid "``scheme``"
@@ -10318,12 +10422,18 @@ msgid ""
 "and falls backs to ``https``. If you are running the API server internally, "
 "you might want to use ``http`` instead, but consider security."
 msgstr ""
+"Schema overschrijven. Weblate probeert schema te parsen vanuit de URL van de "
+"opslagruimte en valt terug op ``https``. Als u de server voor API intern "
+"uitvoert, zou u misschien in plaats daarvan ``http`` willen gebruiken, maar "
+"denk aan de beveiliging."
 
 #: ../../admin/config.rst:2177
 msgid ""
 "In the Docker container, the credentials can be configured using environment "
 "variables, see :ref:`docker-vcs-config`."
 msgstr ""
+"In de Docker container kunnen de inloggegevens worden geconfigureerd met "
+"omgevingsvariabelen, bekijk :ref:`docker-vcs-config`."
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -10335,20 +10445,28 @@ msgid ""
 "development. This way translators can work on translations the entire time, "
 "instead of working through huge amount of new text just prior to release."
 msgstr ""
+"Er is een dusdanige infrastructuur dat uw vertaling de ontwikkelingen op de "
+"voet volgt. Op deze manier kunnen vertalers normaal doorwerken aan de "
+"vertalingen, in plaats van eerst een grote hoeveelheid nieuwe tekst te "
+"moeten verwerken, net voorafgaande aan een nieuwe uitgave."
 
 #: ../../admin/continuous.rst:12
 msgid ""
 ":doc:`/devel/integration` describes basic ways to integrate your development "
 "with Weblate."
 msgstr ""
+":doc:`/devel/integration` beschrijft de basismanieren om uw ontwikkeling met "
+"Weblate te integreren."
 
 #: ../../admin/continuous.rst:15
 msgid "This is the process:"
-msgstr ""
+msgstr "Dit is het proces:"
 
 #: ../../admin/continuous.rst:17
 msgid "Developers make changes and push them to the VCS repository."
 msgstr ""
+"Ontwikkelaars maken wijzigingen en pushen die naar de opslagruimte van het "
+"VCS."
 
 #: ../../admin/continuous.rst:18
 msgid ""
@@ -10362,12 +10480,16 @@ msgid ""
 "Weblate pulls changes from the VCS repository, parses translation files and "
 "updates its database, see :ref:`update-vcs`."
 msgstr ""
+"Weblate haalt wijzigingen op uit de opslagruimte van het VCS, parset "
+"vertaalbestanden en werkt zijn database bij, bekijk :ref:`update-vcs`."
 
 #: ../../admin/continuous.rst:20
 msgid ""
 "Translators submit translations using the Weblate web interface, or upload "
 "offline changes."
 msgstr ""
+"Vertalers dienen vertalingen in met de webinterface van Weblate, of uploaden "
+"wijzigingen die offline gemaakt zijn."
 
 #: ../../admin/continuous.rst:21
 msgid ""
@@ -10389,21 +10511,27 @@ msgid ""
 "Upstream code hosting is not necessary, you can use Weblate with :ref:`vcs-"
 "local` where there is only the repository inside Weblate."
 msgstr ""
+"Upstream hosten van de code is niet noodzakelijk, u kunt Weblate gebruiken "
+"met :ref:`vcs-local` waarbij de enige opslagruimte binnen Weblate ligt."
 
 #: ../../admin/continuous.rst:79
 msgid "Updating repositories"
-msgstr ""
+msgstr "Bijwerken van opslagruimten"
 
 #: ../../admin/continuous.rst:81
 msgid ""
 "You should set up some way of updating backend repositories from their "
 "source."
 msgstr ""
+"U zou enige wijze van bijwerken van opslagruimten van de backends vanuit hun "
+"bron moeten instellen."
 
 #: ../../admin/continuous.rst:84
 msgid ""
 "Use :ref:`hooks` to integrate with most of common code hosting services:"
 msgstr ""
+"Gebruik :ref:`hooks` om te integreren met de meest gebruikte services voor "
+"het hosten van code:"
 
 #: ../../admin/continuous.rst:86 ../../api.rst:2754
 msgid ":ref:`github-setup`"
@@ -10439,28 +10567,36 @@ msgid ""
 "Manually trigger update either in the repository management or using :ref:"
 "`api` or :ref:`wlc`"
 msgstr ""
+"Activeer het bijwerken handmatig, ofwel in het beheer van de opslagruimte of "
+"met :ref:`api` of :ref:`wlc`"
 
 #: ../../admin/continuous.rst:97
 msgid ""
 "Enable :setting:`AUTO_UPDATE` to automatically update all components on your "
 "Weblate instance"
 msgstr ""
+"Schakel :setting:`AUTO_UPDATE` in om automatisch alle onderdelen van uw "
+"instantie van Weblate bij te werken"
 
 #: ../../admin/continuous.rst:99
 msgid ""
 "Execute :wladmin:`updategit` (with selection of project or ``--all`` to "
 "update all)"
 msgstr ""
+"Voer :wladmin:`updategit` uit (met selectie van het project of met ``--all`` "
+"om alles bij te werken)"
 
 #: ../../admin/continuous.rst:101
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
 msgstr ""
+"Iedere keer wanneer Weblate de opslagruimte bijwerkt, worden de add-ons voor "
+"na het bijwerken geactiveerd, bekijk :ref:`addons`."
 
 #: ../../admin/continuous.rst:107
 msgid "Avoiding merge conflicts"
-msgstr ""
+msgstr "Conflicten met samenvoegen vermijden"
 
 #: ../../admin/continuous.rst:109
 msgid ""
@@ -10469,6 +10605,11 @@ msgid ""
 "edits outside Weblate or integrate Weblate into your updating process, so "
 "that it flushes changes prior to updating the files outside Weblate."
 msgstr ""
+"De conflicten met samenvoegen in Weblate treden op als hetzelfde bestand "
+"werd gewijzigd, zowel in Weblate als daarbuiten. Er zijn twee benaderingen "
+"om ze af te handelen - vermijd bewerken buiten Weblate of integreer Weblate "
+"in uw proces voor bijwerken, zodat het wijzigingen verwijdert voorafgaande "
+"aan het bijwerken van de bestanden buiten Weblate."
 
 #: ../../admin/continuous.rst:114
 msgid ""
@@ -10482,6 +10623,17 @@ msgid ""
 "program:`msgmerge`). You can perform the second step within Weblate and it "
 "will ensure that all pending changes are included prior to this operation."
 msgstr ""
+"De eerste benadering is gemakkelijk met eentalige bestanden — u kunt nieuwe "
+"tekenreeksen in Weblate toevoegen en het hele bewerken van de bestanden daar "
+"laten. Voor tweetalige bestanden is gewoonlijk een bepaald proces voor het "
+"uitnemen van eenheden nodig om vertaalbare bestanden te kunnen genereren "
+"vanuit de broncode. In sommige gevallen kan dit worden opgedeeld in twee "
+"delen - een waarbij het uitnemen een sjabloon genereert (bijvoorbeeld "
+"gettext POT wordt gegenereerd met :program:`xgettext`) en het verdere proces "
+"voegt dat samen met de feitelijke vertalingen (de gettext PO-bestanden "
+"worden bijgewerkt met :program:`msgmerge`). U kunt de tweede stap uitvoeren "
+"binnen Weblate en het zal ervoor zorgen dat alle openstaande wijzigingen "
+"worden opgenomen, voorafgaande aan deze bewerking."
 
 #: ../../admin/continuous.rst:124
 msgid ""
@@ -10489,16 +10641,22 @@ msgid ""
 "push all pending changes and lock the translation while you are doing "
 "changes on your side."
 msgstr ""
+"De tweede benadering kan worden bereikt door :ref:`api` te gebruiken om "
+"Weblate te forceren om alle openstaande wijzigingen te pushen en de "
+"vertaling te vergrendelen, terwijl u wijzigingen uitvoert aan uw kant."
 
 #: ../../admin/continuous.rst:128
 msgid "The script for doing updates can look like this:"
 msgstr ""
+"Het script voor het uitvoeren van bijwerkingen kan er uitzien zoals dit:"
 
 #: ../../admin/continuous.rst:149
 msgid ""
 "If you have multiple components sharing same repository, you need to lock "
 "them all separately:"
 msgstr ""
+"Als u meerdere onderdelen hebt die dezelfde opslagruimte delen, moet u ze "
+"allemaal afzonderlijk vergrendelen:"
 
 #: ../../admin/continuous.rst:160
 msgid ""
@@ -10506,10 +10664,15 @@ msgid ""
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of wlc, e.g. curl, see :ref:`api`."
 msgstr ""
+"De voorbeelden gebruiken :ref:`wlc`, wat configuratie nodig heeft (API-"
+"sleutels) om in staat te zijn om Weblate op afstand te beheren. U kunt dit "
+"ook bereiken met elke HTTP-cliënt in plaats van met wlc, bijv. curl, bekijk "
+":ref:`api`."
 
 #: ../../admin/continuous.rst:165
 msgid "Avoiding merge conflicts on Weblate originated changes"
 msgstr ""
+"Conflicten met samenvoegen vermijden voor uit Weblate afkomstige wijzigingen"
 
 #: ../../admin/continuous.rst:167
 msgid ""
@@ -10519,6 +10682,11 @@ msgid ""
 "are squashing commits outside of Weblate (for example when merging a pull "
 "request)."
 msgstr ""
+"Zelfs wanneer Weblate de enige bron is van de wijzigingen in de "
+"vertaalbestanden, kunnen conflicten optreden bij het gebruiken van de add-on "
+":ref:`addon-weblate.git.squash`, :ref:`component-merge_style` is "
+"geconfigureerd voor :guilabel:`Rebase`, of wanneer u commits bij elkaar "
+"voegt buiten Weblate (bijvoorbeeld bij het samenvoegen van een pull request)."
 
 #: ../../admin/continuous.rst:172
 msgid ""
@@ -10528,6 +10696,13 @@ msgid ""
 "to review them. Git is then sometimes no longer able to identify upstream "
 "changes as matching the Weblate ones and refuses to perform a rebase."
 msgstr ""
+"De reden voor conflicten met samenvoegen is in dit geval anders - er zijn "
+"wijzigingen in Weblate die gebeurden nadat u commits van Weblate hebt "
+"samengevoegd. Dit gebeurt gewoonlijk als het samenvoegen niet is "
+"geautomatiseerd en een paar dagen of weken wacht totdat iemand ze heeft "
+"nagekeken. Git is dan soms niet langer in staat om wijzigingen upstream te "
+"identificeren als overeenkomend met die van Weblate en weigert een rebase "
+"uit te voeren."
 
 #: ../../admin/continuous.rst:178
 msgid ""
@@ -10535,34 +10710,47 @@ msgid ""
 "Weblate when you merge a pull request, or avoid the conflicts completely by "
 "not squashing changes."
 msgstr ""
+"U moet, om dit te verhelpen, de hoeveelheid openstaande wijzigingen in "
+"Weblate minimaliseren als u een pull request samenvoegt, of de conflicten "
+"volledig vermijden door wijzigingen niet bij elkaar te voegen (squashen)."
 
 #: ../../admin/continuous.rst:182
 msgid "Here are few options how to avoid that:"
-msgstr ""
+msgstr "Hier zijn enkele opties om dat te vermijden:"
 
 #: ../../admin/continuous.rst:184
 msgid ""
 "Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge "
 "time. This is the root cause why git doesn't recognize changes after merging."
 msgstr ""
+"Gebruik :ref:`addon-weblate.git.squash`, noch squashen bij het samenvoegen. "
+"Dat is de bron van de oorzaak waarom Git de wijzigingen na het samenvoegen "
+"niet meer herkent."
 
 #: ../../admin/continuous.rst:185
 msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes and both repositories will be in sync."
 msgstr ""
+"Laat Weblate openstaande wijzigingen indienen voor het samenvoegen. Dat zal "
+"het pull request bijwerken met al zijn wijzigingen en beide opslagruimten "
+"zullen gesynchroniseerd zijn."
 
 #: ../../admin/continuous.rst:186
 msgid ""
 "Use the review features in Weblate (see :doc:`/workflows`), so that you can "
 "automatically merge GitHub pull requests after CI passes."
 msgstr ""
+"Gebruik de mogelijkheden voor nakijken in Weblate (bekijk :doc:`/workflows`)"
+", zodat u automatisch GitHub pull requesten kunt samenvoegen nadat CI slaagt."
 
 #: ../../admin/continuous.rst:187
 msgid ""
 "Use locking in Weblate to avoid changes while GitHub pull request is in "
 "review."
 msgstr ""
+"Gebruik vergrendelen in Weblate om wijzigingen te vermijden, terwijl het "
+"GitHub pull request wordt nagekeken."
 
 #: ../../admin/continuous.rst:191
 msgid ":ref:`wlc`"
@@ -10570,11 +10758,11 @@ msgstr ":ref:`wlc`"
 
 #: ../../admin/continuous.rst:196
 msgid "Automatically receiving changes from GitHub"
-msgstr ""
+msgstr "Automatisch wijzigingen van GitHub ontvangen"
 
 #: ../../admin/continuous.rst:198
 msgid "Weblate comes with native support for GitHub."
-msgstr ""
+msgstr "Weblate heeft eigen ondersteuning voor GitHub."
 
 #: ../../admin/continuous.rst:200
 msgid ""
@@ -10583,6 +10771,10 @@ msgid ""
 "correct setup without having to set much up. It can also be used for pushing "
 "changes back."
 msgstr ""
+"Als u Hosted Weblate gebruikt is de aanbevolen benadering om de `Weblate app "
+"<https://github.com/apps/weblate>`_ te installeren, op die manier zult u de "
+"juiste instellingen verkrijgen zonder te veel te hoeven in te stellen. Het "
+"kan ook worden gebruikt voor het terugpushen van wijzigingen."
 
 #: ../../admin/continuous.rst:205
 msgid ""
@@ -10590,6 +10782,10 @@ msgid ""
 "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as shown "
 "on the image below:"
 msgstr ""
+"Voeg, voor het ontvangen van notificaties voor elke push naar een "
+"opslagruimte van GitHub, de Weblate Webhook toe in de instellingen voor de "
+"opslagruimte (:guilabel:`Webhooks`) zoals weergegeven in de afbeelding "
+"hieronder:"
 
 #: ../../admin/continuous.rst:211
 msgid ""
@@ -10597,20 +10793,25 @@ msgid ""
 "example for the Hosted Weblate service, this is ``https://hosted.weblate.org/"
 "hooks/github/``."
 msgstr ""
+"Voor de URL met de lading, voeg ``/hooks/github/`` toe aan uw URL voor "
+"Weblate, voor de service Hosted Weblate bijvoorbeeld, is dit ``https://hosted"
+".weblate.org/hooks/github/``."
 
 #: ../../admin/continuous.rst:214
 msgid ""
 "You can leave other values at default settings (Weblate can handle both "
 "content types and consumes just the `push` event)."
 msgstr ""
+"U kunt de andere waarden laten staan op de standaard instellingen (Weblate "
+"kan beide typen inhoud afhandelen en gebruikt alleen de gebeurtenis `push`)."
 
 #: ../../admin/continuous.rst:219
 msgid ":http:post:`/hooks/github/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/github/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:224
 msgid "Automatically receiving changes from Bitbucket"
-msgstr ""
+msgstr "Automatisch wijzigingen van Bitbucket ontvangen"
 
 #: ../../admin/continuous.rst:226
 msgid ""
@@ -10619,14 +10820,18 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
+"Weblate heeft ondersteuning voor webhooks van Bitbucket, voeg een webhook "
+"toe die wordt geactiveerd bij pushen vanuit de opslagruimte, met als doel de "
+"URL ``/hooks/bitbucket/`` op uw installatie van Weblate (bijvoorbeeld "
+"``https://hosted.weblate.org/hooks/bitbucket/``)."
 
 #: ../../admin/continuous.rst:235
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:240
 msgid "Automatically receiving changes from GitLab"
-msgstr ""
+msgstr "Automatisch wijzigingen van GitLab ontvangen"
 
 #: ../../admin/continuous.rst:242
 msgid ""
@@ -10634,14 +10839,17 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
+"Weblate heeft ondersteuning voor hooks van GitLab, voeg een webhook voor het "
+"project toe met als doel de URL ``/hooks/gitlab/`` op uw installatie van "
+"Weblate (bijvoorbeeld ``https://hosted.weblate.org/hooks/gitlab/``)."
 
 #: ../../admin/continuous.rst:248
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:253
 msgid "Automatically receiving changes from Pagure"
-msgstr ""
+msgstr "Automatisch wijzigingen van Pagure ontvangen"
 
 #: ../../admin/continuous.rst:255
 msgid ""
@@ -10650,14 +10858,18 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
+"Weblate heeft ondersteuning voor hooks van Pagure, voeg een webhook toe met "
+"als doel de URL ``/hooks/pagure/`` op uw installatie van Weblate ("
+"bijvoorbeeld ``https://hosted.weblate.org/hooks/pagure/``). Dit kan worden "
+"gedaan in :guilabel:`Activate Web-hooks` onder :guilabel:`Project options`:"
 
 #: ../../admin/continuous.rst:264
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:269
 msgid "Automatically receiving changes from Azure Repos"
-msgstr ""
+msgstr "Automatisch wijzigingen van Azure Repos ontvangen"
 
 #: ../../admin/continuous.rst:271
 msgid ""
@@ -10667,6 +10879,11 @@ msgid ""
 "``). This can be done in :guilabel:`Service hooks` under :guilabel:`Project "
 "settings`."
 msgstr ""
+"Weblate heeft ondersteuning voor webhooks van Azure Repos, voeg een webhook "
+"toe voor de gebeurtenis :guilabel:`Code pushed` met als doel de URL ``/hooks/"
+"azure/`` op uw installatie van Weblate (bijvoorbeeld ``https://hosted.weblate"
+".org/hooks/azure/``). Dit kan worden gedaan in :guilabel:`Service hooks` "
+"onder :guilabel:`Project settings`."
 
 #: ../../admin/continuous.rst:280
 msgid ""
@@ -10674,10 +10891,13 @@ msgid ""
 "devops/service-hooks/services/webhooks?view=azure-devops>`_, :http:post:`/"
 "hooks/azure/`, :ref:`hosted-push`"
 msgstr ""
+"`Webhooks in Azure DevOps handleiding <https://learn.microsoft.com/en-us/"
+"azure/devops/service-hooks/services/webhooks?view=azure-devops>`_, "
+":http:post:`/hooks/azure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:286
 msgid "Automatically receiving changes from Gitea Repos"
-msgstr ""
+msgstr "Automatisch wijzigingen van Gitea Repos ontvangen"
 
 #: ../../admin/continuous.rst:288
 msgid ""
@@ -10687,16 +10907,23 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under repository :"
 "guilabel:`Settings`."
 msgstr ""
+"Weblate heeft ondersteuning voor webhooks van Gitea, voeg een :guilabel:`"
+"Gitea Webhook` toe voor de gebeurtenis :guilabel:`Push events` met als doel "
+"de URL ``/hooks/gitea/`` op uw installatie van Weblate (bijvoorbeeld "
+"``https://hosted.weblate.org/hooks/gitea/``). Dit kan worden gedaan in "
+":guilabel:`Webhooks` onder :guilabel:`Settings` voor de opslagruimte."
 
 #: ../../admin/continuous.rst:295
 msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_, :http:"
 "post:`/hooks/gitea/`, :ref:`hosted-push`"
 msgstr ""
+"`Webhooks in Gitea handleiding <https://docs.gitea.io/en-us/webhooks/>`_, "
+":http:post:`/hooks/gitea/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:301
 msgid "Automatically receiving changes from Gitee Repos"
-msgstr ""
+msgstr "Automatisch wijzigingen van Gitee Repos ontvangen"
 
 #: ../../admin/continuous.rst:303
 msgid ""
@@ -10706,16 +10933,23 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under repository :guilabel:"
 "`Management`."
 msgstr ""
+"Weblate heeft ondersteuning voor webhooks van Gitee, voeg een "
+":guilabel:`WebHook` toe voor de gebeurtenis :guilabel:`Push` met als doel de "
+"URL ``/hooks/gitee/`` op uw installatie van Weblate (bijvoorbeeld "
+"``https://hosted.weblate.org/hooks/gitee/``). Dit kan worden gedaan in "
+":guilabel:`WebHooks` onder :guilabel:`Management` van de opslagruimte."
 
 #: ../../admin/continuous.rst:310
 msgid ""
 "`Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_, :http:"
 "post:`/hooks/gitee/`, :ref:`hosted-push`"
 msgstr ""
+"`Webhooks in Gitee handleiding <https://gitee.com/help/categories/40>`_, "
+":http:post:`/hooks/gitee/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:314
 msgid "Automatically updating repositories nightly"
-msgstr ""
+msgstr "Automatisch opslagruimten 's nachts bijwerken"
 
 #: ../../admin/continuous.rst:316
 msgid ""
@@ -10723,10 +10957,14 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
+"Weblate haalt automatisch 's nachts opslagruimten op afstand op om de "
+"uitvoering te verbeteren bij het later samenvoegen van wijzigingen. U kunt "
+"dit ook inschakelen om 's nachts samenvoegingen te doen, door "
+":setting:`AUTO_UPDATE` in te schakelen."
 
 #: ../../admin/continuous.rst:323
 msgid "Pushing changes from Weblate"
-msgstr ""
+msgstr "Wijzigingen vanuit Weblate pushen"
 
 #: ../../admin/continuous.rst:325
 msgid ""
@@ -10738,12 +10976,22 @@ msgid ""
 "under :guilabel:`Repository maintenance` or using the API via :option:`wlc "
 "push`."
 msgstr ""
+"Elk vertaalonderdeel kan een URL voor pushen ingesteld hebben (bekijk :ref"
+":`component-push`), en in dat geval zal Weblate in staat zijn de wijziging "
+"naar de opslagruimte op afstand te pushen. Weblate kan ook worden "
+"geconfigureerd om automatisch wijzigingen te pushen bij elke indiening "
+"(commit) (dit is standaard, bekijk :ref:`component-push_on_commit`). Als u "
+"niet wilt dat de wijzigingen automatisch worden gepusht, kunt u dat "
+"handmatig doen onder :guilabel:`Onderhoud opslagruimte` of de API gebruiken "
+"via :option:`wlc push`."
 
 #: ../../admin/continuous.rst:332
 msgid ""
 "The push options differ based on the :ref:`vcs` used, more details are found "
 "in that chapter."
 msgstr ""
+"De opties voor pushen verschillen, gebaseerd op het gebruikte :ref:`vcs`, "
+"meer details zijn te vinden in dat hoofdstuk."
 
 #: ../../admin/continuous.rst:334
 msgid ""
@@ -10754,16 +11002,25 @@ msgid ""
 "`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure DevOps`, or :guilabel:`Pagure` "
 "as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
+"Voor het geval dat u geen direct pushen door Weblate wilt, is er "
+"ondersteuning voor pull requests van :ref:`vcs-github`, :ref:`vcs-gitlab`, "
+":ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref:`vcs-azure-devops` of reviews van "
+":ref:`vcs-gerrit`, u kunt deze activeren door te kiezen voor "
+":guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`"
+", :guilabel:`Azure DevOps`, of :guilabel:`Pagure` als :ref:`component-vcs` "
+"in :ref:`component`."
 
 #: ../../admin/continuous.rst:340
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, and Azure DevOps:"
 msgstr ""
+"In het algemeen zijn de volgende opties beschikbaar met Git, Mercurial, "
+"GitHub, GitLab, Gitea, Pagure en Azure DevOps:"
 
 #: ../../admin/continuous.rst:344
 msgid "Desired setup"
-msgstr ""
+msgstr "Gewenste instelling"
 
 #: ../../admin/continuous.rst:344 ../../api.rst:1264
 msgid ":ref:`component-vcs`"
@@ -10779,7 +11036,7 @@ msgstr ":ref:`component-push_branch`"
 
 #: ../../admin/continuous.rst:346 ../../admin/continuous.rst:352
 msgid "No push"
-msgstr ""
+msgstr "Niet pushen"
 
 #: ../../admin/continuous.rst:346 ../../admin/continuous.rst:348
 #: ../../admin/continuous.rst:350
@@ -10792,27 +11049,27 @@ msgstr ":ref:`vcs-git`"
 #: ../../admin/continuous.rst:366 ../../admin/continuous.rst:370
 #: ../../admin/continuous.rst:374
 msgid "`empty`"
-msgstr ""
+msgstr "`leeg`"
 
 #: ../../admin/continuous.rst:348 ../../admin/continuous.rst:354
 msgid "Push directly"
-msgstr ""
+msgstr "Direct pushen"
 
 #: ../../admin/continuous.rst:348 ../../admin/continuous.rst:350
 #: ../../admin/continuous.rst:354 ../../admin/continuous.rst:356
 msgid "SSH URL"
-msgstr ""
+msgstr "SSH URL"
 
 #: ../../admin/continuous.rst:350 ../../admin/continuous.rst:356
 msgid "Push to separate branch"
-msgstr "Push naar afzonderlijke tak"
+msgstr "Pushen naar afzonderlijke tak"
 
 #: ../../admin/continuous.rst:350 ../../admin/continuous.rst:356
 #: ../../admin/continuous.rst:360 ../../admin/continuous.rst:364
 #: ../../admin/continuous.rst:368 ../../admin/continuous.rst:372
 #: ../../admin/continuous.rst:376
 msgid "Branch name"
-msgstr ""
+msgstr "Naam tak"
 
 #: ../../admin/continuous.rst:352 ../../admin/continuous.rst:354
 #: ../../admin/continuous.rst:356 ../../admin/install.rst:241
@@ -10821,7 +11078,7 @@ msgstr ":ref:`vcs-mercurial`"
 
 #: ../../admin/continuous.rst:358
 msgid "GitHub pull request from fork"
-msgstr ""
+msgstr "GitHub pull request vanuit fork"
 
 #: ../../admin/continuous.rst:358 ../../admin/continuous.rst:360
 msgid ":ref:`vcs-github`"
@@ -10829,17 +11086,17 @@ msgstr ":ref:`vcs-github`"
 
 #: ../../admin/continuous.rst:360
 msgid "GitHub pull request from branch"
-msgstr ""
+msgstr "GitHub pull request vanuit tak"
 
 #: ../../admin/continuous.rst:360 ../../admin/continuous.rst:364
 #: ../../admin/continuous.rst:368 ../../admin/continuous.rst:372
 #: ../../admin/continuous.rst:376
 msgid "SSH URL [#empty]_"
-msgstr ""
+msgstr "SSH URL [#empty]_"
 
 #: ../../admin/continuous.rst:362
 msgid "GitLab merge request from fork"
-msgstr ""
+msgstr "GitLab merge request vanuit fork"
 
 #: ../../admin/continuous.rst:362 ../../admin/continuous.rst:364
 msgid ":ref:`vcs-gitlab`"
@@ -10847,11 +11104,11 @@ msgstr ":ref:`vcs-gitlab`"
 
 #: ../../admin/continuous.rst:364
 msgid "GitLab merge request from branch"
-msgstr ""
+msgstr "GitLab merge request vanuit tak"
 
 #: ../../admin/continuous.rst:366
 msgid "Gitea merge request from fork"
-msgstr "Gitea samenvoegverzoek vanuit fork"
+msgstr "Gitea merge request vanuit fork"
 
 #: ../../admin/continuous.rst:366 ../../admin/continuous.rst:368
 msgid ":ref:`vcs-gitea`"
@@ -10859,11 +11116,11 @@ msgstr ":ref:`vcs-gitea`"
 
 #: ../../admin/continuous.rst:368
 msgid "Gitea merge request from branch"
-msgstr "Gitea samenvoegverzoek vanuit tak"
+msgstr "Gitea merge request vanuit tak"
 
 #: ../../admin/continuous.rst:370
 msgid "Pagure merge request from fork"
-msgstr ""
+msgstr "Pagure merge request vanuit fork"
 
 #: ../../admin/continuous.rst:370 ../../admin/continuous.rst:372
 msgid ":ref:`vcs-pagure`"
@@ -10871,7 +11128,7 @@ msgstr ":ref:`vcs-pagure`"
 
 #: ../../admin/continuous.rst:372
 msgid "Pagure merge request from branch"
-msgstr ""
+msgstr "Pagure merge request vanuit tak"
 
 #: ../../admin/continuous.rst:374
 msgid "Azure DevOps pull request from fork"
@@ -10888,23 +11145,28 @@ msgstr "Azure DevOps pull request vanuit tak"
 
 #: ../../admin/continuous.rst:379
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
-msgstr ""
+msgstr "Mag leeg zijn als :ref:`component-repo` pushen ondersteunt."
 
 #: ../../admin/continuous.rst:384
 msgid ""
 "You can also enable automatic pushing of changes after Weblate commits, this "
 "can be done in :ref:`component-push_on_commit`."
 msgstr ""
+"U kunt ook het automatisch pushen van wijzigingen na commits van Weblate "
+"inschakelen, dit kan worden gedaan in :ref:`component-push_on_commit`."
 
 #: ../../admin/continuous.rst:389
 msgid ""
 "See :ref:`vcs-repos` for setting up SSH keys, and :ref:`lazy-commit` for "
 "info about when Weblate decides to commit changes."
 msgstr ""
+"Bekijk :ref:`vcs-repos` voor het instellen van sleutels voor SSH, en :ref"
+":`lazy-commit` voor informatie over wanneer Weblate besluit wijzigingen in "
+"te dienen."
 
 #: ../../admin/continuous.rst:393
 msgid "Protected branches"
-msgstr ""
+msgstr "Beveiligde takken"
 
 #: ../../admin/continuous.rst:395
 msgid ""
@@ -10913,18 +11175,26 @@ msgid ""
 "problematic for languages you do not know). An alternative approach is to "
 "waive this limitation for the Weblate push user."
 msgstr ""
+"Als u Weblate gebruikt op een beveiligde tak, kunt u het configureren om "
+"pull requests te gebruiken en feitelijk beoordelen van de vertalingen uit te "
+"voeren (wat problematisch zou kunnen zijn voor talen die u niet beheerst). "
+"Een alternatieve benadering is om deze beperking op te heffen voor de "
+"Weblate push-gebruiker."
 
 #: ../../admin/continuous.rst:400
 msgid "For example on GitHub this can be done in the repository configuration:"
 msgstr ""
+"In GitHub kan dit bijvoorbeeld worden gedaan in de configuratie van de "
+"opslagruimte:"
 
 #: ../../admin/continuous.rst:405
 msgid "Interacting with others"
-msgstr ""
+msgstr "Interacteren met anderen"
 
 #: ../../admin/continuous.rst:407
 msgid "Weblate makes it easy to interact with others using its API."
 msgstr ""
+"Weblate maakt het gemakkelijk om met anderen te interacteren met zijn API."
 
 #: ../../admin/continuous.rst:411
 msgid ":ref:`api`"
@@ -10932,7 +11202,7 @@ msgstr ":ref:`api`"
 
 #: ../../admin/continuous.rst:416
 msgid "Lazy commits"
-msgstr ""
+msgstr "Vetraagd indienen"
 
 #: ../../admin/continuous.rst:418
 msgid ""
@@ -10942,34 +11212,44 @@ msgid ""
 "the VCS repository in sync, e.g. for merge (this is by default allowed for "
 "the :guilabel:`Managers` group, see :ref:`privileges`)."
 msgstr ""
+"Het gedrag van Weblate is om indieningen van dezelfde auteur te groeperen in "
+"een indiening, indien mogelijk. Dit verkleint het aantal indieningen enorm, "
+"u zou misschien echter expliciet aan moeten geven om in te dienen in het "
+"geval u de opslagruimte van het VCS wilt synchroniseren, bijv. voor "
+"samenvoegen (dit is standaard toegestaan voor de groep :guilabel:`Beheerders`"
+", bekijk :ref:`privileges`)."
 
 #: ../../admin/continuous.rst:424
 msgid ""
 "The changes in this mode are committed once any of the following conditions "
 "are fulfilled:"
 msgstr ""
+"De wijzigingen in deze modus worden ingediend als aan een van de volgende "
+"voorwaarden is voldaan:"
 
 #: ../../admin/continuous.rst:427
 msgid "Somebody else changes an already changed string."
-msgstr ""
+msgstr "Iemand anders wijzigt een al gewijzigde tekenreeks."
 
 #: ../../admin/continuous.rst:428
 msgid "A merge from upstream occurs."
-msgstr ""
+msgstr "Er wordt samengevoegd vanuit upstream."
 
 #: ../../admin/continuous.rst:429
 msgid "An explicit commit is requested."
-msgstr ""
+msgstr "Een expliciete indiening wordt gevraagd."
 
 #: ../../admin/continuous.rst:430
 msgid "A file download is requested."
-msgstr ""
+msgstr "Downloaden van een bestand wordt gevraagd."
 
 #: ../../admin/continuous.rst:431
 msgid ""
 "Change is older than period defined as :ref:`component-commit_pending_age` "
 "on :ref:`component`."
 msgstr ""
+"Wijziging is ouder dan de periode die is gedefinieerd als :ref:`component-"
+"commit_pending_age` in :ref:`component`."
 
 #: ../../admin/continuous.rst:435
 msgid ""
@@ -10977,6 +11257,10 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
 "squash` add-on in that case."
 msgstr ""
+"Indieningen worden gemaakt voor elk onderdeel. Dus in het geval u heel veel "
+"onderdelen hebt, zult u nog steeds heel veel indieningen hebben. U zou in "
+"dat geval misschien de add-on :ref:`addon-weblate.git.squash` willen "
+"gebruiken."
 
 #: ../../admin/continuous.rst:439
 msgid ""
@@ -10987,10 +11271,17 @@ msgid ""
 "and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
+"Wanneer u wijzigingen vaker in wilt dienen en zonder controle op hun "
+"ouderdom, kunt u een normale taak plannen om een indiening uit te voeren. "
+"Dit kan worden gedaan met :guilabel:`Periodic tasks` in :ref:`admin-"
+"interface`. Maak eerst de gewenste :guilabel:`Interval` (bijvoorbeeld 120 "
+"seconden). Voeg dan een nieuwe periodieke taak toe en kies ``weblate.trans."
+"tasks.commit_pending`` als :guilabel:`Task` met ``{\"hours\": 0}`` als "
+":guilabel:`Keyword Arguments` en de gewenste interval."
 
 #: ../../admin/continuous.rst:449
 msgid "Processing repository with scripts"
-msgstr ""
+msgstr "Opslagruimte verwerken met scripts"
 
 #: ../../admin/continuous.rst:451
 msgid ""
@@ -10998,10 +11289,13 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through add-ons."
 msgstr ""
+"De manier om aan te passen hoe Weblate interacteert met de opslagruimte is "
+":ref:`addons`. Raadpleeg :ref:`addon-script` voor informatie over hoe "
+"externe scripts uit te voeren via add-ons."
 
 #: ../../admin/continuous.rst:458
 msgid "Keeping translations same across components"
-msgstr ""
+msgstr "Vertalingen hetzelfde houden tussen onderdelen"
 
 #: ../../admin/continuous.rst:460
 msgid ""
@@ -11009,10 +11303,13 @@ msgid ""
 "the same strings have same translation. This can be achieved at several "
 "levels."
 msgstr ""
+"Als eenmaal meerdere vertaalonderdelen hebt, zou u er misschien voor willen "
+"zorgen dat dezelfde tekenreeksen ook dezelfde vertaling hebben. Dat kan op "
+"verscheidene niveaus worden bereikt."
 
 #: ../../admin/continuous.rst:464
 msgid "Translation propagation"
-msgstr ""
+msgstr "Verspreiden van vertaling"
 
 #: ../../admin/continuous.rst:466
 msgid ""
@@ -11021,16 +11318,24 @@ msgid ""
 "in all components with matching strings. Such translations are properly "
 "credited to currently translating user in all components."
 msgstr ""
+"Met :ref:`component-allow_translation_propagation` ingeschakeld (wat de "
+"standaard is, bekijk :ref:`component`), worden alle nieuwe vertalingen "
+"automatisch doorgevoerd in alle onderdelen met overeenkomende tekenreeksen. "
+"Dergelijke vertalingen worden op de juiste wijze geattribueerd met de "
+"huidige vertalende gebruiker in alle onderdelen."
 
 #: ../../admin/continuous.rst:473
 msgid ""
 "The translation propagation requires the key to be match for monolingual "
 "translation formats, so keep that in mind when creating translation keys."
 msgstr ""
+"Het verspreiden van de vertaling vereist de overeenkomende sleutel voor "
+"eentalige vertaalindelingen, houd daar dus rekening mee bij het maken van "
+"sleutels voor vertalingen."
 
 #: ../../admin/continuous.rst:477
 msgid "Consistency check"
-msgstr ""
+msgstr "Controle op consistentie"
 
 #: ../../admin/continuous.rst:479
 msgid ""
@@ -11038,6 +11343,9 @@ msgid ""
 "different. You can utilize this to review such differences manually and "
 "choose the right translation."
 msgstr ""
+"De controle :ref:`check-inconsistent` wordt uitgevoerd als de tekenreeksen "
+"verschillen. U kunt dit gebruiken om dergelijke verschillen handmatig na te "
+"kijken en de juiste vertaling te kiezen."
 
 #: ../../admin/continuous.rst:488
 msgid ""
@@ -11047,10 +11355,15 @@ msgid ""
 "repository update using add-on (see :ref:`addon-weblate.autotranslate."
 "autotranslate`)."
 msgstr ""
+"Automatisch vertalen, gebaseerd op verschillende onderdelen, kan een manier "
+"zijn om de vertaling tussen onderdelen te synchroniseren. U kunt het ofwel "
+"handmatig activeren (bekijk :ref:`auto-translation`) of het automatisch "
+"laten uitvoeren bij het bijwerken van de opslagruimte met een add-on (bekijk "
+":ref:`addon-weblate.autotranslate.autotranslate`)."
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
-msgstr ""
+msgstr "Weblate aanpassen"
 
 #: ../../admin/customize.rst:4
 msgid ""
@@ -11059,10 +11372,15 @@ msgid ""
 "code in Weblate is taken care of when changing internal interfaces or "
 "refactoring the code."
 msgstr ""
+"Breid uit en pas aan met Django en Python. Deel uw bijdragen upstream zodat "
+"iedereen er voordeel van heeft. Dit verkleint de kosten van onderhoud; code "
+"in Weblate wordt verzorgd bij het wijzigen van interne interfaces of opnieuw "
+"refactoren van de code."
 
 #: ../../admin/customize.rst:11
 msgid "You can also customize Weblate look in :ref:`manage-appearance`."
 msgstr ""
+"U kunt ook het uiterlijk van Weblate aanpassen in :ref:`manage-appearance`."
 
 #: ../../admin/customize.rst:16
 msgid ""
@@ -11070,6 +11388,9 @@ msgid ""
 "Please review your customizations for every upgrade, the interfaces or their "
 "semantics might change without notice."
 msgstr ""
+"Interne interfaces noch sjablonen worden beschouwd als een stabiele API. "
+"Beoordeel uw aanpassingen voor elke upgrade, de interfaces of hun semantiek "
+"zou zonder bericht kunnen wijzigen."
 
 #: ../../admin/customize.rst:22
 msgid ":ref:`contributing`"
@@ -11077,7 +11398,7 @@ msgstr ":ref:`contributing`"
 
 #: ../../admin/customize.rst:27
 msgid "Creating a Python module"
-msgstr ""
+msgstr "Een module voor Python maken"
 
 #: ../../admin/customize.rst:29
 msgid ""
@@ -11085,6 +11406,9 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
+"Als u nog niet bekend bent met Python, zou u misschien willen beginnen met `"
+"Python For Beginners <https://www.python.org/about/gettingstarted/>`_, wat "
+"de basisbeginselen uitlegt en verwijst naar meer handleidingen."
 
 #: ../../admin/customize.rst:33
 msgid ""
@@ -11093,6 +11417,11 @@ msgid ""
 "lib/python3.12/site-packages/`) or in the Weblate directory, which is also "
 "added to the interpreter search path."
 msgstr ""
+"Voor het schrijven van een bestand met aangepaste code voor Python (een "
+"module genaamd), is een plek nodig om hem op te slaan, ofwel in het "
+"systeempad (gewoonlijk iets als :file:`/usr/lib/python3.12/site-packages/`) "
+"of in de map van Weblate, die ook is toegevoegd aan het zoekpad voor de "
+"interpreter."
 
 #: ../../admin/customize.rst:40
 msgid ""
@@ -11101,66 +11430,84 @@ msgid ""
 "by Weblate, for example from a :ref:`settings override file <docker-settings-"
 "override>`."
 msgstr ""
+"Bij :ref:`het gebruiken van Docker <docker-deploy>`, kunt u modules voor "
+"Python plaatsen in :file:`/app/data/python/` (bekijk :ref:`docker-volume`), "
+"zodat zij kunnen worden geladen door Weblate, bijvoorbeeld vanuit een :ref:`"
+"bestand voor overschrijven van instellingen <docker-settings-override>`."
 
 #: ../../admin/customize.rst:45
 msgid "Better yet, turn your customization into a proper Python package:"
-msgstr ""
+msgstr "Beter nog, maak van uw aanpassingen een echt pakket voor Python:"
 
 #: ../../admin/customize.rst:47
 msgid "Create a folder for your package (we will use `weblate_customization`)."
 msgstr ""
+"Maak een map voor uw pakket (wij zullen `weblate_customization` gebruiken)."
 
 #: ../../admin/customize.rst:48
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
-msgstr ""
+msgstr "Maak daarin een bestand :file:`setup.py` om het pakket te beschrijven:"
 
 #: ../../admin/customize.rst:65
 msgid ""
 "Create a folder for the Python module (also called "
 "``weblate_customization``) for the customization code."
 msgstr ""
+"Maak een map voor de module van Python (ook ``weblate_customization`` "
+"genaamd) voor de code van de aanpassingen."
 
 #: ../../admin/customize.rst:67
 msgid ""
 "Within it, create a :file:`__init__.py` file to ensure Python can import the "
 "module."
 msgstr ""
+"Maak daarin een bestand :file:`__init__.py` om er voor te zorgen dat Python "
+"de module kan importeren."
 
 #: ../../admin/customize.rst:68
 msgid ""
 "This package can now be installed using :command:`pip install -e`. More info "
 "to be found in :ref:`pip:editable-installs`."
 msgstr ""
+"Dit pakket kan nu worden geïnstalleerd met :command:`pip install -e`. Meer "
+"informatie is te vinden in :ref:`pip:editable-installs`."
 
 #: ../../admin/customize.rst:69
 msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
 msgstr ""
+"Eenmaal geïnstalleerd kan de module worden gebruikt in de configuratie van "
+"Weblate (bijvoorbeeld ``weblate_customization.checks.FooCheck``)."
 
 #: ../../admin/customize.rst:72
 msgid "Your package structure should look like this:"
-msgstr ""
+msgstr "De structuur van uw pakket zou er zo uitzien:"
 
 #: ../../admin/customize.rst:83
 msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
 msgstr ""
+"U kunt een voorbeeld van het aanpassen van Weblate vinden op <https://github."
+"com/WeblateOrg/customize-example>, het behandelt alle hieronder beschreven "
+"onderwerpen."
 
 #: ../../admin/customize.rst:88
 msgid "Changing the logo"
-msgstr ""
+msgstr "Het logo wijzigen"
 
 #: ../../admin/customize.rst:90
 msgid ""
 "Create a simple Django app containing the static files you want to overwrite "
 "(see :ref:`custom-module`)."
 msgstr ""
+"Maak een eenvoudige Django app die de statische bestanden bevat die u wilt "
+"overschrijven (bekijk :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:93
 msgid "Branding appears in the following files:"
-msgstr ""
+msgstr "Branding is aanwezig in de volgende bestanden:"
 
 #: ../../admin/customize.rst:95
 msgid ":file:`icons/weblate.svg`"
@@ -11168,15 +11515,15 @@ msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/customize.rst:96
 msgid "Logo shown in the navigation bar."
-msgstr ""
+msgstr "Logo weergegeven in de balk voor navigatie."
 
 #: ../../admin/customize.rst:97
 msgid ":file:`logo-*.png`"
-msgstr ""
+msgstr ":file:`logo-*.png`"
 
 #: ../../admin/customize.rst:98
 msgid "Web icons depending on screen resolution and web-browser."
-msgstr ""
+msgstr "Webpictogrammen afhankelijk van de schermresolutie en webbrowser."
 
 #: ../../admin/customize.rst:99
 msgid ":file:`favicon.ico`"
@@ -11184,17 +11531,19 @@ msgstr ":file:`favicon.ico`"
 
 #: ../../admin/customize.rst:100
 msgid "Web icon used by legacy browsers."
-msgstr ""
+msgstr "Webpictogram gebruikt door verouderde browsers."
 
 #: ../../admin/customize.rst:101
 msgid ":file:`weblate-*.png`"
-msgstr ""
+msgstr ":file:`weblate-*.png`"
 
 #: ../../admin/customize.rst:102
 msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
 msgstr ""
+"Avatars voor bots of anonieme gebruikers. Sommige webbrowsers gebruiken deze "
+"als pictogrammen voor sneltoetsen."
 
 #: ../../admin/customize.rst:103
 msgid ":file:`email-logo.png`"
@@ -11202,59 +11551,72 @@ msgstr ":file:`email-logo.png`"
 
 #: ../../admin/customize.rst:104
 msgid "Used in notifications e-mails."
-msgstr ""
+msgstr "Gebruikt in e-mails voor notificatie."
 
 #: ../../admin/customize.rst:106
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
-msgstr ""
+msgstr "Voeg het toe aan :setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/customize.rst:116
 msgid ""
 "Run :samp:`weblate collectstatic --noinput`, to collect static files served "
 "to clients."
 msgstr ""
+"Voer uit :samp:`weblate collectstatic --noinput`, om statische bestanden die "
+"worden geserveerd aan cliënten te verzamelen."
 
 #: ../../admin/customize.rst:121
 msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
-msgstr ""
+msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 
 #: ../../admin/customize.rst:128
 msgid "Custom quality checks, add-ons and auto-fixes"
-msgstr ""
+msgstr "Aangepaste controles voor kwaliteit, add-ons en automatisch repareren"
 
 #: ../../admin/customize.rst:130
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
 "`own-addon` in Weblate:"
 msgstr ""
+"Installeren van uw code voor :ref:`custom-autofix`, :ref:`own-checks` of :ref"
+":`own-addon` in Weblate:"
 
 #: ../../admin/customize.rst:133
 msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
 msgstr ""
+"Plaats de bestanden in uw module voor Python die de aanpassingen voor "
+"Weblate bevat (bekijk :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:135
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings (:"
 "setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):"
 msgstr ""
+"Voeg zijn volledig gekwalificeerde pad toe aan de klasse van Python in de "
+"toegewezen instellingen (:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` of "
+":setting:`AUTOFIX_LIST`):"
 
 #: ../../admin/customize.rst:151
 msgid ""
 ":ref:`custom-autofix`, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
 "script`"
 msgstr ""
+":ref:`custom-autofix`, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
+"script`"
 
 #: ../../admin/deployments.rst:4
 msgid "Weblate deployments"
-msgstr ""
+msgstr "Weblate uitgerold"
 
 #: ../../admin/deployments.rst:6
 msgid ""
 "Weblate can be easily installed in your cloud. Please find detailed guide "
 "for your platform:"
 msgstr ""
+"Weblate kan gemakkelijk worden geïnstalleerd in uw cloud. Zoek de "
+"gedetailleerde handleiding voor uw platform:"
 
 #: ../../admin/deployments.rst:8
 msgid ":doc:`install/docker`"
@@ -11270,13 +11632,16 @@ msgstr ":doc:`install/kubernetes`"
 
 #: ../../admin/deployments.rst:13
 msgid "Third-party deployments for Weblate"
-msgstr ""
+msgstr "Uitrol van derde partijen voor Weblate"
 
 #: ../../admin/deployments.rst:17
 msgid ""
 "Following deployments are not developed or supported by Weblate team. Parts "
 "of the setup might vary from what is described in this documentation."
 msgstr ""
+"De volgende uitrollen zijn niet ontwikkeld door of worden niet ondersteund "
+"door het team van Weblate. Delen van de instellingen kunnen variëren van wat "
+"in deze documentatie wordt beschreven."
 
 #: ../../admin/deployments.rst:21
 msgid "Weblate Cloudron Package"
@@ -11289,6 +11654,11 @@ msgid ""
 "to-date. The package is maintained by the Cloudron team at their `Weblate "
 "package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgstr ""
+"`Cloudron <https://www.cloudron.io/>`_ is een platform voor zelf hosten van "
+"webtoepassingen. Weblate, geïnstalleerd met Cloudron, zal automatisch up-to-"
+"date worden gehouden. Het pakket wordt onderhouden door het team van "
+"Cloudron in hun `Weblate package repo <https://git.cloudron.io/cloudron/"
+"weblate-app>`_."
 
 #: ../../admin/deployments.rst:27
 msgid "Install Weblate with Cloudron"
@@ -11296,7 +11666,7 @@ msgstr "Installeer Weblate met Cloudron"
 
 #: ../../admin/deployments.rst:32
 msgid "Weblate in YunoHost"
-msgstr ""
+msgstr "Weblate in YunoHost"
 
 #: ../../admin/deployments.rst:34
 msgid ""
@@ -11306,46 +11676,55 @@ msgid ""
 "working stack with backup and restoration, but you may still have to edit "
 "your settings file for specific usages."
 msgstr ""
+"Het project voor zelf hosten `YunoHost <https://yunohost.org/>`_ verschaft "
+"een pakket voor Weblate. Als u eenmaal uw installatie voor YunoHost hebt, "
+"kunt u Weblate installeren net als elke andere toepassing. Het zal u een "
+"volledig werkende stapel geven met back-up en terugzetten, maar u moet nog "
+"steeds uw bestand met instellingen bewerken voor specifiek gebruik."
 
 #: ../../admin/deployments.rst:40
 msgid ""
 "You may use your administration interface, or this button (it will bring you "
 "to your server):"
 msgstr ""
+"U zou uw beheerinterface kunnen gebruiken, of deze knop (die zal u naar uw "
+"server brengen):"
 
 #: ../../admin/deployments.rst:42
 msgid "Install Weblate with YunoHost"
-msgstr ""
+msgstr "Weblate installeren met YunoHost"
 
 #: ../../admin/deployments.rst:46
 msgid "It also is possible to use the command-line interface:"
-msgstr ""
+msgstr "Het is ook mogelijk om de interface voor de opdrachtregel te gebruiken:"
 
 #: ../../admin/install.rst:9
 msgid "Quick setup guide"
-msgstr ""
+msgstr "Handleiding voor snel instellen"
 
 #: ../../admin/install.rst:4
 msgid "Configuration instructions"
-msgstr ""
+msgstr "Instructies voor configureren"
 
 #: ../../admin/install.rst:7
 msgid "Installing Weblate"
-msgstr ""
+msgstr "Weblate installeren"
 
 #: ../../admin/install.rst:23
 msgid ""
 "Depending on your setup and experience, choose an appropriate installation "
 "method for you:"
 msgstr ""
+"Kies, afhankelijk van uw instellingen en ervaring, een voor u toepasselijke "
+"methode om te installeren:"
 
 #: ../../admin/install.rst:25
 msgid ":doc:`install/docker`, recommended for production setups."
-msgstr ""
+msgstr ":doc:`install/docker`, aanbevolen voor productie-instellingen."
 
 #: ../../admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr ""
+msgstr "Installeren met virtualenv, aanbevolen voor productie-instellingen:"
 
 #: ../../admin/install.rst:29
 msgid ":doc:`install/venv-debian`"
@@ -11365,7 +11744,7 @@ msgstr ":doc:`install/venv-macos`"
 
 #: ../../admin/install.rst:34
 msgid ":doc:`install/source`, recommended for development."
-msgstr ""
+msgstr ":doc:`install/source`, aanbevolen voor ontwikkeling."
 
 #: ../../admin/install.rst:43
 msgid "Architecture overview"
@@ -11377,7 +11756,7 @@ msgstr "Webserver"
 
 #: ../../admin/install.rst:127
 msgid "Handling incoming HTTP requests, :ref:`static-files`."
-msgstr ""
+msgstr "Afhandeling van inkomende HTTP-verzoeken, :ref:`static-files`."
 
 #: ../../admin/install.rst:128
 msgid "Celery workers"
@@ -11385,18 +11764,20 @@ msgstr "Celery-werkers"
 
 #: ../../admin/install.rst:129
 msgid ":ref:`celery` are executed here."
-msgstr ""
+msgstr ":ref:`celery` worden hier uitgevoerd."
 
 #: ../../admin/install.rst:131
 msgid ""
 "Depending on your workload, you might want to customize the number of "
 "workers."
 msgstr ""
+"Afhankelijk van uw werklast wilt u misschien het aantal werkers aanpassen."
 
 #: ../../admin/install.rst:133 ../../admin/install.rst:137
 #: ../../admin/install.rst:145
 msgid "Use dedicated node when scaling Weblate horizontally."
 msgstr ""
+"Gebruik de toegewezen node bij het horizontaal op schaal brengen van Weblate."
 
 #: ../../admin/install.rst:134
 msgid "WSGI server"
@@ -11404,19 +11785,23 @@ msgstr "WSGI-server"
 
 #: ../../admin/install.rst:135
 msgid "A WSGI server serving web pages to users."
-msgstr ""
+msgstr "Een WSGI-server serveert webpagina's aan gebruikers."
 
 #: ../../admin/install.rst:139
 msgid ""
 "PostgreSQL database server for storing all the content, see :ref:`database-"
 "setup`."
 msgstr ""
+"PostgreSQL databaseserver voor het opslaan van alle inhoud, bekijk :ref"
+":`database-setup`."
 
 #: ../../admin/install.rst:141
 msgid ""
 "Use dedicated database node for sites with hundreds of millions of hosted "
 "words."
 msgstr ""
+"Gebruik een toegewezen node voor de database voor sites met honderden "
+"miljoenen gehoste woorden."
 
 #: ../../admin/install.rst:142
 msgid "Redis"
@@ -11424,7 +11809,7 @@ msgstr "Redis"
 
 #: ../../admin/install.rst:143
 msgid "Redis server for cache and tasks queue, see :ref:`celery`."
-msgstr ""
+msgstr "Redis-server voor cache en wachtrij voor taken, bekijk :ref:`celery`."
 
 #: ../../admin/install.rst:146
 msgid "File system"
@@ -11435,10 +11820,12 @@ msgid ""
 "File system storage for storing VCS repositories and uploaded user data. "
 "This is shared by all the processes."
 msgstr ""
+"Opslag in bestandssysteem voor het opslaan van opslagruimten van het VCS en "
+"geüploade gebruikersgegevens. Dit wordt gedeeld door alle processen."
 
 #: ../../admin/install.rst:149
 msgid "Use networked storage when scaling Weblate horizontally."
-msgstr ""
+msgstr "Gebruik opslag in een netwerk bij het horizontaal schalen van Weblate."
 
 #: ../../admin/install.rst:150
 msgid "E-mail server"
@@ -11449,12 +11836,16 @@ msgid ""
 "SMTP server for outgoing e-mail, see :ref:`out-mail`. It can be provided "
 "externally."
 msgstr ""
+"SMTP-server voor uitgaande e-mail, bekijk :ref:`out-mail`. Het kan extern "
+"wordne verschaft."
 
 #: ../../admin/install.rst:155
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
 "installation easier."
 msgstr ""
+":doc:`/admin/install/docker` bevat PostgreSQL en Redis, wat het installeren "
+"gemakkelijker maakt."
 
 #: ../../admin/install.rst:160
 msgid "Software requirements"
@@ -13820,7 +14211,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:261
 msgid "Stop Weblate container:"
-msgstr "Stop Weblate container:"
+msgstr "Weblate container stoppen:"
 
 #: ../../admin/install/docker.rst:267
 msgid "Backup the database:"
@@ -46729,7 +47120,7 @@ msgstr ""
 
 #: ../../user/translating.rst:232
 msgid "Copies placeable of a given number from source string."
-msgstr "Te plaatsen kopieën voor opgegeven aantal brontekenreeksen."
+msgstr "Te plaatsen kopie voor opgegeven nummer van brontekenreeks."
 
 #: ../../user/translating.rst:236
 msgid ":kbd:`Ctrl+M` followed by :kbd:`1` to :kbd:`9` or"
