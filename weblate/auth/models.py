@@ -556,7 +556,7 @@ class User(AbstractBaseUser):
         elif name in "last_name" and "full_name" in self.extra_data:
             self.extra_data["full_name"] = f'{self.extra_data["full_name"]} {value}'
         elif "first_name" in name or "last_name" in name:
-            self.extra_data["full_name"] = value   
+            self.extra_data["full_name"] = value
         else:
             super().__setattr__(name, value)
 
