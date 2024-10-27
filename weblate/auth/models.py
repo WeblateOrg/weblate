@@ -238,6 +238,7 @@ class Group(models.Model):
 
 class UserManager(BaseUserManager["User"]):
     def _create_user(self, username, email, password, **extra_fields):
+        print("Found it finally")
         """Create and save a User with the given fields."""
         if not username:
             raise ValueError("The given username must be set")
@@ -260,7 +261,7 @@ class UserManager(BaseUserManager["User"]):
 
         return self._create_user(username, email, password, **extra_fields)
 
-    def get_or_create_bot(self, scope: str, username: str, verbose: str):
+    def get_or_create_bot(self, scope: str, username: str, verbose: str):    
         return self.get_or_create(
             username=f"{scope}:{username}",
             defaults={
@@ -454,7 +455,7 @@ class User(AbstractBaseUser):
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email", "full_name"]
-    DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
+    DUMMY_FIELDS = ("first_name, last_name", "is_staff")
 
     class Meta:
         verbose_name = "User"
@@ -511,6 +512,7 @@ class User(AbstractBaseUser):
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
                 self.extra_data[name] = kwargs.pop(name)
+                print(f"Found: {name}")
         super().__init__(*args, **kwargs)
 
     def clear_cache(self) -> None:
@@ -551,8 +553,12 @@ class User(AbstractBaseUser):
 
     def __setattr__(self, name, value) -> None:
         """Mimic first/last name for third-party auth and ignore is_staff flag."""
-        if name in self.DUMMY_FIELDS:
-            self.extra_data[name] = value
+        if name in "first_name" and "full_name" in self.extra_data:
+            self.extra_data["full_name"] = f'{value} {self.extra_data["full_name"]}'
+        elif name in "last_name" and "full_name" in self.extra_data:
+            self.extra_data["full_name"] = f'{self.extra_data["full_name"]} {value}'
+        elif "first_name" in name or "last_name" in name:
+            self.extra_data["full_name"] = value   
         else:
             super().__setattr__(name, value)
 
