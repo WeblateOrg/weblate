@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-16 14:17+0000\n"
+"PO-Revision-Date: 2024-10-26 04:51+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.8.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -760,10 +760,8 @@ msgstr ""
 "`default-groups`)."
 
 #: ../../admin/access.rst:355
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Component-browsing access"
-msgstr "Alertas de componentes"
+msgstr "Acceso a la exploración de componentes"
 
 #: ../../admin/access.rst:357
 msgid ""
@@ -772,6 +770,10 @@ msgid ""
 "restricted` on, access to components (or component lists) are granted "
 "explicitly."
 msgstr ""
+"Al otorgarle acceso de navegación a un usuario en un proyecto , este podrá "
+"acceder a cualquier componente con permisos de navegación derivados. Con :ref"
+":`component-restricted` activado, el acceso a los componentes (o listas de "
+"componentes) se otorga explícitamente."
 
 #: ../../admin/access.rst:365
 msgid "Scope of teams"
@@ -858,16 +860,12 @@ msgstr ""
 "guilabel:`Language selection` o :guilabel:`Project selection`."
 
 #: ../../admin/access.rst:402
-#, fuzzy
-#| msgid ""
-#| "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
-#| "``foo/baz`` and the following team:"
 msgid ""
 "A project ``foo`` with the components: ``foo/bar`` and ``foo/baz``, with "
 "reviewing and management rights, in the following team:"
 msgstr ""
-"Digamos que hay un proyecto ``foo`` con los componentes: ``foo/bar`` yd "
-"``foo/baz`` y el equipo siguiente:"
+"Un proyecto ``foo`` con los componentes: ``foo/bar`` y ``foo/baz``, con "
+"derechos de revisión y gestión, en el siguiente equipo:"
 
 #: ../../admin/access.rst:406
 msgid "Group `Spanish Admin-Reviewers`"
@@ -890,16 +888,12 @@ msgid "`Spanish`"
 msgstr "`Español`"
 
 #: ../../admin/access.rst:418
-#, fuzzy
-#| msgid ""
-#| "Members of that team will have following permissions (assuming the "
-#| "default role settings):"
 msgid ""
 "Members of that team will have these permissions (assuming the default role "
 "settings):"
 msgstr ""
-"Los miembros de ese equipo tendrán los siguientes permisos (asumiendo la "
-"configuración de las funciones por defecto):"
+"Los miembros de ese equipo tendrán estos permisos (asumiendo la "
+"configuración de roles predeterminada):"
 
 #: ../../admin/access.rst:420
 msgid ""
@@ -1443,19 +1437,14 @@ msgid "Manage site-wide add-ons"
 msgstr "Administrar complementos en todo el sitio"
 
 #: ../../admin/access.rst:600
-#, fuzzy
-#| msgid ""
-#| "Site-wide privileges are not granted to any default role. These are "
-#| "powerful and quite close to superuser status. Most of them affect all "
-#| "projects in your Weblate installation."
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to the Superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
-"Los privilegios para todo el sitio no se conceden a ningún rol por defecto. "
-"Estos son poderosos y bastante cercanos al estatus de superusuario. La "
-"mayoría de ellos afectan a todos los proyectos en tu instalación de Weblate."
+"No se otorgan privilegios a nivel de sitio a ningún rol predeterminado. "
+"Estos son poderosos y muy cercanos al estado de superusuario. La mayoría de "
+"ellos afectan a todos los proyectos de su instalación de Weblate ."
 
 #: ../../admin/access.rst:605
 msgid "List of built-in roles"
@@ -1466,33 +1455,6 @@ msgid "`Administration`"
 msgstr "`Administración`"
 
 #: ../../admin/access.rst:611
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:"
-#| "`Post comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, :"
-#| "guilabel:`Edit component settings`, :guilabel:`Lock component, preventing "
-#| "translations`, :guilabel:`Add glossary entry`, :guilabel:`Delete glossary "
-#| "entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary "
-#| "entries`, :guilabel:`Use automatic suggestions`, :guilabel:`Delete "
-#| "translation memory`, :guilabel:`Edit translation memory`, :guilabel:`Edit "
-#| "project settings`, :guilabel:`Manage project access`, :guilabel:`Download "
-#| "reports`, :guilabel:`Add screenshot`, :guilabel:`Delete screenshot`, :"
-#| "guilabel:`Edit screenshot`, :guilabel:`Edit additional string info`, :"
-#| "guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:"
-#| "`Delete suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Add "
-#| "language for translation`, :guilabel:`Add several languages for "
-#| "translation`, :guilabel:`Perform automatic translation`, :guilabel:"
-#| "`Delete existing translation`, :guilabel:`Download translation file`, :"
-#| "guilabel:`Add new string`, :guilabel:`Dismiss failing check`, :guilabel:"
-#| "`Remove a string`, :guilabel:`Edit strings`, :guilabel:`Edit string when "
-#| "suggestions are enforced`, :guilabel:`Review strings`, :guilabel:`Edit "
-#| "source strings`, :guilabel:`Define author of uploaded translation`, :"
-#| "guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload "
-#| "translations`, :guilabel:`Access the internal repository`, :guilabel:"
-#| "`Commit changes to the internal repository`, :guilabel:`Push change from "
-#| "the internal repository`, :guilabel:`Reset changes in the internal "
-#| "repository`, :guilabel:`Update the internal repository`, :guilabel:`View "
-#| "upstream repository location`"
 msgid ""
 ":guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:`Post "
 "comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, :guilabel:"
@@ -1520,33 +1482,35 @@ msgid ""
 "guilabel:`Update the internal repository`, :guilabel:`View upstream "
 "repository location`"
 msgstr ""
-":guilabel:`Ver información de facturación`, :guilabel:`Descargar cambios`, :"
-"guilabel:`Crear comentario`, :guilabel:`Eliminar comentario`, :guilabel:"
-"`Aclarar comentario`, :guilabel:`Editar configuración de componentes`, :"
+":guilabel:`Ver información de facturación`, :guilabel:`Descargar cambios`, "
+":guilabel:`Crear comentario`, :guilabel:`Eliminar comentario`, :guilabel:`"
+"Aclarar comentario`, :guilabel:`Editar configuración de componentes`, :"
 "guilabel :`Bloquear componente para evitar traducciones`, :guilabel:`Agregar "
-"entrada de glosario`, :guilabel:`Eliminar entrada de glosario`, :guilabel:"
-"`Editar entrada de glosario`, :guilabel:`Subir entrada de glosario`, :"
-"guilabel: `Usar sugerencias automáticas`, :guilabel:`Borrar memoria de "
+"entrada de glosario`, :guilabel:`Eliminar entrada de glosario`, :guilabel:`"
+"Editar entrada de glosario`, \n"
+":guilabel:`Añadir glosario terminológico`, :guilabel:`Subir entrada de "
+"glosario`,\n"
+":guilabel: `Usar sugerencias automáticas`, :guilabel:`Borrar memoria de "
 "traducción`, :guilabel:`Editar memoria de traducción`, :guilabel:`Editar "
-"configuración del proyecto`, :guilabel:`Administrar acceso al proyecto`, :"
-"guilabel:`Descargar informes`, :guilabel:`Agregar captura de pantalla`, :"
-"guilabel:`Eliminar captura de pantalla`, :guilabel:`Editar captura de "
-"pantalla`, :guilabel:`Editar información de cadena adicional`, :guilabel:"
-"`Aceptar sugerencia`, :guilabel:`Agregar sugerencia`, :guilabel:`Eliminar "
+"configuración del proyecto`, :guilabel:`Administrar acceso al proyecto`, "
+":guilabel:`Descargar informes`, :guilabel:`Agregar captura de pantalla`, "
+":guilabel:`Eliminar captura de pantalla`, :guilabel:`Editar captura de "
+"pantalla`, :guilabel:`Editar información de cadena adicional`, :guilabel:`"
+"Aceptar sugerencia`, :guilabel:`Agregar sugerencia`, :guilabel:`Eliminar "
 "sugerencia`, : guilabel:`Votar sugerencia`, :guilabel:`Agregar idioma a la "
-"traducción`, :guilabel:`Agregar múltiples idiomas a la traducción`, :"
-"guilabel:`Realizar traducción automática`, : guilabel:`Eliminar traducción "
+"traducción`, :guilabel:`Agregar múltiples idiomas a la traducción`, "
+":guilabel:`Realizar traducción automática`, : guilabel:`Eliminar traducción "
 "existente`, :guilabel:`Descargar archivo de traducción`, :guilabel:`Agregar "
-"nueva cadena`, :guilabel:`Descartar verificación fallida`, :guilabel:"
-"`Eliminar una cadena`, :guilabel:`Editar cadenas `, :guilabel:`Editar cadena "
-"cuando las sugerencias sean forzadas`, :guilabel:`Comprobar cadenas`, :"
-"guilabel:`Editar cadenas de salida`, :guilabel:`Definir autor de la "
-"traducción cargada`, :guilabel:`Sobrescribir cadenas existentes con "
-"upload`, :guilabel:`Subir traducciones`, : guilabel:`Acceder al repositorio "
-"interno`, :guilabel:`Confirmar cambios al repositorio interno`, :guilabel:"
-"`Enviar cambios desde el repositorio interno`, :guilabel:`Revertir cambios a "
-"repositorio interno`, :guilabel:` Actualizar repositorio interno`, :guilabel:"
-"`Mostrar ubicación de los cambios del repositorio `"
+"nueva cadena`, :guilabel:`Descartar verificación fallida`, :guilabel:`"
+"Eliminar una cadena`, :guilabel:`Editar cadenas `, :guilabel:`Editar cadena "
+"cuando las sugerencias sean forzadas`, :guilabel:`Comprobar cadenas`, "
+":guilabel:`Editar cadenas de salida`, :guilabel:`Definir autor de la "
+"traducción cargada`, :guilabel:`Sobrescribir cadenas existentes con upload`, "
+":guilabel:`Subir traducciones`, : guilabel:`Acceder al repositorio interno`, "
+":guilabel:`Confirmar cambios al repositorio interno`, :guilabel:`Enviar "
+"cambios desde el repositorio interno`, :guilabel:`Revertir cambios a "
+"repositorio interno`, :guilabel:` Actualizar repositorio interno`, "
+":guilabel:`Mostrar ubicación de los cambios del repositorio `"
 
 #: ../../admin/access.rst:612
 msgid "`Edit source`"
@@ -1594,18 +1558,14 @@ msgid "`Manage glossary`"
 msgstr "`Gestionar glosario`"
 
 #: ../../admin/access.rst:619
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :"
-#| "guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`"
 msgid ""
 ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:"
 "`Edit glossary entry`, :guilabel:`Add glossary terminology`, :guilabel:"
 "`Upload glossary entries`"
 msgstr ""
-":guilabel:`Añadir entrada al glosario`, :guilabel:`Borrar entrada del "
-"glosario`, :guilabel:`Editar entrada del glosario`, :guilabel:`Cargar "
-"entradas al glosario`"
+":guilabel:`Añadir entrada de glosario`, :guilabel:`Borrar entrada de "
+"glosario`, :guilabel:`Editar entrada de glosario`, :guilabel:`Añadir "
+"terminología de glosario`, :guilabel:`Cargar entradas de glosario`"
 
 #: ../../admin/access.rst:620
 msgid "`Power user`"
@@ -1783,15 +1743,11 @@ msgstr ""
 "`ANONYMOUSER_NAME`)."
 
 #: ../../admin/access.rst:655
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this team to limit permissions for non-"
-#| "authenticated users."
 msgid ""
 "Remove roles from this team to limit permissions for non-authenticated users."
 msgstr ""
-"Puedes eliminar las funciones de este equipo para limitar los permisos de "
-"los usuarios no registrados."
+"Elimine las funciones de este equipo para limitar los permisos de los "
+"usuarios no autenticados."
 
 #: ../../admin/access.rst:658
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -1802,15 +1758,11 @@ msgid "`Viewers`"
 msgstr "`Lectores`"
 
 #: ../../admin/access.rst:661
-#, fuzzy
-#| msgid ""
-#| "This role ensures visibility of public projects for all users. By "
-#| "default, all users are members of this team."
 msgid ""
 "This role ensures the visibility of public projects to all users. By "
 "default, all users are members of this team."
 msgstr ""
-"Este rol asegura la visibilidad de los proyectos públicos para todos los "
+"Este rol asegura la visibilidad de los proyectos públicos a todos los "
 "usuarios. Por defecto, todos los usuarios son miembros de este equipo."
 
 #: ../../admin/access.rst:664 ../../admin/access.rst:672
@@ -1875,19 +1827,14 @@ msgid "Default roles: `Add new projects`"
 msgstr "Funciones por defecto: `Añadir nuevos proyectos`"
 
 #: ../../admin/access.rst:696
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate teams and users as this can lead to "
-#| "unexpected problems! If you have no use for them, you can removing all "
-#| "their privileges instead."
 msgid ""
 "Never remove the predefined Weblate teams and users, as that can lead to "
 "unexpected problems! If you have no use for them, simply remove all their "
 "privileges instead."
 msgstr ""
 "No elimine nunca los equipos y usuarios predefinidos de Weblate, ya que "
-"podría provocar problemas inesperados. Si no los necesitas, puedes eliminar "
-"todos sus privilegios."
+"podría provocar problemas inesperados. Si no los necesitas, elimina todos "
+"sus privilegios."
 
 #: ../../admin/access.rst:701
 msgid "Additional access restrictions"
@@ -2294,6 +2241,9 @@ msgid ""
 "as :ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the "
 "translation file in sync with the base file."
 msgstr ""
+"En el caso de formatos con contenido adicional además de las cadenas de "
+"traducción (como :ref:`html`, :ref:`winrc` o :ref:`odf`), esto también "
+"sincroniza el archivo de traducción con el archivo base."
 
 #: ../../admin/addons.rst:167
 msgid "Add missing languages"
@@ -4722,16 +4672,12 @@ msgid "Google OAuth 2"
 msgstr "Google OAuth 2"
 
 #: ../../admin/auth.rst:197
-#, fuzzy
-#| msgid ""
-#| "To use Google OAuth 2, you need to register an application on <https://"
-#| "console.developers.google.com/> and enable the Google+ API."
 msgid ""
 "To use Google OAuth 2, you need to register an application at <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
-"Para utilizar OAuth 2 de Google, es necesario registrar una aplicación en "
-"<https://console.developers.google.com/> y activar la API de Google+."
+"Para utilizar Google OAuth 2, es necesario registrar una aplicación en "
+"<https://console.developers.google.com/> y habilitar la API de Google+."
 
 #: ../../admin/auth.rst:200
 msgid ""
@@ -4774,16 +4720,12 @@ msgid "GitLab OAuth 2"
 msgstr "OAuth 2 de GitLab"
 
 #: ../../admin/auth.rst:257
-#, fuzzy
-#| msgid ""
-#| "For using GitLab OAuth 2, you need to register an application on <https://"
-#| "gitlab.com/profile/applications>."
 msgid ""
 "For using GitLab OAuth 2, you need to register an application at <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
 "Para utilizar GitLab OAuth 2, es necesario registrar una aplicación en "
-"<https://gitlab.com/profile/applications>."
+"<https://gitlab.com/profile/applications>"
 
 #: ../../admin/auth.rst:260
 msgid ""
@@ -4798,31 +4740,22 @@ msgid ":doc:`psa:backends/gitlab`"
 msgstr ":doc:`psa:backends/gitlab`"
 
 #: ../../admin/auth.rst:289
-#, fuzzy
-#| msgid "GitLab OAuth 2"
 msgid "Gitea OAuth 2"
-msgstr "OAuth 2 de GitLab"
+msgstr "Gitea OAuth 2"
 
 #: ../../admin/auth.rst:291
-#, fuzzy
-#| msgid ""
-#| "For using GitLab OAuth 2, you need to register an application on <https://"
-#| "gitlab.com/profile/applications>."
 msgid ""
 "For using Gitea OAuth 2, you need to register an application at ``https://"
 "GITEA SERVER/user/settings/applications``."
 msgstr ""
-"Para utilizar GitLab OAuth 2, es necesario registrar una aplicación en "
-"<https://gitlab.com/profile/applications>."
+"Para usar Gitea OAuth 2, necesitas registrar una aplicación en ``https://"
+"GITEA SERVER/user/settings/applications``."
 
 #: ../../admin/auth.rst:294
-#, fuzzy
-#| msgid ""
-#| "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``."
 msgstr ""
-"La URL redireccionada es ``https://WEBLATE SERVER/accounts/complete/slack/``."
+"La URL redireccionada es ``https://WEBLATE SERVER/accounts/complete/gitea/``."
 
 #: ../../admin/auth.rst:316
 msgid ""
@@ -4835,10 +4768,8 @@ msgstr ""
 "<http://translate.codeberg.org>`_"
 
 #: ../../admin/auth.rst:322
-#, fuzzy
-#| msgid ":doc:`psa:backends/gitlab`"
 msgid ":doc:`psa:backends/gitea`"
-msgstr ":doc:`psa:backends/gitlab`"
+msgstr ":doc:`psa:backends/gitea`"
 
 #: ../../admin/auth.rst:327
 msgid "Microsoft Azure Active Directory"
@@ -4900,16 +4831,12 @@ msgid "Slack"
 msgstr "Slack"
 
 #: ../../admin/auth.rst:385
-#, fuzzy
-#| msgid ""
-#| "For using Slack OAuth 2, you need to register an application on <https://"
-#| "api.slack.com/apps>."
 msgid ""
 "For using Slack OAuth 2, you need to register an application at <https://api."
 "slack.com/apps>."
 msgstr ""
-"Para utilizar Slack OAuth 2, necesitas registrar una aplicación en <https://"
-"api.slack.com/apps>."
+"Para utilizar Slack OAuth 2, es necesario registrar una aplicación en "
+"<https://api.slack.com/apps>."
 
 #: ../../admin/auth.rst:388
 msgid ""
@@ -5341,38 +5268,38 @@ msgstr ""
 "requerir algo más que una contraseña para iniciar sesión."
 
 #: ../../admin/auth.rst:791
-#, fuzzy
-#| msgid "It offers the following options:"
 msgid "Weblate supports the following second factors:"
-msgstr "Cuenta con las opciones siguientes:"
+msgstr "Weblate admite los siguientes segundos factores:"
 
 #: ../../admin/auth.rst:793
 msgid "Security keys (WebAuthn)"
 msgstr "Claves de seguridad (WebAuthn)"
 
 #: ../../admin/auth.rst:794
-#, fuzzy
-#| msgid "No other data is submitted."
 msgid "Both, Passkeys and security keys are supported."
-msgstr "No se envía ningún otro dato."
+msgstr "Se admiten tanto Passkeys como claves de seguridad."
 
 #: ../../admin/auth.rst:796
 msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
 msgstr ""
+"Las Passkeys validan tu identidad mediante el tacto, el reconocimiento "
+"facial, una contraseña del dispositivo o un PIN, ya que incluyen la "
+"verificación del usuario."
 
 #: ../../admin/auth.rst:798
 msgid ""
 "Security keys are WebAuthn credentials that can only be used as a second "
 "factor of authentication, and these only validate user presence."
 msgstr ""
+"Las claves de seguridad son credenciales WebAuthn que sólo pueden utilizarse "
+"como segundo factor de autenticación, y éstas solo validan la presencia del "
+"usuario."
 
 #: ../../admin/auth.rst:800
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator app (TOTP)"
-msgstr "Autenticación"
+msgstr "Aplicación Authenticator (TOTP)"
 
 #: ../../admin/auth.rst:801
 msgid ""
@@ -5381,6 +5308,11 @@ msgid ""
 "time passwords that are used as a second factor to verify your identity when "
 "prompted during sign-in."
 msgstr ""
+"Las aplicaciones de autenticación y las extensiones de navegador como Aegis, "
+"Bitwarden, Google Authenticator, 1Password, Authy, Microsoft Authenticator, "
+"etc. generan contraseñas de un solo uso que se utilizan como segundo factor "
+"para verificar su identidad cuando se le solicita durante el inicio de "
+"sesión."
 
 #: ../../admin/auth.rst:806
 msgid "Recovery codes"
@@ -5400,24 +5332,33 @@ msgid ""
 "Keep your recovery codes as safe as your password. We recommend saving them "
 "with a password manager such as Bitwarden, 1Password, Authy, or Keeper."
 msgstr ""
+"Mantenga sus códigos de recuperación tan seguros como su contraseña. Te "
+"recomendamos guardarlos con un gestor de contraseñas como Bitwarden, "
+"1Password, Authy o Keeper."
 
 #: ../../admin/auth.rst:811
 msgid ""
 "Each user can configure this in :ref:`profile-account` and second factor "
 "will be required to sign in addition to the existing authentication method."
 msgstr ""
+"Cada usuario puede configurar esto en :ref:`perfil-cuenta` y se requerirá un "
+"segundo factor para firmar además del método de autenticación existente."
 
 #: ../../admin/auth.rst:814
 msgid ""
 "This can be enforced for users at the project (see :ref:`project-"
 "enforced_2fa`) or team level."
 msgstr ""
+"Esto puede aplicarse a los usuarios a nivel de proyecto (véase :ref:`project-"
+"enforced_2fa`) o de equipo."
 
 #: ../../admin/auth.rst:816
 msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
 msgstr ""
+"Los permisos de un equipo con autenticación de dos factores forzada no se "
+"aplicarán a los usuarios que no la tengan configurada."
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -6221,7 +6162,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:12
 msgid ""
-"The automatic fixes are powerful, but can also cause damage;  be careful "
+"The automatic fixes are powerful, but can also cause damage; be careful "
 "when writing one."
 msgstr ""
 "Las correcciones automáticas son potentes pero pueden causar daños; tenga "
@@ -6366,6 +6307,10 @@ msgid ""
 "can be used consistently in all translations. Also useful in combination "
 "with ``read-only``, for example in product names."
 msgstr ""
+"Se utiliza en :ref:`glossary`. Copia la cadena en todos los idiomas del "
+"glosario para que pueda utilizarse de forma coherente en todas las "
+"traducciones. También es útil en combinación con ``read-only``, por ejemplo "
+"en nombres de productos."
 
 #: ../../admin/checks.rst:79
 msgid "``priority:N``"
@@ -6551,6 +6496,8 @@ msgid ""
 "Make format checks enforce using format even for plural forms with a single "
 "value, see :ref:`check-formats`."
 msgstr ""
+"Hacer que las comprobaciones de formato obliguen a usar el formato incluso "
+"para formas plurales con un único valor, véase :ref:`check-formats`."
 
 #: ../../admin/checks.rst:116 ../../user/checks.rst:150
 msgid "``check-glossary``"
@@ -6662,10 +6609,8 @@ msgid "``perl-brace-format``"
 msgstr "``perl-brace-format``"
 
 #: ../../admin/checks.rst:143
-#, fuzzy
-#| msgid "Enable the :ref:`check-perl-format` quality check."
 msgid "Enable the :ref:`check-perl-brace-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-perl-format`."
+msgstr "Activa el control de calidad :ref:`check-perl-brace-format`."
 
 #: ../../admin/checks.rst:144 ../../user/checks.rst:737
 msgid "``perl-format``"
