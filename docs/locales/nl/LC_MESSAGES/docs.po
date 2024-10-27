@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-25 18:47+0000\n"
+"PO-Revision-Date: 2024-10-26 18:18+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -6600,7 +6600,7 @@ msgstr "``python-brace-format``"
 
 #: ../../admin/checks.rst:149
 msgid "Enable the :ref:`check-python-brace-format` quality check."
-msgstr ""
+msgstr "Schakel de kwaliteitscontrole :ref:`check-python-brace-format` in."
 
 #: ../../admin/checks.rst:150 ../../user/checks.rst:797
 msgid "``python-format``"
@@ -6608,7 +6608,7 @@ msgstr "``python-format``"
 
 #: ../../admin/checks.rst:151
 msgid "Enable the :ref:`check-python-format` quality check."
-msgstr ""
+msgstr "Schakel de kwaliteitscontrole :ref:`check-python-format` in."
 
 #: ../../admin/checks.rst:152 ../../user/checks.rst:817
 msgid "``qt-format``"
@@ -6661,6 +6661,10 @@ msgid ""
 "on the translation text area. Enables :ref:`check-md-link`, :ref:`check-md-"
 "reflink`, and :ref:`check-md-syntax` quality checks."
 msgstr ""
+"Behandel tekst als een document van Markdown en verschaf accentueren van "
+"syntaxis van Markdown in het gebied van de vertaling. Schakelt "
+"kwaliteitscontroles :ref:`check-md-link`, :ref:`check-md-reflink` en :ref"
+":`check-md-syntax` in."
 
 #: ../../admin/checks.rst:165
 msgid "``case-insensitive``"
@@ -6671,6 +6675,8 @@ msgid ""
 "Adjust checks behavior to be case-insensitive. Currently affects only :ref:"
 "`check-placeholders` quality check."
 msgstr ""
+"Pas het gedrag van controles aan naar niet-hoofdlettergevoelig. Beïnvloedt "
+"momenteel alleen de kwaliteitscontrole :ref:`check-placeholders`."
 
 #: ../../admin/checks.rst:167 ../../user/checks.rst:1513
 #: ../../user/checks.rst:1514
@@ -6694,6 +6700,8 @@ msgid ""
 "The string should consist of only a URL. Enable the :ref:`check-url` quality "
 "check."
 msgstr ""
+"De tekenreeks zou allen uit een URL moeten bestaan. Schakel de "
+"kwaliteitscontrole :ref:`check-url` in."
 
 #: ../../admin/checks.rst:172
 msgid "``ignore-all-checks``"
@@ -7221,6 +7229,9 @@ msgid ""
 "Generally the rule is named ``ignore-*`` for any check, using its "
 "identifier, so you can use this even for your custom checks."
 msgstr ""
+"Gewoonlijk is de controle genaamd ``ignore-*`` voor elke controle, zijn "
+"identificatie gebruikend, dus u kunt dit zelfs gebruiken voor uw aangepaste "
+"controles."
 
 #: ../../admin/checks.rst:308
 msgid ""
@@ -7228,10 +7239,13 @@ msgid ""
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
+"Deze vlaggen worden begrepen in zowel instellingen :ref:`component`, "
+"instellingen per tekenreeks en in het vertaalbestand zelf (bijvoorbeeld in "
+"GNU gettext)."
 
 #: ../../admin/checks.rst:314
 msgid "Enforcing checks"
-msgstr ""
+msgstr "Controles afdwingen"
 
 #: ../../admin/checks.rst:316
 msgid ""
@@ -7240,12 +7254,20 @@ msgid ""
 "be dismissed in the user interface and any string failing this check is "
 "marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
+"U kunt een lijst met controles configureren die niet genegeerd kan worden "
+"door de instelling :ref:`component-enforced_checks` in :ref:`component`. "
+"Elke vermelde controle kan niet worden uitgeschakeld in de "
+"gebruikersinterface en elke tekenreeks die niet voldoet aan deze controle "
+"wordt gemarkeerd als :guilabel:`Bewerken nodig` (bekijk :ref:`states`)."
 
 #: ../../admin/checks.rst:323
 msgid ""
 "Turning on check enforcing doesn't enable it automatically. The check can be "
 "turned on by adding the corresponding flag to string or component flags."
 msgstr ""
+"Inschakelen van het afdwingen van controles schakelt ze niet automatisch in. "
+"De controle kan worden ingeschakeld door de corresponderende vlag toe te "
+"voegen aan de tekenreeks of de vlaggen van het onderdeel."
 
 #: ../../admin/checks.rst:328
 msgid ":ref:`additional`, :ref:`component-check_flags`"
@@ -7253,13 +7275,16 @@ msgstr ":ref:`additional`, :ref:`component-check_flags`"
 
 #: ../../admin/checks.rst:334
 msgid "Managing fonts"
-msgstr ""
+msgstr "Lettertypen beheren"
 
 #: ../../admin/checks.rst:338
 msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
 msgstr ""
+"Lettertypen die worden geüpload in Weblate worden puur gebruikt voor de "
+"doelen van de controle :ref:`check-max-size`, zij hebben geen effect in de "
+"gebruikersinterface van Weblate."
 
 #: ../../admin/checks.rst:342
 msgid ""
@@ -7267,6 +7292,10 @@ msgid ""
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
+"De controle :ref:`check-max-size`, die wordt gebruikt om dimensies van de "
+"gerenderde tekst te berekenen, heeft lettertypen nodig die zijn geladen in "
+"Weblate en zijn geselecteerd met een vlag voor de vertaling (bekijk :ref"
+":`custom-checks`)."
 
 #: ../../admin/checks.rst:346
 msgid ""
@@ -7275,62 +7304,83 @@ msgid ""
 "manage fonts. TrueType or OpenType fonts can be uploaded, set up font-groups "
 "and use those in the check."
 msgstr ""
+"Het gereedschap voor het beheren van lettertypen in Weblate "
+":guilabel:`Lettertypen` in het menu :guilabel:`Beheren` van uw "
+"vertaalproject verschaft de interface voor het uploaden en beheren van "
+"lettertypen. Lettertypen TrueType of OpenType kunnen worden geüpload, "
+"groepen lettertypen kunnen worden ingesteld en die kunnen worden gebruikt in "
+"de controle."
 
 #: ../../admin/checks.rst:351
 msgid ""
 "The font-groups allow you to define different fonts for different languages, "
 "which is typically needed for non-latin languages:"
 msgstr ""
+"De groepen voor lettertypen stellen u in staat verschillende lettertypen te "
+"definiëren voor verschillende talen, wat gewoonlijk nodig is voor niet-"
+"Latijnse talen:"
 
 #: ../../admin/checks.rst:356
 msgid ""
 "The font-groups are identified by name, which can not contain whitespace or "
 "special characters, so that it can be easily used in the check definition:"
 msgstr ""
+"De groepen lettertypen worden geïdentificeerd op naam, die geen witruimte of "
+"speciale tekens mag bevatten, zodat het gemakkelijk kan worden gebruikt in "
+"de definitie van de controle:"
 
 #: ../../admin/checks.rst:361
 msgid "Font-family and style is automatically recognized after uploading them:"
 msgstr ""
+"Familie en stijl van lettertype worden automatisch herkend na het uploaden "
+"ervan:"
 
 #: ../../admin/checks.rst:365
 msgid "You can have a number of fonts loaded into Weblate:"
-msgstr ""
+msgstr "U mag een aantal lettertypen hebben geladen in Weblate:"
 
 #: ../../admin/checks.rst:369
 msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
 msgstr ""
+"Geef het, om de lettertypen te gebruiken voor het controleren van de lengte "
+"van de tekenreeks, de toepasselijke vlaggen (bekijk :ref:`custom-checks`). U "
+"zult waarschijnlijk de volgende nodig hebben:"
 
 #: ../../admin/checks.rst:372
 msgid "``max-size:500`` / ``max-size:300:5``"
-msgstr ""
+msgstr "``max-size:500`` / ``max-size:300:5``"
 
 #: ../../admin/checks.rst:373
 msgid ""
 "Defines maximal width in pixels and, optionally, the maximum number of lines "
 "(word wrapping is applied)."
 msgstr ""
+"Definieert de maximale breedte in pixels en, optioneel, het maximum aantal "
+"regels (tekstterugloop wordt toegepast)."
 
 #: ../../admin/checks.rst:374
 msgid "``font-family:ubuntu``"
-msgstr ""
+msgstr "``font-family:ubuntu``"
 
 #: ../../admin/checks.rst:375
 msgid "Defines font group to use by specifying its identifier."
 msgstr ""
+"Definieert de groep van het lettertype door zijn identificatie te "
+"specificeren."
 
 #: ../../admin/checks.rst:376
 msgid "``font-size:22``"
-msgstr ""
+msgstr "``font-size:22``"
 
 #: ../../admin/checks.rst:377
 msgid "Defines font size in pixels."
-msgstr ""
+msgstr "Definieert de grootte van het lettertype in pixels."
 
 #: ../../admin/checks.rst:383
 msgid "Writing own checks"
-msgstr ""
+msgstr "Eigen controles schrijven"
 
 #: ../../admin/checks.rst:385
 msgid ""
@@ -7339,54 +7389,68 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
+"Een breed scala aan kwaliteitscontroles is ingebouwd, (bekijk :ref:`checks`)"
+", hoewel zij misschien niet alles afdekken wat u wilt controleren. De lijst "
+"met uitgevoerde controles kan worden aangepast met :setting:`CHECK_LIST`, en "
+"u kunt ook aangepaste controles toevoegen."
 
 #: ../../admin/checks.rst:389
 msgid "Subclass the `weblate.checks.Check`"
-msgstr ""
+msgstr "Subklasseer de `weblate.checks.Check`"
 
 #: ../../admin/checks.rst:390
 msgid "Set a few attributes."
-msgstr ""
+msgstr "Stel een paar attributen in."
 
 #: ../../admin/checks.rst:391
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
 msgstr ""
+"Implementeer ofwel de methode ``check`` (als u meervouden wilt afhandelen in "
+"uw code) of de methode ``check_single`` (die het voor u doet)."
 
 #: ../../admin/checks.rst:394
 msgid "Some examples:"
-msgstr ""
+msgstr "Enkele voorbeelden:"
 
 #: ../../admin/checks.rst:396
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Verschaf, om aangepaste controles te installeren, een volledig "
+"gekwalificeerd pad naar de klasse van Python in de :setting:`CHECK_LIST`, "
+"bekijk :ref:`custom-check-modules`."
 
 #: ../../admin/checks.rst:400
 msgid "Checking translation text does not contain \"foo\""
-msgstr ""
+msgstr "Controleren of de vertaalde tekst niet \"foo\" bevat"
 
 #: ../../admin/checks.rst:402
 msgid ""
 "This is a pretty simple check which just checks whether the translation is "
 "missing the string \"foo\"."
 msgstr ""
+"Dit is een vrij eenvoudige controle die slechts controleert of in de "
+"vertaling de tekenreeks \"foo\" ontbreekt."
 
 #: ../../admin/checks.rst:409
 msgid "Checking that Czech translation text plurals differ"
 msgstr ""
+"Controleren dat Tsjechische meervouden in de vertaalde tekst verschillen"
 
 #: ../../admin/checks.rst:411
 msgid ""
 "Check using language info to verify the two plural forms in Czech language "
 "are not same."
 msgstr ""
+"Controleren met informatie voor de taal om te verifiëren of de twee "
+"meervouden in de Tsjechische taal niet hetzelfde zijn."
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
-msgstr ""
+msgstr "Onderdelenlijsten"
 
 #: ../../admin/componentlists.rst:6
 msgid ""
@@ -7394,12 +7458,17 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
+"Specificeer meerdere lijsten met onderdelen om als opties te verschijnen op "
+"het dashboard van de gebruiker, waar gebruikers er een kunnen kiezen als hun "
+"standaard weergave. Bekijk :ref:`dashboard` voor meer informatie."
 
 #: ../../admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
 msgstr ""
+"Een status zal worden weergegeven voor elke onderdelenlijst die wordt "
+"gepresenteerd op het dashboard."
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -7408,22 +7477,31 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
+"De namen en inhoud van onderdelenlijsten kunnen worden gespecificeerd in de "
+"beheerinterface, in het gedeelte :guilabel:`Onderdelenlijsten`. Elke "
+"onderdelenlijst moet een naam hebben die wordt getoond aan de gebruiker, en "
+"een slug die het weergeeft in de URL."
 
 #: ../../admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
 msgstr ""
+"Wijzig de instellingen voor het dashboard voor anonieme gebruikers in de "
+"beheerinterface, wijzig welk dashboard wordt weergegeven voor niet-"
+"geauthenticeerde gebruikers."
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
-msgstr ""
+msgstr "Automatisch onderdelenlijsten"
 
 #: ../../admin/componentlists.rst:28
 msgid ""
 "Add components to the list automatically based on their slug by creating :"
 "guilabel:`Automatic component list assignment` rules."
 msgstr ""
+"Voeg onderdelen automatisch aan de lijst toe, gebaseerd op hun slug door "
+"regels :guilabel:`Toewijzen automatische onderdelenlijst` te maken."
 
 #: ../../admin/componentlists.rst:31
 msgid ""
@@ -7431,12 +7509,17 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
+"Nuttig voor het onderhouden van onderdelenlijsten voor grote installaties, "
+"of voor het geval u een onderdelenlijst met alle onderdelen in uw "
+"installatie van Weblate wilt hebben."
 
 #: ../../admin/componentlists.rst:36
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
 msgstr ""
+"Maak een onderdelenlijst die alle componenten van uw installatie van Weblate "
+"bevat."
 
 #: ../../admin/componentlists.rst:38
 msgid ""
@@ -7444,45 +7527,60 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
+"1. Definieer :guilabel:`Toewijzen automatische onderdelenlijst` met ``^.*$`` "
+"als reguliere expressie in zowel de velden voor project als die van het "
+"onderdeel, zoals weergegeven in deze afbeelding:"
 
 #: ../../admin/componentlists.rst:41
 msgid ""
 "Image showing the Weblate administration panel with the above configuration "
 "filled in."
 msgstr ""
+"Afbeelding die het Weblate beheerpaneel weergeeft met bovenstaande "
+"configuratie ingevuld."
 
 #: ../../admin/config.rst:6
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
 msgstr ""
+"Alle instellingen worden opgeslagen in :file:`settings.py` (zoals "
+"gebruikelijk voor Django)."
 
 #: ../../admin/config.rst:10
 msgid ""
 "After changing any of these settings, you need to restart Weblate — both "
 "WSGI and Celery processes."
 msgstr ""
+"Na het wijzigen van deze instellingen moet u Weblate opnieuw starten — zowel "
+"de processen van WSGI als van Celery."
 
 #: ../../admin/config.rst:13
 msgid ""
 "In case it is run as ``mod_wsgi``, you need to restart Apache to reload the "
 "configuration."
 msgstr ""
+"In het geval dat het wordt uitgevoerd als ``mod_wsgi``, moet u Apache "
+"opnieuw starten om de configuratie opnieuw te laden."
 
 #: ../../admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
+"Controleer ook :doc:`de documentatie van Django <django:ref/settings>` voor "
+"parameters om Django zelf te configureren."
 
 #: ../../admin/config.rst:24
 msgid "ADMINS_CONTACT"
-msgstr ""
+msgstr "ADMINS_CONTACT"
 
 #: ../../admin/config.rst:26
 msgid ""
 "Configures where contact form sends e-mails. If not configured, e-mail "
 "addresses from :setting:`ADMINS` are used."
 msgstr ""
+"Configureert waar het contactformulier zijn e-mail naartoe stuurt. Indien "
+"niet geconfigureerd, worden e-mailadressen van :setting:`ADMINS` gebruikt."
 
 #: ../../admin/config.rst:29
 msgid "Configure this as a list of e-mail addresses:"
@@ -7490,11 +7588,11 @@ msgstr "Configureer dit als een lijst met e-mailadressen:"
 
 #: ../../admin/config.rst:37
 msgid ":setting:`CONTACT_FORM`, :setting:`ADMINS`"
-msgstr ""
+msgstr ":setting:`CONTACT_FORM`, :setting:`ADMINS`"
 
 #: ../../admin/config.rst:43
 msgid "AKISMET_API_KEY"
-msgstr ""
+msgstr "AKISMET_API_KEY"
 
 #: ../../admin/config.rst:45
 msgid ""
@@ -7502,14 +7600,17 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
+"Weblate kan Akismet gebruiken voor het controleren van anonieme suggesties "
+"op spam. Bezoek `akismet.com <https://akismet.com/>`_ om een API-sleutel te "
+"kopen en die te koppelen aan een site."
 
 #: ../../admin/config.rst:52
 msgid "ANONYMOUS_USER_NAME"
-msgstr ""
+msgstr "ANONYMOUS_USER_NAME"
 
 #: ../../admin/config.rst:54
 msgid "Username of users that are not signed in."
-msgstr ""
+msgstr "Gebruikersnaam van gebruikers die niet zijn ingelogd."
 
 #: ../../admin/config.rst:58
 msgid ":ref:`access-control`"
@@ -7517,47 +7618,56 @@ msgstr ":ref:`access-control`"
 
 #: ../../admin/config.rst:63
 msgid "AUDITLOG_EXPIRY"
-msgstr ""
+msgstr "AUDITLOG_EXPIRY"
 
 #: ../../admin/config.rst:65
 msgid ""
 "How many days Weblate should keep audit logs (which contain info about "
 "account activity)."
 msgstr ""
+"Hoeveel dagen Weblate logboeken zou moeten bewaren (die informatie bevatten "
+"over activiteiten van het account)."
 
 #: ../../admin/config.rst:68 ../../admin/config.rst:159
 msgid "Defaults to 180 days."
-msgstr ""
+msgstr "Standaard is 180 dagen."
 
 #: ../../admin/config.rst:73
 msgid "AUTH_LOCK_ATTEMPTS"
-msgstr ""
+msgstr "AUTH_LOCK_ATTEMPTS"
 
 #: ../../admin/config.rst:75
 msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
+"Maximaal aantal mislukte pogingen voor authenticatie voordat de limiet wordt "
+"toegepast."
 
 #: ../../admin/config.rst:77
 msgid "This is currently applied in the following locations:"
-msgstr ""
+msgstr "Dit wordt momenteel toegepast op de volgende locaties:"
 
 #: ../../admin/config.rst:79
 msgid ""
 "Sign in. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
+"Inloggen. Verwijdert het wachtwoord voor het account, voorkomt dat de "
+"gebruiker kan inloggen zonder eerst een nieuw wachtwoord aan te vragen."
 
 #: ../../admin/config.rst:81
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password-reset attempts."
 msgstr ""
+"Wachtwoord herstellen. Voorkomt dat nieuwe e-mails worden verzonden, "
+"vermijdt het spammen van gebruikers met te veel pogingen voor herstellen van "
+"wachtwoord."
 
 #: ../../admin/config.rst:84
 msgid "Defaults to 10."
-msgstr ""
+msgstr "Standaard is 10."
 
 #: ../../admin/config.rst:88
 msgid ":ref:`rate-limit`"
@@ -7565,92 +7675,102 @@ msgstr ":ref:`rate-limit`"
 
 #: ../../admin/config.rst:93
 msgid "AUTO_UPDATE"
-msgstr ""
+msgstr "AUTO_UPDATE"
 
 #: ../../admin/config.rst:95
 msgid "Updates all repositories on a daily basis."
-msgstr ""
+msgstr "Werkt alle opslagruimten bij op dagelijkse basis."
 
 #: ../../admin/config.rst:99
 msgid ""
 "Useful if you are not using :ref:`hooks` to update Weblate repositories "
 "automatically."
 msgstr ""
+"Nuttig als u geen :ref:`hooks` gebruikt om opslagruimten van Weblate "
+"automatisch bij te werken."
 
 #: ../../admin/config.rst:103
 msgid ""
 "On/off options exist in addition to string selection for backward "
 "compatibility."
 msgstr ""
+"Opties Aan/Uit bestaan in aanvulling op het selecteren van tekenreeks om "
+"redenen van achterwaartse compatibiliteit."
 
 #: ../../admin/config.rst:105
 msgid "The options are:"
-msgstr ""
+msgstr "De opties zijn:"
 
 #: ../../admin/config.rst:107 ../../admin/config.rst:475
 msgid "``\"none\"``"
-msgstr ""
+msgstr "``\"none\"``"
 
 #: ../../admin/config.rst:108
 msgid "No daily updates."
-msgstr ""
+msgstr "Geen dagelijkse bijwerkingen."
 
 #: ../../admin/config.rst:109
 msgid "``\"remote\"`` also ``False``"
-msgstr ""
+msgstr "``\"remote\"`` ook``False``"
 
 #: ../../admin/config.rst:110
 msgid "Only update remotes."
-msgstr ""
+msgstr "Alleen bijwerken op afstand."
 
 #: ../../admin/config.rst:111
 msgid "``\"full\"`` also ``True``"
-msgstr ""
+msgstr "``\"full\"`` ook``True``"
 
 #: ../../admin/config.rst:112
 msgid "Update remotes and merge working copy."
-msgstr ""
+msgstr "Bijwerken op afstand en samenvoegen werkkopie."
 
 #: ../../admin/config.rst:116
 msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
 msgstr ""
+"Dit vereist dat :ref:`celery` werkt, en zal effect hebben nadat dat opnieuw "
+"is opgestart."
 
 #: ../../admin/config.rst:121
 msgid "AVATAR_URL_PREFIX"
-msgstr ""
+msgstr "AVATAR_URL_PREFIX"
 
 #: ../../admin/config.rst:123
 msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
+"Voorvoegsel voor construeren van avatar-URL's als: ``${AVATAR_URL_PREFIX}/"
+"avatar/${MAIL_HASH}?${PARAMS}``. Van de volgende services is bekend dat zij "
+"werken:"
 
 #: ../../admin/config.rst:127
 msgid "Gravatar (default), as per https://gravatar.com/"
-msgstr ""
+msgstr "Gravatar (standaard), vanaf https://gravatar.com/"
 
 #: ../../admin/config.rst:128
 msgid "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
 
 #: ../../admin/config.rst:129
 msgid "Libravatar, as per https://www.libravatar.org/"
-msgstr ""
+msgstr "Libravatar, vanaf https://www.libravatar.org/"
 
 #: ../../admin/config.rst:130
 msgid "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
 
 #: ../../admin/config.rst:134
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 
 #: ../../admin/config.rst:141
 msgid "AUTH_TOKEN_VALID"
-msgstr ""
+msgstr "AUTH_TOKEN_VALID"
 
 #: ../../admin/config.rst:143
 msgid ""
@@ -7658,10 +7778,13 @@ msgid ""
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
 "days)."
 msgstr ""
+"Hoe lang het token voor authenticatie en het tijdelijke wachtwoord in e-"
+"mails voor het herstellen van het wachtwoord geldig is. Stel in op aantal "
+"seconden, standaard is 172800 (2 dagen)."
 
 #: ../../admin/config.rst:148
 msgid "AUTH_PASSWORD_DAYS"
-msgstr ""
+msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:150
 msgid ""
@@ -7675,113 +7798,130 @@ msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
 msgstr ""
+"Het controleren is gebaseerd op het activiteitenlogboek, "
+":setting:`AUDITLOG_EXPIRY` moet ten minste hetzelfde zijn als dit."
 
 #: ../../admin/config.rst:157
 msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
 msgstr ""
+"Wijzigingen voor wachtwoorden voorafgaande aan Weblate 2.15 zullen in dit "
+"beleid niet worden meegenomen."
 
 #: ../../admin/config.rst:164
 msgid "AUTOFIX_LIST"
-msgstr ""
+msgstr "AUTOFIX_LIST"
 
 #: ../../admin/config.rst:166
 msgid "List of automatic fixes to apply when saving a string."
 msgstr ""
+"Lijst met automatische reparaties die moet worden toegepast bij het opslaan "
+"van een tekenreeks."
 
 #: ../../admin/config.rst:170
 msgid ""
 "Provide a fully-qualified path to the Python class that implements the "
 "autofixer interface."
 msgstr ""
+"Verschaf een volledig gekwalificeerd pad naar de klasse van Python die de "
+"interface autofixer implementeert."
 
 #: ../../admin/config.rst:173
 msgid "Available fixes:"
-msgstr ""
+msgstr "Beschikbare reparaties:"
 
 #: ../../admin/config.rst:175
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:176
 msgid "Matches whitespace at the start and end of the string to the source."
 msgstr ""
+"Komt overeen met witruimte aan begin en einde van de tekenreeks voor de bron."
 
 #: ../../admin/config.rst:177
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 
 #: ../../admin/config.rst:178
 msgid ""
 "Replaces trailing dots (...) if the source string has a corresponding "
 "ellipsis (…)."
 msgstr ""
+"Vervangt achterliggende punten (...) als de brontekenreeks een overeenkomend "
+"beletselteken heeft (…)."
 
 #: ../../admin/config.rst:179
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 
 #: ../../admin/config.rst:180
 msgid "Removes zero-width space characters if the source does not contain any."
-msgstr ""
+msgstr "Verwijdert tekens met breedte nul als de bron er geen bevat."
 
 #: ../../admin/config.rst:181
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:182
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "Verwijdert besturingstekens als de bron er geen bevat."
 
 #: ../../admin/config.rst:183
 msgid "``weblate.trans.autofixes.chars.DevanagariDanda``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.DevanagariDanda``"
 
 #: ../../admin/config.rst:184
 msgid ""
 "Replaces sentence full stop in Bangla by the devanagari danda character."
 msgstr ""
+"Verwijdert de punt aan het einde van de zin in Bengalees door het teken "
+"devanagari danda."
 
 #: ../../admin/config.rst:185
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.html.BleachHTML``"
 
 #: ../../admin/config.rst:186
 msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
+"Verwijdert onveilige HTML uit tekenreeksen die zijn gevlagd als ``safe-html``"
+" (bekijk :ref:`check-safe-html`)."
 
 #: ../../admin/config.rst:188
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "U kunt selecteren welke te gebruiken:"
 
 #: ../../admin/config.rst:199
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
-msgstr ""
+msgstr ":ref:`autofix`, :ref:`custom-autofix`"
 
 #: ../../admin/config.rst:204
 msgid "BACKGROUND_TASKS"
-msgstr ""
+msgstr "BACKGROUND_TASKS"
 
 #: ../../admin/config.rst:208
 msgid ""
 "Defines how often lengthy maintenance tasks should be triggered for a "
 "component."
 msgstr ""
+"Definieert hoe vaak langdurige taken voor onderhoud zouden moeten worden "
+"geactiveerd voor een onderdeel."
 
 #: ../../admin/config.rst:211
 msgid "Right now this controls:"
-msgstr ""
+msgstr "Momenteel beheert dit:"
 
 #: ../../admin/config.rst:213
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
-msgstr ""
+msgstr "add-on :ref:`addon-weblate.autotranslate.autotranslate`"
 
 #: ../../admin/config.rst:214
 msgid ":doc:`checks` recalculation"
-msgstr ""
+msgstr "herberekenen van :doc:`checks`"
 
 #: ../../admin/config.rst:216
 msgid "Possible choices:"
@@ -7789,7 +7929,7 @@ msgstr "Mogelijke keuzes:"
 
 #: ../../admin/config.rst:218
 msgid "``monthly`` (this is the default)"
-msgstr ""
+msgstr "``monthly`` (dit is de standaard)"
 
 #: ../../admin/config.rst:219
 msgid "``weekly``"
@@ -7808,10 +7948,12 @@ msgid ""
 "Increasing the frequency is not recommended when Weblate contains thousands "
 "of components."
 msgstr ""
+"Verhogen van de frequentie wordt niet aanbevolen als Weblate duizenden "
+"onderdelen bevat."
 
 #: ../../admin/config.rst:231
 msgid "BASIC_LANGUAGES"
-msgstr ""
+msgstr "BASIC_LANGUAGES"
 
 #: ../../admin/config.rst:235
 msgid ""
@@ -7819,6 +7961,10 @@ msgid ""
 "specified, a built-in list is used (which includes all commonly used "
 "languages, but without country specific variants)."
 msgstr ""
+"Lijst met talen om aan gebruikers aan te bieden voor het beginnen van een "
+"nieuwe vertaling. Indien niet gespecificeerd wordt een ingebouwde lijst "
+"gebruikt (die alle veel gebruikte talen bevat, maar zonder landspecifieke "
+"varianten)."
 
 #: ../../admin/config.rst:239
 msgid ""
@@ -7826,12 +7972,17 @@ msgid ""
 "admins are still presented with the full selection of languages defined in "
 "Weblate."
 msgstr ""
+"Dit beperkt alleen niet geprivilegieerde gebruikers om niet gewenste talen "
+"toe te voegen. Aan projectbeheerders wordt nog steeds de volledige selectie "
+"van in Weblate gedefinieerde talen weergegeven."
 
 #: ../../admin/config.rst:244
 msgid ""
 "This does not define new languages for Weblate — it only filters existing "
 "ones in the database."
 msgstr ""
+"Dit definieert geen nieuwe talen voor Weblate — het filtert alleen de "
+"bestaande in de database."
 
 #: ../../admin/config.rst:255 ../../faq.rst:372
 msgid ":ref:`languages`"
@@ -7839,43 +7990,51 @@ msgstr ":ref:`languages`"
 
 #: ../../admin/config.rst:260
 msgid "BORG_EXTRA_ARGS"
-msgstr ""
+msgstr "BORG_EXTRA_ARGS"
 
 #: ../../admin/config.rst:264
 msgid ""
 "You can pass additional arguments to :command:`borg create` when built-in "
 "backups are triggered."
 msgstr ""
+"U kunt aanvullende argumenten doorgeven aan :command:`borg create` als "
+"ingebouwde back-ups worden geactiveerd."
 
 #: ../../admin/config.rst:274
 msgid ":ref:`backup`, :doc:`borg:usage/create`"
-msgstr ""
+msgstr ":ref:`backup`, :doc:`borg:usage/create`"
 
 #: ../../admin/config.rst:280
 msgid "CACHE_DIR"
-msgstr ""
+msgstr "CACHE_DIR"
 
 #: ../../admin/config.rst:284
 msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
+"Map waar Weblate bestanden voor de cache opslaat. Standaard de submap "
+":file:`cache` in :setting:`DATA_DIR`."
 
 #: ../../admin/config.rst:287
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
 msgstr ""
+"Wijzig dit naar lokaal of tijdelijk bestandssysteem als :setting:`DATA_DIR` "
+"op een netwerk-bestandssysteem staat."
 
 #: ../../admin/config.rst:290 ../../admin/config.rst:444
 msgid ""
 "The Docker container uses a separate volume for this, see :ref:`docker-"
 "volume`."
 msgstr ""
+"De Docker container gebruikt hiervoor een afzonderlijk volume, bekijk :ref"
+":`docker-volume`."
 
 #: ../../admin/config.rst:292 ../../admin/config.rst:427
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "Gewoonlijk bestaan de volgende submappen:"
 
 #: ../../admin/config.rst:294
 msgid ":file:`fonts`"
@@ -7883,7 +8042,7 @@ msgstr ":file:`fonts`"
 
 #: ../../admin/config.rst:295
 msgid ":program:`font-config` cache for :ref:`fonts`."
-msgstr ""
+msgstr ":program:`font-config` cache voor :ref:`fonts`."
 
 #: ../../admin/config.rst:296
 msgid ":file:`avatar`"
@@ -7902,6 +8061,8 @@ msgid ""
 "Default location for static Django files, specified by :setting:`django:"
 "STATIC_ROOT`. See :ref:`static-files`."
 msgstr ""
+"Standaard locatie voor statische bestanden van Django, gespecificeerd door "
+":setting:`django:STATIC_ROOT`. Bekijk :ref:`static-files`."
 
 #: ../../admin/config.rst:300
 msgid ":file:`tesseract`"
@@ -7909,13 +8070,15 @@ msgstr ":file:`tesseract`"
 
 #: ../../admin/config.rst:301
 msgid "OCR trained data for :ref:`screenshots`."
-msgstr ""
+msgstr "OCR getrainde gegevens voor :ref:`screenshots`."
 
 #: ../../admin/config.rst:311
 msgid ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, "
 "CSP_FORM_SRC"
 msgstr ""
+"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, "
+"CSP_FORM_SRC"
 
 #: ../../admin/config.rst:313
 msgid ""
@@ -7923,34 +8086,42 @@ msgid ""
 "header is automatically generated based on enabled integrations with third-"
 "party services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
+"Aangepaste kop :http:header:`Content-Security-Policy` voor Weblate. De kop "
+"wordt automatisch gegenereerd, gebaseerd op ingeschakelde integraties met "
+"services van derde partijen (Matomo, Google Analytics, Sentry, …)."
 
 #: ../../admin/config.rst:317
 msgid "All these default to empty list."
-msgstr ""
+msgstr "Standaard zijn dit lege lijsten."
 
 #: ../../admin/config.rst:328
 msgid ""
 ":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/en-"
 "US/docs/Web/HTTP/CSP>`_"
 msgstr ""
+":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/"
+"en-US/docs/Web/HTTP/CSP>`_"
 
 #: ../../admin/config.rst:334
 msgid "CHECK_LIST"
-msgstr ""
+msgstr "CHECK_LIST"
 
 #: ../../admin/config.rst:336
 msgid "List of quality checks to perform on a translation."
-msgstr ""
+msgstr "Lijst van op een vertaling uit te voeren kwaliteitscontroles."
 
 #: ../../admin/config.rst:340
 msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
+"Verschaf een volledig gekwalificeerd pad naar de klasse van Python die de "
+"interface check implementeert."
 
 #: ../../admin/config.rst:343
 msgid "Adjust the list of checks to include ones relevant to you."
 msgstr ""
+"Pas de lijst met controles aan zodat hij die bevat die relevant voor u zijn."
 
 #: ../../admin/config.rst:345
 msgid ""
@@ -7959,14 +8130,18 @@ msgid ""
 "configuration` so that default values are used. New checks are then carried "
 "out for each new Weblate version."
 msgstr ""
+"Alle ingebouwde :ref:`checks` zijn standaard ingeschakeld, van waaruit u "
+"deze instellingen kunt wijzigen. Standaard zijn zij uit gecommenteerd in :ref"
+":`sample-configuration`, zodat standaard waarden worden gebruikt. Nieuwe "
+"controles worden dan uitgevoerd voor elke nieuwe versie van Weblate."
 
 #: ../../admin/config.rst:349
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "U kunt alle controles uitschakelen:"
 
 #: ../../admin/config.rst:355
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "U kunt er ook slechts een paar inschakelen:"
 
 #: ../../admin/config.rst:367
 msgid ""
@@ -7974,74 +8149,90 @@ msgid ""
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :wladmin:`updatechecks`."
 msgstr ""
+"Wijzigen van deze instelling beïnvloed nieuw gewijzigde vertalingen. "
+"Bestaande controles zullen nog steeds worden opgeslagen in de database. Voer "
+":wladmin:`updatechecks` uit om ook wijzigingen op de opgeslagen vertalingen "
+"toe te passen."
 
 #: ../../admin/config.rst:373 ../../admin/translating.rst:88
 msgid ":ref:`checks`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`checks`, :ref:`custom-checks`"
 
 #: ../../admin/config.rst:378
 msgid "COMMENT_CLEANUP_DAYS"
-msgstr ""
+msgstr "COMMENT_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:380
 msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
+"Verwijder opmerkingen na een opgegeven aantal dagen. Standaard ``None``, wat "
+"betekent dat er niets verwijderd wordt."
 
 #: ../../admin/config.rst:386
 msgid "COMMIT_PENDING_HOURS"
-msgstr ""
+msgstr "COMMIT_PENDING_HOURS"
 
 #: ../../admin/config.rst:388
 msgid ""
 "Number of hours between committing pending changes by way of the background "
 "task."
 msgstr ""
+"Aantal uren tussen indienen van openstaande wijzigingen door middel van een "
+"taak op de achtergrond."
 
 #: ../../admin/config.rst:392
 msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :wladmin:`commit_pending`"
 msgstr ""
+":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-cron`"
+", :wladmin:`commit_pending`"
 
 #: ../../admin/config.rst:401
 msgid "CONTACT_FORM"
-msgstr ""
+msgstr "CONTACT_FORM"
 
 #: ../../admin/config.rst:405
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches the configuration of your mail server."
 msgstr ""
+"Configureert hoe e-mail vanuit het contactformulier wordt verzonden. Kies "
+"een configuratie die overeenkomt met de configuratie van uw mailserver."
 
 #: ../../admin/config.rst:408
 msgid "``\"reply-to\"``"
-msgstr ""
+msgstr "``\"reply-to\"``"
 
 #: ../../admin/config.rst:409
 msgid ""
 "The sender is used in as :mailheader:`Reply-To`, this is the default "
 "behaviour."
 msgstr ""
+"De afzender wordt gebruikt in :mailheader:`Reply-To`, dit is het standaard "
+"gedrag."
 
 #: ../../admin/config.rst:410
 msgid "``\"from\"``"
-msgstr ""
+msgstr "``\"from\"``"
 
 #: ../../admin/config.rst:411
 msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
 msgstr ""
+"De afzender wordt gebruikt in :mailheader:`From`. Uw mailserver moet het "
+"verzenden van dergelijke e-mails toestaan."
 
 #: ../../admin/config.rst:417
 msgid ":setting:`ADMINS_CONTACT`"
-msgstr ""
+msgstr ":setting:`ADMINS_CONTACT`"
 
 #: ../../admin/config.rst:422
 msgid "DATA_DIR"
-msgstr ""
+msgstr "DATA_DIR"
 
 #: ../../admin/config.rst:424
 msgid ""
@@ -8049,6 +8240,9 @@ msgid ""
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
+"De map Weblate slaat alle gegevens op. Het bevat koppelingen naar de "
+"opslagruimten van het VCS, een index op de volledige tekst en verscheidene "
+"configuratiebestanden voor externe gereedschappen."
 
 #: ../../admin/config.rst:429
 msgid ":file:`home`"
@@ -8056,7 +8250,7 @@ msgstr ":file:`home`"
 
 #: ../../admin/config.rst:430
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "Thuismap die wordt gebruikt voor het uitvoeren van scripts."
 
 #: ../../admin/config.rst:431
 msgid ":file:`ssh`"
@@ -8064,7 +8258,7 @@ msgstr ":file:`ssh`"
 
 #: ../../admin/config.rst:432
 msgid "SSH keys and configuration."
-msgstr ""
+msgstr "SSH-sleutels en configuratie."
 
 #: ../../admin/config.rst:433
 msgid ":file:`media`"
@@ -8093,14 +8287,15 @@ msgstr ":file:`backups`"
 #: ../../admin/config.rst:438
 msgid "Daily backup data. Please check :ref:`backup-dumps` for details."
 msgstr ""
+"Dagelijkse back-upgegevens. Controleer :ref:`backup-dumps` voor details."
 
 #: ../../admin/config.rst:439
 msgid ":file:`fonts`:"
-msgstr ""
+msgstr ":file:`fonts`:"
 
 #: ../../admin/config.rst:440
 msgid "User-uploaded  fonts, see :ref:`fonts`."
-msgstr ""
+msgstr "Door gebruiker geüploade lettertypen, bekijk :ref:`fonts`."
 
 #: ../../admin/config.rst:441
 msgid ":file:`cache`"
@@ -8109,45 +8304,56 @@ msgstr ":file:`cache`"
 #: ../../admin/config.rst:442
 msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
+"Verscheidene caches. Kan ergens anders geplaatst worden met "
+":setting:`CACHE_DIR`."
 
 #: ../../admin/config.rst:448
 msgid ""
 "This directory has to be writable by Weblate. Running it as uWSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
+"Naar deze map moet kunnen worden geschreven door Weblate. Uitvoeren als "
+"uWSGI betekent dat de gebruiker ``www-data`` toegang voor schrijven zou "
+"hebben."
 
 #: ../../admin/config.rst:451
 msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
+"De gemakkelijkste manier om dit te bereiken is door de gebruiker eigenaar "
+"van de map te maken:"
 
 #: ../../admin/config.rst:457
 msgid ""
 "Defaults to ``/home/weblate/data``, but it is expected to be configured."
 msgstr ""
+"Standaard is ``/home/weblate/data``, maar verwacht wordt dat hij wordt "
+"geconfigureerd."
 
 #: ../../admin/config.rst:461
 msgid ":ref:`file-permissions`, :doc:`backup`, :setting:`CACHE_DIR`"
-msgstr ""
+msgstr ":ref:`file-permissions`, :doc:`backup`, :setting:`CACHE_DIR`"
 
 #: ../../admin/config.rst:468
 msgid "DATABASE_BACKUP"
-msgstr ""
+msgstr "DATABASE_BACKUP"
 
 #: ../../admin/config.rst:470
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
+"Of de back-ups van de database zouden moeten worden opgeslagen als platte "
+"tekst, gecomprimeerd of overgeslagen. De toegestane waarden zijn:"
 
 #: ../../admin/config.rst:473
 msgid "``\"plain\"``"
-msgstr ""
+msgstr "``\"plain\"``"
 
 #: ../../admin/config.rst:474
 msgid "``\"compressed\"``"
-msgstr ""
+msgstr "``\"compressed\"``"
 
 #: ../../admin/config.rst:479
 msgid ":ref:`backup`"
@@ -8155,11 +8361,11 @@ msgstr ":ref:`backup`"
 
 #: ../../admin/config.rst:484
 msgid "DEFAULT_ACCESS_CONTROL"
-msgstr ""
+msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:486
 msgid "The default access-control setting for new projects:"
-msgstr ""
+msgstr "De standaard instelling voor toegangsbeheer voor nieuwe projecten:"
 
 #: ../../admin/config.rst:488
 msgid "``0``"
@@ -8182,6 +8388,8 @@ msgid ""
 "Use :guilabel:`Custom` if you are managing ACL manually, which means not "
 "relying on the internal Weblate management."
 msgstr ""
+"Gebruik :guilabel:`Aangepast` als u ACL handmatig beheert, wat niet "
+"vertrouwen op het interne beheer van Weblate betekent."
 
 #: ../../admin/config.rst:502
 msgid ":ref:`acl`, :ref:`project-access_control`"
@@ -8189,13 +8397,15 @@ msgstr ":ref:`acl`, :ref:`project-access_control`"
 
 #: ../../admin/config.rst:508
 msgid "DEFAULT_AUTO_WATCH"
-msgstr ""
+msgstr "DEFAULT_AUTO_WATCH"
 
 #: ../../admin/config.rst:512
 msgid ""
 "Configures whether :guilabel:`Automatically watch projects on contribution` "
 "should be turned on for new users. Defaults to ``True``."
 msgstr ""
+"Configureert of :guilabel:`Projecten automatisch volgen bij deelnemen` "
+"ingeschakeld zou moeten zijn voor nieuwe gebruikers. Standaard is ``True``."
 
 #: ../../admin/config.rst:517
 msgid ":ref:`subscriptions`"
@@ -8203,11 +8413,11 @@ msgstr ":ref:`subscriptions`"
 
 #: ../../admin/config.rst:522
 msgid "DEFAULT_RESTRICTED_COMPONENT"
-msgstr ""
+msgstr "DEFAULT_RESTRICTED_COMPONENT"
 
 #: ../../admin/config.rst:526
 msgid "The default value for component restriction."
-msgstr ""
+msgstr "De standaard waarde voor beperkingen van het onderdeel."
 
 #: ../../admin/config.rst:530
 msgid ":ref:`component-restricted`, :ref:`perm-check`"
@@ -8218,28 +8428,32 @@ msgid ""
 "DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
 "DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 msgstr ""
+"DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
+"DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 
 #: ../../admin/config.rst:542
 msgid ""
 "Default commit messages for different operations, please check :ref:"
 "`component` for details."
 msgstr ""
+"Standaard berichten voor indienen voor verschillende bewerkingen, controleer "
+":ref:`component` voor details."
 
 #: ../../admin/config.rst:547
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
-msgstr ""
+msgstr ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
 
 #: ../../admin/config.rst:555
 msgid "DEFAULT_ADDONS"
-msgstr ""
+msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:557
 msgid "Default add-ons to install for every created component."
-msgstr ""
+msgstr "Standaard add-ons om te installeren voor elk gemaakt onderdeel."
 
 #: ../../admin/config.rst:561
 msgid "This setting affects only newly created components."
-msgstr ""
+msgstr "Deze instelling beïnvloedt alleen nieuw gemaakte onderdelen."
 
 #: ../../admin/config.rst:563 ../../admin/config.rst:1122
 #: ../../admin/config.rst:1365 ../../admin/config.rst:1564
@@ -8247,39 +8461,39 @@ msgstr ""
 #: ../../admin/management.rst:92 ../../admin/management.rst:146
 #: ../../admin/management.rst:716 ../../wlc.rst:51
 msgid "Example:"
-msgstr ""
+msgstr "Voorbeeld:"
 
 #: ../../admin/config.rst:583
 msgid ":wladmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
-msgstr ""
+msgstr ":wladmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 
 #: ../../admin/config.rst:590
 msgid "DEFAULT_COMMITER_EMAIL"
-msgstr ""
+msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:592
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
-msgstr ""
+msgstr "E-mailadres van indiener, standaard is ``noreply@weblate.org``."
 
 #: ../../admin/config.rst:596
 msgid ":setting:`DEFAULT_COMMITER_NAME`"
-msgstr ""
+msgstr ":setting:`DEFAULT_COMMITER_NAME`"
 
 #: ../../admin/config.rst:601
 msgid "DEFAULT_COMMITER_NAME"
-msgstr ""
+msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:603
 msgid "Committer name, defaulting to ``Weblate``."
-msgstr ""
+msgstr "Naam indiener, standaard is ``Weblate``."
 
 #: ../../admin/config.rst:607
 msgid ":setting:`DEFAULT_COMMITER_EMAIL`"
-msgstr ""
+msgstr ":setting:`DEFAULT_COMMITER_EMAIL`"
 
 #: ../../admin/config.rst:612
 msgid "DEFAULT_LANGUAGE"
-msgstr ""
+msgstr "DEFAULT_LANGUAGE"
 
 #: ../../admin/config.rst:616
 msgid ":ref:`component-source_language` for any new components."
@@ -8290,6 +8504,7 @@ msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
 msgstr ""
+"Standaard is `en`. Het overeenkomende taalobject moet in de database bestaan."
 
 #: ../../admin/config.rst:622
 msgid ":ref:`languages`, :ref:`component-source_language`"
@@ -8297,7 +8512,7 @@ msgstr ":ref:`languages`, :ref:`component-source_language`"
 
 #: ../../admin/config.rst:628
 msgid "DEFAULT_MERGE_STYLE"
-msgstr ""
+msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:630
 msgid ":ref:`component-merge_style` for any new components."
@@ -8305,68 +8520,77 @@ msgstr ":ref:`component-merge_style` voor alle nieuwe onderdelen."
 
 #: ../../admin/config.rst:632
 msgid "`rebase` - default"
-msgstr ""
+msgstr "`rebase` - standaard"
 
 #: ../../admin/config.rst:633
 msgid "`merge`"
-msgstr ""
+msgstr "`merge`"
 
 #: ../../admin/config.rst:637
 msgid ":ref:`component`, :ref:`component-merge_style`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`component-merge_style`"
 
 #: ../../admin/config.rst:643
 msgid "DEFAULT_SHARED_TM"
-msgstr ""
+msgstr "DEFAULT_SHARED_TM"
 
 #: ../../admin/config.rst:645
 msgid ""
 "Configures the default value of :ref:`project-use_shared_tm` and :ref:"
 "`project-contribute_shared_tm`."
 msgstr ""
+"Configureert de standaard waarde van :ref:`project-use_shared_tm` en :ref"
+":`project-contribute_shared_tm`."
 
 #: ../../admin/config.rst:650
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
-msgstr ""
+msgstr "DEFAULT_TRANSLATION_PROPAGATION"
 
 #: ../../admin/config.rst:652
 msgid "Default setting for translation propagation, defaults to ``True``."
 msgstr ""
+"Standaard instelling voor verspreiding van de vertaling, standaard is "
+"``True``."
 
 #: ../../admin/config.rst:656
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`component-allow_translation_propagation`"
 
 #: ../../admin/config.rst:664
 msgid "DEFAULT_PULL_MESSAGE"
-msgstr ""
+msgstr "DEFAULT_PULL_MESSAGE"
 
 #: ../../admin/config.rst:666
 msgid "Configures the default title and message for pull requests."
-msgstr ""
+msgstr "Configureert de standaard titel en het bericht voor pull requests."
 
 #: ../../admin/config.rst:671
 msgid "ENABLE_AVATARS"
-msgstr ""
+msgstr "ENABLE_AVATARS"
 
 #: ../../admin/config.rst:673
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
 msgstr ""
+"Of op Gravatar gebaseerde avatars voor gebruikers moeten worden "
+"ingeschakeld. Standaard aan."
 
 #: ../../admin/config.rst:675
 msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
+"Avatars worden opgehaald en gecachet op de server, wat het risico op het "
+"lekken van privé-informatie verlaagd, en de gebruikerservaring versnelt."
 
 #: ../../admin/config.rst:680
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 
 #: ../../admin/config.rst:687
 msgid "ENABLE_HOOKS"
-msgstr ""
+msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:689
 msgid "Whether to turn on anonymous remote hooks."
@@ -8378,17 +8602,19 @@ msgstr ":ref:`hooks`"
 
 #: ../../admin/config.rst:698
 msgid "ENABLE_HTTPS"
-msgstr ""
+msgstr "ENABLE_HTTPS"
 
 #: ../../admin/config.rst:702
 msgid "Weblate now requires https for WebAuthn support."
-msgstr ""
+msgstr "Weblate vereist nu https voor ondersteuning van WebAuthn."
 
 #: ../../admin/config.rst:704
 msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
 msgstr ""
+"Of koppelingen naar Weblate als HTTPS of HTTP moeten worden verzonden. Deze "
+"instelling beïnvloedt verzonden e-mails en gegenereerde absolute URL's."
 
 #: ../../admin/config.rst:707
 msgid ""
@@ -8396,6 +8622,9 @@ msgid ""
 "related to HTTPS — it enables secure cookies, toggles HSTS or enables "
 "redirection to a HTTPS URL."
 msgstr ""
+"In de standaard configuratie wordt dit ook gebruikt voor verscheidene "
+"instellingen van Django, gerelateerd aan HTTPS — het schakelt veilige "
+"cookies in, schakelt HSTS of schakelt verwijzing naar een HTTPS URL in."
 
 #: ../../admin/config.rst:711
 msgid ""
@@ -8407,6 +8636,14 @@ msgid ""
 "setting:`django:SECURE_PROXY_SSL_HEADER` to let Django correctly detect the "
 "SSL status."
 msgstr ""
+"De verwijzing van HTTPS zou in sommige gevallen problematisch kunnen zijn en "
+"u zou tegen een probleem aan kunnen lopen met oneindige verwijzing in het "
+"geval u een omgekeerde proxy gebruikt, die een beëindiging van SSL doet die "
+"niet op de juiste wijze protocolkoppen doorgeeft aan Django. Pas de "
+"configuratie van uw omgekeerde proxy aan om koppen :http:header:`X-Forwarded-"
+"Proto` of :http:header:`Forwarded` te verzenden of configureer "
+":setting:`django:SECURE_PROXY_SSL_HEADER` om Django de status van SSL "
+"correct te detecteren."
 
 #: ../../admin/config.rst:718
 msgid ""
@@ -8415,6 +8652,10 @@ msgid ""
 "SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not work for sites without "
 "HTTPS."
 msgstr ""
+"In het geval dat dit is uitgeschakeld zal Weblate niet willen starten met "
+"een fout ``otp_webauthn.E031``. U kunt deze fout uitschakelen door hem toe "
+"te voegen aan :setting:`django:SILENCED_SYSTEM_CHECKS`, maar WebAuthn zal "
+"nog steeds niet werken voor sites zonder HTTPS."
 
 #: ../../admin/config.rst:725
 msgid ""
@@ -8422,48 +8663,58 @@ msgid ""
 "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 msgstr ""
+":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:CSRF_COOKIE_SECURE`"
+", :setting:`django:SECURE_SSL_REDIRECT`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 
 #: ../../admin/config.rst:734
 msgid "ENABLE_SHARING"
-msgstr ""
+msgstr "ENABLE_SHARING"
 
 #: ../../admin/config.rst:736
 msgid ""
 "Turn on/off the :guilabel:`Share` menu so users can share translation "
 "progress on social networks."
 msgstr ""
+"Schakel het menu :guilabel:`Delen` in/uit, zodat gebruikers de voortgang van "
+"de vertaling op sociale netwerken kunnen delen."
 
 #: ../../admin/config.rst:741
 msgid "EXTRA_HTML_HEAD"
-msgstr ""
+msgstr "EXTRA_HTML_HEAD"
 
 #: ../../admin/config.rst:745
 msgid ""
 "Insert additional markup into the HTML header. Can be used for verification "
 "of site ownership, for example:"
 msgstr ""
+"Voeg aanvullende opmaak in de kop van HTML in. Kan bijvoorbeeld worden "
+"gebruikt voor verificatie van de eigenaar van de site:"
 
 #: ../../admin/config.rst:753
 msgid ""
 "No sanitization is performed on the string. It is inserted as-is into the "
 "HTML header."
 msgstr ""
+"Geen opschoning wordt op de tekenreeks uitgevoerd. Wordt in de kop van HTML "
+"ingevoegd zoals is."
 
 #: ../../admin/config.rst:758
 msgid "GET_HELP_URL"
-msgstr ""
+msgstr "GET_HELP_URL"
 
 #: ../../admin/config.rst:762
 msgid "URL where support for your Weblate instance can be found."
 msgstr ""
+"URL waar ondersteuning voor uw instantie van Weblate kan worden gevonden."
 
 #: ../../admin/config.rst:767
 msgid "GITEA_CREDENTIALS"
-msgstr ""
+msgstr "GITEA_CREDENTIALS"
 
 #: ../../admin/config.rst:771
 msgid "List for credentials for Gitea servers."
-msgstr ""
+msgstr "Lijst voor inloggegevens voor servers van Gitea."
 
 #: ../../snippets/vcs-credentials.rst:1
 msgid ""
@@ -8471,62 +8722,73 @@ msgid ""
 "host. The layout is same for almost all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
+"Het woordenboek voor de configuratie bestaat uit inloggegevens die zijn "
+"gedefinieerd voor elke API-host. De lay-out is hetzelfde voor bijna alle "
+"integraties voor versiebeheer en is beschreven in :ref:`settings-"
+"credentials`."
 
 #: ../../admin/config.rst:786
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
 msgstr ""
+":ref:`vcs-gitea`, `Een persoonlijk token voor toegang voor Gitea maken`_"
 
 #: ../../admin/config.rst:794
 msgid "GITLAB_CREDENTIALS"
-msgstr ""
+msgstr "GITLAB_CREDENTIALS"
 
 #: ../../admin/config.rst:798
 msgid "List for credentials for GitLab servers."
-msgstr ""
+msgstr "Lijst voor inloggegevens voor servers van GitLab."
 
 #: ../../admin/config.rst:813
 msgid ""
 ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
 "ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
+":ref:`vcs-gitlab`, `GitLab: Persoonlijk token voor toegang <https://docs."
+"gitlab.com/ee/user/profile/personal_access_tokens.html>`_"
 
 #: ../../admin/config.rst:819
 msgid "GITHUB_CREDENTIALS"
-msgstr ""
+msgstr "GITHUB_CREDENTIALS"
 
 #: ../../admin/config.rst:823
 msgid "List for credentials for GitHub servers."
-msgstr ""
+msgstr "Lijst voor inloggegevens voor servers van GitHub."
 
 #: ../../admin/config.rst:836
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
-msgstr ""
+msgstr "Gebruik ``api.github.com`` als een API-host voor https://github.com/."
 
 #: ../../admin/config.rst:842
 msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
 msgstr ""
+":ref:`vcs-github`, `Een persoonlijk token voor toegang voor GitHub maken`_"
 
 #: ../../admin/config.rst:850
 msgid "BITBUCKETSERVER_CREDENTIALS"
-msgstr ""
+msgstr "BITBUCKETSERVER_CREDENTIALS"
 
 #: ../../admin/config.rst:854
 msgid "List for credentials for Bitbucket servers."
-msgstr ""
+msgstr "Lijst voor inloggegevens voor servers van Bitbucket."
 
 #: ../../admin/config.rst:869
 msgid ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP token voor toegang "
+"<https://confluence.atlassian.com/bitbucketserver/http-access-"
+"tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:875
 msgid "BITBUCKETCLOUD_CREDENTIALS"
-msgstr ""
+msgstr "BITBUCKETCLOUD_CREDENTIALS"
 
 #: ../../admin/config.rst:879
 msgid "List for credentials for Bitbucket Cloud servers."
-msgstr ""
+msgstr "Lijst voor inloggegevens voor servers van Bitbucket Cloud."
 
 #: ../../admin/config.rst:891 ../../admin/config.rst:931
 #: ../../admin/config.rst:2154
@@ -8535,6 +8797,10 @@ msgid ""
 "host. The API host might be different from what you use in the web browser, "
 "for example GitHub API is accessed as ``api.github.com``."
 msgstr ""
+"Het woordenboek voor de configuratie bestaat uit inloggegevens gedefinieerd "
+"voor elke API-host. De API-host zou kunnen verschillen van die welke u "
+"gebruikt in de webbrowser, toegang tot GitHub API is bijvoorbeeld ``api."
+"github.com``."
 
 #: ../../admin/config.rst:895 ../../admin/config.rst:935
 #: ../../admin/config.rst:2162
@@ -8557,7 +8823,7 @@ msgstr "``workspace``"
 
 #: ../../admin/config.rst:900
 msgid "The user workspace slug."
-msgstr ""
+msgstr "De slug voor de werkruimte van de gebruiker."
 
 #: ../../admin/config.rst:901 ../../admin/config.rst:944
 #: ../../admin/config.rst:2166
@@ -8566,13 +8832,15 @@ msgstr "``token``"
 
 #: ../../admin/config.rst:902
 msgid "The App password with `pullrequest:write` permission."
-msgstr ""
+msgstr "Het wachtwoord voor de App met het recht `pullrequest:write`."
 
 #: ../../admin/config.rst:904 ../../admin/config.rst:947
 msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
 msgstr ""
+"Aanvullende instellingen, die hier niet worden beschreven, zijn terug te "
+"vinden op :ref:`settings-credentials`."
 
 #: ../../admin/config.rst:908
 msgid ""
@@ -8581,18 +8849,24 @@ msgid ""
 "permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-"
 "permissions/>`_"
 msgstr ""
+":ref:`vcs-bitbucket-cloud`, `Maak een wachtwoord voor de App <https://support"
+".atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`, `Rechten "
+"wachtwoord voor App <https://support.atlassian.com/bitbucket-cloud/docs/"
+"app-password-permissions/>`_"
 
 #: ../../admin/config.rst:915
 msgid "AZURE_DEVOPS_CREDENTIALS"
-msgstr ""
+msgstr "AZURE_DEVOPS_CREDENTIALS"
 
 #: ../../admin/config.rst:919
 msgid "List for credentials for Azure DevOps servers."
-msgstr ""
+msgstr "Lijst voor inloggegevens voor servers van Azure DevOps."
 
 #: ../../admin/config.rst:938
 msgid "The name of the Azure DevOps project. This is not the repository name."
 msgstr ""
+"De naam van het project van Azure DevOps. Dit is niet de naam van de "
+"opslagruimte."
 
 #: ../../admin/config.rst:939
 msgid "``organization``"
@@ -8611,10 +8885,12 @@ msgid ""
 "An optional list of work items IDs from your organization. When provided new "
 "pull requests will have these attached."
 msgstr ""
+"Een optionele lijst van werkitem-ID's van uw organisatie. Indien opgegeven "
+"zullen nieuwe pull requests deze eraan gekoppeld hebben."
 
 #: ../../admin/config.rst:945 ../../admin/config.rst:2167
 msgid "API token for the API user, required."
-msgstr ""
+msgstr "API-token voor de API-gebruiker, vereist."
 
 #: ../../admin/config.rst:951
 msgid ""
@@ -8622,19 +8898,24 @@ msgid ""
 "microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-"
 "tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 msgstr ""
+":ref:`vcs-azure-devops`, `Azure DevOps: Persoonlijk token voor toegang "
+"<https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-"
+"personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 
 #: ../../admin/config.rst:957
 msgid "GOOGLE_ANALYTICS_ID"
-msgstr ""
+msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:959
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
 msgstr ""
+"Google Analytics ID om het monitoren van Weblate met Google Analytics in te "
+"schakelen."
 
 #: ../../admin/config.rst:964
 msgid "HIDE_REPO_CREDENTIALS"
-msgstr ""
+msgstr "HIDE_REPO_CREDENTIALS"
 
 #: ../../admin/config.rst:966
 msgid ""
@@ -8642,6 +8923,9 @@ msgid ""
 "repository URL with user and password, Weblate will hide it when related "
 "info is shown to users."
 msgstr ""
+"Verberg inloggegevens voor opslagruimte in de webinterface. In het geval u "
+"een URL voor een opslagruimte hebt met gebruiker en wachtwoord, zal Weblate "
+"die verbergen als gerelateerde informatie wordt weergegeven aan gebruikers."
 
 #: ../../admin/config.rst:970
 msgid ""
@@ -8649,6 +8933,9 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
+"Bijvoorbeeld in plaats van ``https://user:password@git.example.com/repo.git``"
+" zal het slechts weergeven ``https://git.example.com/repo.git``. Het "
+"probeert op een soortgelijke manier foutberichten van het VCS op te schonen."
 
 #: ../../admin/config.rst:976
 msgid "On by default."
@@ -8656,7 +8943,7 @@ msgstr "Standaard ingeschakeld."
 
 #: ../../admin/config.rst:981
 msgid "HIDE_VERSION"
-msgstr ""
+msgstr "HIDE_VERSION"
 
 #: ../../admin/config.rst:985
 msgid ""
@@ -8664,12 +8951,19 @@ msgid ""
 "documentation links point to the latest version instead of the documentation "
 "matching the currently installed version."
 msgstr ""
+"Verbergt informatie over de versie voor niet geauthenticeerde gebruikers. "
+"Dit zorgt er ook voor dat alle koppelingen voor documentatie verwijzen naar "
+"de laatste versie, in plaats van naar de documentatie die overeenkomt met de "
+"momenteel geïnstalleerde versie."
 
 #: ../../admin/config.rst:989
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "does not prevent an attacker from figuring out version by probing behavior."
 msgstr ""
+"Verbergen van de versie is een aanbevolen beveiligingsmaatregel voor sommige "
+"bedrijven, voorkomt echter niet dat een aanvaller de versie uitvogelt door "
+"te proberen."
 
 #: ../../admin/config.rst:994
 msgid "This is turned off by default."
@@ -8677,69 +8971,80 @@ msgstr "Dit is standaard uitgeschakeld."
 
 #: ../../admin/config.rst:999
 msgid "INTERLEDGER_PAYMENT_POINTERS"
-msgstr ""
+msgstr "INTERLEDGER_PAYMENT_POINTERS"
 
 #: ../../admin/config.rst:1003
 msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
-msgstr ""
+msgstr "Lijst van Interledger Payment Pointers (ILPs) voor Web Monetization."
 
 #: ../../admin/config.rst:1005
 msgid ""
 "If multiple are specified, probabilistic revenue sharing is achieved by "
 "selecting one randomly."
 msgstr ""
+"Indien meerdere zijn gespecificeerd wordt het delen van probabilistische "
+"opbrengst bereikt door er willekeurig een te kiezen."
 
 #: ../../admin/config.rst:1008
 msgid "Please check <https://webmonetization.org/> for more details."
-msgstr ""
+msgstr "Bekijk <https://webmonetization.org/> voor meer details."
 
 #: ../../admin/config.rst:1012
 msgid "The default value lets users fund Weblate itself."
-msgstr ""
+msgstr "De standaardwaarde laat gebruikers Weblate zelf financieren."
 
 #: ../../admin/config.rst:1017
 msgid "IP_BEHIND_REVERSE_PROXY"
-msgstr ""
+msgstr "IP_BEHIND_REVERSE_PROXY"
 
 #: ../../admin/config.rst:1019
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr ""
+msgstr "Geeft aan of Weblate wordt uitgevoerd van achter een omgekeerde proxy."
 
 #: ../../admin/config.rst:1021
 msgid ""
 "If set to ``True``, Weblate gets IP address from a header defined by :"
 "setting:`IP_PROXY_HEADER`."
 msgstr ""
+"Indien ingesteld op ``True``verkrijgt Weblate IP-adressen van een kop die is "
+"gedefinieerd door :setting:`IP_PROXY_HEADER`."
 
 #: ../../admin/config.rst:1026
 msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
+"Zorg er voor dat u feitelijk een omgekeerde reverse proxy gebruikt en dat "
+"het de kop instelt, anders zullen gebruikers in staat zijn het IP-adres na "
+"te bootsen."
 
 #: ../../admin/config.rst:1031
 msgid "This is not on by default."
-msgstr ""
+msgstr "Dit is standaard uitgeschakeld."
 
 #: ../../admin/config.rst:1035
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
 "setting:`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:1043
 msgid "IP_PROXY_HEADER"
-msgstr ""
+msgstr "IP_PROXY_HEADER"
 
 #: ../../admin/config.rst:1045
 msgid ""
 "Indicates which header Weblate should obtain the IP address from when :"
 "setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
+"Geeft aan van welke kop Weblate het IP-adres zou moeten verkrijgen als "
+":setting:`IP_BEHIND_REVERSE_PROXY` is ingeschakeld."
 
 #: ../../admin/config.rst:1048
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "Standaard is ``HTTP_X_FORWARDED_FOR``."
 
 #: ../../admin/config.rst:1052
 msgid ""
@@ -8747,10 +9052,13 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:1061
 msgid "IP_PROXY_OFFSET"
-msgstr ""
+msgstr "IP_PROXY_OFFSET"
 
 #: ../../admin/config.rst:1065
 msgid "The default changed from 1 to -1."
@@ -8761,6 +9069,8 @@ msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
 msgstr ""
+"Geeft aan welk deel van :setting:`IP_PROXY_HEADER` als IP-adres voor de "
+"cliënt wordt gebruikt."
 
 #: ../../admin/config.rst:1070
 msgid ""
@@ -8768,6 +9078,10 @@ msgid ""
 "(for example ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) and you can "
 "configure which address from the header is used as client IP address here."
 msgstr ""
+"Afhankelijk van uw instellingen zou deze kop kunnen bestaan uit verscheidene "
+"IP-adressen, (bijvoorbeeld ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) "
+"en u kunt configureren welk adres uit de kop hier als IP-adres voor de "
+"cliënt wordt gebruikt."
 
 #: ../../admin/config.rst:1076
 msgid ""
@@ -8776,6 +9090,10 @@ msgid ""
 "check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-"
 "For#security_and_privacy_concerns> for more details."
 msgstr ""
+"Instellen hiervan beïnvloedt de veiligheid van uw installatie. U zou het "
+"alleen voor vertrouwde proxy's moeten configureren om het IP-adres te "
+"bepalen. Bekijk<https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X"
+"-Forwarded-For#security_and_privacy_concerns> voor meer details."
 
 #: ../../admin/config.rst:1080
 msgid "Defaults to -1."
@@ -8787,80 +9105,93 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_HEADER`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_HEADER`"
 
 #: ../../admin/config.rst:1093
 msgid "LEGAL_TOS_DATE"
-msgstr ""
+msgstr "LEGAL_TOS_DATE"
 
 #: ../../admin/config.rst:1099
 msgid "You need :ref:`legal` installed to make this work."
-msgstr ""
+msgstr "U moet :ref:`legal` hebben geïnstalleerd om dit te laten werken."
 
 #: ../../admin/config.rst:1101
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the updated terms of service."
 msgstr ""
+"Datum van laatste bijwerken van de termen van de documenten voor de service. "
+"Wanneer de datum wijzigt moeten gebruikers instemmen met de bijgewerkte "
+"termen voor de service."
 
 #: ../../admin/config.rst:1113
 msgid "LEGAL_URL"
-msgstr ""
+msgstr "LEGAL_URL"
 
 #: ../../admin/config.rst:1115
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr ""
+msgstr "URL waar uw instantie van Weblate zijn wettelijke documenten weergeeft."
 
 #: ../../admin/config.rst:1119
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate. Please check :ref:`legal` for details."
 msgstr ""
+"Nuttig als u uw wettelijke documenten buiten Weblate host om ze in te bedden "
+"in Weblate. Bekijk :ref:`legal` voor details."
 
 #: ../../admin/config.rst:1130
 msgid ":setting:`PRIVACY_URL`"
-msgstr ""
+msgstr ":setting:`PRIVACY_URL`"
 
 #: ../../admin/config.rst:1135
 msgid "LICENSE_EXTRA"
-msgstr ""
+msgstr "LICENSE_EXTRA"
 
 #: ../../admin/config.rst:1137
 msgid "Additional licenses to include in the license choices."
-msgstr ""
+msgstr "Aanvullende licenties om op te nemen in de keuzes voor de licentie."
 
 #: ../../admin/config.rst:1141
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
 msgstr ""
+"Elke definitie van een licentie zou een tuple moeten zijn met zijn verkorte "
+"naam, een lange naam en een URL."
 
 #: ../../admin/config.rst:1143 ../../admin/config.rst:1171
 #: ../../admin/config.rst:1298 ../../admin/projects.rst:464
 #: ../../formats/xliff.rst:77
 msgid "For example:"
-msgstr ""
+msgstr "Bijvoorbeeld:"
 
 #: ../../admin/config.rst:1158
 msgid "LICENSE_FILTER"
-msgstr ""
+msgstr "LICENSE_FILTER"
 
 #: ../../admin/config.rst:1162
 msgid "Setting this to blank value now disables license alert."
 msgstr ""
+"Dit instellen op een lege waarde schakelt nu het alarm voor de licentie uit."
 
 #: ../../admin/config.rst:1164
 msgid ""
 "Filter list of licenses to show. This also disables the license alert when "
 "set to empty."
 msgstr ""
+"Filter de lijst met weer te geven licenties. Dit schakelt ook het alarm voor "
+"de licentie uit indien ingesteld op een lege waarde."
 
 #: ../../admin/config.rst:1169
 msgid "This filter uses the short license names."
-msgstr ""
+msgstr "Dit filter gebruikt de verkorte namen voor de licentie."
 
 #: ../../admin/config.rst:1177
 msgid "Following disables the license alert:"
-msgstr ""
+msgstr "Het volgende schakelt het alarm voor de licentie uit:"
 
 #: ../../admin/config.rst:1185 ../../admin/config.rst:1660
 msgid ":ref:`alerts`"
@@ -8868,39 +9199,44 @@ msgstr ":ref:`alerts`"
 
 #: ../../admin/config.rst:1190
 msgid "LICENSE_REQUIRED"
-msgstr ""
+msgstr "LICENSE_REQUIRED"
 
 #: ../../admin/config.rst:1192
 msgid "Defines whether the license attribute in :ref:`component` is required."
 msgstr ""
+"Definieert of het attribuut voor de licentie in :ref:`component` is vereist."
 
 #: ../../admin/config.rst:1196
 msgid "This is off by default."
-msgstr ""
+msgstr "Dit is standaard uitgeschakeld."
 
 #: ../../admin/config.rst:1201
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
-msgstr ""
+msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 
 #: ../../admin/config.rst:1203
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string × 10 characters."
 msgstr ""
+"Of de lengte van een bepaalde vertaling zou moeten worden beperkt. De "
+"beperking is de lengte van de brontekenreeks × 10 tekens."
 
 #: ../../admin/config.rst:1208
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10,000 characters) "
 "irrespective of source string length."
 msgstr ""
+"Stel dit in op ``False`` om langere vertalingen toe te staan (tot maximaal "
+"10.000 tekens), ongeacht de lengte van de brontekenreeks."
 
 #: ../../admin/config.rst:1212
 msgid "Defaults to ``True``."
-msgstr ""
+msgstr "Standaard is ``True``."
 
 #: ../../admin/config.rst:1218
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
-msgstr ""
+msgstr "LOCALIZE_CDN_URL en LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:1220
 msgid ""
@@ -8909,10 +9245,15 @@ msgid ""
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
+"Deze instellingen configureren de add-on :ref:`addon-weblate.cdn.cdnjs`. "
+":setting:`LOCALIZE_CDN_URL` definieert de bron-URL waar de CDN voor de "
+"vertaling beschikbaar is en :setting:`LOCALIZE_CDN_PATH` definieert het pad "
+"waar Weblate gegenereerde bestanden zouden moeten opslaan die zullen worden "
+"geserveerd op de :setting:`LOCALIZE_CDN_URL`."
 
 #: ../../admin/config.rst:1227
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr ""
+msgstr "Op Hosted Weblate gebruikt dit ``https://weblate-cdn.com/``."
 
 #: ../../admin/config.rst:1231
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
@@ -8920,65 +9261,77 @@ msgstr ":ref:`addon-weblate.cdn.cdnjs`"
 
 #: ../../admin/config.rst:1236
 msgid "LOGIN_REQUIRED_URLS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS"
 
 #: ../../admin/config.rst:1238
 msgid ""
 "A list of URLs you want to require signing in. (Besides the standard rules "
 "built into Weblate)."
 msgstr ""
+"Een lijst met URL's waarvoor u inloggen vereist. (Naast de ingebouwde "
+"standaard regels in Weblate)."
 
 #: ../../admin/config.rst:1242
 msgid "This allows you to password protect a whole installation using:"
 msgstr ""
+"Dit stelt u in staat een gehele installatie met een wachtwoord te beveiligen "
+"met:"
 
 #: ../../admin/config.rst:1253
 msgid ""
 "It is desirable to lock down API access as well, as shown in the above "
 "example."
 msgstr ""
+"Het is gewenst om ook toegang tot de API te vergrendelen, zoals weergegeven "
+"in bovenstaand voorbeeld."
 
 #: ../../admin/config.rst:1257
 msgid ":setting:`REQUIRE_LOGIN`"
-msgstr ""
+msgstr ":setting:`REQUIRE_LOGIN`"
 
 #: ../../admin/config.rst:1262
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 #: ../../admin/config.rst:1264
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign-in page."
 msgstr ""
+"Lijst met uitzonderingen voor :setting:`LOGIN_REQUIRED_URLS`. Indien niet "
+"gespecificeerd is gebruikers toegang toegestaan tot de inlogpagina."
 
 #: ../../admin/config.rst:1267
 msgid ""
 "See the :ref:`sample-configuration` for recommended configuration of this "
 "setting."
 msgstr ""
+"Bekijk de :ref:`sample-configuration` voor de aanbevolen configuratie van "
+"deze instelling."
 
 #: ../../admin/config.rst:1273
 msgid "MATOMO_SITE_ID"
-msgstr ""
+msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:1275
 msgid ""
 "ID of the site in Matomo (formerly Piwik) you want to use for tracking "
 "Weblate."
 msgstr ""
+"ID van de site in Matomo (voorheen Piwik) die u wilt gebruiken voor het "
+"bijhouden van Weblate."
 
 #: ../../admin/config.rst:1279 ../../admin/config.rst:1296
 msgid "This integration does not support the Matomo Tag Manager."
-msgstr ""
+msgstr "Deze integratie ondersteunt niet de Matomo Tag Manager."
 
 #: ../../admin/config.rst:1283
 msgid ":setting:`MATOMO_URL`"
-msgstr ""
+msgstr ":setting:`MATOMO_URL`"
 
 #: ../../admin/config.rst:1289
 msgid "MATOMO_URL"
-msgstr ""
+msgstr "MATOMO_URL"
 
 #: ../../admin/config.rst:1291
 msgid ""
@@ -8986,88 +9339,102 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
+"Volledige URL (inclusief achterliggende slash) van een installatie van "
+"Matomo (voorheen Piwik)die u wilt gebruiken om het gebruik van Weblate bij "
+"te houden. Bekijk <https://matomo.org/> voor meer details."
 
 #: ../../admin/config.rst:1307
 msgid ":setting:`MATOMO_SITE_ID`"
-msgstr ""
+msgstr ":setting:`MATOMO_SITE_ID`"
 
 #: ../../admin/config.rst:1312
 msgid "NEARBY_MESSAGES"
-msgstr ""
+msgstr "NEARBY_MESSAGES"
 
 #: ../../admin/config.rst:1314
 msgid ""
 "How many strings to show around the currently translated string. This is "
 "just a default value, users can adjust this in :ref:`user-profile`."
 msgstr ""
+"Hoeveel tekenreeksen weer te geven rondom de momenteel vertaalde tekenreeks. "
+"Dit is slechts een standaard waarde, gebruikers kunnen dit aanpassen in :ref"
+":`user-profile`."
 
 #: ../../admin/config.rst:1319
 msgid "DEFAULT_PAGE_LIMIT"
-msgstr ""
+msgstr "DEFAULT_PAGE_LIMIT"
 
 #: ../../admin/config.rst:1323
 msgid "Default number of elements to display when pagination is active."
-msgstr ""
+msgstr "Standaard aantal weer te geven elementen als pagineren actief is."
 
 #: ../../admin/config.rst:1328
 msgid "PAGURE_CREDENTIALS"
-msgstr ""
+msgstr "PAGURE_CREDENTIALS"
 
 #: ../../admin/config.rst:1332
 msgid "List for credentials for Pagure servers."
-msgstr ""
+msgstr "Lijst voor inloggegevens voor servers van Pagure."
 
 #: ../../admin/config.rst:1347
 msgid ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
-msgstr ""
+msgstr ":ref:`vcs-pagure`, `API Pagure <https://pagure.io/api/0/>`_"
 
 #: ../../admin/config.rst:1354
 msgid "PRIVACY_URL"
-msgstr ""
+msgstr "PRIVACY_URL"
 
 #: ../../admin/config.rst:1358
 msgid "URL where your Weblate instance shows its privacy policy."
-msgstr ""
+msgstr "URL waar uw instantie van Weblate zijn privacy-beleid weergeeft."
 
 #: ../../admin/config.rst:1362
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
+"Nuttig als u uw wettelijke documenten buiten Weblate host om ze in te bedden "
+"in Weblate, bekijk :ref:`legal` voor details."
 
 #: ../../admin/config.rst:1373
 msgid ":setting:`LEGAL_URL`"
-msgstr ""
+msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1378
 msgid "PRIVATE_COMMIT_EMAIL_OPT_IN"
-msgstr ""
+msgstr "PRIVATE_COMMIT_EMAIL_OPT_IN"
 
 #: ../../admin/config.rst:1382
 msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-in)."
 msgstr ""
+"Configureert of de privé e-mail voor indienen opt-in of opt-out is ("
+"standaard is het opt-in)."
 
 #: ../../admin/config.rst:1386
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "e-mail."
 msgstr ""
+"Deze instelling is alleen van toepassing voor gebruikers die niet expliciet "
+"een e-mail voor indienen hebben gekozen."
 
 #: ../../admin/config.rst:1390
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
-msgstr ""
+msgstr ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
 
 #: ../../admin/config.rst:1396
 msgid "PRIVATE_COMMIT_EMAIL_TEMPLATE"
-msgstr ""
+msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
 #: ../../admin/config.rst:1400
 msgid ""
 "Template to generate private commit e-mail for an user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
+"Sjabloon voor het maken van een privé e-mail voor indienen voor een "
+"gebruiker. Standaard is ``\"{username}@users.noreply.{site_domain}\"``."
 
 #: ../../admin/config.rst:1402
 msgid "Set to blank string to disable."
@@ -9079,15 +9446,20 @@ msgid ""
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in "
 "the :ref:`profile`."
 msgstr ""
+"Gebruiken van andere e-mail voor indienen is opt-in voor gebruikers, tenzij "
+"geconfigureerd door :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Gebruikers "
+"kunnen de e-mail voor indienen configureren in het :ref:`profile`."
 
 #: ../../admin/config.rst:1413
 msgid "PROJECT_BACKUP_KEEP_COUNT"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_COUNT"
 
 #: ../../admin/config.rst:1417
 msgid ""
 "Defines how many backups per project are kept on the server. Defaults to 3."
 msgstr ""
+"Definieert hoeveel back-ups per project worden behouden op de server. "
+"Standaard is 3."
 
 #: ../../admin/config.rst:1421 ../../admin/config.rst:1434
 msgid ":ref:`projectbackup`"
@@ -9095,23 +9467,27 @@ msgstr ":ref:`projectbackup`"
 
 #: ../../admin/config.rst:1426
 msgid "PROJECT_BACKUP_KEEP_DAYS"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_DAYS"
 
 #: ../../admin/config.rst:1430
 msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr ""
+"Definieert hoe lang de back-ups van het project zullen worden behouden op de "
+"server. Standaard is 30 dagen."
 
 #: ../../admin/config.rst:1439
 msgid "PROJECT_NAME_RESTRICT_RE"
-msgstr ""
+msgstr "PROJECT_NAME_RESTRICT_RE"
 
 #: ../../admin/config.rst:1443
 msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
 msgstr ""
+"Definieert een reguliere uitdrukking voor het beperken van de naamgeving aan "
+"een project. Overeenkomende namen zullen worden geweigerd."
 
 #: ../../admin/config.rst:1447
 msgid ":ref:`project-name`"
@@ -9119,7 +9495,7 @@ msgstr ":ref:`project-name`"
 
 #: ../../admin/config.rst:1452
 msgid "PROJECT_WEB_RESTRICT_HOST"
-msgstr ""
+msgstr "PROJECT_WEB_RESTRICT_HOST"
 
 #: ../../admin/config.rst:1456
 msgid ""
@@ -9128,6 +9504,10 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
+"Weiger het gebruiken van bepaalde hosts op de projectwebsite. Elk subdomein "
+"komt overeen, dus opnemen van ``example.com`` zal ook ``test.example.com`` "
+"blokkeren. De lijst zou alleen kleine letters moeten bevatten, het geparsete "
+"domein is kleine letters voor het overeenkomen."
 
 #: ../../admin/config.rst:1461
 msgid "Default configuration:"
@@ -9138,93 +9518,111 @@ msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1477
 msgid "PROJECT_WEB_RESTRICT_NUMERIC"
-msgstr ""
+msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 
 #: ../../admin/config.rst:1481
 msgid "Reject using numeric IP address in project website. On by default."
 msgstr ""
+"Weiger het gebruiken van numeriek IP-adres op de projectwebsite. Standaard "
+"aan."
 
 #: ../../admin/config.rst:1485
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1492
 msgid "PROJECT_WEB_RESTRICT_RE"
-msgstr ""
+msgstr "PROJECT_WEB_RESTRICT_RE"
 
 #: ../../admin/config.rst:1496
 msgid ""
 "Defines a regular expression to restrict project websites. Any matching URLs "
 "will be rejected."
 msgstr ""
+"Definieert een reguliere uitdrukking voor het beperken van projectwebsites. "
+"Alle overeenkomende URL's zullen worden geweigerd."
 
 #: ../../admin/config.rst:1500
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`"
 
 #: ../../admin/config.rst:1507
 msgid "RATELIMIT_ATTEMPTS"
-msgstr ""
+msgstr "RATELIMIT_ATTEMPTS"
 
 #: ../../admin/config.rst:1509
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
 msgstr ""
+"Maximaal aantal pogingen voor authenticatie voordat de limiet wordt "
+"toegepast."
 
 #: ../../admin/config.rst:1511
 msgid "Defaults to 5."
-msgstr ""
+msgstr "Standaard is 5."
 
 #: ../../admin/config.rst:1515
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 msgstr ""
+":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/config.rst:1522
 msgid "RATELIMIT_WINDOW"
-msgstr ""
+msgstr "RATELIMIT_WINDOW"
 
 #: ../../admin/config.rst:1524
 msgid "How long authentication is accepted after rate limiting applies."
 msgstr ""
+"Hoe lang authenticatie blijft geaccepteerd nadat de limiet van toepassing is."
 
 #: ../../admin/config.rst:1526
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
-msgstr ""
+msgstr "Een aantal seconden, standaard 300 (5 minuten)."
 
 #: ../../admin/config.rst:1530
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_LOCKOUT`"
 msgstr ""
+":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, "
+":setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/config.rst:1537
 msgid "RATELIMIT_LOCKOUT"
-msgstr ""
+msgstr "RATELIMIT_LOCKOUT"
 
 #: ../../admin/config.rst:1539
 msgid "How long authentication is locked after rate limiting applies."
 msgstr ""
+"Hoe lang authenticatie wordt vergrendeld nadat de limiet wordt toegepast."
 
 #: ../../admin/config.rst:1541
 msgid "An amount of seconds defaulting to 600 (10 minutes)."
-msgstr ""
+msgstr "Een aantal seconden, standaard is 600 (10 minuten)."
 
 #: ../../admin/config.rst:1545
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
 msgstr ""
+":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
 
 #: ../../admin/config.rst:1552
 msgid "REGISTRATION_ALLOW_BACKENDS"
-msgstr ""
+msgstr "REGISTRATION_ALLOW_BACKENDS"
 
 #: ../../admin/config.rst:1556
 msgid ""
@@ -9232,6 +9630,10 @@ msgid ""
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
 msgstr ""
+"Lijst met backends voor authenticatie waarmee kan worden geregistreerd. Dit "
+"beperkt alleen nieuwe registraties, gebruikers kunnen nog steeds "
+"authenticeren en authenticatie toevoegen met alle geconfigureerde backends "
+"voor authenticatie."
 
 #: ../../admin/config.rst:1560
 msgid ""
@@ -9239,72 +9641,88 @@ msgid ""
 "registration backends, otherwise users will be able to register, but Weblate "
 "will not show links to register in the user interface."
 msgstr ""
+"Aanbevolen wordt om :setting:`REGISTRATION_OPEN` ingeschakeld te laten bij "
+"het beperken van backends voor registratie, anders zullen gebruikers wel in "
+"staat zijn te registreren, maar Weblate zal geen koppelingen om te "
+"registreren weergeven in de gebruikersinterface."
 
 #: ../../admin/config.rst:1572
 msgid "The backend names match names used in the URL for authentication."
 msgstr ""
+"De namen van de backends komen overeen met namen die worden gebruikt in de "
+"URL voor authenticatie."
 
 #: ../../admin/config.rst:1576
 msgid ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
-msgstr ""
+msgstr ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
 
 #: ../../admin/config.rst:1582
 msgid "REGISTRATION_CAPTCHA"
-msgstr ""
+msgstr "REGISTRATION_CAPTCHA"
 
 #: ../../admin/config.rst:1584
 msgid ""
 "Whether registration of new accounts is protected by a CAPTCHA. Defaults to "
 "enabled."
 msgstr ""
+"Of registratie van nieuwe accounts wordt beveiligd met een CAPTCHA. "
+"Standaard ingeschakeld."
 
 #: ../../admin/config.rst:1586
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a users enters their e-"
 "mail address:"
 msgstr ""
+"Indien ingeschakeld wordt een CAPTCHA toegevoegd aan alle pagina's waar "
+"gebruikers hun e-mailadres invoeren:"
 
 #: ../../admin/config.rst:1588
 msgid "New account registration."
-msgstr ""
+msgstr "Registreren nieuw account."
 
 #: ../../admin/config.rst:1589
 msgid "Password recovery."
-msgstr ""
+msgstr "Wachtwoord herstellen."
 
 #: ../../admin/config.rst:1590
 msgid "Adding e-mail to an account."
-msgstr ""
+msgstr "E-mail aan account toevoegen."
 
 #: ../../admin/config.rst:1591
 msgid "Contact form for users that are not signed in."
-msgstr ""
+msgstr "Contactformulier voor gebruikers die niet ingelogd zijn."
 
 #: ../../admin/config.rst:1596
 msgid "REGISTRATION_EMAIL_MATCH"
-msgstr ""
+msgstr "REGISTRATION_EMAIL_MATCH"
 
 #: ../../admin/config.rst:1598
 msgid "Allows you to filter which e-mail addresses can register."
 msgstr ""
+"Maakt het voor u mogelijk te filteren welke e-mailadressen kunnen "
+"registreren."
 
 #: ../../admin/config.rst:1600
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
-msgstr ""
+msgstr "Standaard is ``.*``, wat toestaat dat elk e-mailadres zich registreert."
 
 #: ../../admin/config.rst:1602
 msgid "You can use it to restrict registration to a single e-mail domain:"
 msgstr ""
+"U kunt het gebruiken om registratie te beperken tot een enkel domein voor "
+"e-mail:"
 
 #: ../../admin/config.rst:1611
 msgid "REGISTRATION_OPEN"
-msgstr ""
+msgstr "REGISTRATION_OPEN"
 
 #: ../../admin/config.rst:1613
 msgid ""
 "Whether registration of new accounts is currently permitted. Defaults to "
 "enabled."
 msgstr ""
+"Of registratie van nieuwe accounts momenteel is toegestaan. Standaard "
+"ingeschakeld."
 
 #: ../../admin/config.rst:1616
 msgid ""
@@ -9312,6 +9730,9 @@ msgid ""
 "the Python Social Auth (you can whitelist certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
+"Deze instelling beïnvloedt ingebouwde authenticatie door e-mailadres of via "
+"de Python Social Auth (u kunt bepaalde backends whitelisten met "
+":setting:`REGISTRATION_ALLOW_BACKENDS`)."
 
 #: ../../admin/config.rst:1622
 msgid ""
@@ -9319,22 +9740,31 @@ msgid ""
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
 msgstr ""
+"Indien methoden voor authenticatie van derde partijen wordt gebruikt, zoals "
+":ref:`ldap-auth`, verbergt het slechts het registratieformulier, maar nieuwe "
+"gebruikers zouden nog steeds in staat kunnen zijn in te loggen en accounts "
+"te maken."
 
 #: ../../admin/config.rst:1628
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 msgstr ""
+":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`, "
+":doc:`auth`"
 
 #: ../../admin/config.rst:1635
 msgid "REGISTRATION_REBIND"
-msgstr ""
+msgstr "REGISTRATION_REBIND"
 
 #: ../../admin/config.rst:1639
 msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
 msgstr ""
+"Sta opnieuw verbinden van backends voor authenticatie voor bestaande "
+"gebruikers toe. Schakel dit in bij het migreren tussne providers van "
+"authenticatie."
 
 #: ../../admin/config.rst:1644
 msgid ""
@@ -9342,80 +9772,97 @@ msgid ""
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
 msgstr ""
+"Standaard uitgeschakeld om het niet toe te staan dat andere backends voor "
+"authenticatie worden toegevoegd aan een bestaand account. Opnieuw verbinden "
+"kan leiden tot corruptie van het account als meerdere backends voor "
+"authenticatie van derde partijen worden gebruikt."
 
 #: ../../admin/config.rst:1651
 msgid "REPOSITORY_ALERT_THRESHOLD"
-msgstr ""
+msgstr "REPOSITORY_ALERT_THRESHOLD"
 
 #: ../../admin/config.rst:1655
 msgid ""
 "Threshold for triggering an alert for outdated repositories, or ones that "
 "contain too many changes. Defaults to 25."
 msgstr ""
+"Drempel voor activeren van alarm voor verouderde opslagruimten, of die welke "
+"te veel wijzigingen bevatten. Standaard is 25."
 
 #: ../../admin/config.rst:1665
 msgid "REQUIRE_LOGIN"
-msgstr ""
+msgstr "REQUIRE_LOGIN"
 
 #: ../../admin/config.rst:1669
 msgid ""
 "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to "
 "require authentication for all API endpoints."
 msgstr ""
+"Dit schakelt :setting:`LOGIN_REQUIRED_URLS` in en configureert REST "
+"framework om authenticatie te vereisen voor alle eindpunten van de API."
 
 #: ../../admin/config.rst:1674
 msgid ""
 "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
+"Dit is geïmplementeerd in de :ref:`sample-configuration`. Voor Docker, "
+"gebruik :envvar:`WEBLATE_REQUIRE_LOGIN`."
 
 #: ../../admin/config.rst:1680
 msgid "SENTRY_DSN"
-msgstr ""
+msgstr "SENTRY_DSN"
 
 #: ../../admin/config.rst:1682
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
-msgstr ""
+msgstr "Sentry DSN om te gebruiken voor :ref:`collecting-errors`."
 
 #: ../../admin/config.rst:1686
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "integrations/django/>`_"
 msgstr ""
+"`Integratie van Django voor Sentry <https://docs.sentry.io/platforms/python/"
+"integrations/django/>`_"
 
 #: ../../admin/config.rst:1691
 msgid "SENTRY_ENVIRONMENT"
-msgstr ""
+msgstr "SENTRY_ENVIRONMENT"
 
 #: ../../admin/config.rst:1693
 msgid "Configures environment for Sentry. Defaults to ``devel``."
-msgstr ""
+msgstr "Configureert de omgeving voor Sentry. Standaard is ``devel``."
 
 #: ../../admin/config.rst:1698
 msgid "SENTRY_PROFILES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_PROFILES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1700
 msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
+"Configureer monsterfrequentie voor monitoren van de uitvoering. Stel in op 1 "
+"om alle gebeurtenissen te traceren, 0 (de standaard) schakelt traceren uit."
 
 #: ../../admin/config.rst:1704
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_"
 msgstr ""
+"`Sentry monitoren uitvoering <https://docs.sentry.io/product/performance/>`_"
 
 #: ../../admin/config.rst:1709
 msgid "SENTRY_SEND_PII"
-msgstr ""
+msgstr "SENTRY_SEND_PII"
 
 #: ../../admin/config.rst:1711
 msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "off by default."
 msgstr ""
+"Sta Sentry toe om bepaalde te identificeren persoonlijke informatie te "
+"verzamelen. Standaard uitgeschakeld."
 
 #: ../../admin/config.rst:1715
 msgid "This is turned off by default now, used to be turned on by default."
@@ -9424,35 +9871,41 @@ msgstr ""
 
 #: ../../admin/config.rst:1720
 msgid "SENTRY_TRACES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_TRACES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1722
 msgid ""
 "Configure sampling rate for profiling monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
+"Configureer monsterfrequentie voor monitoren van profileren. Stel in op 1 om "
+"alle gebeurtenissen te traceren, 0 (de standaard) schakelt traceren uit."
 
 #: ../../admin/config.rst:1726
 msgid "`Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 msgstr ""
+"`Sentry profileren <https://docs.sentry.io/product/explore/profiling/>`_"
 
 #: ../../admin/config.rst:1731
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
-msgstr ""
+msgstr "SESSION_COOKIE_AGE_AUTHENTICATED"
 
 #: ../../admin/config.rst:1735
 msgid ""
 "Set session expiry for authenticated users. This complements :setting:"
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
+"Stel verlopen van sessie in voor geauthenticeerde gebruikers. Dit vult "
+":setting:`django:SESSION_COOKIE_AGE`aan dat wordt gebruikt voor niet "
+"geauthenticeerde gebruikers."
 
 #: ../../admin/config.rst:1740
 msgid ":setting:`django:SESSION_COOKIE_AGE`"
-msgstr ""
+msgstr ":setting:`django:SESSION_COOKIE_AGE`"
 
 #: ../../admin/config.rst:1745
 msgid "SIMPLIFY_LANGUAGES"
-msgstr ""
+msgstr "SIMPLIFY_LANGUAGES"
 
 #: ../../admin/config.rst:1747
 msgid ""
@@ -9461,6 +9914,10 @@ msgid ""
 "usually the desired behavior, as it simplifies listing languages for these "
 "default combinations."
 msgstr ""
+"Gebruik eenvoudige taalcodes voor standaard combinaties van taal/land. "
+"Bijvoorbeeld een vertaling ``fr_FR`` zal de taalcode ``fr`` gebruiken. Dit "
+"is gewoonlijk het gewenste gedrag, omdat het vermelden van talen voor deze "
+"standaard combinaties eenvoudiger wordt."
 
 #: ../../admin/config.rst:1752
 msgid "Turn this off if you want to different translations for each variant."
@@ -18074,6 +18531,10 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
+"Toegang voor het bladeren door de opslagruimten met beperkte toegang (met "
+"`Privé` :ref:`toegangsbeheer <acl>` of als :setting:`REQUIRE_LOGIN` is "
+"ingeschakeld) vereist een API-token dat u kunt verkrijgen in uw :ref:`"
+"gebruikersprofiel <user-profile>`:"
 
 #: ../../admin/optionals.rst:61
 msgid ""
@@ -18134,6 +18595,9 @@ msgid ""
 "with billing enabled will get new :guilabel:`Billing` tab in their :ref:"
 "`user-profile`."
 msgstr ""
+"Na het installeren kunt u facturatie beheren in de beheerinterface. "
+"Gebruikers met facturatie ingeschakeld zullen een nieuwe tab "
+":guilabel:`Facturatie` in hun :ref:`user-profile` krijgen."
 
 #: ../../admin/optionals.rst:108
 msgid ""
@@ -35830,7 +36294,7 @@ msgstr "Aanmelden"
 
 #: ../../contributing/schemas.rst:22
 msgid ":ref:`user-profile`, :wladmin:`dumpuserdata`"
-msgstr ""
+msgstr ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 
 #: ../../contributing/security.rst:2
 msgid "Security and privacy"
@@ -39651,7 +40115,7 @@ msgstr ""
 
 #: ../../formats/csv.rst:4
 msgid "CSV files"
-msgstr ""
+msgstr "CSV-bestanden"
 
 #: ../../formats/csv.rst:10
 msgid ""
@@ -39762,7 +40226,7 @@ msgstr "`Eenvoudig CSV-bestand`"
 
 #: ../../formats/dtd.rst:4
 msgid "DTD files"
-msgstr ""
+msgstr "DTD-bestanden"
 
 #: ../../formats/dtd.rst:9
 msgid ":doc:`tt:formats/dtd`"
@@ -40120,7 +40584,7 @@ msgstr ""
 
 #: ../../formats/html.rst:4
 msgid "HTML files"
-msgstr ""
+msgstr "HTML-bestanden"
 
 #: ../../formats/html.rst:8
 msgid ""
@@ -40237,7 +40701,7 @@ msgstr "`IDML-bestand`"
 
 #: ../../formats/ini.rst:4
 msgid "INI translations"
-msgstr ""
+msgstr "INI-vertalingen"
 
 #: ../../formats/ini.rst:11
 msgid ""
@@ -40360,7 +40824,7 @@ msgstr ""
 
 #: ../../formats/joomla.rst:4
 msgid "Joomla translations"
-msgstr ""
+msgstr "Joomla vertalingen"
 
 #: ../../formats/joomla.rst:9
 msgid "Native Joomla format for translations."
@@ -40388,7 +40852,7 @@ msgstr ""
 
 #: ../../formats/json.rst:4
 msgid "JSON files"
-msgstr ""
+msgstr "JSON-bestanden"
 
 #: ../../formats/json.rst:11
 msgid ""
@@ -40571,7 +41035,7 @@ msgstr "`Mobile Kotlin Resource`"
 
 #: ../../formats/odf.rst:4
 msgid "OpenDocument Format"
-msgstr ""
+msgstr "OpenDocument-indeling"
 
 #: ../../formats/odf.rst:8
 msgid ""
@@ -40789,7 +41253,7 @@ msgstr "`Stringsdict-bestand`"
 
 #: ../../formats/subtitles.rst:4
 msgid "Subtitle files"
-msgstr ""
+msgstr "Ondertitel-bestanden"
 
 #: ../../formats/subtitles.rst:6
 msgid "Weblate can translate various subtitle files:"
@@ -40927,7 +41391,7 @@ msgstr "`Platte tekstbestand`"
 
 #: ../../formats/webextension.rst:4
 msgid "WebExtension JSON"
-msgstr ""
+msgstr "WebExtension JSON"
 
 #: ../../formats/webextension.rst:6
 msgid ""
@@ -40964,7 +41428,7 @@ msgstr ""
 
 #: ../../formats/winrc.rst:4
 msgid "Windows RC files"
-msgstr ""
+msgstr "Windows RC-bestanden"
 
 #: ../../formats/winrc.rst:8
 msgid "Support for Windows RC files has been rewritten."
@@ -41202,7 +41666,7 @@ msgstr ""
 
 #: ../../formats/yaml.rst:4
 msgid "YAML files"
-msgstr ""
+msgstr "YAML-bestanden"
 
 #: ../../formats/yaml.rst:10
 msgid ""
@@ -46375,6 +46839,8 @@ msgid ""
 "User configured :ref:`profile-specialchars` defined in the :ref:`user-"
 "profile`"
 msgstr ""
+"Gebruiker configureerde :ref:`profile-specialchars` gedefinieerd in het :ref"
+":`user-profile`"
 
 #: ../../user/translating.rst:281
 msgid ""
@@ -46670,6 +47136,10 @@ msgid ""
 "between having translations listed :guilabel:`Top to bottom` or :guilabel:"
 "`Side by side`, depending on your personal preference."
 msgstr ""
+"U kunt de bewerker Zen selecteren als uw standaard bewerker met de tab :ref"
+":`profile-preferences` in uw :ref:`user-profile`. U kunt daar ook kiezen "
+"tussen het vermelden van vertalingen :guilabel:`Van boven naar beneden` of "
+":guilabel:`Naast elkaar`, afhankelijk van uw persoonlijke voorkeur."
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
