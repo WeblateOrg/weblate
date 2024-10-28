@@ -31,6 +31,7 @@ from google.cloud.translate import (
 import weblate.machinery.models
 from weblate.checks.tests.test_checks import MockTranslation, MockUnit
 from weblate.configuration.models import Setting, SettingCategory
+from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
 from weblate.machinery.alibaba import AlibabaTranslation
 from weblate.machinery.apertium import ApertiumAPYTranslation
@@ -481,23 +482,32 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
 
         Any problematic leading character is removed from term
         """
-        machine = self.get_machine()
-        self.assertEqual(machine.cleanup_glossary_tsv("foo\tbar"), "foo\tbar")
+        unit = MockUnit(code="cs", source="foo", target="bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
         # prohibited characters cleaned
-        self.assertEqual(machine.cleanup_glossary_tsv("=foo\t=bar"), "foo\tbar")
-        self.assertEqual(machine.cleanup_glossary_tsv("+foo\t+bar"), "foo\tbar")
-        self.assertEqual(machine.cleanup_glossary_tsv("-foo\t-bar"), "foo\tbar")
-        self.assertEqual(machine.cleanup_glossary_tsv("@foo\t@bar"), "foo\tbar")
-        self.assertEqual(machine.cleanup_glossary_tsv("|foo\t|bar"), "foo\tbar")
-        self.assertEqual(machine.cleanup_glossary_tsv("%foo\t%bar"), "foo\tbar")
+        unit = MockUnit(code="cs", source="=foo", target="=bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="+foo", target="+bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="-foo", target="-bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="@foo", target="@bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="|foo", target="|bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="%foo", target="%bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
-        # multiple prohibited characters are cleaned
-        self.assertEqual(machine.cleanup_glossary_tsv("==foo\t==bar"), "foo\tbar")
+        # # multiple prohibited characters are cleaned
+        unit = MockUnit(code="cs", source="==foo", target="==bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
-        # no character cleaned
-        self.assertEqual(machine.cleanup_glossary_tsv("foo=\tbar="), "foo=\tbar=")
-        self.assertEqual(machine.cleanup_glossary_tsv(":foo\t:bar"), ":foo\t:bar")
+        # # no character cleaned
+        unit = MockUnit(code="cs", source="foo=", target="bar=")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo=\tbar=")
+        unit = MockUnit(code="cs", source=":foo", target=":bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), ":foo\t:bar")
 
 
 class GlosbeTranslationTest(BaseMachineTranslationTest):

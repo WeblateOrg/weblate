@@ -59,9 +59,9 @@ class DummyTranslation(MachineTranslation):
 
 
 class DummyGlossaryTranslation(DummyTranslation, GlossaryMachineTranslationMixin):
-    glossary_count_limit = 1
-
     """Dummy glossary translation for testing purposes."""
+
+    glossary_count_limit = 1
 
     def download_translations(
         self, source, language, text: str, unit, user, threshold: int = 75
