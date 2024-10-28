@@ -70,7 +70,6 @@ from django_otp_webauthn.views import (
     CompleteCredentialAuthenticationView,
 )
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny
 from social_core.actions import do_auth
 from social_core.backends.open_id import OpenIdAuth
 from social_core.exceptions import (
@@ -1836,15 +1835,11 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
 class WeblateBeginCredentialAuthenticationView(
     SecondFactorMixin, BeginCredentialAuthenticationView
 ):
-    # TODO: https://github.com/Stormbase/django-otp-webauthn/pull/19
-    permission_classes = [AllowAny]
+    pass
 
 
 class WeblateCompleteCredentialAuthenticationView(
     SecondFactorMixin, CompleteCredentialAuthenticationView
 ):
-    # TODO: https://github.com/Stormbase/django-otp-webauthn/pull/19
-    permission_classes = [AllowAny]
-
     def complete_auth(self, device: WebAuthnCredential) -> User:
         return self.second_factor_completed(device)
