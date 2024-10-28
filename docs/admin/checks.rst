@@ -9,7 +9,7 @@ Custom automatic fixups
 You can also implement your own automatic fixup in addition to the standard ones and
 include them in :setting:`AUTOFIX_LIST`.
 
-The automatic fixes are powerful, but can also cause damage;  be careful when
+The automatic fixes are powerful, but can also cause damage; be careful when
 writing one.
 
 For example, the following automatic fixup would replace every occurrence of the string

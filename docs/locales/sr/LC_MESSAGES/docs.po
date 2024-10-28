@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-15 02:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-10-22 14:16+0000\n"
+"Last-Translator: Reno Tx <renotx@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/"
 "documentation/sr/>\n"
 "Language: sr\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.8.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -1745,10 +1745,8 @@ msgstr "Режим аутоматског превођења"
 #: ../../admin/addons.rst:776 ../../admin/addons.rst:886
 #: ../../admin/addons.rst:898 ../../admin/machine.rst:329
 #: ../../admin/machine.rst:345 ../../admin/machine.rst:495
-#, fuzzy
-#| msgid "Example addon"
 msgid "Available choices:"
-msgstr "Пример додатка"
+msgstr "Доступни избори:"
 
 #: ../../admin/addons.rst:30
 #, fuzzy
@@ -2339,10 +2337,8 @@ msgstr "Уреди преводилачку меморију"
 #: ../../admin/addons.rst:249 ../../admin/addons.rst:262
 #: ../../admin/addons.rst:275 ../../admin/addons.rst:288
 #: ../../admin/addons.rst:302 ../../admin/addons.rst:315
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular expression:"
-msgstr "Регуларни израз"
+msgstr "Регуларни израз:"
 
 #: ../../admin/addons.rst:250
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
@@ -2351,10 +2347,8 @@ msgstr ""
 #: ../../admin/addons.rst:251 ../../admin/addons.rst:264
 #: ../../admin/addons.rst:277 ../../admin/addons.rst:290
 #: ../../admin/addons.rst:304 ../../admin/addons.rst:319
-#, fuzzy
-#| msgid "Matched files"
 msgid "Matching files:"
-msgstr "Поклопљени фајлови"
+msgstr "Поклапајући фајлови:"
 
 #: ../../admin/addons.rst:252
 msgid ":file:`cs/application.po`"
@@ -5566,7 +5560,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:12
 msgid ""
-"The automatic fixes are powerful, but can also cause damage;  be careful "
+"The automatic fixes are powerful, but can also cause damage; be careful "
 "when writing one."
 msgstr ""
 "Аутоматске поправке су моћне, али могу и да нанесу штету; будите опрезни "
@@ -14422,7 +14416,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1365
 msgid "SAML"
-msgstr ""
+msgstr "SAML"
 
 #: ../../admin/install/docker.rst:1367
 msgid ""
@@ -14430,10 +14424,14 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
+"Самопотписани SAML кључеви су аутоматски генерисани на првом покретању "
+"контејнера. У случају да желите да употребите сопствене кључеве, поставите "
+"сертификат и приватни кључ у :file:`/app/data/ssl/saml.crt` и :file:`/app/"
+"data/ssl/saml.key`."
 
 #: ../../admin/install/docker.rst:1377
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
-msgstr ""
+msgstr "Подешавања SAML провајдера идентитета, погледајте :ref:`saml-auth`."
 
 #: ../../admin/install/docker.rst:1386
 msgid "SAML attributes mapping."
@@ -14441,7 +14439,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1390
 msgid "Other authentication settings"
-msgstr ""
+msgstr "Друга подешавања аутентификације"
 
 #: ../../admin/install/docker.rst:1394
 msgid ""
@@ -14458,13 +14456,15 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1406
 msgid "PostgreSQL database setup"
-msgstr ""
+msgstr "Постављање PostgreSQL базе података"
 
 #: ../../admin/install/docker.rst:1408
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
+"База података је креирана од :file:`docker-compose.yml`, тако да ова "
+"подешавања утичу и на Веблејт и на PostgreSQL контејнере."
 
 #: ../../admin/install/docker.rst:1411
 msgid ":ref:`database-setup`"
@@ -14472,7 +14472,7 @@ msgstr ":ref:`database-setup`"
 
 #: ../../admin/install/docker.rst:1415
 msgid "PostgreSQL password."
-msgstr ""
+msgstr "PostgreSQL лозинка."
 
 #: ../../admin/install/docker.rst:1419 ../../admin/install/docker.rst:1542
 msgid ":ref:`docker-secrets`"
@@ -14480,19 +14480,22 @@ msgstr ":ref:`docker-secrets`"
 
 #: ../../admin/install/docker.rst:1423
 msgid "PostgreSQL username."
-msgstr ""
+msgstr "PostgreSQL корисничко име."
 
 #: ../../admin/install/docker.rst:1427
 msgid "PostgreSQL database name."
-msgstr ""
+msgstr "PostgreSQL име базе података."
 
 #: ../../admin/install/docker.rst:1431
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
+"PostgreSQL име хоста сервера или IP адреса. Подразумевано је ``database``."
 
 #: ../../admin/install/docker.rst:1435
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
+"PostgreSQL порт сервера. Подразумевано је нема (употребе подразумевану "
+"вредност)."
 
 #: ../../admin/install/docker.rst:1439
 msgid ""
@@ -14500,6 +14503,9 @@ msgid ""
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_"
 msgstr ""
+"Конфигуриши како PostgreSQL рукује SSL-ом у вези са сервером, за могуће "
+"изборе погледајте `SSL Mode Descriptions <https://www.postgresql.org/docs/11/"
+"libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_"
 
 #: ../../admin/install/docker.rst:1444
 msgid ""
@@ -14562,7 +14568,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1506
 msgid "Database backup settings"
-msgstr ""
+msgstr "Подешавања резервне копије базе података"
 
 #: ../../admin/install/docker.rst:1509
 msgid ":ref:`backup-dumps`"
@@ -14573,16 +14579,20 @@ msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
 msgstr ""
+"Конфигурише дневни дамп базе података користећи :setting:`DATABASE_BACKUP`. "
+"Подразумевано је ``plain``."
 
 #: ../../admin/install/docker.rst:1517
 msgid "Caching server setup"
-msgstr ""
+msgstr "Постављање кеш сервера"
 
 #: ../../admin/install/docker.rst:1519
 msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
 msgstr ""
+"Коришћење Redis-а је снажно препоручено од стране Веблејта и морате пружити "
+"инстанцу Redis-а када покрећете Веблејт у Докеру."
 
 #: ../../admin/install/docker.rst:1522 ../../admin/projects.rst:1152
 msgid ":ref:`production-cache`"
@@ -14590,44 +14600,45 @@ msgstr ":ref:`production-cache`"
 
 #: ../../admin/install/docker.rst:1526
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
-msgstr ""
+msgstr "Redis име хоста сервера или IP адреса. Подразумевано је ``cache``."
 
 #: ../../admin/install/docker.rst:1530
 msgid "The Redis server port. Defaults to ``6379``."
-msgstr ""
+msgstr "Redis порт сервера. Подразумевано је ``6379``."
 
 #: ../../admin/install/docker.rst:1534
 msgid "The Redis database number, defaults to ``1``."
-msgstr ""
+msgstr "Redis број базе података, подразумевано је ``1``."
 
 #: ../../admin/install/docker.rst:1538
 msgid "The Redis server password, not used by default."
-msgstr ""
+msgstr "Redis лозинка сервера, није употребљена подразумевано."
 
 #: ../../admin/install/docker.rst:1546
 msgid "Enables using SSL for Redis connection."
-msgstr ""
+msgstr "Омогућава коришћење SSL-а за Redis везу."
 
 #: ../../admin/install/docker.rst:1550
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
 msgstr ""
+"Може се користити за онемогућавање провере SSL сертификата за Redis везу."
 
 #: ../../admin/install/docker.rst:1555
 msgid "Email server setup"
-msgstr ""
+msgstr "Постављање имејл сервера"
 
 #: ../../admin/install/docker.rst:1557
 msgid "To make outgoing e-mail work, you need to provide a mail server."
-msgstr ""
+msgstr "Да би одлазећи имејл радио, потребно је да пружите имејл сервер."
 
 #: ../../admin/install/docker.rst:1559
 msgid "Example TLS configuration:"
-msgstr ""
+msgstr "Пример TLS конфигурације:"
 
 #: ../../admin/install/docker.rst:1568
 msgid "Example SSL configuration:"
-msgstr ""
+msgstr "Пример SSL конфигурације:"
 
 #: ../../admin/install/docker.rst:1581
 msgid ":ref:`out-mail`"
@@ -14635,21 +14646,23 @@ msgstr ":ref:`out-mail`"
 
 #: ../../admin/install/docker.rst:1585
 msgid "Mail server hostname or IP address."
-msgstr ""
+msgstr "Имејл име хоста сервера или IP адреса."
 
 #: ../../admin/install/docker.rst:1589
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 msgstr ""
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, "
+":envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 
 #: ../../admin/install/docker.rst:1596
 msgid "Mail server port, defaults to 25."
-msgstr ""
+msgstr "Имејл порт сервера, подразумевано је 25."
 
 #: ../../admin/install/docker.rst:1598
 msgid ":setting:`django:EMAIL_PORT`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_PORT`"
 
 #: ../../admin/install/docker.rst:1602
 msgid "E-mail authentication user."
@@ -14657,7 +14670,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1604
 msgid ":setting:`django:EMAIL_HOST_USER`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_HOST_USER`"
 
 #: ../../admin/install/docker.rst:1608
 msgid "E-mail authentication password."
@@ -14675,6 +14688,10 @@ msgid ""
 "experiencing problems, see the explicit TLS setting :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
+"Да ли да се користи имплицитна TLS (сигурна) веза када се комуницира са SMTP "
+"сервером. У већини документације о имејлу, ова врста TLS везе се назива SSL. "
+"Генерално се користи на порту 465. Ако имате проблема, погледајте "
+"експлицитно TLS подешавање :envvar:`WEBLATE_EMAIL_USE_TLS`."
 
 #: ../../admin/install/docker.rst:1624 ../../admin/install/docker.rst:1642
 msgid ""
@@ -14687,6 +14704,8 @@ msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 msgstr ""
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, "
+":setting:`django:EMAIL_USE_SSL`"
 
 #: ../../admin/install/docker.rst:1635
 msgid ""
@@ -14695,12 +14714,18 @@ msgid ""
 "you are experiencing connections that hang, see the implicit TLS setting :"
 "envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
+"Да ли да се користи TLS (сигурна) веза када се комуницира са SMTP сервером. "
+"Ово се користи за експлицитне TLS везе, генерално на порту 587 или 25. Ако "
+"имате везе које се заглављују, погледајте имплицитно TLS подешавање "
+":envvar:`WEBLATE_EMAIL_USE_SSL`."
 
 #: ../../admin/install/docker.rst:1647
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
 msgstr ""
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, "
+":setting:`django:EMAIL_USE_TLS`"
 
 #: ../../admin/install/docker.rst:1653
 msgid "Configures Django back-end to use for sending e-mails."
@@ -14708,7 +14733,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1658
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
-msgstr ""
+msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:1663
 msgid "Configures if and how Weblate should update repositories."
@@ -14749,22 +14774,24 @@ msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
 msgstr ""
+"Препоручује се систематско прикупљање грешака из инсталације, погледајте :ref"
+":`collecting-errors`."
 
 #: ../../admin/install/docker.rst:1696
 msgid "To enable support for Rollbar, set the following:"
-msgstr ""
+msgstr "Да бисте омогућили подршку за Rollbar, поставите следеће:"
 
 #: ../../admin/install/docker.rst:1700
 msgid "Your Rollbar post server access token."
-msgstr ""
+msgstr "Ваш Rollbar токен за приступ серверу за слање."
 
 #: ../../admin/install/docker.rst:1704
 msgid "Your Rollbar environment, defaults to ``production``."
-msgstr ""
+msgstr "Ваш Rollbar окружење, подразумевано је ``production``."
 
 #: ../../admin/install/docker.rst:1706
 msgid "To enable support for Sentry, set following:"
-msgstr ""
+msgstr "Да бисте омогућили подршку за Sentry, поставите следеће:"
 
 #: ../../admin/install/docker.rst:1710
 msgid "Your Sentry DSN, see :setting:`SENTRY_DSN`."
@@ -14970,7 +14997,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1910
 msgid "Docker container volumes"
-msgstr ""
+msgstr "Докер волумени контејнера"
 
 #: ../../admin/install/docker.rst:1912
 msgid ""
@@ -15157,7 +15184,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:2051
 msgid "Replacing logo and other static files"
-msgstr ""
+msgstr "Замена логоа и других статичких фајлова"
 
 #: ../../admin/install/docker.rst:2053
 msgid ""
@@ -15166,6 +15193,10 @@ msgid ""
 "creating :file:`/app/data/python/customize/static/favicon.ico` will replace "
 "the favicon."
 msgstr ""
+"Статички фајлови који долазе са Веблејтом могу бити замењени постављањем у "
+":file:`/app/data/python/customize/static` (погледајте :ref:`docker-volume`). "
+"На пример, стварање :file:`/app/data/python/customize/static/favicon.ico` ће "
+"заменити фавикон."
 
 #: ../../admin/install/docker.rst:2060
 msgid ""
@@ -15185,6 +15216,8 @@ msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
+"Алтернативно, можете укључити и свој модул (види :doc:`../customize`) и "
+"додати га као посебну јачину звука у Docker контејнер, на пример:"
 
 #: ../../admin/install/docker.rst:2080
 #, fuzzy
@@ -15262,7 +15295,7 @@ msgstr ""
 
 #: ../../admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
-msgstr ""
+msgstr "Инсталирање на OpenShift"
 
 #: ../../admin/install/openshift.rst:4
 msgid ""
@@ -15376,7 +15409,7 @@ msgstr ""
 
 #: ../../admin/install/source.rst:2
 msgid "Installing from sources"
-msgstr ""
+msgstr "Инсталирање из извора"
 
 #: ../../admin/install/source.rst:4
 msgid ""
@@ -15401,6 +15434,8 @@ msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
 msgstr ""
+"Узмите најновије Weblate изворе користећи Git (или преузмите tarball и "
+"распакујте га):"
 
 #: ../../admin/install/source.rst:17
 msgid ""
@@ -15408,15 +15443,19 @@ msgid ""
 "website <https://weblate.org/>. Those downloads are cryptographically "
 "signed, please see :ref:`verify`."
 msgstr ""
+"Алтернативно, можете користити објављене архиве. Можете их преузети са нашег "
+"вебсајта <https://weblate.org/>. Ова преузимања су криптографски потписана, "
+"молимо вас да видите :ref:`verify`."
 
 #: ../../admin/install/source.rst:21
 msgid "Install current Weblate code into the virtualenv:"
-msgstr ""
+msgstr "Инсталирајте тренутни Weblate код у виртуелном окружењу:"
 
 #: ../../admin/install/source.rst:30
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`."
 msgstr ""
+"Копирајте :file:`weblate/settings_example.py` у :file:`weblate/settings.py`."
 
 #: ../../admin/install/steps/adjust-config.rst:1
 msgid ""
@@ -15429,30 +15468,35 @@ msgstr ""
 #: ../../admin/install/source.rst:35
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
 msgstr ""
+"Креирајте базу података коју користи Weblate, видите :ref:`database-setup`."
 
 #: ../../admin/install/source.rst:37
 msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
 msgstr ""
+"Изградите Django табеле, статичке фајлове и иницијалне податке (види :ref"
+":`tables-setup` и :ref:`static-files`):"
 
 #: ../../admin/install/source.rst:48
 msgid "This step should be repeated whenever you update the repository."
-msgstr ""
+msgstr "Овај корак треба поновити сваки пут када ажурирате репо."
 
 #: ../../admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
-msgstr ""
+msgstr "Инсталирање на Debian и Ubuntu"
 
 #: ../../admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
-msgstr ""
+msgstr "Захтеви система"
 
 #: ../../admin/install/steps/install-system-devel.rst:7
 msgid ""
 "Install the dependencies needed to build the Python modules (see :ref:"
 "`requirements`):"
 msgstr ""
+"Инсталирајте зависности потребне за изградњу Python модула (види "
+":ref:`requirements`):"
 
 #: ../../admin/install/steps/install-system-optional.rst:1
 msgid ""
@@ -15466,10 +15510,14 @@ msgid ""
 "`server`, :ref:`database-setup`, :ref:`celery`. Depending on size of your "
 "installation you might want to run these components on dedicated servers."
 msgstr ""
+"Опционално инсталирајте софтвер за покретање производног сервера, видите "
+":ref:`server`, :ref:`database-setup`, :ref:`celery`. У зависности од "
+"величине ваше инсталације, можда ћете желети да покренете ове компоненте на "
+"посебним серверима."
 
 #: ../../admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
-msgstr ""
+msgstr "Упутства за локалну инсталацију:"
 
 #: ../../admin/install/steps/install-uv.rst:2
 msgid "uv package manager"
@@ -15488,7 +15536,7 @@ msgstr ""
 
 #: ../../admin/install/steps/install-python.rst:2
 msgid "Python modules"
-msgstr ""
+msgstr "Python модули"
 
 #: ../../admin/install/steps/install-python.rst:6
 msgid ""
@@ -15496,14 +15544,17 @@ msgid ""
 "your system. If you are not familiar with it, check virtualenv :doc:`venv:"
 "user_guide`."
 msgstr ""
+"Користимо виртуелно окружење за инсталирање Weblate у одвојеном окружењу од "
+"вашег система. Ако нисте упознати са тим, проверите виртуелно окружење "
+":doc:`venv:user_guide`."
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
-msgstr ""
+msgstr "Креирајте виртуелно окружење за Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:16
 msgid "Activate the virtualenv for Weblate:"
-msgstr ""
+msgstr "Активирајте виртуелно окружење за Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:22
 msgid "Install Weblate including all optional dependencies:"
@@ -15527,7 +15578,7 @@ msgstr ""
 
 #: ../../admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
-msgstr ""
+msgstr "Конфигурисање Weblate"
 
 #: ../../admin/install/steps/install-configure.rst:6
 msgid ""
@@ -15594,17 +15645,18 @@ msgstr ""
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
-msgstr ""
+msgstr "Након инсталације"
 
 #: ../../admin/install/steps/install-after.rst:4
 msgid ""
 "Congratulations, your Weblate server is now running and you can start using "
 "it."
 msgstr ""
+"Честитамо, ваш Weblate сервер сада ради и можете почети да га користите."
 
 #: ../../admin/install/steps/install-after.rst:6
 msgid "You can now access Weblate on ``http://localhost:8000/``."
-msgstr ""
+msgstr "Сада можете приступити Weblate на ``http://localhost:8000/``."
 
 #: ../../admin/install/steps/install-after.rst:7
 msgid ""
@@ -15617,10 +15669,12 @@ msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate virtualenv is active, see :ref:`manage`."
 msgstr ""
+"Сада можете покренути Weblate команде користећи :command:`weblate` команду "
+"када је Weblate виртуелно окружење активно, видите :ref:`manage`."
 
 #: ../../admin/install/steps/install-after.rst:10
 msgid "You can stop the test server with Ctrl+C."
-msgstr ""
+msgstr "Можете зауставити тест сервер са Ctrl+C."
 
 #: ../../admin/install/steps/install-after.rst:11
 msgid ""
@@ -15631,7 +15685,7 @@ msgstr ""
 
 #: ../../admin/install/steps/install-after.rst:14
 msgid "Adding translation"
-msgstr ""
+msgstr "Додавање превода"
 
 #: ../../admin/install/steps/install-after.rst:16
 msgid ""
@@ -15639,10 +15693,13 @@ msgid ""
 "create the project you want to translate. See :ref:`project` for more "
 "details."
 msgstr ""
+"Отворите администраторски интерфејс (``http://localhost:8000/create/project/"
+"``) и креирајте пројекат који желите да преведете. Види :ref:`project` за "
+"више детаља."
 
 #: ../../admin/install/steps/install-after.rst:19
 msgid "All you need to specify here is the project name and its website."
-msgstr ""
+msgstr "Све што треба да наведете овде је име пројекта и његов вебсајт."
 
 #: ../../admin/install/steps/install-after.rst:21
 msgid ""
@@ -15650,6 +15707,8 @@ msgid ""
 "the VCS repository, and selects which files to translate. See :ref:"
 "`component` for more details."
 msgstr ""
+"Креирајте компоненту која је стварни објекат за превод - она указује на VCS "
+"репо и бира које фајлове превести. Види :ref:`component` за више детаља."
 
 #: ../../admin/install/steps/install-after.rst:25
 msgid ""
@@ -15666,22 +15725,25 @@ msgid ""
 "of your VCS repository, and number of messages to translate), you can start "
 "translating."
 msgstr ""
+"Када је горе наведено завршено (може бити дуг процес у зависности од "
+"величине вашег VCS репозиторија и броја порука за превод), можете почети са "
+"превођењем."
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
-msgstr ""
+msgstr "Инсталирање на macOS"
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
-msgstr ""
+msgstr "Инсталирање на RedHat, Fedora и CentOS"
 
 #: ../../admin/install/venv-suse.rst:2
 msgid "Installing on SUSE and openSUSE"
-msgstr ""
+msgstr "Инсталирање на SUSE и openSUSE"
 
 #: ../../admin/languages.rst:4 ../../admin/languages.rst:97
 msgid "Language definitions"
-msgstr ""
+msgstr "Дефиниције језика"
 
 #: ../../admin/languages.rst:6
 msgid ""
@@ -15717,7 +15779,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:32
 msgid "Parsing language codes"
-msgstr ""
+msgstr "Парсирање језичких кодова"
 
 #: ../../admin/languages.rst:34
 msgid ""
@@ -15778,6 +15840,9 @@ msgid ""
 "In case you see something unwanted as a language, you might want to adjust :"
 "ref:`component-language_regex` to ignore such file when parsing translations."
 msgstr ""
+"У случају да видите нешто непожељно као језик, можда ћете желети да "
+"прилагодите :ref:`component-language_regex` да игнорише такав фајл приликом "
+"парсирања превода."
 
 #: ../../admin/languages.rst:65
 #, fuzzy
@@ -15787,13 +15852,15 @@ msgstr "Машинско превођење"
 
 #: ../../admin/languages.rst:72
 msgid "Changing language definitions"
-msgstr ""
+msgstr "Промена дефиниција језика"
 
 #: ../../admin/languages.rst:74
 msgid ""
 "You can change language definitions in the languages interface (:file:`/"
 "languages/` URL)."
 msgstr ""
+"Можете променити дефиниције језика у интерфејсу језика (:file:`/languages/` "
+"URL)."
 
 #: ../../admin/languages.rst:77
 msgid ""
@@ -15823,7 +15890,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:99
 msgid "Each language consists of following fields:"
-msgstr ""
+msgstr "Сваки језик се састоји од следећих поља:"
 
 #: ../../admin/languages.rst:104 ../../admin/projects.rst:1051
 #: ../../api.rst:746 ../../api.rst:748 ../../api.rst:815 ../../api.rst:2338
@@ -15853,6 +15920,8 @@ msgid ""
 "Visible name of the language. The language names included in Weblate are "
 "also being localized depending on user interface language."
 msgstr ""
+"Видљиво име језика. Имена језика укључена у Weblate такође се локализују у "
+"зависности од језика интерфејса."
 
 #: ../../admin/languages.rst:129 ../../api.rst:735 ../../api.rst:749
 #: ../../api.rst:789 ../../api.rst:800
@@ -15903,11 +15972,11 @@ msgstr ""
 
 #: ../../admin/languages.rst:163
 msgid "Plural number"
-msgstr ""
+msgstr "Множински број"
 
 #: ../../admin/languages.rst:165
 msgid "Number of plurals used in the language."
-msgstr ""
+msgstr "Број множина коришћених у језику."
 
 #: ../../admin/languages.rst:170
 msgid "Plural formula"
@@ -15918,6 +15987,8 @@ msgid ""
 "Gettext compatible plural formula used to determine which plural form is "
 "used for given count."
 msgstr ""
+"Gettext компатибилна формула за множину која се користи за утврђивање која "
+"множинска форма се користи за дати број."
 
 #: ../../admin/languages.rst:176
 msgid ""
@@ -15928,7 +15999,7 @@ msgstr ""
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
-msgstr ""
+msgstr "Лиценцирање превода"
 
 #: ../../admin/licensing.rst:3
 msgid ""
@@ -15936,22 +16007,30 @@ msgid ""
 "especially important to do if translations are open to the public, to "
 "stipulate what they can be used for."
 msgstr ""
+"Можете да одредите под којом лиценцом се доприносе преводи. Ово је посебно "
+"важно уколико су преводи отворени за јавност, да се одреди за шта могу да се "
+"користе."
 
 #: ../../admin/licensing.rst:7
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
 msgstr ""
+"Треба да одредите :ref:`компоненту` информације о лиценци. Треба избегавати "
+"захтев за сагласност доприносиоца, иако је то могуће."
 
 #: ../../admin/licensing.rst:11
 msgid "License info"
-msgstr ""
+msgstr "Информације о лиценци"
 
 #: ../../admin/licensing.rst:13
 msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
 msgstr ""
+"Након што одредите информације о лиценци (име лиценце и URL), ове "
+"информације се приказују у одељку информација о преводу за одговарајућу "
+":ref:`компоненту`."
 
 #: ../../admin/licensing.rst:16
 msgid ""
@@ -15959,6 +16038,9 @@ msgid ""
 "required. If your project or translation is not libre you most probably need "
 "prior consent."
 msgstr ""
+"Обично је ово најбоље место за објављивање информација о лиценци ако није "
+"потребна експлицитна сагласност. Ако ваш пројекат или превод није слободан, "
+"највероватније вам је потребна претходна сагласност."
 
 #: ../../admin/licensing.rst:20 ../../admin/projects.rst:654
 msgid "Contributor agreement"
@@ -15970,22 +16052,29 @@ msgid ""
 "to it will be able to contribute. This is a clearly visible step when "
 "accessing the translation:"
 msgstr ""
+"Ако одредите уговор о лиценци доприносиоца, само корисници који су се "
+"сагласили с тим ће моћи да доприносе. Ово је јасно видљив корак при приступу "
+"преводу:"
 
 #: ../../admin/licensing.rst:27
 msgid ""
 "The entered text is formatted into paragraphs and external links can be "
 "included. HTML markup can not be used."
 msgstr ""
+"Унети текст је форматиран у параграфе и могу се укључити спољне везе. HTML "
+"ознаке не могу да се користе."
 
 #: ../../admin/licensing.rst:31
 msgid "User licenses"
-msgstr ""
+msgstr "Лиценце корисника"
 
 #: ../../admin/licensing.rst:33
 msgid ""
 "Any user can review all translation licenses of all public projects on the "
 "instance from their profile:"
 msgstr ""
+"Сваки корисник може да прегледа све лиценце превода свих јавних пројеката на "
+"инстанци из свог профила:"
 
 #: ../../admin/machine.rst:8
 msgid ""
@@ -16093,11 +16182,15 @@ msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
 msgstr ""
+"Платформа за машински превод слободног софтвера која пружа преводе за "
+"ограничен сет језика."
 
 #: ../../admin/machine.rst:65
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
 msgstr ""
+"Препоручени начин коришћења Апертиума је да покренете свој Apertium-APy "
+"сервер."
 
 #: ../../admin/machine.rst:69
 msgid ""
@@ -16162,13 +16255,15 @@ msgstr "Клијент тајна"
 
 #: ../../admin/machine.rst:111
 msgid "Machine translation service provided by Baidu."
-msgstr ""
+msgstr "Услуга машинског превода коју пружа Baidu."
 
 #: ../../admin/machine.rst:113
 msgid ""
 "This service uses an API and you need to obtain an ID and API key from Baidu "
 "to use it."
 msgstr ""
+"Ова услуга користи API и потребно је да добијете ID и API кључ од Baidu да "
+"бисте је користили."
 
 #: ../../admin/machine.rst:117
 msgid ""
@@ -16258,6 +16353,9 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
+"DeepL је плаћена услуга која пружа добар машински превод за неколико језика. "
+"Потребно је да купите :guilabel:`DeepL API` претплату или можете користити "
+"наслеђени :guilabel:`DeepL Pro (класичан)` план."
 
 #: ../../admin/machine.rst:157
 msgid ""
@@ -16338,7 +16436,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:197
 msgid "Glosbe"
-msgstr ""
+msgstr "Глосбе"
 
 #: ../../admin/machine.rst:199
 msgid "``glosbe``"
@@ -16347,7 +16445,7 @@ msgstr "``glosbe``"
 #: ../../admin/machine.rst:202
 msgid ""
 "Free dictionary and translation memory for almost every living language."
-msgstr ""
+msgstr "Бесплатни речник и меморија превода за скоро сваки живи језик."
 
 #: ../../admin/machine.rst:204
 msgid ""
@@ -16358,7 +16456,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:210
 msgid "`Glosbe website <https://glosbe.com/>`_"
-msgstr ""
+msgstr "`Глосбе вебсајт <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:215
 #, fuzzy
@@ -16629,10 +16727,12 @@ msgid ""
 "Machine translation service provided by Microsoft in Azure portal as a one "
 "of Cognitive Services."
 msgstr ""
+"Услуга машинског превода коју пружа Microsoft у Azure порталу као једну од "
+"когнитивних услуга."
 
 #: ../../admin/machine.rst:361
 msgid "Weblate implements Translator API V3."
-msgstr ""
+msgstr "Веблејт имплементира Translator API V3."
 
 #: ../../admin/machine.rst:363
 msgid ""
@@ -16643,15 +16743,15 @@ msgstr ""
 
 #: ../../admin/machine.rst:366
 msgid "Translator Text API V2"
-msgstr ""
+msgstr "Translator Text API V2"
 
 #: ../../admin/machine.rst:367
 msgid "The key you use with Translator API V2 can be used with API 3."
-msgstr ""
+msgstr "Кључ који користите са Translator API V2 може се користити са API 3."
 
 #: ../../admin/machine.rst:370
 msgid "Translator Text API V3"
-msgstr ""
+msgstr "Translator Text API V3"
 
 #: ../../admin/machine.rst:371
 msgid ""
@@ -16789,7 +16889,7 @@ msgstr "Контакт имејл"
 
 #: ../../admin/machine.rst:451
 msgid "Huge translation memory with machine translation."
-msgstr ""
+msgstr "Огромна меморија превода са машинским преводом."
 
 #: ../../admin/machine.rst:453
 msgid ""
@@ -16820,6 +16920,7 @@ msgstr "Предлози машинског превођења"
 msgid ""
 "This service uses an API, and you need to obtain key and secret from NetEase."
 msgstr ""
+"Ова услуга користи API, и потребно је да добијете кључ и тајну од NetEase."
 
 #: ../../admin/machine.rst:480
 msgid "`NetEase Sight Translation Platform <https://sight.youdao.com/>`_"
@@ -16922,7 +17023,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:544
 msgid "SAP Translation Hub"
-msgstr ""
+msgstr "SAP Translation Hub"
 
 #: ../../admin/machine.rst:546
 msgid "``sap-translation-hub``"
@@ -16966,7 +17067,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:561
 msgid "Machine translation service provided by SAP."
-msgstr ""
+msgstr "Услуга машинског превода коју пружа SAP."
 
 #: ../../admin/machine.rst:563
 msgid ""
@@ -17032,14 +17133,17 @@ msgid ""
 "Translate-toolkit and let Weblate talk to it. You can also use it with an "
 "amaGama server, which is an enhanced version of tmserver."
 msgstr ""
+"Можете покренути свој сервер меморије превода користећи онај који је укључен "
+"у Translate-toolkit и дозволити Веблејту да комуницира с њим. Такође можете "
+"да га користите са amaGama сервером, који је побољшана верзија tmserver-а."
 
 #: ../../admin/machine.rst:610
 msgid "First you will want to import some data to the translation memory:"
-msgstr ""
+msgstr "Прво ћете желети да увезете неке податке у меморију превода:"
 
 #: ../../admin/machine.rst:618
 msgid "Start tmserver to listen to your requests:"
-msgstr ""
+msgstr "Покрените tmserver да бисте слушали ваше захтеве:"
 
 #: ../../admin/machine.rst:624
 msgid ""
@@ -17055,7 +17159,7 @@ msgstr ""
 
 #: ../../../README.rst:1 ../../admin/machine.rst:637
 msgid "Weblate"
-msgstr ""
+msgstr "Веблејт"
 
 #: ../../admin/machine.rst:639 ../../contributing/internals.rst:21
 msgid "``weblate``"
@@ -17071,7 +17175,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:651
 msgid "Weblate Translation Memory"
-msgstr ""
+msgstr "Веблејт меморија превода"
 
 #: ../../admin/machine.rst:653
 msgid "``weblate-translation-memory``"
@@ -17099,13 +17203,15 @@ msgstr "``yandex``"
 
 #: ../../admin/machine.rst:675 ../../admin/machine.rst:696
 msgid "Machine translation service provided by Yandex."
-msgstr ""
+msgstr "Услуга машинског превода коју пружа Yandex."
 
 #: ../../admin/machine.rst:677
 msgid ""
 "This service uses a Translation API, and you need to obtain an API key from "
 "Yandex."
 msgstr ""
+"Ова услуга користи Translation API, и потребно је да добијете API кључ од "
+"Yandex-a."
 
 #: ../../admin/machine.rst:681
 msgid ""
@@ -17144,13 +17250,14 @@ msgstr "``youdao-zhiyun``"
 
 #: ../../admin/machine.rst:717
 msgid "Machine translation service provided by Youdao."
-msgstr ""
+msgstr "Услуга машинског превода коју пружа Youdao."
 
 #: ../../admin/machine.rst:719
 msgid ""
 "This service uses an API, and you need to obtain an ID and an API key from "
 "Youdao."
 msgstr ""
+"Ова услуга користи API, и потребно је да добијете ID и API кључ од Youdao."
 
 #: ../../admin/machine.rst:723
 msgid ""
@@ -17160,7 +17267,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:726
 msgid "Custom machine translation"
-msgstr ""
+msgstr "Прилагођени машински превод"
 
 #: ../../admin/machine.rst:728
 msgid ""
@@ -17168,6 +17275,9 @@ msgid ""
 "lines of Python code. This example implements machine translation in a fixed "
 "list of languages using ``dictionary`` Python module:"
 msgstr ""
+"Такође можете имплементирати своје услуге машинског превода користећи "
+"неколико редова Python кода. Овај пример имплементира машински превод у "
+"фиксном списку језика користећи ``dictionary`` Python модул:"
 
 #: ../../admin/machine.rst:735
 msgid ""
@@ -17177,7 +17287,7 @@ msgstr ""
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
-msgstr ""
+msgstr "Управљачке команде"
 
 #: ../../admin/management.rst:8
 msgid ""
@@ -17185,6 +17295,9 @@ msgid ""
 "webserver can result in files getting wrong permissions, please check :ref:"
 "`file-permissions` for more details."
 msgstr ""
+"Извршавање управљачких команди под другим корисником него што је онај који "
+"покреће ваш веб сервер може резултирати неправилним дозволама за датотеке, "
+"молимо проверите :ref:`дозволе-датотека` за више детаља."
 
 #: ../../admin/management.rst:12
 msgid ""
@@ -17192,20 +17305,27 @@ msgid ""
 "the Django sources, or as an extended set in a script called :command:"
 "`weblate` installable atop Weblate)."
 msgstr ""
+"Наћи ћете основне управљачке команде (доступне као :file:`./manage.py` у "
+"Django изворима, или као проширени сет у скрипти под називом "
+":command:`weblate` инсталираној на Веблејту)."
 
 #: ../../admin/management.rst:18
 msgid "Invoking management commands"
-msgstr ""
+msgstr "Позивање управљачких команди"
 
 #: ../../admin/management.rst:20
 msgid "As mentioned before, invocation depends on how you installed Weblate."
 msgstr ""
+"Као што је раније поменуто, позивање зависи од тога како сте инсталирали "
+"Веблејт."
 
 #: ../../admin/management.rst:22
 msgid ""
 "If using virtualenv for Weblate, you can either specify the full path to :"
 "command:`weblate`, or activate the virtualenv prior to invoking it:"
 msgstr ""
+"Ако користите virtualenv за Веблејт, можете или да одредите пуни пут до "
+":command:`weblate`, или да активирате virtualenv пре него што га позовете:"
 
 #: ../../admin/management.rst:34
 msgid ""
@@ -17213,6 +17333,9 @@ msgid ""
 "checkout), the management script is :file:`./manage.py` available in the "
 "Weblate sources. To run it:"
 msgstr ""
+"Ако директно користите изворни код (или из tarball-а или Git checkout-а), "
+"управљачка скрипта је :file:`./manage.py` доступна у изворима Веблејта. Да "
+"бисте је покренули:"
 
 #: ../../admin/management.rst:42
 msgid ""
@@ -17226,6 +17349,8 @@ msgid ""
 "For the Docker image, the script is installed like above, and you can run it "
 "using :command:`docker exec`:"
 msgstr ""
+"За Docker слику, скрипт је инсталиран као горе, и можете га покренути "
+"користећи :command:`docker exec`:"
 
 #: ../../admin/management.rst:57
 msgid ""
@@ -17236,6 +17361,7 @@ msgstr ""
 #: ../../admin/management.rst:64
 msgid "In case you need to pass it a file, you can temporary add a volume:"
 msgstr ""
+"У случају да вам је потребан фајл, можете привремено додати докер волумен:"
 
 #: ../../admin/management.rst:72
 msgid ""
@@ -17245,7 +17371,7 @@ msgstr ""
 
 #: ../../admin/management.rst:80
 msgid "add_suggestions"
-msgstr ""
+msgstr "add_suggestions"
 
 #: ../../admin/management.rst:84
 msgid ""
@@ -17258,6 +17384,8 @@ msgid ""
 "E-mail of author for the suggestions. This user has to exist prior to "
 "importing (you can create one in the admin interface if needed)."
 msgstr ""
+"Имејл аутора за сугестије. Овај корисник мора постојати пре увоза (можете "
+"креирати један у интерфејсу администратора ако је потребно)."
 
 #: ../../admin/management.rst:100
 msgid "auto_translate"
@@ -17271,42 +17399,49 @@ msgstr "Додаје језик за превођење"
 
 #: ../../admin/management.rst:108
 msgid "Performs automatic translation based on other component translations."
-msgstr ""
+msgstr "Извршава аутоматски превод на основу других превода компоненти."
 
 #: ../../admin/management.rst:112
 msgid ""
 "Specifies the component to use as source available for translation. If not "
 "specified all components in the project are used."
 msgstr ""
+"Спецификује компоненту која ће се користити као извор доступан за превод. "
+"Ако није специфицирано, користе се све компоненте у пројекту."
 
 #: ../../admin/management.rst:117
 msgid ""
 "Specify username listed as author of the translations. \"Anonymous user\" is "
 "used if not specified."
 msgstr ""
+"Спецификујте корисничко име наведено као аутор превода. \"Анонимни корисник\""
+" се користи ако није специфицирано."
 
 #: ../../admin/management.rst:122
 msgid "Whether to overwrite existing translations."
-msgstr ""
+msgstr "Да ли да препишете постојеће преводе."
 
 #: ../../admin/management.rst:126
 msgid ""
 "Whether to overwrite existing translations that are inconsistent (see :ref:"
 "`check-inconsistent`)."
 msgstr ""
+"Да ли да препишете постојеће преводе који су неконзистентни (види :ref"
+":`check-inconsistent`)."
 
 #: ../../admin/management.rst:131
 msgid "Automatically add language if a given translation does not exist."
-msgstr ""
+msgstr "Аутоматски додајте језик ако дати превод не постоји."
 
 #: ../../admin/management.rst:135
 msgid ""
 "Use machine translation instead of other components as machine translations."
 msgstr ""
+"Користите машински превод уместо других компоненти као машинске преводе."
 
 #: ../../admin/management.rst:139
 msgid "Similarity threshold for machine translation, defaults to 80."
-msgstr ""
+msgstr "Праг сличности за машински превод, подразумевано 80."
 
 #: ../../admin/management.rst:143
 msgid ""
@@ -17324,15 +17459,15 @@ msgstr ""
 
 #: ../../admin/management.rst:161
 msgid "Displays length of Celery task queues."
-msgstr ""
+msgstr "Приказује дужину редова задатака Celery."
 
 #: ../../admin/management.rst:164
 msgid "checkgit"
-msgstr ""
+msgstr "checkgit"
 
 #: ../../admin/management.rst:168
 msgid "Prints current state of the back-end Git repository."
-msgstr ""
+msgstr "Штампа тренутно стање Git складишта на задњем крају."
 
 #: ../../admin/management.rst:170 ../../admin/management.rst:191
 #: ../../admin/management.rst:660 ../../admin/management.rst:680
@@ -17342,14 +17477,17 @@ msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing components."
 msgstr ""
+"Можете или дефинисати који пројекат или компоненту да ажурирате (на пример ``"
+"weblate/application``), или користити ``--all`` да ажурирате све постојеће "
+"компоненте."
 
 #: ../../admin/management.rst:174
 msgid "commitgit"
-msgstr ""
+msgstr "commitgit"
 
 #: ../../admin/management.rst:178
 msgid "Commits any possible pending changes to the back-end Git repository."
-msgstr ""
+msgstr "Урезује све могуће промене на чекању у Git складиште на задњем крају."
 
 #: ../../admin/management.rst:180
 msgid ""
@@ -17360,17 +17498,19 @@ msgstr ""
 
 #: ../../admin/management.rst:185
 msgid "commit_pending"
-msgstr ""
+msgstr "commit_pending"
 
 #: ../../admin/management.rst:189
 msgid "Commits pending changes older than a given age."
-msgstr ""
+msgstr "Урезује промене на чекању старије од одређене старости."
 
 #: ../../admin/management.rst:196
 msgid ""
 "Age in hours for committing. If not specified the value configured in :ref:"
 "`component` is used."
 msgstr ""
+"Узраст у сати за урезивање. Ако није специфицирано, користи се вредност "
+"конфигурисана у :ref:`component`."
 
 #: ../../admin/management.rst:201
 msgid ""
@@ -17381,11 +17521,11 @@ msgstr ""
 
 #: ../../admin/management.rst:207
 msgid ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
-msgstr ""
+msgstr ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
 
 #: ../../admin/management.rst:211
 msgid "cleanuptrans"
-msgstr ""
+msgstr "cleanuptrans"
 
 #: ../../admin/management.rst:215
 msgid ""
@@ -17393,6 +17533,8 @@ msgid ""
 "need to run this manually, as the cleanups happen automatically in the "
 "background."
 msgstr ""
+"Чисти усамљене провере и преводне сугестије. Обично није потребно ручно "
+"покретати ово, јер се чишћења дешавају аутоматски у позадини."
 
 #: ../../admin/management.rst:220
 msgid ":ref:`production-cron`"
@@ -17422,16 +17564,17 @@ msgstr ":ref:`ssh-repos`"
 
 #: ../../admin/management.rst:239
 msgid "createadmin"
-msgstr ""
+msgstr "createadmin"
 
 #: ../../admin/management.rst:243
 msgid ""
 "Creates an ``admin`` account with a random password, unless it is specified."
 msgstr ""
+"Креира ``admin`` налог са насумичном лозинком, осим ако није специфицирано."
 
 #: ../../admin/management.rst:247
 msgid "Provides a password on the command-line, to not generate a random one."
-msgstr ""
+msgstr "Пружа лозинку на командној линији, да не генерише насумичну."
 
 #: ../../admin/management.rst:251
 msgid "Do not set password, this can be useful with `--update`."
@@ -17439,35 +17582,36 @@ msgstr ""
 
 #: ../../admin/management.rst:255
 msgid "Use the given name instead of ``admin``."
-msgstr ""
+msgstr "Користите дато име уместо ``admin``."
 
 #: ../../admin/management.rst:259
 msgid "Specify the admin e-mail address."
-msgstr ""
+msgstr "Спецификујте имејл адресу администратора."
 
 #: ../../admin/management.rst:263
 msgid "Specify the admin name (visible)."
-msgstr ""
+msgstr "Спецификујте име администратора (видљиво)."
 
 #: ../../admin/management.rst:267
 msgid "Update the existing user (you can use this to change passwords)."
 msgstr ""
+"Ажурирајте постојећег корисника (можете користити ово за промену лозинки)."
 
 #: ../../admin/management.rst:270
 msgid "dump_memory"
-msgstr ""
+msgstr "dump_memory"
 
 #: ../../admin/management.rst:274
 msgid "Export a JSON file containing Weblate Translation Memory content."
-msgstr ""
+msgstr "Извози JSON фајл који садржи садржај Weblate меморије превода."
 
 #: ../../admin/management.rst:278 ../../admin/management.rst:365
 msgid ":ref:`translation-memory`, :ref:`schema-memory`"
-msgstr ""
+msgstr ":ref:`translation-memory`, :ref:`schema-memory`"
 
 #: ../../admin/management.rst:282
 msgid "dumpuserdata"
-msgstr ""
+msgstr "dumpuserdata"
 
 #: ../../admin/management.rst:286
 msgid "Dumps userdata to a file for later use by :wladmin:`importuserdata`."
@@ -17475,11 +17619,11 @@ msgstr ""
 
 #: ../../admin/management.rst:290
 msgid "This comes in handy when migrating or merging Weblate instances."
-msgstr ""
+msgstr "Ово је корисно при миграцији или спајању Weblate инстанци."
 
 #: ../../admin/management.rst:293
 msgid "import_demo"
-msgstr ""
+msgstr "import_demo"
 
 #: ../../admin/management.rst:299
 msgid ""
@@ -17490,7 +17634,7 @@ msgstr ""
 
 #: ../../admin/management.rst:302
 msgid "This can be useful when developing Weblate."
-msgstr ""
+msgstr "Ово може бити корисно при развоју Weblate-а."
 
 #: ../../admin/management.rst:306
 #, fuzzy
@@ -17500,11 +17644,11 @@ msgstr "Уклони пројекат"
 
 #: ../../admin/management.rst:310
 msgid "import_json"
-msgstr ""
+msgstr "import_json"
 
 #: ../../admin/management.rst:314
 msgid "Batch import of components based on JSON data."
-msgstr ""
+msgstr "Пакетни увоз компоненти на основу JSON података."
 
 #: ../../admin/management.rst:316
 msgid ""
@@ -17512,10 +17656,13 @@ msgid ""
 "object (see :http:get:`/api/components/(string:project)/(string:component)/"
 "`). You have to include the ``name`` and ``filemask`` fields."
 msgstr ""
+"Структура увезеног JSON фајла углавном одговара објекту компоненте (види "
+":http:get:`/api/components/(string:project)/(string:component)/`). Морате "
+"укључити поља ``name`` и ``filemask``."
 
 #: ../../admin/management.rst:322
 msgid "Specifies where the components will be imported from."
-msgstr ""
+msgstr "Спецификује одакле ће се компоненте увозити."
 
 #: ../../admin/management.rst:326
 msgid "Use the given VCS repository from this component for all of them."
@@ -20189,10 +20336,8 @@ msgid "``^[^.]+$``"
 msgstr ""
 
 #: ../../admin/projects.rst:917
-#, fuzzy
-#| msgid "Search filter"
 msgid "Key filter"
-msgstr "Филтер претраге"
+msgstr "Филтер кључа"
 
 #: ../../admin/projects.rst:921
 msgid ""
@@ -21119,6 +21264,8 @@ msgstr ""
 msgid ""
 "Compress JavaScript and CSS files (optional, see :ref:`production-compress`):"
 msgstr ""
+"Стисните JavaScript и CSS фајлове (опционално, видите :ref:`production-"
+"compress`):"
 
 #: ../../admin/upgrade.rst:96
 msgid ""
@@ -21238,7 +21385,7 @@ msgstr ""
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
-msgstr ""
+msgstr "Веблејтов REST API"
 
 #: ../../api.rst:10
 msgid ""
@@ -21503,7 +21650,7 @@ msgstr "``X-RateLimit-Limit``"
 
 #: ../../api.rst:203
 msgid "Rate limiting limit of requests to perform"
-msgstr ""
+msgstr "Ограничење броја захтева за извршење"
 
 #: ../../api.rst:205
 msgid "``X-RateLimit-Remaining``"
@@ -21511,7 +21658,7 @@ msgstr "``X-RateLimit-Remaining``"
 
 #: ../../api.rst:205
 msgid "Remaining limit of requests"
-msgstr ""
+msgstr "Преостало ограничење захтева"
 
 #: ../../api.rst:207
 msgid "``X-RateLimit-Reset``"
@@ -21519,7 +21666,7 @@ msgstr "``X-RateLimit-Reset``"
 
 #: ../../api.rst:207
 msgid "Number of seconds until ratelimit window resets"
-msgstr ""
+msgstr "Број секунди до ресетовања прозора ограничења"
 
 #: ../../api.rst:212
 msgid "Added ratelimiting status headers."
@@ -26728,7 +26875,7 @@ msgstr ""
 
 #: ../../changes/v0.rst:75
 msgid "Apertium"
-msgstr ""
+msgstr "Апертиум"
 
 #: ../../changes/v0.rst:76
 msgid "Microsoft Translator"
@@ -47313,17 +47460,15 @@ msgstr ""
 
 #: ../../user/translating.rst:186
 msgid "Open available keyboard shortcuts."
-msgstr ""
+msgstr "Отворите доступне пречице на тастатури."
 
 #: ../../user/translating.rst:188
 msgid ":kbd:`Alt+Home`"
 msgstr ""
 
 #: ../../user/translating.rst:188
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to the first translation in the current search."
-msgstr "Овај превод је тренутно закључан."
+msgstr "Идите на први превод у тренутној претрази."
 
 #: ../../user/translating.rst:190
 msgid ":kbd:`Alt+End`"
@@ -47331,7 +47476,7 @@ msgstr ""
 
 #: ../../user/translating.rst:190
 msgid "Navigate to the last translation in the current search."
-msgstr ""
+msgstr "Идите на последњи превод у тренутној претрази."
 
 #: ../../user/translating.rst:192
 msgid ":kbd:`Alt+PageUp` or"
@@ -47373,7 +47518,7 @@ msgstr ""
 
 #: ../../user/translating.rst:200
 msgid "Navigate to the next translation in the current search."
-msgstr ""
+msgstr "Идите на следећи превод у тренутној претрази."
 
 #: ../../user/translating.rst:208
 msgid ":kbd:`Ctrl+Enter` or"
@@ -47398,10 +47543,8 @@ msgid ":kbd:`Cmd+Shift+Enter`"
 msgstr ""
 
 #: ../../user/translating.rst:212
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "Додај као предлог који треба уредити"
+msgstr "Уклоните ознаку превода као Потребе уређивања и предајте га."
 
 #: ../../user/translating.rst:216
 msgid ":kbd:`Alt+Enter` or"
@@ -47426,10 +47569,8 @@ msgid ":kbd:`Cmd+E`"
 msgstr ""
 
 #: ../../user/translating.rst:220
-#, fuzzy
-#| msgid "Alt+M - Shows machine translation tab"
 msgid "Focus on translation editor."
-msgstr "Alt+M - Приказује картицу машинског превођења"
+msgstr "Фокусирајте се на уређивач превода."
 
 #: ../../user/translating.rst:224
 msgid ":kbd:`Ctrl+U` or"
@@ -47440,10 +47581,8 @@ msgid ":kbd:`Cmd+U`"
 msgstr ""
 
 #: ../../user/translating.rst:224
-#, fuzzy
-#| msgid "Alt+M - Shows machine translation tab"
 msgid "Focus on comment editor."
-msgstr "Alt+M - Приказује картицу машинског превођења"
+msgstr "Фокусирајте се на уређивач коментара."
 
 #: ../../user/translating.rst:228
 msgid ":kbd:`Ctrl+M` or"
@@ -47467,10 +47606,8 @@ msgid ":kbd:`Cmd+1` to :kbd:`Cmd+9`"
 msgstr ""
 
 #: ../../user/translating.rst:232
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "Copies placeable of a given number from source string."
-msgstr "Овај језик се користи за изворне ниске."
+msgstr "Копирајте постављиво од датог броја из изворне ниске."
 
 #: ../../user/translating.rst:236
 msgid ":kbd:`Ctrl+M` followed by :kbd:`1` to :kbd:`9` or"
@@ -47493,10 +47630,8 @@ msgid ":kbd:`Cmd+I` followed by :kbd:`1` to :kbd:`9`"
 msgstr ""
 
 #: ../../user/translating.rst:242
-#, fuzzy
-#| msgid "Ignore failing check"
 msgid "Ignore one item in the list of failing checks."
-msgstr "Игнорише пропале провере"
+msgstr "Игнорисати један предмет у листи неуспелих провера."
 
 #: ../../user/translating.rst:248
 msgid ":kbd:`Ctrl+J` or"
@@ -47520,7 +47655,7 @@ msgstr ""
 
 #: ../../user/translating.rst:252
 msgid "Focus on search field."
-msgstr ""
+msgstr "Фокусирајте се на поље претраге."
 
 #: ../../user/translating.rst:256
 msgid ":kbd:`Ctrl+O` or"
@@ -47531,10 +47666,8 @@ msgid ":kbd:`Cmd+O`"
 msgstr ""
 
 #: ../../user/translating.rst:256
-#, fuzzy
-#| msgid "Update source strings"
 msgid "Copy the source string."
-msgstr "Ажурирај изворне ниске"
+msgstr "Копирајте изворну ниску."
 
 #: ../../user/translating.rst:260
 msgid ":kbd:`Ctrl+Y` or"
@@ -47553,20 +47686,16 @@ msgid ":kbd:`→`"
 msgstr ""
 
 #: ../../user/translating.rst:264
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation string."
-msgstr "Додај нову ниску превода"
+msgstr "Прегледајте следећу преводну ниску."
 
 #: ../../user/translating.rst:266
 msgid ":kbd:`←`"
 msgstr ""
 
 #: ../../user/translating.rst:266
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation string."
-msgstr "Задржи претходне „msgids“ преведених ниски"
+msgstr "Прегледајте претходну преводну ниску."
 
 #: ../../user/translating.rst:272
 msgid "Visual keyboard"

@@ -831,6 +831,10 @@ List for credentials for GitHub servers.
         },
     }
 
+.. note::
+
+   When creating a fine-grained personal access token, grant read and write access to :guilabel:`Contents` and :guilabel:`Pull requests`.
+
 .. hint::
 
    Use ``api.github.com`` as a API host for https://github.com/.

@@ -14,7 +14,7 @@
   {% if can_delete and announcement %}
     <button type="button" class="btn btn-link btn-red pull-right flip" data-dismiss="alert" title="{% trans "Delete announcement" %}">{% icon "delete.svg" %}</button>
   {% elif can_delete %}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
   {% endif %}
   {% block message %}{{ message }}{% endblock %}
     <div class="clearfix"></div>

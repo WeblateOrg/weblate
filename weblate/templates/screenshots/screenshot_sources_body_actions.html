@@ -2,7 +2,7 @@
 
 <a href="{{ unit.get_absolute_url }}" class="btn btn-primary">{% trans "View" %}</a>
 {% if user_can_edit_screenshot %}
-<form class="inlineform" action="{% url 'screenshot-remove-source' pk=object.pk %}" method="POST">
+<form class="inlineform" action="{% url 'screenshot-remove-source' pk=object.pk %}" method="post">
 {% csrf_token %}
 <input type="hidden" name="source" value="{{ unit.pk }}" />
 <button type="submit" class="btn btn-danger">{% trans "Remove" %}</button>

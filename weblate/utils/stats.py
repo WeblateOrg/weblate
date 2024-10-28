@@ -16,7 +16,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import Count, Model, Q
+from django.db.models import Count, F, Model, Q
 from django.db.models.functions import Length
 from django.urls import reverse
 from django.utils import timezone
@@ -1093,16 +1093,11 @@ class ProjectLanguage(BaseURLMixin):
         workflow_settings = WorkflowSetting.objects.filter(
             Q(project=None) | Q(project=self.project),
             language=self.language,
-        )
+        ).order_by(F("project").desc(nulls_last=True))
         if len(workflow_settings) == 0:
             return None
-        if len(workflow_settings) == 1:
-            return workflow_settings[0]
-        # We should have two objects here, return project specific one
-        for workflow_setting in workflow_settings:
-            if workflow_setting.project_id == self.project.id:
-                return workflow_setting
-        raise WorkflowSetting.DoesNotExist
+        # Project specific is first, project NULL is last
+        return workflow_settings[0]
 
 
 class ProjectLanguageStats(SingleLanguageStats):

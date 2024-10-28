@@ -38,7 +38,7 @@
       </td>
       <td><pre>{{ error.message }}</pre></td>
       <td>
-      <form method="POST">
+      <form method="post">
       {% csrf_token %}
       <input type="hidden" name="pk" value="{{ error.pk }}"/>
       <input type="submit" name="dismiss" value="{% trans "Dismiss" %}" class="btn btn-primary" />
@@ -170,5 +170,4 @@
   </div>
 </div>
 
-</div>
 {% endblock %}

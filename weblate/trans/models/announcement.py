@@ -124,7 +124,7 @@ class Announcement(models.Model):
     )
     notify = models.BooleanField(
         blank=True,
-        default=True,
+        default=False,
         verbose_name=gettext_lazy("Notify users"),
         help_text=gettext_lazy("Send notification to subscribed users."),
     )

@@ -48,7 +48,7 @@
 {% perm 'unit.add' unit.translation as user_can_add_unit %}
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
-<a href="{% url 'zen' path=object.get_url_path  %}?offset={{offset}}&amp;{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Open in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
+<a href="{% url 'zen' path=object.get_url_path  %}?offset={{ offset }}&amp;{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Open in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
 
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
@@ -56,7 +56,7 @@
 {% with variants=unit.variants %}
 
 <div class="query-container">
-  <form method="GET" class="result-page-form">
+  <form method="get" class="result-page-form">
     {% crispy search_form  %}
   </form>
 </div>
@@ -298,7 +298,7 @@
 {% if others.skipped %}
   <p class="help-block">{% trans "Showing only subset of the strings as there were too many matches." %}</p>
 {% endif %}
-<form method="POST" action="{{ unit.translation.get_translate_url}}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
+<form method="post" action="{{ unit.translation.get_translate_url }}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
   {% csrf_token %}
   <table class="table table-condensed">
     <thead>
@@ -392,8 +392,8 @@
         <th>{% trans "Similarity" %}</th>
         <th colspan="2">
         {% loading_icon "machinery" %}
-      </th>
-      <tr>
+        </th>
+      </tr>
     </thead>
     <tbody id="machinery-translations"></tbody>
   </table>
@@ -404,7 +404,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">×</span></button>
             <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
           </div>
           <div class="modal-body"></div>
@@ -468,7 +468,7 @@
             {% documentation_icon 'user/translating' 'suggestions' right=True %}
             {% icon "suggest.svg" %}
             {% trans "Suggestions" %}
-        </h4>
+        </h5>
         <p class="list-group-item-text">{% blocktrans count count=unit.suggestions|length %}There is {{ count }} suggestion for this string.{% plural %}There are {{ count }} suggestions for this string.{% endblocktrans %}</p>
         <p class="list-group-item-text list-buttons">
             <a href="#suggestions" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
@@ -565,7 +565,7 @@
   <h4 class="panel-title">
     {% with glossaries=unit.translation.component.project.glossaries %}
       {% for glossary in glossaries %}
-        <a class="pull-right flip btn btn-link btn-xs btn-{{glossary.glossary_color}}" title="{% blocktrans with name=glossary.name %}Browse glossary {{ name }}{% endblocktrans %}" href="{{ glossary.get_absolute_url }}">{% icon "folder-search-outline.svg" %}</a>
+        <a class="pull-right flip btn btn-link btn-xs btn-{{ glossary.glossary_color }}" title="{% blocktrans with name=glossary.name %}Browse glossary {{ name }}{% endblocktrans %}" href="{{ glossary.get_absolute_url }}">{% icon "folder-search-outline.svg" %}</a>
       {% endfor %}
     {% endwith %}
     {% loading_icon "glossary-add" %}
@@ -734,7 +734,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">×</span></button>
         <h4 class="modal-title">{% trans "Edit additional string info" %}</h4>
       </div>
       <div class="modal-body">
@@ -788,7 +788,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">×</span></button>
             <h4 class="panel-title">{% blocktrans with existing=unit.get_source_plurals.0 %}Add a new variant for "{{ existing }}"{% endblocktrans %}</h4>
           </div>
           <div class="modal-body">
@@ -804,13 +804,13 @@
 {% endif %}
 
 {% if screenshot_form %}
-  <form action="{% url 'screenshots' path=unit.translation.component.get_url_path %}" method="POST" enctype="multipart/form-data">
+  <form action="{% url 'screenshots' path=unit.translation.component.get_url_path %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="modal fade" tabindex="-1" role="dialog" id="add-screenshot-form">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">×</span></button>
             <h4 class="panel-title">{% trans "Add new screenshot" %}</h4>
           </div>
           <div class="panel-body">
@@ -828,14 +828,14 @@
   </form>
 {% endif %}
 {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
-    <form action="{% url 'js-add-glossary' unit_id=unit.id %}" method="POST" class="add-dict-inline double-submission">
+    <form action="{% url 'js-add-glossary' unit_id=unit.id %}" method="post" class="add-dict-inline double-submission">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ this_unit_url }}" />
     <div class="modal fade" tabindex="-1" role="dialog" id="add-glossary-form">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">×</span></button>
             <h4 class="modal-title">{% trans "Add term to glossary" %}</h4>
           </div>
           <div class="modal-body">

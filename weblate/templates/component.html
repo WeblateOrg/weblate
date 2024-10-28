@@ -165,7 +165,7 @@
 
 <div class="tab-pane" id="search">
 
-<form action="{% url 'search' path=object.get_url_path %}" method="GET" data-persist="search-component">
+<form action="{% url 'search' path=object.get_url_path %}" method="get" data-persist="search-component">
 {% include "snippets/search-form.html" %}
 </form>
 
@@ -325,8 +325,5 @@
 
 </div>
 
-
-
-</div>
 
 {% endblock %}

@@ -573,11 +573,11 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         # Sync FORMULA_WITH_ZERO
         for code, language_plurals in plurals.items():
             if Plural.SOURCE_CLDR_ZERO in language_plurals:
-                if Plural.SOURCE_CLDR not in language_plurals:
-                    logger(f"Missing CLDR plural for {code}!")
-                    continue
+                if Plural.SOURCE_CLDR in language_plurals:
+                    cldr_plural = language_plurals[Plural.SOURCE_CLDR][0]
+                else:
+                    cldr_plural = language_plurals[Plural.SOURCE_DEFAULT][0]
                 zero_plural = language_plurals[Plural.SOURCE_CLDR_ZERO][0]
-                cldr_plural = language_plurals[Plural.SOURCE_CLDR][0]
                 current_formula = FORMULA_WITH_ZERO[cldr_plural.formula]
                 if zero_plural.formula != current_formula:
                     logger(f"Updating CLDR plural with zero for {code}")

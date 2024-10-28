@@ -72,7 +72,7 @@
       {% if componentlist %}
         {% for auto in componentlist.autocomponentlist_set.all %}
           <tr>
-            <th>{%if forloop.first%}{% trans "Automatic component list assignment" %}{% endif %}</th>
+            <th>{% if forloop.first %}{% trans "Automatic component list assignment" %}{% endif %}</th>
             <td colspan="2"><code>project ~= {{ auto.project_match }}, component ~= {{ auto.component_match }}</code></td>
           </tr>
         {% endfor %}
@@ -174,7 +174,7 @@
         <td colspan="2">{{ stats.last_changed }}</td>
         </tr>
         <tr>
-        <th>{% trans "Last author" %}</th>
+        <th>{% trans "Last change made by" %}</th>
         <td colspan="2">{{ translation.get_last_author }}</td>
         </tr>
       {% endif %}
@@ -184,7 +184,7 @@
           <th>{% trans "Language" %}</th>
           <td colspan="2" class="full-cell">
             <a href="{% url "show_language" lang=language.code %}">{{ language }}</a>
-          </th>
+          </td>
         </tr>
         {% endif %}
         <tr>

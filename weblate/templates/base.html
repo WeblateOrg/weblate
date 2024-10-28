@@ -12,7 +12,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="referrer" content="origin" />
   <meta name="author" content="Michal Čihař" />
-  <meta name="copyright" content="Copyright &copy; Michal Čihař" />
+  <meta name="copyright" content="Copyright © Michal Čihař" />
   {% if not allow_index %}<meta name="robots" content="noindex,nofollow" />{% endif %}
   {% if interledger_payment_pointer %}<meta name="monetization" content="{{ interledger_payment_pointer }}" />{% endif %}
 
@@ -359,7 +359,7 @@ var _rollbarConfig = {
 {% endblock %}
 
 </div>
-<form id="link-post" method="POST">
+<form id="link-post" method="post">
 {% csrf_token %}
 </form>
 <!-- Creates the bootstrap modal where the image will appear -->
@@ -367,7 +367,7 @@ var _rollbarConfig = {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span></button>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">{% trans "Close" %}</span></button>
         <h4 class="modal-title" id="screenshotModal"></h4>
       </div>
       <div class="modal-body">
