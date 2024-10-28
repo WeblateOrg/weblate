@@ -375,6 +375,10 @@ Gitea, Pagure, Azure DevOps, Bitbucket Server and Bitbucket Cloud:
 +---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | Azure DevOps pull request from branch       | :ref:`vcs-azure-devops`       | SSH URL [#empty]_             | Branch name                   |
 +---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Bitbucket server pull request from fork     | :ref:`vcs-bitbucket-server`   | `empty`                       | `empty`                       |
++---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Bitbucket server pull request from branch   | :ref:`vcs-bitbucket-server`   | SSH URL [#empty]_             | Branch name                   |
++---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | Bitbucket Cloud pull request from fork      | :ref:`vcs-bitbucket-cloud`    | `empty`                       | `empty`                       |
 +---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | Bitbucket Cloud pull request from branch    | :ref:`vcs-bitbucket-cloud`    | SSH URL [#empty]_             | Branch name                   |
