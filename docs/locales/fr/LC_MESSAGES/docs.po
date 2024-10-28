@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-18 19:15+0000\n"
+"PO-Revision-Date: 2024-10-28 23:08+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.8.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -48018,7 +48018,7 @@ msgstr "XLIFF avec extensions gettext"
 
 #: ../../user/files.rst:32
 msgid "XLIFF 1.1 (``xliff11``)"
-msgstr ""
+msgstr "XLIFF 1.1 (``xliff11``)"
 
 #: ../../user/files.rst:33
 #, fuzzy
@@ -48036,10 +48036,12 @@ msgstr "Mémoire de traduction"
 msgid ""
 "gettext MO (only available when translation is using gettext PO) (``mo``)"
 msgstr ""
+"gettext MO (disponible uniquement si la traduction utilise gettext PO) "
+"(``mo``)"
 
 #: ../../user/files.rst:36
 msgid "CSV (``csv``)"
-msgstr ""
+msgstr "CSV (``csv``)"
 
 #: ../../user/files.rst:37
 #, fuzzy
@@ -48119,13 +48121,15 @@ msgstr ""
 
 #: ../../user/files.rst:72
 msgid "Uploading translations"
-msgstr ""
+msgstr "Téléverser les traductions"
 
 #: ../../user/files.rst:74
 msgid ""
 "When you have made your changes, use :guilabel:`Upload translation` in the :"
 "guilabel:`Files` menu."
 msgstr ""
+"Lorsque vos modifications sont terminées, utilisez :guilabel:`Téléverser la "
+"traduction` du menu :guilabel:`Fichiers`."
 
 #: ../../user/files.rst:84
 msgid ""
@@ -48133,6 +48137,10 @@ msgid ""
 "recommended to use the same file format as the one used for translation, "
 "otherwise some features might not be translated properly."
 msgstr ""
+"Vous pouvez téléverser tout fichier pourvu qu'il soit dans l'un des formats "
+"supportés, mais il est encore recommandé d'utiliser le même format de "
+"fichier que celui utilisé pour la traduction, sinon certaines "
+"fonctionnalités pourraient ne pas être traduites correctement."
 
 #: ../../user/files.rst:90
 #, fuzzy
@@ -48142,11 +48150,12 @@ msgstr ":ref:`privileges`, :ref:`workflows`"
 
 #: ../../user/files.rst:96
 msgid "Import methods"
-msgstr ""
+msgstr "Méthodes d'importation"
 
 #: ../../user/files.rst:98
 msgid "These are the choices presented when uploading translation files:"
 msgstr ""
+"Voici les choix proposés lors du téléversement des fichiers de traduction :"
 
 #: ../../user/files.rst:100
 msgid "Add as translation (``translate``)"
@@ -48157,12 +48166,17 @@ msgid ""
 "Imported strings are added as translations to existing strings. This is the "
 "most common usecase, and the default behavior."
 msgstr ""
+"Les chaînes importées sont ajoutées en tant que traductions aux chaînes "
+"existantes. C'est le cas d'utilisation le plus courant, ainsi que le "
+"comportement par défaut."
 
 #: ../../user/files.rst:104 ../../user/files.rst:111 ../../user/files.rst:118
 #: ../../user/files.rst:125
 msgid ""
 "Only translations are used from the uploaded file and no additional content."
 msgstr ""
+"Seules les traductions sont utilisées à partir du fichier téléversé et sans "
+"contenu additionnel."
 
 #: ../../user/files.rst:106 ../../user/files.rst:127
 msgid ""
@@ -48179,12 +48193,17 @@ msgid ""
 "Imported strings are added as suggestions. Do this when you want to have "
 "your uploaded strings reviewed."
 msgstr ""
+"Les chaînes importées sont ajoutées en tant que suggestions. Faites ceci si "
+"vous souhaitez que les chaînes que vous avez téléversées soient relues."
 
 #: ../../user/files.rst:113
+#, fuzzy
 msgid ""
 "This option is available only if the user has the :ref:`\"Add suggestion\" "
 "permission <privileges>`."
 msgstr ""
+"Cette option est disponible si l'utilisateur possède les :ref:`\"Add "
+"suggestion\" droits <privileges>`."
 
 #: ../../user/files.rst:114
 #, fuzzy
@@ -48197,6 +48216,8 @@ msgid ""
 "Imported strings are added as approved translations. Do this when you "
 "already reviewed your translations before uploading them."
 msgstr ""
+"Les chaînes importées sont ajoutées en tant que traductions approuvées. "
+"Faites ceci si vous avez déjà relu vos traductions avant de les téléverser."
 
 #: ../../user/files.rst:120
 msgid ""
@@ -48213,6 +48234,9 @@ msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
 msgstr ""
+"Les chaînes importées sont ajoutées comme des traductions nécessitant une "
+"édition. Ceci est utile si vous voulez utiliser les traductions mais aussi "
+"pour pouvoir les corriger."
 
 #: ../../user/files.rst:128
 msgid "Replace existing translation file (``replace``)"
@@ -48223,6 +48247,8 @@ msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
 msgstr ""
+"Le fichier existant est remplacé par le nouveau contenu. Cela peut mener à "
+"une perte des traductions existantes, à utiliser avec précaution."
 
 #: ../../user/files.rst:132
 msgid ""
@@ -48242,10 +48268,14 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:138
+#, fuzzy
 msgid ""
 "This option is available only for some file formats and only if the user has "
 "the :ref:`\"Upload translations\" permission <privileges>`."
 msgstr ""
+"Cette option est disponible uniquement pour certains formats de fichiers et "
+"si l'utilisateur possède les :ref:`\"Upload translations\" droits "
+"<privileges>`."
 
 #: ../../user/files.rst:140
 #, fuzzy
