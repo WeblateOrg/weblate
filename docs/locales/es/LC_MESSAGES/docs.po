@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-26 04:51+0000\n"
+"PO-Revision-Date: 2024-10-28 18:51+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -8559,8 +8559,6 @@ msgid "DEFAULT_ADDONS"
 msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:557
-#, fuzzy
-#| msgid "Default add-ons to install on every created component."
 msgid "Default add-ons to install for every created component."
 msgstr "Complementos por defecto para instalar en cada componente creado."
 
@@ -8577,21 +8575,17 @@ msgid "Example:"
 msgstr "Ejemplo:"
 
 #: ../../admin/config.rst:583
-#, fuzzy
-#| msgid ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 msgid ":wladmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
-msgstr ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
+msgstr ":wladmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 
 #: ../../admin/config.rst:590
 msgid "DEFAULT_COMMITER_EMAIL"
 msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:592
-#, fuzzy
-#| msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
 msgstr ""
-"La dirección de correo electrónico del autor por defecto es "
+"Dirección de correo electrónico del colaborador, el valor predeterminado es "
 "``noreply@weblate.org``."
 
 #: ../../admin/config.rst:596
@@ -8806,6 +8800,10 @@ msgid ""
 "SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not work for sites without "
 "HTTPS."
 msgstr ""
+"En caso de que esta opción esté deshabilitada, Weblate no podrá iniciarse y "
+"aparecerá un error ``otp_webauthn.E031``.  Puede silenciar este error "
+"agregándolo a :setting:` django :SILENCED_SYSTEM_CHECKS`, pero aún así "
+"WebAuthn no funcionará para páginas sin HTTPS."
 
 #: ../../admin/config.rst:725
 msgid ""
@@ -8838,6 +8836,8 @@ msgid ""
 "Insert additional markup into the HTML header. Can be used for verification "
 "of site ownership, for example:"
 msgstr ""
+"Insertar un marcado adicional en el encabezado HTML. Puede ser usado para "
+"verificar la propiedad de la página, por ejemplo:"
 
 #: ../../admin/config.rst:753
 msgid ""
@@ -9003,6 +9003,8 @@ msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
 msgstr ""
+"Se pueden encontrar configuraciones adicionales no descritas aquí en "
+":ref:`settings- credentials` ."
 
 #: ../../admin/config.rst:908
 msgid ""
@@ -9173,6 +9175,8 @@ msgid ""
 "If set to ``True``, Weblate gets IP address from a header defined by :"
 "setting:`IP_PROXY_HEADER`."
 msgstr ""
+"Si se establece en \"True\", Weblate obtiene la dirección IP de un "
+"encabezado definido por :setting:`IP_PROXY_HEADER`."
 
 #: ../../admin/config.rst:1026
 msgid ""
