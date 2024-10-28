@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-28 13:13+0000\n"
+"PO-Revision-Date: 2024-10-28 18:52+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -12785,6 +12785,12 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
+"Het instellen van de mailserver wordt geconfigureerd met deze instellingen: "
+":setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, "
+":setting:`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_SSL`, "
+":setting:`django:EMAIL_HOST_USER` en :setting:`django:EMAIL_PORT`. Hun namen "
+"verklaren zichzelf voldoende, maar u kunt meer informatie vinden in de "
+"documentatie van Django."
 
 #: ../../admin/install.rst:662
 msgid ""
@@ -12793,28 +12799,40 @@ msgid ""
 "insecure connection and server refuses to authenticate this way. Try "
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
+"In het geval u een fout krijgt over niet ondersteunde authenticatie ("
+"bijvoorbeeld ``SMTP AUTH extension not supported by server``), wordt dat "
+"heel waarschijnlijk veroorzaakt door een onveilige verbinding te gebruiken "
+"en de server weigert op die manier te authenticeren. Probeer in een "
+"dergelijk geval :setting:`django:EMAIL_USE_TLS` in te schakelen."
 
 #: ../../admin/install.rst:669
 msgid ""
 ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
 msgstr ""
+":ref:`debug-mails`, :ref:`Uitgaande e-mail configureren in Docker container "
+"<docker-mail>`"
 
 #: ../../admin/install.rst:675
 msgid "Running behind reverse proxy"
-msgstr ""
+msgstr "Uitvoeren achter een omgekeerde proxy"
 
 #: ../../admin/install.rst:677
 msgid ""
 "Several features in Weblate rely on being able to get client IP address. "
 "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`."
 msgstr ""
+"Verscheidene mogelijkheden in Weblate vertrouwen erop een cliënt IP-adres op "
+"te kunnen halen. Dit omvat :ref:`rate-limit`, :ref:`spam-protection` of :ref"
+":`audit-log`."
 
 #: ../../admin/install.rst:680
 msgid ""
 "In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
 "which is set by the WSGI handler."
 msgstr ""
+"In de standaard configuratie parset Weblate IP-adressen vanuit "
+"``REMOTE_ADDR`` dat wordt ingesteld door de afhandelaar van WSGI."
 
 #: ../../admin/install.rst:683
 msgid ""
@@ -12826,6 +12844,14 @@ msgid ""
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
 "and :setting:`IP_PROXY_OFFSET` as well."
 msgstr ""
+"In het geval u een omgekeerde proxy uitvoert, zal dit veld zeer "
+"waarschijnlijk zijn adres bevatten. U zult Weblate moeten configureren om "
+"aanvullende HTTP-headers te vertrouwen en het IP-adres van daaruit te "
+"parsen. Dit kan niet standaard worden ingeschakeld omdat dat het spoofen van "
+"IP-adressen mogelijk zou maken voor installaties die geen omgekeerde proxy "
+"gebruiken. Inschakelen van :setting:`IP_BEHIND_REVERSE_PROXY` zou genoeg "
+"moeten zijn voor de meest gebruikelijke opstellingen, maar u moet misschien "
+"ook :setting:`IP_PROXY_HEADER` en :setting:`IP_PROXY_OFFSET` aanpassen."
 
 #: ../../admin/install.rst:691
 msgid ""
@@ -12835,6 +12861,11 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
+"Een ander ding dat moet worden verzorgd is de kop :http:header:`Host`. Het "
+"zou overeen moeten komen met dat wat is geconfigureerd als "
+":setting:`SITE_DOMAIN`. Aanvullende configuratie in uw omgekeerde proxy zou "
+"misschien nodig kunnen zijn (gebruik bijvoorbeeld ``ProxyPreserveHost On`` "
+"voor Apache of ``proxy_set_header Host $host;`` met nginx)."
 
 #: ../../admin/install.rst:698
 msgid ""
@@ -12842,10 +12873,13 @@ msgid ""
 "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgstr ""
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install.rst:707
 msgid "HTTP proxy"
-msgstr ""
+msgstr "HTTP proxy"
 
 #: ../../admin/install.rst:709
 msgid ""
@@ -12853,16 +12887,21 @@ msgid ""
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
+"Weblate voert geen opdrachten voor VCS uit en die accepteren de "
+"proxyconfiguratie uit de omgeving. De aanbevolen benadering is om de "
+"instellingen voor de proxy te definiëren in :file:`settings.py`:"
 
 #: ../../admin/install.rst:722
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
 msgstr ""
+"`Proxy omgevingsvariabelen <https://everything.curl.dev/usingcurl/proxies/env"
+".html>`_"
 
 #: ../../admin/install.rst:727
 msgid "Adjusting configuration"
-msgstr ""
+msgstr "Configuratie aanpassen"
 
 #: ../../admin/install.rst:731
 msgid ":ref:`sample-configuration`"
@@ -12874,6 +12913,9 @@ msgid ""
 "adjust it to match your setup. You will probably want to adjust the "
 "following options:"
 msgstr ""
+"Kopieer :file:`weblate/settings_example.py` naar :file:`weblate/settings.py` "
+"en pas het aan zodat het overeen komt met uw opstelling. U zult "
+"waarschijnlijk de volgende opties willen veranderen:"
 
 #: ../../admin/install.rst:739
 msgid "``ADMINS``"
@@ -12884,17 +12926,23 @@ msgid ""
 "List of site administrators to receive notifications when something goes "
 "wrong, for example notifications on failed merges, or Django errors."
 msgstr ""
+"Lijst met beheerders van de site om notificaties te ontvangen als er iets "
+"mis gaat, bijvoorbeeld notificaties voor mislukte samenvoegingen, of fouten "
+"in Django."
 
 #: ../../admin/install.rst:744
 msgid ""
 "Contact form sends e-mail on these as well unless :setting:`ADMINS_CONTACT` "
 "is configured."
 msgstr ""
+"Contactformulier verzendt hier ook e-mail over, tenzij "
+":setting:`ADMINS_CONTACT` is geconfigureerd."
 
 #: ../../admin/install.rst:749
 msgid ""
 ":setting:`django:ADMINS`, :setting:`ADMINS_CONTACT`, :ref:`production-admins`"
 msgstr ""
+":setting:`django:ADMINS`, :setting:`ADMINS_CONTACT`, :ref:`production-admins`"
 
 #: ../../admin/install.rst:755
 msgid "``ALLOWED_HOSTS``"
