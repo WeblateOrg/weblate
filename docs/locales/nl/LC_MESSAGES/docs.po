@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-28 18:52+0000\n"
+"PO-Revision-Date: 2024-10-29 16:01+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -12953,16 +12953,20 @@ msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
 msgstr ""
+"U moet dit instellen met de vermelding van de hosts die uw site wordt geacht "
+"te serveren. Bijvoorbeeld:"
 
 #: ../../admin/install.rst:764
 msgid "Alternatively you can include wildcard:"
-msgstr ""
+msgstr "Als alternatief kunt u een jokerteken opnemen:"
 
 #: ../../admin/install.rst:772
 msgid ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
 msgstr ""
+":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref"
+":`production-hosts`"
 
 #: ../../admin/install.rst:778
 msgid "``SESSION_ENGINE``"
@@ -12974,16 +12978,22 @@ msgid ""
 "database backend engine, you should schedule: :command:`weblate "
 "clearsessions` to remove stale session data from the database."
 msgstr ""
+"Configureer hoe uw sessies zullen worden opgeslagen. In het geval dat u de "
+"standaard backend van het database-programma behoud, zou u: :command:`"
+"weblate clearsessions` in het schema moeten opnemen om gegevens van "
+"verouderde sessies uit de database te verwijderen."
 
 #: ../../admin/install.rst:785
 msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
 msgstr ""
+"Als u Redis gebruikt als cache (bekijk :ref:`production-cache`) wordt "
+"aanbevolen om het ook voor sessies te gebruiken:"
 
 #: ../../admin/install.rst:794
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
-msgstr ""
+msgstr ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 
 #: ../../admin/install.rst:799
 msgid "``DATABASES``"
@@ -12994,12 +13004,16 @@ msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
 msgstr ""
+"Connectiviteit met de databaseserver, controleer de documentatie van Django "
+"voor meer details."
 
 #: ../../admin/install.rst:806
 msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
 msgstr ""
+":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
+"databases`"
 
 #: ../../admin/install.rst:812
 msgid "``DEBUG``"
@@ -13011,16 +13025,22 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
+"Schakel dit voor alle productieservers uit. Met de modus debug ingeschakeld, "
+"zal Django, in het geval van fouten, sporen die terugvoeren naar die fouten "
+"aan gebruikers sturen, wanneer u het uitschakelt zullen de fouten per e-mail "
+"worden verzonden aan ``ADMINS`` (zie boven)."
 
 #: ../../admin/install.rst:818
 msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
 msgstr ""
+"Modus Debug vertraagt ook Weblate, omdat Django in dat geval veel meer "
+"informatie intern opslaat."
 
 #: ../../admin/install.rst:823
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
-msgstr ""
+msgstr ":setting:`django:DEBUG`, :ref:`production-debug`"
 
 #: ../../admin/install.rst:828
 msgid "``DEFAULT_FROM_EMAIL``"
@@ -13030,10 +13050,12 @@ msgstr "``DEFAULT_FROM_EMAIL``"
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
 msgstr ""
+"E-mailadres afzender voor uitgaande e-mail, bijvoorbeeld e-mails voor het "
+"registreren."
 
 #: ../../admin/install.rst:834
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
 
 #: ../../admin/install.rst:838
 msgid "``SECRET_KEY``"
@@ -13044,10 +13066,12 @@ msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
 msgstr ""
+"Sleutel, gebruikt door Django, om enige informatie te tekenen in cookies, "
+"bekijk :ref:`production-secret` voor meer informatie."
 
 #: ../../admin/install.rst:845
 msgid ":setting:`django:SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`django:SECRET_KEY`"
 
 #: ../../admin/install.rst:849
 msgid "``SERVER_EMAIL``"
@@ -13058,14 +13082,16 @@ msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
 msgstr ""
+"E-mail, gebruikt als afzenderadres, voor het sturen van e-mails aan de "
+"beheerder, bijvoorbeeld notificaties voor mislukt samenvoegen."
 
 #: ../../admin/install.rst:856
 msgid ":setting:`django:SERVER_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:861
 msgid "Filling up the database"
-msgstr ""
+msgstr "De database vullen"
 
 #: ../../admin/install.rst:863
 msgid ""
@@ -13073,6 +13099,9 @@ msgid ""
 "the database structure. Now you should be able to create translation "
 "projects using the admin interface."
 msgstr ""
+"Nadat uw configuratie voltooid is, kunt u :wladmin:`migrate` uitvoeren om de "
+"structuur van de database te maken. Nu zou u in staat moeten zijn "
+"vertaalprojecten te maken met de beheerinterface."
 
 #: ../../admin/install.rst:867
 msgid ""
@@ -13080,14 +13109,17 @@ msgid ""
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
 msgstr ""
+"Als u daar eenmaal klaar mee bent zou u ook :guilabel:`Prestatieverslag` in "
+"de beheerinterface moeten controleren, dat u hints zal geven over potentiële "
+"niet optimale configuratie voor uw site."
 
 #: ../../admin/install.rst:873
 msgid ":ref:`config`, :ref:`privileges`"
-msgstr ""
+msgstr ":ref:`config`, :ref:`privileges`"
 
 #: ../../admin/install.rst:879
 msgid "Production setup"
-msgstr ""
+msgstr "Productie opstelling"
 
 #: ../../admin/install.rst:881
 msgid ""
@@ -13096,36 +13128,47 @@ msgid ""
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
 msgstr ""
+"Voor een productie opstelling zou u aanpassingen moeten uitvoeren die zijn "
+"beschreven in de volgende gedeelten. De meest kritische instellingen zullen "
+"een waarschuwing activeren, die wordt aangegeven door een uitroepteken in de "
+"bovenste balk indien ingelogd als een superuser:"
 
 #: ../../admin/install.rst:887
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
 msgstr ""
+"Ook wordt aanbevolen de controles te inspecteren die worden geactiveerd door "
+"Django (hoewel u ze niet allemaal zou hoeven te repareren):"
 
 #: ../../admin/install.rst:894
 msgid ""
 "You can also review the very same checklist at :ref:`manage-performance` in "
 "the :ref:`management-interface`."
 msgstr ""
+"U kunt ook precies dezelfde controlelijst bekijken in :ref:`manage-"
+"performance` van de :ref:`management-interface`."
 
 #: ../../admin/install.rst:898
 msgid ":doc:`django:howto/deployment/checklist`"
-msgstr ""
+msgstr ":doc:`django:howto/deployment/checklist`"
 
 #: ../../admin/install.rst:903
 msgid "Disable debug mode"
-msgstr ""
+msgstr "Modus Debug uitschakelen"
 
 #: ../../admin/install.rst:905
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
-msgstr ""
+msgstr "Schakel de modus Debug van Django uit (:setting:`DEBUG`) met:"
 
 #: ../../admin/install.rst:911
 msgid ""
 "With debug mode on, Django stores all executed queries and shows users "
 "backtraces of errors, which is not desired in a production setup."
 msgstr ""
+"Met de modus Debug ingeschakeld slaat Django alle uitgevoerde query's op en "
+"laat gebruikers sporen zien die terugvoeren naar fouten, wat in een "
+"productie opstelling niet gewenst is."
 
 #: ../../admin/install.rst:916 ../../admin/install.rst:932
 msgid ":ref:`configuration`"
@@ -13133,7 +13176,7 @@ msgstr ":ref:`configuration`"
 
 #: ../../admin/install.rst:921
 msgid "Properly configure admins"
-msgstr ""
+msgstr "Juist geconfigureerde beheerders"
 
 #: ../../admin/install.rst:923
 msgid ""
@@ -13141,10 +13184,13 @@ msgid ""
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
+"Stel de correcte adressen voor de beheerders in voor de instelling "
+":setting:`ADMINS` om te definiëren wie e-mails moet ontvangen als er iets "
+"mis gaat met de server, bijvoorbeeld:"
 
 #: ../../admin/install.rst:937
 msgid "Set correct site domain"
-msgstr ""
+msgstr "Correcte domein site instellen"
 
 #: ../../admin/install.rst:939
 msgid ""
@@ -13152,22 +13198,30 @@ msgid ""
 "or registration e-mails will not work. This is configured using :setting:"
 "`SITE_DOMAIN` which should contain site domain name."
 msgstr ""
+"Pas de naam van de site en het domein aan in de beheerinterface, anders "
+"zullen koppelingen in RSS of e-mails voor registreren niet werken. Dit wordt "
+"geconfigureerd met :setting:`SITE_DOMAIN` wat de domeinnaam van de site zou "
+"moeten bevatten."
 
 #: ../../admin/install.rst:945
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
 msgstr ""
+"Voorafgaande aan de uitgave 4.2 werd in plaats daarvan het framewerk sites "
+"van Django gebruikt, bekijk :doc:`django:ref/contrib/sites`."
 
 #: ../../admin/install.rst:950
 msgid ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
+":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, "
+":envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
 #: ../../admin/install.rst:959
 msgid "Correctly configure HTTPS"
-msgstr ""
+msgstr "Configureer HTTPS correct"
 
 #: ../../admin/install.rst:961
 msgid ""
@@ -13175,21 +13229,27 @@ msgid ""
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
 "settings:"
 msgstr ""
+"Sterk aanbevolen wordt om Weblate uit te voeren met het versleutelde "
+"protocol HTTPS. Na het inschakelen daarvan zou u :setting:`ENABLE_HTTPS` "
+"moeten instellen in de instellingen:"
 
 #: ../../admin/install.rst:970
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
 msgstr ""
+"U zou misschien ook HSTS willen instellen, bekijk :ref:`django:security-"
+"recommendation-ssl` voor meer details."
 
 #: ../../admin/install.rst:975
 msgid ""
 ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
+":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 
 #: ../../admin/install.rst:981
 msgid "Set properly SECURE_HSTS_SECONDS"
-msgstr ""
+msgstr "SECURE_HSTS_SECONDS juist instellen"
 
 #: ../../admin/install.rst:983
 msgid ""
@@ -13197,6 +13257,10 @@ msgid ""
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
+"Als uw site wordt geserveerd over SSL, moet u een waarde overwegen voor "
+":setting:`django:SECURE_HSTS_SECONDS` in :file:`settings.py` om HTTP Strict "
+"Transport Security in te schakelen. Standaard is het ingesteld op 0, zoals "
+"hieronder weergegeven."
 
 #: ../../admin/install.rst:991
 msgid ""
@@ -13204,80 +13268,104 @@ msgid ""
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
 "security` header on all responses that do not already have it."
 msgstr ""
+"Indien ingesteld op een niet nul waarde Integer, stelt :class:`django:django."
+"middleware.security.SecurityMiddleware` de kop :ref:`django:http-strict-"
+"transport-security` in voor alle antwoorden die dat nog niet hebben."
 
 #: ../../admin/install.rst:996
 msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
 msgstr ""
+"Verkeerd instellen hiervan kan onomkeerbaar (voor enige tijd) uw site "
+"verstoren. Lees eerst de documentatie :ref:`django:http-strict-transport-"
+"security`."
 
 #: ../../admin/install.rst:1003
 msgid "Use a powerful database engine"
-msgstr ""
+msgstr "Een krachtig databaseprogramma gebruiken"
 
 #: ../../admin/install.rst:1005
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
 msgstr ""
+"Gebruik PostgreSQL voor een productieomgeving, bekijk :ref:`database-setup` "
+"voor meer informatie."
 
 #: ../../admin/install.rst:1007
 msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
 msgstr ""
+"Gebruik een aanliggende locatie voor het uitvoeren van de databaseserver, "
+"anders zou de uitvoering van het netwerk of de betrouwbaarheid ervan uw "
+"ervaring met Weblate kunnen ruïneren."
 
 #: ../../admin/install.rst:1009
 msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
 msgstr ""
+"Controleer de prestaties van de databaseserver of pas zijn configuratie aan, "
+"door bijvoorbeeld `PGTune <https://pgtune.leopard.in.ua/>`_ te gebruiken."
 
 #: ../../admin/install.rst:1014
 msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
 msgstr ""
+":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, "
+":doc:`django:ref/databases`"
 
 #: ../../admin/install.rst:1022
 msgid "Enable caching"
-msgstr ""
+msgstr "Cachen inschakelen"
 
 #: ../../admin/install.rst:1024
 msgid ""
 "If possible, use Redis from Django by adjusting the ``CACHES`` configuration "
 "variable, for example:"
 msgstr ""
+"Gebruik, indien mogelijk, Redis vanuit Django door de variabele voor de "
+"configuratie ``CACHES`` aan te passen, bijvoorbeeld:"
 
 #: ../../admin/install.rst:1045
 msgid ""
 "In case you change Redis settings for the cache, you might need to adjust "
 "them for Celery as well, see :ref:`celery`."
 msgstr ""
+"In het geval u instellingen van Redis voor de cache wijzigt, moet u ze "
+"misschien ook voor Celery aanpassen, bekijk :ref:`celery`."
 
 #: ../../admin/install.rst:1050
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
-msgstr ""
+msgstr ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:1056
 msgid "Avatar caching"
-msgstr "Avatar cache"
+msgstr "Cachen avatar"
 
 #: ../../admin/install.rst:1058
 msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
 msgstr ""
+"In aanvulling op het cachen van Django, voert Weblate ook cachen van avatars "
+"uit. Aanbevolen wordt om hiervoor een afzonderlijke, door bestanden "
+"gesteunde, cache te gebruiken:"
 
 #: ../../admin/install.rst:1085
 msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
+":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :ref"
+":`production-cache`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:1094
 msgid "Configure e-mail sending"
-msgstr ""
+msgstr "Verzenden van e-mail configureren"
 
 #: ../../admin/install.rst:1096
 msgid ""
@@ -13286,34 +13374,48 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
+"Weblate moet e-mails kunnen verzenden bij verscheidene gelegenheden, en deze "
+"e-mails zouden juiste afzenderadres moeten hebben, configureer "
+":setting:`SERVER_EMAIL` en :setting:`DEFAULT_FROM_EMAIL` om overeen te komen "
+"met uw omgeving, bijvoorbeeld:"
 
 #: ../../admin/install.rst:1108
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
 msgstr ""
+"Stel, om het verzenden van e-mails door Weblate uit te schakelen, "
+":setting:`django:EMAIL_BACKEND` in op ``django.core.mail.backends.dummy."
+"EmailBackend``."
 
 #: ../../admin/install.rst:1111
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
 msgstr ""
+"Dit zal *alle* aflevering van e-mail uitschakelen, inclusief e-mails voor "
+"registreren of herstellen van wachtwoorden."
 
 #: ../../admin/install.rst:1116
 msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 msgstr ""
+":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, "
+":std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:1126
 msgid "Allowed hosts setup"
-msgstr ""
+msgstr "Instellen van toegestane hosts"
 
 #: ../../admin/install.rst:1128
 msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
 msgstr ""
+"Django vereist :setting:`ALLOWED_HOSTS` om een lijst te bevatten van "
+"domeinnamen die uw site mag serveren, leeg laten zal alle verzoeken "
+"blokkeren."
 
 #: ../../admin/install.rst:1131
 msgid ""
@@ -13321,21 +13423,28 @@ msgid ""
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
 "'1.1.1.1' to ALLOWED_HOSTS.`"
 msgstr ""
+"In het geval dit niet is geconfigureerd om overeen te komen met uw server "
+"van HTTP, zult u fouten krijgen als :samp:`Invalid HTTP_HOST header: "
+"'1.1.1.1'. You may need to add '1.1.1.1' to ALLOWED_HOSTS.`"
 
 #: ../../admin/install.rst:1137
 msgid ""
 "On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
+"Op de Docker container is dit beschikbaar als "
+":envvar:`WEBLATE_ALLOWED_HOSTS`."
 
 #: ../../admin/install.rst:1141
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
 msgstr ""
+":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
+"site`"
 
 #: ../../admin/install.rst:1148
 msgid "Django secret key"
-msgstr ""
+msgstr "Django geheime sleutel"
 
 #: ../../admin/install.rst:1150
 msgid ""
@@ -13343,20 +13452,25 @@ msgid ""
 "should really generate your own value rather than using the one from the "
 "example setup."
 msgstr ""
+"De instelling :setting:`SECRET_KEY` wordt door Django gebruikt om cookies te "
+"ondertekenen, en u zou echt uw eigen waarde moeten genereren, in plaats van "
+"die uit de voorbeeld opstelling te gebruiken."
 
 #: ../../admin/install.rst:1153
 msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
 msgstr ""
+"U kunt een nieuwe sleutel maken met :program:`weblate-generate-secret-key` "
+"dat met Weblate wordt meegeleverd."
 
 #: ../../admin/install.rst:1158
 msgid ":setting:`SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`SECRET_KEY`"
 
 #: ../../admin/install.rst:1163
 msgid "Running maintenance tasks"
-msgstr ""
+msgstr "Onderhoudstaken uitvoeren"
 
 #: ../../admin/install.rst:1165
 msgid ""
@@ -13364,10 +13478,13 @@ msgid ""
 "the background. This is automatically done by :ref:`celery` and covers "
 "following tasks:"
 msgstr ""
+"Voor optimale prestaties is het een goed idee om enkele onderhoudstaken op "
+"de achtergrond uit te voeren. Dit wordt automatisch gedaan door :ref:`celery`"
+" en behandelt de volgende taken:"
 
 #: ../../admin/install.rst:1168
 msgid "Configuration health check (hourly)."
-msgstr ""
+msgstr "Gezondheidscontrole configuratie (elk uur)."
 
 #: ../../admin/install.rst:1169
 msgid ""
@@ -13379,25 +13496,28 @@ msgstr ""
 
 #: ../../admin/install.rst:1170
 msgid "Updating component alerts (daily)."
-msgstr ""
+msgstr "Alarmen voor onderdelen bijwerken (dagelijks)."
 
 #: ../../admin/install.rst:1171
 msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
-msgstr ""
+msgstr "Takken op afstand bijwerken ('s nachts), bekijk :setting:`AUTO_UPDATE`."
 
 #: ../../admin/install.rst:1172
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
 msgstr ""
+"Back-up vertaalgeheugen naar JSON (dagelijks), bekijk :wladmin:`dump_memory`."
 
 #: ../../admin/install.rst:1173
 msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "wladmin:`cleanuptrans`."
 msgstr ""
+"Onderhoudstaken voor volledige tekst en database (dagelijkse en wekelijkse "
+"taken), bekijk :wladmin:`cleanuptrans`."
 
 #: ../../admin/install.rst:1178
 msgid "System locales and encoding"
-msgstr ""
+msgstr "Systeemlocalen en codering"
 
 #: ../../admin/install.rst:1180
 msgid ""
@@ -13405,12 +13525,18 @@ msgid ""
 "distributions this is the default setting. In case it is not the case on "
 "your system, please change locales to UTF-8 variant."
 msgstr ""
+"De systeemlocalen zouden moeten zijn geconfigureerd naar die welke geschikt "
+"zijn voor UTF-8. Op de meeste distributies voor Linux is dat de standaard "
+"instelling. In het geval dat het voor uw systeem niet het geval is, wijzig "
+"locales naar de variant UTF-8."
 
 #: ../../admin/install.rst:1184
 msgid ""
 "For example by editing :file:`/etc/default/locale` and setting there "
 "``LANG=\"C.UTF-8\"``."
 msgstr ""
+"Bijvoorbeeld door :file:`/etc/default/locale` te bewerken en daar in te "
+"stellen ``LANG=\"C.UTF-8\"``."
 
 #: ../../admin/install.rst:1187
 msgid ""
@@ -13418,20 +13544,25 @@ msgid ""
 "locales. This varies between distribution and web servers, so check "
 "documentation of your web server packages for that."
 msgstr ""
+"In sommige gevallen hebben de individuele services afzonderlijke "
+"configuratie voor locales. Dit varieert tussen distributie en webservers, "
+"dus controleer de documentatie van de pakketten voor uw webserver daarop."
 
 #: ../../admin/install.rst:1191
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
-msgstr ""
+msgstr "Apache op Ubuntu gebruikt :file:`/etc/apache2/envvars`:"
 
 #: ../../admin/install.rst:1198
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
 msgstr ""
+"Apache op CentOS gebruikt :file:`/etc/sysconfig/httpd` (of :file:`/opt/rh/"
+"httpd24/root/etc/sysconfig/httpd`):"
 
 #: ../../admin/install.rst:1208
 msgid "Using custom certificate authority"
-msgstr ""
+msgstr "Aangepaste autoriteit certificaat gebruiken"
 
 #: ../../admin/install.rst:1210
 msgid ""
@@ -13439,6 +13570,10 @@ msgid ""
 "using custom certificate authority which is not trusted in default bundles, "
 "you will have to add its certificate as trusted."
 msgstr ""
+"Weblate verifieert certificaten van SSL tijdens HTTP-verzoeken. Voor het "
+"geval u een aangepaste autoriteit voor certificaten gebruikt die niet als "
+"vertrouwd is aangemerkt in de standaard bundels, zult u het certificaat "
+"moeten toevoegen als vertrouwd."
 
 #: ../../admin/install.rst:1214
 msgid ""
@@ -13447,12 +13582,19 @@ msgid ""
 "done by placing the CA certificate into :file:`/usr/local/share/ca-"
 "certificates/` and running :command:`update-ca-certificates`)."
 msgstr ""
+"De voorkeursmethode is om dat te doen op systeemniveau, controleer de "
+"documentatie van uw distributie voor meer details (bijvoorbeeld voor Debian "
+"kan dit worden gedaan door het CA-certificaat te plaatsen in :file:`/usr/"
+"local/share/ca-certificates/` en :command:`update-ca-certificates` uit te "
+"voeren)."
 
 #: ../../admin/install.rst:1219
 msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr ""
+"Als dat eenmaal is gedaan, zullen de gereedschappen van het systeem het "
+"certificaat vertrouwen en dat is inclusief Git."
 
 #: ../../admin/install.rst:1222
 msgid ""
@@ -13460,10 +13602,14 @@ msgid ""
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
+"Voor code van Python zult u verzoeken moeten configureren om de systeem CA-"
+"bundel te gebruiken, in plaats van die welke ermee is meegeleverd. Dat kan "
+"worden bereikt door de volgende snipper te plaatsen in :file:`settings.py` ("
+"het pad is specifiek voor Debian):"
 
 #: ../../admin/install.rst:1236
 msgid "Compressing client assets"
-msgstr ""
+msgstr "Comprimeren toebehoren cliënt"
 
 #: ../../admin/install.rst:1238
 msgid ""
@@ -13474,6 +13620,13 @@ msgid ""
 "needs to be done in the configuration and the compression has to be "
 "triggered on every Weblate upgrade."
 msgstr ""
+"Weblate komt met heel veel bestanden voor JavaScript en CSS. Om redenen van "
+"prestaties is het goed om ze te comprimeren voordat ze naar een cliënt "
+"worden verzonden. In de standaard configuratie wordt dit direct uitgevoerd "
+"ten koste van een kleine extra belasting. Op grote installaties wordt "
+"aanbevolen om de offline modus voor comprimeren in te schakelen. Dat moet "
+"worden gedaan in de configuratie en de compressie moet worden geactiveerd "
+"bij elke upgrade van Weblate."
 
 #: ../../admin/install.rst:1245
 msgid ""
@@ -13482,62 +13635,78 @@ msgid ""
 "settings.COMPRESS_OFFLINE_CONTEXT` (the latter is already included in the "
 "example configuration):"
 msgstr ""
+"Het inschakelen in de configuratie is eenvoudig door :attr:`compressor:django"
+".conf.settings.COMPRESS_OFFLINE` in te schakelen en :attr:`compressor:django."
+"conf.settings.COMPRESS_OFFLINE_CONTEXT` te configureren (de laatste is al "
+"opgenomen in de voorbeeldconfiguratie):"
 
 #: ../../admin/install.rst:1254
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr ""
+"Bij elke uitrol moet u de bestanden comprimeren om overeen te komen met de "
+"huidige versie:"
 
 #: ../../admin/install.rst:1262
 msgid "The official Docker image has this feature already enabled."
-msgstr ""
+msgstr "De officiële Docker image heeft deze mogelijkheid al ingeschakeld."
 
 #: ../../admin/install.rst:1266
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
-msgstr ""
+msgstr ":ref:`compressor:scenarios`, :ref:`static-files`"
 
 #: ../../admin/install.rst:1272
 msgid "Running server"
-msgstr ""
+msgstr "Server uitvoeren"
 
 #: ../../admin/install.rst:1276
 msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
 msgstr ""
+"In het geval u geen ervaring hebt met de services die hieronder beschreven "
+"worden, zou u misschien :doc:`install/docker` willen proberen."
 
 #: ../../admin/install.rst:1278
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
 msgstr ""
+"U zult verschillende services nodig hebben om Weblate uit te voeren, de "
+"aanbevolen opstelling bestaat uit:"
 
 #: ../../admin/install.rst:1280
 msgid "Database server (see :ref:`database-setup`)"
-msgstr ""
+msgstr "Databaseserver (bekijk :ref:`database-setup`)"
 
 #: ../../admin/install.rst:1281
 msgid "Cache server (see :ref:`production-cache`)"
-msgstr ""
+msgstr "Cacheserver (bekijk :ref:`production-cache`)"
 
 #: ../../admin/install.rst:1282
 msgid ""
 "Frontend web server for static files and SSL termination (see :ref:`static-"
 "files`)"
 msgstr ""
+"Frontend webserver voor statische bestanden en beëindigen van SSL (bekijk "
+":ref:`static-files`)"
 
 #: ../../admin/install.rst:1283
 msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
-msgstr ""
+msgstr "WSGI-server voor dynamische inhoud (bekijk :ref:`uwsgi`)"
 
 #: ../../admin/install.rst:1284
 msgid "Celery for executing background tasks (see :ref:`celery`)"
 msgstr ""
+"Celery voor het uitvoeren van taken op de achtergrond (bekijk :ref:`celery`)"
 
 #: ../../admin/install.rst:1288
 msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
 msgstr ""
+"Er bestaan enkele afhankelijkheden tussen de services, cache en database "
+"zouden bijvoorbeeld moeten worden uitgevoerd bij het opstarten van Celery of "
+"uWSGI-processen."
 
 #: ../../admin/install.rst:1291
 msgid ""
@@ -13546,6 +13715,10 @@ msgid ""
 "only limitation on this is that Celery and Wsgi servers need access to :"
 "setting:`DATA_DIR`."
 msgstr ""
+"In de meeste gevallen zult u alle services uitvoeren op een enkele (virtuele)"
+" server, maar voor het geval uw installatie nogal vol is, kunt u de services "
+"opsplitsen. De enige beperking hierin is dat Celery- en WSGI-servers toegang "
+"nodig hebben tot :setting:`DATA_DIR`."
 
 #: ../../admin/install.rst:1298
 msgid ""
@@ -13553,14 +13726,18 @@ msgid ""
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
 "ownership, leading to runtime issues."
 msgstr ""
+"Het proces van WSGI moet worden uitgevoerd onder dezelfde gebruiker als die "
+"voor het proces van Celery, anders zullen bestanden in de :setting:`DATA_DIR`"
+" worden opgeslagen met gemixte eigenaren, wat leidt tot problemen tijdens "
+"uitvoering."
 
 #: ../../admin/install.rst:1302
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
-msgstr ""
+msgstr "Bekijk ook :ref:`file-permissions` en :ref:`celery`."
 
 #: ../../admin/install.rst:1305
 msgid "Running web server"
-msgstr ""
+msgstr "Webserver uitvoeren"
 
 #: ../../admin/install.rst:1307
 msgid ""
@@ -13568,10 +13745,13 @@ msgid ""
 "program. Django is usually executed as uWSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
+"Uitvoeren van Weblate is niet anders dan het uitvoeren van enig ander op "
+"Django gebaseerd programma. Django wordt gewoonlijk uitgevoerd als uWSGI of "
+"fcgi (bekijk voorbeelden voor de verschillende webservers hieronder)."
 
 #: ../../admin/install.rst:1311
 msgid "For testing purposes, you can use the built-in web server in Django:"
-msgstr ""
+msgstr "U kunt, om te testen, de ingebouwde webserver in Django gebruiken:"
 
 #: ../../admin/install.rst:1319
 msgid ""
@@ -13579,6 +13759,9 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
+"GEBRUIK DEZE SERVER NIET IN EEN PRODUCTIE OPSTELLING. Het heeft niet "
+"voldoende beveiligingstesten ondergaan of prestatietesten. Bekijk ook de "
+"documentatie van Django op :djadmin:`django:runserver`."
 
 #: ../../admin/install.rst:1325
 msgid ""
@@ -13587,10 +13770,14 @@ msgid ""
 "see WSGI setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
+"De ingebouwde server van Django serveert statische bestanden alleen met "
+":setting:`DEBUG` ingeschakeld, omdat het alleen voor ontwikkeling is "
+"bedoeld. Voor gebruik in productie, bekijk de opstellingen voor WSGI in "
+":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, en :ref:`static-files`."
 
 #: ../../admin/install.rst:1333
 msgid "Serving static files"
-msgstr ""
+msgstr "Statische bestanden serveren"
 
 #: ../../admin/install.rst:1335
 msgid ""
@@ -13600,12 +13787,19 @@ msgid ""
 "setting (this defaults to a ``static`` directory inside :setting:"
 "`CACHE_DIR`)."
 msgstr ""
+"Django moet zijn statische bestanden verzamelen in een enkele map. Voer, om "
+"dat te doen, :samp:`weblate collectstatic --noinput` uit. Dat zal de "
+"statische bestanden kopiëren naar een map die wordt gespecificeerd door de "
+"instelling :setting:`django:STATIC_ROOT` (dit is standaard een map ``static``"
+" binnen :setting:`CACHE_DIR`)."
 
 #: ../../admin/install.rst:1340
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
 msgstr ""
+"Aanbevolen wordt om statische bestanden direct vanaf uw webserver te "
+"serveren, u zou dat moeten gebruiken voor de volgende paden:"
 
 #: ../../admin/install.rst:1343
 msgid ":file:`/static/`"
@@ -13616,6 +13810,8 @@ msgid ""
 "Serves static files for Weblate and the admin interface (from defined by :"
 "setting:`django:STATIC_ROOT`)."
 msgstr ""
+"Serveert statische bestanden voor Weblate en de beheerinterface (die wordt "
+"gedefinieerd door :setting:`django:STATIC_ROOT`)."
 
 #: ../../admin/install.rst:1346
 msgid ":file:`/media/`"
@@ -13623,7 +13819,7 @@ msgstr ":file:`/media/`"
 
 #: ../../admin/install.rst:1347
 msgid "Used for user media uploads (e.g. screenshots)."
-msgstr ""
+msgstr "Gebruikt voor uploaden van gebruikersmedia (bijv. schermafdrukken)."
 
 #: ../../admin/install.rst:1348
 msgid ":file:`/favicon.ico`"
@@ -13633,6 +13829,8 @@ msgstr ":file:`/favicon.ico`"
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr ""
+"Zou moeten worden herschreven om een regel te herschrijven om te serveren "
+":file:`/static/favicon.ico`."
 
 #: ../../admin/install.rst:1353
 msgid ""
@@ -13640,10 +13838,13 @@ msgid ""
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
 "files/deployment`"
 msgstr ""
+":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
+"compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/"
+"static-files/deployment`"
 
 #: ../../admin/install.rst:1363
 msgid "Content security policy"
-msgstr ""
+msgstr "Beleid beveiliging inhoud"
 
 #: ../../admin/install.rst:1365
 msgid ""
@@ -13653,6 +13854,11 @@ msgid ""
 "default set up to work with Weblate and its configuration, but this might "
 "need customization for your environment."
 msgstr ""
+"De standaard configuratie van Weblate schakelt middleware ``weblate."
+"middleware.SecurityMiddleware`` in die op beveiliging gerelateerde HTTP-"
+"koppen, zoals ``Content-Security-Policy`` of ``X-XSS-Protection`` instelt. "
+"Deze worden standaard ingesteld om te werken met Weblate en zijn "
+"configuratie, maar dit zou aanpassingen kunnen vergen voor uw omgeving."
 
 #: ../../admin/install.rst:1372
 msgid ""
@@ -13660,10 +13866,12 @@ msgid ""
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
+":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`"
+", :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install.rst:1382
 msgid "Sample configuration for NGINX and uWSGI"
-msgstr ""
+msgstr "Voorbeeld configuratie voor NGINX en uWSGI"
 
 #: ../../admin/install.rst:1385
 msgid ""
@@ -13673,41 +13881,57 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
+"Gebruik, om de productie webserver uit te voeren, de WSGI-wrapper die wordt "
+"geïnstalleerd met Weblate (in het geval van een virtuele omgeving is dit "
+"geïnstalleerd als :file:`~/weblate-env/lib/python3.9/site-packages/weblate/"
+"wsgi.py`). Vergeet niet om het zoekpad naar Python naar uw virtualenv ook in "
+"te stellen (bijvoorbeeld met ``virtualenv = /home/user/weblate-env`` in "
+"uWSGI)."
 
 #: ../../admin/install.rst:1391
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
+"De volgende configuratie voert Weblate als uWSGI uit onder de webserver "
+"NGINX."
 
 #: ../../admin/install.rst:1393
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
+"Configuratie voor NGINX (ook beschikbaar als :file:`weblate/examples/weblate."
+"nginx.conf`):"
 
 #: ../../admin/install.rst:1398
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
+"Configuratie voor uWSGI (ook beschikbaar als :file:`weblate/examples/weblate."
+"uwsgi.ini`):"
 
 #: ../../admin/install.rst:1405
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
-msgstr ""
+msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
 #: ../../admin/install.rst:1410
 msgid "Sample configuration for Apache"
-msgstr ""
+msgstr "Voorbeeld configuratie voor Apache"
 
 #: ../../admin/install.rst:1412 ../../admin/install.rst:1452
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr ""
+"Aanbevolen wordt om MPM vooraf te forken bij het gebruiken van WSGI met "
+"Weblate."
 
 #: ../../admin/install.rst:1414
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
+"De volgende configuratie voert Weblate uit als WSGI, u moet ``mod_wsgi`` "
+"hebben ingeschakeld (beschikbaar als :file:`weblate/examples/apache.conf`):"
 
 #: ../../admin/install.rst:1422
 msgid ""
@@ -13715,6 +13939,9 @@ msgid ""
 "of the modwsgi. Usually it is available as a separate package, for example "
 "``libapache2-mod-wsgi-py3``."
 msgstr ""
+"Weblate vereist Python 3, zorg er dus voor dat u de variant voor Python 3 "
+"van modwsgi uitvoert. Gewoonlijk is die beschikbaar als een afzonderlijk "
+"pakket, bijvoorbeeld ``libapache2-mod-wsgi-py3``."
 
 #: ../../admin/install.rst:1426
 msgid "Use matching Python version to install Weblate."
@@ -13722,25 +13949,27 @@ msgstr "Gebruik de overeenkomende versie van Python om Weblate te installeren."
 
 #: ../../admin/install.rst:1430
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
-msgstr ""
+msgstr ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 
 #: ../../admin/install.rst:1436
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr ""
+msgstr "Voorbeeld configuratie voor Apache en Gunicorn"
 
 #: ../../admin/install.rst:1438
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
+"De volgende configuratie voert Weblate uit in Gunicorn en Apache 2.4 ("
+"beschikbaar als :file:`weblate/examples/apache.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1446
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ""
+msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1450
 msgid "Running Weblate under path"
-msgstr ""
+msgstr "Weblate uitvoeren onder pad"
 
 #: ../../admin/install.rst:1454
 msgid ""
@@ -13748,14 +13977,17 @@ msgid ""
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
+"Een voorbeeldconfiguratie voor Apache om Weblate te serveren onder "
+"``/weblate``. Opnieuw met ``mod_wsgi`` (ook beschikbaar als :file:`weblate/"
+"examples/apache-path.conf`):"
 
 #: ../../admin/install.rst:1460
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
-msgstr ""
+msgstr "Aanvullend dient u :file:`weblate/settings.py` aan te passen:"
 
 #: ../../admin/install.rst:1469
 msgid "Background tasks using Celery"
-msgstr ""
+msgstr "Achtergrondtaken met Celery"
 
 #: ../../admin/install.rst:1471
 msgid ""
@@ -13763,16 +13995,23 @@ msgid ""
 "supposed to run a Celery service that will execute these. For example, it is "
 "responsible for handling following operations (this list is not complete):"
 msgstr ""
+"Weblate gebruikt Celery om normale en achtergrondtaken uit te voeren. U "
+"wordt geacht een service voor Celery uit te voeren die deze zal uitvoeren. "
+"Het is bijvoorbeeld verantwoordelijk voor het afhandelen van de volgende "
+"bewerkingen (deze lijst is niet voledig):"
 
 #: ../../admin/install.rst:1475
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
-msgstr ""
+msgstr "Webhooks ontvangen van externe services (bekijk :ref:`hooks`)."
 
 #: ../../admin/install.rst:1476
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
+"Uitvoeren van normale onderhoudstaken, zoals back-ups, opschonen, dagelijkse "
+"add-ons of bijwerkingen (bekijk :ref:`backup`, :setting:`BACKGROUND_TASKS`, "
+":ref:`addons`)."
 
 #: ../../admin/install.rst:1478
 msgid "Running :ref:`auto-translation`."
@@ -13784,7 +14023,7 @@ msgstr "Samengevatte notificaties versturen."
 
 #: ../../admin/install.rst:1480
 msgid "Offloading expensive operations from the WSGI process."
-msgstr ""
+msgstr "Lossen van uitgebreide bewerkingen uit het proces van WSGI."
 
 #: ../../admin/install.rst:1481
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
@@ -13792,13 +14031,15 @@ msgstr "Openstaande wijzigingen doorvoeren (bekijk :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1483
 msgid "A typical setup using Redis as a backend looks like this:"
-msgstr ""
+msgstr "Een normale opstelling met Redis als backend ziet eruit als dit:"
 
 #: ../../admin/install.rst:1493
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
+":ref:`Redis configuratie broker in Celery <celery:broker-redis-"
+"configuration>`"
 
 #: ../../admin/install.rst:1495
 msgid ""
@@ -13806,6 +14047,9 @@ msgid ""
 "scheduled tasks, this can be done directly on the command-line (which is "
 "mostly useful when debugging or developing):"
 msgstr ""
+"U zou ook de werker van Celery moeten starten om de taken te verwerken en "
+"geplande taken te starten, dit kan direct worden gedaan op de opdrachtregel ("
+"die meestal nuttig is bij debuggen of ontwikkelen):"
 
 #: ../../admin/install.rst:1506
 msgid ""
@@ -13813,14 +14057,18 @@ msgid ""
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
+"Het proces van Celery moet worden uitgevoerd onder dezelfde gebruiker als "
+"het proces van WSGI, anders zullen bestanden in de :setting:`DATA_DIR` "
+"worden opgeslagen met gemixte eigenaren, wat leidt tot problemen tijdens "
+"uitvoering."
 
 #: ../../admin/install.rst:1510
 msgid "See also :ref:`file-permissions` and :ref:`server`."
-msgstr ""
+msgstr "Bekijk ook :ref:`file-permissions` en :ref:`server`."
 
 #: ../../admin/install.rst:1513
 msgid "Executing Celery tasks in the WSGI using eager mode"
-msgstr ""
+msgstr "Uitvoeren van taken van Celery in de modus eager met WSGI"
 
 #: ../../admin/install.rst:1517
 msgid ""
@@ -13828,16 +14076,22 @@ msgid ""
 "break features depending on regular trigger (for example committing pending "
 "changes, digest notifications, or backups)."
 msgstr ""
+"Dit zal een enorme impact op de prestaties van de webinterface hebben, en "
+"zal mogelijkheden verstoren die afhankelijk zijn van normale activatie ("
+"bijvoorbeeld het indienen van openstaande wijzigingen, samengevatte "
+"notificaties, of back-ups)."
 
 #: ../../admin/install.rst:1521
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
 msgstr ""
+"Voor ontwikkeling zou u misschien de configuratie eager willen gebruiken, "
+"die alle taken op hun plaats verwerkt:"
 
 #: ../../admin/install.rst:1531
 msgid "Running Celery as system service"
-msgstr ""
+msgstr "Celery uitvoeren als systeemservice"
 
 #: ../../admin/install.rst:1533
 msgid ""
@@ -13846,28 +14100,40 @@ msgid ""
 "systemd, you can use the example files shipped in the :file:`examples` "
 "folder listed below."
 msgstr ""
+"Meest waarschijnlijk is dat u Celery wilt uitvoeren als een daemon en dat "
+"wordt behandeld in :doc:`celery:userguide/daemonizing`. Voor de meest "
+"voorkomende opstelling in Linux met systemd, kunt u de voorbeeldbestanden "
+"gebruiken die worden meegeleverd in de map :file:`examples` die hieronder "
+"zijn vermeld."
 
 #: ../../admin/install.rst:1538
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
+"Systemd eenheid om te worden geplaatst als :file:`/etc/systemd/system/celery-"
+"weblate.service`:"
 
 #: ../../admin/install.rst:1543
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr ""
+"Configuratie van de omgeving om te worden geplaatst als :file:`/etc/default/"
+"celery-weblate`:"
 
 #: ../../admin/install.rst:1548
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
+"Aanvullende configuratie omm logs van Celery te roteren met "
+":command:`logrotate` om te wordne geplaatst als :file:`/etc/logrotate.d/"
+"celery`:"
 
 #: ../../admin/install.rst:1555
 msgid "Periodic tasks using Celery beat"
-msgstr ""
+msgstr "Periodieke taken met Celery beat"
 
 #: ../../admin/install.rst:1557
 msgid ""
@@ -13875,6 +14141,9 @@ msgid ""
 "define additional tasks in :file:`settings.py`, for example see :ref:`lazy-"
 "commit`."
 msgstr ""
+"Weblate komt met een ingebouwde opstelling voor geplande taken. U kunt "
+"echter aanvullende taken definiëren in :file:`settings.py`, bekijk "
+"bijvoorbeeld :ref:`lazy-commit`."
 
 #: ../../admin/install.rst:1560
 msgid ""
@@ -13882,10 +14151,14 @@ msgid ""
 "not working properly, it might not be running or its database was corrupted. "
 "Check the Celery startup logs in such case to figure out root cause."
 msgstr ""
+"De taken worden geacht te worden uitgevoerd met de Celery beats daemon. In "
+"het geval dit niet juist werkt, zouden ze niet uitgevoerd kunnen worden of "
+"is de database ervan corrupt. Controleer de Celery logs voor opstarten in "
+"een dergelijk geval, om achter de oorzaak te komen."
 
 #: ../../admin/install.rst:1567
 msgid "Monitoring Celery status"
-msgstr ""
+msgstr "Status Celery monitoren"
 
 #: ../../admin/install.rst:1569
 msgid ""
@@ -13894,6 +14167,10 @@ msgid ""
 "command-line. In case the queue will get too long, you will also get "
 "configuration error in the admin interface."
 msgstr ""
+"U kunt de huidige lengte van de wachtrij voor taken van Celery vinden in de "
+":ref:`management-interface` of u kunt :wladmin:`celery_queues` op de "
+"opdrachtregel gebruiken. In het geval de rij te lang wordt, zult u ook een "
+"configuratiefout in de beheerinterface krijgen."
 
 #: ../../admin/install.rst:1576
 msgid ""
@@ -13901,6 +14178,10 @@ msgid ""
 "visible to user. In case you want to have overview on such failures, it is "
 "recommended to configure :ref:`collecting-errors`."
 msgstr ""
+"De fouten voor Celery worden standaard alleen gelogd in het log van Celery "
+"en zijn niet zichtbaar voor de gebruiker. In het geval u overzicht wilt "
+"houden op dergelijke mislukkingen, wordt aanbevolen om :ref:`collecting-"
+"errors` te configureren."
 
 #: ../../admin/install.rst:1582
 msgid ""
@@ -13908,10 +14189,13 @@ msgid ""
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
 "daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 msgstr ""
+":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
+"configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
+"daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 
 #: ../../admin/install.rst:1593
 msgid "Single-process Celery setup"
-msgstr ""
+msgstr "Opstelling een-proces Celery"
 
 #: ../../admin/install.rst:1595
 msgid ""
@@ -13919,20 +14203,26 @@ msgid ""
 "Weblate processes. All Celery tasks can be executed in a single process "
 "using:"
 msgstr ""
+"In het geval u een erg beperkt geheugen hebt, zou u misschien het aantal "
+"processen van Weblate willen beperken. Alle taken voor Celery kunnen in een "
+"proces worden uitgevoerd met:"
 
 #: ../../admin/install.rst:1602
 msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgstr ""
+"Een installatie met Docker kan worden geconfigureerd om een opstelling van "
+"een-proces Celery te gebruiken door :envvar:`CELERY_SINGLE_PROCESS` in te "
+"stellen."
 
 #: ../../admin/install.rst:1606
 msgid "This will have a noticeable performance impact on Weblate."
-msgstr ""
+msgstr "Dit zal een niet te missen impact op de prestaties van Weblate hebben."
 
 #: ../../admin/install.rst:1611
 msgid "Monitoring Weblate"
-msgstr ""
+msgstr "Weblate monitoren"
 
 #: ../../admin/install.rst:1613
 msgid ""
@@ -13940,22 +14230,29 @@ msgid ""
 "for example using Kubernetes. The Docker container has built-in health check "
 "using this URL."
 msgstr ""
+"Weblate verschaft de URL ``/healthz/`` om te worden gebruikt in eenvoudig "
+"controles voor de gezondheid, bijvoorbeeld met Kubernetes. De Docker "
+"container heeft een ingebouwde controle voor de gezondheid met deze URL."
 
 #: ../../admin/install.rst:1616
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
+"Voor het monitoren van metrieken van Weblate kunt u het API-eindpunt "
+":http:get:`/api/metrics/` gebruiken."
 
 #: ../../admin/install.rst:1620
 msgid ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for Munin "
 "<https://github.com/WeblateOrg/munin>`_"
 msgstr ""
+":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plug-in voor Munin "
+"<https://github.com/WeblateOrg/munin>`_"
 
 #: ../../admin/install.rst:1627 ../../admin/install/docker.rst:1691
 msgid "Collecting error reports and monitoring performance"
-msgstr ""
+msgstr "Foutrapporten verzamelen en prestaties monitoren"
 
 #: ../../admin/install.rst:1629
 msgid ""
@@ -13965,6 +14262,12 @@ msgid ""
 "otherwise only report error to the logs and you won't get notified on them. "
 "Weblate has support for the following services:"
 msgstr ""
+"Weblate, net als elke andere software, kan falen. Voor het verzamelen van "
+"nuttige statistieken voor mislukkingen bevelen wij services van derde "
+"partijen aan om dergelijke informatie te verzamelen. Dit is speciaal nuttige "
+"bij falende taken van Celery, die anders alleen in de logs zouden worden "
+"gerapporteerd en u zou er geen notificatie voor ontvangen. Weblate heeft "
+"ondersteuning voor de volgende services:"
 
 #: ../../admin/install.rst:1636
 msgid "Sentry"
@@ -13975,6 +14278,9 @@ msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
+"Weblate heeft ingebouwde ondersteuning voor `Sentry <https://sentry.io/>`_. "
+"Het is voldoende, om het te gebruiken, om :setting:`SENTRY_DSN` in te "
+"stellen in :file:`settings.py`:"
 
 #: ../../admin/install.rst:1645
 msgid ""
@@ -13983,12 +14289,19 @@ msgid ""
 "configured using :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:"
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
+"Sentry kan ook worden gebruikt om de prestaties van Weblate te monitoren "
+"door sporen en profielen te monitoren voor een gedefinieerd percentage "
+"bewerkingen. Dit kan worden geconfigureerd met "
+":setting:`SENTRY_TRACES_SAMPLE_RATE` en "
+":setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 
 #: ../../admin/install.rst:1651
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 msgstr ""
+"`Sentry monitoren prestaties <https://docs.sentry.io/product/performance/>`"
+"_, `Sentry profileren <https://docs.sentry.io/product/explore/profiling/>`_"
 
 #: ../../admin/install.rst:1655
 msgid "Rollbar"
@@ -14000,26 +14313,34 @@ msgid ""
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
+"Weblate heeft ingebouwde ondersteuning voor `Rollbar <https://rollbar.com/>`"
+"_. Het is voldoende, om te gebruiken, de instructies te volgen voor `Rollbar "
+"notificatie voor Python <https://docs.rollbar.com/docs/python/>`_."
 
 #: ../../admin/install.rst:1660
 msgid "In short, you need to adjust :file:`settings.py`:"
-msgstr ""
+msgstr "In het kort, u moet :file:`settings.py` aanpassen:"
 
 #: ../../admin/install.rst:1679
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr ""
+"Alle andere dingen zijn automatisch geïntegreerd, u zult nu zowel fouten van "
+"de kant van de server als van de cliënt ontvangen."
 
 #: ../../admin/install.rst:1684
 msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
 msgstr ""
+"Loggen van fouten bevat ook uitzonderingen die gracieus werden afgehandeld, "
+"maar zouden een probleem aan kunnen duiden - zoals het mislukt parsen van "
+"een geüpload bestand."
 
 #: ../../admin/install.rst:1688
 msgid "Migrating Weblate to another server"
-msgstr ""
+msgstr "Weblate migreren naar een andere server"
 
 #: ../../admin/install.rst:1690
 msgid ""
@@ -14027,10 +14348,14 @@ msgid ""
 "data in few locations which you should migrate carefully. The best approach "
 "is to stop Weblate for the migration."
 msgstr ""
+"Migreren van Weblate naar een andere server zou behoorlijk gemakkelijk "
+"moeten zijn, het slaat echter gegevens op in een paar locaties die u met "
+"zorg zou moeten migreren. De beste benadering is om Weblate af te sluiten "
+"voor de migratie."
 
 #: ../../admin/install.rst:1695
 msgid "Migrating database"
-msgstr ""
+msgstr "Database migreren"
 
 #: ../../admin/install.rst:1697
 msgid ""
@@ -14040,14 +14365,20 @@ msgid ""
 "`mysqldump` or :command:`pg_dump`). Alternatively you can use replication in "
 "case your database supports it."
 msgstr ""
+"Afhankelijk van de backend van uw database, zou u misschien verschillende "
+"opties kunnen hebben voor het migreren van de database. De meest "
+"rechtstreekse benadering is om de eigen gereedschappen van de database te "
+"gebruiken, omdat die gewoonlijk meestal het meest effectief zijn (bijv. "
+":command:`mysqldump` of :command:`pg_dump`). Als alternatief kunt u "
+"repliceren gebruiken als uw database dat ondersteunt."
 
 #: ../../admin/install.rst:1705
 msgid "Migrating between databases described in :ref:`database-migration`."
-msgstr ""
+msgstr "Migreren tussen databases beschreven in :ref:`database-migration`."
 
 #: ../../admin/install.rst:1708
 msgid "Migrating VCS repositories"
-msgstr ""
+msgstr "Opslagruimten VCS migreren"
 
 #: ../../admin/install.rst:1710
 msgid ""
@@ -14055,20 +14386,26 @@ msgid ""
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
+"De opslagruimten voor VCS die zijn opgeslagen onder :setting:`DATA_DIR` "
+"moeten ook worden gemigreerd. U kunt ze eenvoudigweg kopiëren of "
+":command:`rsync` gebruiken om de migratie meer effectief uit te voeren."
 
 #: ../../admin/install.rst:1715
 msgid "Other notes"
-msgstr ""
+msgstr "Andere opmerkingen"
 
 #: ../../admin/install.rst:1717
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
 msgstr ""
+"Vergeet niet om andere services die Weblate gebruikt zou kunnen hebben te "
+"verplaatsen, zoals Redis, Cron jobs of aangepaste backends voor "
+"authenticatie."
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
-msgstr ""
+msgstr "Installeren met Docker"
 
 #: ../../admin/install/docker.rst:4
 msgid ""
@@ -14077,6 +14414,10 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and Redis as "
 "a caching backend."
 msgstr ""
+"Met gedockeriseerde uitrol van Weblate kunt u uw persoonlijke instantie van "
+"Weblate in seconden hebben ingesteld en gereed voor gebruik. Alle "
+"afhankelijkheden voor Weblate zijn al opgenomen. PostgreSQL is ingesteld als "
+"de standaard database en Redis als een backend voor cachen."
 
 #: ../../../README.rst:50 ../../admin/install/docker.rst:13
 #: ../../admin/install/kubernetes.rst:18 ../../admin/install/openshift.rst:12
@@ -14085,7 +14426,7 @@ msgstr ""
 #: ../../python.rst:11 ../../wlc.rst:13
 #: ../../admin/install/steps/install-system-devel.rst:2
 msgid "Installation"
-msgstr ""
+msgstr "Installatie"
 
 #: ../../admin/install/docker.rst:17
 msgid ""
@@ -14093,6 +14434,9 @@ msgid ""
 "``docker-compose-plugin`` installed. Please check the Docker documentation "
 "for instructions."
 msgstr ""
+"De volgende voorbeelden gaan ervan uit dat u een werkende omgeving voor "
+"Docker hebt, met ``docker-compose-plugin`` geïnstalleerd. Bekijk de "
+"documentatie van Docker voor instructies."
 
 #: ../../admin/install/docker.rst:21
 msgid ""
@@ -14101,38 +14445,53 @@ msgid ""
 "ref:`docker-https-portal`.  For larger setups, please see :ref:`docker-"
 "scaling`."
 msgstr ""
+"Dit maakt een uitgerolde server voor Weblate via HTTP, dus u zou het moeten "
+"plaatsen achter een HTTPS beëindigende proxy. U kunt ook uitrollen met een "
+"HTTPS proxy, bekijk :ref:`docker-https-portal`. Voor grotere opstellingen, "
+"bekijk :ref:`docker-scaling`."
 
 #: ../../admin/install/docker.rst:26
 msgid "Clone the weblate-docker repo:"
-msgstr ""
+msgstr "Kloon de weblate-docker repo:"
 
 #: ../../admin/install/docker.rst:33
 msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
+"Maak een bestand :file:`docker-compose.override.yml` met uw instellingen. "
+"Bekijk :ref:`docker-environment` voor een volledige lijst met "
+"omgevingsvariabelen."
 
 #: ../../admin/install/docker.rst:55
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
+"Als :envvar:`WEBLATE_ADMIN_PASSWORD` niet is ingesteld, wordt de gebruiker "
+"admin gemaakt met een willekeurig wachtwoord dat wordt weergegeven bij de "
+"eerste keer opstarten."
 
 #: ../../admin/install/docker.rst:58
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose.override.yml` file to change it."
 msgstr ""
+"Het verschafte voorbeeld zorgt ervoor dat Weblate luistert op poort 80, "
+"bewerk de verwijzingen naar de poort in het bestand :file:`docker-compose."
+"override.yml` om dat te wijzigen."
 
 #: ../../admin/install/docker.rst:61
 msgid "Start Weblate containers:"
-msgstr ""
+msgstr "Weblate containers starten:"
 
 #: ../../admin/install/docker.rst:67
 msgid ""
 "Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` "
 "container."
 msgstr ""
+"Veel plezier met uw uitrol van Weblate, het is toegankelijk via poort 80 van "
+"de container ``weblate``."
 
 #: ../../admin/install/docker.rst:69
 msgid ":ref:`invoke-manage`"
@@ -14140,35 +14499,39 @@ msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:72
 msgid "Choosing Docker image registry"
-msgstr ""
+msgstr "Docker image registratie kiezen"
 
 #: ../../admin/install/docker.rst:74
 msgid "Weblate containers are published to following registries:"
-msgstr ""
+msgstr "Weblate containers worden gepubliceerd naar de volgende registraties:"
 
 #: ../../admin/install/docker.rst:76
 msgid "Docker Hub, see https://hub.docker.com/r/weblate/weblate"
-msgstr ""
+msgstr "Docker Hub, bekijk https://hub.docker.com/r/weblate/weblate"
 
 #: ../../admin/install/docker.rst:77
 msgid ""
 "GitHub Packages registry, see https://github.com/WeblateOrg/docker/pkgs/"
 "container/weblate"
 msgstr ""
+"GitHub Packages registratie, bekijk https://github.com/WeblateOrg/docker/"
+"pkgs/container/weblate"
 
 #: ../../admin/install/docker.rst:81
 msgid ""
 "All examples currently fetch images from Docker Hub, please adjust the "
 "configuration accordingly to use a different registry."
 msgstr ""
+"Alle huidige voorbeelden halen afbeeldingen op vanaf Docker Hub, pas de "
+"configuratie overeenkomstig aan om een andere registratie te gebruiken."
 
 #: ../../admin/install/docker.rst:85
 msgid "Choosing Docker image tag"
-msgstr ""
+msgstr "Docker image tag kiezen"
 
 #: ../../admin/install/docker.rst:87
 msgid "Please choose a tag that matches your environment and expectations:"
-msgstr ""
+msgstr "Kies een tag die overeenkomt met uw omgeving en uw verwachtingen:"
 
 #: ../../admin/install/docker.rst:90
 msgid "Tag name"
@@ -14181,7 +14544,7 @@ msgstr "Omschrijving"
 
 #: ../../admin/install/docker.rst:90 ../../devel/translations.rst:116
 msgid "Use case"
-msgstr ""
+msgstr "Te gebruiken"
 
 #: ../../admin/install/docker.rst:92
 msgid "``latest``"
@@ -14190,14 +14553,15 @@ msgstr "``latest``"
 #: ../../admin/install/docker.rst:92
 msgid "Weblate stable release, matches latest tagged release"
 msgstr ""
+"Weblate stabiele uitgave, komt overeen met de als latest getagde uitgave"
 
 #: ../../admin/install/docker.rst:92
 msgid "Rolling updates in a production environment"
-msgstr ""
+msgstr "Doorlopend bijwerken in een productieomgeving"
 
 #: ../../admin/install/docker.rst:94
 msgid "``<MAJOR>``"
-msgstr ""
+msgstr "``<MAJOR>``"
 
 #: ../../admin/install/docker.rst:94 ../../admin/install/docker.rst:96
 #: ../../admin/install/docker.rst:98
@@ -14206,23 +14570,23 @@ msgstr "Weblate stabiele uitgave"
 
 #: ../../admin/install/docker.rst:94
 msgid "Rolling updates within a major version in a production environment"
-msgstr ""
+msgstr "Doorlopend bijwerken in een hoofdversie in een productieomgeving"
 
 #: ../../admin/install/docker.rst:96
 msgid "``<MAJOR>.<MINOR>``"
-msgstr ""
+msgstr "``<MAJOR>.<MINOR>``"
 
 #: ../../admin/install/docker.rst:96
 msgid "Rolling updates within a minor version in a production environment"
-msgstr ""
+msgstr "Doorlopend bijwerken in een mineur-versie in een productieomgeving"
 
 #: ../../admin/install/docker.rst:98
 msgid "``<VERSION>.<PATCH>``"
-msgstr ""
+msgstr "``<VERSION>.<PATCH>``"
 
 #: ../../admin/install/docker.rst:98
 msgid "Well defined deploy in a production environment"
-msgstr ""
+msgstr "Goed gedefinieerde uitrol in een productieomgeving"
 
 #: ../../admin/install/docker.rst:100
 msgid "``edge``"
@@ -14233,18 +14597,20 @@ msgid ""
 "Weblate stable release with development changes in the Docker container (for "
 "example updated dependencies)"
 msgstr ""
+"Weblate stabiele uitgave met ontwikkelingswijzigingen in de Docker container "
+"(bijvoorbeeld bijgewerkte afhankelijkheden)"
 
 #: ../../admin/install/docker.rst:100
 msgid "Rolling updates in a staging environment"
-msgstr ""
+msgstr "Doorlopend bijwerken in een proefomgeving"
 
 #: ../../admin/install/docker.rst:102
 msgid "``edge-<DATE>-<SHA>``"
-msgstr ""
+msgstr "``edge-<DATE>-<SHA>``"
 
 #: ../../admin/install/docker.rst:102
 msgid "Well defined deploy in a staging environment"
-msgstr ""
+msgstr "Goed gedefinieerde uitrol in een proefomgeving"
 
 #: ../../admin/install/docker.rst:104
 msgid "``bleeding``"
@@ -14252,59 +14618,70 @@ msgstr "``bleeding``"
 
 #: ../../admin/install/docker.rst:104 ../../admin/install/docker.rst:106
 msgid "Development version Weblate from Git"
-msgstr ""
+msgstr "Ontwikkelingsversie Weblate vanuit Git"
 
 #: ../../admin/install/docker.rst:104
 msgid "Rollling updates to test upcoming Weblate features"
-msgstr ""
+msgstr "Doorlopend bijwerken om aankomende mogelijkheden voor Weblate te testen"
 
 #: ../../admin/install/docker.rst:106
 msgid "``bleeding-<DATE>-<SHA>``"
-msgstr ""
+msgstr "``bleeding-<DATE>-<SHA>``"
 
 #: ../../admin/install/docker.rst:106
 msgid "Well defined deploy to test upcoming Weblate features"
 msgstr ""
+"Goed gedefinieerde uitrol om aankomende mogelijkheden voor Weblate te testen"
 
 #: ../../admin/install/docker.rst:109
 msgid ""
 "Every image is tested by our CI before it gets published, so even the "
 "`bleeding` version should be quite safe to use."
 msgstr ""
+"Elk image is getest door ons CI voordat het werd gepubliceerd, dus zelfs de "
+"versie `bleeding` zou veilig genoeg moeten zijn om te gebruiken."
 
 #: ../../admin/install/docker.rst:111
 msgid "Full list of published tags can be found at `GitHub Packages`_"
 msgstr ""
+"Volledige lijst met gepubliceerde tags is te vinden op `GitHub Packages`_"
 
 #: ../../admin/install/docker.rst:118
 msgid "Docker container with HTTPS support"
-msgstr ""
+msgstr "Docker container met ondersteuning voor HTTPS"
 
 #: ../../admin/install/docker.rst:120
 msgid ""
 "Please see :ref:`docker-deploy` for generic deployment instructions, this "
 "section only mentions differences compared to it."
 msgstr ""
+"Bekijk :ref:`docker-deploy` voor algemene instructies voor uitrollen, dit "
+"gedeelte vermeldt alleen verschillen in vergelijking daarmee."
 
 #: ../../admin/install/docker.rst:124
 msgid "Using own SSL certificates"
-msgstr ""
+msgstr "Eigen certificaten voor SSL gebruiken"
 
 #: ../../admin/install/docker.rst:126
 msgid ""
 "In case you have own SSL certificate you want to use, simply place the files "
 "into the Weblate data volume (see :ref:`docker-volume`):"
 msgstr ""
+"In het geval dat u uw eigen certificaat voor SSL hebt dat u wilt gebruiken, "
+"plaats eenvoudigweg de bestanden in het Weblate-volume data (bekijk :ref"
+":`docker-volume`):"
 
 #: ../../admin/install/docker.rst:129
 msgid ""
 ":file:`ssl/fullchain.pem` containing the certificate including any needed CA "
 "certificates"
 msgstr ""
+":file:`ssl/fullchain.pem` bevat het certificaat, inclusief alle benodigde CA-"
+"certificaten"
 
 #: ../../admin/install/docker.rst:130
 msgid ":file:`ssl/privkey.pem` containing the private key"
-msgstr ""
+msgstr ":file:`ssl/privkey.pem` bevat de privé-sleutel"
 
 #: ../../admin/install/docker.rst:132
 msgid ""
@@ -14312,6 +14689,10 @@ msgid ""
 "docker container and have file mask set to ``600`` (readable and writable "
 "only by the owning user)."
 msgstr ""
+"Deze beide bestanden moeten eigendom zijn van dezelfde gebruiker als die "
+"welke de Docker container startte en het bestandsmasker hebben ingesteld op "
+"``600`` (alleen te lezen en te beschrijven door de gebruiker die eigenaar "
+"is)."
 
 #: ../../admin/install/docker.rst:134
 msgid ""
@@ -14319,6 +14700,9 @@ msgid ""
 "4443, you will want to include the port forwarding for HTTPS in docker "
 "compose override:"
 msgstr ""
+"Aanvullend zal de Weblate container nu SSL-verbindingen accepteren op poort "
+"4443, u zou de poort forwarding voor HTTPS op willen nemen in docker compose "
+"override:"
 
 #: ../../admin/install/docker.rst:146
 msgid ""
@@ -14327,16 +14711,22 @@ msgid ""
 "HTTPS connection from NGINX to the docker container, you can use the "
 "following configuration:"
 msgstr ""
+"Als u al andere sites host op dezelfde server, is het waarschijnlijk dat de "
+"poorten ``80`` en ``443`` worden gebruikt door een omgekeerde proxy, zoals "
+"NGINX. U kunt de volgende configuratie gebruiken om de HTTPS-verbinding van "
+"NGINX door te geven aan de Docker container:"
 
 #: ../../admin/install/docker.rst:168
 msgid ""
 "Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual "
 "values from your environment."
 msgstr ""
+"Vervang ``<SITE_URL>``, ``<SITE>`` en ``<EXPOSED_DOCKER_PORT>`` door de "
+"feitelijke waarden van uw omgeving."
 
 #: ../../admin/install/docker.rst:174
 msgid "Automatic SSL certificates using Let’s Encrypt"
-msgstr ""
+msgstr "Automatische SSL-certificaten met Let’s Encrypt"
 
 #: ../../admin/install/docker.rst:176
 msgid ""
@@ -14347,16 +14737,25 @@ msgid ""
 "This is made use of in the :file:`docker-compose-https.yml` file.  Then "
 "create a :file:`docker-compose-https.override.yml` file with your settings:"
 msgstr ""
+"In het geval dat u `Let’s Encrypt <https://letsencrypt.org/>`_ automatisch "
+"gegenereerde SSL-certificaten wilt gebruiken op een publieke installatie, "
+"moet u een omgekeerde HTTPS proxy toevoegen aan een aanvullende Docker "
+"container, `https-portal <https://hub.docker.com/r/steveltn/https-portal/>`_ "
+"zal daarvoor worden gebruikt. Die maakt gebruik van het bestand :file"
+":`docker-compose-https.yml`. Maak dan een bestand :file:`docker-compose-https"
+".override.yml` met uw instellingen:"
 
 #: ../../admin/install/docker.rst:198
 msgid ""
 "Whenever invoking :program:`docker compose` you need to pass both files to "
 "it, and then do:"
 msgstr ""
+"Altijd bij het uitvoeren van :program:`docker compose` moet u beide "
+"bestanden er aan doorgeven, en dan doen:"
 
 #: ../../admin/install/docker.rst:209
 msgid "Upgrading the Docker container"
-msgstr ""
+msgstr "Upgraden van de Docker container"
 
 #: ../../admin/install/docker.rst:211
 msgid ""
