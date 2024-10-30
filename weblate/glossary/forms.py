@@ -91,7 +91,9 @@ class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
 
     def clean(self) -> None:
         self.translation = self.cleaned_data.get("translation")
-        super().clean()
+        # Validate fields only if translation is valid
+        if self.translation:
+            super().clean()
 
     def as_kwargs(self) -> NewUnitParams:
         result = super().as_kwargs()
