@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 12:38+0000\n"
-"PO-Revision-Date: 2024-10-21 08:20+0000\n"
-"Last-Translator: Ricky From Hong Kong <lamricky11@hotmail.com>\n"
+"PO-Revision-Date: 2024-10-30 07:25+0000\n"
+"Last-Translator: hugoalh <hugoalh@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.8.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -4449,10 +4449,8 @@ msgid "Text direction"
 msgstr "文字方向"
 
 #: weblate/lang/models.py:629
-#, fuzzy
-#| msgid "Automatically accept suggestions"
 msgid "Automatically detect text direction"
-msgstr "自動接受建議"
+msgstr "自動偵測文字方向"
 
 #: weblate/lang/models.py:630
 msgid "Left to right"
@@ -4787,10 +4785,9 @@ msgid "Could not fetch supported languages: %s"
 msgstr "無法取得支援的語言：%s"
 
 #: weblate/machinery/apertium.py:108
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "No supported languages found: %s"
-msgstr "無法取得支援的語言：%s"
+msgstr "找不到支援的語言：%s"
 
 #: weblate/machinery/apertium.py:116 weblate/machinery/base.py:152
 #, python-format
@@ -8396,14 +8393,12 @@ msgid "Repository changes"
 msgstr "儲存庫更動"
 
 #: weblate/templates/keyboard-shortcuts.html:11
-#, fuzzy
-#| msgid "Available add-ons"
 msgid "Available Shortcuts"
-msgstr "可用的附加元件"
+msgstr "可用的快捷鍵"
 
 #: weblate/templates/keyboard-shortcuts.html:17
 msgid "Shortcut"
-msgstr ""
+msgstr "快捷鍵"
 
 #: weblate/templates/keyboard-shortcuts.html:18 weblate/trans/forms.py:2781
 msgid "Action"
@@ -8411,18 +8406,16 @@ msgstr "動作"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Open available keyboard shortcuts."
-msgstr ""
+msgstr "開啟可用的鍵盤快捷鍵。"
 
 #: weblate/templates/keyboard-shortcuts.html:28
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to the first translation in the current search."
-msgstr "此翻譯目前正被鎖定。"
+msgstr "導航至目前搜尋中的第一個翻譯。"
 
 #: weblate/templates/keyboard-shortcuts.html:32
 #: weblate/templates/keyboard-shortcuts.html:41
 msgid "Navigate to the last translation in the current search."
-msgstr ""
+msgstr "導航至目前搜尋中的最後一個翻譯。"
 
 #: weblate/templates/keyboard-shortcuts.html:36
 #: weblate/templates/keyboard-shortcuts.html:37
@@ -8445,21 +8438,19 @@ msgstr ""
 #: weblate/templates/keyboard-shortcuts.html:134
 #: weblate/templates/keyboard-shortcuts.html:141
 #: weblate/templates/keyboard-shortcuts.html:147
-#, fuzzy
-#| msgid "Port"
 msgctxt "between keyboard shortcuts"
 msgid "or"
-msgstr "連接埠"
+msgstr "或"
 
 #: weblate/templates/keyboard-shortcuts.html:50
 msgid "Navigate to the next translation in the current search."
-msgstr ""
+msgstr "導航至目前搜尋中的下一個翻譯。"
 
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid ""
 "Submit current form; this works the same as pressing Save and continue while "
 "editing translation."
-msgstr ""
+msgstr "提交目前表格；這與編輯翻譯時按下「儲存並繼續」的效果相同。"
 
 #: weblate/templates/keyboard-shortcuts.html:65
 #, fuzzy
@@ -8474,22 +8465,16 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:79
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on translation editor."
-msgstr "聚焦翻譯編輯器"
+msgstr "聚焦翻譯編輯器。"
 
 #: weblate/templates/keyboard-shortcuts.html:86
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on comment editor."
-msgstr "聚焦翻譯編輯器"
+msgstr "聚焦評註編輯器。"
 
 #: weblate/templates/keyboard-shortcuts.html:93
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgid "Shows Automatic suggestions tab."
-msgstr "自動建議"
+msgstr "顯示自動建議頁籤。"
 
 #: weblate/templates/keyboard-shortcuts.html:97
 #: weblate/templates/keyboard-shortcuts.html:99
@@ -8499,7 +8484,7 @@ msgstr "自動建議"
 #: weblate/templates/keyboard-shortcuts.html:120
 msgctxt "between keyboard shortcuts"
 msgid "to"
-msgstr ""
+msgstr "至"
 
 #: weblate/templates/keyboard-shortcuts.html:102
 #, fuzzy
@@ -8529,14 +8514,12 @@ msgid "Ignore one item in the list of failing checks."
 msgstr "忽略一個項目於未通過的查核列表。"
 
 #: weblate/templates/keyboard-shortcuts.html:130
-#, fuzzy
-#| msgid "Shows nearby strings tab"
 msgid "Shows the Nearby strings tab."
-msgstr "顯示相鄰字串標籤頁"
+msgstr "顯示相鄰字串頁籤。"
 
 #: weblate/templates/keyboard-shortcuts.html:137
 msgid "Focus on search field."
-msgstr ""
+msgstr "聚焦搜尋欄位。"
 
 #: weblate/templates/keyboard-shortcuts.html:144
 msgid "Copy the source string."
