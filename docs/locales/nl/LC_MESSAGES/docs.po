@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-30 13:16+0000\n"
+"PO-Revision-Date: 2024-10-31 00:27+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -800,7 +800,7 @@ msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
 msgstr ""
-"Gebruiken van grote onderdelenlijsten zou enorme impact op de uitvoering "
+"Gebruiken van grote onderdelenlijsten zou enorme impact op de prestaties "
 "kunnen hebben, overweeg in plaats daarvan het toekennen van toegang via "
 "projecten."
 
@@ -4007,7 +4007,7 @@ msgid ""
 "Add-on activity log keeps track of the add-on execution and can be used to "
 "keep track of add-on activity."
 msgstr ""
-"Add-on activiteiten loggen houdt de uitvoering van de add-on bij en kan "
+"Add-on activiteiten loggen houdt de prestaties van de add-on bij en kan "
 "worden gebruikt om activiteiten van de add-on bij te houden."
 
 #: ../../admin/addons.rst:1051
@@ -4091,7 +4091,7 @@ msgid ""
 "status."
 msgstr ""
 "Deze pagina verschaft een overzicht van de configuratie van Weblate en de "
-"status van de uitvoering."
+"status van de prestaties."
 
 #: ../../admin/admin.rst:32
 msgid ""
@@ -9842,7 +9842,7 @@ msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
-"Configureer monsterfrequentie voor monitoren van de uitvoering. Stel in op 1 "
+"Configureer monsterfrequentie voor monitoren van de prestaties. Stel in op 1 "
 "om alle gebeurtenissen te traceren, 0 (de standaard) schakelt traceren uit."
 
 #: ../../admin/config.rst:1704
@@ -9850,7 +9850,7 @@ msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_"
 msgstr ""
-"`Sentry monitoren uitvoering <https://docs.sentry.io/product/performance/>`_"
+"`Sentry monitoren prestaties <https://docs.sentry.io/product/performance/>`_"
 
 #: ../../admin/config.rst:1709
 msgid "SENTRY_SEND_PII"
@@ -10958,7 +10958,7 @@ msgid ""
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
 "Weblate haalt automatisch 's nachts opslagruimten op afstand op om de "
-"uitvoering te verbeteren bij het later samenvoegen van wijzigingen. U kunt "
+"prestaties te verbeteren bij het later samenvoegen van wijzigingen. U kunt "
 "dit ook inschakelen om 's nachts samenvoegingen te doen, door "
 ":setting:`AUTO_UPDATE` in te schakelen."
 
@@ -12708,7 +12708,7 @@ msgstr ""
 "Hieronder staat een voorbeeld :file:`/etc/my.cnf.d/server.cnf` voor een "
 "server met 8 GB RAM. Deze instellingen zouden voldoende moeten zijn voor de "
 "meeste installaties. MySQL en MariaDB zijn zo af te stemmen dat de "
-"uitvoering van uw server wordt verhoogd, maar die worden geacht niet nodig "
+"prestaties van uw server worden verhoogd, maar die worden geacht niet nodig "
 "te zijn, tenzij u van plan bent om tegelijkertijd grote aantallen gebruikers "
 "toe te laten tot het systeem. Bekijk de verscheidene documentatie van "
 "verkopers voor deze details."
@@ -13299,7 +13299,7 @@ msgid ""
 "networking performance or reliability might ruin your Weblate experience."
 msgstr ""
 "Gebruik een aanliggende locatie voor het uitvoeren van de databaseserver, "
-"anders zou de uitvoering van het netwerk of de betrouwbaarheid ervan uw "
+"anders zouden de prestaties van het netwerk of de betrouwbaarheid ervan uw "
 "ervaring met Weblate kunnen ruïneren."
 
 #: ../../admin/install.rst:1009
@@ -16450,24 +16450,35 @@ msgid ""
 "to adjust concurrency (``--concurrency 16``) or use different pool "
 "implementation (``--pool=gevent``)."
 msgstr ""
+"Deze variabelen stellen u in staat opties voor werkers van Celery aan te "
+"passen. Het kan nuttig zijn om de gelijktijdige aan te passen (``--"
+"concurrency 16``) of een andere implementatie van de pool te gebruiken "
+"(``--pool=gevent``)."
 
 #: ../../admin/install/docker.rst:1841
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
 msgstr ""
+"Standaard is het aantal gelijktijdige werkers gebaseerd op "
+":envvar:`WEBLATE_WORKERS`."
 
 #: ../../admin/install/docker.rst:1852
 msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
 msgstr ""
+":doc:`Celery opties voor werkers <celery:reference/celery.bin.worker>`, "
+":ref:`celery`"
 
 #: ../../admin/install/docker.rst:1859
 msgid ""
 "This variable can be set to ``1`` to run only one celery process. This "
 "reduces memory usage but may impact Weblate performance."
 msgstr ""
+"Deze variabele kan worden ingesteld op ``1`` om slechts een proces van "
+"Celery uit te voeren. Dit reduceert het geheugengebruik, maar zou invloed "
+"kunnen hebben op de prestaties van Weblate."
 
 #: ../../admin/install/docker.rst:1868
 msgid ":ref:`minimal-celery`"
@@ -16475,17 +16486,19 @@ msgstr ":ref:`minimal-celery`"
 
 #: ../../admin/install/docker.rst:1872
 msgid "Configure how many uWSGI workers should be executed."
-msgstr ""
+msgstr "Configureer hoeveel werkers van uWSGI zouden moeten worden uitgevoerd."
 
 #: ../../admin/install/docker.rst:1874
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
-msgstr ""
+msgstr "Standaard is :envvar:`WEBLATE_WORKERS`."
 
 #: ../../admin/install/docker.rst:1885
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
 msgstr ""
+"Definieert welke services zouden moeten worden uitgevoerd binnen de "
+"container. Gebruik dit voor :ref:`docker-scaling`."
 
 #: ../../admin/install/docker.rst:1887
 msgid "Following services are defined:"
@@ -16501,6 +16514,10 @@ msgid ""
 "is also responsible for the database structure migrations and it should be "
 "started prior others."
 msgstr ""
+"Celery schema voor taken, er zou slechts een instantie moeten worden "
+"uitgevoerd. Deze container is ook verantwoordelijk voor de migraties van de "
+"structuur van de database en het zou voorafgaande aan andere moeten worden "
+"gestart."
 
 #: ../../admin/install/docker.rst:1893
 msgid "``celery-backup``"
@@ -16509,6 +16526,8 @@ msgstr "``celery-backup``"
 #: ../../admin/install/docker.rst:1894
 msgid "Celery worker for backups, only one instance should be running."
 msgstr ""
+"Celery werker voor back-ups, er zou slechts een instantie moeten worden "
+"uitgevoerd."
 
 #: ../../admin/install/docker.rst:1895
 msgid "``celery-celery``"
@@ -16516,7 +16535,7 @@ msgstr "``celery-celery``"
 
 #: ../../admin/install/docker.rst:1896
 msgid "Generic Celery worker."
-msgstr ""
+msgstr "Algemene Celery werker."
 
 #: ../../admin/install/docker.rst:1897
 msgid "``celery-memory``"
@@ -16548,11 +16567,11 @@ msgstr "``web``"
 
 #: ../../admin/install/docker.rst:1904
 msgid "Web server."
-msgstr ""
+msgstr "Webserver."
 
 #: ../../admin/install/docker.rst:1910
 msgid "Docker container volumes"
-msgstr ""
+msgstr "Docker container volumes"
 
 #: ../../admin/install/docker.rst:1912
 msgid ""
@@ -16560,6 +16579,9 @@ msgid ""
 "container. The other service containers (PostgreSQL or Redis) have their "
 "data volumes as well, but those are not covered by this document."
 msgstr ""
+"Er worden twee volumes (``data`` en ``cache``) geëxporteerd door de Weblate "
+"container. De andere service-containers (PostgreSQL of Redis) hebben ook hun "
+"volumes data, maar die worden niet behandeld in dit document."
 
 #: ../../admin/install/docker.rst:1916
 msgid ""
@@ -16568,6 +16590,10 @@ msgid ""
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
+"Het volume ``data`` wordt gemount als :file:`/app/data` en wordt gebruikt om "
+"blijvende gegevens voor Weblate op te slaan, zoals gekloonde opslagruimten "
+"of om de installatie van Weblate aan te passen. :setting:`DATA_DIR` "
+"beschrijft meer in detail wat hier wordt opgeslagen."
 
 #: ../../admin/install/docker.rst:1920
 msgid ""
@@ -16576,6 +16602,10 @@ msgid ""
 "weblate-docker_weblate-data/_data/` (the path consist of name of your docker-"
 "compose directory, container, and volume names)."
 msgstr ""
+"De plaatsing van het volume voor Docker op het hostsysteem is afhankelijk "
+"van uw configuratie van Docker, maar gewoonlijk wordt het opgeslagen in "
+":file:`/var/lib/docker/volumes/weblate-docker_weblate-data/_data/` (het pad "
+"bestaat uit de naam van uw map docker-compose, container en volumenamen)."
 
 #: ../../admin/install/docker.rst:1925
 msgid ""
@@ -16584,18 +16614,27 @@ msgid ""
 "startup and the volume can be mounted using ephemeral filesystem such as "
 "`tmpfs`."
 msgstr ""
+"Het volume ``cache`` wordt gemount als :file:`/app/cache` en wordt gebruikt "
+"om statische bestanden op te slaan en :setting:`CACHE_DIR`. De inhoud ervan "
+"wordt opnieuw gemaakt bij het opstarten van de container en het volume kan "
+"worden gemount met een vluchtig bestandssysteem, zoals `tmpfs`."
 
 #: ../../admin/install/docker.rst:1929
 msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
 msgstr ""
+"Bij het handmatig maken van de volumes, zouden de mappen eigendom moeten "
+"zijn van UID 1000 omdat dat de gebruiker is die gebruikt wordt binnen de "
+"container."
 
 #: ../../admin/install/docker.rst:1934
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/engine/storage/"
 "volumes/>`_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 msgstr ""
+"`Docker volumes documentatie <https://docs.docker.com/engine/storage/volumes/"
+">`_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 
 #: ../../admin/install/docker.rst:1939
 msgid "Read-only root filesystem"
@@ -26450,7 +26489,7 @@ msgstr ""
 
 #: ../../changes.rst:329
 msgid "Improved performance of rendering large lists of objects."
-msgstr "Verbeterde uitvoering van renderen van lange lijsten met objecten."
+msgstr "Verbeterde prestaties bij renderen van lange lijsten met objecten."
 
 #: ../../changes.rst:330
 msgid ""
@@ -27011,7 +27050,7 @@ msgstr ""
 
 #: ../../changes.rst:589
 msgid "Improved :ref:`git-exporter` performance on huge repositories."
-msgstr "Verbeterde uitvoering :ref:`git-exporter` op grote opslagruimten."
+msgstr "Verbeterde prestaties :ref:`git-exporter` op grote opslagruimten."
 
 #: ../../changes.rst:593
 msgid "Removing stale VCS directories."
@@ -27362,7 +27401,7 @@ msgstr ""
 
 #: ../../changes.rst:756
 msgid "Translate page performance."
-msgstr "Uitvoering pagina vertalen."
+msgstr "Prestaties pagina vertalen."
 
 #: ../../changes.rst:757
 msgid "Search now looks for categories as well."
@@ -27426,7 +27465,7 @@ msgstr ""
 
 #: ../../changes.rst:789
 msgid "Better performance of projects with a lot of components."
-msgstr "Betere uitvoering van projecten met heel veel onderdelen."
+msgstr "Betere prestaties van projecten met heel veel onderdelen."
 
 #: ../../changes.rst:790
 msgid "Added compatibility redirects for some old URLs."
@@ -28132,7 +28171,7 @@ msgstr ""
 
 #: ../../changes/v1.rst:53
 msgid "Performance improvements for translation view."
-msgstr "Verbeteringen uitvoering voor weergave van vertalingen."
+msgstr "Verbeteringen prestaties voor weergave van vertalingen."
 
 #: ../../changes/v1.rst:56
 msgid "Weblate 1.6"
@@ -30453,7 +30492,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:111
 msgid "Improved data clean-up performance."
-msgstr "Verbeterde uitvoering voor opruimen van gegevens."
+msgstr "Verbeterde prestaties voor opruimen van gegevens."
 
 #: ../../changes/v3.rst:112
 msgid "Added support for customizable security.txt."
@@ -30786,7 +30825,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:210
 msgid "Improve performance of repository scoped add-ons."
-msgstr "Verbeterde uitvoering van add-ons in het bereik van de opslagruimten."
+msgstr "Verbeterde prestaties van add-ons in het bereik van de opslagruimten."
 
 #: ../../changes/v3.rst:212
 msgid "Fixed password reset behavior."
@@ -31921,11 +31960,11 @@ msgstr ""
 
 #: ../../changes/v4.rst:72
 msgid "Improved performance of public user profiles."
-msgstr "Verbeterde uitvoering openbare gebruikersprofielen."
+msgstr "Verbeterde prestaties openbare gebruikersprofielen."
 
 #: ../../changes/v4.rst:73
 msgid "Improved Sentry performance integration."
-msgstr "Verbeterde uitvoering van integratie van Sentry."
+msgstr "Verbeterde prestaties van integratie van Sentry."
 
 #: ../../changes/v4.rst:74
 msgid "Added support for Ed25519 SSH key."
@@ -32093,7 +32132,7 @@ msgstr ""
 #: ../../changes/v4.rst:156
 msgid "Improved search performance for some specially formatted strings."
 msgstr ""
-"Verbeterde uitvoering zoeken voor enkele speciaal opgemaakte tekenreeksen."
+"Verbeterde prestaties zoeken voor enkele speciaal opgemaakte tekenreeksen."
 
 #: ../../changes/v4.rst:157
 msgid "Celery beat is now storing the tasks schedule in the database."
@@ -32229,7 +32268,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:201
 msgid "Improved performance of project creation and saving."
-msgstr "Verbeterde uitvoering voor maken en opslaan van project."
+msgstr "Verbeterde prestaties voor maken en opslaan van project."
 
 #: ../../changes/v4.rst:202
 msgid "Added support for gotext JSON files."
@@ -32279,7 +32318,7 @@ msgstr "Ondersteuning toegevoegd voor plaatsvervangers in de indeling Fluent."
 
 #: ../../changes/v4.rst:217
 msgid "Improved performance of translation memory."
-msgstr "Verbeterde uitvoering vertaalgeheugen."
+msgstr "Verbeterde prestaties vertaalgeheugen."
 
 #: ../../changes/v4.rst:218
 msgid ""
@@ -32288,7 +32327,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:219
 msgid "Improved performance of several views."
-msgstr "Verbeterde uitvoering van verscheidene weergaven."
+msgstr "Verbeterde prestaties van verscheidene weergaven."
 
 #: ../../changes/v4.rst:220
 msgid "Improved listing of strings with plurals."
@@ -32594,7 +32633,7 @@ msgstr "Ondersteuning toegevoegd voor back-ups op projectniveau."
 #: ../../changes/v4.rst:313
 msgid "Improved performance and memory usage of translation memory lookups."
 msgstr ""
-"Verbeterde uitvoering en geheugengebruik voor opzoeken in vertaalgeheugen."
+"Verbeterde prestaties en geheugengebruik voor opzoeken in vertaalgeheugen."
 
 #: ../../changes/v4.rst:315
 msgid ""
@@ -33401,7 +33440,7 @@ msgstr "Verbeterd renderen van geschiedenis."
 
 #: ../../changes/v4.rst:576
 msgid "Improved performance of the translation pages."
-msgstr "Verbeterde uitvoering van de vertaalde pagina's."
+msgstr "Verbeterde prestaties van de vertaalde pagina's."
 
 #: ../../changes/v4.rst:577
 msgid "Added support for restricting translation file downloads."
@@ -33599,7 +33638,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:634
 msgid "Improved performance in handling variants."
-msgstr "Verbeterde uitvoering bij afhandelen varianten."
+msgstr "Verbeterde prestaties bij afhandelen varianten."
 
 #: ../../changes/v4.rst:635
 msgid "Fixed squash add-on sometimes skipping parsing upstream changes."
@@ -33691,7 +33730,7 @@ msgstr "Toegevoegde beperking aantal bij maken van nieuwe projecten."
 
 #: ../../changes/v4.rst:669
 msgid "Improved performance of file updates."
-msgstr "Verbeterde uitvoering van bijwerken bestanden."
+msgstr "Verbeterde prestaties bij bijwerken bestanden."
 
 #: ../../changes/v4.rst:671
 msgid ""
@@ -33773,7 +33812,7 @@ msgstr "Documentatie voor add-ons uitgebreid."
 
 #: ../../changes/v4.rst:690
 msgid "Performance improvements for components with linked repositories."
-msgstr "Verbeteringen uitvoering voor onderdelen met gekoppelde opslagruimten."
+msgstr "Verbeteringen prestaties voor onderdelen met gekoppelde opslagruimten."
 
 #: ../../changes/v4.rst:691
 msgid "Added support for free DeepL API."
@@ -33854,7 +33893,7 @@ msgstr "Gerepareerd afhandeling van vertalingsbestanden genegeerd in Git."
 
 #: ../../changes/v4.rst:718
 msgid "Improved metrics performance."
-msgstr "Verbeterde uitvoering metrieken."
+msgstr "Verbeterde prestaties metrieken."
 
 #: ../../changes/v4.rst:719
 msgid "Fixed possible bug in saving glossaries."
@@ -33970,7 +34009,7 @@ msgstr "Verbeterd valideren parameters bij maken van onderdeel in API."
 
 #: ../../changes/v4.rst:754
 msgid "Improved automatic translation add-on performance and reliability."
-msgstr "Verbeterde uitvoering en betrouwbaarheid add-on automatische vertaling."
+msgstr "Verbeterde prestaties en betrouwbaarheid add-on automatische vertaling."
 
 #: ../../changes/v4.rst:755
 msgid "The rate limiting now can be customized in the Docker container."
@@ -34093,7 +34132,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:798
 msgid "Improved performance when adding new strings."
-msgstr "Verbeterde uitvoering bij toevoegen nieuwe tekenreeksen."
+msgstr "Verbeterde prestaties bij toevoegen nieuwe tekenreeksen."
 
 #: ../../changes/v4.rst:799
 msgid "Several bug fixes in quality checks."
@@ -34159,7 +34198,7 @@ msgstr "Gepagineerde vermelding van onderdelen van grote projecten."
 
 #: ../../changes/v4.rst:819
 msgid "Improved performance of translation, component or project removal."
-msgstr "Verbeterde uitvoering van verwijderen vertaling, onderdeel of project."
+msgstr "Verbeterde prestaties bij verwijderen vertaling, onderdeel of project."
 
 #: ../../changes/v4.rst:820 ../../changes/v4.rst:1213
 msgid "Improved bulk edit performance."
@@ -34224,11 +34263,11 @@ msgstr ""
 
 #: ../../changes/v4.rst:838
 msgid "Improved performance of consistency checks."
-msgstr "Verbeterde uitvoering controles voor consistentie."
+msgstr "Verbeterde prestaties controles voor consistentie."
 
 #: ../../changes/v4.rst:839
 msgid "Improved performance of translation memory for long strings."
-msgstr "Verbeterde uitvoering van vertaalgeheugen voor lange tekenreeksen."
+msgstr "Verbeterde prestaties van vertaalgeheugen voor lange tekenreeksen."
 
 #: ../../changes/v4.rst:840
 msgid "Added support for searching in explanations."
@@ -34391,7 +34430,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:895
 msgid "Improved performance when displaying ghost translations."
-msgstr "Verbeterde uitvoering bij weergeven van spook-vertalingen."
+msgstr "Verbeterde prestaties bij weergeven van spook-vertalingen."
 
 #: ../../changes/v4.rst:896
 msgid "Reimplemented translation editor to use native browser textarea."
@@ -34497,7 +34536,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:924
 msgid "Improved performance of file upload."
-msgstr "Verbeterde uitvoering uploaden bestand."
+msgstr "Verbeterde prestaties bij uploaden bestand."
 
 #: ../../changes/v4.rst:925
 msgid "Improved display of user defined special characters."
@@ -34505,7 +34544,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:926
 msgid "Improved performance of auto-translation."
-msgstr "Verbeterde uitvoering automatische vertaling."
+msgstr "Verbeterde prestaties bij automatische vertaling."
 
 #: ../../changes/v4.rst:927
 msgid "Several minor improvements in the user interface."
@@ -34633,7 +34672,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:972
 msgid "Improved auto-translation performance."
-msgstr "Verbeterde uitvoering automatische vertaling."
+msgstr "Verbeterde prestaties bij automatische vertaling."
 
 #: ../../changes/v4.rst:973
 msgid "Fixed session expiry for authenticated users."
@@ -34649,11 +34688,11 @@ msgstr ""
 
 #: ../../changes/v4.rst:976
 msgid "Improved performance of translation memory updates."
-msgstr "Verbeterde uitvoering bijwerken vertaalgeheugen."
+msgstr "Verbeterde prestaties bijwerken vertaalgeheugen."
 
 #: ../../changes/v4.rst:978
 msgid "Improved performance of Matrix view."
-msgstr "Verbeterde uitvoering weergave Matrix."
+msgstr "Verbeterde prestaties weergave Matrix."
 
 #: ../../changes/v4.rst:979
 msgid "Added confirmation before removing a user from a project."
