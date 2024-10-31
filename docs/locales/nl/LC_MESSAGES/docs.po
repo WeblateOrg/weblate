@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-10-16 14:39+0200\n"
-"PO-Revision-Date: 2024-10-31 00:27+0000\n"
+"PO-Revision-Date: 2024-11-01 00:26+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -16645,6 +16645,9 @@ msgid ""
 "When running the container with a read-only root filesystem, two additional "
 "`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgstr ""
+"Bij het uitvoeren van de container met een alleen-lezen root-"
+"bestandssysteem, zijn twee aanvullende volumes `tmpfs` vereist - :file:`/tmp`"
+" en :file:`/run`."
 
 #: ../../admin/install/docker.rst:1950
 msgid "Configuration beyond environment variables"
@@ -16656,6 +16659,9 @@ msgid ""
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
+":ref:`Docker omgevingsvariabelen <docker-environment>` zijn bedoeld om de "
+"meeste :ref:`instellingen voor configureren <config>`, die van belang zijn "
+"voor installaties van Weblate, weer te geven."
 
 #: ../../admin/install/docker.rst:1956
 msgid ""
@@ -16663,6 +16669,10 @@ msgid ""
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
+"Als u een instelling vindt die niet is weergegeven als een "
+"omgevingsvariabele, en u van mening bent dat het dat wel zou moeten zijn, "
+"staat het u vrij :ref:`te vragen om het in een toekomstige versie van "
+"Weblate weer te geven <report-issue>`."
 
 #: ../../admin/install/docker.rst:1960
 msgid ""
@@ -16671,6 +16681,10 @@ msgid ""
 "settings-override>` or :ref:`extending the Docker image <docker-custom-"
 "settings>`."
 msgstr ""
+"Als u een instelling moet aanpassen die niet is weergegeven als een Docker "
+"omgevingsvariabele, kunt u dat nog steeds doen, ofwel :ref:`in het volume "
+"data <docker-settings-override>` of :ref:`door de Docker image uit te "
+"breiden <docker-custom-settings>`."
 
 #: ../../admin/install/docker.rst:1967
 msgid ":doc:`../customize`"
@@ -16678,7 +16692,7 @@ msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1972
 msgid "Overriding settings from the data volume"
-msgstr ""
+msgstr "Instellingen overschrijven vanuit het volume data"
 
 #: ../../admin/install/docker.rst:1974
 msgid ""
@@ -16686,26 +16700,34 @@ msgid ""
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
+"U kunt een bestand maken in :file:`/app/data/settings-override.py`, d.i. aan "
+"de bron van het :ref:`volume data <docker-volume>`, om instellingen, die "
+"worden gedefinieerd door omgevingsvariabelen, uit te breiden of te "
+"overschrijven."
 
 #: ../../admin/install/docker.rst:1982
 msgid "Overriding settings by extending the Docker image"
-msgstr ""
+msgstr "Instellingen overschrijven door de Docker image uit te breiden"
 
 #: ../../admin/install/docker.rst:1984
 msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
 msgstr ""
+"Instellingen op het niveau van de Docker image overschrijven in plaats van "
+"uit het volume data:"
 
 #: ../../admin/install/docker.rst:1986
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ""
+msgstr ":ref:`Een aangepast pakket voor Python maken <custom-module>`."
 
 #: ../../admin/install/docker.rst:1988
 msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
 msgstr ""
+"Voeg een module toe aan uw pakket dat alle instellingen importeert vanuit "
+"``weblate.settings_docker``."
 
 #: ../../admin/install/docker.rst:1991
 msgid ""
@@ -16713,6 +16735,10 @@ msgid ""
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
+"Bijvoorbeeld in de voorbeeldpakketstructuur die is gedefinieerd in :ref"
+":`custom-module`, zou u een bestand ``weblate_customization/"
+"weblate_customization/settings.py`` kunnen maken, met de volgende initiële "
+"code:"
 
 #: ../../admin/install/docker.rst:2000
 msgid ""
@@ -16720,12 +16746,17 @@ msgid ""
 "Docker image, and then installs your package and points the "
 "``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:"
 msgstr ""
+"Maak een aangepast ``Dockerfile``, dat erft van de officiële Weblate Docker "
+"image, en dan uw pakket installeert en wijst naar de omgevingsvariabele "
+"``DJANGO_SETTINGS_MODULE`` in uw module voor instellingen:"
 
 #: ../../admin/install/docker.rst:2016
 msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
 msgstr ""
+"In plaats van de officiële Weblate Docker image te gebruiken, bouw een "
+"aangepast image uit dat bestand ``Dockerfile``."
 
 #: ../../admin/install/docker.rst:2019
 msgid ""
@@ -16734,6 +16765,11 @@ msgid ""
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
+"Er is `geen schone manier <https://github.com/docker/compose/issues/7231>`__ "
+"om dit te doen met ``docker-compose.override.yml``. U *zou* ``build: .`` "
+"kunnen toevoegen aan de node ``weblate`` in dat bestand, maar dan zal uw "
+"anagepaste image wordne getagd als ``weblate/weblate`` in uw systeem, wat "
+"problematisch zou kunnen zijn."
 
 #: ../../admin/install/docker.rst:2025
 msgid ""
@@ -16743,16 +16779,26 @@ msgid ""
 "make a copy of the official ``docker-compose.yml`` file, and edit your copy "
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
+"Dus, in plaats van ``docker-compose.yml`` direct te gebruiken vanuit de `"
+"officiële opslagruimte <https://github.com/WeblateOrg/docker-compose>`__, "
+"niet aangepast en het uit te breiden via ``docker-compose.override.yml``, "
+"zou u een kopie willen maken van het officiële bestand ``docker-compose.yml``"
+", en uw kopie willen bewerken om ``image: weblate/weblate`` te vervangen "
+"door ``build: .``."
 
 #: ../../admin/install/docker.rst:2031
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
 msgstr ""
+"Bekijk de `Compose file build reference`_ voor details over het bouwen van "
+"images vanuit d ebron met ``docker-compose``."
 
 #: ../../admin/install/docker.rst:2036
 msgid "Extend your custom settings module to define or redefine settings."
 msgstr ""
+"Uw module met aangepaste instellingen uitbreiden om instellingen te "
+"definiëren of opnieuw te definiëren."
 
 #: ../../admin/install/docker.rst:2038
 msgid ""
@@ -16762,6 +16808,12 @@ msgid ""
 "defined in the data volume. Setting defined after the import statement "
 "cannot be overridden."
 msgstr ""
+"U kunt instellingen definiëren voor en na het argument import hierboven om "
+"te bepalen welke instellingen voorrang hebben. Instellingen die zijn "
+"gedefinieerd voor het argument import kunnen worden overschreven door "
+"omgevingsvariabelen en instelling overschrijven die zijn gedefinieerd in het "
+"volume data. Instellingen die zijn gedefinieerd na het argument import "
+"kunnen niet worden overschreven."
 
 #: ../../admin/install/docker.rst:2044
 msgid ""
@@ -16771,10 +16823,15 @@ msgid ""
 "as environment variables, or allow overriding settings from Python files in "
 "the data volume."
 msgstr ""
+"U kunt ook verder gaan. U kunt bijvoorbeeld enkele dingen reproduceren die "
+"``weblate.docker_settings`` `doet <https://github.com/WeblateOrg/weblate/"
+"blob/main/weblate/settings_docker.py>`__, zoals instellingen weergeven als "
+"omgevingsvariabelen, of toestaan dat instellingen worden overschreven door "
+"bestanden van Python in het volume data."
 
 #: ../../admin/install/docker.rst:2051
 msgid "Replacing logo and other static files"
-msgstr ""
+msgstr "Vervangen van logo en andere statische bestanden"
 
 #: ../../admin/install/docker.rst:2053
 msgid ""
@@ -16783,12 +16840,19 @@ msgid ""
 "creating :file:`/app/data/python/customize/static/favicon.ico` will replace "
 "the favicon."
 msgstr ""
+"De statische bestanden die worden meegeleverd met Weblate kunnen worden "
+"overschreven door ze te plaatsen in :file:`/app/data/python/customize/static`"
+" (bekijk :ref:`docker-volume`). Bijvoorbeeld het maken van :file:`/app/data/"
+"python/customize/static/favicon.ico` zal het favicon vervangen."
 
 #: ../../admin/install/docker.rst:2060
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
 msgstr ""
+"De bestanden worden gekopieerd naar de corresponderende locatie bij het "
+"opstarten van de container, dus opnieuw opstarten van Weblate is nodig na "
+"het wijzigen van de inhoud van het volume."
 
 #: ../../admin/install/docker.rst:2063
 msgid ""
@@ -16796,12 +16860,18 @@ msgid ""
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
 "templates/legal/documents`."
 msgstr ""
+"Deze benadering kan ook worden gebruikt om sjablonen van Weblate te "
+"overschrijven. Bijvoorbeeld documenten voor :ref:`legal` kunnen worden "
+"geplaatst in :file:`/app/data/python/customize/templates/legal/documents`."
 
 #: ../../admin/install/docker.rst:2067
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
+"Als alternatief kunt u ook uw eigen module opnemen (bekijk "
+":doc:`../customize`) en het toevoegen als een afzonderlijk volume aan de "
+"Docker container, bijvoorbeeld:"
 
 #: ../../admin/install/docker.rst:2080
 msgid "Configuring PostgreSQL server"
@@ -16813,6 +16883,10 @@ msgid ""
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
+"De PostgreSQL container gebruikt de standaard configuratie voor PostgreSQL "
+"en zal uw CPU-bronnen of geheugen niet effectief genoeg gebruiken. "
+"Aanbevolen wordt om de configuratie aan te passen om de prestaties te "
+"verbeteren."
 
 #: ../../admin/install/docker.rst:2086
 msgid ""
@@ -16820,6 +16894,10 @@ msgid ""
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
+"De configuratie kan worden aangepast zoals beschreven in `Database "
+"Configuration` op https://hub.docker.com/_/postgres. De configuratie die "
+"overeenkomt met uw omgeving kan worden gegenereerd met https://pgtune.leopard"
+".in.ua/."
 
 #: ../../admin/install/docker.rst:2091
 msgid "Container internals"
@@ -16831,10 +16909,13 @@ msgid ""
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
+"De container gebruikt :program:`supervisor` om individuele services te "
+"starten. In het geval van :ref:`docker-scaling`, start het slechts een "
+"enkele service in een container."
 
 #: ../../admin/install/docker.rst:2096
 msgid "To check the services status use:"
-msgstr ""
+msgstr "Gebruik, om de status van de service te controleren:"
 
 #: ../../admin/install/docker.rst:2102
 msgid ""
@@ -16842,16 +16923,21 @@ msgid ""
 "details). You can stop processing some tasks by stopping the appropriate "
 "worker:"
 msgstr ""
+"Er zijn individuele services voor elke wachtrij van Celery (bekijk "
+":ref:`celery` voor details). U kunt sommige taken stoppen door de van "
+"toepassing zijnde werker te stoppen:"
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
-msgstr ""
+msgstr "Installeren op Kubernetes"
 
 #: ../../admin/install/kubernetes.rst:6
 msgid ""
 "This guide is looking for contributors experienced with Kubernetes to cover "
 "the setup in more details."
 msgstr ""
+"Deze handleiding is nog op zoek naar deelnemers die ervaring hebben met "
+"Kubernetes om het instellen tot meer in detail te kunnen behandelen."
 
 #: ../../admin/install/kubernetes.rst:9
 msgid ""
@@ -16860,22 +16946,30 @@ msgid ""
 "PostgreSQL is set up as the default database and persistent volume claims "
 "are used."
 msgstr ""
+"Met de Kubernetes Helm chart kunt u uw persoonlijke instantie van Weblate in "
+"seconden in bedrijf hebben. Alle afhankelijkheden van Weblate zijn al "
+"opgenomen. PostgreSQL wordt ingesteld als de standaard database en blijvende "
+"volumeclaims worden gebruikt."
 
 #: ../../admin/install/kubernetes.rst:14
 msgid ""
 "You can find the chart at <https://github.com/WeblateOrg/helm/> and it can "
 "be displayed at <https://artifacthub.io/packages/helm/weblate/weblate>."
 msgstr ""
+"U vindt de chart op <https://github.com/WeblateOrg/helm/> en het kan worden "
+"weergegeven op <https://artifacthub.io/packages/helm/weblate/weblate>."
 
 #: ../../admin/install/kubernetes.rst:28
 msgid ""
 "For further configuration options, see :ref:`docker-environment` for full "
 "list of environment variables."
 msgstr ""
+"Voor verdere opties voor configuratie, bekijk :ref:`docker-environment` voor "
+"een volledige lijst van omgevingsvariabelen."
 
 #: ../../admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
-msgstr ""
+msgstr "Installeren op OpenShift"
 
 #: ../../admin/install/openshift.rst:4
 msgid ""
@@ -16884,11 +16978,15 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and "
 "persistent volume claims are used."
 msgstr ""
+"Met het OpenShift sjabloon voor Weblate kunt u uw persoonlijke instantie van "
+"Weblate in seconden in bedrijf hebben. Alle afhankelijkheden van Weblate "
+"zijn al opgenomen. PostgreSQL wordt ingesteld als standaard database en "
+"blijvende volumeclaims worden gebruikt."
 
 #: ../../admin/install/openshift.rst:9
 msgid ""
 "You can find the template at <https://github.com/WeblateOrg/openshift/>."
-msgstr ""
+msgstr "U vindt het sjabloon op <https://github.com/WeblateOrg/openshift/>."
 
 #: ../../admin/install/openshift.rst:14
 msgid ""
@@ -16896,6 +16994,9 @@ msgid ""
 "with ``oc`` client tool installed. Please check the OpenShift documentation "
 "for instructions."
 msgstr ""
+"De volgende voorbeelden gaan ervan uit dat u een werkende omgeving voor "
+"OpenShift v3.x hebt, met ``oc`` cliëntprogramma geïnstalleerd. Bekijk de "
+"documentatie van OpenShift voor instructies."
 
 #: ../../admin/install/openshift.rst:18
 msgid ""
@@ -16903,10 +17004,14 @@ msgid ""
 "There is also :file:`template-external-postgresql.yml` which does not start "
 "a PostgreSQL server and allows you to configure external PostgreSQL server."
 msgstr ""
+":file:`template.yml` is geschikt voor het uitvoeren van alle onderdelen in "
+"OpenShift. Er is ook :file:`template-external-postgresql.yml` data geen "
+"server voor PostgreSQL start en u in staat stelt een externe server voor "
+"PostgreSQL te configureren."
 
 #: ../../admin/install/openshift.rst:23
 msgid "Web Console"
-msgstr ""
+msgstr "Webconsole"
 
 #: ../../admin/install/openshift.rst:25
 msgid ""
@@ -16916,27 +17021,36 @@ msgid ""
 "application. The web console will prompt you for the values for all of the "
 "parameters used by the template."
 msgstr ""
+"Kopieer de ruwe inhoud van `template.yml <https://github.com/WeblateOrg/"
+"openshift/blob/main/template.yml>`_ en importeer die in uw project, gebruik "
+"dan de knop ``Create`` in de OpenShift webconsole om uw toepassing te maken. "
+"De webconsole zal u vragen naar de waarden voor alle parameters die worden "
+"gebruikt door het sjabloon."
 
 #: ../../admin/install/openshift.rst:32
 msgid "CLI"
-msgstr ""
+msgstr "CLI"
 
 #: ../../admin/install/openshift.rst:34
 msgid ""
 "To upload the Weblate template to your current project’s template library, "
 "pass the :file:`template.yml` file with the following command:"
 msgstr ""
+"Geef, om het sjabloon van Weblate naar de bibliotheek voor sjablonen van uw "
+"huidige project te uploaden, het bestand :file:`template.yml` door met de "
+"volgende opdracht:"
 
 #: ../../admin/install/openshift.rst:42
 msgid ""
 "The template is now available for selection using the web console or the CLI."
 msgstr ""
+"Het sjabloon is nu beschikbaar om te selecteren met de webconsole of de CLI."
 
 #: ../../admin/install/openshift.rst:46 ../../api.rst:0 ../../python.rst:0
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:0
 msgid "Parameters"
-msgstr ""
+msgstr "Parameters"
 
 #: ../../admin/install/openshift.rst:48
 msgid ""
@@ -16944,6 +17058,9 @@ msgid ""
 "the template. You can list them with the CLI by using the following command "
 "and specifying the file to be used:"
 msgstr ""
+"De parameters die u kunt overschrijven zijn vermeld in het gedeelte "
+"parameters van het sjabloon. U kunt ze vermelden met de CLI door de volgende "
+"opdracht te gebruiken en het te gebruiken bestand specificeert:"
 
 #: ../../admin/install/openshift.rst:60
 msgid "Provisioning"
@@ -16954,12 +17071,16 @@ msgid ""
 "You can also use the CLI to process templates and use the configuration that "
 "is generated to create objects immediately."
 msgstr ""
+"U kunt ook de CLI gebruiken om sjablonen te verwerken en de configuratie "
+"gebruiken die is gegenereerd om direct objecten te maken."
 
 #: ../../admin/install/openshift.rst:75
 msgid ""
 "The Weblate instance should be available after successful migration and "
 "deployment at the specified ``WEBLATE_SITE_DOMAIN`` parameter."
 msgstr ""
+"De instantie van Weblate zou beschikbaar moeten zijn na een succesvolle "
+"migratie en uitrol op de gespecificeerde parameter ``WEBLATE_SITE_DOMAIN``."
 
 #: ../../admin/install/openshift.rst:78
 msgid ""
@@ -16967,12 +17088,19 @@ msgid ""
 "provided in ``WEBLATE_ADMIN_PASSWORD``, or a random password generated on "
 "first start if that was not set."
 msgstr ""
+"Na het opstellen van de container kunt u inloggen als gebruiker `admin` met "
+"het wachtwoord dat is opgegeven in ``WEBLATE_ADMIN_PASSWORD``, of een "
+"willekeurig wachtwoord dat is gegenereerd bij het eerste opstarten, als dat "
+"niet was ingesteld."
 
 #: ../../admin/install/openshift.rst:82
 msgid ""
 "To reset `admin` password, restart the container with "
 "``WEBLATE_ADMIN_PASSWORD`` set to new password in the respective ``Secret``."
 msgstr ""
+"Herstellen van het wachtwoord van `admin`, start de container opnieuw op met "
+"``WEBLATE_ADMIN_PASSWORD`` ingesteld op het nieuwe wachtwoord in de "
+"respectievelijke ``Secret``."
 
 #: ../../admin/install/openshift.rst:86
 msgid "Eliminate"
@@ -16986,16 +17114,24 @@ msgid ""
 "every time it is changed. For further configuration options, see :ref:"
 "`docker-environment` for full list of environment variables."
 msgstr ""
+"Door het verwerken van het sjabloon zal een respectievelijke ``ConfigMap`` "
+"worden gemaakt en die kan worden gebruikt om de image van Weblate aan te "
+"passen. De ``ConfigMap`` is direct gemount als omgevingsvariabelen en "
+"activeert een nieuwe uitrol, elke keer als hij wordt gewijzigd. Voor meer "
+"opties voor configureren, bekijk :ref:`docker-environment` voor ene "
+"volledige lijst met omgevingsvariabelen."
 
 #: ../../admin/install/source.rst:2
 msgid "Installing from sources"
-msgstr ""
+msgstr "Installeren uit bronnen"
 
 #: ../../admin/install/source.rst:4
 msgid ""
 "Please follow the installation instructions for your system first up to "
 "installing Weblate:"
 msgstr ""
+"Volg als eerste de installatie-instructies voor uw systeem om Weblate te "
+"installeren:"
 
 #: ../../admin/install/source.rst:6
 msgid ":doc:`venv-debian`"
@@ -17014,6 +17150,8 @@ msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
 msgstr ""
+"Haal de laatste bronnen van Weblate op met Git (of download een tarball en "
+"pak die uit):"
 
 #: ../../admin/install/source.rst:17
 msgid ""
@@ -17021,15 +17159,19 @@ msgid ""
 "website <https://weblate.org/>. Those downloads are cryptographically "
 "signed, please see :ref:`verify`."
 msgstr ""
+"As alternatief kunt u uitgegeven archieven gebruiken. U kunt ze downloaden "
+"vanaf onze website <https://weblate.org/>. Deze downloads zijn "
+"cryptografisch ondertekend, bekijk :ref:`verify`."
 
 #: ../../admin/install/source.rst:21
 msgid "Install current Weblate code into the virtualenv:"
-msgstr ""
+msgstr "Installeer de huidige code van Weblate in de virtualenv:"
 
 #: ../../admin/install/source.rst:30
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`."
 msgstr ""
+"Kopieer :file:`weblate/settings_example.py` naar :file:`weblate/settings.py`."
 
 #: ../../admin/install/steps/adjust-config.rst:1
 msgid ""
@@ -17038,40 +17180,52 @@ msgid ""
 "key, but you will want more changes for production setup, see :ref:"
 "`configuration`."
 msgstr ""
+"Pas de waarden in het nieuwe bestand :file:`settings.py` aan naar uw wensen. "
+"U zult ten minste de inloggegevens voor de database en de geheime sleutel "
+"van Django moeten opgeven, maar voor een opstelling als productie zult u "
+"meer wijzigingen willen, bekijk :ref:`configuration`."
 
 #: ../../admin/install/source.rst:35
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
-msgstr ""
+msgstr "Maak de door Weblate gebruikte database, bekijk :ref:`database-setup`."
 
 #: ../../admin/install/source.rst:37
 msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
 msgstr ""
+"Bouw tabellen, statische bestanden en initiële gegevens voor Django (bekijk "
+":ref:`tables-setup` en :ref:`static-files`):"
 
 #: ../../admin/install/source.rst:48
 msgid "This step should be repeated whenever you update the repository."
 msgstr ""
+"Deze stap zou moeten worden herhaald, elke keer als u de opslagruimte "
+"bijwerkt."
 
 #: ../../admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
-msgstr ""
+msgstr "Installeren op Debian en Ubuntu"
 
 #: ../../admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
-msgstr ""
+msgstr "Systeemvereisten"
 
 #: ../../admin/install/steps/install-system-devel.rst:7
 msgid ""
 "Install the dependencies needed to build the Python modules (see :ref:"
 "`requirements`):"
 msgstr ""
+"Installeer de afhankelijkheden die nodig zijn om de modules voor Python te "
+"bouwen (bekijk :ref:`requirements`):"
 
 #: ../../admin/install/steps/install-system-optional.rst:1
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`python-deps`):"
 msgstr ""
+"Installeer de gewenste optionele afhankelijkheden, afhankelijk van de "
+"mogelijkheden die u wilt gaan gebruiken (bekijk :ref:`python-deps`):"
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -17079,27 +17233,33 @@ msgid ""
 "`server`, :ref:`database-setup`, :ref:`celery`. Depending on size of your "
 "installation you might want to run these components on dedicated servers."
 msgstr ""
+"Installeer optioneel software voor het uitvoeren van de productieserver, "
+"bekijk :ref:`server`, :ref:`database-setup`, :ref:`celery`. Afhankelijk van "
+"de grootte van uw installatie zou u deze onderdelen misschien willen "
+"uitvoeren op toegewezen servers."
 
 #: ../../admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
-msgstr ""
+msgstr "De lokale installatie-instructies:"
 
 #: ../../admin/install/steps/install-uv.rst:2
 msgid "uv package manager"
-msgstr ""
+msgstr "uv pakketbeheerder"
 
 #: ../../admin/install/steps/install-uv.rst:6
 msgid "We're using uv package manager to install Weblate."
-msgstr "We gebruiken uv package manager om Weblate te installeren."
+msgstr "We gebruiken de uv package manager om Weblate te installeren."
 
 #: ../../admin/install/steps/install-uv.rst:15
 msgid ""
 "`Installing uv <https://docs.astral.sh/uv/getting-started/installation/>`_"
 msgstr ""
+"`Installeren van uv <https://docs.astral.sh/uv/getting-started/installation/"
+">`_"
 
 #: ../../admin/install/steps/install-python.rst:2
 msgid "Python modules"
-msgstr ""
+msgstr "Modules voor Python"
 
 #: ../../admin/install/steps/install-python.rst:6
 msgid ""
@@ -17107,27 +17267,34 @@ msgid ""
 "your system. If you are not familiar with it, check virtualenv :doc:`venv:"
 "user_guide`."
 msgstr ""
+"We zullen virtualenv gebruiken om Weblate te installeren in een "
+"afzonderlijke omgeving op uw systeem. Als u er niet bekend mee bent, bekijk "
+"de virtualenv :doc:`venv:user_guide`."
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
-msgstr ""
+msgstr "Maak de virtualenv voor Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:16
 msgid "Activate the virtualenv for Weblate:"
-msgstr ""
+msgstr "Activeer de virtualenv voor Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:22
 msgid "Install Weblate including all optional dependencies:"
-msgstr ""
+msgstr "Installeer Weblate inclusief alle optionele afhankelijkheden:"
 
 #: ../../admin/install/steps/install-python.rst:29
 msgid ""
 "Please check :ref:`python-deps` for fine-tuning of optional dependencies."
 msgstr ""
+"Bekijk :ref:`python-deps` voor het fijn afstemmen van optionele "
+"afhankelijkheden."
 
 #: ../../admin/install/steps/install-python.rst:33
 msgid "On some Linux distributions running Weblate fails with libffi error:"
 msgstr ""
+"Op sommige distributies van Linux mislukt het uitvoeren van Weblate met de "
+"fout libffi:"
 
 #: ../../admin/install/steps/install-python.rst:39
 msgid ""
@@ -17135,10 +17302,13 @@ msgid ""
 "with the distribution. To address this, you need to rebuild the package on "
 "your system:"
 msgstr ""
+"Dat wordt veroorzaakt door incompatibiliteit van de binaire pakketten die "
+"worden gedistribueerd via PyPI met de distributie. U zou, om dit aan te "
+"pakken, het pakket op uw systeem opnieuw moeten bouwen:"
 
 #: ../../admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
-msgstr ""
+msgstr "Weblate configureren"
 
 #: ../../admin/install/steps/install-configure.rst:6
 msgid ""
@@ -17146,6 +17316,10 @@ msgid ""
 "executing ``. ~/weblate-env/bin/activate``). If not, specify the full path "
 "to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
+"Het volgende gaat ervan uit dat de virtualenv, die wordt gebruikt door "
+"Weblate, is geactiveerd (door ``. ~/weblate-env/bin/activate`` uit te voeren)"
+". Indien niet, specificeer het volledige pad naar de opdracht "
+":command:`weblate` als ``~/weblate-env/bin/weblate``."
 
 #: ../../admin/install/steps/install-configure.rst:10
 msgid ""
@@ -17153,12 +17327,18 @@ msgid ""
 "settings_example.py` to :file:`~/weblate-env/lib/python3.9/site-packages/"
 "weblate/settings.py`."
 msgstr ""
+"Kopieer het bestand :file:`~/weblate-env/lib/python3.9/site-packages/weblate/"
+"settings_example.py` naar :file:`~/weblate-env/lib/python3.9/site-packages/"
+"weblate/settings.py`."
 
 #: ../../admin/install/steps/install-configure.rst:16
 msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for a production-ready setup):"
 msgstr ""
+"Maak de database en zijn structuur voor Weblate (de voorbeeldinstellingen "
+"gebruiken PostgreSQL, bekijk :ref:`database-setup` voor een opstelling die "
+"klaar voor productie is):"
 
 #: ../../admin/install/steps/install-configure.rst:25
 msgid ":wladmin:`migrate`"
@@ -17169,12 +17349,17 @@ msgid ""
 "Create an administrator user account ``admin``, generate its password, and "
 "copy it to the clipboard; remember to save it for later use:"
 msgstr ""
+"Maak een beheeraccount voor de gebruiker ``admin``, genereer het wachtwoord "
+"daarvoor en kopieer het naar het klembord; vergeet niet om het voor later "
+"gebruik op te slaan:"
 
 #: ../../admin/install/steps/install-configure.rst:36
 msgid ""
 "If you previously missed/lost the admin password, you can generate a new one "
 "with the following command:"
 msgstr ""
+"Als u eerder het wachtwoord voor admin niet opgaf/verloor, kunt u een nieuw "
+"genereren met de volgende opdracht:"
 
 #: ../../admin/install/steps/install-configure.rst:44
 msgid ":wladmin:`createadmin`"
@@ -17185,53 +17370,69 @@ msgid ""
 "Collect the static files for your web server (see :ref:`server` and :ref:"
 "`static-files`):"
 msgstr ""
+"Verzamel de statische bestanden voor uw webserver (bekijk :ref:`server` en "
+":ref:`static-files`):"
 
 #: ../../admin/install/steps/install-configure.rst:52
 msgid ""
 "Compress the JavaScript and CSS files (optional, see :ref:`production-"
 "compress`):"
 msgstr ""
+"Comprimeer de bestanden met JavaScript en CSS (optioneel, bekijk :ref"
+":`production-compress`):"
 
 #: ../../admin/install/steps/install-configure.rst:58
 msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
 msgstr ""
+"Start de werkers voor Celery. Dit is niet noodzakelijk voor "
+"ontwikkelingsdoeleinden, maar wordt anders sterk aangeraden. :ref:`celery` "
+"heeft meer informatie:"
 
 #: ../../admin/install/steps/install-configure.rst:65
 msgid ""
 "Start the development server (:ref:`server` details a production setup):"
 msgstr ""
+"Start de ontwikkelingsserver (:ref:`server` details voor een opstelling voor "
+"productie):"
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
-msgstr ""
+msgstr "Na installeren"
 
 #: ../../admin/install/steps/install-after.rst:4
 msgid ""
 "Congratulations, your Weblate server is now running and you can start using "
 "it."
 msgstr ""
+"Gefeliciteerd, uw server voor Weblate wordt nu uitgevoerd en u kunt hem gaan "
+"gebruiken."
 
 #: ../../admin/install/steps/install-after.rst:6
 msgid "You can now access Weblate on ``http://localhost:8000/``."
-msgstr ""
+msgstr "U krijgt toegang tot Weblate op ``http://localhost:8000/``."
 
 #: ../../admin/install/steps/install-after.rst:7
 msgid ""
 "Sign in with admin credentials obtained during installation or register with "
 "new users."
 msgstr ""
+"Log in met de inloggegevens voor admin, die zijn verkregen bij het "
+"installeren of registreer met nieuwe gebruikers."
 
 #: ../../admin/install/steps/install-after.rst:8
 msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate virtualenv is active, see :ref:`manage`."
 msgstr ""
+"U kunt nu opdrachten voor Weblate uitvoeren met de opdracht "
+":command:`weblate` als de virtualenv van Weblate actief is, bekijk "
+":ref:`manage`."
 
 #: ../../admin/install/steps/install-after.rst:10
 msgid "You can stop the test server with Ctrl+C."
-msgstr ""
+msgstr "U kunt de testserver stoppen met Ctrl+C."
 
 #: ../../admin/install/steps/install-after.rst:11
 msgid ""
@@ -17239,10 +17440,13 @@ msgid ""
 "performance/`` URL (see :ref:`manage-performance`) or using :command:"
 "`weblate check --deploy`, see :ref:`production`."
 msgstr ""
+"Bekijk potentiële problemen met uw installatie, ofwel op de URL ``/manage/"
+"performance/`` (bekijk :ref:`manage-performance`) of met :command:`weblate "
+"check --deploy`, bekijk :ref:`production`."
 
 #: ../../admin/install/steps/install-after.rst:14
 msgid "Adding translation"
-msgstr ""
+msgstr "Vertaling toevoegen"
 
 #: ../../admin/install/steps/install-after.rst:16
 msgid ""
@@ -17250,10 +17454,13 @@ msgid ""
 "create the project you want to translate. See :ref:`project` for more "
 "details."
 msgstr ""
+"Open de beheerinterface (``http://localhost:8000/create/project/``) en maak "
+"het project dat u wilt vertalen. Bekijk :ref:`project` voor meer details."
 
 #: ../../admin/install/steps/install-after.rst:19
 msgid "All you need to specify here is the project name and its website."
 msgstr ""
+"Alles wat u hier hoeft te doen is de naam voor het project en zijn website."
 
 #: ../../admin/install/steps/install-after.rst:21
 msgid ""
@@ -17261,6 +17468,9 @@ msgid ""
 "the VCS repository, and selects which files to translate. See :ref:"
 "`component` for more details."
 msgstr ""
+"Maak een onderdeel dat het echte object voor de vertaling is - het wijst "
+"naar de opslagruimte van het VCS en selecteert welke bestanden vertaald "
+"moeten worden. Bekijk :ref:`component` voor meer details."
 
 #: ../../admin/install/steps/install-after.rst:25
 msgid ""
@@ -17270,6 +17480,11 @@ msgid ""
 "`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` or :ref:"
 "`fluent`, see :ref:`formats` for more details."
 msgstr ""
+"De belangrijke velden hier zijn: :ref:`component-name`, :ref:`component-repo`"
+" en :ref:`component-filemask` voor het zoeken naar vertaalbare bestanden. "
+"Weblate ondersteunt ene groot bereik aan indelingen, inclusief :ref:`gettext`"
+", :ref:`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` of "
+":ref:`fluent`, bekijk :ref:`formats` voor meer details."
 
 #: ../../admin/install/steps/install-after.rst:31
 msgid ""
@@ -17277,28 +17492,34 @@ msgid ""
 "of your VCS repository, and number of messages to translate), you can start "
 "translating."
 msgstr ""
+"Als het bovenstaande eenmaal is voltooid (het kan een langdurig proces zijn, "
+"afhankelijk van de grootte van uw opslagruimte in VCS en het aantal te "
+"vertalen eenheden), kunt u beginnen met vertalen."
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
-msgstr ""
+msgstr "Installeren op macOS"
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
-msgstr ""
+msgstr "Installeren op RedHat, Fedora en CentOS"
 
 #: ../../admin/install/venv-suse.rst:2
 msgid "Installing on SUSE and openSUSE"
-msgstr ""
+msgstr "Installeren op SUSE en openSUSE"
 
 #: ../../admin/languages.rst:4 ../../admin/languages.rst:97
 msgid "Language definitions"
-msgstr ""
+msgstr "Taaldefinities"
 
 #: ../../admin/languages.rst:6
 msgid ""
 "To present different translations properly, info about language name, text "
 "direction, plural definitions and language code is needed."
 msgstr ""
+"Voor het juist presenteren van de verschillende vertalingen is informatie "
+"over de naam van de taal, de richting van de tekst, definities voor meervoud "
+"en taalcode nodig."
 
 #: ../../admin/languages.rst:12
 msgid "Built-in language definitions"
@@ -17312,6 +17533,11 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
+"Definities voor ongeveer 650 talen zijn opgenomen in Weblate en de lijst "
+"wordt met elke uitgave uitgebreid. Elke keer als Weblate wordt geüpgraded ("
+"meer specifiek: elke keer als :wladmin:`migrate` wordt uitgevoerd, bekijk "
+":ref:`generic-upgrade-instructions`) wordt de database met talen bijgewerkt "
+"om alle taaldefinities te bevatten die worden meegeleverd met Weblate."
 
 #: ../../admin/languages.rst:20
 msgid ""
@@ -17319,16 +17545,21 @@ msgid ""
 "enforce updating the database to match Weblate built-in data using :wladmin:"
 "`setuplang`."
 msgstr ""
+"Deze mogelijkheid kan worden uitgeschakeld met :setting:`UPDATE_LANGUAGES`. "
+"U kunt ook het bijwerken van de database afdwingen, om overeen te komen met "
+"de ingebouwde gegevens, met :wladmin:`setuplang`."
 
 #: ../../admin/languages.rst:26
 msgid ""
 ":ref:`extending-languages`, `Current language definitions <https://github."
 "com/WeblateOrg/language-data/blob/main/languages.csv>`_"
 msgstr ""
+":ref:`extending-languages`, `Huidige taaldefinities <https://github.com/"
+"WeblateOrg/language-data/blob/main/languages.csv>`_"
 
 #: ../../admin/languages.rst:32
 msgid "Parsing language codes"
-msgstr ""
+msgstr "Taalcodes parsen"
 
 #: ../../admin/languages.rst:34
 msgid ""
@@ -17336,26 +17567,34 @@ msgid ""
 "the ISO 639-1 one) from the :ref:`component-filemask` to any existing "
 "language object."
 msgstr ""
+"Tijdens het parsen van vertalingen probeert Weblate de taalcode (gewoonlijk "
+"die van ISO 639-1) te koppelen aan het :ref:`component-filemask` voor een "
+"bestaand object taal."
 
 #: ../../admin/languages.rst:38
 msgid ""
 "You can further adjust this mapping at project level by :ref:`project-"
 "language_aliases`."
 msgstr ""
+"U kunt de koppeling verder aanpassen op projectniveau met :ref:`project-"
+"language_aliases`."
 
 #: ../../admin/languages.rst:40
 msgid ""
 "If no exact match can be found, an attempt will be made to best fit it into "
 "an existing language. Following steps are tried:"
 msgstr ""
+"Als er geen exacte overeenkomst kan worden gevonden, zal een poging worden "
+"gedaan om het als best passend op te nemen in een bestaande taal. De "
+"volgende stappen worden geprobeerd:"
 
 #: ../../admin/languages.rst:43
 msgid "Case insensitive lookups."
-msgstr ""
+msgstr "Hoofdletter ongevoelige zoekacties."
 
 #: ../../admin/languages.rst:44
 msgid "Normalizing underscores and dashes."
-msgstr ""
+msgstr "Normaliseren van underscores en streepjes."
 
 #: ../../admin/languages.rst:45
 msgid "Looking up built-in language aliases."
@@ -17370,6 +17609,8 @@ msgid ""
 "Ignoring the default country code for a given language—choosing ``cs`` "
 "instead of ``cs_CZ``."
 msgstr ""
+"Negeren van de standaard taalcode voor een opgegeven taal—kiezen van ``cs`` "
+"in plaats van ``cs_CZ``."
 
 #: ../../admin/languages.rst:49
 msgid ""
@@ -17381,12 +17622,23 @@ msgid ""
 "`contributing`), so that the proper definition can be added to the upcoming "
 "Weblate release."
 msgstr ""
+"Zou dat ook mislukken zal een nieuwe taaldefinitie worden gemaakt met de "
+"standaard (tekstrichting van links naar rechts, een meervoud). De "
+"automatisch gemaakte taal met de code ``xx_XX`` zal worden hernoemd naar "
+":guilabel:`xx_XX (generated)`. U zou dit misschien later in de "
+"beheerinterface willen wijzigen, (bekijk :ref:`changing-languages`) en het "
+"rapporteren bij het probleemvolgsysteem (bekijk :ref:`contributing`), zodat "
+"de juiste definitie kan worden toegevoegd aan de aankomende uitgave van "
+"Weblate."
 
 #: ../../admin/languages.rst:59
 msgid ""
 "In case you see something unwanted as a language, you might want to adjust :"
 "ref:`component-language_regex` to ignore such file when parsing translations."
 msgstr ""
+"In het geval u iets ziet dat ongewenst als taal is, zou u misschien :ref"
+":`component-language_regex` willen aanpassen om een dergelijk bestand te "
+"negeren bij het parsen van vertalingen."
 
 #: ../../admin/languages.rst:65
 msgid ":ref:`language-code`, :ref:`adding-translation`"
@@ -17394,13 +17646,15 @@ msgstr ":ref:`language-code`, :ref:`adding-translation`"
 
 #: ../../admin/languages.rst:72
 msgid "Changing language definitions"
-msgstr ""
+msgstr "Wijzigen van taaldefinities"
 
 #: ../../admin/languages.rst:74
 msgid ""
 "You can change language definitions in the languages interface (:file:`/"
 "languages/` URL)."
 msgstr ""
+"U kunt de taaldefinities wijzigen in de taalinterface (:file:`/languages/` "
+"URL)."
 
 #: ../../admin/languages.rst:77
 msgid ""
@@ -17408,6 +17662,9 @@ msgid ""
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
 msgstr ""
+"Zorg er voor, bij het bewerken, dat alle velden correct zijn (speciaal "
+"meervouden en tekstrichting), anders zullen vertalers niet in staat zijn "
+"deze vertalingen juist te bewerken."
 
 #: ../../admin/languages.rst:84
 msgid "Ambiguous language codes and macrolanguages"
@@ -17421,16 +17678,24 @@ msgid ""
 "get correct behavior in Weblate, it is recommended to use individual "
 "language codes only and avoid macrolanguages."
 msgstr ""
+"In veel gevallen is het geen goed idee om macrotaalcode voor een vertaling "
+"te gebruiken. Het typische problematische geval zou de Koerdische taal "
+"kunnen zijn, die geschreven zou kunnen worden in Latijns en in Arabisch "
+"schrift, afhankelijk van de feitelijke variant. Aanbevolen wordt, om in "
+"Weblate het juiste gedrag te krijgen, alleen de individuele taalcodes te "
+"gebruiken en macrotalen te vermijden."
 
 #: ../../admin/languages.rst:94
 msgid ""
 "`Macrolanguages at Wikipedia <https://en.wikipedia.org/wiki/"
 "ISO_639_macrolanguage>`_"
 msgstr ""
+"`Macrotalen op Wikipedia <https://en.wikipedia.org/wiki/"
+"ISO_639_macrolanguage>`_"
 
 #: ../../admin/languages.rst:99
 msgid "Each language consists of following fields:"
-msgstr ""
+msgstr "Elke taal bestaat uit de volgende velden:"
 
 #: ../../admin/languages.rst:104 ../../admin/projects.rst:1051
 #: ../../api.rst:746 ../../api.rst:748 ../../api.rst:815 ../../api.rst:2338
@@ -17445,6 +17710,12 @@ msgid ""
 "wikipedia.org/wiki/ISO_639-3>`_ codes for languages that do not have two "
 "letter code. It can also support extended codes as defined by `BCP 47`_."
 msgstr ""
+"Code die de taal identificeert. Weblate heeft voorkeur voor tweeletterige "
+"codes zoals gedefinieerd door `ISO 639-1 <https://en.wikipedia.org/wiki/"
+"ISO_639-1>`_, maar gebruikt codes van `ISO 639-2 <https://en.wikipedia.org/"
+"wiki/ISO_639-2>`_ of `ISO 639-3 <https://en.wikipedia.org/wiki/ISO_639-3>`_ "
+"voor talen die geen tweeletterige code hebben. Het kan ook uitgebreide codes "
+"ondersteunen zoals die zijn gedefinieerd door `BCP 47`_."
 
 #: ../../admin/languages.rst:116
 msgid ":ref:`language-parsing-codes`, :ref:`adding-translation`"
@@ -17460,6 +17731,9 @@ msgid ""
 "Visible name of the language. The language names included in Weblate are "
 "also being localized depending on user interface language."
 msgstr ""
+"Zichtbare naam van de taal. De namen van de talen die zijn opgenomen in "
+"Weblate worden ook vertaald, afhankelijk van de taal voor de "
+"gebruikersinterface."
 
 #: ../../admin/languages.rst:129 ../../api.rst:735 ../../api.rst:749
 #: ../../api.rst:789 ../../api.rst:800
@@ -17471,6 +17745,9 @@ msgid ""
 "Determines whether language is written right to left or left to right. This "
 "property is autodetected correctly for most of the languages."
 msgstr ""
+"Bepaalt of de taal van rechts-naar-links of van links-naar-rechts wordt "
+"geschreven. Deze eigenschap wordt automatisch correct gedetecteerd voor de "
+"meeste talen."
 
 #: ../../admin/languages.rst:137 ../../api.rst:737 ../../api.rst:750
 #: ../../api.rst:790 ../../api.rst:801
@@ -17490,12 +17767,17 @@ msgid ""
 "Weblate comes with a built-in set of plural definitions. These are based on "
 "file-format specifications, CLDR, and other sources."
 msgstr ""
+"Weblate heeft een ingebouwde set met definities voor meervouden. Deze zijn "
+"gebaseerd op specificaties voor bestandsindelingen, CLDR en andere bronnen."
 
 #: ../../admin/languages.rst:152
 msgid ""
 "Doing changes to the built-in plural definitions will most likely won't have "
 "desired effect, as these rules need to match underlying implementation."
 msgstr ""
+"Wijzigingen doorvoeren aan de ingebouwde definities voor meervouden zullen "
+"zeer waarschijnlijk niet het gewenste effect hebben, omdat deze regels "
+"overeen moeten komen met de onderliggende implementatie."
 
 #: ../../admin/languages.rst:155
 msgid ""
@@ -17503,14 +17785,18 @@ msgid ""
 "strings, but not parsing and storing strings to the files. Should you think "
 "Weblate behaves incorrectly, please file a issue in our issue tracker."
 msgstr ""
+"Wijzigen van het getal voor het meervoud of de formule zal alleen het "
+"weergeven van die tekenreeksen beïnvloeden, maar niet het parsen en opslaan "
+"van tekenreeksen naar de bestanden. Zou u denken dat Weblate zich niet juist "
+"gedraagt, rapporteer dan het probleem in het probleemvolgsysteem."
 
 #: ../../admin/languages.rst:163
 msgid "Plural number"
-msgstr ""
+msgstr "Getal voor meervoud"
 
 #: ../../admin/languages.rst:165
 msgid "Number of plurals used in the language."
-msgstr ""
+msgstr "Aantal meervouden, gebruikt in de taal."
 
 #: ../../admin/languages.rst:170
 msgid "Plural formula"
@@ -17521,6 +17807,8 @@ msgid ""
 "Gettext compatible plural formula used to determine which plural form is "
 "used for given count."
 msgstr ""
+"Gettext compatibele formule voor meervouden, gebruikt om te bepalen welke "
+"meervoudsvorm moet worden gebruikt voor het opgegeven aantal."
 
 #: ../../admin/languages.rst:176
 msgid ""
@@ -17528,10 +17816,13 @@ msgid ""
 "software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
 "Rules by the Unicode Consortium`_"
 msgstr ""
+":ref:`plurals`, `GNU gettext utilities: Plural forms <https://www.gnu.org/"
+"software/gettext/manual/html_node/Plural-forms.html>`_, `Regels voor "
+"meervouden in taal bij het Unicode Consortium`_"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
-msgstr ""
+msgstr "Licenseren van vertalingen"
 
 #: ../../admin/licensing.rst:3
 msgid ""
@@ -17539,22 +17830,31 @@ msgid ""
 "especially important to do if translations are open to the public, to "
 "stipulate what they can be used for."
 msgstr ""
+"U kunt specificeren onder welke licentie de vertalingen worden bijgedragen. "
+"Dit is speciaal belangrijk om te doen als de vertalingen open voor het "
+"publiek zijn, om aan te geven waarvoor zij gebruikt mogen worden."
 
 #: ../../admin/licensing.rst:7
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
 msgstr ""
+"U zou ook informatie over de licentie voor :ref:`component` moeten "
+"specificeren. U zou moeten vermijden een licentieovereenkomst voor bijdragen "
+"te vereisen, hoewel het wel mogelijk is."
 
 #: ../../admin/licensing.rst:11
 msgid "License info"
-msgstr ""
+msgstr "Informatie licentie"
 
 #: ../../admin/licensing.rst:13
 msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
 msgstr ""
+"Bij het specificeren van de informatie over de licentie (naam licentie en "
+"URL), wordt die informatie weergegeven in het gedeelte met informatie over "
+"de vertaling van het respectievelijke :ref:`component`."
 
 #: ../../admin/licensing.rst:16
 msgid ""
@@ -17562,6 +17862,9 @@ msgid ""
 "required. If your project or translation is not libre you most probably need "
 "prior consent."
 msgstr ""
+"Gewoonlijk is dat de beste plek om informatie over de licentie te plaatsen "
+"als er geen expliciete instemming is vereist. Als uw project of vertaling "
+"niet vrij is, heeft u waarschijnlijk van tevoren instemming nodig."
 
 #: ../../admin/licensing.rst:20 ../../admin/projects.rst:654
 msgid "Contributor agreement"
@@ -17573,27 +17876,36 @@ msgid ""
 "to it will be able to contribute. This is a clearly visible step when "
 "accessing the translation:"
 msgstr ""
+"Wanneer u een licentieovereenkomst voor bijdragen specificeert kunnen alleen "
+"gebruikers, die daarmee hebben ingestemd, in staat zijn om bij te dragen. "
+"Dit is een duidelijk zichtbare stap bij de toegang tot de vertaling:"
 
 #: ../../admin/licensing.rst:27
 msgid ""
 "The entered text is formatted into paragraphs and external links can be "
 "included. HTML markup can not be used."
 msgstr ""
+"De ingevoerde tekst wordt opgemaakt in alinea's en externe koppelingen mogen "
+"worden opgenomen. HTML-markup kan niet worden gebruikt."
 
 #: ../../admin/licensing.rst:31
 msgid "User licenses"
-msgstr ""
+msgstr "Gebruikerslicenties"
 
 #: ../../admin/licensing.rst:33
 msgid ""
 "Any user can review all translation licenses of all public projects on the "
 "instance from their profile:"
 msgstr ""
+"Gebruikers kunnen alle licenties, voor vertalingen van alle publieke "
+"projecten op de instantie, nakijken vanuit hun profiel:"
 
 #: ../../admin/machine.rst:8
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
 msgstr ""
+"Voorafgaande aan Weblate 4.13 werden de services geconfigureerd in de "
+":ref:`config`."
 
 #: ../../admin/machine.rst:10
 msgid ""
@@ -17602,12 +17914,18 @@ msgid ""
 "site (under :guilabel:`Automatic suggestions` in :ref:`management-"
 "interface`) or at the project settings:"
 msgstr ""
+"De ondersteuning voor verscheidene services voor machinevertaling en "
+"vertaalgeheugens is ingebouwd. Elke service kan door de beheerder worden "
+"ingeschakeld voor de gehele site (onder :guilabel:`Automatische suggesties` "
+"in :ref:`management-interface`) of in de instellingen voor het project:"
 
 #: ../../admin/machine.rst:19
 msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want."
 msgstr ""
+"Zij zijn onderworpen aan hun gebruiksvoorwaarden, zorg er dus voor dat u "
+"toestemming hebt ze te gebruiken zoals u wilt."
 
 #: ../../admin/machine.rst:22
 msgid ""
@@ -17623,7 +17941,7 @@ msgstr ":ref:`machine-translation`"
 
 #: ../../admin/machine.rst:32
 msgid "Alibaba"
-msgstr ""
+msgstr "Alibaba"
 
 #: ../../admin/machine.rst:0
 msgid "Service ID"
@@ -17643,7 +17961,7 @@ msgstr "``key``"
 
 #: ../../admin/machine.rst:38 ../../admin/machine.rst:81
 msgid "Access key ID"
-msgstr "Toegangssleutel"
+msgstr "Toegangssleutel ID"
 
 #: ../../admin/machine.rst:40 ../../admin/machine.rst:83
 #: ../../admin/machine.rst:108 ../../admin/machine.rst:471
@@ -17653,7 +17971,7 @@ msgstr "``secret``"
 
 #: ../../admin/machine.rst:40
 msgid "Access key secret"
-msgstr "Toegangssleutel"
+msgstr "Toegangssleutel geheim"
 
 #: ../../admin/machine.rst:42 ../../admin/machine.rst:85
 #: ../../admin/machine.rst:353
@@ -17669,16 +17987,20 @@ msgid ""
 "Alibaba Translate is a neural machine translation service for translating "
 "text and it supports up to 214 language pairs."
 msgstr ""
+"Alibaba Translate is een service voor neurale machinevertaling voor het "
+"vertalen van tekst en het ondersteunt tot maximaal 214 taalparen."
 
 #: ../../admin/machine.rst:50
 msgid ""
 "`Alibaba Translate Documentation <https://www.alibabacloud.com/help/en/"
 "machine-translation>`_"
 msgstr ""
+"`Alibaba Translate documentatie <https://www.alibabacloud.com/help/en/"
+"machine-translation>`_"
 
 #: ../../admin/machine.rst:55
 msgid "Apertium APy"
-msgstr ""
+msgstr "Apertium APy"
 
 #: ../../admin/machine.rst:57
 msgid "``apertium-apy``"
@@ -17689,24 +18011,30 @@ msgstr "``apertium-apy``"
 #: ../../admin/machine.rst:423 ../../admin/machine.rst:548
 #: ../../admin/machine.rst:603
 msgid "API URL"
-msgstr "Api-url"
+msgstr "URL API"
 
 #: ../../admin/machine.rst:62
 msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
 msgstr ""
+"Een vrij software machinevertaalplatform dat vertalingen verschaft voor een "
+"beperkt aantal talen."
 
 #: ../../admin/machine.rst:65
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
 msgstr ""
+"De aanbevolen manier om Apertium te gebruiken is door uw eigen server voor "
+"Apertium-APy uit te voeren."
 
 #: ../../admin/machine.rst:69
 msgid ""
 "`Apertium website <https://www.apertium.org/>`_, `Apertium APy documentation "
 "<https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
+"`Apertium website <https://www.apertium.org/>`_, `Apertium APy documentatie "
+"<https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:77
 msgid "Amazon Translate"
@@ -17718,7 +18046,7 @@ msgstr "``aws``"
 
 #: ../../admin/machine.rst:83
 msgid "API secret key"
-msgstr "Geheime api-sleutel"
+msgstr "Geheime sleutel API"
 
 #: ../../admin/machine.rst:85
 msgid "Region name"
@@ -17730,11 +18058,15 @@ msgid ""
 "text to and from English across a breadth of supported languages. The "
 "service requires the `TranslateFullAccess` Managed Policy."
 msgstr ""
+"Amazon Translate is een service voor neurale machinevertaling voor het "
+"vertalen van tekst naar en vanuit Engels voor een aantal ondersteunde talen. "
+"De service vereist de `TranslateFullAccess` Managed Policy."
 
 #: ../../admin/machine.rst:92 ../../admin/machine.rst:186
 #: ../../admin/machine.rst:430 ../../admin/machine.rst:528
 msgid "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`."
 msgstr ""
+"De service gebruikt automatisch :ref:`glossary`, bekijk :ref:`glossary-mt`."
 
 #: ../../admin/machine.rst:96
 msgid ""
@@ -17742,10 +18074,13 @@ msgid ""
 "`AWS TranslateFullAccess Policy <https://docs.aws.amazon.com/aws-managed-"
 "policy/latest/reference/TranslateFullAccess.html>`_"
 msgstr ""
+"`Amazon Translate documentatie <https://docs.aws.amazon.com/translate/>`_, `"
+"AWS TranslateFullAccess Policy <https://docs.aws.amazon.com/"
+"aws-managed-policy/latest/reference/TranslateFullAccess.html>`_"
 
 #: ../../admin/machine.rst:102
 msgid "Baidu"
-msgstr ""
+msgstr "Baidu"
 
 #: ../../admin/machine.rst:104
 msgid "``baidu``"
@@ -17763,18 +18098,21 @@ msgstr "Clientgeheim"
 
 #: ../../admin/machine.rst:111
 msgid "Machine translation service provided by Baidu."
-msgstr ""
+msgstr "Service voor machinevertaling, verschaft door Baidu."
 
 #: ../../admin/machine.rst:113
 msgid ""
 "This service uses an API and you need to obtain an ID and API key from Baidu "
 "to use it."
 msgstr ""
+"Deze service gebruikt een API en u moet een ID en een sleutel voor de API "
+"van Baidu hebben om het te kunnen gebruiken."
 
 #: ../../admin/machine.rst:117
 msgid ""
 "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 msgstr ""
+"`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 
 #: ../../admin/machine.rst:122
 msgid "Cyrtranslit"
@@ -17798,12 +18136,16 @@ msgid ""
 "This service converts text between Cyrillic and Latin scripts for languages "
 "that have both scripts."
 msgstr ""
+"Deze service converteert tekst tussen Cyrillisch en Latijns schrift voor "
+"talen die beide schriften hebben."
 
 #: ../../admin/machine.rst:135
 msgid ""
 "`Cyrtranslit repository <https://github.com/opendatakosovo/cyrillic-"
 "transliteration>`_"
 msgstr ""
+"`Cyrtranslit repository <https://github.com/opendatakosovo/cyrillic-"
+"transliteration>`_"
 
 #: ../../admin/machine.rst:140
 msgid "DeepL"
@@ -17858,38 +18200,50 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
+"DeepL is een betaalde service die goede machinevertalingen verschaft voor "
+"een aantal talen. U moet een abonnement voor de :guilabel:`DeepL API` kopen "
+"of u kunt het verouderde plan :guilabel:`DeepL Pro (classic)` gebruiken."
 
 #: ../../admin/machine.rst:157
 msgid ""
 "API URL to use with the DeepL service. At the time of writing, there is the "
 "v1 API as well as a free and a paid version of the v2 API."
 msgstr ""
+"URL voor de API om te gebruiken met de service DeepL. Op het moment van "
+"schrijven zijn er de v1 API, als ook een gratis en een betaalde versie voor "
+"de v2 API."
 
 #: ../../admin/machine.rst:160
 msgid "``https://api.deepl.com/v2/`` (default in Weblate)"
-msgstr ""
+msgstr "``https://api.deepl.com/v2/`` (standaard in Weblate)"
 
 #: ../../admin/machine.rst:161
 msgid ""
 "Is meant for API usage on the paid plan, and the subscription is usage-based."
 msgstr ""
+"Is alleen bedoeld voor gebruiken de API van het betaalde plan en het "
+"abonnement is gebaseerd op het gebruik."
 
 #: ../../admin/machine.rst:162
 msgid "``https://api-free.deepl.com/v2/``"
-msgstr ""
+msgstr "``https://api-free.deepl.com/v2/``"
 
 #: ../../admin/machine.rst:163
 msgid ""
 "Is meant for API usage on the free plan, and the subscription is usage-based."
 msgstr ""
+"Is bedoeld voor gebruiken van de API in het gratis plan en het abonnement is "
+"gebaseerd op het gebruik."
 
 #: ../../admin/machine.rst:164
 msgid "``https://api.deepl.com/v1/``"
-msgstr ""
+msgstr "``https://api.deepl.com/v1/``"
 
 #: ../../admin/machine.rst:165
 msgid "Is meant for CAT tools and is usable with a per-user subscription."
 msgstr ""
+"Is bedoeld voor CAT-programma's en is te gebruiken met een abonnement per "
+"gebruiker."
 
 #: ../../admin/machine.rst:167
 msgid ""
@@ -17898,29 +18252,42 @@ msgid ""
 "defaults to v2, and you can change it to v1 in case you have an existing CAT "
 "subscription and want Weblate to use that."
 msgstr ""
+"Eerder werd Weblate als een CAT-programma geclassificeerd door DeepL, het "
+"werd dus geacht de v1 API te gebruiken, maar nu wordt het geacht de v2 API "
+"te gebruiken. Daarom is de standaard v2 en u kunt het wijzigen naar v1 in "
+"het geval u een bestaand abonnement voor CAT heeft en Weblate dat wil laten "
+"gebruiken."
 
 #: ../../admin/machine.rst:172
 msgid ""
 "The easiest way to find out which one to use is to open an URL like the "
 "following in your browser:"
 msgstr ""
+"De gemakkelijkste manier om erachter te komen welke te gebruiken, is door "
+"een URL, zoals de volgende, te openen in uw browser:"
 
 #: ../../admin/machine.rst:175
 msgid ""
 "https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 msgstr ""
+"https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 
 #: ../../admin/machine.rst:177
 msgid ""
 "Replace the XXX with your auth_key. If you receive a JSON object which "
 "contains \"Bonjour\", you have the correct URL; if not, try the other three."
 msgstr ""
+"Vervang de XXX door uw eigen auth_key. Als u een object van JSON ontvangt "
+"dat \"Bonjour\" bevat heeft u de juiste URL; zo niet, probeer de andere drie."
 
 #: ../../admin/machine.rst:180
 msgid ""
 "Weblate supports DeepL formality, it will choose matching one based on the "
 "language (for example, there is ``de@formal`` and ``de@informal``)."
 msgstr ""
+"Weblate ondersteunt formaliteit voor DeepL, het zal de overeenkomende "
+"kiezen, gebaseerd op de taal (er zijn bijvoorbeeld ``de@formal`` en "
+"``de@informal``)."
 
 #: ../../admin/machine.rst:183
 msgid ""
@@ -17928,6 +18295,10 @@ msgid ""
 "quality. Read more on that in `DeepL translation context documentation "
 "<https://developers.deepl.com/docs/best-practices/working-with-context>`_."
 msgstr ""
+"De context van de vertaling kan optioneel worden gespecificeerd om de "
+"kwaliteit van de vertalingen te verbeteren. Lees daar meer over in `DeepL "
+"context vertaling documentatie <https://developers.deepl.com/docs/"
+"best-practices/working-with-context>`_."
 
 #: ../../admin/machine.rst:190
 msgid ""
@@ -17935,10 +18306,13 @@ msgid ""
 "<https://www.deepl.com/pro>`_, `DeepL API documentation <https://developers."
 "deepl.com/docs>`_"
 msgstr ""
+"`DeepL translator <https://www.deepl.com/translator>`_, `DeepL pricing "
+"<https://www.deepl.com/pro>`_, `DeepL API documentation <https://developers."
+"deepl.com/docs>`_"
 
 #: ../../admin/machine.rst:197
 msgid "Glosbe"
-msgstr ""
+msgstr "Glosbe"
 
 #: ../../admin/machine.rst:199
 msgid "``glosbe``"
@@ -17947,7 +18321,7 @@ msgstr "``glosbe``"
 #: ../../admin/machine.rst:202
 msgid ""
 "Free dictionary and translation memory for almost every living language."
-msgstr ""
+msgstr "Gratis woordenboek en vertaalgeheugen voor bijna elke levende taal."
 
 #: ../../admin/machine.rst:204
 msgid ""
@@ -17955,10 +18329,14 @@ msgid ""
 "license of the used data source. There is a limit of calls that may be done "
 "from one IP in a set period of time, to prevent abuse."
 msgstr ""
+"De API is gratis te gebruiken, maar het gebruiken van de vertalingen is "
+"onderworpen aan de licentie van de gebruikte gegevensbron. Er is een limiet "
+"aan de aanroepen die in een bepaalde tijdsperiode vanuit een IP mogen worden "
+"gedaan, om misbruik tegen te gaan."
 
 #: ../../admin/machine.rst:210
 msgid "`Glosbe website <https://glosbe.com/>`_"
-msgstr ""
+msgstr "`Glosbe website <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:215
 msgid "Google Cloud Translation Basic"
@@ -41982,7 +42360,7 @@ msgstr ""
 
 #: ../../formats/i18next.rst:27
 msgid "i18next JSON file v4"
-msgstr "i18next json-bestand (v4)"
+msgstr "i18next JSON-bestand (v4)"
 
 #: ../../formats/i18next.rst:29
 msgid ""
@@ -41991,7 +42369,7 @@ msgstr ""
 
 #: ../../formats/i18next.rst:32
 msgid "i18next JSON file v3"
-msgstr "i18next json-bestand (v3)"
+msgstr "i18next JSON-bestand (v3)"
 
 #: ../../formats/i18next.rst:34
 msgid "Use for legacy projects which are using numeric suffixes for plurals."
