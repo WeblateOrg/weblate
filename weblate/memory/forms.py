@@ -2,9 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from pathlib import Path
+
 from django import forms
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy
+
+from weblate.lang.models import Language
+from weblate.utils.forms import SortedSelect
 
 
 class UploadForm(forms.Form):
@@ -12,9 +17,43 @@ class UploadForm(forms.Form):
 
     file = forms.FileField(
         label=gettext_lazy("File"),
-        validators=[FileExtensionValidator(allowed_extensions=["json", "tmx"])],
+        validators=[
+            FileExtensionValidator(allowed_extensions=["json", "tmx", "xliff"])
+        ],
         help_text=gettext_lazy("You can upload a TMX or JSON file."),
     )
+    source_language = forms.ModelChoiceField(
+        widget=SortedSelect,
+        label=gettext_lazy("Source language"),
+        help_text=gettext_lazy(
+            "Source language of the document when not specified in file"
+        ),
+        queryset=Language.objects.all(),
+        required=False,
+    )
+    target_language = forms.ModelChoiceField(
+        widget=SortedSelect,
+        label=gettext_lazy("Target language"),
+        help_text=gettext_lazy(
+            "Target language of the document when not specified in file"
+        ),
+        queryset=Language.objects.all(),
+        required=False,
+    )
+
+    def clean(self):
+        data = self.cleaned_data
+        extension = Path(data["file"].name).suffix[1:].lower()
+        if extension == "xliff" and not all(
+            [data["source_language"], data["target_language"]]
+        ):
+            raise forms.ValidationError(
+                gettext_lazy(
+                    "Source language and target language must be specified for this file format."
+                ),
+                code="missing_languages",
+            )
+        return data
 
 
 class DeleteForm(forms.Form):

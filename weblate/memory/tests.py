@@ -137,6 +137,47 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             call_command("import_memory", get_test_file("memory-empty.json"))
         self.assertEqual(Memory.objects.count(), 0)
 
+    def test_import_xliff(self) -> None:
+        # check source and target languages are required
+        with self.assertRaises(CommandError):
+            call_command("import_memory", get_test_file("ids-translated.xliff"))
+        self.assertEqual(Memory.objects.count(), 0)
+
+        with self.assertRaises(CommandError):
+            call_command(
+                "import_memory",
+                get_test_file("ids-translated.xliff"),
+                source_language="en",
+            )
+        self.assertEqual(Memory.objects.count(), 0)
+
+        with self.assertRaises(CommandError):
+            call_command(
+                "import_memory",
+                get_test_file("ids-translated.xliff"),
+                target_language="cs",
+            )
+        self.assertEqual(Memory.objects.count(), 0)
+
+        #  check unknown languages raise Error
+        with self.assertRaises(CommandError):
+            call_command(
+                "import_memory",
+                get_test_file("ids-translated.xliff"),
+                source_language="en",
+                target_language="zzz",
+            )
+        self.assertEqual(Memory.objects.count(), 0)
+
+        call_command(
+            "import_memory",
+            get_test_file("ids-translated.xliff"),
+            source_language="en",
+            target_language="cs",
+        )
+        # only entries with valid source and target will be imported
+        self.assertEqual(Memory.objects.count(), 2)
+
     def test_import_project(self) -> None:
         import_memory(self.project.id)
         self.assertEqual(Memory.objects.count(), 4)
@@ -159,11 +200,24 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
 
 
 class MemoryViewTest(FixtureTestCase):
-    def upload_file(self, name, prefix: str = "", **kwargs):
+    def upload_file(
+        self,
+        name,
+        prefix: str = "",
+        source_language: Language | None = None,
+        target_language: Language | None = None,
+        **kwargs,
+    ):
         with open(get_test_file(name), "rb") as handle:
+            data = {"file": handle}
+            if source_language:
+                data |= {"source_language": source_language}
+            if target_language:
+                data |= {"target_language": target_language}
+
             return self.client.post(
                 reverse(f"{prefix}memory-upload", **kwargs),
-                {"file": handle},
+                data,
                 follow=True,
             )
 
@@ -283,6 +337,29 @@ class MemoryViewTest(FixtureTestCase):
             self.assertContains(response, "Permission Denied", status_code=403)
         else:
             self.assertContains(response, "Could not parse JSON file")
+
+        # Test upload a file that requires source and target languages
+        response = self.upload_file("ids-translated.xliff", **kwargs)
+        if fail:
+            self.assertContains(response, "Permission Denied", status_code=403)
+        else:
+            self.assertContains(
+                response,
+                "Source language and target language must be specified for this file format",
+            )
+
+        en = Language.objects.get(code="en")
+        cs = Language.objects.get(code="cs")
+        response = self.upload_file(
+            "ids-translated.xliff",
+            source_language=en.id,
+            target_language=cs.id,
+            **kwargs,
+        )
+        if fail:
+            self.assertContains(response, "Permission Denied", status_code=403)
+        else:
+            self.assertContains(response, "File processed")
 
     def test_memory_project(self) -> None:
         self.test_memory("Number of entries for Test", True, kwargs=self.kw_project)
