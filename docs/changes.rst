@@ -1,11 +1,7 @@
 Weblate 5.8.2
 -------------
 
-Not yet released.
-
-**New features**
-
-**Improvements**
+Released on November 1st 2024.
 
 **Bug fixes**
 
@@ -14,8 +10,6 @@ Not yet released.
 * Leading problematic characters in :ref:`glossary` terms are now properly stripped in uploaded files.
 * Improved :ref:`workflow-customization` performance.
 * Fixed XML escaped output in some machine translation integrations.
-
-**Compatibility**
 
 **Upgrading**
 
