@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-01 17:16+0000\n"
-"PO-Revision-Date: 2024-10-16 13:17+0000\n"
+"PO-Revision-Date: 2024-11-02 00:31+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.8.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -447,10 +447,9 @@ msgid "Account removal confirmation sent to {email}."
 msgstr "Confirmación de eliminación de la cuenta enviada a {email}."
 
 #: weblate/accounts/models.py:187
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "Acuerdo con los Términos de servicio {date}."
+msgstr "Acuerdo con las Condiciones Generales {date}."
 
 #: weblate/accounts/models.py:188
 #, python-brace-format
@@ -4884,22 +4883,16 @@ msgid "Language %s removed."
 msgstr "Se quitó el idioma %s."
 
 #: weblate/legal/forms.py:11
-#, fuzzy
-#| msgid "I agree with the Terms of Service document"
 msgid "I agree with the General Terms and Conditions document"
-msgstr "Estoy de acuerdo con el documento de Términos de servicio"
+msgstr "Estoy de acuerdo con las Condiciones Generales"
 
 #: weblate/legal/middleware.py:50
-#, fuzzy
-#| msgid ""
-#| "We have a new version of the Terms of Service document, please read it "
-#| "and confirm that you agree with it."
 msgid ""
 "We have an updated version of the General Terms and Conditions document, "
 "please read it and confirm that you agree with it."
 msgstr ""
-"Tenemos una versión nueva del documento de Términos de servicio; léalo y "
-"confirme que está de acuerdo con este."
+"Disponemos de una versión actualizada del documento de Condiciones "
+"Generales, por favor léalo y confirme que está de acuerdo con él."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/contracts.html:6
@@ -4912,16 +4905,12 @@ msgid "Legal"
 msgstr "Información legal"
 
 #: weblate/legal/templates/legal/confirm.html:13
-#, fuzzy
-#| msgid "You have to agree to the Terms of Service"
 msgid "You have to agree to the General Terms and Conditions"
-msgstr "Debe aceptar los Términos de servicio"
+msgstr "Tiene que aceptar las Condiciones Generales"
 
 #: weblate/legal/templates/legal/confirm.html:15
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "Please read following General Terms and Conditions document:"
-msgstr "Lea el siguiente documento de Términos de servicio:"
+msgstr "Por favor, lea el siguiente documento de Condiciones Generales:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/templates/contributor-agreement.html:30
@@ -4948,25 +4937,21 @@ msgstr "Normativa de «cookies»"
 
 #: weblate/legal/templates/legal/cookies.html:18
 #: weblate/legal/templates/legal/index.html:24
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
 msgstr ""
-"Esta página se basa en los Términos de servicio y la Normativa de "
-"privacidad. Lea de cualquier modo los documentos originales para entenderlos "
-"a plenitud:"
+"Esta página se basa en las Condiciones Generales y la Política de "
+"Privacidad, pero debe leer los documentos originales para comprenderlos en "
+"su totalidad:"
 
 #: weblate/legal/templates/legal/cookies.html:22
 #: weblate/legal/templates/legal/index.html:29
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:19
 #: weblate/templates/snippets/login-info.html:11
 msgid "General Terms and Conditions"
-msgstr ""
+msgstr "Condiciones generales"
 
 #: weblate/legal/templates/legal/cookies.html:23
 #: weblate/legal/templates/legal/index.html:32
@@ -5656,8 +5641,8 @@ msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"Se produjo un error grave en el servidor al atender su solicitud. Se "
-"registró el error como %(error_id)s."
+"El servidor ha tenido serios problemas para servir su petición, y este error "
+"ha sido registrado como %(error_id)s."
 
 #: weblate/templates/500.html:36
 msgid ""
@@ -10721,10 +10706,8 @@ msgid "Last change"
 msgstr "Último cambio"
 
 #: weblate/templates/snippets/info.html:177
-#, fuzzy
-#| msgid "Last change"
 msgid "Last change made by"
-msgstr "Último cambio"
+msgstr "Último cambio efectuado por"
 
 #: weblate/templates/snippets/info.html:203
 msgid "Aliased language codes"
@@ -11040,17 +11023,13 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "Al registrarse en el servicio y acceder a este, acepta los:"
 
 #: weblate/templates/snippets/login-info.html:19
-#, fuzzy
-#| msgid ""
-#| "Quick overview of the Terms of Service and the Privacy Policy, but you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
-"Descripción general rápida de los Términos de servicio y la Política de "
-"privacidad, pero aun así debes leer los documentos originales para "
-"comprenderlos completamente:"
+"Resumen rápido de las Condiciones Generales y la Política de Privacidad, "
+"pero de todos modos debería leer los documentos originales para entenderlos "
+"completamente:"
 
 #: weblate/templates/snippets/login-info.html:26
 msgid ""
@@ -15291,14 +15270,9 @@ msgid "Failed adding string, no translation found."
 msgstr "Fallo al añadir la cadena, no se ha encontrado la traducción."
 
 #: weblate/trans/models/unit.py:1050
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
-msgstr ""
-"No se pudo propagar la cadena hacia %(component)s porque no ha aceptado un "
-"acuerdo de contribuidor."
+msgstr "La cadena no pudo propagarse a %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1745
 msgid "Unmark as read-only"
