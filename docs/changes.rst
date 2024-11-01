@@ -13,6 +13,7 @@ Not yet released.
 * Reduced number of database queries when updating multiple strings.
 * Leading problematic characters in :ref:`glossary` terms are now properly stripped in uploaded files.
 * Improved :ref:`workflow-customization` performance.
+* Fixed XML escaped output in some machine translation integrations.
 
 **Compatibility**
 
