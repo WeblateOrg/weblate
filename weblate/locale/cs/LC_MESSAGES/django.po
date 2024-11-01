@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-01 17:16+0000\n"
-"PO-Revision-Date: 2024-10-20 17:01+0000\n"
+"PO-Revision-Date: 2024-11-02 00:32+0000\n"
 "Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.8.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -432,10 +432,9 @@ msgid "Account removal confirmation sent to {email}."
 msgstr "Potvrzení o odstranění účtu zaslané na adresu {email}."
 
 #: weblate/accounts/models.py:187
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "Souhlas s Všeobecnými smluvními podmínkami {date}."
+msgstr "Souhlas s Všeobecnými smluvními podmínky {date}."
 
 #: weblate/accounts/models.py:188
 #, python-brace-format
@@ -4802,22 +4801,16 @@ msgid "Language %s removed."
 msgstr "Jazyk %s odstraněn."
 
 #: weblate/legal/forms.py:11
-#, fuzzy
-#| msgid "I agree with the Terms of Service document"
 msgid "I agree with the General Terms and Conditions document"
-msgstr "Souhlasím s Všeobecnými smluvními podmínkami"
+msgstr "Souhlasím se Všeobecnými smluvními podmínkami"
 
 #: weblate/legal/middleware.py:50
-#, fuzzy
-#| msgid ""
-#| "We have a new version of the Terms of Service document, please read it "
-#| "and confirm that you agree with it."
 msgid ""
 "We have an updated version of the General Terms and Conditions document, "
 "please read it and confirm that you agree with it."
 msgstr ""
-"Všeobecné smluvní podmínky byly aktualizovány – přečtěte si je prosím a "
-"potvrďte, že s nimi souhlasíte."
+"Aktualizovali jsme dokument Všeobecné smluvní podmínky. Přečtěte si jej "
+"prosím a potvrďte, že s ním souhlasíte."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/contracts.html:6
@@ -4830,16 +4823,12 @@ msgid "Legal"
 msgstr "Právní"
 
 #: weblate/legal/templates/legal/confirm.html:13
-#, fuzzy
-#| msgid "You have to agree to the Terms of Service"
 msgid "You have to agree to the General Terms and Conditions"
-msgstr "Je třeba souhlasit s Všeobecnými smluvními podmínkami"
+msgstr "Musíte souhlasit se Všeobecnými smluvními podmínkami"
 
 #: weblate/legal/templates/legal/confirm.html:15
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "Please read following General Terms and Conditions document:"
-msgstr "Přečtěte si, prosím, Všeobecné smluvní podmínky:"
+msgstr "Přečtete si prosím následující Všeobecné smluvní podmínky:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/templates/contributor-agreement.html:30
@@ -4866,17 +4855,13 @@ msgstr "Politika ohledně cookie"
 
 #: weblate/legal/templates/legal/cookies.html:18
 #: weblate/legal/templates/legal/index.html:24
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
 msgstr ""
 "Tato stránka vychází ze Všeobecných smluvních podmínek a Zásad ochrany "
-"osobních údajů, ale doporučujeme přečíst tyto dokumenty celé, abyste jim "
+"osobních údajů, doporučujeme si ale přečíst tyto dokumenty celé, abyste jim "
 "plně porozuměli:"
 
 #: weblate/legal/templates/legal/cookies.html:22
@@ -4884,7 +4869,7 @@ msgstr ""
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:19
 #: weblate/templates/snippets/login-info.html:11
 msgid "General Terms and Conditions"
-msgstr ""
+msgstr "Všeobecné smluvní podmínky"
 
 #: weblate/legal/templates/legal/cookies.html:23
 #: weblate/legal/templates/legal/index.html:32
@@ -5555,7 +5540,7 @@ msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"Server měl vážné problémy s obsluhou vašeho požadavku a tato chyba byla "
+"Server měl vážné problémy se zpracováním vašeho požadavku. Tato chyba byla "
 "zaznamenána jako %(error_id)s."
 
 #: weblate/templates/500.html:36
@@ -10577,10 +10562,8 @@ msgid "Last change"
 msgstr "Poslední změna"
 
 #: weblate/templates/snippets/info.html:177
-#, fuzzy
-#| msgid "Last change"
 msgid "Last change made by"
-msgstr "Poslední změna"
+msgstr "Poslední změna provedena"
 
 #: weblate/templates/snippets/info.html:203
 msgid "Aliased language codes"
@@ -10893,17 +10876,12 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "Registrací a přihlášením do této služby přijímáte naše:"
 
 #: weblate/templates/snippets/login-info.html:19
-#, fuzzy
-#| msgid ""
-#| "Quick overview of the Terms of Service and the Privacy Policy, but you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
-"Rychlý přehled Všeobecných smluvních podmínek a Zásad ochrany osobních "
-"údajů, ale doporučujeme přečíst tyto dokumenty celé, abyste jim plně "
-"porozuměli:"
+"Rychlý přehled Všeobecných smluvních podmínek a Zásad ochrany osobních údajů "
+"– doporučujeme si tyto dokumenty přečíst celé, abyste jim plně porozuměli:"
 
 #: weblate/templates/snippets/login-info.html:26
 msgid ""
@@ -15051,14 +15029,9 @@ msgid "Failed adding string, no translation found."
 msgstr "Nepodařilo se přidat řetězec, nenalezen žádný překlad."
 
 #: weblate/trans/models/unit.py:1050
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
-msgstr ""
-"Řetězec nemohl být rozšířen do %(component)s, protože to vyžaduje souhlas s "
-"dohododou s přispěvatelem."
+msgstr "Řetězec nemohl být rozšířen do %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1745
 msgid "Unmark as read-only"
