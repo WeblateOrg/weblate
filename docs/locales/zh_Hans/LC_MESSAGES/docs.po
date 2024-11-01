@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2024-10-16 14:39+0200\n"
+"POT-Creation-Date: 2024-11-01 18:16+0100\n"
 "PO-Revision-Date: 2024-11-01 14:47+0000\n"
 "Last-Translator: 大学没毕业 <ziweidao@foxmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -285,7 +285,7 @@ msgid "Manage screenshots (add, remove, and associate them to source strings)."
 msgstr "管理截屏（添加、删除并将其与源字符串关联）。"
 
 #: ../../admin/access.rst:129 ../../admin/addons.rst:24
-#: ../../admin/continuous.rst:486 ../../user/translating.rst:359
+#: ../../admin/continuous.rst:494 ../../user/translating.rst:359
 msgid "Automatic translation"
 msgstr "自动翻译"
 
@@ -2649,7 +2649,7 @@ msgstr ""
 "标签，直到所有字符串都有所需的标签。还可以对 Weblate 元数据进行其他自动化操"
 "作。"
 
-#: ../../admin/addons.rst:375 ../../admin/config.rst:1764
+#: ../../admin/addons.rst:375 ../../admin/config.rst:1768
 msgid "**Examples:**"
 msgstr "**示例：**"
 
@@ -5632,8 +5632,8 @@ msgstr ""
 
 #: ../../admin/checks.rst:12
 msgid ""
-"The automatic fixes are powerful, but can also cause damage; be careful "
-"when writing one."
+"The automatic fixes are powerful, but can also cause damage; be careful when "
+"writing one."
 msgstr "自动修复很强大，但可能导致损坏；写脚本的时候要小心。"
 
 #: ../../admin/checks.rst:15
@@ -7352,7 +7352,7 @@ msgid ""
 "ones in the database."
 msgstr "这对 Weblate 并不定义新的语言，它只在数据库中筛选了现有的那些。"
 
-#: ../../admin/config.rst:255 ../../faq.rst:372
+#: ../../admin/config.rst:255 ../../faq.rst:376
 msgid ":ref:`languages`"
 msgstr ":ref:`languages`"
 
@@ -7791,9 +7791,9 @@ msgstr "安装在每个创建的部件中的默认附加组件。"
 msgid "This setting affects only newly created components."
 msgstr "此设置只影响新创建的部件。"
 
-#: ../../admin/config.rst:563 ../../admin/config.rst:1122
-#: ../../admin/config.rst:1365 ../../admin/config.rst:1564
-#: ../../admin/config.rst:1823 ../../admin/config.rst:1933
+#: ../../admin/config.rst:563 ../../admin/config.rst:1126
+#: ../../admin/config.rst:1369 ../../admin/config.rst:1568
+#: ../../admin/config.rst:1827 ../../admin/config.rst:1937
 #: ../../admin/management.rst:92 ../../admin/management.rst:146
 #: ../../admin/management.rst:716 ../../wlc.rst:51
 msgid "Example:"
@@ -8072,22 +8072,28 @@ msgid "List for credentials for GitHub servers."
 msgstr "用于 GitHub 服务器的证明列表。"
 
 #: ../../admin/config.rst:836
+msgid ""
+"When creating a fine-grained personal access token, grant read and write "
+"access to :guilabel:`Contents` and :guilabel:`Pull requests`."
+msgstr ""
+
+#: ../../admin/config.rst:840
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
 msgstr "使用 `api.github.com`` 作为 https://github.com/ 的 API 主机。"
 
-#: ../../admin/config.rst:842
+#: ../../admin/config.rst:846
 msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
 msgstr ":ref:`vcs-github`, `创建 GitHub 个人访问令牌`_"
 
-#: ../../admin/config.rst:850
+#: ../../admin/config.rst:854
 msgid "BITBUCKETSERVER_CREDENTIALS"
 msgstr "BITBUCKETSERVER_CREDENTIALS"
 
-#: ../../admin/config.rst:854
+#: ../../admin/config.rst:858
 msgid "List for credentials for Bitbucket servers."
 msgstr "Bitbucket 服务器凭据列表。"
 
-#: ../../admin/config.rst:869
+#: ../../admin/config.rst:873
 msgid ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
@@ -8095,16 +8101,16 @@ msgstr ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP 访问令牌 <https://confluence."
 "atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 
-#: ../../admin/config.rst:875
+#: ../../admin/config.rst:879
 msgid "BITBUCKETCLOUD_CREDENTIALS"
 msgstr "BITBUCKETCLOUD_CREDENTIALS"
 
-#: ../../admin/config.rst:879
+#: ../../admin/config.rst:883
 msgid "List for credentials for Bitbucket Cloud servers."
 msgstr "Bitbucket Cloud 服务器凭据列表。"
 
-#: ../../admin/config.rst:891 ../../admin/config.rst:931
-#: ../../admin/config.rst:2154
+#: ../../admin/config.rst:895 ../../admin/config.rst:935
+#: ../../admin/config.rst:2158
 msgid ""
 "The configuration dictionary consists of credentials defined for each API "
 "host. The API host might be different from what you use in the web browser, "
@@ -8113,45 +8119,45 @@ msgstr ""
 "配置目录由为每个 API 主机定义的凭据所组成。API 主机可能和你在网页浏览器中所用"
 "的不同，比如 GitHub API 访问地址为 ``api.github.com``."
 
-#: ../../admin/config.rst:895 ../../admin/config.rst:935
-#: ../../admin/config.rst:2162
+#: ../../admin/config.rst:899 ../../admin/config.rst:939
+#: ../../admin/config.rst:2166
 msgid "The following configuration is available for each host:"
 msgstr "下列配置对每个主机可用："
 
-#: ../../admin/config.rst:897 ../../admin/config.rst:937
-#: ../../admin/config.rst:2164 ../../admin/machine.rst:445
+#: ../../admin/config.rst:901 ../../admin/config.rst:941
+#: ../../admin/config.rst:2168 ../../admin/machine.rst:445
 #: ../../admin/machine.rst:552
 msgid "``username``"
 msgstr "``username``"
 
-#: ../../admin/config.rst:898
+#: ../../admin/config.rst:902
 msgid "API user."
 msgstr "API 用户。"
 
-#: ../../admin/config.rst:899
+#: ../../admin/config.rst:903
 msgid "``workspace``"
 msgstr "``workspace``"
 
-#: ../../admin/config.rst:900
+#: ../../admin/config.rst:904
 msgid "The user workspace slug."
 msgstr "用户工作区标识符。"
 
-#: ../../admin/config.rst:901 ../../admin/config.rst:944
-#: ../../admin/config.rst:2166
+#: ../../admin/config.rst:905 ../../admin/config.rst:948
+#: ../../admin/config.rst:2170
 msgid "``token``"
 msgstr "``token``"
 
-#: ../../admin/config.rst:902
+#: ../../admin/config.rst:906
 msgid "The App password with `pullrequest:write` permission."
 msgstr "有 `pullrequest:write` 权限的应用密码。"
 
-#: ../../admin/config.rst:904 ../../admin/config.rst:947
+#: ../../admin/config.rst:908 ../../admin/config.rst:951
 msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
 msgstr "此处未说明的其他设置可以在 :ref:`settings-credentials` 中找到。"
 
-#: ../../admin/config.rst:908
+#: ../../admin/config.rst:912
 msgid ""
 ":ref:`vcs-bitbucket-cloud`, `Create an App password <https://support."
 "atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`, `App password "
@@ -8162,41 +8168,41 @@ msgstr ""
 "bitbucket-cloud/docs/create-an-app-password/>`, `应用密码权限 <https://"
 "support.atlassian.com/bitbucket-cloud/docs/app-password-permissions/>`_"
 
-#: ../../admin/config.rst:915
+#: ../../admin/config.rst:919
 msgid "AZURE_DEVOPS_CREDENTIALS"
 msgstr "AZURE_DEVOPS_CREDENTIALS"
 
-#: ../../admin/config.rst:919
+#: ../../admin/config.rst:923
 msgid "List for credentials for Azure DevOps servers."
 msgstr "Azure DevOps 服务器凭据列表。"
 
-#: ../../admin/config.rst:938
+#: ../../admin/config.rst:942
 msgid "The name of the Azure DevOps project. This is not the repository name."
 msgstr "Azure DevOps 项目名。注意不是仓库名。"
 
-#: ../../admin/config.rst:939
+#: ../../admin/config.rst:943
 msgid "``organization``"
 msgstr "``organization``"
 
-#: ../../admin/config.rst:940
+#: ../../admin/config.rst:944
 msgid "The name of the organization of the project."
 msgstr "项目组织名。"
 
-#: ../../admin/config.rst:941
+#: ../../admin/config.rst:945
 msgid "``workItemIds``"
 msgstr "``workItemIds``"
 
-#: ../../admin/config.rst:942
+#: ../../admin/config.rst:946
 msgid ""
 "An optional list of work items IDs from your organization. When provided new "
 "pull requests will have these attached."
 msgstr "贵组织工作项 ID 的可选列表。提供之后，新的拉取请求会附上这些 ID。"
 
-#: ../../admin/config.rst:945 ../../admin/config.rst:2167
+#: ../../admin/config.rst:949 ../../admin/config.rst:2171
 msgid "API token for the API user, required."
 msgstr "API 用户的 API 令牌，必填。"
 
-#: ../../admin/config.rst:951
+#: ../../admin/config.rst:955
 msgid ""
 ":ref:`vcs-azure-devops`, `Azure DevOps: Personal access token <https://learn."
 "microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-"
@@ -8206,21 +8212,21 @@ msgstr ""
 "microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-"
 "tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 
-#: ../../admin/config.rst:957
+#: ../../admin/config.rst:961
 msgid "GOOGLE_ANALYTICS_ID"
 msgstr "GOOGLE_ANALYTICS_ID"
 
-#: ../../admin/config.rst:959
+#: ../../admin/config.rst:963
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
 msgstr ""
 "使用 Google Analytics 时，开启对 Weblate 的监测的 Google Analytics ID。"
 
-#: ../../admin/config.rst:964
+#: ../../admin/config.rst:968
 msgid "HIDE_REPO_CREDENTIALS"
 msgstr "HIDE_REPO_CREDENTIALS"
 
-#: ../../admin/config.rst:966
+#: ../../admin/config.rst:970
 msgid ""
 "Hide repository credentials from the web interface. In case you have "
 "repository URL with user and password, Weblate will hide it when related "
@@ -8229,7 +8235,7 @@ msgstr ""
 "隐藏仓库凭据避免出现在 web 界面中。在仓库 URL 带有用户名和密码的情况下，"
 "Weblate 会在相关信息显示给用户时将其隐藏起来。"
 
-#: ../../admin/config.rst:970
+#: ../../admin/config.rst:974
 msgid ""
 "For example instead of ``https://user:password@git.example.com/repo.git`` it "
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
@@ -8239,15 +8245,15 @@ msgstr ""
 "password@git.example.com/repo.git``。它也尝试以相似的方式清除版本控制系统错误"
 "信息。"
 
-#: ../../admin/config.rst:976
+#: ../../admin/config.rst:980
 msgid "On by default."
 msgstr "默认开启。"
 
-#: ../../admin/config.rst:981
+#: ../../admin/config.rst:985
 msgid "HIDE_VERSION"
 msgstr "HIDE_VERSION"
 
-#: ../../admin/config.rst:985
+#: ../../admin/config.rst:989
 msgid ""
 "Hides version info from unauthenticated users. This also makes all "
 "documentation links point to the latest version instead of the documentation "
@@ -8256,48 +8262,48 @@ msgstr ""
 "对未经身份验证用户隐藏版本信息。这也会使所有文档链接都指向最新的版本，而不是"
 "与当前安装版本相匹配的文档。"
 
-#: ../../admin/config.rst:989
+#: ../../admin/config.rst:993
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "does not prevent an attacker from figuring out version by probing behavior."
 msgstr ""
 "隐藏版本是某些企业推荐的安全实践，但不能防止攻击者通过试探行为来找出版本。"
 
-#: ../../admin/config.rst:994
+#: ../../admin/config.rst:998
 msgid "This is turned off by default."
 msgstr "默认这是关闭的。"
 
-#: ../../admin/config.rst:999
+#: ../../admin/config.rst:1003
 msgid "INTERLEDGER_PAYMENT_POINTERS"
 msgstr "INTERLEDGER_PAYMENT_POINTERS"
 
-#: ../../admin/config.rst:1003
+#: ../../admin/config.rst:1007
 msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
 msgstr "用于网络货币化的分类账间支付指针（ILP）列表。"
 
-#: ../../admin/config.rst:1005
+#: ../../admin/config.rst:1009
 msgid ""
 "If multiple are specified, probabilistic revenue sharing is achieved by "
 "selecting one randomly."
 msgstr "如果指定了多个，则通过随机选择一个来实现概率收入共享。"
 
-#: ../../admin/config.rst:1008
+#: ../../admin/config.rst:1012
 msgid "Please check <https://webmonetization.org/> for more details."
 msgstr "请查阅 <https://webmonetization.org/> 了解更多细节。"
 
-#: ../../admin/config.rst:1012
+#: ../../admin/config.rst:1016
 msgid "The default value lets users fund Weblate itself."
 msgstr "默认值让用户为 Weblate 自身提供资金。"
 
-#: ../../admin/config.rst:1017
+#: ../../admin/config.rst:1021
 msgid "IP_BEHIND_REVERSE_PROXY"
 msgstr "IP_BEHIND_REVERSE_PROXY"
 
-#: ../../admin/config.rst:1019
+#: ../../admin/config.rst:1023
 msgid "Indicates whether Weblate is running behind a reverse proxy."
 msgstr "指示 Weblate 是否在反向代理之后运行。"
 
-#: ../../admin/config.rst:1021
+#: ../../admin/config.rst:1025
 msgid ""
 "If set to ``True``, Weblate gets IP address from a header defined by :"
 "setting:`IP_PROXY_HEADER`."
@@ -8305,17 +8311,17 @@ msgstr ""
 "如果设置为 ``True``，Weblate 会从 :setting:`IP_PROXY_HEADER` 定义的标头中获"
 "取 IP 地址。"
 
-#: ../../admin/config.rst:1026
+#: ../../admin/config.rst:1030
 msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr "确保真正使用反向代理，并且设置了这个标头，否则用户将能够假冒 IP 地址。"
 
-#: ../../admin/config.rst:1031
+#: ../../admin/config.rst:1035
 msgid "This is not on by default."
 msgstr "默认这不是打开的。"
 
-#: ../../admin/config.rst:1035
+#: ../../admin/config.rst:1039
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
 "setting:`IP_PROXY_OFFSET`"
@@ -8323,11 +8329,11 @@ msgstr ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
 "setting:`IP_PROXY_OFFSET`"
 
-#: ../../admin/config.rst:1043
+#: ../../admin/config.rst:1047
 msgid "IP_PROXY_HEADER"
 msgstr "IP_PROXY_HEADER"
 
-#: ../../admin/config.rst:1045
+#: ../../admin/config.rst:1049
 msgid ""
 "Indicates which header Weblate should obtain the IP address from when :"
 "setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
@@ -8335,11 +8341,11 @@ msgstr ""
 "指示当 :setting:`IP_BEHIND_REVERSE_PROXY` 打开时，Weblate应该从那个标头得到 "
 "IP 地址。"
 
-#: ../../admin/config.rst:1048
+#: ../../admin/config.rst:1052
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
 msgstr "默认为 ``HTTP_X_FORWARDED_FOR``。"
 
-#: ../../admin/config.rst:1052
+#: ../../admin/config.rst:1056
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
@@ -8349,21 +8355,21 @@ msgstr ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_OFFSET`"
 
-#: ../../admin/config.rst:1061
+#: ../../admin/config.rst:1065
 msgid "IP_PROXY_OFFSET"
 msgstr "IP_PROXY_OFFSET"
 
-#: ../../admin/config.rst:1065
+#: ../../admin/config.rst:1069
 msgid "The default changed from 1 to -1."
 msgstr "默认值从 1 改成了 -1。"
 
-#: ../../admin/config.rst:1067
+#: ../../admin/config.rst:1071
 msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
 msgstr "指示 :setting:`IP_PROXY_HEADER` 的哪部分用作客户端 IP 地址。"
 
-#: ../../admin/config.rst:1070
+#: ../../admin/config.rst:1074
 msgid ""
 "Depending on your setup, this header might consist of several IP addresses, "
 "(for example ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) and you can "
@@ -8373,7 +8379,7 @@ msgstr ""
 "ip, proxy-a, proxy-b`` ），并且可以配置标头的哪个地址在这里用作客户端 IP 地"
 "址。"
 
-#: ../../admin/config.rst:1076
+#: ../../admin/config.rst:1080
 msgid ""
 "Setting this affects the security of your installation. You should only "
 "configure it to use trusted proxies for determining the IP address. Please "
@@ -8384,11 +8390,11 @@ msgstr ""
 "查阅 <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-"
 "For#security_and_privacy_concerns> 了解更多信息。"
 
-#: ../../admin/config.rst:1080
+#: ../../admin/config.rst:1084
 msgid "Defaults to -1."
 msgstr "默认为 -1。"
 
-#: ../../admin/config.rst:1084
+#: ../../admin/config.rst:1088
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
@@ -8398,30 +8404,30 @@ msgstr ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_HEADER`"
 
-#: ../../admin/config.rst:1093
+#: ../../admin/config.rst:1097
 msgid "LEGAL_TOS_DATE"
 msgstr "LEGAL_TOS_DATE"
 
-#: ../../admin/config.rst:1099
+#: ../../admin/config.rst:1103
 msgid "You need :ref:`legal` installed to make this work."
 msgstr "你需要安装 :ref:`legal` 才能让其生效。"
 
-#: ../../admin/config.rst:1101
+#: ../../admin/config.rst:1105
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the updated terms of service."
 msgstr ""
 "服务条款文件的最后更新日期。每当日期更改时，用户都需要同意更新的服务条款。"
 
-#: ../../admin/config.rst:1113
+#: ../../admin/config.rst:1117
 msgid "LEGAL_URL"
 msgstr "LEGAL_URL"
 
-#: ../../admin/config.rst:1115
+#: ../../admin/config.rst:1119
 msgid "URL where your Weblate instance shows its legal documents."
 msgstr "你的 Weblate 实例显示其法律文件的 URL。"
 
-#: ../../admin/config.rst:1119
+#: ../../admin/config.rst:1123
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate. Please check :ref:`legal` for details."
@@ -8429,79 +8435,79 @@ msgstr ""
 "在将你的法律文件保存在 Weblate 之外，而将其嵌入 Weblate 的情况下有用。细节请"
 "查看 :ref:`legal`。"
 
-#: ../../admin/config.rst:1130
+#: ../../admin/config.rst:1134
 msgid ":setting:`PRIVACY_URL`"
 msgstr ":setting:`PRIVACY_URL`"
 
-#: ../../admin/config.rst:1135
+#: ../../admin/config.rst:1139
 msgid "LICENSE_EXTRA"
 msgstr "LICENSE_EXTRA"
 
-#: ../../admin/config.rst:1137
+#: ../../admin/config.rst:1141
 msgid "Additional licenses to include in the license choices."
 msgstr "包括在许可选择中的其他许可。"
 
-#: ../../admin/config.rst:1141
+#: ../../admin/config.rst:1145
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
 msgstr "每个许可的定义应该是其短名称、长名称和 URL 的元组。"
 
-#: ../../admin/config.rst:1143 ../../admin/config.rst:1171
-#: ../../admin/config.rst:1298 ../../admin/projects.rst:464
+#: ../../admin/config.rst:1147 ../../admin/config.rst:1175
+#: ../../admin/config.rst:1302 ../../admin/projects.rst:464
 #: ../../formats/xliff.rst:77
 msgid "For example:"
 msgstr "例如："
 
-#: ../../admin/config.rst:1158
+#: ../../admin/config.rst:1162
 msgid "LICENSE_FILTER"
 msgstr "LICENSE_FILTER"
 
-#: ../../admin/config.rst:1162
+#: ../../admin/config.rst:1166
 msgid "Setting this to blank value now disables license alert."
 msgstr "现在将此设置为空值可禁用许可证警报。"
 
-#: ../../admin/config.rst:1164
+#: ../../admin/config.rst:1168
 msgid ""
 "Filter list of licenses to show. This also disables the license alert when "
 "set to empty."
 msgstr "筛选要显示的许可证列表。将此设置为空可禁用许可证警报。"
 
-#: ../../admin/config.rst:1169
+#: ../../admin/config.rst:1173
 msgid "This filter uses the short license names."
 msgstr "这个过滤器使用简短的许可证名称。"
 
-#: ../../admin/config.rst:1177
+#: ../../admin/config.rst:1181
 msgid "Following disables the license alert:"
 msgstr "以下为禁用许可证警报的方法："
 
-#: ../../admin/config.rst:1185 ../../admin/config.rst:1660
+#: ../../admin/config.rst:1189 ../../admin/config.rst:1664
 msgid ":ref:`alerts`"
 msgstr ":ref:`alerts`"
 
-#: ../../admin/config.rst:1190
+#: ../../admin/config.rst:1194
 msgid "LICENSE_REQUIRED"
 msgstr "LICENSE_REQUIRED"
 
-#: ../../admin/config.rst:1192
+#: ../../admin/config.rst:1196
 msgid "Defines whether the license attribute in :ref:`component` is required."
 msgstr "定义了是否需要 :ref:`component` 中的许可属性。"
 
-#: ../../admin/config.rst:1196
+#: ../../admin/config.rst:1200
 msgid "This is off by default."
 msgstr "默认这是关闭的。"
 
-#: ../../admin/config.rst:1201
+#: ../../admin/config.rst:1205
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 
-#: ../../admin/config.rst:1203
+#: ../../admin/config.rst:1207
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string × 10 characters."
 msgstr "是否应限制给定翻译的长度。限制为源字符串的长度 × 10 个字符。"
 
-#: ../../admin/config.rst:1208
+#: ../../admin/config.rst:1212
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10,000 characters) "
 "irrespective of source string length."
@@ -8509,15 +8515,15 @@ msgstr ""
 "将其设置为 ``False`` 即可允许更长的翻译（最多 10,000 个字符），而不管源字符串"
 "的长度。"
 
-#: ../../admin/config.rst:1212
+#: ../../admin/config.rst:1216
 msgid "Defaults to ``True``."
 msgstr "默认为 ``True``。"
 
-#: ../../admin/config.rst:1218
+#: ../../admin/config.rst:1222
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL 和 LOCALIZE_CDN_PATH"
 
-#: ../../admin/config.rst:1220
+#: ../../admin/config.rst:1224
 msgid ""
 "These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-on. :setting:"
 "`LOCALIZE_CDN_URL` defines root URL where the localization CDN is available "
@@ -8529,43 +8535,43 @@ msgstr ""
 "`LOCALIZE_CDN_PATH` 定义了 Weblate 应把 :setting:`LOCALIZE_CDN_URL` 将提供的"
 "生成文件存储在哪个路径。"
 
-#: ../../admin/config.rst:1227
+#: ../../admin/config.rst:1231
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
 msgstr "在 Hosted Weblate 中，这使用 ``https://weblate-cdn.com/``。"
 
-#: ../../admin/config.rst:1231
+#: ../../admin/config.rst:1235
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
 msgstr ":ref:`addon-weblate.cdn.cdnjs`"
 
-#: ../../admin/config.rst:1236
+#: ../../admin/config.rst:1240
 msgid "LOGIN_REQUIRED_URLS"
 msgstr "LOGIN_REQUIRED_URLS"
 
-#: ../../admin/config.rst:1238
+#: ../../admin/config.rst:1242
 msgid ""
 "A list of URLs you want to require signing in. (Besides the standard rules "
 "built into Weblate)."
 msgstr "你希望需要登录的 URL 列表。（除了 Weblate 内建立的标准规则）。"
 
-#: ../../admin/config.rst:1242
+#: ../../admin/config.rst:1246
 msgid "This allows you to password protect a whole installation using:"
 msgstr "这允许密码保护整个安装，通过使用："
 
-#: ../../admin/config.rst:1253
+#: ../../admin/config.rst:1257
 msgid ""
 "It is desirable to lock down API access as well, as shown in the above "
 "example."
 msgstr "同样想要锁住 API 访问，如上面的示例所示。"
 
-#: ../../admin/config.rst:1257
+#: ../../admin/config.rst:1261
 msgid ":setting:`REQUIRE_LOGIN`"
 msgstr ":setting:`REQUIRE_LOGIN`"
 
-#: ../../admin/config.rst:1262
+#: ../../admin/config.rst:1266
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
-#: ../../admin/config.rst:1264
+#: ../../admin/config.rst:1268
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign-in page."
@@ -8573,35 +8579,35 @@ msgstr ""
 "用于 :setting:`LOGIN_REQUIRED_URLS` 的例外列表。如果未指定，则允许用户访问登"
 "录页。"
 
-#: ../../admin/config.rst:1267
+#: ../../admin/config.rst:1271
 msgid ""
 "See the :ref:`sample-configuration` for recommended configuration of this "
 "setting."
 msgstr "见 ref:`sample-configuration` 了解此设置的推荐配置。"
 
-#: ../../admin/config.rst:1273
+#: ../../admin/config.rst:1277
 msgid "MATOMO_SITE_ID"
 msgstr "MATOMO_SITE_ID"
 
-#: ../../admin/config.rst:1275
+#: ../../admin/config.rst:1279
 msgid ""
 "ID of the site in Matomo (formerly Piwik) you want to use for tracking "
 "Weblate."
 msgstr "你想用来跟踪 Weblate 的 Matomo（以前的 Piwik）网站的 ID。"
 
-#: ../../admin/config.rst:1279 ../../admin/config.rst:1296
+#: ../../admin/config.rst:1283 ../../admin/config.rst:1300
 msgid "This integration does not support the Matomo Tag Manager."
 msgstr "这个集成不支持 Matomo Tag Manager。"
 
-#: ../../admin/config.rst:1283
+#: ../../admin/config.rst:1287
 msgid ":setting:`MATOMO_URL`"
 msgstr ":setting:`MATOMO_URL`"
 
-#: ../../admin/config.rst:1289
+#: ../../admin/config.rst:1293
 msgid "MATOMO_URL"
 msgstr "MATOMO_URL"
 
-#: ../../admin/config.rst:1291
+#: ../../admin/config.rst:1295
 msgid ""
 "Full URL (including trailing slash) of a Matomo (formerly Piwik) "
 "installation you want to use to track Weblate use. Please check <https://"
@@ -8610,15 +8616,15 @@ msgstr ""
 "你想用于跟踪 Weblate 使用情况的 Matomo（以前的 Piwik）安装的完整 URL（包括结"
 "尾的斜杠）。请查阅 <https://matomo.org/> 了解详情。"
 
-#: ../../admin/config.rst:1307
+#: ../../admin/config.rst:1311
 msgid ":setting:`MATOMO_SITE_ID`"
 msgstr ":setting:`MATOMO_SITE_ID`"
 
-#: ../../admin/config.rst:1312
+#: ../../admin/config.rst:1316
 msgid "NEARBY_MESSAGES"
 msgstr "NEARBY_MESSAGES"
 
-#: ../../admin/config.rst:1314
+#: ../../admin/config.rst:1318
 msgid ""
 "How many strings to show around the currently translated string. This is "
 "just a default value, users can adjust this in :ref:`user-profile`."
@@ -8626,35 +8632,35 @@ msgstr ""
 "在查看当前翻译字符串时显示多少字符串。这只是默认值，用户可以在 :ref:`user-"
 "profile`中调整。"
 
-#: ../../admin/config.rst:1319
+#: ../../admin/config.rst:1323
 msgid "DEFAULT_PAGE_LIMIT"
 msgstr "DEFAULT_PAGE_LIMIT"
 
-#: ../../admin/config.rst:1323
+#: ../../admin/config.rst:1327
 msgid "Default number of elements to display when pagination is active."
 msgstr "分页激活时显示的默认元素数量。"
 
-#: ../../admin/config.rst:1328
+#: ../../admin/config.rst:1332
 msgid "PAGURE_CREDENTIALS"
 msgstr "PAGURE_CREDENTIALS"
 
-#: ../../admin/config.rst:1332
+#: ../../admin/config.rst:1336
 msgid "List for credentials for Pagure servers."
 msgstr "Pagure服务器凭据列表。"
 
-#: ../../admin/config.rst:1347
+#: ../../admin/config.rst:1351
 msgid ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
 msgstr ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
 
-#: ../../admin/config.rst:1354
+#: ../../admin/config.rst:1358
 msgid "PRIVACY_URL"
 msgstr "PRIVACY_URL"
 
-#: ../../admin/config.rst:1358
+#: ../../admin/config.rst:1362
 msgid "URL where your Weblate instance shows its privacy policy."
 msgstr "你的 Weblate 实例显示隐私政策的 URL。"
 
-#: ../../admin/config.rst:1362
+#: ../../admin/config.rst:1366
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
@@ -8662,35 +8668,35 @@ msgstr ""
 "在将你的法律文件保存在 Weblate 之外，而将其嵌入 Weblate 的情况下有用。细节请"
 "查看 :ref:`legal`。"
 
-#: ../../admin/config.rst:1373
+#: ../../admin/config.rst:1377
 msgid ":setting:`LEGAL_URL`"
 msgstr ":setting:`LEGAL_URL`"
 
-#: ../../admin/config.rst:1378
+#: ../../admin/config.rst:1382
 msgid "PRIVATE_COMMIT_EMAIL_OPT_IN"
 msgstr "PRIVATE_COMMIT_EMAIL_OPT_IN"
 
-#: ../../admin/config.rst:1382
+#: ../../admin/config.rst:1386
 msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-in)."
 msgstr "配置私密的代码提交电子邮箱默认情况下是开启还是关闭（默认开启）。"
 
-#: ../../admin/config.rst:1386
+#: ../../admin/config.rst:1390
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "e-mail."
 msgstr "此设置仅应用于那些尚未明确选择译文提交电子邮箱的用户。"
 
-#: ../../admin/config.rst:1390
+#: ../../admin/config.rst:1394
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
 msgstr ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
 
-#: ../../admin/config.rst:1396
+#: ../../admin/config.rst:1400
 msgid "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
-#: ../../admin/config.rst:1400
+#: ../../admin/config.rst:1404
 msgid ""
 "Template to generate private commit e-mail for an user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
@@ -8698,11 +8704,11 @@ msgstr ""
 "为用户生成专用提交电子邮箱的模板。默认为 ``\"{username}@users.noreply."
 "{site_domain}\"``."
 
-#: ../../admin/config.rst:1402
+#: ../../admin/config.rst:1406
 msgid "Set to blank string to disable."
 msgstr "留空禁用该功能。"
 
-#: ../../admin/config.rst:1406
+#: ../../admin/config.rst:1410
 msgid ""
 "Using different commit e-mail is opt-in for users unless configured by :"
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in "
@@ -8711,48 +8717,48 @@ msgstr ""
 "除非通过 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 配置，否则用户可以选择使用不"
 "同的提交电子邮件 。用户可以在 :ref:`profile` 中配置提交电子邮件。"
 
-#: ../../admin/config.rst:1413
+#: ../../admin/config.rst:1417
 msgid "PROJECT_BACKUP_KEEP_COUNT"
 msgstr "PROJECT_BACKUP_KEEP_COUNT"
 
-#: ../../admin/config.rst:1417
+#: ../../admin/config.rst:1421
 msgid ""
 "Defines how many backups per project are kept on the server. Defaults to 3."
 msgstr "定义每个项目在服务器上保留多少备份，它默认为3。"
 
-#: ../../admin/config.rst:1421 ../../admin/config.rst:1434
+#: ../../admin/config.rst:1425 ../../admin/config.rst:1438
 msgid ":ref:`projectbackup`"
 msgstr ":ref:`projectbackup`"
 
-#: ../../admin/config.rst:1426
+#: ../../admin/config.rst:1430
 msgid "PROJECT_BACKUP_KEEP_DAYS"
 msgstr "PROJECT_BACKUP_KEEP_DAYS"
 
-#: ../../admin/config.rst:1430
+#: ../../admin/config.rst:1434
 msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr "定义项目备份将在服务器上保留多长时间，默认值为 30 天。"
 
-#: ../../admin/config.rst:1439
+#: ../../admin/config.rst:1443
 msgid "PROJECT_NAME_RESTRICT_RE"
 msgstr "PROJECT_NAME_RESTRICT_RE"
 
-#: ../../admin/config.rst:1443
+#: ../../admin/config.rst:1447
 msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
 msgstr "定义用于限制项目命名的正则表达式。任何匹配的名称都将被拒绝。"
 
-#: ../../admin/config.rst:1447
+#: ../../admin/config.rst:1451
 msgid ":ref:`project-name`"
 msgstr ":ref:`project-name`"
 
-#: ../../admin/config.rst:1452
+#: ../../admin/config.rst:1456
 msgid "PROJECT_WEB_RESTRICT_HOST"
 msgstr "PROJECT_WEB_RESTRICT_HOST"
 
-#: ../../admin/config.rst:1456
+#: ../../admin/config.rst:1460
 msgid ""
 "Reject using certain hosts in project website. Any subdomain is matched, so "
 "including ``example.com`` will block ``test.example.com`` as well. The list "
@@ -8763,11 +8769,11 @@ msgstr ""
 "样拦截 ``test.example.com``. 此列表只应包含小写字符串，进行匹配前，解析的域名"
 "名称会转为小写。"
 
-#: ../../admin/config.rst:1461
+#: ../../admin/config.rst:1465
 msgid "Default configuration:"
 msgstr "默认配置："
 
-#: ../../admin/config.rst:1469
+#: ../../admin/config.rst:1473
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
@@ -8775,15 +8781,15 @@ msgstr ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 
-#: ../../admin/config.rst:1477
+#: ../../admin/config.rst:1481
 msgid "PROJECT_WEB_RESTRICT_NUMERIC"
 msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 
-#: ../../admin/config.rst:1481
+#: ../../admin/config.rst:1485
 msgid "Reject using numeric IP address in project website. On by default."
 msgstr "拒绝在项目网站中使用数字 IP 地址。默认启用。"
 
-#: ../../admin/config.rst:1485
+#: ../../admin/config.rst:1489
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
@@ -8791,17 +8797,17 @@ msgstr ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 
-#: ../../admin/config.rst:1492
+#: ../../admin/config.rst:1496
 msgid "PROJECT_WEB_RESTRICT_RE"
 msgstr "PROJECT_WEB_RESTRICT_RE"
 
-#: ../../admin/config.rst:1496
+#: ../../admin/config.rst:1500
 msgid ""
 "Defines a regular expression to restrict project websites. Any matching URLs "
 "will be rejected."
 msgstr "定义用于限制项目网站的正则表达式。任何匹配的 URL 都将被拒绝。"
 
-#: ../../admin/config.rst:1500
+#: ../../admin/config.rst:1504
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`"
@@ -8809,38 +8815,38 @@ msgstr ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`"
 
-#: ../../admin/config.rst:1507
+#: ../../admin/config.rst:1511
 msgid "RATELIMIT_ATTEMPTS"
 msgstr "RATELIMIT_ATTEMPTS"
 
-#: ../../admin/config.rst:1509
+#: ../../admin/config.rst:1513
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
 msgstr "在应用次数限制前，身份认证尝试的最多次数。"
 
-#: ../../admin/config.rst:1511
+#: ../../admin/config.rst:1515
 msgid "Defaults to 5."
 msgstr "默认为 5。"
 
-#: ../../admin/config.rst:1515
+#: ../../admin/config.rst:1519
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 msgstr ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 
-#: ../../admin/config.rst:1522
+#: ../../admin/config.rst:1526
 msgid "RATELIMIT_WINDOW"
 msgstr "RATELIMIT_WINDOW"
 
-#: ../../admin/config.rst:1524
+#: ../../admin/config.rst:1528
 msgid "How long authentication is accepted after rate limiting applies."
 msgstr "应用次数限制后，可接受多少次身份认证。"
 
-#: ../../admin/config.rst:1526
+#: ../../admin/config.rst:1530
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
 msgstr "秒数默认为 300 （ 5 分钟）。"
 
-#: ../../admin/config.rst:1530
+#: ../../admin/config.rst:1534
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_LOCKOUT`"
@@ -8848,29 +8854,29 @@ msgstr ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_LOCKOUT`"
 
-#: ../../admin/config.rst:1537
+#: ../../admin/config.rst:1541
 msgid "RATELIMIT_LOCKOUT"
 msgstr "RATELIMIT_LOCKOUT"
 
-#: ../../admin/config.rst:1539
+#: ../../admin/config.rst:1543
 msgid "How long authentication is locked after rate limiting applies."
 msgstr "在应用次数限制后，身份认证锁定多久。"
 
-#: ../../admin/config.rst:1541
+#: ../../admin/config.rst:1545
 msgid "An amount of seconds defaulting to 600 (10 minutes)."
 msgstr "秒数默认为 600（10 分钟）。"
 
-#: ../../admin/config.rst:1545
+#: ../../admin/config.rst:1549
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
 msgstr ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
 
-#: ../../admin/config.rst:1552
+#: ../../admin/config.rst:1556
 msgid "REGISTRATION_ALLOW_BACKENDS"
 msgstr "REGISTRATION_ALLOW_BACKENDS"
 
-#: ../../admin/config.rst:1556
+#: ../../admin/config.rst:1560
 msgid ""
 "List of authentication backends to allow registration from. This only limits "
 "new registrations, users can still authenticate and add authentication using "
@@ -8879,7 +8885,7 @@ msgstr ""
 "身份验证后端的列表，允许从中注册。这只限制新的注册，用户可以使用配置的身份验"
 "证后端，来进行身份验证和添加身份验证。"
 
-#: ../../admin/config.rst:1560
+#: ../../admin/config.rst:1564
 msgid ""
 "It is recommended to keep :setting:`REGISTRATION_OPEN` on while limiting "
 "registration backends, otherwise users will be able to register, but Weblate "
@@ -8888,73 +8894,73 @@ msgstr ""
 "限制注册后端的同时，推荐保持 :setting:`REGISTRATION_OPEN` 为开启状态，否则用"
 "户将能够注册，但Weblate不会在用户界面显示注册的链接。"
 
-#: ../../admin/config.rst:1572
+#: ../../admin/config.rst:1576
 msgid "The backend names match names used in the URL for authentication."
 msgstr "与身份验证 URL 中使用的名称匹配的后端名称。"
 
-#: ../../admin/config.rst:1576
+#: ../../admin/config.rst:1580
 msgid ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
 msgstr ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
 
-#: ../../admin/config.rst:1582
+#: ../../admin/config.rst:1586
 msgid "REGISTRATION_CAPTCHA"
 msgstr "REGISTRATION_CAPTCHA"
 
-#: ../../admin/config.rst:1584
+#: ../../admin/config.rst:1588
 msgid ""
 "Whether registration of new accounts is protected by a CAPTCHA. Defaults to "
 "enabled."
 msgstr "新账户注册是否受 CAPTCHA 的保护。此功能默认开启。"
 
-#: ../../admin/config.rst:1586
+#: ../../admin/config.rst:1590
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a users enters their e-"
 "mail address:"
 msgstr "如果打开，CAPTCHA 会添加到用户输入其电子邮箱地址的所有页面中："
 
-#: ../../admin/config.rst:1588
+#: ../../admin/config.rst:1592
 msgid "New account registration."
 msgstr "新账户注册。"
 
-#: ../../admin/config.rst:1589
+#: ../../admin/config.rst:1593
 msgid "Password recovery."
 msgstr "找回密码。"
 
-#: ../../admin/config.rst:1590
+#: ../../admin/config.rst:1594
 msgid "Adding e-mail to an account."
 msgstr "将电子邮箱地址添加到账户中。"
 
-#: ../../admin/config.rst:1591
+#: ../../admin/config.rst:1595
 msgid "Contact form for users that are not signed in."
 msgstr "供未登录用户使用的联系表单。"
 
-#: ../../admin/config.rst:1596
+#: ../../admin/config.rst:1600
 msgid "REGISTRATION_EMAIL_MATCH"
 msgstr "REGISTRATION_EMAIL_MATCH"
 
-#: ../../admin/config.rst:1598
+#: ../../admin/config.rst:1602
 msgid "Allows you to filter which e-mail addresses can register."
 msgstr "允许你筛选哪个电子邮箱地址可以注册。"
 
-#: ../../admin/config.rst:1600
+#: ../../admin/config.rst:1604
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
 msgstr "默认为 ``.*``，允许使用任何电子邮箱地址注册。"
 
-#: ../../admin/config.rst:1602
+#: ../../admin/config.rst:1606
 msgid "You can use it to restrict registration to a single e-mail domain:"
 msgstr "可以用它限制注册到单一的电子邮箱域名："
 
-#: ../../admin/config.rst:1611
+#: ../../admin/config.rst:1615
 msgid "REGISTRATION_OPEN"
 msgstr "REGISTRATION_OPEN"
 
-#: ../../admin/config.rst:1613
+#: ../../admin/config.rst:1617
 msgid ""
 "Whether registration of new accounts is currently permitted. Defaults to "
 "enabled."
 msgstr "当前是否允许注册新账户。默认为允许。"
 
-#: ../../admin/config.rst:1616
+#: ../../admin/config.rst:1620
 msgid ""
 "This setting affects built-in authentication by e-mail address or through "
 "the Python Social Auth (you can whitelist certain back-ends using :setting:"
@@ -8963,7 +8969,7 @@ msgstr ""
 "这个设置影响了内建的通过电子邮箱地址或通过 Python 社交认证的身份验证（ 可以使"
 "用 :setting:`REGISTRATION_ALLOW_BACKENDS` 为适当的后端建立白名单）。"
 
-#: ../../admin/config.rst:1622
+#: ../../admin/config.rst:1626
 msgid ""
 "If using third-party authentication methods such as :ref:`ldap-auth`, it "
 "just hides the registration form, but new users might still be able to sign "
@@ -8972,7 +8978,7 @@ msgstr ""
 "如果使用第三方身份验证方法，如 :ref:`ldap-auth`，只是隐藏注册表单，而新用户仍"
 "然能够登录并建立账户。"
 
-#: ../../admin/config.rst:1628
+#: ../../admin/config.rst:1632
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
@@ -8980,11 +8986,11 @@ msgstr ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 
-#: ../../admin/config.rst:1635
+#: ../../admin/config.rst:1639
 msgid "REGISTRATION_REBIND"
 msgstr "REGISTRATION_REBIND"
 
-#: ../../admin/config.rst:1639
+#: ../../admin/config.rst:1643
 msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
@@ -8992,7 +8998,7 @@ msgstr ""
 "允许为现有用户重新绑定身份验证后端。在不同身份验证提供者之间迁移时请打开此选"
 "项。"
 
-#: ../../admin/config.rst:1644
+#: ../../admin/config.rst:1648
 msgid ""
 "Off by default to not allow adding other authentication backends to an "
 "existing account. Rebinding can lead to account compromise when using more "
@@ -9001,21 +9007,21 @@ msgstr ""
 "默认禁用，不允许添加其他身份验证后端到现有账户。使用更多第三方身份验证后端"
 "时，重新绑定可导致账户沦陷。"
 
-#: ../../admin/config.rst:1651
+#: ../../admin/config.rst:1655
 msgid "REPOSITORY_ALERT_THRESHOLD"
 msgstr "REPOSITORY_ALERT_THRESHOLD"
 
-#: ../../admin/config.rst:1655
+#: ../../admin/config.rst:1659
 msgid ""
 "Threshold for triggering an alert for outdated repositories, or ones that "
 "contain too many changes. Defaults to 25."
 msgstr "触发仓库过期警报的阈值，或者包含了太多更改的阈值。默认为 25。"
 
-#: ../../admin/config.rst:1665
+#: ../../admin/config.rst:1669
 msgid "REQUIRE_LOGIN"
 msgstr "REQUIRE_LOGIN"
 
-#: ../../admin/config.rst:1669
+#: ../../admin/config.rst:1673
 msgid ""
 "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to "
 "require authentication for all API endpoints."
@@ -9023,7 +9029,7 @@ msgstr ""
 "这会启用 :setting:`LOGIN_REQUIRED_URLS` 并配置 REST 框架来对所有 API 端点都要"
 "求登录。"
 
-#: ../../admin/config.rst:1674
+#: ../../admin/config.rst:1678
 msgid ""
 "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
@@ -9031,15 +9037,15 @@ msgstr ""
 "这实现在 :ref:`sample-configuration`中。对于 Docker，使用 :envvar:"
 "`WEBLATE_REQUIRE_LOGIN`。"
 
-#: ../../admin/config.rst:1680
+#: ../../admin/config.rst:1684
 msgid "SENTRY_DSN"
 msgstr "SENTRY_DSN"
 
-#: ../../admin/config.rst:1682
+#: ../../admin/config.rst:1686
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
 msgstr "Sentry DSN 用于 :ref:`collecting-errors`。"
 
-#: ../../admin/config.rst:1686
+#: ../../admin/config.rst:1690
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "integrations/django/>`_"
@@ -9047,64 +9053,64 @@ msgstr ""
 "`Sentry 的 Django 集成 <https://docs.sentry.io/platforms/python/integrations/"
 "django/>`_"
 
-#: ../../admin/config.rst:1691
+#: ../../admin/config.rst:1695
 msgid "SENTRY_ENVIRONMENT"
 msgstr "SENTRY_ENVIRONMENT"
 
-#: ../../admin/config.rst:1693
+#: ../../admin/config.rst:1697
 msgid "Configures environment for Sentry. Defaults to ``devel``."
 msgstr "配置 Sentry 环境。默认值为 `devel``."
 
-#: ../../admin/config.rst:1698
+#: ../../admin/config.rst:1702
 msgid "SENTRY_PROFILES_SAMPLE_RATE"
 msgstr "SENTRY_PROFILES_SAMPLE_RATE"
 
-#: ../../admin/config.rst:1700
+#: ../../admin/config.rst:1704
 msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr "配置性能监控采样率。设为 1 跟踪所有事件，0（默认值）禁用跟踪。"
 
-#: ../../admin/config.rst:1704
+#: ../../admin/config.rst:1708
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_"
 msgstr "`Sentry 性能监控 <https://docs.sentry.io/product/performance/>`_"
 
-#: ../../admin/config.rst:1709
+#: ../../admin/config.rst:1713
 msgid "SENTRY_SEND_PII"
 msgstr "SENTRY_SEND_PII"
 
-#: ../../admin/config.rst:1711
+#: ../../admin/config.rst:1715
 msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "off by default."
 msgstr "允许 Sentry 收集特定的个人可识别身份信息。此选项默认关闭。"
 
-#: ../../admin/config.rst:1715
+#: ../../admin/config.rst:1719
 msgid "This is turned off by default now, used to be turned on by default."
 msgstr "默认关闭，曾经默认开启。"
 
-#: ../../admin/config.rst:1720
+#: ../../admin/config.rst:1724
 msgid "SENTRY_TRACES_SAMPLE_RATE"
 msgstr "SENTRY_TRACES_SAMPLE_RATE"
 
-#: ../../admin/config.rst:1722
+#: ../../admin/config.rst:1726
 msgid ""
 "Configure sampling rate for profiling monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr "配置个人资料监控采样率。设为 1 跟踪所有事件，0（默认）禁用跟踪。"
 
-#: ../../admin/config.rst:1726
+#: ../../admin/config.rst:1730
 msgid "`Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 msgstr ""
 "`Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 
-#: ../../admin/config.rst:1731
+#: ../../admin/config.rst:1735
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
 msgstr "SESSION_COOKIE_AGE_AUTHENTICATED"
 
-#: ../../admin/config.rst:1735
+#: ../../admin/config.rst:1739
 msgid ""
 "Set session expiry for authenticated users. This complements :setting:"
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
@@ -9112,15 +9118,15 @@ msgstr ""
 "对身份已验证用户设置会话过期时间。这是对用于未经身份验证用户的 :setting:"
 "`django:SESSION_COOKIE_AGE` 的补充。"
 
-#: ../../admin/config.rst:1740
+#: ../../admin/config.rst:1744
 msgid ":setting:`django:SESSION_COOKIE_AGE`"
 msgstr ":setting:`django:SESSION_COOKIE_AGE`"
 
-#: ../../admin/config.rst:1745
+#: ../../admin/config.rst:1749
 msgid "SIMPLIFY_LANGUAGES"
 msgstr "SIMPLIFY_LANGUAGES"
 
-#: ../../admin/config.rst:1747
+#: ../../admin/config.rst:1751
 msgid ""
 "Use simple language codes for default language/country combinations. For "
 "example an ``fr_FR`` translation will use the ``fr`` language code. This is "
@@ -9130,15 +9136,15 @@ msgstr ""
 "对于默认语言/国家组合使用简单语言代码。例如，``fr_FR`` 翻译将使用 ``fr`` 语言"
 "代码。这通常是受欢迎的特性，因为它简化了这些默认群组合列出的语言。"
 
-#: ../../admin/config.rst:1752
+#: ../../admin/config.rst:1756
 msgid "Turn this off if you want to different translations for each variant."
 msgstr "如果对每种不同的变化想要不同的翻译，那么请将其关闭。"
 
-#: ../../admin/config.rst:1757
+#: ../../admin/config.rst:1761
 msgid "SITE_DOMAIN"
 msgstr "SITE_DOMAIN"
 
-#: ../../admin/config.rst:1759
+#: ../../admin/config.rst:1763
 msgid ""
 "Configures site domain. Necessary to produce correct absolute links in many "
 "scopes (for example activation e-mails, notifications or RSS feeds)."
@@ -9146,11 +9152,11 @@ msgstr ""
 "配置网站域名。这对于在很多地方获得正确的绝对链接是必要的（例如激活电子邮箱、"
 "通知或 RSS 订阅源）。"
 
-#: ../../admin/config.rst:1762
+#: ../../admin/config.rst:1766
 msgid "If Weblate is running on a non-standard port, include it here as well."
 msgstr "在 Weblate 运行在非标准端口时，这里同样要包括它。"
 
-#: ../../admin/config.rst:1776
+#: ../../admin/config.rst:1780
 msgid ""
 "This setting should only contain the domain name. For configuring protocol, "
 "(turning on and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for "
@@ -9159,14 +9165,14 @@ msgstr ""
 "这个设置应该只包含域名。对于配置协议，（开启并强制 HTTPS ）使用 :setting:"
 "`ENABLE_HTTPS` ；对于修改 URL，使用 :setting:`URL_PREFIX`。"
 
-#: ../../admin/config.rst:1782
+#: ../../admin/config.rst:1786
 msgid ""
 "On a Docker container, the site domain is configured through :envvar:"
 "`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
 "关于 Docker 容器，网站域名通过 :envvar:`WEBLATE_ALLOWED_HOSTS` 来配置。"
 
-#: ../../admin/config.rst:1787
+#: ../../admin/config.rst:1791
 msgid ""
 ":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
@@ -9174,33 +9180,33 @@ msgstr ""
 ":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
-#: ../../admin/config.rst:1796
+#: ../../admin/config.rst:1800
 msgid "SITE_TITLE"
 msgstr "SITE_TITLE"
 
-#: ../../admin/config.rst:1798
+#: ../../admin/config.rst:1802
 msgid "Site title to be used for the website and sent e-mails."
 msgstr "用于网站和发送电子邮件的网站名称。"
 
-#: ../../admin/config.rst:1803
+#: ../../admin/config.rst:1807
 msgid "SPECIAL_CHARS"
 msgstr "SPECIAL_CHARS"
 
-#: ../../admin/config.rst:1805
+#: ../../admin/config.rst:1809
 msgid ""
 "Additional characters to include in the visual keyboard, :ref:`visual-"
 "keyboard`."
 msgstr "屏幕键盘中包括的另外的字符，:ref:`visual-keyboard`。"
 
-#: ../../admin/config.rst:1807
+#: ../../admin/config.rst:1811
 msgid "The default value is:"
 msgstr "默认值为："
 
-#: ../../admin/config.rst:1816
+#: ../../admin/config.rst:1820
 msgid "SINGLE_PROJECT"
 msgstr "SINGLE_PROJECT"
 
-#: ../../admin/config.rst:1818
+#: ../../admin/config.rst:1822
 msgid ""
 "Redirects users directly to a project or component instead of showing the "
 "dashboard. You can either set it to ``True`` so it only works if there is "
@@ -9211,11 +9217,11 @@ msgstr ""
 "样它只在 Weblate 中确实只有单一的项目时生效。另外可以设置项目标识串，将无条件"
 "地重定向到这个项目。"
 
-#: ../../admin/config.rst:1832
+#: ../../admin/config.rst:1836
 msgid "SSH_EXTRA_ARGS"
 msgstr "SSH_EXTRA_ARGS"
 
-#: ../../admin/config.rst:1836
+#: ../../admin/config.rst:1840
 msgid ""
 "Allows adding custom parameters when Weblate is invoking SSH. Useful when "
 "connecting to servers using legacy encryption or other non-standard features."
@@ -9223,7 +9229,7 @@ msgstr ""
 "允许在 Weblate 调用SSH时添加自定义参数。这会在连接到使用传统加密或其他非标准"
 "功能的服务器时帮助巨大。"
 
-#: ../../admin/config.rst:1839
+#: ../../admin/config.rst:1843
 msgid ""
 "For example when SSH connection in Weblate fails with `Unable to negotiate "
 "with legacyhost: no matching key exchange method found. Their offer: diffie-"
@@ -9233,39 +9239,39 @@ msgstr ""
 "matching key exchange method found. Their offer: diffie-hellman-group1-sha1`"
 "时，你可以用以下方式启用："
 
-#: ../../admin/config.rst:1848
+#: ../../admin/config.rst:1852
 msgid ""
 "The string is evaluated by the shell, so ensure any whitespace and special "
 "characters is quoted."
 msgstr "该字符串由 shell 评估，因此请确保任何空格和特殊字符都用引号括起来。"
 
-#: ../../admin/config.rst:1853
+#: ../../admin/config.rst:1857
 msgid "`OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_"
 msgstr "`OpenSSH 老旧选项 <https://www.openssh.com/legacy.html>`_"
 
-#: ../../admin/config.rst:1858
+#: ../../admin/config.rst:1862
 msgid "STATUS_URL"
 msgstr "STATUS_URL"
 
-#: ../../admin/config.rst:1860
+#: ../../admin/config.rst:1864
 msgid "The URL where your Weblate instance reports its status."
 msgstr "你的 Weblate 实例报告其状态的 URL。"
 
-#: ../../admin/config.rst:1865
+#: ../../admin/config.rst:1869
 msgid "SUGGESTION_CLEANUP_DAYS"
 msgstr "SUGGESTION_CLEANUP_DAYS"
 
-#: ../../admin/config.rst:1867
+#: ../../admin/config.rst:1871
 msgid ""
 "Automatically deletes suggestions after a given number of days. Defaults to "
 "``None``, meaning no deletions."
 msgstr "在给定天数后自动删除建议。默认为 ``None``，表示不删除。"
 
-#: ../../admin/config.rst:1873
+#: ../../admin/config.rst:1877
 msgid "SUPPORT_STATUS_CHECK"
 msgstr "SUPPORT_STATUS_CHECK"
 
-#: ../../admin/config.rst:1877
+#: ../../admin/config.rst:1881
 msgid ""
 "Disables semiannual support status check and redirecting superusers upon "
 "login to the donation page in case there is no active support subscription."
@@ -9273,30 +9279,30 @@ msgstr ""
 "停用半年度支持状态检查并在登录捐赠页时重定向超级用户，假使不存在活跃的支持订"
 "阅。"
 
-#: ../../admin/config.rst:1882
+#: ../../admin/config.rst:1886
 msgid ""
 "Improve your Weblate experience by purchasing a support subscription and "
 "boosting Weblate progress instead of turning this off."
 msgstr "购买支持订阅改进你的 Weblate 体验并推进 Weblate 项目进展。"
 
-#: ../../admin/config.rst:1887
+#: ../../admin/config.rst:1891
 msgid "UNUSED_ALERT_DAYS"
 msgstr "UNUSED_ALERT_DAYS"
 
-#: ../../admin/config.rst:1891
+#: ../../admin/config.rst:1895
 msgid ""
 "Configures when the :guilabel:`Component seems unused` alert is triggered."
 msgstr "配置何时触发 :guilabel:`该部件似乎从未使用` 警报。"
 
-#: ../../admin/config.rst:1893
+#: ../../admin/config.rst:1897
 msgid "Defaults to 365 days, set to 0 to turn it off."
 msgstr "默认为 365 天，设置为 0 则禁用。"
 
-#: ../../admin/config.rst:1898
+#: ../../admin/config.rst:1902
 msgid "UPDATE_LANGUAGES"
 msgstr "UPDATE_LANGUAGES"
 
-#: ../../admin/config.rst:1902
+#: ../../admin/config.rst:1906
 msgid ""
 "Controls whether languages database should be updated when running database "
 "migration and is on by default. This setting has no effect on invocation of :"
@@ -9305,7 +9311,7 @@ msgstr ""
 "控制在运行数据库迁移时是否应该更新语言数据库，默认开启。这个设置对 :wladmin:"
 "`setuplang` 的调用没有影响。"
 
-#: ../../admin/config.rst:1908
+#: ../../admin/config.rst:1912
 msgid ""
 "The languages display might become inconsistent with this. Weblate language "
 "definitions expand over time and it will not display language code for the "
@@ -9314,15 +9320,15 @@ msgstr ""
 "语言显示可能会与此不一致。Weblate 语言定义会随着时间的推移而扩展，并且它不会"
 "显示所定义语言的语言代码。"
 
-#: ../../admin/config.rst:1914
+#: ../../admin/config.rst:1918
 msgid ":ref:`included-languages`"
 msgstr ":ref:`included-languages`"
 
-#: ../../admin/config.rst:1919
+#: ../../admin/config.rst:1923
 msgid "URL_PREFIX"
 msgstr "URL_PREFIX"
 
-#: ../../admin/config.rst:1921
+#: ../../admin/config.rst:1925
 msgid ""
 "This setting allows you to run Weblate under some path (otherwise it relies "
 "on being run from the webserver root)."
@@ -9330,7 +9336,7 @@ msgstr ""
 "这个设置允许在一些路径下运行 Weblate （否则它依赖于从 web 服务器根目录运"
 "行）。"
 
-#: ../../admin/config.rst:1926
+#: ../../admin/config.rst:1930
 msgid ""
 "To use this setting, you also need to configure your server to strip this "
 "prefix. For example with WSGI, this can be achieved by setting "
@@ -9339,11 +9345,11 @@ msgstr ""
 "为了使用这个设置，还需要配置服务器来去掉这个前缀。例如 WSGI，可以通过设置 "
 "``WSGIScriptAlias`` 来实现。"
 
-#: ../../admin/config.rst:1931
+#: ../../admin/config.rst:1935
 msgid "The prefix should start with a ``/``."
 msgstr "前缀应该以 ``/`` 开始。"
 
-#: ../../admin/config.rst:1941
+#: ../../admin/config.rst:1945
 msgid ""
 "This setting does not work with Django's built-in server, you would have to "
 "adjust :file:`urls.py` to contain this prefix."
@@ -9351,11 +9357,11 @@ msgstr ""
 "这个设置在 Django's 内建服务器中不起作用，必须调整 :file:`urls.py` 来包含这个"
 "前缀。"
 
-#: ../../admin/config.rst:1947
+#: ../../admin/config.rst:1951
 msgid "VCS_API_DELAY"
 msgstr "VCS_API_DELAY"
 
-#: ../../admin/config.rst:1951
+#: ../../admin/config.rst:1955
 msgid ""
 "Configures minimal delay in seconds between third-party API calls in :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and :"
@@ -9365,51 +9371,51 @@ msgstr ""
 "pagure`和 :ref:`vcs-azure-devops`. 中配置第三方 API 调用之间的最小延迟（以秒"
 "为单位）。"
 
-#: ../../admin/config.rst:1955
+#: ../../admin/config.rst:1959
 msgid ""
 "This rate-limits API calls from Weblate to these services to avoid "
 "overloading them."
 msgstr "这个速率限制 Weblate 对这些服务的调用，避免服务过载。"
 
-#: ../../admin/config.rst:1957
+#: ../../admin/config.rst:1961
 msgid ""
 "If you are being limited by secondary rate-limiter at GitHub, increasing "
 "this might help."
 msgstr "如果你正受限于 GitHub 的二级限速器，提升这个值可能会有帮助。"
 
-#: ../../admin/config.rst:1959
+#: ../../admin/config.rst:1963
 msgid "The default value is 10."
 msgstr "默认值为 10。"
 
-#: ../../admin/config.rst:1964
+#: ../../admin/config.rst:1968
 msgid "VCS_BACKENDS"
 msgstr "VCS_BACKENDS"
 
-#: ../../admin/config.rst:1966
+#: ../../admin/config.rst:1970
 msgid "Configuration of available VCS backends."
 msgstr "可用的版本控制系统后端的配置。"
 
-#: ../../admin/config.rst:1970
+#: ../../admin/config.rst:1974
 msgid "Weblate tries to use all supported back-ends you have the tools for."
 msgstr "Weblate 尝试使用你所有工具支持的后端。"
 
-#: ../../admin/config.rst:1974
+#: ../../admin/config.rst:1978
 msgid "You can limit choices or add custom VCS back-ends by using this."
 msgstr "可以使用这个来限制选择或添加定制版本控制系统后端。"
 
-#: ../../admin/config.rst:1982 ../../faq.rst:517
+#: ../../admin/config.rst:1986 ../../faq.rst:525
 msgid ":ref:`vcs`"
 msgstr ":ref:`vcs`"
 
-#: ../../admin/config.rst:1987
+#: ../../admin/config.rst:1991
 msgid "VCS_CLONE_DEPTH"
 msgstr "VCS_CLONE_DEPTH"
 
-#: ../../admin/config.rst:1989
+#: ../../admin/config.rst:1993
 msgid "Configures how deep cloning of repositories Weblate should do."
 msgstr "配置 Weblate应该对仓库进行深度为多少的克隆。"
 
-#: ../../admin/config.rst:1993
+#: ../../admin/config.rst:1997
 msgid ""
 "Currently this is only supported in :ref:`vcs-git`. By default Weblate does "
 "shallow clones of the repositories to make cloning faster and save disk "
@@ -9421,7 +9427,7 @@ msgstr ""
 "节省磁盘空间。根据应用（例如当使用定制的 :ref:`addons` 时），你可能想要增加深"
 "度，或通过设置为 0 来完全关闭浅克隆。"
 
-#: ../../admin/config.rst:2000
+#: ../../admin/config.rst:2004
 msgid ""
 "In case you get ``fatal: protocol error: expected old/new/ref, got 'shallow "
 "<commit hash>'`` error when pushing from Weblate, turn off shallow clones "
@@ -9430,11 +9436,11 @@ msgstr ""
 "在从 Weblate 推送而得到 ``fatal: protocol error: expected old/new/ref, got "
 "'shallow <commit hash>'`` 错误的情况下，通过设置来完全关闭浅克隆："
 
-#: ../../admin/config.rst:2010
+#: ../../admin/config.rst:2014
 msgid "WEBLATE_ADDONS"
 msgstr "WEBLATE_ADDONS"
 
-#: ../../admin/config.rst:2012
+#: ../../admin/config.rst:2016
 msgid ""
 "List of add-ons available for use. To use them, they have to be enabled for "
 "a given translation component. By default this includes all built-in add-"
@@ -9444,7 +9450,7 @@ msgstr ""
 "可供使用的附加组件列表。为了使用，必须为给定的翻译部件启用它们。默认包括了所"
 "有内建附加组件，当扩展列表时您可能希望保持现有的附加组件处于启用状态，例如："
 
-#: ../../admin/config.rst:2052
+#: ../../admin/config.rst:2056
 msgid ""
 "Removing the add-on from the list does not uninstall it from the components. "
 "Weblate will crash in that case. Please uninstall the add-on from all "
@@ -9453,7 +9459,7 @@ msgstr ""
 "从列表中删除附加组件并不能将其从部件中卸载。Weblate 在这种情况下会崩溃。请先"
 "从所有部件中卸载附加组件，然后再将其从此列表中删除。"
 
-#: ../../admin/config.rst:2058
+#: ../../admin/config.rst:2062
 msgid ""
 ":ref:`addons`, :setting:`DEFAULT_ADDONS`, :setting:"
 "`ADDON_ACTIVITY_LOG_EXPIRY`"
@@ -9461,62 +9467,62 @@ msgstr ""
 ":ref:`addons`, :setting:`DEFAULT_ADDONS`, :setting:"
 "`ADDON_ACTIVITY_LOG_EXPIRY`"
 
-#: ../../admin/config.rst:2065
+#: ../../admin/config.rst:2069
 msgid "ADDON_ACTIVITY_LOG_EXPIRY"
 msgstr "ADDON_ACTIVITY_LOG_EXPIRY"
 
-#: ../../admin/config.rst:2069
+#: ../../admin/config.rst:2073
 msgid ""
 "Configures how long activity logs for add-ons are kept. Defaults to 180 days."
 msgstr "配置要保留附加组件活动记录多长时间。默认为 180 天。"
 
-#: ../../admin/config.rst:2074
+#: ../../admin/config.rst:2078
 msgid "WEBLATE_EXPORTERS"
 msgstr "WEBLATE_EXPORTERS"
 
-#: ../../admin/config.rst:2078
+#: ../../admin/config.rst:2082
 msgid ""
 "List of a available exporters offering downloading translations or "
 "glossaries in various file formats."
 msgstr "可用的导出程序列表，提供下载各种文件格式的翻译或术语表。"
 
-#: ../../admin/config.rst:2083 ../../admin/config.rst:2098
+#: ../../admin/config.rst:2087 ../../admin/config.rst:2102
 msgid ":ref:`formats`"
 msgstr ":ref:`formats`"
 
-#: ../../admin/config.rst:2088
+#: ../../admin/config.rst:2092
 msgid "WEBLATE_FORMATS"
 msgstr "WEBLATE_FORMATS"
 
-#: ../../admin/config.rst:2090
+#: ../../admin/config.rst:2094
 msgid "List of file formats available for use."
 msgstr "可供使用的文件格式列表。"
 
-#: ../../admin/config.rst:2094
+#: ../../admin/config.rst:2098
 msgid "The default list already has the common formats."
 msgstr "默认列表已经具有了常见格式。"
 
-#: ../../admin/config.rst:2104
+#: ../../admin/config.rst:2108
 msgid "WEBLATE_MACHINERY"
 msgstr "WEBLATE_MACHINERY"
 
-#: ../../admin/config.rst:2108
+#: ../../admin/config.rst:2112
 msgid "List of machinery services available for use."
 msgstr "可供使用的机器翻译服务列表。"
 
-#: ../../admin/config.rst:2112
+#: ../../admin/config.rst:2116
 msgid ":doc:`/admin/machine`"
 msgstr ":doc:`/admin/machine`"
 
-#: ../../admin/config.rst:2117
+#: ../../admin/config.rst:2121
 msgid "WEBLATE_GPG_IDENTITY"
 msgstr "WEBLATE_GPG_IDENTITY"
 
-#: ../../admin/config.rst:2119
+#: ../../admin/config.rst:2123
 msgid "Identity used by Weblate to sign Git commits, for example:"
 msgstr "Weblate 对 Git 提交进行签名的身份，例如："
 
-#: ../../admin/config.rst:2125
+#: ../../admin/config.rst:2129
 msgid ""
 "The Weblate GPG keyring is searched for a matching key (:file:`home/.gnupg` "
 "under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
@@ -9525,15 +9531,15 @@ msgstr ""
 "在 Weblate GPG 密钥环中搜索匹配的密钥（:setting:`DATA_DIR` 下的 :file:`home/."
 "gnupg`）。如果找不到，则会生成一个密钥，请查阅 :ref:`gpg-sign` 了解详情。"
 
-#: ../../admin/config.rst:2131 ../../admin/install/docker.rst:827
+#: ../../admin/config.rst:2135 ../../admin/install/docker.rst:827
 msgid ":ref:`gpg-sign`"
 msgstr ":ref:`gpg-sign`"
 
-#: ../../admin/config.rst:2136
+#: ../../admin/config.rst:2140
 msgid "WEBSITE_REQUIRED"
 msgstr "WEBSITE_REQUIRED"
 
-#: ../../admin/config.rst:2138
+#: ../../admin/config.rst:2142
 msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. On by default, as that suits public server setups."
@@ -9541,11 +9547,11 @@ msgstr ""
 "定义了在创建项目时是否需要指定 :ref:`project-web`。默认打开，因为这适合公共服"
 "务器的设置。"
 
-#: ../../admin/config.rst:2145
+#: ../../admin/config.rst:2149
 msgid "Configuring version control credentials"
 msgstr "配置版本控制凭据"
 
-#: ../../admin/config.rst:2149
+#: ../../admin/config.rst:2153
 msgid ""
 "This section describes VCS credential variables as :setting:"
 "`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`, :setting:"
@@ -9556,7 +9562,7 @@ msgstr ""
 "`GITLAB_CREDENTIALS`、 :setting:`GITEA_CREDENTIALS`、 :setting:"
 "`PAGURE_CREDENTIALS`、:setting:`BITBUCKETSERVER_CREDENTIALS`。"
 
-#: ../../admin/config.rst:2158
+#: ../../admin/config.rst:2162
 msgid ""
 "The credentials can also be overridden in :ref:`component-push` or :ref:"
 "`component-repo` (if push URL is not configured), these take precedence over "
@@ -9565,15 +9571,15 @@ msgstr ""
 "凭据也可以在 :ref:`component-push` 或 :ref:`component-repo`中被覆盖（如果没有"
 "配置 URL），这些凭据的优先级高于配置文件中所指定的凭据。"
 
-#: ../../admin/config.rst:2165
+#: ../../admin/config.rst:2169
 msgid "API user, required."
 msgstr "API 用户，必填。"
 
-#: ../../admin/config.rst:2168
+#: ../../admin/config.rst:2172
 msgid "``scheme``"
 msgstr "``scheme``"
 
-#: ../../admin/config.rst:2171
+#: ../../admin/config.rst:2175
 msgid ""
 "Scheme override. Weblate attempts to parse scheme from the repository URL "
 "and falls backs to ``https``. If you are running the API server internally, "
@@ -9582,7 +9588,7 @@ msgstr ""
 "方案覆盖。Weblate 尝试从仓库 URL 解析方案并退回到 ``https``。如果你正在内部运"
 "行 API 服务器，你也许想转而使用 ``http``，但考虑安全性。"
 
-#: ../../admin/config.rst:2177
+#: ../../admin/config.rst:2181
 msgid ""
 "In the Docker container, the credentials can be configured using environment "
 "variables, see :ref:`docker-vcs-config`."
@@ -10101,9 +10107,13 @@ msgstr ""
 "`component-vcs` 来激活这些。"
 
 #: ../../admin/continuous.rst:340
+#, fuzzy
+#| msgid ""
+#| "Overall, following options are available with Git, Mercurial, GitHub, "
+#| "GitLab, Gitea, Pagure, and Azure DevOps:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
-"GitLab, Gitea, Pagure, and Azure DevOps:"
+"GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Server and Bitbucket Cloud:"
 msgstr ""
 "整体上， Git、Mercurial、GitHub、GitLab、 Gitea、Pagure 和 Azure DevOps 有下"
 "列选项："
@@ -10137,7 +10147,8 @@ msgstr ":ref:`vcs-git`"
 #: ../../admin/continuous.rst:352 ../../admin/continuous.rst:354
 #: ../../admin/continuous.rst:358 ../../admin/continuous.rst:362
 #: ../../admin/continuous.rst:366 ../../admin/continuous.rst:370
-#: ../../admin/continuous.rst:374
+#: ../../admin/continuous.rst:374 ../../admin/continuous.rst:378
+#: ../../admin/continuous.rst:382
 msgid "`empty`"
 msgstr "`空`"
 
@@ -10157,7 +10168,8 @@ msgstr "推送到单独的分支"
 #: ../../admin/continuous.rst:350 ../../admin/continuous.rst:356
 #: ../../admin/continuous.rst:360 ../../admin/continuous.rst:364
 #: ../../admin/continuous.rst:368 ../../admin/continuous.rst:372
-#: ../../admin/continuous.rst:376
+#: ../../admin/continuous.rst:376 ../../admin/continuous.rst:380
+#: ../../admin/continuous.rst:384
 msgid "Branch name"
 msgstr "分支名称"
 
@@ -10180,7 +10192,8 @@ msgstr "来自分支的 GitHub 拉取请求"
 
 #: ../../admin/continuous.rst:360 ../../admin/continuous.rst:364
 #: ../../admin/continuous.rst:368 ../../admin/continuous.rst:372
-#: ../../admin/continuous.rst:376
+#: ../../admin/continuous.rst:376 ../../admin/continuous.rst:380
+#: ../../admin/continuous.rst:384
 msgid "SSH URL [#empty]_"
 msgstr "SSH URL [#empty]_"
 
@@ -10225,7 +10238,7 @@ msgid "Azure DevOps pull request from fork"
 msgstr "来自分叉的 Azure DevOps 拉取请求"
 
 #: ../../admin/continuous.rst:374 ../../admin/continuous.rst:376
-#: ../../changes.rst:637
+#: ../../changes.rst:635
 msgid ":ref:`vcs-azure-devops`"
 msgstr ":ref:`vcs-azure-devops`"
 
@@ -10233,11 +10246,47 @@ msgstr ":ref:`vcs-azure-devops`"
 msgid "Azure DevOps pull request from branch"
 msgstr "来自分支的 Azure DevOps 拉取请求"
 
-#: ../../admin/continuous.rst:379
+#: ../../admin/continuous.rst:378
+#, fuzzy
+#| msgid "Bitbucket Server pull request"
+msgid "Bitbucket server pull request from fork"
+msgstr "Bitbucket 服务器拉取请求"
+
+#: ../../admin/continuous.rst:378 ../../admin/continuous.rst:380
+#, fuzzy
+#| msgid ":ref:`vcs-bitbucket-cloud`."
+msgid ":ref:`vcs-bitbucket-server`"
+msgstr ":ref:`vcs-bitbucket-cloud`。"
+
+#: ../../admin/continuous.rst:380
+#, fuzzy
+#| msgid "Bitbucket Server pull request"
+msgid "Bitbucket server pull request from branch"
+msgstr "Bitbucket 服务器拉取请求"
+
+#: ../../admin/continuous.rst:382
+#, fuzzy
+#| msgid "Bitbucket Cloud pull requests"
+msgid "Bitbucket Cloud pull request from fork"
+msgstr "Bitbucket Cloud 拉取请求"
+
+#: ../../admin/continuous.rst:382 ../../admin/continuous.rst:384
+#, fuzzy
+#| msgid ":ref:`vcs-bitbucket-cloud`."
+msgid ":ref:`vcs-bitbucket-cloud`"
+msgstr ":ref:`vcs-bitbucket-cloud`。"
+
+#: ../../admin/continuous.rst:384
+#, fuzzy
+#| msgid "Bitbucket Cloud pull requests"
+msgid "Bitbucket Cloud pull request from branch"
+msgstr "Bitbucket Cloud 拉取请求"
+
+#: ../../admin/continuous.rst:387
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
 msgstr "在 :ref:`component-repo` 支持推送的情况下可以为空。"
 
-#: ../../admin/continuous.rst:384
+#: ../../admin/continuous.rst:392
 msgid ""
 "You can also enable automatic pushing of changes after Weblate commits, this "
 "can be done in :ref:`component-push_on_commit`."
@@ -10245,7 +10294,7 @@ msgstr ""
 "还可以允许 Weblate 提交后更改的自动推送，这可以在 :ref:`component-"
 "push_on_commit` 中完成。"
 
-#: ../../admin/continuous.rst:389
+#: ../../admin/continuous.rst:397
 msgid ""
 "See :ref:`vcs-repos` for setting up SSH keys, and :ref:`lazy-commit` for "
 "info about when Weblate decides to commit changes."
@@ -10253,11 +10302,11 @@ msgstr ""
 "请参见 :ref:`vcs-repos` 来设置 SSH 密钥，和 :ref:`lazy-commit` 获得关于 "
 "Weblate 决定提交更改的信息。"
 
-#: ../../admin/continuous.rst:393
+#: ../../admin/continuous.rst:401
 msgid "Protected branches"
 msgstr "受保护的分支"
 
-#: ../../admin/continuous.rst:395
+#: ../../admin/continuous.rst:403
 msgid ""
 "If you are using Weblate on protected branch, you can configure it to use "
 "pull requests and perform actual review on the translations (what might be "
@@ -10268,27 +10317,27 @@ msgstr ""
 "（对你不知道的语言可能有问题）。另一个方法是去掉对 Weblate 推送用户的这个限"
 "制。"
 
-#: ../../admin/continuous.rst:400
+#: ../../admin/continuous.rst:408
 msgid "For example on GitHub this can be done in the repository configuration:"
 msgstr "例如在 GitHub，这可以在仓库配置中进行："
 
-#: ../../admin/continuous.rst:405
+#: ../../admin/continuous.rst:413
 msgid "Interacting with others"
 msgstr "与他人交互"
 
-#: ../../admin/continuous.rst:407
+#: ../../admin/continuous.rst:415
 msgid "Weblate makes it easy to interact with others using its API."
 msgstr "Weblate 通过使用它的 API，使与他人的交流更容易。"
 
-#: ../../admin/continuous.rst:411
+#: ../../admin/continuous.rst:419
 msgid ":ref:`api`"
 msgstr ":ref:`api`"
 
-#: ../../admin/continuous.rst:416
+#: ../../admin/continuous.rst:424
 msgid "Lazy commits"
 msgstr "惰性提交"
 
-#: ../../admin/continuous.rst:418
+#: ../../admin/continuous.rst:426
 msgid ""
 "The behaviour of Weblate is to group commits from the same author into one "
 "commit if possible. This greatly reduces the number of commits, however you "
@@ -10300,29 +10349,29 @@ msgstr ""
 "是如果你想同步版本控制系统仓库，例如合并，你可能需要明确地告诉它去做提交（这"
 "对 :guilabel:`管理者` 组是默认允许的，参见 :ref:`privileges`）。"
 
-#: ../../admin/continuous.rst:424
+#: ../../admin/continuous.rst:432
 msgid ""
 "The changes in this mode are committed once any of the following conditions "
 "are fulfilled:"
 msgstr "一旦后面的任何条件满足，这种模式的更改将被提交："
 
-#: ../../admin/continuous.rst:427
+#: ../../admin/continuous.rst:435
 msgid "Somebody else changes an already changed string."
 msgstr "某人另外更改了已经被更改的字符串。"
 
-#: ../../admin/continuous.rst:428
+#: ../../admin/continuous.rst:436
 msgid "A merge from upstream occurs."
 msgstr "来自上游的结合发生了。"
 
-#: ../../admin/continuous.rst:429
+#: ../../admin/continuous.rst:437
 msgid "An explicit commit is requested."
 msgstr "明确地请求了提交。"
 
-#: ../../admin/continuous.rst:430
+#: ../../admin/continuous.rst:438
 msgid "A file download is requested."
 msgstr "已请求文件下载。"
 
-#: ../../admin/continuous.rst:431
+#: ../../admin/continuous.rst:439
 msgid ""
 "Change is older than period defined as :ref:`component-commit_pending_age` "
 "on :ref:`component`."
@@ -10330,7 +10379,7 @@ msgstr ""
 "更改比 :ref:`component` 上定义为 :ref:`component-commit_pending_age` 的时间段"
 "更陈旧。"
 
-#: ../../admin/continuous.rst:435
+#: ../../admin/continuous.rst:443
 msgid ""
 "Commits are created for every component. So in case you have many components "
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
@@ -10339,7 +10388,7 @@ msgstr ""
 "每个部件都会创建提交。所以，如果你有很多部件，仍然会看到很多提交。在这种情况"
 "下，你可以使用 :ref:`addon-weblate.git.squash` 附加组件。"
 
-#: ../../admin/continuous.rst:439
+#: ../../admin/continuous.rst:447
 msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit. This can be done using :"
@@ -10354,11 +10403,11 @@ msgstr ""
 "择 ``weblate.trans.tasks.commit_pending`` 为 :guilabel:`Task`， "
 "``{\"hours\": 0}`` 为 :guilabel:`Keyword Arguments` 和想要的间隔。"
 
-#: ../../admin/continuous.rst:449
+#: ../../admin/continuous.rst:457
 msgid "Processing repository with scripts"
 msgstr "用脚本处理仓库"
 
-#: ../../admin/continuous.rst:451
+#: ../../admin/continuous.rst:459
 msgid ""
 "The way to customize how Weblate interacts with the repository is :ref:"
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
@@ -10367,11 +10416,11 @@ msgstr ""
 "定制 Weblate 与仓库交互的方式是 :ref:`addons`。关于如何通过附加组件执行外部脚"
 "本的信息，请咨询 :ref:`addon-script`。"
 
-#: ../../admin/continuous.rst:458
+#: ../../admin/continuous.rst:466
 msgid "Keeping translations same across components"
 msgstr "跨部件保持翻译一致"
 
-#: ../../admin/continuous.rst:460
+#: ../../admin/continuous.rst:468
 msgid ""
 "Once you have multiple translation components, you might want to ensure that "
 "the same strings have same translation. This can be achieved at several "
@@ -10380,11 +10429,11 @@ msgstr ""
 "一旦具有多个翻译部件，你会想要确保相同的字符串具有相同的翻译。这可以在几个层"
 "次实现。"
 
-#: ../../admin/continuous.rst:464
+#: ../../admin/continuous.rst:472
 msgid "Translation propagation"
 msgstr "翻译传播"
 
-#: ../../admin/continuous.rst:466
+#: ../../admin/continuous.rst:474
 msgid ""
 "With :ref:`component-allow_translation_propagation` enabled (what is the "
 "default, see :ref:`component`), all new translations are automatically done "
@@ -10395,17 +10444,17 @@ msgstr ""
 "的，请参见 :ref:`component` ），在所有的部件中字符串匹配时，所有新的翻译自动"
 "进行。在所有的部件中这样的翻译都适当地归功于当前翻译的用户。"
 
-#: ../../admin/continuous.rst:473
+#: ../../admin/continuous.rst:481
 msgid ""
 "The translation propagation requires the key to be match for monolingual "
 "translation formats, so keep that in mind when creating translation keys."
 msgstr "翻译传播需要密钥来匹配单语言翻译格式，因此在建立翻译密钥后请牢记。"
 
-#: ../../admin/continuous.rst:477
+#: ../../admin/continuous.rst:485
 msgid "Consistency check"
 msgstr "一致性检查"
 
-#: ../../admin/continuous.rst:479
+#: ../../admin/continuous.rst:487
 msgid ""
 "The :ref:`check-inconsistent` check fires whenever the strings are "
 "different. You can utilize this to review such differences manually and "
@@ -10414,7 +10463,7 @@ msgstr ""
 "只要字符串存在差异，就会触发 :ref:`check-inconsistent` 检查。可以利用此检查来"
 "手动复查这些差异，并选择正确的翻译。"
 
-#: ../../admin/continuous.rst:488
+#: ../../admin/continuous.rst:496
 msgid ""
 "Automatic translation based on different components can be way to "
 "synchronize the translations across components. You can either trigger it "
@@ -13258,8 +13307,8 @@ msgid ""
 "scaling`."
 msgstr ""
 "这会通过 HTTP 创建一个 Weblate 部署服务器，你应将它置于 HTTPS 终止代理之后。"
-"你也可以用 HTTPS 代理进行部署，参见 :ref:`docker-https-portal`。 "
-"对于更大型的安装设置，请见 :ref:`docker-scaling`。"
+"你也可以用 HTTPS 代理进行部署，参见 :ref:`docker-https-portal`。 对于更大型的"
+"安装设置，请见 :ref:`docker-scaling`。"
 
 #: ../../admin/install/docker.rst:26
 msgid "Clone the weblate-docker repo:"
@@ -18837,7 +18886,7 @@ msgid ""
 msgstr "Git 导出器在我们的官方 Docker 映像中处于开启状态。要关闭它，使用："
 
 #: ../../admin/optionals.rst:37 ../../admin/optionals.rst:102
-#: ../../admin/optionals.rst:179 ../../faq.rst:299
+#: ../../admin/optionals.rst:179 ../../faq.rst:303
 msgid "Usage"
 msgstr "用法"
 
@@ -19774,7 +19823,7 @@ msgstr "启用原文审校"
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgstr "允许复核源字符串的工作流程，请参见 :ref:`source-reviews`。"
 
-#: ../../admin/projects.rst:233 ../../faq.rst:322
+#: ../../admin/projects.rst:233 ../../faq.rst:326
 msgid ":ref:`report-source`, :ref:`user-comments`"
 msgstr ":ref:`report-source`, :ref:`user-comments`"
 
@@ -23015,9 +23064,8 @@ msgid ""
 "formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of "
 "converters listed at :ref:`download`."
 msgstr ""
-"要使用的存档格式；如未指定，默认为 ``zip`` ；受支持的格式: ``zip`` 和 "
-"``zip:CONVERSION`` ，其中 ``CONVERSION`` 为 :ref:`download` "
-"处列出的转换器之一。"
+"要使用的存档格式；如未指定，默认为 ``zip`` ；受支持的格式: ``zip`` 和 ``zip:"
+"CONVERSION`` ，其中 ``CONVERSION`` 为 :ref:`download` 处列出的转换器之一。"
 
 #: ../../api.rst:923
 msgid ""
@@ -23148,8 +23196,8 @@ msgid ""
 "``docfile`` parameters. The data has to be uploaded as :mimetype:`multipart/"
 "form-data`."
 msgstr ""
-"使用 ``zipfile`` 上传文件时无法使用 JSON 和 ``docfile`` 参数数据必须以 "
-":mimetype:`multipart/form-data` 的形式上传。"
+"使用 ``zipfile`` 上传文件时无法使用 JSON 和 ``docfile`` 参数数据必须以 :"
+"mimetype:`multipart/form-data` 的形式上传。"
 
 #: ../../api.rst:1038
 msgid "**CURL form request example:**"
@@ -25027,8 +25075,8 @@ msgid ""
 "Please ensure that :guilabel:`Resource details to send` is set to *All*, "
 "otherwise Weblate will not be able to match your Azure repository."
 msgstr ""
-"请确保 :guilabel:`Resource details to send` 设置为 *All*，否则 Weblate "
-"将无法匹配你的 Azure 仓库。"
+"请确保 :guilabel:`Resource details to send` 设置为 *All*，否则 Weblate 将无法"
+"匹配你的 Azure 仓库。"
 
 #: ../../api.rst:2816
 msgid "For instruction on setting up Azure integration"
@@ -25151,50 +25199,70 @@ msgid "Weblate 5.8.2"
 msgstr "Weblate 5.8.2"
 
 #: ../../changes.rst:4
-msgid "Not yet released."
-msgstr "尚未发布。"
+#, fuzzy
+#| msgid "Released on November 16th 2023."
+msgid "Released on November 1st 2024."
+msgstr "发布于 2023 年 11 月 16 日。"
 
-#: ../../changes.rst:6 ../../changes.rst:50 ../../changes.rst:155
-#: ../../changes.rst:251 ../../changes.rst:363 ../../changes.rst:400
-#: ../../changes.rst:511 ../../changes.rst:573 ../../changes.rst:635
-#: ../../changes.rst:676 ../../changes.rst:703 ../../changes.rst:779
-#: ../../changes.rst:820
-msgid "**New features**"
-msgstr "**新功能**"
-
-#: ../../changes.rst:8 ../../changes.rst:58 ../../changes.rst:101
-#: ../../changes.rst:127 ../../changes.rst:165 ../../changes.rst:231
-#: ../../changes.rst:256 ../../changes.rst:305 ../../changes.rst:327
-#: ../../changes.rst:368 ../../changes.rst:414 ../../changes.rst:519
-#: ../../changes.rst:582 ../../changes.rst:611 ../../changes.rst:639
-#: ../../changes.rst:678 ../../changes.rst:711 ../../changes.rst:754
-#: ../../changes.rst:783 ../../changes.rst:828
-msgid "**Improvements**"
-msgstr "**改进**"
-
-#: ../../changes.rst:10 ../../changes.rst:31 ../../changes.rst:73
-#: ../../changes.rst:107 ../../changes.rst:132 ../../changes.rst:178
-#: ../../changes.rst:211 ../../changes.rst:236 ../../changes.rst:266
-#: ../../changes.rst:289 ../../changes.rst:312 ../../changes.rst:332
-#: ../../changes.rst:348 ../../changes.rst:378 ../../changes.rst:425
-#: ../../changes.rst:456 ../../changes.rst:479 ../../changes.rst:495
-#: ../../changes.rst:534 ../../changes.rst:558 ../../changes.rst:591
-#: ../../changes.rst:616 ../../changes.rst:652 ../../changes.rst:685
-#: ../../changes.rst:726 ../../changes.rst:759 ../../changes.rst:792
-#: ../../changes.rst:849
+#: ../../changes.rst:6 ../../changes.rst:29 ../../changes.rst:71
+#: ../../changes.rst:105 ../../changes.rst:130 ../../changes.rst:176
+#: ../../changes.rst:209 ../../changes.rst:234 ../../changes.rst:264
+#: ../../changes.rst:287 ../../changes.rst:310 ../../changes.rst:330
+#: ../../changes.rst:346 ../../changes.rst:376 ../../changes.rst:423
+#: ../../changes.rst:454 ../../changes.rst:477 ../../changes.rst:493
+#: ../../changes.rst:532 ../../changes.rst:556 ../../changes.rst:589
+#: ../../changes.rst:614 ../../changes.rst:650 ../../changes.rst:683
+#: ../../changes.rst:724 ../../changes.rst:757 ../../changes.rst:790
+#: ../../changes.rst:847
 msgid "**Bug fixes**"
 msgstr "**缺陷修复**"
 
-#: ../../changes.rst:12
+#: ../../changes.rst:8
 msgid "Update outdated plural definitions during the database migration."
 msgstr "在数据库迁移期间更新过期的复数定义。"
 
-#: ../../changes.rst:14 ../../changes.rst:79 ../../changes.rst:184
-#: ../../changes.rst:274 ../../changes.rst:436 ../../changes.rst:542
-#: ../../changes.rst:595 ../../changes.rst:660 ../../changes.rst:690
-#: ../../changes.rst:735 ../../changes.rst:802 ../../changes.rst:857
-msgid "**Compatibility**"
-msgstr "**兼容性**"
+#: ../../changes.rst:9
+#, fuzzy
+#| msgid "Reduce number of commits when updating upstream repository."
+msgid "Reduced number of database queries when updating multiple strings."
+msgstr "减少更新上游仓库时的提交数量。"
+
+#: ../../changes.rst:10
+msgid ""
+"Leading problematic characters in :ref:`glossary` terms are now properly "
+"stripped in uploaded files."
+msgstr ""
+
+#: ../../changes.rst:11
+#, fuzzy
+#| msgid "Improved :ref:`workflow-customization` configuration forms."
+msgid "Improved :ref:`workflow-customization` performance."
+msgstr "完善了 :ref:`workflow-customization` 配置表单。"
+
+#: ../../changes.rst:12
+#, fuzzy
+#| msgid "Fixed sorting of machine translation suggestions."
+msgid "Fixed XML escaped output in some machine translation integrations."
+msgstr "修复了机器翻译建议的排序。"
+
+#: ../../changes.rst:14 ../../changes.rst:33 ../../changes.rst:82
+#: ../../changes.rst:110 ../../changes.rst:138 ../../changes.rst:191
+#: ../../changes.rst:218 ../../changes.rst:238 ../../changes.rst:276
+#: ../../changes.rst:292 ../../changes.rst:314 ../../changes.rst:335
+#: ../../changes.rst:350 ../../changes.rst:385 ../../changes.rst:440
+#: ../../changes.rst:466 ../../changes.rst:482 ../../changes.rst:498
+#: ../../changes.rst:545 ../../changes.rst:560 ../../changes.rst:598
+#: ../../changes.rst:622 ../../changes.rst:663 ../../changes.rst:690
+#: ../../changes.rst:737 ../../changes.rst:764 ../../changes.rst:805
+#: ../../changes.rst:860 ../../changes/v4.rst:53 ../../changes/v4.rst:85
+#: ../../changes/v4.rst:168 ../../changes/v4.rst:236 ../../changes/v4.rst:317
+#: ../../changes/v4.rst:373 ../../changes/v4.rst:432 ../../changes/v4.rst:494
+#: ../../changes/v4.rst:540 ../../changes/v4.rst:595 ../../changes/v4.rst:642
+#: ../../changes/v4.rst:696 ../../changes/v4.rst:767 ../../changes/v4.rst:858
+#: ../../changes/v4.rst:933 ../../changes/v4.rst:1019 ../../changes/v4.rst:1094
+#: ../../changes/v4.rst:1167
+msgid "**Upgrading**"
+msgstr "**升级**"
 
 #: ../../changes.rst:16 ../../changes.rst:35 ../../changes.rst:84
 #: ../../changes.rst:112 ../../changes.rst:140 ../../changes.rst:193
@@ -25205,26 +25273,7 @@ msgstr "**兼容性**"
 #: ../../changes.rst:547 ../../changes.rst:562 ../../changes.rst:600
 #: ../../changes.rst:624 ../../changes.rst:665 ../../changes.rst:692
 #: ../../changes.rst:739 ../../changes.rst:766 ../../changes.rst:807
-#: ../../changes.rst:862 ../../changes/v4.rst:53 ../../changes/v4.rst:85
-#: ../../changes/v4.rst:168 ../../changes/v4.rst:236 ../../changes/v4.rst:317
-#: ../../changes/v4.rst:373 ../../changes/v4.rst:432 ../../changes/v4.rst:494
-#: ../../changes/v4.rst:540 ../../changes/v4.rst:595 ../../changes/v4.rst:642
-#: ../../changes/v4.rst:696 ../../changes/v4.rst:767 ../../changes/v4.rst:858
-#: ../../changes/v4.rst:933 ../../changes/v4.rst:1019 ../../changes/v4.rst:1094
-#: ../../changes/v4.rst:1167
-msgid "**Upgrading**"
-msgstr "**升级**"
-
-#: ../../changes.rst:18 ../../changes.rst:37 ../../changes.rst:86
-#: ../../changes.rst:114 ../../changes.rst:142 ../../changes.rst:195
-#: ../../changes.rst:222 ../../changes.rst:242 ../../changes.rst:280
-#: ../../changes.rst:296 ../../changes.rst:318 ../../changes.rst:339
-#: ../../changes.rst:354 ../../changes.rst:389 ../../changes.rst:444
-#: ../../changes.rst:470 ../../changes.rst:486 ../../changes.rst:502
-#: ../../changes.rst:549 ../../changes.rst:564 ../../changes.rst:602
-#: ../../changes.rst:626 ../../changes.rst:667 ../../changes.rst:694
-#: ../../changes.rst:741 ../../changes.rst:768 ../../changes.rst:809
-#: ../../changes.rst:864 ../../changes/v4.rst:55 ../../changes/v4.rst:87
+#: ../../changes.rst:862 ../../changes/v4.rst:55 ../../changes/v4.rst:87
 #: ../../changes/v4.rst:170 ../../changes/v4.rst:238 ../../changes/v4.rst:319
 #: ../../changes/v4.rst:376 ../../changes/v4.rst:434 ../../changes/v4.rst:497
 #: ../../changes/v4.rst:542 ../../changes/v4.rst:598 ../../changes/v4.rst:644
@@ -25235,36 +25284,76 @@ msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
-#: ../../changes.rst:20 ../../changes.rst:39 ../../changes.rst:90
-#: ../../changes.rst:116 ../../changes.rst:144 ../../changes.rst:200
+#: ../../changes.rst:18 ../../changes.rst:37 ../../changes.rst:88
+#: ../../changes.rst:114 ../../changes.rst:142 ../../changes.rst:198
 msgid "**Contributors**"
 msgstr "**贡献者**"
 
-#: ../../changes.rst:24
+#: ../../changes/contributors/5.7.1.rst:2
+#: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
+#: ../../changes/contributors/5.8.1.rst:2
+#: ../../changes/contributors/5.8.2.rst:2 ../../changes/contributors/5.8.rst:2
+msgid "Code contributions"
+msgstr "代码贡献"
+
+#: ../../changes/contributors/5.8.2.rst:3
+#, fuzzy
+#| msgid ""
+#| "Michal Čihař, gers, Jorge, michael-smt, Mehdi Eloualy, Paul Harriet "
+#| "Asiñero, Ingo Brückl, Mehdi El Oualy"
+msgid "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
+msgstr ""
+"Michal Čihař, gers, Jorge, michael-smt, Mehdi Eloualy, Paul Harriet Asiñero, "
+"Ingo Brückl, Mehdi El Oualy"
+
+#: ../../changes/contributors/5.7.1.rst:5
+#: ../../changes/contributors/5.7.2.rst:5 ../../changes/contributors/5.7.rst:5
+#: ../../changes/contributors/5.8.2.rst:5 ../../changes/contributors/5.8.rst:5
+msgid "Translations contributions"
+msgstr "翻译贡献"
+
+#: ../../changes/contributors/5.8.2.rst:6
+msgid ""
+"VfBFan, 大王叫我来巡山, Любомир Василев, Miguel A. Bouzada, Besnik Bleta, "
+"Yuri Chornoivan, Wuzzy, Michal Čihař, gallegonovato, Vin, Blueberry, "
+"befag74614, Agnieszka C, Rhoslyn Prys, Aindriú Mac Giolla Eoin, Fulup Jakez, "
+"Christian Wia, ssantos, Vlăduț Ilie, Fjuro, amano, Andi Chandler, Peter "
+"Vančo, test-session, famese, Yaron Shahrabani, Geert-Jan Knapen, Ricky From "
+"Hong Kong, Tymofii Lytvynenko, Dick Groskamp, Horus68, Reno Tx, Jim Kats, "
+"Massimo Pissarello, Florent, Ihor Hordiichuk, hugoalh, Vaclovas Intas, Milo "
+"Ivir, Jim Spentzos, Dženan, Claudio Filho F Filho, 大学没毕业, پرویز قادر"
+msgstr ""
+
+#: ../../changes/contributors/5.7.1.rst:8
+#: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
+#: ../../changes/contributors/5.8.1.rst:5
+#: ../../changes/contributors/5.8.2.rst:8 ../../changes/contributors/5.8.rst:8
+msgid "Documentation contributions"
+msgstr "文档贡献者"
+
+#: ../../changes/contributors/5.8.2.rst:9
+msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
+msgstr ""
+
+#: ../../changes.rst:22
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/129?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
-"129?closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/129?"
+"closed=1>`__。"
 
-#: ../../changes.rst:27
+#: ../../changes.rst:25
 msgid "Weblate 5.8.1"
 msgstr "Weblate 5.8.1"
 
-#: ../../changes.rst:29 ../../changes.rst:48
+#: ../../changes.rst:27 ../../changes.rst:46
 msgid "Released on October 15th 2024."
 msgstr "发布于 2024 年 10 月 15 日。"
 
-#: ../../changes.rst:33
+#: ../../changes.rst:31
 msgid "Use lower case name for the Python package."
 msgstr "Python 包使用小写字母名。"
-
-#: ../../changes/contributors/5.7.1.rst:2
-#: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
-#: ../../changes/contributors/5.8.1.rst:2 ../../changes/contributors/5.8.rst:2
-msgid "Code contributions"
-msgstr "代码贡献"
 
 #: ../../changes/contributors/5.7.2.rst:9
 #: ../../changes/contributors/5.8.1.rst:3
@@ -25272,113 +25361,124 @@ msgstr "代码贡献"
 msgid "Michal Čihař"
 msgstr "Michal Čihař"
 
-#: ../../changes/contributors/5.7.1.rst:8
-#: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
-#: ../../changes/contributors/5.8.1.rst:5 ../../changes/contributors/5.8.rst:8
-msgid "Documentation contributions"
-msgstr "文档贡献者"
-
-#: ../../changes.rst:43
+#: ../../changes.rst:41
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/128?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
-"128?closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/128?"
+"closed=1>`__。"
 
-#: ../../changes.rst:46
+#: ../../changes.rst:44
 msgid "Weblate 5.8"
 msgstr "Weblate 5.8"
 
-#: ../../changes.rst:52
+#: ../../changes.rst:48 ../../changes.rst:153 ../../changes.rst:249
+#: ../../changes.rst:361 ../../changes.rst:398 ../../changes.rst:509
+#: ../../changes.rst:571 ../../changes.rst:633 ../../changes.rst:674
+#: ../../changes.rst:701 ../../changes.rst:777 ../../changes.rst:818
+msgid "**New features**"
+msgstr "**新功能**"
+
+#: ../../changes.rst:50
 msgid "Added :ref:`component-key_filter` in the component."
 msgstr "在部件中新增了 :ref:`component-key_filter` 。"
 
-#: ../../changes.rst:53
+#: ../../changes.rst:51
 msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ":ref:`Searching` 现在支持按照对象路径和 :ref:`date-search` 进行筛选。"
 
-#: ../../changes.rst:54
+#: ../../changes.rst:52
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, see :ref:"
 "`settings-credentials`."
 msgstr ""
 "现在可以在仓库 URL 中传递合并请求凭据，见 :ref:`settings-credentials`。"
 
-#: ../../changes.rst:55
+#: ../../changes.rst:53
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
 msgstr ":ref:`mt-azure-openai` 自动建议服务。"
 
-#: ../../changes.rst:56
+#: ../../changes.rst:54
 msgid ":ref:`vcs-bitbucket-cloud`."
 msgstr ":ref:`vcs-bitbucket-cloud`。"
 
-#: ../../changes.rst:60
+#: ../../changes.rst:56 ../../changes.rst:99 ../../changes.rst:125
+#: ../../changes.rst:163 ../../changes.rst:229 ../../changes.rst:254
+#: ../../changes.rst:303 ../../changes.rst:325 ../../changes.rst:366
+#: ../../changes.rst:412 ../../changes.rst:517 ../../changes.rst:580
+#: ../../changes.rst:609 ../../changes.rst:637 ../../changes.rst:676
+#: ../../changes.rst:709 ../../changes.rst:752 ../../changes.rst:781
+#: ../../changes.rst:826
+msgid "**Improvements**"
+msgstr "**改进**"
+
+#: ../../changes.rst:58
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-modernmt` 支持 :ref:`glossary-mt`。"
 
-#: ../../changes.rst:61
+#: ../../changes.rst:59
 msgid ":ref:`mt-deepl` now supports specifying translation context."
 msgstr ":ref:`mt-deepl` 现在支持指定翻译上下文。"
 
-#: ../../changes.rst:62
+#: ../../changes.rst:60
 msgid ":ref:`mt-aws` now supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-aws` 现支持 :ref:`glossary-mt`。"
 
-#: ../../changes.rst:63
+#: ../../changes.rst:61
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
 msgstr "梵文天城体 danda 符号的 :ref:`autofix` 现在能更好地处理拉丁字母。"
 
-#: ../../changes.rst:64
+#: ../../changes.rst:62
 msgid ""
 ":ref:`autofix` for French and Breton now uses a non-breaking space before "
 "colons instead of a narrow one."
 msgstr ""
 "法语和布列塔尼语的 :ref:`autofix` 现在在冒号前使用不间断空格而非窄空格。"
 
-#: ../../changes.rst:65
+#: ../../changes.rst:63
 msgid ":ref:`api` now has a preview OpenAPI specification."
 msgstr ":ref:`api` 现在有了预览 OpenAPI 规格。"
 
-#: ../../changes.rst:66
+#: ../../changes.rst:64
 msgid "Stale, empty glossaries are now automatically removed."
 msgstr "自动删除陈旧空白的术语表。"
 
-#: ../../changes.rst:67
+#: ../../changes.rst:65
 msgid ":kbd:`?` now displays available :ref:`keyboard`."
 msgstr ":kbd:`?` 现在显示可用的 :ref:`keyboard`。"
 
-#: ../../changes.rst:68
+#: ../../changes.rst:66
 msgid ""
 "Translation and language view in the project now include basic information "
 "about the language and plurals."
 msgstr "项目中的翻译和语言视图现在包括语言和复数的基本信息。"
 
-#: ../../changes.rst:69
+#: ../../changes.rst:67
 msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgstr ":ref:`bulk-edit` 显示匹配字符串的预览。"
 
-#: ../../changes.rst:70
+#: ../../changes.rst:68
 msgid ":ref:`aresource` now supports translatable attribute in its strings."
 msgstr ":ref:`aresource` 现支持其字符串中可翻译的属性。"
 
-#: ../../changes.rst:71
+#: ../../changes.rst:69
 msgid ""
 "Creating component via file upload (Translate document) now supports "
 "bilingual files."
 msgstr "通过文件上传（翻译文档）创建部件现支持双语文件。"
 
-#: ../../changes.rst:75
+#: ../../changes.rst:73
 msgid "Displaying :ref:`workflow-customization` setting in some cases."
 msgstr "在某些情况下展示 :ref:`workflow-customization` 设置。"
 
-#: ../../changes.rst:76
+#: ../../changes.rst:74
 msgid "Users can add component in any language already existing in a project."
 msgstr "用户可以在项目现有的任何语言中添加部件。"
 
-#: ../../changes.rst:77
+#: ../../changes.rst:75
 msgid ""
 ":ref:`check-unnamed-format` better handles some strings, such as :ref:`check-"
 "python-brace-format`."
@@ -25386,24 +25486,31 @@ msgstr ""
 ":ref:`check-unnamed-format` 更好地处理某些字符串，比如 :ref:`check-python-"
 "brace-format`。"
 
-#: ../../changes.rst:81
+#: ../../changes.rst:77 ../../changes.rst:182 ../../changes.rst:272
+#: ../../changes.rst:434 ../../changes.rst:540 ../../changes.rst:593
+#: ../../changes.rst:658 ../../changes.rst:688 ../../changes.rst:733
+#: ../../changes.rst:800 ../../changes.rst:855
+msgid "**Compatibility**"
+msgstr "**兼容性**"
+
+#: ../../changes.rst:79
 msgid "Weblate now requires Python 3.11 or newer."
 msgstr "Weblate 现在需要 Python 3.11 或更新版本。"
 
-#: ../../changes.rst:82
+#: ../../changes.rst:80
 msgid ":ref:`mt-aws` now requires the `TranslateFullAccess` permission"
 msgstr ":ref:`mt-aws` 现在需要 `TranslateFullAccess` 权限"
 
-#: ../../changes.rst:88
+#: ../../changes.rst:86
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS`` and changes in "
 "``REST_FRAMEWORK`` and ``INSTALLED_APPS``; please adjust your settings "
 "accordingly."
 msgstr ""
-":file:`settings_example.py` 中有几项更改，最显著的是 ``SPECTACULAR_SETTINGS``"
-" 中 :ref:`2fa` 的新设置以及 ``REST_FRAMEWORK`` 和 ``INSTALLED_APPS`` "
-"中的更改；请相应调整你的设置。"
+":file:`settings_example.py` 中有几项更改，最显著的是 "
+"``SPECTACULAR_SETTINGS`` 中 :ref:`2fa` 的新设置以及 ``REST_FRAMEWORK`` 和 "
+"``INSTALLED_APPS`` 中的更改；请相应调整你的设置。"
 
 #: ../../changes/contributors/5.8.rst:3
 msgid ""
@@ -25414,12 +25521,6 @@ msgstr ""
 "Michal Čihař, Mehdi Eloualy, Mehdi El Oualy, gers, michael-smt, "
 "ButterflyOfFire, Saurmanđal, Paul Harriet Asiñero, Ingo Brückl, Vincent, "
 "Jakub Boukal, nijel"
-
-#: ../../changes/contributors/5.7.1.rst:5
-#: ../../changes/contributors/5.7.2.rst:5 ../../changes/contributors/5.7.rst:5
-#: ../../changes/contributors/5.8.rst:5
-msgid "Translations contributions"
-msgstr "翻译贡献"
 
 #: ../../changes/contributors/5.8.rst:6
 msgid ""
@@ -25442,8 +25543,8 @@ msgstr ""
 "Sagiri, symegac, Allan Nordhøy, VfBFan, Peter Vančo, Yaron Shahrabani, Dick "
 "Groskamp, Besnik Bleta, Masahiro Fujimoto, Kyotaro Iijima, ButterflyOfFire, "
 "Michal Čihař, پرویز قادر, amano, Mirka Danylenko, Yuri Chornoivan, Milo "
-"Ivir, Blueberry, Julien Humbert, JY3, Ricky Tigg, Hotripak, Vin, Fjuro, "
-"大王叫我来巡山, Miguel A. Bouzada, Любомир Василев, Aindriú Mac Giolla Eoin, "
+"Ivir, Blueberry, Julien Humbert, JY3, Ricky Tigg, Hotripak, Vin, Fjuro, 大王"
+"叫我来巡山, Miguel A. Bouzada, Любомир Василев, Aindriú Mac Giolla Eoin, "
 "Coool (github.com/Coool), Ihor Hordiichuk, Martin Srebotnjak, Сергей, "
 "jonnysemon, Wuzzy, Ldm Public, Nived, Hoseok Seo, Tuomas Hietala, Andrey, "
 "solokot, Agnieszka C, Luna, Alan Marques, ssantos, Yamin Siahmargooei, "
@@ -25459,7 +25560,7 @@ msgstr ""
 "Michal Čihař, gers, Jorge, michael-smt, Mehdi Eloualy, Paul Harriet Asiñero, "
 "Ingo Brückl, Mehdi El Oualy"
 
-#: ../../changes.rst:94
+#: ../../changes.rst:92
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__."
@@ -25467,31 +25568,31 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__。"
 
-#: ../../changes.rst:97
+#: ../../changes.rst:95
 msgid "Weblate 5.7.2"
 msgstr "Weblate 5.7.2"
 
-#: ../../changes.rst:99
+#: ../../changes.rst:97
 msgid "Released on September 5th 2024."
 msgstr "发布于 2024 年 9 月 5 日。"
 
-#: ../../changes.rst:103
+#: ../../changes.rst:101
 msgid ":ref:`2fa` remembers last method used by user."
 msgstr ":ref:`2fa` 记住用户最后使用的方法。"
 
-#: ../../changes.rst:104
+#: ../../changes.rst:102
 msgid "Instead of redirecting, the sign-out now displays a page."
 msgstr "退出登录现在显示一个页面，而不是重定向。"
 
-#: ../../changes.rst:105
+#: ../../changes.rst:103
 msgid "Improved readability of exception logs."
 msgstr "改进了异常日志的可读性。"
 
-#: ../../changes.rst:109
+#: ../../changes.rst:107
 msgid "Updating of translations from the repository in linked components."
 msgstr "从链接部件的仓库更新译文。"
 
-#: ../../changes.rst:110
+#: ../../changes.rst:108
 msgid "Improved rendering of digest notification e-mails."
 msgstr "改进了摘要通知电子邮件的渲染。"
 
@@ -25511,7 +25612,7 @@ msgstr ""
 "Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
 "Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 
-#: ../../changes.rst:120
+#: ../../changes.rst:118
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__."
@@ -25519,21 +25620,21 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__。"
 
-#: ../../changes.rst:123
+#: ../../changes.rst:121
 msgid "Weblate 5.7.1"
 msgstr "Weblate 5.7.1"
 
-#: ../../changes.rst:125
+#: ../../changes.rst:123
 msgid "Released on August 30th 2024."
 msgstr "发布于 2024 年 8 月 30 日。"
 
-#: ../../changes.rst:129
+#: ../../changes.rst:127
 msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
 msgstr "更新了语言名称以更好地描述不同的字母和汉语。"
 
-#: ../../changes.rst:130
+#: ../../changes.rst:128
 msgid ""
 ":ref:`addon-weblate.cleanup.generic` is now automatically installed for "
 "formats which need it to update non-translation content in the translated "
@@ -25542,24 +25643,24 @@ msgstr ""
 "对于需要它更新翻译文件中的非翻译内容的格式，现在会自动安装 :ref:`addon-"
 "weblate.cleanup.generic`。"
 
-#: ../../changes.rst:134
+#: ../../changes.rst:132
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
 msgstr "支持在自动建议设置中使用 Docker 网络名称。"
 
-#: ../../changes.rst:135
+#: ../../changes.rst:133
 msgid "Fixed authentication using some third-party providers such as Azure."
 msgstr "修复了使用 Azure 等第三方提供商的身份验证问题。"
 
-#: ../../changes.rst:136
+#: ../../changes.rst:134
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
 msgstr "支持 :ref:`mt-deepl` 中正式和非正式葡萄牙语。"
 
-#: ../../changes.rst:137
+#: ../../changes.rst:135
 msgid "QR code for TOTP is now black/white even in dark mode."
 msgstr "即使在深色模式下，TOTP 的二维码现在也是黑/白色的。"
 
-#: ../../changes.rst:138
+#: ../../changes.rst:136
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
 msgstr "修复了为用户配置 WebAuthn 时的 TOTP 身份验证问题。"
@@ -25596,7 +25697,7 @@ msgstr ""
 msgid "Michal Čihař, Robin"
 msgstr "Michal Čihař, Robin"
 
-#: ../../changes.rst:148
+#: ../../changes.rst:146
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/125?"
 "closed=1>`__."
@@ -25604,15 +25705,15 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/125?"
 "closed=1>`__。"
 
-#: ../../changes.rst:151
+#: ../../changes.rst:149
 msgid "Weblate 5.7"
 msgstr "Weblate 5.7"
 
-#: ../../changes.rst:153
+#: ../../changes.rst:151
 msgid "Released on August 15th 2024."
 msgstr "发布于 2024 年 8 月 15 日。"
 
-#: ../../changes.rst:157
+#: ../../changes.rst:155
 msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
@@ -25620,25 +25721,25 @@ msgstr ""
 "现在支持通过 Passkeys、WebAuthn、身份认证应用 (TOTP) 和恢复码使用 :ref:"
 "`2fa`。"
 
-#: ../../changes.rst:158
+#: ../../changes.rst:156
 msgid ":ref:`2fa` can be enforced at the team or project level."
 msgstr "可以在团队或项目层级强制使用 :ref:`2fa`。"
 
-#: ../../changes.rst:159
+#: ../../changes.rst:157
 msgid ""
 ":ref:`adding-new-strings` can now create plural strings in the user "
 "interface."
 msgstr ":ref:`adding-new-strings` 现在可以在用户界面中创建复数字符串了。"
 
-#: ../../changes.rst:160
+#: ../../changes.rst:158
 msgid ":ref:`labels` now include description to explain them."
 msgstr ":ref:`labels` 现在包含解释它们的描述。"
 
-#: ../../changes.rst:161
+#: ../../changes.rst:159
 msgid "New :ref:`subscriptions` for completed translation and component."
 msgstr "已完成翻译和部件的新 :ref:`通知`。"
 
-#: ../../changes.rst:162
+#: ../../changes.rst:160
 msgid ""
 ":ref:`mt-openai` now supports custom models and URLs and offers rephrasing "
 "of existing strings."
@@ -25646,37 +25747,37 @@ msgstr ""
 ":ref:`mt-openai` 现在支持自定义模型和 URL 并提供使用不同措辞改动现有字符串让"
 "含义更清晰的功能。"
 
-#: ../../changes.rst:163
+#: ../../changes.rst:161
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
 msgstr ":ref:`mt-cyrtranslit` 自动建议服务。"
 
-#: ../../changes.rst:167
+#: ../../changes.rst:165
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
 msgstr ":ref:`addon-weblate.properties.sort` 现在可以进行区分大小写的排序。"
 
-#: ../../changes.rst:168
+#: ../../changes.rst:166
 msgid ""
 "The status widgets are now supported site-wide and language-wide, see :ref:"
 "`promotion`."
 msgstr "现已支持全站和全语言范围的状态小挂件，见 :ref:`promotion`。"
 
-#: ../../changes.rst:169
+#: ../../changes.rst:167
 msgid ":ref:`reports` are now available for categories."
 msgstr ":ref:`reports` 现对分类可用。"
 
-#: ../../changes.rst:170
+#: ../../changes.rst:168
 msgid "Highlight newlines in the editor."
 msgstr "在编辑器中突出显示新行。"
 
-#: ../../changes.rst:171
+#: ../../changes.rst:169
 msgid ":doc:`/formats/csv` better handle files with two fields only."
 msgstr ":doc:`/formats/csv` 更好地处理只有两个字段的文件。"
 
-#: ../../changes.rst:172
+#: ../../changes.rst:170
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr "现在可使用键盘操控浏览模式，见 :ref:`keyboard`。"
 
-#: ../../changes.rst:173
+#: ../../changes.rst:171
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
 "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
@@ -25685,7 +25786,7 @@ msgstr ""
 "部件和项目的 :http:get:`/api/components/(string:project)/(string:component)/"
 "credits/` 和 :http:get:`/api/projects/(string:project)/credits/` API 端点。"
 
-#: ../../changes.rst:174
+#: ../../changes.rst:172
 msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
@@ -25693,59 +25794,59 @@ msgstr ""
 "术语表中的 :ref:`glossary-terminology` 现在可以只能由具备 :guilabel:`添加术语"
 "表专有名词` 权限的用户创建。"
 
-#: ../../changes.rst:175
+#: ../../changes.rst:173
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
 msgstr ":ref:`check-python-brace-format` 检测到额外的大括号。"
 
-#: ../../changes.rst:176
+#: ../../changes.rst:174
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
 msgstr "现在可以从 :ref:`screenshots` 中的剪贴板粘贴屏幕截图。"
 
-#: ../../changes.rst:180
+#: ../../changes.rst:178
 msgid "Accessibility of keyboard navigation."
 msgstr "键盘导航的可及性。"
 
-#: ../../changes.rst:181
+#: ../../changes.rst:179
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
 msgstr ":ref:`git-exporter` 现在适用于所有基于 Git 的 :ref:`vcs`。"
 
-#: ../../changes.rst:182
+#: ../../changes.rst:180
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
 msgstr ":ref:`check-max-size` 有时渲染屏幕截图失败。"
 
-#: ../../changes.rst:186
+#: ../../changes.rst:184
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
 msgstr "Weblate 现在使用 mistletoe 而非 misaka 作为 Markdown 渲染器。"
 
-#: ../../changes.rst:187
+#: ../../changes.rst:185
 msgid ":ref:`csp` is now stricter what might block third-party customizations."
 msgstr ":ref:`csp` 现在更为严格，这可能拦截第三方自定义。"
 
-#: ../../changes.rst:188
+#: ../../changes.rst:186
 msgid ""
 "Monolingual formats no longer copy comments from :ref:`component-template` "
 "when adding strings to translation."
 msgstr ""
 "添加字符串到翻译时，单语言格式不再从 :ref:`component-template` 复制评论。"
 
-#: ../../changes.rst:189
+#: ../../changes.rst:187
 msgid ""
 "Dropped support for Amagama in :ref:`machine-translation-setup` as the "
 "service is no longer maintained."
 msgstr ""
 ":ref:`machine-translation-setup` 不再支持 Amagama，因该服务的维护已停止。"
 
-#: ../../changes.rst:190
+#: ../../changes.rst:188
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
 msgstr ":setting:`SENTRY_SEND_PII` 的默认值被改变。"
 
-#: ../../changes.rst:191
+#: ../../changes.rst:189
 msgid ""
 "Translation credit reports in the JSON format now follows a different format "
 "for entries."
 msgstr "JSON 格式的翻译致谢报告现在对条目遵守不同格式。"
 
-#: ../../changes.rst:197
+#: ../../changes.rst:195
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, "
@@ -25753,10 +25854,10 @@ msgid ""
 "accordingly."
 msgstr ""
 ":file:`settings_example.py` 中有几项更改，最显著的是 :ref:`2fa` 的新设置以及 "
-"``INSTALLED_APPS``, ``SOCIAL_AUTH_PIPELINE`` 和 ``MIDDLEWARE`` "
-"中的更改；请相应调整你的设置。"
+"``INSTALLED_APPS``, ``SOCIAL_AUTH_PIPELINE`` 和 ``MIDDLEWARE`` 中的更改；请相"
+"应调整你的设置。"
 
-#: ../../changes.rst:198
+#: ../../changes.rst:196
 msgid ""
 ":setting:`ENABLE_HTTPS` is now required for WebAuthn support. If you cannot "
 "use HTTPS, please silence related check as described in :setting:"
@@ -25807,7 +25908,7 @@ msgstr ""
 "Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
 "Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 
-#: ../../changes.rst:204
+#: ../../changes.rst:202
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?"
 "closed=1>`__."
@@ -25815,35 +25916,35 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/116?"
 "closed=1>`__。"
 
-#: ../../changes.rst:207
+#: ../../changes.rst:205
 msgid "Weblate 5.6.2"
 msgstr "Weblate 5.6.2"
 
-#: ../../changes.rst:209
+#: ../../changes.rst:207
 msgid "Released on July 1st 2024."
 msgstr "发布于 2024 年 7 月 1 日。"
 
-#: ../../changes.rst:213
+#: ../../changes.rst:211
 msgid "Rendering of :ref:`labels` color selection widget."
 msgstr "渲染 :ref:`labels` 颜色选择小挂件。"
 
-#: ../../changes.rst:214
+#: ../../changes.rst:212
 msgid "Detection of pending outgoing commits."
 msgstr "检测待外传的提交。"
 
-#: ../../changes.rst:215
+#: ../../changes.rst:213
 msgid ":ref:`addons` button layout."
 msgstr ":ref:`addons` 按钮布局。"
 
-#: ../../changes.rst:216
+#: ../../changes.rst:214
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
 msgstr "安装 :ref:`addon-weblate.discovery.discovery` 附加组件时崩溃。"
 
-#: ../../changes.rst:217
+#: ../../changes.rst:215
 msgid "Removal of source strings in :ref:`glossary`."
 msgstr "删除 :ref:`glossary` 中的源字符串。"
 
-#: ../../changes.rst:218
+#: ../../changes.rst:216
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / "
 "GHSA-jfgp-674x-6q4p)."
@@ -25851,7 +25952,7 @@ msgstr ""
 "还原时 :ref:`projectbackup` ZIP 文件的验证 (CVE-2024-39303 / GHSA-"
 "jfgp-674x-6q4p)。"
 
-#: ../../changes.rst:224
+#: ../../changes.rst:222
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/124?"
 "closed=1>`__."
@@ -25859,15 +25960,15 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/124?"
 "closed=1>`__。"
 
-#: ../../changes.rst:227
+#: ../../changes.rst:225
 msgid "Weblate 5.6.1"
 msgstr "Weblate 5.6.1"
 
-#: ../../changes.rst:229
+#: ../../changes.rst:227
 msgid "Released on June 24th 2024."
 msgstr "发布于 2024 年 6 月 24 日。"
 
-#: ../../changes.rst:233
+#: ../../changes.rst:231
 msgid ""
 "Docker container accepts :envvar:`WEBLATE_REMOVE_ADDONS` and :envvar:"
 "`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :"
@@ -25877,15 +25978,15 @@ msgstr ""
 "`WEBLATE_ADD_MACHINERY` 来定制自动建议服务以及 :envvar:"
 "`WEBLATE_CORS_ALLOW_ALL_ORIGINS` 用于 API 中的 CORS 处理。"
 
-#: ../../changes.rst:234
+#: ../../changes.rst:232
 msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr "为 :http:get:`/api/metrics/` 添加了 OpenMetrics 兼容性。"
 
-#: ../../changes.rst:238
+#: ../../changes.rst:236
 msgid "Language aliases in :doc:`/admin/machine`."
 msgstr ":doc:`/admin/machine` 中的语言变体。"
 
-#: ../../changes.rst:244
+#: ../../changes.rst:242
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/123?"
 "closed=1>`__."
@@ -25893,78 +25994,78 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/123?"
 "closed=1>`__。"
 
-#: ../../changes.rst:247
+#: ../../changes.rst:245
 msgid "Weblate 5.6"
 msgstr "Weblate 5.6"
 
-#: ../../changes.rst:249
+#: ../../changes.rst:247
 msgid "Released on June 19th 2024."
 msgstr "发布于 2024 年 6 月 19 日。"
 
-#: ../../changes.rst:253
+#: ../../changes.rst:251
 msgid ":ref:`addons` activity log for tracking add-on activity."
 msgstr "追踪附加组件活动的 :ref:`addons` 活动日志。"
 
-#: ../../changes.rst:254
+#: ../../changes.rst:252
 msgid "Improved date range selection in :ref:`reports`."
 msgstr "改进了 :ref:`报告` 中的日期范围选择。"
 
-#: ../../changes.rst:258
+#: ../../changes.rst:256
 msgid ":ref:`subscriptions` now include strings which need updating."
 msgstr ":ref:`订阅` 现包括需要更新的字符串。"
 
-#: ../../changes.rst:259
+#: ../../changes.rst:257
 msgid "Improved compatibility with password managers."
 msgstr "改进了与密码管理器的兼容性。"
 
-#: ../../changes.rst:260
+#: ../../changes.rst:258
 msgid "Improved tracking of uploaded changes."
 msgstr "改进了已上传改动的追踪。"
 
-#: ../../changes.rst:261
+#: ../../changes.rst:259
 msgid ""
 "Gracefully handle temporary machine translation errors in automatic "
 "suggestions."
 msgstr "优雅地处理自动建议中的临时机器翻译错误。"
 
-#: ../../changes.rst:262
+#: ../../changes.rst:260
 msgid ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
 msgstr ":http:get:`/api/units/(int:id)/` 现包含 `last_updated` 时间戳。"
 
-#: ../../changes.rst:263
+#: ../../changes.rst:261
 msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgstr ":http:get:`/api/changes/(int:id)/` 先包含 `旧的` 和 `详情`."
 
-#: ../../changes.rst:264
+#: ../../changes.rst:262
 msgid "Reduced memory usage and increased performance of some views."
 msgstr "降低了内存用量，提升了某些视图的性能。"
 
-#: ../../changes.rst:268
+#: ../../changes.rst:266
 msgid "Loading of strings with many glossary matches."
 msgstr "加载有许多术语表匹配的字符串。"
 
-#: ../../changes.rst:269
+#: ../../changes.rst:267
 msgid "Fixed behavior of some site-wide :ref:`addons`."
 msgstr "修复了某些全站级别 :ref:`addons` 的行为。"
 
-#: ../../changes.rst:270
+#: ../../changes.rst:268
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
 msgstr "保存需要编辑的字符串到 :doc:`/formats/winrc` 格式。"
 
-#: ../../changes.rst:271
+#: ../../changes.rst:269
 msgid ":ref:`check-xml-tags` better handle XML entities."
 msgstr ":ref:`check-xml-tags` 更好地处理 XML 条目。"
 
-#: ../../changes.rst:272
+#: ../../changes.rst:270
 msgid ""
 "Automatic suggestions could mix up replacements between translated strings."
 msgstr "自动建议可能会弄混已翻译字符串的替换。"
 
-#: ../../changes.rst:276
+#: ../../changes.rst:274
 msgid "Compatibility with Django 5.1."
 msgstr "与 Django 5.1 的兼容性。"
 
-#: ../../changes.rst:282
+#: ../../changes.rst:280
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/114?"
 "closed=1>`__."
@@ -25972,23 +26073,23 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/114?"
 "closed=1>`__。"
 
-#: ../../changes.rst:285
+#: ../../changes.rst:283
 msgid "Weblate 5.5.5"
 msgstr "Weblate 5.5.5"
 
-#: ../../changes.rst:287
+#: ../../changes.rst:285
 msgid "Released on May 13th 2024."
 msgstr "发布于 2024 年 5 月 13 日。"
 
-#: ../../changes.rst:291
+#: ../../changes.rst:289
 msgid "False-positive merge failure alert when using push branch."
 msgstr "使用推送分支时的虚假合并失败警报。"
 
-#: ../../changes.rst:292
+#: ../../changes.rst:290
 msgid "Cleanup of stale repositories."
 msgstr "过期仓库清理。"
 
-#: ../../changes.rst:298
+#: ../../changes.rst:296
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/121?"
 "closed=1>`__."
@@ -25996,35 +26097,35 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/121?"
 "closed=1>`__。"
 
-#: ../../changes.rst:301
+#: ../../changes.rst:299
 msgid "Weblate 5.5.4"
 msgstr "Weblate 5.5.4"
 
-#: ../../changes.rst:303
+#: ../../changes.rst:301
 msgid "Released on May 10th 2024."
 msgstr "发布于 2024 年 5 月 10 日。"
 
-#: ../../changes.rst:307
+#: ../../changes.rst:305
 msgid "Visually highlight explanation in :ref:`glossary`."
 msgstr "在 :ref:`glossary` 中对解释进行视觉高亮操作。"
 
-#: ../../changes.rst:308
+#: ../../changes.rst:306
 msgid "Add :ref:`addons` history tab in management."
 msgstr "在管理中添加 :ref:`addons` 历史记录选项卡。"
 
-#: ../../changes.rst:309
+#: ../../changes.rst:307
 msgid "New :ref:`alerts` when :ref:`glossary` might not work as expected."
 msgstr "当 :ref:`术语表` 可能不会按预期工作时的新 :ref:`警报`。"
 
-#: ../../changes.rst:310
+#: ../../changes.rst:308
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr "可在项目/语言层级发布 :doc:`/admin/announcements`。"
 
-#: ../../changes.rst:314
+#: ../../changes.rst:312
 msgid "Improved handling placeables in :ref:`mt-openai`."
 msgstr "改进了对 :ref:`mt-openai` 中 placeables 的处理。"
 
-#: ../../changes.rst:320
+#: ../../changes.rst:318
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__."
@@ -26032,32 +26133,32 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__。"
 
-#: ../../changes.rst:323
+#: ../../changes.rst:321
 msgid "Weblate 5.5.3"
 msgstr "Weblate 5.5.3"
 
-#: ../../changes.rst:325
+#: ../../changes.rst:323
 msgid "Released on May 3rd 2024."
 msgstr "发布于 2024 年 5 月 3 日。"
 
-#: ../../changes.rst:329
+#: ../../changes.rst:327
 msgid "Improved performance of rendering large lists of objects."
 msgstr "改进了渲染包含许多对象的列表的性能。"
 
-#: ../../changes.rst:330
+#: ../../changes.rst:328
 msgid ""
 "Component management: added links to manage project/site-wide :ref:`addons`."
 msgstr "部件管理：添加了管理项目/全站 :ref:`addons` 的链接。"
 
-#: ../../changes.rst:334
+#: ../../changes.rst:332
 msgid "Fixed crashes with librsvg older than 2.46."
 msgstr "修复了 librsvg 版本低于 2.46 时的崩溃问题。"
 
-#: ../../changes.rst:335
+#: ../../changes.rst:333
 msgid "Daily execution of some :ref:`addons`."
 msgstr "某些 :ref:`addons` 的日常执行问题。"
 
-#: ../../changes.rst:341
+#: ../../changes.rst:339
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/119?"
 "closed=1>`__."
@@ -26065,19 +26166,19 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/119?"
 "closed=1>`__。"
 
-#: ../../changes.rst:344
+#: ../../changes.rst:342
 msgid "Weblate 5.5.2"
 msgstr "Weblate 5.5.2"
 
-#: ../../changes.rst:346 ../../changes.rst:361
+#: ../../changes.rst:344 ../../changes.rst:359
 msgid "Released on April 26th 2024."
 msgstr "发布于 2024 年 4 月 26 日。"
 
-#: ../../changes.rst:350
+#: ../../changes.rst:348
 msgid "Fixed publishing packages to PyPI."
 msgstr "修复了发布软件包到 PyPI 的问题。"
 
-#: ../../changes.rst:356
+#: ../../changes.rst:354
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/118?"
 "closed=1>`__."
@@ -26085,63 +26186,63 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/118?"
 "closed=1>`__。"
 
-#: ../../changes.rst:359
+#: ../../changes.rst:357
 msgid "Weblate 5.5.1"
 msgstr "Weblate 5.5.1"
 
-#: ../../changes.rst:365
+#: ../../changes.rst:363
 msgid ":ref:`Searching` supports ``source_changed:DATETIME``."
 msgstr ":ref:`Searching` 支持 ``source_changed:DATETIME``."
 
-#: ../../changes.rst:366
+#: ../../changes.rst:364
 msgid "Added several new :ref:`component-language_code_style`."
 msgstr "新增几个新的 :ref:`component-language_code_style`."
 
-#: ../../changes.rst:370
+#: ../../changes.rst:368
 msgid "Display more details on source string change in history."
 msgstr "在历史记录中展示源字符串更改的更多详情。"
 
-#: ../../changes.rst:371
+#: ../../changes.rst:369
 msgid ":ref:`mt-microsoft-translator` now supports using custom translators."
 msgstr ":ref:`mt-microsoft-translator` 现在支持使用自定义翻译工具。"
 
-#: ../../changes.rst:372
+#: ../../changes.rst:370
 msgid "Improved error handling in :ref:`invite-user`."
 msgstr "改进了 :ref:`invite-user` 中的错误处理。"
 
-#: ../../changes.rst:373
+#: ../../changes.rst:371
 msgid "Added PNG status badge."
 msgstr "添加了 PNG 状态徽章。"
 
-#: ../../changes.rst:374
+#: ../../changes.rst:372
 msgid "Added list of managed projects to the dashboard view."
 msgstr "操作面板视图中新增管理项目列表。"
 
-#: ../../changes.rst:375
+#: ../../changes.rst:373
 msgid "More detailed status of outgoing commits."
 msgstr "更详细的传出提交状态。"
 
-#: ../../changes.rst:376 ../../changes/v4.rst:977
+#: ../../changes.rst:374 ../../changes/v4.rst:977
 msgid "Reduced memory usage."
 msgstr "减少了内存的使用。"
 
-#: ../../changes.rst:380
+#: ../../changes.rst:378
 msgid "Fixed skipped component update with some add-ons enabled."
 msgstr "修复了某些附加组件开启时跳过部件更新的错误。"
 
-#: ../../changes.rst:381
+#: ../../changes.rst:379
 msgid "Daily execution of project and site wide add-ons."
 msgstr "项目和全站级别附加组件的日常执行问题。"
 
-#: ../../changes.rst:382
+#: ../../changes.rst:380
 msgid "Allow editing strings when the source is marked for editing."
 msgstr "当原文标记为需要编辑时，允许编辑字符串。"
 
-#: ../../changes.rst:383
+#: ../../changes.rst:381
 msgid "Updates of the last updated timestamp of a string."
 msgstr "字符串最后更新时间戳的更新。"
 
-#: ../../changes.rst:384
+#: ../../changes.rst:382
 msgid ""
 "Fixed project and site wide installation of :ref:`addon-weblate.git.squash` "
 "and :ref:`addon-weblate.discovery.discovery` add-ons."
@@ -26149,17 +26250,17 @@ msgstr ""
 "修复了项目级别和全站范围安装 :ref:`addon-weblate.git.squash` 和 :ref:`addon-"
 "weblate.discovery.discovery` 附加组件的问题。"
 
-#: ../../changes.rst:385
+#: ../../changes.rst:383
 msgid "Graceful handling of locking errors in the :ref:`api`."
 msgstr "优雅处理 :ref:`api` 内的锁定错误。"
 
-#: ../../changes.rst:391
+#: ../../changes.rst:389
 msgid ""
 "There is a change in ``REST_FRAMEWORK`` setting (newly added "
 "``EXCEPTION_HANDLER``)."
 msgstr "``REST_FRAMEWORK`` 设置有一处更改（新增 ``EXCEPTION_HANDLER``）。"
 
-#: ../../changes.rst:393
+#: ../../changes.rst:391
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/117?"
 "closed=1>`__."
@@ -26167,144 +26268,146 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/117?"
 "closed=1>`__。"
 
-#: ../../changes.rst:396
+#: ../../changes.rst:394
 msgid "Weblate 5.5"
 msgstr "Weblate 5.5"
 
-#: ../../changes.rst:398
+#: ../../changes.rst:396
 msgid "Released on April 20th 2024."
 msgstr "发布于 2024 年 4 月 20 日。"
 
-#: ../../changes.rst:402
+#: ../../changes.rst:400
 msgid ":ref:`addons` can be now installed project-wide and site-wide."
 msgstr "现在可以在项目层级和全站范围安装 :ref:`addons`。"
 
-#: ../../changes.rst:404
+#: ../../changes.rst:402
 msgid "API improvements"
 msgstr "API 改进"
 
-#: ../../changes.rst:406
+#: ../../changes.rst:404
 msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
 msgstr "新增 :http:get:`/api/categories/(int:id)/statistics/`."
 
-#: ../../changes.rst:407
+#: ../../changes.rst:405
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgstr "新增 :http:get:`/api/projects/(string:project)/file/`."
 
-#: ../../changes.rst:408
+#: ../../changes.rst:406
 msgid "Added :http:post:`/api/groups/(int:id)/admins/`."
 msgstr "新增 :http:post:`/api/groups/(int:id)/admins/`."
 
-#: ../../changes.rst:409
+#: ../../changes.rst:407
 msgid "Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 msgstr "新增 :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 
-#: ../../changes.rst:410
+#: ../../changes.rst:408
 msgid ""
 "Improved :http:post:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/units/`."
 msgstr ""
-"改进 :http:post:`/api/translations/"
-"(string:project)/(string:component)/(string:language)/units/`."
+"改进 :http:post:`/api/translations/(string:project)/(string:component)/"
+"(string:language)/units/`."
 
-#: ../../changes.rst:412
+#: ../../changes.rst:410
 msgid "Added :ref:`mt-systran` automatic translation support."
 msgstr "新增 :ref:`mt-systran` 自动翻译支持。"
 
-#: ../../changes.rst:416
+#: ../../changes.rst:414
 msgid ""
 "Docker container now validates user password strength by default, see :"
 "envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 msgstr ""
 "Docker 容器现默认验证用户密码强度，见 :envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 
-#: ../../changes.rst:417
+#: ../../changes.rst:415
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgstr "改进了 :ref:`machine-translation-setup` 中的错误报告。"
 
-#: ../../changes.rst:418
+#: ../../changes.rst:416
 msgid ":ref:`check-max-size` better displays rendered text."
 msgstr ":ref:`check-max-size` 更好地展示渲染的文本。"
 
-#: ../../changes.rst:419
+#: ../../changes.rst:417
 msgid "Admins can now specify username and full name when :ref:`invite-user`."
 msgstr "管理员在 :ref:`invite-user` 时现在可以指定用户名和全名。"
 
-#: ../../changes.rst:420
+#: ../../changes.rst:418
 msgid "Added :ref:`check-end-interrobang`."
 msgstr "新增 :ref:`check-end-interrobang`。"
 
-#: ../../changes.rst:421
+#: ../../changes.rst:419
 msgid ":ref:`alerts` are now refreshed when needed, not just daily."
 msgstr "现在可以在需要时刷新 :ref:`alerts`，而不仅是每天。"
 
-#: ../../changes.rst:422
+#: ../../changes.rst:420
 msgid ":doc:`/devel/reporting` uses specific word count for CJK languages."
 msgstr "对 CJK 语言，:doc:`/devel/reporting` 使用专门的单词计数。"
 
-#: ../../changes.rst:423
+#: ../../changes.rst:421
 msgid "Team membership changes are now tracked in :ref:`audit-log`."
 msgstr ":ref:`audit-log` 现追踪团队成员资格变化。"
 
-#: ../../changes.rst:427
+#: ../../changes.rst:425
 msgid ""
 ":ref:`check-check-glossary` works better for languages not using whitespace."
 msgstr ":ref:`check-check-glossary` 对不使用空白符号的语言可以更好地运作。"
 
-#: ../../changes.rst:428
+#: ../../changes.rst:426
 msgid ":ref:`alerts` better handle non-latin source languages."
 msgstr ":ref:`alerts` 更好地处理非拉丁字母的源语言。"
 
-#: ../../changes.rst:429
+#: ../../changes.rst:427
 msgid ":ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag."
 msgstr ":ref:`check-max-size` 有时忽略 ``font-spacing:SPACING`` 标记。"
 
-#: ../../changes.rst:430
+#: ../../changes.rst:428
 msgid "Fixed per-language statistics on nested categories."
 msgstr "修复了折叠分类中不同语言统计数据的问题。"
 
-#: ../../changes.rst:431
+#: ../../changes.rst:429
 msgid "Fixed categories listing on per-language pages."
 msgstr "修复了不同语言页面中分类列举的问题。"
 
-#: ../../changes.rst:432
+#: ../../changes.rst:430
 msgid "Fixed :guilabel:`Needs editing` state calculation."
 msgstr "修复了 :guilabel:`Needs editing` 状态计算的问题。"
 
-#: ../../changes.rst:433
+#: ../../changes.rst:431
 msgid "Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`."
 msgstr "修复了使用 :ref:`vcs-gerrit` 更改 :ref:`component-push` 的问题。"
 
-#: ../../changes.rst:434
+#: ../../changes.rst:432
 msgid ""
 "Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:"
 "`auto-translation`."
-msgstr "修复了在 :ref:`manage`、 :ref:`memory` 或 :ref:`auto-translation` "
-"中使用分类部件的问题。"
+msgstr ""
+"修复了在 :ref:`manage`、 :ref:`memory` 或 :ref:`auto-translation` 中使用分类"
+"部件的问题。"
 
-#: ../../changes.rst:438
+#: ../../changes.rst:436
 msgid ""
 "Several API calls might be affected by stricter validation of boolean fields "
 "by Django REST Framework. For example :http:post:`/api/projects/(string:"
 "project)/components/`."
 msgstr ""
-"几个 API 调用可能受 Django REST 框架更严格的布尔字段验证的影响。比如 "
-":http:post:`/api/projects/(string:project)/components/`."
+"几个 API 调用可能受 Django REST 框架更严格的布尔字段验证的影响。比如 :http:"
+"post:`/api/projects/(string:project)/components/`."
 
-#: ../../changes.rst:439
+#: ../../changes.rst:437
 msgid ""
 "Uniqueness of name and slug of a component is now enforced at the database "
 "level on PostgreSQL 15+."
 msgstr "在 PostgreSQL 15+ 版本中，现在数据库层面强制部件标识串和名称的唯一性。"
 
-#: ../../changes.rst:440
+#: ../../changes.rst:438
 msgid ""
 "Docker image now ships Python packages in :file:`/app/venv` and installs "
 "using :program:`uv`."
-msgstr "Docker 映像现在 :file:`/app/venv` 中传送 Python 包并使用 :program:`uv` "
-"进行安装。"
+msgstr ""
+"Docker 映像现在 :file:`/app/venv` 中传送 Python 包并使用 :program:`uv` 进行安"
+"装。"
 
-#: ../../changes.rst:446
+#: ../../changes.rst:444
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``INSTALLED_APPS`` and ``LOGOUT_REDIRECT_URL``, please adjust "
@@ -26313,11 +26416,11 @@ msgstr ""
 ":file:`settings_example.py` 中有几项更改，最明显的位于 ``INSTALLED_APPS`` 和 "
 "``LOGOUT_REDIRECT_URL`` 中，请相应调整你的设置。"
 
-#: ../../changes.rst:447
+#: ../../changes.rst:445
 msgid "Weblate now requires Python 3.10 and Django 5.0."
 msgstr "Weblate 现在需要 Python 3.10 和 Django 5.0."
 
-#: ../../changes.rst:449
+#: ../../changes.rst:447
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?"
 "closed=1>`__."
@@ -26325,55 +26428,55 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/111?"
 "closed=1>`__。"
 
-#: ../../changes.rst:452
+#: ../../changes.rst:450
 msgid "Weblate 5.4.3"
 msgstr "Weblate 5.4.3"
 
-#: ../../changes.rst:454
+#: ../../changes.rst:452
 msgid "Released on March 26th 2024."
 msgstr "发布于 2024 年 3 月 26 日。"
 
-#: ../../changes.rst:458
+#: ../../changes.rst:456
 msgid "Superuser access to components with :ref:`component-restricted`."
 msgstr "对 :ref:`component-restricted` 部件的超级用户权限。"
 
-#: ../../changes.rst:459
+#: ../../changes.rst:457
 msgid ""
 "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:"
 "`manage-appearance`."
 msgstr ""
-"为了不拦截 :ref:`manage-appearance`，调整了 "
-":setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` 默认值。"
+"为了不拦截 :ref:`manage-appearance`，调整了 :setting:"
+"`LOGIN_REQUIRED_URLS_EXCEPTIONS` 默认值。"
 
-#: ../../changes.rst:460
+#: ../../changes.rst:458
 msgid "Avoid crash on pushing changes to diverged repository."
 msgstr "避免推送更改到分叉仓库时的崩溃。"
 
-#: ../../changes.rst:461
+#: ../../changes.rst:459
 msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
 msgstr "避免安装 :ref:`addon-weblate.generate.pseudolocale` 时的崩溃。"
 
-#: ../../changes.rst:462
+#: ../../changes.rst:460
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
 msgstr ":ref:`azure-setup` 优雅地处理 URL 中有空格的仓库。"
 
-#: ../../changes.rst:463
+#: ../../changes.rst:461
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
 msgstr ":ref:`mt-deepl` 优雅地处理语言变体的术语表。"
 
-#: ../../changes.rst:464
+#: ../../changes.rst:462
 msgid ":doc:`/formats/excel` better handles blank cells."
 msgstr ":doc:`/formats/excel` 更好地处理空白单元格。"
 
-#: ../../changes.rst:465
+#: ../../changes.rst:463
 msgid "Fixed possible data loss when merging gettext PO file changes in Git."
 msgstr "修复了在 Git 中合并 gettext PO 文件改动时可能的数据丢失。"
 
-#: ../../changes.rst:466
+#: ../../changes.rst:464
 msgid "Repository operations on project could have skipped some components."
 msgstr "对项目的仓库操作本应跳过某些部件。"
 
-#: ../../changes.rst:472
+#: ../../changes.rst:470
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/115?"
 "closed=1>`__."
@@ -26381,23 +26484,23 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/115?"
 "closed=1>`__。"
 
-#: ../../changes.rst:475
+#: ../../changes.rst:473
 msgid "Weblate 5.4.2"
 msgstr "Weblate 5.4.2"
 
-#: ../../changes.rst:477
+#: ../../changes.rst:475
 msgid "Released on February 22nd 2024."
 msgstr "发布于 2024 年 2 月 22 日。"
 
-#: ../../changes.rst:481
+#: ../../changes.rst:479
 msgid "Displaying debugging page in case of database connection issues."
 msgstr "如遇数据库连接问题，则展示调试页面。"
 
-#: ../../changes.rst:482 ../../changes.rst:498
+#: ../../changes.rst:480 ../../changes.rst:496
 msgid "Gracefully handle migration with duplicate built-in teams."
 msgstr "优雅地处理有重复内置团队的迁移。"
 
-#: ../../changes.rst:488
+#: ../../changes.rst:486
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/113?"
 "closed=1>`__."
@@ -26405,21 +26508,21 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/113?"
 "closed=1>`__。"
 
-#: ../../changes.rst:491
+#: ../../changes.rst:489
 msgid "Weblate 5.4.1"
 msgstr "Weblate 5.4.1"
 
-#: ../../changes.rst:493
+#: ../../changes.rst:491
 msgid "Released on February 19th 2024."
 msgstr "发布于 2024 年 2 月 19 日。"
 
-#: ../../changes.rst:497
+#: ../../changes.rst:495
 msgid ""
 "Possible crash on Weblate upgrade check when cached from the previous "
 "versions."
 msgstr "从先前版本缓存 Weblate 升级检查时进行相同检查可能造成崩溃。"
 
-#: ../../changes.rst:504
+#: ../../changes.rst:502
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/112?"
 "closed=1>`__."
@@ -26427,78 +26530,78 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/112?"
 "closed=1>`__。"
 
-#: ../../changes.rst:507
+#: ../../changes.rst:505
 msgid "Weblate 5.4"
 msgstr "Weblate 5.4"
 
-#: ../../changes.rst:509
+#: ../../changes.rst:507
 msgid "Released on February 15th 2024."
 msgstr "发布于 2024 年 2 月 15 日。"
 
-#: ../../changes.rst:513
+#: ../../changes.rst:511
 msgid ":ref:`check-perl-brace-format` quality check."
 msgstr ":ref:`check-perl-brace-format` 质量检查。"
 
-#: ../../changes.rst:514
+#: ../../changes.rst:512
 msgid ":doc:`/formats/moko`."
 msgstr ":doc:`/formats/moko`."
 
-#: ../../changes.rst:515
+#: ../../changes.rst:513
 msgid ":doc:`/formats/formatjs`."
 msgstr ":doc:`/formats/formatjs`."
 
-#: ../../changes.rst:516
+#: ../../changes.rst:514
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
 msgstr "现对搜索输入执行语法高亮，见 :doc:`/user/search`。"
 
-#: ../../changes.rst:517
+#: ../../changes.rst:515
 msgid "Weblate is now available in தமிழ்."
 msgstr "Weblate 现在可用 தமிழ் 显示。"
 
-#: ../../changes.rst:521
+#: ../../changes.rst:519
 msgid "Better logging in :wladmin:`createadmin`."
 msgstr "改进了 :wladmin:`createadmin` 中的日志记录。"
 
-#: ../../changes.rst:522
+#: ../../changes.rst:520
 msgid ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgstr ":ref:`addon-weblate.discovery.discovery` 现在报告跳过的条目。"
 
-#: ../../changes.rst:523
+#: ../../changes.rst:521
 msgid "Adding string in a repository triggers :ref:`subscriptions`."
 msgstr "在仓库中添加字符串触发 :ref:`subscriptions`。"
 
-#: ../../changes.rst:524
+#: ../../changes.rst:522
 msgid ":ref:`mt-openai` better handles batch translations and glossaries."
 msgstr ":ref:`mt-openai` 更好地处理批量翻译和术语表。"
 
-#: ../../changes.rst:525
+#: ../../changes.rst:523
 msgid ":ref:`mt-libretranslate` better handles batch translations."
 msgstr ":ref:`mt-libretranslate` 更好地处理批量翻译。"
 
-#: ../../changes.rst:526
+#: ../../changes.rst:524
 msgid ""
 "Text variant of notification e-mails now properly indicate changed strings."
 msgstr "通知邮件的文本变体现正确表明已更改的字符串。"
 
-#: ../../changes.rst:527
+#: ../../changes.rst:525
 msgid "File downloads now honor :http:header:`If-Modified-Since`."
 msgstr "文件下载现遵守 :http:header:`If-Modified-Since`."
 
-#: ../../changes.rst:528
+#: ../../changes.rst:526
 msgid ":ref:`num-words` support for CJK languages."
 msgstr "新增对 CJK 语言 :ref:`num-words` 的支持。"
 
-#: ../../changes.rst:529
+#: ../../changes.rst:527
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`."
 msgstr ""
 ":ref:`addon-weblate.discovery.discovery` 现在保留 :ref:`componentlists`."
 
-#: ../../changes.rst:530
+#: ../../changes.rst:528
 msgid "Nicer formatting of :ref:`glossary` tooltips."
 msgstr "更好地调整 :ref:`glossary` 提示信息的格式。"
 
-#: ../../changes.rst:531
+#: ../../changes.rst:529
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` now "
 "includes information about linked component."
@@ -26506,43 +26609,44 @@ msgstr ""
 ":http:get:`/api/components/(string:project)/(string:component)/` 现包括链接的"
 "部件的信息。"
 
-#: ../../changes.rst:532
+#: ../../changes.rst:530
 msgid "Improved :ref:`workflow-customization` configuration forms."
 msgstr "完善了 :ref:`workflow-customization` 配置表单。"
 
-#: ../../changes.rst:536
+#: ../../changes.rst:534
 msgid "Plural forms handling in :doc:`/formats/qt`."
 msgstr "处理 :doc:`/formats/qt` 格式中的复数形式。"
 
-#: ../../changes.rst:537
+#: ../../changes.rst:535
 msgid "Added missing documentation for :setting:`ADMINS_CONTACT`."
 msgstr "添加 :setting:`ADMINS_CONTACT` 缺少的文档。"
 
-#: ../../changes.rst:538
+#: ../../changes.rst:536
 msgid ""
 "Automatic fixer for :ref:`autofix-punctuation-spacing` no longer adds new "
 "whitespace."
 msgstr ":ref:`autofix-punctuation-spacing` 自动修复不再添加新的空白符号。"
 
-#: ../../changes.rst:539
+#: ../../changes.rst:537
 msgid "Pending changes committing could be omitted under some circumstances."
 msgstr "某些情形下可省略待定更改提交。"
 
-#: ../../changes.rst:540
+#: ../../changes.rst:538
 msgid ":ref:`addon-weblate.cleanup.blank` now correctly removes blank plurals."
 msgstr ":ref:`addon-weblate.cleanup.blank` 现正确地删除空白复数形式。"
 
-#: ../../changes.rst:544
+#: ../../changes.rst:542
 msgid ""
 "Last changed timestamp now reflects changes outside Weblate as well. This "
 "affects both :ref:`api` and the user interface."
-msgstr "上次更改时间戳现在同样反映 Weblate 外的更改。这影响 :ref:`api` 和用户界面。"
+msgstr ""
+"上次更改时间戳现在同样反映 Weblate 外的更改。这影响 :ref:`api` 和用户界面。"
 
-#: ../../changes.rst:545
+#: ../../changes.rst:543
 msgid "Releases are signed by Sigstore instead of PGP, see :ref:`verify`."
 msgstr "发行文件由 Sigstore 而非 PGP 签名，见 :ref:`验证`。"
 
-#: ../../changes.rst:551
+#: ../../changes.rst:549
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/109?"
 "closed=1>`__."
@@ -26550,19 +26654,19 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/109?"
 "closed=1>`__。"
 
-#: ../../changes.rst:554
+#: ../../changes.rst:552
 msgid "Weblate 5.3.1"
 msgstr "Weblate 5.3.1"
 
-#: ../../changes.rst:556
+#: ../../changes.rst:554
 msgid "Released on December 19th 2023."
 msgstr "发布于 2023 年 12 月 19 日。"
 
-#: ../../changes.rst:560
+#: ../../changes.rst:558
 msgid "Not updating statistics in some situations."
 msgstr "某些情况下不更新统计数字。"
 
-#: ../../changes.rst:566
+#: ../../changes.rst:564
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/110?"
 "closed=1>`__."
@@ -26570,46 +26674,46 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/110?"
 "closed=1>`__。"
 
-#: ../../changes.rst:569
+#: ../../changes.rst:567
 msgid "Weblate 5.3"
 msgstr "Weblate 5.3"
 
-#: ../../changes.rst:571
+#: ../../changes.rst:569
 msgid "Released on December 14th 2023."
 msgstr "发布于 2023 年 12 月 14 日。"
 
-#: ../../changes.rst:575
+#: ../../changes.rst:573
 msgid ":ref:`mt-openai` automatic suggestion service."
 msgstr ":ref:`mt-openai` 自动建议服务。"
 
-#: ../../changes.rst:576
+#: ../../changes.rst:574
 msgid ":ref:`mt-alibaba` automatic suggestion service."
 msgstr ":ref:`mt-alibaba` 自动建议服务。"
 
-#: ../../changes.rst:577
+#: ../../changes.rst:575
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr "新增标签 API，见 :http:get:`/api/projects/(string:project)/labels/`."
 
-#: ../../changes.rst:578
+#: ../../changes.rst:576
 msgid ":ref:`glossary-mt`."
 msgstr ":ref:`glossary-mt`."
 
-#: ../../changes.rst:579
+#: ../../changes.rst:577
 msgid "New automatic fixer for :ref:`autofix-punctuation-spacing`."
 msgstr "新增自动修复 :ref:`autofix-punctuation-spacing`."
 
-#: ../../changes.rst:580
+#: ../../changes.rst:578
 msgid ""
 ":ref:`mt-google-translate-api-v3` now better honors placeables or line "
 "breaks."
 msgstr ":ref:`mt-google-translate-api-v3` 现在更好遵守占位符或换行符。"
 
-#: ../../changes.rst:584
+#: ../../changes.rst:582
 msgid "Reduced memory usage for statistics."
 msgstr "减少了统计数据的内存使用。"
 
-#: ../../changes.rst:585
+#: ../../changes.rst:583
 msgid ""
 ":ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:"
 "`glossary-mt`."
@@ -26617,34 +26721,34 @@ msgstr ""
 ":ref:`mt-deepl` 在 :ref:`auto-translation` 下表现得更好并支持 :ref:`glossary-"
 "mt`。"
 
-#: ../../changes.rst:586
+#: ../../changes.rst:584
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-translator` 支持 :ref:`glossary-mt`。"
 
-#: ../../changes.rst:587
+#: ../../changes.rst:585
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
 msgstr "改进了 :ref:`mt-google-translate-api-v3` 中的区域选择。"
 
-#: ../../changes.rst:588
+#: ../../changes.rst:586
 msgid "Added nested JSON exporter in :ref:`download`."
 msgstr "在 :ref:`download` 中新增折叠 JSON 导出工具。"
 
-#: ../../changes.rst:589
+#: ../../changes.rst:587
 msgid "Improved :ref:`git-exporter` performance on huge repositories."
 msgstr "改进了 :ref:`git-exporter` 在巨大仓库中的性能。"
 
-#: ../../changes.rst:593
+#: ../../changes.rst:591
 msgid "Removing stale VCS directories."
 msgstr "删除陈旧的 VCS 目录。"
 
-#: ../../changes.rst:597
+#: ../../changes.rst:595
 msgid ""
 "Dropped Microsoft Terminology service for automatic suggestions, as it is no "
 "longer provided by Microsoft."
 msgstr ""
 "Microsoft Terminology 服务无法再用于自动建议，因 Microsoft 不再提供此服务。"
 
-#: ../../changes.rst:598
+#: ../../changes.rst:596
 msgid ""
 "``labels`` in units API now expose full label info, see :http:get:`/api/"
 "units/(int:id)/`."
@@ -26652,7 +26756,7 @@ msgstr ""
 "单位 API 中的 ``labels`` 现在暴露完整标签信息，见 :http:get:`/api/units/(int:"
 "id)/`."
 
-#: ../../changes.rst:604
+#: ../../changes.rst:602
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/107?"
 "closed=1>`__."
@@ -26660,43 +26764,43 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/107?"
 "closed=1>`__。"
 
-#: ../../changes.rst:607
+#: ../../changes.rst:605
 msgid "Weblate 5.2.1"
 msgstr "Weblate 5.2.1"
 
-#: ../../changes.rst:609
+#: ../../changes.rst:607
 msgid "Released on November 22nd 2023."
 msgstr "发布于 2023 年 11 月 22 日。"
 
-#: ../../changes.rst:613
+#: ../../changes.rst:611
 msgid "Show search field after no strings found while translating."
 msgstr "翻译时未找到字符串后显示搜索字段。"
 
-#: ../../changes.rst:614
+#: ../../changes.rst:612
 msgid "Added soft hyphen to special-characters toolbar."
 msgstr "新增软连字符到特殊字符工具栏。"
 
-#: ../../changes.rst:618
+#: ../../changes.rst:616
 msgid "Database backups compatibility with Alibaba Cloud Database PolarDB."
 msgstr "与 Alibaba 云数据库 PolarDB 的数据库备份兼容性。"
 
-#: ../../changes.rst:619
+#: ../../changes.rst:617
 msgid "Crash on loading statistics calculated by previous versions."
 msgstr "加载由先前版本加载的统计数据时崩溃。"
 
-#: ../../changes.rst:620
+#: ../../changes.rst:618
 msgid "Sort icons in dark mode."
 msgstr "在深色模式下排列图标。"
 
-#: ../../changes.rst:621
+#: ../../changes.rst:619
 msgid "Project level statistics no longer count categorized components twice."
 msgstr "已分类部件数不会再被两次计入项目级统计数据。"
 
-#: ../../changes.rst:622
+#: ../../changes.rst:620
 msgid "Possible discarding pending translations after editing source strings."
 msgstr "新增在编辑源字符串后丢弃待定翻译的可能性。"
 
-#: ../../changes.rst:628
+#: ../../changes.rst:626
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/108?"
 "closed=1>`__."
@@ -26704,92 +26808,92 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/108?"
 "closed=1>`__。"
 
-#: ../../changes.rst:631
+#: ../../changes.rst:629
 msgid "Weblate 5.2"
 msgstr "Weblate 5.2"
 
-#: ../../changes.rst:633
+#: ../../changes.rst:631
 msgid "Released on November 16th 2023."
 msgstr "发布于 2023 年 11 月 16 日。"
 
-#: ../../changes.rst:641
+#: ../../changes.rst:639
 msgid "Faster statistics updates."
 msgstr "更快的统计数据更新。"
 
-#: ../../changes.rst:642
+#: ../../changes.rst:640
 msgid "Better e-mail selection in user profile."
 msgstr "改进用户个人资料中的电子邮箱选择。"
 
-#: ../../changes.rst:643
+#: ../../changes.rst:641
 msgid ":ref:`autofix` are now applied to suggestions as well."
 msgstr ":ref:`autofix` 现在同样应用于建议。"
 
-#: ../../changes.rst:644
+#: ../../changes.rst:642
 msgid ":ref:`mt-deepl` can now configure default formality for translations."
 msgstr ":ref:`mt-deepl` 现在可以为译者配置默认的 formality。"
 
-#: ../../changes.rst:645
+#: ../../changes.rst:643
 msgid "Use neutral colors for progress bars and translation unit states."
 msgstr "进度条和翻译单元状态使用中性色。"
 
-#: ../../changes.rst:646
+#: ../../changes.rst:644
 msgid ""
 ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
 "editing."
 msgstr ":ref:`addon-weblate.gettext.mo` 可以包括需要编辑的字符串（可选)。"
 
-#: ../../changes.rst:647
+#: ../../changes.rst:645
 msgid ""
 "Use :http:header:`Accept-Language` to order translations for unauthenticated "
 "users."
 msgstr ""
 "使用 :http:header:`Accept-Language` 为没有进行身份验证的用户排列翻译顺序。"
 
-#: ../../changes.rst:648
+#: ../../changes.rst:646
 msgid ""
 "Add option to directly approve suggestions with :ref:`reviews` workflow."
 msgstr ":ref:`reviews` 工作流程新增直接批准建议的选项。"
 
-#: ../../changes.rst:649
+#: ../../changes.rst:647
 msgid "One-click removal of project or component :ref:`subscriptions`."
 msgstr "一键删除项目或部件 :ref:`subscriptions`。"
 
-#: ../../changes.rst:650
+#: ../../changes.rst:648
 msgid ""
 ":ref:`api-statistics` now includes character and word counts for more string "
 "states."
 msgstr ":ref:`api-statistics` 现在包括更多字符串状态的字符和单词计数。"
 
-#: ../../changes.rst:654
+#: ../../changes.rst:652
 msgid "Fixed creating component within a category by upload."
 msgstr "修复了通过上传创建分类内部件的问题。"
 
-#: ../../changes.rst:655
+#: ../../changes.rst:653
 msgid "Error handling in organizing components and categories."
 msgstr "处理组织部件和分类方面的错误。"
 
-#: ../../changes.rst:656
+#: ../../changes.rst:654
 msgid "Fixed moving categories between projects."
 msgstr "修复了在项目间移动分类的问题。"
 
-#: ../../changes.rst:657
+#: ../../changes.rst:655
 msgid "Fixed formatting of translation memory search results."
 msgstr "修复了翻译记忆库搜索结果版式的问题。"
 
-#: ../../changes.rst:658
+#: ../../changes.rst:656
 msgid "Allow non-breaking space character in :ref:`autofix-html`."
 msgstr "在 :ref:`autofix-html` 中允许不间断空格字符。"
 
-#: ../../changes.rst:662
+#: ../../changes.rst:660
 msgid ":doc:`/formats/apple` exporter now produces UTF-8 encoded files."
 msgstr ":doc:`/formats/apple` 导出程序现在生成 UTF-8 编码的文件。"
 
-#: ../../changes.rst:663
+#: ../../changes.rst:661
 msgid ""
 "Python 3.12 is now supported, though not recommended, see :ref:`python-deps`."
 msgstr "现支持 Python 3.12，虽然并不推荐使用，见 :ref:`python-deps`。"
 
-#: ../../changes.rst:669
+#: ../../changes.rst:667
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/104?"
 "closed=1>`__."
@@ -26797,42 +26901,42 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/104?"
 "closed=1>`__。"
 
-#: ../../changes.rst:672
+#: ../../changes.rst:670
 msgid "Weblate 5.1.1"
 msgstr "Weblate 5.1.1"
 
-#: ../../changes.rst:674
+#: ../../changes.rst:672
 msgid "Released on October 25th 2023."
 msgstr "发布于 2023 年 10 月 25 日。"
 
-#: ../../changes.rst:680
+#: ../../changes.rst:678
 msgid ""
 ":ref:`addon-weblate.consistency.languages` now uses a dedicated user for "
 "changes."
 msgstr ""
 ":ref:`addon-weblate.consistency.languages` 现在使用专门用户进行更改操作。"
 
-#: ../../changes.rst:681
+#: ../../changes.rst:679
 msgid "Added button for sharing on Fediverse."
 msgstr "新增分享到 Fediverse 按钮。"
 
-#: ../../changes.rst:682
+#: ../../changes.rst:680
 msgid "Added validation for VCS integration credentials."
 msgstr "新增 VCS 集成凭据验证。"
 
-#: ../../changes.rst:683
+#: ../../changes.rst:681
 msgid "Reduced overhead of statistics collection."
 msgstr "降低了统计数据集的营运费用。"
 
-#: ../../changes.rst:687
+#: ../../changes.rst:685
 msgid "Added plurals validation when editing string using the API."
 msgstr "使用 API 编辑字符串时添加复数验证。"
 
-#: ../../changes.rst:688
+#: ../../changes.rst:686
 msgid "Replacing a file using upload when existing is corrupted."
 msgstr "现有文件损坏时使用上传替换该文件。"
 
-#: ../../changes.rst:696
+#: ../../changes.rst:694
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/106?"
 "closed=1>`__."
@@ -26840,19 +26944,19 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/106?"
 "closed=1>`__。"
 
-#: ../../changes.rst:699
+#: ../../changes.rst:697
 msgid "Weblate 5.1"
 msgstr "Weblate 5.1"
 
-#: ../../changes.rst:701
+#: ../../changes.rst:699
 msgid "Released on October 16th 2023."
 msgstr "发布于 2023 年 10 月 16 日。"
 
-#: ../../changes.rst:705
+#: ../../changes.rst:703
 msgid ":ref:`mt-yandex-v2` machine translation service."
 msgstr ":ref:`mt-yandex-v2` 机器翻译服务。"
 
-#: ../../changes.rst:706
+#: ../../changes.rst:704
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` "
 "are now stored with a dedicated user as an author."
@@ -26860,114 +26964,114 @@ msgstr ""
 ":ref:`addon-weblate.autotranslate.autotranslate` 和 :ref:`auto-translation` "
 "现在以专门用户作为作者进行保存。"
 
-#: ../../changes.rst:707
+#: ../../changes.rst:705
 msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
 msgstr "字符串的 :ref:`addons` 更改现在以一名专门用户作为作者的形式进行存储。"
 
-#: ../../changes.rst:708
+#: ../../changes.rst:706
 msgid ":ref:`download-multi` can now convert file formats."
 msgstr ":ref:`download-multi` 现在可以转换文件格式。"
 
-#: ../../changes.rst:709
+#: ../../changes.rst:707
 msgid ""
 ":ref:`workflow-customization` allows to fine-tune localization workflow per "
 "language."
 msgstr ""
 ":ref:`workflow-customization` 允许对每种语言的本地化工作流程进行精细调整。"
 
-#: ../../changes.rst:713
+#: ../../changes.rst:711
 msgid ""
 ":ref:`project-translation_review` also shows the approval percentage in "
 "object listings."
 msgstr ":ref:`project-translation_review` 还显示对象列举中的核准百分比。"
 
-#: ../../changes.rst:714
+#: ../../changes.rst:712
 msgid "Project is added to watched upon accepting an invitation."
 msgstr "接受邀请时，项目自动添加到已关注列表。"
 
-#: ../../changes.rst:715
+#: ../../changes.rst:713
 msgid ""
 "Configure VCS API credentials as a Python dict from environment variables."
 msgstr "将 VCS API 凭据配置为来自环境变量的 Python 字典。"
 
-#: ../../changes.rst:716
+#: ../../changes.rst:714
 msgid "Improved accuracy of checks on plural messages."
 msgstr "改进了复数消息的检查精度。"
 
-#: ../../changes.rst:717
+#: ../../changes.rst:715
 msgid "Engage page better shows stats."
 msgstr "优化了参与页面显示的统计数据。"
 
-#: ../../changes.rst:718
+#: ../../changes.rst:716
 msgid ""
 "Strings which can not be saved to a file no longer block other strings to be "
 "written."
 msgstr "无法被保存到文件的字符串不会再阻止其它字符串被写入。"
 
-#: ../../changes.rst:719
+#: ../../changes.rst:717
 msgid "Fixed some API URLs for categorized components."
 msgstr "修复了已分类部件的某些 API URL。"
 
-#: ../../changes.rst:720
+#: ../../changes.rst:718
 msgid "Show plural form examples more prominently."
 msgstr "更突出地显示复数形式示例。"
 
-#: ../../changes.rst:721
+#: ../../changes.rst:719
 msgid "Highlight whitespace in :ref:`machine-translation`."
 msgstr "高亮 :ref:`machine-translation` 中的空白符号。"
 
-#: ../../changes.rst:722
+#: ../../changes.rst:720
 msgid "Faster comment and component removal."
 msgstr "更快地删除评论和部件。"
 
-#: ../../changes.rst:723
+#: ../../changes.rst:721
 msgid "Show disabled save button reason more prominently."
 msgstr "更突出地显示为何禁用保存按钮。"
 
-#: ../../changes.rst:724
+#: ../../changes.rst:722
 msgid "New string notification can now be triggered for each string."
 msgstr "现在每条字符串都可以触发新字符串通知。"
 
-#: ../../changes.rst:728
+#: ../../changes.rst:726
 msgid "Improved OCR error handling in :ref:`screenshots`."
 msgstr "改进了 :ref:`screenshots` 中的 OCR 错误处理。"
 
-#: ../../changes.rst:729
+#: ../../changes.rst:727
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
 msgstr ":ref:`autofix` 优雅地处理来自 :ref:`multivalue-csv` 的字符串。"
 
-#: ../../changes.rst:730
+#: ../../changes.rst:728
 msgid "Occasional crash in :ref:`machine-translation` caching."
 msgstr "修复了 :ref:`machine-translation` 缓存偶尔的崩溃。"
 
-#: ../../changes.rst:731
+#: ../../changes.rst:729
 msgid "Fixed history listing for entries within a :ref:`category`."
 msgstr "修复了 :ref:`category` 中条目的历史记录列举问题。"
 
-#: ../../changes.rst:732
+#: ../../changes.rst:730
 msgid "Fixed editing :guilabel:`Administration` team."
 msgstr "修复了编辑 :guilabel:`Administration` 团队的问题。"
 
-#: ../../changes.rst:733
+#: ../../changes.rst:731
 msgid ""
 ":ref:`addon-weblate.consistency.languages` add-on could miss some languages."
 msgstr ""
 ":ref:`addon-weblate.consistency.languages` 附加组件可能会遗漏某些语言。"
 
-#: ../../changes.rst:737
+#: ../../changes.rst:735
 msgid "Categories are now included ``weblate://`` repository URLs."
 msgstr "分类现在包含 ``weblate://`` 仓库 URL 。"
 
-#: ../../changes.rst:743
+#: ../../changes.rst:741
 msgid ""
 "Upgrades from older version than 5.0.2 are not supported, please upgrade to "
 "5.0.2 first and then continue in upgrading."
 msgstr ""
 "不支持从早于 5.0.2 的版本进行升级，请先升级到 5.0.2 版本，然后再继续升级。"
 
-#: ../../changes.rst:744
+#: ../../changes.rst:742
 msgid ""
 "Dropped support for deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME in :file:`settings.py`."
@@ -26975,7 +27079,7 @@ msgstr ""
 "不再支持通过 :file:`settings.py` 中 _TOKEN/_USERNAME 进行 VCS 服务 API 密钥的"
 "已弃用的不安全配置。"
 
-#: ../../changes.rst:745
+#: ../../changes.rst:743
 msgid ""
 "Weblate now defaults to persistent database connections in :file:"
 "`settings_example.py` and Docker."
@@ -26983,7 +27087,7 @@ msgstr ""
 "在 :file:`settings_example.py` 和 Docker 中，Weblate 现在的默认行为是持久性的"
 "数据库连接。"
 
-#: ../../changes.rst:747
+#: ../../changes.rst:745
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/100?"
 "closed=1>`__."
@@ -26991,45 +27095,45 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/100?"
 "closed=1>`__。"
 
-#: ../../changes.rst:750
+#: ../../changes.rst:748
 msgid "Weblate 5.0.2"
 msgstr "Weblate 5.0.2"
 
-#: ../../changes.rst:752
+#: ../../changes.rst:750
 msgid "Released on September 14th 2023."
 msgstr "发布于 2023 年 9 月 14 日。"
 
-#: ../../changes.rst:756
+#: ../../changes.rst:754
 msgid "Translate page performance."
 msgstr "翻译页面性能。"
 
-#: ../../changes.rst:757
+#: ../../changes.rst:755
 msgid "Search now looks for categories as well."
 msgstr "搜索现在也会查找分类了。"
 
-#: ../../changes.rst:761
+#: ../../changes.rst:759
 msgid "Rendering of release notes on GitHub."
 msgstr "GitHub 上发行日志的呈现问题。"
 
-#: ../../changes.rst:762
+#: ../../changes.rst:760
 msgid "Listing of categorized projects."
 msgstr "已分类项目列举。"
 
-#: ../../changes.rst:763
+#: ../../changes.rst:761
 msgid "Translating a language inside a category."
 msgstr "翻译分类中的语言。"
 
-#: ../../changes.rst:764
+#: ../../changes.rst:762
 msgid "Categories sorting."
 msgstr "分类排序。"
 
-#: ../../changes.rst:770 ../../changes.rst:811
+#: ../../changes.rst:768 ../../changes.rst:809
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "indexing changes."
 msgstr "由于索引变化，在较大站点上升级数据库可能会花掉相当长的时间。"
 
-#: ../../changes.rst:772
+#: ../../changes.rst:770
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/105?"
 "closed=1>`__."
@@ -27037,82 +27141,82 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/105?"
 "closed=1>`__。"
 
-#: ../../changes.rst:775
+#: ../../changes.rst:773
 msgid "Weblate 5.0.1"
 msgstr "Weblate 5.0.1"
 
-#: ../../changes.rst:777
+#: ../../changes.rst:775
 msgid "Released on September 10th 2023."
 msgstr "发布于 2023 年 9 月 10 日。"
 
-#: ../../changes.rst:781
+#: ../../changes.rst:779
 msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
 msgstr "新增 :http:get:`/api/component-lists/(str:slug)/components/`。"
 
-#: ../../changes.rst:785
+#: ../../changes.rst:783
 msgid "Related glossary terms lookup is now faster."
 msgstr "术语表中相关术语的查询现在更快了。"
 
-#: ../../changes.rst:786
+#: ../../changes.rst:784
 msgid "Logging of failures when creating pull requests."
 msgstr "创建拉取请求失败时进行记录。"
 
-#: ../../changes.rst:787
+#: ../../changes.rst:785
 msgid "History is now loaded faster."
 msgstr "历史记录现在加载得更快了。"
 
-#: ../../changes.rst:788
+#: ../../changes.rst:786
 msgid "Added object ``id`` to all :ref:`api` endpoints."
 msgstr "新增对象 ``id`` 到所有 :ref:`api` 端点。"
 
-#: ../../changes.rst:789
+#: ../../changes.rst:787
 msgid "Better performance of projects with a lot of components."
 msgstr "改进带大量部件项目的性能。"
 
-#: ../../changes.rst:790
+#: ../../changes.rst:788
 msgid "Added compatibility redirects for some old URLs."
 msgstr "新增某些旧 URL 的兼容性重定向。"
 
-#: ../../changes.rst:794
+#: ../../changes.rst:792
 msgid "Creating component within a category."
 msgstr "在分类中创建部件。"
 
-#: ../../changes.rst:795
+#: ../../changes.rst:793
 msgid "Source strings and state display for converted formats."
 msgstr "展示已转换字符串的源字符串和状态。"
 
-#: ../../changes.rst:796
+#: ../../changes.rst:794
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
 msgstr "在不支持 :ref:`component-edit_template` 的格式中拦截部件编辑模板。"
 
-#: ../../changes.rst:797
+#: ../../changes.rst:795
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgstr "空白字符串不再触发 :ref:`check-reused` 检查。"
 
-#: ../../changes.rst:798
+#: ../../changes.rst:796
 msgid "Performance issues while browsing some categories."
 msgstr "浏览某些分类时的性能问题。"
 
-#: ../../changes.rst:799
+#: ../../changes.rst:797
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
 msgstr "修复了 Docker 容器中 GitHub 团队和组织身份验证的问题。"
 
-#: ../../changes.rst:800
+#: ../../changes.rst:798
 msgid "GitLab merge requests when using a customized SSH port."
 msgstr "使用自定义 SSH 端口时的 GitLab 合并请求。"
 
-#: ../../changes.rst:804
+#: ../../changes.rst:802
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
 msgstr "`pyahocorasick` 依赖项已被 `ahocorasick_rs` 替代。"
 
-#: ../../changes.rst:805
+#: ../../changes.rst:803
 msgid ""
 "The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
 msgstr ":setting:`IP_PROXY_OFFSET` 的默认值已从 1 改为 -1。"
 
-#: ../../changes.rst:813
+#: ../../changes.rst:811
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/103?"
 "closed=1>`__."
@@ -27120,124 +27224,124 @@ msgstr ""
 "`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/103?"
 "closed=1>`__。"
 
-#: ../../changes.rst:816
+#: ../../changes.rst:814
 msgid "Weblate 5.0"
 msgstr "Weblate 5.0"
 
-#: ../../changes.rst:818
+#: ../../changes.rst:816
 msgid "Released on August 24th 2023."
 msgstr "发布于 2023 年 8 月 24 日。"
 
-#: ../../changes.rst:822
+#: ../../changes.rst:820
 msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr ":doc:`/formats/markdown` 支持， 感谢 Anders Kaplan。"
 
-#: ../../changes.rst:823
+#: ../../changes.rst:821
 msgid ":ref:`category` can now organize components within a project."
 msgstr ":ref:`category` 现可组织项目内的部件。"
 
-#: ../../changes.rst:824
+#: ../../changes.rst:822
 msgid ""
 ":doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes."
 msgstr ":doc:`/formats/fluent` 现在有更好的语法检查，感谢 Henry Wilkes。"
 
-#: ../../changes.rst:825
+#: ../../changes.rst:823
 msgid "Inviting users now works with all authentication methods."
 msgstr "用户邀请现对所有身份验证方式均正常工作。"
 
-#: ../../changes.rst:826
+#: ../../changes.rst:824
 msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr "Docker 容器支持 secrets 文件，见 :ref:`docker-secrets`。"
 
-#: ../../changes.rst:830
+#: ../../changes.rst:828
 msgid "Plurals handling in machine translation."
 msgstr "机器翻译的复数处理。"
 
-#: ../../changes.rst:831
+#: ../../changes.rst:829
 msgid ""
 ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgstr ":ref:`check-same` 检查现在遵守占位符，即使在严格模式下也是如此。"
 
-#: ../../changes.rst:832
+#: ../../changes.rst:830
 msgid ""
 ":ref:`check-reused` is no longer triggered for languages with a single "
 "plural form."
 msgstr "不再对单一复数形式的语言触发 :ref:`check-reused`。"
 
-#: ../../changes.rst:833
+#: ../../changes.rst:831
 msgid "WebP is now supported for :ref:`screenshots`."
 msgstr ":ref:`screenshots` 现已支持 WebP 格式。"
 
-#: ../../changes.rst:834
+#: ../../changes.rst:832
 msgid ""
 "Avoid duplicate notification when a user is subscribed to overlapping scopes."
 msgstr "当用户订阅重叠范围时避免重复通知。"
 
-#: ../../changes.rst:835
+#: ../../changes.rst:833
 msgid "OCR support for non-English languages in :ref:`screenshots`."
 msgstr ":ref:`screenshots` 支持非英语语言的 OCR。"
 
-#: ../../changes.rst:836
+#: ../../changes.rst:834
 msgid ":ref:`xliff` now supports displaying source string location."
 msgstr ":ref:`xliff` 现支持展示源字符串位置。"
 
-#: ../../changes.rst:837
+#: ../../changes.rst:835
 msgid ""
 "Rendering strings with plurals, placeholders or alternative translations."
 msgstr "用复数、占位符或备选翻译渲染字符串。"
 
-#: ../../changes.rst:838
+#: ../../changes.rst:836
 msgid "User API now includes last sign in date."
 msgstr "用户 API 现包含最后登录日期。"
 
-#: ../../changes.rst:839
+#: ../../changes.rst:837
 msgid "User API token is now hidden for privacy reasons by default."
 msgstr "出于隐私原因，用户 API 令牌现默认处于隐藏状态。"
 
-#: ../../changes.rst:840
+#: ../../changes.rst:838
 msgid "Faster adding terms to glossary."
 msgstr "更快地向术语表添加术语。"
 
-#: ../../changes.rst:841
+#: ../../changes.rst:839
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
 msgstr ""
 ":doc:`/formats/html` 和 :doc:`/formats/txt` 源文件更改时更好地保留翻译。"
 
-#: ../../changes.rst:842
+#: ../../changes.rst:840
 msgid "Added indication of automatic assignment to team listing."
 msgstr "团队列表增加了自动分配标识。"
 
-#: ../../changes.rst:843
+#: ../../changes.rst:841
 msgid "Users now have to confirm invitations to become team members."
 msgstr "用户现在必须确认邀请方可成为团队成员。"
 
-#: ../../changes.rst:844
+#: ../../changes.rst:842
 msgid ""
 ":ref:`check-formats` can now check all plural forms with the ``strict-"
 "format`` flag."
 msgstr ""
 ":ref:`check-formats` 现在可以检查所有带 ``strict-format`` 标记的复数形式。"
 
-#: ../../changes.rst:845
+#: ../../changes.rst:843
 msgid ":doc:`/user/checks` browsing experience."
 msgstr ":doc:`/user/checks` 浏览体验。"
 
-#: ../../changes.rst:846
+#: ../../changes.rst:844
 msgid "Highlight differences in the source string in automatic suggestions."
 msgstr "在自动建议中高亮源字符串的差异。"
 
-#: ../../changes.rst:847
+#: ../../changes.rst:845
 msgid "Visual diff now better understands compositing characters."
 msgstr "可视化差异可以更好地理解合成字符。"
 
-#: ../../changes.rst:851
+#: ../../changes.rst:849
 msgid "User names handling while committing to Git."
 msgstr "提交到 Git 时的用户名处理。"
 
-#: ../../changes.rst:852
+#: ../../changes.rst:850
 msgid ""
 ":ref:`addon-weblate.cleanup.blank` and :ref:`addon-weblate.cleanup.generic` "
 "now remove all strings at once."
@@ -27245,28 +27349,28 @@ msgstr ""
 ":ref:`addon-weblate.cleanup.blank` 和 :ref:`addon-weblate.cleanup.generic` 现"
 "立即删除所有字符串。"
 
-#: ../../changes.rst:853
+#: ../../changes.rst:851
 msgid "Language filtering in :doc:`/devel/reporting`."
 msgstr ":doc:`/devel/reporting` 中的语言筛选。"
 
-#: ../../changes.rst:854
+#: ../../changes.rst:852
 msgid ""
 "Reduced false positives of :ref:`check-reused` when fixing the translation."
 msgstr "减少了 :ref:`check-reused` 修复译文时造成的误报。"
 
-#: ../../changes.rst:855
+#: ../../changes.rst:853
 msgid "Fixed caching issues after updating screenshots from the repository."
 msgstr "修复了更新来自仓库的截屏文件后的缓存问题。"
 
-#: ../../changes.rst:859
+#: ../../changes.rst:857
 msgid "Python 3.9 or newer is now required."
 msgstr "现在需要 Python 3.9 或更新版本。"
 
-#: ../../changes.rst:860
+#: ../../changes.rst:858
 msgid "Several UI URLs have been changed to be able to handle categories."
 msgstr "更改了几个 URL 以便处理类别。"
 
-#: ../../changes.rst:866
+#: ../../changes.rst:864
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
@@ -27275,17 +27379,17 @@ msgstr ""
 ":file:`settings_example.py` 中有几项更改，最显著的是 ``CACHES`` 和 "
 "``SOCIAL_AUTH_PIPELINE`` 中的更改，请相应调整你的设置。"
 
-#: ../../changes.rst:867
+#: ../../changes.rst:865
 msgid "Several previously optional dependencies are now required."
 msgstr "先前几个可选的依赖项现在变为必需。"
 
-#: ../../changes.rst:868
+#: ../../changes.rst:866
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "structure changes."
 msgstr "由于结构变化，在较大站点上升级数据库可能会花掉相当长的时间。"
 
-#: ../../changes.rst:870
+#: ../../changes.rst:868
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?"
 "closed=1>`__."
@@ -31611,8 +31715,8 @@ msgid ""
 msgstr ""
 "在较大的 Weblate 实例上迁移到重写的 metrics 存储可能耗费相当长的时间（每 GB "
 "的 ``metrics_metric`` 预计需要约15分钟）。为了减少实例下线时间，你可以将来自 "
-"Weblate 4.17 的 :file:`weblate/metrics/migrations/*.py` 文件复制到 4."
-"16，并在后台启动迁移。一旦完毕，请照常执行完整升级。"
+"Weblate 4.17 的 :file:`weblate/metrics/migrations/*.py` 文件复制到 4.16，并在"
+"后台启动迁移。一旦完毕，请照常执行完整升级。"
 
 #: ../../changes/v4.rst:95
 msgid ""
@@ -31823,8 +31927,8 @@ msgid ""
 "`django:STATIC_ROOT`. You might need to adjust :ref:`static-files` "
 "accordingly."
 msgstr ""
-":setting:`CACHE_DIR` 的引入更改了 :setting:`django:STATIC_ROOT` 的默认值。 "
-"你可能需要相应调整 :ref:`static-files`。"
+":setting:`CACHE_DIR` 的引入更改了 :setting:`django:STATIC_ROOT` 的默认值。 你"
+"可能需要相应调整 :ref:`static-files`。"
 
 #: ../../changes/v4.rst:181
 msgid "Weblate 4.15.2"
@@ -33319,8 +33423,9 @@ msgstr ""
 msgid ""
 "Renamed :guilabel:`Nearby keys` to :guilabel:`Similar keys` to better "
 "describe the purpose."
-msgstr "已将 :guilabel:`Nearby keys` 重命名为 :guilabel:`Similar keys` "
-"以更好地描述目的。"
+msgstr ""
+"已将 :guilabel:`Nearby keys` 重命名为 :guilabel:`Similar keys` 以更好地描述目"
+"的。"
 
 #: ../../changes/v4.rst:681
 msgid "Added support for :ref:`mi18n-lang`."
@@ -33399,8 +33504,8 @@ msgid ""
 "``MT_DEEPL_API_URL`` setting to adapt to different subscription models more "
 "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgstr ""
-":ref:`mt-deepl` 机器翻译现在有一个通用的 ``MT_DEEPL_API_URL`` "
-"设置，以更灵活地适应不同的订阅模式。``MT_DEEPL_API_VERSION`` 设置不再使用。"
+":ref:`mt-deepl` 机器翻译现在有一个通用的 ``MT_DEEPL_API_URL`` 设置，以更灵活"
+"地适应不同的订阅模式。``MT_DEEPL_API_VERSION`` 设置不再使用。"
 
 #: ../../changes/v4.rst:706
 msgid "Django 3.2 is now required."
@@ -34130,10 +34235,10 @@ msgid ""
 "upgrading and it is recommended to force loading of affected component "
 "using :wladmin:`loadpo`."
 msgstr ""
-":ref:`mono_gettext` 现在同时使用 ``msgid`` 和 ``msgctxt``\\ "
-"（若存在）。这将改变此类文件中翻译字符串的标识，破坏到与 Weblate 扩展数据（如"
-"截图和审校状态）的链接。请确保在升级之前提交此类文件的待处理更改，建议使用 "
-":wladmin:`loadpo` 强制加载受影响的部件。"
+":ref:`mono_gettext` 现在同时使用 ``msgid`` 和 ``msgctxt``\\ （若存在）。这将"
+"改变此类文件中翻译字符串的标识，破坏到与 Weblate 扩展数据（如截图和审校状态）"
+"的链接。请确保在升级之前提交此类文件的待处理更改，建议使用 :wladmin:`loadpo` "
+"强制加载受影响的部件。"
 
 #: ../../changes/v4.rst:946
 msgid ""
@@ -34654,8 +34759,8 @@ msgid ""
 "`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`). You will have to configure "
 "it before running Weblate."
 msgstr ""
-"现在在设置中配置 Weblate 域，请参见 :setting:`SITE_DOMAIN`\\ （或 "
-":envvar:`WEBLATE_SITE_DOMAIN`）。在运行 Weblate 前你将不得不配置它。"
+"现在在设置中配置 Weblate 域，请参见 :setting:`SITE_DOMAIN`\\ （或 :envvar:"
+"`WEBLATE_SITE_DOMAIN`）。在运行 Weblate 前你将不得不配置它。"
 
 #: ../../changes/v4.rst:1106
 msgid ""
@@ -35474,10 +35579,10 @@ msgid ""
 "toml`) turn it on by running ``pre-commit install`` in Weblate checkout. "
 "This way all your changes will be automatically checked."
 msgstr ""
-"将所有这些强制的最简单的方法是安装 `pre-"
-"commit`_。仓库为此包含了配置，来确定提交的文件是正常的。安装后（它已经包括在 "
-":file:`pyproject.toml` 中了）通过在 Weblate 的付款台运行 ``pre-commit "
-"install`` 来将它打开。通过这种方法，所有更改都将被自动检查。"
+"将所有这些强制的最简单的方法是安装 `pre-commit`_。仓库为此包含了配置，来确定"
+"提交的文件是正常的。安装后（它已经包括在 :file:`pyproject.toml` 中了）通过在 "
+"Weblate 的付款台运行 ``pre-commit install`` 来将它打开。通过这种方法，所有更"
+"改都将被自动检查。"
 
 #: ../../contributing/snippets/pre-commit.rst:16
 msgid "You can also trigger check manually, to check all files run:"
@@ -37858,6 +37963,287 @@ msgid ""
 "tests for Django."
 msgstr ""
 "运行并为 Django写测试的更多信息请参见 :doc:`django:topics/testing/index`。"
+
+#: ../../contributing/trademark.rst:2
+#, fuzzy
+#| msgid "Weblate Contributor Communication Guidelines"
+msgid "Weblate Trademark Guidelines"
+msgstr "Weblate 贡献者沟通指引"
+
+#: ../../contributing/trademark.rst:4
+msgid ""
+"Weblate is an open-source organization. Because we make privacy-respecting "
+"localization tools and provide it as copylefted libre software, proper use "
+"of our trademarks is essential to inform users whether Weblate stands behind "
+"a product or service so that we can continue to develop. The Weblate name is "
+"not only a trademark used to identify our technology, components and "
+"services, it also serves as our company name. When using Weblate trademarks "
+"(including some product names that are part of our organization) you must "
+"comply with these Weblate Trademark Guidelines."
+msgstr ""
+
+#: ../../contributing/trademark.rst:6
+msgid "Some of our trademarks include:"
+msgstr ""
+
+#: ../../contributing/trademark.rst:10
+msgid ""
+"However, this is not a complete list of our names, logos, and brand "
+"features, all of which are subject to these guidelines."
+msgstr ""
+
+#: ../../contributing/trademark.rst:13
+msgid "When do I need specific permission to use a Weblate trademark?"
+msgstr ""
+
+#: ../../contributing/trademark.rst:15
+msgid ""
+"Since Weblate is a provider of a software that can be used in many versions "
+"– hosted, dedicated cloud and self-hosted (both paid and free), it is "
+"important to distinguish between these cases. Each version has a specific "
+"way of using the Weblate trademark. However, in all cases it is not "
+"necessary to receive permission directly from Weblate (or its affiliates) to:"
+msgstr ""
+
+#: ../../contributing/trademark.rst:17
+msgid ""
+"Use Weblate wordmarks and/or logos in unmodified versions of Weblate "
+"programs, products, services and technologies."
+msgstr ""
+
+#: ../../contributing/trademark.rst:18
+msgid ""
+"Use Weblate wordmarks in text to truthfully refer to and/or link to "
+"unmodified Weblate programs, products, services and technologies."
+msgstr ""
+
+#: ../../contributing/trademark.rst:19
+msgid ""
+"Use Weblate logos in visuals to truthfully refer to and/or to link to the "
+"applicable programs, products, services and technologies hosted on Weblate "
+"servers."
+msgstr ""
+
+#: ../../contributing/trademark.rst:20
+msgid ""
+"Use Weblate wordmarks to explain that your software is based on Weblate's "
+"open-source code or is compatible with Weblate's software."
+msgstr ""
+
+#: ../../contributing/trademark.rst:21
+msgid ""
+"Describe a social media account, page, or community in accordance with "
+"the Social Media Guidelines."
+msgstr ""
+
+#: ../../contributing/trademark.rst:23
+msgid ""
+"All other uses of a Weblate trademark require our prior written permission. "
+"This includes any use of a Weblate trademark in a domain name."
+msgstr ""
+
+#: ../../contributing/trademark.rst:26
+msgid "When allowed, how should I use a Weblate trademark?"
+msgstr ""
+
+#: ../../contributing/trademark.rst:29
+#, fuzzy
+#| msgid "Coding guidelines"
+msgid "General Guidelines"
+msgstr "代码编写准则"
+
+#: ../../contributing/trademark.rst:31
+msgid "**Do:**"
+msgstr ""
+
+#: ../../contributing/trademark.rst:33
+msgid "Use the Weblate trademark exactly as shown in the list above."
+msgstr ""
+
+#: ../../contributing/trademark.rst:34
+msgid ""
+"Use Weblate wordmarks only as a noun. Avoid Adjectives and Verbs. Do not use "
+"them in plural."
+msgstr ""
+
+#: ../../contributing/trademark.rst:36
+msgid "**Don't:**"
+msgstr ""
+
+#: ../../contributing/trademark.rst:38
+msgid ""
+"Don't use Weblate trademarks in the name of your business, product, service, "
+"app, domain name, publication, or other offering."
+msgstr ""
+
+#: ../../contributing/trademark.rst:39
+msgid ""
+"Don't use marks, logos, company names, slogans, domain names, or designs "
+"that are confusingly like Weblate trademarks."
+msgstr ""
+
+#: ../../contributing/trademark.rst:40
+msgid ""
+"Don't use Weblate trademarks in a way that incorrectly implies affiliation "
+"with, or sponsorship, endorsement, or approval by Weblate of your products "
+"or services."
+msgstr ""
+
+#: ../../contributing/trademark.rst:41
+msgid ""
+"Don't display Weblate trademarks more prominently than your product, "
+"service, or company name."
+msgstr ""
+
+#: ../../contributing/trademark.rst:42
+msgid ""
+"Don't use Weblate trademarks on merchandise for sale (e.g., selling t-"
+"shirts, mugs, etc.)."
+msgstr ""
+
+#: ../../contributing/trademark.rst:43
+msgid ""
+"Don't use Weblate trademarks for any other form of commercial use (e.g. "
+"offering technical support services)."
+msgstr ""
+
+#: ../../contributing/trademark.rst:44
+msgid ""
+"Don't modify Weblate's trademarks, abbreviate them, or combine them with any "
+"other symbols, words, or images, or incorporate them into a tagline or "
+"slogan."
+msgstr ""
+
+#: ../../contributing/trademark.rst:47
+#, fuzzy
+#| msgid "Coding guidelines"
+msgid "Social Media Guidelines"
+msgstr "代码编写准则"
+
+#: ../../contributing/trademark.rst:49
+msgid ""
+"In addition to the General Guidelines above, the name and handle of your "
+"social media account and all pages cannot begin with an Weblate trademark. "
+"In addition, Weblate logos cannot be used in a way that might suggest "
+"affiliation with Weblate, including, but not limited to, the account, "
+"profile, or header images. The only exception to these requirements is if "
+"you've received prior permission from Weblate."
+msgstr ""
+
+#: ../../contributing/trademark.rst:51
+msgid ""
+"For example, you cannot name your account, page, or community \"Weblate "
+"Representatives\" or \"Weblate Software\". However, it would be acceptable "
+"to name your account, page, or community \"Fans of Weblate\" or "
+"\"Information about Weblate Software\" if you do not use the Weblate "
+"trademarks or Weblate logos or otherwise suggest any affiliation with "
+"Weblate."
+msgstr ""
+
+#: ../../contributing/trademark.rst:54
+msgid "Open-Source Project Guidelines"
+msgstr ""
+
+#: ../../contributing/trademark.rst:56
+msgid ""
+"The specific license for each of Weblate's software products and code says "
+"what you can and cannot do with the code itself but does not give permission "
+"to use Weblate's trademarks. If you choose to build on or modify Weblate's "
+"open-source code for your own project,"
+msgstr ""
+
+#: ../../contributing/trademark.rst:58
+msgid "**You Must:**"
+msgstr ""
+
+#: ../../contributing/trademark.rst:60
+msgid ""
+"Follow the terms of the Open-Source License(s) for Weblate software products "
+"and code (mainly GPLv3)."
+msgstr ""
+
+#: ../../contributing/trademark.rst:61
+msgid ""
+"Choose branding, logos, and trademarks that denotes your own unique identity "
+"to clearly signal to users that there is no affiliation with or endorsement "
+"by Weblate."
+msgstr ""
+
+#: ../../contributing/trademark.rst:62
+msgid "Follow the General Guidelines, above."
+msgstr ""
+
+#: ../../contributing/trademark.rst:64
+msgid "**You Must NOT:**"
+msgstr ""
+
+#: ../../contributing/trademark.rst:66
+msgid ""
+"Use any Weblate trademark in connection with the user-facing name or "
+"branding of your project."
+msgstr ""
+
+#: ../../contributing/trademark.rst:67
+msgid ""
+"Use any Weblate trademark or any part of any Weblate trademark to "
+"incorrectly suggest or give the impression your software is published by, "
+"affiliated with, or endorsed by Weblate."
+msgstr ""
+
+#: ../../contributing/trademark.rst:69
+msgid ""
+"For example, please do not name your project, [Something]-Weblate, or "
+"Weblate-[Something]"
+msgstr ""
+
+#: ../../contributing/trademark.rst:71
+msgid "**You May:**"
+msgstr ""
+
+#: ../../contributing/trademark.rst:73
+msgid ""
+"State in words (not using logos or images) that your product \"works with\" "
+"or \"is compatible\" with certain Weblate products, if that is true."
+msgstr ""
+
+#: ../../contributing/trademark.rst:74
+msgid ""
+"State in words (not using logos or images) that your project is based on "
+"Weblate open-source technology, if that is true, if you also include a "
+"statement that your project is not officially associated with Weblate or its "
+"products."
+msgstr ""
+
+#: ../../contributing/trademark.rst:76
+msgid "For instance, you may state that your project:"
+msgstr ""
+
+#: ../../contributing/trademark.rst:78
+msgid "\"is proudly built from Weblate's open-source software\""
+msgstr ""
+
+#: ../../contributing/trademark.rst:80
+msgid "as long as you also include the statement equally prominently:"
+msgstr ""
+
+#: ../../contributing/trademark.rst:82
+msgid ""
+"\"[Brand Name] and [Product Name] are not officially associated with Weblate "
+"or its products.\""
+msgstr ""
+
+#: ../../contributing/trademark.rst:85
+#, fuzzy
+#| msgid "Weblate Contributor Communication Guidelines"
+msgid "Weblate Community Guidelines"
+msgstr "Weblate 贡献者沟通指引"
+
+#: ../../contributing/trademark.rst:87
+msgid ""
+"Various permissions to use Weblate Trademarks have been provided to various "
+"members of the Weblate Community, and these Weblate Trademark Guidelines do "
+"not alter any such previously granted permissions."
+msgstr ""
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
@@ -40396,17 +40782,23 @@ msgstr ""
 msgid "Unlock the component and re-enable hooks in the project configuration."
 msgstr "解锁部件并重新启用项目配置中的挂钩。"
 
-#: ../../faq.rst:302
+#: ../../faq.rst:300 ../../faq.rst:435
+msgid ""
+":ref:`projectbackup` might be useful to perform prior to such disrupting "
+"changes."
+msgstr ""
+
+#: ../../faq.rst:306
 msgid "How do I review the translations of others?"
 msgstr "如何复查其他人的翻译？"
 
-#: ../../faq.rst:304
+#: ../../faq.rst:308
 msgid ""
 "There are several review based workflows available in Weblate, see :ref:"
 "`workflows`."
 msgstr "在 Weblate 中，基于工作流程有几种复查方式，请参见 :ref:`workflows`。"
 
-#: ../../faq.rst:305
+#: ../../faq.rst:309
 msgid ""
 "You can subscribe to any changes made in :ref:`subscriptions` and then check "
 "others contributions as they come in by e-mail."
@@ -40414,7 +40806,7 @@ msgstr ""
 "你可以在 :ref:`subscriptions` 中订阅做出的任何更改，然后通过电子邮件查看其他"
 "人的贡献。"
 
-#: ../../faq.rst:307
+#: ../../faq.rst:311
 msgid ""
 "There is a review tool available at the bottom of the translation view, "
 "where you can choose to browse translations made by others since a given "
@@ -40422,15 +40814,15 @@ msgid ""
 msgstr ""
 "在翻译视图底部有个复查工具，可以在那里选择浏览给定时间以来其他人进行的翻译。"
 
-#: ../../faq.rst:312
+#: ../../faq.rst:316
 msgid ":ref:`workflows`"
 msgstr ":ref:`workflows`"
 
-#: ../../faq.rst:315
+#: ../../faq.rst:319
 msgid "How do I provide feedback on a source string?"
 msgstr "如何提供源字符串的反馈？"
 
-#: ../../faq.rst:317
+#: ../../faq.rst:321
 msgid ""
 "On context tabs below translation, you can use the :guilabel:`Comments` tab "
 "to provide feedback on a source string, or discuss it with other translators."
@@ -40438,21 +40830,21 @@ msgstr ""
 "在翻译下方的上下文选项卡中，可以通过 :guilabel:`评论` 选项卡提供源字符串的反"
 "馈，或者与其他译者讨论。"
 
-#: ../../faq.rst:326
+#: ../../faq.rst:330
 msgid "How can I use existing translations while translating?"
 msgstr "翻译时如何使用现有的翻译？"
 
-#: ../../faq.rst:328
+#: ../../faq.rst:332
 msgid ""
 "All translations within Weblate can be used thanks to shared translation "
 "memory."
 msgstr "得益于共享的翻译记忆库，Weblate 中的所有翻译都可以使用。"
 
-#: ../../faq.rst:329
+#: ../../faq.rst:333
 msgid "You can import existing translation memory files into Weblate."
 msgstr "你可以将现有翻译记忆库导入 Weblate。"
 
-#: ../../faq.rst:330
+#: ../../faq.rst:334
 msgid ""
 "Use the import functionality to load compendium as translations, suggestions "
 "or translations needing review. This is the best approach for a one-time "
@@ -40461,7 +40853,7 @@ msgstr ""
 "使用导入功能将概要导入作为翻译、建议或需要复查的翻译。这是使用概要或相似的翻"
 "译数据库一次性翻译的最好方法。"
 
-#: ../../faq.rst:333
+#: ../../faq.rst:337
 msgid ""
 "You can set up :ref:`mt-tmserver` with all databases you have and let "
 "Weblate use it. This is good when you want to use it several times during "
@@ -40470,7 +40862,7 @@ msgstr ""
 "可以使用您所具有的所有数据库来设置 :ref:`mt-tmserver`。在翻译时多次使用的时候"
 "这种方法很好。"
 
-#: ../../faq.rst:336
+#: ../../faq.rst:340
 msgid ""
 "Another option is to translate all related projects in a single Weblate "
 "instance, which will make it automatically pick up translations from other "
@@ -40479,17 +40871,17 @@ msgstr ""
 "另一个选项是在单一 Weblate 实例中翻译所有相关项目，这样同样可以从其它项目中自"
 "动地获取翻译。"
 
-#: ../../faq.rst:342
+#: ../../faq.rst:346
 msgid ""
 ":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
 msgstr ""
 ":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
 
-#: ../../faq.rst:349
+#: ../../faq.rst:353
 msgid "Does Weblate update translation files besides translations?"
 msgstr "Weblate 除了更新翻译，还更新翻译文件吗？"
 
-#: ../../faq.rst:351
+#: ../../faq.rst:355
 msgid ""
 "Weblate tries to limit changes in translation files to a minimum. For some "
 "file formats it might unfortunately lead to reformatting the file. If you "
@@ -40499,15 +40891,15 @@ msgstr ""
 "Weblate 尝试将翻译文件中的更改限制为最小。对于有些文件格式，很不幸会导致将文"
 "件重新格式化。如果想要将文件保持为自己的格式化方式，请为其使用预提交钩子。"
 
-#: ../../faq.rst:357
+#: ../../faq.rst:361
 msgid ":ref:`updating-target-files`"
 msgstr ":ref:`updating-target-files`"
 
-#: ../../faq.rst:361
+#: ../../faq.rst:365
 msgid "Where do language definitions come from and how can I add my own?"
 msgstr "语言定义来自何处以及如何添加自己的语言定义？"
 
-#: ../../faq.rst:363
+#: ../../faq.rst:367
 msgid ""
 "The basic set of language definitions is included within Weblate and "
 "Translate-toolkit. This covers more than 150 languages and includes info "
@@ -40516,22 +40908,22 @@ msgstr ""
 "语言定义的基本组包括在 Weblate 和 Translate-toolkit 中。这覆盖了超过 150 种语"
 "言，并且包括了复数形式和文本方向的信息。"
 
-#: ../../faq.rst:367
+#: ../../faq.rst:371
 msgid ""
 "You are free to define your own languages in the administrative interface, "
 "you just need to provide info about it."
 msgstr "您可以在管理界面自由定义自己的语言，只需要提供与之相关的信息。"
 
-#: ../../faq.rst:375
+#: ../../faq.rst:379
 msgid "Can Weblate highlight changes in a fuzzy string?"
 msgstr "Weblate 能将模糊字符串中的更改高亮吗？"
 
-#: ../../faq.rst:377
+#: ../../faq.rst:381
 msgid ""
 "Weblate supports this, however it needs the data to show the difference."
 msgstr "Weblate 支持这个功能，然而它需要数据来显示差异。"
 
-#: ../../faq.rst:379
+#: ../../faq.rst:383
 msgid ""
 "For Gettext PO files, you have to pass the parameter ``--previous`` to :"
 "command:`msgmerge` when updating PO files, for example:"
@@ -40539,20 +40931,20 @@ msgstr ""
 "对于 Gettext PO 文件，更新 PO 文件时，必须将参数 ``--previous`` 传递给 :"
 "command:`msgmerge`，例如："
 
-#: ../../faq.rst:386
+#: ../../faq.rst:390
 msgid ""
 "For monolingual translations, Weblate can find the previous string by ID, so "
 "it shows the differences automatically."
 msgstr ""
 "对于单语言翻译，Weblate 可以通过 ID 找到之前的字符串，因此可以自动显示差异。"
 
-#: ../../faq.rst:391
+#: ../../faq.rst:395
 msgid ""
 "Why does Weblate still show old translation strings when I've updated the "
 "template?"
 msgstr "当已经更新了模板时，为什么 Weblate 仍然显示旧的字符串？"
 
-#: ../../faq.rst:393
+#: ../../faq.rst:397
 msgid ""
 "Weblate does not try to manipulate the translation files in any way other "
 "than allowing translators to translate. So it also does not update the "
@@ -40564,7 +40956,7 @@ msgstr ""
 "代码更改时，它也同样不会更新翻译文件。您必须简单地手动去做，并将更改推送到仓"
 "库，然后 Weblate 会自动拾取更改。"
 
-#: ../../faq.rst:401
+#: ../../faq.rst:405
 msgid ""
 "It is usually a good idea to merge changes done in Weblate before updating "
 "translation files, as otherwise you will usually end up with some conflicts "
@@ -40573,7 +40965,7 @@ msgstr ""
 "在更新翻译文件之前在 Weblate 中完成更改合并，这通常是个好主意，因为否则的话通"
 "常会以一些合并冲突来结束。"
 
-#: ../../faq.rst:407
+#: ../../faq.rst:411
 msgid ""
 ":ref:`translations-update`, :ref:`updating-target-files`, :doc:`/devel/"
 "gettext`, :doc:`/devel/sphinx`"
@@ -40581,11 +40973,11 @@ msgstr ""
 ":ref:`translations-update`, :ref:`updating-target-files`, :doc:`/devel/"
 "gettext`, :doc:`/devel/sphinx`"
 
-#: ../../faq.rst:413
+#: ../../faq.rst:417
 msgid "How to handle renaming translation files?"
 msgstr "如何处理重命名翻译文件？"
 
-#: ../../faq.rst:415
+#: ../../faq.rst:419
 msgid ""
 "When renaming files in the repository, it can happen that Weblate sees this "
 "as removal and adding of the files. This can lead to losing strings history, "
@@ -40594,47 +40986,47 @@ msgstr ""
 "重命名仓库中的文件时，Weblate 可能会将重命名操作视为删除和添加文件操作。这可"
 "能会导致字符串历史、评论和建议丢失。"
 
-#: ../../faq.rst:419
+#: ../../faq.rst:423
 msgid "To avoid that, perform renaming in following steps:"
 msgstr "要避免这一情况，请按下列步骤进行重命名："
 
-#: ../../faq.rst:421
+#: ../../faq.rst:425
 msgid "Lock the translation component in :ref:`manage-vcs`."
 msgstr "锁定 :ref:`manage-vcs` 中的翻译部件。"
 
-#: ../../faq.rst:422
+#: ../../faq.rst:426
 msgid "Commit pending changes in :ref:`manage-vcs`."
 msgstr "在 :ref:`manage-vcs` 中提交待处理更改。"
 
-#: ../../faq.rst:423
+#: ../../faq.rst:427
 msgid "Merge Weblate changes to the upstream repository."
 msgstr "将 Weblate 更改合并到远程仓库。"
 
-#: ../../faq.rst:424
+#: ../../faq.rst:428
 msgid "Disable receiving updates via hooks using :ref:`project-enable_hooks`."
 msgstr "使用 :ref:`project-enable_hooks` 禁止通过钩子接收更新。"
 
-#: ../../faq.rst:425
+#: ../../faq.rst:429
 msgid "Perform the renaming of the files in the repository."
 msgstr "重命名仓库中的文件。"
 
-#: ../../faq.rst:426
+#: ../../faq.rst:430
 msgid "Update the component configuration to match new file names."
 msgstr "更新组件配置来匹配新文件名。"
 
-#: ../../faq.rst:427
+#: ../../faq.rst:431
 msgid "Enable update hooks and unlock the component."
 msgstr "启用更新钩子并解锁部件。"
 
-#: ../../faq.rst:430
+#: ../../faq.rst:438
 msgid "Troubleshooting"
 msgstr "故障排除"
 
-#: ../../faq.rst:433
+#: ../../faq.rst:441
 msgid "Requests sometimes fail with \"too many open files\" error"
 msgstr "请求有时失败，错误信息为“too many open files”（打开文件过多）"
 
-#: ../../faq.rst:435
+#: ../../faq.rst:443
 msgid ""
 "This happens sometimes when your Git repository grows too much and you have "
 "many of them. Compressing the Git repositories will improve this situation."
@@ -40642,19 +41034,19 @@ msgstr ""
 "有时当您的 Git 仓库增长太多并您有太多仓库时会发生。压缩 Git 仓库会改善这种情"
 "况。"
 
-#: ../../faq.rst:438
+#: ../../faq.rst:446
 msgid "The easiest way to do this is to run:"
 msgstr "这样做的最容易方式是运行："
 
-#: ../../faq.rst:453 ../../vcs.rst:593
+#: ../../faq.rst:461 ../../vcs.rst:593
 msgid ":setting:`DATA_DIR`"
 msgstr ":setting:`DATA_DIR`"
 
-#: ../../faq.rst:457
+#: ../../faq.rst:465
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
 msgstr "当访问网站时，“Bad Request (400)”（错误的请求）错误信息"
 
-#: ../../faq.rst:459
+#: ../../faq.rst:467
 msgid ""
 "This is most likely caused by an improperly configured :setting:"
 "`ALLOWED_HOSTS`. It needs to contain all hostnames you want to access on "
@@ -40663,17 +41055,17 @@ msgstr ""
 "这很可能因为 :setting:`ALLOWED_HOSTS` 配置不当而产生。需要包含在 Weblate 上访"
 "问的所有主机名。例如："
 
-#: ../../faq.rst:468
+#: ../../faq.rst:476
 msgid ":ref:`production-hosts`"
 msgstr ":ref:`production-hosts`"
 
-#: ../../faq.rst:473
+#: ../../faq.rst:481
 msgid "What does mean \"There are more files for the single language (en)\"?"
 msgstr ""
 "“There are more files for the single language (en)”（单一语言‘英语’有多个文"
 "件）是什么意思？"
 
-#: ../../faq.rst:475
+#: ../../faq.rst:483
 msgid ""
 "This typically happens when you have translation file for source language. "
 "Weblate keeps track of source strings and reserves source language for this. "
@@ -40682,7 +41074,7 @@ msgstr ""
 "当源语言有翻译时这会典型发生。Weblate 跟踪源字符串，并为此保留源字符串。相同"
 "语言的附加字符串不会被处理。"
 
-#: ../../faq.rst:479
+#: ../../faq.rst:487
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings. You might "
@@ -40693,13 +41085,13 @@ msgstr ""
 "source_language`。你也许想把 `英语（开发者）` 用作源语言，或使用 :ref:"
 "`source-quality-gateway`。"
 
-#: ../../faq.rst:480
+#: ../../faq.rst:488
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
 msgstr "如果不需要源语言的翻译文件，请从仓库中将其删除。"
 
-#: ../../faq.rst:481
+#: ../../faq.rst:489
 msgid ""
 "In case the translation file for the source language is needed, but should "
 "be ignored by Weblate, please adjust the :ref:`component-language_regex` to "
@@ -40708,7 +41100,7 @@ msgstr ""
 "如果需要源语言的翻译文件，但 Weblate 应该忽略它，请通过调整 :ref:`component-"
 "language_regex` 来排除它。"
 
-#: ../../faq.rst:485
+#: ../../faq.rst:493
 msgid ""
 "You might get similar error message for other languages as well. In that "
 "case the most likely reason is that several files map to single language in "
@@ -40717,7 +41109,7 @@ msgstr ""
 "对于其它语言可能也会得到相似的错误信息。在这种情况下最可能的原因是在 Weblate "
 "中几个文件映射到单语言上。"
 
-#: ../../faq.rst:489
+#: ../../faq.rst:497
 msgid ""
 "This can be caused by using obsolete language codes together with new one "
 "(``ja`` and ``jp`` for Japanese) or including both country specific and "
@@ -40728,15 +41120,15 @@ msgstr ""
 "``jp``），或者包含了特定国家地区的和通用的语言代码（``fr`` 和 ``fr_FR``）。更"
 "多细节请参见 :ref:`language-parsing-codes`。"
 
-#: ../../faq.rst:495
+#: ../../faq.rst:503
 msgid "Features"
 msgstr "功能"
 
-#: ../../faq.rst:500
+#: ../../faq.rst:508
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
 msgstr "Weblate 支持 Git 和 Mercurial 以外的其它版本控制系统吗？"
 
-#: ../../faq.rst:502
+#: ../../faq.rst:510
 msgid ""
 "Weblate currently does not have native support for anything other than :ref:"
 "`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-gerrit` "
@@ -40747,15 +41139,15 @@ msgstr ""
 "`vcs-gerrit` 和 :ref:`vcs-git-svn`）和 :ref:`vcs-mercurial` 以外的任何版本控"
 "制系统，但可以为其他版本控制系统编写后端。"
 
-#: ../../faq.rst:507
+#: ../../faq.rst:515
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
 msgstr "还可以在 Git 中使用 :ref:`vcs-git-helpers` 来访问其它 VCS。"
 
-#: ../../faq.rst:509
+#: ../../faq.rst:517
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
 msgstr "Weblate 还支持无版本控制系统的操作，请参见 :ref:`vcs-local`。"
 
-#: ../../faq.rst:513
+#: ../../faq.rst:521
 msgid ""
 "For native support of other VCSes, Weblate requires using distributed VCS, "
 "and could probably be adjusted to work with anything other than Git and "
@@ -40765,11 +41157,11 @@ msgstr ""
 "调整为能与除 Git 和 Mercurial 以外的任何东西一起使用，必须有人来实现这项支"
 "持。"
 
-#: ../../faq.rst:520
+#: ../../faq.rst:528
 msgid "How does Weblate credit translators?"
 msgstr "Weblate 如何记录译者？"
 
-#: ../../faq.rst:522
+#: ../../faq.rst:530
 msgid ""
 "Every change made in Weblate is committed into VCS under the translators "
 "name. This way every single change has proper authorship, and you can track "
@@ -40778,21 +41170,21 @@ msgstr ""
 "Weblate 中所做的每个更改都将以译者的名称提交到版本控制系统中。这样，每个更改"
 "都具有适当的作者身份，您可以使用用于代码的标准版本控制系统工具来进行跟踪。"
 
-#: ../../faq.rst:526
+#: ../../faq.rst:534
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
 msgstr "此外，如果翻译文件格式支持，将更新文件标头以包含译者的名字。"
 
-#: ../../faq.rst:531
+#: ../../faq.rst:539
 msgid ":wladmin:`list_translators`, :doc:`../devel/reporting`"
 msgstr ":wladmin:`list_translators`, :doc:`../devel/reporting`"
 
-#: ../../faq.rst:535
+#: ../../faq.rst:543
 msgid "Why does Weblate force showing all PO files in a single tree?"
 msgstr "为什么 Weblate 强制在单一树中显示所有 PO 文件？"
 
-#: ../../faq.rst:537
+#: ../../faq.rst:545
 msgid ""
 "Weblate was designed in a way that every PO file is represented as a single "
 "component. This is beneficial for translators, so they know what they are "
@@ -40801,17 +41193,17 @@ msgstr ""
 "Weblate 的设计方式是将每个 PO 文件表示为单个部件。这对翻译人员来说是有好处"
 "的，这样他们就知道他们实际上在翻译什么。"
 
-#: ../../faq.rst:543
+#: ../../faq.rst:551
 msgid ""
 "Translators can translate all the components of a project into a specific "
 "language as a whole."
 msgstr "翻译人员可以将项目的所有部件作为一个整体翻译成一种特定的语言。"
 
-#: ../../faq.rst:549
+#: ../../faq.rst:557
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
 msgstr "Weblate 为什么使用 sr_Latn 或 zh_Hant 这样的语言代码？"
 
-#: ../../faq.rst:551
+#: ../../faq.rst:559
 msgid ""
 "These are language codes defined by :rfc:`5646` to better indicate that they "
 "are really different languages instead previously wrongly used modifiers "
@@ -40821,7 +41213,7 @@ msgstr ""
 "``@latin`` 变体）或国家地区代码（对于中文），可以更好地表明它们确实是不同的语"
 "言。"
 
-#: ../../faq.rst:555
+#: ../../faq.rst:563
 msgid ""
 "Weblate still understands legacy language codes and will map them to current "
 "one - for example ``sr@latin`` will be handled as ``sr_Latn`` or ``zh@CN`` "
@@ -40830,7 +41222,7 @@ msgstr ""
 "Weblate 仍然理解遗留的语言代码，并会将它们映射到当前对应的代码上——例如 "
 "``sr@latin`` 将被处理为 ``sr_Latn`` 或者 ``zh@CN`` 处理为 ``zh_Hans``。"
 
-#: ../../faq.rst:561
+#: ../../faq.rst:569
 msgid ""
 "Weblate defaults to POSIX style language codes with underscore, see :ref:"
 "`languages` for more details."
@@ -40838,7 +41230,7 @@ msgstr ""
 "Weblate 默认为带有下划线的 POSIX 风格的语言代码，有关更多详细信息，请参阅 :"
 "ref:`languages`。"
 
-#: ../../faq.rst:566
+#: ../../faq.rst:574
 msgid ""
 ":ref:`languages`, :ref:`component-language_code_style`, :ref:`adding-"
 "translation`"
@@ -41308,7 +41700,8 @@ msgstr ""
 msgid ""
 "The :ref:`additional-explanation` on strings can be stored and parsed from a "
 "few file formats."
-msgstr "字符串的 :ref:`additional-explanation` 可被存储并从一些文件格式被解析。"
+msgstr ""
+"字符串的 :ref:`additional-explanation` 可被存储并从一些文件格式被解析。"
 
 #: ../../formats.rst:422
 msgid "Currently supported only in :ref:`tbx`."
@@ -42033,9 +42426,13 @@ msgid ""
 msgstr "翻译 Format.JS 和 React-Intl 程序时所用的文件格式。"
 
 #: ../../formats/formatjs.rst:12
+#, fuzzy
+#| msgid ""
+#| ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs."
+#| "io/docs/getting-started/message-extraction>`_"
 msgid ""
-":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs.io/"
-"docs/getting-started/message-extraction>`_"
+":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs."
+"github.io/docs/getting-started/message-extraction>`_"
 msgstr ""
 ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs.io/"
 "docs/getting-started/message-extraction>`_"
@@ -44936,11 +45333,17 @@ msgstr ""
 "这将匹配 ``<x:link>点击此处</x:link>`` 但不匹配 ``<strong>这里</strong>`` 。"
 
 #: ../../user/checks.rst:576
+#, fuzzy
+#| msgid ""
+#| ":ref:`check-icu-message-format-syntax`, :ref:`check-formats`, `ICU: "
+#| "Formatting Messages <https://unicode-org.github.io/icu/userguide/"
+#| "format_parse/messages/>`_, `Format.JS: Message Syntax <https://formatjs."
+#| "io/docs/core-concepts/icu-syntax/>`_"
 msgid ""
 ":ref:`check-icu-message-format-syntax`, :ref:`check-formats`, `ICU: "
 "Formatting Messages <https://unicode-org.github.io/icu/userguide/"
-"format_parse/messages/>`_, `Format.JS: Message Syntax <https://formatjs.io/"
-"docs/core-concepts/icu-syntax/>`_"
+"format_parse/messages/>`_, `Format.JS: Message Syntax <https://formatjs."
+"github.io/docs/core-concepts/icu-syntax>`_"
 msgstr ""
 ":ref:`check-icu-message-format-syntax`， :ref:`check-formats`， `ICU：格式化"
 "消息 <https://unicode-org.github.io/icu/userguide/format_parse/messages/"
@@ -47268,8 +47671,9 @@ msgstr ""
 msgid ""
 "This option is available only for some file formats and only if the user has "
 "the :ref:`\"Upload translations\" permission <privileges>`."
-msgstr "此选项仅适用某些文件格式且仅当用户有 :ref:`\"上传译文\" 权限 <privileges>` "
-"时可用。"
+msgstr ""
+"此选项仅适用某些文件格式且仅当用户有 :ref:`\"上传译文\" 权限 <privileges>` 时"
+"可用。"
 
 #: ../../user/files.rst:140
 msgid "Add new strings (``add``)"
@@ -47299,8 +47703,8 @@ msgid ""
 "and only if the user has the :ref:`\"Add new string\" permission "
 "<privileges>`."
 msgstr ""
-"此选项仅在 :ref:`component-manage_units` 开启且用户有 :ref:`\"新增字符串"
-"\"权限 <privileges>` 时可用。"
+"此选项仅在 :ref:`component-manage_units` 开启且用户有 :ref:`\"新增字符串\"权"
+"限 <privileges>` 时可用。"
 
 #: ../../user/files.rst:153
 msgid ""
@@ -50716,8 +51120,8 @@ msgid ""
 "for the configuration file."
 msgstr ""
 "该程序遵循 XDG 规范，因此您可以通过环境变量 ``XDG_CONFIG_HOME`` 或 "
-"``XDG_CONFIG_DIRS`` 来调整配置文件的位置。在 Windows 系统上 ``APPDATA`` "
-"目录是配置文件的首选位置。"
+"``XDG_CONFIG_DIRS`` 来调整配置文件的位置。在 Windows 系统上 ``APPDATA`` 目录"
+"是配置文件的首选位置。"
 
 #: ../../wlc.rst:310
 msgid ""
@@ -51193,6 +51597,9 @@ msgstr ""
 #: ../../workflows.rst:284
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+
+#~ msgid "Not yet released."
+#~ msgstr "尚未发布。"
 
 #~ msgid ""
 #~ "`Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_"
