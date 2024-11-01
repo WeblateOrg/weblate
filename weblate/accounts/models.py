@@ -184,7 +184,7 @@ ACCOUNT_ACTIVITY = {
     "locked": gettext_lazy("Account locked due to many failed sign in attempts."),
     "removed": gettext_lazy("Account and all private data removed."),
     "removal-request": gettext_lazy("Account removal confirmation sent to {email}."),
-    "tos": gettext_lazy("Agreement with Terms of Service {date}."),
+    "tos": gettext_lazy("Agreement with General Terms and Conditions {date}."),
     "invited": gettext_lazy("Invited to {site_title} by {username}."),
     "accepted": gettext_lazy("Accepted invitation from {username}."),
     "trial": gettext_lazy("Started trial period."),

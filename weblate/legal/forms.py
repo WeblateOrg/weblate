@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy
 
 class TOSForm(forms.Form):
     confirm = forms.BooleanField(
-        label=gettext_lazy("I agree with the Terms of Service document"), required=True
+        label=gettext_lazy("I agree with the General Terms and Conditions document"),
+        required=True,
     )
     next = forms.CharField(required=False, widget=forms.HiddenInput)
