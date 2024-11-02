@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-01 18:16+0100\n"
-"PO-Revision-Date: 2024-11-02 02:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-11-03 00:03+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.8.2-dev\n"
+"X-Generator: Weblate 5.8.2\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -8604,9 +8604,9 @@ msgid ""
 "HTTPS."
 msgstr ""
 "Якщо це вимкнено, Weblate не зможе запуститися з помилкою ``otp_webauthn."
-"E031``.  Ви можете заглушити цю помилку, додавши її до :setting:`django:"
-"SILENCED_SYSTEM_CHECKS`, але все одно WebAuthn не працюватиме для сайтів без "
-"HTTPS."
+"E031``. Ви можете заглушити цю помилку, додавши її до "
+":setting:`django:SILENCED_SYSTEM_CHECKS`, але все одно WebAuthn не "
+"працюватиме для сайтів без HTTPS."
 
 #: ../../admin/config.rst:725
 msgid ""
@@ -8711,6 +8711,8 @@ msgid ""
 "When creating a fine-grained personal access token, grant read and write "
 "access to :guilabel:`Contents` and :guilabel:`Pull requests`."
 msgstr ""
+"При створенні жетона для особистого доступу, надайте доступ для читання і "
+"запису до :guilabel:`Вмісту` і :guilabel:`Запитів щодо об'єднання`."
 
 #: ../../admin/config.rst:840
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
@@ -10961,16 +10963,12 @@ msgstr ""
 "розділі :ref:`component`."
 
 #: ../../admin/continuous.rst:340
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, Mercurial, GitHub, "
-#| "GitLab, Gitea, Pagure, and Azure DevOps:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Server and Bitbucket Cloud:"
 msgstr ""
-"Загалом, у Mercurial, GitHub, GitLab, Gitea, Pagure, і Azure DevOps можна "
-"скористатися такими параметрами:"
+"Загалом, у Mercurial, GitHub, GitLab, Gitea, Pagure, Azure DevOps, Bitbucket "
+"Server і Bitbucket Cloud можна скористатися такими параметрами:"
 
 #: ../../admin/continuous.rst:344
 msgid "Desired setup"
@@ -11101,36 +11099,28 @@ msgid "Azure DevOps pull request from branch"
 msgstr "Запит на злиття Azure DevOps з гілки"
 
 #: ../../admin/continuous.rst:378
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket server pull request from fork"
-msgstr "Запит на злиття із сервера Bitbucket"
+msgstr "Запит на злиття із сервера Bitbucket з відгалуження"
 
 #: ../../admin/continuous.rst:378 ../../admin/continuous.rst:380
 msgid ":ref:`vcs-bitbucket-server`"
 msgstr ":ref:`vcs-bitbucket-server`"
 
 #: ../../admin/continuous.rst:380
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket server pull request from branch"
-msgstr "Запит на злиття із сервера Bitbucket"
+msgstr "Запит на злиття із сервера Bitbucket з гілки"
 
 #: ../../admin/continuous.rst:382
-#, fuzzy
-#| msgid "Bitbucket Cloud pull requests"
 msgid "Bitbucket Cloud pull request from fork"
-msgstr "Запити щодо об'єднання Bitbucket Cloud"
+msgstr "Запити щодо об'єднання Bitbucket Cloud з відгалуження"
 
 #: ../../admin/continuous.rst:382 ../../admin/continuous.rst:384
 msgid ":ref:`vcs-bitbucket-cloud`"
 msgstr ":ref:`vcs-bitbucket-cloud`"
 
 #: ../../admin/continuous.rst:384
-#, fuzzy
-#| msgid "Bitbucket Cloud pull requests"
 msgid "Bitbucket Cloud pull request from branch"
-msgstr "Запити щодо об'єднання Bitbucket Cloud"
+msgstr "Запити щодо об'єднання Bitbucket Cloud з гілки"
 
 #: ../../admin/continuous.rst:387
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
@@ -27362,10 +27352,8 @@ msgid "Weblate 5.8.2"
 msgstr "Weblate 5.8.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on November 16th 2023."
 msgid "Released on November 1st 2024."
-msgstr "Випущено 16 листопада 2023 року."
+msgstr "Випущено 1 листопада 2024 року."
 
 #: ../../changes.rst:6 ../../changes.rst:29 ../../changes.rst:71
 #: ../../changes.rst:105 ../../changes.rst:130 ../../changes.rst:176
@@ -27387,28 +27375,28 @@ msgstr ""
 "бази даних."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Reduce number of commits when updating upstream repository."
 msgid "Reduced number of database queries when updating multiple strings."
-msgstr "Зменшено кількість внесків при оновленні основного сховища коду."
+msgstr ""
+"Зменшено кількість запитів до бази даних при одночасному оновленні декількох "
+"рядків."
 
 #: ../../changes.rst:10
 msgid ""
 "Leading problematic characters in :ref:`glossary` terms are now properly "
 "stripped in uploaded files."
 msgstr ""
+"Реалізовано належне вилучення початкових проблемних символів у термінах "
+":ref:`глосарія<glossary>` у вивантажених файлах."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved :ref:`workflow-customization` configuration forms."
 msgid "Improved :ref:`workflow-customization` performance."
-msgstr "Удосконалено форми налаштовування :ref:`workflow-customization`."
+msgstr "Удосконалено швидкодію :ref:`workflow-customization`."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Fixed sorting of machine translation suggestions."
 msgid "Fixed XML escaped output in some machine translation integrations."
-msgstr "Виправлено упорядкування пропозицій комп'ютерного перекладу."
+msgstr ""
+"Виправлено екрановані виведені дані у деяких інтеграціях комп'ютерного "
+"перекладу."
 
 #: ../../changes.rst:14 ../../changes.rst:33 ../../changes.rst:82
 #: ../../changes.rst:110 ../../changes.rst:138 ../../changes.rst:191
@@ -27464,14 +27452,8 @@ msgid "Code contributions"
 msgstr "Написання коду"
 
 #: ../../changes/contributors/5.8.2.rst:3
-#, fuzzy
-#| msgid ""
-#| "Michal Čihař, gers, Jorge, michael-smt, Mehdi Eloualy, Paul Harriet "
-#| "Asiñero, Ingo Brückl, Mehdi El Oualy"
 msgid "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
-msgstr ""
-"Michal Čihař, gers, Jorge, michael-smt, Mehdi Eloualy, Paul Harriet Asiñero, "
-"Ingo Brückl, Mehdi El Oualy"
+msgstr "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
 
 #: ../../changes/contributors/5.7.1.rst:5
 #: ../../changes/contributors/5.7.2.rst:5 ../../changes/contributors/5.7.rst:5
@@ -27490,6 +27472,14 @@ msgid ""
 "Massimo Pissarello, Florent, Ihor Hordiichuk, hugoalh, Vaclovas Intas, Milo "
 "Ivir, Jim Spentzos, Dženan, Claudio Filho F Filho, 大学没毕业, پرویز قادر"
 msgstr ""
+"VfBFan, 大王叫我来巡山, Любомир Василев, Miguel A. Bouzada, Besnik Bleta, "
+"Юрій Чорноіван, Wuzzy, Michal Čihař, gallegonovato, Vin, Blueberry, "
+"befag74614, Agnieszka C, Rhoslyn Prys, Aindriú Mac Giolla Eoin, Fulup Jakez, "
+"Christian Wia, ssantos, Vlăduț Ilie, Fjuro, amano, Andi Chandler, Peter "
+"Vančo, test-session, famese, Yaron Shahrabani, Geert-Jan Knapen, Ricky From "
+"Hong Kong, Тимофій Литвиненко, Dick Groskamp, Horus68, Reno Tx, Jim Kats, "
+"Massimo Pissarello, Florent, Ігор Гордійчук, hugoalh, Vaclovas Intas, Milo "
+"Ivir, Jim Spentzos, Dženan, Claudio Filho F Filho, 大学没毕业, پرویز قادر"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
@@ -27500,7 +27490,7 @@ msgstr "Оновлення документації"
 
 #: ../../changes/contributors/5.8.2.rst:9
 msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
-msgstr ""
+msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 
 #: ../../changes.rst:22
 msgid ""
@@ -41361,10 +41351,8 @@ msgstr ""
 "написання тестів для Django."
 
 #: ../../contributing/trademark.rst:2
-#, fuzzy
-#| msgid "Weblate Contributor Communication Guidelines"
 msgid "Weblate Trademark Guidelines"
-msgstr "Настанови щодо спілкування учасників розробки Weblate"
+msgstr "Настанови щодо торговельної марки Weblate"
 
 #: ../../contributing/trademark.rst:4
 msgid ""
@@ -41377,20 +41365,34 @@ msgid ""
 "(including some product names that are part of our organization) you must "
 "comply with these Weblate Trademark Guidelines."
 msgstr ""
+"Weblate — це організація розвитку відкритого вихідного коду. Оскільки ми "
+"створюємо інструменти локалізації з повагою до конфіденційності та надаємо "
+"їх як вільне програмне забезпечення з вільним авторським правом, належне "
+"використання наших торгових марок є важливим для інформування користувачів "
+"про те, чи стоїть за продуктом або послугою Weblate, щоб ми могли "
+"продовжувати розвиватися. Назва Weblate — це не тільки торгова марка, яка "
+"використовується для ідентифікації наших технологій, компонентів і послуг, "
+"вона також служить назвою нашої компанії. При використанні торгових марок "
+"Weblate (включаючи деякі назви продуктів, які є частиною нашої організації) "
+"ви повинні дотримуватися цих Правил використання торгових марок Weblate."
 
 #: ../../contributing/trademark.rst:6
 msgid "Some of our trademarks include:"
-msgstr ""
+msgstr "Серед наших торговельних марок:"
 
 #: ../../contributing/trademark.rst:10
 msgid ""
 "However, this is not a complete list of our names, logos, and brand "
 "features, all of which are subject to these guidelines."
 msgstr ""
+"Втім, це не повний список наших назв, логотипів і брендів, усі з яких є "
+"об'єктом цих настанов."
 
 #: ../../contributing/trademark.rst:13
 msgid "When do I need specific permission to use a Weblate trademark?"
 msgstr ""
+"За яких умов потрібен спеціальний дозвіл на використання торгової марки "
+"Weblate?"
 
 #: ../../contributing/trademark.rst:15
 msgid ""
@@ -41400,18 +41402,29 @@ msgid ""
 "way of using the Weblate trademark. However, in all cases it is not "
 "necessary to receive permission directly from Weblate (or its affiliates) to:"
 msgstr ""
+"Оскільки Weblate є постачальником програмного забезпечення, яке може "
+"використовуватися в багатьох версіях — серверній, виділеній хмарній та "
+"самостійній (як платній, так і безкоштовній), важливо розрізняти ці випадки. "
+"Кожна версія має особливий спосіб використання торгової марки Weblate. Однак "
+"у всіх випадках не обов'язково отримувати дозвіл безпосередньо від Weblate ("
+"або його афілійованих осіб):"
 
 #: ../../contributing/trademark.rst:17
 msgid ""
 "Use Weblate wordmarks and/or logos in unmodified versions of Weblate "
 "programs, products, services and technologies."
 msgstr ""
+"Використовуйте позначки та/або логотипи Weblate у незмінених версіях "
+"програм, продуктів, послуг і технологій Weblate."
 
 #: ../../contributing/trademark.rst:18
 msgid ""
 "Use Weblate wordmarks in text to truthfully refer to and/or link to "
 "unmodified Weblate programs, products, services and technologies."
 msgstr ""
+"Використовуйте в тексті текстові позначки Weblate, щоб належно посилатися на "
+"незмінені програми, продукти, послуги та технології Weblate та/або "
+"посилатися на них."
 
 #: ../../contributing/trademark.rst:19
 msgid ""
@@ -41419,64 +41432,80 @@ msgid ""
 "applicable programs, products, services and technologies hosted on Weblate "
 "servers."
 msgstr ""
+"Використовуйте логотипи Weblate у візуальних матеріалах, щоб належно "
+"вказувати та/або посилатися на відповідні програми, продукти, послуги та "
+"технології, розміщені на серверах Weblate."
 
 #: ../../contributing/trademark.rst:20
 msgid ""
 "Use Weblate wordmarks to explain that your software is based on Weblate's "
 "open-source code or is compatible with Weblate's software."
 msgstr ""
+"Використовуйте позначки Weblate, щоб пояснити, що ваше програмне "
+"забезпечення засновано на відкритому коді Weblate або сумісне з програмним "
+"забезпеченням Weblate."
 
 #: ../../contributing/trademark.rst:21
 msgid ""
 "Describe a social media account, page, or community in accordance with "
 "the Social Media Guidelines."
 msgstr ""
+"Опишіть обліковий запис у соціальних мережах, сторінку або спільноту в "
+"соціальних мережах відповідно до Настанов з соціальних мереж."
 
 #: ../../contributing/trademark.rst:23
 msgid ""
 "All other uses of a Weblate trademark require our prior written permission. "
 "This includes any use of a Weblate trademark in a domain name."
 msgstr ""
+"Будь-яке інше використання торгової марки Weblate вимагає нашого "
+"попереднього письмового дозволу. Це включає будь-яке використання торгової "
+"марки Weblate у доменному імені."
 
 #: ../../contributing/trademark.rst:26
 msgid "When allowed, how should I use a Weblate trademark?"
-msgstr ""
+msgstr "Коли це дозволено, як я можу використовувати торгову марку Weblate?"
 
 #: ../../contributing/trademark.rst:29
-#, fuzzy
-#| msgid "Coding guidelines"
 msgid "General Guidelines"
-msgstr "Настанови щодо програмного коду"
+msgstr "Загальні настанови"
 
 #: ../../contributing/trademark.rst:31
 msgid "**Do:**"
-msgstr ""
+msgstr "**Робіть так:**"
 
 #: ../../contributing/trademark.rst:33
 msgid "Use the Weblate trademark exactly as shown in the list above."
 msgstr ""
+"Використовуйте торгову марку Weblate точно так, як показано в списку вище."
 
 #: ../../contributing/trademark.rst:34
 msgid ""
 "Use Weblate wordmarks only as a noun. Avoid Adjectives and Verbs. Do not use "
 "them in plural."
 msgstr ""
+"Використовуйте позначки Weblate тільки як іменники. Уникайте прикметників і "
+"дієслів. Не використовуйте їх у множині."
 
 #: ../../contributing/trademark.rst:36
 msgid "**Don't:**"
-msgstr ""
+msgstr "**Не робіть так:**"
 
 #: ../../contributing/trademark.rst:38
 msgid ""
 "Don't use Weblate trademarks in the name of your business, product, service, "
 "app, domain name, publication, or other offering."
 msgstr ""
+"Не використовуйте торгові марки Weblate в назві вашого бізнесу, продукту, "
+"послуги, програми, доменного імені, публікації або іншої пропозиції."
 
 #: ../../contributing/trademark.rst:39
 msgid ""
 "Don't use marks, logos, company names, slogans, domain names, or designs "
 "that are confusingly like Weblate trademarks."
 msgstr ""
+"Не використовуйте знаки, логотипи, назви компаній, слогани, доменні імена "
+"або дизайни, які можна сплутати з торговими марками Weblate."
 
 #: ../../contributing/trademark.rst:40
 msgid ""
@@ -41484,24 +41513,34 @@ msgid ""
 "with, or sponsorship, endorsement, or approval by Weblate of your products "
 "or services."
 msgstr ""
+"Не використовуйте торгові марки Weblate таким чином, щоб це невірно "
+"вказувало на приналежність до Weblate, спонсорство, просування або схвалення "
+"ваших продуктів або послуг з боку Weblate."
 
 #: ../../contributing/trademark.rst:41
 msgid ""
 "Don't display Weblate trademarks more prominently than your product, "
 "service, or company name."
 msgstr ""
+"Не показуйте торгові марки Weblate більш помітно, ніж ваш продукт, послугу "
+"або назву компанії."
 
 #: ../../contributing/trademark.rst:42
 msgid ""
 "Don't use Weblate trademarks on merchandise for sale (e.g., selling t-"
 "shirts, mugs, etc.)."
 msgstr ""
+"Не використовуйте торгові марки Weblate на товарах для продажу (наприклад, "
+"на футболках, кружках тощо)."
 
 #: ../../contributing/trademark.rst:43
 msgid ""
 "Don't use Weblate trademarks for any other form of commercial use (e.g. "
 "offering technical support services)."
 msgstr ""
+"Не використовуйте торгові марки Weblate для будь-якої іншої форми "
+"комерційного використання (наприклад, для надання послуг технічної "
+"підтримки)."
 
 #: ../../contributing/trademark.rst:44
 msgid ""
@@ -41509,12 +41548,13 @@ msgid ""
 "other symbols, words, or images, or incorporate them into a tagline or "
 "slogan."
 msgstr ""
+"Не змінюйте торгові марки Weblate, не скорочуйте їх, не поєднуйте з будь-"
+"якими іншими символами, словами чи зображеннями, не включайте їх у слогани "
+"та гасла."
 
 #: ../../contributing/trademark.rst:47
-#, fuzzy
-#| msgid "Coding guidelines"
 msgid "Social Media Guidelines"
-msgstr "Настанови щодо програмного коду"
+msgstr "Настанови щодо соціальних мереж"
 
 #: ../../contributing/trademark.rst:49
 msgid ""
@@ -41525,6 +41565,13 @@ msgid ""
 "profile, or header images. The only exception to these requirements is if "
 "you've received prior permission from Weblate."
 msgstr ""
+"На додаток до загальних положень, наведених вище, назва та дескриптор вашого "
+"облікового запису в соціальних мережах і всіх сторінок не можуть починатися "
+"з торгової марки Weblate. Крім того, логотипи Weblate не можуть "
+"використовуватися у спосіб, який може вказувати на приналежність до Weblate, "
+"включаючи, але не обмежуючись цим, зображення облікового запису, профілю або "
+"заголовка. Єдиний виняток з цих вимог — якщо ви отримали попередній дозвіл "
+"від Weblate."
 
 #: ../../contributing/trademark.rst:51
 msgid ""
@@ -41535,10 +41582,16 @@ msgid ""
 "trademarks or Weblate logos or otherwise suggest any affiliation with "
 "Weblate."
 msgstr ""
+"Наприклад, ви не можете назвати свій обліковий запис, сторінку або спільноту "
+"«Представники Weblate» або «Програмне забезпечення Weblate». Однак, можна "
+"назвати свій обліковий запис, сторінку або спільноту «Шанувальники Weblate» "
+"або «Інформація про програмне забезпечення Weblate», якщо ви не "
+"використовуєте торгові марки або логотипи Weblate або іншим чином не "
+"вказуєте на будь-яку приналежність до Weblate."
 
 #: ../../contributing/trademark.rst:54
 msgid "Open-Source Project Guidelines"
-msgstr ""
+msgstr "Настанови щодо проєкту з відкритим кодом"
 
 #: ../../contributing/trademark.rst:56
 msgid ""
@@ -41547,16 +41600,23 @@ msgid ""
 "to use Weblate's trademarks. If you choose to build on or modify Weblate's "
 "open-source code for your own project,"
 msgstr ""
+"Спеціальна ліцензія для кожного програмного продукту та коду Weblate "
+"визначає, що ви можете і що не можете робити з самим кодом, але не дає "
+"дозволу на використання торгових марок Weblate. Якщо ви вирішите "
+"використовувати або модифікувати відкритий код Weblate для вашого власного "
+"проєкту,"
 
 #: ../../contributing/trademark.rst:58
 msgid "**You Must:**"
-msgstr ""
+msgstr "**Ви повинні:**"
 
 #: ../../contributing/trademark.rst:60
 msgid ""
 "Follow the terms of the Open-Source License(s) for Weblate software products "
 "and code (mainly GPLv3)."
 msgstr ""
+"Дотримуватися умов ліцензії з відкритим вихідним кодом для програмних "
+"продуктів і коду Weblate (переважно GPLv3)."
 
 #: ../../contributing/trademark.rst:61
 msgid ""
@@ -41564,20 +41624,25 @@ msgid ""
 "to clearly signal to users that there is no affiliation with or endorsement "
 "by Weblate."
 msgstr ""
+"Вибирати брендинг, логотипи та торгові марки, які вказують на вашу власну "
+"унікальну ідентичність, щоб чітко сигналізувати користувачам, що ви не "
+"пов'язані з Weblate і не уповноважені ним."
 
 #: ../../contributing/trademark.rst:62
 msgid "Follow the General Guidelines, above."
-msgstr ""
+msgstr "Дотримуйтесь загальних рекомендацій, наведених вище."
 
 #: ../../contributing/trademark.rst:64
 msgid "**You Must NOT:**"
-msgstr ""
+msgstr "***Ви не повинні: *"
 
 #: ../../contributing/trademark.rst:66
 msgid ""
 "Use any Weblate trademark in connection with the user-facing name or "
 "branding of your project."
 msgstr ""
+"Використовувати будь-яку торгову марку Weblate у зв'язку з ім'ям користувача "
+"або брендингом вашого проєкту."
 
 #: ../../contributing/trademark.rst:67
 msgid ""
@@ -41585,22 +41650,28 @@ msgid ""
 "incorrectly suggest or give the impression your software is published by, "
 "affiliated with, or endorsed by Weblate."
 msgstr ""
+"Використовувати будь-яку торгову марку Weblate або будь-яку частину будь-"
+"якої торгової марки Weblate, щоб хтось міг невірно припустити або подумати, "
+"що ваше програмне забезпечення опубліковане Weblate, пов'язане з ним або "
+"схвалене ним."
 
 #: ../../contributing/trademark.rst:69
 msgid ""
 "For example, please do not name your project, [Something]-Weblate, or "
 "Weblate-[Something]"
-msgstr ""
+msgstr "Наприклад, не називайте свій проект [Щось]-Weblate або Weblate-[Щось]"
 
 #: ../../contributing/trademark.rst:71
 msgid "**You May:**"
-msgstr ""
+msgstr "**Ви можете:**"
 
 #: ../../contributing/trademark.rst:73
 msgid ""
 "State in words (not using logos or images) that your product \"works with\" "
 "or \"is compatible\" with certain Weblate products, if that is true."
 msgstr ""
+"Зазначати словами (не використовуючи логотипи або зображення), що ваш "
+"продукт «працює» або «сумісний» з певними продуктами Weblate, якщо це правда."
 
 #: ../../contributing/trademark.rst:74
 msgid ""
@@ -41609,30 +41680,36 @@ msgid ""
 "statement that your project is not officially associated with Weblate or its "
 "products."
 msgstr ""
+"Вказувати словами (не використовуючи логотипів або зображень), що ваш проєкт "
+"заснований на технології з відкритим вихідним кодом Weblate, якщо це правда, "
+"якщо ви також додасте заяву про те, що ваш проєкт офіційно не пов'язаний з "
+"Weblate або його продуктами."
 
 #: ../../contributing/trademark.rst:76
 msgid "For instance, you may state that your project:"
-msgstr ""
+msgstr "Наприклад, ви можете вказати, що ваш проєкт:"
 
 #: ../../contributing/trademark.rst:78
 msgid "\"is proudly built from Weblate's open-source software\""
 msgstr ""
+"«не приховує, що його створено на основі програмного забезпечення з "
+"відкритим вихідним кодом Weblate»"
 
 #: ../../contributing/trademark.rst:80
 msgid "as long as you also include the statement equally prominently:"
-msgstr ""
+msgstr "за умови, що ви також розмістите заяву на такому ж видному місці:"
 
 #: ../../contributing/trademark.rst:82
 msgid ""
 "\"[Brand Name] and [Product Name] are not officially associated with Weblate "
 "or its products.\""
 msgstr ""
+"«[Назва бренду] та [Назва продукту] офіційно не пов'язані з Weblate або його "
+"продуктами.»"
 
 #: ../../contributing/trademark.rst:85
-#, fuzzy
-#| msgid "Weblate Contributor Communication Guidelines"
 msgid "Weblate Community Guidelines"
-msgstr "Настанови щодо спілкування учасників розробки Weblate"
+msgstr "Настанови щодо спільноти Weblate"
 
 #: ../../contributing/trademark.rst:87
 msgid ""
@@ -41640,6 +41717,9 @@ msgid ""
 "members of the Weblate Community, and these Weblate Trademark Guidelines do "
 "not alter any such previously granted permissions."
 msgstr ""
+"Різні дозволи на використання торгових марок Weblate були надані різним "
+"членам спільноти Weblate, і ці Правила використання торгових марок Weblate "
+"не змінюють жодного з таких раніше наданих дозволів."
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
@@ -44464,6 +44544,8 @@ msgid ""
 ":ref:`projectbackup` might be useful to perform prior to such disrupting "
 "changes."
 msgstr ""
+"Перед такими руйнівними змінами може бути корисним виконання "
+":ref:`projectbackup`."
 
 #: ../../faq.rst:306
 msgid "How do I review the translations of others?"
@@ -46226,16 +46308,12 @@ msgstr ""
 "та React-Intl."
 
 #: ../../formats/formatjs.rst:12
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs."
-#| "io/docs/getting-started/message-extraction>`_"
 msgid ""
 ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs."
 "github.io/docs/getting-started/message-extraction>`_"
 msgstr ""
-":doc:`tt:formats/json`, `Видобування повідомлень з Format.JS <https://"
-"formatjs.io/docs/getting-started/message-extraction>`_"
+":doc:`tt:formats/json`, `Видобування повідомлень з Format.JS "
+"<https://formatjs.github.io/docs/getting-started/message-extraction>`_"
 
 #: ../../formats/formatjs.rst:45
 msgid "``src/lang/*.json``"
@@ -49357,12 +49435,6 @@ msgstr ""
 "link>``, але не для ``<strong>це</strong>``."
 
 #: ../../user/checks.rst:576
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-icu-message-format-syntax`, :ref:`check-formats`, `ICU: "
-#| "Formatting Messages <https://unicode-org.github.io/icu/userguide/"
-#| "format_parse/messages/>`_, `Format.JS: Message Syntax <https://formatjs."
-#| "io/docs/core-concepts/icu-syntax/>`_"
 msgid ""
 ":ref:`check-icu-message-format-syntax`, :ref:`check-formats`, `ICU: "
 "Formatting Messages <https://unicode-org.github.io/icu/userguide/"
@@ -49371,8 +49443,8 @@ msgid ""
 msgstr ""
 ":ref:`check-icu-message-format-syntax`, :ref:`check-formats`, `ICU: "
 "форматування повідомлень <https://unicode-org.github.io/icu/userguide/"
-"format_parse/messages/>`_, `Format.JS: синтаксис повідомлень <https://"
-"formatjs.io/docs/core-concepts/icu-syntax/>`_"
+"format_parse/messages/>`_, `Format.JS: синтаксис повідомлень "
+"<https://formatjs.github.io/docs/core-concepts/icu-syntax>`_"
 
 #: ../../user/checks.rst:585
 msgid "Java format"
