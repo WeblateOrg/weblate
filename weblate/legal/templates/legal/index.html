@@ -1,31 +1,39 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>
-{% endblock %}
+  <li>
+    <a href="{% url 'legal:index' %}">{% trans "Legal" %}</a>
+  </li>
+{% endblock breadcrumbs %}
 
 {% block content %}
 
-{% include 'legal/menu.html' %}
+  {% include 'legal/menu.html' %}
 
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Legal Terms Overview" %}</h4></div>
-<div class="panel-body">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">{% trans "Legal Terms Overview" %}</h4>
+    </div>
+    <div class="panel-body">
 
-{% include 'legal/documents/summary.html' %}
+      {% include 'legal/documents/summary.html' %}
 
-<p>
-{% blocktrans %}This page is based on the Terms of Service and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktrans %}
-</p>
+      <p>
+        {% blocktrans %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktrans %}
+      </p>
 
-<ul>
-<li><a href="{% url 'legal:terms' %}">{% trans "Terms of Service" %}</a></li>
-<li><a href="{% url 'legal:privacy' %}">{% trans "Privacy Policy" %}</a></li>
-<ul>
+      <ul>
+        <li>
+          <a href="{% url 'legal:terms' %}">{% trans "General Terms and Conditions" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'legal:privacy' %}">{% trans "Privacy Policy" %}</a>
+        </li>
+      </ul>
 
-</div>
-</div>
-</div>
+    </div>
+  </div>
 
-{% endblock %}
+{% endblock content %}

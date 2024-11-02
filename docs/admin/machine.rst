@@ -656,7 +656,7 @@ Weblate
 
 Weblate machine translation service can provide translations based
 on the exact matches of a string in the currently existing strings
-in a  :guilabel:`Translated`, :guilabel:`Approved`,
+in a :guilabel:`Translated`, :guilabel:`Approved`,
 or :guilabel:`Read-only` :ref:`states <states>` inside Weblate.
 
 .. _mt-weblate-translation-memory:

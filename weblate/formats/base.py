@@ -873,7 +873,7 @@ class BaseExporter:
     name = ""
     verbose: StrOrPromise = ""
     set_id = False
-    storage_class: TranslationStore
+    storage_class: type[TranslationStore]
 
     def __init__(
         self,

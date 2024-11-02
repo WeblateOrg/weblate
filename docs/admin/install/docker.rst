@@ -20,7 +20,7 @@ Installation
 
 This creates a Weblate deployment server via HTTP, so you should place it
 behind HTTPS terminating proxy. You can also deploy with a HTTPS proxy, see
-:ref:`docker-https-portal`.  For larger setups, please see
+:ref:`docker-https-portal`. For larger setups, please see
 :ref:`docker-scaling`.
 
 1. Clone the weblate-docker repo:
@@ -177,7 +177,7 @@ In case you want to use `Let’s Encrypt <https://letsencrypt.org/>`_
 automatically generated SSL certificates on public installation, you need to
 add a reverse HTTPS proxy an additional Docker container, `https-portal
 <https://hub.docker.com/r/steveltn/https-portal/>`_ will be used for that.
-This is made use of in the :file:`docker-compose-https.yml` file.  Then create
+This is made use of in the :file:`docker-compose-https.yml` file. Then create
 a :file:`docker-compose-https.override.yml` file with your settings:
 
 .. code-block:: yaml

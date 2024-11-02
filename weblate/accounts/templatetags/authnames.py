@@ -47,6 +47,7 @@ SOCIALS: dict[str, dict[str, StrOrPromise]] = {
     "twitter": {"name": "Twitter", "image": "twitter.svg"},
     "stackoverflow": {"name": "Stack Overflow", "image": "stackoverflow.svg"},
     "musicbrainz": {"name": "MusicBrainz", "image": "musicbrainz.svg"},
+    "openinfra": {"name": "OpenInfraID"},
 }
 
 SECOND_FACTORS: dict[DeviceType, StrOrPromise] = {

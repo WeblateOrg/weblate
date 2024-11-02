@@ -123,6 +123,7 @@ class GitRepository(Repository):
             # Parses 'ref: refs/heads/main\tHEAD'
             return line.split("\t")[0].split("refs/heads/")[1]
 
+        report_error("Could not figure out remote branch", message=True)
         raise RepositoryError(0, "Could not figure out remote branch")
 
     @staticmethod
@@ -827,10 +828,15 @@ class GitMergeRequestBase(GitForcePushRepository):
         username: str | None = parsed.username
         password: str | None = parsed.password
         if not host:
-            # Assume SSH URL
-            host, path = repo.split(":")
-            host = host.split("@")[-1]
-            scheme = None
+            if ":" in repo:
+                # Assume SSH URL
+                host, path = repo.split(":")
+                host = host.split("@")[-1]
+                scheme = None
+            else:
+                host = repo
+                path = ""
+                scheme = None
         else:
             path = parsed.path
         parts = path.split(":")[-1].rstrip("/").split("/")
@@ -1216,6 +1222,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             f"Creating pull request via {pr_url} failed ({status_code}): {data!r}",
             level=logging.WARNING,
         )
+        report_error("Could not create pull request", message=True)
         raise RepositoryError(
             -1, f"Could not create pull request {status_code}: {error}"
         )
@@ -1315,6 +1322,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         )
 
         if "project" not in response_data:
+            report_error("Could not fork repository", message=True)
             raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
@@ -1353,6 +1361,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             )
 
         if "sshUrl" not in response_data or "remoteUrl" not in response_data:
+            report_error("Could not fork repository", message=True)
             raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
@@ -1447,6 +1456,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         response_data, response, error = self.request("get", credentials, forks_url)
 
         if response.status_code != 200:
+            report_error("Could not fork repository", message=True)
             raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
@@ -1477,6 +1487,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             data_providers = response_data["dataProviders"]
             return data_providers[org_property]["organizations"][0]["id"]
         except (KeyError, IndexError) as error:
+            report_error("Could not fork repository", message=True)
             raise RepositoryError(
                 0, self.get_fork_failed_message(error_message, credentials, response)
             ) from error
@@ -1532,6 +1543,7 @@ class GithubRepository(GitMergeRequestBase):
         # exists in the remote side.
         response_data, response, error = self.request("post", credentials, fork_url)
         if "ssh_url" not in response_data:
+            report_error("Could not fork repository", message=True)
             raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
@@ -1622,6 +1634,7 @@ class GiteaRepository(GitMergeRequestBase):
                 "get", credentials, credentials["url"]
             )
         if "ssh_url" not in response_data:
+            report_error("Could not fork repository", message=True)
             raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
@@ -1814,6 +1827,7 @@ class GitLabRepository(GitMergeRequestBase):
             "get", credentials, credentials["url"]
         )
         if "id" not in response_data:
+            report_error("Could not get project", message=True)
             raise RepositoryError(0, f"Could not get project: {error}")
         return response_data["id"]
 
@@ -1840,6 +1854,7 @@ class GitLabRepository(GitMergeRequestBase):
             "put", credentials, forked_url, json=access_level_dict
         )
         if "web_url" not in response_data:
+            report_error("Could not modify fork", message=True)
             raise RepositoryError(0, f"Could not modify fork {error}")
 
     def create_fork(self, credentials: GitCredentials) -> None:
@@ -1881,6 +1896,7 @@ class GitLabRepository(GitMergeRequestBase):
                 "ssh_url_to_repo" not in forked_repo
                 or "http_url_to_repo" not in forked_repo
             ):
+                report_error("Could not fork repository", message=True)
                 raise RepositoryError(
                     0, self.get_fork_failed_message(error, credentials, response)
                 )
@@ -1968,6 +1984,7 @@ class PagureRepository(GitMergeRequestBase):
                 break
 
         if '" cloned to "' not in error and "already exists" not in error:
+            report_error("Could not fork repository", message=True)
             raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
@@ -2005,6 +2022,7 @@ class PagureRepository(GitMergeRequestBase):
             "get", credentials, pr_list_url, params={"author": credentials["username"]}
         )
         if error_message:
+            report_error("Pull request listing failed", message=True)
             raise RepositoryError(0, f"Pull request listing failed: {error_message}")
 
         if response_data["total_requests"] > 0:
@@ -2092,6 +2110,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
                     http_url = link["href"]
 
         if not ssh_url or not http_url:
+            report_error("Could not fork repository", message=True)
             raise RepositoryError(
                 0, self.get_fork_failed_message(error_message, credentials, response)
             )
@@ -2234,6 +2253,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
             response_data, _response, error = self.request("get", credentials, next_url)
 
             if error:
+                report_error("Could not paginate", message=True)
                 raise RepositoryError(
                     0,
                     f"{error_message} {error}",
@@ -2325,6 +2345,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
                 )
 
             if response_data["type"] == "error":
+                report_error("Could not fork repository", message=True)
                 raise RepositoryError(
                     0, self.get_fork_failed_message(error, credentials, response)
                 )

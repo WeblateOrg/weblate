@@ -2652,6 +2652,12 @@ LICENSES = (
         False,
     ),
     (
+        "Sendmail-Open-Source-1.1",
+        "Sendmail Open Source License v1.1",
+        "https://spdx.org/licenses/Sendmail-Open-Source-1.1.html",
+        False,
+    ),
+    (
         "SSPL-1.0",
         "Server Side Public License, v 1",
         "https://spdx.org/licenses/SSPL-1.0.html",

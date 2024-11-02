@@ -576,7 +576,7 @@ This would match ``<x:link>click here</x:link>`` but not ``<strong>this</strong>
   :ref:`check-icu-message-format-syntax`,
   :ref:`check-formats`,
   `ICU: Formatting Messages <https://unicode-org.github.io/icu/userguide/format_parse/messages/>`_,
-  `Format.JS: Message Syntax <https://formatjs.io/docs/core-concepts/icu-syntax/>`_
+  `Format.JS: Message Syntax <https://formatjs.github.io/docs/core-concepts/icu-syntax>`_
 
 
 .. _check-java-printf-format:

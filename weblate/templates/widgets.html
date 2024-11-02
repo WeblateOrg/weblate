@@ -29,15 +29,18 @@
 
 
 <ul class="nav nav-pills widgets-selector">
-{% for widget in widget_list %}
-<li {% if forloop.first %}class="active"{% endif %}>
-{% for color in widget.colors %}
-{% if forloop.first %}
-<a href="#{{ widget.name }}" data-toggle="tab"><img src="{{ color.url }}" /><br />{{ widget.verbose }}</a>
-{% endif %}
-{% endfor %}
-</li>
-{% endfor %}
+  {% for widget in widget_list %}
+    <li {% if forloop.first %}class="active"{% endif %}>
+      {% for color in widget.colors %}
+        {% if forloop.first %}
+          <a href="#{{ widget.name }}" data-toggle="tab">
+            <img src="{{ color.url }}" /><br />
+            {{ widget.verbose }}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </li>
+  {% endfor %}
 </ul>
 
 <div class="tab-content">

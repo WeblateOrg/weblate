@@ -38,7 +38,6 @@ class DeepLTranslation(
         "pt@formal": "pt-pt@formal",
         "pt@informal": "pt-pt@informal",
     }
-    force_uncleanup = True
     hightlight_syntax = True
     settings_form = DeepLMachineryForm
     glossary_count_limit = 1000
