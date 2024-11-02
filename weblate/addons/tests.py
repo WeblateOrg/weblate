@@ -28,7 +28,7 @@ from .autotranslate import AutoTranslateAddon
 from .base import BaseAddon, UpdateBaseAddon
 from .cdn import CDNJSAddon
 from .cleanup import CleanupAddon, RemoveBlankAddon
-from .consistency import LangaugeConsistencyAddon
+from .consistency import LanguageConsistencyAddon
 from .discovery import DiscoveryAddon
 from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
@@ -1191,7 +1191,7 @@ class LanguageConsistencyTest(ViewTestCase):
         self.assertEqual(Translation.objects.count(), 10)
 
         # Installation should make languages consistent
-        addon = LangaugeConsistencyAddon.create(component=self.component)
+        addon = LanguageConsistencyAddon.create(component=self.component)
         self.assertEqual(Translation.objects.count(), 12)
 
         # Add one language

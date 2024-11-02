@@ -47,7 +47,7 @@ class RequireTOSMiddleware:
             messages.info(
                 request,
                 gettext(
-                    "We have a new version of the Terms of Service document, "
+                    "We have an updated version of the General Terms and Conditions document, "
                     "please read it and confirm that you agree with it."
                 ),
             )

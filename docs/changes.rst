@@ -1,5 +1,5 @@
-Weblate 5.8.2
--------------
+Weblate 5.9
+-----------
 
 Not yet released.
 
@@ -7,13 +7,34 @@ Not yet released.
 
 **Improvements**
 
+* Included username when generating :ref:`credits`.
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.9.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/127?closed=1>`__.
+
+Weblate 5.8.2
+-------------
+
+Released on November 1st 2024.
+
 **Bug fixes**
 
 * Update outdated plural definitions during the database migration.
 * Reduced number of database queries when updating multiple strings.
+* Leading problematic characters in :ref:`glossary` terms are now properly stripped in uploaded files.
 * Improved :ref:`workflow-customization` performance.
-
-**Compatibility**
+* Fixed XML escaped output in some machine translation integrations.
 
 **Upgrading**
 

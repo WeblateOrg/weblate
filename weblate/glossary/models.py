@@ -18,6 +18,7 @@ from django.db.models.functions import MD5, Lower
 
 from weblate.trans.models.unit import Unit
 from weblate.trans.util import PLURAL_SEPARATOR
+from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 from weblate.utils.state import STATE_TRANSLATED
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
@@ -194,7 +195,17 @@ def render_glossary_units_tsv(units) -> str:
     from weblate.trans.models.component import Component
 
     def cleanup(text):
-        return text.translate(CONTROLCHARS_TRANS).strip()
+        """
+        Clean up the provided text by removing unwanted characters.
+
+        - Translates and removes control characters using CONTROLCHARS_TRANS.
+        - Strips leading and trailing whitespace.
+        - Removes leading characters from PROHIBITED_INITIAL_CHARS if present.
+        """
+        text = text.translate(CONTROLCHARS_TRANS).strip()
+        if text and text[0] in PROHIBITED_INITIAL_CHARS:
+            text = text.lstrip("".join(PROHIBITED_INITIAL_CHARS))
+        return text
 
     # We can get list or iterator as well
     if hasattr(units, "prefetch_related"):

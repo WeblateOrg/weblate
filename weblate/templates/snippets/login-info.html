@@ -8,7 +8,7 @@
 <p>{% trans "By registering and signing in to this service you accept our:" %}</p>
 <ul>
 <li>
-    <a href="{% url 'legal:terms' %}">{% blocktrans %}Terms of Service{% endblocktrans %}</a>
+    <a href="{% url 'legal:terms' %}">{% blocktrans %}General Terms and Conditions{% endblocktrans %}</a>
 </li>
 <li>
     <a href="{% url 'legal:privacy' %}">{% blocktrans %}Privacy Policy{% endblocktrans %}</a>
@@ -16,7 +16,7 @@
 </ul>
 
 <p>
-{% blocktrans %}Quick overview of the Terms of Service and the Privacy Policy, but you should still read the original documents to fully understand them:{% endblocktrans %}
+{% blocktrans %}Quick overview of the General Terms and Conditions and the Privacy Policy, but you should still read the original documents to fully understand them:{% endblocktrans %}
 </p>
 
 {% include 'legal/documents/summary.html' %}

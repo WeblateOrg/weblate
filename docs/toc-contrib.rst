@@ -18,3 +18,4 @@
     contributing/modules
     contributing/about
     contributing/license
+    contributing/trademark
