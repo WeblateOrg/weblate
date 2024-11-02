@@ -437,7 +437,7 @@ The following subdirectories usually exist:
 :file:`backups`
     Daily backup data. Please check :ref:`backup-dumps` for details.
 :file:`fonts`:
-    User-uploaded  fonts, see :ref:`fonts`.
+    User-uploaded fonts, see :ref:`fonts`.
 :file:`cache`
     Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`.
 
@@ -716,7 +716,7 @@ Please tweak your reverse proxy configuration to emit :http:header:`X-Forwarded-
 let Django correctly detect the SSL status.
 
 In case this is disabled, Weblate will fail to start with an
-``otp_webauthn.E031`` error.  You can silence this error by adding it to
+``otp_webauthn.E031`` error. You can silence this error by adding it to
 :setting:`django:SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not work for
 sites without HTTPS.
 
