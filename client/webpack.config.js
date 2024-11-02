@@ -34,7 +34,11 @@ SPDX-License-Identifier: ${licenses}
 }
 // REUSE-IgnoreEnd
 function mainLicenseTransform(packages) {
-  const excludePrefixes = ["@sentry", "tributejs"];
+  const excludePrefixes = [
+    "@sentry",
+    "tributejs",
+    "@tarekraafat/autocomplete.js",
+  ];
   return genericTransform(
     packages,
     (pkg) => !excludePrefixes.some((prefix) => pkg.name.startsWith(prefix)),
@@ -46,12 +50,32 @@ function sentryLicenseTransform(packages) {
 function tributeLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("tributejs"));
 }
+// REUSE-IgnoreStart
+function autoCompleteLicenseTransform(packages) {
+  const pkg = packages.find((pkgsItem) =>
+    pkgsItem.name.startsWith("@tarekraafat/autocomplete.js"),
+  );
+  if (pkg) {
+    const author =
+      typeof pkg.author === "string"
+        ? pkg.author
+        : pkg.author?.email
+          ? `${pkg.author.name} <${pkg.author.email}>`
+          : pkg.author?.name
+            ? pkg.author.name
+            : "";
+    return `SPDX-FileCopyrightText: ${author}\n\nSPDX-License-Identifier: ${pkg.license}`;
+  }
+  return "";
+}
+// REUSE-IgnoreEnd
 
 module.exports = {
   entry: {
     main: "./src/main.js",
     sentry: "./src/sentry.js",
     tribute: "./src/tribute.js",
+    autoComplete: "./src/autoComplete.js",
   },
   mode: "production",
   optimization: {
@@ -73,6 +97,7 @@ module.exports = {
         "main.js.license": mainLicenseTransform,
         "sentry.js.license": sentryLicenseTransform,
         "tribute.js.license": tributeLicenseTransform,
+        "autoComplete.js.license": autoCompleteLicenseTransform,
       },
     }),
   ],
