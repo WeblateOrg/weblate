@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-01 17:16+0000\n"
-"PO-Revision-Date: 2024-11-01 00:26+0000\n"
+"PO-Revision-Date: 2024-11-02 11:02+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2-dev\n"
+"X-Generator: Weblate 5.8.2\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -438,8 +438,7 @@ msgid "Account removal confirmation sent to {email}."
 msgstr "Er is een bevestiging voor verwijderen verstuurd naar {email}."
 
 #: weblate/accounts/models.py:187
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
 msgstr "Akkoord met de algemene voorwaarden {date}."
 
@@ -4852,16 +4851,10 @@ msgid "Language %s removed."
 msgstr "%s is verwijderd."
 
 #: weblate/legal/forms.py:11
-#, fuzzy
-#| msgid "I agree with the Terms of Service document"
 msgid "I agree with the General Terms and Conditions document"
 msgstr "Ik ga akkoord met de algemene voorwaarden"
 
 #: weblate/legal/middleware.py:50
-#, fuzzy
-#| msgid ""
-#| "We have a new version of the Terms of Service document, please read it "
-#| "and confirm that you agree with it."
 msgid ""
 "We have an updated version of the General Terms and Conditions document, "
 "please read it and confirm that you agree with it."
@@ -4880,14 +4873,10 @@ msgid "Legal"
 msgstr "Wettelijk"
 
 #: weblate/legal/templates/legal/confirm.html:13
-#, fuzzy
-#| msgid "You have to agree to the Terms of Service"
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "U dient akkoord te gaan met de algemene voorwaarden"
 
 #: weblate/legal/templates/legal/confirm.html:15
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "Please read following General Terms and Conditions document:"
 msgstr "Lees het document met de algemene voorwaarden:"
 
@@ -4916,17 +4905,13 @@ msgstr "Cookiebeleid"
 
 #: weblate/legal/templates/legal/cookies.html:18
 #: weblate/legal/templates/legal/index.html:24
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
 msgstr ""
 "Deze pagina is gebaseerd op de algemene voorwaarden en het privacybeleid, "
-"maar voor de volledigheid raden wij aan de oorspronkelijke documenten alsnog "
+"maar voor de volledigheid raden wij u aan de oorspronkelijke documenten ook "
 "te lezen:"
 
 #: weblate/legal/templates/legal/cookies.html:22
@@ -4934,7 +4919,7 @@ msgstr ""
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:19
 #: weblate/templates/snippets/login-info.html:11
 msgid "General Terms and Conditions"
-msgstr ""
+msgstr "Algemene voorwaarden"
 
 #: weblate/legal/templates/legal/cookies.html:23
 #: weblate/legal/templates/legal/index.html:32
@@ -10662,10 +10647,8 @@ msgid "Last change"
 msgstr "Recentste aanpassing"
 
 #: weblate/templates/snippets/info.html:177
-#, fuzzy
-#| msgid "Last change"
 msgid "Last change made by"
-msgstr "Recentste aanpassing"
+msgstr "Laatste aanpassing gemaakt door"
 
 #: weblate/templates/snippets/info.html:203
 msgid "Aliased language codes"
@@ -10979,16 +10962,12 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "Door te registreren en in te loggen gaat u akkoord met onze:"
 
 #: weblate/templates/snippets/login-info.html:19
-#, fuzzy
-#| msgid ""
-#| "Quick overview of the Terms of Service and the Privacy Policy, but you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
 "Een kort overzicht van de algemene voorwaarden en het privacybeleid, maar "
-"voor de volledigheid raden wij aan de oorspronkelijke documenten alsnog te "
+"voor de volledigheid raden wij u aan de oorspronkelijke documenten ook te "
 "lezen:"
 
 #: weblate/templates/snippets/login-info.html:26
@@ -15204,14 +15183,9 @@ msgid "Failed adding string, no translation found."
 msgstr "De tekenreeks kan niet worden toegevoegd omdat er geen vertaling is."
 
 #: weblate/trans/models/unit.py:1050
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
-msgstr ""
-"De tekenreeks kan niet worden ingediend bij %(component)s omdat u niet hebt "
-"ingestemd met een medewerkersovereenkomst."
+msgstr "Tekenreeks kon niet worden verspreid naar %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1745
 msgid "Unmark as read-only"
