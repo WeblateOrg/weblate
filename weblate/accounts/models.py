@@ -356,14 +356,13 @@ class AuditLog(models.Model):
                 value = format_html("<em>{}</em>", value)
             elif name in {"old", "new", "name", "email", "username"}:
                 value = format_html("<code>{}</code>", mail_quote_value(value))
-            elif name in {"device", "project", "site_title", "method"}:
+            elif name == "method":
+                value = format_html("<strong>{}</strong>", get_auth_name(value))
+            elif name in {"device", "project", "site_title"}:
                 value = format_html("<strong>{}</strong>", mail_quote_value(value))
 
             result[name] = value
 
-        if "method" in result:
-            # The gettext is here for legacy entries which contained method name
-            result["method"] = gettext(get_auth_name(result["method"]))
         return result
 
     @admin.display(description=gettext_lazy("Account activity"))
