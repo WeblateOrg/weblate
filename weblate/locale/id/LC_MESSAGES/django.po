@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-01 17:16+0000\n"
-"PO-Revision-Date: 2024-10-15 02:45+0000\n"
+"PO-Revision-Date: 2024-11-02 06:15+0000\n"
 "Last-Translator: Linerly <linerly@proton.me>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.8.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -444,10 +444,9 @@ msgid "Account removal confirmation sent to {email}."
 msgstr "Konfirmasi penghapusan akun dikirim ke {email}."
 
 #: weblate/accounts/models.py:187
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "Perjanjian dengan Persyaratan Layanan {date}."
+msgstr "Perjanjian dengan Syarat dan Ketentuan Umum {date}."
 
 #: weblate/accounts/models.py:188
 #, python-brace-format
@@ -4846,22 +4845,16 @@ msgid "Language %s removed."
 msgstr "Bahasa %s dihapus."
 
 #: weblate/legal/forms.py:11
-#, fuzzy
-#| msgid "I agree with the Terms of Service document"
 msgid "I agree with the General Terms and Conditions document"
-msgstr "Saya setuju dengan dokumen Persyaratan Layanan"
+msgstr "Saya setuju dengan dokumen Syarat dan Ketentuan Umum"
 
 #: weblate/legal/middleware.py:50
-#, fuzzy
-#| msgid ""
-#| "We have a new version of the Terms of Service document, please read it "
-#| "and confirm that you agree with it."
 msgid ""
 "We have an updated version of the General Terms and Conditions document, "
 "please read it and confirm that you agree with it."
 msgstr ""
-"Kami memiliki versi baru dari dokumen Persyaratan Layanan, harap membacanya "
-"dan konfirmasikan bahwa Anda menyetujuinya."
+"Kami memiliki versi dokumen Syarat dan Ketentuan Umum yang baru, harap "
+"dibaca dan konfirmasikan bahwa Anda menyetujuinya."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/contracts.html:6
@@ -4874,16 +4867,12 @@ msgid "Legal"
 msgstr "Hukum"
 
 #: weblate/legal/templates/legal/confirm.html:13
-#, fuzzy
-#| msgid "You have to agree to the Terms of Service"
 msgid "You have to agree to the General Terms and Conditions"
-msgstr "Anda harus menyetujui Persyaratan Layanan"
+msgstr "Anda harus menyetujui Syarat dan Ketentuan Umum"
 
 #: weblate/legal/templates/legal/confirm.html:15
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "Please read following General Terms and Conditions document:"
-msgstr "Harap baca dokumen Persyaratan Layanan berikut ini:"
+msgstr "Harap baca dokumen Syarat dan Ketentuan Umum berikut ini:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/templates/contributor-agreement.html:30
@@ -4910,24 +4899,21 @@ msgstr "Kebijakan Kuki"
 
 #: weblate/legal/templates/legal/cookies.html:18
 #: weblate/legal/templates/legal/index.html:24
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
 msgstr ""
-"Halaman ini berdasarkan pada Persyaratan Layanan dan Kebijakan Privasi, Anda "
-"sebaiknya membaca dokumen asli untuk memahaminya sepenuhnya:"
+"Halaman ini berdasarkan pada Syarat dan Ketentuan Umum dan Kebijakan "
+"Privasi, Anda sebaiknya tetap membaca dokumen asli untuk memahaminya "
+"sepenuhnya:"
 
 #: weblate/legal/templates/legal/cookies.html:22
 #: weblate/legal/templates/legal/index.html:29
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:19
 #: weblate/templates/snippets/login-info.html:11
 msgid "General Terms and Conditions"
-msgstr ""
+msgstr "Syarat dan Ketentuan Umum"
 
 #: weblate/legal/templates/legal/cookies.html:23
 #: weblate/legal/templates/legal/index.html:32
@@ -5608,8 +5594,8 @@ msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"Server memiliki masalah serius melayani permintaan Anda, dan galat ini telah "
-"dicatat sebagai %(error_id)s."
+"Server mengalami permasalahan serius melayani permintaan Anda, dan kesalahan "
+"ini telah direkan sebagai %(error_id)s."
 
 #: weblate/templates/500.html:36
 msgid ""
@@ -10596,10 +10582,8 @@ msgid "Last change"
 msgstr "Perubahan terakhir"
 
 #: weblate/templates/snippets/info.html:177
-#, fuzzy
-#| msgid "Last change"
 msgid "Last change made by"
-msgstr "Perubahan terakhir"
+msgstr "Perubahan terakhir dibuat oleh"
 
 #: weblate/templates/snippets/info.html:203
 msgid "Aliased language codes"
@@ -10914,16 +10898,12 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "Dengan mendaftar dan masuk ke layanan ini, Anda menerima:"
 
 #: weblate/templates/snippets/login-info.html:19
-#, fuzzy
-#| msgid ""
-#| "Quick overview of the Terms of Service and the Privacy Policy, but you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
-"Ikhtisar cepat dari Persyaratan Laynanan dan Kebijakan Privasi, tetapi Anda "
-"seharusnya tetap membaca dokumen asli supaya dapat dimengerti:"
+"Ikhtisar cepat dari Syarat dan Ketentuan Umum dan Kebijakan Privasi, tetapi "
+"Anda seharusnya tetap membaca dokumen asli supaya dapat dimengerti:"
 
 #: weblate/templates/snippets/login-info.html:26
 msgid ""
@@ -15096,14 +15076,9 @@ msgid "Failed adding string, no translation found."
 msgstr "Gagal menambahkan string, tidak ada terjemahan yang ditemukan."
 
 #: weblate/trans/models/unit.py:1050
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
-msgstr ""
-"String tidak dapat disebarkan ke %(component)s karena Anda belum setuju "
-"dengan perjanjian kontributor."
+msgstr "String tidak dapat disebarkan ke %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1745
 msgid "Unmark as read-only"
