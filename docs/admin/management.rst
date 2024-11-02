@@ -619,7 +619,7 @@ list_translators
 
 .. weblate-admin:: list_translators <project|project/component>
 
-Lists translators by contributed language for the given project::
+Lists translators by contributed language for the given project:
 
     [French]
     Jean Dupont <jean.dupont@example.com>

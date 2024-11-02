@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
 from typing import TYPE_CHECKING
 
 import sentry_sdk
@@ -59,7 +60,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         for _unused in range(0, days, step):
             # Calculate interval
             int_start = dtstart
-            int_end = int_start + timezone.timedelta(days=step)
+            int_end = int_start + timedelta(days=step)
 
             # Count changes
             int_base = self.filter(timestamp__range=(int_start, int_end))
@@ -85,7 +86,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
     ):
         """Core of daily/weekly/monthly stats calculation."""
         # Get range (actually start)
-        dtstart = timezone.now() - timezone.timedelta(days=days + 1)
+        dtstart = timezone.now() - timedelta(days=days + 1)
 
         # Base for filtering
         base = self.all()
@@ -153,7 +154,11 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             .values("author")
             .annotate(change_count=Count("id"))
             .values_list(
-                "author__email", "author__full_name", "change_count", *values_list
+                "author__email",
+                "author__username",
+                "author__full_name",
+                "change_count",
+                *values_list,
             )
         )
 
@@ -213,7 +218,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             return self
         return self.filter(project__in=user.allowed_projects)
 
-    def lookup_project_rename(self, name: str) -> Project:
+    def lookup_project_rename(self, name: str) -> Project | None:
         lookup = cache.get(CHANGE_PROJECT_LOOKUP_KEY)
         if lookup is None:
             lookup = self.generate_project_rename_lookup()

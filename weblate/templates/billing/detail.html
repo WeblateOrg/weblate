@@ -91,7 +91,9 @@
 </td>
 </tr>
 {% empty %}
-<tr><td colspan="3">{% trans "No invoices found." %}</td/></tr>
+<tr>
+  <td colspan="3">{% trans "No invoices found." %}</td>
+</tr>
 {% endfor %}
 </tbody>
 </table>
@@ -100,7 +102,7 @@
 {% endwith %}
 
 {% if offer_hosting and billing.plan.price == 0 %}
-<form method="POST">
+<form method="post">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">

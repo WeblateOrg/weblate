@@ -12,6 +12,8 @@ from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext
 
+from weblate.formats.base import TranslationFormat
+from weblate.formats.models import FILE_FORMATS
 from weblate.logger import LOGGER
 from weblate.trans.defines import COMPONENT_NAME_LENGTH
 from weblate.trans.models import Component
@@ -78,6 +80,10 @@ class ComponentDiscovery:
         self.language_match = re.compile(language_regex)
         self.file_format = file_format
         self.copy_addons = copy_addons
+
+    @cached_property
+    def file_format_cls(self) -> type[TranslationFormat]:
+        return FILE_FORMATS[self.file_format]
 
     @staticmethod
     def extract_kwargs(params):
@@ -204,6 +210,10 @@ class ComponentDiscovery:
         for key in COPY_ATTRIBUTES:
             if key not in kwargs and main is not None:
                 kwargs[key] = getattr(main, key)
+
+        # Disable template editing if not supported by format
+        if not self.file_format_cls.can_edit_base:
+            kwargs["edit_template"] = False
 
         # Fill in repository
         if "repo" not in kwargs:

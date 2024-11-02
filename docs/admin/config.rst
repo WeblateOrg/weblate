@@ -437,7 +437,7 @@ The following subdirectories usually exist:
 :file:`backups`
     Daily backup data. Please check :ref:`backup-dumps` for details.
 :file:`fonts`:
-    User-uploaded  fonts, see :ref:`fonts`.
+    User-uploaded fonts, see :ref:`fonts`.
 :file:`cache`
     Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`.
 
@@ -716,7 +716,7 @@ Please tweak your reverse proxy configuration to emit :http:header:`X-Forwarded-
 let Django correctly detect the SSL status.
 
 In case this is disabled, Weblate will fail to start with an
-``otp_webauthn.E031`` error.  You can silence this error by adding it to
+``otp_webauthn.E031`` error. You can silence this error by adding it to
 :setting:`django:SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not work for
 sites without HTTPS.
 
@@ -831,6 +831,10 @@ List for credentials for GitHub servers.
         },
     }
 
+.. note::
+
+   When creating a fine-grained personal access token, grant read and write access to :guilabel:`Contents` and :guilabel:`Pull requests`.
+
 .. hint::
 
    Use ``api.github.com`` as a API host for https://github.com/.
@@ -897,7 +901,7 @@ The following configuration is available for each host:
 ``username``
     API user.
 ``workspace``
-    The user worskpace slug.
+    The user workspace slug.
 ``token``
     The App password with `pullrequest:write` permission.
 
@@ -2026,7 +2030,7 @@ example:
         "weblate.addons.gettext.GettextCustomizeAddon",
         "weblate.addons.gettext.GettextAuthorComments",
         "weblate.addons.cleanup.CleanupAddon",
-        "weblate.addons.consistency.LangaugeConsistencyAddon",
+        "weblate.addons.consistency.LanguageConsistencyAddon",
         "weblate.addons.discovery.DiscoveryAddon",
         "weblate.addons.flags.SourceEditAddon",
         "weblate.addons.flags.TargetEditAddon",

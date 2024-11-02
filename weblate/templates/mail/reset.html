@@ -5,6 +5,7 @@
 {% block content %}
 <p>
 {% blocktrans %}There was a request to reset your Weblate password at {{ site_title }}.{% endblocktrans %}
+</p>
 
 {% include "mail/shared-registration.html" with action="reset" %}
 

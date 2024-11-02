@@ -10,9 +10,9 @@
 
 <form method="post" action="{% url 'legal:confirm' %}">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "You have to agree to the Terms of Service" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "You have to agree to the General Terms and Conditions" %}</h4></div>
   <div class="panel-body">
-  <p>{% trans "Please read following Terms of Service document:" %}</p>
+  <p>{% trans "Please read following General Terms and Conditions document:" %}</p>
   <div class="list-group-item pre-scrollable tos">
   {% include "legal/documents/tos.html" %}
   </div>

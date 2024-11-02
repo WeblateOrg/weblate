@@ -22,6 +22,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.html import format_html
 from django.utils.timezone import now
 from django.utils.translation import get_language, gettext, gettext_lazy, pgettext_lazy
 from django_otp.plugins.otp_static.models import StaticDevice
@@ -45,6 +46,7 @@ from weblate.trans.models import Change, ComponentList
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField
+from weblate.utils.html import mail_quote_value
 from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.token import get_token
@@ -182,7 +184,7 @@ ACCOUNT_ACTIVITY = {
     "locked": gettext_lazy("Account locked due to many failed sign in attempts."),
     "removed": gettext_lazy("Account and all private data removed."),
     "removal-request": gettext_lazy("Account removal confirmation sent to {email}."),
-    "tos": gettext_lazy("Agreement with Terms of Service {date}."),
+    "tos": gettext_lazy("Agreement with General Terms and Conditions {date}."),
     "invited": gettext_lazy("Invited to {site_title} by {username}."),
     "accepted": gettext_lazy("Accepted invitation from {username}."),
     "trial": gettext_lazy("Started trial period."),
@@ -349,7 +351,16 @@ class AuditLog(models.Model):
         result = {
             "site_title": settings.SITE_TITLE,
         }
-        result.update(self.params)
+        for name, value in self.params.items():
+            if value is None:
+                value = format_html("<em>{}</em>", value)
+            elif name in {"old", "new", "name", "email", "username"}:
+                value = format_html("<code>{}</code>", mail_quote_value(value))
+            elif name in {"device", "project", "site_title", "method"}:
+                value = format_html("<strong>{}</strong>", mail_quote_value(value))
+
+            result[name] = value
+
         if "method" in result:
             # The gettext is here for legacy entries which contained method name
             result["method"] = gettext(get_auth_name(result["method"]))
@@ -363,7 +374,7 @@ class AuditLog(models.Model):
             message = ACCOUNT_ACTIVITY_METHOD[method][activity]
         else:
             message = ACCOUNT_ACTIVITY[activity]
-        return message.format(**self.get_params())
+        return format_html(message, **self.get_params())
 
     def get_extra_message(self):
         if self.activity in EXTRA_MESSAGES:
@@ -909,7 +920,7 @@ class Profile(models.Model):
         return list(self._get_second_factors())
 
     @cached_property
-    def second_factor_types(self) -> set(Literal["totp", "webauthn", "recovery"]):
+    def second_factor_types(self) -> set[Literal["totp", "webauthn", "recovery"]]:
         from weblate.accounts.utils import get_key_type
 
         return {get_key_type(device) for device in self.second_factors}

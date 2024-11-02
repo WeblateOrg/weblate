@@ -31,6 +31,7 @@ from google.cloud.translate import (
 import weblate.machinery.models
 from weblate.checks.tests.test_checks import MockTranslation, MockUnit
 from weblate.configuration.models import Setting, SettingCategory
+from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
 from weblate.machinery.alibaba import AlibabaTranslation
 from weblate.machinery.apertium import ApertiumAPYTranslation
@@ -44,7 +45,7 @@ from weblate.machinery.base import (
 )
 from weblate.machinery.cyrtranslit import CyrTranslitTranslation
 from weblate.machinery.deepl import DeepLTranslation
-from weblate.machinery.dummy import DummyTranslation
+from weblate.machinery.dummy import DummyGlossaryTranslation, DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
@@ -441,6 +442,72 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             machine_translation.get_cache_key("test"),
             "mt:dummy:test:11364700946005001116",
         )
+
+
+class GlossaryTranslationTest(BaseMachineTranslationTest):
+    """Test case for glossary translation functionality."""
+
+    MACHINE_CLS = DummyGlossaryTranslation
+
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_translate(self):
+        """Test glossary translation."""
+        machine = self.get_machine()
+        self.assertEqual(machine.list_glossaries(), {})
+        list_glossaries_patcher = patch.object(
+            DummyGlossaryTranslation,
+            "list_glossaries",
+            Mock(
+                side_effect=[
+                    # with stale glossary
+                    {
+                        "weblate:1:en:cs:2d9a814c5f6321a8": "weblate:1:en:cs:2d9a814c5f6321a8"
+                    },
+                    # with new glossary
+                    {
+                        "weblate:1:en:cs:9e250d830c11d70f": "weblate:1:en:cs:9e250d830c11d70f"
+                    },
+                    # with no glossary
+                    {},
+                ]
+            ),
+        )
+        list_glossaries_patcher.start()
+        super().test_translate()
+        list_glossaries_patcher.stop()
+
+    def test_glossary_cleanup(self):
+        """
+        Test cleanup of glossary TSV content.
+
+        Any problematic leading character is removed from term
+        """
+        unit = MockUnit(code="cs", source="foo", target="bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+
+        # prohibited characters cleaned
+        unit = MockUnit(code="cs", source="=foo", target="=bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="+foo", target="+bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="-foo", target="-bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="@foo", target="@bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="|foo", target="|bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="%foo", target="%bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+
+        # # multiple prohibited characters are cleaned
+        unit = MockUnit(code="cs", source="==foo", target="==bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+
+        # # no character cleaned
+        unit = MockUnit(code="cs", source="foo=", target="bar=")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo=\tbar=")
+        unit = MockUnit(code="cs", source=":foo", target=":bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), ":foo\t:bar")
 
 
 class GlosbeTranslationTest(BaseMachineTranslationTest):

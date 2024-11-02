@@ -59,7 +59,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.8"
+release = "5.9"
 
 # -- General configuration ---------------------------------------------------
 
@@ -146,6 +146,11 @@ html_theme_options = {
         "color-brand-content": "#1fa385",
     },
 }
+
+html_css_files = [
+    "https://s.weblate.org/cdn/font-source/source-sans-3.css",
+    "https://s.weblate.org/cdn/font-source/source-code-pro.css",
+]
 
 # -- Options for HTMLHelp output ---------------------------------------------
 

@@ -66,7 +66,7 @@ def strip_format(msg, flags):
 
     These are quite often not changed by translators.
     """
-    for format_flag, (regex, _is_position_based) in FLAG_RULES.items():
+    for format_flag, (regex, _is_position_based, _extract_string) in FLAG_RULES.items():
         if format_flag in flags:
             return regex.sub("", msg)
 

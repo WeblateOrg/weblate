@@ -1035,26 +1035,21 @@ class Unit(models.Model, LoggerMixin):
 
     def propagate(self, user: User, change_action=None, author=None, request=None):
         """Propagate current translation to all others."""
-        from weblate.trans.models import ContributorAgreement
+        from weblate.auth.permissions import PermissionResult
 
         result = False
         for unit in self.same_source_units:
             if unit.target == self.target and unit.state == self.state:
                 continue
-            if user is not None and not user.has_perm("unit.edit", unit):
+            if user is not None and not (denied := user.has_perm("unit.edit", unit)):
                 component = unit.translation.component
-                if (
-                    request
-                    and component.agreement
-                    and not ContributorAgreement.objects.has_agreed(user, component)
-                ):
+                if request and isinstance(denied, PermissionResult):
                     messages.warning(
                         request,
                         gettext(
-                            "String could not be propagated to %(component)s because "
-                            "you have not agreed with a contributor agreement."
+                            "String could not be propagated to %(component)s: %(reason)s"
                         )
-                        % {"component": component},
+                        % {"component": component, "reason": denied.reason},
                     )
                 continue
             unit.target = self.target
@@ -1475,6 +1470,7 @@ class Unit(models.Model, LoggerMixin):
             return []
         return (
             self.variant.unit_set.filter(translation=self.translation)
+            .prefetch()
             .prefetch_full()
             .order_by("context")
         )
@@ -1647,6 +1643,7 @@ class Unit(models.Model, LoggerMixin):
     def same_source_units(self) -> UnitQuerySet:
         return (
             Unit.objects.same(self)
+            .prefetch()
             .prefetch_full()
             .filter(
                 translation__component__allow_translation_propagation=True,

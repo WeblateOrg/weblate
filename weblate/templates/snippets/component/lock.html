@@ -11,7 +11,7 @@
     <a href="" class="btn btn-warning link-post" data-href="{% url 'unlock' path=object.get_url_path %}">{% trans "Unlock" %}</a>
   {% endif %}
   {% if user.is_authenticated %}
-    <a href="" class="btn btn-primary link-post" data-href="{% url 'subscribe' %}" data-params='{"onetime":"LockNotification","component":{{object.pk }}}'>{% trans "Get notified when this project is unlocked again" %}</a>
+    <a href="" class="btn btn-primary link-post" data-href="{% url 'subscribe' %}" data-params='{"onetime":"LockNotification","component":{{ object.pk }} }'>{% trans "Get notified when this project is unlocked again" %}</a>
   {% endif %}
 </div>
 {% trans "The translation is temporarily closed for contributions due to maintenance, please come back later." %}

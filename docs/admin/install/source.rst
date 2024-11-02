@@ -23,9 +23,9 @@ Installing from sources
    .. code-block:: sh
 
         . ~/weblate-env/bin/activate
-        pip install -e 'weblate-src[all]'
+        uv pip install -e 'weblate-src[all]'
         # In case you intentd to run testsuite, install test deps as well:
-        pip install -e 'weblate-src[all,test]'
+        uv pip install -e 'weblate-src[all,test]'
 
 #. Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`.
 

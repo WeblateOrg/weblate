@@ -29,17 +29,11 @@ jobs:
     - run: brew upgrade
     - run: brew list --versions
     - run: brew deps --tree --installed
-    - name: Fix Python
-      # Workaround for https://github.com/actions/setup-python/issues/577
-      run: |
-        brew uninstall --ignore-dependencies python@3.11
-        brew unlink python@3.12
-        rm -f /usr/local/bin/{2to3,idle3,pydoc3,python3,python3-config}
-        brew link --overwrite python@3.12
     - name: Install brew dependencies
       run: |
-        brew install pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash libxmlsec1
+        brew install pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash libxmlsec1 uv
     - name: Install Weblate
       run: |
-        python3 -m venv .venv
-        .venv/bin/pip3 install -e .[all,test]
+        uv venv --python python3.12 .venv
+        source .venv/bin/activate
+        uv pip install -e .[all,test]

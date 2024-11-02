@@ -4,13 +4,16 @@
 
 {% for item in glossary %}
   <tbody class="glossary-embed {% if "forbidden" in item.all_flags %}unclickable-row danger{% elif "read-only" in item.all_flags %}clickable-row warning{% else %}clickable-row{% endif %}">
-  {% if "forbidden" in item.all_flags %}
-    <tr title="{% trans "This translation is forbidden." %}">
-  {% elif "read-only" in item.all_flags %}
-    <tr title="{% trans "This term should not be translated." %}">
-  {% else %}
-    <tr title="{% trans "Copy word into translation" %}">
-  {% endif %}
+  <tr
+    title="
+      {% if "forbidden" in item.all_flags %}
+        {% trans "This translation is forbidden." %}
+      {% elif "read-only" in item.all_flags %}
+        {% trans "This term should not be translated." %}
+      {% else %}
+         {% trans "Copy word into translation" %}
+      {% endif %}
+      ">
     <td class="source">{{ item.source }}</td>
     <td class="target">
       {% if "forbidden" in item.all_flags %}
@@ -21,7 +24,7 @@
       {% format_unit_target unit value=item.target simple=True %}
     </td>
     <td>{% include "snippets/glossary-badge.html" with glossary=item.translation %}</td>
-    <td><a href="{{ item.get_absolute_url }}" class="btn btn-link btn-xs" title="{% trans "Edit glossary term" %}">{% icon "pencil.svg" %}</a>
+    <td><a href="{{ item.get_absolute_url }}" class="btn btn-link btn-xs" title="{% trans "Edit glossary term" %}">{% icon "pencil.svg" %}</a></td>
     </tr>
     {% if item.note %}
       <tr>

@@ -39,37 +39,37 @@
           <td class="number" data-value="{{ row.check_count }}">
             {% if translate_links %}
               <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }} OR dismissed_{{ row.check_obj.url_id }}">
-                {{ row.check_count |intcomma}}
+                {{ row.check_count | intcomma }}
               </a>
             {% else %}
-              {{ row.check_count |intcomma}}
+              {{ row.check_count | intcomma }}
             {% endif %}
           </td>
           <td class="number" data-value="{{ row.dismissed_check_count }}">
             {% if translate_links %}
               <a href="{{ row.get_translate_url }}?q=dismissed_{{ row.check_obj.url_id }}">
-                {{ row.dismissed_check_count |intcomma}}
+                {{ row.dismissed_check_count | intcomma }}
               </a>
             {% else %}
-              {{ row.dismissed_check_count |intcomma}}
+              {{ row.dismissed_check_count | intcomma }}
             {% endif %}
           </td>
           <td class="number" data-value="{{ row.active_check_count }}">
             {% if translate_links %}
               <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }}">
-                {{ row.active_check_count |intcomma}}
+                {{ row.active_check_count | intcomma }}
               </a>
             {% else %}
-              {{ row.active_check_count |intcomma}}
+              {{ row.active_check_count | intcomma }}
             {% endif %}
           </td>
           <td class="number" data-value="{{ row.translated_check_count }}">
             {% if translate_links %}
               <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }} AND state:&gt;=translated">
-                {{ row.translated_check_count |intcomma}}
+                {{ row.translated_check_count | intcomma }}
               </a>
             {% else %}
-              {{ row.translated_check_count |intcomma}}
+              {{ row.translated_check_count | intcomma }}
             {% endif %}
           </td>
         </tr>

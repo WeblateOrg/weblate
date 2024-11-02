@@ -570,7 +570,7 @@ can install it via usual means:
 .. code-block:: sh
 
     # Using PyPI
-    pip install 'django-auth-ldap>=1.3.0'
+    uv pip install 'django-auth-ldap>=1.3.0'
 
     # Using apt-get
     apt-get install python-django-auth-ldap
@@ -704,7 +704,7 @@ To install `django-cas-ng`:
 
 .. code-block:: sh
 
-    pip install django-cas-ng
+    uv pip install django-cas-ng
 
 Once you have the package installed you can hook it up to the Django
 authentication system by modifying the :file:`settings.py` file:
