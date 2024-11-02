@@ -2085,7 +2085,7 @@ class TBXFormat(TTKitFormat):
 
 
 class PropertiesMi18nFormat(PropertiesUtf8Format):
-    name = gettext_lazy("mi18n lang file")
+    name = gettext_lazy("@draggable/i18n lang file")
     format_id = "mi18n-lang"
     new_translation = "\n"
     language_format = "bcp_legacy"
