@@ -11,6 +11,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Formatting of some :ref:`audit-log` entries.
+
 **Compatibility**
 
 **Upgrading**
