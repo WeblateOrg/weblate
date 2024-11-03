@@ -24,7 +24,7 @@ with open("pyproject.toml", "rb") as handle:
     toml_dict = tomllib.load(handle)
 
 for section, data in toml_dict["project"]["optional-dependencies"].items():
-    if section in {"all", "ci", "dev", "lint", "mypy", "test"}:
+    if section == "all":
         continue
     dependency = re.split("[;<>=[]", data[0])[0].strip()
     print(
