@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-01 18:16+0100\n"
-"PO-Revision-Date: 2024-11-02 02:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-11-03 17:18+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2-dev\n"
+"X-Generator: Weblate 5.8.2\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -9446,10 +9446,8 @@ msgid ":setting:`LEGAL_URL`"
 msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1382
-#, fuzzy
-#| msgid "DEFAULT_COMMITER_EMAIL"
 msgid "PRIVATE_COMMIT_EMAIL_OPT_IN"
-msgstr "DEFAULT_COMMITER_EMAIL"
+msgstr "PRIVATE_COMMIT_EMAIL_OPT_IN"
 
 #: ../../admin/config.rst:1386
 msgid ""
@@ -9469,7 +9467,7 @@ msgstr ":ref:`perfil`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
 
 #: ../../admin/config.rst:1400
 msgid "PRIVATE_COMMIT_EMAIL_TEMPLATE"
-msgstr ""
+msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
 #: ../../admin/config.rst:1404
 msgid ""
@@ -10455,24 +10453,32 @@ msgid ""
 "Manually trigger update either in the repository management or using :ref:"
 "`api` or :ref:`wlc`"
 msgstr ""
+"Activar manualmente la actualización ya sea en la administración del "
+"repositorio o usando :ref:`api` o :ref:`wlc`"
 
 #: ../../admin/continuous.rst:97
 msgid ""
 "Enable :setting:`AUTO_UPDATE` to automatically update all components on your "
 "Weblate instance"
 msgstr ""
+"Habilite :setting:`AUTO_UPDATE` para actualizar automáticamente todos los "
+"componentes en su instancia de Weblate"
 
 #: ../../admin/continuous.rst:99
 msgid ""
 "Execute :wladmin:`updategit` (with selection of project or ``--all`` to "
 "update all)"
 msgstr ""
+"Ejecute :wladmin:`updategit` (con selección del proyecto o ``--all`` para "
+"actualizar todo)"
 
 #: ../../admin/continuous.rst:101
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
 msgstr ""
+"Siempre que Weblate actualice el repositorio, se activarán los complementos "
+"posteriores a la actualización, consulte :ref:`addons`."
 
 #: ../../admin/continuous.rst:107
 msgid "Avoiding merge conflicts"
@@ -10498,6 +10504,16 @@ msgid ""
 "program:`msgmerge`). You can perform the second step within Weblate and it "
 "will ensure that all pending changes are included prior to this operation."
 msgstr ""
+"El primer enfoque es fácil con archivos monolingües: puede agregar nuevas "
+"cadenas dentro de Weblate y dejar allí la edición completa de los archivos. "
+"Para archivos bilingües, suele haber algún tipo de proceso de extracción de "
+"mensajes para generar archivos traducibles a partir del código fuente. En "
+"algunos casos, esto se puede dividir en dos partes: una para la extracción "
+"genera la plantilla (por ejemplo, gettext POT se genera usando "
+":program:`xgettext`) y luego el proceso adicional la fusiona en traducciones "
+"reales (los archivos gettext PO se actualizan usando :program:`msgmerge`). "
+"Puede realizar el segundo paso dentro de Weblate y se asegurará de que todos "
+"los cambios pendientes se incluyan antes de esta operación."
 
 #: ../../admin/continuous.rst:124
 msgid ""
@@ -10508,7 +10524,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:128
 msgid "The script for doing updates can look like this:"
-msgstr ""
+msgstr "El script para realizar actualizaciones puede verse así:"
 
 #: ../../admin/continuous.rst:149
 msgid ""
@@ -10569,6 +10585,9 @@ msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes and both repositories will be in sync."
 msgstr ""
+"Deje que Weblate confirme los cambios pendientes antes de fusionarlos. Esto "
+"actualizará la solicitud de extracción con todos sus cambios y ambos "
+"repositorios estarán sincronizados."
 
 #: ../../admin/continuous.rst:186
 msgid ""
@@ -10741,6 +10760,10 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
+"Weblate busca automáticamente repositorios remotos todas las noches para "
+"mejorar el rendimiento al fusionar cambios más adelante. Opcionalmente, "
+"también puedes convertir esto en fusiones nocturnas, habilitando "
+":setting:`AUTO_UPDATE`."
 
 #: ../../admin/continuous.rst:323
 msgid "Pushing changes from Weblate"
@@ -11375,6 +11398,11 @@ msgid ""
 "to-date. The package is maintained by the Cloudron team at their `Weblate "
 "package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgstr ""
+"`Cloudron <https://www.cloudron.io/>`_ es una plataforma para aplicaciones "
+"web de autohospedaje. Weblate instalado con Cloudron se mantendrá "
+"actualizado automáticamente. El paquete lo mantiene el equipo de Cloudron en "
+"su `repositorio de paquetes Weblate <https://git.cloudron.io/cloudron/"
+"weblate-app>`_."
 
 #: ../../admin/deployments.rst:27
 msgid "Install Weblate with Cloudron"
@@ -14681,16 +14709,12 @@ msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgstr "Configura :setting:`SSH_EXTRA_ARGS`."
 
 #: ../../admin/install/docker.rst:979
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
-msgstr "Configura :setting:`DEFAULT_COMMITER_EMAIL`."
+msgstr "Configurar :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 
 #: ../../admin/install/docker.rst:985
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
-msgstr "Configura :setting:`DEFAULT_COMMITER_EMAIL`."
+msgstr "Configura :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:991
 #, fuzzy
@@ -18108,7 +18132,7 @@ msgstr ""
 
 #: ../../admin/management.rst:207
 msgid ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
-msgstr ""
+msgstr ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
 
 #: ../../admin/management.rst:211
 msgid "cleanuptrans"
@@ -20896,10 +20920,10 @@ msgid ""
 "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
 "`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"El valor predeterminado se puede cambiar :configurando:"
-"`DEFAULT_ADD_MESSAGE`, :configurando:`DEFAULT_ADDON_MESSAGE`, :configurando:"
-"`DEFAULT_COMMIT_MESSAGE`, :configurando:`DEFAULT_DELETE_MESSAGE`, :"
-"configurando:`DEFAULT_MERGE_MESSAGE`, :configurando:`DEFAULT_PULL_MESSAGE`."
+"El valor predeterminado se puede cambiar mediante "
+":setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, "
+":setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, "
+":setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
 
 #: ../../admin/projects.rst:829
 msgid "Push on commit"
@@ -20932,6 +20956,8 @@ msgstr ""
 #: ../../admin/projects.rst:847
 msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
 msgstr ""
+"El valor predeterminado se puede cambiar mediante "
+":setting:`COMMIT_PENDING_HOURS`."
 
 #: ../../admin/projects.rst:851
 msgid ""
@@ -24254,10 +24280,8 @@ msgid "string age"
 msgstr "Antigüedad de la cadena"
 
 #: ../../api.rst:2185
-#, fuzzy
-#| msgid "string age"
 msgid "last string update"
-msgstr "Antigüedad de la cadena"
+msgstr "última actualización de la cadena"
 
 #: ../../api.rst:2191
 msgid "Performs partial update on translation unit."
@@ -25262,6 +25286,8 @@ msgstr "Idiomas"
 #: ../../changes.rst:8
 msgid "Update outdated plural definitions during the database migration."
 msgstr ""
+"Actualice las definiciones plurales obsoletas durante la migración de la "
+"base de datos."
 
 #: ../../changes.rst:9
 msgid "Reduced number of database queries when updating multiple strings."
@@ -25325,6 +25351,8 @@ msgstr "Actualizar Weblate"
 msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr ""
+"Por favor, siga: :ref:`generic-upgrade-instructions` para realizar la "
+"actualización."
 
 #: ../../changes.rst:18 ../../changes.rst:37 ../../changes.rst:88
 #: ../../changes.rst:114 ../../changes.rst:142 ../../changes.rst:198
@@ -25451,6 +25479,8 @@ msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
+":ref:`Searching` ahora admite el filtrado por ruta de objeto y :ref:`date-"
+"search`."
 
 #: ../../changes.rst:52
 msgid ""
@@ -25709,19 +25739,18 @@ msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
 msgstr ""
+"Nombres de idiomas actualizados para describir mejor las distintas "
+"escrituras y idiomas siníticos."
 
 #: ../../changes.rst:128
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ""
 ":ref:`addon-weblate.cleanup.generic` is now automatically installed for "
 "formats which need it to update non-translation content in the translated "
 "files."
 msgstr ""
-"Use :ref:`addon-weblate.cleanup.generic` si solo desea eliminar las claves "
-"de traducción obsoletas."
+":ref:`addon-weblate.cleanup.generic` ahora se instala automáticamente para "
+"los formatos que lo necesitan para actualizar contenido no traducido en los "
+"archivos traducidos."
 
 #: ../../changes.rst:132
 msgid ""
@@ -26112,10 +26141,8 @@ msgid ":ref:`addons` activity log for tracking add-on activity."
 msgstr ""
 
 #: ../../changes.rst:252
-#, fuzzy
-#| msgid "Improved performance when displaying ghost translations."
 msgid "Improved date range selection in :ref:`reports`."
-msgstr "Se mejoró el rendimiento al mostrar traducciones fantasma."
+msgstr "Selección de rango de fechas mejorada en :ref:`reports`."
 
 #: ../../changes.rst:256
 msgid ":ref:`subscriptions` now include strings which need updating."
@@ -26142,6 +26169,8 @@ msgstr ""
 #: ../../changes.rst:260
 msgid ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
 msgstr ""
+":http:get:`/api/units/(int:id)/` ahora contiene la marca de tiempo "
+"`last_updated`."
 
 #: ../../changes.rst:261
 #, fuzzy
@@ -26363,7 +26392,7 @@ msgstr "Weblate 4.10"
 
 #: ../../changes.rst:363
 msgid ":ref:`Searching` supports ``source_changed:DATETIME``."
-msgstr ""
+msgstr ":ref:`Searching` admite ``source_changed:DATETIME``."
 
 #: ../../changes.rst:364
 #, fuzzy
@@ -26406,12 +26435,10 @@ msgid "Reduced memory usage."
 msgstr "Se redujo el uso de memoria."
 
 #: ../../changes.rst:378
-#, fuzzy
-#| msgid "Fixed Git commit squashing with trailers enabled."
 msgid "Fixed skipped component update with some add-ons enabled."
 msgstr ""
-"Se arregló la concentración de consignas de Git con renglones finales "
-"activados."
+"Se corrigió la actualización de componentes omitidos para algunas "
+"extensiones habilitadas."
 
 #: ../../changes.rst:379
 msgid "Daily execution of project and site wide add-ons."
@@ -26426,6 +26453,8 @@ msgstr "Editar cadena cuando son obligatorias las sugerencias"
 #: ../../changes.rst:381
 msgid "Updates of the last updated timestamp of a string."
 msgstr ""
+"Actualizaciones de la marca de tiempo de la última actualización de una "
+"cadena."
 
 #: ../../changes.rst:382
 msgid ""
@@ -26534,6 +26563,9 @@ msgid ""
 "Docker container now validates user password strength by default, see :"
 "envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 msgstr ""
+"Los contenedores Docker ahora verifican la seguridad de la contraseña de los "
+"usuarios de forma predeterminada; consulte "
+":envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 
 #: ../../changes.rst:415
 #, fuzzy
@@ -40371,11 +40403,11 @@ msgid ""
 msgstr ""
 
 #: ../../snippets/basics.rst:51
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid ""
 ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` can make e-mails private by default."
-msgstr "Configura :setting:`DEFAULT_COMMITER_EMAIL`."
+msgstr ""
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` puede hacer que los correos "
+"electrónicos sean privados de forma predeterminada."
 
 #: ../../devel/integration.rst:7
 #, fuzzy
@@ -41852,6 +41884,8 @@ msgid ""
 "This is the default committer name, configured by :setting:"
 "`DEFAULT_COMMITER_EMAIL` and :setting:`DEFAULT_COMMITER_NAME`."
 msgstr ""
+"Este es el nombre del verificador predeterminado, configurado mediante "
+":setting:`DEFAULT_COMMITER_EMAIL` and :setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../faq.rst:268
 msgid ""
@@ -49424,6 +49458,14 @@ msgid ""
 "profile on GitHub). The private e-mail can be turned on site-wide using :"
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr ""
+"El correo electrónico de confirmación privado se utilizará en lugar del "
+"correo electrónico de su cuenta en las confirmaciones de control de "
+"versiones. Utilice esto para evitar que se filtre allí su correo electrónico "
+"real. Tenga en cuenta que el uso de un correo electrónico diferente puede "
+"desconectar sus contribuciones en otros servidores (por ejemplo, sus "
+"contribuciones ya no se vincularán a su perfil en GitHub). El correo "
+"electrónico privado se puede activar en todo el sitio usando "
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../user/profile.rst:204
 msgid ""
@@ -50124,7 +50166,7 @@ msgid ""
 "of time like ``yesterday``, ``last month``, and ``2 days ago`` can be used "
 "as values in the DATETIME fields."
 msgstr ""
-"En lugar de utilizar valores DATETIME como MM-DD-AAAA, se puede utilizar una "
+"En lugar de utilizar valores DATETIME como DD-MM-AAAA, se puede utilizar una "
 "cadena que contenga adverbios de tiempo como \"ayer\", \"el mes pasado\" y "
 "\"hace 2 días\" como valores en los campos DATETIME."
 
