@@ -25,17 +25,17 @@
         "git-refs"
       ],
       "automerge": false,
-      "schedule": "on the last day of the month"
+      "schedule": "on the first day of the month"
     },
     {
       "matchDatasources": [
         "helm"
       ],
       "automerge": false,
-      "schedule": "on the last day of the month"
+      "schedule": "on the first day of the month"
     },
     {
-      "matchPaths": [
+      "matchFileNames": [
         "**/package.json"
       ],
       "automerge": false
@@ -68,8 +68,9 @@
       }
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "fileMatch": [
         "\\.pre-commit-config\\.yaml"
       ],
@@ -80,6 +81,7 @@
       "versioningTemplate": "pep440"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "\\.pre-commit-config\\.yaml"
       ],
@@ -90,6 +92,7 @@
       "versioningTemplate": "npm"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "^Dockerfile$"
       ],
@@ -101,6 +104,7 @@
       "versioningTemplate": "pep440"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "(^|/)Chart\\.yaml$"
       ],
@@ -109,6 +113,7 @@
       ]
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "^\\.github/workflows/[^/]+\\.ya?ml$"
       ],
