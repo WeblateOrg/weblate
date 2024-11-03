@@ -35,18 +35,18 @@ jobs:
       id: pep735
       run: |
         if grep -q dependency-groups pyproject.toml ; then
-          echo "found=true" >> $GITHUB_OUTPUT
+          echo "found=1" >> $GITHUB_OUTPUT
         else
-          echo "found=false" >> $GITHUB_OUTPUT
+          echo "found=0" >> $GITHUB_OUTPUT
         fi
     - name: pre-commit
-      if: ${{ steps.pep735.outputs.found }}
+      if: ${{ steps.pep735.outputs.found == 1 }}
       run: uv run --only-group pre-commit pre-commit run --all
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
     - name: Install dependencies
-      if: ${{ ! steps.pep735.outputs.found }}
+      if: ${{ steps.pep735.outputs.found == 0 }}
       run: |
         if [ -f requirements-lint.txt ] ; then
           uv pip install --system -r requirements-lint.txt
@@ -54,7 +54,7 @@ jobs:
           uv pip install --system $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
         fi
     - name: pre-commit
-      if: ${{ ! steps.pep735.outputs.found }}
+      if: ${{ steps.pep735.outputs.found == 0 }}
       run: pre-commit run --all
       env:
         RUFF_OUTPUT_FORMAT: github
