@@ -3379,32 +3379,50 @@ amazon = [
 antispam = [
     { name = "python-akismet" },
 ]
+gerrit = [
+    { name = "git-review" },
+]
+google = [
+    { name = "google-cloud-translate" },
+]
+ldap = [
+    { name = "django-auth-ldap" },
+]
+mercurial = [
+    { name = "mercurial" },
+]
+mysql = [
+    { name = "mysqlclient" },
+]
+openai = [
+    { name = "openai" },
+]
+postgres = [
+    { name = "psycopg", extra = ["binary"] },
+]
+saml = [
+    { name = "python3-saml" },
+]
+zxcvbn = [
+    { name = "django-zxcvbn-password" },
+]
+
+[package.dev-dependencies]
 dev = [
-    { name = "aliyun-python-sdk-alimt" },
-    { name = "boto3" },
     { name = "boto3-stubs" },
     { name = "celery-types" },
     { name = "coverage" },
-    { name = "django-auth-ldap" },
     { name = "django-debug-toolbar" },
     { name = "django-stubs" },
     { name = "django-stubs-ext" },
-    { name = "django-zxcvbn-password" },
     { name = "djangorestframework-stubs" },
-    { name = "git-review" },
-    { name = "google-cloud-translate" },
-    { name = "mercurial" },
     { name = "mypy" },
-    { name = "openai" },
     { name = "pre-commit" },
-    { name = "psycopg", extra = ["binary"] },
     { name = "pyicu" },
     { name = "pylint" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-django" },
-    { name = "python-akismet" },
-    { name = "python3-saml" },
     { name = "responses" },
     { name = "respx" },
     { name = "reuse" },
@@ -3419,23 +3437,26 @@ dev = [
     { name = "types-python-dateutil" },
     { name = "types-requests" },
 ]
-gerrit = [
-    { name = "git-review" },
-]
-google = [
-    { name = "google-cloud-translate" },
-]
-ldap = [
-    { name = "django-auth-ldap" },
-]
 lint = [
     { name = "pre-commit" },
     { name = "pylint" },
 ]
-mercurial = [
-    { name = "mercurial" },
+pre-commit = [
+    { name = "pre-commit" },
 ]
-mypy = [
+pylint = [
+    { name = "pylint" },
+]
+test = [
+    { name = "coverage" },
+    { name = "pytest" },
+    { name = "pytest-cov" },
+    { name = "pytest-django" },
+    { name = "responses" },
+    { name = "respx" },
+    { name = "selenium" },
+]
+types = [
     { name = "boto3-stubs" },
     { name = "celery-types" },
     { name = "django-stubs" },
@@ -3450,30 +3471,6 @@ mypy = [
     { name = "types-python-dateutil" },
     { name = "types-requests" },
 ]
-mysql = [
-    { name = "mysqlclient" },
-]
-openai = [
-    { name = "openai" },
-]
-postgres = [
-    { name = "psycopg", extra = ["binary"] },
-]
-saml = [
-    { name = "python3-saml" },
-]
-test = [
-    { name = "coverage" },
-    { name = "pytest" },
-    { name = "pytest-cov" },
-    { name = "pytest-django" },
-    { name = "responses" },
-    { name = "respx" },
-    { name = "selenium" },
-]
-zxcvbn = [
-    { name = "django-zxcvbn-password" },
-]
 
 [package.metadata]
 requires-dist = [
@@ -3482,12 +3479,9 @@ requires-dist = [
     { name = "aliyun-python-sdk-alimt", marker = "extra == 'alibaba'", specifier = ">=3.2.0,<4.0.0" },
     { name = "borgbackup", specifier = ">=1.2.5,<1.5" },
     { name = "boto3", marker = "extra == 'amazon'", specifier = ">=1.28.62,<1.36.0" },
-    { name = "boto3-stubs", marker = "extra == 'mypy'", specifier = "==1.35.54" },
     { name = "celery", extras = ["redis"], specifier = ">=5.4.0,<5.5" },
-    { name = "celery-types", marker = "extra == 'mypy'", specifier = "==0.22.0" },
     { name = "certifi", specifier = ">=2024.8.30" },
     { name = "charset-normalizer", specifier = ">=2.0.12,<4.0" },
-    { name = "coverage", marker = "extra == 'test'", specifier = "==7.6.4" },
     { name = "crispy-bootstrap3", specifier = "==2024.1" },
     { name = "cryptography", specifier = ">=42.0.4" },
     { name = "cssselect", specifier = ">=1.2,<1.3" },
@@ -3502,16 +3496,12 @@ requires-dist = [
     { name = "django-compressor", specifier = ">=4.4,<5" },
     { name = "django-cors-headers", specifier = ">=4.3.0,<4.7" },
     { name = "django-crispy-forms", specifier = ">=2.3,<2.4" },
-    { name = "django-debug-toolbar", marker = "extra == 'dev'", specifier = "==4.4.6" },
     { name = "django-filter", specifier = ">=23.4,<24.4" },
     { name = "django-otp", specifier = ">=1.5.2,<2.0" },
     { name = "django-otp-webauthn", specifier = ">=0.4.0,<0.5" },
     { name = "django-redis", specifier = ">=5.4.0,<6.0" },
-    { name = "django-stubs", marker = "extra == 'mypy'", specifier = "==5.1.1" },
-    { name = "django-stubs-ext", marker = "extra == 'mypy'", specifier = "==5.1.1" },
     { name = "django-zxcvbn-password", marker = "extra == 'zxcvbn'", specifier = "==2.1.1" },
     { name = "djangorestframework", specifier = ">=3.15.2,<3.16" },
-    { name = "djangorestframework-stubs", marker = "extra == 'mypy'", specifier = "==3.15.1" },
     { name = "drf-spectacular", extras = ["sidecar"], specifier = ">=0.27.2,<0.28" },
     { name = "filelock", specifier = ">=3.12.2,<4" },
     { name = "fluent-syntax", specifier = ">=0.18.1,<0.20" },
@@ -3525,7 +3515,6 @@ requires-dist = [
     { name = "lxml", specifier = ">=5.2.0,<5.4" },
     { name = "mercurial", marker = "extra == 'mercurial'", specifier = ">=6.8.0,<7.0" },
     { name = "mistletoe", specifier = ">=1.4.0,<1.5" },
-    { name = "mypy", marker = "extra == 'mypy'", specifier = "==1.13.0" },
     { name = "mysqlclient", marker = "extra == 'mysql'", specifier = ">=2.1.1,<3" },
     { name = "nh3", specifier = ">=0.2.14,<0.3" },
     { name = "openai", marker = "extra == 'openai'", specifier = ">=1.28.1,<2.0" },
@@ -3533,18 +3522,12 @@ requires-dist = [
     { name = "packaging", specifier = ">=22,<24.2" },
     { name = "phply", specifier = ">=1.2.6,<1.3" },
     { name = "pillow", specifier = ">=10.3.0,<12" },
-    { name = "pre-commit", marker = "extra == 'lint'", specifier = "==4.0.1" },
     { name = "psycopg", extras = ["binary"], marker = "extra == 'postgres'", specifier = ">=3.1.8,<4" },
     { name = "pycairo", specifier = ">=1.20.0" },
     { name = "pygments", specifier = ">=2.17.0,<3.0" },
     { name = "pygobject", specifier = ">=3.40.1" },
-    { name = "pyicu", marker = "extra == 'dev'", specifier = "==2.14" },
     { name = "pyicumessageformat", specifier = ">=1.0.0,<1.1" },
-    { name = "pylint", marker = "extra == 'lint'", specifier = "==3.3.1" },
     { name = "pyparsing", specifier = ">=3.1.1,<3.3" },
-    { name = "pytest", marker = "extra == 'test'", specifier = "==8.3.3" },
-    { name = "pytest-cov", marker = "extra == 'test'", specifier = "==6.0.0" },
-    { name = "pytest-django", marker = "extra == 'test'", specifier = "==4.9.0" },
     { name = "python-akismet", marker = "extra == 'antispam'", specifier = ">=0.4.2,<0.5" },
     { name = "python-dateutil", specifier = ">=2.8.2" },
     { name = "python-redis-lock", extras = ["django"], specifier = ">=4,<4.1" },
@@ -3553,32 +3536,79 @@ requires-dist = [
     { name = "rapidfuzz", specifier = ">=3.8.0,<3.11" },
     { name = "redis", specifier = ">=5.0.2,<5.3.0" },
     { name = "requests", specifier = ">=2.32.2,<2.33" },
-    { name = "responses", marker = "extra == 'test'", specifier = "==0.25.3" },
-    { name = "respx", marker = "extra == 'test'", specifier = "==0.21.1" },
-    { name = "reuse", marker = "extra == 'dev'", specifier = "==4.0.3" },
     { name = "ruamel-yaml", specifier = ">=0.17.2,<0.19.0" },
-    { name = "scour", marker = "extra == 'dev'", specifier = "==0.38.2" },
-    { name = "selenium", marker = "extra == 'test'", specifier = "==4.26.1" },
     { name = "sentry-sdk", specifier = ">=2.15.0,<3.0" },
     { name = "siphashc", specifier = ">=2.1,<3.0" },
     { name = "social-auth-app-django", specifier = ">=5.4.1,<6.0.0" },
     { name = "social-auth-core", specifier = ">=4.5.0,<5.0.0" },
     { name = "tesserocr", specifier = ">=2.6.1,<2.8.0" },
-    { name = "tinyunicodeblock", marker = "extra == 'dev'", specifier = "==1.3" },
     { name = "translate-toolkit", specifier = ">=3.14.1,<3.15" },
     { name = "translation-finder", specifier = ">=2.16,<3.0" },
-    { name = "types-dateparser", marker = "extra == 'mypy'", specifier = "==1.2.0.20240420" },
-    { name = "types-jsonschema", marker = "extra == 'mypy'", specifier = "==4.23.0.20240813" },
-    { name = "types-lxml", marker = "extra == 'mypy'", specifier = "==2024.9.16" },
-    { name = "types-openpyxl", marker = "extra == 'mypy'", specifier = "==3.1.5.20241025" },
-    { name = "types-pillow", marker = "extra == 'mypy'", specifier = "==10.2.0.20240822" },
-    { name = "types-python-dateutil", marker = "extra == 'mypy'", specifier = "==2.9.0.20241003" },
-    { name = "types-requests", marker = "extra == 'mypy'", specifier = "==2.32.0.20241016" },
     { name = "user-agents", specifier = ">=2.0,<2.3" },
     { name = "weblate", extras = ["alibaba", "amazon", "antispam", "gerrit", "google", "ldap", "mercurial", "openai", "postgres", "saml", "zxcvbn"], marker = "extra == 'all'" },
-    { name = "weblate", extras = ["all", "test", "lint", "mypy"], marker = "extra == 'dev'" },
     { name = "weblate-language-data", specifier = ">=2024.9" },
     { name = "weblate-schemas", specifier = "==2024.1" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "boto3-stubs", specifier = "==1.35.54" },
+    { name = "celery-types", specifier = "==0.22.0" },
+    { name = "coverage", specifier = "==7.6.4" },
+    { name = "django-debug-toolbar", specifier = "==4.4.6" },
+    { name = "django-stubs", specifier = "==5.1.1" },
+    { name = "django-stubs-ext", specifier = "==5.1.1" },
+    { name = "djangorestframework-stubs", specifier = "==3.15.1" },
+    { name = "mypy", specifier = "==1.13.0" },
+    { name = "pre-commit", specifier = "==4.0.1" },
+    { name = "pyicu", specifier = "==2.14" },
+    { name = "pylint", specifier = "==3.3.1" },
+    { name = "pytest", specifier = "==8.3.3" },
+    { name = "pytest-cov", specifier = "==6.0.0" },
+    { name = "pytest-django", specifier = "==4.9.0" },
+    { name = "responses", specifier = "==0.25.3" },
+    { name = "respx", specifier = "==0.21.1" },
+    { name = "reuse", specifier = "==4.0.3" },
+    { name = "scour", specifier = "==0.38.2" },
+    { name = "selenium", specifier = "==4.26.1" },
+    { name = "tinyunicodeblock", specifier = "==1.3" },
+    { name = "types-dateparser", specifier = "==1.2.0.20240420" },
+    { name = "types-jsonschema", specifier = "==4.23.0.20240813" },
+    { name = "types-lxml", specifier = "==2024.9.16" },
+    { name = "types-openpyxl", specifier = "==3.1.5.20241025" },
+    { name = "types-pillow", specifier = "==10.2.0.20240822" },
+    { name = "types-python-dateutil", specifier = "==2.9.0.20241003" },
+    { name = "types-requests", specifier = "==2.32.0.20241016" },
+]
+lint = [
+    { name = "pre-commit", specifier = "==4.0.1" },
+    { name = "pylint", specifier = "==3.3.1" },
+]
+pre-commit = [{ name = "pre-commit", specifier = "==4.0.1" }]
+pylint = [{ name = "pylint", specifier = "==3.3.1" }]
+test = [
+    { name = "coverage", specifier = "==7.6.4" },
+    { name = "pytest", specifier = "==8.3.3" },
+    { name = "pytest-cov", specifier = "==6.0.0" },
+    { name = "pytest-django", specifier = "==4.9.0" },
+    { name = "responses", specifier = "==0.25.3" },
+    { name = "respx", specifier = "==0.21.1" },
+    { name = "selenium", specifier = "==4.26.1" },
+]
+types = [
+    { name = "boto3-stubs", specifier = "==1.35.54" },
+    { name = "celery-types", specifier = "==0.22.0" },
+    { name = "django-stubs", specifier = "==5.1.1" },
+    { name = "django-stubs-ext", specifier = "==5.1.1" },
+    { name = "djangorestframework-stubs", specifier = "==3.15.1" },
+    { name = "mypy", specifier = "==1.13.0" },
+    { name = "types-dateparser", specifier = "==1.2.0.20240420" },
+    { name = "types-jsonschema", specifier = "==4.23.0.20240813" },
+    { name = "types-lxml", specifier = "==2024.9.16" },
+    { name = "types-openpyxl", specifier = "==3.1.5.20241025" },
+    { name = "types-pillow", specifier = "==10.2.0.20240822" },
+    { name = "types-python-dateutil", specifier = "==2.9.0.20241003" },
+    { name = "types-requests", specifier = "==2.32.0.20241016" },
 ]
 
 [[package]]
