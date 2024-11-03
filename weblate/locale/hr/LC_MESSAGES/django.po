@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-01 17:16+0000\n"
-"PO-Revision-Date: 2024-11-01 00:26+0000\n"
+"PO-Revision-Date: 2024-11-03 17:18+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.8.2-dev\n"
+"X-Generator: Weblate 5.8.2\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -5134,26 +5134,24 @@ msgid "Region ID"
 msgstr "ID regije"
 
 #: weblate/machinery/forms.py:260
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "Kontekst"
+msgstr "Vektor konteksta"
 
 #: weblate/machinery/forms.py:263
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
+"Zarezima odvojen popis memorijskih ID:težina. Npr.: 1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:276
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "Prijevod nije ispravan XML"
+msgstr "Vektor konteksta nije ispravan: %s"
 
 #: weblate/machinery/forms.py:280
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "Vrijednost težine mora biti između 0 i 1: %s"
 
 #: weblate/machinery/forms.py:291
 msgctxt "Automatic suggestion service configuration"
@@ -5167,23 +5165,15 @@ msgstr ""
 "(ne)službeni"
 
 #: weblate/machinery/forms.py:308
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation context"
-msgstr "Komentar za prijevod"
+msgstr "Kontekst prijevoda"
 
 #: weblate/machinery/forms.py:312
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
-"Opiši prevodioca za poboljšavanje točnosti prijevoda. Na primjer: „Ti si "
-"uzgajivač vjeverica.”"
+msgstr "Opiši kontekst prijevoda za poboljšavanje točnosti prijevoda."
 
 #: weblate/machinery/forms.py:322
 msgctxt "Automatic suggestion service configuration"
@@ -6719,7 +6709,7 @@ msgstr ""
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
-msgstr "Jednom"
+msgstr "Jednokratno"
 
 #: weblate/templates/accounts/user.html:294 weblate/templates/auth/team.html:31
 #: weblate/templates/manage/teams.html:30
@@ -13770,7 +13760,7 @@ msgstr "Nejednoznačan jezični kod."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:571
 msgid "Does not meet Libre hosting conditions."
-msgstr "Ne ispunjava uvjete za hosting slobodnih projekata."
+msgstr "Ne ispunjava uvjete za slobodni hosting."
 
 #: weblate/trans/models/alert.py:585
 msgid "Unused enforced checks."
@@ -15184,14 +15174,9 @@ msgid "Failed adding string, no translation found."
 msgstr "Neuspjelo dodavanje izraza, nijedan prijevod nije pronađen."
 
 #: weblate/trans/models/unit.py:1050
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
-msgstr ""
-"Nije bilo moguće dijeliti izraz u komponenti %(component)s jer nisi "
-"prihvatio/la ugovor za doprinositelje."
+msgstr "Nije bilo moguće dijeliti izraz u komponenti %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1745
 msgid "Unmark as read-only"
