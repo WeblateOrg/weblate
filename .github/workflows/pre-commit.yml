@@ -31,16 +31,30 @@ jobs:
       with:
         python-version: '3.12'
     - uses: astral-sh/setup-uv@v3
+    - name: detect PEP 735
+      id: pep735
+      run: |
+        if grep -q dependency-groups pyproject.toml ; then
+          echo "found=true" >> $GITHUB_OUTPUT
+        else
+          echo "found=false" >> $GITHUB_OUTPUT
+        fi
+    - name: pre-commit
+      if: ${{ steps.pep735.outputs.found }}
+      run: uv run --only-group pre-commit pre-commit run --all
+      env:
+        RUFF_OUTPUT_FORMAT: github
+        REUSE_OUTPUT_FORMAT: github
     - name: Install dependencies
+      if: ${{ ! steps.pep735.outputs.found }}
       run: |
         if [ -f requirements-lint.txt ] ; then
           uv pip install --system -r requirements-lint.txt
-        elif grep -q dependency-groups pyproject.toml ; then
-          uv sync --only-group pre-commit
         else
           uv pip install --system $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
         fi
     - name: pre-commit
+      if: ${{ ! steps.pep735.outputs.found }}
       run: pre-commit run --all
       env:
         RUFF_OUTPUT_FORMAT: github
