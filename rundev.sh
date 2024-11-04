@@ -25,7 +25,7 @@ cd dev-docker/
 build() {
     mkdir -p data
     # Build single requirements file
-    sed -n 's/^  "\([][a-zA-Z._0-9-]\+[<>=].*\)".*/\1/p' ../pyproject.toml > weblate-dev/requirements.txt
+    uv export --format requirements-txt --all-extras --no-emit-project --frozen > weblate-dev/requirements.txt
     # Fetch up-to-date base docker image
     docker pull weblate/weblate:bleeding
     # Build the container

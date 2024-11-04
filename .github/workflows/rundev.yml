@@ -26,6 +26,7 @@ jobs:
       PYTHONUNBUFFERED: 1
     steps:
     - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v3
     - run: ./rundev.sh build
     - run: ./rundev.sh start
     - run: ./rundev.sh wait
