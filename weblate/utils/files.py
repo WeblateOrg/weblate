@@ -21,6 +21,7 @@ BUILD_DIR = os.path.join(BASE_DIR, "build")
 VENV_DIR = os.path.join(BASE_DIR, ".venv")
 DOCS_DIR = os.path.join(BASE_DIR, "docs")
 SCRIPTS_DIR = os.path.join(BASE_DIR, "scripts")
+CLIENT_DIR = os.path.join(BASE_DIR, "client")
 EXAMPLES_DIR = os.path.join(BASE_DIR, "weblate", "examples")
 
 PATH_EXCLUDES = [f"/{exclude}/" for exclude in EXCLUDES]
@@ -58,6 +59,7 @@ def should_skip(location):
             DEFAULT_TEST_DIR,
             DOCS_DIR,
             SCRIPTS_DIR,
+            CLIENT_DIR,
             EXAMPLES_DIR,
         )
     )
