@@ -57,7 +57,7 @@ The specific license for each of Weblate's software products and code says what 
 
 **You Must:**
 
-* Follow the terms of the Open-Source License(s) for Weblate software products and code (mainly GPLv3).
+* Follow the terms of the Open-Source Licenses for Weblate software products and code (mainly GPLv3).
 * Choose branding, logos, and trademarks that denotes your own unique identity to clearly signal to users that there is no affiliation with or endorsement by Weblate.
 * Follow the General Guidelines, above.
 

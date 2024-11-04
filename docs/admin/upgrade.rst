@@ -23,7 +23,7 @@ Once all requirements are installed or upgraded, ensure your
 :file:`settings_example.py` for correct values).
 
 Always check :ref:`version-specific-instructions` before upgrading. If you are
-skipping any version(s), be sure to follow instructions for all versions you are
+skipping any versions, be sure to follow instructions for all versions you are
 skipping during such upgrade. It's sometimes better to upgrade gradually to
 an intermediate version to ensure a smooth migration. Upgrading across multiple
 releases should work, but is not as well tested as single version upgrades!

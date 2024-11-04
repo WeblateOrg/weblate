@@ -1134,7 +1134,7 @@ There are also additional filter to manipulate with filenames:
     File in parent dir: {{ filename|parentdir }}
     It can be used multiple times:  {{ filename|parentdir|parentdir }}
 
-...and other Django template features.
+…and other Django template features.
 
 .. _import-speed:
 
