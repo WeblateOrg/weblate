@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 09:40+0100\n"
-"PO-Revision-Date: 2024-11-02 02:48+0000\n"
+"PO-Revision-Date: 2024-11-04 09:34+0000\n"
 "Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.8.2-dev\n"
+"X-Generator: Weblate 5.8.2\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -2675,30 +2675,24 @@ msgid "You can use Django template markup in all filename fields, for example:"
 msgstr "您可以在檔名和內容中使用 Django 範本標記語法，例如："
 
 #: ../../admin/addons.rst:229
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:230
 msgid "Component filename match"
 msgstr "組件檔名比對"
 
 #: ../../admin/addons.rst:231
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component|title }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component|title }}``"
 
 #: ../../admin/addons.rst:232
 msgid "Component filename with upper case first letter"
 msgstr "組件檔名首字母大寫"
 
 #: ../../admin/addons.rst:233
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ path }}: {{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ path }}: {{ component }}``"
 
 #: ../../admin/addons.rst:234
 #, fuzzy
@@ -2808,13 +2802,8 @@ msgid "Using both component and language name within filename."
 msgstr "檔名同時使用組件名稱和語言名稱。"
 
 #: ../../admin/addons.rst:276
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
 
 #: ../../admin/addons.rst:278
 msgid ":file:`src/locale/application.cs.po`"
@@ -2843,13 +2832,8 @@ msgid "Using language in both path and filename."
 msgstr "路徑和檔名中都使用語言名稱。"
 
 #: ../../admin/addons.rst:289
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
 
 #: ../../admin/addons.rst:291
 msgid ":file:`locale/cs/application/cs.po`"
@@ -2878,13 +2862,8 @@ msgid "Android resource strings, split into several files."
 msgstr "Android 資源字串，切分為多份檔案。"
 
 #: ../../admin/addons.rst:303
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
 
 #: ../../admin/addons.rst:305
 msgid ":file:`res/values-cs/strings-about.xml`"
@@ -2917,6 +2896,8 @@ msgid ""
 "``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/"
 "ApplicationResources_(?P<language>[^/.]*)\\.properties``"
 msgstr ""
+"``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/"
+"ApplicationResources_(?P<language>[^/.]*)\\.properties``"
 
 #: ../../admin/addons.rst:317
 msgid "Component name:"
@@ -2924,7 +2905,7 @@ msgstr "組件名稱："
 
 #: ../../admin/addons.rst:318
 msgid "``{{ originalHierarchy }}: {{ component }}``"
-msgstr ""
+msgstr "``{{ originalHierarchy }}: {{ component }}``"
 
 #: ../../admin/addons.rst:320
 msgid ""
@@ -3189,10 +3170,8 @@ msgid "Fill read-only strings with source"
 msgstr "用原文填充唯讀字串"
 
 #: ../../admin/addons.rst:468
-#, fuzzy
-#| msgid "``weblate.generate.prefill``"
 msgid "``weblate.generate.fill_read_only``"
-msgstr "``weblate.generate.prefill``"
+msgstr "``weblate.generate.fill_read_only``"
 
 #: ../../admin/addons.rst:472
 msgid "Fills in translation of read-only strings with source string."
@@ -3922,10 +3901,8 @@ msgid "Stale suggestion removal"
 msgstr "陳舊建議移除"
 
 #: ../../admin/addons.rst:831
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "``weblate.removal.suggestions``"
-msgstr "為建議投票"
+msgstr "``weblate.removal.suggestions``"
 
 #: ../../admin/addons.rst:835
 msgid "``votes``"
@@ -8305,7 +8282,7 @@ msgstr "組態如何發送來自聯繫人表單的電子郵件。選擇與郵件
 
 #: ../../admin/config.rst:408
 msgid "``\"reply-to\"``"
-msgstr "``\"回覆到\"``"
+msgstr "``\"reply-to\"``"
 
 #: ../../admin/config.rst:409
 msgid ""
@@ -8315,7 +8292,7 @@ msgstr "寄件人用於：MailHeader：“回覆”，這是預設行為。"
 
 #: ../../admin/config.rst:410
 msgid "``\"from\"``"
-msgstr "``\"來自\"``"
+msgstr "``\"from\"``"
 
 #: ../../admin/config.rst:411
 msgid ""
@@ -14611,7 +14588,7 @@ msgstr "在正式環境中滾動式更新"
 
 #: ../../admin/install/docker.rst:94
 msgid "``<MAJOR>``"
-msgstr ""
+msgstr "``<MAJOR>``"
 
 #: ../../admin/install/docker.rst:94 ../../admin/install/docker.rst:96
 #: ../../admin/install/docker.rst:98
@@ -14626,7 +14603,7 @@ msgstr "在正式環境中滾動式更新"
 
 #: ../../admin/install/docker.rst:96
 msgid "``<MAJOR>.<MINOR>``"
-msgstr ""
+msgstr "``<MAJOR>.<MINOR>``"
 
 #: ../../admin/install/docker.rst:96
 #, fuzzy
@@ -14635,10 +14612,8 @@ msgid "Rolling updates within a minor version in a production environment"
 msgstr "在正式環境中滾動式更新"
 
 #: ../../admin/install/docker.rst:98
-#, fuzzy
-#| msgid "``<VERSION>-<PATCH>``"
 msgid "``<VERSION>.<PATCH>``"
-msgstr "``<VERSION>-<PATCH>``"
+msgstr "``<VERSION>.<PATCH>``"
 
 #: ../../admin/install/docker.rst:98
 msgid "Well defined deploy in a production environment"
@@ -43539,7 +43514,7 @@ msgstr ""
 
 #: ../../devel/sphinx.rst:48
 msgid "``Documentation: {{ component|title }}``"
-msgstr "``文件：{{ component|title }}``"
+msgstr "``Documentation: {{ component|title }}``"
 
 #: ../../devel/sphinx.rst:50
 msgid "``docs/locales/{{ component }}.pot``"
@@ -45820,16 +45795,12 @@ msgid ""
 msgstr ""
 
 #: ../../formats/android.rst:87
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid "``commonMain/composeResources/values-*/strings.xml``"
-msgstr "``res/values-*/strings.xml``"
+msgstr "``commonMain/composeResources/values-*/strings.xml``"
 
 #: ../../formats/android.rst:89
-#, fuzzy
-#| msgid "``res/values/strings.xml``"
 msgid "``commonMain/composeResources/values/strings.xml``"
-msgstr "``res/values/strings.xml``"
+msgstr "``commonMain/composeResources/values/strings.xml``"
 
 #: ../../formats/apple.rst:4
 msgid "Apple iOS strings"
@@ -45955,16 +45926,12 @@ msgstr ""
 "查”）。這可以通過以下方式自動化:ref:“addon-webblate.flags.bulk`。"
 
 #: ../../formats/appstore.rst:28
-#, fuzzy
-#| msgid "``fastlane/android/metadata/*``"
 msgid "``fastlane/metadata/android/*``"
-msgstr "``fastlane/android/metadata/*``"
+msgstr "``fastlane/metadata/android/*``"
 
 #: ../../formats/appstore.rst:30 ../../formats/appstore.rst:32
-#, fuzzy
-#| msgid "``fastlane/android/metadata/en-US``"
 msgid "``fastlane/metadata/android/en-US``"
-msgstr "``fastlane/android/metadata/en-US``"
+msgstr "``fastlane/metadata/android/en-US``"
 
 #: ../../formats/appstore.rst:34
 msgid "`App store metadata files`"
@@ -46999,16 +46966,12 @@ msgid ":doc:`tt:formats/md`"
 msgstr ":doc:`tt:formats/dtd`"
 
 #: ../../formats/markdown.rst:29
-#, fuzzy
-#| msgid "``path/*.srt``"
 msgid "``path/*.md``"
-msgstr "``path/*.srt``"
+msgstr "``path/*.md``"
 
 #: ../../formats/markdown.rst:31 ../../formats/markdown.rst:33
-#, fuzzy
-#| msgid "``path/en.srt``"
 msgid "``path/en.md``"
-msgstr "``path/en.srt``"
+msgstr "``path/en.md``"
 
 #: ../../formats/markdown.rst:35
 msgid "`Markdown file`"
@@ -47047,10 +47010,8 @@ msgstr ""
 "sort`，:ref:`addon-webblate.cleanup.generic`"
 
 #: ../../formats/mi18n.rst:35
-#, fuzzy
-#| msgid "``lang/*.rc``"
 msgid "``*.lang``"
-msgstr "``狼/*.如此``"
+msgstr "``*.lang``"
 
 #: ../../formats/mi18n.rst:37
 msgid "``en-US.lang``"
@@ -47314,10 +47275,8 @@ msgstr ""
 "documentation/xcode/localizing-strings-that-contain-plurals>`_"
 
 #: ../../formats/stringsdict.rst:28
-#, fuzzy
-#| msgid "``Resources/*.lproj/Localizable.strings``"
 msgid "``Resources/*.lproj/Localizable.stringsdict``"
-msgstr "``Resources/*.lproj/Localizable.strings``"
+msgstr "``Resources/*.lproj/Localizable.stringsdict``"
 
 #: ../../formats/stringsdict.rst:30
 #, fuzzy
@@ -47551,7 +47510,7 @@ msgstr "範例 Windows RC 檔案："
 
 #: ../../formats/winrc.rst:34
 msgid "``lang/*.rc``"
-msgstr "``狼/*.如此``"
+msgstr "``lang/*.rc``"
 
 #: ../../formats/winrc.rst:36 ../../formats/winrc.rst:38
 msgid "``lang/en-US.rc``"
@@ -48627,10 +48586,8 @@ msgid "Translation contains double space"
 msgstr "翻譯含有兩個空白"
 
 #: ../../user/checks.rst:173
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.checks.chars.DoubleSpaceCheck``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.checks.chars.DoubleSpaceCheck``"
 
 #: ../../user/checks.rst:174
 msgid "``double_space``"
@@ -48657,10 +48614,8 @@ msgid "Fluent parts should match"
 msgstr "Fluent 部分應當配對"
 
 #: ../../user/checks.rst:190
-#, fuzzy
-#| msgid "``weblate.checks.format.LuaFormatCheck``"
 msgid "``weblate.checks.fluent.parts.FluentPartsCheck``"
-msgstr "``weblate.checks.format.LuaFormatCheck``"
+msgstr "``weblate.checks.fluent.parts.FluentPartsCheck``"
 
 #: ../../user/checks.rst:191 ../../user/checks.rst:192
 msgid "``fluent-parts``"
@@ -48707,10 +48662,8 @@ msgid "Fluent references should match"
 msgstr "Fluent 引用應當配對"
 
 #: ../../user/checks.rst:230
-#, fuzzy
-#| msgid "``weblate.checks.format.PercentPlaceholdersCheck``"
 msgid "``weblate.checks.fluent.references.FluentReferencesCheck``"
-msgstr "``weblate.checks.format.PercentPlaceholdersCheck``"
+msgstr "``weblate.checks.fluent.references.FluentReferencesCheck``"
 
 #: ../../user/checks.rst:231 ../../user/checks.rst:232
 msgid "``fluent-references``"
@@ -48790,10 +48743,8 @@ msgid "Fluent target should be valid inner HTML that matches"
 msgstr "Fluent 目標應為配對的有效 inner HTML"
 
 #: ../../user/checks.rst:301
-#, fuzzy
-#| msgid "``weblate.checks.format.PercentPlaceholdersCheck``"
 msgid "``weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck``"
-msgstr "``weblate.checks.format.PercentPlaceholdersCheck``"
+msgstr "``weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck``"
 
 #: ../../user/checks.rst:302 ../../user/checks.rst:303
 msgid "``fluent-target-inner-html``"
@@ -48997,7 +48948,7 @@ msgstr "資訊"
 
 #: ../../user/checks.rst:430
 msgid "``Your balance is {{amount}} {{ currency }}``"
-msgstr "``您的餘額是{{ulity}} {{currency}}``"
+msgstr "``Your balance is {{amount}} {{ currency }}``"
 
 #: ../../user/checks.rst:434
 msgid ""
@@ -49035,7 +48986,7 @@ msgstr "PHP 格式字串"
 #: ../../user/checks.rst:759 ../../user/checks.rst:799
 #: ../../user/checks.rst:855
 msgid "``There are %d apples``"
-msgstr "``這裡有 %d 顆蘋果``"
+msgstr "``There are %d apples``"
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -49046,7 +48997,7 @@ msgstr "Python 格式字串"
 #: ../../user/checks.rst:449 ../../user/checks.rst:594
 #: ../../user/checks.rst:740 ../../user/checks.rst:760
 msgid "``Your balance is %1$d %2$s``"
-msgstr "``您的餘額是％1 $ d％2 $ s``"
+msgstr "``Your balance is %1$d %2$s``"
 
 #: ../../user/checks.rst:453 ../../user/checks.rst:708
 #, fuzzy
@@ -49082,7 +49033,7 @@ msgstr "``c_sharp_format``"
 
 #: ../../user/checks.rst:468 ../../user/checks.rst:618
 msgid "``There are {0} apples``"
-msgstr "``這裡有 {0} 顆蘋果``"
+msgstr "``There are {0} apples``"
 
 #: ../../user/checks.rst:472
 #, fuzzy
@@ -49120,7 +49071,7 @@ msgstr "身份驗證的例子"
 
 #: ../../user/checks.rst:486
 msgid "``There are ${number} apples``"
-msgstr "``這裡有 ${number} 顆蘋果``"
+msgstr "``There are ${number} apples``"
 
 #: ../../user/checks.rst:490
 msgid ""
@@ -49146,7 +49097,7 @@ msgstr "``i18next_interpolation``"
 
 #: ../../user/checks.rst:506
 msgid "``There are {{number}} apples``"
-msgstr "``這裡有 {{number}} 顆蘋果``"
+msgstr "``There are {{number}} apples``"
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -49156,7 +49107,7 @@ msgstr "身份驗證的例子"
 
 #: ../../user/checks.rst:507
 msgid "``There are $t(number) apples``"
-msgstr "``這裡有 $t(number) 顆蘋果``"
+msgstr "``There are $t(number) apples``"
 
 #: ../../user/checks.rst:511
 msgid ""
@@ -49183,7 +49134,7 @@ msgstr "``icu_message_format``"
 
 #: ../../user/checks.rst:528
 msgid "``There {number, plural, one {is one apple} other {are # apples}}.``"
-msgstr "``這裡有 {數量, 複數, 一 {一顆蘋果} 其他 {# 顆蘋果}}。``"
+msgstr "``There {number, plural, one {is one apple} other {are # apples}}.``"
 
 #: ../../user/checks.rst:530
 msgid ""
@@ -49482,7 +49433,7 @@ msgstr "``percent_placeholders``"
 
 #: ../../user/checks.rst:704
 msgid "``There are %number% apples``"
-msgstr "``這裡有 %number% 顆蘋果``"
+msgstr "``There are %number% apples``"
 
 #: ../../user/checks.rst:713
 msgid "Perl brace format"
@@ -49501,10 +49452,8 @@ msgid "``perl_brace_format``"
 msgstr "``perl_brace_format``"
 
 #: ../../user/checks.rst:721
-#, fuzzy
-#| msgid "``There are ${number} apples``"
 msgid "``There are {number} apples``"
-msgstr "``這裡有 ${number} 顆蘋果``"
+msgstr "``There are {number} apples``"
 
 #: ../../user/checks.rst:725
 #, fuzzy
@@ -49592,11 +49541,11 @@ msgstr ""
 
 #: ../../user/checks.rst:779
 msgid "``There are {} apples``"
-msgstr "``這裡有 {} 顆蘋果``"
+msgstr "``There are {} apples``"
 
 #: ../../user/checks.rst:780
 msgid "``Your balance is {amount} {currency}``"
-msgstr "``您的餘額是{COALE} {COMPORY}``"
+msgstr "``Your balance is {amount} {currency}``"
 
 #: ../../user/checks.rst:784
 msgid ""
@@ -49625,10 +49574,8 @@ msgid "``python_format``"
 msgstr "``python_format``"
 
 #: ../../user/checks.rst:800
-#, fuzzy
-#| msgid "``Your balance is %(amount) %(currency)``"
 msgid "``Your balance is %(amount)d %(currency)s``"
-msgstr "``您的餘額是％（金額）％（貨幣）``"
+msgstr "``Your balance is %(amount)d %(currency)s``"
 
 #: ../../user/checks.rst:804
 msgid ""
@@ -49658,7 +49605,7 @@ msgstr "``qt_format``"
 
 #: ../../user/checks.rst:819
 msgid "``There are %1 apples``"
-msgstr "``這裡有 %1 顆蘋果``"
+msgstr "``There are %1 apples``"
 
 #: ../../user/checks.rst:823
 msgid ""
@@ -49719,11 +49666,11 @@ msgstr "``ruby_format``"
 
 #: ../../user/checks.rst:856
 msgid "``Your balance is %1$f %2$s``"
-msgstr "``您的餘額是％1 $ f％2 $ s``"
+msgstr "``Your balance is %1$f %2$s``"
 
 #: ../../user/checks.rst:857
 msgid "``Your balance is %+.2<amount>f %<currency>s``"
-msgstr "``您的餘額是％+。2 <COMPELL> S``的2 <金額>"
+msgstr "``Your balance is %+.2<amount>f %<currency>s``"
 
 #: ../../user/checks.rst:0
 msgid "Named template string"
@@ -49731,7 +49678,7 @@ msgstr ""
 
 #: ../../user/checks.rst:858
 msgid "``Your balance is %{amount} %{currency}``"
-msgstr "``您的餘額是％{ulity}％{currency}``"
+msgstr "``Your balance is %{amount} %{currency}``"
 
 #: ../../user/checks.rst:862
 #, fuzzy
@@ -49763,7 +49710,7 @@ msgstr "``scheme_format``"
 
 #: ../../user/checks.rst:876
 msgid "``There are ~d apples``"
-msgstr "``這裡有 ~d 顆蘋果``"
+msgstr "``There are ~d apples``"
 
 #: ../../user/checks.rst:880
 msgid ""
@@ -49801,7 +49748,7 @@ msgstr "資訊"
 
 #: ../../user/checks.rst:896
 msgid "``There are {count} apples``"
-msgstr "``這裡有 {count} 顆蘋果``"
+msgstr "``There are {count} apples``"
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -49811,7 +49758,7 @@ msgstr "資訊"
 
 #: ../../user/checks.rst:897
 msgid "``There are %{count} apples``"
-msgstr "``這裡有 %{count} 顆蘋果``"
+msgstr "``There are %{count} apples``"
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -50302,10 +50249,8 @@ msgid "Source and translation do not both end with a question mark"
 msgstr "翻譯沒有和來源一致以問號結尾"
 
 #: ../../user/checks.rst:1209
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "``weblate.checks.chars.EndQuestionCheck``"
-msgstr "為建議投票"
+msgstr "``weblate.checks.chars.EndQuestionCheck``"
 
 #: ../../user/checks.rst:1210
 msgid "``end_question``"
@@ -50337,10 +50282,8 @@ msgid "Source and translation do not both end with a interrobang mark"
 msgstr "翻譯沒有和來源一致以刪節號結尾"
 
 #: ../../user/checks.rst:1229
-#, fuzzy
-#| msgid "``weblate.checks.chars.EndStopCheck``"
 msgid "``weblate.checks.chars.EndInterrobangCheck``"
-msgstr "``weblate.checks.chars.EndStopCheck``"
+msgstr "``weblate.checks.chars.EndInterrobangCheck``"
 
 #: ../../user/checks.rst:1230
 msgid "``end_Interrobang``"
@@ -50408,10 +50351,8 @@ msgid "Number of new lines in translation does not match source"
 msgstr "譯文中的換行數和源文不符"
 
 #: ../../user/checks.rst:1264
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
 msgid "``weblate.checks.chars.NewLineCountCheck``"
-msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
+msgstr "``weblate.checks.chars.NewLineCountCheck``"
 
 #: ../../user/checks.rst:1265
 msgid "``newline-count``"
@@ -51045,10 +50986,8 @@ msgid "The ``<four`` part would be lost as ``.innerHTML``."
 msgstr ""
 
 #: ../../user/checks.rst:1690
-#, fuzzy
-#| msgid "``threshold``"
 msgid "``three < four``"
-msgstr "``threshold``"
+msgstr "``three < four``"
 
 #: ../../user/checks.rst:1690
 msgid "The ``.innerHTML`` would match the ``.textContent``."
@@ -51074,7 +51013,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1693
 msgid "``<a-b>text</a-b>``"
-msgstr "``<a-b>文字</a-b>``"
+msgstr "``<a-b>text</a-b>``"
 
 #: ../../user/checks.rst:1693
 msgid "Custom element tag with a matching closing tag."
@@ -51082,7 +51021,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1694
 msgid "``a <img/> b``"
-msgstr ""
+msgstr "``a <img/> b``"
 
 #: ../../user/checks.rst:1694
 msgid "``img`` is a HTML void element. Self-closing is allowed."
@@ -51090,7 +51029,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1695
 msgid "``a <br> b``"
-msgstr ""
+msgstr "``a <br> b``"
 
 #: ../../user/checks.rst:1695
 msgid "``br`` is a HTML void element."
@@ -51150,7 +51089,7 @@ msgstr "XML標記無效。"
 
 #: ../../user/checks.rst:1702
 msgid "``three<{ $val }``"
-msgstr ""
+msgstr "``three<{ $val }``"
 
 #: ../../user/checks.rst:1702
 msgid "The Fluent variable may unintentionally become a tag."
@@ -51158,7 +51097,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1703
 msgid "``&l{ $val }``"
-msgstr ""
+msgstr "``&l{ $val }``"
 
 #: ../../user/checks.rst:1703
 msgid "The Fluent variable may unintentionally become a character reference."
@@ -51341,7 +51280,7 @@ msgstr "該字串為複數，但沒有使用複數形"
 
 #: ../../user/checks.rst:1828
 msgid "``weblate.checks.source.OptionalPluralCheck``"
-msgstr "``weblate.checks.source.OptionalPluralCheck``—"
+msgstr "``weblate.checks.source.OptionalPluralCheck``"
 
 #: ../../user/checks.rst:1829
 msgid "``optional_plural``"
@@ -52657,10 +52596,8 @@ msgid "Project slug, see :ref:`project-slug`."
 msgstr ""
 
 #: ../../user/search.rst:76
-#, fuzzy
-#| msgid "``state:TEXT``"
 msgid "``path:TEXT``"
-msgstr "``state:TEXT``"
+msgstr "``path:TEXT``"
 
 #: ../../user/search.rst:77
 msgid ""
@@ -52712,10 +52649,8 @@ msgstr ""
 "以及帶有連字元替換的空格或小寫和空格。請參閱:ref:“搜尋 - 更改”以取得示例。"
 
 #: ../../user/search.rst:91
-#, fuzzy
-#| msgid "``changed:DATETIME``"
 msgid "``source_changed:DATETIME``"
-msgstr "``changed:DATETIME``"
+msgstr "``source_changed:DATETIME``"
 
 #: ../../user/search.rst:92
 #, fuzzy
@@ -52785,10 +52720,8 @@ msgid "Filter by suggestion author."
 msgstr ""
 
 #: ../../user/search.rst:107
-#, fuzzy
-#| msgid "Explanation"
 msgid "``explanation:TEXT``"
-msgstr "解釋"
+msgstr "``explanation:TEXT``"
 
 #: ../../user/search.rst:108
 msgid "Search in explanations."
@@ -52863,7 +52796,7 @@ msgstr "在兩個給定的日期之間發生了變化。"
 
 #: ../../user/search.rst:133
 msgid "``position:[10 to 100]``"
-msgstr ""
+msgstr "``position:[10 to 100]``"
 
 #: ../../user/search.rst:134
 msgid "Strings with position between 10 and 100 (inclusive)."
@@ -52953,10 +52886,8 @@ msgid "The user browsing has similar search abilities:"
 msgstr ""
 
 #: ../../user/search.rst:189
-#, fuzzy
-#| msgid "Filename"
 msgid "``username:TEXT``"
-msgstr "檔名"
+msgstr "``username:TEXT``"
 
 #: ../../user/search.rst:190
 #, fuzzy
@@ -52965,10 +52896,8 @@ msgid "Search in usernames."
 msgstr "字串標籤"
 
 #: ../../user/search.rst:191
-#, fuzzy
-#| msgid "Explanation"
 msgid "``full_name:TEXT``"
-msgstr "解釋"
+msgstr "``full_name:TEXT``"
 
 #: ../../user/search.rst:192
 #, fuzzy
@@ -52987,26 +52916,20 @@ msgid ""
 msgstr "由 :command:`./scripts/list-translated-languages` 來檢查新翻譯的語言。"
 
 #: ../../user/search.rst:195
-#, fuzzy
-#| msgid "``changed:DATETIME``"
 msgid "``joined:DATETIME``"
-msgstr "``changed:DATETIME``"
+msgstr "``joined:DATETIME``"
 
 #: ../../user/search.rst:197
-#, fuzzy
-#| msgid "translated"
 msgid "``translates:TEXT``"
-msgstr "已翻譯"
+msgstr "``translates:TEXT``"
 
 #: ../../user/search.rst:198
 msgid "User has contributed to a given language in the past 90 days."
 msgstr ""
 
 #: ../../user/search.rst:199
-#, fuzzy
-#| msgid "``context:TEXT``"
 msgid "``contributes:TEXT``"
-msgstr "``context:TEXT``"
+msgstr "``contributes:TEXT``"
 
 #: ../../user/search.rst:200
 msgid ""
@@ -53022,10 +52945,8 @@ msgid "Additional lookups are available in the :ref:`management-interface`:"
 msgstr "還可以復查來自 :ref:`management-interface` 的每個檢查表。"
 
 #: ../../user/search.rst:204
-#, fuzzy
-#| msgid "``is:TEXT``"
 msgid "``is:bot``"
-msgstr "``is:TEXT``"
+msgstr "``is:bot``"
 
 #: ../../user/search.rst:205
 #, fuzzy
@@ -53034,10 +52955,8 @@ msgid "Search for bots (used for project scoped tokens)."
 msgstr "使用者是否是超級使用者"
 
 #: ../../user/search.rst:206
-#, fuzzy
-#| msgid "active"
 msgid "``is:active``"
-msgstr "有效"
+msgstr "``is:active``"
 
 #: ../../user/search.rst:207
 #, fuzzy
@@ -53046,10 +52965,8 @@ msgid "Search for active users."
 msgstr "搜尋完整字串「%s」"
 
 #: ../../user/search.rst:208
-#, fuzzy
-#| msgid "``is:TEXT``"
 msgid "``email:TEXT``"
-msgstr "``is:TEXT``"
+msgstr "``email:TEXT``"
 
 #: ../../user/search.rst:209
 #, fuzzy
@@ -53069,10 +52986,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/search.rst:222
-#, fuzzy
-#| msgid "``changed:2019``"
 msgid "``changed:>=\"2 weeks ago\"``"
-msgstr "``changed:2019``"
+msgstr "``changed:>=\"2 weeks ago\"``"
 
 #: ../../user/search.rst:223
 msgid ""
@@ -53080,10 +52995,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/search.rst:224
-#, fuzzy
-#| msgid "``changed:2019``"
 msgid "``changed:>=yesterday``"
-msgstr "``changed:2019``"
+msgstr "``changed:>=yesterday``"
 
 #: ../../user/search.rst:225
 msgid "Returns strings that are changed starting yesterday."
