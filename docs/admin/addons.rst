@@ -368,10 +368,6 @@ Bulk edit
 
 Bulk edit flags, labels, or states of strings.
 
-Automate labeling by starting out with the search query ``NOT has:label``
-and add labels till all strings have all required labels.
-Other automated operations for Weblate metadata can also be done.
-
 **Examples:**
 
 .. list-table:: Label new strings automatically
