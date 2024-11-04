@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 09:40+0100\n"
-"PO-Revision-Date: 2024-11-04 09:33+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-11-05 01:47+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -10221,6 +10221,9 @@ msgid ""
 "definitions expand over time and it will not display language code for the "
 "defined languages."
 msgstr ""
+"De este modo, la visualización de los idiomas puede resultar incoherente. "
+"Las definiciones de idiomas de Weblate se amplían con el tiempo y no "
+"mostrará el código de idioma para los idiomas definidos."
 
 #: ../../admin/config.rst:1918
 msgid ":ref:`included-languages`"
@@ -10326,7 +10329,7 @@ msgstr ""
 
 #: ../../admin/config.rst:2014
 msgid "WEBLATE_ADDONS"
-msgstr ""
+msgstr "WEBLATE_ADDONS"
 
 #: ../../admin/config.rst:2016
 msgid ""
@@ -10348,12 +10351,12 @@ msgid ""
 ":ref:`addons`, :setting:`DEFAULT_ADDONS`, :setting:"
 "`ADDON_ACTIVITY_LOG_EXPIRY`"
 msgstr ""
+":ref:`addons`, :setting:`DEFAULT_ADDONS`, "
+":setting:`ADDON_ACTIVITY_LOG_EXPIRY`"
 
 #: ../../admin/config.rst:2069
-#, fuzzy
-#| msgid "AUDITLOG_EXPIRY"
 msgid "ADDON_ACTIVITY_LOG_EXPIRY"
-msgstr "AUDITLOG_EXPIRY"
+msgstr "ADDON_ACTIVITY_LOG_EXPIRY"
 
 #: ../../admin/config.rst:2073
 msgid ""
@@ -10707,6 +10710,12 @@ msgid ""
 "to review them. Git is then sometimes no longer able to identify upstream "
 "changes as matching the Weblate ones and refuses to perform a rebase."
 msgstr ""
+"La razón de los conflictos de fusión es diferente en este caso - hay cambios "
+"en Weblate que ocurrieron después de que usted fusionara los commits de "
+"Weblate. Esto suele ocurrir si la fusión no está automatizada y se espera "
+"durante días o semanas a que un humano los revise. Git a veces ya no es "
+"capaz de identificar los cambios aguas arriba como coincidentes con los de "
+"Weblate y se niega a realizar un rebase."
 
 #: ../../admin/continuous.rst:178
 msgid ""
@@ -10724,6 +10733,9 @@ msgid ""
 "Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge "
 "time. This is the root cause why git doesn't recognize changes after merging."
 msgstr ""
+"No utilice :ref:`addon-weblate.git.squash` ni squashing en el momento de la "
+"fusión. Esta es la causa principal por la que git no reconoce los cambios "
+"después de la fusión."
 
 #: ../../admin/continuous.rst:185
 msgid ""
@@ -11491,6 +11503,8 @@ msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings (:"
 "setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):"
 msgstr ""
+"Añada su ruta completa a la clase Python en la configuración dedicada "
+"(:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` o :setting:`AUTOFIX_LIST`):"
 
 #: ../../admin/customize.rst:151
 msgid ""
@@ -12318,7 +12332,7 @@ msgstr ""
 
 #: ../../admin/install.rst:415
 msgid ":math:`(4 \\times \\mathit{nCPUs}) + 2` for Celery processes"
-msgstr ""
+msgstr ":math:`(4 \\mathit{nCPUs}) + 2` para procesos Celery"
 
 #: ../../admin/install.rst:416
 msgid ":math:`\\mathit{nCPUs} + 1` for WSGI workers"
@@ -12348,6 +12362,8 @@ msgid ""
 "If case process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
 msgstr ""
+"Si el proceso case es eliminado (por ejemplo por OOM killer), puede bloquear "
+"la conexión existente hasta que se agote el tiempo de espera."
 
 #: ../../admin/install.rst:429
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
@@ -12595,6 +12611,8 @@ msgid ""
 "In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
 "which is set by the WSGI handler."
 msgstr ""
+"En la configuración por defecto, Weblate analiza la dirección IP de "
+"``REMOTE_ADDR``, que es establecida por el gestor WSGI."
 
 #: ../../admin/install.rst:682
 msgid ""
@@ -12949,6 +12967,9 @@ msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
 msgstr ""
+"Configurar esto incorrectamente puede romper irreversiblemente (durante "
+"algún tiempo) su sitio. Lea primero la documentación :ref:`django:http-"
+"strict-transport-security`."
 
 #: ../../admin/install.rst:1002
 msgid "Use a powerful database engine"
@@ -13300,6 +13321,10 @@ msgid ""
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
 "ownership, leading to runtime issues."
 msgstr ""
+"El proceso WSGI tiene que ser ejecutado bajo el mismo usuario que el proceso "
+"Celery, de lo contrario los archivos en el :setting:`DATA_DIR` se "
+"almacenarán con propiedad mixta, dando lugar a problemas en tiempo de "
+"ejecución."
 
 #: ../../admin/install.rst:1301
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
@@ -13566,6 +13591,10 @@ msgid ""
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
+"El proceso Celery tiene que ser ejecutado bajo el mismo usuario que el "
+"proceso WSGI, de lo contrario los archivos en el :setting:`DATA_DIR` se "
+"almacenarán con propiedad mixta, dando lugar a problemas en tiempo de "
+"ejecución."
 
 #: ../../admin/install.rst:1509
 msgid "See also :ref:`file-permissions` and :ref:`server`."
@@ -14160,6 +14189,11 @@ msgid ""
 "latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which "
 "will do the migration and then continue upgrading to newer versions."
 msgstr ""
+"Weblate no admite actualizaciones entre versiones principales. Por ejemplo, "
+"si estás en la serie 3.x y quieres actualizar a la 4.x, primero actualiza a "
+"la última imagen 4.0.x-y (en el momento de escribir esto es la ``4.0.4-5``), "
+"que hará la migración y luego continuar actualizando a versiones más "
+"recientes."
 
 #: ../../admin/install/docker.rst:245
 msgid ""
@@ -14665,6 +14699,8 @@ msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
 msgstr ""
+"Puede sustituir toda la configuración o modificar el valor predeterminado "
+"mediante las variables ``ADD`` y ``REMOVE``."
 
 #: ../../admin/install/docker.rst:769
 msgid "To enforce authentication for the contact form, do:"
@@ -15265,6 +15301,9 @@ msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request."
 msgstr ""
+"La duración de una conexión a la base de datos, como un entero de segundos. "
+"Utilice 0 para cerrar las conexiones a la base de datos al final de cada "
+"solicitud."
 
 #: ../../admin/install/docker.rst:1457
 msgid ""
@@ -15611,16 +15650,12 @@ msgstr ""
 "automáticas habilitadas se puede ajustar mediante las siguientes variables:"
 
 #: ../../admin/install/docker.rst:1809
-#, fuzzy
-#| msgid ""
-#| ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:"
-#| "`WEBLATE_ADDONS`, :setting:`django:INSTALLED_APPS`"
 msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS` :setting:`WEBLATE_MACHINERY`"
 msgstr ""
-":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
-"setting:`django:INSTALLED_APPS`"
+":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, "
+":setting:`django:INSTALLED_APPS` :setting:`WEBLATE_MACHINERY`"
 
 #: ../../admin/install/docker.rst:1816
 msgid "Container settings"
@@ -16159,6 +16194,11 @@ msgid ""
 "every time it is changed. For further configuration options, see :ref:"
 "`docker-environment` for full list of environment variables."
 msgstr ""
+"Al procesar la plantilla se creará un ``ConfigMap`` respectivo que se puede "
+"utilizar para personalizar la imagen de Weblate. El ``ConfigMap`` se monta "
+"directamente como variables de entorno y desencadena un nuevo despliegue "
+"cada vez que se modifica. Para más opciones de configuración, véase :ref"
+":`docker-environment` para una lista completa de variables de entorno."
 
 #: ../../admin/install/source.rst:2
 msgid "Installing from sources"
@@ -16459,6 +16499,11 @@ msgid ""
 "`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` or :ref:"
 "`fluent`, see :ref:`formats` for more details."
 msgstr ""
+"Los campos importantes aquí son: :ref:`component-name`, :ref:`component-repo`"
+" y :ref:`component-filemask` para encontrar archivos traducibles. Weblate "
+"admite una amplia gama de formatos, incluidos :ref:`gettext`, "
+":ref:`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` o "
+":ref:`fluent`. Consulte :ref:`formats` para obtener más detalles."
 
 #: ../../admin/install/steps/install-after.rst:31
 msgid ""
@@ -17093,6 +17138,9 @@ msgid ""
 "API URL to use with the DeepL service. At the time of writing, there is the "
 "v1 API as well as a free and a paid version of the v2 API."
 msgstr ""
+"URL de la API para utilizar con el servicio DeepL. En el momento de escribir "
+"estas líneas, existe la API v1, así como una versión gratuita y otra de pago "
+"de la API v2."
 
 #: ../../admin/machine.rst:160
 msgid "``https://api.deepl.com/v2/`` (default in Weblate)"
@@ -17188,6 +17236,10 @@ msgid ""
 "license of the used data source. There is a limit of calls that may be done "
 "from one IP in a set period of time, to prevent abuse."
 msgstr ""
+"El uso de la API es gratuito, pero la utilización de las traducciones está "
+"sujeta a la licencia de la fuente de datos utilizada. Hay un límite de "
+"llamadas que se pueden hacer desde una IP en un periodo de tiempo "
+"determinado, para evitar abusos."
 
 #: ../../admin/machine.rst:210
 msgid "`Glosbe website <https://glosbe.com/>`_"
@@ -19737,6 +19789,9 @@ msgid ""
 "authentication will be turned off on the account until having gone through "
 "the process of having its password reset."
 msgstr ""
+"Si un usuario no consigue iniciar sesión :setting:`AUTH_LOCK_ATTEMPTS` "
+"veces, la autenticación de contraseña se desactivará en la cuenta hasta que "
+"haya pasado por el proceso de restablecimiento de su contraseña."
 
 #: ../../admin/optionals.rst:307
 msgid ""
@@ -19830,6 +19885,8 @@ msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
+"Weblate admite una amplia gama de formatos de traducción (tanto bilingües "
+"como monolingües) compatibles con Translate Toolkit, consulte :ref:`formats`."
 
 #: ../../admin/projects.rst:30
 msgid ""
@@ -20667,6 +20724,10 @@ msgid ""
 "translating, sometimes it's desirable to have make use of a translation more "
 "than once."
 msgstr ""
+"Puede desactivar la propagación de traducciones a este componente desde "
+"otros componentes dentro del mismo proyecto. Esto realmente depende de lo "
+"que esté traduciendo, a veces es deseable tener que hacer uso de una "
+"traducción más de una vez."
 
 #: ../../admin/projects.rst:582
 msgid ""
@@ -20839,6 +20900,12 @@ msgid ""
 "translation files). In Weblate you can manage strings for every translation "
 "and it does not enforce the strings in all translations to be consistent."
 msgstr ""
+"Para los formatos bilingües, las cadenas se extraen normalmente del código "
+"fuente (por ejemplo utilizando :program:`xgettext`) y debería desactivarse "
+"la adición de nuevas cadenas en Weblate (se descartarían la próxima vez que "
+"actualice los archivos de traducción). En Weblate puedes gestionar cadenas "
+"para cada traducción y no obliga a que las cadenas de todas las traducciones "
+"sean coherentes."
 
 #: ../../admin/projects.rst:708
 msgid ""
@@ -21069,6 +21136,10 @@ msgid ""
 "commit every time (even when fast-forward would be possible). Every Weblate "
 "change will appear as a merge commit in Weblate repository."
 msgstr ""
+"Los cambios del repositorio ascendente se fusionan en uno de Weblate "
+"haciendo una confirmación de fusión cada vez (incluso cuando sería posible "
+"un avance rápido). Cada cambio de Weblate aparecerá como una confirmación de "
+"fusión en el repositorio de Weblate."
 
 #: ../../admin/projects.rst:807
 #, fuzzy
@@ -21087,22 +21158,16 @@ msgid "Message used when committing a translation, see :ref:`markup`."
 msgstr ""
 
 #: ../../admin/projects.rst:821
-#, fuzzy
-#| msgid ""
-#| "Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
-#| "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
-#| "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
-#| "`DEFAULT_PULL_MESSAGE`."
 msgid ""
 "The default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
 "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
 "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
 "`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"El valor predeterminado se puede cambiar mediante :setting:"
-"`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, :setting:"
-"`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, :setting:"
-"`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
+"El valor por defecto se puede cambiar con :setting:`DEFAULT_ADD_MESSAGE`, "
+":setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, "
+":setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, "
+":setting:`DEFAULT_PULL_MESSAGE`."
 
 #: ../../admin/projects.rst:829
 msgid "Push on commit"
@@ -21710,6 +21775,10 @@ msgid ""
 "some time during import if omitted. See :setting:`CHECK_LIST` for info on "
 "configuration."
 msgstr ""
+"Algunas comprobaciones de calidad pueden ser bastante caras, y si no son "
+"necesarias, pueden ahorrarle algo de tiempo durante la importación si se "
+"omiten. Consulte :setting:`CHECK_LIST` para obtener información sobre la "
+"configuración."
 
 #: ../../admin/projects.rst:1180
 msgid "Automatic creation of components"
@@ -22151,6 +22220,13 @@ msgid ""
 "across multiple releases should work, but is not as well tested as single "
 "version upgrades!"
 msgstr ""
+"Consulte siempre las :ref:`version-specific-instructions` antes de "
+"actualizar. Si se salta alguna versión, asegúrese de seguir las "
+"instrucciones de todas las versiones que se salte durante dicha "
+"actualización. A veces es mejor actualizar gradualmente a una versión "
+"intermedia para garantizar una migración sin problemas. ¡La actualización a "
+"varias versiones debería funcionar, pero no está tan probada como las "
+"actualizaciones a una única versión!"
 
 #: ../../admin/upgrade.rst:33
 msgid ""
@@ -22221,6 +22297,9 @@ msgid ""
 "If you are running an installation from Git, you should also regenerate "
 "locale files every time you upgrade. You can do this by invoking:"
 msgstr ""
+"Si está ejecutando una instalación desde Git, también debe regenerar los "
+"archivos de configuración regional cada vez que actualice. Puede hacerlo "
+"invocando:"
 
 #: ../../admin/upgrade.rst:103
 msgid "Verify that your setup is sane (see also :ref:`production`):"
@@ -23530,11 +23609,11 @@ msgstr "Devuelve estadísticas sobre un proyecto."
 
 #: ../../api.rst:1228 ../../api.rst:1806
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Marca de tiempo ISO 8601 (obligatoria)"
 
 #: ../../api.rst:1230 ../../api.rst:1808
 msgid "Upper-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Sello de tiempo ISO 8601 (obligatorio)"
 
 #: ../../api.rst:1232 ../../api.rst:1810
 #, fuzzy
@@ -23555,10 +23634,8 @@ msgid "Full name of the contributor"
 msgstr "Acepto el acuerdo de contribuidor"
 
 #: ../../api.rst:1236 ../../api.rst:1814
-#, fuzzy
-#| msgid "Number of shared entries in this Weblate instance"
 msgid "Number of changes done in the time range"
-msgstr "Cantidad de entradas en esta instancia de Weblate compartidas"
+msgstr "Número de cambios realizados en el intervalo de tiempo"
 
 #: ../../api.rst:1243
 msgid ""
@@ -24231,11 +24308,11 @@ msgstr ""
 
 #: ../../api.rst:2026
 msgid "Timestamp of last change to this file."
-msgstr ""
+msgstr "Marca de tiempo del último cambio en este archivo."
 
 #: ../../api.rst:2027
 msgid "Skips response if the file has not been modified since that time."
-msgstr ""
+msgstr "Omite la respuesta si el archivo no se ha modificado desde ese momento."
 
 #: ../../api.rst:2029
 #, fuzzy
@@ -24514,15 +24591,17 @@ msgstr ""
 
 #: ../../api.rst:2240
 msgid "Action to filter, can be used several times"
-msgstr ""
+msgstr "Acción para filtrar, se puede utilizar varias veces"
 
 #: ../../api.rst:2241
 msgid "ISO 8601 formatted timestamp to list changes after"
 msgstr ""
+"Marca de tiempo con formato ISO 8601 para enumerar los cambios posteriores"
 
 #: ../../api.rst:2242
 msgid "ISO 8601 formatted timestamp to list changes before"
 msgstr ""
+"Marca de tiempo con formato ISO 8601 para enumerar los cambios anteriores"
 
 #: ../../api.rst:2246
 msgid "Returns information about translation change."
@@ -24551,7 +24630,7 @@ msgstr ""
 
 #: ../../api.rst:2255
 msgid "event timestamp"
-msgstr "cronomarcador de suceso"
+msgstr "marca de tiempo del evento"
 
 #: ../../api.rst:2256
 msgid "numeric identification of action"
@@ -26162,6 +26241,7 @@ msgstr ""
 #: ../../changes.rst:207
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
 msgstr ""
+":ref:`check-max-size` a veces fallaba al renderizar la captura de pantalla."
 
 #: ../../changes.rst:211
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
@@ -26202,6 +26282,10 @@ msgid ""
 "``SOCIAL_AUTH_PIPELINE`` and ``MIDDLEWARE``; please adjust your settings "
 "accordingly."
 msgstr ""
+"Hay varios cambios en :file:`settings_example.py`, los más notables son la "
+"nueva configuración para :ref:`2fa` y los cambios en ``INSTALLED_APPS``, "
+"``SOCIAL_AUTH_PIPELINE`` y ``MIDDLEWARE``; por favor, ajuste su "
+"configuración en consecuencia."
 
 #: ../../changes.rst:223
 msgid ""
@@ -26324,6 +26408,10 @@ msgid ""
 "`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :"
 "envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` for CORS handling in API."
 msgstr ""
+"El contenedor Docker acepta :envvar:`WEBLATE_REMOVE_ADDONS` y "
+":envvar:`WEBLATE_ADD_MACHINERY` para personalizar los servicios de "
+"sugerencias automáticas y :envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` para la "
+"gestión de CORS en la API."
 
 #: ../../changes.rst:259
 msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
@@ -32952,6 +33040,8 @@ msgid ""
 "Integration of `django-cors-headers` requires changes in :setting:`django:"
 "INSTALLED_APPS` and :setting:`django:MIDDLEWARE`."
 msgstr ""
+"La integración de `django-cors-headers` requiere cambios en "
+":setting:`django:INSTALLED_APPS` y :setting:`django:MIDDLEWARE`."
 
 #: ../../changes/v4.rst:178
 #, fuzzy
@@ -34890,6 +34980,9 @@ msgid ""
 "middleware changes (:setting:`django:MIDDLEWARE`), please adjust your "
 "settings accordingly."
 msgstr ""
+"Hay varios cambios en :file:`settings_example.py`, los más notables cambios "
+"de middleware (:setting:`django:MIDDLEWARE`), por favor ajuste su "
+"configuración en consecuencia."
 
 #: ../../changes/v4.rst:704
 msgid ""
@@ -36077,6 +36170,9 @@ msgid ""
 "you are translating (expect around one hour of migration time per 100,000 "
 "source strings)."
 msgstr ""
+"La migración de la base de datos a 4.3 puede llevar mucho tiempo dependiendo "
+"de la cantidad de cadenas que esté traduciendo (espere alrededor de una hora "
+"de tiempo de migración por cada 100 000 cadenas de origen)."
 
 #: ../../changes/v4.rst:1028 ../../changes/v4.rst:1178
 msgid "There is a change in :setting:`django:INSTALLED_APPS`."
@@ -36907,6 +37003,9 @@ msgid ""
 "wide range of :ref:`file formats <formats>`, making it easy for translators "
 "to contribute."
 msgstr ""
+"Herramienta de localización continua basada en web con soporte :ref:`vcs` "
+"estricto que admite una amplia gama de :ref:`formatos de archivo <formats>`, "
+"lo que facilita la contribución de los traductores."
 
 #: ../../contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
@@ -37796,6 +37895,10 @@ msgid ""
 "feature while editing, don’t change its docs before you have the answer. "
 "This means: You change or ask. Don’t do both at the same time."
 msgstr ""
+"No tengas miedo de preguntar si no estás seguro. Si tienes que preguntar "
+"sobre alguna característica mientras estás editando, no cambies la "
+"documentación antes de tener la respuesta. Esto significa: cambias o "
+"preguntas. No hagas ambas cosas al mismo tiempo."
 
 #: ../../contributing/index.rst:48
 msgid ""
@@ -38233,6 +38336,10 @@ msgid ""
 "policies that are geared toward delivering timely security updates to "
 "Weblate."
 msgstr ""
+"El equipo de desarrollo de Weblate está firmemente comprometido con la "
+"divulgación y los informes responsables de problemas relacionados con la "
+"seguridad. Hemos adoptado y seguimos políticas orientadas a entregar "
+"actualizaciones de seguridad a Weblate de manera oportuna."
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -38635,19 +38742,15 @@ msgstr "proyecto/componente"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
-msgstr ""
+msgstr "**fuente**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source string"
 msgid "*The Source String*"
-msgstr "Cadena de origen"
+msgstr "*Cadena de origen*"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Yellow"
 msgid "Hello"
-msgstr "Amarillo"
+msgstr "Hola"
 
 #: ../../contributing/schemas.rst:9
 msgid "minLength"
@@ -38667,7 +38770,7 @@ msgstr "Idioma del código fuente"
 
 #: ../../contributing/schemas.rst:9
 msgid "ISO 639-1 / ISO 639-2 / IETF BCP 47"
-msgstr ""
+msgstr "ISO 639-1 / ISO 639-2 / IETF BCP 47"
 
 #: ../../contributing/schemas.rst:9
 msgid "en"
@@ -38752,10 +38855,8 @@ msgid "*Basic*"
 msgstr "Básico"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "**username**"
-msgstr "Nombre de usuario"
+msgstr "*nombre de usuario*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Username*"
@@ -38783,7 +38884,7 @@ msgstr "Cliente de Weblate"
 
 #: ../../contributing/schemas.rst:19
 msgid "**email**"
-msgstr ""
+msgstr "**correo electrónico**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*E-mail*"
@@ -38794,22 +38895,16 @@ msgid "noreply@example.com"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "C format"
 msgid "format"
-msgstr "Formato C"
+msgstr "formato"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Email"
 msgid "email"
-msgstr "Correo electrónico"
+msgstr "correo electrónico"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "**date\\_joined**"
-msgstr "Fecha de incorporación"
+msgstr "**date\\_joined**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Date joined*"
@@ -38817,17 +38912,15 @@ msgstr "*Fecha de incorporación*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:53:54.862Z"
-msgstr ""
+msgstr "18-11-2019T18:53:54.862Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "date-time"
-msgstr ""
+msgstr "fecha-hora"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "**profile**"
-msgstr "Perfil"
+msgstr "**perfil**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Profile*"
@@ -38848,45 +38941,32 @@ msgid "^[^ ]\\*$"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Suggested"
 msgid "**suggested**"
-msgstr "Sugerida"
+msgstr "**sugerida**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "*Number of suggested strings*"
-msgstr "Cantidad de cadenas de origen"
+msgstr "*Número de cadenas sugeridas*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "translated"
 msgid "**translated**"
-msgstr "traducido"
+msgstr "**traducido**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "*Number of translated strings*"
-msgstr "Número de cadenas sin traducir"
+msgstr "*Número de cadenas sin traducir*"
 
 #: ../../contributing/schemas.rst:19
 msgid "24"
-msgstr ""
+msgstr "24"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "**uploaded**"
-msgstr "Cargado por"
+msgstr "**Cargado por**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "*Number of uploaded screenshots*"
-msgstr "Cantidad de entradas compartidas cargadas"
+msgstr "*Cantidad de entradas compartidas cargadas*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_completed**"
@@ -40013,6 +40093,12 @@ msgid ""
 "also receive translator comments if you setup :ref:`component-"
 "report_source_bugs`."
 msgstr ""
+"Muchas veces, los traductores encontrarán problemas con las cadenas de "
+"origen. Asegúrese de que les resulte fácil informar sobre dichos problemas. "
+"Para recopilar esta información, puede configurar el campo :ref:`component-"
+"repoweb` en su componente Weblate, para que los traductores propongan sus "
+"cambios al repositorio original. También puede recibir comentarios de los "
+"traductores si configura :ref:`component-report_source_bugs`."
 
 #: ../../devel/community.rst:11
 msgid "Community localization checklist"
@@ -40064,6 +40150,10 @@ msgid ""
 "supports the needed languages and domains. Make clear how the translation "
 "backend functions and which quality the post-editor has to expect."
 msgstr ""
+"La calidad de la traducción automática (que suele medirse con la puntuación "
+"BLEU) se correlaciona con el tiempo de edición [1]. Elija un backend "
+"automático que admita los idiomas y dominios necesarios. Deje en claro cómo "
+"funciona el backend de traducción y qué calidad debe esperar el poseditor."
 
 #: ../../devel/community.rst:31
 #, fuzzy
@@ -40225,6 +40315,12 @@ msgid ""
 "to have it in the version control, you can generate it in Weblate using :ref:"
 "`addon-weblate.gettext.mo` add-on."
 msgstr ""
+":file:`LANGUAGE.mo` contiene una representación binaria de :file:`LANGUAGE."
+"po` y se utiliza en tiempo de ejecución de la aplicación. Normalmente no se "
+"mantiene bajo control de versiones, sino que se genera en tiempo de "
+"compilación mediante `msgfmt`_. En caso de que desee tenerlo en el control "
+"de versiones, puede generarlo en Weblate utilizando el complemento :ref"
+":`addon-weblate.gettext.mo`."
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU gettext workflow looks like this:"
@@ -40297,6 +40393,9 @@ msgid ""
 "gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ file used by the "
 "`GNU gettext`_ functions at runtime."
 msgstr ""
+"Este archivo se compila en una forma binaria optimizada, el archivo `.mo "
+"<https://www.gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ "
+"utilizado por las funciones `GNU gettext`_ en tiempo de ejecución."
 
 #: ../../devel/gettext.rst:198
 msgid "Updating strings"
@@ -40911,6 +41010,12 @@ msgid ""
 "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
 "the dashboard, any translation component, or project:"
 msgstr ""
+"Las funciones de generación de informes brindan información sobre el "
+"progreso de la traducción durante un período determinado. Se proporciona un "
+"resumen de las contribuciones a cualquier componente determinado a lo largo "
+"del tiempo. La herramienta de generación de informes se encuentra en el menú "
+":guilabel:`Insights` del panel de control, cualquier componente de "
+"traducción o proyecto:"
 
 #: ../../devel/reporting.rst:11
 msgid ""
@@ -40926,6 +41031,10 @@ msgid ""
 "case, the contributions are counted at midnight – that means that it "
 "includes the starting date and excludes the ending date."
 msgstr ""
+"Puede elegir períodos predefinidos o ingresar un rango de fechas "
+"personalizado. En ese caso, las contribuciones se contabilizan a medianoche, "
+"lo que significa que incluye la fecha de inicio y excluye la fecha de "
+"finalización."
 
 #: ../../devel/reporting.rst:23
 msgid "Number of words"
@@ -41148,6 +41257,10 @@ msgid ""
 "of reporting it - a typical example is a missing full stop at the end of a "
 "sentence."
 msgstr ""
+"Las comprobaciones erróneas de cadenas de traducción que no funcionan "
+"indican que el problema está en la cadena de origen. A veces, los "
+"traductores corrigen errores en la traducción en lugar de informarlos; un "
+"ejemplo típico es la falta de un punto al final de una oración."
 
 #: ../../devel/review.rst:40
 msgid ""
@@ -41346,6 +41459,11 @@ msgid ""
 "translate. Without context most people would translate that as our closest "
 "star, but it might be actually used as an abbreviation for Sunday."
 msgstr ""
+"Por último, pero no por ello menos importante, a veces puede ser necesario "
+"añadir algo de contexto a la cadena traducida. Imaginemos que un traductor "
+"recibe la cadena ``Sol`` para traducir. Sin contexto, la mayoría de la gente "
+"la traduciría como nuestra estrella más cercana, pero en realidad podría "
+"usarse como una abreviatura de domingo."
 
 #: ../../devel/starting.rst:24
 msgid "Choosing internationalization framework"
@@ -41887,6 +42005,14 @@ msgid ""
 "maintenance` in the :guilabel:`Manage` menu) and merge the repository (if "
 "automatic push is not on)."
 msgstr ""
+"De vez en cuando, se producen conflictos de fusión cuando se modifica el "
+"archivo de traducción tanto en Weblate como en el repositorio original al "
+"mismo tiempo. Normalmente, puede evitar esto fusionando las traducciones de "
+"Weblate antes de realizar cambios en los archivos de traducción (por "
+"ejemplo, antes de ejecutar msgmerge). Simplemente indique a Weblate que "
+"confirme todas las traducciones pendientes (puede hacerlo en :guilabel:`"
+"Mantenimiento del repositorio` en el menú :guilabel:`Administrar`) y fusione "
+"el repositorio (si la inserción automática no está activada)."
 
 #: ../../faq.rst:46
 msgid ""
@@ -42250,6 +42376,10 @@ msgid ""
 "or translations needing review. This is the best approach for a one-time "
 "translation using a compendium or a similar translation database."
 msgstr ""
+"Utiliza la función de importación para cargar el compendio como "
+"traducciones, sugerencias o traducciones que necesitan revisión. Este es el "
+"mejor enfoque para una traducción única utilizando un compendio o una base "
+"de datos de traducción similar."
 
 #: ../../faq.rst:337
 msgid ""
@@ -42257,6 +42387,9 @@ msgid ""
 "Weblate use it. This is good when you want to use it several times during "
 "translation."
 msgstr ""
+"Puede configurar :ref:`mt-tmserver` con todas las bases de datos que tenga y "
+"dejar que Weblate la utilice. Esto es bueno cuando se quiere utilizar varias "
+"veces durante la traducción."
 
 #: ../../faq.rst:340
 msgid ""
@@ -42423,7 +42556,7 @@ msgstr "Solución de problemas"
 #: ../../faq.rst:441
 msgid "Requests sometimes fail with \"too many open files\" error"
 msgstr ""
-"Las peticiones a veces fallan con el error «demasiados archivos abiertos»"
+"Las solicitudes a veces fallan con el error \"demasiados archivos abiertos\""
 
 #: ../../faq.rst:443
 msgid ""
@@ -46076,6 +46209,13 @@ msgid ""
 "additions. For Messages, this will also check that each Attribute in the "
 "translation uses the same references as the matching Attribute in the source."
 msgstr ""
+"Generalmente, se espera que los Mensajes o Términos traducidos contengan las "
+"mismas referencias que el origen, aunque no necesariamente en el mismo orden "
+"de aparición. Por lo tanto, esta comprobación garantiza que las traducciones "
+"utilicen las mismas referencias en su valor que el valor de origen, el mismo "
+"número de veces y sin adiciones. En el caso de los mensajes, también se "
+"comprobará que cada atributo de la traducción utiliza las mismas referencias "
+"que el atributo correspondiente del origen."
 
 #: ../../user/checks.rst:250
 msgid ""
@@ -48527,6 +48667,8 @@ msgid ""
 "When the string has not been translated for a long time, it can indicate a "
 "problem in a source string making it hard to translate."
 msgstr ""
+"Cuando la cadena lleva mucho tiempo sin traducirse, puede indicar un "
+"problema en la cadena de origen que dificulta su traducción."
 
 #: ../../user/checks.rst:1787
 msgid "Multiple failing checks"
@@ -48626,6 +48768,10 @@ msgid ""
 "again. This allows working offline, and then merging changes back into the "
 "existing translation. This works even if it has been changed in the meantime."
 msgstr ""
+"Puedes exportar archivos de una traducción, hacer cambios e importarlos de "
+"nuevo. Esto permite trabajar sin conexión y volver a integrar los cambios en "
+"la traducción existente. Esto funciona incluso si se ha modificado "
+"entretanto."
 
 #: ../../user/files.rst:10
 msgid ""
@@ -48947,6 +49093,9 @@ msgid ""
 "In case you want to both add new strings and update existing translations, "
 "upload the file second time with :guilabel:`Add as translation`."
 msgstr ""
+"En caso de que desee tanto añadir nuevas cadenas como actualizar las "
+"traducciones existentes, cargue el archivo por segunda vez con :guilabel:`"
+"Add as translation`."
 
 #: ../../user/files.rst:146
 #, fuzzy
@@ -49762,7 +49911,7 @@ msgstr "``added:DATETIME``"
 
 #: ../../user/search.rst:46
 msgid "Timestamp for when the string was added to Weblate."
-msgstr ""
+msgstr "Marca de tiempo de cuando la cadena fue añadida a Weblate."
 
 #: ../../user/search.rst:47
 msgid "``state:TEXT``"
@@ -49942,6 +50091,10 @@ msgid ""
 "lowercase and spaces replaced by a hyphen. See :ref:`search-changes` for "
 "examples."
 msgstr ""
+"Filtros de acciones de cambio, útiles junto con ``change_time``. Acepta el "
+"nombre en inglés de la acción de cambio, ya sea entre comillas y con "
+"espacios o en minúsculas y espacios reemplazados por un guion. Consulte :ref"
+":`search-changes` para ver ejemplos."
 
 #: ../../user/search.rst:91
 msgid "``source_changed:DATETIME``"
@@ -50113,6 +50266,8 @@ msgid ""
 "Searching for history events can be done using ``change_action`` and "
 "``change_time`` operators."
 msgstr ""
+"La búsqueda de eventos históricos puede realizarse mediante los operadores "
+"``change_action`` y ``change_time``."
 
 #: ../../user/search.rst:154
 msgid ""
@@ -50120,6 +50275,9 @@ msgid ""
 "``change_time:2018 AND change_action:marked-for-edit`` or ``change_time:2018 "
 "AND change_action:\"Marked for edit\"``."
 msgstr ""
+"Por ejemplo, la búsqueda de cadenas marcadas para edición en 2018 puede "
+"introducirse como ``change_time:2018 AND change_action:marked-for-edit`` o "
+"``change_time:2018 AND change_action: \"Marcado para edición\"``."
 
 #: ../../user/search.rst:160
 msgid "Regular expressions"
@@ -50277,7 +50435,7 @@ msgstr "``changed:>=yesterday``"
 
 #: ../../user/search.rst:225
 msgid "Returns strings that are changed starting yesterday."
-msgstr ""
+msgstr "Devuelve cadenas que se modificaron a partir de ayer."
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
@@ -50304,10 +50462,8 @@ msgid "Project accepts the suggestions made by users."
 msgstr ""
 
 #: ../../user/translating.rst:11
-#, fuzzy
-#| msgid "The files with `.ini` extension are accepted as well."
 msgid "Sometimes, anonymous suggestions are accepted as well."
-msgstr "También se aceptan los archivos con la extensión `.ini`."
+msgstr "A veces, también se aceptan sugerencias anónimas."
 
 #: ../../user/translating.rst:13
 msgid "There are more translation workflows detailed in :ref:`workflows`."
@@ -51001,6 +51157,12 @@ msgid ""
 "bilingual one, making Weblate mistaking the translation key for the actual "
 "source string. See :ref:`bimono` for more info."
 msgstr ""
+"La limitación por defecto para la traducción es diez veces más larga que la "
+"cadena de origen. Esto puede modificarse con "
+":setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Si le ocurre esto, "
+"también puede deberse a que una traducción monolingüe se haya configurado "
+"erróneamente como bilingüe, haciendo que Weblate confunda la clave de "
+"traducción con la cadena fuente real. Vea :ref:`bimono` para más información."
 
 #: ../../user/translating.rst:337
 #, fuzzy
@@ -51656,6 +51818,11 @@ msgid ""
 "bin`). Make sure you have the corresponding version control systems "
 "installed."
 msgstr ""
+"En este momento, los asistentes para Bazaar y Mercurial están disponibles en "
+"repositorios separados en GitHub: `git-remote-hg`_ y `git-remote-bzr`_. "
+"Descárguelos manualmente y colóquelos en algún lugar de su ruta de búsqueda ("
+"por ejemplo :file:`~/bin`). Asegúrate de tener instalados los sistemas de "
+"control de versiones correspondientes."
 
 #: ../../vcs.rst:308
 msgid ""
@@ -51676,6 +51843,9 @@ msgid ""
 "The inconvenience of using Git remote helpers is for example with Mercurial, "
 "the remote helper sometimes creates a new tip when pushing changes back."
 msgstr ""
+"El inconveniente de usar ayudantes remotos de Git es por ejemplo con "
+"Mercurial, el ayudante remoto a veces crea una nueva punta al empujar los "
+"cambios hacia atrás."
 
 #: ../../vcs.rst:332
 msgid "GitHub pull requests"
