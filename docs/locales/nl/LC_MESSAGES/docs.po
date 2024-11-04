@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 09:40+0100\n"
-"PO-Revision-Date: 2024-11-03 17:18+0000\n"
-"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
+"PO-Revision-Date: 2024-11-04 09:33+0000\n"
+"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -2576,7 +2576,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:229
 msgid "``{{ component }}``"
-msgstr "``{{ onderdeel }}``"
+msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:230
 msgid "Component filename match"
@@ -2584,7 +2584,7 @@ msgstr "Overeenkomst bestandsnaam onderdeel"
 
 #: ../../admin/addons.rst:231
 msgid "``{{ component|title }}``"
-msgstr "``{{ onderdeel|titel }}``"
+msgstr "``{{ component|title }}``"
 
 #: ../../admin/addons.rst:232
 msgid "Component filename with upper case first letter"
@@ -2592,7 +2592,7 @@ msgstr "Bestandsnaam onderdeel met hoofdletter als eerste letter"
 
 #: ../../admin/addons.rst:233
 msgid "``{{ path }}: {{ component }}``"
-msgstr "``{{ pad }}: {{ onderdeel}}``"
+msgstr "``{{ path }}: {{ component }}``"
 
 #: ../../admin/addons.rst:234
 msgid "Custom match group from the regular expression"
@@ -2628,7 +2628,7 @@ msgstr "Reguliere uitdrukking:"
 
 #: ../../admin/addons.rst:250
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
-msgstr "``(?P<taal>[^/.]*)/(?P<onderdeel>[^/]*)\\.po``"
+msgstr "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:251 ../../admin/addons.rst:264
 #: ../../admin/addons.rst:277 ../../admin/addons.rst:290
@@ -2662,7 +2662,7 @@ msgstr "Gebruikelijke structuur voor opslaan van gettext PO-bestanden."
 
 #: ../../admin/addons.rst:263
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
-msgstr "``locale/(?P<taal>[^/.]*)/LC_MESSAGES/(?P<onderdeel>[^/]*)\\.po``"
+msgstr "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:265
 msgid ":file:`locale/cs/LC_MESSAGES/application.po`"
@@ -2690,7 +2690,7 @@ msgstr "Namen van onderdeel en taal worden gebruikt in bestandsnaam."
 
 #: ../../admin/addons.rst:276
 msgid "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
-msgstr "``src/locale/(?P<onderdeel>[^/]*)\\.(?P<taal>[^/.]*)\\.po``"
+msgstr "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
 
 #: ../../admin/addons.rst:278
 msgid ":file:`src/locale/application.cs.po`"
@@ -2718,7 +2718,7 @@ msgstr "Taal gebruiken in zowel pad- als bestandsnaam."
 
 #: ../../admin/addons.rst:289
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
-msgstr "``locale/(?P<taal>[^/.]*)/(?P<onderdeel>[^/]*)/(?P=taal)\\.po``"
+msgstr "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
 
 #: ../../admin/addons.rst:291
 msgid ":file:`locale/cs/application/cs.po`"
@@ -2746,7 +2746,7 @@ msgstr "Android resource tekenreeksen, splitsen in verschillende bestanden."
 
 #: ../../admin/addons.rst:303
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
-msgstr "``res/values-(?P<taal>[^/.]*)/strings-(?P<onderdeel>[^/]*)\\.xml``"
+msgstr "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
 
 #: ../../admin/addons.rst:305
 msgid ":file:`res/values-cs/strings-about.xml`"
@@ -2777,8 +2777,8 @@ msgid ""
 "``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/"
 "ApplicationResources_(?P<language>[^/.]*)\\.properties``"
 msgstr ""
-"``(?P<origineleHiërarchie>.+/)(?P<onderdeel>[^/]*)/src/main/resources/"
-"ApplicationResources_(?P<taal>[^/.]*)\\.properties``"
+"``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/"
+"ApplicationResources_(?P<language>[^/.]*)\\.properties``"
 
 #: ../../admin/addons.rst:317
 msgid "Component name:"
@@ -2786,7 +2786,7 @@ msgstr "Naam van onderdeel:"
 
 #: ../../admin/addons.rst:318
 msgid "``{{ originalHierarchy }}: {{ component }}``"
-msgstr "``{{ origineleHiërarchie }}: {{ onderdeel }}``"
+msgstr "``{{ originalHierarchy }}: {{ component }}``"
 
 #: ../../admin/addons.rst:320
 msgid ""
@@ -3108,7 +3108,7 @@ msgstr "Bijvoorbeeld het maken van een overzichtsbestand voor elke vertaling:"
 
 #: ../../admin/addons.rst:495
 msgid "``locale/{{ language_code }}.json``"
-msgstr "``locale/{{ taal_code }}.json``"
+msgstr "``locale/{{ language_code }}.json``"
 
 #: ../../admin/addons.rst:496
 msgid "Content"
@@ -6415,7 +6415,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:79
 msgid "``priority:N``"
-msgstr "``prioriteit:N``"
+msgstr "``priority:N``"
 
 #: ../../admin/checks.rst:80
 msgid ""
@@ -6430,7 +6430,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:83
 msgid "``max-length:N``"
-msgstr "``max-lengte:N``"
+msgstr "``max-length:N``"
 
 #: ../../admin/checks.rst:84
 msgid ""
@@ -6454,7 +6454,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:87
 msgid "``font-family:NAME``"
-msgstr "``font-family:NAAM``"
+msgstr "``font-family:NAME``"
 
 #: ../../admin/checks.rst:88
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
@@ -6464,7 +6464,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:89
 msgid "``font-weight:WEIGHT``"
-msgstr "``font-weight:LETTERBEELD``"
+msgstr "``font-weight:WEIGHT``"
 
 #: ../../admin/checks.rst:90
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
@@ -6473,7 +6473,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:91
 msgid "``font-size:SIZE``"
-msgstr "``font-size:GROOTTE``"
+msgstr "``font-size:SIZE``"
 
 #: ../../admin/checks.rst:92
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
@@ -6483,7 +6483,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:93
 msgid "``font-spacing:SPACING``"
-msgstr "``font-spacing:AFSTAND``"
+msgstr "``font-spacing:SPACING``"
 
 #: ../../admin/checks.rst:94
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
@@ -6493,7 +6493,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:95
 msgid "``icu-flags:FLAGS``"
-msgstr "``icu-flags:VLAGGEN``"
+msgstr "``icu-flags:FLAGS``"
 
 #: ../../admin/checks.rst:96
 msgid ""
@@ -6505,7 +6505,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:97
 msgid "``icu-tag-prefix:PREFIX``"
-msgstr "``icu-tag-prefix:VOORVOEGSEL``"
+msgstr "``icu-tag-prefix:PREFIX``"
 
 #: ../../admin/checks.rst:98
 msgid ""
@@ -6517,7 +6517,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:99
 msgid "``placeholders:NAME:NAME2:...``"
-msgstr "``placeholders:NAAM:NAAM2:...``"
+msgstr "``placeholders:NAME:NAME2:...``"
 
 #: ../../admin/checks.rst:100
 msgid ""
@@ -6528,7 +6528,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:101
 msgid "``replacements:FROM:TO:FROM2:TO2...``"
-msgstr "``replacements:VAN:NAAR:VAN2:NAAR2...``"
+msgstr "``replacements:FROM:TO:FROM2:TO2...``"
 
 #: ../../admin/checks.rst:102
 msgid ""
@@ -6545,7 +6545,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:106
 msgid "``variants:SOURCE``"
-msgstr "``variants:BRON``"
+msgstr "``variants:SOURCE``"
 
 #: ../../admin/checks.rst:107
 msgid ""
@@ -38333,7 +38333,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:23
 msgid "``weblate/static``"
-msgstr ""
+msgstr "``weblate/static``"
 
 #: ../../contributing/internals.rst:24
 msgid "Client files (CSS, Javascript and images), see :doc:`frontend`."
@@ -40435,11 +40435,11 @@ msgstr ""
 #: ../../devel/gettext.rst:226 ../../formats/gettext.rst:119
 #: ../../formats/gettext.rst:131
 msgid "``po/*.po``"
-msgstr ""
+msgstr "``po/*.po``"
 
 #: ../../devel/gettext.rst:228
 msgid "``po/hello.pot``"
-msgstr ""
+msgstr "``po/hello.pot``"
 
 #: ../../devel/gettext.rst:230
 msgid "Choose :guilabel:`gettext PO file`"
@@ -41298,11 +41298,11 @@ msgstr "``Documentation``"
 
 #: ../../devel/sphinx.rst:35
 msgid "``docs/locales/*/LC_MESSAGES/index.po``"
-msgstr ""
+msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
 
 #: ../../devel/sphinx.rst:37
 msgid "``docs/locales/index.pot``"
-msgstr ""
+msgstr "``docs/locales/index.pot``"
 
 #: ../../devel/sphinx.rst:39
 msgid "`gettext PO file`"
@@ -41316,14 +41316,15 @@ msgstr "Onderdeel opsporing configureren"
 msgid ""
 "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 msgstr ""
+"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
 #: ../../devel/sphinx.rst:48
 msgid "``Documentation: {{ component|title }}``"
-msgstr ""
+msgstr "``Documentation: {{ component|title }}``"
 
 #: ../../devel/sphinx.rst:50
 msgid "``docs/locales/{{ component }}.pot``"
-msgstr ""
+msgstr "``docs/locales/{{ component }}.pot``"
 
 #: ../../devel/sphinx.rst:54
 msgid ""
@@ -41775,7 +41776,7 @@ msgstr ""
 
 #: ../../devel/translations.rst:118
 msgid "``(Short|Min)$``"
-msgstr ""
+msgstr "``(Short|Min)$``"
 
 #: ../../devel/translations.rst:118
 msgid "``monthShort``, ``monthMin``, ``month``"
@@ -41787,7 +41788,7 @@ msgstr ""
 
 #: ../../devel/translations.rst:120
 msgid "``#[SML]``"
-msgstr ""
+msgstr "``#[SML]``"
 
 #: ../../devel/translations.rst:120
 msgid "``dial#S.key``, ``dial#M.key``, ``dial.key``"
@@ -43240,11 +43241,11 @@ msgstr ""
 
 #: ../../formats/android.rst:72
 msgid "``res/values-*/strings.xml``"
-msgstr ""
+msgstr "``res/values-*/strings.xml``"
 
 #: ../../formats/android.rst:74
 msgid "``res/values/strings.xml``"
-msgstr ""
+msgstr "``res/values/strings.xml``"
 
 #: ../../formats/android.rst:76 ../../formats/android.rst:91
 #: ../../formats/apple.rst:33 ../../formats/arb.rst:36 ../../formats/csv.rst:68
@@ -43276,11 +43277,11 @@ msgstr ""
 
 #: ../../formats/android.rst:87
 msgid "``commonMain/composeResources/values-*/strings.xml``"
-msgstr ""
+msgstr "``commonMain/composeResources/values-*/strings.xml``"
 
 #: ../../formats/android.rst:89
 msgid "``commonMain/composeResources/values/strings.xml``"
-msgstr ""
+msgstr "``commonMain/composeResources/values/strings.xml``"
 
 #: ../../formats/apple.rst:4
 msgid "Apple iOS strings"
@@ -43331,7 +43332,7 @@ msgstr "Weblate-configuratie"
 
 #: ../../formats/apple.rst:28
 msgid "``Resources/*.lproj/Localizable.strings``"
-msgstr ""
+msgstr "``Resources/*.lproj/Localizable.strings``"
 
 #: ../../formats/apple.rst:30
 msgid ""
@@ -43386,11 +43387,11 @@ msgstr ""
 
 #: ../../formats/appstore.rst:28
 msgid "``fastlane/metadata/android/*``"
-msgstr ""
+msgstr "``fastlane/metadata/android/*``"
 
 #: ../../formats/appstore.rst:30 ../../formats/appstore.rst:32
 msgid "``fastlane/metadata/android/en-US``"
-msgstr ""
+msgstr "``fastlane/metadata/android/en-US``"
 
 #: ../../formats/appstore.rst:34
 msgid "`App store metadata files`"
@@ -43415,11 +43416,11 @@ msgstr ""
 
 #: ../../formats/arb.rst:32
 msgid "``lib/l10n/intl_*.arb``"
-msgstr ""
+msgstr "``lib/l10n/intl_*.arb``"
 
 #: ../../formats/arb.rst:34
 msgid "``lib/l10n/intl_en.arb``"
-msgstr ""
+msgstr "``lib/l10n/intl_en.arb``"
 
 #: ../../formats/arb.rst:38
 msgid "`ARB file`"
@@ -43518,11 +43519,11 @@ msgstr ""
 
 #: ../../formats/csv.rst:66 ../../formats/csv.rst:78
 msgid "``locale/*.csv``"
-msgstr ""
+msgstr "``locale/*.csv``"
 
 #: ../../formats/csv.rst:70 ../../formats/csv.rst:80 ../../formats/csv.rst:82
 msgid "``locale/en.csv``"
-msgstr ""
+msgstr "``locale/en.csv``"
 
 #: ../../formats/csv.rst:72
 msgid "`CSV file`"
@@ -43550,11 +43551,11 @@ msgstr ""
 
 #: ../../formats/dtd.rst:22
 msgid "``locale/*.dtd``"
-msgstr ""
+msgstr "``locale/*.dtd``"
 
 #: ../../formats/dtd.rst:24
 msgid "``locale/en.dtd``"
-msgstr ""
+msgstr "``locale/en.dtd``"
 
 #: ../../formats/dtd.rst:28
 msgid "`DTD file`"
@@ -43581,7 +43582,7 @@ msgstr ""
 
 #: ../../formats/excel.rst:22
 msgid "``path/*.xlsx``"
-msgstr ""
+msgstr "``path/*.xlsx``"
 
 #: ../../formats/excel.rst:24 ../../formats/excel.rst:26
 msgid "``path/en.xlsx``"
@@ -43605,11 +43606,11 @@ msgstr ""
 
 #: ../../formats/flatxml.rst:22
 msgid "``locale/*.xml``"
-msgstr ""
+msgstr "``locale/*.xml``"
 
 #: ../../formats/flatxml.rst:24
 msgid "``locale/en.xml``"
-msgstr ""
+msgstr "``locale/en.xml``"
 
 #: ../../formats/flatxml.rst:28
 msgid "`Flat XML file`"
@@ -43639,11 +43640,11 @@ msgstr ""
 
 #: ../../formats/fluent.rst:30
 msgid "``locales/*/messages.ftl``"
-msgstr ""
+msgstr "``locales/*/messages.ftl``"
 
 #: ../../formats/fluent.rst:32
 msgid "``locales/en/messages.ftl``"
-msgstr ""
+msgstr "``locales/en/messages.ftl``"
 
 #: ../../formats/fluent.rst:36
 msgid "`Fluent file`"
@@ -43666,11 +43667,11 @@ msgstr ""
 
 #: ../../formats/formatjs.rst:45
 msgid "``src/lang/*.json``"
-msgstr ""
+msgstr "``src/lang/*.json``"
 
 #: ../../formats/formatjs.rst:47
 msgid "``src/extracted/en.json``"
-msgstr ""
+msgstr "``src/extracted/en.json``"
 
 #: ../../formats/formatjs.rst:51
 msgid "`Format.JS JSON file`"
@@ -43752,7 +43753,7 @@ msgstr ""
 
 #: ../../formats/gettext.rst:123 ../../formats/gettext.rst:135
 msgid "``po/messages.pot``"
-msgstr ""
+msgstr "``po/messages.pot``"
 
 #: ../../formats/gettext.rst:125
 msgid "`Gettext PO file`"
@@ -43764,7 +43765,7 @@ msgstr ""
 
 #: ../../formats/gettext.rst:133
 msgid "``po/en.po``"
-msgstr ""
+msgstr "``po/en.po``"
 
 #: ../../formats/gettext.rst:137
 msgid "`Gettext PO file (monolingual)`"
@@ -43812,12 +43813,12 @@ msgstr ""
 #: ../../formats/go-i18n.rst:51 ../../formats/go-i18n.rst:64
 #: ../../formats/i18next.rst:60
 msgid "``langs/*.json``"
-msgstr ""
+msgstr "``langs/*.json``"
 
 #: ../../formats/go-i18n.rst:53 ../../formats/go-i18n.rst:66
 #: ../../formats/i18next.rst:62
 msgid "``langs/en.json``"
-msgstr ""
+msgstr "``langs/en.json``"
 
 #: ../../formats/go-i18n.rst:57
 msgid "`go-i18n v1 JSON file`"
@@ -43851,11 +43852,11 @@ msgstr ""
 
 #: ../../formats/gotext.rst:28
 msgid "``internal/translations/locales/*/messages.gotext.json``"
-msgstr ""
+msgstr "``internal/translations/locales/*/messages.gotext.json``"
 
 #: ../../formats/gotext.rst:30
 msgid "``internal/translations/locales/en-GB/messages.gotext.json``"
-msgstr ""
+msgstr "``internal/translations/locales/en-GB/messages.gotext.json``"
 
 #: ../../formats/gotext.rst:34
 msgid "`gotext JSON file`"
@@ -43884,11 +43885,11 @@ msgstr ""
 
 #: ../../formats/gwt.rst:28 ../../formats/java.rst:40
 msgid "``src/app/Bundle_*.properties``"
-msgstr ""
+msgstr "``src/app/Bundle_*.properties``"
 
 #: ../../formats/gwt.rst:30 ../../formats/java.rst:42
 msgid "``src/app/Bundle.properties``"
-msgstr ""
+msgstr "``src/app/Bundle.properties``"
 
 #: ../../formats/gwt.rst:34
 msgid "`GWT Properties`"
@@ -43917,11 +43918,11 @@ msgstr ""
 
 #: ../../formats/html.rst:27
 msgid "``path/*.html``"
-msgstr ""
+msgstr "``path/*.html``"
 
 #: ../../formats/html.rst:29 ../../formats/html.rst:31
 msgid "``path/en.html``"
-msgstr "``pad/en.html``"
+msgstr "``path/en.html``"
 
 #: ../../formats/html.rst:33
 msgid "`HTML file`"
@@ -44001,11 +44002,11 @@ msgstr ""
 
 #: ../../formats/idml.rst:18
 msgid "``path/*.idml``"
-msgstr ""
+msgstr "``path/*.idml``"
 
 #: ../../formats/idml.rst:20 ../../formats/idml.rst:22
 msgid "``path/en.idml``"
-msgstr "``pad/en.idml``"
+msgstr "``path/en.idml``"
 
 #: ../../formats/idml.rst:24
 msgid "`IDML file`"
@@ -44042,11 +44043,11 @@ msgstr ""
 
 #: ../../formats/ini.rst:44
 msgid "``language/*.ini``"
-msgstr ""
+msgstr "``language/*.ini``"
 
 #: ../../formats/ini.rst:46
 msgid "``language/en.ini``"
-msgstr ""
+msgstr "``language/en.ini``"
 
 #: ../../formats/ini.rst:50
 msgid "`INI File`"
@@ -44085,11 +44086,11 @@ msgstr ""
 
 #: ../../formats/innosetup.rst:37
 msgid "``language/*.islu``"
-msgstr ""
+msgstr "``language/*.islu``"
 
 #: ../../formats/innosetup.rst:39
 msgid "``language/en.islu``"
-msgstr ""
+msgstr "``language/en.islu``"
 
 #: ../../formats/innosetup.rst:43
 msgid "`Inno Setup INI File`"
@@ -44152,11 +44153,11 @@ msgstr ""
 
 #: ../../formats/joomla.rst:30
 msgid "``language/*/com_foobar.ini``"
-msgstr ""
+msgstr "``language/*/com_foobar.ini``"
 
 #: ../../formats/joomla.rst:32
 msgid "``language/en-GB/com_foobar.ini``"
-msgstr ""
+msgstr "``language/en-GB/com_foobar.ini``"
 
 #: ../../formats/joomla.rst:36
 msgid "`Joomla Language File`"
@@ -44226,11 +44227,11 @@ msgstr ""
 
 #: ../../formats/json.rst:74
 msgid "``langs/translation-*.json``"
-msgstr ""
+msgstr "``langs/translation-*.json``"
 
 #: ../../formats/json.rst:76
 msgid "``langs/translation-en.json``"
-msgstr ""
+msgstr "``langs/translation-en.json``"
 
 #: ../../formats/json.rst:80
 msgid "`JSON nested structure file`"
@@ -44250,12 +44251,12 @@ msgstr ""
 
 #: ../../formats/laravel.rst:26 ../../formats/php.rst:29
 msgid "``lang/*/texts.php``"
-msgstr ""
+msgstr "``lang/*/texts.php``"
 
 #: ../../formats/laravel.rst:28 ../../formats/laravel.rst:30
 #: ../../formats/php.rst:31 ../../formats/php.rst:33
 msgid "``lang/en/texts.php``"
-msgstr ""
+msgstr "``lang/en/texts.php``"
 
 #: ../../formats/laravel.rst:32
 msgid "`Laravel PHP strings`"
@@ -44277,11 +44278,11 @@ msgstr ":doc:`tt:formats/md`"
 
 #: ../../formats/markdown.rst:29
 msgid "``path/*.md``"
-msgstr "``pad/*.md``"
+msgstr "``path/*.md``"
 
 #: ../../formats/markdown.rst:31 ../../formats/markdown.rst:33
 msgid "``path/en.md``"
-msgstr "``pad/en.md``"
+msgstr "``path/en.md``"
 
 #: ../../formats/markdown.rst:35
 msgid "`Markdown file`"
@@ -44312,11 +44313,11 @@ msgstr ""
 
 #: ../../formats/mi18n.rst:35
 msgid "``*.lang``"
-msgstr ""
+msgstr "``*.lang``"
 
 #: ../../formats/mi18n.rst:37
 msgid "``en-US.lang``"
-msgstr ""
+msgstr "``en-US.lang``"
 
 #: ../../formats/mi18n.rst:41
 #, fuzzy
@@ -44343,11 +44344,11 @@ msgstr ""
 
 #: ../../formats/moko.rst:23
 msgid "``shared/src/commonMain/resources/MR/*/plurals.xml``"
-msgstr ""
+msgstr "``shared/src/commonMain/resources/MR/*/plurals.xml``"
 
 #: ../../formats/moko.rst:25
 msgid "``shared/src/commonMain/resources/MR/base/plurals.xml``"
-msgstr ""
+msgstr "``shared/src/commonMain/resources/MR/base/plurals.xml``"
 
 #: ../../formats/moko.rst:29
 msgid "`Mobile Kotlin Resource`"
@@ -44369,11 +44370,11 @@ msgstr ""
 
 #: ../../formats/odf.rst:20
 msgid "``path/*.odt``"
-msgstr "``pad/*.odt``"
+msgstr "``path/*.odt``"
 
 #: ../../formats/odf.rst:22 ../../formats/odf.rst:24
 msgid "``path/en.odt``"
-msgstr ""
+msgstr "``path/en.odt``"
 
 #: ../../formats/odf.rst:26
 msgid "`OpenDocument file`"
@@ -44431,11 +44432,11 @@ msgstr ""
 
 #: ../../formats/qt.rst:31 ../../formats/qt.rst:43
 msgid "``i18n/app.*.ts``"
-msgstr ""
+msgstr "``i18n/app.*.ts``"
 
 #: ../../formats/qt.rst:35
 msgid "``i18n/app.de.ts``"
-msgstr ""
+msgstr "``i18n/app.de.ts``"
 
 #: ../../formats/qt.rst:37 ../../formats/qt.rst:49
 msgid "`Qt Linguist Translation File`"
@@ -44447,7 +44448,7 @@ msgstr ""
 
 #: ../../formats/qt.rst:45 ../../formats/qt.rst:47
 msgid "``i18n/app.en.ts``"
-msgstr ""
+msgstr "``i18n/app.en.ts``"
 
 #: ../../formats/resourcedict.rst:4
 msgid "ResourceDictionary files"
@@ -44468,11 +44469,11 @@ msgstr ""
 
 #: ../../formats/resourcedict.rst:34
 msgid "``Languages/*.xaml``"
-msgstr "``Talen/*.xaml``"
+msgstr "``Languages/*.xaml``"
 
 #: ../../formats/resourcedict.rst:36
 msgid "``Language/en.xaml``"
-msgstr "``Taal/en.xaml``"
+msgstr "``Language/en.xaml``"
 
 #: ../../formats/resourcedict.rst:40
 msgid "`ResourceDictionary file`"
@@ -44503,11 +44504,11 @@ msgstr ""
 
 #: ../../formats/resx.rst:35
 msgid "``Resources/Language.*.resx``"
-msgstr ""
+msgstr "``Resources/Language.*.resx``"
 
 #: ../../formats/resx.rst:37
 msgid "``Resources/Language.resx``"
-msgstr ""
+msgstr "``Resources/Language.resx``"
 
 #: ../../formats/resx.rst:41
 msgid "`.NET resource file`"
@@ -44531,11 +44532,11 @@ msgstr ""
 
 #: ../../formats/ruby.rst:25 ../../formats/yaml.rst:30
 msgid "``translations/messages.*.yml``"
-msgstr ""
+msgstr "``translations/messages.*.yml``"
 
 #: ../../formats/ruby.rst:27 ../../formats/yaml.rst:32
 msgid "``translations/messages.en.yml``"
-msgstr ""
+msgstr "``translations/messages.en.yml``"
 
 #: ../../formats/ruby.rst:31
 msgid "`Ruby YAML file`"
@@ -44559,7 +44560,7 @@ msgstr ""
 
 #: ../../formats/stringsdict.rst:28
 msgid "``Resources/*.lproj/Localizable.stringsdict``"
-msgstr ""
+msgstr "``Resources/*.lproj/Localizable.stringsdict``"
 
 #: ../../formats/stringsdict.rst:30
 msgid ""
@@ -44601,11 +44602,11 @@ msgstr ""
 
 #: ../../formats/subtitles.rst:23
 msgid "``path/*.srt``"
-msgstr ""
+msgstr "``path/*.srt``"
 
 #: ../../formats/subtitles.rst:25 ../../formats/subtitles.rst:27
 msgid "``path/en.srt``"
-msgstr ""
+msgstr "``path/en.srt``"
 
 #: ../../formats/subtitles.rst:29
 msgid "`SubRip subtitle file`"
@@ -44661,7 +44662,7 @@ msgstr ""
 
 #: ../../formats/tbx.rst:44
 msgid "``tbx/*.tbx``"
-msgstr ""
+msgstr "``tbx/*.tbx``"
 
 #: ../../formats/tbx.rst:50
 msgid "`TermBase eXchange file`"
@@ -44699,11 +44700,11 @@ msgstr ""
 
 #: ../../formats/txt.rst:35
 msgid "``path/*.txt``"
-msgstr ""
+msgstr "``path/*.txt``"
 
 #: ../../formats/txt.rst:37 ../../formats/txt.rst:39
 msgid "``path/en.txt``"
-msgstr ""
+msgstr "``path/en.txt``"
 
 #: ../../formats/txt.rst:41
 msgid "`Plain text file`"
@@ -44736,11 +44737,11 @@ msgstr ""
 
 #: ../../formats/webextension.rst:31
 msgid "``_locales/*/messages.json``"
-msgstr ""
+msgstr "``_locales/*/messages.json``"
 
 #: ../../formats/webextension.rst:33
 msgid "``_locales/en/messages.json``"
-msgstr ""
+msgstr "``_locales/en/messages.json``"
 
 #: ../../formats/webextension.rst:37
 msgid "`WebExtension JSON file`"
@@ -44770,11 +44771,11 @@ msgstr ""
 
 #: ../../formats/winrc.rst:34
 msgid "``lang/*.rc``"
-msgstr ""
+msgstr "``lang/*.rc``"
 
 #: ../../formats/winrc.rst:36 ../../formats/winrc.rst:38
 msgid "``lang/en-US.rc``"
-msgstr ""
+msgstr "``lang/en-US.rc``"
 
 #: ../../formats/winrc.rst:40
 msgid "`RC file`"
@@ -44969,12 +44970,12 @@ msgstr ""
 
 #: ../../formats/xliff.rst:144 ../../formats/xliff.rst:156
 msgid "``localizations/*.xliff``"
-msgstr ""
+msgstr "``localizations/*.xliff``"
 
 #: ../../formats/xliff.rst:148 ../../formats/xliff.rst:158
 #: ../../formats/xliff.rst:160
 msgid "``localizations/en-US.xliff``"
-msgstr ""
+msgstr "``localizations/en-US.xliff``"
 
 #: ../../formats/xliff.rst:150 ../../formats/xliff.rst:162
 msgid "`XLIFF Translation File`"
@@ -45596,7 +45597,7 @@ msgstr "Klasse controle"
 
 #: ../../user/checks.rst:104
 msgid "``weblate.checks.markup.BBCodeCheck``"
-msgstr ""
+msgstr "``weblate.checks.markup.BBCodeCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Check identifier"
@@ -45636,7 +45637,7 @@ msgstr "De tekst bevat tweemaal achter elkaar hetzelfde woord:"
 
 #: ../../user/checks.rst:127
 msgid "``weblate.checks.duplicate.DuplicateCheck``"
-msgstr ""
+msgstr "``weblate.checks.duplicate.DuplicateCheck``"
 
 #: ../../user/checks.rst:128
 msgid "``duplicate``"
@@ -45664,7 +45665,7 @@ msgstr "De vertaling komt niet overeen met termen op de begrippenlijst."
 
 #: ../../user/checks.rst:148
 msgid "``weblate.checks.glossary.GlossaryCheck``"
-msgstr ""
+msgstr "``weblate.checks.glossary.GlossaryCheck``"
 
 #: ../../user/checks.rst:149
 msgid "``check_glossary``"
@@ -45711,7 +45712,7 @@ msgstr "De vertaling bevat een dubbele spatie"
 
 #: ../../user/checks.rst:173
 msgid "``weblate.checks.chars.DoubleSpaceCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.DoubleSpaceCheck``"
 
 #: ../../user/checks.rst:174
 msgid "``double_space``"
@@ -46034,7 +46035,7 @@ msgstr "De AngularJS-interpolatietekenreeksen komen niet overeen met de bron"
 
 #: ../../user/checks.rst:426
 msgid "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
-msgstr ""
+msgstr "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
 
 #: ../../user/checks.rst:427
 msgid "``angularjs_format``"
@@ -46046,7 +46047,7 @@ msgstr "Voorbeeld tekenreeks met benoemde indeling"
 
 #: ../../user/checks.rst:430
 msgid "``Your balance is {{amount}} {{ currency }}``"
-msgstr ""
+msgstr "``Your balance is {{amount}} {{ currency }}``"
 
 #: ../../user/checks.rst:434
 msgid ""
@@ -46064,7 +46065,7 @@ msgstr "Het c-patroon komt niet overeen met de bron"
 
 #: ../../user/checks.rst:444
 msgid "``weblate.checks.format.CFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.CFormatCheck``"
 
 #: ../../user/checks.rst:445
 msgid "``c_format``"
@@ -46080,7 +46081,7 @@ msgstr "Voorbeeld tekenreeks met eenvoudige indeling"
 #: ../../user/checks.rst:759 ../../user/checks.rst:799
 #: ../../user/checks.rst:855
 msgid "``There are %d apples``"
-msgstr ""
+msgstr "``There are %d apples``"
 
 #: ../../user/checks.rst:0
 msgid "Position format string example"
@@ -46089,7 +46090,7 @@ msgstr "Voorbeeld tekenreeks met indeling op positie"
 #: ../../user/checks.rst:449 ../../user/checks.rst:594
 #: ../../user/checks.rst:740 ../../user/checks.rst:760
 msgid "``Your balance is %1$d %2$s``"
-msgstr ""
+msgstr "``Your balance is %1$d %2$s``"
 
 #: ../../user/checks.rst:453 ../../user/checks.rst:708
 msgid ":ref:`check-formats`,"
@@ -46112,7 +46113,7 @@ msgstr "Het C#-patroon komt niet overeen met de bron"
 
 #: ../../user/checks.rst:464
 msgid "``weblate.checks.format.CSharpFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.CSharpFormatCheck``"
 
 #: ../../user/checks.rst:465
 msgid "``c_sharp_format``"
@@ -46120,7 +46121,7 @@ msgstr "``c_sharp_format``"
 
 #: ../../user/checks.rst:468 ../../user/checks.rst:618
 msgid "``There are {0} apples``"
-msgstr ""
+msgstr "``There are {0} apples``"
 
 #: ../../user/checks.rst:472
 msgid ""
@@ -46138,7 +46139,7 @@ msgstr "Het ECMAScript-sjabloon komt niet overeen met de bron"
 
 #: ../../user/checks.rst:482
 msgid "``weblate.checks.format.ESTemplateLiteralsCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.ESTemplateLiteralsCheck``"
 
 #: ../../user/checks.rst:483
 msgid "``es_format``"
@@ -46150,7 +46151,7 @@ msgstr ""
 
 #: ../../user/checks.rst:486
 msgid "``There are ${number} apples``"
-msgstr ""
+msgstr "``There are ${number} apples``"
 
 #: ../../user/checks.rst:490
 msgid ""
@@ -46168,7 +46169,7 @@ msgstr "De i18next-interpolatie komt niet overeen met de bron"
 
 #: ../../user/checks.rst:502
 msgid "``weblate.checks.format.I18NextInterpolationCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.I18NextInterpolationCheck``"
 
 #: ../../user/checks.rst:503
 msgid "``i18next_interpolation``"
@@ -46176,7 +46177,7 @@ msgstr "``i18next_interpolation``"
 
 #: ../../user/checks.rst:506
 msgid "``There are {{number}} apples``"
-msgstr ""
+msgstr "``There are {{number}} apples``"
 
 #: ../../user/checks.rst:0
 msgid "Nesting example"
@@ -46184,7 +46185,7 @@ msgstr "Voorbeeld nesten"
 
 #: ../../user/checks.rst:507
 msgid "``There are $t(number) apples``"
-msgstr ""
+msgstr "``There are $t(number) apples``"
 
 #: ../../user/checks.rst:511
 msgid ""
@@ -46212,7 +46213,7 @@ msgstr "``icu_message_format``"
 
 #: ../../user/checks.rst:528
 msgid "``There {number, plural, one {is one apple} other {are # apples}}.``"
-msgstr ""
+msgstr "``There {number, plural, one {is one apple} other {are # apples}}.``"
 
 #: ../../user/checks.rst:530
 msgid ""
@@ -46328,7 +46329,7 @@ msgstr "Het java-patroon komt niet overeen met de bron"
 
 #: ../../user/checks.rst:589
 msgid "``weblate.checks.format.JavaFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.JavaFormatCheck``"
 
 #: ../../user/checks.rst:590
 msgid "``java_printf_format``"
@@ -46356,7 +46357,7 @@ msgstr "Het Java MessageFormat-patroon komt niet overeen met de bron"
 
 #: ../../user/checks.rst:613
 msgid "``weblate.checks.format.JavaMessageFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.JavaMessageFormatCheck``"
 
 #: ../../user/checks.rst:614
 msgid "``java_format``"
@@ -46407,7 +46408,7 @@ msgstr "Het JavaScript-patroon komt niet overeen met de bron"
 
 #: ../../user/checks.rst:642
 msgid "``weblate.checks.format.JavaScriptFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.JavaScriptFormatCheck``"
 
 #: ../../user/checks.rst:643
 msgid "``javascript_format``"
@@ -46429,7 +46430,7 @@ msgstr "De Lua-opmaak komt niet overeen met de bron"
 
 #: ../../user/checks.rst:660
 msgid "``weblate.checks.format.LuaFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.LuaFormatCheck``"
 
 #: ../../user/checks.rst:661
 msgid "``lua_format``"
@@ -46451,7 +46452,7 @@ msgstr "Object Pascal format string komt niet overeen met bron"
 
 #: ../../user/checks.rst:678
 msgid "``weblate.checks.format.ObjectPascalFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.ObjectPascalFormatCheck``"
 
 #: ../../user/checks.rst:679
 msgid "``object_pascal_format``"
@@ -46477,7 +46478,7 @@ msgstr "De procentaanduidingen komen niet overeen met de bron"
 
 #: ../../user/checks.rst:700
 msgid "``weblate.checks.format.PercentPlaceholdersCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.PercentPlaceholdersCheck``"
 
 #: ../../user/checks.rst:701
 msgid "``percent_placeholders``"
@@ -46485,7 +46486,7 @@ msgstr "``percent_placeholders``"
 
 #: ../../user/checks.rst:704
 msgid "``There are %number% apples``"
-msgstr ""
+msgstr "``There are %number% apples``"
 
 #: ../../user/checks.rst:713
 msgid "Perl brace format"
@@ -46505,7 +46506,7 @@ msgstr "``perl_brace_format``"
 
 #: ../../user/checks.rst:721
 msgid "``There are {number} apples``"
-msgstr ""
+msgstr "``There are {number} apples``"
 
 #: ../../user/checks.rst:725
 msgid ""
@@ -46523,7 +46524,7 @@ msgstr "Het perl-patroon komt niet overeen met de bron"
 
 #: ../../user/checks.rst:735
 msgid "``weblate.checks.format.PerlFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.PerlFormatCheck``"
 
 #: ../../user/checks.rst:736
 msgid "``perl_format``"
@@ -46546,7 +46547,7 @@ msgstr "Het php-patroon komt niet overeen met de bron"
 
 #: ../../user/checks.rst:755
 msgid "``weblate.checks.format.PHPFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.PHPFormatCheck``"
 
 #: ../../user/checks.rst:756
 msgid "``php_format``"
@@ -46569,7 +46570,7 @@ msgstr "De Python-haakjesopmaak komt niet overeen met de bron"
 
 #: ../../user/checks.rst:775
 msgid "``weblate.checks.format.PythonBraceFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.PythonBraceFormatCheck``"
 
 #: ../../user/checks.rst:776
 msgid "``python_brace_format``"
@@ -46581,11 +46582,11 @@ msgstr ""
 
 #: ../../user/checks.rst:779
 msgid "``There are {} apples``"
-msgstr ""
+msgstr "``There are {} apples``"
 
 #: ../../user/checks.rst:780
 msgid "``Your balance is {amount} {currency}``"
-msgstr ""
+msgstr "``Your balance is {amount} {currency}``"
 
 #: ../../user/checks.rst:784
 msgid ""
@@ -46604,7 +46605,7 @@ msgstr "De Python-opmaak komt niet overeen met de bron"
 
 #: ../../user/checks.rst:795
 msgid "``weblate.checks.format.PythonFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.PythonFormatCheck``"
 
 #: ../../user/checks.rst:796
 msgid "``python_format``"
@@ -46612,7 +46613,7 @@ msgstr "``python_format``"
 
 #: ../../user/checks.rst:800
 msgid "``Your balance is %(amount)d %(currency)s``"
-msgstr ""
+msgstr "``Your balance is %(amount)d %(currency)s``"
 
 #: ../../user/checks.rst:804
 msgid ""
@@ -46631,7 +46632,7 @@ msgstr "De Qt-indelingstekenreeks komt niet overeen met de bron"
 
 #: ../../user/checks.rst:815
 msgid "``weblate.checks.qt.QtFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.qt.QtFormatCheck``"
 
 #: ../../user/checks.rst:816
 msgid "``qt_format``"
@@ -46639,7 +46640,7 @@ msgstr "``qt_format``"
 
 #: ../../user/checks.rst:819
 msgid "``There are %1 apples``"
-msgstr ""
+msgstr "``There are %1 apples``"
 
 #: ../../user/checks.rst:823
 msgid ""
@@ -46657,7 +46658,7 @@ msgstr "De Qt-meervoudstekenreeks komt niet overeen met de bron"
 
 #: ../../user/checks.rst:833
 msgid "``weblate.checks.qt.QtPluralCheck``"
-msgstr ""
+msgstr "``weblate.checks.qt.QtPluralCheck``"
 
 #: ../../user/checks.rst:834
 msgid "``qt_plural_format``"
@@ -46687,7 +46688,7 @@ msgstr "De Ruby-tekenreeks komt niet overeen met de bron"
 
 #: ../../user/checks.rst:851
 msgid "``weblate.checks.ruby.RubyFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.ruby.RubyFormatCheck``"
 
 #: ../../user/checks.rst:852
 msgid "``ruby_format``"
@@ -46695,11 +46696,11 @@ msgstr "``ruby_format``"
 
 #: ../../user/checks.rst:856
 msgid "``Your balance is %1$f %2$s``"
-msgstr ""
+msgstr "``Your balance is %1$f %2$s``"
 
 #: ../../user/checks.rst:857
 msgid "``Your balance is %+.2<amount>f %<currency>s``"
-msgstr ""
+msgstr "``Your balance is %+.2<amount>f %<currency>s``"
 
 #: ../../user/checks.rst:0
 msgid "Named template string"
@@ -46707,7 +46708,7 @@ msgstr ""
 
 #: ../../user/checks.rst:858
 msgid "``Your balance is %{amount} %{currency}``"
-msgstr ""
+msgstr "``Your balance is %{amount} %{currency}``"
 
 #: ../../user/checks.rst:862
 msgid ""
@@ -46725,7 +46726,7 @@ msgstr "Het schemaformaat komt niet overeen met de bron"
 
 #: ../../user/checks.rst:872
 msgid "``weblate.checks.format.SchemeFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.SchemeFormatCheck``"
 
 #: ../../user/checks.rst:873
 msgid "``scheme_format``"
@@ -46733,7 +46734,7 @@ msgstr "``scheme_format``"
 
 #: ../../user/checks.rst:876
 msgid "``There are ~d apples``"
-msgstr ""
+msgstr "``There are ~d apples``"
 
 #: ../../user/checks.rst:880
 msgid ""
@@ -46753,7 +46754,7 @@ msgstr "De Vue i18n-opmaak komt niet overeen met de bron"
 
 #: ../../user/checks.rst:892
 msgid "``weblate.checks.format.VueFormattingCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.VueFormattingCheck``"
 
 #: ../../user/checks.rst:893
 msgid "``vue_format``"
@@ -46765,7 +46766,7 @@ msgstr "Benoemde opmaak"
 
 #: ../../user/checks.rst:896
 msgid "``There are {count} apples``"
-msgstr ""
+msgstr "``There are {count} apples``"
 
 #: ../../user/checks.rst:0
 msgid "Rails i18n formatting"
@@ -46773,7 +46774,7 @@ msgstr "Rails i18n-opmaak"
 
 #: ../../user/checks.rst:897
 msgid "``There are %{count} apples``"
-msgstr ""
+msgstr "``There are %{count} apples``"
 
 #: ../../user/checks.rst:0
 msgid "Linked locale messages"
@@ -46781,7 +46782,7 @@ msgstr "Gekoppelde lokale berichten"
 
 #: ../../user/checks.rst:898
 msgid "``@:message.dio @:message.the_world!``"
-msgstr ""
+msgstr "``@:message.dio @:message.the_world!``"
 
 #: ../../user/checks.rst:902
 msgid ""
@@ -46887,7 +46888,7 @@ msgstr "De decoratieve kashida-letters mogen niet gebruikt worden"
 
 #: ../../user/checks.rst:970
 msgid "``weblate.checks.chars.KashidaCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.KashidaCheck``"
 
 #: ../../user/checks.rst:971
 msgid "``kashida``"
@@ -46913,7 +46914,7 @@ msgstr "De Markdown-links komen niet overeen met de bron"
 
 #: ../../user/checks.rst:989
 msgid "``weblate.checks.markup.MarkdownLinkCheck``"
-msgstr ""
+msgstr "``weblate.checks.markup.MarkdownLinkCheck``"
 
 #: ../../user/checks.rst:990
 msgid "``md-link``"
@@ -46937,7 +46938,7 @@ msgstr "De Markdown-verwijzingen komen niet overeen met de bron"
 
 #: ../../user/checks.rst:1008
 msgid "``weblate.checks.markup.MarkdownRefLinkCheck``"
-msgstr ""
+msgstr "``weblate.checks.markup.MarkdownRefLinkCheck``"
 
 #: ../../user/checks.rst:1009
 msgid "``md-reflink``"
@@ -46961,7 +46962,7 @@ msgstr "De Markdown-syntaxis komt niet overeen met de bron"
 
 #: ../../user/checks.rst:1026
 msgid "``weblate.checks.markup.MarkdownSyntaxCheck``"
-msgstr ""
+msgstr "``weblate.checks.markup.MarkdownSyntaxCheck``"
 
 #: ../../user/checks.rst:1027
 msgid "``md-syntax``"
@@ -46981,7 +46982,7 @@ msgstr "de vertaling mag de opgegeven lengte niet overschrijden"
 
 #: ../../user/checks.rst:1044
 msgid "``weblate.checks.chars.MaxLengthCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.MaxLengthCheck``"
 
 #: ../../user/checks.rst:1045 ../../user/checks.rst:1046
 msgid "``max-length``"
@@ -47028,7 +47029,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1073
 msgid "``weblate.checks.render.MaxSizeCheck``"
-msgstr ""
+msgstr "``weblate.checks.render.MaxSizeCheck``"
 
 #: ../../user/checks.rst:1074 ../../user/checks.rst:1075
 msgid "``max-size``"
@@ -47075,7 +47076,7 @@ msgstr "Het aantal letterlijke \\\\n komt niet overeen met de bron"
 
 #: ../../user/checks.rst:1116
 msgid "``weblate.checks.chars.EscapedNewlineCountingCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EscapedNewlineCountingCheck``"
 
 #: ../../user/checks.rst:1117
 msgid "``escaped_newline``"
@@ -47098,7 +47099,7 @@ msgstr "Bron en vertaling eindigen niet met een dubbele punt"
 
 #: ../../user/checks.rst:1130
 msgid "``weblate.checks.chars.EndColonCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndColonCheck``"
 
 #: ../../user/checks.rst:1131
 msgid "``end_colon``"
@@ -47126,7 +47127,7 @@ msgstr "Bron en vertaling eindigen niet met een ellips (…)"
 
 #: ../../user/checks.rst:1149
 msgid "``weblate.checks.chars.EndEllipsisCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndEllipsisCheck``"
 
 #: ../../user/checks.rst:1150
 msgid "``end_ellipsis``"
@@ -47159,7 +47160,7 @@ msgstr "Bron en vertaling eindigen niet met een uitroepteken"
 
 #: ../../user/checks.rst:1170
 msgid "``weblate.checks.chars.EndExclamationCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndExclamationCheck``"
 
 #: ../../user/checks.rst:1171
 msgid "``end_exclamation``"
@@ -47189,7 +47190,7 @@ msgstr "Bron en vertaling eindigen niet met een punt"
 
 #: ../../user/checks.rst:1190
 msgid "``weblate.checks.chars.EndStopCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndStopCheck``"
 
 #: ../../user/checks.rst:1191
 msgid "``end_stop``"
@@ -47276,7 +47277,7 @@ msgstr "de bron en vertaling eindigen niet met een puntkomma"
 
 #: ../../user/checks.rst:1247
 msgid "``weblate.checks.chars.EndSemicolonCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndSemicolonCheck``"
 
 #: ../../user/checks.rst:1248
 msgid "``end_semicolon``"
@@ -47302,7 +47303,7 @@ msgstr "Het aantal regeleinden in de vertaling komt niet overeen met de bron"
 
 #: ../../user/checks.rst:1264
 msgid "``weblate.checks.chars.NewLineCountCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.NewLineCountCheck``"
 
 #: ../../user/checks.rst:1265
 msgid "``newline-count``"
@@ -47353,7 +47354,7 @@ msgstr "Er ontbreekt een aantal aanduidingen in de vertaling"
 
 #: ../../user/checks.rst:1296
 msgid "``weblate.checks.placeholders.PlaceholderCheck``"
-msgstr ""
+msgstr "``weblate.checks.placeholders.PlaceholderCheck``"
 
 #: ../../user/checks.rst:1297 ../../user/checks.rst:1298
 msgid "``placeholders``"
@@ -47396,7 +47397,7 @@ msgstr "Ontbrekende niet-breekbare spatie vóór dubbel leesteken"
 
 #: ../../user/checks.rst:1340
 msgid "``weblate.checks.chars.PunctuationSpacingCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.PunctuationSpacingCheck``"
 
 #: ../../user/checks.rst:1341
 msgid "``punctuation_spacing``"
@@ -47422,7 +47423,7 @@ msgstr "De vertaling komt niet overeen met de reguliere uitdrukking"
 
 #: ../../user/checks.rst:1361
 msgid "``weblate.checks.placeholders.RegexCheck``"
-msgstr ""
+msgstr "``weblate.checks.placeholders.RegexCheck``"
 
 #: ../../user/checks.rst:1362 ../../user/checks.rst:1363
 msgid "``regex``"
@@ -47488,7 +47489,7 @@ msgstr "Bron en vertaling beginnen niet met een nieuwe regel"
 
 #: ../../user/checks.rst:1411
 msgid "``weblate.checks.chars.BeginNewlineCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.BeginNewlineCheck``"
 
 #: ../../user/checks.rst:1412
 msgid "``begin_newline``"
@@ -47515,7 +47516,7 @@ msgstr "Bron en vertaling beginnen niet met hetzelfde aantal spaties"
 
 #: ../../user/checks.rst:1429
 msgid "``weblate.checks.chars.BeginSpaceCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.BeginSpaceCheck``"
 
 #: ../../user/checks.rst:1430
 msgid "``begin_space``"
@@ -47537,7 +47538,7 @@ msgstr "Bron en vertaling eindigen niet met een nieuwe regel"
 
 #: ../../user/checks.rst:1443
 msgid "``weblate.checks.chars.EndNewlineCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndNewlineCheck``"
 
 #: ../../user/checks.rst:1444
 msgid "``end_newline``"
@@ -47557,7 +47558,7 @@ msgstr "Bron en vertaling eindigen niet met een spatie"
 
 #: ../../user/checks.rst:1461
 msgid "``weblate.checks.chars.EndSpaceCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndSpaceCheck``"
 
 #: ../../user/checks.rst:1462
 msgid "``end_space``"
@@ -47585,7 +47586,7 @@ msgstr "de bron en vertaling zijn identiek"
 
 #: ../../user/checks.rst:1477
 msgid "``weblate.checks.same.SameCheck``"
-msgstr ""
+msgstr "``weblate.checks.same.SameCheck``"
 
 #: ../../user/checks.rst:1478
 msgid "``same``"
@@ -47633,7 +47634,7 @@ msgstr "De vertaling gebruikt onveilige html-opmaak"
 
 #: ../../user/checks.rst:1512
 msgid "``weblate.checks.markup.SafeHTMLCheck``"
-msgstr ""
+msgstr "``weblate.checks.markup.SafeHTMLCheck``"
 
 #: ../../user/checks.rst:1517
 msgid ""
@@ -47664,7 +47665,7 @@ msgstr "De vertaling bevat geen url"
 
 #: ../../user/checks.rst:1539
 msgid "``weblate.checks.markup.URLCheck``"
-msgstr ""
+msgstr "``weblate.checks.markup.URLCheck``"
 
 #: ../../user/checks.rst:1544
 msgid ""
@@ -47683,7 +47684,7 @@ msgstr "De xml-tags in de vertaling komen niet overeen met de bron"
 
 #: ../../user/checks.rst:1555
 msgid "``weblate.checks.markup.XMLTagsCheck``"
-msgstr ""
+msgstr "``weblate.checks.markup.XMLTagsCheck``"
 
 #: ../../user/checks.rst:1556
 msgid "``xml-tags``"
@@ -47723,7 +47724,7 @@ msgstr "De vertaling is geen geldige xml"
 
 #: ../../user/checks.rst:1579
 msgid "``weblate.checks.markup.XMLValidityCheck``"
-msgstr ""
+msgstr "``weblate.checks.markup.XMLValidityCheck``"
 
 #: ../../user/checks.rst:1580
 msgid "``xml-invalid``"
@@ -47743,7 +47744,7 @@ msgstr "De vertaling bevat een extra spatie zonder breedte"
 
 #: ../../user/checks.rst:1600
 msgid "``weblate.checks.chars.ZeroWidthSpaceCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.ZeroWidthSpaceCheck``"
 
 #: ../../user/checks.rst:1601
 msgid "``zero-width-space``"
@@ -47795,7 +47796,7 @@ msgstr "brontekenreeksen"
 
 #: ../../user/checks.rst:1627
 msgid "``weblate.checks.source.EllipsisCheck``"
-msgstr ""
+msgstr "``weblate.checks.source.EllipsisCheck``"
 
 #: ../../user/checks.rst:1628
 msgid "``ellipsis``"
@@ -47893,7 +47894,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1689
 msgid "``three<four``"
-msgstr "``drie<vier``"
+msgstr "``three<four``"
 
 #: ../../user/checks.rst:1689
 msgid "The ``<four`` part would be lost as ``.innerHTML``."
@@ -47901,7 +47902,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1690
 msgid "``three < four``"
-msgstr "``drie <vier``"
+msgstr "``three < four``"
 
 #: ../../user/checks.rst:1690
 msgid "The ``.innerHTML`` would match the ``.textContent``."
@@ -47909,7 +47910,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1691
 msgid "``three <four>``"
-msgstr "``drie <vier>``"
+msgstr "``three <four>``"
 
 #: ../../user/checks.rst:1691
 msgid "Missing a closing tag."
@@ -47917,7 +47918,7 @@ msgstr "Tag voor sluiten ontbreekt."
 
 #: ../../user/checks.rst:1692
 msgid "``three <four/>``"
-msgstr "``drie <four/>``"
+msgstr "``three <four/>``"
 
 #: ../../user/checks.rst:1692
 msgid "``four`` is not a HTML void element, so should not self-close."
@@ -47925,7 +47926,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1693
 msgid "``<a-b>text</a-b>``"
-msgstr "``<a-b>tekst</a-b>``"
+msgstr "``<a-b>text</a-b>``"
 
 #: ../../user/checks.rst:1693
 msgid "Custom element tag with a matching closing tag."
@@ -47933,7 +47934,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1694
 msgid "``a <img/> b``"
-msgstr ""
+msgstr "``a <img/> b``"
 
 #: ../../user/checks.rst:1694
 msgid "``img`` is a HTML void element. Self-closing is allowed."
@@ -47941,7 +47942,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1695
 msgid "``a <br> b``"
-msgstr ""
+msgstr "``a <br> b``"
 
 #: ../../user/checks.rst:1695
 msgid "``br`` is a HTML void element."
@@ -47949,7 +47950,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1696
 msgid "``<img class=a/>``"
-msgstr ""
+msgstr "``<img class=a/>``"
 
 #: ../../user/checks.rst:1696
 msgid "The attribute value is not quoted."
@@ -47957,7 +47958,7 @@ msgstr "De waarde van het attribuut staat niet tussen aanhalingstekens."
 
 #: ../../user/checks.rst:1697
 msgid "``<aØ attr=''/>``"
-msgstr ""
+msgstr "``<aØ attr=''/>``"
 
 #: ../../user/checks.rst:1697
 msgid "Non-ASCII tag name."
@@ -47965,7 +47966,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1698
 msgid "``kind&ethical``"
-msgstr ""
+msgstr "``kind&ethical``"
 
 #: ../../user/checks.rst:1698
 msgid "The ``&eth`` part would be converted to ``ð``."
@@ -47973,7 +47974,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1699
 msgid "``kind&eth;ical``"
-msgstr ""
+msgstr "``kind&eth;ical``"
 
 #: ../../user/checks.rst:1699
 msgid "The character reference seems to be intentional."
@@ -47981,7 +47982,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1700
 msgid "``three&lte;four``"
-msgstr ""
+msgstr "``three&lte;four``"
 
 #: ../../user/checks.rst:1700
 msgid "The ``&lte;`` part would be converted to ``<e;``."
@@ -47989,7 +47990,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1701
 msgid "``three&lf;four``"
-msgstr "``drie&lf;vier``"
+msgstr "``three&lf;four``"
 
 #: ../../user/checks.rst:1701
 msgid "The character reference is not valid."
@@ -47997,7 +47998,7 @@ msgstr "De verwijzing naar het teken is niet geldig."
 
 #: ../../user/checks.rst:1702
 msgid "``three<{ $val }``"
-msgstr ""
+msgstr "``three<{ $val }``"
 
 #: ../../user/checks.rst:1702
 msgid "The Fluent variable may unintentionally become a tag."
@@ -48005,7 +48006,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1703
 msgid "``&l{ $val }``"
-msgstr ""
+msgstr "``&l{ $val }``"
 
 #: ../../user/checks.rst:1703
 msgid "The Fluent variable may unintentionally become a character reference."
@@ -48100,7 +48101,7 @@ msgstr "Deze tekenreeks is al lange tijd onvertaald"
 
 #: ../../user/checks.rst:1776
 msgid "``weblate.checks.source.LongUntranslatedCheck``"
-msgstr ""
+msgstr "``weblate.checks.source.LongUntranslatedCheck``"
 
 #: ../../user/checks.rst:1777
 msgid "``long_untranslated``"
@@ -48122,7 +48123,7 @@ msgstr "De vertalingen in verschillende talen bevatten foutmeldingen"
 
 #: ../../user/checks.rst:1791
 msgid "``weblate.checks.source.MultipleFailingCheck``"
-msgstr ""
+msgstr "``weblate.checks.source.MultipleFailingCheck``"
 
 #: ../../user/checks.rst:1792
 msgid "``multiple_failures``"
@@ -48156,7 +48157,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1812
 msgid "``weblate.checks.format.MultipleUnnamedFormatsCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.MultipleUnnamedFormatsCheck``"
 
 #: ../../user/checks.rst:1813
 msgid "``unnamed_format``"
@@ -48184,7 +48185,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1828
 msgid "``weblate.checks.source.OptionalPluralCheck``"
-msgstr ""
+msgstr "``weblate.checks.source.OptionalPluralCheck``"
 
 #: ../../user/checks.rst:1829
 msgid "``optional_plural``"
@@ -49102,7 +49103,7 @@ msgstr ""
 
 #: ../../user/search.rst:27
 msgid "``source:TEXT``"
-msgstr ""
+msgstr "``source:TEXT``"
 
 #: ../../user/search.rst:28
 msgid "Source string case-insensitive search."
@@ -49110,7 +49111,7 @@ msgstr "Hoofdletter ongevoelige zoekactie brontekenreeks."
 
 #: ../../user/search.rst:29
 msgid "``target:TEXT``"
-msgstr ""
+msgstr "``target:TEXT``"
 
 #: ../../user/search.rst:30
 msgid "Target string case-insensitive search."
@@ -49118,7 +49119,7 @@ msgstr ""
 
 #: ../../user/search.rst:31
 msgid "``context:TEXT``"
-msgstr ""
+msgstr "``context:TEXT``"
 
 #: ../../user/search.rst:32
 msgid "Context string case-insensitive search."
@@ -49126,7 +49127,7 @@ msgstr ""
 
 #: ../../user/search.rst:33
 msgid "``key:TEXT``"
-msgstr ""
+msgstr "``key:TEXT``"
 
 #: ../../user/search.rst:34
 msgid "Key string case-insensitive search."
@@ -49134,7 +49135,7 @@ msgstr ""
 
 #: ../../user/search.rst:35
 msgid "``note:TEXT``"
-msgstr ""
+msgstr "``note:TEXT``"
 
 #: ../../user/search.rst:36
 msgid "Source string description case-insensitive search."
@@ -49142,7 +49143,7 @@ msgstr "Hoofdletter ongevoelige zoekactie beschrijving brontekenreeks."
 
 #: ../../user/search.rst:37
 msgid "``location:TEXT``"
-msgstr ""
+msgstr "``location:TEXT``"
 
 #: ../../user/search.rst:38
 msgid "Location string case-insensitive search."
@@ -49150,7 +49151,7 @@ msgstr ""
 
 #: ../../user/search.rst:39
 msgid "``priority:NUMBER``"
-msgstr ""
+msgstr "``priority:NUMBER``"
 
 #: ../../user/search.rst:40
 msgid "String priority."
@@ -49158,7 +49159,7 @@ msgstr ""
 
 #: ../../user/search.rst:41
 msgid "``id:NUMBER``"
-msgstr ""
+msgstr "``id:NUMBER``"
 
 #: ../../user/search.rst:42
 msgid "String unique identifier."
@@ -49166,7 +49167,7 @@ msgstr ""
 
 #: ../../user/search.rst:43
 msgid "``position:NUMBER``"
-msgstr ""
+msgstr "``position:NUMBER``"
 
 #: ../../user/search.rst:44
 msgid "String position in the translation file."
@@ -49174,7 +49175,7 @@ msgstr "Positie tekenreeks in het vertaalbestand."
 
 #: ../../user/search.rst:45
 msgid "``added:DATETIME``"
-msgstr ""
+msgstr "``added:DATETIME``"
 
 #: ../../user/search.rst:46
 msgid "Timestamp for when the string was added to Weblate."
@@ -49182,7 +49183,7 @@ msgstr ""
 
 #: ../../user/search.rst:47
 msgid "``state:TEXT``"
-msgstr ""
+msgstr "``state:TEXT``"
 
 #: ../../user/search.rst:48
 msgid ""
@@ -49199,7 +49200,7 @@ msgstr ""
 
 #: ../../user/search.rst:51
 msgid "``pending:BOOLEAN``"
-msgstr ""
+msgstr "``pending:BOOLEAN``"
 
 #: ../../user/search.rst:52
 msgid "String pending for flushing to VCS."
@@ -49207,7 +49208,7 @@ msgstr ""
 
 #: ../../user/search.rst:53
 msgid "``has:TEXT``"
-msgstr ""
+msgstr "``has:TEXT``"
 
 #: ../../user/search.rst:54
 msgid ""
@@ -49219,7 +49220,7 @@ msgstr ""
 
 #: ../../user/search.rst:55
 msgid "``is:TEXT``"
-msgstr ""
+msgstr "``is:TEXT``"
 
 #: ../../user/search.rst:56
 msgid "Filters string on a condition:"
@@ -49273,7 +49274,7 @@ msgstr ""
 
 #: ../../user/search.rst:70 ../../user/search.rst:193
 msgid "``language:TEXT``"
-msgstr ""
+msgstr "``language:TEXT``"
 
 #: ../../user/search.rst:71
 msgid "String target language."
@@ -49281,7 +49282,7 @@ msgstr ""
 
 #: ../../user/search.rst:72
 msgid "``component:TEXT``"
-msgstr ""
+msgstr "``component:TEXT``"
 
 #: ../../user/search.rst:73
 msgid ""
@@ -49291,7 +49292,7 @@ msgstr ""
 
 #: ../../user/search.rst:74
 msgid "``project:TEXT``"
-msgstr ""
+msgstr "``project:TEXT``"
 
 #: ../../user/search.rst:75
 msgid "Project slug, see :ref:`project-slug`."
@@ -49309,7 +49310,7 @@ msgstr ""
 
 #: ../../user/search.rst:78
 msgid "``changed_by:TEXT``"
-msgstr ""
+msgstr "``changed_by:TEXT``"
 
 #: ../../user/search.rst:79
 msgid "String was changed by author with given username."
@@ -49317,7 +49318,7 @@ msgstr ""
 
 #: ../../user/search.rst:80
 msgid "``changed:DATETIME``"
-msgstr ""
+msgstr "``changed:DATETIME``"
 
 #: ../../user/search.rst:81 ../../user/search.rst:196
 msgid "String content was changed on date, supports :ref:`search-operators`."
@@ -49325,7 +49326,7 @@ msgstr ""
 
 #: ../../user/search.rst:82
 msgid "``change_time:DATETIME``"
-msgstr ""
+msgstr "``change_time:DATETIME``"
 
 #: ../../user/search.rst:83
 msgid ""
@@ -49336,7 +49337,7 @@ msgstr ""
 
 #: ../../user/search.rst:86
 msgid "``change_action:TEXT``"
-msgstr ""
+msgstr "``change_action:TEXT``"
 
 #: ../../user/search.rst:87
 msgid ""
@@ -49348,7 +49349,7 @@ msgstr ""
 
 #: ../../user/search.rst:91
 msgid "``source_changed:DATETIME``"
-msgstr ""
+msgstr "``source_changed:DATETIME``"
 
 #: ../../user/search.rst:92
 msgid "Source string was changed on date, supports :ref:`search-operators`."
@@ -49356,7 +49357,7 @@ msgstr ""
 
 #: ../../user/search.rst:93
 msgid "``check:TEXT``"
-msgstr ""
+msgstr "``check:TEXT``"
 
 #: ../../user/search.rst:94
 msgid ""
@@ -49365,7 +49366,7 @@ msgstr ""
 
 #: ../../user/search.rst:95
 msgid "``dismissed_check:TEXT``"
-msgstr ""
+msgstr "``dismissed_check:TEXT``"
 
 #: ../../user/search.rst:96
 msgid ""
@@ -49374,7 +49375,7 @@ msgstr ""
 
 #: ../../user/search.rst:97
 msgid "``comment:TEXT``"
-msgstr ""
+msgstr "``comment:TEXT``"
 
 #: ../../user/search.rst:98
 msgid "Search in user comments."
@@ -49390,7 +49391,7 @@ msgstr "Zoeken in opgeloste opmerkingen."
 
 #: ../../user/search.rst:101
 msgid "``comment_author:TEXT``"
-msgstr ""
+msgstr "``comment_author:TEXT``"
 
 #: ../../user/search.rst:102
 msgid "Filter by comment author."
@@ -49398,7 +49399,7 @@ msgstr ""
 
 #: ../../user/search.rst:103
 msgid "``suggestion:TEXT``"
-msgstr ""
+msgstr "``suggestion:TEXT``"
 
 #: ../../user/search.rst:104
 msgid "Search in suggestions."
@@ -49406,7 +49407,7 @@ msgstr ""
 
 #: ../../user/search.rst:105
 msgid "``suggestion_author:TEXT``"
-msgstr ""
+msgstr "``suggestion_author:TEXT``"
 
 #: ../../user/search.rst:106
 msgid "Filter by suggestion author."
@@ -49459,7 +49460,7 @@ msgstr ""
 
 #: ../../user/search.rst:127
 msgid "``state:>=translated``"
-msgstr ""
+msgstr "``state:>=translated``"
 
 #: ../../user/search.rst:128
 msgid "State is ``translated`` or better (``approved``)."
@@ -49467,7 +49468,7 @@ msgstr ""
 
 #: ../../user/search.rst:129
 msgid "``changed:2019``"
-msgstr ""
+msgstr "``changed:2019``"
 
 #: ../../user/search.rst:130
 msgid "Changed in year 2019."
@@ -49475,7 +49476,7 @@ msgstr ""
 
 #: ../../user/search.rst:131
 msgid "``changed:[2019-03-01 to 2019-04-01]``"
-msgstr ""
+msgstr "``changed:[2019-03-01 to 2019-04-01]``"
 
 #: ../../user/search.rst:132
 msgid "Changed between two given dates."
@@ -49483,7 +49484,7 @@ msgstr ""
 
 #: ../../user/search.rst:133
 msgid "``position:[10 to 100]``"
-msgstr ""
+msgstr "``position:[10 to 100]``"
 
 #: ../../user/search.rst:134
 msgid "Strings with position between 10 and 100 (inclusive)."
@@ -49585,7 +49586,7 @@ msgstr ""
 
 #: ../../user/search.rst:195
 msgid "``joined:DATETIME``"
-msgstr ""
+msgstr "``joined:DATETIME``"
 
 #: ../../user/search.rst:197
 msgid "``translates:TEXT``"
@@ -49611,7 +49612,7 @@ msgstr ""
 
 #: ../../user/search.rst:204
 msgid "``is:bot``"
-msgstr ""
+msgstr "``is:bot``"
 
 #: ../../user/search.rst:205
 msgid "Search for bots (used for project scoped tokens)."
@@ -49646,7 +49647,7 @@ msgstr ""
 
 #: ../../user/search.rst:222
 msgid "``changed:>=\"2 weeks ago\"``"
-msgstr ""
+msgstr "``changed:>=\"2 weeks ago\"``"
 
 #: ../../user/search.rst:223
 msgid ""
@@ -49655,7 +49656,7 @@ msgstr ""
 
 #: ../../user/search.rst:224
 msgid "``changed:>=yesterday``"
-msgstr ""
+msgstr "``changed:>=yesterday``"
 
 #: ../../user/search.rst:225
 msgid "Returns strings that are changed starting yesterday."
