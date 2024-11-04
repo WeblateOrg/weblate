@@ -1441,7 +1441,9 @@ both Weblate and PostgreSQL containers.
 
 .. envvar:: POSTGRES_ALTER_ROLE
 
-    Configures name of role to alter during migrations, see :ref:`config-postgresql`.
+    Configures name of the PostgreSQL role to alter during the database migration, see :ref:`config-postgresql`.
+
+    Defaults to :envvar:`POSTGRES_USER`.
 
 .. envvar:: POSTGRES_CONN_MAX_AGE
 
