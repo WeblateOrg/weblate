@@ -1018,7 +1018,11 @@ order to allow adding new words to them.
 Glossary color
 ++++++++++++++
 
-Display color for a glossary used when showing word matches.
+Color used when displaying terms from this glossary. Useful to distinguish glossaries when using more of them.
+
+.. seealso::
+
+   :ref:`glossary`
 
 .. _category:
 
