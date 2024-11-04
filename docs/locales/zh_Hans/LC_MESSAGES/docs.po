@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 09:40+0100\n"
-"PO-Revision-Date: 2024-11-04 09:34+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-11-05 01:47+0000\n"
+"Last-Translator: 大学没毕业 <ziweidao@foxmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -213,10 +213,8 @@ msgid "All available permissions for the project."
 msgstr "项目的所有可用权限。"
 
 #: ../../admin/access.rst:102
-#, fuzzy
-#| msgid "Review"
 msgid "`Review`"
-msgstr "复查"
+msgstr "`审校`"
 
 #: ../../admin/access.rst:103
 msgid "Approve translations in a review."
@@ -239,10 +237,8 @@ msgid "Translate the project and upload translations made offline."
 msgstr "翻译项目，并上传离线的翻译。"
 
 #: ../../admin/access.rst:112
-#, fuzzy
-#| msgid "Sources"
 msgid "`Sources`"
-msgstr "原文"
+msgstr "`原文`"
 
 #: ../../admin/access.rst:113
 msgid ""
@@ -253,40 +249,32 @@ msgstr ""
 "串信息。"
 
 #: ../../admin/access.rst:116
-#, fuzzy
-#| msgid "Languages"
 msgid "`Languages`"
-msgstr "语言"
+msgstr "`语言`"
 
 #: ../../admin/access.rst:117
 msgid "Manage translated languages (add or remove translations)."
 msgstr "管理翻译语言（添加或删除翻译）。"
 
 #: ../../admin/access.rst:119
-#, fuzzy
-#| msgid "Glossary"
 msgid "`Glossary`"
-msgstr "术语表"
+msgstr "`术语表`"
 
 #: ../../admin/access.rst:120
 msgid "Manage glossary (add, remove, and upload entries)."
 msgstr "管理术语表（添加、删除及上传条目）。"
 
 #: ../../admin/access.rst:122
-#, fuzzy
-#| msgid "Memory"
 msgid "`Memory`"
-msgstr "记忆存储"
+msgstr "`记忆库`"
 
 #: ../../admin/access.rst:123
 msgid "Manage translation memory."
 msgstr "管理翻译记忆库。"
 
 #: ../../admin/access.rst:125
-#, fuzzy
-#| msgid "Screenshots"
 msgid "`Screenshots`"
-msgstr "截屏"
+msgstr "`截屏`"
 
 #: ../../admin/access.rst:126
 msgid "Manage screenshots (add, remove, and associate them to source strings)."
@@ -412,8 +400,8 @@ msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"你可以将你的项目设为 :guilabel:`受保护` or :guilabel:`私密` （见 :ref:`acl`）"
-"并根据不同项目 :ref:`管理用户权限 <manage-acl>`。"
+"你可以将你的项目设为 :guilabel:`受保护` 或 :guilabel:`私密`\\ （见 "
+":ref:`acl`）并根据不同项目 :ref:`管理用户权限 <manage-acl>`。"
 
 #: ../../admin/access.rst:202
 msgid ""
@@ -497,20 +485,19 @@ msgstr ""
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
-msgstr "`用户` （默认情况下，这是由 :ref:`自动团队分配 <autoteam>` 完成的）。"
+msgstr "`用户`\\ （默认情况下，这是由 :ref:`自动团队分配 <autoteam>` 完成的）。"
 
 #: ../../admin/access.rst:243
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
-msgstr ""
-"`审校员` （如果您有专门的审校员，正在使用 :ref:`审校流程 <reviews>`）。"
+msgstr "`审校员`\\ （如果您有专门的审校员，正在使用 :ref:`审校流程 <reviews>`）。"
 
 #: ../../admin/access.rst:245
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
-msgstr "`管理者` （如果您想把大部分的管理操作委托给别人）。"
+msgstr "`管理者`\\ （如果您想把大部分的管理操作委托给别人）。"
 
 #: ../../admin/access.rst:248
 msgid ""
@@ -713,8 +700,8 @@ msgid ""
 "team, see :ref:`default-teams`)."
 msgstr ""
 "用户必须是链接到项目的团队或项目中的任何部件的成员。拥有成员身份就足够了，浏"
-"览项目不需要特定的权限 （这被用于默认的 `查看者` 团队，见 :ref:`default-"
-"teams` ）。"
+"览项目不需要特定的权限（这被用于默认的 `查看者` 团队，见 :ref:`default-teams`"
+" ）。"
 
 #: ../../admin/access.rst:352
 msgid "Component-browsing access"
@@ -899,8 +886,9 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"从一个 Weblate 版本升级到另一个版本时，总是会重新创建对 `用户` 和 `查看者` 的"
-"自动团队分配。如果你想关闭它，将正则表达式设置为 ``^$`` （不匹配任何内容）。"
+"从一个 Weblate 版本升级到另一个版本时，总是会重新创建对 `用户` 和 `查看者` "
+"的自动团队分配。如果你想关闭它，将正则表达式设置为 ``^$``\\ "
+"（不匹配任何内容）。"
 
 #: ../../admin/access.rst:449
 msgid ""
@@ -2992,7 +2980,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:532
 msgid "Pseudolocale generation"
-msgstr "假语言环境 （Pseudolocale）生成"
+msgstr "假语言环境（Pseudolocale）生成"
 
 #: ../../admin/addons.rst:536
 msgid "``weblate.generate.pseudolocale``"
@@ -4889,10 +4877,10 @@ msgid ""
 "wladmin:`createadmin`)."
 msgstr ""
 "你应当从设置的 :setting:`django:AUTHENTICATION_BACKENDS` 部分移除 "
-"``'social_core.backends.email.EmailAuth'``，否则用户不能够在 Weblate 中设置他"
-"们的密码，并使用它进行身份验证。为了生成权限和方便匿名用户，仍需保留 "
+"``'social_core.backends.email.EmailAuth'``，否则用户不能够在 Weblate "
+"中设置他们的密码，并使用它进行身份验证。为了生成权限和方便匿名用户，仍需保留 "
 "``'weblate.accounts.auth.WeblateUserBackend'``。它还允许你使用一个本地管理账"
-"户登录，如果你已经创建了它 （如通过使用 :wladmin:`createadmin`）。"
+"户登录，如果你已经创建了它（如通过使用 :wladmin:`createadmin`）。"
 
 #: ../../admin/auth.rst:636
 msgid "Using bind password"
@@ -4995,9 +4983,9 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
-"典型的安装包括，将身份验证后台添加到 :setting:`django:"
-"AUTHENTICATION_BACKENDS`，并将身份验证 app （如果有的话）安装到 :setting:"
-"`django:INSTALLED_APPS` ："
+"典型的安装包括，将身份验证后台添加到 "
+":setting:`django:AUTHENTICATION_BACKENDS`，并将身份验证 app（如果有的话）"
+"安装到 :setting:`django:INSTALLED_APPS` ："
 
 #: ../../admin/auth.rst:783
 msgid "Two-factor authentication"
@@ -5446,8 +5434,8 @@ msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
-"将 Weblate 配置 （ :file:`backups/settings.py`，请参见 :ref:`backup-dumps` ）"
-"复制到正确的位置，请参见 :ref:`configuration`。"
+"将 Weblate 配置（ :file:`backups/settings.py`，请参见 :ref:`backup-dumps` "
+"）复制到正确的位置，请参见 :ref:`configuration`。"
 
 #: ../../admin/backup.rst:188
 msgid ""
@@ -5624,8 +5612,8 @@ msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
-"Weblate 设置为 :file:`settings.py` （还有扩展版，在 :file:`settings-expanded."
-"py` ）。"
+"Weblate 设置为 :file:`settings.py`\\ （还有扩展版，在 :file:`settings-"
+"expanded.py` ）。"
 
 #: ../../admin/backup.rst:304
 msgid "PostgreSQL database backup as :file:`database.sql`."
@@ -6943,8 +6931,7 @@ msgstr "可以将几种字型加载到 Weblate 中："
 msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
-msgstr ""
-"为了使用字型来检查字符串长度，将适当的标记传递给它 （请参见 :ref:`custom-"
+msgstr "为了使用字型来检查字符串长度，将适当的标记传递给它（请参见 :ref:`custom-"
 "checks`）。可能会需要后面这些："
 
 #: ../../admin/checks.rst:372
@@ -7000,9 +6987,8 @@ msgstr "设置一些属性。"
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
-msgstr ""
-"应用 ``check`` （如果想要处理代码中的复数的话）或 ``check_single`` 方法（它将"
-"为你完成）。"
+msgstr "应用 ``check``\\ （如果想要处理代码中的复数的话）或 ``check_single`` "
+"方法（它将为你完成）。"
 
 #: ../../admin/checks.rst:394
 msgid "Some examples:"
@@ -7469,7 +7455,7 @@ msgstr "可能的选项："
 
 #: ../../admin/config.rst:218
 msgid "``monthly`` (this is the default)"
-msgstr "``monthly`` （这是默认设置）"
+msgstr "``monthly``\\ （这是默认设置）"
 
 #: ../../admin/config.rst:219
 msgid "``weekly``"
@@ -9011,7 +8997,7 @@ msgstr "应用次数限制后，可接受多少次身份认证。"
 
 #: ../../admin/config.rst:1530
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
-msgstr "秒数默认为 300 （ 5 分钟）。"
+msgstr "秒数默认为 300（ 5 分钟）。"
 
 #: ../../admin/config.rst:1534
 msgid ""
@@ -9499,9 +9485,7 @@ msgstr "URL_PREFIX"
 msgid ""
 "This setting allows you to run Weblate under some path (otherwise it relies "
 "on being run from the webserver root)."
-msgstr ""
-"这个设置允许在一些路径下运行 Weblate （否则它依赖于从 web 服务器根目录运"
-"行）。"
+msgstr "这个设置允许在一些路径下运行 Weblate（否则它依赖于从 web 服务器根目录运行）。"
 
 #: ../../admin/config.rst:1930
 msgid ""
@@ -9888,7 +9872,7 @@ msgstr "启用 :setting:`AUTO_UPDATE` 以自动更新你的 Weblate 实例上的
 msgid ""
 "Execute :wladmin:`updategit` (with selection of project or ``--all`` to "
 "update all)"
-msgstr "执行 :wladmin:`updategit` （选择项目，或 ``--all`` 来更新全部）"
+msgstr "执行 :wladmin:`updategit`\\ （选择项目，或 ``--all`` 来更新全部）"
 
 #: ../../admin/continuous.rst:101
 msgid ""
@@ -10095,9 +10079,9 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
-"Weblate 已经支持 Bitbucket webhooks，添加仓库推送时触发的 webhook，目的地为你"
-"的 Weblate 安装上的 ``/hooks/bitbucket/`` （例如 ``https://hosted.weblate."
-"org/hooks/bitbucket/`` ）。"
+"Weblate 已经支持 Bitbucket webhooks，添加仓库推送时触发的 webhook，"
+"目的地为你的 Weblate 安装上的 ``/hooks/bitbucket/``\\ （例如 ``https://hosted"
+".weblate.org/hooks/bitbucket/`` ）。"
 
 #: ../../admin/continuous.rst:235
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
@@ -10113,9 +10097,9 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
-"Weblate 已经支持 GitLab hooks，添加项目的 webhook，目的地为你的 Weblate 安装"
-"上的 ``/hooks/gitlab/`` （例如 ``https://hosted.weblate.org/hooks/gitlab/"
-"`` ）。"
+"Weblate 已经支持 GitLab hooks，添加项目的 webhook，目的地为你的 Weblate "
+"安装上的 ``/hooks/gitlab/``\\ （例如 ``https://hosted.weblate.org/hooks/"
+"gitlab/`` ）。"
 
 #: ../../admin/continuous.rst:248
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
@@ -10132,10 +10116,10 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
-"Weblate 已经支持 Pagure hooks，添加项目的 webhook，目的地为你的 Weblate 安装"
-"上的 ``/hooks/pagure/`` （例如 ``https://hosted.weblate.org/hooks/pagure/"
-"`` ）。这可以在 :guilabel:`Project options` 之下的 :guilabel:`Activate Web-"
-"hooks` 中完成："
+"Weblate 已经支持 Pagure hooks，添加项目的 webhook，目的地为你的 Weblate "
+"安装上的 ``/hooks/pagure/``\\ （例如 ``https://hosted.weblate.org/hooks/"
+"pagure/`` ）。这可以在 :guilabel:`Project options` 之下的 :guilabel:`"
+"Activate Web-hooks` 中完成："
 
 #: ../../admin/continuous.rst:264
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
@@ -10154,7 +10138,7 @@ msgid ""
 "settings`."
 msgstr ""
 "Weblate 已经支持 Azure Repos web hooks，为 :guilabel:`Code pushed` 事件添加 "
-"webhook，目的地为你的 Weblate 安装上的 ``/hooks/azure/`` URL （例如 "
+"webhook，目的地为你的 Weblate 安装上的 ``/hooks/azure/`` URL（例如 "
 "``https://hosted.weblate.org/hooks/azure/`` ）。这可以在 :guilabel:`Project "
 "settings` 之下的 :guilabel:`Service hooks` 中完成。"
 
@@ -10180,10 +10164,10 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under repository :"
 "guilabel:`Settings`."
 msgstr ""
-"Weblate 已经支持 Gitea webhooks，为 :guilabel:`Push events` 事件添加 :"
-"guilabel:`Gitea Webhook`，目的地为你的 Weblate 安装上的 ``/hooks/gitea/`` "
-"URL （例如 ``https://hosted.weblate.org/hooks/gitea/`` ）。这可以在 :"
-"guilabel:`Settings` 之下的 :guilabel:`Webhooks` 中完成。"
+"Weblate 已经支持 Gitea webhooks，为 :guilabel:`Push events` 事件添加 "
+":guilabel:`Gitea Webhook`，目的地为你的 Weblate 安装上的 ``/hooks/gitea/`` "
+"URL（例如 ``https://hosted.weblate.org/hooks/gitea/`` ）。这可以在 "
+":guilabel:`Settings` 之下的 :guilabel:`Webhooks` 中完成。"
 
 #: ../../admin/continuous.rst:295
 msgid ""
@@ -10205,10 +10189,10 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under repository :guilabel:"
 "`Management`."
 msgstr ""
-"Weblate 已经支持 Gitee webhooks，为 :guilabel:`Push` 事件添加 :guilabel:"
-"`Webhook`，目的地为你的 Weblate 安装上的 ``/hooks/gitee/`` URL （例如 "
-"``https://hosted.weblate.org/hooks/gitee/`` ）。这可以在 :guilabel:"
-"`Management` 之下的 :guilabel:`Webhooks` 中完成。"
+"Weblate 已经支持 Gitee webhooks，为 :guilabel:`Push` 事件添加 "
+":guilabel:`Webhook`，目的地为你的 Weblate 安装上的 ``/hooks/gitee/`` URL（"
+"例如 ``https://hosted.weblate.org/hooks/gitee/`` ）。这可以在 "
+":guilabel:`Management` 之下的 :guilabel:`Webhooks` 中完成。"
 
 #: ../../admin/continuous.rst:310
 msgid ""
@@ -10548,11 +10532,12 @@ msgid ""
 "and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
-"如果你想更频繁地提交更改而无需检查存在时间，你可以设置一个定时任务来执行提"
-"交。方法是使用 :ref:`admin-interface` 中的 :guilabel:`Periodic Tasks`。首先，"
-"创建期望的 :guilabel:`Interval` （比如 120 秒）。接着，添加新的定时任务并选"
-"择 ``weblate.trans.tasks.commit_pending`` 为 :guilabel:`Task`， "
-"``{\"hours\": 0}`` 为 :guilabel:`Keyword Arguments` 和想要的间隔。"
+"如果你想更频繁地提交更改而无需检查存在时间，你可以设置一个定时任务来执行提交"
+"。方法是使用 :ref:`admin-interface` 中的 :guilabel:`Periodic Tasks`。首先，"
+"创建期望的 :guilabel:`Interval`\\ （比如 120 秒）。接着，"
+"添加新的定时任务并选择 ``weblate.trans.tasks.commit_pending`` 为 "
+":guilabel:`Task`， ``{\"hours\": 0}`` 为 :guilabel:`Keyword Arguments` "
+"和想要的间隔。"
 
 #: ../../admin/continuous.rst:457
 msgid "Processing repository with scripts"
@@ -10668,7 +10653,7 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
-"如果不熟悉 Python，你可以查看 `适合初学者的 Python（英文） <https://www."
+"如果不熟悉 Python，你可以查看 `适合初学者的 Python（英文）\\ <https://www."
 "python.org/about/gettingstarted/>`_ ，它解释了其基本内容并指向了高级教程。"
 
 #: ../../admin/customize.rst:33
@@ -12173,8 +12158,9 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
-"对于任何生产服务器禁止这项。允许调试模式时，Django 会在出错的情况下向用户显示"
-"回溯信息，当禁止时，错误将每封电子邮件发送到 ``ADMINS`` （请参见上面）。"
+"对于任何生产服务器禁止这项。允许调试模式时，Django "
+"会在出错的情况下向用户显示回溯信息，当禁止时，错误将每封电子邮件发送到 "
+"``ADMINS``\\ （请参见上面）。"
 
 #: ../../admin/install.rst:817
 msgid ""
@@ -12387,9 +12373,9 @@ msgid ""
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
-"如果你的网站基于 SSL 上提供服务，那么必须考虑 :file:`settings.py` 中 :"
-"setting:`django:SECURE_HSTS_SECONDS` 的设置值，来允许 HTTP Strict Transport "
-"Security （ HTTP 脚本传输安全）。默认设置为 0，如下所示。"
+"如果你的网站基于 SSL 上提供服务，那么必须考虑 :file:`settings.py` 中 "
+":setting:`django:SECURE_HSTS_SECONDS` 的设置值，来允许 HTTP Strict Transport "
+"Security（ HTTP 脚本传输安全）。默认设置为 0，如下所示。"
 
 #: ../../admin/install.rst:990
 msgid ""
@@ -12617,7 +12603,7 @@ msgstr "更新远程分支（每晚），请参见 :setting:`AUTO_UPDATE`。"
 
 #: ../../admin/install.rst:1171
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
-msgstr "翻译记忆库备份到 JSON （每天），请参见 :wladmin:`dump_memory`。"
+msgstr "翻译记忆库备份到 JSON（每天），请参见 :wladmin:`dump_memory`。"
 
 #: ../../admin/install.rst:1172
 msgid ""
@@ -12733,7 +12719,7 @@ msgid ""
 msgstr ""
 "配置切换很简单，通过允许 :attr:`compressor:django.conf.settings."
 "COMPRESS_OFFLINE`，并配置 :attr:`compressor:django.conf.settings."
-"COMPRESS_OFFLINE_CONTEXT` （后者已经包括在示例的配置中）："
+"COMPRESS_OFFLINE_CONTEXT`\\ （后者已经包括在示例的配置中）："
 
 #: ../../admin/install.rst:1253
 msgid "On each deploy you need to compress the files to match current version:"
@@ -12784,7 +12770,7 @@ msgstr "用于动态内容的 WSGI 服务器（请参见 :ref:`uwsgi` ）"
 
 #: ../../admin/install.rst:1283
 msgid "Celery for executing background tasks (see :ref:`celery`)"
-msgstr "用于执行后台任务的 Celery （请参见 :ref:`celery` ）"
+msgstr "用于执行后台任务的 Celery（请参见 :ref:`celery` ）"
 
 #: ../../admin/install.rst:1287
 msgid ""
@@ -12956,10 +12942,10 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
-"为了运行生产 web 服务器，使用与 Weblate 一起安装的 WSGI 封装（在虚拟 env 的情"
-"况下，它安装为 :file:`~/weblate-env/lib/python3.9/site-packages/weblate/wsgi."
-"py` ）。别忘了将 Python 的搜索路径同样设置为 您的虚拟 env （例如在 uWSGI 中使"
-"用 ``virtualenv = /home/user/weblate-env`` ）。"
+"为了运行生产 web 服务器，使用与 Weblate 一起安装的 WSGI 封装（在虚拟 env "
+"的情况下，它安装为 :file:`~/weblate-env/lib/python3.9/site-packages/weblate/"
+"wsgi.py` ）。别忘了将 Python 的搜索路径同样设置为 您的虚拟 env（例如在 uWSGI "
+"中使用 ``virtualenv = /home/user/weblate-env`` ）。"
 
 #: ../../admin/install.rst:1390
 msgid ""
@@ -13027,7 +13013,7 @@ msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
-"后面的配置在 Gunicorn 和 Apache 2.4 中运行 Weblate （作为 :file:`weblate/"
+"后面的配置在 Gunicorn 和 Apache 2.4 中运行 Weblate（作为 :file:`weblate/"
 "examples/apache.gunicorn.conf` 获得）："
 
 #: ../../admin/install.rst:1445
@@ -13694,9 +13680,8 @@ msgid ""
 "Both of these files must be owned by the same user as the one starting the "
 "docker container and have file mask set to ``600`` (readable and writable "
 "only by the owning user)."
-msgstr ""
-"拥有这两个文件的用户必须与启动 docker 容器并将文件掩码设置为 ``600`` （仅拥有"
-"用户可读可写）的用户为同一用户。"
+msgstr "拥有这两个文件的用户必须与启动 docker 容器并将文件掩码设置为 ``600``\\ "
+"（仅拥有用户可读可写）的用户为同一用户。"
 
 #: ../../admin/install/docker.rst:134
 msgid ""
@@ -15952,7 +15937,7 @@ msgstr ":doc:`venv-redhat`"
 msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
-msgstr "使用 Git 获取最新的 Weblate 源码 （或下载 tarball 包并将其解压）："
+msgstr "使用 Git 获取最新的 Weblate 源码（或下载 tarball 包并将其解压）："
 
 #: ../../admin/install/source.rst:17
 msgid ""
@@ -16148,8 +16133,7 @@ msgstr ":wladmin:`createadmin`"
 msgid ""
 "Collect the static files for your web server (see :ref:`server` and :ref:"
 "`static-files`):"
-msgstr ""
-"为你的收集 Web 服务器用的静态文件 （请参见 :ref:`server` 和 :ref:`static-"
+msgstr "为你的收集 Web 服务器用的静态文件（请参见 :ref:`server` 和 :ref:`static-"
 "files` ）："
 
 #: ../../admin/install/steps/install-configure.rst:52
@@ -16436,7 +16420,7 @@ msgid ""
 "`Macrolanguages at Wikipedia <https://en.wikipedia.org/wiki/"
 "ISO_639_macrolanguage>`_"
 msgstr ""
-"`维基百科上的宏语言条目（英文） <https://en.wikipedia.org/wiki/"
+"`维基百科上的宏语言条目（英文）\\ <https://en.wikipedia.org/wiki/"
 "ISO_639_macrolanguage>`_"
 
 #: ../../admin/languages.rst:99
@@ -16917,7 +16901,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:160
 msgid "``https://api.deepl.com/v2/`` (default in Weblate)"
-msgstr "``https://api.deepl.com/v2/`` （Weblate 默认）"
+msgstr "``https://api.deepl.com/v2/``\\ （Weblate 默认）"
 
 #: ../../admin/machine.rst:161
 msgid ""
@@ -17191,7 +17175,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:312
 msgid "``https://libretranslate.com/`` (official public instance)"
-msgstr "``https://libretranslate.com/`` （官方公开实例）"
+msgstr "``https://libretranslate.com/``\\ （官方公开实例）"
 
 #: ../../admin/machine.rst:313
 msgid "Requires an API key to use outside of the website."
@@ -22577,9 +22561,8 @@ msgid ""
 "form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON (:"
 "mimetype:`application/json`)."
 msgstr ""
-"对于 :http:method:`POST` 方法，参数可以指定为表单提交（:mimetype:"
-"`application/x-www-form-urlencoded`）或 JSON （:mimetype:`application/"
-"json`）。"
+"对于 :http:method:`POST` 方法，参数可以指定为表单提交（:mimetype:`"
+"application/x-www-form-urlencoded`）或 JSON（:mimetype:`application/json`）。"
 
 #: ../../api.rst:129
 msgid "**Form request example:**"
@@ -23821,7 +23804,7 @@ msgstr ""
 #: ../../api.rst:1310
 msgid ""
 "URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`"
-msgstr "后台任务 URL （如果有的话）；请参见 :http:get:`/api/tasks/(str:uuid)/`"
+msgstr "后台任务 URL（如果有的话）；请参见 :http:get:`/api/tasks/(str:uuid)/`"
 
 #: ../../api.rst:1311
 msgid ""
@@ -24078,11 +24061,11 @@ msgstr "模糊（标记为需要编辑）字符串的数量"
 
 #: ../../api.rst:1843 ../../api.rst:2570
 msgid "percentage of fuzzy (marked for edit) strings"
-msgstr "模糊字符串 （标记为需要编辑）的百分比"
+msgstr "模糊字符串（标记为需要编辑）的百分比"
 
 #: ../../api.rst:1844
 msgid "number of words in fuzzy (marked for edit) strings"
-msgstr "模糊 （标记为编辑)）字符串中的单词数"
+msgstr "模糊（标记为编辑）字符串中的单词数"
 
 #: ../../api.rst:1845
 msgid "number of strings with comment"
@@ -24172,7 +24155,7 @@ msgstr "返回翻译单元的列表。"
 
 #: ../../api.rst:1970 ../../api.rst:2139
 msgid "Search query string :ref:`Searching` (optional)"
-msgstr "搜索查询字符串 :ref:`Searching` （可选）"
+msgstr "搜索查询字符串 :ref:`Searching`\\ （可选）"
 
 #: ../../api.rst:1972
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
@@ -24320,8 +24303,7 @@ msgstr ""
 msgid ""
 "Fuzzy (marked for edit) strings processing (*empty*, ``process``, "
 "``approve``)"
-msgstr ""
-"模糊 （标记为需要编辑）的字符串处理（*empty*, ``process``, ``approve``）"
+msgstr "模糊（标记为需要编辑）的字符串处理（*empty*, ``process``, ``approve``）"
 
 #: ../../api.rst:2069
 msgid ""
@@ -24892,11 +24874,11 @@ msgstr "模糊（标记为需要编辑）的字符串数量"
 
 #: ../../api.rst:2571
 msgid "percentage of fuzzy (marked for edit) words"
-msgstr "模糊单词 （标记为需要编辑）的百分比"
+msgstr "模糊单词（标记为需要编辑）的百分比"
 
 #: ../../api.rst:2572
 msgid "percentage of fuzzy (marked for edit) characters"
-msgstr "模糊字符 （标记为需要编辑）的百分比"
+msgstr "模糊字符（标记为需要编辑）的百分比"
 
 #: ../../api.rst:2573
 msgid "number of failing checks"
@@ -24968,7 +24950,7 @@ msgstr "对象名称"
 
 #: ../../api.rst:2590
 msgid "URL to access the object (if applicable)"
-msgstr "访问对象的 URL （如果适用）"
+msgstr "访问对象的 URL（如果适用）"
 
 #: ../../api.rst:2591
 msgid "URL to access the translation (if applicable)"
@@ -37188,8 +37170,7 @@ msgstr "执行发布："
 msgid ""
 "Create a release :command:`./scripts/create-release --tag` (see below for "
 "requirements)."
-msgstr ""
-"创建一个发布 :command:`./scripts/create-release --tag` （要求请参见下面）。"
+msgstr "创建一个发布 :command:`./scripts/create-release --tag`\\ （要求请参见下面）。"
 
 #: ../../contributing/release.rst:39
 msgid "Post release manual steps:"
@@ -39454,9 +39435,9 @@ msgid ""
 "exporter` is turned on) as an additional remote repository and fetch "
 "translation updates from it."
 msgstr ""
-"Weblate 将更新的字符串保存在一个数据库中并将它们提交到本地版本控制仓库。你可"
-"以将 Weblate 仓库添加为附加的远程仓库（当 :ref:`git-exporter` 处于开启状态） "
-"并从它那里获取翻译更新。"
+"Weblate 将更新的字符串保存在一个数据库中并将它们提交到本地版本控制仓库。"
+"你可以将 Weblate 仓库添加为附加的远程仓库（当 :ref:`git-exporter` "
+"处于开启状态）并从它那里获取翻译更新。"
 
 #: ../../devel/integration.rst:30
 msgid ""
@@ -39573,9 +39554,9 @@ msgid ""
 "old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-"
 "method`."
 msgstr ""
-"通过上传源文件 :guilabel:`替换现有翻译文件` （这将覆盖现有的字符串，所以请确"
-"保文件包括新旧字符串）或 :guilabel:`添加新字符串`，请参见 :ref:`upload-"
-"method`。"
+"通过上传源文件 :guilabel:`替换现有翻译文件`\\ "
+"（这将覆盖现有的字符串，所以请确保文件包括新旧字符串）或 "
+":guilabel:`添加新字符串`，请参见 :ref:`upload-method`。"
 
 #: ../../devel/integration.rst:89
 msgid ""
@@ -40147,7 +40128,7 @@ msgstr "你可以发现有几个文档项目就在使用这种方法进行自身
 msgid ""
 "`Weblate documentation <https://docs.weblate.org/>`_ (you are reading that "
 "now)"
-msgstr "`Weblate 文档 <https://docs.weblate.org/>`_ （您现在就在阅读这个文档）"
+msgstr "`Weblate 文档 <https://docs.weblate.org/>`_\\ （您现在就在阅读这个文档）"
 
 #: ../../devel/sphinx.rst:65
 msgid "`Godot engine documentation <https://docs.godotengine.org/en/stable/>`_"
@@ -40860,9 +40841,10 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
-"Weblate 支持在一个 :ref:`project` 内推送翻译更改。对于每个将其打开的 :ref:"
-"`component` （默认行为），所作的更改自动传递给其它部件。即使分支本身已经非常"
-"多样化了，也能以这种方式保持同步，并且不能在他们之间简单地合并翻译更改。"
+"Weblate 支持在一个 :ref:`project` 内推送翻译更改。对于每个将其打开的 "
+":ref:`component`\\ （默认行为），所作的更改自动传递给其它部件。即使分支本身已"
+"经非常多样化了，也能以这种方式保持同步，并且不能在他们之间简单地合并翻译更改"
+"。"
 
 #: ../../faq.rst:164
 msgid ""
@@ -42533,9 +42515,8 @@ msgstr ""
 msgid ""
 "Remember to define :ref:`component-template` when your files are monolingual "
 "(see :ref:`bimono`)."
-msgstr ""
-"当你的文件是单语言时记得定义 :ref:`component-template` （参见 :ref:"
-"`bimono` ）。"
+msgstr "当你的文件是单语言时记得定义 :ref:`component-template`\\ （参见 :ref:`bimono`"
+" ）。"
 
 #: ../../formats/csv.rst:27
 msgid ""
@@ -42659,9 +42640,10 @@ msgid ""
 "Excel workbook, you already get a file with the correct file format."
 msgstr ""
 "上传 XLSX 文件进行翻译时，请注意只考虑活动工作表，并且必须至少有一个名为 "
-"``source`` （包含源字符串）的列和一个名为 ``target`` （包含翻译）的列此外应该"
-"有一个名为的列 ``context`` （其中包含翻译字符串的上下文路径）。如果您使用 "
-"XLSX 下载将翻译导出到 Excel 工作簿，您已经获得了具有正确文件格式的文件。"
+"``source``\\ （包含源字符串）的列和一个名为 ``target``\\ （包含翻译）"
+"的列此外应该有一个名为的列 ``context``\\ （其中包含翻译字符串的上下文路径）。"
+"如果您使用 XLSX 下载将翻译导出到 Excel "
+"工作簿，您已经获得了具有正确文件格式的文件。"
 
 #: ../../formats/excel.rst:22
 msgid "``path/*.xlsx``"
@@ -43820,7 +43802,7 @@ msgid ""
 "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, :doc:"
 "`tt:formats/tbx`, :ref:`glossary`"
 msgstr ""
-"`维基百科上的 TBX（英文） <https://en.wikipedia.org/wiki/"
+"`维基百科上的 TBX（英文）\\ <https://en.wikipedia.org/wiki/"
 "TermBase_eXchange>`_，:doc:`tt:formats/tbx`，:ref:`glossary`"
 
 #: ../../formats/tbx.rst:23
@@ -44057,11 +44039,11 @@ msgid ""
 "attribute be missing, a string is considered translated as soon as a "
 "``<target>`` element exists."
 msgstr ""
-"文件中的 ``state`` 属性在 Weblate 中被部分处理并映射为 \"Needs edit\" （需要"
-"编辑）的状态（如果出现目标的话，后面的状态用于将字符串标记为需要编辑： "
-"``new`` 、 ``needs-translation`` 、 ``needs-adaptation`` 、 ``needs-"
-"l10n`` ）。如果应该省略 ``state`` 属性，只要 ``<target>`` 元素存在，那么字符"
-"串被认为需要翻译。"
+"文件中的 ``state`` 属性在 Weblate 中被部分处理并映射为 \"Needs edit\""
+"（需要编辑）的状态（如果出现目标的话，后面的状态用于将字符串标记为需要编辑： "
+"``new`` 、 ``needs-translation`` 、 ``needs-adaptation`` 、 ``needs-l10n`` "
+"）。如果应该省略 ``state`` 属性，只要 ``<target>`` "
+"元素存在，那么字符串被认为需要翻译。"
 
 #: ../../formats/xliff.rst:49
 msgid ""
@@ -44174,8 +44156,8 @@ msgid ""
 "case it is present and falls back to ``id`` (together with ``file`` tag if "
 "present)."
 msgstr ""
-"Weblate 通过 ``resname`` 属性（如果有的话）识别 XLIFF 文件中的单元，并会回退"
-"到 ``id`` （如果有的话，则与 ``file`` 标签一起）。"
+"Weblate 通过 ``resname`` 属性（如果有的话）识别 XLIFF 文件中的单元，"
+"并会回退到 ``id``\\ （如果有的话，则与 ``file`` 标签一起）。"
 
 #: ../../formats/xliff.rst:123
 msgid ""
@@ -45440,9 +45422,9 @@ msgid ""
 "c_002dformat.html>`_, `C printf format <https://en.wikipedia.org/wiki/"
 "Printf_format_string>`_"
 msgstr ""
-"`C 格式字符串（英文） <https://www.gnu.org/software/gettext/manual/html_node/"
-"c_002dformat.html>`_ ， `C printf 格式（英文） <https://en.wikipedia.org/"
-"wiki/Printf_format_string>`_"
+"`C 格式字符串（英文）\\ <https://www.gnu.org/software/gettext/manual/"
+"html_node/c_002dformat.html>`_ ， `C printf 格式（英文）\\ <https://en."
+"wikipedia.org/wiki/Printf_format_string>`_"
 
 #: ../../user/checks.rst:460
 msgid "C# format"
@@ -46323,8 +46305,7 @@ msgstr "装饰性的 Kashida 字母不能用于译文。这些也被称为 Tatwe
 
 #: ../../user/checks.rst:980
 msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
-msgstr ""
-"`维基百科上的 Kashida（英文） <https://en.wikipedia.org/wiki/Kashida>`_"
+msgstr "`维基百科上的 Kashida（英文）\\ <https://en.wikipedia.org/wiki/Kashida>`_"
 
 #: ../../user/checks.rst:985
 msgid "Markdown links"
@@ -46876,7 +46857,7 @@ msgid ""
 "`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 msgstr ""
-"`维基百科上的法语和英语间距（英文） <https://en.wikipedia.org/wiki/"
+"`维基百科上的法语和英语间距（英文）\\ <https://en.wikipedia.org/wiki/"
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 
 #: ../../user/checks.rst:1359
@@ -47333,8 +47314,8 @@ msgid ""
 "meant to be used directly as ``.innerHTML`` (rather than ``.textContent``) "
 "for some HTML element. For example, when using the Fluent DOM package."
 msgstr ""
-"在消息（或术语）的值打算被直接用做某些 HTML 元素的 ``.innerHTML`` （而非 ``."
-"textContent`` ）的上下文环境中常常用到 Fluent。比如，使用 Fluent DOM 包时。"
+"在消息（或术语）的值打算被直接用做某些 HTML 元素的 ``.innerHTML``\\ （而非 ``"
+".textContent`` ）的上下文环境中常常用到 Fluent。比如，使用 Fluent DOM 包时。"
 
 #: ../../user/checks.rst:1658
 msgid ""
@@ -47803,7 +47784,7 @@ msgstr "Translation Memory eXchange (``tmx``)"
 #: ../../user/files.rst:35
 msgid ""
 "gettext MO (only available when translation is using gettext PO) (``mo``)"
-msgstr "gettext MO（仅当翻译使用 gettext PO 时可用） (``mo``)"
+msgstr "gettext MO（仅当翻译使用 gettext PO 时可用）(``mo``)"
 
 #: ../../user/files.rst:36
 msgid "CSV (``csv``)"
@@ -48916,7 +48897,7 @@ msgstr "``pending``"
 
 #: ../../user/search.rst:69
 msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
-msgstr "尚未提交至文件的待定字符串 （见 :ref:`lazy-commit`）。"
+msgstr "尚未提交至文件的待定字符串（见 :ref:`lazy-commit`）。"
 
 #: ../../user/search.rst:70 ../../user/search.rst:193
 msgid "``language:TEXT``"
@@ -49099,8 +49080,9 @@ msgid ""
 "form complex queries. For example: ``state:translated AND (source:hello OR "
 "source:bar)``"
 msgstr ""
-"你可以使用 ``AND``, ``OR``, ``NOT`` 和括号组合查询，形成复杂的查询。例如： "
-"``state:translated AND (source:hello OR source:bar)``"
+"你可以使用 ``AND``、``OR``、``NOT`` "
+"和括号组合查询，形成复杂的查询。例如：``state:translated AND (source:hello "
+"OR source:bar)``"
 
 #: ../../user/search.rst:123
 msgid "Field operators"
@@ -49246,7 +49228,7 @@ msgstr "以全名搜索。"
 msgid ""
 "User configured translation language (see :ref:`profile-translated-"
 "languages`)."
-msgstr "用户配置的翻译语言 （见 :ref:`profile-translated-languages`）。"
+msgstr "用户配置的翻译语言（见 :ref:`profile-translated-languages`）。"
 
 #: ../../user/search.rst:195
 msgid "``joined:DATETIME``"
@@ -50202,7 +50184,7 @@ msgid ""
 "ref:`vcs-azure-devops`) and :ref:`vcs-mercurial` as version control back-"
 "ends."
 msgstr ""
-"Weblate 当前支持 :ref:`vcs-git` （扩展支持 :ref:`vcs-github`、:ref:`vcs-"
+"Weblate 当前支持 :ref:`vcs-git`\\ （扩展支持 :ref:`vcs-github`、:ref:`vcs-"
 "gitlab`、:ref:`vcs-gitea`、:ref:`vcs-gerrit`、:ref:`vcs-git-svn`、 :ref:`vcs-"
 "bitbucket-cloud`、 :ref:`vcs-bitbucket-server` 及 :ref:`vcs-azure-devops`）"
 "和 :ref:`vcs-mercurial` 作为版本控制后端。"
@@ -50471,8 +50453,8 @@ msgid ""
 "access more than one repository, you will hit a GitHub limitation on allowed "
 "SSH key usage (since each key can be used only once)."
 msgstr ""
-"可以通过 SSH 访问（请参阅 :ref:`ssh-repos` ），但如果您需要访问多个仓库，您将"
-"遇到 GitHub 对允许使用的 SSH 密钥的限制（因为每个密钥只能使用一次） ."
+"可以通过 SSH 访问（请参阅 :ref:`ssh-repos` ），但如果您需要访问多个仓库，"
+"您将遇到 GitHub 对允许使用的 SSH 密钥的限制（因为每个密钥只能使用一次）。"
 
 #: ../../vcs.rst:173
 msgid ""
@@ -50621,9 +50603,9 @@ msgid ""
 "also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see :setting:"
 "`DATA_DIR`), otherwise Git executed by Weblate will not use it."
 msgstr ""
-"代理配置需要在运行 Weblate 的用户下完成（参见 :ref:`file-permissions` ）并使"
-"用 ``HOME=$DATA_DIR/home`` （参见 :setting:`DATA_DIR` ），否则由 Weblate 执"
-"行 Git 不会使用它。"
+"代理配置需要在运行 Weblate 的用户下完成（参见 :ref:`file-permissions` ）"
+"并使用 ``HOME=$DATA_DIR/home``\\ （参见 :setting:`DATA_DIR` ），否则由 "
+"Weblate 执行 Git 不会使用它。"
 
 #: ../../vcs.rst:256
 msgid ""
