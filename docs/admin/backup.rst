@@ -307,7 +307,7 @@ backups. The files are updated daily (requires a running Celery beats server, se
 The database backups are saved as plain text by default, but they can also be compressed
 or entirely skipped using :setting:`DATABASE_BACKUP`.
 
-To restore the database backup load it using database tools, for example:
+To restore the database backup, load it using database tools, for example:
 
 .. code-block:: shell
 
