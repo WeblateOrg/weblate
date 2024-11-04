@@ -1045,7 +1045,7 @@ Currently it is used in:
     * :ref:`addon-weblate.generate.generate`
     * :ref:`addon-script`
 
-There following variables are available in the component templates:
+The following variables are available in the component templates:
 
 ``{{ language_code }}``
     Language code
