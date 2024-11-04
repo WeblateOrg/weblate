@@ -26,18 +26,20 @@ jobs:
       matrix:
         python-version:
         - '3.11'
-        - '3.12'
-        requirements: [latest]
-        database: [postgresql]
+        - '3.13'
+        requirements:
+        - latest
+        database:
+        - postgresql
         experimental: [false]
         include:
         # Reduced testing for mysql
-        - python-version: '3.11'
+        - python-version: '3.13'
           requirements: latest
           database: mysql
           experimental: false
         # Reduced testing for mariadb
-        - python-version: '3.11'
+        - python-version: '3.13'
           requirements: latest
           database: mariadb
           experimental: false
@@ -47,15 +49,15 @@ jobs:
           database: postgresql
           experimental: false
         # Reduced testing for edge deps
-        - python-version: '3.11'
+        - python-version: '3.13'
           requirements: edge
           database: postgresql
           experimental: true
-        # Python pre-release
-        - python-version: '3.13'
+        # Test with Python 3.12.
+        - python-version: '3.12'
           requirements: latest
           database: postgresql
-          experimental: true
+          experimental: false
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
     env:
       CI_DATABASE: ${{ matrix.database }}
