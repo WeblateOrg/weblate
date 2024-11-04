@@ -90,7 +90,6 @@ dependencies = [
   "weblate-schemas==2024.1"
 ]
 description = "A web-based continuous localization system with tight version control integration"
-dynamic = ["version"]
 keywords = [
   "i18n",
   "l10n",
@@ -102,6 +101,7 @@ keywords = [
 license = {text = "GPLv3+"}
 name = "weblate"
 requires-python = ">=3.11"
+version = "5.9-dev"
 
 [project.optional-dependencies]
 alibaba = [
@@ -508,9 +508,6 @@ max-statements = 100
 [tool.setuptools]
 include-package-data = true
 zip-safe = false
-
-[tool.setuptools.dynamic]
-version = {attr = "weblate.utils.version.VERSION"}
 
 [tool.setuptools.packages]
 find = {namespaces = false}

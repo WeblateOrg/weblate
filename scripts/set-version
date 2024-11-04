@@ -68,7 +68,7 @@ if milestone_url is None:
 # Set version in the files
 replace_file("weblate/utils/version.py", "^VERSION =.*", f'VERSION = "{version}-dev"')
 replace_file("docs/conf.py", "release =.*", f'release = "{version}"')
-replace_file("setup.py", "version=.*", f'version="{version}",')
+replace_file("pyproject.toml", "^version = .*", f'version = "{version}"')
 replace_file("client/package.json", '  "version": ".*",', f'  "version": "{version}",')
 
 # Update changelog
@@ -108,7 +108,7 @@ files = [
     "weblate/utils/version.py",
     "docs/conf.py",
     "docs/changes.rst",
-    "setup.py",
+    "pyproject.toml",
     "client/package.json",
     version_contributors.as_posix(),
 ]
