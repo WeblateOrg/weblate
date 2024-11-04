@@ -38,6 +38,7 @@ function mainLicenseTransform(packages) {
     "@sentry",
     "tributejs",
     "@tarekraafat/autocomplete.js",
+    "autosize",
   ];
   return genericTransform(
     packages,
@@ -49,6 +50,9 @@ function sentryLicenseTransform(packages) {
 }
 function tributeLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("tributejs"));
+}
+function autosizeLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("autosize"));
 }
 // REUSE-IgnoreStart
 function autoCompleteLicenseTransform(packages) {
@@ -76,6 +80,7 @@ module.exports = {
     sentry: "./src/sentry.js",
     tribute: "./src/tribute.js",
     autoComplete: "./src/autoComplete.js",
+    autosize: "./src/autosize.js",
   },
   mode: "production",
   optimization: {
@@ -98,6 +103,7 @@ module.exports = {
         "sentry.js.license": sentryLicenseTransform,
         "tribute.js.license": tributeLicenseTransform,
         "autoComplete.js.license": autoCompleteLicenseTransform,
+        "autosize.js.license": autosizeLicenseTransform,
       },
     }),
   ],
