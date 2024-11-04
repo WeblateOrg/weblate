@@ -595,7 +595,7 @@ Java format
 
 .. versionchanged:: 4.14
 
-   This used to be toggled by ``java-format`` flag, it was changed for consistency with GNU gettext.
+   This used to be toggled by the ``java-format`` flag, it was changed for consistency with GNU gettext.
 
 .. seealso::
 
