@@ -582,7 +582,7 @@ translating, sometimes it's desirable to have make use of a translation more tha
 It's usually a good idea to turn this off for monolingual translations, unless
 you are using the same IDs across the whole project.
 
-Default value can be changed by :setting:`DEFAULT_TRANSLATION_PROPAGATION`.
+The default value can be changed by :setting:`DEFAULT_TRANSLATION_PROPAGATION`.
 
 .. seealso::
 
@@ -804,7 +804,7 @@ Merge without fast-forward
    commit every time (even when fast-forward would be possible). Every Weblate
    change will appear as a merge commit in Weblate repository.
 
-Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`.
+The default value can be changed by :setting:`DEFAULT_MERGE_STYLE`.
 
 .. _component-commit_message:
 .. _component-add_message:
@@ -818,7 +818,7 @@ Commit, add, delete, merge, add-on, and merge request messages
 
 Message used when committing a translation, see :ref:`markup`.
 
-Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`,
+The default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`,
 :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`,
 :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`,
 :setting:`DEFAULT_PULL_MESSAGE`.
@@ -844,7 +844,7 @@ background task or the :wladmin:`commit_pending` management command. All
 changes in a component are committed once there is at least one change
 older than this period.
 
-Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
+The default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 
 .. hint::
 
