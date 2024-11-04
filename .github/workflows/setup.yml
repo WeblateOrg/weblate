@@ -92,7 +92,10 @@ jobs:
     - name: check-manifest
       run: uvx check-manifest -v
     - name: install
-      run: uv pip install --system dist/*.whl
+      run: |
+        uv venv .venv-install
+        source .venv-install/bin/activate
+        uv pip install dist/*.whl
 
   notes:
     runs-on: ubuntu-24.04
