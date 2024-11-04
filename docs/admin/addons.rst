@@ -387,6 +387,14 @@ Bulk edit flags, labels, or states of strings.
       - ``read-only``
 
 
+.. list-table:: Marking certain strings read-only
+    :stub-columns: 1
+
+    * - Search query
+      - ``source:r"^\`\`[.a-zA-Z0-9_-]*\`\`$" AND language:en``
+    * - Translation flags to add
+      - ``read-only``
+
 .. seealso::
 
    :ref:`bulk-edit`,
