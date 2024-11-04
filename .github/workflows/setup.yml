@@ -65,14 +65,17 @@ jobs:
     - dist
     steps:
     - uses: actions/checkout@v4
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
     - uses: astral-sh/setup-uv@v3
       with:
         enable-cache: true
         cache-dependency-glob: ''
-        cache-suffix: '3.12'
-    - uses: astral-sh/setup-uv@v3
-    - name: Install Python dependencies
-      run: ./ci/pip-install
+        cache-suffix: '3.13'
     - uses: actions/download-artifact@v4
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
