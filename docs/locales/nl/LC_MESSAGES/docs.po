@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 09:40+0100\n"
-"PO-Revision-Date: 2024-11-05 11:39+0000\n"
+"PO-Revision-Date: 2024-11-06 00:45+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -26178,15 +26178,15 @@ msgstr ""
 
 #: ../../api.rst:1962
 msgid "Returns a list of translation units."
-msgstr ""
+msgstr "Geeft een lijst met vertaaleenheden terug."
 
 #: ../../api.rst:1970 ../../api.rst:2139
 msgid "Search query string :ref:`Searching` (optional)"
-msgstr ""
+msgstr "Tekenreeks zoekquery :ref:`Searching` (optioneel)"
 
 #: ../../api.rst:1972
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "array met onderdeelobjecten; bekijk :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1976
 msgid "Add new unit."
@@ -26201,6 +26201,8 @@ msgid ""
 "*Monolingual translations:* Source strings (use single string if not "
 "creating plural)"
 msgstr ""
+"*Eentalige vertalingen:* Brontekenreeksen (gebruik een enkele tekenreeks bij "
+"het niet maken van meervouden)"
 
 #: ../../api.rst:1986
 msgid "*Bilingual translations:* Context of a translation unit"
@@ -26211,20 +26213,24 @@ msgid ""
 "*Bilingual translations:* Source strings (use single string if not creating "
 "plural)"
 msgstr ""
+"*Tweetalige vertalingen:* Brontekenreeksen (gebruik enkele tekenreeks bij "
+"niet maken van meervouden)"
 
 #: ../../api.rst:1988
 msgid ""
 "*Bilingual translations:* Target strings (use single string if not creating "
 "plural)"
 msgstr ""
+"*Tweetalige vertalingen:* Doeltekenreeksen (gebruik enkele tekenreeks bij "
+"niet maken van meervouden)"
 
 #: ../../api.rst:1989
 msgid "String state; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "Status tekenreeks; bekijk :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1990
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "nieuw gemaakte eenheid; bekijk :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1994
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
@@ -26232,11 +26238,11 @@ msgstr ":ref:`component-manage_units`, :ref:`adding-new-strings`"
 
 #: ../../api.rst:1999
 msgid "Trigger automatic translation."
-msgstr ""
+msgstr "Automatisch vertalen activeren."
 
 #: ../../api.rst:2008
 msgid "Automatic translation filter type"
-msgstr ""
+msgstr "Type filter automatisch vertalen"
 
 #: ../../api.rst:2009
 msgid "Automatic translation source - ``mt`` or ``others``"
@@ -26255,6 +26261,9 @@ msgid ""
 "Download current translation file as it is stored in the VCS (without the "
 "``format`` parameter) or converted to another format (see :ref:`download`)."
 msgstr ""
+"Download het huidige vertaalbestand zoals dat is opgeslagen in het VCS ("
+"zonder de parameter ``format``) of geconverteerd naar een andere indeling ("
+"bekijk :ref:`download`)."
 
 #: ../../api.rst:2021
 msgid ""
@@ -26263,40 +26272,51 @@ msgid ""
 "parameter differs and without such parameter you get translation file as "
 "stored in VCS."
 msgstr ""
+"Dit API-eindpunt gebruikt verschillende logica voor uitvoer dan de rest van "
+"de API, omdat het op een geheel bestand werkt in plaats van op gegevens. Set "
+"voor geaccepteerde parameter ``format`` verschilt en zonder een dergelijke "
+"parameter krijgt u het vertaalbestand zoals dat is opgeslagen in het VCS."
 
 #: ../../api.rst:2026
 msgid "Timestamp of last change to this file."
-msgstr ""
+msgstr "Tijdstempel van laatste wijziging aan dit bestand."
 
 #: ../../api.rst:2027
 msgid "Skips response if the file has not been modified since that time."
-msgstr ""
+msgstr "Slaat antwoord over als het bestand sinds die tijd niet is aangepast."
 
 #: ../../api.rst:2029
 msgid ""
 "File format to use; if not specified no format conversion happens; see :ref:"
 "`download` for supported formats"
 msgstr ""
+"Te gebruiken bestandsindeling; indien niet gespecificeerd wordt geen "
+"conversie voor de indeling uitgevoerd; bekijk :ref:`download` voor "
+"ondersteunde indelingen"
 
 #: ../../api.rst:2030
 msgid ""
 "Filter downloaded strings, see :ref:`search`, only applicable when "
 "conversion is in place (``format`` is specified)."
 msgstr ""
+"Filter gedownloade tekenreeksen, bekijk :ref:`search`, alleen van toepassing "
+"als conversie wordt uitgevoerd (``format`` is gespecificeerd)."
 
 #: ../../api.rst:2041
 msgid "Upload new file with translations."
-msgstr ""
+msgstr "Nieuw bestand met vertalingen uploaden."
 
 #: ../../api.rst:2049
 msgid ""
 "How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-"
 "approved``), see :ref:`upload-conflicts`"
 msgstr ""
+"Hoe conflicten af te handelen (``ignore``, ``replace-translated`` of "
+"``replace-approved``), bekijk :ref:`upload-conflicts`"
 
 #: ../../api.rst:2050 ../../api.rst:2298 ../../api.rst:2334
 msgid "Uploaded file"
-msgstr ""
+msgstr "Geüpload bestand"
 
 #: ../../api.rst:2051
 msgid "Author e-mail"
@@ -26311,22 +26331,28 @@ msgid ""
 "Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
 "``replace``, ``source``, ``add``), see :ref:`upload-method`"
 msgstr ""
+"Methode voor uploaden (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
+"``replace``, ``source``, ``add``), bekijk :ref:`upload-method`"
 
 #: ../../api.rst:2054 ../../wlc.rst:276
 msgid ""
 "Fuzzy (marked for edit) strings processing (*empty*, ``process``, "
 "``approve``)"
 msgstr ""
+"Verwerken fuzzy tekenreeksen (gemarkeerd om te bewerken) (*empty*, "
+"``process``, ``approve``)"
 
 #: ../../api.rst:2069
 msgid ""
 "The response is same as for :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`."
 msgstr ""
+"Het antwoord is hetzelfde als voor :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:2095
 msgid "Returns detailed translation statistics."
-msgstr ""
+msgstr "Geeft gedetailleerde statistieken voor vertalingen terug."
 
 #: ../../api.rst:2110
 msgid "Memory"
@@ -26342,11 +26368,11 @@ msgstr "Verwijdert een geheugenobject"
 
 #: ../../api.rst:2122
 msgid "Memory Object ID"
-msgstr ""
+msgstr "ID geheugenobject"
 
 #: ../../api.rst:2127
 msgid "Units"
-msgstr ""
+msgstr "Eenheden"
 
 #: ../../api.rst:2129
 msgid ""
@@ -26356,80 +26382,91 @@ msgid ""
 "org/projects/translate-toolkit/en/latest/api/storage.html#translate.storage."
 "base.TranslationUnit>`_ and XLIFF."
 msgstr ""
+"Een `eenheid` is een enkel stukje vertaling die een brontekenreeks koppelt "
+"aan een corresponderende vertaalde tekenreeks en bevat ook enige "
+"gerelateerde metadata. De term is afgeleid van de `Translate Toolkit "
+"<https://docs.translatehouse.org/projects/translate-toolkit/en/latest/api/"
+"storage.html#translate.storage.base.TranslationUnit>`_ en XLIFF."
 
 #: ../../api.rst:2137
 msgid "Returns list of translation units."
-msgstr ""
+msgstr "Geeft een lijst met vertaaleenheden terug."
 
 #: ../../api.rst:2144
 msgid ""
 "Unit object attributes are documented at :http:get:`/api/units/(int:id)/`."
 msgstr ""
+"Objectattributen voor eenheden zijn gedocumenteerd in :http:get:`/api/units/"
+"(int:id)/`."
 
 #: ../../api.rst:2150
 msgid ""
 "The ``target`` and ``source`` are now arrays to properly handle plural "
 "strings."
 msgstr ""
+"De ``target`` en ``source`` zijn nu arrays om op de juiste manier "
+"tekenreeksen voor meervoud af te handelen."
 
 #: ../../api.rst:2153
 msgid "Returns information about translation unit."
-msgstr ""
+msgstr "Geeft informatie terug over een vertaaleenheid."
 
 #: ../../api.rst:2155 ../../api.rst:2193 ../../api.rst:2207 ../../api.rst:2221
 #: ../../api.rst:2315
 msgid "Unit ID"
-msgstr ""
+msgstr "ID eenheid"
 
 #: ../../api.rst:2157 ../../api.rst:2251 ../../api.rst:2317
 msgid "URL of a related translation object"
-msgstr ""
+msgstr "URL van een gerelateerd vertaalobject"
 
 #: ../../api.rst:2158
 msgid "source string"
-msgstr ""
+msgstr "brontekenreeks"
 
 #: ../../api.rst:2159
 msgid "previous source string used for fuzzy matching"
-msgstr ""
+msgstr "vorige brontekenreeks gebruikt voor fuzzy overeenkomsten"
 
 #: ../../api.rst:2160 ../../api.rst:2196 ../../api.rst:2210
 msgid "target string"
-msgstr ""
+msgstr "doeltekenreeks"
 
 #: ../../api.rst:2161
 msgid "unique identifier of the unit"
-msgstr ""
+msgstr "unieke identificatie voor de eenheid"
 
 #: ../../api.rst:2162
 msgid "unique identifier of the source string"
-msgstr ""
+msgstr "unieke identificatie voor de tekenreeks"
 
 #: ../../api.rst:2163
 msgid "location of the unit in source code"
-msgstr ""
+msgstr "locatie van de eenheid in de broncode"
 
 #: ../../api.rst:2164
 msgid "translation unit context"
-msgstr ""
+msgstr "context vertaaleenheid"
 
 #: ../../api.rst:2165
 msgid "translation unit note"
-msgstr ""
+msgstr "opmerking vertaaleenheid"
 
 #: ../../api.rst:2166
 msgid "translation unit flags"
-msgstr ""
+msgstr "vlaggen vertaaleenheid"
 
 #: ../../api.rst:2167
 msgid "translation unit labels, available on source units"
-msgstr ""
+msgstr "labels vertaaleenheid, beschikbaar voor broneenheden"
 
 #: ../../api.rst:2168
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
 msgstr ""
+"status eenheid, 0 - niet vertaald, 10 - bewerken nodig, 20 - vertaald, 30 - "
+"goedgekeurd, 100 - alleen-lezen"
 
 #: ../../api.rst:2169
 msgid "whether the unit is fuzzy or marked for review"
@@ -26445,7 +26482,7 @@ msgstr "of de vertaling is goedgekeurd"
 
 #: ../../api.rst:2172
 msgid "unit position in translation file"
-msgstr ""
+msgstr "positie eenheid in vertaalbestand"
 
 #: ../../api.rst:2173
 msgid "whether the unit has suggestions"
@@ -26461,32 +26498,35 @@ msgstr "of de eenheid mislukte controles heeft"
 
 #: ../../api.rst:2176
 msgid "number of source words"
-msgstr ""
+msgstr "aantal bronwoorden"
 
 #: ../../api.rst:2177
 msgid "translation priority; 100 is default"
-msgstr ""
+msgstr "prioriteit vertaling; 100 is standaard"
 
 #: ../../api.rst:2178
 msgid "unit identifier"
-msgstr ""
+msgstr "identificatie eenheid"
 
 #: ../../api.rst:2179 ../../api.rst:2197 ../../api.rst:2211
 msgid "String explanation, available on source units, see :ref:`additional`"
 msgstr ""
+"Uitleg tekenreeks, beschikbaar voor broneenheden, bekijk :ref:`additional`"
 
 #: ../../api.rst:2180 ../../api.rst:2198 ../../api.rst:2212
 msgid ""
 "Additional string flags, available on source units, see :ref:`custom-checks`"
 msgstr ""
+"Aanvullende vlaggen voor tekenreeksen, beschikbaar voor broneenheden, bekijk "
+":ref:`custom-checks`"
 
 #: ../../api.rst:2181
 msgid "URL where the unit can be edited"
-msgstr ""
+msgstr "URL waar de eenheid kan worden bewerkt"
 
 #: ../../api.rst:2182
 msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "Koppeling naar broneenheid; bekijk :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2183
 msgid "whether the unit is pending for write"
@@ -26509,10 +26549,12 @@ msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
+"status eenheid, 0 - niet vertaald, 10 - bewerken nodig, 20 - vertaald, 30 - "
+"goedgekeurd (werkstroom Beoordelen nodig ingeschakeld, bekijk :ref:`reviews`)"
 
 #: ../../api.rst:2199 ../../api.rst:2213
 msgid "labels, available on source units"
-msgstr ""
+msgstr "labels, beschikbaar voor broneenheden"
 
 #: ../../api.rst:2205
 msgid "Performs full update on translation unit."
@@ -26524,70 +26566,72 @@ msgstr "Verwijdert een vertaaleenheid."
 
 #: ../../api.rst:2231
 msgid "Filtering of changes was introduced in the 4.1 release."
-msgstr ""
+msgstr "Filteren van wijzigingen werd geïntroduceerd in de uitgave 4.1."
 
 #: ../../api.rst:2233
 msgid "Returns a list of translation changes."
-msgstr ""
+msgstr "Geeft een lijst met wijzigingen in de vertaling terug."
 
 #: ../../api.rst:2237
 msgid ""
 "Change object attributes are documented at :http:get:`/api/changes/(int:id)/"
 "`."
 msgstr ""
+"Objectattributen voor wijzigingen zijn gedocumenteerd in :http:get:`/api/"
+"changes/(int:id)/`."
 
 #: ../../api.rst:2239
 msgid "Username of user to filters"
-msgstr ""
+msgstr "Gebruikersnaam van te filteren gebruiker"
 
 #: ../../api.rst:2240
 msgid "Action to filter, can be used several times"
-msgstr ""
+msgstr "Actie waarop gefilterd moet worden, mag meerdere keren gebruikt worden"
 
 #: ../../api.rst:2241
 msgid "ISO 8601 formatted timestamp to list changes after"
-msgstr ""
+msgstr "Tijdstempel in opmaak ISO 8601 voor vermelden van wijzigingen na"
 
 #: ../../api.rst:2242
 msgid "ISO 8601 formatted timestamp to list changes before"
-msgstr ""
+msgstr "Tijdstempel in opmaak ISO 8601 voor vermelden van wijzigingen voor"
 
 #: ../../api.rst:2246
 msgid "Returns information about translation change."
-msgstr ""
+msgstr "Geeft informatie terug over wijziging in de vertaling."
 
 #: ../../api.rst:2248
 msgid "Change ID"
-msgstr ""
+msgstr "ID wijziging"
 
 #: ../../api.rst:2250
 msgid "URL of a related unit object"
-msgstr ""
+msgstr "URL van een gerelateerd object eenheid"
 
 #: ../../api.rst:2252 ../../api.rst:2281 ../../api.rst:2340 ../../api.rst:2351
 #: ../../api.rst:2362 ../../api.rst:2395
 msgid "URL of a related component object"
-msgstr ""
+msgstr "URL van een gerelateerd object onderdeel"
 
 #: ../../api.rst:2253
 msgid "URL of a related user object"
-msgstr ""
+msgstr "URL van een gerelateerd object gebruiker"
 
 #: ../../api.rst:2254
 msgid "URL of a related author object"
-msgstr ""
+msgstr "URL van een gerelateerd object auteur"
 
 #: ../../api.rst:2255
 msgid "event timestamp"
-msgstr ""
+msgstr "tijdstempel gebeurtenis"
 
 #: ../../api.rst:2256
 msgid "numeric identification of action"
-msgstr ""
+msgstr "numerieke identificatie van actie"
 
 #: ../../api.rst:2257
 msgid "text description of action"
-msgstr ""
+msgstr "tekstbeschrijving van actie"
 
 #: ../../api.rst:2258
 msgid "event changed text"
@@ -26599,40 +26643,46 @@ msgstr "vorige tekst"
 
 #: ../../api.rst:2260
 msgid "additional details about the change"
-msgstr ""
+msgstr "aanvullende details over de wijziging"
 
 #: ../../api.rst:2261
 msgid "change identifier"
-msgstr ""
+msgstr "identificatie wijziging"
 
 #: ../../api.rst:2268
 msgid "Returns a list of screenshot string information."
 msgstr ""
+"Geeft een lijst terug met informatie over ene schermafdruk van een "
+"tekenreeks."
 
 #: ../../api.rst:2272
 msgid ""
 "Screenshot object attributes are documented at :http:get:`/api/screenshots/"
 "(int:id)/`."
 msgstr ""
+"Objectattributen voor schermafdrukken zijn gedocumenteerd in :http:get:`/api/"
+"screenshots/(int:id)/`."
 
 #: ../../api.rst:2276
 msgid "Returns information about screenshot information."
-msgstr ""
+msgstr "Geeft informatie terug over de informatie voor de schermafdruk."
 
 #: ../../api.rst:2278 ../../api.rst:2289 ../../api.rst:2296 ../../api.rst:2313
 #: ../../api.rst:2325 ../../api.rst:2348 ../../api.rst:2359 ../../api.rst:2370
 msgid "Screenshot ID"
-msgstr ""
+msgstr "ID schermafdruk"
 
 #: ../../api.rst:2280 ../../api.rst:2316 ../../api.rst:2339 ../../api.rst:2350
 #: ../../api.rst:2361
 msgid "name of a screenshot"
-msgstr ""
+msgstr "naam van een schermafdruk"
 
 #: ../../api.rst:2282 ../../api.rst:2318 ../../api.rst:2341 ../../api.rst:2352
 #: ../../api.rst:2363
 msgid "URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`"
 msgstr ""
+"URL voor downloaden van een bestand; bekijk :http:get:`/api/screenshots/"
+"(int:id)/file/`"
 
 #: ../../api.rst:2283 ../../api.rst:2319 ../../api.rst:2342 ../../api.rst:2353
 #: ../../api.rst:2364
@@ -26640,18 +26690,20 @@ msgid ""
 "link to associated source string information; see :http:get:`/api/units/(int:"
 "id)/`"
 msgstr ""
+"koppeling naar geassocieerde informatie voor de brontekenreeks; bekijk "
+":http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2287
 msgid "Download the screenshot image."
-msgstr ""
+msgstr "Download de afbeelding van de schermafdruk."
 
 #: ../../api.rst:2294
 msgid "Replace screenshot image."
-msgstr ""
+msgstr "Vervang de afbeelding van de schermafdruk."
 
 #: ../../api.rst:2311
 msgid "Associate source string with screenshot."
-msgstr ""
+msgstr "Associeer brontekenreeks met schermafdruk."
 
 #: ../../api.rst:2323
 msgid "Remove source string association with screenshot."
@@ -26663,7 +26715,7 @@ msgstr "Brontekenreeks eenheid ID"
 
 #: ../../api.rst:2332
 msgid "Creates a new screenshot."
-msgstr ""
+msgstr "Maakt een nieuwe schermafdruk."
 
 #: ../../api.rst:2335
 msgid "Screenshot name"
@@ -26689,6 +26741,8 @@ msgstr "Geeft een lijst met add-ons terug."
 msgid ""
 "Add-on object attributes are documented at :http:get:`/api/addons/(int:id)/`."
 msgstr ""
+"Objectattributen voor add-ons zijn gedocumenteerd in :http:get:`/api/addons/"
+"(int:id)/`."
 
 #: ../../api.rst:2390
 msgid "Returns information about add-on information."
@@ -26728,46 +26782,48 @@ msgstr "Onderdelenlijsten"
 
 #: ../../api.rst:2444
 msgid "Returns a list of component lists."
-msgstr ""
+msgstr "Geeft een lijst met onderdelenlijsten terug."
 
 #: ../../api.rst:2448
 msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
 msgstr ""
+"Objectattributen voor onderdelenlijsten zijn gedocumenteerd in :http:get:`/"
+"api/component-lists/(str:slug)/`."
 
 #: ../../api.rst:2452
 msgid "Returns information about component list."
-msgstr ""
+msgstr "Geeft informatie terug over een onderdelenlijst."
 
 #: ../../api.rst:2454 ../../api.rst:2466 ../../api.rst:2476 ../../api.rst:2486
 #: ../../api.rst:2495 ../../api.rst:2504 ../../api.rst:2512
 msgid "Component list slug"
-msgstr ""
+msgstr "Slug onderdelenlijst"
 
 #: ../../api.rst:2456 ../../api.rst:2468 ../../api.rst:2478
 msgid "name of a component list"
-msgstr ""
+msgstr "naam van een onderdelenlijst"
 
 #: ../../api.rst:2457 ../../api.rst:2469 ../../api.rst:2479
 msgid "slug of a component list"
-msgstr ""
+msgstr "slug van een onderdelenlijst"
 
 #: ../../api.rst:2458 ../../api.rst:2470 ../../api.rst:2480
 msgid "whether to show it on a dashboard"
-msgstr ""
+msgstr "of het op een dashboard moet worden weergegeven"
 
 #: ../../api.rst:2460
 msgid "automatic assignment rules"
-msgstr ""
+msgstr "regels voor automatisch toewijzen"
 
 #: ../../api.rst:2464 ../../api.rst:2474
 msgid "Changes the component list parameters."
-msgstr ""
+msgstr "Wijzigt de parameters voor de onderdelenlijst."
 
 #: ../../api.rst:2484
 msgid "Deletes the component list."
-msgstr ""
+msgstr "Verwijdert de onderdelenlijst."
 
 #: ../../api.rst:2493
 msgid "List components in a component list."
@@ -26775,7 +26831,7 @@ msgstr "Vermeld onderdelen in een onderdelenlijst."
 
 #: ../../api.rst:0
 msgid "param slug"
-msgstr ""
+msgstr "parameter slug"
 
 #: ../../api.rst:0
 msgid "type slug"
@@ -26787,29 +26843,31 @@ msgstr "formulier tekenreeks onderdeel_id"
 
 #: ../../api.rst:2497 ../../api.rst:2506
 msgid "Component ID"
-msgstr ""
+msgstr "ID onderdeel"
 
 #: ../../api.rst:0
 msgid ">json array results"
-msgstr ""
+msgstr ">JSON array met resultaten"
 
 #: ../../api.rst:2502
 msgid "Associate component with a component list."
-msgstr ""
+msgstr "Associeer onderdeel met een onderdelenlijst."
 
 #: ../../api.rst:2510
 msgid "Disassociate a component from the component list."
-msgstr ""
+msgstr "Ontkoppel een onderdeel van een onderdelenlijst."
 
 #: ../../api.rst:2522
 msgid ""
 "Glossaries are now stored as regular components, translations and strings, "
 "please use respective API instead."
 msgstr ""
+"Woordenlijsten worden nu opgeslagen als reguliere onderdelen, vertalingen en "
+"tekenreeksen, gebruik in plaats daarvan hun respectievelijke API."
 
 #: ../../api.rst:2526
 msgid "Tasks"
-msgstr ""
+msgstr "Taken"
 
 #: ../../api.rst:2532
 msgid "Listing of the tasks is currently not available."
@@ -26821,7 +26879,7 @@ msgstr "Geeft informatie over een taak terug."
 
 #: ../../api.rst:2538
 msgid "Task UUID"
-msgstr ""
+msgstr "UUID taak"
 
 #: ../../api.rst:2540
 msgid "Whether the task has completed"
@@ -26829,15 +26887,15 @@ msgstr "Of de taak is voltooid"
 
 #: ../../api.rst:2541
 msgid "Task progress in percent"
-msgstr ""
+msgstr "Voortgang taak in percentage"
 
 #: ../../api.rst:2542
 msgid "Task result or progress details"
-msgstr ""
+msgstr "Resultaat taak of detail voortgang"
 
 #: ../../api.rst:2543
 msgid "Task log"
-msgstr "Taak loggen"
+msgstr "Log van taak"
 
 #: ../../api.rst:2548
 msgid "Statistics"
@@ -26848,10 +26906,12 @@ msgid ""
 "There are several statistics endpoints for objects and all of them contain "
 "same structure."
 msgstr ""
+"Er zijn verscheidene eindpunten voor statistieken voor objecten en ze "
+"bevatten allemaal dezelfde structuur."
 
 #: ../../api.rst:2555
 msgid "URL path"
-msgstr ""
+msgstr "Pad URL"
 
 #: ../../api.rst:2559
 msgid "total number of characters"
@@ -26859,15 +26919,15 @@ msgstr "totaal aantal tekens"
 
 #: ../../api.rst:2560
 msgid "date of last change"
-msgstr ""
+msgstr "datum laatste wijziging"
 
 #: ../../api.rst:2565
 msgid "number of translated characters"
-msgstr ""
+msgstr "aantal vertaalde tekens"
 
 #: ../../api.rst:2566
 msgid "percentage of translated characters"
-msgstr ""
+msgstr "percentage vertaalde tekens"
 
 #: ../../api.rst:2568
 msgid "number of fuzzy (marked for edit) words"
@@ -26887,11 +26947,11 @@ msgstr "percentage van fuzzy (gemarkeerd voor bewerken) tekens"
 
 #: ../../api.rst:2573
 msgid "number of failing checks"
-msgstr ""
+msgstr "aantal mislukte controles"
 
 #: ../../api.rst:2574
 msgid "percentage of failing checks"
-msgstr ""
+msgstr "percentage mislukte controles"
 
 #: ../../api.rst:2575
 msgid "number of approved strings"
@@ -26955,7 +27015,7 @@ msgstr "objectnaam"
 
 #: ../../api.rst:2590
 msgid "URL to access the object (if applicable)"
-msgstr ""
+msgstr "URL voor toegang tot het object (indien van toepassing)"
 
 #: ../../api.rst:2591
 msgid "URL to access the translation (if applicable)"
@@ -26973,32 +27033,39 @@ msgid ""
 "statistics/`, :http:get:`/api/translations/(string:project)/(string:"
 "component)/(string:language)/statistics/`"
 msgstr ""
+":http:get:`/api/languages/(string:language)/statistics/`, :http:get:`/api/"
+"projects/(string:project)/statistics/`, :http:get:`/api/categories/(int:id)/"
+"statistics/`, :http:get:`/api/components/(string:project)/(string:component)/"
+"statistics/`, :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/statistics/`"
 
 #: ../../api.rst:2603
 msgid "Metrics"
-msgstr "Statistieken"
+msgstr "Metrieken"
 
 #: ../../api.rst:2607
 msgid "Returns server metrics."
-msgstr ""
+msgstr "Geeft metrieken voor de server terug."
 
 #: ../../api.rst:2611
 msgid ""
 "Metrics can now be exposed in OpenMetrics compatible format with ``?"
 "format=openmetrics``."
 msgstr ""
+"Metrieken kunnen nu worden weergegeven in de compatibele opmaak voor "
+"OpenMetrics met ``?format=openmetrics``."
 
 #: ../../api.rst:2613
 msgid "Number of units"
-msgstr "aantal eenheden"
+msgstr "Aantal eenheden"
 
 #: ../../api.rst:2614
 msgid "Number of translated units"
-msgstr "aantal vertaalde eenheden"
+msgstr "Aantal vertaalde eenheden"
 
 #: ../../api.rst:2615
 msgid "Number of users"
-msgstr "aantal gebruikers"
+msgstr "Aantal gebruikers"
 
 #: ../../api.rst:2616
 msgid "Number of changes"
@@ -27006,7 +27073,7 @@ msgstr "Aantal aanpassingen"
 
 #: ../../api.rst:2617
 msgid "Number of projects"
-msgstr "aantal projecten"
+msgstr "Aantal projecten"
 
 #: ../../api.rst:2618
 msgid "Number of components"
@@ -27014,27 +27081,27 @@ msgstr "Aantal onderdelen"
 
 #: ../../api.rst:2619
 msgid "Number of translations"
-msgstr "aantal vertalingen"
+msgstr "Aantal vertalingen"
 
 #: ../../api.rst:2620
 msgid "Number of used languages"
-msgstr "aantal gebruikte talen"
+msgstr "Aantal gebruikte talen"
 
 #: ../../api.rst:2621
 msgid "Number of triggered quality checks"
-msgstr "aantal geactiveerde kwaliteitscontroles"
+msgstr "Aantal geactiveerde kwaliteitscontroles"
 
 #: ../../api.rst:2622
 msgid "Number of configuration errors"
-msgstr "aantal configuratiefouten"
+msgstr "Aantal configuratiefouten"
 
 #: ../../api.rst:2623
 msgid "Number of pending suggestions"
-msgstr "aantal openstaande suggesties"
+msgstr "Aantal openstaande suggesties"
 
 #: ../../api.rst:2624
 msgid "Lengths of Celery queues, see :ref:`celery`"
-msgstr ""
+msgstr "Lengten van wachtrijen voor Celery, bekijk :ref:`celery`"
 
 #: ../../api.rst:2625
 msgid "Configured server name"
@@ -27049,6 +27116,9 @@ msgid ""
 "Returns site-wide search results as a list. There is no pagination on the "
 "result set, only first few matches are returned for each category."
 msgstr ""
+"Geeft sitebrede zoekresultaten terug als een lijst. Er is geen pagineren "
+"voor de set met resultaten, alleen de eerste paar resultaten voor elke "
+"categorie worden teruggegeven."
 
 #: ../../api.rst:2637
 msgid "Name of the matched item."
@@ -27056,11 +27126,11 @@ msgstr "Naam van het overeenkomende item."
 
 #: ../../api.rst:2638
 msgid "Web URL of the matched item."
-msgstr ""
+msgstr "Web-URL van het overeenkomende item."
 
 #: ../../api.rst:2639
 msgid "Category of the matched item."
-msgstr ""
+msgstr "Categorie van het overeenkomende item."
 
 #: ../../api.rst:2642
 msgid "Categories"
@@ -27071,16 +27141,20 @@ msgid ""
 "Lists available categories. See :http:get:`/api/categories/(int:id)/` for "
 "field definitions."
 msgstr ""
+"Vermeld beschikbare categorieën. Bekijk :http:get:`/api/categories/(int:id)/`"
+" voor velddefinities."
 
 #: ../../api.rst:2654
 msgid ""
 "Creates a new category. See :http:get:`/api/categories/(int:id)/` for field "
 "definitions."
 msgstr ""
+"Maakt een nieuwe categorie. Bekijk :http:get:`/api/categories/(int:id)/` "
+"voor velddefinities."
 
 #: ../../api.rst:2660 ../../api.rst:2673 ../../api.rst:2683 ../../api.rst:2693
 msgid "Category ID"
-msgstr "Categorie ID"
+msgstr "ID categorie"
 
 #: ../../api.rst:2662
 msgid "Name of category."
@@ -27096,7 +27170,7 @@ msgstr "Koppeling naar een project."
 
 #: ../../api.rst:2665
 msgid "Link to a parent category."
-msgstr ""
+msgstr "Koppeling naar een oudercategorie."
 
 #: ../../api.rst:2671
 msgid "Edit partial information about category."
@@ -27104,15 +27178,15 @@ msgstr "Gedeeltelijke informatie over categorie bewerken."
 
 #: ../../api.rst:0
 msgid "param id"
-msgstr ""
+msgstr "ID parameter"
 
 #: ../../api.rst:0
 msgid "type id"
-msgstr "type id"
+msgstr "type ID"
 
 #: ../../api.rst:0
 msgid ">json object configuration"
-msgstr ">json objectconfiguratie"
+msgstr ">JSON objectconfiguratie"
 
 #: ../../api.rst:2675 ../../api.rst:2685
 msgid "Optional category configuration"
@@ -27136,13 +27210,15 @@ msgstr "Categorie id"
 
 #: ../../api.rst:2712
 msgid "Notification hooks"
-msgstr "Melding-hooks"
+msgstr "Notificatie-hooks"
 
 #: ../../api.rst:2714
 msgid ""
 "Notification hooks allow external applications to notify Weblate that the "
 "VCS repository has been updated."
 msgstr ""
+"Notificatie-hooks maken het voor externe toepassingen mogelijk Weblate in "
+"kennis te stellen dat de opslagruimte voor het VCS is bijgewerkt."
 
 #: ../../api.rst:2717
 msgid ""
@@ -27150,6 +27226,9 @@ msgid ""
 "to update individual repositories; see :http:post:`/api/projects/(string:"
 "project)/repository/` for documentation."
 msgstr ""
+"U kunt eindpunten voor projecten, onderdelen en vertalingen voor "
+"opslagruimten gebruiken om individuele opslagruimten bij te werken; bekijk "
+":http:post:`/api/projects/(string:project)/repository/` voor documentatie."
 
 #: ../../api.rst:2725
 msgid ""
@@ -27157,30 +27236,41 @@ msgid ""
 "repository/` instead which works properly with authentication for ACL "
 "limited projects."
 msgstr ""
+"Gebruik in plaats daarvan :http:post:`/api/components/"
+"(string:project)/(string:component)/repository/` wat goed werkt met "
+"authenticatie voor ACL-beperkte projecten."
 
 #: ../../api.rst:2728
 msgid ""
 "Triggers update of a component (pulling from VCS and scanning for "
 "translation changes)."
 msgstr ""
+"Activeert bijwerken van een onderdeel (ophalen uit VCS en scannen naar "
+"wijzigingen in de vertaling)."
 
 #: ../../api.rst:2735
 msgid ""
 "Please use :http:post:`/api/projects/(string:project)/repository/` instead "
 "which works properly with authentication for ACL limited projects."
 msgstr ""
+"Gebruik in plaats daarvan :http:post:`/api/projects/(string:project)/"
+"repository/` wat goed werkt met authenticatie voor ACL-beperkte projecten."
 
 #: ../../api.rst:2738
 msgid ""
 "Triggers update of all components in a project (pulling from VCS and "
 "scanning for translation changes)."
 msgstr ""
+"Activeert bijwerken van alle onderdelen in een project (ophalen uit VCS en "
+"scannen naar wijzigingen in de vertaling)."
 
 #: ../../api.rst:2743
 msgid ""
 "Special hook for handling GitHub notifications and automatically updating "
 "matching components."
 msgstr ""
+"Speciale hook voor afhandeling van notificaties van GitHub en automatisch "
+"bijwerken van overeenkomende onderdelen."
 
 #: ../../api.rst:2748
 msgid ""
@@ -27188,106 +27278,124 @@ msgid ""
 "hook in repository settings and set the URL to the URL of your Weblate "
 "installation."
 msgstr ""
+"GitHub bevat directe ondersteuning voor het notificeren van Weblate: schakel "
+"de service hook voor Weblate in de instellingen voor de opslagruimte in en "
+"stel de URL in op de URL van uw installatie van Weblate."
 
 #: ../../api.rst:2755
 msgid "For instruction on setting up GitHub integration"
-msgstr ""
+msgstr "Voor instructie voor het instellen van integratie van GitHub"
 
 #: ../../api.rst:2756
 msgid ""
 "https://docs.github.com/en/get-started/customizing-your-github-workflow/"
 "exploring-integrations/about-webhooks"
 msgstr ""
+"https://docs.github.com/en/get-started/customizing-your-github-workflow/"
+"exploring-integrations/about-webhooks"
 
 #: ../../api.rst:2757
 msgid "Generic information about GitHub Webhooks"
-msgstr ""
+msgstr "Algemene informatie over GitHub Webhooks"
 
 #: ../../api.rst:2758 ../../api.rst:2772 ../../api.rst:2786 ../../api.rst:2800
 #: ../../api.rst:2819 ../../api.rst:2833 ../../api.rst:2847
 msgid ":setting:`ENABLE_HOOKS`"
-msgstr ""
+msgstr ":setting:`ENABLE_HOOKS`"
 
 #: ../../api.rst:2759 ../../api.rst:2773 ../../api.rst:2787 ../../api.rst:2801
 #: ../../api.rst:2820 ../../api.rst:2834 ../../api.rst:2848
 msgid "For enabling hooks for whole Weblate"
-msgstr ""
+msgstr "Voor het inschakelen van hooks voor geheel Weblate"
 
 #: ../../api.rst:2763
 msgid ""
 "Special hook for handling GitLab notifications and automatically updating "
 "matching components."
 msgstr ""
+"Speciale hook voor afhandeling van notificaties van GitLab en automatisch "
+"bijwerken van overeenkomende onderdelen."
 
 #: ../../api.rst:2769
 msgid "For instruction on setting up GitLab integration"
-msgstr ""
+msgstr "Voor instructie over het instellen van integratie van GitLab"
 
 #: ../../api.rst:2770
 msgid "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
-msgstr ""
+msgstr "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
 
 #: ../../api.rst:2771
 msgid "Generic information about GitLab Webhooks"
-msgstr ""
+msgstr "Algemene informatie over GitLab Webhooks"
 
 #: ../../api.rst:2777
 msgid ""
 "Special hook for handling Bitbucket notifications and automatically updating "
 "matching components."
 msgstr ""
+"Speciale hook voor afhandeling van notificaties van Bitbucket en automatisch "
+"bijwerken van overeenkomende onderdelen."
 
 #: ../../api.rst:2783
 msgid "For instruction on setting up Bitbucket integration"
-msgstr ""
+msgstr "Voor instructie over instellen van integratie voor Bitbucket"
 
 #: ../../api.rst:2784
 msgid "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
-msgstr ""
+msgstr "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 
 #: ../../api.rst:2785
 msgid "Generic information about Bitbucket Webhooks"
-msgstr ""
+msgstr "Algemene informatie over Bitbucket Webhooks"
 
 #: ../../api.rst:2791
 msgid ""
 "Special hook for handling Pagure notifications and automatically updating "
 "matching components."
 msgstr ""
+"Speciale hook voor afhandeling van notificaties van Pagure en automatisch "
+"bijwerken van overeenkomende onderdelen."
 
 #: ../../api.rst:2797
 msgid "For instruction on setting up Pagure integration"
-msgstr ""
+msgstr "Voor instructie over instellen van integratie voor Pagure"
 
 #: ../../api.rst:2798
 msgid "https://docs.pagure.org/pagure/usage/using_webhooks.html"
-msgstr ""
+msgstr "https://docs.pagure.org/pagure/usage/using_webhooks.html"
 
 #: ../../api.rst:2799
 msgid "Generic information about Pagure Webhooks"
-msgstr ""
+msgstr "Algemene informatie over Pagure Webhooks"
 
 #: ../../api.rst:2805
 msgid ""
 "Special hook for handling Azure DevOps notifications and automatically "
 "updating matching components."
 msgstr ""
+"Speciale hook voor afhandeling van notificaties van Azure DevOps en "
+"automatisch bijwerken van overeenkomende onderdelen."
 
 #: ../../api.rst:2810
 msgid ""
 "Please ensure that :guilabel:`Resource details to send` is set to *All*, "
 "otherwise Weblate will not be able to match your Azure repository."
 msgstr ""
+"Zorg ervoor dat :guilabel:`Resource details to send` is ingesteld op *All*, "
+"anders zal Weblate niet in staat zijn te matchen met uw opslagruimte van "
+"Azure."
 
 #: ../../api.rst:2816
 msgid "For instruction on setting up Azure integration"
-msgstr ""
+msgstr "Voor instructie over instellen van integratie voor Azure"
 
 #: ../../api.rst:2817
 msgid ""
 "https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/"
 "webhooks?view=azure-devops"
 msgstr ""
+"https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/"
+"webhooks?view=azure-devops"
 
 #: ../../api.rst:2818
 msgid "Generic information about Azure DevOps Web Hooks"
@@ -27298,24 +27406,28 @@ msgid ""
 "Special hook for handling Gitea Webhook notifications and automatically "
 "updating matching components."
 msgstr ""
+"Speciale hook voor afhandeling van notificaties van Gitea Webhook en "
+"automatisch bijwerken van overeenkomende onderdelen."
 
 #: ../../api.rst:2830
 msgid "For instruction on setting up Gitea integration"
-msgstr ""
+msgstr "Voor instructie over integratie van Gitea"
 
 #: ../../api.rst:2831
 msgid "https://docs.gitea.io/en-us/webhooks/"
-msgstr ""
+msgstr "https://docs.gitea.io/en-us/webhooks/"
 
 #: ../../api.rst:2832
 msgid "Generic information about Gitea Webhooks"
-msgstr ""
+msgstr "Algemene informatie over Gitea Webhooks"
 
 #: ../../api.rst:2838
 msgid ""
 "Special hook for handling Gitee Webhook notifications and automatically "
 "updating matching components."
 msgstr ""
+"Speciale hook voor afhandeling van notificaties van Gitee Webhook en "
+"automatisch bijwerken van overeenkomende onderdelen."
 
 #: ../../api.rst:2843
 msgid ":ref:`gitee-setup`"
@@ -27323,28 +27435,30 @@ msgstr ":ref:`gitee-setup`"
 
 #: ../../api.rst:2844
 msgid "For instruction on setting up Gitee integration"
-msgstr ""
+msgstr "Voor instructie over instellen van integratie voor Gitee"
 
 #: ../../api.rst:2845
 msgid "https://gitee.com/help/categories/40"
-msgstr ""
+msgstr "https://gitee.com/help/categories/40"
 
 #: ../../api.rst:2846
 msgid "Generic information about Gitee Webhooks"
-msgstr ""
+msgstr "Algemene informatie over Gitee Webhooks"
 
 #: ../../api.rst:2853
 msgid "Exports"
-msgstr ""
+msgstr "Uitvoer"
 
 #: ../../api.rst:2855
 msgid ""
 "Weblate provides various exports to allow you to further process the data."
 msgstr ""
+"Weblate verschaft verschillende uitvoer om u in staat te stellen de gegevens "
+"verder te verwerken."
 
 #: ../../api.rst:2859
 msgid "Output format: either ``json`` or ``csv``"
-msgstr ""
+msgstr "Indeling uitvoer: ofwel ``json`` of ``csv``"
 
 #: ../../api.rst:2863
 msgid ""
@@ -27353,10 +27467,15 @@ msgid ""
 "component)/(string:language)/statistics/` instead; it allows access to ACL "
 "controlled projects as well."
 msgstr ""
+"Gebruik in plaats daarvan :http:get:`/api/components/"
+"(string:project)/(string:component)/statistics/` en :http:get:`/api/"
+"translations/(string:project)/(string:component)/(string:language)/"
+"statistics/`; het staat ook toegang toe tot met ACL beheerde projecten."
 
 #: ../../api.rst:2867
 msgid "Retrieves statistics for given component in given format."
 msgstr ""
+"Haalt statistieken voor het opgegeven onderdeel op in de opgegeven indeling."
 
 #: ../../api.rst:2942
 msgid "RSS feeds"
@@ -27364,31 +27483,32 @@ msgstr "RSS-feeds"
 
 #: ../../api.rst:2944
 msgid "Changes in translations are exported in RSS feeds."
-msgstr ""
+msgstr "Wijzigingen in vertalingen worden geëxporteerd in RSS-feeds."
 
 #: ../../api.rst:2948
 msgid "Retrieves RSS feed with recent changes for a translation."
-msgstr ""
+msgstr "Haalt RSS-feed op met recente wijzigingen in een vertaling."
 
 #: ../../api.rst:2952
 msgid "Retrieves RSS feed with recent changes for a component."
-msgstr ""
+msgstr "Haalt RSS-feed op met recente wijzigingen in een onderdeel."
 
 #: ../../api.rst:2956
 msgid "Retrieves RSS feed with recent changes for a project."
-msgstr ""
+msgstr "Haalt RSS-feed op met recente wijzigingen in een project."
 
 #: ../../api.rst:2960
 msgid "Retrieves RSS feed with recent changes for a language."
-msgstr ""
+msgstr "Haalt RSS-feed op met recente wijzigingen voor een taal."
 
 #: ../../api.rst:2964
 msgid "Retrieves RSS feed with recent changes for Weblate instance."
 msgstr ""
+"Haalt RSS-feed op met recente wijzigingen voor een instantie van Weblate."
 
 #: ../../api.rst:2968
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
-msgstr ""
+msgstr "`RSS op Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
 msgid "Weblate 5.9"
@@ -27404,7 +27524,7 @@ msgstr "Nog niet uitgegeven."
 #: ../../changes.rst:701 ../../changes.rst:728 ../../changes.rst:804
 #: ../../changes.rst:845
 msgid "**New features**"
-msgstr ""
+msgstr "**Nieuwe mogelijkheden**"
 
 #: ../../changes.rst:8 ../../changes.rst:83 ../../changes.rst:126
 #: ../../changes.rst:152 ../../changes.rst:190 ../../changes.rst:256
@@ -27414,11 +27534,11 @@ msgstr ""
 #: ../../changes.rst:703 ../../changes.rst:736 ../../changes.rst:779
 #: ../../changes.rst:808 ../../changes.rst:853
 msgid "**Improvements**"
-msgstr ""
+msgstr "**Verbeteringen**"
 
 #: ../../changes.rst:10
 msgid "Included username when generating :ref:`credits`."
-msgstr ""
+msgstr "Opgenomen gebruikersnaam bij genereren van :ref:`credits`."
 
 #: ../../changes.rst:12 ../../changes.rst:33 ../../changes.rst:56
 #: ../../changes.rst:98 ../../changes.rst:132 ../../changes.rst:157
@@ -27435,7 +27555,7 @@ msgstr "**Gerepareerde bugs**"
 
 #: ../../changes.rst:14
 msgid "Formatting of some :ref:`audit-log` entries."
-msgstr ""
+msgstr "Opmaken van enkele items van :ref:`audit-log`."
 
 #: ../../changes.rst:16 ../../changes.rst:104 ../../changes.rst:209
 #: ../../changes.rst:299 ../../changes.rst:461 ../../changes.rst:567
@@ -27461,7 +27581,7 @@ msgstr "**Compatibiliteit**"
 #: ../../changes/v4.rst:858 ../../changes/v4.rst:933 ../../changes/v4.rst:1019
 #: ../../changes/v4.rst:1094 ../../changes/v4.rst:1167
 msgid "**Upgrading**"
-msgstr ""
+msgstr "**Upgraden**"
 
 #: ../../changes.rst:20 ../../changes.rst:43 ../../changes.rst:62
 #: ../../changes.rst:111 ../../changes.rst:139 ../../changes.rst:167
@@ -27482,6 +27602,7 @@ msgstr ""
 msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr ""
+"Volg :ref:`generic-upgrade-instructions` om het bijwerken uit te voeren."
 
 #: ../../changes.rst:22 ../../changes.rst:45 ../../changes.rst:64
 #: ../../changes.rst:115 ../../changes.rst:141 ../../changes.rst:169
@@ -27508,16 +27629,21 @@ msgstr "Uitgegeven op 1 november 2024."
 #: ../../changes.rst:35
 msgid "Update outdated plural definitions during the database migration."
 msgstr ""
+"Bijwerken verouderde definities voor meervoud gedurende de migratie van de "
+"database."
 
 #: ../../changes.rst:36
 msgid "Reduced number of database queries when updating multiple strings."
 msgstr ""
+"Verminderd aantal databasequery's bij bijwerken van meerdere tekenreeksen."
 
 #: ../../changes.rst:37
 msgid ""
 "Leading problematic characters in :ref:`glossary` terms are now properly "
 "stripped in uploaded files."
 msgstr ""
+"Voorafgaande problematische tekens in termen voor :ref:`glossary` worden nu "
+"op de juiste wijze verwijderd in geüploade bestanden."
 
 #: ../../changes.rst:38
 msgid "Improved :ref:`workflow-customization` performance."
@@ -27526,23 +27652,25 @@ msgstr "Verbeterde prestaties voor :ref:`workflow-customization`."
 #: ../../changes.rst:39
 msgid "Fixed XML escaped output in some machine translation integrations."
 msgstr ""
+"Gerepareerde XML geëscapete uitvoer in sommig integraties van "
+"machinevertaling."
 
 #: ../../changes/contributors/5.7.1.rst:2
 #: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
 #: ../../changes/contributors/5.8.1.rst:2
 #: ../../changes/contributors/5.8.2.rst:2 ../../changes/contributors/5.8.rst:2
 msgid "Code contributions"
-msgstr "Code deelnemers"
+msgstr "Bijgedragen code"
 
 #: ../../changes/contributors/5.8.2.rst:3
 msgid "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
-msgstr ""
+msgstr "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
 
 #: ../../changes/contributors/5.7.1.rst:5
 #: ../../changes/contributors/5.7.2.rst:5 ../../changes/contributors/5.7.rst:5
 #: ../../changes/contributors/5.8.2.rst:5 ../../changes/contributors/5.8.rst:5
 msgid "Translations contributions"
-msgstr "Bijdragen vertalingen"
+msgstr "Bijgedragen vertalingen"
 
 #: ../../changes/contributors/5.8.2.rst:6
 msgid ""
@@ -27555,23 +27683,33 @@ msgid ""
 "Massimo Pissarello, Florent, Ihor Hordiichuk, hugoalh, Vaclovas Intas, Milo "
 "Ivir, Jim Spentzos, Dženan, Claudio Filho F Filho, 大学没毕业, پرویز قادر"
 msgstr ""
+"VfBFan, 大王叫我来巡山, Любомир Василев, Miguel A. Bouzada, Besnik Bleta, "
+"Yuri Chornoivan, Wuzzy, Michal Čihař, gallegonovato, Vin, Blueberry, "
+"befag74614, Agnieszka C, Rhoslyn Prys, Aindriú Mac Giolla Eoin, Fulup Jakez, "
+"Christian Wia, ssantos, Vlăduț Ilie, Fjuro, amano, Andi Chandler, Peter "
+"Vančo, test-session, famese, Yaron Shahrabani, Geert-Jan Knapen, Ricky From "
+"Hong Kong, Tymofii Lytvynenko, Horus68, Reno Tx, Jim Kats, Massimo "
+"Pissarello, Florent, Ihor Hordiichuk, hugoalh, Vaclovas Intas, Milo Ivir, "
+"Jim Spentzos, Dženan, Claudio Filho F Filho, 大学没毕业, پرویز قادر"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
 #: ../../changes/contributors/5.8.1.rst:5
 #: ../../changes/contributors/5.8.2.rst:8 ../../changes/contributors/5.8.rst:8
 msgid "Documentation contributions"
-msgstr "Bijdragen voor documentatie"
+msgstr "Bijgedragen documentatie"
 
 #: ../../changes/contributors/5.8.2.rst:9
 msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
-msgstr ""
+msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 
 #: ../../changes.rst:49
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/129?"
 "closed=1>`__."
 msgstr ""
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"129?closed=1>`__."
 
 #: ../../changes.rst:52
 msgid "Weblate 5.8.1"
@@ -27579,11 +27717,11 @@ msgstr "Weblate 5.8.1"
 
 #: ../../changes.rst:54 ../../changes.rst:73
 msgid "Released on October 15th 2024."
-msgstr ""
+msgstr "Uitgegeven op 15 oktober 2024."
 
 #: ../../changes.rst:58
 msgid "Use lower case name for the Python package."
-msgstr ""
+msgstr "Naam in kleine letters gebruiken voor pakket van Python."
 
 #: ../../changes/contributors/5.7.2.rst:9
 #: ../../changes/contributors/5.8.1.rst:3
@@ -27596,6 +27734,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/128?"
 "closed=1>`__."
 msgstr ""
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"128?closed=1>`__."
 
 #: ../../changes.rst:71
 msgid "Weblate 5.8"
@@ -27610,12 +27750,15 @@ msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
+":ref:`Searching` ondersteunt nu filteren op objectpad en :ref:`date-search`."
 
 #: ../../changes.rst:79
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, see :ref:"
 "`settings-credentials`."
 msgstr ""
+"Inloggegevens voor verzoeken tot samenvoegen kunnen nu worden doorgegeven in "
+"de URL van de opslagruimte, bekijk :ref:`settings-credentials`."
 
 #: ../../changes.rst:80
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
@@ -27642,24 +27785,27 @@ msgstr ":ref:`mt-aws` ondersteunt nu :ref:`glossary-mt`."
 #: ../../changes.rst:88
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
 msgstr ""
+":ref:`autofix` voor Devanagari danda behandelt nu Latijns schrift beter."
 
 #: ../../changes.rst:89
 msgid ""
 ":ref:`autofix` for French and Breton now uses a non-breaking space before "
 "colons instead of a narrow one."
 msgstr ""
+":ref:`autofix` voor Frans en Bretons gebruikt nu een niet afbrekende spatie "
+"voor dubbele punten, in plaats van een smalle."
 
 #: ../../changes.rst:90
 msgid ":ref:`api` now has a preview OpenAPI specification."
-msgstr ""
+msgstr ":ref:`api` heeft nu een voorbeeld OpenAPI-specificatie."
 
 #: ../../changes.rst:91
 msgid "Stale, empty glossaries are now automatically removed."
-msgstr ""
+msgstr "Verouderde, lege woordenlijsten worden nu automatisch verwijderd."
 
 #: ../../changes.rst:92
 msgid ":kbd:`?` now displays available :ref:`keyboard`."
-msgstr ""
+msgstr ":kbd:`?` geeft nu beschikbare :ref:`keyboard` weer."
 
 #: ../../changes.rst:93
 msgid ""
