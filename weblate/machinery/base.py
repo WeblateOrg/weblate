@@ -798,7 +798,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
 
 class XMLMachineTranslationMixin(BatchMachineTranslation):
     hightlight_syntax = True
-    force_uncleanup = False
+    force_uncleanup = True
 
     def unescape_text(self, text: str) -> str:
         """Unescaping of the text with replacements."""

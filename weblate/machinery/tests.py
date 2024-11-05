@@ -1525,9 +1525,11 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_formality(self) -> None:
+        expected_formality = "more"
+
         def request_callback(request: AuthenticatedHttpRequest):
             payload = json.loads(request.body)
-            self.assertIn("formality", payload)
+            self.assertEqual(payload["formality"], expected_formality)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
 
         machine = self.MACHINE_CLS(self.CONFIGURATION)
@@ -1539,12 +1541,42 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             callback=request_callback,
         )
         # Fetch from service
+        expected_formality = "default"
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        expected_formality = "more"
         self.assert_translate(
             "DE@FORMAL", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
+        expected_formality = "less"
         self.assert_translate(
             "DE@INFORMAL", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
+
+    @responses.activate
+    def test_escaping(self) -> None:
+        def request_callback(request: AuthenticatedHttpRequest):
+            payload = json.loads(request.body)
+            self.assertIn("formality", payload)
+            response = DEEPL_RESPONSE.copy()
+            response["translations"][0]["text"] = "Hallo&amp;welt"
+            return (200, {}, json.dumps(response))
+
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+        self.mock_languages()
+        responses.add_callback(
+            responses.POST,
+            "https://api.deepl.com/v2/translate",
+            callback=request_callback,
+        )
+        # Fetch from service
+        translation = self.assert_translate(
+            self.SUPPORTED, "Hello&world", 1, machine=machine
+        )
+        self.assertEqual(translation[0][0]["source"], "Hello&world")
+        self.assertEqual(translation[0][0]["text"], "Hallo&welt")
 
     @responses.activate
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
