@@ -287,11 +287,11 @@ intersphinx_mapping = {
     "django": (django_doc_url, f"{django_doc_url}_objects/"),
     "psa": ("https://python-social-auth.readthedocs.io/en/latest/", None),
     "tt": (
-        "http://docs.translatehouse.org/projects/translate-toolkit/en/latest/",
+        "https://docs.translatehouse.org/projects/translate-toolkit/en/latest/",
         None,
     ),
     "amagama": ("https://docs.translatehouse.org/projects/amagama/en/latest/", None),
-    "virtaal": ("http://docs.translatehouse.org/projects/virtaal/en/latest/", None),
+    "virtaal": ("https://docs.translatehouse.org/projects/virtaal/en/latest/", None),
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
     "celery": ("https://docs.celeryq.dev/en/stable/", None),
     "sphinx": (sphinx_doc_url, None),
