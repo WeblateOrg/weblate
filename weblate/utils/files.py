@@ -14,7 +14,8 @@ from translation_finder.finder import EXCLUDES
 if TYPE_CHECKING:
     from pathlib import Path
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+WEBLATE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(WEBLATE_DIR)
 DEFAULT_DATA_DIR = os.path.join(BASE_DIR, "data")
 DEFAULT_TEST_DIR = os.path.join(BASE_DIR, "data-test")
 BUILD_DIR = os.path.join(BASE_DIR, "build")
@@ -50,7 +51,7 @@ def remove_tree(path: str | Path, ignore_errors: bool = False) -> None:
 def should_skip(location):
     """Check for skipping location in manage commands."""
     location = os.path.abspath(location)
-    return location.startswith(
+    return not location.startswith(WEBLATE_DIR) or location.startswith(
         (
             VENV_DIR,
             settings.DATA_DIR,
