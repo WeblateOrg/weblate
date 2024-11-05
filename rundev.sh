@@ -50,13 +50,13 @@ compilemessages)
 test)
     shift
     docker compose exec -T \
-        -e WEBLATE_DATA_DIR=/tmp/test-data \
-        -e WEBLATE_CELERY_EAGER=1 \
-        -e WEBLATE_SITE_TITLE=Weblate \
-        -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal \
-        -e WEBLATE_VCS_FILE_PROTOCOL=1 \
-        -e WEBLATE_VCS_API_DELAY=0 \
-        -e WEBLATE_SESSION_ENGINE=django.contrib.sessions.backends.db \
+        --env CI_BASE_DIR=/tmp \
+        --env CI_DATABASE=postgresql \
+        --env CI_DB_HOST=database \
+        --env CI_DB_NAME=weblate \
+        --env CI_DB_USER=weblate \
+        --env CI_DB_PASSWORD=weblate \
+        --env DJANGO_SETTINGS_MODULE=weblate.settings_test \
         weblate weblate test --noinput "$@"
     ;;
 check)
