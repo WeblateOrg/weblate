@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 09:40+0100\n"
-"PO-Revision-Date: 2024-11-05 10:10+0000\n"
+"PO-Revision-Date: 2024-11-05 11:39+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -25239,7 +25239,7 @@ msgid ""
 "Returns a list of project changes. This is essentially a project scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
-"Geeft een lijst terug met wijzigingen in een project. Dit is essentieel een "
+"Geeft een lijst terug met wijzigingen in een project. Dit is in essentie een "
 "voor het bereik van het project gemaakte :http:get:`/api/changes/`, die "
 "dezelfde parameters accepteert."
 
@@ -25372,6 +25372,7 @@ msgstr ""
 #: ../../api.rst:1028
 msgid "ZIP file to upload into Weblate for translations initialization"
 msgstr ""
+"ZIP-bestand om naar Weblate te uploaden voor initialiseren van vertalingen"
 
 #: ../../api.rst:1029
 msgid "Document to translate"
@@ -25380,18 +25381,23 @@ msgstr "Te vertalen document"
 #: ../../api.rst:1030
 msgid "Disables automatic repository sharing via :ref:`internal-urls`."
 msgstr ""
+"Schakelt automatisch delen van opslagruimte via :ref:`internal-urls` uit."
 
 #: ../../api.rst:1031
 msgid ""
 "Component parameters, see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"Parameters onderdeel, bekijk :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1032
 msgid ""
 "Created component object; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"Gemaakt onderdeelobject; bekijk :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1034
 msgid ""
@@ -25399,72 +25405,78 @@ msgid ""
 "``docfile`` parameters. The data has to be uploaded as :mimetype:`multipart/"
 "form-data`."
 msgstr ""
+"JSON kan niet worden gebruikt bij het uploaden van de bestanden met de "
+"parameters ``zipfile`` en ``docfile``. De gegevens moeten worden geüpload "
+"als :mimetype:`multipart/form-data`."
 
 #: ../../api.rst:1038
 msgid "**CURL form request example:**"
-msgstr ""
+msgstr "**Voorbeeld CURL formulier verzoek:**"
 
 #: ../../api.rst:1051
 msgid "**CURL JSON request example:**"
-msgstr ""
+msgstr "**Voorbeeld CURL JSON verzoek:**"
 
 #: ../../api.rst:1071
 msgid "**JSON request to create a new component from Git:**"
-msgstr ""
+msgstr "**JSON verzoek om een nieuw onderdeel uit Git te maken:**"
 
 #: ../../api.rst:1094
 msgid "**JSON request to create a new component from another one:**"
-msgstr ""
+msgstr "**JSON verzoek om een nieuw onderdeel ergens anders uit te maken:**"
 
 #: ../../api.rst:1163
 msgid "Returns paginated statistics for all languages within a project."
 msgstr ""
+"Geeft gepagineerde statistieken terug voor alle talen binnen een project."
 
 #: ../../api.rst:1167
 msgid "array of translation statistics objects"
-msgstr ""
+msgstr "array met objecten voor statistieken van vertalingen"
 
 #: ../../api.rst:1168
 msgid "language name"
-msgstr ""
+msgstr "naam taal"
 
 #: ../../api.rst:1169
 msgid "language code"
-msgstr ""
+msgstr "taalcode"
 
 #: ../../api.rst:1170 ../../api.rst:1854 ../../api.rst:2557
 msgid "total number of strings"
-msgstr ""
+msgstr "totaal aantal tekenreeksen"
 
 #: ../../api.rst:1171 ../../api.rst:1857 ../../api.rst:2561
 msgid "number of translated strings"
-msgstr ""
+msgstr "aantal vertaalde tekenreeksen"
 
 #: ../../api.rst:1172 ../../api.rst:1858 ../../api.rst:2562
 msgid "percentage of translated strings"
-msgstr ""
+msgstr "percentage vertaalde tekenreeksen"
 
 #: ../../api.rst:1173 ../../api.rst:1855 ../../api.rst:2558
 msgid "total number of words"
-msgstr ""
+msgstr "totaal aantal woorden"
 
 #: ../../api.rst:1174 ../../api.rst:1859 ../../api.rst:2563
 msgid "number of translated words"
-msgstr ""
+msgstr "aantal vertaalde woorden"
 
 #: ../../api.rst:1175 ../../api.rst:2564
 msgid "percentage of translated words"
-msgstr ""
+msgstr "percentage vertaalde woorden"
 
 #: ../../api.rst:1179
 msgid "Returns statistics for a project."
-msgstr ""
+msgstr "Geeft statistieken voor een project terug."
 
 #: ../../api.rst:1192
 msgid ""
 "Returns categories for a project. See :http:get:`/api/categories/(int:id)/` "
 "for field definitions."
 msgstr ""
+"Geeft categorieën voor een project terug. Bekijk :http:get:`/api/categories/"
+"(int:id)/` voor velddefinities."
 
 #: ../../api.rst:0
 msgid "param project"
@@ -25484,11 +25496,11 @@ msgstr "Geeft labels terug voor een project."
 
 #: ../../api.rst:0
 msgid ">json int id"
-msgstr ""
+msgstr ">JSON int ID"
 
 #: ../../api.rst:1205
 msgid "ID of the label"
-msgstr ""
+msgstr "ID van het label"
 
 #: ../../api.rst:0
 msgid ">json string name"
@@ -25500,11 +25512,11 @@ msgstr "Naam van het label"
 
 #: ../../api.rst:0
 msgid ">json string color"
-msgstr ""
+msgstr ">JSON kleur tekenreeks"
 
 #: ../../api.rst:1207 ../../api.rst:1218
 msgid "color of the label"
-msgstr ""
+msgstr "kleur van het label"
 
 #: ../../api.rst:1213
 msgid "Creates a label for a project."
@@ -25516,7 +25528,7 @@ msgstr "<json naam tekenreeks"
 
 #: ../../api.rst:0
 msgid "<json string color"
-msgstr ""
+msgstr "<JSON kleur tekenreeks"
 
 #: ../../api.rst:1222 ../../api.rst:1800
 msgid "Returns contributor credits for a project."
@@ -25524,11 +25536,11 @@ msgstr "Geeft gegevens van deelnemer voor een project terug."
 
 #: ../../api.rst:1228 ../../api.rst:1806
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Ondergrens ISO 8601 tijdstempel (verplicht)"
 
 #: ../../api.rst:1230 ../../api.rst:1808
 msgid "Upper-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Bovengrens ISO 8601 tijdstempel (verplicht)"
 
 #: ../../api.rst:1232 ../../api.rst:1810
 msgid "Language code to search for"
@@ -25551,25 +25563,29 @@ msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
 msgstr ""
+"Gebruik :http:post:`/api/projects/(string:project)/components/` om nieuwe "
+"onderdelen te maken."
 
 #: ../../api.rst:1247
 msgid "Returns a list of translation components."
-msgstr ""
+msgstr "Geeft een lijst met vertaalonderdelen terug."
 
 #: ../../api.rst:1251
 msgid ""
 "Component object attributes are documented at :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 msgstr ""
+"Objectattributen voor onderdelen zijn gedocumenteerd in :http:get:`/api/"
+"components/(string:project)/(string:component)/`."
 
 #: ../../api.rst:1255
 msgid "Returns information about translation component."
-msgstr ""
+msgstr "Geeft informatie terug over een vertaalonderdeel."
 
 #: ../../api.rst:1261
 msgid ""
 "the translation project; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
+msgstr "het vertaalproject; bekijk :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1262 ../../devel/sphinx.rst:32
 msgid ":ref:`component-name`"
@@ -25581,13 +25597,16 @@ msgstr ":ref:`component-slug`"
 
 #: ../../api.rst:1265
 msgid "component whose repository is linked via :ref:`internal-urls`"
-msgstr ""
+msgstr "onderdeel waarvan de opslagruimte is gekoppeld met :ref:`internal-urls`"
 
 #: ../../api.rst:1266
 msgid ""
 ":ref:`component-repo`, this is the actual repository URL even when :ref:"
 "`internal-urls` are used, use ``linked_component`` to detect this situation"
 msgstr ""
+":ref:`component-repo`, dit is de feitelijke URL voor de opslagruimte, zelfs "
+"als :ref:`internal-urls` worden gebruikt, gebruik ``linked_component`` om "
+"deze situatie te detecteren"
 
 #: ../../api.rst:1267
 msgid ":ref:`component-git_export`"
@@ -25598,18 +25617,24 @@ msgid ""
 ":ref:`component-branch`, this is the actual repository branch even when :ref:"
 "`internal-urls` are used"
 msgstr ""
+":ref:`component-branch`, dit is de feitelijke tak van de opslagruimte, zelfs "
+"als :ref:`internal-urls` worden gebruikt"
 
 #: ../../api.rst:1269
 msgid ""
 ":ref:`component-push`, this is the actual repository URL even when :ref:"
 "`internal-urls` are used"
 msgstr ""
+":ref:`component-push`, dit is de feitelijke URL van de opslagruimte, zelfs "
+"als :ref:`internal-urls` worden gebruikt"
 
 #: ../../api.rst:1270
 msgid ""
 ":ref:`component-push_branch`, this is the actual repository branch even "
 "when :ref:`internal-urls` are used"
 msgstr ""
+":ref:`component-push_branch`, dit is de feitelijke tak van de opslagruimte, "
+"zelfs als :ref:`internal-urls` worden gebruikt"
 
 #: ../../api.rst:1271 ../../devel/sphinx.rst:34
 msgid ":ref:`component-filemask`"
@@ -25654,7 +25679,7 @@ msgstr ":ref:`component-language_code_style`"
 #: ../../api.rst:1281 ../../api.rst:1848
 msgid ""
 "source language object; see :http:get:`/api/languages/(string:language)/`"
-msgstr ""
+msgstr "bron taalobject; bekijk :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1282 ../../devel/sphinx.rst:40
 msgid ":ref:`component-check_flags`"
@@ -25757,203 +25782,235 @@ msgid ""
 "URL to repository status; see :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`"
 msgstr ""
+"URL naar status opslagruimte; bekijk :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`"
 
 #: ../../api.rst:1307
 msgid ""
 "URL to translations list; see :http:get:`/api/components/(string:project)/"
 "(string:component)/translations/`"
 msgstr ""
+"URL naar lijst met vertalingen; bekijk :http:get:`/api/components/"
+"(string:project)/(string:component)/translations/`"
 
 #: ../../api.rst:1308
 msgid ""
 "URL to lock status; see :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`"
 msgstr ""
+"URL naar status vergrendeling; bekijk :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1309
 msgid ""
 "URL to changes list; see :http:get:`/api/components/(string:project)/(string:"
 "component)/changes/`"
 msgstr ""
+"URL naar lijst met wijzigingen; bekijk :http:get:`/api/components/"
+"(string:project)/(string:component)/changes/`"
 
 #: ../../api.rst:1310
 msgid ""
 "URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`"
 msgstr ""
+"URL naar een taak op de achtergrond (indien aanwezig); bekijk :http:get:`/"
+"api/tasks/(str:uuid)/`"
 
 #: ../../api.rst:1311
 msgid ""
 "URL to to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
 msgstr ""
+"URL voor vermelden attributie deelnemer; bekijk :http:get:`/api/components/"
+"(string:project)/(string:component)/credits/`"
 
 #: ../../api.rst:1359
 msgid "Edit a component by a :http:method:`PATCH` request."
-msgstr ""
+msgstr "Bewerk een onderdeel met een verzoek :http:method:`PATCH`."
 
 #: ../../api.rst:1365
 msgid "Project source language code (optional)"
-msgstr ""
+msgstr "Project brontaalcode (optioneel)"
 
 #: ../../api.rst:1367 ../../api.rst:1452
 msgid "name of component"
-msgstr ""
+msgstr "naam van het onderdeel"
 
 #: ../../api.rst:1368 ../../api.rst:1453
 msgid "slug of component"
-msgstr ""
+msgstr "slug van het onderdeel"
 
 #: ../../api.rst:1369 ../../api.rst:1454
 msgid "VCS repository URL"
-msgstr ""
+msgstr "URL opslagruimte van het VCS"
 
 #: ../../api.rst:1443
 msgid "Edit a component by a :http:method:`PUT` request."
-msgstr ""
+msgstr "Bewerk een onderdeel met een verzoek :http:method:`PUT`."
 
 #: ../../api.rst:1449
 msgid "VCS repository branch"
-msgstr ""
+msgstr "Tak opslagruimte van het VCS"
 
 #: ../../api.rst:1450
 msgid "file format of translations"
-msgstr ""
+msgstr "bestandsindeling van vertalingen"
 
 #: ../../api.rst:1451
 msgid "mask of translation files in the repository"
-msgstr ""
+msgstr "masker voor vertaalbestanden in de opslagruimte"
 
 #: ../../api.rst:1455
 msgid "base file for monolingual translations"
-msgstr ""
+msgstr "basisbestand voor eentalige vertalingen"
 
 #: ../../api.rst:1456
 msgid "base file for adding new translations"
-msgstr ""
+msgstr "basisbestand voor het toevoegen van nieuwe vertalingen"
 
 #: ../../api.rst:1457
 msgid "version control system"
-msgstr ""
+msgstr "versiebeheersysteem (VCS)"
 
 #: ../../api.rst:1461
 msgid "Deletes a component."
-msgstr ""
+msgstr "Verwijdert een onderdeel."
 
 #: ../../api.rst:1470
 msgid ""
 "Returns a list of component changes. This is essentially a component scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Geeft een lijst met wijzigingen in het onderdeel terug. Dit is in essentie "
+"een voor het bereik van het onderdeel gemaakte :http:get:`/api/changes/` die "
+"dezelfde parameters accepteert."
 
 #: ../../api.rst:1484
 msgid ""
 "Downloads all available translations associated with the component as an "
 "archive file using the requested format."
 msgstr ""
+"Downloadt alle beschikbare vertalingen, geassocieerd met het onderdeel, als "
+"een archiefbestand in de verzochte indeling."
 
 #: ../../api.rst:1495
 msgid "Returns a list of component screenshots."
-msgstr ""
+msgstr "Geeft een lijst met schermafdrukken voor het onderdeel terug."
 
 #: ../../api.rst:1501
 msgid ""
 "array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`"
 msgstr ""
+"array met schermafdrukken voor het onderdeel; bekijk :http:get:`/api/"
+"screenshots/(int:id)/`"
 
 #: ../../api.rst:1506
 msgid "Returns component lock status."
-msgstr ""
+msgstr "Geeft de status van de vergrendeling van het onderdeel terug."
 
 #: ../../api.rst:1512
 msgid "whether component is locked for updates"
-msgstr ""
+msgstr "of het onderdeel is vergrendeld voor bijwerken"
 
 #: ../../api.rst:1525
 msgid "Sets component lock status."
-msgstr ""
+msgstr "Stelt de status voor vergrendelen van het onderdeel in."
 
 #: ../../api.rst:1527
 msgid ""
 "Response is same as :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`."
 msgstr ""
+"Antwoord is hetzelfde als :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`."
 
 #: ../../api.rst:1533
 msgid "Boolean whether to lock or not."
-msgstr ""
+msgstr "Booleaanse waarde om te vergrendelen of niet."
 
 #: ../../api.rst:1574 ../../api.rst:2067
 msgid "Returns information about VCS repository status."
-msgstr ""
+msgstr "Geeft informatie terug over de status van de opslagruimte van het VCS."
 
 #: ../../api.rst:1576
 msgid ""
 "The response is same as for :http:get:`/api/projects/(string:project)/"
 "repository/`."
 msgstr ""
+"Het antwoord is hetzelfde als voor :http:get:`/api/projects/(string:project)/"
+"repository/`."
 
 #: ../../api.rst:1585
 msgid "Remote commit information"
-msgstr ""
+msgstr "Informatie over indiening op afstand"
 
 #: ../../api.rst:1586
 msgid "VCS repository status as reported by VCS"
-msgstr ""
+msgstr "Status opslagruimte VCS, zoals gerapporteerd door het VCS"
 
 #: ../../api.rst:1587
 msgid "Text describing merge failure or null if there is none"
 msgstr ""
+"Tekst die mislukkingen bij samenvoegen beschrijft of null als er geen is"
 
 #: ../../api.rst:1591
 msgid "Performs the given operation on a VCS repository."
-msgstr ""
+msgstr "Voert de opgegeven bewerking uit op een opslagruimte van het VCS."
 
 #: ../../api.rst:1593 ../../api.rst:2082
 msgid ""
 "See :http:post:`/api/projects/(string:project)/repository/` for "
 "documentation."
 msgstr ""
+"Bekijk :http:post:`/api/projects/(string:project)/repository/` voor "
+"documentatie."
 
 #: ../../api.rst:1599 ../../api.rst:2090
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``"
 msgstr ""
+"Uit te voeren bewerking: een van ``push``, ``pull``, ``commit``, ``reset``, "
+"``cleanup``"
 
 #: ../../api.rst:1641
 msgid "Downloads base file for monolingual translations."
-msgstr ""
+msgstr "Downloadt basisbestand voor eentalige vertalingen."
 
 #: ../../api.rst:1650
 msgid "Downloads template file for new translations."
-msgstr ""
+msgstr "Downloadt sjabloonbestand voor nieuwe vertalingen."
 
 #: ../../api.rst:1659
 msgid "Returns a list of translation objects in the given component."
-msgstr ""
+msgstr "Geeft een lijst met vertaalobjecten in het opgegeven onderdeel terug."
 
 #: ../../api.rst:1665
 msgid ""
 "array of translation objects; see :http:get:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/`"
 msgstr ""
+"array met vertaalobjecten; bekijk :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:1669
 msgid "Creates new translation in the given component."
-msgstr ""
+msgstr "Maakt een nieuwe vertaling in het opgegeven onderdeel."
 
 #: ../../api.rst:1675
 msgid ""
 "translation language code; see :http:get:`/api/languages/(string:language)/`"
 msgstr ""
+"vertaling taalcode; bekijk :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1676
 msgid "new translation object created"
-msgstr ""
+msgstr "nieuw gemaakte vertaalobject"
 
 #: ../../api.rst:1750
 msgid "Returns paginated statistics for all translations within component."
 msgstr ""
+"Geeft gepagineerde statistieken terug voor alle vertalingen in het onderdeel."
 
 #: ../../api.rst:1763
 msgid "Returns projects linked with a component."
@@ -25962,6 +26019,7 @@ msgstr "Geeft projecten terug die zijn gekoppeld aan een onderdeel."
 #: ../../api.rst:1771
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
+"geassocieerde projecten; bekijk :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1775
 msgid "Associate project with a component."
@@ -25977,29 +26035,33 @@ msgstr "Slug van het project die verwijderd moet worden"
 
 #: ../../api.rst:1821
 msgid "Returns a list of translations."
-msgstr ""
+msgstr "Geeft een lijst met vertalingen terug."
 
 #: ../../api.rst:1825
 msgid ""
 "Translation object attributes are documented at :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`."
 msgstr ""
+"Objectattributen voor vertalingen zijn gedocumenteerd in :http:get:`/api/"
+"translations/(string:project)/(string:component)/(string:language)/`."
 
 #: ../../api.rst:1829
 msgid "Returns information about a translation."
-msgstr ""
+msgstr "Geeft informatie terug over een vertaling."
 
 #: ../../api.rst:1835 ../../api.rst:1943 ../../api.rst:1955 ../../api.rst:1968
 #: ../../api.rst:1982 ../../api.rst:2005 ../../api.rst:2036 ../../api.rst:2047
 #: ../../api.rst:2075 ../../api.rst:2088 ../../api.rst:2101
 msgid "Translation language code"
-msgstr ""
+msgstr "Taalcode vertaling"
 
 #: ../../api.rst:1837
 msgid ""
 "component object; see :http:get:`/api/components/(string:project)/(string:"
 "component)/`"
 msgstr ""
+"object onderdeel; bekijk :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1838
 msgid "number of strings failing checks"
@@ -26015,7 +26077,7 @@ msgstr "aantal woorden met mislukte controles"
 
 #: ../../api.rst:1841
 msgid "translation filename"
-msgstr ""
+msgstr "bestandsnaam vertaling"
 
 #: ../../api.rst:1842 ../../api.rst:2567
 msgid "number of fuzzy (marked for edit) strings"
@@ -26023,19 +26085,19 @@ msgstr "aantal fuzzy (gemarkeerd om te bewerken) tekenreeksen"
 
 #: ../../api.rst:1843 ../../api.rst:2570
 msgid "percentage of fuzzy (marked for edit) strings"
-msgstr ""
+msgstr "percentage van fuzzy tekenreeksen (gemarkeerd voor bewerken)"
 
 #: ../../api.rst:1844
 msgid "number of words in fuzzy (marked for edit) strings"
-msgstr ""
+msgstr "aantal woorden in fuzzy tekenreeksen (gemarkeerd voor bewerken)"
 
 #: ../../api.rst:1845
 msgid "number of strings with comment"
-msgstr ""
+msgstr "aantal tekenreeksen met opmerking"
 
 #: ../../api.rst:1846
 msgid "number of strings with suggestion"
-msgstr ""
+msgstr "aantal tekenreeksen met suggestie"
 
 #: ../../api.rst:1847
 msgid "whether the translation has a monolingual base"
@@ -26046,60 +26108,73 @@ msgid ""
 "language code used in the repository; this can be different from language "
 "code in the language object"
 msgstr ""
+"taalcode gebruikt in de opslagruimte; deze kan anders zijn dan de taalcode "
+"in het taalobject"
 
 #: ../../api.rst:1850
 msgid "name of last author"
-msgstr ""
+msgstr "naam van laatste auteur"
 
 #: ../../api.rst:1851
 msgid "last change timestamp"
-msgstr ""
+msgstr "laatste wijziging tijdstempel"
 
 #: ../../api.rst:1852
 msgid "revision hash for the file"
-msgstr ""
+msgstr "hash van revisie voor het bestand"
 
 #: ../../api.rst:1853
 msgid "URL for sharing leading to engagement page"
-msgstr ""
+msgstr "URL voor delen die leidt naar de landingspagina"
 
 #: ../../api.rst:1856
 msgid "URL for translating"
-msgstr ""
+msgstr "URL voor vertalen"
 
 #: ../../api.rst:1860
 msgid ""
 "URL to repository status; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/repository/`"
 msgstr ""
+"URL naar status van de opslagruimte; bekijk :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/repository/`"
 
 #: ../../api.rst:1861
 msgid ""
 "URL to file object; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/file/`"
 msgstr ""
+"URL naar bestandsobject; bekijk :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../api.rst:1862
 msgid ""
 "URL to changes list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/changes/`"
 msgstr ""
+"URL naar lijst met wijzigingen; bekijk :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/changes/`"
 
 #: ../../api.rst:1863
 msgid ""
 "URL to strings list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`"
 msgstr ""
+"URL naar lijst met tekenreeksen; bekijk :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../api.rst:1937
 msgid "Deletes a translation."
-msgstr ""
+msgstr "Verwijdert een vertaling."
 
 #: ../../api.rst:1948
 msgid ""
 "Returns a list of translation changes. This is essentially a translations-"
 "scoped :http:get:`/api/changes/` accepting the same parameters."
 msgstr ""
+"Geeft een lijst met wijzigingen in de vertaling terug. Dit is in essentie "
+"een voor het bereik van de vertaling gemaakte :http:get:`/api/changes/` die "
+"dezelfde parameters accepteert."
 
 #: ../../api.rst:1962
 msgid "Returns a list of translation units."
