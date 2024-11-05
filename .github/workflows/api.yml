@@ -36,7 +36,7 @@ jobs:
       with:
         enable-cache: true
         cache-dependency-glob: ''
-        cache-suffix: '3.12'
+        cache-suffix: '3.13'
     - name: Start services
       run: ./ci/services-up $CI_DATABASE
     - name: Install apt dependencies
@@ -44,7 +44,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
     - name: Used versions
       run: ./ci/print-versions
     - name: Install Python dependencies

@@ -29,32 +29,40 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
     - uses: astral-sh/setup-uv@v3
-    - name: detect PEP 735
-      id: pep735
+    - name: detect method
+      id: detect
       run: |
-        if grep -q dependency-groups pyproject.toml ; then
-          echo "found=1" >> $GITHUB_OUTPUT
+        if test -f requirements-lint.txt ; then
+          echo "method=requirements" >> $GITHUB_OUTPUT
+        elif test -f pyproject.toml && grep -q dependency-groups pyproject.toml ; then
+          echo "method=pep735" >> $GITHUB_OUTPUT
+        elif test -f pyproject.toml && grep -q dependency-groups pyproject.toml ; then
+          echo "method=pyproject" >> $GITHUB_OUTPUT
         else
-          echo "found=0" >> $GITHUB_OUTPUT
+          echo "method=uvx" >> $GITHUB_OUTPUT
         fi
-    - name: pre-commit
-      if: ${{ steps.pep735.outputs.found == 1 }}
+    - name: pre-commit (PEP 735)
+      if: steps.detect.outputs.method == 'pep735'
       run: uv run --only-group pre-commit pre-commit run --all
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
+    - name: pre-commit (uvx)
+      if: steps.detect.outputs.method == 'uvx'
+      run: uvx pre-commit run --all
+      env:
+        RUFF_OUTPUT_FORMAT: github
+        REUSE_OUTPUT_FORMAT: github
     - name: Install dependencies
-      if: ${{ steps.pep735.outputs.found == 0 }}
-      run: |
-        if [ -f requirements-lint.txt ] ; then
-          uv pip install --system -r requirements-lint.txt
-        else
-          uv pip install --system $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
-        fi
-    - name: pre-commit
-      if: ${{ steps.pep735.outputs.found == 0 }}
+      if: steps.detect.outputs.method == 'requirements'
+      run: uv pip install --system -r requirements-lint.txt
+    - name: Install dependencies
+      if: steps.detect.outputs.method == 'pyproject'
+      run: uv pip install --system $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
+    - name: pre-commit (installed)
+      if: steps.detect.outputs.method == 'requirements' || steps.detect.outputs.method == 'pyproject'
       run: pre-commit run --all
       env:
         RUFF_OUTPUT_FORMAT: github

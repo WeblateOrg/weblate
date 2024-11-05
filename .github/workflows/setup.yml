@@ -35,7 +35,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
     - name: build
       run: |
         echo "::add-matcher::.github/matchers/setuptools.json"
@@ -70,12 +70,12 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
     - uses: astral-sh/setup-uv@v3
       with:
         enable-cache: true
         cache-dependency-glob: ''
-        cache-suffix: '3.12'
+        cache-suffix: '3.13'
     - uses: actions/download-artifact@v4
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
@@ -109,7 +109,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
     - name: Install apt dependencies
       run: |
         sudo apt update

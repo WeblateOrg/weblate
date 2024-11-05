@@ -2,6 +2,9 @@
   "labels": [
     "dependencies"
   ],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "rangeStrategy": "widen",
   "dependencyDashboard": true,
   "automerge": true,
@@ -94,12 +97,24 @@
     {
       "customType": "regex",
       "fileMatch": [
-        "^Dockerfile$"
+        "^.*Dockerfile$"
       ],
       "matchStrings": [
         "ENV WEBLATE_VERSION=(?<currentValue>.*?)\\n"
       ],
       "depNameTemplate": "Weblate",
+      "datasourceTemplate": "pypi",
+      "versioningTemplate": "pep440"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^.*Dockerfile$"
+      ],
+      "matchStrings": [
+        "ENV UV_VERSION=(?<currentValue>.*?)\\n"
+      ],
+      "depNameTemplate": "uv",
       "datasourceTemplate": "pypi",
       "versioningTemplate": "pep440"
     },
