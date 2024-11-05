@@ -2128,7 +2128,7 @@ Units
 
 A `unit` is a single piece of a translation which pairs a source string with a
 corresponding translated string and also contains some related metadata. The
-term is derived from the :py:class:`Translate Toolkit <tt:translate.storage.base.TranslationUnit` in Translate Toolkit
+term is derived from the :py:class:`tt:translate.storage.base.TranslationUnit` in Translate Toolkit
 and XLIFF.
 
 .. http:get:: /api/units/
