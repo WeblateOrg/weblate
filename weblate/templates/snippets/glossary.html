@@ -3,8 +3,8 @@
 {% load icons %}
 
 {% for item in glossary %}
-  <tbody class="glossary-embed {% if "forbidden" in item.all_flags %}unclickable-row danger{% elif "read-only" in item.all_flags %}clickable-row warning{% else %}clickable-row{% endif %}">
   <tr
+    class="glossary-embed {% if "forbidden" in item.all_flags %}unclickable-row danger{% elif "read-only" in item.all_flags %}clickable-row warning{% else %}clickable-row{% endif %}"
     title="
       {% if "forbidden" in item.all_flags %}
         {% trans "This translation is forbidden." %}
@@ -53,7 +53,6 @@
         </td>
       </tr>
     {% endif %}
-  </tbody>
 {% empty %}
     <tr>
     <td colspan="4"><em>{% trans "No related strings found in the glossary." %}</em></td>
