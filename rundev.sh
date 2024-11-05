@@ -49,7 +49,15 @@ compilemessages)
     ;;
 test)
     shift
-    docker compose exec -T -e WEBLATE_DATA_DIR=/tmp/test-data -e WEBLATE_CELERY_EAGER=1 -e WEBLATE_SITE_TITLE=Weblate -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal -e WEBLATE_VCS_FILE_PROTOCOL=1 -e WEBLATE_VCS_API_DELAY=0 weblate weblate test --noinput "$@"
+    docker compose exec -T \
+        -e WEBLATE_DATA_DIR=/tmp/test-data \
+        -e WEBLATE_CELERY_EAGER=1 \
+        -e WEBLATE_SITE_TITLE=Weblate \
+        -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal \
+        -e WEBLATE_VCS_FILE_PROTOCOL=1 \
+        -e WEBLATE_VCS_API_DELAY=0 \
+        -e WEBLATE_SESSION_ENGINE=django.contrib.sessions.backends.db \
+        weblate weblate test --noinput "$@"
     ;;
 check)
     shift
