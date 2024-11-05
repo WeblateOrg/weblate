@@ -12,6 +12,7 @@ Not yet released.
 **Bug fixes**
 
 * Formatting of some :ref:`audit-log` entries.
+* Fixed XML escaped output in some machine translation integrations.
 
 **Compatibility**
 
