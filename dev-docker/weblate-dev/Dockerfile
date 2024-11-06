@@ -60,3 +60,4 @@ RUN rm -rf /app/venv && mkdir /app/venv && chown "${USER_ID}:${GROUP_ID}" /app/v
 COPY --link --chmod=0755 start-dev /app/bin/
 
 ENTRYPOINT ["/app/bin/start-dev"]
+CMD ["runserver"]
