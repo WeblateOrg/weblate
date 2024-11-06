@@ -289,6 +289,22 @@ class CreateComponent(BaseCreateView):
             form.instance.manage_units = (
                 bool(form.instance.template) or form.instance.file_format == "tbx"
             )
+            if self.duplicate_existing_component and (
+                source_component := form.cleaned_data["source_component"]
+            ):
+                fields_to_duplicate = [
+                    "agreement",
+                    "merge_style",
+                    "commit_message",
+                    "add_message",
+                    "delete_message",
+                    "merge_message",
+                    "addon_message",
+                    "pull_message",
+                ]
+                for field in fields_to_duplicate:
+                    setattr(form.instance, field, getattr(source_component, field))
+
             result = super().form_valid(form)
             self.object.post_create(self.request.user)
             return result
@@ -325,6 +341,12 @@ class CreateComponent(BaseCreateView):
                 if self.selected_category:
                     category_field.initial = self.selected_category
         self.empty_form = False
+        if "source_component" in form.fields and self.duplicate_existing_component:
+            self.components = Component.objects.filter(
+                pk=self.duplicate_existing_component
+            )
+            form.fields["source_component"].queryset = self.components
+            form.initial["source_component"] = self.duplicate_existing_component
         return form
 
     def get_context_data(self, **kwargs):
@@ -360,6 +382,11 @@ class CreateComponent(BaseCreateView):
         for field in self.basic_fields:
             if field in request.GET:
                 self.initial[field] = request.GET[field]
+
+        try:
+            self.duplicate_existing_component = int(request.GET.get("source_component"))
+        except (ValueError, TypeError):
+            self.duplicate_existing_component = None
 
     def has_all_fields(self):
         return self.stage == "init" and all(
@@ -437,6 +464,7 @@ class CreateComponentSelection(CreateComponent):
 
     components: ComponentQuerySet
     origin: None | str = None
+    duplicate_existing_component = None
 
     @cached_property
     def branch_data(self):
@@ -468,6 +496,20 @@ class CreateComponentSelection(CreateComponent):
             self.components = self.components.filter(project__pk=self.selected_project)
         self.origin = request.POST.get("origin")
 
+        try:
+            self.duplicate_existing_component = int(request.GET.get("component"))
+        except (ValueError, TypeError):
+            self.duplicate_existing_component = None
+        self.initial = {}
+        if self.duplicate_existing_component:
+            source_component = Component.objects.get(
+                pk=self.duplicate_existing_component
+            )
+            self.initial |= {
+                "component": source_component,
+                "is_glossary": source_component.is_glossary,
+            }
+
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)
         kwargs["components"] = self.components
@@ -498,6 +540,10 @@ class CreateComponentSelection(CreateComponent):
             ).order_project()
             form.branch_data = self.branch_data
         elif isinstance(form, ComponentSelectForm):
+            if self.duplicate_existing_component:
+                self.components |= Component.objects.filter_access(
+                    self.request.user
+                ).filter(pk=self.duplicate_existing_component)
             form.fields["component"].queryset = self.components
         return form
 
@@ -523,12 +569,16 @@ class CreateComponentSelection(CreateComponent):
         component = form.cleaned_data["component"]
         if self.origin == "existing":
             return self.redirect_create(
-                repo=component.get_repo_link_url(),
+                repo=component.repo or component.get_repo_link_url(),
                 project=component.project.pk,
+                category=component.category.pk if component.category else "",
                 name=form.cleaned_data["name"],
                 slug=form.cleaned_data["slug"],
+                is_glossary=form.cleaned_data["is_glossary"],
                 vcs=component.vcs,
                 source_language=component.source_language.pk,
+                license=component.license,
+                source_component=component.pk,
             )
         if self.origin == "branch":
             form.instance.save()
