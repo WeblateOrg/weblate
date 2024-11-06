@@ -541,9 +541,9 @@ class CreateComponentSelection(CreateComponent):
             form.branch_data = self.branch_data
         elif isinstance(form, ComponentSelectForm):
             if self.duplicate_existing_component:
-                self.components |= Component.objects.filter_access(self.request.user).filter(
-                    pk=self.duplicate_existing_component
-                )
+                self.components |= Component.objects.filter_access(
+                    self.request.user
+                ).filter(pk=self.duplicate_existing_component)
             form.fields["component"].queryset = self.components
         return form
 
