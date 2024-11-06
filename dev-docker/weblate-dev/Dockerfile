@@ -52,6 +52,6 @@ RUN apt-get update && apt-get install -y \
 COPY --link --chmod=0755 start-dev /app/bin/
 
 # List should match weblate/weblate
-RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp/localtime /home/weblate
+RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp/localtime
 
 ENTRYPOINT ["/app/bin/start-dev"]
