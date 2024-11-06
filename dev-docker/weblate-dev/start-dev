@@ -6,9 +6,15 @@
 
 set -e
 
+if [ ! -f /app/venv/bin/activate ]; then
+    uv venv /app/venv
+fi
+
+echo "/app/data/python" > "/app/venv/lib/python${PYVERSION}/site-packages/weblate-docker.pth"
+
 # shellcheck disable=SC1091
 . /app/venv/bin/activate
 
-uv pip install --link-mode=copy --cache-dir /app/data/uv-cache --editable '/app/src[all]'
+uv pip install --editable '/app/src[all]'
 
 exec /app/bin/start "$@"
