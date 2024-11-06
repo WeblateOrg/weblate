@@ -34,4 +34,5 @@ jobs:
     - run: ./rundev.sh compilemessages
     - run: ./rundev.sh test --failfast weblate
     - run: ./rundev.sh logs
+      if: always()
     - run: ./rundev.sh stop
