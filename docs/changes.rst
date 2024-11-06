@@ -11,9 +11,6 @@ Not yet released.
 
 **Bug fixes**
 
-* Formatting of some :ref:`audit-log` entries.
-* Fixed XML escaped output in some machine translation integrations.
-
 **Compatibility**
 
 **Upgrading**
@@ -25,6 +22,27 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 .. include:: changes/contributors/5.9.rst
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/127?closed=1>`__.
+
+Weblate 5.8.3
+-------------
+
+Released on November 6th 2024.
+
+**Bug fixes**
+
+* Formatting of some :ref:`audit-log` entries.
+* Fixed XML escaped output in some machine translation integrations.
+* Fixed duplicate listing of newly added glossary terms.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.8.3.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/131?closed=1>`__.
 
 Weblate 5.8.2
 -------------
