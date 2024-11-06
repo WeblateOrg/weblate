@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+set -e
+
+# shellcheck disable=SC1091
+. /app/venv/bin/activate
+
+uv pip install -e /app/src
+
+/app/bin/start "$@"

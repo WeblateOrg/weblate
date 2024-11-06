@@ -49,10 +49,9 @@ RUN apt-get update && apt-get install -y \
     libz-dev   \
     libjpeg62-turbo-dev
 
-# TODO: drop once weblate/weblate image has it
-RUN apt-get install -y gir1.2-rsvg-2.0
+COPY --link --chmod=0755 start-dev /app/bin/
 
-COPY requirements.txt /tmp/
-RUN source /app/venv/bin/activate && uv pip install -r /tmp/requirements.txt
 # List should match weblate/weblate
 RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp/localtime
+
+ENTRYPOINT ["/app/bin/start-dev"]
