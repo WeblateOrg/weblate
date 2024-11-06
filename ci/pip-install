@@ -17,12 +17,12 @@ elif [ "${1:-latest}" = edge ]; then
     curl -LsSf https://github.com/translate/translate/archive/master.zip > build/packages/translate-toolkit.zip
     curl -LsSf https://github.com/WeblateOrg/language-data/archive/main.zip > build/packages/weblate-language-data.zip
     curl -LsSf https://github.com/WeblateOrg/translation-finder/archive/main.zip > build/packages/transaltion-finder.zip
-    # Add downloaded zip, cannot add URL as uv complains about missing checksum
-    uv add build/packages/*
-    # Allow pre-repeases
-    uv add --prerelease allow Django
     # TODO: lxml can use wheels once xmlsec has one
     # see https://github.com/xmlsec/python-xmlsec/issues/327
+    # Add downloaded zip, cannot add URL as uv complains about missing checksum
+    uv add --no-binary-package lxml build/packages/*
+    # Allow pre-repeases
+    uv add --no-binary-package lxml --prerelease allow Django
     uv sync --all-extras --dev --no-binary-package lxml
 elif python -c 'import sys; sys.exit(0 if sys.version_info >= (3,13) else 1)'; then
     # TODO: lxml can use wheels once xmlsec has one
