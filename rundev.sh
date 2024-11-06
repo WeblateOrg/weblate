@@ -28,9 +28,6 @@ build() {
     docker pull weblate/weblate:bleeding
     # Build the container
     docker compose build --build-arg USER_ID="$(id -u)" --build-arg GROUP_ID="$(id -g)"
-
-    DOCKER_PYTHON="$(docker inspect weblate-dev:latest | jq -r '.[].Config.Env[]|select(match("^PYVERSION"))|.[index("=")+1:]')"
-    echo "DOCKER_PYTHON=$DOCKER_PYTHON" > .env
 }
 
 case $1 in
