@@ -134,6 +134,19 @@ wheels = [
 ]
 
 [[package]]
+name = "arrow"
+version = "1.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "python-dateutil" },
+    { name = "types-python-dateutil" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2e/00/0f6e8fcdb23ea632c866620cc872729ff43ed91d284c866b515c6342b173/arrow-1.3.0.tar.gz", hash = "sha256:d4540617648cb5f895730f1ad8c82a65f2dad0166f57b75f3ca54759c4d67a85", size = 131960 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f8/ed/e97229a566617f2ae958a6b13e7cc0f585470eac730a73e9e82c32a3cdd2/arrow-1.3.0-py3-none-any.whl", hash = "sha256:c728b120ebc00eb84e01882a6f5e7927a53960aa990ce7dd2b10f39005a67f80", size = 66419 },
+]
+
+[[package]]
 name = "asgiref"
 version = "3.8.1"
 source = { registry = "https://pypi.org/simple" }
@@ -995,6 +1008,21 @@ wheels = [
 ]
 
 [[package]]
+name = "djangosaml2idp"
+version = "0.7.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "arrow" },
+    { name = "django" },
+    { name = "pysaml2" },
+    { name = "pytz" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/df/f4/9569fc4f0ffbff6b0ddbc8fd3fb7c4e44cc6f43ddacaf8b32f141e0f63d2/djangosaml2idp-0.7.2.tar.gz", hash = "sha256:db634e18e3f3a07444215498bab43d0ab0ef09199d149d0cf1ee4cc44d8c7b48", size = 30807 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6b/be/6b31656bed0eb9b28b5174b52d3e0ec418be72e97b4e4f0ed756c45896c0/djangosaml2idp-0.7.2-py2.py3-none-any.whl", hash = "sha256:5d7eb69800e73d4c08712a9ebb1c1a41fd88d8ee02cabdbf55e57dfb02ab32b9", size = 29763 },
+]
+
+[[package]]
 name = "drf-spectacular"
 version = "0.27.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1026,6 +1054,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/64/8b/d7ae067ab4f27bd703da746d7fff31761b6e83931bfd7fd7b4749d78a705/drf_spectacular_sidecar-2024.11.1.tar.gz", hash = "sha256:fcfccc72cbdbe41e93f8416fa0c712d14126b8d1629e65c09c07c8edea24aad0", size = 2396052 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/54/d7/38f2446330b78e4da4bc270fd2b46858b15203d68ab02b23982a50e6f0a6/drf_spectacular_sidecar-2024.11.1-py3-none-any.whl", hash = "sha256:e2efd49c5bd1a607fd5d120d9da58d78e587852db8220b8880282a849296ff83", size = 2415356 },
+]
+
+[[package]]
+name = "elementpath"
+version = "4.6.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/00/85/1c6b109252ae6d295c762f3c9f49409203cbb09ec5d34fb088f90d8dbed7/elementpath-4.6.0.tar.gz", hash = "sha256:ba46bf07f66774927727ade55022b6c435fac06b2523cb3cd7689a1884d33468", size = 355931 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d3/c3/aa6261a4fd79ceded4d0cdc24a3a28635cbd5e750cbdc1b9fe1521da56d2/elementpath-4.6.0-py3-none-any.whl", hash = "sha256:e578677f19ccc6ff374c4477c687c547ecbaf7b478d98abb951b7b4b45260a17", size = 239815 },
 ]
 
 [[package]]
@@ -2212,6 +2249,24 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/8c/d5/e5aeee5387091148a19e1145f63606619cb5f20b83fccb63efae6474e7b2/pyparsing-3.2.0.tar.gz", hash = "sha256:cbf74e27246d595d9a74b186b810f6fbb86726dbf3b9532efb343f6d7294fe9c", size = 920984 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/be/ec/2eb3cd785efd67806c46c13a17339708ddc346cbb684eade7a6e6f79536a/pyparsing-3.2.0-py3-none-any.whl", hash = "sha256:93d9577b88da0bbea8cc8334ee8b918ed014968fd2ec383e868fb8afb1ccef84", size = 106921 },
+]
+
+[[package]]
+name = "pysaml2"
+version = "7.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cryptography" },
+    { name = "defusedxml" },
+    { name = "pyopenssl" },
+    { name = "python-dateutil" },
+    { name = "pytz" },
+    { name = "requests" },
+    { name = "xmlschema" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/76/02/e8ecb5d1574a2add1431c8ec16dff137610f30580a7c1d6205929b3db3ee/pysaml2-7.5.0.tar.gz", hash = "sha256:f36871d4e5ee857c6b85532e942550d2cf90ea4ee943d75eb681044bbc4f54f7", size = 340338 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fe/d1/92d84ae0e80e829e84785c6e4e425ff6d447116289f0ecf2af068f771a73/pysaml2-7.5.0-py3-none-any.whl", hash = "sha256:bc6627cc344476a83c757f440a73fda1369f13b6fda1b4e16bca63ffbabb5318", size = 419304 },
 ]
 
 [[package]]
@@ -3449,6 +3504,9 @@ pre-commit = [
 pylint = [
     { name = "pylint" },
 ]
+saml2idp = [
+    { name = "djangosaml2idp" },
+]
 test = [
     { name = "coverage" },
     { name = "pytest" },
@@ -3589,6 +3647,7 @@ lint = [
 ]
 pre-commit = [{ name = "pre-commit", specifier = "==4.0.1" }]
 pylint = [{ name = "pylint", specifier = "==3.3.1" }]
+saml2idp = [{ name = "djangosaml2idp", specifier = "==0.7.2" }]
 test = [
     { name = "coverage", specifier = "==7.6.4" },
     { name = "pytest", specifier = "==8.3.3" },
@@ -3657,6 +3716,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c9/4a/44d3c295350d776427904d73c189e10aeae66d7f555bb2feee16d1e4ba5a/wsproto-1.2.0.tar.gz", hash = "sha256:ad565f26ecb92588a3e43bc3d96164de84cd9902482b130d0ddbaa9664a85065", size = 53425 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/78/58/e860788190eba3bcce367f74d29c4675466ce8dddfba85f7827588416f01/wsproto-1.2.0-py3-none-any.whl", hash = "sha256:b9acddd652b585d75b20477888c56642fdade28bdfd3579aa24a4d2c037dd736", size = 24226 },
+]
+
+[[package]]
+name = "xmlschema"
+version = "2.5.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "elementpath" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/59/af/42e9e773eaa6bc8e8c322f93c75454b0d370979048b250bfef7786ff26ec/xmlschema-2.5.1.tar.gz", hash = "sha256:4f7497de6c8b6dc2c28ad7b9ed6e21d186f4afe248a5bea4f54eedab4da44083", size = 539267 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5e/2a/c2bc97fd20efe65cfcfc21666d1b0213969133d37ea093761d264d9ed9f8/xmlschema-2.5.1-py3-none-any.whl", hash = "sha256:ec2b2a15c8896c1fcd14dcee34ca30032b99456c3c43ce793fdb9dca2fb4b869", size = 395065 },
 ]
 
 [[package]]
