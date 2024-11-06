@@ -80,7 +80,7 @@ wait)
     TIMEOUT=0
     while ! docker compose ps | grep healthy; do
         echo "Waiting for the container startup..."
-        sleep 1
+        sleep 5
         docker compose ps
         TIMEOUT=$((TIMEOUT + 1))
         if [ $TIMEOUT -gt 120 ]; then
