@@ -9,6 +9,6 @@ set -e
 # shellcheck disable=SC1091
 . /app/venv/bin/activate
 
-uv pip install --cache-dir /app/cache/uv --editable /app/src
+uv pip install --cache-dir /app/data/uv-cache --editable /app/src
 
 /app/bin/start "$@"
