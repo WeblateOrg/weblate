@@ -52,11 +52,11 @@ jobs:
     - name: Prepare database
       run: ./ci/prepare-database
     - name: Migrate database
-      run: uv run ./manage.py migrate --noinput --traceback
+      run: uv run --no-sources ./manage.py migrate --noinput --traceback
     - name: Generate OpenAPI
       run: |
         echo "::add-matcher::.github/matchers/spectacular.json"
-        uv run ./manage.py spectacular --urlconf="weblate.api.urls" > weblate-openapi.yaml
+        uv run --no-sources ./manage.py spectacular --urlconf="weblate.api.urls" > weblate-openapi.yaml
         echo "::remove-matcher owner=spectacular::"
     - name: openapi-lint
       run: npx @redocly/cli lint --format github-actions weblate-openapi.yaml
