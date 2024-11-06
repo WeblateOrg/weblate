@@ -24,8 +24,6 @@ cd dev-docker/
 
 build() {
     mkdir -p data
-    # Build single requirements file
-    uv export --format requirements-txt --all-extras --no-emit-project --frozen > weblate-dev/requirements.txt
     # Fetch up-to-date base docker image
     docker pull weblate/weblate:bleeding
     # Build the container
