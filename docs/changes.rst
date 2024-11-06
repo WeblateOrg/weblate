@@ -3,16 +3,11 @@ Weblate 5.8.3
 
 Not yet released.
 
-**New features**
-
-**Improvements**
-
 **Bug fixes**
 
 * Formatting of some :ref:`audit-log` entries.
 * Fixed XML escaped output in some machine translation integrations.
-
-**Compatibility**
+* Fixed duplicate listing of newly added glossary terms.
 
 **Upgrading**
 
