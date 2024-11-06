@@ -31,7 +31,7 @@ services:
       # Local data directory
     - $PWD/data:/app/data
       # Override Weblate with local dir
-    - $PWD/../weblate:/app/src
+    - $PWD/..:/app/src
     restart: always
     depends_on:
     - database
