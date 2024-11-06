@@ -93,27 +93,27 @@ jobs:
     - name: Prepare database
       run: ./ci/prepare-database
     - name: Compile MO files
-      run: uv run coverage run ./manage.py compilemessages
+      run: uv run --no-sources coverage run ./manage.py compilemessages
     - name: Collect static files
-      run: uv run coverage run ./manage.py collectstatic --noinput --verbosity 0
+      run: uv run --no-sources coverage run ./manage.py collectstatic --noinput --verbosity 0
     - name: Migrate database
-      run: uv run coverage run ./manage.py migrate --noinput --traceback
+      run: uv run --no-sources coverage run ./manage.py migrate --noinput --traceback
     - name: Django checks
-      run: uv run coverage run ./manage.py check
+      run: uv run --no-sources coverage run ./manage.py check
     - name: Demo import
-      run: uv run coverage run ./manage.py import_demo
+      run: uv run --no-sources coverage run ./manage.py import_demo
     - name: Test with Django
       run: |
-        uv run --all-extras pytest --junitxml=junit.xml --cov=weblate weblate
+        uv run --no-sources --all-extras pytest --junitxml=junit.xml --cov=weblate weblate
         cp .coverage .coverage.pytest
     - name: Test wsgi startup
       env:
         PYTHONPATH: .
-      run: uv run coverage run weblate/wsgi.py
+      run: uv run --no-sources coverage run weblate/wsgi.py
     - name: Coverage
       run: |
-        uv run coverage combine
-        uv run coverage xml
+        uv run --no-sources coverage combine
+        uv run --no-sources coverage xml
     - uses: codecov/codecov-action@v4
       with:
         token: ${{secrets.CODECOV_TOKEN}}

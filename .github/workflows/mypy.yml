@@ -53,7 +53,7 @@ jobs:
         python-version: '3.13'
 
     - name: Run mypy
-      run: uv run --group types mypy --show-column-numbers weblate > mypy.log
+      run: uv run --no-sources --group types mypy --show-column-numbers weblate > mypy.log
       # Temporary hack until we have this fully working
       continue-on-error: true
     - name: Report mypy

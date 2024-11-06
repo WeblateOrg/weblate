@@ -74,8 +74,8 @@ jobs:
       run: ./ci/run-migrate 5.8
     - name: Coverage
       run: |
-        uv run coverage combine
-        uv run coverage xml
+        uv run --no-sources coverage combine
+        uv run --no-sources coverage xml
     - uses: codecov/codecov-action@v4
       with:
         token: ${{secrets.CODECOV_TOKEN}}
