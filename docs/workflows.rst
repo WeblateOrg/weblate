@@ -132,7 +132,7 @@ Peer review
 -----------
 
 With this workflow, anybody can add a suggestion, which needs approval
-from additional member(s) before it is accepted as a translation.
+from additional members before it is accepted as a translation.
 
 * *Any user* can add suggestions.
 * *Any user* can vote for suggestions.

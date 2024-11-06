@@ -59,7 +59,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.8.2"
+release = "5.9"
 
 # -- General configuration ---------------------------------------------------
 
@@ -146,6 +146,11 @@ html_theme_options = {
         "color-brand-content": "#1fa385",
     },
 }
+
+html_css_files = [
+    "https://s.weblate.org/cdn/font-source/source-sans-3.css",
+    "https://s.weblate.org/cdn/font-source/source-code-pro.css",
+]
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
@@ -282,11 +287,11 @@ intersphinx_mapping = {
     "django": (django_doc_url, f"{django_doc_url}_objects/"),
     "psa": ("https://python-social-auth.readthedocs.io/en/latest/", None),
     "tt": (
-        "http://docs.translatehouse.org/projects/translate-toolkit/en/latest/",
+        "https://docs.translatehouse.org/projects/translate-toolkit/en/latest/",
         None,
     ),
     "amagama": ("https://docs.translatehouse.org/projects/amagama/en/latest/", None),
-    "virtaal": ("http://docs.translatehouse.org/projects/virtaal/en/latest/", None),
+    "virtaal": ("https://docs.translatehouse.org/projects/virtaal/en/latest/", None),
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
     "celery": ("https://docs.celeryq.dev/en/stable/", None),
     "sphinx": (sphinx_doc_url, None),

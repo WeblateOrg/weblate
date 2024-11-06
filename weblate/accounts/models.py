@@ -184,7 +184,7 @@ ACCOUNT_ACTIVITY = {
     "locked": gettext_lazy("Account locked due to many failed sign in attempts."),
     "removed": gettext_lazy("Account and all private data removed."),
     "removal-request": gettext_lazy("Account removal confirmation sent to {email}."),
-    "tos": gettext_lazy("Agreement with Terms of Service {date}."),
+    "tos": gettext_lazy("Agreement with General Terms and Conditions {date}."),
     "invited": gettext_lazy("Invited to {site_title} by {username}."),
     "accepted": gettext_lazy("Accepted invitation from {username}."),
     "trial": gettext_lazy("Started trial period."),
@@ -356,14 +356,13 @@ class AuditLog(models.Model):
                 value = format_html("<em>{}</em>", value)
             elif name in {"old", "new", "name", "email", "username"}:
                 value = format_html("<code>{}</code>", mail_quote_value(value))
-            elif name in {"device", "project", "site_title", "method"}:
+            elif name == "method":
+                value = format_html("<strong>{}</strong>", get_auth_name(value))
+            elif name in {"device", "project", "site_title"}:
                 value = format_html("<strong>{}</strong>", mail_quote_value(value))
 
             result[name] = value
 
-        if "method" in result:
-            # The gettext is here for legacy entries which contained method name
-            result["method"] = gettext(get_auth_name(result["method"]))
         return result
 
     @admin.display(description=gettext_lazy("Account activity"))

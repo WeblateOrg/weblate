@@ -1,0 +1,41 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: uv.lock update
+
+on:
+  schedule:
+  - cron: 0 14 * * 0
+  workflow_dispatch:
+
+jobs:
+  uv-lock-update:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: ''
+        cache-suffix: 3.13
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.13
+    - run: uv lock --upgrade
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v7
+      with:
+        branch: create-pull-request/uv-lock-update
+        title: 'chore(deps): update uv lock file'
+        commit-message: 'chore(deps): update uv lock file'
+        labels: |
+          dependencies
+          automerge

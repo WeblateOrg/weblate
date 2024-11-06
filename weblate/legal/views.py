@@ -16,9 +16,9 @@ from weblate.trans.util import redirect_next
 
 MENU = (
     ("index", "legal:index", gettext_lazy("Overview")),
-    ("terms", "legal:terms", gettext_lazy("Terms of Service")),
+    ("terms", "legal:terms", gettext_lazy("General Terms and Conditions")),
     ("cookies", "legal:cookies", gettext_lazy("Cookies")),
-    ("privacy", "legal:privacy", gettext_lazy("Privacy")),
+    ("privacy", "legal:privacy", gettext_lazy("Privacy Policy")),
     ("contracts", "legal:contracts", gettext_lazy("Subcontractors")),
 )
 

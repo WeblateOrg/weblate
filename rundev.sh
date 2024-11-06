@@ -25,7 +25,7 @@ cd dev-docker/
 build() {
     mkdir -p data
     # Build single requirements file
-    sed -n 's/^  "\([][a-zA-Z._0-9-]\+[<>=].*\)".*/\1/p' ../pyproject.toml > weblate-dev/requirements.txt
+    uv export --format requirements-txt --all-extras --no-emit-project --frozen > weblate-dev/requirements.txt
     # Fetch up-to-date base docker image
     docker pull weblate/weblate:bleeding
     # Build the container
@@ -43,9 +43,30 @@ logs)
     shift
     docker compose logs "$@"
     ;;
+compilemessages)
+    shift
+    docker compose exec -T -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal weblate weblate compilemessages
+    ;;
 test)
     shift
-    docker compose exec -T -e WEBLATE_DATA_DIR=/tmp/test-data -e WEBLATE_CELERY_EAGER=1 -e WEBLATE_SITE_TITLE=Weblate -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal -e WEBLATE_VCS_FILE_PROTOCOL=1 -e WEBLATE_VCS_API_DELAY=0 weblate weblate test --noinput "$@"
+    docker compose exec -T \
+        --env CI_BASE_DIR=/tmp \
+        --env CI_DATABASE=postgresql \
+        --env CI_DB_HOST=database \
+        --env CI_DB_NAME=weblate \
+        --env CI_DB_USER=weblate \
+        --env CI_DB_PASSWORD=weblate \
+        --env DJANGO_SETTINGS_MODULE=weblate.settings_test \
+        weblate weblate collectstatic --noinput
+    docker compose exec -T \
+        --env CI_BASE_DIR=/tmp \
+        --env CI_DATABASE=postgresql \
+        --env CI_DB_HOST=database \
+        --env CI_DB_NAME=weblate \
+        --env CI_DB_USER=weblate \
+        --env CI_DB_PASSWORD=weblate \
+        --env DJANGO_SETTINGS_MODULE=weblate.settings_test \
+        weblate weblate test --noinput "$@"
     ;;
 check)
     shift

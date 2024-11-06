@@ -21,11 +21,12 @@
 <th class="number">{% trans "Labeled source strings" %}</th>
 <th>{% trans "Actions" %}</th>
 </tr>
+</thead>
 <tbody>
 {% for label in labels %}
 <tr>
 <td>{{ label.name }}</td>
-<td><span class="label label-{{label.color }}">{{ label.get_color_display }}</span></td>
+<td><span class="label label-{{ label.color }}">{{ label.get_color_display }}</span></td>
 <td>{{ label.description }}</td>
 <td class="number">
   <a href="{% url 'search' path=object.get_url_path %}?q={{ label.filter_name }}">
@@ -41,7 +42,7 @@
 </tbody>
 </table>
 
-<form method="POST">
+<form method="post">
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add label" %}</h4></div>
 <div class="panel-body">

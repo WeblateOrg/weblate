@@ -295,6 +295,10 @@ The solution to this is to perform the operation in sync with Weblate:
 5. Change the :ref:`component` to match the new setup; upon changing configuration, Weblate will fetch the updated repository and notice the changed locations while keeping existing strings.
 6. Unlock the component and re-enable hooks in the project configuration.
 
+.. hint::
+
+   :ref:`projectbackup` might be useful to perform prior to such disrupting changes.
+
 Usage
 +++++
 
@@ -425,6 +429,10 @@ To avoid that, perform renaming in following steps:
 5. Perform the renaming of the files in the repository.
 6. Update the component configuration to match new file names.
 7. Enable update hooks and unlock the component.
+
+.. hint::
+
+   :ref:`projectbackup` might be useful to perform prior to such disrupting changes.
 
 Troubleshooting
 +++++++++++++++

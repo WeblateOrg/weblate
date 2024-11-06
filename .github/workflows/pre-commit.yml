@@ -29,17 +29,40 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
-    - name: Install uv
-      run: curl -LsSf https://astral.sh/uv/install.sh | sh
-    - name: Install dependencies
+        python-version: '3.13'
+    - uses: astral-sh/setup-uv@v3
+    - name: detect method
+      id: detect
       run: |
-        if [ -f requirements-lint.txt ] ; then
-          uv pip install --system -r requirements-lint.txt
+        if test -f requirements-lint.txt ; then
+          echo "method=requirements" >> $GITHUB_OUTPUT
+        elif test -f pyproject.toml && grep -q dependency-groups pyproject.toml ; then
+          echo "method=pep735" >> $GITHUB_OUTPUT
+        elif test -f pyproject.toml && grep -q dependency-groups pyproject.toml ; then
+          echo "method=pyproject" >> $GITHUB_OUTPUT
         else
-          uv pip install --system $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
+          echo "method=uvx" >> $GITHUB_OUTPUT
         fi
-    - name: pre-commit
+    - name: pre-commit (PEP 735)
+      if: steps.detect.outputs.method == 'pep735'
+      run: uv run --only-group pre-commit pre-commit run --all
+      env:
+        RUFF_OUTPUT_FORMAT: github
+        REUSE_OUTPUT_FORMAT: github
+    - name: pre-commit (uvx)
+      if: steps.detect.outputs.method == 'uvx'
+      run: uvx pre-commit run --all
+      env:
+        RUFF_OUTPUT_FORMAT: github
+        REUSE_OUTPUT_FORMAT: github
+    - name: Install dependencies
+      if: steps.detect.outputs.method == 'requirements'
+      run: uv pip install --system -r requirements-lint.txt
+    - name: Install dependencies
+      if: steps.detect.outputs.method == 'pyproject'
+      run: uv pip install --system $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
+    - name: pre-commit (installed)
+      if: steps.detect.outputs.method == 'requirements' || steps.detect.outputs.method == 'pyproject'
       run: pre-commit run --all
       env:
         RUFF_OUTPUT_FORMAT: github

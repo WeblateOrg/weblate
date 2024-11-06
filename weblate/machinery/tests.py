@@ -31,6 +31,7 @@ from google.cloud.translate import (
 import weblate.machinery.models
 from weblate.checks.tests.test_checks import MockTranslation, MockUnit
 from weblate.configuration.models import Setting, SettingCategory
+from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
 from weblate.machinery.alibaba import AlibabaTranslation
 from weblate.machinery.apertium import ApertiumAPYTranslation
@@ -44,7 +45,7 @@ from weblate.machinery.base import (
 )
 from weblate.machinery.cyrtranslit import CyrTranslitTranslation
 from weblate.machinery.deepl import DeepLTranslation
-from weblate.machinery.dummy import DummyTranslation
+from weblate.machinery.dummy import DummyGlossaryTranslation, DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
@@ -441,6 +442,72 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             machine_translation.get_cache_key("test"),
             "mt:dummy:test:11364700946005001116",
         )
+
+
+class GlossaryTranslationTest(BaseMachineTranslationTest):
+    """Test case for glossary translation functionality."""
+
+    MACHINE_CLS = DummyGlossaryTranslation
+
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_translate(self):
+        """Test glossary translation."""
+        machine = self.get_machine()
+        self.assertEqual(machine.list_glossaries(), {})
+        list_glossaries_patcher = patch.object(
+            DummyGlossaryTranslation,
+            "list_glossaries",
+            Mock(
+                side_effect=[
+                    # with stale glossary
+                    {
+                        "weblate:1:en:cs:2d9a814c5f6321a8": "weblate:1:en:cs:2d9a814c5f6321a8"
+                    },
+                    # with new glossary
+                    {
+                        "weblate:1:en:cs:9e250d830c11d70f": "weblate:1:en:cs:9e250d830c11d70f"
+                    },
+                    # with no glossary
+                    {},
+                ]
+            ),
+        )
+        list_glossaries_patcher.start()
+        super().test_translate()
+        list_glossaries_patcher.stop()
+
+    def test_glossary_cleanup(self):
+        """
+        Test cleanup of glossary TSV content.
+
+        Any problematic leading character is removed from term
+        """
+        unit = MockUnit(code="cs", source="foo", target="bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+
+        # prohibited characters cleaned
+        unit = MockUnit(code="cs", source="=foo", target="=bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="+foo", target="+bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="-foo", target="-bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="@foo", target="@bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="|foo", target="|bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="%foo", target="%bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+
+        # # multiple prohibited characters are cleaned
+        unit = MockUnit(code="cs", source="==foo", target="==bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+
+        # # no character cleaned
+        unit = MockUnit(code="cs", source="foo=", target="bar=")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo=\tbar=")
+        unit = MockUnit(code="cs", source=":foo", target=":bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), ":foo\t:bar")
 
 
 class GlosbeTranslationTest(BaseMachineTranslationTest):
@@ -1458,9 +1525,11 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_formality(self) -> None:
+        expected_formality = "more"
+
         def request_callback(request: AuthenticatedHttpRequest):
             payload = json.loads(request.body)
-            self.assertIn("formality", payload)
+            self.assertEqual(payload["formality"], expected_formality)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
 
         machine = self.MACHINE_CLS(self.CONFIGURATION)
@@ -1472,12 +1541,42 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             callback=request_callback,
         )
         # Fetch from service
+        expected_formality = "default"
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        expected_formality = "more"
         self.assert_translate(
             "DE@FORMAL", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
+        expected_formality = "less"
         self.assert_translate(
             "DE@INFORMAL", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
+
+    @responses.activate
+    def test_escaping(self) -> None:
+        def request_callback(request: AuthenticatedHttpRequest):
+            payload = json.loads(request.body)
+            self.assertIn("formality", payload)
+            response = DEEPL_RESPONSE.copy()
+            response["translations"][0]["text"] = "Hallo&amp;welt"
+            return (200, {}, json.dumps(response))
+
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+        self.mock_languages()
+        responses.add_callback(
+            responses.POST,
+            "https://api.deepl.com/v2/translate",
+            callback=request_callback,
+        )
+        # Fetch from service
+        translation = self.assert_translate(
+            self.SUPPORTED, "Hello&world", 1, machine=machine
+        )
+        self.assertEqual(translation[0][0]["source"], "Hello&world")
+        self.assertEqual(translation[0][0]["text"], "Hallo&welt")
 
     @responses.activate
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")

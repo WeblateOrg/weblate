@@ -18,77 +18,6 @@ permissions:
   contents: read
 
 jobs:
-  setup:
-    runs-on: ubuntu-24.04
-    name: Test manual install
-
-    env:
-      PYTHONUNBUFFERED: 1
-      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Install apt dependencies
-      run: sudo ./ci/apt-install
-    - uses: astral-sh/setup-uv@v3
-      with:
-        enable-cache: true
-        cache-dependency-glob: ''
-        cache-suffix: '3.12'
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
-    - name: Used versions
-      run: ./ci/print-versions
-    - name: Install Python dependencies
-      run: ./ci/pip-install
-    - name: Install setuptools
-      run: uv pip install --system $(sed -n 's/.*"\(setuptools[<>=]=\([^"]*\)\)".*/\1/p' pyproject.toml)
-    - name: Install Weblate
-      run: coverage run ./setup.py install
-    - name: Check difference
-      run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
-    - name: Coverage
-      run: |
-        coverage combine
-        coverage xml
-    - uses: codecov/codecov-action@v4
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
-        flags: setup
-        name: setup
-
-  pip:
-    runs-on: ubuntu-24.04
-    name: Test pip install
-
-    env:
-      PYTHONUNBUFFERED: 1
-      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Install apt dependencies
-      run: sudo ./ci/apt-install
-    - uses: astral-sh/setup-uv@v3
-      with:
-        enable-cache: true
-        cache-dependency-glob: ''
-        cache-suffix: '3.12'
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
-    - name: Used versions
-      run: ./ci/print-versions
-    - name: Install Python dependencies
-      run: ./ci/pip-install
-    - name: Install Weblate
-      run: uv pip install --system '.[all]'
-    - name: Check difference
-      run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
-
   dist:
     runs-on: ubuntu-24.04
     name: Build packages
@@ -106,7 +35,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
     - name: build
       run: |
         echo "::add-matcher::.github/matchers/setuptools.json"
@@ -136,7 +65,17 @@ jobs:
     - dist
     steps:
     - uses: actions/checkout@v4
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
     - uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: ''
+        cache-suffix: '3.13'
     - uses: actions/download-artifact@v4
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
@@ -155,6 +94,11 @@ jobs:
       run: uvx check-wheel-contents dist/*.whl
     - name: check-manifest
       run: uvx check-manifest -v
+    - name: install
+      run: |
+        uv venv .venv-install
+        source .venv-install/bin/activate
+        uv pip install dist/*.whl
 
   notes:
     runs-on: ubuntu-24.04
@@ -165,7 +109,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
     - name: Install apt dependencies
       run: |
         sudo apt update

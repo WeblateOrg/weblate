@@ -11,7 +11,7 @@
   </a>
   <a class="position-input-editable" title="{% trans "Go to position" %}" >
     {% if not paginator_form %}
-    <form method="GET">
+    <form method="get">
     {% endif %}
       {% for key, value in search_items %}
         <input {% if paginator_form %}form="{{ paginator_form }}"{% endif %} type="hidden" name="{{ key }}" value="{{ value }}" aria-label="{{ value }}" />

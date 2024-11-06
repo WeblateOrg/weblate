@@ -76,12 +76,7 @@ class SeleniumTests(
 ):
     _driver: WebDriver | None = None
     _driver_error: str = ""
-    image_path = os.path.join(
-        os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        ),
-        "test-images",
-    )
+    image_path = os.path.join(settings.BASE_DIR, "test-images")
     site_domain = ""
 
     @contextmanager

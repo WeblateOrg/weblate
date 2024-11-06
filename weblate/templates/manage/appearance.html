@@ -12,11 +12,11 @@
 
 {% block content %}
 
-<form method="POST" action="{% url "manage-appearance" %}">
+<form method="post" action="{% url "manage-appearance" %}">
 {% csrf_token %}
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Customize appearance" %}</h4></div>
-  <div class="panel-body">
+  <div class="panel-body" id="appearance-settings">
   {% crispy form %}
   </div>
   <div class="panel-footer">

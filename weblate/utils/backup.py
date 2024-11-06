@@ -152,6 +152,8 @@ def prune(location: str, passphrase: str) -> str:
         [
             "prune",
             "--list",
+            "--keep-within",
+            "2d",
             "--keep-daily",
             "14",
             "--keep-weekly",

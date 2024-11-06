@@ -1099,7 +1099,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.gettext.GettextAuthorComments",
     "weblate.addons.cleanup.CleanupAddon",
     "weblate.addons.cleanup.RemoveBlankAddon",
-    "weblate.addons.consistency.LangaugeConsistencyAddon",
+    "weblate.addons.consistency.LanguageConsistencyAddon",
     "weblate.addons.discovery.DiscoveryAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
     "weblate.addons.flags.SourceEditAddon",
@@ -1145,6 +1145,7 @@ WEBLATE_MACHINERY = [
     "weblate.machinery.ibm.IBMTranslation",
     "weblate.machinery.systran.SystranTranslation",
     "weblate.machinery.openai.OpenAITranslation",
+    "weblate.machinery.openai.AzureOpenAITranslation",
     "weblate.machinery.weblatetm.WeblateTranslation",
     "weblate.memory.machine.WeblateMemory",
     "weblate.machinery.cyrtranslit.CyrTranslitTranslation",
@@ -1199,7 +1200,9 @@ if not get_env_bool("REDIS_VERIFY_SSL", True) and REDIS_PROTO == "rediss":
 
 
 # Store sessions in cache
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_ENGINE = os.environ.get(
+    "WEBLATE_SESSION_ENGINE", "django.contrib.sessions.backends.cache"
+)
 # Store messages in session
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 

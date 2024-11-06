@@ -307,7 +307,7 @@ backups. The files are updated daily (requires a running Celery beats server, se
 The database backups are saved as plain text by default, but they can also be compressed
 or entirely skipped using :setting:`DATABASE_BACKUP`.
 
-To restore the database backup load it using database tools, for example:
+To restore the database backup, load it using database tools, for example:
 
 .. code-block:: shell
 
@@ -322,7 +322,7 @@ The version control repositories contain a copy of your upstream repositories
 with Weblate changes. If you have :ref:`component-push_on_commit` enabled for all your
 translation components, all Weblate changes are included upstream. No need to
 back up the repositories on the Weblate side as they can be cloned
-again from the upstream location(s) with no data loss.
+again from the upstream location with no data loss.
 
 SSH and GPG keys
 ++++++++++++++++

@@ -28,7 +28,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
     - name: Install Python dependencies
       run: |
         uv pip install --system $(sed -n 's/.*"\(weblate-schemas==\([^"]*\)\)".*/\1/p' pyproject.toml)

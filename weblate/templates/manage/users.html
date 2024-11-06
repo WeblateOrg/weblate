@@ -23,7 +23,7 @@
   </div>
 </div>
 
-<form  method="POST">
+<form  method="post">
 {% csrf_token %}
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new user" %}</h4></div>
@@ -94,7 +94,7 @@
 </div>
 {% endif %}
 
-<form method="GET" action="{% url "manage-users-check" %}">
+<form method="get" action="{% url "manage-users-check" %}">
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Check user access" %}</h4></div>
   <div class="panel-body">

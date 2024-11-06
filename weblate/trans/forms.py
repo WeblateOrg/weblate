@@ -94,7 +94,7 @@ if TYPE_CHECKING:
     from weblate.trans.models.translation import NewUnitParams
 
 BUTTON_TEMPLATE = """
-<button class="btn btn-default {0}" title="{1}" {2}>{3}</button>
+<button type="button" class="btn btn-default {0}" title="{1}" {2}>{3}</button>
 """
 RADIO_TEMPLATE = """
 <label class="btn btn-default {0}" title="{1}">

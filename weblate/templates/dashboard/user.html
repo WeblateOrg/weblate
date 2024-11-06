@@ -69,7 +69,7 @@
 <div {% active_tab "managed" %}>
 {% include "snippets/list-objects.html" with objects=owned_projects label=_("Project") %}
 {% if all_owned_projects|length > 10 %}
-  <a href="{% url 'projects' %}?owned={{user.username}}" class="btn btn-primary">{% trans "Browse all managed projects" %}</a>
+  <a href="{% url 'projects' %}?owned={{ user.username }}" class="btn btn-primary">{% trans "Browse all managed projects" %}</a>
 {% endif %}
 </div>
 {% endif %}
@@ -91,7 +91,7 @@
 
 <div class="tab-pane" id="search">
 
-<form action="{% url 'search' %}" method="GET" data-persist="search-index">
+<form action="{% url 'search' %}" method="get" data-persist="search-index">
 {% include "snippets/search-form.html" %}
 </form>
 

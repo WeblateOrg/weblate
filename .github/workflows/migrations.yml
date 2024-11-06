@@ -33,6 +33,7 @@ jobs:
       CI_DB_PORT: '60000'
       CI_SELENIUM: '1'
       DJANGO_SETTINGS_MODULE: weblate.settings_test
+      UV_FROZEN: '1'
 
     steps:
     - uses: actions/checkout@v4
@@ -44,11 +45,11 @@ jobs:
       with:
         enable-cache: true
         cache-dependency-glob: ''
-        cache-suffix: '3.12'
+        cache-suffix: '3.13'
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
     - name: Install Python dependencies
       run: ./ci/pip-install latest
     - name: Check missing migrations
@@ -73,8 +74,8 @@ jobs:
       run: ./ci/run-migrate 5.8
     - name: Coverage
       run: |
-        coverage combine
-        coverage xml
+        uv run coverage combine
+        uv run coverage xml
     - uses: codecov/codecov-action@v4
       with:
         token: ${{secrets.CODECOV_TOKEN}}

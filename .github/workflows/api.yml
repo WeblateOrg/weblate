@@ -36,7 +36,7 @@ jobs:
       with:
         enable-cache: true
         cache-dependency-glob: ''
-        cache-suffix: '3.12'
+        cache-suffix: '3.13'
     - name: Start services
       run: ./ci/services-up $CI_DATABASE
     - name: Install apt dependencies
@@ -44,7 +44,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: 3.12
+        python-version: '3.13'
     - name: Used versions
       run: ./ci/print-versions
     - name: Install Python dependencies
@@ -52,11 +52,11 @@ jobs:
     - name: Prepare database
       run: ./ci/prepare-database
     - name: Migrate database
-      run: coverage run ./manage.py migrate --noinput --traceback
+      run: uv run ./manage.py migrate --noinput --traceback
     - name: Generate OpenAPI
       run: |
         echo "::add-matcher::.github/matchers/spectacular.json"
-        ./manage.py spectacular --urlconf="weblate.api.urls" > weblate-openapi.yaml
+        uv run ./manage.py spectacular --urlconf="weblate.api.urls" > weblate-openapi.yaml
         echo "::remove-matcher owner=spectacular::"
     - name: openapi-lint
       run: npx @redocly/cli lint --format github-actions weblate-openapi.yaml

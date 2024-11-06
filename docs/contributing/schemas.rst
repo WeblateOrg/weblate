@@ -21,3 +21,12 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 
     :ref:`user-profile`,
     :wladmin:`dumpuserdata`
+
+
+.. _schema-messaging:
+
+.. jsonschema:: ../schemas/weblate-messaging.schema.json
+
+.. seealso::
+
+    :ref:`fedora-messaging`

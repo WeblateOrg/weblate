@@ -845,12 +845,64 @@ legend {
 }
 
 .tos h2 {
-  counter-reset: tos_paragraph;
+  counter-reset: tos_item;
+}
+
+.tos p.item,
+.tos p.subitem,
+.tos p.subsubitem {
+  position: relative;
+}
+.tos p,
+.tos dl {
+  padding: 0 3.5em;
+}
+.tos p.item {
+  counter-reset: tos_subitem;
+}
+.tos p.subitem {
+  counter-reset: tos_subsubitem;
+}
+.tos p.subsubitem {
+  padding: 0 4.2em;
 }
 
 .tos p.item::before {
-  counter-increment: tos_paragraph;
-  content: counter(tos_chapter) "." counter(tos_paragraph) ". ";
+  counter-increment: tos_item;
+  content: counter(tos_chapter) "." counter(tos_item) ". ";
+  position: absolute;
+  left: 0;
+}
+
+.tos p.subitem::before {
+  counter-increment: tos_subitem;
+  content: counter(tos_chapter) "." counter(tos_item) "." counter(tos_subitem)
+    ". ";
+  position: absolute;
+  left: 0;
+}
+
+.tos p.subsubitem::before {
+  counter-increment: tos_subsubitem;
+  content: counter(tos_chapter) "." counter(tos_item) "." counter(tos_subitem)
+    "." counter(tos_subsubitem) ". ";
+  position: absolute;
+  left: 0;
+}
+
+.tos ol {
+  counter-reset: tos_list;
+  padding: 0 5em;
+}
+.tos ol > li {
+  list-style: none;
+  position: relative;
+}
+.tos ol > li:before {
+  counter-increment: tos_list;
+  content: counter(tos_list, lower-alpha) ") ";
+  position: absolute;
+  left: -1.4em;
 }
 
 .vertical-badge .badge {
@@ -2115,6 +2167,10 @@ tbody.warning {
 
 .daterangepicker {
   border: var(--border) !important;
+}
+
+#appearance-settings input[type="color"] {
+  width: 50%;
 }
 
 #shortcuts-table-container {

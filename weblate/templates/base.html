@@ -12,7 +12,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="referrer" content="origin" />
   <meta name="author" content="Michal Čihař" />
-  <meta name="copyright" content="Copyright &copy; Michal Čihař" />
+  <meta name="copyright" content="Copyright © Michal Čihař" />
   {% if not allow_index %}<meta name="robots" content="noindex,nofollow" />{% endif %}
   {% if interledger_payment_pointer %}<meta name="monetization" content="{{ interledger_payment_pointer }}" />{% endif %}
 
@@ -59,14 +59,14 @@ var _rollbarConfig = {
 </script>
 {% endif %}
   <script defer data-cfasync="false" src="{% static 'js/vendor/main.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/autosize.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'js/vendor/autosize.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/multi.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap-global-bind.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/bootstrap/js/bootstrap.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/slugify.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'js/vendor/tribute.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/autoComplete.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'js/vendor/autoComplete.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-core.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-markup.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-rest.js' %}{{ cache_param }}"></script>
@@ -110,7 +110,10 @@ var _rollbarConfig = {
 
  </head>
 
- <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
+ <body
+    {% if theme %}data-theme="{{ theme }}"{% endif %}
+    {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}
+>
  <div id="popup-alerts"></div>
  <header>
 <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
@@ -359,7 +362,7 @@ var _rollbarConfig = {
 {% endblock %}
 
 </div>
-<form id="link-post" method="POST">
+<form id="link-post" method="post">
 {% csrf_token %}
 </form>
 <!-- Creates the bootstrap modal where the image will appear -->
@@ -367,7 +370,7 @@ var _rollbarConfig = {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span></button>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">{% trans "Close" %}</span></button>
         <h4 class="modal-title" id="screenshotModal"></h4>
       </div>
       <div class="modal-body">

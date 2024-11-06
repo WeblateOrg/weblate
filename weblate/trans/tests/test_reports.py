@@ -73,6 +73,7 @@ class ReportsTest(BaseReportsTest):
                     {
                         "email": "weblate@example.org",
                         "full_name": "Weblate <b>Test</b>",
+                        "username": "testuser",
                         "change_count": expected_count,
                     }
                 ]
@@ -150,6 +151,7 @@ class ReportsComponentTest(BaseReportsTest):
                         {
                             "email": "weblate@example.org",
                             "full_name": "Weblate <b>Test</b>",
+                            "username": "testuser",
                             "change_count": 1,
                         }
                     ]
@@ -166,7 +168,7 @@ class ReportsComponentTest(BaseReportsTest):
             """
 * Czech
 
-    * Weblate <b>Test</b> <weblate@example.org> (1)
+    * Weblate <b>Test</b> (testuser) <weblate@example.org> - 1
 """.strip(),
         )
 
@@ -178,7 +180,7 @@ class ReportsComponentTest(BaseReportsTest):
             "<table><tbody>\n"
             "<tr>\n<th>Czech</th>\n"
             '<td><ul><li><a href="mailto:weblate@example.org">'
-            "Weblate &lt;b&gt;Test&lt;/b&gt;</a> (1)</li></ul></td>\n</tr>\n"
+            "Weblate &lt;b&gt;Test&lt;/b&gt; (testuser)</a> - 1</li></ul></td>\n</tr>\n"
             "</tbody></table>",
         )
 

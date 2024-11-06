@@ -313,13 +313,24 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(1, "[Weblate] New translation component Test/Test")
 
     def test_notify_new_announcement(self) -> None:
-        Announcement.objects.create(component=self.component, message="Hello word")
+        Announcement.objects.create(
+            component=self.component,
+            message="Hello word",
+            notify=False,
+        )
+        self.validate_notifications(0)
+        Announcement.objects.create(
+            component=self.component,
+            message="Hello word",
+            notify=True,
+        )
         self.validate_notifications(1, "[Weblate] New announcement on Test")
         mail.outbox = []
         Announcement.objects.create(
             component=self.component,
             language=Language.objects.get(code="cs"),
             message="Hello word",
+            notify=True,
         )
         self.validate_notifications(1, "[Weblate] New announcement on Test")
         mail.outbox = []
@@ -327,10 +338,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             component=self.component,
             language=Language.objects.get(code="de"),
             message="Hello word",
+            notify=True,
         )
         self.validate_notifications(0)
         mail.outbox = []
-        Announcement.objects.create(message="Hello global word")
+        Announcement.objects.create(
+            message="Hello global word",
+            notify=True,
+        )
         self.validate_notifications(
             User.objects.filter(is_active=True).count(),
             "[Weblate] New announcement at Weblate",

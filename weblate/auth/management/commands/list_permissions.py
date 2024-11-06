@@ -36,9 +36,9 @@ class Command(BaseCommand):
         self.stdout.write("Managing per-project access control\n\n")
 
         for name in ACL_GROUPS:
-            self.stdout.write(f"{name}\n\n\n")
+            self.stdout.write(f"`{name}`\n\n\n")
 
-        self.stdout.write("\n\n")
+        self.stdout.write("\nList of privileges\n\n")
 
         last = ""
 
@@ -95,15 +95,21 @@ class Command(BaseCommand):
                 self.stdout.write(row.format(scope if number == 0 else "", name, role))
             self.stdout.write(sep)
 
+        self.stdout.write("\nList of built-in roles\n\n")
+
+        self.stdout.write(".. list-table::\n\n")
+
         for name, permissions in ROLES:
-            self.stdout.write(f"`{name}`")
-            self.stdout.write("    ", ending="")
+            self.stdout.write(f"   * - `{name}`")
+            self.stdout.write("     - ", ending="")
             self.stdout.write(
-                ", ".join(
-                    f":guilabel:`{PERMISSION_NAMES[perm]}`"
+                "\n       ".join(
+                    f"* :guilabel:`{PERMISSION_NAMES[perm]}`"
                     for perm in sorted(permissions)
                 )
             )
+
+        self.stdout.write("\nList of teams\n\n")
 
         for name, roles, _selection in GROUPS:
             self.stdout.write(f"`{name}`\n\n\n")

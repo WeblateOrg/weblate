@@ -24,7 +24,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
 
     def test_terms(self) -> None:
         response = self.client.get(reverse("legal:terms"))
-        self.assertContains(response, "Terms of Service")
+        self.assertContains(response, "General Terms and Conditions")
 
     def test_cookies(self) -> None:
         response = self.client.get(reverse("legal:cookies"))

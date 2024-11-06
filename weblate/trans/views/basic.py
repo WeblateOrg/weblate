@@ -543,12 +543,14 @@ def show_category(request: AuthenticatedHttpRequest, obj):
     )
 
 
-def show_component(request: AuthenticatedHttpRequest, obj):
+def show_component(request: AuthenticatedHttpRequest, obj: Component):
     user = request.user
+
+    obj.project.project_languages.preload_workflow_settings()
 
     last_changes = obj.change_set.prefetch().recent(skip_preload="component")
 
-    translations = prefetch_stats(list(obj.translation_set.prefetch()))
+    translations = prefetch_stats(list(obj.translation_set.prefetch_meta()))
 
     # Show ghost translations for user languages
     add_ghost_translations(obj, user, translations, GhostTranslation)
