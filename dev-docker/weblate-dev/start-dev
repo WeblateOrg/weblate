@@ -11,4 +11,4 @@ set -e
 
 uv pip install --link-mode=copy --cache-dir /app/data/uv-cache --editable '/app/src[all]'
 
-/app/bin/start "$@"
+exec /app/bin/start "$@"
