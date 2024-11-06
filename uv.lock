@@ -3463,6 +3463,9 @@ saml = [
 saml2idp = [
     { name = "djangosaml2idp" },
 ]
+wllegal = [
+    { name = "wllegal" },
+]
 zxcvbn = [
     { name = "django-zxcvbn-password" },
 ]
@@ -3610,6 +3613,7 @@ requires-dist = [
     { name = "weblate", extras = ["alibaba", "amazon", "antispam", "gerrit", "google", "ldap", "mercurial", "openai", "postgres", "saml", "zxcvbn"], marker = "extra == 'all'" },
     { name = "weblate-language-data", specifier = ">=2024.9" },
     { name = "weblate-schemas", specifier = "==2024.1" },
+    { name = "wllegal", marker = "extra == 'wllegal'", specifier = ">=2024.6" },
 ]
 
 [package.metadata.requires-dev]
@@ -3704,6 +3708,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/e6/30/fba0d96b4b5fbf5948ed3f4681f7da2f9f64512e1d303f94b4cc174c24a5/websocket_client-1.8.0.tar.gz", hash = "sha256:3239df9f44da632f96012472805d40a23281a991027ce11d2f45a6f24ac4c3da", size = 54648 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/5a/84/44687a29792a70e111c5c477230a72c4b957d88d16141199bf9acb7537a3/websocket_client-1.8.0-py3-none-any.whl", hash = "sha256:17b44cc997f5c498e809b22cdf2d9c7a9e71c02c8cc2b6c56e7c2d1239bfa526", size = 58826 },
+]
+
+[[package]]
+name = "wllegal"
+version = "2024.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/3d/21/d2120ac0764bde6ef30d3a56c29f02845b0e86bc414a3003bd0703c72b79/wllegal-2024.6.tar.gz", hash = "sha256:d5a6a62ef96bdd79d6d1fcb367ca8e249010ec07341710b148c157081660605a", size = 586260 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/89/e1/e23fa5ceef45ca8d03cb10e5e96ac452492ba0d4df1475a67f1c2d1b8ce6/wllegal-2024.6-py3-none-any.whl", hash = "sha256:b45ad4095719cc0c53b0357aab0d908a2613725d571b3579dc76d874b56666e5", size = 1346321 },
 ]
 
 [[package]]
