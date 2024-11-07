@@ -15,15 +15,17 @@ on:
     - pyproject.toml
     - docs/Makefile
 
+permissions:
+  contents: read
+
 jobs:
   jsonschema-update:
     runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.WEBLATE_CI_TOKEN }}
     - uses: astral-sh/setup-uv@v3
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -48,6 +50,12 @@ jobs:
         branch: create-pull-request/jsonschema-update
         title: 'docs: Update JSON schemas'
         commit-message: 'docs: Update JSON schemas'
+        token: ${{ secrets.WEBLATE_CI_TOKEN }}
         labels: |
           dependencies
-          automerge
+
+    - name: Enable Pull Request Automerge
+      if: github.ref == 'refs/heads/main' && steps.cpr.outputs.pull-request-operation != 'none'
+      run: gh pr merge --merge --auto "${{ steps.cpr.outputs.pull-request-number }}"
+      env:
+        GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}
