@@ -11,8 +11,12 @@
  */
 
 // Imports
+import datarangepicker from "daterangepicker";
 import jQuery from "jquery";
+import moment from "moment";
 
 // Definitions in global scope
 window.$ = jQuery;
 window.jQuery = jQuery;
+window.moment = moment;
+window.daterangepicker = datarangepicker;
