@@ -30,9 +30,23 @@ jobs:
       with:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
 
+    - uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: ''
+        cache-suffix: 3.13
+
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.13
+
     - name: Lockfile maintenance
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-      run: uv lock --upgrade --no-sourc
+      run: uv lock --upgrade --no-sources
 
     - run: uv sync --all-extras --no-sources
 
