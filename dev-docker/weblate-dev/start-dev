@@ -15,6 +15,7 @@ echo "/app/data/python" > "/app/venv/lib/python${PYVERSION}/site-packages/weblat
 # shellcheck disable=SC1091
 . /app/venv/bin/activate
 
-uv pip install --editable '/app/src[all]'
+cd /app/src
+uv export --format requirements-txt --all-extras --no-sources | uv pip install -r -
 
 exec /app/bin/start "$@"
