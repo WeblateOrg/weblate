@@ -31,9 +31,6 @@ cp node_modules/multi.js/src/multi.css ../../weblate/static/vendor/
 # Slugify
 cp node_modules/slugify/slugify.js ../../weblate/static/vendor/slugify.js
 
-# Moment.js
-cp node_modules/moment/moment.js ../../weblate/static/vendor/
-
 # Source Sans/Code Pro fonts
 sed '/font-family/ a font-display: swap;' < node_modules/source-sans/source-sans-3.css > ../../weblate/static/vendor/font-source/source-sans-3.css
 sed '/font-family/ a font-display: swap;' < node_modules/source-code-pro/source-code-pro.css > ../../weblate/static/vendor/font-source/source-code-pro.css
