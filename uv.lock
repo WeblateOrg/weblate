@@ -1329,6 +1329,18 @@ wheels = [
 ]
 
 [[package]]
+name = "gunicorn"
+version = "23.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "packaging" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/34/72/9614c465dc206155d93eff0ca20d42e1e35afc533971379482de953521a4/gunicorn-23.0.0.tar.gz", hash = "sha256:f014447a0101dc57e294f6c18ca6b40227a4c90e9bdb586042628030cba004ec", size = 375031 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cb/7d/6dac2a6e1eba33ee43f318edbed4ff29151a49b5d37f080aad1e6469bca4/gunicorn-23.0.0-py3-none-any.whl", hash = "sha256:ec400d38950de4dfd418cff8328b2c8faed0edb0d517d3394e457c317908ca4d", size = 85029 },
+]
+
+[[package]]
 name = "h11"
 version = "0.14.0"
 source = { registry = "https://pypi.org/simple" }
@@ -3547,6 +3559,9 @@ wlhosted = [
 wllegal = [
     { name = "wllegal" },
 ]
+wsgi = [
+    { name = "gunicorn" },
+]
 zxcvbn = [
     { name = "django-zxcvbn-password" },
 ]
@@ -3654,6 +3669,7 @@ requires-dist = [
     { name = "git-review", marker = "extra == 'gerrit'", specifier = ">=2.4.0,<2.5.0" },
     { name = "gitpython", specifier = ">=3.1.0,<3.2" },
     { name = "google-cloud-translate", marker = "extra == 'google'", specifier = ">=3.13.0,<4.0" },
+    { name = "gunicorn", marker = "extra == 'wsgi'", specifier = "==23.0.0" },
     { name = "hiredis", specifier = ">=2.2.1,<3.1" },
     { name = "html2text", specifier = ">=2024.2.25,<2024.2.27" },
     { name = "iniparse", specifier = "==0.5" },
