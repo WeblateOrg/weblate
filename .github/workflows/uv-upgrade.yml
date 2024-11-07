@@ -35,7 +35,7 @@ jobs:
       with:
         enable-cache: true
         cache-dependency-glob: ''
-        cache-suffix: 3.13
+        cache-suffix: '3.13'
 
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
@@ -43,7 +43,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: 3.13
+        python-version: '3.13'
 
     - name: Lockfile maintenance
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
