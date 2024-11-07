@@ -29,7 +29,12 @@ class CustomCSSView(TemplateView):
     @classmethod
     def split_colors(cls, hex_color_string):
         if hex_color_string:
-            return hex_color_string.split(",")
+            colors = hex_color_string.split(",")
+            if len(colors) == 1:
+                return [colors[0], colors[0]]
+            if len(colors) == 2:
+                return colors
+            return [None, None]
         return [None, None]
 
     @classmethod
