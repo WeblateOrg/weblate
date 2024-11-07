@@ -18,7 +18,7 @@ from lxml.cssselect import CSSSelector
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.forms import AutoForm, BulkEditForm
-from weblate.trans.models import Translation
+from weblate.trans.models import Component, Project, Translation
 from weblate.utils.forms import CachedModelChoiceField, ContextDiv
 from weblate.utils.render import validate_render, validate_render_translation
 from weblate.utils.validators import validate_filename, validate_re
@@ -472,11 +472,17 @@ class AutoAddonForm(BaseAddonForm, AutoForm):
 class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
     def __init__(self, user: User | None, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
-        component = addon.instance.component
+        obj: Project | Component | None = None
+        project: Project | None = None
+        if addon.instance.component:
+            obj = addon.instance.component
+            project = addon.instance.component.project
+        elif addon.instance.project:
+            obj = project = addon.instance.project
         BulkEditForm.__init__(
             self,
-            obj=component,
-            project=component.project if component else None,
+            obj=obj,
+            project=project,
             user=None,
             **kwargs,
         )
