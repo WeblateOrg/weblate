@@ -6,7 +6,6 @@
 
 import sys
 from io import StringIO
-from unittest import SkipTest
 
 import requests
 from django.core.management import call_command
@@ -289,7 +288,7 @@ class ImportProjectTest(RepoTestCase):
     def test_import_mercurial(self) -> None:
         """Test importing Mercurial project."""
         if not HgRepository.is_supported():
-            raise SkipTest("Mercurial not available!")
+            self.skipTest("Mercurial not available!")
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -305,7 +304,7 @@ class ImportProjectTest(RepoTestCase):
     def test_import_mercurial_mixed(self) -> None:
         """Test importing Mercurial project with mixed component/lang."""
         if not HgRepository.is_supported():
-            raise SkipTest("Mercurial not available!")
+            self.skipTest("Mercurial not available!")
         self.create_project()
         with (
             self.assertRaises(CommandError),
@@ -418,7 +417,7 @@ class ImportDemoTestCase(TestCase):
         try:
             requests.get("https://github.com/", timeout=1)
         except requests.exceptions.ConnectionError as error:
-            raise SkipTest(f"GitHub not reachable: {error}") from error
+            self.skipTest(f"GitHub not reachable: {error}")
         output = StringIO()
         call_command("import_demo", stdout=output)
         self.assertEqual(output.getvalue(), "")

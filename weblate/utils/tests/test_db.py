@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from unittest import SkipTest, TestCase
+from unittest import TestCase
 
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -20,7 +20,7 @@ class DbTest(TestCase):
 class PostgreSQLOperatorTest(TestCase):
     def setUp(self) -> None:
         if not using_postgresql():
-            raise SkipTest("PostgreSQL only test.")
+            self.skipTest("PostgreSQL only test.")
 
     def test_search(self) -> None:
         queryset = Unit.objects.filter(source__search="test").only("id")

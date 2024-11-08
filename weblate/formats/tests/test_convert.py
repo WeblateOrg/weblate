@@ -6,7 +6,6 @@
 
 import os
 from tempfile import NamedTemporaryFile
-from unittest import SkipTest
 
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.formats.convert import (
@@ -42,7 +41,7 @@ class ConvertFormatTest(BaseFormatTest):
 
     def test_convert(self) -> None:
         if not self.CONVERT_TEMPLATE:
-            raise SkipTest(f"Test template not provided for {self.FORMAT.format_id}")
+            self.skipTest(f"Test template not provided for {self.FORMAT.format_id}")
         translation = template = None
         try:
             # Generate test files

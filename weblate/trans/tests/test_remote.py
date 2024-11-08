@@ -5,7 +5,6 @@
 """Test for changes done in remote repository."""
 
 import os
-from unittest import SkipTest
 
 from django.db import transaction
 from django.test.utils import override_settings
@@ -56,7 +55,7 @@ class MultiRepoTest(ViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         if self._vcs not in VCS_REGISTRY:
-            raise SkipTest(f"VCS {self._vcs} not available!")
+            self.skipTest(f"VCS {self._vcs} not available!")
         repo = push = self.format_local_path(getattr(self, f"{self._vcs}_repo_path"))
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             self.component2 = Component.objects.create(

@@ -9,7 +9,6 @@ import os
 from datetime import timedelta
 from io import StringIO
 from typing import TYPE_CHECKING
-from unittest import SkipTest
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -702,7 +701,7 @@ class YAMLAddonTest(ViewTestCase):
 
     def test_customize(self) -> None:
         if not YAMLCustomizeAddon.can_install(self.component, None):
-            raise SkipTest("json dump configuration not supported")
+            self.skipTest("json dump configuration not supported")
         YAMLCustomizeAddon.create(
             component=self.component,
             configuration={"indent": 8, "wrap": 1000, "line_break": "dos"},

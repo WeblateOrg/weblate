@@ -11,7 +11,6 @@ import warnings
 from contextlib import contextmanager
 from datetime import timedelta
 from typing import TYPE_CHECKING, cast
-from unittest import SkipTest
 
 from django.conf import settings
 from django.core import mail
@@ -144,7 +143,7 @@ class SeleniumTests(
     def driver(self) -> WebDriver:
         if self._driver is None:
             warnings.warn(f"Selenium error: {self._driver_error}", stacklevel=1)
-            raise SkipTest(f"Webdriver not available: {self._driver_error}")
+            self.skipTest(f"Webdriver not available: {self._driver_error}")
         return self._driver
 
     def setUp(self) -> None:

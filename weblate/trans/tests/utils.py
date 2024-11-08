@@ -9,7 +9,6 @@ import sys
 from datetime import timedelta
 from tarfile import TarFile
 from tempfile import mkdtemp
-from unittest import SkipTest
 
 import social_core.backends.utils
 from celery.contrib.testing.tasks import ping  # type: ignore[import-untyped]
@@ -190,13 +189,13 @@ class RepoTestMixin:
     ):
         """Create real test component."""
         if file_format not in FILE_FORMATS:
-            raise SkipTest(f"File format {file_format} is not supported!")
+            self.skipTest(f"File format {file_format} is not supported!")
         if "project" not in kwargs:
             kwargs["project"] = self.create_project()
 
         repo = push = self.format_local_path(getattr(self, f"{vcs}_repo_path"))
         if vcs not in VCS_REGISTRY:
-            raise SkipTest(f"VCS {vcs} not available!")
+            self.skipTest(f"VCS {vcs} not available!")
 
         if "new_lang" not in kwargs:
             kwargs["new_lang"] = "contact"
