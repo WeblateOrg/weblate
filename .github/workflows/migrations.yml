@@ -45,7 +45,8 @@ jobs:
       with:
         enable-cache: true
         cache-dependency-glob: ''
-        cache-suffix: '3.13'
+        # Do not share cache with tests as this uses python 3.11 for older versions
+        cache-suffix: multi
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
