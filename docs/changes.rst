@@ -3,13 +3,10 @@ Weblate 5.8.4
 
 Not yet released.
 
-**New features**
-
-**Improvements**
-
 **Bug fixes**
 
-**Compatibility**
+* Fixed occasional crash in :ref:`rss`.
+* :ref:`check-icu-message-format` gracefully handles plural strings.
 
 **Upgrading**
 
