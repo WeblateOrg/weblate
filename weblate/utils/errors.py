@@ -129,6 +129,7 @@ def init_sentry() -> None:
             "weblate_fedora_messaging",
             "weblate_language_data",
             "translate",
+            "translation_finder",
         ],
         attach_stacktrace=True,
         _experiments={"max_spans": 2000},
