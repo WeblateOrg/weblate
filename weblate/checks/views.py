@@ -136,7 +136,8 @@ class CheckList(PathViewMixin, ListView):
                     unit__translation__component__project=self.path_object.project,
                 )
             else:
-                raise TypeError(f"Unsupported {self.path_object}")
+                msg = f"Unsupported {self.path_object}"
+                raise TypeError(msg)
             result = [
                 CheckWrapper(**item, path_object=self.path_object)
                 for item in all_checks.values("name").annotate(
@@ -206,7 +207,8 @@ class CheckList(PathViewMixin, ListView):
             ).order_by("language__code")
         else:
             # Translation should never reach this, it is handled in get()
-            raise TypeError(f"Unsupported {self.path_object}")
+            msg = f"Unsupported {self.path_object}"
+            raise TypeError(msg)
 
         return self.postprocess_queryset(result)
 
@@ -237,7 +239,8 @@ class CheckList(PathViewMixin, ListView):
             context["column_title"] = gettext("Component")
             context["translate_links"] = True
         else:
-            raise TypeError(f"Type not supported: {self.path_object}")
+            msg = f"Type not supported: {self.path_object}"
+            raise TypeError(msg)
         return context
 
     def setup(self, request: AuthenticatedHttpRequest, **kwargs) -> None:
@@ -248,7 +251,8 @@ class CheckList(PathViewMixin, ListView):
             try:
                 self.check_obj = CHECKS[name]
             except KeyError as error:
-                raise Http404("No check matches the given query.") from error
+                msg = "No check matches the given query."
+                raise Http404(msg) from error
 
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if isinstance(self.path_object, Translation) and self.check_obj:

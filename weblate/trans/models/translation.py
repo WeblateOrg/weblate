@@ -232,7 +232,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         filename = self.get_filename()
         if filename is None:
             # Should not actually happen
-            raise ValidationError("Translation without a filename!")
+            msg = "Translation without a filename!"
+            raise ValidationError(msg)
         if not os.path.exists(filename):
             raise ValidationError(
                 gettext(
@@ -285,7 +286,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             if fileobj is None:
                 fileobj = self.get_filename()
                 if fileobj is None:
-                    raise ValueError("Attempt to parse store without a filename.")
+                    msg = "Attempt to parse store without a filename."
+                    raise ValueError(msg)
             elif self.is_template:
                 template = self.component.load_template_store(
                     NamedBytesIO(fileobj.name, fileobj.read())
@@ -1433,7 +1435,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return result
 
     @transaction.atomic
-    def add_unit(  # noqa: C901
+    def add_unit(  # noqa: C901,PLR0914
         self,
         request,
         context: str,
@@ -1455,7 +1457,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         component = self.component
         add_terminology = False
         if is_plural(source) and not component.file_format_cls.supports_plural:
-            raise ValueError("Plurals not supported by format!")
+            msg = "Plurals not supported by format!"
+            raise ValueError(msg)
 
         if self.is_source:
             translations = (

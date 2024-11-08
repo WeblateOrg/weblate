@@ -440,7 +440,8 @@ class TempDirMixin:
     @property
     def tempdir(self) -> str:
         if self._tempdir is None:
-            raise ValueError("tempdir not initialized")
+            msg = "tempdir not initialized"
+            raise ValueError(msg)
         return self._tempdir
 
     def create_temp(self) -> None:

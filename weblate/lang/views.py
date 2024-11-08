@@ -62,7 +62,8 @@ def show_language(request: AuthenticatedHttpRequest, lang):
         obj = Language.objects.fuzzy_get(lang)
         if isinstance(obj, Language):
             return redirect(obj)
-        raise Http404("No Language matches the given query.") from error
+        msg = "No Language matches the given query."
+        raise Http404(msg) from error
 
     user = request.user
 

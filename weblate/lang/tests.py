@@ -303,7 +303,8 @@ class LanguageTestSequenceMeta(type):
                 params[0].replace("@", "___").replace("+", "_").replace("-", "__")
             )
             if test_name in dict:
-                raise ValueError(f"Duplicate test: {params[0]}, mapped to {test_name}")
+                msg = f"Duplicate test: {params[0]}, mapped to {test_name}"
+                raise ValueError(msg)
             dict[test_name] = gen_test(*params)
 
         return type.__new__(mcs, name, bases, dict)

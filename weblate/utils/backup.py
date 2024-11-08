@@ -89,7 +89,8 @@ def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
             )
         except OSError as error:
             report_error("Borg could not be executed")
-            raise BackupError(f"Could not execute borg program: {error}") from error
+            msg = f"Could not execute borg program: {error}"
+            raise BackupError(msg) from error
         except subprocess.CalledProcessError as error:
             add_breadcrumb(
                 category="backup", message="borg output", stdout=error.stdout

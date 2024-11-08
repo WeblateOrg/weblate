@@ -33,8 +33,10 @@ elif CI_DATABASE == "postgresql":
     default_user = "postgres"
 else:
     if not CI_DATABASE:
-        raise ValueError("Missing CI_DATABASE configuration in the environment")
-    raise ValueError(f"Not supported database: {CI_DATABASE}")
+        msg = "Missing CI_DATABASE configuration in the environment"
+        raise ValueError(msg)
+    msg = f"Not supported database: {CI_DATABASE}"
+    raise ValueError(msg)
 
 DATABASES["default"]["HOST"] = os.environ.get("CI_DB_HOST", "")
 DATABASES["default"]["NAME"] = os.environ.get("CI_DB_NAME", default_name)

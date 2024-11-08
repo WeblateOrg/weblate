@@ -68,12 +68,12 @@ class Command(BaseCommand):
                 self.stderr.write(
                     f"Found matching user: username={user.username} email={user.email}"
                 )
-            raise CommandError("Multiple users matched given parameters!")
+            msg = "Multiple users matched given parameters!"
+            raise CommandError(msg)
 
         if user and not options["update"]:
-            raise CommandError(
-                f"User {username} already exists, specify --update to update existing"
-            )
+            msg = f"User {username} already exists, specify --update to update existing"
+            raise CommandError(msg)
 
         if options["no_password"]:
             password = None

@@ -29,7 +29,8 @@ if TYPE_CHECKING:
 def edit_context(request: AuthenticatedHttpRequest, pk):
     unit = get_object_or_404(Unit, pk=pk)
     if not unit.is_source and not unit.translation.component.is_glossary:
-        raise Http404("Non source unit!")
+        msg = "Non source unit!"
+        raise Http404(msg)
 
     do_add = "addflag" in request.POST
     if do_add or "removeflag" in request.POST:

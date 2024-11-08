@@ -61,7 +61,8 @@ def download_multi(
         try:
             exporter_cls = EXPORTERS[fmt[4:]]
         except KeyError as exc:
-            raise Http404(f"Conversion to {fmt} is not supported") from exc
+            msg = f"Conversion to {fmt} is not supported"
+            raise Http404(msg) from exc
 
         for translation in translations:
             exporter = exporter_cls(translation=translation)
@@ -181,7 +182,8 @@ def download(request: AuthenticatedHttpRequest, path):
             request.GET.get("format"),
             name=obj.full_slug.replace("/", "-"),
         )
-    raise TypeError(f"Unsupported download: {obj}")
+    msg = f"Unsupported download: {obj}"
+    raise TypeError(msg)
 
 
 @require_POST

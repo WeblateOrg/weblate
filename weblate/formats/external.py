@@ -140,7 +140,8 @@ class XlsxFormat(CSVUtf8Format):
     ) -> None:
         """Handle creation of new translation file."""
         if not base:
-            raise ValueError("Not supported")
+            msg = "Not supported"
+            raise ValueError(msg)
         # Parse file
         store = cls(base)
         if callback:

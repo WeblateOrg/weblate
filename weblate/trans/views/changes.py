@@ -87,7 +87,8 @@ class ChangesView(PathViewMixin, ListView):
         elif self.path_object is None:
             context["title"] = gettext("Changes")
         else:
-            raise TypeError(f"Unsupported {self.path_object}")
+            msg = f"Unsupported {self.path_object}"
+            raise TypeError(msg)
 
         if self.path_object is None:
             context["changes_rss"] = reverse("rss")
@@ -175,7 +176,8 @@ class ChangesView(PathViewMixin, ListView):
                 "language": self.path_object.language,
             }
         else:
-            raise TypeError(f"Unsupported {self.path_object}")
+            msg = f"Unsupported {self.path_object}"
+            raise TypeError(msg)
 
         form = self.changes_form
         if form.is_valid():

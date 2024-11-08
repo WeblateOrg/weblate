@@ -600,9 +600,8 @@ class PasswordConfirmForm(EmptyConfirmForm):
 class ResetForm(EmailForm):
     def clean_email(self):
         if self.cleaned_data["email"] == "noreply@weblate.org":
-            raise forms.ValidationError(
-                "No password reset for deleted or anonymous user."
-            )
+            msg = "No password reset for deleted or anonymous user."
+            raise forms.ValidationError(msg)
         return super().clean_email()
 
 

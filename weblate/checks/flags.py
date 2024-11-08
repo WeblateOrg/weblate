@@ -136,7 +136,8 @@ def _parse_flags_text(flags: str) -> Iterator[str | tuple[Any, ...]]:
             yield tuple(value)
             state = 0
         else:
-            raise ValueError(f"Unexpected token: {token}, state={state}")
+            msg = f"Unexpected token: {token}, state={state}"
+            raise ValueError(msg)
 
     # With state 0 there was nothing parsed yet
     if state > 0:

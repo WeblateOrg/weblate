@@ -46,4 +46,5 @@ def metrics(obj):
         return MetricsWrapper(obj, Metric.SCOPE_LANGUAGE, obj.id)
     if isinstance(obj, User):
         return MetricsWrapper(obj, Metric.SCOPE_USER, obj.id)
-    raise ValueError(f"Unsupported type for metrics: {obj!r}")
+    msg = f"Unsupported type for metrics: {obj!r}"
+    raise ValueError(msg)

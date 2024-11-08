@@ -950,7 +950,8 @@ class Profile(models.Model):
         for tested in ("webauthn", "totp"):
             if tested in self.second_factor_types:
                 return tested
-        raise ValueError("No second factor available!")
+        msg = "No second factor available!"
+        raise ValueError(msg)
 
 
 def set_lang_cookie(response, profile) -> None:

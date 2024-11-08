@@ -20,7 +20,8 @@ class YandexTranslation(MachineTranslation):
         if "message" in payload:
             raise MachineTranslationError(payload["message"])
         if "code" in payload and payload["code"] != 200:
-            raise MachineTranslationError("Error: {}".format(payload["code"]))
+            msg = "Error: {}".format(payload["code"])
+            raise MachineTranslationError(msg)
 
     def download_languages(self):
         """Download list of supported languages from a service."""

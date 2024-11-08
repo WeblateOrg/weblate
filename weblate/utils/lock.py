@@ -69,9 +69,8 @@ class WeblateLock:
             return
 
         if not lock_result:
-            raise WeblateLockTimeoutError(
-                f"Lock on {self._name} could not be acquired in {self._timeout}s"
-            )
+            msg = f"Lock on {self._name} could not be acquired in {self._timeout}s"
+            raise WeblateLockTimeoutError(msg)
 
     def _enter_file(self) -> None:
         # Fall back to file based locking

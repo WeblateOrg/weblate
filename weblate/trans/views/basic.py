@@ -226,7 +226,8 @@ def show(request: AuthenticatedHttpRequest, path):
         return show_category_language(request, obj)
     if isinstance(obj, Translation):
         return show_translation(request, obj)
-    raise TypeError(f"Not supported show: {obj}")
+    msg = f"Not supported show: {obj}"
+    raise TypeError(msg)
 
 
 def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguage):

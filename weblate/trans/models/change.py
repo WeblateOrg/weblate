@@ -862,7 +862,8 @@ class Change(models.Model, UserDisplayMixin):
             elif reason == "new file":
                 message = gettext("File “{}” was added.")
             else:
-                raise ValueError(f"Unknown reason: {reason}")
+                msg = f"Unknown reason: {reason}"
+                raise ValueError(msg)
             return format_html(escape(message), filename)
 
         if action == self.ACTION_LICENSE_CHANGE:

@@ -41,13 +41,15 @@ def download_invoice(request: AuthenticatedHttpRequest, pk):
     invoice = get_object_or_404(Invoice, pk=pk)
 
     if not invoice.ref:
-        raise Http404("No reference!")
+        msg = "No reference!"
+        raise Http404(msg)
 
     if not request.user.has_perm("billing.view", invoice.billing):
         raise PermissionDenied
 
     if not invoice.filename_valid:
-        raise Http404(f"File {invoice.filename} does not exist!")
+        msg = f"File {invoice.filename} does not exist!"
+        raise Http404(msg)
 
     return FileResponse(
         open(invoice.full_filename, "rb"),  # noqa: SIM115

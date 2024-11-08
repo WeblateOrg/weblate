@@ -1346,7 +1346,8 @@ class ReportsForm(forms.Form):
                 translation__component=scope["component"]
             ).exclude(pk=scope["component"].source_language_id)
         else:
-            raise ValueError(f"Invalid scope: {scope}")
+            msg = f"Invalid scope: {scope}"
+            raise ValueError(msg)
         self.fields["language"].choices += languages.as_choices()
 
     def clean(self) -> None:
@@ -2995,7 +2996,8 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         if not self.project:
             return translation_review
         if translation_review and not self.project.enable_review:
-            raise ValidationError("Please turn on reviews on the project first.")
+            msg = "Please turn on reviews on the project first."
+            raise ValidationError(msg)
         return translation_review
 
     def save(self, commit: bool = True):

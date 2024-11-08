@@ -236,7 +236,8 @@ def validate_backup_path(value: str) -> None:
         raise ValidationError(str(err)) from err
 
     if loc.archive:
-        raise ValidationError("No archive can be specified in backup location.")
+        msg = "No archive can be specified in backup location."
+        raise ValidationError(msg)
 
     if loc.proto == "file":
         # The path is already normalized here
@@ -244,14 +245,14 @@ def validate_backup_path(value: str) -> None:
 
         # Restrict relative paths as the cwd might change
         if not path.is_absolute():
-            raise ValidationError("Backup location has to be an absolute path.")
+            msg = "Backup location has to be an absolute path."
+            raise ValidationError(msg)
 
         # Restrict placing under Weblate backups as that will produce mess
         data_backups = Path(data_dir("backups"))
         if data_backups == path or data_backups in path.parents:
-            raise ValidationError(
-                "Backup location should be outside Weblate backups in DATA_DIR."
-            )
+            msg = "Backup location should be outside Weblate backups in DATA_DIR."
+            raise ValidationError(msg)
 
 
 def validate_slug(value) -> None:

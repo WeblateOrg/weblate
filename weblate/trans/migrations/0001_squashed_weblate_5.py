@@ -64,7 +64,8 @@ def create_index(apps, schema_editor) -> None:
             "CREATE INDEX unit_context_index ON trans_unit(context(255))"
         )
     else:
-        raise ImproperlyConfigured(f"Unsupported database: {vendor}")
+        msg = f"Unsupported database: {vendor}"
+        raise ImproperlyConfigured(msg)
 
 
 def drop_index(apps, schema_editor) -> None:
@@ -78,7 +79,8 @@ def drop_index(apps, schema_editor) -> None:
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_source_index")
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_context_index")
     else:
-        raise ImproperlyConfigured(f"Unsupported database: {vendor}")
+        msg = f"Unsupported database: {vendor}"
+        raise ImproperlyConfigured(msg)
 
 
 class Migration(migrations.Migration):
