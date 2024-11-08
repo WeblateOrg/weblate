@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from collections import UserString
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -20,9 +21,7 @@ if TYPE_CHECKING:
     from django.core.validators import URLValidator
 
 
-class InvalidString(str):
-    __slots__ = ()
-
+class InvalidString(UserString):
     def __mod__(self, other: str):
         raise TemplateSyntaxError(gettext('Undefined variable: "%s"') % other)
 
