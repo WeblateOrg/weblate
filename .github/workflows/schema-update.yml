@@ -57,6 +57,6 @@ jobs:
 
     - name: Enable Pull Request Automerge
       if: github.ref == 'refs/heads/main' && steps.cpr.outputs.pull-request-operation != 'none'
-      run: gh pr merge --merge --auto "${{ steps.cpr.outputs.pull-request-number }}"
+      run: gh pr merge --rebase --auto "${{ steps.cpr.outputs.pull-request-number }}"
       env:
         GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}
