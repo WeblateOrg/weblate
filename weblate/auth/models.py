@@ -227,7 +227,7 @@ class Group(models.Model):
                 clear=True,
             )
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("team", kwargs={"pk": self.pk})
 
     def long_name(self):
@@ -500,7 +500,7 @@ class User(AbstractBaseUser):
                 activity="enabled" if self.is_active else "disabled",
             )
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("user_page", kwargs={"user": self.username})
 
     def __init__(self, *args, **kwargs) -> None:
@@ -1135,7 +1135,7 @@ class Invitation(models.Model):
     def __str__(self) -> str:
         return f"invitation {self.uuid} for {self.user or self.email} to {self.group}"
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("invitation", kwargs={"pk": self.uuid})
 
     def send_email(self) -> None:
