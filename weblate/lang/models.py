@@ -596,7 +596,8 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                 language = plural.language
                 newtype = get_plural_type(language.base_code, plural.formula)
                 if newtype == data.PLURAL_UNKNOWN:
-                    raise ValueError(f"Invalid plural type of {plural.formula}")
+                    msg = f"Invalid plural type of {plural.formula}"
+                    raise ValueError(msg)
                 if newtype != plural.type:
                     plural.type = newtype
                     plural.save(update_fields=["type"])
@@ -887,9 +888,8 @@ class Plural(models.Model):
         try:
             return c2py(self.formula or "0")
         except ValueError as error:
-            raise ValueError(
-                f"Could not compile formula {self.formula!r}: {error}"
-            ) from error
+            msg = f"Could not compile formula {self.formula!r}: {error}"
+            raise ValueError(msg) from error
 
     @cached_property
     def examples(self) -> dict[int, list[str]]:
@@ -909,7 +909,8 @@ class Plural(models.Model):
     def parse_plural_forms(plurals):
         matches = PLURAL_RE.match(plurals)
         if matches is None:
-            raise ValueError("Could not parse plural forms")
+            msg = "Could not parse plural forms"
+            raise ValueError(msg)
 
         number = int(matches.group(1))
         formula = matches.group(2)
@@ -1054,13 +1055,11 @@ class PluralMapper:
 
     def zip(self, sources: list[str], targets: list[str], unit: Unit):
         if len(sources) != self.source_plural.number:
-            raise ValueError(
-                "length of `sources` doesn't match the number of source plurals"
-            )
+            msg = "length of `sources` doesn't match the number of source plurals"
+            raise ValueError(msg)
         if len(targets) != self.target_plural.number:
-            raise ValueError(
-                "length of `targets` doesn't match the number of target plurals"
-            )
+            msg = "length of `targets` doesn't match the number of target plurals"
+            raise ValueError(msg)
         if self.same_plurals:
             return zip(sources, targets, strict=True)
         return [

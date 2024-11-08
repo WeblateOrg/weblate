@@ -104,7 +104,8 @@ def try_load(
                     return result
 
     if failure is None:
-        raise ValueError("Could not load file.")
+        msg = "Could not load file."
+        raise ValueError(msg)
     raise failure
 
 

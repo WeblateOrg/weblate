@@ -164,7 +164,8 @@ class ConvertFormat(TranslationFormat):
     ) -> None:
         """Handle creation of new translation file."""
         if not base:
-            raise ValueError("Not supported")
+            msg = "Not supported"
+            raise ValueError(msg)
         # Copy file
         shutil.copy(base, filename)
 
@@ -202,7 +203,8 @@ class ConvertFormat(TranslationFormat):
         source: str | list[str],
         target: str | list[str] | None = None,
     ) -> NoReturn:
-        raise ValueError("Not supported")
+        msg = "Not supported"
+        raise ValueError(msg)
 
     def cleanup_unused(self) -> list[str]:
         """

@@ -264,7 +264,8 @@ class BaseStats:
 
     def __getattr__(self, name: str):
         if name.startswith("_"):
-            raise AttributeError(f"Invalid stats for {self}: {name}")
+            msg = f"Invalid stats for {self}: {name}"
+            raise AttributeError(msg)
 
         self.ensure_loaded()
 
@@ -283,7 +284,8 @@ class BaseStats:
             self._pending_save = True
             self.calculate_by_name(name)
             if name not in self._data:
-                raise AttributeError(f"Unsupported stats for {self}: {name}")
+                msg = f"Unsupported stats for {self}: {name}"
+                raise AttributeError(msg)
             if not was_pending:
                 self.save()
                 self._pending_save = False

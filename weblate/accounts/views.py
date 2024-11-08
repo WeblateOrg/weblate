@@ -762,7 +762,8 @@ def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int):
         128,
     )
     if size not in allowed_sizes:
-        raise Http404(f"Not supported size: {size}")
+        msg = f"Not supported size: {size}"
+        raise Http404(msg)
 
     avatar_user = get_object_or_404(User, username=user)
 
@@ -1319,7 +1320,8 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
     try:
         request.backend = load_backend(request.social_strategy, backend, uri)
     except MissingBackend:
-        raise Http404("Backend not found") from None
+        msg = "Backend not found"
+        raise Http404(msg) from None
     # Store session ID for OpenID based auth. The session cookies will not be sent
     # on returning POST request due to SameSite cookie policy
     if isinstance(request.backend, OpenIdAuth):

@@ -10,9 +10,11 @@ from pyparsing import Optional, QuotedString, Regex, ZeroOrMore
 def single_value_flag(func, validation=None):
     def parse_values(val):
         if not val:
-            raise ValueError("Missing required parameter")
+            msg = "Missing required parameter"
+            raise ValueError(msg)
         if len(val) > 1:
-            raise ValueError("Too many parameters")
+            msg = "Too many parameters"
+            raise ValueError(msg)
         result = func(val[0])
         if validation is not None:
             validation(result)
@@ -24,7 +26,8 @@ def single_value_flag(func, validation=None):
 def length_validation(length: int):
     def validate_length(val) -> None:
         if len(val) > length:
-            raise ValueError("String too long")
+            msg = "String too long"
+            raise ValueError(msg)
 
     return validate_length
 
@@ -32,11 +35,14 @@ def length_validation(length: int):
 def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
     def parse_values(val):
         if modulo and len(val) % modulo != 0:
-            raise ValueError("Number of parameter is not even")
+            msg = "Number of parameter is not even"
+            raise ValueError(msg)
         if minimum and len(val) < minimum:
-            raise ValueError("Missing required parameter")
+            msg = "Missing required parameter"
+            raise ValueError(msg)
         if maximum and len(val) > maximum:
-            raise ValueError("Too many parameters")
+            msg = "Too many parameters"
+            raise ValueError(msg)
         return [func(x) for x in val]
 
     return parse_values

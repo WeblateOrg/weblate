@@ -567,7 +567,8 @@ class Invoice(models.Model):
             return
 
         if self.end <= self.start:
-            raise ValidationError("Start has be to before end!")
+            msg = "Start has be to before end!"
+            raise ValidationError(msg)
 
         if not self.billing_id:
             return
@@ -581,11 +582,10 @@ class Invoice(models.Model):
             overlapping = overlapping.exclude(pk=self.pk)
 
         if overlapping.exists():
-            raise ValidationError(
-                "Overlapping invoices exist: {}".format(
-                    ", ".join(str(x) for x in overlapping)
-                )
+            msg = "Overlapping invoices exist: {}".format(
+                ", ".join(str(x) for x in overlapping)
             )
+            raise ValidationError(msg)
 
 
 @receiver(post_save, sender=Component)

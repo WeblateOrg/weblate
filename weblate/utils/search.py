@@ -166,7 +166,8 @@ class BaseTermExpr:
             return True
         if ltext in {"no", "false", "off", "0"}:
             return False
-        raise ValueError(f"Invalid boolean value: {text}")
+        msg = f"Invalid boolean value: {text}"
+        raise ValueError(msg)
 
     @overload
     def convert_int(self, text: RangeExpr) -> tuple[int, int]: ...
@@ -317,7 +318,8 @@ class BaseTermExpr:
             if suffix not in {"substring", "iexact"}:
                 return f"{self.NONTEXT_FIELDS[field]}__{suffix}"
             return self.NONTEXT_FIELDS[field]
-        raise ValueError(f"Unsupported field: {field}")
+        msg = f"Unsupported field: {field}"
+        raise ValueError(msg)
 
     def convert_non_field(self) -> Q:
         raise NotImplementedError
@@ -382,10 +384,12 @@ class BaseTermExpr:
         return query
 
     def is_field(self, text: str, context: dict) -> Q:
-        raise ValueError(f"Unsupported is lookup: {text}")
+        msg = f"Unsupported is lookup: {text}"
+        raise ValueError(msg)
 
     def has_field(self, text: str, context: dict) -> Q:
-        raise ValueError(f"Unsupported has lookup: {text}")
+        msg = f"Unsupported has lookup: {text}"
+        raise ValueError(msg)
 
 
 class UnitTermExpr(BaseTermExpr):
@@ -534,7 +538,8 @@ class UnitTermExpr(BaseTermExpr):
             )
         if isinstance(obj, Language):
             return Q(translation__language=obj)
-        raise TypeError(f"Unsupported path lookup: {obj}")
+        msg = f"Unsupported path lookup: {obj}"
+        raise TypeError(msg)
 
     def convert_change_time(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
@@ -691,7 +696,8 @@ def parser_to_query(obj, context: dict) -> Q:
 @lru_cache(maxsize=512)
 def parse_string(text: str, parser: str) -> ParseResults:
     if "\x00" in text:
-        raise ValueError("Invalid query string.")
+        msg = "Invalid query string."
+        raise ValueError(msg)
     return PARSERS[parser].parse_string(text, parse_all=True)
 
 

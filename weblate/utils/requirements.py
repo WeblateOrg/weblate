@@ -88,9 +88,8 @@ def get_version_module(name, optional=False):
     except PackageNotFoundError as exc:
         if optional:
             return None
-        raise ImproperlyConfigured(
-            f"Missing dependency {name}, please install using: pip install {name}"
-        ) from exc
+        msg = f"Missing dependency {name}, please install using: pip install {name}"
+        raise ImproperlyConfigured(msg) from exc
     url = package.get("Home-page")
     if url is None and (project_urls := package.get_all("Project-URL")):
         for project_url in project_urls:
@@ -151,7 +150,8 @@ def get_versions():
     try:
         result.append(("Git", "https://git-scm.com/", GitRepository.get_version()))
     except OSError as exc:
-        raise ImproperlyConfigured("Could not run git, please install it.") from exc
+        msg = "Could not run git, please install it."
+        raise ImproperlyConfigured(msg) from exc
 
     return result
 

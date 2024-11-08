@@ -123,9 +123,8 @@ def check_permission(user: User, permission: str, obj: Model):
                 for permissions, langs in user.component_permissions[obj.component_id]
             )
         ) and check_enforced_2fa(user, obj.component.project)
-    raise TypeError(
-        f"Permission {permission} does not support: {obj.__class__}: {obj!r}"
-    )
+    msg = f"Permission {permission} does not support: {obj.__class__}: {obj!r}"
+    raise TypeError(msg)
 
 
 @register_perm("comment.resolve", "comment.delete", "suggestion.delete")
@@ -161,7 +160,8 @@ def check_can_edit(user: User, permission: str, obj: Model, is_vote=False):  # n
     elif isinstance(obj, CategoryLanguage):
         project = obj.category.project
     else:
-        raise TypeError(f"Unknown object for permission check: {obj.__class__}")
+        msg = f"Unknown object for permission check: {obj.__class__}"
+        raise TypeError(msg)
 
     # Email is needed for user to be able to edit
     if user.is_authenticated and not user.email:

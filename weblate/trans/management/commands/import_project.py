@@ -139,7 +139,8 @@ class Command(BaseCommand):
         try:
             gitrepo = VCS_REGISTRY[self.vcs].clone(repo, workdir, branch)
         except RepositoryError as error:
-            raise CommandError(f"Failed clone: {error}") from error
+            msg = f"Failed clone: {error}"
+            raise CommandError(msg) from error
         self.logger.info("Updating working copy in git repository...")
         with gitrepo.lock:
             gitrepo.configure_branch(branch)
@@ -172,11 +173,13 @@ class Command(BaseCommand):
 
         # Is file format supported?
         if self.file_format not in FILE_FORMATS:
-            raise CommandError("Invalid file format: {}".format(options["file_format"]))
+            msg = "Invalid file format: {}".format(options["file_format"])
+            raise CommandError(msg)
 
         # Is vcs supported?
         if self.vcs not in VCS_REGISTRY:
-            raise CommandError("Invalid vcs: {}".format(options["vcs"]))
+            msg = "Invalid vcs: {}".format(options["vcs"])
+            raise CommandError(msg)
 
         # Do we have correct mask?
         # - if there is **, then it's simple mask (it's invalid in regexp)
@@ -193,17 +196,17 @@ class Command(BaseCommand):
             try:
                 compiled = re.compile(self.filemask)
             except re.error as error:
-                raise CommandError(
-                    f"Could not compile regular expression {self.filemask!r}: {error}"
-                ) from error
+                msg = f"Could not compile regular expression {self.filemask!r}: {error}"
+                raise CommandError(msg) from error
             if (
                 "component" not in compiled.groupindex
                 or "language" not in compiled.groupindex
             ):
-                raise CommandError(
+                msg = (
                     "Component regular expression lacks named group "
                     '"component" and/or "language"'
                 )
+                raise CommandError(msg)
 
     def handle(self, *args, **options) -> None:
         """Automatic import of project."""
@@ -216,11 +219,10 @@ class Command(BaseCommand):
         try:
             project = Project.objects.get(slug=options["project"])
         except Project.DoesNotExist as error:
-            raise CommandError(
-                'Project "{}" not found, please create it first!'.format(
-                    options["project"]
-                )
-            ) from error
+            msg = 'Project "{}" not found, please create it first!'.format(
+                options["project"]
+            )
+            raise CommandError(msg) from error
 
         # Get or create main component
         if is_repo_link(repo):
@@ -230,9 +232,8 @@ class Command(BaseCommand):
                 if component.is_repo_link:
                     component = component.linked_component
             except Component.DoesNotExist as error:
-                raise CommandError(
-                    f"Component {repo!r} not found, please create it first!"
-                ) from error
+                msg = f"Component {repo!r} not found, please create it first!"
+                raise CommandError(msg) from error
         else:
             component = self.import_initial(project, repo, branch)
 
@@ -259,7 +260,8 @@ class Command(BaseCommand):
             )
 
             if not self.discovery.matched_files:
-                raise CommandError("Your mask did not match any files!")
+                msg = "Your mask did not match any files!"
+                raise CommandError(msg)
 
             self.logger.info(
                 "Found %d components", len(self.discovery.matched_components)
@@ -271,10 +273,11 @@ class Command(BaseCommand):
 
             # Do some basic sanity check on languages
             if not Language.objects.filter(code__in=langs).exists():
-                raise CommandError(
+                msg = (
                     "None of matched languages exists, maybe you have "
                     "mixed * and ** in the mask?"
                 )
+                raise CommandError(msg)
         return self.discovery
 
     def import_initial(self, project, repo, branch):
@@ -295,9 +298,8 @@ class Command(BaseCommand):
                 if match["slug"] == self.main_component:
                     break
             if match is None or match["slug"] != self.main_component:
-                raise CommandError(
-                    "Specified --main-component was not found in matches!"
-                )
+                msg = "Specified --main-component was not found in matches!"
+                raise CommandError(msg)
         else:
             # Try if one is already there
             for match in discovery.matched_components.values():

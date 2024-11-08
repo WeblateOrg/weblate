@@ -196,7 +196,8 @@ class SeleniumTests(
     def upload_file(self, element, filename) -> None:
         filename = os.path.abspath(filename)
         if not os.path.exists(filename):
-            raise ValueError(f"Test file not found: {filename}")
+            msg = f"Test file not found: {filename}"
+            raise ValueError(msg)
         element.send_keys(filename)
 
     def clear_field(self, element):

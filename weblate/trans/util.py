@@ -351,7 +351,8 @@ def check_upload_method_permissions(
             user.has_perm("component.edit", translation)
             or user.has_perms(["unit.add", "unit.delete", "unit.edit"], translation)
         )
-    raise ValueError(f"Invalid method: {method}")
+    msg = f"Invalid method: {method}"
+    raise ValueError(msg)
 
 
 def is_unused_string(string: str) -> bool:

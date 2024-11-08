@@ -20,9 +20,8 @@ def get_env_str(
             with open(filename) as handle:
                 result = handle.read()
         except OSError as error:
-            raise ValueError(
-                f"Failed to open {filename} as specified by {file_env}: {error}"
-            ) from error
+            msg = f"Failed to open {filename} as specified by {file_env}: {error}"
+            raise ValueError(msg) from error
     else:
         if fallback_name and name not in os.environ:
             name = fallback_name
@@ -31,7 +30,8 @@ def get_env_str(
             default,  # type: ignore[arg-type]
         )
     if required and not result:
-        raise ValueError(f"{name} has to be configured!")
+        msg = f"{name} has to be configured!"
+        raise ValueError(msg)
     return result
 
 
@@ -60,7 +60,8 @@ def get_env_int(name: str, default: int = 0) -> int:
     try:
         return int(os.environ[name])
     except ValueError as error:
-        raise ValueError(f"{name} is not an integer: {error}") from error
+        msg = f"{name} is not an integer: {error}"
+        raise ValueError(msg) from error
 
 
 def get_env_float(name: str, default: float = 0.0) -> float:
@@ -70,7 +71,8 @@ def get_env_float(name: str, default: float = 0.0) -> float:
     try:
         return float(os.environ[name])
     except ValueError as error:
-        raise ValueError(f"{name} is not an float: {error}") from error
+        msg = f"{name} is not an float: {error}"
+        raise ValueError(msg) from error
 
 
 def get_env_bool(name: str, default: bool = False) -> bool:
@@ -103,9 +105,8 @@ def get_env_credentials(
 
     if not host:
         if username or token:
-            raise ValueError(
-                f"Incomplete {name}_CREDENTIALS configuration: missing WEBLATE_{name}_HOST"
-            )
+            msg = f"Incomplete {name}_CREDENTIALS configuration: missing WEBLATE_{name}_HOST"
+            raise ValueError(msg)
         return {}
 
     credentials = {host: {"username": username, "token": token}}
@@ -126,10 +127,13 @@ def get_env_ratelimit(name: str, default: str) -> str:
     try:
         num, period = value.split("/")
     except ValueError as error:
-        raise ValueError(f"Could not parse {name}: {error}") from error
+        msg = f"Could not parse {name}: {error}"
+        raise ValueError(msg) from error
     if not num.isdigit():
-        raise ValueError(f"Could not parse {name}: rate is not numeric: {num}")
+        msg = f"Could not parse {name}: rate is not numeric: {num}"
+        raise ValueError(msg)
     if period[0] not in {"s", "m", "h", "d"}:
-        raise ValueError(f"Could not parse {name}: unknown period: {period}")
+        msg = f"Could not parse {name}: unknown period: {period}"
+        raise ValueError(msg)
 
     return value

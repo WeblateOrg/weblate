@@ -406,9 +406,8 @@ class BaseAddon:
         from weblate.auth.models import User
 
         if not self.user_name or not self.user_verbose:
-            raise ValueError(
-                f"{self.__class__.__name__} is missing user_name and user_verbose!"
-            )
+            msg = f"{self.__class__.__name__} is missing user_name and user_verbose!"
+            raise ValueError(msg)
 
         return User.objects.get_or_create_bot(
             "addon", self.user_name, self.user_verbose

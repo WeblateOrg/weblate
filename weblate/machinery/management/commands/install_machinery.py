@@ -33,19 +33,20 @@ class Command(BaseCommand):
             for field in form:
                 for error in field.errors:
                     self.stderr.write(f"Error in {field.name}: {error}")
-            raise CommandError("Invalid add-on configuration!")
+            msg = "Invalid add-on configuration!"
+            raise CommandError(msg)
 
     def handle(self, *args, **options) -> None:
         try:
             service = MACHINERY[options["service"]]
         except KeyError as error:
-            raise CommandError(
-                "Service not found: {}".format(options["service"])
-            ) from error
+            msg = "Service not found: {}".format(options["service"])
+            raise CommandError(msg) from error
         try:
             configuration = json.loads(options["configuration"])
         except ValueError as error:
-            raise CommandError(f"Invalid service configuration: {error}") from error
+            msg = f"Invalid service configuration: {error}"
+            raise CommandError(msg) from error
         if service.settings_form is not None:
             form = service.settings_form(service, data=configuration)
             self.validate_form(form)

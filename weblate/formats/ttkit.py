@@ -461,7 +461,8 @@ class TTKitFormat(TranslationFormat):
             with open(filename, "wb") as output:
                 output.write(cls.get_new_file_content())
         else:
-            raise ValueError("Not supported")
+            msg = "Not supported"
+            raise ValueError(msg)
 
     @classmethod
     def is_valid_base_for_new(
@@ -541,9 +542,8 @@ class PoUnit(TTKitUnit):
         try:
             flags = Flags(*self.mainunit.typecomments)
         except ParseException as error:
-            raise ValueError(
-                f"Could not parse flags: {self.mainunit.typecomments!r}: {error}"
-            ) from error
+            msg = f"Could not parse flags: {self.mainunit.typecomments!r}: {error}"
+            raise ValueError(msg) from error
         flags.remove({"fuzzy"})
         return flags.format()
 
@@ -1186,7 +1186,8 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             template,
         ]
         if kwargs:
-            raise ValueError(f"Unsupported arguments: {kwargs!r}")
+            msg = f"Unsupported arguments: {kwargs!r}"
+            raise ValueError(msg)
 
         try:
             result = subprocess.run(
@@ -1199,9 +1200,8 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             )
         except FileNotFoundError as error:
             report_error("Failed msgmerge")
-            raise UpdateError(
-                "msgmerge not found, please install gettext", error
-            ) from error
+            msg = "msgmerge not found, please install gettext"
+            raise UpdateError(msg, error) from error
         except OSError as error:
             report_error("Failed msgmerge")
             raise UpdateError(" ".join(cmd), error) from error

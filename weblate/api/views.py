@@ -193,7 +193,8 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             if fmt is None or fmt in self.raw_formats:
                 renderers = self.get_renderers()
                 return (renderers[0], renderers[0].media_type)
-            raise Http404("Not supported format")
+            msg = "Not supported format"
+            raise Http404(msg)
         return super().perform_content_negotiation(request, force)
 
     def download_file(self, filename, content_type, component=None):
@@ -209,7 +210,8 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
                     content_type=content_type,
                 )
             except FileNotFoundError as error:
-                raise Http404("File not found") from error
+                msg = "File not found"
+                raise Http404(msg) from error
             filename = os.path.basename(filename)
         response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
@@ -402,7 +404,8 @@ class UserViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "group_id" not in request.data:
-            raise ValidationError("Missing group_id parameter")
+            msg = "Missing group_id parameter"
+            raise ValidationError(msg)
 
         try:
             group = Group.objects.get(pk=int(request.data["group_id"]))
@@ -536,7 +539,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "role_id" not in request.data:
-            raise ValidationError("Missing role_id parameter")
+            msg = "Missing role_id parameter"
+            raise ValidationError(msg)
 
         try:
             role = Role.objects.get(pk=int(request.data["role_id"]))
@@ -557,7 +561,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "language_code" not in request.data:
-            raise ValidationError("Missing language_code parameter")
+            msg = "Missing language_code parameter"
+            raise ValidationError(msg)
 
         try:
             language = Language.objects.get(code=request.data["language_code"])
@@ -592,7 +597,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "project_id" not in request.data:
-            raise ValidationError("Missing project_id parameter")
+            msg = "Missing project_id parameter"
+            raise ValidationError(msg)
 
         try:
             project = Project.objects.get(
@@ -623,7 +629,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "component_list_id" not in request.data:
-            raise ValidationError("Missing component_list_id parameter")
+            msg = "Missing component_list_id parameter"
+            raise ValidationError(msg)
 
         try:
             component_list = ComponentList.objects.get(
@@ -664,7 +671,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj = self.get_object()
         self.perm_check(request)
         if "component_id" not in request.data:
-            raise ValidationError("Missing component_id parameter")
+            msg = "Missing component_id parameter"
+            raise ValidationError(msg)
 
         try:
             component = Component.objects.filter_access(request.user).get(
@@ -697,12 +705,14 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request, group)
         user_id = request.data.get("user_id")
         if not user_id:
-            raise ValidationError("User ID is required")
+            msg = "User ID is required"
+            raise ValidationError(msg)
 
         try:
             user = User.objects.get(pk=user_id)
         except User.DoesNotExist as error:
-            raise ValidationError("User not found") from error
+            msg = "User not found"
+            raise ValidationError(msg) from error
         group.admins.add(user)
         user.add_team(cast(AuthenticatedHttpRequest, request), group)
         return Response({"Administration rights granted."}, status=HTTP_200_OK)
@@ -714,7 +724,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         try:
             user = group.admins.get(pk=user_pk)  # Using user_pk from the URL path
         except User.DoesNotExist as error:
-            raise ValidationError("User not found") from error
+            msg = "User not found"
+            raise ValidationError(msg) from error
 
         group.admins.remove(user)
         serializer = GroupSerializer(group, context={"request": request})
@@ -767,14 +778,16 @@ class CreditsMixin:
                 datetime.fromisoformat(request.query_params["start"])
             )
         except (ValueError, MultiValueDictKeyError) as err:
-            raise BadRequest("Invalid format for `start`") from err
+            msg = "Invalid format for `start`"
+            raise BadRequest(msg) from err
 
         try:
             end_date = from_current_timezone(
                 datetime.fromisoformat(request.query_params["end"])
             )
         except (ValueError, MultiValueDictKeyError) as err:
-            raise BadRequest("Invalid format for `end`") from err
+            msg = "Invalid format for `end`"
+            raise BadRequest(msg) from err
 
         language = None
 
@@ -1037,7 +1050,8 @@ class ComponentViewSet(
         obj = self.get_object()
 
         if not obj.has_template():
-            raise Http404("No template found!")
+            msg = "No template found!"
+            raise Http404(msg)
 
         return self.download_file(
             obj.get_template_filename(), obj.template_store.mimetype(), component=obj
@@ -1048,7 +1062,8 @@ class ComponentViewSet(
         obj = self.get_object()
 
         if not obj.new_base:
-            raise Http404("No file found!")
+            msg = "No file found!"
+            raise Http404(msg)
 
         return self.download_file(obj.get_new_base_filename(), "application/binary")
 
@@ -1061,16 +1076,16 @@ class ComponentViewSet(
                 self.permission_denied(request, "Can not create translation")
 
             if "language_code" not in request.data:
-                raise ValidationError("Missing 'language_code' parameter")
+                msg = "Missing 'language_code' parameter"
+                raise ValidationError(msg)
 
             language_code = request.data["language_code"]
 
             try:
                 language = Language.objects.get(code=language_code)
             except Language.DoesNotExist as error:
-                raise ValidationError(
-                    f"No language code {language_code!r} found!"
-                ) from error
+                msg = f"No language code {language_code!r} found!"
+                raise ValidationError(msg) from error
 
             if not obj.can_add_new_language(request.user):
                 self.permission_denied(request, message=obj.new_lang_error_message)
@@ -1167,7 +1182,8 @@ class ComponentViewSet(
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not edit component")
         if "project_slug" not in request.data:
-            raise ValidationError("Missing 'project_slug' parameter")
+            msg = "Missing 'project_slug' parameter"
+            raise ValidationError(msg)
 
         project_slug = request.data["project_slug"]
 
@@ -1176,7 +1192,8 @@ class ComponentViewSet(
                 slug=project_slug
             )
         except Project.DoesNotExist as error:
-            raise ValidationError(f"No project slug {project_slug!r} found!") from error
+            msg = f"No project slug {project_slug!r} found!"
+            raise ValidationError(msg) from error
 
         instance.links.add(project)
         serializer = self.serializer_class(instance, context={"request": request})
@@ -1205,7 +1222,8 @@ class ComponentViewSet(
         try:
             project = instance.links.get(slug=project_slug)
         except Project.DoesNotExist as error:
-            raise Http404("Project not found") from error
+            msg = "Project not found"
+            raise Http404(msg) from error
         instance.links.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -1283,7 +1301,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             if not user.has_perm("translation.download", obj):
                 raise PermissionDenied
             if obj.get_filename() is None:
-                raise Http404("No translation file!")
+                msg = "No translation file!"
+                raise Http404(msg)
             fmt = self.format_kwarg or request.query_params.get("format")
             query_string = request.GET.get("q", "")
             if query_string and not fmt:
@@ -1389,7 +1408,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         try:
             parse_query(query_string)
         except Exception as error:
-            raise ValidationError(f"Could not parse query string: {error}") from error
+            msg = f"Could not parse query string: {error}"
+            raise ValidationError(msg) from error
 
         queryset = obj.unit_set.search(query_string).order_by("id").prefetch_full()
         page = self.paginate_queryset(queryset)
@@ -1505,7 +1525,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         try:
             parse_query(query_string)
         except Exception as error:
-            raise ValidationError(f"Could not parse query string: {error}") from error
+            msg = f"Could not parse query string: {error}"
+            raise ValidationError(msg) from error
         if query_string:
             result = result.search(query_string)
         return result
@@ -1538,9 +1559,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if unit.readonly:
                 self.permission_denied(request, "The string is read-only.")
             if not new_target or new_state is None:
-                raise ValidationError(
-                    "Please provide both state and target for a partial update"
-                )
+                msg = "Please provide both state and target for a partial update"
+                raise ValidationError(msg)
 
             if new_state not in {
                 STATE_APPROVED,
@@ -1966,7 +1986,8 @@ class TasksViewSet(ViewSet):
             component = None
         else:
             if result is None:
-                raise Http404("Task not found")
+                msg = "Task not found"
+                raise Http404(msg)
 
             # Extract related object for permission check
             if "translation" in result:
@@ -1975,7 +1996,8 @@ class TasksViewSet(ViewSet):
             elif "component" in result:
                 component = obj = get_object_or_404(Component, pk=result["component"])
             else:
-                raise Http404("Invalid task")
+                msg = "Invalid task"
+                raise Http404(msg)
 
             # Check access or permission
             if permission:

@@ -162,7 +162,8 @@ class PathViewMixin(View):
 
     def get_path_object(self):
         if not self.supported_path_types:
-            raise ValueError("Specifying supported path types is required")
+            msg = "Specifying supported path types is required"
+            raise ValueError(msg)
         return parse_path(
             self.request, self.kwargs.get("path", ""), self.supported_path_types
         )
@@ -216,17 +217,20 @@ def parse_path(  # noqa: C901
     if None in types and not path:
         return None
     if not skip_acl and request is None:
-        raise TypeError("Request needs to be provided for ACL check")
+        msg = "Request needs to be provided for ACL check"
+        raise TypeError(msg)
 
     allowed_types = {x for x in types if x is not None}
     acting_user = request.user if request else None
 
     def check_type(cls) -> None:
         if cls not in allowed_types:
-            raise UnsupportedPathObjectError(f"Not supported object type: {cls}")
+            msg = f"Not supported object type: {cls}"
+            raise UnsupportedPathObjectError(msg)
 
     if path is None:
-        raise UnsupportedPathObjectError("Missing path")
+        msg = "Missing path"
+        raise UnsupportedPathObjectError(msg)
 
     path = list(path)
 
@@ -253,7 +257,8 @@ def parse_path(  # noqa: C901
         return ProjectLanguage(project, language)
 
     if not allowed_types & {Component, Category, Translation, Unit}:
-        raise UnsupportedPathObjectError("No remaining supported object type")
+        msg = "No remaining supported object type"
+        raise UnsupportedPathObjectError(msg)
 
     # Component/category structure
     current: Project | Category | Component = project
@@ -283,18 +288,19 @@ def parse_path(  # noqa: C901
             continue
 
         # Nothing more to try
-        raise Http404(f"Object {slug} not found in {current}")
+        msg = f"Object {slug} not found in {current}"
+        raise Http404(msg)
 
     # Nothing left, return current object
     if not path:
         if not isinstance(current, tuple(allowed_types)):
-            raise UnsupportedPathObjectError(
-                f"Not supported object type: {current.__class__}"
-            )
+            msg = f"Not supported object type: {current.__class__}"
+            raise UnsupportedPathObjectError(msg)
         return current
 
     if not allowed_types & {Translation, Unit}:
-        raise UnsupportedPathObjectError("No remaining supported object type")
+        msg = "No remaining supported object type"
+        raise UnsupportedPathObjectError(msg)
 
     translation = get_object_or_404(current.translation_set, language__code=path.pop(0))
     if not path:
@@ -302,12 +308,14 @@ def parse_path(  # noqa: C901
         return translation
 
     if len(path) > 1:
-        raise UnsupportedPathObjectError(f"Invalid path left: {'/'.join(path)}")
+        msg = f"Invalid path left: {'/'.join(path)}"
+        raise UnsupportedPathObjectError(msg)
 
     unitid = path.pop(0)
 
     if not unitid.isdigit():
-        raise Http404(f"Invalid unit id: {unitid}")
+        msg = f"Invalid unit id: {unitid}"
+        raise Http404(msg)
 
     check_type(Unit)
     return get_object_or_404(translation.unit_set, pk=int(unitid))
@@ -364,7 +372,8 @@ def parse_path_units(
     elif obj is None:
         unit_set = Unit.objects.filter_access(request.user)
     else:
-        raise TypeError(f"Unsupported result: {obj}")
+        msg = f"Unsupported result: {obj}"
+        raise TypeError(msg)
 
     return obj, unit_set, context
 
@@ -511,9 +520,11 @@ def download_translation_file(
         try:
             exporter_cls = EXPORTERS[fmt]
         except KeyError as exc:
-            raise Http404(f"Conversion to {fmt} is not supported") from exc
+            msg = f"Conversion to {fmt} is not supported"
+            raise Http404(msg) from exc
         if not exporter_cls.supports(translation):
-            raise Http404("File format is not compatible with this translation")
+            msg = "File format is not compatible with this translation"
+            raise Http404(msg)
         exporter = exporter_cls(translation=translation)
         units = translation.unit_set.prefetch_full().order_by("position")
         if query_string:
@@ -535,7 +546,8 @@ def download_translation_file(
                 or f".{translation.component.file_format_cls.extension()}"
             )
             if not os.path.exists(filenames[0]):
-                raise Http404("File not found")
+                msg = "File not found"
+                raise Http404(msg)
             # Create response
             response = FileResponse(
                 open(filenames[0], "rb"),  # noqa: SIM115

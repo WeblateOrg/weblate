@@ -33,19 +33,20 @@ class Command(WeblateComponentCommand):
             for field in form:
                 for error in field.errors:
                     self.stderr.write(f"Error in {field.name}: {error}")
-            raise CommandError("Invalid add-on configuration!")
+            msg = "Invalid add-on configuration!"
+            raise CommandError(msg)
 
     def handle(self, *args, **options) -> None:
         try:
             addon = ADDONS[options["addon"]]
         except KeyError as error:
-            raise CommandError(
-                "Add-on not found: {}".format(options["addon"])
-            ) from error
+            msg = "Add-on not found: {}".format(options["addon"])
+            raise CommandError(msg) from error
         try:
             configuration = json.loads(options["configuration"])
         except ValueError as error:
-            raise CommandError(f"Invalid add-on configuration: {error}") from error
+            msg = f"Invalid add-on configuration: {error}"
+            raise CommandError(msg) from error
         try:
             user = User.objects.filter(is_superuser=True)[0]
         except IndexError:

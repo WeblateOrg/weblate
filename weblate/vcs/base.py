@@ -158,7 +158,8 @@ class Repository:
         repository_path = path_separator(os.path.realpath(self.path))
 
         if not real_path.startswith(repository_path):
-            raise ValueError("Too many symlinks or link outside tree")
+            msg = "Too many symlinks or link outside tree"
+            raise ValueError(msg)
 
         return real_path[len(repository_path) :].lstrip("/")
 
@@ -235,7 +236,8 @@ class Repository:
         """Execute command and caches its output."""
         if needs_lock:
             if not self.lock.is_locked:
-                raise RuntimeError("Repository operation without lock held!")
+                msg = "Repository operation without lock held!"
+                raise RuntimeError(msg)
             if self.component:
                 self.ensure_config_updated()
         is_status = args[0] == self._cmd_status[0]

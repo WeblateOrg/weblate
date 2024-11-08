@@ -529,7 +529,8 @@ class BaseFormatCheck(TargetCheck):
         """
         if not self.plural_parameter_regexp:
             # Interpolation isn't available for this format.
-            raise ValueError("Unsupported interpolation!")
+            msg = "Unsupported interpolation!"
+            raise ValueError(msg)
         it = self.plural_parameter_regexp.finditer(text)
         match = next(it, None)
         if not match:

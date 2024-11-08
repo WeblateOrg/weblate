@@ -389,7 +389,8 @@ def handle_addon_event(
         component = translation.component
 
     if component is None and not auto_scope:
-        raise ValueError("Missing event scope!")
+        msg = "Missing event scope!"
+        raise ValueError(msg)
 
     # EVENT_DAILY uses custom queryset because it is not triggered from the
     # object scope

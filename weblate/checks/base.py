@@ -163,7 +163,8 @@ class BaseCheck:
         return None
 
     def render(self, request: AuthenticatedHttpRequest, unit: Unit) -> StrOrPromise:
-        raise Http404("Not supported")
+        msg = "Not supported"
+        raise Http404(msg)
 
     def get_cache_key(self, unit: Unit, pos: int) -> str:
         return "check:{}:{}:{}:{}".format(

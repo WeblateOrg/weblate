@@ -88,7 +88,8 @@ class CrashAddon(UpdateBaseAddon):
 
     def update_translations(self, component: Component, previous_head: str) -> None:
         if previous_head:
-            raise CrashAddonError("Test error")
+            msg = "Test error"
+            raise CrashAddonError(msg)
 
     @classmethod
     def can_install(cls, component: Component, user: User | None) -> bool:  # noqa: ARG003

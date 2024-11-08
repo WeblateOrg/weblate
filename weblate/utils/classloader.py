@@ -17,21 +17,18 @@ def load_class(name, setting):
     try:
         module, attr = name.rsplit(".", 1)
     except ValueError as error:
-        raise ImproperlyConfigured(
-            f"Error importing class {name!r} in {setting}: {error}"
-        ) from error
+        msg = f"Error importing class {name!r} in {setting}: {error}"
+        raise ImproperlyConfigured(msg) from error
     try:
         mod = import_module(module)
     except ImportError as error:
-        raise ImproperlyConfigured(
-            f"Error importing module {module!r} in {setting}: {error}"
-        ) from error
+        msg = f"Error importing module {module!r} in {setting}: {error}"
+        raise ImproperlyConfigured(msg) from error
     try:
         return getattr(mod, attr)
     except AttributeError as error:
-        raise ImproperlyConfigured(
-            f"Module {module!r} does not define a {attr!r} class in {setting}"
-        ) from error
+        msg = f"Module {module!r} does not define a {attr!r} class in {setting}"
+        raise ImproperlyConfigured(msg) from error
 
 
 class ClassLoader:
@@ -62,7 +59,8 @@ class ClassLoader:
             # Special case to disable all checks/...
             result = []
         elif not isinstance(result, list | tuple):
-            raise ImproperlyConfigured(f"Setting {self.name} must be list or tuple!")
+            msg = f"Setting {self.name} must be list or tuple!"
+            raise ImproperlyConfigured(msg)
         return result
 
     def load_data(self):
@@ -78,13 +76,11 @@ class ClassLoader:
                 raise
             try:
                 if not issubclass(obj, self.base_class):
-                    raise ImproperlyConfigured(
-                        f"Setting {self.name} must be a {self.base_class.__name__} subclass, but {path} is {obj!r}"
-                    )
+                    msg = f"Setting {self.name} must be a {self.base_class.__name__} subclass, but {path} is {obj!r}"
+                    raise ImproperlyConfigured(msg)
             except TypeError as error:
-                raise ImproperlyConfigured(
-                    f"Setting {self.name} must be a {self.base_class.__name__} subclass, but {path} is {obj!r}"
-                ) from error
+                msg = f"Setting {self.name} must be a {self.base_class.__name__} subclass, but {path} is {obj!r}"
+                raise ImproperlyConfigured(msg) from error
             if self.construct:
                 obj = obj()
             result[obj.get_identifier()] = obj

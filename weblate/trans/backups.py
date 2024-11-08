@@ -342,9 +342,8 @@ class ProjectBackup:
                 data = json.load(handle)
                 validate_schema(data, "weblate-component.schema.json")
                 if data["component"]["vcs"] not in VCS_REGISTRY:
-                    raise ValueError(
-                        f'Component {data["component"]["name"]} uses unsupported VCS: {data["component"]["vcs"]}'
-                    )
+                    msg = f'Component {data["component"]["name"]} uses unsupported VCS: {data["component"]["vcs"]}'
+                    raise ValueError(msg)
                 # Validate translations have unique languages
                 languages = defaultdict(list)
                 for item in data["translations"]:
@@ -353,19 +352,20 @@ class ProjectBackup:
 
                 for code, values in languages.items():
                     if len(values) > 1:
-                        raise ValueError(
-                            f"Several languages from backup map to single language on this server {values} -> {code}"
-                        )
+                        msg = f"Several languages from backup map to single language on this server {values} -> {code}"
+                        raise ValueError(msg)
 
                 if callback is not None:
                     callback(zipfile, data)
 
     def validate(self) -> None:
         if not self.supports_restore:
-            raise ValueError("Restore is not supported on this database.")
+            msg = "Restore is not supported on this database."
+            raise ValueError(msg)
         input_file = self.filename or self.fileio
         if input_file is None:
-            raise TypeError("Can not validate None file.")
+            msg = "Can not validate None file."
+            raise TypeError(msg)
         with ZipFile(input_file, "r") as zipfile:
             self.load_data(zipfile)
             self.load_memory(zipfile)
@@ -563,7 +563,8 @@ class ProjectBackup:
     @transaction.atomic
     def restore(self, project_name: str, project_slug: str, user: User, billing=None):
         if not isinstance(self.filename, str):
-            raise TypeError("Need a filename string.")
+            msg = "Need a filename string."
+            raise TypeError(msg)
         with ZipFile(self.filename, "r") as zipfile:
             self.load_data(zipfile)
 
@@ -632,7 +633,8 @@ class ProjectBackup:
             os.makedirs(backup_dir)
         timestamp = int(timezone.now().timestamp())
         if self.fileio is None or isinstance(self.fileio, str):
-            raise TypeError("Need a file object.")
+            msg = "Need a file object."
+            raise TypeError(msg)
         # self.fileio is a file object from upload here
         self.fileio.seek(0)
         while os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip")):

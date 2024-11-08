@@ -1242,7 +1242,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.updated_sources[source.id] = source
             else:
                 # We are not supposed to create new one
-                raise Unit.DoesNotExist("Could not find source unit") from None
+                msg = "Could not find source unit"
+                raise Unit.DoesNotExist(msg) from None
 
             self._sources[id_hash] = source
             return source
@@ -2094,7 +2095,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         with self.start_sentry_span("commit_files"):
             if message is None:
                 if template is None:
-                    raise ValueError("Missing template when message is not specified")
+                    msg = "Missing template when message is not specified"
+                    raise ValueError(msg)
                 # Handle context
                 context = {"component": component or self, "author": author}
                 if extra_context:
@@ -2855,17 +2857,16 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             except Exception as error:
                 errors.append(f"{match}: {error}")
         if errors:
-            raise ValidationError(
-                "{}\n{}".format(
-                    ngettext(
-                        "Could not parse %d matched file.",
-                        "Could not parse %d matched files.",
-                        len(errors),
-                    )
-                    % len(errors),
-                    "\n".join(errors),
+            msg = "{}\n{}".format(
+                ngettext(
+                    "Could not parse %d matched file.",
+                    "Could not parse %d matched files.",
+                    len(errors),
                 )
+                % len(errors),
+                "\n".join(errors),
             )
+            raise ValidationError(msg)
 
     def is_valid_base_for_new(self, errors: list | None = None, fast: bool = False):
         filename = self.get_new_base_filename()

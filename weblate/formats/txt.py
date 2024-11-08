@@ -83,7 +83,8 @@ class MultiParser(BaseStore):
 
     def __init__(self, storefile) -> None:
         if not isinstance(storefile, str):
-            raise TypeError("Needs string as a storefile!")
+            msg = "Needs string as a storefile!"
+            raise TypeError(msg)
 
         if not os.path.isdir(storefile):
             raise ValueError(gettext("Should be a directory with metadata files!"))
@@ -215,7 +216,8 @@ class AppStoreFormat(TranslationFormat):
         source: str | list[str],
         target: str | list[str] | None = None,
     ) -> NoReturn:
-        raise ValueError("Create not supported")
+        msg = "Create not supported"
+        raise ValueError(msg)
 
     @classmethod
     def create_new_file(
