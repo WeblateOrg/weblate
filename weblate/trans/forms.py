@@ -2601,6 +2601,7 @@ class BulkEditForm(forms.Form):
         label=gettext_lazy("State to set"),
         choices=[(-1, gettext_lazy("Do not change"))],
     )
+    path = forms.CharField(widget=forms.HiddenInput, required=False)
     add_flags = FlagField(
         label=gettext_lazy("Translation flags to add"), required=False
     )
@@ -2625,6 +2626,8 @@ class BulkEditForm(forms.Form):
     ) -> None:
         project = kwargs.pop("project", None)
         kwargs["auto_id"] = "id_bulk_%s"
+        if obj is not None:
+            kwargs["initial"] = {"path": obj.full_slug}
         super().__init__(*args, **kwargs)
         labels = Label.objects.all() if project is None else project.label_set.all()
         if labels:
@@ -2651,6 +2654,7 @@ class BulkEditForm(forms.Form):
         self.helper.layout = Layout(
             Div(template="snippets/bulk-help.html"),
             SearchField("q"),
+            Field("path"),
             Field("state"),
             Field("add_flags"),
             Field("remove_flags"),

@@ -9,6 +9,7 @@ Not yet released.
 
 * A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate Component`)
 * Included username when generating :ref:`credits`.
+* :ref:`bulk-edit` shows a preview of matched strings.
 
 **Bug fixes**
 
@@ -111,7 +112,7 @@ Released on October 15th 2024.
 * Stale, empty glossaries are now automatically removed.
 * :kbd:`?` now displays available :ref:`keyboard`.
 * Translation and language view in the project now include basic information about the language and plurals.
-* :ref:`bulk-edit` shows a preview of matched strings.
+* :ref:`search-replace` shows a preview of matched strings.
 * :ref:`aresource` now supports translatable attribute in its strings.
 * Creating component via file upload (Translate document) now supports bilingual files.
 
