@@ -22,7 +22,8 @@ jobs:
     name: Weblate automerge
     if: github.actor == 'weblate'
     steps:
+    - uses: actions/checkout@v4
     - name: Enable Pull Request Automerge
-      run: gh pr merge --merge --auto "${{ github.event.pull_request.number }}"
+      run: gh pr merge --rebase --auto "${{ github.event.pull_request.number }}"
       env:
         GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}
