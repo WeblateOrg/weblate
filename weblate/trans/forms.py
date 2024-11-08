@@ -2626,7 +2626,8 @@ class BulkEditForm(forms.Form):
     ) -> None:
         project = kwargs.pop("project", None)
         kwargs["auto_id"] = "id_bulk_%s"
-        kwargs["initial"] = {"path": getattr(obj, "full_slug", None)}
+        if obj is not None:
+            kwargs["initial"] = {"path": obj.full_slug}
         super().__init__(*args, **kwargs)
         labels = Label.objects.all() if project is None else project.label_set.all()
         if labels:
