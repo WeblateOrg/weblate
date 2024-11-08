@@ -4,6 +4,8 @@
 
 """Tests for ICU MessageFormat checks."""
 
+from __future__ import annotations
+
 from weblate.checks.icu import ICUMessageFormatCheck, ICUSourceCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 
@@ -11,11 +13,13 @@ from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 class ICUMessageFormatCheckTest(CheckTestCase):
     check = ICUMessageFormatCheck()
 
-    id_hash = "icu_message_format"
-    flag = "icu-message-format"
-    flags = None
+    id_hash: str = "icu_message_format"
+    flag: str = "icu-message-format"
+    flags: None | str = None
 
-    def get_mock(self, source=None, flags=None):
+    def get_mock(
+        self, source: str | list[str] | None = None, flags: str | None = None
+    ) -> MockUnit:
         if not flags and self.flags:
             flags = self.flags
         elif flags and self.flags:
@@ -24,7 +28,10 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         flags = f"{self.flag}, icu-flags:{flags}" if flags else self.flag
 
         return MockUnit(
-            self.id_hash, flags=flags, source=source, is_source=source is not None
+            self.id_hash,
+            flags=flags,
+            source=source if source is not None else "",
+            is_source=source is not None,
         )
 
     def test_plain(self) -> None:
@@ -275,6 +282,10 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         )
 
         self.assertListEqual(highlights, [])
+
+    def test_check_target_plural(self) -> None:
+        unit = self.get_mock(["{count} apple", "{count} apples"])
+        self.assertFalse(self.check.check_target_unit(unit.sources, unit.sources, unit))
 
 
 # This is a sub-class of our existing test set because this format is an extension

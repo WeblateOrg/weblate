@@ -16,7 +16,7 @@ from weblate.checks.flags import Flags
 from weblate.lang.models import Language, Plural
 
 if TYPE_CHECKING:
-    from weblate.checks.base import Check
+    from weblate.checks.base import BaseCheck
 
 
 class MockLanguage(Language):
@@ -92,14 +92,14 @@ class MockUnit:
 
     def __init__(
         self,
-        id_hash=None,
-        flags="",
-        code="cs",
-        source="",
-        note="",
-        is_source=None,
-        target="",
-        context="",
+        id_hash: str | None = None,
+        flags: str | Flags = "",
+        code: str = "cs",
+        source: str | list[str] = "",
+        note: str = "",
+        is_source: bool | None = None,
+        target: str | list[str] = "",
+        context: str = "",
     ) -> None:
         if id_hash is None:
             id_hash = random.randint(0, 65536)  # noqa: S311
@@ -147,7 +147,7 @@ class MockUnit:
 class CheckTestCase(SimpleTestCase):
     """Generic test, also serves for testing base class."""
 
-    check: None | Check = None
+    check: None | BaseCheck = None
     default_lang = "cs"
 
     def setUp(self) -> None:
