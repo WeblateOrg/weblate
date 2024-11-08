@@ -29,7 +29,7 @@ class BaseURLMixin:
 class URLMixin(BaseURLMixin):
     """Mixin for models providing standard shortcut API for few standard URLs."""
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("show", kwargs={"path": self.get_url_path()})
 
 

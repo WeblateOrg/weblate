@@ -709,7 +709,7 @@ class Change(models.Model, UserDisplayMixin):
         if self.action == Change.ACTION_RENAME_PROJECT:
             Change.objects.generate_project_rename_lookup()
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         """Return link either to unit or translation."""
         if self.unit is not None:
             return self.unit.get_absolute_url()
@@ -723,7 +723,7 @@ class Change(models.Model, UserDisplayMixin):
             return self.category.get_absolute_url()
         if self.project is not None:
             return self.project.get_absolute_url()
-        return None
+        return "/"
 
     @property
     def path_object(self):

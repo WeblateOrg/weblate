@@ -116,7 +116,7 @@ class MachineryConfiguration:
     def has_settings(self):
         return self.machinery.settings_form is not None
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         kwargs = {"machinery": self.id}
         if self.project:
             kwargs["project"] = self.project.slug

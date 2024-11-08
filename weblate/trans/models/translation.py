@@ -1775,5 +1775,5 @@ class GhostTranslation:
     def __str__(self) -> str:
         return f"{self.component} — {self.language}"
 
-    def get_absolute_url(self) -> None:
-        return None
+    def get_absolute_url(self) -> str:
+        return ""

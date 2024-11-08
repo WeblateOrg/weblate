@@ -690,7 +690,7 @@ class Profile(models.Model):
     def __str__(self) -> str:
         return self.user.username
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return self.user.get_absolute_url()
 
     def get_user_display(self):

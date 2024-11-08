@@ -131,7 +131,7 @@ class Addon(models.Model):
             update_fields=update_fields,
         )
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("addon-detail", kwargs={"pk": self.pk})
 
     def __init__(self, *args, acting_user: User | None = None, **kwargs) -> None:

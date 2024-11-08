@@ -83,7 +83,7 @@ class Screenshot(models.Model, UserDisplayMixin):
     def __str__(self) -> str:
         return self.name
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("screenshot", kwargs={"pk": self.pk})
 
     def __init__(self, *args, **kwargs) -> None:
