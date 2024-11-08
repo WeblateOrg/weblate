@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 09:40+0100\n"
-"PO-Revision-Date: 2024-11-08 11:00+0000\n"
+"PO-Revision-Date: 2024-11-08 17:00+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -3259,7 +3259,7 @@ msgstr "La cabecera del archivo PO lucirá semejante a la siguiente:"
 
 #: ../../admin/addons.rst:623
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "Actualizar variable ALL_LINGUAS en el archivo «configure»"
+msgstr "Actualización de la variable ALL_LINGUAS en el archivo \"configurar\""
 
 #: ../../admin/addons.rst:625
 msgid "``weblate.gettext.configure``"
@@ -3366,7 +3366,7 @@ msgstr "``weblate.gettext.linguas``"
 
 #: ../../admin/addons.rst:674
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "Actualiza el archivo LINGUAS al añadir una traducción nueva."
+msgstr "Actualiza el archivo LINGUAS cuando se añade una nueva traducción."
 
 #: ../../admin/addons.rst:679
 msgid "Generate MO files"
@@ -40784,6 +40784,10 @@ msgid ""
 "(in the :guilabel:`Repository maintenance`), or from the command-line using :"
 "ref:`wlc`."
 msgstr ""
+"Antes de esto, puede que quiera confirmar cualquier cambio local pendiente "
+"hecho en Weblate (vea :ref:`lazy-commit`). Esto puede hacerse desde la "
+"interfaz de usuario (en la etiqueta :guilabel:`Mantenimiento del repositorio "
+"`), o desde la línea de comandos usando :ref:`wlc`."
 
 #: ../../devel/integration.rst:34
 msgid ""
@@ -40813,6 +40817,11 @@ msgid ""
 "achieved in the user interface (in the :guilabel:`Repository maintenance`), "
 "or from the command-line using :ref:`wlc`."
 msgstr ""
+"Para obtener en Weblate cualquier cadena actualizada recientemente en su "
+"repositorio VCS remoto , permita que Weblate la extraiga del repositorio "
+"original . Esto se puede lograr en la interfaz de usuario (en el :guilabel:` "
+"Mantenimiento del repositorio` ) o desde la línea de comandos usando "
+":ref:`wlc`."
 
 #: ../../devel/integration.rst:54
 msgid ""
@@ -40869,6 +40878,11 @@ msgid ""
 "buttons :guilabel:`Singular` and :guilabel:`Plural` inside the form. Select "
 "the appropriate form of the new translation string to be added."
 msgstr ""
+"Manualmente, utilizando :guilabel :`Agregar nueva cadena de traducción` "
+"desde el menú :guilabel :`Herramientas` en el idioma de origen . Puede "
+"elegir entre los botones de opción :guilabel :`Singular` y :guilabel "
+":`Plural` dentro del formulario. Seleccione la forma apropiada de la nueva "
+"cadena de traducción que se agregará."
 
 #: ../../devel/integration.rst:82
 msgid ""
@@ -40885,6 +40899,10 @@ msgid ""
 "old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-"
 "method`."
 msgstr ""
+"Al cargar el archivo fuente como :guilabel :`Reemplazar archivo de "
+"traducción existente` (esto sobrescribe las cadenas existentes, así que "
+"asegúrese de que el archivo incluya cadenas antiguas y nuevas) o :guilabel :`"
+"Agregar nuevas cadenas`, consulte :ref:`upload-method`."
 
 #: ../../devel/integration.rst:89
 msgid ""
@@ -40916,6 +40934,11 @@ msgid ""
 "yourself by using :guilabel:`Update source strings` :ref:`upload-method`, or "
 "by using the :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgstr ""
+"Weblate tampoco intentará actualizar archivos bilingües cuando cambie la "
+"fuente , por lo que si necesita que los archivos :file:`po` se actualicen "
+"desde :file:`pot`, hágalo usted mismo usando :guilabel :`Actualizar cadenas "
+"de origen` : ref :`upload-method`, o usando el complemento :ref:`addon - "
+"weblate .gettext .msgmerge` ."
 
 #: ../../devel/integration.rst:110
 msgid ""
@@ -40992,6 +41015,10 @@ msgid ""
 "only setup is also possible. The :guilabel:`Repository maintenance` allows "
 "controlling this repository."
 msgstr ""
+"Weblate almacena todas las traducciones en su repositorio de control de "
+"versiones subyacente. Se sugiere que esté conectado a uno remoto, pero "
+"también es posible una configuración interna. La :guilabel:`Mantenimiento "
+"del repositorio` permite controlar este repositorio."
 
 #: ../../devel/integration.rst:169
 msgid ""
@@ -41227,12 +41254,16 @@ msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
 msgstr ""
+"Los informes de actividad de un proyecto o componente son accesibles desde "
+"su cuadro de mandos, en la pestaña :guilabel:`Información`."
 
 #: ../../devel/review.rst:18
 msgid ""
 "More reports are accessible on the :guilabel:`Insights` tab, selecting :"
 "guilabel:`Translation reports`."
 msgstr ""
+"Puede acceder a más informes en la pestaña :guilabel:`Ideas`, seleccionando "
+":guilabel:`Informes de traducción`."
 
 #: ../../devel/review.rst:21
 msgid ""
@@ -41324,7 +41355,7 @@ msgstr ""
 "página de bienvenida para los nuevos colaboradores para darles información "
 "básica sobre la traducción. Además, puedes compartir información sobre la "
 "traducción a través de Facebook o X. Todas estas posibilidades se encuentran "
-"en la pestaña :guilabel:`Share`:"
+"en la pestaña :guilabel:`Compartir`:"
 
 #: ../../devel/share.rst:14
 msgid ""
@@ -41787,6 +41818,10 @@ msgid ""
 "from Weblate and remote repository if used) from the menu :guilabel:`Manage` "
 "↓ :guilabel:`Removal` of each project, component, or language."
 msgstr ""
+"Los idiomas, componentes, o los proyectos en los que se encuentran, pueden "
+"ser eliminados (borrados de Weblate y del repositorio remoto si se utiliza) "
+"desde el menú :guilabel:`Gestionar` ↓ :guilabel:`Eliminar` de cada proyecto, "
+"componente o idioma."
 
 #: ../../devel/translations.rst:66
 msgid ""
@@ -41795,6 +41830,10 @@ msgid ""
 "`slug` is the project's, language's, or component's pathname as it can be "
 "seen in the URL."
 msgstr ""
+"Al iniciar la acción :guilabel:`Eliminar` se muestra la lista de componentes "
+"a eliminar. Debe introducir el `slug` del objeto para confirmar la "
+"eliminación. El `slug` es la ruta del proyecto, idioma o componente tal y "
+"como se puede ver en la URL."
 
 #: ../../devel/translations.rst:70
 msgid ""
@@ -41813,6 +41852,10 @@ msgid ""
 "editing the string. This has differences between file formats, see: :ref:"
 "`component-manage_units`"
 msgstr ""
+"En la interfaz de usuario de Weblate mediante el botón "
+":guilabel:`Herramientas` ↓ :guilabel:`Eliminar` mientras se edita la cadena. "
+"Esto tiene diferencias entre formatos de archivo, ver: :ref:`component-"
+"manage_units`"
 
 #: ../../devel/translations.rst:82
 msgid ""
@@ -41855,6 +41898,11 @@ msgid ""
 "same root key become part of a single variant group, also including the "
 "string with the key exactly matching the root key."
 msgstr ""
+"En caso de que :guilabel:`Clave` coincida con la expresión, se elimina la "
+"parte coincidente para generar la clave raíz de la variante. A continuación, "
+"todas las cadenas con la misma clave raíz pasan a formar parte de un único "
+"grupo de variantes, incluyendo también la cadena cuya clave coincida "
+"exactamente con la clave raíz."
 
 #: ../../devel/translations.rst:113
 msgid "The following table lists some usage examples:"
@@ -41909,6 +41957,9 @@ msgid ""
 "The additional variant for a string can also be added using the :guilabel:"
 "`Tools` while translating (when :ref:`component-manage_units` is turned on):"
 msgstr ""
+"La variante adicional para una cadena también puede añadirse utilizando "
+":guilabel:`Herramientas` mientras se traduce (cuando :ref:`component-"
+"manage_units` está activado):"
 
 #: ../../devel/translations.rst:140
 msgid ""
@@ -42550,10 +42601,8 @@ msgstr ""
 "Seleccione una configuración de los componentes existentes para copiarla."
 
 #: ../../faq.rst:431
-#, fuzzy
-#| msgid "Fixing an alert automatically unlocked the component."
 msgid "Enable update hooks and unlock the component."
-msgstr "El arreglo de una alerta desbloqueó automáticamente el componente."
+msgstr "Habilite los enlaces de actualización y desbloquee el componente."
 
 #: ../../faq.rst:438
 msgid "Troubleshooting"
@@ -42704,6 +42753,8 @@ msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
 msgstr ""
+"Además, cuando el formato del archivo de traducción lo admite, las cabeceras "
+"del archivo se actualizan para incluir el nombre del traductor."
 
 #: ../../faq.rst:539
 msgid ":wladmin:`list_translators`, :doc:`../devel/reporting`"
@@ -43538,6 +43589,12 @@ msgid ""
 "pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :doc:"
 "`tt:formats/strings`"
 msgstr ""
+":ref:`stringsdict`, `Documentación \"archivos de cadenas\" de Apple "
+"<https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
+"BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles."
+"html>`_, `Formato de fichero de catálogo de mensajes en PWG 5100.13 "
+"<http://ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100."
+"13.pdf#page=66>`_, :doc:`tt:formats/strings`"
 
 #: ../../formats/apple.rst:23 ../../formats/appstore.rst:23
 #: ../../formats/arb.rst:27 ../../formats/csv.rst:61 ../../formats/dtd.rst:17
@@ -45250,6 +45307,8 @@ msgid ""
 "In other cases the attributes are not added, but they are updated in case "
 "they are present."
 msgstr ""
+"En otros casos, los atributos no se añaden, pero se actualizan en caso de "
+"que estén presentes."
 
 #: ../../formats/xliff.rst:59
 msgid ""
@@ -46857,6 +46916,12 @@ msgid ""
 "it should be written as ``''``. When not paired, it is treated as beginning "
 "of quoting and will not be shown when rendering the string."
 msgstr ""
+"Esta comprobación valida que la cadena de formato es válida para la clase "
+"Java MessageFormat. Además de comprobar las cadenas de formato entre llaves, "
+"también comprueba las comillas simples, ya que tienen un significado "
+"especial. Siempre que se escriban comillas simples, deben escribirse como "
+"``''``. Cuando no se empareja, se trata como inicio de comillas y no se "
+"mostrará al renderizar la cadena."
 
 #: ../../user/checks.rst:632
 msgid ""
@@ -48802,6 +48867,10 @@ msgid ""
 "translation are getting committed and the up-to-date file is yield without "
 "any conversions."
 msgstr ""
+"La primera opción es descargar el archivo en el formato original, tal y como "
+"está almacenado en el repositorio. En este caso, todos los cambios "
+"pendientes en la traducción se confirman y el archivo actualizado se obtiene "
+"sin ninguna conversión."
 
 #: ../../user/files.rst:25
 msgid ""
@@ -49078,6 +49147,8 @@ msgid ""
 "Updates source strings in bilingual translation file. This is similar to "
 "what :ref:`addon-weblate.gettext.msgmerge` does."
 msgstr ""
+"Actualiza las cadenas de origen en el archivo de traducción bilingüe. Esto "
+"es similar a lo que hace :ref:`addon-weblate.gettext.msgmerge`."
 
 #: ../../user/files.rst:138
 msgid ""
@@ -49101,7 +49172,7 @@ msgid ""
 msgstr ""
 "En caso de que desee tanto añadir nuevas cadenas como actualizar las "
 "traducciones existentes, cargue el archivo por segunda vez con :guilabel:`"
-"Add as translation`."
+"Añadir como traducción`."
 
 #: ../../user/files.rst:146
 #, fuzzy
@@ -50071,6 +50142,8 @@ msgstr "``changed:DATETIME``"
 #: ../../user/search.rst:81 ../../user/search.rst:196
 msgid "String content was changed on date, supports :ref:`search-operators`."
 msgstr ""
+"El contenido de la cadena se modificó en la fecha, admite :ref:`search-"
+"operators`."
 
 #: ../../user/search.rst:82
 msgid "``change_time:DATETIME``"
