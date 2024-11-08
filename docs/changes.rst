@@ -25,6 +25,26 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/127?closed=1>`__.
 
+Weblate 5.8.4
+-------------
+
+Not yet released.
+
+**Bug fixes**
+
+* Fixed occasional crash in :ref:`rss`.
+* :ref:`check-icu-message-format` gracefully handles plural strings.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.8.4.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/132?closed=1>`__.
+
 Weblate 5.8.3
 -------------
 
