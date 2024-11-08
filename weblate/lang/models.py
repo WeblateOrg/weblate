@@ -656,7 +656,7 @@ class Language(models.Model, CacheKeyMixin):
             self.direction = self.guess_direction()
         return super().save(*args, **kwargs)
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("show_language", kwargs={"lang": self.code})
 
     def get_url_path(self):
@@ -873,7 +873,7 @@ class Plural(models.Model):
         self.type = get_plural_type(self.language.base_code, self.formula)
         super().save(*args, **kwargs)
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return "{}#information".format(
             reverse("show_language", kwargs={"lang": self.language.code})
         )

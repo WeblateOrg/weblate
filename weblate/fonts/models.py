@@ -66,7 +66,7 @@ class Font(models.Model, UserDisplayMixin):
         )
         update_fonts_cache.delay()
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("font", kwargs={"pk": self.pk, "project": self.project.slug})
 
     def __init__(self, *args, **kwargs) -> None:
@@ -129,7 +129,7 @@ class FontGroup(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse(
             "font_group", kwargs={"pk": self.pk, "project": self.project.slug}
         )

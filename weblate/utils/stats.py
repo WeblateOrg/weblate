@@ -1055,7 +1055,7 @@ class ProjectLanguage(BaseURLMixin):
     def get_url_path(self):
         return [*self.project.get_url_path(), "-", self.language.code]
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("show", kwargs={"path": self.get_url_path()})
 
     def get_translate_url(self):
@@ -1153,7 +1153,7 @@ class CategoryLanguage(BaseURLMixin):
     def get_url_path(self):
         return [*self.category.get_url_path(), "-", self.language.code]
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("show", kwargs={"path": self.get_url_path()})
 
     def get_translate_url(self):
