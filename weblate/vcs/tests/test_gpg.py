@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import subprocess
-from unittest import SkipTest
 
 from django.core.cache import cache
 from django.test import TestCase
@@ -43,7 +42,7 @@ class GPGTest(TestCase):
 
     def setUp(self) -> None:
         if self.gpg_error:
-            raise SkipTest(self.gpg_error)
+            self.skipTest(self.gpg_error)
 
     def check_errors(self) -> None:
         self.assertEqual(weblate.vcs.gpg.GPG_ERRORS, {})

@@ -8,7 +8,6 @@ import warnings
 from gettext import c2py
 from io import StringIO
 from itertools import chain
-from unittest import SkipTest
 
 from django.core.management import call_command
 from django.test import TestCase
@@ -375,7 +374,7 @@ class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
     def test_case_sensitive_fuzzy_get(self) -> None:
         """Test handling of manually created zh-TW, zh-TW and zh_TW languages."""
         if not using_postgresql():
-            raise SkipTest("Not supported on MySQL")
+            self.skipTest("Not supported on MySQL")
 
         language = Language.objects.create(code="zh_TW", name="Chinese (Taiwan)")
         language.plural_set.create(

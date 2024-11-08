@@ -4,8 +4,6 @@
 
 """Tests for Unicode sorting."""
 
-from unittest import SkipTest
-
 from django.test import TestCase
 
 import weblate.trans.util
@@ -14,7 +12,7 @@ import weblate.trans.util
 class SortTest(TestCase):
     def test_sort(self) -> None:
         if not weblate.trans.util.LOCALE_SETUP:
-            raise SkipTest("Could not set up locales")
+            self.skipTest("Could not set up locales")
         result = weblate.trans.util.sort_choices(
             ((2, "zkouška"), (3, "zkouzka"), (1, "zkouaka"))
         )

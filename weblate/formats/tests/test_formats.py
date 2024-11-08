@@ -188,7 +188,8 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
     @classmethod
     def setUpClass(cls) -> None:
         if cls.FORMAT is TranslationFormat:
-            raise SkipTest("Base test class not intended for execution.")
+            msg = "Base test class not intended for execution."
+            raise SkipTest(msg)
         super().setUpClass()
 
     def setUp(self) -> None:
@@ -307,7 +308,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
 
     def test_new_unit(self) -> None:
         if not self.FORMAT.can_add_unit:
-            raise SkipTest("Not supported")
+            self.skipTest("Not supported")
         # Read test content
         with open(self.FILE, "rb") as handle:
             testdata = handle.read()
@@ -363,7 +364,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         in Translation.update_units().
         """
         if not self.MONOLINGUAL or not self.FORMAT.can_add_unit:
-            raise SkipTest("Not supported")
+            self.skipTest("Not supported")
 
         temp_dir = Path(self.tempdir)
         template_file = temp_dir / f"test.tmpl.{self.EXT}"
@@ -992,7 +993,7 @@ class CSVFormatNoHeadTest(CSVFormatTest):
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
 
     def _test_save(self, edit=False) -> NoReturn:
-        raise SkipTest("Saving currently adds field headers")
+        self.skipTest("Saving currently adds field headers")
 
 
 class CSVSimpleFormatNoHeadTest(CSVFormatNoHeadTest):
