@@ -337,7 +337,7 @@ FLAG_RULES: dict[
 class BaseFormatCheck(TargetCheck):
     """Base class for format string checks."""
 
-    regexp: Pattern[str]
+    regexp: Pattern[str] | None = None
     plural_parameter_regexp: Pattern[str] | None = None
     default_disabled = True
     normalize_remove: set[str] = set()
@@ -357,7 +357,6 @@ class BaseFormatCheck(TargetCheck):
         # Use plural as source in case singular misses format string and plural has it
         if (
             len(sources) > 1
-            and self.regexp
             and not self.extract_matches(sources[0])
             and self.extract_matches(sources[1])
         ):
@@ -414,6 +413,8 @@ class BaseFormatCheck(TargetCheck):
         return extract_string_simple(match)
 
     def extract_matches(self, string: str) -> list[str]:
+        if self.regexp is None:
+            return []
         return [
             self.cleanup_string(self.extract_string(match))
             for match in self.regexp.finditer(string)
@@ -468,6 +469,8 @@ class BaseFormatCheck(TargetCheck):
 
     def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
+            return
+        if self.regexp is None:
             return
         match_objects = self.regexp.finditer(source)
         for match in match_objects:
