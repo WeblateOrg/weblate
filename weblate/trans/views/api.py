@@ -10,6 +10,7 @@ from django.http import HttpResponse, JsonResponse
 
 from weblate.api.serializers import StatisticsSerializer
 from weblate.trans.models import Component, Project
+from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
@@ -24,7 +25,9 @@ def export_stats(request: AuthenticatedHttpRequest, path):
             request, f"stats-{obj.slug}.csv", obj.stats.get_language_stats()
         )
 
-    translations = obj.translation_set.order_by("language_code")
+    translations = prefetch_stats(
+        obj.translation_set.order_by("language_code").prefetch_meta()
+    )
     return export_response(
         request, f"stats-{obj.project.slug}-{obj.slug}.csv", translations
     )
