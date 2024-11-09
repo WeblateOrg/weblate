@@ -62,10 +62,10 @@ Comments
 --------
 
 Three types of comments can be posted:
+
 * for translations
 * for source strings
-* for reporting source string bugs when this functionality is turned on using
-:ref:`project-source_review`.
+* for reporting source string bugs when this functionality is turned on using :ref:`project-source_review`.
 
 Choose the suitable type for the topic you want to discuss.
 Source string comments are in any event good for providing feedback on
