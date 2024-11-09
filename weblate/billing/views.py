@@ -52,7 +52,7 @@ def download_invoice(request: AuthenticatedHttpRequest, pk):
         raise Http404(msg)
 
     return FileResponse(
-        open(invoice.full_filename, "rb"),  # noqa: SIM115
+        open(invoice.full_filename, "rb"),
         as_attachment=True,
         filename=invoice.filename,
         content_type="application/pdf",
