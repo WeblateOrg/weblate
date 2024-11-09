@@ -47,7 +47,7 @@
      */
     $document.on("focus", ".zen .translation-editor", function () {
       const current = $window.scrollTop();
-      const rowOffset = $(this).closest("tbody").offset().top;
+      const rowOffset = $(this).closest("tr").offset().top;
       if (rowOffset < current || rowOffset - current > $window.height() / 2) {
         $([document.documentElement, document.body]).animate(
           {
