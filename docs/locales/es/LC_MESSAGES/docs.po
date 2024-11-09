@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 09:40+0100\n"
-"PO-Revision-Date: 2024-11-08 17:00+0000\n"
+"PO-Revision-Date: 2024-11-09 22:30+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -12781,6 +12781,9 @@ msgid ""
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
 msgstr ""
+"Una vez que haya terminado, también debe comprobar el :guilabel:`Informe de "
+"rendimiento` en la interfaz de administración, que le dará pistas de "
+"configuración no óptima potencial en su página."
 
 #: ../../admin/install.rst:872
 msgid ":ref:`config`, :ref:`privileges`"
@@ -16570,6 +16573,13 @@ msgid ""
 "`contributing`), so that the proper definition can be added to the upcoming "
 "Weblate release."
 msgstr ""
+"Si esto también falla, se creará una nueva definición de idioma usando los "
+"valores por defecto (dirección del texto de izquierda a derecha, un plural). "
+"El lenguaje creado automáticamente con código ``xx_XX`` se nombrará como "
+":guilabel:`xx_XX (generado)`. Es posible que quieras cambiar esto en la "
+"interfaz de administración más tarde, (ver :ref:`changing-languages`) e "
+"informar al rastreador de problemas (ver :ref:`contribuir`), para que la "
+"definición adecuada pueda ser añadida a la próxima versión de Weblate."
 
 #: ../../admin/languages.rst:59
 msgid ""
@@ -16806,6 +16816,10 @@ msgid ""
 "site (under :guilabel:`Automatic suggestions` in :ref:`management-"
 "interface`) or at the project settings:"
 msgstr ""
+"Se ha incorporado el apoyo a varios servicios de traducción automática y "
+"memoria de traducción. Cada servicio puede ser activado por el administrador "
+"para toda la página (en :guilabel:`Sugerencias automáticas`en :ref"
+":`management-interface`) o en los ajustes del proyecto:"
 
 #: ../../admin/machine.rst:19
 msgid ""
@@ -17081,6 +17095,9 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
+"DeepL es un servicio de pago que proporciona una buena traducción automática "
+"para algunos idiomas. Necesita comprar la suscripción a :guilabel:`Api de "
+"DeepL`, o puede usar el plan heredado de :guilabel:`DeepL Pro (clásico)`."
 
 #: ../../admin/machine.rst:157
 msgid ""
@@ -19871,12 +19888,20 @@ msgid ""
 "hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
 "your plans allowance from the user account that manages billing."
 msgstr ""
+"En función de sus permisos, se pueden crear nuevos proyectos de traducción y "
+"componentes. Siempre está permitido para usuarios con el permiso :guilabel:`"
+"Añadir nuevos proyectos `, y si su instancia utiliza facturación (por "
+"ejemplo, como https://hosted.weblate.org/ ver :ref:`billing`), también puede "
+"crearlos en base a su permiso de planes desde la cuenta de usuario que "
+"gestiona la facturación."
 
 #: ../../admin/projects.rst:48
 msgid ""
 "To grant every user permission to create new projects create new :ref:"
 "`autoteam` for the :guilabel:`Project creators` team."
 msgstr ""
+"Para conceder a todos los usuarios permiso para crear nuevos proyectos, cree "
+"un nuevo :ref:`autoteam` para el equipo :guilabel:`Creadores del proyecto`."
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
@@ -20883,6 +20908,8 @@ msgid ""
 "You might want to turn on :ref:`component-edit_template` together with :"
 "guilabel:`Manage strings` for monolingual formats."
 msgstr ""
+"Es posible que desee activar :ref:`component-edit_template` junto con "
+":guilabel:`Administrar cadenas` para formatos monolingües."
 
 #: ../../admin/projects.rst:719
 msgid ""
@@ -21144,6 +21171,11 @@ msgid ""
 "to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
+"Si los cambios confirmados deben enviarse automáticamente al repositorio "
+"principal. Cuando se activa, el envío se inicia una vez que Weblate confirma "
+"los cambios en su repositorio subyacente (véase :ref:`lazy-commit`). Para "
+"habilitar el envío :guilabel:`URL de envío del repositorio` tiene que ser "
+"configurado también."
 
 #: ../../admin/projects.rst:840
 msgid "Age of changes to commit"
@@ -21210,6 +21242,10 @@ msgid ""
 "`English (Developer)` as a source language to avoid conflict between the "
 "name of the source language and the existing translation."
 msgstr ""
+"En caso de que esté traduciendo archivos bilingües del inglés, pero quiera "
+"poder realizar correcciones también en la traducción al inglés, elija "
+":guilabel:`Inglés (Desarrollador)` como idioma de origen para evitar "
+"conflictos entre el nombre del idioma de origen y la traducción existente ."
 
 #: ../../admin/projects.rst:881
 msgid ""
@@ -21942,6 +21978,8 @@ msgid ""
 "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
 "discovery` from its management page :"
 msgstr ""
+"Confirme que desea que su Weblate aparezca en la lista haciendo clic en "
+":guilabel:`Habilitar descubrimiento` desde su página de administración:"
 
 #: ../../admin/support.rst:89
 #, fuzzy
@@ -21969,6 +22007,13 @@ msgid ""
 "suggestions` to set a threshold for accepted suggestions (this includes a "
 "vote from the user making the suggestion if it is cast)."
 msgstr ""
+"De forma predeterminada, todos pueden agregar sugerencias para que las "
+"acepten los usuarios registrados. La votación de sugerencias se puede "
+"utilizar para utilizar una cadena cuando más de un usuario registrado está "
+"de acuerdo, configurando el componente :ref:` con :guilabel:`Votación de "
+"sugerencias` para activar la votación y :guilabel:` Aceptar sugerencias "
+"automáticamente` para establecer un umbral para las sugerencias aceptadas ("
+"esto incluye un voto del usuario que realiza la sugerencia, si se emite)."
 
 #: ../../admin/translating.rst:18
 msgid ""
@@ -21977,6 +22022,10 @@ msgid ""
 "with the :guilabel:`Edit string when suggestions are enforced` :ref:"
 "`permission <privileges>`."
 msgstr ""
+"Una vez que se configura la aceptación automática, los usuarios normales "
+"pierden el privilegio de guardar traducciones directamente o aceptar "
+"sugerencias. Esto se puede anular con el permiso :guilabel:` Editar cadena "
+"cuando se aplican sugerencias` :ref:`<privilegios>`."
 
 #: ../../admin/translating.rst:23
 msgid ""
@@ -22022,6 +22071,9 @@ msgid ""
 "Access this directly from the translation interface by clicking the \"Edit\" "
 "icon next to :guilabel:`Screenshot context` or :guilabel:`Flags`."
 msgstr ""
+"Acceda a esto directamente desde la interfaz de traducción haciendo clic en "
+"el icono \"Editar\" junto a :guilabel:`Contexto de la captura de pantalla` o "
+":guilabel:`Etiquetas`."
 
 #: ../../admin/translating.rst:58
 msgid ""
@@ -22059,7 +22111,8 @@ msgstr "Explicación"
 
 #: ../../admin/translating.rst:98
 msgid "In previous versions this has been called :guilabel:`Extra context`."
-msgstr "En versiones anteriores se le ha llamado :guilabel:`Extra context`."
+msgstr ""
+"En versiones anteriores se le ha llamado :guilabel:`Contexto adicional`."
 
 #: ../../admin/translating.rst:102
 #, fuzzy
@@ -22112,6 +22165,11 @@ msgid ""
 "to source strings manually, or use optical character recognition (OCR) to do "
 "so by pressing the :guilabel:`Automatically recognize` button."
 msgstr ""
+"Además de :ref:`additional`, screenshots tienen una interfaz de gestión "
+"separada bajo el menú :guilabel:`Herramientas `. Cargue capturas de "
+"pantalla, asígnelas a las cadenas de origen manualmente o utilice el "
+"reconocimiento óptico de caracteres (OCR) para hacerlo pulsando el botón "
+":guilabel:`Reconocer automáticamente`."
 
 #: ../../admin/translating.rst:133
 msgid ""
@@ -26181,6 +26239,8 @@ msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
 msgstr ""
+"Las entradas :ref:`glosario-terminología` del Glosario ahora sólo pueden ser "
+"creadas por usuarios con permiso :guilabel:`Añadir terminología glosario`."
 
 #: ../../changes.rst:200
 #, fuzzy
@@ -26902,10 +26962,8 @@ msgid "Fixed categories listing on per-language pages."
 msgstr "Se arregló la creación de idiomas nuevos."
 
 #: ../../changes.rst:457
-#, fuzzy
-#| msgid "Shows the :guilabel:`Nearby strings` tab."
 msgid "Fixed :guilabel:`Needs editing` state calculation."
-msgstr "Muestra la pestaña :guilabel:`Cadenas cercanas`."
+msgstr "Corregido el cálculo del estado de :guilabel:`Necesita edición`."
 
 #: ../../changes.rst:458
 msgid "Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`."
@@ -40092,20 +40150,14 @@ msgid "Community localization checklist"
 msgstr "Lista de control de regionalización comunitaria"
 
 #: ../../devel/community.rst:13
-#, fuzzy
-#| msgid ""
-#| "The :guilabel:`Community localization checklist` which can be found in "
-#| "the :guilabel:`Menu` menu of each component can give you guidance to make "
-#| "your localization process easy for community translators."
 msgid ""
 "The :guilabel:`Community localization checklist` which can be found in the "
 "menu of each component can give you guidance to make your localization "
 "process easy for community translators."
 msgstr ""
-"La :guilabel:`Lista de control de regionalización comunitaria`, la cual "
-"puede encontrar en el :guilabel:`Menú` de cada componente, le brinda "
-"recomendaciones para facilitar el proceso de regionalización a los "
-"traductores comunitarios."
+"La :guilabel:`Lista de comprobación de ubicación comunitaria` que se "
+"encuentra en el menú de cada componente puede servirle de guía para "
+"facilitar el proceso de localización a los traductores comunitarios."
 
 #: ../../devel/community.rst:22
 #, fuzzy
@@ -40434,10 +40486,8 @@ msgid "``po/hello.pot``"
 msgstr "``po/hello.pot``"
 
 #: ../../devel/gettext.rst:230
-#, fuzzy
-#| msgid "`gettext PO file`"
 msgid "Choose :guilabel:`gettext PO file`"
-msgstr "`Archivo PO de gettext`"
+msgstr "Seleccione :guilabel:`obtener archivo PO de texto`"
 
 #: ../../devel/gettext.rst:232
 msgid "New language"
