@@ -178,4 +178,4 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(
         crontab(hour=1, minute=30), database_backup.s(), name="database-backup"
     )
-    sender.add_periodic_task(60, heartbeat.s(), name="heartbeat")
+    sender.add_periodic_task(120, heartbeat.s(), name="heartbeat")
