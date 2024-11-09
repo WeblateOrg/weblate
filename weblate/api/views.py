@@ -1136,7 +1136,7 @@ class ComponentViewSet(
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
-        queryset = obj.translation_set.all().order_by("id")
+        queryset = obj.translation_set.all().prefetch_meta().order_by("id")
         page = self.paginate_queryset(queryset)
 
         serializer = StatisticsSerializer(page, many=True, context={"request": request})
