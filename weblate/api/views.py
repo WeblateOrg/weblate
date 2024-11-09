@@ -117,7 +117,7 @@ from weblate.utils.state import (
     STATE_FUZZY,
     STATE_TRANSLATED,
 )
-from weblate.utils.stats import GlobalStats
+from weblate.utils.stats import GlobalStats, prefetch_stats
 from weblate.utils.views import download_translation_file, zip_download
 
 from .renderers import OpenMetricsRenderer
@@ -1139,7 +1139,9 @@ class ComponentViewSet(
         queryset = obj.translation_set.all().prefetch_meta().order_by("id")
         page = self.paginate_queryset(queryset)
 
-        serializer = StatisticsSerializer(page, many=True, context={"request": request})
+        serializer = StatisticsSerializer(
+            prefetch_stats(page), many=True, context={"request": request}
+        )
 
         return self.get_paginated_response(serializer.data)
 
