@@ -119,8 +119,9 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         )
 
     def test_import_invalid_command(self) -> None:
+        # try uploading an unsupported format
         with self.assertRaises(CommandError):
-            call_command("import_memory", get_test_file("cs.po"))
+            call_command("import_memory", get_test_file("strings.xml"))
         self.assertEqual(Memory.objects.count(), 0)
 
     def test_import_json_command(self) -> None:
@@ -137,25 +138,32 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             call_command("import_memory", get_test_file("memory-empty.json"))
         self.assertEqual(Memory.objects.count(), 0)
 
-    def test_import_xliff(self) -> None:
+    def import_file_with_languages_test(
+        self,
+        filename: str,
+        source_language: str,
+        target_language: str,
+        expected_result: int,
+    ) -> None:
+        """Test memory file upload requiring source and target languages."""
         # check source and target languages are required
         with self.assertRaises(CommandError):
-            call_command("import_memory", get_test_file("ids-translated.xliff"))
+            call_command("import_memory", get_test_file(filename))
         self.assertEqual(Memory.objects.count(), 0)
 
         with self.assertRaises(CommandError):
             call_command(
                 "import_memory",
-                get_test_file("ids-translated.xliff"),
-                source_language="en",
+                get_test_file(filename),
+                source_language=source_language,
             )
         self.assertEqual(Memory.objects.count(), 0)
 
         with self.assertRaises(CommandError):
             call_command(
                 "import_memory",
-                get_test_file("ids-translated.xliff"),
-                target_language="cs",
+                get_test_file(filename),
+                target_language=target_language,
             )
         self.assertEqual(Memory.objects.count(), 0)
 
@@ -163,20 +171,43 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         with self.assertRaises(CommandError):
             call_command(
                 "import_memory",
-                get_test_file("ids-translated.xliff"),
-                source_language="en",
+                get_test_file(filename),
+                source_language=source_language,
                 target_language="zzz",
             )
         self.assertEqual(Memory.objects.count(), 0)
 
+        # successful import
         call_command(
             "import_memory",
-            get_test_file("ids-translated.xliff"),
+            get_test_file(filename),
             source_language="en",
             target_language="cs",
         )
-        # only entries with valid source and target will be imported
-        self.assertEqual(Memory.objects.count(), 2)
+        self.assertEqual(Memory.objects.count(), expected_result)
+
+    def test_import_xliff(self) -> None:
+        """Test the import of an XLIFF file."""
+        with self.assertRaises(CommandError):
+            # no valid entries, only source strings
+            call_command(
+                "import_memory",
+                get_test_file("cs.xliff"),
+                source_language="en",
+                target_language="cs",
+            )
+
+        self.assertEqual(Memory.objects.count(), 0)
+
+        self.import_file_with_languages_test("ids-translated.xliff", "en", "cs", 2)
+
+    def test_import_po(self) -> None:
+        """Test the import of an GNU PO file."""
+        self.import_file_with_languages_test("cs.po", "en", "cs", 1)
+
+    def test_import_tbx(self) -> None:
+        """Test the import of a TBX file."""
+        self.import_file_with_languages_test("cs.tbx", "en", "cs", 4)
 
     def test_import_project(self) -> None:
         import_memory(self.project.id)
