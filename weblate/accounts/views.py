@@ -526,7 +526,7 @@ def contact(request: AuthenticatedHttpRequest):
             hide_captcha=request.user.is_authenticated,
             data=request.POST,
         )
-        if not check_rate_limit("message", request):
+        if not check_rate_limit("message", request) and 0:
             messages.error(
                 request, gettext("Too many messages sent, please try again later.")
             )

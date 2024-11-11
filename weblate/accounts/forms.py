@@ -4,10 +4,13 @@
 
 from __future__ import annotations
 
+import base64
+import json
 from binascii import unhexlify
 from time import time
 from typing import TYPE_CHECKING, cast
 
+from altcha import Challenge, ChallengeOptions, create_challenge, verify_solution
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
@@ -18,7 +21,7 @@ from django.db import transaction
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
-from django.utils.translation import activate, gettext, gettext_lazy, ngettext, pgettext
+from django.utils.translation import activate, gettext, gettext_lazy, ngettext
 from django_otp.forms import OTPTokenForm as DjangoOTPTokenForm
 from django_otp.forms import otp_verification_failed
 from django_otp.oath import totp
@@ -26,7 +29,6 @@ from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 
 from weblate.accounts.auth import try_get_user
-from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.models import AuditLog, Profile
 from weblate.accounts.notifications import NOTIFICATIONS, NotificationScope
 from weblate.accounts.utils import (
@@ -400,8 +402,31 @@ class UserForm(forms.ModelForm):
                 )
 
 
+class CaptchaWidget(forms.HiddenInput):
+    challenge: Challenge | None = None
+
+    def render(self, name, value, attrs=None, renderer=None, **kwargs):
+        if self.challenge is None:
+            msg = "Challenge is missing!"
+            raise ValueError(msg)
+
+        # TODO: localize strings
+        return format_html(
+            "<altcha-widget challengejson='{}' auto='onfocus'></altcha-widget>",
+            json.dumps(
+                {
+                    "algorithm": self.challenge.algorithm,
+                    "challenge": self.challenge.challenge,
+                    "maxnumber": self.challenge.maxnumber,
+                    "salt": self.challenge.salt,
+                    "signature": self.challenge.signature,
+                }
+            ),
+        )
+
+
 class CaptchaForm(forms.Form):
-    captcha = forms.IntegerField(required=True)
+    captcha = forms.IntegerField(required=False, widget=CaptchaWidget)
 
     def __init__(
         self,
@@ -412,64 +437,52 @@ class CaptchaForm(forms.Form):
         initial=None,
     ) -> None:
         super().__init__(data=data, initial=initial)
-        self.fresh = False
+        self.has_captcha = True
         self.request = request
+        self.challenge: Challenge | None = None
         if not settings.REGISTRATION_CAPTCHA or hide_captcha:
+            self.has_captcha = False
             self.fields["captcha"].widget = forms.HiddenInput()
-            self.fields["captcha"].required = False
-        elif data is None or "captcha" not in request.session:
-            self.generate_captcha()
-            self.fresh = True
-        else:
-            self.mathcaptcha = MathCaptcha.unserialize(request.session["captcha"])
-            self.set_label()
+        self.generate_challenge()
+        self.fields["captcha"].widget.challenge = self.challenge
+        if data is None:
+            self.store_challenge()
 
-    def set_label(self) -> None:
-        # Set correct label
-        self.fields["captcha"].label = format_html(
-            pgettext(
-                "Question for a mathematics-based CAPTCHA, "
-                "the %s is an arithmetic problem",
-                "What is %s?",
-            ).replace("%s", "{}"),
-            self.mathcaptcha.display,
-        )
-        if self.is_bound:
-            self["captcha"].label = cast(str, self.fields["captcha"].label)
+    def generate_challenge(self) -> Challenge:
+        challenge_options = ChallengeOptions(hmac_key=settings.SECRET_KEY)
+        self.challenge = create_challenge(challenge_options)
+        return self.challenge
 
-    def generate_captcha(self) -> None:
-        self.mathcaptcha = MathCaptcha()
-        self.request.session["captcha"] = self.mathcaptcha.serialize()
-        self.set_label()
+    def store_challenge(self):
+        self.request.session["captcha_challenge"] = self.challenge.challenge
 
     def clean_captcha(self) -> None:
         """Validate CAPTCHA."""
-        if not settings.REGISTRATION_CAPTCHA:
+        if not self.has_captcha:
             return
-        if self.fresh or not self.mathcaptcha.validate(self.cleaned_data["captcha"]):
-            self.generate_captcha()
-            rotate_token(self.request)
-            raise forms.ValidationError(
-                # Translators: Shown on wrong answer to the mathematics-based CAPTCHA
-                gettext("That was not correct, please try again.")
-            )
+        payload = self.data.get("altcha")
 
-        mail = self.cleaned_data.get("email", "NONE")
+        # Validate payload, check_expires is useless as it can be faked by the client
+        result = verify_solution(payload, settings.SECRET_KEY, check_expires=False)
+        if not result[0]:
+            LOGGER.error("Invalid altcha solution: %s", result[1:])
+            raise forms.ValidationError(gettext("Validation failed, please try again."))
 
-        LOGGER.info(
-            "Correct CAPTCHA for %s (%s = %s)",
-            mail,
-            self.mathcaptcha.question,
-            self.cleaned_data["captcha"],
-        )
+        # Manually guard against replay attacks
+        payload = json.loads(base64.b64decode(payload).decode())
+        if payload["challenge"] != self.request.session["captcha_challenge"]:
+            LOGGER.error("Outdated altcha solution")
+            raise forms.ValidationError(gettext("Validation failed, please try again."))
 
     def is_valid(self) -> bool:
         result = super().is_valid()
         self.cleanup_session()
+        if not result:
+            self.store_challenge()
         return result
 
     def cleanup_session(self) -> None:
-        self.request.session.pop("captcha", None)
+        self.request.session.pop("captcha_challenge", None)
 
 
 class ContactForm(CaptchaForm):

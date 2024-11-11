@@ -39,6 +39,7 @@ function mainLicenseTransform(packages) {
     "tributejs",
     "@tarekraafat/autocomplete.js",
     "autosize",
+    "alcha",
   ];
   return genericTransform(
     packages,
@@ -53,6 +54,9 @@ function tributeLicenseTransform(packages) {
 }
 function autosizeLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("autosize"));
+}
+function altchaLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("altcha"));
 }
 // REUSE-IgnoreStart
 function autoCompleteLicenseTransform(packages) {
@@ -81,6 +85,7 @@ module.exports = {
     tribute: "./src/tribute.js",
     autoComplete: "./src/autoComplete.js",
     autosize: "./src/autosize.js",
+    altcha: "./src/altcha.js",
   },
   mode: "production",
   optimization: {
@@ -104,6 +109,7 @@ module.exports = {
         "tribute.js.license": tributeLicenseTransform,
         "autoComplete.js.license": autoCompleteLicenseTransform,
         "autosize.js.license": autosizeLicenseTransform,
+        "altcha.js.license": altchaLicenseTransform,
       },
     }),
   ],

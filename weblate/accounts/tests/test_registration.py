@@ -4,9 +4,14 @@
 
 """Test for user handling."""
 
+from __future__ import annotations
+
+import base64
+import json
 from urllib.parse import parse_qs, urlparse
 
 import responses
+from altcha import Challenge, Solution, solve_challenge
 from django.conf import settings
 from django.core import mail
 from django.test import Client, TestCase
@@ -25,7 +30,7 @@ REGISTRATION_DATA = {
     "username": "username",
     "email": "noreply-weblate@example.org",
     "fullname": "First Last",
-    "captcha": "9999",
+    "altcha": "",
 }
 
 GH_BACKENDS = (
@@ -150,7 +155,7 @@ class RegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_CAPTCHA=True)
     def test_register_captcha_fail(self) -> None:
         response = self.do_register()
-        self.assertContains(response, "That was not correct, please try again.")
+        self.assertContains(response, "Validation failed, please try again.")
 
     @override_settings(REGISTRATION_CAPTCHA=True)
     def test_register_captcha(self) -> None:
@@ -158,7 +163,25 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.get(reverse("register"))
         form = response.context["form"]
         data = REGISTRATION_DATA.copy()
-        data["captcha"] = form.mathcaptcha.result
+        challenge: Challenge = form.challenge
+        solution: Solution = solve_challenge(
+            challenge=challenge.challenge,
+            salt=challenge.salt,
+            algorithm=challenge.algorithm,
+            max_number=challenge.maxnumber,
+            start=0,
+        )
+        data["altcha"] = base64.b64encode(
+            json.dumps(
+                {
+                    "algorithm": challenge.algorithm,
+                    "challenge": challenge.algorithm,
+                    "number": solution.number,
+                    "salt": challenge.salt,
+                    "signature": challenge.signature,
+                }
+            ).encode("utf-8")
+        ).decode("utf-8")
         response = self.do_register(data)
         self.assertContains(response, REGISTRATION_SUCCESS)
 
