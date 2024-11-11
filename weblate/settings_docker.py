@@ -1185,6 +1185,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.resx.ResxUpdateAddon",
     "weblate.addons.yaml.YAMLCustomizeAddon",
     "weblate.addons.cdn.CDNJSAddon",
+    "weblate.addons.messaging.WeblateMessagingAddon",
 ]
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
