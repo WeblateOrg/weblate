@@ -168,7 +168,6 @@ class MemoryManager(models.Manager):
                 request,
                 fileobj,
                 origin,
-                langmap,
                 source_language,
                 target_language,
                 **kwargs,
@@ -300,7 +299,6 @@ class MemoryManager(models.Manager):
         request,
         fileobj,
         origin,
-        langmap=None,
         source_language: str | None = None,
         target_language: str | None = None,
         **kwargs,
@@ -337,7 +335,7 @@ class MemoryManager(models.Manager):
                     gettext("Missing source or target language in file!")
                 )
             try:
-                return Language.objects.get_by_code(language_code, langcache, langmap)
+                return Language.objects.get_by_code(language_code, langcache)
             except Language.DoesNotExist as error:
                 raise MemoryImportError(
                     gettext("Could not find language %s!") % language_code

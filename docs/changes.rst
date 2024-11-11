@@ -5,6 +5,8 @@ Not yet released.
 
 **New features**
 
+* Translation memory import now supports more file formats beyond TMX and JSON.
+
 **Improvements**
 
 * A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate Component`)
