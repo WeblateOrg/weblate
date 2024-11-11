@@ -156,7 +156,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_register_captcha(self) -> None:
         """Test registration with captcha enabled."""
         response = self.client.get(reverse("register"))
-        form = response.context["captcha_form"]
+        form = response.context["form"]
         data = REGISTRATION_DATA.copy()
         data["captcha"] = form.mathcaptcha.result
         response = self.do_register(data)
