@@ -325,24 +325,24 @@ class MemoryManager(models.Manager):
                 gettext("Monolingual format not supported for memory upload")
             )
 
-        def get_language(
-            language_code: str | None, alt_language_code: str | None
-        ) -> Language:
+        def get_language(language: Language | str | None) -> Language:
             """Get a language object based on the given code."""
-            language_code = language_code or alt_language_code
-            if not language_code:
+            if isinstance(language, Language):
+                return language
+
+            if not language:
                 raise MemoryImportError(
                     gettext("Missing source or target language in file!")
                 )
             try:
-                return Language.objects.get_by_code(language_code, langcache)
+                return Language.objects.get_by_code(language, langcache)
             except Language.DoesNotExist as error:
                 raise MemoryImportError(
-                    gettext("Could not find language %s!") % language_code
+                    gettext("Could not find language %s!") % language
                 ) from error
 
-        source_language = get_language(storage.source_language, source_language)
-        target_language = get_language(storage.language_code, target_language)
+        source_language = get_language(storage.source_language or source_language)
+        target_language = get_language(storage.language_code or target_language)
 
         count = 0
         for unit in storage.all_units:
