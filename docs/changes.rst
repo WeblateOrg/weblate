@@ -34,6 +34,7 @@ Not yet released.
 
 * Fixed occasional crash in :ref:`rss`.
 * :ref:`check-icu-message-format` gracefully handles plural strings.
+* :ref:`vcs-bitbucket-cloud` correctly generates pull request description.
 
 **Upgrading**
 
