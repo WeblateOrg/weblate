@@ -241,7 +241,7 @@ Google Cloud Translation Advanced
                 +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
                 | ``location``    | Google Translate location             | Choose a Google Cloud Translation region that is used for the Google Cloud project or is closest to you. |
                 +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
-                | ``bucket_name`` | Google Storage Bucket name            | Enter the name of the Google Cloud Storage bucket.                                                       |
+                | ``bucket_name`` | Google Storage Bucket name            | Enter the name of the Google Cloud Storage bucket that is used to store the Glossary files.              |
                 +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
 
 Machine translation service provided by the Google Cloud services.

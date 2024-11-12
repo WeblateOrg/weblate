@@ -221,7 +221,7 @@ class GoogleV3MachineryForm(BaseMachineryForm):
         ),
         help_text=pgettext_lazy(
             "Google Cloud Translation configuration",
-            "Enter the name of the Google Cloud Storage bucket.",
+            "Enter the name of the Google Cloud Storage bucket that is used to store the Glossary files.",
         ),
         required=False,
     )
