@@ -371,13 +371,10 @@ class MemoryViewTest(FixtureTestCase):
 
         # Test upload a file that requires source and target languages
         response = self.upload_file("ids-translated.xliff", **kwargs)
-        if fail:
-            self.assertContains(response, "Permission Denied", status_code=403)
-        else:
-            self.assertContains(
-                response,
-                "Source language and target language must be specified for this file format",
-            )
+        self.assertContains(
+            response,
+            "Source language and target language must be specified for this file format",
+        )
 
         en = Language.objects.get(code="en")
         cs = Language.objects.get(code="cs")
