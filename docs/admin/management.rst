@@ -342,10 +342,12 @@ Example of JSON file:
 
     :wladmin:`import_memory`
 
+
 import_memory
 -------------
 
 .. weblate-admin:: import_memory <file>
+
 Imports a file into the Weblate translation memory.
 
 Specifying a source and a target languages might be necessary
