@@ -30,6 +30,10 @@ Weblate 5.8.4
 
 Not yet released.
 
+**Improvements**
+
+* :ref:`search-users` can search based on user changes.
+
 **Bug fixes**
 
 * Fixed occasional crash in :ref:`rss`.

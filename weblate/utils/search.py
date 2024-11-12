@@ -297,6 +297,9 @@ class BaseTermExpr:
         except KeyError:
             return Change.ACTION_STRINGS[text]
 
+    def convert_change_time(self, text: str) -> datetime | tuple[datetime, datetime]:
+        return self.convert_datetime(text)
+
     def field_name(self, field: str, suffix: str | None = None) -> str:
         if suffix is None:
             suffix = OPERATOR_MAP[self.operator]
@@ -541,9 +544,6 @@ class UnitTermExpr(BaseTermExpr):
         msg = f"Unsupported path lookup: {obj}"
         raise TypeError(msg)
 
-    def convert_change_time(self, text: str) -> datetime | tuple[datetime, datetime]:
-        return self.convert_datetime(text)
-
     def convert_changed(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
 
@@ -596,6 +596,8 @@ class UserTermExpr(BaseTermExpr):
     PLAIN_FIELDS: set[str] = {"username", "full_name"}
     NONTEXT_FIELDS: dict[str, str] = {
         "joined": "date_joined",
+        "change_time": "change__timestamp",
+        "change_action": "change__action",
     }
     EXACT_FIELD_MAP: dict[str, str] = {
         "language": "profile__languages__code",
