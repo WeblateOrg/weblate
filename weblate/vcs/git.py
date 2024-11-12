@@ -2280,7 +2280,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
 
         payload = {
             "title": title,
-            "description": {"raw": description},
+            "description": description,
             "source": {
                 "branch": {"name": fork_branch},
                 "repository": {"type": "repository", "name": fork_remote},
