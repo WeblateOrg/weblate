@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 09:40+0100\n"
-"PO-Revision-Date: 2024-11-11 20:15+0000\n"
+"PO-Revision-Date: 2024-11-12 14:07+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -38760,7 +38760,7 @@ msgstr "Gebeurtenisafhandeling voordat nieuwe eenheid wordt gemaakt."
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.user:1
 msgid "Weblate user used to track changes by this add-on."
-msgstr ""
+msgstr "Gebruiker van Weblate hield met deze add-on wijzigingen bij."
 
 #: ../../contributing/addons.rst:15
 msgid "ORM object for an add-on."
@@ -38780,11 +38780,11 @@ msgstr "ORM-object voor een project."
 
 #: ../../contributing/addons.rst:33
 msgid "ORM object for an unit."
-msgstr ""
+msgstr "ORM-object voor een eenheid."
 
 #: ../../contributing/addons.rst:37
 msgid "ORM object for an user."
-msgstr ""
+msgstr "ORM-object voor een gebruiker."
 
 #: ../../contributing/addons.rst:41
 msgid "Translation file wrapper."
@@ -38796,7 +38796,7 @@ msgstr "Hier is een voorbeeld add-on:"
 
 #: ../../contributing/code.rst:2
 msgid "Weblate source code"
-msgstr ""
+msgstr "Weblate broncode"
 
 #: ../../contributing/code.rst:4
 msgid ""
@@ -38804,54 +38804,71 @@ msgid ""
 "You are welcome to fork the code and open pull requests. Patches in any "
 "other form are welcome too."
 msgstr ""
+"Weblate wordt ontwikkeld op `GitHub <https://github.com/WeblateOrg/weblate>`"
+"_. U bent van harte uitgenodigd de code te forken en pull requests te "
+"openen. Patches, in welke vorm dan ook, zijn ook van harte welkom."
 
 #: ../../contributing/code.rst:10
 msgid "Check out :ref:`internals` to see how Weblate looks from inside."
-msgstr ""
+msgstr "Bekijk :ref:`internals` om te zien hoe Weblate er van binnen uitziet."
 
 #: ../../contributing/snippets/code-guide.rst:2
 msgid "Coding guidelines"
-msgstr ""
+msgstr "Richtlijnen voor coderen"
 
 #: ../../contributing/snippets/code-guide.rst:4
 msgid ""
 "Any code for Weblate should be written with `Security by Design Principles`_ "
 "in mind."
 msgstr ""
+"Alle code voor Weblate zou moeten zijn geschreven met `Security by Design "
+"Principles`_ in gedachte."
 
 #: ../../contributing/snippets/code-guide.rst:9
 msgid ""
 "Any code should come with documentation explaining the behavior. Don't "
 "forget documenting methods, complex code blocks, or user visible features."
 msgstr ""
+"Alle code zou vergezeld moeten gaan van documentatie die het gedrag uitlegt. "
+"Vergeet niet methoden, complexe codeblokken, of zichtbare mogelijkheden voor "
+"gebruikers te documenteren."
 
 #: ../../contributing/snippets/code-guide.rst:12
 msgid ""
 "Any new code should utilize :pep:`484` type hints. We're not checking this "
 "in our CI yet as existing code does not yet include them."
 msgstr ""
+"Alle nieuwe code zou hints van het type :pep:`484` moeten gebruiken. We "
+"controleren dit nog niet in onze CI, omdat de bestaande code ze nog niet "
+"bevat."
 
 #: ../../contributing/snippets/code-guide.rst:15
 msgid ""
 "Git commits should follow `Conventional Commits <https://www."
 "conventionalcommits.org/>`_ specification."
 msgstr ""
+"Commits voor Git zouden de specificatie `Conventionele commits <https://www."
+"conventionalcommits.org/nl/v1.0.0/>`_ moeten volgen."
 
 #: ../../contributing/snippets/pre-commit.rst:2
 msgid "Coding standard and linting the code"
-msgstr ""
+msgstr "Standaard voor coderen en linten van de code"
 
 #: ../../contributing/snippets/pre-commit.rst:4
 msgid ""
 "The code should follow PEP-8 coding guidelines and should be formatted "
 "using :program:`ruff` code formatter."
 msgstr ""
+"De code zou de richtlijnen voor coderen PEP-8 moeten volgen en zou moeten "
+"zijn opgemaakt met de codeopmaker :program:`ruff`."
 
 #: ../../contributing/snippets/pre-commit.rst:7
 msgid ""
 "To check the code quality, you can use :program:`ruff`, its configuration is "
 "stored in :file:`pyproject.toml`."
 msgstr ""
+"Voor het controleren van de kwaliteit van de code kunt u :program:`ruff` "
+"gebruiken, de configuratie ervan is opgeslagen in :file:`pyproject.toml`."
 
 #: ../../contributing/snippets/pre-commit.rst:10
 msgid ""
@@ -38861,14 +38878,22 @@ msgid ""
 "toml`) turn it on by running ``pre-commit install`` in Weblate checkout. "
 "This way all your changes will be automatically checked."
 msgstr ""
+"De gemakkelijkste benadering om dit alles af te dwingen is om `pre-commit`_ "
+"te installeren. De opslagruimte bevat de configuratie ervoor om te "
+"verifiëren of de ingediende bestanden gezond zijn. Na het installeren ervan ("
+"het is al opgenomen in de :file:`pyproject.toml`), schakel het in door ``pre-"
+"commit install`` uit te voeren in de checkout van Weblate. Op deze manier "
+"zullen al uw wijzigingen automatisch worden gecontroleerd."
 
 #: ../../contributing/snippets/pre-commit.rst:16
 msgid "You can also trigger check manually, to check all files run:"
 msgstr ""
+"U kunt de controle ook handmatig activeren, uitvoeren van controle op alle "
+"bestanden:"
 
 #: ../../contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
-msgstr ""
+msgstr "Weblate richtlijnen voor communicatie met deelnemer"
 
 #: ../../contributing/communication.rst:5
 msgid "GitHub Issues"
@@ -38882,6 +38907,13 @@ msgid ""
 "implementation process; it also guides to other places with information like "
 "documentation, Discussions, HackerOne program, and Weblate Care."
 msgstr ""
+"`GitHub Issues <https://github.com/WeblateOrg/weblate/issues>`_ is waar "
+"problemen kunnen worden gerapporteerd, en mogelijkheden kunnen worden "
+"aangevraagd. Indien van het formulier voor problemen verschaft sjablonen "
+"voor elk ervan om het maken van een issue te vereenvoudigen, als ook het "
+"beoordelen en implementatieproces; het leidt ook naar andere plaatsen met "
+"informatie, zoals documentatie, Discussions, HackerOne programma en Weblate "
+"Care."
 
 #: ../../contributing/communication.rst:11
 msgid "Weblate GitHub Discussions"
@@ -38895,6 +38927,12 @@ msgid ""
 "defined categories. Weblate team members occasionally visit Discussions and "
 "can also be mentioned by their GitHub usernames."
 msgstr ""
+"`GitHub Discussions <https://github.com/WeblateOrg/weblate/discussions>`_ is "
+"een plaats voor de gemeenschap. De categorieën Ideeën, Poll's, V&A en Show "
+"en Tell kunnen worden geselecteerd bij het posten daar. In de categorie "
+"General passen alle posten buiten deze gedefinieerde categorieën. Teamleden "
+"van Weblate bezoeken regelmatig Discussions en kunnen ook worden vermeld met "
+"hun gebruikersnamen van GitHub."
 
 #: ../../contributing/communication.rst:18
 msgid "Weblate on Mastodon"
@@ -38907,10 +38945,14 @@ msgid ""
 "<https://fosstodon.org/@weblate>`_ on Mastodon. The Weblate team boosts good "
 "moods and bright ideas!"
 msgstr ""
+"Als u een brede gemeenschap van gebruikers, fans en ontwikkelaars van "
+"Weblate wilt bereiken voor uw zaak, kunt u `@weblate@fosstodon.org "
+"<https://fosstodon.org/@weblate>`_ volgen en vermelden op Mastodon. Het team "
+"van Weblate is dol op goed gehumeurden en heldere ideeën!"
 
 #: ../../contributing/communication.rst:22
 msgid "Libera.Chat"
-msgstr ""
+msgstr "Libera.Chat"
 
 #: ../../contributing/communication.rst:23
 msgid ""
@@ -38924,10 +38966,20 @@ msgid ""
 "the chat by specifying a nickname or as a guest by default. Weblate team "
 "members do not visit here."
 msgstr ""
+"`Libera.Chat <https://web.libera.chat/#weblate>`_ is een IRC-netwerk voor "
+"projecten van FOSS. Het kan worden gebruikt om informeel basale vragen te "
+"stellen of conversaties te beginnen met de gemeenschap daar. Aan dit "
+"platform kan worden gedacht als soortgelijk aan het in persoon communiceren, "
+"waar alleen de mensen die momenteel in de kamer (kanaal) zijn, "
+"waarschijnlijk zullen reageren op uw bericht. Deze plaats kan worden "
+"gebruikt als het posten op GitHub Discussions of GitHub Issues niet wordt "
+"geadviseerd, zoals in de rechtlijnen hierboven. Een account is niet vereist; "
+"gebruikers kunnen in de chat komen door een schuilnaam te specificeren of "
+"als een standaard gast. Teamleden van Weblate komen hier niet."
 
 #: ../../contributing/debugging.rst:2
 msgid "Debugging Weblate"
-msgstr ""
+msgstr "Weblate debuggen"
 
 #: ../../contributing/debugging.rst:4
 msgid ""
@@ -38935,6 +38987,10 @@ msgid ""
 "welcome to collect info on any such issue and submit it to the `issue "
 "tracker <https://github.com/WeblateOrg/weblate/issues>`_."
 msgstr ""
+"Bugs kunnen zich gedragen als een crash van de toepassing of als zich op "
+"verschillende manieren misdragen. U wordt uitgenodigd om informatie over elk "
+"dergelijk probleem te verzamelen en het in te dienen bij het `volgsysteem "
+"voor problemen <https://github.com/WeblateOrg/weblate/issues>`_."
 
 #: ../../contributing/debugging.rst:9
 msgid "Debug mode"
@@ -38947,6 +39003,10 @@ msgid ""
 "production environment because it has performance consequences and might "
 "leak private data."
 msgstr ""
+"Inschakelen van de modus Debuggen zal de uitzonderingen weergeven in de "
+"webbrowser. Dat is nuttig om problemen te debuggen in de webinterface, maar "
+"is niet geschikt voor een productieomgeving, omdat het consequenties voor de "
+"prestaties heeft en persoonlijke gegevens kan lekken."
 
 #: ../../contributing/debugging.rst:15
 msgid ""
@@ -38954,15 +39014,19 @@ msgid ""
 "containing error reports, or configure error collection using a third-party "
 "service."
 msgstr ""
+"Gebruik, in een productieomgeving, :setting:`ADMINS` om e-mails te ontvangen "
+"die foutberichten bevatten, of configureer het verzamelen van fouten met een "
+"service van een derde partij."
 
 #: ../../contributing/debugging.rst:20
 msgid ""
 ":ref:`production-debug`, :ref:`production-admins`, :ref:`collecting-errors`"
 msgstr ""
+":ref:`production-debug`, :ref:`production-admins`, :ref:`collecting-errors`"
 
 #: ../../contributing/debugging.rst:27
 msgid "Weblate logs"
-msgstr ""
+msgstr "Logs van Weblate"
 
 #: ../../contributing/debugging.rst:29
 msgid ""
@@ -38971,6 +39035,10 @@ msgid ""
 "either in :file:`/var/log/messages` or :file:`/var/log/syslog` (depending on "
 "your syslog daemon configuration)."
 msgstr ""
+"Weblate kan gedetailleerde logs produceren over wat er op de achtergrond "
+"gebeurt. In de standaard configuratie gebruikt het syslog en dat laat het "
+"log verschijnen in ofwel :file:`/var/log/messages` of :file:`/var/log/syslog`"
+" (afhankelijk van de configuratie van uw syslog daemon)."
 
 #: ../../contributing/debugging.rst:34
 msgid ""
@@ -38978,6 +39046,9 @@ msgid ""
 "well. The example system-wide setups logs to several files under :file:`/var/"
 "log/celery/`."
 msgstr ""
+"Het proces van Celery (bekijk :ref:`celery`) produceert gewoonlijk ook zijn "
+"eigen logs. De systeembrede voorbeeldopstellingen loggen naar de "
+"verscheidene bestanden onder :file:`/var/log/celery/`."
 
 #: ../../contributing/debugging.rst:37
 msgid ""
@@ -38985,15 +39056,20 @@ msgid ""
 "you can look at the logs using ``docker compose logs``. You can get more "
 "detailed logs by changing :envvar:`WEBLATE_LOGLEVEL`."
 msgstr ""
+"Docker containers loggen naar hun uitvoer (zoals gebruikelijk is in de "
+"wereld van Docker), dus u kunt de logs bekijken met ``docker compose logs``. "
+"U kunt meer gedetailleerde logs verkrijgen door :envvar:`WEBLATE_LOGLEVEL` "
+"te wijzigen."
 
 #: ../../contributing/debugging.rst:43
 msgid ""
 ":ref:`sample-configuration` contains :setting:`django:LOGGING` configuration."
 msgstr ""
+":ref:`sample-configuration` bevat :setting:`django:LOGGING` configuratie."
 
 #: ../../contributing/debugging.rst:48
 msgid "Not processing background tasks"
-msgstr ""
+msgstr "Niet verwerken van taken op de achtergrond"
 
 #: ../../contributing/debugging.rst:50
 msgid ""
@@ -39001,6 +39077,9 @@ msgid ""
 "sending out e-mails or component removal does not work, there might a "
 "related issue."
 msgstr ""
+"Veel dingen worden op de achtergrond uitgevoerd door werkers van Celery. Als "
+"dingen zoals het versturen van e-mails of het verwijderen van ene onderdeel "
+"niet werken, zou er een gerelateerd probleem kunnen zijn."
 
 #: ../../contributing/debugging.rst:54
 msgid "Things to check in that case:"
@@ -39009,20 +39088,23 @@ msgstr "Dingen om in dat geval te controleren:"
 #: ../../contributing/debugging.rst:56
 msgid "Check that the Celery process is running, see :ref:`celery`"
 msgstr ""
+"Controleer of het proces van Celery wordt uitgevoerd, bekijk :ref:`celery`"
 
 #: ../../contributing/debugging.rst:57
 msgid ""
 "Check the Celery queue status, either in :ref:`management-interface`, or "
 "using :wladmin:`celery_queues`"
 msgstr ""
+"Controleer de status van de wachtrij van Celery, ofwel in :ref:`management-"
+"interface`, of gebruik :wladmin:`celery_queues`"
 
 #: ../../contributing/debugging.rst:58
 msgid "Look in the Celery logs for errors (see :ref:`weblate-logs`)"
-msgstr ""
+msgstr "Zoek naar fouten in de logs van Celery (bekijk :ref:`weblate-logs`)"
 
 #: ../../contributing/debugging.rst:63
 msgid "Not receiving e-mails from Weblate"
-msgstr ""
+msgstr "Geen e-mails ontvangen van Weblate"
 
 #: ../../contributing/debugging.rst:65
 msgid ""
@@ -39043,10 +39125,14 @@ msgid ""
 "however sent in the background and there might be some issues with Celery "
 "involved as well, please see :ref:`debug-tasks` for debugging that."
 msgstr ""
+"Deze verzenden e-mails direct, verifieer dus dat uw configuratie van SMTP "
+"correct is (bekijk :ref:`out-mail`). De meeste e-mails van Weblate worden "
+"echter op de achtergrond verzonden en er zouden ook problemen met Celery "
+"betrokken kunnen zijn, bekijk :ref:`debug-tasks` voor het debuggen daarvan."
 
 #: ../../contributing/debugging.rst:76
 msgid "Analyzing application crashes"
-msgstr ""
+msgstr "Analyseren van crashes van de toepassing"
 
 #: ../../contributing/debugging.rst:78
 msgid ""
@@ -39055,10 +39141,15 @@ msgid ""
 "which can collect such info automatically. You can find info on how to set "
 "this up in :ref:`collecting-errors`."
 msgstr ""
+"In het geval de toepassing crasht, is het nuttig zoveel mogelijk informatie "
+"over de crash te verzamelen als mogelijk is. Dat kan worden bereikt door "
+"services van derde partijen te gebruiken die dergelijke informatie "
+"automatisch kunnen verzamelen. U kunt informatie over het instellen hiervan "
+"terugvinden in :ref:`collecting-errors`."
 
 #: ../../contributing/debugging.rst:84
 msgid "Silent failures"
-msgstr ""
+msgstr "Stille mislukkingen"
 
 #: ../../contributing/debugging.rst:86
 msgid ""
@@ -39067,10 +39158,14 @@ msgid ""
 "Configuring :ref:`collecting-errors` helps you to notice such failures "
 "easier."
 msgstr ""
+"Veel taken worden uitbesteed aan Celery voor verwerken op de achtergrond. "
+"Mislukkingen worden niet weergegeven in de gebruikersinterface, maar "
+"verschijnen in de logs van Celery. Configureren van :ref:`collecting-errors` "
+"helpt u dergelijke mislukkingen gemakkelijker op te merken."
 
 #: ../../contributing/debugging.rst:91
 msgid "Performance issues"
-msgstr ""
+msgstr "Problemen met prestaties"
 
 #: ../../contributing/debugging.rst:93
 msgid ""
@@ -39078,6 +39173,9 @@ msgid ""
 "logs showing the issue, and anything that might help figuring out where the "
 "code might be improved."
 msgstr ""
+"In het geval Weblate zich slechts gedraagt in bepaalde scenario's, verzamel "
+"dan de relevante logs die het probleem weergeven en alles wat zou kunnen "
+"helpen vast te stellen waar de code misschien zou kunnen worden verbeterd."
 
 #: ../../contributing/debugging.rst:97
 msgid ""
@@ -39086,6 +39184,11 @@ msgid ""
 "`collecting-errors` and get pinpointed and detailed tracebacks in the error "
 "collection tool."
 msgstr ""
+"In het geval sommige verzoeken te lang duren zonder enige indicatie, zou u "
+"misschien `dogslow <https://pypi.org/project/dogslow/>`_ willen installeren, "
+"naast :ref:`collecting-errors` en gewezen worden op de precieze plek en "
+"gedetailleerde tracebacks krijgen in het programma voor het verzamelen van "
+"fouten."
 
 #: ../../contributing/debugging.rst:102
 msgid ""
@@ -39093,16 +39196,21 @@ msgid ""
 "logging of all database queries using following configuration after "
 "enabling :setting:`DEBUG`:"
 msgstr ""
+"In het geval de trage prestaties zijn gekoppeld aan de database, kunt u ook "
+"het loggen van alle databasequery's inschakelen met de volgende configuratie "
+"na het inschakelen van :setting:`DEBUG`:"
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
-msgstr ""
+msgstr "Voorzijde van Weblate"
 
 #: ../../contributing/frontend.rst:4
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third party "
 "libraries."
 msgstr ""
+"De voorkant wordt momenteel gebouwd met Bootstrap, jQuery en enkele "
+"bibliotheken van derde partijen."
 
 #: ../../contributing/frontend.rst:7
 msgid "Supported browsers"
@@ -39113,6 +39221,8 @@ msgid ""
 "Weblate supports the latest, stable releases of all major browsers and "
 "platforms."
 msgstr ""
+"Weblate ondersteunt de laatste, stabiele uitgaven van alle belangrijke "
+"browsers en platforms."
 
 #: ../../contributing/frontend.rst:12
 msgid ""
@@ -39121,14 +39231,20 @@ msgid ""
 "explicitly supported. However, Weblate should (in most cases) display and "
 "function correctly in these browsers as well."
 msgstr ""
+"Alternatieve browsers die de laatste versies gebruiken van WebKit, Blink of "
+"Gecko, ofwel direct of via de API voor de webweergave van het platform, "
+"worden niet expliciet ondersteund. Weblate zou echter (in de meeste gevallen)"
+" ook met deze browsers correct weer moeten geven en functioneren."
 
 #: ../../contributing/frontend.rst:17
 msgid "Older browsers might work, but some features might be limited."
 msgstr ""
+"Oudere browsers zouden kunnen werken, maar sommige mogelijkheden zouden "
+"beperkt kunnen zijn."
 
 #: ../../contributing/frontend.rst:20
 msgid "Dependency management"
-msgstr ""
+msgstr "Beheren van afhankelijkheden"
 
 #: ../../contributing/frontend.rst:21
 msgid ""
@@ -39137,36 +39253,45 @@ msgid ""
 "how to install and manage 3rd party libraries used by the `client side` of "
 "Weblate using `Webpack`."
 msgstr ""
+"Installeren en beheren van bibliotheken van `3rd party` in de `client` van "
+"een project van Django kan een beetje moeilijk zijn. Dit gedeelte verschaft "
+"een stap-voor-stap gids over hoe bibliotheken van 3e partijen te installeren "
+"en beheren die worden gebruikt door de `client side` van Weblate met "
+"`Webpack`."
 
 #: ../../contributing/frontend.rst:26
 msgid "Prerequisites"
-msgstr ""
+msgstr "Vooraf vereisten"
 
 #: ../../contributing/frontend.rst:28
 msgid ""
 "Before proceeding with an installation, make sure you have the following "
 "prerequisites:"
 msgstr ""
+"Voor het verrichten van het installeren, zorg ervoor dat u de volgende "
+"vooraf vereisten hebt:"
 
 #: ../../contributing/frontend.rst:30
 msgid "``Nodejs`` version 14 or higher."
-msgstr ""
+msgstr "``Nodejs`` versie 14 of hoger."
 
 #: ../../contributing/frontend.rst:31
 msgid "The ``yarn`` package manager installed on your system."
-msgstr ""
+msgstr "De ``yarn`` pakketbeheerder, geïnstalleerd op uw systeem."
 
 #: ../../contributing/frontend.rst:32
 msgid "Run ``cd client``."
-msgstr ""
+msgstr "Voer ``cd client`` uit."
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``yarn install``"
-msgstr ""
+msgstr "Voer ``yarn install`` uit"
 
 #: ../../contributing/frontend.rst:38
 msgid "To install a library, 1st run the following command:"
 msgstr ""
+"Voer eerst de volgende opdracht uit, voordat een bibliotheek wordt "
+"geïnstalleerd:"
 
 #: ../../contributing/frontend.rst:45
 msgid "Importing the Library"
@@ -39174,63 +39299,79 @@ msgstr "Bibliotheek importeren"
 
 #: ../../contributing/frontend.rst:47
 msgid "Then, there are two ways to import the library:"
-msgstr ""
+msgstr "Dan zijn er twee manieren om de bibliotheek te importeren:"
 
 #: ../../contributing/frontend.rst:49
 msgid "If it is a project-wide library (it is used/needed in all/most pages):"
 msgstr ""
+"Als het een projectbrede bibliotheek is (het wordt gebruikt/is nodig in alle/"
+"de meeste pagina's):"
 
 #: ../../contributing/frontend.rst:50
 msgid "Import the library in ``src/main.js``."
-msgstr ""
+msgstr "Importeer de bibliotheek in ``src/main.js``."
 
 #: ../../contributing/frontend.rst:51
 msgid "And declare it in the global scope (if needed)."
-msgstr ""
+msgstr "En declareer het in het globale bereik (indien nodig)."
 
 #: ../../contributing/frontend.rst:53
 msgid ""
 "If it is page-specific library (library is used in a specific page or "
 "template):"
 msgstr ""
+"Als het een pagina-specifieke bibliotheek is (bibliotheek die wordt gebruikt "
+"op een specifieke pagina of sjabloon):"
 
 #: ../../contributing/frontend.rst:54
 msgid "Create a new file named ``src/<lib-name>.js``."
-msgstr ""
+msgstr "Maak een nieuw bestand, genaamd ``src/<lib-name>.js``."
 
 #: ../../contributing/frontend.rst:55
 msgid ""
 "Import the library in it. Then inject it into the ``window`` object to be "
 "globally accessible."
 msgstr ""
+"Importeer de bibliotheek daarin. Injecteer het dan in het object ``window`` "
+"om het globaal toegankelijk te maken."
 
 #: ../../contributing/frontend.rst:56
 msgid ""
 "Add an entry in ``webpack.config.js``: ``<lib-name>: \"src/<lib-name>.js\"``."
 msgstr ""
+"Voeg een item in ``webpack.config.js`` in: ``<lib-name>: \"src/<lib-name>."
+"js\"``."
 
 #: ../../contributing/frontend.rst:58
 msgid ""
 "Add library name in ``excludePrefixes`` array in ``mainLicenseTransform`` in "
 "``webpack.config.js``."
 msgstr ""
+"Voeg de naam van de bibliotheek in de array ``excludePrefixes`` in "
+"``mainLicenseTransform`` van ``webpack.config.js`` in."
 
 #: ../../contributing/frontend.rst:59
 msgid ""
 "Add license file name in ``additionalFiles`` in ``LicensePlugin`` in "
 "``plugins`` array in ``webpack.config.js``."
 msgstr ""
+"Voeg de bestandsnaam voor de licentie in ``additionalFiles`` in "
+"``LicensePlugin`` van de array ``plugins`` in ``webpack.config.js``."
 
 #: ../../contributing/frontend.rst:60
 msgid ""
 "Create a ``<lib-name>LicenseTransfrom`` function for the license file "
 "introduced in the previous steps and use it."
 msgstr ""
+"Maak een functie ``<lib-name>LicenseTransfrom`` voor het licentiebestand, "
+"dat in de vorige stappen werd geïntroduceerd, en gebruik die."
 
 #: ../../contributing/frontend.rst:62
 msgid ""
 "Note: Replace ``<lib-name>`` with the actual name of the 3rd party library."
 msgstr ""
+"Opmerking: Vervang ``<lib-name>`` door de feitelijke naam van de bibliotheek "
+"van de 3e partij."
 
 #: ../../contributing/frontend.rst:65
 msgid "Building the Library"
@@ -39240,21 +39381,27 @@ msgstr "Bibliotheek bouwen"
 msgid ""
 "Build the libraries used by the project, by running the following command:"
 msgstr ""
+"Bouw de door het project te gebruiken bibliotheken, door de volgende "
+"opdracht uit te voeren:"
 
 #: ../../contributing/frontend.rst:74
 msgid "Including the Library"
-msgstr "Inclusief de bibliotheek"
+msgstr "De bibliotheek opnemen"
 
 #: ../../contributing/frontend.rst:76
 msgid ""
 "Now the library is built and ready for use. To include it follow these steps:"
 msgstr ""
+"Nu is de bibliotheek gebouwd en klaar om te gebruiken. Volg deze stappen om "
+"hem op te nemen:"
 
 #: ../../contributing/frontend.rst:78
 msgid ""
 "If the library was imported in ``src/main.js``, no further steps are "
 "required (as it is already included in ``base.html``)."
 msgstr ""
+"Als de bibliotheek werd geïmporteerd in ``src/main.js``, zijn geen verdere "
+"stappen nodig (omdat het al is opgenomen in ``base.html``)."
 
 #: ../../contributing/frontend.rst:80
 msgid ""
@@ -39262,16 +39409,21 @@ msgid ""
 "``weblate/templates`` use the include tags to link to the built static "
 "JavaScript file:"
 msgstr ""
+"Als de bibliotheek werd geïmporteerd in zijn specifieke bestand ``src/<lib-"
+"name>.js``, in ``weblate/templates`` gebruik de tags include om te koppelen "
+"aan het gebouwde statische bestand voor JavaScript:"
 
 #: ../../contributing/frontend.rst:88
 msgid "Coding style"
-msgstr ""
+msgstr "Opmaak codering"
 
 #: ../../contributing/frontend.rst:90
 msgid ""
 "Weblate relies on `Biome`_ for formatting and linting the JavaScript and CSS "
 "code."
 msgstr ""
+"Weblate vertrouwt op `Biome`_ voor opmaken en linten van de code voor "
+"JavaScript en CSS."
 
 #: ../../contributing/frontend.rst:96
 msgid "Localization"
@@ -39283,22 +39435,31 @@ msgid ""
 "localizable. In most cases all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
+"Zou u voor de gebruiker benodigde tekst zichtbaar moeten hebben in de code "
+"voor de voorkant, zou het te vertalen moeten zijn. In de meeste gevallen is "
+"alles wat u hoeft te doen, is uw tekst in te pakken binnen de functie "
+"``gettext``, maar er zijn meer complexe mogelijkheden beschikbaar:"
 
 #: ../../contributing/frontend.rst:117
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 msgstr ""
+":doc:`Onderwerp Vertalen in de documentatie van Django <django:topics/i18n/"
+"translation>`"
 
 #: ../../contributing/frontend.rst:120
 msgid "Icons"
-msgstr ""
+msgstr "Pictogrammen"
 
 #: ../../contributing/frontend.rst:122
 msgid ""
 "Weblate currently uses material design icons. In case you are looking for "
 "new symbol, check `Material Design Icons`_ or `Material Design Resources`_."
 msgstr ""
+"Weblate gebruikte momenteel pictogrammen van Material Design. In het geval u "
+"zoekt naar een nieuw symbool, bekijk `Material Design Icons`_ of `Material "
+"Design Resources`_."
 
 #: ../../contributing/frontend.rst:125
 msgid ""
@@ -39306,10 +39467,13 @@ msgid ""
 "SVG as most of the icons are embedded inside the HTML to allow styling of "
 "the paths."
 msgstr ""
+"Aanvullend is er :file:`scripts/optimize-svg` om de grootte van de SVG te "
+"verkleinen, omdat de meeste pictogrammen zijn ingebed in de HTML om het "
+"opmaken van de paden mogelijk te maken."
 
 #: ../../contributing/index.rst:4
 msgid "Contributing to Weblate"
-msgstr ""
+msgstr "Bijdragen aan Weblate"
 
 #: ../../contributing/index.rst:7
 msgid ""
@@ -39317,6 +39481,9 @@ msgid ""
 "comfortable with, be it coding, graphics design, documentation, sponsorship, "
 "or an idea:"
 msgstr ""
+"Er zijn tientallen manieren om Weblate te verbeteren. U kunt die kiezen "
+"waarbij u zich het prettigste voelt, of dat nu coderen is, ontwerpen van "
+"afbeeldingen, documentatie, sponsor zijn, of een idee:"
 
 #: ../../contributing/index.rst:10
 msgid ":doc:`issues`"
@@ -39352,7 +39519,7 @@ msgstr ":doc:`communication`"
 
 #: ../../contributing/index.rst:22
 msgid "Translating Weblate"
-msgstr ""
+msgstr "Weblate vertalen"
 
 #: ../../contributing/index.rst:24
 msgid ""
@@ -39361,6 +39528,10 @@ msgid ""
 "Weblate available in as many human languages as possible. It brings Weblate "
 "closer to its users!"
 msgstr ""
+"Weblate wordt doorlopend `vertaald <https://hosted.weblate.org/>`_ met "
+"Weblate zelf. U kunt deelnemen aan de pogingen van het beschikbaar maken van "
+"Weblate in zoveel mogelijk menselijke talen als maar mogelijk is. Het brengt "
+"Weblate dichter bij zijn gebruikers!"
 
 #: ../../contributing/index.rst:28
 msgid ""
@@ -39369,6 +39540,11 @@ msgid ""
 "If you’re certain, you can also click on the link in the :guilabel:`Source "
 "string location` section and submit a PR with your correction."
 msgstr ""
+"Als u een mogelijke fout in de brontekenreeks vindt, kunt u die markeren met "
+"een opmerking in de bewerker van Weblate. Op die manier kan hij worden "
+"besproken en gecorrigeerd. Als u er zeker van bent kunt u ook op de "
+"koppeling klikken in het gedeelte :guilabel:`Locatie van brontekenreeks` en "
+"een PR indienen met uw correctie."
 
 #: ../../contributing/index.rst:35
 msgid "Contribute to Weblate documentation"
@@ -39380,20 +39556,26 @@ msgid ""
 "easily by clicking the :guilabel:`Edit on GitHub` button in the top-right "
 "corner of the page."
 msgstr ""
+"U bent van harte uitgenodigd om elke door u gekozen pagina van de "
+"documentatie verbeteren. Doe dat gemakkelijk door te klikken op de knop "
+":guilabel:`Edit this page` in de rechterbovenhoek van de pagina."
 
 #: ../../contributing/index.rst:40
 msgid "Please respect these guidelines while writing:"
-msgstr ""
+msgstr "Respecteer deze richtlijnen tijdens het schrijven:"
 
 #: ../../contributing/index.rst:42
 msgid "Don’t remove part of the documentation if it’s valid."
-msgstr ""
+msgstr "Verwijder geen deel van de documentatie als dat nog geldig is."
 
 #: ../../contributing/index.rst:43
 msgid ""
 "Use clear and easily-understandable language. You are writing tech docs, not "
 "a poem. Not all docs readers are native speakers, be thoughtful."
 msgstr ""
+"Gebruik duidelijke en gemakkelijk te begrijpen taal. U schrijft technische "
+"documenten, geen gedicht. Niet alle lezers van de documentatie zijn sprekers "
+"in de eigen taal, denk daar aan."
 
 #: ../../contributing/index.rst:45
 msgid ""
@@ -39401,33 +39583,45 @@ msgid ""
 "feature while editing, don’t change its docs before you have the answer. "
 "This means: You change or ask. Don’t do both at the same time."
 msgstr ""
+"Wees niet bang om het te vragen als u niet zeker bent van uw zaak. Als u "
+"iets na moet vragen over een bepaalde mogelijkheid tijdens het bewerken, "
+"wijzig dan de documenten ervan niet voordat u het antwoord heeft. Dit "
+"betekent: U vraagt of u wijzigt. Doe niet allebei tegelijkertijd."
 
 #: ../../contributing/index.rst:48
 msgid ""
 "Verify your changes by performing described actions while following the docs."
 msgstr ""
+"Verifieer uw wijzigingen door de beschreven acties uit te voeren, terwijl u "
+"de documentatie volgt."
 
 #: ../../contributing/index.rst:49
 msgid ""
 "Send PR with changes in small chunks to make it easier and quicker to review "
 "and merge."
 msgstr ""
+"Verstuur een PR met wijzigingen in kleine delen om het gemakkelijker en "
+"sneller te kunnen beoordelen en samen te voegen."
 
 #: ../../contributing/index.rst:50
 msgid ""
 "If you want to rewrite and change the structure of a big article, do it in "
 "two steps:"
 msgstr ""
+"Als u opnieuw wilt schrijven en de structuur van een groot artikel wilt "
+"wijzigen, doe dat dan in twee stappen:"
 
 #: ../../contributing/index.rst:52
 msgid "Rewrite"
-msgstr ""
+msgstr "Opnieuw schrijven"
 
 #: ../../contributing/index.rst:53
 msgid ""
 "Once the rewrite is reviewed, polished, and merged, change the structure of "
 "the paragraphs in another PR."
 msgstr ""
+"Als het opnieuw geschreven deel eenmaal is beoordeeld, gepolijst en "
+"samengevoegd, wijzig dan de structuur van de alinea's in een ander PR."
 
 #: ../../contributing/index.rst:55
 msgid ""
@@ -39435,12 +39629,17 @@ msgid ""
 "are in `docs/requirements.txt`. You will also need :program:`graphviz` to "
 "build the documentation."
 msgstr ""
+"Documentatie kan ook lokaal worden bewerkt en gebouwd, de vereisten voor "
+"Python staan in `docs/requirements.txt`. U zult ook :program:`graphviz` "
+"nodig hebben om de documentatie te bouwen."
 
 #: ../../contributing/index.rst:61
 msgid ""
 "You can `translate the docs <https://hosted.weblate.org/projects/weblate/"
 "documentation/>`_."
 msgstr ""
+"U kunt `de documentatie vertalen <https://hosted.weblate.org/projects/"
+"weblate/documentation/>`_."
 
 #: ../../contributing/index.rst:67
 msgid "Extending built-in language definitions"
@@ -39451,12 +39650,17 @@ msgid ""
 "The language definitions are in the `weblate-language-data repository "
 "<https://github.com/WeblateOrg/language-data/>`_."
 msgstr ""
+"De taaldefinities staan in de `opslagruimte weblate-language-data "
+"<https://github.com/WeblateOrg/language-data/>`_."
 
 #: ../../contributing/index.rst:72
 msgid ""
 "You are welcome to add missing language definitions to :file:`languages."
 "csv`, other files are generated from that file."
 msgstr ""
+"U wordt uitgenodigd ontbrekende taaldefinities toe te voegen aan "
+":file:`languages.csv`, andere bestanden worden vanuit dat bestand "
+"gegenereerd."
 
 #: ../../contributing/index.rst:78
 msgid "Weblate discussions"
@@ -39468,10 +39672,13 @@ msgid ""
 "You can join the community in `GitHub discussions <https://github.com/"
 "WeblateOrg/weblate/discussions>`_."
 msgstr ""
+"Als u een idee hebt en u weet niet zeker of het geschikt is als een issue, "
+"geen zorgen. U kunt deelnemen aan de gemeenschap op `GitHub discussions "
+"<https://github.com/WeblateOrg/weblate/discussions>`_."
 
 #: ../../contributing/index.rst:87
 msgid "Funding Weblate development"
-msgstr ""
+msgstr "De ontwikkeling van Weblate financieel steunen"
 
 #: ../../contributing/index.rst:89
 msgid ""
@@ -39480,78 +39687,83 @@ msgid ""
 "further development of Weblate. Please check the `donate page`_ for options, "
 "such as funding goals and the rewards you get as a proud funder."
 msgstr ""
+"U kunt de ontwikkeling van Weblate een duwtje in de goede richting geven op "
+"de `donate page`_. Hier verzamelde fondsen worden gebruikt om gratis hosten "
+"van vrije softwareprojecten in te schakelen en ook de verdere ontwikkeling "
+"van Weblate. Bekijk de `donate page`_ voor opties, zoals doelen om te "
+"steunen en de beloningen die u krijgt als trotse sponsor."
 
 #: ../../../BACKERS.rst:2
 msgid "Supporters who have funded Weblate"
-msgstr ""
+msgstr "Deelnemers die Weblate financieel hebben gesteund"
 
 #: ../../../BACKERS.rst:4
 msgid "List of Weblate supporters:"
-msgstr ""
+msgstr "Lijst met supporters van Weblate:"
 
 #: ../../../BACKERS.rst:6
 msgid "Yashiro Ccs"
-msgstr ""
+msgstr "Yashiro Ccs"
 
 #: ../../../BACKERS.rst:7
 msgid "Cheng-Chia Tseng"
-msgstr ""
+msgstr "Cheng-Chia Tseng"
 
 #: ../../../BACKERS.rst:8
 msgid "Timon Reinhard"
-msgstr ""
+msgstr "Timon Reinhard"
 
 #: ../../../BACKERS.rst:9
 msgid "`Cassidy James <https://cassidyjames.com/>`_"
-msgstr ""
+msgstr "`Cassidy James <https://cassidyjames.com/>`_"
 
 #: ../../../BACKERS.rst:10
 msgid "Loic Dachary"
-msgstr ""
+msgstr "Loic Dachary"
 
 #: ../../../BACKERS.rst:11
 msgid "Marozed"
-msgstr ""
+msgstr "Marozed"
 
 #: ../../../BACKERS.rst:12
 msgid "https://freedombox.org/"
-msgstr ""
+msgstr "https://freedombox.org/"
 
 #: ../../../BACKERS.rst:13
 msgid "`GNU Solidario (GNU Health) <https://www.gnuhealth.org/>`_"
-msgstr ""
+msgstr "`GNU Solidario (GNU Health) <https://www.gnuhealth.org/>`_"
 
 #: ../../../BACKERS.rst:14
 msgid "`BallotReady <https://www.ballotready.org>`_"
-msgstr ""
+msgstr "`BallotReady <https://www.ballotready.org>`_"
 
 #: ../../../BACKERS.rst:15
 msgid "Richard Nespithal"
-msgstr ""
+msgstr "Richard Nespithal"
 
 #: ../../../BACKERS.rst:16
 msgid "MyExpenses.Mobi"
-msgstr ""
+msgstr "MyExpenses.Mobi"
 
 #: ../../../BACKERS.rst:17
 msgid "Michael Totschnig"
-msgstr ""
+msgstr "Michael Totschnig"
 
 #: ../../../BACKERS.rst:18
 msgid "James Valleroy"
-msgstr ""
+msgstr "James Valleroy"
 
 #: ../../../BACKERS.rst:19
 msgid "wallabag.org"
-msgstr ""
+msgstr "wallabag.org"
 
 #: ../../../BACKERS.rst:20
 msgid "`Scenari (Kelis) <https://scenari.software/>`_"
-msgstr ""
+msgstr "`Scenari (Kelis) <https://scenari.software/>`_"
 
 #: ../../../BACKERS.rst:21
 msgid "`BibLibre (Koha community) <https://www.biblibre.com/>`_"
-msgstr ""
+msgstr "`BibLibre (Koha gemeenschap) <https://www.biblibre.com/>`_"
 
 #: ../../../BACKERS.rst:22
 msgid "Koha community"
@@ -39559,46 +39771,51 @@ msgstr "Koha-gemeenschap"
 
 #: ../../../BACKERS.rst:23
 msgid "24eme.fr"
-msgstr ""
+msgstr "24eme.fr"
 
 #: ../../../BACKERS.rst:24
 msgid "Fotema Gallery App"
-msgstr ""
+msgstr "Fotema Gallery App"
 
 #: ../../../BACKERS.rst:25
 msgid "`Newpipe e.V. <https://newpipe-ev.de>`_"
-msgstr ""
+msgstr "`Newpipe e.V. <https://newpipe-ev.de>`_"
 
 #: ../../../BACKERS.rst:26
 msgid "Daniel Leidert"
-msgstr ""
+msgstr "Daniel Leidert"
 
 #: ../../../BACKERS.rst:28
 msgid ""
 "Do you want to be in the list? Please see options on the `Donate to Weblate "
 "<https://weblate.org/donate/>`_."
 msgstr ""
+"Wilt u ook in de lijst staan? Bekijk de opties op de pagina `Doneren aan "
+"Weblate <https://weblate.org/donate/>`_."
 
 #: ../../contributing/internals.rst:4
 msgid "Weblate internals"
-msgstr ""
+msgstr "Internen van Weblate"
 
 #: ../../contributing/internals.rst:8
 msgid "This chapter will give you basic overview of Weblate internals."
-msgstr ""
+msgstr "Dit hoofdstuk geeft u een basisoverzicht van de internen van Weblate."
 
 #: ../../contributing/internals.rst:10
 msgid ""
 "Weblate derives most of its code structure from, and is based on `Django`_."
 msgstr ""
+"Weblate leidt de meeste structuur voor zijn code af van, en is gebaseerd op "
+"`Django`_."
 
 #: ../../contributing/internals.rst:13
 msgid "Directory structure"
-msgstr ""
+msgstr "Mappenstructuur"
 
 #: ../../contributing/internals.rst:15
 msgid "Quick overview of directory structure of Weblate main repository:"
 msgstr ""
+"Snel overzicht van de mappenstructuur van de hoofdopslagruimte van Weblate:"
 
 #: ../../contributing/internals.rst:17
 msgid "``docs``"
@@ -39609,6 +39826,8 @@ msgid ""
 "Source code for this documentation, which can be built using `Sphinx "
 "<https://www.sphinx-doc.org/>`_."
 msgstr ""
+"Broncode voor deze documentatie, die kan worden gebouwd met `Sphinx "
+"<https://www.sphinx-doc.org/>`_."
 
 #: ../../contributing/internals.rst:19
 msgid "``dev-docker``"
@@ -39617,12 +39836,16 @@ msgstr "``dev-docker``"
 #: ../../contributing/internals.rst:20
 msgid "Docker code to run development server, see :ref:`dev-docker`."
 msgstr ""
+"Code voor Docker om de ontwikkelingsserver uit te voeren, bekijk :ref:`dev-"
+"docker`."
 
 #: ../../contributing/internals.rst:22
 msgid ""
 "Source code of Weblate as a `Django <https://www.djangoproject.com/>`_ "
 "application, see :ref:`internals`."
 msgstr ""
+"Broncode van Weblate as een toepassing van `Django <https://www.djangoproject"
+".com/>`_, bekijk :ref:`internals`."
 
 #: ../../contributing/internals.rst:23
 msgid "``weblate/static``"
@@ -39631,16 +39854,19 @@ msgstr "``weblate/static``"
 #: ../../contributing/internals.rst:24
 msgid "Client files (CSS, Javascript and images), see :doc:`frontend`."
 msgstr ""
+"Cliëntbestanden (CSS, Javascript en afbeeldingen), bekijk :doc:`frontend`."
 
 #: ../../contributing/internals.rst:27
 msgid "Modules"
-msgstr ""
+msgstr "Modules"
 
 #: ../../contributing/internals.rst:29
 msgid ""
 "Weblate consists of several Django applications (some optional, see :doc:`/"
 "admin/optionals`):"
 msgstr ""
+"Weblate bestaat uit verschillende toepassingen voor Django (sommige "
+"optioneel, bekijk :doc:`/admin/optionals`):"
 
 #: ../../contributing/internals.rst:32
 msgid "``accounts``"
@@ -39648,7 +39874,7 @@ msgstr "``accounts``"
 
 #: ../../contributing/internals.rst:34
 msgid "User account, profiles and notifications."
-msgstr ""
+msgstr "Gebruikeraccount, profielen en notificaties."
 
 #: ../../contributing/internals.rst:36
 msgid "``addons``"
@@ -39656,7 +39882,7 @@ msgstr "``addons``"
 
 #: ../../contributing/internals.rst:38
 msgid "Add-ons to tweak Weblate behavior, see :ref:`addons`."
-msgstr ""
+msgstr "Add-ons om het gedrag van Weblate aan te passen, bekijk :ref:`addons`."
 
 #: ../../contributing/internals.rst:40
 msgid "``api``"
@@ -39664,7 +39890,7 @@ msgstr "``api``"
 
 #: ../../contributing/internals.rst:42
 msgid "API based on `Django REST framework`_."
-msgstr ""
+msgstr "API, gebaseerd op `Django REST framework`_."
 
 #: ../../contributing/internals.rst:44
 msgid "``auth``"
@@ -39672,7 +39898,7 @@ msgstr "``auth``"
 
 #: ../../contributing/internals.rst:46
 msgid "Authentication and permissions."
-msgstr ""
+msgstr "Authenticatie en rechten."
 
 #: ../../contributing/internals.rst:48
 msgid "``billing``"
@@ -39680,7 +39906,7 @@ msgstr "``billing``"
 
 #: ../../contributing/internals.rst:50
 msgid "The optional :ref:`billing` module."
-msgstr ""
+msgstr "De optionele module :ref:`billing`."
 
 #: ../../contributing/internals.rst:52
 msgid "``checks``"
@@ -39688,7 +39914,7 @@ msgstr "``checks``"
 
 #: ../../contributing/internals.rst:54
 msgid "Translation string :ref:`checks` module."
-msgstr ""
+msgstr "Module Vertaling tekenreeks :ref:`checks`."
 
 #: ../../contributing/internals.rst:56
 msgid "``fonts``"
@@ -39696,7 +39922,7 @@ msgstr "``fonts``"
 
 #: ../../contributing/internals.rst:58
 msgid "Font rendering checks module."
-msgstr ""
+msgstr "Module voor controles van renderen van lettertypen."
 
 #: ../../contributing/internals.rst:60
 msgid "``formats``"
@@ -39704,7 +39930,7 @@ msgstr "``formats``"
 
 #: ../../contributing/internals.rst:62
 msgid "File format abstraction layer based on translate-toolkit."
-msgstr ""
+msgstr "Abstracte laag bestandsindeling, gebaseerd op Translate-Toolkit."
 
 #: ../../contributing/internals.rst:64
 msgid "``gitexport``"
@@ -39712,7 +39938,7 @@ msgstr "``gitexport``"
 
 #: ../../contributing/internals.rst:66
 msgid "The optional :ref:`git-exporter` module."
-msgstr ""
+msgstr "De optionele module :ref:`git-exporter`."
 
 #: ../../contributing/internals.rst:68
 msgid "``lang``"
@@ -39720,7 +39946,7 @@ msgstr "``lang``"
 
 #: ../../contributing/internals.rst:70
 msgid "Module defining language and plural models."
-msgstr ""
+msgstr "Module die taal en modellen voor meervouden definieert."
 
 #: ../../contributing/internals.rst:72
 msgid "``legal``"
@@ -39728,7 +39954,7 @@ msgstr "``legal``"
 
 #: ../../contributing/internals.rst:74
 msgid "The optional :ref:`legal` module."
-msgstr ""
+msgstr "De optionele module :ref:`legal`."
 
 #: ../../contributing/internals.rst:76
 msgid "``machinery``"
@@ -39736,7 +39962,7 @@ msgstr "``machinery``"
 
 #: ../../contributing/internals.rst:78
 msgid "Integration of machine translation services."
-msgstr ""
+msgstr "Integratie van services voor machinevertaling."
 
 #: ../../contributing/internals.rst:80
 msgid "``memory``"
@@ -39752,7 +39978,7 @@ msgstr "``screenshots``"
 
 #: ../../contributing/internals.rst:86
 msgid "Screenshots management and OCR module."
-msgstr ""
+msgstr "Beheren van schermafdrukken en module voor OCR."
 
 #: ../../contributing/internals.rst:88
 msgid "``trans``"
@@ -39760,7 +39986,7 @@ msgstr "``trans``"
 
 #: ../../contributing/internals.rst:90
 msgid "Main module handling translations."
-msgstr ""
+msgstr "Hoofdmodule voor afhandelen van vertalingen."
 
 #: ../../contributing/internals.rst:92
 msgid "``utils``"
@@ -39768,7 +39994,7 @@ msgstr "``utils``"
 
 #: ../../contributing/internals.rst:94
 msgid "Various helper utilities."
-msgstr ""
+msgstr "Verscheidene hulpprogramma's."
 
 #: ../../contributing/internals.rst:96
 msgid "``vcs``"
@@ -39776,7 +40002,7 @@ msgstr "``vcs``"
 
 #: ../../contributing/internals.rst:98
 msgid "Version control system abstraction."
-msgstr ""
+msgstr "Abstracte versiebeheersysteem."
 
 #: ../../contributing/internals.rst:100
 msgid "``wladmin``"
@@ -39784,17 +40010,19 @@ msgstr "``wladmin``"
 
 #: ../../contributing/internals.rst:102
 msgid "Django admin interface customization."
-msgstr ""
+msgstr "Django aanpassen beheerinterface."
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
-msgstr ""
+msgstr "Problemen rapporteren in Weblate"
 
 #: ../../contributing/issues.rst:6
 msgid ""
 "Weblate `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
 "hosted at GitHub."
 msgstr ""
+"Weblate's `volgsysteem voor problemen <https://github.com/WeblateOrg/weblate/"
+"issues>`_ wordt gehost op GitHub."
 
 #: ../../contributing/issues.rst:8
 msgid ""
@@ -39802,18 +40030,25 @@ msgid ""
 "Weblate there. There are various templates prepared to comfortably guide you "
 "through the issue report."
 msgstr ""
+"Rapporteer alstublieft elk probleem dat u heeft of stel hier verbeteringen "
+"voor Weblate voor. Er zijn verschillende sjablonen voorbereid om u "
+"comfortabel door het rapporteren van het probleem te leiden."
 
 #: ../../contributing/issues.rst:11
 msgid ""
 "If what you have found is a security issue in Weblate, please consult the :"
 "ref:`security` section below."
 msgstr ""
+"Als wat u heeft gevonden een beveiligingsprobleem in Weblate is, raadpleeg "
+"dan het gedeelte :ref:`security` hieronder."
 
 #: ../../contributing/issues.rst:14
 msgid ""
 "If you are not sure about your bug report or feature request, you can try :"
 "ref:`discussions`."
 msgstr ""
+"Als u niet zeker bent van uw rapport voor probleem of verzoek om "
+"verbetering, kunt u :ref:`discussions` proberen."
 
 #: ../../contributing/issues.rst:19
 msgid "Reporting security issues"
@@ -39826,6 +40061,10 @@ msgid ""
 "policies that are geared toward delivering timely security updates to "
 "Weblate."
 msgstr ""
+"Het ontwikkelteam van Weblate is sterk verbonden met het verantwoordelijk "
+"rapporteren en onthullen van aan beveiliging gerelateerde problemen. We "
+"hebben beleid ontwikkeld, en volgen dat, dat is gericht op het tijdig "
+"leveren van beveiligingsupdates voor Weblate."
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -39834,6 +40073,10 @@ msgid ""
 "sensitive nature of security issues, we ask that they not be publicly "
 "reported in this fashion."
 msgstr ""
+"De meeste normale problemen in Weblate worden gerapporteerd in ons publieke `"
+"GitHub volgsysteem voor problemen <https://github.com/WeblateOrg/weblate/"
+"issues>`_, maar door de gevoelige status van problemen met beveiliging, "
+"vragen wij om die niet openbaar te rapporteren op deze manier."
 
 #: ../../contributing/issues.rst:30
 msgid ""
@@ -39842,16 +40085,24 @@ msgid ""
 "org, `GitHub <https://github.com/WeblateOrg/weblate/security/advisories/"
 "new>`_, or using `HackerOne <https://hackerone.com/weblate>`_."
 msgstr ""
+"In plaats daarvan, als u gelooft dat u iets in Weblate hebt gevonden dat "
+"implicaties voor de beveiliging heeft, dien dan een beschrijving van het "
+"probleem in bij security@weblate.org, `GitHub <https://github.com/WeblateOrg/"
+"weblate/security/advisories/new>`_, of gebruik `HackerOne <https://hackerone."
+"com/weblate>`_."
 
 #: ../../contributing/issues.rst:35
 msgid ""
 "A member of the security team will respond to you within 48 hours, and "
 "depending on what action is taken, you may get more follow-up emails."
 msgstr ""
+"Een lid van het beveiligingsteam zal binnen 48 uur contact met u opnemen, "
+"en, afhankelijk van welke actie is ondernomen, zou u meer e-mails kunnen "
+"ontvangen voor de follow-up."
 
 #: ../../contributing/issues.rst:40
 msgid "**Sending encrypted reports**"
-msgstr ""
+msgstr "**Versleutelde rapporten verzenden**"
 
 #: ../../contributing/issues.rst:42
 msgid ""
@@ -39860,6 +40111,11 @@ msgid ""
 "B313 42B7 511D``. This public key is available on the most commonly used key "
 "servers, and from  `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
+"Als u een versleutelde e-mail wilt verzenden (*optioneel*), gebruik dan de "
+"publieke sleutel voor michal@weblate.org met ID ``3CB 1DF1 EF12 CF2A C0EE  "
+"5A32 9C27 B313 42B7 511D``. Deze publieke sleutel is ook beschikbaar op de "
+"meest gebruikte sleutelservers, en vanaf `Keybase <https://keybase.io/"
+"nijel>`_."
 
 #: ../../contributing/issues.rst:49
 msgid ""
@@ -39867,23 +40123,28 @@ msgid ""
 "a vulnerability affecting one of those components in general, please report "
 "it directly to the respective project."
 msgstr ""
+"Weblate is voor veel dingen afhankelijk van onderdelen van derde partijen. "
+"In het geval dat u een kwetsbaarheid vindt die in het algemeen een van deze "
+"onderdelen beïnvloedt, rapporteer het direct naar het respectievelijke "
+"project."
 
 #: ../../contributing/issues.rst:53
 msgid "Some of these are:"
-msgstr ""
+msgstr "Enkele hiervan zijn:"
 
 #: ../../contributing/issues.rst:55
 msgid ":doc:`Django <django:internals/security>`"
-msgstr ""
+msgstr ":doc:`Django <django:internals/security>`"
 
 #: ../../contributing/issues.rst:56
 msgid ""
 "`Django REST framework <https://www.django-rest-framework.org/#security>`_"
 msgstr ""
+"`Django REST framewerk <https://www.django-rest-framework.org/#security>`_"
 
 #: ../../contributing/issues.rst:57
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
-msgstr ""
+msgstr "`Python Social Auth <https://github.com/python-social-auth>`_"
 
 #: ../../../README.rst:33 ../../../README.rst:76
 #: ../../contributing/license.rst:2
@@ -39895,10 +40156,12 @@ msgid ""
 "More detailed licensing information is available in the Weblate source code "
 "and follows `REUSE 3.0 specification <https://reuse.software/>`_."
 msgstr ""
+"Meer gedetailleerde informatie over licenties is beschikbaar in de broncode "
+"van Weblate en volgt `REUSE 3.0 specification <https://reuse.software/>`_."
 
 #: ../../../README.rst:78 ../../contributing/license.rst:7
 msgid "Copyright © Michal Čihař michal@weblate.org"
-msgstr ""
+msgstr "Copyright © Michal Čihař michal@weblate.org"
 
 #: ../../../README.rst:80 ../../contributing/license.rst:9
 msgid ""
@@ -39907,6 +40170,10 @@ msgid ""
 "Software Foundation, either version 3 of the License, or (at your option) "
 "any later version."
 msgstr ""
+"Dit programma is vrije software: je mag het herdistribueren en/of wijzigen "
+"onder de voorwaarden van de GNU Algemene Publieke Licentie zoals "
+"gepubliceerd door de Free Software Foundation, onder versie 3 van de "
+"Licentie of (naar jouw keuze) elke latere versie."
 
 #: ../../contributing/license.rst:14
 msgid ""
@@ -39915,12 +40182,19 @@ msgid ""
 "FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
 "more details."
 msgstr ""
+"Dit programma is gedistribueerd in de hoop dat het nuttig zal zijn maar "
+"ZONDER ENIGE GARANTIE; zelfs zonder de impliciete garanties die GEBRUIKELIJK "
+"ZIJN IN DE HANDEL of voor BRUIKBAARHEID VOOR EEN SPECIFIEK DOEL. Zie de GNU "
+"Algemene Publieke Licentie voor meer details."
 
 #: ../../contributing/license.rst:18
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program. If not, see <https://www.gnu.org/licenses/>."
 msgstr ""
+"Je hoort een kopie van de GNU Algemene Publieke Licentie te hebben ontvangen "
+"samen met dit programma. Als dat niet het geval is, zie <https://www.gnu.org/"
+"licenses/>."
 
 #: ../../contributing/modules.rst:2
 msgid "Contributing to Weblate modules"
@@ -39931,46 +40205,57 @@ msgid ""
 "Besides the main repository, Weblate consists of several Python modules. All "
 "these follow same structure and this documentation covers them all."
 msgstr ""
+"Naast de hoofdopslagruimte bestaat Weblate uit verscheidene modules van "
+"Python. Deze volgen allemaal dezelfde structuur en deze documentatie "
+"behandelt ze allemaal."
 
 #: ../../contributing/modules.rst:7
 msgid "For example, this covers:"
-msgstr ""
+msgstr "Dit behandelt bijvoorbeeld:"
 
 #: ../../contributing/modules.rst:9
 msgid ""
 "`wlc <https://github.com/WeblateOrg/wlc/>`_, Python client library, see :ref:"
 "`wlc`"
 msgstr ""
+"`wlc <https://github.com/WeblateOrg/wlc/>`_, Python cliënt bibliotheek, "
+"bekijk :ref:`wlc`"
 
 #: ../../contributing/modules.rst:10
 msgid ""
 "`translation-finder <https://github.com/WeblateOrg/translation-finder/>`_, "
 "used to discover translatable files in the repository"
 msgstr ""
+"`translation-finder <https://github.com/WeblateOrg/translation-finder/>`_, "
+"gebruikt om vertaalbare bestanden in de opslagruimte te ontdekken"
 
 #: ../../contributing/modules.rst:11
 msgid ""
 "`language-data <https://github.com/WeblateOrg/language-data/>`_, language "
 "definitions for Weblate, see :ref:`languages`"
 msgstr ""
+"`language-data <https://github.com/WeblateOrg/language-data/>`_, "
+"taaldefinities voor Weblate, bekijk :ref:`languages`"
 
 #: ../../contributing/modules.rst:18
 msgid "Running tests"
-msgstr ""
+msgstr "Testen uitvoeren"
 
 #: ../../contributing/modules.rst:20
 msgid ""
 "The tests are executed using :program:`py.test`. First you need to install "
 "test requirements:"
 msgstr ""
+"De testen worden uitgevoerd met :program:`py.test`. Eerst moet u vereisten "
+"voor de testen installeren:"
 
 #: ../../contributing/modules.rst:26
 msgid "You can then execute the testsuite in the repository checkout:"
-msgstr ""
+msgstr "U kunt dan de testsuite uitvoeren in de checkout van de opslagruimte:"
 
 #: ../../contributing/modules.rst:34
 msgid "The CI integration is very similar to :doc:`tests`."
-msgstr ""
+msgstr "De integratie van de CI lijkt heel erg veel op :doc:`tests`."
 
 #: ../../contributing/modules.rst:40
 msgid ":doc:`code`"
@@ -39978,11 +40263,11 @@ msgstr ":doc:`code`"
 
 #: ../../contributing/release.rst:2
 msgid "Releasing Weblate"
-msgstr ""
+msgstr "Weblate uitgeven"
 
 #: ../../contributing/release.rst:5
 msgid "Releasing schedule"
-msgstr ""
+msgstr "Uitgaveschema"
 
 #: ../../contributing/release.rst:7
 msgid ""
@@ -39990,6 +40275,9 @@ msgid ""
 "followed by a bunch of bugfix releases to fix issues which slip into them (x."
 "y.z)."
 msgstr ""
+"Weblate heeft een tweemaandelijkse uitgavecyclus voor uitgaven (x.y). Deze "
+"worden gewoonlijk gevolgd door een aantal uitgaven met oplossingen voor "
+"problemen die erin zijn geslopen (x.y.z)."
 
 #: ../../contributing/release.rst:11
 msgid ""
@@ -39997,6 +40285,9 @@ msgid ""
 "skip this version - you always have to upgrade to x.0 before upgrading to "
 "higher x.y releases."
 msgstr ""
+"De wijziging in de majeure versie geeft aan dat het proces voor upgraden "
+"deze versie niet mag overslaan - u moet altijd upgraden naar x.0 voordat u "
+"kunt upgraden naar hogere uitgaven x.y."
 
 #: ../../contributing/release.rst:17
 msgid ":doc:`../admin/upgrade`"
@@ -40004,7 +40295,7 @@ msgstr ":doc:`../admin/upgrade`"
 
 #: ../../contributing/release.rst:20
 msgid "Release planning"
-msgstr ""
+msgstr "Uitgave planning"
 
 #: ../../contributing/release.rst:22
 msgid ""
@@ -40012,94 +40303,115 @@ msgid ""
 "you can see our roadmap at <https://github.com/WeblateOrg/weblate/"
 "milestones>."
 msgstr ""
+"De mogelijkheden voor aanstaande uitgaven worden verzameld met GitHub "
+"milestones, u kunt onze roadmap zien op <https://github.com/WeblateOrg/"
+"weblate/milestones>."
 
 #: ../../contributing/release.rst:26
 msgid "Release process"
-msgstr ""
+msgstr "Uitgaveproces"
 
 #: ../../contributing/release.rst:28
 msgid "Things to check prior to release:"
-msgstr ""
+msgstr "Dingen die voorafgaande aan de uitgave worden gecontroleerd:"
 
 #: ../../contributing/release.rst:30
 msgid ""
 "Check newly translated languages by :command:`./scripts/list-translated-"
 "languages`."
 msgstr ""
+"Nieuwe vertaalde talen controleren met :command:`./scripts/list-translated-"
+"languages`."
 
 #: ../../contributing/release.rst:31
 msgid "Set final version by :command:`./scripts/prepare-release`."
 msgstr ""
+"Uiteindelijke versie instellen met :command:`./scripts/prepare-release`."
 
 #: ../../contributing/release.rst:32
 msgid ""
 "Make sure screenshots are up to date :command:`make -j 12 -C docs update-"
 "screenshots`."
 msgstr ""
+"Ervoor zorgen dat schermafdrukken up-to-date zijn :command:`make -j 12 -C "
+"docs update-screenshots`."
 
 #: ../../contributing/release.rst:33
 msgid ""
 "Merge any possibly pending translations :command:`wlc push; git remote "
 "update; git merge origin/weblate`"
 msgstr ""
+"Mogelijke openstaande vertalingen samenvoegen :command:`wlc push; git remote "
+"update; git merge origin/weblate`"
 
 #: ../../contributing/release.rst:35
 msgid "Perform the release:"
-msgstr ""
+msgstr "De uitgave uitvoeren:"
 
 #: ../../contributing/release.rst:37
 msgid ""
 "Create a release :command:`./scripts/create-release --tag` (see below for "
 "requirements)."
 msgstr ""
+"Maak een uitgave :command:`./scripts/create-release --tag` (kijk hieronder "
+"voor de vereisten)."
 
 #: ../../contributing/release.rst:39
 msgid "Post release manual steps:"
-msgstr ""
+msgstr "Handmatige stappen na uitgave:"
 
 #: ../../contributing/release.rst:41
 msgid "Close GitHub milestone."
-msgstr ""
+msgstr "GitHub milestone afsluiten."
 
 #: ../../contributing/release.rst:42
 msgid "Once the Docker image is tested, add a tag and push it."
-msgstr ""
+msgstr "Als de Docker image eenmaal is getest, voeg een tag toe en push het."
 
 #: ../../contributing/release.rst:43
 msgid ""
 "Include new version in :file:`.github/workflows/migrations.yml` to cover it "
 "in migration testing."
 msgstr ""
+"Neem de nieuwe versie op in :file:`.github/workflows/migrations.yml` om het "
+"te behandelen in het testen van de migratie."
 
 #: ../../contributing/release.rst:44
 msgid "Increase version in the repository by :command:`./scripts/set-version`."
 msgstr ""
+"Verhoog de versie in de opslagruimte met :command:`./scripts/set-version`."
 
 #: ../../contributing/release.rst:45
 msgid ""
 "Check that readthedocs.org did build all translations of the documentation "
 "using :command:`./scripts/rtd-projects`."
 msgstr ""
+"Controleer of readthedocs.org alle vertalingen van de documentatie bouwde "
+"met :command:`./scripts/rtd-projects`."
 
 #: ../../contributing/release.rst:47
 msgid ""
 "To create tags using the :command:`./scripts/create-release` script you will "
 "need following:"
 msgstr ""
+"Voor het maken van tags met het script :command:`./scripts/create-release` "
+"heeft u het volgende nodig:"
 
 #: ../../contributing/release.rst:49
 msgid "Push access to Weblate git repositories (it pushes tags)"
-msgstr ""
+msgstr "Toegang voor pushen naar Weblate Git-opslagruimten (het pusht tags)"
 
 #: ../../contributing/schemas.rst:2
 msgid "Data schemas"
-msgstr ""
+msgstr "Gegevensschema's"
 
 #: ../../contributing/schemas.rst:4
 msgid ""
 "Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of "
 "external JSON files."
 msgstr ""
+"Weblate gebruikt `JSON Schema <https://json-schema.org/>`_ om lay-out van "
+"externe JSON-bestanden te definiëren."
 
 #: ../../contributing/schemas.rst:-1
 msgid "Weblate Translation Memory Schema"
@@ -40107,7 +40419,7 @@ msgstr "Weblate schema vertaalgeheugen"
 
 #: ../../contributing/schemas.rst:9
 msgid "https://weblate.org/schemas/weblate-memory.schema.json"
-msgstr ""
+msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "type"
@@ -40115,11 +40427,11 @@ msgstr "type"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*array*"
-msgstr ""
+msgstr "*array*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "items"
-msgstr ""
+msgstr "items"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Translation Memory Item*"
@@ -40146,10 +40458,12 @@ msgid ""
 "1 is global, 2 is shared, 10000000+ are project specific, 20000000+ are user "
 "specific"
 msgstr ""
+"1 is globaal, 2 is gedeeld, 10000000+ zijn projectspecifiek, 20000000+ zijn "
+"gebruikerspecifiek"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*integer*"
-msgstr ""
+msgstr "*integer*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "examples"
@@ -40157,16 +40471,16 @@ msgstr "voorbeelden"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: ../../contributing/schemas.rst:9
 msgid "minimum"
-msgstr ""
+msgstr "minimum"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../workflows.rst:119 ../../workflows.rst:184
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "default"
@@ -40178,7 +40492,7 @@ msgstr "**bron**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The String Origin*"
-msgstr ""
+msgstr "*Bron tekenreeks *"
 
 #: ../../contributing/schemas.rst:9
 msgid "Filename or component name"
@@ -40190,7 +40504,7 @@ msgstr "*tekenreeks*"
 
 #: ../../contributing/schemas.rst:9
 msgid "test.tmx"
-msgstr ""
+msgstr "test.tmx"
 
 #: ../../contributing/schemas.rst:9
 msgid "project/component"
@@ -40198,7 +40512,7 @@ msgstr "project/component"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
-msgstr ""
+msgstr "**bron**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Source String*"
@@ -40210,7 +40524,7 @@ msgstr "Hallo"
 
 #: ../../contributing/schemas.rst:9
 msgid "minLength"
-msgstr ""
+msgstr "minLength"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source\\_language**"
@@ -40222,7 +40536,7 @@ msgstr "*De brontaal*"
 
 #: ../../contributing/schemas.rst:9
 msgid "ISO 639-1 / ISO 639-2 / IETF BCP 47"
-msgstr ""
+msgstr "ISO 639-1 / ISO 639-2 / IETF BCP 47"
 
 #: ../../contributing/schemas.rst:9
 msgid "en"
@@ -40230,15 +40544,15 @@ msgstr "en"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "pattern"
-msgstr ""
+msgstr "patroon"
 
 #: ../../contributing/schemas.rst:9
 msgid "^[^ ]+$"
-msgstr ""
+msgstr "^[^ ]+$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target**"
-msgstr ""
+msgstr "**doel**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Target String*"
@@ -40246,7 +40560,7 @@ msgstr "*De doeltekenreeks*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Ahoj"
-msgstr ""
+msgstr "Ahoj"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target\\_language**"
@@ -40258,7 +40572,7 @@ msgstr "*De doeltaal*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "cs"
-msgstr ""
+msgstr "cs"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "additionalProperties"
@@ -40266,7 +40580,7 @@ msgstr "aanvullendeEigenschappen"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "False"
-msgstr ""
+msgstr "False"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "definitions"
@@ -40276,6 +40590,7 @@ msgstr "definities"
 msgid ""
 ":ref:`translation-memory`, :wladmin:`dump_memory`, :wladmin:`import_memory`"
 msgstr ""
+":ref:`translation-memory`, :wladmin:`dump_memory`, :wladmin:`import_memory`"
 
 #: ../../contributing/schemas.rst:-1
 msgid "Weblate user data export"
@@ -40283,11 +40598,11 @@ msgstr "Weblate export van gebruikersgegevens"
 
 #: ../../contributing/schemas.rst:19
 msgid "https://weblate.org/schemas/weblate-userdata.schema.json"
-msgstr ""
+msgstr "https://weblate.org/schemas/weblate-userdata.schema.json"
 
 #: ../../contributing/schemas.rst:19
 msgid "**basic**"
-msgstr ""
+msgstr "**basis**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Basic*"
@@ -40319,7 +40634,7 @@ msgstr "Weblate beheerder"
 
 #: ../../contributing/schemas.rst:19
 msgid "**email**"
-msgstr ""
+msgstr "**e-mail**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*E-mail*"
@@ -40327,7 +40642,7 @@ msgstr "*E-mail*"
 
 #: ../../contributing/schemas.rst:19
 msgid "noreply@example.com"
-msgstr ""
+msgstr "noreply@example.com"
 
 #: ../../contributing/schemas.rst:19
 msgid "format"
@@ -40347,11 +40662,11 @@ msgstr "*Datum lid geworden*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:53:54.862Z"
-msgstr ""
+msgstr "2019-11-18T18:53:54.862Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "date-time"
-msgstr ""
+msgstr "datum-tijd"
 
 #: ../../contributing/schemas.rst:19
 msgid "**profile**"
@@ -40371,7 +40686,7 @@ msgstr "*Taal*"
 
 #: ../../contributing/schemas.rst:19
 msgid "^[^ ]\\*$"
-msgstr ""
+msgstr "^[^ ]\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**suggested**"
@@ -40391,7 +40706,7 @@ msgstr "*Aantal vertaalde tekenreeksen*"
 
 #: ../../contributing/schemas.rst:19
 msgid "24"
-msgstr ""
+msgstr "24"
 
 #: ../../contributing/schemas.rst:19
 msgid "**uploaded**"
@@ -40403,7 +40718,7 @@ msgstr "*Aantal geüploade schermafdrukken*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_completed**"
-msgstr ""
+msgstr "**verbergen\\_voltooid**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Hide completed translations on the dashboard*"
@@ -40411,15 +40726,15 @@ msgstr "*Voltooide vertalingen verbergen op het overzicht*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*boolean*"
-msgstr ""
+msgstr "*Booleaanse waarde*"
 
 #: ../../contributing/schemas.rst:19
 msgid "True"
-msgstr ""
+msgstr "True"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_in\\_zen**"
-msgstr ""
+msgstr "**secundair\\_in\\_zen**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Show secondary translations in the Zen mode*"
@@ -40427,7 +40742,7 @@ msgstr "*Secundaire vertalingen in modus Zen weergeven*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_source\\_secondary**"
-msgstr ""
+msgstr "**verbergen\\_bron\\_secundair**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Hide source if a secondary translation exists*"
@@ -40443,7 +40758,7 @@ msgstr "*Link bewerker*"
 
 #: ../../contributing/schemas.rst:19
 msgid "^.\\*$"
-msgstr ""
+msgstr "^.\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**translate\\_mode**"
@@ -40455,7 +40770,7 @@ msgstr "*Modus vertaalbewerker*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**zen\\_mode**"
-msgstr ""
+msgstr "**zen\\_modus**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Zen editor mode*"
@@ -40471,19 +40786,19 @@ msgstr "*Speciale tekens*"
 
 #: ../../contributing/schemas.rst:19
 msgid "theme"
-msgstr ""
+msgstr "thema"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Theme*"
-msgstr ""
+msgstr "*Thema*"
 
 #: ../../contributing/schemas.rst:19
 msgid "auto"
-msgstr ""
+msgstr "automatisch"
 
 #: ../../contributing/schemas.rst:19
 msgid "^(auto|dark|light)$"
-msgstr ""
+msgstr "^(automatisch|donker|licht)$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**dashboard\\_view**"
@@ -40495,7 +40810,7 @@ msgstr "*Standaard overzichtsweergave*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**dashboard\\_component\\_list**"
-msgstr ""
+msgstr "**dashboard\\_onderdeel\\_lijst**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Default component list*"
@@ -40503,19 +40818,19 @@ msgstr "*Standaard onderdelenlijst*"
 
 #: ../../contributing/schemas.rst:19
 msgid "null"
-msgstr ""
+msgstr "null"
 
 #: ../../contributing/schemas.rst:19
 msgid "anyOf"
-msgstr ""
+msgstr "anyOf"
 
 #: ../../contributing/schemas.rst:19
 msgid "*null*"
-msgstr ""
+msgstr "*null*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**languages**"
-msgstr "**languages**"
+msgstr "**talen**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Translated languages*"
@@ -40527,7 +40842,7 @@ msgstr "*Taalcode*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_languages**"
-msgstr "**secondary\\_languages**"
+msgstr "**secundair\\_talen**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Secondary languages*"
@@ -40535,11 +40850,11 @@ msgstr "*Secundaire talen*"
 
 #: ../../contributing/schemas.rst:19
 msgid "sk"
-msgstr ""
+msgstr "sk"
 
 #: ../../contributing/schemas.rst:19
 msgid "**watched**"
-msgstr "**bijhouden**"
+msgstr "**gevolgd**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Watched projects*"
@@ -40563,11 +40878,11 @@ msgstr "*Revisielogboek*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Items*"
-msgstr ""
+msgstr "*Items*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**address**"
-msgstr "**address**"
+msgstr "**adres**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*IP address*"
@@ -40575,7 +40890,7 @@ msgstr "*IP-adres*"
 
 #: ../../contributing/schemas.rst:19
 msgid "127.0.0.1"
-msgstr ""
+msgstr "127.0.0.1"
 
 #: ../../contributing/schemas.rst:19
 msgid "**user\\_agent**"
@@ -40587,23 +40902,23 @@ msgstr "*Gebruikersagent*"
 
 #: ../../contributing/schemas.rst:19
 msgid "PC / Linux / Firefox 70.0"
-msgstr ""
+msgstr "PC / Linux / Firefox 70.0"
 
 #: ../../contributing/schemas.rst:19
 msgid "**timestamp**"
-msgstr ""
+msgstr "**tijdstempel**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Timestamp*"
-msgstr ""
+msgstr "*Tijdstempel*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:58:30.845Z"
-msgstr ""
+msgstr "2019-11-18T18:58:30.845Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "**activity**"
-msgstr "**activity**"
+msgstr "**activiteit**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Activity*"
@@ -40641,7 +40956,7 @@ msgstr ""
 
 #: ../../contributing/security.rst:12
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
-msgstr ""
+msgstr "Een beveiligingsrisico ontdekt in Weblate? Lees :ref:`security`."
 
 #: ../../contributing/security.rst:15
 msgid "Security updates"
