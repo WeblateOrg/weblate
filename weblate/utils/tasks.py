@@ -31,6 +31,8 @@ from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.vcs.models import VCS_REGISTRY
 
+from .const import HEARTBEAT_FREQUENCY
+
 
 @app.task(trail=False)
 def ping():
@@ -178,4 +180,4 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(
         crontab(hour=1, minute=30), database_backup.s(), name="database-backup"
     )
-    sender.add_periodic_task(120, heartbeat.s(), name="heartbeat")
+    sender.add_periodic_task(HEARTBEAT_FREQUENCY, heartbeat.s(), name="heartbeat")
