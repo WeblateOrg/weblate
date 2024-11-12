@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 08:39+0000\n"
-"PO-Revision-Date: 2024-09-20 19:19+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-11-11 20:15+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/weblate/"
 "application/is/>\n"
 "Language: is\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.8.2\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -61,10 +61,6 @@ msgid "Use account e-mail address"
 msgstr "Nota tölvupóstfang notandans"
 
 #: weblate/accounts/forms.py:193
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are commited by Weblate."
 msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
@@ -329,32 +325,24 @@ msgid "Chosen sorting is not supported."
 msgstr "Ekki er stuðningur við valda röðun."
 
 #: weblate/accounts/forms.py:928
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
-msgstr "Bæta notanda í hóp"
+msgstr "Bæta notanda í teymi"
 
 #: weblate/accounts/forms.py:940
-#, fuzzy
-#| msgid "Edit team"
 msgid "Add team"
-msgstr "Breyta teymi"
+msgstr "Bæta við teymi"
 
 #: weblate/accounts/forms.py:954
-#, fuzzy
-#| msgid "Authentication"
 msgid "Name your authentication app"
-msgstr "Auðkenning"
+msgstr "Tilgreindu auðkenningarforritið þitt"
 
 #: weblate/accounts/forms.py:957
 msgid "Verify the code from the app"
 msgstr ""
 
 #: weblate/accounts/forms.py:971
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "Entered token is not valid."
-msgstr "Þýðingin er ekki gilt XML"
+msgstr "Teiknið sem þú settir inn er ógilt."
 
 #: weblate/accounts/forms.py:1039
 msgid "Recovery token"
@@ -443,10 +431,9 @@ msgid "Account removal confirmation sent to {email}."
 msgstr "Staðfesting á fjarlægingu aðgangs var send til {email}."
 
 #: weblate/accounts/models.py:187
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "Samþykki við þjónustuskilmála {date}."
+msgstr "Samþykkt við almenna þjónustuskilmála {date}."
 
 #: weblate/accounts/models.py:188
 #, python-brace-format
@@ -820,10 +807,8 @@ msgstr ""
 "Bætti %(language)s við þýdd tungumál. Þú getur breytt þessu í stillingum."
 
 #: weblate/accounts/models.py:1019
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "Ekki nægar heimildir til að vista þýðingar."
+msgstr "Gefðu upp tölvupóstfang til að senda inn þýðingar."
 
 #: weblate/accounts/notifications.py:49
 msgid "No notification"
@@ -861,20 +846,14 @@ msgid "License was changed"
 msgstr "Notkunarleyfi breyttist"
 
 #: weblate/accounts/notifications.py:521
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occured"
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "Þáttunarvilla átti sér stað"
 
 #: weblate/accounts/notifications.py:544
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New string is available for translation"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Nýr strengur er tiltækur til þýðingar"
+msgstr "Strengur er tiltækur til þýðingar"
 
 #: weblate/accounts/notifications.py:554
 msgctxt "Notification name"
@@ -887,11 +866,9 @@ msgid "Suggestion was added"
 msgstr "Tillögu var bætt við"
 
 #: weblate/accounts/notifications.py:572
-#, fuzzy
-#| msgid "Long untranslated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "Lengi óþýtt"
+msgstr "Þetta tungumál var þýtt"
 
 #: weblate/accounts/notifications.py:580
 #, fuzzy
@@ -1017,26 +994,22 @@ msgid "Use security key (WebAuthn)"
 msgstr ""
 
 #: weblate/accounts/templatetags/authnames.py:55
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "Auðkenning"
+msgstr "Nota auðkenningarforrit (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:56
 msgid "Use recovery codes"
 msgstr ""
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "Öryggisstefna"
+msgstr "Öryggislykill (%s)"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Auðkenning"
+msgstr "Auðkenningarforrit (%s)"
 
 #: weblate/accounts/views.py:204 weblate/accounts/views.py:1047
 #: weblate/accounts/views.py:1113 weblate/templates/accounts/reset.html:7
@@ -1120,10 +1093,8 @@ msgid "Sign in"
 msgstr "Skrá inn"
 
 #: weblate/accounts/views.py:870
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "Skrá út"
+msgstr "Skráð/ur út"
 
 #: weblate/accounts/views.py:976
 msgid "Register e-mail"
@@ -5187,11 +5158,9 @@ msgid "Automatic selection"
 msgstr "Sjálfvirkt val"
 
 #: weblate/machinery/forms.py:354
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "Sérsniðið"
+msgstr "Sérsniðið líkan"
 
 #: weblate/machinery/forms.py:359
 msgctxt "Automatic suggestion service configuration"
@@ -5876,8 +5845,6 @@ msgid "Set up your libre project"
 msgstr "Settu upp frjálsa verkefnið þitt"
 
 #: weblate/templates/accounts/hosting.html:35
-#, fuzzy
-#| msgid "Your trial offer"
 msgid "Your trial"
 msgstr "Prufutilboðið þitt"
 
@@ -6077,10 +6044,8 @@ msgstr "Bæta við nýju auðkenni notanda"
 
 #: weblate/templates/accounts/profile.html:188
 #: weblate/templates/accounts/user.html:353
-#, fuzzy
-#| msgid "Authentication"
 msgid "Two-factor authentication"
-msgstr "Auðkenning"
+msgstr "Tveggja-þátta auðkenning"
 
 #: weblate/templates/accounts/profile.html:192
 msgid ""
@@ -6115,10 +6080,8 @@ msgid "Name your security key"
 msgstr ""
 
 #: weblate/templates/accounts/profile.html:214
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new security key"
-msgstr "Skrá nýjan aðgang"
+msgstr "Skrá nýjan öryggislykil"
 
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
@@ -6126,10 +6089,8 @@ msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
 #: weblate/templates/accounts/profile.html:228
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator apps (TOTP)"
-msgstr "Auðkenning"
+msgstr "Auðkenningarforrit (TOTP)"
 
 #: weblate/templates/accounts/profile.html:230
 #, fuzzy
@@ -6149,7 +6110,7 @@ msgstr "Skrá nýjan aðgang"
 #: weblate/templates/accounts/recovery-codes.html:11
 #: weblate/templates/accounts/recovery-codes.html:33
 msgid "Recovery codes"
-msgstr ""
+msgstr "Endurheimtukóðar"
 
 #: weblate/templates/accounts/profile.html:247
 #: weblate/templates/accounts/recovery-codes.html:41
@@ -6162,7 +6123,7 @@ msgstr "Núna eru engin öryggisafrit."
 #: weblate/templates/accounts/recovery-codes.html:44
 #: weblate/templates/accounts/recovery-codes.html:51
 msgid "Generate new recovery codes"
-msgstr ""
+msgstr "Útbúa nýja endurheimtukóða"
 
 #: weblate/templates/accounts/profile.html:251
 #, python-format
@@ -6173,7 +6134,7 @@ msgstr[1] ""
 
 #: weblate/templates/accounts/profile.html:257
 msgid "View recovery codes"
-msgstr ""
+msgstr "Skoða endurheimtukóða"
 
 #: weblate/templates/accounts/profile.html:269
 msgid "User data"
@@ -6462,7 +6423,7 @@ msgstr ""
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
-msgstr ""
+msgstr "Skannaðu QR-kóðann:"
 
 #: weblate/templates/accounts/totp.html:37
 msgid "You can also enter the secret key manually:"
@@ -6492,13 +6453,9 @@ msgid "Your trial will last 14 days."
 msgstr "Prufuaðgangurinn þinn mun vara í 14 daga."
 
 #: weblate/templates/accounts/trial.html:24
-#, fuzzy
-#| msgid ""
-#| "Your trial will run the Enterprise plan, but you can choose any plan "
-#| "later."
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
 msgstr ""
-"Prufuaðgangurinn þinn mun keyra eins og fyrirtækjaáskrift, en þú getur valið "
+"Prufuaðgangurinn þinn mun keyra eins og 640k-áskrift, en þú getur valið "
 "hverkyns áskrift síðar."
 
 #: weblate/templates/accounts/trial.html:25
@@ -6618,10 +6575,8 @@ msgid "Edit"
 msgstr "Breyta"
 
 #: weblate/templates/accounts/user.html:171
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "Engin nýleg virkni fannst!"
+msgstr "Engin nýleg framlög fundust."
 
 #: weblate/templates/accounts/user.html:172
 msgid "Browse all translations with contribution"
@@ -6649,10 +6604,8 @@ msgid "User ID"
 msgstr "Notandaauðkenni"
 
 #: weblate/templates/accounts/user.html:236
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
-msgstr "Tilkynningar"
+msgstr "Tilkynning"
 
 #: weblate/templates/accounts/user.html:237 weblate/trans/forms.py:1079
 msgid "Scope"
@@ -6660,7 +6613,7 @@ msgstr "Umfang"
 
 #: weblate/templates/accounts/user.html:238
 msgid "Frequency"
-msgstr ""
+msgstr "Tíðni"
 
 #: weblate/templates/accounts/user.html:241
 msgid "One-time"
@@ -6678,10 +6631,8 @@ msgid "None"
 msgstr "Ekkert"
 
 #: weblate/templates/accounts/user.html:309
-#, fuzzy
-#| msgid "Remove user from this group"
 msgid "Remove user from this team"
-msgstr "Fjarlægja notanda úr þessum hópi"
+msgstr "Fjarlægja notanda úr þessu teymi"
 
 #: weblate/templates/accounts/user.html:320
 #: weblate/templates/trans/project-access.html:65
@@ -6700,31 +6651,24 @@ msgid "Unblock user"
 msgstr "Opna á notanda"
 
 #: weblate/templates/accounts/user.html:341
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit user"
-msgstr "Breyta frumtexta"
+msgstr "Breyta notanda"
 
 #: weblate/templates/accounts/user.html:358
 msgid "User has two-factor authentication configured."
 msgstr ""
 
 #: weblate/templates/accounts/user.html:360
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "User doesn't have two-factor authentication configured."
-msgstr "Vefþjónninn leyfir ekki staðfestingu."
+msgstr "Notandinn er ekki með tveggja-þátta auðkenningu uppsetta."
 
 #: weblate/templates/accounts/user.html:365
 msgid "Disable two-factor authentication"
 msgstr ""
 
 #: weblate/templates/accounts/user.html:372
-#, fuzzy
-#| msgid "Account removal deletes all your private data."
 msgid "Account removal deletes all user private data."
-msgstr "Fjarlæging aðgangs eyðir öllum þínum einkagögnum."
+msgstr "Fjarlæging aðgangs eyðir öllum einkagögnum notanda."
 
 #: weblate/templates/accounts/user.html:375
 #: weblate/templates/accounts/user.html:389
@@ -6813,10 +6757,8 @@ msgid "Configure add-on"
 msgstr "Stilla kerfisviðbót"
 
 #: weblate/templates/addons/addon_detail.html:44
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
-msgstr "Þessi viðbót keyrir forskrift."
+msgstr "Þessi viðbót er ekki með neinar stillingar."
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
@@ -6863,8 +6805,6 @@ msgid "History"
 msgstr "Vinnsluferill"
 
 #: weblate/templates/addons/addon_list.html:31
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "No add-ons currently installed"
 msgstr "Núna eru engar viðbætur uppsettar."
 
@@ -6881,11 +6821,8 @@ msgid "Uninstall"
 msgstr "Fjarlægja"
 
 #: weblate/templates/addons/addon_list.html:45
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Viewers"
 msgid "View Logs"
-msgstr "Skoðarar"
+msgstr "Skoða atvikaskrár"
 
 #: weblate/templates/addons/addon_list.html:47 weblate/templates/guide.html:55
 #: weblate/templates/machinery/list.html:41
@@ -6950,17 +6887,15 @@ msgstr "Staða"
 
 #: weblate/templates/addons/addon_logs.html:33
 msgid "Event"
-msgstr ""
+msgstr "Atvik"
 
 #: weblate/templates/addons/addon_logs.html:34
-#, fuzzy
-#| msgid "View details"
 msgid "Details"
-msgstr "Skoða nánar"
+msgstr "Nánar"
 
 #: weblate/templates/addons/addon_logs.html:35
 msgid "Timestamp"
-msgstr ""
+msgstr "Tímamerki"
 
 #: weblate/templates/addons/addon_logs.html:58
 msgid "No add-on activity logs available."
@@ -7530,10 +7465,8 @@ msgid "Yearly price"
 msgstr "Árlegt verð"
 
 #: weblate/templates/billing/status.html:80
-#, fuzzy
-#| msgid "Hosted strings"
 msgid "Hosted strings limit"
-msgstr "Hýstir strengir"
+msgstr "Takmörk á fjölda strengja í hýsingu"
 
 #: weblate/templates/billing/status.html:85
 msgid "Strings limit"
@@ -8675,7 +8608,7 @@ msgstr "Tiltækar viðbætur"
 
 #: weblate/templates/keyboard-shortcuts.html:17
 msgid "Shortcut"
-msgstr ""
+msgstr "Flýtilykill"
 
 #: weblate/templates/keyboard-shortcuts.html:18 weblate/trans/forms.py:2781
 msgid "Action"
@@ -8717,11 +8650,9 @@ msgstr ""
 #: weblate/templates/keyboard-shortcuts.html:134
 #: weblate/templates/keyboard-shortcuts.html:141
 #: weblate/templates/keyboard-shortcuts.html:147
-#, fuzzy
-#| msgid "Port"
 msgctxt "between keyboard shortcuts"
 msgid "or"
-msgstr "Gátt"
+msgstr "eða"
 
 #: weblate/templates/keyboard-shortcuts.html:50
 msgid "Navigate to the next translation in the current search."
@@ -8781,10 +8712,8 @@ msgstr "Þetta tungumál er notað fyrir upprunalega strengi."
 #: weblate/templates/keyboard-shortcuts.html:108
 #: weblate/templates/keyboard-shortcuts.html:116
 #: weblate/templates/keyboard-shortcuts.html:119
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "followed by"
-msgstr "Sent inn af"
+msgstr "fylgt af"
 
 #: weblate/templates/keyboard-shortcuts.html:112
 #, fuzzy
@@ -8811,10 +8740,8 @@ msgid "Focus on search field."
 msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:144
-#, fuzzy
-#| msgid "Update source strings"
 msgid "Copy the source string."
-msgstr "Uppfæra upprunastrengi"
+msgstr "Afrita upprunastrenginn."
 
 #: weblate/templates/keyboard-shortcuts.html:150
 msgid "Toggle the Needs editing checkbox."
@@ -10116,10 +10043,8 @@ msgid "Thank you for using Weblate"
 msgstr "Takk fyrir að nota Weblate."
 
 #: weblate/templates/registration/logged_out.html:17
-#, fuzzy
-#| msgid "Show on dashboard"
 msgid "Return to dashboard"
-msgstr "Birta á stjórnborði"
+msgstr "Fara aftur á stjórnborð"
 
 #: weblate/templates/replace.html:13
 msgid "Please review and confirm the search and replace results."
@@ -10179,22 +10104,16 @@ msgid "Add to screenshot"
 msgstr "Bæta á skjámynd"
 
 #: weblate/templates/screenshots/snippets/paste-button.html:4
-#, fuzzy
-#| msgid "Copy token to clipboard"
 msgid "Paste from clipboard"
-msgstr "Afrita teikn á klippispjald"
+msgstr "Líma af klippispjaldi"
 
 #: weblate/templates/search.html:23
-#, fuzzy
-#| msgid "Strings"
 msgid "strings"
-msgstr "Strengir"
+msgstr "strengir"
 
 #: weblate/templates/search.html:23
-#, fuzzy
-#| msgid "Words"
 msgid "words"
-msgstr "Orð"
+msgstr "orð"
 
 #: weblate/templates/search.html:28
 #: weblate/templates/snippets/embed-units.html:109
@@ -11031,7 +10950,7 @@ msgstr "Þýddir strengir í tilteknu tungumáli"
 
 #: weblate/templates/snippets/query-field.html:6
 msgid "Filters"
-msgstr ""
+msgstr "Síur"
 
 #: weblate/templates/snippets/query-field.html:15
 #: weblate/templates/snippets/user-query-field.html:5 weblate/utils/forms.py:28
@@ -15751,20 +15670,16 @@ msgid "Component {}"
 msgstr "Þýðingarhluti {}"
 
 #: weblate/trans/widgets.py:378
-#, fuzzy
-#| msgid "Status badge"
 msgid "SVG status badge"
-msgstr "Stöðutákn"
+msgstr "SVG-stöðutákn"
 
 #: weblate/trans/widgets.py:381
 msgid "translated"
 msgstr "þýtt"
 
 #: weblate/trans/widgets.py:416
-#, fuzzy
-#| msgid "Big status badge"
 msgid "PNG status badge"
-msgstr "Stórt stöðutákn"
+msgstr "PNG-stöðutákn"
 
 #: weblate/trans/widgets.py:425
 msgctxt "Status widget name"
