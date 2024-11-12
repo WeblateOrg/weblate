@@ -497,8 +497,7 @@ The :file:`settings.py` snippet for PostgreSQL:
             "NAME": "weblate",
             # Database user
             "USER": "weblate",
-            # Name of role to alter to set parameters in PostgreSQL,
-            # use in case role name is different than user used for authentication.
+            # Configures name of the PostgreSQL role to alter during the database migration
             # "ALTER_ROLE": "weblate",
             # Database password
             "PASSWORD": "password",
@@ -513,13 +512,13 @@ The :file:`settings.py` snippet for PostgreSQL:
     }
 
 The database migration performs `ALTER ROLE
-<https://www.postgresql.org/docs/12/sql-alterrole.html>`_ on database role used
-by Weblate. In most cases the name of the role matches username. In more
-complex setups the role name is different than username and you will get error
+<https://www.postgresql.org/docs/16/sql-alterrole.html>`_ on the database role used
+by Weblate. In most cases, the name of the role matches the username. In more
+complex setups the role name is different from the username, and you will get an error
 about non-existing role during the database migration
 (``psycopg2.errors.UndefinedObject: role "weblate@hostname" does not exist``).
 This is known to happen with Azure Database for PostgreSQL, but it's not
-limited to this environment. Please set ``ALTER_ROLE`` to change name of the
+limited to this environment. Please set ``ALTER_ROLE`` to change the name of the
 role Weblate should alter during the database migration.
 
 .. seealso::

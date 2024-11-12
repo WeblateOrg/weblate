@@ -220,7 +220,8 @@ class BaseOpenAITranslation(BatchMachineTranslation):
                 extra_log=translations_string,
                 message=True,
             )
-            raise MachineTranslationError("Blank assistant reply")
+            msg = "Blank assistant reply"
+            raise MachineTranslationError(msg)
 
         # Ignore extra whitespace in response as OpenAI can be creative in that
         # (see https://github.com/WeblateOrg/weblate/issues/12456)
@@ -231,9 +232,8 @@ class BaseOpenAITranslation(BatchMachineTranslation):
                 extra_log=translations_string,
                 message=True,
             )
-            raise MachineTranslationError(
-                f"Could not parse assistant reply, expected={len(texts)}, received={len(translations)}"
-            )
+            msg = f"Could not parse assistant reply, expected={len(texts)}, received={len(translations)}"
+            raise MachineTranslationError(msg)
 
         for index, translation in enumerate(translations):
             text = texts[index if not rephrase else 0]
@@ -285,7 +285,8 @@ class OpenAITranslation(BaseOpenAITranslation):
         if self.settings["model"] == "custom":
             return self.settings["custom_model"]
 
-        raise MachineTranslationError(f"Unsupported model: {self.settings['model']}")
+        msg = f"Unsupported model: {self.settings['model']}"
+        raise MachineTranslationError(msg)
 
 
 class AzureOpenAITranslation(BaseOpenAITranslation):

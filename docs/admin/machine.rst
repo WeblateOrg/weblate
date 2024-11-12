@@ -589,8 +589,8 @@ addition to the term database.
 
 .. seealso::
 
-    `SAP Translation Hub API <https://api.sap.com/shell/discover/contentpackage/SAPTranslationHub/api/translationhub>`_,
-    `Building the Base URL of SAP Translation Hub <https://help.sap.com/docs/SAP_TRANSLATION_HUB/ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_
+    * `SAP Translation Hub <https://www.sap.com/products/artificial-intelligence/translation-hub.html>`_
+    * `SAP Translation Hub API <https://api.sap.com/api/translationhub/overview>`_
 
 .. _mt-systran:
 

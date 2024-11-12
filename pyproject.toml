@@ -5,6 +5,52 @@ requires = [
   "translate-toolkit"
 ]
 
+[dependency-groups]
+dev = [
+  "django-debug-toolbar==4.4.6",
+  "PyICU==2.14",
+  "reuse==4.0.3",
+  "scour==0.38.2",
+  "tinyunicodeblock==1.3",
+  {include-group = "lint"},
+  {include-group = "test"},
+  {include-group = "types"}
+]
+lint = [
+  {include-group = "pylint"},
+  {include-group = "pre-commit"}
+]
+pre-commit = [
+  "pre-commit==4.0.1"
+]
+pylint = [
+  "pylint==3.3.1"
+]
+test = [
+  "coverage==7.6.4",
+  "pytest==8.3.3",
+  "pytest-cov==6.0.0",
+  "pytest-django==4.9.0",
+  "responses==0.25.3",
+  "respx==0.21.1",
+  "selenium==4.26.1"
+]
+types = [
+  "boto3-stubs==1.35.57",
+  "celery-types==0.22.0",
+  "django-stubs-ext==5.1.1",
+  "django-stubs==5.1.1",
+  "djangorestframework-stubs==3.15.1",
+  "types-lxml==2024.11.8",
+  "mypy==1.13.0",
+  "types-dateparser==1.2.0.20240420",
+  "types-jsonschema==4.23.0.20240813",
+  "types-openpyxl==3.1.5.20241025",
+  "types-Pillow==10.2.0.20240822",
+  "types-python-dateutil==2.9.0.20241003",
+  "types-requests==2.32.0.20241016"
+]
+
 [project]
 authors = [{name = "Michal Čihař", email = "michal@weblate.org"}]
 classifiers = [
@@ -58,12 +104,12 @@ dependencies = [
   "hiredis>=2.2.1,<3.1",
   "html2text>=2024.2.25,<2024.2.27",
   "iniparse==0.5",
-  "jsonschema>=4.5,<5",
+  "jsonschema>=4.23.0,<5",
   "lxml>=5.2.0,<5.4",
   "mistletoe>=1.4.0,<1.5",
   "nh3>=0.2.14,<0.3",
   "openpyxl>=3.1.0,<3.2",
-  "packaging>=22,<24.2",
+  "packaging>=22,<24.3",
   "phply>=1.2.6,<1.3",
   "Pillow>=10.3.0,<12",
   "pycairo>=1.20.0",
@@ -87,10 +133,9 @@ dependencies = [
   "translation-finder>=2.16,<3.0",
   "user-agents>=2.0,<2.3",
   "weblate-language-data>=2024.9",
-  "weblate-schemas==2024.1"
+  "weblate-schemas==2024.2"
 ]
 description = "A web-based continuous localization system with tight version control integration"
-dynamic = ["version"]
 keywords = [
   "i18n",
   "l10n",
@@ -102,10 +147,12 @@ keywords = [
 license = {text = "GPLv3+"}
 name = "weblate"
 requires-python = ">=3.11"
+version = "5.9-dev"
 
 [project.optional-dependencies]
 alibaba = [
-  "aliyun-python-sdk-alimt>=3.2.0,<4.0.0"
+  "aliyun-python-sdk-alimt>=3.2.0,<4.0.0",
+  "aliyun-python-sdk-core>=2.16.0,<3.0.0"
 ]
 all = [
   "weblate[alibaba,amazon,antispam,gerrit,google,ldap,mercurial,openai,postgres,saml,zxcvbn]"
@@ -115,14 +162,6 @@ amazon = [
 ]
 antispam = [
   "python-akismet>=0.4.2,<0.5"
-]
-dev = [
-  "weblate[all,test,lint,mypy]",
-  "django-debug-toolbar==4.4.6",
-  "PyICU==2.14",
-  "reuse==4.0.3",
-  "scour==0.38.2",
-  "tinyunicodeblock==1.3"
 ]
 gerrit = [
   "git-review>=2.4.0,<2.5.0"
@@ -134,27 +173,8 @@ google = [
 ldap = [
   "django-auth-ldap>=4.6.0,<6.0.0"
 ]
-lint = [
-  "pre-commit==4.0.1",
-  "pylint==3.3.1"
-]
 mercurial = [
   "mercurial>=6.8.0,<7.0"
-]
-mypy = [
-  "boto3-stubs==1.35.54",
-  "celery-types==0.22.0",
-  "django-stubs-ext==5.1.1",
-  "django-stubs==5.1.1",
-  "djangorestframework-stubs==3.15.1",
-  "types-lxml==2024.9.16",
-  "mypy==1.13.0",
-  "types-dateparser==1.2.0.20240420",
-  "types-jsonschema==4.23.0.20240813",
-  "types-openpyxl==3.1.5.20241025",
-  "types-Pillow==10.2.0.20240822",
-  "types-python-dateutil==2.9.0.20241003",
-  "types-requests==2.32.0.20241016"
 ]
 mysql = [
   "mysqlclient>=2.1.1,<3"
@@ -168,16 +188,21 @@ postgres = [
 saml = [
   "python3-saml>=1.2.1"
 ]
-test = [
-  "coverage==7.6.4",
-  "pytest==8.3.3",
-  "pytest-cov==6.0.0",
-  "pytest-django==4.9.0",
-  "responses==0.25.3",
-  "respx==0.21.1",
-  "selenium==4.26.1"
+saml2idp = [
+  "djangosaml2idp==0.7.2"
 ]
-zxcvbn = ["django-zxcvbn-password==2.1.1"]
+wlhosted = [
+  "wlhosted"
+]
+wllegal = [
+  "wllegal>=2024.6"
+]
+wsgi = [
+  "gunicorn==23.0.0"
+]
+zxcvbn = [
+  "django-zxcvbn-password==2.1.1"
+]
 
 [project.readme]
 content-type = "text/x-rst"
@@ -309,14 +334,6 @@ plugins = [
 ]
 
 [[tool.mypy.overrides]]
-# TODO: remove this once core can be validated with mypy
-ignore_errors = true
-module = [
-  "weblate.*.tests",
-  "weblate.*.tests.*"
-]
-
-[[tool.mypy.overrides]]
 disallow_untyped_defs = true
 ignore_missing_imports = true
 module = [
@@ -435,7 +452,6 @@ ignore = [
   'Q003',  # CONFIG: formatter
   'W191',  # CONFIG: formatter
   "E203",  # CONFIG: formatter
-  "EM",  # TODO: Exception strings
   "PTH",  # TODO: Not using pathlib
   "FBT",  # TODO: Boolean in function definition
   "BLE001",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
@@ -510,8 +526,8 @@ max-statements = 100
 include-package-data = true
 zip-safe = false
 
-[tool.setuptools.dynamic]
-version = {attr = "weblate.utils.version.VERSION"}
-
 [tool.setuptools.packages]
 find = {namespaces = false}
+
+[tool.uv.sources]
+wlhosted = {path = "../hosted", editable = true}

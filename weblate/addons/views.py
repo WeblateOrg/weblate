@@ -32,17 +32,20 @@ class AddonList(PathViewMixin, ListView):
     def get_queryset(self):
         if isinstance(self.path_object, Component):
             if not self.request.user.has_perm("component.edit", self.path_object):
-                raise PermissionDenied("Can not edit component")
+                msg = "Can not edit component"
+                raise PermissionDenied(msg)
             self.kwargs["component_obj"] = self.path_object
             return Addon.objects.filter_component(self.path_object)
         if isinstance(self.path_object, Project):
             if not self.request.user.has_perm("project.edit", self.path_object):
-                raise PermissionDenied("Can not edit project")
+                msg = "Can not edit project"
+                raise PermissionDenied(msg)
             self.kwargs["project_obj"] = self.path_object
             return Addon.objects.filter_project(self.path_object)
 
         if not self.request.user.has_perm("management.addons"):
-            raise PermissionDenied("Can not manage add-ons")
+            msg = "Can not manage add-ons"
+            raise PermissionDenied(msg)
         return Addon.objects.filter_sitewide()
 
     def get_success_url(self):
@@ -174,15 +177,18 @@ class BaseAddonView(DetailView):
         if obj.component and not self.request.user.has_perm(
             "component.edit", obj.component
         ):
-            raise PermissionDenied("Can not edit component")
+            msg = "Can not edit component"
+            raise PermissionDenied(msg)
         if obj.project and not self.request.user.has_perm("project.edit", obj.project):
-            raise PermissionDenied("Can not edit project")
+            msg = "Can not edit project"
+            raise PermissionDenied(msg)
         if (
             obj.project is None
             and obj.component is None
             and not self.request.user.has_perm("management.addons")
         ):
-            raise PermissionDenied("Can not manage add-ons")
+            msg = "Can not manage add-ons"
+            raise PermissionDenied(msg)
         return obj
 
 

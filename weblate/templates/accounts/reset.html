@@ -37,9 +37,6 @@
           <form action="{% url 'password_reset' %}" method="post" accept-charset="utf-8" role="form">
             {% csrf_token %}
             {{ form|crispy }}
-            {% if captcha_form %}
-            {{ captcha_form|crispy }}
-            {% endif %}
             <input type="submit" value="{% if second_stage %}{% trans 'Set my password' %}{% else %}{% trans 'Reset my password' %}{% endif %}" class="btn btn-primary btn-full" />
           </form>
 

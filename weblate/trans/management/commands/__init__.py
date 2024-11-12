@@ -102,7 +102,8 @@ class WeblateComponentCommand(BaseCommand):
                 # warn on no match
                 if not found.exists():
                     self.stderr.write(f"{arg!r} did not match any components")
-                    raise CommandError("Nothing to process!")
+                    msg = "Nothing to process!"
+                    raise CommandError(msg)
 
                 # merge results
                 result |= found
@@ -112,7 +113,8 @@ class WeblateComponentCommand(BaseCommand):
             self.stderr.write(" * Use --all to select all components")
             self.stderr.write(" * Use --file-format to filter based on the file format")
             self.stderr.write(" * Specify at least one <project/component> argument")
-            raise CommandError("Nothing to process!")
+            msg = "Nothing to process!"
+            raise CommandError(msg)
 
         return result
 
@@ -175,7 +177,8 @@ class WeblateTranslationCommand(BaseCommand):
                 project__slug=options["project"], slug=options["component"]
             )
         except Component.DoesNotExist as error:
-            raise CommandError("No matching translation component found!") from error
+            msg = "No matching translation component found!"
+            raise CommandError(msg) from error
         try:
             return Translation.objects.get(
                 component=component, language__code=options["language"]
@@ -187,7 +190,8 @@ class WeblateTranslationCommand(BaseCommand):
                     return Translation.objects.get(
                         component=component, language=language
                     )
-            raise CommandError("No matching translation project found!") from error
+            msg = "No matching translation project found!"
+            raise CommandError(msg) from error
 
     def handle(self, *args, **options) -> None:
         raise NotImplementedError

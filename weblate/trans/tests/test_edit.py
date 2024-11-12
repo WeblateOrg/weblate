@@ -6,7 +6,6 @@
 
 import time
 from typing import NoReturn
-from unittest import SkipTest
 
 from django.urls import reverse
 
@@ -246,7 +245,7 @@ class EditTest(ViewTestCase):
 
             self.test_new_plural_unit(args, language="cs")
         else:
-            raise SkipTest("Not supported")
+            self.skipTest("Not supported")
 
 
 class EditValidationTest(ViewTestCase):
@@ -507,7 +506,7 @@ class EditIphoneTest(EditTest):
     def test_new_unit(self) -> NoReturn:
         # Most likely the test is wrong here it is using monolingual format as bilingual
         # and duplicates source into context
-        raise SkipTest("Not supported")
+        self.skipTest("Not supported")
 
 
 class EditJSONTest(EditTest):
@@ -539,7 +538,7 @@ class EditDTDTest(EditTest):
 
     def test_new_unit(self) -> NoReturn:
         # Most likely there is a bug in the format and adding is broken
-        raise SkipTest("Not supported")
+        self.skipTest("Not supported")
 
 
 class EditJSONMonoTest(EditTest):
@@ -605,7 +604,7 @@ class EditXliffComplexTest(EditTest):
     def test_new_unit(self) -> NoReturn:
         # The group handling is broken, see
         # https://github.com/translate/translate/issues/4186
-        raise SkipTest("Not supported")
+        self.skipTest("Not supported")
 
 
 class EditXliffResnameTest(EditTest):
@@ -633,7 +632,7 @@ class EditXliffMonoTest(EditTest):
     def test_new_unit(self) -> NoReturn:
         # The group handling is broken, see
         # https://github.com/translate/translate/issues/4186
-        raise SkipTest("Not supported")
+        self.skipTest("Not supported")
 
 
 class EditLinkTest(EditTest):

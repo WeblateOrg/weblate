@@ -33,10 +33,8 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
     - uses: astral-sh/setup-uv@v3
-    - name: Install dependencies
-      run: uv pip install --system $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
     - run: ./scripts/generate-license-data
     - name: Update renovate branch
       if: github.ref != 'refs/heads/main'

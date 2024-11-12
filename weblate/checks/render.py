@@ -123,7 +123,8 @@ class MaxSizeCheck(TargetCheckParametrized):
             )
             result = cache.get(key)
         if result is None:
-            raise Http404("Invalid check")
+            msg = "Invalid check"
+            raise Http404(msg)
         response = HttpResponse(content_type="image/png")
         response.write(result)
         return response

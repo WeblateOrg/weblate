@@ -185,7 +185,8 @@ def get_key_type(device: Device) -> DeviceType:
         return "totp"
     if isinstance(device, StaticDevice):
         return "recovery"
-    raise TypeError(f"Unsupported device: {device}")
+    msg = f"Unsupported device: {device}"
+    raise TypeError(msg)
 
 
 class WeblateWebAuthnHelper(WebAuthnHelper):

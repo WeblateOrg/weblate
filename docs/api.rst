@@ -1308,7 +1308,7 @@ Components
     :>json string lock_url: URL to lock status; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
     :>json string task_url: URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`
-    :>json string credits_url: URL to to list contributor credits; see :http:get:`/api/components/(string:project)/(string:component)/credits/`
+    :>json string credits_url: URL to list contributor credits; see :http:get:`/api/components/(string:project)/(string:component)/credits/`
 
     **Example JSON data:**
 
@@ -2128,8 +2128,7 @@ Units
 
 A `unit` is a single piece of a translation which pairs a source string with a
 corresponding translated string and also contains some related metadata. The
-term is derived from the `Translate Toolkit
-<http://docs.translatehouse.org/projects/translate-toolkit/en/latest/api/storage.html#translate.storage.base.TranslationUnit>`_
+term is derived from the :py:class:`tt:translate.storage.base.TranslationUnit` in Translate Toolkit
 and XLIFF.
 
 .. http:get:: /api/units/

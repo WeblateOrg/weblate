@@ -18,7 +18,7 @@ check() {
 }
 
 run_coverage() {
-    python -m coverage run --source . --append "$@"
+    uv run --no-sources --all-extras coverage run --source . --append "$@"
 }
 
 get_mysql_args() {

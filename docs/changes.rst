@@ -8,7 +8,9 @@ Not yet released.
 **Improvements**
 
 * :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
+* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate Component`)
 * Included username when generating :ref:`credits`.
+* :ref:`bulk-edit` shows a preview of matched strings.
 
 **Bug fixes**
 
@@ -23,6 +25,47 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 .. include:: changes/contributors/5.9.rst
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/127?closed=1>`__.
+
+Weblate 5.8.4
+-------------
+
+Not yet released.
+
+**Bug fixes**
+
+* Fixed occasional crash in :ref:`rss`.
+* :ref:`check-icu-message-format` gracefully handles plural strings.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.8.4.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/132?closed=1>`__.
+
+Weblate 5.8.3
+-------------
+
+Released on November 6th 2024.
+
+**Bug fixes**
+
+* Formatting of some :ref:`audit-log` entries.
+* Fixed XML escaped output in some machine translation integrations.
+* Fixed duplicate listing of newly added glossary terms.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.8.3.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/131?closed=1>`__.
 
 Weblate 5.8.2
 -------------
@@ -90,7 +133,7 @@ Released on October 15th 2024.
 * Stale, empty glossaries are now automatically removed.
 * :kbd:`?` now displays available :ref:`keyboard`.
 * Translation and language view in the project now include basic information about the language and plurals.
-* :ref:`bulk-edit` shows a preview of matched strings.
+* :ref:`search-replace` shows a preview of matched strings.
 * :ref:`aresource` now supports translatable attribute in its strings.
 * Creating component via file upload (Translate document) now supports bilingual files.
 

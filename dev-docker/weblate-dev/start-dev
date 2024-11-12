@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+set -e
+
+if [ ! -f /app/venv/bin/activate ]; then
+    uv venv /app/venv
+fi
+
+echo "/app/data/python" > "/app/venv/lib/python${PYVERSION}/site-packages/weblate-docker.pth"
+
+# shellcheck disable=SC1091
+. /app/venv/bin/activate
+
+cd /app/src
+uv export --format requirements-txt --all-extras --no-sources | uv pip install -r -
+
+exec /app/bin/start "$@"

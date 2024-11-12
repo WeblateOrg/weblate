@@ -137,7 +137,8 @@ def handle_repetition(toks):
                 opt = OptionalEmitter(GroupEmitter([toks[0], opt]))
             return GroupEmitter([toks[0]] * mincount + [opt])
         return [toks[0]] * mincount
-    raise ParseFatalException("", 0, f"Unsupported repetition {toks!r}")
+    msg = ""
+    raise ParseFatalException(msg, 0, f"Unsupported repetition {toks!r}")
 
 
 def handle_literal(toks):
@@ -161,7 +162,8 @@ def handle_macro(toks):
         return CharacterRangeEmitter(srange("[A-Za-z0-9_]"))
     if macro_char in {"s", "W"}:
         return LiteralEmitter(" ")
-    raise ParseFatalException("", 0, f"unsupported macro character ({macro_char})")
+    msg = ""
+    raise ParseFatalException(msg, 0, f"unsupported macro character ({macro_char})")
 
 
 def handle_boundary(toks):

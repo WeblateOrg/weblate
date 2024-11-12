@@ -147,7 +147,8 @@ class MetricManager(models.Manager["Metric"]):
         if data:
             db_data = [data.pop(name, 0) for name in METRIC_ORDER]
             if data:
-                raise ValueError(f"Unsupported data: {data}")
+                msg = f"Unsupported data: {data}"
+                raise ValueError(msg)
 
         metric, created = self.get_or_create(
             scope=scope,
@@ -207,7 +208,8 @@ class MetricManager(models.Manager["Metric"]):
         elif isinstance(obj, Category):
             changes = Change.objects.for_category(obj)
         else:
-            raise TypeError(f"Unsupported type for metrics: {obj!r}")
+            msg = f"Unsupported type for metrics: {obj!r}"
+            raise TypeError(msg)
 
         count = changes.filter(
             timestamp__date=date - datetime.timedelta(days=1)
@@ -236,7 +238,8 @@ class MetricManager(models.Manager["Metric"]):
             return self.collect_category_language(obj)
         if isinstance(obj, Language):
             return self.collect_language(obj)
-        raise ValueError(f"Unsupported type for metrics: {obj!r}")
+        msg = f"Unsupported type for metrics: {obj!r}"
+        raise ValueError(msg)
 
     @transaction.atomic
     def collect_global(self):

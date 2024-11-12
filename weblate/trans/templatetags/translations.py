@@ -1362,7 +1362,8 @@ def get_breadcrumbs(path_object, flags: bool = True):
         )
         yield path_object.get_absolute_url(), path_object.language
     else:
-        raise TypeError(f"No breadcrumbs for {path_object}")
+        msg = f"No breadcrumbs for {path_object}"
+        raise TypeError(msg)
 
 
 @register.simple_tag

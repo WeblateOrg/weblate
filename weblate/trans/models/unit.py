@@ -86,13 +86,15 @@ class UnitQuerySet(models.QuerySet):
         if rqtype.startswith("check:"):
             check_id = rqtype[6:]
             if check_id not in CHECKS:
-                raise ValueError(f"Unknown check: {check_id}")
+                msg = f"Unknown check: {check_id}"
+                raise ValueError(msg)
             return self.filter(check__name=check_id, check__dismissed=False)
         if rqtype.startswith("label:"):
             return self.filter(labels__name=rqtype[6:])
         if rqtype == "all":
             return self.all()
-        raise ValueError(f"Unknown filter: {rqtype}")
+        msg = f"Unknown filter: {rqtype}"
+        raise ValueError(msg)
 
     def prefetch(self):
         from weblate.trans.models import Component
@@ -303,7 +305,8 @@ class UnitQuerySet(models.QuerySet):
         try:
             return self.source_lookup[source]
         except KeyError:
-            raise Unit.DoesNotExist("No matching unit found!") from None
+            msg = "No matching unit found!"
+            raise Unit.DoesNotExist(msg) from None
 
     def order(self):
         return self.order_by("-priority", "position")

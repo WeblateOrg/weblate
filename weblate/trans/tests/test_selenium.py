@@ -11,7 +11,6 @@ import warnings
 from contextlib import contextmanager
 from datetime import timedelta
 from typing import TYPE_CHECKING, cast
-from unittest import SkipTest
 
 from django.conf import settings
 from django.core import mail
@@ -76,12 +75,7 @@ class SeleniumTests(
 ):
     _driver: WebDriver | None = None
     _driver_error: str = ""
-    image_path = os.path.join(
-        os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        ),
-        "test-images",
-    )
+    image_path = os.path.join(settings.BASE_DIR, "test-images")
     site_domain = ""
 
     @contextmanager
@@ -149,7 +143,7 @@ class SeleniumTests(
     def driver(self) -> WebDriver:
         if self._driver is None:
             warnings.warn(f"Selenium error: {self._driver_error}", stacklevel=1)
-            raise SkipTest(f"Webdriver not available: {self._driver_error}")
+            self.skipTest(f"Webdriver not available: {self._driver_error}")
         return self._driver
 
     def setUp(self) -> None:
@@ -202,7 +196,8 @@ class SeleniumTests(
     def upload_file(self, element, filename) -> None:
         filename = os.path.abspath(filename)
         if not os.path.exists(filename):
-            raise ValueError(f"Test file not found: {filename}")
+            msg = f"Test file not found: {filename}"
+            raise ValueError(msg)
         element.send_keys(filename)
 
     def clear_field(self, element):

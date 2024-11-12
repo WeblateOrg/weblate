@@ -89,7 +89,6 @@ from social_django.views import complete, disconnect
 
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.forms import (
-    CaptchaForm,
     CommitForm,
     ContactForm,
     DashboardSettingsForm,
@@ -521,18 +520,17 @@ def get_initial_contact(request: AuthenticatedHttpRequest):
 
 @never_cache
 def contact(request: AuthenticatedHttpRequest):
-    captcha = None
-    show_captcha = settings.REGISTRATION_CAPTCHA and not request.user.is_authenticated
-
     if request.method == "POST":
-        form = ContactForm(request.POST)
-        if show_captcha:
-            captcha = CaptchaForm(request, form, request.POST)
+        form = ContactForm(
+            request=request,
+            hide_captcha=request.user.is_authenticated,
+            data=request.POST,
+        )
         if not check_rate_limit("message", request):
             messages.error(
                 request, gettext("Too many messages sent, please try again later.")
             )
-        elif (captcha is None or captcha.is_valid()) and form.is_valid():
+        elif form.is_valid():
             mail_admins_contact(
                 request,
                 "%(subject)s",
@@ -546,14 +544,14 @@ def contact(request: AuthenticatedHttpRequest):
         initial = get_initial_contact(request)
         if request.GET.get("t") in CONTACT_SUBJECTS:
             initial["subject"] = CONTACT_SUBJECTS[request.GET["t"]]
-        form = ContactForm(initial=initial)
-        if show_captcha:
-            captcha = CaptchaForm(request)
+        form = ContactForm(
+            request=request, hide_captcha=request.user.is_authenticated, initial=initial
+        )
 
     return render(
         request,
         "accounts/contact.html",
-        {"form": form, "captcha_form": captcha, "title": gettext("Contact")},
+        {"form": form, "title": gettext("Contact")},
     )
 
 
@@ -762,7 +760,8 @@ def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int):
         128,
     )
     if size not in allowed_sizes:
-        raise Http404(f"Not supported size: {size}")
+        msg = f"Not supported size: {size}"
+        raise Http404(msg)
 
     avatar_user = get_object_or_404(User, username=user)
 
@@ -882,8 +881,6 @@ def fake_email_sent(request: AuthenticatedHttpRequest, reset: bool = False):
 @never_cache
 def register(request: AuthenticatedHttpRequest):
     """Registration form."""
-    captcha = None
-
     # Fetch invitation
     invitation: None | Invitation = None
     initial = {}
@@ -908,12 +905,8 @@ def register(request: AuthenticatedHttpRequest):
         backends = set()
 
     if request.method == "POST" and "email" in backends:
-        form = RegistrationForm(request, request.POST)
-        if settings.REGISTRATION_CAPTCHA:
-            captcha = CaptchaForm(request, form, request.POST)
-        if (captcha is None or captcha.is_valid()) and form.is_valid():
-            if captcha:
-                captcha.cleanup_session(request)
+        form = RegistrationForm(request=request, data=request.POST)
+        if form.is_valid():
             if form.cleaned_data["email_user"]:
                 AuditLog.objects.create(
                     form.cleaned_data["email_user"], request, "connect"
@@ -922,9 +915,7 @@ def register(request: AuthenticatedHttpRequest):
             store_userid(request)
             return social_complete(request, "email")
     else:
-        form = RegistrationForm(request, initial=initial)
-        if settings.REGISTRATION_CAPTCHA:
-            captcha = CaptchaForm(request)
+        form = RegistrationForm(request=request, initial=initial)
 
     # Redirect if there is only one backend
     if len(backends) == 1 and "email" not in backends and not invitation:
@@ -938,7 +929,6 @@ def register(request: AuthenticatedHttpRequest):
             "registration_backends": backends - {"email"},
             "title": gettext("User registration"),
             "form": form,
-            "captcha_form": captcha,
             "invitation": invitation,
         },
     )
@@ -948,15 +938,9 @@ def register(request: AuthenticatedHttpRequest):
 @never_cache
 def email_login(request: AuthenticatedHttpRequest):
     """Connect e-mail."""
-    captcha = None
-
     if request.method == "POST":
-        form = EmailForm(request.POST)
-        if settings.REGISTRATION_CAPTCHA:
-            captcha = CaptchaForm(request, form, request.POST)
-        if (captcha is None or captcha.is_valid()) and form.is_valid():
-            if captcha:
-                captcha.cleanup_session(request)
+        form = EmailForm(request=request, data=request.POST)
+        if form.is_valid():
             email_user = form.cleaned_data["email_user"]
             if email_user and email_user != request.user:
                 AuditLog.objects.create(
@@ -966,14 +950,12 @@ def email_login(request: AuthenticatedHttpRequest):
             store_userid(request)
             return social_complete(request, "email")
     else:
-        form = EmailForm()
-        if settings.REGISTRATION_CAPTCHA:
-            captcha = CaptchaForm(request)
+        form = EmailForm(request=request)
 
     return render(
         request,
         "accounts/email.html",
-        {"title": gettext("Register e-mail"), "form": form, "captcha_form": captcha},
+        {"title": gettext("Register e-mail"), "form": form},
     )
 
 
@@ -1046,7 +1028,6 @@ def reset_password_set(request: AuthenticatedHttpRequest):
         {
             "title": gettext("Password reset"),
             "form": form,
-            "captcha_form": None,
             "second_stage": True,
         },
     )
@@ -1069,18 +1050,12 @@ def reset_password(request: AuthenticatedHttpRequest):
         )
         return redirect("login")
 
-    captcha = None
-
     # We're already in the reset phase
     if "perform_reset" in request.session:
         return reset_password_set(request)
     if request.method == "POST":
-        form = ResetForm(request.POST)
-        if settings.REGISTRATION_CAPTCHA:
-            captcha = CaptchaForm(request, form, request.POST)
-        if (captcha is None or captcha.is_valid()) and form.is_valid():
-            if captcha:
-                captcha.cleanup_session(request)
+        form = ResetForm(request=request, data=request.POST)
+        if form.is_valid():
             if form.cleaned_data["email_user"]:
                 audit = AuditLog.objects.create(
                     form.cleaned_data["email_user"], request, "reset-request"
@@ -1102,9 +1077,7 @@ def reset_password(request: AuthenticatedHttpRequest):
                 )
             return fake_email_sent(request, True)
     else:
-        form = ResetForm()
-        if settings.REGISTRATION_CAPTCHA:
-            captcha = CaptchaForm(request)
+        form = ResetForm(request=request)
 
     return render(
         request,
@@ -1112,7 +1085,6 @@ def reset_password(request: AuthenticatedHttpRequest):
         {
             "title": gettext("Password reset"),
             "form": form,
-            "captcha_form": captcha,
             "second_stage": False,
         },
     )
@@ -1319,7 +1291,8 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
     try:
         request.backend = load_backend(request.social_strategy, backend, uri)
     except MissingBackend:
-        raise Http404("Backend not found") from None
+        msg = "Backend not found"
+        raise Http404(msg) from None
     # Store session ID for OpenID based auth. The session cookies will not be sent
     # on returning POST request due to SameSite cookie policy
     if isinstance(request.backend, OpenIdAuth):

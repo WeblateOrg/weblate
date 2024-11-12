@@ -227,7 +227,7 @@ class Group(models.Model):
                 clear=True,
             )
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("team", kwargs={"pk": self.pk})
 
     def long_name(self):
@@ -240,7 +240,8 @@ class UserManager(BaseUserManager["User"]):
     def _create_user(self, username, email, password, **extra_fields):
         """Create and save a User with the given fields."""
         if not username:
-            raise ValueError("The given username must be set")
+            msg = "The given username must be set"
+            raise ValueError(msg)
         email = self.normalize_email(email)
         username = self.model.normalize_username(username)
         user = self.model(username=username, email=email, **extra_fields)
@@ -256,7 +257,8 @@ class UserManager(BaseUserManager["User"]):
         extra_fields.setdefault("is_superuser", True)
 
         if extra_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser must have is_superuser=True.")
+            msg = "Superuser must have is_superuser=True."
+            raise ValueError(msg)
 
         return self._create_user(username, email, password, **extra_fields)
 
@@ -500,7 +502,7 @@ class User(AbstractBaseUser):
                 activity="enabled" if self.is_active else "disabled",
             )
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("user_page", kwargs={"user": self.username})
 
     def __init__(self, *args, **kwargs) -> None:
@@ -595,7 +597,8 @@ class User(AbstractBaseUser):
 
         # Validate perms
         if perm not in SPECIALS and perm not in PERMISSION_NAMES:
-            raise ValueError(f"Invalid permission: {perm}")
+            msg = f"Invalid permission: {perm}"
+            raise ValueError(msg)
 
         # Special permission functions
         if perm in SPECIALS:
@@ -634,7 +637,8 @@ class User(AbstractBaseUser):
     def check_access(self, project) -> None:
         """Raise an error if user is not allowed to access this project."""
         if not self.can_access_project(project):
-            raise Http404("Access denied")
+            msg = "Access denied"
+            raise Http404(msg)
 
     def can_access_component(self, component):
         """Check access to given component."""
@@ -647,7 +651,8 @@ class User(AbstractBaseUser):
     def check_access_component(self, component) -> None:
         """Raise an error if user is not allowed to access this component."""
         if not self.can_access_component(component):
-            raise Http404("Access denied")
+            msg = "Access denied"
+            raise Http404(msg)
 
     @cached_property
     def allowed_projects(self):
@@ -1135,7 +1140,7 @@ class Invitation(models.Model):
     def __str__(self) -> str:
         return f"invitation {self.uuid} for {self.user or self.email} to {self.group}"
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("invitation", kwargs={"pk": self.uuid})
 
     def send_email(self) -> None:
@@ -1147,7 +1152,8 @@ class Invitation(models.Model):
         elif self.user is not None:
             email = self.user.email
         else:
-            raise ValueError("Intiviation without an e-mail!")
+            msg = "Intiviation without an e-mail!"
+            raise ValueError(msg)
 
         send_notification_email(
             None,
@@ -1161,7 +1167,8 @@ class Invitation(models.Model):
         from weblate.accounts.models import AuditLog
 
         if self.user and self.user != user:
-            raise ValueError("User mismatch on accept!")
+            msg = "User mismatch on accept!"
+            raise ValueError(msg)
 
         if self.is_superuser:
             user.is_superuser = True

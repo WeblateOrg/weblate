@@ -34,7 +34,7 @@ class MockFluentTransUnit(MockUnit):
         source: str,
         target: str = "",
         fluent_type: str | None = None,
-        unit_id: str | None = None,
+        unit_id: str = "",
         is_source: bool = False,
     ) -> None:
         self._fluent_type = fluent_type

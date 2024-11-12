@@ -388,7 +388,8 @@ class BatchMachineTranslation:
         self, source_language: Language, target_language: Language
     ) -> tuple[str, str]:
         if source_language == target_language and not self.same_languages:
-            raise UnsupportedLanguageError("Same languages")
+            msg = "Same languages"
+            raise UnsupportedLanguageError(msg)
 
         for source in self.get_language_possibilities(source_language):
             for target in self.get_language_possibilities(target_language):
@@ -401,7 +402,8 @@ class BatchMachineTranslation:
             self.supported_languages_error = None
             self.supported_languages_error_age = 0
 
-        raise UnsupportedLanguageError("Not supported")
+        msg = "Not supported"
+        raise UnsupportedLanguageError(msg)
 
     def get_cached(self, source, language, text, threshold, replacements):
         if not self.cache_translations:
@@ -798,7 +800,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
 
 class XMLMachineTranslationMixin(BatchMachineTranslation):
     hightlight_syntax = True
-    force_uncleanup = False
+    force_uncleanup = True
 
     def unescape_text(self, text: str) -> str:
         """Unescaping of the text with replacements."""

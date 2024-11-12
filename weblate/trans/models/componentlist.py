@@ -56,7 +56,7 @@ class ComponentList(models.Model, CacheKeyMixin):
     def __str__(self) -> str:
         return self.name
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("component-list", kwargs={"name": self.slug})
 
     def __init__(self, *args, **kwargs) -> None:

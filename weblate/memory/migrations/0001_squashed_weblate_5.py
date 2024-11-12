@@ -30,7 +30,8 @@ def create_index(apps, schema_editor) -> None:
             "memory_memory(source(255), target(255), origin(255))"
         )
     else:
-        raise ImproperlyConfigured(f"Unsupported database: {vendor}")
+        msg = f"Unsupported database: {vendor}"
+        raise ImproperlyConfigured(msg)
 
 
 def drop_index(apps, schema_editor) -> None:
@@ -48,7 +49,8 @@ def drop_index(apps, schema_editor) -> None:
             "ALTER TABLE memory_memory DROP INDEX memory_lookup_index"
         )
     else:
-        raise ImproperlyConfigured(f"Unsupported database: {vendor}")
+        msg = f"Unsupported database: {vendor}"
+        raise ImproperlyConfigured(msg)
 
 
 class Migration(migrations.Migration):

@@ -23,7 +23,7 @@ Once all requirements are installed or upgraded, ensure your
 :file:`settings_example.py` for correct values).
 
 Always check :ref:`version-specific-instructions` before upgrading. If you are
-skipping any version(s), be sure to follow instructions for all versions you are
+skipping any versions, be sure to follow instructions for all versions you are
 skipping during such upgrade. It's sometimes better to upgrade gradually to
 an intermediate version to ensure a smooth migration. Upgrading across multiple
 releases should work, but is not as well tested as single version upgrades!
@@ -140,7 +140,7 @@ supported and will break.
 Migrating from other databases to PostgreSQL
 --------------------------------------------
 
-If you are not running Weblate with a different database than PostgreSQL,
+If you are running Weblate with a different database than PostgreSQL,
 consider migrating to PostgreSQL for better performance by doing the following steps.
 Remember to stop both, the web and Celery servers beforehand,
 otherwise you might end up with inconsistent data.

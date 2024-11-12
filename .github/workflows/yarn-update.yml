@@ -15,6 +15,9 @@ on:
     - scripts/yarn-update
     - scripts/yarn/*
     - client/*
+  schedule:
+  - cron: 30 5 * * 0
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -22,13 +25,23 @@ permissions:
 jobs:
   yarn-update:
     runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.WEBLATE_CI_TOKEN }}
+
+    - name: Lockfile maintenance
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+      run: |
+        for dir in scripts/yarn client ; do
+          pushd "$dir"
+          yarn upgrade
+          popd
+        done
+
     - run: ./scripts/yarn-update
+
     - run: |
         if [ -d client ] ; then
           cd client
@@ -36,18 +49,28 @@ jobs:
           yarn build
           cd ..
         fi
-    - name: Update branch
+
+    - name: Update current branch
       if: github.ref != 'refs/heads/main'
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: 'chore(js): update vendored libraries'
+
     - name: Create Pull Request
+      id: cpr
       if: github.ref == 'refs/heads/main'
       uses: peter-evans/create-pull-request@v7
       with:
         branch: create-pull-request/yarn-update
         title: 'chore(js): update vendored libraries'
         commit-message: 'chore(js): update vendored libraries'
+
+        token: ${{ secrets.WEBLATE_CI_TOKEN }}
         labels: |
           dependencies
-          automerge
+
+    - name: Enable Pull Request Automerge
+      if: github.ref == 'refs/heads/main' && steps.cpr.outputs.pull-request-operation != 'none'
+      run: gh pr merge --rebase --auto "${{ steps.cpr.outputs.pull-request-number }}"
+      env:
+        GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}

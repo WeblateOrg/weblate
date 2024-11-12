@@ -2,10 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from collections import UserList
+
 from weblate.trans.filter import FILTERS
 
 
-class TranslationChecklist(list):
+class TranslationChecklist(UserList):
     """Simple list wrapper for translation checklist."""
 
     def add_if(self, stats, name, level) -> None:

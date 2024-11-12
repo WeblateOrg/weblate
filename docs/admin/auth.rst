@@ -197,7 +197,7 @@ Google OAuth 2
 To use Google OAuth 2, you need to register an application at
 <https://console.developers.google.com/> and enable the Google+ API.
 
-The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
+The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``.
 
 .. code-block:: python
 
@@ -226,7 +226,7 @@ Facebook OAuth 2
 As per usual with OAuth 2 services, you need to register your application with
 Facebook. Once this is done, you can set up Weblate to use it:
 
-The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``
+The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``.
 
 .. code-block:: python
 

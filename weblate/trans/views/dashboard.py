@@ -130,7 +130,8 @@ def redirect_single_project(user: User):
     elif Project.objects.count() == 1:
         target = project = Project.objects.get()
     else:
-        raise ImproperlyConfigured("SINGLE_PROJECT enabled, but no project found")
+        msg = "SINGLE_PROJECT enabled, but no project found"
+        raise ImproperlyConfigured(msg)
 
     if not user.is_authenticated and not user.can_access_project(project):
         return redirect(f"{settings.LOGIN_URL}?next={target.get_absolute_url()}")

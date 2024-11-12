@@ -131,7 +131,7 @@ class Addon(models.Model):
             update_fields=update_fields,
         )
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("addon-detail", kwargs={"pk": self.pk})
 
     def __init__(self, *args, acting_user: User | None = None, **kwargs) -> None:
@@ -389,7 +389,8 @@ def handle_addon_event(
         component = translation.component
 
     if component is None and not auto_scope:
-        raise ValueError("Missing event scope!")
+        msg = "Missing event scope!"
+        raise ValueError(msg)
 
     # EVENT_DAILY uses custom queryset because it is not triggered from the
     # object scope

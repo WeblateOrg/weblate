@@ -11,7 +11,6 @@ from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
 from typing import TYPE_CHECKING, NoReturn
-from unittest import SkipTest
 from unittest.mock import MagicMock, Mock, call, patch
 
 import httpx
@@ -333,7 +332,7 @@ class BaseMachineTranslationTest(TestCase):
         pass
 
     def mock_error(self) -> None:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     @responses.activate
     @respx.mock
@@ -566,10 +565,10 @@ class MyMemoryTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_response(self) -> None:
         responses.add(
@@ -587,10 +586,10 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_response(self) -> None:
         responses.add(
@@ -650,10 +649,10 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_response(self) -> None:
         responses.add(
@@ -737,7 +736,7 @@ class GoogleTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> None:
         responses.add(responses.GET, GOOGLE_API_ROOT + "languages", body="", status=500)
@@ -784,10 +783,10 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_languages(self) -> None:
         # Mock get supported languages
@@ -1042,7 +1041,7 @@ class YandexTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> None:
         responses.add(
@@ -1093,7 +1092,7 @@ class YandexV2TranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> None:
         responses.add(
@@ -1158,7 +1157,7 @@ class YoudaoTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> None:
         responses.add(
@@ -1180,7 +1179,7 @@ class NeteaseSightTranslationTest(BaseMachineTranslationTest):
     CONFIGURATION = {"key": "id", "secret": "secret"}
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> None:
         responses.add(responses.POST, NETEASE_API_ROOT, json={"success": "false"})
@@ -1206,7 +1205,7 @@ class BaiduTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> None:
         responses.add(
@@ -1245,10 +1244,10 @@ class SystranTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_response(self) -> None:
         responses.add(
@@ -1282,7 +1281,7 @@ class SAPTranslationHubTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> None:
         responses.add(
@@ -1335,7 +1334,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> None:
         responses.add(
@@ -1627,7 +1626,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> None:
         responses.add(
@@ -1672,9 +1671,11 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_formality(self) -> None:
+        expected_formality = "more"
+
         def request_callback(request: AuthenticatedHttpRequest):
             payload = json.loads(request.body)
-            self.assertIn("formality", payload)
+            self.assertEqual(payload["formality"], expected_formality)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
 
         machine = self.MACHINE_CLS(self.CONFIGURATION)
@@ -1686,12 +1687,42 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             callback=request_callback,
         )
         # Fetch from service
+        expected_formality = "default"
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        expected_formality = "more"
         self.assert_translate(
             "DE@FORMAL", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
+        expected_formality = "less"
         self.assert_translate(
             "DE@INFORMAL", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
+
+    @responses.activate
+    def test_escaping(self) -> None:
+        def request_callback(request: AuthenticatedHttpRequest):
+            payload = json.loads(request.body)
+            self.assertIn("formality", payload)
+            response = DEEPL_RESPONSE.copy()
+            response["translations"][0]["text"] = "Hallo&amp;welt"
+            return (200, {}, json.dumps(response))
+
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+        self.mock_languages()
+        responses.add_callback(
+            responses.POST,
+            "https://api.deepl.com/v2/translate",
+            callback=request_callback,
+        )
+        # Fetch from service
+        translation = self.assert_translate(
+            self.SUPPORTED, "Hello&world", 1, machine=machine
+        )
+        self.assertEqual(translation[0][0]["source"], "Hello&world")
+        self.assertEqual(translation[0][0]["text"], "Hallo&welt")
 
     @responses.activate
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
@@ -1809,7 +1840,7 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> None:
         responses.add(
@@ -1861,10 +1892,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_response(self) -> None:
         pass
@@ -1976,7 +2007,7 @@ class AWSTranslationTest(BaseMachineTranslationTest):
 
     def test_clean(self) -> NoReturn:
         # Stubbing here is tricky
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
     def test_glossary(self) -> None:
@@ -2116,10 +2147,10 @@ class AlibabaTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_response(self) -> None:
         patcher = patch.object(
@@ -2151,10 +2182,10 @@ class IBMTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_response(self) -> None:
         responses.add(
@@ -2195,10 +2226,10 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_error(self) -> NoReturn:
-        raise SkipTest("Not tested")
+        self.skipTest("Not tested")
 
     def mock_response(self) -> None:
         respx.get("https://api.openai.com/v1/models").mock(

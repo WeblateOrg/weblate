@@ -400,7 +400,79 @@ class UserForm(forms.ModelForm):
                 )
 
 
-class ContactForm(forms.Form):
+class CaptchaForm(forms.Form):
+    captcha = forms.IntegerField(required=True)
+
+    def __init__(
+        self,
+        *,
+        request: AuthenticatedHttpRequest,
+        hide_captcha: bool = False,
+        data=None,
+        initial=None,
+    ) -> None:
+        super().__init__(data=data, initial=initial)
+        self.fresh = False
+        self.request = request
+        if not settings.REGISTRATION_CAPTCHA or hide_captcha:
+            self.fields["captcha"].widget = forms.HiddenInput()
+            self.fields["captcha"].required = False
+        elif data is None or "captcha" not in request.session:
+            self.generate_captcha()
+            self.fresh = True
+        else:
+            self.mathcaptcha = MathCaptcha.unserialize(request.session["captcha"])
+            self.set_label()
+
+    def set_label(self) -> None:
+        # Set correct label
+        self.fields["captcha"].label = format_html(
+            pgettext(
+                "Question for a mathematics-based CAPTCHA, "
+                "the %s is an arithmetic problem",
+                "What is %s?",
+            ).replace("%s", "{}"),
+            self.mathcaptcha.display,
+        )
+        if self.is_bound:
+            self["captcha"].label = cast(str, self.fields["captcha"].label)
+
+    def generate_captcha(self) -> None:
+        self.mathcaptcha = MathCaptcha()
+        self.request.session["captcha"] = self.mathcaptcha.serialize()
+        self.set_label()
+
+    def clean_captcha(self) -> None:
+        """Validate CAPTCHA."""
+        if not settings.REGISTRATION_CAPTCHA:
+            return
+        if self.fresh or not self.mathcaptcha.validate(self.cleaned_data["captcha"]):
+            self.generate_captcha()
+            rotate_token(self.request)
+            raise forms.ValidationError(
+                # Translators: Shown on wrong answer to the mathematics-based CAPTCHA
+                gettext("That was not correct, please try again.")
+            )
+
+        mail = self.cleaned_data.get("email", "NONE")
+
+        LOGGER.info(
+            "Correct CAPTCHA for %s (%s = %s)",
+            mail,
+            self.mathcaptcha.question,
+            self.cleaned_data["captcha"],
+        )
+
+    def is_valid(self) -> bool:
+        result = super().is_valid()
+        self.cleanup_session()
+        return result
+
+    def cleanup_session(self) -> None:
+        self.request.session.pop("captcha", None)
+
+
+class ContactForm(CaptchaForm):
     """Form for contacting site owners."""
 
     subject = forms.CharField(
@@ -421,8 +493,10 @@ class ContactForm(forms.Form):
         widget=forms.Textarea,
     )
 
+    field_order = ["subject", "name", "email", "message", "captcha"]
 
-class EmailForm(UniqueEmailMixin):
+
+class EmailForm(CaptchaForm, UniqueEmailMixin):
     """Email change form."""
 
     required_css_class = "required"
@@ -432,6 +506,8 @@ class EmailForm(UniqueEmailMixin):
         label=gettext_lazy("E-mail"),
         help_text=gettext_lazy("E-mail with a confirmation link will be sent here."),
     )
+
+    field_order = ["email", "captcha"]
 
 
 class RegistrationForm(EmailForm):
@@ -444,11 +520,13 @@ class RegistrationForm(EmailForm):
     # This has to be without underscore for social-auth
     fullname = FullNameField()
 
-    def __init__(self, request=None, *args, **kwargs) -> None:
+    field_order = ["email", "username", "fullname", "captcha"]
+
+    def __init__(self, request=None, data=None, initial=None) -> None:
         # The 'request' parameter is set for custom auth use by subclasses.
         # The form data comes in via the standard 'data' kwarg.
         self.request = request
-        super().__init__(*args, **kwargs)
+        super().__init__(request=request, data=data, initial=initial)
 
     def clean(self):
         if not check_rate_limit("registration", self.request):
@@ -508,65 +586,6 @@ class SetPasswordForm(DjangoSetPasswordForm):
         messages.success(request, gettext("Your password has been changed."))
 
 
-class CaptchaForm(forms.Form):
-    captcha = forms.IntegerField(required=True)
-
-    def __init__(
-        self, request: AuthenticatedHttpRequest, form=None, data=None, *args, **kwargs
-    ) -> None:
-        super().__init__(data, *args, **kwargs)
-        self.fresh = False
-        self.request = request
-        self.form = form
-
-        if data is None or "captcha" not in request.session:
-            self.generate_captcha()
-            self.fresh = True
-        else:
-            self.mathcaptcha = MathCaptcha.unserialize(request.session["captcha"])
-            self.set_label()
-
-    def set_label(self) -> None:
-        # Set correct label
-        self.fields["captcha"].label = format_html(
-            pgettext(
-                "Question for a mathematics-based CAPTCHA, "
-                "the %s is an arithmetic problem",
-                "What is %s?",
-            ).replace("%s", "{}"),
-            self.mathcaptcha.display,
-        )
-        if self.is_bound:
-            self["captcha"].label = cast(str, self.fields["captcha"].label)
-
-    def generate_captcha(self) -> None:
-        self.mathcaptcha = MathCaptcha()
-        self.request.session["captcha"] = self.mathcaptcha.serialize()
-        self.set_label()
-
-    def clean_captcha(self) -> None:
-        """Validate CAPTCHA."""
-        if self.fresh or not self.mathcaptcha.validate(self.cleaned_data["captcha"]):
-            self.generate_captcha()
-            rotate_token(self.request)
-            raise forms.ValidationError(
-                # Translators: Shown on wrong answer to the mathematics-based CAPTCHA
-                gettext("That was not correct, please try again.")
-            )
-
-        mail = self.form.cleaned_data["email"] if self.form.is_valid() else "NONE"
-
-        LOGGER.info(
-            "Correct CAPTCHA for %s (%s = %s)",
-            mail,
-            self.mathcaptcha.question,
-            self.cleaned_data["captcha"],
-        )
-
-    def cleanup_session(self, request: AuthenticatedHttpRequest) -> None:
-        del request.session["captcha"]
-
-
 class EmptyConfirmForm(forms.Form):
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         self.request = request
@@ -600,9 +619,8 @@ class PasswordConfirmForm(EmptyConfirmForm):
 class ResetForm(EmailForm):
     def clean_email(self):
         if self.cleaned_data["email"] == "noreply@weblate.org":
-            raise forms.ValidationError(
-                "No password reset for deleted or anonymous user."
-            )
+            msg = "No password reset for deleted or anonymous user."
+            raise forms.ValidationError(msg)
         return super().clean_email()
 
 

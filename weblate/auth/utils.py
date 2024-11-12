@@ -113,16 +113,18 @@ def create_anonymous(model, group_model, update=True) -> None:
             },
         )
     except IntegrityError as error:
-        raise ValueError(
+        msg = (
             f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) and could not be created, "
             f"most likely because other user is using noreply@weblate.org e-mail.: {error}"
-        ) from error
+        )
+        raise ValueError(msg) from error
     if user.is_active:
-        raise ValueError(
+        msg = (
             f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) already exists and is "
             "active, please change the ANONYMOUS_USER_NAME setting or mark the user "
             "as not active in the admin interface."
         )
+        raise ValueError(msg)
 
     if created or update:
         user.set_unusable_password()
@@ -142,5 +144,6 @@ def format_address(display_name: str, email: str) -> str:
             addr_spec=email,
         )
     except HeaderDefect as error:
-        raise ValueError(f"Invalid e-mail address '{email}': {error}") from error
+        msg = f"Invalid e-mail address '{email}': {error}"
+        raise ValueError(msg) from error
     return str(address)

@@ -9,6 +9,7 @@ from collections import defaultdict
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
+import sentry_sdk
 from django.conf import settings
 from django.db import models
 from django.db.models import Count
@@ -46,15 +47,16 @@ def update_alerts(component: Component, alerts: set[str] | None = None) -> None:
     for name, alert in ALERTS.items():
         if alerts and name not in alerts:
             continue
-        result = alert.check_component(component)
-        if result is None:
-            continue
-        if isinstance(result, dict):
-            component.add_alert(alert.__name__, **result)
-        elif result:
-            component.add_alert(alert.__name__)
-        else:
-            component.delete_alert(alert.__name__)
+        with sentry_sdk.start_span(op="alerts", name=f"ALERT {name}"):
+            result = alert.check_component(component)
+            if result is None:
+                continue
+            if isinstance(result, dict):
+                component.add_alert(alert.__name__, **result)
+            elif result:
+                component.add_alert(alert.__name__)
+            else:
+                component.delete_alert(alert.__name__)
 
 
 class Alert(models.Model):

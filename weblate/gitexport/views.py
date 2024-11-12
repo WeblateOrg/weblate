@@ -69,7 +69,8 @@ def git_export(request: AuthenticatedHttpRequest, path, git_request):
     """
     # Reject non pull access early
     if request.GET.get("service", "") not in {"", "git-upload-pack"}:
-        raise PermissionDenied("Only pull is supported")
+        msg = "Only pull is supported"
+        raise PermissionDenied(msg)
 
     # HTTP authentication
     auth = request.headers.get("authorization", b"")
@@ -90,9 +91,11 @@ def git_export(request: AuthenticatedHttpRequest, path, git_request):
     if not request.user.has_perm("vcs.access", obj):
         if not request.user.is_authenticated:
             return response_authenticate()
-        raise PermissionDenied("No VCS permissions")
+        msg = "No VCS permissions"
+        raise PermissionDenied(msg)
     if obj.vcs not in VCS_REGISTRY.git_based:
-        raise Http404("Not a git repository")
+        msg = "Not a git repository"
+        raise Http404(msg)
     if obj.is_repo_link:
         return redirect(
             "{}{}".format(
@@ -140,7 +143,8 @@ class GitHTTPBackendWrapper:
         # Find Git HTTP backend
         git_http_backend = find_git_http_backend()
         if git_http_backend is None:
-            raise SuspiciousOperation("git-http-backend not found")
+            msg = "git-http-backend not found"
+            raise SuspiciousOperation(msg)
 
         # Invoke Git HTTP backend
         self.process = subprocess.Popen(

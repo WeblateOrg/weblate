@@ -709,7 +709,7 @@ class Change(models.Model, UserDisplayMixin):
         if self.action == Change.ACTION_RENAME_PROJECT:
             Change.objects.generate_project_rename_lookup()
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         """Return link either to unit or translation."""
         if self.unit is not None:
             return self.unit.get_absolute_url()
@@ -723,7 +723,7 @@ class Change(models.Model, UserDisplayMixin):
             return self.category.get_absolute_url()
         if self.project is not None:
             return self.project.get_absolute_url()
-        return None
+        return "/"
 
     @property
     def path_object(self):
@@ -777,6 +777,10 @@ class Change(models.Model, UserDisplayMixin):
         if self.component:
             self.project = self.component.project
             self.category = self.component.category
+        if (self.user is None or not self.user.is_authenticated) and (
+            ip_address := self.get_ip_address()
+        ):
+            self.details["ip_address"] = ip_address
 
     @property
     def plural_count(self):
@@ -862,7 +866,8 @@ class Change(models.Model, UserDisplayMixin):
             elif reason == "new file":
                 message = gettext("File “{}” was added.")
             else:
-                raise ValueError(f"Unknown reason: {reason}")
+                msg = f"Unknown reason: {reason}"
+                raise ValueError(msg)
             return format_html(escape(message), filename)
 
         if action == self.ACTION_LICENSE_CHANGE:
@@ -938,11 +943,15 @@ class Change(models.Model, UserDisplayMixin):
     def get_source(self):
         return self.details.get("source", self.unit.source)
 
-    def get_ip_address(self):
-        if self.suggestion and "address" in self.suggestion.userdetails:
-            return self.suggestion.userdetails["address"]
-        if self.comment and "address" in self.comment.userdetails:
-            return self.comment.userdetails["address"]
+    def get_ip_address(self) -> str | None:
+        if ip_address := self.details.get("ip_address"):
+            return ip_address
+        if self.suggestion and (
+            ip_address := self.suggestion.userdetails.get("address")
+        ):
+            return ip_address
+        if self.comment and (ip_address := self.comment.userdetails.get("address")):
+            return ip_address
         return None
 
     def show_unit_state(self):

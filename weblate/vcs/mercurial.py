@@ -83,7 +83,8 @@ class HgRepository(Repository):
     def set_config(self, path, value) -> None:
         """Set entry in local configuration."""
         if not self.lock.is_locked:
-            raise RuntimeError("Repository operation without lock held!")
+            msg = "Repository operation without lock held!"
+            raise RuntimeError(msg)
         section, option = path.split(".", 1)
         filename = os.path.join(self.path, ".hg", "hgrc")
         config = RawConfigParser()
@@ -245,7 +246,8 @@ class HgRepository(Repository):
         output = cls._popen(["version", "-q"], merge_err=False)
         matches = cls.VERSION_RE.match(output)
         if matches is None:
-            raise OSError(f"Could not parse version string: {output}")
+            msg = f"Could not parse version string: {output}"
+            raise OSError(msg)
         return matches.group(1)
 
     def commit(

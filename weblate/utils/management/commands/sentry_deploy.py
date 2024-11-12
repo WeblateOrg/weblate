@@ -27,7 +27,8 @@ class Command(BaseCommand):
             data = response.json()
             object_url = data["object"]["url"]
             if not object_url.startswith("https://api.github.com/"):
-                raise CommandError(f"Unexpected URL from GitHub: {object_url}")
+                msg = f"Unexpected URL from GitHub: {object_url}"
+                raise CommandError(msg)
             response = requests.get(object_url, timeout=5)
             response.raise_for_status()
             ref = response.json()["object"]["sha"]

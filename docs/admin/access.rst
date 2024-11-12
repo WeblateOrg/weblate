@@ -96,43 +96,43 @@ allows them to assign other users in `Public`, `Protected` and
 These are the default teams provided with Weblate; teams can
 be added or modified by users with sufficient privileges:
 
-Administration
+`Administration`
     All available permissions for the project.
 
-Review
+`Review`
     Approve translations in a review.
 
     Available only if :ref:`review workflow <reviews>` is on.
 
 For `Protected` and `Private` projects only:
 
-Translate
+`Translate`
     Translate the project and upload translations made offline.
 
-Sources
+`Sources`
     Edit source strings (if allowed in the
     :ref:`project settings <component-manage_units>`) and source-string info.
 
-Languages
+`Languages`
     Manage translated languages (add or remove translations).
 
-Glossary
+`Glossary`
     Manage glossary (add, remove, and upload entries).
 
-Memory
+`Memory`
     Manage translation memory.
 
-Screenshots
+`Screenshots`
     Manage screenshots (add, remove, and associate them to source
     strings).
 
-Automatic translation
+`Automatic translation`
     Can use automatic translation.
 
-VCS
+`VCS`
     Manage VCS and access the exported repository.
 
-Billing
+`Billing`
     Access billing info and settings (see :ref:`billing`).
 
 .. image:: /screenshots/manage-users.webp
@@ -283,8 +283,6 @@ by site-wide or per-project teams by adding another custom team.
          * - Languages
            - All but `Czech`
 
-..
-
   2. Add a dedicated team for `Czech` translators.
 
      .. list-table:: Group `Czech translators`
@@ -299,7 +297,6 @@ by site-wide or per-project teams by adding another custom team.
          * - Languages
            - `Czech`
 
-..
 
   3. Add users you wish to give the permissions to into this team.
 
@@ -399,11 +396,11 @@ the following rules:
 
 **Example:**
 
-  A project ``foo`` with the components: ``foo/bar`` and
-  ``foo/baz``, with reviewing and management rights, in the
-  following team:
+   A project ``foo`` with the components: ``foo/bar`` and
+   ``foo/baz``, with reviewing and management rights, in the
+   following team:
 
-  .. list-table:: Group `Spanish Admin-Reviewers`
+   .. list-table:: Group `Spanish Admin-Reviewers`
          :stub-columns: 1
 
          * - Roles
@@ -413,15 +410,14 @@ the following rules:
          * - Languages
            - `Spanish`
 
-..
 
-  Members of that team will have these permissions (assuming the default role settings):
+   Members of that team will have these permissions (assuming the default role settings):
 
-    - General (browsing) access to the whole project ``foo`` including both
-      components in it: ``foo/bar`` and ``foo/baz``.
-    - Review strings in ``foo/bar`` Spanish translation (not elsewhere).
-    - Manage VCS for the whole ``foo/bar`` repository e.g. commit pending
-      changes made by translators for all languages.
+   - General (browsing) access to the whole project ``foo`` including both
+     components in it: ``foo/bar`` and ``foo/baz``.
+   - Review strings in ``foo/bar`` Spanish translation (not elsewhere).
+   - Manage VCS for the whole ``foo/bar`` repository e.g. commit pending
+     changes made by translators for all languages.
 
 .. _autoteam:
 
@@ -490,7 +486,7 @@ List of privileges
 +------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Glossary                     | Add glossary entry                        | :guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power user`                                                                                                             |
 +                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|                              | Add glossary terminology                  | :guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power user`                                                                                                             |
+|                              | Add glossary terminology                  | :guilabel:`Administration`, :guilabel:`Manage glossary`                                                                                                                                     |
 +                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |                              | Edit glossary entry                       | :guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power user`                                                                                                             |
 +                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -607,36 +603,153 @@ List of built-in roles
 ..
    Generated using ./manage.py list_permissions
 
-`Administration`
-    :guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:`Post comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, :guilabel:`Edit component settings`, :guilabel:`Lock component, preventing translations`, :guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:`Edit glossary entry`, :guilabel:`Add glossary terminology`, :guilabel:`Upload glossary entries`, :guilabel:`Use automatic suggestions`, :guilabel:`Delete translation memory`, :guilabel:`Edit translation memory`, :guilabel:`Edit project settings`, :guilabel:`Manage project access`, :guilabel:`Download reports`, :guilabel:`Add screenshot`, :guilabel:`Delete screenshot`, :guilabel:`Edit screenshot`, :guilabel:`Edit additional string info`, :guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Delete suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Add language for translation`, :guilabel:`Add several languages for translation`, :guilabel:`Perform automatic translation`, :guilabel:`Delete existing translation`, :guilabel:`Download translation file`, :guilabel:`Add new string`, :guilabel:`Dismiss failing check`, :guilabel:`Remove a string`, :guilabel:`Edit strings`, :guilabel:`Edit string when suggestions are enforced`, :guilabel:`Review strings`, :guilabel:`Edit source strings`, :guilabel:`Define author of uploaded translation`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload translations`, :guilabel:`Access the internal repository`, :guilabel:`Commit changes to the internal repository`, :guilabel:`Push change from the internal repository`, :guilabel:`Reset changes in the internal repository`, :guilabel:`Update the internal repository`, :guilabel:`View upstream repository location`
-`Edit source`
-    :guilabel:`Post comment`, :guilabel:`Use automatic suggestions`, :guilabel:`Edit additional string info`, :guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Download translation file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, :guilabel:`Edit source strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload translations`
-`Add suggestion`
-     :guilabel:`Add suggestion`
-`Access repository`
-    :guilabel:`Download translation file`, :guilabel:`Access the internal repository`, :guilabel:`View upstream repository location`
-`Manage glossary`
-    :guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:`Edit glossary entry`, :guilabel:`Add glossary terminology`, :guilabel:`Upload glossary entries`
-`Power user`
-    :guilabel:`Post comment`, :guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`, :guilabel:`Use automatic suggestions`, :guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Delete suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Add language for translation`, :guilabel:`Download translation file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, :guilabel:`Edit source strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload translations`, :guilabel:`Access the internal repository`, :guilabel:`View upstream repository location`
-`Review strings`
-    :guilabel:`Post comment`, :guilabel:`Resolve comment`, :guilabel:`Use automatic suggestions`, :guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Download translation file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, :guilabel:`Edit string when suggestions are enforced`, :guilabel:`Review strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload translations`
-`Translate`
-    :guilabel:`Post comment`, :guilabel:`Use automatic suggestions`, :guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Download translation file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload translations`
-`Manage languages`
-    :guilabel:`Add language for translation`, :guilabel:`Add several languages for translation`, :guilabel:`Delete existing translation`, :guilabel:`Download translation file`
-`Automatic translation`
-     :guilabel:`Perform automatic translation`
-`Manage translation memory`
-     :guilabel:`Delete translation memory`, :guilabel:`Edit translation memory`
-`Manage screenshots`
-    :guilabel:`Add screenshot`, :guilabel:`Delete screenshot`, :guilabel:`Edit screenshot`
-`Manage repository`
-    :guilabel:`Lock component, preventing translations`, :guilabel:`Access the internal repository`, :guilabel:`Commit changes to the internal repository`, :guilabel:`Push change from the internal repository`, :guilabel:`Reset changes in the internal repository`, :guilabel:`Update the internal repository`, :guilabel:`View upstream repository location`
-`Billing`
-     :guilabel:`View billing info`
-`Add new projects`
-     :guilabel:`Add new projects`
+.. list-table::
+
+   * - `Administration`
+     - * :guilabel:`View billing info`
+       * :guilabel:`Download changes`
+       * :guilabel:`Post comment`
+       * :guilabel:`Delete comment`
+       * :guilabel:`Resolve comment`
+       * :guilabel:`Edit component settings`
+       * :guilabel:`Lock component, preventing translations`
+       * :guilabel:`Add glossary entry`
+       * :guilabel:`Delete glossary entry`
+       * :guilabel:`Edit glossary entry`
+       * :guilabel:`Add glossary terminology`
+       * :guilabel:`Upload glossary entries`
+       * :guilabel:`Use automatic suggestions`
+       * :guilabel:`Delete translation memory`
+       * :guilabel:`Edit translation memory`
+       * :guilabel:`Edit project settings`
+       * :guilabel:`Manage project access`
+       * :guilabel:`Download reports`
+       * :guilabel:`Add screenshot`
+       * :guilabel:`Delete screenshot`
+       * :guilabel:`Edit screenshot`
+       * :guilabel:`Edit additional string info`
+       * :guilabel:`Accept suggestion`
+       * :guilabel:`Add suggestion`
+       * :guilabel:`Delete suggestion`
+       * :guilabel:`Vote on suggestion`
+       * :guilabel:`Add language for translation`
+       * :guilabel:`Add several languages for translation`
+       * :guilabel:`Perform automatic translation`
+       * :guilabel:`Delete existing translation`
+       * :guilabel:`Download translation file`
+       * :guilabel:`Add new string`
+       * :guilabel:`Dismiss failing check`
+       * :guilabel:`Remove a string`
+       * :guilabel:`Edit strings`
+       * :guilabel:`Edit string when suggestions are enforced`
+       * :guilabel:`Review strings`
+       * :guilabel:`Edit source strings`
+       * :guilabel:`Define author of uploaded translation`
+       * :guilabel:`Overwrite existing strings with upload`
+       * :guilabel:`Upload translations`
+       * :guilabel:`Access the internal repository`
+       * :guilabel:`Commit changes to the internal repository`
+       * :guilabel:`Push change from the internal repository`
+       * :guilabel:`Reset changes in the internal repository`
+       * :guilabel:`Update the internal repository`
+       * :guilabel:`View upstream repository location`
+   * - `Edit source`
+     - * :guilabel:`Post comment`
+       * :guilabel:`Use automatic suggestions`
+       * :guilabel:`Edit additional string info`
+       * :guilabel:`Accept suggestion`
+       * :guilabel:`Add suggestion`
+       * :guilabel:`Vote on suggestion`
+       * :guilabel:`Download translation file`
+       * :guilabel:`Dismiss failing check`
+       * :guilabel:`Edit strings`
+       * :guilabel:`Edit source strings`
+       * :guilabel:`Overwrite existing strings with upload`
+       * :guilabel:`Upload translations`
+   * - `Add suggestion`
+     - * :guilabel:`Add suggestion`
+   * - `Access repository`
+     - * :guilabel:`Download translation file`
+       * :guilabel:`Access the internal repository`
+       * :guilabel:`View upstream repository location`
+   * - `Manage glossary`
+     - * :guilabel:`Add glossary entry`
+       * :guilabel:`Delete glossary entry`
+       * :guilabel:`Edit glossary entry`
+       * :guilabel:`Add glossary terminology`
+       * :guilabel:`Upload glossary entries`
+   * - `Power user`
+     - * :guilabel:`Post comment`
+       * :guilabel:`Add glossary entry`
+       * :guilabel:`Delete glossary entry`
+       * :guilabel:`Edit glossary entry`
+       * :guilabel:`Upload glossary entries`
+       * :guilabel:`Use automatic suggestions`
+       * :guilabel:`Accept suggestion`
+       * :guilabel:`Add suggestion`
+       * :guilabel:`Delete suggestion`
+       * :guilabel:`Vote on suggestion`
+       * :guilabel:`Add language for translation`
+       * :guilabel:`Download translation file`
+       * :guilabel:`Dismiss failing check`
+       * :guilabel:`Edit strings`
+       * :guilabel:`Edit source strings`
+       * :guilabel:`Overwrite existing strings with upload`
+       * :guilabel:`Upload translations`
+       * :guilabel:`Access the internal repository`
+       * :guilabel:`View upstream repository location`
+   * - `Review strings`
+     - * :guilabel:`Post comment`
+       * :guilabel:`Resolve comment`
+       * :guilabel:`Use automatic suggestions`
+       * :guilabel:`Accept suggestion`
+       * :guilabel:`Add suggestion`
+       * :guilabel:`Vote on suggestion`
+       * :guilabel:`Download translation file`
+       * :guilabel:`Dismiss failing check`
+       * :guilabel:`Edit strings`
+       * :guilabel:`Edit string when suggestions are enforced`
+       * :guilabel:`Review strings`
+       * :guilabel:`Overwrite existing strings with upload`
+       * :guilabel:`Upload translations`
+   * - `Translate`
+     - * :guilabel:`Post comment`
+       * :guilabel:`Use automatic suggestions`
+       * :guilabel:`Accept suggestion`
+       * :guilabel:`Add suggestion`
+       * :guilabel:`Vote on suggestion`
+       * :guilabel:`Download translation file`
+       * :guilabel:`Dismiss failing check`
+       * :guilabel:`Edit strings`
+       * :guilabel:`Overwrite existing strings with upload`
+       * :guilabel:`Upload translations`
+   * - `Manage languages`
+     - * :guilabel:`Add language for translation`
+       * :guilabel:`Add several languages for translation`
+       * :guilabel:`Delete existing translation`
+       * :guilabel:`Download translation file`
+   * - `Automatic translation`
+     - * :guilabel:`Perform automatic translation`
+   * - `Manage translation memory`
+     - * :guilabel:`Delete translation memory`
+       * :guilabel:`Edit translation memory`
+   * - `Manage screenshots`
+     - * :guilabel:`Add screenshot`
+       * :guilabel:`Delete screenshot`
+       * :guilabel:`Edit screenshot`
+   * - `Manage repository`
+     - * :guilabel:`Lock component, preventing translations`
+       * :guilabel:`Access the internal repository`
+       * :guilabel:`Commit changes to the internal repository`
+       * :guilabel:`Push change from the internal repository`
+       * :guilabel:`Reset changes in the internal repository`
+       * :guilabel:`Update the internal repository`
+       * :guilabel:`View upstream repository location`
+   * - `Billing`
+     - * :guilabel:`View billing info`
+   * - `Add new projects`
+     - * :guilabel:`Add new projects`
+
 
 .. _default-teams:
 

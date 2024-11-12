@@ -275,9 +275,8 @@ class AlibabaTranslation(MachineTranslation):
         response = self.client.do_action_with_exception(request)
         payload = json.loads(response)
         if "Message" in payload:
-            raise MachineTranslationError(
-                f"Error {payload['Code']}: {payload['Message']}"
-            )
+            msg = f"Error {payload['Code']}: {payload['Message']}"
+            raise MachineTranslationError(msg)
 
         yield {
             "text": payload["Data"]["Translated"],

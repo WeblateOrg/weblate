@@ -59,14 +59,14 @@ var _rollbarConfig = {
 </script>
 {% endif %}
   <script defer data-cfasync="false" src="{% static 'js/vendor/main.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/autosize.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'js/vendor/autosize.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/multi.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap-global-bind.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/bootstrap/js/bootstrap.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/slugify.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'js/vendor/tribute.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/autoComplete.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'js/vendor/autoComplete.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-core.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-markup.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-rest.js' %}{{ cache_param }}"></script>
@@ -74,8 +74,6 @@ var _rollbarConfig = {
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-icu-message-format.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'prism-weblatesearch.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/moment.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/daterangepicker.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'js/keyboard-shortcuts.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'editor/tools/search.js' %}{{ cache_param }}"></script>
 {% endcompress %}
@@ -110,7 +108,10 @@ var _rollbarConfig = {
 
  </head>
 
- <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
+ <body
+    {% if theme %}data-theme="{{ theme }}"{% endif %}
+    {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}
+>
  <div id="popup-alerts"></div>
  <header>
 <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
