@@ -2173,6 +2173,7 @@ tbody.warning {
   width: 50%;
 }
 
+/* START: Shortcuts table styles */
 #shortcuts-table-container {
   max-height: 60vh;
   overflow-y: auto;
@@ -2185,7 +2186,9 @@ tbody.warning {
 #shortcuts-table-container kbd {
   color: unset;
 }
+/* END: Shortcuts table styles */
 
+/** START: Search Previewe styles */
 #search-preview {
   display: none;
   width: 100%;
@@ -2224,3 +2227,24 @@ tbody.warning {
   color: #1fa385;
   margin: 10px;
 }
+/** END: Search Previewe styles */
+
+/** START: Zen Editor sticky bottom styles */
+.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  z-index: 1000;
+}
+
+#hide-sticky {
+  display: none;
+  position: absolute;
+  top: -30%;
+  right: 0;
+}
+
+.sticky-bottom #hide-sticky {
+  display: block !important;
+}
+/** END: Zen Editor sticky bottom styles */
