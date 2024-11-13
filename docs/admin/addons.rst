@@ -65,7 +65,9 @@ Automatically translates strings using machine translation or other components.
 
 It is triggered:
 
-* When new strings appear in a component.
+* When the add-on is installed.
+* When a change happens in a component repository.
+* When a string is added into a component.
 * Once in a month for every component, this can be configured using :setting:`BACKGROUND_TASKS`.
 
 .. seealso::
