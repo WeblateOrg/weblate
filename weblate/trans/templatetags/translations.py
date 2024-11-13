@@ -744,7 +744,7 @@ def naturaltime_future(value, now):
 
 
 @register.filter(is_safe=True)
-def naturaltime(value, now=None):
+def naturaltime(value: float | datetime, *, now: datetime | None = None):
     """
     Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
