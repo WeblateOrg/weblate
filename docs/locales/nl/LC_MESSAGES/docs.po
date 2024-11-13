@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 09:40+0100\n"
-"PO-Revision-Date: 2024-11-12 14:18+0000\n"
+"PO-Revision-Date: 2024-11-13 15:00+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -41007,6 +41007,8 @@ msgid ""
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
 msgstr ""
+"Dit stelt ons in staat kwetsbaarheden vroeg te detecteren en snel "
+"verbeteringen uit te geven."
 
 #: ../../contributing/security.rst:39
 msgid ""
@@ -41014,6 +41016,9 @@ msgid ""
 "artifacts on our CI in the SARIF format (Static Analysis Results Interchange "
 "Format)."
 msgstr ""
+"U kunt de resultaten van deze scans zien op GitHub — zij worden opgeslagen "
+"als artefacten op onze CI in de indeling SARIF (Static Analysis Results "
+"Interchange Format)."
 
 #: ../../contributing/security.rst:44
 msgid ":ref:`ci-tests`"
@@ -41021,13 +41026,15 @@ msgstr ":ref:`ci-tests`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
-msgstr ""
+msgstr "Beginnen met bijdragen van code aan Weblate"
 
 #: ../../contributing/start.rst:4
 msgid ""
 "Understand the Weblate source code by going through :doc:`code`, :doc:"
 "`frontend` and :doc:`internals`."
 msgstr ""
+"Begrijp de broncode van Weblate door :doc:`code`, :doc:`frontend` en "
+":doc:`internals` te lezen."
 
 #: ../../contributing/start.rst:8
 msgid "Starting with the codebase"
@@ -41039,6 +41046,9 @@ msgid ""
 "labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/"
 "good%20first%20issue>`_."
 msgstr ""
+"Maak uzelf bekend met de codebasis van Weblate, door een poging te "
+"ondernemen met de problemen die zijn gelabeld `good first issue "
+"<https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_."
 
 #: ../../contributing/start.rst:13
 msgid ""
@@ -41046,10 +41056,12 @@ msgid ""
 "announce that in the issue, so that it's clear that somebody is working on "
 "that issue."
 msgstr ""
+"U kunt aan deze problemen werken zonder dat te hoeven vragen. Kondig het aan "
+"in het issue, zodat het duidelijk is dat iemand aan dat issue werkt."
 
 #: ../../contributing/start.rst:17
 msgid "Running Weblate locally"
-msgstr ""
+msgstr "Weblate lokaal uitvoeren"
 
 #: ../../contributing/start.rst:19
 msgid ""
@@ -41057,6 +41069,9 @@ msgid ""
 "follow :doc:`../admin/install/source`. It will get you a virtualenv with "
 "editable Weblate sources."
 msgstr ""
+"De meest comfortabele benadering om te beginnen met de ontwikkeling van "
+"Weblate is door :doc:`../admin/install/source` te volgen. Het geeft u een "
+"virtualenv met bewerkbare bronnen voor Weblate."
 
 #: ../../contributing/start.rst:23
 msgid "Clone the Weblate source code:"
@@ -41071,19 +41086,24 @@ msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`) and all dependencies useful for development:"
 msgstr ""
+"Installeer Weblate (u heeft hiervoor enkele systeemafhankelijkheden nodig, "
+"bekijk :doc:`../admin/install/source`) en alle afhankelijkheden die nuttig "
+"zijn bij ontwikkelen:"
 
 #: ../../contributing/start.rst:43
 msgid "Start a development server:"
-msgstr ""
+msgstr "Beginnen van een server voor ontwikkeling:"
 
 #: ../../contributing/start.rst:49
 msgid ""
 "Depending on your configuration, you might also want to start Celery workers:"
 msgstr ""
+"Afhankelijk van uw configuratie wilt u misschien ook werkers van Celery "
+"starten:"
 
 #: ../../contributing/start.rst:55
 msgid "To run a test (see :ref:`local-tests` for more details):"
-msgstr ""
+msgstr "Een test uitvoeren (bekijk :ref:`local-tests` voor meer details):"
 
 #: ../../contributing/start.rst:64
 msgid ":doc:`../admin/install/source`"
@@ -41091,7 +41111,7 @@ msgstr ":doc:`../admin/install/source`"
 
 #: ../../contributing/start.rst:69
 msgid "Running Weblate locally in Docker"
-msgstr ""
+msgstr "Weblate lokaal in Docker uitvoeren"
 
 #: ../../contributing/start.rst:71
 msgid ""
@@ -41100,6 +41120,10 @@ msgid ""
 "package manager. Then, you can spin up the development environment by simply "
 "running:"
 msgstr ""
+"Als u Docker en de docker-compose-plugin hebt geïnstalleerd, heeft u ene "
+"aanvullend programma nodig, genaamd ``jq``, dat u kunt installeren met uw "
+"favoriete pakketbeheerder. Dan kunt u de ontwikkelomgeving activeren door "
+"eenvoudigweg uit te voeren:"
 
 #: ../../contributing/start.rst:79
 msgid ""
@@ -41108,6 +41132,10 @@ msgid ""
 "``admin`` as the password. The new installation is empty, so you might want "
 "to continue with :ref:`adding-projects`."
 msgstr ""
+"Het zal een Docker image voor ontwikkeling maken en die starten. Weblate "
+"wordt uitgevoerd op <http://127.0.0.1:8080/> en u kunt inloggen als de "
+"gebruiker ``admin`` met ``admin`` als het wachtwoord. De nieuw installatie "
+"is leeg, dus u wilt waarschijnlijk doorgaan met :ref:`adding-projects`."
 
 #: ../../contributing/start.rst:84
 msgid ""
@@ -41116,6 +41144,10 @@ msgid ""
 "during development, the container running PostgreSQL is exposed on port "
 "``5433``."
 msgstr ""
+"Het :file:`Dockerfile` en :file:`docker-compose.yml` hiervoor zijn geplaatst "
+"in de map :file:`dev-docker`. Voor gemakkelijker toegang tot de database "
+"tijdens ontwikkeling wordt de container, die PostgreSQL uitvoert, "
+"weergegeven op poort ``5433``."
 
 #: ../../contributing/start.rst:88
 msgid ""
@@ -41123,52 +41155,67 @@ msgid ""
 "``test`` parameter and then specify any :djadmin:`django:test` parameters, "
 "for example running only tests in the ``weblate.machine`` module:"
 msgstr ""
+"Het script accepteert ook enkele parameters, om testen uit te voeren, voer "
+"die uit met de parameter ``test`` en specificeer dan enkele parameters "
+":djadmin:`django:test` , bijvoorbeeld voor het alleen uitvoeren van testen "
+"in de module ``weblate.machine``:"
 
 #: ../../contributing/start.rst:98
 msgid ""
 "Be careful that your Docker containers are up and running before running the "
 "tests. You can check that by running the ``docker ps`` command."
 msgstr ""
+"Zorg ervoor dat uw Docker containers werken en worden uitgevoerd voordat de "
+"testen worden uitgevoerd. U kunt dat controleren door de opdracht ``docker "
+"ps`` uit te voeren."
 
 #: ../../contributing/start.rst:101
 msgid "To display the logs:"
-msgstr ""
+msgstr "De logs weergeven:"
 
 #: ../../contributing/start.rst:107
 msgid "To stop the background containers, run:"
-msgstr ""
+msgstr "Voer, voor het stoppen van de containers op de achtergrond, uit:"
 
 #: ../../contributing/start.rst:113
 msgid ""
 "Running the script without arguments will re-create the Docker container and "
 "restart it."
 msgstr ""
+"Uitvoeren van het script zonder argumenten zal de Docker container opnieuw "
+"maken die herstarten."
 
 #: ../../contributing/start.rst:117
 msgid ""
 "This is not a suitable setup for production, as it includes several hacks "
 "which are insecure, but they make development easier."
 msgstr ""
+"Dit is geen geschikte opstelling voor productie, omdat het verschillende "
+"hacks bevat die niet veilig zijn, maar zij maken ontwikkelen gemakkelijker."
 
 #: ../../contributing/start.rst:122
 msgid "Bootstrapping your devel instance"
-msgstr ""
+msgstr "Bootstrappen van uw instantie voor ontwikkelen"
 
 #: ../../contributing/start.rst:124
 msgid ""
 "You might want to use :wladmin:`import_demo` to create demo translations "
 "and :wladmin:`createadmin` to make an admin user."
 msgstr ""
+"U wilt misschien :wladmin:`import_demo` gebruiken om demo-vertalingen te "
+"maken en :wladmin:`createadmin` om een gebruiker admin te maken."
 
 #: ../../contributing/start.rst:128
 msgid "Coding Weblate with PyCharm"
-msgstr ""
+msgstr "Coderen van Weblate met PyCharm"
 
 #: ../../contributing/start.rst:130
 msgid ""
 "PyCharm is a known IDE for Python, here are some guidelines to help you set "
 "up your Weblate project in it."
 msgstr ""
+"PyCharm is een bekende IDE voor Python, hier zijn enkele richtlijnen om u te "
+"helpen uw project voor Weblate daarin op te stellen."
 
 #: ../../contributing/start.rst:133
 msgid ""
@@ -41176,12 +41223,17 @@ msgid ""
 "open it with PyCharm. Once the IDE is open, the first step is to specify the "
 "interpreter you want to use:"
 msgstr ""
+"Ervan uitgaande dat u zojuist de opslagruimte van GitHub hebt gekloond naar "
+"een map, open die dan met PyCharm. Als de IDE eenmaal is geopend, is de "
+"eerste stap om de interpreter die u wilt gaan gebruiken te specificeren:"
 
 #: ../../contributing/start.rst:139
 msgid ""
 "You can either choose to let PyCharm create the virtualenv for you, or "
 "select an already existing one:"
 msgstr ""
+"U kunt ervoor kiezen om PyCharm de virtualenv voor u te laten maken, of een "
+"reeds bestaande te selecteren:"
 
 #: ../../contributing/start.rst:144
 msgid ""
@@ -41190,6 +41242,10 @@ msgid ""
 "virtualenv by default), or through the interface when you get a warning "
 "about missing dependencies."
 msgstr ""
+"Vergeet niet de afhankelijkheden te installeren als de interpreter eenmaal "
+"is ingesteld: Ofwel met de console (de console uit de IDE zal standaard "
+"direct uw virtualenv gebruiken), of met de interface als u een waarschuwing "
+"krijgt over ontbrekende afhankelijkheden."
 
 #: ../../contributing/start.rst:149
 msgid ""
@@ -41198,6 +41254,10 @@ msgid ""
 "IDE. For that you need to specify the root path of the Django project and "
 "the path to its settings:"
 msgstr ""
+"De tweede stap is om de juiste informatie in te stellen om eigen Django te "
+"gebruiken binnen PyCharm: Het idee is om in staat te zijn om onmiddellijk de "
+"eenheidstesten in de IDE te activeren. Daarvoor moet u het bronpad voor het "
+"project van Django specificeren en het pad naar zijn instellingen:"
 
 #: ../../contributing/start.rst:155
 msgid ""
@@ -41206,6 +41266,10 @@ msgid ""
 "`weblate/settings_test.py` from the repository, but you could create your "
 "own setting and set it there."
 msgstr ""
+"Wees voorzichtig, de `Django project root` is de feitelijke bron van de "
+"opslagruimte, niet de submap van Weblate. Voor de instellingen zou u het "
+"bestand :file:`weblate/settings_test.py` uit de opslagruimte kunnen "
+"gebruiken, maar u zou uw eigen opstelling kunnen maken en die daar instellen."
 
 #: ../../contributing/start.rst:159
 msgid ""
@@ -41213,6 +41277,9 @@ msgid ""
 "able to debug it. This is done by creating a new `Django Server` "
 "configuration:"
 msgstr ""
+"De laatste stap is om de server uit te voeren en breekpunten in de code in "
+"te stellen om het te kunnen debuggen. Dat wordt gedaan door een nieuwe "
+"configuratie `Django Server` te maken:"
 
 #: ../../contributing/start.rst:168
 msgid ""
@@ -41221,52 +41288,64 @@ msgid ""
 "existing debugger breakpoints to persist, when they normally would be "
 "discarded upon reloading the server."
 msgstr ""
+"Wees voorzichtig met de eigenschap, genaamd :guilabel:`No reload`: Het "
+"voorkomt dat de server live opnieuw wordt geladen als u bestanden aanpast. "
+"Dit stelt de bestaande breekpunten voor debuggen in staat behouden te "
+"blijven, terwijl zij normaal gesproken zouden worden genegeerd bij het "
+"opnieuw laden van de server."
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
-msgstr ""
+msgstr "Weblate testsuite en doorlopende integratie"
 
 #: ../../contributing/tests.rst:4
 msgid ""
 "Testsuites exist for most of the current code, increase coverage by adding "
 "testcases for any new functionality, and verify that it works."
 msgstr ""
+"Testsuites bestaan voor de meeste huidige code, verhogen dekking door "
+"toevoegen van testgevallen voor nieuwe functionaliteit, en verifiëren dat "
+"het werkt."
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
-msgstr ""
+msgstr "Doorlopende integratie"
 
 #: ../../contributing/tests.rst:12
 msgid ""
 "Current test results can be found on `GitHub Actions`_ and coverage is "
 "reported on `Codecov`_."
 msgstr ""
+"Huidige testresultaten zijn te vinden op `GitHub Actions`_ en de dekking "
+"wordt gerapporteerd op `Codecov`_."
 
 #: ../../contributing/tests.rst:18
 msgid "There are several jobs to verify different aspects:"
-msgstr ""
+msgstr "Er zijn verscheidene taken om verschillende aspecten te verifiëren:"
 
 #: ../../contributing/tests.rst:20
 msgid "Unit tests"
-msgstr ""
+msgstr "Eenheidstesten"
 
 #: ../../contributing/tests.rst:21
 msgid "Documentation build and external links"
-msgstr ""
+msgstr "Bouwen van documentatie en externe koppelingen"
 
 #: ../../contributing/tests.rst:22
 msgid "Migration testing from all supported releases"
-msgstr ""
+msgstr "Testen van migratie in alle ondersteunde uitgaven"
 
 #: ../../contributing/tests.rst:23
 msgid "Code linting"
-msgstr ""
+msgstr "Code linten"
 
 #: ../../contributing/tests.rst:24
 msgid ""
 "Setup verification (ensures that generated dist files do not miss anything "
 "and can be tested)"
 msgstr ""
+"Verificatie opstelling (zorgt ervoor dat gegenereerde bestanden voor de "
+"distributie niets missen en kunnen worden getest)"
 
 #: ../../contributing/tests.rst:26
 msgid ""
@@ -41276,46 +41355,58 @@ msgid ""
 "mostly defining Django settings file to use and test database connection. "
 "The example definition of that is in :file:`scripts/test-database.sh`:"
 msgstr ""
+"De configuratie voor de CI staat in de map :file:`.github/workflows`. Het "
+"gebruikt in hoge mate hulpscripts die zijn opgeslagen in de map :file:`ci`. "
+"De scripts kunnen ook handmatig worden uitgevoerd, maar zij vereisen "
+"verscheidene omgevingsvariabelen, die meestal het te gebruiken "
+"instellingenbestand voor Django definieert en de verbinding naar de database "
+"test. De voorbeelddefinitie daarvan staat in :file:`scripts/test-database."
+"sh`:"
 
 #: ../../contributing/tests.rst:35
 msgid "The simple execution can look like:"
-msgstr ""
+msgstr "De eenvoudige uitvoering kan er uitzien als:"
 
 #: ../../contributing/tests.rst:47
 msgid "Local testing"
-msgstr ""
+msgstr "Lokaal testen"
 
 #: ../../contributing/tests.rst:49
 msgid ""
 "Before running test, please ensure test dependencies are installed. This can "
 "be done by ``pip install -e .[test]``."
 msgstr ""
+"Zorg ervoor, voor het uitvoeren van testen, dat de afhankelijkheden voor "
+"testen zijn geïnstalleerd. Dat kan worden gedaan met ``pip install -e "
+".[test]``."
 
 #: ../../contributing/tests.rst:52
 msgid "Testing using pytest"
-msgstr ""
+msgstr "Testen met pytest"
 
 #: ../../contributing/tests.rst:53 ../../contributing/tests.rst:100
 msgid ""
 "Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
 msgstr ""
+"Voorafgaande aan het testen zou u statische bestanden moeten verzamelen, "
+"omdat enkele testen erop vertrouwen dat die aanwezig zijn:"
 
 #: ../../contributing/tests.rst:59
 msgid "You can use `pytest` to run a testsuite locally:"
-msgstr ""
+msgstr "U kunt `pytest` gebruiken om een testsuite lokaal uit te voeren:"
 
 #: ../../contributing/tests.rst:65
 msgid "Running an individual test file:"
-msgstr ""
+msgstr "Uitvoeren van een individueel testbestand:"
 
 #: ../../contributing/tests.rst:72
 msgid "Testing using Django"
-msgstr ""
+msgstr "Testen met Django"
 
 #: ../../contributing/tests.rst:74
 msgid "Alternatively, Django built-in tests should also work:"
-msgstr ""
+msgstr "Als alternatief zouden ingebouwde testen van Django ook moeten werken:"
 
 #: ../../contributing/tests.rst:82
 msgid ""
@@ -41325,28 +41416,41 @@ msgid ""
 "use ``test_weblate`` database. See :ref:`database-setup` for setup "
 "instructions."
 msgstr ""
+"U zult een databaseserver (PostgreSQL) nodig hebben om te gebruiken voor de "
+"testen. Standaard maakt Django een afzonderlijke database, om testen mee uit "
+"te voeren, met het voorvoegsel ``test_``, dus in het geval uw instellingen "
+"zijn geconfigureerd om ``weblate`` te gebruiken, zullen de testen de "
+"database ``test_weblate`` gebruiken. Bekijk :ref:`database-setup` voor "
+"instructies voor het instellen."
 
 #: ../../contributing/tests.rst:88
 msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well (see :"
 "ref:`ci-tests`) and can be tuned using environment variables:"
 msgstr ""
+"Het bestand :file:`weblate/settings_test.py` wordt ook gebruikt in de "
+"omgeving van CI (bekijk :ref:`ci-tests`) en kan fijn worden afgestemd met "
+"omgevingsvariabelen:"
 
 #: ../../contributing/tests.rst:106
 msgid "You can also specify individual tests to run:"
-msgstr ""
+msgstr "U kunt ook individuele testen specificeren om uit te voeren:"
 
 #: ../../contributing/tests.rst:114
 msgid ""
 "The tests can also be executed inside developer docker container, see :ref:"
 "`dev-docker`."
 msgstr ""
+"De testen kunnen ook worden uitgevoerd binnen de Docker container voor "
+"ontwikkeling, bekijk :ref:`dev-docker`."
 
 #: ../../contributing/tests.rst:118
 msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."
 msgstr ""
+"Bekijk :doc:`django:topics/testing/index` voor meer informatie over het "
+"uitvoeren en schrijven van testen voor Django."
 
 #: ../../contributing/trademark.rst:2
 msgid "Weblate Trademark Guidelines"
@@ -41363,20 +41467,34 @@ msgid ""
 "(including some product names that are part of our organization) you must "
 "comply with these Weblate Trademark Guidelines."
 msgstr ""
+"Weblate is een open bron-organisatie. Omdat we vertaalprogramma's maken die "
+"rekening houden met privacy en die verschaffen als copylefted vrije "
+"software, is het juist gebruiken van onze handelsmerken essentieel om "
+"gebruikers te informeren of Weblate achter een product of service staat "
+"zodat we kunnen doorgaan met de ontwikkeling ervan. De naam Weblate is niet "
+"alleen een handelsmerk dat wordt gebruikt om onze technologie, onderdelen en "
+"services te identificeren, het dient ook als naam voor ons bedrijf. Bij het "
+"gebruiken van handelsmerken van Weblate (inclusief enkele productnamen die "
+"deel van onze organisatie zijn) moet u zich schikken naar deze richtlijnen "
+"voor het handelsmerk Weblate (Trademark Guidelines)."
 
 #: ../../contributing/trademark.rst:6
 msgid "Some of our trademarks include:"
-msgstr ""
+msgstr "Enkele van onze handelsmerken bevatten:"
 
 #: ../../contributing/trademark.rst:10
 msgid ""
 "However, this is not a complete list of our names, logos, and brand "
 "features, all of which are subject to these guidelines."
 msgstr ""
+"Dit is echter geen volledige lijst met onze namen, logo's en merkobjecten, "
+"die allemaal onderworpen zij aan deze richtlijnen."
 
 #: ../../contributing/trademark.rst:13
 msgid "When do I need specific permission to use a Weblate trademark?"
 msgstr ""
+"Wanneer heb ik specifiek toestemming nodig om een handelsmerk van Weblate te "
+"gebruiken?"
 
 #: ../../contributing/trademark.rst:15
 msgid ""
@@ -41386,18 +41504,29 @@ msgid ""
 "way of using the Weblate trademark. However, in all cases it is not "
 "necessary to receive permission directly from Weblate (or its affiliates) to:"
 msgstr ""
+"Omdat Weblate een provider is van software die in veel versies gebruikt kan "
+"worden – gehost, toegewezen cloud en zelf gehost (zowel betaald als gratis), "
+"is het belangrijk om onderscheid te maken tussen deze gevallen. Elke versie "
+"heeft een specifieke manier voor het gebruiken van het handelsmerk van "
+"Weblate. Het is echter niet in alle gevallen noodzakelijk om directe "
+"toestemming van Weblate (of zijn partners) te verkrijgen om:"
 
 #: ../../contributing/trademark.rst:17
 msgid ""
 "Use Weblate wordmarks and/or logos in unmodified versions of Weblate "
 "programs, products, services and technologies."
 msgstr ""
+"Weblate woordmerken en/of logo's te gebruiken in niet aangepaste versies van "
+"programma's, producten, services en technologieën van Weblate."
 
 #: ../../contributing/trademark.rst:18
 msgid ""
 "Use Weblate wordmarks in text to truthfully refer to and/or link to "
 "unmodified Weblate programs, products, services and technologies."
 msgstr ""
+"Weblate woordmerken te gebruiken in tekst om naar waarheid te verwijzen naar "
+"en/of te koppelen met niet aangepaste programma's, producten, services en "
+"technologieën van Weblate."
 
 #: ../../contributing/trademark.rst:19
 msgid ""
@@ -41405,28 +41534,40 @@ msgid ""
 "applicable programs, products, services and technologies hosted on Weblate "
 "servers."
 msgstr ""
+"Logo's van Weblate visueel te gebruiken om naar waarheid te verwijzen naar "
+"en/of te koppelen met van toepassing zijnde programma's, producten, services "
+"en technologieën, die worden gehost op servers van Weblate."
 
 #: ../../contributing/trademark.rst:20
 msgid ""
 "Use Weblate wordmarks to explain that your software is based on Weblate's "
 "open-source code or is compatible with Weblate's software."
 msgstr ""
+"Weblate woordmerken gebruiken om uit te leggen dat uw software is gebaseerd "
+"op de open-bron code van Weblate of compatibel is met de software van "
+"Weblate."
 
 #: ../../contributing/trademark.rst:21
 msgid ""
 "Describe a social media account, page, or community in accordance with "
 "the Social Media Guidelines."
 msgstr ""
+"Een account voor sociale media, pagina of gemeenschap te beschrijven in "
+"overeenstemming met de Social Media Guidelines."
 
 #: ../../contributing/trademark.rst:23
 msgid ""
 "All other uses of a Weblate trademark require our prior written permission. "
 "This includes any use of a Weblate trademark in a domain name."
 msgstr ""
+"Elk ander gebruik van een handelsmerk van Weblate vereist onze voorafgaande "
+"schriftelijke toestemming. Dit omvat elk gebruik van een handelsmerk van "
+"Weblate in een domeinnaam."
 
 #: ../../contributing/trademark.rst:26
 msgid "When allowed, how should I use a Weblate trademark?"
 msgstr ""
+"Indien toegestaan, hoe zou ik een handelsmerk van Weblate moeten gebruiken?"
 
 #: ../../contributing/trademark.rst:29
 msgid "General Guidelines"
@@ -41434,33 +41575,41 @@ msgstr "Algemene richtlijnen"
 
 #: ../../contributing/trademark.rst:31
 msgid "**Do:**"
-msgstr ""
+msgstr "**Doen:**"
 
 #: ../../contributing/trademark.rst:33
 msgid "Use the Weblate trademark exactly as shown in the list above."
 msgstr ""
+"Gebruik het handelsmerk van Weblate exact zoals weergegeven in bovenstaande "
+"lijst."
 
 #: ../../contributing/trademark.rst:34
 msgid ""
 "Use Weblate wordmarks only as a noun. Avoid Adjectives and Verbs. Do not use "
 "them in plural."
 msgstr ""
+"Gebruik Weblate woordmerken alleen als een zelfstandig naamwoord. Vermijd "
+"bijvoeglijke naamwoorden en werkwoorden. Gebruik ze niet in meervoudsvormen."
 
 #: ../../contributing/trademark.rst:36
 msgid "**Don't:**"
-msgstr ""
+msgstr "**Niet doen:**"
 
 #: ../../contributing/trademark.rst:38
 msgid ""
 "Don't use Weblate trademarks in the name of your business, product, service, "
 "app, domain name, publication, or other offering."
 msgstr ""
+"Gebruik Weblate handelsmerken niet in de naam van uw bedrijf, product, "
+"service, app, domeinnaam, publicatie of andere aanprijzing."
 
 #: ../../contributing/trademark.rst:39
 msgid ""
 "Don't use marks, logos, company names, slogans, domain names, or designs "
 "that are confusingly like Weblate trademarks."
 msgstr ""
+"Gebruik geen merken, logo's, bedrijfsnamen, slogans, domeinnamen of "
+"ontwerpen die verwarrend lijken op handelsmerken van Weblate."
 
 #: ../../contributing/trademark.rst:40
 msgid ""
@@ -41468,24 +41617,33 @@ msgid ""
 "with, or sponsorship, endorsement, or approval by Weblate of your products "
 "or services."
 msgstr ""
+"Gebruik geen Weblate handelsmerken op een manier die onjuist partnerschap "
+"impliceert met, of sponsorschap, gedogen of goedgekeurd door Weblate voor uw "
+"producten of services."
 
 #: ../../contributing/trademark.rst:41
 msgid ""
 "Don't display Weblate trademarks more prominently than your product, "
 "service, or company name."
 msgstr ""
+"Geef geen handelsmerken van Weblate meer prominent weer dan die van uw "
+"product, service of bedrijfsnaam."
 
 #: ../../contributing/trademark.rst:42
 msgid ""
 "Don't use Weblate trademarks on merchandise for sale (e.g., selling t-"
 "shirts, mugs, etc.)."
 msgstr ""
+"Gebruik geen handelsmerken van Weblate op merchandise voor verkoop (bijv. "
+"verkopen van T-shirts, mokken, etc.)."
 
 #: ../../contributing/trademark.rst:43
 msgid ""
 "Don't use Weblate trademarks for any other form of commercial use (e.g. "
 "offering technical support services)."
 msgstr ""
+"Gebruik geen handelsmerken van Weblate voor enige vorm van commercieel "
+"gebruik (bijv. aanbieden van services voor technische ondersteuning)."
 
 #: ../../contributing/trademark.rst:44
 msgid ""
@@ -41493,10 +41651,13 @@ msgid ""
 "other symbols, words, or images, or incorporate them into a tagline or "
 "slogan."
 msgstr ""
+"Pas geen handelsmerk van Weblate aan, kort ze niet af of combineer ze met "
+"enig ander symbool, woord of afbeelding of verwerk ze in een regel voor een "
+"tag of een slogan."
 
 #: ../../contributing/trademark.rst:47
 msgid "Social Media Guidelines"
-msgstr ""
+msgstr "Richtlijnen voor sociale media"
 
 #: ../../contributing/trademark.rst:49
 msgid ""
@@ -41507,6 +41668,13 @@ msgid ""
 "profile, or header images. The only exception to these requirements is if "
 "you've received prior permission from Weblate."
 msgstr ""
+"In aanvulling op de Algemene richtlijnen hierboven, mogen de naam en "
+"behandeling van uw account voor sociale media en alle pagina's niet beginnen "
+"met een handelsmerk van Weblate. In aanvulling daarop mogen logo's van "
+"Weblate niet gebruikt worden op ene manier die enige verbondenheid "
+"suggereert met Weblate, inclusief, maar niet beperkt tot, het account, "
+"profiel of afbeeldingen in de kop. De enige uitzondering op deze vereisten "
+"is als u voorafgaand toestemming hebt gekregen van Weblate."
 
 #: ../../contributing/trademark.rst:51
 msgid ""
@@ -41517,10 +41685,16 @@ msgid ""
 "trademarks or Weblate logos or otherwise suggest any affiliation with "
 "Weblate."
 msgstr ""
+"U mag, bijvoorbeeld, uw account, pagina of gemeenschap \"Weblate "
+"Representatives\" of \"Weblate software\" noemen. Het zou echter acceptabel "
+"zijn om uw account, pagina of gemeenschap \"Fans van Weblate\" of "
+"\"Informatie over Weblate software\" te noemen, als u geen handelsmerken of "
+"logo's van Weblate gebruikt of op andere wijze enige verbondenheid met "
+"Weblate suggereert."
 
 #: ../../contributing/trademark.rst:54
 msgid "Open-Source Project Guidelines"
-msgstr ""
+msgstr "Richtlijnen open-bron project"
 
 #: ../../contributing/trademark.rst:56
 msgid ""
@@ -41529,16 +41703,23 @@ msgid ""
 "to use Weblate's trademarks. If you choose to build on or modify Weblate's "
 "open-source code for your own project,"
 msgstr ""
+"De specifieke licentie voor elk van Weblate's softwareproducten en code "
+"vertellen u wat u wel en niet mag doen met de code zelf, maar geeft geen "
+"toestemming om de handelsmerken van Weblate te gebruiken. Als u er voor "
+"kiest om te bouwen op of om de open-bron code van Weblate aan te passen voor "
+"uw eigen project,"
 
 #: ../../contributing/trademark.rst:58
 msgid "**You Must:**"
-msgstr ""
+msgstr "**Moet u:**"
 
 #: ../../contributing/trademark.rst:60
 msgid ""
 "Follow the terms of the Open-Source Licenses for Weblate software products "
 "and code (mainly GPLv3)."
 msgstr ""
+"De bepalingen volgen van de open-bron licenties voor Weblate "
+"softwareproducten en code (voornamelijk GPLv3)."
 
 #: ../../contributing/trademark.rst:61
 msgid ""
@@ -41546,20 +41727,25 @@ msgid ""
 "to clearly signal to users that there is no affiliation with or endorsement "
 "by Weblate."
 msgstr ""
+"Branding, logo's en handelsmerken kiezen die uw eigen unieke identiteit "
+"weergeven, om duidelijk aan gebruikers aan te geven dat er geen "
+"verbondenheid is met of gedogen door Weblate."
 
 #: ../../contributing/trademark.rst:62
 msgid "Follow the General Guidelines, above."
-msgstr ""
+msgstr "De algemene richtlijnen hierboven volgen."
 
 #: ../../contributing/trademark.rst:64
 msgid "**You Must NOT:**"
-msgstr ""
+msgstr "**U moet NIET:**"
 
 #: ../../contributing/trademark.rst:66
 msgid ""
 "Use any Weblate trademark in connection with the user-facing name or "
 "branding of your project."
 msgstr ""
+"Enig handelsmerk van Weblate gebruiken in verbinding met de voor de "
+"gebruiker zichtbare naam of branding van uw project."
 
 #: ../../contributing/trademark.rst:67
 msgid ""
@@ -41567,22 +41753,28 @@ msgid ""
 "incorrectly suggest or give the impression your software is published by, "
 "affiliated with, or endorsed by Weblate."
 msgstr ""
+"Enig handelsmerk van Weblate of enig deel van een handelsmerk van Weblate "
+"gebruiken om onjuist te suggereren of de indruk te wekken dat uw software is "
+"gepubliceerd door, verbonden is met of wordt gedoogd door Weblate."
 
 #: ../../contributing/trademark.rst:69
 msgid ""
 "For example, please do not name your project, [Something]-Weblate, or "
 "Weblate-[Something]"
-msgstr ""
+msgstr "Noem uw project, bijvoorbeeld niet, [iets]-Weblate, of Weblate-[iets]"
 
 #: ../../contributing/trademark.rst:71
 msgid "**You May:**"
-msgstr ""
+msgstr "**U mag:**"
 
 #: ../../contributing/trademark.rst:73
 msgid ""
 "State in words (not using logos or images) that your product \"works with\" "
 "or \"is compatible\" with certain Weblate products, if that is true."
 msgstr ""
+"In woorden (geen logo's of afbeeldingen gebruiken) vermelden dat uw product "
+"\"werkt met\" of \"compatibel is\" met bepaalde producten van Weblate, als "
+"dat waar is."
 
 #: ../../contributing/trademark.rst:74
 msgid ""
@@ -41591,28 +41783,34 @@ msgid ""
 "statement that your project is not officially associated with Weblate or its "
 "products."
 msgstr ""
+"In woorden (geen logo's of afbeeldingen gebruiken) vermelden dat uw product "
+"is gebaseerd op Weblate open-bron technologie, als dat waar is, als u ook "
+"een vermelding opneemt dat uw project niet officieel is geassocieerd met "
+"Weblate of zijn producten."
 
 #: ../../contributing/trademark.rst:76
 msgid "For instance, you may state that your project:"
-msgstr ""
+msgstr "U mag bijvoorbeeld vermelden dat uw project:"
 
 #: ../../contributing/trademark.rst:78
 msgid "\"is proudly built from Weblate's open-source software\""
-msgstr ""
+msgstr "\"met trots is gebouwd vanuit Weblate's open-bron software\""
 
 #: ../../contributing/trademark.rst:80
 msgid "as long as you also include the statement equally prominently:"
-msgstr ""
+msgstr "zo lang als u ook, gelijkwaardig prominent, de vermelding opneemt:"
 
 #: ../../contributing/trademark.rst:82
 msgid ""
 "\"[Brand Name] and [Product Name] are not officially associated with Weblate "
 "or its products.\""
 msgstr ""
+"\"[Brandnaam] en [Productnaam] zijn niet officieel geassocieerd met Weblate "
+"of zijn producten.\""
 
 #: ../../contributing/trademark.rst:85
 msgid "Weblate Community Guidelines"
-msgstr ""
+msgstr "Richtlijnen voor de gemeenschap van Weblate"
 
 #: ../../contributing/trademark.rst:87
 msgid ""
@@ -41620,10 +41818,14 @@ msgid ""
 "members of the Weblate Community, and these Weblate Trademark Guidelines do "
 "not alter any such previously granted permissions."
 msgstr ""
+"Verscheidene toestemmingen om handelsmerken van Weblate te gebruiken zijn "
+"verleend aan verschillende leden van de gemeenschap van Weblate, en deze "
+"Richtlijnen voor handelsmerken van Weblate wijzigen niets aan dergelijke "
+"eerder verleende rechten."
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
-msgstr ""
+msgstr "Alarmen voor vertaalonderdeel"
 
 #: ../../devel/alerts.rst:6
 msgid ""
@@ -41631,18 +41833,21 @@ msgid ""
 "given translation component. Guidance on how to address found issues is also "
 "offered."
 msgstr ""
+"Geeft fouten weer in de configuratie van Weblate of het vertaalproject voor "
+"een bepaald vertaalonderdeel. Aanwijzingen om de gevonden problemen aan te "
+"pakken worden ook aangeboden."
 
 #: ../../devel/alerts.rst:9
 msgid "Currently the following is covered:"
-msgstr ""
+msgstr "Momenteel wordt het volgende behandeld:"
 
 #: ../../devel/alerts.rst:11
 msgid "Duplicated source strings in translation files"
-msgstr ""
+msgstr "Gedupliceerde brontekenreeksen in vertaalbestanden"
 
 #: ../../devel/alerts.rst:12
 msgid "Duplicated languages within translations"
-msgstr ""
+msgstr "Gedupliceerde talen binnen vertalingen"
 
 #: ../../devel/alerts.rst:13
 msgid "Merge, update, or push failures in the repository"
@@ -41650,11 +41855,11 @@ msgstr "Mislukkingen in de opslagruimte samenvoegen, bijwerken of pushen"
 
 #: ../../devel/alerts.rst:14
 msgid "Parse errors in the translation files"
-msgstr ""
+msgstr "Fouten bij parsen in de vertaalbestanden"
 
 #: ../../devel/alerts.rst:15
 msgid "Billing limits (see :ref:`billing`)"
-msgstr ""
+msgstr "Limieten facturatie (bekijk :ref:`billing`)"
 
 #: ../../devel/alerts.rst:16
 msgid "Repository containing too many outgoing or missing commits"
@@ -41666,7 +41871,7 @@ msgstr "Licenties ontbreken"
 
 #: ../../devel/alerts.rst:18
 msgid "Errors when running add-on (see :doc:`/admin/addons`)"
-msgstr ""
+msgstr "Fouten bij uitvoeren van add-on (bekijk :doc:`/admin/addons`)"
 
 #: ../../devel/alerts.rst:19
 msgid "Misconfigured monolingual translation."
@@ -41678,7 +41883,7 @@ msgstr "Defect :ref:`component`"
 
 #: ../../devel/alerts.rst:21
 msgid "Broken URLs"
-msgstr ""
+msgstr "Verbroken URL's"
 
 #: ../../devel/alerts.rst:22
 msgid "Unused screenshots"
@@ -41690,7 +41895,7 @@ msgstr "Niet eenduidige taalcode"
 
 #: ../../devel/alerts.rst:24
 msgid "Unused new base in component settings"
-msgstr ""
+msgstr "Niet gebruikte nieuwe basis in instellingen van onderdeel"
 
 #: ../../devel/alerts.rst:25
 msgid "Duplicate file mask used for linked components"
@@ -41705,6 +41910,9 @@ msgid ""
 "The alerts are updated daily, or on related change (for example when :ref:"
 "`component` is changed or when repository is updated)."
 msgstr ""
+"De alarmen worden dagelijks bijgewerkt, of bij een gerelateerde wijziging ("
+"bijvoorbeeld als :ref:`component` wordt gewijzigd of als de opslagruimte "
+"wordt bijgewerkt)."
 
 #: ../../devel/alerts.rst:31
 msgid ""
@@ -41712,10 +41920,15 @@ msgid ""
 "If it is missing, the component clears all current checks. Alerts can not be "
 "ignored, but will disappear once the underlying problem has been fixed."
 msgstr ""
+"Alarmen zijn op elke respectievelijke pagina van het onderdeel vermeld als "
+":guilabel:`Alarmen`. Als het ontbreekt, schoont het onderdeel alle huidige "
+"controles op. Alarmen kunnen niet worden genegeerd, maar zullen verdwijnen "
+"als het onderliggende probleem is opgelost."
 
 #: ../../devel/alerts.rst:35
 msgid "A component with both duplicated strings and languages looks like this:"
 msgstr ""
+"Een onderdeel met zowel gedupliceerde tekenreeksen en talen ziet er zo uit:"
 
 #: ../../devel/alerts.rst:41
 msgid ":ref:`production-certs`"
@@ -41735,6 +41948,14 @@ msgid ""
 "definitions. In most cases the `browser-plugin of languageTool <https://"
 "languagetool.org/#firefox_chrome>`_  is useful as a proof-reading tool."
 msgstr ""
+"Volgen van deze aanbevelingen ondersteunt het maken van een volledig, "
+"meertalig programma voor nabewerken. Goede vertalingen worden gedefinieerd "
+"door het systemic-functionele model van House dat zich richt op een "
+"contextueel correcte vertaling. Schrijf uw eigen `gids voor nabewerken "
+"<https://en.wikipedia.org/wiki/Postediting>`_ en wijzig deze aanbevelingen "
+"om te voldoen aan uw eigen definities. In de meeste gevallen is de "
+"`browserplug-in van LanguageTool <https://languagetool.org/#firefox_chrome>`"
+"_ nuttig als een programma voor proeflezen."
 
 #: ../../devel/community.rst:6
 msgid ""
@@ -41745,6 +41966,13 @@ msgid ""
 "also receive translator comments if you setup :ref:`component-"
 "report_source_bugs`."
 msgstr ""
+"Heel vaak zullen vertalers problemen vinden in de brontekenreeksen. Zorg "
+"ervoor dat het voor hen gemakkelijk is om dergelijke problemen te "
+"rapporteren. Voor het verzamelen van deze terugkoppelingen kunt u het veld "
+":ref:`component-repoweb` instellen in uw onderdeel van Weblate, voor "
+"vertalers om hun wijzigingen voor te stellen bij de opslagruimte upstream. U "
+"kunt ook opmerkingen van vertalers ontvangen als u :ref:`component-"
+"report_source_bugs` instelt."
 
 #: ../../devel/community.rst:11
 msgid "Community localization checklist"
@@ -41756,6 +41984,9 @@ msgid ""
 "menu of each component can give you guidance to make your localization "
 "process easy for community translators."
 msgstr ""
+"De :guilabel:`Checklist voor vertalen door gemeenschap`, die is te vinden in "
+"het menu van elk onderdeel, kan u aanwijzingen geven om uw vertaalproces "
+"gemakkelijk te maken voor vertalers binnen de gemeenschap."
 
 #: ../../devel/community.rst:22
 msgid "Terminology management"
@@ -41773,6 +42004,15 @@ msgid ""
 "additional terminology documents to guarantee a good knowledge and output in "
 "the field."
 msgstr ""
+"Nabewerken van machinevertalingen met toewijzing van terminologie beïnvloedt "
+"elk niveau van het vertaalproces. Het systeem voor machinevertaling kan "
+"worden aangepast naar de specifieke vocabulaire en opmaak met een "
+"doorlopende training van `neurale fuzzy reparaties <https://aclanthology.org/"
+"P19-1175.pdf>`_. `Importeer <https://docs.weblate.org/en/latest/admin/memory."
+"html#imported-translation-memory>`_ uw bestaande vertaalgeheugen in Weblate "
+"of maak een initieel bereik met uw basisterminologie. Aan het einde zou de "
+"lector moeten worden geïnstrueerd met aanvullende documenten voor "
+"terminologie om ene goede kennis en uitvoer in het veld te garanderen."
 
 #: ../../devel/community.rst:27
 msgid "Machine translation"
@@ -41785,6 +42025,10 @@ msgid ""
 "supports the needed languages and domains. Make clear how the translation "
 "backend functions and which quality the post-editor has to expect."
 msgstr ""
+"De kwaliteit van de automatische vertaling (vaak gemeten met de BLEU-score) "
+"correleert met de tijd voor bewerken [1]. Kies een machinebackend dat de "
+"benodigde talen en domeinen ondersteunt. Maak duidelijk hoe de "
+"vertaalbackend functioneert en welke kwaliteit de nabewerker moet verwachten."
 
 #: ../../devel/community.rst:31
 msgid "Review translations"
@@ -41799,6 +42043,12 @@ msgid ""
 "best review. Screenshots, explanations also help to review the strings in "
 "context."
 msgstr ""
+"De vertalingen zouden moeten worden beoordeeld door een tweede persoon, na "
+"het nabewerken. Met een onafhankelijke en kundige beoordelaar, vermindert de "
+"twee mensen-regel de fouten en verbetert de kwaliteit en consistentie van de "
+"inhoud. Beoordelaars verschaffen van voorbeelden of alfa-vertalingen zullen "
+"de beste beoordeling geven. Schermafdrukken, uitleg helpt ook voor het "
+"beoordelen van tekenreeksen in context."
 
 #: ../../devel/community.rst:37
 msgid "Structured feedback"
@@ -41811,6 +42061,10 @@ msgid ""
 "during translation. This prevents recurring mistakes, and helps translators "
 "to understand how the code works."
 msgstr ""
+"Er zijn vele :doc:`/user/checks` in Weblate die gestructureerde "
+"terugkoppeling verschaffen over de kwaliteit van de vertalingen. Zij geven "
+"ook visuele terugkoppeling tijdens het vertalen. Dat voorkomt steeds "
+"terugkerende fouten, en helpt vertalers te begrijpen hoe de code werkt."
 
 #: ../../devel/community.rst:42
 msgid "Translation definition"
@@ -41827,6 +42081,14 @@ msgid ""
 "meaning of a text equivalent when crossing from one linguistic code to "
 "another."
 msgstr ""
+"In aanvulling op de mentalistische en op impact gebaseerde definities, die "
+"voor een sterke vermindering zorgen, past de op tekst ge-baseerde "
+"taalkundige benadering het beste met de geïmplementeerde vertaalmethoden. "
+"Een goed geformuleerde theorie voor evaluatie van vertalingen is House's "
+"systemic-functionele model, dat focust op de relatie tussen origineel en "
+"vertaling. Het model gaat ervan uit dat vertalen een poging is om de "
+"semantische, pragmatische en tekstuele betekenis van een tekst equivalent te "
+"houden bij het overgaan van de ene taalkundige code naar een andere."
 
 #: ../../devel/community.rst:45
 msgid ""
@@ -41838,6 +42100,14 @@ msgid ""
 "context – i.e. embedding in a larger social and literary context – and the "
 "micro-context consisting of field, tenor and mode."
 msgstr ""
+"De mate van kwaliteit van een vertaling is gebaseerd op de mate van "
+"equivalentie, de overeenkomst tussen het profiel van de tekst en de functie "
+"van de tekst. Omdat het niet automatisch kan worden berekend, zou voldoende "
+"informatie moeten worden verzameld om een uniforme menselijke evaluatie uit "
+"te kunnen voeren. De twee belangrijkste parameters voor overeenstemming in "
+"een corresponderend model zijn de macro-context – d.i. inbedden in een "
+"grotere sociale en letterlijke context – en de micro-context bestaande uit "
+"veld, teneur en modus."
 
 #: ../../devel/community.rst:48
 msgid "Sources"
@@ -41849,6 +42119,9 @@ msgid ""
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
 "machine-translation-quality.pdf"
 msgstr ""
+"Marina Sanchez-Torron en Philipp Koehn in Machine Translation Quality and "
+"Post-Editor Productivity, Afbeelding 1: https://www.cs.jhu.edu/~phi/"
+"publications/machine-translation-quality.pdf"
 
 #: ../../devel/community.rst:50
 msgid ""
@@ -41856,6 +42129,9 @@ msgid ""
 "Orientierungshilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten "
 "der Übersetzungskritik starting on page number 101"
 msgstr ""
+"Joanna Best en Sylvia Kalina. Übersetzen und Dolmetschen: eine "
+"Orientierungshilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten "
+"der Übersetzungskritik beginnend op paginanummer 101"
 
 #: ../../devel/community.rst:51
 msgid ""
@@ -41863,10 +42139,13 @@ msgid ""
 "Integrating Fuzzy Matches into Neural Machine Translation, 2019 https://"
 "aclanthology.org/P19-1175.pdf"
 msgstr ""
+"neurale fuzzy reparaties, Bram Bulté en Arda Tezcan in Neural Fuzzy Repair: "
+"Integrating Fuzzy Matches into Neural Machine Translation, 2019 "
+"https://aclanthology.org/P19-1175.pdf"
 
 #: ../../devel/gettext.rst:2
 msgid "Translating software using GNU gettext"
-msgstr ""
+msgstr "Software vertalen met GNU gettext"
 
 #: ../../devel/gettext.rst:4
 msgid ""
@@ -41877,12 +42156,21 @@ msgid ""
 "course it has great support in Weblate (see :ref:`gettext` file format "
 "description)."
 msgstr ""
+"`GNU gettext`_ is een van de meest breed gebruikte programma's voor het "
+"internationaliseren van vrije software. Het verschaft een eenvoudige maar "
+"flexibele manier om de software te vertalen. Het heeft geweldige "
+"ondersteuning voor meervouden, het kan meer context toevoegen aan de "
+"vertaalde tekenreeks en er zijn een heleboel programma's omheen gebouwd. "
+"Natuurlijk wortd het goed ondersteund in Weblate (bekijk de :ref:`gettext` "
+"beschrijving voor de bestandsindeling)."
 
 #: ../../devel/gettext.rst:12
 msgid ""
 "If you are about to use it in proprietary software, please consult licensing "
 "first, it might not be suitable for you."
 msgstr ""
+"Als u van plan bent het te gebruiken in gesloten software, raadpleeg dan "
+"eerst de licentie, het zou niet geschikt voor u kunnen zijn."
 
 #: ../../devel/gettext.rst:15
 msgid ""
@@ -41892,6 +42180,11 @@ msgid ""
 "call, which is often aliased to `_()` to make the code simpler and easier to "
 "read."
 msgstr ""
+"GNU gettext kan worden gebruikt vanuit een variëteit aan talen (C, Python, "
+"PHP, Ruby, JavaScript en nog veel meer) en gewoonlijk hebben de framewerken "
+"voor de gebruikersinterface er al enige ondersteuning voor. Het standaard "
+"gebruik is door de functieaanroep `gettext()`, waarvoor vaak het alias `_()` "
+"wordt gebruikt om de code eenvoudiger en gemakkelijker te lezen te maken."
 
 #: ../../devel/gettext.rst:20
 msgid ""
@@ -41899,6 +42192,9 @@ msgid ""
 "translators and `ngettext()` which can handle plural types as defined for "
 "target language."
 msgstr ""
+"Aanvullend verschaft het de aanroep `pgettext()` om aanvullende context te "
+"verschaffen aan vertalers en `ngettext()` dat typen meervoudsvormen kan "
+"afhandelen, zoals gedefinieerd voor de doeltaal."
 
 #: ../../devel/gettext.rst:24
 msgid ""
@@ -41906,6 +42202,10 @@ msgid ""
 "simple, instead of manual invoking of gettext described below, you might "
 "want to try one of them, for example `intltool`_."
 msgstr ""
+"Als ene breed gebruikt programma, heeft het veel wrappers die het gebruik "
+"ervan echt eenvoudig maken, in plaats van het handmatig activeren van "
+"gettext, hieronder beschreven, zou u er misschien een van willen proberen, "
+"bijvoorbeeld `intltool`_."
 
 #: ../../devel/gettext.rst:29
 msgid "Workflow overview"
@@ -41914,12 +42214,16 @@ msgstr "Overzicht werkstroom"
 #: ../../devel/gettext.rst:31
 msgid "The GNU gettext uses several files to manage the localization:"
 msgstr ""
+"De GNU gettext gebruikt verscheidene bestanden om het vertalen te beheren:"
 
 #: ../../devel/gettext.rst:33
 msgid ""
 ":file:`PACKAGE.pot` contains strings extracted from your source code, "
 "typically using `xgettext`_ or some high level wrappers such as `intltool`_."
 msgstr ""
+":file:`PACKAGE.pot` bevat tekenreeksen die zijn uitgenomen uit uw broncode, "
+"gewoonlijk met `xgettext`_ of enige wrappers op hoog niveau, zoals "
+"`intltool`_."
 
 #: ../../devel/gettext.rst:34
 msgid ""
@@ -41927,6 +42231,10 @@ msgid ""
 "It has to be updated by `msgmerge`_ once the :file:`PACKAGE.pot` is updated. "
 "You can create new language files using `msginit`_ or within Weblate."
 msgstr ""
+":file:`LANGUAGE.po` bevat tekenreeksen met een vertaling naar ene enkele "
+"taal. Het moet worden bijgewerkt met `msgmerge`_ als het bestand "
+":file:`PACKAGE.pot` eenmaal is bijgewerkt. U kunt nieuwe taalbestanden maken "
+"met `msginit`_ of binnen Weblate."
 
 #: ../../devel/gettext.rst:35
 msgid ""
@@ -41936,28 +42244,36 @@ msgid ""
 "to have it in the version control, you can generate it in Weblate using :ref:"
 "`addon-weblate.gettext.mo` add-on."
 msgstr ""
+":file:`LANGUAGE.mo` bevat binaire weergaven van :file:`LANGUAGE.po` en wordt "
+"gebruikt tijdens runtime van de toepassing. Gewoonlijk wordt het niet "
+"betrokken bij versiebeheer, maar gegenereerd bij het compileren met `msgfmt`"
+"_. In het geval u het in versiebeheer wilt hebben, kunt u het in Weblate "
+"genereren met de add-on :ref:`addon-weblate.gettext.mo`."
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU gettext workflow looks like this:"
-msgstr ""
+msgstr "In het algemeen ziet de werkwijze van GNU gettext er als volgt uit:"
 
 #: ../../devel/gettext.rst:56
 msgid ""
 "`Overview of GNU gettext <https://www.gnu.org/software/gettext/manual/"
 "html_node/Overview.html>`_"
 msgstr ""
+"`Overzicht van GNU gettext <https://www.gnu.org/software/gettext/manual/"
+"html_node/Overview.html>`_"
 
 #: ../../devel/gettext.rst:59
 msgid "Sample program"
-msgstr ""
+msgstr "Voorbeeldprogramma"
 
 #: ../../devel/gettext.rst:61
 msgid "The simple program in C using gettext might look like following:"
 msgstr ""
+"Het eenvoudige programma in C met gettext zou er als volgt uit kunnen zien:"
 
 #: ../../devel/gettext.rst:89
 msgid "Extracting translatable strings"
-msgstr ""
+msgstr "Vertaalbare tekenreeksen uitnemen"
 
 #: ../../devel/gettext.rst:91
 msgid ""
@@ -41965,12 +42281,18 @@ msgid ""
 "extract messages from it and store them into a `.pot <https://www.gnu.org/"
 "software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:"
 msgstr ""
+"Als u eenmaal de code hebt verkregen met aanroepen van gettext, kunt u "
+"`xgettext`_ gebruiken om er eenheden uit te nemen en die op te slaan in een "
+"bestand `.pot <https://www.gnu.org/software/gettext/manual/gettext.html"
+"#index-files_002c-_002epot>`_:"
 
 #: ../../devel/gettext.rst:101
 msgid ""
 "There are alternative programs to extract strings from the code, for example "
 "`pybabel`_."
 msgstr ""
+"Er bestaan alternatieve programma's om tekenreeksen uit de code uit te "
+"nemen, bijvoorbeeld `pybabel`_."
 
 #: ../../devel/gettext.rst:104
 msgid ""
@@ -41979,6 +42301,10 @@ msgid ""
 "(you would use `msgmerge`_ for that). The resulting file is simply a "
 "structured text file:"
 msgstr ""
+"Dat creëert een sjabloonbestand dat u kunt gebruiken om te beginnen met "
+"nieuwe vertalingen (met `msginit`_) of bestaande bijwerken na een wijziging "
+"in de code (u zou daar `msgmerge`_ voor gebruiken). Het resulterende bestand "
+"is eenvoudigweg een gestructureerd tekstbestand:"
 
 #: ../../devel/gettext.rst:142
 msgid ""
@@ -41986,14 +42312,19 @@ msgid ""
 "in the beginning is the file header containing metadata about the "
 "translation."
 msgstr ""
+"Elke regel ``msgid`` definieert een te vertalen tekenreeks, de speciale lege "
+"tekenreeks in het begin is de kop van het bestand dat metadata over de "
+"vertaling bevat."
 
 #: ../../devel/gettext.rst:146
 msgid "Starting new translation"
-msgstr ""
+msgstr "Nieuwe vertaling beginnen"
 
 #: ../../devel/gettext.rst:148
 msgid "With the template in place, we can start our first translation:"
 msgstr ""
+"Met het sjabloon op zijn plaats, kunnen we beginnen met onze eerste "
+"vertaling:"
 
 #: ../../devel/gettext.rst:155
 msgid ""
@@ -42001,6 +42332,10 @@ msgid ""
 "importantly it got the proper plural forms definition for chosen language "
 "and you can see number of plurals have changed according to that:"
 msgstr ""
+"Het zojuist gemaakte bestand :file:`cs.po` heeft al enige informatie "
+"ingevuld in zich. Meest belangrijk is om de juiste definitie voor de "
+"meervoudsvormen voor de gekozen taal te krijgen en u kunt zien dat het "
+"aantal meervouden is gewijzigd overeenkomstig daarmee:"
 
 #: ../../devel/gettext.rst:193
 msgid ""
@@ -42008,26 +42343,35 @@ msgid ""
 "gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ file used by the "
 "`GNU gettext`_ functions at runtime."
 msgstr ""
+"Dit bestand is gecompileerd in een geoptimaliseerde binaire vorm, het "
+"bestand `.mo <https://www.gnu.org/software/gettext/manual/gettext.html#MO-"
+"Files>`_, gebruikt door de functies van `GNU gettext`_ tijdens uitvoering."
 
 #: ../../devel/gettext.rst:198
 msgid "Updating strings"
-msgstr ""
+msgstr "Tekenreeksen bijwerken"
 
 #: ../../devel/gettext.rst:200
 msgid ""
 "Once you add more strings or change some strings in your program, you "
 "execute again `xgettext`_ which regenerates the template file:"
 msgstr ""
+"Als u eenmaal meer tekenreeksen toevoegt, of enige tekenreeksen in uw "
+"programma wijzigt, moet u `xgettext`_ opnieuw uitvoeren, wat het "
+"sjabloonbestand opnieuw genereert:"
 
 #: ../../devel/gettext.rst:207
 msgid ""
 "Then you can update individual translation files to match newly created "
 "templates (this includes reordering the strings to match new template):"
 msgstr ""
+"Dan kunt u de individuele vertaalbestanden bijwerken om overeen te komen met "
+"de nieuw gemaakte sjablonen (dit is inclusief het opnieuw ordenen van de "
+"tekenreeksen om overeen te komen met het nieuwe sjabloon):"
 
 #: ../../devel/gettext.rst:215
 msgid "Importing to Weblate"
-msgstr ""
+msgstr "Importeren in Weblate"
 
 #: ../../devel/gettext.rst:217
 msgid ""
@@ -42035,19 +42379,23 @@ msgid ""
 "following fields when creating component (see :ref:`component` for detailed "
 "description of the fields):"
 msgstr ""
+"Voor het importeren van een dergelijke vertaling in Weblate is alles wat u "
+"hoeft te doen, is het definiëren van de volgende velden bij het maken van "
+"het onderdeel (bekijk :ref:`component` voor gedetailleerde beschrijving van "
+"de velden):"
 
 #: ../../devel/gettext.rst:222
 msgid "Field"
-msgstr ""
+msgstr "Veld"
 
 #: ../../devel/gettext.rst:222 ../../user/checks.rst:1687
 #: ../../workflows.rst:110 ../../workflows.rst:142 ../../workflows.rst:175
 msgid "Value"
-msgstr ""
+msgstr "Waarde"
 
 #: ../../devel/gettext.rst:224
 msgid "URL of the VCS repository with your project"
-msgstr ""
+msgstr "URL van de opslagruimte van het VCS met uw project"
 
 #: ../../devel/gettext.rst:226 ../../formats/gettext.rst:119
 #: ../../formats/gettext.rst:131
@@ -42073,22 +42421,28 @@ msgstr "Kies :guilabel:`Maak nieuw taalbestand`"
 #: ../../devel/gettext.rst:235
 msgid "And that's it, you're now ready to start translating your software!"
 msgstr ""
+"En dat is alles, u bent nu klaar om te beginnen met het vertalen van uw "
+"software!"
 
 #: ../../devel/gettext.rst:239
 msgid ""
 "You can find a gettext example with many languages in the Weblate Hello "
 "project on GitHub: <https://github.com/WeblateOrg/hello>."
 msgstr ""
+"U kunt een voorbeeld van gettext met vele talen vinden in het Weblate Hello "
+"project op GitHub: <https://github.com/WeblateOrg/hello>."
 
 #: ../../devel/html.rst:4
 msgid "Translating HTML and JavaScript using Weblate CDN"
-msgstr ""
+msgstr "HTML en JavaScript vertalken met Weblate CDN"
 
 #: ../../devel/html.rst:6
 msgid ""
 "Starting with Weblate 4.2 it is possible to export localization to a CDN "
 "using :ref:`addon-weblate.cdn.cdnjs` add-on."
 msgstr ""
+"Vanaf Weblate 4.2 is het mogelijk vertaling te exporteren naar een CDN met "
+"de add-on :ref:`addon-weblate.cdn.cdnjs`."
 
 #: ../../devel/html.rst:11
 msgid ""
@@ -42096,6 +42450,9 @@ msgid ""
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` and :"
 "setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
+"Deze mogelijkheid is geconfigureerd op Hosted Weblate. Het vereist "
+"aanvullende configuratie voor uw installatie, bekijk "
+":setting:`LOCALIZE_CDN_URL` en :setting:`LOCALIZE_CDN_PATH`."
 
 #: ../../devel/html.rst:15
 msgid ""
@@ -42103,6 +42460,9 @@ msgid ""
 "(see :ref:`lazy-commit`) to the CDN and these can be used in your web pages "
 "to localize them."
 msgstr ""
+"Bij het installeren in uw onderdeel zal het ingediende vertalingen (bekijk "
+":ref:`lazy-commit`) pushen naar de CDN en die kunnen dan worden gebruikt op "
+"uw webpagina's om ze te vertalen."
 
 #: ../../devel/html.rst:20
 msgid "Creating component"
@@ -42113,6 +42473,8 @@ msgid ""
 "First, you need to create a monolingual component which will hold your "
 "strings, see :ref:`adding-projects` for generic instructions on that."
 msgstr ""
+"Als eerste moet u een eentalig onderdeel maken dat uw tekenreeksen zal "
+"bevatten, bekijk :ref:`adding-projects` voor algemene instructies daarvoor."
 
 #: ../../devel/html.rst:25
 msgid ""
@@ -42123,12 +42485,21 @@ msgid ""
 "Once you have that, the repository can be imported into Weblate and you can "
 "start with an add-on configuration."
 msgstr ""
+"In het geval u een bestaande opslagruimte heeft om mee te beginnen ("
+"bijvoorbeeld die welke de HTML-bestanden bevat), maak dan een leeg JSON-"
+"bestand in de opslagruimte voor de brontaal (bekijk :ref:`component-"
+"source_language`), bijvoorbeeld :file:`locales/en.json`. De inhoud zou ``{}``"
+" moeten zijn om een leeg object aan te geven. Als u dat eenmaal hebt kan de "
+"opslagruimte worden geïmporteerd in Weblate en kunt u beginnen met de "
+"configuratie van een add-on."
 
 #: ../../devel/html.rst:34
 msgid ""
 "In case you have existing translations, you can place them into the language "
 "JSON files and those will be used in Weblate."
 msgstr ""
+"In het geval u bestaande vertalingen hebt, kunt u die plaatsen in de taal-"
+"JSON-bestanden en die zullen worden gebruikt in Weblate."
 
 #: ../../devel/html.rst:37
 msgid ""
@@ -42137,6 +42508,10 @@ msgid ""
 "`JSON file` as a file format (it is okay to choose any monolingual format at "
 "this point)."
 msgstr ""
+"Voor hen die geen bestaande opslagruimte willen gebruiken (of die niet "
+"hebben), kies :guilabel:`Vanaf nul beginnen` bij het maken van een onderdeel "
+"en kies `JSON-bestand` als een bestandsindeling (het is oké om op dit punt "
+"elke eentalige indeling te kiezen)."
 
 #: ../../devel/html.rst:45
 msgid "Configuring Weblate CDN add-on"
@@ -42146,23 +42521,31 @@ msgstr "Weblate CDN add-on configureren"
 msgid ""
 "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration options."
 msgstr ""
+"De add-on :ref:`addon-weblate.cdn.cdnjs` verschaft een paar opties voor de "
+"configuratie."
 
 #: ../../devel/html.rst:50
 msgid ""
 "Translations translated above this threshold will be included in the CDN."
 msgstr ""
+"Vertalingen die boven deze drempel zijn vertaald zullen worden opgenomen in "
+"de CDN."
 
 #: ../../devel/html.rst:52
 msgid ""
 "Configures which strings from the HTML documents are translatable, see :ref:"
 "`cdn-addon-extract` and :ref:`cdn-addon-html`."
 msgstr ""
+"Configureert welke tekenreeksen uit de HTML-documenten te vertalen zijn, "
+"bekijk :ref:`cdn-addon-extract` en :ref:`cdn-addon-html`."
 
 #: ../../devel/html.rst:55
 msgid ""
 "Name of cookie which contains user selected language. Used in the JavaScript "
 "snippet for :ref:`cdn-addon-html`."
 msgstr ""
+"Naam van het cookie dat de door de gebruiker geselecteerde taal bevat. "
+"Gebruikt in de snipper voor JavaScript voor :ref:`cdn-addon-html`."
 
 #: ../../devel/html.rst:58
 msgid ""
@@ -42170,6 +42553,9 @@ msgid ""
 "translatable strings and offer them for a translation, see :ref:`cdn-addon-"
 "extract`."
 msgstr ""
+"Lijst met bestanden in de opslagruimte of URL's waar Weblate zal zoeken naar "
+"vertaalbare tekenreeksen en ze aanbiedt voor een vertaling, bekijk :ref:`cdn-"
+"addon-extract`."
 
 #: ../../devel/html.rst:65
 msgid "String extraction for Weblate CDN"
@@ -42183,6 +42569,12 @@ msgid ""
 "automatically. The files have to present in the repository or contain remote "
 "URLs which will be download and parsed regularly by Weblate."
 msgstr ""
+"De tekenreeksen voor de vertaling moeten aanwezig zijn in Weblate. U kunt ze "
+"ofwel handmatig beheren, de API gebruiken om ze te maken of bestanden in "
+"lijsten zetten of URL's met :guilabel:`Tekenreeksen uitnemen uit HTML-"
+"bestanden` en Weblate zal ze automatisch uitnemen. De bestanden moeten "
+"aanwezig zijn in de opslagruimte of URL's op afstand bevatten die regelmatig "
+"zullen worden gedownload en geparset door Weblate."
 
 #: ../../devel/html.rst:73
 msgid ""
@@ -42190,18 +42582,26 @@ msgid ""
 "with CSS class ``l10n``, for example it would extract two strings from "
 "following snippets:"
 msgstr ""
+"De standaard configuratie voor :guilabel:`CSS selecteren` neemt elementen "
+"uit met de CSS-klasse ``l10n``, het zou bijvoorbeeld twee tekenreeksen "
+"uitnemen uit de volgende snippers:"
 
 #: ../../devel/html.rst:90
 msgid ""
 "In case you don't want to modify existing code, you can also use ``*`` as a "
 "selector to process all elements."
 msgstr ""
+"In het geval dat u geen bestaande code wilt aanpassen, kunt u ook ``*`` "
+"gebruiken als selectie om alle elementen te verwerken."
 
 #: ../../devel/html.rst:95
 msgid ""
 "Right now, only text of the elements is extracted. This add-on doesn't "
 "support localization of element attributes or elements with children."
 msgstr ""
+"Momenteel wordt alleen de tekst van de elementen uitgenomen. Deze add-on "
+"verschaft geen ondersteuning voor vertalen van attributen van elementen of "
+"elementen met kinderen."
 
 #: ../../devel/html.rst:101
 msgid "HTML localization using Weblate CDN"
@@ -42211,6 +42611,8 @@ msgstr "HTML vertalen met Weblate CDN"
 msgid ""
 "To localize a HTML document, you need to load the :file:`weblate.js` script:"
 msgstr ""
+"U moet, om een HTML-document te vertalen, het script :file:`weblate.js` "
+"laden:"
 
 #: ../../devel/html.rst:109
 msgid ""
@@ -42218,12 +42620,18 @@ msgid ""
 "elements (based on :guilabel:`CSS selector` configuration) and replace their "
 "text with a translation."
 msgstr ""
+"Bij het laden zal dit automatisch alle overeenkomende vertaalbare elementen "
+"zoeken (gebaseerd op de configuratie van :guilabel:`CSS selecteren`) en hun "
+"tekst door een vertaling vervangen."
 
 #: ../../devel/html.rst:113
 msgid ""
 "The user language is detected from the configured cookie and falls back to "
 "user preferred languages configured in the browser."
 msgstr ""
+"De gebruikerstaal wordt gedetecteerd uit het geconfigureerde cookie en valt "
+"terug op de door de gebruiker gedefinieerde voorkeurstalen die zijn "
+"geconfigureerd in de browser."
 
 #: ../../devel/html.rst:116
 msgid ""
@@ -42231,6 +42639,9 @@ msgid ""
 "other applications (for example choose ``django_language`` when using "
 "Django)."
 msgstr ""
+"De :guilabel:`Naam taalcookie`  kan nuttig zijn voor het integreren met "
+"andere toepassingen (kies bijvoorbeeld ``django_language`` bij het gebruiken "
+"van)."
 
 #: ../../devel/html.rst:120
 msgid "JavaScript localization"
@@ -42241,18 +42652,22 @@ msgid ""
 "The individual translations are exposed as bilingual JSON files under the "
 "CDN. To fetch one you can use following code:"
 msgstr ""
+"De individuele vertalingen worden weergegeven als tweetalige JSON-bestanden "
+"onder de CDN. U kunt de volgende code gebruiken om er een op te halen:"
 
 #: ../../devel/html.rst:131
 msgid "The actual localization logic needs to be implemented in this case."
 msgstr ""
+"De feitelijke logica voor de vertaling moet in dit geval worden "
+"geïmplementeerd."
 
 #: ../../devel/integration.rst:2
 msgid "Integrating with Weblate"
-msgstr ""
+msgstr "Integreren met Weblate"
 
 #: ../../snippets/basics.rst:2
 msgid "Weblate basics"
-msgstr ""
+msgstr "Weblate basisbeginselen"
 
 #: ../../snippets/basics.rst:5
 msgid "Project and component structure"
@@ -42279,6 +42694,9 @@ msgid ""
 "Additionally, components within projects can be structured using categories. "
 "Components can belong to a category, and categories can be nested."
 msgstr ""
+"Aanvullend kunnen onderdelen binnen projecten worden gestructureerd met "
+"categorieën. Onderdelen mogen behoren tot een categorie, en categorieën "
+"mogen worden genest."
 
 #: ../../snippets/basics.rst:17
 msgid ""
@@ -42288,6 +42706,12 @@ msgid ""
 "disabled per :ref:`component` using :ref:`component-"
 "allow_translation_propagation` in case the translations should diverge."
 msgstr ""
+"Intern worden van elk project vertalingen voor veelvoorkomende tekenreeksen "
+"standaard verspreid over andere onderdelen erin. Dat verlicht de last van "
+"herhaaldelijk en meerdere versies van vertalingen. De verspreiding van "
+"vertalingen kan worden uitgeschakeld per :ref:`component` met :ref"
+":`component-allow_translation_propagation` in het geval de vertalingen van "
+"elkaar zouden afwijken."
 
 #: ../../snippets/basics.rst:24
 msgid "Repository integration"
@@ -42299,10 +42723,13 @@ msgid ""
 "`/admin/continuous` describes building blocks and how the changes flow "
 "between them."
 msgstr ""
+"Weblate is gebouwd om te integreren met versiebeheer in een opslagruimte "
+"upstream, :doc:`/admin/continuous` beschrijft bouwblokken en hoe de "
+"wijzigingen daartussen stromen."
 
 #: ../../snippets/basics.rst:32
 msgid ":ref:`architecture` describes how Weblate works internally."
-msgstr ""
+msgstr ":ref:`architecture` beschrijft hoe Weblate intern werkt."
 
 #: ../../snippets/basics.rst:35
 msgid "User attribution"
@@ -42316,6 +42743,12 @@ msgid ""
 "allows services like GitHub to associate your contributions done in Weblate "
 "with your GitHub profile."
 msgstr ""
+"Weblate behoudt de vertalingen met de juist vermelde auteurs voor vertalers "
+"in de opslagruimte voor versiebeheer door naam en e-mail te gebruiken. Het "
+"hebben van een echt e-mailadres te hebben verbonden met de indiening volgt "
+"de geest van gedistribueerde versiebeheer en stelt services, zoals GitHub, "
+"in staat uw bijdragen die aan Weblate zijn gedaan te associëren met uw "
+"profiel van GitHub."
 
 #: ../../snippets/basics.rst:43
 msgid ""
@@ -42324,21 +42757,33 @@ msgid ""
 "(such as GitHub), there is effectively no way to redact it. Weblate allows "
 "choosing a private commit e-mail in :ref:`profile-account` to avoid this."
 msgstr ""
+"Deze mogelijkheid heeft in zich het risico van het misbruiken van "
+"gepubliceerde e-mail in de indieningen voor versiebeheer. Meer nog, als ene "
+"dergelijk indiening eenmaal is gepubliceerd op publieke hosting (zoals "
+"GitHub), is er geen effectieve manier om die terug te halen. Weblate kiest "
+"voor een privé e-mail voor indieningen in :ref:`profile-account` om dit te "
+"vermijden."
 
 #: ../../snippets/basics.rst:48
 msgid "Therefore, admins should consider this while configuring Weblate:"
 msgstr ""
+"Daarom zouden beheerders dit moeten overwegen bij het configureren van "
+"Weblate:"
 
 #: ../../snippets/basics.rst:50
 msgid ""
 "Such a usage of e-mail should be clearly described in service terms in case "
 "such document is needed. :ref:`legal` can help with that."
 msgstr ""
+"Dergelijk gebruik van e-mail zou duidelijk moeten zijn beschreven in de "
+"bepalingen voor de service, voor het geval een dergelijk document nodig is. "
+":ref:`legal` zou daarbij kunnen helpen."
 
 #: ../../snippets/basics.rst:51
 msgid ""
 ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` can make e-mails private by default."
 msgstr ""
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` kan e-mails standaard privé maken."
 
 #: ../../devel/integration.rst:7
 msgid "Importing a localization project into Weblate"
