@@ -19,9 +19,6 @@
 
 {% csrf_token %}
 {{ form|crispy }}
-{% if captcha_form %}
-{{ captcha_form|crispy }}
-{% endif %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans 'Register' %}" class="btn btn-primary" />

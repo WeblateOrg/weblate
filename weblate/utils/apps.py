@@ -29,6 +29,7 @@ from packaging.version import Version
 from .celery import is_celery_queue_long
 from .checks import weblate_check
 from .classloader import ClassLoader
+from .const import HEARTBEAT_FREQUENCY
 from .data import data_dir
 from .db import (
     MySQLSearchLookup,
@@ -155,7 +156,11 @@ def check_celery(
     heartbeat = cache.get("celery_heartbeat")
     loaded = cache.get("celery_loaded")
     now = time.time()
-    if loaded and now - loaded > 120 and (not heartbeat or now - heartbeat > 600):
+    if (
+        loaded
+        and now - loaded > HEARTBEAT_FREQUENCY
+        and (not heartbeat or now - heartbeat > HEARTBEAT_FREQUENCY * 10)
+    ):
         errors.append(
             weblate_check(
                 "weblate.C030",

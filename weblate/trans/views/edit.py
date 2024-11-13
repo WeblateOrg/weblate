@@ -690,6 +690,10 @@ def translate(request: AuthenticatedHttpRequest, path):
             "this_unit_url": this_unit_url,
             "first_unit_url": base_unit_url + "1",
             "last_unit_url": base_unit_url + str(num_results),
+            "next_section_url": base_unit_url
+            + str(offset + user.profile.nearby_strings),
+            "prev_section_url": base_unit_url
+            + str(max(1, offset - user.profile.nearby_strings)),
             "next_unit_url": next_unit_url,
             "prev_unit_url": base_unit_url + str(offset - 1),
             "object": obj,
@@ -698,6 +702,7 @@ def translate(request: AuthenticatedHttpRequest, path):
             "unit": unit,
             "nearby": unit.nearby(user.profile.nearby_strings),
             "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
+            "can_go_next_section": offset + user.profile.nearby_strings <= num_results,
             "others": get_other_units(unit) if user.is_authenticated else {"total": 0},
             "search_url": search_result["url"],
             "search_items": search_result["items"],
@@ -1101,6 +1106,7 @@ def browse(request: AuthenticatedHttpRequest, path):
             if offset < num_results
             else None,
             "prev_unit_url": base_unit_url + str(offset - 1) if offset > 1 else None,
+            "is_in_browse": True,
             "sort_name": sort["name"],
             "sort_query": sort["query"],
         },

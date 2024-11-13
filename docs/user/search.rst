@@ -3,6 +3,8 @@
 Searching
 =========
 
+.. _search-strings:
+
 Searching for strings
 +++++++++++++++++++++
 
@@ -178,6 +180,7 @@ There are many options to order the strings according to your needs:
 
 .. image:: /screenshots/query-sort.webp
 
+.. _search-users:
 
 Searching for users
 +++++++++++++++++++
@@ -198,6 +201,10 @@ The user browsing has similar search abilities:
    User has contributed to a given language in the past 90 days.
 ``contributes:TEXT``
    User has contributed to a given project or component in the past 90 days.
+``change_time:DATETIME``
+   Same as in :ref:`search-strings`.
+``change_action:TEXT``
+   Same as in :ref:`search-strings`.
 
 Additional lookups are available in the :ref:`management-interface`:
 
