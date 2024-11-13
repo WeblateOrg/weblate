@@ -1987,7 +1987,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
                 discovered = self.discover(eager=True)
         except ValidationError:
             discovered = []
-        request.session["create_discovery"] = discovered
+        request.session["create_discovery"] = [x.data for x in discovered]
         request.session["create_discovery_meta"] = [x.meta for x in discovered]
         return discovered
 
