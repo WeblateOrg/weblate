@@ -51,7 +51,7 @@
               {{ log.get_event_display }}
             </td>
             <td>{{ log.details.result }}</td>
-            <td>{{ log.created|naturaltime }}</td>
+            <td>{{ log.created|naturaltime:True }}</td>
           </tr>
         {% empty %}
           <tr>
