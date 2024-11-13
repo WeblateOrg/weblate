@@ -6,15 +6,13 @@
 name: uv lock update
 
 on:
-  push:
-    branches:
-    - renovate/**
-    paths:
-    - pyproject.toml
-    - .github/workflows/uv-upgrade.yml
   schedule:
   - cron: 30 6 * * 0
   workflow_dispatch:
+  pull_request:
+    paths:
+    - pyproject.toml
+    - .github/workflows/uv-upgrade.yml
 
 permissions:
   contents: read
@@ -44,19 +42,19 @@ jobs:
 
     - name: Lockfile maintenance
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-      run: uv lock --upgrade --no-sources
+      run: uv lock --upgrade --all-extras --no-sources
 
     - run: uv sync --all-extras --no-sources
 
     - name: Update current branch
-      if: github.ref != 'refs/heads/main'
+      if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch'
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: 'chore(deps): update lockfile'
 
     - name: Create Pull Request
       id: cpr
-      if: github.ref == 'refs/heads/main'
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       uses: peter-evans/create-pull-request@v7
       with:
         branch: create-pull-request/yarn-update
@@ -68,7 +66,7 @@ jobs:
           dependencies
 
     - name: Enable Pull Request Automerge
-      if: github.ref == 'refs/heads/main' && steps.cpr.outputs.pull-request-operation != 'none'
+      if: steps.cpr.outputs.pull-request-operation != 'none'
       run: gh pr merge --rebase --auto "${{ steps.cpr.outputs.pull-request-number }}"
       env:
         GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}
