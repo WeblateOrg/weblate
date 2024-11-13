@@ -215,6 +215,16 @@ class GoogleV3MachineryForm(BaseMachineryForm):
             )
         ),
     )
+    bucket_name = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration", "Google Storage Bucket name"
+        ),
+        help_text=pgettext_lazy(
+            "Google Cloud Translation configuration",
+            "Enter the name of the Google Cloud Storage bucket that is used to store the Glossary files.",
+        ),
+        required=False,
+    )
 
     def clean_credentials(self):
         try:
