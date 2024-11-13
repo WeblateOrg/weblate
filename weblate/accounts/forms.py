@@ -413,8 +413,10 @@ class CaptchaForm(forms.Form):
     ) -> None:
         super().__init__(data=data, initial=initial)
         self.fresh = False
+        self.has_captcha = True
         self.request = request
         if not settings.REGISTRATION_CAPTCHA or hide_captcha:
+            self.has_captcha = False
             self.fields["captcha"].widget = forms.HiddenInput()
             self.fields["captcha"].required = False
         elif data is None or "captcha" not in request.session:
@@ -444,7 +446,7 @@ class CaptchaForm(forms.Form):
 
     def clean_captcha(self) -> None:
         """Validate CAPTCHA."""
-        if not settings.REGISTRATION_CAPTCHA:
+        if not self.has_captcha:
             return
         if self.fresh or not self.mathcaptcha.validate(self.cleaned_data["captcha"]):
             self.generate_captcha()
