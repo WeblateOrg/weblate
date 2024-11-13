@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-04 08:39+0000\n"
-"PO-Revision-Date: 2024-11-03 00:03+0000\n"
+"PO-Revision-Date: 2024-11-13 15:00+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>\n"
 "Language-Team: English (United Kingdom) <https://hosted.weblate.org/projects/"
 "weblate/application/en_GB/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -435,10 +435,9 @@ msgid "Account removal confirmation sent to {email}."
 msgstr "Account removal confirmation sent to {email}."
 
 #: weblate/accounts/models.py:187
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "Agreement with Terms of Service {date}."
+msgstr "Agreement with General Terms and Conditions {date}."
 
 #: weblate/accounts/models.py:188
 #, python-brace-format
@@ -2821,7 +2820,7 @@ msgstr "File format does not support this."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
-msgstr ""
+msgstr "Cannot remove built-in team!"
 
 #: weblate/auth/views.py:186
 msgid "User invitation was removed."
@@ -3052,16 +3051,12 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "Source and translation do not both end with an exclamation mark"
 
 #: weblate/checks/chars.py:320
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
 msgstr "Mismatched interrobang"
 
 #: weblate/checks/chars.py:322
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression"
-msgstr "Source and translation do not both end with an ellipsis"
+msgstr "Source and translation do not both end with an interrobang expression"
 
 #: weblate/checks/chars.py:336
 msgid "Mismatched ellipsis"
@@ -3081,7 +3076,7 @@ msgstr "Number of \\n literals in translation does not match source"
 
 #: weblate/checks/chars.py:378
 msgid "Mismatching line breaks"
-msgstr ""
+msgstr "Mismatching line breaks"
 
 #: weblate/checks/chars.py:380
 msgid "Number of new lines in translation does not match source"
@@ -3173,7 +3168,7 @@ msgstr[1] "Other source strings: %s"
 #: weblate/checks/consistency.py:200
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:251
 msgid "Has been translated"
@@ -3194,7 +3189,7 @@ msgstr "Consecutive duplicated words"
 
 #: weblate/checks/duplicate.py:38
 msgid "Text contains the same word twice in a row:"
-msgstr ""
+msgstr "Text contains the same word twice in a row:"
 
 #: weblate/checks/flags.py:41
 msgid "RST text"
@@ -3242,7 +3237,7 @@ msgstr "Forbidden translation"
 
 #: weblate/checks/flags.py:53 weblate/trans/forms.py:2492
 msgid "Terminology"
-msgstr ""
+msgstr "Terminology"
 
 #: weblate/checks/flags.py:54
 msgid "Ignore all checks"
@@ -3321,6 +3316,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
@@ -3328,6 +3325,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"The Fluent reference in {sequence} may expand into an HTML character "
+"reference. Maybe use {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
@@ -3335,6 +3334,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"The sequence {sequence} begins with an HTML closing tag, but the name or "
+"syntax is not valid. If you do not want a closing tag, use {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3342,6 +3343,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"The sequence {sequence} begins with an HTML tag, but the name is not valid. "
+"If you do not want to begin an HTML tag, use {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -3349,12 +3352,15 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"The sequence {sequence} begins with an HTML tag, but the tag is never closed "
+"by {close}. If you do not want to begin an HTML tag, use {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3363,11 +3369,14 @@ msgid ""
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
+"The sequence {sequence} begins with an HTML tag, but the sequence {attribute}"
+" is not a valid attribute with a value. If you do not want to begin an HTML "
+"tag, use {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "The HTML attribute name {name} for the {tag} tag is not valid."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3375,16 +3384,18 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"The HTML {name} attribute value {value} for the {tag} tag is not a valid "
+"quoted value."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "The HTML {name} attribute appears twice for the {tag} tag."
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Unmatched HTML end tag: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
