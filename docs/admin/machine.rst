@@ -241,6 +241,8 @@ Google Cloud Translation Advanced
                 +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
                 | ``location``    | Google Translate location             | Choose a Google Cloud Translation region that is used for the Google Cloud project or is closest to you. |
                 +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``bucket_name`` | Google Storage Bucket name            | Enter the name of the Google Cloud Storage bucket that is used to store the Glossary files.              |
+                +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
 
 Machine translation service provided by the Google Cloud services.
 
@@ -257,6 +259,18 @@ In order to use this service, you first need to go through the following steps:
 .. _Enable billing for your project.: https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project
 .. _Enable the Cloud Translation.:  https://cloud.google.com/translate/docs/
 .. _Setup Authentication.: https://googleapis.dev/python/google-api-core/latest/auth.html
+
+
+Optionally, you can configure the service to use :ref:`glossary` by setting up a Bucket:
+
+1. `Create a Google Cloud bucket.`_
+2. `Set bucket location to "us-central1".`_
+3. `Grant 'Storage Admin' permission to the Service Account.`_
+
+.. _Create a Google Cloud bucket.: https://cloud.google.com/storage/docs/creating-buckets
+.. _Set bucket location to "us-central1".: https://cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations
+.. _Grant 'Storage Admin' permission to the Service Account.: https://cloud.google.com/translate/docs/access-control
+
 
 .. seealso::
 

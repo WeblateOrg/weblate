@@ -129,6 +129,7 @@ Following automatic suggestion services utilize glossaries during the translatio
 * :ref:`mt-microsoft-translator`
 * :ref:`mt-modernmt`
 * :ref:`mt-aws`
+* :ref:`mt-google-translate-api-v3`
 
 The glossary is processed before exposed to the service:
 

@@ -7,10 +7,11 @@ from __future__ import annotations
 import json
 import re
 from copy import copy
+from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
 from typing import TYPE_CHECKING, NoReturn
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, Mock, call, patch
 
 import httpx
 import responses
@@ -787,7 +788,7 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
     def mock_error(self) -> NoReturn:
         self.skipTest("Not tested")
 
-    def mock_response(self) -> None:
+    def mock_languages(self) -> None:
         # Mock get supported languages
         patcher = patch.object(
             TranslationServiceClient,
@@ -806,6 +807,9 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         )
         patcher.start()
         self.addCleanup(patcher.stop)
+
+    def mock_response(self) -> None:
+        self.mock_languages()
 
         # Mock translate
         patcher = patch.object(
@@ -852,6 +856,149 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         self.assertEqual(
             unit.source, machine_translation.uncleanup_text(replacements, replaced)
         )
+
+    # set glossary_count_limit to 1 to also trigger delete_oldest_glossary
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    @patch("weblate.machinery.googlev3.GoogleV3Translation.glossary_count_limit", new=1)
+    def test_glossary(self) -> None:
+        self.mock_languages()
+        self.mock_glossary_responses()
+        self.CONFIGURATION["bucket_name"] = "test-bucket"
+
+        self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
+
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    @patch("weblate.machinery.googlev3.GoogleV3Translation.glossary_count_limit", new=1)
+    def test_glossary_with_calls_check(self) -> None:
+        self.mock_languages()
+        self.mock_glossary_responses()
+        self.CONFIGURATION["bucket_name"] = "test-bucket"
+
+        with patch(
+            "weblate.machinery.googlev3.GoogleV3Translation.delete_glossary"
+        ) as delete_glossary_method:
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
+            delete_glossary_method.assert_has_calls(
+                [
+                    call("weblate__1__en__cs__a85e314d2f7614eb"),
+                    call("weblate__1__en__it__2d9a814c5f6321a8"),
+                ]
+            )
+
+    def mock_glossary_responses(self) -> None:
+        """
+        Mock the responses for Google Cloud Translate V3 API.
+
+        Patches list_glossaries, create_glossary, delete_glossary, translate_text
+        and also the storage client.
+        """
+        from google.cloud.translate_v3 import Glossary
+        from google.oauth2 import service_account
+
+        def _glossary(name: str, submit_time: datetime) -> Glossary:
+            """Return a mock Glossary object with given name and submit time."""
+            return Glossary(
+                display_name=name,
+                submit_time=submit_time,
+            )
+
+        # Mock list glossaries
+        list_glossaries_patcher = patch.object(
+            TranslationServiceClient,
+            "list_glossaries",
+            Mock(
+                side_effect=[
+                    # with stale glossary and another glossary
+                    [
+                        _glossary(
+                            "weblate__1__en__cs__a85e314d2f7614eb",
+                            datetime(2024, 9, 1, tzinfo=UTC),
+                        ),
+                        _glossary(
+                            "weblate__1__en__it__2d9a814c5f6321a8",
+                            datetime(2024, 9, 1, tzinfo=UTC),
+                        ),
+                    ],
+                    # the stale glossary has been deleted
+                    [
+                        _glossary(
+                            "weblate__1__en__it__2d9a814c5f6321a8",
+                            datetime(2024, 9, 1, tzinfo=UTC),
+                        )
+                    ],
+                    # new glossary
+                    [
+                        _glossary(
+                            "weblate__1__en__cs__9e250d830c11d70f",
+                            datetime(2024, 10, 1, tzinfo=UTC),
+                        )
+                    ],
+                ]
+            ),
+        )
+        list_glossaries_patcher.start()
+        self.addCleanup(list_glossaries_patcher.stop)
+
+        # Mock create glossary
+        create_glossary_patcher = patch.object(
+            TranslationServiceClient, "create_glossary", Mock()
+        )
+        create_glossary_patcher.start()
+        self.addCleanup(create_glossary_patcher.stop)
+
+        # Mock delete glossary
+        delete_glossary_patcher = patch.object(
+            TranslationServiceClient, "delete_glossary", Mock()
+        )
+        delete_glossary_patcher.start()
+        self.addCleanup(delete_glossary_patcher.stop)
+
+        # Mock translate with glossary
+        translate_patcher = patch.object(
+            TranslationServiceClient,
+            "translate_text",
+            Mock(
+                return_value=TranslateTextResponse(
+                    {
+                        "translations": [{"translated_text": "Ahoj"}],
+                        "glossary_translations": [{"translated_text": "Ahoj"}],
+                    }
+                ),
+            ),
+        )
+        translate_patcher.start()
+        self.addCleanup(translate_patcher.stop)
+
+        get_credentials_patcher = patch.object(
+            service_account.Credentials,
+            "from_service_account_info",
+            return_value=MagicMock(),
+        )
+        get_credentials_patcher.start()
+        self.addCleanup(get_credentials_patcher.stop)
+
+        class MockBlob(MagicMock):
+            def upload_from_string(self, *args, **kwargs):
+                """Mock google.cloud.storage.Blob.upload_from_string."""
+
+            def delete(self, *args, **kwargs):
+                """Mock google.cloud.storage.Blob.delete."""
+
+        class MockBucket(MagicMock):
+            def blob(self, *args, **kwargs):
+                """Mock google.cloud.storage.Bucket.blob."""
+                return MockBlob()
+
+        class MockStorageClient(MagicMock):
+            def get_bucket(self, *args, **kwargs):
+                """google.cloud.storage.Client.get_bucket."""
+                return MockBucket()
+
+        patcher = patch("google.cloud.storage.Client", new=MockStorageClient)
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
 
 class TMServerTranslationTest(BaseMachineTranslationTest):
