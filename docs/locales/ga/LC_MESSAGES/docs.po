@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-07 04:10+0000\n"
+"PO-Revision-Date: 2024-11-14 12:16+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
@@ -18,9 +18,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 5.8.2\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :("
+"n>6 && n<11) ? 3 : 4;\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
 msgid "Access control"
@@ -2064,22 +2064,16 @@ msgid "It is triggered:"
 msgstr "Tá sé spreagtha:"
 
 #: ../../admin/addons.rst:68
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "When the add-on is installed."
-msgstr "Breiseán suiteáilte"
+msgstr "Nuair a shuiteáiltear an breiseán."
 
 #: ../../admin/addons.rst:69
-#, fuzzy
-#| msgid "Fixed deadlock when changing linked component repository."
 msgid "When a change happens in a component repository."
-msgstr "sloc seasta nuair a athraítear stór comhpháirte nasctha."
+msgstr "Nuair a tharlaíonn athrú i stór comhpháirte."
 
 #: ../../admin/addons.rst:70
-#, fuzzy
-#| msgid "When new strings appear in a component."
 msgid "When a string is added into a component."
-msgstr "Nuair a bhíonn teaghráin nua le feiceáil i gcomhpháirt."
+msgstr "Nuair a chuirtear teaghrán isteach i gcomhpháirt."
 
 #: ../../admin/addons.rst:71
 msgid ""
@@ -12145,19 +12139,13 @@ msgid ":ref:`mt-google-translate-api-v3`"
 msgstr ":ref:`mt-google-translate-api-v3`"
 
 #: ../../admin/install.rst:234
-#, fuzzy
-#| msgid ""
-#| "`google-cloud-translate <https://pypi.org/project/google-cloud-"
-#| "translate>`_"
 msgid "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
 msgstr ""
-"`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
+"`google-cloud-storage < https://pypi.org/project/google-cloud-storage> `_"
 
 #: ../../admin/install.rst:235
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Optional glossary support for :ref:`mt-google-translate-api-v3`"
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr "Tacaíocht roghnach gluais le haghaidh :ref:`mt-google-translate-api-v3`"
 
 #: ../../admin/install.rst:238
 msgid "``ldap``"
@@ -18541,13 +18529,15 @@ msgstr "``cookie_name``"
 
 #: ../../admin/machine.rst:244
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Ainm Google Storage Bucket"
 
 #: ../../admin/machine.rst:244
 msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
+"Cuir isteach ainm an bhuicéad Google Cloud Storage a úsáidtear chun na "
+"comhaid Gluais a stóráil."
 
 #: ../../admin/machine.rst:249
 msgid ""
@@ -18586,18 +18576,20 @@ msgid ""
 "Optionally, you can configure the service to use :ref:`glossary` by setting "
 "up a Bucket:"
 msgstr ""
+"De rogha air sin, is féidir leat an tseirbhís a chumrú chun :ref:`glossary` "
+"a úsáid ach Buicéad a shocrú:"
 
 #: ../../admin/machine.rst:266
 msgid "`Create a Google Cloud bucket.`_"
-msgstr ""
+msgstr "`Cruthaigh buicéad Google Cloud.`_"
 
 #: ../../admin/machine.rst:267
 msgid "`Set bucket location to \"us-central1\".`_"
-msgstr ""
+msgstr "`Socraigh suíomh an bhuicéid go \"us-central1\".`_"
 
 #: ../../admin/machine.rst:268
 msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
-msgstr ""
+msgstr "`Deonaigh cead 'Storage Admin' don Chuntas Seirbhíse.`_"
 
 #: ../../admin/machine.rst:277
 msgid ""
@@ -24314,23 +24306,17 @@ msgid "Migrating from other databases to PostgreSQL"
 msgstr "Aistriú ó bhunachair shonraí eile go PostgreSQL"
 
 #: ../../admin/upgrade.rst:143
-#, fuzzy
-#| msgid ""
-#| "If you are not running Weblate with a different database than PostgreSQL, "
-#| "consider migrating to PostgreSQL for better performance by doing the "
-#| "following steps. Remember to stop both, the web and Celery servers "
-#| "beforehand, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are running Weblate with a different database than PostgreSQL, "
 "consider migrating to PostgreSQL for better performance by doing the "
 "following steps. Remember to stop both, the web and Celery servers "
 "beforehand, otherwise you might end up with inconsistent data."
 msgstr ""
-"Mura bhfuil Weblate á rith agat le bunachar sonraí eile seachas PostgreSQL, "
-"smaoinigh ar aistriú go PostgreSQL le haghaidh feidhmíocht níos fearr trí na "
-"céimeanna seo a leanas a dhéanamh. Ná déan dearmad an dá fhreastalaithe "
-"gréasáin agus Soilire a stopadh roimh ré, nó d'fhéadfadh sonraí "
-"neamhréireacha a bheith agat."
+"Má tá Weblate á rith agat le bunachar sonraí eile seachas PostgreSQL, "
+"smaoinigh ar aistriú chuig PostgreSQL le haghaidh feidhmíochta níos fearr "
+"trí na céimeanna seo a leanas a dhéanamh. Ná déan dearmad an dá "
+"fhreastalaithe gréasáin agus Soilire a stopadh roimh ré, nó d'fhéadfadh "
+"sonraí neamhréireacha a bheith agat."
 
 #: ../../admin/upgrade.rst:151
 msgid ""
@@ -25930,16 +25916,12 @@ msgstr ""
 "URL chuig tasc cúlra (más ann dó); féach :http:faigh:`/api/tasks/(str:uuid)/`"
 
 #: ../../api.rst:1311
-#, fuzzy
-#| msgid ""
-#| "URL to to list contributor credits; see :http:get:`/api/components/"
-#| "(string:project)/(string:component)/credits/`"
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
 msgstr ""
 "URL chun creidmheasanna ranníocóra a liostú; féach :http:faigh:`/api/"
-"components/(string:project)/(teaghrán:component)/credits/`"
+"components/(string:project)/(string:component)/credits/`"
 
 #: ../../api.rst:1359
 msgid "Edit a component by a :http:method:`PATCH` request."
@@ -26497,24 +26479,17 @@ msgid "Units"
 msgstr "Aonaid"
 
 #: ../../api.rst:2129
-#, fuzzy
-#| msgid ""
-#| "A `unit` is a single piece of a translation which pairs a source string "
-#| "with a corresponding translated string and also contains some related "
-#| "metadata. The term is derived from the `Translate Toolkit <http://docs."
-#| "translatehouse.org/projects/translate-toolkit/en/latest/api/storage."
-#| "html#translate.storage.base.TranslationUnit>`_ and XLIFF."
 msgid ""
 "A `unit` is a single piece of a translation which pairs a source string with "
 "a corresponding translated string and also contains some related metadata. "
 "The term is derived from the :py:class:`tt:translate.storage.base."
 "TranslationUnit` in Translate Toolkit and XLIFF."
 msgstr ""
-"Is éard is `aonad` ann ná píosa aonair d'aistriúchán a phéireálann teaghrán "
+"Is éard is `unit` ann ná píosa aonair d'aistriúchán a phéireálann teaghrán "
 "foinse le teaghrán aistrithe comhfhreagrach agus ina bhfuil roinnt "
-"meiteashonraí gaolmhara freisin. Díorthaítear an téarma ón `Translate "
-"Toolkit <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/"
-"api/storage.html#translate.storage.base.TranslationUnit>`_ agus XLIFF."
+"meiteashonraí gaolmhara freisin. Díorthaítear an téarma ón "
+":py:class:`tt:translate.storage.base.TranslationUnit` in Translate Toolkit "
+"agus XLIFF."
 
 #: ../../api.rst:2136
 msgid "Returns list of translation units."
@@ -27666,17 +27641,18 @@ msgid "**Improvements**"
 msgstr "**feabhsuithe**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgid ""
 ":ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional)."
-msgstr ":ref:`mt-microsoft-translator`tacaíochtaí :ref:`glossary-mt`."
+msgstr ""
+":ref: `mt-google-translate-api-v3` anois le :ref:`glossary-mt` (roghnach)."
 
 #: ../../changes.rst:11
 msgid ""
 "A shortcut to duplicate a component is now available directly in the menu (:"
 "guilabel:`Manage` → :guilabel:`Duplicate Component`)"
 msgstr ""
+"Tá aicearra chun comhpháirt a dhúbailt ar fáil go díreach anois sa roghchlár "
+"(:guilabel:`Manage` → :guilabel:`Duplicate Component`)"
 
 #: ../../changes.rst:12
 msgid "Included username when generating :ref:`credits`."
@@ -27766,55 +27742,45 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Weblate 5.8.2"
 msgid "Weblate 5.8.4"
-msgstr "Weblate 5.8.2"
+msgstr "Weblate 5.8.4"
 
 #: ../../changes.rst:36
 msgid ":ref:`search-users` can search based on user changes."
 msgstr ""
+":ref: Is féidir le `search-users` cuardach a dhéanamh bunaithe ar athruithe "
+"úsáideora."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Fixed possible crash in reports."
 msgid "Fixed occasional crash in :ref:`rss`."
-msgstr "Tuairteála féideartha seasta i dtuarascálacha."
+msgstr "Timpiste ócáideach seasta i :ref:`rss`."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
-msgstr "Scipeáil ar an seiceáil cáilíochta :tag:`check-icu-message-format`."
+msgstr ""
+":ref:`check-icu-message-format` láimhseálann go galánta teaghráin iolra."
 
 #: ../../changes.rst:42
 msgid ""
 ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
 msgstr ""
+":ref:`vcs-bitbucket-cloud` gineann cur síos ar iarratas tarraingthe i gceart."
 
 #: ../../changes.rst:52
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/122?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/132?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion < https://github.com/WeblateOrg/weblate/milestone/122?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"132?closed=1>`__."
 
 #: ../../changes.rst:55
-#, fuzzy
-#| msgid "Weblate 5.8.2"
 msgid "Weblate 5.8.3"
-msgstr "Weblate 5.8.2"
+msgstr "Weblate 5.8.3"
 
 #: ../../changes.rst:57
-#, fuzzy
-#| msgid "Released on November 16th 2023."
 msgid "Released on November 6th 2024."
-msgstr "Foilsithe ar 16 Samhain 2023."
+msgstr "Foilsithe ar 6 Samhain 2024."
 
 #: ../../changes.rst:61
 msgid "Formatting of some :ref:`audit-log` entries."
@@ -27825,10 +27791,8 @@ msgid "Fixed XML escaped output in some machine translation integrations."
 msgstr "D'éalaigh XML seasta aschuir i roinnt comhtháthú meaisín-aistriúcháin."
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Fixed duplicate listing of newly added glossary terms."
-msgstr "Teaghráin nua-chur leis á aistriú seasta."
+msgstr "Liostú dúblach seasta de théarmaí nua gluaiste."
 
 #: ../../changes/contributors/5.7.1.rst:2
 #: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
@@ -27839,10 +27803,8 @@ msgid "Code contributions"
 msgstr "Ranníocaíochtaí cód"
 
 #: ../../changes/contributors/5.8.3.rst:3
-#, fuzzy
-#| msgid "Michal Čihař, Mehdi Eloualy"
 msgid "Michal Čihař, Mehdi El Oualy"
-msgstr "Michal Čihař, Mehdi Eloualy"
+msgstr "Michal Čihař, Mehdi El Oualy"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
@@ -27860,16 +27822,12 @@ msgid "Michal Čihař"
 msgstr "Michal Čihař"
 
 #: ../../changes.rst:73
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/121?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/131?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion < https://github.com/WeblateOrg/weblate/milestone/121?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"131?closed=1>`__."
 
 #: ../../changes.rst:76
 msgid "Weblate 5.8.2"
@@ -28045,11 +28003,9 @@ msgstr ""
 "aistriúchán agus dearcadh teanga sa tionscadal."
 
 #: ../../changes.rst:141
-#, fuzzy
-#| msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgid ":ref:`search-replace` shows a preview of matched strings."
 msgstr ""
-":ref: Léiríonn `bulk-edit` réamhamharc ar na teaghráin chomhoiriúnaithe."
+":ref:`search-replace` Léiríonn réamhamharc ar theaghráin chomhoiriúnaithe."
 
 #: ../../changes.rst:142
 msgid ":ref:`aresource` now supports translatable attribute in its strings."
@@ -41092,99 +41048,76 @@ msgid ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 msgstr ":tag:`próifíl úsáideora`, :wladmin:`dumpuserdata`"
 
 #: ../../contributing/schemas.rst:-1
-#, fuzzy
-#| msgid "Weblate version"
 msgid "Weblate Messaging"
-msgstr "Leagan gréasáin"
+msgstr "Teachtaireachtaí Gréasáin"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "https://weblate.org/schemas/weblate-memory.schema.json"
 msgid "https://weblate.org/schemas/weblate-messaging.schema.json"
-msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
+msgstr "https://weblate.org/schemas/weblate-messaging.schema.json"
 
 #: ../../contributing/schemas.rst:29
 msgid "Schema for Weblate Fedora Messaging"
-msgstr ""
+msgstr "Scéimre le haghaidh Teachtaireachtaí Weblate Fedora"
 
 #: ../../contributing/schemas.rst:29
 msgid "**change\\_id**"
-msgstr ""
+msgstr "**change\\_id**"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Change ID"
 msgid "*Change ID*"
-msgstr "Athraigh ID"
+msgstr "*Athraigh ID*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Number of changes"
 msgid "Numerical ID of change"
-msgstr "Uimhir na n-athruithe"
+msgstr "ID uimhriúil an athraithe"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "**activity**"
 msgid "**action**"
-msgstr "**gníomhaíocht**"
+msgstr "**gníomh**"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Change period"
 msgid "*Change Action*"
-msgstr "Athrú tréimhse"
+msgstr "*Athraigh Gníomh*"
 
 #: ../../contributing/schemas.rst:29
 msgid ""
 "Verbose name of the change, see Change actions source code for possible "
 "values"
 msgstr ""
+"Ainm briathra an athraithe, féach Athraigh cód foinse na ngníomhartha le "
+"haghaidh luachanna féideartha"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "ISO 8601 formatted timestamp to list changes after"
 msgid "ISO formatted timestamp"
-msgstr ""
-"Stampa ama formáidithe ISO 8601 chun athruithe ina dhiaidh sin a liostú"
+msgstr "Stampa ama formáidithe ISO"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "``target``"
 msgid "target"
-msgstr "``target``"
+msgstr "sprioc"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "**target**"
 msgid "*Target*"
-msgstr "**sprioc**"
+msgstr "*Sprioc*"
 
 #: ../../contributing/schemas.rst:29
 msgid "New value of the change (eg. new translation of the string)"
-msgstr ""
+msgstr "Luach nua an athraithe (m.sh. aistriúchán nua ar an teaghrán)"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "*string*"
 msgid "*string* / *array*"
-msgstr "*teaghrán*"
+msgstr "*teaghrán* / *eagar*"
 
 #: ../../contributing/schemas.rst:29
 msgid "old"
-msgstr ""
+msgstr "sean"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Value"
 msgid "*Old Value*"
-msgstr "Luach"
+msgstr "*Seanluach*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Browse the previous translation string."
 msgid "Old value of the change (eg. previous translation of the string)"
-msgstr "Brabhsáil teaghrán an aistriúcháin roimhe seo."
+msgstr "Seanluach an athraithe (m.sh. aistriúchán na teaghrán roimhe seo)"
 
 #: ../../contributing/schemas.rst:29
 #, fuzzy
@@ -41193,60 +41126,48 @@ msgid "source"
 msgstr "Foinsí"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Source"
 msgid "*Source*"
-msgstr "Foinse"
+msgstr "*Foinse*"
 
 #: ../../contributing/schemas.rst:29
 msgid "Source string"
 msgstr "Teaghrán foinse"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Plural"
 msgid "url"
-msgstr "Iolra"
+msgstr "url"
 
 #: ../../contributing/schemas.rst:29
 msgid "*URL*"
-msgstr ""
+msgstr "*URL*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "URL of a related unit object"
 msgid "Absolute URL to view the related object"
-msgstr "URL réad aonaid gaolmhar"
+msgstr "URL iomlán chun an réad gaolmhar a fheiceáil"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Authors"
 msgid "author"
-msgstr "Údair"
+msgstr "údar"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Authors"
 msgid "*Author*"
-msgstr "Údair"
+msgstr "*Údar*"
 
 #: ../../contributing/schemas.rst:29
 msgid ""
 "Author username (this can be different from user for example when accepting "
 "suggestions)"
 msgstr ""
+"Ainm úsáideora an údair (is féidir é seo a bheith difriúil ón úsáideoir mar "
+"shampla nuair a ghlactar le moltaí)"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "API user."
 msgid "user"
-msgstr "Úsáideoir API."
+msgstr "úsáideoir"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "SAP username"
 msgid "*Acting username*"
-msgstr "SAP ainm úsáideora"
+msgstr "*Ainm úsáideora gníomhach*"
 
 #: ../../contributing/schemas.rst:29
 #, fuzzy
@@ -41255,16 +41176,12 @@ msgid "project"
 msgstr "Tionscadal"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Component"
 msgid "component"
-msgstr "Comhpháirt"
+msgstr "comhpháirt"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Component slug"
 msgid "*Component slug*"
-msgstr "Seilide comhpháirte"
+msgstr "*Sluga comhpháirte*"
 
 #: ../../contributing/schemas.rst:29
 #, fuzzy
@@ -41273,10 +41190,8 @@ msgid "translation"
 msgstr "Aistriúcháin"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Translation language code"
 msgid "*Translation Language Code*"
-msgstr "Cód teanga aistriúcháin"
+msgstr "*Cód Teanga an Aistriúcháin*"
 
 #: ../../contributing/schemas.rst:32
 #, fuzzy
@@ -53878,7 +53793,7 @@ msgstr ""
 
 #: ../../user/search.rst:205 ../../user/search.rst:207
 msgid "Same as in :ref:`search-strings`."
-msgstr ""
+msgstr "Mar an gcéanna i :ref: `search-strings`."
 
 #: ../../user/search.rst:209
 msgid "Additional lookups are available in the :ref:`management-interface`:"
@@ -54037,37 +53952,24 @@ msgstr ""
 "mheaitseálann aistriúcháin reatha a bhaint."
 
 #: ../../user/translating.rst:64
-#, fuzzy
-#| msgid "The gettext type comments are used as flags."
 msgid "Three types of comments can be posted:"
-msgstr "Úsáidtear na tuairimí cineál gettext mar bhratacha."
+msgstr "Is féidir trí chineál tuairimí a phostáil:"
 
 #: ../../user/translating.rst:66
-#, fuzzy
-#| msgid "INI translations"
 msgid "for translations"
-msgstr "Aistriúcháin INI"
+msgstr "le haghaidh aistriúcháin"
 
 #: ../../user/translating.rst:67
-#, fuzzy
-#| msgid "source strings"
 msgid "for source strings"
-msgstr "teaghráin foinse"
+msgstr "le haghaidh teaghráin foinse"
 
 #: ../../user/translating.rst:68
-#, fuzzy
-#| msgid ""
-#| "Three types of comments can be posted: * for translations * for source "
-#| "strings * for reporting source string bugs when this functionality is "
-#| "turned on using :ref:`project-source_review`."
 msgid ""
 "for reporting source string bugs when this functionality is turned on using :"
 "ref:`project-source_review`."
 msgstr ""
-"Is féidir trí chineál tuairimí a phostáil: * le haghaidh aistriúcháin * le "
-"haghaidh teaghráin foinse * chun fabhtanna teaghrán foinse a thuairisciú "
-"nuair a chuirtear an fheidhm seo ar siúl ag baint úsáide as :ref:`project-"
-"source_review`."
+"chun fabhtanna teaghrán foinse a thuairisciú nuair a chuirtear an fheidhm "
+"seo ar siúl ag baint úsáide as :ref:`project-source_review`."
 
 #: ../../user/translating.rst:70
 msgid ""
