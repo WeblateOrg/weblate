@@ -6,6 +6,8 @@ const path = require("node:path");
 
 const TerserPlugin = require("terser-webpack-plugin");
 const LicensePlugin = require("webpack-license-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 const copyrightRegex = /Copyright.*\n/;
 
 // REUSE-IgnoreStart
@@ -39,6 +41,7 @@ function mainLicenseTransform(packages) {
     "tributejs",
     "@tarekraafat/autocomplete.js",
     "autosize",
+    "multi.js",
   ];
   return genericTransform(
     packages,
@@ -53,6 +56,9 @@ function tributeLicenseTransform(packages) {
 }
 function autosizeLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("autosize"));
+}
+function multiJsLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("multi.js"));
 }
 // REUSE-IgnoreStart
 function autoCompleteLicenseTransform(packages) {
@@ -81,6 +87,7 @@ module.exports = {
     tribute: "./src/tribute.js",
     autoComplete: "./src/autoComplete.js",
     autosize: "./src/autosize.js",
+    multi: "./src/multi.js",
   },
   mode: "production",
   optimization: {
@@ -96,6 +103,14 @@ module.exports = {
       }),
     ],
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+    ],
+  },
   plugins: [
     new LicensePlugin({
       additionalFiles: {
@@ -104,7 +119,12 @@ module.exports = {
         "tribute.js.license": tributeLicenseTransform,
         "autoComplete.js.license": autoCompleteLicenseTransform,
         "autosize.js.license": autosizeLicenseTransform,
+        "multi.js.license": multiJsLicenseTransform,
+        "multi.css.license": multiJsLicenseTransform,
       },
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
     }),
   ],
   output: {
