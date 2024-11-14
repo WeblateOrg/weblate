@@ -78,7 +78,7 @@
               {% icon 'refresh.svg' %}
               </button>
             </form>
-            <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ site_url }}{{ invitation.get_absolute_url }}" data-clipboard-message="{% trans "Invitation link copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+            <button type="button" class="btn btn-link btn-xs" data-clipboard-value="{{ site_url }}{{ invitation.get_absolute_url }}" data-clipboard-message="{% trans "Invitation link copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
             <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
               {% csrf_token %}
               <input type="hidden" name="action" value="remove" />
