@@ -36,7 +36,7 @@
           <li>{{ code }}</li>
         {% endfor %}
       </ul>
-      <button type="button" class="btn btn-primary" data-clipboard-text="{{ recovery_codes_str }}" data-clipboard-message="{% trans "Recovery codes copied to clipboard." %}">{% icon "copy.svg" %} {% trans "Copy to clipboard" %}</button>
+      <button type="button" class="btn btn-primary" data-clipboard-value="{{ recovery_codes_str }}" data-clipboard-message="{% trans "Recovery codes copied to clipboard." %}">{% icon "copy.svg" %} {% trans "Copy to clipboard" %}</button>
     {% else %}
       <p><em>{% trans "There are currently no recovery codes generated." %}</em></p>
     {% endif %}

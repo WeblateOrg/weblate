@@ -18,7 +18,7 @@
     {% if object.linked_component %}
       <a href="{{ object.linked_component.get_absolute_url }}#information" title="{% blocktrans with target=object.linked_component %}This component is linked to the {{target}} repository.{% endblocktrans %}">{% icon "link.svg" %}</a>
     {% endif %}
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ repo_url }}" data-clipboard-message="{% trans "Repository URL copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-value="{{ repo_url }}" data-clipboard-message="{% trans "Repository URL copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
   {% endwith %}
 </td>
 </tr>
@@ -37,7 +37,7 @@
 <td colspan="2" class="full-cell">
     {{ commit.summary }}
     <code title="{{ commit.revision }}">{{ commit.shortrevision }}</code>
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-value="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
     <br />
 {% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
 {% blocktrans with author=commit|format_commit_author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktrans %}<br />
@@ -53,7 +53,7 @@
 <td colspan="2" class="full-cell">
     {{ commit.summary }}
     <code title="{{ commit.revision }}">{{ commit.shortrevision }}</code>
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-value="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
     <br />
 {% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
 {% blocktrans with author=commit|format_commit_author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktrans %}<br />
@@ -68,7 +68,7 @@
 <th>{% trans "Weblate repository" %}</th>
 <td colspan="2" class="full-cell">
     <code class="wrap-text">{{ export_url }}</code>
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ export_url }}" data-clipboard-message="{% trans "Repository URL copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-value="{{ export_url }}" data-clipboard-message="{% trans "Repository URL copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>
 </tr>
 {% endif %}

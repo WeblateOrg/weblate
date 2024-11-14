@@ -829,9 +829,9 @@ $(function () {
   });
 
   /* Copy to clipboard */
-  $("[data-clipboard-text]").on("click", function (e) {
+  $("[data-clipboard-value]").on("click", function (e) {
     navigator.clipboard
-      .writeText(this.getAttribute("data-clipboard-text"))
+      .writeText(this.getAttribute("data-clipboard-value"))
       .then(
         () => {
           const text =
