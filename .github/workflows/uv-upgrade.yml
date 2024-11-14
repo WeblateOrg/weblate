@@ -23,12 +23,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      if: secrets.WEBLATE_CI_TOKEN
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       with:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
 
     - uses: actions/checkout@v4
-      if: '! secrets.WEBLATE_CI_TOKEN'
+      if: github.event_name == 'pull_request'
 
     - uses: astral-sh/setup-uv@v3
       with:
@@ -51,7 +51,7 @@ jobs:
     - run: uv sync --all-extras --no-sources
 
     - name: Update current branch
-      if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch'
+      if: github.event_name == 'pull_request'
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: 'chore(deps): update lockfile'
