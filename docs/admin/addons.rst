@@ -46,6 +46,8 @@ Automatic translation
                 |                 |                                  | ``fuzzy`` -- Strings marked for edit                                                                 |
                 |                 |                                  |                                                                                                      |
                 |                 |                                  | ``check:inconsistent`` -- Failing check: Inconsistent                                                |
+                |                 |                                  |                                                                                                      |
+                |                 |                                  | ``check:translated`` -- Failing check: Has been translated                                           |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
                 | ``auto_source`` | Source of automated translations | Available choices:                                                                                   |
                 |                 |                                  |                                                                                                      |
@@ -795,9 +797,9 @@ Format the Java properties file
 -------------------------------
 
 :Add-on ID: ``weblate.properties.sort``
-:Configuration: +--------------------+--------------------------------------------+--+
-                | ``case_sensitive`` | Enable case-sensitive key sorting          |  |
-                +--------------------+--------------------------------------------+--+
+:Configuration: +--------------------+-----------------------------------+--+
+                | ``case_sensitive`` | Enable case-sensitive key sorting |  |
+                +--------------------+-----------------------------------+--+
 :Triggers: repository pre-commit
 
 Formats and sorts the Java properties file.
