@@ -70,7 +70,7 @@ jobs:
           dependencies
 
     - name: Enable Pull Request Automerge
-      if: steps.cpr.outputs.pull-request-operation != 'none'
+      if: steps.cpr.outputs.pull-request-operation && steps.cpr.outputs.pull-request-operation != 'none'"
       run: gh pr merge --rebase --auto "${{ steps.cpr.outputs.pull-request-number }}"
       env:
         GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}
