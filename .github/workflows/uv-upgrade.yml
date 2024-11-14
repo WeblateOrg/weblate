@@ -28,6 +28,7 @@ jobs:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
 
     - uses: actions/checkout@v4
+      if: '! secrets.WEBLATE_CI_TOKEN'
 
     - uses: astral-sh/setup-uv@v3
       with:
