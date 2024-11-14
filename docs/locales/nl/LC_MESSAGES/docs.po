@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-13 15:00+0000\n"
+"PO-Revision-Date: 2024-11-14 12:16+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -2048,23 +2048,16 @@ msgid "It is triggered:"
 msgstr "Het wordt geactiveerd:"
 
 #: ../../admin/addons.rst:68
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "When the add-on is installed."
-msgstr "Uitbreiding geïnstalleerd"
+msgstr "Als de add-on is geïnstalleerd."
 
 #: ../../admin/addons.rst:69
-#, fuzzy
-#| msgid "Fixed deadlock when changing linked component repository."
 msgid "When a change happens in a component repository."
-msgstr ""
-"Bevriezen bij wijzigen van opslagruimte van gekoppeld onderdeel gerepareerd."
+msgstr "Als er een wijziging optreedt in de opslagruimte van een onderdeel."
 
 #: ../../admin/addons.rst:70
-#, fuzzy
-#| msgid "When new strings appear in a component."
 msgid "When a string is added into a component."
-msgstr "Als nieuwe tekenreeksen in een onderdeel verschijnen."
+msgstr "Als een nieuwe tekenreeks in een onderdeel wordt toegevoegd."
 
 #: ../../admin/addons.rst:71
 msgid ""
@@ -12093,19 +12086,13 @@ msgid ":ref:`mt-google-translate-api-v3`"
 msgstr ":ref:`mt-google-translate-api-v3`"
 
 #: ../../admin/install.rst:234
-#, fuzzy
-#| msgid ""
-#| "`google-cloud-translate <https://pypi.org/project/google-cloud-"
-#| "translate>`_"
 msgid "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
-msgstr ""
-"`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
+msgstr "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
 
 #: ../../admin/install.rst:235
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Optional glossary support for :ref:`mt-google-translate-api-v3`"
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr ""
+"Optionele ondersteuning voor woordenlijst :ref:`mt-google-translate-api-v3`"
 
 #: ../../admin/install.rst:238
 msgid "``ldap``"
@@ -18507,13 +18494,15 @@ msgstr "``cookie_name``"
 
 #: ../../admin/machine.rst:244
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Naam voor mandje van Google Storage"
 
 #: ../../admin/machine.rst:244
 msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
+"Voer de naam in voor het mandje van de Google Cloud Storage dat wordt "
+"gebruikt om de bestanden voor de woordenlijst op te slaan."
 
 #: ../../admin/machine.rst:249
 msgid ""
@@ -18552,18 +18541,20 @@ msgid ""
 "Optionally, you can configure the service to use :ref:`glossary` by setting "
 "up a Bucket:"
 msgstr ""
+"Optioneel kunt u de service configureren om :ref:`glossary` te gebruiken "
+"door een mandje in te stellen:"
 
 #: ../../admin/machine.rst:266
 msgid "`Create a Google Cloud bucket.`_"
-msgstr ""
+msgstr "`Maak een mandje voor Google Cloud.`_"
 
 #: ../../admin/machine.rst:267
 msgid "`Set bucket location to \"us-central1\".`_"
-msgstr ""
+msgstr "`Stel de locatie voor het mandje in op \"us-central1\".`_"
 
 #: ../../admin/machine.rst:268
 msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
-msgstr ""
+msgstr "`Geef het recht 'Storage Admin' aan de Service Account.`_"
 
 #: ../../admin/machine.rst:277
 msgid ""
@@ -24272,12 +24263,6 @@ msgid "Migrating from other databases to PostgreSQL"
 msgstr "Migreren vanuit andere databases naar PostgreSQL"
 
 #: ../../admin/upgrade.rst:143
-#, fuzzy
-#| msgid ""
-#| "If you are not running Weblate with a different database than PostgreSQL, "
-#| "consider migrating to PostgreSQL for better performance by doing the "
-#| "following steps. Remember to stop both, the web and Celery servers "
-#| "beforehand, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are running Weblate with a different database than PostgreSQL, "
 "consider migrating to PostgreSQL for better performance by doing the "
@@ -25894,10 +25879,6 @@ msgstr ""
 "api/tasks/(str:uuid)/`"
 
 #: ../../api.rst:1311
-#, fuzzy
-#| msgid ""
-#| "URL to to list contributor credits; see :http:get:`/api/components/"
-#| "(string:project)/(string:component)/credits/`"
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
@@ -26456,13 +26437,6 @@ msgid "Units"
 msgstr "Eenheden"
 
 #: ../../api.rst:2129
-#, fuzzy
-#| msgid ""
-#| "A `unit` is a single piece of a translation which pairs a source string "
-#| "with a corresponding translated string and also contains some related "
-#| "metadata. The term is derived from the `Translate Toolkit <http://docs."
-#| "translatehouse.org/projects/translate-toolkit/en/latest/api/storage."
-#| "html#translate.storage.base.TranslationUnit>`_ and XLIFF."
 msgid ""
 "A `unit` is a single piece of a translation which pairs a source string with "
 "a corresponding translated string and also contains some related metadata. "
@@ -26470,10 +26444,9 @@ msgid ""
 "TranslationUnit` in Translate Toolkit and XLIFF."
 msgstr ""
 "Een `eenheid` is een enkel stukje vertaling die een brontekenreeks koppelt "
-"aan een corresponderende vertaalde tekenreeks en bevat ook enige "
-"gerelateerde metadata. De term is afgeleid van de `Translate Toolkit "
-"<https://docs.translatehouse.org/projects/translate-toolkit/en/latest/api/"
-"storage.html#translate.storage.base.TranslationUnit>`_ en XLIFF."
+"aan een corresponderende vertaalde tekenreeks en ook enige gerelateerde "
+"metadata bevat. De term is afgeleid van de :py:class:`translate.storage.base."
+"TranslationUnit>` in Translate Toolkit en XLIFF."
 
 #: ../../api.rst:2136
 msgid "Returns list of translation units."
@@ -27624,17 +27597,19 @@ msgid "**Improvements**"
 msgstr "**Verbeteringen**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgid ""
 ":ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional)."
-msgstr ":ref:`mt-microsoft-translator` ondersteunt :ref:`glossary-mt`."
+msgstr ""
+":ref:`mt-google-translate-api-v3` ondersteunt nu :ref:`glossary-mt` "
+"(optioneel)."
 
 #: ../../changes.rst:11
 msgid ""
 "A shortcut to duplicate a component is now available directly in the menu (:"
 "guilabel:`Manage` → :guilabel:`Duplicate Component`)"
 msgstr ""
+"Een sneltoets om een onderdeel te dupliceren is nu direct beschikbaar in het "
+"menu (:guilabel:`Beheren` → :guilabel:`Onderdeel dupliceren`)"
 
 #: ../../changes.rst:12
 msgid "Included username when generating :ref:`credits`."
@@ -27723,55 +27698,45 @@ msgstr ""
 "milestone/127?closed=1>`__."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Weblate 5.8.2"
 msgid "Weblate 5.8.4"
-msgstr "Weblate 5.8.2"
+msgstr "Weblate 5.8.4"
 
 #: ../../changes.rst:36
 msgid ":ref:`search-users` can search based on user changes."
 msgstr ""
+":ref:`search-users` kan zoeken, gebaseerd op wijzigingen van de gebruiker."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Fixed possible crash in reports."
 msgid "Fixed occasional crash in :ref:`rss`."
-msgstr "Mogelijke crash in rapporten gerepareerd."
+msgstr "Mogelijke crash in :ref:`rss` gerepareerd."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
-msgstr "Sla de kwaliteitscontrole :ref:`check-icu-message-format` over."
+msgstr ""
+":ref:`check-icu-message-format` behandelt tekenreeksen van meervouden netjes."
 
 #: ../../changes.rst:42
 msgid ""
 ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
 msgstr ""
+":ref:`vcs-bitbucket-cloud` genereert correct een beschrijving voor een pull "
+"request."
 
 #: ../../changes.rst:52
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/122?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/132?"
 "closed=1>`__."
 msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/122?closed=1>`__."
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"132?closed=1>`__."
 
 #: ../../changes.rst:55
-#, fuzzy
-#| msgid "Weblate 5.8.2"
 msgid "Weblate 5.8.3"
-msgstr "Weblate 5.8.2"
+msgstr "Weblate 5.8.3"
 
 #: ../../changes.rst:57
-#, fuzzy
-#| msgid "Released on November 16th 2023."
 msgid "Released on November 6th 2024."
-msgstr "Uitgegeven op 16 november 2023."
+msgstr "Uitgegeven op 6 november 2024."
 
 #: ../../changes.rst:61
 msgid "Formatting of some :ref:`audit-log` entries."
@@ -27784,10 +27749,10 @@ msgstr ""
 "machinevertaling."
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Fixed duplicate listing of newly added glossary terms."
-msgstr "Gerepareerd vertalen van nieuw toegevoegde tekenreeksen."
+msgstr ""
+"Gedupliceerde vermelding van nieuw toegevoegde termen in woordenlijst "
+"gerepareerd."
 
 #: ../../changes/contributors/5.7.1.rst:2
 #: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
@@ -27798,10 +27763,8 @@ msgid "Code contributions"
 msgstr "Bijgedragen code"
 
 #: ../../changes/contributors/5.8.3.rst:3
-#, fuzzy
-#| msgid "Michal Čihař, Mehdi Eloualy"
 msgid "Michal Čihař, Mehdi El Oualy"
-msgstr "Michal Čihař, Mehdi Eloualy"
+msgstr "Michal Čihař, Mehdi El Oualy"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
@@ -27819,16 +27782,12 @@ msgid "Michal Čihař"
 msgstr "Michal Čihař"
 
 #: ../../changes.rst:73
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/121?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/131?"
 "closed=1>`__."
 msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"131?closed=1>`__."
 
 #: ../../changes.rst:76
 msgid "Weblate 5.8.2"
@@ -28002,11 +27961,10 @@ msgstr ""
 "taal en de meervoudsvormen."
 
 #: ../../changes.rst:141
-#, fuzzy
-#| msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgid ":ref:`search-replace` shows a preview of matched strings."
 msgstr ""
-":ref:`bulk-edit` geeft een voorbeeld van overeenkomende tekenreeksen weer."
+":ref:`search-replace` geeft een voorbeeld van overeenkomende tekenreeksen "
+"weer."
 
 #: ../../changes.rst:142
 msgid ":ref:`aresource` now supports translatable attribute in its strings."
@@ -41151,158 +41109,125 @@ msgid ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 msgstr ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 
 #: ../../contributing/schemas.rst:-1
-#, fuzzy
-#| msgid "Weblate version"
 msgid "Weblate Messaging"
-msgstr "Weblate-versie"
+msgstr "Weblate berichten"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "https://weblate.org/schemas/weblate-memory.schema.json"
 msgid "https://weblate.org/schemas/weblate-messaging.schema.json"
-msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
+msgstr "https://weblate.org/schemas/weblate-messaging.schema.json"
 
 #: ../../contributing/schemas.rst:29
 msgid "Schema for Weblate Fedora Messaging"
-msgstr ""
+msgstr "Schema voor Weblate Fedora Messaging"
 
 #: ../../contributing/schemas.rst:29
 msgid "**change\\_id**"
-msgstr ""
+msgstr "**wijziging\\_id**"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Change ID"
 msgid "*Change ID*"
-msgstr "ID wijziging"
+msgstr "*Wijziging ID*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Number of changes"
 msgid "Numerical ID of change"
-msgstr "Aantal aanpassingen"
+msgstr "Numerieke ID van wijziging"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "**activity**"
 msgid "**action**"
-msgstr "**activiteit**"
+msgstr "**actie**"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Changed string"
 msgid "*Change Action*"
-msgstr "Gewijzigde tekenreeks"
+msgstr "*Wijzigen actie*"
 
 #: ../../contributing/schemas.rst:29
 msgid ""
 "Verbose name of the change, see Change actions source code for possible "
 "values"
 msgstr ""
+"Uitgebreide naam van de wijziging, bekijk de broncode van Acties wijzigen "
+"voor mogelijke waarden"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "ISO 8601 formatted timestamp to list changes after"
 msgid "ISO formatted timestamp"
-msgstr "Tijdstempel in opmaak ISO 8601 voor vermelden van wijzigingen na"
+msgstr "Tijdstempel in opmaak ISO"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "``target``"
 msgid "target"
-msgstr "``target``"
+msgstr "target"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "**target**"
 msgid "*Target*"
-msgstr "**doel**"
+msgstr "**Doel**"
 
 #: ../../contributing/schemas.rst:29
 msgid "New value of the change (eg. new translation of the string)"
 msgstr ""
+"Nieuwe waarde van de wijziging (bijv. nieuwe vertaling van de tekenreeks)"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "*string*"
 msgid "*string* / *array*"
-msgstr "*tekenreeks*"
+msgstr "*tekenreeks* / *array*"
 
 #: ../../contributing/schemas.rst:29
 msgid "old"
-msgstr ""
+msgstr "oud"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Value"
 msgid "*Old Value*"
-msgstr "Waarde"
+msgstr "*Oude waarde*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Browse the previous translation string."
 msgid "Old value of the change (eg. previous translation of the string)"
-msgstr "Bezoek de vorige zin in de vertaling."
+msgstr "Oude waarde van de wijziging (bijv. vorige vertaling van de tekenreeks)"
 
 #: ../../contributing/schemas.rst:29
 msgid "source"
 msgstr "bron"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Source"
 msgid "*Source*"
-msgstr "Bron"
+msgstr "*Bron*"
 
 #: ../../contributing/schemas.rst:29
 msgid "Source string"
 msgstr "Brontekenreeks"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Plural"
 msgid "url"
-msgstr "Meervoud"
+msgstr "url"
 
 #: ../../contributing/schemas.rst:29
 msgid "*URL*"
-msgstr ""
+msgstr "*URL*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "URL of a related unit object"
 msgid "Absolute URL to view the related object"
-msgstr "URL van een gerelateerd object eenheid"
+msgstr "Absolute URL om gerelateerd object te bekijken"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Authors"
 msgid "author"
-msgstr "Auteurs"
+msgstr "auteur"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Authors"
 msgid "*Author*"
-msgstr "Auteurs"
+msgstr "*Auteur*"
 
 #: ../../contributing/schemas.rst:29
 msgid ""
 "Author username (this can be different from user for example when accepting "
 "suggestions)"
 msgstr ""
+"Auteur gebruikersnaam (deze mag verschillen van de gebruiker die "
+"bijvoorbeeld suggesties accepteert)"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "API user."
 msgid "user"
-msgstr "API-gebruiker."
+msgstr "gebruiker"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "SAP username"
 msgid "*Acting username*"
-msgstr "SAP-gebruikersnaam"
+msgstr "*Gebruikte gebruikersnaam*"
 
 #: ../../contributing/schemas.rst:29
 #, fuzzy
@@ -41311,16 +41236,12 @@ msgid "project"
 msgstr "Project"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Component"
 msgid "component"
-msgstr "Onderdeel"
+msgstr "onderdeel"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Component slug"
 msgid "*Component slug*"
-msgstr "Slug voor het onderdeel"
+msgstr "*Slug voor het onderdeel*"
 
 #: ../../contributing/schemas.rst:29
 #, fuzzy
@@ -41329,10 +41250,8 @@ msgid "translation"
 msgstr "Vertalingen"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Translation language code"
 msgid "*Translation Language Code*"
-msgstr "Taalcode vertaling"
+msgstr "*Vertaling taalcode*"
 
 #: ../../contributing/schemas.rst:32
 #, fuzzy
@@ -43204,16 +43123,22 @@ msgid ""
 "repository. The import process will guide you through configuring your "
 "translations into Weblate components."
 msgstr ""
+"Weblate is ontwikkeld met integratie van VCS in gedachten als zijn "
+"bronmogelijkheid, dus de gemakkelijkste manier is om Weblate het recht te "
+"verlenen voor toegang tot uw opslagruimte. Het proces voor importeren zal u "
+"door het configureren van uw vertalingen naar onderdelen in Weblate leiden."
 
 #: ../../devel/integration.rst:14
 msgid ""
 "Alternatively, you can let Weblate set up a local-only repository containing "
 "all the translations without integration."
 msgstr ""
+"Als alternatief kunt u Weblate een opslagruimte alleen-lokaal laten "
+"instellen die alle vertalingen bevat zonder integratie."
 
 #: ../../devel/integration.rst:19
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
-msgstr ""
+msgstr ":ref:`adding-projects`, :ref:`faq-submodule`"
 
 #: ../../devel/integration.rst:23
 msgid "Fetching updated translations from Weblate"
@@ -43226,6 +43151,10 @@ msgid ""
 "exporter` is turned on) as an additional remote repository and fetch "
 "translation updates from it."
 msgstr ""
+"Weblate slaat bijgewerkte tekenreeksen op in een database en dient ze in bij "
+"een lokale versie beheerde opslagruimte. U kunt een opslagruimte voor "
+"Weblate toevoegen (als :ref:`git-exporter` is ingeschakeld) als een "
+"aanvullende opslagruimte op afstand en vertalingen daaruit ophalen."
 
 #: ../../devel/integration.rst:30
 msgid ""
@@ -43234,6 +43163,10 @@ msgid ""
 "(in the :guilabel:`Repository maintenance`), or from the command-line using :"
 "ref:`wlc`."
 msgstr ""
+"Voorafgaande hieraan wilt u misschien openstaande lokale wijzigingen "
+"indienen die zijn gemaakt in Weblate (see :ref:`lazy-commit`). Dat kan "
+"worden gedaan vanuit de gebruikersinterface (in het :guilabel:`Onderhoud "
+"opslagruimte`), of vanaf de opdrachtregel met :ref:`wlc`."
 
 #: ../../devel/integration.rst:34
 msgid ""
@@ -43241,16 +43174,22 @@ msgid ""
 "repository and configure :ref:`component-push` in the :ref:`component`, see :"
 "ref:`push-changes`."
 msgstr ""
+"Pushen van wijzigingen kan worden geautomatiseerd als u Weblate toegang voor "
+"pushen verleend voor uw opslagruimte en :ref:`component-push` configureert "
+"in het :ref:`component`, bekijk :ref:`push-changes`."
 
 #: ../../devel/integration.rst:37
 msgid ""
 "Alternatively, use :doc:`/api` to update translations so that they match the "
 "latest version from the upstream in your remote VCS repository."
 msgstr ""
+"Gebruik, als alternatief, :doc:`/api` om vertalingen bij te werken zodat zij "
+"overeenkomen met de laatste versie van upstream in uw VCS opslagruimte op "
+"afstand."
 
 #: ../../devel/integration.rst:42
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
-msgstr ""
+msgstr ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:47
 msgid "Fetching remote changes into Weblate"
@@ -43263,6 +43202,11 @@ msgid ""
 "achieved in the user interface (in the :guilabel:`Repository maintenance`), "
 "or from the command-line using :ref:`wlc`."
 msgstr ""
+"Voor het ophalen van recent bijgewerkte tekenreeksen vanuit uw VCS "
+"opslagruimte op afstand in Weblate, sta Weblate toe om uit de opslagruimte "
+"upstream te pullen. Dat kan worden bereikt in de gebruikersinterface (in het "
+":guilabel:`Onderhoud opslagruimte`), of vanaf de opdrachtregel met "
+":ref:`wlc`."
 
 #: ../../devel/integration.rst:54
 msgid ""
@@ -43270,12 +43214,18 @@ msgid ""
 "Weblate whenever there is a new commit. See :ref:`update-vcs` for more "
 "details."
 msgstr ""
+"Dit kan worden geautomatiseerd door het instellen van een webhook in uw "
+"opslagruimte om Weblate te activeren elke keer als er een nieuwe indiening "
+"is. Bekijk :ref:`update-vcs` voor meer details."
 
 #: ../../devel/integration.rst:57
 msgid ""
 "If not using VCS integration, you can use the UI or :doc:`/api` to update "
 "the translations so that they match your codebase."
 msgstr ""
+"Bij het niet gebruiken van VCS integratie kunt u de gebruikersinterface "
+"gebruiken of :doc:`/api` om de vertalingen bij te werken, zodat zij "
+"overeenkomen met uw codebase."
 
 #: ../../devel/integration.rst:62
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
@@ -43292,12 +43242,20 @@ msgid ""
 "strings. Any way of adding strings will be picked up, but consider using :"
 "ref:`source-quality-gateway` to avoid introducing errors."
 msgstr ""
+"Als uw vertaalbestanden zijn opgeslagen in een VCS op afstand samen met de "
+"code, zult u zeer waarschijnlijk een bestaande werkwijze hebben voor "
+"ontwikkelaars om nieuwe tekenreeksen te introduceren. Elke manier voor het "
+"toevoegen van tekenreeksen zal worden opgepikt, maar overweeg om :ref"
+":`source-quality-gateway` te gebruiken om het introduceren van fouten te "
+"vermijden."
 
 #: ../../devel/integration.rst:75
 msgid ""
 "When translation files are separated from the code, the following ways can "
 "introduce new strings into Weblate."
 msgstr ""
+"Als vertaalbestanden zijn gescheiden van de code, kunnen op de volgende "
+"manieren nieuwe tekenreeksen in Weblate worden geïntroduceerd."
 
 #: ../../devel/integration.rst:78
 msgid ""
@@ -43306,12 +43264,19 @@ msgid ""
 "buttons :guilabel:`Singular` and :guilabel:`Plural` inside the form. Select "
 "the appropriate form of the new translation string to be added."
 msgstr ""
+"Handmatig met :guilabel:`Nieuwe te vertalen tekenreeks toevoegen` in het "
+"menu :guilabel:`Gereedschap` in de brontaal. U kunt kiezen tussen de "
+"radioknoppen :guilabel:`Enkelvoud` en :guilabel:`Meervoud` in het formulier. "
+"Selecteer het toepasselijke formulier voor de nieuw toe te voegen tekenreeks "
+"om te vertalen."
 
 #: ../../devel/integration.rst:82
 msgid ""
 "Programmatically, using the API :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/units/`."
 msgstr ""
+"Programmatisch met de API :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:83
 msgid ""
@@ -43320,11 +43285,17 @@ msgid ""
 "old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-"
 "method`."
 msgstr ""
+"Door bronbestand te uploaden als :guilabel:`Bestaand vertaalbestand "
+"vervangen` (dit overschrijft bestaande tekenreeksen, zorg er dus voor dat "
+"het bestand zowel de oude als de nieuwe tekenreeksen bevat) of :guilabel:`"
+"Nieuwe tekenreeksen toevoegen`, bekijk :ref:`upload-method`."
 
 #: ../../devel/integration.rst:89
 msgid ""
 "The ability to add strings in Weblate requires :ref:`component-manage_units`."
 msgstr ""
+"De mogelijkheid voor het toevoegen van tekenreeksen in Weblate vereist :ref"
+":`component-manage_units`."
 
 #: ../../devel/integration.rst:94
 msgid "Updating target-language files"
@@ -43339,6 +43310,13 @@ msgid ""
 "do this, please install the :ref:`addon-weblate.cleanup.generic` add-on, "
 "which handles cleanup according to your requirements."
 msgstr ""
+"Voor eentalige bestanden (bekijk :ref:`formats`) zou Weblate nieuwe "
+"tekenreeksen kunnen toevoegen die aanwezig zijn in het :ref:`component-"
+"template`, en niet in feitelijke vertalingen. Het voert echter geen "
+"automatisch opschonen van verouderde tekenreeksen uit, omdat dat onverwachte "
+"resultaten zou kunnen hebben. Als u dit nog steeds wilt doen, installeer dan "
+"de add-on :ref:`addon-weblate.cleanup.generic`, die opschonen kan afhandelen "
+"overeenkomstig uw wensen."
 
 #: ../../devel/integration.rst:103
 msgid ""
@@ -43347,12 +43325,19 @@ msgid ""
 "yourself by using :guilabel:`Update source strings` :ref:`upload-method`, or "
 "by using the :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgstr ""
+"Weblate zal ook niet proberen tweetalige bestanden bij te werken als de bron "
+"wijzigt, als u dus :file:`po`-bestanden wilt hebben bijgewerkt vanuit "
+":file:`pot`, moet u dat zelf doen met :ref:`upload-method` :guilabel:`"
+"Brontekenreeksen bijwerken`, of door de add-on :ref:`addon-weblate.gettext."
+"msgmerge` te gebruiken."
 
 #: ../../devel/integration.rst:110
 msgid ""
 "Source string extraction tools, such as :program:`xgettext` or :program:"
 "`lupdate`, need to be executed outside of Weblate."
 msgstr ""
+"Programma's voor het uitnemen van brontekenreeksen, zoals :program:`xgettext`"
+" of :program:`lupdate`, moeten buiten Weblate worden uitgevoerd."
 
 #: ../../devel/integration.rst:114
 msgid ""
@@ -43360,6 +43345,9 @@ msgid ""
 "cleanup.blank`, :ref:`addon-weblate.resx.update`, :ref:`addon-weblate."
 "gettext.msgmerge`"
 msgstr ""
+":ref:`processing`, :ref:`addon-weblate.cleanup.generic`, :ref:`addon-weblate."
+"cleanup.blank`, :ref:`addon-weblate.resx.update`, :ref:`addon-weblate.gettext"
+".msgmerge`"
 
 #: ../../devel/integration.rst:124
 msgid "Introducing new strings"
@@ -43371,6 +43359,10 @@ msgid ""
 "on, but it is usually better to introduce new strings together with the code "
 "changes that introduced them."
 msgstr ""
+"U kunt nieuwe tekenreeksen aan Weblate toevoegen met :ref:`component-"
+"manage_units` ingeschakeld, maar het is gewoonlijk beter om nieuwe "
+"tekenreeksen tegelijkertijd te introduceren met wijzigingen in de code die "
+"ze introduceerden."
 
 #: ../../devel/integration.rst:130
 msgid ""
@@ -43379,6 +43371,11 @@ msgid ""
 "write the code. You might want to use a review process of those strings "
 "using :ref:`source-quality-gateway`."
 msgstr ""
+"Eentalige indelingen moeten worden geconfigureerd, zodat de nieuwe "
+"tekenreeksen worden toegevoegd aan :ref:`component-template`. Dit wordt "
+"gewoonlijk gedaan door ontwikkelaars, omdat zij de code schrijven. U zou "
+"misschien een proces voor het beoordelen van die tekenreeksen willen "
+"gebruiken met :ref:`source-quality-gateway`."
 
 #: ../../devel/integration.rst:135
 msgid ""
@@ -43388,6 +43385,12 @@ msgid ""
 "Once the strings are extracted, there might be an additional step needed to "
 "update existing translations, see :ref:`updating-target-files`."
 msgstr ""
+"Tweetalige indelingen nemen gewoonlijk tekenreeksen uit de broncode uit met "
+"enig programma (zoals :program:`xgettext` of :program:`intltool-update`). "
+"Volg de documentatie van uw framewerk voor vertalen voor instructies over "
+"hoe dat te doen. Als de tekenreeksen eenmaal zijn uitgenomen, zou er een "
+"aanvullende stap nodig kunnen zijn om bestaande vertalingen bij te werken, "
+"bekijk :ref:`updating-target-files`."
 
 #: ../../devel/integration.rst:143
 msgid ""
@@ -43395,6 +43398,10 @@ msgid ""
 "typically involves executing untrusted code what makes it more suitable for "
 "a generic continuous integration than localization-specific platform."
 msgstr ""
+"Automatisch uitnemen van tekenreeksen ligt momenteel buiten het bereik van "
+"Weblate. Het behelst gewoonlijk het uitvoeren van niet vertrouwde code wat "
+"het meer geschikt maakt voor een algemene doorlopende integratie dan een "
+"vertaalspecifiek platform."
 
 #: ../../devel/integration.rst:147
 msgid ""
@@ -43402,11 +43409,15 @@ msgid ""
 "to make new strings automatically appear for translation. Such pipeline "
 "should also cover :ref:`avoid-merge-conflicts`."
 msgstr ""
+"U wilt dit misschien integreren in uw doorlopende pijplijnen voor integratie "
+"om nieuwe tekenreeksen automatisch te laten verschijnen voor vertaling. Een "
+"dergelijk pijplijn zou ook :ref:`avoid-merge-conflicts` afdekken."
 
 #: ../../devel/integration.rst:153
 msgid ""
 ":ref:`updating-target-files`, :doc:`/devel/gettext`, :doc:`/devel/sphinx`"
 msgstr ""
+":ref:`updating-target-files`, :doc:`/devel/gettext`, :doc:`/devel/sphinx`"
 
 #: ../../devel/integration.rst:160
 msgid "Managing the local VCS repository"
@@ -43419,20 +43430,26 @@ msgid ""
 "only setup is also possible. The :guilabel:`Repository maintenance` allows "
 "controlling this repository."
 msgstr ""
+"Weblate slaat alle vertalingen op in zijn onderliggende opslagruimte voor "
+"versiebeheer. Het wordt verondersteld verbonden te zijn met een op afstand, "
+"maar een opstelling alleen-intern is ook mogelijk. Het :guilabel:`Onderhoud "
+"opslagruimte` maakt het mogelijk deze opslagruimte te beheren."
 
 #: ../../devel/integration.rst:169
 msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
 "repository, so there is usually no need to manually manage it manually."
 msgstr ""
+"Met :doc:`/admin/continuous`worden wijzigingen automatisch gepusht vanuit de "
+"opslagruimte, dus is er gewoonlijk geen noodzaak om dat handmatig te beheren."
 
 #: ../../devel/integration.rst:176
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
-msgstr ""
+msgstr ":doc:`/admin/continuous`, :doc:`/vcs`"
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
-msgstr ""
+msgstr "Rapporteren voortgang vertaling"
 
 #: ../../devel/reporting.rst:4
 msgid ""
@@ -43441,6 +43458,11 @@ msgid ""
 "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
 "the dashboard, any translation component, or project:"
 msgstr ""
+"Mogelijkheden voor rapporten geven inzicht in de voortgang van vertalingen "
+"over een bepaalde periode. Een samenvatting van bijdragen aan een bepaald "
+"onderdeel in tijd wordt gegeven. Het gereedschap voor de rapporten is te "
+"vinden in het menu :guilabel:`Inzicht` van het dashboard, elk "
+"vertaalonderdeel of project:"
 
 #: ../../devel/reporting.rst:11
 msgid ""
@@ -43449,6 +43471,11 @@ msgid ""
 "for embedding statistics into existing documentation, while JSON is useful "
 "for further processing of the data."
 msgstr ""
+"Verscheidene gereedschappen voor rapporten zijn op deze pagina beschikbaar, "
+"die allemaal uitvoer kunnen produceren in HTML, reStructuredText of JSON. De "
+"eerste twee indelingen zijn geschikt voor het inbedden van statistische "
+"informatie in bestaande documentatie, terwijl JSON nuttig is voor het verder "
+"verwerken van de gegevens."
 
 #: ../../devel/reporting.rst:16
 msgid ""
@@ -43456,6 +43483,9 @@ msgid ""
 "case, the contributions are counted at midnight – that means that it "
 "includes the starting date and excludes the ending date."
 msgstr ""
+"U kunt voorgedefinieerde perioden kiezen of een aangepast datumbereik. In "
+"dat geval worden de bijdragen geteld om middernacht – dat betekent dat het "
+"de begindatum bevat, maar niet de einddatum."
 
 #: ../../devel/reporting.rst:23
 msgid "Number of words"
@@ -43466,6 +43496,9 @@ msgid ""
 "Number of words is a metric widely used in Indo-European languages, but "
 "might not have a well-defined behavior for some Asian languages."
 msgstr ""
+"Aantal woorden is een breed gebruikt metriek in Indo-Europese talen, maar "
+"zou geen goed gedefinieerd gedrag kunnen hebben voor sommige Aziatische "
+"talen."
 
 #: ../../devel/reporting.rst:30
 msgid ""
@@ -43473,57 +43506,73 @@ msgid ""
 "between whitespace (spaces, tabs, newlines). In the example string below, "
 "the word count is 9."
 msgstr ""
+"Een woord is elke reeks tekens (letters, cijfers, speciale tekens) tussen "
+"witruimte (spaties, tabs, nieuwe regel). In de voorbeeld tekenreeks "
+"hieronder is het aantal woorden 9."
 
 #: ../../devel/reporting.rst:38
 msgid ""
 "For plural strings, the number of words is counted as the sum of words for "
 "all plural forms."
 msgstr ""
+"Voor tekenreeksen van meervouden wordt het aantal woorden geteld als de som "
+"van de woorden voor alle meervoudsvormen."
 
 #: ../../devel/reporting.rst:41
 msgid ""
 "For Chinese, Japanese, or Korean languages, the number of words is the "
 "number of CJK characters plus the number of words in non-CJK characters."
 msgstr ""
+"Voor Chinese, Japanse of Koreaanse talen is het aantal woorden het aantal "
+"tekens CJK plus het aantal woorden in niet-CJK tekens."
 
 #: ../../devel/reporting.rst:47
 msgid "Translator credits"
-msgstr ""
+msgstr "Attributie vertaler"
 
 #: ../../devel/reporting.rst:49
 msgid ""
 "Generates a document usable for crediting translators — sorted by language "
 "and lists all contributors for a given language:"
 msgstr ""
+"Genereert een document dat kan worden gebruikt voor attributie van vertalers "
+"— gesorteerd op taal en vermeld alle deelnemers voor een bepaalde taal:"
 
 #: ../../devel/reporting.rst:66
 msgid ""
 "The number in parenthesis indicates the number of contributions in given "
 "period."
 msgstr ""
+"Het cijfer tussen haakjes geeft het aantal bijdragen in een bepaalde periode "
+"aan."
 
 #: ../../devel/reporting.rst:72
 msgid "Contributor stats"
-msgstr "Medewerkersstatistieken"
+msgstr "Statistieken deelnemer"
 
 #: ../../devel/reporting.rst:74
 msgid ""
 "Generates the number of translated words and strings by translator name:"
 msgstr ""
+"Genereert het aantal vertaalde woorden en tekenreeksen per naam van de "
+"vertaler:"
 
 #: ../../devel/reporting.rst:79
 msgid ""
 "This can be useful if you pay your translators based on the amount of work "
 "done; it gives you various stats of translators’ work."
 msgstr ""
+"Dit kan nuttig zijn als u uw vertalers betaald, gebaseerd op de hoeveelheid "
+"verricht werk; het geeft u verscheidene statistieken van het werk van de "
+"vertalers."
 
 #: ../../devel/reporting.rst:82
 msgid "All stats are available in four variants:"
-msgstr ""
+msgstr "Alle statistieken zijn beschikbaar in vier varianten:"
 
 #: ../../devel/reporting.rst:84
 msgid "`Total`"
-msgstr ""
+msgstr "`Totaal`"
 
 #: ../../devel/reporting.rst:85
 msgid "Overall number of all edited strings."
@@ -43531,7 +43580,7 @@ msgstr "Totaal aantal bewerkte tekenreeksen."
 
 #: ../../devel/reporting.rst:86
 msgid "`New`"
-msgstr ""
+msgstr "`Nieuw`"
 
 #: ../../devel/reporting.rst:87
 msgid ""
@@ -43541,15 +43590,17 @@ msgstr ""
 
 #: ../../devel/reporting.rst:88
 msgid "`Approved`"
-msgstr ""
+msgstr "`Goedgekeurd`"
 
 #: ../../devel/reporting.rst:89
 msgid "Amount of strings approved in the review workflow (see :ref:`reviews`)."
 msgstr ""
+"Hoeveelheid goedgekeurde tekenreeksen in de werkstroom Beoordelen (bekijk "
+":ref:`reviews`)."
 
 #: ../../devel/reporting.rst:90
 msgid "`Edited`"
-msgstr ""
+msgstr "`Bewerkt`"
 
 #: ../../devel/reporting.rst:91
 msgid "Amount of edited strings which had a translation before."
@@ -43557,11 +43608,11 @@ msgstr "Aantal bewerkte tekenreeksen die al eerder een vertaling hadden."
 
 #: ../../devel/reporting.rst:93
 msgid "The following metrics are available for each:"
-msgstr ""
+msgstr "De volgende metrieken zijn voor elk beschikbaar:"
 
 #: ../../devel/reporting.rst:95
 msgid "`Count`"
-msgstr ""
+msgstr "`Aantal`"
 
 #: ../../devel/reporting.rst:96
 msgid "Amount of strings."
@@ -43569,17 +43620,19 @@ msgstr "Aantal tekenreeksen."
 
 #: ../../devel/reporting.rst:97
 msgid "`Edits`"
-msgstr ""
+msgstr "`Bewerkingen`"
 
 #: ../../devel/reporting.rst:98
 msgid ""
 "Amount of edited characters in the string, measured in Damerau–Levenshtein "
 "distance."
 msgstr ""
+"Hoeveelheid bewerkte tekens in de tekenreeks, gemeten met de afstand "
+"Damerau–Levenshtein."
 
 #: ../../devel/reporting.rst:99
 msgid "`Source words`"
-msgstr ""
+msgstr "`Bronwoorden`"
 
 #: ../../devel/reporting.rst:100
 msgid "Amount of words in the source string."
@@ -43587,7 +43640,7 @@ msgstr "Aantal woorden in de brontekenreeks."
 
 #: ../../devel/reporting.rst:101
 msgid "`Source characters`"
-msgstr ""
+msgstr "`Brontekens`"
 
 #: ../../devel/reporting.rst:102
 msgid "Amount of characters in the source string."
@@ -43595,7 +43648,7 @@ msgstr "Aantal tekens in de brontekenreeks."
 
 #: ../../devel/reporting.rst:103
 msgid "`Target words`"
-msgstr ""
+msgstr "`Doelwoorden`"
 
 #: ../../devel/reporting.rst:104
 msgid "Amount of words in the translated string."
@@ -43603,7 +43656,7 @@ msgstr "Aantal woorden in de vertaalde tekenreeks."
 
 #: ../../devel/reporting.rst:105
 msgid "`Target characters`"
-msgstr ""
+msgstr "`Doeltekens`"
 
 #: ../../devel/reporting.rst:106
 msgid "Amount of characters in the translated string."
@@ -43611,39 +43664,47 @@ msgstr "Aantal tekens in de vertaalde tekenreeks."
 
 #: ../../devel/review.rst:4
 msgid "Reviewing strings"
-msgstr ""
+msgstr "Tekenreeksen beoordelen"
 
 #: ../../devel/review.rst:9
 msgid "Activity reports"
-msgstr ""
+msgstr "Rapporten van activiteiten"
 
 #: ../../devel/review.rst:11
 msgid ""
 "Activity reports check changes of translations, for projects, components or "
 "individual users."
 msgstr ""
+"Rapporten van activiteiten controleren wijzigingen van vertalingen, voor "
+"projecten, onderdelen of individuele gebruikers."
 
 #: ../../devel/review.rst:13
 msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
 msgstr ""
+"De rapporten voor activiteiten voor een project of onderdeel is toegankelijk "
+"vanuit het dashboard ervan, op de tab :guilabel:`Informatie`."
 
 #: ../../devel/review.rst:18
 msgid ""
 "More reports are accessible on the :guilabel:`Insights` tab, selecting :"
 "guilabel:`Translation reports`."
 msgstr ""
+"Meer rapporten zijn toegankelijk op de tab :guilabel:`Inzicht`, selecteer "
+":guilabel:`Rapporten vertaling`."
 
 #: ../../devel/review.rst:21
 msgid ""
 "The activity of the currently signed in user can be seen by clicking on the "
 "user name from the user menu on the top right."
 msgstr ""
+"De activiteit van de momenteel ingelogde gebruiker kunnen worden bekeken "
+"door te klikken op de gebruikersnaam in het menu gebruiker rechtsboven."
 
 #: ../../devel/review.rst:25
 msgid "Source strings checks"
-msgstr ""
+msgstr "Controles voor brontekenreeksen"
 
 #: ../../devel/review.rst:27
 msgid ""
@@ -43652,10 +43713,14 @@ msgid ""
 "easier to translate. All types of failing source checks are displayed on the "
 "source language of every component."
 msgstr ""
+"Er zijn veel :ref:`checks`, sommige ervan focussen op het verbeteren van de "
+"kwaliteit van de brontekenreeksen. Veel mislukte controles stellen een hint "
+"voor om brontekenreeksen gemakkelijker te vertalen te maken. Alle typen "
+"mislukte controles worden weergegeven in de brontaal van elk onderdeel."
 
 #: ../../devel/review.rst:33
 msgid "Translation string checks"
-msgstr ""
+msgstr "Controles vertaling tekenreeks"
 
 #: ../../devel/review.rst:35
 msgid ""
@@ -43664,6 +43729,10 @@ msgid ""
 "of reporting it - a typical example is a missing full stop at the end of a "
 "sentence."
 msgstr ""
+"Foutieve mislukte controles van vertalingen van brontekenreeksen geven aan "
+"dat het probleem in de brontekenreeks ligt. Vertalers repareren soms fouten "
+"in de vertaling in plaats van het te rapporteren - een typisch voorbeeld "
+"daarvan is een ontbrekende punt aan het einde van een zin."
 
 #: ../../devel/review.rst:40
 msgid ""
@@ -43672,6 +43741,10 @@ msgid ""
 "creates a translation for the source language and shows you source level "
 "checks there:"
 msgstr ""
+"Beoordelen van alle mislukte controles kan waardevolle terugkoppeling "
+"verschaffen om de brontekenreeksen te verbeteren. Weblate maakt automatisch, "
+"om net beoordelen van brontekenreeksen gemakkelijker te maken, een vertaling "
+"voor de brontaal en geeft u daar controles voor het bronniveau weer:"
 
 #: ../../devel/review.rst:47
 msgid ""
@@ -43680,10 +43753,15 @@ msgid ""
 "translations of a given string. Usually this is something to look for, as "
 "this is a string which translators have problems translating properly."
 msgstr ""
+"Een van de meest interessante controles daar is de :ref:`check-multiple-"
+"failures` - die wordt geactiveerd als er ene mislukking is voor meerdere "
+"vertalingen van een bepaalde tekenreeks. Gewoonlijk is dit iets om naar te "
+"zoeken, omdat dit ene tekenreeks is waar vertalers problemen kunnen hebben "
+"met het juist vertalen."
 
 #: ../../devel/review.rst:52
 msgid "The detailed listing is a per language overview:"
-msgstr ""
+msgstr "De gedetailleerde vermelding is per taaloverzicht:"
 
 #: ../../devel/review.rst:59
 msgid "Receiving source string feedback"
@@ -43697,6 +43775,13 @@ msgid ""
 "list is usually the best approach. This way you can keep an eye on when "
 "problems arise in translation, take care of them, and fix them quickly."
 msgstr ""
+"Vertalers kunnen opmerkingen plaatsen bij zowel de vertaling als de "
+"brontekenreeksen. Elke :ref:`component` kan worden geconfigureerd om "
+"dergelijke opmerkingen in een e-mailadres te ontvangen (bekijk :ref"
+":`component-report_source_bugs`), en gebruiken van de mailinglijst voor de "
+"ontwikkelaars is gewoonlijk de beste benadering. Op deze manier kunt u een "
+"oogje in het zeil houden als er problemen optreden bij vertalen, ze bekijken "
+"en beoordelen en ze snel repareren."
 
 #: ../../devel/review.rst:69
 msgid ":ref:`user-comments`"
@@ -43704,7 +43789,7 @@ msgstr ":ref:`user-comments`"
 
 #: ../../devel/share.rst:4
 msgid "Promoting the translation"
-msgstr ""
+msgstr "De vertaling promoten"
 
 #: ../../devel/share.rst:6
 msgid ""
@@ -52216,30 +52301,20 @@ msgid "Three types of comments can be posted:"
 msgstr ""
 
 #: ../../user/translating.rst:66
-#, fuzzy
-#| msgid "INI translations"
 msgid "for translations"
-msgstr "INI-vertalingen"
+msgstr "voor vertalingen"
 
 #: ../../user/translating.rst:67
-#, fuzzy
-#| msgid "source strings"
 msgid "for source strings"
-msgstr "brontekenreeksen"
+msgstr "voor brontekenreeksen"
 
 #: ../../user/translating.rst:68
-#, fuzzy
-#| msgid ""
-#| "Three types of comments can be posted: * for translations * for source "
-#| "strings * for reporting source string bugs when this functionality is "
-#| "turned on using :ref:`project-source_review`."
 msgid ""
 "for reporting source string bugs when this functionality is turned on using :"
 "ref:`project-source_review`."
 msgstr ""
-"Drie typen opmerkingen kunnen worden geplaatst: * voor vertalingen * voor "
-"brontekenreeksen * voor rapporteren van problemen met brontekenreeksen, als "
-"die functionaliteit is ingeschakeld met :ref:`project-source_review`."
+"voor rapporteren van problemen met brontekenreeksen, als die functionaliteit "
+"is ingeschakeld met :ref:`project-source_review`."
 
 #: ../../user/translating.rst:70
 msgid ""
