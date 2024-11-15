@@ -457,7 +457,7 @@
 
 <div class="col-sm-3 source-info">
 
-{% if unit.all_checks or comments_to_check or unit.suggestions or variants or display_checks %}
+{% if unit.all_checks or comments_to_check or unit.suggestions or variants|length > 1 or display_checks %}
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
 
