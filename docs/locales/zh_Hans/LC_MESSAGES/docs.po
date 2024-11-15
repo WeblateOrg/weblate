@@ -22,8 +22,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-14 15:17+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-11-15 03:53+0000\n"
+"Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
+"org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1946,22 +1947,16 @@ msgid "It is triggered:"
 msgstr "触发条件："
 
 #: ../../admin/addons.rst:68
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "When the add-on is installed."
-msgstr "安装了附加组件"
+msgstr "当附加组件被安装时。"
 
 #: ../../admin/addons.rst:69
-#, fuzzy
-#| msgid "Fixed deadlock when changing linked component repository."
 msgid "When a change happens in a component repository."
-msgstr "修复了更改链接部件仓库时的死锁。"
+msgstr "当部件仓库中发生变化时。"
 
 #: ../../admin/addons.rst:70
-#, fuzzy
-#| msgid "When new strings appear in a component."
 msgid "When a string is added into a component."
-msgstr "当部件中出现新字符串时。"
+msgstr "当字符串添加到部件中时。"
 
 #: ../../admin/addons.rst:71
 msgid ""
@@ -11143,19 +11138,12 @@ msgid ":ref:`mt-google-translate-api-v3`"
 msgstr ":ref:`mt-google-translate-api-v3`"
 
 #: ../../admin/install.rst:234
-#, fuzzy
-#| msgid ""
-#| "`google-cloud-translate <https://pypi.org/project/google-cloud-"
-#| "translate>`_"
 msgid "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
-msgstr ""
-"`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
+msgstr "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
 
 #: ../../admin/install.rst:235
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Optional glossary support for :ref:`mt-google-translate-api-v3`"
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr ":ref:`mt-google-translate-api-v3` 的可选术语表支持"
 
 #: ../../admin/install.rst:238
 msgid "``ldap``"
@@ -16990,13 +16978,13 @@ msgstr "``bucket_name``"
 
 #: ../../admin/machine.rst:244
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Google 存储桶名称"
 
 #: ../../admin/machine.rst:244
 msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
-msgstr ""
+msgstr "输入用于存储术语表文件的 Google 云存储桶名称。"
 
 #: ../../admin/machine.rst:249
 msgid ""
@@ -17030,19 +17018,19 @@ msgstr "`设置身份验证.`_"
 msgid ""
 "Optionally, you can configure the service to use :ref:`glossary` by setting "
 "up a Bucket:"
-msgstr ""
+msgstr "你也可以建立存储桶来配置术语表要使用的服务（非必须）："
 
 #: ../../admin/machine.rst:266
 msgid "`Create a Google Cloud bucket.`_"
-msgstr ""
+msgstr "`创建 Google 云存储桶.`_"
 
 #: ../../admin/machine.rst:267
 msgid "`Set bucket location to \"us-central1\".`_"
-msgstr ""
+msgstr "`设置存储桶位置为 \"us-central1\".`_"
 
 #: ../../admin/machine.rst:268
 msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
-msgstr ""
+msgstr "`授予服务账户'Storage Admin' 权限.`_"
 
 #: ../../admin/machine.rst:277
 msgid ""
@@ -22188,20 +22176,14 @@ msgid "Migrating from other databases to PostgreSQL"
 msgstr "从其它数据库迁移到 PostgreSQL"
 
 #: ../../admin/upgrade.rst:143
-#, fuzzy
-#| msgid ""
-#| "If you are not running Weblate with a different database than PostgreSQL, "
-#| "consider migrating to PostgreSQL for better performance by doing the "
-#| "following steps. Remember to stop both, the web and Celery servers "
-#| "beforehand, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are running Weblate with a different database than PostgreSQL, "
 "consider migrating to PostgreSQL for better performance by doing the "
 "following steps. Remember to stop both, the web and Celery servers "
 "beforehand, otherwise you might end up with inconsistent data."
 msgstr ""
-"如果没有用 PostgreSQL 数据库运行 Weblate，请考虑执行以下步骤迁移到 "
-"PostgreSQL，因为 Weblate 与它搭配性能更好。请记住迁移前要停止 web 和 Celery "
+"如果不用 PostgreSQL 数据库运行 Weblate，请考虑执行以下步骤迁移到 PostgreSQL，"
+"因为 Weblate 与它搭配性能更好。请记住迁移前要停止 web 和 Celery "
 "服务器，否则会导致不一致的数据。"
 
 #: ../../admin/upgrade.rst:151
@@ -23719,16 +23701,12 @@ msgid ""
 msgstr "后台任务 URL（如果有的话）；请参见 :http:get:`/api/tasks/(str:uuid)/`"
 
 #: ../../api.rst:1311
-#, fuzzy
-#| msgid ""
-#| "URL to to list contributor credits; see :http:get:`/api/components/"
-#| "(string:project)/(string:component)/credits/`"
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
 msgstr ""
-"列举贡献者致谢信息的 URL；见 :http:get:`/api/components/(string:project)/"
-"(string:component)/credits/`"
+"列举贡献者致谢信息的 URL；见 :http:get:`/api/components/"
+"(string:project)/(string:component)/credits/`"
 
 #: ../../api.rst:1359
 msgid "Edit a component by a :http:method:`PATCH` request."
@@ -24255,23 +24233,15 @@ msgid "Units"
 msgstr "单元"
 
 #: ../../api.rst:2129
-#, fuzzy
-#| msgid ""
-#| "A `unit` is a single piece of a translation which pairs a source string "
-#| "with a corresponding translated string and also contains some related "
-#| "metadata. The term is derived from the `Translate Toolkit <http://docs."
-#| "translatehouse.org/projects/translate-toolkit/en/latest/api/storage."
-#| "html#translate.storage.base.TranslationUnit>`_ and XLIFF."
 msgid ""
 "A `unit` is a single piece of a translation which pairs a source string with "
 "a corresponding translated string and also contains some related metadata. "
 "The term is derived from the :py:class:`tt:translate.storage.base."
 "TranslationUnit` in Translate Toolkit and XLIFF."
 msgstr ""
-"`unit` 是翻译的一个单件它将一个源字符串与一个相应的翻译字符串配对，还包含一些"
-"相关的元数据。该术语源自 `Translate Toolkit <http://docs.translatehouse.org/"
-"projects/translate-toolkit/en/latest/api/storage.html#translate.storage.base."
-"TranslationUnit>`_ 和 XLIFF。"
+"`unit` 是翻译的一个单一部分，它将源字符串与相应的已翻译字符串配对，还包含一些"
+"相关的元数据。该术语衍生自 Translate Toolkit 中的 :py:class:`tt:translate."
+"storage.base.TranslationUnit` 和 XLFF。"
 
 #: ../../api.rst:2136
 msgid "Returns list of translation units."
@@ -25359,17 +25329,16 @@ msgid "**Improvements**"
 msgstr "**改进**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgid ""
 ":ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional)."
-msgstr ":ref:`mt-microsoft-translator` 支持 :ref:`glossary-mt`。"
+msgstr ":ref:`mt-google-translate-api-v3` 现支持 :ref:`glossary-mt` （可选）。"
 
 #: ../../changes.rst:11
 msgid ""
 "A shortcut to duplicate a component is now available directly in the menu (:"
 "guilabel:`Manage` → :guilabel:`Duplicate Component`)"
-msgstr ""
+msgstr "现在在菜单中可以直接找到复制部件的快捷方式（:guilabel:`管理` → "
+":guilabel:`复制部件`）"
 
 #: ../../changes.rst:12
 msgid "Included username when generating :ref:`credits`."
@@ -25456,55 +25425,41 @@ msgstr ""
 "closed=1>`__。"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Weblate 5.8.2"
 msgid "Weblate 5.8.4"
-msgstr "Weblate 5.8.2"
+msgstr "Weblate 5.8.4"
 
 #: ../../changes.rst:36
 msgid ":ref:`search-users` can search based on user changes."
-msgstr ""
+msgstr ":ref:`search-users` 可以根据用户更改进行搜索。"
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Fixed possible crash in reports."
 msgid "Fixed occasional crash in :ref:`rss`."
-msgstr "修复了报告中可能的崩溃。"
+msgstr "修改了 :ref:`rss` 的偶尔崩溃。"
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
-msgstr "跳过 :ref:`check-icu-message-format` 质量检查。"
+msgstr ":ref:`check-icu-message-format` 优雅地处理复数字符串。"
 
 #: ../../changes.rst:42
 msgid ""
 ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
-msgstr ""
+msgstr ":ref:`vcs-bitbucket-cloud` 正确地生成拉取请求描述。"
 
 #: ../../changes.rst:52
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/122?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/132?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/122?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"132?closed=1>`__。"
 
 #: ../../changes.rst:55
-#, fuzzy
-#| msgid "Weblate 5.8.2"
 msgid "Weblate 5.8.3"
-msgstr "Weblate 5.8.2"
+msgstr "Weblate 5.8.3"
 
 #: ../../changes.rst:57
-#, fuzzy
-#| msgid "Released on November 16th 2023."
 msgid "Released on November 6th 2024."
-msgstr "发布于 2023 年 11 月 16 日。"
+msgstr "发布于 2024 年 11 月 6 日。"
 
 #: ../../changes.rst:61
 msgid "Formatting of some :ref:`audit-log` entries."
@@ -25515,10 +25470,8 @@ msgid "Fixed XML escaped output in some machine translation integrations."
 msgstr "修复了某些机器翻译集成中的 XML 转义输出的问题。"
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Fixed duplicate listing of newly added glossary terms."
-msgstr "修复了翻译新添加字符串的问题。"
+msgstr "修复了重复列举新添加的术语表术语的问题。"
 
 #: ../../changes/contributors/5.7.1.rst:2
 #: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
@@ -25529,10 +25482,8 @@ msgid "Code contributions"
 msgstr "代码贡献"
 
 #: ../../changes/contributors/5.8.3.rst:3
-#, fuzzy
-#| msgid "Michal Čihař, Mehdi Eloualy"
 msgid "Michal Čihař, Mehdi El Oualy"
-msgstr "Michal Čihař, Mehdi Eloualy"
+msgstr "Michal Čihař, Mehdi El Oualy"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
@@ -25550,16 +25501,12 @@ msgid "Michal Čihař"
 msgstr "Michal Čihař"
 
 #: ../../changes.rst:73
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/121?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/131?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/121?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"131?closed=1>`__。"
 
 #: ../../changes.rst:76
 msgid "Weblate 5.8.2"
@@ -25720,10 +25667,8 @@ msgid ""
 msgstr "项目中的翻译和语言视图现在包括语言和复数的基本信息。"
 
 #: ../../changes.rst:141
-#, fuzzy
-#| msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgid ":ref:`search-replace` shows a preview of matched strings."
-msgstr ":ref:`bulk-edit` 显示匹配字符串的预览。"
+msgstr ":ref:`search-replace` 显示匹配字符串的预览。"
 
 #: ../../changes.rst:142
 msgid ":ref:`aresource` now supports translatable attribute in its strings."
@@ -37764,158 +37709,120 @@ msgid ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 msgstr ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 
 #: ../../contributing/schemas.rst:-1
-#, fuzzy
-#| msgid "Weblate version"
 msgid "Weblate Messaging"
-msgstr "Weblate 版本"
+msgstr "Weblate 消息传递"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "https://weblate.org/schemas/weblate-memory.schema.json"
 msgid "https://weblate.org/schemas/weblate-messaging.schema.json"
-msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
+msgstr "https://weblate.org/schemas/weblate-messaging.schema.json"
 
 #: ../../contributing/schemas.rst:29
 msgid "Schema for Weblate Fedora Messaging"
-msgstr ""
+msgstr "Weblate Fedora 消息传送方案"
 
 #: ../../contributing/schemas.rst:29
 msgid "**change\\_id**"
-msgstr ""
+msgstr "**change\\_id**"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Change ID"
 msgid "*Change ID*"
-msgstr "更改的ID"
+msgstr "*更改 ID*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Number of changes"
 msgid "Numerical ID of change"
-msgstr "更改次数"
+msgstr "更改的数字 ID"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "**activity**"
 msgid "**action**"
-msgstr "**activity**"
+msgstr "**操作**"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Change period"
 msgid "*Change Action*"
-msgstr "更改时期"
+msgstr "*更改操作*"
 
 #: ../../contributing/schemas.rst:29
 msgid ""
 "Verbose name of the change, see Change actions source code for possible "
 "values"
-msgstr ""
+msgstr "更改的冗长名称，可使用的值请见更改操作源代码"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "ISO 8601 formatted timestamp to list changes after"
 msgid "ISO formatted timestamp"
-msgstr "ISO 8601 格式的时间戳，列出此时间之后的更改"
+msgstr "ISO 格式的时间戳"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "``target``"
 msgid "target"
-msgstr "``target``"
+msgstr "目标"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "**target**"
 msgid "*Target*"
-msgstr "**target**"
+msgstr "*目标*"
 
 #: ../../contributing/schemas.rst:29
 msgid "New value of the change (eg. new translation of the string)"
-msgstr ""
+msgstr "更改的新值（如字符串的新翻译）"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "*string*"
 msgid "*string* / *array*"
-msgstr "*字符串*"
+msgstr "*字符串* / *数组*"
 
 #: ../../contributing/schemas.rst:29
 msgid "old"
-msgstr ""
+msgstr "旧"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Value"
 msgid "*Old Value*"
-msgstr "值"
+msgstr "*旧值*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Browse the previous translation string."
 msgid "Old value of the change (eg. previous translation of the string)"
-msgstr "浏览先前的翻译字符串。"
+msgstr "更改的旧值（如字符串之前额翻译）"
 
 #: ../../contributing/schemas.rst:29
 msgid "source"
 msgstr "原文"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Source"
 msgid "*Source*"
-msgstr "原文"
+msgstr "*原文*"
 
 #: ../../contributing/schemas.rst:29
 msgid "Source string"
 msgstr "源字符串"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Plural"
 msgid "url"
-msgstr "复数形式"
+msgstr "url"
 
 #: ../../contributing/schemas.rst:29
 msgid "*URL*"
-msgstr ""
+msgstr "*URL*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "URL of a related unit object"
 msgid "Absolute URL to view the related object"
-msgstr "相关单元对象的 URL"
+msgstr "查看相关对象的绝对 URL"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Authors"
 msgid "author"
 msgstr "作者"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Authors"
 msgid "*Author*"
-msgstr "作者"
+msgstr "*作者*"
 
 #: ../../contributing/schemas.rst:29
 msgid ""
 "Author username (this can be different from user for example when accepting "
 "suggestions)"
-msgstr ""
+msgstr "作者的用户名（进行接受建议等操作时，可以不同于用户名）"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "API user."
 msgid "user"
-msgstr "API 用户。"
+msgstr "用户"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "SAP username"
 msgid "*Acting username*"
-msgstr "SAP 用户名"
+msgstr "*临时用户名*"
 
 #: ../../contributing/schemas.rst:29
 msgid "project"
@@ -37926,20 +37833,16 @@ msgid "component"
 msgstr "部件"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Component slug"
 msgid "*Component slug*"
-msgstr "部件标识串"
+msgstr "*部件标识串*"
 
 #: ../../contributing/schemas.rst:29
 msgid "translation"
 msgstr "翻译"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Translation language code"
 msgid "*Translation Language Code*"
-msgstr "翻译语言代码"
+msgstr "*翻译语言代码*"
 
 #: ../../contributing/schemas.rst:32
 msgid ":ref:`fedora-messaging`"
@@ -49430,7 +49333,7 @@ msgstr "用户在过去 90 天内给一个给定的项目或部件作了贡献�
 
 #: ../../user/search.rst:205 ../../user/search.rst:207
 msgid "Same as in :ref:`search-strings`."
-msgstr ""
+msgstr "和 :ref:`search-strings`中一样。"
 
 #: ../../user/search.rst:209
 msgid "Additional lookups are available in the :ref:`management-interface`:"
@@ -49572,35 +49475,22 @@ msgid ""
 msgstr "会每天扫描所有建议，以删除重复建议以及与当前翻译匹配的建议。"
 
 #: ../../user/translating.rst:64
-#, fuzzy
-#| msgid "The gettext type comments are used as flags."
 msgid "Three types of comments can be posted:"
-msgstr "gettext 类型的注释用作标记。"
+msgstr "可以发表三类评论："
 
 #: ../../user/translating.rst:66
-#, fuzzy
-#| msgid "INI translations"
 msgid "for translations"
-msgstr "INI 翻译"
+msgstr "翻译相关"
 
 #: ../../user/translating.rst:67
-#, fuzzy
-#| msgid "source strings"
 msgid "for source strings"
-msgstr "源字符串"
+msgstr "源字符串相关"
 
 #: ../../user/translating.rst:68
-#, fuzzy
-#| msgid ""
-#| "Three types of comments can be posted: * for translations * for source "
-#| "strings * for reporting source string bugs when this functionality is "
-#| "turned on using :ref:`project-source_review`."
 msgid ""
 "for reporting source string bugs when this functionality is turned on using :"
 "ref:`project-source_review`."
-msgstr ""
-"可以发布三种类型的评论：* 给翻译者 * 给源字符串 * 报告源字符串中的错误，前提"
-"是使用 :ref:`project-source_review` 打开了此功能。"
+msgstr "报告源字符串错误，当此功能使用 :ref:`project-source_review`处于开启状态时。"
 
 #: ../../user/translating.rst:70
 msgid ""
