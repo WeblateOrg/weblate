@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 07:40+0000\n"
-"PO-Revision-Date: 2024-11-14 15:05+0000\n"
+"PO-Revision-Date: 2024-11-16 04:00+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -5113,6 +5113,8 @@ msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
+"Zadajte názov Google Cloud Storage Bucket, ktorý sa používa na ukladanie "
+"súborov slovníka."
 
 #: weblate/machinery/forms.py:234
 #, python-format
@@ -8865,16 +8867,12 @@ msgid "Copy the machine translation of a given number to current translation."
 msgstr "Vytvoriť novú súčasť prekladu z nahraného dokumentu na preklad."
 
 #: weblate/templates/keyboard-shortcuts.html:123
-#, fuzzy
-#| msgid "Ignore failing check"
 msgid "Ignore one item in the list of failing checks."
-msgstr "Ignorovať neúspešnú kontrolu"
+msgstr "Ignorovať jednu položku v zozname neúspešných kontrol."
 
 #: weblate/templates/keyboard-shortcuts.html:130
-#, fuzzy
-#| msgid "Alt+N - Shows nearby strings tab"
 msgid "Shows the Nearby strings tab."
-msgstr "Alt+N -  Zobrazí záložku s okolitými reťazcami"
+msgstr "Zobraziť kartu Okolité reťazce."
 
 #: weblate/templates/keyboard-shortcuts.html:137
 msgid "Focus on search field."
@@ -11673,12 +11671,17 @@ msgid ""
 "Using monolingual files as a glossary is not recommended because adding "
 "strings to target language only is not possible in monolingual files."
 msgstr ""
+"Použitie jednojazyčných súborov ako slovníka sa neodporúča, pretože v "
+"jednojazyčných súboroch nie je možné pridávať reťazce iba do cieľového "
+"jazyka."
 
 #: weblate/templates/trans/alert/monolingualglossary.html:6
 msgid ""
 "You can continue using the glossary this way, but some features will be "
 "unavailable."
 msgstr ""
+"Môžete týmto spôsobom slovník používať aj naďalej, ale niektoré funkcie "
+"nebudú k dispozícii."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
@@ -12072,6 +12075,8 @@ msgid ""
 "The glossary component automatically maintains translation for each language "
 "used in the project, a removed language might be re-added again."
 msgstr ""
+"Súčasť slovníka automaticky udržuje preklad pre každý jazyk použitý v "
+"projekte, odstránený jazyk môže byť znovu pridaný."
 
 #: weblate/templates/trans/delete-translation.html:16
 #, python-format
@@ -14651,16 +14656,11 @@ msgid "Key filter"
 msgstr "Filter kľúčov"
 
 #: weblate/trans/models/component.py:780
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "file mask."
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
 msgstr ""
-"Regulárny výraz používaný na filtrovanie prekladových súborov pri skenovaní "
-"masky súboru."
+"Regulárny výraz na filtrovanie kľúčov. Dostupné iba pre jednojazyčné formáty."
 
 #: weblate/trans/models/component.py:1536
 msgid ""
@@ -15115,14 +15115,9 @@ msgid "Failed adding string, no translation found."
 msgstr "Pridanie reťazca zlyhalo, nenašiel sa žiadny preklad."
 
 #: weblate/trans/models/unit.py:1053
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
-msgstr ""
-"Reťazec nemohol byť rozšírený do %(component)s, pretože si to vyžaduje "
-"súhlas s dohodou s prispievateľom."
+msgstr "Reťazec nemohol byť rozšírený do %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1748
 msgid "Unmark as read-only"
@@ -15572,16 +15567,12 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Maska súboru neobsahuje * ako zástupný znak jazyka!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatic acceptance as it would permit "
 "users to vote on their own suggestions."
 msgstr ""
-"Hodnota 1 nie je povolená pre automatické prijatie, pretože by používateľom "
-"umožnila hlasovať o vlastných návrhoch."
+"Hodnota 1 nie je povolená pre automatické prijatie, pretože každý používateľ "
+"dá svojmu návrhu jeden hlas."
 
 #: weblate/trans/validators.py:42
 #, python-format
