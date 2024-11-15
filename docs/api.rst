@@ -1297,6 +1297,7 @@ Components
     :>json string suggestion_voting: :ref:`component-suggestion_voting`
     :>json string suggestion_autoaccept: :ref:`component-suggestion_autoaccept`
     :>json string push_on_commit: :ref:`component-push_on_commit`
+    :>json bool locked: Whether component is locked, this field is read-only; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json string commit_pending_age: :ref:`component-commit_pending_age`
     :>json string auto_lock_error: :ref:`component-auto_lock_error`
     :>json string language_regex: :ref:`component-language_regex`

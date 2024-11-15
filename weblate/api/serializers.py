@@ -496,6 +496,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
     push_branch = LinkedField(
         required=False, allow_blank=True, max_length=BRANCH_LENGTH
     )
+    locked = serializers.BooleanField(read_only=True)
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -595,6 +596,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "disable_autoshare",
             "category",
             "linked_component",
+            "locked",
         )
         extra_kwargs = {
             "url": {
