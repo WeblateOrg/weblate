@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-14 15:17+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-11-16 04:00+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -44280,8 +44280,8 @@ msgstr ""
 "vertaalde tekenreeksen moeten worden opgenomen (bijvoorbeeld "
 ":ref:`aresource`), terwijl andere verwachten dat alle sleutels aanwezig zijn "
 "(bijvoorbeeld :ref:`gettext`). De op document gebaseerde indelingen ("
-"bijvoorbeeld :ref:`odf`) beginnen met ene kopie van het brondocument en alle "
-"tekenreeksen gemarkeerd dat zij bewerken nodig hebben.  In sommige situaties "
+"bijvoorbeeld :ref:`odf`) beginnen met een kopie van het brondocument en alle "
+"tekenreeksen gemarkeerd dat zij bewerken nodig hebben. In sommige situaties "
 "is dit niet echt afhankelijk van de indeling, maar meer van het framewerk "
 "dat u gebruikt om de vertaling af te handelen (bijvoorbeeld met :ref:`json`)."
 
@@ -44601,15 +44601,16 @@ msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 
 #: ../../faq.rst:29
 msgid "How to access repositories over SSH?"
-msgstr ""
+msgstr "Hoe toegang tot opslagruimten met SSH?"
 
 #: ../../faq.rst:31
 msgid "Please see :ref:`vcs-repos` for info on setting up SSH keys."
 msgstr ""
+"Bekijk :ref:`vcs-repos` voor informatie over het instellen van SSH-sleutels."
 
 #: ../../faq.rst:36
 msgid "How to fix merge conflicts in translations?"
-msgstr ""
+msgstr "Hoe conflicten met samenvoegen te repareren in vertalingen?"
 
 #: ../../faq.rst:38
 msgid ""
@@ -44621,6 +44622,14 @@ msgid ""
 "maintenance` in the :guilabel:`Manage` menu) and merge the repository (if "
 "automatic push is not on)."
 msgstr ""
+"Conflicten met samenvoegen komen van tijd tot tijd voor als het "
+"vertaalbestand tegelijkertijd is gewijzigd in zowel Weblate als de "
+"opslagruimte upstream. U kunt dit gewoonlijk vermijden door vertalingen van "
+"Weblate samen te voegen voordat u de wijzigingen in de vertaalbestanden "
+"maakt (bijv. voor het uitvoeren van msgmerge). Vertel Weblate eenvoudigweg "
+"om alle openstaande vertalingen in te dienen (u kunt dat doen in :guilabel:`"
+"Onderhoud opslagruimte` in het menu :guilabel:`Beheren`) en voeg de "
+"opslagruimte samen (als automatisch pushen niet is ingeschakeld)."
 
 #: ../../faq.rst:46
 msgid ""
@@ -44630,6 +44639,12 @@ msgid ""
 "Weblate will be able to use the merged version without any other special "
 "actions."
 msgstr ""
+"Als u al een conflict met samenvoegen bent tegengekomen, is de "
+"gemakkelijkste manier om alle conflicten lokaal op uw machine op te lossen, "
+"Weblate toe te voegen als een opslagruimte op afstand, het samenvoegen met "
+"upstream en eventuele conflicten op te lossen. Als u eenmaal de wijzigingen "
+"terug hebt gepusht, zal Weblate in staat zijn de samengevoegde versie te "
+"gebruiken, zonder enige andere speciale acties."
 
 #: ../../faq.rst:54
 msgid ""
@@ -44637,18 +44652,26 @@ msgid ""
 "authentication. When using the built-in :ref:`git-exporter` in Weblate, you "
 "authenticate with your username and the API key."
 msgstr ""
+"Afhankelijk van uw opstelling zou de toegang tot de opslagruimte van Weblate "
+"authenticatie kunnen vereisen. Met het gebruiken van de ingebouwde :ref:`git-"
+"exporter` in Weblate, kunt u authenticeren met uw gebruikersnaam en de API-"
+"sleutel."
 
 #: ../../faq.rst:93
 msgid ""
 "If you're using multiple branches in Weblate, you can do the same to all of "
 "them:"
 msgstr ""
+"Als u meerdere takken gebruikt in Weblate, kunt u hetzelfde voor ze allemaal "
+"doen:"
 
 #: ../../faq.rst:117
 msgid ""
 "In case of gettext PO files, there is a way to merge conflicts in a semi-"
 "automatic way:"
 msgstr ""
+"In het geval van gettext PO-bestanden is er een manier om conflicten samen "
+"te voegen op een semi-automatische manier:"
 
 #: ../../faq.rst:119
 msgid ""
@@ -44656,6 +44679,10 @@ msgid ""
 "second fresh local clone of the upstream Git repository (i. e. you need two "
 "copies of the upstream Git repository: An intact and a working copy):"
 msgstr ""
+"Haal een lokale kloon op van de Weblate Git opslagruimte en behoud die. Haal "
+"ook een tweede verse lokale kloon op van de opslagruimte van Git upstream ("
+"d.i. u heeft twee kopieën nodig van de opslagruimte van Git upstream: Een "
+"intacte en een werkkopie):"
 
 #: ../../faq.rst:150
 msgid ""
@@ -44667,7 +44694,7 @@ msgstr ""
 
 #: ../../faq.rst:156
 msgid "How do I translate several branches at once?"
-msgstr ""
+msgstr "Hoe vertaal ik verscheidene takken tegelijkertijd?"
 
 #: ../../faq.rst:158
 msgid ""
@@ -44678,22 +44705,34 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
+"Weblate ondersteunt het pushen van wijzigingen in vertalingen binnen een "
+":ref:`project`. Voor elk :ref:`component` dat is ingeschakeld (het standaard "
+"gedrag), worden de gemaakte wijzigingen automatisch verspreid naar andere. "
+"Op deze manier zijn vertalingen altijd gesynchroniseerd, zelfs als de takken "
+"zelf al behoorlijk van elkaar verschillen, en het niet mogelijk is om de "
+"wijzigingen in de vertalingen eenvoudigweg tussen hen samen te voegen."
 
 #: ../../faq.rst:164
 msgid ""
 "Once you merge changes from Weblate, you might have to merge these branches "
 "(depending on your development workflow) discarding differences:"
 msgstr ""
+"Als u eenmaal de wijzigingen uit Weblate hebt samengevoegd, zou u misschien "
+"deze takken nog moeten samenvoegen (afhankelijk van uw werkwijze bij het "
+"ontwikkelen) en verschillen negeren:"
 
 #: ../../faq.rst:176
 msgid "How to translate multi-platform projects?"
-msgstr ""
+msgstr "Hoe projecten op meerdere platforms te vertalen?"
 
 #: ../../faq.rst:178
 msgid ""
 "Weblate supports a wide range of file formats (see :doc:`formats`) and the "
 "easiest approach is to use the native format for each platform."
 msgstr ""
+"Weblate ondersteunt ene breed bereik aan bestandsindelingen (bekijk "
+":doc:`formats`) en de gemakkelijkste benadering is om de eigen indeling voor "
+"elk platform te gebruiken."
 
 #: ../../faq.rst:181
 msgid ""
@@ -44702,10 +44741,15 @@ msgid ""
 "propagation feature (turned on by default, and can be turned off in the :ref:"
 "`component`) to translate strings for all platforms at once."
 msgstr ""
+"Als u eenmaal alle vertaalbestanden voor een platform als onderdelen in een "
+"project hebt toegevoegd (bekijk :ref:`adding-projects`), kunt u de "
+"mogelijkheid voor het verspreide van de vertaling gebruiken (standaard "
+"ingeschakeld en kan worden uitgeschakeld in het :ref:`component`) om de "
+"tekenreeksen voor alle platforms in een keer te vertalen."
 
 #: ../../faq.rst:193
 msgid "How to export the Git repository that Weblate uses?"
-msgstr ""
+msgstr "Hoe de opslagruimte van Git, die Weblate gebruikt, te exporteren?"
 
 #: ../../faq.rst:195
 msgid ""
@@ -44713,45 +44757,63 @@ msgid ""
 "`DATA_DIR` directory and is named :file:`vcs/<project>/<component>/`. If you "
 "have SSH access to this machine, you can use the repository directly."
 msgstr ""
+"Er is niets speciaals aan deze opslagruimte, hij staat in de map "
+":setting:`DATA_DIR` en is genaamd :file:`vcs/<project>/<component>/`. Als u "
+"toegang via SSH hebt tot deze machine, kunt u de opslagruimte direct "
+"gebruiken."
 
 #: ../../faq.rst:199
 msgid ""
 "For anonymous access, you might want to run a Git server and let it serve "
 "the repository to the outside world."
 msgstr ""
+"Voor anonieme toegang zou u misschien een server voor Git willen uitvoeren "
+"en die de opslagruimte laten serveren aan de buitenwereld."
 
 #: ../../faq.rst:202
 msgid ""
 "Alternatively, you can use :ref:`git-exporter` inside Weblate to automate "
 "this."
 msgstr ""
+"Als alternatief kunt u :ref:`git-exporter` gebruiken binnen Weblate om dit "
+"te automatiseren."
 
 #: ../../faq.rst:205
 msgid "What are the options for pushing changes back upstream?"
 msgstr ""
+"Wat zijn de opties voor het pushen van de wijzigingen terug naar upstream?"
 
 #: ../../faq.rst:207
 msgid ""
 "This heavily depends on your setup, Weblate is quite flexible in this area. "
 "Here are examples of some workflows used with Weblate:"
 msgstr ""
+"Dat is in grote mate afhankelijk van uw opstelling, Weblate is behoorlijk "
+"flexibel op dat gebied. Hier zijn enkele voorbeelden van enkele werkwijzen "
+"die worden gebruikt met Weblate:"
 
 #: ../../faq.rst:210
 msgid ""
 "Weblate automatically pushes and merges changes (see :ref:`auto-workflow`)."
 msgstr ""
+"Weblate automatisch pusht en voegt wijzigingen samen (bekijk :ref:`auto-"
+"workflow`)."
 
 #: ../../faq.rst:211
 msgid ""
 "You manually tell Weblate to push (it needs push access to the upstream "
 "repository)."
 msgstr ""
+"U vertelt Weblate handmatig om te pushen (het heeft toegang voor pushen "
+"nodig in de opslagruimte upstream)."
 
 #: ../../faq.rst:212
 msgid ""
 "Somebody manually merges changes from the Weblate git repository into the "
 "upstream repository."
 msgstr ""
+"Iemand voegt handmatig de wijzigingen samen vanuit de Weblate Git "
+"opslagruimte met de opslagruimte upstream."
 
 #: ../../faq.rst:214
 msgid ""
@@ -44759,48 +44821,59 @@ msgid ""
 "commits), merges changes, and tells Weblate to reset the content in the "
 "upstream repository."
 msgstr ""
+"Iemand herschrijft de geschiedenis die wordt geproduceerd door Weblate ("
+"bijv. door indieningen voor samenvoegen te elimineren), voegt wijzigingen "
+"samen, en vertelt Weblate om de inhoud in de opslagruimte upstream te "
+"herstellen."
 
 #: ../../faq.rst:218
 msgid "Of course you are free to mix all of these as you wish."
-msgstr ""
+msgstr "Natuurlijk staat het u vrij om ze allemaal te mixen als u dat wilt."
 
 #: ../../faq.rst:223
 msgid ""
 "How can I limit Weblate access to only translations, without exposing source "
 "code to it?"
 msgstr ""
+"Hoe kan ik toegang tot Weblate beperken tot alleen vertalingen, zonder de "
+"broncode ervoor weer te geven?"
 
 #: ../../faq.rst:225
 msgid ""
 "You can use `git submodule`_ for separating translations from source code "
 "while still having them under version control."
 msgstr ""
+"U kunt `git submodule`_ gebruiken voor het afscheiden van de vertalingen van "
+"de broncode, terwijl u ze nog steeds onder versiebeheer houdt."
 
 #: ../../faq.rst:228
 msgid "Create a repository with your translation files."
-msgstr ""
+msgstr "Maak een opslagruimte met uw bestanden voor de vertalingen."
 
 #: ../../faq.rst:229
 msgid "Add this as a submodule to your code:"
-msgstr ""
+msgstr "Voeg deze als een submodule toe aan uw code:"
 
 #: ../../faq.rst:235
 msgid ""
 "Link Weblate to this repository, it no longer needs access to the repository "
 "containing your source code."
 msgstr ""
+"Koppel Weblate aan deze opslagruimte, het heeft niet langer toegang nodig "
+"tot de opslagruimte die uw broncode bevat."
 
 #: ../../faq.rst:237
 msgid "You can update the main repository with translations from Weblate by:"
 msgstr ""
+"U kunt de hoofdopslagruimte bijwerken met vertalingen vanuit Weblate met:"
 
 #: ../../faq.rst:243
 msgid "Please consult the `git submodule`_ documentation for more details."
-msgstr ""
+msgstr "Raadpleeg de documentatie voor `git submodule`_ voor meer details."
 
 #: ../../faq.rst:250
 msgid "How can I check whether my Weblate is set up properly?"
-msgstr ""
+msgstr "Hoe kan ik controleren of mijn Weblate juist is ingesteld?"
 
 #: ../../faq.rst:252
 msgid ""
@@ -44808,6 +44881,9 @@ msgid ""
 "admin interface, just follow the :guilabel:`Performance report` link in the "
 "admin interface, or open the ``/manage/performance/`` URL directly."
 msgstr ""
+"Weblate bevat een set controles voor de configuratie die u kunt zien in de "
+"beheerinterface, volg gewoon de koppeling :guilabel:`Rapport prestaties` in "
+"de beheerinterface, of open de URL ``/manage/performance/`` direct."
 
 #: ../../faq.rst:258
 msgid ":ref:`monitoring`, :ref:`monitoring-celery`"
@@ -44815,19 +44891,23 @@ msgstr ":ref:`monitoring`, :ref:`monitoring-celery`"
 
 #: ../../faq.rst:263
 msgid "Why are all commits committed by Weblate <noreply@weblate.org>?"
-msgstr ""
+msgstr "Waarom zijn alle commits ingediend door Weblate <noreply@weblate.org>?"
 
 #: ../../faq.rst:265
 msgid ""
 "This is the default committer name, configured by :setting:"
 "`DEFAULT_COMMITER_EMAIL` and :setting:`DEFAULT_COMMITER_NAME`."
 msgstr ""
+"Dat is de standaard naam voor de indiener, geconfigureerd door "
+":setting:`DEFAULT_COMMITER_EMAIL` en :setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../faq.rst:268
 msgid ""
 "The author of every commit (if the underlying VCS supports it) is still "
 "recorded correctly as the user that made the translation."
 msgstr ""
+"De auteur van elke commit (als het onderliggende VCS dat ondersteunt) wordt "
+"nog steeds correct vermeld als de gebruiker die de vertaling maakte."
 
 #: ../../faq.rst:271
 msgid ""
@@ -44836,10 +44916,16 @@ msgid ""
 "user (see :setting:`ANONYMOUS_USER_NAME`). You can change the name and e-"
 "mail in the management interface."
 msgstr ""
+"Voor commits waarvan geen auteur bekend is (bijvoorbeeld anonieme suggesties "
+"of resultaten van machinevertalingen), wordt het auteurschap geattribueerd "
+"aan de anonieme gebruiker (bekijk :setting:`ANONYMOUS_USER_NAME`). U kunt de "
+"naam en de e-mail wijzigen in de beheerinterface."
 
 #: ../../faq.rst:281
 msgid "How to move files in the repository without losing history in Weblate?"
 msgstr ""
+"Hoe bestanden te verplaatsen in de opslagruimte, zonder geschiedenis in "
+"Weblate te verliezen?"
 
 #: ../../faq.rst:283
 msgid ""
@@ -44849,10 +44935,19 @@ msgid ""
 "is updated, but the component configuration still points to the old files. "
 "This makes Weblate assume that it should delete all the translations."
 msgstr ""
+"Voor het behouden van de geschiedenis, opmerkingen of schermafdrukken die "
+"zijn gekoppeld aan tekenreeksen waarvan de locatie van de bestanden is "
+"gewijzigd, moet u ervoor zorgen dat deze tekenreeksen nooit worden "
+"verwijderd uit Weblate. Deze verwijderingen kunnen voorkomen in het geval de "
+"opslagruimte van Weblate wordt bijgewerkt, maar de configuratie van het "
+"onderdeel wijst nog steeds naar de oude bestanden. Dat zorgt ervoor dat "
+"Weblate ervan uitgaat dat het alle vertalingen zou moeten verwijderen."
 
 #: ../../faq.rst:289
 msgid "The solution to this is to perform the operation in sync with Weblate:"
 msgstr ""
+"De oplossing is om deze bewerking uit te voeren in synchronisatie met "
+"Weblate:"
 
 #: ../../faq.rst:291
 msgid "Lock the affected component in Weblate."
@@ -44869,12 +44964,16 @@ msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
+"Schakel het ontvangen van webhooks uit voor het :ref:`project`; dat voorkomt "
+"dat Weblate wijzigingen in de opslagruimte onmiddellijk ziet."
 
 #: ../../faq.rst:294
 msgid ""
 "Do any needed changes in the repo (for example using :command:`git mv`), "
 "push them to the upstream repository."
 msgstr ""
+"Maak de nodige wijzigingen in de opslagruimte (gebruik bijvoorbeeld "
+":command:`git mv`), push ze naar de opslagruimte upstream."
 
 #: ../../faq.rst:295
 msgid ""
@@ -44882,6 +44981,10 @@ msgid ""
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
+"Wijzig het :ref:`component` om overeen te komen met de nieuwe opstelling; "
+"bij het wijzigen van de configuratie zal Weblate de bijgewerkte opslagruimte "
+"ophalen en de gewijzigde locaties opmerken, terwijl de bestaande "
+"tekenreeksen worden behouden."
 
 #: ../../faq.rst:296
 msgid "Unlock the component and re-enable hooks in the project configuration."
@@ -44894,22 +44997,28 @@ msgid ""
 ":ref:`projectbackup` might be useful to perform prior to such disrupting "
 "changes."
 msgstr ""
+":ref:`projectbackup` zou nuttig kunnen zijn om uit te voeren voordat "
+"dergelijke ingrijpende wijzigingen worden gemaakt."
 
 #: ../../faq.rst:306
 msgid "How do I review the translations of others?"
-msgstr ""
+msgstr "Hoe beoordeel ik de vertalingen van anderen?"
 
 #: ../../faq.rst:308
 msgid ""
 "There are several review based workflows available in Weblate, see :ref:"
 "`workflows`."
 msgstr ""
+"Er zijn verscheidene op beoordelen gebaseerde werkwijzen beschikbaar in "
+"Weblate, bekijk :ref:`workflows`."
 
 #: ../../faq.rst:309
 msgid ""
 "You can subscribe to any changes made in :ref:`subscriptions` and then check "
 "others contributions as they come in by e-mail."
 msgstr ""
+"U kunt wijzigingen volgen van :ref:`subscriptions` en dan bijdragen van "
+"anderen controleren als zij per e-mail arriveren."
 
 #: ../../faq.rst:311
 msgid ""
@@ -44917,6 +45026,9 @@ msgid ""
 "where you can choose to browse translations made by others since a given "
 "date."
 msgstr ""
+"Er is een programma voor beoordelen beschikbaar aan de onderzijde van de "
+"weergave van de vertaling, waar u kunt kiezen om door vertalingen te "
+"bladeren die zijn gemaakt door anderen vanaf een bepaalde datum."
 
 #: ../../faq.rst:316
 msgid ":ref:`workflows`"
@@ -44924,17 +45036,20 @@ msgstr ":ref:`workflows`"
 
 #: ../../faq.rst:319
 msgid "How do I provide feedback on a source string?"
-msgstr ""
+msgstr "Hoe geef ik terugkoppeling over een brontekenreeks?"
 
 #: ../../faq.rst:321
 msgid ""
 "On context tabs below translation, you can use the :guilabel:`Comments` tab "
 "to provide feedback on a source string, or discuss it with other translators."
 msgstr ""
+"Op tabs voor de context onder de vertalingen, kunt u de tab "
+":guilabel:`Opmerkingen` gebruiken om terugkoppeling te geven over een "
+"brontekenreeks, of die bespreken met andere vertalers."
 
 #: ../../faq.rst:330
 msgid "How can I use existing translations while translating?"
-msgstr ""
+msgstr "Hoe kan ik bestaande vertalingen gebruiken bij vertalen?"
 
 #: ../../faq.rst:332
 msgid ""
@@ -44955,6 +45070,10 @@ msgid ""
 "or translations needing review. This is the best approach for a one-time "
 "translation using a compendium or a similar translation database."
 msgstr ""
+"Gebruik de mogelijkheid voor het importeren om een compendium te laden als "
+"vertalingen, suggesties of vertalingen die beoordeling nodig hebben. Dat is "
+"de beste benadering voor een eenmalige vertaling met een compendium of een "
+"soortgelijke database met vertalingen."
 
 #: ../../faq.rst:337
 msgid ""
@@ -44962,6 +45081,9 @@ msgid ""
 "Weblate use it. This is good when you want to use it several times during "
 "translation."
 msgstr ""
+"U kunt een :ref:`mt-tmserver` instellen met alle databases die u hebt en "
+"Weblate die laten gebruiken. Dat is goed als u het verscheidene keren wilt "
+"gebruiken bij het vertalen."
 
 #: ../../faq.rst:340
 msgid ""
@@ -44969,15 +45091,19 @@ msgid ""
 "instance, which will make it automatically pick up translations from other "
 "projects as well."
 msgstr ""
+"Een andere optie is om alle gerelateerde projecten te vertalen in een enkele "
+"instantie van Weblate, die ook automatisch vertalingen oppikt vanuit andere "
+"projecten."
 
 #: ../../faq.rst:346
 msgid ""
 ":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
 msgstr ""
+":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
 
 #: ../../faq.rst:353
 msgid "Does Weblate update translation files besides translations?"
-msgstr ""
+msgstr "Werkt Weblate vertaalbestanden bij naast de vertalingen?"
 
 #: ../../faq.rst:355
 msgid ""
@@ -44986,6 +45112,10 @@ msgid ""
 "want to keep the file formatted your way, please use a pre-commit hook for "
 "that."
 msgstr ""
+"Weblate probeert de wijzigingen in vertaalbestanden tot een minimum te "
+"beperken. Voor sommige bestandsindelingen zou dat helaas leiden tot het "
+"opnieuw opmaken van het bestand. Als u het bestand opgemaakt wilt houden "
+"zoals u dat wilt, gebruik daar dan een hook voor pre-commit voor."
 
 #: ../../faq.rst:361
 msgid ":ref:`updating-target-files`"
@@ -44993,7 +45123,7 @@ msgstr ":ref:`updating-target-files`"
 
 #: ../../faq.rst:365
 msgid "Where do language definitions come from and how can I add my own?"
-msgstr ""
+msgstr "Waar komende taaldefinities vandaan en hoe kan ik mijn eigen toevoegen?"
 
 #: ../../faq.rst:367
 msgid ""
@@ -45001,39 +45131,52 @@ msgid ""
 "Translate-toolkit. This covers more than 150 languages and includes info "
 "about plural forms or text direction."
 msgstr ""
+"De basisset met taaldefinities is opgenomen in Weblate en de Translate-"
+"Toolkit. Dit dekt meer dan 150 talen af en bevat ook informatie over "
+"meervoudsvormen of tekstrichting."
 
 #: ../../faq.rst:371
 msgid ""
 "You are free to define your own languages in the administrative interface, "
 "you just need to provide info about it."
 msgstr ""
+"Het staat u vrij om uw eigen talen in de beheerinterface te definiëren, u "
+"moet alleen de informatie ervoor verschaffen."
 
 #: ../../faq.rst:379
 msgid "Can Weblate highlight changes in a fuzzy string?"
-msgstr ""
+msgstr "Kan Weblate wijzigingen in een fuzzy tekenreeks accentueren?"
 
 #: ../../faq.rst:381
 msgid ""
 "Weblate supports this, however it needs the data to show the difference."
 msgstr ""
+"Weblate ondersteunt dat, het heeft echter de gegevens nodig om het verschil "
+"te laten zien."
 
 #: ../../faq.rst:383
 msgid ""
 "For Gettext PO files, you have to pass the parameter ``--previous`` to :"
 "command:`msgmerge` when updating PO files, for example:"
 msgstr ""
+"Voor Gettext PO-bestanden moet u de parameter ``--previous`` doorgeven aan "
+":command:`msgmerge` bij het bijwerken van PO-bestanden, bijvoorbeeld:"
 
 #: ../../faq.rst:390
 msgid ""
 "For monolingual translations, Weblate can find the previous string by ID, so "
 "it shows the differences automatically."
 msgstr ""
+"Voor eentalige vertalingen kan Weblate de vorige tekenreeks opzoeken op zijn "
+"ID, het geeft dus automatisch de verschillen weer."
 
 #: ../../faq.rst:395
 msgid ""
 "Why does Weblate still show old translation strings when I've updated the "
 "template?"
 msgstr ""
+"Waarom laat Weblate nog steeds oude tekenreeksen van de vertaling zien als "
+"ik het sjabloon heb bijgewerkt?"
 
 #: ../../faq.rst:397
 msgid ""
@@ -45043,6 +45186,11 @@ msgid ""
 "simply have to do this manually and push changes to the repository, Weblate "
 "will then pick up the changes automatically."
 msgstr ""
+"Weblate probeert op geen enkele andere wijze de vertaalbestanden te "
+"manipuleren dan alleen het voor vertalers mogelijk maken om te vertalen. Het "
+"werkt dus de vertaalbare bestanden niet bij als het sjabloon of de broncode "
+"zijn gewijzigd. U moet dat eenvoudigweg handmatig doen en wijzigingen naar "
+"de opslagruimte pushen, Weblate zal dan automatisch de wijzigingen oppikken."
 
 #: ../../faq.rst:405
 msgid ""
@@ -45050,12 +45198,17 @@ msgid ""
 "translation files, as otherwise you will usually end up with some conflicts "
 "to merge."
 msgstr ""
+"Het is gewoonlijk een goed idee om wijzigingen die gemaakt zijn in Weblate "
+"samen te voegen, voordat vertaalbestanden worden bijgewerkt, omdat u anders "
+"gewoonlijk enkele conflicten met samenvoegen zult tegenkomen."
 
 #: ../../faq.rst:411
 msgid ""
 ":ref:`translations-update`, :ref:`updating-target-files`, :doc:`/devel/"
 "gettext`, :doc:`/devel/sphinx`"
 msgstr ""
+":ref:`translations-update`, :ref:`updating-target-files`, :doc:`/devel/"
+"gettext`, :doc:`/devel/sphinx`"
 
 #: ../../faq.rst:417
 msgid "How to handle renaming translation files?"
@@ -45067,10 +45220,14 @@ msgid ""
 "as removal and adding of the files. This can lead to losing strings history, "
 "comments and suggestions."
 msgstr ""
+"Bij het hernoemen van bestanden in de opslagruimte, kan het gebeuren dat "
+"Weblate dat ziet als het verwijderen en toevoegen van de bestanden. Dat kan "
+"leiden tot het verliezen van geschiedenis, opmerkingen en suggesties voor "
+"tekenreeksen."
 
 #: ../../faq.rst:423
 msgid "To avoid that, perform renaming in following steps:"
-msgstr ""
+msgstr "Voer, om dat te voorkomen, het hernoemen uit in de volgende stappen:"
 
 #: ../../faq.rst:425
 msgid "Lock the translation component in :ref:`manage-vcs`."
@@ -45088,6 +45245,8 @@ msgstr ""
 #: ../../faq.rst:428
 msgid "Disable receiving updates via hooks using :ref:`project-enable_hooks`."
 msgstr ""
+"Schakel het ontvangen van bijwerken via hooks uit met :ref:`project-"
+"enable_hooks`."
 
 #: ../../faq.rst:429
 msgid "Perform the renaming of the files in the repository."
@@ -45105,29 +45264,31 @@ msgstr "Schakel bijwerken van hooks in en ontgrendel het onderdeel."
 
 #: ../../faq.rst:438
 msgid "Troubleshooting"
-msgstr ""
+msgstr "Probleemoplossing"
 
 #: ../../faq.rst:441
 msgid "Requests sometimes fail with \"too many open files\" error"
-msgstr ""
+msgstr "Verzoeken mislukken soms met de fout \"teveel geopende bestanden\""
 
 #: ../../faq.rst:443
 msgid ""
 "This happens sometimes when your Git repository grows too much and you have "
 "many of them. Compressing the Git repositories will improve this situation."
 msgstr ""
+"Dat gebeurt soms als uw opslagruimte van Git teveel groeit en u er veel van "
+"heeft. Comprimeren van de opslagruimten van Git zal deze situatie verbeteren."
 
 #: ../../faq.rst:446
 msgid "The easiest way to do this is to run:"
-msgstr ""
+msgstr "De gemakkelijkste manier om dit te doen is door uit te voeren:"
 
 #: ../../faq.rst:461 ../../vcs.rst:593
 msgid ":setting:`DATA_DIR`"
-msgstr ""
+msgstr ":setting:`DATA_DIR`"
 
 #: ../../faq.rst:465
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
-msgstr ""
+msgstr "Wij toegang tot de site krijg ik een fout \"Bad Request (400)\""
 
 #: ../../faq.rst:467
 msgid ""
@@ -45135,6 +45296,9 @@ msgid ""
 "`ALLOWED_HOSTS`. It needs to contain all hostnames you want to access on "
 "your Weblate. For example:"
 msgstr ""
+"Dit wordt hoogst waarschijnlijk veroorzaakt door een niet juist "
+"geconfigureerde :setting:`ALLOWED_HOSTS`. Het moet alle hostnamen bevatten "
+"waarvandaan u toegang wilt tot uw Weblate. Bijvoorbeeld:"
 
 #: ../../faq.rst:476
 msgid ":ref:`production-hosts`"
@@ -45142,7 +45306,7 @@ msgstr ":ref:`production-hosts`"
 
 #: ../../faq.rst:481
 msgid "What does mean \"There are more files for the single language (en)\"?"
-msgstr ""
+msgstr "Wat betekent \"There are more files for the single language (en)\"?"
 
 #: ../../faq.rst:483
 msgid ""
@@ -45150,6 +45314,10 @@ msgid ""
 "Weblate keeps track of source strings and reserves source language for this. "
 "The additional file for same language is not processed."
 msgstr ""
+"Dat gebeurt gewoonlijk wanneer u een vertaalbestand heeft voor de brontaal. "
+"Weblate probeert de brontekenreeksen bij te houden en reserveert daar de "
+"brontaal voor. Het aanvullende bestand voor dezelfde taal wordt niet "
+"verwerkt."
 
 #: ../../faq.rst:487
 msgid ""
@@ -45187,6 +45355,9 @@ msgid ""
 "case the most likely reason is that several files map to single language in "
 "Weblate."
 msgstr ""
+"U zou ook een soortgelijke foutmelding kunnen krijgen voor andere talen. In "
+"dat geval is de meest waarschijnlijke reden dat verscheidene bestanden "
+"verwijzen naar een enkele taal in Weblate."
 
 #: ../../faq.rst:497
 msgid ""
@@ -45195,6 +45366,10 @@ msgid ""
 "generic codes (``fr`` and ``fr_FR``). See :ref:`language-parsing-codes` for "
 "more details."
 msgstr ""
+"Dit kan worden veroorzaakt door verouderde taalcodes te gebruiken samen met "
+"nieuwe (``ja`` en ``jp`` voor Japans) of inclusief zowel de landspecifieke "
+"als algemene codes (``fr`` en ``fr_FR``). Bekijk :ref:`language-parsing-"
+"codes` voor meer details."
 
 #: ../../faq.rst:503
 msgid "Features"
@@ -45202,7 +45377,7 @@ msgstr "Mogelijkheden"
 
 #: ../../faq.rst:508
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
-msgstr ""
+msgstr "Ondersteunt Weblate andere VCS-en dan Git en Mercurial?"
 
 #: ../../faq.rst:510
 msgid ""
@@ -45211,14 +45386,20 @@ msgid ""
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
+"Weblate heeft momenteel geen eigen ondersteuning voor iets anders dan :ref"
+":`vcs-git` (met uitgebreide ondersteuning voor :ref:`vcs-github`, :ref:`vcs-"
+"gerrit` en :ref:`vcs-git-svn`) en :ref:`vcs-mercurial`, maar het is mogelijk "
+"om backends voor andere VCS-en te schrijven."
 
 #: ../../faq.rst:515
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
 msgstr ""
+"U kunt ook :ref:`vcs-git-helpers` in Git gebruiken voor toegang tot andere "
+"VCS-en."
 
 #: ../../faq.rst:517
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
-msgstr ""
+msgstr "Weblate ondersteunt ook VCS-loze bewerkingen, bekijk :ref:`vcs-local`."
 
 #: ../../faq.rst:521
 msgid ""
@@ -45226,10 +45407,14 @@ msgid ""
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
+"Voor eigen ondersteuning van andere VCS-en vereist Weblate het gebruik van "
+"een gedistribueerd VCS, en zou mogelijk kunnen worden aangepast om te werken "
+"met iets anders dan Git en Mercurial, maar iemand moet die ondersteuning "
+"implementeren."
 
 #: ../../faq.rst:528
 msgid "How does Weblate credit translators?"
-msgstr ""
+msgstr "Hoe attribueert Weblate vertalers?"
 
 #: ../../faq.rst:530
 msgid ""
@@ -45237,20 +45422,28 @@ msgid ""
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
+"Elke wijziging die wordt gemaakt in Weblate wordt ingediend bij het VCS "
+"onder de naam van de vertaler. Op deze manier heeft elke wijziging de juiste "
+"auteur, en u kunt het bijhouden met de standaard gereedschappen voor het VCS "
+"dat u gebruikt voor code."
 
 #: ../../faq.rst:534
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
 msgstr ""
+"Aanvullend, als de bestandsindeling van de vertaling dat ondersteunt, worden "
+"de koppen van het bestand bijgewerkt om de naam van de vertaler te bevatten."
 
 #: ../../faq.rst:539
 msgid ":wladmin:`list_translators`, :doc:`../devel/reporting`"
-msgstr ""
+msgstr ":wladmin:`list_translators`, :doc:`../devel/reporting`"
 
 #: ../../faq.rst:543
 msgid "Why does Weblate force showing all PO files in a single tree?"
 msgstr ""
+"Waarom forceert Weblate het weergeven van alle PO-bestanden in een enkele "
+"boom?"
 
 #: ../../faq.rst:545
 msgid ""
@@ -45258,6 +45451,9 @@ msgid ""
 "component. This is beneficial for translators, so they know what they are "
 "actually translating."
 msgstr ""
+"Weblate werd ontworpen op een manier waarop elk PO-bestand wordt weergegeven "
+"als een enkel onderdeel. Dat heeft voordelen voor vertalers, zij weten zo "
+"wat zij feitelijk vertalen."
 
 #: ../../faq.rst:551
 msgid ""
@@ -45269,7 +45465,7 @@ msgstr ""
 
 #: ../../faq.rst:557
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
-msgstr ""
+msgstr "Waarom gebruikt Weblate taalcodes zoals sr_Latn of zh_Hant?"
 
 #: ../../faq.rst:559
 msgid ""
@@ -45277,6 +45473,10 @@ msgid ""
 "are really different languages instead previously wrongly used modifiers "
 "(for ``@latin`` variants) or country codes (for Chinese)."
 msgstr ""
+"Dit zijn taalcodes die zijn gedefinieerd in :rfc:`5646` om beter aan te "
+"geven dat zij echt verschillende talen zijn, in plaats van de eerder "
+"gebruikte foutieve aanpassingen (voor varianten ``@latin``) of landcodes ("
+"voor Chinees)."
 
 #: ../../faq.rst:563
 msgid ""
@@ -45284,12 +45484,17 @@ msgid ""
 "one - for example ``sr@latin`` will be handled as ``sr_Latn`` or ``zh@CN`` "
 "as ``zh_Hans``."
 msgstr ""
+"Weblate begrijpt nog steeds de oude taalcodes en zal ze verwijzen naar de "
+"huidige - bijvoorbeeld ``sr@latin`` zal worden afgehandeld als ``sr_Latn`` "
+"of ``zh@CN`` als ``zh_Hans``."
 
 #: ../../faq.rst:569
 msgid ""
 "Weblate defaults to POSIX style language codes with underscore, see :ref:"
 "`languages` for more details."
 msgstr ""
+"Weblate gebruikt standaard de POSIX-stijl taalcodes met underscore, bekijk "
+":ref:`languages` voor meer details."
 
 #: ../../faq.rst:574
 msgid ""
@@ -45301,13 +45506,15 @@ msgstr ""
 
 #: ../../formats.rst:4 ../../user/files.rst:82
 msgid "Supported file formats"
-msgstr ""
+msgstr "Ondersteunde bestandsindelingen"
 
 #: ../../formats.rst:6
 msgid ""
 "Weblate supports a wide range of translation formats. Each format is "
 "slightly different and provides a different set of capabilities."
 msgstr ""
+"Weblate ondersteunt ene breed bereik aan vertaalindelingen. Elke indeling "
+"verschilt licht van andere en verschaft een andere set mogelijkheden."
 
 #: ../../formats.rst:11
 msgid ""
@@ -45316,10 +45523,15 @@ msgid ""
 "translators can additionally use whatever tools they are used to, and will "
 "more likely contribute to your project."
 msgstr ""
+"Bij het kiezen van een bestandsindeling voor uw toepassing, is het beter te "
+"blijven bij een goed ontwikkelde indeling voor de toolkit/het platform dat u "
+"gebruikt. Op die manier kunnen vertalers aanvullend de gereedschappen "
+"gebruiken waaraan zij gewend zijn en zullen waarschijnlijk sneller bijdragen "
+"aan uw project."
 
 #: ../../formats.rst:24 ../../formats.rst:511
 msgid ":doc:`tt:formats/index`"
-msgstr ""
+msgstr ":doc:`tt:formats/index`"
 
 #: ../../formats.rst:28
 msgid "Automatic detection"
@@ -45332,26 +45544,31 @@ msgid ""
 "format (JSON, YAML, properties) or file encoding, so please verify that :ref:"
 "`component-file_format` is correct before creating the component."
 msgstr ""
+"Weblate probeert de bestandsindeling te detecteren gedurende :ref:`adding-"
+"projects`. Het detecteren zou verkeerd kunnen zijn voor dezelfde "
+"serialisatie-indeling (JSON, YAML, properties) of bestandscodering, "
+"verifieer dus dat :ref:`component-file_format` correct is voordat u het "
+"onderdeel maakt."
 
 #: ../../formats.rst:38
 msgid "Translation types capabilities"
-msgstr ""
+msgstr "Mogelijkheden typen vertaling"
 
 #: ../../formats.rst:40
 msgid "Capabilities of all supported formats"
-msgstr ""
+msgstr "Mogelijkheden voor alle ondersteunde indelingen"
 
 #: ../../formats.rst:43
 msgid "Format"
-msgstr ""
+msgstr "Indeling"
 
 #: ../../formats.rst:44
 msgid "Linguality [#m]_"
-msgstr ""
+msgstr "Taalsoort [#m]_"
 
 #: ../../formats.rst:45
 msgid "Plurals [#p]_"
-msgstr ""
+msgstr "Meervoud [#p]_"
 
 #: ../../formats.rst:46
 msgid "Descriptions [#n]_"
@@ -45359,23 +45576,23 @@ msgstr "Beschrijvingen [#n]_"
 
 #: ../../formats.rst:47
 msgid "Context [#c]_"
-msgstr ""
+msgstr "Context [#c]_"
 
 #: ../../formats.rst:48
 msgid "Location [#l]_"
-msgstr ""
+msgstr "Locatie [#l]_"
 
 #: ../../formats.rst:49
 msgid "Flags [#f]_"
-msgstr ""
+msgstr "Vlaggen [#f]_"
 
 #: ../../formats.rst:50
 msgid "Additional states [#a]_"
-msgstr ""
+msgstr "Aanvullende statussen [#a]_"
 
 #: ../../formats.rst:52 ../../formats.rst:324
 msgid "bilingual"
-msgstr ""
+msgstr "tweetalig"
 
 #: ../../formats.rst:53 ../../formats.rst:54 ../../formats.rst:55
 #: ../../formats.rst:56 ../../formats.rst:61 ../../formats.rst:62
@@ -45401,16 +45618,16 @@ msgstr ""
 #: ../../user/checks.rst:1700 ../../user/checks.rst:1701
 #: ../../user/checks.rst:1702 ../../user/checks.rst:1703
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: ../../formats.rst:57 ../../formats.rst:65
 msgid "yes [#po]_"
-msgstr ""
+msgstr "ja [#po]_"
 
 #: ../../formats.rst:58 ../../formats.rst:66 ../../formats.rst:114
 #: ../../formats.rst:210 ../../formats.rst:258
 msgid "needs editing"
-msgstr ""
+msgstr "bewerken nodig"
 
 #: ../../formats.rst:59
 msgid ":ref:`mono_gettext`"
@@ -45428,7 +45645,7 @@ msgstr ":ref:`mono_gettext`"
 #: ../../formats.rst:316 ../../formats.rst:332 ../../formats.rst:340
 #: ../../formats.rst:348
 msgid "mono"
-msgstr ""
+msgstr "eentalig"
 
 #: ../../formats.rst:67
 msgid ":ref:`xliff`"
@@ -45437,11 +45654,11 @@ msgstr ":ref:`xliff`"
 #: ../../formats.rst:68 ../../formats.rst:76 ../../formats.rst:108
 #: ../../formats.rst:124 ../../formats.rst:204
 msgid "both"
-msgstr ""
+msgstr "beide"
 
 #: ../../formats.rst:74
 msgid "needs editing, approved"
-msgstr ""
+msgstr "bewerken nodig, goedgekeurd"
 
 #: ../../formats.rst:75
 msgid ":ref:`javaprop`"
@@ -45494,7 +45711,7 @@ msgstr ":ref:`javaprop`"
 #: ../../user/checks.rst:1693 ../../user/checks.rst:1694
 #: ../../user/checks.rst:1695 ../../user/checks.rst:1699
 msgid "no"
-msgstr ""
+msgstr "nee"
 
 #: ../../formats.rst:83
 msgid ":ref:`mi18n-lang`"
@@ -45510,7 +45727,7 @@ msgstr ":ref:`joomla`"
 
 #: ../../formats.rst:118
 msgid "yes [#x]_"
-msgstr ""
+msgstr "ja [#x]_"
 
 #: ../../formats.rst:131
 msgid ":ref:`php`"
@@ -45518,7 +45735,7 @@ msgstr ":ref:`php`"
 
 #: ../../formats.rst:133
 msgid "no [#lp]_"
-msgstr ""
+msgstr "nee [#lp]_"
 
 #: ../../formats.rst:139
 msgid ":ref:`json`"
@@ -45618,11 +45835,11 @@ msgstr ":ref:`fluent`"
 
 #: ../../formats.rst:349
 msgid "no [#fp]_"
-msgstr ""
+msgstr "nee [#fp]_"
 
 #: ../../formats.rst:356
 msgid "See :ref:`bimono`"
-msgstr ""
+msgstr "Bekijk :ref:`bimono`"
 
 #: ../../formats.rst:357
 msgid "See :ref:`format-plurals`"
@@ -45649,6 +45866,8 @@ msgid ""
 "XML comment placed before the ``<string>`` element, parsed as a source "
 "string description."
 msgstr ""
+"XML-opmerking geplaatst voor het element ``<string>``, geparset als een "
+"beschrijving van een brontekenreeks."
 
 #: ../../formats.rst:363
 msgid "See :ref:`format-flags`."
@@ -45656,23 +45875,27 @@ msgstr "Bekijk :ref:`format-flags`."
 
 #: ../../formats.rst:364
 msgid "The gettext type comments are used as flags."
-msgstr ""
+msgstr "De type opmerkingen van gettext worden gebruikt als vlaggen."
 
 #: ../../formats.rst:365
 msgid ""
 "The plurals are supported only for Laravel which uses in string syntax to "
 "define them, see `Localization in Laravel`_."
 msgstr ""
+"De meervouden worden alleen ondersteund voor Laravel dat de syntaxis voor de "
+"tekenreeks gebruikt om ze te definiëren, bekijk `Localization in Laravel`_."
 
 #: ../../formats.rst:366
 msgid ""
 "Plurals are handled in the syntax of the strings and not exposed as plurals "
 "in Weblate."
 msgstr ""
+"Meervouden worden afgehandeld in de syntaxis van de tekenreeks en niet als "
+"meervoud weergegeven in Weblate."
 
 #: ../../formats.rst:373
 msgid "Bilingual and monolingual formats"
-msgstr ""
+msgstr "Tweetalige en eentalige indelingen"
 
 #: ../../formats.rst:375
 msgid ""
@@ -45685,6 +45908,15 @@ msgid ""
 "`aresource`). Some file formats are used in both variants, see the detailed "
 "description below."
 msgstr ""
+"Beide indelingen, :index:`eentalig <pair: translation; monolingual>` en "
+":index:`tweetalig <pair: translation; bilingual>`, worden ondersteund. "
+"Tweetalige indelingen slaan twee talen op in een enkel bestand—bron en "
+"vertaling (typische voorbeelden zijn :ref:`gettext`, :ref:`xliff` of "
+":ref:`apple`). Aan de andere kant identificeren eentalige indelingen de "
+"tekenreeks op zijn ID, en elk taalbestand bevat alleen de verwijzingen "
+"daarvan voor een opgegeven taal (typisch :ref:`aresource`). Sommige "
+"bestandsindelingen worden in beide varianten gebruikt, bekijk de "
+"gedetailleerde beschrijving hieronder."
 
 #: ../../formats.rst:383
 msgid ""
@@ -45693,6 +45925,10 @@ msgid ""
 "is called :ref:`component-template` within Weblate, though the naming might "
 "vary in your paradigm."
 msgstr ""
+"Voor correct gebruiken van eentalige bestanden vereist Weblate toegang tot "
+"een bestand dat de volledige lijst bevat van te vertalen tekenreeksen, met "
+"hun bron—dat bestand wordt :ref:`component-template` genoemd binnen Weblate, "
+"hoewel de naam kan variëren in uw paradigma."
 
 #: ../../formats.rst:388
 msgid ""
@@ -45700,6 +45936,10 @@ msgid ""
 "intermediate` to include strings provided by developers, but not to be used "
 "as is in the final strings."
 msgstr ""
+"Aanvullend kan deze werkwijze worden uitgebreid door :ref:`component-"
+"intermediate` te gebruiken om tekenreeksen op te nemen die worden verschaft "
+"door ontwikkelaars, maar niet zullen worden gebruikt in de uiteindelijke "
+"tekenreeksen."
 
 #: ../../formats.rst:395
 msgid "String states"
@@ -45711,6 +45951,10 @@ msgid ""
 "strings. With some formats it is possible to store more fine-grained state "
 "information, such as \"Needs editing\" or \"Approved\"."
 msgstr ""
+"Veel bestandsindelingen onderscheiden alleen \"Niet vertaalde\" en "
+"\"Vertaalde\" tekenreeksen. Met enkele indelingen is het mogelijk om fijner "
+"afgestemde informatie voor de status op te slaan, zoals \"Bewerken nodig\" "
+"of \"Goedgekeurd\"."
 
 #: ../../formats.rst:404
 msgid "Source string description"
@@ -45721,6 +45965,8 @@ msgid ""
 "Source string descriptions can be used to pass additional info about the "
 "string to translate."
 msgstr ""
+"Beschrijvingen van brontekenreeksen kunnen worden gebruikt om aanvullende "
+"informatie door te geven over de te vertalen tekenreeks."
 
 #: ../../formats.rst:408
 msgid ""
@@ -45730,12 +45976,20 @@ msgid ""
 "ref:`arb`, :ref:`dotnet`). Many other formats extract closest comment as "
 "source string description."
 msgstr ""
+"Verscheidene indelingen hebben eigen ondersteuning voor het verschaffen van "
+"aanvullende informatie aan vertalers (bijvoorbeeld :ref:`xliff`, "
+":ref:`gettext`, :ref:`webex`, :ref:`csv`, :ref:`xlsx`, :ref:`qtling`, :ref"
+":`go-i18n-json`, :ref:`gotext-json`, :ref:`arb`, :ref:`dotnet`). Vele andere "
+"indelingen nemen de dichtstbijzijnde opmerking uit als beschrijving voor de "
+"brontekenreeks."
 
 #: ../../formats.rst:419
 msgid ""
 "The :ref:`additional-explanation` on strings can be stored and parsed from a "
 "few file formats."
 msgstr ""
+"De :ref:`additional-explanation` voor tekenreeksen kan worden opgeslagen en "
+"geparset uit een paar bestandsindelingen."
 
 #: ../../formats.rst:422
 msgid "Currently supported only in :ref:`tbx`."
@@ -45750,6 +46004,8 @@ msgid ""
 "Location of a string in source code might help proficient translators figure "
 "out how the string is used."
 msgstr ""
+"Locatie van een tekenreeks in de broncode zou gevorderde vertalers kunnen "
+"helpen vast te stellen hoe de tekenreeks wordt gebruikt."
 
 #: ../../formats.rst:432
 msgid ""
@@ -45757,6 +46013,9 @@ msgid ""
 "are extracted from the source code using tools. For example :ref:`gettext` "
 "and :ref:`qtling`."
 msgstr ""
+"Deze informatie is gewoonlijk beschikbaar in tweetalige indelingen waar "
+"tekenreeksen worden uitgenomen uit de broncode met programma's. Bijvoorbeeld "
+":ref:`gettext` en :ref:`qtling`."
 
 #: ../../formats.rst:440
 msgid ""
@@ -45764,10 +46023,14 @@ msgid ""
 "defining those in the translation file (you can always define them in the "
 "Weblate interface, see :ref:`custom-checks`)."
 msgstr ""
+"Vlaggen voor vertalingen maken het mogelijk het gedrag van Weblate aan te "
+"passen. Sommige indelingen ondersteunen het definiëren ervan in het "
+"vertaalbestand (u kunt ze altijd definiëren in de interface van Weblate, "
+"bekijk :ref:`custom-checks`)."
 
 #: ../../formats.rst:444
 msgid "This feature is modelled on flags in :ref:`gettext`."
-msgstr ""
+msgstr "Deze mogelijkheid is gemodelleerd naar de vlaggen in :ref:`gettext`."
 
 #: ../../formats.rst:446
 msgid ""
@@ -45777,6 +46040,11 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
 "see :ref:`xliff-flags`."
 msgstr ""
+"Aanvullend, voor alle op XML gebaseerde indelingen, worden de vlaggen "
+"uitgenomen ui het niet standaard attribuut ``weblate-flags``. Aanvullend "
+"wordt ``max-length:N`` ondersteund door het `attribuut <http://docs.oasis-"
+"open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ ``maxwidth``, zoals dat "
+"is gedefinieerd in de standaard voor XLIFF, bekijk :ref:`xliff-flags`."
 
 #: ../../formats.rst:454
 msgid ":ref:`custom-checks`, `PO files documentation`_"
@@ -45792,12 +46060,19 @@ msgid ""
 "used in different scopes (for example `Sun` can be used as an abbreviated "
 "name of the day \"Sunday\" or as the name of our closest star)."
 msgstr ""
+"Context wordt gebruikt om verschil te kunnen maken tussen identieke "
+"tekenreeksen in een tweetalige indeling, gebruikt in verschillende bereiken ("
+"bijvoorbeeld `Zon` kan worden gebruikt als een afgekorte naam voor de dag "
+"\"Zondag\" of als de naam van onze dichtstbijzijnde ster)."
 
 #: ../../formats.rst:469
 msgid ""
 "For monolingual formats the string identifier (often called key) can serve "
 "the same purpose and additional context is not necessary."
 msgstr ""
+"Voor eentalige indelingen kan de identificatie van de tekenreeks (vaak "
+"sleutel genoemd) hetzelfde doel dienen en is aanvullende context niet "
+"noodzakelijk."
 
 #: ../../formats.rst:475
 msgid "Pluralized strings"
@@ -45809,6 +46084,9 @@ msgid ""
 "rules depend on a target language and many formats follow CLDR specification "
 "for that."
 msgstr ""
+"Meervouden zijn noodzakelijk om tekenreeksen correct te vertalen in een "
+"variabel aantal. De regels zijn afhankelijk van een doeltaal en veel "
+"indelingen volgen de specificatie CLDR daarvoor."
 
 #: ../../formats.rst:483
 msgid ""
@@ -45816,6 +46094,10 @@ msgid ""
 "well. Choose native format of your platform such as :ref:`gettext`, :ref:"
 "`aresource` or :ref:`stringsdict`."
 msgstr ""
+"Voor het maken van tekenreeksen met meervouden is ook de juiste "
+"ondersteuning van het framewerk van de toepassing nodig. Kies de eigen "
+"indeling voor uw platform, zoals :ref:`gettext`, :ref:`aresource` of "
+":ref:`stringsdict`."
 
 #: ../../formats.rst:490
 msgid "Read-only strings"
@@ -45828,6 +46110,11 @@ msgid ""
 "`xliff` and :ref:`aresource`), but can be emulated in others by adding a "
 "``read-only`` flag, see :ref:`custom-checks`."
 msgstr ""
+"Tekenreeksen Alleen-lezen uit vertaalbestanden zullen worden opgenomen, maar "
+"zij kunnen niet worden bewerkt in Weblate. Deze mogelijkheid wordt door een "
+"klein aantal indelingen zelf ondersteund (:ref:`xliff` en :ref:`aresource`), "
+"maar kan door andere worden geëmuleerd door een vlag ``read-only`` toe te "
+"voegen, bekijk :ref:`custom-checks`."
 
 #: ../../formats.rst:499
 msgid "Supporting other formats"
@@ -45840,12 +46127,20 @@ msgid ""
 "cases some thin layer is needed in Weblate to hide differences in behavior "
 "of different `translate-toolkit`_ storages."
 msgstr ""
+"De meeste indelingen die worden ondersteund door `translate-toolkit`_, welke "
+"serialisatie van ondersteuning gemakkelijk kan worden ondersteund, maar die "
+"zijn (nog) niet getest. In de meeste gevallen is een dunne laag in Weblate "
+"vereist om de verschillen in gedrag van de verschillende opslag in "
+"`translate-toolkit`_ te verbergen."
 
 #: ../../formats.rst:506
 msgid ""
 "To add support for a new format, the preferred approach is to first "
 "implement support for it in the `translate-toolkit`_."
 msgstr ""
+"Voor het toevoegen van ondersteuning voor een nieuwe indeling is de "
+"voorkeursbenadering om eerst ondersteuning ervoor te implementeren in de "
+"`translate-toolkit`_."
 
 #: ../../formats/android.rst:4
 msgid "Android string resources"
@@ -45853,13 +46148,15 @@ msgstr "Android bronnen tekenreeksen"
 
 #: ../../formats/android.rst:10
 msgid "Android specific file format for translating applications."
-msgstr ""
+msgstr "Android specifieke bestandsindeling voor vertalen van toepassingen."
 
 #: ../../formats/android.rst:12
 msgid ""
 "The same file format is also used by JetBrains Compose Multiplatform Kotlin "
 "Resources."
 msgstr ""
+"Dezelfde indeling wordt ook gebruikt door JetBrains Compose Multiplatform "
+"Kotlin Resources."
 
 #: ../../formats/android.rst:14
 msgid ""
@@ -45867,60 +46164,82 @@ msgid ""
 "stored in a different location from the other files -- :file:`res/values/"
 "strings.xml`."
 msgstr ""
+"Android bronnen voor tekenreeksen zijn eentalig, het :ref:`component-"
+"template` is opgeslagen op een andere locatie dan de andere bestanden -- "
+":file:`res/values/strings.xml`."
 
 #: ../../formats/android.rst:17
 msgid "Weblate does following escaping of strings:"
-msgstr ""
+msgstr "Weblate doet het volgende escapen van tekenreeksen:"
 
 #: ../../formats/android.rst:19
 msgid "If a strings is valid XML, it is inserted as XML to translation."
 msgstr ""
+"Als een tekenreeks geldige XML is, wordt het als XML ingevoegd in de "
+"vertaling."
 
 #: ../../formats/android.rst:20
 msgid ""
 "``?`` and ``@`` are escaped with a ``\\\\`` at the beginning of the string "
 "to avoid interpreting them as style or resource references."
 msgstr ""
+"``?`` en ``@`` worden geëscapet met een ``\\\\`` aan het begin van de "
+"tekenreeks om te vermijden dat ze worden geïnterpreteerd als verwijzing naar "
+"stijl of bron."
 
 #: ../../formats/android.rst:21
 msgid ""
 "In case string contains multiple spaces, it is quoted with double quotes "
 "(``\"``)."
 msgstr ""
+"In het geval dat een tekenreeks meerder spaties bevat, wordt die aangehaald "
+"met dubbele aanhalingstekens (``\"``)."
 
 #: ../../formats/android.rst:22
 msgid ""
 "Newlines are escaped as ``\\\\n``, but the actual newline is kept for "
 "readability as well."
 msgstr ""
+"Nieuwe regels worden geëscapet als ``\\\\n"
+"``, maar de feitelijke newline wordt ook behouden voor de leesbaarheid."
 
 #: ../../formats/android.rst:26
 msgid ""
 "Android `string-array` structures are not currently supported. To work "
 "around this, you can break your string arrays apart:"
 msgstr ""
+"Android structuren `string-array` worden momenteel niet ondersteund. U kunt, "
+"om hier omheen te werken, uw arrays van tekenreeksen opdelen:"
 
 #: ../../formats/android.rst:36
 msgid "become:"
-msgstr ""
+msgstr "wordt:"
 
 #: ../../formats/android.rst:47
 msgid ""
 "The `string-array` that points to the `string` elements should be stored in "
 "a different file, and not be made available for translation."
 msgstr ""
+"De `string-array` die verwijst naar de elementen `string` zou moeten worden "
+"opgeslagen in een ander bestand, en niet beschikbaar moeten zijn voor "
+"vertaling."
 
 #: ../../formats/android.rst:50
 msgid ""
 "This script may help pre-process your existing strings.xml files and "
 "translations: https://gist.github.com/paour/11291062"
 msgstr ""
+"Dit script kan helpen bij het vooraf verwerken van uw bestaande bestanden "
+"strings.xml en vertalingen: https://gist.github.com/paour/11291062"
 
 #: ../../formats/android.rst:54
 msgid ""
 "To avoid translating some strings, these can be marked as non-translatable. "
 "This can be especially useful for string references:"
 msgstr ""
+"Voor het vermijden van het vertalen van sommige tekenreeksen, kunnen deze "
+"worden gemarkeerd als niet te vertalen. Dat kan in het bijzonder nuttig zijn "
+"voor verwijzingen naar tekenreeksen:"
 
 #: ../../formats/android.rst:62
 msgid ""
@@ -45929,10 +46248,14 @@ msgid ""
 "Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
 "images-resources.html>`_, :doc:`tt:formats/android`"
 msgstr ""
+"`Android string resources documentatie <https://developer.android.com/guide/"
+"topics/resources/string-resource>`_, `JetBrains Compose Multiplatform Kotlin "
+"Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
+"images-resources.html>`_, :doc:`tt:formats/android`"
 
 #: ../../formats/android.rst:67
 msgid "Weblate configuration for Android resource strings"
-msgstr ""
+msgstr "Weblate configuratie voor Android resource tekenreeksen"
 
 #: ../../formats/android.rst:70 ../../formats/android.rst:85
 #: ../../formats/apple.rst:26 ../../formats/appstore.rst:26
@@ -45952,7 +46275,7 @@ msgstr ""
 #: ../../formats/txt.rst:33 ../../formats/webextension.rst:29
 #: ../../formats/winrc.rst:32 ../../formats/yaml.rst:28
 msgid "Typical Weblate :ref:`component`"
-msgstr ""
+msgstr "Typisch Weblate :ref:`component`"
 
 #: ../../formats/android.rst:72
 msgid "``res/values-*/strings.xml``"
@@ -45979,16 +46302,17 @@ msgstr "``res/values/strings.xml``"
 #: ../../formats/webextension.rst:35 ../../formats/xliff.rst:146
 #: ../../formats/yaml.rst:34
 msgid "`Empty`"
-msgstr ""
+msgstr "`Leeg`"
 
 #: ../../formats/android.rst:78 ../../formats/android.rst:93
 msgid "`Android String Resource`"
-msgstr ""
+msgstr "`Android String Resource`"
 
 #: ../../formats/android.rst:82
 msgid ""
 "Weblate configuration for JetBrains Compose Multiplatform Kotlin Resources"
 msgstr ""
+"Weblate configuratie voor JetBrains Compose Multiplatform Kotlin Resources"
 
 #: ../../formats/android.rst:87
 msgid "``commonMain/composeResources/values-*/strings.xml``"
@@ -46008,6 +46332,9 @@ msgid ""
 "translation>` applications, but also standardized by PWG 5100.13 and used on "
 "NeXTSTEP/OpenSTEP."
 msgstr ""
+"Bestandsindeling gewoonlijk gebruikt voor het vertalen van toepassingen van "
+"Apple :index:`iOS <pair: iOS; translation>`, maar ook gestandaardiseerd door "
+"PWG 5100.13 en gebruikt op NeXTSTEP/OpenSTEP."
 
 #: ../../formats/apple.rst:13
 msgid "Apple iOS strings are usually used as monolingual."
@@ -46022,6 +46349,12 @@ msgid ""
 "pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :doc:"
 "`tt:formats/strings`"
 msgstr ""
+":ref:`stringsdict`, `Apple \"strings files\" documentatie <https://developer."
+"apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/"
+"MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_, `Message "
+"Catalog File Format in PWG 5100.13 <http://ftp.pwg.org/pub/pwg/candidates/cs-"
+"ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :doc:`tt:formats/"
+"strings`"
 
 #: ../../formats/apple.rst:23 ../../formats/appstore.rst:23
 #: ../../formats/arb.rst:27 ../../formats/csv.rst:61 ../../formats/dtd.rst:17
@@ -46054,10 +46387,12 @@ msgid ""
 "``Resources/en.lproj/Localizable.strings`` or ``Resources/Base.lproj/"
 "Localizable.strings``"
 msgstr ""
+"``Resources/en.lproj/Localizable.strings`` of ``Resources/Base.lproj/"
+"Localizable.strings``"
 
 #: ../../formats/apple.rst:35
 msgid "`iOS Strings (UTF-8)`"
-msgstr ""
+msgstr "`iOS Strings (UTF-8)`"
 
 #: ../../formats/appstore.rst:4
 msgid "App store metadata files"
@@ -46068,30 +46403,41 @@ msgid ""
 "Metadata used for publishing apps in various app stores can be translated. "
 "Currently the following tools are compatible:"
 msgstr ""
+"Metadata gebruikt voor het publiceren van toepassingen in verscheidene app "
+"stores mag worden vertaald. Momenteel zijn de volgende gereedschappen "
+"compatibel:"
 
 #: ../../formats/appstore.rst:9
 msgid ""
 "`Triple-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-"
 "publisher>`_"
 msgstr ""
+"`Triple-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-"
+"publisher>`_"
 
 #: ../../formats/appstore.rst:10
 msgid ""
 "`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-"
 "your-app-metadata>`_"
 msgstr ""
+"`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-"
+"your-app-metadata>`_"
 
 #: ../../formats/appstore.rst:11
 msgid ""
 "`F-Droid <https://f-droid.org/docs/"
 "All_About_Descriptions_Graphics_and_Screenshots/>`_"
 msgstr ""
+"`F-Droid <https://f-droid.org/docs/"
+"All_About_Descriptions_Graphics_and_Screenshots/>`_"
 
 #: ../../formats/appstore.rst:13
 msgid ""
 "The metadata consists of several textfiles, which Weblate will present as "
 "separate strings to translate."
 msgstr ""
+"De metadata bestaat uit verschillende tekstbestanden, die Weblate zal "
+"weergeven als afzonderlijke te vertalen tekenreeksen."
 
 #: ../../formats/appstore.rst:18
 msgid ""
@@ -46099,6 +46445,10 @@ msgid ""
 "changelogs), mark them read-only (see :ref:`custom-checks`). This can be "
 "automated by the :ref:`addon-weblate.flags.bulk`."
 msgstr ""
+"In het geval dat u bepaalde tekenreeksen niet wilt vertalen (bijvoorbeeld "
+"logs met wijzigingen), markeer ze dan als alleen-lezen (bekijk :ref:`custom-"
+"checks`). Dit kan worden geautomatiseerd door de :ref:`addon-weblate.flags."
+"bulk`."
 
 #: ../../formats/appstore.rst:28
 msgid "``fastlane/metadata/android/*``"
@@ -46110,17 +46460,19 @@ msgstr "``fastlane/metadata/android/en-US``"
 
 #: ../../formats/appstore.rst:34
 msgid "`App store metadata files`"
-msgstr ""
+msgstr "`App store metadata-bestanden`"
 
 #: ../../formats/arb.rst:4
 msgid "ARB File"
-msgstr ""
+msgstr "ARB-bestand"
 
 #: ../../formats/arb.rst:11
 msgid ""
 "ARB translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"ARB-vertalingen zijn eentalig, aanbevolen wordt om een basisbestand te "
+"specificeren met (wat het meestal is) Engelse tekenreeksen."
 
 #: ../../formats/arb.rst:16
 msgid ""
@@ -46128,6 +46480,9 @@ msgid ""
 "`Internationalizing Flutter apps`_, :ref:`updating-target-files`, :ref:"
 "`addon-weblate.json.customize`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
+":doc:`tt:formats/json`, `Application Resource Bundle Specification`_, `"
+"Internationalizing Flutter apps`_, :ref:`updating-target-files`, :ref:`addon-"
+"weblate.json.customize`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats/arb.rst:32
 msgid "``lib/l10n/intl_*.arb``"
@@ -46139,7 +46494,7 @@ msgstr "``lib/l10n/intl_en.arb``"
 
 #: ../../formats/arb.rst:38
 msgid "`ARB file`"
-msgstr ""
+msgstr "`ARB-bestand`"
 
 #: ../../formats/csv.rst:4
 msgid "CSV files"
@@ -46150,6 +46505,8 @@ msgid ""
 "CSV files can contain a simple list of source and translation. Weblate "
 "supports the following files:"
 msgstr ""
+"CSV-bestanden mogen een eenvoudige lijst met bron en vertaling bevatten. "
+"Weblate ondersteunt de volgende bestanden:"
 
 #: ../../formats/csv.rst:13
 msgid ""
@@ -46158,12 +46515,18 @@ msgid ""
 "``developer_comments``). This is the recommended approach, as it is the "
 "least error prone. Choose :guilabel:`CSV file` as a file format."
 msgstr ""
+"Bestanden met een kop die velden definieert (``location``, ``source``, "
+"``target``, ``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
+"``developer_comments``). Dit is de aanbevolen benadering, omdat het de minst "
+"foutgevoelige is. Kies :guilabel:`CSV-bestand` als bestandsindeling."
 
 #: ../../formats/csv.rst:17
 msgid ""
 "Files with two fields—source and translation (in this order). Choose :"
 "guilabel:`Simple CSV file` as a file format."
 msgstr ""
+"Bestanden met twee velden—bron en vertaling (in die volgorde). Kies "
+":guilabel:`Eenvoudig CSV-bestand` als bestandsindeling."
 
 #: ../../formats/csv.rst:19
 msgid ""
@@ -46172,12 +46535,18 @@ msgid ""
 "``translator_comments``, ``developer_comments``. Choose :guilabel:`CSV file` "
 "as a file format."
 msgstr ""
+"Koploze bestanden met velden die in de volgorde zijn gedefinieerd door de "
+"`translate-toolkit`_: ``location``, ``source``, ``target``, ``ID``, ``fuzzy``"
+", ``context``, ``translator_comments``, ``developer_comments``. Kies "
+":guilabel:`CSV-bestand` als bestandsindeling."
 
 #: ../../formats/csv.rst:22
 msgid ""
 "Remember to define :ref:`component-template` when your files are monolingual "
 "(see :ref:`bimono`)."
 msgstr ""
+"Vergeet niet om het :ref:`component-template` te definiëren als uw bestanden "
+"eentalig zijn (bekijk :ref:`bimono`)."
 
 #: ../../formats/csv.rst:27
 msgid ""
@@ -46186,6 +46555,11 @@ msgid ""
 "choose file format variant with encoding to avoid this (for example :"
 "guilabel:`CSV file (UTF-8)`)."
 msgstr ""
+"Standaard voert de indeling CSV automatisch detecteren van de "
+"bestandscodering uit. Dit kan in sommige randgevallen onbetrouwbaar zijn en "
+"straffen voor prestaties veroorzaken. Kies de variant van de "
+"bestandsindeling met codering om dit te vermijden (bijvoorbeeld :guilabel"
+":`CSV-bestand (UTF-8)`)."
 
 #: ../../formats/csv.rst:34
 msgid ""
@@ -46194,10 +46568,15 @@ msgid ""
 "results. This is especially true for CSV files with newlines in the values. "
 "As a workaround it is recommended to omit quoting characters."
 msgstr ""
+"De indeling CSV detecteert momenteel automatisch het dialect van het csv-"
+"bestand. In sommige gevallen zou het automatisch detecteren kunnen mislukken "
+"en zult u gemixte resultaten krijgen. Dit geldt in het bijzonder voor csv-"
+"bestanden met nieuwe regels (newlines) in de waarden. Als een workaround "
+"wordt aanbevolen om aanhalingstekens weg te laten."
 
 #: ../../formats/csv.rst:39
 msgid ":doc:`tt:formats/csv`"
-msgstr ""
+msgstr ":doc:`tt:formats/csv`"
 
 #: ../../formats/csv.rst:46
 msgid "Multivalue CSV file"
@@ -46208,6 +46587,8 @@ msgid ""
 "This variant of the CSV files allows storing multiple translations per "
 "string."
 msgstr ""
+"Deze variant van het csv-bestand maakt het mogelijk meerdere vertalingen per "
+"tekenreeks op te slaan."
 
 #: ../../formats/csv.rst:53 ../../formats/gettext.rst:61
 #: ../../formats/go-i18n.rst:33 ../../formats/json.rst:56
@@ -46226,11 +46607,11 @@ msgstr "Voorbeeldbestanden"
 #: ../../formats/tbx.rst:33 ../../formats/txt.rst:24
 #: ../../formats/webextension.rst:20
 msgid "Example file:"
-msgstr ""
+msgstr "Voorbeeld bestand:"
 
 #: ../../formats/csv.rst:64
 msgid "Typical Weblate :ref:`component` for bilingual CSV"
-msgstr ""
+msgstr "Typisch Weblate :ref:`component` voor tweetalige CSV"
 
 #: ../../formats/csv.rst:66 ../../formats/csv.rst:78
 msgid "``locale/*.csv``"
@@ -46242,11 +46623,11 @@ msgstr "``locale/en.csv``"
 
 #: ../../formats/csv.rst:72
 msgid "`CSV file`"
-msgstr ""
+msgstr "`CSV-bestand`"
 
 #: ../../formats/csv.rst:76
 msgid "Typical Weblate :ref:`component` for monolingual CSV"
-msgstr ""
+msgstr "Typisch Weblate :ref:`component` voor eentalige CSV"
 
 #: ../../formats/csv.rst:84
 msgid "`Simple CSV file`"
@@ -46258,11 +46639,11 @@ msgstr "DTD-bestanden"
 
 #: ../../formats/dtd.rst:9
 msgid ":doc:`tt:formats/dtd`"
-msgstr ""
+msgstr ":doc:`tt:formats/dtd`"
 
 #: ../../formats/dtd.rst:11
 msgid "Example DTD file:"
-msgstr ""
+msgstr "Voorbeeld DTD-bestand:"
 
 #: ../../formats/dtd.rst:22
 msgid "``locale/*.dtd``"
@@ -46274,7 +46655,7 @@ msgstr "``locale/en.dtd``"
 
 #: ../../formats/dtd.rst:28
 msgid "`DTD file`"
-msgstr ""
+msgstr "`DTD-bestand`"
 
 #: ../../formats/excel.rst:4
 msgid "Excel Open XML"
@@ -46283,6 +46664,7 @@ msgstr "Excel Open XML"
 #: ../../formats/excel.rst:6
 msgid "Excel Open XML (.xlsx) files can be imported and exported."
 msgstr ""
+"Excel Open XML (.xlsx) bestanden kunnen worden geïmporteerd en geëxporteerd."
 
 #: ../../formats/excel.rst:8
 msgid ""
@@ -46294,6 +46676,14 @@ msgid ""
 "string). If you use the XLSX download for exporting the translations into an "
 "Excel workbook, you already get a file with the correct file format."
 msgstr ""
+"Bij het uploaden van XLSX-bestanden voor vertalingen, weet dat alleen het "
+"actieve werkblad zal worden verwerkt, en er moet ten minste een kolom, "
+"genaamd ``source``, zijn (die de brontekenreeks bevat) en een kolom genaamd "
+"``target`` (die de vertaling bevat). Aanvullend zou er de kolom genaamd "
+"``context`` moeten zijn (die het pad naar de context voor de tekenreeks van "
+"de vertaling bevat). Als u de XLSX-download gebruikt voor het exporteren van "
+"de vertalingen naar een werkboek van Excel, krijgt u al een bestand met de "
+"juiste bestandsindeling."
 
 #: ../../formats/excel.rst:22
 msgid "``path/*.xlsx``"
@@ -46313,11 +46703,11 @@ msgstr "Platte XML-bestanden"
 
 #: ../../formats/flatxml.rst:9
 msgid ":doc:`tt:formats/flatxml`"
-msgstr ""
+msgstr ":doc:`tt:formats/flatxml`"
 
 #: ../../formats/flatxml.rst:11
 msgid "Example of a flat XML file:"
-msgstr ""
+msgstr "Voorbeeld van een plat XML-bestand:"
 
 #: ../../formats/flatxml.rst:22
 msgid "``locale/*.xml``"
@@ -46329,7 +46719,7 @@ msgstr "``locale/en.xml``"
 
 #: ../../formats/flatxml.rst:28
 msgid "`Flat XML file`"
-msgstr ""
+msgstr "`Plat XML-bestand`"
 
 #: ../../formats/fluent.rst:4
 msgid "Fluent format"
@@ -46341,6 +46731,9 @@ msgid ""
 "available and the behavior can change between releases. Feedback from "
 "testing is welcome."
 msgstr ""
+"Ondersteuning voor deze indeling is in ontwikkeling. Sommige mogelijkheden "
+"zouden nog niet beschikbaar kunnen zijn en het gedrag kan veranderen tussen "
+"uitgaven. Terugkoppeling vanuit testen is welkom."
 
 #: ../../formats/fluent.rst:10
 msgid ""
@@ -46348,10 +46741,13 @@ msgid ""
 "a simple string in one language can map to a complex multi-variant "
 "translation in another language."
 msgstr ""
+"Fluent is een eentalige tekstindeling die focust op een asymmetrische "
+"vertaling: een eenvoudige tekenreeks in een taal kan verwijzen naar een "
+"complexe multi-variante vertaling in een andere taal."
 
 #: ../../formats/fluent.rst:18
 msgid "`Project Fluent website <https://projectfluent.org/>`_"
-msgstr ""
+msgstr "`Project Fluent website <https://projectfluent.org/>`_"
 
 #: ../../formats/fluent.rst:30
 msgid "``locales/*/messages.ftl``"
@@ -46373,12 +46769,16 @@ msgstr "Format.JS JSON-bestand"
 msgid ""
 "File format used when translating Format.JS and React-Intl applications."
 msgstr ""
+"Gebruikte bestandsindeling bij vertalen van toepassingen in Format.JS en "
+"React-Intl."
 
 #: ../../formats/formatjs.rst:12
 msgid ""
 ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs."
 "github.io/docs/getting-started/message-extraction>`_"
 msgstr ""
+":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs."
+"github.io/docs/getting-started/message-extraction>`_"
 
 #: ../../formats/formatjs.rst:45
 msgid "``src/lang/*.json``"
@@ -46394,7 +46794,7 @@ msgstr "`Format.JS JSON-bestand`"
 
 #: ../../formats/gettext.rst:4
 msgid "GNU gettext PO (Portable Object)"
-msgstr ""
+msgstr "GNU gettext PO (Portable Object)"
 
 #: ../../formats/gettext.rst:10
 msgid "Most widely used format for translating libre software."
@@ -46405,6 +46805,8 @@ msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
 "linking to corresponding source files."
 msgstr ""
+"Contextuele informatie opgeslagen in het bestand wordt ondersteund door het "
+"aanpassen van zijn kop of koppeling naar corresponderende bronbestanden."
 
 #: ../../formats/gettext.rst:17
 msgid ""
@@ -46414,6 +46816,11 @@ msgid ""
 "`addon-weblate.gettext.customize`, :ref:`addon-weblate.gettext.linguas`, :"
 "ref:`addon-weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`"
 msgstr ""
+":doc:`../devel/gettext`, :doc:`../devel/sphinx`, `Gettext on Wikipedia "
+"<https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-"
+"weblate.gettext.authors`, :ref:`addon-weblate.gettext.configure`, :ref"
+":`addon-weblate.gettext.customize`, :ref:`addon-weblate.gettext.linguas`, "
+":ref:`addon-weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`"
 
 #: ../../formats/gettext.rst:29
 msgid "Showing source string change"
@@ -46426,10 +46833,15 @@ msgid ""
 "include these, :program:`msgmerge` has to be executed with ``--previous`` "
 "and the resulting PO file then contains lines such as:"
 msgstr ""
+"Weblate kan eerder brontekenreeksen uitnemen uit de PO-bestanden indien "
+"aanwezig en het verschil weergeven voor tekenreeksen die op basis daarvan "
+"bewerken nodig hebben. :program:`msgmerge` moet, om deze op te nemen, worden "
+"uitgevoerd met ``--previous`` en het resulterende PO-bestand bevat dan "
+"regels zoals:"
 
 #: ../../formats/gettext.rst:44
 msgid "PO file header"
-msgstr ""
+msgstr "Kop PO-bestand"
 
 #: ../../formats/gettext.rst:46
 msgid ""
@@ -46437,10 +46849,13 @@ msgid ""
 "it can include :ref:`component-report_source_bugs` and :ref:`project-"
 "set_language_team`."
 msgstr ""
+"De kop van het PO-bestand wordt automatisch onderhouden door Weblate. "
+"Optioneel kan het :ref:`component-report_source_bugs` en :ref:`project-"
+"set_language_team` opnemen."
 
 #: ../../formats/gettext.rst:53
 msgid "Monolingual gettext"
-msgstr ""
+msgstr "Eentalige gettext"
 
 #: ../../formats/gettext.rst:55
 msgid ""
@@ -46449,22 +46864,27 @@ msgid ""
 "all languages, including English. This is supported, though you have to "
 "choose this file format explicitly when importing components into Weblate."
 msgstr ""
+"Sommige projecten besluiten om gettext te gebruiken als eentalige indeling—"
+"zij coderen slechts de ID's in hun broncode en de tekenreeks moet dan worden "
+"vertaald in alle talen, inclusief Engels. Dit wordt ondersteund, hoewel u "
+"deze bestandsindeling expliciet moet kiezen bij het importeren van "
+"onderdelen in Weblate."
 
 #: ../../formats/gettext.rst:63
 msgid "The bilingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "Het tweetalige gettext PO-bestand ziet er gewoonlijk zo uit:"
 
 #: ../../formats/gettext.rst:80
 msgid "The monolingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "Het eentalige gettext PO-bestand ziet er gewoonlijk zo uit:"
 
 #: ../../formats/gettext.rst:96
 msgid "While the base language file will be:"
-msgstr ""
+msgstr "Waarbij het basis taalbestand zal zijn:"
 
 #: ../../formats/gettext.rst:117
 msgid "Typical Weblate :ref:`component` for bilingual gettext"
-msgstr ""
+msgstr "Typisch Weblate :ref:`component` voor tweetalige gettext"
 
 #: ../../formats/gettext.rst:123 ../../formats/gettext.rst:135
 msgid "``po/messages.pot``"
@@ -46472,11 +46892,11 @@ msgstr "``po/messages.pot``"
 
 #: ../../formats/gettext.rst:125
 msgid "`Gettext PO file`"
-msgstr ""
+msgstr "`Gettext PO-bestand`"
 
 #: ../../formats/gettext.rst:129
 msgid "Typical Weblate :ref:`component` for monolingual gettext"
-msgstr ""
+msgstr "Typisch Weblate :ref:`component` voor eentalige gettext"
 
 #: ../../formats/gettext.rst:133
 msgid "``po/en.po``"
@@ -46484,7 +46904,7 @@ msgstr "``po/en.po``"
 
 #: ../../formats/gettext.rst:137
 msgid "`Gettext PO file (monolingual)`"
-msgstr ""
+msgstr "`Gettext PO-bestand (eentalig)`"
 
 #: ../../formats/go-i18n.rst:4
 msgid "go-i18n JSON files"
@@ -46492,19 +46912,23 @@ msgstr "go-i18n JSON-bestanden"
 
 #: ../../formats/go-i18n.rst:13
 msgid "Support for v2 variant of this format was added."
-msgstr ""
+msgstr "Ondersteuning voor variant v2 van deze indeling werd toegevoegd."
 
 #: ../../formats/go-i18n.rst:15
 msgid ""
 "go-i18n translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Vertalingen van go-i18n zijn eentalig, aanbevolen wordt dus om een "
+"basisbestand te specificeren met (wat het meestal is) Engelse tekenreeksen."
 
 #: ../../formats/go-i18n.rst:21
 msgid ""
 "Weblate supports the go-i18n JSON v1 and v2 variants. Please choose correct "
 "file format matching your environment."
 msgstr ""
+"Weblate ondersteunt de varianten go-i18n JSON v1 en v2. Kies de juiste "
+"bestandsindeling die overeenkomt met uw omgeving."
 
 #: ../../formats/go-i18n.rst:26
 msgid ""
@@ -46512,6 +46936,9 @@ msgid ""
 "ref:`updating-target-files`, :ref:`addon-weblate.json.customize`, :ref:"
 "`addon-weblate.cleanup.generic`,"
 msgstr ""
+":doc:`tt:formats/json`, `go-i18n <https://github.com/nicksnyder/go-i18n>`_, "
+":ref:`updating-target-files`, :ref:`addon-weblate.json.customize`, :ref"
+":`addon-weblate.cleanup.generic`,"
 
 #: ../../formats/go-i18n.rst:35
 msgid "Example file v1:"
@@ -46523,7 +46950,7 @@ msgstr "Voorbeeld bestand v2:"
 
 #: ../../formats/go-i18n.rst:49
 msgid "Typical Weblate :ref:`component` for v1"
-msgstr ""
+msgstr "Typisch Weblate :ref:`component` voor v1"
 
 #: ../../formats/go-i18n.rst:51 ../../formats/go-i18n.rst:64
 #: ../../formats/i18next.rst:60
@@ -46541,7 +46968,7 @@ msgstr "`go-i18n v1 JSON-bestand`"
 
 #: ../../formats/go-i18n.rst:62
 msgid "Typical Weblate :ref:`component` for v2"
-msgstr ""
+msgstr "Typisch Weblate :ref:`component` voor v2"
 
 #: ../../formats/go-i18n.rst:70
 msgid "`go-i18n v2 JSON file`"
@@ -46556,6 +46983,8 @@ msgid ""
 "gotext translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Vertalingen van gotext zijn eentalig, aanbevolen wordt dus om een "
+"basisbestand te specificeren met (wat het meestal is) Engelse tekenreeksen."
 
 #: ../../formats/gotext.rst:16
 msgid ""
@@ -46564,6 +46993,10 @@ msgid ""
 "files`, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate.cleanup."
 "generic`,"
 msgstr ""
+":doc:`tt:formats/json`, `I18n in Go: Managing Translations <https://www."
+"alexedwards.net/blog/i18n-managing-translations>`_, :ref:`updating-target-"
+"files`, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate.cleanup."
+"generic`,"
 
 #: ../../formats/gotext.rst:28
 msgid "``internal/translations/locales/*/messages.gotext.json``"
@@ -46583,11 +47016,11 @@ msgstr "GWT-eigenschappen"
 
 #: ../../formats/gwt.rst:9
 msgid "Native GWT format for translations."
-msgstr ""
+msgstr "Eigen GWT-indeling voor vertalingen."
 
 #: ../../formats/gwt.rst:11
 msgid "GWT properties are usually used as monolingual translations."
-msgstr ""
+msgstr "GWT properties worden gewoonlijk gebruikt als eentalige vertalingen."
 
 #: ../../formats/gwt.rst:15
 msgid ""
@@ -46597,6 +47030,11 @@ msgid ""
 "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
 "cleanup.generic`"
 msgstr ""
+"`GWT localization guide <https://www.gwtproject.org/doc/latest/DevGuideI18n."
+"html>`_, `GWT Internationalization Tutorial <https://www.gwtproject.org/doc/"
+"latest/tutorial/i18n.html>`_, :doc:`tt:formats/properties`, :ref:`updating-"
+"target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats/gwt.rst:28 ../../formats/java.rst:40
 msgid "``src/app/Bundle_*.properties``"
@@ -46608,7 +47046,7 @@ msgstr "``src/app/Bundle.properties``"
 
 #: ../../formats/gwt.rst:34
 msgid "`GWT Properties`"
-msgstr ""
+msgstr "`GWT Properties`"
 
 #: ../../formats/html.rst:4
 msgid "HTML files"
@@ -46619,6 +47057,8 @@ msgid ""
 "The translatable content is extracted from the HTML files and offered for "
 "the translation."
 msgstr ""
+"De vertaalbare inhoud wordt uitgenomen uit de HTML-bestanden en aangeboden "
+"voor vertalen."
 
 #: ../../snippets/format-database-backed.rst:3
 msgid ""
@@ -46626,10 +47066,14 @@ msgid ""
 "imported to Weblate because it can not be done reliably. The source of truth "
 "for the translations is Weblate not the translated file."
 msgstr ""
+"Anders dan voor de meeste indelingen zullen de wijzigingen in de "
+"vertaalbestanden niet worden geïmporteerd in Weblate, omdat dat het niet "
+"betrouwbaar genoeg kan worden gedaan. De waarheid voor de bron van de "
+"vertalingen is Weblate, niet het vertaalde bestand."
 
 #: ../../formats/html.rst:14
 msgid ":doc:`tt:formats/html`"
-msgstr ""
+msgstr ":doc:`tt:formats/html`"
 
 #: ../../formats/html.rst:27
 msgid "``path/*.html``"
@@ -46649,7 +47093,7 @@ msgstr "i18next JSON-bestanden"
 
 #: ../../formats/i18next.rst:11
 msgid "Support for v4 variant of this format was added."
-msgstr ""
+msgstr "Ondersteuning voor variant v4 van deze indeling werd toegevoegd."
 
 #: ../../formats/i18next.rst:15
 msgid ""
@@ -46657,6 +47101,10 @@ msgid ""
 "handling with CLDR. Older versions have different plural rules for some "
 "languages which are not correct."
 msgstr ""
+"In het geval u meervouden gebruikt wordt aanbevolen om v4 te gebruiken, "
+"omdat dat afhandeling van meervouden heeft uitgelijnd met CLDR. Oudere "
+"versies hebben andere regels voor meervouden voor sommige talen die niet "
+"correct zijn."
 
 #: ../../formats/i18next.rst:19
 msgid ""
@@ -46664,12 +47112,17 @@ msgid ""
 "written in and for JavaScript. Weblate supports its localization files with "
 "features such as plurals."
 msgstr ""
+"`i18next <https://www.i18next.com/>`_ is een framewerk voor "
+"internationalisatie, geschreven in en voor JavaScript. Weblate ondersteunt "
+"zijn vertaalbestanden met mogelijkheden zoals meervouden."
 
 #: ../../formats/i18next.rst:23
 msgid ""
 "i18next translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Vertalingen van i18next zijn eentalig, aanbevolen wordt dus om een "
+"basisbestand te specificeren met (wat het meestal is) Engelse tekenreeksen."
 
 #: ../../formats/i18next.rst:27
 msgid "i18next JSON file v4"
@@ -46679,6 +47132,8 @@ msgstr "i18next JSON-bestand (v4)"
 msgid ""
 "Choose this format if unsure. It stores plurals using standard CLDR suffixes."
 msgstr ""
+"Kies deze indeling als u niet zeker bent. Het slaat meervouden op met "
+"standaard achtervoegsel van CLDR."
 
 #: ../../formats/i18next.rst:32
 msgid "i18next JSON file v3"
@@ -46687,12 +47142,16 @@ msgstr "i18next JSON-bestand (v3)"
 #: ../../formats/i18next.rst:34
 msgid "Use for legacy projects which are using numeric suffixes for plurals."
 msgstr ""
+"Gebruik voor verouderde projecten die numerieke achtervoegsels gebruiken "
+"voor meervouden."
 
 #: ../../formats/i18next.rst:38
 msgid ""
 "The v2 and v1 variants are mostly compatible with v3, with exception of how "
 "plurals are handled."
 msgstr ""
+"De varianten v2 en v1 zijn meestal compatibel met v3, met uitzondering van "
+"hoe meervouden worden afgehandeld."
 
 #: ../../formats/i18next.rst:43
 msgid ""
@@ -46700,6 +47159,9 @@ msgid ""
 "json-format>`_, :ref:`updating-target-files`, :ref:`addon-weblate.json."
 "customize`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
+":doc:`tt:formats/json`, `i18next JSON Format <https://www.i18next.com/misc/"
+"json-format>`_, :ref:`updating-target-files`, :ref:`addon-weblate.json."
+"customize`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats/i18next.rst:66
 msgid "`i18next JSON file v3`"
@@ -46714,6 +47176,8 @@ msgid ""
 "The translatable content is extracted from the Adobe InDesign Markup "
 "Language files and offered for the translation."
 msgstr ""
+"De vertaalbare inhoud wordt uitgenomen uit de bestanden van Adobe InDesign "
+"Markup Language en aangeboden voor vertalen."
 
 #: ../../formats/idml.rst:18
 msgid "``path/*.idml``"
@@ -46736,6 +47200,8 @@ msgid ""
 "INI file format for translations. Weblate currently supports several "
 "variants of JSON translations:"
 msgstr ""
+"INI-bestandsindeling voor vertalingen. Weblate ondersteunt momenteel "
+"verscheidene varianten van vertalingen voor JSON:"
 
 #: ../../formats/ini.rst:14
 msgid "Monolingual INI files"
@@ -46744,6 +47210,7 @@ msgstr "Eentalige INI-bestanden"
 #: ../../formats/ini.rst:18
 msgid "INI translations are usually used as monolingual translations."
 msgstr ""
+"Vertalingen van INI worden gewoonlijk gebruikt als eentalige vertalingen."
 
 #: ../../formats/ini.rst:22
 msgid ""
@@ -46751,10 +47218,13 @@ msgid ""
 "INI file lacks sections, you might want to use :ref:`joomla` or :ref:"
 "`javaprop` instead."
 msgstr ""
+"Weblate neemt alleen sleutels uit secties binnen een INI-bestand uit. In het "
+"geval uw INI-bestand geen secties heeft, wilt u misschien :ref:`joomla` of "
+":ref:`javaprop` in plaats daarvan gebruiken."
 
 #: ../../formats/ini.rst:28
 msgid ":doc:`tt:formats/ini`, :ref:`javaprop`, :ref:`joomla`, :ref:`islu`"
-msgstr ""
+msgstr ":doc:`tt:formats/ini`, :ref:`javaprop`, :ref:`joomla`, :ref:`islu`"
 
 #: ../../formats/ini.rst:44
 msgid "``language/*.ini``"
@@ -46766,7 +47236,7 @@ msgstr "``language/en.ini``"
 
 #: ../../formats/ini.rst:50
 msgid "`INI File`"
-msgstr ""
+msgstr "`INI-bestand`"
 
 #: ../../formats/innosetup.rst:4
 msgid "Inno Setup INI translations"
@@ -46788,16 +47258,20 @@ msgid ""
 "The only notable difference to :ref:`ini` is in supporting ``%n`` and ``%t`` "
 "placeholders for line break and tab."
 msgstr ""
+"Het enige opvallende verschil met :ref:`ini` ligt in het ondersteunen van "
+"plaatsvervangers ``%n`` en ``%t`` voor regeleinde en tab."
 
 #: ../../formats/innosetup.rst:22
 msgid ""
 "Only Unicode files (``.islu``) are currently supported, ANSI variant (``."
 "isl``) is currently not supported."
 msgstr ""
+"Alleen bestanden van Unicode (``.islu``) worden momenteel ondersteund, "
+"variant ANSI (``.isl``) wordt momenteel niet ondersteund."
 
 #: ../../formats/innosetup.rst:27
 msgid ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
-msgstr ""
+msgstr ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
 
 #: ../../formats/innosetup.rst:37
 msgid "``language/*.islu``"
@@ -46817,11 +47291,11 @@ msgstr "Java eigenschappen"
 
 #: ../../formats/java.rst:10
 msgid "Native Java format for translations."
-msgstr ""
+msgstr "Eigen Java-indeling voor vertalingen."
 
 #: ../../formats/java.rst:12
 msgid "Java properties are usually used as monolingual translations."
-msgstr ""
+msgstr "Java properties worden gewoonlijk gebruikt als eentalige vertalingen."
 
 #: ../../formats/java.rst:14
 msgid ""
@@ -46831,12 +47305,20 @@ msgid ""
 "example ``zkou\\u0161ka``), all others encode characters directly either in "
 "UTF-8 or UTF-16."
 msgstr ""
+"Weblate ondersteunt de varianten ISO-8859-1, UTF-8 en UTF-16 van deze "
+"indeling. Zij ondersteunen allemaal het opslaan van alle tekens van Unicode, "
+"ze worden slechts anders gecodeerd. In de ISO-8859-1, worden de Unicode "
+"escape-reeksen gebruikt (bijvoorbeeld ``zkou\\u0161ka``), alle andere "
+"coderen tekens direct in ofwel UTF-8 of UTF-16."
 
 #: ../../formats/java.rst:21
 msgid ""
 "Loading escape sequences works in UTF-8 mode as well, so please be careful "
 "choosing the correct encoding set to match your application needs."
 msgstr ""
+"Laden van escape-reeksen werkt ook in de modus UTF-8, wees dus voorzichtig "
+"bij het kiezen van de correcte set voor de codering om overeen te komen met "
+"de benodigdheden voor uw toepassing."
 
 #: ../../formats/java.rst:26
 msgid ""
@@ -46845,10 +47327,14 @@ msgid ""
 "ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
 "`addon-weblate.cleanup.generic`"
 msgstr ""
+"`Java properties op Wikipedia <https://en.wikipedia.org/wiki/.properties>`_, "
+":doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :ref:`updating-"
+"target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats/java.rst:46
 msgid "`Java Properties (ISO-8859-1)`"
-msgstr ""
+msgstr "`Java Properties (ISO-8859-1)`"
 
 #: ../../formats/joomla.rst:4
 msgid "Joomla translations"
