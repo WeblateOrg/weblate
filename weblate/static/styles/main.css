@@ -2225,6 +2225,31 @@ tbody.warning {
   margin: 10px;
 }
 
+.panel {
+  border-radius: var(--border-radius);
+  border: var(--border);
+  overflow-y: hidden;
+}
+
+.panel-default > .panel-heading {
+  background-color: #e9eaec60;
+  border: var(--border);
+}
+.panel-danger > .panel-heading {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.panel:last-child,
+.panel-footer {
+  border-bottom-right-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
+
+.panel-footer {
+  border-top: var(--border);
+}
+
 /* Zammad form integration */
 .zammad-form-modal-body {
   max-width: 40em !important;
