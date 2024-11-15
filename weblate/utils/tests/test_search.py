@@ -288,7 +288,7 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         self.assert_query("has:resolved-comment", Q(comment__resolved=True))
         self.assert_query("has:dismissed-check", Q(check__dismissed=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
-        self.assert_query("has:variant", Q(variant__isnull=False))
+        self.assert_query("has:variant", Q(defined_variants__isnull=False))
         self.assert_query(
             "has:label", Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
         )
