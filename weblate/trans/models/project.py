@@ -322,7 +322,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         self.stats = ProjectStats(self)
         self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
-        self.label_cleanups: None | TranslationQuerySet = None
+        self.label_cleanups: TranslationQuerySet | None = None
         self.languages_cache: dict[str, Language] = {}
 
     def generate_changes(self, old) -> None:

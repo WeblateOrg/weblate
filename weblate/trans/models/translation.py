@@ -269,7 +269,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def get_translate_url(self):
         return reverse("translate", kwargs={"path": self.get_url_path()})
 
-    def get_filename(self) -> None | str:
+    def get_filename(self) -> str | None:
         """Return absolute filename."""
         if not self.filename:
             return None

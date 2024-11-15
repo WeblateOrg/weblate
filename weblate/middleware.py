@@ -323,7 +323,7 @@ class CSPBuilder:
             if value:
                 self.directives[rule].update(value)
 
-    def add_csp_host(self, url: str, *directives: CSP_KIND) -> None | str:
+    def add_csp_host(self, url: str, *directives: CSP_KIND) -> str | None:
         domain = urlparse(url).hostname
         # Handle domain only URLs (OpenInfraOpenId uses that)
         if not domain and ":" not in url and "/" not in url:

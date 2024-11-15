@@ -48,7 +48,7 @@ class BaseCheck:
     def get_identifier(self) -> str:
         return self.check_id
 
-    def get_propagated_value(self, unit: Unit) -> None | str:
+    def get_propagated_value(self, unit: Unit) -> str | None:
         return None
 
     def get_propagated_units(

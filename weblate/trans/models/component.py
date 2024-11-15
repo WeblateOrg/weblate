@@ -948,7 +948,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.logs: list[str] = []
         self.translations_count: int | None = None
         self.translations_progress = 0
-        self.acting_user: None | User = None
+        self.acting_user: User | None = None
         self.batch_checks = False
         self.batched_checks: set[str] = set()
         self.needs_variants_update = False
@@ -3553,7 +3553,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         request,
         send_signal: bool = True,
         create_translations: bool = True,
-    ) -> None | Translation:
+    ) -> Translation | None:
         """Create new language file."""
         if not self.can_add_new_language(request.user if request else None):
             messages.error(request, self.new_lang_error_message, fail_silently=True)

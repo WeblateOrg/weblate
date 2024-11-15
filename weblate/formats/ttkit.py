@@ -241,7 +241,7 @@ class TTKitFormat(TranslationFormat):
     set_context_bilingual = True
     # Use settarget/setsource to set language as well
     use_settarget = False
-    force_encoding: None | str = None
+    force_encoding: str | None = None
     plural_preference: tuple[int, ...] | None = (
         Plural.SOURCE_CLDR,
         Plural.SOURCE_DEFAULT,
@@ -1629,7 +1629,7 @@ class CSVFormat(TTKitFormat):
                 content = handle.read()
         return content, filename
 
-    def parse_store(self, storefile, *, dialect: None | str = None):
+    def parse_store(self, storefile, *, dialect: str | None = None):
         """Parse the store."""
         content, filename = self.get_content_and_filename(storefile)
 
@@ -1660,7 +1660,7 @@ class CSVFormat(TTKitFormat):
 
         return self.parse_simple_csv(content, filename, header=header)
 
-    def parse_simple_csv(self, content, filename, header: None | list[str] = None):
+    def parse_simple_csv(self, content, filename, header: list[str] | None = None):
         fieldnames = ["source", "target"]
         if header and all(
             field in {"source", "target", "context", "id"} for field in header

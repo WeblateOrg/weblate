@@ -145,7 +145,7 @@ class BaseStats:
         self._loaded: bool = False
         self._pending_save: bool = False
         self.last_change_cache = None
-        self._collected_update_objects: None | list[BaseStats] = None
+        self._collected_update_objects: list[BaseStats] | None = None
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__}:{self.cache_key}>"

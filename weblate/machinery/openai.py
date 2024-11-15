@@ -261,7 +261,7 @@ class OpenAITranslation(BaseOpenAITranslation):
             timeout=self.request_timeout,
             base_url=self.settings.get("base_url") or None,
         )
-        self._models: None | set[str] = None
+        self._models: set[str] | None = None
 
     def get_model(self) -> str:
         if self._models is None:

@@ -144,7 +144,7 @@ class DeepLTranslation(
         return result
 
     def format_replacement(
-        self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
+        self, h_start: int, h_end: int, h_text: str, h_kind: Unit | None
     ) -> str:
         """Generate a single replacement."""
         return f'<x id="{h_start}"></x>'

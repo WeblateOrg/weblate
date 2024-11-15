@@ -116,7 +116,7 @@ class Command(BaseCommand):
         self.file_format: str
         self.language_regex: str
         self.license: str
-        self.main_component: None | str = None
+        self.main_component: str | None = None
         self.name_template: str
         self.source_language: str
         self.base_file_template: str
