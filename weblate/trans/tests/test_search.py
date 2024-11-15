@@ -18,6 +18,8 @@ from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 
 
 class SearchViewTest(TransactionsTestMixin, ViewTestCase):
+    CREATE_GLOSSARIES = True
+
     def setUp(self) -> None:
         super().setUp()
         self.translation = self.component.translation_set.get(language_code="cs")
@@ -170,6 +172,46 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         self.assertContains(response, "Few")
         self.assertContains(response, "Other")
         self.assertNotContains(response, "Plural form ")
+
+    def test_search_variant(self) -> None:
+        """
+        Test glossary variant search.
+
+        Specifically checks that search result of 'has:variant' only contains
+        units that have variants in the search language
+        """
+        self.glossary = self.project.glossaries[0]
+        en_glossary = self.glossary.translation_set.get(language__code="en")
+        de_glossary = self.glossary.translation_set.get(language__code="de")
+        cs_glossary = self.glossary.translation_set.get(language__code="cs")
+
+        en_glossary.add_unit(None, "", source="glossary-term")
+
+        # create a unit with a variant for both 'en' and 'de'
+        de_glossary.add_unit(
+            None,
+            "",
+            source="variant-glossary-term",
+            extra_flags="variant:glossary-term",
+        )
+
+        response = self.client.get(
+            reverse("search", kwargs={"path": en_glossary.get_url_path()}),
+            {"q": "has:variant"},
+        )
+        self.assertContains(response, "glossary-term")
+
+        response = self.client.get(
+            reverse("search", kwargs={"path": de_glossary.get_url_path()}),
+            {"q": "has:variant"},
+        )
+        self.assertContains(response, "glossary-term")
+
+        response = self.client.get(
+            reverse("search", kwargs={"path": cs_glossary.get_url_path()}),
+            {"q": "has:variant"},
+        )
+        self.assertContains(response, "No matching strings found.")
 
     def test_checksum(self) -> None:
         self.do_search({"checksum": "invalid"}, None, anchor="")
