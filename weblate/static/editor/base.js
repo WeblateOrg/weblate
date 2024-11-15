@@ -70,10 +70,10 @@ WLT.Editor = (() => {
     });
 
     /* Copy source text */
-    this.$editor.on("click", "[data-clone-text]", function (e) {
+    this.$editor.on("click", "[data-clone-value]", function (e) {
       const $this = $(this);
       const $document = $(document);
-      const cloneText = this.getAttribute("data-clone-text");
+      const cloneText = this.getAttribute("data-clone-value");
 
       let row = $this.closest(".zen-unit");
       if (row.length === 0) {
