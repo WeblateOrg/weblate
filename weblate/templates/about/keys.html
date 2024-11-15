@@ -22,7 +22,7 @@
 
   <div class="panel-body">
 {% if gpg_key %}
-  <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-text="{{ gpg_key }}" data-clipboard-message="{% trans "Public key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+  <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-value="{{ gpg_key }}" data-clipboard-message="{% trans "Public key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
   <p>{% blocktrans %}All commits made with Weblate are signed with the GPG key {{ gpg_key_id }}, for which the corresponding public key is found below.{% endblocktrans %}</p>
   <div class="list-group-item pre-scrollable">
   {{ gpg_key|linebreaks }}

@@ -77,7 +77,7 @@ jobs:
       run: |
         uv run --no-sources coverage combine
         uv run --no-sources coverage xml
-    - uses: codecov/codecov-action@v4
+    - uses: codecov/codecov-action@v5
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: migrations

@@ -37,7 +37,7 @@
         {% trans "You can also enter the secret key manually:" %}
       </p>
 
-      <pre dir="ltr"><button type="button" class="btn btn-link btn-xs pull-right" data-clipboard-text="{{ totp_key_b32 }}" data-clipboard-message="{% trans "Secret key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>{{ totp_key_b32 }}</pre>
+      <pre dir="ltr"><button type="button" class="btn btn-link btn-xs pull-right" data-clipboard-value="{{ totp_key_b32 }}" data-clipboard-message="{% trans "Secret key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>{{ totp_key_b32 }}</pre>
 
       {{ form|crispy }}
 

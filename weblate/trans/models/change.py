@@ -777,6 +777,10 @@ class Change(models.Model, UserDisplayMixin):
         if self.component:
             self.project = self.component.project
             self.category = self.component.category
+        if (self.user is None or not self.user.is_authenticated) and (
+            ip_address := self.get_ip_address()
+        ):
+            self.details["ip_address"] = ip_address
 
     @property
     def plural_count(self):
@@ -939,11 +943,15 @@ class Change(models.Model, UserDisplayMixin):
     def get_source(self):
         return self.details.get("source", self.unit.source)
 
-    def get_ip_address(self):
-        if self.suggestion and "address" in self.suggestion.userdetails:
-            return self.suggestion.userdetails["address"]
-        if self.comment and "address" in self.comment.userdetails:
-            return self.comment.userdetails["address"]
+    def get_ip_address(self) -> str | None:
+        if ip_address := self.details.get("ip_address"):
+            return ip_address
+        if self.suggestion and (
+            ip_address := self.suggestion.userdetails.get("address")
+        ):
+            return ip_address
+        if self.comment and (ip_address := self.comment.userdetails.get("address")):
+            return ip_address
         return None
 
     def show_unit_state(self):

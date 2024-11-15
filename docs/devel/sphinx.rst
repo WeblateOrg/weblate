@@ -10,7 +10,7 @@ build and publish your documentation for free.
 I will not focus on writing documentation itself, if you need guidance with
 that, just follow instructions on the `Sphinx`_ website. Once you have
 documentation ready, translating it is quite easy as Sphinx comes with support
-for this and it is quite nicely covered in their :ref:`sphinx:intl`.  It's
+for this and it is quite nicely covered in their :ref:`sphinx:intl`. It's
 matter of few configuration directives and invoking of the ``sphinx-intl``
 tool.
 

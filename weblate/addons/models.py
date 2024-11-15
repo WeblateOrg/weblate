@@ -270,7 +270,7 @@ def execute_addon_event(
     component: Component,
     scope: Translation | Component,
     event: AddonEvent,
-    method: str | Callable,
+    method: str | Callable[[Addon, Component], None],
     args: tuple | None = None,
 ) -> None:
     # Trigger repository scoped add-ons only on the main component
@@ -361,7 +361,7 @@ def handle_addon_event(
 @overload
 def handle_addon_event(
     event: AddonEvent,
-    method: Callable,
+    method: Callable[[Addon, Component], None],
     args: None = None,
     *,
     component: None = None,

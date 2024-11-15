@@ -41,9 +41,6 @@
               <form action="{% url 'register' %}" method="post" accept-charset="utf-8">
                 {% csrf_token %}
                 {{ form|crispy }}
-                {% if captcha_form %}
-                  {{ captcha_form|crispy }}
-                {% endif %}
                 <input type="submit" value="{% trans 'Register' %}" class="btn btn-primary btn-full" />
               </form>
 

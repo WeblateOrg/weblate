@@ -11,7 +11,6 @@ $(() => {
     ),
     showTitle: true,
     modal: true,
-    attachmentSupport: true,
     attributes: [
       {
         display: gettext("Subject"),

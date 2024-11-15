@@ -167,7 +167,7 @@ controlling this repository.
 .. hint::
 
    With :doc:`/admin/continuous`, any changes are automatically pushed from the
-   repository, so there is usually no need to manually manage it manually.
+   repository, so there is usually no need to manage it manually.
 
 .. image:: /screenshots/component-repository.webp
 

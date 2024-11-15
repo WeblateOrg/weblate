@@ -63,7 +63,7 @@ class NaturalTimeTest(SimpleTestCase):
         now = timezone.now()
         for diff, expected in TEST_DATA:
             testdate = now + datetime.timedelta(seconds=diff)
-            result = naturaltime(testdate, now)
+            result = naturaltime(testdate, now=now)
             expected = format_html(
                 '<span title="{}">{}</span>',
                 testdate.replace(microsecond=0).isoformat(),

@@ -32,6 +32,7 @@ class LegalView(TemplateView):
         context["legal_menu"] = MENU
         context["legal_page"] = self.page
         context["privacy_url"] = reverse("legal:privacy")
+        context["terms_url"] = reverse("legal:terms")
 
         return context
 

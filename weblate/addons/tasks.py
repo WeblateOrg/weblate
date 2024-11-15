@@ -119,7 +119,7 @@ def language_consistency(
 
 @app.task(trail=False)
 def daily_addons(modulo: bool = True) -> None:
-    def daily_callback(addon, component) -> None:
+    def daily_callback(addon: Addon, component: Component) -> None:
         addon.addon.daily(component)
 
     today = timezone.now()
