@@ -52,7 +52,7 @@ jobs:
 
     - name: Lockfile maintenance
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-      run: uv lock --upgrade --all-extras --no-sources
+      run: uv lock --upgrade --no-sources
 
     - run: uv sync --all-extras --no-sources
 
