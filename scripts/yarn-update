@@ -18,9 +18,6 @@ cp node_modules/prismjs/components/prism-rest.js ../../weblate/static/vendor/pri
 cp node_modules/prismjs/components/prism-markdown.js ../../weblate/static/vendor/prism/
 cp node_modules/prismjs/components/prism-icu-message-format.js ../../weblate/static/vendor/prism/
 
-# Slugify
-cp node_modules/slugify/slugify.js ../../weblate/static/vendor/slugify.js
-
 # Source Sans/Code Pro fonts
 sed '/font-family/ a font-display: swap;' < node_modules/source-sans/source-sans-3.css > ../../weblate/static/vendor/font-source/source-sans-3.css
 sed '/font-family/ a font-display: swap;' < node_modules/source-code-pro/source-code-pro.css > ../../weblate/static/vendor/font-source/source-code-pro.css
