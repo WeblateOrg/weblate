@@ -14,6 +14,7 @@ Not yet released.
 * :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
 
 **Bug fixes**
+* Using the `has:variant` field now correctly displays strings that have variant(s) in the search language, see :ref:`search-strings`.
 
 **Compatibility**
 
