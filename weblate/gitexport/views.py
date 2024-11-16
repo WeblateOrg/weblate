@@ -95,7 +95,7 @@ def git_export(request: AuthenticatedHttpRequest, path, git_request):
         raise Http404("Not a git repository")
     if obj.is_repo_link:
         return redirect(
-            "{}{}".format(
+            "{}?{}".format(
                 reverse(
                     "git-export",
                     kwargs={
