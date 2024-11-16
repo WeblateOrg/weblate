@@ -26,7 +26,7 @@ class AddonList(PathViewMixin, ListView):
     paginate_by = None
     model = Addon
     supported_path_types = (None, Component, Project)
-    path_object: None | Component | Project
+    path_object: Component | Project | None
     request: AuthenticatedHttpRequest
 
     def get_queryset(self):

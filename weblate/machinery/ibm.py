@@ -31,7 +31,7 @@ class IBMTranslation(MachineTranslation):
     def get_headers(self) -> dict[str, str]:
         return {"Content-Type": "application/json"}
 
-    def get_auth(self) -> None | tuple[str, str] | AuthBase:
+    def get_auth(self) -> tuple[str, str] | AuthBase | None:
         return ("apikey", self.settings["key"])
 
     def download_languages(self):

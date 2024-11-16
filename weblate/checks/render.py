@@ -38,7 +38,7 @@ class MaxSizeCheck(TargetCheckParametrized):
     def param_type(self):
         return multi_value_flag(int, 1, 2)
 
-    def get_params(self, unit: Unit) -> tuple[str, None | int, int, int]:
+    def get_params(self, unit: Unit) -> tuple[str, int | None, int, int]:
         all_flags = unit.all_flags
         return (
             all_flags.get_value_fallback("font-family", "sans"),

@@ -540,9 +540,9 @@ class Unit(models.Model, LoggerMixin):
         # Data for machinery integration
         self.machinery: UnitMemoryResultDict = {}
         # PluralMapper integration
-        self.plural_map: None | list[str] = None
+        self.plural_map: list[str] | None = None
         # Data for glossary integration
-        self.glossary_terms: None | list[Unit] = None
+        self.glossary_terms: list[Unit] | None = None
         self.glossary_positions: tuple[tuple[int, int], ...] = ()
         # Project backup integration
         self.import_data: dict[str, Any] = {}
