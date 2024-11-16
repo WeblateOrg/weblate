@@ -382,10 +382,10 @@ class CSPBuilder:
         if settings.SENTRY_DSN and self.response.status_code == 500:
             domain = self.add_csp_host(settings.SENTRY_DSN, "script-src", "connect-src")
             # Add appropriate frontend servers for sentry.io
-            if domain.endswith("de.sentry.io"):
+            if domain.endswith(".de.sentry.io"):
                 self.directives["connect-src"].add("de.sentry.io")
                 self.directives["script-src"].add("de.sentry.io")
-            elif domain.endswith("sentry.io"):
+            elif domain.endswith(".sentry.io"):
                 self.directives["script-src"].add("sentry.io")
                 self.directives["connect-src"].add("sentry.io")
             self.directives["script-src"].add("'unsafe-inline'")
