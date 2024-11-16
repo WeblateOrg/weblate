@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-16 12:36+0000\n"
+"PO-Revision-Date: 2024-11-17 14:00+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -48844,16 +48844,21 @@ msgid ""
 "translation is in good shape. The checks can be ignored in case of false "
 "positives."
 msgstr ""
+"De kwaliteitscontroles helpen bij het vinden van veel voorkomende fouten van "
+"vertalers, wat ervoor zorgt dat de vertaling in goede conditie is. De "
+"controles kunnen worden genegeerd in het geval van valse positieven."
 
 #: ../../user/checks.rst:7
 msgid ""
 "Once submitting a translation with a failing check, this is immediately "
 "shown to the user:"
 msgstr ""
+"Bij het indienen van een vertaling met een mislukte controle, wordt dat "
+"onmiddellijk weergegeven aan de gebruiker:"
 
 #: ../../user/checks.rst:16
 msgid "Automatic fixups"
-msgstr ""
+msgstr "Automatisch repareren"
 
 #: ../../user/checks.rst:18
 msgid ""
@@ -48861,10 +48866,13 @@ msgid ""
 "translated strings automatically. Use it with caution to not have it add "
 "errors."
 msgstr ""
+"In aanvulling op :ref:`checks`, kan Weblate enkele veel voorkomende fouten "
+"in vertaalde tekenreeksen automatisch repareren. Gebruik het voorzichtig om "
+"geen andere fouten toe te voegen."
 
 #: ../../user/checks.rst:24
 msgid ":setting:`AUTOFIX_LIST`"
-msgstr ""
+msgstr ":setting:`AUTOFIX_LIST`"
 
 #: ../../user/checks.rst:27
 msgid "Trailing ellipsis replacer"
@@ -48875,6 +48883,8 @@ msgid ""
 "Replace trailing dots (``...``) with an ellipsis (``…``) to make it "
 "consistent with the source string."
 msgstr ""
+"Vervangen van achterliggende punten (``...``) door een beletselteken (``…``) "
+"om het consistent te maken met de brontekenreeks."
 
 #: ../../user/checks.rst:33
 msgid "Zero-width space removal"
@@ -48885,6 +48895,9 @@ msgid ""
 "Zero width space is typically not desired in the translation. This fix will "
 "remove it unless it is present in the source string as well."
 msgstr ""
+"Nulbreedte spatie is gewoonlijk niet gewenst in een vertaling. Deze "
+"reparatie zal het verwijderen, tenzij het ook in de brontekenreeks aanwezig "
+"is."
 
 #: ../../user/checks.rst:39
 msgid "Control characters removal"
@@ -48901,6 +48914,7 @@ msgstr "Devanagari danda"
 #: ../../user/checks.rst:46
 msgid "Replaces wrong full stop in Devanagari by Devanagari danda (``।``)."
 msgstr ""
+"Vervangt een volledig einde in Devanagari door Devanagari danda (``।``)."
 
 #: ../../user/checks.rst:51 ../../user/checks.rst:1336
 msgid "Punctuation spacing"
@@ -48909,12 +48923,16 @@ msgstr "Interpunctie-afstand"
 #: ../../user/checks.rst:55
 msgid "Ensures French and Breton use correct punctuation spacing."
 msgstr ""
+"Zorgt ervoor dat Frans en Bretons de juiste afstand voor punctuatie "
+"gebruiken."
 
 #: ../../user/checks.rst:57
 msgid ""
 "This fixup can be disabled via ``ignore-punctuation-spacing`` flag (which "
 "also disables :ref:`check-punctuation-spacing`)."
 msgstr ""
+"Deze reparatie kan worden uitgeschakeld met de vlag ``ignore-punctuation-"
+"spacing`` (die ook :ref:`check-punctuation-spacing` uitschakelt)."
 
 #: ../../user/checks.rst:63
 msgid "Unsafe HTML cleanup"
@@ -48923,6 +48941,8 @@ msgstr "Opschonen onveilige HTML"
 #: ../../user/checks.rst:65
 msgid "When turned on using a ``safe-html`` flag it sanitizes HTML markup."
 msgstr ""
+"Indien ingeschakeld schoont het gebruiken van een vlag ``safe-html`` de "
+"opmaak van HTML op."
 
 #: ../../user/checks.rst:69
 msgid ":ref:`check-safe-html`"
@@ -48938,10 +48958,14 @@ msgid ""
 "behavior can be fine-tuned using ``ignore-begin-space`` and ``ignore-end-"
 "space`` flags to skip processing parts of the string."
 msgstr ""
+"Maakt voorafgaande en achterliggende witruimte consistent met de "
+"brontekenreeks. Het gedrag kan fijn worden afgestemd met de vlaggen ``ignore-"
+"begin-space`` en ``ignore-end-space`` om delen van de tekenreeks over te "
+"slaan."
 
 #: ../../user/checks.rst:81
 msgid "Quality checks"
-msgstr ""
+msgstr "Kwaliteitscontroles"
 
 #: ../../user/checks.rst:83
 msgid ""
@@ -48949,20 +48973,26 @@ msgid ""
 "section describes them all in further detail. There are also language "
 "specific checks. Please file a bug if anything is reported in error."
 msgstr ""
+"Weblate gebruikt een breed bereik aan kwaliteitscontroles op tekenreeksen. "
+"Het volgende gedeelte beschrijft ze allemaal verder in detail. Er bestaan "
+"ook taalspecifieke controles. Rapporteer een probleem als er iets als er "
+"iets verkeerd wordt gerapporteerd."
 
 #: ../../user/checks.rst:89
 msgid ":setting:`CHECK_LIST`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":setting:`CHECK_LIST`, :ref:`custom-checks`"
 
 #: ../../user/checks.rst:92
 msgid "Translation checks"
-msgstr ""
+msgstr "Controles van vertalingen"
 
 #: ../../user/checks.rst:94
 msgid ""
 "Executed upon every translation change, helping translators maintain good "
 "quality translations."
 msgstr ""
+"Uitgevoerd bij elke wijziging in de vertaling, wat vertalers helpt om "
+"vertalingen met een goede kwaliteit te onderhouden."
 
 #: ../../user/checks.rst:100
 msgid "BBCode markup"
@@ -49028,23 +49058,30 @@ msgstr "``bbcode``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to ignore"
-msgstr ""
+msgstr "Vlag om te negeren"
 
 #: ../../user/checks.rst:108
 msgid ""
 "BBCode represents simple markup, like for example highlighting important "
 "parts of a message in bold font, or italics."
 msgstr ""
+"BBCode vertegenwoordigt eenvoudige opmaak, zoals bijvoorbeeld voor het "
+"accentueren van belangrijke delen van een bericht in vet lettertype, of "
+"cursief."
 
 #: ../../user/checks.rst:111
 msgid "This check ensures they are also found in translation."
 msgstr ""
+"Deze controle gaat ervan uit dat ze ook moeten worden gevonden in de "
+"vertaling."
 
 #: ../../user/checks.rst:115
 msgid ""
 "The method for detecting BBCode is currently quite simple so this check "
 "might produce false positives."
 msgstr ""
+"De methode voor het detecteren van BBCode is momenteel heel eenvoudig, dus "
+"deze controle zou valse positieven kunnen produceren."
 
 #: ../../user/checks.rst:121
 msgid "Consecutive duplicated words"
@@ -49067,12 +49104,17 @@ msgid ""
 "Checks that no consecutive duplicate words occur in a translation. This "
 "usually indicates a mistake in the translation."
 msgstr ""
+"Controleren dat geen opeenvolgende gedupliceerde woorden voorkomen in een "
+"vertaling. Dit geeft gewoonlijk een fout in de vertaling aan."
 
 #: ../../user/checks.rst:136
 msgid ""
 "This check includes language specific rules to avoid false positives. In "
 "case it triggers falsely in your case, let us know. See :ref:`report-issue`."
 msgstr ""
+"Deze controle bevat taalspecifieke regels om valse positieven te vermijden. "
+"In het geval dat het in uw geval foutief wordt geactiveerd, laat het ons dan "
+"weten. Bekijk :ref:`report-issue`."
 
 #: ../../user/checks.rst:142
 msgid "Does not follow glossary"
@@ -49092,19 +49134,23 @@ msgstr "``check_glossary``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable"
-msgstr ""
+msgstr "Vlag om in te schakelen"
 
 #: ../../user/checks.rst:153
 msgid ""
 "This check has to be turned on using ``check-glossary`` flag (see :ref:"
 "`custom-checks`). Please consider following prior to enabling it:"
 msgstr ""
+"Deze controle moet worden ingeschakeld met de vlag ``check-glossary`` ("
+"bekijk :ref:`custom-checks`). Denk, voor het inschakelen, eraan dat:"
 
 #: ../../user/checks.rst:156
 msgid ""
 "It does exact string matching, the glossary is expected to contain terms in "
 "all variants."
 msgstr ""
+"Het een exacte overeenkomst van de tekenreeks zoekt, de woordenlijst wordt "
+"geacht termen in alle varianten te bevatten."
 
 #: ../../user/checks.rst:157
 msgid ""
@@ -49112,10 +49158,15 @@ msgid ""
 "operation in Weblate which involves running checks like importing strings or "
 "translating."
 msgstr ""
+"Controleren van elke tekenreeks tegen de woordenlijst is tijdrovend, het zal "
+"elke bewerking in Weblate, die het uitvoeren van controles betreft, "
+"vertragen, zoals tekenreeksen importeren of vertalen."
 
 #: ../../user/checks.rst:158
 msgid "It also utilizes untranslatable glossary terms in :ref:`check-same`."
 msgstr ""
+"Het gebruikt ook onvertaalbare termen uit de woordenlijst in :ref:`check-"
+"same`."
 
 #: ../../user/checks.rst:162
 msgid ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
@@ -49142,12 +49193,16 @@ msgid ""
 "Checks that double space is present in translation to avoid false positives "
 "on other space-related checks."
 msgstr ""
+"Controleert of er een dubbele spatie in de vertaling staat om valse "
+"positieven te vermijden in andere spatie-gerelateerde controles."
 
 #: ../../user/checks.rst:179
 msgid ""
 "Check is false when double space is found in source meaning double space is "
 "intentional."
 msgstr ""
+"De controle is false als er een dubbele spatie wordt gevonden in de bron, "
+"wat betekent dat de dubbele spatie daar met opzet staat."
 
 #: ../../user/checks.rst:184
 msgid "Fluent parts"
@@ -49176,6 +49231,10 @@ msgid ""
 "all these parts appear within the same block, using Fluent-like syntax to "
 "specify the attributes. For example:"
 msgstr ""
+"Elke Fluent Message mag een optionele waarde hebben (de hoofd tekstinhoud), "
+"en optionele attributen, die elke een \"deel\" zijn van de Message. In "
+"Weblate verschijnen al deze delen in hetzelfde blok, gebruiken Fluent-"
+"achtige syntaxis om de attributen te specificeren. Bijvoorbeeld:"
 
 #: ../../user/checks.rst:206
 msgid ""
@@ -49184,6 +49243,10 @@ msgid ""
 "that the same attributes used in the source Message also appear in the "
 "translation, with no additions."
 msgstr ""
+"Deze controle zorgt ervoor dat de vertaalde Message ook een waarde heeft als "
+"de bron-Message er een heeft, of geen waarde als de bron er ook geen heeft. "
+"Dit controleert ook of dezelfde attributen, gebruikt in de bron-Message, ook "
+"terugkomen in de vertaling, zonder aanvullingen."
 
 #: ../../user/checks.rst:213
 msgid ""
@@ -49191,11 +49254,16 @@ msgid ""
 "and Term attributes tend to be locale-specific (used for grammar rules, "
 "etc.), and are not expected to appear in all translations."
 msgstr ""
+"Deze controle wordt niet toegepast op Fluent Terms, omdat Terms altijd ene "
+"waarde hebben, en attributen van Term neigen ernaar locale-specifiek te zijn "
+"(gebruikt voor grammaticaregels, etc.), en worden niet verwacht te "
+"verschijnen in alle vertalingen."
 
 #: ../../user/checks.rst:219
 msgid ""
 "`Fluent Attributes <https://projectfluent.org/fluent/guide/attributes.html>`_"
 msgstr ""
+"`Fluent Attributes <https://projectfluent.org/fluent/guide/attributes.html>`_"
 
 #: ../../user/checks.rst:224
 msgid "Fluent references"
@@ -49222,6 +49290,8 @@ msgid ""
 "A Fluent Message or Term can reference another Message, Term, Attribute, or "
 "a variable. For example:"
 msgstr ""
+"Een Fluent Message of Term kan ook verwijzen naar een andere Message, Term, "
+"attribuut of een variabele. Bijvoorbeeld:"
 
 #: ../../user/checks.rst:243
 msgid ""
@@ -49232,6 +49302,13 @@ msgid ""
 "additions. For Messages, this will also check that each Attribute in the "
 "translation uses the same references as the matching Attribute in the source."
 msgstr ""
+"Over het algemeen worden vertaalde Messages of Terms verwacht dezelfde "
+"verwijzingen te bevatten als de bron, hoewel niet noodzakelijkerwijze in "
+"dezelfde volgorde waarin zij verschijnen. Deze controle zorgt er dus voor "
+"dat vertalingen dezelfde verwijzingen gebruiken in hun waarde als de "
+"bronwaarde, hetzelfde aantal keren en zonder aanvullingen. Voor Messages zal "
+"dit ook controleren dat elk attribuut in de vertaling dezelfde verwijzingen "
+"gebruikt als het overeenkomende attribuut in de bron."
 
 #: ../../user/checks.rst:250
 msgid ""
@@ -49239,6 +49316,9 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same references, and vice versa."
 msgstr ""
+"Wanneer de bron of vertaling Fluent Select Expressions bevat, dan moet elke "
+"mogelijke variant in de bron overeenkomen met ten minste een variant met "
+"dezelfde verwijzing in de vertaling, en vice versa."
 
 #: ../../user/checks.rst:254
 msgid ""
@@ -49248,12 +49328,19 @@ msgid ""
 "the variant's key may have made the reference redundant for that variant. "
 "For example:"
 msgstr ""
+"Meer nog, als een verwijzing naar een variabele verschijnt in zowel de "
+"selectie van de Select Expression en in een van zijn varianten, dan kan van "
+"alle varianten ook worden geacht dat zij ook die verwijzing bevatten. De "
+"aanname is dat de sleutel van de variant de verwijzing voor die variant "
+"overbodig kan hebben gemaakt. Bijvoorbeeld:"
 
 #: ../../user/checks.rst:267
 msgid ""
 "Here, for the purposes of this check, the ``[one]`` variant will also be "
 "considered to contain the ``$num`` reference."
 msgstr ""
+"Hier, voor de doelen van deze controle, zal de variant ``[one]`` ook worden "
+"geacht de verwijzing ``$num`` te bevatten."
 
 #: ../../user/checks.rst:270
 msgid ""
@@ -49263,12 +49350,21 @@ msgid ""
 "content of the string that the end-user will see, and the presence of a "
 "Select Expression is considered locale-specific. For example:"
 msgstr ""
+"Echter, een verwijzing binnen de selectie van Select Expression, die alleen "
+"een variabele kan zijn van een attribuut van een Term in de syntaxis van "
+"Fluent, zal op zichzelf niet tellen als een vereiste verwijzing, omdat zij "
+"niet de feitelijke tekstinhoud vormen van de tekenreeks die de eindgebruiker "
+"zal zien, en de aanwezigheid van een Select Expression wordt beschouwd als "
+"locale-specifiek. Bijvoorbeeld:"
 
 #: ../../user/checks.rst:283
 msgid ""
 "Here a reference to ``-term.starts-with-vowel`` is not expected to appear in "
 "translations, but a reference to ``-term`` is."
 msgstr ""
+"Hier zal een verwijzing naar ``-term.starts-with-vowel`` niet worden "
+"verwacht te verschijnen in vertalingen, maar een verwijzing naar ``-term`` "
+"wel."
 
 #: ../../user/checks.rst:288
 msgid ""
@@ -49277,6 +49373,10 @@ msgid ""
 "references.html>`_ `Fluent Select Expressions <https://projectfluent.org/"
 "fluent/guide/selectors.html>`_"
 msgstr ""
+"`Fluent Variables <https://projectfluent.org/fluent/guide/variables.html>`_ `"
+"Fluent Message and Term references <https://projectfluent.org/fluent/guide/"
+"references.html>`_ `Fluent Select Expressions <https://projectfluent.org/"
+"fluent/guide/selectors.html>`_"
 
 #: ../../user/checks.rst:295
 msgid "Fluent translation inner HTML"
@@ -49303,6 +49403,8 @@ msgid ""
 "This check will verify that the translated value of a Message or Term "
 "contains the same HTML elements as the source value."
 msgstr ""
+"Deze controle zal verifiëren dat de vertaalde waarde van een Message of Term "
+"dezelfde elementen voor HTML bevat als de bronwaarde."
 
 #: ../../user/checks.rst:309
 msgid ""
@@ -49310,6 +49412,9 @@ msgid ""
 "check, then this check will do nothing. Otherwise, the translated value will "
 "also be checked under the same conditions."
 msgstr ""
+"Als eerste, als de bronwaarde mislukt voor de controle :ref:`check-fluent-"
+"source-inner-html`, dan zal deze controle niets doen. Anders zal ook de "
+"vertaalde waarde worden gecontroleerd onder dezelfde voorwaarden."
 
 #: ../../user/checks.rst:313
 msgid ""
@@ -49322,6 +49427,15 @@ msgid ""
 "there are multiple elements in the value, they need not appear in the same "
 "order in the translation value."
 msgstr ""
+"Ten tweede, de HTML-elementen die worden gevonden in de vertaalde waarde "
+"zullen worden vergeleken met de HTML-elementen die werden gevonden in de "
+"bronwaarde. Twee elementen zullen overeenkomen als zij exact dezelfde "
+"tagnaam delen, exact dezelfde attributen en waarden, en al hun voorouders op "
+"dezelfde manier overeenkomen. Deze controle zal ervoor zorgen dat alle "
+"elementen in de bron ook ergens in de vertaling verschijnen, met hetzelfde "
+"*aantal*, en zonder enige toegevoegde elementen. Indien er meerdere "
+"elementen in de waarde staan, hoeven zij niet in dezelfde volgorde in de "
+"waarde van de vertaling te staan."
 
 #: ../../user/checks.rst:322
 msgid ""
@@ -49329,6 +49443,9 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same HTML elements, and vice versa."
 msgstr ""
+"Als de bron of vertaling Fluent Select Expressions bevat, dan moet elke "
+"mogelijke variant in de bron overeenkomen met ten minste een variant in de "
+"vertaling met dezelfde HTML-elementen, en vice versa."
 
 #: ../../user/checks.rst:326
 msgid ""
@@ -49337,18 +49454,22 @@ msgid ""
 "name`` elements that appear in the source, or any of the allowed inline "
 "elements like ``<br>``."
 msgstr ""
+"Bij het gebruiken van Fluent in combinatie met het Fluent DOM-pakket, zal "
+"deze controle ervoor zorgen dat de vertaling ook eventuele vereiste "
+"elementen ``data-l10n-name`` bevat die verschijnen in de bron, of eventuele "
+"toegestane inregelige elementen, zoals ``<br>``."
 
 #: ../../user/checks.rst:331
 msgid "For example, the following source:"
-msgstr ""
+msgstr "Bijvoorbeeld, de volgende bron:"
 
 #: ../../user/checks.rst:337
 msgid "would match with:"
-msgstr ""
+msgstr "zou overeenkomen met:"
 
 #: ../../user/checks.rst:343
 msgid "but not:"
-msgstr ""
+msgstr "maar niet met:"
 
 #: ../../user/checks.rst:349
 msgid "nor"
@@ -49359,6 +49480,8 @@ msgid ""
 ":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 msgstr ""
+":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://projectfluent."
+"org/dom-l10n-documentation/overview.html>`_"
 
 #: ../../user/checks.rst:363
 msgid "Fluent translation syntax"
@@ -49387,6 +49510,11 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in the "
 "translation will be valid for Fluent."
 msgstr ""
+"In Weblate gebruiken tekenreeksen van Fluent syntaxis van Fluent voor "
+"verwijzingen en variabelen, maar ook voor meer complexe objecten, zoals "
+"definiëren van varianten voor attributen en selecties, inclusief meervouden. "
+"Deze controle zorgt ervoor dat de syntaxis, die wordt gebruikt in de "
+"vertaling, geldig zal zijn voor Fluent."
 
 #: ../../user/checks.rst:381
 msgid ""
@@ -49395,10 +49523,14 @@ msgid ""
 "mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax."
 "html>`_"
 msgstr ""
+":ref:`check-fluent-source-syntax`, `Fluent Syntax Guide "
+"<https://projectfluent.org/fluent/guide/>`_ `Mozilla Basic Syntax Guide "
+"<https://mozilla-l10n.github.io/localizer-documentation/tools/fluent/"
+"basic_syntax.html>`_"
 
 #: ../../user/checks.rst:388
 msgid "Formatted strings"
-msgstr ""
+msgstr "Opgemaakte tekenreeksen"
 
 #: ../../user/checks.rst:390
 msgid ""
@@ -49406,6 +49538,10 @@ msgid ""
 "translation. Omitting format strings in translation usually causes severe "
 "problems, so the formatting in strings should usually match the source."
 msgstr ""
+"Controleert of de opmaak in tekenreeks wordt gerepliceerd tussen zowel bron "
+"als vertaling. Weglaten van opmaak in tekenreeksen van de vertaling "
+"veroorzaakt gewoonlijk ernstige problemen, dus zou de opmaak in tekenreeksen "
+"gewoonlijk overeen moeten komen met die van de bron."
 
 #: ../../user/checks.rst:394
 msgid ""
@@ -49415,6 +49551,12 @@ msgid ""
 "probably have to add it manually for other file formats or if your PO files "
 "are not generated by :program:`xgettext`."
 msgstr ""
+"Weblate ondersteunt het controleren van de opmaak van tekenreeksen in "
+"verschillende talen. De controle wordt niet automatisch ingeschakeld, alleen "
+"als een tekenreeks toepasselijk wordt gevlagd (bijv. `c-format` voor opmaak "
+"in C). Gettext voegt dit automatisch toe, maar u zult het waarschijnlijk "
+"handmatig moeten toevoegen voor andere bestandsindelingen of als uw PO-"
+"bestanden niet zijn gegenereerd door :program:`xgettext`."
 
 #: ../../user/checks.rst:400
 msgid ""
@@ -49423,6 +49565,11 @@ msgid ""
 "these cases (`One apple` instead of `%d apple`). Turn this off by adding "
 "``strict-format`` flag."
 msgstr ""
+"De meeste controles voor opmaak staan toe dat opmaak wordt weggelaten van "
+"tekenreeksen van meervouden met een enkele telling. Dit stelt vertalers in "
+"staat nettere tekenreeksen voor deze gevallen te schrijven (`Een appel` in "
+"plaats van `%d appel`). Schakel dit uit door de vlag ``strict-format`` toe "
+"te voegen."
 
 #: ../../user/checks.rst:404
 msgid ""
@@ -49431,18 +49578,27 @@ msgid ""
 "false positives in case the string is not interpreted as a formatting "
 "string, but format string syntax happens to be used."
 msgstr ""
+"De vlaggen kunnen per tekenreeks worden aangepast (bekijk :ref:`additional`) "
+"of in een :ref:`component`. Defini\"ren per onderdeel is eenvoudiger, maar "
+"kan leiden tot valse positieven in het geval dat de tekenreeks niet wordt "
+"geïnterpreteerd als een opgemaakte tekenreeks, maar dat syntaxis voor "
+"opmaken van een tekenreeks werd gebruikt."
 
 #: ../../user/checks.rst:411
 msgid ""
 "In case specific format check is not available in Weblate, you can use "
 "generic :ref:`check-placeholders`."
 msgstr ""
+"In het geval dat een controle voor specifieke opmaak niet beschikbaar is in "
+"Weblate, kunt u algemene :ref:`check-placeholders` gebruiken."
 
 #: ../../user/checks.rst:414
 msgid ""
 "Besides checking, this will also highlight the formatting strings to easily "
 "insert them into translated strings:"
 msgstr ""
+"Naast het controleren zal dit ook de opgemaakte tekenreeksen accentueren, om "
+"ze gemakkelijk in te voegen in vertaalde tekenreeksen:"
 
 #: ../../user/checks.rst:422
 msgid "AngularJS interpolation string"
@@ -49473,6 +49629,8 @@ msgid ""
 ":ref:`check-formats`, `AngularJS text interpolation <https://angular.io/"
 "guide/interpolation>`_"
 msgstr ""
+":ref:`check-formats`, `AngularJS tekstinterpolatie <https://angular.io/guide/"
+"interpolation>`_"
 
 #: ../../user/checks.rst:440
 msgid "C format"
@@ -49521,6 +49679,9 @@ msgid ""
 "c_002dformat.html>`_, `C printf format <https://en.wikipedia.org/wiki/"
 "Printf_format_string>`_"
 msgstr ""
+"`C format strings <https://www.gnu.org/software/gettext/manual/html_node/"
+"c_002dformat.html>`_, `C printf format <https://en.wikipedia.org/wiki/"
+"Printf_format_string>`_"
 
 #: ../../user/checks.rst:460
 msgid "C# format"
@@ -49547,6 +49708,8 @@ msgid ""
 ":ref:`check-formats`, `C# String Format <https://learn.microsoft.com/en-us/"
 "dotnet/api/system.string.format?view=netframework-4.7.2>`_"
 msgstr ""
+":ref:`check-formats`, `C# String Format <https://learn.microsoft.com/en-us/"
+"dotnet/api/system.string.format?view=netframework-4.7.2>`_"
 
 #: ../../user/checks.rst:478
 msgid "ECMAScript template literals"
@@ -49566,7 +49729,7 @@ msgstr "``es_format``"
 
 #: ../../user/checks.rst:0
 msgid "Interpolation example"
-msgstr ""
+msgstr "Voorbeeld interpolatie"
 
 #: ../../user/checks.rst:486
 msgid "``There are ${number} apples``"
@@ -49577,6 +49740,8 @@ msgid ""
 ":ref:`check-formats`, `Template literals <https://developer.mozilla.org/en-"
 "US/docs/Web/JavaScript/Reference/Template_literals>`_"
 msgstr ""
+":ref:`check-formats`, `Template literals <https://developer.mozilla.org/"
+"en-US/docs/Web/JavaScript/Reference/Template_literals>`_"
 
 #: ../../user/checks.rst:496
 msgid "i18next interpolation"
@@ -49611,6 +49776,8 @@ msgid ""
 ":ref:`check-formats`, `i18next interpolation <https://www.i18next.com/"
 "translation-function/interpolation>`_"
 msgstr ""
+":ref:`check-formats`, `i18next interpolatie <https://www.i18next.com/"
+"translation-function/interpolation>`_"
 
 #: ../../user/checks.rst:518
 msgid "ICU MessageFormat"
@@ -49642,6 +49809,12 @@ msgid ""
 "certain sub-checks. For example, the following flag enables XML support "
 "while disabling validation of plural sub-messages:"
 msgstr ""
+"Deze controle heeft ondersteuning voor zowel pure ICU MessageFormat-"
+"berichten als ook voor ICU met eenvoudige tags voor XML. U kunt het gedrag "
+"van deze controle configureren door ``icu-flags:*`` te gebruiken, ofwel door "
+"te kiezen voor ondersteuning voor XMLof door bepaalde subcontroles uit te "
+"schakelen. De volgende vlag schakelt bijvoorbeeld ondersteuning voor XML in, "
+"terwijl het de validatie van subberichten van meervouden uitschakelt:"
 
 #: ../../user/checks.rst:540
 msgid "``xml``"
@@ -49652,6 +49825,9 @@ msgid ""
 "Enable support for simple XML tags. By default, XML tags are parsed loosely. "
 "Stray ``<`` characters are ignored if they are not reasonably part of a tag."
 msgstr ""
+"Inschakelen van ondersteuning voor eenvoudige tags van XML. Standaard worden "
+"tags van XML losjes geparset. Zwervende tekens ``<`` worden genegeerd als "
+"zij geen redelijk deel van een tag zijn."
 
 #: ../../user/checks.rst:544
 msgid "``strict-xml``"
@@ -49662,6 +49838,8 @@ msgid ""
 "Enable support for strict XML tags. All ``<`` characters must be escaped if "
 "they are not part of a tag."
 msgstr ""
+"Inschakelen van ondersteuning voor strikte tags voor XML. Alle tekens ``<`` "
+"moeten worden geëscapet als zij geen deel uitmaken van een tag."
 
 #: ../../user/checks.rst:547
 msgid "``-highlight``"
@@ -49677,7 +49855,7 @@ msgstr "``-require_other``"
 
 #: ../../user/checks.rst:549
 msgid "Disable requiring sub-messages to have an ``other`` selector."
-msgstr ""
+msgstr "Uitschakelen dat subberichten een selector ``other`` hebben."
 
 #: ../../user/checks.rst:552
 msgid "``-submessage_selectors``"
@@ -49686,6 +49864,8 @@ msgstr "``-submessage_selectors``"
 #: ../../user/checks.rst:552
 msgid "Skip checking that sub-message selectors match the source."
 msgstr ""
+"Overslaan van controleren of selectors van subberichten overeenkomen met de "
+"bron."
 
 #: ../../user/checks.rst:554
 msgid "``-types``"
@@ -49705,6 +49885,8 @@ msgid ""
 "Skip checking that no placeholders are present that were not present in the "
 "source string."
 msgstr ""
+"Overslaan van controleren of plaatsvervangers aanwezig zijn, die niet "
+"aanwezig waren in de brontekenreeks."
 
 #: ../../user/checks.rst:559
 msgid "``-missing``"
@@ -49715,6 +49897,8 @@ msgid ""
 "Skip checking that no placeholders are missing that were present in the "
 "source string."
 msgstr ""
+"Overslaan van controleren of plaatsvervangers ontbreken, die aanwezig waren "
+"in de brontekenreeks."
 
 #: ../../user/checks.rst:563
 msgid ""
@@ -49723,12 +49907,19 @@ msgid ""
 "start with a specific string. For example, the following flag will only "
 "allow XML tags to be matched if they start with ``<x:``:"
 msgstr ""
+"Aanvullend, als ``strict-xml`` niet is ingeschakeld, maar ``xml`` wel is "
+"ingeschakeld, kunt u de vlag ``icu-tag-prefix:PREFIX`` gebruiken om te "
+"vereisen dat alle tags voor XML beginnen met een specifieke tekenreeks. De "
+"volgende vlag zal bijvoorbeeld alleen toestaan dat tags van XML overeenkomen "
+"als zij beginnen met ``<x:``:"
 
 #: ../../user/checks.rst:572
 msgid ""
 "This would match ``<x:link>click here</x:link>`` but not ``<strong>this</"
 "strong>``."
 msgstr ""
+"Dit zou overeenkomen met ``<x:link>klik hier</x:link>``, maar niet met "
+"``<strong>deze</strong>``."
 
 #: ../../user/checks.rst:576
 msgid ""
@@ -49737,6 +49928,10 @@ msgid ""
 "format_parse/messages/>`_, `Format.JS: Message Syntax <https://formatjs."
 "github.io/docs/core-concepts/icu-syntax>`_"
 msgstr ""
+":ref:`check-icu-message-format-syntax`, :ref:`check-formats`, `ICU: "
+"Formatting Messages <https://unicode-org.github.io/icu/userguide/"
+"format_parse/messages/>`_, `Format.JS: Message Syntax <https://formatjs."
+"github.io/docs/core-concepts/icu-syntax>`_"
 
 #: ../../user/checks.rst:585
 msgid "Java format"
@@ -49759,12 +49954,16 @@ msgid ""
 "This used to be toggled by the ``java-format`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
+"Dit werd eerder geschakeld met de vlag ``java-format``, het werd gewijzigd "
+"voor consistentie met GNU gettext."
 
 #: ../../user/checks.rst:602
 msgid ""
 ":ref:`check-formats`, `Java Format Strings <https://docs.oracle.com/javase/7/"
 "docs/api/java/util/Formatter.html>`_"
 msgstr ""
+":ref:`check-formats`, `Java Format Strings <https://docs.oracle.com/javase/7/"
+"docs/api/java/util/Formatter.html>`_"
 
 #: ../../user/checks.rst:609
 msgid "Java MessageFormat"
@@ -49784,23 +49983,27 @@ msgstr "``java_format``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable unconditionally"
-msgstr ""
+msgstr "Vlag om onvoorwaardelijk in te schakelen"
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable autodetection"
-msgstr ""
+msgstr "Vlag om automatisch detecteren in te schakelen"
 
 #: ../../user/checks.rst:616
 msgid ""
 "``auto-java-messageformat`` enables check only if there is a format string "
 "in the source"
 msgstr ""
+"``auto-java-messageformat`` schakelt de controle alleen in als er een "
+"tekenreeks voor opmaak in de bron staat"
 
 #: ../../user/checks.rst:622
 msgid ""
 "This used to be toggled by ``java-messageformat`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
+"Dit werd eerder geschakeld met de vlag ``java-messageformat``, het werd "
+"gewijzigd voor consistentie met GNU gettext."
 
 #: ../../user/checks.rst:624
 msgid ""
@@ -49810,12 +50013,21 @@ msgid ""
 "it should be written as ``''``. When not paired, it is treated as beginning "
 "of quoting and will not be shown when rendering the string."
 msgstr ""
+"Deze controle valideert dat de tekenreeks voor opmaak geldig is voor de "
+"klasse Java MessageFormat. Naast het overeenkomen van tekenreeksen voor "
+"opmaak tussen gekrulde halen, verifieert het ook enkele aanhalingstekens als "
+"zij een speciale betekenis hebben. Altijd bij het schrijven van een enkel "
+"aanhalingsteken zou dat moeten worden geschreven als ``''``. Indien niet "
+"gepaard wordt het behandeld als het begin van aanhalen en zal niet worden "
+"weergegeven bij het renderen van de tekenreeks."
 
 #: ../../user/checks.rst:632
 msgid ""
 ":ref:`check-formats`, `Java MessageFormat <https://docs.oracle.com/javase/7/"
 "docs/api/java/text/MessageFormat.html>`_"
 msgstr ""
+":ref:`check-formats`, `Java MessageFormat <https://docs.oracle.com/javase/7/"
+"docs/api/java/text/MessageFormat.html>`_"
 
 #: ../../user/checks.rst:638
 msgid "JavaScript format"
@@ -49838,6 +50050,8 @@ msgid ""
 ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgstr ""
+":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
+"software/gettext/manual/html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:656
 msgid "Lua format"
@@ -49860,6 +50074,8 @@ msgid ""
 ":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/software/"
 "gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 msgstr ""
+":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/software/"
+"gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 
 #: ../../user/checks.rst:674
 msgid "Object Pascal format"
@@ -49886,6 +50102,12 @@ msgid ""
 "formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
 "System.SysUtils.Format>`_"
 msgstr ""
+":ref:`check-formats`, `Object Pascal formatting strings <https://www.gnu.org/"
+"software/gettext/manual/html_node/object_002dpascal_002dformat."
+"html#object_002dpascal_002dformat>`_, `Free Pascal formatting strings "
+"<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Delphi "
+"formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
+"System.SysUtils.Format>`_"
 
 #: ../../user/checks.rst:694
 msgid "Percent placeholders"
@@ -49932,6 +50154,8 @@ msgid ""
 ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
 "gettext/manual/html_node/perl_002dformat.html>`_"
 msgstr ""
+":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
+"gettext/manual/html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:731
 msgid "Perl format"
@@ -49955,6 +50179,9 @@ msgid ""
 "sprintf>`_, `Perl Format Strings <https://www.gnu.org/software/gettext/"
 "manual/html_node/perl_002dformat.html>`_"
 msgstr ""
+":ref:`check-formats`, `Perl sprintf <https://perldoc.perl.org/functions/"
+"sprintf>`_, `Perl Format Strings <https://www.gnu.org/software/gettext/"
+"manual/html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:751
 msgid "PHP format"
@@ -49978,6 +50205,9 @@ msgid ""
 "en/function.sprintf.php>`_, `PHP Format Strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/php_002dformat.html>`_"
 msgstr ""
+":ref:`check-formats`, `PHP sprintf documentation <https://www.php.net/manual/"
+"en/function.sprintf.php>`_, `PHP Format Strings <https://www.gnu.org/"
+"software/gettext/manual/html_node/php_002dformat.html>`_"
 
 #: ../../user/checks.rst:771
 msgid "Python brace format"
@@ -49997,7 +50227,7 @@ msgstr "``python_brace_format``"
 
 #: ../../user/checks.rst:0
 msgid "Simple format string"
-msgstr ""
+msgstr "Eenvoudige opmaak voor tekenreeks"
 
 #: ../../user/checks.rst:779
 msgid "``There are {} apples``"
@@ -50013,6 +50243,9 @@ msgid ""
 "`Python Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/python_002dformat.html>`_"
 msgstr ""
+":ref:`check-formats`, :ref:`Python brace format <python:formatstrings>`, `"
+"Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
+"python_002dformat.html>`_"
 
 #: ../../user/checks.rst:791
 msgid "Python format"
@@ -50040,6 +50273,9 @@ msgid ""
 "formatting>`, `Python Format Strings <https://www.gnu.org/software/gettext/"
 "manual/html_node/python_002dformat.html>`_"
 msgstr ""
+":ref:`check-formats`, :ref:`Python string formatting <python:old-string-"
+"formatting>`, `Python Format Strings <https://www.gnu.org/software/gettext/"
+"manual/html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:811
 msgid "Qt format"
@@ -50066,6 +50302,8 @@ msgid ""
 ":ref:`check-formats`, `Qt QString::arg() <https://doc.qt.io/qt-5/qstring."
 "html#arg>`_"
 msgstr ""
+":ref:`check-formats`, `Qt QString::arg() <https://doc.qt.io/qt-5/qstring."
+"html#arg>`_"
 
 #: ../../user/checks.rst:829
 msgid "Qt plural format"
@@ -50096,6 +50334,8 @@ msgid ""
 ":ref:`check-formats`, `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-"
 "translation.html#handling-plurals>`_"
 msgstr ""
+":ref:`check-formats`, `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-"
+"translation.html#handling-plurals>`_"
 
 #: ../../user/checks.rst:847
 msgid "Ruby format"
@@ -50123,7 +50363,7 @@ msgstr "``Your balance is %+.2<amount>f %<currency>s``"
 
 #: ../../user/checks.rst:0
 msgid "Named template string"
-msgstr ""
+msgstr "Benoemd sjabloon tekenreeks"
 
 #: ../../user/checks.rst:858
 msgid "``Your balance is %{amount} %{currency}``"
@@ -50134,6 +50374,8 @@ msgid ""
 ":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/current/"
 "Kernel.html#method-i-sprintf>`_"
 msgstr ""
+":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/current/"
+"Kernel.html#method-i-sprintf>`_"
 
 #: ../../user/checks.rst:868
 msgid "Scheme format"
@@ -50162,6 +50404,10 @@ msgid ""
 "format>`_, `Guile Scheme formatted output <https://www.gnu.org/software/"
 "guile/manual/html_node/Formatted-Output.html>`_"
 msgstr ""
+":ref:`check-formats`, `Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28."
+"html>`_, `Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`"
+"_, `Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/"
+"html_node/Formatted-Output.html>`_"
 
 #: ../../user/checks.rst:888
 msgid "Vue I18n formatting"
@@ -50209,6 +50455,10 @@ msgid ""
 "i18n/guide/formatting.html>`_, `Vue I18n Linked locale messages <https://"
 "kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_"
 msgstr ""
+":ref:`check-formats`, `Vue I18n Formatting <https://kazupon.github.io/"
+"vue-i18n/guide/formatting.html>`_, `Vue I18n Linked locale messages "
+"<https://kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-"
+"messages>`_"
 
 #: ../../user/checks.rst:909
 msgid "Has been translated"
@@ -50235,6 +50485,9 @@ msgid ""
 "Means a string has been translated already. This can happen when the "
 "translations have been reverted in VCS or lost otherwise."
 msgstr ""
+"Betekent dat een tekenreeks al is vertaald. Dit kan gebeuren als de "
+"vertalingen zijn teruggedraaid in het VCS of op een andere wijze verloren "
+"zijn gegaan."
 
 #: ../../user/checks.rst:923
 msgid "Inconsistent"
@@ -50261,6 +50514,8 @@ msgid ""
 "Weblate checks translations of the same string across all translation within "
 "a project to help you keep consistent translations."
 msgstr ""
+"Weblate controleert vertalingen van dezelfde tekenreeks in alle vertalingen "
+"in een project om u te helpen consistente vertalingen te houden."
 
 #: ../../user/checks.rst:934
 msgid ""
@@ -50268,18 +50523,26 @@ msgid ""
 "This can also lead to inconsistencies in displayed checks. You can find "
 "other translations of this string on the :guilabel:`Other occurrences` tab."
 msgstr ""
+"De controle mislukt bij verschillende vertalingen van een tekenreeks binnen "
+"een project. Dit kan ook leiden tot inconsistenties in weergegeven "
+"controles. U vindt andere vertalingen van deze tekenreeks op de tab "
+":guilabel:`Andere voorkomens`."
 
 #: ../../user/checks.rst:938
 msgid ""
 "This check applies to all components in a project that have :ref:`component-"
 "allow_translation_propagation` turned on."
 msgstr ""
+"Deze controle is van toepassing op alle onderdelen in een project die :ref"
+":`component-allow_translation_propagation` hebben ingeschakeld."
 
 #: ../../user/checks.rst:943
 msgid ""
 "For performance reasons, the check might not find all inconsistencies, it "
 "limits number of matches."
 msgstr ""
+"Om redenen van prestaties zou de controle niet alle inconsistenties kunnen "
+"vinden, het beperkt zijn aantal overeenkomsten."
 
 #: ../../user/checks.rst:948
 msgid ""
@@ -50289,6 +50552,12 @@ msgid ""
 "`Use this translation` button displayed on each line in the :guilabel:`Other "
 "occurrences` tab."
 msgstr ""
+"Deze controle wordt ook actief in het geval de tekenreeks is vertaald in een "
+"onderdeel en niet in een ander. Het kan worden gebruikt als een snelle "
+"manier om tekenreeksen af te handelen die in sommige onderdelen niet zijn "
+"vertaald, door eenvoudigweg te klikken op de knop :guilabel:`Deze vertaling "
+"gebruiken` die wordt weergegeven op elke regel van de tab :guilabel:`Andere "
+"voorkomens`."
 
 #: ../../user/checks.rst:954
 msgid ""
@@ -50296,6 +50565,9 @@ msgid ""
 "automate translating of newly added strings which are already translated in "
 "another component."
 msgstr ""
+"U kunt de add-on :ref:`addon-weblate.autotranslate.autotranslate` gebruiken "
+"om het vertalen van nieuw toegevoegde tekenreeksen, die al vertaald zijn in "
+"een ander onderdeel, te automatiseren."
 
 #: ../../user/checks.rst:966
 msgid "Kashida letter used"
@@ -50318,10 +50590,12 @@ msgid ""
 "The decorative Kashida letters should not be used in translation. These are "
 "also known as Tatweel."
 msgstr ""
+"De decoratieve letters Kashida zouden niet moeten worden gebruikt in "
+"vertalingen. Deze zijn ook wel bekend als Tatweel."
 
 #: ../../user/checks.rst:980
 msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
-msgstr ""
+msgstr "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
 
 #: ../../user/checks.rst:985
 msgid "Markdown links"
@@ -50341,11 +50615,11 @@ msgstr "``md-link``"
 
 #: ../../user/checks.rst:994
 msgid "Markdown links do not match source."
-msgstr ""
+msgstr "Koppelingen van Markdown komen niet overeen met de bron."
 
 #: ../../user/checks.rst:998
 msgid "`Markdown links`_"
-msgstr ""
+msgstr "`Markdown links`_"
 
 #: ../../user/checks.rst:1004
 msgid "Markdown references"
@@ -50366,10 +50640,11 @@ msgstr "``md-reflink``"
 #: ../../user/checks.rst:1013
 msgid "Markdown link references do not match source."
 msgstr ""
+"Verwijzingen van koppelingen in Markdown komen niet overeen met de bron."
 
 #: ../../user/checks.rst:1017
 msgid "`Markdown links <https://spec.commonmark.org/0.31.2/#links>`_"
-msgstr ""
+msgstr "`Markdown links <https://spec.commonmark.org/0.31.2/#links>`_"
 
 #: ../../user/checks.rst:1022
 msgid "Markdown syntax"
@@ -50389,7 +50664,7 @@ msgstr "``md-syntax``"
 
 #: ../../user/checks.rst:1035
 msgid "`Markdown inlines <https://spec.commonmark.org/0.31.2/#inlines>`_"
-msgstr ""
+msgstr "`Markdown inlines <https://spec.commonmark.org/0.31.2/#inlines>`_"
 
 #: ../../user/checks.rst:1040
 msgid "Maximum length of translation"
@@ -50412,12 +50687,17 @@ msgid ""
 "Checks that translations are of acceptable length to fit available space. "
 "This only checks for the length of translation characters."
 msgstr ""
+"Controleert of vertalingen van een acceptabele lengte zij om in de "
+"beschikbare ruimte te passen. Dit controleert alleen de lengte van de tekens "
+"van de vertaling."
 
 #: ../../user/checks.rst:1052
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-length:100``."
 msgstr ""
+"Anders dan de andere controles zou de vlag moeten worden ingesteld als een "
+"paar ``sleutel:waarde``, zoals ``max-length:100``."
 
 #: ../../user/checks.rst:1057
 msgid ""
@@ -50425,17 +50705,25 @@ msgid ""
 "using proportional fonts to render the text. The :ref:`check-max-size` check "
 "does check actual rendering of the text."
 msgstr ""
+"Deze controle kijkt naar het aantal tekens, wat niet de beste metriek zou "
+"kunnen zijn bij het gebruiken van proportionele lettertypen om de tekst te "
+"renderen. De controle :ref:`check-max-size` controleert het feitelijk "
+"renderen van de tekst."
 
 #: ../../user/checks.rst:1061 ../../user/checks.rst:1100
 msgid ""
 "The ``replacements:`` flag might be also useful to expand placeables before "
 "checking the string."
 msgstr ""
+"De vlag ``replacements:`` zou ook nuttig kunnen zijn om plaatsvervangers uit "
+"te breiden, voor het controleren van de tekenreeks."
 
 #: ../../user/checks.rst:1064 ../../user/checks.rst:1103
 msgid ""
 "When ``xml-text`` flag is also used, the length calculation ignores XML tags."
 msgstr ""
+"Als de vlag ``xml-text`` ook wordt gebruikt, negeert de berekening van de "
+"lengte de tags van XML."
 
 #: ../../user/checks.rst:1069
 msgid "Maximum size of translation"
@@ -50459,6 +50747,9 @@ msgid ""
 "Translation rendered text should not exceed given size. It renders the text "
 "with line wrapping and checks if it fits into given boundaries."
 msgstr ""
+"Vertaling van de gerenderde tekst zou de opgegeven grootte niet moeten "
+"overschrijden. Het rendert de tekst met regeldoorloop en controleert of het "
+"past binnen de opgegeven grenzen."
 
 #: ../../user/checks.rst:1081
 msgid ""
@@ -50466,6 +50757,9 @@ msgid ""
 "lines. In case the number of lines is not provided, one line text is "
 "considered."
 msgstr ""
+"Deze controle heeft slechts een of twee parameters nodig - maximale breedte "
+"en maximale aantal regels. In het geval het aantal regels niet wordt "
+"opgegeven, wordt een regel tekst aangenomen."
 
 #: ../../user/checks.rst:1085
 msgid ""
@@ -50473,6 +50767,10 @@ msgid ""
 "checks`), for example following translation flags say that the text rendered "
 "with ubuntu font size 22 should fit into two lines and 500 pixels:"
 msgstr ""
+"U kunt ook het gebruikte lettertype configureren met de directieven "
+"``font-*`` (bekijk :ref:`custom-checks`), bijvoorbeeld volgend op vlaggen "
+"voor vertaling die zeggen dat de tekst wordt gerenderd met lettertype "
+"Ubuntu, grootte 22 zou moeten passen op twee regels en 500 pixels:"
 
 #: ../../user/checks.rst:1096
 msgid ""
@@ -50480,10 +50778,14 @@ msgid ""
 "same font configured for all strings within a component. You can override "
 "those values per string in case you need to customize it per string."
 msgstr ""
+"U wilt misschien de directieven voor ``font-*`` instellen in :ref:`component`"
+" om hetzelfde lettertype te hebben geconfigureerd voor alle tekenreeksen in "
+"een onderdeel. U kunt deze waarden per tekenreeks overschrijven in het geval "
+"u het per tekenreeks moet aanpassen."
 
 #: ../../user/checks.rst:1107
 msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
-msgstr ""
+msgstr ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 
 #: ../../user/checks.rst:1112
 msgid "Mismatched \\\\n"
@@ -50507,14 +50809,18 @@ msgid ""
 "fails if the number of ``\\n`` literals in translation does not match the "
 "source."
 msgstr ""
+"Gewoonlijk zijn geëscapete nieuwe regels (newlines) belangrijk voor de "
+"opmaak van de uitvoer van het programma. Controle mislukt als het aantal "
+"letterlijke ``\\n"
+"``'s in de vertaling niet overeenkomt met de bron."
 
 #: ../../user/checks.rst:1126
 msgid "Mismatched colon"
-msgstr "niet-overeenkomende dubbele punt"
+msgstr "Niet overeenkomende dubbele punt"
 
 #: ../../user/checks.rst:1128
 msgid "Source and translation do not both end with a colon"
-msgstr "Bron en vertaling eindigen niet met een dubbele punt"
+msgstr "Bron en vertaling eindigen niet beide met een dubbele punt"
 
 #: ../../user/checks.rst:1130
 msgid "``weblate.checks.chars.EndColonCheck``"
@@ -50530,19 +50836,23 @@ msgid ""
 "presence of colons is also checked for various languages where they do not "
 "belong (Chinese or Japanese)."
 msgstr ""
+"Controleert of dubbele punten zijn gerepliceerd tussen de bron en de "
+"vertaling. De aanwezigheid van dubbele punten wordt ook gecontroleerd voor "
+"verschillende talen waarin zij niet thuishoren (Chinees of Japans)."
 
 #: ../../user/checks.rst:1140
 msgid ""
 "`Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_"
 msgstr ""
+"`Dubbele punt op Wikipedia <https://nl.wikipedia.org/wiki/Dubbelepunt>`_"
 
 #: ../../user/checks.rst:1145
 msgid "Mismatched ellipsis"
-msgstr "niet-overeenkomende ellips"
+msgstr "Niet overeenkomend beletselteken"
 
 #: ../../user/checks.rst:1147
 msgid "Source and translation do not both end with an ellipsis"
-msgstr "Bron en vertaling eindigen niet met een ellips (…)"
+msgstr "Bron en vertaling eindigen niet beide met een beletselteken (…)"
 
 #: ../../user/checks.rst:1149
 msgid "``weblate.checks.chars.EndEllipsisCheck``"
@@ -50558,20 +50868,26 @@ msgid ""
 "translation. This only checks for real ellipsis (``…``) not for three dots "
 "(``...``)."
 msgstr ""
+"Controleert of achterliggende beletseltekens zijn gerepliceerd tussen de "
+"bron en de vertaling. Dit controleert alleen op echte beletseltekens (``…``)"
+", niet op drie punten (``...``)."
 
 #: ../../user/checks.rst:1156
 msgid ""
 "An ellipsis is usually rendered nicer than three dots in print, and sounds "
 "better with text-to-speech."
 msgstr ""
+"Een beletselteken wordt gewoonlijk netter gerenderd dan drie punten bij "
+"afdrukken, en klinkt beter met tekst-naar-spraak."
 
 #: ../../user/checks.rst:1160 ../../user/checks.rst:1638
 msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
 msgstr ""
+"`Beletselteken op Wikipedia <https://nl.wikipedia.org/wiki/Beletselteken>`_"
 
 #: ../../user/checks.rst:1166
 msgid "Mismatched exclamation mark"
-msgstr "niet-overeenkomend uitroepteken"
+msgstr "Niet overeenkomend uitroepteken"
 
 #: ../../user/checks.rst:1168
 msgid "Source and translation do not both end with an exclamation mark"
@@ -50592,20 +50908,25 @@ msgid ""
 "where they do not belong (Chinese, Japanese, Korean, Armenian, Limbu, "
 "Myanmar or Nko)."
 msgstr ""
+"Controleert of uitroeptekens zijn gerepliceerd tussen de bron en de "
+"vertaling. De aanwezigheid van uitroeptekens wordt ook gecontroleerd voor "
+"verschillende talen waarin zij niet thuishoren (Chinees, Japans, Koreaans, "
+"Armeens, Limbu, Myanmar of Nko)."
 
 #: ../../user/checks.rst:1181
 msgid ""
 "`Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/"
 "Exclamation_mark>`_"
 msgstr ""
+"`Uitroepteken op Wikipedia <https://nl.wikipedia.org/wiki/Uitroepteken>`_"
 
 #: ../../user/checks.rst:1186
 msgid "Mismatched full stop"
-msgstr "niet-overeenkomende punt"
+msgstr "Niet overeenkomende punt"
 
 #: ../../user/checks.rst:1188
 msgid "Source and translation do not both end with a full stop"
-msgstr "Bron en vertaling eindigen niet met een punt"
+msgstr "Bron en vertaling eindigen niet beide met een punt"
 
 #: ../../user/checks.rst:1190
 msgid "``weblate.checks.chars.EndStopCheck``"
@@ -50621,18 +50942,22 @@ msgid ""
 "The presence of full stops is checked for various languages where they do "
 "not belong (Chinese, Japanese, Devanagari or Urdu)."
 msgstr ""
+"Controleert dat punten aan het einde van de zin zijn gerepliceerd tussen de "
+"bron en de vertaling. De aanwezigheid van de punt aan het einde van de zin "
+"wordt ook gecontroleerd voor verschillende talen waarin zij niet thuishoren ("
+"Chinees, Japans, Devanagari of Urdu)."
 
 #: ../../user/checks.rst:1200
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
-msgstr ""
+msgstr "`Punt op Wikipedia <https://nl.wikipedia.org/wiki/Punt_(teken)>`_"
 
 #: ../../user/checks.rst:1205
 msgid "Mismatched question mark"
-msgstr "niet-overeenkomend vraagteken"
+msgstr "Niet overeenkomend vraagteken"
 
 #: ../../user/checks.rst:1207
 msgid "Source and translation do not both end with a question mark"
-msgstr "Bron en vertaling eindigen niet met een vraagteken"
+msgstr "Bron en vertaling eindigen niet beide met een vraagteken"
 
 #: ../../user/checks.rst:1209
 msgid "``weblate.checks.chars.EndQuestionCheck``"
@@ -50649,19 +50974,23 @@ msgid ""
 "languages where they do not belong (Armenian, Arabic, Chinese, Korean, "
 "Japanese, Ethiopic, Vai or Coptic)."
 msgstr ""
+"Controleert of vraagtekens werden gerepliceerd tussen de bron en de "
+"vertaling. De aanwezigheid van vraagtekens wordt ook gecontroleerd voor "
+"verschillende talen waarin zij niet thuishoren (Armeens, Arabisch, Chinees, "
+"Koreaans, Japans, Ethiopisch, Vai of Koptisch)."
 
 #: ../../user/checks.rst:1220
 msgid ""
 "`Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_"
-msgstr ""
+msgstr "`Vraagteken op Wikipedia <https://nl.wikipedia.org/wiki/Vraagteken>`_"
 
 #: ../../user/checks.rst:1225
 msgid "Mismatched interrobang mark"
-msgstr "Niet overeenkomende markering interrobang"
+msgstr "Niet overeenkomend teken interrobang"
 
 #: ../../user/checks.rst:1227
 msgid "Source and translation do not both end with a interrobang mark"
-msgstr "Bron en vertaling eindigen beide niet met een markering interrobang"
+msgstr "Bron en vertaling eindigen niet beide met een teken interrobang"
 
 #: ../../user/checks.rst:1229
 msgid "``weblate.checks.chars.EndInterrobangCheck``"
@@ -50680,11 +51009,14 @@ msgid ""
 "Checks that interrobang marks are replicated between both source and "
 "translation. It allows the swap between \"!?\" and \"?!\"."
 msgstr ""
+"Controleert of tekens interrobang werden gerepliceerd tussen de bron en de "
+"vertaling. Het staat wisselen tussen \"!?\" en \"?!\" toe."
 
 #: ../../user/checks.rst:1238
 msgid ""
 "`Interrobang mark on Wikipedia <https://en.wikipedia.org/wiki/Interrobang>`_"
 msgstr ""
+"`Teken interrobang op Wikipedia <https://nl.wikipedia.org/wiki/Interrobang>`_"
 
 #: ../../user/checks.rst:1243
 msgid "Mismatched semicolon"
@@ -50692,7 +51024,7 @@ msgstr "niet-overeenkomende puntkomma"
 
 #: ../../user/checks.rst:1245
 msgid "Source and translation do not both end with a semicolon"
-msgstr "de bron en vertaling eindigen niet met een puntkomma"
+msgstr "Bron en vertaling eindigen niet met een puntkomma"
 
 #: ../../user/checks.rst:1247
 msgid "``weblate.checks.chars.EndSemicolonCheck``"
@@ -50707,10 +51039,12 @@ msgid ""
 "Checks that semicolons at the end of sentences are replicated between both "
 "source and translation."
 msgstr ""
+"Controleert of puntkomma's aan het einde van zinnen werden gerepliceerd "
+"tussen de bron en de vertaling."
 
 #: ../../user/checks.rst:1255
 msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
-msgstr ""
+msgstr "`Puntkomma op Wikipedia <https://nl.wikipedia.org/wiki/Puntkomma>`_"
 
 #: ../../user/checks.rst:1260
 msgid "Mismatching line breaks"
@@ -50733,6 +51067,9 @@ msgid ""
 "Usually newlines are important for formatting program output. Check fails if "
 "the number of new lines in translation does not match the source."
 msgstr ""
+"Gewoonlijk zijn regeleinden (newlines) belangrijk voor het opmaken van de "
+"uitvoer van het programma. Controle mislukt als het aantal nieuwe regels in "
+"de vertaling niet overeenkomt met de bron."
 
 #: ../../user/checks.rst:1275
 msgid "Missing plurals"
@@ -50756,12 +51093,17 @@ msgid ""
 "Specifics on how each plural form is used can be found in the string "
 "definition."
 msgstr ""
+"Controleert of alle meervoudsvormen van een brontekenreeks zijn vertaald. "
+"Specificaties over hoe elke meervoudsvorm wordt gebruikt is te vinden in de "
+"definitie van de tekenreeks."
 
 #: ../../user/checks.rst:1286
 msgid ""
 "Failing to fill in plural forms will in some cases lead to displaying "
 "nothing when the plural form is in use."
 msgstr ""
+"Nalaten van het invullen van meervoudsvormen zal in sommige gevallen leiden "
+"tot het weergeven van niets, als de meervoudsvorm wordt gebruikt."
 
 #: ../../user/checks.rst:1292
 msgid "Placeholders"
@@ -50787,6 +51129,8 @@ msgstr "U kunt reguliere uitdrukkingen gebruiken als plaatsvervanger."
 msgid ""
 "With the ``case-insensitive`` flag, the placeholders are not case-sensitive."
 msgstr ""
+"Met de vlag ``case-insensitive`` zijn de plaatsvervangers niet "
+"hoofdlettergevoelig."
 
 #: ../../user/checks.rst:1309
 msgid ""
@@ -50794,16 +51138,22 @@ msgid ""
 "the translation file or defined manually using ``placeholders`` flag, more "
 "can be separated with colon, strings with space can be quoted:"
 msgstr ""
+"Vertaling mist enkele plaatsvervangers. Deze zijn ofwel uitgenomen uit het "
+"vertaalbestand of handmatig gedefinieerd met de vlag ``placeholders``, meer "
+"mag worden gescheiden door een dubbele punt, tekenreeksen met spaties mogen "
+"worden aangehaald:"
 
 #: ../../user/checks.rst:1317
 msgid ""
 "In case you have some syntax for placeholders, you can use a regular "
 "expression:"
 msgstr ""
+"In het geval u bepaalde syntaxis heeft voor plaatsvervangers, mag u een "
+"reguliere uitdrukking gebruiken:"
 
 #: ../../user/checks.rst:1323
 msgid "You can also have case insensitive placeholders:"
-msgstr ""
+msgstr "U mag ook niet hoofdlettergevoelige plaatsvervangers hebben:"
 
 #: ../../user/checks.rst:1331 ../../user/glossary.rst:68
 #: ../../user/glossary.rst:84 ../../user/glossary.rst:100
@@ -50829,12 +51179,19 @@ msgid ""
 "only in a few selected languages like French or Breton, where space before "
 "double punctuation sign is a typographic rule."
 msgstr ""
+"Controleert of er een niet afbreekbare spatie staat voor een dubbel teken "
+"voor punctuatie (uitroepteken, vraagteken, puntkomma en dubbele punt). Deze "
+"regel wordt alleen gebruikt in een paar geselecteerde talen, zoals Frans of "
+"Bretons, waar spatie voor een dubbel teken van punctuatie een typografische "
+"regel is."
 
 #: ../../user/checks.rst:1351
 msgid ""
 "`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 msgstr ""
+"`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
+"History_of_sentence_spacing#French_and_English_spacing>`_"
 
 #: ../../user/checks.rst:1359
 msgid "Translation does not match regular expression"
@@ -50853,6 +51210,9 @@ msgid ""
 "Translation does not match regular expression. The expression is either "
 "extracted from the translation file or defined manually using ``regex`` flag:"
 msgstr ""
+"Vertaling komt niet overeen met de reguliere uitdrukking. De uitdrukking "
+"wordt ofwel uitgenomen uit het vertaalbestand of handmatig gedefinieerd met "
+"de vlag ``regex``:"
 
 #: ../../user/checks.rst:1377
 msgid "Reused translation"
@@ -50875,6 +51235,9 @@ msgid ""
 "Check that fails if the same translation is used on different source "
 "strings. Such translations can be intentional, but can also confuse users."
 msgstr ""
+"Controle mislukt als dezelfde vertaling wordt gebruikt voor verschillende "
+"brontekenreeksen. Dergelijke vertalingen kunnen opzettelijk zijn, maar zij "
+"verwarren gebruikers ook."
 
 #: ../../user/checks.rst:1393
 msgid "Same plurals"
@@ -50897,6 +51260,8 @@ msgid ""
 "Check that fails if some plural forms are duplicated in the translation. In "
 "most languages they have to be different."
 msgstr ""
+"Controle die mislukt als sommige meervoudsvormen worden gedupliceerd in de "
+"vertaling. In de meeste talen moeten zij verschillend zijn."
 
 #: ../../user/checks.rst:1407
 msgid "Starting newline"
@@ -50920,6 +51285,9 @@ msgid ""
 "additions can lead to formatting problems when the translated text is put to "
 "use."
 msgstr ""
+"Regeleinden komen gewoonlijk met een goede reden voor in brontekenreeksen, "
+"weglaten of toevoegen kan leiden tot problemen met de opmaak als de "
+"vertaalde tekst in gebruik wordt genomen."
 
 #: ../../user/checks.rst:1420
 msgid ":ref:`check-end-newline`"
@@ -50946,6 +51314,8 @@ msgid ""
 "A space in the beginning of a string is usually used for indentation in the "
 "interface and thus important to keep."
 msgstr ""
+"Een spatie aan het begin van een tekenreeks is gewoonlijk voor inspringen in "
+"de interface en dus belangrijk om te behouden."
 
 #: ../../user/checks.rst:1439
 msgid "Trailing newline"
@@ -50988,12 +51358,16 @@ msgid ""
 "Checks that trailing spaces are replicated between both source and "
 "translation."
 msgstr ""
+"Controleert of achterliggende spaties werden gerepliceerd tussen de bron en "
+"de vertaling."
 
 #: ../../user/checks.rst:1467
 msgid ""
 "Trailing space is usually utilized to space out neighbouring elements, so "
 "removing it might break layout."
 msgstr ""
+"Achterliggende spatie wordt gewoonlijk gebruikt om nabijgelegen elementen "
+"uit te lijnen, het verwijderen ervan zou de lay-out kunnen verstoren."
 
 #: ../../user/checks.rst:1473
 msgid "Unchanged translation"
@@ -51018,10 +51392,17 @@ msgid ""
 "all languages are ignored, and various markup is stripped. This reduces the "
 "number of false positives."
 msgstr ""
+"Gebeurt als de bron en corresponderende tekenreeksen voor de vertaling "
+"identiek zijn, tot ten minste een van de meervoudsvormen. Sommige "
+"tekenreeksen die veel voorkomen in alle talen worden genegeerd, en "
+"verschillende opmaak wordt gestript. Dit vermindert het aantal valse "
+"positieven."
 
 #: ../../user/checks.rst:1486
 msgid "This check can help find strings mistakenly untranslated."
 msgstr ""
+"Deze controle kan helpen bij het vinden van tekenreeksen die abusievelijk "
+"niet zijn vertaald."
 
 #: ../../user/checks.rst:1488
 msgid ""
@@ -51032,12 +51413,22 @@ msgid ""
 "blacklist can be disabled by adding ``strict-same`` flag to string or "
 "component."
 msgstr ""
+"Het standaard gedrag van deze controle is om woorden, vanuit de ingebouwde "
+"zwarte lijst, uit te sluiten van het controleren. Dat zijn woorden die "
+"frequently niet worden vertaald. Dit is nuttig voor het vermijden van valse "
+"positieven voor korte tekenreeksen, die bestaan uit een enkel woord dat "
+"hetzelfde is in verscheidene talen. Deze zwarte lijst kan worden "
+"uitgeschakeld door de vlag ``strict-same`` toe te voegen aan de tekenreeks "
+"of het onderdeel."
 
 #: ../../user/checks.rst:1496
 msgid ""
 "With ``check-glossary`` flag (see :ref:`check-check-glossary`), the "
 "untranslatable glossary terms are excluded from the checking."
 msgstr ""
+"Met de vlag ``check-glossary`` (bekijk :ref:`check-check-glossary`), worden "
+"de onvertaalbare termen uit de woordenlijst ook uitgesloten van het "
+"controleren."
 
 #: ../../user/checks.rst:1501
 msgid ":ref:`check-check-glossary`, :ref:`component`, :ref:`custom-checks`"
@@ -51061,18 +51452,26 @@ msgid ""
 "``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied "
 "autofixer which can automatically sanitize the markup."
 msgstr ""
+"De vertaling gebruikt onveilige opmaak voor HTML. Deze controle moet worden "
+"ingeschakeld met de vlag ``safe-html`` (bekijk :ref:`custom-checks`). Er is "
+"ook een bijbehorende automatische reparatie die automatisch de opmaak kan "
+"opschonen."
 
 #: ../../user/checks.rst:1523
 msgid ""
 "When ``md-text`` flag is also used, the Markdown style links are also "
 "allowed."
 msgstr ""
+"Als ook de vlag ``md-text`` wordt gebruikt, zijn koppelingen in de stijl "
+"Markdown ook toegestaan."
 
 #: ../../user/checks.rst:1527
 msgid ""
 "The HTML check is performed by the `Ammonia <https://github.com/rust-ammonia/"
 "ammonia>`_ library."
 msgstr ""
+"De controle HTML wordt uitgevoerd door de bibliotheek `Ammonia "
+"<https://github.com/rust-ammonia/ammonia>`_."
 
 #: ../../user/checks.rst:1535
 msgid "URL"
@@ -51092,6 +51491,9 @@ msgid ""
 "unit is marked as containing URL. In that case the translation has to be a "
 "valid URL."
 msgstr ""
+"De vertaling bevat geen URL. Dit wordt alleen geactiveerd in het geval dat "
+"de eenheid is gemarkeerd voor het bevatten van een URL. In dat geval moet de "
+"vertaling een geldige URL zijn."
 
 #: ../../user/checks.rst:1551
 msgid "XML markup"
@@ -51115,23 +51517,34 @@ msgid ""
 "this is not a desired result from changing the translation, but occasionally "
 "it is."
 msgstr ""
+"Dit betekent gewoonlijk dat de resulterende uitvoer er anders uit zal zien. "
+"In de meeste gevallen is dat geen gewenst resultaat van het wijzigen van de "
+"vertaling, maar soms is het dat wel."
 
 #: ../../user/checks.rst:1562
 msgid ""
 "Checks that XML tags are replicated between both source and translation."
 msgstr ""
+"Controleert of tags van XML werden gerepliceerd tussen de bron en de "
+"vertaling."
 
 #: ../../user/checks.rst:1564 ../../user/checks.rst:1585
 msgid ""
 "The check is automatically enabled for XML like strings. You might need to "
 "add ``xml-text`` flag in some cases to force turning it on."
 msgstr ""
+"De controle wordt automatisch ingeschakeld voor op XML lijkende "
+"tekenreeksen. U wilt misschien de vlag ``xml-text`` in sommige gevallen "
+"toevoegen, om het inschakelen ervan te forceren."
 
 #: ../../user/checks.rst:1569 ../../user/checks.rst:1590
 msgid ""
 "This check is disabled by the ``safe-html`` flag as the HTML cleanup done by "
 "it can produce HTML markup which is not valid XML."
 msgstr ""
+"Deze controle wordt uitgeschakeld door de vlag ``safe-html`` omdat het "
+"opschonen van de HTML, die er door uitgevoerd wordt, opmaak voor HTML zou "
+"kunnen produceren die geen geldige XML is."
 
 #: ../../user/checks.rst:1575
 msgid "XML syntax"
@@ -51151,7 +51564,7 @@ msgstr "``xml-invalid``"
 
 #: ../../user/checks.rst:1583
 msgid "The XML markup is not valid."
-msgstr ""
+msgstr "De opmaak van de XML is niet geldig."
 
 #: ../../user/checks.rst:1596
 msgid "Zero-width space"
@@ -51174,6 +51587,8 @@ msgid ""
 "Zero-width space (<U+200B>) characters are used to break messages within "
 "words (word wrapping)."
 msgstr ""
+"Tekens Nulbreedte spatie (<U+200B>) worden gebruikt om berichten binnen "
+"woorden af te breken (woordafbreking)."
 
 #: ../../user/checks.rst:1606
 msgid ""
@@ -51181,21 +51596,28 @@ msgid ""
 "are present in translation. Some programs might have problems when this "
 "character is used."
 msgstr ""
+"Omdat zij meestal per vergissing worden ingevoegd, wordt deze controle "
+"geactiveerd als zij aanwezig zijn in de vertaling. Sommige programma's "
+"zouden problemen kunnen ondervinden als dit teken wordt gebruikt."
 
 #: ../../user/checks.rst:1611
 msgid ""
 "`Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-"
 "width_space>`_"
 msgstr ""
+"`Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-"
+"width_space>`_"
 
 #: ../../user/checks.rst:1616
 msgid "Source checks"
-msgstr ""
+msgstr "Controles van bron"
 
 #: ../../user/checks.rst:1618
 msgid ""
 "Source checks can help developers improve the quality of source strings."
 msgstr ""
+"Controles van de bron kunnen ontwikkelaars helpen de kwaliteit van "
+"brontekenreeksen te verbeteren."
 
 #: ../../user/checks.rst:1623
 msgid "Ellipsis"
