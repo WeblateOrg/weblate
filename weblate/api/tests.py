@@ -7,6 +7,7 @@ from copy import copy
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
 
+import responses
 from django.core.files import File
 from django.urls import reverse
 from rest_framework.exceptions import ErrorDetail
@@ -2009,6 +2010,116 @@ class ProjectAPITest(APIBaseTest):
             request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"},
         )
         self.assertEqual(response.data, [])
+
+    @responses.activate
+    def test_install_machinery(self) -> None:
+        from weblate.machinery.tests import DeepLTranslationTest
+
+        # unauthenticated
+        self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=403,
+            authenticated=True,
+            superuser=False,
+            request={"service": "weblate"},
+        )
+
+        # missing service
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={},
+        )
+
+        # unknown service
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={"service": "unknown"},
+        )
+
+        # no form
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=200,
+            superuser=True,
+            request={"service": "weblate"},
+        )
+
+        # missing required field
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "service": "deepl",
+                "configuration": '{"wrong": ""}',
+            },
+        )
+
+        # invalid field
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "service": "deepl",
+                "configuration": "{malformed_json",
+            },
+        )
+
+        # valid form
+        DeepLTranslationTest.mock_response()
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=200,
+            superuser=True,
+            request={
+                "service": "deepl",
+                "configuration": '{"key": "x", "url": "https://api.deepl.com/v2/"}',
+            },
+        )
+
+        # update configuration
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=200,
+            superuser=True,
+            request={
+                "service": "deepl",
+                "configuration": '{"key": "xy", "url": "https://api.deepl.com/v2/"}',
+                "update": "true",
+            },
+        )
+
+        # test list configurations
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+        )
+        self.assertIn("weblate", response.data)
+        self.assertEqual(response.data["deepl"]["key"], "xy")
 
 
 class ComponentAPITest(APIBaseTest):
