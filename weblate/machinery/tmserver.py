@@ -14,7 +14,7 @@ class TMServerTranslation(MachineTranslation):
     """tmserver machine translation support."""
 
     name = "tmserver"
-    settings_form: None | type[BaseMachineryForm] = URLMachineryForm
+    settings_form: type[BaseMachineryForm] | None = URLMachineryForm
 
     def map_language_code(self, code):
         """Convert language to service specific code."""

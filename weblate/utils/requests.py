@@ -29,7 +29,7 @@ def request(
     return response
 
 
-def get_uri_error(uri: str) -> None | str:
+def get_uri_error(uri: str) -> str | None:
     """Return error for fetching the URL or None if it works."""
     if uri.startswith("https://nonexisting.weblate.org/"):
         return "Non existing test URL"

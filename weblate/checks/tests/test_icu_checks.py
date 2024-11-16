@@ -15,7 +15,7 @@ class ICUMessageFormatCheckTest(CheckTestCase):
 
     id_hash: str = "icu_message_format"
     flag: str = "icu-message-format"
-    flags: None | str = None
+    flags: str | None = None
 
     def get_mock(
         self, source: str | list[str] | None = None, flags: str | None = None

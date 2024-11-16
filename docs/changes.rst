@@ -9,9 +9,11 @@ Not yet released.
 
 **Improvements**
 
+* :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
 * A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate Component`)
 * Included username when generating :ref:`credits`.
 * :ref:`bulk-edit` shows a preview of matched strings.
+* :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
 
 **Bug fixes**
 
@@ -32,10 +34,15 @@ Weblate 5.8.4
 
 Not yet released.
 
+**Improvements**
+
+* :ref:`search-users` can search based on user changes.
+
 **Bug fixes**
 
 * Fixed occasional crash in :ref:`rss`.
 * :ref:`check-icu-message-format` gracefully handles plural strings.
+* :ref:`vcs-bitbucket-cloud` correctly generates pull request description.
 
 **Upgrading**
 

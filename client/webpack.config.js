@@ -6,9 +6,13 @@ const path = require("node:path");
 
 const TerserPlugin = require("terser-webpack-plugin");
 const LicensePlugin = require("webpack-license-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+// Regular expression to match copyright lines
 const copyrightRegex = /Copyright.*\n/;
 
 // REUSE-IgnoreStart
+// Function to extract copyright information from a package
 function extractCopyright(pkg) {
   if (pkg.licenseText !== null) {
     const copyrights = pkg.licenseText.match(copyrightRegex);
@@ -19,6 +23,7 @@ function extractCopyright(pkg) {
   return `Copyright ${pkg.author}\n`;
 }
 
+// Generic function to transform package information
 function genericTransform(packages, filter) {
   const mainPackages = packages.filter(filter);
   const licenses = [...new Set(mainPackages.map((pkg) => pkg.license))]
@@ -33,28 +38,54 @@ SPDX-License-Identifier: ${licenses}
 `;
 }
 // REUSE-IgnoreEnd
+// License transform function for global packages used in main.js
 function mainLicenseTransform(packages) {
   const excludePrefixes = [
     "@sentry",
     "tributejs",
     "@tarekraafat/autocomplete.js",
     "autosize",
+    "multi.js",
+    "mousetrap",
   ];
   return genericTransform(
     packages,
     (pkg) => !excludePrefixes.some((prefix) => pkg.name.startsWith(prefix)),
   );
 }
+
 function sentryLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("@sentry"));
 }
+
 function tributeLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("tributejs"));
 }
+
 function autosizeLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("autosize"));
 }
+
+function multiJsLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("multi.js"));
+}
+
 // REUSE-IgnoreStart
+function mousetrapLicenseTransform(packages) {
+  const pkg = packages.find((pkg) => pkg.name.startsWith("mousetrap"));
+  if (pkg) {
+    const author =
+      typeof pkg.author === "string"
+        ? pkg.author
+        : pkg.author?.email
+          ? `${pkg.author.name} <${pkg.author.email}>`
+          : pkg.author?.name
+            ? pkg.author.name
+            : "";
+    return `SPDX-FileCopyrightText: ${author}\n\nSPDX-License-Identifier: ${pkg.license}`;
+  }
+  return "";
+}
 function autoCompleteLicenseTransform(packages) {
   const pkg = packages.find((pkgsItem) =>
     pkgsItem.name.startsWith("@tarekraafat/autocomplete.js"),
@@ -74,6 +105,7 @@ function autoCompleteLicenseTransform(packages) {
 }
 // REUSE-IgnoreEnd
 
+// Webpack configuration
 module.exports = {
   entry: {
     main: "./src/main.js",
@@ -81,6 +113,8 @@ module.exports = {
     tribute: "./src/tribute.js",
     autoComplete: "./src/autoComplete.js",
     autosize: "./src/autosize.js",
+    multi: "./src/multi.js",
+    mousetrap: "./src/mousetrap.js",
   },
   mode: "production",
   optimization: {
@@ -96,6 +130,14 @@ module.exports = {
       }),
     ],
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+    ],
+  },
   plugins: [
     new LicensePlugin({
       additionalFiles: {
@@ -104,7 +146,13 @@ module.exports = {
         "tribute.js.license": tributeLicenseTransform,
         "autoComplete.js.license": autoCompleteLicenseTransform,
         "autosize.js.license": autosizeLicenseTransform,
+        "multi.js.license": multiJsLicenseTransform,
+        "multi.css.license": multiJsLicenseTransform,
+        "mousetrap.js.license": mousetrapLicenseTransform,
       },
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
     }),
   ],
   output: {

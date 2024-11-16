@@ -147,24 +147,24 @@ class MockUnit:
 class CheckTestCase(SimpleTestCase):
     """Generic test, also serves for testing base class."""
 
-    check: None | BaseCheck = None
+    check: BaseCheck | None = None
     default_lang = "cs"
 
     def setUp(self) -> None:
         self.test_empty: tuple[str, str, str] = ("", "", "")
         self.test_good_matching: tuple[str, str, str] = ("string", "string", "")
         self.test_good_none: tuple[str, str, str] = ("string", "string", "")
-        self.test_good_ignore: None | tuple[str, str, str] = None
-        self.test_good_flag: None | tuple[str, str, str] = None
-        self.test_failure_1: None | tuple[str, str, str] = None
-        self.test_failure_2: None | tuple[str, str, str] = None
-        self.test_failure_3: None | tuple[str, str, str] = None
+        self.test_good_ignore: tuple[str, str, str] | None = None
+        self.test_good_flag: tuple[str, str, str] | None = None
+        self.test_failure_1: tuple[str, str, str] | None = None
+        self.test_failure_2: tuple[str, str, str] | None = None
+        self.test_failure_3: tuple[str, str, str] | None = None
         self.test_ignore_check: tuple[str, str, str] = (
             "x",
             "x",
             self.check.ignore_string if self.check else "",
         )
-        self.test_highlight: None | tuple[str, str, list[tuple[int, int, str]]] = None
+        self.test_highlight: tuple[str, str, list[tuple[int, int, str]]] | None = None
 
     def do_test(self, expected, data, lang=None) -> None:
         """Perform single check if we have data to test."""

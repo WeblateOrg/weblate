@@ -450,7 +450,7 @@ class ChecksumForm(forms.Form):
         self.unit_set = unit_set
         super().__init__(*args, **kwargs)
 
-    def clean_checksum(self) -> None | str:
+    def clean_checksum(self) -> str | None:
         """Validate whether checksum is valid and fetches unit for it."""
         if "checksum" not in self.cleaned_data:
             return None
@@ -1952,8 +1952,8 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
         widget=forms.HiddenInput,
     )
 
-    def render_choice(self, value):
-        context = copy.copy(value)
+    def render_choice(self, value: DiscoveryResult) -> str:
+        context = value.data.copy()
         try:
             format_cls = FILE_FORMATS[value["file_format"]]
             context["file_format_name"] = format_cls.name
@@ -1994,7 +1994,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
                 discovered = self.discover(eager=True)
         except ValidationError:
             discovered = []
-        request.session["create_discovery"] = discovered
+        request.session["create_discovery"] = [x.data for x in discovered]
         request.session["create_discovery_meta"] = [x.meta for x in discovered]
         return discovered
 
@@ -2643,6 +2643,10 @@ class BulkEditForm(forms.Form):
 
         # Filter offered states
         choices = self.fields["state"].choices
+
+        # Special case for list_addons
+        if isinstance(obj, Component) and obj.pk == -1:
+            show_review = False
         choices.extend(
             (state, get_state_label(state, label, show_review))
             for state, label in StringState.choices
@@ -2989,7 +2993,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
             ),
         )
 
-    def clean_translation_review(self) -> None | bool:
+    def clean_translation_review(self) -> bool | None:
         if "translation_review" not in self.cleaned_data:
             return None
         translation_review = self.cleaned_data["translation_review"]

@@ -46,6 +46,8 @@ Automatic translation
                 |                 |                                  | ``fuzzy`` -- Strings marked for edit                                                                 |
                 |                 |                                  |                                                                                                      |
                 |                 |                                  | ``check:inconsistent`` -- Failing check: Inconsistent                                                |
+                |                 |                                  |                                                                                                      |
+                |                 |                                  | ``check:translated`` -- Failing check: Has been translated                                           |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
                 | ``auto_source`` | Source of automated translations | Available choices:                                                                                   |
                 |                 |                                  |                                                                                                      |
@@ -65,7 +67,9 @@ Automatically translates strings using machine translation or other components.
 
 It is triggered:
 
-* When new strings appear in a component.
+* When the add-on is installed.
+* When a change happens in a component repository.
+* When a string is added into a component.
 * Once in a month for every component, this can be configured using :setting:`BACKGROUND_TASKS`.
 
 .. seealso::
@@ -793,9 +797,9 @@ Format the Java properties file
 -------------------------------
 
 :Add-on ID: ``weblate.properties.sort``
-:Configuration: +--------------------+--------------------------------------------+--+
-                | ``case_sensitive`` | Enable case-sensitive key sorting          |  |
-                +--------------------+--------------------------------------------+--+
+:Configuration: +--------------------+-----------------------------------+--+
+                | ``case_sensitive`` | Enable case-sensitive key sorting |  |
+                +--------------------+-----------------------------------+--+
 :Triggers: repository pre-commit
 
 Formats and sorts the Java properties file.

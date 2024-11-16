@@ -84,7 +84,7 @@ class GitExportTest(ViewTestCase):
     def git_receive(self, **kwargs):
         return self.client.get(
             self.get_git_url(),
-            QUERY_STRING="?service=git-upload-pack",
+            {"service": "git-upload-pack"},
             CONTENT_TYPE="application/x-git-upload-pack-advertisement",
             **kwargs,
         )
@@ -93,7 +93,7 @@ class GitExportTest(ViewTestCase):
         linked = self.create_link_existing()
         response = self.client.get(
             self.get_git_url(component=linked),
-            QUERY_STRING="?service=git-upload-pack",
+            {"service": "git-upload-pack"},
             CONTENT_TYPE="application/x-git-upload-pack-advertisement",
         )
         self.assertRedirects(

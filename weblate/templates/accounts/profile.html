@@ -437,7 +437,7 @@
 <td>
     <span class="auth-token">{{ user.auth_token.key }}</span>
     <button type="button" class="btn btn-link btn-xs" data-visibility=".auth-token" title="{% trans "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-value="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
     <a href="" class="pull-right flip btn btn-primary link-post" data-href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
 </td>
 </tr>

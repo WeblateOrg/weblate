@@ -1078,7 +1078,7 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def get_auth(
         self, credentials: GitCredentials
-    ) -> None | tuple[str, str] | AuthBase:
+    ) -> tuple[str, str] | AuthBase | None:
         return None
 
     def get_error_message(self, response_data: dict) -> str:
@@ -1309,7 +1309,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
     def get_auth(
         self, credentials: GitCredentials
-    ) -> None | tuple[str, str] | AuthBase:
+    ) -> tuple[str, str] | AuthBase | None:
         return ("", credentials["token"])
 
     def create_fork(self, credentials: GitCredentials) -> None:
@@ -2280,7 +2280,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
 
         payload = {
             "title": title,
-            "description": {"raw": description},
+            "description": description,
             "source": {
                 "branch": {"name": fork_branch},
                 "repository": {"type": "repository", "name": fork_remote},

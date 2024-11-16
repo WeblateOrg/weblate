@@ -744,7 +744,9 @@ def naturaltime_future(value, now):
 
 
 @register.filter(is_safe=True)
-def naturaltime(value, now=None):
+def naturaltime(
+    value: float | datetime, microseconds: bool = False, *, now: datetime | None = None
+):
     """
     Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
@@ -768,7 +770,7 @@ def naturaltime(value, now=None):
         text = naturaltime_future(value, now)
 
     # Strip microseconds
-    if isinstance(value, datetime):
+    if isinstance(value, datetime) and not microseconds:
         value = value.replace(microsecond=0)
 
     return format_html('<span title="{}">{}</span>', value.isoformat(), text)
@@ -1119,9 +1121,9 @@ def indicate_alerts(
 ):
     result: list[tuple[str, StrOrPromise, str | None]] = []
 
-    translation: None | Translation | GhostTranslation = None
-    component: None | Component = None
-    project: None | Project = None
+    translation: Translation | GhostTranslation | None = None
+    component: Component | None = None
+    project: Project | None = None
 
     global_base = context.get("global_base")
 

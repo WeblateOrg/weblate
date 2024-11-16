@@ -28,7 +28,7 @@ class ProjectTokenTest(ViewTestCase):
         )
         html = response.content.decode("utf-8")
         result = re.search(
-            r'data-clipboard-text="(\w+)" data-clipboard-message="Token copied',
+            r'data-clipboard-value="(\w+)" data-clipboard-message="Token copied',
             html,
         )
         self.assertIsNotNone(result)

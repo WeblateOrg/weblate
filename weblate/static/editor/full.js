@@ -99,7 +99,7 @@
       return false;
     });
     Mousetrap.bindGlobal("mod+o", (e) => {
-      $(".source-language-group [data-clone-text]").click();
+      $(".source-language-group [data-clone-value]").click();
       return false;
     });
     Mousetrap.bindGlobal("mod+y", (e) => {
@@ -490,10 +490,10 @@
       }
       /* Relies on clone source implementation */
       const cloneElement = document.querySelector(
-        ".source-language-group [data-clone-text]",
+        ".source-language-group [data-clone-value]",
       );
       if (cloneElement !== null) {
-        const source = cloneElement.getAttribute("data-clone-text");
+        const source = cloneElement.getAttribute("data-clone-value");
         const termSource = document
           .getElementById("div_id_add_term_source")
           .querySelector("textarea");

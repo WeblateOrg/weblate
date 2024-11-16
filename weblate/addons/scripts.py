@@ -20,7 +20,7 @@ class BaseScriptAddon(BaseAddon):
 
     icon = "script.svg"
     script: str
-    add_file: None | str = None
+    add_file: str | None = None
     alert = "AddonScriptError"
 
     def run_script(self, component=None, translation=None, env=None) -> None:
