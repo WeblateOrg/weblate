@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-16 10:44+0000\n"
+"PO-Revision-Date: 2024-11-16 11:37+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -48153,6 +48153,12 @@ msgid ""
 "attribute be missing, a string is considered translated as soon as a "
 "``<target>`` element exists."
 msgstr ""
+"Het attribuut ``state`` in het bestand wordt gedeeltelijk verwerkt en "
+"verwezen naar de status \"Bewerken nodig\" in Weblate (de volgende statussen "
+"worden gebruikt om de tekenreeks te vlaggen als het bewerken nodig heeft als "
+"er een doel aanwezig is: ``new``, ``needs-translation``, ``needs-adaptation``"
+", ``needs-l10n``). Zou het attribuut ``state`` ontbreken, dan wordt een "
+"tekenreeks beschouwd als vertaald zodra er een element ``<target>`` bestaat."
 
 #: ../../formats/xliff.rst:49
 msgid ""
@@ -48160,27 +48166,39 @@ msgid ""
 "into Weblate as \"Approved\", anything else will be imported as \"Waiting "
 "for review\" (which matches the XLIFF specification)."
 msgstr ""
+"Als de vertaling ``approved=\"yes\"`` heeft, zal het ook in Weblate worden "
+"geïmporteerd als \"Goedgekeurd\", alles wat anders is zal worden "
+"geïmporteerd als \"Wachten op beoordeling\" (wat overeenkomt met de "
+"specificatie van XLIFF)."
 
 #: ../../formats/xliff.rst:53
 msgid "While saving, Weblate doesn't add those attributes unless necessary:"
 msgstr ""
+"Bij het opslaan zal Weblate deze attributen niet toevoegen, tenzij "
+"noodzakelijk:"
 
 #: ../../formats/xliff.rst:55
 msgid ""
 "The ``state`` attribute is only added in case string is marked as needing "
 "edit."
 msgstr ""
+"Het attribuut ``state`` wordt alleen toegevoegd in het geval de tekenreeks "
+"is gemarkeerd als Bewerken nodig."
 
 #: ../../formats/xliff.rst:56
 msgid ""
 "The ``approved`` attribute is only added in case string has been reviewed."
 msgstr ""
+"Het attribuut ``approved`` wordt alleen toegevoegd in het geval dat de "
+"tekenreeks is beoordeeld."
 
 #: ../../formats/xliff.rst:57
 msgid ""
 "In other cases the attributes are not added, but they are updated in case "
 "they are present."
 msgstr ""
+"In andere gevallen worden de attributen niet toegevoegd, maar zij worden "
+"bijgewerkt als zij aanwezig zijn."
 
 #: ../../formats/xliff.rst:59
 msgid ""
@@ -48188,6 +48206,9 @@ msgid ""
 "turn on the Weblate review process, in order to see and change the approved "
 "state of strings."
 msgstr ""
+"Dat betekent dat bij het gebruiken van de indeling XLIFF, sterk wordt "
+"aanbevolen om het proces van beoordelen van Weblate in te schakelen, om de "
+"status Goedgekeurd van tekenreeksen te kunnen zien en te wijzigen."
 
 #: ../../formats/xliff.rst:62
 msgid ""
@@ -48195,6 +48216,9 @@ msgid ""
 "guilabel:`Import as translated` under :guilabel:`Processing of strings "
 "needing edit`."
 msgstr ""
+"Soortgelijk bij het importeren van dergelijke bestanden (in de vorm uploaden)"
+", zou u :guilabel:`Importeren als vertaald` moeten kiezen onder :guilabel:`"
+"Verwerken van tekenreeksen Bewerken nodig`."
 
 #: ../../formats/xliff.rst:68
 msgid ":ref:`reviews`"
@@ -48202,7 +48226,7 @@ msgstr ":ref:`reviews`"
 
 #: ../../formats/xliff.rst:71
 msgid "Whitespace and newlines in XLIFF"
-msgstr ""
+msgstr "Witruimte en nieuwe regels (newlines) in XLIFF"
 
 #: ../../formats/xliff.rst:73
 msgid ""
@@ -48210,10 +48234,13 @@ msgid ""
 "XML formats. If you want to keep it, you have to add the ``xml:"
 "space=\"preserve\"`` flag to the string."
 msgstr ""
+"Tussen algemene typen of aantallen witruimte wordt in indelingen van XML "
+"geen verschil gemaakt. Als u ze wilt behouden moet u de vlag ``xml:space="
+"\"preserve\"`` toevoegen aan de tekenreeks."
 
 #: ../../formats/xliff.rst:90
 msgid "Specifying translation flags"
-msgstr ""
+msgstr "Vlaggen voor vertalingen specificeren"
 
 #: ../../formats/xliff.rst:92
 msgid ""
@@ -48221,6 +48248,10 @@ msgid ""
 "using the ``weblate-flags`` attribute. Weblate also understands ``maxwidth`` "
 "and ``font`` attributes from the XLIFF specification:"
 msgstr ""
+"U kunt aanvullende vlaggen voor vertalingen specificeren (bekijk :ref"
+":`custom-checks`) door het attribuut ``weblate-flags`` te gebruiken. Weblate "
+"begrijpt ook de attributen ``maxwidth`` en ``font`` uit de specificatie van "
+"XLIFF:"
 
 #: ../../formats/xliff.rst:105
 msgid ""
@@ -48230,6 +48261,12 @@ msgid ""
 "Pro`` becomes ``Source_Sans_Pro``, please keep that in mind when naming the "
 "font group (see :ref:`fonts`)."
 msgstr ""
+"Het attribuut ``font`` wordt geparset voor de familie van het lettertype, "
+"grootte en gewicht, het voorbeeld hierboven laat dat allemaal zien, hoewel "
+"alleen de familie van het lettertype vereist is. Elke witruimte in de "
+"familie van het lettertype wordt geconverteerd naar underscore, dus ``Source "
+"Sans Pro`` wordt ``Source_Sans_Pro``, onthoud dat bij het benoemen van de "
+"groep lettertype (bekijk :ref:`fonts`)."
 
 #: ../../formats/xliff.rst:114
 msgid ""
@@ -48237,6 +48274,9 @@ msgid ""
 "core.html#font>`_, `maxwidth attribute in XLIFF 1.2 <http://docs.oasis-open."
 "org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgstr ""
+"`font attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-"
+"core.html#font>`_, `maxwidth attribute in XLIFF 1.2 <http://docs.oasis-open."
+"org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 
 #: ../../formats/xliff.rst:118
 msgid "String keys"
@@ -48248,6 +48288,9 @@ msgid ""
 "case it is present and falls back to ``id`` (together with ``file`` tag if "
 "present)."
 msgstr ""
+"Weblate identificeert de eenheden in het XLIFF-bestand met het attribuut "
+"``resname`` in het geval dat aanwezig is en valt terug op ``id`` (samen met "
+"de tag ``file`` indien aanwezig)."
 
 #: ../../formats/xliff.rst:123
 msgid ""
@@ -48257,6 +48300,11 @@ msgid ""
 "Weblate and is not covered by the XLIFF standard - it does not put any "
 "uniqueness restrictions on this attribute."
 msgstr ""
+"Het attribuut ``resname`` wordt geacht ene mensvriendelijke identificatie te "
+"zijn van de eenheid die het meer geschikt maakt voor Weblate om weer te "
+"geven in plaats van ``id``. De ``resname`` moet uniek zijn in het gehele "
+"XLIFF-bestand. Dat is vereist door Weblate en wordt niet afgedekt door de "
+"standaard van XLIFF - het plaatst geen beperking uniek op dit attribuut."
 
 #: ../../formats/xliff.rst:132
 msgid "Example XLIFF file:"
@@ -48264,7 +48312,7 @@ msgstr "Voorbeeld XLIFF-bestand:"
 
 #: ../../formats/xliff.rst:142
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
-msgstr ""
+msgstr "Typisch Weblate :ref:`component` voor tweetalige XLIFF"
 
 #: ../../formats/xliff.rst:144 ../../formats/xliff.rst:156
 msgid "``localizations/*.xliff``"
@@ -48277,11 +48325,11 @@ msgstr "``localizations/en-US.xliff``"
 
 #: ../../formats/xliff.rst:150 ../../formats/xliff.rst:162
 msgid "`XLIFF Translation File`"
-msgstr ""
+msgstr "`XLIFF-vertaalbestand`"
 
 #: ../../formats/xliff.rst:154
 msgid "Typical Weblate :ref:`component` for monolingual XLIFF"
-msgstr ""
+msgstr "Typisch Weblate :ref:`component` voor eentalige XLIFF"
 
 #: ../../formats/yaml.rst:4
 msgid "YAML files"
@@ -48292,6 +48340,8 @@ msgid ""
 "The plain YAML files with string keys and values. Weblate also extract "
 "strings from lists or dictionaries."
 msgstr ""
+"De platte YAML-bestanden met tekenreeksen als sleutels en waarden. Weblate "
+"neemt ook tekenreeksen uit lijsten of woordenboeken uit."
 
 #: ../../formats/yaml.rst:12
 msgid "Weblate currently supports several variants of YAML translations:"
@@ -48300,45 +48350,48 @@ msgstr ""
 
 #: ../../formats/yaml.rst:17
 msgid ":doc:`tt:formats/yaml`, :ref:`ryaml`"
-msgstr ""
+msgstr ":doc:`tt:formats/yaml`, :ref:`ryaml`"
 
 #: ../../formats/yaml.rst:19
 msgid "Example of a YAML file:"
-msgstr ""
+msgstr "Voorbeeld van een YAML-bestand:"
 
 #: ../../formats/yaml.rst:36
 msgid "`YAML file`"
-msgstr ""
+msgstr "`YAML-bestand`"
 
 #: ../../latexindex.rst:7 ../../toc-user.rst:1
 msgid "User docs"
-msgstr ""
+msgstr "Gebruikerdocumentatie"
 
 #: ../../latexindex.rst:12 ../../toc-admin.rst:1
 msgid "Administrator docs"
-msgstr ""
+msgstr "Beheerder documentatie"
 
 #: ../../toc-devel.rst:1
 msgid "Application developer guide"
-msgstr ""
+msgstr "Gids voor toepassingsontwikkelaar"
 
 #: ../../latexindex.rst:17 ../../toc-contrib.rst:1
 msgid "Contributor docs"
-msgstr ""
+msgstr "Deelnemer documentatie"
 
 #: ../../toc-changes.rst:1
 msgid "Change history"
-msgstr ""
+msgstr "Geschiedenis wijziging"
 
 #: ../../../README.rst:6
 msgid ""
 "**Weblate is libre software web-based continuous localization system, used "
 "by over 2500 libre projects and companies in more than 165 countries.**"
 msgstr ""
+"**Weblate is een vrije software, op web gebaseerd, doorlopend "
+"vertaalsysteem, gebruikt door meer dan 2500 vrije projecten en bedrijven in "
+"meer dan 165 landen.**"
 
 #: ../../../README.rst:9
 msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
-msgstr ""
+msgstr "Installeer het, of gebruik de service Hosted Weblate op `weblate.org`_."
 
 #: ../../../README.rst:11
 msgid "Website"
@@ -48350,7 +48403,7 @@ msgstr "Vertaalstatus"
 
 #: ../../../README.rst:19
 msgid "CII Best Practices"
-msgstr ""
+msgstr "CII Beste werkwijzen"
 
 #: ../../../README.rst:23
 msgid "REUSE status"
@@ -48366,6 +48419,9 @@ msgid ""
 "hosting offerings. Check out https://weblate.org/hosting/ for more "
 "information."
 msgstr ""
+"Weblate is vrije software met optionele professionele ondersteuning en "
+"aanbiedingen voor hosten in de cloud. Bekijk https://weblate.org/hosting/ "
+"voor meer informatie."
 
 #: ../../../README.rst:44
 msgid "Documentation"
@@ -48376,30 +48432,32 @@ msgid ""
 "To be found in the ``docs`` directory of the source code, or viewed online "
 "on https://docs.weblate.org/"
 msgstr ""
+"Te vinden in de map ``docs`` van de broncode, of online te bekijken op "
+"https://docs.weblate.org/"
 
 #: ../../../README.rst:52
 msgid "Setup instructions:"
-msgstr ""
+msgstr "Instructies voor opstellen:"
 
 #: ../../../README.rst:54
 msgid "https://docs.weblate.org/en/latest/admin/install.html"
-msgstr ""
+msgstr "https://docs.weblate.org/en/latest/admin/install.html"
 
 #: ../../../README.rst:57
 msgid "Bugs"
-msgstr ""
+msgstr "Problemen"
 
 #: ../../../README.rst:59
 msgid "Please report feature requests and problems to:"
-msgstr ""
+msgstr "Rapporteer verzoeken voor nieuwe mogelijkheden en problemen bij:"
 
 #: ../../../README.rst:61
 msgid "https://github.com/WeblateOrg/weblate/issues"
-msgstr ""
+msgstr "https://github.com/WeblateOrg/weblate/issues"
 
 #: ../../../README.rst:65
 msgid "Live chat"
-msgstr ""
+msgstr "Live chat"
 
 #: ../../../README.rst:67
 msgid ""
@@ -48408,6 +48466,10 @@ msgid ""
 "for example, https://web.libera.chat/#weblate or an IRC client installed on "
 "your computer."
 msgstr ""
+"Live chatten over Weblate is beschikbaar op het IRC netwerk van `Libera.Chat "
+"<https://libera.chat/>`_. De naam van het kanaal is ``#weblate``. Toegang "
+"kan, bijvoorbeeld, worden verkregen met https://web.libera.chat/#weblate of "
+"een cliënt voor IRC die is geïnstalleerd op uw computer."
 
 #: ../../../README.rst:70
 msgid "Stats"
@@ -48415,7 +48477,7 @@ msgstr "Statistieken"
 
 #: ../../../README.rst:72
 msgid "Repobeats analytics image"
-msgstr ""
+msgstr "Repobeats analytische image"
 
 #: ../../../README.rst:85
 msgid ""
@@ -48424,10 +48486,15 @@ msgid ""
 "FITNESS FOR A PARTICULAR PURPOSE. See the `GNU General Public License "
 "<https://www.gnu.org/licenses/gpl-3.0.html>`_ for more details."
 msgstr ""
+"Dit programma is gedistribueerd in de hoop dat het nuttig zal zijn maar "
+"ZONDER ENIGE GARANTIE; zelfs zonder de impliciete garanties die GEBRUIKELIJK "
+"ZIJN IN DE HANDEL of voor BRUIKBAARHEID VOOR EEN SPECIFIEK DOEL. Bekijk de `"
+"GNU General Public License <https://www.gnu.org/licenses/gpl-3.0.html>`_ "
+"voor meer details."
 
 #: ../../index.rst:16
 msgid "Indices and tables"
-msgstr ""
+msgstr "Indices en tabellen"
 
 #: ../../index.rst:18
 msgid ":ref:`genindex`"
@@ -48443,15 +48510,15 @@ msgstr ":ref:`py-modindex`"
 
 #: ../../latexindex.rst:4
 msgid "The Weblate Manual"
-msgstr ""
+msgstr "De handleiding voor Weblate"
 
 #: ../../latexindex.rst:22
 msgid "Change History"
-msgstr ""
+msgstr "Geschiedenis wijziging"
 
 #: ../../legal.rst:2
 msgid "Legal documents"
-msgstr ""
+msgstr "Wettelijke documenten"
 
 #: ../../legal.rst:6
 msgid ""
@@ -48461,20 +48528,27 @@ msgid ""
 "your responsibility to ensure that your use of Weblate complies with all "
 "applicable laws and regulations."
 msgstr ""
+"Hier vindt u verschillende wettelijke informatie die u misschien nodig hebt "
+"om Weblate in bepaalde wettelijke jurisdicties uit te mogen voeren. Het "
+"wordt verschaft als een richtlijn, zonder enige garantie voor nauwkeurigheid "
+"of correctheid. Het is uiteindelijk uw eigen verantwoordelijkheid om ervoor "
+"te zorgen dat uw gebruik van Weblate voldoet aan alle wetten en regels."
 
 #: ../../legal.rst:13
 msgid "Licensing compliance"
-msgstr ""
+msgstr "Voldoen aan licensering"
 
 #: ../../legal.rst:15
 msgid ""
 "Weblate comes with `REUSE 3.0 <https://reuse.software/>`_ compliant license "
 "specification."
 msgstr ""
+"Weblate wordt geleverd met `REUSE 3.0 <https://reuse.software/>`_ conforme "
+"specificatie voor de licentie."
 
 #: ../../legal.rst:19
 msgid "ITAR and other export controls"
-msgstr ""
+msgstr "ITAR en ander exportbeheer"
 
 #: ../../legal.rst:21
 msgid ""
@@ -48482,6 +48556,10 @@ msgid ""
 "such, it can be used to store ITAR or other export-controlled information, "
 "however, end users are responsible for ensuring such compliance."
 msgstr ""
+"Weblate kan worden uitgevoerd in uw eigen datacenter of virtuele privé "
+"cloud. Als zodanig kan het worden gebruikt om ITAR of andere export beheerde "
+"informatie op te slaan, echter, eindgebruikers zijn verantwoordelijk voor "
+"het voldoen aan een dergelijke conformiteit."
 
 #: ../../legal.rst:25
 msgid ""
