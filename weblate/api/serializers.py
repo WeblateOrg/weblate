@@ -397,6 +397,9 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     credits_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-credits", lookup_field="slug"
     )
+    machinery_settings = serializers.HyperlinkedIdentityField(
+        view_name="api:machinery-settings", lookup_field="slug"
+    )
 
     class Meta:
         model = Project
@@ -422,6 +425,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "enable_hooks",
             "language_aliases",
             "enforced_2fa",
+            "machinery_settings",
         )
         extra_kwargs = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}

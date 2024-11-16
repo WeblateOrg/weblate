@@ -37,6 +37,7 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
+    HTTP_400_BAD_REQUEST,
     HTTP_423_LOCKED,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
@@ -85,6 +86,7 @@ from weblate.api.serializers import (
 from weblate.auth.models import AuthenticatedHttpRequest, Group, Role, User
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.machinery.models import validate_service_configuration
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.exceptions import FileParseError
@@ -1009,6 +1011,39 @@ class ProjectViewSet(
             requested_format,
             name=instance.slug,
         )
+
+    @action(detail=True, methods=["get", "post"])
+    def machinery_settings(self, request: Request, **kwargs):
+        project = self.get_object()
+        # if get, just list all machinery configurations
+        if request.method == "POST":
+            if not request.user.has_perm("project.edit", project):
+                self.permission_denied(request, "Can not edit machinery configuration")
+
+            try:
+                service_name = request.data["service"]
+            except KeyError:
+                return Response(
+                    {"errors": ["Missing service name"]}, status=HTTP_400_BAD_REQUEST
+                )
+
+            try:
+                service, configuration, errors = validate_service_configuration(
+                    service_name, request.data.get("configuration", "{}")
+                )
+            except Exception as error:
+                errors = [str(error)]
+
+            if errors:
+                return Response({"errors": errors}, status=HTTP_400_BAD_REQUEST)
+
+            project.machinery_settings[service_name] = configuration
+            project.save(update_fields=["machinery_settings"])
+            return Response(
+                {"message": f"Service installed: {service.name}"}, status=HTTP_200_OK
+            )
+
+        return Response(project.machinery_settings, status=HTTP_200_OK)
 
 
 class ComponentViewSet(
