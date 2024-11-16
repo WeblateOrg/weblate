@@ -48,8 +48,8 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def __init__(self, settings: SettingsDict) -> None:
         """Check configuration."""
         super().__init__(settings)
-        self._access_token: None | str = None
-        self._token_expiry: None | datetime = None
+        self._access_token: str | None = None
+        self._token_expiry: datetime | None = None
 
         # check settings for Microsoft region prefix
         region = "" if not self.settings["region"] else f"{self.settings['region']}."
@@ -153,7 +153,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         }
 
     def format_replacement(
-        self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
+        self, h_start: int, h_end: int, h_text: str, h_kind: Unit | None
     ):
         """Generate a single replacement."""
         if h_kind is None:

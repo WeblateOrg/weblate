@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-14 15:16+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-11-16 04:00+0000\n"
+"Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -329,7 +329,7 @@ msgstr "Peut utiliser la traduction automatique."
 
 #: ../../admin/access.rst:132
 msgid "`VCS`"
-msgstr ""
+msgstr "`VCS`"
 
 #: ../../admin/access.rst:133
 msgid "Manage VCS and access the exported repository."
@@ -3031,7 +3031,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:396
 msgid "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
-msgstr ""
+msgstr "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 
 #: ../../admin/addons.rst:402
 msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
@@ -9575,6 +9575,8 @@ msgid ""
 "A list of URLs you want to require signing in. (Besides the standard rules "
 "built into Weblate)."
 msgstr ""
+"Liste d'URLs qui nécessitent de se connecter (en plus des règles standard "
+"intégrées à Weblate)."
 
 #: ../../admin/config.rst:1246
 msgid "This allows you to password protect a whole installation using:"
@@ -9601,6 +9603,8 @@ msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign-in page."
 msgstr ""
+"Liste d'exceptions pour :setting:`LOGIN_REQUIRED_URLS`. Si non spécifié, les "
+"utilisateurs ont accès à la page de connexion."
 
 #: ../../admin/config.rst:1271
 #, fuzzy
@@ -9623,10 +9627,14 @@ msgid ""
 "ID of the site in Matomo (formerly Piwik) you want to use for tracking "
 "Weblate."
 msgstr ""
+"ID du site dans Matomo (anciennement Piwik) que vous voulez utiliser pour le "
+"suivi de Weblate."
 
 #: ../../admin/config.rst:1283 ../../admin/config.rst:1300
 msgid "This integration does not support the Matomo Tag Manager."
 msgstr ""
+"Cette intégration ne prend pas en charge le gestionnaire de balises de "
+"Matomo."
 
 #: ../../admin/config.rst:1287
 msgid ":setting:`MATOMO_URL`"
@@ -9642,6 +9650,9 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
+"URL complète (avec la barre oblique de fin) d'une installation de Matomo ("
+"anciennement Piwik) que vous voulez utiliser pour suivre l'utilisation de "
+"Weblate. Voir <https://matomo.org/> pour plus d'informations."
 
 #: ../../admin/config.rst:1311
 msgid ":setting:`MATOMO_SITE_ID`"
@@ -9656,6 +9667,9 @@ msgid ""
 "How many strings to show around the currently translated string. This is "
 "just a default value, users can adjust this in :ref:`user-profile`."
 msgstr ""
+"Nombre de chaînes a afficher à proximité de la chaîne traduite actuellement. "
+"Cette valeur par défaut est modifiable par les utilisateurs dans :ref:`user-"
+"profile`."
 
 #: ../../admin/config.rst:1323
 msgid "DEFAULT_PAGE_LIMIT"
@@ -9664,6 +9678,7 @@ msgstr "DEFAULT_PAGE_LIMIT"
 #: ../../admin/config.rst:1327
 msgid "Default number of elements to display when pagination is active."
 msgstr ""
+"Nombre d'éléments par défaut à afficher quand la pagination est activée."
 
 #: ../../admin/config.rst:1332
 msgid "PAGURE_CREDENTIALS"
@@ -9675,11 +9690,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1351
 msgid ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
-msgstr ""
+msgstr ":ref:`vcs-pagure`, `API Pagure <https://pagure.io/api/0/>`_"
 
 #: ../../admin/config.rst:1358
 msgid "PRIVACY_URL"
-msgstr ""
+msgstr "PRIVACY_URL"
 
 #: ../../admin/config.rst:1362
 msgid "URL where your Weblate instance shows its privacy policy."
@@ -9744,12 +9759,14 @@ msgstr ""
 
 #: ../../admin/config.rst:1417
 msgid "PROJECT_BACKUP_KEEP_COUNT"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_COUNT"
 
 #: ../../admin/config.rst:1421
 msgid ""
 "Defines how many backups per project are kept on the server. Defaults to 3."
 msgstr ""
+"Définit le nombre de sauvegardes par projet présentes sur le serveur. La "
+"valeur par défaut est 3."
 
 #: ../../admin/config.rst:1425 ../../admin/config.rst:1438
 msgid ":ref:`projectbackup`"
@@ -9757,23 +9774,27 @@ msgstr ":ref:`projectbackup`"
 
 #: ../../admin/config.rst:1430
 msgid "PROJECT_BACKUP_KEEP_DAYS"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_DAYS"
 
 #: ../../admin/config.rst:1434
 msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr ""
+"Définit la durée de conservation des sauvegardes du projet sur le serveur. "
+"La valeur par défaut est de 30 jours."
 
 #: ../../admin/config.rst:1443
 msgid "PROJECT_NAME_RESTRICT_RE"
-msgstr ""
+msgstr "PROJECT_NAME_RESTRICT_RE"
 
 #: ../../admin/config.rst:1447
 msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
 msgstr ""
+"Définit une expression régulière pour restreindre le nommage du projet. Si "
+"un nom la vérifie, alors il sera rejeté."
 
 #: ../../admin/config.rst:1451
 msgid ":ref:`project-name`"
@@ -50469,6 +50490,7 @@ msgstr "Recherche de modifications"
 #: ../../user/search.rst:190
 msgid "The user browsing has similar search abilities:"
 msgstr ""
+"La navigation de l'utilisateur a des possibilités de recherche similaires :"
 
 #: ../../user/search.rst:192
 msgid "``username:TEXT``"
@@ -50513,6 +50535,7 @@ msgstr "``translates:TEXT``"
 #: ../../user/search.rst:201
 msgid "User has contributed to a given language in the past 90 days."
 msgstr ""
+"L'utilisateur a contribué à une langue particulière ces 90 derniers jours."
 
 #: ../../user/search.rst:202
 msgid "``contributes:TEXT``"
@@ -50522,14 +50545,18 @@ msgstr "``contributes:TEXT``"
 msgid ""
 "User has contributed to a given project or component in the past 90 days."
 msgstr ""
+"L'utilisateur a contribué à un projet ou un composant particulier ces 90 "
+"derniers jours."
 
 #: ../../user/search.rst:205 ../../user/search.rst:207
 msgid "Same as in :ref:`search-strings`."
-msgstr ""
+msgstr "Même chose que pour :ref:`search-strings`."
 
 #: ../../user/search.rst:209
 msgid "Additional lookups are available in the :ref:`management-interface`:"
 msgstr ""
+"Des recherche supplémentaires sont disponibles dans :ref:`management-"
+"interface`:"
 
 #: ../../user/search.rst:211
 msgid "``is:bot``"
@@ -50563,7 +50590,7 @@ msgstr "Rechercher dans les explications."
 
 #: ../../user/search.rst:221
 msgid "Fuzzy values for DATETIME fields"
-msgstr ""
+msgstr "Valeurs arbitraires des champs DATETIME"
 
 #: ../../user/search.rst:223
 msgid ""
@@ -50571,6 +50598,9 @@ msgid ""
 "of time like ``yesterday``, ``last month``, and ``2 days ago`` can be used "
 "as values in the DATETIME fields."
 msgstr ""
+"Au lieu d'utiliser les valeurs DATETIME telles que MM-JJ-AAAA, vous pouvez "
+"utiliser pour la valeur des champs DATETIME une chaîne contenant un adverbe "
+"de temps comme ``hier``, ``le mois dernier``, et ``il y a 2 jours``."
 
 #: ../../user/search.rst:229
 msgid "``changed:>=\"2 weeks ago\"``"
@@ -50580,6 +50610,8 @@ msgstr "``changed:>=\"2 weeks ago\"``"
 msgid ""
 "Returns strings that are changed 2 weeks ago from the current date and time."
 msgstr ""
+"Renvoie les chaînes qui ont été modifiées depuis 2 semaines à partir de la "
+"date et l'heure actuelle."
 
 #: ../../user/search.rst:231
 msgid "``changed:>=yesterday``"
@@ -50587,7 +50619,7 @@ msgstr "``changed:>=yesterday``"
 
 #: ../../user/search.rst:232
 msgid "Returns strings that are changed starting yesterday."
-msgstr ""
+msgstr "Renvoie les chaînes qui ont été modifiées depuis hier."
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
@@ -50613,7 +50645,7 @@ msgstr "Le projet accepte les traductions directes"
 
 #: ../../user/translating.rst:9
 msgid "Project accepts the suggestions made by users."
-msgstr ""
+msgstr "Le projet accepte les suggestions faites par les utilisateurs."
 
 #: ../../user/translating.rst:11
 #, fuzzy
@@ -50624,12 +50656,15 @@ msgstr "Les fichiers avec l'extension `.ini` sont également acceptés."
 #: ../../user/translating.rst:13
 msgid "There are more translation workflows detailed in :ref:`workflows`."
 msgstr ""
+"Vous trouverez d'autres flux de traduction détaillés dans :ref:`workflows`."
 
 #: ../../user/translating.rst:15
 msgid ""
 "Projects, or the components in them are either visible to everyone, or only "
 "to a certain group of translators."
 msgstr ""
+"Les projets, ou les éléments qui les composent sont soit visibles par tous, "
+"ou seulement par un groupe dédié de traducteurs."
 
 #: ../../user/translating.rst:20
 msgid ":ref:`access-control`, :ref:`workflows`"
@@ -50949,6 +50984,7 @@ msgstr "Créer une traduction"
 #: ../../user/translating.rst:169
 msgid "This is currently only supported with :ref:`multivalue-csv`."
 msgstr ""
+"Ceci est pris en charge actuellement uniquement avec :ref:`multivalue-csv`."
 
 #: ../../user/translating.rst:171
 msgid ""
@@ -50979,7 +51015,7 @@ msgstr ":kbd:`←`"
 
 #: ../../user/translating.rst:186
 msgid "Open available keyboard shortcuts."
-msgstr ""
+msgstr "Ouvrir les raccourcis clavier disponibles."
 
 #: ../../user/translating.rst:188
 msgid ":kbd:`Alt+Home`"
@@ -50997,7 +51033,7 @@ msgstr ":kbd:`Alt+End`"
 
 #: ../../user/translating.rst:190
 msgid "Navigate to the last translation in the current search."
-msgstr ""
+msgstr "Aller à la dernière traduction de la recherche actuelle."
 
 #: ../../user/translating.rst:192
 #, fuzzy
@@ -51045,7 +51081,7 @@ msgstr ":kbd:`Cmd+↓`"
 
 #: ../../user/translating.rst:200
 msgid "Navigate to the next translation in the current search."
-msgstr ""
+msgstr "Aller à la traduction suivante dans la recherche actuelle."
 
 #: ../../user/translating.rst:208
 msgid ":kbd:`Ctrl+Enter` or"
@@ -51201,7 +51237,7 @@ msgstr ":kbd:`Cmd + S`"
 
 #: ../../user/translating.rst:252
 msgid "Focus on search field."
-msgstr ""
+msgstr "Focus sur le champ de recherche."
 
 #: ../../user/translating.rst:256
 msgid ":kbd:`Ctrl+O` or"
@@ -51382,6 +51418,8 @@ msgstr ""
 #: ../../user/translating.rst:316
 msgid "If you want direct links, the translation format has to support it."
 msgstr ""
+"Si vous souhaitez des liens directs, le format de traduction doit les "
+"prendre en charge."
 
 #: ../../user/translating.rst:319
 msgid "Translation history"
@@ -51626,6 +51664,9 @@ msgid ""
 "The matrix view is also a very good starting point to find missing "
 "translations in different languages, and quickly add them from one view."
 msgstr ""
+"La présentation matricielle est aussi un bon point de départ pour trouver "
+"les traductions manquantes dans les différentes langues et pour les ajouter "
+"rapidement dans une fenêtre."
 
 #: ../../user/translating.rst:454
 msgid "Zen Mode"
@@ -51675,7 +51716,7 @@ msgstr ""
 
 #: ../../vcs.rst:25
 msgid "Accessing repositories from Hosted Weblate"
-msgstr ""
+msgstr "Accès aux dépôts à partir de Hosted Weblate"
 
 #: ../../vcs.rst:27
 msgid ""
@@ -51720,6 +51761,8 @@ msgid ""
 "Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, "
 "Azure DevOps, ...)"
 msgstr ""
+"Accès aux dépôts sur les sites d'hébergement de code (GitHub, GitLab, "
+"Bitbucket, Azure DevOps, ...)"
 
 #: ../../vcs.rst:52
 msgid ""
@@ -51739,7 +51782,7 @@ msgstr ""
 
 #: ../../vcs.rst:67
 msgid "SSH repositories"
-msgstr ""
+msgstr "Dépôts SSH"
 
 #: ../../vcs.rst:69
 msgid ""

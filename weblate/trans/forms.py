@@ -450,7 +450,7 @@ class ChecksumForm(forms.Form):
         self.unit_set = unit_set
         super().__init__(*args, **kwargs)
 
-    def clean_checksum(self) -> None | str:
+    def clean_checksum(self) -> str | None:
         """Validate whether checksum is valid and fetches unit for it."""
         if "checksum" not in self.cleaned_data:
             return None
@@ -2993,7 +2993,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
             ),
         )
 
-    def clean_translation_review(self) -> None | bool:
+    def clean_translation_review(self) -> bool | None:
         if "translation_review" not in self.cleaned_data:
             return None
         translation_review = self.cleaned_data["translation_review"]

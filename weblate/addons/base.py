@@ -44,7 +44,7 @@ class BaseAddon:
     """Base class for Weblate add-ons."""
 
     events: tuple[AddonEvent, ...] = ()
-    settings_form: None | type[BaseAddonForm] = None
+    settings_form: type[BaseAddonForm] | None = None
     name = ""
     compat: CompatDict = {}
     multiple = False
@@ -292,7 +292,7 @@ class BaseAddon:
         # To be implemented in a subclass
 
     def execute_process(
-        self, component: Component, cmd: list[str], env: None | dict[str, str] = None
+        self, component: Component, cmd: list[str], env: dict[str, str] | None = None
     ) -> None:
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:

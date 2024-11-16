@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-14 15:17+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-11-16 04:00+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -2064,22 +2064,16 @@ msgid "It is triggered:"
 msgstr "Причини вмикання:"
 
 #: ../../admin/addons.rst:68
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "When the add-on is installed."
-msgstr "Додаток встановлено"
+msgstr "Коли додаток встановлено."
 
 #: ../../admin/addons.rst:69
-#, fuzzy
-#| msgid "Fixed deadlock when changing linked component repository."
 msgid "When a change happens in a component repository."
-msgstr "Виправлено зависання під час зміни пов'язаного зі складником сховища."
+msgstr "Коли станеться зміна у сховищі коду складника."
 
 #: ../../admin/addons.rst:70
-#, fuzzy
-#| msgid "When new strings appear in a component."
 msgid "When a string is added into a component."
-msgstr "У складнику з'явилися нові рядки."
+msgstr "Коли до складника буде додано новий рядок."
 
 #: ../../admin/addons.rst:71
 msgid ""
@@ -12052,19 +12046,12 @@ msgid ":ref:`mt-google-translate-api-v3`"
 msgstr ":ref:`mt-google-translate-api-v3`"
 
 #: ../../admin/install.rst:234
-#, fuzzy
-#| msgid ""
-#| "`google-cloud-translate <https://pypi.org/project/google-cloud-"
-#| "translate>`_"
 msgid "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
-msgstr ""
-"`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
+msgstr "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
 
 #: ../../admin/install.rst:235
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Optional glossary support for :ref:`mt-google-translate-api-v3`"
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr "Необов'язкова підтримка глосарія для :ref:`mt-google-translate-api-v3`"
 
 #: ../../admin/install.rst:238
 msgid "``ldap``"
@@ -18451,13 +18438,15 @@ msgstr "``bucket_name``"
 
 #: ../../admin/machine.rst:244
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Назва кошика Google Storage"
 
 #: ../../admin/machine.rst:244
 msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
+"Введіть назву кошика Google Cloud Storage, який буде використано для "
+"зберігання файлів глосарія."
 
 #: ../../admin/machine.rst:249
 msgid ""
@@ -18494,18 +18483,20 @@ msgid ""
 "Optionally, you can configure the service to use :ref:`glossary` by setting "
 "up a Bucket:"
 msgstr ""
+"Якщо хочете, можете налаштувати службу для використання :ref:`glossary`, ось "
+"так:"
 
 #: ../../admin/machine.rst:266
 msgid "`Create a Google Cloud bucket.`_"
-msgstr ""
+msgstr "`Створіть кошик Google Cloud.`_"
 
 #: ../../admin/machine.rst:267
 msgid "`Set bucket location to \"us-central1\".`_"
-msgstr ""
+msgstr "`Встановіть розташування кошика як \"us-central1\".`_"
 
 #: ../../admin/machine.rst:268
 msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
-msgstr ""
+msgstr "`Надайте 'Storage Admin' права доступу до облікового запису служби.`_"
 
 #: ../../admin/machine.rst:277
 msgid ""
@@ -24176,12 +24167,6 @@ msgid "Migrating from other databases to PostgreSQL"
 msgstr "Перенесення даних з інших баз даних до PostgreSQL"
 
 #: ../../admin/upgrade.rst:143
-#, fuzzy
-#| msgid ""
-#| "If you are not running Weblate with a different database than PostgreSQL, "
-#| "consider migrating to PostgreSQL for better performance by doing the "
-#| "following steps. Remember to stop both, the web and Celery servers "
-#| "beforehand, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are running Weblate with a different database than PostgreSQL, "
 "consider migrating to PostgreSQL for better performance by doing the "
@@ -25784,16 +25769,12 @@ msgstr ""
 "(str:uuid)/`"
 
 #: ../../api.rst:1311
-#, fuzzy
-#| msgid ""
-#| "URL to to list contributor credits; see :http:get:`/api/components/"
-#| "(string:project)/(string:component)/credits/`"
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
 msgstr ""
-"Адреса списку учасників; див. :http:get:`/api/components/(string:project)/"
-"(string:component)/credits/`"
+"Адреса списку учасників; див. :http:get:`/api/components/"
+"(string:project)/(string:component)/credits/`"
 
 #: ../../api.rst:1359
 msgid "Edit a component by a :http:method:`PATCH` request."
@@ -26343,13 +26324,6 @@ msgid "Units"
 msgstr "Модулі"
 
 #: ../../api.rst:2129
-#, fuzzy
-#| msgid ""
-#| "A `unit` is a single piece of a translation which pairs a source string "
-#| "with a corresponding translated string and also contains some related "
-#| "metadata. The term is derived from the `Translate Toolkit <http://docs."
-#| "translatehouse.org/projects/translate-toolkit/en/latest/api/storage."
-#| "html#translate.storage.base.TranslationUnit>`_ and XLIFF."
 msgid ""
 "A `unit` is a single piece of a translation which pairs a source string with "
 "a corresponding translated string and also contains some related metadata. "
@@ -26358,9 +26332,8 @@ msgid ""
 msgstr ""
 "`Модуль` — окрема одиниця перекладу, яка поєднує початковий рядок із "
 "відповідним рядком перекладу, а також містить деякі пов'язані із ними "
-"метадані. Термін походить з `Translate Toolkit <http://docs.translatehouse."
-"org/projects/translate-toolkit/en/latest/api/storage.html#translate.storage."
-"base.TranslationUnit>`_ та XLIFF."
+"метадані. Термін походить з :py:class:`tt:translate.storage.base."
+"TranslationUnit` у Translate Toolkit та XLIFF."
 
 #: ../../api.rst:2136
 msgid "Returns list of translation units."
@@ -27508,17 +27481,19 @@ msgid "**Improvements**"
 msgstr "**Удосконалення**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgid ""
 ":ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional)."
-msgstr ":ref:`mt-microsoft-translator` підтримує :ref:`glossary-mt`."
+msgstr ""
+"У новій версії :ref:`mt-google-translate-api-v3` передбачено підтримку :ref"
+":`glossary-mt` (не є обов'язковою)."
 
 #: ../../changes.rst:11
 msgid ""
 "A shortcut to duplicate a component is now available directly in the menu (:"
 "guilabel:`Manage` → :guilabel:`Duplicate Component`)"
 msgstr ""
+"Пункт дублювання складника тепер є доступним безпосрпеденьо з меню "
+"(:guilabel:`Керування` → :guilabel:`Дублювати складник`)"
 
 #: ../../changes.rst:12
 msgid "Included username when generating :ref:`credits`."
@@ -27610,55 +27585,45 @@ msgstr ""
 "milestone/127?closed=1>`__."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Weblate 5.8.2"
 msgid "Weblate 5.8.4"
-msgstr "Weblate 5.8.2"
+msgstr "Weblate 5.8.4"
 
 #: ../../changes.rst:36
 msgid ":ref:`search-users` can search based on user changes."
 msgstr ""
+":ref:`search-users` можуть шукати дані на основі внесених користувачами змін."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Fixed possible crash in reports."
 msgid "Fixed occasional crash in :ref:`rss`."
-msgstr "Виправлено можливе аварійне завершення при побудові звітів."
+msgstr "Виправлено можливе аварійне завершення у :ref:`rss`."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
-msgstr "Пропустити перевірку якості :ref:`check-icu-message-format`."
+msgstr ""
+"Нова версія :ref:`check-icu-message-format` штатно обробляє рядки множини."
 
 #: ../../changes.rst:42
 msgid ""
 ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
 msgstr ""
+"Нова версія :ref:`vcs-bitbucket-cloud` належним чином створює опис запиту "
+"щодо злиття коду."
 
 #: ../../changes.rst:52
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/122?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/132?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/122?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"132?closed=1>`__."
 
 #: ../../changes.rst:55
-#, fuzzy
-#| msgid "Weblate 5.8.2"
 msgid "Weblate 5.8.3"
-msgstr "Weblate 5.8.2"
+msgstr "Weblate 5.8.3"
 
 #: ../../changes.rst:57
-#, fuzzy
-#| msgid "Released on November 16th 2023."
 msgid "Released on November 6th 2024."
-msgstr "Випущено 16 листопада 2023 року."
+msgstr "Випущено 6 листопада 2024 року."
 
 #: ../../changes.rst:61
 msgid "Formatting of some :ref:`audit-log` entries."
@@ -27671,10 +27636,8 @@ msgstr ""
 "перекладу."
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Fixed duplicate listing of newly added glossary terms."
-msgstr "Виправлено переклад нових доданих рядків."
+msgstr "Виправлено дублювання у списку щойно доданих термінів глосарія."
 
 #: ../../changes/contributors/5.7.1.rst:2
 #: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
@@ -27685,10 +27648,8 @@ msgid "Code contributions"
 msgstr "Написання коду"
 
 #: ../../changes/contributors/5.8.3.rst:3
-#, fuzzy
-#| msgid "Michal Čihař, Mehdi Eloualy"
 msgid "Michal Čihař, Mehdi El Oualy"
-msgstr "Michal Čihař, Mehdi Eloualy"
+msgstr "Michal Čihař, Mehdi El Oualy"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
@@ -27706,16 +27667,12 @@ msgid "Michal Čihař"
 msgstr "Michal Čihař"
 
 #: ../../changes.rst:73
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/121?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/131?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"131?closed=1>`__."
 
 #: ../../changes.rst:76
 msgid "Weblate 5.8.2"
@@ -27892,11 +27849,9 @@ msgstr ""
 "відомості щодо мови і форм множини."
 
 #: ../../changes.rst:141
-#, fuzzy
-#| msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgid ":ref:`search-replace` shows a preview of matched strings."
 msgstr ""
-":ref:`bulk-edit` у новій версії показує попередній перегляд відповідних "
+":ref:`search-replace` у новій версії показує попередній перегляд відповідних "
 "рядків."
 
 #: ../../changes.rst:142
@@ -41095,188 +41050,144 @@ msgid ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 msgstr ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 
 #: ../../contributing/schemas.rst:-1
-#, fuzzy
-#| msgid "Weblate version"
 msgid "Weblate Messaging"
-msgstr "Версія Weblate"
+msgstr "Обмін повідомленнями Weblate"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "https://weblate.org/schemas/weblate-memory.schema.json"
 msgid "https://weblate.org/schemas/weblate-messaging.schema.json"
-msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
+msgstr "https://weblate.org/schemas/weblate-messaging.schema.json"
 
 #: ../../contributing/schemas.rst:29
 msgid "Schema for Weblate Fedora Messaging"
-msgstr ""
+msgstr "Схема обміну повідомленнями для Weblate у Fedora"
 
 #: ../../contributing/schemas.rst:29
 msgid "**change\\_id**"
-msgstr ""
+msgstr "**change\\_id**"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Change ID"
 msgid "*Change ID*"
-msgstr "Ідентифікатор зміни"
+msgstr "*Ідентифікатор зміни*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Number of changes"
 msgid "Numerical ID of change"
-msgstr "Кількість змін"
+msgstr "Числовий ідентифікатор зміни"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "**activity**"
 msgid "**action**"
-msgstr "**activity**"
+msgstr "**action**"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Change period"
 msgid "*Change Action*"
-msgstr "Змінити період"
+msgstr "*Змінити дію*"
 
 #: ../../contributing/schemas.rst:29
 msgid ""
 "Verbose name of the change, see Change actions source code for possible "
 "values"
 msgstr ""
+"Докладна назва зміни, див. початковий код зміни дій, щоб дізнатися про "
+"можливі значення"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "ISO 8601 formatted timestamp to list changes after"
 msgid "ISO formatted timestamp"
-msgstr "Часова позначка у форматі ISO 8601 для показу списку наступних змін"
+msgstr "Часова позначка у форматі ISO"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "``target``"
 msgid "target"
-msgstr "``target``"
+msgstr "target"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "**target**"
 msgid "*Target*"
-msgstr "**target**"
+msgstr "*Ціль**"
 
 #: ../../contributing/schemas.rst:29
 msgid "New value of the change (eg. new translation of the string)"
-msgstr ""
+msgstr "Нове значення зміни (тобто новий переклад рядка)"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "*string*"
 msgid "*string* / *array*"
-msgstr "*рядок*"
+msgstr "*рядок* / *масив*"
 
 #: ../../contributing/schemas.rst:29
 msgid "old"
-msgstr ""
+msgstr "old"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Value"
 msgid "*Old Value*"
-msgstr "Значення"
+msgstr "*Старе значення*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Browse the previous translation string."
 msgid "Old value of the change (eg. previous translation of the string)"
-msgstr "Перейти до попереднього рядка перекладу."
+msgstr "Старе значення зміни (тобто попередній переклад рядка)"
 
 #: ../../contributing/schemas.rst:29
 msgid "source"
 msgstr "початковий"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Source"
 msgid "*Source*"
-msgstr "Джерело"
+msgstr "*Джерело*"
 
 #: ../../contributing/schemas.rst:29
 msgid "Source string"
 msgstr "Джерельні рядки"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Plural"
 msgid "url"
-msgstr "Множина"
+msgstr "url"
 
 #: ../../contributing/schemas.rst:29
 msgid "*URL*"
-msgstr ""
+msgstr "*Адреса*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "URL of a related unit object"
 msgid "Absolute URL to view the related object"
-msgstr "адреса пов'язаного об'єкта модуля"
+msgstr "Абсолютна адреса для перегляду пов'язаного об'єкта"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Authors"
 msgid "author"
-msgstr "Автори"
+msgstr "author"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Authors"
 msgid "*Author*"
-msgstr "Автори"
+msgstr "*Автор*"
 
 #: ../../contributing/schemas.rst:29
 msgid ""
 "Author username (this can be different from user for example when accepting "
 "suggestions)"
 msgstr ""
+"Ім'я користувача автора (може відрізнятися від користувача, наприклад, при "
+"затвердженні пропозицій)"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "API user."
 msgid "user"
-msgstr "Користувач програмного інтерфейсу."
+msgstr "user"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "SAP username"
 msgid "*Acting username*"
-msgstr "Ім'я користувача SAP"
+msgstr "*Ім'я користувача, яким внесено зміну*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Project"
 msgid "project"
-msgstr "Проєкт"
+msgstr "project"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Component"
 msgid "component"
-msgstr "Складник"
+msgstr "component"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Component slug"
 msgid "*Component slug*"
-msgstr "Ідентифікатор складника"
+msgstr "*Ідентифікатор складника*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Translations"
 msgid "translation"
-msgstr "Переклади"
+msgstr "translation"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Translation language code"
 msgid "*Translation Language Code*"
-msgstr "Код мови перекладу"
+msgstr "*Код мови перекладу*"
 
 #: ../../contributing/schemas.rst:32
 msgid ":ref:`fedora-messaging`"
@@ -53777,7 +53688,7 @@ msgstr ""
 
 #: ../../user/search.rst:205 ../../user/search.rst:207
 msgid "Same as in :ref:`search-strings`."
-msgstr ""
+msgstr "Те саме, що і у :ref:`search-strings`."
 
 #: ../../user/search.rst:209
 msgid "Additional lookups are available in the :ref:`management-interface`:"
@@ -53935,35 +53846,23 @@ msgstr ""
 "з поточними перекладами."
 
 #: ../../user/translating.rst:64
-#, fuzzy
-#| msgid "The gettext type comments are used as flags."
 msgid "Three types of comments can be posted:"
-msgstr "Коментарі типу gettext використовуються як прапорці."
+msgstr "Коментарі можуть бути трьох типів:"
 
 #: ../../user/translating.rst:66
-#, fuzzy
-#| msgid "INI translations"
 msgid "for translations"
-msgstr "Переклади INI"
+msgstr "для перекладів"
 
 #: ../../user/translating.rst:67
-#, fuzzy
-#| msgid "source strings"
 msgid "for source strings"
-msgstr "джерельні рядки"
+msgstr "для початкових рядків"
 
 #: ../../user/translating.rst:68
-#, fuzzy
-#| msgid ""
-#| "Three types of comments can be posted: * for translations * for source "
-#| "strings * for reporting source string bugs when this functionality is "
-#| "turned on using :ref:`project-source_review`."
 msgid ""
 "for reporting source string bugs when this functionality is turned on using :"
 "ref:`project-source_review`."
 msgstr ""
-"Можна залишати три типи коментарів: * для перекладів * для вихідних текстів "
-"* для повідомлення про помилки у вихідних текстах, якщо цю функцію увімкнено "
+"для повідомлення про помилки у вихідних текстах, якщо цю функцію увімкнено "
 "за допомогою :ref:`project-source_review`."
 
 #: ../../user/translating.rst:70

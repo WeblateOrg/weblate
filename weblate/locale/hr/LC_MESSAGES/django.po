@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 07:40+0000\n"
-"PO-Revision-Date: 2024-11-11 02:50+0000\n"
+"PO-Revision-Date: 2024-11-16 04:00+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -432,10 +432,9 @@ msgid "Account removal confirmation sent to {email}."
 msgstr "Potvrda za uklanjanje računa je poslan na {email}."
 
 #: weblate/accounts/models.py:187
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "Ugovor s uvjetima usluge {date}."
+msgstr "Ugovor s općim uvjetima {date}."
 
 #: weblate/accounts/models.py:188
 #, python-brace-format
@@ -4807,21 +4806,15 @@ msgid "Language %s removed."
 msgstr "%s jezik uklonjen."
 
 #: weblate/legal/forms.py:11
-#, fuzzy
-#| msgid "I agree with the Terms of Service document"
 msgid "I agree with the General Terms and Conditions document"
-msgstr "Slažem se s dokumentom uvjeta usluge"
+msgstr "Slažem se s dokumentom „Opći uvjeti”"
 
 #: weblate/legal/middleware.py:50
-#, fuzzy
-#| msgid ""
-#| "We have a new version of the Terms of Service document, please read it "
-#| "and confirm that you agree with it."
 msgid ""
 "We have an updated version of the General Terms and Conditions document, "
 "please read it and confirm that you agree with it."
 msgstr ""
-"Objavljena je nova verzija dokumenta uvjeta usluge. Pročitaj dokument i "
+"Objavljena je nova verzija dokumenta „Opći uvjeti”. Pročitaj dokument i "
 "potvrdi da se slažeš s uvjetima."
 
 #: weblate/legal/templates/legal/confirm.html:6
@@ -4835,16 +4828,12 @@ msgid "Legal"
 msgstr "Pravno"
 
 #: weblate/legal/templates/legal/confirm.html:13
-#, fuzzy
-#| msgid "You have to agree to the Terms of Service"
 msgid "You have to agree to the General Terms and Conditions"
-msgstr "Moraš se složiti s uvjetima usluge"
+msgstr "Moraš se složiti s općim uvjetima"
 
 #: weblate/legal/templates/legal/confirm.html:15
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "Please read following General Terms and Conditions document:"
-msgstr "Pročitaj sljedeći dokument s uvjetima usluge:"
+msgstr "Pročitaj sljedeći dokument s općim uvjetima:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/templates/contributor-agreement.html:30
@@ -4871,24 +4860,20 @@ msgstr "Politika kolačića"
 
 #: weblate/legal/templates/legal/cookies.html:18
 #: weblate/legal/templates/legal/index.html:24
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
 msgstr ""
-"Ova se stranica zasniva na uvjetima usluge i politike privatnosti. Za bolje "
-"razumijevanje, pročitaj izvorni dokument:"
+"Ova se stranica zasniva na općim uvjetima i politici privatnosti. Za bolje "
+"razumijevanje pročitaj izvorne dokumente:"
 
 #: weblate/legal/templates/legal/cookies.html:22
 #: weblate/legal/templates/legal/index.html:29
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:19
 #: weblate/templates/snippets/login-info.html:11
 msgid "General Terms and Conditions"
-msgstr ""
+msgstr "Opći uvjeti"
 
 #: weblate/legal/templates/legal/cookies.html:23
 #: weblate/legal/templates/legal/index.html:32
@@ -10994,15 +10979,11 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "Registracijom i prijavom na ovu uslugu, prihvaćaš naše:"
 
 #: weblate/templates/snippets/login-info.html:19
-#, fuzzy
-#| msgid ""
-#| "Quick overview of the Terms of Service and the Privacy Policy, but you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
-"Pregled uvjeta usluge i politike privatnosti. Proporučujemo da pročitaš "
+"Pregled općih uvjeta i politike privatnosti. Za bolje razumijevanje pročitaj "
 "izvorne dokumente:"
 
 #: weblate/templates/snippets/login-info.html:26
@@ -11757,7 +11738,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into Libre hosting conditions."
-msgstr "Ovaj projekt više ne ispunjava uvjete za hosting slobodnih projekata."
+msgstr "Ovaj projekt više ne ispunjava uvjete za slobodni hosting."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
 msgid "This component set up is incomplete, as it lacks any translations."
@@ -14148,7 +14129,7 @@ msgstr "Licenca promijenjena"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:472
 msgid "Contributor agreement changed"
-msgstr "Ugovor za doprinositelje promijenjen"
+msgstr "Ugovor za doprinositelje je promijenjen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:474
@@ -14572,7 +14553,7 @@ msgid ""
 "User agreement which needs to be approved before a user can translate this "
 "component."
 msgstr ""
-"Korisnički ugovor koji se mora prihvatiti, prije nego što korisnik može "
+"Korisnički ugovor koji se mora prihvatiti prije nego što korisnik može "
 "prevesti ovu komponentu."
 
 #: weblate/trans/models/component.py:587

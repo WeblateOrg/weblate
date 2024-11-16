@@ -354,7 +354,7 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
 
 
 def format_string_helper(
-    source: str, translation: Translation, diff: None | str = None
+    source: str, translation: Translation, diff: str | None = None
 ):
     return format_language_string(source, translation, diff=diff)["items"][0]["content"]
 

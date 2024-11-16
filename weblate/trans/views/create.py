@@ -463,7 +463,7 @@ class CreateComponentSelection(CreateComponent):
     template_name = "trans/component_create.html"
 
     components: ComponentQuerySet
-    origin: None | str = None
+    origin: str | None = None
     duplicate_existing_component = None
 
     @cached_property

@@ -323,7 +323,7 @@ class CSPBuilder:
             if value:
                 self.directives[rule].update(value)
 
-    def add_csp_host(self, url: str, *directives: CSP_KIND) -> None | str:
+    def add_csp_host(self, url: str, *directives: CSP_KIND) -> str | None:
         domain = urlparse(url).hostname
         # Handle domain only URLs (OpenInfraOpenId uses that)
         if not domain and ":" not in url and "/" not in url:
@@ -382,10 +382,10 @@ class CSPBuilder:
         if settings.SENTRY_DSN and self.response.status_code == 500:
             domain = self.add_csp_host(settings.SENTRY_DSN, "script-src", "connect-src")
             # Add appropriate frontend servers for sentry.io
-            if domain.endswith("de.sentry.io"):
+            if domain.endswith(".de.sentry.io"):
                 self.directives["connect-src"].add("de.sentry.io")
                 self.directives["script-src"].add("de.sentry.io")
-            elif domain.endswith("sentry.io"):
+            elif domain.endswith(".sentry.io"):
                 self.directives["script-src"].add("sentry.io")
                 self.directives["connect-src"].add("sentry.io")
             self.directives["script-src"].add("'unsafe-inline'")

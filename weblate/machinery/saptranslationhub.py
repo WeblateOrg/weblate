@@ -35,7 +35,7 @@ class SAPTranslationHub(MachineTranslation):
 
         return result
 
-    def get_auth(self) -> None | tuple[str, str] | AuthBase:
+    def get_auth(self) -> tuple[str, str] | AuthBase | None:
         # to access the productive API
         if self.settings["username"] and self.settings["password"]:
             return (self.settings["username"], self.settings["password"])

@@ -882,7 +882,7 @@ def fake_email_sent(request: AuthenticatedHttpRequest, reset: bool = False):
 def register(request: AuthenticatedHttpRequest):
     """Registration form."""
     # Fetch invitation
-    invitation: None | Invitation = None
+    invitation: Invitation | None = None
     initial = {}
     if invitation_pk := request.session.get("invitation_link"):
         try:

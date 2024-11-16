@@ -1121,9 +1121,9 @@ def indicate_alerts(
 ):
     result: list[tuple[str, StrOrPromise, str | None]] = []
 
-    translation: None | Translation | GhostTranslation = None
-    component: None | Component = None
-    project: None | Project = None
+    translation: Translation | GhostTranslation | None = None
+    component: Component | None = None
+    project: Project | None = None
 
     global_base = context.get("global_base")
 

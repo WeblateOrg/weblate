@@ -80,7 +80,7 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
     batch_project_wide = True
     skip_suggestions = True
 
-    def get_propagated_value(self, unit: Unit) -> None | str:
+    def get_propagated_value(self, unit: Unit) -> str | None:
         return unit.target
 
     def get_propagated_units(

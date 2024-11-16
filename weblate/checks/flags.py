@@ -186,7 +186,7 @@ class Flags:
             self.merge(flags)
 
     def get_items(
-        self, flags: None | str | etree._Element | Flags | tuple[str | tuple[Any, ...]]
+        self, flags: str | etree._Element | Flags | tuple[str | tuple[Any, ...]] | None
     ) -> tuple[str | tuple[Any, ...], ...]:
         if flags is None:
             return ()
@@ -199,7 +199,7 @@ class Flags:
         return flags
 
     def merge(
-        self, flags: None | str | etree._Element | Flags | tuple[str | tuple[Any, ...]]
+        self, flags: str | etree._Element | Flags | tuple[str | tuple[Any, ...]] | None
     ) -> None:
         for flag in self.get_items(flags):
             if isinstance(flag, tuple):
@@ -209,7 +209,7 @@ class Flags:
                 self._items[flag] = flag
 
     def remove(
-        self, flags: None | str | etree._Element | Flags | tuple[str | tuple[Any, ...]]
+        self, flags: str | etree._Element | Flags | tuple[str | tuple[Any, ...]] | None
     ) -> None:
         for flag in self.get_items(flags):
             if isinstance(flag, tuple):
