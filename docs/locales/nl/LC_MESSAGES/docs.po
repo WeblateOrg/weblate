@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-16 11:37+0000\n"
+"PO-Revision-Date: 2024-11-16 12:36+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -48567,10 +48567,13 @@ msgid ""
 "other export controls, and does not currently offer the ability to restrict "
 "translations access by country."
 msgstr ""
+"De service Hosted Weblate is niet geauditeerd voor conformiteit met ITAR of "
+"ander exportbeheer, en biedt momenteel niet de mogelijkheid om toegang tot "
+"vertalingen per land te beperken."
 
 #: ../../legal.rst:30
 msgid "US encryption controls"
-msgstr ""
+msgstr "VS encryptiebeheer"
 
 #: ../../legal.rst:32
 msgid ""
@@ -48578,6 +48581,10 @@ msgid ""
 "controls as it uses third party components utilizing cryptography for "
 "authentication, data-integrity and -confidentiality."
 msgstr ""
+"Weblate bevat geen cryptografische code, maar zou onderwerp voor "
+"exportbeheer kunnen zijn, omdat het onderdelen van derde partijen gebuikt "
+"die cryptografie gebruiken voor authenticatie, integriteit en "
+"vertrouwelijkheid van gegevens."
 
 #: ../../legal.rst:36
 msgid ""
@@ -48586,50 +48593,59 @@ msgid ""
 "`Encryption items NOT Subject to the EAR <https://www.bis.doc.gov/index.php/"
 "policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_)."
 msgstr ""
+"Hoogst waarschijnlijk zou Weblate worden geclassificeerd als ECCN 5D002 of "
+"5D992 en, als publiek beschikbare vrije software, zou het niet onderworpen "
+"zijn aan EAR (bekijk `Encryption items NOT Subject to the EAR <https://www."
+"bis.doc.gov/index.php/policy-guidance/encryption/1-encryption-items-not-"
+"subject-to-the-ear>`_)."
 
 #: ../../legal.rst:41
 msgid ""
 "Software components used by Weblate (listing only components related to "
 "cryptographic function):"
 msgstr ""
+"Door Weblate gebruikte softwareonderdelen (alleen onderdelen vermeld die "
+"zijn gerelateerd aan de cryptografische functie):"
 
 #: ../../legal.rst:44
 msgid "`Python <https://www.python.org/>`_"
-msgstr ""
+msgstr "`Python <https://www.python.org/>`_"
 
 #: ../../legal.rst:45
 msgid ""
 "See https://wiki.python.org/moin/"
 "PythonSoftwareFoundationLicenseFaq#Is_Python_subject_to_export_laws.3F"
 msgstr ""
+"Bekijk https://wiki.python.org/moin/"
+"PythonSoftwareFoundationLicenseFaq#Is_Python_subject_to_export_laws.3F"
 
 #: ../../legal.rst:46
 msgid "`GnuPG <https://www.gnupg.org/>`_"
-msgstr ""
+msgstr "`GnuPG <https://www.gnupg.org/>`_"
 
 #: ../../legal.rst:47 ../../legal.rst:49
 msgid "Optionally used by Weblate"
-msgstr ""
+msgstr "Optioneel door Weblate gebruikt"
 
 #: ../../legal.rst:48
 msgid "`Git <https://git-scm.com/>`_"
-msgstr ""
+msgstr "`Git <https://git-scm.com/>`_"
 
 #: ../../legal.rst:50
 msgid "`curl <https://curl.se/>`_"
-msgstr ""
+msgstr "`curl <https://curl.se/>`_"
 
 #: ../../legal.rst:51
 msgid "Used by Git"
-msgstr ""
+msgstr "Gebruikt door Git"
 
 #: ../../legal.rst:52
 msgid "`OpenSSL <https://www.openssl.org/>`_"
-msgstr ""
+msgstr "`OpenSSL <https://www.openssl.org/>`_"
 
 #: ../../legal.rst:53
 msgid "Used by Python and cURL"
-msgstr ""
+msgstr "Gebruikt door Python en cURL"
 
 #: ../../legal.rst:55
 msgid ""
@@ -48637,27 +48653,38 @@ msgid ""
 "the third party components it interacts with, but in any decent setup it "
 "will include all export restricted cryptographic functions:"
 msgstr ""
+"De sterkte van encryptiesleutels is afhankelijk van de configuratie van "
+"Weblate en de onderdelen van derde partijen waarmee het interacteert, maar "
+"in elke behoorlijke opstelling zal het alle door export beperkte "
+"cryptografische functies bevatten:"
 
 #: ../../legal.rst:59
 msgid "In excess of 56 bits for a symmetric algorithm"
-msgstr ""
+msgstr "Meer dan 56 bits voor een symmetrisch algoritme"
 
 #: ../../legal.rst:60
 msgid ""
 "Factorisation of integers in excess of 512 bits for an asymmetric algorithm"
 msgstr ""
+"Factorisatie van integers van meer dan 512 bits voor een asymmetrisch "
+"algoritme"
 
 #: ../../legal.rst:61
 msgid ""
 "Computation of discrete logarithms in a multiplicative group of a finite "
 "field of size greater than 512 bits for an asymmetric algorithm"
 msgstr ""
+"Berekening van afzonderlijke logaritmes in een vermenigvuldigende groep van "
+"een eindig veld met een grootte groter dan 512 bits voor een asymmetrisch "
+"algoritme"
 
 #: ../../legal.rst:62
 msgid ""
 "Discrete logarithms in a group different than above in excess of 112 bits "
 "for an asymmetric algorithm"
 msgstr ""
+"Afzonderlijke logaritmes in een andere groep dan hierboven met meer dan 112 "
+"bits voor een asymmetrisch algoritme"
 
 #: ../../legal.rst:64
 msgid ""
@@ -48665,30 +48692,37 @@ msgid ""
 "configured in a way where no cryptography code would be involved. The "
 "cryptographic features include:"
 msgstr ""
+"Weblate heeft geen mogelijkheid om cryptografie te activeren, maar het kan "
+"worden geconfigureerd op ene manier waarbij geen cryptografiecode betrokken "
+"zou hoeven zijn. De cryptografische mogelijkheden omvatten:"
 
 #: ../../legal.rst:68
 msgid "Accessing remote servers using secure protocols (HTTPS)"
-msgstr ""
+msgstr "Toegang tot servers op afstand met veilige protocollen (HTTPS)"
 
 #: ../../legal.rst:69
 msgid "Generating signatures for code commits (PGP)"
-msgstr ""
+msgstr "Handtekeningen genereren voor indienen van code (PGP)"
 
 #: ../../legal.rst:73
 msgid ""
 "`Export Controls (EAR) on Open Source Software <https://www.magicsplat.com/"
 "blog/ear/>`_"
 msgstr ""
+"`Export Controls (EAR) on Open Source Software <https://www.magicsplat.com/"
+"blog/ear/>`_"
 
 #: ../../python.rst:8
 msgid "Weblate's Python API"
-msgstr ""
+msgstr "Weblate's Python API"
 
 #: ../../python.rst:13
 msgid ""
 "The Python API is shipped separately, you need to install the :ref:`wlc` "
 "(wlc) to have it."
 msgstr ""
+"De Python API wordt afzonderlijk verspreid, u moet de :ref:`wlc` (wlc) "
+"installeren om het te hebben."
 
 #: ../../python.rst:21
 msgid ":mod:`wlc`"
@@ -48696,43 +48730,43 @@ msgstr ":mod:`wlc`"
 
 #: ../../python.rst:27
 msgid ":exc:`WeblateException`"
-msgstr ""
+msgstr ":exc:`WeblateException`"
 
 #: ../../python.rst:31
 msgid "Base class for all exceptions."
-msgstr ""
+msgstr "Basisklasse voor alle uitzonderingen."
 
 #: ../../python.rst:34
 msgid ":class:`Weblate`"
-msgstr ""
+msgstr ":class:`Weblate`"
 
 #: ../../python.rst:38
 msgid "User key"
-msgstr ""
+msgstr "Gebruikerssleutel"
 
 #: ../../python.rst:40
 msgid "API server URL, if not specified default is used"
-msgstr ""
+msgstr "API server URL, indien niet gespecificeerd wordt de standaard gebruikt"
 
 #: ../../python.rst:42
 msgid "Configuration object, overrides any other parameters."
-msgstr ""
+msgstr "Configuratie-object, overschrijft alle andere parameters."
 
 #: ../../python.rst:45
 msgid "Access class to the API, define API key and optionally API URL."
-msgstr ""
+msgstr "Toegangsklasse voor de API, definieer API-sleutel en optioneel API URL."
 
 #: ../../python.rst:49 ../../python.rst:57
 msgid "Request path"
-msgstr ""
+msgstr "Pad voor verzoek"
 
 #: ../../python.rst:0
 msgid "Return type"
-msgstr ""
+msgstr "Terug te geven type"
 
 #: ../../python.rst:53 ../../python.rst:61
 msgid "Performs a single API GET call."
-msgstr ""
+msgstr "Voert een enkele aanroep API GET uit."
 
 #: ../../python.rst:65
 msgid ":mod:`wlc.config`"
@@ -48740,19 +48774,19 @@ msgstr ":mod:`wlc.config`"
 
 #: ../../python.rst:71
 msgid ":class:`WeblateConfig`"
-msgstr ""
+msgstr ":class:`WeblateConfig`"
 
 #: ../../python.rst:75
 msgid "Configuration section to use"
-msgstr ""
+msgstr "Te gebruiken sectie van configuratie"
 
 #: ../../python.rst:78
 msgid "Configuration file parser following XDG specification."
-msgstr ""
+msgstr "Configuratie bestandsparser die XDG-specificatie volgt."
 
 #: ../../python.rst:83
 msgid "Path from which to load configuration."
-msgstr ""
+msgstr "Pad waaruit configuratie moet worden geladen."
 
 #: ../../python.rst:86
 msgid ""
@@ -48760,6 +48794,9 @@ msgid ""
 "`wlc` configuration file (:file:`~/.config/wlc`) placed in your XDG "
 "configuration path (:file:`/etc/xdg/wlc`)."
 msgstr ""
+"Laadt de configuratie uit een bestand, als geen wordt gespecificeerd, wordt "
+"het geladen uit het configuratiebestand `wlc` (:file:`~/.config/wlc`), "
+"geplaatst in uw pad voor configuratie van XDG (:file:`/etc/xdg/wlc`)."
 
 #: ../../python.rst:92
 msgid ":mod:`wlc.main`"
@@ -48767,33 +48804,39 @@ msgstr ":mod:`wlc.main`"
 
 #: ../../python.rst:99
 msgid "Settings to override as list of tuples"
-msgstr ""
+msgstr "Als lijst tuples te overschrijven instellingen"
 
 #: ../../python.rst:101
 msgid "stdout file object for printing output, uses ``sys.stdout`` as default"
 msgstr ""
+"stdout bestandsobject voor afdrukken van uitvoer, gebruikt standaard ``sys."
+"stdout``"
 
 #: ../../python.rst:103
 msgid "Command-line arguments to process, uses ``sys.args`` as default"
 msgstr ""
+"Te verwerken argumenten voor de opdrachtregel, gebruikt standaard ``sys."
+"args``"
 
 #: ../../python.rst:106
 msgid "Main entry point for command-line interface."
-msgstr ""
+msgstr "Hoofd toegangspoort voor interface van de opdrachtregel."
 
 #: ../../python.rst:110
 msgid ""
 "Decorator to register :class:`Command` class in main parser used by :func:"
 "`main`."
 msgstr ""
+"Decoratie voor registreren van de klasse :class:`Command` in de hoofdparser "
+"die wordt gebruikt door :func:`main`."
 
 #: ../../python.rst:114
 msgid ":class:`Command`"
-msgstr ""
+msgstr ":class:`Command`"
 
 #: ../../python.rst:118
 msgid "Main class for invoking commands."
-msgstr ""
+msgstr "Hoofdklasse voor aanroepen van opdrachten."
 
 #: ../../user/checks.rst:4
 msgid ""
