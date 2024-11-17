@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-17 14:23+0000\n"
+"PO-Revision-Date: 2024-11-17 14:48+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -51807,7 +51807,7 @@ msgstr "``<a-b>text</a-b>``"
 
 #: ../../user/checks.rst:1693
 msgid "Custom element tag with a matching closing tag."
-msgstr ""
+msgstr "Aangepaste tag voor element met een overeenkomende sluitingstag."
 
 #: ../../user/checks.rst:1694
 msgid "``a <img/> b``"
@@ -51815,7 +51815,7 @@ msgstr "``a <img/> b``"
 
 #: ../../user/checks.rst:1694
 msgid "``img`` is a HTML void element. Self-closing is allowed."
-msgstr ""
+msgstr "``img`` is een element HTML void. Zelf sluiten is toegestaan."
 
 #: ../../user/checks.rst:1695
 msgid "``a <br> b``"
@@ -51823,7 +51823,7 @@ msgstr "``a <br> b``"
 
 #: ../../user/checks.rst:1695
 msgid "``br`` is a HTML void element."
-msgstr ""
+msgstr "``br`` is een element HTML void."
 
 #: ../../user/checks.rst:1696
 msgid "``<img class=a/>``"
@@ -51839,7 +51839,7 @@ msgstr "``<aØ attr=''/>``"
 
 #: ../../user/checks.rst:1697
 msgid "Non-ASCII tag name."
-msgstr ""
+msgstr "Niet-ASCII tagnaam."
 
 #: ../../user/checks.rst:1698
 msgid "``kind&ethical``"
@@ -51847,7 +51847,7 @@ msgstr "``kind&ethical``"
 
 #: ../../user/checks.rst:1698
 msgid "The ``&eth`` part would be converted to ``ð``."
-msgstr ""
+msgstr "Het gedeelte ``&eth`` zou worden geconverteerd naar ``ð``."
 
 #: ../../user/checks.rst:1699
 msgid "``kind&eth;ical``"
@@ -51855,7 +51855,7 @@ msgstr "``kind&eth;ical``"
 
 #: ../../user/checks.rst:1699
 msgid "The character reference seems to be intentional."
-msgstr ""
+msgstr "De verwijzing naar het teken lijkt opzettelijk te zijn."
 
 #: ../../user/checks.rst:1700
 msgid "``three&lte;four``"
@@ -51863,7 +51863,7 @@ msgstr "``three&lte;four``"
 
 #: ../../user/checks.rst:1700
 msgid "The ``&lte;`` part would be converted to ``<e;``."
-msgstr ""
+msgstr "Het gedeelte ``&lte;`` zou worden geconverteerd naar ``<e;``."
 
 #: ../../user/checks.rst:1701
 msgid "``three&lf;four``"
@@ -51879,7 +51879,7 @@ msgstr "``three<{ $val }``"
 
 #: ../../user/checks.rst:1702
 msgid "The Fluent variable may unintentionally become a tag."
-msgstr ""
+msgstr "De variabele van Fluent zou onbedoeld een tag kunnen worden."
 
 #: ../../user/checks.rst:1703
 msgid "``&l{ $val }``"
@@ -51888,6 +51888,8 @@ msgstr "``&l{ $val }``"
 #: ../../user/checks.rst:1703
 msgid "The Fluent variable may unintentionally become a character reference."
 msgstr ""
+"De variabele van Fluent zou onbedoeld een verwijzing naar een teken kunnen "
+"worden."
 
 #: ../../user/checks.rst:1708
 msgid ""
@@ -51899,22 +51901,34 @@ msgid ""
 "reference will trigger this check since even an escaped value could lead to "
 "unexpected results."
 msgstr ""
+"Deze controle zal er *niet* voor zorgen dat de inner HTML veilig is of "
+"opgeschoond, en is niet bedoeld om te beschermen tegen kwaadaardige pogingen "
+"om de inner HTML te wijzigen. Meer nog, het zou moeten worden onthouden dat "
+"Fluent variabelen en verwijzingen zich kunnen uitbreiden tot willekeurige "
+"tekenreeksen, en dus zouden kunnen uitbreiden tot willekeurige HTML, tenzij "
+"zij worden geëscapet. Als een uitzondering, een teken ``<`` of ``&`` voor "
+"een verwijzing van Fluent zal deze controle activeren, omdat zelfs een "
+"geëscapete waarde zou kunnen leiden tot onverwachte resultaten."
 
 #: ../../user/checks.rst:1718
 msgid ""
 "The Fluent DOM package has further limitations, such as allowed tags and "
 "attributes, which this check will not enforce."
 msgstr ""
+"Het Fluent DOM-pakket heeft nog meer beperkingen, zoals toegestane tags en "
+"attributen, die deze controle niet zal afdwingen."
 
 #: ../../user/checks.rst:1723
 msgid ""
 ":ref:`check-fluent-target-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 msgstr ""
+":ref:`check-fluent-target-inner-html`, `Fluent DOM <https://projectfluent."
+"org/dom-l10n-documentation/overview.html>`_"
 
 #: ../../user/checks.rst:1729
 msgid "Fluent source syntax"
-msgstr "Fluent-bronsyntaxis"
+msgstr "Fluent-syntaxis bron"
 
 #: ../../user/checks.rst:1733
 msgid "Fluent syntax error in source"
@@ -51939,6 +51953,11 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in "
 "source will be valid for Fluent."
 msgstr ""
+"In Weblate gebruiken tekenreeksen van Fluent de syntaxis van Fluent voor "
+"verwijzingen en variabelen, maar ook voor meer complexe mogelijkheden, zoals "
+"het definiëren van varianten voor attributen en selectoren, inclusief "
+"meervouden. Deze controle zorgt ervoor dat de gebruikte syntaxis in de bron "
+"geldig zal zijn voor Fluent."
 
 #: ../../user/checks.rst:1747
 msgid ""
@@ -51947,6 +51966,10 @@ msgid ""
 "mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax."
 "html>`_"
 msgstr ""
+":ref:`check-fluent-target-syntax`, `Fluent Syntax Guide "
+"<https://projectfluent.org/fluent/guide/>`_ `Mozilla Basic Syntax Guide "
+"<https://mozilla-l10n.github.io/localizer-documentation/tools/fluent/"
+"basic_syntax.html>`_"
 
 #: ../../user/checks.rst:1754
 msgid "ICU MessageFormat syntax"
@@ -51989,6 +52012,8 @@ msgid ""
 "When the string has not been translated for a long time, it can indicate a "
 "problem in a source string making it hard to translate."
 msgstr ""
+"Als de tekenreeks lange tijd niet is vertaald, kan het een probleem in de "
+"brontekenreeks aangeven, wat het moeilijk maakt om te vertalen."
 
 #: ../../user/checks.rst:1787
 msgid "Multiple failing checks"
@@ -52012,6 +52037,9 @@ msgid ""
 "usually an indication that something could be done to improve the source "
 "string."
 msgstr ""
+"Meerdere vertalingen van deze tekenreeks hebben mislukte "
+"kwaliteitscontroles. Dat is gewoonlijk een indicatie dat er iets gedaan kan "
+"worden om de brontekenreeks te verbeteren."
 
 #: ../../user/checks.rst:1799
 msgid ""
@@ -52019,6 +52047,10 @@ msgid ""
 "end of a sentence, or similar minor issues which translators tend to fix in "
 "translation, while it would be better to fix it in the source string."
 msgstr ""
+"Mislukken van deze controle kan vaak worden veroorzaakt door een ontbrekende "
+"punt aan het einde van een zin, of soortgelijke kleine problemen die "
+"vertalers neigen op te lossen in de vertaling, terwijl het beter zou zijn "
+"het op te lossen in de brontekenreeks."
 
 #: ../../user/checks.rst:1806
 msgid "Multiple unnamed variables"
@@ -52045,11 +52077,15 @@ msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
 msgstr ""
+"Er staan meerdere niet benoemde variabelen in de tekenreeks, wat het voor "
+"vertalers onmogelijk maakt om ze opnieuw te ordenen."
 
 #: ../../user/checks.rst:1819
 msgid ""
 "Consider using named variables instead to allow translators to reorder them."
 msgstr ""
+"Overweeg in plaats daarvan het gebruiken van benoemde variabelen, om "
+"vertalers toe te staan ze opnieuw te ordenen."
 
 #: ../../user/checks.rst:1824
 msgid "Unpluralised"
@@ -52074,14 +52110,17 @@ msgid ""
 "translation system supports this, you should use the plural aware variant of "
 "it."
 msgstr ""
+"De tekenreeks wordt gebruikt als een meervoud, maar heeft geen "
+"meervoudsvormen. In het geval dat uw vertaalsysteem dit ondersteunt, zou u "
+"de variant, die zich bewust is van meervouden, ervan moeten gebruiken."
 
 #: ../../user/checks.rst:1836
 msgid "For example with Gettext in Python it could be:"
-msgstr ""
+msgstr "Bijvoorbeeld met Gettext in Python zou het kunnen zijn:"
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
-msgstr ""
+msgstr "Downloaden en uploaden van vertalingen"
 
 #: ../../user/files.rst:4
 msgid ""
@@ -52089,6 +52128,10 @@ msgid ""
 "again. This allows working offline, and then merging changes back into the "
 "existing translation. This works even if it has been changed in the meantime."
 msgstr ""
+"U kunt bestanden uit een vertaling exporteren, wijzigingen maken en ze weer "
+"importeren. Dat maakt het offline werken mogelijk, en dan het terug "
+"samenvoegen van de wijzigingen in de bestaande vertaling. Dit werkt zelfs "
+"als het in de tussentijd is gewijzigd."
 
 #: ../../user/files.rst:10
 msgid ""
