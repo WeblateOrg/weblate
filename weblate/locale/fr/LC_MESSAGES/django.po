@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 07:40+0000\n"
-"PO-Revision-Date: 2024-11-17 14:48+0000\n"
+"PO-Revision-Date: 2024-11-18 07:16+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -2006,7 +2006,7 @@ msgstr ""
 
 #: weblate/api/docs.py:72
 msgid "Rate limiting limit of requests to perform"
-msgstr ""
+msgstr "Limite du taux de requêtes à exécuter"
 
 #: weblate/api/docs.py:77
 msgid "Remaining limit of requests"
@@ -5003,18 +5003,14 @@ msgstr "Politique de Cookies"
 
 #: weblate/legal/templates/legal/cookies.html:18
 #: weblate/legal/templates/legal/index.html:24
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
 msgstr ""
-"Cette page est rédigée d’après nos conditions générales d’utilisation et "
-"notre politique de confidentialité. Vous devriez quand même lire les "
-"documents originaux pour bien les comprendre :"
+"Cette page est rédigée d’après nos termes généraux et conditions d’"
+"utilisation et notre politique de confidentialité. Vous devriez aussi lire "
+"les documents originaux pour bien les comprendre :"
 
 #: weblate/legal/templates/legal/cookies.html:22
 #: weblate/legal/templates/legal/index.html:29
@@ -5079,10 +5075,9 @@ msgid "Could not fetch supported languages: %s"
 msgstr "Impossible de récupérer les langues prises en charge : %s"
 
 #: weblate/machinery/apertium.py:108
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "No supported languages found: %s"
-msgstr "Impossible de récupérer les langues prises en charge : %s"
+msgstr "Langues non prises en charge : %s"
 
 #: weblate/machinery/apertium.py:116 weblate/machinery/base.py:153
 #, python-format
@@ -5243,7 +5238,7 @@ msgstr "É.-U."
 #: weblate/machinery/forms.py:220
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Nom du Google Storage bucket"
 
 #: weblate/machinery/forms.py:224
 msgctxt "Google Cloud Translation configuration"
@@ -5251,6 +5246,8 @@ msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
+"Saisir le nom du Google Storage bucket utilisé pour enregistrer les fichiers "
+"du glossaire."
 
 #: weblate/machinery/forms.py:234
 #, python-format
@@ -8159,10 +8156,8 @@ msgid "Screenshots"
 msgstr "Captures d’écran"
 
 #: weblate/templates/component.html:101
-#, fuzzy
-#| msgid "Create component"
 msgid "Duplicate Component"
-msgstr "Créer un composant"
+msgstr "Dupliquer un composant"
 
 #: weblate/templates/component.html:102 weblate/templates/guide.html:9
 #: weblate/templates/guide.html:25
@@ -8956,14 +8951,12 @@ msgid "Repository changes"
 msgstr "Modifications dans le dépôt"
 
 #: weblate/templates/keyboard-shortcuts.html:11
-#, fuzzy
-#| msgid "Available add-ons"
 msgid "Available Shortcuts"
-msgstr "Extensions disponibles"
+msgstr "Raccourcis disponibles"
 
 #: weblate/templates/keyboard-shortcuts.html:17
 msgid "Shortcut"
-msgstr ""
+msgstr "Raccourci"
 
 #: weblate/templates/keyboard-shortcuts.html:18 weblate/trans/forms.py:2794
 msgid "Action"
@@ -8974,10 +8967,8 @@ msgid "Open available keyboard shortcuts."
 msgstr "Ouvrir les raccourcis clavier disponibles."
 
 #: weblate/templates/keyboard-shortcuts.html:28
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to the first translation in the current search."
-msgstr "Cette traduction est actuellement verrouillée."
+msgstr "Aller à la première traduction de la recherche actuelle."
 
 #: weblate/templates/keyboard-shortcuts.html:32
 #: weblate/templates/keyboard-shortcuts.html:41
@@ -9005,11 +8996,9 @@ msgstr "Aller à la dernière traduction de la recherche actuelle."
 #: weblate/templates/keyboard-shortcuts.html:134
 #: weblate/templates/keyboard-shortcuts.html:141
 #: weblate/templates/keyboard-shortcuts.html:147
-#, fuzzy
-#| msgid "Port"
 msgctxt "between keyboard shortcuts"
 msgid "or"
-msgstr "Port"
+msgstr "ou"
 
 #: weblate/templates/keyboard-shortcuts.html:50
 msgid "Navigate to the next translation in the current search."
@@ -9020,36 +9009,32 @@ msgid ""
 "Submit current form; this works the same as pressing Save and continue while "
 "editing translation."
 msgstr ""
+"Soumettre le formulaire actuel ; cela fonctionne de la même manière qu'en "
+"pressant Enregistrer et poursuivre pendant la modification de la traduction."
 
 #: weblate/templates/keyboard-shortcuts.html:65
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "Ajouter comme traduction à vérifier"
+msgstr "Ne plus marquer que la traduction doit être modifiée et la soumettre."
 
 #: weblate/templates/keyboard-shortcuts.html:72
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
 "while editing translation."
 msgstr ""
+"Soumettre la chaîne en tant que suggestion ; cela fonctionne de la même "
+"manière qu'en pressant Suggérer lors de la modification d'une traduction."
 
 #: weblate/templates/keyboard-shortcuts.html:79
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on translation editor."
-msgstr "Focus dans l’éditeur de traduction"
+msgstr "Focus sur l'éditeur de traduction."
 
 #: weblate/templates/keyboard-shortcuts.html:86
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on comment editor."
-msgstr "Focus dans l’éditeur de traduction"
+msgstr "Focus sur l’éditeur du commentaire."
 
 #: weblate/templates/keyboard-shortcuts.html:93
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgid "Shows Automatic suggestions tab."
-msgstr "Suggestions automatiques"
+msgstr "Affiche l'onglet des Suggestions automatiques"
 
 #: weblate/templates/keyboard-shortcuts.html:97
 #: weblate/templates/keyboard-shortcuts.html:99
@@ -9059,67 +9044,52 @@ msgstr "Suggestions automatiques"
 #: weblate/templates/keyboard-shortcuts.html:120
 msgctxt "between keyboard shortcuts"
 msgid "to"
-msgstr ""
+msgstr "vers"
 
 #: weblate/templates/keyboard-shortcuts.html:102
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "Copies placeable of a given number from source string."
-msgstr "Cette langue est utilisée pour les chaînes sources."
+msgstr "Copie les emplacements d'un numéro donné à partir de la chaîne source."
 
 #: weblate/templates/keyboard-shortcuts.html:106
 #: weblate/templates/keyboard-shortcuts.html:108
 #: weblate/templates/keyboard-shortcuts.html:116
 #: weblate/templates/keyboard-shortcuts.html:119
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "followed by"
-msgstr "Téléversé par"
+msgstr "suivi par"
 
 #: weblate/templates/keyboard-shortcuts.html:112
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded document for "
-#| "translation."
 msgid "Copy the machine translation of a given number to current translation."
 msgstr ""
-"Créer un nouveau composant de traduction à partir d’un document téléversé."
+"Copier la traduction automatique d'un nombre donné dans la traduction "
+"actuelle."
 
 #: weblate/templates/keyboard-shortcuts.html:123
 msgid "Ignore one item in the list of failing checks."
 msgstr "Ignorer un élément de la liste des contrôles de qualité défaillants."
 
 #: weblate/templates/keyboard-shortcuts.html:130
-#, fuzzy
-#| msgid "Shows nearby strings tab"
 msgid "Shows the Nearby strings tab."
-msgstr "Affiche l’onglet Chaînes à proximité"
+msgstr "Affiche l’onglet Chaînes à proximité."
 
 #: weblate/templates/keyboard-shortcuts.html:137
 msgid "Focus on search field."
 msgstr "Focus sur le champ de recherche."
 
 #: weblate/templates/keyboard-shortcuts.html:144
-#, fuzzy
-#| msgid "Copies source string"
 msgid "Copy the source string."
-msgstr "Copier depuis la chaîne source"
+msgstr "Copier la chaîne source."
 
 #: weblate/templates/keyboard-shortcuts.html:150
 msgid "Toggle the Needs editing checkbox."
-msgstr ""
+msgstr "Controle la case à cocher Mise à jour nécessaire."
 
 #: weblate/templates/keyboard-shortcuts.html:157
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation string."
-msgstr "Ajouter une nouvelle chaîne de traduction"
+msgstr "Afficher la chaîne de traduction suivante."
 
 #: weblate/templates/keyboard-shortcuts.html:165
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation string."
-msgstr "Conserver les msgids précédents des chaînes traduites"
+msgstr "Afficher la chaîne de traduction précédente."
 
 #: weblate/templates/lang/create.html:7
 #: weblate/templates/snippets/list-objects.html:33
@@ -10535,16 +10505,12 @@ msgid "Paste from clipboard"
 msgstr "Coller à partir du presse-papiers"
 
 #: weblate/templates/search.html:23
-#, fuzzy
-#| msgid "Strings"
 msgid "strings"
-msgstr "Chaînes"
+msgstr "chaînes"
 
 #: weblate/templates/search.html:23
-#, fuzzy
-#| msgid "Words"
 msgid "words"
-msgstr "Mots"
+msgstr "mots"
 
 #: weblate/templates/search.html:28
 #: weblate/templates/snippets/embed-units.html:109
@@ -10879,10 +10845,8 @@ msgid "Last change"
 msgstr "Dernière modification"
 
 #: weblate/templates/snippets/info.html:177
-#, fuzzy
-#| msgid "Last change"
 msgid "Last change made by"
-msgstr "Dernière modification"
+msgstr "Dernière modification faite par"
 
 #: weblate/templates/snippets/info.html:203
 msgid "Aliased language codes"
@@ -11203,17 +11167,13 @@ msgstr ""
 "En vous inscrivant et en vous connectant à ce service, vous acceptez nos :"
 
 #: weblate/templates/snippets/login-info.html:19
-#, fuzzy
-#| msgid ""
-#| "Quick overview of the Terms of Service and the Privacy Policy, but you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
-"Aperçu rapide des conditions d’utilisation et de la politique de "
-"confidentialité, mais il est conseillé de lire les documents originaux pour "
-"bien les comprendre :"
+"Aperçu rapide des termes généraux et des conditions d’utilisation et de la "
+"politique de confidentialité, mais il est conseillé de lire aussi les "
+"documents originaux pour bien les comprendre :"
 
 #: weblate/templates/snippets/login-info.html:26
 msgid ""
@@ -15008,16 +14968,12 @@ msgid "Key filter"
 msgstr "Filtre clé"
 
 #: weblate/trans/models/component.py:780
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "file mask."
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
 msgstr ""
-"Expression rationnelle utilisée pour filtrer les fichiers de traduction lors "
-"de la recherche d’un motif de fichier."
+"Expression régulière utilisée pour filtrer les clés. Disponible uniquement "
+"pour les formats à une seule langue."
 
 #: weblate/trans/models/component.py:1536
 msgid ""
@@ -15240,6 +15196,8 @@ msgstr ""
 #: weblate/trans/models/component.py:3114
 msgid "To use the key filter, the file format must be monolingual."
 msgstr ""
+"Pour utiliser le filtre clé, le format du fichier doit avoir une seule "
+"langue."
 
 #: weblate/trans/models/component.py:3503
 msgid "Could not add new translation file."
@@ -15492,14 +15450,9 @@ msgstr ""
 "Erreur lors de l’ajout de la chaîne, aucune traduction n’a été trouvée."
 
 #: weblate/trans/models/unit.py:1053
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
-msgstr ""
-"La chaîne n’a pas pu être propagée à %(component)s car vous n’avez pas "
-"accepté l’accord de contribution."
+msgstr "La chaîne n’a pas pu être propagée à %(component)s : %(reason)s"
 
 #: weblate/trans/models/unit.py:1748
 msgid "Unmark as read-only"
@@ -16789,10 +16742,8 @@ msgstr ""
 "Bitbucket Server."
 
 #: weblate/vcs/git.py:2202
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Cloud merge request"
-msgstr "Pull request du serveur Bitbucket"
+msgstr "Requête de fusion dans le Cloud Bitbucket"
 
 #: weblate/vcs/mercurial.py:45
 msgid "This will push changes to the upstream Mercurial repository."
@@ -16877,23 +16828,19 @@ msgstr "Police de caractères de l’entête"
 
 #: weblate/wladmin/forms.py:96 weblate/wladmin/forms.py:103
 msgid "Navigation color (Light, Dark)"
-msgstr ""
+msgstr "Couleur de navigation (clair, sombre)"
 
 #: weblate/wladmin/forms.py:99
 msgid "Navigation text color (Light, Dark)"
-msgstr ""
+msgstr "Couleur du texte de navigation (clair, sombre)"
 
 #: weblate/wladmin/forms.py:106
-#, fuzzy
-#| msgid "Focus color"
 msgid "Focus color (Light, Dark)"
-msgstr "Couleur de focus"
+msgstr "Couleur du focus (clair, sombre)"
 
 #: weblate/wladmin/forms.py:109
-#, fuzzy
-#| msgid "Hover color"
 msgid "Hover color (Light, Dark)"
-msgstr "Couleur de survol"
+msgstr "Couleur de survol (clair, sombre)"
 
 #: weblate/wladmin/forms.py:113
 msgid "Hide page footer"
