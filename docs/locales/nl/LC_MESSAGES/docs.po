@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-17 14:19+0000\n"
+"PO-Revision-Date: 2024-11-17 14:23+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -51746,6 +51746,16 @@ msgid ""
 "tags and attributes, as well as allow *some* custom element or attribute "
 "names. This is partially to ensure that the user is using HTML intentionally."
 msgstr ""
+"Meer nog, voor de waarden van Fluent die opzettelijk tags van HTML of "
+"verwijzingen naar tekens bevatten, zal deze controle enkele \"beste "
+"werkwijzen\" verifiëren, zoals overeenkomende openings- en sluitingstags, "
+"geldige verwijzingen naar tekens en aangehaalde waarden van attributen. In "
+"aanvulling daarop, terwijl de specificatie van HTML5 technisch instemt met "
+"nogal willekeurige namen voor tags en attributen, zal deze controle ze "
+"beperken tot enkele basis ASCII-waarden die de standaard HTML5 tags en "
+"attributen voor elementen zou moeten afdekken, al ook *sommige* aangepaste "
+"namen voor element of attributen toestaan. Dat is gedeeltelijk om ervoor te "
+"zorgen dat de gebruiker HTML met opzet gebruikt."
 
 #: ../../user/checks.rst:1684 ../../user/search.rst:227
 msgid "Examples:"
@@ -51753,11 +51763,11 @@ msgstr "Voorbeelden:"
 
 #: ../../user/checks.rst:1687
 msgid "Warns?"
-msgstr ""
+msgstr "Waarschuwt?"
 
 #: ../../user/checks.rst:1687
 msgid "Reason"
-msgstr ""
+msgstr "Reden"
 
 #: ../../user/checks.rst:1689
 msgid "``three<four``"
@@ -51765,7 +51775,7 @@ msgstr "``three<four``"
 
 #: ../../user/checks.rst:1689
 msgid "The ``<four`` part would be lost as ``.innerHTML``."
-msgstr ""
+msgstr "Het gedeelte ``<four`` zou verloren gaan als ``.innerHTML``."
 
 #: ../../user/checks.rst:1690
 msgid "``three < four``"
@@ -51773,7 +51783,7 @@ msgstr "``three < four``"
 
 #: ../../user/checks.rst:1690
 msgid "The ``.innerHTML`` would match the ``.textContent``."
-msgstr ""
+msgstr "De ``.innerHTML`` zou overeenkomen met de ``.textContent``."
 
 #: ../../user/checks.rst:1691
 msgid "``three <four>``"
@@ -51789,7 +51799,7 @@ msgstr "``three <four/>``"
 
 #: ../../user/checks.rst:1692
 msgid "``four`` is not a HTML void element, so should not self-close."
-msgstr ""
+msgstr "``four`` is geen element HTML void, dus zou niet zelf sluiten."
 
 #: ../../user/checks.rst:1693
 msgid "``<a-b>text</a-b>``"
