@@ -1683,25 +1683,76 @@ partially to ensure that the user is using HTML intentionally.
 
 Examples:
 
-===================   ======   ======
-Value                 Warns?   Reason
-===================   ======   ======
-``three<four``        yes      The ``<four`` part would be lost as ``.innerHTML``.
-``three < four``      no       The ``.innerHTML`` would match the ``.textContent``.
-``three <four>``      yes      Missing a closing tag.
-``three <four/>``     yes      ``four`` is not a HTML void element, so should not self-close.
-``<a-b>text</a-b>``   no       Custom element tag with a matching closing tag.
-``a <img/> b``        no       ``img`` is a HTML void element. Self-closing is allowed.
-``a <br> b``          no       ``br`` is a HTML void element.
-``<img class=a/>``    yes      The attribute value is not quoted.
-``<aØ attr=''/>``     yes      Non-ASCII tag name.
-``kind&ethical``      yes      The ``&eth`` part would be converted to ``ð``.
-``kind&eth;ical``     no       The character reference seems to be intentional.
-``three&lte;four``    yes      The ``&lte;`` part would be converted to ``<e;``.
-``three&lf;four``     yes      The character reference is not valid.
-``three<{ $val }``    yes      The Fluent variable may unintentionally become a tag.
-``&l{ $val }``        yes      The Fluent variable may unintentionally become a character reference.
-===================   ======   ======
+.. list-table:: Fluent inner HTML examples
+   :header-rows: 1
+
+   * - Value
+     - Warns?
+     - Reason
+
+   * - ===================
+     - ======
+     - ======
+
+   * - ``three<four``
+     - yes
+     - The ``<four`` part would be lost as ``.innerHTML``.
+
+   * - ``three < four``
+     - no
+     - The ``.innerHTML`` would match the ``.textContent``.
+
+   * - ``three <four>``
+     - yes
+     - Missing a closing tag.
+
+   * - ``three <four/>``
+     - yes
+     - ``four`` is not a HTML void element, so should not self-close.
+
+   * - ``<a-b>text</a-b>``
+     - no
+     - Custom element tag with a matching closing tag.
+
+   * - ``a <img/> b``
+     - no
+     - ``img`` is a HTML void element. Self-closing is allowed.
+
+   * - ``a <br> b``
+     - no
+     - ``br`` is a HTML void element.
+
+   * - ``<img class=a/>``
+     - yes
+     - The attribute value is not quoted.
+
+   * - ``<aØ attr=''/>``
+     - yes
+     - Non-ASCII tag name.
+
+   * - ``kind&ethical``
+     - yes
+     - The ``&eth`` part would be converted to ``ð``.
+
+   * - ``kind&eth;ical``
+     - no
+     - The character reference seems to be intentional.
+
+   * - ``three&lte;four``
+     - yes
+     - The ``&lte;`` part would be converted to ``<e;``.
+
+   * - ``three&lf;four``
+     - yes
+     - The character reference is not valid.
+
+   * - ``three<{ $val }``
+     - yes
+     - The Fluent variable may unintentionally become a tag.
+
+   * - ``&l{ $val }``
+     - yes
+     - The Fluent variable may unintentionally become a character reference.
 
 .. note::
 
