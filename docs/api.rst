@@ -1466,7 +1466,7 @@ Components
     :param component: Component URL slug
     :type component: string
 
-.. http:get::  /api/components/(string:project)/(string:component)/changes/
+.. http:get:: /api/components/(string:project)/(string:component)/changes/
 
     Returns a list of component changes. This is essentially a component scoped
     :http:get:`/api/changes/` accepting same params.
@@ -1491,7 +1491,7 @@ Components
 
     :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
 
-.. http:get::  /api/components/(string:project)/(string:component)/screenshots/
+.. http:get:: /api/components/(string:project)/(string:component)/screenshots/
 
     Returns a list of component screenshots.
 
@@ -2184,7 +2184,7 @@ and XLIFF.
     :>json timestamp timestamp: string age
     :>json timestamp last_updated: last string update
 
-.. http:patch::  /api/units/(int:id)/
+.. http:patch:: /api/units/(int:id)/
 
     .. versionadded:: 4.3
 
@@ -2198,7 +2198,7 @@ and XLIFF.
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
     :<json array labels: labels, available on source units
 
-.. http:put::  /api/units/(int:id)/
+.. http:put:: /api/units/(int:id)/
 
     .. versionadded:: 4.3
 
@@ -2212,7 +2212,7 @@ and XLIFF.
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
     :<json array labels: labels, available on source units
 
-.. http:delete::  /api/units/(int:id)/
+.. http:delete:: /api/units/(int:id)/
 
     .. versionadded:: 4.3
 
@@ -2615,12 +2615,12 @@ Metrics
     :>json int users: Number of users
     :>json int changes: Number of changes
     :>json int projects: Number of projects
-    :>json int components:  Number of components
-    :>json int translations:  Number of translations
-    :>json int languages:  Number of used languages
-    :>json int checks:  Number of triggered quality checks
-    :>json int configuration_errors:  Number of configuration errors
-    :>json int suggestions:  Number of pending suggestions
+    :>json int components: Number of components
+    :>json int translations: Number of translations
+    :>json int languages: Number of used languages
+    :>json int checks: Number of triggered quality checks
+    :>json int configuration_errors: Number of configuration errors
+    :>json int suggestions: Number of pending suggestions
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
     :>json string name: Configured server name
 
