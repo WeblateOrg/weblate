@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-18 13:07+0000\n"
+"PO-Revision-Date: 2024-11-18 13:22+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -53226,16 +53226,20 @@ msgid ""
 "Advanced queries using boolean operations, parentheses, or field specific "
 "lookup can be used to find the strings you want."
 msgstr ""
+"Geavanceerde query's met Booleaanse bewerkingen, haakjes of veldspecifiek "
+"opzoeken kan worden gebruikt om de tekenreeksen te zoeken die u wilt."
 
 #: ../../user/search.rst:14
 msgid ""
 "When no field is defined, the lookup happens on source, target, and context "
 "strings."
 msgstr ""
+"Als geen veld is gedefinieerd, zal worden gezocht in tekenreeksen van bron, "
+"doel en context."
 
 #: ../../user/search.rst:19
 msgid "Simple search"
-msgstr ""
+msgstr "Eenvoudig zoeken"
 
 #: ../../user/search.rst:21
 msgid ""
@@ -53244,10 +53248,16 @@ msgid ""
 "into quotes (both single (``'``) and double (``\"``) quotes will work): "
 "``\"this is a quoted string\"`` or ``'another quoted string'``."
 msgstr ""
+"Elke frase die wordt ingetypt in het zoekvak wordt gesplitst in woorden. "
+"Tekenreeksen die ze allemaal bevatten worden weergegeven. Voor het zoeken "
+"naar een exacte frase, plaats \"de gezochte frase\" tussen aanhalingstekens ("
+"zowel enkele (``'``) als dubbele (``\"``) aanhalingstekens zullen werken): ``"
+"\"dit is een aangehaalde tekenreeks\"`` of ``'een andere aangehaalde "
+"tekenreeks'``."
 
 #: ../../user/search.rst:27
 msgid "Fields"
-msgstr ""
+msgstr "Velden"
 
 #: ../../user/search.rst:29
 msgid "``source:TEXT``"
@@ -53263,7 +53273,7 @@ msgstr "``target:TEXT``"
 
 #: ../../user/search.rst:32
 msgid "Target string case-insensitive search."
-msgstr ""
+msgstr "Zoekactie op doeltekenreeks, niet hoofdlettergevoelig."
 
 #: ../../user/search.rst:33
 msgid "``context:TEXT``"
@@ -53271,7 +53281,7 @@ msgstr "``context:TEXT``"
 
 #: ../../user/search.rst:34
 msgid "Context string case-insensitive search."
-msgstr ""
+msgstr "Zoekactie op tekenreeks van context, niet hoofdlettergevoelig."
 
 #: ../../user/search.rst:35
 msgid "``key:TEXT``"
@@ -53279,7 +53289,7 @@ msgstr "``key:TEXT``"
 
 #: ../../user/search.rst:36
 msgid "Key string case-insensitive search."
-msgstr ""
+msgstr "Zoekactie op sleutel van tekenreeks, niet hoofdlettergevoelig."
 
 #: ../../user/search.rst:37
 msgid "``note:TEXT``"
@@ -53295,7 +53305,7 @@ msgstr "``location:TEXT``"
 
 #: ../../user/search.rst:40
 msgid "Location string case-insensitive search."
-msgstr ""
+msgstr "Zoekactie op locatie van tekenreeks, niet hoofdlettergevoelig."
 
 #: ../../user/search.rst:41
 msgid "``priority:NUMBER``"
@@ -53303,7 +53313,7 @@ msgstr "``priority:NUMBER``"
 
 #: ../../user/search.rst:42
 msgid "String priority."
-msgstr ""
+msgstr "Prioriteit tekenreeks."
 
 #: ../../user/search.rst:43
 msgid "``id:NUMBER``"
@@ -53311,7 +53321,7 @@ msgstr "``id:NUMBER``"
 
 #: ../../user/search.rst:44
 msgid "String unique identifier."
-msgstr ""
+msgstr "Unieke identificatie tekenreeks."
 
 #: ../../user/search.rst:45
 msgid "``position:NUMBER``"
@@ -53327,7 +53337,7 @@ msgstr "``added:DATETIME``"
 
 #: ../../user/search.rst:48
 msgid "Timestamp for when the string was added to Weblate."
-msgstr ""
+msgstr "Tijdstempel van toen de tekenreeks werd toegevoegd aan Weblate."
 
 #: ../../user/search.rst:49
 msgid "``state:TEXT``"
@@ -53338,6 +53348,8 @@ msgid ""
 "Search for string states (``approved``, ``translated``, ``needs-editing``, "
 "``empty``, ``read-only``)."
 msgstr ""
+"Zoeken naar statussen van tekenreeksen (``approved``, ``translated``, "
+"``needs-editing``, ``empty``, ``read-only``)."
 
 #: ../../user/search.rst:52
 msgid ""
@@ -53345,6 +53357,10 @@ msgid ""
 "strings can be performed as ``state:>=translated``, searching for strings "
 "needing translation as ``state:<translated``."
 msgstr ""
+"Dit veld ondersteunt ook :ref:`search-operators`, dus het zoeken naar "
+"voltooide tekenreeksen kan worden uitgevoerd als ``state:>=translated``, "
+"zoeken naar tekenreeksen die nog vertaald moeten worden "
+"``state:<translated``."
 
 #: ../../user/search.rst:53
 msgid "``pending:BOOLEAN``"
@@ -53352,7 +53368,7 @@ msgstr "``pending:BOOLEAN``"
 
 #: ../../user/search.rst:54
 msgid "String pending for flushing to VCS."
-msgstr ""
+msgstr "Openstaande tekenreeks, wachtend om te worden doorgegeven aan VCS."
 
 #: ../../user/search.rst:55
 msgid "``has:TEXT``"
@@ -53365,6 +53381,10 @@ msgid ""
 "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
 "``glossary``, ``note``, ``label``."
 msgstr ""
+"Zoeken naar tekenreeksen met de attributen - ``plural``, ``context``, "
+"``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``"
+", ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, "
+"``note``, ``label``."
 
 #: ../../user/search.rst:57
 msgid "``is:TEXT``"
@@ -53372,7 +53392,7 @@ msgstr "``is:TEXT``"
 
 #: ../../user/search.rst:58
 msgid "Filters string on a condition:"
-msgstr ""
+msgstr "Filtert tekenreeks met een voorwaarde:"
 
 #: ../../user/search.rst:60
 msgid "``read-only`` or ``readonly``"
@@ -53380,7 +53400,7 @@ msgstr "``read-only`` of ``readonly``"
 
 #: ../../user/search.rst:61
 msgid "Read-only strings, same as ``state:read-only``."
-msgstr ""
+msgstr "Tekenreeksen Alleen-lezen, hetzelfde als ``state:read-only``."
 
 #: ../../user/search.rst:62
 msgid "``approved``"
@@ -53392,11 +53412,11 @@ msgstr "Goedgekeurde tekenreeksen, hetzelfde als ``state:approved``."
 
 #: ../../user/search.rst:64
 msgid "``needs-editing`` or ``fuzzy``"
-msgstr ""
+msgstr "``needs-editing`` of ``fuzzy``"
 
 #: ../../user/search.rst:65
 msgid "Needing editing strings, same as ``state:needs-editing``."
-msgstr ""
+msgstr "Tekenreeksen met Bewerken nodig, hetzelfde als ``state:needs-editing``."
 
 #: ../../user/search.rst:67
 msgid "Translated strings, same as ``state:>translated``."
@@ -53426,7 +53446,7 @@ msgstr "``language:TEXT``"
 
 #: ../../user/search.rst:73
 msgid "String target language."
-msgstr ""
+msgstr "Tekenreeks doeltaal."
 
 #: ../../user/search.rst:74
 msgid "``component:TEXT``"
@@ -53437,6 +53457,8 @@ msgid ""
 "Component slug or name case-insensitive search, see :ref:`component-slug` "
 "and :ref:`component-name`."
 msgstr ""
+"Slug of naam van onderdeel, niet hoofdlettergevoelige zoekactie, bekijk :ref"
+":`component-slug` en :ref:`component-name`."
 
 #: ../../user/search.rst:76
 msgid "``project:TEXT``"
@@ -53444,7 +53466,7 @@ msgstr "``project:TEXT``"
 
 #: ../../user/search.rst:77
 msgid "Project slug, see :ref:`project-slug`."
-msgstr ""
+msgstr "Slug van project , bekijk :ref:`project-slug`."
 
 #: ../../user/search.rst:78
 msgid "``path:TEXT``"
@@ -53455,6 +53477,8 @@ msgid ""
 "Path to the object to limit searching inside component, category, project, "
 "or translation."
 msgstr ""
+"Pad naar het object om zoeken te beperken binnen onderdeel, categorie, "
+"project of vertaling."
 
 #: ../../user/search.rst:80
 msgid "``changed_by:TEXT``"
@@ -53462,7 +53486,7 @@ msgstr "``changed_by:TEXT``"
 
 #: ../../user/search.rst:81
 msgid "String was changed by author with given username."
-msgstr ""
+msgstr "Tekenreeks werd gewijzigd door auteur met de opgegeven gebruikersnaam."
 
 #: ../../user/search.rst:82
 msgid "``changed:DATETIME``"
