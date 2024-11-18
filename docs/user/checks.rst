@@ -1690,10 +1690,6 @@ Examples:
      - Warns?
      - Reason
 
-   * - ===================
-     - ======
-     - ======
-
    * - ``three<four``
      - yes
      - The ``<four`` part would be lost as ``.innerHTML``.
