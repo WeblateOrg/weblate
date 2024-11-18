@@ -55,7 +55,7 @@ class WeblateConf(AppConf):
 
 
 def validate_service_configuration(
-    service_name: str, configuration: str
+    service_name: str, configuration: str | dict
 ) -> tuple[BatchMachineTranslation, dict, list[str]]:
     """
     Validate given service configuration.
@@ -71,15 +71,19 @@ def validate_service_configuration(
     except KeyError as error:
         msg = f"Service not found: {service_name}"
         raise ValueError(msg) from error
-    try:
-        configuration = json.loads(configuration)
-    except ValueError as error:
-        msg = f"Invalid service configuration: {error}"
-        raise ValueError(msg) from error
+
+    if isinstance(configuration, str):
+        try:
+            service_configuration = json.loads(configuration)
+        except ValueError as error:
+            msg = f"Invalid service configuration: {error}"
+            raise ValueError(msg) from error
+    else:
+        service_configuration = configuration
 
     errors = []
     if service.settings_form is not None:
-        form = service.settings_form(service, data=configuration)
+        form = service.settings_form(service, data=service_configuration)
         # validate form
         if not form.is_valid():
             errors.extend(list(form.non_field_errors()))
@@ -88,4 +92,4 @@ def validate_service_configuration(
                 errors.extend(
                     [f"Error in {field.name}: {error}" for error in field.errors]
                 )
-    return service, configuration, errors
+    return service, service_configuration, errors

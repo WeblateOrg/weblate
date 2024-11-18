@@ -398,7 +398,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
         view_name="api:project-credits", lookup_field="slug"
     )
     machinery_settings = serializers.HyperlinkedIdentityField(
-        view_name="api:machinery-settings", lookup_field="slug"
+        view_name="api:project-machinery-settings", lookup_field="slug"
     )
 
     class Meta:

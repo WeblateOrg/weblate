@@ -2066,11 +2066,12 @@ class ProjectAPITest(APIBaseTest):
             superuser=True,
             request={
                 "service": "deepl",
-                "configuration": '{"wrong": ""}',
+                "configuration": {"wrong": ""},
             },
+            format="json",
         )
 
-        # invalid field
+        # invalid field with multipart
         response = self.do_request(
             "api:project-machinery-settings",
             self.project_kwargs,
@@ -2083,7 +2084,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
 
-        # valid form
+        # valid form with multipart
         DeepLTranslationTest.mock_response()
         response = self.do_request(
             "api:project-machinery-settings",
@@ -2106,9 +2107,10 @@ class ProjectAPITest(APIBaseTest):
             superuser=True,
             request={
                 "service": "deepl",
-                "configuration": '{"key": "xy", "url": "https://api.deepl.com/v2/"}',
+                "configuration": {"key": "xy", "url": "https://api.deepl.com/v2/"},
                 "update": "true",
             },
+            format="json",
         )
 
         # list configurations
