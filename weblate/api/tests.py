@@ -2013,6 +2013,7 @@ class ProjectAPITest(APIBaseTest):
 
     @responses.activate
     def test_install_machinery(self) -> None:
+        """Test the machinery settings API endpoint for various scenarios."""
         from weblate.machinery.tests import DeepLTranslationTest
 
         # unauthenticated
@@ -2110,7 +2111,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
 
-        # test list configurations
+        # list configurations
         response = self.do_request(
             "api:project-machinery-settings",
             self.project_kwargs,

@@ -1014,8 +1014,8 @@ class ProjectViewSet(
 
     @action(detail=True, methods=["get", "post"])
     def machinery_settings(self, request: Request, **kwargs):
+        """List or create/update machinery configuration for a project."""
         project = self.get_object()
-        # if get, just list all machinery configurations
         if request.method == "POST":
             if not request.user.has_perm("project.edit", project):
                 self.permission_denied(request, "Can not edit machinery configuration")

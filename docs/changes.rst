@@ -4,6 +4,10 @@ Weblate 5.9
 Not yet released.
 
 **New features**
+* Per-project :ref:`machine-translation-setup` can now be configured via the Project :ref:`api`.
+
+  * Added :http:get:`/api/projects/{string:project}/machinery_settings/`.
+  * Added :http:post:`/api/projects/{string:project}/machinery_settings/`.
 
 **Improvements**
 

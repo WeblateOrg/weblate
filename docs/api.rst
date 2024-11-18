@@ -1235,6 +1235,30 @@ Projects
     :>json string full_name: Full name of the contributor
     :>json string change_count: Number of changes done in the time range
 
+
+.. http:get:: /api/projects/{string:project}/machinery_settings/
+
+    .. versionadded:: 5.9
+
+    Returns automatic suggestion settings for a project, consisting of the configurations defined for each translation service installed.
+
+    :param project: Project URL slug
+    :type project: string
+    :>json object suggestion_settings: Configuration for all installed services.
+
+
+.. http:post:: /api/projects/{string:project}/machinery_settings/
+
+    .. versionadded:: 5.9
+
+    Create or update the service configuration for a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :form string service: Service name
+    :form string configuration: Service configuration in JSON
+
+
 Components
 ++++++++++
 
