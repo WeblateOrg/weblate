@@ -58,7 +58,7 @@ to the repository. You can then use SSH URL to access the repository (see
 
 .. hint::
 
-   On a Hosted Weblate, this is pre-cofigured for most of the public sites,
+   On a Hosted Weblate, this is pre-configured for most of the public sites,
    please see :ref:`hosted-push`.
 
 .. _ssh-repos:
