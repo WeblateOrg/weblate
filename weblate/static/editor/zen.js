@@ -61,7 +61,7 @@
         // Stick the editor to the bottom of the screen when out of view
         $(".sticky-bottom").removeClass("sticky-bottom"); // Hide previous
         container?.addClass("sticky-bottom");
-        container.find("#hide-sticky").on("click", () => {
+        container.find(".hide-sticky").on("click", () => {
           container.removeClass("sticky-bottom");
         });
       }
