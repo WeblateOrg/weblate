@@ -139,7 +139,7 @@ from additional members before it is accepted as a translation.
 * Suggestions become translations when given a predetermined number of votes.
 
 +---------------------------------+-------------+------------------------------------+
-| Settin                          | Value       | Note                               |
+| Setting                         | Value       | Note                               |
 +=================================+=============+====================================+
 | Enable reviews                  | off         | Configured at project level.       |
 +---------------------------------+-------------+------------------------------------+
@@ -172,7 +172,7 @@ consistent and that the quality is good.
 * Suggestions can also be used to suggest changes for approved strings.
 
 +---------------------------------+-------------+------------------------------------+
-| Settin                          | Value       | Note                               |
+| Setting                         | Value       | Note                               |
 +=================================+=============+====================================+
 | Enable reviews                  | on          | Configured at project level.       |
 +---------------------------------+-------------+------------------------------------+
