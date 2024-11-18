@@ -199,13 +199,13 @@ In the Docker container this can be configured using
 
 The status of rate limiting is reported in following headers:
 
-+---------------------------+---------------------------------------------------+
-| ``X-RateLimit-Limit``     | Rate limiting limit of requests to perform        |
-+---------------------------+---------------------------------------------------+
-| ``X-RateLimit-Remaining`` | Remaining limit of requests                       |
-+---------------------------+---------------------------------------------------+
-| ``X-RateLimit-Reset``     | Number of seconds until ratelimit window resets   |
-+---------------------------+---------------------------------------------------+
++---------------------------+------------------------------------------------------+
+| ``X-RateLimit-Limit``     | Allowed number of requests to perform                |
++---------------------------+------------------------------------------------------+
+| ``X-RateLimit-Remaining`` | Remaining number of requests to perform              |
++---------------------------+------------------------------------------------------+
+| ``X-RateLimit-Reset``     | Number of seconds until the rate-limit window resets |
++---------------------------+------------------------------------------------------+
 
 .. versionchanged:: 4.1
 
