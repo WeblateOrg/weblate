@@ -96,6 +96,16 @@ repos:
   hooks:
   - id: rst-directive-colons
   - id: rst-inline-touching-normal
+- repo: local
+  hooks:
+  - id: rst-double-space
+    name: rst text with double space
+    description: Detect mistake of rst containg double space
+    types: [rst]
+    entry: \S  +(?![\| +])
+    language: pygrep
+    exclude: docs/devel/reporting-example.rst
+
 - repo: https://github.com/codespell-project/codespell
   rev: v2.3.0
   hooks:
