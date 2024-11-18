@@ -91,6 +91,11 @@ repos:
   rev: v1.36.1
   hooks:
   - id: djlint-django
+- repo: https://github.com/pre-commit/pygrep-hooks
+  rev: v1.10.0
+  hooks:
+  - id: rst-directive-colons
+  - id: rst-inline-touching-normal
 - repo: https://github.com/codespell-project/codespell
   rev: v2.3.0
   hooks:
