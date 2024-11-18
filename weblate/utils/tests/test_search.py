@@ -22,7 +22,7 @@ from weblate.utils.state import (
 )
 
 
-class SearchMixin:
+class SearchTestCase(TestCase):
     object_class = Unit
     parser = "unit"
 
@@ -32,7 +32,7 @@ class SearchMixin:
         self.assertEqual(self.object_class.objects.filter(result).exists(), exists)
 
 
-class UnitQueryParserTest(TestCase, SearchMixin):
+class UnitQueryParserTest(SearchTestCase):
     def test_simple(self) -> None:
         self.assert_query(
             "hello world",
@@ -439,7 +439,7 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         self.assert_query('source:"', parse_query("""source:'"'"""))
 
 
-class UserQueryParserTest(TestCase, SearchMixin):
+class UserQueryParserTest(SearchTestCase):
     object_class = User
     parser = "user"
 
@@ -547,7 +547,7 @@ class SuperuserQueryParserTest(UserQueryParserTest):
         self.assert_query("is:active", Q(is_active=True))
 
 
-class SearchTest(ViewTestCase, SearchMixin):
+class SearchTest(ViewTestCase, SearchTestCase):
     """Search tests on real projects."""
 
     CREATE_GLOSSARIES: bool = True

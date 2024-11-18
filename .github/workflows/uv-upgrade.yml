@@ -43,7 +43,10 @@ jobs:
         cache-suffix: '3.13'
 
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install
+      run: |
+        if [ -f ./ci/apt-install ] ; then
+          sudo ./ci/apt-install
+        fi
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -55,6 +58,7 @@ jobs:
       run: uv lock --upgrade --no-sources
 
     - run: uv sync --all-extras --no-sources
+      if: hashFiles('uv.lock') != ''
 
     - name: Update current branch
       if: github.event_name == 'pull_request'

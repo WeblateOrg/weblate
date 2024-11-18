@@ -3835,6 +3835,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         """Provide the cached version of key_filter."""
         return re.compile(self.key_filter)
 
+    def repository_status(self) -> str:
+        try:
+            return self.repository.status()
+        except RepositoryError as error:
+            return "{}\n\n{}".format(gettext("Could not get repository status!"), error)
+
 
 @receiver(m2m_changed, sender=Component.links.through)
 @disable_for_loaddata
