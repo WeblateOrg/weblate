@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-18 13:36+0000\n"
+"PO-Revision-Date: 2024-11-18 16:42+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -53646,16 +53646,21 @@ msgid ""
 "form complex queries. For example: ``state:translated AND (source:hello OR "
 "source:bar)``"
 msgstr ""
+"U mag opzoeken combineren met ``AND``, ``OR``, ``NOT`` en haakjes om "
+"complexe query's te vormen. Bijvoorbeeld: ``state:translated AND (source:"
+"hello OR source:bar)``"
 
 #: ../../user/search.rst:125
 msgid "Field operators"
-msgstr ""
+msgstr "Veld operatoren"
 
 #: ../../user/search.rst:127
 msgid ""
 "You can specify operators, ranges or partial lookups for date or numeric "
 "searches:"
 msgstr ""
+"U mag operatoren, bereiken of gedeeltelijk opzoeken specificeren voor "
+"numerieke zoekacties of:"
 
 #: ../../user/search.rst:129
 msgid "``state:>=translated``"
@@ -53663,7 +53668,7 @@ msgstr "``state:>=translated``"
 
 #: ../../user/search.rst:130
 msgid "State is ``translated`` or better (``approved``)."
-msgstr ""
+msgstr "Status is ``translated`` of beter nog (``approved``)."
 
 #: ../../user/search.rst:131
 msgid "``changed:2019``"
@@ -53671,7 +53676,7 @@ msgstr "``changed:2019``"
 
 #: ../../user/search.rst:132
 msgid "Changed in year 2019."
-msgstr ""
+msgstr "Gewijzigd in het jaar 2019."
 
 #: ../../user/search.rst:133
 msgid "``changed:[2019-03-01 to 2019-04-01]``"
@@ -53679,7 +53684,7 @@ msgstr "``changed:[2019-03-01 to 2019-04-01]``"
 
 #: ../../user/search.rst:134
 msgid "Changed between two given dates."
-msgstr ""
+msgstr "Gewijzigd tussen twee opgegeven datums."
 
 #: ../../user/search.rst:135
 msgid "``position:[10 to 100]``"
@@ -53687,11 +53692,11 @@ msgstr "``position:[10 to 100]``"
 
 #: ../../user/search.rst:136
 msgid "Strings with position between 10 and 100 (inclusive)."
-msgstr ""
+msgstr "Tekenreeksen met een positie tussen 10 en 100 (inclusief)."
 
 #: ../../user/search.rst:139
 msgid "Exact operators"
-msgstr ""
+msgstr "Exacte operatoren"
 
 #: ../../user/search.rst:141
 msgid ""
@@ -53701,6 +53706,13 @@ msgid ""
 "expressions, you can skip quotes. For example, to search for all source "
 "strings matching ``hello``, you can use: ``source:=hello``."
 msgstr ""
+"U kunt een query met exacte overeenkomst over verschillende velden met "
+"tekenreeksen uitvoeren met de operator ``=``. Bijvoorbeeld om te zoeken naar "
+"alle brontekenreeksen die exact overeenkomen met ``hello world``, gebruik: "
+"``source:=\"hello world\"``. Voor het zoeken naar uitdrukkingen van een "
+"enkel woord, kunt u aanhalingstekens overslaan, Bijvoorbeeld om te zoeken "
+"naar alle brontekenreeksen die overeenkomen met ``hello``, kunt u gebruiken: "
+"``source:=hello``."
 
 #: ../../user/search.rst:149
 msgid "Searching for changes"
@@ -53711,6 +53723,8 @@ msgid ""
 "Searching for history events can be done using ``change_action`` and "
 "``change_time`` operators."
 msgstr ""
+"Zoeken naar historische gebeurtenissen kan wordne uitgevoerd met de "
+"operatoren ``change_action`` en ``change_time``."
 
 #: ../../user/search.rst:156
 msgid ""
@@ -53718,6 +53732,9 @@ msgid ""
 "``change_time:2018 AND change_action:marked-for-edit`` or ``change_time:2018 "
 "AND change_action:\"Marked for edit\"``."
 msgstr ""
+"Bijvoorbeeld zoeken naar tekenreeksen die gemarkeerd zijn met Bewerken nodig "
+"in 2018 kan worden ingevoerd als ``change_time:2018 AND change_action:marked-"
+"for-edit`` of ``change_time:2018 AND change_action:\"Marked for edit\"``."
 
 #: ../../user/search.rst:162
 msgid "Regular expressions"
@@ -53728,16 +53745,20 @@ msgid ""
 "Anywhere text is accepted you can also specify a regular expression as "
 "``r\"regexp\"``."
 msgstr ""
+"Overal waar tekst wordt geaccepteerd mag u ook een reguliere uitdrukking "
+"specificeren, zoals ``r\"regexp\"``."
 
 #: ../../user/search.rst:166
 msgid ""
 "For example, to search for all source strings which contain any digit "
 "between 2 and 5, use ``source:r\"[2-5]\"``."
 msgstr ""
+"Zoeken naar bijvoorbeeld alle brontekenreeksen die een cijfer bevatten "
+"tussen 2 en 5, gebruik ``source:r\"[2-5]\"``."
 
 #: ../../user/search.rst:170
 msgid "Predefined queries"
-msgstr ""
+msgstr "Voorgedefinieerde query's"
 
 #: ../../user/search.rst:172
 msgid ""
