@@ -250,7 +250,7 @@ def mail_admins_contact(
 
     if settings.CONTACT_FORM == "reply-to":
         headers["Reply-To"] = sender
-        from_email = None
+        from_email = to[0]
     else:
         from_email = sender
 
