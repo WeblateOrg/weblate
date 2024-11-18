@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 07:40+0000\n"
-"PO-Revision-Date: 2024-11-05 01:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-11-18 11:03+0000\n"
+"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -4787,19 +4787,15 @@ msgstr "Kieli %s poistettu."
 #, fuzzy
 #| msgid "I agree with the Terms of Service document"
 msgid "I agree with the General Terms and Conditions document"
-msgstr "Hyväksyn palvelun käyttöehdot (Terms of Service -asiakirjan)"
+msgstr "Hyväksyn Yleiset käyttöehdot -asiakirjan"
 
 #: weblate/legal/middleware.py:50
-#, fuzzy
-#| msgid ""
-#| "We have a new version of the Terms of Service document, please read it "
-#| "and confirm that you agree with it."
 msgid ""
 "We have an updated version of the General Terms and Conditions document, "
 "please read it and confirm that you agree with it."
 msgstr ""
-"Meillä on uusi versio Käyttöehdot -asiakirjasta (Terms of Service). Lue se "
-"ja varmista että hyväksyt sen ehdot."
+"Meillä on päivitetty versio Yleiset käyttöehdot -asiakirjasta, lue se ja "
+"vahvista, että hyväksyt sen."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/contracts.html:6
@@ -4812,16 +4808,12 @@ msgid "Legal"
 msgstr "Oikeudelliset ehdot"
 
 #: weblate/legal/templates/legal/confirm.html:13
-#, fuzzy
-#| msgid "You have to agree to the Terms of Service"
 msgid "You have to agree to the General Terms and Conditions"
-msgstr "Sinun täytyy hyväksyä palvelun käyttöehdot (Terms of Service)"
+msgstr "Sinun on hyväksyttävä yleiset käyttöehdot"
 
 #: weblate/legal/templates/legal/confirm.html:15
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "Please read following General Terms and Conditions document:"
-msgstr "Lue seuraavat palvelun käyttöehdot (Terms of Service):"
+msgstr "Lue seuraava Yleiset käyttöehdot -asiakirja:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/templates/contributor-agreement.html:30
@@ -5140,10 +5132,9 @@ msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
 
 #: weblate/machinery/forms.py:286
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "Käännös ei ole kelvollista XML:ää"
+msgstr "Kontekstivektori ei ole kelvollinen: %s"
 
 #: weblate/machinery/forms.py:290
 #, python-format
@@ -5539,9 +5530,9 @@ msgstr ""
 "päälle (ainakin tälle sivulle tai saman lähteen \"same-origin\" pyynnöille)."
 
 #: weblate/templates/403_csrf.html:22
-#, fuzzy, python-format
+#, python-format
 msgid "CSRF failure reason: %(reason)s"
-msgstr "CSRF-virheen syy: %(reason)"
+msgstr "CSRF-virheen syy: %(reason)s"
 
 #: weblate/templates/404.html:5 weblate/templates/404.html:11
 #: weblate/trans/views/error.py:33
@@ -6664,10 +6655,8 @@ msgid "Edit"
 msgstr "Muokkaa"
 
 #: weblate/templates/accounts/user.html:171
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "Viimeaikaisia tapahtumia ei löytynyt!"
+msgstr "Viimeaikaisia panoksia ei löytynyt."
 
 #: weblate/templates/accounts/user.html:172
 msgid "Browse all translations with contribution"
@@ -6902,8 +6891,6 @@ msgid "History"
 msgstr "Historia"
 
 #: weblate/templates/addons/addon_list.html:31
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "No add-ons currently installed"
 msgstr "Asennettuja lisäosia ei ole."
 
@@ -7251,10 +7238,8 @@ msgid "Automatic assignment"
 msgstr "Automaattiset tehtävät"
 
 #: weblate/templates/auth/teams-name.html:4
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Requires two-factor authentication"
-msgstr "Palvelin ei salli tunnistautumista."
+msgstr "Edellyttää kaksivaiheista todennusta"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7945,10 +7930,9 @@ msgstr "Komponenttia päivitetään…"
 
 #: weblate/templates/component-progress.html:31
 #: weblate/templates/multi-progress.html:26
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Continue to %(return_target)s"
-msgstr "Kutsu projektiin %(project_name)s"
+msgstr "Jatka kohtaan %(return_target)s"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
@@ -8587,12 +8571,10 @@ msgstr[0] "yksi odottava muutos"
 msgstr[1] "%(count)s odottavaa muutosta"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "Sitouta odottavat muutokset Weblate-tietovarastoon"
+msgstr "Tämä sitoo kaikki odottavat muutokset Weblatessa, ei tietovarastossa."
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
@@ -8734,10 +8716,8 @@ msgid "It also removes stale branches which are not used by Weblate."
 msgstr ""
 
 #: weblate/templates/js/git-status.html:130
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Estä kaikki muutokset Weblate-tietovarastoon"
+msgstr "Käytä, kun Weblate-tietovarastoon on jäänyt roskaa."
 
 #: weblate/templates/js/git-status.html:134
 msgid "Synchronize"
@@ -8864,10 +8844,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:65
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "Lisää käännöksenä, joka vaatii muokkaamista"
+msgstr "Poista käännöksen muokkaustarpeen merkintä ja lähetä se."
 
 #: weblate/templates/keyboard-shortcuts.html:72
 msgid ""
@@ -8876,22 +8854,16 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:79
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on translation editor."
-msgstr "Siirry käännösmuokkaimeen"
+msgstr "Keskity käännösmuokkaimeen."
 
 #: weblate/templates/keyboard-shortcuts.html:86
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on comment editor."
-msgstr "Siirry käännösmuokkaimeen"
+msgstr "Keskity kommenttimuokkaimeen"
 
 #: weblate/templates/keyboard-shortcuts.html:93
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgid "Shows Automatic suggestions tab."
-msgstr "Automaattiset ehdotukset"
+msgstr "Näyttää Automaattiset ehdotukset -välilehden."
 
 #: weblate/templates/keyboard-shortcuts.html:97
 #: weblate/templates/keyboard-shortcuts.html:99
@@ -8931,8 +8903,6 @@ msgid "Ignore one item in the list of failing checks."
 msgstr "Ohita yksi kohde epäonnistuneiden tarkistusten luettelossa."
 
 #: weblate/templates/keyboard-shortcuts.html:130
-#, fuzzy
-#| msgid "Shows nearby strings tab"
 msgid "Shows the Nearby strings tab."
 msgstr "Näyttää Lähellä olevat tekstit -välilehden"
 
