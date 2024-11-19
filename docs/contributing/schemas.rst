@@ -1,7 +1,7 @@
 Data
 ============
 
-Weblate uses 
+Weblate uses
 <https://-schema.org/>`_ to define layout of external files.
 
 .. _schema-memory:
