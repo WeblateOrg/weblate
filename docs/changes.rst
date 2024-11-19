@@ -15,6 +15,7 @@ Not yet released.
 * :ref:`bulk-edit` shows a preview of matched strings.
 * :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
 * Editor in :ref:`zen-mode` is now stick to bottom of screen.
+* Added page navigation while :ref:`translating`.
 
 **Bug fixes**
 

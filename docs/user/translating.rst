@@ -110,6 +110,8 @@ Source needs review
 
     :ref:`labels`
 
+.. _translating:
+
 Translating
 -----------
 
