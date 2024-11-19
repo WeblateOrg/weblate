@@ -186,7 +186,7 @@ and tweak it to match your setup:
    .. code-block:: postgresql
 
        LOAD DATABASE
-            FROM      mysql://weblate:password@localhost/weblate
+            FROM mysql://weblate:password@localhost/weblate
             INTO postgresql://weblate:password@localhost/weblate
 
        WITH include no drop, truncate, create no tables, create no indexes, no foreign keys, disable triggers, reset sequences, data only

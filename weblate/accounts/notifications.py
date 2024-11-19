@@ -8,6 +8,7 @@ from collections import defaultdict
 from copy import copy
 from email.utils import formataddr
 from typing import TYPE_CHECKING, Any
+from uuid import uuid4
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -69,6 +70,7 @@ def get_email_headers(notification: str) -> dict[str, str]:
     return {
         "X-Mailer": "Weblate" if settings.HIDE_VERSION else USER_AGENT,
         "X-Weblate-Notification": notification,
+        "Message-ID": f"{uuid4()}@{get_site_domain()}",
     }
 
 

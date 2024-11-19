@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 07:40+0000\n"
-"PO-Revision-Date: 2024-11-07 04:09+0000\n"
-"Last-Translator: immeteor2 <ryumeteor175@gmail.com>\n"
+"PO-Revision-Date: 2024-11-18 07:16+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -437,10 +437,9 @@ msgid "Account removal confirmation sent to {email}."
 msgstr "{email} にアカウント削除の確認を送信しました。"
 
 #: weblate/accounts/models.py:187
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "{date} 現在の、サービス利用規約の内容に合意しました。"
+msgstr "{date} 現在の、利用規約の内容に合意しました。"
 
 #: weblate/accounts/models.py:188
 #, python-brace-format
@@ -4771,22 +4770,14 @@ msgid "Language %s removed."
 msgstr "%s の言語を削除しました。"
 
 #: weblate/legal/forms.py:11
-#, fuzzy
-#| msgid "I agree with the Terms of Service document"
 msgid "I agree with the General Terms and Conditions document"
-msgstr "サービス利用規約の内容に合意する"
+msgstr "利用規約の内容に合意する"
 
 #: weblate/legal/middleware.py:50
-#, fuzzy
-#| msgid ""
-#| "We have a new version of the Terms of Service document, please read it "
-#| "and confirm that you agree with it."
 msgid ""
 "We have an updated version of the General Terms and Conditions document, "
 "please read it and confirm that you agree with it."
-msgstr ""
-"サービス利用規約の新しいバージョンを公開しています。内容をお読みのうえ、合意"
-"の可否をご判断ください。"
+msgstr "利用規約を更新しました。内容をご確認の上、同意をお願いいたします。"
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/contracts.html:6
@@ -4799,16 +4790,12 @@ msgid "Legal"
 msgstr "法的文書"
 
 #: weblate/legal/templates/legal/confirm.html:13
-#, fuzzy
-#| msgid "You have to agree to the Terms of Service"
 msgid "You have to agree to the General Terms and Conditions"
-msgstr "サービス利用規約に対して合意しなければなりません"
+msgstr "利用規約への同意が必要です"
 
 #: weblate/legal/templates/legal/confirm.html:15
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "Please read following General Terms and Conditions document:"
-msgstr "以下のサービス利用規約の文書をお読みください:"
+msgstr "以下の利用規約の文書をご確認ください:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/templates/contributor-agreement.html:30
@@ -4835,24 +4822,19 @@ msgstr "Cookie ポリシー"
 
 #: weblate/legal/templates/legal/cookies.html:18
 #: weblate/legal/templates/legal/index.html:24
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
-msgstr ""
-"このページはサービス利用規約とプライバシーポリシーに基づいています。それぞれ"
-"完全に理解するためには元の文書をお読みください。"
+msgstr "このページは利用規約と個人情報保護方針に基づいています。それぞれ完全に理解す"
+"るためには元の文書をお読みください。"
 
 #: weblate/legal/templates/legal/cookies.html:22
 #: weblate/legal/templates/legal/index.html:29
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:19
 #: weblate/templates/snippets/login-info.html:11
 msgid "General Terms and Conditions"
-msgstr ""
+msgstr "利用規約"
 
 #: weblate/legal/templates/legal/cookies.html:23
 #: weblate/legal/templates/legal/index.html:32
@@ -5064,14 +5046,15 @@ msgstr "アメリカ"
 #: weblate/machinery/forms.py:220
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Google Storage バケット名"
 
 #: weblate/machinery/forms.py:224
 msgctxt "Google Cloud Translation configuration"
 msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
-msgstr ""
+msgstr "用語集ファイルを保存する Google Cloud Storage "
+"のバケット名を入力してください。"
 
 #: weblate/machinery/forms.py:234
 #, python-format
@@ -7894,10 +7877,8 @@ msgid "Screenshots"
 msgstr "スクリーンショット"
 
 #: weblate/templates/component.html:101
-#, fuzzy
-#| msgid "Create component"
 msgid "Duplicate Component"
-msgstr "コンポーネントの作成"
+msgstr "コンポーネントの複製"
 
 #: weblate/templates/component.html:102 weblate/templates/guide.html:9
 #: weblate/templates/guide.html:25
@@ -8711,37 +8692,31 @@ msgstr "現在の検索で次の翻訳に移動します。"
 msgid ""
 "Submit current form; this works the same as pressing Save and continue while "
 "editing translation."
-msgstr ""
+msgstr "現在のフォームを送信する。これは、翻訳の編集中に「保存して次へ」を押すのと同"
+"じ操作です。"
 
 #: weblate/templates/keyboard-shortcuts.html:65
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "要編集の翻訳として追加"
+msgstr "翻訳の要編集フラグを解除して送信する。"
 
 #: weblate/templates/keyboard-shortcuts.html:72
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
 "while editing translation."
-msgstr ""
+msgstr "文字列を提案として送信する。これは、翻訳の編集中に「提案」を押すのと同じ操作"
+"です。"
 
 #: weblate/templates/keyboard-shortcuts.html:79
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on translation editor."
-msgstr "翻訳エディタにフォーカスする"
+msgstr "翻訳入力フォームにカーソル移動。"
 
 #: weblate/templates/keyboard-shortcuts.html:86
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on comment editor."
-msgstr "翻訳エディタにフォーカスする"
+msgstr "コメント入力フォームにカーソル移動。"
 
 #: weblate/templates/keyboard-shortcuts.html:93
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgid "Shows Automatic suggestions tab."
-msgstr "自動提案"
+msgstr "自動提案タブを表示します。"
 
 #: weblate/templates/keyboard-shortcuts.html:97
 #: weblate/templates/keyboard-shortcuts.html:99
@@ -8754,10 +8729,8 @@ msgid "to"
 msgstr "から"
 
 #: weblate/templates/keyboard-shortcuts.html:102
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "Copies placeable of a given number from source string."
-msgstr "この言語は、原文の言語として使用します。"
+msgstr "原文内の置き換え可能な文字列を、入力値に合わせて翻訳フォームにコピーします。"
 
 #: weblate/templates/keyboard-shortcuts.html:106
 #: weblate/templates/keyboard-shortcuts.html:108
@@ -8767,50 +8740,36 @@ msgid "followed by"
 msgstr "の後"
 
 #: weblate/templates/keyboard-shortcuts.html:112
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded document for "
-#| "translation."
 msgid "Copy the machine translation of a given number to current translation."
-msgstr ""
-"翻訳用にアップロードしたドキュメントから、新しい翻訳コンポーネントを作成しま"
-"す。"
+msgstr "指定した番号の機械翻訳を、現在の翻訳フォームにコピーします。"
 
 #: weblate/templates/keyboard-shortcuts.html:123
 msgid "Ignore one item in the list of failing checks."
 msgstr "番号を指定して、検査不合格となった 1 項目を除外する。"
 
 #: weblate/templates/keyboard-shortcuts.html:130
-#, fuzzy
-#| msgid "Shows nearby strings tab"
 msgid "Shows the Nearby strings tab."
-msgstr "近くのタブ文字列を表示する"
+msgstr "前後の文字列タブを表示します。"
 
 #: weblate/templates/keyboard-shortcuts.html:137
 msgid "Focus on search field."
-msgstr ""
+msgstr "検索入力フォームにカーソル移動。"
 
 #: weblate/templates/keyboard-shortcuts.html:144
-#, fuzzy
-#| msgid "Copies source string"
 msgid "Copy the source string."
-msgstr "原文をコピーする"
+msgstr "原文をコピーします。"
 
 #: weblate/templates/keyboard-shortcuts.html:150
 msgid "Toggle the Needs editing checkbox."
-msgstr ""
+msgstr "要編集フラグを反転させます。"
 
 #: weblate/templates/keyboard-shortcuts.html:157
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation string."
-msgstr "新しい原文の追加"
+msgstr "次の翻訳文字列に移動します。"
 
 #: weblate/templates/keyboard-shortcuts.html:165
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation string."
-msgstr "翻訳済み文字列の以前の msgid を保持する"
+msgstr "前の翻訳文字列に移動します。"
 
 #: weblate/templates/lang/create.html:7
 #: weblate/templates/snippets/list-objects.html:33
@@ -10199,14 +10158,10 @@ msgid "Paste from clipboard"
 msgstr "クリップボードから貼り付け"
 
 #: weblate/templates/search.html:23
-#, fuzzy
-#| msgid "Strings"
 msgid "strings"
 msgstr "文字列"
 
 #: weblate/templates/search.html:23
-#, fuzzy
-#| msgid "Words"
 msgid "words"
 msgstr "単語"
 
@@ -10526,10 +10481,8 @@ msgid "Last change"
 msgstr "最終変更"
 
 #: weblate/templates/snippets/info.html:177
-#, fuzzy
-#| msgid "Last change"
 msgid "Last change made by"
-msgstr "最終変更"
+msgstr "最終変更者"
 
 #: weblate/templates/snippets/info.html:203
 msgid "Aliased language codes"
@@ -10843,16 +10796,11 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "サービスに登録してサインインすると、以下に同意したとみなされます:"
 
 #: weblate/templates/snippets/login-info.html:19
-#, fuzzy
-#| msgid ""
-#| "Quick overview of the Terms of Service and the Privacy Policy, but you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
-msgstr ""
-"利用規約とプライバシーポリシーの概要をご紹介します。しかし、完全に理解するた"
-"めには、オリジナルの文書を必ずお読みください:"
+msgstr "利用規約と個人情報保護方針の概要をご紹介します。しかし、完全に理解するために"
+"は、オリジナルの文書を必ずお読みください:"
 
 #: weblate/templates/snippets/login-info.html:26
 msgid ""
@@ -10896,10 +10844,8 @@ msgid "First"
 msgstr "先頭"
 
 #: weblate/templates/snippets/position-field.html:10
-#, fuzzy
-#| msgid "Previous translation:"
 msgid "Previous section"
-msgstr "以前の翻訳:"
+msgstr "前の項目"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -10918,10 +10864,8 @@ msgid "/ %(filter_count)s"
 msgstr "/ %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:35
-#, fuzzy
-#| msgid "Text direction"
 msgid "Next section"
-msgstr "テキストの方向"
+msgstr "次の項目"
 
 #: weblate/templates/snippets/position-field.html:37
 #: weblate/templates/snippets/position-field.html:40
@@ -13219,15 +13163,12 @@ msgid "Document to translate"
 msgstr "翻訳するドキュメント"
 
 #: weblate/trans/forms.py:1869
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "Target language"
-msgstr "言語の管理"
+msgstr "翻訳対象言語"
 
 #: weblate/trans/forms.py:1870
 msgid "Target language of the document for bilingual files"
-msgstr ""
+msgstr "バイリンガル ファイルの翻訳対象言語"
 
 #: weblate/trans/forms.py:1937
 msgid "Choose translation files to import"
@@ -14519,21 +14460,15 @@ msgid "Glossary color"
 msgstr "用語集の色"
 
 #: weblate/trans/models/component.py:776
-#, fuzzy
-#| msgid "Search filter"
 msgid "Key filter"
-msgstr "検索フィルター"
+msgstr "キー フィルター"
 
 #: weblate/trans/models/component.py:780
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "file mask."
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
-msgstr ""
-"ファイル マスクをスキャンするときに翻訳ファイルをフィルタ処理する正規表現。"
+msgstr "キーをフィルタリングするために使用する正規表現。これは、モノリンガル形式での"
+"み使用できます。"
 
 #: weblate/trans/models/component.py:1536
 msgid ""
@@ -14745,7 +14680,8 @@ msgstr "提案の自動採用は、投票機能が有効の場合のみ動作し
 
 #: weblate/trans/models/component.py:3114
 msgid "To use the key filter, the file format must be monolingual."
-msgstr ""
+msgstr "キー "
+"フィルターを使用するには、ファイル形式がモノリンガルであることが必要です。"
 
 #: weblate/trans/models/component.py:3503
 msgid "Could not add new translation file."
@@ -14985,14 +14921,9 @@ msgid "Failed adding string, no translation found."
 msgstr "文字列の追加に失敗しました。翻訳が見つかりません。"
 
 #: weblate/trans/models/unit.py:1053
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
-msgstr ""
-"貢献者同意条項への合意がないため、文字列を %(component)s へ反映できませんでし"
-"た。"
+msgstr "文字列を %(component)s へ反映できません: %(reason)s"
 
 #: weblate/trans/models/unit.py:1748
 msgid "Unmark as read-only"
@@ -16312,23 +16243,19 @@ msgstr "ヘッダー フォント"
 
 #: weblate/wladmin/forms.py:96 weblate/wladmin/forms.py:103
 msgid "Navigation color (Light, Dark)"
-msgstr ""
+msgstr "ナビゲーションの色（ライト、ダーク）"
 
 #: weblate/wladmin/forms.py:99
 msgid "Navigation text color (Light, Dark)"
-msgstr ""
+msgstr "ナビゲーションの文字色（明るい、暗い）"
 
 #: weblate/wladmin/forms.py:106
-#, fuzzy
-#| msgid "Focus color"
 msgid "Focus color (Light, Dark)"
-msgstr "フォーカスの色"
+msgstr "フォーカスの色（明るい、暗い）"
 
 #: weblate/wladmin/forms.py:109
-#, fuzzy
-#| msgid "Hover color"
 msgid "Hover color (Light, Dark)"
-msgstr "ホバーの色"
+msgstr "ホバーの色（明るい、暗い）"
 
 #: weblate/wladmin/forms.py:113
 msgid "Hide page footer"

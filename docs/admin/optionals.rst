@@ -284,22 +284,22 @@ The following operations are subject to rate limiting:
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Name                              | Scope              | Allowed attempts | Ratelimit window | Lockout period |
 +===================================+====================+==================+==================+================+
-| Registration                      | ``REGISTRATION``   |                5 |              300 |            600 |
+| Registration                      | ``REGISTRATION``   | 5                | 300              | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
-| Sending message to admins         | ``MESSAGE``        |                2 |              300 |            600 |
+| Sending message to admins         | ``MESSAGE``        | 2                | 300              | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
-| Password authentication on sign in| ``LOGIN``          |                5 |              300 |            600 |
+| Password authentication on sign in| ``LOGIN``          | 5                | 300              | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
-| Sitewide search                   | ``SEARCH``         |                6 |               60 |             60 |
+| Sitewide search                   | ``SEARCH``         | 6                | 60               | 60             |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
-| Translating                       | ``TRANSLATE``      |               30 |               60 |            600 |
+| Translating                       | ``TRANSLATE``      | 30               | 60               | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
-| Adding to glossary                | ``GLOSSARY``       |               30 |               60 |            600 |
+| Adding to glossary                | ``GLOSSARY``       | 30               | 60               | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
-| Starting translation into a new   | ``LANGUAGE``       |                2 |              300 |            600 |
+| Starting translation into a new   | ``LANGUAGE``       | 2                | 300              | 600            |
 | language                          |                    |                  |                  |                |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
-| Creating new project              | ``PROJECT``        |                5 |              600 |            600 |
+| Creating new project              | ``PROJECT``        | 5                | 600              | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 
 If a user fails to sign in :setting:`AUTH_LOCK_ATTEMPTS` times, password authentication will be turned off on the account until having gone through the process of having its password reset.

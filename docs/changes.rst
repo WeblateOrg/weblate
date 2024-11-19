@@ -34,7 +34,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.8.4
 -------------
 
-Not yet released.
+Released on November 19th 2024.
 
 **Improvements**
 
