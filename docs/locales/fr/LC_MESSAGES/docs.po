@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-18 13:22+0000\n"
+"PO-Revision-Date: 2024-11-19 20:00+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -39355,6 +39355,8 @@ msgid ""
 "Understand the Weblate source code by going through :doc:`code`, :doc:"
 "`frontend` and :doc:`internals`."
 msgstr ""
+"Comprenez le code source de Weblate en lisant :doc:`code`, :doc:`frontend` "
+"et :doc:`internals`."
 
 #: ../../contributing/start.rst:8
 #, fuzzy
@@ -39368,6 +39370,9 @@ msgid ""
 "labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/"
 "good%20first%20issue>`_."
 msgstr ""
+"Familiarisez-vous avec la base de code de Weblate en allant voir les bogues "
+"étiquetés `good first issue <https://github.com/WeblateOrg/weblate/labels/"
+"good%20first%20issue>`_."
 
 #: ../../contributing/start.rst:13
 msgid ""
@@ -39375,10 +39380,13 @@ msgid ""
 "announce that in the issue, so that it's clear that somebody is working on "
 "that issue."
 msgstr ""
+"Vous êtes le bienvenu pour commencer à travailler sur ces problèmes sans "
+"demander d'autorisation. Faites-en simplement l'annonce dans le rapport afin "
+"que l'on sache que quelqu'un a pris en charge le sujet."
 
 #: ../../contributing/start.rst:17
 msgid "Running Weblate locally"
-msgstr ""
+msgstr "Activer Weblate localement"
 
 #: ../../contributing/start.rst:19
 msgid ""
@@ -39407,16 +39415,19 @@ msgstr ""
 
 #: ../../contributing/start.rst:43
 msgid "Start a development server:"
-msgstr ""
+msgstr "Démarrer un serveur de développement :"
 
 #: ../../contributing/start.rst:49
 msgid ""
 "Depending on your configuration, you might also want to start Celery workers:"
 msgstr ""
+"En fonction de votre configuration vous pourrez aussi démarrer les services "
+"Celery :"
 
 #: ../../contributing/start.rst:55
 msgid "To run a test (see :ref:`local-tests` for more details):"
 msgstr ""
+"Pour exécuter un test (voir :ref:`local-tests` pour plus d'informations) :"
 
 #: ../../contributing/start.rst:64
 msgid ":doc:`../admin/install/source`"
@@ -39424,7 +39435,7 @@ msgstr ":doc:`../admin/install/source`"
 
 #: ../../contributing/start.rst:69
 msgid "Running Weblate locally in Docker"
-msgstr ""
+msgstr "Exécuter Weblate localement dans Docker"
 
 #: ../../contributing/start.rst:71
 msgid ""
@@ -39441,6 +39452,11 @@ msgid ""
 "``admin`` as the password. The new installation is empty, so you might want "
 "to continue with :ref:`adding-projects`."
 msgstr ""
+"Cela va créer et démarrer une image Docker de développement. Weblate "
+"s'exécute sur <http://127.0.0.1:8080/> et vous pouvez vous connecter en tant "
+"qu'utilisateur ``admin`` avec le mot de passe ``admin``. La nouvelle "
+"installation est vide donc vous pourrez continuer avec :ref:`adding-"
+"projects`."
 
 #: ../../contributing/start.rst:84
 msgid ""
@@ -39456,36 +39472,48 @@ msgid ""
 "``test`` parameter and then specify any :djadmin:`django:test` parameters, "
 "for example running only tests in the ``weblate.machine`` module:"
 msgstr ""
+"Le script accepte aussi certains paramètres, pour exécuter les tests "
+"utilisez le paramètre ``test`` et spécifiez les paramètres "
+":djadmin:`django:test` s'il y en a, par exemple pour ne faire que les tests "
+"du module ``weblate.machine`` :"
 
 #: ../../contributing/start.rst:98
 msgid ""
 "Be careful that your Docker containers are up and running before running the "
 "tests. You can check that by running the ``docker ps`` command."
 msgstr ""
+"Faites attention à ce que vos conteneurs Docker soient activés et qu'ils "
+"s'exécutent avant d'exécuter les tests. Vous pouvez vérifier cela en "
+"exécutant la commande ``docker ps``."
 
 #: ../../contributing/start.rst:101
 msgid "To display the logs:"
-msgstr ""
+msgstr "Pour afficher les journaux :"
 
 #: ../../contributing/start.rst:107
 msgid "To stop the background containers, run:"
-msgstr ""
+msgstr "Pour arrêter les conteneurs en tâche de fond, exécutez :"
 
 #: ../../contributing/start.rst:113
 msgid ""
 "Running the script without arguments will re-create the Docker container and "
 "restart it."
 msgstr ""
+"Si vous exécutez le script sans argument il va recréer et redémarrer le "
+"conteneur Docker."
 
 #: ../../contributing/start.rst:117
 msgid ""
 "This is not a suitable setup for production, as it includes several hacks "
 "which are insecure, but they make development easier."
 msgstr ""
+"Cette configuration n'est pas adaptée à la production car elle contient "
+"plusieurs failles non sécurisées mais qui rendent le développement plus "
+"facile."
 
 #: ../../contributing/start.rst:122
 msgid "Bootstrapping your devel instance"
-msgstr ""
+msgstr "Bootstrapper votre instance de développement"
 
 #: ../../contributing/start.rst:124
 msgid ""
@@ -42581,7 +42609,7 @@ msgstr ""
 
 #: ../../faq.rst:528
 msgid "How does Weblate credit translators?"
-msgstr ""
+msgstr "De quelle manière Weblate crédite-t-il les traducteurs ?"
 
 #: ../../faq.rst:530
 msgid ""
@@ -42589,20 +42617,29 @@ msgid ""
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
+"Toute modification faite dans Weblate est validée dans VCS avec le nom du "
+"traducteur. De cette manière toute modification élémentaire a son propre "
+"auteur, et vous pouvez la suivre en utilisant les outils VCS standard dont "
+"vous vous servez pour le code."
 
 #: ../../faq.rst:534
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
 msgstr ""
+"De plus, lorsque le format du fichier de traduction prend cela en charge, "
+"les entêtes des fichiers sont mis à jour pour inclure le nom du traducteur."
 
 #: ../../faq.rst:539
+#, fuzzy
 msgid ":wladmin:`list_translators`, :doc:`../devel/reporting`"
-msgstr ""
+msgstr ":wladmin:`list_translators`, :doc:`../devel/reporting`"
 
 #: ../../faq.rst:543
 msgid "Why does Weblate force showing all PO files in a single tree?"
 msgstr ""
+"Pourquoi Weblate force l'affichage de tous les fichiers PO dans une seule "
+"arborescence ?"
 
 #: ../../faq.rst:545
 msgid ""
@@ -42610,6 +42647,9 @@ msgid ""
 "component. This is beneficial for translators, so they know what they are "
 "actually translating."
 msgstr ""
+"Weblate a été conçu de sorte à ce que chaque fichier PO soit représenté "
+"comme un seul composant. C'est bénéfique pour les traducteurs, afin qu'il "
+"sachent ce qu'ils sont en train de traduire."
 
 #: ../../faq.rst:551
 msgid ""
@@ -42622,6 +42662,8 @@ msgstr ""
 #: ../../faq.rst:557
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
 msgstr ""
+"Pourquoi Weblate utilise-t-il les codes de langue tels que sr_Latn ou "
+"zh_Hant ?"
 
 #: ../../faq.rst:559
 msgid ""
@@ -42629,6 +42671,10 @@ msgid ""
 "are really different languages instead previously wrongly used modifiers "
 "(for ``@latin`` variants) or country codes (for Chinese)."
 msgstr ""
+"Ce sont les codes de langue définis par la :rfc:`5646` pour indiquer d'une "
+"meilleure façon qu'il s'agit de langues réellement différentes au lieu des "
+"précédents modificateurs mal utilisés (pour les variantes de ``@latin``) ou "
+"pour les codes de pays (pour le chinois)."
 
 #: ../../faq.rst:563
 msgid ""
@@ -42636,6 +42682,9 @@ msgid ""
 "one - for example ``sr@latin`` will be handled as ``sr_Latn`` or ``zh@CN`` "
 "as ``zh_Hans``."
 msgstr ""
+"Weblate comprend encore les anciens codes de langue et les traduit en codes "
+"actuels - par exemple ``sr@latin`` sera utilisé en tant que ``sr_Latn`` ou "
+"``zh@CN`` pour ``zh_Hans``."
 
 #: ../../faq.rst:569
 msgid ""
@@ -43165,6 +43214,9 @@ msgid ""
 "are extracted from the source code using tools. For example :ref:`gettext` "
 "and :ref:`qtling`."
 msgstr ""
+"Cette information est typiquement disponible dans les formats bilingues où "
+"les chaînes sont extraites du code source en utilisant des outils. Par "
+"exemple :ref:`gettext` et :ref:`qtling`."
 
 #: ../../formats.rst:440
 msgid ""
@@ -43172,10 +43224,15 @@ msgid ""
 "defining those in the translation file (you can always define them in the "
 "Weblate interface, see :ref:`custom-checks`)."
 msgstr ""
+"Les options de traduction permettent de personnaliser le comportement de "
+"Weblate. Certains formats prennent en charge leur définition dans la "
+"traduction (vous pouvez toujours les définir dans l'interface Weblate, voir "
+":ref:`custom-checks`)."
 
 #: ../../formats.rst:444
 msgid "This feature is modelled on flags in :ref:`gettext`."
 msgstr ""
+"Cette fonctionnalité est construite d'après les options de :ref:`gettext`."
 
 #: ../../formats.rst:446
 #, fuzzy
@@ -43228,6 +43285,9 @@ msgid ""
 "For monolingual formats the string identifier (often called key) can serve "
 "the same purpose and additional context is not necessary."
 msgstr ""
+"Pour les formats monolingues, l'identifieur de chaîne (souvent appelé la clé)"
+" peut servir dans le même but et le contexte supplémentaire n'est pas "
+"nécessaire."
 
 #: ../../formats.rst:475
 #, fuzzy
@@ -43253,6 +43313,10 @@ msgid ""
 "well. Choose native format of your platform such as :ref:`gettext`, :ref:"
 "`aresource` or :ref:`stringsdict`."
 msgstr ""
+"Utiliser la forme plurielle des chaînes nécessite d'avoir aussi le propre "
+"support dans l'environnement de l'application. Choisissez le format natif de "
+"votre plateforme tel que :ref:`gettext`, :ref:`aresource` ou "
+":ref:`stringsdict`."
 
 #: ../../formats.rst:490
 msgid "Read-only strings"
@@ -45718,23 +45782,24 @@ msgstr ""
 
 #: ../../python.rst:42
 msgid "Configuration object, overrides any other parameters."
-msgstr ""
+msgstr "Objet de configuration, redéfinit tout autre paramètre."
 
 #: ../../python.rst:45
 msgid "Access class to the API, define API key and optionally API URL."
 msgstr ""
+"Classe d'accès à l'API, définit la clé de l'API et sur option l'URL de l'API."
 
 #: ../../python.rst:49 ../../python.rst:57
 msgid "Request path"
-msgstr ""
+msgstr "Chemin de la requête"
 
 #: ../../python.rst:0
 msgid "Return type"
-msgstr ""
+msgstr "Type de renvoi"
 
 #: ../../python.rst:53 ../../python.rst:61
 msgid "Performs a single API GET call."
-msgstr ""
+msgstr "Réalise un appel API GET unique ."
 
 #: ../../python.rst:65
 msgid ":mod:`wlc.config`"
@@ -45746,15 +45811,15 @@ msgstr ":class:`WeblateConfig`"
 
 #: ../../python.rst:75
 msgid "Configuration section to use"
-msgstr ""
+msgstr "Section de configuration à utiliser"
 
 #: ../../python.rst:78
 msgid "Configuration file parser following XDG specification."
-msgstr ""
+msgstr "Analyseur de fichiers de configuration suivant la spécification XDG."
 
 #: ../../python.rst:83
 msgid "Path from which to load configuration."
-msgstr ""
+msgstr "Chemin utilisé pour charger la configuration."
 
 #: ../../python.rst:86
 msgid ""
@@ -45769,19 +45834,22 @@ msgstr ":mod:`wlc.main`"
 
 #: ../../python.rst:99
 msgid "Settings to override as list of tuples"
-msgstr ""
+msgstr "Paramètres à redéfinir en tant que liste de tuples"
 
 #: ../../python.rst:101
 msgid "stdout file object for printing output, uses ``sys.stdout`` as default"
 msgstr ""
+"objet fichier stdout pour imprimer la sortie, utilise ``sys.stdout`` par "
+"défaut"
 
 #: ../../python.rst:103
 msgid "Command-line arguments to process, uses ``sys.args`` as default"
 msgstr ""
+"Arguments de la ligne de commande à traiter, utilise ``sys.args`` par défaut"
 
 #: ../../python.rst:106
 msgid "Main entry point for command-line interface."
-msgstr ""
+msgstr "Point d'entrée principal de l'interface en ligne de commande."
 
 #: ../../python.rst:110
 msgid ""
@@ -45795,7 +45863,7 @@ msgstr ":class:`Commande`"
 
 #: ../../python.rst:118
 msgid "Main class for invoking commands."
-msgstr ""
+msgstr "Classe principale pour appeler des commandes."
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -45803,16 +45871,21 @@ msgid ""
 "translation is in good shape. The checks can be ignored in case of false "
 "positives."
 msgstr ""
+"Le contrôle qualité permet de détecter les erreurs communes des traducteurs, "
+"ce qui assure d'avoir des traductions en bonne forme. Les contrôles peuvent "
+"être ignorés dans le cas de faux positifs."
 
 #: ../../user/checks.rst:7
 msgid ""
 "Once submitting a translation with a failing check, this is immediately "
 "shown to the user:"
 msgstr ""
+"Dès que la traduction a été soumise et que la vérification a échoué, ceci "
+"est directement affiché à l'utilisateur :"
 
 #: ../../user/checks.rst:16
 msgid "Automatic fixups"
-msgstr ""
+msgstr "Corrections automatiques"
 
 #: ../../user/checks.rst:18
 msgid ""
@@ -45820,6 +45893,9 @@ msgid ""
 "translated strings automatically. Use it with caution to not have it add "
 "errors."
 msgstr ""
+"En plus de :ref:`checks`, Weblate peut corriger automatiquement certaines "
+"erreurs communes dans les chaînes traduites. A utiliser avec précaution pour "
+"ne pas introduire d'erreurs supplémentaires."
 
 #: ../../user/checks.rst:24
 msgid ":setting:`AUTOFIX_LIST`"
@@ -45836,6 +45912,8 @@ msgid ""
 "Replace trailing dots (``...``) with an ellipsis (``…``) to make it "
 "consistent with the source string."
 msgstr ""
+"Remplacer les points à la fin (``...``) par les points de suspension (``…``) "
+"pour la cohérence avec la chaîne source."
 
 #: ../../user/checks.rst:33
 #, fuzzy
@@ -45848,6 +45926,9 @@ msgid ""
 "Zero width space is typically not desired in the translation. This fix will "
 "remove it unless it is present in the source string as well."
 msgstr ""
+"Une espace de largeur nulle n'est typiquement pas souhaitée dans la "
+"traduction. Cette correction va la supprimer sauf si elle est présente aussi "
+"dans la chaîne source."
 
 #: ../../user/checks.rst:39
 #, fuzzy
@@ -49239,6 +49320,9 @@ msgid ""
 "Each project can include one or more glossaries as a shorthand for storing "
 "terminology. Glossary easify maintaining consistency of the translation."
 msgstr ""
+"Chaque projet peut inclure un ou plusieurs glossaires comme raccourci pour "
+"enregistrer la terminologie. Ils facilitent le maintient de la cohérence des "
+"traductions."
 
 #: ../../user/glossary.rst:9
 #, fuzzy
@@ -50240,6 +50324,10 @@ msgid ""
 "lowercase and spaces replaced by a hyphen. See :ref:`search-changes` for "
 "examples."
 msgstr ""
+"Filtres sur l'action de modification, utile quand associé à ``change_time``. "
+"Accepte le nom anglais de l'action de modification, soit entre apostrophes "
+"avec des espaces ou des minuscules et les espaces remplacés par un tiret. "
+"Voir :ref:`search-changes` pour les exemples."
 
 #: ../../user/search.rst:93
 msgid "``source_changed:DATETIME``"
@@ -50262,6 +50350,8 @@ msgstr "``check:TEXT``"
 msgid ""
 "String has failing check, see :doc:`/user/checks` for check identifiers."
 msgstr ""
+"Chaîne dont la vérification a échoué, voir :doc:`/user/checks` pour les "
+"identifiants des contrôles."
 
 #: ../../user/search.rst:97
 msgid "``dismissed_check:TEXT``"
@@ -50399,7 +50489,7 @@ msgstr "``position:[10 to 100]``"
 
 #: ../../user/search.rst:136
 msgid "Strings with position between 10 and 100 (inclusive)."
-msgstr ""
+msgstr "Chaînes dont la position se situe entre 10 et 100 (compris)."
 
 #: ../../user/search.rst:139
 msgid "Exact operators"
@@ -50430,6 +50520,8 @@ msgid ""
 "Searching for history events can be done using ``change_action`` and "
 "``change_time`` operators."
 msgstr ""
+"La recherche dans les événements de l'historique peut être effectuée en "
+"utilisant les opérateurs ``change_action`` et ``change_time``."
 
 #: ../../user/search.rst:156
 msgid ""
@@ -50437,6 +50529,9 @@ msgid ""
 "``change_time:2018 AND change_action:marked-for-edit`` or ``change_time:2018 "
 "AND change_action:\"Marked for edit\"``."
 msgstr ""
+"Par exemple, la recherche de chaînes marquées à modifier en 2018 peut être "
+"entrée comme suit : ``change_time:2018 AND change_action:marked-for-edit`` "
+"ou ``change_time:2018 AND change_action:\"Marked for edit\"``."
 
 #: ../../user/search.rst:162
 msgid "Regular expressions"
@@ -50993,6 +51088,10 @@ msgid ""
 "`Tools` menu. Any blank alternative translations will be automatically "
 "removed upon saving."
 msgstr ""
+"Avec certains formats il est possible d'obtenir plusieurs traductions à "
+"partir d'une seule chaîne. Vous pouvez ajouter d'autres traductions "
+"alternatives en utilisant le menu :guilabel:`Outils`. Toute traduction "
+"alternative vide sera automatiquement supprimée à l'enregistrement."
 
 #: ../../user/translating.rst:179
 msgid "Keyboard shortcuts"
@@ -52394,10 +52493,8 @@ msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
 msgstr ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
 
 #: ../../vcs.rst:443
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Cloud pull requests"
-msgstr "Pull request du serveur Bitbucket"
+msgstr "Requêtes de pull de Bitbucket Cloud"
 
 #: ../../vcs.rst:447
 #, fuzzy
