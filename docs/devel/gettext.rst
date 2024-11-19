@@ -218,19 +218,19 @@ To import such translation into Weblate, all you need to define are the followin
 fields when creating component (see :ref:`component` for detailed description
 of the fields):
 
-=============================== ==================================================
-Field                           Value
-=============================== ==================================================
-Source code repository          URL of the VCS repository with your project
-
-File mask                       ``po/*.po``
-
-Template for new translations   ``po/hello.pot``
-
-File format                     Choose :guilabel:`gettext PO file`
-
-New language                    Choose :guilabel:`Create new language file`
-=============================== ==================================================
++-------------------------------+--------------------------------------------------+
+| Field                         | Value                                            |
++===============================+==================================================+
+| Source code repository        | URL of the VCS repository with your project      |
++-------------------------------+--------------------------------------------------+
+| File mask                     | ``po/*.po``                                      |
++-------------------------------+--------------------------------------------------+
+| Template for new translations | ``po/hello.pot``                                 |
++-------------------------------+--------------------------------------------------+
+| File format                   | Choose :guilabel:`gettext PO file`               |
++-------------------------------+--------------------------------------------------+
+| New language                  | Choose :guilabel:`Create new language file`      |
++-------------------------------+--------------------------------------------------+
 
 And that's it, you're now ready to start translating your software!
 

@@ -1315,7 +1315,9 @@ For example:
 NEARBY_MESSAGES
 ---------------
 
-How many strings to show around the currently translated string. This is just a default value, users can adjust this in :ref:`user-profile`.
+Number of nearby strings to show in each direction in the full editor.
+
+This is just a default value, users can adjust this in :ref:`user-profile`.
 
 .. setting:: DEFAULT_PAGE_LIMIT
 

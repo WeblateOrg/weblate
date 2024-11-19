@@ -1132,7 +1132,7 @@ There are also additional filter to manipulate with filenames:
     Directory of a file: {{ filename|dirname }}
     File without extension: {{ filename|stripext }}
     File in parent dir: {{ filename|parentdir }}
-    It can be used multiple times:  {{ filename|parentdir|parentdir }}
+    It can be used multiple times: {{ filename|parentdir|parentdir }}
 
 …and other Django template features.
 

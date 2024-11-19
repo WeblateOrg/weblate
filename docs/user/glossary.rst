@@ -74,7 +74,7 @@ Forbidden translations
 
 .. versionadded:: 4.5
 
-Flagging certain glossary term translations as ``forbidden``,  by bulk-editing,
+Flagging certain glossary term translations as ``forbidden`` by bulk-editing,
 typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as forbidden translation`
 means they are **not** to be used. Use this to clarify translation when some words are
 ambiguous or could have unexpected meanings.
@@ -90,7 +90,7 @@ Terminology
 
 .. versionadded:: 4.5
 
-Flagging certain glossary terms as ``terminology``  by bulk-editing, typing in the flag,
+Flagging certain glossary terms as ``terminology`` by bulk-editing, typing in the flag,
 or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` adds entries for them
 to all languages in the glossary. Use this for important terms that should
 be well thought out, and retain a consistent meaning across all languages.

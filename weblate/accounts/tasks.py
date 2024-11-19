@@ -8,7 +8,7 @@ import logging
 import os
 from datetime import timedelta
 from email.mime.image import MIMEImage
-from smtplib import SMTP
+from smtplib import SMTP, SMTPConnectError
 from types import MethodType
 from typing import TypedDict
 
@@ -170,7 +170,12 @@ def monkey_patch_smtp_logging(connection):
     return connection
 
 
-@app.task(trail=False)
+@app.task(
+    trail=False,
+    autoretry_for=(SMTPConnectError,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
 def send_mails(mails: list[OutgoingEmail]) -> None:
     """Send multiple mails in single connection."""
     images = []
