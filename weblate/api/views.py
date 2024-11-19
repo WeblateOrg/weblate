@@ -1027,12 +1027,14 @@ class ProjectViewSet(
                     {"errors": ["Missing service name"]}, status=HTTP_400_BAD_REQUEST
                 )
 
-            try:
-                service, configuration, errors = validate_service_configuration(
-                    service_name, request.data.get("configuration", "{}")
+            service, configuration, errors = validate_service_configuration(
+                service_name, request.data.get("configuration", "{}")
+            )
+            if service is None:
+                return Response(
+                    {"errors": errors},
+                    status=HTTP_400_BAD_REQUEST,
                 )
-            except Exception as error:
-                errors = [str(error)]
 
             if errors:
                 return Response({"errors": errors}, status=HTTP_400_BAD_REQUEST)

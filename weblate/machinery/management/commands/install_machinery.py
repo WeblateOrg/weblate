@@ -25,12 +25,11 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options) -> None:
-        try:
-            service, configuration, errors = validate_service_configuration(
-                options["service"], options["configuration"]
-            )
-        except Exception as e:
-            raise CommandError(str(e)) from e
+        service, configuration, errors = validate_service_configuration(
+            options["service"], options["configuration"]
+        )
+        if service is None:
+            raise CommandError("\n".join(errors))
 
         if errors:
             for error in errors:

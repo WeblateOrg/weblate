@@ -56,7 +56,7 @@ class WeblateConf(AppConf):
 
 def validate_service_configuration(
     service_name: str, configuration: str | dict
-) -> tuple[BatchMachineTranslation, dict, list[str]]:
+) -> tuple[BatchMachineTranslation | None, dict, list[str]]:
     """
     Validate given service configuration.
 
@@ -68,16 +68,16 @@ def validate_service_configuration(
     """
     try:
         service = MACHINERY[service_name]
-    except KeyError as error:
+    except KeyError:
         msg = f"Service not found: {service_name}"
-        raise ValueError(msg) from error
+        return None, {}, [msg]
 
     if isinstance(configuration, str):
         try:
             service_configuration = json.loads(configuration)
         except ValueError as error:
             msg = f"Invalid service configuration: {error}"
-            raise ValueError(msg) from error
+            return service, {}, [msg]
     else:
         service_configuration = configuration
 
