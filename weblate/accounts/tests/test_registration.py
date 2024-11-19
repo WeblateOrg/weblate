@@ -4,9 +4,14 @@
 
 """Test for user handling."""
 
+from __future__ import annotations
+
+import base64
+import json
 from urllib.parse import parse_qs, urlparse
 
 import responses
+from altcha import Challenge, Solution, solve_challenge
 from django.conf import settings
 from django.core import mail
 from django.test import Client, TestCase
@@ -26,6 +31,7 @@ REGISTRATION_DATA = {
     "email": "noreply-weblate@example.org",
     "fullname": "First Last",
     "captcha": "9999",
+    "altcha": "value",
 }
 
 GH_BACKENDS = (
@@ -151,14 +157,59 @@ class RegistrationTest(BaseRegistrationTest):
     def test_register_captcha_fail(self) -> None:
         response = self.do_register()
         self.assertContains(response, "That was not correct, please try again.")
+        self.assertContains(response, "Validation failed, please try again.")
+
+    def solve_altcha(self, response, data: dict):
+        form = response.context["form"]
+        challenge: Challenge = form.challenge
+        solution: Solution = solve_challenge(
+            challenge=challenge.challenge,
+            salt=challenge.salt,
+            algorithm=challenge.algorithm,
+            max_number=challenge.maxnumber,
+            start=0,
+        )
+        data["altcha"] = base64.b64encode(
+            json.dumps(
+                {
+                    "algorithm": challenge.algorithm,
+                    "challenge": challenge.challenge,
+                    "number": solution.number,
+                    "salt": challenge.salt,
+                    "signature": challenge.signature,
+                }
+            ).encode("utf-8")
+        ).decode("utf-8")
+
+    def solve_math(self, response, data: dict):
+        form = response.context["form"]
+        data["captcha"] = form.mathcaptcha.result
+
+    @override_settings(REGISTRATION_CAPTCHA=True)
+    def test_register_partial_altcha(self) -> None:
+        """Test registration with captcha enabled."""
+        response = self.client.get(reverse("register"))
+        data = REGISTRATION_DATA.copy()
+        self.solve_altcha(response, data)
+        response = self.do_register(data)
+        self.assertContains(response, "That was not correct, please try again.")
+
+    @override_settings(REGISTRATION_CAPTCHA=True)
+    def test_register_partial_match(self) -> None:
+        """Test registration with captcha enabled."""
+        response = self.client.get(reverse("register"))
+        data = REGISTRATION_DATA.copy()
+        self.solve_math(response, data)
+        response = self.do_register(data)
+        self.assertContains(response, "Validation failed, please try again.")
 
     @override_settings(REGISTRATION_CAPTCHA=True)
     def test_register_captcha(self) -> None:
         """Test registration with captcha enabled."""
         response = self.client.get(reverse("register"))
-        form = response.context["form"]
         data = REGISTRATION_DATA.copy()
-        data["captcha"] = form.mathcaptcha.result
+        self.solve_altcha(response, data)
+        self.solve_math(response, data)
         response = self.do_register(data)
         self.assertContains(response, REGISTRATION_SUCCESS)
 

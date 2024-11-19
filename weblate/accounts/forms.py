@@ -4,10 +4,14 @@
 
 from __future__ import annotations
 
+import base64
+import json
 from binascii import unhexlify
+from datetime import timedelta
 from time import time
 from typing import TYPE_CHECKING, cast
 
+from altcha import Challenge, ChallengeOptions, create_challenge, verify_solution
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
@@ -16,6 +20,7 @@ from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db import transaction
 from django.middleware.csrf import rotate_token
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
 from django.utils.translation import activate, gettext, gettext_lazy, ngettext, pgettext
@@ -400,8 +405,47 @@ class UserForm(forms.ModelForm):
                 )
 
 
+class CaptchaWidget(forms.TextInput):
+    challenge: Challenge | None = None
+
+    def render(self, name, value, attrs=None, renderer=None, **kwargs):
+        if self.challenge is None:
+            msg = "Challenge is missing!"
+            raise ValueError(msg)
+
+        return format_html(
+            "<altcha-widget challengejson='{}' strings='{}' hidefooter auto='onfocus'></altcha-widget>",
+            # Directly include challenge
+            json.dumps(
+                {
+                    "algorithm": self.challenge.algorithm,
+                    "challenge": self.challenge.challenge,
+                    "maxnumber": self.challenge.maxnumber,
+                    "salt": self.challenge.salt,
+                    "signature": self.challenge.signature,
+                }
+            ),
+            # Localize strings
+            json.dumps(
+                {
+                    "error": gettext("Verification failed. Try again later."),
+                    "expired": gettext("Verification expired. Try again."),
+                    "label": gettext("I'm not a robot"),
+                    "verified": gettext("Verification completed"),
+                    "verifying": gettext("Verifying…"),
+                    "waitAlert": gettext(
+                        "Verification is still in progress, please wait."
+                    ),
+                }
+            ),
+        )
+
+
 class CaptchaForm(forms.Form):
     captcha = forms.IntegerField(required=True)
+    altcha = forms.CharField(
+        required=True, widget=CaptchaWidget, label=gettext_lazy("Human verification")
+    )
 
     def __init__(
         self,
@@ -412,22 +456,43 @@ class CaptchaForm(forms.Form):
         initial=None,
     ) -> None:
         super().__init__(data=data, initial=initial)
-        self.fresh = False
         self.has_captcha = True
         self.request = request
+        self.challenge: Challenge | None = None
         if not settings.REGISTRATION_CAPTCHA or hide_captcha:
             self.has_captcha = False
+            self.fields["altcha"].widget = forms.HiddenInput()
+            self.fields["altcha"].required = False
             self.fields["captcha"].widget = forms.HiddenInput()
             self.fields["captcha"].required = False
-        elif data is None or "captcha" not in request.session:
-            self.generate_captcha()
-            self.fresh = True
         else:
-            self.mathcaptcha = MathCaptcha.unserialize(request.session["captcha"])
+            self.generate_challenge()
+            if data is None or "captcha" not in request.session:
+                self.generate_captcha()
+            else:
+                self.mathcaptcha = MathCaptcha.unserialize(request.session["captcha"])
             self.set_label()
 
+            self.fields["altcha"].widget.challenge = self.challenge
+            if data is None:
+                self.store_challenge()
+
+    def generate_challenge(self) -> Challenge:
+        challenge_options = ChallengeOptions(
+            hmac_key=settings.SECRET_KEY,
+            max_number=settings.ALTCHA_MAX_NUMBER,
+            expires=timezone.now() + timedelta(hours=2),
+        )
+        self.challenge = create_challenge(challenge_options)
+        return self.challenge
+
+    def generate_captcha(self) -> None:
+        self.mathcaptcha = MathCaptcha()
+        self.request.session["captcha"] = self.mathcaptcha.serialize()
+        self.set_label()
+
     def set_label(self) -> None:
-        # Set correct label
+        """Set correct math captcha label."""
         self.fields["captcha"].label = format_html(
             pgettext(
                 "Question for a mathematics-based CAPTCHA, "
@@ -439,16 +504,14 @@ class CaptchaForm(forms.Form):
         if self.is_bound:
             self["captcha"].label = cast(str, self.fields["captcha"].label)
 
-    def generate_captcha(self) -> None:
-        self.mathcaptcha = MathCaptcha()
-        self.request.session["captcha"] = self.mathcaptcha.serialize()
-        self.set_label()
+    def store_challenge(self):
+        self.request.session["captcha_challenge"] = self.challenge.challenge
 
     def clean_captcha(self) -> None:
-        """Validate CAPTCHA."""
+        """Validate math captcha."""
         if not self.has_captcha:
             return
-        if self.fresh or not self.mathcaptcha.validate(self.cleaned_data["captcha"]):
+        if not self.mathcaptcha.validate(self.cleaned_data["captcha"]):
             self.generate_captcha()
             rotate_token(self.request)
             raise forms.ValidationError(
@@ -456,22 +519,35 @@ class CaptchaForm(forms.Form):
                 gettext("That was not correct, please try again.")
             )
 
-        mail = self.cleaned_data.get("email", "NONE")
+    def clean_altcha(self) -> None:
+        """Validate altcha."""
+        if not self.has_captcha:
+            return
+        payload = self.data.get("altcha", "")
 
-        LOGGER.info(
-            "Correct CAPTCHA for %s (%s = %s)",
-            mail,
-            self.mathcaptcha.question,
-            self.cleaned_data["captcha"],
-        )
+        # Validate payload
+        result = verify_solution(payload, settings.SECRET_KEY, check_expires=True)
+        if not result[0]:
+            LOGGER.error("Invalid altcha solution: %s", result[1:])
+            raise forms.ValidationError(gettext("Validation failed, please try again."))
+
+        # Manually guard against replay attacks
+        payload = json.loads(base64.b64decode(payload).decode())
+        # Use get to gracefully handle already solved challenges
+        if payload["challenge"] != self.request.session.get("captcha_challenge"):
+            LOGGER.error("Outdated altcha solution")
+            raise forms.ValidationError(gettext("Validation failed, please try again."))
 
     def is_valid(self) -> bool:
         result = super().is_valid()
         self.cleanup_session()
+        if not result and self.has_captcha:
+            self.store_challenge()
         return result
 
     def cleanup_session(self) -> None:
         self.request.session.pop("captcha", None)
+        self.request.session.pop("captcha_challenge", None)
 
 
 class ContactForm(CaptchaForm):
