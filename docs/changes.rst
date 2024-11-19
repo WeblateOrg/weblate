@@ -14,6 +14,7 @@ Not yet released.
 * Included username when generating :ref:`credits`.
 * :ref:`bulk-edit` shows a preview of matched strings.
 * :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
+* Editor in :ref:`zen-mode` is now stick to bottom of screen.
 
 **Bug fixes**
 
