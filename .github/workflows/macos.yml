@@ -31,7 +31,7 @@ jobs:
     - run: brew deps --tree --installed
     - name: Install brew dependencies
       run: |
-        brew install pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash libxmlsec1 uv
+        brew install pango cairo gobject-introspection glib libyaml pkgconf zstd xxhash libxmlsec1 uv
     - name: Install Weblate
       run: |
         uv venv --python python3.12 .venv
