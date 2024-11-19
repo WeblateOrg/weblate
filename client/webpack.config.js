@@ -47,6 +47,7 @@ function mainLicenseTransform(packages) {
     "autosize",
     "multi.js",
     "mousetrap",
+    "prismjs",
   ];
   return genericTransform(
     packages,
@@ -68,6 +69,10 @@ function autosizeLicenseTransform(packages) {
 
 function multiJsLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("multi.js"));
+}
+
+function prismJsLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("prismjs"));
 }
 
 // REUSE-IgnoreStart
@@ -115,6 +120,7 @@ module.exports = {
     autosize: "./src/autosize.js",
     multi: "./src/multi.js",
     mousetrap: "./src/mousetrap.js",
+    prismjs: "./src/prismjs.js",
   },
   mode: "production",
   optimization: {
@@ -149,6 +155,7 @@ module.exports = {
         "multi.js.license": multiJsLicenseTransform,
         "multi.css.license": multiJsLicenseTransform,
         "mousetrap.js.license": mousetrapLicenseTransform,
+        "prismjs.js.license": prismJsLicenseTransform,
       },
     }),
     new MiniCssExtractPlugin({
