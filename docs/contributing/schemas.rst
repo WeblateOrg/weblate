@@ -1,11 +1,12 @@
-Data schemas
+Data
 ============
 
-Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of external JSON files.
+Weblate uses 
+<https://-schema.org/>`_ to define layout of external files.
 
 .. _schema-memory:
 
-.. jsonschema:: ../schemas/weblate-memory.schema.json
+.. chema:: ../schemas/weblate-memory.schema
 
 .. seealso::
 
@@ -15,7 +16,7 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 
 .. _schema-userdata:
 
-.. jsonschema:: ../schemas/weblate-userdata.schema.json
+.. :: ..//weblate-userdata.
 
 .. seealso::
 
