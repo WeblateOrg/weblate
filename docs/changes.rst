@@ -16,6 +16,7 @@ Not yet released.
 * :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
 * Editor in :ref:`zen-mode` is now stick to bottom of screen.
 * Added page navigation while :ref:`translating`.
+* :ref:`manage-appearance` now has distinct settings for dark mode.
 
 **Bug fixes**
 
