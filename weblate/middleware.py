@@ -46,6 +46,7 @@ if TYPE_CHECKING:
         "base-uri",
         "form-action",
         "manifest-src",
+        "worker-src",
     ]
     CSP_TYPE = dict[CSP_KIND, set[str]]
 
@@ -62,6 +63,8 @@ CSP_DIRECTIVES: CSP_TYPE = {
     "base-uri": {"'none'"},
     "form-action": {"'self'"},
     "manifest-src": {"'self'"},
+    # Used by altcha
+    "worker-src": {"'self'", "blob:"},
 }
 
 # URLs requiring inline javascript

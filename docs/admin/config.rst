@@ -46,6 +46,19 @@ Weblate can use Akismet to check incoming anonymous suggestions for spam.
 Visit `akismet.com <https://akismet.com/>`_ to purchase an API key
 and associate it with a site.
 
+.. setting:: ALTCHA_MAX_NUMBER
+
+ALTCHA_MAX_NUMBER
+-----------------
+
+.. versionadded:: 5.9
+
+Configures a maximal number for ALTCHA proof-of-work mechanism.
+
+.. seealso::
+
+    `ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_
+
 .. setting:: ANONYMOUS_USER_NAME
 
 ANONYMOUS_USER_NAME
@@ -1595,6 +1608,11 @@ If turned on, a CAPTCHA is added to all pages where a users enters their e-mail 
 * Password recovery.
 * Adding e-mail to an account.
 * Contact form for users that are not signed in.
+
+The protection currently consists of following steps:
+
+* Mathematical captcha to be solved by the user.
+* Proof of work challenge calculated by the browser. The difficulty can be adjusted using :setting:`ALTCHA_MAX_NUMBER`.
 
 .. setting:: REGISTRATION_EMAIL_MATCH
 

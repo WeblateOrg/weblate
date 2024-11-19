@@ -48,6 +48,8 @@ function mainLicenseTransform(packages) {
     "multi.js",
     "mousetrap",
     "prismjs",
+    "@altcha",
+    "altcha",
   ];
   return genericTransform(
     packages,
@@ -73,6 +75,13 @@ function multiJsLicenseTransform(packages) {
 
 function prismJsLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("prismjs"));
+}
+
+function altchaLicenseTransform(packages) {
+  return genericTransform(
+    packages,
+    (pkg) => pkg.name.startsWith("altcha") || pkg.name.startsWith("@altcha"),
+  );
 }
 
 // REUSE-IgnoreStart
@@ -121,6 +130,7 @@ module.exports = {
     multi: "./src/multi.js",
     mousetrap: "./src/mousetrap.js",
     prismjs: "./src/prismjs.js",
+    altcha: "./src/altcha.js",
   },
   mode: "production",
   optimization: {
@@ -156,6 +166,7 @@ module.exports = {
         "multi.css.license": multiJsLicenseTransform,
         "mousetrap.js.license": mousetrapLicenseTransform,
         "prismjs.js.license": prismJsLicenseTransform,
+        "altcha.js.license": altchaLicenseTransform,
       },
     }),
     new MiniCssExtractPlugin({

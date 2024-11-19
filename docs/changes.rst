@@ -5,6 +5,8 @@ Not yet released.
 
 **New features**
 
+* The registration CAPTCHA now includes proof-of-work mechanism ALTCHA.
+
 **Improvements**
 
 * :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
