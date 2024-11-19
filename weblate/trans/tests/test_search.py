@@ -173,7 +173,26 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         self.assertContains(response, "Other")
         self.assertNotContains(response, "Plural form ")
 
-    def test_search_variant(self) -> None:
+    def assert_search_variant(
+        self,
+        expected_source: str,
+        match_components: list[Component],
+        no_match_component: Component,
+    ) -> None:
+        for component in match_components:
+            response = self.client.get(
+                reverse("search", kwargs={"path": component.get_url_path()}),
+                {"q": "has:variant"},
+            )
+            self.assertContains(response, expected_source)
+
+        response = self.client.get(
+            reverse("search", kwargs={"path": no_match_component.get_url_path()}),
+            {"q": "has:variant"},
+        )
+        self.assertContains(response, "No matching strings found.")
+
+    def test_search_variant_with_flag_create(self) -> None:
         """
         Test glossary variant search.
 
@@ -181,7 +200,7 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         units that have variants in the search language
         """
         self.glossary = self.project.glossaries[0]
-        en_glossary = self.glossary.translation_set.get(language__code="en")
+        en_glossary = self.glossary.translation_set.get(language__code="en")  # source
         de_glossary = self.glossary.translation_set.get(language__code="de")
         cs_glossary = self.glossary.translation_set.get(language__code="cs")
 
@@ -195,23 +214,44 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
             extra_flags="variant:glossary-term",
         )
 
-        response = self.client.get(
-            reverse("search", kwargs={"path": en_glossary.get_url_path()}),
-            {"q": "has:variant"},
+        self.assert_search_variant(
+            "variant-glossary-term", [en_glossary, de_glossary], cs_glossary
         )
-        self.assertContains(response, "glossary-term")
 
-        response = self.client.get(
-            reverse("search", kwargs={"path": de_glossary.get_url_path()}),
-            {"q": "has:variant"},
-        )
-        self.assertContains(response, "glossary-term")
+    def test_search_variant_with_regex_key(self):
+        mono_component = self.create_po_mono(project=self.project, name="Monolingual")
 
-        response = self.client.get(
-            reverse("search", kwargs={"path": cs_glossary.get_url_path()}),
-            {"q": "has:variant"},
+        # set variant_regex match
+        url = reverse("settings", kwargs={"path": mono_component.get_url_path()})
+        self.project.add_user(self.user, "Administration")
+        response = self.client.get(url)
+        data = response.context["form"].initial
+        data["variant_regex"] = r"(_variant)$"
+
+        response = self.client.post(
+            url,
+            data,
+            follow=True,
         )
-        self.assertContains(response, "No matching strings found.")
+        self.assertContains(response, "Settings saved")
+
+        mono_component.refresh_from_db()
+        self.assertNotEqual(mono_component.variant_regex, "")
+
+        en_glossary = mono_component.translation_set.get(language__code="en")  # source
+        de_glossary = mono_component.translation_set.get(language__code="de")
+        cs_glossary = mono_component.translation_set.get(language__code="cs")
+
+        en_glossary.add_unit(None, "original", "glossary-term")
+        de_glossary.add_unit(
+            None,
+            "original_variant",
+            source="variant-glossary-term",
+        )
+
+        self.assert_search_variant(
+            "glossary-term", [en_glossary, de_glossary], cs_glossary
+        )
 
     def test_checksum(self) -> None:
         self.do_search({"checksum": "invalid"}, None, anchor="")
