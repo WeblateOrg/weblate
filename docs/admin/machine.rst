@@ -589,7 +589,7 @@ addition to the term database.
 
 .. seealso::
 
-    * `SAP Translation Hub <https://www.sap.com/products/artificial-intelligence/translation-hub.html>`_
+    * `What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/sap-translation-hub/what-is-sap-translation-hub>`_
     * `SAP Translation Hub API <https://api.sap.com/api/translationhub/overview>`_
 
 .. _mt-systran:
