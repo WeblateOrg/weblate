@@ -308,11 +308,15 @@ systems installed.
 Once you have these installed, such remotes can be used to specify a repository
 in Weblate.
 
-To clone the ``gnuhello`` project from Launchpad using Bazaar::
+To clone the ``gnuhello`` project from Launchpad using Bazaar:
+
+.. code-block:: text
 
     bzr::lp:gnuhello
 
-For the ``hello`` repository from selenic.com using Mercurial::
+For the ``hello`` repository from selenic.com using Mercurial:
+
+.. code-block:: text
 
     hg::http://selenic.com/repo/hello
 
