@@ -52,7 +52,7 @@ Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, Azure D
 Accessing repositories on code hosting sites is typically done by creating a
 dedicated user who is associated with a Weblate SSH key (see
 :ref:`weblate-ssh-key`). This way you associate Weblate SSH key with a single
-user (this of frequently enforced by the platform) and grant this user access
+user (platforms frequently enforce single use of a SSH key) and grant this user access
 to the repository. You can then use SSH URL to access the repository (see
 :ref:`ssh-repos`).
 
