@@ -19,6 +19,7 @@ Not yet released.
 * :ref:`manage-appearance` now has distinct settings for dark mode.
 
 **Bug fixes**
+* Using the `has:variant` field now correctly displays strings that have variant(s) in the search language, see :ref:`search-strings`.
 
 **Compatibility**
 

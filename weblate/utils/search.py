@@ -15,7 +15,7 @@ from typing import Any, cast, overload
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
-from django.db.models import Q, Value
+from django.db.models import F, Q, Value
 from django.db.utils import DataError
 from django.http import Http404
 from django.utils import timezone
@@ -470,7 +470,10 @@ class UnitTermExpr(BaseTermExpr):
         if text == "translation":
             return Q(state__gte=STATE_TRANSLATED)
         if text in {"variant", "shaping"}:
-            return Q(variant__isnull=False)
+            return Q(defined_variants__isnull=False) | (
+                ~Q(variant__variant_regex="")
+                & Q(context__regex=F("variant__variant_regex"))
+            )
         if text == "label":
             return Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
         if text == "context":
