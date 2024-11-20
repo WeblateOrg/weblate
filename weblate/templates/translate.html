@@ -202,7 +202,7 @@
         </div>
       {% endif %}
     {% endwith %}
-    <button class="btn btn-primary" type="submit" name="save"
+    <button class="btn btn-warning" type="submit" name="save"
     {% if locked %}
         disabled="disabled"
     {% elif not user_can_translate and not user_can_edit_flags %}
@@ -212,7 +212,7 @@
     {% endif %}
     >{% trans "Save and continue" %}</button>
 
-    <button class="btn btn-warning btn-spaced" type="submit" name="save-stay"
+    <button class="btn btn-primary btn-spaced" type="submit" name="save-stay"
     {% if locked %}
         disabled="disabled"
     {% elif not user_can_translate and not user_can_edit_flags %}
@@ -223,7 +223,7 @@
     >{% trans "Save and stay" %}</button>
 
     {% if unit.translation.enable_suggestions %}
-    <button class="btn btn-warning btn-spaced" type="submit" name="suggest"
+    <button class="btn btn-primary btn-spaced" type="submit" name="suggest"
     {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
       {% if not user_can_suggest %}
         title="{% trans "Insufficient privileges for adding suggestions." %}"
@@ -234,7 +234,7 @@
       {% endif %}
     >{% icon "suggest.svg" %} {% trans "Suggest" %}</button>
     {% endif %}
-    <a class="btn btn-warning btn-spaced skip" href="{{ next_unit_url }}" rel="next">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</a>
+    <a class="btn btn-primary btn-spaced skip" href="{{ next_unit_url }}" rel="next">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</a>
     </div>
   </div>
 </div>
