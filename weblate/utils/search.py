@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-import re
 from collections.abc import Callable
 from datetime import datetime, timedelta
 from functools import lru_cache, reduce
@@ -16,7 +15,7 @@ from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
 from django.db.models import F, Q, Value
-from django.db.utils import DataError
+from django.db.utils import DataError, OperationalError
 from django.http import Http404
 from django.utils import timezone
 from django.utils.translation import gettext
@@ -347,13 +346,7 @@ class BaseTermExpr:
             match = convert_method(match)
 
         if isinstance(match, RegexExpr):
-            # Regullar expression
-            try:
-                re.compile(match.expr)
-            except re.error as error:
-                raise ValueError(
-                    gettext("Invalid regular expression: {}").format(error)
-                ) from error
+            # Regular expression
             from weblate.trans.models import Unit
 
             with transaction.atomic():
@@ -361,8 +354,11 @@ class BaseTermExpr:
                     Unit.objects.annotate(test=Value("")).filter(
                         test__trgm_regex=match.expr
                     ).exists()
-                except DataError as error:
-                    raise ValueError(str(error)) from error
+                except (DataError, OperationalError) as error:
+                    # PostgreSQL raises DataError, MySQL OperationalError
+                    raise ValueError(
+                        gettext("Invalid regular expression: {}").format(error)
+                    ) from error
             return Q(**{self.field_name(field, "trgm_regex"): match.expr})
 
         if isinstance(match, tuple):

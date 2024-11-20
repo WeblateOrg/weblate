@@ -104,10 +104,11 @@ class UnitQueryParserTest(SearchTestCase):
         with self.assertRaises(ValueError):
             self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
         # Not supported regex on PostgreSQL
-        with self.assertRaises(ValueError):
-            self.assert_query(
-                'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
-            )
+        if using_postgresql():
+            with self.assertRaises(ValueError):
+                self.assert_query(
+                    'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
+                )
         self.assert_query('source:r"(?i)^hello"', Q(source__trgm_regex="(?i)^hello"))
 
     def test_logic(self) -> None:
