@@ -3687,11 +3687,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Override Django implementation as that rebuilds the dict every time
         return get_license_name(self.license)
 
-    @property
-    def license_badge(self):
-        """Simplified license short name to be used in badge."""
-        return self.license.replace("-or-later", "").replace("-only", "")
-
     def post_create(self, user: User) -> None:
         self.change_set.create(
             action=Change.ACTION_CREATE_COMPONENT,

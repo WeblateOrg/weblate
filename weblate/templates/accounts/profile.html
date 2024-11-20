@@ -517,7 +517,7 @@ git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ use
 {% for dummy, items in license_list %}
 <h4>
 {{ items.0.get_license_display }}
-<span title="{{ items.0.get_license_display }}" class="license badge">{{ items.0.license_badge }}</span>
+<span title="{{ items.0.get_license_display }}" class="license badge">{{ items.0.license }}</span>
 <a class="doc-link" href="{{ items.0.license_url }}">{% icon "info.svg" %}</a>
 </h4>
 <p>
