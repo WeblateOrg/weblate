@@ -6,14 +6,20 @@
 <p>{% trans "The following occurrences were found:" %}</p>
 
 <table class="table table-condensed">
-<thead>
-<tr><th>{% trans "Filename" %}</th><th>{% trans "Error" %}</th></tr>
-</thead>
-<tbody>
-{% for occurrence in occurrences %}
-<tr><td>{{ occurrence.filename }}</td><td>{{ occurrence.error }}</td></tr>
-{% endfor %}
-</tbody>
+  <thead>
+    <tr>
+      <th>{% trans "Filename" %}</th>
+      <th>{% trans "Error" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for occurrence in occurrences %}
+      <tr>
+        <td>{{ occurrence.filename }}</td>
+        <td>{{ occurrence.error }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
 </table>
 
 {% include "trans/alert/occurrences-limit.html" %}

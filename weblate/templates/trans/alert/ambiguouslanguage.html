@@ -9,17 +9,20 @@
 <p>{% trans "The following occurrences were found:" %}</p>
 
 <table class="table table-condensed">
-<thead>
-<tr><th>{% trans "Language code" %}</th><th>{% trans "Suggested individual language codes" %}</th></tr>
-</thead>
-<tbody>
-{% for code, alternatives in ambiguous.items %}
-<tr>
-    <td>{{ code }}</td>
-    <td>{{ alternatives|join:", " }}</td>
-</tr>
-{% endfor %}
-</tbody>
+  <thead>
+    <tr>
+      <th>{% trans "Language code" %}</th>
+      <th>{% trans "Suggested individual language codes" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for code, alternatives in ambiguous.items %}
+      <tr>
+        <td>{{ code }}</td>
+        <td>{{ alternatives|join:", " }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
 </table>
 
 {% include "trans/alert/occurrences-limit.html" %}

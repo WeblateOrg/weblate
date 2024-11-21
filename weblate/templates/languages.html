@@ -1,14 +1,18 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load permissions %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
+  <li>
+    <a href="{% url 'languages' %}">{% trans "Languages" %}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-{% perm 'language.add' as user_can_add_language %}
-{% include "snippets/list-objects.html" with objects=languages label=_("Language") global_base=global_stats add_link="language" %}
+  {% perm 'language.add' as user_can_add_language %}
+  {% include "snippets/list-objects.html" with objects=languages label=_("Language") global_base=global_stats add_link="language" %}
 
 {% endblock %}

@@ -3,14 +3,12 @@
 {% load static %}
 
 {% block bootstrap_theme %}
-{{ block.super }}
-{% include "snippets/meta-css.html" %}
+  {{ block.super }}
+  {% include "snippets/meta-css.html" %}
 {% endblock %}
 
 {% block branding %}
-{% include "snippets/branding.html" %}
+  {% include "snippets/branding.html" %}
 {% endblock %}
 
-{% block description %}
-{{ block.super }}
-{% endblock %}
+{% block description %}{{ block.super }}{% endblock %}

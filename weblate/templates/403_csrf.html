@@ -1,27 +1,43 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'home' %}">{% trans "Permission Denied" %}</a></li>
+  <li>
+    <a href="{% url 'home' %}">{% trans "Permission Denied" %}</a>
+  </li>
 {% endblock %}
 
+
 {% block content %}
-<div class="container">
+  <div class="container">
 
-<h2>{% trans "Permission Denied" %}</h2>
-<p>{% trans "CSRF verification failed. Request aborted." %}</p>
+    <h2>{% trans "Permission Denied" %}</h2>
+    <p>{% trans "CSRF verification failed. Request aborted." %}</p>
 
-{% if no_referer %}
-  <p>{% trans "This HTTPS site requires a 'Referer' header to be sent by your web browser, but none was sent. This header is required for security reasons, ensuring that your browser is not being hijacked by third parties." %}</p>
-  <p>{% trans "If you have set up your web browser to not send 'Referer' headers,  you need to turn that on (at least for this site, HTTPS connections, or 'same-origin' requests)." %}</p>
-{% elif no_cookie %}
-  <p>{% trans "Our site requires a session cookie to make the forms work. This cookie is required for security reasons, ensuring that your browser is not being hijacked by third parties." %}</p>
-  <p>{% trans "It might have happened that your session cookie expired due to inactivity. This can easily happen for unauthenticated requests where session validity is limited. You might want to try your intended action again in such a case." %}</p>
-  <p>{% trans "If you have set up your browser to not save cookies, you need to enable saving them (at least for this site, or 'same-origin' requests)." %}</p>
-{% elif reason %}
-  <p>{% blocktranslate %}CSRF failure reason: {{ reason }}{% endblocktranslate %}
-{% endif %}
+    {% if no_referer %}
+      <p>
+        {% trans "This HTTPS site requires a 'Referer' header to be sent by your web browser, but none was sent. This header is required for security reasons, ensuring that your browser is not being hijacked by third parties." %}
+      </p>
+      <p>
+        {% trans "If you have set up your web browser to not send 'Referer' headers,  you need to turn that on (at least for this site, HTTPS connections, or 'same-origin' requests)." %}
+      </p>
+    {% elif no_cookie %}
+      <p>
+        {% trans "Our site requires a session cookie to make the forms work. This cookie is required for security reasons, ensuring that your browser is not being hijacked by third parties." %}
+      </p>
+      <p>
+        {% trans "It might have happened that your session cookie expired due to inactivity. This can easily happen for unauthenticated requests where session validity is limited. You might want to try your intended action again in such a case." %}
+      </p>
+      <p>
+        {% trans "If you have set up your browser to not save cookies, you need to enable saving them (at least for this site, or 'same-origin' requests)." %}
+      </p>
+    {% elif reason %}
+      <p>
+        {% blocktranslate %}CSRF failure reason: {{ reason }}{% endblocktranslate %}
+      </p>
+    {% endif %}
 
-</div>
+  </div>
 
 {% endblock %}

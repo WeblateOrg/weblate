@@ -1,25 +1,29 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load static %}
 {% load compress %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'home' %}">{% trans "Internal Server Error" %}</a></li>
+  <li>
+    <a href="{% url 'home' %}">{% trans "Internal Server Error" %}</a>
+  </li>
 {% endblock %}
 
+
 {% block content %}
-<h2>{% trans "Server Error" %}</h2>
+  <h2>{% trans "Server Error" %}</h2>
 
-{% if sentry_event_id %}
+  {% if sentry_event_id %}
 
-  <p>
-    {% blocktrans with error_id=sentry_event_id %}The server had serious problems serving your request, and this error has been recorded as {{ error_id }}.{% endblocktrans %}
-  </p>
+    <p>
+      {% blocktrans with error_id=sentry_event_id %}The server had serious problems serving your request, and this error has been recorded as {{ error_id }}.{% endblocktrans %}
+    </p>
 
-  {% if sentry_dsn %}
-    <script src="{% static "js/vendor/sentry.js" %}"></script>
+    {% if sentry_dsn %}
+      <script src="{% static "js/vendor/sentry.js" %}"></script>
 
-    <script>
+      <script>
       Sentry.init({ dsn: '{{ sentry_dsn|escapejs }}' });
       Sentry.showReportDialog({
         {% if request.user.is_authenticated %}
@@ -27,15 +31,15 @@
         {% endif %}
         eventId: '{{ sentry_event_id|escapejs }}'
       })
-    </script>
+      </script>
+    {% endif %}
+
+  {% else %}
+
+    <p>
+      {% blocktrans %}The server had serious problems serving your request. You might want to contact server admins in case the error persists.{% endblocktrans %}
+    </p>
+
   {% endif %}
-
-{% else %}
-
-  <p>
-    {% blocktrans %}The server had serious problems serving your request. You might want to contact server admins in case the error persists.{% endblocktrans %}
-  </p>
-
-{% endif %}
 
 {% endblock %}

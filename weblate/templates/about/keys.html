@@ -1,36 +1,46 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load icons %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'about' %}">{% trans "About Weblate" %}</a></li>
-<li><a href="{% url 'about' %}">{% trans "Weblate keys" %}</a></li>
+  <li>
+    <a href="{% url 'about' %}">{% trans "About Weblate" %}</a>
+  </li>
+  <li>
+    <a href="{% url 'about' %}">{% trans "Weblate keys" %}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-{% include "snippets/ssh-key.html" %}
+  {% include "snippets/ssh-key.html" %}
 
-<div class="panel panel-default">
-<div class="panel-heading">
-<h4 class="panel-title">
-{% documentation_icon 'admin/optionals' 'gpg-sign' right=True %}
-{% trans "Commit signing" %}
-</h4>
-</div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'admin/optionals' 'gpg-sign' right=True %}
+        {% trans "Commit signing" %}
+      </h4>
+    </div>
 
-  <div class="panel-body">
-{% if gpg_key %}
-  <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-value="{{ gpg_key }}" data-clipboard-message="{% trans "Public key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
-  <p>{% blocktrans %}All commits made with Weblate are signed with the GPG key {{ gpg_key_id }}, for which the corresponding public key is found below.{% endblocktrans %}</p>
-  <div class="list-group-item pre-scrollable">
-  {{ gpg_key|linebreaks }}
+    <div class="panel-body">
+      {% if gpg_key %}
+        <button type="button"
+                class="btn btn-link btn-xs pull-right flip"
+                data-clipboard-value="{{ gpg_key }}"
+                data-clipboard-message="{% trans "Public key copied to clipboard." %}"
+                title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+        <p>
+          {% blocktrans %}All commits made with Weblate are signed with the GPG key {{ gpg_key_id }}, for which the corresponding public key is found below.{% endblocktrans %}
+        </p>
+        <div class="list-group-item pre-scrollable">{{ gpg_key|linebreaks }}</div>
+      {% else %}
+        <p>{% trans "Commit signing is not configured." %}</p>
+      {% endif %}
+    </div>
   </div>
-{% else %}
-  <p>{% trans "Commit signing is not configured." %}</p>
-{% endif %}
-  </div>
-</div>
 
 {% endblock %}

@@ -1,10 +1,15 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'manage-alerts' %}">{% trans "Component alerts" %}</a></li>
+  <li>
+    <a href="{% url 'manage' %}">{% trans "Manage" %}</a>
+  </li>
+  <li>
+    <a href="{% url 'manage-alerts' %}">{% trans "Component alerts" %}</a>
+  </li>
 {% endblock %}
 
 
@@ -12,31 +17,38 @@
   {% regroup alerts by name as alert_list %}
   {% for dummy, items in alert_list %}
     <div class="panel panel-default">
-      <div class="panel-heading"><h4 class="panel-title">{{ items.0.obj.verbose }}</h4></div>
+      <div class="panel-heading">
+        <h4 class="panel-title">{{ items.0.obj.verbose }}</h4>
+      </div>
       <div class="panel-body">
-      <p>
+        <p>
           {% for alert in items %}
-              <a href="{{ alert.component.get_absolute_url }}?alerts=1#alerts" class="btn btn-link">
-                {{ alert.component }}
-                {% if alert.dismissed %}<span class="badge">{% trans "dismissed" %}</span>{% endif %}
-              </a>
+            <a href="{{ alert.component.get_absolute_url }}?alerts=1#alerts"
+               class="btn btn-link">
+              {{ alert.component }}
+              {% if alert.dismissed %}
+                <span class="badge">{% trans "dismissed" %}</span>
+              {% endif %}
+            </a>
           {% endfor %}
-      </p>
+        </p>
       </div>
     </div>
   {% endfor %}
 
   {% if no_components %}
-  <div class="panel panel-default">
-    <div class="panel-heading"><h4 class="panel-title">{% trans "Projects without components" %}</h4></div>
-    <div class="panel-body">
-      <p>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">{% trans "Projects without components" %}</h4>
+      </div>
+      <div class="panel-body">
+        <p>
           {% for project in no_components %}
-              <a href="{{ project.get_absolute_url }}" class="btn btn-link">{{ project }}</a>
+            <a href="{{ project.get_absolute_url }}" class="btn btn-link">{{ project }}</a>
           {% endfor %}
-      </p>
+        </p>
+      </div>
     </div>
-  </div>
   {% endif %}
 
   {% if not alerts and not no_components %}

@@ -1,50 +1,64 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load icons %}
 {% load translations %}
 
 {% block breadcrumbs %}
-{% path_object_breadcrumbs object %}
-<li><a href="{% url 'matrix' path=object.get_url_path %}">{% trans "Matrix" %}</a></li>
+  {% path_object_breadcrumbs object %}
+  <li>
+    <a href="{% url 'matrix' path=object.get_url_path %}">{% trans "Matrix" %}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-{% if translations %}
-<table class="table matrix">
-<thead>
-<tr>
-<th><a href="{{ object.source_translation.get_absolute_url }}">{{ object.source_language }}</a></th>
-{% for translation in translations %}
-<th><a href="{{ translation.get_absolute_url }}">{{ translation.language }}</a></th>
-{% endfor %}
-</tr>
-</thead>
-{# djlint:off #}
+  {% if translations %}
+    <table class="table matrix">
+      <thead>
+        <tr>
+          <th>
+            <a href="{{ object.source_translation.get_absolute_url }}">{{ object.source_language }}</a>
+          </th>
+          {% for translation in translations %}
+            <th>
+              <a href="{{ translation.get_absolute_url }}">{{ translation.language }}</a>
+            </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      {# djlint:off #}
 <tbody>
 </tbody>
-{# djlint:on #}
-<tfoot>
-<tr><td colspan="3" class="loading-icon">
-{% loading_icon "next" %}
-<a href="{% url 'matrix-load' path=object.get_url_path %}?{{ language_codes_url }}" class="hidden" id="matrix-load" data-offset="0" data-last="0"></a>
-</td></tr>
-</tfoot>
-</table>
-{% endif %}
+      {# djlint:on #}
+      <tfoot>
+        <tr>
+          <td colspan="3" class="loading-icon">
+            {% loading_icon "next" %}
+            <a href="{% url 'matrix-load' path=object.get_url_path %}?{{ language_codes_url }}"
+               class="hidden"
+               id="matrix-load"
+               data-offset="0"
+               data-last="0"></a>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  {% endif %}
 
-<form>
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Displayed languages" %}</h4></div>
-  <div class="panel-body">
-{{ languages_form | crispy }}
-  </div>
-<div class="panel-footer">
-<input class="btn btn-primary" type="submit" value="{% trans "Choose" %}" />
-</div>
-</div>
-</form>
+  <form>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">{% trans "Displayed languages" %}</h4>
+      </div>
+      <div class="panel-body">{{ languages_form | crispy }}</div>
+      <div class="panel-footer">
+        <input class="btn btn-primary" type="submit" value="{% trans "Choose" %}" />
+      </div>
+    </div>
+  </form>
 
 
 {% endblock %}

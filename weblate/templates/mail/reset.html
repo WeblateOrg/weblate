@@ -1,12 +1,13 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}{% load translations %}
+{% load i18n %}
+{% load translations %}
 
 {% block content %}
-<p>
-{% blocktrans %}There was a request to reset your Weblate password at {{ site_title }}.{% endblocktrans %}
-</p>
+  <p>
+    {% blocktrans %}There was a request to reset your Weblate password at {{ site_title }}.{% endblocktrans %}
+  </p>
 
-{% include "mail/shared-registration.html" with action="reset" %}
+  {% include "mail/shared-registration.html" with action="reset" %}
 
 {% endblock %}

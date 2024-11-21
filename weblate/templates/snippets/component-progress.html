@@ -1,7 +1,10 @@
 {% extends "message.html" %}
+
 {% load i18n %}
 
 {% block message %}
-<a href="{% url "show_progress" path=component.get_url_path %}" class="pull-right flip" target="_blank">{% translate "View details" %}</a>
-{{ component }}
+  <a href="{% url "show_progress" path=component.get_url_path %}"
+     class="pull-right flip"
+     target="_blank">{% translate "View details" %}</a>
+  {{ component }}
 {% endblock %}

@@ -1,22 +1,29 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load authnames %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'login' %}">{% trans "Sign in" %}</a></li>
+  <li>
+    <a href="{% url 'login' %}">{% trans "Sign in" %}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-<div class="container">
+  <div class="container">
 
-{% trans "Redirecting you to the authentication provider." as msg %}
-{% show_message "info" msg %}
+    {% trans "Redirecting you to the authentication provider." as msg %}
+    {% show_message "info" msg %}
 
-<div class="col-sm-6 col-xs-12 btn-auth">
-    <a href="" class="btn btn-link link-auto link-post" data-href="{% url 'social:begin' backend %}" {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name backend " " %}</a>
-</div>
+    <div class="col-sm-6 col-xs-12 btn-auth">
+      <a href=""
+         class="btn btn-link link-auto link-post"
+         data-href="{% url 'social:begin' backend %}"
+         {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name backend " " %}</a>
+    </div>
 
-</div>
+  </div>
 {% endblock %}

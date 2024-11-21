@@ -3,26 +3,27 @@
 {% load icons %}
 
 <h4>
-{% if scope and scope != "component" and addon.needs_component %}
-  <span class="badge badge-danger pull-right flip">{% trans "The add-on can only be installed on the component." %}</span>
-{% elif addon.repo_scope %}
-  <span class="badge pull-right flip" title="{% trans "This add-on is used for all components sharing this repository." %}">{% trans "repository wide" %}</span>
-{% endif %}
-{% icon addon.icon %}
-{{ addon.verbose }}
-{% documentation_icon "admin/addons" addon.doc_anchor %}
+  {% if scope and scope != "component" and addon.needs_component %}
+    <span class="badge badge-danger pull-right flip">{% trans "The add-on can only be installed on the component." %}</span>
+  {% elif addon.repo_scope %}
+    <span class="badge pull-right flip"
+          title="{% trans "This add-on is used for all components sharing this repository." %}">{% trans "repository wide" %}</span>
+  {% endif %}
+  {% icon addon.icon %}
+  {{ addon.verbose }}
+  {% documentation_icon "admin/addons" addon.doc_anchor %}
 </h4>
 <p>{{ addon.description }}</p>
 {% if addon.instance %}
-{% with form=addon.get_ui_form %}
-  {% if form %}
-    <div>
-    {% for field in form %}
-      {% if not field.is_hidden and field.value %}
-        <span class="format-item">{{ field.label }} <span>{{ field|choiceval }}</span></span>
-      {% endif %}
-    {% endfor %}
-    </div>
-  {% endif %}
-{% endwith %}
+  {% with form=addon.get_ui_form %}
+    {% if form %}
+      <div>
+        {% for field in form %}
+          {% if not field.is_hidden and field.value %}
+            <span class="format-item">{{ field.label }} <span>{{ field|choiceval }}</span></span>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
 {% endif %}

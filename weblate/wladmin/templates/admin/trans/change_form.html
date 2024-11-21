@@ -1,41 +1,48 @@
 {% extends "admin/change_form.html" %}
+
 {% load i18n %}
 {% load translations %}
 
 {% block object-tools %}
-{% if add and opts.model_name == 'component' %}
-  <ul class="object-tools">
-<li>
-<a href="{% documentation 'admin/projects' 'import-speed' %}" class="doclink">{% trans "Import speed documentation" %}</a>
-</li>
-  </ul>
-{% endif %}
-{{ block.super }}
+  {% if add and opts.model_name == 'component' %}
+    <ul class="object-tools">
+      <li>
+        <a href="{% documentation 'admin/projects' 'import-speed' %}" class="doclink">{% trans "Import speed documentation" %}</a>
+      </li>
+    </ul>
+  {% endif %}
+  {{ block.super }}
 {% endblock %}
+
 
 {% block object-tools-items %}
-{% if opts.model_name == 'announcement' %}
-<li>
-<a href="{% documentation 'admin/announcements' %}" class="doclink">{% trans "Documentation" %}</a>
-</li>
-{% else %}
-{% if opts.model_name == 'componentlist' %}
-<li>
-<a href="{% documentation 'admin/componentlists' %}" class="doclink">{% trans "Documentation" %}</a>
-</li>
-{% else %}
-<li>
-<a href="{% documentation 'admin/projects' opts.model_name %}" class="doclink">{% trans "Documentation" %}</a>
-</li>
-{% endif %}
-{% endif %}
-{{ block.super }}
+  {% if opts.model_name == 'announcement' %}
+    <li>
+      <a href="{% documentation 'admin/announcements' %}" class="doclink">{% trans "Documentation" %}</a>
+    </li>
+  {% else %}
+    {% if opts.model_name == 'componentlist' %}
+      <li>
+        <a href="{% documentation 'admin/componentlists' %}" class="doclink">{% trans "Documentation" %}</a>
+      </li>
+    {% else %}
+      <li>
+        <a href="{% documentation 'admin/projects' opts.model_name %}" class="doclink">{% trans "Documentation" %}</a>
+      </li>
+    {% endif %}
+  {% endif %}
+  {{ block.super }}
 {% endblock %}
 
+
 {% block form_top %}
-{% if opts.model_name == 'project' or opts.model_name == 'component' or opts.model_name == 'announcement' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' or opts.model_name == 'contributoragreement' %}
-<p>{% blocktrans %}Required fields are marked in bold.{% endblocktrans %}</p>
-{% else %}
-<p class="errornote">{% blocktrans %}Do not change the object here, please use the Weblate interface instead.{% endblocktrans %}</p>
-{% endif %}
+  {% if opts.model_name == 'project' or opts.model_name == 'component' or opts.model_name == 'announcement' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' or opts.model_name == 'contributoragreement' %}
+    <p>
+      {% blocktrans %}Required fields are marked in bold.{% endblocktrans %}
+    </p>
+  {% else %}
+    <p class="errornote">
+      {% blocktrans %}Do not change the object here, please use the Weblate interface instead.{% endblocktrans %}
+    </p>
+  {% endif %}
 {% endblock %}

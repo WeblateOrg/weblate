@@ -1,24 +1,28 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'home' %}">{% trans "Page Not Found" %}</a></li>
+  <li>
+    <a href="{% url 'home' %}">{% trans "Page Not Found" %}</a>
+  </li>
 {% endblock %}
 
+
 {% block content %}
-<div class="container">
+  <div class="container">
 
-<h2>{% trans "Page Not Found" %}</h2>
-<p>
-{% trans "The page you are looking for was not found." %}
-{% trans "The project you are looking for does not exist or is not publicly available." %}
-</p>
+    <h2>{% trans "Page Not Found" %}</h2>
+    <p>
+      {% trans "The page you are looking for was not found." %}
+      {% trans "The project you are looking for does not exist or is not publicly available." %}
+    </p>
 
-{% if not user.is_authenticated %}
-<a href="{% url 'login' %}" class="btn btn-primary">{% trans "Sign in" %}</a>
-{% endif %}
-<a href="{% url 'home' %}" class="btn btn-primary">{% trans "Dashboard" %}</a>
-<a href="{% url 'projects' %}" class="btn btn-primary">{% trans "Browse all projects" %}</a>
+    {% if not user.is_authenticated %}
+      <a href="{% url 'login' %}" class="btn btn-primary">{% trans "Sign in" %}</a>
+    {% endif %}
+    <a href="{% url 'home' %}" class="btn btn-primary">{% trans "Dashboard" %}</a>
+    <a href="{% url 'projects' %}" class="btn btn-primary">{% trans "Browse all projects" %}</a>
 
-</div>
+  </div>
 {% endblock %}

@@ -48,7 +48,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 403)
         response = self.client.get(self.translate_url)
-        self.assertContains(response, 'type="submit" name="save"')
+        self.assertContains(response, ' name="save"')
 
     def test_acl_protected(self) -> None:
         """Test ACL protected project."""

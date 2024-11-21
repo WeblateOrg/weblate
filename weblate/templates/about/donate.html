@@ -1,44 +1,53 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load static %}
 {% load translations %}
 {% load humanize %}
 
-{% block breadcrumbs_container %}
-{% endblock %}
+{% block breadcrumbs_container %}{% endblock %}
+
 
 {% block content %}
 
-<div class="engage container">
+  <div class="engage container">
 
-<h1>{% blocktrans %}Help <strong>Weblate</strong> keep thriving{% endblocktrans %}</h1>
+    <h1>
+      {% blocktrans %}Help <strong>Weblate</strong> keep thriving{% endblocktrans %}
+    </h1>
 
-<h2>
-    {% if support_status.has_support %}
+    <h2>
+      {% if support_status.has_support %}
         <strong>{% trans "Welcome and thank you for supporting Weblate" %}</strong>
-    {% else %}
+      {% else %}
         <strong>{% trans "Welcome and thank you for choosing Weblate" %}</strong>
-    {% endif %}
-        —
-        {% trans "the privacy-respecting localization platform committed to open-source values." %}
-</h2>
+      {% endif %}
+      —
+      {% trans "the privacy-respecting localization platform committed to open-source values." %}
+    </h2>
 
-<div class="row bignumbers">
-<div class="col-md-4">
-<strong>{{ stars|intcomma }}</strong>
-<p>{% blocktrans count count=stars context "Label on engage page" %}GitHub star{% plural %}GitHub stars{% endblocktrans %}</p>
-</div>
-<div class="col-md-4">
-<strong>{{ issues|intcomma }}</strong>
-<p>{% blocktrans count count=issues context "Label on engage page" %}Open issues{% plural %}Open issues{% endblocktrans %}</p>
-</div>
-<div class="col-md-4">
-<strong>{{ commits |intcomma }}</strong>
-<p>{% blocktrans count count=commits context "Label on engage page" %}Recent changes{% plural %}Recent changes{% endblocktrans %}</p>
-</div>
-</div>
+    <div class="row bignumbers">
+      <div class="col-md-4">
+        <strong>{{ stars|intcomma }}</strong>
+        <p>
+          {% blocktrans count count=stars context "Label on engage page" %}GitHub star{% plural %}GitHub stars{% endblocktrans %}
+        </p>
+      </div>
+      <div class="col-md-4">
+        <strong>{{ issues|intcomma }}</strong>
+        <p>
+          {% blocktrans count count=issues context "Label on engage page" %}Open issues{% plural %}Open issues{% endblocktrans %}
+        </p>
+      </div>
+      <div class="col-md-4">
+        <strong>{{ commits |intcomma }}</strong>
+        <p>
+          {% blocktrans count count=commits context "Label on engage page" %}Recent changes{% plural %}Recent changes{% endblocktrans %}
+        </p>
+      </div>
+    </div>
 
-{% include "snippets/donate.html" %}
+    {% include "snippets/donate.html" %}
 
-</div>
+  </div>
 {% endblock %}

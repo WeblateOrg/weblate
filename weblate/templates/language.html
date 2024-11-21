@@ -1,69 +1,89 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load permissions %}
 {% load metrics %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
-<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+  <li>
+    <a href="{% url 'languages' %}">{% trans "Languages" %}</a>
+  </li>
+  <li>
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
 
-<a class="pull-right flip">
-<img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
-</a>
+  <a class="pull-right flip">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
 {% endblock %}
+
 
 {% block content %}
 
-{% announcements language=object %}
+  {% announcements language=object %}
 
-{% perm 'language.edit' as user_can_edit_language %}
+  {% perm 'language.edit' as user_can_edit_language %}
 
-<ul class="nav nav-pills">
-  <li class="active"><a href="#overview" data-toggle="tab">{% trans "Projects" %}</a></li>
-  <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
-  <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
-  <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-  <li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-      {% trans "Tools" %} <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-      <li><a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a></li>
-      {% if user_can_edit_language %}
-      <li role="separator" class="divider"></li>
-      {% if not object.translation_set.exists %}
-      <li><a href="" class="link-post" data-href="{% url 'show_language' lang=object.code %}">{% trans "Delete" %}</a></li>
-      {% endif %}
-      <li><a href="{% url 'edit-language' pk=object.pk %}">{% trans "Edit" %}</a></li>
-      {% endif %}
-    </ul>
-   </li>
-</ul>
+  <ul class="nav nav-pills">
+    <li class="active">
+      <a href="#overview" data-toggle="tab">{% trans "Projects" %}</a>
+    </li>
+    <li>
+      <a href="#information" data-toggle="tab">{% trans "Information" %}</a>
+    </li>
+    <li>
+      <a href="#search" data-toggle="tab">{% trans "Search" %}</a>
+    </li>
+    <li>
+      <a href="#history" data-toggle="tab">{% trans "History" %}</a>
+    </li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        {% trans "Tools" %} <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a>
+        </li>
+        {% if user_can_edit_language %}
+          <li role="separator" class="divider"></li>
+          {% if not object.translation_set.exists %}
+            <li>
+              <a href=""
+                 class="link-post"
+                 data-href="{% url 'show_language' lang=object.code %}">{% trans "Delete" %}</a>
+            </li>
+          {% endif %}
+          <li>
+            <a href="{% url 'edit-language' pk=object.pk %}">{% trans "Edit" %}</a>
+          </li>
+        {% endif %}
+      </ul>
+    </li>
+  </ul>
 
-<div class="tab-content">
+  <div class="tab-content">
 
-<div class="tab-pane active" id="overview">
+    <div class="tab-pane active" id="overview">
 
-{% include "snippets/list-objects.html" with show_admin_badge=True objects=projects name_source="project" label=_("Project") language=object global_base="stats" %}
+      {% include "snippets/list-objects.html" with show_admin_badge=True objects=projects name_source="project" label=_("Project") language=object global_base="stats" %}
 
-</div>
+    </div>
 
-<div class="tab-pane" id="information">
-  {% show_info language=object stats=object.stats metrics=object|metrics %}
-</div>
+    <div class="tab-pane" id="information">{% show_info language=object stats=object.stats metrics=object|metrics %}</div>
 
-<div class="tab-pane" id="history">
-{% include "last-changes-content.html" %}
-<a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% trans "Browse all changes for this language" %}</a>
-</div>
+    <div class="tab-pane" id="history">
+      {% include "last-changes-content.html" %}
+      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% trans "Browse all changes for this language" %}</a>
+    </div>
 
-<div class="tab-pane" id="search">
-  <form action="{% url 'search' path=object.get_url_path %}" method="get">
-    {% include "snippets/search-form.html" %}
-  </form>
-</div>
+    <div class="tab-pane" id="search">
+      <form action="{% url 'search' path=object.get_url_path %}" method="get">
+        {% include "snippets/search-form.html" %}
+      </form>
+    </div>
 
-</div>
+  </div>
 
 {% endblock %}

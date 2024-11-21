@@ -1,23 +1,24 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}{% load translations %}
+{% load i18n %}
+{% load translations %}
 
 {% block content %}
 
-<h2>{% trans "Error message" %}</h2>
+  <h2>{% trans "Error message" %}</h2>
 
-<pre>
+  <pre>
 {{ details.error_message }}
 </pre>
 
-<h2>{% trans "Failing file" %}</h2>
+  <h2>{% trans "Failing file" %}</h2>
 
-<p>
-{% if details.filelink %}
-    <a href="{{ details.filelink }}">{{ details.filename }}</a>
-{% else %}
-    {{ details.filename }}
-{% endif %}
-</p>
+  <p>
+    {% if details.filelink %}
+      <a href="{{ details.filelink }}">{{ details.filename }}</a>
+    {% else %}
+      {{ details.filename }}
+    {% endif %}
+  </p>
 
 {% endblock %}

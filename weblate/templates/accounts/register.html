@@ -1,80 +1,85 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load authnames %}
 {% load translations %}
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'register' %}">{% trans "Registration" %}</a></li>
+  <li>
+    <a href="{% url 'register' %}">{% trans "Registration" %}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-{% if registration_email or registration_backends %}
+  {% if registration_email or registration_backends %}
 
-  <div class="container">
+    <div class="container">
 
-    {% if invitation %}
-      <div class="alert alert-info">
-        {% include "snippets/invite-info.html" %}
-        {% translate "Please complete the registration to accept the invitation." %}
-      </div>
-    {% endif %}
+      {% if invitation %}
+        <div class="alert alert-info">
+          {% include "snippets/invite-info.html" %}
+          {% translate "Please complete the registration to accept the invitation." %}
+        </div>
+      {% endif %}
 
-    {% if form.errors %}
-      {% trans "Please fix errors in the registration form." as msg %}
-      {% show_message "error" msg %}
-    {% endif %}
+      {% if form.errors %}
+        {% trans "Please fix errors in the registration form." as msg %}
+        {% show_message "error" msg %}
+      {% endif %}
 
-    <h2>{{ site_title }}</h2>
-    <div class="row">
+      <h2>{{ site_title }}</h2>
+      <div class="row">
 
-      <div class="col-sm-6 col-sm-push-6">
+        <div class="col-sm-6 col-sm-push-6">
 
-        <h4>{% trans "Register in Weblate" %}</h4>
+          <h4>{% trans "Register in Weblate" %}</h4>
 
-        <div class="panel panel-default">
-          <div class="panel-body">
+          <div class="panel panel-default">
+            <div class="panel-body">
 
-            {% if registration_email %}
+              {% if registration_email %}
 
-              <form action="{% url 'register' %}" method="post" accept-charset="utf-8">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <input type="submit" value="{% trans 'Register' %}" class="btn btn-primary btn-full" />
-              </form>
+                <form action="{% url 'register' %}" method="post" accept-charset="utf-8">
+                  {% csrf_token %}
+                  {{ form|crispy }}
+                  <input type="submit" value="{% trans 'Register' %}" class="btn btn-primary btn-full" />
+                </form>
 
-            {% endif %}
+              {% endif %}
 
-            {% if registration_backends %}
+              {% if registration_backends %}
 
-              <h5 class="login-label">{% trans "Create an account using:" %}</h5>
+                <h5 class="login-label">{% trans "Create an account using:" %}</h5>
 
-              {% for name in registration_backends %}
-                <div class="col-sm-6 col-xs-12 btn-auth">
-                  <a href="" class="btn btn-default link-post" data-href="{% url 'social:begin' name %}" {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name " " %}</a>
-                </div>
-              {% endfor %}
+                {% for name in registration_backends %}
+                  <div class="col-sm-6 col-xs-12 btn-auth">
+                    <a href=""
+                       class="btn btn-default link-post"
+                       data-href="{% url 'social:begin' name %}"
+                       {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name " " %}</a>
+                  </div>
+                {% endfor %}
 
-            {% endif %}
+              {% endif %}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col-sm-6 col-sm-pull-6">
-        {% include "snippets/login-info.html" %}
+        <div class="col-sm-6 col-sm-pull-6">{% include "snippets/login-info.html" %}</div>
+
       </div>
 
     </div>
+  {% else %}
 
-  </div>
-{% else %}
+    <p>
+      {% url 'contact' as contact_url %}
+      {% trans "Sorry, new registrations are turned off on this site." %}
+      <a href="{{ contact_url }}">{% trans "You can contact us for more details." %}</a>
+    </p>
 
-  <p>
-    {% url 'contact' as contact_url %}
-    {% trans "Sorry, new registrations are turned off on this site." %}
-    <a href="{{ contact_url }}">{% trans "You can contact us for more details." %}</a>
-  </p>
-
-{% endif %}
+  {% endif %}
 {% endblock %}
