@@ -6,17 +6,27 @@
 <p>{% trans "The following occurrences were found:" %}</p>
 
 <table class="table table-condensed">
-<thead>
-<tr><th>{% trans "Command" %}</th><th>{% trans "Error" %}</th></tr>
-</thead>
-<tbody>
-{% for occurrence in occurrences %}
-<tr><td>{{ occurrence.command }}</td><td>{{ occurrence.error }}</td></tr>
-{% if occurrence.output %}
-<tr><td colspan="2"><pre>{{ occurrence.output }}</pre></td></tr>
-{% endif %}
-{% endfor %}
-</tbody>
+  <thead>
+    <tr>
+      <th>{% trans "Command" %}</th>
+      <th>{% trans "Error" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for occurrence in occurrences %}
+      <tr>
+        <td>{{ occurrence.command }}</td>
+        <td>{{ occurrence.error }}</td>
+      </tr>
+      {% if occurrence.output %}
+        <tr>
+          <td colspan="2">
+            <pre>{{ occurrence.output }}</pre>
+          </td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
 </table>
 
 {% include "trans/alert/occurrences-limit.html" %}

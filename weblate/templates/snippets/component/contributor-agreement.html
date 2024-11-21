@@ -1,12 +1,15 @@
 {% extends "message.html" %}
+
 {% load i18n %}
 
 {% block tags %}warning{% endblock %}
 
+
 {% block message %}
-{% if user.is_authenticated %}
-  <a href="{% url 'contributor-agreement' path=object.get_url_path %}{% if next %}?next={{ next }}{% endif %}" class="btn btn-primary pull-right flip">{% trans "View contributor agreement" %}</a>
-{% endif %}
-{% trans "Contributing to this translation requires agreeing to its contributor agreement." %}
-<div class="clearfix"></div>
+  {% if user.is_authenticated %}
+    <a href="{% url 'contributor-agreement' path=object.get_url_path %}{% if next %}?next={{ next }}{% endif %}"
+       class="btn btn-primary pull-right flip">{% trans "View contributor agreement" %}</a>
+  {% endif %}
+  {% trans "Contributing to this translation requires agreeing to its contributor agreement." %}
+  <div class="clearfix"></div>
 {% endblock %}

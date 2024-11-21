@@ -26,11 +26,9 @@ class ProjectTokenTest(ViewTestCase):
             {"full_name": "Test Token", "date_expires": "2999-12-31"},
             follow=True,
         )
+        self.assertContains(response, 'data-clipboard-message="Token copied')
         html = response.content.decode("utf-8")
-        result = re.search(
-            r'data-clipboard-value="(\w+)" data-clipboard-message="Token copied',
-            html,
-        )
+        result = re.search(r'data-clipboard-value="(\w+)"', html)
         self.assertIsNotNone(result)
         return result.group(1)
 

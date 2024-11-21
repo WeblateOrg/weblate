@@ -1,7 +1,9 @@
 {% load i18n %}
 
 {% if analysis.not_found %}
-  <p>{% trans "The upstream repository was not found. Please check whether it exists and is accessible to Weblate." %}</p>
+  <p>
+    {% trans "The upstream repository was not found. Please check whether it exists and is accessible to Weblate." %}
+  </p>
 {% endif %}
 
 {% if analysis.permission %}
@@ -9,7 +11,9 @@
 {% endif %}
 
 {% if analysis.gerrit %}
-  <p>{% trans "Gerrit prohibited this push. You might need a gerrit-account that has the forge author permissions for the repository/branch or have to use the squash addon on this component in Weblate." %}</p>
+  <p>
+    {% trans "Gerrit prohibited this push. You might need a gerrit-account that has the forge author permissions for the repository/branch or have to use the squash addon on this component in Weblate." %}
+  </p>
 {% endif %}
 
 {% if analysis.temporary %}
@@ -17,11 +21,15 @@
 {% endif %}
 
 {% if analysis.terminal %}
-  <p>{% trans "Your repository URL seems to miss credentials. Either provide them in the URL or use SSH with key based authentication." %}</p>
+  <p>
+    {% trans "Your repository URL seems to miss credentials. Either provide them in the URL or use SSH with key based authentication." %}
+  </p>
 {% endif %}
 
 {% if analysis.repo_suggestion %}
-  <p>{% trans "You might want to use following URL instead:" %} <code>{{ analysis.repo_suggestion }}</code></p>
+  <p>
+    {% trans "You might want to use following URL instead:" %} <code>{{ analysis.repo_suggestion }}</code>
+  </p>
 {% endif %}
 
 {% if analysis.force_push_suggestion %}
@@ -34,4 +42,6 @@
   </p>
 {% endif %}
 
-<p>{% trans "Weblate will retry the operation once it is needed again, so the alert might disappear for the temporary issues." %}</p>
+<p>
+  {% trans "Weblate will retry the operation once it is needed again, so the alert might disappear for the temporary issues." %}
+</p>

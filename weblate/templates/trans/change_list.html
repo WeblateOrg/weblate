@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load permissions %}
@@ -8,48 +9,63 @@
 {% block breadcrumbs %}
   {% if path_object %}
     {% path_object_breadcrumbs path_object %}
-    <li><a href="{% url 'changes' path=path_object.get_url_path %}?{{ query_string }}">{% trans "Changes" %}</a></li>
+    <li>
+      <a href="{% url 'changes' path=path_object.get_url_path %}?{{ query_string }}">{% trans "Changes" %}</a>
+    </li>
   {% else %}
-    <li><a href="{% url 'changes' %}?{{ query_string }}">{% trans "Changes" %}</a></li>
+    <li>
+      <a href="{% url 'changes' %}?{{ query_string }}">{% trans "Changes" %}</a>
+    </li>
   {% endif %}
 
   <div class="btn-group pull-right flip btn-group-settings" role="group">
     {% if debug %}
       {% if path_object %}
-        <a href="{% url 'changes' path=path_object.get_url_path %}?{{ query_string }}&amp;digest=1" title="{% trans "View notification" %}" class="btn btn-link">{% icon "bell.svg" %}</a>
+        <a href="{% url 'changes' path=path_object.get_url_path %}?{{ query_string }}&amp;digest=1"
+           title="{% trans "View notification" %}"
+           class="btn btn-link">{% icon "bell.svg" %}</a>
       {% else %}
-        <a href="{% url 'changes' %}?{{ query_string }}&amp;digest=1" title="{% trans "View notification" %}" class="btn btn-link">{% icon "bell.svg" %}</a>
+        <a href="{% url 'changes' %}?{{ query_string }}&amp;digest=1"
+           title="{% trans "View notification" %}"
+           class="btn btn-link">{% icon "bell.svg" %}</a>
       {% endif %}
     {% endif %}
     {% perm 'change.download' path_object as user_can_download_changes %}
     {% if user_can_download_changes %}
       {% if path_object %}
-        <a href="{% url 'changes-csv' path=path_object.get_url_path %}?{{ query_string }}" title="{% trans "Download latest changes as CSV" %}" class="btn btn-link">{% icon "download.svg" %}</a>
+        <a href="{% url 'changes-csv' path=path_object.get_url_path %}?{{ query_string }}"
+           title="{% trans "Download latest changes as CSV" %}"
+           class="btn btn-link">{% icon "download.svg" %}</a>
       {% else %}
-        <a href="{% url 'changes-csv' %}?{{ query_string }}" title="{% trans "Download latest changes as CSV" %}" class="btn btn-link">{% icon "download.svg" %}</a>
+        <a href="{% url 'changes-csv' %}?{{ query_string }}"
+           title="{% trans "Download latest changes as CSV" %}"
+           class="btn btn-link">{% icon "download.svg" %}</a>
       {% endif %}
     {% endif %}
-    <a href="{{ changes_rss }}" title="{% trans "Follow using RSS" %}" class="btn btn-link">{% icon "rss.svg" %}</a>
+    <a href="{{ changes_rss }}"
+       title="{% trans "Follow using RSS" %}"
+       class="btn btn-link">{% icon "rss.svg" %}</a>
   </div>
 {% endblock %}
 
-{% block content %}
-{% if form.is_valid %}
-  {% include "paginator.html" %}
-  {% include "last-changes-content.html" with last_changes=object_list %}
-  {% include "paginator.html" %}
-{% endif %}
 
-<form method="get">
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
-  <div class="panel-body">
-  {{ form|crispy }}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
-</div>
-</div>
-</form>
+{% block content %}
+  {% if form.is_valid %}
+    {% include "paginator.html" %}
+    {% include "last-changes-content.html" with last_changes=object_list %}
+    {% include "paginator.html" %}
+  {% endif %}
+
+  <form method="get">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">{% trans "Search" %}</h4>
+      </div>
+      <div class="panel-body">{{ form|crispy }}</div>
+      <div class="panel-footer">
+        <input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
+      </div>
+    </div>
+  </form>
 
 {% endblock %}

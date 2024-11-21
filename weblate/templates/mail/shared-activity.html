@@ -1,4 +1,5 @@
 {% load i18n %}
+
 <table>
   <tr>
     <td>{% trans "IP address" %}</td>
@@ -10,7 +11,9 @@
   </tr>
   <tr>
     <td>{{ site_title }}</td>
-    <td><a href="{{ current_site_url }}">{{ current_site_url }}</a></td>
+    <td>
+      <a href="{{ current_site_url }}">{{ current_site_url }}</a>
+    </td>
   </tr>
 </table>
 

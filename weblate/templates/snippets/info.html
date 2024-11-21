@@ -7,354 +7,374 @@
 <div class="row">
   <div class="col-md-6">
 
-  {% if language or project or component or translation %}
-    <div class="panel panel-default">
-      <div class="panel-heading"><h4 class="panel-title">{% trans "Overview" %}</h4></div>
+    {% if language or project or component or translation %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">{% trans "Overview" %}</h4>
+        </div>
 
-      <table class="table table-striped table-autowidth">
-      {% if project %}
-        {% if project.web %}
-        <tr>
-        <th>{% trans "Project website" %}</th>
-        <td colspan="2" class="full-cell"><a rel="ugc" href="{{ project.web }}">{{ project.web | urlformat }}</a></td>
-        </tr>
-        {% endif %}
-
-        {% if project.instructions %}
-        <tr>
-        <th>{% trans "Instructions for translators" %}</th>
-        <td colspan="2" class="full-cell">{{ project.instructions|markdown }}</td>
-        </tr>
-        {% endif %}
-
-        {% perm 'billing.view' project as user_can_view_billing %}
-
-        {% if user_can_view_billing %}
-        {% if project.billings %}
-        <tr>
-        <th>{% trans "Billing" %}</th>
-        <td colspan="2" class="full-cell">
-        {% for billing in project.billings %}
-          <a href="{{ billing.get_absolute_url }}">
-            {% include "billing/state-snippet.html" with object=billing %}
-          </a>
-        {% endfor %}
-        </td>
-        </tr>
-        {% endif %}
-        {% endif %}
-
-        {% if project.all_admins %}
-        <tr>
-          <th>{% trans "Project maintainers" %}</th>
-          <td colspan="2" class="full-cell">
-            {% for admin in project.all_admins %}
-              {{ admin.profile.get_user_display_link }}
-            {% endfor %}
-          </td>
-        </tr>
-        {% endif %}
-      {% endif %}
-      {% if componentlist %}
-        {% for auto in componentlist.autocomponentlist_set.all %}
-          <tr>
-            <th>{% if forloop.first %}{% trans "Automatic component list assignment" %}{% endif %}</th>
-            <td colspan="2"><code>project ~= {{ auto.project_match }}, component ~= {{ auto.component_match }}</code></td>
-          </tr>
-        {% endfor %}
-      {% endif %}
-
-      {% if component %}
-        {% if component.license %}
-        <tr>
-        <th>{% trans "Translation license" %}</th>
-        <td colspan="2" class="full-cell">
-        {% if component.license_url %}
-        <a href="{{ component.license_url }}">{{ component.get_license_display }}</a>
-        {% else %}
-        {{ component.get_license_display }}
-        {% endif %}
-        </td>
-        </tr>
-        {% endif %}
-
-        {% if component.agreement %}
-        <tr>
-        <th>{% trans "Contributor agreement" %}</th>
-        <td colspan="2" class="full-cell">
-          {% if user.is_authenticated %}
-            <a class="btn btn-primary pull-right flip" href="{% url 'contributor-agreement' path=component.get_url_path %}">{% trans "View" %}</a>
-          {% endif %}
-          {{ component.agreement|markdown }}
-        </td>
-        </tr>
-        {% endif %}
-
-        <tr>
-        <th>{% trans "Translation process" %}</th>
-        <td colspan="2" class="full-cell">
-        <ul>
-        {% get_workflow_flags translation component as workflow_flags %}
-        {% if workflow_flags.suggestion_voting and workflow_flags.suggestion_autoaccept %}
-        <li>{% trans "Translations can only be done through suggestions." %}</li>
-        <li>{% blocktrans count count=workflow_flags.suggestion_autoaccept %}Suggestions with one vote are automatically accepted as translations.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}</li>
-        {% else %}
-        <li>{% trans "Translations can be made directly." %}</li>
-        {% if workflow_flags.enable_suggestions %}
-        <li>{% trans "Translation suggestions can be made." %}</li>
-        {% else %}
-        <li>{% trans "Translation suggestions are turned off." %}</li>
-        {% endif %}
-        {% endif %}
-        {% if workflow_flags.translation_review %}
-        <li>{% trans "Translations are reviewed by dedicated reviewers." %}</li>
-        {% endif %}
-        {% if component.project.access_control %}
-        <li>{% trans "Only chosen users can contribute." %}</li>
-        {% else %}
-        <li>{% trans "Any authenticated user can contribute." %}</li>
-        {% endif %}
-        {% if component.template %}
-        <li>{% trans "The translation uses monolingual files." %}</li>
-        {% if component.edit_template %}
-        <li>{% trans "The translation base language is editable." %}</li>
-        {% else %}
-        <li>{% trans "The translation base language can not be edited." %}</li>
-        {% endif %}
-        {% else %}
-        <li>{% trans "The translation uses bilingual files." %}</li>
-        {% endif %}
-        </ul>
-        </td>
-        </tr>
-
-        {% include "snippets/git-info.html" with object=component %}
-
-        <tr>
-        <th>{% trans "File mask" %}</th>
-        <td colspan="2"><code class="wrap-text">{{ component.filemask }}</code></td>
-        </tr>
-
-        {% if component.template %}
-        <tr>
-        <th>{% trans "Monolingual base language file" %}</th>
-        <td colspan="2"><code class="wrap-text">{{ component.template }}</code></td>
-        </tr>
-        {% endif %}
-      {% endif %}
-
-      {% if translation %}
-        <tr>
-        <th>{% trans "Translation file" %}</th>
-        <td colspan="2">
-        {% if translation.filename %}
-        <a class="btn btn-primary btn-xs pull-right flip" href="{% url 'download' path=translation.get_url_path %}">{% trans "Download" %}</a>
-        <code class="wrap-text">{{ translation.filename }}</code>
-        {% else %}
-        {% trans "Not available" %}
-        {% endif %}
-        </td>
-        </tr>
-        <tr>
-        <th>{% trans "Last change" %}</th>
-        <td colspan="2">{{ stats.last_changed }}</td>
-        </tr>
-        <tr>
-        <th>{% trans "Last change made by" %}</th>
-        <td colspan="2">{{ translation.get_last_author }}</td>
-        </tr>
-      {% endif %}
-      {% if language %}
-        {% if not show_full_language %}
-          <tr>
-          <th>{% trans "Language" %}</th>
-          <td colspan="2" class="full-cell">
-            <a href="{% url "show_language" lang=language.code %}">{{ language }}</a>
-          </td>
-        </tr>
-        {% endif %}
-        <tr>
-        <th>{% trans "Language code" %}</th>
-        <td colspan="2" class="full-cell">
-        {% if user_can_edit_language %}
-        <a class="btn btn-primary btn-xs pull-right flip" href="{% url 'edit-language' pk=language.pk %}">{% trans "Edit" %}</a>
-        {% endif %}
-        {{ language.code }}
-        </td>
-        </tr>
-        {% if show_full_language %}
-          {% with aliases=language.get_aliases_names %}
-            {% if aliases %}
+        <table class="table table-striped table-autowidth">
+          {% if project %}
+            {% if project.web %}
               <tr>
-              <th>{% trans "Aliased language codes" %}</th>
-              <td colspan="2">{{ aliases|join:", " }}</td>
+                <th>{% trans "Project website" %}</th>
+                <td colspan="2" class="full-cell">
+                  <a rel="ugc" href="{{ project.web }}">{{ project.web | urlformat }}</a>
+                </td>
               </tr>
             {% endif %}
-          {% endwith %}
-        {% endif %}
-        <tr>
-        <th>{% trans "Text direction" %}</th>
-        <td colspan="2">{{ language.get_direction_display }}</td>
-        </tr>
-        {% if language.population %}
-        <tr>
-        <th>{% trans "Number of speakers" %}</th>
-        <td colspan="2">{{ language.population|intcomma }}</td>
-        </tr>
-        {% endif %}
-        {% if show_full_language %}
-          {% for plural in language.plural_set.order %}
-            {% include "snippets/plural.html" %}
-          {% endfor %}
-        {% elif translation %}
-          {% include "snippets/plural.html" with plural=translation.plural %}
-        {% endif %}
-      {% endif %}
-      </table>
-    </div>
-  {% endif %}
-  {% if top_users %}
-    {# Global stats #}
-    <div class="panel panel-default">
-      <div class="panel-heading"><h4 class="panel-title">{% trans "Most active translators" %}</h4></div>
-      <table class="table table-autowidth table-stats">
-        <tbody>
-          {% for u in top_users %}
+
+            {% if project.instructions %}
+              <tr>
+                <th>{% trans "Instructions for translators" %}</th>
+                <td colspan="2" class="full-cell">{{ project.instructions|markdown }}</td>
+              </tr>
+            {% endif %}
+
+            {% perm 'billing.view' project as user_can_view_billing %}
+
+            {% if user_can_view_billing %}
+              {% if project.billings %}
+                <tr>
+                  <th>{% trans "Billing" %}</th>
+                  <td colspan="2" class="full-cell">
+                    {% for billing in project.billings %}
+                      <a href="{{ billing.get_absolute_url }}">{% include "billing/state-snippet.html" with object=billing %}</a>
+                    {% endfor %}
+                  </td>
+                </tr>
+              {% endif %}
+            {% endif %}
+
+            {% if project.all_admins %}
+              <tr>
+                <th>{% trans "Project maintainers" %}</th>
+                <td colspan="2" class="full-cell">
+                  {% for admin in project.all_admins %}{{ admin.profile.get_user_display_link }}{% endfor %}
+                </td>
+              </tr>
+            {% endif %}
+          {% endif %}
+          {% if componentlist %}
+            {% for auto in componentlist.autocomponentlist_set.all %}
+              <tr>
+                <th>
+                  {% if forloop.first %}
+                    {% trans "Automatic component list assignment" %}
+                  {% endif %}
+                </th>
+                <td colspan="2">
+                  <code>project ~= {{ auto.project_match }}, component ~= {{ auto.component_match }}</code>
+                </td>
+              </tr>
+            {% endfor %}
+          {% endif %}
+
+          {% if component %}
+            {% if component.license %}
+              <tr>
+                <th>{% trans "Translation license" %}</th>
+                <td colspan="2" class="full-cell">
+                  {% if component.license_url %}
+                    <a href="{{ component.license_url }}">{{ component.get_license_display }}</a>
+                  {% else %}
+                    {{ component.get_license_display }}
+                  {% endif %}
+                </td>
+              </tr>
+            {% endif %}
+
+            {% if component.agreement %}
+              <tr>
+                <th>{% trans "Contributor agreement" %}</th>
+                <td colspan="2" class="full-cell">
+                  {% if user.is_authenticated %}
+                    <a class="btn btn-primary pull-right flip"
+                       href="{% url 'contributor-agreement' path=component.get_url_path %}">{% trans "View" %}</a>
+                  {% endif %}
+                  {{ component.agreement|markdown }}
+                </td>
+              </tr>
+            {% endif %}
+
             <tr>
-              <td>{{ forloop.counter }}.</td>
-              <td>{{ u.get_user_display_link }}</td>
-              <td class="full-cell">
-                <div class="progress chart-progress">
-                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ u.translated_width }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ u.translated_width }}%;"></div>
-                </div>
+              <th>{% trans "Translation process" %}</th>
+              <td colspan="2" class="full-cell">
+                <ul>
+                  {% get_workflow_flags translation component as workflow_flags %}
+                  {% if workflow_flags.suggestion_voting and workflow_flags.suggestion_autoaccept %}
+                    <li>{% trans "Translations can only be done through suggestions." %}</li>
+                    <li>
+                      {% blocktrans count count=workflow_flags.suggestion_autoaccept %}Suggestions with one vote are automatically accepted as translations.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}
+                    </li>
+                  {% else %}
+                    <li>{% trans "Translations can be made directly." %}</li>
+                    {% if workflow_flags.enable_suggestions %}
+                      <li>{% trans "Translation suggestions can be made." %}</li>
+                    {% else %}
+                      <li>{% trans "Translation suggestions are turned off." %}</li>
+                    {% endif %}
+                  {% endif %}
+                  {% if workflow_flags.translation_review %}
+                    <li>{% trans "Translations are reviewed by dedicated reviewers." %}</li>
+                  {% endif %}
+                  {% if component.project.access_control %}
+                    <li>{% trans "Only chosen users can contribute." %}</li>
+                  {% else %}
+                    <li>{% trans "Any authenticated user can contribute." %}</li>
+                  {% endif %}
+                  {% if component.template %}
+                    <li>{% trans "The translation uses monolingual files." %}</li>
+                    {% if component.edit_template %}
+                      <li>{% trans "The translation base language is editable." %}</li>
+                    {% else %}
+                      <li>{% trans "The translation base language can not be edited." %}</li>
+                    {% endif %}
+                  {% else %}
+                    <li>{% trans "The translation uses bilingual files." %}</li>
+                  {% endif %}
+                </ul>
               </td>
-              <td class="number">{{ u.translated|intcomma }}</td>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <div class="panel-footer">
-        <span class="pull-right flip"><strong>{{ total_translations|intcomma }}</strong></span>
-        <a href="{% url "user_list" %}" class="btn btn-primary">{% trans "Browse all users" %}</a>
+
+            {% include "snippets/git-info.html" with object=component %}
+
+            <tr>
+              <th>{% trans "File mask" %}</th>
+              <td colspan="2">
+                <code class="wrap-text">{{ component.filemask }}</code>
+              </td>
+            </tr>
+
+            {% if component.template %}
+              <tr>
+                <th>{% trans "Monolingual base language file" %}</th>
+                <td colspan="2">
+                  <code class="wrap-text">{{ component.template }}</code>
+                </td>
+              </tr>
+            {% endif %}
+          {% endif %}
+
+          {% if translation %}
+            <tr>
+              <th>{% trans "Translation file" %}</th>
+              <td colspan="2">
+                {% if translation.filename %}
+                  <a class="btn btn-primary btn-xs pull-right flip"
+                     href="{% url 'download' path=translation.get_url_path %}">{% trans "Download" %}</a>
+                  <code class="wrap-text">{{ translation.filename }}</code>
+                {% else %}
+                  {% trans "Not available" %}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>{% trans "Last change" %}</th>
+              <td colspan="2">{{ stats.last_changed }}</td>
+            </tr>
+            <tr>
+              <th>{% trans "Last change made by" %}</th>
+              <td colspan="2">{{ translation.get_last_author }}</td>
+            </tr>
+          {% endif %}
+          {% if language %}
+            {% if not show_full_language %}
+              <tr>
+                <th>{% trans "Language" %}</th>
+                <td colspan="2" class="full-cell">
+                  <a href="{% url "show_language" lang=language.code %}">{{ language }}</a>
+                </td>
+              </tr>
+            {% endif %}
+            <tr>
+              <th>{% trans "Language code" %}</th>
+              <td colspan="2" class="full-cell">
+                {% if user_can_edit_language %}
+                  <a class="btn btn-primary btn-xs pull-right flip"
+                     href="{% url 'edit-language' pk=language.pk %}">{% trans "Edit" %}</a>
+                {% endif %}
+                {{ language.code }}
+              </td>
+            </tr>
+            {% if show_full_language %}
+              {% with aliases=language.get_aliases_names %}
+                {% if aliases %}
+                  <tr>
+                    <th>{% trans "Aliased language codes" %}</th>
+                    <td colspan="2">{{ aliases|join:", " }}</td>
+                  </tr>
+                {% endif %}
+              {% endwith %}
+            {% endif %}
+            <tr>
+              <th>{% trans "Text direction" %}</th>
+              <td colspan="2">{{ language.get_direction_display }}</td>
+            </tr>
+            {% if language.population %}
+              <tr>
+                <th>{% trans "Number of speakers" %}</th>
+                <td colspan="2">{{ language.population|intcomma }}</td>
+              </tr>
+            {% endif %}
+            {% if show_full_language %}
+              {% for plural in language.plural_set.order %}
+                {% include "snippets/plural.html" %}
+              {% endfor %}
+            {% elif translation %}
+              {% include "snippets/plural.html" with plural=translation.plural %}
+            {% endif %}
+          {% endif %}
+        </table>
       </div>
-    </div>
-  {% endif %}
+    {% endif %}
+    {% if top_users %}
+      {# Global stats #}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">{% trans "Most active translators" %}</h4>
+        </div>
+        <table class="table table-autowidth table-stats">
+          <tbody>
+            {% for u in top_users %}
+              <tr>
+                <td>{{ forloop.counter }}.</td>
+                <td>{{ u.get_user_display_link }}</td>
+                <td class="full-cell">
+                  <div class="progress chart-progress">
+                    <div class="progress-bar progress-bar-success"
+                         role="progressbar"
+                         aria-valuenow="{{ u.translated_width }}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         style="width: {{ u.translated_width }}%"></div>
+                  </div>
+                </td>
+                <td class="number">{{ u.translated|intcomma }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="panel-footer">
+          <span class="pull-right flip"><strong>{{ total_translations|intcomma }}</strong></span>
+          <a href="{% url "user_list" %}" class="btn btn-primary">{% trans "Browse all users" %}</a>
+        </div>
+      </div>
+    {% endif %}
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <span class="pull-right flip text-muted">
-          {{ stats.stats_timestamp|naturaltime }}
-        </span>
+        <span class="pull-right flip text-muted">{{ stats.stats_timestamp|naturaltime }}</span>
         <h4 class="panel-title">{% trans "String statistics" %}</h4>
       </div>
       <table class="table">
-      <thead>
-      <tr>
-      <td></td>
-      <th class="number">{% trans "Strings percent" %}</th>
-      <th class="number">{% trans "Hosted strings" context "Number of hosted strings" %}</th>
-      <th class="number">{% trans "Words percent" %}</th>
-      <th class="number">{% trans "Hosted words" context "Number of hosted words" %}</th>
-      <th class="number">{% trans "Characters percent" %}</th>
-      <th class="number">{% trans "Hosted characters" context "Number of hosted characters" %}</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-      <th>{% trans "Total" context "Number of strings" %}</th>
-      <td class="number"></td>
-      <td class="number">{{ stats.all|intcomma }}</td>
-      <td class="number"></td>
-      <td class="number">{{ stats.all_words|intcomma }}</td>
-      <td class="number"></td>
-      <td class="number">{{ stats.all_chars|intcomma }}</td>
-      </tr>
-      {% if show_source %}
-      <tr>
-      <th>{% trans "Source" context "Number of strings" %}</th>
-      <td class="number"></td>
-      <td class="number">{{ stats.source_strings|intcomma }}</td>
-      <td class="number"></td>
-      <td class="number">{{ stats.source_words|intcomma }}</td>
-      <td class="number"></td>
-      <td class="number">{{ stats.source_chars|intcomma }}</td>
-      </tr>
-      {% endif %}
-      {% if stats.has_review %}
-      <tr>
-      <th>{% trans "Approved" context "Number of strings" %}</th>
-      <td class="number">{{ stats.approved_percent|percent_format }}</td>
-      <td class="number">{{ stats.approved|intcomma }}</td>
-      <td class="number">{{ stats.approved_words_percent|percent_format }}</td>
-      <td class="number">{{ stats.approved_words|intcomma }}</td>
-      <td class="number">{{ stats.approved_chars_percent|percent_format }}</td>
-      <td class="number">{{ stats.approved_chars|intcomma }}</td>
-      </tr>
-      <tr>
-      <th>{% trans "Waiting for review" context "Number of strings" %}</th>
-      <td class="number">{{ stats.waiting_review_percent|percent_format }}</td>
-      <td class="number">{{ stats.waiting_review|intcomma }}</td>
-      <td class="number">{{ stats.waiting_review_words_percent|percent_format }}</td>
-      <td class="number">{{ stats.waiting_review_words|intcomma }}</td>
-      <td class="number">{{ stats.waiting_review_chars_percent|percent_format }}</td>
-      <td class="number">{{ stats.waiting_review_chars|intcomma }}</td>
-      </tr>
-      {% endif %}
-      <tr>
-      <th>{% trans "Translated" context "Number of strings" %}</th>
-      <td class="number">{{ stats.translated_percent|percent_format }}</td>
-      <td class="number">{{ stats.translated|intcomma }}</td>
-      <td class="number">{{ stats.translated_words_percent|percent_format }}</td>
-      <td class="number">{{ stats.translated_words|intcomma }}</td>
-      <td class="number">{{ stats.translated_chars_percent|percent_format }}</td>
-      <td class="number">{{ stats.translated_chars|intcomma }}</td>
-      </tr>
-      <tr>
-      <th>{% trans "Needs editing" context "Number of strings" %}</th>
-      <td class="number">{{ stats.fuzzy_percent|percent_format }}</td>
-      <td class="number">{{ stats.fuzzy|intcomma }}</td>
-      <td class="number">{{ stats.fuzzy_words_percent|percent_format }}</td>
-      <td class="number">{{ stats.fuzzy_words|intcomma }}</td>
-      <td class="number">{{ stats.fuzzy_chars_percent|percent_format }}</td>
-      <td class="number">{{ stats.fuzzy_chars|intcomma }}</td>
-      </tr>
-      <tr>
-      <th>{% trans "Read-only" context "Number of strings" %}</th>
-      <td class="number">{{ stats.readonly_percent|percent_format }}</td>
-      <td class="number">{{ stats.readonly|intcomma }}</td>
-      <td class="number">{{ stats.readonly_words_percent|percent_format }}</td>
-      <td class="number">{{ stats.readonly_words|intcomma }}</td>
-      <td class="number">{{ stats.readonly_chars_percent|percent_format }}</td>
-      <td class="number">{{ stats.readonly_chars|intcomma }}</td>
-      </tr>
-      <tr>
-      <th>{% trans "Failing checks" context "Number of strings" %}</th>
-      <td class="number">{{ stats.allchecks_percent|percent_format }}</td>
-      <td class="number">{{ stats.allchecks|intcomma }}</td>
-      <td class="number">{{ stats.allchecks_words_percent|percent_format }}</td>
-      <td class="number">{{ stats.allchecks_words|intcomma }}</td>
-      <td class="number">{{ stats.allchecks_chars_percent|percent_format }}</td>
-      <td class="number">{{ stats.allchecks_chars|intcomma }}</td>
-      </tr>
-      <tr>
-      <th>{% trans "Strings with suggestions" context "Number of strings" %}</th>
-      <td class="number">{{ stats.suggestions_percent|percent_format }}</td>
-      <td class="number">{{ stats.suggestions|intcomma }}</td>
-      <td class="number">{{ stats.suggestions_words_percent|percent_format }}</td>
-      <td class="number">{{ stats.suggestions_words|intcomma }}</td>
-      <td class="number">{{ stats.suggestions_chars_percent|percent_format }}</td>
-      <td class="number">{{ stats.suggestions_chars|intcomma }}</td>
-      </tr>
-      <tr>
-      <th>{% trans "Untranslated strings" context "Number of strings" %}</th>
-      <td class="number">{{ stats.nottranslated_percent|percent_format }}</td>
-      <td class="number">{{ stats.nottranslated|intcomma }}</td>
-      <td class="number">{{ stats.nottranslated_words_percent|percent_format }}</td>
-      <td class="number">{{ stats.nottranslated_words|intcomma }}</td>
-      <td class="number">{{ stats.nottranslated_chars_percent|percent_format }}</td>
-      <td class="number">{{ stats.nottranslated_chars|intcomma }}</td>
-      </tr>
-      </tbody>
+        <thead>
+          <tr>
+            <td></td>
+            <th class="number">{% trans "Strings percent" %}</th>
+            <th class="number">{% trans "Hosted strings" context "Number of hosted strings" %}</th>
+            <th class="number">{% trans "Words percent" %}</th>
+            <th class="number">{% trans "Hosted words" context "Number of hosted words" %}</th>
+            <th class="number">{% trans "Characters percent" %}</th>
+            <th class="number">{% trans "Hosted characters" context "Number of hosted characters" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>{% trans "Total" context "Number of strings" %}</th>
+            <td class="number"></td>
+            <td class="number">{{ stats.all|intcomma }}</td>
+            <td class="number"></td>
+            <td class="number">{{ stats.all_words|intcomma }}</td>
+            <td class="number"></td>
+            <td class="number">{{ stats.all_chars|intcomma }}</td>
+          </tr>
+          {% if show_source %}
+            <tr>
+              <th>{% trans "Source" context "Number of strings" %}</th>
+              <td class="number"></td>
+              <td class="number">{{ stats.source_strings|intcomma }}</td>
+              <td class="number"></td>
+              <td class="number">{{ stats.source_words|intcomma }}</td>
+              <td class="number"></td>
+              <td class="number">{{ stats.source_chars|intcomma }}</td>
+            </tr>
+          {% endif %}
+          {% if stats.has_review %}
+            <tr>
+              <th>{% trans "Approved" context "Number of strings" %}</th>
+              <td class="number">{{ stats.approved_percent|percent_format }}</td>
+              <td class="number">{{ stats.approved|intcomma }}</td>
+              <td class="number">{{ stats.approved_words_percent|percent_format }}</td>
+              <td class="number">{{ stats.approved_words|intcomma }}</td>
+              <td class="number">{{ stats.approved_chars_percent|percent_format }}</td>
+              <td class="number">{{ stats.approved_chars|intcomma }}</td>
+            </tr>
+            <tr>
+              <th>{% trans "Waiting for review" context "Number of strings" %}</th>
+              <td class="number">{{ stats.waiting_review_percent|percent_format }}</td>
+              <td class="number">{{ stats.waiting_review|intcomma }}</td>
+              <td class="number">{{ stats.waiting_review_words_percent|percent_format }}</td>
+              <td class="number">{{ stats.waiting_review_words|intcomma }}</td>
+              <td class="number">{{ stats.waiting_review_chars_percent|percent_format }}</td>
+              <td class="number">{{ stats.waiting_review_chars|intcomma }}</td>
+            </tr>
+          {% endif %}
+          <tr>
+            <th>{% trans "Translated" context "Number of strings" %}</th>
+            <td class="number">{{ stats.translated_percent|percent_format }}</td>
+            <td class="number">{{ stats.translated|intcomma }}</td>
+            <td class="number">{{ stats.translated_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.translated_words|intcomma }}</td>
+            <td class="number">{{ stats.translated_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.translated_chars|intcomma }}</td>
+          </tr>
+          <tr>
+            <th>{% trans "Needs editing" context "Number of strings" %}</th>
+            <td class="number">{{ stats.fuzzy_percent|percent_format }}</td>
+            <td class="number">{{ stats.fuzzy|intcomma }}</td>
+            <td class="number">{{ stats.fuzzy_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.fuzzy_words|intcomma }}</td>
+            <td class="number">{{ stats.fuzzy_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.fuzzy_chars|intcomma }}</td>
+          </tr>
+          <tr>
+            <th>{% trans "Read-only" context "Number of strings" %}</th>
+            <td class="number">{{ stats.readonly_percent|percent_format }}</td>
+            <td class="number">{{ stats.readonly|intcomma }}</td>
+            <td class="number">{{ stats.readonly_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.readonly_words|intcomma }}</td>
+            <td class="number">{{ stats.readonly_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.readonly_chars|intcomma }}</td>
+          </tr>
+          <tr>
+            <th>{% trans "Failing checks" context "Number of strings" %}</th>
+            <td class="number">{{ stats.allchecks_percent|percent_format }}</td>
+            <td class="number">{{ stats.allchecks|intcomma }}</td>
+            <td class="number">{{ stats.allchecks_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.allchecks_words|intcomma }}</td>
+            <td class="number">{{ stats.allchecks_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.allchecks_chars|intcomma }}</td>
+          </tr>
+          <tr>
+            <th>{% trans "Strings with suggestions" context "Number of strings" %}</th>
+            <td class="number">{{ stats.suggestions_percent|percent_format }}</td>
+            <td class="number">{{ stats.suggestions|intcomma }}</td>
+            <td class="number">{{ stats.suggestions_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.suggestions_words|intcomma }}</td>
+            <td class="number">{{ stats.suggestions_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.suggestions_chars|intcomma }}</td>
+          </tr>
+          <tr>
+            <th>{% trans "Untranslated strings" context "Number of strings" %}</th>
+            <td class="number">{{ stats.nottranslated_percent|percent_format }}</td>
+            <td class="number">{{ stats.nottranslated|intcomma }}</td>
+            <td class="number">{{ stats.nottranslated_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.nottranslated_words|intcomma }}</td>
+            <td class="number">{{ stats.nottranslated_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.nottranslated_chars|intcomma }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
@@ -362,7 +382,9 @@
     {% include "snippets/activity.html" %}
     {% if show_global %}
       <div class="panel panel-default">
-        <div class="panel-heading"><h4 class="panel-title">{% trans "Global numbers" %}</h4></div>
+        <div class="panel-heading">
+          <h4 class="panel-title">{% trans "Global numbers" %}</h4>
+        </div>
         <div class="panel-body">
           <div class="row">
             <div class="col-sm-3">
@@ -433,7 +455,9 @@
     {% endif %}
 
     <div class="panel panel-default">
-      <div class="panel-heading"><h4 class="panel-title">{% trans "Quick numbers" %}</h4></div>
+      <div class="panel-heading">
+        <h4 class="panel-title">{% trans "Quick numbers" %}</h4>
+      </div>
       <div class="panel-body">
         <div class="row">
           <div class="col-sm-3">

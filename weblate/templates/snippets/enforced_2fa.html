@@ -1,7 +1,9 @@
 {% extends "message.html" %}
+
 {% load i18n %}
 
 {% block tags %}warning{% endblock %}
+
 
 {% block message %}
   <a href="{% url 'profile' %}#account" class="btn btn-primary pull-right flip">{% trans "Configure two-factor authentication" %}</a>

@@ -1,12 +1,13 @@
 {% extends "admin/change_form.html" %}
+
 {% load i18n %}
 {% load translations %}
 
 {% block object-tools-items %}
-{% if opts.model_name == 'autogroup' %}
-<li>
-<a href="{% documentation 'admin/access' 'autogroup' %}" class="doclink">{% trans "Documentation" %}</a>
-</li>
-{% endif %}
-{{ block.super }}
+  {% if opts.model_name == 'autogroup' %}
+    <li>
+      <a href="{% documentation 'admin/access' 'autogroup' %}" class="doclink">{% trans "Documentation" %}</a>
+    </li>
+  {% endif %}
+  {{ block.super }}
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load static %}
 {% load permissions %}
@@ -9,141 +10,170 @@
 
 {% block content %}
 
-{% announcements %}
+  {% announcements %}
 
-<div class="btn-group pull-right flip btn-group-settings" role="group">
-<a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure dashboard" %}">{% icon "settings.svg" %}</a>
-</div>
+  <div class="btn-group pull-right flip btn-group-settings" role="group">
+    <a href="{% url 'profile' %}#preferences"
+       class="btn btn-link"
+       title="{% trans "Configure dashboard" %}">{% icon "settings.svg" %}</a>
+  </div>
 
-{% perm 'reports.view' None as user_can_view_reports %}
+  {% perm 'reports.view' None as user_can_view_reports %}
 
-<ul class="nav nav-pills">
-<li {% active_link "your-subscriptions" %}><a href="#your-subscriptions" data-toggle="tab">{% trans "Watched translations" %} <span class="badge">{{ usersubscriptions.paginator.count }}</span></a></li>
-{% if all_componentlists %}
-<li {% active_link "componentlists" %}><a href="#componentlists" data-toggle="tab">{% trans "Component lists" %} <span class="badge">{{ all_componentlists|length }}</span></a></li>
-{% endif %}
-<li {% active_link "suggestions" %}><a href="#suggestions" data-toggle="tab">{% trans "Suggested translations" %} <span class="badge">{{ suggestions|length }}</span></a></li>
-{% if owned_projects %}
-<li {% active_link "managed" %}><a href="#managed" data-toggle="tab">{% trans "Managed projects" %} <span class="badge">{{ all_owned_projects|length }}</span></a></li>
-{% endif %}
-{% for componentlist in componentlists %}
-<li {% active_link componentlist.tab_slug %}><a href="#{{ componentlist.tab_slug }}" data-toggle="tab">{{ componentlist.name }} <span class="badge">{{ componentlist.translations|length }}</span></a></li>
-{% endfor %}
-  <li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-      {% trans "Insights" %} <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-    <li><a href="{% url 'changes' %}">{% trans "History" %}</a></li>
-    <li><a href="{% url 'changes' %}?action=51&amp;action=50">{% trans "Recent additions" %}</a></li>
-    <li><a href="{% url 'stats' %}">{% trans "Statistics" %}</a></li>
-    <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
-  </ul>
-</li>
-<li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
-</ul>
-
-<div class="tab-content">
-<div {% active_tab "your-subscriptions" %}>
-{% if watched_projects %}
-    {% if usersubscriptions %}
-        {% include "snippets/list-objects.html" with objects=usersubscriptions label=_("Translation") hide_completed=user.profile.hide_completed name_source="translation" %}
-
-        {% include "paginator.html" with page_obj=usersubscriptions %}
-    {% else %}
-        {% include "list-projects.html" with projects=watched_projects %}
+  <ul class="nav nav-pills">
+    <li {% active_link "your-subscriptions" %}>
+      <a href="#your-subscriptions" data-toggle="tab">{% trans "Watched translations" %} <span class="badge">{{ usersubscriptions.paginator.count }}</span></a>
+    </li>
+    {% if all_componentlists %}
+      <li {% active_link "componentlists" %}>
+        <a href="#componentlists" data-toggle="tab">{% trans "Component lists" %} <span class="badge">{{ all_componentlists|length }}</span></a>
+      </li>
     {% endif %}
-{% else %}
-    <p class="help-block">{% trans "Choose what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}</p>
-{% endif %}
-</div>
+    <li {% active_link "suggestions" %}>
+      <a href="#suggestions" data-toggle="tab">{% trans "Suggested translations" %} <span class="badge">{{ suggestions|length }}</span></a>
+    </li>
+    {% if owned_projects %}
+      <li {% active_link "managed" %}>
+        <a href="#managed" data-toggle="tab">{% trans "Managed projects" %} <span class="badge">{{ all_owned_projects|length }}</span></a>
+      </li>
+    {% endif %}
+    {% for componentlist in componentlists %}
+      <li {% active_link componentlist.tab_slug %}>
+        <a href="#{{ componentlist.tab_slug }}" data-toggle="tab">{{ componentlist.name }} <span class="badge">{{ componentlist.translations|length }}</span></a>
+      </li>
+    {% endfor %}
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        {% trans "Insights" %} <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="{% url 'changes' %}">{% trans "History" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'changes' %}?action=51&amp;action=50">{% trans "Recent additions" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'stats' %}">{% trans "Statistics" %}</a>
+        </li>
+        <li>
+          <a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#search" data-toggle="tab">{% trans "Search" %}</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div {% active_tab "your-subscriptions" %}>
+      {% if watched_projects %}
+        {% if usersubscriptions %}
+          {% include "snippets/list-objects.html" with objects=usersubscriptions label=_("Translation") hide_completed=user.profile.hide_completed name_source="translation" %}
+
+          {% include "paginator.html" with page_obj=usersubscriptions %}
+        {% else %}
+          {% include "list-projects.html" with projects=watched_projects %}
+        {% endif %}
+      {% else %}
+        <p class="help-block">
+          {% trans "Choose what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}
+        </p>
+      {% endif %}
+    </div>
 
 
-{% if all_componentlists %}
-<div {% active_tab "componentlists" %}>
-{% include "snippets/list-objects.html" with objects=all_componentlists label=_("Component list") %}
-</div>
-{% endif %}
+    {% if all_componentlists %}
+      <div {% active_tab "componentlists" %}>
+        {% include "snippets/list-objects.html" with objects=all_componentlists label=_("Component list") %}
+      </div>
+    {% endif %}
 
-{% if owned_projects %}
-<div {% active_tab "managed" %}>
-{% include "snippets/list-objects.html" with objects=owned_projects label=_("Project") %}
-{% if all_owned_projects|length > 10 %}
-  <a href="{% url 'projects' %}?owned={{ user.username }}" class="btn btn-primary">{% trans "Browse all managed projects" %}</a>
-{% endif %}
-</div>
-{% endif %}
+    {% if owned_projects %}
+      <div {% active_tab "managed" %}>
+        {% include "snippets/list-objects.html" with objects=owned_projects label=_("Project") %}
+        {% if all_owned_projects|length > 10 %}
+          <a href="{% url 'projects' %}?owned={{ user.username }}" class="btn btn-primary">{% trans "Browse all managed projects" %}</a>
+        {% endif %}
+      </div>
+    {% endif %}
 
-{# Suggested translations #}
-<div {% active_tab "suggestions" %}>
-{% if suggestions %}
-{% include "snippets/list-objects.html" with objects=suggestions label=_("Translation") name_source="translation" %}
-{% else %}
-<p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in the preferences to get some." %}</p>
-{% endif %}
-</div>
+    {# Suggested translations #}
+    <div {% active_tab "suggestions" %}>
+      {% if suggestions %}
+        {% include "snippets/list-objects.html" with objects=suggestions label=_("Translation") name_source="translation" %}
+      {% else %}
+        <p class="help-block">
+          {% trans "Could not find any suggestions for you, please choose your languages in the preferences to get some." %}
+        </p>
+      {% endif %}
+    </div>
 
 
-{% for componentlist in componentlists %}
-    <div {% active_tab componentlist.tab_slug %}>
-    {% include "snippets/list-objects.html" with objects=componentlist.translations label=_("Translation") name_source="translation" %}
-</div>{% endfor %}
+    {% for componentlist in componentlists %}
+      <div {% active_tab componentlist.tab_slug %}>
+        {% include "snippets/list-objects.html" with objects=componentlist.translations label=_("Translation") name_source="translation" %}
+      </div>
+    {% endfor %}
 
-<div class="tab-pane" id="search">
+    <div class="tab-pane" id="search">
 
-<form action="{% url 'search' %}" method="get" data-persist="search-index">
-{% include "snippets/search-form.html" %}
-</form>
+      <form action="{% url 'search' %}" method="get" data-persist="search-index">
+        {% include "snippets/search-form.html" %}
+      </form>
 
-</div>
+    </div>
 
-<div class="tab-pane" id="reports">
-{% if not user_can_view_reports %}
-{% trans "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
-{% show_message "warning" msg %}
-{% endif %}
-<div class="row">
-<div class="col-lg-6">
-<form action="{% url 'credits' %}" method="post" enctype="multipart/form-data">
-<div class="panel panel-default">
-<div class="panel-heading">
-<h4 class="panel-title">
-{% documentation_icon 'devel/reporting' 'credits' right=True %}
-{% trans "Credits" %}
-</h4>
-</div>
-<div class="panel-body">
-<p>{% trans "Lists all translators contributing in a given time period. Useful for inclusion in documentation or the app itself, to thank translators and generate feedback to them." %}</p>
-{% crispy reports_form %}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
-</div>
-</div>
-</form>
-</div>
-<div class="col-lg-6">
-<form action="{% url 'counts' %}" method="post" enctype="multipart/form-data">
-<div class="panel panel-default">
-<div class="panel-heading">
-<h4 class="panel-title">
-{% documentation_icon 'devel/reporting' 'stats' right=True %}
-{% trans "Contributor stats" %}
-</h4>
-</div>
-<div class="panel-body">
-<p>{% trans "Reports the number of strings and words translated by each translator." %}</p>
-{% crispy reports_form %}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
-</div>
-</div>
-</form>
-</div>
-</div>
-</div>
+    <div class="tab-pane" id="reports">
+      {% if not user_can_view_reports %}
+        {% trans "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
+        {% show_message "warning" msg %}
+      {% endif %}
+      <div class="row">
+        <div class="col-lg-6">
+          <form action="{% url 'credits' %}" method="post" enctype="multipart/form-data">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  {% documentation_icon 'devel/reporting' 'credits' right=True %}
+                  {% trans "Credits" %}
+                </h4>
+              </div>
+              <div class="panel-body">
+                <p>
+                  {% trans "Lists all translators contributing in a given time period. Useful for inclusion in documentation or the app itself, to thank translators and generate feedback to them." %}
+                </p>
+                {% crispy reports_form %}
+              </div>
+              <div class="panel-footer">
+                <input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-6">
+          <form action="{% url 'counts' %}" method="post" enctype="multipart/form-data">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  {% documentation_icon 'devel/reporting' 'stats' right=True %}
+                  {% trans "Contributor stats" %}
+                </h4>
+              </div>
+              <div class="panel-body">
+                <p>{% trans "Reports the number of strings and words translated by each translator." %}</p>
+                {% crispy reports_form %}
+              </div>
+              <div class="panel-footer">
+                <input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
-</div>
+  </div>
 
 {% endblock %}

@@ -1,61 +1,63 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'about' %}">{% trans "About Weblate" %}</a></li>
+  <li>
+    <a href="{% url 'about' %}">{% trans "About Weblate" %}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "About Weblate" %}</h4></div>
-<div class="panel-body">
-
-{% include "snippets/about.html" %}
-
-</div>
-<div class="panel-footer">
-<a class="btn btn-primary" href="https://weblate.org/donate/">{% trans "Donate to Weblate" %}</a>
-</div>
-</div>
-
-
-{% if offer_hosting %}
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Hosting translations" %}</h4></div>
-<div class="panel-body">
-<p>
-{% trans "This Weblate instance hosts translations for various libre software projects." %}
-{% blocktrans %}Weblate can host your project as well, please get in touch.{% endblocktrans %}
-</p>
-  <p>
-    {% trans "Start your gratis trial today and explore our competitively priced commercial hosting solutions." %}
-  </p>
-</div>
-  <div class="panel-footer">
-  <a class="btn btn-primary" href="{% url 'hosting' %}">{% trans "Ask for Libre hosting" %}</a>
-  <a class="btn btn-primary btn-spaced" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
-{% if payment_enabled %}
-  <a class="btn btn-primary btn-spaced" href="{% url 'trial' %}">{% trans "Gratis trial for commercial hosting" %}</a>
-{% else %}
-  <a class="btn btn-primary btn-spaced" href="{% url 'contact' %}?t=hosting">{% trans "Contact us for commercial hosting" %}</a>
-{% endif %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">{% trans "About Weblate" %}</h4>
+    </div>
+    <div class="panel-body">{% include "snippets/about.html" %}</div>
+    <div class="panel-footer">
+      <a class="btn btn-primary" href="https://weblate.org/donate/">{% trans "Donate to Weblate" %}</a>
+    </div>
   </div>
-</div>
-{% endif %}
 
 
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Weblate is built on libre software" %}</h4></div>
-<div class="panel-body formats">
-{% for ver in versions %}
-  <a class="format-item" href="{{ ver.1 }}">{{ ver.0 }}
-  {% if not hide_version or user.is_superuser %}
-    <span>{{ ver.2 }}</span>
+  {% if offer_hosting %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">{% trans "Hosting translations" %}</h4>
+      </div>
+      <div class="panel-body">
+        <p>
+          {% trans "This Weblate instance hosts translations for various libre software projects." %}
+          {% blocktrans %}Weblate can host your project as well, please get in touch.{% endblocktrans %}
+        </p>
+        <p>{% trans "Start your gratis trial today and explore our competitively priced commercial hosting solutions." %}</p>
+      </div>
+      <div class="panel-footer">
+        <a class="btn btn-primary" href="{% url 'hosting' %}">{% trans "Ask for Libre hosting" %}</a>
+        <a class="btn btn-primary btn-spaced" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
+        {% if payment_enabled %}
+          <a class="btn btn-primary btn-spaced" href="{% url 'trial' %}">{% trans "Gratis trial for commercial hosting" %}</a>
+        {% else %}
+          <a class="btn btn-primary btn-spaced" href="{% url 'contact' %}?t=hosting">{% trans "Contact us for commercial hosting" %}</a>
+        {% endif %}
+      </div>
+    </div>
   {% endif %}
-  </a>
-{% endfor %}
-</div>
-</div>
+
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">{% trans "Weblate is built on libre software" %}</h4>
+    </div>
+    <div class="panel-body formats">
+      {% for ver in versions %}
+        <a class="format-item" href="{{ ver.1 }}">{{ ver.0 }}
+          {% if not hide_version or user.is_superuser %}<span>{{ ver.2 }}</span>{% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
 
 {% endblock %}

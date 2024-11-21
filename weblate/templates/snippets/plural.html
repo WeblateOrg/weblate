@@ -1,15 +1,16 @@
 {% load i18n %}
 
 {% if show_full_language %}
-<tr class="info">
-  <th colspan="3">
-    {% if user_can_edit_language %}
-      <a class="btn btn-primary btn-xs pull-right flip" href="{% url 'edit-plural' pk=plural.pk %}">{% trans "Edit" %}</a>
-    {% endif %}
-    {% blocktrans with source_description=plural.get_source_display %}Plural: {{ source_description }}{% endblocktrans %}
-    <span class="badge">{% blocktrans count count=plural.translation_set.count %}{{ count }} translation{% plural %}{{ count }} translations{% endblocktrans %}</span>
-  </th>
-</tr>
+  <tr class="info">
+    <th colspan="3">
+      {% if user_can_edit_language %}
+        <a class="btn btn-primary btn-xs pull-right flip"
+           href="{% url 'edit-plural' pk=plural.pk %}">{% trans "Edit" %}</a>
+      {% endif %}
+      {% blocktrans with source_description=plural.get_source_display %}Plural: {{ source_description }}{% endblocktrans %}
+      <span class="badge">{% blocktrans count count=plural.translation_set.count %}{{ count }} translation{% plural %}{{ count }} translations{% endblocktrans %}</span>
+    </th>
+  </tr>
 {% endif %}
 <tr>
   <th>{% trans "Number of plurals" %}</th>
@@ -20,21 +21,21 @@
   <td colspan="2">{{ plural.get_type_display }}</td>
 </tr>
 <tr>
-<th rowspan="{{ plural.number }}">{% trans "Plurals" %}</th>
-{% if plural.number > 1 %}
-  {% for item in plural.list_plurals %}
-    {% if item.index > 1 %}
-      <tr>
-    {% endif %}
-    <td>{{ item.name }}</td>
-    <td>{{ item.examples }}</td>
-    </tr>
-  {% endfor %}
-{% else %}
-  <td colspan="2"></td>
+  <th rowspan="{{ plural.number }}">{% trans "Plurals" %}</th>
+  {% if plural.number > 1 %}
+    {% for item in plural.list_plurals %}
+      {% if item.index > 1 %}<tr>{% endif %}
+        <td>{{ item.name }}</td>
+        <td>{{ item.examples }}</td>
+      </tr>
+    {% endfor %}
+  {% else %}
+    <td colspan="2"></td>
   </tr>
 {% endif %}
 <tr>
   <th>{% trans "Plural formula" %}</th>
-  <td colspan="2" class="full-cell"><code>{{ plural.formula }}</code></td>
+  <td colspan="2" class="full-cell">
+    <code>{{ plural.formula }}</code>
+  </td>
 </tr>
