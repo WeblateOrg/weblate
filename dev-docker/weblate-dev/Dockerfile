@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM weblate/weblate:5.8.3.1@sha256:7ec55d964874f6ed0d6b48aab9f389633771ab20173151d8486a603af3a0fed5
+FROM weblate/weblate:5.8.4.0@sha256:0643f9396678b9f60428bef5c88789df540d04574360bb26713155255241f56a
 
 ##########
 # WARNING!
