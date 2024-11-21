@@ -1040,7 +1040,7 @@ class Unit(models.Model, LoggerMixin):
         """Propagate current translation to all others."""
         from weblate.auth.permissions import PermissionResult
 
-        result = False
+        to_update: list[Unit] = []
         for unit in self.same_source_units:
             if unit.target == self.target and unit.state == self.state:
                 continue
@@ -1057,15 +1057,32 @@ class Unit(models.Model, LoggerMixin):
                 continue
             unit.target = self.target
             unit.state = self.state
-            unit.save_backend(
-                user,
-                propagate=False,
-                change_action=change_action,
-                author=None,
-                run_checks=False,
-            )
-            result = True
-        return result
+            unit.commit_if_pending(user)
+            to_update.append(unit)
+
+        if not to_update:
+            return False
+
+        # Bulk update units
+        Unit.objects.filter(pk__in=(unit.pk for unit in to_update)).update(
+            target=self.target,
+            state=self.state,
+            last_updated=self.last_updated,
+        )
+
+        # Postprocess changes and generate change objects
+        changes = [
+            unit.post_save(user, user, None, check_new=False, save=False)
+            for unit in to_update
+        ]
+
+        # Bulk create changes
+        Change.objects.bulk_create(changes)
+
+        # Update user stats
+        user.profile.increase_count("translated", len(to_update))
+
+        return True
 
     def commit_if_pending(self, author: User) -> None:
         """Commit possible previous changes on this unit."""
@@ -1141,8 +1158,28 @@ class Unit(models.Model, LoggerMixin):
             propagate_checks=was_propagated or changed,
         )
 
+        # Generate change and process it
+        self.post_save(user or author, author, change_action)
+
+        # Update related source strings if working on a template
+        if self.translation.is_template and self.old_unit["target"] != self.target:
+            self.update_source_units(self.old_unit["target"], user or author, author)
+
+        return True
+
+    def post_save(
+        self,
+        user: User,
+        author: User | None,
+        change_action: int | None,
+        *,
+        save: bool = True,
+        check_new: bool = True,
+    ) -> Change:
         # Generate Change object for this change
-        change = self.generate_change(user or author, author, change_action)
+        change = self.generate_change(
+            user or author, author, change_action, save=save, check_new=check_new
+        )
 
         if change.action not in {
             Change.ACTION_UPLOAD,
@@ -1164,13 +1201,9 @@ class Unit(models.Model, LoggerMixin):
             )
 
             # Update user stats
-            change.author.profile.increase_count("translated")
-
-        # Update related source strings if working on a template
-        if self.translation.is_template and self.old_unit["target"] != self.target:
-            self.update_source_units(self.old_unit["target"], user or author, author)
-
-        return True
+            if save:
+                change.author.profile.increase_count("translated")
+        return change
 
     def update_source_units(
         self, previous_source: str, user: User, author: User | None
@@ -1229,7 +1262,7 @@ class Unit(models.Model, LoggerMixin):
         self,
         user: User | None,
         author: User | None,
-        change_action: int,
+        change_action: int | None,
         *,
         check_new: bool = True,
         save: bool = True,

@@ -468,6 +468,8 @@ Keeping translations same across components
 Once you have multiple translation components, you might want to ensure that
 the same strings have same translation. This can be achieved at several levels.
 
+.. _translation-propagation:
+
 Translation propagation
 +++++++++++++++++++++++
 
