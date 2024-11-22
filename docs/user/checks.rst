@@ -1865,6 +1865,19 @@ translators to reorder them.
 
 Consider using named variables instead to allow translators to reorder them.
 
+.. _check-prohibited-initial-character:
+
+Prohibited initial character
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.9
+
+:Summary: The string starts with a prohibited character in CSV
+:Scope: source strings
+:Check class: ``weblate.checks.glossary.ProhibitedInitialCharacterCheck``
+:Check identifier: ``prohibited_initial_character``
+:Flag to ignore: ``ignore-prohibited-initial-character``
+
 .. _check-optional-plural:
 
 Unpluralised

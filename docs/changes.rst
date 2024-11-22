@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 * The registration CAPTCHA now includes proof-of-work mechanism ALTCHA.
+* Leading problematic characters in CSV are now checks for :ref:`glossary`, see :ref:`check-prohibited-initial-character`.
 
 **Improvements**
 

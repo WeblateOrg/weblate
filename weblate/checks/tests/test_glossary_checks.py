@@ -103,13 +103,16 @@ class ProhibitedInitialCharacterCheckTest(ViewTestCase):
     CREATE_GLOSSARIES = True
 
     def setUp(self) -> None:
+        """Set up the test."""
         super().setUp()
         self.glossary = self.project.glossaries[0].translation_set.all()[0]
 
     def add_glossary(self, source: str, target="", context=""):
+        """Add a glossary term."""
         return self.glossary.add_unit(None, context, source, target)
 
     def test_prohibited_initial_character(self) -> None:
+        """Check that the check identifies prohibited characters."""
         valid_unit = self.add_glossary("glossary term")
         self.assertFalse(self.check.check_source([], valid_unit))
 
@@ -118,6 +121,7 @@ class ProhibitedInitialCharacterCheckTest(ViewTestCase):
             self.assertTrue(self.check.check_source([], unit))
 
     def test_ignore_prohibited_initial_character(self) -> None:
+        """Check that the check can be ignored with flag."""
         for char in PROHIBITED_INITIAL_CHARS:
             unit = self.add_glossary(f"{char} glossary term")
             unit.extra_flags = "ignore-prohibited-initial-character"

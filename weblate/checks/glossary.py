@@ -93,9 +93,11 @@ class ProhibitedInitialCharacterCheck(SourceCheck):
     source = False  # only apply to source of glossaries
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
+        """Check if the source string starts with a prohibited character."""
         return unit.source and unit.source[0] in PROHIBITED_INITIAL_CHARS
 
     def get_description(self, check_obj) -> str:
+        """Return description of the check."""
         return format_html(
             escape(
                 gettext(

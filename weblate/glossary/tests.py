@@ -506,6 +506,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         )
 
     def test_prohibited_initial_character(self) -> None:
+        """Test that a prohibited initial character in views."""
         self.make_manager()
         response = self.client.post(
             reverse("new-unit", kwargs={"path": self.glossary.get_url_path()}),
