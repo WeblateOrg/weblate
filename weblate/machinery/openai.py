@@ -39,7 +39,7 @@ You do not include transliteration.
 {glossary}
 """
 SEPARATOR = "\n==WEBLATE_PART==\n"
-SEPARATOR_RE = re.compile("\n *==WEBLATE_PART== *\n")
+SEPARATOR_RE = re.compile(r"\n *==WEBLATE_PART== *\n")
 SEPARATOR_PROMPT = f"""
 You receive an input as strings separated by {SEPARATOR} and
 your answer separates strings by {SEPARATOR}.
