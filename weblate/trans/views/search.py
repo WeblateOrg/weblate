@@ -154,7 +154,7 @@ def search(request: AuthenticatedHttpRequest, path=None):
             user=request.user, data=request.GET, show_builder=False
         )
         search_form.is_valid()
-        units = unit_set.prefetch_full().search(
+        units = unit_set.prefetch_bulk().search(
             search_form.cleaned_data.get("q", ""), project=context.get("project")
         )
 

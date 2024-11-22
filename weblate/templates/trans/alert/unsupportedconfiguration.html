@@ -1,21 +1,22 @@
 {% load i18n %}
+
 <p>{% trans "This component is set up incorrectly." %}</p>
 
 <p>{% trans "The following occurrences were found:" %}</p>
 
 <table class="table">
-{% if vcs %}
-<tr>
-<th>{% trans "Version control system" %}</th>
-<td>{{ component.vcs }}</td>
-</tr>
-{% endif %}
-{% if file_format %}
-<tr>
-<th>{% trans "File format" %}</th>
-<td>{{ component.file_format }}</td>
-</tr>
-{% endif %}
+  {% if vcs %}
+    <tr>
+      <th>{% trans "Version control system" %}</th>
+      <td>{{ component.vcs }}</td>
+    </tr>
+  {% endif %}
+  {% if file_format %}
+    <tr>
+      <th>{% trans "File format" %}</th>
+      <td>{{ component.file_format }}</td>
+    </tr>
+  {% endif %}
 </table>
 
 <p>{% trans "This can happen after turning off support for these features, or when dependencies are missing." %}</p>

@@ -1,43 +1,49 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'create-component' %}">{% trans "Create component" %}</a></li>
+  <li>
+    <a href="{% url 'create-component' %}">{% trans "Create component" %}</a>
+  </li>
 {% endblock %}
 
+
 {% block content %}
-{% if not projects %}
-{% trans "You do not have permission to create components in any projects." as msg %}
-{% show_message "warning" msg %}
+  {% if not projects %}
+    {% trans "You do not have permission to create components in any projects." as msg %}
+    {% show_message "warning" msg %}
 
-{% if has_billing %}
-{% include "snippets/billing-failure.html" %}
-{% endif %}
+    {% if has_billing %}
+      {% include "snippets/billing-failure.html" %}
+    {% endif %}
 
-{% else %}
-<form method="post" enctype="multipart/form-data">
-{% csrf_token %}
-<div class="panel panel-default">
-<div class="panel-heading">
-<h4 class="panel-title">
-{% documentation_icon 'admin/projects' 'component' right=True %}
-{% trans "Add new translation component" %}
-</h4>
-</div>
-<div class="panel-body">
-{% crispy form %}
-{% if stage == "create" %}
-<div class="alert alert-info">
-{% trans "You will be able to edit more options in the component settings after creating it." %}
-</div>
-{% endif %}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% if stage != "create" %}{% trans "Continue" %}{% else %}{% trans "Save" %}{% endif %}" class="btn btn-primary" />
-</div>
-</div>
-</form>
-{% endif %}
+  {% else %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'admin/projects' 'component' right=True %}
+            {% trans "Add new translation component" %}
+          </h4>
+        </div>
+        <div class="panel-body">
+          {% crispy form %}
+          {% if stage == "create" %}
+            <div class="alert alert-info">
+              {% trans "You will be able to edit more options in the component settings after creating it." %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="panel-footer">
+          <input type="submit"
+                 value="{% if stage != "create" %}{% trans "Continue" %}{% else %}{% trans "Save" %}{% endif %}"
+                 class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+  {% endif %}
 {% endblock %}

@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM weblate/weblate:5.8.3.1@sha256:7ec55d964874f6ed0d6b48aab9f389633771ab20173151d8486a603af3a0fed5
+FROM weblate/weblate:5.8.4.0@sha256:0643f9396678b9f60428bef5c88789df540d04574360bb26713155255241f56a
 
 ##########
 # WARNING!
@@ -51,7 +51,7 @@ RUN apt-get update && apt-get install -y \
     libgirepository1.0-dev
 
 # List should match weblate/weblate
-RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp/localtime /home
+RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp /home
 
 # Start with fresh venv
 # Using the original would work, but chown on it is super slow, see https://github.com/docker/for-linux/issues/388

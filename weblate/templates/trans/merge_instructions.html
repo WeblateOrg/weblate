@@ -3,40 +3,46 @@
 
 {% if component.get_export_url %}
 
-<h2>{% trans "Typical workflow for fixing merge conflicts" %}</h2>
+  <h2>{% trans "Typical workflow for fixing merge conflicts" %}</h2>
 
-<ol>
-<li>
-{% trans "Open an existing checkout of the upstream repository or perform a fresh one." %}
-</li>
-<li>
-{% trans "Commit all pending changes in Weblate and lock the translation component." %}<br />
-<code>wlc commit; wlc lock</code>
-</li>
-<li>
-{% trans "Add Weblate exported repository as a remote." %}<br />
-<code>git remote add weblate {{ component.get_export_url }} ; git remote update weblate</code>
-</li>
-<li>
-{% trans "Merge Weblate changes and resolve any conflicts." %}<br />
-<code>git merge weblate/{{ component.branch }}</code>
-</li>
-{% if component.merge_style == "rebase" %}
-  <li>
-  {% trans "Rebase Weblate changes on top of upstream and resolve any conflicts." %}<br />
-  <code>git rebase origin/{{ component.branch }}</code>
-  </li>
+  <ol>
+    <li>{% trans "Open an existing checkout of the upstream repository or perform a fresh one." %}</li>
+    <li>
+      {% trans "Commit all pending changes in Weblate and lock the translation component." %}
+      <br />
+      <code>wlc commit; wlc lock</code>
+    </li>
+    <li>
+      {% trans "Add Weblate exported repository as a remote." %}
+      <br />
+      <code>git remote add weblate {{ component.get_export_url }} ; git remote update weblate</code>
+    </li>
+    <li>
+      {% trans "Merge Weblate changes and resolve any conflicts." %}
+      <br />
+      <code>git merge weblate/{{ component.branch }}</code>
+    </li>
+    {% if component.merge_style == "rebase" %}
+      <li>
+        {% trans "Rebase Weblate changes on top of upstream and resolve any conflicts." %}
+        <br />
+        <code>git rebase origin/{{ component.branch }}</code>
+      </li>
+    {% endif %}
+    <li>
+      {% trans "Push changes into upstream repository." %}
+      <br />
+      <code>git push origin {{ component.branch }}</code>
+    </li>
+    <li>
+      {% trans "Weblate should now be able to see updated repository and you can unlock it." %}
+      <br />
+      <code>wlc pull ; wlc unlock</code>
+    </li>
+  </ol>
+
 {% endif %}
-<li>
-{% trans "Push changes into upstream repository." %}<br />
-<code>git push origin {{ component.branch }}</code>
-</li>
-<li>
-{% trans "Weblate should now be able to see updated repository and you can unlock it." %}<br />
-<code>wlc pull ; wlc unlock</code>
-</li>
-</ol>
 
-{% endif %}
-
-<p><a class="button" href="{% documentation "faq" "merge" %}">{% trans "Check the FAQ for info on how to resolve this." %}</a></p>
+<p>
+  <a class="button" href="{% documentation "faq" "merge" %}">{% trans "Check the FAQ for info on how to resolve this." %}</a>
+</p>

@@ -1,84 +1,104 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'manage-ssh' %}">{% trans "SSH keys" %}</a></li>
+  <li>
+    <a href="{% url 'manage' %}">{% trans "Manage" %}</a>
+  </li>
+  <li>
+    <a href="{% url 'manage-ssh' %}">{% trans "SSH keys" %}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-{% include "snippets/ssh-key.html" with key_download=True %}
+  {% include "snippets/ssh-key.html" with key_download=True %}
 
-{% if can_generate %}
-  {% for ssh_key in missing_ssh_keys %}
-    <form method="post">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            {% documentation_icon 'vcs' 'ssh-repos' right=True %}
-            {% blocktrans with key_type=ssh_key.name %}Generate {{ key_type }} SSH key{% endblocktrans %}
-          </h4>
-        </div>
-        <div class="panel-body">
-            <p>{% blocktrans with key_type=ssh_key.name %}You don't seem to have existing {{ key_type }} SSH key, by pressing button below Weblate will generate one for you.{% endblocktrans %}</p>
+  {% if can_generate %}
+    {% for ssh_key in missing_ssh_keys %}
+      <form method="post">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              {% documentation_icon 'vcs' 'ssh-repos' right=True %}
+              {% blocktrans with key_type=ssh_key.name %}Generate {{ key_type }} SSH key{% endblocktrans %}
+            </h4>
+          </div>
+          <div class="panel-body">
+            <p>
+              {% blocktrans with key_type=ssh_key.name %}You don't seem to have existing {{ key_type }} SSH key, by pressing button below Weblate will generate one for you.{% endblocktrans %}
+            </p>
             {% csrf_token %}
             <input type="hidden" name="action" value="generate">
             <input type="hidden" name="type" value="{{ ssh_key.type }}">
+          </div>
+          <div class="panel-footer">
+            <input type="submit"
+                   id="generate-ssh-button"
+                   class="btn btn-primary"
+                   value="{% blocktrans with key_type=ssh_key.name %}Generate new {{ key_type}} SSH key{% endblocktrans %}" />
+          </div>
         </div>
-        <div class="panel-footer">
-          <input type="submit" id="generate-ssh-button" class="btn btn-primary" value="{% blocktrans with key_type=ssh_key.name %}Generate new {{ key_type}} SSH key{% endblocktrans %}" />
-        </div>
-      </div>
-    </form>
-  {% endfor %}
-{% endif %}
-
-    {% if host_keys %}
-<div class="panel panel-default">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    {% documentation_icon 'vcs' 'verify-ssh' right=True %}
-    {% trans "Known host keys" %}
-  </h4>
-</div>
-
-  <table class="table table-striped">
-  <thead>
-  <tr>
-    <th>{% trans "Hostname" %}</th>
-    <th>{% trans "Key type" %}</th>
-    <th>{% trans "Fingerprint" %}</th>
-  </tr>
-  </thead>
-  <tbody>
-    {% for key in host_keys %}
-    <tr class="row{% cycle '1' '2' %}"><td>{{ key.0 }}</td><td>{{ key.1 }}</td><td>{{ key.2 }}</td></tr>
+      </form>
     {% endfor %}
-  </tbody>
-    </table>
-</div>
-    {% endif %}
+  {% endif %}
 
-<form method="post" class="form-inline">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        {% documentation_icon 'vcs' 'verify-ssh' right=True %}
-        {% trans "Add host key" %}
-      </h4>
+  {% if host_keys %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'vcs' 'verify-ssh' right=True %}
+          {% trans "Known host keys" %}
+        </h4>
+      </div>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>{% trans "Hostname" %}</th>
+            <th>{% trans "Key type" %}</th>
+            <th>{% trans "Fingerprint" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key in host_keys %}
+            <tr class="row{% cycle '1' '2' %}">
+              <td>{{ key.0 }}</td>
+              <td>{{ key.1 }}</td>
+              <td>{{ key.2 }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-    <div class="panel-body">
-        <p>{% trans "To access SSH hosts, its host key needs to be verified. You can get the host key by entering a domain name or IP for the host in the form below." %}</p>
+  {% endif %}
+
+  <form method="post" class="form-inline">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'vcs' 'verify-ssh' right=True %}
+          {% trans "Add host key" %}
+        </h4>
+      </div>
+      <div class="panel-body">
+        <p>
+          {% trans "To access SSH hosts, its host key needs to be verified. You can get the host key by entering a domain name or IP for the host in the form below." %}
+        </p>
         {% crispy add_form %}
         <input type="hidden" name="action" value="add-host" />
+      </div>
+      <div class="panel-footer">
+        <input type="submit"
+               id="ssh-add-button"
+               class="btn btn-primary"
+               value="{% trans "Submit" %}" />
+      </div>
     </div>
-    <div class="panel-footer">
-      <input type="submit" id="ssh-add-button" class="btn btn-primary" value="{% trans "Submit" %}" />
-    </div>
-  </div>
-</form>
+  </form>
 
 {% endblock %}

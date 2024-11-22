@@ -1,109 +1,127 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load permissions %}
 {% load crispy_forms_tags %}
 {% load translations %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
-<li><a href="{% url 'fonts' project=object.slug %}">{% trans "Fonts" %}</a></li>
+  <li>
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+  <li>
+    <a href="{% url 'fonts' project=object.slug %}">{% trans "Fonts" %}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-<ul class="nav nav-pills">
-  <li class="active"><a href="#groups" data-toggle="tab" id="tab_groups">{% trans "Font groups" %}</a></li>
-  <li><a href="#fonts" data-toggle="tab" id="tab_fonts">{% trans "Fonts" %}</a></li>
-</ul>
+  <ul class="nav nav-pills">
+    <li class="active">
+      <a href="#groups" data-toggle="tab" id="tab_groups">{% trans "Font groups" %}</a>
+    </li>
+    <li>
+      <a href="#fonts" data-toggle="tab" id="tab_fonts">{% trans "Fonts" %}</a>
+    </li>
+  </ul>
 
-<div class="tab-content">
-<div class="tab-pane active" id="groups">
+  <div class="tab-content">
+    <div class="tab-pane active" id="groups">
 
-<table class="table sort">
-<thead>
-<tr>
-<th>{% trans "Group name" %}</th>
-<th>{% trans "Default font" %}</th>
-<th>{% trans "Language overrides" %}</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-{% for group in group_list %}
-<tr>
-<td>{{ group.name }}</td>
-<td>{{ group.font }}</td>
-<td>
-{% for override in group.fontoverride_set.all %}
-{{ override.language }}: {{ override.font }}<br />
-{% endfor %}
-</td>
-<td><a href="{{ group.get_absolute_url }}" class="btn btn-primary edit-font-group">{% trans "Edit" %}</a></td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
+      <table class="table sort">
+        <thead>
+          <tr>
+            <th>{% trans "Group name" %}</th>
+            <th>{% trans "Default font" %}</th>
+            <th>{% trans "Language overrides" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for group in group_list %}
+            <tr>
+              <td>{{ group.name }}</td>
+              <td>{{ group.font }}</td>
+              <td>
+                {% for override in group.fontoverride_set.all %}
+                  {{ override.language }}: {{ override.font }}
+                  <br />
+                {% endfor %}
+              </td>
+              <td>
+                <a href="{{ group.get_absolute_url }}" class="btn btn-primary edit-font-group">{% trans "Edit" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
-{% if font_list %}
-{% if can_edit %}
-<form method="post" enctype="multipart/form-data">
-{% csrf_token %}
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Add font group" %}</h4></div>
-<div class="panel-body">
-{{ group_form|crispy }}
-</div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+      {% if font_list %}
+        {% if can_edit %}
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">{% trans "Add font group" %}</h4>
+              </div>
+              <div class="panel-body">{{ group_form|crispy }}</div>
+              <div class="panel-footer">
+                <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+              </div>
+            </div>
+          </form>
+        {% endif %}
+      {% else %}
+        {% trans "Please upload fonts to be able to define font groups." as msg %}
+        {% show_message "warning" msg %}
+      {% endif %}
+
+    </div>
+
+    <div class="tab-pane" id="fonts">
+
+      <table class="sort table">
+        <thead>
+          <tr>
+            <th>{% trans "Font family" %}</th>
+            <th>{% trans "Font style" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for font in font_list %}
+            <tr>
+              <td>{{ font.family }}</td>
+              <td>{{ font.style }}</td>
+              <td>
+                <a href="{{ font.get_absolute_url }}" class="btn btn-primary edit-font">{% trans "Edit" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% if can_edit %}
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">{% trans "Add font" %}</h4>
+            </div>
+            <div class="panel-body">{{ font_form|crispy }}</div>
+            <div class="panel-footer">
+              <input type="submit"
+                     class="btn btn-primary"
+                     value="{% trans "Upload" %}"
+                     id="upload_font_submit" />
+            </div>
+          </div>
+        </form>
+      {% endif %}
+
+    </div>
+
   </div>
-</div>
-</form>
-{% endif %}
-{% else %}
-{% trans "Please upload fonts to be able to define font groups." as msg %}
-{% show_message "warning" msg %}
-{% endif %}
-
-</div>
-
-<div class="tab-pane" id="fonts">
-
-<table class="sort table">
-<thead>
-<tr>
-<th>{% trans "Font family" %}</th>
-<th>{% trans "Font style" %}</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-{% for font in font_list %}
-<tr>
-<td>{{ font.family }}</td>
-<td>{{ font.style }}</td>
-<td><a href="{{ font.get_absolute_url }}" class="btn btn-primary edit-font">{% trans "Edit" %}</a></td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-
-{% if can_edit %}
-<form method="post" enctype="multipart/form-data">
-{% csrf_token %}
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Add font" %}</h4></div>
-<div class="panel-body">
-{{ font_form|crispy }}
-</div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-primary" value="{% trans "Upload" %}" id="upload_font_submit" />
-  </div>
-</div>
-</form>
-{% endif %}
-
-</div>
-
-</div>
 
 {% endblock %}

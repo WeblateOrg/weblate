@@ -10,6 +10,8 @@
 {% perm 'vcs.update' component as user_can_update %}
 {% if user_can_update %}
   <p>
-    <a href="" class="btn btn-primary link-post" data-href="{% url "update" path=component.get_url_path %}">{% trans "Update the repository" %}</a>
+    <a href=""
+       class="btn btn-primary link-post"
+       data-href="{% url "update" path=component.get_url_path %}">{% trans "Update the repository" %}</a>
   </p>
 {% endif %}

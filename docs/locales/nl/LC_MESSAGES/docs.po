@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-19 20:00+0000\n"
+"PO-Revision-Date: 2024-11-20 16:01+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -61,8 +61,8 @@ msgid ""
 "Limit user access to individual projects by selecting a different :ref:"
 "`project-access_control` setting. The available options are:"
 msgstr ""
-"Beperk gebruikers toegang tot individuele projecten via een andere :ref:"
-"`project-access_control` instelling keuze. De beschikbare opties zijn:"
+"Beperk toegang van gebruikers tot individuele projecten via een andere keuze "
+"voor de instelling :ref:`project-access_control`. De beschikbare opties zijn:"
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:489
 msgid ":guilabel:`Public`"
@@ -85,7 +85,7 @@ msgid ""
 "**Choose this for open-source projects, or when your Weblate instance is "
 "private or locked-down.**"
 msgstr ""
-"**Kies dit voor publieke code projecten of wanneer uw Weblate-instantie "
+"**Kies dit voor open bron-projecten of wanneer uw instantie van Weblate "
 "privé of beveiligd is.**"
 
 #: ../../admin/access.rst:33 ../../admin/config.rst:491
@@ -166,7 +166,7 @@ msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
 msgstr ""
-"Zelfs `Privé` projectstatistieken zijn meegeteld in de sitebrede "
+"Zelfs `Privé` projectstatistieken worden meegeteld in de sitebrede "
 "statistieken en samenvatting van talen. Dit toont geen projectnamen of "
 "andere informatie."
 
@@ -54833,7 +54833,7 @@ msgstr "Weergave Matrix"
 
 #: ../../user/translating.rst:445
 msgid ""
-"You can compare different languages efficiently using this view It is "
+"You can compare different languages efficiently using this view. It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
@@ -54999,9 +54999,9 @@ msgstr ""
 "gewoonlijk gedaan door een aangewezen gebruiker te maken die wordt "
 "geassocieerd met een Weblate SSH-sleutel (bekijk :ref:`weblate-ssh-key`). Op "
 "deze manier associeert u de Weblate SSH-sleutel aan een enkele gebruiker ("
-"dit wordt vaak afgedwongen door het platform) en geef deze gebruiker toegang "
-"tot de opslagruimte. U kunt dan de URL van SSH gebruiken voor toegang tot de "
-"opslagruimte (bekijk :ref:`ssh-repos`)."
+"dit wordt vaak afgedwongen door het platform) en geeft deze gebruiker "
+"toegang tot de opslagruimte. U kunt dan de URL van SSH gebruiken voor "
+"toegang tot de opslagruimte (bekijk :ref:`ssh-repos`)."
 
 #: ../../vcs.rst:61
 msgid ""
@@ -55476,12 +55476,12 @@ msgstr ""
 "worden gebruikt om een opslagruimte in Weblate te specificeren."
 
 #: ../../vcs.rst:311
-msgid "To clone the ``gnuhello`` project from Launchpad using Bazaar::"
+msgid "To clone the ``gnuhello`` project from Launchpad using Bazaar:"
 msgstr "Het project ``gnuhello`` klonen vanaf Launchpad met Bazaar:"
 
 #: ../../vcs.rst:315
-msgid "For the ``hello`` repository from selenic.com using Mercurial::"
-msgstr "Voor de opslagruimte ``hello`` uit selenic.com met Mercurial::"
+msgid "For the ``hello`` repository from selenic.com using Mercurial:"
+msgstr "Voor de opslagruimte ``hello`` uit selenic.com met Mercurial:"
 
 #: ../../vcs.rst:325
 msgid ""
@@ -55843,6 +55843,11 @@ msgid ""
 "Perl script that lets subversion be used by a Git client, enabling users to "
 "maintain a full clone of the internal repository and commit locally."
 msgstr ""
+"Weblate gebruikt `git-svn`_ voor interactie met opslagruimten van "
+"`subversion`_. Het is een Perl-script dat Subversion in staat stelt te "
+"worden gebruikt door een cliënt van Git, wat gebruikers in staat stelt een "
+"volledige kloon van de interne opslagruimte te onderhouden en lokaal in te "
+"dienen."
 
 #: ../../vcs.rst:567
 msgid ""
@@ -55854,10 +55859,18 @@ msgid ""
 "and you encounter errors, try including the branch name in the repository "
 "URL and leaving branch empty."
 msgstr ""
+"Weblate probeert automatisch de lay-out van de opslagruimte van Subversion "
+"te detecteren - het ondersteunt zowel directe URL's voor tak of "
+"opslagruimten met standaard lay-out (takken/, tags/ en trunk/). Meer "
+"informatie hierover is te vinden in de `git-svn documentatie <https://git-scm"
+".com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_. Als uw "
+"opslagruimte geen standaard lay-out heeft en u fouten tegenkomt, probeer dan "
+"de naam van de tak op te nemen in de URL van de opslagruimte en laat de tak "
+"leeg."
 
 #: ../../vcs.rst:579
 msgid "Subversion credentials"
-msgstr ""
+msgstr "Inloggegevens Subversion"
 
 #: ../../vcs.rst:581
 msgid ""
@@ -55866,16 +55879,24 @@ msgid ""
 "`DATA_DIR` directory. Accept the certificate by using `svn` once with the "
 "`$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
+"Weblate verwacht dat u van tevoren het certificaat hebt geaccepteerd (en uw "
+"inloggegevens indien nodig). Het zal zoeken om ze in te voegen in de map "
+":setting:`DATA_DIR`. Accepteer het certificaat door `svn` eenmaal te "
+"gebruiken met de omgevingsvariabele `$HOME` ingesteld op de "
+":setting:`DATA_DIR`:"
 
 #: ../../vcs.rst:599
 msgid "Local files"
-msgstr ""
+msgstr "Lokale bestanden"
 
 #: ../../vcs.rst:603
 msgid ""
 "Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows "
 "you to switch to using Git natively with full history of your translations."
 msgstr ""
+"Daaronder gebruikt dit :ref:`vcs-git`. Het vereist dat Git is geïnstalleerd "
+"en stelt u in staat om over te schakelen naar Git zelf met de volledige "
+"geschiedenis van uw vertalingen."
 
 #: ../../vcs.rst:606
 msgid ""
@@ -55884,6 +55905,11 @@ msgid ""
 "upload, or add translation strings directly from Weblate (currently "
 "available only for monolingual translations)."
 msgstr ""
+"Weblate kan ook werken zonder een VCS op afstand. De initiële vertalingen "
+"worden geïmporteerd door ze te uploaden. Later kunt u individuele bestanden "
+"vervangen door een bestand te uploaden, of tekenreeksen van vertalingen "
+"direct toe te voegen vanuit Weblate (momenteel alleen beschikbaar voor "
+"eentalige vertalingen)."
 
 #: ../../vcs.rst:611
 msgid ""
@@ -55892,21 +55918,30 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
+"Op de achtergrond maakt Weblate een opslagruimte voor Git voor u en alle "
+"wijzigingen worden daarin bijgehouden. In het geval dat u later bepaalt om "
+"een VCS te gebruiken om de vertalingen op te slaan, heeft u al een "
+"opslagruimte in Weblate waarop u uw integratie kunt baseren."
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
-msgstr ""
+msgstr "Weblate Client"
 
 #: ../../wlc.rst:15
 msgid ""
 "The Weblate Client is shipped separately and includes the Python module. To "
 "use the commands below, you need to install :program:`wlc` using pip:"
 msgstr ""
+"De Weblate Client wordt afzonderlijk geleverd en bevat de module voor "
+"Python. U moet met pip :program:`wlc` installeren om de opdrachten hieronder "
+"te kunnen gebruiken:"
 
 #: ../../wlc.rst:24
 msgid ""
 "You can also use this :program:`wlc` as a Python module, see :mod:`wlc`."
 msgstr ""
+"U kunt ook dit :program:`wlc` als een module voor Python gebruiken, bekijk "
+":mod:`wlc`."
 
 #: ../../wlc.rst:29
 msgid "Docker usage"
@@ -55914,12 +55949,14 @@ msgstr "Docker gebruiken"
 
 #: ../../wlc.rst:31
 msgid "The Weblate Client is also available as a Docker image."
-msgstr ""
+msgstr "De Weblate Client is ook beschikbaar als een Docker image."
 
 #: ../../wlc.rst:33
 msgid ""
 "The image is published on Docker Hub: https://hub.docker.com/r/weblate/wlc"
 msgstr ""
+"De image wordt gepubliceerd op Docker Hub: https://hub.docker.com/r/weblate/"
+"wlc"
 
 #: ../../wlc.rst:35
 msgid "Installing:"
@@ -55931,10 +55968,13 @@ msgid ""
 "deployed in localhost. The API URL and API_KEY can be configured through the "
 "arguments accepted by Weblate."
 msgstr ""
+"De Docker container gebruikt Weblate's standaardinstellingen en verbindt met "
+"de API die is uitgerold op localhost. De URL voor de API en API_KEY kunnen "
+"worden geconfigureerd met de argumenten die worden geaccepteerd door Weblate."
 
 #: ../../wlc.rst:45
 msgid "The command to launch the container uses the following syntax:"
-msgstr ""
+msgstr "De opdracht om de container te starten gebruikt de volgende syntaxis:"
 
 #: ../../wlc.rst:57
 msgid ""
@@ -55942,10 +55982,13 @@ msgid ""
 "easiest approach is to add your current directory as :file:`/home/weblate` "
 "volume:"
 msgstr ""
+"U wilt misschien uw :ref:`wlc-config` doorgeven aan de Docker container, de "
+"gemakkelijkste benadering is om uw huidige map toe te voegen als het volume "
+":file:`/home/weblate`:"
 
 #: ../../wlc.rst:67
 msgid "Getting started"
-msgstr ""
+msgstr "Beginnen"
 
 #: ../../wlc.rst:69
 msgid ""
@@ -55953,10 +55996,13 @@ msgid ""
 "ref:`wlc-config` for other locations), please create it to match your "
 "environment:"
 msgstr ""
+"De configuratie van :program:`wlc` wordt opgeslagen in ``~/.config/weblate`` "
+"(bekijk :ref:`wlc-config` voor andere locaties), maak het passend voor uw "
+"omgeving:"
 
 #: ../../wlc.rst:81
 msgid "You can then invoke commands on the default server:"
-msgstr ""
+msgstr "U kunt dan opdrachten aanroepen op de standaard server:"
 
 #: ../../wlc.rst:90
 msgid ":ref:`wlc-config`"
@@ -55964,11 +56010,12 @@ msgstr ":ref:`wlc-config`"
 
 #: ../../wlc.rst:93
 msgid "Synopsis"
-msgstr ""
+msgstr "Synopsis"
 
 #: ../../wlc.rst:99
 msgid "Commands actually indicate which operation should be performed."
 msgstr ""
+"Opdrachten geven feitelijk aan welke bewerking zou moeten worden uitgevoerd."
 
 #: ../../wlc.rst:104
 msgid ""
@@ -55976,6 +56023,10 @@ msgid ""
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
 "as :command:`wlc` and is built-in on :mod:`wlc`."
 msgstr ""
+"Weblate Client is een bibliotheek van Python en een hulpprogramma om Weblate "
+"op afstand te beheren met de :ref:`api`. Het hulpprogramma voor de "
+"opdrachtregel kan worden aangeroepen als :command:`wlc` en is ingebouwd in "
+":mod:`wlc`."
 
 #: ../../wlc.rst:109
 msgid "Arguments"
@@ -55986,10 +56037,13 @@ msgid ""
 "The program accepts the following arguments which define output format or "
 "which Weblate instance to use. These must be entered before any command."
 msgstr ""
+"Het programma accepteert de volgende argumenten die de indeling voor de "
+"uitvoer definiëren of welke instantie van Weblate te gebruiken. Deze moeten "
+"worden ingevoerd voor een opdracht."
 
 #: ../../wlc.rst:116
 msgid "Specify the output format."
-msgstr ""
+msgstr "Specificeren van de indeling van de uitvoer."
 
 #: ../../wlc.rst:120
 msgid ""
@@ -55997,6 +56051,9 @@ msgid ""
 "see :ref:`wlc-config`. The URL should end with ``/api/``, for example "
 "``https://hosted.weblate.org/api/``."
 msgstr ""
+"Specificeer de URL van de API. Overschrijft elke waarde die wordt gevonden "
+"in het configuratiebestand, bekijk :ref:`wlc-config`. De URL zou moeten "
+"eindigen met ``/api/``, bijvoorbeeld ``https://hosted.weblate.org/api/``."
 
 #: ../../wlc.rst:125
 msgid ""
@@ -56004,14 +56061,20 @@ msgid ""
 "configuration file, see :ref:`wlc-config`. You can find your key in your "
 "profile on Weblate."
 msgstr ""
+"Specificeer de te gebruiken gebruikerssleutel voor de API. Overschrijft elke "
+"gevonden waarde in het configuratiebestand, bekijk :ref:`wlc-config`. U kunt "
+"uw sleutel vinden in uw profiel in Weblate."
 
 #: ../../wlc.rst:130
 msgid "Overrides the configuration file path, see :ref:`wlc-config`."
 msgstr ""
+"Overschrijft het pad voor het configuratiebestand, bekijk :ref:`wlc-config`."
 
 #: ../../wlc.rst:134
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
+"Overschrijft het in gebruik zijnde gedeelte van het configuratiebestand, "
+"bekijk :ref:`wlc-config`."
 
 #: ../../wlc.rst:137
 msgid "Commands"
@@ -56019,183 +56082,212 @@ msgstr "Opdrachten"
 
 #: ../../wlc.rst:139
 msgid "The following commands are available:"
-msgstr ""
+msgstr "De volgende opdrachten zijn beschikbaar:"
 
 #: ../../wlc.rst:143
 msgid "Prints the current version."
-msgstr ""
+msgstr "Drukt de huidige versie af."
 
 #: ../../wlc.rst:147
 msgid "Lists used languages in Weblate."
-msgstr ""
+msgstr "Somt de gebruikte talen in Weblate op."
 
 #: ../../wlc.rst:151
 msgid "Lists projects in Weblate."
-msgstr ""
+msgstr "Somt projecten in Weblate op."
 
 #: ../../wlc.rst:155
 msgid "Lists components in Weblate."
-msgstr ""
+msgstr "Somt onderdelen in Weblate op."
 
 #: ../../wlc.rst:159
 msgid "Lists translations in Weblate."
-msgstr ""
+msgstr "Somt vertalingen in Weblate op."
 
 #: ../../wlc.rst:163
 msgid "Shows Weblate object (translation, component or project)."
-msgstr ""
+msgstr "Geeft object van Weblate weer (vertaling, onderdeel of project)."
 
 #: ../../wlc.rst:167
 msgid "Lists Weblate object (translation, component or project)."
-msgstr ""
+msgstr "Somt object van Weblate op (vertaling, component of project)."
 
 #: ../../wlc.rst:171
 msgid ""
 "Commits changes made in a Weblate object (translation, component or project)."
 msgstr ""
+"Dient wijzigingen in die zijn gemaakt in een object van Weblate (vertaling, "
+"onderdeel of project)."
 
 #: ../../wlc.rst:175
 msgid ""
 "Pulls remote repository changes into Weblate object (translation, component "
 "or project)."
 msgstr ""
+"Haalt wijzigingen vanuit de opslagruimte op afstand op naar een object van "
+"Weblate (vertaling, onderdeel of project)."
 
 #: ../../wlc.rst:179
 msgid ""
 "Pushes Weblate object changes into remote repository (translation, component "
 "or project)."
 msgstr ""
+"Pusht wijzigingen in een object van Weblate naar de opslagruimte op afstand ("
+"vertaling, onderdeel of project)."
 
 #: ../../wlc.rst:185 ../../wlc.rst:241
 msgid "Supported since wlc 0.7."
-msgstr ""
+msgstr "Ondersteund vanaf wlc 0.7."
 
 #: ../../wlc.rst:187
 msgid ""
 "Resets changes in Weblate object to match remote repository (translation, "
 "component or project)."
 msgstr ""
+"Herstelt wijzigingen in object van Weblate om overeen te komen met de "
+"opslagruimte op afstand (vertaling, onderdeel of project)."
 
 #: ../../wlc.rst:193 ../../wlc.rst:258
 msgid "Supported since wlc 0.9."
-msgstr ""
+msgstr "Ondersteund vanaf wlc 0.9."
 
 #: ../../wlc.rst:195
 msgid ""
 "Removes any untracked changes in a Weblate object to match the remote "
 "repository (translation, component or project)."
 msgstr ""
+"Verwijdert niet bijgehouden wijzigingen in een object van Weblate om overeen "
+"te komen met de opslagruimte op afstand (vertaling, onderdeel of project)."
 
 #: ../../wlc.rst:199
 msgid ""
 "Displays repository status for a given Weblate object (translation, "
 "component or project)."
 msgstr ""
+"Geeft de status van de opslagruimte weer voor een bepaald object van Weblate "
+"(vertaling, onderdeel of project)."
 
 #: ../../wlc.rst:203
 msgid ""
 "Displays detailed statistics for a given Weblate object (translation, "
 "component or project)."
 msgstr ""
+"Geeft gedetailleerde statistieken weer voor een bepaald object van Weblate ("
+"vertaling, onderdeel of project)."
 
 #: ../../wlc.rst:209 ../../wlc.rst:217 ../../wlc.rst:225
 msgid "Supported since wlc 0.5."
-msgstr ""
+msgstr "Ondersteund vanaf wlc 0.5."
 
 #: ../../wlc.rst:211
 msgid "Displays lock status."
-msgstr ""
+msgstr "Geeft de status van de vergrendeling weer."
 
 #: ../../wlc.rst:219
 msgid "Locks component from further translation in Weblate."
-msgstr ""
+msgstr "Vergrendelt onderdeel tegen verdere vertaling in Weblate."
 
 #: ../../wlc.rst:227
 msgid "Unlocks translation of Weblate component."
 msgstr ""
+"Heft de vergrendeling tegen de vertaling van het onderdeel van Weblate op."
 
 #: ../../wlc.rst:233
 msgid "Supported since wlc 0.7 and Weblate 2.10."
-msgstr ""
+msgstr "Ondersteund vanaf wlc 0.7 en Weblate 2.10."
 
 #: ../../wlc.rst:235
 msgid "Displays changes for a given object."
-msgstr ""
+msgstr "Geeft wijzigingen weer voor een bepaald object."
 
 #: ../../wlc.rst:243
 msgid "Downloads a translation file."
-msgstr ""
+msgstr "Downloadt een vertaalbestand."
 
 #: ../../wlc.rst:247
 msgid ""
 "Converts file format, if unspecified no conversion happens on the server and "
 "the file is downloaded as is to the repository."
 msgstr ""
+"Converteert bestandsindeling, indien niet gespecificeerd wordt er geen "
+"conversie uitgevoerd op de server en het bestand wordt, zoals het is, "
+"gedownload naar de opslagruimte."
 
 #: ../../wlc.rst:252
 msgid ""
 "Specifies file to save output in, if left unspecified it is printed to "
 "stdout."
 msgstr ""
+"Specificeert het bestand waarin de uitvoer moet worden opgeslagen, indien "
+"niet gespecificeerd wordt het afgedrukt naar stdout."
 
 #: ../../wlc.rst:260
 msgid "Uploads a translation file."
-msgstr ""
+msgstr "Uploadt een vertaalbestand."
 
 #: ../../wlc.rst:264
 msgid "Overwrite existing translations upon uploading."
-msgstr ""
+msgstr "Overschrijf bestaande vertalingen bij uploaden."
 
 #: ../../wlc.rst:268
 msgid ""
 "File from which content is read, if left unspecified it is read from stdin."
 msgstr ""
+"Bestand waaruit inhoud wordt gelezen, indien niet gespecificeerd wordt het "
+"gelezen vanuit stdin."
 
 #: ../../wlc.rst:272
 msgid "Upload method to use, see :ref:`upload-method`."
-msgstr ""
+msgstr "Te gebruiken methode voor uploaden, bekijk :ref:`upload-method`."
 
 #: ../../wlc.rst:280
 msgid "Author name, to override currently authenticated user"
 msgstr ""
+"Naam van de auteur, om de momenteel geauthenticeerde gebruiker te "
+"overschrijven"
 
 #: ../../wlc.rst:284
 msgid "Author e-mail, to override currently authenticated user"
 msgstr ""
+"E-mail van de auteur, om de momenteel geauthenticeerde gebruiker te "
+"overschrijven"
 
 #: ../../wlc.rst:289
 msgid ""
 "You can get more detailed information on invoking individual commands by "
 "passing ``--help``, for example: ``wlc ls --help``."
 msgstr ""
+"U kunt meer gedetailleerde informatie over het aanroepen van individuele "
+"opdrachten krijgen door in te voeren ``--help``, bijvoorbeeld: ``wlc ls "
+"--help``."
 
 #: ../../wlc.rst:295
 msgid "Configuration files"
-msgstr ""
+msgstr "Configuratiebestanden"
 
 #: ../../wlc.rst:297
 msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
-msgstr ""
+msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: ../../wlc.rst:298
 msgid "Per project configuration file"
-msgstr ""
+msgstr "Configuratiebestand per project"
 
 #: ../../wlc.rst:299
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
-msgstr ""
+msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
 
 #: ../../wlc.rst:300
 msgid "User configuration file on Windows."
-msgstr ""
+msgstr "Gebruiker configuratiebestand op Windows."
 
 #: ../../wlc.rst:301
 msgid ":file:`~/.config/weblate`"
-msgstr ""
+msgstr ":file:`~/.config/weblate`"
 
 #: ../../wlc.rst:302
 msgid "User configuration file"
-msgstr ""
+msgstr "Gebruiker configuratiebestand"
 
 #: ../../wlc.rst:303
 msgid ":file:`/etc/xdg/weblate`"
@@ -56203,7 +56295,7 @@ msgstr ":file:`/etc/xdg/weblate`"
 
 #: ../../wlc.rst:304
 msgid "System wide configuration file"
-msgstr ""
+msgstr "Systeembreed configuratiebestand"
 
 #: ../../wlc.rst:306
 msgid ""
@@ -56212,32 +56304,40 @@ msgid ""
 "``XDG_CONFIG_DIRS``. On Windows ``APPDATA`` directory is preferred location "
 "for the configuration file."
 msgstr ""
+"Het programma volgt de specificatie XDG, dus kunt u de plaatsing van de "
+"configuratiebestanden aanpassen met de omgevingsvariabelen "
+"``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``. Op Windows is de map ``APPDATA`` "
+"de voorkeurslocatie voor het configuratiebestand."
 
 #: ../../wlc.rst:310
 msgid ""
 "Following settings can be configured in the ``[weblate]`` section (you can "
 "customize this by :option:`--config-section`):"
 msgstr ""
+"De volgende instellingen kunnen worden geconfigureerd in het gedeelte "
+"``[weblate]`` (u kunt dit aanpassen met :option:`--config-section`):"
 
 #: ../../wlc.rst:315
 msgid "API KEY to access Weblate."
-msgstr ""
+msgstr "API KEY voor toegang tot Weblate."
 
 #: ../../wlc.rst:319
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
-msgstr ""
+msgstr "API server URL, standaard is ``http://127.0.0.1:8000/api/``."
 
 #: ../../wlc.rst:323
 msgid "Path to the default translation - component or project."
-msgstr ""
+msgstr "Pad naar de standaard vertaling - onderdeel of project."
 
 #: ../../wlc.rst:325
 msgid "The configuration file is an INI file, for example:"
-msgstr ""
+msgstr "Het configuratiebestand is een INI-bestand, bijvoorbeeld:"
 
 #: ../../wlc.rst:334
 msgid "Additionally API keys can be stored in the ``[keys]`` section:"
 msgstr ""
+"Aanvullende sleutels voor de API kunnen worden opgeslagen in het gedeelte "
+"``[keys]``:"
 
 #: ../../wlc.rst:341
 msgid ""
@@ -56245,18 +56345,21 @@ msgid ""
 "file:`.weblate` configuration in the VCS repository so that :program:`wlc` "
 "knows which server it should talk to."
 msgstr ""
+"Dit stelt u in staat sleutels op te slaan in uw persoonlijke instellingen, "
+"bij het gebruiken van de configuratie :file:`.weblate` in de opslagruimte "
+"van het VCS zodat :program:`wlc` weet met welke server het zou moeten praten."
 
 #: ../../wlc.rst:346
 msgid "Examples"
-msgstr ""
+msgstr "Voorbeelden"
 
 #: ../../wlc.rst:348
 msgid "Print current program version:"
-msgstr ""
+msgstr "Huidige programmaversie afdrukken:"
 
 #: ../../wlc.rst:355
 msgid "List all projects:"
-msgstr ""
+msgstr "Alle projecten opsommen:"
 
 #: ../../wlc.rst:366
 msgid "Upload translation file:"
@@ -56264,16 +56367,18 @@ msgstr "Vertaalbestand uploaden:"
 
 #: ../../wlc.rst:372
 msgid "You can also designate what project :program:`wlc` should work on:"
-msgstr ""
+msgstr "U kunt ook bepalen met welk project :program:`wlc` zou moeten werken:"
 
 #: ../../wlc.rst:400
 msgid ""
 "With this setup it is easy to commit pending changes in the current project:"
 msgstr ""
+"Met deze opstelling is het gemakkelijk om openstaande wijzigingen in te "
+"dienen in het huidige project:"
 
 #: ../../workflows.rst:4
 msgid "Translation workflows"
-msgstr ""
+msgstr "Werkwijzen voor vertalen"
 
 #: ../../workflows.rst:6
 msgid ""
@@ -56281,12 +56386,19 @@ msgid ""
 "involved in the localization process closer to each other. It is up to you "
 "to decide how many of Weblate features you want to make use of."
 msgstr ""
+"Het gebruiken van Weblate verhoogt de kwaliteit, vermindert handmatig werk "
+"en brengt iedereen, die is betrokken bij het vertaalproces, dichter bij "
+"elkaar. Het is aan u om te bepalen hoeveel mogelijkheden van Weblate u "
+"daarvoor wilt gebruiken."
 
 #: ../../workflows.rst:10
 msgid ""
 "The following is not a complete list of ways to configure Weblate. You can "
 "base other workflows on the examples listed here."
 msgstr ""
+"Het volgende is geen volledige lijst van manieren om Weblate te "
+"configureren. U kunt andere werkwijzen baseren op de hier vermelde "
+"voorbeelden."
 
 #: ../../workflows.rst:16
 msgid "Workflow customization"
@@ -56299,16 +56411,23 @@ msgid ""
 "`component-suggestion_voting`, and :ref:`component-suggestion_autoaccept`), "
 "the translation workflow can be customized per language."
 msgstr ""
+"In aanvulling op de configuratie voor :ref:`project` en :ref:`component` ("
+"zoals :ref:`project-translation_review`, :ref:`component-enable_suggestions`"
+", :ref:`component-suggestion_voting` en :ref:`component-"
+"suggestion_autoaccept`), kan de werkwijze per taal worden aangepast."
 
 #: ../../workflows.rst:24
 msgid ""
 "Site-wide workflow customization can be done while :ref:`changing-languages`."
 msgstr ""
+"Sitebreed aanpassen van de werkwijze kan worden gedaan tijdens :ref"
+":`changing-languages`."
 
 #: ../../workflows.rst:26
 msgid ""
 "Per-project customization can be done on each language page of the project."
 msgstr ""
+"Aanpassen per project kan worden gedaan op elke taalpagina van het project."
 
 #: ../../workflows.rst:28
 msgid ""
@@ -56316,10 +56435,13 @@ msgid ""
 "`project-translation_review` needs to be turned on and can only be disabled "
 "in the per-language customization."
 msgstr ""
+"Alle instellingen voor werkwijzen kunnen worden overschreven, de enige "
+"beperking is dat :ref:`project-translation_review` moet worden ingeschakeld "
+"en kan alleen worden uitgeschakeld in de aanpassing per taal."
 
 #: ../../workflows.rst:32
 msgid "The first existing setting applies:"
-msgstr ""
+msgstr "De eerste bestaande instelling is van toepassing:"
 
 #: ../../workflows.rst:34
 msgid "Project-language customization"
@@ -56338,10 +56460,13 @@ msgid ""
 "Please be careful when using site-wide override as that applies to all "
 "projects (unless they have own overrides for a given language)."
 msgstr ""
+"Wees voorzichtig bij het gebruiken van sitebreed overschrijven, omdat dat "
+"van toepassing is op alle projecten (tenzij zij een eigen overschrijving "
+"hebben voor een bepaalde taal)."
 
 #: ../../workflows.rst:45
 msgid "Translation access"
-msgstr ""
+msgstr "Toegang tot vertaling"
 
 #: ../../workflows.rst:47
 msgid ""
@@ -56350,6 +56475,10 @@ msgid ""
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
+"Het :ref:`toegangsbeheer <access-control>` wordt niet in detail als geheel "
+"besproken in de werkwijzen, omdat de meeste van zijn opties kunnen worden "
+"toegepast op elke werkwijze. Raadpleeg de respectievelijke documentatie over "
+"hoe toegang tot vertalingen te beheren."
 
 #: ../../workflows.rst:52
 msgid ""
@@ -56357,10 +56486,14 @@ msgid ""
 "translation. It can be any authenticated user if the project is public, or a "
 "user with :guilabel:`Translate` permission to the project."
 msgstr ""
+"In de volgende hoofdstukken betekent *elke gebruiker* een gebruiker die "
+"toegang heeft tot de vertaling. Het mag elke geauthenticeerde gebruiker zijn "
+"als het project publiek is, of een gebruiker met het recht "
+":guilabel:`Vertalen` voor het project."
 
 #: ../../workflows.rst:61
 msgid "Each translated string can be in one of the following states:"
-msgstr ""
+msgstr "Elke vertaalde tekenreeks kan in een van de volgende statussen zijn:"
 
 #: ../../workflows.rst:63
 msgid "Untranslated"
@@ -56371,6 +56504,8 @@ msgid ""
 "Translation is empty, it might or not be stored in the file, depending on "
 "the file format."
 msgstr ""
+"Vertaling is leeg, het zou al dan niet opgeslagen kunnen zijn in het "
+"bestand, afhankelijk van de bestandsindeling."
 
 #: ../../workflows.rst:66
 msgid "Needs editing"
@@ -56383,6 +56518,11 @@ msgid ""
 "the file, depending on the file format it might be marked as needing edit "
 "(for example as it gets a ``fuzzy`` flag in the gettext file)."
 msgstr ""
+"Vertaling heeft Bewerken nodig, dit is gewoonlijk het resultaat van een "
+"wijziging in een brontekenreeks, fuzzy overeenkomst of actie van de "
+"vertaler. De vertaling wordt opgeslagen in het bestand, afhankelijk van de "
+"bestandsindeling zou het kunnen zijn gemarkeerd als Bewerken nodig ("
+"bijvoorbeeld als het een vlag ``fuzzy`` krijgt in het bestand van gettext)."
 
 #: ../../workflows.rst:70
 msgid "Waiting for review"
@@ -56393,6 +56533,8 @@ msgid ""
 "Translation is made, but not reviewed. It is stored in the file as a valid "
 "translation."
 msgstr ""
+"Vertaling is gemaakt, maar niet beoordeeld. Het wordt in het bestand "
+"opgeslagen als een geldige vertaling."
 
 #: ../../workflows.rst:73
 msgid "Approved"
@@ -56404,10 +56546,13 @@ msgid ""
 "translators, but only by reviewers. Translators can only add suggestions to "
 "it."
 msgstr ""
+"Vertaling is goedgekeurd bij beoordelen. Het kan niet langer worden "
+"gewijzigd door vertalers, maar alleen door beoordelaars. Vertalers kunnen er "
+"alleen suggesties aan toevoegen."
 
 #: ../../workflows.rst:78
 msgid "This state is only available when reviews are enabled."
-msgstr ""
+msgstr "Deze status is alleen beschikbaar als Beoordelen is ingeschakeld."
 
 #: ../../workflows.rst:79
 msgid "Read-only"
@@ -56419,10 +56564,14 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
+"Tekenreeks is alleen-lezen als resultaat van het hebben van de :ref:`vlag "
+"<custom-checks> ```read-only``, wat betekent dat het een niet te bewerken "
+"brontekenreeks is, of als zodanig is gemarkeerd in het vertaalbestand."
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
 msgstr ""
+"Suggesties worden alleen in Weblate opgeslagen en niet in het vertaalbestand."
 
 #: ../../workflows.rst:86
 msgid "The states are represented in the translation files when possible."
@@ -56435,34 +56584,41 @@ msgid ""
 "to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
 "strings as needing editing."
 msgstr ""
+"Als de bestandsindeling die u gebruikt het opslaan van statussen niet "
+"ondersteund, zou u de add-on :ref:`addon-weblate.flags.same_edit` misschien "
+"willen gebruiken om ongewijzigde tekenreeksen te vlaggen als Bewerken nodig."
 
 #: ../../workflows.rst:96
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
-msgstr ""
+msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
 
 #: ../../workflows.rst:101
 msgid "Direct translation"
-msgstr ""
+msgstr "Directe vertaling"
 
 #: ../../workflows.rst:102
 msgid ""
 "The most common setup for smaller teams, where anybody can translate "
 "directly. This is also the default setup in Weblate."
 msgstr ""
+"De meest voorkomende opstelling voor kleinere teams, waar iedereen direct "
+"kan vertalen. Dat is ook de standaard opstelling in Weblate."
 
 #: ../../workflows.rst:105
 msgid "*Any user* can edit translations."
-msgstr ""
+msgstr "*Elke gebruiker* kan vertalingen bewerken."
 
 #: ../../workflows.rst:106
 msgid ""
 "Suggestions are optional ways to suggest changes, when translators are not "
 "sure about the change."
 msgstr ""
+"Suggesties zijn een optionele manier om wijzigingen voor te stellen, als "
+"vertalers niet zeker zijn over de wijziging."
 
 #: ../../workflows.rst:110 ../../workflows.rst:142 ../../workflows.rst:175
 msgid "Setting"
-msgstr ""
+msgstr "Instelling"
 
 #: ../../workflows.rst:110 ../../workflows.rst:142 ../../workflows.rst:175
 msgid "Note"
@@ -56475,7 +56631,7 @@ msgstr "uit"
 
 #: ../../workflows.rst:112 ../../workflows.rst:144 ../../workflows.rst:177
 msgid "Configured at project level."
-msgstr ""
+msgstr "Geconfigureerd op projectniveau."
 
 #: ../../workflows.rst:114 ../../workflows.rst:146 ../../workflows.rst:148
 #: ../../workflows.rst:177 ../../workflows.rst:179
@@ -56485,6 +56641,7 @@ msgstr "aan"
 #: ../../workflows.rst:114 ../../workflows.rst:179
 msgid "Useful for users to be able to suggest when they are not sure."
 msgstr ""
+"Nuttig voor gebruikers om suggesties in te dienen als zij niet zeker zijn."
 
 #: ../../workflows.rst:121 ../../workflows.rst:153 ../../workflows.rst:186
 msgid "Translators group"
@@ -56536,14 +56693,16 @@ msgstr ""
 #: ../../workflows.rst:150
 msgid "You can set higher value to require more peer reviews."
 msgstr ""
+"U kunt een hogere waarde instellen om meer beoordelingen van collega's te "
+"vragen."
 
 #: ../../workflows.rst:157
 msgid "Not used, all translators review."
-msgstr ""
+msgstr "Niet gebruikt, alle vertalers beoordelen."
 
 #: ../../workflows.rst:163
 msgid "Dedicated reviewers"
-msgstr ""
+msgstr "Aangewezen beoordelaars"
 
 #: ../../workflows.rst:165
 msgid ""
@@ -56551,10 +56710,14 @@ msgid ""
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
 msgstr ""
+"Met aangewezen beoordelaars heeft u twee groepen gebruikers, een die in "
+"staat is vertalingen in te dienen en een die in staat is om ze te beoordelen "
+"om ervoor te zorgen dat vertalingen consistent zijn en dat de kwaliteit goed "
+"is."
 
 #: ../../workflows.rst:169
 msgid "*Any user* can edit unapproved translations."
-msgstr ""
+msgstr "*Elke gebruiker* kan niet goedgekeurde vertalingen bewerken."
 
 #: ../../workflows.rst:170
 msgid "*Reviewer* can approve / unapprove strings."
@@ -56563,18 +56726,21 @@ msgstr "*Nakijker* kan tekenreeksen goedkeuren / afkeuren."
 #: ../../workflows.rst:171
 msgid "*Reviewer* can edit all translations (including approved ones)."
 msgstr ""
+"*Beoordelaar* kan alle vertalingen bewerken (inclusief de goedgekeurde)."
 
 #: ../../workflows.rst:172
 msgid "Suggestions can also be used to suggest changes for approved strings."
 msgstr ""
+"Suggesties kunnen ook worden gebruikt om wijzigingen voor te stellen voor "
+"goedgekeurde tekenreeksen."
 
 #: ../../workflows.rst:190
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
-msgstr ""
+msgstr "Of `Beoordelen` met :ref:`toegangsbeheer per project <manage-acl>`."
 
 #: ../../workflows.rst:196
 msgid "Turning on reviews"
-msgstr ""
+msgstr "Beoordelen inschakelen"
 
 #: ../../workflows.rst:198
 msgid ""
@@ -56582,10 +56748,13 @@ msgid ""
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → :guilabel:`Settings` menu):"
 msgstr ""
+"Beoordelingen kunnen worden ingeschakeld in de projectconfiguratie, op de "
+"subpagina :guilabel:`Werkwijze` van de instellingen voor het project (te "
+"vinden in het menu :guilabel:`Beheren` → :guilabel:`Instellingen`):"
 
 #: ../../workflows.rst:207
 msgid "Quality gateway for the source strings"
-msgstr ""
+msgstr "Route voor de kwaliteit van de brontekenreeksen"
 
 #: ../../workflows.rst:209
 msgid ""
@@ -56596,6 +56765,13 @@ msgid ""
 "can help you address this - there is an additional quality gateway for the "
 "strings between developers and translators."
 msgstr ""
+"In veel gevallen komen de originele brontekenreeksen van ontwikkelaars, "
+"omdat ze de code schrijven en initiële tekenreeksen verschaffen. "
+"Ontwikkelaars zijn echter vaak geen sprekers van de moedertaal voor de "
+"brontaal en verschaffen niet de gewenste kwaliteit voor de brontekenreeksen. "
+"De tussenliggende vertaling kan helpen om dit aan te pakken - er is een "
+"aanvullende route voor de kwaliteit van de tekenreeksen, tussen "
+"ontwikkelaars en vertalers."
 
 #: ../../workflows.rst:215
 msgid ""
@@ -56604,6 +56780,11 @@ msgid ""
 "done, strings are available for translations to target languages, based on "
 "what is now a polished source language."
 msgstr ""
+"Door :ref:`component-intermediate`in te stellen wordt dat bestand gebruikt "
+"voor het vertalen van tekenreeksen naar de brontaal door vertalers/"
+"bewerkers. Als dit stadium eenmaal is gepasseerd zijn de tekenreeksen "
+"beschikbaar voor vertalingen naar de doeltalen, gebaseerd op wat nu een "
+"gepolijste brontaal is."
 
 #: ../../workflows.rst:259
 msgid ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
@@ -56612,7 +56793,7 @@ msgstr ""
 
 #: ../../workflows.rst:266
 msgid "Source strings reviews"
-msgstr ""
+msgstr "Beoordelen van brontekenreeksen"
 
 #: ../../workflows.rst:268
 msgid ""
@@ -56621,6 +56802,11 @@ msgid ""
 "strings. The actual process depends on whether bilingual or monolingual "
 "formats are in use."
 msgstr ""
+"Met :ref:`project-source_review` ingeschakeld kan het proces voor beoordelen "
+"worden toegepast voor de brontekenreeksen. Eenmaal ingeschakeld kunnen "
+"gebruikers problemen rapporteren met brontekenreeksen. Het feitelijke proces "
+"is afhankelijk van het feit of er tweetalige of eentalige indelingen worden "
+"gebruikt."
 
 #: ../../workflows.rst:272
 msgid ""
@@ -56628,6 +56814,10 @@ msgid ""
 "`reviews` — once an issue with a source string is reported, the source "
 "string is marked as :guilabel:`Needs editing`."
 msgstr ""
+"Voor eentalige indelingen zijn functies voor het beoordelen van "
+"brontekenreeksen soortgelijk aan :ref:`reviews` — als eenmaal ene probleem "
+"met een brontekenreeks is gerapporteerd, wordt de brontekenreeks gemarkeerd "
+"als :guilabel:`Bewerken nodig`."
 
 #: ../../workflows.rst:276
 msgid ""
@@ -56637,6 +56827,12 @@ msgid ""
 "translators. You should review such strings and either edit them in the "
 "source code, or remove the label."
 msgstr ""
+"Tweetalige indelingen staan het direct bewerken van brontekenreeksen niet "
+"toe (deze worden gewoonlijk direct uitgenomen uit de broncode). In dat geval "
+"wordt een label :guilabel:`Bron moet beoordeeld worden` gekoppeld aan de "
+"tekenreeksen die worden gerapporteerd door vertalers. U zou dergelijke "
+"tekenreeksen moeten beoordelen en ze ofwel bewerken in de broncode, of het "
+"label moeten verwijderen."
 
 #: ../../workflows.rst:284
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"

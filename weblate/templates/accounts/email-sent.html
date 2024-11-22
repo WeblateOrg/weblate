@@ -1,56 +1,62 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'register' %}">{% trans "Registration" %}</a></li>
-<li><a>{{ title }}</a></li>
+  <li>
+    <a href="{% url 'register' %}">{% trans "Registration" %}</a>
+  </li>
+  <li>
+    <a>{{ title }}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-<div class="container">
+  <div class="container">
 
-  <h2>
-    {% if is_reset %}
-      {% trans "Password reset almost complete" %}
-    {% elif is_remove %}
-      {% trans "Account removal almost complete" %}
-    {% else %}
-      {% trans "Registration almost complete" %}
-    {% endif %}
-  </h2>
+    <h2>
+      {% if is_reset %}
+        {% trans "Password reset almost complete" %}
+      {% elif is_remove %}
+        {% trans "Account removal almost complete" %}
+      {% else %}
+        {% trans "Registration almost complete" %}
+      {% endif %}
+    </h2>
 
-  <p>
-    {% if is_reset %}
-      {% blocktrans %}Follow the password recovery instructions sent to your e-mail inbox.{% endblocktrans %}
-    {% elif is_remove %}
-      {% blocktrans %}Remove your account by clicking the confirmation link sent to your e-mail inbox.{% endblocktrans %}
-    {% else %}
-      {% blocktrans %}Click the confirmation link sent to your e-mail inbox and start using your account.{% endblocktrans %}
-    {% endif %}
-  </p>
+    <p>
+      {% if is_reset %}
+        {% blocktrans %}Follow the password recovery instructions sent to your e-mail inbox.{% endblocktrans %}
+      {% elif is_remove %}
+        {% blocktrans %}Remove your account by clicking the confirmation link sent to your e-mail inbox.{% endblocktrans %}
+      {% else %}
+        {% blocktrans %}Click the confirmation link sent to your e-mail inbox and start using your account.{% endblocktrans %}
+      {% endif %}
+    </p>
 
-  <p>
-    {% blocktrans %}Please look into your spam folder if you cannot see it in your inbox.{% endblocktrans %}
-  </p>
+    <p>
+      {% blocktrans %}Please look into your spam folder if you cannot see it in your inbox.{% endblocktrans %}
+    </p>
 
-  <p>
-    {% blocktrans count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktrans %}
-    {% if is_reset or is_remove %}
-      {% blocktrans %}Request a new confirmation link if it expires.{% endblocktrans %}
-    {% else %}
-      {% blocktrans %}Register again if the confirmation link expires.{% endblocktrans %}
-    {% endif %}
-  </p>
+    <p>
+      {% blocktrans count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktrans %}
+      {% if is_reset or is_remove %}
+        {% blocktrans %}Request a new confirmation link if it expires.{% endblocktrans %}
+      {% else %}
+        {% blocktrans %}Register again if the confirmation link expires.{% endblocktrans %}
+      {% endif %}
+    </p>
 
-  <p>
-    {% translate "E-mail is not an instant technology. Please wait for the confirmation e-mail at least 30 minutes before you write to us about issues." %}
-  </p>
+    <p>
+      {% translate "E-mail is not an instant technology. Please wait for the confirmation e-mail at least 30 minutes before you write to us about issues." %}
+    </p>
 
-  <p>
-    <a href="{% url 'contact' %}?t=reg">{% blocktrans %}If there is a problem with your registration, please contact us.{% endblocktrans %}</a>
-  </p>
+    <p>
+      <a href="{% url 'contact' %}?t=reg">{% blocktrans %}If there is a problem with your registration, please contact us.{% endblocktrans %}</a>
+    </p>
 
-</div>
+  </div>
 {% endblock %}

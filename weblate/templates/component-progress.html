@@ -1,44 +1,56 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load permissions %}
 
 {% block breadcrumbs %}
-{% path_object_breadcrumbs object %}
+  {% path_object_breadcrumbs object %}
 
-<li><a href="{% url 'show_progress' path=object.get_url_path %}">{% trans "Progress" %}</a></li>
+  <li>
+    <a href="{% url 'show_progress' path=object.get_url_path %}">{% trans "Progress" %}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-{% perm 'component.edit' object as user_can_edit_component %}
+  {% perm 'component.edit' object as user_can_edit_component %}
 
-<div class="panel panel-default" data-progress-url="{% url 'api:task-detail' pk=object.background_task %}">
-<div class="panel-heading">{% trans "Component is being updated…" %}</div>
-<div class="panel-body">
+  <div class="panel panel-default"
+       data-progress-url="{% url 'api:task-detail' pk=object.background_task %}">
+    <div class="panel-heading">{% trans "Component is being updated…" %}</div>
+    <div class="panel-body">
 
-<div class="progress">
-  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;"></div>
-</div>
+      <div class="progress">
+        <div class="progress-bar progress-bar-success"
+             role="progressbar"
+             aria-valuenow="{{ progress }}"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             style="width: {{ progress }}%"></div>
+      </div>
 
-<pre class="update-log">
+      <pre class="update-log">
 {{ log }}
 </pre>
-</div>
-<div class="panel-footer">
-<form class="form-inline">
-  <div class="form-group">
-<a href="{% url return_url path=return_target.get_url_path %}" class="btn btn-primary" id="progress-return">{% blocktranslate %}Continue to {{ return_target }}{% endblocktranslate %}</a>
-{% if user_can_edit_component %}
-<a href="#" class="btn btn-danger" id="terminate-task-button">{% trans "Abort the update" %}</a>
-{% endif %}
+    </div>
+    <div class="panel-footer">
+      <form class="form-inline">
+        <div class="form-group">
+          <a href="{% url return_url path=return_target.get_url_path %}"
+             class="btn btn-primary"
+             id="progress-return">{% blocktranslate %}Continue to {{ return_target }}{% endblocktranslate %}</a>
+          {% if user_can_edit_component %}
+            <a href="#" class="btn btn-danger" id="terminate-task-button">{% trans "Abort the update" %}</a>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <input type="checkbox" id="progress-redirect" checked="checked">
+          <label for="progress-redirect">{% trans "Continue after completion" %}</label>
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="form-group">
-    <input type="checkbox" id="progress-redirect" checked="checked">
-    <label for="progress-redirect">{% trans "Continue after completion" %}</label>
-  </div>
-</form>
-</div>
-</div>
 
 {% endblock %}

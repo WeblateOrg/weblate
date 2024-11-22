@@ -1,27 +1,27 @@
 {% load i18n %}
 
 <p>
-{% blocktrans %}Please click on the confirmation button below. In case it doesn't work you might need to copy the URL on next line into the browser address bar to proceed.{% endblocktrans %}
+  {% blocktrans %}Please click on the confirmation button below. In case it doesn't work you might need to copy the URL on next line into the browser address bar to proceed.{% endblocktrans %}
 </p>
 
 <code>
-{{ current_site_url }}{{ url }}
+  {{ current_site_url }}{{ url }}
 </code>
 
 <p>
-{% blocktrans count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktrans %}
+  {% blocktrans count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktrans %}
 </p>
 
 <div class="line buttons">
-{% if action == "reset" %}
-<a class="button" href="{{ url }}">{% trans "Confirm password reset" %}</a>
-{% elif action == "remove" %}
-<a class="button" href="{{ url }}">{% trans "Confirm account removal" %}</a>
-{% elif action == "invite" %}
-<a class="button" href="{{ url }}">{% trans "Confirm invitation" %}</a>
-{% else %}
-<a class="button" href="{{ url }}">{% trans "Confirm registration" %}</a>
-{% endif %}
+  {% if action == "reset" %}
+    <a class="button" href="{{ url }}">{% trans "Confirm password reset" %}</a>
+  {% elif action == "remove" %}
+    <a class="button" href="{{ url }}">{% trans "Confirm account removal" %}</a>
+  {% elif action == "invite" %}
+    <a class="button" href="{{ url }}">{% trans "Confirm invitation" %}</a>
+  {% else %}
+    <a class="button" href="{{ url }}">{% trans "Confirm registration" %}</a>
+  {% endif %}
 </div>
 
 <p>

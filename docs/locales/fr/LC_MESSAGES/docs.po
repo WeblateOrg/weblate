@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-19 20:00+0000\n"
+"PO-Revision-Date: 2024-11-21 18:53+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -26964,6 +26964,9 @@ msgid ""
 "changes in ``INSTALLED_APPS`` and ``LOGOUT_REDIRECT_URL``, please adjust "
 "your settings accordingly."
 msgstr ""
+"Il y a plusieurs modifications dans :file:`settings_example.py`, en "
+"particulier concernant ``INSTALLED_APPS`` et ``LOGOUT_REDIRECT_URL``, "
+"veuillez réaligner vos paramètres en conséquence."
 
 #: ../../changes.rst:519
 #, fuzzy
@@ -27006,6 +27009,8 @@ msgid ""
 "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:"
 "`manage-appearance`."
 msgstr ""
+"Ajustement de la valeur par défaut :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` "
+"pour ne pas bloquer :ref:`manage-appearance`."
 
 #: ../../changes.rst:532
 #, fuzzy
@@ -27022,14 +27027,17 @@ msgstr "Nouveau module :ref:`addon-weblate.generate.prefill`."
 #: ../../changes.rst:534
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
 msgstr ""
+":ref:`azure-setup` gère aimablement les dépôts avec des espaces dans l'URL."
 
 #: ../../changes.rst:535
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
 msgstr ""
+":ref:`mt-deepl` gère aimablement les glossaires pour différentes variantes "
+"de langues."
 
 #: ../../changes.rst:536
 msgid ":doc:`/formats/excel` better handles blank cells."
-msgstr ""
+msgstr ":doc:`/formats/excel` gère mieux les cellules vides."
 
 #: ../../changes.rst:537
 #, fuzzy
@@ -27071,10 +27079,13 @@ msgstr "Version publiée le 22 février 2020."
 #: ../../changes.rst:553
 msgid "Displaying debugging page in case of database connection issues."
 msgstr ""
+"Affichage de la page de débogage s'il y a un problème de connexion à la base "
+"de données."
 
 #: ../../changes.rst:554 ../../changes.rst:570
 msgid "Gracefully handle migration with duplicate built-in teams."
 msgstr ""
+"Gère aimablement la migration quand des équipes intégrées sont en doublon."
 
 #: ../../changes.rst:560
 #, fuzzy
@@ -27105,6 +27116,8 @@ msgid ""
 "Possible crash on Weblate upgrade check when cached from the previous "
 "versions."
 msgstr ""
+"Erreur possible lors de l'exécution du contrôle de la mise à jour de Weblate "
+"lorsqu'il est réalisé à partir de versions précédentes."
 
 #: ../../changes.rst:576
 #, fuzzy
@@ -27151,10 +27164,13 @@ msgstr ":doc:`tt:formats/flatxml`"
 #: ../../changes.rst:588
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
 msgstr ""
+"La syntaxe de l'entrée de  la recherche est maintenant mise en valeur, voir "
+":doc:`/user/search`."
 
 #: ../../changes.rst:589
+#, fuzzy
 msgid "Weblate is now available in தமிழ்."
-msgstr ""
+msgstr "Weblate est maintenant disponible en tamoul."
 
 #: ../../changes.rst:593
 #, fuzzy
@@ -27170,7 +27186,7 @@ msgstr ":ref:`addon-weblate.discovery.discovery`"
 
 #: ../../changes.rst:595
 msgid "Adding string in a repository triggers :ref:`subscriptions`."
-msgstr ""
+msgstr "Ajouter une chaîne dans un dépôt déclenche :ref:`subscriptions`."
 
 #: ../../changes.rst:596
 #, fuzzy
@@ -27192,14 +27208,18 @@ msgstr ""
 msgid ""
 "Text variant of notification e-mails now properly indicate changed strings."
 msgstr ""
+"Les variantes textuelles de la notification par courriel indiquent "
+"maintenant correctement les chaînes modifiées."
 
 #: ../../changes.rst:599
 msgid "File downloads now honor :http:header:`If-Modified-Since`."
 msgstr ""
+"Les téléchargements de fichiers respectent dorénavant :http:header:`If-"
+"Modified-Since`."
 
 #: ../../changes.rst:600
 msgid ":ref:`num-words` support for CJK languages."
-msgstr ""
+msgstr ":ref:`num-words` prend en charge les langues CJK."
 
 #: ../../changes.rst:601
 #, fuzzy
@@ -27210,7 +27230,7 @@ msgstr ":ref:`addon-weblate.discovery.discovery`"
 
 #: ../../changes.rst:602
 msgid "Nicer formatting of :ref:`glossary` tooltips."
-msgstr ""
+msgstr "Mise en forme plus agréable des conseils :ref:`glossary`."
 
 #: ../../changes.rst:603
 #, fuzzy
@@ -27240,7 +27260,7 @@ msgstr ""
 
 #: ../../changes.rst:609
 msgid "Added missing documentation for :setting:`ADMINS_CONTACT`."
-msgstr ""
+msgstr "La documentation manquante de :setting:`ADMINS_CONTACT` a été ajoutée."
 
 #: ../../changes.rst:610
 msgid ""
@@ -38241,6 +38261,10 @@ msgid ""
 "sensitive nature of security issues, we ask that they not be publicly "
 "reported in this fashion."
 msgstr ""
+"La plupart des bogues standard de Weblate sont rapportés dans notre `"
+"Gestionnaire public de problèmes GitHub <https://github.com/WeblateOrg/"
+"weblate/issues>`_, mais à cause du caractère sensible des problèmes de "
+"sécurité nous demandons à ce qu'ils ne soient pas divulgués de cette façon."
 
 #: ../../contributing/issues.rst:30
 msgid ""
@@ -38249,16 +38273,24 @@ msgid ""
 "org, `GitHub <https://github.com/WeblateOrg/weblate/security/advisories/"
 "new>`_, or using `HackerOne <https://hackerone.com/weblate>`_."
 msgstr ""
+"A la place, si vous croyez avoir trouvé quelque chose dans Weblate qui "
+"porterait atteint à la sécurité, veuillez soumettre la description du "
+"problème à security@weblate.org, `GitHub <https://github.com/WeblateOrg/"
+"weblate/security/advisories/new>`_, ou utiliser `HackerOne <https://hackerone"
+".com/weblate>`_."
 
 #: ../../contributing/issues.rst:35
 msgid ""
 "A member of the security team will respond to you within 48 hours, and "
 "depending on what action is taken, you may get more follow-up emails."
 msgstr ""
+"Un membre de l'équipe sécurité vous répondra dans les 48 heures et en "
+"fonction de l'action qui aura été décidée vous pourrez recevoir d'autres "
+"courriels ultérieurement."
 
 #: ../../contributing/issues.rst:40
 msgid "**Sending encrypted reports**"
-msgstr ""
+msgstr "**Envoyer des rapports cryptés**"
 
 #: ../../contributing/issues.rst:42
 msgid ""
@@ -38267,6 +38299,10 @@ msgid ""
 "B313 42B7 511D``. This public key is available on the most commonly used key "
 "servers, and from `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
+"Si vous souhaitez envoyer un courriel crypté (*facultatif*), veuillez "
+"utiliser la clé publique pour michal@weblate.org avec l'ID ``3CB 1DF1 EF12 "
+"CF2A C0EE  5A32 9C27 B313 42B7 511D``. Elle est disponible sur la plupart "
+"des serveurs de clés habituels et sur `Keybase <https://keybase.io/nijel>`_."
 
 #: ../../contributing/issues.rst:49
 msgid ""
@@ -38274,10 +38310,13 @@ msgid ""
 "a vulnerability affecting one of those components in general, please report "
 "it directly to the respective project."
 msgstr ""
+"Weblate dépend de composants tiers pour plusieurs sujets. Si vous rencontrez "
+"une faille affectant l'un de ces composants en général, veuillez la "
+"rapporter directement au projet concerné."
 
 #: ../../contributing/issues.rst:53
 msgid "Some of these are:"
-msgstr ""
+msgstr "Dont :"
 
 #: ../../contributing/issues.rst:55
 msgid ":doc:`Django <django:internals/security>`"
@@ -38287,6 +38326,8 @@ msgstr ":doc:`Django <django:internals/security>`"
 msgid ""
 "`Django REST framework <https://www.django-rest-framework.org/#security>`_"
 msgstr ""
+"`environnement Django REST <https://www.django-rest-framework.org/"
+"#security>`_"
 
 #: ../../contributing/issues.rst:57
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
@@ -51736,7 +51777,7 @@ msgstr "Vue matricielle"
 
 #: ../../user/translating.rst:445
 msgid ""
-"You can compare different languages efficiently using this view It is "
+"You can compare different languages efficiently using this view. It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
@@ -52304,13 +52345,13 @@ msgstr ""
 "pour spécifier un dépôt dans Weblate."
 
 #: ../../vcs.rst:311
-msgid "To clone the ``gnuhello`` project from Launchpad using Bazaar::"
+msgid "To clone the ``gnuhello`` project from Launchpad using Bazaar:"
 msgstr ""
-"Pour cloner le projet ``gnuhello`` depuis Launchpad en utilisant Bazaar::"
+"Pour cloner le projet ``gnuhello`` depuis Launchpad en utilisant Bazaar:"
 
 #: ../../vcs.rst:315
-msgid "For the ``hello`` repository from selenic.com using Mercurial::"
-msgstr "Pour le dépôt ``hello`` de selenic.com en utilisant Mercurial::"
+msgid "For the ``hello`` repository from selenic.com using Mercurial:"
+msgstr "Pour le dépôt ``hello`` de selenic.com en utilisant Mercurial:"
 
 #: ../../vcs.rst:325
 msgid ""

@@ -1,12 +1,13 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}{% load translations %}
+{% load i18n %}
+{% load translations %}
 
 {% block content %}
-<p>
-{% blocktrans %}There was a request to remove your Weblate account at {{ site_title }}.{% endblocktrans %}
-</p>
+  <p>
+    {% blocktrans %}There was a request to remove your Weblate account at {{ site_title }}.{% endblocktrans %}
+  </p>
 
-{% include "mail/shared-registration.html" with action="remove" %}
+  {% include "mail/shared-registration.html" with action="remove" %}
 
 {% endblock %}

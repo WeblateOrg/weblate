@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load crispy_forms_tags %}
@@ -6,24 +7,26 @@
 {% block content %}
 
 
-{% if form.errors %}
-{% trans "Please fix errors in the registration form." as msg %}
-{% show_message "error" msg %}
-{% endif %}
+  {% if form.errors %}
+    {% trans "Please fix errors in the registration form." as msg %}
+    {% show_message "error" msg %}
+  {% endif %}
 
-<form action="{% url 'email_login' %}" method="post" accept-charset="utf-8">
+  <form action="{% url 'email_login' %}" method="post" accept-charset="utf-8">
 
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Verify new e-mail address" %}</h4></div>
-  <div class="panel-body">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">{% trans "Verify new e-mail address" %}</h4>
+      </div>
+      <div class="panel-body">
 
-{% csrf_token %}
-{{ form|crispy }}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans 'Register' %}" class="btn btn-primary" />
-</div>
-</div>
-</form>
+        {% csrf_token %}
+        {{ form|crispy }}
+      </div>
+      <div class="panel-footer">
+        <input type="submit" value="{% trans 'Register' %}" class="btn btn-primary" />
+      </div>
+    </div>
+  </form>
 
 {% endblock %}

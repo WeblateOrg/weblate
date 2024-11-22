@@ -17,8 +17,10 @@ Not yet released.
 * Editor in :ref:`zen-mode` is now stick to bottom of screen.
 * Added page navigation while :ref:`translating`.
 * :ref:`manage-appearance` now has distinct settings for dark mode.
+* Improved :ref:`translation-propagation` performance.
 
 **Bug fixes**
+* Using the `has:variant` field now correctly displays strings that have variant(s) in the search language, see :ref:`search-strings`.
 
 **Compatibility**
 

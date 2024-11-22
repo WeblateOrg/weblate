@@ -45,6 +45,7 @@ jobs:
         done
 
     - run: ./scripts/yarn-update
+      if: hashFiles('scripts/yarn-update') != ''
 
     - run: |
         if [ -d client ] ; then

@@ -3,8 +3,8 @@
 
 {% perm 'project.edit' project as user_can_edit_project %}
 {% if user_can_edit_project %}
-{% url 'labels' project=project.slug as url %}
-{% blocktrans %}Additional labels can be defined in the <a href="{{ url }}">project settings</a>.{% endblocktrans %}
+  {% url 'labels' project=project.slug as url %}
+  {% blocktrans %}Additional labels can be defined in the <a href="{{ url }}">project settings</a>.{% endblocktrans %}
 {% else %}
-{% trans "Additional labels can be defined by project administrators." %}
+  {% trans "Additional labels can be defined by project administrators." %}
 {% endif %}

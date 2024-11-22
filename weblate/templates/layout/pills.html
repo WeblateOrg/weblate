@@ -1,6 +1,4 @@
-<ul{% if tabs.css_id %} id="{{ tabs.css_id }}"{% endif %} class="nav nav-pills">
-    {{ links|safe }}
+<ul {% if tabs.css_id %}id="{{ tabs.css_id }}"{% endif %} class="nav nav-pills">
+  {{ links|safe }}
 </ul>
-<div class="tab-content panel-body">
-    {{ content|safe }}
-</div>
+<div class="tab-content panel-body">{{ content|safe }}</div>
