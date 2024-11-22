@@ -6,9 +6,7 @@
 {% if LANGUAGE_BIDI %}
   <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap-rtl.css' %}{{ cache_param }}" />
 {% endif %}
-  {% if not fonts_cdn_url %}
   <link rel="stylesheet" href="{% static 'js/vendor/fonts/fonts.css' %}{{ cache_param }}" />
-  {% endif %}
   <link rel="stylesheet" href="{% static 'js/vendor/multi.css' %}{{ cache_param }}" />
   <link rel="stylesheet" href="{% static 'styles/new-language.css' %}{{ cache_param }}" />
   <link rel="stylesheet" href="{% static 'styles/variables.css' %}{{ cache_param }}" />
@@ -20,9 +18,6 @@
   <link rel="stylesheet" href="{% static 'style-dark.css' %}{{ cache_param }}" />
 {% endif %}
 {% endcompress %}
-{% if fonts_cdn_url %}
-  <link rel="stylesheet" href="{{ fonts_cdn_url }}fonts/fonts.css" />
-{% endif %}
 {% if custom_css_hash %}
   <link rel="stylesheet" href="{% url "css-custom" %}?{{ custom_css_hash }}" />
 {% endif %}
