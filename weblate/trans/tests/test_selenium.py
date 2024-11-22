@@ -63,10 +63,11 @@ TEST_BACKENDS = (
 SOURCE_FONT = os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
     "static",
+    "js",
     "vendor",
+    "fonts",
     "font-source",
-    "TTF",
-    "SourceSans3-Bold.ttf",
+    "1e0985b2379656710502.ttf",
 )
 
 
