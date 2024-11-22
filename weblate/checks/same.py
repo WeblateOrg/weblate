@@ -54,7 +54,7 @@ SPLIT_RE = re.compile(
     re.IGNORECASE,
 )
 
-EMOJI_RE = re.compile("[\U00002600-\U000027bf]|[\U0001f000-\U0001fffd]")
+EMOJI_RE = re.compile(r"[\U00002600-\U000027bf]|[\U0001f000-\U0001fffd]")
 
 # Docbook tags to ignore
 DB_TAGS = ("screen", "indexterm", "programlisting")
