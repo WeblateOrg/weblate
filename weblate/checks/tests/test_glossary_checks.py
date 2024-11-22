@@ -2,9 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from weblate.checks.glossary import GlossaryCheck
+from weblate.checks.glossary import GlossaryCheck, ProhibitedInitialCharacterCheck
 from weblate.checks.models import Check
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -95,3 +96,32 @@ class GlossaryCheckTest(ViewTestCase):
             self.check.get_description(check),
             "Following terms are not translated according to glossary: hello",
         )
+
+
+class ProhibitedInitialCharacterCheckTest(ViewTestCase):
+    check = ProhibitedInitialCharacterCheck()
+    CREATE_GLOSSARIES = True
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.glossary = self.project.glossaries[0].translation_set.all()[0]
+
+    def add_glossary(self, source: str, target="", context=""):
+        return self.glossary.add_unit(None, context, source, target)
+
+    def test_prohibited_initial_character(self) -> None:
+        valid_unit = self.add_glossary("glossary term")
+        self.assertFalse(self.check.check_source([], valid_unit))
+
+        for char in PROHIBITED_INITIAL_CHARS:
+            unit = self.add_glossary(f"{char} glossary term")
+            self.assertTrue(self.check.check_source([], unit))
+
+    def test_ignore_prohibited_initial_character(self) -> None:
+        for char in PROHIBITED_INITIAL_CHARS:
+            unit = self.add_glossary(f"{char} glossary term")
+            unit.extra_flags = "ignore-prohibited-initial-character"
+
+            # reset all_flags to reset cached_property
+            unit.all_flags = unit.get_all_flags()
+            self.assertFalse(self.check.check_source([], unit))
