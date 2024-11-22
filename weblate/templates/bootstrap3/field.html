@@ -12,12 +12,8 @@
         <div class="controls {% for offset in bootstrap_checkbox_offsets %}{{ offset }}{% endfor %}{{ field_class }}">
         {% endif %}
       {% endif %}
-      <
-      {% if tag %}
-        {{ tag }}
-      {% else %}
-        div
-      {% endif %}
+      {# djlint:off #}
+      <{% if tag %}{{ tag }}{% else %}div{% endif %}
       id="div_{{ field.auto_id }}"
       {% if not field|is_checkbox %}
         class="form-group
@@ -30,6 +26,7 @@
       {% endif %}
       {% if field.css_classes %}{{ field.css_classes }}{% endif %}
       ">
+      {# djlint:on #}
       {% if field.label and not field|is_checkbox and form_show_labels %}
         <label {% if field.id_for_label and not field|is_radioselect %}for="{{ field.id_for_label }}"{% endif %}
                class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">
@@ -72,13 +69,9 @@
           </div>
         {% endif %}
       {% endif %}
-      </
-      {% if tag %}
-        {{ tag }}
-      {% else %}
-        div
-      {% endif %}
-      >
+      {# djlint:off #}
+      </{% if tag %}{{ tag }}{% else %}div{% endif %}>
+      {# djlint:on #}
       {% if field|is_checkbox %}
         {% if label_class %}</div>{% endif %}
     </div>
