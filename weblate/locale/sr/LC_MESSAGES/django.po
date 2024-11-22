@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 07:40+0000\n"
-"PO-Revision-Date: 2024-11-08 17:00+0000\n"
+"PO-Revision-Date: 2024-11-22 07:59+0000\n"
 "Last-Translator: Reno Tx <renotx@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/"
 "application/sr/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -436,10 +436,9 @@ msgid "Account removal confirmation sent to {email}."
 msgstr "Потврда о уклањању налога је послата на {email}."
 
 #: weblate/accounts/models.py:187
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "Споразум са генералним условима и одредбама {датум}."
+msgstr "Споразум са генералним условима и одредбама {date}."
 
 #: weblate/accounts/models.py:188
 #, python-brace-format
@@ -4471,8 +4470,6 @@ msgid "TermBase eXchange file"
 msgstr "TermBase eXchange фајл"
 
 #: weblate/formats/ttkit.py:2088
-#, fuzzy
-#| msgid "mi18n lang file"
 msgid "@draggable/i18n lang file"
 msgstr "@draggable/i18n језички фајл"
 
@@ -4811,16 +4808,10 @@ msgid "Language %s removed."
 msgstr "Уклоњен је %s језик."
 
 #: weblate/legal/forms.py:11
-#, fuzzy
-#| msgid "I agree with the Terms of Service document"
 msgid "I agree with the General Terms and Conditions document"
 msgstr "Слажем се са документом генералних услова и одредби"
 
 #: weblate/legal/middleware.py:50
-#, fuzzy
-#| msgid ""
-#| "We have a new version of the Terms of Service document, please read it "
-#| "and confirm that you agree with it."
 msgid ""
 "We have an updated version of the General Terms and Conditions document, "
 "please read it and confirm that you agree with it."
@@ -4839,14 +4830,10 @@ msgid "Legal"
 msgstr "Правне одредбе"
 
 #: weblate/legal/templates/legal/confirm.html:13
-#, fuzzy
-#| msgid "You have to agree to the Terms of Service"
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "Морате се сложити са генералним условима и одредбама"
 
 #: weblate/legal/templates/legal/confirm.html:15
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "Please read following General Terms and Conditions document:"
 msgstr "Молимо вас да прочитате следећи документ генералних услова и одредби:"
 
@@ -4875,10 +4862,6 @@ msgstr "Политика колачића"
 
 #: weblate/legal/templates/legal/cookies.html:18
 #: weblate/legal/templates/legal/index.html:24
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
@@ -4892,7 +4875,6 @@ msgstr ""
 #: weblate/legal/templates/legal/index.html:29
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:19
 #: weblate/templates/snippets/login-info.html:11
-#, fuzzy
 msgid "General Terms and Conditions"
 msgstr "Генерални услови и одредбе"
 
@@ -7961,10 +7943,8 @@ msgid "Screenshots"
 msgstr "Снимци екрана"
 
 #: weblate/templates/component.html:101
-#, fuzzy
-#| msgid "Create component"
 msgid "Duplicate Component"
-msgstr "Направи компоненту"
+msgstr "Дуплирај компоненту"
 
 #: weblate/templates/component.html:102 weblate/templates/guide.html:9
 #: weblate/templates/guide.html:25
@@ -10283,14 +10263,10 @@ msgid "Paste from clipboard"
 msgstr "Налепите из клипборда"
 
 #: weblate/templates/search.html:23
-#, fuzzy
-#| msgid "Strings"
 msgid "strings"
 msgstr "ниске"
 
 #: weblate/templates/search.html:23
-#, fuzzy
-#| msgid "Words"
 msgid "words"
 msgstr "речи"
 
@@ -10620,10 +10596,8 @@ msgid "Last change"
 msgstr "Последња промена"
 
 #: weblate/templates/snippets/info.html:177
-#, fuzzy
-#| msgid "Last change"
 msgid "Last change made by"
-msgstr "Последња промена од"
+msgstr "Последња измена од"
 
 #: weblate/templates/snippets/info.html:203
 msgid "Aliased language codes"
@@ -10937,10 +10911,6 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "Регистрацијом и пријавом на ову услугу прихватате наше:"
 
 #: weblate/templates/snippets/login-info.html:19
-#, fuzzy
-#| msgid ""
-#| "Quick overview of the Terms of Service and the Privacy Policy, but you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
@@ -10990,8 +10960,6 @@ msgid "First"
 msgstr "Први"
 
 #: weblate/templates/snippets/position-field.html:10
-#, fuzzy
-#| msgid "Previous translation:"
 msgid "Previous section"
 msgstr "Претходни превод:"
 
@@ -11014,10 +10982,8 @@ msgid "/ %(filter_count)s"
 msgstr "/ %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:35
-#, fuzzy
-#| msgid "Text direction"
 msgid "Next section"
-msgstr "Смер текста"
+msgstr "Следећа секција"
 
 #: weblate/templates/snippets/position-field.html:37
 #: weblate/templates/snippets/position-field.html:40
@@ -15109,10 +15075,7 @@ msgid "Failed adding string, no translation found."
 msgstr "Неуспело додавање ниске, превод није пронађен."
 
 #: weblate/trans/models/unit.py:1053
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "Ниска није могла бити пренета на %(component)s: %(reason)s"
 
