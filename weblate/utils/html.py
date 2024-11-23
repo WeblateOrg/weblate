@@ -71,7 +71,7 @@ CLEAN_CONTENT_TAGS = {"script", "style"}
 
 # Allow some chars:
 # - non breakable space
-SANE_CHARS = re.compile("[\xa0]")
+SANE_CHARS = re.compile(r"[\xa0]")
 
 
 class MarkupExtractor(ParserTarget):
@@ -186,5 +186,5 @@ def mail_quote_value(text: str) -> str | SafeString:
     return format_html_join(
         "",
         "{}",
-        ((mail_quote_char(part),) for part in re.split("([.:])", text)),
+        ((mail_quote_char(part),) for part in re.split(r"([.:])", text)),
     )

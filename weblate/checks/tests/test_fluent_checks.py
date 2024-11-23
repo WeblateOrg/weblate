@@ -287,7 +287,7 @@ class FluentSyntaxCheckTestBase:
     def test_syntax_errors(self) -> None:
         # The error message comes from translate, we just look for the prefix
         # and a non-empty error.
-        error_message = re.compile("^Fluent syntax error: .")
+        error_message = re.compile(r"^Fluent syntax error: .")
         for value in (
             "open { ref",
             "close } ref",

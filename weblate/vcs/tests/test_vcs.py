@@ -1030,7 +1030,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
     def test_fails_when_token_is_considered_invalid(self, branch: str = "") -> None:
         responses.add(
             method=responses.GET,
-            url=re.compile(".*"),
+            url=re.compile(r".*"),
             body="<html><head>Sign in please</head><body></body></html>",
             status=203,
         )

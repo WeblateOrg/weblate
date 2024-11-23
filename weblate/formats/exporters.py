@@ -40,7 +40,7 @@ XML_REPLACE_CHARMAP = dict.fromkeys(
     )
 )
 
-DASHES = re.compile("--+")
+DASHES = re.compile(r"--+")
 
 
 class PoExporter(BaseExporter):

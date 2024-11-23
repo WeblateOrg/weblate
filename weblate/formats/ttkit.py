@@ -1921,7 +1921,7 @@ class XWikiUnit(PropertiesUnit):
         # translate.storage.properties.propunit.gettarget
         # which for some reason does not return translation
         value = quote.xwiki_properties_decode(self.unit.value)
-        value = re.sub("\\\\ ", " ", value)
+        value = re.sub(r"\\ ", " ", value)
         return get_string(value)
 
 
