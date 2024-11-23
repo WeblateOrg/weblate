@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 08:41+0100\n"
-"PO-Revision-Date: 2024-11-22 13:25+0000\n"
+"PO-Revision-Date: 2024-11-23 15:38+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -18551,44 +18551,52 @@ msgstr ""
 #: ../../admin/management.rst:399
 msgid "Customize the name of a component using Django template syntax."
 msgstr ""
+"Personnaliser le nom d'un composant en utilisant la syntaxe du modèle Django."
 
 #: ../../admin/management.rst:401
 msgid "For example: ``Documentation: {{ component }}``"
-msgstr ""
+msgstr "Par exemple : ``Documentation: {{ component }}``"
 
 #: ../../admin/management.rst:405
 msgid "Customize the base file for monolingual translations."
 msgstr ""
+"Personnaliser le fichier de base pour les traductions en une seule langue."
 
 #: ../../admin/management.rst:407
 msgid "For example: ``{{ component }}/res/values/string.xml``"
-msgstr ""
+msgstr "Par exemple : ``{{ component }}/res/values/string.xml``"
 
 #: ../../admin/management.rst:411
 msgid "Customize the base file for addition of new translations."
-msgstr ""
+msgstr "Personnaliser le fichier de base pour ajouter de nouvelles traductions."
 
 #: ../../admin/management.rst:413
 msgid "For example: ``{{ component }}/ts/en.ts``"
-msgstr ""
+msgstr "Par exemple : ``{{ component }}/ts/en.ts``"
 
 #: ../../admin/management.rst:417
 msgid ""
 "You can also specify the file format to use (see :ref:`formats`), the "
 "default is auto-detection."
 msgstr ""
+"Vous pouvez aussi spécifier les formats du fichier à utiliser (voir "
+":ref:`formats`) ; il est détecté automatiquement par défaut."
 
 #: ../../admin/management.rst:422
 msgid ""
 "You can specify language filtering (see :ref:`component`) with this "
 "parameter. It has to be a valid regular expression."
 msgstr ""
+"Vous pouvez indiquer un filtrage sur la langue (voir :ref:`component`) avec "
+"ce paramètre sous la forme d'une expression régulière valide."
 
 #: ../../admin/management.rst:427
 msgid ""
 "You can specify which component will be chosen as the main one—the one "
 "actually containing the VCS repository."
 msgstr ""
+"Vous pouvez indiquer le composant principal — celui qui contient "
+"actuellement le dépôt VCS."
 
 #: ../../admin/management.rst:432
 msgid "Specify the overall, project or component translation license."
@@ -18596,23 +18604,27 @@ msgstr ""
 
 #: ../../admin/management.rst:436
 msgid "Specify the URL where the translation license is to be found."
-msgstr ""
+msgstr "Indiquer l'URL où se trouve la licence de la traduction."
 
 #: ../../admin/management.rst:440
 msgid ""
 "In case you need to specify which version control system to use, you can do "
 "it here. The default version control is Git."
 msgstr ""
+"Si vous devez spécifier le système de contrôle de version à utiliser, vous "
+"pouvez le faire ici. Git est le système par défaut."
 
 #: ../../admin/management.rst:443
 msgid "To give you some examples, let's try importing two projects."
-msgstr ""
+msgstr "Pour vous donner quelques exemples, essayons d'importer deux projets."
 
 #: ../../admin/management.rst:445
 msgid ""
 "First The Debian Handbook translations, where each language has separate a "
 "folder with the translations of each chapter:"
 msgstr ""
+"D'abord les traductions du manuel Debian où chaque langue possède un "
+"répertoire séparé avec les traductions de chaque chapître :"
 
 #: ../../admin/management.rst:456
 msgid ""
@@ -18620,6 +18632,9 @@ msgid ""
 "the base file template, and how all components and translations are located "
 "in single folder:"
 msgstr ""
+"Puis l'outil Tanaguru, où le format du fichier doit être spécifié en même "
+"temps que le modèle du fichier de base et la manière dont tous les "
+"composants et les traductions sont répartis dans un même répertoire :"
 
 #: ../../admin/management.rst:470
 msgid ""
@@ -18627,24 +18642,31 @@ msgid ""
 "and language out of a filename like ``src/security/"
 "Numerous_security_holes_in_0.10.1.de.po``:"
 msgstr ""
+"Exemple plus élaboré de l'analyse syntaxique des noms de fichiers permettant "
+"d'obtenir le composant correct ainsi que la langue à partir d'un nom de "
+"fichier tel que ``src/security/Numerous_security_holes_in_0.10.1.de.po`` :"
 
 #: ../../admin/management.rst:481
 msgid "Filtering only translations in a chosen language:"
-msgstr ""
+msgstr "Filtrer uniquement les traductions pour une seule langue :"
 
 #: ../../admin/management.rst:491
 msgid "Importing Sphinx documentation split to multiple files:"
-msgstr ""
+msgstr "Importer la documentation Sphinx répartie sur plusieurs fichiers :"
 
 #: ../../admin/management.rst:500
 msgid "Importing Sphinx documentation split to multiple files and directories:"
 msgstr ""
+"Importer la documentation Sphinx répartie sur plusieurs fichiers et "
+"répertoires :"
 
 #: ../../admin/management.rst:515
 msgid ""
 "More detailed examples can be found in the :ref:`starting` chapter, "
 "alternatively you might want to use :wladmin:`import_json`."
 msgstr ""
+"Vous trouverez d'autres exemples plus détaillés dans le chapître "
+":ref:`starting` ,  mais vous pouvez aussi utiliser :wladmin:`import_json`."
 
 #: ../../admin/management.rst:519
 msgid "importuserdata"
@@ -18663,16 +18685,23 @@ msgstr "importusers"
 #: ../../admin/management.rst:530
 msgid "Imports users from JSON dump of the Django auth_users database."
 msgstr ""
+"Importe les utilisateurs à partir d'un dump JSON de la base de données "
+"Django auth_users ."
 
 #: ../../admin/management.rst:535
 msgid ""
 "With this option it will just check whether a given file can be imported and "
 "report possible conflicts arising from usernames or e-mails."
 msgstr ""
+"Cette option vous permet simplement de vérifier si un fichier donné peut "
+"être importé et rapporte les éventuels conflits concernant les noms "
+"d'utilisateur ou les courriels."
 
 #: ../../admin/management.rst:538
 msgid "You can dump users from the existing Django installation using:"
 msgstr ""
+"Vous pouvez lister tous les utilisateurs de l'installation Django existante "
+"en utilisant :"
 
 #: ../../admin/management.rst:545
 msgid "install_addon"
@@ -18680,12 +18709,12 @@ msgstr "install_addon"
 
 #: ../../admin/management.rst:549
 msgid "Installs an add-on to a set of components."
-msgstr ""
+msgstr "Installe une greffon sur un ensemble de composants."
 
 #: ../../admin/management.rst:553
 msgid ""
 "Name of the add-on to install. For example ``weblate.gettext.customize``."
-msgstr ""
+msgstr "Nom du greffon à installer. Par exemple ``weblate.gettext.customize``."
 
 #: ../../admin/management.rst:557
 #, fuzzy
@@ -18703,10 +18732,15 @@ msgid ""
 "(for example ``weblate/application``), or use ``--all`` to include all "
 "existing components."
 msgstr ""
+"Vous pouvez soit définir le projet ou le composant dans lequel installer le "
+"greffon (par exemple ``weblate/application``), ou utiliser ``--all`` pour "
+"inclure tous les composants existants."
 
 #: ../../admin/management.rst:566
 msgid "To install :ref:`addon-weblate.gettext.customize` for all components:"
 msgstr ""
+"Pour installer :ref:`addon-weblate.gettext.customize` pour tous les "
+"composants :"
 
 #: ../../admin/management.rst:574
 msgid ":doc:`addons`"
@@ -18724,7 +18758,7 @@ msgstr "Installe un service de suggestions automatiques global à tout le site."
 
 #: ../../admin/management.rst:587
 msgid "Name of the service to install. For example ``deepl``."
-msgstr ""
+msgstr "Nome du service à installer. Par exemple ``deepl``."
 
 #: ../../admin/management.rst:591
 #, fuzzy
@@ -18740,7 +18774,7 @@ msgstr "Mettre à jour la configuration existante du module complémentaire."
 
 #: ../../admin/management.rst:597
 msgid "To install :ref:`mt-deepl`:"
-msgstr ""
+msgstr "Pour installer :ref:`mt-deepl` :"
 
 #: ../../admin/management.rst:605
 msgid ":doc:`machine`"
@@ -18755,12 +18789,16 @@ msgid ""
 "Lists supported languages in MediaWiki markup - language codes, English "
 "names and localized names."
 msgstr ""
+"Liste les langues prises en charge dans le balisage MediaWiki - codes de "
+"langue, noms anglais et noms traduits."
 
 #: ../../admin/management.rst:615
 msgid ""
 "This is used to generate <https://wiki.l10n.cz/"
 "Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
 msgstr ""
+"Ceci est utilisé pour générer <https://wiki.l10n.cz/"
+"Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
 
 #: ../../admin/management.rst:618
 msgid "list_translators"
@@ -18769,16 +18807,20 @@ msgstr "list_translators"
 #: ../../admin/management.rst:622
 msgid "Lists translators by contributed language for the given project:"
 msgstr ""
+"Liste les traducteurs en fonction de la langue à laquelle ils ont contribué "
+"pour le projet donné :"
 
 #: ../../admin/management.rst:624
 msgid ""
 "[French] Jean Dupont <jean.dupont@example.com> [English] John Doe "
 "<jd@example.com>"
 msgstr ""
+"[Français] Jean Dupont <jean.dupont@example.com> [Anglais] John Doe "
+"<jd@example.com>"
 
 #: ../../admin/management.rst:631
 msgid "List names by language code instead of language name."
-msgstr ""
+msgstr "Lister les noms par code de langue au lieu du nom de la langue."
 
 #: ../../admin/management.rst:633
 msgid ""
@@ -18786,6 +18828,9 @@ msgid ""
 "``weblate/application``), or use ``--all`` to list translators from all "
 "existing components."
 msgstr ""
+"Vous pouvez définir soit le projet ou le composant à utiliser (par exemple ``"
+"weblate/application``), ou utiliser ``--all`` pour lister les traducteurs de "
+"tous les composants existants."
 
 #: ../../admin/management.rst:638
 msgid "list_versions"
@@ -27271,6 +27316,8 @@ msgstr ""
 #: ../../changes.rst:611
 msgid "Pending changes committing could be omitted under some circumstances."
 msgstr ""
+"Les validations de modifications en attente peuvent être omises sous "
+"certaines conditions."
 
 #: ../../changes.rst:612
 #, fuzzy
