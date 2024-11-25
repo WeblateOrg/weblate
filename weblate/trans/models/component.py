@@ -100,7 +100,7 @@ from weblate.utils.validators import (
     validate_re_nonempty,
     validate_slug,
 )
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import Repository, RepositoryError
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
@@ -1306,15 +1306,15 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return is_repo_link(self.repo)
 
     @property
-    def repository_class(self):
+    def repository_class(self) -> type[Repository]:
         return VCS_REGISTRY[self.vcs]
 
     @cached_property
-    def repository(self):
+    def repository(self) -> Repository:
         """Get VCS repository object."""
         if self.linked_component is not None:
             return self.linked_component.repository
-        return self.repository_class(self.full_path, self.branch, self)
+        return self.repository_class(self.full_path, branch=self.branch, component=self)
 
     @perform_on_link
     def get_last_remote_commit(self):

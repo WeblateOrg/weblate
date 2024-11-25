@@ -712,6 +712,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.checks.source.LongUntranslatedCheck",
 #     "weblate.checks.format.MultipleUnnamedFormatsCheck",
 #     "weblate.checks.glossary.GlossaryCheck",
+#     "weblate.checks.glossary.ProhibitedInitialCharacterCheck",
 #     "weblate.checks.fluent.syntax.FluentSourceSyntaxCheck",
 #     "weblate.checks.fluent.syntax.FluentTargetSyntaxCheck",
 #     "weblate.checks.fluent.parts.FluentPartsCheck",

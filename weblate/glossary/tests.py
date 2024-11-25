@@ -504,3 +504,32 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         self.assertEqual(
             self.glossary_component.translation_set.count(), initial_count - 1
         )
+
+    def test_prohibited_initial_character(self) -> None:
+        """Test that a prohibited initial character in views."""
+        self.make_manager()
+        response = self.client.post(
+            reverse("new-unit", kwargs={"path": self.glossary.get_url_path()}),
+            {
+                "source_0": "=prohibited",
+                "target_0": "target",
+                "terminology": "on",
+                "new-unit-form-type": "singular",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Prohibited initial character")
+        self.assertContains(response, "New string has been added.")
+
+        # add ignore flag, check warning is gone
+        unit = self.glossary.unit_set.get(source="=prohibited")
+        response = self.client.post(
+            reverse("edit_context", kwargs={"pk": unit.pk}),
+            {
+                "next": reverse("translate", kwargs={"path": unit.get_url_path()}),
+                "explanation": "",
+                "extra_flags": "terminology,ignore-prohibited-initial-character",
+            },
+            follow=True,
+        )
+        self.assertNotContains(response, "Prohibited initial character")

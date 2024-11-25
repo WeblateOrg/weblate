@@ -163,7 +163,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         """Test repo workflow as used by Weblate."""
         with tempfile.TemporaryDirectory() as tempdir:
             repo = self._class(
-                tempdir, self._remote_branch, component=self.get_fake_component()
+                tempdir, branch=self._remote_branch, component=self.get_fake_component()
             )
             with repo.lock:
                 repo.configure_remote(
