@@ -36,7 +36,12 @@ CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
 
 
 def dt_as_day_range(dt: datetime | date) -> tuple[datetime]:
-    """Convert datetime/date to a tuple of two datetime objects representing start and end of the day."""
+    """
+    Convert given datetime/date to a range for that day.
+
+    The resulting tuple contains the start of the day (00:00:00) and end of the
+    day (23:59:59.999999).
+    """
     if isinstance(dt, date):
         dt = timezone.make_aware(datetime.combine(dt, datetime.min.time()))
     return (
