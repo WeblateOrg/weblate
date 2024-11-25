@@ -28,7 +28,7 @@ class WeblateLock:
         self,
         lock_path: str,
         scope: str,
-        key: int,
+        key: int | str,
         slug: str,
         cache_template: str = "lock:{scope}:{key}",
         file_template: str = "{slug}-{scope}.lock",
