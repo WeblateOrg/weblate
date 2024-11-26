@@ -77,10 +77,10 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         params = {"q": text, "source": source, "target": language}
-        glossary_id: int | None = self.get_glossary_id(source, language, unit)
+        glossary_id: str | None = self.get_glossary_id(source, language, unit)
 
         if glossary_id:
-            params["glossaries"] = str(glossary_id)
+            params["glossaries"] = glossary_id
 
         if context_vector := self.settings.get("context_vector"):
             params["context_vector"] = context_vector

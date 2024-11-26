@@ -72,7 +72,7 @@ class DummyGlossaryTranslation(DummyTranslation, GlossaryMachineTranslationMixin
             source, language, text, unit, user, threshold
         )
 
-    def list_glossaries(self):
+    def list_glossaries(self) -> dict[str, str]:
         """List glossaries."""
         return {}
 
