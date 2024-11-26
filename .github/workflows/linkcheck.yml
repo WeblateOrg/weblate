@@ -8,12 +8,10 @@ on:
   push:
     paths:
     - docs/**.rst
-    - docs/requirements.txt
     - .github/workflows/linkcheck.yml
   pull_request:
     paths:
     - docs/**.rst
-    - docs/requirements.txt
     - .github/workflows/linkcheck.yml
   schedule:
   - cron: 30 5 * * *
@@ -38,10 +36,10 @@ jobs:
         sudo apt update
         sudo apt install -y graphviz
     - name: Install Python dependencies
-      run: |
-        uv pip install --system -r docs/requirements.txt
+      run: uv sync --no-sources --only-group docs --frozen
     - name: Sphinx linkcheck
       run: |
+        . .venv/bin/activate
         ./ci/run-docs linkcheck
     - name: Sphinx linkcheck collect
       if: always()
