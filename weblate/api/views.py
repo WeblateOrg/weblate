@@ -1016,10 +1016,11 @@ class ProjectViewSet(
     def machinery_settings(self, request: Request, **kwargs):
         """List or create/update machinery configuration for a project."""
         project = self.get_object()
-        if request.method == "POST":
-            if not request.user.has_perm("project.edit", project):
-                self.permission_denied(request, "Can not edit machinery configuration")
 
+        if not request.user.has_perm("project.edit", project):
+            self.permission_denied(request, "Can not edit machinery configuration")
+
+        if request.method == "POST":
             try:
                 service_name = request.data["service"]
             except KeyError:

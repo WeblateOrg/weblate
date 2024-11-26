@@ -2016,7 +2016,17 @@ class ProjectAPITest(APIBaseTest):
         """Test the machinery settings API endpoint for various scenarios."""
         from weblate.machinery.tests import DeepLTranslationTest
 
-        # unauthenticated
+        # unauthenticated get
+        self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="get",
+            code=403,
+            authenticated=True,
+            superuser=False,
+        )
+
+        # unauthenticated post
         self.do_request(
             "api:project-machinery-settings",
             self.project_kwargs,
