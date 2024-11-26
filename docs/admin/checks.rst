@@ -297,6 +297,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-multiple-failures` quality check.
 ``ignore-unnamed-format``
     Skip the :ref:`check-unnamed-format` quality check.
+``ignore-prohibited-initial-character``
+    Skip the :ref:`check-prohibited-initial-character` quality check.
 ``ignore-optional-plural``
     Skip the :ref:`check-optional-plural` quality check.
 

@@ -58,7 +58,7 @@ to the repository. You can then use SSH URL to access the repository (see
 
 .. hint::
 
-   On a Hosted Weblate, this is pre-cofigured for most of the public sites,
+   On a Hosted Weblate, this is pre-configured for most of the public sites,
    please see :ref:`hosted-push`.
 
 .. _ssh-repos:
@@ -308,11 +308,15 @@ systems installed.
 Once you have these installed, such remotes can be used to specify a repository
 in Weblate.
 
-To clone the ``gnuhello`` project from Launchpad using Bazaar::
+To clone the ``gnuhello`` project from Launchpad using Bazaar:
+
+.. code-block:: text
 
     bzr::lp:gnuhello
 
-For the ``hello`` repository from selenic.com using Mercurial::
+For the ``hello`` repository from selenic.com using Mercurial:
+
+.. code-block:: text
 
     hg::http://selenic.com/repo/hello
 

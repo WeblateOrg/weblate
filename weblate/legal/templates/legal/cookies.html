@@ -1,44 +1,58 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>
-<li><a href="{% url 'legal:cookies' %}">{% trans "Cookies" %}</a></li>
+  <li>
+    <a href="{% url 'legal:index' %}">{% trans "Legal" %}</a>
+  </li>
+  <li>
+    <a href="{% url 'legal:cookies' %}">{% trans "Cookies" %}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-{% include 'legal/menu.html' %}
+  {% include 'legal/menu.html' %}
 
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Cookies Policy" %}</h4></div>
-<div class="panel-body">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">{% trans "Cookies Policy" %}</h4>
+    </div>
+    <div class="panel-body">
 
-<p>
-{% blocktrans %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktrans %}
-</p>
+      <p>
+        {% blocktrans %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktrans %}
+      </p>
 
-<ul>
-<li><a href="{% url 'legal:terms' %}">{% trans "General Terms and Conditions" %}</a></li>
-<li><a href="{% url 'legal:privacy' %}">{% trans "Privacy Policy" %}</a></li>
-</ul>
+      <ul>
+        <li>
+          <a href="{% url 'legal:terms' %}">{% trans "General Terms and Conditions" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'legal:privacy' %}">{% trans "Privacy Policy" %}</a>
+        </li>
+      </ul>
 
-<p>
-{% blocktrans %}Cookies are used on this site for the following:{% endblocktrans %}
-</p>
+      <p>
+        {% blocktrans %}Cookies are used on this site for the following:{% endblocktrans %}
+      </p>
 
-<ul>
-<li>{% trans "Authentication cookies which are required for recognizing authenticated users." %}</li>
-<li>{% trans "Preferences cookie to store user preferences in certain situations." %}</li>
-{% if matomo_site_id and matomo_url %}
-<li>{% blocktrans %}This site uses Matomo to analyze website traffic. It honours "Do Not Track" settings in your browser.{% endblocktrans %}</li>
-{% endif %}
-{% if google_analytics_id %}
-<li>{% trans "This site uses Google Analytics to analyze website traffic." %}</li>
-{% endif %}
-</ul>
+      <ul>
+        <li>{% trans "Authentication cookies which are required for recognizing authenticated users." %}</li>
+        <li>{% trans "Preferences cookie to store user preferences in certain situations." %}</li>
+        {% if matomo_site_id and matomo_url %}
+          <li>
+            {% blocktrans %}This site uses Matomo to analyze website traffic. It honours "Do Not Track" settings in your browser.{% endblocktrans %}
+          </li>
+        {% endif %}
+        {% if google_analytics_id %}
+          <li>{% trans "This site uses Google Analytics to analyze website traffic." %}</li>
+        {% endif %}
+      </ul>
 
-</div>
-</div>
+    </div>
+  </div>
 
 {% endblock %}

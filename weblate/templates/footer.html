@@ -1,33 +1,62 @@
 {% load translations %}
 {% load i18n %}
+
 <footer>
- <ul>
-  <li>{% blocktrans %}Powered by {{ weblate_version_link }}{% endblocktrans %}</li>
-  <li><a href="{% url 'about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a></li>
-  {% if has_legal %}
-  <li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>
-  {% elif legal_url %}
-  <li><a href="{{ legal_url }}">{% trans "Legal" %}</a></li>
-  {% endif %}
-  {% if privacy_url %}
-  <li><a href="{{ privacy_url }}">{% trans "Privacy policy" %}</a></li>
-  {% endif %}
-  {% if status_url %}<li><a href="{{ status_url }}">{% trans "Service status" %}</a></li>{% endif %}
-  <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
-  <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
-  <li><a href="{% url 'donate' %}">{% trans "Donate to Weblate" %}</a></li>
- </ul>
+  <ul>
+    <li>
+      {% blocktrans %}Powered by {{ weblate_version_link }}{% endblocktrans %}
+    </li>
+    <li>
+      <a href="{% url 'about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a>
+    </li>
+    {% if has_legal %}
+      <li>
+        <a href="{% url 'legal:index' %}">{% trans "Legal" %}</a>
+      </li>
+    {% elif legal_url %}
+      <li>
+        <a href="{{ legal_url }}">{% trans "Legal" %}</a>
+      </li>
+    {% endif %}
+    {% if privacy_url %}
+      <li>
+        <a href="{{ privacy_url }}">{% trans "Privacy policy" %}</a>
+      </li>
+    {% endif %}
+    {% if status_url %}
+      <li>
+        <a href="{{ status_url }}">{% trans "Service status" %}</a>
+      </li>
+    {% endif %}
+    <li>
+      <a href="{% url 'contact' %}">{% trans "Contact" %}</a>
+    </li>
+    <li>
+      <a href="{% documentation 'index' %}">{% trans "Documentation" %}</a>
+    </li>
+    <li>
+      <a href="{% url 'donate' %}">{% trans "Donate to Weblate" %}</a>
+    </li>
+  </ul>
 </footer>
 
 {% if matomo_site_id and matomo_url %}
-<!-- Matomo -->
-<script src="{% url "js-matomo" %}" async defer id="matomo-tracker" data-params='{"Language": "{{ LANGUAGE_CODE|escapejs }}"{% if project %}, "Project": "{{ project.name|escapejs }}"{% endif %}}'></script>
-<noscript><img src="{{ matomo_url }}matomo.php?idsite={{ matomo_site_id }}&amp;rec=1" style="border:0" alt="" /></noscript>
-<!-- End Matomo Code -->
+  <!-- Matomo -->
+  <script src="{% url "js-matomo" %}"
+          async
+          defer
+          id="matomo-tracker"
+          data-params='{"Language": "{{ LANGUAGE_CODE|escapejs }}"{% if project %}, "Project": "{{ project.name|escapejs }}"{% endif %}}'></script>
+  <noscript>
+    <img src="{{ matomo_url }}matomo.php?idsite={{ matomo_site_id }}&amp;rec=1"
+         style="border:0"
+         alt="" />
+  </noscript>
+  <!-- End Matomo Code -->
 {% endif %}
 
 {% if google_analytics_id %}
-<script>
+  <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -41,5 +70,5 @@
     'dimension1':  '{{ LANGUAGE_CODE }}'
   });
 
-</script>
+  </script>
 {% endif %}

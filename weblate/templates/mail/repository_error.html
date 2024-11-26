@@ -4,18 +4,18 @@
 
 {% block content %}
 
-<h2>{% trans "Error message" %}</h2>
+  <h2>{% trans "Error message" %}</h2>
 
-<pre>
+  <pre>
 {{ details.error }}
 </pre>
 
-<h2>{% trans "Repository status" %}</h2>
+  <h2>{% trans "Repository status" %}</h2>
 
-<pre>
+  <pre>
 {{ details.status }}
 </pre>
 
-{% include "trans/merge_instructions.html" %}
+  {% include "trans/merge_instructions.html" %}
 
 {% endblock %}

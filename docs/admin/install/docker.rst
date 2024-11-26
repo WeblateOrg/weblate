@@ -810,7 +810,7 @@ Generic settings
 
     Configures :setting:`DEFAULT_COMMITER_NAME`.
 
-.. envvar::  WEBLATE_DEFAULT_SHARED_TM
+.. envvar:: WEBLATE_DEFAULT_SHARED_TM
 
    Configures :setting:`DEFAULT_SHARED_TM`.
 
@@ -1033,7 +1033,7 @@ Code hosting sites credentials
 ++++++++++++++++++++++++++++++
 
 In the Docker container, the code hosting credentials can be configured either
-in separate variables or using a Python dictionary to set them at once.  The
+in separate variables or using a Python dictionary to set them at once. The
 following examples are for :ref:`vcs-github`, but applies to all :ref:`vcs`
 with appropriately changed variable names.
 
@@ -1985,69 +1985,69 @@ Overriding settings by extending the Docker image
 
 To override settings at the Docker image level instead of from the data volume:
 
-#.  :ref:`Create a custom Python package <custom-module>`.
+#. :ref:`Create a custom Python package <custom-module>`.
 
-#.  Add a module to your package that imports all settings from
-    ``weblate.settings_docker``.
+#. Add a module to your package that imports all settings from
+   ``weblate.settings_docker``.
 
-    For example, within the example package structure defined at
-    :ref:`custom-module`, you could create a file at
-    ``weblate_customization/weblate_customization/settings.py`` with the
-    following initial code:
+   For example, within the example package structure defined at
+   :ref:`custom-module`, you could create a file at
+   ``weblate_customization/weblate_customization/settings.py`` with the
+   following initial code:
 
-    .. code-block:: python
+   .. code-block:: python
 
-        from weblate.settings_docker import *
+       from weblate.settings_docker import *
 
-#.  Create a custom ``Dockerfile`` that inherits from the official Weblate
-    Docker image, and then installs your package and points the
-    ``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:
+#. Create a custom ``Dockerfile`` that inherits from the official Weblate
+   Docker image, and then installs your package and points the
+   ``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:
 
-    .. code-block:: docker
+   .. code-block:: docker
 
-        FROM weblate/weblate
+       FROM weblate/weblate
 
-        USER root
+       USER root
 
-        COPY weblate_customization /usr/src/weblate_customization
-        RUN /app/venv/bin/uv pip install --no-cache-dir /usr/src/weblate_customization
-        ENV DJANGO_SETTINGS_MODULE=weblate_customization.settings
+       COPY weblate_customization /usr/src/weblate_customization
+       RUN /app/venv/bin/uv pip install --no-cache-dir /usr/src/weblate_customization
+       ENV DJANGO_SETTINGS_MODULE=weblate_customization.settings
 
-        USER 1000
+       USER 1000
 
-#.  Instead of using the official Weblate Docker image, build a custom image
-    from this ``Dockerfile`` file.
+#. Instead of using the official Weblate Docker image, build a custom image
+   from this ``Dockerfile`` file.
 
-    There is `no clean way <https://github.com/docker/compose/issues/7231>`__
-    to do this with ``docker-compose.override.yml``. You *could* add
-    ``build: .`` to the ``weblate`` node in that file, but then your custom
-    image will be tagged as ``weblate/weblate`` in your system, which could be
-    problematic.
+   There is `no clean way <https://github.com/docker/compose/issues/7231>`__
+   to do this with ``docker-compose.override.yml``. You *could* add
+   ``build: .`` to the ``weblate`` node in that file, but then your custom
+   image will be tagged as ``weblate/weblate`` in your system, which could be
+   problematic.
 
-    So, instead of using the ``docker-compose.yml`` straight from the `official
-    repository <https://github.com/WeblateOrg/docker-compose>`__, unmodified,
-    and extending it through ``docker-compose.override.yml``, you may want to
-    make a copy of the official ``docker-compose.yml`` file, and edit your copy
-    to replace ``image: weblate/weblate`` with ``build: .``.
+   So, instead of using the ``docker-compose.yml`` straight from the `official
+   repository <https://github.com/WeblateOrg/docker-compose>`__, unmodified,
+   and extending it through ``docker-compose.override.yml``, you may want to
+   make a copy of the official ``docker-compose.yml`` file, and edit your copy
+   to replace ``image: weblate/weblate`` with ``build: .``.
 
-    See the `Compose file build reference`_ for details on building images from
-    source when using ``docker-compose``.
+   See the `Compose file build reference`_ for details on building images from
+   source when using ``docker-compose``.
 
-    .. _Compose file build reference: https://docs.docker.com/reference/compose-file/build/
+   .. _Compose file build reference: https://docs.docker.com/reference/compose-file/build/
 
-#.  Extend your custom settings module to define or redefine settings.
+#. Extend your custom settings module to define or redefine settings.
 
-    You can define settings before or after the import statement above to
-    determine which settings take precedence. Settings defined before the
-    import statement can be overridden by environment variables and setting
-    overrides defined in the data volume. Setting defined after the import
-    statement cannot be overridden.
+   You can define settings before or after the import statement above to
+   determine which settings take precedence. Settings defined before the
+   import statement can be overridden by environment variables and setting
+   overrides defined in the data volume. Setting defined after the import
+   statement cannot be overridden.
 
-    You can also go further. For example, you can reproduce some of the things
-    that ``weblate.docker_settings`` `does
-    <https://github.com/WeblateOrg/weblate/blob/main/weblate/settings_docker.py>`__,
-    such as exposing settings as environment variables, or allow overriding
-    settings from Python files in the data volume.
+   You can also go further. For example, you can reproduce some of the things
+   that ``weblate.docker_settings`` `does
+   <https://github.com/WeblateOrg/weblate/blob/main/weblate/settings_docker.py>`__,
+   such as exposing settings as environment variables, or allow overriding
+   settings from Python files in the data volume.
 
 Replacing logo and other static files
 -------------------------------------

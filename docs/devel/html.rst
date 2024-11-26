@@ -113,7 +113,7 @@ translation.
 The user language is detected from the configured cookie and falls back to user
 preferred languages configured in the browser.
 
-The :guilabel:`Language cookie name`  can be useful for integration with other
+The :guilabel:`Language cookie name` can be useful for integration with other
 applications (for example choose ``django_language`` when using Django).
 
 JavaScript localization

@@ -1,75 +1,81 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load permissions %}
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'manage-tools' %}">{% trans "Tools" %}</a></li>
+  <li>
+    <a href="{% url 'manage' %}">{% trans "Manage" %}</a>
+  </li>
+  <li>
+    <a href="{% url 'manage-tools' %}">{% trans "Tools" %}</a>
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
 
-<form  method="post">
-{% csrf_token %}
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">
-{% documentation_icon 'admin/announcements' right=True %}
-{% trans "Post announcement" %}
-</h4></div>
-  <div class="panel-body">
-  {{ announce_form|crispy }}
-  </div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-primary" value="{% trans "Send" %}" />
-  </div>
-</div>
-</form>
+  <form method="post">
+    {% csrf_token %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'admin/announcements' right=True %}
+          {% trans "Post announcement" %}
+        </h4>
+      </div>
+      <div class="panel-body">{{ announce_form|crispy }}</div>
+      <div class="panel-footer">
+        <input type="submit" class="btn btn-primary" value="{% trans "Send" %}" />
+      </div>
+    </div>
+  </form>
 
 
-<div class="panel panel-default">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    {% trans "Django admin interface" %}
-  </h4>
-</div>
-<div class="panel-body">
-<p>{% trans "The Django admin interface might be useful to perform certain management operations." %}</p>
-</div>
-  <div class="panel-footer">
-  <a href="{% url "admin:index" %}" class="btn btn-primary">{% trans "Django admin interface" %}</a>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">{% trans "Django admin interface" %}</h4>
+    </div>
+    <div class="panel-body">
+      <p>{% trans "The Django admin interface might be useful to perform certain management operations." %}</p>
+    </div>
+    <div class="panel-footer">
+      <a href="{% url "admin:index" %}" class="btn btn-primary">{% trans "Django admin interface" %}</a>
+    </div>
   </div>
-</div>
 
-<form  method="post">
-{% csrf_token %}
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Send test e-mail" %}</h4></div>
-  <div class="panel-body">
-  {{ email_form|crispy }}
-  </div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-primary" value="{% trans "Send" %}" />
-  </div>
-</div>
-</form>
+  <form method="post">
+    {% csrf_token %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">{% trans "Send test e-mail" %}</h4>
+      </div>
+      <div class="panel-body">{{ email_form|crispy }}</div>
+      <div class="panel-footer">
+        <input type="submit" class="btn btn-primary" value="{% trans "Send" %}" />
+      </div>
+    </div>
+  </form>
 
-{% if has_sentry %}
-<form  method="post">
-{% csrf_token %}
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Test Sentry integration" %}</h4></div>
-  <div class="panel-body">
-  <input type="hidden" name="sentry" value="1" />
-  <p>{% trans "Generate a test event to test Sentry integration." %}</p>
-  </div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-primary" value="{% trans "Send" %}" />
-  </div>
-</div>
-</form>
-{% endif %}
+  {% if has_sentry %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">{% trans "Test Sentry integration" %}</h4>
+        </div>
+        <div class="panel-body">
+          <input type="hidden" name="sentry" value="1" />
+          <p>{% trans "Generate a test event to test Sentry integration." %}</p>
+        </div>
+        <div class="panel-footer">
+          <input type="submit" class="btn btn-primary" value="{% trans "Send" %}" />
+        </div>
+      </div>
+    </form>
+  {% endif %}
 
 {% endblock %}

@@ -100,7 +100,7 @@ from weblate.utils.validators import (
     validate_re_nonempty,
     validate_slug,
 )
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import Repository, RepositoryError
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
@@ -1306,15 +1306,15 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return is_repo_link(self.repo)
 
     @property
-    def repository_class(self):
+    def repository_class(self) -> type[Repository]:
         return VCS_REGISTRY[self.vcs]
 
     @cached_property
-    def repository(self):
+    def repository(self) -> Repository:
         """Get VCS repository object."""
         if self.linked_component is not None:
             return self.linked_component.repository
-        return self.repository_class(self.full_path, self.branch, self)
+        return self.repository_class(self.full_path, branch=self.branch, component=self)
 
     @perform_on_link
     def get_last_remote_commit(self):
@@ -3687,11 +3687,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Override Django implementation as that rebuilds the dict every time
         return get_license_name(self.license)
 
-    @property
-    def license_badge(self):
-        """Simplified license short name to be used in badge."""
-        return self.license.replace("-or-later", "").replace("-only", "")
-
     def post_create(self, user: User) -> None:
         self.change_set.create(
             action=Change.ACTION_CREATE_COMPONENT,
@@ -3834,6 +3829,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def key_filter_re(self) -> re.Pattern:
         """Provide the cached version of key_filter."""
         return re.compile(self.key_filter)
+
+    def repository_status(self) -> str:
+        try:
+            return self.repository.status()
+        except RepositoryError as error:
+            return "{}\n\n{}".format(gettext("Could not get repository status!"), error)
 
 
 @receiver(m2m_changed, sender=Component.links.through)

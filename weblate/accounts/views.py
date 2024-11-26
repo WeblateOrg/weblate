@@ -119,6 +119,7 @@ from weblate.accounts.notifications import (
     NOTIFICATIONS,
     NotificationFrequency,
     NotificationScope,
+    get_email_headers,
     send_notification_email,
 )
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
@@ -245,12 +246,13 @@ def mail_admins_contact(
         LOGGER.error("ADMINS not configured, cannot send message")
         return
 
+    headers = get_email_headers("contact")
+
     if settings.CONTACT_FORM == "reply-to":
-        headers = {"Reply-To": sender}
-        from_email = None
+        headers["Reply-To"] = sender
+        from_email = to[0]
     else:
         from_email = sender
-        headers = None
 
     mail = EmailMultiAlternatives(
         subject=f"{settings.EMAIL_SUBJECT_PREFIX}{subject % context}",

@@ -36,14 +36,17 @@ jobs:
     - uses: actions/checkout@v4
       if: github.event_name == 'pull_request'
 
-    - uses: astral-sh/setup-uv@v3
+    - uses: astral-sh/setup-uv@v4
       with:
         enable-cache: true
         cache-dependency-glob: ''
         cache-suffix: '3.13'
 
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install
+      run: |
+        if [ -f ./ci/apt-install ] ; then
+          sudo ./ci/apt-install
+        fi
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -55,9 +58,10 @@ jobs:
       run: uv lock --upgrade --no-sources
 
     - run: uv sync --all-extras --no-sources
+      if: hashFiles('uv.lock') != ''
 
     - name: Update current branch
-      if: github.event_name == 'pull_request'
+      if: ( github.event_name == 'pull_request' && github.actor != 'renovate[bot]' ) || ( github.event_name == 'push' && github.ref_name != 'main' )
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: 'chore(deps): update lockfile'

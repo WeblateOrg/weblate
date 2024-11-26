@@ -1,21 +1,20 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}{% load translations %}
+{% load i18n %}
+{% load translations %}
 
 {% block content %}
 
-{% include "mail/snippets/source-string.html" %}
+  {% include "mail/snippets/source-string.html" %}
 
-<h2>{% trans "Comment" %}</h2>
+  <h2>{% trans "Comment" %}</h2>
 
-<p>
-{{ comment.comment|markdown }}
-</p>
+  <p>{{ comment.comment|markdown }}</p>
 
-<div class="line buttons">
-<a class="button" href="{{ unit.get_absolute_url }}#comments">{% trans "Edit this string" %}</a>
-</div>
+  <div class="line buttons">
+    <a class="button" href="{{ unit.get_absolute_url }}#comments">{% trans "Edit this string" %}</a>
+  </div>
 
-{% include "mail/snippets/unit-screenshots.html" %}
+  {% include "mail/snippets/unit-screenshots.html" %}
 
 {% endblock %}

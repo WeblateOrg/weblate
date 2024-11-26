@@ -1,6 +1,9 @@
 {% load i18n %}
 {% load translations %}
 
-<p>{% trans "The VCS repository is not up to date with the upstream one. Please merge changes manually or set up hooks to automate this." %}</p>
+<p>
+  {% trans "The VCS repository is not up to date with the upstream one. Please merge changes manually or set up hooks to automate this." %}
+</p>
 
-<a class="btn btn-primary button" href="{% documentation 'admin/continuous' 'update-vcs' %}">{% trans "Documentation" %}</a>
+<a class="btn btn-primary button"
+   href="{% documentation 'admin/continuous' 'update-vcs' %}">{% trans "Documentation" %}</a>

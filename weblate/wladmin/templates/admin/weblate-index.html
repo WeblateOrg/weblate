@@ -1,53 +1,64 @@
 {% extends "admin/index.html" %}
+
 {% load i18n %}
 {% load static %}
 
 {% block content %}
-<div id="content-extra" style="float: left; width: 100%;">
+  <div id="content-extra" style="float: left; width: 100%;">
 
     <div class="module">
 
-    <table>
-    <caption>{% trans "Reports" %}</caption>
+      <table>
+        <caption>{% trans "Reports" %}</caption>
 
         <tr>
-            <th scope="row"><a href="{% url 'manage' %}">{% trans "Weblate support status" %}</a></th>
-            <th></th>
-            <th></th>
+          <th scope="row">
+            <a href="{% url 'manage' %}">{% trans "Weblate support status" %}</a>
+          </th>
+          <th></th>
+          <th></th>
         </tr>
 
         <tr>
-            <th scope="row"><a href="{% url 'manage-repos' %}">{% trans "Status of repositories" %}</a></th>
-            <th></th>
-            <th></th>
+          <th scope="row">
+            <a href="{% url 'manage-repos' %}">{% trans "Status of repositories" %}</a>
+          </th>
+          <th></th>
+          <th></th>
         </tr>
 
         <tr>
-            <th scope="row"><a href="{% url 'manage-ssh' %}">{% trans "SSH keys" %}</a></th>
-            <th></th>
-            <th></th>
+          <th scope="row">
+            <a href="{% url 'manage-ssh' %}">{% trans "SSH keys" %}</a>
+          </th>
+          <th></th>
+          <th></th>
         </tr>
 
         <tr>
-            <th scope="row"><a href="{% url 'manage-performance' %}">
-            {% if configuration_errors.exists %}
-            <img src="{% static 'admin/img/icon-alert.svg' %}" />
-            {% endif %}
-            {% trans "Performance report" %}
-            </a></th>
-            <th></th>
-            <th></th>
+          <th scope="row">
+            <a href="{% url 'manage-performance' %}">
+              {% if configuration_errors.exists %}
+                <img src="{% static 'admin/img/icon-alert.svg' %}" />
+              {% endif %}
+              {% trans "Performance report" %}
+            </a>
+          </th>
+          <th></th>
+          <th></th>
         </tr>
 
         <tr>
-            <th scope="row"><a href="{% url 'memory' %}">{% trans "Translation memory" %}</a></th>
-            <th></th>
-            <th></th>
+          <th scope="row">
+            <a href="{% url 'memory' %}">{% trans "Translation memory" %}</a>
+          </th>
+          <th></th>
+          <th></th>
         </tr>
 
 
-    </table>
+      </table>
     </div>
-</div>
-{{ block.super }}
+  </div>
+  {{ block.super }}
 {% endblock %}

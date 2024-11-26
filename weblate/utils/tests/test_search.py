@@ -4,7 +4,7 @@
 
 from datetime import UTC, datetime, timedelta
 
-from django.db.models import Q
+from django.db.models import F, Q
 from django.test import TestCase
 
 from weblate.auth.models import User
@@ -22,7 +22,7 @@ from weblate.utils.state import (
 )
 
 
-class SearchMixin:
+class SearchTestCase(TestCase):
     object_class = Unit
     parser = "unit"
 
@@ -32,7 +32,7 @@ class SearchMixin:
         self.assertEqual(self.object_class.objects.filter(result).exists(), exists)
 
 
-class UnitQueryParserTest(TestCase, SearchMixin):
+class UnitQueryParserTest(SearchTestCase):
     def test_simple(self) -> None:
         self.assert_query(
             "hello world",
@@ -104,10 +104,11 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         with self.assertRaises(ValueError):
             self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
         # Not supported regex on PostgreSQL
-        with self.assertRaises(ValueError):
-            self.assert_query(
-                'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
-            )
+        if using_postgresql():
+            with self.assertRaises(ValueError):
+                self.assert_query(
+                    'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
+                )
         self.assert_query('source:r"(?i)^hello"', Q(source__trgm_regex="(?i)^hello"))
 
     def test_logic(self) -> None:
@@ -288,7 +289,14 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         self.assert_query("has:resolved-comment", Q(comment__resolved=True))
         self.assert_query("has:dismissed-check", Q(check__dismissed=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
-        self.assert_query("has:variant", Q(variant__isnull=False))
+        self.assert_query(
+            "has:variant",
+            Q(defined_variants__isnull=False)
+            | (
+                ~Q(variant__variant_regex="")
+                & Q(context__regex=F("variant__variant_regex"))
+            ),
+        )
         self.assert_query(
             "has:label", Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
         )
@@ -439,7 +447,7 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         self.assert_query('source:"', parse_query("""source:'"'"""))
 
 
-class UserQueryParserTest(TestCase, SearchMixin):
+class UserQueryParserTest(SearchTestCase):
     object_class = User
     parser = "user"
 
@@ -547,7 +555,7 @@ class SuperuserQueryParserTest(UserQueryParserTest):
         self.assert_query("is:active", Q(is_active=True))
 
 
-class SearchTest(ViewTestCase, SearchMixin):
+class SearchTest(ViewTestCase, SearchTestCase):
     """Search tests on real projects."""
 
     CREATE_GLOSSARIES: bool = True

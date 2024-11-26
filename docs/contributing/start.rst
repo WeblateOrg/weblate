@@ -112,11 +112,10 @@ To stop the background containers, run:
 
 Running the script without arguments will re-create the Docker container and restart it.
 
-.. note::
+.. warning::
 
-   This is not a suitable setup for production, as it includes several hacks which
-   are insecure, but they make development easier.
-
+   This container is not suitable for production use. Security is sacrificed to
+   make the development easier.
 
 Bootstrapping your devel instance
 ---------------------------------

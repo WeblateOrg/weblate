@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-14 07:40+0000\n"
-"PO-Revision-Date: 2024-11-08 11:00+0000\n"
+"PO-Revision-Date: 2024-11-18 18:49+0000\n"
 "Last-Translator: Fulup Jakez <fulup.jakez@gmail.com>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/"
 "application/br/>\n"
@@ -18,10 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=(n % 10 == 1 && n % 100 != 11 && n % 100 != "
 "71 && n % 100 != 91) ? 0 : ((n % 10 == 2 && n % 100 != 12 && n % 100 != 72 "
-"&& n % 100 != 92) ? 1 : ((((n % 10 == 3 || n % 10 == 4) || n % 10 == 9) && "
-"(n % 100 < 10 || n % 100 > 19) && (n % 100 < 70 || n % 100 > 79) && (n % 100 "
+"&& n % 100 != 92) ? 1 : ((((n % 10 == 3 || n % 10 == 4) || n % 10 == 9) && ("
+"n % 100 < 10 || n % 100 > 19) && (n % 100 < 70 || n % 100 > 79) && (n % 100 "
 "< 90 || n % 100 > 99)) ? 2 : ((n != 0 && n % 1000000 == 0) ? 3 : 4)));\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1486,7 +1486,7 @@ msgstr "Gwaskañ an diellaouiñ"
 
 #: weblate/addons/forms.py:163
 msgid "All commits into one"
-msgstr "An holl gadarnadennoù en unan"
+msgstr "An holl dielloù en unan"
 
 #: weblate/addons/forms.py:164
 msgid "Per language"
@@ -1807,97 +1807,102 @@ msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
+"Krouiñ a ra ur vrizhtroidigezh en ur ouzhpennañ ur rakger hag ul lostger "
+"d'an neudennadoù orin ent emgefre."
 
 #: weblate/addons/generate.py:201
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "Prefill translation with source"
-msgstr "Treiñ emgefre"
+msgstr "Rakleuniañ an droidigezh gant ar vammenn"
 
 #: weblate/addons/generate.py:202
-#, fuzzy
-#| msgid "This translation is currently locked for updates!"
 msgid "Fills in translation strings with source string."
-msgstr "Stanket eo an droidigezh-mañ d'an hizivadennoù evit ar poent !"
+msgstr "Leuniañ a ra an neudennadoù da dreiñ gant an neudennañ orin."
 
 #: weblate/addons/generate.py:232
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Fill read-only strings with source"
-msgstr "Treiñ emgefre"
+msgstr "Leuniañ an neudennadoù lenn hepken gant an neudennadoù orin"
 
 #: weblate/addons/generate.py:234
-#, fuzzy
-#| msgid "This translation is currently locked for updates!"
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Stanket eo an droidigezh-mañ d'an hizivadennoù evit ar poent !"
+msgstr "Leuniañ a ra an neudennadoù lenn hepken gant an neudennad orin."
 
 #: weblate/addons/gettext.py:33
-#, fuzzy
-#| msgid "Generate"
 msgid "Generate MO files"
-msgstr "Genel"
+msgstr "Krouiñ restroù MO"
 
 #: weblate/addons/gettext.py:35
 msgid "Automatically generates a MO file for every changed PO file."
-msgstr ""
+msgstr "Krouiñ a ra ent emgefre ur restr MO evit pep restr PO kemmet."
 
 #: weblate/addons/gettext.py:66
+#, fuzzy
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "Hizivaat ar restr LINGUAS"
 
 #: weblate/addons/gettext.py:68
+#, fuzzy
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr ""
+msgstr "Hizivaat a ra ar restr LINGUAS pa vez ouzhpennet un droidigezh nevez."
 
 #: weblate/addons/gettext.py:159
+#, fuzzy
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr ""
+msgstr "Hizivaat an argemmenn ALL_LINGUAS er restr \"kefluniañ\""
 
 #: weblate/addons/gettext.py:161
+#, fuzzy
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
+"Hizivaat a ra an argemmenn ALL_LINGUAS er restroù \"configure\", \"configure."
+"in\" pe \"configure.ac\", pa vez ouzhpennet un droidigezh nevez."
 
 #: weblate/addons/gettext.py:230
 msgid "Update PO files to match POT (msgmerge)"
-msgstr ""
+msgstr "Hizivaat ar restroù PO evit ma klotfent gant POT (msgmerge)"
 
 #: weblate/addons/gettext.py:232
 msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Hizivaat a ra an holl restroù PO (evel kefluniet gant \"File mask\") evit "
+"klotañ gant ar restr POT (evel kefluniet gant ar \"Patrom evit an "
+"troidigezhioù nevez\") dre implijout msgmerge."
 
 #: weblate/addons/gettext.py:326
 msgid "Customize gettext output"
-msgstr ""
+msgstr "Personelaat an ezvont gettext"
 
 #: weblate/addons/gettext.py:328
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
+"Aotren a ra personelaat emzalc'h an ezvont gettext, da skouer an adkas "
+"emgefre d'al linenn."
 
 #: weblate/addons/gettext.py:348
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Contributors in comment"
-msgstr "Selladenn ouzh mammennoù an neudennadoù"
+msgstr "Kenlabourerien en evezhiadenn"
 
 #: weblate/addons/gettext.py:350
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
+"Hizivaat a ra lodenn evezhiadennoù talbenn ar restr PO en ur lakaat ennañ "
+"anvioù ar genlabourerien hag abaoe pet vloaz e kenlabouront."
 
 #: weblate/addons/git.py:25
 msgid "Squash Git commits"
-msgstr "Gwaskañ ar c'hadarnadennoù Git"
+msgstr "Gwaskañ an dielloù Git"
 
 #: weblate/addons/git.py:26
 msgid "Squash Git commits prior to pushing changes."
-msgstr ""
+msgstr "Gwaskañ an dielloù Git a-raok bountañ ar c'hemmoù."
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
@@ -2374,7 +2379,7 @@ msgstr "Kavlec'h Git"
 #. Translators: Permission name
 #: weblate/auth/data.py:105
 msgid "Commit changes to the internal repository"
-msgstr ""
+msgstr "Diellaouiñ ar c'hemmoù er c'havlec'h diabarzh"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:107
@@ -6204,6 +6209,8 @@ msgstr "Ho trugarekaat evit ober gant Weblate !"
 msgid ""
 "the privacy-respecting localization platform committed to open-source values."
 msgstr ""
+"ar savenn dreiñ a zouj ho prevezded hag a zo stag ouzh talvoudoù ar c'hod "
+"digor."
 
 #: weblate/templates/about/donate.html:29
 #, fuzzy
@@ -6362,10 +6369,12 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
+"Sinet eo an holl zielloù graet gant Weblate gant an alc'hwez GPG "
+"%(gpg_key_id)s, hag a gaver an alc'hwez foran a glot ganto amañ dindan."
 
 #: weblate/templates/about/keys.html:31
 msgid "Commit signing is not configured."
-msgstr ""
+msgstr "N'eo ket kefluniet sinadur an diellaouiñ."
 
 #: weblate/templates/about/stats.html:9
 #: weblate/templates/dashboard/user.html:39 weblate/templates/data.html:53
@@ -7903,13 +7912,16 @@ msgstr "Selladenn ouzh mammennoù an neudennadoù"
 #: weblate/templates/addons/squash_help.html:4
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr ""
+msgstr "Gwasket e vo dielloù Weblate parzhioù ar c'havlec'h-mañ."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" is selected or the commit message is customized to include it."
 msgstr ""
+"Miret e vez ar c'hemennadennoù diellaouiñ orin, met kollet e vez anv an "
+"aozer nemet pa vez diuzet \"Dre aozer\" pe pa vez personelaet ar gemennadenn "
+"ziellaouiñ evit he lakaat e-barzh."
 
 #: weblate/templates/auth/team.html:12
 #: weblate/templates/trans/project-access.html:11

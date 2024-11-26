@@ -87,6 +87,8 @@ class WeblateAccountsConf(AppConf):
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
 
+    ALTCHA_MAX_NUMBER = 1_000_000
+
     REGISTRATION_HINTS = {}
 
     # How long to keep auditlog entries

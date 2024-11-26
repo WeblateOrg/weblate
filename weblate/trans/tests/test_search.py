@@ -18,6 +18,8 @@ from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 
 
 class SearchViewTest(TransactionsTestMixin, ViewTestCase):
+    CREATE_GLOSSARIES = True
+
     def setUp(self) -> None:
         super().setUp()
         self.translation = self.component.translation_set.get(language_code="cs")
@@ -170,6 +172,86 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         self.assertContains(response, "Few")
         self.assertContains(response, "Other")
         self.assertNotContains(response, "Plural form ")
+
+    def assert_search_variant(
+        self,
+        expected_source: str,
+        match_components: list[Component],
+        no_match_component: Component,
+    ) -> None:
+        for component in match_components:
+            response = self.client.get(
+                reverse("search", kwargs={"path": component.get_url_path()}),
+                {"q": "has:variant"},
+            )
+            self.assertContains(response, expected_source)
+
+        response = self.client.get(
+            reverse("search", kwargs={"path": no_match_component.get_url_path()}),
+            {"q": "has:variant"},
+        )
+        self.assertContains(response, "No matching strings found.")
+
+    def test_search_variant_with_flag_create(self) -> None:
+        """
+        Test glossary variant search.
+
+        Specifically checks that search result of 'has:variant' only contains
+        units that have variants in the search language
+        """
+        self.glossary = self.project.glossaries[0]
+        en_glossary = self.glossary.translation_set.get(language__code="en")  # source
+        de_glossary = self.glossary.translation_set.get(language__code="de")
+        cs_glossary = self.glossary.translation_set.get(language__code="cs")
+
+        en_glossary.add_unit(None, "", source="glossary-term")
+
+        # create a unit with a variant for both 'en' and 'de'
+        de_glossary.add_unit(
+            None,
+            "",
+            source="variant-glossary-term",
+            extra_flags="variant:glossary-term",
+        )
+
+        self.assert_search_variant(
+            "variant-glossary-term", [en_glossary, de_glossary], cs_glossary
+        )
+
+    def test_search_variant_with_regex_key(self):
+        mono_component = self.create_po_mono(project=self.project, name="Monolingual")
+
+        # set variant_regex match
+        url = reverse("settings", kwargs={"path": mono_component.get_url_path()})
+        self.project.add_user(self.user, "Administration")
+        response = self.client.get(url)
+        data = response.context["form"].initial
+        data["variant_regex"] = r"(_variant)$"
+
+        response = self.client.post(
+            url,
+            data,
+            follow=True,
+        )
+        self.assertContains(response, "Settings saved")
+
+        mono_component.refresh_from_db()
+        self.assertNotEqual(mono_component.variant_regex, "")
+
+        en_glossary = mono_component.translation_set.get(language__code="en")  # source
+        de_glossary = mono_component.translation_set.get(language__code="de")
+        cs_glossary = mono_component.translation_set.get(language__code="cs")
+
+        en_glossary.add_unit(None, "original", "glossary-term")
+        de_glossary.add_unit(
+            None,
+            "original_variant",
+            source="variant-glossary-term",
+        )
+
+        self.assert_search_variant(
+            "glossary-term", [en_glossary, de_glossary], cs_glossary
+        )
 
     def test_checksum(self) -> None:
         self.do_search({"checksum": "invalid"}, None, anchor="")

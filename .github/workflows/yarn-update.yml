@@ -35,12 +35,17 @@ jobs:
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       run: |
         for dir in scripts/yarn client ; do
+          if [ ! -d $dir ] ; then
+            echo "Skipping $dir"
+            continue
+          fi
           pushd "$dir"
           yarn upgrade
           popd
         done
 
     - run: ./scripts/yarn-update
+      if: hashFiles('scripts/yarn-update') != ''
 
     - run: |
         if [ -d client ] ; then

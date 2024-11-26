@@ -467,9 +467,11 @@ class Billing(models.Model):
             yield LibreCheck(
                 bool(project.web),
                 format_html(
-                    '<a href="{0}">{1}</a>, <a href="{2}">{2}</a>',
+                    '<a href="{0}">{1}</a>, <a href="{2}">{3}</a>',
                     project.get_absolute_url(),
                     project,
+                    project.web
+                    or reverse("settings", kwargs={"path": project.get_url_path()}),
                     project.web or gettext("Project website missing!"),
                 ),
             )
