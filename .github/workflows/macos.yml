@@ -29,6 +29,9 @@ jobs:
     - run: brew upgrade
     - run: brew list --versions
     - run: brew deps --tree --installed
+    - run: brew unlink pkg-config@0.29.2
+      # Some images have pkg-config and some pkgconf, so ignore errors here
+      continue-on-error: true
     - name: Install brew dependencies
       run: |
         brew install pango cairo gobject-introspection glib libyaml pkgconf zstd xxhash libxmlsec1 uv
