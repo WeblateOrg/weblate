@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
 
 
-def dt_as_day_range(dt: datetime | date) -> tuple[datetime]:
+def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
     """
     Convert given datetime/date to a range for that day.
 
