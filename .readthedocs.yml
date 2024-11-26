@@ -18,11 +18,16 @@ build:
   apt_packages:
   # Graphviz is needed for sphinx.ext.graphviz
   - graphviz
-
-# Optionally set the version of Python and requirements required to build your docs
-python:
-  install:
-  - requirements: docs/requirements.txt
+  jobs:
+    create_environment:
+    - asdf plugin add uv
+    - asdf install uv latest
+    - asdf global uv latest
+    install:
+    - uv sync --no-sources --only-group docs --frozen
+    build:
+      html:
+      - .venv/bin/sphinx-build -T -b html -d docs/_build/doctrees -D language=$READTHEDOCS_LANGUAGE docs $READTHEDOCS_OUTPUT/html
 
 # Avoid cloning submodules
 submodules:
