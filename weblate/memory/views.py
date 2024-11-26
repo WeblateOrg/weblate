@@ -131,7 +131,11 @@ class UploadView(MemoryFormView):
             raise PermissionDenied
         try:
             Memory.objects.import_file(
-                self.request, form.cleaned_data["file"], **self.objects
+                self.request,
+                form.cleaned_data["file"],
+                source_language=form.cleaned_data["source_language"],
+                target_language=form.cleaned_data["target_language"],
+                **self.objects,
             )
             messages.success(
                 self.request,
