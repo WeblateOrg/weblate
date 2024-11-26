@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 19:09+0100\n"
-"PO-Revision-Date: 2024-11-18 14:21+0000\n"
+"PO-Revision-Date: 2024-11-27 02:46+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -18171,31 +18171,23 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:592
-#, fuzzy
-#| msgid ""
-#| "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/"
-#| "index>`_"
 msgid ""
 "`What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/sap-"
 "translation-hub/what-is-sap-translation-hub>`_"
 msgstr ""
-"`API de la traducción de Baidu <https://api.fanyi.baidu.com/api/trans/"
-"product/index>`_"
+"`Qué es SAP Translation Hub <https://help.sap.com/docs/translation-hub/"
+"sap-translation-hub/what-is-sap-translation-hub>`_"
 
 #: ../../admin/machine.rst:593
-#, fuzzy
-#| msgid ""
-#| "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/"
-#| "index>`_"
 msgid ""
 "`SAP Translation Hub API <https://api.sap.com/api/translationhub/overview>`_"
 msgstr ""
-"`API de la traducción de Baidu <https://api.fanyi.baidu.com/api/trans/"
-"product/index>`_"
+"` API del centro de traducción de SAP <https://api.sap.com/api/"
+"translationhub/overview>`_"
 
 #: ../../admin/machine.rst:598
 msgid "Systran"
-msgstr ""
+msgstr "sistema"
 
 #: ../../admin/machine.rst:600
 msgid "``systran``"
@@ -18773,54 +18765,67 @@ msgid "import_memory"
 msgstr ""
 
 #: ../../admin/management.rst:351
-#, fuzzy
-#| msgid "Imports a TMX or JSON file into the Weblate translation memory."
 msgid "Imports a file into the Weblate translation memory."
-msgstr "Importa un archivo TMX o JSON en la memoria de traducción de Weblate."
+msgstr "Importa un archivo a la memoria de traducción de Weblate."
 
 #: ../../admin/management.rst:353
 msgid "Supported file formats are TMX, JSON, XLIFF, PO, CSV."
-msgstr ""
+msgstr "Los formatos de archivo compatibles son TMX, JSON, XLIFF, PO, CSV."
 
 #: ../../admin/management.rst:355
 msgid ""
 "Specifying a source and a target languages might be necessary for formats "
 "other than JSON and TMX."
 msgstr ""
+"Es posible que sea necesario especificar un idioma de origen y otro de "
+"destino para formatos distintos de JSON y TMX."
 
 #: ../../admin/management.rst:360
 msgid ""
 "Allows mapping languages in the TMX to the Weblate translation memory. The "
 "language codes are mapped after normalization usually done by Weblate."
 msgstr ""
+"Permite asignar idiomas de la TMX a la memoria de traducción de Weblate. Los "
+"códigos de idioma se asignan después de la normalización realizada "
+"normalmente por Weblate."
 
 #: ../../admin/management.rst:363
 msgid ""
 "``--language-map en_US:en`` will for example import all ``en_US`` strings as "
 "``en`` ones."
 msgstr ""
+"``--language-map en_US:en`` importará, por ejemplo, todas las cadenas "
+"``en_US`` como cadenas ``en``."
 
 #: ../../admin/management.rst:366
 msgid ""
 "This can be useful in case your TMX file locales happen not to match what "
 "you use in Weblate."
 msgstr ""
+"Esto puede ser útil en caso de que la configuración regional de tu archivo "
+"TMX no coincida con la que utilizas en Weblate."
 
 #: ../../admin/management.rst:371
 msgid ""
 "Specifies the source language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"Especifica el idioma de origen de las traducciones importadas. Suele ser "
+"necesario para formatos en los que los idiomas no pueden determinarse a "
+"partir del propio archivo."
 
 #: ../../admin/management.rst:376
 msgid ""
 "Specifies the target language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"Especifica el idioma de destino de las traducciones importadas. Suele ser "
+"necesario para formatos en los que los idiomas no pueden determinarse a "
+"partir del propio archivo."
 
 #: ../../admin/management.rst:385
 msgid "import_project"
-msgstr ""
+msgstr "import_project"
 
 #: ../../admin/management.rst:389
 msgid ""
@@ -18828,12 +18833,17 @@ msgid ""
 "the :ref:`addon-weblate.discovery.discovery` add-on, so you might want to "
 "use that instead."
 msgstr ""
+"Importa por lotes componentes al proyecto basándose en la máscara de "
+"archivo. Se basa en el complemento :ref:`addon-weblate.discovery.discovery`, "
+"por lo que es posible que desee utilizarlo en su lugar."
 
 #: ../../admin/management.rst:393
 msgid ""
 "`<project>` names an existing project, into which the components are to be "
 "imported."
 msgstr ""
+"`<project>` nombra un proyecto existente en el que se importarán los "
+"componentes."
 
 #: ../../admin/management.rst:396
 msgid ""
@@ -18842,6 +18852,10 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
+"El `<gitrepo>` define la URL del repositorio Git a utilizar, y `<branch>` "
+"significa la rama Git. Para importar componentes de traducción adicionales "
+"de un componente Weblate existente, utilice una URL "
+"`weblate://<project>/<component>` para el `<gitrepo>`."
 
 #: ../../admin/management.rst:401
 msgid ""
@@ -18849,54 +18863,67 @@ msgid ""
 "be made simple using wildcards, or it can use the full power of regular "
 "expressions."
 msgstr ""
+"La `<máscara de fichero>` define el descubrimiento de ficheros para el "
+"repositorio. Puede ser simple usando comodines, o puede usar todo el poder "
+"de las expresiones regulares."
 
 #: ../../admin/management.rst:404
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
 msgstr ""
+"La concordancia simple utiliza ``**`` para el nombre del componente y ``*`` "
+"para el idioma, por ejemplo: ``**/*.po``"
 
 #: ../../admin/management.rst:407
 msgid ""
 "The regular expression has to contain groups named `component` and "
 "`language`. For example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 msgstr ""
+"La expresión regular debe contener grupos denominados `componente` e `idioma`"
+". Por ejemplo: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``."
 
 #: ../../admin/management.rst:410
 msgid ""
 "The import matches existing components based on files and adds the ones that "
 "do not exist. It does not change already existing ones."
 msgstr ""
+"La importación compara los componentes existentes en función de los archivos "
+"y añade los que no existen. No modifica los ya existentes."
 
 #: ../../admin/management.rst:415
 msgid "Customize the name of a component using Django template syntax."
 msgstr ""
+"Personaliza el nombre de un componente utilizando la sintaxis de plantillas "
+"de Django."
 
 #: ../../admin/management.rst:417
 msgid "For example: ``Documentation: {{ component }}``"
-msgstr ""
+msgstr "Por ejemplo: ``Documentación: {{ componente }}``"
 
 #: ../../admin/management.rst:421
 msgid "Customize the base file for monolingual translations."
-msgstr ""
+msgstr "Personalice el archivo base para traducciones monolingües."
 
 #: ../../admin/management.rst:423
 msgid "For example: ``{{ component }}/res/values/string.xml``"
-msgstr ""
+msgstr "Por ejemplo: ``{{ component }}/res/values/string.xml``"
 
 #: ../../admin/management.rst:427
 msgid "Customize the base file for addition of new translations."
-msgstr ""
+msgstr "Personalice el archivo base para añadir nuevas traducciones."
 
 #: ../../admin/management.rst:429
 msgid "For example: ``{{ component }}/ts/en.ts``"
-msgstr ""
+msgstr "Por ejemplo: ``{{ component }}/ts/en.ts``"
 
 #: ../../admin/management.rst:433
 msgid ""
 "You can also specify the file format to use (see :ref:`formats`), the "
 "default is auto-detection."
 msgstr ""
+"También puede especificar el formato de archivo a utilizar (véase "
+":ref:`formats`), por defecto es la detección automática."
 
 #: ../../admin/management.rst:438
 msgid ""
@@ -19496,17 +19523,14 @@ msgid ""
 msgstr "Se reintrodujo la posibilidad de vaciar la memoria de traducción."
 
 #: ../../admin/memory.rst:88
-#, fuzzy
-#| msgid ""
-#| "Translation memory in JSON can be imported into Weblate, TMX is provided "
-#| "for interoperability with other tools."
 msgid ""
 "Translation memories in various formats can be imported into Weblate, the "
 "TMX format is provided for interoperability with other tools. All supported "
 "formats are TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
-"Las memorias de traducción JSON pueden importarse en Weblate. Se brinda el "
-"formato TMX por razones de interoperatividad con otras herramientas."
+"Las memorias de traducción en varios formatos pueden importarse a Weblate, "
+"el formato TMX se proporciona para la interoperabilidad con otras "
+"herramientas. Todos los formatos compatibles son TMX, JSON, XLIFF, PO, CSV."
 
 #: ../../admin/memory.rst:93
 msgid ":ref:`schema-memory`"
@@ -23030,50 +23054,45 @@ msgid "``X-RateLimit-Limit``"
 msgstr "``X-RateLimit-Limit``"
 
 #: ../../api.rst:203
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Allowed number of requests to perform"
-msgstr "Limitar el número de solicitudes que se realicen"
+msgstr "Número permitido de solicitudes a realizar"
 
 #: ../../api.rst:205
 msgid "``X-RateLimit-Remaining``"
 msgstr "``X-RateLimit-Remaining``"
 
 #: ../../api.rst:205
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "Limitar el número de solicitudes que se realicen"
+msgstr "Número restante de solicitudes por realizar"
 
 #: ../../api.rst:207
 msgid "``X-RateLimit-Reset``"
 msgstr "``X-RateLimit-Reset``"
 
 #: ../../api.rst:207
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
 msgstr ""
-"Número de segundos restantes antes de que se restablezca la ventana de "
-"limitación de velocidad"
+"Número de segundos hasta que se reinicia la ventana de límite de velocidad"
 
 #: ../../api.rst:212
 msgid "Added ratelimiting status headers."
-msgstr ""
+msgstr "Se agregaron encabezados de estado de limitación de velocidad."
 
 #: ../../api.rst:216
 msgid ""
 ":ref:`rate-limit`, :ref:`user-rate`, :envvar:`WEBLATE_API_RATELIMIT_ANON`, :"
 "envvar:`WEBLATE_API_RATELIMIT_USER`"
 msgstr ""
+":ref:`rate-limit`, :ref:`user-rate`, :envvar:`WEBLATE_API_RATELIMIT_ANON`, "
+":envvar:`WEBLATE_API_RATELIMIT_USER`"
 
 #: ../../api.rst:223
 msgid "API Entry Point"
-msgstr ""
+msgstr "Punto de entrada de la API"
 
 #: ../../api.rst:227
 msgid "The API root entry point."
-msgstr ""
+msgstr "El punto de entrada raíz de la API."
 
 #: ../../api.rst:260
 msgid "Users"
@@ -24165,16 +24184,12 @@ msgid ":ref:`component-push_on_commit`"
 msgstr ":ref:`component-push_on_commit`"
 
 #: ../../api.rst:1300
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 "Whether component is locked, this field is read-only; see :http:get:`/api/"
 "components/(string:project)/(string:component)/lock/`"
 msgstr ""
-"Parámetros de componentes, consulte :http:get:`/api/components/(string:"
-"project)/(string:component)/`"
+"Si el componente está bloqueado, este campo es de sólo lectura; véase "
+":http:get:`/api/components/(cadena:proyecto)/(cadena:componente)/lock/`"
 
 #: ../../api.rst:1301
 msgid ":ref:`component-commit_pending_age`"
@@ -25900,16 +25915,21 @@ msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and `import_memory` command in :ref:`manage`."
 msgstr ""
+"La importación de memorias de traducción ahora admite archivos con formatos "
+"XLIFF, PO y CSV, consulte los comandos :ref:`memory-user` e `import_memory` "
+"en :ref:`manage`."
 
 #: ../../changes.rst:9
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
-msgstr ""
+msgstr "El CAPTCHA de registro incluye ahora el mecanismo de prueba ALTCHA."
 
 #: ../../changes.rst:10
 msgid ""
 "Leading problematic characters in CSV are now checks for :ref:`glossary`, "
 "see :ref:`check-prohibited-initial-character`."
 msgstr ""
+"Los caracteres iniciales problemáticos en CSV ahora se comprueban con "
+":ref:`glossary`, véase :ref:`check-prohibited-initial-character`."
 
 #: ../../changes.rst:12 ../../changes.rst:44 ../../changes.rst:140
 #: ../../changes.rst:183 ../../changes.rst:209 ../../changes.rst:247
@@ -25945,51 +25965,47 @@ msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgstr ""
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` exposes "
 "component lock state."
 msgstr ""
-"Parámetros de componentes, consulte :http:get:`/api/components/(string:"
-"project)/(string:component)/`"
+":http:get:`/api/components/(cadena:proyecto)/(cadena:componente)/` expone el "
+"estado de bloqueo de componentes."
 
 #: ../../changes.rst:19
 msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
 msgstr ""
+"El editor en :ref:`zen-mode` se pega ahora a la parte inferior de la "
+"pantalla."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Added pagination to projects listing."
 msgid "Added page navigation while :ref:`translating`."
-msgstr "Se añadió paginación a la lista de proyectos."
+msgstr "Añadida navegación por la página mientras se :ref:`traduce`."
 
 #: ../../changes.rst:21
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
 msgstr ""
+":ref:`manage-appearance` ahora tiene ajustes distintos para el modo oscuro."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Improved :ref:`translation-propagation` performance."
-msgstr ":ref:`workflow-customization`"
+msgstr "Mejora del rendimiento de :ref:`translation-propagation`."
 
 #: ../../changes.rst:24
 msgid ""
 "**Bug fixes** * Using the `has:variant` field now correctly displays strings "
 "that have variant(s) in the search language, see :ref:`search-strings`."
 msgstr ""
+"** Corrección de errores ** * El uso del campo `has:variant` ahora muestra "
+"correctamente las cadenas que tienen variantes en el idioma de búsqueda , "
+"consulte :ref:` search -strings`."
 
 #: ../../changes.rst:27 ../../changes.rst:161 ../../changes.rst:266
 #: ../../changes.rst:356 ../../changes.rst:518 ../../changes.rst:624
 #: ../../changes.rst:677 ../../changes.rst:742 ../../changes.rst:772
 #: ../../changes.rst:817 ../../changes.rst:884 ../../changes.rst:939
-#, fuzzy
-#| msgid "**activity**"
 msgid "**Compatibility**"
-msgstr "**actividad**"
+msgstr "**Compatibilidad**"
 
 #: ../../changes.rst:29 ../../changes.rst:54 ../../changes.rst:75
 #: ../../changes.rst:98 ../../changes.rst:117 ../../changes.rst:166
@@ -26008,10 +26024,8 @@ msgstr "**actividad**"
 #: ../../changes/v4.rst:696 ../../changes/v4.rst:767 ../../changes/v4.rst:858
 #: ../../changes/v4.rst:933 ../../changes/v4.rst:1019 ../../changes/v4.rst:1094
 #: ../../changes/v4.rst:1167
-#, fuzzy
-#| msgid "Upgrading Weblate"
 msgid "**Upgrading**"
-msgstr "Actualizar Weblate"
+msgstr "**Actualización**"
 
 #: ../../changes.rst:31 ../../changes.rst:56 ../../changes.rst:77
 #: ../../changes.rst:100 ../../changes.rst:119 ../../changes.rst:168
@@ -26063,14 +26077,12 @@ msgid "Weblate 5.8.4"
 msgstr "Weblate 4.10"
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Released on November 19th 2021."
 msgid "Released on November 19th 2024."
-msgstr "Publicada el 19 de noviembre de 2021."
+msgstr "Publicada el 19 de Noviembre de 2024."
 
 #: ../../changes.rst:46
 msgid ":ref:`search-users` can search based on user changes."
-msgstr ""
+msgstr ":ref:` search -users` puede buscar según los cambios del usuario."
 
 #: ../../changes.rst:48 ../../changes.rst:69 ../../changes.rst:90
 #: ../../changes.rst:113 ../../changes.rst:155 ../../changes.rst:189
@@ -26082,28 +26094,23 @@ msgstr ""
 #: ../../changes.rst:640 ../../changes.rst:673 ../../changes.rst:698
 #: ../../changes.rst:734 ../../changes.rst:767 ../../changes.rst:808
 #: ../../changes.rst:841 ../../changes.rst:874 ../../changes.rst:931
-#, fuzzy
-#| msgid "Languages"
 msgid "**Bug fixes**"
-msgstr "Idiomas"
+msgstr "** Corrección de errores **"
 
 #: ../../changes.rst:50
-#, fuzzy
-#| msgid "Fixed listing GPG keys in some setups."
 msgid "Fixed occasional crash in :ref:`rss`."
-msgstr ""
-"Se arregló la visualización de las claves GPG en determinados montajes."
+msgstr "Se corrigió un fallo ocasional en :ref:`rss`."
 
 #: ../../changes.rst:51
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
-msgstr "Omita el control de calidad :ref:`check-icu-message-format`."
+msgstr ":ref:`check-icu-message-format` maneja con elegancia cadenas plurales."
 
 #: ../../changes.rst:52
 msgid ""
 ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
 msgstr ""
+":ref:` vcs -bitbucket-cloud` genera correctamente la descripción de la "
+"solicitud de extracción ."
 
 #: ../../changes/contributors/5.7.1.rst:2
 #: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
@@ -26111,16 +26118,12 @@ msgstr ""
 #: ../../changes/contributors/5.8.2.rst:2
 #: ../../changes/contributors/5.8.3.rst:2
 #: ../../changes/contributors/5.8.4.rst:2 ../../changes/contributors/5.8.rst:2
-#, fuzzy
-#| msgid "Contributors"
 msgid "Code contributions"
-msgstr "Contribuidores"
+msgstr "Colaboraciones al código"
 
 #: ../../changes/contributors/5.8.4.rst:3
-#, fuzzy
-#| msgid "Michal Čihař"
 msgid "Michal Čihař, gersona, Mehdi El Oualy"
-msgstr "Michal Čihař"
+msgstr "Michal Čihař, Gerson, Mehdi El Oualy"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
@@ -26128,18 +26131,14 @@ msgstr "Michal Čihař"
 #: ../../changes/contributors/5.8.2.rst:8
 #: ../../changes/contributors/5.8.3.rst:5
 #: ../../changes/contributors/5.8.4.rst:5 ../../changes/contributors/5.8.rst:8
-#, fuzzy
-#| msgid "Documentation updates."
 msgid "Documentation contributions"
-msgstr "Puesta al día de la documentación."
+msgstr "Colaboraciones a la documentación"
 
 #: ../../changes/contributors/5.7.2.rst:9
 #: ../../changes/contributors/5.8.1.rst:3
 #: ../../changes/contributors/5.8.1.rst:6
 #: ../../changes/contributors/5.8.3.rst:6
 #: ../../changes/contributors/5.8.4.rst:6
-#, fuzzy
-#| msgid "Michal Čihař"
 msgid "Michal Čihař"
 msgstr "Michal Čihař"
 
@@ -38913,6 +38912,10 @@ msgid ""
 "42B7 511D``. This public key is available on the most commonly used key "
 "servers, and from `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
+"Si desea enviar un correo electrónico cifrado (*opcional*), utilice la clave "
+"pública de michal@weblate.org con ID ``3CB 1DF1 EF12 CF2A C0EE 5A32 9C27 "
+"B313 42B7 511D``. Esta clave pública está disponible en los servidores de "
+"claves más utilizados y en `Keybase <https://keybase.io/nijel>`_."
 
 #: ../../contributing/issues.rst:49
 msgid ""
@@ -38920,19 +38923,23 @@ msgid ""
 "a vulnerability affecting one of those components in general, please report "
 "it directly to the respective project."
 msgstr ""
+"Weblate depende de componentes de terceros para muchas cosas. En caso de que "
+"encuentre una vulnerabilidad que afecte a uno de esos componentes en "
+"general, infórmelo directamente al proyecto correspondiente ."
 
 #: ../../contributing/issues.rst:53
 msgid "Some of these are:"
-msgstr ""
+msgstr "Algunos de estos son:"
 
 #: ../../contributing/issues.rst:55
 msgid ":doc:`Django <django:internals/security>`"
-msgstr ""
+msgstr ":doc:`Django <django:internals/security>`"
 
 #: ../../contributing/issues.rst:56
 msgid ""
 "`Django REST framework <https://www.django-rest-framework.org/#security>`_"
 msgstr ""
+"`Django REST framework <https://www.django-rest-framework.org/#security>`_"
 
 #: ../../contributing/issues.rst:57
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
@@ -40183,27 +40190,25 @@ msgstr ""
 "Docker y lo reiniciará."
 
 #: ../../contributing/start.rst:117
-#, fuzzy
-#| msgid ""
-#| "This is not a suitable setup for production, as it includes several hacks "
-#| "which are insecure, but they make development easier."
 msgid ""
 "This container is not suitable for production use. Security is sacrificed to "
 "make the development easier."
 msgstr ""
-"Esta no es una puesta en funcionamiento ideal para entornos de producción, "
-"puesto que incluye varios arreglos apurados inseguros que, sin embargo, "
-"facilitan el desarrollo."
+"Este contenedor no es adecuado para su uso en producción. Se sacrifica la "
+"seguridad para facilitar el desarrollo."
 
 #: ../../contributing/start.rst:121
 msgid "Bootstrapping your devel instance"
-msgstr ""
+msgstr "Arranque de su instancia de desarrollo"
 
 #: ../../contributing/start.rst:123
 msgid ""
 "You might want to use :wladmin:`import_demo` to create demo translations "
 "and :wladmin:`createadmin` to make an admin user."
 msgstr ""
+"Es posible que desees utilizar :wladmin:`import_demo` para crear "
+"traducciones de demostración y :wladmin:`createadmin` para crear un usuario "
+"administrador."
 
 #: ../../contributing/start.rst:127
 msgid "Coding Weblate with PyCharm"
@@ -41762,16 +41767,17 @@ msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
 "repository, so there is usually no need to manage it manually."
 msgstr ""
+"Con :doc:`/admin/continuous`, cualquier cambio se envía automáticamente "
+"desde el repositorio , por lo que generalmente no es necesario administrarlo "
+"manualmente."
 
 #: ../../devel/integration.rst:176
-#, fuzzy
-#| msgid ":doc:`../contributing/addons`"
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
-msgstr ":doc:`../contributing/addons`"
+msgstr ":doc:`/admin/continuous`, :doc:`/vcs`"
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
-msgstr ""
+msgstr "Informes de progreso de la traducción"
 
 #: ../../devel/reporting.rst:4
 msgid ""
@@ -42483,6 +42489,13 @@ msgid ""
 "automatically adjust :guilabel:`Context` by adding a numeric suffix in case "
 "such a string already exist in the translation."
 msgstr ""
+"Weblate puede agregar nuevas cadenas a archivos existentes para la mayoría "
+"de los formatos de archivo. También puede especificar :guilabel:`Contexto` "
+"para formatos bilingües para distinguir las mismas cadenas utilizadas en "
+"diferentes contextos. :guilabel:`Ajustar automáticamente el contexto cuando "
+"ya existe una cadena idéntica.` se puede utilizar para ajustar "
+"automáticamente :guilabel:`Contexto` agregando un sufijo numérico en caso de "
+"que dicha cadena ya exista en la traducción ."
 
 #: ../../devel/translations.rst:23
 #, fuzzy
@@ -49555,14 +49568,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1871
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "Insertar tabulador"
+msgstr "Caracter inicial prohibido"
 
 #: ../../user/checks.rst:1875
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "La cadena comienza con un carácter prohibido en CSV"
 
 #: ../../user/checks.rst:1877
 #, fuzzy
@@ -51153,6 +51164,9 @@ msgid ""
 "different extensions, please consult the database documentation below for "
 "more details."
 msgstr ""
+"Las expresiones regulares son evaluadas por el backend de la base de datos y "
+"pueden utilizar diferentes extensiones, por favor consulte la documentación "
+"de la base de datos para más detalles."
 
 #: ../../user/search.rst:175
 msgid ""
@@ -51160,18 +51174,25 @@ msgid ""
 "current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the default "
 "database engine for Weblate)"
 msgstr ""
+"` Detalles de expresiones regulares de PostgreSQL <https://www.postgresql."
+"org/docs/ current /functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (este es "
+"el motor de base de datos predeterminado para Weblate )"
 
 #: ../../user/search.rst:176
 msgid ""
 "`MariaDB Regular Expressions Overview <https://mariadb.com/kb/en/regular-"
 "expressions-overview/>`_"
 msgstr ""
+"`Expresiones regulares en MariaDB <https://mariadb.com/kb/en/"
+"regular-expressions-overview/>`_"
 
 #: ../../user/search.rst:177
 msgid ""
 "`MySQL Regular Expressions <https://dev.mysql.com/doc/refman/8.4/en/regexp."
 "html>`_"
 msgstr ""
+"`Expresiones regulares MySQL <https://dev.mysql.com/doc/refman/8.4/en/regexp."
+"html>`_"
 
 #: ../../user/search.rst:180
 msgid "Predefined queries"
@@ -52238,16 +52259,22 @@ msgid ""
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
 msgstr ""
+"Puede comparar diferentes idiomas de forma eficaz utilizando esta vista Está "
+"disponible en todas las páginas de componentes, desde el menú "
+":guilabel:`Herramientas`. En primer lugar, seleccione todos los idiomas que "
+"desee comparar, confirme su selección y, a continuación, haga clic en "
+"cualquier traducción para abrirla y editarla."
 
 #: ../../user/translating.rst:452
 msgid ""
 "The matrix view is also a very good starting point to find missing "
 "translations in different languages, and quickly add them from one view."
 msgstr ""
+"La vista matricial también es un muy buen punto de partida para encontrar "
+"traducciones faltantes en diferentes idiomas y agregarlas rápidamente desde "
+"una sola vista."
 
 #: ../../user/translating.rst:458
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Zen Mode"
 msgstr "Modo zen"
 
@@ -52258,6 +52285,10 @@ msgid ""
 "clicking the :guilabel:`Zen` button on the top-right of the regular editor "
 "(translation of a string)."
 msgstr ""
+"Este modo simplifica el diseño y elimina elementos adicionales de la "
+"interfaz de usuario como :guilabel:`Cadenas cercanas` o el "
+":guilabel:`Glosario`. Está disponible pulsando el botón :guilabel:`Zen` en "
+"la parte superior derecha del editor normal (traducción de una cadena)."
 
 #: ../../user/translating.rst:464
 msgid ""
@@ -52266,6 +52297,10 @@ msgid ""
 "between having translations listed :guilabel:`Top to bottom` or :guilabel:"
 "`Side by side`, depending on your personal preference."
 msgstr ""
+"Puede seleccionar el editor Zen como su editor por defecto usando la pestaña "
+":ref:`perfil-preferencias` de su :ref:`perfil-de-usuario`. También puede "
+"elegir entre tener las traducciones listadas :guilabel:`Top to bottom` o "
+":guilabel:`Side by side`, dependiendo de sus preferencias personales."
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
@@ -52350,6 +52385,13 @@ msgid ""
 "access to the repository. You can then use SSH URL to access the repository "
 "(see :ref:`ssh-repos`)."
 msgstr ""
+"El acceso a repositorios en páginas de alojamiento de código se realiza "
+"normalmente creando un usuario dedicado que se asocia con una clave SSH de "
+"Weblate (ver :ref:`weblate-ssh-key`). De esta forma asocia la clave SSH de "
+"Weblate a un único usuario (las plataformas suelen imponer el uso único de "
+"una clave SSH) y concede a este usuario acceso al repositorio. A "
+"continuación, puede utilizar la URL SSH para acceder al repositorio ("
+"consulte :ref:`ssh-repos`)."
 
 #: ../../vcs.rst:61
 msgid ""
