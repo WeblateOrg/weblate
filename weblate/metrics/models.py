@@ -211,9 +211,7 @@ class MetricManager(models.Manager["Metric"]):
             msg = f"Unsupported type for metrics: {obj!r}"
             raise TypeError(msg)
 
-        count = changes.filter(
-            timestamp__date=date - datetime.timedelta(days=1)
-        ).count()
+        count = changes.filter_by_day(date - datetime.timedelta(days=1)).count()
         self.create_metrics(
             {"changes": count}, None, set(), scope, relation, secondary, date=date
         )
@@ -253,12 +251,13 @@ class MetricManager(models.Manager["Metric"]):
             "translations": Translation.objects.count(),
             "memory": Memory.objects.count(),
             "screenshots": Screenshot.objects.count(),
-            "changes": Change.objects.filter(
-                timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
+            "changes": Change.objects.filter_by_day(
+                timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
-            "contributors": Change.objects.filter(
-                timestamp__date__gte=timezone.now().date()
-                - datetime.timedelta(days=30),
+            "contributors": Change.objects.since_day(
+                timezone.now().date() - datetime.timedelta(days=30)
+            )
+            .filter(
                 user__is_active=True,
                 user__is_bot=False,
             )
@@ -277,12 +276,13 @@ class MetricManager(models.Manager["Metric"]):
         )
 
         data = {
-            "changes": changes.filter(
-                timestamp__date=timezone.now().date() - datetime.timedelta(days=1),
+            "changes": changes.filter_by_day(
+                timezone.now().date() - datetime.timedelta(days=1),
             ).count(),
-            "contributors": changes.filter(
-                timestamp__date__gte=timezone.now().date()
-                - datetime.timedelta(days=30),
+            "contributors": changes.since_day(
+                timezone.now().date() - datetime.timedelta(days=30)
+            )
+            .filter(
                 user__is_active=True,
                 user__is_bot=False,
             )
@@ -308,12 +308,13 @@ class MetricManager(models.Manager["Metric"]):
         )
 
         data = {
-            "changes": changes.filter(
-                timestamp__date=timezone.now().date() - datetime.timedelta(days=1),
+            "changes": changes.filter_by_day(
+                timezone.now().date() - datetime.timedelta(days=1),
             ).count(),
-            "contributors": changes.filter(
-                timestamp__date__gte=timezone.now().date()
-                - datetime.timedelta(days=30),
+            "contributors": changes.since_day(
+                timezone.now().date() - datetime.timedelta(days=30)
+            )
+            .filter(
                 user__is_active=True,
                 user__is_bot=False,
             )
@@ -344,12 +345,13 @@ class MetricManager(models.Manager["Metric"]):
             "translations": Translation.objects.filter(
                 component__category=category
             ).count(),
-            "changes": changes.filter(
-                timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
+            "changes": changes.filter_by_day(
+                timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
-            "contributors": changes.filter(
-                timestamp__date__gte=timezone.now().date()
-                - datetime.timedelta(days=30),
+            "contributors": changes.since_day(
+                timezone.now().date() - datetime.timedelta(days=30)
+            )
+            .filter(
                 user__is_active=True,
                 user__is_bot=False,
             )
@@ -378,12 +380,13 @@ class MetricManager(models.Manager["Metric"]):
             "screenshots": Screenshot.objects.filter(
                 translation__component__project=project
             ).count(),
-            "changes": project.change_set.filter(
-                timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
+            "changes": project.change_set.filter_by_day(
+                timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
-            "contributors": project.change_set.filter(
-                timestamp__date__gte=timezone.now().date()
-                - datetime.timedelta(days=30),
+            "contributors": project.change_set.since_day(
+                timezone.now().date() - datetime.timedelta(days=30)
+            )
+            .filter(
                 user__is_active=True,
                 user__is_bot=False,
             )
@@ -413,12 +416,13 @@ class MetricManager(models.Manager["Metric"]):
             "screenshots": Screenshot.objects.filter(
                 translation__component=component
             ).count(),
-            "changes": component.change_set.filter(
-                timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
+            "changes": component.change_set.filter_by_day(
+                timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
-            "contributors": component.change_set.filter(
-                timestamp__date__gte=timezone.now().date()
-                - datetime.timedelta(days=30),
+            "contributors": component.change_set.since_day(
+                timezone.now().date() - datetime.timedelta(days=30)
+            )
+            .filter(
                 user__is_active=True,
                 user__is_bot=False,
             )
@@ -434,12 +438,13 @@ class MetricManager(models.Manager["Metric"]):
     def collect_component_list(self, clist: ComponentList):
         changes = Change.objects.filter(component__in=clist.components.all())
         data = {
-            "changes": changes.filter(
-                timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
+            "changes": changes.filter_by_day(
+                timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
-            "contributors": changes.filter(
-                timestamp__date__gte=timezone.now().date()
-                - datetime.timedelta(days=30),
+            "contributors": changes.since_day(
+                timezone.now().date() - datetime.timedelta(days=30)
+            )
+            .filter(
                 user__is_active=True,
                 user__is_bot=False,
             )
@@ -459,12 +464,13 @@ class MetricManager(models.Manager["Metric"]):
     def collect_translation(self, translation: Translation):
         data = {
             "screenshots": translation.screenshot_set.count(),
-            "changes": translation.change_set.filter(
-                timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
+            "changes": translation.change_set.filter_by_day(
+                timezone.now().date() - datetime.timedelta(days=1)
             ).count(),
-            "contributors": translation.change_set.filter(
-                timestamp__date__gte=timezone.now().date()
-                - datetime.timedelta(days=30),
+            "contributors": translation.change_set.since_day(
+                timezone.now().date() - datetime.timedelta(days=30)
+            )
+            .filter(
                 user__is_active=True,
                 user__is_bot=False,
             )
@@ -482,8 +488,8 @@ class MetricManager(models.Manager["Metric"]):
 
     @transaction.atomic
     def collect_user(self, user: User):
-        data = user.change_set.filter(
-            timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
+        data = user.change_set.filter_by_day(
+            timezone.now().date() - datetime.timedelta(days=1)
         ).aggregate(
             changes=Count("id"),
             comments=Count("id", filter=Q(action=Change.ACTION_COMMENT)),
@@ -505,12 +511,13 @@ class MetricManager(models.Manager["Metric"]):
     def collect_language(self, language: Language):
         changes = language.change_set.all()
         data = {
-            "changes": changes.filter(
-                timestamp__date=timezone.now().date() - datetime.timedelta(days=1),
+            "changes": changes.filter_by_day(
+                timezone.now().date() - datetime.timedelta(days=1),
             ).count(),
-            "contributors": changes.filter(
-                timestamp__date__gte=timezone.now().date()
-                - datetime.timedelta(days=30),
+            "contributors": changes.since_day(
+                timezone.now().date() - datetime.timedelta(days=30)
+            )
+            .filter(
                 user__is_active=True,
                 user__is_bot=False,
             )

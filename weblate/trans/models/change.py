@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING
 
 import sentry_sdk
@@ -28,13 +28,26 @@ from weblate.utils.pii import mask_email
 from weblate.utils.state import StringState
 
 if TYPE_CHECKING:
-    from datetime import datetime
-
     from weblate.auth.models import User
     from weblate.trans.models import Translation
 
 
 CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
+
+
+def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
+    """
+    Convert given datetime/date to a range for that day.
+
+    The resulting tuple contains the start of the day (00:00:00) and end of the
+    day (23:59:59.999999).
+    """
+    if isinstance(dt, date):
+        dt = timezone.make_aware(datetime.combine(dt, datetime.min.time()))
+    return (
+        dt.replace(hour=0, minute=0, second=0, microsecond=0),
+        dt.replace(hour=23, minute=59, second=59, microsecond=999999),
+    )
 
 
 class ChangeQuerySet(models.QuerySet["Change"]):
@@ -236,6 +249,22 @@ class ChangeQuerySet(models.QuerySet["Change"]):
                 lookup[change.old] = change.project_id
         cache.set(CHANGE_PROJECT_LOOKUP_KEY, lookup, 3600 * 24 * 7)
         return lookup
+
+    def filter_by_day(self, dt: datetime | date):
+        """
+        Filter changes by given date.
+
+        Optimized to use Database index by not converting timestamp to date object
+        """
+        return self.filter(timestamp__range=dt_as_day_range(dt))
+
+    def since_day(self, dt: datetime | date):
+        """
+        Filter changes since given date.
+
+        Optimized to use Database index by not converting timestamp to date object
+        """
+        return self.filter(timestamp__gte=dt_as_day_range(dt)[0])
 
 
 class ChangeManager(models.Manager["Change"]):
