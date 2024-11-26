@@ -150,8 +150,8 @@ class MemoryManager(models.Manager):
         request: AuthenticatedHttpRequest,
         fileobj,
         langmap=None,
-        source_language: str | None = None,
-        target_language: str | None = None,
+        source_language: Language | str | None = None,
+        target_language: Language | str | None = None,
         **kwargs,
     ):
         origin = os.path.basename(fileobj.name).lower()
@@ -299,8 +299,8 @@ class MemoryManager(models.Manager):
         request,
         fileobj,
         origin,
-        source_language: str | None = None,
-        target_language: str | None = None,
+        source_language: Language | str | None = None,
+        target_language: Language | str | None = None,
         **kwargs,
     ) -> int:
         """
@@ -345,17 +345,16 @@ class MemoryManager(models.Manager):
         target_language = get_language(storage.language_code or target_language)
 
         count = 0
-        for unit in storage.all_units:
-            if unit.source and unit.target and unit.source != unit.target:
-                self.update_entry(
-                    source_language=source_language,
-                    target_language=target_language,
-                    source=unit.source,
-                    target=unit.target,
-                    origin=origin,
-                    **kwargs,
-                )
-                count += 1
+        for _unused, unit in storage.iterate_merge("", only_translated=True):
+            self.update_entry(
+                source_language=source_language,
+                target_language=target_language,
+                source=unit.source,
+                target=unit.target,
+                origin=origin,
+                **kwargs,
+            )
+            count += 1
         return count
 
     def update_entry(self, **kwargs) -> None:
