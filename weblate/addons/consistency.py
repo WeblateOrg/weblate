@@ -12,7 +12,7 @@ from weblate.addons.tasks import language_consistency
 
 
 class LanguageConsistencyAddon(BaseAddon):
-    events = (AddonEvent.EVENT_DAILY, AddonEvent.EVENT_POST_ADD)
+    events: set[AddonEvent] = {AddonEvent.EVENT_DAILY, AddonEvent.EVENT_POST_ADD}
     name = "weblate.consistency.languages"
     verbose = gettext_lazy("Add missing languages")
     description = gettext_lazy(

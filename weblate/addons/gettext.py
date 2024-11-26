@@ -28,7 +28,9 @@ class GettextBaseAddon(BaseAddon):
 
 
 class GenerateMoAddon(GettextBaseAddon):
-    events = (AddonEvent.EVENT_PRE_COMMIT,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_PRE_COMMIT,
+    }
     name = "weblate.gettext.mo"
     verbose = gettext_lazy("Generate MO files")
     description = gettext_lazy(
@@ -61,7 +63,7 @@ class GenerateMoAddon(GettextBaseAddon):
 
 
 class UpdateLinguasAddon(GettextBaseAddon):
-    events = (AddonEvent.EVENT_POST_ADD, AddonEvent.EVENT_DAILY)
+    events: set[AddonEvent] = {AddonEvent.EVENT_POST_ADD, AddonEvent.EVENT_DAILY}
     name = "weblate.gettext.linguas"
     verbose = gettext_lazy("Update LINGUAS file")
     description = gettext_lazy(
@@ -154,7 +156,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
 
 class UpdateConfigureAddon(GettextBaseAddon):
-    events = (AddonEvent.EVENT_POST_ADD, AddonEvent.EVENT_DAILY)
+    events: set[AddonEvent] = {AddonEvent.EVENT_POST_ADD, AddonEvent.EVENT_DAILY}
     name = "weblate.gettext.configure"
     verbose = gettext_lazy('Update ALL_LINGUAS variable in the "configure" file')
     description = gettext_lazy(
@@ -343,7 +345,9 @@ class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
 
 
 class GettextAuthorComments(GettextBaseAddon):
-    events = (AddonEvent.EVENT_PRE_COMMIT,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_PRE_COMMIT,
+    }
     name = "weblate.gettext.authors"
     verbose = gettext_lazy("Contributors in comment")
     description = gettext_lazy(

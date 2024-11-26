@@ -28,7 +28,9 @@ if TYPE_CHECKING:
 
 
 class GenerateFileAddon(BaseAddon):
-    events = (AddonEvent.EVENT_PRE_COMMIT,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_PRE_COMMIT,
+    }
     name = "weblate.generate.generate"
     verbose = gettext_lazy("Statistics generator")
     description = gettext_lazy(
@@ -59,7 +61,10 @@ class GenerateFileAddon(BaseAddon):
 
 
 class LocaleGenerateAddonBase(BaseAddon):
-    events = (AddonEvent.EVENT_COMPONENT_UPDATE, AddonEvent.EVENT_DAILY)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_COMPONENT_UPDATE,
+        AddonEvent.EVENT_DAILY,
+    }
     multiple = True
     icon = "language.svg"
 
