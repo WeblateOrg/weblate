@@ -350,6 +350,8 @@ import_memory
 
 Imports a file into the Weblate translation memory.
 
+Supported file formats are TMX, JSON, XLIFF, PO, CSV.
+
 Specifying a source and a target languages might be necessary
 for formats other than JSON and TMX.
 

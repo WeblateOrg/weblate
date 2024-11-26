@@ -5,7 +5,7 @@ Not yet released.
 
 **New features**
 
-* Translation memory import now supports more file formats beyond TMX and JSON.
+* Translation memory import now supports files with XLIFF, PO and CSV formats, see :ref:`memory-user` and `import_memory` command in :ref:`manage`.
 
 **Improvements**
 

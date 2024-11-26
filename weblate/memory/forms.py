@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from pathlib import Path
+from pathlib import PurePath
 
 from django import forms
 from django.core.validators import FileExtensionValidator
@@ -18,9 +18,19 @@ class UploadForm(forms.Form):
     file = forms.FileField(
         label=gettext_lazy("File"),
         validators=[
-            FileExtensionValidator(allowed_extensions=["json", "tmx", "xliff"])
+            FileExtensionValidator(
+                allowed_extensions=[
+                    "json",
+                    "tmx",
+                    "xliff",
+                    "po",
+                    "csv",
+                ]
+            )
         ],
-        help_text=gettext_lazy("You can upload a TMX or JSON file."),
+        help_text=gettext_lazy(
+            "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+        ),
     )
     source_language = forms.ModelChoiceField(
         widget=SortedSelect,
@@ -43,8 +53,8 @@ class UploadForm(forms.Form):
 
     def clean(self):
         data = self.cleaned_data
-        extension = Path(data["file"].name).suffix[1:].lower()
-        if extension == "xliff" and not all(
+        extension = PurePath(data["file"].name).suffix[1:].lower()
+        if extension in {"xliff", "po", "csv"} and not all(
             [data["source_language"], data["target_language"]]
         ):
             raise forms.ValidationError(
