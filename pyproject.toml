@@ -266,8 +266,9 @@ ignore = [
 
 [tool.codespell]
 count = true
-ignore-words-list = "assertIn"
-skip = '*.po,*.pot,*.json,*.tmx,*.tbx,*.csv,*/vendor/*,weblate/trans/specialchars.py,scripts/yarn/yarn.lock,weblate/trans/tests/data/known_hosts,docs/user/checks.rst,docs/toc-devel.rst,docs/changes/contributors/*.rst'
+# Vai is a language name
+ignore-words-list = "assertIn,Vai"
+skip = '*.po,*.pot,*.json,*.tmx,*.tbx,*.csv,*/vendor/*,weblate/trans/specialchars.py,weblate/trans/tests/data/known_hosts,docs/changes/contributors/*.rst,docs/index.rst'
 
 [tool.coverage.paths]
 source = [
