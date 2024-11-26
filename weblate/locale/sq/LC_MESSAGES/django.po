@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 18:09+0000\n"
-"PO-Revision-Date: 2024-11-16 04:00+0000\n"
+"PO-Revision-Date: 2024-11-26 19:05+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
@@ -96,38 +96,32 @@ msgstr ""
 "formësuar më poshtë."
 
 #: weblate/accounts/forms.py:431
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "Ju lutemi, riprovoni më vonë."
+msgstr "Verifikim dështoi. Riprovoni më vonë."
 
 #: weblate/accounts/forms.py:432
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Verifikimi skadoi. Riprovoni."
 
 #: weblate/accounts/forms.py:433
 msgid "I'm not a robot"
-msgstr ""
+msgstr "S’jam robot"
 
 #: weblate/accounts/forms.py:434
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "U plotësua përkthim"
+msgstr "U plotësua verifikimi"
 
 #: weblate/accounts/forms.py:435
 msgid "Verifying…"
-msgstr ""
+msgstr "Po verifikohet…"
 
 #: weblate/accounts/forms.py:437
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Verifikim është ende në kryerje e sipër, ju lutemi, prisni."
 
 #: weblate/accounts/forms.py:447
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "Njoftim i menjëhershëm"
+msgstr "Verifikim nga qenie njerëzore"
 
 #: weblate/accounts/forms.py:500
 #, python-format
@@ -142,10 +136,8 @@ msgid "That was not correct, please try again."
 msgstr "S’qe i saktë, ju lutemi, riprovoni."
 
 #: weblate/accounts/forms.py:532 weblate/accounts/forms.py:539
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "S’qe i saktë, ju lutemi, riprovoni."
+msgstr "Vleftësimi dështoi, ju lutemi, riprovoni."
 
 #: weblate/accounts/forms.py:557
 msgid "Subject"
@@ -2003,11 +1995,11 @@ msgstr ""
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
-msgstr ""
+msgstr "Numri i lejuar për kërkesa që mund të kryhen"
 
 #: weblate/api/docs.py:77
 msgid "Remaining number of requests to perform"
-msgstr ""
+msgstr "Numri i mbetur i kërkesave për t’u kryer"
 
 #: weblate/api/docs.py:82
 msgid "Number of seconds until the rate-limit window resets"
@@ -3946,19 +3938,17 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "Termat vijues s’janë përkthyer në përputhje me fjalorthin: {}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "Futni shenjë tabulacioni"
+msgstr "Shenjë fillestare e ndaluar"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "Vargu fillon me një shenjë të ndaluar në CSV"
 
 #: weblate/checks/glossary.py:104
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
-msgstr ""
+msgstr "Vargu fillon me një ose më tepër nga shenjat vijuese të ndaluara: {}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -5386,31 +5376,29 @@ msgstr "Kartelë"
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
+"Mund të ngarkoni një kartelë në formatet vijues: TMX, JSON, XLIFF, PO, CSV."
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "Gjuhë burimi"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "Gjuhë e synuar e dokumentit, për kartela dygjuhëshe"
+msgstr "Gjuha burim e dokumentit, kur nuk specifikohet te kartela"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1869
 msgid "Target language"
 msgstr "Gjuhë e synuar"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "Gjuhë e synuar e dokumentit, për kartela dygjuhëshe"
+msgstr "Gjuhë e synuar e dokumentit, kur nuk specifikohet te kartela"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
 msgstr ""
+"Për këtë format kartelash duhen specifikuar gjuhë burim dhe gjuhë e synuar."
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5449,10 +5437,8 @@ msgid "Monolingual format not supported for memory upload"
 msgstr ""
 
 #: weblate/memory/models.py:335
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Kartelë njëgjuhëshe gjuhe bazë"
+msgstr "Te kartela mungon gjuhë burim ose e synuar!"
 
 #: weblate/memory/models.py:428
 msgctxt "Translation memory category"
@@ -15102,10 +15088,8 @@ msgid "Add new translation string"
 msgstr "Shtoni varg të ri përkthimi"
 
 #: weblate/trans/models/component.py:3837
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "S’u përzje dot depoja."
+msgstr "S’u mor dot gjendje depoje!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
