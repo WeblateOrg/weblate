@@ -71,7 +71,7 @@ from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from requests import PreparedRequest
 
 AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
 
@@ -1369,7 +1369,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
 
         self.mock_list_glossaries()
 
-    def mock_list_glossaries(self, *id_name_date: tuple[int, str, str]):
+    def mock_list_glossaries(self, *id_name_date: tuple[int, str, str | None]):
         """Set up mock responses for list of glossaries in ModernMT."""
         data: list[dict] = [
             {
@@ -1432,7 +1432,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
     def test_glossary(self) -> None:
         """Test that glossary is used in translation request when available."""
 
-        def translate_request_callback(request: AuthenticatedHttpRequest):
+        def translate_request_callback(request: PreparedRequest):
             """Check 'glossaries' included in request params."""
             self.assertIn("glossaries", request.params)
             return (200, {}, json.dumps(MODERNMT_REPONSE))
@@ -1462,9 +1462,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         # return current list of glossaries
         self.mock_list_glossaries(*[(37784, "weblate:1:en:it:9e250d830c11d70f", None)])
 
-        def delete_glossary_callback(
-            request: AuthenticatedHttpRequest, expected_id: int
-        ):
+        def delete_glossary_callback(request: PreparedRequest, expected_id: int):
             """Check that the stale glossary is being deleted."""
             self.assertTrue(request.url.endswith(f"memories/{expected_id}"))
             return (200, {}, "{}")
@@ -1566,7 +1564,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
     def test_context_vector(self) -> None:
         """Test that context vector is sent with the request when configured."""
 
-        def request_callback(request: AuthenticatedHttpRequest):
+        def request_callback(request: PreparedRequest):
             """Check 'context_vector' included in request body."""
             self.assertIn("context_vector", request.params)
             return (200, {}, json.dumps(MODERNMT_REPONSE))
@@ -1673,7 +1671,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     def test_formality(self) -> None:
         expected_formality = "more"
 
-        def request_callback(request: AuthenticatedHttpRequest):
+        def request_callback(request: PreparedRequest):
             payload = json.loads(request.body)
             self.assertEqual(payload["formality"], expected_formality)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
@@ -1702,7 +1700,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_escaping(self) -> None:
-        def request_callback(request: AuthenticatedHttpRequest):
+        def request_callback(request: PreparedRequest):
             payload = json.loads(request.body)
             self.assertIn("formality", payload)
             response = DEEPL_RESPONSE.copy()
@@ -1727,7 +1725,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
     def test_glossary(self) -> None:
-        def request_callback(request: AuthenticatedHttpRequest):
+        def request_callback(request: PreparedRequest):
             payload = json.loads(request.body)
             self.assertIn("glossary_id", payload)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
@@ -1771,7 +1769,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_replacements(self) -> None:
-        def request_callback(request: AuthenticatedHttpRequest):
+        def request_callback(request: PreparedRequest):
             payload = json.loads(request.body)
             self.assertEqual(
                 payload["text"], ['Hello, <x id="7"></x>! &lt;&lt;foo&gt;&gt;']
@@ -2213,7 +2211,7 @@ class IBMTranslationTest(BaseMachineTranslationTest):
 
 
 class OpenAITranslationTest(BaseMachineTranslationTest):
-    MACHINE_CLS = OpenAITranslation
+    MACHINE_CLS: type[BatchMachineTranslation] = OpenAITranslation
     EXPECTED_LEN = 1
     ENGLISH = "en"
     SUPPORTED = "zh-TW"
@@ -2358,7 +2356,7 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
 
 
 class AzureOpenAITranslationTest(OpenAITranslationTest):
-    MACHINE_CLS = AzureOpenAITranslation
+    MACHINE_CLS: type[BatchMachineTranslation] = AzureOpenAITranslation
     CONFIGURATION = {
         "key": "x",
         "deployment": "my-deployment",
