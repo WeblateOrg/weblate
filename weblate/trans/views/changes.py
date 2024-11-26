@@ -184,8 +184,9 @@ class ChangesView(PathViewMixin, ListView):
             if action := form.cleaned_data.get("action"):
                 filters["action__in"] = action
             if period := form.cleaned_data.get("period"):
-                filters["timestamp__date__gte"] = period["start_date"]
-                filters["timestamp__date__lte"] = period["end_date"]
+                # start_date and end_date are datetime objects
+                filters["timestamp__gte"] = period["start_date"]
+                filters["timestamp__lte"] = period["end_date"]
             if user := form.cleaned_data.get("user"):
                 filters["user"] = user
 

@@ -146,7 +146,13 @@ class MemoryQuerySet(models.QuerySet):
 
 class MemoryManager(models.Manager):
     def import_file(
-        self, request: AuthenticatedHttpRequest, fileobj, langmap=None, **kwargs
+        self,
+        request: AuthenticatedHttpRequest,
+        fileobj,
+        langmap=None,
+        source_language: Language | str | None = None,
+        target_language: Language | str | None = None,
+        **kwargs,
     ):
         origin = os.path.basename(fileobj.name).lower()
         name, extension = os.path.splitext(origin)
@@ -158,7 +164,15 @@ class MemoryManager(models.Manager):
         elif extension == ".json":
             result = self.import_json(request, fileobj, origin, **kwargs)
         else:
-            raise MemoryImportError(gettext("Unsupported file!"))
+            result = self.import_other_format(
+                request,
+                fileobj,
+                origin,
+                source_language,
+                target_language,
+                **kwargs,
+            )
+
         if not result:
             raise MemoryImportError(
                 gettext("No valid entries found in the uploaded file!")
@@ -167,7 +181,7 @@ class MemoryManager(models.Manager):
 
     def import_json(
         self, request: AuthenticatedHttpRequest, fileobj, origin=None, **kwargs
-    ):
+    ) -> int:
         # Lazily import as this is expensive
         from jsonschema import validate
         from jsonschema.exceptions import ValidationError
@@ -215,7 +229,7 @@ class MemoryManager(models.Manager):
         origin=None,
         langmap=None,
         **kwargs,
-    ):
+    ) -> int:
         if not kwargs:
             kwargs = {"from_file": True}
         try:
@@ -279,6 +293,69 @@ class MemoryManager(models.Manager):
                 )
                 found += 1
         return found
+
+    def import_other_format(
+        self,
+        request,
+        fileobj,
+        origin,
+        source_language: Language | str | None = None,
+        target_language: Language | str | None = None,
+        **kwargs,
+    ) -> int:
+        """
+        Import memory from other formats.
+
+        This is a generic function to import memories from other formats.
+        It currently supports all formats supported by `try_load` from
+        `weblate.formats.auto`.
+
+        """
+        from weblate.formats.auto import try_load
+
+        langcache = {}
+        try:
+            storage = try_load(origin, fileobj.read(), None, None)
+        except Exception as error:
+            report_error("Could not parse memory")
+            raise MemoryImportError(gettext("Unsupported file!")) from error
+
+        if storage.monolingual is True:
+            raise MemoryImportError(
+                gettext("Monolingual format not supported for memory upload")
+            )
+
+        def get_language(language: Language | str | None) -> Language:
+            """Get a language object based on the given code."""
+            if isinstance(language, Language):
+                return language
+
+            if not language:
+                raise MemoryImportError(
+                    gettext("Missing source or target language in file!")
+                )
+            try:
+                return Language.objects.get_by_code(language, langcache)
+            except Language.DoesNotExist as error:
+                raise MemoryImportError(
+                    gettext("Could not find language %s!") % language
+                ) from error
+
+        source_language = get_language(storage.source_language or source_language)
+        target_language = get_language(storage.language_code or target_language)
+
+        count = 0
+        for _unused, unit in storage.iterate_merge("", only_translated=True):
+            self.update_entry(
+                source_language=source_language,
+                target_language=target_language,
+                source=unit.source,
+                target=unit.target,
+                origin=origin,
+                **kwargs,
+            )
+            count += 1
+        return count
 
     def update_entry(self, **kwargs) -> None:
         if not is_valid_memory_entry(**kwargs):  # pylint: disable=missing-kwoa

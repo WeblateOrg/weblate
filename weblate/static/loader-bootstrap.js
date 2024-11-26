@@ -833,7 +833,8 @@ $(function () {
   });
 
   /* Copy to clipboard */
-  $("[data-clipboard-value]").on("click", function (e) {
+  $(document).on("click", "[data-clipboard-value]", function (e) {
+    e.preventDefault();
     navigator.clipboard
       .writeText(this.getAttribute("data-clipboard-value"))
       .then(
@@ -847,7 +848,6 @@ $(function () {
           addAlert(gettext("Please press Ctrl+C to copy."), "danger");
         },
       );
-    e.preventDefault();
   });
 
   /* Auto translate source select */

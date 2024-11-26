@@ -1382,8 +1382,9 @@ class Unit(models.Model, LoggerMixin):
             meth = "check_target"
             args = src, tgt, self
         if self.translation.component.is_glossary:
-            # We might eventually run some checks on glossary
-            checks = {}
+            checks = CHECKS.glossary
+            meth = "check_source"
+            args = src, self
 
         # Run all checks
         if propagate is True:

@@ -30,6 +30,8 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
+    from weblate.trans.models import Component
+
 LOGGER = logging.getLogger("weblate.vcs")
 
 
@@ -79,8 +81,9 @@ class Repository:
     def __init__(
         self,
         path: str,
+        *,
         branch: str | None = None,
-        component=None,
+        component: Component | None = None,
         local: bool = False,
         skip_init: bool = False,
     ) -> None:
@@ -179,6 +182,7 @@ class Repository:
     def _popen(
         cls,
         args: list[str],
+        *,
         cwd: str | None = None,
         merge_err: bool = True,
         fullcmd: bool = False,
@@ -228,6 +232,7 @@ class Repository:
     def execute(
         self,
         args: list[str],
+        *,
         needs_lock: bool = True,
         fullcmd: bool = False,
         merge_err: bool = True,
@@ -244,7 +249,7 @@ class Repository:
         try:
             self.last_output = self._popen(
                 args,
-                self.path,
+                cwd=self.path,
                 fullcmd=fullcmd,
                 local=self.local,
                 merge_err=merge_err,
@@ -292,7 +297,7 @@ class Repository:
     @classmethod
     def clone(cls, source: str, target: str, branch: str, component=None):
         """Clone repository and return object for cloned repository."""
-        repo = cls(target, branch, component, skip_init=True)
+        repo = cls(target, branch=branch, component=component, skip_init=True)
         with repo.lock:
             cls._clone(source, target, branch)
         return repo
