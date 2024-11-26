@@ -20,7 +20,9 @@ if TYPE_CHECKING:
 
 
 class FlagBase(BaseAddon):
-    events = (AddonEvent.EVENT_UNIT_PRE_CREATE,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_UNIT_PRE_CREATE,
+    }
     icon = "flag.svg"
 
     @classmethod
@@ -91,7 +93,9 @@ class SameEditAddon(FlagBase):
 
 
 class BulkEditAddon(BaseAddon):
-    events = (AddonEvent.EVENT_COMPONENT_UPDATE,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_COMPONENT_UPDATE,
+    }
     name = "weblate.flags.bulk"
     verbose = gettext_lazy("Bulk edit")
     description = gettext_lazy("Bulk edit flags, labels, or states of strings.")

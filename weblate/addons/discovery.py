@@ -18,7 +18,9 @@ if TYPE_CHECKING:
 
 
 class DiscoveryAddon(BaseAddon):
-    events = (AddonEvent.EVENT_POST_UPDATE,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_POST_UPDATE,
+    }
     name = "weblate.discovery.discovery"
     verbose = gettext_lazy("Component discovery")
     description = gettext_lazy(

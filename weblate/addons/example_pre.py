@@ -12,7 +12,9 @@ from weblate.addons.scripts import BaseScriptAddon
 
 class ExamplePreAddon(BaseScriptAddon):
     # Event used to trigger the script
-    events = (AddonEvent.EVENT_PRE_COMMIT,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_PRE_COMMIT,
+    }
     # Name of the addon, has to be unique
     name = "weblate.example.pre"
     # Verbose name and long description

@@ -13,7 +13,9 @@ class ExampleAddon(BaseAddon):
     # matched against property of component
     compat = {"file_format": {"po", "po-mono"}}
     # List of events add-on should receive
-    events = (AddonEvent.EVENT_PRE_COMMIT,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_PRE_COMMIT,
+    }
     # Add-on unique identifier
     name = "weblate.example.example"
     # Verbose name shown in the user interface
