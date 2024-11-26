@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 18:09+0000\n"
-"PO-Revision-Date: 2024-11-19 20:00+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2024-11-27 02:45+0000\n"
+"Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -94,38 +94,32 @@ msgstr ""
 "nakonfigurován níže."
 
 #: weblate/accounts/forms.py:431
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "Prosím, zkuste to později."
+msgstr "Ověření selhalo. Zkuste to znovu později."
 
 #: weblate/accounts/forms.py:432
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Ověření vypršelo. Zkuste to znovu."
 
 #: weblate/accounts/forms.py:433
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Nejsem robot"
 
 #: weblate/accounts/forms.py:434
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "Dokončení překladu"
+msgstr "Ověření dokončeno"
 
 #: weblate/accounts/forms.py:435
 msgid "Verifying…"
-msgstr ""
+msgstr "Ověřování…"
 
 #: weblate/accounts/forms.py:437
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Probíhá ověřování, čekejte prosím."
 
 #: weblate/accounts/forms.py:447
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "Okamžité upozornění"
+msgstr "Ověření člověka"
 
 #: weblate/accounts/forms.py:500
 #, python-format
@@ -140,10 +134,8 @@ msgid "That was not correct, please try again."
 msgstr "To nebylo správně, zkuste to prosím znovu."
 
 #: weblate/accounts/forms.py:532 weblate/accounts/forms.py:539
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "To nebylo správně, zkuste to prosím znovu."
+msgstr "Ověření selhalo, zkuste to prosím znovu."
 
 #: weblate/accounts/forms.py:557
 msgid "Subject"
@@ -1966,20 +1958,14 @@ msgstr ""
 "konce řádků."
 
 #: weblate/api/docs.py:72
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Allowed number of requests to perform"
-msgstr "Limit omezování požadavků k provedení"
+msgstr "Povolený počet požadavků k provedení"
 
 #: weblate/api/docs.py:77
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "Limit omezování požadavků k provedení"
+msgstr "Zbývající počet požadavků k provedení"
 
 #: weblate/api/docs.py:82
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
 msgstr "Počet vteřin do resetování okna omezování požadavků"
 
@@ -3899,19 +3885,17 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "Následující termíny nejsou přeloženy jako v glosáři: {}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "Vložit tabulátor"
+msgstr "Nepovolený počáteční znak"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "Řetězec začíná nepovoleným znakem v CSV"
 
 #: weblate/checks/glossary.py:104
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
-msgstr ""
+msgstr "Řetězec začíná jedním nebo více z následujících zakázaných znaků: {}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -5330,31 +5314,29 @@ msgstr "Soubor"
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
+"Můžete nahrát soubor v následujících formátech: TMX, JSON, XLIFF, PO, CSV."
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "Jazyk zdroje"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "Cílový jazyk dokumentu pro dvojjazyčné soubory"
+msgstr "Zdrojový jazyk dokumentu, pokud není upřesněn v souboru"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1869
 msgid "Target language"
 msgstr "Cílový jazyk"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "Cílový jazyk dokumentu pro dvojjazyčné soubory"
+msgstr "Cílový jazyk dokumentu, pokud není upřesněn v souboru"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
 msgstr ""
+"Zdrojový jazyk a cílový jazyk musí být u tohoto formátu souboru upřesněny."
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5390,13 +5372,11 @@ msgstr "Nepodporovaný soubor!"
 
 #: weblate/memory/models.py:325
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "Jednojazyčný formát není podporován pro nahrání z paměti"
 
 #: weblate/memory/models.py:335
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Základní soubor pro jednojazyčné překlady"
+msgstr "Chybějící zdrojový nebo cílový jazyk v souboru!"
 
 #: weblate/memory/models.py:428
 msgctxt "Translation memory category"
@@ -12885,7 +12865,7 @@ msgstr "Otevřít v plném editoru"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "Sbalit"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:622
 msgid "The translation has come to an end."
@@ -14971,10 +14951,8 @@ msgid "Add new translation string"
 msgstr "Přidat nový řetězec k překladu"
 
 #: weblate/trans/models/component.py:3837
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Nepodařilo se sloučit repozitář."
+msgstr "Nepodařilo se získat stav repozitáře!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
