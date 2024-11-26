@@ -157,7 +157,7 @@ module.exports = {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: "asset/resource",
         generator: {
-          filename: "fonts/font-source/[hash][ext]",
+          filename: "fonts/font-source/[name][ext]",
         },
       },
     ],

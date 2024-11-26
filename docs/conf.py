@@ -42,7 +42,7 @@ def setup(app) -> None:
     font_dirs = [
         str(weblate_dir / font_dir)
         for font_dir in (
-            "weblate/static/vendor/font-source/TTF/",
+            "weblate/static/js/vendor/fonts/font-source/",
             "weblate/static/vendor/font-kurinto/",
         )
     ]
@@ -148,8 +148,7 @@ html_theme_options = {
 }
 
 html_css_files = [
-    "https://s.weblate.org/cdn/font-source/source-sans-3.css",
-    "https://s.weblate.org/cdn/font-source/source-code-pro.css",
+    "https://s.weblate.org/cdn/js/vendor/fonts/fonts.css",
 ]
 
 # -- Options for HTMLHelp output ---------------------------------------------
