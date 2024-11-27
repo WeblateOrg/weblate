@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 18:09+0000\n"
 "PO-Revision-Date: 2024-11-28 15:00+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"Last-Translator: Sylvain Pichon <Sp_@users.noreply.hosted.weblate.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -2044,14 +2044,10 @@ msgid "Allowed number of requests to perform"
 msgstr "Limite du taux de requêtes à exécuter"
 
 #: weblate/api/docs.py:77
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "Limite du taux de requêtes à exécuter"
+msgstr "Nombre restant de requêtes exécutables"
 
 #: weblate/api/docs.py:82
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
 msgstr ""
 "Nombre de secondes restantes avant que la fenêtre de limitation du taux ne "
@@ -5494,25 +5490,24 @@ msgid "Source language"
 msgstr "Langue source"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "Langue cible du document pour les fichiers bilingues"
+msgstr ""
+"Langue source du document quand elle n'est pas spécifiée dans le fichier"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1869
 msgid "Target language"
 msgstr "Langue cible"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "Langue cible du document pour les fichiers bilingues"
+msgstr "Langue cible du document quand elle n'est pas spécifiée dans le fichier"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
 msgstr ""
+"La langue source et la langue cible doivent être spécifiées pour ce format "
+"de fichier."
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5549,7 +5544,7 @@ msgstr "Fichier non pris en charge !"
 
 #: weblate/memory/models.py:325
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "Format mono-langue non supporté pour des chargements en mémoire"
 
 #: weblate/memory/models.py:335
 #, fuzzy
@@ -13181,7 +13176,7 @@ msgstr "Ouvrir dans l’éditeur complet"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "Réduire"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:622
 msgid "The translation has come to an end."
@@ -15340,10 +15335,8 @@ msgid "Add new translation string"
 msgstr "Ajouter une nouvelle chaîne de traduction"
 
 #: weblate/trans/models/component.py:3837
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Impossible de fusionner le dépôt."
+msgstr "Impossible de récupérer le statut du dépôt !"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
