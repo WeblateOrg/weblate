@@ -1,13 +1,14 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}{% load translations %}
+{% load i18n %}
+{% load translations %}
 
 {% block content %}
-{% include "mail/snippets/source-string.html" %}
+  {% include "mail/snippets/source-string.html" %}
 
-<div class="line buttons">
+  <div class="line buttons">
     <a class="button" href="{{ unit.get_absolute_url }}">{% trans "Edit this string" %}</a>
-</div>
+  </div>
 
-{% include "mail/snippets/unit-screenshots.html" %}
+  {% include "mail/snippets/unit-screenshots.html" %}
 {% endblock %}

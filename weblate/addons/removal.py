@@ -16,7 +16,9 @@ from weblate.trans.models import Comment, Suggestion
 
 class RemovalAddon(BaseAddon):
     project_scope = True
-    events = (AddonEvent.EVENT_DAILY,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_DAILY,
+    }
     settings_form = RemoveForm
     icon = "delete.svg"
 

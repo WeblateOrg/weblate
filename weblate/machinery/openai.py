@@ -22,6 +22,8 @@ from .base import (
 from .forms import AzureOpenAIMachineryForm, OpenAIMachineryForm
 
 if TYPE_CHECKING:
+    from openai import OpenAI
+
     from weblate.trans.models import Unit
 
 
@@ -39,7 +41,7 @@ You do not include transliteration.
 {glossary}
 """
 SEPARATOR = "\n==WEBLATE_PART==\n"
-SEPARATOR_RE = re.compile("\n *==WEBLATE_PART== *\n")
+SEPARATOR_RE = re.compile(r"\n *==WEBLATE_PART== *\n")
 SEPARATOR_PROMPT = f"""
 You receive an input as strings separated by {SEPARATOR} and
 your answer separates strings by {SEPARATOR}.
@@ -61,6 +63,7 @@ You treat strings like {placeable_1} or {placeable_2} as placeables for user inp
 class BaseOpenAITranslation(BatchMachineTranslation):
     max_score = 90
     request_timeout = 60
+    client: OpenAI
 
     def __init__(self, settings=None) -> None:
         super().__init__(settings)
@@ -119,9 +122,6 @@ class BaseOpenAITranslation(BatchMachineTranslation):
             placeables=placeables,
         )
 
-    def _can_rephrase(self, unit: Unit | None) -> bool:
-        return unit is not None and unit.translated and not unit.readonly
-
     def download_multiple_translations(
         self,
         source,
@@ -136,7 +136,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
 
         # Separate rephrasing and new translations
         for text, unit in sources:
-            if self._can_rephrase(unit):
+            if unit is not None and unit.translated and not unit.readonly:
                 rephrase.append((text, unit))
             else:
                 texts.append(text)
@@ -246,6 +246,9 @@ class BaseOpenAITranslation(BatchMachineTranslation):
                 }
             )
 
+    def get_model(self) -> str:
+        raise NotImplementedError
+
 
 class OpenAITranslation(BaseOpenAITranslation):
     name = "OpenAI"
@@ -301,7 +304,7 @@ class AzureOpenAITranslation(BaseOpenAITranslation):
             api_key=self.settings["key"],
             api_version="2024-06-01",
             timeout=self.request_timeout,
-            azure_endpoint=self.settings.get("azure_endpoint") or None,
+            azure_endpoint=self.settings.get("azure_endpoint") or "",
             azure_deployment=self.settings["deployment"],
         )
 

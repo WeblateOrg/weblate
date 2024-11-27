@@ -510,6 +510,7 @@ class TranslationStats(BaseStats):
             "active_checks_count",
             "dismissed_checks_count",
             "suggestion_count",
+            "source_label_count",
             "label_count",
             "comment_count",
             "num_chars",
@@ -523,6 +524,7 @@ class TranslationStats(BaseStats):
             active_checks_count=Count("check", filter=Q(check__dismissed=False)),
             dismissed_checks_count=Count("check", filter=Q(check__dismissed=True)),
             suggestion_count=Count("suggestion"),
+            source_label_count=Count("source_unit__labels"),
             label_count=Count("source_unit__labels"),
             comment_count=Count("comment", filter=Q(comment__resolved=False)),
             num_chars=Length("source"),
@@ -534,6 +536,7 @@ class TranslationStats(BaseStats):
             get_active_checks_count,
             get_dismissed_checks_count,
             get_suggestion_count,
+            get_source_label_count,
             get_label_count,
             get_comment_count,
             get_num_chars,
@@ -552,7 +555,11 @@ class TranslationStats(BaseStats):
             unit for unit in units if get_state(unit) >= STATE_TRANSLATED
         ]
         units_todo = [unit for unit in units if get_state(unit) < STATE_TRANSLATED]
-        units_unlabeled = [unit for unit in units if not get_label_count(unit)]
+        units_unlabeled = [
+            unit
+            for unit in units
+            if not get_source_label_count(unit) and not get_label_count(unit)
+        ]
         units_allchecks = [unit for unit in units if get_active_checks_count(unit)]
         units_translated_checks = [
             unit

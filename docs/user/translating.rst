@@ -110,6 +110,8 @@ Source needs review
 
     :ref:`labels`
 
+.. _translating:
+
 Translating
 -----------
 
@@ -449,6 +451,8 @@ then click on any translation to open and edit it.
 
 The matrix view is also a very good starting point to find missing
 translations in different languages, and quickly add them from one view.
+
+.. _zen-mode:
 
 Zen Mode
 --------

@@ -27,7 +27,7 @@ for section, data in toml_dict["project"]["optional-dependencies"].items():
     if section == "all":
         continue
     for index, dependency in enumerate(data):
-        dependency = re.split("[;<>=[]", dependency)[0].strip()
+        dependency = re.split(r"[;<>=[]", dependency)[0].strip()
         section = f"``{section}``" if index == 0 else ""
         print(
             f"""

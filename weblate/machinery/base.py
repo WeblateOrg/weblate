@@ -78,6 +78,9 @@ class SettingsDict(TypedDict, total=False):
     style: str
     custom_model: str
     bucket_name: str
+    context_vector: str
+    deployment: str
+    azure_endpoint: str
 
 
 class TranslationResultDict(TypedDict):
@@ -417,7 +420,7 @@ class BatchMachineTranslation:
             self.uncleanup_results(replacements, result)
         return cache_key, result
 
-    def search(self, unit, text, user: User):
+    def search(self, unit, text, user: User | None):
         """Search for known translations of `text`."""
         translation = unit.translation
         try:
@@ -668,7 +671,7 @@ class InternalMachineTranslation(MachineTranslation):
         """Disable rate limiting."""
         return False
 
-    def get_language_possibilities(self, language: Language) -> Iterator[Language]:
+    def get_language_possibilities(self, language: Language) -> Iterator[Language]:  # type: ignore[override]
         yield get_machinery_language(language)
 
 
@@ -709,7 +712,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     ) -> None:
         raise NotImplementedError
 
-    def get_glossaries(self, use_cache: bool = True):
+    def get_glossaries(self, use_cache: bool = True) -> dict[str, str]:
         cache_key = self.get_cache_key("glossaries")
         if use_cache:
             cached = cache.get(cache_key)
@@ -723,7 +726,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
 
     def get_glossary_id(
         self, source_language: str, target_language: str, unit: Unit | None
-    ) -> int | str | None:
+    ) -> str | None:
         from weblate.glossary.models import get_glossary_tsv
 
         if unit is None:

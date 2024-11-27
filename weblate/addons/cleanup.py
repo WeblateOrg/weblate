@@ -39,7 +39,10 @@ class CleanupAddon(BaseCleanupAddon):
         "no longer present in the base file."
     )
     icon = "eraser.svg"
-    events = (AddonEvent.EVENT_PRE_COMMIT, AddonEvent.EVENT_POST_UPDATE)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_PRE_COMMIT,
+        AddonEvent.EVENT_POST_UPDATE,
+    }
 
     @classmethod
     def can_install_format(cls, component: Component) -> bool:
@@ -76,7 +79,10 @@ class RemoveBlankAddon(BaseCleanupAddon):
     description = gettext_lazy(
         "Removes strings without a translation from translation files."
     )
-    events = (AddonEvent.EVENT_POST_COMMIT, AddonEvent.EVENT_POST_UPDATE)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_POST_COMMIT,
+        AddonEvent.EVENT_POST_UPDATE,
+    }
     icon = "eraser.svg"
 
     def update_translations(self, component: Component, previous_head: str) -> None:

@@ -23,6 +23,11 @@ from matplotlib import font_manager
 # -- Path setup --------------------------------------------------------------
 
 file_dir = Path(__file__).parent.resolve()
+font_locations = (
+    "weblate/static/vendor/font-source/TTF/",
+    "weblate/static/vendor/font-kurinto/",
+)
+
 weblate_dir = file_dir.parent
 # Our extension
 sys.path.append(str(file_dir / "_ext"))
@@ -39,13 +44,15 @@ def setup(app) -> None:
         indextemplate="pair: %s; configuration value",
     )
 
-    font_dirs = [
-        str(weblate_dir / font_dir)
-        for font_dir in (
-            "weblate/static/vendor/font-source/TTF/",
-            "weblate/static/vendor/font-kurinto/",
-        )
-    ]
+    font_dirs: list[str] = []
+
+    for font_location in font_locations:
+        font_dir = weblate_dir / font_location
+        if not font_dir.is_dir():
+            msg = f"Font directory not found: {font_dir}"
+            raise NotADirectoryError(msg)
+        font_dirs.append(str(font_dir))
+
     font_files = font_manager.findSystemFonts(fontpaths=font_dirs)
 
     for font_file in font_files:
@@ -87,7 +94,6 @@ exclude_patterns = [
     "_build",
     "Thumbs.db",
     ".DS_Store",
-    "admin/install/steps/*.rst",
     "devel/reporting-example.rst",
 ]
 
@@ -125,7 +131,6 @@ if os.environ.get("READTHEDOCS", "") == "True":
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["../weblate/static/"]
 
-
 html_logo = "../weblate/static/logo-128.png"
 
 
@@ -148,8 +153,8 @@ html_theme_options = {
 }
 
 html_css_files = [
-    "https://s.weblate.org/cdn/font-source/source-sans-3.css",
-    "https://s.weblate.org/cdn/font-source/source-code-pro.css",
+    "https://weblate.org/static/vendor/font-source/source-sans-3.css",
+    "https://weblate.org/static/vendor/font-source/source-code-pro.css",
 ]
 
 # -- Options for HTMLHelp output ---------------------------------------------
@@ -182,9 +187,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    ("latexindex", "Weblate.tex", "The Weblate Manual", author, "manual")
-]
+latex_documents = [("index", "Weblate.tex", "The Weblate Manual", author, "manual")]
 
 # Include logo on title page
 latex_logo = "../weblate/static/logo-1024.png"

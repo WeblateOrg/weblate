@@ -342,12 +342,18 @@ Example of JSON file:
 
     :wladmin:`import_memory`
 
+
 import_memory
 -------------
 
 .. weblate-admin:: import_memory <file>
 
-Imports a TMX or JSON file into the Weblate translation memory.
+Imports a file into the Weblate translation memory.
+
+Supported file formats are TMX, JSON, XLIFF, PO, CSV.
+
+Specifying a source and a target languages might be necessary
+for formats other than JSON and TMX.
 
 .. weblate-admin-option:: --language-map LANGMAP
 
@@ -359,6 +365,16 @@ Imports a TMX or JSON file into the Weblate translation memory.
 
     This can be useful in case your TMX file locales happen not to match what you
     use in Weblate.
+
+.. weblate-admin-option:: --source-language SOURCE_LANG
+
+    Specifies the source language for imported translations. Typically needed for formats
+    where the languages cannot be determined from the file itself.
+
+.. weblate-admin-option:: --target-language TARGET_LANG
+
+    Specifies the target language for imported translations. Typically needed for formats
+    where the languages cannot be determined from the file itself.
 
 .. seealso::
 

@@ -36,7 +36,7 @@ jobs:
     - uses: actions/checkout@v4
       if: github.event_name == 'pull_request'
 
-    - uses: astral-sh/setup-uv@v3
+    - uses: astral-sh/setup-uv@v4
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -61,7 +61,7 @@ jobs:
       if: hashFiles('uv.lock') != ''
 
     - name: Update current branch
-      if: github.event_name == 'pull_request'
+      if: ( github.event_name == 'pull_request' && github.actor != 'renovate[bot]' ) || ( github.event_name == 'push' && github.ref_name != 'main' )
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: 'chore(deps): update lockfile'

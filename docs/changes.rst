@@ -9,6 +9,10 @@ Not yet released.
   * Added :http:get:`/api/projects/{string:project}/machinery_settings/`.
   * Added :http:post:`/api/projects/{string:project}/machinery_settings/`.
 
+* Translation memory import now supports files with XLIFF, PO and CSV formats, see :ref:`memory-user` and `import_memory` command in :ref:`manage`.
+* The registration CAPTCHA now includes proof-of-work mechanism ALTCHA.
+* Leading problematic characters in CSV are now checks for :ref:`glossary`, see :ref:`check-prohibited-initial-character`.
+
 **Improvements**
 
 * :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
@@ -16,8 +20,13 @@ Not yet released.
 * Included username when generating :ref:`credits`.
 * :ref:`bulk-edit` shows a preview of matched strings.
 * :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
+* Editor in :ref:`zen-mode` is now stick to bottom of screen.
+* Added page navigation while :ref:`translating`.
+* :ref:`manage-appearance` now has distinct settings for dark mode.
+* Improved :ref:`translation-propagation` performance.
 
 **Bug fixes**
+* Using the `has:variant` field now correctly displays strings that have variant(s) in the search language, see :ref:`search-strings`.
 
 **Compatibility**
 

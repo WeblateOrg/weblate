@@ -1731,8 +1731,8 @@ class LocalRepository(GitRepository):
             handle.write("==========================================\n")
             handle.write("\n")
             handle.write("See https://weblate.org/ for more info.\n")
-        cls._popen(["add", "README.md"], path)
-        cls._popen(["commit", "--message", "Repository created by Weblate"], path)
+        cls._popen(["add", "README.md"], cwd=path)
+        cls._popen(["commit", "--message", "Repository created by Weblate"], cwd=path)
 
     @classmethod
     def _clone(

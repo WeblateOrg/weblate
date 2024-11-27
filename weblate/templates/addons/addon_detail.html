@@ -1,48 +1,54 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load crispy_forms_tags %}
 {% load permissions %}
 
 {% block breadcrumbs %}
-{% if object %}
+  {% if object %}
     {% path_object_breadcrumbs object %}
-    <li><a href="{% url 'addons' path=object.get_url_path %}">{% trans "Add-ons" %}</a></li>
-{% else %}
-    <li><a href="{% url 'manage-addons' %}">{% trans "Add-ons" %}</a></li>
-{% endif %}
-<li>
-{% if instance %}
-<a href="{% url 'addon-detail' pk=instance.pk %}">{{ addon.verbose }}</a>
-{% else %}
-{{ addon.verbose }}
-{% endif %}
-</li>
+    <li>
+      <a href="{% url 'addons' path=object.get_url_path %}">{% trans "Add-ons" %}</a>
+    </li>
+  {% else %}
+    <li>
+      <a href="{% url 'manage-addons' %}">{% trans "Add-ons" %}</a>
+    </li>
+  {% endif %}
+  <li>
+    {% if instance %}
+      <a href="{% url 'addon-detail' pk=instance.pk %}">{{ addon.verbose }}</a>
+    {% else %}
+      {{ addon.verbose }}
+    {% endif %}
+  </li>
 {% endblock %}
+
 
 {% block content %}
 
-{% if form %}
-  <form method="post">
-  <div class="panel panel-default">
-    <div class="panel-heading"><h4 class="panel-title">
-      {% documentation_icon 'admin/addons' addon.doc_anchor right=True %}
-    {% trans "Configure add-on" %}
-    </h4></div>
-    <div class="panel-body">
-    <input type="hidden" name="form" value="1" />
-    <input type="hidden" name="name" value="{{ addon.name }}" />
-    {% crispy form %}
-    </div>
-    <div class="panel-footer">
-    <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
-    </div>
-  </div>
-  </form>
-{% else %}
-  <p class="help-block">
-    {% trans "This add-on has no settings." %}
-  </p>
-{% endif %}
+  {% if form %}
+    <form method="post">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'admin/addons' addon.doc_anchor right=True %}
+            {% trans "Configure add-on" %}
+          </h4>
+        </div>
+        <div class="panel-body">
+          <input type="hidden" name="form" value="1" />
+          <input type="hidden" name="name" value="{{ addon.name }}" />
+          {% crispy form %}
+        </div>
+        <div class="panel-footer">
+          <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+  {% else %}
+    <p class="help-block">{% trans "This add-on has no settings." %}</p>
+  {% endif %}
 
 {% endblock %}

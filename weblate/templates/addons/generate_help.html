@@ -6,24 +6,104 @@
 <p>{% trans "You can use Django templates markup in both filename and content, for example:" %}</p>
 
 <dl>
-<dt><code>{% verbatim %}{{ language_name }}{% endverbatim %}</code></dt>
-<dd>{% trans "Language name" %}</dd>
-<dt><code>{% verbatim %}{{ language_code }}{% endverbatim %}</code></dt>
-<dd>{% trans "Language code" %}</dd>
-<dt><code>{% verbatim %}{{ stats.translated_percent }}{% endverbatim %}</code></dt>
-<dd>{% trans "Percents translated" %}</dd>
-<dt><code>{% verbatim %}{{ stats.all }}{% endverbatim %}</code></dt>
-<dd>{% trans "Number of strings" %}</dd>
-<dt><code>{% verbatim %}{{ stats.translated }}{% endverbatim %}</code></dt>
-<dd>{% trans "Number of translated strings" %}</dd>
-<dt><code>{% verbatim %}{{ filename }}{% endverbatim %}</code></dt>
-<dd>{% trans "Translation filename" %}</dd>
-<dt><code>{% verbatim %}{{ component_name }}{% endverbatim %}</code></dt>
-<dd>{% trans "Component name" %}</dd>
-<dt><code>{% verbatim %}{{ component_slug }}{% endverbatim %}</code></dt>
-<dd>{% trans "Component URL slug" %}</dd>
-<dt><code>{% verbatim %}{{ project_name }}{% endverbatim %}</code></dt>
-<dd>{% trans "Project name" %}</dd>
-<dt><code>{% verbatim %}{{ project_slug }}{% endverbatim %}</code></dt>
-<dd>{% trans "Project URL slug" %}</dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ language_name }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% trans "Language name" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ language_code }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% trans "Language code" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ stats.translated_percent }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% trans "Percents translated" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ stats.all }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% trans "Number of strings" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ stats.translated }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% trans "Number of translated strings" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ filename }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% trans "Translation filename" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ component_name }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% trans "Component name" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ component_slug }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% trans "Component URL slug" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ project_name }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% trans "Project name" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ project_slug }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% trans "Project URL slug" %}
+  </dd>
 </dl>

@@ -37,6 +37,7 @@ class BaseCheck:
     description: StrOrPromise = ""
     target = False
     source = False
+    glossary = False
     ignore_untranslated = True
     default_disabled = False
     propagates: bool = False

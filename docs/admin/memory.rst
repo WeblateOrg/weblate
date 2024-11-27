@@ -85,9 +85,8 @@ memories. It can be used to download, wipe or import translation memory.
 There are multiple options to download the translation memory of the whole instance.
 
 .. hint::
-
-    Translation memories in JSON can be imported into Weblate, the TMX format
-    is provided for interoperability with other tools.
+    Translation memories in various formats can be imported into Weblate, the TMX format
+    is provided for interoperability with other tools. All supported formats are TMX, JSON, XLIFF, PO, CSV.
 
 .. seealso::
 

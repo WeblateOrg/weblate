@@ -1,7 +1,9 @@
 {% extends "message.html" %}
+
 {% load i18n %}
 
 {% block tags %}info{% endblock %}
+
 
 {% block message %}
   {% if payment_enabled and not user_billings %}

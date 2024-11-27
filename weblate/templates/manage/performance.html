@@ -1,173 +1,208 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load check_links %}
 {% load humanize %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'manage-performance' %}">{% trans "Performance report" %}</a></li>
+  <li>
+    <a href="{% url 'manage' %}">{% trans "Manage" %}</a>
+  </li>
+  <li>
+    <a href="{% url 'manage-performance' %}">{% trans "Performance report" %}</a>
+  </li>
 {% endblock %}
 
 
 {% block content %}
-{% if errors %}
-<div class="panel panel-danger">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    {% documentation_icon 'admin/install' 'production' right=True %}
-    {% trans "Configuration errors" %}
-  </h4>
-</div>
-  <table class="table table-striped table-responsive">
-  <thead>
-  <tr>
-    <th>{% trans "Last occurrence" %}</th>
-    <th>{% trans "Name" %}</th>
-    <th>{% trans "Message" %}</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  {% for error in errors %}
-  <tr class="row{% cycle '1' '2' %}">
-      <td>{{ error.timestamp }}</td>
-      <td>
-        {{ error.name }}
-        {% configuration_error_link error.name %}
-      </td>
-      <td><pre>{{ error.message }}</pre></td>
-      <td>
-      <form method="post">
-      {% csrf_token %}
-      <input type="hidden" name="pk" value="{{ error.pk }}"/>
-      <input type="submit" name="dismiss" value="{% trans "Dismiss" %}" class="btn btn-primary" />
-      <input type="submit" name="ignore" value="{% trans "Ignore permanently" %}" class="btn btn-primary" />
-      </form>
-      </td>
-  </tr>
-  {% endfor %}
-  </tbody>
-  </table>
-<div class="panel-footer">
-    <p class="help-block">
-    {% trans "You can safely permanently ignore errors for features you do not intend to use. These are usually caused by missing or outdated dependencies." %}
-    </p>
-</div>
-</div>
+  {% if errors %}
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'admin/install' 'production' right=True %}
+          {% trans "Configuration errors" %}
+        </h4>
+      </div>
+      <table class="table table-striped table-responsive">
+        <thead>
+          <tr>
+            <th>{% trans "Last occurrence" %}</th>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Message" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for error in errors %}
+            <tr class="row{% cycle '1' '2' %}">
+              <td>{{ error.timestamp }}</td>
+              <td>
+                {{ error.name }}
+                {% configuration_error_link error.name %}
+              </td>
+              <td>
+                <pre>{{ error.message }}</pre>
+              </td>
+              <td>
+                <form method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="pk" value="{{ error.pk }}" />
+                  <input type="submit"
+                         name="dismiss"
+                         value="{% trans "Dismiss" %}"
+                         class="btn btn-primary" />
+                  <input type="submit"
+                         name="ignore"
+                         value="{% trans "Ignore permanently" %}"
+                         class="btn btn-primary" />
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="panel-footer">
+        <p class="help-block">
+          {% trans "You can safely permanently ignore errors for features you do not intend to use. These are usually caused by missing or outdated dependencies." %}
+        </p>
+      </div>
+    </div>
   {% endif %}
 
   {% if checks %}
-<div class="panel panel-default">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    {% documentation_icon 'admin/install' 'production' right=True %}
-    {% trans "System checks" %}
-  </h4>
-</div>
-  <table class="table table-striped table-responsive">
-  <thead>
-  <tr>
-    <th>{% trans "Name" %}</th>
-    <th>{% trans "Message" %}</th>
-  </tr>
-  </thead>
-  <tbody>
-  {% for check in checks %}
-  <tr class="row{% cycle '1' '2' %}">
-      <td>
-        {{ check.id }}
-        {% check_link check %}
-      </td>
-      <td>{{ check.msg }}</td>
-  </tr>
-  {% endfor %}
-  </tbody>
-  </table>
-  </div>
-
-  {% endif %}
-
-  {% if not checks and not errors %}
-  {% trans "Congratulations, your setup seems to work." as msg %}
-  {% show_message "success" msg %}
-  {% endif %}
-
-<div class="row">
-  <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          {% documentation_icon 'admin/install' 'celery' right=True %}
-          {% trans "Celery queues" %}
+          {% documentation_icon 'admin/install' 'production' right=True %}
+          {% trans "System checks" %}
         </h4>
       </div>
-      <table class="table table-striped">
+      <table class="table table-striped table-responsive">
+        <thead>
+          <tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Message" %}</th>
+          </tr>
+        </thead>
         <tbody>
-          {% for name, length in queues %}
-            <tr>
-              <td>{{ name }}</td>
-              <td class="number">{{ length|intcomma }}</td>
+          {% for check in checks %}
+            <tr class="row{% cycle '1' '2' %}">
+              <td>
+                {{ check.id }}
+                {% check_link check %}
+              </td>
+              <td>{{ check.msg }}</td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
-  </div>
 
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          {% documentation_icon 'admin/install' 'production-encoding' right=True %}
-          {% trans "System encoding" %}
-        </h4>
-      </div>
-      <table class="table table-striped">
-        <thead>
-          <tr><th></th><th>{% trans "Web server" %}</th><th>{% trans "Celery worker" %}</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{% trans "Filenames encoding" %}</td>
-            <td>{{ web_encoding.0 }}</td>
-            <td>{% if celery_encoding %}{{ celery_encoding.0 }}{% else %}{% trans "Unknown encoding" %}{% endif %}</td>
-          </tr>
-          <tr>
-            <td>{% trans "Content encoding" %}</td>
-            <td>{{ web_encoding.1 }}</td>
-            <td>{% if celery_encoding %}{{ celery_encoding.1 }}{% else %}{% trans "Unknown encoding" %}{% endif %}</td>
-          </tr>
-        </tbody>
-      </table>
+  {% endif %}
 
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          {% documentation_icon 'admin/install' 'production-database' right=True %}
-          {% trans "Connectivity" %}
-        </h4>
+  {% if not checks and not errors %}
+    {% trans "Congratulations, your setup seems to work." as msg %}
+    {% show_message "success" msg %}
+  {% endif %}
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'admin/install' 'celery' right=True %}
+            {% trans "Celery queues" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            {% for name, length in queues %}
+              <tr>
+                <td>{{ name }}</td>
+                <td class="number">{{ length|intcomma }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
-      <table class="table table-striped">
-        <tbody>
-          <tr>
-            <td>{% trans "Database latency" %}</td>
-            <td class="number">{{ database_latency }} ms</td>
-          </tr>
-          <tr>
-            <td>{% trans "Cache latency" %}</td>
-            <td class="number">{{ cache_latency }} ms</td>
-          </tr>
-          <tr>
-            <td>{% trans "Celery latency" %}</td>
-            <td class="number">{% if celery_latency %}{{ celery_latency }} ms{% else %}{% trans "Not yet measured" %}{% endif %}</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
 
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'admin/install' 'production-encoding' right=True %}
+            {% trans "System encoding" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>{% trans "Web server" %}</th>
+              <th>{% trans "Celery worker" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{% trans "Filenames encoding" %}</td>
+              <td>{{ web_encoding.0 }}</td>
+              <td>
+                {% if celery_encoding %}
+                  {{ celery_encoding.0 }}
+                {% else %}
+                  {% trans "Unknown encoding" %}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>{% trans "Content encoding" %}</td>
+              <td>{{ web_encoding.1 }}</td>
+              <td>
+                {% if celery_encoding %}
+                  {{ celery_encoding.1 }}
+                {% else %}
+                  {% trans "Unknown encoding" %}
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'admin/install' 'production-database' right=True %}
+            {% trans "Connectivity" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>{% trans "Database latency" %}</td>
+              <td class="number">{{ database_latency }} ms</td>
+            </tr>
+            <tr>
+              <td>{% trans "Cache latency" %}</td>
+              <td class="number">{{ cache_latency }} ms</td>
+            </tr>
+            <tr>
+              <td>{% trans "Celery latency" %}</td>
+              <td class="number">
+                {% if celery_latency %}
+                  {{ celery_latency }} ms
+                {% else %}
+                  {% trans "Not yet measured" %}
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
   </div>
-</div>
 
 {% endblock %}

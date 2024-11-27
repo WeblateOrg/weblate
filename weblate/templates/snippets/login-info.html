@@ -1,32 +1,34 @@
 {% load i18n %}
 
-<h4>{% trans "Web-based <strong>continuous</strong> localization" %}</h4>
+<h4>
+  {% trans "Web-based <strong>continuous</strong> localization" %}
+</h4>
 
 {% include "snippets/about.html" %}
 
 {% if has_legal %}
-<p>{% trans "By registering and signing in to this service you accept our:" %}</p>
-<ul>
-<li>
-    <a href="{% url 'legal:terms' %}">{% blocktrans %}General Terms and Conditions{% endblocktrans %}</a>
-</li>
-<li>
-    <a href="{% url 'legal:privacy' %}">{% blocktrans %}Privacy Policy{% endblocktrans %}</a>
-</li>
-</ul>
+  <p>{% trans "By registering and signing in to this service you accept our:" %}</p>
+  <ul>
+    <li>
+      <a href="{% url 'legal:terms' %}">{% blocktrans %}General Terms and Conditions{% endblocktrans %}</a>
+    </li>
+    <li>
+      <a href="{% url 'legal:privacy' %}">{% blocktrans %}Privacy Policy{% endblocktrans %}</a>
+    </li>
+  </ul>
 
-<p>
-{% blocktrans %}Quick overview of the General Terms and Conditions and the Privacy Policy, but you should still read the original documents to fully understand them:{% endblocktrans %}
-</p>
+  <p>
+    {% blocktrans %}Quick overview of the General Terms and Conditions and the Privacy Policy, but you should still read the original documents to fully understand them:{% endblocktrans %}
+  </p>
 
-{% include 'legal/documents/summary.html' %}
+  {% include 'legal/documents/summary.html' %}
 
 {% elif private_commit_email_opt_in %}
-<p>
-{% trans "By registering you agree to use your name and e-mail in version control system commits and provide your contribution under license defined by each translated project." %}
-</p>
+  <p>
+    {% trans "By registering you agree to use your name and e-mail in version control system commits and provide your contribution under license defined by each translated project." %}
+  </p>
 {% else %}
-<p>
-{% trans "By registering you agree to use your name in version control system commits and provide your contribution under license defined by each translated project." %}
-</p>
+  <p>
+    {% trans "By registering you agree to use your name in version control system commits and provide your contribution under license defined by each translated project." %}
+  </p>
 {% endif %}

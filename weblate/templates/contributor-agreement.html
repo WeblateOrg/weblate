@@ -1,37 +1,43 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
-{% path_object_breadcrumbs object %}
-<li><a href="{% url 'contributor-agreement' path=object.get_url_path %}">{% trans "Contributor agreement" %}</a></li>
+  {% path_object_breadcrumbs object %}
+  <li>
+    <a href="{% url 'contributor-agreement' path=object.get_url_path %}">{% trans "Contributor agreement" %}</a>
+  </li>
 {% endblock %}
 
+
 {% block content %}
-<form action="{% url 'contributor-agreement' path=object.get_url_path %}" method="post" enctype="multipart/form-data">
+  <form action="{% url 'contributor-agreement' path=object.get_url_path %}"
+        method="post"
+        enctype="multipart/form-data">
 
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Please review the contributor agreement" %}</h4></div>
-  <div class="panel-body">
-  <p>{% trans "Please read following contributor agreement:" %}</p>
-  <div class="list-group-item pre-scrollable">
-{{ object.agreement|markdown }}
-  </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">{% trans "Please review the contributor agreement" %}</h4>
+      </div>
+      <div class="panel-body">
+        <p>{% trans "Please read following contributor agreement:" %}</p>
+        <div class="list-group-item pre-scrollable">{{ object.agreement|markdown }}</div>
 
-{% csrf_token %}
+        {% csrf_token %}
 
-{% crispy form %}
-</div>
-<div class="panel-footer">
-{% if has_agreed  %}
-{% trans "You have already agreed to this agreement." %}
-{% else %}
-<button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-{% endif %}
-</div>
-</div>
+        {% crispy form %}
+      </div>
+      <div class="panel-footer">
+        {% if has_agreed %}
+          {% trans "You have already agreed to this agreement." %}
+        {% else %}
+          <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+        {% endif %}
+      </div>
+    </div>
 
-</form>
+  </form>
 
 {% endblock %}

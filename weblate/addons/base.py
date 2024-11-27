@@ -15,7 +15,7 @@ from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
 
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
 from weblate.trans.util import get_clean_env
@@ -43,7 +43,7 @@ class CompatDict(TypedDict, total=False):
 class BaseAddon:
     """Base class for Weblate add-ons."""
 
-    events: tuple[AddonEvent, ...] = ()
+    events: set[AddonEvent] = set()
     settings_form: type[BaseAddonForm] | None = None
     name = ""
     compat: CompatDict = {}
@@ -185,6 +185,8 @@ class BaseAddon:
     def post_configure_run_component(self, component) -> None:
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
+        if not (POST_CONFIGURE_EVENTS & self.events):
+            return
 
         if AddonEvent.EVENT_POST_COMMIT in self.events:
             component.log_debug("running post_commit add-on: %s", self.name)
@@ -421,7 +423,9 @@ class UpdateBaseAddon(BaseAddon):
     It hooks to post update and commits all changed translations.
     """
 
-    events: tuple[AddonEvent, ...] = (AddonEvent.EVENT_POST_UPDATE,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_POST_UPDATE,
+    }
 
     @staticmethod
     def iterate_translations(component: Component):
@@ -445,5 +449,7 @@ class UpdateBaseAddon(BaseAddon):
 class StoreBaseAddon(BaseAddon):
     """Base class for add-ons tweaking store."""
 
-    events: tuple[AddonEvent, ...] = (AddonEvent.EVENT_STORE_POST_LOAD,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_STORE_POST_LOAD,
+    }
     icon = "wrench.svg"

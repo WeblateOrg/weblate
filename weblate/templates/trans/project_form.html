@@ -1,47 +1,57 @@
 {% extends "base.html" %}
+
 {% load i18n %}
 {% load translations %}
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'create-project' %}">{% trans "Create project" %}</a></li>
+  <li>
+    <a href="{% url 'create-project' %}">{% trans "Create project" %}</a>
+  </li>
 {% endblock %}
 
+
 {% block content %}
-{% if not can_create %}
-{% trans "You currently do not have permission to create projects." as msg %}
-{% show_message "warning" msg %}
+  {% if not can_create %}
+    {% trans "You currently do not have permission to create projects." as msg %}
+    {% show_message "warning" msg %}
 
-{% if has_billing %}
-{% include "snippets/billing-failure.html" %}
-{% endif %}
+    {% if has_billing %}
+      {% include "snippets/billing-failure.html" %}
+    {% endif %}
 
-{% else %}
+  {% else %}
 
 
-<ul class="nav nav-pills">
-  <li role="presentation" class="active"><a href="#create" data-toggle="tab">{% trans "Add new translation project" %}</a></li>
-  <li role="presentation"><a href="#import" data-toggle="tab">{% trans "Import translation project" %}</a></li>
-</ul>
+    <ul class="nav nav-pills">
+      <li role="presentation" class="active">
+        <a href="#create" data-toggle="tab">{% trans "Add new translation project" %}</a>
+      </li>
+      <li role="presentation">
+        <a href="#import" data-toggle="tab">{% trans "Import translation project" %}</a>
+      </li>
+    </ul>
 
-<div class="tab-content">
+    <div class="tab-content">
 
-<div class="tab-pane active" id="create">
-<form action="{% url 'create-project' %}" method="post" enctype="multipart/form-data">
-{% csrf_token %}
-{% crispy form %}
-<input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
-</form>
-</div>
+      <div class="tab-pane active" id="create">
+        <form action="{% url 'create-project' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% crispy form %}
+          <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+        </form>
+      </div>
 
-<div class="tab-pane" id="import">
-<form action="{% url 'create-project-import' %}" method="post" enctype="multipart/form-data">
-{% csrf_token %}
-{% crispy import_form %}
-<input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" />
-</form>
-</div>
+      <div class="tab-pane" id="import">
+        <form action="{% url 'create-project-import' %}"
+              method="post"
+              enctype="multipart/form-data">
+          {% csrf_token %}
+          {% crispy import_form %}
+          <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" />
+        </form>
+      </div>
 
-</div>
-{% endif %}
+    </div>
+  {% endif %}
 {% endblock %}

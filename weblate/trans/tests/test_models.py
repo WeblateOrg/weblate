@@ -5,11 +5,13 @@
 """Test for translation models."""
 
 import os
+from datetime import timedelta
 
 from django.core.management.color import no_style
 from django.db import connection, transaction
 from django.test import LiveServerTestCase, TestCase
 from django.test.utils import override_settings
+from django.utils import timezone
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
@@ -18,6 +20,7 @@ from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.models import (
     Announcement,
     AutoComponentList,
+    Change,
     Comment,
     Component,
     ComponentList,
@@ -545,4 +548,39 @@ class AnnouncementTest(ModelTestCase):
             ),
             1,
             "test de",
+        )
+
+
+class ChangeTest(ModelTestCase):
+    """Test(s) for Change model."""
+
+    def test_day_filtering(self) -> None:
+        Change.objects.all().delete()
+        for days_since in range(3):
+            change = Change.objects.create(action=Change.ACTION_CREATE_PROJECT)
+            change.timestamp -= timedelta(days=days_since)
+            change.save()
+
+        # filter by day with date
+        self.assertEqual(
+            Change.objects.filter_by_day(
+                timezone.now().date() - timedelta(days=1)
+            ).count(),
+            1,
+        )
+        # filter by day with datetime
+        self.assertEqual(
+            Change.objects.filter_by_day(timezone.now() - timedelta(days=1)).count(),
+            1,
+        )
+
+        # filter since_day with date
+        self.assertEqual(
+            Change.objects.since_day(timezone.now().date() - timedelta(days=1)).count(),
+            2,
+        )
+        # filter since_day with datetime
+        self.assertEqual(
+            Change.objects.since_day(timezone.now() - timedelta(days=1)).count(),
+            2,
         )

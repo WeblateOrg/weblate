@@ -1931,6 +1931,10 @@ and the volume can be mounted using ephemeral filesystem such as `tmpfs`.
 When creating the volumes manually, the directories should be owned by UID 1000
 as that is user used inside the container.
 
+Weblate container can also be executed with a read-only root file system. In
+this case, two additional ``tmpfs`` volumes should be mounted: ``/tmp`` and
+``/run``.
+
 .. seealso::
 
    `Docker volumes documentation <https://docs.docker.com/engine/storage/volumes/>`_,
