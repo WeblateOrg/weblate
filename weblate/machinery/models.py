@@ -90,6 +90,9 @@ def validate_service_configuration(
 
             for field in form:
                 errors.extend(
-                    [f"Error in {field.name}: {error}" for error in field.errors]
+                    [
+                        f"Error in {field.name} ({service_name}): {error}"
+                        for error in field.errors
+                    ]
                 )
     return service, service_configuration, errors

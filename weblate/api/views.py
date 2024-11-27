@@ -58,6 +58,7 @@ from weblate.api.serializers import (
     ChangeSerializer,
     ComponentListSerializer,
     ComponentSerializer,
+    EditServiceSettingsResponseSerializer,
     FullUserSerializer,
     GroupSerializer,
     LabelSerializer,
@@ -69,12 +70,14 @@ from weblate.api.serializers import (
     MonolingualUnitSerializer,
     NewUnitSerializer,
     NotificationSerializer,
+    ProjectMachinerySettingsSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
     RoleSerializer,
     ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
+    ServiceConfigSerializer,
     StatisticsSerializer,
     TranslationSerializer,
     UnitSerializer,
@@ -1012,15 +1015,23 @@ class ProjectViewSet(
             name=instance.slug,
         )
 
-    @action(detail=True, methods=["get", "post"])
+    @extend_schema(responses=ProjectMachinerySettingsSerializer, methods=["GET"])
+    @extend_schema(
+        request=ServiceConfigSerializer,
+        responses=EditServiceSettingsResponseSerializer,
+        methods=["POST", "PATCH", "PUT"],
+    )
+    @action(detail=True, methods=["get", "post", "patch", "put"])
     def machinery_settings(self, request: Request, **kwargs):
         """List or create/update machinery configuration for a project."""
         project = self.get_object()
 
         if not request.user.has_perm("project.edit", project):
-            self.permission_denied(request, "Can not edit machinery configuration")
+            self.permission_denied(
+                request, "Can not retrieve/edit machinery configuration"
+            )
 
-        if request.method == "POST":
+        if request.method in {"POST", "PATCH"}:
             try:
                 service_name = request.data["service"]
             except KeyError:
@@ -1031,22 +1042,66 @@ class ProjectViewSet(
             service, configuration, errors = validate_service_configuration(
                 service_name, request.data.get("configuration", "{}")
             )
-            if service is None:
+
+            if service is None or errors:
+                return Response({"errors": errors}, status=HTTP_400_BAD_REQUEST)
+
+            if request.method == "PATCH":
+                if configuration:
+                    # update a configuration
+                    project.machinery_settings[service_name] = configuration
+                    project.save(update_fields=["machinery_settings"])
+                    return Response(
+                        {"message": f"Service updated: {service.name}"},
+                        status=HTTP_200_OK,
+                    )
+                # remove a configuration
+                project.machinery_settings.pop(service_name, None)
+                project.save(update_fields=["machinery_settings"])
                 return Response(
-                    {"errors": errors},
+                    {"message": f"Service removed: {service.name}"},
+                    status=HTTP_200_OK,
+                )
+            # POST
+            if service_name in project.machinery_settings:
+                return Response(
+                    {"errors": ["Service already exists"]},
                     status=HTTP_400_BAD_REQUEST,
                 )
-
-            if errors:
-                return Response({"errors": errors}, status=HTTP_400_BAD_REQUEST)
 
             project.machinery_settings[service_name] = configuration
             project.save(update_fields=["machinery_settings"])
             return Response(
-                {"message": f"Service installed: {service.name}"}, status=HTTP_200_OK
+                {"message": f"Service installed: {service.name}"},
+                status=HTTP_201_CREATED,
             )
 
-        return Response(project.machinery_settings, status=HTTP_200_OK)
+        if request.method == "PUT":
+            # replace all service configuration
+            valid_configurations: dict[str, dict] = {}
+            for service_name, configuration in request.data.items():
+                service, configuration, errors = validate_service_configuration(
+                    service_name, configuration
+                )
+
+                if service is None or errors:
+                    return Response({"errors": errors}, status=HTTP_400_BAD_REQUEST)
+
+                valid_configurations[service_name] = configuration
+
+            project.machinery_settings = valid_configurations
+            project.save(update_fields=["machinery_settings"])
+            return Response(
+                {
+                    "message": f"Services installed: {", ".join(valid_configurations.keys())}"
+                },
+                status=HTTP_201_CREATED,
+            )
+
+        # get request
+        return Response(
+            data=ProjectMachinerySettingsSerializer(project).data, status=HTTP_200_OK
+        )
 
 
 class ComponentViewSet(
