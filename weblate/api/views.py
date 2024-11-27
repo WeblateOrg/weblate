@@ -58,7 +58,6 @@ from weblate.api.serializers import (
     ChangeSerializer,
     ComponentListSerializer,
     ComponentSerializer,
-    EditServiceSettingsResponseSerializer,
     FullUserSerializer,
     GroupSerializer,
     LabelSerializer,
@@ -77,13 +76,14 @@ from weblate.api.serializers import (
     ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
-    ServiceConfigSerializer,
+    SingleServiceConfigSerializer,
     StatisticsSerializer,
     TranslationSerializer,
     UnitSerializer,
     UnitWriteSerializer,
     UploadRequestSerializer,
     UserStatisticsSerializer,
+    edit_service_settings_response_serializer,
     get_reverse_kwargs,
 )
 from weblate.auth.models import AuthenticatedHttpRequest, Group, Role, User
@@ -1015,11 +1015,28 @@ class ProjectViewSet(
             name=instance.slug,
         )
 
-    @extend_schema(responses=ProjectMachinerySettingsSerializer, methods=["GET"])
     @extend_schema(
-        request=ServiceConfigSerializer,
-        responses=EditServiceSettingsResponseSerializer,
-        methods=["POST", "PATCH", "PUT"],
+        responses=ProjectMachinerySettingsSerializer,
+        methods=["GET"],
+        description="List machinery settings for a project.",
+    )
+    @extend_schema(
+        request=SingleServiceConfigSerializer,
+        responses=edit_service_settings_response_serializer(201, 400),
+        methods=["POST"],
+        description="Install a new machinery service",
+    )
+    @extend_schema(
+        request=SingleServiceConfigSerializer,
+        responses=edit_service_settings_response_serializer(200, 400),
+        methods=["PATCH"],
+        description="Partially update a single service. Leave configuration blank to remove the service",
+    )
+    @extend_schema(
+        request=ProjectMachinerySettingsSerializer,
+        responses=edit_service_settings_response_serializer(200, 400),
+        methods=["PUT"],
+        description="Replace configuration for all services.",
     )
     @action(detail=True, methods=["get", "post", "patch", "put"])
     def machinery_settings(self, request: Request, **kwargs):
@@ -1062,21 +1079,22 @@ class ProjectViewSet(
                     {"message": f"Service removed: {service.name}"},
                     status=HTTP_200_OK,
                 )
-            # POST
-            if service_name in project.machinery_settings:
+
+            if request.method == "POST":
+                if service_name in project.machinery_settings:
+                    return Response(
+                        {"errors": ["Service already exists"]},
+                        status=HTTP_400_BAD_REQUEST,
+                    )
+
+                project.machinery_settings[service_name] = configuration
+                project.save(update_fields=["machinery_settings"])
                 return Response(
-                    {"errors": ["Service already exists"]},
-                    status=HTTP_400_BAD_REQUEST,
+                    {"message": f"Service installed: {service.name}"},
+                    status=HTTP_201_CREATED,
                 )
 
-            project.machinery_settings[service_name] = configuration
-            project.save(update_fields=["machinery_settings"])
-            return Response(
-                {"message": f"Service installed: {service.name}"},
-                status=HTTP_201_CREATED,
-            )
-
-        if request.method == "PUT":
+        elif request.method == "PUT":
             # replace all service configuration
             valid_configurations: dict[str, dict] = {}
             for service_name, configuration in request.data.items():
@@ -1098,9 +1116,10 @@ class ProjectViewSet(
                 status=HTTP_201_CREATED,
             )
 
-        # get request
+        # GET method
         return Response(
-            data=ProjectMachinerySettingsSerializer(project).data, status=HTTP_200_OK
+            data=ProjectMachinerySettingsSerializer(project).data,
+            status=HTTP_200_OK,
         )
 
 

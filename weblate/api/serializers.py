@@ -1538,7 +1538,7 @@ class MetricsSerializer(ReadOnlySerializer):
         )
     ]
 )
-class ServiceConfigSerializer(serializers.Serializer):
+class SingleServiceConfigSerializer(serializers.Serializer):
     service = serializers.CharField()
     configuration = serializers.DictField()
 
@@ -1553,13 +1553,10 @@ class ServiceConfigSerializer(serializers.Serializer):
             },
             request_only=False,
             response_only=True,
-        ),
-        OpenApiExample(
-            "Error message", value={"errors": "Error message"}, status_codes=[400]
-        ),
+        )
     ]
 )
-class ProjectMachinerySettingsSerializer(ReadOnlySerializer):
+class ProjectMachinerySettingsSerializer(serializers.Serializer):
     def to_representation(self, instance: Project):
         return dict(instance.machinery_settings)
 
@@ -1571,20 +1568,23 @@ class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
         return build_object_type(properties={"service_name": build_basic_type(dict)})
 
 
-EditServiceSettingsResponseSerializer = {
-    200: inline_serializer(
-        "Simple message serializer",
-        fields={
-            "message": serializers.CharField(),
-        },
-    ),
-    201: inline_serializer(
-        "Simple message serializer",
-        fields={
-            "message": serializers.CharField(),
-        },
-    ),
-    400: inline_serializer(
-        "Simple error message serializer", fields={"errors": serializers.CharField()}
-    ),
-}
+def edit_service_settings_response_serializer(*codes) -> int:
+    _serializers = {
+        200: inline_serializer(
+            "Simple message serializer",
+            fields={
+                "message": serializers.CharField(),
+            },
+        ),
+        201: inline_serializer(
+            "Simple message serializer",
+            fields={
+                "message": serializers.CharField(),
+            },
+        ),
+        400: inline_serializer(
+            "Simple error message serializer",
+            fields={"errors": serializers.CharField()},
+        ),
+    }
+    return {code: _serializers[code] for code in codes}
