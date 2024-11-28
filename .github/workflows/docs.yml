@@ -34,9 +34,10 @@ jobs:
         sudo apt update
         sudo apt install -y graphviz
     - name: Install Python dependencies
-      run: uv pip install --system -r docs/requirements.txt
+      run: uv sync --no-sources --only-group docs --frozen
     - name: Sphinx build
       run: |
+        . .venv/bin/activate
         echo "::add-matcher::.github/matchers/sphinx.json"
         ./ci/run-docs
         echo "::remove-matcher owner=sphinx::"

@@ -11,7 +11,7 @@ Configuring Weblate
    to :file:`~/weblate-env/lib/python3.9/site-packages/weblate/settings.py`.
 
 #.
-   .. include:: steps/adjust-config.rst
+   .. include:: /admin/install/steps/adjust-config.rst
 
 #. Create the database and its structure for Weblate (the example settings use
    PostgreSQL, check :ref:`database-setup` for a production-ready setup):

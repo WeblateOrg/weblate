@@ -100,7 +100,6 @@ exclude_patterns = [
     "_build",
     "Thumbs.db",
     ".DS_Store",
-    "admin/install/steps/*.rst",
     "devel/reporting-example.rst",
 ]
 
@@ -137,7 +136,6 @@ if os.environ.get("READTHEDOCS", "") == "True":
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["../weblate/static/"]
-
 
 html_logo = "../weblate/static/logo-128.png"
 
@@ -192,9 +190,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    ("latexindex", "Weblate.tex", "The Weblate Manual", author, "manual")
-]
+latex_documents = [("index", "Weblate.tex", "The Weblate Manual", author, "manual")]
 
 # Include logo on title page
 latex_logo = "../weblate/static/logo-1024.png"

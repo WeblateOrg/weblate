@@ -13,7 +13,10 @@ from weblate.trans.tasks import auto_translate_component
 
 
 class AutoTranslateAddon(BaseAddon):
-    events = (AddonEvent.EVENT_COMPONENT_UPDATE, AddonEvent.EVENT_DAILY)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_COMPONENT_UPDATE,
+        AddonEvent.EVENT_DAILY,
+    }
     name = "weblate.autotranslate.autotranslate"
     verbose = gettext_lazy("Automatic translation")
     description = gettext_lazy(

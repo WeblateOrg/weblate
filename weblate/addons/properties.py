@@ -135,7 +135,9 @@ def format_file(filename: str, case_sensitive: bool) -> bool:
 
 
 class PropertiesSortAddon(BaseAddon):
-    events = (AddonEvent.EVENT_PRE_COMMIT,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_PRE_COMMIT,
+    }
     name = "weblate.properties.sort"
     verbose = gettext_lazy("Format the Java properties file")
     description = gettext_lazy("Formats and sorts the Java properties file.")

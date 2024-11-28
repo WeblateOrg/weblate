@@ -148,7 +148,7 @@ class Addon(models.Model):
             details=self.configuration,
         )
 
-    def configure_events(self, events) -> None:
+    def configure_events(self, events: set[AddonEvent]) -> None:
         for event in events:
             Event.objects.get_or_create(addon=self, event=event)
         self.event_set.exclude(event__in=events).delete()

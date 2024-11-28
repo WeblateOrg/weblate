@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from itertools import chain
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.utils.translation import gettext_lazy
 
@@ -14,11 +14,11 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import GitSquashForm
 from weblate.utils.errors import report_error
 from weblate.vcs.base import RepositoryError
+from weblate.vcs.git import GitRepository
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from weblate.trans.models import Component
-    from weblate.vcs.git import GitRepository
 
 
 class GitSquashAddon(BaseAddon):
@@ -29,7 +29,9 @@ class GitSquashAddon(BaseAddon):
     compat = {
         "vcs": VCS_REGISTRY.git_based,
     }
-    events = (AddonEvent.EVENT_POST_COMMIT,)
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_POST_COMMIT,
+    }
     icon = "compress.svg"
     repo_scope = True
 
@@ -237,7 +239,7 @@ class GitSquashAddon(BaseAddon):
             repository.delete_branch(tmp)
 
     def post_commit(self, component: Component, store_hash: bool) -> None:
-        repository = component.repository
+        repository = cast(GitRepository, component.repository)
         branch_updated = False
         with repository.lock:
             # Ensure repository is rebased on current remote prior to squash, otherwise

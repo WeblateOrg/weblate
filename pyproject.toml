@@ -12,9 +12,22 @@ dev = [
   "reuse==5.0.2",
   "scour==0.38.2",
   "tinyunicodeblock==1.3",
+  {include-group = "docs"},
   {include-group = "lint"},
   {include-group = "test"},
   {include-group = "types"}
+]
+docs = [
+  "furo==2024.8.6",
+  "jinja2>=3.1.4",
+  "matplotlib==3.9.2",
+  "Pillow>=10.3.0,<12",
+  "Pygments>=2.17.0,<3.0",
+  "Sphinx==8.1.3",
+  "sphinx-copybutton==0.5.2",
+  "sphinx-jsonschema==1.19.1",
+  "sphinxcontrib-httpdomain==1.8.1",
+  "sphinxext-opengraph==0.9.1"
 ]
 lint = [
   {include-group = "pylint"},
@@ -33,10 +46,10 @@ test = [
   "pytest-django==4.9.0",
   "responses==0.25.3",
   "respx==0.21.1",
-  "selenium==4.27.0"
+  "selenium==4.27.1"
 ]
 types = [
-  "boto3-stubs==1.35.69",
+  "boto3-stubs==1.35.71",
   "celery-types==0.22.0",
   "django-stubs-ext==5.1.1",
   "django-stubs==5.1.1",
@@ -110,7 +123,7 @@ dependencies = [
   "mistletoe>=1.4.0,<1.5",
   "nh3>=0.2.14,<0.3",
   "openpyxl>=3.1.0,<3.2",
-  "packaging>=22,<25",
+  "packaging>=23,<25",
   "phply>=1.2.6,<1.3",
   "Pillow>=10.3.0,<12",
   "pycairo>=1.20.0",
@@ -266,8 +279,9 @@ ignore = [
 
 [tool.codespell]
 count = true
-ignore-words-list = "assertIn"
-skip = '*.po,*.pot,*.json,*.tmx,*.tbx,*.csv,*/vendor/*,weblate/trans/specialchars.py,scripts/yarn/yarn.lock,weblate/trans/tests/data/known_hosts,docs/user/checks.rst,docs/toc-devel.rst,docs/changes/contributors/*.rst'
+# Vai is a language name
+ignore-words-list = "assertIn,Vai"
+skip = '*.po,*.pot,*.json,*.tmx,*.tbx,*.csv,*/vendor/*,weblate/trans/specialchars.py,weblate/trans/tests/data/known_hosts,docs/changes/contributors/*.rst,docs/index.rst'
 
 [tool.coverage.paths]
 source = [

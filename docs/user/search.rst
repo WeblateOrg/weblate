@@ -166,6 +166,16 @@ Anywhere text is accepted you can also specify a regular expression as ``r"regex
 For example, to search for all source strings which contain any digit between 2
 and 5, use ``source:r"[2-5]"``.
 
+.. hint::
+
+   The regular expressions are evaluated by the database backend and might use
+   different extensions, please consult the database documentation below for
+   more details.
+
+   * `PostgreSQL Regular Expressions Details <https://www.postgresql.org/docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the default database engine for Weblate)
+   * `MariaDB Regular Expressions Overview <https://mariadb.com/kb/en/regular-expressions-overview/>`_
+   * `MySQL Regular Expressions <https://dev.mysql.com/doc/refman/8.4/en/regexp.html>`_
+
 Predefined queries
 ------------------
 

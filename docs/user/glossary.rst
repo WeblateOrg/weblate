@@ -53,6 +53,10 @@ toggle additional features using the :guilabel:`Tools` menu for each term.
 
 .. image:: /screenshots/glossary-tools.webp
 
+.. seealso::
+
+   :ref:`adding-strings`
+
 Untranslatable terms
 ++++++++++++++++++++
 

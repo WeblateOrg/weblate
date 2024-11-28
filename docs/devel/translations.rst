@@ -1,6 +1,8 @@
 Managing translations
 =====================
 
+.. _adding-strings:
+
 Adding new strings
 ------------------
 
@@ -8,6 +10,17 @@ New strings can be made available for translation when they appear in the base f
 called :ref:`component-new_base` (see :ref:`component`).
 If your file format doesn't require such a file, as is the case with most monolingual
 translation flows, you can start with empty files.
+
+Weblate can add new strings to existing files for most of the file formats. You
+can also specify :guilabel:`Context` for bilingual formats to distinguish same
+strings used in different context. :guilabel:`Auto-adjust context when an
+identical string already exists.` can be used to automatically adjust
+:guilabel:`Context` by adding a numeric suffix in case such a string already
+exist in the translation.
+
+.. seealso::
+
+   :ref:`format-context`
 
 .. _adding-translation:
 

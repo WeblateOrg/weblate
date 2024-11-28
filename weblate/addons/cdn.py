@@ -26,11 +26,11 @@ if TYPE_CHECKING:
 
 
 class CDNJSAddon(BaseAddon):
-    events = (
+    events = {
         AddonEvent.EVENT_DAILY,
         AddonEvent.EVENT_POST_COMMIT,
         AddonEvent.EVENT_POST_UPDATE,
-    )
+    }
     name = "weblate.cdn.cdnjs"
     verbose = gettext_lazy("JavaScript localization CDN")
     description = gettext_lazy(

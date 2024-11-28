@@ -115,9 +115,11 @@ jobs:
         sudo apt update
         sudo apt install -y graphviz pandoc
     - name: Install Python dependencies
-      run: uv pip install --system -r docs/requirements.txt
+      run: uv sync --no-sources --only-group docs --frozen
     - name: Sphinx build
-      run: ./ci/run-docs
+      run: |
+        . .venv/bin/activate
+        ./ci/run-docs
     - name: Convert release notes
       run: |
         version=$(sed -n '/^VERSION =/ s/.*"\(.*\)"/\1/p' weblate/utils/version.py)
