@@ -302,7 +302,6 @@ class CSPBuilder:
         self.apply_csp_settings()
         self.build_csp_inline()
         self.build_csp_support()
-        self.build_csp_rollbar()
         self.build_csp_sentry()
         self.build_csp_piwik()
         self.build_csp_google_analytics()
@@ -367,18 +366,6 @@ class CSPBuilder:
             self.directives["connect-src"].add("care.weblate.org")
             self.directives["style-src"].add("care.weblate.org")
             self.directives["form-action"].add("care.weblate.org")
-
-    def build_csp_rollbar(self) -> None:
-        # Rollbar client errors reporting
-        if (
-            (rollbar_settings := getattr(settings, "ROLLBAR", None)) is not None
-            and "client_token" in rollbar_settings
-            and "environment" in rollbar_settings
-            and self.response.status_code == 500
-        ):
-            self.directives["script-src"].add("'unsafe-inline'")
-            self.directives["script-src"].add("cdnjs.cloudflare.com")
-            self.directives["connect-src"].add("api.rollbar.com")
 
     def build_csp_sentry(self) -> None:
         # Sentry user feedback

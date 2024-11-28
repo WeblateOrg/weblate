@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 18:09+0000\n"
-"PO-Revision-Date: 2024-11-25 11:00+0000\n"
+"PO-Revision-Date: 2024-11-27 14:49+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -105,38 +105,32 @@ msgstr ""
 "nicht unten konfiguriert."
 
 #: weblate/accounts/forms.py:431
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "Bitte später erneut versuchen."
+msgstr "Verifizierung fehlgeschlagen. Bitte später erneut versuchen."
 
 #: weblate/accounts/forms.py:432
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Verifizierung abgelaufen. Bitte erneut versuchen."
 
 #: weblate/accounts/forms.py:433
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Ich bin kein Roboter"
 
 #: weblate/accounts/forms.py:434
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "Übersetzung vollständig"
+msgstr "Verifizierung abgeschlossen"
 
 #: weblate/accounts/forms.py:435
 msgid "Verifying…"
-msgstr ""
+msgstr "Wird verifiziert …"
 
 #: weblate/accounts/forms.py:437
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Die Verifizierung läuft noch, bitte warten."
 
 #: weblate/accounts/forms.py:447
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "Sofortige Benachrichtigung"
+msgstr "Menschliche Verifikation"
 
 #: weblate/accounts/forms.py:500
 #, python-format
@@ -148,13 +142,11 @@ msgstr "Was ergibt %s?"
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:519
 msgid "That was not correct, please try again."
-msgstr "Das war nicht richtig, versuchen Sie es bitte erneut."
+msgstr "Das war nicht korrekt, bitte erneut versuchen."
 
 #: weblate/accounts/forms.py:532 weblate/accounts/forms.py:539
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "Das war nicht richtig, versuchen Sie es bitte erneut."
+msgstr "Validierung fehlgeschlagen, bitte erneut versuchen."
 
 #: weblate/accounts/forms.py:557
 msgid "Subject"
@@ -2040,20 +2032,14 @@ msgstr ""
 "Zeilenvorschübe."
 
 #: weblate/api/docs.py:72
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Allowed number of requests to perform"
-msgstr "Limit der Anzahl der auszuführenden Anfragen"
+msgstr "Erlaubte Anzahl der auszuführenden Anfragen"
 
 #: weblate/api/docs.py:77
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "Limit der Anzahl der auszuführenden Anfragen"
+msgstr "Verbleibende Anzahl der auszuführenden Anfragen"
 
 #: weblate/api/docs.py:82
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
 msgstr "Anzahl der Sekunden bis zum Zurücksetzen des Ratenbegrenzungsfensters"
 
@@ -4026,19 +4012,19 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "Folgende Begriffe sind laut Glossar nicht übersetzt: {}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "Tabulatorzeichen"
+msgstr "Unzulässiges Anfangszeichen"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "Die Zeichenkette beginnt mit einem in CSV unzulässigen Zeichen"
 
 #: weblate/checks/glossary.py:104
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
 msgstr ""
+"Die Zeichenkette beginnt mit einem oder mehreren der folgenden unzulässigen "
+"Zeichen: {}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -5493,31 +5479,31 @@ msgstr "Datei"
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
+"Sie können eine Datei in folgenden Formaten hochladen: TMX, JSON, XLIFF, PO, "
+"CSV."
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "Ausgangssprache"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "Zielsprache des Dokuments für zweisprachige Dateien"
+msgstr "Ausgangssprache des Dokuments, sofern nicht in der Datei angegeben"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1869
 msgid "Target language"
 msgstr "Zielsprache"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "Zielsprache des Dokuments für zweisprachige Dateien"
+msgstr "Zielsprache des Dokuments, sofern nicht in der Datei angegeben"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
 msgstr ""
+"Für dieses Dateiformat müssen Ausgangssprache und Zielsprache angegeben "
+"werden."
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5553,13 +5539,11 @@ msgstr "Nicht unterstützte Datei!"
 
 #: weblate/memory/models.py:325
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "Einsprachiges Format für Speicher-Upload wird nicht unterstützt"
 
 #: weblate/memory/models.py:335
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Einsprachige Basissprachdatei"
+msgstr "Fehlende Ausgangs- oder Zielsprache in der Datei!"
 
 #: weblate/memory/models.py:428
 msgctxt "Translation memory category"
@@ -13225,7 +13209,7 @@ msgstr "Im Volleditor öffnen"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "Zuklappen"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:622
 msgid "The translation has come to an end."
@@ -15397,10 +15381,8 @@ msgid "Add new translation string"
 msgstr "Neue Übersetzung hinzufügen"
 
 #: weblate/trans/models/component.py:3837
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Das Repository konnte nicht zusammengeführt werden."
+msgstr "Der Repository-Status konnte nicht abgerufen werden!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -16776,7 +16758,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:262 weblate/utils/validators.py:279
 msgid "This name is prohibited"
-msgstr "Dieser Name ist verboten"
+msgstr "Dieser Name ist unzulässig"
 
 #: weblate/utils/validators.py:271
 msgid "Syntax error in language aliases."
@@ -16785,7 +16767,7 @@ msgstr "Syntaxfehler in Sprachaliasnamen."
 #: weblate/utils/validators.py:287 weblate/utils/validators.py:296
 #: weblate/utils/validators.py:305
 msgid "This URL is prohibited"
-msgstr "Diese URL ist verboten"
+msgstr "Diese URL ist unzulässig"
 
 #: weblate/utils/views.py:177 weblate/utils/views.py:203
 msgid "Position and priority"

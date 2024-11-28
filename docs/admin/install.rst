@@ -1654,6 +1654,8 @@ and profiles for defined percentage of operations. This can be configured using
    `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_,
    `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
 
+.. _rollbar-errors:
+
 Rollbar
 +++++++
 
@@ -1673,7 +1675,6 @@ In short, you need to adjust :file:`settings.py`:
     # Configure client access
     ROLLBAR = {
         "access_token": "POST_SERVER_ITEM_ACCESS_TOKEN",
-        "client_token": "POST_CLIENT_ITEM_ACCESS_TOKEN",
         "environment": "development" if DEBUG else "production",
         "branch": "main",
         "root": "/absolute/path/to/code/root",
