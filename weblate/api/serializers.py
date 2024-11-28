@@ -1568,22 +1568,24 @@ class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
         return build_object_type(properties={"service_name": build_basic_type(dict)})
 
 
-def edit_service_settings_response_serializer(*codes) -> int:
+def edit_service_settings_response_serializer(
+    method: str, *codes
+) -> dict[int, serializers.Serializer]:
     _serializers = {
         200: inline_serializer(
-            "Simple message serializer",
+            f"{method}_200_Message_response_serializer",
             fields={
                 "message": serializers.CharField(),
             },
         ),
         201: inline_serializer(
-            "Simple message serializer",
+            f"{method}_201_Message_response_serializer",
             fields={
                 "message": serializers.CharField(),
             },
         ),
         400: inline_serializer(
-            "Simple error message serializer",
+            f"{method}_400_Error_message_serializer",
             fields={"errors": serializers.CharField()},
         ),
     }

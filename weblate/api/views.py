@@ -1022,19 +1022,19 @@ class ProjectViewSet(
     )
     @extend_schema(
         request=SingleServiceConfigSerializer,
-        responses=edit_service_settings_response_serializer(201, 400),
+        responses=edit_service_settings_response_serializer("post", 201, 400),
         methods=["POST"],
         description="Install a new machinery service",
     )
     @extend_schema(
         request=SingleServiceConfigSerializer,
-        responses=edit_service_settings_response_serializer(200, 400),
+        responses=edit_service_settings_response_serializer("patch", 200, 400),
         methods=["PATCH"],
         description="Partially update a single service. Leave configuration blank to remove the service",
     )
     @extend_schema(
         request=ProjectMachinerySettingsSerializer,
-        responses=edit_service_settings_response_serializer(200, 400),
+        responses=edit_service_settings_response_serializer("put", 200, 400),
         methods=["PUT"],
         description="Replace configuration for all services.",
     )
