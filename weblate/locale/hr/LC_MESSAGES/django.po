@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 18:09+0000\n"
-"PO-Revision-Date: 2024-11-18 07:16+0000\n"
+"PO-Revision-Date: 2024-11-28 15:00+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -93,38 +93,32 @@ msgstr ""
 "ako nije konfigurirano niže dolje."
 
 #: weblate/accounts/forms.py:431
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "Pokušaj ponovo kasnije."
+msgstr "Neuspjela provjera. Pokušaj ponovo kasnije."
 
 #: weblate/accounts/forms.py:432
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Provjera je istekla. Pokušaj ponovo kasnije."
 
 #: weblate/accounts/forms.py:433
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Nisam robot"
 
 #: weblate/accounts/forms.py:434
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "Prijevod završen"
+msgstr "Provjera završena"
 
 #: weblate/accounts/forms.py:435
 msgid "Verifying…"
-msgstr ""
+msgstr "Provjeravanje …"
 
 #: weblate/accounts/forms.py:437
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Provjera je još u tijeku. Pričekaj."
 
 #: weblate/accounts/forms.py:447
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "Trenutna obavijest"
+msgstr "Ljudska provjera"
 
 #: weblate/accounts/forms.py:500
 #, python-format
@@ -139,10 +133,8 @@ msgid "That was not correct, please try again."
 msgstr "Netočno, pokušaj ponovo."
 
 #: weblate/accounts/forms.py:532 weblate/accounts/forms.py:539
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "Netočno, pokušaj ponovo."
+msgstr "Provjera neuspjela, pokušaj ponovo."
 
 #: weblate/accounts/forms.py:557
 msgid "Subject"
@@ -1959,15 +1951,15 @@ msgstr ""
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
-msgstr ""
+msgstr "Dozvoljeni broj izvršavanja zahtjeva"
 
 #: weblate/api/docs.py:77
 msgid "Remaining number of requests to perform"
-msgstr ""
+msgstr "Preostali broj izvršavanja zahtjeva"
 
 #: weblate/api/docs.py:82
 msgid "Number of seconds until the rate-limit window resets"
-msgstr ""
+msgstr "Broj sekundi do resetiranja prozora ograničenja broja zahtjeva"
 
 #: weblate/api/spectacular.py:42
 #: weblate/templates/drf_spectacular/redoc.html:11
@@ -3890,19 +3882,18 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "Sljedeći izrazi nisu prevedeni prema glosaru: {}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "Umetni znak tabulatora"
+msgstr "Zabranjen početni znak"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "Izraz počinje sa zabranjenim početnim znakom u CSV-u"
 
 #: weblate/checks/glossary.py:104
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
 msgstr ""
+"Izraz počinje s jednim ili više sljedećih zabranjenih početnih znakova: {}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -5138,7 +5129,7 @@ msgstr "SAD"
 #: weblate/machinery/forms.py:220
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Ime Google Storage Bucketa"
 
 #: weblate/machinery/forms.py:224
 msgctxt "Google Cloud Translation configuration"
@@ -5146,6 +5137,8 @@ msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
+"Upiši ime Google Cloud Storage bucketa koji se koristi za spremanje datoteka "
+"glosara."
 
 #: weblate/machinery/forms.py:234
 #, python-format
@@ -5290,17 +5283,14 @@ msgid "Choose custom model here to enable it."
 msgstr "Za aktiviranje modela, odaberi prilagođeni model ovdje."
 
 #: weblate/machinery/forms.py:413
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr "URL krajnje točke programa"
+msgstr "URL krajnje točke Azure OpenAI-a"
 
 #: weblate/machinery/forms.py:417
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
-msgstr "URL krajnje točke instance, e.g: https://my-instance.openai.azure.com."
+msgstr "URL krajnje točke instance, npr.: https://my-instance.openai.azure.com."
 
 #: weblate/machinery/forms.py:423
 msgctxt "Automatic suggestion service configuration"
@@ -5324,31 +5314,30 @@ msgstr "Datoteka"
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
+"Datoteka se može prenijeti u jednom od ovih formata: TMX, JSON, XLIFF, PO, "
+"CSV."
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "Izvorni jezik"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "Ciljani jezik dokumenta za dvojezične datoteke"
+msgstr "Izvorni jezik dokumenta kada u datoteci nije specificiran"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1869
 msgid "Target language"
 msgstr "Ciljani jezik"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "Ciljani jezik dokumenta za dvojezične datoteke"
+msgstr "Ciljani jezik dokumenta kada u datoteci nije specificiran"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
 msgstr ""
+"Za ovaj se datotečni format moraju specificirati izvorni i ciljani jezik."
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5384,13 +5373,11 @@ msgstr "Nepodržana datoteka!"
 
 #: weblate/memory/models.py:325
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "Jednojezični format nije podržan za prijenos memorije"
 
 #: weblate/memory/models.py:335
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Jednojezična datoteka osnovnog jezika"
+msgstr "U datoteci nedostaje izvorni ili ciljni jezik!"
 
 #: weblate/memory/models.py:428
 msgctxt "Translation memory category"
@@ -5590,19 +5577,14 @@ msgstr ""
 "origin”)."
 
 #: weblate/templates/403_csrf.html:27
-#, fuzzy
-#| msgid ""
-#| "This site requires a CSRF cookie when submitting forms. This cookie is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-"Ova stranica zahtijeva CSRF kolačić za slanje obrazaca. Kolačić je obavezan "
-"iz sigurnosnih razloga, kako bi se osiguralo da netko drugi ne upravlja "
-"tvojim internetskim preglednikom."
+"Naša web stranica zahtijeva kolačić sesije da bi obrasci radili. Kolačić je "
+"obavezan iz sigurnosnih razloga, kako bi se osiguralo da netko drugi ne "
+"upravlja tvojim internetskim preglednikom."
 
 #: weblate/templates/403_csrf.html:30
 msgid ""
@@ -5610,6 +5592,10 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"Može se dogoditi da tvoj kolačić sesije istekne zbog neaktivnosti. To se "
+"lako može dogoditi za neautentificirane zahtjeve kod kojih je valjanost "
+"sesije ograničena. U tom slučaju ponovo pokušaj obaviti tvoju namjeravanu "
+"radnju."
 
 #: weblate/templates/403_csrf.html:33
 msgid ""
@@ -9982,7 +9968,8 @@ msgid ""
 "The Django admin interface might be useful to perform certain management "
 "operations."
 msgstr ""
-"Django sučelje za administraciju pomaže pri obavljanju određenih operacija."
+"Django sučelje za administraciju može biti korisno za izvršavanje određenih "
+"operacija."
 
 #: weblate/templates/manage/tools.html:54
 msgid "Send test e-mail"
@@ -12199,7 +12186,7 @@ msgstr "Tipičan radni tok za ispravljanje konflikata sjedinjavanja"
 msgid ""
 "Open an existing checkout of the upstream repository or perform a fresh one."
 msgstr ""
-"Otvori postojeće preuzimanje (checkout) izvornog repozitorija ili izvedi "
+"Otvori postojeće preuzimanje (checkout) izvornog repozitorija ili izvrši "
 "novo."
 
 #: weblate/templates/trans/merge_instructions.html:11
@@ -12923,7 +12910,7 @@ msgstr "Otvori u potpunom uređivaču"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "Sklopi"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:622
 msgid "The translation has come to an end."
@@ -15026,10 +15013,8 @@ msgid "Add new translation string"
 msgstr "Dodaj novi prevodilački izraz"
 
 #: weblate/trans/models/component.py:3837
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Nije bilo moguće sjediniti repozitorij."
+msgstr "Nije bilo moguće dobiti stanje repozitorija!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -16665,7 +16650,7 @@ msgstr ""
 
 #: weblate/wladmin/models.py:306
 msgid "Backup performed"
-msgstr "Izrada sigurnosne kopije"
+msgstr "Izvršeno sigurnosno kopiranje"
 
 #: weblate/wladmin/models.py:307
 msgid "Backup failed"
