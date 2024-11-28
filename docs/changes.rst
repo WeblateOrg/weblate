@@ -26,6 +26,8 @@ Not yet released.
 
 **Compatibility**
 
+* :ref:`rollbar` integration no longer includes client-side error collection.
+
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

@@ -1673,7 +1673,6 @@ In short, you need to adjust :file:`settings.py`:
     # Configure client access
     ROLLBAR = {
         "access_token": "POST_SERVER_ITEM_ACCESS_TOKEN",
-        "client_token": "POST_CLIENT_ITEM_ACCESS_TOKEN",
         "environment": "development" if DEBUG else "production",
         "branch": "main",
         "root": "/absolute/path/to/code/root",
