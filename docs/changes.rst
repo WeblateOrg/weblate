@@ -26,7 +26,7 @@ Not yet released.
 
 **Compatibility**
 
-* :ref:`rollbar` integration no longer includes client-side error collection.
+* :ref:`rollbar-errors` integration no longer includes client-side error collection.
 
 **Upgrading**
 
