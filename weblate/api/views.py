@@ -1111,7 +1111,7 @@ class ProjectViewSet(
             project.save(update_fields=["machinery_settings"])
             return Response(
                 {
-                    "message": f"Services installed: {", ".join(valid_configurations.keys())}"
+                    "message": f"Services installed: {', '.join(valid_configurations.keys())}"
                 },
                 status=HTTP_201_CREATED,
             )
