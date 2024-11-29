@@ -55,6 +55,8 @@ class WeblateConf(AppConf):
     SENTRY_TRACES_SAMPLE_RATE = 0
     SENTRY_PROFILES_SAMPLE_RATE = 0
 
+    ZAMMAD_URL = None
+
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_BROKER_URL = "memory://"
 

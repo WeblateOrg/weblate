@@ -153,6 +153,7 @@ from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.token import get_token
 from weblate.utils.views import get_paginator, parse_path
+from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -231,15 +232,17 @@ class EmailSentView(TemplateView):
 
 def mail_admins_contact(
     request: AuthenticatedHttpRequest,
+    *,
     subject: str,
     message: str,
     context: dict[str, Any],
-    sender: str,
+    name: str,
+    email: str,
     to: list[str],
 ) -> None:
     """Send a message to the admins, as defined by the ADMINS setting."""
-    LOGGER.info("contact form from %s", sender)
-    subject = f"{settings.EMAIL_SUBJECT_PREFIX}{subject % context}"
+    LOGGER.info("contact form from %s", email)
+    subject = f"{settings.EMAIL_SUBJECT_PREFIX}{subject}"
     body = MESSAGE_TEMPLATE.format(
         message=message % context,
         address=get_ip_address(request),
@@ -254,23 +257,42 @@ def mail_admins_contact(
         LOGGER.error("ADMINS not configured, cannot send message")
         return
 
-    headers = get_email_headers("contact")
+    if settings.ZAMMAD_URL and len(to) == 1 and to[0].endswith("@weblate.org"):
+        try:
+            submit_zammad_ticket(
+                title=subject,
+                body=body,
+                name=name,
+                email=email,
+            )
+        except ZammadError as error:
+            messages.error(request, str(error))
+        else:
+            messages.success(
+                request,
+                gettext("Your request has been sent, you will shortly hear from us."),
+            )
 
-    if settings.CONTACT_FORM == "reply-to":
-        headers["Reply-To"] = sender
-        from_email = to[0]
     else:
-        from_email = sender
+        headers = get_email_headers("contact")
+        sender = format_address(name, email)
 
-    mail = EmailMessage(
-        subject=subject, body=body, to=to, from_email=from_email, headers=headers
-    )
+        if settings.CONTACT_FORM == "reply-to":
+            headers["Reply-To"] = sender
+            from_email = to[0]
+        else:
+            from_email = sender
 
-    mail.send(fail_silently=False)
+        mail = EmailMessage(
+            subject=subject, body=body, to=to, from_email=from_email, headers=headers
+        )
 
-    messages.success(
-        request, gettext("Your request has been sent, you will shortly hear from us.")
-    )
+        mail.send(fail_silently=False)
+
+        messages.success(
+            request,
+            gettext("Your request has been sent, you will shortly hear from us."),
+        )
 
 
 def redirect_profile(page: str | None = None):
@@ -534,11 +556,12 @@ def contact(request: AuthenticatedHttpRequest):
         elif form.is_valid():
             mail_admins_contact(
                 request,
-                "%(subject)s",
-                CONTACT_TEMPLATE,
-                form.cleaned_data,
-                format_address(form.cleaned_data["name"], form.cleaned_data["email"]),
-                settings.ADMINS_CONTACT,
+                subject=form.cleaned_data["subject"],
+                message=CONTACT_TEMPLATE,
+                context=form.cleaned_data,
+                name=form.cleaned_data["name"],
+                email=form.cleaned_data["email"],
+                to=settings.ADMINS_CONTACT,
             )
             return redirect("home")
     else:
