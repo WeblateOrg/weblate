@@ -28,10 +28,8 @@ class Command(BaseCommand):
         service, configuration, errors = validate_service_configuration(
             options["service"], options["configuration"]
         )
-        if service is None:
-            raise CommandError("\n".join(errors))
 
-        if errors:
+        if service is None or errors:
             for error in errors:
                 self.stderr.write(error)
             msg = "Invalid add-on configuration!"

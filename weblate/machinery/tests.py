@@ -2628,7 +2628,7 @@ class CommandTest(FixtureTestCase):
         call_command("list_machinery", stdout=output)
         self.assertIn("DeepL", output.getvalue())
 
-    def test_install_no_form(self) -> None:
+    def test_valid_install_no_form(self) -> None:
         output = StringIO()
         call_command(
             "install_machinery",
@@ -2638,6 +2638,17 @@ class CommandTest(FixtureTestCase):
             stderr=output,
         )
         self.assertIn("Service installed: Weblate", output.getvalue())
+
+    def test_install_unknown_service(self) -> None:
+        output = StringIO()
+        with self.assertRaises(CommandError):
+            call_command(
+                "install_machinery",
+                "--service",
+                "unknown",
+                stdout=output,
+                stderr=output,
+            )
 
     def test_install_missing_form(self) -> None:
         output = StringIO()
@@ -2672,7 +2683,27 @@ class CommandTest(FixtureTestCase):
             "--service",
             "deepl",
             "--configuration",
-            '{"key": "x", "url": "https://api.deepl.com/v2/"}',
+            '{"key": "x1", "url": "https://api.deepl.com/v2/"}',
             stdout=output,
             stderr=output,
+        )
+        self.assertTrue(
+            Setting.objects.filter(category=SettingCategory.MT, name="deepl").exists()
+        )
+
+        # update configuration
+        call_command(
+            "install_machinery",
+            "--service",
+            "deepl",
+            "--configuration",
+            '{"key": "x2", "url": "https://api.deepl.com/v2/"}',
+            "--update",
+            stdout=output,
+            stderr=output,
+        )
+
+        setting = Setting.objects.get(category=SettingCategory.MT, name="deepl")
+        self.assertEqual(
+            setting.value, {"key": "x2", "url": "https://api.deepl.com/v2/"}
         )

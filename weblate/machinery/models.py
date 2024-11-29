@@ -76,7 +76,7 @@ def validate_service_configuration(
         try:
             service_configuration = json.loads(configuration)
         except ValueError as error:
-            msg = f"Invalid service configuration: {error}"
+            msg = f"Invalid service configuration ({service_name}): {error}"
             return service, {}, [msg]
     else:
         service_configuration = configuration

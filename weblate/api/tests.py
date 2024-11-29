@@ -2194,6 +2194,34 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertNotIn("deepl", response.data)
 
+        # invalid replace all configurations (missing required config)
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="put",
+            code=400,
+            superuser=True,
+            request={
+                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/v2/"},
+                "unknown": {"key": "alibaba-key-invalid"},
+            },
+            format="json",
+        )
+
+        # invalid replace all configurations (missing required config)
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="put",
+            code=400,
+            superuser=True,
+            request={
+                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/v2/"},
+                "alibaba": {"key": "alibaba-key-invalid"},
+            },
+            format="json",
+        )
+
         # replace all configurations
         new_config = {
             "deepl": {"key": "deepl-key-v3", "url": "https://api.deepl.com/v2/"},
@@ -2203,6 +2231,7 @@ class ProjectAPITest(APIBaseTest):
                 "region": "alibaba-region",
             },
         }
+
         response = self.do_request(
             "api:project-machinery-settings",
             self.project_kwargs,
