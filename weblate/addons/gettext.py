@@ -15,11 +15,11 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import GenerateMoForm, GettextCustomizeForm, MsgmergeForm
 from weblate.formats.base import TranslationFormat, UpdateError
 from weblate.formats.exporters import MoExporter
-from weblate.formats.ttkit import BasePoFormat
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
+    from weblate.formats.ttkit import BasePoFormat
     from weblate.trans.models import Component, Translation
 
 
@@ -334,7 +334,7 @@ class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
     def store_post_load(
         self, translation: Translation, store: TranslationFormat
     ) -> None:
-        cast(BasePoFormat, store).store.wrapper.width = int(
+        cast("BasePoFormat", store).store.wrapper.width = int(
             self.instance.configuration.get("width", 77)
         )
 

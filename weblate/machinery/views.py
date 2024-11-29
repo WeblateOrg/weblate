@@ -43,7 +43,7 @@ class MachineryMixin:
     @cached_property
     def global_settings_dict(self) -> dict[str, SettingsDict]:
         return cast(
-            dict[str, SettingsDict],
+            "dict[str, SettingsDict]",
             Setting.objects.get_settings_dict(SettingCategory.MT),
         )
 

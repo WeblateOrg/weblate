@@ -9,7 +9,7 @@ from rest_framework.settings import api_settings
 
 
 class StandardPagination(PageNumberPagination):
-    page_size = cast(int, api_settings.PAGE_SIZE)
+    page_size = cast("int", api_settings.PAGE_SIZE)
     page_size_query_param = "page_size"
     max_page_size = 1000
 

@@ -220,7 +220,7 @@ def check_cache(
     """Check for sane caching."""
     errors = []
 
-    cache_backend = cast(str, settings.CACHES["default"]["BACKEND"]).split(".")[-1]
+    cache_backend = cast("str", settings.CACHES["default"]["BACKEND"]).split(".")[-1]
     if cache_backend not in GOOD_CACHE:
         errors.append(
             weblate_check(
@@ -502,8 +502,8 @@ class UtilsConfig(AppConfig):
                 (Regex, "trgm_regex"),
             ]
 
-        lookups.append((cast(type[Lookup], MD5),))
-        lookups.append((cast(type[Lookup], Lower),))
+        lookups.append((cast("type[Lookup]", MD5),))
+        lookups.append((cast("type[Lookup]", Lower),))
 
         for lookup in lookups:
             CharField.register_lookup(*lookup)

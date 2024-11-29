@@ -107,7 +107,7 @@ def validate_bitmap(value) -> None:
 
         # Pillow doesn't detect the MIME type of all formats. In those
         # cases, content_type will be None.
-        value.file.content_type = Image.MIME.get(cast(str, image.format))
+        value.file.content_type = Image.MIME.get(cast("str", image.format))
     except Exception as exc:
         # Pillow doesn't recognize it as an image.
         raise ValidationError(

@@ -24,7 +24,7 @@ class FontGroupForm(forms.ModelForm):
 
     def __init__(self, data=None, project=None, **kwargs) -> None:
         super().__init__(data, **kwargs)
-        field = cast(forms.ModelChoiceField, self.fields["font"])
+        field = cast("forms.ModelChoiceField", self.fields["font"])
         field.queryset = field.queryset.filter(project=project)  # type: ignore[union-attr]
 
 

@@ -478,7 +478,7 @@ class SeleniumTests(
         language = Language.objects.get(code="cs")
 
         source = cast(
-            Unit,
+            "Unit",
             Unit.objects.get(source=text, translation__language=language).source_unit,
         )
         source.explanation = "Help text for automatic translation tool"

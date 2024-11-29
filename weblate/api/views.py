@@ -398,7 +398,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def destroy(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         instance = self.get_object()
-        remove_user(instance, cast(AuthenticatedHttpRequest, request))
+        remove_user(instance, cast("AuthenticatedHttpRequest", request))
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["post", "delete"])
@@ -717,7 +717,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             msg = "User not found"
             raise ValidationError(msg) from error
         group.admins.add(user)
-        user.add_team(cast(AuthenticatedHttpRequest, request), group)
+        user.add_team(cast("AuthenticatedHttpRequest", request), group)
         return Response({"Administration rights granted."}, status=HTTP_200_OK)
 
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
@@ -1003,7 +1003,7 @@ class ProjectViewSet(
             translations = Translation.objects.filter(component__in=components)
 
         return download_multi(
-            cast(AuthenticatedHttpRequest, request),
+            cast("AuthenticatedHttpRequest", request),
             translations,
             [instance],
             requested_format,
@@ -1244,7 +1244,7 @@ class ComponentViewSet(
 
         requested_format = request.query_params.get("format", "zip")
         return download_multi(
-            cast(AuthenticatedHttpRequest, request),
+            cast("AuthenticatedHttpRequest", request),
             instance.translation_set.all(),
             [instance],
             requested_format,

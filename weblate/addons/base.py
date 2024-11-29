@@ -223,7 +223,7 @@ class BaseAddon:
     def can_install(cls, component: Component, user: User | None):  # noqa: ARG003
         """Check whether add-on is compatible with given component."""
         return all(
-            getattr(component, key) in cast(set, values)
+            getattr(component, key) in cast("set", values)
             for key, values in cls.compat.items()
         )
 
