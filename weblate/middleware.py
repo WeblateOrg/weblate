@@ -308,7 +308,6 @@ class CSPBuilder:
         self.response = response
         self.apply_csp_settings()
         self.build_csp_inline()
-        self.build_csp_support()
         self.build_csp_sentry()
         self.build_csp_piwik()
         self.build_csp_google_analytics()
@@ -362,17 +361,6 @@ class CSPBuilder:
             and self.request.resolver_match.view_name in INLINE_PATHS
         ):
             self.directives["script-src"].add("'unsafe-inline'")
-
-    def build_csp_support(self) -> None:
-        # Support form
-        if (
-            self.request.resolver_match
-            and self.request.resolver_match.view_name == "manage"
-        ):
-            self.directives["script-src"].add("care.weblate.org")
-            self.directives["connect-src"].add("care.weblate.org")
-            self.directives["style-src"].add("care.weblate.org")
-            self.directives["form-action"].add("care.weblate.org")
 
     def build_csp_sentry(self) -> None:
         # Sentry user feedback

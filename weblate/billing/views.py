@@ -96,9 +96,9 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
                 billing.save(update_fields=["payment"])
                 mail_admins_contact(
                     request,
-                    "Hosting request for %(billing)s",
-                    HOSTING_TEMPLATE,
-                    {
+                    subject=f"Hosting request for {billing}",
+                    message=HOSTING_TEMPLATE,
+                    context={
                         "billing": billing,
                         "name": request.user.full_name,
                         "email": request.user.email,
@@ -107,8 +107,9 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
                         "message": form.cleaned_data["message"],
                         "billing_url": billing.get_absolute_url(),
                     },
-                    request.user.get_author_name(request.user.email),
-                    settings.ADMINS_HOSTING,
+                    name=request.user.get_visible_name(),
+                    email=request.user.email,
+                    to=settings.ADMINS_HOSTING,
                 )
             else:
                 show_form_errors(request, form)
