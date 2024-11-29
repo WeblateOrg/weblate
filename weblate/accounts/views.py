@@ -24,7 +24,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, RedirectURLMixin
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
-from django.core.mail.message import EmailMultiAlternatives
+from django.core.mail.message import EmailMessage
 from django.core.signing import (
     BadSignature,
     SignatureExpired,
@@ -239,6 +239,14 @@ def mail_admins_contact(
 ) -> None:
     """Send a message to the admins, as defined by the ADMINS setting."""
     LOGGER.info("contact form from %s", sender)
+    subject = f"{settings.EMAIL_SUBJECT_PREFIX}{subject % context}"
+    body = MESSAGE_TEMPLATE.format(
+        message=message % context,
+        address=get_ip_address(request),
+        agent=get_user_agent(request),
+        username=request.user.username,
+    )
+
     if not to and settings.ADMINS:
         to = [a[1] for a in settings.ADMINS]
     elif not settings.ADMINS:
@@ -254,17 +262,8 @@ def mail_admins_contact(
     else:
         from_email = sender
 
-    mail = EmailMultiAlternatives(
-        subject=f"{settings.EMAIL_SUBJECT_PREFIX}{subject % context}",
-        body=MESSAGE_TEMPLATE.format(
-            message=message % context,
-            address=get_ip_address(request),
-            agent=get_user_agent(request),
-            username=request.user.username,
-        ),
-        to=to,
-        from_email=from_email,
-        headers=headers,
+    mail = EmailMessage(
+        subject=subject, body=body, to=to, from_email=from_email, headers=headers
     )
 
     mail.send(fail_silently=False)
