@@ -101,7 +101,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
 
 class AbsoluteURLField(serializers.CharField):
     def get_attribute(self, instance):
-        value = cast(str, super().get_attribute(instance))
+        value = cast("str", super().get_attribute(instance))
         if "http:/" not in value and "https:/" not in value:
             return get_site_url(value)
         return value

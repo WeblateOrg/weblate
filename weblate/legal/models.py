@@ -52,7 +52,7 @@ class Agreement(models.Model):
     @staticmethod
     def current_tos_date() -> date:
         return cast(
-            date,
+            "date",
             settings.LEGAL_TOS_DATE,  # type: ignore[misc]
         )
 

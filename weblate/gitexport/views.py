@@ -203,8 +203,8 @@ class GitHTTPBackendWrapper:
 
     def get_response(self):
         # Iniciate select()
-        stdout = cast(BinaryIO, self.process.stdout)
-        stderr = cast(BinaryIO, self.process.stderr)
+        stdout = cast("BinaryIO", self.process.stdout)
+        stderr = cast("BinaryIO", self.process.stderr)
         self.selector.register(stdout, EVENT_READ, True)
         self.selector.register(stderr, EVENT_READ, False)
 

@@ -323,7 +323,7 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @management_access
 def ssh_key(request: AuthenticatedHttpRequest) -> HttpResponse:
-    key_type = cast(KeyType, request.GET.get("type", "rsa"))
+    key_type = cast("KeyType", request.GET.get("type", "rsa"))
     filename, data = get_key_data_raw(key_type=key_type, kind="private")
     if data is None:
         raise Http404
@@ -345,7 +345,7 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
 
     # Generate key if it does not exist yet
     if can_generate and action == "generate":
-        key_type = cast(KeyType, request.POST.get("type", "rsa"))
+        key_type = cast("KeyType", request.POST.get("type", "rsa"))
         generate_ssh_key(request, key_type=key_type)
         return redirect("manage-ssh")
 
@@ -552,7 +552,7 @@ class TeamListView(FormMixin, ListView):
 
     def get_queryset(self) -> QuerySet[Group]:
         return (
-            cast(GroupQuerySet, super().get_queryset())
+            cast("GroupQuerySet", super().get_queryset())
             .prefetch_related("languages", "projects", "components")
             .filter(defining_project=None)
             .annotate(Count("user"), Count("autogroup"))

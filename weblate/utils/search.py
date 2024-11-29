@@ -4,12 +4,11 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
 from datetime import datetime, timedelta
 from functools import lru_cache, reduce
 from itertools import chain
 from operator import and_, or_
-from typing import Any, cast, overload
+from typing import TYPE_CHECKING, Any, cast, overload
 
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
@@ -45,6 +44,9 @@ from weblate.utils.state import (
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import parse_path
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 # Helper parsing objects
@@ -335,7 +337,7 @@ class BaseTermExpr:
 
         # Field specific code
         field_method: Callable[[str, dict], Q] = cast(
-            Callable[[str, dict], Q], getattr(self, f"{field}_field", None)
+            "Callable[[str, dict], Q]", getattr(self, f"{field}_field", None)
         )
         if field_method is not None:
             return field_method(match, context)

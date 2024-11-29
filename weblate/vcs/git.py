@@ -1377,7 +1377,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
         super_credentials["organization"] = credentials["organization"]
         super_credentials["workItemIds"] = cast(
-            list[str], credentials.get("workItemIds", [])
+            "list[str]", credentials.get("workItemIds", [])
         )
 
         return super_credentials
