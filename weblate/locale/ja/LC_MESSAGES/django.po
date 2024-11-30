@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 18:09+0000\n"
-"PO-Revision-Date: 2024-11-18 07:16+0000\n"
+"PO-Revision-Date: 2024-12-01 08:00+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -101,38 +101,32 @@ msgstr ""
 "用します。"
 
 #: weblate/accounts/forms.py:431
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "後でもう一度やり直してください。"
+msgstr "検証に失敗しました。後でもう一度やり直してください。"
 
 #: weblate/accounts/forms.py:432
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "検証の有効期限が切れました。もう一度やり直してください。"
 
 #: weblate/accounts/forms.py:433
 msgid "I'm not a robot"
-msgstr ""
+msgstr "私はロボットではありません"
 
 #: weblate/accounts/forms.py:434
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "翻訳完了"
+msgstr "検証完了"
 
 #: weblate/accounts/forms.py:435
 msgid "Verifying…"
-msgstr ""
+msgstr "確認中…"
 
 #: weblate/accounts/forms.py:437
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "まだ検証中です。お待ちください。"
 
 #: weblate/accounts/forms.py:447
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "即時通知"
+msgstr "人間かどうか確認"
 
 #: weblate/accounts/forms.py:500
 #, python-format
@@ -147,10 +141,8 @@ msgid "That was not correct, please try again."
 msgstr "間違いです。再度お試しください。"
 
 #: weblate/accounts/forms.py:532 weblate/accounts/forms.py:539
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "間違いです。再度お試しください。"
+msgstr "検証に失敗しました。もう一度お試しください。"
 
 #: weblate/accounts/forms.py:557
 msgid "Subject"
@@ -1946,20 +1938,14 @@ msgid ""
 msgstr "行の長さや改行など、YAML 出力形式の変更ができます。"
 
 #: weblate/api/docs.py:72
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Allowed number of requests to perform"
-msgstr "実行するリクエストの接続制限回数"
+msgstr "リクエストの接続制限回数"
 
 #: weblate/api/docs.py:77
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "実行するリクエストの接続制限回数"
+msgstr "残りの接続制限回数"
 
 #: weblate/api/docs.py:82
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
 msgstr "接続制限がリセットされるまでの秒数"
 
@@ -3871,19 +3857,17 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "用語集に従って翻訳されていない用語: {}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "タブ文字の挿入"
+msgstr "禁止されている頭文字"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "文字列が CSV の禁止文字で始まっています"
 
 #: weblate/checks/glossary.py:104
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
-msgstr ""
+msgstr "文字列の先頭に使用された、次の禁止文字: {}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -5292,32 +5276,28 @@ msgstr "ファイル"
 
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
-msgstr ""
+msgstr "アップロード可能なファイル形式: TMX、JSON、XLIFF、PO、CSV。"
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "原文の言語"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "バイリンガル ファイルの翻訳対象言語"
+msgstr "ファイルに言語の指定がない場合の、文書の原文言語"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1869
 msgid "Target language"
 msgstr "翻訳対象言語"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "バイリンガル ファイルの翻訳対象言語"
+msgstr "ファイルに言語の指定がない場合の、文書の対象言語"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
-msgstr ""
+msgstr "このファイル形式では、原文言語と対象言語の指定が必要です。"
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5353,13 +5333,11 @@ msgstr "未対応のファイルです！"
 
 #: weblate/memory/models.py:325
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "モノリンガル形式はメモリのアップロードには対応していません"
 
 #: weblate/memory/models.py:335
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "モノリンガル用の、基礎となる言語ファイル"
+msgstr "ファイルには、原文言語または対象言語がありません！"
 
 #: weblate/memory/models.py:428
 msgctxt "Translation memory category"
@@ -12753,7 +12731,7 @@ msgstr "フル エディタで開く"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "閉じる"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:622
 msgid "The translation has come to an end."
@@ -14837,10 +14815,8 @@ msgid "Add new translation string"
 msgstr "新しい原文の追加"
 
 #: weblate/trans/models/component.py:3837
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "リポジトリをマージできません。"
+msgstr "リポジトリのステータスを取得できません！"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
