@@ -97,7 +97,7 @@ class GitRepository(Repository):
 
     @classmethod
     def _init(cls, path: str) -> None:
-        cls._popen(["init", path])
+        cls._popen(["init", "--template=", path])
         if cls.default_branch != "master":
             # We could do here just init --initial-branch {branch}, but that does not
             # work in Git before 2.28.0
@@ -1377,7 +1377,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
         super_credentials["organization"] = credentials["organization"]
         super_credentials["workItemIds"] = cast(
-            list[str], credentials.get("workItemIds", [])
+            "list[str]", credentials.get("workItemIds", [])
         )
 
         return super_credentials

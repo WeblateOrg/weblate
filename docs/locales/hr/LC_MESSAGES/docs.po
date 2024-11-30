@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 19:09+0100\n"
-"PO-Revision-Date: 2024-11-27 02:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-11-29 14:20+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hr/>\n"
 "Language: hr\n"
@@ -2058,7 +2058,7 @@ msgstr "Ugrađeni dodaci"
 #: ../../admin/addons.rst:124 ../../admin/continuous.rst:496
 #: ../../user/translating.rst:361
 msgid "Automatic translation"
-msgstr "Automatski prijevod"
+msgstr "Automatsko prevođenje"
 
 #: ../../admin/addons.rst:0 ../../api.rst:2392 ../../api.rst:2415
 #: ../../api.rst:2423 ../../api.rst:2431
@@ -2140,10 +2140,8 @@ msgid "``check:inconsistent`` -- Failing check: Inconsistent"
 msgstr "``check:inconsistent`` – Neuspjela provjera: Nedosljedno"
 
 #: ../../admin/addons.rst:150
-#, fuzzy
-#| msgid "``check:inconsistent`` -- Failing check: Inconsistent"
 msgid "``check:translated`` -- Failing check: Has been translated"
-msgstr "``check:inconsistent`` – Neuspjela provjera: Nedosljedno"
+msgstr "``check:translated`` – Neuspjela provjera: Prevedeno je"
 
 #: ../../admin/addons.rst:152
 msgid "``auto_source``"
@@ -2195,12 +2193,12 @@ msgstr ""
 
 #: ../../admin/addons.rst:164 ../../admin/addons.rst:567
 #: ../../admin/addons.rst:618 ../../admin/addons.rst:651
-#, fuzzy
-#| msgid "Component name"
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-"
 "event-daily`"
-msgstr "Ime komponente"
+msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-"
+"event-daily`"
 
 #: ../../admin/addons.rst:166
 msgid ""
@@ -2211,7 +2209,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:170
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
-msgstr ""
+msgstr ":ref:`auto-translation`, :ref:`translation-consistency`"
 
 #: ../../admin/addons.rst:176
 msgid "JavaScript localization CDN"
@@ -2274,6 +2272,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
 "repository-post-commit`, :ref:`addon-event-repository-post-update`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
+"repository-post-commit`, :ref:`addon-event-repository-post-update`"
 
 #: ../../admin/addons.rst:192
 msgid ""
@@ -2342,6 +2342,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref:"
 "`addon-event-repository-post-update`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref"
+":`addon-event-repository-post-update`"
 
 #: ../../admin/addons.rst:230
 msgid "Removes strings without a translation from translation files."
@@ -2375,6 +2377,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref:"
 "`addon-event-repository-pre-commit`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref"
+":`addon-event-repository-pre-commit`"
 
 #: ../../admin/addons.rst:249
 msgid ""
@@ -2407,6 +2411,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
 "repository-post-add`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
+"repository-post-add`"
 
 #: ../../admin/addons.rst:270
 msgid ""
@@ -2497,7 +2503,7 @@ msgstr "``base_file_template``"
 
 #: ../../admin/addons.rst:296
 msgid "Define the monolingual base filename"
-msgstr "Odredi jednojezično osnovno ime datoteke"
+msgstr "Odredi ime osnovne jednojezične datoteke"
 
 #: ../../admin/addons.rst:296
 msgid "Leave empty for bilingual translation files."
@@ -16092,13 +16098,15 @@ msgstr "``bucket_name``"
 
 #: ../../admin/machine.rst:244
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Ime Google Storage Bucketa"
 
 #: ../../admin/machine.rst:244
 msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
+"Upiši ime Google Cloud Storage bucketa koji se koristi za spremanje datoteka "
+"glosara."
 
 #: ../../admin/machine.rst:249
 msgid ""
@@ -16401,11 +16409,8 @@ msgid "``azure_endpoint``"
 msgstr "``azure_endpoint``"
 
 #: ../../admin/machine.rst:417
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgid "Azure OpenAI endpoint URL"
-msgstr "URL krajnje točke programa"
+msgstr "URL krajnje točke Azure OpenAI-a"
 
 #: ../../admin/machine.rst:417
 msgid ""
@@ -17234,17 +17239,15 @@ msgstr ":wladmin:`import_memory`"
 
 #: ../../admin/management.rst:347
 msgid "import_memory"
-msgstr ""
+msgstr "import_memory"
 
 #: ../../admin/management.rst:351
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Imports a file into the Weblate translation memory."
-msgstr "Doprinesi dijeljenoj prevodilačkoj memoriji"
+msgstr "Uvozi datoteku u Weblate prevodilačku memoriju."
 
 #: ../../admin/management.rst:353
 msgid "Supported file formats are TMX, JSON, XLIFF, PO, CSV."
-msgstr ""
+msgstr "Podržani datotečni formati su TMX, JSON, XLIFF, PO, CSV."
 
 #: ../../admin/management.rst:355
 msgid ""
@@ -24229,16 +24232,12 @@ msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgstr ""
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid ""
-#| "URL to lock status; see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/lock/`"
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` exposes "
 "component lock state."
 msgstr ""
-"URL stanja zaključavanja; pogledaj :http:get:`/api/components/(string:"
-"project)/(string:component)/lock/`"
+":http:get:`/api/components/(string:project)/(string:component)/` prikazuje "
+"stanje zaključavanja komponente."
 
 #: ../../changes.rst:19
 msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
@@ -25136,11 +25135,8 @@ msgid "Rendering of :ref:`labels` color selection widget."
 msgstr ""
 
 #: ../../changes.rst:296
-#, fuzzy
-#| msgid "%(count)s outgoing commit"
-#| msgid_plural "%(count)s outgoing commits"
 msgid "Detection of pending outgoing commits."
-msgstr "%(count)s izlazna promjena"
+msgstr ""
 
 #: ../../changes.rst:297
 msgid ":ref:`addons` button layout."
@@ -48903,7 +48899,7 @@ msgstr "Prikaz tablice"
 
 #: ../../user/translating.rst:447
 msgid ""
-"You can compare different languages efficiently using this view It is "
+"You can compare different languages efficiently using this view. It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."

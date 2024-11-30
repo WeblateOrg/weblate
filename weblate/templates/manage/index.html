@@ -3,17 +3,7 @@
 {% load i18n %}
 {% load translations %}
 {% load static %}
-
-{% block extra_script %}
-  {% if support.name != 'community' %}
-    <script id="zammad_form_script"
-            defer
-            data-cfasync="false"
-            src="https://care.weblate.org/assets/form/form.js"></script>
-    <script defer data-cfasync="false" src="{% static 'zammad.js' %}{{ cache_param }}"></script>
-  {% endif %}
-{% endblock %}
-
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
   <li>
@@ -110,15 +100,26 @@
       {% if support.name == 'community' %}
         <a href="{{ support_url }}" class="btn btn-primary">{% trans "Purchase support package" %}</a>
         <a href="{{ donate_url }}" class="btn btn-primary">{% trans "Donate to Weblate" %}</a>
-      {% else %}
-        <a href="mailto:support@weblate.org"
-           id="support-form"
-           data-fullname="{{ user.full_name }}"
-           data-email="{{ user.email }}"
-           class="btn btn-primary">{% trans "Get help" %}</a>
       {% endif %}
     </div>
   </div>
+
+  <form method="post" action="{% url 'manage-support' %}">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">{% trans "Contact customer care" %}</h4>
+      </div>
+      <div class="panel-body">
+        {% csrf_token %}
+        {{ support_form|crispy }}
+      </div>
+      <div class="panel-footer">
+        <input type="submit" value="{% trans "Get help" %}" class="btn btn-primary" />
+        <a href="mailto:support@weblate.org?subject=Weblate support for {{ site_domain }}"
+           class="btn btn-link">{% trans "Contact us via e-mail" %}</a>
+      </div>
+    </div>
+  </form>
 
   {% include "manage/snippets/activation-form.html" %}
 

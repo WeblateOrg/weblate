@@ -11,6 +11,7 @@ from urllib.parse import quote
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db.models import Count, QuerySet
 from django.http import Http404, HttpResponse
@@ -18,14 +19,15 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
+from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from django.views.generic.edit import FormMixin
 from requests.exceptions import HTTPError, Timeout
 
-from weblate.accounts.forms import AdminUserSearchForm
-from weblate.accounts.views import UserList
+from weblate.accounts.forms import AdminUserSearchForm, ContactForm
+from weblate.accounts.views import UserList, get_initial_contact
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import AdminInviteUserForm, SitewideTeamForm
 from weblate.auth.models import (
@@ -49,6 +51,7 @@ from weblate.utils.stats import prefetch_stats
 from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
+from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 from weblate.vcs.ssh import (
     KeyType,
     add_host_key,
@@ -98,6 +101,14 @@ def manage(request: AuthenticatedHttpRequest) -> HttpResponse:
     activation_code = request.GET.get("activation")
     if activation_code and len(activation_code) < 400:
         initial = {"secret": activation_code}
+    support_form = None
+    if support.name != "community":
+        support_form = ContactForm(
+            request=request,
+            hide_captcha=request.user.is_authenticated,
+            initial=get_initial_contact(request),
+        )
+
     return render(
         request,
         "manage/index.html",
@@ -106,10 +117,47 @@ def manage(request: AuthenticatedHttpRequest) -> HttpResponse:
             "menu_page": "index",
             "support": support,
             "activate_form": ActivateForm(initial=initial),
+            "support_form": support_form,
             "git_revision_link": GIT_LINK,
             "git_revision": GIT_REVISION,
         },
     )
+
+
+@management_access
+@require_POST
+def support_form(request: AuthenticatedHttpRequest) -> HttpResponse:
+    support = SupportStatus.objects.get_current()
+    if support.name == "community":
+        raise PermissionDenied
+    form = ContactForm(
+        request=request,
+        hide_captcha=request.user.is_authenticated,
+        data=request.POST,
+    )
+    if not form.is_valid():
+        show_form_errors(request, form)
+    else:
+        try:
+            url, number = submit_zammad_ticket(
+                title=form.cleaned_data["subject"],
+                body=form.cleaned_data["message"],
+                name=form.cleaned_data["name"],
+                email=form.cleaned_data["email"],
+                zammad_url="https://care.weblate.org",
+            )
+            messages.success(
+                request,
+                format_html(
+                    """{} <a href="{}">{}</a>""",
+                    gettext("Customer care ticket created:"),
+                    url,
+                    number,
+                ),
+            )
+        except ZammadError as error:
+            messages.error(request, str(error))
+    return redirect("manage")
 
 
 def send_test_mail(email: str) -> None:
@@ -323,7 +371,7 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @management_access
 def ssh_key(request: AuthenticatedHttpRequest) -> HttpResponse:
-    key_type = cast(KeyType, request.GET.get("type", "rsa"))
+    key_type = cast("KeyType", request.GET.get("type", "rsa"))
     filename, data = get_key_data_raw(key_type=key_type, kind="private")
     if data is None:
         raise Http404
@@ -345,7 +393,7 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
 
     # Generate key if it does not exist yet
     if can_generate and action == "generate":
-        key_type = cast(KeyType, request.POST.get("type", "rsa"))
+        key_type = cast("KeyType", request.POST.get("type", "rsa"))
         generate_ssh_key(request, key_type=key_type)
         return redirect("manage-ssh")
 
@@ -552,7 +600,7 @@ class TeamListView(FormMixin, ListView):
 
     def get_queryset(self) -> QuerySet[Group]:
         return (
-            cast(GroupQuerySet, super().get_queryset())
+            cast("GroupQuerySet", super().get_queryset())
             .prefetch_related("languages", "projects", "components")
             .filter(defining_project=None)
             .annotate(Count("user"), Count("autogroup"))

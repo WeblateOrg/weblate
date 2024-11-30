@@ -502,7 +502,7 @@ class CaptchaForm(forms.Form):
             self.mathcaptcha.display,
         )
         if self.is_bound:
-            self["captcha"].label = cast(str, self.fields["captcha"].label)
+            self["captcha"].label = cast("str", self.fields["captcha"].label)
 
     def store_challenge(self):
         self.request.session["captcha_challenge"] = self.challenge.challenge
@@ -742,7 +742,7 @@ class LoginForm(forms.Form):
                     % lockout_period
                 )
             self.user_cache = cast(
-                User | None,
+                "User | None",
                 authenticate(self.request, username=username, password=password),
             )
             if self.user_cache is None:

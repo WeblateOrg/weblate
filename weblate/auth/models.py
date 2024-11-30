@@ -832,7 +832,7 @@ class User(AbstractBaseUser):
                 (None, -SELECTION_ALL),
             ):
                 if any(
-                    perm in cast(set[str], permissions)
+                    perm in cast("set[str]", permissions)
                     for permissions, _langs in self.project_permissions[selection]
                 ):
                     if access is None:

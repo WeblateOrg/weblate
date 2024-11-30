@@ -228,7 +228,7 @@ class Flags:
         return isinstance(self._items.get(key), tuple)
 
     def get_value_raw(self, key: str) -> tuple[Any, ...]:
-        return cast(tuple, self._items[key])[1:]
+        return cast("tuple", self._items[key])[1:]
 
     def get_value(self, key: str):
         return TYPED_FLAGS_ARGS[key](self.get_value_raw(key))

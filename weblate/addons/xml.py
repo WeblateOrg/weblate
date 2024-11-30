@@ -45,6 +45,6 @@ class XMLCustomizeAddon(StoreBaseAddon):
     ) -> None:
         """Event handler once component formatter has been loaded."""
         config = self.instance.configuration
-        cast(LISAfile, store.store).XMLSelfClosingTags = not config.get(
+        cast("LISAfile", store.store).XMLSelfClosingTags = not config.get(
             "closing_tags", True
         )

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 18:09+0000\n"
-"PO-Revision-Date: 2024-11-14 12:16+0000\n"
+"PO-Revision-Date: 2024-11-28 15:00+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :("
+"n>6 && n<11) ? 3 : 4;\n"
 "X-Generator: Weblate 5.9-dev\n"
 
 #: weblate/accounts/avatar.py:84
@@ -98,38 +98,32 @@ msgstr ""
 "bhfuil sé cumraithe thíos."
 
 #: weblate/accounts/forms.py:431
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "Bain triail eile as ar ball."
+msgstr "Theip ar an bhfíorú. Bain triail eile as ar ball."
 
 #: weblate/accounts/forms.py:432
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Chuaigh an fíorú in éag. Bain triail eile as."
 
 #: weblate/accounts/forms.py:433
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Ní róbat mé"
 
 #: weblate/accounts/forms.py:434
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "Aistriúchán críochnaithe"
+msgstr "Fíorú críochnaithe"
 
 #: weblate/accounts/forms.py:435
 msgid "Verifying…"
-msgstr ""
+msgstr "Ag fíorú…"
 
 #: weblate/accounts/forms.py:437
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Tá an fíorú fós ar siúl, fan le do thoil."
 
 #: weblate/accounts/forms.py:447
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "Fógra ar an toirt"
+msgstr "Fíorú daonna"
 
 #: weblate/accounts/forms.py:500
 #, python-format
@@ -144,10 +138,8 @@ msgid "That was not correct, please try again."
 msgstr "Freagra mícheart, bain triail as arís."
 
 #: weblate/accounts/forms.py:532 weblate/accounts/forms.py:539
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "Freagra mícheart, bain triail as arís."
+msgstr "Theip ar bhailíochtú, bain triail eile as."
 
 #: weblate/accounts/forms.py:557
 msgid "Subject"
@@ -2008,20 +2000,14 @@ msgstr ""
 "nua."
 
 #: weblate/api/docs.py:72
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Allowed number of requests to perform"
-msgstr "Teorainn ráta na n-iarratas le comhlíonadh"
+msgstr "Líon iarratas ceadaithe a dhéanamh"
 
 #: weblate/api/docs.py:77
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "Teorainn ráta na n-iarratas le comhlíonadh"
+msgstr "An líon iarratas atá fágtha le déanamh"
 
 #: weblate/api/docs.py:82
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
 msgstr "Líon soicind go dtí go n-athshocraíonn an fhuinneog teorainn ráta"
 
@@ -3968,19 +3954,19 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "Ní aistrítear na téarmaí seo a leanas de réir gluais: {}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "Cuir isteach carachtar cluaisín"
+msgstr "Toirmiscthe carachtar tosaigh"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "Tosaíonn an teaghrán le carachtar toirmiscthe i CSV"
 
 #: weblate/checks/glossary.py:104
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
 msgstr ""
+"Tosaíonn an teaghrán le ceann amháin nó níos mó de na carachtair "
+"thoirmiscthe seo a leanas: {}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -5414,31 +5400,29 @@ msgstr "Comhaid"
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
+"Is féidir leat comhad de na formáidí seo a leanas a uaslódáil: TMX, JSON, "
+"XLIFF, PO, CSV."
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "Teanga foinse"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "Sprioctheanga an doiciméid do chomhaid dhátheangacha"
+msgstr "Teanga foinse an doiciméid nuair nach bhfuil sé sonraithe sa chomhad"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1869
 msgid "Target language"
 msgstr "Sprioctheanga"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "Sprioctheanga an doiciméid do chomhaid dhátheangacha"
+msgstr "Sprioctheanga an doiciméid nuair nach bhfuil sé sonraithe sa chomhad"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
-msgstr ""
+msgstr "Ní mór bunteanga agus sprioctheanga a shonrú don fhormáid comhaid seo."
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5474,13 +5458,11 @@ msgstr "Comhad gan tacaíocht!"
 
 #: weblate/memory/models.py:325
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "Ní thacaítear le formáid aonteangach chun cuimhne a uaslódáil"
 
 #: weblate/memory/models.py:335
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Comhad aonteangach bunteanga"
+msgstr "Foinse nó sprioctheanga in easnamh sa chomhad!"
 
 #: weblate/memory/models.py:428
 msgctxt "Translation memory category"
@@ -13251,7 +13233,7 @@ msgstr "Oscail i eagarthóir iomlán"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "Laghdaigh"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:622
 msgid "The translation has come to an end."
@@ -15397,10 +15379,8 @@ msgid "Add new translation string"
 msgstr "Cuir teaghrán aistriúcháin nua leis"
 
 #: weblate/trans/models/component.py:3837
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Níorbh fhéidir an stór a chumasc."
+msgstr "Níorbh fhéidir stádas stórtha a fháil!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"

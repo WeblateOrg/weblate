@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 18:09+0000\n"
-"PO-Revision-Date: 2024-11-17 14:48+0000\n"
+"PO-Revision-Date: 2024-11-29 13:07+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -94,38 +94,32 @@ msgstr ""
 "apart ingesteld)."
 
 #: weblate/accounts/forms.py:431
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "Probeer het later opnieuw."
+msgstr "Verificatie mislukt. Probeer het later opnieuw."
 
 #: weblate/accounts/forms.py:432
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Verificatie verlopen. Probeer opnieuw."
 
 #: weblate/accounts/forms.py:433
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Ik ben geen robot"
 
 #: weblate/accounts/forms.py:434
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "Vertaling afgewerkt"
+msgstr "Verificatie voltooid"
 
 #: weblate/accounts/forms.py:435
 msgid "Verifying…"
-msgstr ""
+msgstr "Verifiëren…"
 
 #: weblate/accounts/forms.py:437
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Verificatie is nog bezig, even wachten svp."
 
 #: weblate/accounts/forms.py:447
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "Onmiddellijke melding"
+msgstr "Menselijke verificatie"
 
 #: weblate/accounts/forms.py:500
 #, python-format
@@ -140,10 +134,8 @@ msgid "That was not correct, please try again."
 msgstr "Dat was onjuist - probeer het opnieuw."
 
 #: weblate/accounts/forms.py:532 weblate/accounts/forms.py:539
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "Dat was onjuist - probeer het opnieuw."
+msgstr "Valideren mislukt, probeer het opnieuw."
 
 #: weblate/accounts/forms.py:557
 msgid "Subject"
@@ -1985,22 +1977,16 @@ msgid ""
 msgstr "Pas het yaml-uitvoergedrag aan, zoals de regellengte of regeleinden."
 
 #: weblate/api/docs.py:72
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Allowed number of requests to perform"
-msgstr "Huidige hoogte limiet uit te voeren verzoeken"
+msgstr "Toegestane aantal uit te voeren verzoeken"
 
 #: weblate/api/docs.py:77
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "Huidige hoogte limiet uit te voeren verzoeken"
+msgstr "Resterende aantal uit te voeren verzoeken"
 
 #: weblate/api/docs.py:82
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
-msgstr "Aantal seconden waarna venster voor limiet wordt vernieuwd"
+msgstr "Aantal seconden waarna het venster voor de limiet wordt vernieuwd"
 
 #: weblate/api/spectacular.py:42
 #: weblate/templates/drf_spectacular/redoc.html:11
@@ -3943,10 +3929,8 @@ msgstr ""
 "De volgende termen zijn niet vertaald op basis van de begrippenlijst: {}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "Tabulatieteken invoegen"
+msgstr "Verboden initiële teken"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
@@ -3956,6 +3940,7 @@ msgstr ""
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
 msgstr ""
+"De tekenreeks begint met een of meer van de volgende verboden tekens: {}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -5384,31 +5369,29 @@ msgstr "Bestand"
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
+"U kunt een bestand uploaden in een van de volgende indelingen: TMX, JSON, "
+"XLIFF, PO, CSV."
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "Brontaal"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "Doeltaal van het document voor tweetalige bestanden"
+msgstr "Brontaal van het document indien niet gespecificeerd in bestand"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1869
 msgid "Target language"
 msgstr "Focus taal"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "Doeltaal van het document voor tweetalige bestanden"
+msgstr "Doeltaal van het document indien niet gespecificeerd in bestand"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
-msgstr ""
+msgstr "Bron- en doeltaal moeten voor deze indeling zijn gespecificeerd."
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5444,13 +5427,11 @@ msgstr "Niet-ondersteund bestand!"
 
 #: weblate/memory/models.py:325
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "Eentalige indeling niet ondersteund voor uploaden geheugen"
 
 #: weblate/memory/models.py:335
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Enkeltalig basistaalbestand"
+msgstr "Ontbrekende bron- of doeltaal in bestand!"
 
 #: weblate/memory/models.py:428
 msgctxt "Translation memory category"
@@ -12988,7 +12969,7 @@ msgstr "Openen in volledige bewerker"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "Inklappen"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:622
 msgid "The translation has come to an end."
@@ -15116,10 +15097,8 @@ msgid "Add new translation string"
 msgstr "Nieuwe vertaaltekenreeks toevoegen"
 
 #: weblate/trans/models/component.py:3837
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Kon de opslagruimte niet samenvoegen."
+msgstr "Kon de status van de opslagruimte niet ophalen!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"

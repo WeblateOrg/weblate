@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 19:09+0100\n"
-"PO-Revision-Date: 2024-11-27 02:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-11-29 13:07+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -1895,180 +1895,130 @@ msgstr ""
 "`DEFAULT_ADDONS`, of :wladmin:`install_addon`."
 
 #: ../../admin/addons.rst:18
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Events that trigger add-ons"
-msgstr "Uitbreiding instellen"
+msgstr "Gebeurtenissen die add-ons activeren"
 
 #: ../../admin/addons.rst:23
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "Add-on installation"
-msgstr "Uitbreiding geïnstalleerd"
+msgstr "Add-on installeren"
 
 #: ../../admin/addons.rst:25
-#, fuzzy
-#| msgid "When the add-on is installed."
 msgid "Triggered when add-on is being installed."
-msgstr "Als de add-on is geïnstalleerd."
+msgstr "Geactiveerd als de add-on wordt geïnstalleerd."
 
 #: ../../admin/addons.rst:30
-#, fuzzy
-#| msgid "component update"
 msgid "Component update"
-msgstr "onderdeel bijwerken"
+msgstr "Onderdeel bijwerken"
 
 #: ../../admin/addons.rst:32
-#, fuzzy
-#| msgid "When a change happens in a component repository."
 msgid "Triggered whenever a change happens in a component such as:"
-msgstr "Als er een wijziging optreedt in de opslagruimte van een onderdeel."
+msgstr "Geactiveerd als er een wijziging optreedt in een onderdeel, zoals:"
 
 #: ../../admin/addons.rst:34
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Strings are changed in the repository."
-msgstr "Tekenreeks toegevoegd aan de opslagruimte"
+msgstr "Tekenreeksen worden gewijzigd in de opslagruimte."
 
 #: ../../admin/addons.rst:35
-#, fuzzy
-#| msgid "New string added"
 msgid "A string is added."
-msgstr "Nieuwe tekenreeks toegevoegd"
+msgstr "Een tekenreeks is toegevoegd."
 
 #: ../../admin/addons.rst:36
-#, fuzzy
-#| msgid "Event handler after new translation is added."
 msgid "A new translation is added."
-msgstr "Gebeurtenisafhandeling nadat een nieuwe vertaling is toegevoegd."
+msgstr "Een nieuwe vertaling is toegevoegd."
 
 #: ../../admin/addons.rst:41
-#, fuzzy
-#| msgid "daily"
 msgid "Daily"
-msgstr "dagelijks"
+msgstr "Dagelijks"
 
 #: ../../admin/addons.rst:43
 msgid ""
 "Triggered daily, but add-ons usually split the daily load between components "
 "depending on :setting:`BACKGROUND_TASKS`."
 msgstr ""
+"Dagelijks geactiveerd, maar add-ons splitsen gewoonlijk de dagelijkse "
+"hoeveelheid tussen onderdelen, afhankelijk van :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/addons.rst:48
-#, fuzzy
-#| msgid "daily, repository post-add"
 msgid "Repository post-add"
-msgstr "dagelijks, opslagruimte na toevoegen"
+msgstr "Opslagruimte na toevoegen"
 
 #: ../../admin/addons.rst:50
-#, fuzzy
-#| msgid "Event handler after new translation is added."
 msgid "Triggered just after the new translation is added and committed."
-msgstr "Gebeurtenisafhandeling nadat een nieuwe vertaling is toegevoegd."
+msgstr "Geactiveerd net nadat een nieuwe vertaling is toegevoegd en ingediend."
 
 #: ../../admin/addons.rst:55
-#, fuzzy
-#| msgid "repository post-commit"
 msgid "Repository post-commit"
-msgstr "opslagruimte na doorvoeren"
+msgstr "Opslagruimte na doorvoeren"
 
 #: ../../admin/addons.rst:57
 msgid "Triggered just after the changes are committed."
-msgstr ""
+msgstr "Geactiveerd net nadat de wijzigingen zijn doorgevoerd."
 
 #: ../../admin/addons.rst:63
-#, fuzzy
-#| msgid "Repository status"
 msgid "Repository post-push"
-msgstr "Status van opslagruimte"
+msgstr "Opslagruimte na pushen"
 
 #: ../../admin/addons.rst:65
-#, fuzzy
-#| msgid "Event handler after repository is pushed upstream."
 msgid "Triggered just after the repository is pushed upstream."
-msgstr "Gebeurtenisafhandeling nadat de opslagruimte naar upstream is gepusht."
+msgstr "Geactiveerd nadat de opslagruimte naar upstream is gepusht."
 
 #: ../../admin/addons.rst:70
-#, fuzzy
-#| msgid "repository post-update"
 msgid "Repository post-update"
 msgstr "Opslagruimte na bijwerken"
 
 #: ../../admin/addons.rst:72
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files to match the POT file using msgmerge. Triggered "
-#| "whenever new changes are pulled from the upstream repository."
 msgid "Triggered whenever new changes are pulled from the upstream repository."
 msgstr ""
-"Werk alle po-bestanden bij met msgmerge om overeen te komen met het pot-"
-"bestand. Dit wordt automatisch uitgevoerd bij nieuwe wijzigingen in de "
-"stroomopwaartse opslagruimte."
+"Geactiveerd als nieuwe wijzigingen worden opgehaald vanuit de opslagruimte "
+"upstream."
 
 #: ../../admin/addons.rst:77
-#, fuzzy
-#| msgid "repository pre-commit"
 msgid "Repository pre-commit"
-msgstr "opslagruimte voor doorvoeren"
+msgstr "Opslagruimte voor doorvoeren"
 
 #: ../../admin/addons.rst:79
 msgid "Triggered just before the changes are committed."
-msgstr ""
+msgstr "Geactiveerd net voordat de wijzigingen worden doorgevoerd."
 
 #: ../../admin/addons.rst:84
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Repository pre-push"
-msgstr "Opslagruimte hersteld"
+msgstr "Opslagruimte voor pushen"
 
 #: ../../admin/addons.rst:86
-#, fuzzy
-#| msgid "Event handler before repository is pushed upstream."
 msgid "Triggered just before the repository is pushed upstream."
-msgstr ""
-"Gebeurtenisafhandeling voordat de opslagruimte naar upstream wordt gepusht."
+msgstr "Geactiveerd voordat de opslagruimte naar upstream wordt gepusht."
 
 #: ../../admin/addons.rst:91
-#, fuzzy
-#| msgid "repository post-update"
 msgid "Repository pre-update"
-msgstr "Opslagruimte na bijwerken"
+msgstr "Opslagruimte voor bijwerken"
 
 #: ../../admin/addons.rst:93
 msgid "Triggered just before the repository update is attempted."
-msgstr ""
+msgstr "Geactiveerd net voordat geprobeerd wordt de opslagruimte bij te werken."
 
 #: ../../admin/addons.rst:98
-#, fuzzy
-#| msgid "storage post-load"
 msgid "Storage post-load"
-msgstr "opslag voor laden"
+msgstr "Opslag na laden"
 
 #: ../../admin/addons.rst:100
-#, fuzzy
-#| msgid "Timestamp for when the string was added to Weblate."
 msgid "Triggered when file is parsed by Weblate."
-msgstr "Tijdstempel van toen de tekenreeks werd toegevoegd aan Weblate."
+msgstr "Geactiveerd als bestand wordt geparset door Weblate."
 
 #: ../../admin/addons.rst:105
-#, fuzzy
-#| msgid "unit post-create"
 msgid "Unit post-save"
-msgstr "eenheid na maken"
+msgstr "Eenheid na opslaan"
 
 #: ../../admin/addons.rst:107
 msgid "Triggered just after the string is saved."
-msgstr ""
+msgstr "Geactiveerd net nadat de tekenreeks is opgeslagen."
 
 #: ../../admin/addons.rst:112
-#, fuzzy
-#| msgid "unit post-create"
 msgid "Unit pre-create"
-msgstr "eenheid na maken"
+msgstr "Eenheid voor maken"
 
 #: ../../admin/addons.rst:114
 msgid "Triggered just after the newly created string is saved."
-msgstr ""
+msgstr "Geactiveerd net nadat de nieuwe gemaakte tekenreeks is opgeslagen."
 
 #: ../../admin/addons.rst:118
 msgid "Built-in add-ons"
@@ -2160,10 +2110,8 @@ msgid "``check:inconsistent`` -- Failing check: Inconsistent"
 msgstr "``check:inconsistent`` -- Mislukte controle: Inconsistent"
 
 #: ../../admin/addons.rst:150
-#, fuzzy
-#| msgid "``check:inconsistent`` -- Failing check: Inconsistent"
 msgid "``check:translated`` -- Failing check: Has been translated"
-msgstr "``check:inconsistent`` -- Mislukte controle: Inconsistent"
+msgstr "``check:translated`` -- Mislukte controle: Is vertaald"
 
 #: ../../admin/addons.rst:152
 msgid "``auto_source``"
@@ -2215,14 +2163,12 @@ msgstr "Activatie"
 
 #: ../../admin/addons.rst:164 ../../admin/addons.rst:567
 #: ../../admin/addons.rst:618 ../../admin/addons.rst:651
-#, fuzzy
-#| msgid ""
-#| ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-"
 "event-daily`"
 msgstr ""
-":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
+":ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-"
+"event-daily`"
 
 #: ../../admin/addons.rst:166
 msgid ""
@@ -2297,6 +2243,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
 "repository-post-commit`, :ref:`addon-event-repository-post-update`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
+"repository-post-commit`, :ref:`addon-event-repository-post-update`"
 
 #: ../../admin/addons.rst:192
 msgid ""
@@ -2374,6 +2322,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref:"
 "`addon-event-repository-post-update`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref"
+":`addon-event-repository-post-update`"
 
 #: ../../admin/addons.rst:230
 msgid "Removes strings without a translation from translation files."
@@ -2407,6 +2357,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref:"
 "`addon-event-repository-pre-commit`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref"
+":`addon-event-repository-pre-commit`"
 
 #: ../../admin/addons.rst:249
 msgid ""
@@ -2443,6 +2395,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
 "repository-post-add`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
+"repository-post-add`"
 
 #: ../../admin/addons.rst:270
 msgid ""
@@ -2617,7 +2571,7 @@ msgstr "Ik bevestig dat bovenstaande overeenkomsten juist lijken"
 #: ../../admin/addons.rst:310 ../../admin/addons.rst:810
 #: ../../admin/addons.rst:948
 msgid ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`"
-msgstr ""
+msgstr ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`"
 
 #: ../../admin/addons.rst:312
 msgid ""
@@ -2993,10 +2947,8 @@ msgid "Labels to remove"
 msgstr "Te verwijderen labels"
 
 #: ../../admin/addons.rst:464
-#, fuzzy
-#| msgid ":ref:`adding-translation`, :ref:`component-new_base`"
 msgid ":ref:`addon-event-install`, :ref:`addon-event-component-update`"
-msgstr ":ref:`adding-translation`, :ref:`component-new_base`"
+msgstr ":ref:`addon-event-install`, :ref:`addon-event-component-update`"
 
 #: ../../admin/addons.rst:466
 msgid "Bulk edit flags, labels, or states of strings."
@@ -3615,18 +3567,12 @@ msgstr ""
 "door :ref:`component-new_base`) middels :program:`msgmerge`."
 
 #: ../../admin/addons.rst:815
-#, fuzzy
-#| msgid ""
-#| "Triggered whenever new changes are pulled from the upstream repository. "
-#| "Most msgmerge command-line options can be set up through the add-on "
-#| "configuration."
 msgid ""
 "Most msgmerge command-line options can be set up through the add-on "
 "configuration."
 msgstr ""
-"Geactiveerd als nieuwe wijzigingen vanuit de opslagruimte upstream worden "
-"gehaald. De meeste opties voor de opdrachtregel voor msgmerge kunnen worden "
-"ingesteld door de add-on te configureren."
+"De meeste opties voor de opdrachtregel voor msgmerge kunnen worden ingesteld "
+"door de add-on te configureren."
 
 #: ../../admin/addons.rst:825
 msgid "Squash Git commits"
@@ -3696,7 +3642,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:843
 msgid ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
-msgstr ""
+msgstr ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
 
 #: ../../admin/addons.rst:845
 msgid "Squash Git commits prior to pushing changes."
@@ -3863,10 +3809,8 @@ msgid "Days to keep"
 msgstr "Aantal dagen te bewaren"
 
 #: ../../admin/addons.rst:914 ../../admin/addons.rst:933
-#, fuzzy
-#| msgid ":ref:`additional`, :ref:`component-check_flags`"
 msgid ":ref:`addon-event-install`, :ref:`addon-event-daily`"
-msgstr ":ref:`additional`, :ref:`component-check_flags`"
+msgstr ":ref:`addon-event-install`, :ref:`addon-event-daily`"
 
 #: ../../admin/addons.rst:916
 msgid "Set a timeframe for removal of comments."
@@ -4295,12 +4239,6 @@ msgstr ""
 "status van de prestaties."
 
 #: ../../admin/admin.rst:32
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Configuration errors` indicate issues present in your "
-#| "environment. It covers missing optional dependencies (see :ref:`python-"
-#| "deps`), configuration issues or delayed processing of background tasks  "
-#| "(see :ref:`celery`)."
 msgid ""
 ":guilabel:`Configuration errors` indicate issues present in your "
 "environment. It covers missing optional dependencies (see :ref:`python-"
@@ -4308,9 +4246,9 @@ msgid ""
 "ref:`celery`)."
 msgstr ""
 ":guilabel:`Fouten configuratie` geven problemen aan in uw omgeving. Het "
-"behandelt optionele ontbrekende afhankelijkheden (bekijk :ref:`python-"
-"deps`), problemen met de configuratie of vertraagde verwerking van taken op "
-"de achtergrond (bekijk :ref:`celery`)."
+"behandelt optionele ontbrekende afhankelijkheden (bekijk :ref:`python-deps`)"
+", problemen met de configuratie of vertraagde verwerking van taken op de "
+"achtergrond (bekijk :ref:`celery`)."
 
 #: ../../admin/admin.rst:36
 msgid ""
@@ -4760,15 +4698,6 @@ msgstr ""
 "hebben, zoals ``https://WEBLATE SERVER/accounts/complete/github/``."
 
 #: ../../admin/auth.rst:115
-#, fuzzy
-#| msgid ""
-#| "There are similar authentication backends for GitHub for Organizations "
-#| "and GitHub for Teams. Their settings are named "
-#| "``SOCIAL_AUTH_GITHUB_ORG_*`` and ``SOCIAL_AUTH_GITHUB_TEAM_*``, and they "
-#| "require additional setting of the scope - ``SOCIAL_AUTH_GITHUB_ORG_NAME`` "
-#| "or ``SOCIAL_AUTH_GITHUB_TEAM_ID``.  Their callback URLs are ``https://"
-#| "WEBLATE SERVER/accounts/complete/github-org/`` and ``https://WEBLATE "
-#| "SERVER/accounts/complete/github-teams/``."
 msgid ""
 "There are similar authentication backends for GitHub for Organizations and "
 "GitHub for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ORG_*`` and "
@@ -7434,10 +7363,9 @@ msgid "``ignore-prohibited-initial-character``"
 msgstr "``ignore-prohibited-initial-character``"
 
 #: ../../admin/checks.rst:301
-#, fuzzy
-#| msgid "Skip the :ref:`check-begin-space` quality check."
 msgid "Skip the :ref:`check-prohibited-initial-character` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-begin-space` over."
+msgstr ""
+"Sla de kwaliteitscontrole :ref:`check-prohibited-initial-character` over."
 
 #: ../../admin/checks.rst:302 ../../user/checks.rst:1890
 msgid "``ignore-optional-plural``"
@@ -7828,16 +7756,18 @@ msgstr ""
 
 #: ../../admin/config.rst:52
 msgid "ALTCHA_MAX_NUMBER"
-msgstr ""
+msgstr "ALTCHA_MAX_NUMBER"
 
 #: ../../admin/config.rst:56
 msgid "Configures a maximal number for ALTCHA proof-of-work mechanism."
 msgstr ""
+"Configureert een maximaal getal voor het proof-of-work mechanisme van ALTCHA."
 
 #: ../../admin/config.rst:60
 msgid ""
 "`ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_"
 msgstr ""
+"`ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_"
 
 #: ../../admin/config.rst:65
 msgid "ANONYMOUS_USER_NAME"
@@ -9601,16 +9531,11 @@ msgstr ""
 "volledige bewerker."
 
 #: ../../admin/config.rst:1333
-#, fuzzy
-#| msgid ""
-#| "How many strings to show around the currently translated string. This is "
-#| "just a default value, users can adjust this in :ref:`user-profile`."
 msgid ""
 "This is just a default value, users can adjust this in :ref:`user-profile`."
 msgstr ""
-"Hoeveel tekenreeksen weer te geven rondom de momenteel vertaalde tekenreeks. "
-"Dit is slechts een standaard waarde, gebruikers kunnen dit aanpassen in :ref:"
-"`user-profile`."
+"Dit is slechts een standaard waarde, gebruikers kunnen dit aanpassen in :ref"
+":`user-profile`."
 
 #: ../../admin/config.rst:1338
 msgid "DEFAULT_PAGE_LIMIT"
@@ -9945,20 +9870,20 @@ msgid "Contact form for users that are not signed in."
 msgstr "Contactformulier voor gebruikers die niet ingelogd zijn."
 
 #: ../../admin/config.rst:1612
-#, fuzzy
-#| msgid "Each language consists of following fields:"
 msgid "The protection currently consists of following steps:"
-msgstr "Elke taal bestaat uit de volgende velden:"
+msgstr "De beveiliging bestaat momenteel uit de volgende stappen:"
 
 #: ../../admin/config.rst:1614
 msgid "Mathematical captcha to be solved by the user."
-msgstr ""
+msgstr "Wiskundige captcha, door de gebruiker op te lossen."
 
 #: ../../admin/config.rst:1615
 msgid ""
 "Proof of work challenge calculated by the browser. The difficulty can be "
 "adjusted using :setting:`ALTCHA_MAX_NUMBER`."
 msgstr ""
+"Uitdaging van Proof of work, berekend door de browser. De moeilijkheid kan "
+"worden aangepast met :setting:`ALTCHA_MAX_NUMBER`."
 
 #: ../../admin/config.rst:1620
 msgid "REGISTRATION_EMAIL_MATCH"
@@ -16947,18 +16872,14 @@ msgstr ""
 "container."
 
 #: ../../admin/install/docker.rst:1934
-#, fuzzy
-#| msgid ""
-#| "When running the container with a read-only root filesystem, two "
-#| "additional `tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgid ""
 "Weblate container can also be executed with a read-only root file system. In "
 "this case, two additional ``tmpfs`` volumes should be mounted: ``/tmp`` and "
 "``/run``."
 msgstr ""
-"Bij het uitvoeren van de container met een alleen-lezen root-"
-"bestandssysteem, zijn twee aanvullende volumes `tmpfs` vereist - :file:`/"
-"tmp` en :file:`/run`."
+"Weblate container kan ook worden uitgevoerd met een alleen-lezen root-"
+"bestandssysteem. In dat geval zouden twee aanvullende volumes ``tmpfs`` "
+"moeten worden gemount - ``/tmp`` en ``/run``."
 
 #: ../../admin/install/docker.rst:1940
 msgid ""
@@ -19384,16 +19305,12 @@ msgstr ""
 "productie-API."
 
 #: ../../admin/machine.rst:592
-#, fuzzy
-#| msgid ""
-#| "`SAP Translation Hub <https://www.sap.com/products/artificial-"
-#| "intelligence/translation-hub.html>`_"
 msgid ""
 "`What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/sap-"
 "translation-hub/what-is-sap-translation-hub>`_"
 msgstr ""
-"`SAP Translation Hub <https://www.sap.com/products/artificial-intelligence/"
-"translation-hub.html>`_"
+"`What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/"
+"sap-translation-hub/what-is-sap-translation-hub>`_"
 
 #: ../../admin/machine.rst:593
 msgid ""
@@ -20062,21 +19979,20 @@ msgid "import_memory"
 msgstr "import_memory"
 
 #: ../../admin/management.rst:351
-#, fuzzy
-#| msgid "Imports a TMX or JSON file into the Weblate translation memory."
 msgid "Imports a file into the Weblate translation memory."
-msgstr ""
-"Importeert een TMX- of JSON-bestand in het vertaalgeheugen van Weblate."
+msgstr "Importeert een bestand in het vertaalgeheugen van Weblate."
 
 #: ../../admin/management.rst:353
 msgid "Supported file formats are TMX, JSON, XLIFF, PO, CSV."
-msgstr ""
+msgstr "Ondersteunde bestandsindelingen zijn TMX, JSON, XLIFF, PO, CSV."
 
 #: ../../admin/management.rst:355
 msgid ""
 "Specifying a source and a target languages might be necessary for formats "
 "other than JSON and TMX."
 msgstr ""
+"Specificeren van een bron- en doeltaal zou nodig kunnen zijn voor andere "
+"indelingen dan JSON en TMX."
 
 #: ../../admin/management.rst:360
 msgid ""
@@ -20108,12 +20024,18 @@ msgid ""
 "Specifies the source language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"Specificeert de brontaal voor geïmporteerde vertalingen. Gewoonlijk nodig "
+"voor indelingen waar de taal niet kan worden vastgesteld uit het bestand "
+"zelf."
 
 #: ../../admin/management.rst:376
 msgid ""
 "Specifies the target language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"Specificeert de doeltaal voor geïmporteerde vertalingen. Gewoonlijk nodig "
+"voor indelingen waar de taal niet kan worden vastgesteld uit het bestand "
+"zelf."
 
 #: ../../admin/management.rst:385
 msgid "import_project"
@@ -20867,17 +20789,14 @@ msgstr ""
 "downloaden."
 
 #: ../../admin/memory.rst:88
-#, fuzzy
-#| msgid ""
-#| "Translation memories in JSON can be imported into Weblate, the TMX format "
-#| "is provided for interoperability with other tools."
 msgid ""
 "Translation memories in various formats can be imported into Weblate, the "
 "TMX format is provided for interoperability with other tools. All supported "
 "formats are TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
-"Vertaalgeheugens in JSON kunnen worden geïmporteerd in Weblate, de indeling "
-"TMX wordt verschaft voor interoperabiliteit met andere programma's."
+"Vertaalgeheugens in verscheidene indelingen kunnen worden geïmporteerd in "
+"Weblate, de indeling TMX wordt verschaft voor interoperabiliteit met andere "
+"programma's. Alle ondersteunde indelingen zijn: TMX, JSON, XLIFF, PO, CSV."
 
 #: ../../admin/memory.rst:93
 msgid ":ref:`schema-memory`"
@@ -26108,16 +26027,12 @@ msgid ":ref:`component-push_on_commit`"
 msgstr ":ref:`component-push_on_commit`"
 
 #: ../../api.rst:1300
-#, fuzzy
-#| msgid ""
-#| "Created component object; see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 "Whether component is locked, this field is read-only; see :http:get:`/api/"
 "components/(string:project)/(string:component)/lock/`"
 msgstr ""
-"Gemaakt onderdeelobject; bekijk :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+"Of het onderdeel is vergrendeld, dit veld is alleen-lezen; bekijk "
+":http:get:`/api/components/(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1301
 msgid ":ref:`component-commit_pending_age`"
@@ -27895,22 +27810,22 @@ msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and `import_memory` command in :ref:`manage`."
 msgstr ""
+"Importeren van vertaalgeheugen ondersteunt nu bestanden met indelingen "
+"XLIFF, PO en CSV, bekijk de opdrachten :ref:`memory-user` en `import_memory` "
+"in :ref:`manage`."
 
 #: ../../changes.rst:9
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
 msgstr ""
+"De CAPTCHA voor de registratie bevat nu het Proof-of-work-mechanisme ALTCHA."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "Leading problematic characters in :ref:`glossary` terms are now properly "
-#| "stripped in uploaded files."
 msgid ""
 "Leading problematic characters in CSV are now checks for :ref:`glossary`, "
 "see :ref:`check-prohibited-initial-character`."
 msgstr ""
-"Voorafgaande problematische tekens in termen voor :ref:`glossary` worden nu "
-"op de juiste wijze verwijderd in geüploade bestanden."
+"Voorafgaande problematische tekens in CSV zijn nu controles voor "
+":ref:`glossary`, bekijk :ref:`check-prohibited-initial-character`."
 
 #: ../../changes.rst:12 ../../changes.rst:44 ../../changes.rst:140
 #: ../../changes.rst:183 ../../changes.rst:209 ../../changes.rst:247
@@ -27947,39 +27862,40 @@ msgstr ""
 ":ref:`bulk-edit` geeft een voorbeeld van overeenkomende tekenreeksen weer."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/components/(string:project)/(string:component)/file/`"
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` exposes "
 "component lock state."
-msgstr ":http:get:`/api/components/(string:project)/(string:component)/file/`"
+msgstr ""
+":http:get:`/api/components/(string:project)/(string:component)/` geeft de "
+"status van de vergrendeling van het onderdeel weer."
 
 #: ../../changes.rst:19
 msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
 msgstr ""
+"Bewerker in :ref:`zen-mode` is nu vastgezet aan de onderzijde van het scherm."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Improved navigation while translating."
 msgid "Added page navigation while :ref:`translating`."
-msgstr "Verbeterde navigatie tijdens vertalen."
+msgstr "Verbeterde navigatie op pagina tijdens :ref:`translating`."
 
 #: ../../changes.rst:21
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
 msgstr ""
+":ref:`manage-appearance` heeft nu afzonderlijke instellingen voor modus "
+"Donker."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Improved :ref:`workflow-customization` performance."
 msgid "Improved :ref:`translation-propagation` performance."
-msgstr "Verbeterde prestaties voor :ref:`workflow-customization`."
+msgstr "Verbeterde prestaties voor :ref:`translation-propagation`."
 
 #: ../../changes.rst:24
 msgid ""
 "**Bug fixes** * Using the `has:variant` field now correctly displays strings "
 "that have variant(s) in the search language, see :ref:`search-strings`."
 msgstr ""
+"**Reparaties problemen** * Met het veld `has:variant` worden nu correcte "
+"tekenreeksen weergegeven die variant(en) in de doeltaal hebben, bekijk :ref"
+":`search-strings`."
 
 #: ../../changes.rst:27 ../../changes.rst:161 ../../changes.rst:266
 #: ../../changes.rst:356 ../../changes.rst:518 ../../changes.rst:624
@@ -28049,10 +27965,8 @@ msgid "Weblate 5.8.4"
 msgstr "Weblate 5.8.4"
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Released on November 19th 2021."
 msgid "Released on November 19th 2024."
-msgstr "Uitgegeven op 19 november 2021."
+msgstr "Uitgegeven op 19 november 2024."
 
 #: ../../changes.rst:46
 msgid ":ref:`search-users` can search based on user changes."
@@ -28098,10 +28012,8 @@ msgid "Code contributions"
 msgstr "Bijgedragen code"
 
 #: ../../changes/contributors/5.8.4.rst:3
-#, fuzzy
-#| msgid "Michal Čihař, Mehdi El Oualy"
 msgid "Michal Čihař, gersona, Mehdi El Oualy"
-msgstr "Michal Čihař, Mehdi El Oualy"
+msgstr "Michal Čihař, gersona, Mehdi El Oualy"
 
 #: ../../changes/contributors/5.7.1.rst:8
 #: ../../changes/contributors/5.7.2.rst:8 ../../changes/contributors/5.7.rst:8
@@ -40648,12 +40560,6 @@ msgid "**Sending encrypted reports**"
 msgstr "**Versleutelde rapporten verzenden**"
 
 #: ../../contributing/issues.rst:42
-#, fuzzy
-#| msgid ""
-#| "If you want to send an encrypted email (*optional*), please use the "
-#| "public key for michal@weblate.org with ID ``3CB 1DF1 EF12 CF2A C0EE  5A32 "
-#| "9C27 B313 42B7 511D``. This public key is available on the most commonly "
-#| "used key servers, and from `Keybase <https://keybase.io/nijel>`_."
 msgid ""
 "If you want to send an encrypted email (*optional*), please use the public "
 "key for michal@weblate.org with ID ``3CB 1DF1 EF12 CF2A C0EE 5A32 9C27 B313 "
@@ -40661,7 +40567,7 @@ msgid ""
 "servers, and from `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
 "Als u een versleutelde e-mail wilt verzenden (*optioneel*), gebruik dan de "
-"publieke sleutel voor michal@weblate.org met ID ``3CB 1DF1 EF12 CF2A C0EE  "
+"publieke sleutel voor michal@weblate.org met ID ``3CB 1DF1 EF12 CF2A C0EE "
 "5A32 9C27 B313 42B7 511D``. Deze publieke sleutel is ook beschikbaar op de "
 "meest gebruikte sleutelservers, en vanaf `Keybase <https://keybase.io/"
 "nijel>`_."
@@ -41889,16 +41795,12 @@ msgstr ""
 "maken die herstarten."
 
 #: ../../contributing/start.rst:117
-#, fuzzy
-#| msgid ""
-#| "This is not a suitable setup for production, as it includes several hacks "
-#| "which are insecure, but they make development easier."
 msgid ""
 "This container is not suitable for production use. Security is sacrificed to "
 "make the development easier."
 msgstr ""
-"Dit is geen geschikte opstelling voor productie, omdat het verschillende "
-"hacks bevat die niet veilig zijn, maar zij maken ontwikkelen gemakkelijker."
+"Deze container is niet geschikt voor productie. Beveiliging is opgeofferd om "
+"ontwikkeling gemakkelijker te maken."
 
 #: ../../contributing/start.rst:121
 msgid "Bootstrapping your devel instance"
@@ -43816,11 +43718,6 @@ msgstr ""
 "opslagruimte` maakt het mogelijk deze opslagruimte te beheren."
 
 #: ../../devel/integration.rst:169
-#, fuzzy
-#| msgid ""
-#| "With :doc:`/admin/continuous`, any changes are automatically pushed from "
-#| "the repository, so there is usually no need to manually manage it "
-#| "manually."
 msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
 "repository, so there is usually no need to manage it manually."
@@ -44656,6 +44553,14 @@ msgid ""
 "automatically adjust :guilabel:`Context` by adding a numeric suffix in case "
 "such a string already exist in the translation."
 msgstr ""
+"Weblate kan nieuwe tekenreeksen toevoegen aan bestaande bestanden voor de "
+"meeste bestandsindelingen. U kunt ook :guilabel:`Context` specificeren voor "
+"tweetalige indelingen om onderscheid te maken tussen dezelfde tekenreeks, "
+"die wordt gebruikt in een andere context. :guilabel:`Pas de context "
+"automatisch aan als dezelfde tekenreeks al aanwezig is.` kan worden gebruikt "
+"om :guilabel:`Context` automatisch aan te passen, door het toevoegen van een "
+"numeriek achtervoegsel, in het geval een dergelijke tekenreeks al bestaat in "
+"de vertaling."
 
 #: ../../devel/translations.rst:23
 msgid ":ref:`format-context`"
@@ -52168,10 +52073,8 @@ msgid "Examples:"
 msgstr "Voorbeelden:"
 
 #: ../../user/checks.rst:1686
-#, fuzzy
-#| msgid "Fluent source inner HTML"
 msgid "Fluent inner HTML examples"
-msgstr "Fluent interne html"
+msgstr "Fluent interne HTML-voorbeelden"
 
 #: ../../user/checks.rst:1690
 msgid "Warns?"
@@ -52507,7 +52410,7 @@ msgstr "Tabulatieteken invoegen"
 
 #: ../../user/checks.rst:1875
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "De tekenreeks begint met een verboden teken in CSV"
 
 #: ../../user/checks.rst:1877
 msgid "``weblate.checks.glossary.ProhibitedInitialCharacterCheck``"
@@ -54194,6 +54097,9 @@ msgid ""
 "different extensions, please consult the database documentation below for "
 "more details."
 msgstr ""
+"De reguliere uitdrukkingen worden geëvalueerd door de backend van de "
+"database en zouden andere uitdrukkingen kunnen gebruiken, bekijk de "
+"documentatie voor de database hieronder voor meer details."
 
 #: ../../user/search.rst:175
 msgid ""
@@ -54201,18 +54107,25 @@ msgid ""
 "current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the default "
 "database engine for Weblate)"
 msgstr ""
+"`PostgreSQL Regular Expressions Details <https://www.postgresql.org/docs/"
+"current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (dit is het "
+"standaard databaseprogramma voor Weblate)"
 
 #: ../../user/search.rst:176
 msgid ""
 "`MariaDB Regular Expressions Overview <https://mariadb.com/kb/en/regular-"
 "expressions-overview/>`_"
 msgstr ""
+"`MariaDB Regular Expressions Overview <https://mariadb.com/kb/en/"
+"regular-expressions-overview/>`_"
 
 #: ../../user/search.rst:177
 msgid ""
 "`MySQL Regular Expressions <https://dev.mysql.com/doc/refman/8.4/en/regexp."
 "html>`_"
 msgstr ""
+"`MySQL Regular Expressions <https://dev.mysql.com/doc/refman/8.4/en/regexp."
+"html>`_"
 
 #: ../../user/search.rst:180
 msgid "Predefined queries"
@@ -55289,22 +55202,17 @@ msgid "Matrix View"
 msgstr "Weergave Matrix"
 
 #: ../../user/translating.rst:447
-#, fuzzy
-#| msgid ""
-#| "You can compare different languages efficiently using this view. It is "
-#| "available on every component page, from the :guilabel:`Tools` menu. First "
-#| "select all languages you want to compare, confirm your selection, then "
-#| "click on any translation to open and edit it."
 msgid ""
-"You can compare different languages efficiently using this view It is "
+"You can compare different languages efficiently using this view. It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
 msgstr ""
 "U kunt verschillende talen efficiënt vergelijken met deze weergave. Het is "
-"beschikbaar op elke pagina van een onderdeel, vanuit het menu :guilabel:"
-"`Gereedschap`. Selecteer eerst alle talen die u wilt vergelijken, bevestig "
-"uw selectie, en klik dan op een vertaling om die te openen en te bewerken."
+"beschikbaar op elke pagina van een onderdeel, vanuit het menu "
+":guilabel:`Gereedschap`. Selecteer eerst alle talen die u wilt vergelijken, "
+"bevestig uw selectie, en klik dan op een vertaling om die te openen en te "
+"bewerken."
 
 #: ../../user/translating.rst:452
 msgid ""
@@ -55448,14 +55356,6 @@ msgstr ""
 "GitLab, Bitbucket, Azure DevOps, ...)"
 
 #: ../../vcs.rst:52
-#, fuzzy
-#| msgid ""
-#| "Accessing repositories on code hosting sites is typically done by "
-#| "creating a dedicated user who is associated with a Weblate SSH key (see :"
-#| "ref:`weblate-ssh-key`). This way you associate Weblate SSH key with a "
-#| "single user (this of frequently enforced by the platform) and grant this "
-#| "user access to the repository. You can then use SSH URL to access the "
-#| "repository (see :ref:`ssh-repos`)."
 msgid ""
 "Accessing repositories on code hosting sites is typically done by creating a "
 "dedicated user who is associated with a Weblate SSH key (see :ref:`weblate-"
@@ -55467,10 +55367,10 @@ msgstr ""
 "Toegang tot opslagruimten van sites voor het hosten van code wordt "
 "gewoonlijk gedaan door een aangewezen gebruiker te maken die wordt "
 "geassocieerd met een Weblate SSH-sleutel (bekijk :ref:`weblate-ssh-key`). Op "
-"deze manier associeert u de Weblate SSH-sleutel aan een enkele gebruiker "
-"(dit wordt vaak afgedwongen door het platform) en geeft deze gebruiker "
-"toegang tot de opslagruimte. U kunt dan de URL van SSH gebruiken voor "
-"toegang tot de opslagruimte (bekijk :ref:`ssh-repos`)."
+"deze manier associeert u de Weblate SSH-sleutel aan een enkele gebruiker ("
+"platforms dwingen vaak het eenmalig gebruik van een SSH-sleutel af) en geeft "
+"deze gebruiker toegang tot de opslagruimte. U kunt dan de URL van SSH "
+"gebruiken voor toegang tot de opslagruimte (bekijk :ref:`ssh-repos`)."
 
 #: ../../vcs.rst:61
 msgid ""
