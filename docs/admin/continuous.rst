@@ -107,21 +107,35 @@ Avoiding merge conflicts
 ++++++++++++++++++++++++
 
 The merge conflicts from Weblate arise when same file was changed both in
-Weblate and outside it. There are two approaches to deal with that - avoid
-edits outside Weblate or integrate Weblate into your updating process, so that
-it flushes changes prior to updating the files outside Weblate.
+Weblate and outside it. Depending on the situation, there are several approaches that might help here:
 
-The first approach is easy with monolingual files — you can add new strings
+* :ref:`merge-weblate-only`
+* :ref:`merge-weblate-locking`
+* :ref:`merge-weblate-git`
+
+.. _merge-weblate-only:
+
+Avoiding merge conflicts by changing translation files in Weblate only
+``````````````````````````````````````````````````````````````````````
+
+Avoiding edits outside Weblate is easy with monolingual files — you can add new strings
 within Weblate and leave whole editing of the files there. For bilingual files,
 there is usually some kind of message extraction process to generate
-translatable files from the source code. In some cases this can be split into
-two parts - one for the extraction generates template (for example gettext POT
-is generated using :program:`xgettext`) and then further process merges it into
-actual translations (the gettext PO files are updated using
-:program:`msgmerge`). You can perform the second step within Weblate and it
-will ensure that all pending changes are included prior to this operation.
+translatable files from the source code. In some cases, this can be split into
+two parts:
 
-The second approach can be achieved by using :ref:`api` to force Weblate to
+1. The extraction generates template (for example gettext POT is generated using :program:`xgettext`).
+2. Further process merges it into actual translations (the gettext PO files are updated using :program:`msgmerge`).
+
+You can perform the second step within Weblate and it
+will ensure that all pending changes are included before this operation.
+
+.. _merge-weblate-locking:
+
+Avoiding merge conflicts by locking Weblate while doing outside changes
+```````````````````````````````````````````````````````````````````````
+
+Integrating Weblate into your updating process so that it flushes changes before updating the files outside Weblate can be achieved by using :ref:`api` to force Weblate to
 push all pending changes and lock the translation while you are doing changes
 on your side.
 
@@ -146,7 +160,7 @@ The script for doing updates can look like this:
     # Unlock translations
     wlc unlock
 
-If you have multiple components sharing same repository, you need to lock them
+If you have multiple components sharing the same repository, you need to lock them
 all separately:
 
 .. code-block:: sh
@@ -159,15 +173,17 @@ all separately:
 
     The example uses :ref:`wlc`, which needs configuration (API keys) to be
     able to control Weblate remotely. You can also achieve this using any HTTP
-    client instead of wlc, e.g. curl, see :ref:`api`.
+    client instead of :ref:`wlc`, for example curl, see :ref:`api`.
 
-Avoiding merge conflicts on Weblate originated changes
+.. _merge-weblate-git:
+
+Avoiding merge conflicts by focusing on Git operations
 ``````````````````````````````````````````````````````
 
 Even when Weblate is the single source of the changes in the translation files,
 conflicts can appear when using :ref:`addon-weblate.git.squash` add-on,
 :ref:`component-merge_style` is configured to :guilabel:`Rebase`, or you are
-squashing commits outside of Weblate (for example when merging a pull request).
+squashing commits outside of Weblate (for example, when merging a pull request).
 
 The reason for merge conflicts is different in this case - there are changes in
 Weblate which happened after you merged Weblate commits. This typically happens
@@ -175,15 +191,15 @@ if merging is not automated and waits for days or weeks for a human to review
 them. Git is then sometimes no longer able to identify upstream changes as
 matching the Weblate ones and refuses to perform a rebase.
 
-To approach this, you either need to minimize amount of pending changes in
+To approach this, you either need to minimize the amount of pending changes in
 Weblate when you merge a pull request, or avoid the conflicts completely by not
 squashing changes.
 
 Here are few options how to avoid that:
 
 * Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge time. This is the root cause why git doesn't recognize changes after merging.
-* Let Weblate commit pending changes before merging. This will update the pull request with all its changes and both repositories will be in sync.
-* Use the review features in Weblate (see :doc:`/workflows`), so that you can automatically merge GitHub pull requests after CI passes.
+* Let Weblate commit pending changes before merging. This will update the pull request with all its changes, and both repositories will be in sync.
+* Use the review features in Weblate (see :doc:`/workflows`) so that you can automatically merge GitHub pull requests after CI passes.
 * Use locking in Weblate to avoid changes while GitHub pull request is in review.
 
 .. seealso::
