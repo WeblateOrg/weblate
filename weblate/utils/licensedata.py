@@ -152,6 +152,12 @@ LICENSES = (
     ),
     ("any-OSI", "Any OSI License", "https://spdx.org/licenses/any-OSI.html", False),
     (
+        "any-OSI-perl-modules",
+        "Any OSI License - Perl Modules",
+        "https://spdx.org/licenses/any-OSI-perl-modules.html",
+        False,
+    ),
+    (
         "Apache-1.0",
         "Apache License 1.0",
         "https://spdx.org/licenses/Apache-1.0.html",
@@ -726,6 +732,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-PDM-1.0",
+        "Creative    Commons Public Domain Mark 1.0 Universal",
+        "https://spdx.org/licenses/CC-PDM-1.0.html",
+        False,
+    ),
+    (
         "CC-BY-1.0",
         "Creative Commons Attribution 1.0 Generic",
         "https://spdx.org/licenses/CC-BY-1.0.html",
@@ -1038,6 +1050,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-SA-1.0",
+        "Creative Commons Share Alike 1.0 Generic",
+        "https://spdx.org/licenses/CC-SA-1.0.html",
+        False,
+    ),
+    (
         "CC0-1.0",
         "Creative Commons Zero v1.0 Universal",
         "https://spdx.org/licenses/CC0-1.0.html",
@@ -1303,6 +1321,12 @@ LICENSES = (
     ("FBM", "Fuzzy Bitmap License", "https://spdx.org/licenses/FBM.html", False),
     ("fwlw", "fwlw License", "https://spdx.org/licenses/fwlw.html", False),
     ("GD", "GD License", "https://spdx.org/licenses/GD.html", False),
+    (
+        "generic-xts",
+        "Generic XTS License",
+        "https://spdx.org/licenses/generic-xts.html",
+        False,
+    ),
     ("Giftware", "Giftware License", "https://spdx.org/licenses/Giftware.html", False),
     ("GL2PS", "GL2PS License", "https://spdx.org/licenses/GL2PS.html", False),
     ("Glulxe", "Glulxe License", "https://spdx.org/licenses/Glulxe.html", False),
@@ -1751,6 +1775,12 @@ LICENSES = (
         "Inner-Net-2.0",
         "Inner Net License v2.0",
         "https://spdx.org/licenses/Inner-Net-2.0.html",
+        False,
+    ),
+    (
+        "InnoSetup",
+        "Inno Setup License",
+        "https://spdx.org/licenses/InnoSetup.html",
         False,
     ),
     (
@@ -2737,6 +2767,12 @@ LICENSES = (
         "https://spdx.org/licenses/Sleepycat.html",
         True,
     ),
+    (
+        "SMAIL-GPL",
+        "SMAIL General Public License",
+        "https://spdx.org/licenses/SMAIL-GPL.html",
+        False,
+    ),
     ("SNIA", "SNIA Public License 1.1", "https://spdx.org/licenses/SNIA.html", False),
     ("snprintf", "snprintf License", "https://spdx.org/licenses/snprintf.html", False),
     (
@@ -3062,6 +3098,7 @@ LICENSES = (
         False,
     ),
     ("Wsuipa", "Wsuipa License", "https://spdx.org/licenses/Wsuipa.html", False),
+    ("wwl", "WWL License", "https://spdx.org/licenses/wwl.html", False),
     ("Xnet", "X.Net License", "https://spdx.org/licenses/Xnet.html", True),
     ("X11", "X11 License", "https://spdx.org/licenses/X11.html", True),
     (
