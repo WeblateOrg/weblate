@@ -15,17 +15,18 @@ on:
     - scripts/generate-license-data
     - scripts/spdx-license-list
 
+permissions:
+  contents: read
+
 jobs:
   licenses-update:
     runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
     - uses: actions/checkout@v4
       with:
         submodules: true
+        token: ${{ secrets.WEBLATE_CI_TOKEN }}
     - uses: actions/cache@v4
       with:
         path: ~/.cache/pre-commit
@@ -48,6 +49,6 @@ jobs:
         branch: create-pull-request/licenses-update
         title: 'utils: Update SPDX license data'
         commit-message: 'utils: Update SPDX license data'
+        token: ${{ secrets.WEBLATE_CI_TOKEN }}
         labels: |
           dependencies
-          automerge

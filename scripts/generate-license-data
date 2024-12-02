@@ -11,7 +11,6 @@ See https://github.com/spdx/license-list-data
 """
 
 import json
-import subprocess
 
 HEADER = '''# Copyright © Michal Čihař <michal@weblate.org>
 #
@@ -25,12 +24,21 @@ This is an automatically generated file, see scripts/generate-license-data
 
 '''
 TEMPLATE = """    (
-        "{0}",
-        "{1}",
-        "{2}",
-        {3}
+        {0},
+        {1},
+        {2},
+        {3},
     ),
 """
+
+
+def escape_string(string: str) -> str:
+    if '"' in string:
+        if "'" in string:
+            return repr(string)
+        return f"'{string}'"
+    return f'"{string}"'
+
 
 # Some licenses are not classified as libre in SPDX
 EXCEPTIONS = {
@@ -63,26 +71,10 @@ with open("weblate/utils/licensedata.py", "w") as output:
         )
         output.write(
             TEMPLATE.format(
-                item["licenseId"],
-                item["name"].replace('"', '\\"'),
-                item["reference"],
+                escape_string(item["licenseId"]),
+                escape_string(item["name"]),
+                escape_string(item["reference"]),
                 "True" if libre else "False",
             )
         )
     output.write(")\n")
-
-# Apply coding style
-subprocess.run(
-    [
-        "uv",
-        "run",
-        "--no-sources",
-        "--only-group",
-        "pre-commit",
-        "pre-commit",
-        "run",
-        "--files",
-        "weblate/utils/licensedata.py",
-    ],
-    check=False,
-)
