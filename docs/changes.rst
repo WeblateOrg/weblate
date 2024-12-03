@@ -20,6 +20,7 @@ Not yet released.
 * Added page navigation while :ref:`translating`.
 * :ref:`manage-appearance` now has distinct settings for dark mode.
 * Improved :ref:`translation-propagation` performance.
+* More detailed error messages for :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/file/`.
 
 **Bug fixes**
 * Using the `has:variant` field now correctly displays strings that have variant(s) in the search language, see :ref:`search-strings`.
