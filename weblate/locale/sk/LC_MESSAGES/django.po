@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 18:09+0000\n"
-"PO-Revision-Date: 2024-11-26 03:26+0000\n"
+"PO-Revision-Date: 2024-12-03 20:25+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -94,38 +94,32 @@ msgstr ""
 "nakonfigurovaný nižšie."
 
 #: weblate/accounts/forms.py:431
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "Prosím, skúste neskôr prosím."
+msgstr "Overenie zlyhalo. Skúste to znova neskôr."
 
 #: weblate/accounts/forms.py:432
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Overenie vypršalo. Skúste to znova."
 
 #: weblate/accounts/forms.py:433
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Nie som robot"
 
 #: weblate/accounts/forms.py:434
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "Dokončenie prekladu"
+msgstr "Overenie dokončené"
 
 #: weblate/accounts/forms.py:435
 msgid "Verifying…"
-msgstr ""
+msgstr "Overovanie…"
 
 #: weblate/accounts/forms.py:437
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Prebieha overovanie, počkajte prosím."
 
 #: weblate/accounts/forms.py:447
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "Okamžité upozornenie"
+msgstr "Overenie človeka"
 
 #: weblate/accounts/forms.py:500
 #, python-format
@@ -140,10 +134,8 @@ msgid "That was not correct, please try again."
 msgstr "Toto nebolo správne, skúste to prosím znova."
 
 #: weblate/accounts/forms.py:532 weblate/accounts/forms.py:539
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "Toto nebolo správne, skúste to prosím znova."
+msgstr "Overenie zlyhalo, skúste to prosím znova."
 
 #: weblate/accounts/forms.py:557
 msgid "Subject"
@@ -1970,16 +1962,12 @@ msgstr ""
 "konce riadkov."
 
 #: weblate/api/docs.py:72
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Allowed number of requests to perform"
-msgstr "Limit obmedzovania požiadaviek na vykonanie"
+msgstr "Povolený počet požiadaviek na vykonanie"
 
 #: weblate/api/docs.py:77
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "Limit obmedzovania požiadaviek na vykonanie"
+msgstr "Zostávajúci počet požiadaviek na vykonanie"
 
 #: weblate/api/docs.py:82
 #, fuzzy
@@ -3912,19 +3900,18 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "Nasledujúce výrazy nie sú preložené ako v slovníku: {}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "Vložiť tabulátor"
+msgstr "Zakázaný počiatočný znak"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "Reťazec začína nepovoleným znakom v CSV"
 
 #: weblate/checks/glossary.py:104
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
 msgstr ""
+"Reťazec začína jedným alebo viacerými z nasledujúcich zakázaných znakov: {}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -5351,31 +5338,29 @@ msgstr "Súbor"
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
+"Môžete nahrať súbor v nasledujúcich formátoch: TMX, JSON, XLIFF, PO, CSV."
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "Jazyk zdroja"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "Cieľový jazyk dokumentu pre dvojjazyčné súbory"
+msgstr "Zdrojový jazyk dokumentu, ak nie je upresnený v súbore"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1869
 msgid "Target language"
 msgstr "Cieľový jazyk"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "Cieľový jazyk dokumentu pre dvojjazyčné súbory"
+msgstr "Cieľový jazyk dokumentu, ak nie je upresnený v súbore"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
 msgstr ""
+"Zdrojový jazyk a cieľový jazyk musia byť pri tomto formáte súboru upresnené."
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5411,13 +5396,11 @@ msgstr "Nepodporovaný súbor!"
 
 #: weblate/memory/models.py:325
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "Jednojazyčný formát nie je podporovaný pre nahrávanie z pamäte"
 
 #: weblate/memory/models.py:335
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Základný súbor pre jednojazyčné preklady"
+msgstr "Chýbajúci zdrojový alebo cieľový jazyk v súbore!"
 
 #: weblate/memory/models.py:428
 msgctxt "Translation memory category"
@@ -8960,12 +8943,8 @@ msgid "followed by"
 msgstr "Nahral(a)"
 
 #: weblate/templates/keyboard-shortcuts.html:145
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded document for "
-#| "translation."
 msgid "Copy the machine translation of a given number to current translation."
-msgstr "Vytvoriť novú súčasť prekladu z nahraného dokumentu na preklad."
+msgstr "Kopírovať strojový preklad daného čísla do aktuálneho prekladu."
 
 #: weblate/templates/keyboard-shortcuts.html:157
 msgid "Ignore one item in the list of failing checks."
@@ -8985,7 +8964,7 @@ msgstr "Skopírovať zdrojový reťazec."
 
 #: weblate/templates/keyboard-shortcuts.html:189
 msgid "Toggle the Needs editing checkbox."
-msgstr ""
+msgstr "Prepnúť pole Potrebuje upraviť."
 
 #: weblate/templates/keyboard-shortcuts.html:195
 msgid "Browse the next translation string."
@@ -12934,7 +12913,7 @@ msgstr "Otvoriť v plnom editore"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "Zbaliť"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:622
 msgid "The translation has come to an end."
@@ -15021,10 +15000,8 @@ msgid "Add new translation string"
 msgstr "Pridať nový reťazec prekladu"
 
 #: weblate/trans/models/component.py:3837
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Nepodarilo sa zlúčiť repozitár."
+msgstr "Nepodarilo sa získať stav repozitára!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -15273,7 +15250,7 @@ msgstr "Vložiť pomlčku"
 
 #: weblate/trans/specialchars.py:18
 msgid "Insert a non-breaking space"
-msgstr ""
+msgstr "Vložiť nezalamovateľnú medzeru"
 
 #: weblate/trans/specialchars.py:258
 #, python-brace-format
