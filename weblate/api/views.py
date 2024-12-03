@@ -1323,8 +1323,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             except Http404 as error:
                 raise ValidationError({"format": str(error)}) from error
 
-        if not user.has_perm("upload.perform", obj):
-            raise PermissionDenied
+        if not (can_upload := user.has_perm("upload.perform", obj)):
+            self.permission_denied(request, can_upload.reason)
 
         serializer = UploadRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -1397,8 +1397,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             serializer_class = BilingualUnitSerializer
 
         if request.method == "POST":
-            can_add = request.user.has_perm("unit.add", obj)
-            if not can_add:
+            if not (can_add := request.user.has_perm("unit.add", obj)):
                 self.permission_denied(request, can_add.reason)
             serializer = serializer_class(
                 data=request.data, context={"translation": obj}
