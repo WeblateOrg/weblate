@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 19:09+0100\n"
-"PO-Revision-Date: 2024-12-02 11:51+0000\n"
+"PO-Revision-Date: 2024-12-03 20:25+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -37339,6 +37339,8 @@ msgstr "Développement de greffons"
 #: ../../contributing/addons.rst:4
 msgid ":ref:`addons` are way to customize localization workflow in Weblate."
 msgstr ""
+":ref:`addons` permettent de personnaliser le flux des travaux de traduction "
+"dans Weblate."
 
 #: ../../../weblate/addons/base.py:docstring of weblate.addons.base.BaseAddon:1
 msgid "Base class for Weblate add-ons."
@@ -37366,52 +37368,44 @@ msgstr "Gestionnaire d'événements quotidien."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.get_add_form:1
-#, fuzzy
-#| msgid "Return configuration form for this addon."
 msgid "Return configuration form for adding new add-on."
-msgstr "Retourne le formulaire de configuration pour ce greffon."
+msgstr "Renvoie le formulaire de configuration pour ce nouveau greffon."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.get_settings_form:1
-#, fuzzy
-#| msgid "Return configuration form for this addon."
 msgid "Return configuration form for this add-on."
-msgstr "Retourne le formulaire de configuration pour ce greffon."
+msgstr "Renvoie le formulaire de configuration pour ce greffon."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_add:1
-#, fuzzy
-#| msgid "Hook triggered after new translation is added."
 msgid "Event handler after new translation is added."
-msgstr "Crochet déclenché lors de l’ajout d’une nouvelle traduction."
+msgstr "Gestionnaire d'événements après l'ajout d’une nouvelle traduction."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_commit:1
-#, fuzzy
-#| msgid "Hook triggered after changes are committed to the repository."
 msgid "Event handler after changes are committed to the repository."
 msgstr ""
-"Crochet déclenché après que des modifications aient été archivées dans le "
-"dépôt."
+"Gestionnaire d'événements après que des modifications aient été validées "
+"dans le dépôt."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_push:1
-#, fuzzy
-#| msgid "Hook triggered after repository is pushed upstream."
 msgid "Event handler after repository is pushed upstream."
-msgstr "Crochet déclenché après que le dépôt est poussé en amont."
+msgstr "Gestionnaire d'événements après que le dépôt a été poussé sur l'amont."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:1
-#, fuzzy
-#| msgid "Hook triggered after repository is pushed upstream."
 msgid "Event handler after repository is updated from upstream."
-msgstr "Crochet déclenché après que le dépôt est poussé en amont."
+msgstr ""
+"Gestionnaire d'événements après que le dépôt a été mis à jour à partir de "
+"l'amont."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:3
 msgid "HEAD of the repository prior to update, can be blank on initial clone."
 msgstr ""
+"HEAD du dépôt avant la mise à jour, peut être vide au moment du clônage "
+"initial."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:5
@@ -37420,6 +37414,9 @@ msgid ""
 "you can pass this to underlying methods as ``commit_and_push`` or "
 "``commit_pending``."
 msgstr ""
+"Indique si l'opération du greffon doit ignorer la poussée des modifications "
+"vers l'amont. Habituellement vous pouvez passer cette information aux "
+"méthodes sous-jascentes comme ``commit_and_push`` ou ``commit_pending``."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_commit:1
@@ -37455,6 +37452,7 @@ msgstr "Gestionnaire d'événements après l’analyse d’un fichier."
 #: weblate.addons.base.BaseAddon.store_post_load:3
 msgid "It receives an instance of a file format class as a argument."
 msgstr ""
+"Il reçoit comme argument une instance de la classe d'un format de fichier."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:5
@@ -37462,6 +37460,8 @@ msgid ""
 "This is useful to modify file format class parameters, for example adjust "
 "how the file will be saved."
 msgstr ""
+"C'est utile pour modifier les paramètres de classe du format de fichier, par "
+"exemple pour déclarer la manière dont le fichier sera sauvegardé."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.unit_pre_create:1
@@ -37472,6 +37472,7 @@ msgstr "Gestionnaire d'événements avant que la nouvelle unité soit créée."
 #: weblate.addons.base.BaseAddon.user:1
 msgid "Weblate user used to track changes by this add-on."
 msgstr ""
+"Utilisateur Weblate utilisé pour le suivi des modifications par ce greffon."
 
 #: ../../contributing/addons.rst:15
 msgid "ORM object for an add-on."
@@ -37522,6 +37523,7 @@ msgstr ""
 #: ../../contributing/code.rst:10
 msgid "Check out :ref:`internals` to see how Weblate looks from inside."
 msgstr ""
+"Extraire :ref:`internals` pour voir à quoi ressemble Weblate de l'intérieur."
 
 #: ../../contributing/snippets/code-guide.rst:2
 msgid "Coding guidelines"
@@ -37598,10 +37600,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/communication.rst:11
-#, fuzzy
-#| msgid "Weblate discovery"
 msgid "Weblate GitHub Discussions"
-msgstr "Découvrir Weblate"
+msgstr "Discussions sur Weblate GitHub"
 
 #: ../../contributing/communication.rst:12
 msgid ""
@@ -37613,10 +37613,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/communication.rst:18
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Weblate on Mastodon"
-msgstr "Configuration Weblate"
+msgstr "Weblate sur Mastodon"
 
 #: ../../contributing/communication.rst:19
 msgid ""
@@ -37628,7 +37626,7 @@ msgstr ""
 
 #: ../../contributing/communication.rst:22
 msgid "Libera.Chat"
-msgstr ""
+msgstr "Libera.Chat"
 
 #: ../../contributing/communication.rst:23
 msgid ""
@@ -37674,12 +37672,10 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/debugging.rst:20
-#, fuzzy
-#| msgid ""
-#| ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 msgid ""
 ":ref:`production-debug`, :ref:`production-admins`, :ref:`collecting-errors`"
-msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
+msgstr ""
+":ref:`production-debug`, :ref:`production-admins`, :ref:`collecting-errors`"
 
 #: ../../contributing/debugging.rst:27
 msgid "Weblate logs"
@@ -37711,8 +37707,8 @@ msgstr ""
 msgid ""
 ":ref:`sample-configuration` contains :setting:`django:LOGGING` configuration."
 msgstr ""
-":ref:`sample-configuration` contient la configuration :setting:`django:"
-"LOGGING`."
+":ref:`sample-configuration` contient la configuration "
+":setting:`django:LOGGING`."
 
 #: ../../contributing/debugging.rst:48
 msgid "Not processing background tasks"
@@ -37747,7 +37743,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:63
 msgid "Not receiving e-mails from Weblate"
-msgstr ""
+msgstr "Courriels non reçus de Weblate"
 
 #: ../../contributing/debugging.rst:65
 msgid ""
@@ -37824,6 +37820,8 @@ msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third party "
 "libraries."
 msgstr ""
+"L'interface utilisateur est actuellement construite à partir de Bootstrap, "
+"jQuery et quelques bibliothèques tierces."
 
 #: ../../contributing/frontend.rst:7
 msgid "Supported browsers"
@@ -37834,6 +37832,8 @@ msgid ""
 "Weblate supports the latest, stable releases of all major browsers and "
 "platforms."
 msgstr ""
+"Weblate prend en charge les dernières versions stables de presque tous les "
+"principaux navigateurs et plateformes."
 
 #: ../../contributing/frontend.rst:12
 msgid ""
@@ -37870,26 +37870,30 @@ msgid ""
 "Before proceeding with an installation, make sure you have the following "
 "prerequisites:"
 msgstr ""
+"Avant de procéder à l'installation, assurez-vous que les prérequis suivants "
+"sont satisfaits :"
 
 #: ../../contributing/frontend.rst:30
 msgid "``Nodejs`` version 14 or higher."
-msgstr ""
+msgstr "``Nodejs`` version 14 ou supérieure."
 
 #: ../../contributing/frontend.rst:31
 msgid "The ``yarn`` package manager installed on your system."
-msgstr ""
+msgstr "Le gestionnaire de packages ``yarn`` est installé sur votre système."
 
 #: ../../contributing/frontend.rst:32
 msgid "Run ``cd client``."
-msgstr ""
+msgstr "Exécuter ``cd client``."
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``yarn install``"
-msgstr ""
+msgstr "Exécuter ``yarn install``"
 
 #: ../../contributing/frontend.rst:38
 msgid "To install a library, 1st run the following command:"
 msgstr ""
+"Pour installer une bibliothèque vous devez d'abord exécuter la commande "
+"suivante :"
 
 #: ../../contributing/frontend.rst:45
 msgid "Importing the Library"
@@ -37897,19 +37901,21 @@ msgstr "Importer la bibliothèque"
 
 #: ../../contributing/frontend.rst:47
 msgid "Then, there are two ways to import the library:"
-msgstr ""
+msgstr "Il y a alors deux manières d'importer la bibliothèque :"
 
 #: ../../contributing/frontend.rst:49
 msgid "If it is a project-wide library (it is used/needed in all/most pages):"
 msgstr ""
+"S'il s'agit d'une bibliothèque qui concerne tout le projet (elle est "
+"utilisée ou nécessaire dans toutes les pages ou presque) :"
 
 #: ../../contributing/frontend.rst:50
 msgid "Import the library in ``src/main.js``."
-msgstr ""
+msgstr "Importez la bibliothèque dans ``src/main.js``."
 
 #: ../../contributing/frontend.rst:51
 msgid "And declare it in the global scope (if needed)."
-msgstr ""
+msgstr "Et donnez lui une portée globale (si nécessaire)."
 
 #: ../../contributing/frontend.rst:53
 msgid ""
@@ -37954,12 +37960,12 @@ msgstr ""
 msgid ""
 "Note: Replace ``<lib-name>`` with the actual name of the 3rd party library."
 msgstr ""
+"Note : Remplacer ``<lib-name>`` par le nom de la bibliothèque tierce "
+"actuelle."
 
 #: ../../contributing/frontend.rst:65
-#, fuzzy
-#| msgid "Importing backup"
 msgid "Building the Library"
-msgstr "Importer la sauvegarde"
+msgstr "Compiler la bibliothèque"
 
 #: ../../contributing/frontend.rst:67
 msgid ""
@@ -37969,10 +37975,8 @@ msgstr ""
 "commande suivante :"
 
 #: ../../contributing/frontend.rst:74
-#, fuzzy
-#| msgid "Importing backup"
 msgid "Including the Library"
-msgstr "Importer la sauvegarde"
+msgstr "Inclure la bibliothèque"
 
 #: ../../contributing/frontend.rst:76
 msgid ""
@@ -37994,7 +37998,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:88
 msgid "Coding style"
-msgstr ""
+msgstr "Style de codage"
 
 #: ../../contributing/frontend.rst:90
 msgid ""
