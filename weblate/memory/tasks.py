@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict, cast
 
 from django.db import transaction
 
@@ -15,6 +15,8 @@ from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
+    from weblate.lang.models import Language
+    from weblate.trans.models import Component, Project, Unit
 
 
 @app.task(trail=False)
@@ -42,7 +44,7 @@ def import_memory(project_id: int, component_id: int | None = None) -> None:
 
 
 @app.task(trail=False)
-def handle_unit_translation_change(unit_id, user_id=None) -> None:
+def handle_unit_translation_change(unit_id: int, user_id: int | None = None) -> None:
     from weblate.auth.models import User
     from weblate.trans.models import Unit
 
@@ -55,10 +57,23 @@ def handle_unit_translation_change(unit_id, user_id=None) -> None:
     update_memory(user, unit)
 
 
-def update_memory(user: User, unit, component=None, project=None) -> None:
+class MemoryParams(TypedDict):
+    source_language: Language
+    target_language: Language
+    source: str
+    target: str
+    origin: str
+
+
+def update_memory(
+    user: User | None,
+    unit: Unit,
+    component: Component | None = None,
+    project: Project | None = None,
+) -> None:
     component = component or unit.translation.component
     project = project or component.project
-    params = {
+    params: MemoryParams = {
         "source_language": get_machinery_language(component.source_language),
         "target_language": get_machinery_language(unit.translation.language),
         "source": unit.source,
@@ -90,7 +105,7 @@ def update_memory(user: User, unit, component=None, project=None) -> None:
             add_shared = False
         elif (
             add_user
-            and matching.user_id == user.id
+            and matching.user_id == cast("User", user).id
             and matching.project_id is None
             and not matching.shared
         ):

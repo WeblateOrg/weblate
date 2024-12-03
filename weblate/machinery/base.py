@@ -39,7 +39,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 
-def get_machinery_language(language):
+def get_machinery_language(language: Language) -> Language:
     if language.code.endswith("_devel"):
         return Language.objects.get(code=language.code[:-6])
     return language
