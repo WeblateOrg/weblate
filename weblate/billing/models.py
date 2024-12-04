@@ -378,7 +378,7 @@ class Billing(models.Model):
             )
             and (
                 plan.display_limit_hosted_strings == 0
-                or self.count_strings <= plan.display_limit_hosted_strings
+                or self.count_hosted_strings <= plan.display_limit_hosted_strings
             )
             and (
                 plan.display_limit_strings == 0
