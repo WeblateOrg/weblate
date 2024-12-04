@@ -883,6 +883,13 @@ LOGGING: dict = {
         "django_auth_ldap": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # SAML IdP
         "djangosaml2idp": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
+        # gunicorn
+        "gunicorn.error": {
+            "level": "INFO",
+            "handlers": [DEFAULT_LOG],
+            "propagate": True,
+            "qualname": "gunicorn.error",
+        },
     },
 }
 
