@@ -1041,7 +1041,7 @@ class Unit(models.Model, LoggerMixin):
         from weblate.auth.permissions import PermissionResult
 
         to_update: list[Unit] = []
-        for unit in self.same_source_units:
+        for unit in self.same_source_units.select_for_update():
             if unit.target == self.target and unit.state == self.state:
                 continue
             if user is not None and not (denied := user.has_perm("unit.edit", unit)):
