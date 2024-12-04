@@ -191,7 +191,7 @@ def check_database(
 
     try:
         delta = measure_database_latency()
-        if delta > 100:
+        if delta > 120:
             errors.append(
                 weblate_check(
                     "weblate.C038",
