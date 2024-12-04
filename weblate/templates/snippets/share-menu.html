@@ -11,7 +11,7 @@
           <a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook" %}</a>
         </li>
         <li>
-          <a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Share on X" %}</a>
+          <a href="https://x.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Share on X" %}</a>
         </li>
         {% with fediverse_url=user.profile.get_fediverse_share %}
           {% if fediverse_url %}
