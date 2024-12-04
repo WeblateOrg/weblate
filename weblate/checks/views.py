@@ -271,4 +271,8 @@ def render_check(request: AuthenticatedHttpRequest, unit_id, check_id):
         obj = Check(unit=unit, dismissed=False, name=check_id)
     request.user.check_access_component(obj.unit.translation.component)
 
+    if obj.check_obj is None:
+        msg = "No check object found."
+        raise Http404(msg)
+
     return obj.check_obj.render(request, obj.unit)

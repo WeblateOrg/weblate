@@ -69,7 +69,11 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
         raise PermissionDenied
 
     # Mark check for ignoring
-    ignore = obj.check_obj.ignore_string
+    if obj.check_obj is None:
+        # Disabled check
+        ignore = f'ignore-{obj.name.replace("_", "-")}'
+    else:
+        ignore = obj.check_obj.ignore_string
     flags = Flags(unit.extra_flags)
     if ignore not in flags:
         flags.merge(ignore)

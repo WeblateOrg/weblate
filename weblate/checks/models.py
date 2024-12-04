@@ -156,7 +156,7 @@ class Check(models.Model):
         return str(self.get_name())
 
     @cached_property
-    def check_obj(self):
+    def check_obj(self) -> BaseCheck | None:
         try:
             return CHECKS[self.name]
         except KeyError:

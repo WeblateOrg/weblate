@@ -4,8 +4,10 @@
 
 """Test for translation views."""
 
+from __future__ import annotations
+
 import time
-from typing import NoReturn
+from typing import TYPE_CHECKING, NoReturn, cast
 
 from django.urls import reverse
 
@@ -16,6 +18,9 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.checks.base import BaseCheck
 
 
 class EditTest(ViewTestCase):
@@ -904,7 +909,9 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.translation.stats.allchecks, 0)
 
         # Ignore check for all languages
-        ignore_flag = Check.objects.get(pk=int(check_id)).check_obj.ignore_string
+        check_obj = Check.objects.get(pk=int(check_id)).check_obj
+        self.assertIsNotNone(check_obj)
+        ignore_flag = cast("BaseCheck", check_obj).ignore_string
         ignore_url = reverse("js-ignore-check-source", kwargs={"check_id": check_id})
         response = self.client.post(ignore_url)
         self.assertEqual(response.status_code, 403)
