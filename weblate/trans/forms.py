@@ -9,7 +9,7 @@ import json
 import re
 from datetime import datetime
 from secrets import token_hex
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, ClassVar, Literal
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -1430,28 +1430,25 @@ class ProjectDocsMixin(FieldDocsMixin):
 
 
 class SpamCheckMixin(forms.Form):
-    def spam_check(self, value) -> None:
-        if is_spam(value, self.request):
-            raise ValidationError(gettext("This field has been identified as spam!"))
+    spam_fields: ClassVar[tuple[str, ...]]
+
+    def clean(self) -> None:
+        data = self.cleaned_data
+        check_values: list[str] = [
+            data[field] for field in self.spam_fields if field in data
+        ]
+        if is_spam(self.request, check_values):
+            raise ValidationError(
+                gettext("This submission has been identified as spam!")
+            )
 
 
 class ComponentAntispamMixin(SpamCheckMixin):
-    def clean_agreement(self):
-        value = self.cleaned_data["agreement"]
-        self.spam_check(value)
-        return value
+    spam_fields = ("agreement",)
 
 
 class ProjectAntispamMixin(SpamCheckMixin):
-    def clean_web(self):
-        value = self.cleaned_data["web"]
-        self.spam_check(value)
-        return value
-
-    def clean_instructions(self):
-        value = self.cleaned_data["instructions"]
-        self.spam_check(value)
-        return value
+    spam_fields = ("web", "instructions")
 
 
 class ComponentSettingsForm(

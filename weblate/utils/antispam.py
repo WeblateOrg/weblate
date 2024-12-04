@@ -29,10 +29,12 @@ def get_akismet():
     )
 
 
-def is_spam(text, request: AuthenticatedHttpRequest):
+def is_spam(request: AuthenticatedHttpRequest, texts: str | list[str]):
     """Check whether text is considered spam."""
-    if not text:
+    if not texts or not any(texts):
         return False
+    if isinstance(texts, str):
+        texts = [texts]
     akismet = get_akismet()
     if akismet is not None:
         from akismet import AkismetServerError, SpamStatus
@@ -40,19 +42,21 @@ def is_spam(text, request: AuthenticatedHttpRequest):
         user_ip = get_ip_address(request)
         user_agent = get_user_agent_raw(request)
 
-        try:
-            result = akismet.check(
-                user_ip=user_ip,
-                user_agent=user_agent,
-                comment_content=text,
-                comment_type="comment",
-            )
-        except (OSError, AkismetServerError):
-            report_error("Akismet error")
-            return True
-        if result:
-            report_error("Akismet reported spam", level="info", message=True)
-        return result == SpamStatus.DefiniteSpam
+        for text in texts:
+            try:
+                result = akismet.check(
+                    user_ip=user_ip,
+                    user_agent=user_agent,
+                    comment_content=text,
+                    comment_type="comment",
+                )
+            except (OSError, AkismetServerError):
+                report_error("Akismet error")
+                return True
+            if result:
+                report_error("Akismet reported spam", level="info", message=True)
+            if result == SpamStatus.DefiniteSpam:
+                return True
     return False
 
 
