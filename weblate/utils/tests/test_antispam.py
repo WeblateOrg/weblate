@@ -21,7 +21,7 @@ except ImportError:
 class SpamTest(TestCase):
     @override_settings(AKISMET_API_KEY=None)
     def test_disabled(self) -> None:
-        self.assertFalse(is_spam("text", HttpRequest()))
+        self.assertFalse(is_spam(HttpRequest(), "text"))
 
     def mock_akismet(self, body, **kwargs) -> None:
         responses.add(
@@ -40,26 +40,34 @@ class SpamTest(TestCase):
             responses.POST, "https://rest.akismet.com/1.1/verify-key", body="valid"
         )
 
+    @responses.activate
+    def test_akismet_spam_blank(self) -> None:
+        self.assertFalse(is_spam(HttpRequest(), ""))
+        self.assertFalse(is_spam(HttpRequest(), [""]))
+
     @skipIf(not HAS_AKISMET, "akismet module not installed")
     @responses.activate
     @override_settings(AKISMET_API_KEY="key")
     def test_akismet_spam(self) -> None:
         self.mock_akismet("true")
-        self.assertFalse(is_spam("text", HttpRequest()))
+        self.assertFalse(is_spam(HttpRequest(), "text"))
+        self.assertFalse(is_spam(HttpRequest(), ["text"]))
 
     @skipIf(not HAS_AKISMET, "akismet module not installed")
     @responses.activate
     @override_settings(AKISMET_API_KEY="key")
     def test_akismet_definite_spam(self) -> None:
         self.mock_akismet("true", headers={"X-Akismet-Pro-Tip": "discard"})
-        self.assertTrue(is_spam("text", HttpRequest()))
+        self.assertTrue(is_spam(HttpRequest(), "text"))
+        self.assertTrue(is_spam(HttpRequest(), ["text"]))
 
     @skipIf(not HAS_AKISMET, "akismet module not installed")
     @responses.activate
     @override_settings(AKISMET_API_KEY="key")
     def test_akismet_nospam(self) -> None:
         self.mock_akismet("false")
-        self.assertFalse(is_spam("text", HttpRequest()))
+        self.assertFalse(is_spam(HttpRequest(), "text"))
+        self.assertFalse(is_spam(HttpRequest(), ["text"]))
 
     @skipIf(not HAS_AKISMET, "akismet module not installed")
     @responses.activate
