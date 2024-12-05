@@ -24,7 +24,7 @@ from matplotlib import font_manager
 
 file_dir = Path(__file__).parent.resolve()
 font_locations = (
-    "weblate/static/vendor/font-source/TTF/",
+    "weblate/static/js/vendor/fonts/font-source/",
     "weblate/static/vendor/font-kurinto/",
 )
 
@@ -44,13 +44,7 @@ def setup(app) -> None:
         indextemplate="pair: %s; configuration value",
     )
 
-    font_dirs: list[str] = [
-        str(weblate_dir / font_dir)
-        for font_dir in (
-            "weblate/static/js/vendor/fonts/font-source/",
-            "weblate/static/vendor/font-kurinto/",
-        )
-    ]
+    font_dirs: list[str] = []
 
     for font_location in font_locations:
         font_dir = weblate_dir / font_location
