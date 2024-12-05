@@ -172,7 +172,7 @@ def monkey_patch_smtp_logging(connection):
 
 @app.task(
     trail=False,
-    autoretry_for=(SMTPConnectError,),
+    autoretry_for=(SMTPConnectError, OSError),
     retry_backoff=600,
     retry_backoff_max=3600,
 )
