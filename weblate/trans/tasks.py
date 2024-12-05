@@ -138,8 +138,8 @@ def commit_pending(hours=None, pks=None, logger=None) -> None:
 
         # All pending units are recent
         if all(
-            not unit.recent_content_changes
-            or unit.recent_content_changes[0].timestamp > age
+            unit.recent_content_changes
+            and unit.recent_content_changes[0].timestamp > age
             for unit in units
         ):
             continue
