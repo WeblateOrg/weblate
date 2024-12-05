@@ -1627,7 +1627,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             for translation in self.get_store_change_translations():
                 # Does unit exist here?
                 try:
-                    translation_unit = translation.unit_set.get(id_hash=unit.id_hash)
+                    translation_unit = translation.unit_set.select_for_update().get(
+                        id_hash=unit.id_hash
+                    )
                 except ObjectDoesNotExist:
                     continue
                 # Delete the removed unit from the database
