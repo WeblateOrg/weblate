@@ -48,7 +48,7 @@ jobs:
         inputs: dist/*
     - name: Attest
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
-      uses: actions/attest-build-provenance@v1
+      uses: actions/attest-build-provenance@v2
       with:
         subject-path: dist/*
     - uses: actions/upload-artifact@v4
