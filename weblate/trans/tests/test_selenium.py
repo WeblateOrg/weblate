@@ -67,7 +67,7 @@ SOURCE_FONT = os.path.join(
     "vendor",
     "fonts",
     "font-source",
-    "SourceSans3-Bold.ttf.woff2",
+    "SourceSans3-Bold.ttf",
 )
 
 
