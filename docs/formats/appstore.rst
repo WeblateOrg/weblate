@@ -16,7 +16,8 @@ separate strings to translate.
 .. hint::
 
    In case you don't want to translate certain strings (for example
-   changelogs), mark them read-only (see :ref:`custom-checks`). This can be
+   changelogs), you can hide them using :ref:`component-key_filter` or
+   mark them read-only (see :ref:`custom-checks`). This can be
    automated by the :ref:`addon-weblate.flags.bulk`.
 
 Weblate configuration
