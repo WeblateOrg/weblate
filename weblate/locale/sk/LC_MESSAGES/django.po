@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-11-26 18:09+0000\n"
-"PO-Revision-Date: 2024-12-03 20:25+0000\n"
+"PO-Revision-Date: 2024-12-06 10:00+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -1970,8 +1970,6 @@ msgid "Remaining number of requests to perform"
 msgstr "Zostávajúci počet požiadaviek na vykonanie"
 
 #: weblate/api/docs.py:82
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
 msgstr "Počet sekúnd do resetovania okna obmedzovania požiadaviek"
 
@@ -5207,7 +5205,7 @@ msgstr "Vektor kontextu"
 
 #: weblate/machinery/forms.py:273
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
-msgstr ""
+msgstr "Čiarkou oddelený zoznam ID pamäti:váha. Napr. 1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:286
 #, python-format
@@ -5315,6 +5313,8 @@ msgstr "Adresa URL koncového bodu Azure OpenAI"
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr ""
+"Adresa URL koncového bodu inštancie, napr. https://moja-instancia.openai."
+"azure.com."
 
 #: weblate/machinery/forms.py:423
 msgctxt "Automatic suggestion service configuration"
@@ -7004,13 +7004,12 @@ msgid "Add-ons can be installed on project and component scope as well."
 msgstr "Doplnky je možné tiež inštalovať na projekty a súčasti."
 
 #: weblate/templates/addons/addon_list.html:77
-#, fuzzy, python-format
-#| msgid "There are no add-ons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "Momentálne nie sú nainštalované žiadne doplnky."
-msgstr[1] "Momentálne nie sú nainštalované žiadne doplnky."
-msgstr[2] "Momentálne nie sú nainštalované žiadne doplnky."
+msgstr[0] "Spravovať doplnky pre celý projekt (nainštalovaný %(count)s)"
+msgstr[1] "Spravovať doplnky pre celý projekt (nainštalované %(count)s)"
+msgstr[2] "Spravovať doplnky pre celý projekt (nainštalovaných %(count)s)"
 
 #: weblate/templates/addons/addon_list.html:85
 #, python-format
@@ -9842,10 +9841,8 @@ msgid "Cache latency"
 msgstr "Oneskorenie medzi pamäte"
 
 #: weblate/templates/manage/performance.html:192
-#, fuzzy
-#| msgid "Database backend"
 msgid "Celery latency"
-msgstr "Použitá databáza"
+msgstr "Latencia Celery"
 
 #: weblate/templates/manage/performance.html:197
 msgid "Not yet measured"
