@@ -55,9 +55,10 @@ class HgRepository(Repository):
         """Check whether this is a valid repository."""
         return os.path.exists(os.path.join(self.path, ".hg", "requires"))
 
-    def init(self) -> None:
+    @classmethod
+    def create_blank_repository(cls, path: str) -> None:
         """Initialize the repository."""
-        self._popen(["init", self.path])
+        cls._popen(["init", path])
 
     def check_config(self) -> None:
         """Check VCS configuration."""

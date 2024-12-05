@@ -109,7 +109,8 @@ class Repository:
             # Create ssh wrapper for possible use
             SSH_WRAPPER.create()
             if not skip_init and not self.is_valid():
-                self.init()
+                with self.lock:
+                    self.create_blank_repository(self.path)
 
     @classmethod
     def get_remote_branch(cls, repo: str):  # noqa: ARG003
@@ -150,7 +151,8 @@ class Repository:
         """Check whether this is a valid repository."""
         raise NotImplementedError
 
-    def init(self) -> None:
+    @classmethod
+    def create_blank_repository(cls, path: str) -> None:
         """Initialize the repository."""
         raise NotImplementedError
 

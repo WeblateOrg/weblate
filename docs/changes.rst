@@ -28,6 +28,7 @@ Not yet released.
 **Compatibility**
 
 * :ref:`rollbar-errors` integration no longer includes client-side error collection.
+* Weblate now requires Git 2.28 or newer.
 
 **Upgrading**
 
