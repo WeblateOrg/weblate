@@ -264,7 +264,7 @@ Git
 
 .. hint::
 
-   Weblate needs Git 2.12 or newer.
+   Weblate needs Git 2.28 or newer.
 
 .. seealso::
 

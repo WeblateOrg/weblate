@@ -84,7 +84,7 @@ class GitRepository(Repository):
 
     name: StrOrPromise = "Git"
     push_label = gettext_lazy("This will push changes to the upstream Git repository.")
-    req_version: str | None = "2.12"
+    req_version: str | None = "2.28"
     default_branch = "master"
     ref_to_remote = "..{0}"
     ref_from_remote = "{0}.."
@@ -96,17 +96,11 @@ class GitRepository(Repository):
         ) or os.path.exists(os.path.join(self.path, "config"))
 
     @classmethod
-    def _init(cls, path: str) -> None:
-        cls._popen(["init", "--template=", path])
-        if cls.default_branch != "master":
-            # We could do here just init --initial-branch {branch}, but that does not
-            # work in Git before 2.28.0
-            with open(os.path.join(path, ".git/HEAD"), "w") as handle:
-                handle.write("ref: refs/heads/main\n")
-
-    def init(self) -> None:
+    def create_blank_repository(cls, path: str) -> None:
         """Initialize the repository."""
-        self._init(self.path)
+        cls._popen(
+            ["init", "--template=", "--initial-branch", cls.default_branch, path]
+        )
 
     @classmethod
     def get_remote_branch(cls, repo: str):
@@ -613,7 +607,6 @@ class GitWithGerritRepository(GitRepository):
 
 class SubversionRepository(GitRepository):
     name = "Subversion"
-    req_version = "2.12"
     default_branch = "master"
     push_label = gettext_lazy("This will commit changes to the Subversion repository.")
 
@@ -1724,8 +1717,9 @@ class LocalRepository(GitRepository):
         return cls.default_branch
 
     @classmethod
-    def _init(cls, path: str) -> None:
-        super()._init(path)
+    def create_blank_repository(cls, path: str) -> None:
+        """Initialize the repository."""
+        super().create_blank_repository(path)
         with open(os.path.join(path, "README.md"), "w") as handle:
             handle.write("Translations repository created by Weblate\n")
             handle.write("==========================================\n")
@@ -1743,7 +1737,7 @@ class LocalRepository(GitRepository):
     ) -> None:
         if not os.path.exists(target):
             os.makedirs(target)
-        cls._init(target)
+        cls.create_blank_repository(target)
 
     @cached_property
     def last_remote_revision(self):
