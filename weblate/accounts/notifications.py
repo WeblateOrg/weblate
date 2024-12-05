@@ -32,6 +32,7 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.models import Alert, Change, Component, Project, Translation
+from weblate.utils.errors import report_error
 from weblate.utils.markdown import get_mention_users
 from weblate.utils.ratelimit import rate_limit
 from weblate.utils.site import get_site_domain, get_site_url
@@ -421,18 +422,24 @@ class Notification:
             context = self.get_context(subscription=subscription, changes=changes)
             subject = self.render_template("_subject.txt", context, digest=True)
             context["subject"] = subject
-            LOGGER.info(
-                "sending digest notification %s on %d changes to %s",
-                self.get_name(),
-                len(changes),
-                email,
-            )
-            self.send(
-                email,
-                subject,
-                self.render_template(".html", context, digest=True),
-                self.get_headers(context),
-            )
+            try:
+                body = self.render_template(".html", context, digest=True)
+            except Exception:
+                report_error("Could not render changes", level="critical")
+                LOGGER.exception(
+                    "sending digest notification %s on %d changes to %s failed",
+                    self.get_name(),
+                    len(changes),
+                    email,
+                )
+            else:
+                LOGGER.info(
+                    "sending digest notification %s on %d changes to %s",
+                    self.get_name(),
+                    len(changes),
+                    email,
+                )
+                self.send(email, subject, body, self.get_headers(context))
 
     def notify_digest(
         self,
