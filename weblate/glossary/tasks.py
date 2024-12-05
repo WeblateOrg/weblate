@@ -79,24 +79,8 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
 
     component_to_check = []
 
-    def can_delete(_glossary: Translation) -> bool:
-        """
-        Check if a glossary can be deleted.
-
-        It is possible to delete a glossary if:
-        - it has no translations
-        - it is not the only glossary in the project
-        - it is managed by Weblate (i.e. repo == 'local:')
-        """
-        return all(
-            [
-                _glossary.stats.translated == 0,
-                _glossary.component.repo == "local:",
-            ]
-        )
-
     for glossary in glossary_translations:
-        if can_delete(glossary):
+        if glossary.can_be_deleted():
             glossary.remove(get_anonymous())
             if glossary.component not in component_to_check:
                 component_to_check.append(glossary.component)

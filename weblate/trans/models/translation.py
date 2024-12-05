@@ -1764,6 +1764,16 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         """Return blank source fields for pluralized new string."""
         return [""] * self.plural.number
 
+    def can_be_deleted(self) -> bool:
+        """
+        Check if a glossary can be deleted.
+
+        It is possible to delete a glossary if:
+        - it has no translations
+        - it is managed by Weblate (i.e. repo == 'local:')
+        """
+        return self.stats.translated == 0 and self.component.repo == "local:"
+
 
 class GhostTranslation:
     """Ghost translation object used to show missing translations."""
