@@ -101,7 +101,7 @@ from weblate.utils.validators import (
     validate_slug,
 )
 from weblate.vcs.base import Repository, RepositoryError
-from weblate.vcs.git import LocalRepository
+from weblate.vcs.git import GitMergeRequestBase, LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
 
@@ -3018,6 +3018,16 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 ) from error
             msg = gettext("Could not update repository: %s") % text
             raise ValidationError({"repo": msg}) from error
+
+        if (
+            issubclass(self.repository_class, GitMergeRequestBase)
+            and self.repo == self.push
+            and self.branch == self.push_branch
+        ):
+            msg = gettext(
+                "Pull and push branches cannot be the same when using merge requests."
+            )
+            raise ValidationError({"push_branch": msg})
 
     def clean(self) -> None:
         """
