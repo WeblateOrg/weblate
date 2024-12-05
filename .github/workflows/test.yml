@@ -72,6 +72,10 @@ jobs:
       PYTHONUNBUFFERED: 1
     steps:
     - uses: actions/checkout@v4
+    - uses: actions/cache@v4
+      with:
+        path: data-test/cache/tesseract
+        key: tesseract-data
     - uses: astral-sh/setup-uv@v4
       with:
         enable-cache: true
