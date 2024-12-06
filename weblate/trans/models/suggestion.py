@@ -178,6 +178,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         change=Change.ACTION_SUGGESTION_DELETE,
         is_spam: bool = False,
         rejection_reason: str = "",
+        old: str = "",
     ) -> None:
         """Delete with logging change."""
         if is_spam and self.userdetails:
@@ -190,6 +191,7 @@ class Suggestion(models.Model, UserDisplayMixin):
             target=self.target,
             author=user,
             details={"rejection_reason": rejection_reason},
+            old=old,
         )
         self.delete()
 
