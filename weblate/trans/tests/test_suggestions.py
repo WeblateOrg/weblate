@@ -93,6 +93,34 @@ class SuggestionsTest(ViewTestCase):
         suggestions = self.get_unit().suggestions.values_list("pk", flat=True)
         self.assertEqual(len(suggestions), 1)
 
+    def test_change_diff_for_deleted_suggestion(self, **kwargs) -> None:
+        """
+        Check that the diff for deleted suggestion is correctly displayed.
+
+        When a suggestion is deleted, the diff for the deleted suggestion
+        should be the same as the corresponding "Suggestion added"
+        """
+        translate_url = reverse("translate", kwargs=self.kw_translation)
+        self.edit_unit("Hello, world!\n", "Nazdar!\n")
+        self.add_suggestion_1()
+        response = self.client.get(translate_url)
+        self.assertNotContains(response, "Suggestion removed")
+        # 1st diff occurrence is in the "Suggestions" tab, the 2nd in "History" tab
+        self.assertContains(response, "Nazdar<ins> svete</ins>!", count=2)
+
+        suggestions = self.get_unit().suggestions.values_list("pk", flat=True)
+        self.assertEqual(len(suggestions), 1)
+        response = self.edit_unit(
+            "Hello, world!\n", "", delete=suggestions[0], **kwargs
+        )
+
+        response = self.client.get(translate_url)
+        self.assertContains(response, "Suggestion removed", count=1)
+        self.assertContains(response, "Suggestion added", count=1)
+        # both diff occurrence are in "History" tab,
+        # as suggestion is no longer visible in the "Suggestion" tab
+        self.assertContains(response, "Nazdar<ins> svete</ins>!", count=2)
+
     def test_delete_spam(self) -> None:
         self.test_delete(spam="1")
 
