@@ -765,10 +765,16 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 except UnitNotFoundError:
                     # Bail out if we have not found anything
                     report_error("String disappeared", project=self.component.project)
-                    self.log_error(
-                        "string %s disappeared from the file, removing", unit
+                    # TODO: once we have a deeper stack of pending changes,
+                    # this should be kept as pending, so that the changes are not lost
+                    unit.state = STATE_FUZZY
+                    # Use update instead of hitting expensive save()
+                    Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
+                    unit.change_set.create(
+                        action=Change.ACTION_SAVE_FAILED,
+                        target="Could not find string in the translation file",
                     )
-                    unit.delete()
+                    clear_pending.append(unit.pk)
                     continue
 
                 # Optionally add unit to translation file.
