@@ -481,6 +481,18 @@ Generic settings
 
     Configures the logging of the database queries verbosity.
 
+.. envvar:: WEBLATE_LOG_GELF_HOST
+
+   .. versionadded:: 5.9
+
+   Configures remote logging using GELF TCP connection. Can be used to integrate with Graylog.
+
+.. envvar:: WEBLATE_LOG_GELF_PORT
+
+   .. versionadded:: 5.9
+
+   Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201.
+
 .. envvar:: WEBLATE_SITE_TITLE
 
     Changes the site-title shown in the header of all pages.

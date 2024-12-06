@@ -69,6 +69,8 @@ Architecture overview
             style=dotted];
          sentry	[label="Sentry\nError collection",
             style=dotted];
+         graylog	[label="Graylog\nLog collection",
+            style=dotted];
          mail	[label="E-mail server"];
          auth	[label="SSO\nAuthentication provider",
             style=dotted];
@@ -111,12 +113,14 @@ Architecture overview
       web -> fs;
       celery -> mt	[style=dotted];
       celery -> sentry	[style=dotted];
+      celery -> graylog	[style=dotted];
       celery -> mail;
       celery -> redis;
       celery -> db;
       celery -> fs;
       wsgi -> mt	[style=dotted];
       wsgi -> sentry	[style=dotted];
+      wsgi -> graylog	[style=dotted];
       wsgi -> auth	[style=dotted];
       wsgi -> redis;
       wsgi -> db;
@@ -202,70 +206,77 @@ Django REST Framework
      :header-rows: 1
 
      * - pip extra
-       - Python Package
+       - Python Packages
        - Weblate feature
 
-
      * - ``alibaba``
-       - `aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_
+       - | `aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_
+         | `aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_
        - :ref:`mt-alibaba`
 
      * - ``amazon``
-       - `boto3 <https://pypi.org/project/boto3>`_
+       - | `boto3 <https://pypi.org/project/boto3>`_
        - :ref:`mt-aws`
 
-
      * - ``antispam``
-       - `python-akismet <https://pypi.org/project/python-akismet>`_
+       - | `python-akismet <https://pypi.org/project/python-akismet>`_
        - :ref:`spam-protection`
 
+     * - ``gelf``
+       - | `logging-gelf <https://pypi.org/project/logging-gelf>`_
+       - :ref:`graylog`
 
      * - ``gerrit``
-       - `git-review <https://pypi.org/project/git-review>`_
+       - | `git-review <https://pypi.org/project/git-review>`_
        - :ref:`vcs-gerrit`
 
-
      * - ``google``
-       - `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
-       - :ref:`mt-google-translate-api-v3`
-
-
-     * -
-       - `google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_
-       - Optional glossary support for :ref:`mt-google-translate-api-v3`
-
+       - | `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
+         | `google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_
+       - :ref:`mt-google-translate-api-v3` with glossary support
 
      * - ``ldap``
-       - `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
+       - | `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
        - :ref:`ldap-auth`
 
-
      * - ``mercurial``
-       - `mercurial <https://pypi.org/project/mercurial>`_
+       - | `mercurial <https://pypi.org/project/mercurial>`_
        - :ref:`vcs-mercurial`
 
-
      * - ``mysql``
-       - `mysqlclient <https://pypi.org/project/mysqlclient>`_
+       - | `mysqlclient <https://pypi.org/project/mysqlclient>`_
        - MySQL or MariaDB, see :ref:`database-setup`
 
-
      * - ``openai``
-       - `openai <https://pypi.org/project/openai>`_
+       - | `openai <https://pypi.org/project/openai>`_
        - :ref:`mt-openai`
 
      * - ``postgres``
-       - `psycopg <https://pypi.org/project/psycopg>`_
+       - | `psycopg <https://pypi.org/project/psycopg>`_
        - PostgreSQL, see :ref:`database-setup`
 
-
-
      * - ``saml``
-       - `python3-saml <https://pypi.org/project/python3-saml>`_
+       - | `python3-saml <https://pypi.org/project/python3-saml>`_
        - :ref:`saml-auth`
 
+     * - ``saml2idp``
+       - | `djangosaml2idp <https://pypi.org/project/djangosaml2idp>`_
+       - Integrating SAML 2 IDP into Weblate
+
+     * - ``wlhosted``
+       - | `wlhosted <https://pypi.org/project/wlhosted>`_
+       - Hosted Weblate integration
+
+     * - ``wllegal``
+       - | `wllegal <https://pypi.org/project/wllegal>`_
+       - Hosted Weblate integration
+
+     * - ``wsgi``
+       - | `gunicorn <https://pypi.org/project/gunicorn>`_
+       - wsgi server for Weblate
+
      * - ``zxcvbn``
-       - `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_
+       - | `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_
        - :ref:`password-authentication`
 
 When installing using pip, you can directly specify desired features when installing:
@@ -1687,6 +1698,19 @@ and client side errors.
 
     Error logging also includes exceptions that were gracefully handled, but
     might indicate a problem - such as failed parsing of an uploaded file.
+
+.. _graylog:
+
+Graylog log management
+++++++++++++++++++++++
+
+.. versionadded:: 5.9
+
+Weblate can be configured to log using the GELF TCP protocol. This was developed
+for Graylog integration, but can be used with any compliant logging platform.
+
+The configuration boilerplate is included in :ref:`sample-configuration`, for
+Docker this can be configured using :envvar:`WEBLATE_LOG_GELF_HOST`.
 
 Migrating Weblate to another server
 -----------------------------------

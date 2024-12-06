@@ -1890,6 +1890,16 @@ wheels = [
 ]
 
 [[package]]
+name = "logging-gelf"
+version = "0.0.32"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "marshmallow" },
+    { name = "setuptools" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4c/60/ac333a39d69aa097aedad2cac6f90978fad197e3097095de8306c11416f9/logging-gelf-0.0.32.tar.gz", hash = "sha256:28ef1f425495831e7838f3407e8192e93dc5a623c6c0b8f33542329a7d16c6b8", size = 11019 }
+
+[[package]]
 name = "lxml"
 version = "5.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1994,6 +2004,18 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/0d/80/0985960e4b89922cb5a0bac0ed39c5b96cbc1a536a99f30e8c220a996ed9/MarkupSafe-3.0.2-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:131a3c7689c85f5ad20f9f6fb1b866f402c445b220c19fe4308c0b147ccd2ad9", size = 24098 },
     { url = "https://files.pythonhosted.org/packages/82/78/fedb03c7d5380df2427038ec8d973587e90561b2d90cd472ce9254cf348b/MarkupSafe-3.0.2-cp313-cp313t-win32.whl", hash = "sha256:ba8062ed2cf21c07a9e295d5b8a2a5ce678b913b45fdf68c32d95d6c1291e0b6", size = 15208 },
     { url = "https://files.pythonhosted.org/packages/4f/65/6079a46068dfceaeabb5dcad6d674f5f5c61a6fa5673746f42a9f4c233b3/MarkupSafe-3.0.2-cp313-cp313t-win_amd64.whl", hash = "sha256:e444a31f8db13eb18ada366ab3cf45fd4b31e4db1236a4448f68778c1d1a5a2f", size = 15739 },
+]
+
+[[package]]
+name = "marshmallow"
+version = "3.23.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "packaging" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6d/30/14d8609f65c8aeddddd3181c06d2c9582da6278f063b27c910bbf9903441/marshmallow-3.23.1.tar.gz", hash = "sha256:3a8dfda6edd8dcdbf216c0ede1d1e78d230a6dc9c5a088f58c4083b974a0d468", size = 177488 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ac/a7/a78ff54e67ef92a3d12126b98eb98ab8abab3de4a8c46d240c87e514d6bb/marshmallow-3.23.1-py3-none-any.whl", hash = "sha256:fece2eb2c941180ea1b7fcbd4a83c51bfdd50093fdd3ad2585ee5e1df2508491", size = 49488 },
 ]
 
 [[package]]
@@ -3387,6 +3409,15 @@ wheels = [
 ]
 
 [[package]]
+name = "setuptools"
+version = "75.6.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/54/292f26c208734e9a7f067aea4a7e282c080750c4546559b58e2e45413ca0/setuptools-75.6.0.tar.gz", hash = "sha256:8199222558df7c86216af4f84c30e9b34a61d8ba19366cc914424cdbd28252f6", size = 1337429 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/55/21/47d163f615df1d30c094f6c8bbb353619274edccf0327b185cc2493c2c33/setuptools-75.6.0-py3-none-any.whl", hash = "sha256:ce74b49e8f7110f9bf04883b730f4765b774ef3ef28f722cce7c273d253aaf7d", size = 1224032 },
+]
+
+[[package]]
 name = "siphashc"
 version = "2.5"
 source = { registry = "https://pypi.org/simple" }
@@ -4136,6 +4167,7 @@ all = [
     { name = "git-review" },
     { name = "google-cloud-storage" },
     { name = "google-cloud-translate" },
+    { name = "logging-gelf" },
     { name = "mercurial" },
     { name = "openai" },
     { name = "psycopg", extra = ["binary"] },
@@ -4147,6 +4179,9 @@ amazon = [
 ]
 antispam = [
     { name = "python-akismet" },
+]
+gelf = [
+    { name = "logging-gelf" },
 ]
 gerrit = [
     { name = "git-review" },
@@ -4322,6 +4357,7 @@ requires-dist = [
     { name = "httpx", specifier = "<0.28.0" },
     { name = "iniparse", specifier = "==0.5" },
     { name = "jsonschema", specifier = ">=4.23.0,<5" },
+    { name = "logging-gelf", marker = "extra == 'gelf'", specifier = ">=0.0.32,<0.1" },
     { name = "lxml", specifier = ">=5.2.0,<5.4" },
     { name = "mercurial", marker = "extra == 'mercurial'", specifier = ">=6.8.0,<7.0" },
     { name = "mistletoe", specifier = ">=1.4.0,<1.5" },
@@ -4355,7 +4391,7 @@ requires-dist = [
     { name = "translate-toolkit", specifier = ">=3.14.1,<3.15" },
     { name = "translation-finder", specifier = ">=2.18,<3.0" },
     { name = "user-agents", specifier = ">=2.0,<2.3" },
-    { name = "weblate", extras = ["alibaba", "amazon", "antispam", "gerrit", "google", "ldap", "mercurial", "openai", "postgres", "saml", "zxcvbn"], marker = "extra == 'all'" },
+    { name = "weblate", extras = ["alibaba", "amazon", "antispam", "gerrit", "gelf", "google", "ldap", "mercurial", "openai", "postgres", "saml", "zxcvbn"], marker = "extra == 'all'" },
     { name = "weblate-language-data", specifier = ">=2024.14" },
     { name = "weblate-schemas", specifier = "==2024.2" },
     { name = "wlhosted", marker = "extra == 'wlhosted'" },
