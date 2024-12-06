@@ -37,7 +37,6 @@ def handle_task_failure(exception=None, **kwargs) -> None:
 
     report_error(
         "Failure while executing task",
-        extra_log=repr(kwargs),
         skip_sentry=True,
         print_tb=True,
         level="error",
