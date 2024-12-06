@@ -7,6 +7,7 @@ from copy import copy
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
 
+import responses
 from django.core.files import File
 from django.urls import reverse
 from rest_framework.exceptions import ErrorDetail
@@ -2009,6 +2010,247 @@ class ProjectAPITest(APIBaseTest):
             request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"},
         )
         self.assertEqual(response.data, [])
+
+    @responses.activate
+    def test_install_machinery(self) -> None:
+        """Test the machinery settings API endpoint for various scenarios."""
+        from weblate.machinery.tests import AlibabaTranslationTest, DeepLTranslationTest
+
+        # unauthenticated get
+        self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="get",
+            code=403,
+            authenticated=True,
+            superuser=False,
+        )
+
+        # unauthenticated post
+        self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=403,
+            authenticated=True,
+            superuser=False,
+            request={"service": "weblate"},
+        )
+
+        # missing service
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={},
+        )
+
+        # unknown service
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={"service": "unknown"},
+        )
+
+        # create configuration: no form
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={"service": "weblate"},
+        )
+
+        # missing required field
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "service": "deepl",
+                "configuration": {"wrong": ""},
+            },
+            format="json",
+        )
+
+        # invalid field with multipart
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "service": "deepl",
+                "configuration": "{malformed_json",
+            },
+        )
+
+        # create configuration: valid form with multipart
+        DeepLTranslationTest.mock_response()
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "service": "deepl",
+                "configuration": '{"key": "x", "url": "https://api.deepl.com/v2/"}',
+            },
+        )
+
+        # create configuration: valid form with json
+        AlibabaTranslationTest().mock_response()
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "service": "alibaba",
+                "configuration": {
+                    "key": "alibaba-key-v1",
+                    "secret": "alibaba-secret",
+                    "region": "alibaba-region",
+                },
+            },
+            format="json",
+        )
+
+        # update configuration: incorrect method
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "service": "deepl",
+                "configuration": {
+                    "key": "deepl-key-v1",
+                    "url": "https://api.deepl.com/v2/",
+                },
+            },
+            format="json",
+        )
+
+        # update configuration: valid method
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            superuser=True,
+            request={
+                "service": "deepl",
+                "configuration": {
+                    "key": "deepl-key-v2",
+                    "url": "https://api.deepl.com/v2/",
+                },
+            },
+            format="json",
+        )
+
+        # list configurations
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+        )
+        self.assertIn("weblate", response.data)
+        self.assertEqual(response.data["deepl"]["key"], "deepl-key-v2")
+        self.assertEqual(response.data["alibaba"]["key"], "alibaba-key-v1")
+
+        # remove configuration
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"service": "deepl", "configuration": None},
+            format="json",
+        )
+
+        # check configuration no longer exists
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+        )
+        self.assertNotIn("deepl", response.data)
+
+        # invalid replace all configurations (missing required config)
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="put",
+            code=400,
+            superuser=True,
+            request={
+                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/v2/"},
+                "unknown": {"key": "alibaba-key-invalid"},
+            },
+            format="json",
+        )
+
+        # invalid replace all configurations (missing required config)
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="put",
+            code=400,
+            superuser=True,
+            request={
+                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/v2/"},
+                "alibaba": {"key": "alibaba-key-invalid"},
+            },
+            format="json",
+        )
+
+        # replace all configurations
+        new_config = {
+            "deepl": {"key": "deepl-key-v3", "url": "https://api.deepl.com/v2/"},
+            "alibaba": {
+                "key": "alibaba-key-v2",
+                "secret": "alibaba-secret",
+                "region": "alibaba-region",
+            },
+        }
+
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="put",
+            code=201,
+            superuser=True,
+            request=new_config,
+            format="json",
+        )
+
+        # check all configurations
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="get",
+            superuser=True,
+        )
+
+        self.assertEqual(new_config, response.data)
 
 
 class ComponentAPITest(APIBaseTest):

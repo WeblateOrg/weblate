@@ -37,6 +37,7 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
+    HTTP_400_BAD_REQUEST,
     HTTP_423_LOCKED,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
@@ -68,23 +69,27 @@ from weblate.api.serializers import (
     MonolingualUnitSerializer,
     NewUnitSerializer,
     NotificationSerializer,
+    ProjectMachinerySettingsSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
     RoleSerializer,
     ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
+    SingleServiceConfigSerializer,
     StatisticsSerializer,
     TranslationSerializer,
     UnitSerializer,
     UnitWriteSerializer,
     UploadRequestSerializer,
     UserStatisticsSerializer,
+    edit_service_settings_response_serializer,
     get_reverse_kwargs,
 )
 from weblate.auth.models import AuthenticatedHttpRequest, Group, Role, User
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.machinery.models import validate_service_configuration
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.exceptions import FileParseError
@@ -1008,6 +1013,113 @@ class ProjectViewSet(
             [instance],
             requested_format,
             name=instance.slug,
+        )
+
+    @extend_schema(
+        responses=ProjectMachinerySettingsSerializer,
+        methods=["GET"],
+        description="List machinery settings for a project.",
+    )
+    @extend_schema(
+        request=SingleServiceConfigSerializer,
+        responses=edit_service_settings_response_serializer("post", 201, 400),
+        methods=["POST"],
+        description="Install a new machinery service",
+    )
+    @extend_schema(
+        request=SingleServiceConfigSerializer,
+        responses=edit_service_settings_response_serializer("patch", 200, 400),
+        methods=["PATCH"],
+        description="Partially update a single service. Leave configuration blank to remove the service",
+    )
+    @extend_schema(
+        request=ProjectMachinerySettingsSerializer,
+        responses=edit_service_settings_response_serializer("put", 200, 400),
+        methods=["PUT"],
+        description="Replace configuration for all services.",
+    )
+    @action(detail=True, methods=["get", "post", "patch", "put"])
+    def machinery_settings(self, request: Request, **kwargs):
+        """List or create/update machinery configuration for a project."""
+        project = self.get_object()
+
+        if not request.user.has_perm("project.edit", project):
+            self.permission_denied(
+                request, "Can not retrieve/edit machinery configuration"
+            )
+
+        if request.method in {"POST", "PATCH"}:
+            try:
+                service_name = request.data["service"]
+            except KeyError:
+                return Response(
+                    {"errors": ["Missing service name"]}, status=HTTP_400_BAD_REQUEST
+                )
+
+            service, configuration, errors = validate_service_configuration(
+                service_name, request.data.get("configuration", "{}")
+            )
+
+            if service is None or errors:
+                return Response({"errors": errors}, status=HTTP_400_BAD_REQUEST)
+
+            if request.method == "PATCH":
+                if configuration:
+                    # update a configuration
+                    project.machinery_settings[service_name] = configuration
+                    project.save(update_fields=["machinery_settings"])
+                    return Response(
+                        {"message": f"Service updated: {service.name}"},
+                        status=HTTP_200_OK,
+                    )
+                # remove a configuration
+                project.machinery_settings.pop(service_name, None)
+                project.save(update_fields=["machinery_settings"])
+                return Response(
+                    {"message": f"Service removed: {service.name}"},
+                    status=HTTP_200_OK,
+                )
+
+            if request.method == "POST":
+                if service_name in project.machinery_settings:
+                    return Response(
+                        {"errors": ["Service already exists"]},
+                        status=HTTP_400_BAD_REQUEST,
+                    )
+
+                project.machinery_settings[service_name] = configuration
+                project.save(update_fields=["machinery_settings"])
+                return Response(
+                    {"message": f"Service installed: {service.name}"},
+                    status=HTTP_201_CREATED,
+                )
+
+        elif request.method == "PUT":
+            # replace all service configuration
+            valid_configurations: dict[str, dict] = {}
+            for service_name, configuration in request.data.items():
+                service, configuration, errors = validate_service_configuration(
+                    service_name, configuration
+                )
+
+                if service is None or errors:
+                    return Response({"errors": errors}, status=HTTP_400_BAD_REQUEST)
+
+                valid_configurations[service_name] = configuration
+
+            project.machinery_settings = valid_configurations
+            project.save(update_fields=["machinery_settings"])
+            return Response(
+                {
+                    "message": f"Services installed: {', '.join(valid_configurations.keys())}"
+                },
+                status=HTTP_201_CREATED,
+            )
+
+        # GET method
+        return Response(
+            data=ProjectMachinerySettingsSerializer(project).data,
+            status=HTTP_200_OK,
         )
 
 

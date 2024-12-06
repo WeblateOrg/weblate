@@ -22,6 +22,8 @@ the project settings:
 The services translate from the source language as configured at
 :ref:`component`, see :ref:`component-source_language`.
 
+Per-project automatic suggestion can also be configured via the :ref:`api`.
+
 .. seealso::
 
    :ref:`machine-translation`

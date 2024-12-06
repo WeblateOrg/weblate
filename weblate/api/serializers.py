@@ -10,6 +10,13 @@ from zipfile import BadZipfile
 
 from django.conf import settings
 from django.db.models import Model
+from drf_spectacular.extensions import OpenApiSerializerExtension
+from drf_spectacular.plumbing import build_basic_type, build_object_type
+from drf_spectacular.utils import (
+    OpenApiExample,
+    extend_schema_serializer,
+    inline_serializer,
+)
 from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
@@ -44,6 +51,7 @@ from weblate.utils.views import (
 )
 
 if TYPE_CHECKING:
+    from drf_spectacular.openapi import AutoSchema
     from rest_framework.request import Request
 
 _MT = TypeVar("_MT", bound=Model)  # Model Type
@@ -397,6 +405,9 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     credits_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-credits", lookup_field="slug"
     )
+    machinery_settings = serializers.HyperlinkedIdentityField(
+        view_name="api:project-machinery-settings", lookup_field="slug"
+    )
 
     class Meta:
         model = Project
@@ -422,6 +433,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "enable_hooks",
             "language_aliases",
             "enforced_2fa",
+            "machinery_settings",
         )
         extra_kwargs = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
@@ -1513,3 +1525,68 @@ class MetricsSerializer(ReadOnlySerializer):
         child=serializers.IntegerField(), source="get_celery_queues"
     )
     name = serializers.CharField(source="get_name")
+
+
+@extend_schema_serializer(
+    examples=[
+        OpenApiExample(
+            "Service settings example",
+            value={
+                "service": "service_name",
+                "configuration": {"key": "xxxxx", "url": "https://api.service.com/"},
+            },
+        )
+    ]
+)
+class SingleServiceConfigSerializer(serializers.Serializer):
+    service = serializers.CharField()
+    configuration = serializers.DictField()
+
+
+@extend_schema_serializer(
+    examples=[
+        OpenApiExample(
+            "Service settings example",
+            value={
+                "service1": {"key": "XXXXXXX", "url": "https://api.service.com/"},
+                "service2": {"secret": "SECRET_KEY", "credentials": "XXXXXXX"},
+            },
+            request_only=False,
+            response_only=True,
+        )
+    ]
+)
+class ProjectMachinerySettingsSerializer(serializers.Serializer):
+    def to_representation(self, instance: Project):
+        return dict(instance.machinery_settings)
+
+
+class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
+    target_class = ProjectMachinerySettingsSerializer
+
+    def map_serializer(self, auto_schema: AutoSchema, direction):
+        return build_object_type(properties={"service_name": build_basic_type(dict)})
+
+
+def edit_service_settings_response_serializer(
+    method: str, *codes
+) -> dict[int, serializers.Serializer]:
+    _serializers = {
+        200: inline_serializer(
+            f"{method}_200_Message_response_serializer",
+            fields={
+                "message": serializers.CharField(),
+            },
+        ),
+        201: inline_serializer(
+            f"{method}_201_Message_response_serializer",
+            fields={
+                "message": serializers.CharField(),
+            },
+        ),
+        400: inline_serializer(
+            f"{method}_400_Error_message_serializer",
+            fields={"errors": serializers.CharField()},
+        ),
+    }
+    return {code: _serializers[code] for code in codes}

@@ -2,12 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import json
-
 from django.core.management.base import CommandError
 
 from weblate.configuration.models import Setting, SettingCategory
-from weblate.machinery.models import MACHINERY
+from weblate.machinery.models import validate_service_configuration
 from weblate.utils.management.base import BaseCommand
 
 
@@ -26,30 +24,16 @@ class Command(BaseCommand):
             help="Update existing service configuration",
         )
 
-    def validate_form(self, form) -> None:
-        if not form.is_valid():
-            for error in form.non_field_errors():
+    def handle(self, *args, **options) -> None:
+        service, configuration, errors = validate_service_configuration(
+            options["service"], options["configuration"]
+        )
+
+        if service is None or errors:
+            for error in errors:
                 self.stderr.write(error)
-            for field in form:
-                for error in field.errors:
-                    self.stderr.write(f"Error in {field.name}: {error}")
             msg = "Invalid add-on configuration!"
             raise CommandError(msg)
-
-    def handle(self, *args, **options) -> None:
-        try:
-            service = MACHINERY[options["service"]]
-        except KeyError as error:
-            msg = "Service not found: {}".format(options["service"])
-            raise CommandError(msg) from error
-        try:
-            configuration = json.loads(options["configuration"])
-        except ValueError as error:
-            msg = f"Invalid service configuration: {error}"
-            raise CommandError(msg) from error
-        if service.settings_form is not None:
-            form = service.settings_form(service, data=configuration)
-            self.validate_form(form)
 
         setting, created = Setting.objects.get_or_create(
             category=SettingCategory.MT,

@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import json
+
 from appconf import AppConf
 
 from weblate.utils.classloader import ClassLoader
@@ -50,3 +52,47 @@ class WeblateConf(AppConf):
 
     class Meta:
         prefix = ""
+
+
+def validate_service_configuration(
+    service_name: str, configuration: str | dict
+) -> tuple[BatchMachineTranslation | None, dict, list[str]]:
+    """
+    Validate given service configuration.
+
+    :param service_name: Name of the service as defined in WEBLATE_MACHINERY
+    :param configuration: JSON encoded configuration for the service
+    :return: A tuple containing the validated service class, configuration
+             and a list of errors
+    :raises ValueError: When service is not found or configuration is invalid
+    """
+    try:
+        service = MACHINERY[service_name]
+    except KeyError:
+        msg = f"Service not found: {service_name}"
+        return None, {}, [msg]
+
+    if isinstance(configuration, str):
+        try:
+            service_configuration = json.loads(configuration)
+        except ValueError as error:
+            msg = f"Invalid service configuration ({service_name}): {error}"
+            return service, {}, [msg]
+    else:
+        service_configuration = configuration
+
+    errors = []
+    if service.settings_form is not None:
+        form = service.settings_form(service, data=service_configuration)
+        # validate form
+        if not form.is_valid():
+            errors.extend(list(form.non_field_errors()))
+
+            for field in form:
+                errors.extend(
+                    [
+                        f"Error in {field.name} ({service_name}): {error}"
+                        for error in field.errors
+                    ]
+                )
+    return service, service_configuration, errors
