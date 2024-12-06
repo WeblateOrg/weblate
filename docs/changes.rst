@@ -28,7 +28,8 @@ Not yet released.
 * More detailed error messages for :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/file/`.
 
 **Bug fixes**
-* Using the `has:variant` field now correctly displays strings that have variant(s) in the search language, see :ref:`search-strings`.
+
+* Using the ``has:variant`` field now correctly displays strings that have variant(s) in the search language, see :ref:`search-strings`.
 
 **Compatibility**
 
