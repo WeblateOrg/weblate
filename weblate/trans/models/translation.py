@@ -727,7 +727,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
         return True
 
-    def update_units(
+    def update_units(  # noqa: C901
         self,
         units: Iterable[Unit],
         store: TranslationFormat,
@@ -757,6 +757,17 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 )
                 pounit.set_explanation(unit.explanation)
                 pounit.set_source_explanation(unit.source_unit.explanation)
+                # Check if context has changed while adding to storage
+                if pounit.context != unit.context:
+                    if self.is_source:
+                        # Update all matching translations
+                        Unit.objects.filter(
+                            context=unit.context, translation__component=self.component
+                        ).update(context=pounit.context)
+                    else:
+                        # Update this unit only
+                        Unit.objects.filter(pk=unit.pk).update(context=pounit.context)
+                    unit.context = pounit.context
                 updated = True
                 del details["add_unit"]
             else:
