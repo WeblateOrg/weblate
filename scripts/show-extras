@@ -15,10 +15,11 @@ print(
      :header-rows: 1
 
      * - pip extra
-       - Python Package
+       - Python Packages
        - Weblate feature
 """
 )
+indent = "     "
 
 with open("pyproject.toml", "rb") as handle:
     toml_dict = tomllib.load(handle)
@@ -26,13 +27,16 @@ with open("pyproject.toml", "rb") as handle:
 for section, data in toml_dict["project"]["optional-dependencies"].items():
     if section == "all":
         continue
-    for index, dependency in enumerate(data):
-        dependency = re.split(r"[;<>=[]", dependency)[0].strip()
-        section = f"``{section}``" if index == 0 else ""
-        print(
-            f"""
-        * - {section}
-        - `{dependency} <https://pypi.org/project/{dependency}>`_
-        -
-    """
-        )
+    # Section name
+    print(f"{indent}* - ``{section}``")
+    # Actual dependencies
+    dependencies = [re.split(r"[;<>=[]", dependency)[0].strip() for dependency in data]
+    dependencies_links = [
+        f"| `{dependency} <https://pypi.org/project/{dependency}>`_"
+        for dependency in dependencies
+    ]
+    dependencies_str = f"\n{indent}    ".join(dependencies_links)
+    print(f"{indent}  - {dependencies_str}")
+    # Placeholder for description
+    print(f"{indent}  -")
+    print()

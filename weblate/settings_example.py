@@ -466,8 +466,14 @@ if platform.system() != "Windows":
     except OSError:
         HAVE_SYSLOG = False
 
-DEFAULT_LOG = "console" if DEBUG or not HAVE_SYSLOG else "syslog"
+DEFAULT_LOG = ["console" if DEBUG or not HAVE_SYSLOG else "syslog"]
 DEFAULT_LOGLEVEL = "DEBUG" if DEBUG else "INFO"
+
+# GELF TCP integration (Graylog)
+WEBLATE_LOG_GELF_HOST = None
+
+if WEBLATE_LOG_GELF_HOST:
+    DEFAULT_LOG.append("gelf")
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -479,7 +485,6 @@ LOGGING: dict = {
     "disable_existing_loggers": True,
     "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
     "formatters": {
-        "syslog": {"format": "weblate[%(process)d]: %(levelname)s %(message)s"},
         "simple": {"format": "[%(asctime)s: %(levelname)s/%(process)s] %(message)s"},
         "logfile": {"format": "%(asctime)s %(levelname)s %(message)s"},
         "django.server": {
@@ -504,13 +509,6 @@ LOGGING: dict = {
             "class": "logging.StreamHandler",
             "formatter": "django.server",
         },
-        "syslog": {
-            "level": "DEBUG",
-            "class": "logging.handlers.SysLogHandler",
-            "formatter": "syslog",
-            "address": "/dev/log",
-            "facility": SysLogHandler.LOG_LOCAL2,
-        },
         # Logging to a file
         # "logfile": {
         #     "level":"DEBUG",
@@ -523,7 +521,7 @@ LOGGING: dict = {
     },
     "loggers": {
         "django.request": {
-            "handlers": ["mail_admins", DEFAULT_LOG],
+            "handlers": ["mail_admins", *DEFAULT_LOG],
             "level": "ERROR",
             "propagate": True,
         },
@@ -533,26 +531,68 @@ LOGGING: dict = {
             "propagate": False,
         },
         # Logging database queries
-        # "django.db.backends": {
-        #     "handlers": [DEFAULT_LOG],
-        #     "level": "DEBUG",
-        # },
-        "redis_lock": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
-        "weblate": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
+        "django.db.backends": {
+            "handlers": [*DEFAULT_LOG],
+            # Toggle to DEBUG to log all database queries
+            "level": "CRITICAL",
+        },
+        "redis_lock": {
+            "handlers": [*DEFAULT_LOG],
+            "level": DEFAULT_LOGLEVEL,
+        },
+        "weblate": {
+            "handlers": [*DEFAULT_LOG],
+            "level": DEFAULT_LOGLEVEL,
+        },
         # Logging VCS operations
-        "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
+        "weblate.vcs": {
+            "handlers": [*DEFAULT_LOG],
+            "level": DEFAULT_LOGLEVEL,
+        },
         # Python Social Auth
-        "social": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
+        "social": {
+            "handlers": [*DEFAULT_LOG],
+            "level": DEFAULT_LOGLEVEL,
+        },
         # Django Authentication Using LDAP
-        "django_auth_ldap": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
+        "django_auth_ldap": {
+            "handlers": [*DEFAULT_LOG],
+            "level": DEFAULT_LOGLEVEL,
+        },
         # SAML IdP
-        "djangosaml2idp": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
+        "djangosaml2idp": {
+            "handlers": [*DEFAULT_LOG],
+            "level": DEFAULT_LOGLEVEL,
+        },
     },
 }
 
-# Remove syslog setup if it's not present
-if not HAVE_SYSLOG:
-    del LOGGING["handlers"]["syslog"]
+# Configure syslog setup if it's present
+if HAVE_SYSLOG:
+    LOGGING["formatters"]["syslog"] = {
+        "format": "weblate[%(process)d]: %(levelname)s %(message)s",
+    }
+    LOGGING["handlers"]["syslog"] = {
+        "level": "DEBUG",
+        "class": "logging.handlers.SysLogHandler",
+        "formatter": "syslog",
+        "address": "/dev/log",
+        "facility": SysLogHandler.LOG_LOCAL2,
+    }
+
+# Configure GELF integration if presetn
+if WEBLATE_LOG_GELF_HOST:
+    LOGGING["formatters"]["gelf"] = {
+        "()": "logging_gelf.formatters.GELFFormatter",
+        "null_character": True,
+    }
+    LOGGING["handlers"]["gelf"] = {
+        "level": "DEBUG",
+        "class": "logging_gelf.handlers.GELFTCPSocketHandler",
+        "formatter": "gelf",
+        "host": WEBLATE_LOG_GELF_HOST,
+        "port": 12201,
+    }
 
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:

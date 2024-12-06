@@ -13,6 +13,7 @@ Not yet released.
 * Translation memory import now supports files with XLIFF, PO and CSV formats, see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`.
 * The registration CAPTCHA now includes proof-of-work mechanism ALTCHA.
 * Leading problematic characters in CSV are now checks for :ref:`glossary`, see :ref:`check-prohibited-initial-character`.
+* Logging to :ref:`graylog`.
 
 **Improvements**
 
