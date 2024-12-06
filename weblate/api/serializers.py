@@ -1571,7 +1571,7 @@ class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
 def edit_service_settings_response_serializer(
     method: str, *codes
 ) -> dict[int, serializers.Serializer]:
-    _serializers = {
+    serializers_ = {
         200: inline_serializer(
             f"{method}_200_Message_response_serializer",
             fields={
@@ -1589,4 +1589,4 @@ def edit_service_settings_response_serializer(
             fields={"errors": serializers.CharField()},
         ),
     }
-    return {code: _serializers[code] for code in codes}
+    return {code: serializers_[code] for code in codes}
