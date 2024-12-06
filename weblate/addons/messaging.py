@@ -19,4 +19,4 @@ class WeblateMessagingAddon(BaseAddon):
     icon = "email.svg"
 
     def component_update(self, component: Component) -> None:
-        print(f"[TEST] component update fired...")
+        component.log_debug("running component_update add-on: %s", self.name)

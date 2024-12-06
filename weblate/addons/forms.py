@@ -657,6 +657,7 @@ class PropertiesSortAddonForm(BaseAddonForm):
 class MessagingAddonForm(BaseAddonForm):
     aqmp_host = forms.CharField(
         label=gettext_lazy("Messaging host"),
+        help_text=gettext_lazy("The host messaging")
     )
 
 

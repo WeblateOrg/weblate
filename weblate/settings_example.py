@@ -803,6 +803,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.addons.resx.ResxUpdateAddon",
 #     "weblate.addons.yaml.YAMLCustomizeAddon",
 #     "weblate.addons.cdn.CDNJSAddon",
+#     "weblate.addons.messaging.WeblateMessagingAddon",
 # )
 
 # E-mail address that error messages come from.
