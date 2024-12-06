@@ -167,6 +167,22 @@ class TranslationUnit:
         if "target" in self.__dict__:
             del self.__dict__["target"]
 
+    def invalidate_all_caches(self) -> None:
+        """Invalidate attributes cache."""
+        for attr in (
+            "context",
+            "source",
+            "locations",
+            "flags",
+            "notes",
+            "explanation",
+            "source_explanation",
+            "previous_source",
+        ):
+            if attr in self.__dict__:
+                del self.__dict__[attr]
+        self._invalidate_target()
+
     @cached_property
     def locations(self) -> str:
         """Return comma separated list of locations."""
@@ -739,6 +755,9 @@ class TranslationFormat:
 
         # Add it to the file
         self.add_unit(result)
+
+        # Invalidate all attributes
+        result.invalidate_all_caches()
 
         return result
 

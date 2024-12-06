@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 import time
-from typing import TYPE_CHECKING, NoReturn, cast
+from typing import TYPE_CHECKING, cast
 
 from django.urls import reverse
 
@@ -182,6 +182,41 @@ class EditTest(ViewTestCase):
 
         # Make sure writing out pending units works
         self.component.commit_pending("test", None)
+
+    def test_edit_new_unit(self) -> None:
+        if (
+            not self.component.has_template()
+            or not self.component.file_format_cls.can_add_unit
+        ):
+            self.skipTest("Not supported")
+
+        test_target = "TEST TRANSLATION"
+
+        def check_translated():
+            self.assertTrue(
+                Unit.objects.filter(
+                    translation__language__code="cs",
+                    source=self.new_source_string,
+                    target=test_target,
+                    state=STATE_TRANSLATED,
+                ).exists()
+            )
+
+        self.make_manager()
+
+        # Add string
+        self.component.manage_units = True
+        self.component.save()
+        response = self.add_unit("key")
+        self.assertContains(response, "New string has been added")
+
+        # Edit translation
+        self.edit_unit(self.new_source_string, test_target)
+        check_translated()
+
+        # Make sure writing out pending units works
+        self.component.commit_pending("test", None)
+        check_translated()
 
     def add_plural_unit(self, args=None, language="en"):
         if args is None:
@@ -508,11 +543,6 @@ class EditIphoneTest(EditTest):
     def create_component(self):
         return self.create_iphone()
 
-    def test_new_unit(self) -> NoReturn:
-        # Most likely the test is wrong here it is using monolingual format as bilingual
-        # and duplicates source into context
-        self.skipTest("Not supported")
-
 
 class EditJSONTest(EditTest):
     has_plurals = False
@@ -540,10 +570,6 @@ class EditDTDTest(EditTest):
 
     def create_component(self):
         return self.create_dtd()
-
-    def test_new_unit(self) -> NoReturn:
-        # Most likely there is a bug in the format and adding is broken
-        self.skipTest("Not supported")
 
 
 class EditJSONMonoTest(EditTest):
@@ -606,11 +632,6 @@ class EditXliffComplexTest(EditTest):
         self.edit_unit("Hello, world!\n", "Nazdar & svete!\n")
         self.assert_backend(1)
 
-    def test_new_unit(self) -> NoReturn:
-        # The group handling is broken, see
-        # https://github.com/translate/translate/issues/4186
-        self.skipTest("Not supported")
-
 
 class EditXliffResnameTest(EditTest):
     has_plurals = False
@@ -633,11 +654,6 @@ class EditXliffMonoTest(EditTest):
 
     def create_component(self):
         return self.create_xliff_mono()
-
-    def test_new_unit(self) -> NoReturn:
-        # The group handling is broken, see
-        # https://github.com/translate/translate/issues/4186
-        self.skipTest("Not supported")
 
 
 class EditLinkTest(EditTest):

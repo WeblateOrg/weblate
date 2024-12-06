@@ -1747,6 +1747,7 @@ class DTDFormat(TTKitFormat):
     autoload: tuple[str, ...] = ("*.dtd",)
     unit_class = MonolingualSimpleUnit
     new_translation = "\n"
+    can_add_unit: bool = False
 
     @staticmethod
     def mimetype() -> str:
