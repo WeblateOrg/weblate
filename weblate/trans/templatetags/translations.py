@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 from datetime import date, datetime
+from html import escape as html_escape
 from typing import TYPE_CHECKING
 
 from django import forms, template
@@ -252,8 +253,8 @@ class Formatter:
         translations = []
         for term in terms:
             flags = term.all_flags
-            target = escape(term.target)
-            source = escape(term.source)
+            target = html_escape(term.target)
+            source = html_escape(term.source)
             # Translators: Glossary term formatting used in a tooltip
             formatted = pgettext("glossary term", "{target} [{source}]").format(
                 source=source, target=target
@@ -397,7 +398,7 @@ class Formatter:
                 was_cr = is_cr
                 output.append(newline)
             else:
-                output.append(escape(char))
+                output.append(html_escape(char))
         # Trailing tags
         output.append("".join(tags[len(value)]))
         return mark_safe("".join(output))  # noqa: S308
