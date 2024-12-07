@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-07 13:07+0100\n"
-"PO-Revision-Date: 2024-12-01 08:00+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2024-12-08 02:47+0000\n"
+"Last-Translator: Максим Горпиніч <mgorpinic2005@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -10755,23 +10755,14 @@ msgid "Avoiding merge conflicts"
 msgstr "Уникання конфліктів об'єднання"
 
 #: ../../admin/continuous.rst:109
-#, fuzzy
-#| msgid ""
-#| "The merge conflicts from Weblate arise when same file was changed both in "
-#| "Weblate and outside it. There are two approaches to deal with that - "
-#| "avoid edits outside Weblate or integrate Weblate into your updating "
-#| "process, so that it flushes changes prior to updating the files outside "
-#| "Weblate."
 msgid ""
 "The merge conflicts from Weblate arise when same file was changed both in "
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
-"Конфлікти об'єднання з даними Weblate виникають тоді, коли якийсь файл було "
-"змінено одразу у Weblate і поза ним. Існує два підходи до усування "
-"можливості конфліктів — заборона редагування поза Weblate або інтеграція "
-"Weblate до вашого процесу оновлення так, щоб зміни було отримано до "
-"оновлення файлів поза системою Weblate."
+"Конфлікти злиття з Weblate виникають, коли той самий файл було змінено як у "
+"Weblate, так і поза ним. Залежно від ситуації є кілька підходів, які можуть "
+"допомогти тут:"
 
 #: ../../admin/continuous.rst:112
 #, fuzzy
@@ -10792,24 +10783,10 @@ msgid ":ref:`merge-weblate-git`"
 msgstr ":ref:`discover-weblate`"
 
 #: ../../admin/continuous.rst:119
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by changing translation files in Weblate only"
-msgstr "Уникання конфліктів об'єднання для змін, які походять з Weblate"
+msgstr "Уникайте конфліктів злиття, змінюючи файли перекладу лише в Weblate"
 
 #: ../../admin/continuous.rst:121
-#, fuzzy
-#| msgid ""
-#| "The first approach is easy with monolingual files — you can add new "
-#| "strings within Weblate and leave whole editing of the files there. For "
-#| "bilingual files, there is usually some kind of message extraction process "
-#| "to generate translatable files from the source code. In some cases this "
-#| "can be split into two parts - one for the extraction generates template "
-#| "(for example gettext POT is generated using :program:`xgettext`) and then "
-#| "further process merges it into actual translations (the gettext PO files "
-#| "are updated using :program:`msgmerge`). You can perform the second step "
-#| "within Weblate and it will ensure that all pending changes are included "
-#| "prior to this operation."
 msgid ""
 "Avoiding edits outside Weblate is easy with monolingual files — you can add "
 "new strings within Weblate and leave whole editing of the files there. For "
@@ -10817,104 +10794,82 @@ msgid ""
 "generate translatable files from the source code. In some cases, this can be "
 "split into two parts:"
 msgstr ""
-"Перший підхід спрощує роботу із одномовними файлами — ви можете додавати "
-"нові рядки у Weblate і покластися на редагування файлів у вбудованому "
-"редакторі. Для двомовних файлів, зазвичай, перекладу передує певна процедура "
-"видобування рядків для створення придатних до перекладу файлів із "
-"початкового коду. У деяких випадках цей процес може бути поділено на дві "
-"частини — спочатку під час видобування створюється шаблон (наприклад, файл "
-"POT gettext створюється за допомогою :program:`xgettext`), а потім, у "
-"подальшому процесі, об'єднується із поточними перекладами (файли PO gettext "
-"оновлюються за допомогою :program:`msgmerge`). Ви можете виконати другий "
-"крок у Weblate, і програмні засоби забезпечать включення усіх змін у черзі "
-"до виконання цієї дії."
+"Уникати редагування за межами Weblate легко з одномовними файлами — ви "
+"можете додати нові рядки в Weblate і залишити повне редагування файлів там. "
+"Для двомовних файлів зазвичай існує певний процес вилучення повідомлень для "
+"створення файлів, які можна перекладати, із вихідного коду. У деяких "
+"випадках це можна розділити на дві частини:"
 
 #: ../../admin/continuous.rst:127
 msgid ""
 "The extraction generates template (for example gettext POT is generated "
 "using :program:`xgettext`)."
 msgstr ""
+"Витяг генерує шаблон (наприклад, gettext POT генерується за допомогою "
+":program:`xgettext`)."
 
 #: ../../admin/continuous.rst:128
 msgid ""
 "Further process merges it into actual translations (the gettext PO files are "
 "updated using :program:`msgmerge`)."
 msgstr ""
+"Подальший процес об’єднує його у фактичні переклади (файли gettext PO "
+"оновлюються за допомогою :program:`msgmerge`)."
 
 #: ../../admin/continuous.rst:130
 msgid ""
 "You can perform the second step within Weblate and it will ensure that all "
 "pending changes are included before this operation."
 msgstr ""
+"Ви можете виконати другий крок у Weblate, і він гарантує, що всі зміни, що "
+"очікують на розгляд, включені до цієї операції."
 
 #: ../../admin/continuous.rst:136
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
-msgstr "Уникання конфліктів об'єднання для змін, які походять з Weblate"
+msgstr ""
+"Уникнення конфліктів злиття шляхом блокування Weblate під час внесення "
+"зовнішніх змін"
 
 #: ../../admin/continuous.rst:138
-#, fuzzy
-#| msgid ""
-#| "The second approach can be achieved by using :ref:`api` to force Weblate "
-#| "to push all pending changes and lock the translation while you are doing "
-#| "changes on your side."
 msgid ""
 "Integrating Weblate into your updating process so that it flushes changes "
 "before updating the files outside Weblate can be achieved by using :ref:"
 "`api` to force Weblate to push all pending changes and lock the translation "
 "while you are doing changes on your side."
 msgstr ""
-"Другий підхід можна реалізувати за допомогою :ref:`api` — змусити Weblate "
-"записати усі зміни з черги і заблокувати переклад, доки ви виконуєте зміни "
-"на вашому боці."
+"Інтеграцію Weblate у ваш процес оновлення, щоб він знімав зміни перед "
+"оновленням файлів поза Weblate, можна досягти за допомогою :ref:`api`, щоб "
+"змусити Weblate надіслати всі незавершені зміни та заблокувати переклад, "
+"поки ви вносите зміни на своєму боці."
 
 #: ../../admin/continuous.rst:142
 msgid "The script for doing updates can look like this:"
 msgstr "Скрипт для виконання оновлень може виглядати ось так:"
 
 #: ../../admin/continuous.rst:163
-#, fuzzy
-#| msgid ""
-#| "If you have multiple components sharing same repository, you need to lock "
-#| "them all separately:"
 msgid ""
 "If you have multiple components sharing the same repository, you need to "
 "lock them all separately:"
 msgstr ""
-"Якщо у одному сховищі зберігаються дані декількох складників, вам слід "
-"заблокувати їх окремо:"
+"Якщо у вас є кілька компонентів, які спільно використовують одне сховище, "
+"вам потрібно заблокувати їх усі окремо:"
 
 #: ../../admin/continuous.rst:174
-#, fuzzy
-#| msgid ""
-#| "The example uses :ref:`wlc`, which needs configuration (API keys) to be "
-#| "able to control Weblate remotely. You can also achieve this using any "
-#| "HTTP client instead of wlc, e.g. curl, see :ref:`api`."
 msgid ""
 "The example uses :ref:`wlc`, which needs configuration (API keys) to be able "
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of :ref:`wlc`, for example curl, see :ref:`api`."
 msgstr ""
-"У прикладі використано програму :ref:`wlc`, яка потребує налаштовування "
-"(ключів до програмного інтерфейсу), щоб Weblate можна було керувати "
-"віддалено. Ви також можете досягти цього використанням замість wlc будь-"
-"якого клієнта HTTP, наприклад curl, див. :ref:`api`."
+"У прикладі використовується :ref:`wlc`, якому потрібна конфігурація (ключі "
+"API), щоб мати можливість віддалено керувати Weblate. Ви також можете "
+"досягти цього, використовуючи будь-який клієнт HTTP замість :ref:`wlc`, "
+"наприклад curl, див. :ref:`api`."
 
 #: ../../admin/continuous.rst:181
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by focusing on Git operations"
-msgstr "Уникання конфліктів об'єднання для змін, які походять з Weblate"
+msgstr "Щоб уникнути конфліктів злиття, зосередившись на операціях Git"
 
 #: ../../admin/continuous.rst:183
-#, fuzzy
-#| msgid ""
-#| "Even when Weblate is the single source of the changes in the translation "
-#| "files, conflicts can appear when using :ref:`addon-weblate.git.squash` "
-#| "add-on, :ref:`component-merge_style` is configured to :guilabel:`Rebase`, "
-#| "or you are squashing commits outside of Weblate (for example when merging "
-#| "a pull request)."
 msgid ""
 "Even when Weblate is the single source of the changes in the translation "
 "files, conflicts can appear when using :ref:`addon-weblate.git.squash` add-"
@@ -10923,10 +10878,10 @@ msgid ""
 "request)."
 msgstr ""
 "Навіть якщо Weblate є єдиним джерелом змін у файлах перекладу, можуть "
-"виникати конфлікти, якщо використано додаток :ref:`addon-weblate.git."
-"squash`, для :ref:`component-merge_style` налаштовано значення :guilabel:"
-"`Rebase` або ви об'єднуєте внески поза Weblate (наприклад, при злитті з "
-"запитом про об'єднання)."
+"виникати конфлікти під час використання надбудови :ref:`addon-weblate.git."
+"squash`, :ref:`component-merge_style` налаштовано на :guilabel: `Rebase`, "
+"або ви стискаєте коміти за межами Weblate (наприклад, під час об’єднання "
+"запиту на отримання)."
 
 #: ../../admin/continuous.rst:188
 msgid ""
@@ -10944,19 +10899,14 @@ msgstr ""
 "відмовляється виконувати зміну основи."
 
 #: ../../admin/continuous.rst:194
-#, fuzzy
-#| msgid ""
-#| "To approach this, you either need to minimize amount of pending changes "
-#| "in Weblate when you merge a pull request, or avoid the conflicts "
-#| "completely by not squashing changes."
 msgid ""
 "To approach this, you either need to minimize the amount of pending changes "
 "in Weblate when you merge a pull request, or avoid the conflicts completely "
 "by not squashing changes."
 msgstr ""
-"Щоб досягти мети, вам слід або мінімізувати обсяг змін у черзі у Weblate, "
-"коли ви зливаєте запит щодо об'єднання, або уникати конфліктів повністю, не "
-"об'єднуючи зміни у пакети."
+"Щоб підійти до цього, вам потрібно або мінімізувати кількість незавершених "
+"змін у Weblate під час об’єднання запиту на отримання, або повністю уникнути "
+"конфліктів, не скасовуючи зміни."
 
 #: ../../admin/continuous.rst:198
 msgid "Here are few options how to avoid that:"
@@ -10972,30 +10922,22 @@ msgstr ""
 "об'єднання."
 
 #: ../../admin/continuous.rst:201
-#, fuzzy
-#| msgid ""
-#| "Let Weblate commit pending changes before merging. This will update the "
-#| "pull request with all its changes and both repositories will be in sync."
 msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes, and both repositories will be in sync."
 msgstr ""
-"Надайте змогу Weblate вносити зміни з черги до злиття. Це призведе до "
-"оновлення запиту щодо об'єднання усіма змінами у ньому, а обидва сховища "
-"лишатимуться синхронізованими."
+"Дозвольте Weblate зафіксувати незавершені зміни перед об’єднанням. Це "
+"оновить запит на отримання з усіма його змінами, і обидва сховища будуть "
+"синхронізовані."
 
 #: ../../admin/continuous.rst:202
-#, fuzzy
-#| msgid ""
-#| "Use the review features in Weblate (see :doc:`/workflows`), so that you "
-#| "can automatically merge GitHub pull requests after CI passes."
 msgid ""
 "Use the review features in Weblate (see :doc:`/workflows`) so that you can "
 "automatically merge GitHub pull requests after CI passes."
 msgstr ""
-"Скористайтеся можливостями рецензування на Weblate (див. :doc:`/workflows`), "
-"щоб можна було автоматично зливати запити щодо об'єднання на GitHub до "
-"основного сховища після завершення процедур перевірки неперервної інтеграції."
+"Використовуйте функції перегляду в Weblate (див. :doc:`/workflows`), щоб ви "
+"могли автоматично об’єднувати запити на отримання GitHub після проходження "
+"CI."
 
 #: ../../admin/continuous.rst:203
 msgid ""
@@ -12237,10 +12179,8 @@ msgid "pip extra"
 msgstr "pip extra"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "Python Package"
 msgid "Python Packages"
-msgstr "Пакунок Python"
+msgstr "Пакети Python"
 
 #: ../../admin/install.rst:210
 msgid "Weblate feature"
@@ -12257,14 +12197,10 @@ msgstr ""
 "`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid ""
-#| "`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-"
-#| "alimt>`_"
 msgid ""
 "`aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_"
 msgstr ""
-"`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_"
+"`aliyun- python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_"
 
 #: ../../admin/install.rst:215
 msgid ":ref:`mt-alibaba`"
@@ -12301,10 +12237,8 @@ msgid "``gelf``"
 msgstr "``gerrit``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`git-review <https://pypi.org/project/git-review>`_"
 msgid "`logging-gelf <https://pypi.org/project/logging-gelf>`_"
-msgstr "`git-review <https://pypi.org/project/git-review>`_"
+msgstr "`logging- gelf <https://pypi.org/project/logging-gelf>`_"
 
 #: ../../admin/install.rst:227
 #, fuzzy
@@ -12340,10 +12274,8 @@ msgstr ""
 "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
 
 #: ../../admin/install.rst:236
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr ":ref:`mt-google-translate-api-v3` з підтримкою глосарію"
 
 #: ../../admin/install.rst:238
 msgid "``ldap``"
@@ -12421,16 +12353,12 @@ msgid "``saml2idp``"
 msgstr "``saml``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
 msgid "`djangosaml2idp <https://pypi.org/project/djangosaml2idp>`_"
-msgstr "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
+msgstr "`djangosaml 2idp <https://pypi.org/project/djangosaml2idp>`_"
 
 #: ../../admin/install.rst:264
-#, fuzzy
-#| msgid "Integrating with Weblate"
 msgid "Integrating SAML 2 IDP into Weblate"
-msgstr "Інтеграція із Weblate"
+msgstr "Інтеграція SAML 2 IDP у Weblate"
 
 #: ../../admin/install.rst:266
 #, fuzzy
@@ -12439,16 +12367,12 @@ msgid "``wlhosted``"
 msgstr "``reused``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`boto3 <https://pypi.org/project/boto3>`_"
 msgid "`wlhosted <https://pypi.org/project/wlhosted>`_"
-msgstr "`boto3 <https://pypi.org/project/boto3>`_"
+msgstr "`wl hosted <https://pypi.org/project/wlhosted>`_"
 
 #: ../../admin/install.rst:268 ../../admin/install.rst:272
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Hosted Weblate integration"
-msgstr "Управління Weblate"
+msgstr "Інтеграція розміщеної Weblate"
 
 #: ../../admin/install.rst:270
 #, fuzzy
@@ -12457,26 +12381,20 @@ msgid "``wllegal``"
 msgstr "``legal``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`wllegal <https://pypi.org/project/wllegal>`_"
-msgstr "`openai <https://pypi.org/project/openai>`_"
+msgstr "`wlle gal <https://pypi.org/project/wllegal>`_"
 
 #: ../../admin/install.rst:274
 msgid "``wsgi``"
 msgstr ""
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`gunicorn <https://pypi.org/project/gunicorn>`_"
-msgstr "`openai <https://pypi.org/project/openai>`_"
+msgstr "`guni corn <https://pypi.org/project/gunicorn>`_"
 
 #: ../../admin/install.rst:276
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "wsgi server for Weblate"
-msgstr "Виявлення Weblate"
+msgstr "сервер wsgi для Weblate"
 
 #: ../../admin/install.rst:278
 msgid "``zxcvbn``"
@@ -12530,15 +12448,12 @@ msgstr ""
 "Pango, Cairo та пов'язані файли заголовків, а також дані інтроспекції GObject"
 
 #: ../../admin/install.rst:308
-#, fuzzy
-#| msgid ""
-#| "https://cairographics.org/, https://pango.gnome.org/, see :ref:"
-#| "`pangocairo`"
 msgid ""
 "https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, "
 "see :ref:`pangocairo`"
 msgstr ""
-"https://cairographics.org/, https://pango.gnome.org/, see :ref:`pangocairo`"
+"https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, see "
+":ref: `pangocairo`"
 
 #: ../../admin/install.rst:309
 msgid "``git-review`` (optional for Gerrit support)"
@@ -14729,10 +14644,8 @@ msgstr ""
 "вивантаженого файла."
 
 #: ../../admin/install.rst:1705
-#, fuzzy
-#| msgid "Terminology management"
 msgid "Graylog log management"
-msgstr "Керування термінологією"
+msgstr "Керування журналами Graylog"
 
 #: ../../admin/install.rst:1709
 msgid ""
@@ -14740,18 +14653,17 @@ msgid ""
 "developed for Graylog integration, but can be used with any compliant "
 "logging platform."
 msgstr ""
+"Weblate можна налаштувати для входу за допомогою протоколу GELF TCP. Це було "
+"розроблено для інтеграції Graylog, але його можна використовувати з будь-"
+"якою сумісною платформою журналювання."
 
 #: ../../admin/install.rst:1712
-#, fuzzy
-#| msgid ""
-#| "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
-#| "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgid ""
 "The configuration boilerplate is included in :ref:`sample-configuration`, "
 "for Docker this can be configured using :envvar:`WEBLATE_LOG_GELF_HOST`."
 msgstr ""
-"Це реалізовано у :ref:`sample-configuration`. Для Docker скористайтеся :"
-"envvar:`WEBLATE_REQUIRE_LOGIN`."
+"Шаблон конфігурації включено в :ref:`sample-configuration`, для Docker це "
+"можна налаштувати за допомогою :envvar:`WEBLATE_LOG_GELF_HOST`."
 
 #: ../../admin/install.rst:1716
 msgid "Migrating Weblate to another server"
@@ -15510,10 +15422,14 @@ msgid ""
 "Configures remote logging using GELF TCP connection. Can be used to "
 "integrate with Graylog."
 msgstr ""
+"Налаштовує віддалене ведення журналу за допомогою підключення GELF TCP. "
+"Можна використовувати для інтеграції з Graylog."
 
 #: ../../admin/install/docker.rst:494
 msgid "Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201."
 msgstr ""
+"Використовуйте спеціальний порт для :envvar:`WEBLATE_LOG_GELF_HOST`, за "
+"умовчанням 12201."
 
 #: ../../admin/install/docker.rst:498
 msgid "Changes the site-title shown in the header of all pages."
@@ -16060,10 +15976,8 @@ msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "Налаштовує :setting:`UNUSED_ALERT_DAYS`."
 
 #: ../../admin/install/docker.rst:1009
-#, fuzzy
-#| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
-msgstr "Налаштовує :setting:`BASIC_LANGUAGES`."
+msgstr "Налаштовує :setting:`UPDATE_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:1015
 msgid "Allow CORS requests to API from given origins."
@@ -18365,11 +18279,11 @@ msgstr ""
 "ref:`component`, див. :ref:`component-source_language`."
 
 #: ../../admin/machine.rst:25
-#, fuzzy
-#| msgid "The source language can be configured at :ref:`project`."
 msgid ""
 "Per-project automatic suggestion can also be configured via the :ref:`api`."
-msgstr "Початкову мову можна налаштувати у розділі :ref:`project`."
+msgstr ""
+"Автоматичні пропозиції для кожного проекту також можна налаштувати за "
+"допомогою :ref:`api`."
 
 #: ../../admin/machine.rst:29
 msgid ":ref:`machine-translation`"
@@ -23433,10 +23347,8 @@ msgstr ""
 "значення цього поля."
 
 #: ../../admin/projects.rst:930
-#, fuzzy
-#| msgid "Selected languages only"
 msgid "Selected keys only"
-msgstr "Лише вибрані мови"
+msgstr "Лише вибрані ключі"
 
 #: ../../admin/projects.rst:930
 msgid "``^(one|two|other)$``"
@@ -23444,7 +23356,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:932
 msgid "Exclude app store changelogs"
-msgstr ""
+msgstr "Виключити журнали змін магазину програм"
 
 #: ../../admin/projects.rst:932
 #, fuzzy
@@ -23453,10 +23365,8 @@ msgid "``^(?!changelogs/.*$).+$``"
 msgstr "``^(?!(blank)$).+$``"
 
 #: ../../admin/projects.rst:934
-#, fuzzy
-#| msgid "Split Android strings"
 msgid "Filter prefixed strings"
-msgstr "Розділені рядки Android"
+msgstr "Фільтр рядків із префіксом"
 
 #: ../../admin/projects.rst:934
 #, fuzzy
@@ -25997,30 +25907,24 @@ msgid ""
 "Returns automatic suggestion settings for a project, consisting of the "
 "configurations defined for each translation service installed."
 msgstr ""
+"Повертає налаштування автоматичних пропозицій для проекту, що складається з "
+"конфігурацій, визначених для кожної встановленої служби перекладу."
 
 #: ../../api.rst:1247
-#, fuzzy
-#| msgid "Configuration of available VCS backends."
 msgid "Configuration for all installed services."
-msgstr "Налаштовування доступних модулів систем керування версіями."
+msgstr "Конфігурація для всіх встановлених служб."
 
 #: ../../api.rst:1254
-#, fuzzy
-#| msgid "Update the existing service configuration."
 msgid "Create or update the service configuration for a project."
-msgstr "Оновити наявні налаштування служб."
+msgstr "Створіть або оновіть конфігурацію служби для проекту."
 
 #: ../../api.rst:1258
-#, fuzzy
-#| msgid "Service ID"
 msgid "Service name"
-msgstr "Ідентифікатор служби"
+msgstr "Назва служби"
 
 #: ../../api.rst:1259
-#, fuzzy
-#| msgid "Save configuration."
 msgid "Service configuration in JSON"
-msgstr "Збереження налаштувань."
+msgstr "Конфігурація сервісу в JSON"
 
 #: ../../api.rst:1267
 msgid ""
@@ -27997,31 +27901,24 @@ msgid ""
 "Per-project :ref:`machine-translation-setup` can now be configured via the "
 "Project :ref:`api`."
 msgstr ""
+":ref:`machine-translation-setup` для кожного проекту тепер можна налаштувати "
+"через Project :ref:`api`."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
-msgstr "Додано :http:get:`/api/projects/(string:project)/file/`."
+msgstr "Додано :http:get:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
-msgstr "Додано :http:get:`/api/projects/(string:project)/file/`."
+msgstr "Додано :http:post:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "Translation memory import now supports files with XLIFF, PO and CSV "
-#| "formats, see :ref:`memory-user` and `import_memory` command in :ref:"
-#| "`manage`."
 msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`."
 msgstr ""
 "Імпорт пам’яті перекладів тепер підтримує файли у форматах XLIFF, PO та CSV, "
-"див. команди :ref:`memory-user` та `import_memory` у :ref:`manage`."
+"див. команди :ref:`memory-user` і :wladmin:`import_memory` у :ref:`manage`."
 
 #: ../../changes.rst:14
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
@@ -28038,7 +27935,7 @@ msgstr ""
 
 #: ../../changes.rst:16
 msgid "Logging to :ref:`graylog`."
-msgstr ""
+msgstr "Реєстрація в :ref:`graylog`."
 
 #: ../../changes.rst:18 ../../changes.rst:56 ../../changes.rst:152
 #: ../../changes.rst:195 ../../changes.rst:221 ../../changes.rst:259
@@ -28102,16 +27999,12 @@ msgid "Improved :ref:`translation-propagation` performance."
 msgstr "Покращена продуктивність :ref:`translation-propagation`."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 "More detailed error messages for :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/file/`."
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-"language)/file/`"
+"Детальніші повідомлення про помилки для :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`."
 
 #: ../../changes.rst:31 ../../changes.rst:60 ../../changes.rst:81
 #: ../../changes.rst:102 ../../changes.rst:125 ../../changes.rst:167
@@ -28128,24 +28021,16 @@ msgid "**Bug fixes**"
 msgstr "**Виправлення вад**"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid ""
-#| "**Bug fixes** * Using the `has:variant` field now correctly displays "
-#| "strings that have variant(s) in the search language, see :ref:`search-"
-#| "strings`."
 msgid ""
 "Using the ``has:variant`` field now correctly displays strings that have "
 "variant(s) in the search language, see :ref:`search-strings`."
 msgstr ""
-"**Виправлення помилок** * Використання поля `has:variant` тепер правильно "
-"відображає рядки, які мають варіант(и) у мові пошуку, див. :ref:`search-"
-"strings`."
+"Використання поля ``has:variant`` тепер правильно відображає рядки, які "
+"мають варіант(и) у мові пошуку, див. :ref:`search-strings`."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Saving newly added strings in some formats."
-msgstr "Виправлено переклад нових доданих рядків."
+msgstr "Збереження щойно доданих рядків у деяких форматах."
 
 #: ../../changes.rst:36 ../../changes.rst:173 ../../changes.rst:278
 #: ../../changes.rst:368 ../../changes.rst:530 ../../changes.rst:636
@@ -28159,13 +28044,12 @@ msgid ""
 ":ref:`rollbar-errors` integration no longer includes client-side error "
 "collection."
 msgstr ""
+":ref:`rollbar-errors` інтеграція більше не включає збір помилок на стороні "
+"клієнта."
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Weblate now requires Python 3.7 or newer."
 msgid "Weblate now requires Git 2.28 or newer."
-msgstr ""
-"Для роботи Weblate з цієї версії потрібен Python 3.7 або новіша версія."
+msgstr "Weblate тепер потребує Git 2.28 або новішої версії."
 
 #: ../../changes.rst:41 ../../changes.rst:66 ../../changes.rst:87
 #: ../../changes.rst:110 ../../changes.rst:129 ../../changes.rst:178
@@ -39978,16 +39862,12 @@ msgid "Weblate frontend"
 msgstr "Оболонка Weblate"
 
 #: ../../contributing/frontend.rst:4
-#, fuzzy
-#| msgid ""
-#| "The frontend is currently built using Bootstrap, jQuery and few third "
-#| "party libraries."
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third-party "
 "libraries."
 msgstr ""
-"Поточну версію оболонки побудовано з використанням Bootstrap, jQuery і "
-"декількох сторонніх бібліотек."
+"Інтерфейс наразі побудовано з використанням Bootstrap, jQuery та кількох "
+"сторонніх бібліотек."
 
 #: ../../contributing/frontend.rst:7
 msgid "Supported browsers"
@@ -40025,22 +39905,16 @@ msgid "Dependency management"
 msgstr "Керування залежностями"
 
 #: ../../contributing/frontend.rst:22
-#, fuzzy
-#| msgid ""
-#| "Installing and managing `3rd party` libraries in the `client` of a django "
-#| "project can be a bit tricky. This section provides a step-by-step guide "
-#| "on how to install and manage 3rd party libraries used by the `client "
-#| "side` of Weblate using `Webpack`."
 msgid ""
 "Installing and managing `3rd party` libraries in the `client` of a Django "
 "project can be a bit tricky. This section provides a step-by-step guide on "
 "how to install and manage 3rd party libraries used by the `client side` of "
 "Weblate using `Webpack`."
 msgstr ""
-"Встановлення та керування бібліотеками `3rd party` у `клієнті` проєкту "
-"django може бути дещо складним. Цей розділ містить покрокову інструкцію щодо "
-"встановлення та керування бібліотеками сторонніх розробників, які "
-"використовуються `клієнтською частиною` Weblate за допомогою `Webpack`."
+"Встановлення бібліотек сторонніх розробників і керування ними в «клієнті» "
+"проекту Django може бути дещо складним. У цьому розділі наведено покрокові "
+"інструкції щодо встановлення та керування сторонніми бібліотеками, які "
+"використовуються на «клієнтській стороні» Weblate за допомогою «Webpack»."
 
 #: ../../contributing/frontend.rst:27
 msgid "Prerequisites"
@@ -40059,10 +39933,8 @@ msgid "``Nodejs`` version 14 or higher."
 msgstr "``Nodejs`` версії 14 або вище."
 
 #: ../../contributing/frontend.rst:32
-#, fuzzy
-#| msgid "The ``yarn`` package manager installed on your system."
 msgid "The ``yarn`` package manager is installed on your system."
-msgstr "У вашій системі встановлено менеджер пакунків ``yarn``."
+msgstr "У вашій системі встановлено менеджер пакетів ``yarn``."
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``cd client``."
@@ -40073,10 +39945,8 @@ msgid "Run ``yarn install``"
 msgstr "Запустити ``yarn install``"
 
 #: ../../contributing/frontend.rst:39
-#, fuzzy
-#| msgid "To install a library, 1st run the following command:"
 msgid "To install a library, first run the following command:"
-msgstr "При встановленні бібліотеки спершу віддайте таку команду:"
+msgstr "Щоб інсталювати бібліотеку, спочатку виконайте таку команду:"
 
 #: ../../contributing/frontend.rst:46
 msgid "Importing the Library"
@@ -40212,19 +40082,14 @@ msgid "Localization"
 msgstr "Локалізація"
 
 #: ../../contributing/frontend.rst:99
-#, fuzzy
-#| msgid ""
-#| "Should you need any user visible text in the frontend code, it should be "
-#| "localizable. In most cases all you need is to wrap your text inside "
-#| "``gettext`` function, but there are more complex features available:"
 msgid ""
 "Should you need any user visible text in the frontend code, it should be "
 "localizable. In most cases, all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
-"Якщо вам потрібен будь-який видимий користувачеві текст у коді бібліотеки, "
-"цей текст потрібно локалізувати. У більшості випадків вам достатньо огорнути "
-"ваш текст у функцію ``gettext``, але доступні й складніші можливості:"
+"Якщо вам потрібен видимий користувачеві текст у коді інтерфейсу, він має "
+"бути локалізованим. У більшості випадків все, що вам потрібно, це обернути "
+"текст у функцію ``gettext``, але є більш доступний складні функції :"
 
 #: ../../contributing/frontend.rst:118
 msgid ""
@@ -40407,22 +40272,16 @@ msgstr ""
 "змініть структуру абзаців в іншому запиті щодо об'єднання."
 
 #: ../../contributing/index.rst:55
-#, fuzzy
-#| msgid ""
-#| "Documentation can be also edited and built locally, the Python "
-#| "requirements are in `docs/requirements.txt`. You will also need :program:"
-#| "`graphviz` to build the documentation."
 msgid ""
 "Documentation can be also edited and built locally, the Python requirements "
 "are in the ``docs`` dependency group in :file:`pyproject.toml`."
 msgstr ""
-"Документацію також можна редагувати та збирати локально, вимоги до Python "
-"знаходяться у файлі `docs/requirements.txt`. Для створення документації вам "
-"також знадобиться :program:`graphviz`."
+"Документацію також можна редагувати та створювати локально, вимоги Python "
+"містяться в групі залежностей ``docs`` у :file:`pyproject.toml`."
 
 #: ../../contributing/index.rst:58
 msgid "You will also need :program:`graphviz` to build the documentation."
-msgstr ""
+msgstr "Вам також знадобиться :program:`graphviz` для створення документації."
 
 #: ../../contributing/index.rst:62
 msgid ""
@@ -47050,20 +46909,15 @@ msgstr ""
 "як окремі рядки для перекладу."
 
 #: ../../formats/appstore.rst:18
-#, fuzzy
-#| msgid ""
-#| "In case you don't want to translate certain strings (for example "
-#| "changelogs), mark them read-only (see :ref:`custom-checks`). This can be "
-#| "automated by the :ref:`addon-weblate.flags.bulk`."
 msgid ""
 "In case you don't want to translate certain strings (for example "
 "changelogs), you can hide them using :ref:`component-key_filter` or mark "
 "them read-only (see :ref:`custom-checks`). This can be automated by the :ref:"
 "`addon-weblate.flags.bulk`."
 msgstr ""
-"Якщо ви не хочете, щоб певні рядки було перекладено (наприклад, усунути з "
-"перекладу записи журналу змін), позначте ці рядки як придатні лише для "
-"читання (див. :ref:`custom-checks`). Процедуру можна автоматизувати за "
+"Якщо ви не хочете перекладати певні рядки (наприклад, журнали змін), ви "
+"можете приховати їх за допомогою :ref:`component-key_filter` або позначити "
+"їх лише для читання (див. :ref:`custom-checks`). Це можна автоматизувати за "
 "допомогою :ref:`addon-weblate.flags.bulk`."
 
 #: ../../formats/appstore.rst:29
@@ -55440,12 +55294,6 @@ msgid "Matrix View"
 msgstr "Матричний перегляд"
 
 #: ../../user/translating.rst:447
-#, fuzzy
-#| msgid ""
-#| "You can compare different languages efficiently using this view. It is "
-#| "available on every component page, from the :guilabel:`Tools` menu. First "
-#| "select all languages you want to compare, confirm your selection, then "
-#| "click on any translation to open and edit it."
 msgid ""
 "You can compare different languages efficiently using this view It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
@@ -55453,7 +55301,7 @@ msgid ""
 "on any translation to open and edit it."
 msgstr ""
 "Ви можете ефективно порівнювати різні мови за допомогою цього перегляду. Він "
-"доступний на кожній сторінці складника з меню :guilabel:`Інструменти`. "
+"доступний на кожній сторінці компонента з меню :guilabel:`Інструменти`. "
 "Спочатку виберіть усі мови, які ви хочете порівняти, підтвердьте свій вибір, "
 "а потім натисніть будь-який переклад, щоб відкрити та відредагувати його."
 
@@ -55998,10 +55846,8 @@ msgid "Git"
 msgstr "Git"
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "Weblate needs Git 2.12 or newer."
 msgid "Weblate needs Git 2.28 or newer."
-msgstr "Для роботи Weblate потрібен Git 2.12 або новіша версія."
+msgstr "Weblate потребує Git 2.28 або новішої версії."
 
 #: ../../vcs.rst:271 ../../vcs.rst:557
 msgid ""
