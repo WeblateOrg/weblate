@@ -1002,6 +1002,12 @@ Generic settings
 
    Configures :setting:`UNUSED_ALERT_DAYS`.
 
+.. envvar:: WEBLATE_UPDATE_LANGUAGES
+
+   .. versionadded:: 4.3.2
+
+   Configures :setting:`UPDATE_LANGUAGES`.
+
 .. envvar:: WEBLATE_CORS_ALLOWED_ORIGINS
 
    .. versionadded:: 4.16
