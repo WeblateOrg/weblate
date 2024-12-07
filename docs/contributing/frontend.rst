@@ -1,7 +1,7 @@
 Weblate frontend
 ================
 
-The frontend is currently built using Bootstrap, jQuery and few third party libraries.
+The frontend is currently built using Bootstrap, jQuery and few third-party libraries.
 
 Supported browsers
 ------------------
@@ -18,7 +18,8 @@ Older browsers might work, but some features might be limited.
 
 Dependency management
 ---------------------
-Installing and managing `3rd party` libraries in the `client` of a django project
+
+Installing and managing `3rd party` libraries in the `client` of a Django project
 can be a bit tricky. This section provides a step-by-step guide on how to install
 and manage 3rd party libraries used by the `client side` of Weblate using `Webpack`.
 
@@ -28,14 +29,14 @@ Prerequisites
 Before proceeding with an installation, make sure you have the following prerequisites:
 
 - ``Nodejs`` version 14 or higher.
-- The ``yarn`` package manager installed on your system.
+- The ``yarn`` package manager is installed on your system.
 - Run ``cd client``.
 - Run ``yarn install``
 
 Installation
 ++++++++++++
 
-To install a library, 1st run the following command:
+To install a library, first run the following command:
 
 .. code-block:: bash
 
@@ -96,7 +97,7 @@ Localization
 ------------
 
 Should you need any user visible text in the frontend code, it should be
-localizable. In most cases all you need is to wrap your text inside ``gettext``
+localizable. In most cases, all you need is to wrap your text inside ``gettext``
 function, but there are more complex features available:
 
 .. code-block:: javascript
