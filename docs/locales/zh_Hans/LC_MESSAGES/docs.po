@@ -22,8 +22,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-07 13:07+0100\n"
-"PO-Revision-Date: 2024-11-29 13:07+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2024-12-08 02:47+0000\n"
+"Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
+"org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -9947,21 +9948,12 @@ msgid "Avoiding merge conflicts"
 msgstr "避免合并冲突"
 
 #: ../../admin/continuous.rst:109
-#, fuzzy
-#| msgid ""
-#| "The merge conflicts from Weblate arise when same file was changed both in "
-#| "Weblate and outside it. There are two approaches to deal with that - "
-#| "avoid edits outside Weblate or integrate Weblate into your updating "
-#| "process, so that it flushes changes prior to updating the files outside "
-#| "Weblate."
 msgid ""
 "The merge conflicts from Weblate arise when same file was changed both in "
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
-msgstr ""
-"当同一文件在 Weblate 内外都被更改时，就会出现来自 Weblate 的合并冲突。有两种"
-"方法可以解决这个问题——避免在 Weblate 之外进行编辑，或者将 Weblate 整合到您的"
-"更新过程中，这样就可以在更新 Weblate 外部的文件之前刷新更改。"
+msgstr "当同一文件在 Weblate 内外都被更改时，就会出现来自 Weblate "
+"的合并冲突。根据情况不同，有几种方法可能会有帮助："
 
 #: ../../admin/continuous.rst:112
 #, fuzzy
@@ -9982,24 +9974,10 @@ msgid ":ref:`merge-weblate-git`"
 msgstr ":ref:`discover-weblate`"
 
 #: ../../admin/continuous.rst:119
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by changing translation files in Weblate only"
-msgstr "避免发端于 Weblate 更改的合并冲突"
+msgstr "只更改 Weblate 中的翻译文件来避免合并冲突"
 
 #: ../../admin/continuous.rst:121
-#, fuzzy
-#| msgid ""
-#| "The first approach is easy with monolingual files — you can add new "
-#| "strings within Weblate and leave whole editing of the files there. For "
-#| "bilingual files, there is usually some kind of message extraction process "
-#| "to generate translatable files from the source code. In some cases this "
-#| "can be split into two parts - one for the extraction generates template "
-#| "(for example gettext POT is generated using :program:`xgettext`) and then "
-#| "further process merges it into actual translations (the gettext PO files "
-#| "are updated using :program:`msgmerge`). You can perform the second step "
-#| "within Weblate and it will ensure that all pending changes are included "
-#| "prior to this operation."
 msgid ""
 "Avoiding edits outside Weblate is easy with monolingual files — you can add "
 "new strings within Weblate and leave whole editing of the files there. For "
@@ -10007,12 +9985,9 @@ msgid ""
 "generate translatable files from the source code. In some cases, this can be "
 "split into two parts:"
 msgstr ""
-"对于单语文件来说，第一种方法很简单——您可以在 Weblate 中添加新字符串，并将文件"
-"的整个编辑留在那里。对于双语文件，通常存在某种信息提取过程可以从源代码生成可"
-"翻译文件。在一些情况下，这可以分成两部分——一部分是提取生成模板（例如使用 :"
-"program:`xgettext` 生成 gettex POT ），然后下一步处理将其合并到真正的翻译中"
-"（例如使用 :program:`msgmerge` 更新 gettext PO 文件）。您可以在 Weblate 中执"
-"行第二步，它将确保在此操作之前包含所有的待处理更改。"
+"对于单语文件来说，避免 Weblate 之外的编辑是容易的——您可以在 Weblate 中添加新"
+"字符串，并将文件的整个编辑留在那里。对于双语文件，通常存在某种信息提取过程可"
+"以从源代码生成可翻译文件。在一些情况下，这可以分成两部分。"
 
 #: ../../admin/continuous.rst:127
 msgid ""
@@ -10033,68 +10008,45 @@ msgid ""
 msgstr ""
 
 #: ../../admin/continuous.rst:136
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
-msgstr "避免发端于 Weblate 更改的合并冲突"
+msgstr "做外部更改时锁定 Weblate 来避免合并冲突"
 
 #: ../../admin/continuous.rst:138
-#, fuzzy
-#| msgid ""
-#| "The second approach can be achieved by using :ref:`api` to force Weblate "
-#| "to push all pending changes and lock the translation while you are doing "
-#| "changes on your side."
 msgid ""
 "Integrating Weblate into your updating process so that it flushes changes "
 "before updating the files outside Weblate can be achieved by using :ref:"
 "`api` to force Weblate to push all pending changes and lock the translation "
 "while you are doing changes on your side."
 msgstr ""
-"第二种方法是使用 :ref:`api` 强制 Weblate 推送所有待处理的更改，并在您进行更改"
-"时锁定翻译。"
+"将 Weblate 集成到你的更新流程中，以便它在更新 Weblate "
+"之外的文件前冲洗你的更改。要实现这一点，你可以使用 :ref:`api` 强制 Weblate "
+"当你在你这一边做更改时推送所有待处理的更改并锁定翻译。"
 
 #: ../../admin/continuous.rst:142
 msgid "The script for doing updates can look like this:"
 msgstr "进行更新的脚本看起来像这样："
 
 #: ../../admin/continuous.rst:163
-#, fuzzy
-#| msgid ""
-#| "If you have multiple components sharing same repository, you need to lock "
-#| "them all separately:"
 msgid ""
 "If you have multiple components sharing the same repository, you need to "
 "lock them all separately:"
 msgstr "如果多个部件分享相同的仓库，需要分别将他们全部锁定："
 
 #: ../../admin/continuous.rst:174
-#, fuzzy
-#| msgid ""
-#| "The example uses :ref:`wlc`, which needs configuration (API keys) to be "
-#| "able to control Weblate remotely. You can also achieve this using any "
-#| "HTTP client instead of wlc, e.g. curl, see :ref:`api`."
 msgid ""
 "The example uses :ref:`wlc`, which needs configuration (API keys) to be able "
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of :ref:`wlc`, for example curl, see :ref:`api`."
 msgstr ""
-"示例使用了 :ref:`wlc`，这需要配置（API 密钥）来远程控制 Weblate。可以通过使"
-"用 HTTP 客户端代替 wlc 来实现这一点，例如 curl，请参见 :ref:`api`。"
+"示例使用了 :ref:`wlc`，这需要配置（API 密钥）来远程控制 Weblate。"
+"可以通过使用 HTTP 客户端代替 :ref:`wlc` 来实现这一点，例如 curl，请参见 "
+":ref:`api`。"
 
 #: ../../admin/continuous.rst:181
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by focusing on Git operations"
-msgstr "避免发端于 Weblate 更改的合并冲突"
+msgstr "聚焦 Git 操作避免合并冲突"
 
 #: ../../admin/continuous.rst:183
-#, fuzzy
-#| msgid ""
-#| "Even when Weblate is the single source of the changes in the translation "
-#| "files, conflicts can appear when using :ref:`addon-weblate.git.squash` "
-#| "add-on, :ref:`component-merge_style` is configured to :guilabel:`Rebase`, "
-#| "or you are squashing commits outside of Weblate (for example when merging "
-#| "a pull request)."
 msgid ""
 "Even when Weblate is the single source of the changes in the translation "
 "files, conflicts can appear when using :ref:`addon-weblate.git.squash` add-"
@@ -10102,8 +10054,8 @@ msgid ""
 "are squashing commits outside of Weblate (for example, when merging a pull "
 "request)."
 msgstr ""
-"即便 Weblate 是翻译文件更改的单一来源，当使用 :ref:`addon-weblate.git."
-"squash` 附加组件、:ref:`component-merge_style` 被配置为 :guilabel:`Rebase`，"
+"即便 Weblate 是翻译文件更改的单一来源，当使用 :ref:`addon-weblate.git.squash`"
+" 附加组件、:ref:`component-merge_style` 被配置为 :guilabel:`Rebase`，"
 "或者你在挤压 Weblate 外面的提交（比如合并拉取请求）时，也可能发生冲突。"
 
 #: ../../admin/continuous.rst:188
@@ -10120,18 +10072,12 @@ msgstr ""
 "作。"
 
 #: ../../admin/continuous.rst:194
-#, fuzzy
-#| msgid ""
-#| "To approach this, you either need to minimize amount of pending changes "
-#| "in Weblate when you merge a pull request, or avoid the conflicts "
-#| "completely by not squashing changes."
 msgid ""
 "To approach this, you either need to minimize the amount of pending changes "
 "in Weblate when you merge a pull request, or avoid the conflicts completely "
 "by not squashing changes."
-msgstr ""
-"要解决此问题，你需要在合并拉取请求时尽量减少 Weblate 中的待处理更改，或者通过"
-"不挤压更改来完全避免冲突。"
+msgstr "要解决此问题，你需要在合并拉取请求时尽量减少 Weblate "
+"中的待处理更改，或者通过不挤压更改来完全避免冲突。"
 
 #: ../../admin/continuous.rst:198
 msgid "Here are few options how to avoid that:"
@@ -10146,28 +10092,18 @@ msgstr ""
 "致 git 在合并后不识别改动的根本原因。"
 
 #: ../../admin/continuous.rst:201
-#, fuzzy
-#| msgid ""
-#| "Let Weblate commit pending changes before merging. This will update the "
-#| "pull request with all its changes and both repositories will be in sync."
 msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes, and both repositories will be in sync."
-msgstr ""
-"在合并前让 Weblate 提交待定更改。这会更新所有更改到拉取请求，且两个仓库会保持"
-"同步。"
+msgstr "在合并前让 Weblate "
+"提交待定更改。这会更新拉取请求的所有更改，且两个仓库会处于同步状态。"
 
 #: ../../admin/continuous.rst:202
-#, fuzzy
-#| msgid ""
-#| "Use the review features in Weblate (see :doc:`/workflows`), so that you "
-#| "can automatically merge GitHub pull requests after CI passes."
 msgid ""
 "Use the review features in Weblate (see :doc:`/workflows`) so that you can "
 "automatically merge GitHub pull requests after CI passes."
-msgstr ""
-"使用 Weblate 中的审阅功能（见 :doc:`/workflows`），这样你可以在 CI 通过后自动"
-"合并 GitHub 拉取请求。"
+msgstr "使用 Weblate 中的审阅功能（见 :doc:`/workflows`），这样你可以在 CI "
+"通过后自动合并 GitHub 拉取请求。"
 
 #: ../../admin/continuous.rst:203
 msgid ""
@@ -11322,8 +11258,6 @@ msgid "pip extra"
 msgstr "pip extra"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "Python Package"
 msgid "Python Packages"
 msgstr "Python 包"
 
@@ -11342,14 +11276,10 @@ msgstr ""
 "`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid ""
-#| "`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-"
-#| "alimt>`_"
 msgid ""
 "`aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_"
 msgstr ""
-"`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_"
+"`aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_"
 
 #: ../../admin/install.rst:215
 msgid ":ref:`mt-alibaba`"
@@ -11386,10 +11316,8 @@ msgid "``gelf``"
 msgstr "``gerrit``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`git-review <https://pypi.org/project/git-review>`_"
 msgid "`logging-gelf <https://pypi.org/project/logging-gelf>`_"
-msgstr "`git-review <https://pypi.org/project/git-review>`_"
+msgstr "`logging-gelf <https://pypi.org/project/logging-gelf>`_"
 
 #: ../../admin/install.rst:227
 #, fuzzy
@@ -11425,10 +11353,8 @@ msgstr ""
 "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
 
 #: ../../admin/install.rst:236
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr "支持术语表的 :ref:`mt-google-translate-api-v3`"
 
 #: ../../admin/install.rst:238
 msgid "``ldap``"
@@ -11506,16 +11432,12 @@ msgid "``saml2idp``"
 msgstr "``saml``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
 msgid "`djangosaml2idp <https://pypi.org/project/djangosaml2idp>`_"
-msgstr "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
+msgstr "`djangosaml2idp <https://pypi.org/project/djangosaml2idp>`_"
 
 #: ../../admin/install.rst:264
-#, fuzzy
-#| msgid "Integrating with Weblate"
 msgid "Integrating SAML 2 IDP into Weblate"
-msgstr "与 Weblate 集成"
+msgstr "集成 SAML 2 IDP 到 Weblate"
 
 #: ../../admin/install.rst:266
 #, fuzzy
@@ -11524,10 +11446,8 @@ msgid "``wlhosted``"
 msgstr "``reused``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`boto3 <https://pypi.org/project/boto3>`_"
 msgid "`wlhosted <https://pypi.org/project/wlhosted>`_"
-msgstr "`boto3 <https://pypi.org/project/boto3>`_"
+msgstr "`wlhosted <https://pypi.org/project/wlhosted>`_"
 
 #: ../../admin/install.rst:268 ../../admin/install.rst:272
 #, fuzzy
