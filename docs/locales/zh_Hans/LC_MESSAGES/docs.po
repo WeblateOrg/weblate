@@ -22,8 +22,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-07 13:07+0100\n"
-"PO-Revision-Date: 2024-12-08 02:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-12-08 04:46+0000\n"
+"Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
+"org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -9980,25 +9981,25 @@ msgid ""
 msgstr ""
 "对于单语文件来说，避免 Weblate 之外的编辑是容易的——您可以在 Weblate 中添加新"
 "字符串，并将文件的整个编辑留在那里。对于双语文件，通常存在某种信息提取过程可"
-"以从源代码生成可翻译文件。在一些情况下，这可以分成两部分。"
+"以从源代码生成可翻译文件。在一些情况下，这可以分成两部分："
 
 #: ../../admin/continuous.rst:127
 msgid ""
 "The extraction generates template (for example gettext POT is generated "
 "using :program:`xgettext`)."
-msgstr ""
+msgstr "该提取生成模板（例如，gettext POT 是用 :program:`xgettext`生成的）。"
 
 #: ../../admin/continuous.rst:128
 msgid ""
 "Further process merges it into actual translations (the gettext PO files are "
 "updated using :program:`msgmerge`)."
-msgstr ""
+msgstr "进一步的过程将它合并入实际翻译（gettext PO 文件用 :program:`msgmerge`更新）。"
 
 #: ../../admin/continuous.rst:130
 msgid ""
 "You can perform the second step within Weblate and it will ensure that all "
 "pending changes are included before this operation."
-msgstr ""
+msgstr "你可以在 Weblate 内执行第二步，它会确保所有待定更改在此操作前被包含在内。"
 
 #: ../../admin/continuous.rst:136
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
@@ -11435,36 +11436,28 @@ msgid "`wlhosted <https://pypi.org/project/wlhosted>`_"
 msgstr "`wlhosted <https://pypi.org/project/wlhosted>`_"
 
 #: ../../admin/install.rst:268 ../../admin/install.rst:272
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Hosted Weblate integration"
-msgstr "Weblate 管理"
+msgstr "Hosted Weblate 集成"
 
 #: ../../admin/install.rst:270
 msgid "``wllegal``"
 msgstr "``wllegal``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`wllegal <https://pypi.org/project/wllegal>`_"
-msgstr "`openai <https://pypi.org/project/openai>`_"
+msgstr "`wllegal <https://pypi.org/project/wllegal>`_"
 
 #: ../../admin/install.rst:274
 msgid "``wsgi``"
 msgstr "``wsgi``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`gunicorn <https://pypi.org/project/gunicorn>`_"
-msgstr "`openai <https://pypi.org/project/openai>`_"
+msgstr "`gunicorn <https://pypi.org/project/gunicorn>`_"
 
 #: ../../admin/install.rst:276
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "wsgi server for Weblate"
-msgstr "发现 Weblate"
+msgstr "Weblate wsgi 服务器"
 
 #: ../../admin/install.rst:278
 msgid "``zxcvbn``"
@@ -11515,16 +11508,12 @@ msgid "Pango, Cairo and related header files and GObject introspection data"
 msgstr "Pango、Cairo 及相关的头文件和 GObject 内省数据"
 
 #: ../../admin/install.rst:308
-#, fuzzy
-#| msgid ""
-#| "https://cairographics.org/, https://pango.gnome.org/, see :ref:"
-#| "`pangocairo`"
 msgid ""
 "https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, "
 "see :ref:`pangocairo`"
 msgstr ""
-"https://cairographics.org/，https://pango.gnome.org/，请参见 :ref:"
-"`pangocairo`"
+"https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, 见 "
+":ref:`pangocairo`"
 
 #: ../../admin/install.rst:309
 msgid "``git-review`` (optional for Gerrit support)"
@@ -13513,29 +13502,24 @@ msgstr ""
 "败。"
 
 #: ../../admin/install.rst:1705
-#, fuzzy
-#| msgid "Terminology management"
 msgid "Graylog log management"
-msgstr "专业术语管理"
+msgstr "Graylog 日志管理"
 
 #: ../../admin/install.rst:1709
 msgid ""
 "Weblate can be configured to log using the GELF TCP protocol. This was "
 "developed for Graylog integration, but can be used with any compliant "
 "logging platform."
-msgstr ""
+msgstr "Weblate 可以被配置为使用 GELF TCP 协议记录日志。这是为 Graylog "
+"集成开发的，但可被用于任何合规的日志记录平台。"
 
 #: ../../admin/install.rst:1712
-#, fuzzy
-#| msgid ""
-#| "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
-#| "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgid ""
 "The configuration boilerplate is included in :ref:`sample-configuration`, "
 "for Docker this can be configured using :envvar:`WEBLATE_LOG_GELF_HOST`."
 msgstr ""
-"这实现在 :ref:`sample-configuration` 中。对于 Docker，使用 :envvar:"
-"`WEBLATE_REQUIRE_LOGIN`。"
+"配置的样本文件包含在 :ref:`sample-configuration`中；对于 Docker，可使用 "
+":envvar:`WEBLATE_LOG_GELF_HOST` 配置。"
 
 #: ../../admin/install.rst:1716
 msgid "Migrating Weblate to another server"
@@ -14233,11 +14217,11 @@ msgstr "配置数据库查询详细程度的日志记录。"
 msgid ""
 "Configures remote logging using GELF TCP connection. Can be used to "
 "integrate with Graylog."
-msgstr ""
+msgstr "使用 GELF TCP 连接配置远程日志记录。可被用于和 Graylog 集成。"
 
 #: ../../admin/install/docker.rst:494
 msgid "Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201."
-msgstr ""
+msgstr "对 :envvar:`WEBLATE_LOG_GELF_HOST` 使用自定义端口，默认为 12201。"
 
 #: ../../admin/install/docker.rst:498
 msgid "Changes the site-title shown in the header of all pages."
@@ -14737,10 +14721,8 @@ msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "配置 :setting:`UNUSED_ALERT_DAYS`."
 
 #: ../../admin/install/docker.rst:1009
-#, fuzzy
-#| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
-msgstr "配置 :setting:`BASIC_LANGUAGES`."
+msgstr "配置 :setting:`UPDATE_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:1015
 msgid "Allow CORS requests to API from given origins."
@@ -16838,11 +16820,9 @@ msgstr ""
 "source_language` 。"
 
 #: ../../admin/machine.rst:25
-#, fuzzy
-#| msgid "The source language can be configured at :ref:`project`."
 msgid ""
 "Per-project automatic suggestion can also be configured via the :ref:`api`."
-msgstr "源语言可以在 :ref:`project` 中进行配置。"
+msgstr "可通过 :ref:`api` 配置每个项目的自动建议。"
 
 #: ../../admin/machine.rst:29
 msgid ":ref:`machine-translation`"
@@ -21448,10 +21428,8 @@ msgstr ""
 "该字段值的正则表达式。"
 
 #: ../../admin/projects.rst:930
-#, fuzzy
-#| msgid "Selected languages only"
 msgid "Selected keys only"
-msgstr "只有选择的语言"
+msgstr "仅选中的键"
 
 #: ../../admin/projects.rst:930
 msgid "``^(one|two|other)$``"
@@ -21459,17 +21437,15 @@ msgstr "``^(one|two|other)$``"
 
 #: ../../admin/projects.rst:932
 msgid "Exclude app store changelogs"
-msgstr ""
+msgstr "排除应用商店更新日志"
 
 #: ../../admin/projects.rst:932
 msgid "``^(?!changelogs/.*$).+$``"
 msgstr "``^(?!changelogs/.*$).+$``"
 
 #: ../../admin/projects.rst:934
-#, fuzzy
-#| msgid "Split Android strings"
 msgid "Filter prefixed strings"
-msgstr "分开的 Android 字符串"
+msgstr "过滤预修复字符串"
 
 #: ../../admin/projects.rst:934
 msgid "``^translatable``"
@@ -23823,31 +23799,23 @@ msgstr "时间范围内所作的更改数"
 msgid ""
 "Returns automatic suggestion settings for a project, consisting of the "
 "configurations defined for each translation service installed."
-msgstr ""
+msgstr "返回项目的自动建议设置，由为每个安装的翻译服务定义的配置所组成。"
 
 #: ../../api.rst:1247
-#, fuzzy
-#| msgid "Configuration of available VCS backends."
 msgid "Configuration for all installed services."
-msgstr "可用的版本控制系统后端的配置。"
+msgstr "所有已安装服务的配置。"
 
 #: ../../api.rst:1254
-#, fuzzy
-#| msgid "Update the existing service configuration."
 msgid "Create or update the service configuration for a project."
-msgstr "更新现有的服务配置。"
+msgstr "创建或更新项目的服务配置。"
 
 #: ../../api.rst:1258
-#, fuzzy
-#| msgid "Service"
 msgid "Service name"
-msgstr "服务"
+msgstr "服务名称"
 
 #: ../../api.rst:1259
-#, fuzzy
-#| msgid "Save configuration."
 msgid "Service configuration in JSON"
-msgstr "保存配置。"
+msgstr "JSON 格式的服务配置"
 
 #: ../../api.rst:1267
 msgid ""
@@ -25728,32 +25696,24 @@ msgstr "**新功能**"
 msgid ""
 "Per-project :ref:`machine-translation-setup` can now be configured via the "
 "Project :ref:`api`."
-msgstr ""
+msgstr "每个项目的 :ref:`machine-translation-setup` 现在可以通过项目 "
+":ref:`api`来配置。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
-msgstr "新增 :http:get:`/api/projects/(string:project)/file/`."
+msgstr "新增：http:get:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
-msgstr "新增 :http:get:`/api/projects/(string:project)/file/`."
+msgstr "新增 :http:post:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "Translation memory import now supports files with XLIFF, PO and CSV "
-#| "formats, see :ref:`memory-user` and `import_memory` command in :ref:"
-#| "`manage`."
 msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`."
 msgstr ""
-"翻译记忆库导入现支持 XLIFF、PO 和 CSV 格式的文件，见 :ref:`manage` 中的 :ref:"
-"`memory-user` 和 `import_memory` 命令。"
+"翻译记忆库导入现支持 XLIFF、PO 和 CSV 格式的文件，见 :ref:`manage` 中的 :ref"
+":`memory-user` 和 :wladmin:`import_memory` 命令。"
 
 #: ../../changes.rst:14
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
@@ -25769,7 +25729,7 @@ msgstr ""
 
 #: ../../changes.rst:16
 msgid "Logging to :ref:`graylog`."
-msgstr ""
+msgstr "记录到 :ref:`graylog`。"
 
 #: ../../changes.rst:18 ../../changes.rst:56 ../../changes.rst:152
 #: ../../changes.rst:195 ../../changes.rst:221 ../../changes.rst:259
@@ -25828,16 +25788,13 @@ msgid "Improved :ref:`translation-propagation` performance."
 msgstr "改进了 :ref:`translation-propagation` 性能。"
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 "More detailed error messages for :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/file/`."
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-"language)/file/`"
+":http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/` "
+"更详细的错误消息。"
 
 #: ../../changes.rst:31 ../../changes.rst:60 ../../changes.rst:81
 #: ../../changes.rst:102 ../../changes.rst:125 ../../changes.rst:167
@@ -25854,23 +25811,15 @@ msgid "**Bug fixes**"
 msgstr "**缺陷修复**"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid ""
-#| "**Bug fixes** * Using the `has:variant` field now correctly displays "
-#| "strings that have variant(s) in the search language, see :ref:`search-"
-#| "strings`."
 msgid ""
 "Using the ``has:variant`` field now correctly displays strings that have "
 "variant(s) in the search language, see :ref:`search-strings`."
-msgstr ""
-"**Bug 修复** * 使用 `has:variant` 字段现在可以在搜索语言中正确展示有变体的字"
-"符串，见 :ref:`search-strings`。"
+msgstr "使用 `has:variant` 字段现在可以在搜索语言中正确展示有变体的字符串，见 :ref"
+":`search-strings`。"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Saving newly added strings in some formats."
-msgstr "修复了翻译新添加字符串的问题。"
+msgstr "用某些格式保存新添加的字符串。"
 
 #: ../../changes.rst:36 ../../changes.rst:173 ../../changes.rst:278
 #: ../../changes.rst:368 ../../changes.rst:530 ../../changes.rst:636
@@ -25883,13 +25832,11 @@ msgstr "**兼容性**"
 msgid ""
 ":ref:`rollbar-errors` integration no longer includes client-side error "
 "collection."
-msgstr ""
+msgstr ":ref:`rollbar-errors` 集成不再包括客户端错误收集。"
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Weblate now requires Python 3.7 or newer."
 msgid "Weblate now requires Git 2.28 or newer."
-msgstr "Weblate 现在需要 Python 3.7 或更新版本。"
+msgstr "Weblate 现在需要 Git 2.28 或更新版本。"
 
 #: ../../changes.rst:41 ../../changes.rst:66 ../../changes.rst:87
 #: ../../changes.rst:110 ../../changes.rst:129 ../../changes.rst:178
@@ -36607,10 +36554,6 @@ msgid "Weblate frontend"
 msgstr "Weblate 前端"
 
 #: ../../contributing/frontend.rst:4
-#, fuzzy
-#| msgid ""
-#| "The frontend is currently built using Bootstrap, jQuery and few third "
-#| "party libraries."
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third-party "
 "libraries."
@@ -36646,20 +36589,15 @@ msgid "Dependency management"
 msgstr "依赖项管理"
 
 #: ../../contributing/frontend.rst:22
-#, fuzzy
-#| msgid ""
-#| "Installing and managing `3rd party` libraries in the `client` of a django "
-#| "project can be a bit tricky. This section provides a step-by-step guide "
-#| "on how to install and manage 3rd party libraries used by the `client "
-#| "side` of Weblate using `Webpack`."
 msgid ""
 "Installing and managing `3rd party` libraries in the `client` of a Django "
 "project can be a bit tricky. This section provides a step-by-step guide on "
 "how to install and manage 3rd party libraries used by the `client side` of "
 "Weblate using `Webpack`."
 msgstr ""
-"在 django 项目中安装并管理 `第三方` 库可能有点难处理。此部分提供了有关如何使"
-"用 `Webpack` 来安装并管理 Weblate 的 `客户侧` 所用的第三方库的逐一步骤指南。"
+"在 Django 项目中安装并管理 `第三方` 库可能有点难处理。"
+"此部分提供了有关如何使用 `Webpack` 来安装并管理 Weblate 的 `客户侧` "
+"所用的第三方库的逐一步骤指南。"
 
 #: ../../contributing/frontend.rst:27
 msgid "Prerequisites"
@@ -36676,10 +36614,8 @@ msgid "``Nodejs`` version 14 or higher."
 msgstr "``Nodejs`` 14 或更高版本。"
 
 #: ../../contributing/frontend.rst:32
-#, fuzzy
-#| msgid "The ``yarn`` package manager installed on your system."
 msgid "The ``yarn`` package manager is installed on your system."
-msgstr "安装在你系统上的 ``yarn`` 包管理器。"
+msgstr "你系统上已安装 ``yarn`` 包管理器。"
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``cd client``."
@@ -36690,8 +36626,6 @@ msgid "Run ``yarn install``"
 msgstr "运行 ``yarn install``"
 
 #: ../../contributing/frontend.rst:39
-#, fuzzy
-#| msgid "To install a library, 1st run the following command:"
 msgid "To install a library, first run the following command:"
 msgstr "要安装库，请首先运行下列命令："
 
@@ -36817,18 +36751,13 @@ msgid "Localization"
 msgstr "本地化"
 
 #: ../../contributing/frontend.rst:99
-#, fuzzy
-#| msgid ""
-#| "Should you need any user visible text in the frontend code, it should be "
-#| "localizable. In most cases all you need is to wrap your text inside "
-#| "``gettext`` function, but there are more complex features available:"
 msgid ""
 "Should you need any user visible text in the frontend code, it should be "
 "localizable. In most cases, all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
-"如果在前端代码中需要任何用户可见的文本，那么应该将其本地化。在多数情况下，所"
-"有需要的是将文本打包到 ``gettext`` 函数内部，但也有更复杂的特性来使用："
+"如果在前端代码中需要任何用户可见的文本，那么应该将其本地化。在多数情况下，"
+"所有需要的是将文本打包到 ``gettext`` 函数内部，但也有更复杂的特性来使用："
 
 #: ../../contributing/frontend.rst:118
 msgid ""
@@ -36994,21 +36923,15 @@ msgid ""
 msgstr "重写的内容经审校、润色并被合并后，在另一个 PR 中修改段落的结构。"
 
 #: ../../contributing/index.rst:55
-#, fuzzy
-#| msgid ""
-#| "Documentation can be also edited and built locally, the Python "
-#| "requirements are in `docs/requirements.txt`. You will also need :program:"
-#| "`graphviz` to build the documentation."
 msgid ""
 "Documentation can be also edited and built locally, the Python requirements "
 "are in the ``docs`` dependency group in :file:`pyproject.toml`."
-msgstr ""
-"也可以在本地编辑并构建文档，Python requirements 位于 `docs/requirements.txt` "
-"内。你还需要 :program:`graphviz` 来构建文档。"
+msgstr "也可以在本地编辑并构建文档，Python 要求位于 :file:`pyproject.toml`中的 "
+"`docs`` 依赖群。"
 
 #: ../../contributing/index.rst:58
 msgid "You will also need :program:`graphviz` to build the documentation."
-msgstr ""
+msgstr "你还需要 :program:`graphviz` 来构建文档。"
 
 #: ../../contributing/index.rst:62
 msgid ""
@@ -43092,19 +43015,15 @@ msgstr ""
 "元数据由几个文本文件组成，Weblate 将把这些文本文件作为单独的字符串进行翻译。"
 
 #: ../../formats/appstore.rst:18
-#, fuzzy
-#| msgid ""
-#| "In case you don't want to translate certain strings (for example "
-#| "changelogs), mark them read-only (see :ref:`custom-checks`). This can be "
-#| "automated by the :ref:`addon-weblate.flags.bulk`."
 msgid ""
 "In case you don't want to translate certain strings (for example "
 "changelogs), you can hide them using :ref:`component-key_filter` or mark "
 "them read-only (see :ref:`custom-checks`). This can be automated by the :ref:"
 "`addon-weblate.flags.bulk`."
 msgstr ""
-"如果您不想翻译某些字符串（例如变更日志）请将它们标记为只读（参见 :ref:"
-"`custom-checks`）这可以通过 :ref:`addon-weblate.flags.bulk` 自动完成。"
+"如果您不想翻译某些字符串（例如变更日志），你可以使用 :ref:`component-"
+"key_filter` 隐藏它们，或者将它们标记为只读（参见 :ref:`custom-checks`）"
+"这可以通过 :ref:`addon-weblate.flags.bulk` 自动完成。"
 
 #: ../../formats/appstore.rst:29
 msgid "``fastlane/metadata/android/*``"
@@ -50861,12 +50780,6 @@ msgid "Matrix View"
 msgstr "矩阵视图"
 
 #: ../../user/translating.rst:447
-#, fuzzy
-#| msgid ""
-#| "You can compare different languages efficiently using this view. It is "
-#| "available on every component page, from the :guilabel:`Tools` menu. First "
-#| "select all languages you want to compare, confirm your selection, then "
-#| "click on any translation to open and edit it."
 msgid ""
 "You can compare different languages efficiently using this view It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
@@ -51359,10 +51272,8 @@ msgid "Git"
 msgstr "Git"
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "Weblate needs Git 2.12 or newer."
 msgid "Weblate needs Git 2.28 or newer."
-msgstr "Weblate 需要 Git 2.12 或更新版本。"
+msgstr "Weblate 需要 Git 2.28 或更新版本。"
 
 #: ../../vcs.rst:271 ../../vcs.rst:557
 msgid ""
