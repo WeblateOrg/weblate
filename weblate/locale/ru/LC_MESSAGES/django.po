@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-07 12:06+0000\n"
-"PO-Revision-Date: 2024-11-17 14:00+0000\n"
+"PO-Revision-Date: 2024-12-09 05:00+0000\n"
 "Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -114,38 +114,32 @@ msgstr ""
 "коммите, если оно не настроено ниже."
 
 #: weblate/accounts/forms.py:431
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "Повторите попытку позже."
+msgstr "Проверка не удалась. Повторите попытку позже."
 
 #: weblate/accounts/forms.py:432
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Время проверки истекло. Повторите попытку позже."
 
 #: weblate/accounts/forms.py:433
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Я не робот"
 
 #: weblate/accounts/forms.py:434
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "Перевод завершён"
+msgstr "Проверка завершена"
 
 #: weblate/accounts/forms.py:435
 msgid "Verifying…"
-msgstr ""
+msgstr "Проверка…"
 
 #: weblate/accounts/forms.py:437
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Проверка ещё продолжается, подождите."
 
 #: weblate/accounts/forms.py:447
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "Немедленное уведомление"
+msgstr "Человеческая проверка"
 
 #: weblate/accounts/forms.py:500
 #, python-format
@@ -160,10 +154,8 @@ msgid "That was not correct, please try again."
 msgstr "Неправильный ответ, попробуйте ещё раз."
 
 #: weblate/accounts/forms.py:532 weblate/accounts/forms.py:539
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "Неправильный ответ, попробуйте ещё раз."
+msgstr "Проверка не прошла, попробуйте ещё раз."
 
 #: weblate/accounts/forms.py:557
 msgid "Subject"
@@ -2013,22 +2005,16 @@ msgstr ""
 "строки."
 
 #: weblate/api/docs.py:72
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Allowed number of requests to perform"
-msgstr "Ограничение на максимальное число выполняемых запросов"
+msgstr "Допустимое число выполняемых запросов"
 
 #: weblate/api/docs.py:77
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "Ограничение на максимальное число выполняемых запросов"
+msgstr "Оставшееся число выполняемых запросов"
 
 #: weblate/api/docs.py:82
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
-msgstr "Количество секунд до сброса окна ограничения количества запросов"
+msgstr "Число секунд до сброса окна ограничения числа запросов"
 
 #: weblate/api/spectacular.py:42
 #: weblate/templates/drf_spectacular/redoc.html:11
@@ -3967,19 +3953,19 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "Следующие термины переведены не в соответствии с словарём: {}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "Вставить символ табуляции"
+msgstr "Запрещённый начальный символ"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "Строка начинается с запрещённого символа в CSV"
 
 #: weblate/checks/glossary.py:104
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
 msgstr ""
+"Строка начинается с одного или нескольких из следующих запрещённых символов: "
+"{}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -4602,10 +4588,8 @@ msgid "TermBase eXchange file"
 msgstr "Файл TermBase eXchange"
 
 #: weblate/formats/ttkit.py:2089
-#, fuzzy
-#| msgid "mi18n lang file"
 msgid "@draggable/i18n lang file"
-msgstr "Языковой файл mi18n"
+msgstr "Языковой файл @draggable/i18n"
 
 #: weblate/formats/ttkit.py:2098
 msgid "Stringsdict file"
@@ -5230,7 +5214,7 @@ msgstr "США"
 #: weblate/machinery/forms.py:220
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Имя Google Storage Bucket"
 
 #: weblate/machinery/forms.py:224
 msgctxt "Google Cloud Translation configuration"
@@ -5238,6 +5222,8 @@ msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
+"Введите имя хранилища Google Cloud Storage, которое используется для "
+"хранения файлов словаря."
 
 #: weblate/machinery/forms.py:234
 #, python-format
@@ -5280,11 +5266,10 @@ msgid "Context vector"
 msgstr "Вектор контекста"
 
 #: weblate/machinery/forms.py:273
-#, fuzzy
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
-"Разделённый запятыми список заметок Идентификатор:вес. Например: "
-"1234:0.123,4567:0.456"
+"Разделённый запятыми список заметок «идентификатор»:«вес». Например: 1234:0."
+"123,4567:0.456"
 
 #: weblate/machinery/forms.py:286
 #, python-format
@@ -5292,9 +5277,9 @@ msgid "The context vector is not valid: %s"
 msgstr "Некорректный вектор контекста: %s"
 
 #: weblate/machinery/forms.py:290
-#, fuzzy, python-format
+#, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr "Значение веса должно находиться в диапазоне от 0 до 1: %s"
+msgstr "Значение веса должно находится в диапазоне от 0 до 1: %s"
 
 #: weblate/machinery/forms.py:301
 msgctxt "Automatic suggestion service configuration"
@@ -5420,32 +5405,28 @@ msgstr "Файл"
 
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
-msgstr ""
+msgstr "Вы можете загрузить файл следующих форматов: TMX, JSON, XLIFF, PO, CSV."
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "Исходный язык"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "Целевой язык документа для двуязычных файлов"
+msgstr "Исходный язык документа, если он не указан в файле"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1866
 msgid "Target language"
 msgstr "Целевой язык"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "Целевой язык документа для двуязычных файлов"
+msgstr "Целевой язык документа, если он не указан в файле"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
-msgstr ""
+msgstr "Для этого формата файлов необходимо указать исходный и целевой языки."
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5481,13 +5462,11 @@ msgstr "Неподдерживаемый файл!"
 
 #: weblate/memory/models.py:333
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "Одноязычный формат не поддерживается для загрузки в память"
 
 #: weblate/memory/models.py:343
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Одноязычный базовый файл"
+msgstr "В файле отсутствует исходный или целевой язык!"
 
 #: weblate/memory/models.py:436
 msgctxt "Translation memory category"
@@ -8173,10 +8152,8 @@ msgid "Screenshots"
 msgstr "Снимки экрана"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Create component"
 msgid "Duplicate Component"
-msgstr "Создать компонент"
+msgstr "Дублировать компонент"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -9898,14 +9875,11 @@ msgstr "Приобрести пакет поддержки"
 
 #: weblate/templates/manage/index.html:110
 msgid "Contact customer care"
-msgstr ""
+msgstr "Связаться с поддержкой клиентов"
 
 #: weblate/templates/manage/index.html:119
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Contact us via e-mail"
-msgstr "Эл. почта для связи"
+msgstr "Связаться с нами по эл. почте"
 
 #: weblate/templates/manage/performance.html:13
 #: weblate/wladmin/templates/admin/weblate-index.html:44
@@ -10519,16 +10493,12 @@ msgid "Paste from clipboard"
 msgstr "Вставить из буфера обмена"
 
 #: weblate/templates/search.html:29
-#, fuzzy
-#| msgid "Strings"
 msgid "strings"
-msgstr "Строки"
+msgstr "строки"
 
 #: weblate/templates/search.html:29
-#, fuzzy
-#| msgid "Words"
 msgid "words"
-msgstr "Слова"
+msgstr "слова"
 
 #: weblate/templates/search.html:34
 #: weblate/templates/snippets/embed-units.html:126
@@ -11230,10 +11200,8 @@ msgid "First"
 msgstr "Первый"
 
 #: weblate/templates/snippets/position-field.html:22
-#, fuzzy
-#| msgid "Previous translation:"
 msgid "Previous section"
-msgstr "Предыдущий перевод:"
+msgstr "Предыдущий раздел"
 
 #: weblate/templates/snippets/position-field.html:65
 #, python-format
@@ -11254,10 +11222,8 @@ msgid "/ %(filter_count)s"
 msgstr "/ %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:101
-#, fuzzy
-#| msgid "Text direction"
 msgid "Next section"
-msgstr "Направление текста"
+msgstr "Следующий раздел"
 
 #: weblate/templates/snippets/position-field.html:113
 #: weblate/templates/snippets/position-field.html:132
@@ -12793,16 +12759,12 @@ msgid "Add term to glossary"
 msgstr "Добавить понятие в словарь"
 
 #: weblate/templates/translate.html:726
-#, fuzzy
-#| msgid "User identities"
 msgid "Unit identifier"
-msgstr "Профили пользователя"
+msgstr "Идентификатор единицы"
 
 #: weblate/templates/translate.html:728
-#, fuzzy
-#| msgid "Invitation link copied to clipboard."
 msgid "Unit identifier copied to clipboard"
-msgstr "Ссылка на приглашение скопирована в буфер обмена."
+msgstr "Идентификатор единицы скопирован в буфер обмена"
 
 #: weblate/templates/translate.html:729
 msgid "String information"
@@ -13105,7 +13067,7 @@ msgstr "Открыть в полном редакторе"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "Свернуть"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:623
 msgid "The translation has come to an end."
@@ -13570,10 +13532,8 @@ msgid "You do not have permission to access this component."
 msgstr "У вас нет разрешения на доступ к этому компоненту."
 
 #: weblate/trans/forms.py:1442
-#, fuzzy
-#| msgid "This field has been identified as spam!"
 msgid "This submission has been identified as spam!"
-msgstr "Это поле идентифицировано как спам!"
+msgstr "Это предложение идентифицировано как спам!"
 
 #: weblate/trans/forms.py:1526 weblate/trans/forms.py:2154
 msgid "Basic"
@@ -15157,10 +15117,10 @@ msgid "Could not update repository: %s"
 msgstr "Не удалось обновить репозиторий: %s"
 
 #: weblate/trans/models/component.py:3028
-#, fuzzy
-#| msgid "This will push changes and create a GitLab merge request."
 msgid "Pull and push branches cannot be the same when using merge requests."
-msgstr "Это отправит изменения и создаст запрос слияния GitLab."
+msgstr ""
+"Ветки извлечения и отправки не могут быть одинаковыми при использовании "
+"запросов слияния."
 
 #: weblate/trans/models/component.py:3041
 msgid ""
@@ -15239,10 +15199,8 @@ msgid "Add new translation string"
 msgstr "Добавить новую строку перевода"
 
 #: weblate/trans/models/component.py:3847
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Не удалось объединить репозиторий."
+msgstr "Не удалось получить статус репозитория!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -16829,23 +16787,19 @@ msgstr "Шрифт заголовка"
 
 #: weblate/wladmin/forms.py:96 weblate/wladmin/forms.py:103
 msgid "Navigation color (Light, Dark)"
-msgstr ""
+msgstr "Цвет навигатора (светлый, тёмный)"
 
 #: weblate/wladmin/forms.py:99
 msgid "Navigation text color (Light, Dark)"
-msgstr ""
+msgstr "Цвет текста навигации (светлый, тёмный)"
 
 #: weblate/wladmin/forms.py:106
-#, fuzzy
-#| msgid "Focus color"
 msgid "Focus color (Light, Dark)"
-msgstr "Цвет фокуса"
+msgstr "Цвет фокуса (светлый, тёмный)"
 
 #: weblate/wladmin/forms.py:109
-#, fuzzy
-#| msgid "Hover color"
 msgid "Hover color (Light, Dark)"
-msgstr "Цвет при наведении мыши"
+msgstr "Цвет при наведении мыши (светлый, тёмный)"
 
 #: weblate/wladmin/forms.py:113
 msgid "Hide page footer"
@@ -16956,7 +16910,7 @@ msgstr "Репозитории"
 
 #: weblate/wladmin/views.py:153
 msgid "Customer care ticket created:"
-msgstr ""
+msgstr "Создана заявка поддержке клиентов:"
 
 #: weblate/wladmin/views.py:183
 msgid "Test e-mail sent."
