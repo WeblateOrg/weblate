@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-07 13:07+0100\n"
-"PO-Revision-Date: 2024-12-08 02:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-12-09 05:00+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
 "Language: ga\n"
@@ -10843,23 +10843,14 @@ msgid "Avoiding merge conflicts"
 msgstr "Coinbhleachtaí cumaisc a sheachaint"
 
 #: ../../admin/continuous.rst:109
-#, fuzzy
-#| msgid ""
-#| "The merge conflicts from Weblate arise when same file was changed both in "
-#| "Weblate and outside it. There are two approaches to deal with that - "
-#| "avoid edits outside Weblate or integrate Weblate into your updating "
-#| "process, so that it flushes changes prior to updating the files outside "
-#| "Weblate."
 msgid ""
 "The merge conflicts from Weblate arise when same file was changed both in "
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
-"Eascraíonn coinbhleachtaí cumaisc ó Weblate nuair a athraíodh an comhad "
-"céanna in Weblate agus lasmuigh de. Tá dhá chur chuige ann chun déileáil "
-"leis sin - seachain athruithe lasmuigh de Weblate nó comhtháthú Weblate "
-"isteach i do phróiseas nuashonraithe, ionas go sreabhann sé athruithe roimh "
-"na comhaid a nuashonrú lasmuigh de Weblate."
+"Eascraíonn na coinbhleachtaí cumaisc ó Weblate nuair a athraíodh an comhad "
+"céanna in Weblate agus lasmuigh de. Ag brath ar an gcás, tá roinnt cur "
+"chuige a d’fhéadfadh cabhrú anseo:"
 
 #: ../../admin/continuous.rst:112
 msgid ":ref:`merge-weblate-only`"
@@ -10874,24 +10865,12 @@ msgid ":ref:`merge-weblate-git`"
 msgstr ":ref:`merge-weblate-git`"
 
 #: ../../admin/continuous.rst:119
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by changing translation files in Weblate only"
-msgstr "Coinbhleachtaí cumaisc ar athruithe de bhunadh Weblate a sheachaint"
+msgstr ""
+"Coinbhleachtaí cumaisc a sheachaint trí chomhaid aistriúcháin a athrú in "
+"Weblate amháin"
 
 #: ../../admin/continuous.rst:121
-#, fuzzy
-#| msgid ""
-#| "The first approach is easy with monolingual files — you can add new "
-#| "strings within Weblate and leave whole editing of the files there. For "
-#| "bilingual files, there is usually some kind of message extraction process "
-#| "to generate translatable files from the source code. In some cases this "
-#| "can be split into two parts - one for the extraction generates template "
-#| "(for example gettext POT is generated using :program:`xgettext`) and then "
-#| "further process merges it into actual translations (the gettext PO files "
-#| "are updated using :program:`msgmerge`). You can perform the second step "
-#| "within Weblate and it will ensure that all pending changes are included "
-#| "prior to this operation."
 msgid ""
 "Avoiding edits outside Weblate is easy with monolingual files — you can add "
 "new strings within Weblate and leave whole editing of the files there. For "
@@ -10899,57 +10878,55 @@ msgid ""
 "generate translatable files from the source code. In some cases, this can be "
 "split into two parts:"
 msgstr ""
-"Tá an chéad chur chuige éasca le comhaid aonteangacha — is féidir teaghráin "
-"nua a chur leis laistigh de Weblate agus eagarthóireacht iomlán na gcomhad a "
-"fhágáil ann. Maidir le comhaid dhátheangacha, is gnách go mbíonn próiseas "
-"eastósctha teachtaireachtaí de chineál éigin ann chun comhaid inaistrithe a "
-"ghiniúint ón gcód foinseach. I gcásanna áirithe is féidir é seo a roinnt ina "
-"dhá chuid - gineann ceann amháin le haghaidh an eastósctha teimpléad (mar "
-"shampla gintear gettext POT ag baint úsáide as :program:`xgettext`) agus "
-"ansin cumascann próiseas breise é in aistriúcháin iarbhír (nuathraíonn "
-"comhaid PO gettext ag baint úsáide as: clár:`msgmerge`). Is féidir leat an "
-"dara céim a dhéanamh laistigh de Weblate agus cinnteoidh sé go gcuirfear "
-"gach athrú ar feitheamh san áireamh roimh an oibríocht seo."
+"Tá sé éasca athruithe lasmuigh de Weblate a sheachaint le comhaid "
+"aonteangacha — is féidir leat teaghráin nua a chur leis laistigh de Weblate "
+"agus eagarthóireacht iomlán na gcomhad a fhágáil ann. Maidir le comhaid "
+"dhátheangacha, is gnách go mbíonn próiseas eastósctha teachtaireachtaí de "
+"chineál éigin ann chun comhaid inaistrithe a ghiniúint ón gcód foinseach. I "
+"gcásanna áirithe, is féidir é seo a roinnt ina dhá chuid:"
 
 #: ../../admin/continuous.rst:127
 msgid ""
 "The extraction generates template (for example gettext POT is generated "
 "using :program:`xgettext`)."
 msgstr ""
+"Gineann an t-eastóscadh teimpléad (mar shampla gintear gettext POT le "
+":program:`xgettext`)."
 
 #: ../../admin/continuous.rst:128
 msgid ""
 "Further process merges it into actual translations (the gettext PO files are "
 "updated using :program:`msgmerge`)."
 msgstr ""
+"Cumascann próiseas breise é ina haistriúcháin iarbhír (Déantar na comhaid PO "
+"gettext a nuashonrú ag baint úsáide as :program:`msgmerge`)."
 
 #: ../../admin/continuous.rst:130
 msgid ""
 "You can perform the second step within Weblate and it will ensure that all "
 "pending changes are included before this operation."
 msgstr ""
+"Is féidir leat an dara céim a dhéanamh laistigh de Weblate agus cinnteoidh "
+"sé go gcuirfear gach athrú ar feitheamh san áireamh roimh an oibríocht seo."
 
 #: ../../admin/continuous.rst:136
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
-msgstr "Coinbhleachtaí cumaisc ar athruithe de bhunadh Weblate a sheachaint"
+msgstr ""
+"Coinbhleachtaí cumaisc a sheachaint trí Weblate a ghlasáil agus athruithe "
+"seachtracha á ndéanamh"
 
 #: ../../admin/continuous.rst:138
-#, fuzzy
-#| msgid ""
-#| "The second approach can be achieved by using :ref:`api` to force Weblate "
-#| "to push all pending changes and lock the translation while you are doing "
-#| "changes on your side."
 msgid ""
 "Integrating Weblate into your updating process so that it flushes changes "
 "before updating the files outside Weblate can be achieved by using :ref:"
 "`api` to force Weblate to push all pending changes and lock the translation "
 "while you are doing changes on your side."
 msgstr ""
-"Is féidir an dara cur chuige a bhaint amach trí :ref:`api` a úsáid chun "
-"iallach a chur ar Weblate gach athrú atá ar feitheamh a bhrú agus an t-"
-"aistriúchán a ghlasáil agus tú ag déanamh athruithe ar do thaobh."
+"Is féidir Weblate a chomhtháthú isteach i do phróiseas nuashonraithe ionas "
+"go sruthóidh sé athruithe sula nuashonraítear na comhaid lasmuigh de Weblate "
+"trí :ref:`api` a úsáid chun iallach a chur ar Weblate gach athrú atá ar "
+"feitheamh a bhrú agus an t-aistriúchán a ghlasáil agus tú ag déanamh "
+"athruithe ar do thaobh."
 
 #: ../../admin/continuous.rst:142
 msgid "The script for doing updates can look like this:"
@@ -10958,23 +10935,14 @@ msgstr ""
 "dhéanamh:"
 
 #: ../../admin/continuous.rst:163
-#, fuzzy
-#| msgid ""
-#| "If you have multiple components sharing same repository, you need to lock "
-#| "them all separately:"
 msgid ""
 "If you have multiple components sharing the same repository, you need to "
 "lock them all separately:"
 msgstr ""
-"Má tá comhpháirteanna iolracha agat a bhfuil an stór céanna á roinnt agat, "
-"ní mór duit iad go léir a ghlasáil ar leithligh:"
+"Má tá comhpháirteanna iolracha agat ag roinnt an stór céanna, ní mór duit "
+"iad go léir a ghlasáil ar leithligh:"
 
 #: ../../admin/continuous.rst:174
-#, fuzzy
-#| msgid ""
-#| "The example uses :ref:`wlc`, which needs configuration (API keys) to be "
-#| "able to control Weblate remotely. You can also achieve this using any "
-#| "HTTP client instead of wlc, e.g. curl, see :ref:`api`."
 msgid ""
 "The example uses :ref:`wlc`, which needs configuration (API keys) to be able "
 "to control Weblate remotely. You can also achieve this using any HTTP client "
@@ -10982,23 +10950,14 @@ msgid ""
 msgstr ""
 "Úsáideann an sampla :ref:`wlc`, a bhfuil cumraíocht de dhíth air (eochracha "
 "API) le bheith in ann Weblate a rialú go cianda. Is féidir leat é seo a "
-"bhaint amach freisin trí úsáid a bhaint as aon chliant HTTP in ionad wlc, e."
-"g. curl, féach :tag:`api`."
+"bhaint amach freisin trí úsáid a bhaint as aon chliant HTTP in ionad "
+":ref:`wlc`, mar shampla curl, féach :ref:`api`."
 
 #: ../../admin/continuous.rst:181
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by focusing on Git operations"
-msgstr "Coinbhleachtaí cumaisc ar athruithe de bhunadh Weblate a sheachaint"
+msgstr "Coinbhleachtaí cumaisc a sheachaint trí dhíriú ar oibríochtaí Git"
 
 #: ../../admin/continuous.rst:183
-#, fuzzy
-#| msgid ""
-#| "Even when Weblate is the single source of the changes in the translation "
-#| "files, conflicts can appear when using :ref:`addon-weblate.git.squash` "
-#| "add-on, :ref:`component-merge_style` is configured to :guilabel:`Rebase`, "
-#| "or you are squashing commits outside of Weblate (for example when merging "
-#| "a pull request)."
 msgid ""
 "Even when Weblate is the single source of the changes in the translation "
 "files, conflicts can appear when using :ref:`addon-weblate.git.squash` add-"
@@ -11007,10 +10966,10 @@ msgid ""
 "request)."
 msgstr ""
 "Fiú nuair is é Weblate foinse aonair na n-athruithe ar na comhaid "
-"aistriúcháin, féadann coinbhleachtaí a bheith ann nuair a bhíonn :ref:`addon-"
-"weblate.git.squash` breiseán, :ref:`component-merge_style` cumraithe do :"
-"guilabel: `Rebase`, nó má tá tú ag scuaise geallta taobh amuigh de Weblate "
-"(mar shampla agus iarratas tarraingthe á chumasc)."
+"aistriúcháin, féadann coinbhleachtaí a bheith le feiceáil agus :ref:`addon-"
+"weblate.git.squash` breiseán, :ref:`component-merge_style` cumraithe do "
+":guilabel: `Rebase`, nó má tá tú ag scuaise geallta taobh amuigh de Weblate ("
+"mar shampla, agus iarratas tarraingthe á chumasc)."
 
 #: ../../admin/continuous.rst:188
 msgid ""
@@ -11029,11 +10988,6 @@ msgstr ""
 "thuilleadh agus diúltaíonn sé rebase a dhéanamh."
 
 #: ../../admin/continuous.rst:194
-#, fuzzy
-#| msgid ""
-#| "To approach this, you either need to minimize amount of pending changes "
-#| "in Weblate when you merge a pull request, or avoid the conflicts "
-#| "completely by not squashing changes."
 msgid ""
 "To approach this, you either need to minimize the amount of pending changes "
 "in Weblate when you merge a pull request, or avoid the conflicts completely "
@@ -11057,30 +11011,22 @@ msgstr ""
 "chumaisc."
 
 #: ../../admin/continuous.rst:201
-#, fuzzy
-#| msgid ""
-#| "Let Weblate commit pending changes before merging. This will update the "
-#| "pull request with all its changes and both repositories will be in sync."
 msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes, and both repositories will be in sync."
 msgstr ""
 "Lig do Weblate athruithe ar feitheamh a dhéanamh roimh chumasc. Nuashonróidh "
-"sé seo an t-iarratas tarraingt lena hathruithe go léir agus beidh an dá stór "
-"ar sioncronú."
+"sé seo an t-iarratas tarraingt lena hathruithe go léir, agus beidh an dá "
+"stór á sioncronú."
 
 #: ../../admin/continuous.rst:202
-#, fuzzy
-#| msgid ""
-#| "Use the review features in Weblate (see :doc:`/workflows`), so that you "
-#| "can automatically merge GitHub pull requests after CI passes."
 msgid ""
 "Use the review features in Weblate (see :doc:`/workflows`) so that you can "
 "automatically merge GitHub pull requests after CI passes."
 msgstr ""
-"Bain úsáid as na gnéithe athbhreithnithe in Weblate (féach :doc:`/"
-"workflows`), ionas gur féidir leat iarratais ar tharraingt GitHub a chumasc "
-"go huathoibríoch tar éis do CI pas a fháil."
+"Bain úsáid as na gnéithe athbhreithnithe in Weblate (féach :doc:`/workflows`)"
+" ionas gur féidir leat iarratais ar tharraingt GitHub a chumasc go "
+"huathoibríoch tar éis do CI pas a fháil."
 
 #: ../../admin/continuous.rst:203
 msgid ""
@@ -12327,10 +12273,8 @@ msgid "pip extra"
 msgstr "pip breise"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "Python Package"
 msgid "Python Packages"
-msgstr "Pacáiste Python"
+msgstr "Pacáistí Python"
 
 #: ../../admin/install.rst:210
 msgid "Weblate feature"
@@ -12348,15 +12292,10 @@ msgstr ""
 "alimt>`_"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid ""
-#| "`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-"
-#| "alimt>`_"
 msgid ""
 "`aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_"
 msgstr ""
-"`aliyun-python-sdk-alimt < https://pypi.org/project/aliyun-python-sdk-"
-"alimt>`_"
+"`aliyun-python-sdk-core < https://pypi.org/project/aliyun-python-sdk-core> `_"
 
 #: ../../admin/install.rst:215
 msgid ":ref:`mt-alibaba`"
@@ -12391,10 +12330,8 @@ msgid "``gelf``"
 msgstr "``gelf``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`git-review <https://pypi.org/project/git-review>`_"
 msgid "`logging-gelf <https://pypi.org/project/logging-gelf>`_"
-msgstr "`git-review < https://pypi.org/project/git-review> `_"
+msgstr "`logáil-gelf < https://pypi.org/project/logging-gelf> `_"
 
 #: ../../admin/install.rst:227
 msgid ":ref:`graylog`"
@@ -12428,10 +12365,8 @@ msgstr ""
 "`google-cloud-storage < https://pypi.org/project/google-cloud-storage> `_"
 
 #: ../../admin/install.rst:236
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr ":ref:`mt-google-translate-api-v3` le tacaíocht gluais"
 
 #: ../../admin/install.rst:238
 msgid "``ldap``"
@@ -12507,58 +12442,44 @@ msgid "``saml2idp``"
 msgstr "``saml2idp``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
 msgid "`djangosaml2idp <https://pypi.org/project/djangosaml2idp>`_"
-msgstr "`django-auth-ldap < https://pypi.org/project/django-auth-ldap> `_"
+msgstr "`djangosaml2idp < https://pypi.org/project/djangosaml2idp>`_"
 
 #: ../../admin/install.rst:264
-#, fuzzy
-#| msgid "Integrating with Weblate"
 msgid "Integrating SAML 2 IDP into Weblate"
-msgstr "Comhtháthú le Weblate"
+msgstr "IDP SAML 2 a chomhtháthú isteach sa Ghréasán"
 
 #: ../../admin/install.rst:266
 msgid "``wlhosted``"
 msgstr "``wlhosted``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`boto3 <https://pypi.org/project/boto3>`_"
 msgid "`wlhosted <https://pypi.org/project/wlhosted>`_"
-msgstr "`boto3 < https://pypi.org/project/boto3> `_"
+msgstr "`wlhosted <https://pypi.org/project/wlhosted>`_"
 
 #: ../../admin/install.rst:268 ../../admin/install.rst:272
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Hosted Weblate integration"
-msgstr "Riarachán gréasáin"
+msgstr "Comhtháthú Weblate a óstáil"
 
 #: ../../admin/install.rst:270
 msgid "``wllegal``"
 msgstr "``wllegal``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`wllegal <https://pypi.org/project/wllegal>`_"
-msgstr "`openai < https://pypi.org/project/openai>`_"
+msgstr "`wllegal < https://pypi.org/project/wllegal>`_"
 
 #: ../../admin/install.rst:274
 msgid "``wsgi``"
 msgstr "``wsgi``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`gunicorn <https://pypi.org/project/gunicorn>`_"
-msgstr "`openai < https://pypi.org/project/openai>`_"
+msgstr "`gunicorn < https://pypi.org/project/gunicorn>`_"
 
 #: ../../admin/install.rst:276
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "wsgi server for Weblate"
-msgstr "Faigh amach faoi Weblate"
+msgstr "freastalaí wsgi do Weblate"
 
 #: ../../admin/install.rst:278
 msgid "``zxcvbn``"
@@ -12614,15 +12535,12 @@ msgstr ""
 "inbhreathnaitheachta GObject"
 
 #: ../../admin/install.rst:308
-#, fuzzy
-#| msgid ""
-#| "https://cairographics.org/, https://pango.gnome.org/, see :ref:"
-#| "`pangocairo`"
 msgid ""
 "https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, "
 "see :ref:`pangocairo`"
 msgstr ""
-"https://cairographics.org/, https://pango.gnome.org/, féach :ref:`pangocairo`"
+"https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, "
+"féach :ref:`pangocairo`"
 
 #: ../../admin/install.rst:309
 msgid "``git-review`` (optional for Gerrit support)"
@@ -14807,10 +14725,8 @@ msgstr ""
 "d’fhéadfadh fadhb a léiriú - mar theip ar pharsáil comhad uaslódáilte."
 
 #: ../../admin/install.rst:1705
-#, fuzzy
-#| msgid "Terminology management"
 msgid "Graylog log management"
-msgstr "Bainistíocht téarmaíochta"
+msgstr "Bainistíocht loga Graylog"
 
 #: ../../admin/install.rst:1709
 msgid ""
@@ -14818,18 +14734,17 @@ msgid ""
 "developed for Graylog integration, but can be used with any compliant "
 "logging platform."
 msgstr ""
+"Is féidir Weblate a chumrú le logáil trí úsáid a bhaint as prótacal GELF "
+"TCP. Forbraíodh é seo do chomhtháthú Graylog, ach is féidir é a úsáid le "
+"haon ardán logála comhlíontach."
 
 #: ../../admin/install.rst:1712
-#, fuzzy
-#| msgid ""
-#| "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
-#| "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgid ""
 "The configuration boilerplate is included in :ref:`sample-configuration`, "
 "for Docker this can be configured using :envvar:`WEBLATE_LOG_GELF_HOST`."
 msgstr ""
-"Cuirtear é seo i bhfeidhm sa :ref:`sample-configuration`. Le haghaidh "
-"Docker, úsáid :envvar:`WEBLATE_REQUIRE_LOGIN`."
+"Tá an pláta coire cumraíochta san áireamh i :ref:`sample-configuration`, le "
+"haghaidh Docker is féidir é seo a chumrú le :envvar:`WEBLATE_LOG_GELF_HOST`."
 
 #: ../../admin/install.rst:1716
 msgid "Migrating Weblate to another server"
@@ -15592,10 +15507,14 @@ msgid ""
 "Configures remote logging using GELF TCP connection. Can be used to "
 "integrate with Graylog."
 msgstr ""
+"Cumraíonn sé cianlogáil trí nasc GELF TCP a úsáid. Is féidir é a úsáid chun "
+"comhtháthú le Graylog."
 
 #: ../../admin/install/docker.rst:494
 msgid "Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201."
 msgstr ""
+"Úsáid port saincheaptha le haghaidh :envvar:`WEBLATE_LOG_GELF_HOST`, "
+"réamhshocraithe go 12201."
 
 #: ../../admin/install/docker.rst:498
 msgid "Changes the site-title shown in the header of all pages."
@@ -16141,10 +16060,8 @@ msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "Cumraíonn : socrú: `UNUSED_ALERT_DAYS`."
 
 #: ../../admin/install/docker.rst:1009
-#, fuzzy
-#| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
-msgstr "Cumraíonn :suíomh:`BASIC_LANGUAGES`."
+msgstr "Cumraíonn : socrú: `UPDATE_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:1015
 msgid "Allow CORS requests to API from given origins."
@@ -18444,6 +18361,8 @@ msgstr ""
 msgid ""
 "Per-project automatic suggestion can also be configured via the :ref:`api`."
 msgstr ""
+"Is féidir moladh uathoibríoch in aghaidh an tionscadail a chumrú freisin "
+"tríd an :ref:`api`."
 
 #: ../../admin/machine.rst:29
 msgid ":ref:`machine-translation`"
@@ -23540,10 +23459,8 @@ msgstr ""
 "slonn rialta a socraíodh mar luach an réimse seo."
 
 #: ../../admin/projects.rst:930
-#, fuzzy
-#| msgid "Selected languages only"
 msgid "Selected keys only"
-msgstr "Teangacha roghnaithe amháin"
+msgstr "Eochracha roghnaithe amháin"
 
 #: ../../admin/projects.rst:930
 msgid "``^(one|two|other)$``"
@@ -23551,17 +23468,15 @@ msgstr "``^(one|two|other)$``"
 
 #: ../../admin/projects.rst:932
 msgid "Exclude app store changelogs"
-msgstr ""
+msgstr "Fág logaí athruithe sa siopa aip as an áireamh"
 
 #: ../../admin/projects.rst:932
 msgid "``^(?!changelogs/.*$).+$``"
 msgstr "``^(?!changelogs/.*$).+$``"
 
 #: ../../admin/projects.rst:934
-#, fuzzy
-#| msgid "Split Android strings"
 msgid "Filter prefixed strings"
-msgstr "Scoilt teaghráin Android"
+msgstr "Scag teaghráin réamhshocrú"
 
 #: ../../admin/projects.rst:934
 msgid "``^translatable``"
@@ -26122,30 +26037,24 @@ msgid ""
 "Returns automatic suggestion settings for a project, consisting of the "
 "configurations defined for each translation service installed."
 msgstr ""
+"Filleann sé socruithe moltaí uathoibríocha do thionscadal, ina bhfuil na "
+"cumraíochtaí sainithe do gach seirbhís aistriúcháin a suiteáladh."
 
 #: ../../api.rst:1247
-#, fuzzy
-#| msgid "Configuration of available VCS backends."
 msgid "Configuration for all installed services."
-msgstr "Cumraíocht na n-inneall VCS atá ar fáil."
+msgstr "Cumraíocht do gach seirbhís suiteáilte."
 
 #: ../../api.rst:1254
-#, fuzzy
-#| msgid "Update the existing service configuration."
 msgid "Create or update the service configuration for a project."
-msgstr "Nuashonraigh cumraíocht na seirbhíse reatha."
+msgstr "Cruthaigh nó nuashonraigh an chumraíocht seirbhíse do thionscadal."
 
 #: ../../api.rst:1258
-#, fuzzy
-#| msgid "Service ID"
 msgid "Service name"
-msgstr "Aitheantas Seirbhíse"
+msgstr "Ainm seirbhíse"
 
 #: ../../api.rst:1259
-#, fuzzy
-#| msgid "Save configuration."
 msgid "Service configuration in JSON"
-msgstr "Sábháil cumraíocht."
+msgstr "Cumraíocht seirbhíse i JSON"
 
 #: ../../api.rst:1267
 msgid ""
@@ -28135,32 +28044,27 @@ msgid ""
 "Per-project :ref:`machine-translation-setup` can now be configured via the "
 "Project :ref:`api`."
 msgstr ""
+"Per-project :tag: Is féidir `machine-translation-setup` a chumrú anois tríd "
+"an Tionscadal :ref:`api`."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
-msgstr "Curtha leis :http:get:`/api/projects/(string:project)/file/`."
+msgstr ""
+"Curtha leis :http:get:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
-msgstr "Curtha leis :http:get:`/api/projects/(string:project)/file/`."
+msgstr ""
+"Curtha leis :http:post:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "Translation memory import now supports files with XLIFF, PO and CSV "
-#| "formats, see :ref:`memory-user` and `import_memory` command in :ref:"
-#| "`manage`."
 msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`."
 msgstr ""
-"Tacaíonn iompórtáil cuimhne aistriúcháin anois le comhaid le formáidí XLIFF, "
-"PO agus CSV, féach : ref: `memory-user` agus `import_memory` ordú i : ref:"
-"`manage`."
+"Tacaíonn allmhairiú cuimhne aistriúcháin anois le comhaid le formáidí XLIFF, "
+"PO agus CSV, féach : ref: `memory-user` agus :wladmin: `import_memory` ordú "
+"in : ref: `manage`."
 
 #: ../../changes.rst:14
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
@@ -28176,7 +28080,7 @@ msgstr ""
 
 #: ../../changes.rst:16
 msgid "Logging to :ref:`graylog`."
-msgstr ""
+msgstr "Ag logáil go :tag: `graylog`."
 
 #: ../../changes.rst:18 ../../changes.rst:56 ../../changes.rst:152
 #: ../../changes.rst:195 ../../changes.rst:221 ../../changes.rst:259
@@ -28238,16 +28142,12 @@ msgid "Improved :ref:`translation-propagation` performance."
 msgstr "Feabhsaíodh :tag: feidhmíocht `aistriúcháin-iomadú`."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 "More detailed error messages for :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/file/`."
 msgstr ""
-":http:post:`/api/translations/(string:project)/(teaghrán:component)/"
-"(teaghrán:teanga)/comhad/`"
+"Teachtaireachtaí earráide níos mionsonraithe le haghaidh :http:post:`/api/"
+"translations/(string:project)/(string:component)/(string:language)/file/`."
 
 #: ../../changes.rst:31 ../../changes.rst:60 ../../changes.rst:81
 #: ../../changes.rst:102 ../../changes.rst:125 ../../changes.rst:167
@@ -28264,24 +28164,17 @@ msgid "**Bug fixes**"
 msgstr "**Fabhtcheartaithe**"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid ""
-#| "**Bug fixes** * Using the `has:variant` field now correctly displays "
-#| "strings that have variant(s) in the search language, see :ref:`search-"
-#| "strings`."
 msgid ""
 "Using the ``has:variant`` field now correctly displays strings that have "
 "variant(s) in the search language, see :ref:`search-strings`."
 msgstr ""
-"** Ceartúcháin ar fhabhtanna** * Trí úsáid a bhaint as an réimse `has:"
-"variant` anois, taispeántar teaghráin i gceart a bhfuil malairtí acu sa "
-"teanga chuardaigh, féach :ref:`search-teaghráin`."
+"Agus an réimse ``has:variant`` á úsáid agat anois, taispeántar teaghráin i "
+"gceart a bhfuil malairtí acu sa teanga chuardaigh, féach :ref:`search-"
+"teaghráin`."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Saving newly added strings in some formats."
-msgstr "Teaghráin nua-chur leis á aistriú seasta."
+msgstr "Teaghráin nua-chur a shábháil i bhformáidí áirithe."
 
 #: ../../changes.rst:36 ../../changes.rst:173 ../../changes.rst:278
 #: ../../changes.rst:368 ../../changes.rst:530 ../../changes.rst:636
@@ -28295,12 +28188,12 @@ msgid ""
 ":ref:`rollbar-errors` integration no longer includes client-side error "
 "collection."
 msgstr ""
+":ref: Ní áirítear le comhtháthú `rollbar-errors` bailiú earráidí ar thaobh "
+"an chliaint a thuilleadh."
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Weblate now requires Python 3.7 or newer."
 msgid "Weblate now requires Git 2.28 or newer."
-msgstr "Tá Python 3.7 nó níos nuaí ag teastáil ó Weblate anois."
+msgstr "Tá Git 2.28 nó níos nuaí ag teastáil ó Weblate anois."
 
 #: ../../changes.rst:41 ../../changes.rst:66 ../../changes.rst:87
 #: ../../changes.rst:110 ../../changes.rst:129 ../../changes.rst:178
@@ -39949,10 +39842,6 @@ msgid "Weblate frontend"
 msgstr "Comhéadan gréasáin"
 
 #: ../../contributing/frontend.rst:4
-#, fuzzy
-#| msgid ""
-#| "The frontend is currently built using Bootstrap, jQuery and few third "
-#| "party libraries."
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third-party "
 "libraries."
@@ -39995,12 +39884,6 @@ msgid "Dependency management"
 msgstr "Bainistíocht spleáchais"
 
 #: ../../contributing/frontend.rst:22
-#, fuzzy
-#| msgid ""
-#| "Installing and managing `3rd party` libraries in the `client` of a django "
-#| "project can be a bit tricky. This section provides a step-by-step guide "
-#| "on how to install and manage 3rd party libraries used by the `client "
-#| "side` of Weblate using `Webpack`."
 msgid ""
 "Installing and managing `3rd party` libraries in the `client` of a Django "
 "project can be a bit tricky. This section provides a step-by-step guide on "
@@ -40008,7 +39891,7 @@ msgid ""
 "Weblate using `Webpack`."
 msgstr ""
 "Is féidir le leabharlanna `3ú páirtí` a shuiteáil agus a bhainistiú sa "
-"`chliant` de thionscadal django a bheith beagán deacair. Soláthraíonn an "
+"`chliant` de thionscadal Django a bheith beagán deacair. Soláthraíonn an "
 "rannán seo treoir céim ar chéim ar conas leabharlanna 3ú páirtí a shuiteáil "
 "agus a bhainistiú a úsáideann an `taobh cliant` de Weblate ag baint úsáide "
 "as `Webpack`."
@@ -40030,10 +39913,8 @@ msgid "``Nodejs`` version 14 or higher."
 msgstr "``Nodejs`` leagan 14 nó níos airde."
 
 #: ../../contributing/frontend.rst:32
-#, fuzzy
-#| msgid "The ``yarn`` package manager installed on your system."
 msgid "The ``yarn`` package manager is installed on your system."
-msgstr "Tá an bainisteoir pacáiste `` snáth`` suiteáilte ar do chóras."
+msgstr "Tá an bainisteoir pacáiste `` yarn`` suiteáilte ar do chóras."
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``cd client``."
@@ -40044,10 +39925,8 @@ msgid "Run ``yarn install``"
 msgstr "Rith `` suiteáil snáth``"
 
 #: ../../contributing/frontend.rst:39
-#, fuzzy
-#| msgid "To install a library, 1st run the following command:"
 msgid "To install a library, first run the following command:"
-msgstr "Chun leabharlann a shuiteáil, rith 1ú an t-ordú seo a leanas:"
+msgstr "Chun leabharlann a shuiteáil, rith an t-ordú seo a leanas ar dtús:"
 
 #: ../../contributing/frontend.rst:46
 msgid "Importing the Library"
@@ -40185,18 +40064,13 @@ msgid "Localization"
 msgstr "Aistriúchán"
 
 #: ../../contributing/frontend.rst:99
-#, fuzzy
-#| msgid ""
-#| "Should you need any user visible text in the frontend code, it should be "
-#| "localizable. In most cases all you need is to wrap your text inside "
-#| "``gettext`` function, but there are more complex features available:"
 msgid ""
 "Should you need any user visible text in the frontend code, it should be "
 "localizable. In most cases, all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
 "Más gá duit aon téacs infheicthe ón úsáideoir sa chód tosaigh, ba cheart go "
-"mbeadh sé in-áitiúil. I bhformhór na gcásanna níl uait ach do théacs a "
+"mbeadh sé in-áitiúil. I bhformhór na gcásanna, níl uait ach do théacs a "
 "chuimilt laistigh den fheidhm ``gettext``, ach tá gnéithe níos casta ar fáil:"
 
 #: ../../contributing/frontend.rst:118
@@ -40383,22 +40257,16 @@ msgstr ""
 "struchtúr na míreanna i PR eile."
 
 #: ../../contributing/index.rst:55
-#, fuzzy
-#| msgid ""
-#| "Documentation can be also edited and built locally, the Python "
-#| "requirements are in `docs/requirements.txt`. You will also need :program:"
-#| "`graphviz` to build the documentation."
 msgid ""
 "Documentation can be also edited and built locally, the Python requirements "
 "are in the ``docs`` dependency group in :file:`pyproject.toml`."
 msgstr ""
-"Is féidir doiciméid a chur in eagar agus a thógáil go háitiúil freisin, tá "
-"na ceanglais Python in `docs/requirements.txt`. Beidh :clár:`graphviz` uait "
-"freisin chun an doiciméadú a thógáil."
+"Is féidir doiciméadú a chur in eagar agus a thógáil go háitiúil freisin, tá "
+"na riachtanais Python sa ghrúpa spleáchais ``docs`` i :file:`pyproject.toml`."
 
 #: ../../contributing/index.rst:58
 msgid "You will also need :program:`graphviz` to build the documentation."
-msgstr ""
+msgstr "Beidh :program:`graphviz` uait freisin chun an doiciméadú a thógáil."
 
 #: ../../contributing/index.rst:62
 msgid ""
@@ -47069,11 +46937,6 @@ msgstr ""
 "láthair mar theaghráin ar leith le haistriú."
 
 #: ../../formats/appstore.rst:18
-#, fuzzy
-#| msgid ""
-#| "In case you don't want to translate certain strings (for example "
-#| "changelogs), mark them read-only (see :ref:`custom-checks`). This can be "
-#| "automated by the :ref:`addon-weblate.flags.bulk`."
 msgid ""
 "In case you don't want to translate certain strings (for example "
 "changelogs), you can hide them using :ref:`component-key_filter` or mark "
@@ -47081,9 +46944,10 @@ msgid ""
 "`addon-weblate.flags.bulk`."
 msgstr ""
 "I gcás nach bhfuil tú ag iarraidh teaghráin áirithe a aistriú (logs "
-"changelogs mar shampla), marcáil iad inléite amháin (féach :ref:`seiceálacha "
-"saincheaptha`). Is féidir é seo a uathoibriú leis an :ref:`addon-weblate."
-"flags.bulk`."
+"changelogs mar shampla), is féidir leat iad a chur i bhfolach ag baint "
+"úsáide as :ref:`component-key_filter` nó iad a mharcáil inléite amháin ("
+"féach :ref:`seiceálacha saincheaptha`). Is féidir é seo a uathoibriú leis an "
+":ref:`addon-weblate.flags.bulk`."
 
 #: ../../formats/appstore.rst:29
 msgid "``fastlane/metadata/android/*``"
@@ -55529,12 +55393,6 @@ msgid "Matrix View"
 msgstr "Amharc Maitrís"
 
 #: ../../user/translating.rst:447
-#, fuzzy
-#| msgid ""
-#| "You can compare different languages efficiently using this view. It is "
-#| "available on every component page, from the :guilabel:`Tools` menu. First "
-#| "select all languages you want to compare, confirm your selection, then "
-#| "click on any translation to open and edit it."
 msgid ""
 "You can compare different languages efficiently using this view It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
@@ -55542,8 +55400,8 @@ msgid ""
 "on any translation to open and edit it."
 msgstr ""
 "Is féidir leat teangacha éagsúla a chur i gcomparáid go héifeachtach leis an "
-"amharc seo Tá sé ar fáil ar gach leathanach comhpháirte, ón roghchlár :"
-"guilabel:`Tools`. Ar dtús roghnaigh gach teanga is mian leat a chur i "
+"amharc seo Tá sé ar fáil ar gach leathanach comhpháirte, ón roghchlár "
+":guilabel:`Tools`. Ar dtús roghnaigh gach teanga is mian leat a chur i "
 "gcomparáid, deimhnigh do rogha, ansin cliceáil ar aon aistriúchán chun é a "
 "oscailt agus a chur in eagar."
 
@@ -56096,10 +55954,8 @@ msgid "Git"
 msgstr "Git"
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "Weblate needs Git 2.12 or newer."
 msgid "Weblate needs Git 2.28 or newer."
-msgstr "Tá Git 2.12 nó níos nuaí de dhíth ar Weblate."
+msgstr "Tá Git 2.28 nó níos nuaí de dhíth ar Weblate."
 
 #: ../../vcs.rst:271 ../../vcs.rst:557
 msgid ""
