@@ -141,7 +141,7 @@ class Formatter:
         self.search_match = search_match
         self.match = match
         # Tags output
-        self.tags: list[list[str]] = [[] for i in range(len(value) + 1)]
+        self.tags: dict[int, list[str]] = defaultdict(list)
         self.differ = Differ()
         self.whitespace = whitespace
 
@@ -179,20 +179,23 @@ class Formatter:
                 # Rearrange space highlighting
                 move_space = False
                 start_space = -1
-                for pos, tag in enumerate(self.tags[offset]):
-                    if tag == SPACE_MIDDLE_2:
-                        self.tags[offset][pos] = SPACE_MIDDLE_1
-                        move_space = True
-                        break
-                    if tag == SPACE_START:
-                        start_space = pos
-                        break
+                if offset in self.tags:
+                    for pos, tag in enumerate(self.tags[offset]):
+                        if tag == SPACE_MIDDLE_2:
+                            self.tags[offset][pos] = SPACE_MIDDLE_1
+                            move_space = True
+                            break
+                        if tag == SPACE_START:
+                            start_space = pos
+                            break
 
                 if start_space != -1:
                     self.tags[offset].insert(start_space, "<ins>")
                     last_middle = None
                     for i in range(len(data)):
                         tagoffset = offset + i + 1
+                        if tagoffset not in self.tags:
+                            continue
                         for pos, tag in enumerate(self.tags[tagoffset]):
                             if tag == SPACE_END:
                                 # Whitespace ends within <ins>
@@ -397,19 +400,25 @@ class Formatter:
         output = []
         was_cr = False
         newlines = {"\r", "\n"}
+        current: list[str]
+        whitespace = self.whitespace
         for pos, char in enumerate(value):
-            # Special case for single whitespace char in diff
-            if (
-                char == " "
-                and "<ins>" in tags[pos]
-                and SPACE_START not in tags[pos]
-                and "</ins>" in tags[pos + 1]
-            ):
-                tags[pos].append(SPACE_START)
-                tags[pos + 1].insert(0, SPACE_END)
+            if pos in tags:
+                current = tags[pos]
+                # Special case for single whitespace char in diff
+                if (
+                    current
+                    and char == " "
+                    and "<ins>" in current
+                    and SPACE_START not in current
+                    and "</ins>" in tags[pos + 1]
+                ):
+                    current.append(SPACE_START)
+                    tags[pos + 1].insert(0, SPACE_END)
 
-            output.extend(tags[pos])
-            if char in newlines and self.whitespace:
+                output.extend(current)
+
+            if whitespace and char in newlines:
                 is_cr = char == "\r"
                 if was_cr and not is_cr:
                     # treat "\r\n" as single newline
