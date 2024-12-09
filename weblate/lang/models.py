@@ -472,7 +472,10 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
         # Invalidate cache, we might change languages
         self.flush_object_cache()
-        languages = {language.code: language for language in self.prefetch()}
+        languages = {
+            language.code: language
+            for language in self.prefetch().iterator(chunk_size=1000)
+        }
         plurals: dict[str, dict[int, list[Plural]]] = {}
         # Create Weblate languages
         for code, name, nplurals, plural_formula in LANGUAGES:
@@ -506,7 +509,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
             # Fetch existing plurals
             plurals[code] = defaultdict(list)
-            for plural in lang.plural_set.iterator():
+            for plural in lang.plural_set.all():
                 plurals[code][plural.source].append(plural)
 
             if Plural.SOURCE_DEFAULT in plurals[code]:
