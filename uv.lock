@@ -1474,6 +1474,15 @@ grpc = [
 ]
 
 [[package]]
+name = "gprof2dot"
+version = "2024.6.6"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/32/11/16fc5b985741378812223f2c6213b0a95cda333b797def622ac702d28e81/gprof2dot-2024.6.6.tar.gz", hash = "sha256:fa1420c60025a9eb7734f65225b4da02a10fc6dd741b37fa129bc6b41951e5ab", size = 36536 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ae/27/15c4d20871a86281e2bacde9e9f634225d1c2ed0db072f98acf201022411/gprof2dot-2024.6.6-py2.py3-none-any.whl", hash = "sha256:45b14ad7ce64e299c8f526881007b9eb2c6b75505d5613e96e66ee4d5ab33696", size = 34763 },
+]
+
+[[package]]
 name = "grpc-google-iam-v1"
 version = "0.13.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2822,6 +2831,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/02/c0/43c8b2528c24d7f1a48a47e3f7381f5ab2ae8c64634b0c3f4bd843063955/pytest_django-4.9.0.tar.gz", hash = "sha256:8bf7bc358c9ae6f6fc51b6cebb190fe20212196e6807121f11bd6a3b03428314", size = 84067 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/47/fe/54f387ee1b41c9ad59e48fb8368a361fad0600fe404315e31a12bacaea7d/pytest_django-4.9.0-py3-none-any.whl", hash = "sha256:1d83692cb39188682dbb419ff0393867e9904094a549a7d38a3154d5731b2b99", size = 23723 },
+]
+
+[[package]]
+name = "pytest-profiling"
+version = "1.8.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "gprof2dot" },
+    { name = "pytest" },
+    { name = "six" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/44/74/806cafd6f2108d37979ec71e73b2ff7f7db88eabd19d3b79c5d6cc229c36/pytest-profiling-1.8.1.tar.gz", hash = "sha256:3f171fa69d5c82fa9aab76d66abd5f59da69135c37d6ae5bf7557f1b154cb08d", size = 33135 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e3/ac/c428c66241a144617a8af7a28e2e055e1438d23b949b62ac4b401a69fb79/pytest_profiling-1.8.1-py3-none-any.whl", hash = "sha256:3dd8713a96298b42d83de8f5951df3ada3e61b3e5d2a06956684175529e17aea", size = 9929 },
 ]
 
 [[package]]
@@ -4271,6 +4294,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-django" },
+    { name = "pytest-profiling" },
     { name = "responses" },
     { name = "respx" },
     { name = "reuse" },
@@ -4317,6 +4341,7 @@ test = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-django" },
+    { name = "pytest-profiling" },
     { name = "responses" },
     { name = "respx" },
     { name = "selenium" },
@@ -4445,6 +4470,7 @@ dev = [
     { name = "pytest", specifier = "==8.3.4" },
     { name = "pytest-cov", specifier = "==6.0.0" },
     { name = "pytest-django", specifier = "==4.9.0" },
+    { name = "pytest-profiling", specifier = "==1.8.1" },
     { name = "responses", specifier = "==0.25.3" },
     { name = "respx", specifier = "==0.21.1" },
     { name = "reuse", specifier = "==5.0.2" },
@@ -4487,6 +4513,7 @@ test = [
     { name = "pytest", specifier = "==8.3.4" },
     { name = "pytest-cov", specifier = "==6.0.0" },
     { name = "pytest-django", specifier = "==4.9.0" },
+    { name = "pytest-profiling", specifier = "==1.8.1" },
     { name = "responses", specifier = "==0.25.3" },
     { name = "respx", specifier = "==0.21.1" },
     { name = "selenium", specifier = "==4.27.1" },
