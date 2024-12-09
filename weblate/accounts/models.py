@@ -306,7 +306,9 @@ class AuditLogManager(models.Manager):
 
         return not logins.filter(Q(address=address) | Q(user_agent=user_agent)).exists()
 
-    def create(self, user: User, request: AuthenticatedHttpRequest, activity, **params):
+    def create(
+        self, user: User, request: AuthenticatedHttpRequest | None, activity, **params
+    ):
         address = get_ip_address(request)
         user_agent = get_user_agent(request)
         if activity == "login" and self.is_new_login(user, address, user_agent):
