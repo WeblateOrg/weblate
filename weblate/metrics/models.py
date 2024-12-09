@@ -167,7 +167,6 @@ class MetricManager(models.Manager["Metric"]):
 
     def initialize_metrics(self, scope: int, relation: int, secondary: int = 0) -> None:
         today = timezone.now().date()
-        # 2 years + one day for leap years
         self.bulk_create(
             [
                 Metric(
@@ -175,9 +174,8 @@ class MetricManager(models.Manager["Metric"]):
                     relation=relation,
                     secondary=secondary,
                     changes=0,
-                    date=today - datetime.timedelta(days=day),
+                    date=today,
                 )
-                for day in range(2 * 365 + 1)
             ],
             ignore_conflicts=True,
         )
