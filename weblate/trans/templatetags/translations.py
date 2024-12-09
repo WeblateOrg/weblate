@@ -383,6 +383,7 @@ class Formatter:
         newlines = {"\r", "\n"}
         current: list[str]
         whitespace = self.whitespace
+        previous_start = -1
         for pos, char in enumerate(value):
             if pos in tags:
                 current = tags[pos]
@@ -397,29 +398,42 @@ class Formatter:
                     current.append(SPACE_START)
                     tags[pos + 1].insert(0, SPACE_END)
 
+                if previous_start != -1:
+                    output.append(value[previous_start:pos])
+                    previous_start = -1
                 output.extend(current)
 
+            next_output = None
             if whitespace and char in newlines:
                 is_cr = char == "\r"
                 if was_cr and not is_cr:
                     # treat "\r\n" as single newline
                     continue
                 was_cr = is_cr
-                output.append(newline)
+                next_output = newline
             # Replace special characters "&", "<" and ">" to HTML-safe sequences.
             # This is like html.escape but inline and working on single character only.
             elif char == "&":
-                output.append("&amp;")
+                next_output = "&amp;"
             elif char == "<":
-                output.append("&lt;")
+                next_output = "&lt;"
             elif char == ">":
-                output.append("&gt;")
+                next_output = "&gt;"
             elif char == '"':
-                output.append("&quot;")
+                next_output = "&quot;"
             elif char == "'":
-                output.append("&#x27;")
-            else:
-                output.append(char)
+                next_output = "&#x27;"
+            if next_output is not None:
+                if previous_start != -1:
+                    output.append(value[previous_start:pos])
+                    previous_start = -1
+                output.append(next_output)
+            elif previous_start == -1:
+                previous_start = pos
+
+        if previous_start != -1:
+            output.append(value[previous_start:])
+
         # Trailing tags
         output.extend(tags[len(value)])
         return mark_safe("".join(output))  # noqa: S308
