@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-07 12:06+0000\n"
-"PO-Revision-Date: 2024-11-28 15:00+0000\n"
+"PO-Revision-Date: 2024-12-10 04:02+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -1576,7 +1576,7 @@ msgstr "단일 언어 기반 파일을 정의하기"
 
 #: weblate/addons/forms.py:297
 msgid "Leave empty for bilingual translation files."
-msgstr "2개 국어로 번역되는 파일의 경우 비워 두십시오."
+msgstr "다국어 언어 번역 파일은 비워둡니다."
 
 #: weblate/addons/forms.py:300
 msgid "Define the base file for new translations"
@@ -1633,7 +1633,7 @@ msgstr "기본 파일 없이는 단일 언어 번역을 사용할 수 없습니�
 
 #: weblate/addons/forms.py:405 weblate/trans/models/component.py:2916
 msgid "You can not use a base file for bilingual translation."
-msgstr "2개 국어의 번역에는 기본 파일을 사용할 수 없습니다."
+msgstr "다국어 언어 번역에는 기본 파일을 사용할 수 없습니다."
 
 #: weblate/addons/forms.py:419
 msgid "Please review and confirm the matched components."
@@ -2887,7 +2887,7 @@ msgstr "변경 횟수"
 
 #: weblate/billing/models.py:299 weblate/wladmin/models.py:215
 msgid "Hosted strings"
-msgstr "저장된 문자열"
+msgstr "번역된 문자열"
 
 #: weblate/billing/models.py:311 weblate/trans/admin.py:95
 msgid "Source words"
@@ -6634,7 +6634,7 @@ msgstr "빈도"
 
 #: weblate/templates/accounts/user.html:271
 msgid "One-time"
-msgstr "일회성"
+msgstr "단발성"
 
 #: weblate/templates/accounts/user.html:324 weblate/templates/auth/team.html:48
 #: weblate/templates/manage/teams.html:34
@@ -7159,7 +7159,7 @@ msgstr "접근 전용"
 
 #: weblate/templates/base.html:131
 msgid "Toggle navigation"
-msgstr "내비게이션 토글"
+msgstr "내비게이션 전환하기"
 
 #: weblate/templates/base.html:146 weblate/templates/category-project.html:23
 #: weblate/templates/category.html:40 weblate/templates/component.html:47
@@ -8623,7 +8623,7 @@ msgstr "사용 가능한 단축키"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
-msgstr ""
+msgstr "단축키"
 
 #: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:2795
 msgid "Action"
@@ -8631,7 +8631,7 @@ msgstr "활동"
 
 #: weblate/templates/keyboard-shortcuts.html:33
 msgid "Open available keyboard shortcuts."
-msgstr ""
+msgstr "사용 가능한 키보드 단축키를 엽니다."
 
 #: weblate/templates/keyboard-shortcuts.html:39
 msgid "Navigate to the first translation in the current search."
@@ -8640,7 +8640,7 @@ msgstr "현재 검색에서 첫 번째 번역으로 이동합니다."
 #: weblate/templates/keyboard-shortcuts.html:45
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid "Navigate to the last translation in the current search."
-msgstr ""
+msgstr "현재 검색에서 마지막 번역으로 이동합니다."
 
 #: weblate/templates/keyboard-shortcuts.html:49
 #: weblate/templates/keyboard-shortcuts.html:51
@@ -8669,13 +8669,14 @@ msgstr "또는"
 
 #: weblate/templates/keyboard-shortcuts.html:71
 msgid "Navigate to the next translation in the current search."
-msgstr ""
+msgstr "현재 검색에서 다음 번역으로 이동합니다."
 
 #: weblate/templates/keyboard-shortcuts.html:81
 msgid ""
 "Submit current form; this works the same as pressing Save and continue while "
 "editing translation."
-msgstr ""
+msgstr "현재 양식 제출; 번역을 편집하는 동안 저장하고 계속을 누르는 것과 동일하게 "
+"작동합니다."
 
 #: weblate/templates/keyboard-shortcuts.html:90
 msgid "Unmark translation as Needing edit and submit it."
@@ -8685,19 +8686,16 @@ msgstr "번역의 편집 필요 표시를 해제하고 제출하세요."
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
 "while editing translation."
-msgstr ""
+msgstr "문자열을 제안으로 제출; 번역을 편집하는 동안 제안을 누르는 것과 동일하게 "
+"작동합니다."
 
 #: weblate/templates/keyboard-shortcuts.html:108
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on translation editor."
-msgstr "번역 편집기에 집중함"
+msgstr "번역 편집기에 중점을 둡니다."
 
 #: weblate/templates/keyboard-shortcuts.html:116
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Focus on comment editor."
-msgstr "번역 편집기에 집중함"
+msgstr "의견 편집기에 중점을 둡니다."
 
 #: weblate/templates/keyboard-shortcuts.html:124
 msgid "Shows Automatic suggestions tab."
@@ -8711,7 +8709,7 @@ msgstr "자동 제안 탭을 표시합니다."
 #: weblate/templates/keyboard-shortcuts.html:154
 msgctxt "between keyboard shortcuts"
 msgid "to"
-msgstr ""
+msgstr "~"
 
 #: weblate/templates/keyboard-shortcuts.html:134
 msgid "Copies placeable of a given number from source string."
@@ -8722,7 +8720,7 @@ msgstr "원문 문자열에서 주어진 숫자를 복사하여 배치합니다.
 #: weblate/templates/keyboard-shortcuts.html:149
 #: weblate/templates/keyboard-shortcuts.html:153
 msgid "followed by"
-msgstr "뒤이어"
+msgstr "다음에 이어"
 
 #: weblate/templates/keyboard-shortcuts.html:145
 msgid "Copy the machine translation of a given number to current translation."
@@ -8738,7 +8736,7 @@ msgstr "주변 문자열 탭을 표시합니다."
 
 #: weblate/templates/keyboard-shortcuts.html:173
 msgid "Focus on search field."
-msgstr ""
+msgstr "검색 필드에 중점을 둡니다."
 
 #: weblate/templates/keyboard-shortcuts.html:181
 msgid "Copy the source string."
@@ -8746,7 +8744,7 @@ msgstr "원문 문자열을 복사합니다."
 
 #: weblate/templates/keyboard-shortcuts.html:189
 msgid "Toggle the Needs editing checkbox."
-msgstr ""
+msgstr "편집 필요 확인란을 전환합니다."
 
 #: weblate/templates/keyboard-shortcuts.html:195
 msgid "Browse the next translation string."
@@ -9534,14 +9532,11 @@ msgstr "지원 패키지 구매"
 
 #: weblate/templates/manage/index.html:110
 msgid "Contact customer care"
-msgstr ""
+msgstr "고객 지원팀에 문의하기"
 
 #: weblate/templates/manage/index.html:119
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Contact us via e-mail"
-msgstr "이메일 연락처"
+msgstr "이메일로 문의하기"
 
 #: weblate/templates/manage/performance.html:13
 #: weblate/wladmin/templates/admin/weblate-index.html:44
@@ -10437,7 +10432,7 @@ msgstr "번역 기본 언어를 편집할 수 없습니다."
 
 #: weblate/templates/snippets/info.html:134
 msgid "The translation uses bilingual files."
-msgstr "번역은 2개 국어로 된 파일을 사용합니다."
+msgstr "번역은 다국어 언어 파일을 사용합니다."
 
 #: weblate/templates/snippets/info.html:161
 #: weblate/templates/translate.html:851
@@ -11388,8 +11383,8 @@ msgid ""
 "You might be using a monolingual translation file as a bilingual one. If "
 "that is the case, please set the monolingual base language file location."
 msgstr ""
-"단일 언어 번역 파일을 이중 언어 번역 파일로 사용할 수 있습니다. 이럴 경우, 단"
-"일 언어 기본 언어 파일 위치를 설정하십시오."
+"단일 언어 번역 파일을 다국어 언어 번역 파일로 사용하고 있을 수 있습니다. 이 "
+"경우, 단일 언어 기본 언어 파일 위치를 설정하세요."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:17
 msgid ""
@@ -12305,16 +12300,12 @@ msgid "Add term to glossary"
 msgstr "용어집에 용어 추가하기"
 
 #: weblate/templates/translate.html:726
-#, fuzzy
-#| msgid "User identities"
 msgid "Unit identifier"
-msgstr "사용자 신원"
+msgstr "유닛 식별자"
 
 #: weblate/templates/translate.html:728
-#, fuzzy
-#| msgid "Invitation link copied to clipboard."
 msgid "Unit identifier copied to clipboard"
-msgstr "초대 링크가 클립보드에 복사되었습니다."
+msgstr "클립보드에 복사된 유닛 식별자"
 
 #: weblate/templates/translate.html:729
 msgid "String information"
@@ -12596,19 +12587,19 @@ msgstr "Textile 코드"
 
 #: weblate/templates/widgets.html:74
 msgid "Image URL"
-msgstr "이미지 URL 경로"
+msgstr "이미지 URL"
 
 #: weblate/templates/zen-units.html:27
 msgid "Open in full editor"
-msgstr "전체 화면 에디터에서 열기"
+msgstr "전체 화면 편집기에서 열기"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "접기"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:623
 msgid "The translation has come to an end."
-msgstr "번역이 끝났습니다."
+msgstr "번역이 마무리되었습니다."
 
 #: weblate/templates/zen.html:46
 msgid "Edit in single string mode"
@@ -13058,10 +13049,8 @@ msgid "You do not have permission to access this component."
 msgstr "이 구성요소에 접근할 수 있는 권한이 없습니다."
 
 #: weblate/trans/forms.py:1442
-#, fuzzy
-#| msgid "This field has been identified as spam!"
 msgid "This submission has been identified as spam!"
-msgstr "이 필드는 스팸으로 식별되었습니다!"
+msgstr "이 게시물은 스팸으로 분류되었습니다!"
 
 #: weblate/trans/forms.py:1526 weblate/trans/forms.py:2154
 msgid "Basic"
@@ -13125,7 +13114,7 @@ msgstr "번역할 문서"
 
 #: weblate/trans/forms.py:1867
 msgid "Target language of the document for bilingual files"
-msgstr ""
+msgstr "다국어 언어 파일에 대한 문서의 대상 언어"
 
 #: weblate/trans/forms.py:1934
 msgid "Choose translation files to import"
@@ -14603,10 +14592,8 @@ msgid "Could not update repository: %s"
 msgstr "저장소를 업데이트할 수 없습니다: %s"
 
 #: weblate/trans/models/component.py:3028
-#, fuzzy
-#| msgid "This will push changes and create a GitLab merge request."
 msgid "Pull and push branches cannot be the same when using merge requests."
-msgstr "이렇게 하면 변경사항을 푸시하고 GitLab 병합 요청을 생성합니다."
+msgstr "병합 요청을 할 때는 가져오는 분기와 보내는 분기가 달라야 합니다."
 
 #: weblate/trans/models/component.py:3041
 msgid ""
@@ -14630,7 +14617,7 @@ msgstr "제안 수락은 투표가 활성화된 경우에만 자동으로 작동
 
 #: weblate/trans/models/component.py:3124
 msgid "To use the key filter, the file format must be monolingual."
-msgstr ""
+msgstr "키 필터를 사용하려면, 파일 형식이 단일 언어여야 합니다."
 
 #: weblate/trans/models/component.py:3513
 msgid "Could not add new translation file."
@@ -16186,11 +16173,11 @@ msgstr "헤더 글꼴"
 
 #: weblate/wladmin/forms.py:96 weblate/wladmin/forms.py:103
 msgid "Navigation color (Light, Dark)"
-msgstr ""
+msgstr "내비게이션 색상 (밝음, 어두움)"
 
 #: weblate/wladmin/forms.py:99
 msgid "Navigation text color (Light, Dark)"
-msgstr ""
+msgstr "내비게이션 텍스트 색상 (밝음, 어두움)"
 
 #: weblate/wladmin/forms.py:106
 msgid "Focus color (Light, Dark)"
@@ -16212,9 +16199,8 @@ msgstr "햄버거 메뉴 버튼 항상 표시"
 msgid ""
 "Persistent navigational drop-down menu in the top right corner, even if "
 "there is room for a full menu."
-msgstr ""
-"전체 차림표를 저장할 공간이 있더라도 오른쪽 상단 모서리에 영구적인 탐색 내려 "
-"펼침 차림표가 있습니다."
+msgstr "전체 메뉴를 위한 공간이 있더라도, 오른쪽 상단에 영구 내비게이션 기능의 "
+"드롭다운 메뉴가 표시됩니다."
 
 #: weblate/wladmin/models.py:123
 msgid "Community support"
@@ -16307,7 +16293,7 @@ msgstr "저장소"
 
 #: weblate/wladmin/views.py:153
 msgid "Customer care ticket created:"
-msgstr ""
+msgstr "고객 관리 티켓이 생성되었습니다:"
 
 #: weblate/wladmin/views.py:183
 msgid "Test e-mail sent."
