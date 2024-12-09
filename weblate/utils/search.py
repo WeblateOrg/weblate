@@ -251,29 +251,28 @@ class BaseTermExpr:
         second: int = 55,
         microsecond: int = 0,
     ) -> datetime | tuple[datetime, datetime]:
-        # Lazily import as this can be expensive
-        from dateparser import parse as dateparser_parse
-
         tzinfo = timezone.get_current_timezone()
 
-        # Attempts to parse the text using dateparser
-        # If the text is unparsable it will return None
-        result = dateparser_parse(text)
+        try:
+            # Here we inject 5:55:55 time and if that was not changed
+            # during parsing, we assume it was not specified while
+            # generating the query
+            result = dateutil_parse(
+                text,
+                default=timezone.now().replace(
+                    hour=hour, minute=minute, second=second, microsecond=microsecond
+                ),
+            )
+        except ParserError:
+            # Lazily import as this can be expensive
+            from dateparser import parse as dateparser_parse
+
+            # Attempts to parse the text using dateparser
+            # If the text is unparsable it will return None
+            result = dateparser_parse(text, locales=["en"])
         if not result:
-            try:
-                # Here we inject 5:55:55 time and if that was not changed
-                # during parsing, we assume it was not specified while
-                # generating the query
-                result = dateutil_parse(
-                    text,
-                    default=timezone.now().replace(
-                        hour=hour, minute=minute, second=second, microsecond=microsecond
-                    ),
-                )
-            except ParserError as error:
-                raise ValueError(
-                    gettext("Invalid timestamp: {}").format(error)
-                ) from error
+            msg = "Could not parse timestamp"
+            raise ValueError(msg)
 
         result = result.replace(
             hour=hour,
