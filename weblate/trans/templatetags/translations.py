@@ -408,7 +408,7 @@ class Formatter:
                 tags[pos].append(SPACE_START)
                 tags[pos + 1].insert(0, SPACE_END)
 
-            output.append("".join(tags[pos]))
+            output.extend(tags[pos])
             if char in newlines and self.whitespace:
                 is_cr = char == "\r"
                 if was_cr and not is_cr:
@@ -419,7 +419,7 @@ class Formatter:
             else:
                 output.append(char_html_escape(char))
         # Trailing tags
-        output.append("".join(tags[len(value)]))
+        output.extend(tags[len(value)])
         return mark_safe("".join(output))  # noqa: S308
 
 
