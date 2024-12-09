@@ -408,6 +408,8 @@ class CommandTest(BaseTestCase):
     def test_setuplang(self) -> None:
         call_command("setuplang")
         self.assertTrue(Language.objects.exists())
+        with self.assertNumQueries(3):
+            call_command("setuplang")
 
     def test_setuplang_noupdate(self) -> None:
         call_command("setuplang", update=False)
