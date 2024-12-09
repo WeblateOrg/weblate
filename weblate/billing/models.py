@@ -484,19 +484,37 @@ class Billing(models.Model):
             % len(components),
         )
         for component in components:
+            license_name = component.get_license_display()
+            if not component.libre_license:
+                if not license_name:
+                    license_name = format_html(
+                        "<strong>{0}</strong>", gettext("Missing license")
+                    )
+                else:
+                    license_name = format_html(
+                        "{0} (<strong>{1}</strong>)",
+                        license_name,
+                        gettext("Not a libre license"),
+                    )
+            if component.license_url:
+                license_name = format_html(
+                    '<a href="{0}">{1}</a>', component.license_url, license_name
+                )
+            repo_url = component.repo
+            if repo_url.startswith("https://"):
+                repo_url = format_html('<a href="{0}">{0}</a>', repo_url)
             yield LibreCheck(
                 component.libre_license,
                 format_html(
                     """
                     <a href="{0}">{1}</a>,
-                    <a href="{2}">{3}</a>,
-                    <a href="{4}">{4}</a>,
-                    {5}""",
+                    {2},
+                    {3},
+                    {4}""",
                     component.get_absolute_url(),
                     component.name,
-                    component.license_url or "#",
-                    component.get_license_display() or gettext("Missing license"),
-                    component.repo,
+                    license_name,
+                    repo_url,
                     component.get_file_format_display(),
                 ),
                 component=component,

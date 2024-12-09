@@ -3686,14 +3686,14 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             perform_commit.delay(self.pk, "lock", None)
 
     @cached_property
-    def libre_license(self):
+    def libre_license(self) -> bool:
         return is_libre(self.license)
 
     @cached_property
-    def license_url(self):
+    def license_url(self) -> str:
         return get_license_url(self.license)
 
-    def get_license_display(self):
+    def get_license_display(self) -> str:
         # Override Django implementation as that rebuilds the dict every time
         return get_license_name(self.license)
 
