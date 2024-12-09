@@ -101,6 +101,25 @@ SOURCE_LINK = (
 HLCHECK = '<span class="hlcheck" data-value="{}"><span class="highlight-number"></span>'
 
 
+def char_html_escape(char: str) -> str:
+    """
+    Replace special characters "&", "<" and ">" to HTML-safe sequences.
+
+    This is like html.escape but working on single character only.
+    """
+    if char == "&":
+        return "&amp;"
+    if char == "<":
+        return "&lt;"
+    if char == ">":
+        return "&gt;"
+    if char == '"':
+        return "&quot;"
+    if char == "'":
+        return "&#x27;"
+    return char
+
+
 class Formatter:
     def __init__(
         self,
@@ -398,7 +417,7 @@ class Formatter:
                 was_cr = is_cr
                 output.append(newline)
             else:
-                output.append(html_escape(char))
+                output.append(char_html_escape(char))
         # Trailing tags
         output.append("".join(tags[len(value)]))
         return mark_safe("".join(output))  # noqa: S308
