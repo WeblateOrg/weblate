@@ -1162,7 +1162,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         language = self.source_language
         try:
             result = self.translation_set.select_related("plural").get(
-                language=self.source_language
+                language=language
             )
         except self.translation_set.model.DoesNotExist:
             try:
@@ -1181,7 +1181,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     pass
                 raise
         else:
-            result.language = self.source_language
+            result.language = language
             return result
 
     def preload_sources(self, sources=None) -> None:
