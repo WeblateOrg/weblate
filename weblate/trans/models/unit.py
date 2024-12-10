@@ -1043,49 +1043,52 @@ class Unit(models.Model, LoggerMixin):
         """Propagate current translation to all others."""
         from weblate.auth.permissions import PermissionResult
 
-        to_update: list[Unit] = []
-        for unit in self.same_source_units.select_for_update():
-            if unit.target == self.target and unit.state == self.state:
-                continue
-            if user is not None and not (denied := user.has_perm("unit.edit", unit)):
-                component = unit.translation.component
-                if request and isinstance(denied, PermissionResult):
-                    messages.warning(
-                        request,
-                        gettext(
-                            "String could not be propagated to %(component)s: %(reason)s"
+        with sentry_sdk.start_span(op="unit.propagate"):
+            to_update: list[Unit] = []
+            for unit in self.same_source_units.select_for_update():
+                if unit.target == self.target and unit.state == self.state:
+                    continue
+                if user is not None and not (
+                    denied := user.has_perm("unit.edit", unit)
+                ):
+                    component = unit.translation.component
+                    if request and isinstance(denied, PermissionResult):
+                        messages.warning(
+                            request,
+                            gettext(
+                                "String could not be propagated to %(component)s: %(reason)s"
+                            )
+                            % {"component": component, "reason": denied.reason},
                         )
-                        % {"component": component, "reason": denied.reason},
-                    )
-                continue
-            unit.target = self.target
-            unit.state = self.state
-            unit.commit_if_pending(user)
-            to_update.append(unit)
+                    continue
+                unit.target = self.target
+                unit.state = self.state
+                unit.commit_if_pending(user)
+                to_update.append(unit)
 
-        if not to_update:
-            return False
+            if not to_update:
+                return False
 
-        # Bulk update units
-        Unit.objects.filter(pk__in=(unit.pk for unit in to_update)).update(
-            target=self.target,
-            state=self.state,
-            last_updated=self.last_updated,
-        )
+            # Bulk update units
+            Unit.objects.filter(pk__in=(unit.pk for unit in to_update)).update(
+                target=self.target,
+                state=self.state,
+                last_updated=self.last_updated,
+            )
 
-        # Postprocess changes and generate change objects
-        changes = [
-            unit.post_save(user, user, None, check_new=False, save=False)
-            for unit in to_update
-        ]
+            # Postprocess changes and generate change objects
+            changes = [
+                unit.post_save(user, user, None, check_new=False, save=False)
+                for unit in to_update
+            ]
 
-        # Bulk create changes
-        Change.objects.bulk_create(changes)
+            # Bulk create changes
+            Change.objects.bulk_create(changes)
 
-        # Update user stats
-        user.profile.increase_count("translated", len(to_update))
+            # Update user stats
+            user.profile.increase_count("translated", len(to_update))
 
-        return True
+            return True
 
     def commit_if_pending(self, author: User) -> None:
         """Commit possible previous changes on this unit."""
@@ -1216,50 +1219,51 @@ class Unit(models.Model, LoggerMixin):
 
         This is needed when editing template translation for monolingual formats.
         """
-        # Find relevant units
-        for unit in self.unit_set.exclude(id=self.id).prefetch().prefetch_bulk():
-            unit.commit_if_pending(author)
-            # Update source and number of words
-            unit.source = self.target
-            unit.num_words = self.num_words
-            # Find reverted units
-            if (
-                unit.state == STATE_FUZZY
-                and unit.previous_source == self.target
-                and unit.target
-            ):
-                # Unset fuzzy on reverted
-                unit.original_state = unit.state = STATE_TRANSLATED
-                unit.pending = True
-                unit.previous_source = ""
-            elif (
-                unit.original_state == STATE_FUZZY
-                and unit.previous_source == self.target
-                and unit.target
-            ):
-                # Unset fuzzy on reverted
-                unit.original_state = STATE_TRANSLATED
-                unit.previous_source = ""
-            elif unit.state >= STATE_TRANSLATED and unit.target:
-                # Set fuzzy on changed
-                unit.original_state = STATE_FUZZY
-                if unit.state < STATE_READONLY:
-                    unit.state = STATE_FUZZY
+        with sentry_sdk.start_span(op="unit.update_source_units"):
+            # Find relevant units
+            for unit in self.unit_set.exclude(id=self.id).prefetch().prefetch_bulk():
+                unit.commit_if_pending(author)
+                # Update source and number of words
+                unit.source = self.target
+                unit.num_words = self.num_words
+                # Find reverted units
+                if (
+                    unit.state == STATE_FUZZY
+                    and unit.previous_source == self.target
+                    and unit.target
+                ):
+                    # Unset fuzzy on reverted
+                    unit.original_state = unit.state = STATE_TRANSLATED
                     unit.pending = True
-                unit.previous_source = previous_source
+                    unit.previous_source = ""
+                elif (
+                    unit.original_state == STATE_FUZZY
+                    and unit.previous_source == self.target
+                    and unit.target
+                ):
+                    # Unset fuzzy on reverted
+                    unit.original_state = STATE_TRANSLATED
+                    unit.previous_source = ""
+                elif unit.state >= STATE_TRANSLATED and unit.target:
+                    # Set fuzzy on changed
+                    unit.original_state = STATE_FUZZY
+                    if unit.state < STATE_READONLY:
+                        unit.state = STATE_FUZZY
+                        unit.pending = True
+                    unit.previous_source = previous_source
 
-            # Save unit and change
-            unit.save()
-            unit.generate_change(
-                user,
-                author,
-                Change.ACTION_SOURCE_CHANGE,
-                check_new=False,
-                old=previous_source,
-                target=self.target,
-            )
-            # Invalidate stats
-            unit.translation.invalidate_cache()
+                # Save unit and change
+                unit.save()
+                unit.generate_change(
+                    user,
+                    author,
+                    Change.ACTION_SOURCE_CHANGE,
+                    check_new=False,
+                    old=previous_source,
+                    target=self.target,
+                )
+                # Invalidate stats
+                unit.translation.invalidate_cache()
 
     def generate_change(
         self,
