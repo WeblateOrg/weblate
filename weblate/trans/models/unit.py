@@ -1220,6 +1220,8 @@ class Unit(models.Model, LoggerMixin):
         This is needed when editing template translation for monolingual formats.
         """
         with sentry_sdk.start_span(op="unit.update_source_units"):
+            changes = []
+
             # Find relevant units
             for unit in self.unit_set.exclude(id=self.id).prefetch().prefetch_bulk():
                 unit.commit_if_pending(author)
@@ -1252,18 +1254,25 @@ class Unit(models.Model, LoggerMixin):
                         unit.pending = True
                     unit.previous_source = previous_source
 
-                # Save unit and change
+                # Save unit
                 unit.save()
-                unit.generate_change(
-                    user,
-                    author,
-                    Change.ACTION_SOURCE_CHANGE,
-                    check_new=False,
-                    old=previous_source,
-                    target=self.target,
+                # Generate change
+                changes.append(
+                    unit.generate_change(
+                        user,
+                        author,
+                        Change.ACTION_SOURCE_CHANGE,
+                        check_new=False,
+                        old=previous_source,
+                        target=self.target,
+                        save=False,
+                    )
                 )
+            if changes:
+                # Bulk create changes
+                Change.objects.bulk_create(changes)
                 # Invalidate stats
-                unit.translation.invalidate_cache()
+                self.translation.component.invalidate_cache()
 
     def generate_change(
         self,
