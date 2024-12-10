@@ -127,8 +127,21 @@ def get_other_units(unit):
                 translation__language=translation.language,
             )
             .annotate(matches_current=Count("id", filter=match))
-            .prefetch()
-            .select_related("source_unit")
+            .select_related(
+                "source_unit",
+                "translation",
+                "translation__language",
+                "translation__plural",
+                "translation__component",
+                "translation__component__category",
+                "translation__component__category__project",
+                "translation__component__category__category",
+                "translation__component__category__category__project",
+                "translation__component__category__category__category",
+                "translation__component__category__category__category__project",
+                "translation__component__project",
+                "translation__component__source_language",
+            )
             .order_by("-matches_current")
         )
 
