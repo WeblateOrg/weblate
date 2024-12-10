@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# VfBFan <drop0815@posteo.de>, 2023.
+# VfBFan <drop0815@posteo.de>, 2023, 2024.
 # Wuzzy <Wuzzy@disroot.org>, 2023, 2024.
 # VfBFan <VfBFan@users.noreply.hosted.weblate.org>, 2023, 2024.
 # Justin Nogossek <justmegaliga10000@gmail.com>, 2023.
@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-07 13:07+0100\n"
-"PO-Revision-Date: 2024-12-10 11:35+0000\n"
-"Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2024-12-10 23:09+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -10936,10 +10936,10 @@ msgstr ""
 "berücksichtigt werden."
 
 #: ../../admin/continuous.rst:136
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
-msgstr "Vermeiden von Merge-Konflikten bei von Weblate stammenden Änderungen"
+msgstr ""
+"Vermeiden von Merge-Konflikten durch Sperren von Weblate bei Änderungen von "
+"extern"
 
 #: ../../admin/continuous.rst:138
 msgid ""
@@ -10979,10 +10979,8 @@ msgstr ""
 "Beispiel mit curl, siehe :ref:`api`."
 
 #: ../../admin/continuous.rst:181
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by focusing on Git operations"
-msgstr "Vermeiden von Merge-Konflikten bei von Weblate stammenden Änderungen"
+msgstr "Vermeiden von Merge-Konflikten durch Konzentration auf Git-Operationen"
 
 #: ../../admin/continuous.rst:183
 msgid ""
@@ -13398,7 +13396,7 @@ msgid ""
 "clearsessions` to remove stale session data from the database."
 msgstr ""
 "Konfigurieren Sie, wie Ihre Sitzungen gespeichert werden sollen. Wenn Sie "
-"die Standard-Datenbank-Backend-Engine beibehalten, sollten Sie Folgendes "
+"die Standarddatenbank-Backend-Engine beibehalten, sollten Sie Folgendes "
 "vorsehen: :command:`weblate clearsessions`, um veraltete Sitzungsdaten aus "
 "der Datenbank zu entfernen."
 
@@ -15552,10 +15550,14 @@ msgid ""
 "Configures remote logging using GELF TCP connection. Can be used to "
 "integrate with Graylog."
 msgstr ""
+"Konfiguriert die Remote-Protokollierung über eine GELF-TCP-Verbindung. Kann "
+"zur Integration mit Graylog verwendet werden."
 
 #: ../../admin/install/docker.rst:494
 msgid "Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201."
 msgstr ""
+"Verwendet einen benutzerdefinierten Port für :envvar:`WEBLATE_LOG_GELF_HOST`"
+", Standardwert ist 12201."
 
 #: ../../admin/install/docker.rst:498
 msgid "Changes the site-title shown in the header of all pages."
@@ -18434,6 +18436,8 @@ msgstr ""
 msgid ""
 "Per-project automatic suggestion can also be configured via the :ref:`api`."
 msgstr ""
+"Automatische Vorschläge für einzelne Projekte können auch über :ref:`api` "
+"konfiguriert werden."
 
 #: ../../admin/machine.rst:29
 msgid ":ref:`machine-translation`"
@@ -20297,12 +20301,18 @@ msgid ""
 "Specifies the source language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"Gibt die Ausgangssprache für importierte Übersetzungen an. Wird "
+"normalerweise für Formate benötigt, bei denen die Sprachen nicht aus der "
+"Datei selbst ermittelt werden können."
 
 #: ../../admin/management.rst:376
 msgid ""
 "Specifies the target language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"Gibt die Zielsprache für importierte Übersetzungen an. Wird normalerweise "
+"für Formate benötigt, bei denen die Sprachen nicht aus der Datei selbst "
+"ermittelt werden können."
 
 #: ../../admin/management.rst:385
 msgid "import_project"
@@ -23574,17 +23584,15 @@ msgstr "``^(one|two|other)$``"
 
 #: ../../admin/projects.rst:932
 msgid "Exclude app store changelogs"
-msgstr ""
+msgstr "App-Store-Änderungsprotokolle ausschließen"
 
 #: ../../admin/projects.rst:932
 msgid "``^(?!changelogs/.*$).+$``"
 msgstr "``^(?!changelogs/.*$).+$``"
 
 #: ../../admin/projects.rst:934
-#, fuzzy
-#| msgid "Split Android strings"
 msgid "Filter prefixed strings"
-msgstr "Android-Zeichenketten aufteilen"
+msgstr "Vorangestellte Zeichenketten filtern"
 
 #: ../../admin/projects.rst:934
 msgid "``^translatable``"
@@ -26162,30 +26170,25 @@ msgid ""
 "Returns automatic suggestion settings for a project, consisting of the "
 "configurations defined for each translation service installed."
 msgstr ""
+"Gibt die Einstellungen für automatische Vorschläge für ein Projekt zurück, "
+"die aus den für jeden installierten Übersetzungsdienst definierten "
+"Konfigurationen bestehen."
 
 #: ../../api.rst:1247
-#, fuzzy
-#| msgid "Configuration of available VCS backends."
 msgid "Configuration for all installed services."
-msgstr "Konfiguration der verfügbaren VCS-Backends."
+msgstr "Konfiguration aller installierten Dienste."
 
 #: ../../api.rst:1254
-#, fuzzy
-#| msgid "Update the existing service configuration."
 msgid "Create or update the service configuration for a project."
-msgstr "Aktualisiert die vorhandene Dienstkonfiguration."
+msgstr "Erstellt oder aktualisiert die Dienstkonfiguration für ein Projekt."
 
 #: ../../api.rst:1258
-#, fuzzy
-#| msgid "Service"
 msgid "Service name"
-msgstr "Dienst"
+msgstr "Dienstname"
 
 #: ../../api.rst:1259
-#, fuzzy
-#| msgid "Save configuration."
 msgid "Service configuration in JSON"
-msgstr "Konfiguration speichern."
+msgstr "Dienstkonfiguration in JSON"
 
 #: ../../api.rst:1267
 msgid ""
@@ -26385,16 +26388,12 @@ msgid ":ref:`component-push_on_commit`"
 msgstr ":ref:`component-push_on_commit`"
 
 #: ../../api.rst:1324
-#, fuzzy
-#| msgid ""
-#| "Created component object; see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 "Whether component is locked, this field is read-only; see :http:get:`/api/"
 "components/(string:project)/(string:component)/lock/`"
 msgstr ""
-"Erstelltes Komponentenobjekt; siehe :http:get:`/api/components/(string:"
-"project)/(string:component)/`"
+"Ob die Komponente gesperrt ist, dieses Feld ist schreibgeschützt; siehe "
+":http:get:`/api/components/(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1325
 msgid ":ref:`component-commit_pending_age`"
@@ -28180,6 +28179,8 @@ msgid ""
 "Per-project :ref:`machine-translation-setup` can now be configured via the "
 "Project :ref:`api`."
 msgstr ""
+":ref:`machine-translation-setup` können jetzt projektspezifisch über "
+":ref:`api` konfiguriert werden."
 
 #: ../../changes.rst:10
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
@@ -28196,26 +28197,27 @@ msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`."
 msgstr ""
+"Der Übersetzungsspeicher-Import unterstützt jetzt Dateien im XLIFF-, PO- und "
+"CSV-Format, siehe :ref:`memory-user` und :wladmin:`import_memory`-Befehl in "
+":ref:`manage`."
 
 #: ../../changes.rst:14
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
 msgstr ""
+"Das CAPTCHA für die Registrierung enthält jetzt einen ALTCHA-Proof-of-Work-"
+"Mechanismus."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ""
-#| "Leading problematic characters in :ref:`glossary` terms are now properly "
-#| "stripped in uploaded files."
 msgid ""
 "Leading problematic characters in CSV are now checks for :ref:`glossary`, "
 "see :ref:`check-prohibited-initial-character`."
 msgstr ""
-"Problematische führende Zeichen in :ref:`glossary`-Begriffen werden nun in "
-"hochgeladenen Dateien korrekt entfernt."
+"Führende problematische Zeichen in CSV werden nun für das :ref:`glossary` "
+"geprüft, siehe :ref:`check-prohibited-initial-character`."
 
 #: ../../changes.rst:16
 msgid "Logging to :ref:`graylog`."
-msgstr ""
+msgstr "Protokollierung in :ref:`graylog`."
 
 #: ../../changes.rst:18 ../../changes.rst:56 ../../changes.rst:152
 #: ../../changes.rst:195 ../../changes.rst:221 ../../changes.rst:259
@@ -28262,16 +28264,17 @@ msgstr ""
 #: ../../changes.rst:25
 msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
 msgstr ""
+"Der Editor im :ref:`zen-mode` bleibt nun am unteren Bildschirmrand haften."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Improved navigation while translating."
 msgid "Added page navigation while :ref:`translating`."
-msgstr "Verbesserte Navigation beim Übersetzen."
+msgstr "Seitennavigation beim :ref:`translating` hinzugefügt."
 
 #: ../../changes.rst:27
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
 msgstr ""
+":ref:`manage-appearance` hat jetzt verschiedene Einstellungen für den "
+"dunklen Modus."
 
 #: ../../changes.rst:28
 msgid "Improved :ref:`translation-propagation` performance."
@@ -28304,12 +28307,13 @@ msgid ""
 "Using the ``has:variant`` field now correctly displays strings that have "
 "variant(s) in the search language, see :ref:`search-strings`."
 msgstr ""
+"Das Verwenden des Feldes ``has:variant`` zeigt nun korrekt die Zeichenketten "
+"an, die eine oder mehrere Varianten in der jeweiligen Sprache haben, siehe "
+":ref:`search-strings`."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Saving newly added strings in some formats."
-msgstr "Die Übersetzung neu hinzugefügter Zeichenketten korrigiert."
+msgstr "Speichern von neu hinzugefügten Zeichenketten in einigen Formaten."
 
 #: ../../changes.rst:36 ../../changes.rst:173 ../../changes.rst:278
 #: ../../changes.rst:368 ../../changes.rst:530 ../../changes.rst:636
@@ -28323,6 +28327,8 @@ msgid ""
 ":ref:`rollbar-errors` integration no longer includes client-side error "
 "collection."
 msgstr ""
+"Die :ref:`rollbar-errors`-Integration beinhaltet nicht mehr die "
+"clientseitige Fehlersammlung."
 
 #: ../../changes.rst:39
 msgid "Weblate now requires Git 2.28 or newer."
@@ -42847,12 +42853,16 @@ msgstr "**Tun:**"
 #: ../../contributing/trademark.rst:33
 msgid "Use the Weblate trademark exactly as shown in the list above."
 msgstr ""
+"Verwenden Sie das Markenzeichen von Weblate genau wie in der obigen Liste "
+"angegeben."
 
 #: ../../contributing/trademark.rst:34
 msgid ""
 "Use Weblate wordmarks only as a noun. Avoid Adjectives and Verbs. Do not use "
 "them in plural."
 msgstr ""
+"Verwenden Sie Weblate-Wortmarken nur als Substantiv. Vermeiden Sie Adjektive "
+"und Verben. Verwenden Sie sie nicht im Plural."
 
 #: ../../contributing/trademark.rst:36
 msgid "**Don't:**"
@@ -42863,12 +42873,17 @@ msgid ""
 "Don't use Weblate trademarks in the name of your business, product, service, "
 "app, domain name, publication, or other offering."
 msgstr ""
+"Verwenden Sie keine Weblate-Markenzeichen im Namen Ihres Unternehmens, "
+"Produkts, Dienstes, Ihrer App, Domain, Publikation oder eines anderen "
+"Angebots."
 
 #: ../../contributing/trademark.rst:39
 msgid ""
 "Don't use marks, logos, company names, slogans, domain names, or designs "
 "that are confusingly like Weblate trademarks."
 msgstr ""
+"Verwenden Sie keine Marken, Logos, Firmennamen, Slogans, Domainnamen oder "
+"Designs, die den Weblate-Markenzeichen zum Verwechseln ähnlich sind."
 
 #: ../../contributing/trademark.rst:40
 msgid ""
@@ -42876,24 +42891,35 @@ msgid ""
 "with, or sponsorship, endorsement, or approval by Weblate of your products "
 "or services."
 msgstr ""
+"Verwenden Sie Weblate-Markenzeichen nicht in einer Weise, die "
+"fälschlicherweise den Eindruck erweckt, dass Ihre Produkte oder Dienste "
+"Weblate zugehörig sind oder von Weblate gesponsert, gebilligt oder genehmigt "
+"werden."
 
 #: ../../contributing/trademark.rst:41
 msgid ""
 "Don't display Weblate trademarks more prominently than your product, "
 "service, or company name."
 msgstr ""
+"Zeigen Sie Weblate-Markenzeichen nicht prominenter als Ihren Produkt-, "
+"Dienst- oder Firmennamen an."
 
 #: ../../contributing/trademark.rst:42
 msgid ""
 "Don't use Weblate trademarks on merchandise for sale (e.g., selling t-"
 "shirts, mugs, etc.)."
 msgstr ""
+"Verwenden Sie Weblate-Markenzeichen nicht auf Verkaufsartikeln (z. B. T-"
+"Shirts, Tassen usw.)."
 
 #: ../../contributing/trademark.rst:43
 msgid ""
 "Don't use Weblate trademarks for any other form of commercial use (e.g. "
 "offering technical support services)."
 msgstr ""
+"Verwenden Sie Weblate-Markenzeichen nicht für andere Formen der "
+"kommerziellen Nutzung (z. B. das Anbieten von Diensten zur technischen "
+"Unterstützung)."
 
 #: ../../contributing/trademark.rst:44
 msgid ""
@@ -42901,6 +42927,9 @@ msgid ""
 "other symbols, words, or images, or incorporate them into a tagline or "
 "slogan."
 msgstr ""
+"Verändern Sie Weblate-Markenzeichen nicht, kürzen Sie sie nicht ab, "
+"kombinieren Sie sie nicht mit anderen Symbolen, Wörtern oder Bildern und "
+"integrieren Sie sie nicht in eine Schlagzeile oder einen Slogan."
 
 #: ../../contributing/trademark.rst:47
 msgid "Social Media Guidelines"
@@ -42915,6 +42944,13 @@ msgid ""
 "profile, or header images. The only exception to these requirements is if "
 "you've received prior permission from Weblate."
 msgstr ""
+"Zusätzlich zu den oben genannten allgemeinen Richtlinien dürfen der Name und "
+"die Bezeichnung Ihres Social-Media-Kontos sowie aller Seiten nicht mit einem "
+"Weblate-Markenzeichen beginnen. Darüber hinaus dürfen Weblate-Logos nicht in "
+"einer Weise verwendet werden, die eine Zugehörigkeit zu Weblate vermuten "
+"lässt, einschließlich, aber nicht beschränkt auf das Benutzerkonto, das "
+"Profil oder die Titelbilder. Die einzige Ausnahme von diesen Anforderungen "
+"ist, wenn Sie eine vorherige Genehmigung von Weblate erhalten haben."
 
 #: ../../contributing/trademark.rst:51
 msgid ""
@@ -42925,6 +42961,12 @@ msgid ""
 "trademarks or Weblate logos or otherwise suggest any affiliation with "
 "Weblate."
 msgstr ""
+"Sie dürfen Ihr Benutzerkonto, Ihre Seite oder Community zum Beispiel nicht "
+"„Weblate-Vertreter“ oder „Weblate-Software“ nennen. Es wäre jedoch "
+"akzeptabel, Ihr Benutzerkonto, Ihre Seite oder Ihre Community „Fans von "
+"Weblate“ oder „Informationen über Weblate-Software“ zu nennen, wenn Sie "
+"keine Weblate-Markenzeichen oder -Logos verwenden oder anderweitig eine "
+"Zugehörigkeit zu Weblate suggerieren."
 
 #: ../../contributing/trademark.rst:54
 msgid "Open-Source Project Guidelines"
@@ -42937,6 +42979,11 @@ msgid ""
 "to use Weblate's trademarks. If you choose to build on or modify Weblate's "
 "open-source code for your own project,"
 msgstr ""
+"Die spezifische Lizenz für die einzelnen Softwareprodukte und den Code von "
+"Weblate legt fest, was Sie mit dem Code selbst tun können und was nicht, "
+"gibt Ihnen aber nicht die Erlaubnis, die Weblate-Markenzeichen zu verwenden. "
+"Wenn Sie sich dafür entscheiden, auf dem Open-Source-Code von Weblate "
+"aufzubauen oder ihn für Ihr eigenes Projekt zu verändern,"
 
 #: ../../contributing/trademark.rst:58
 msgid "**You Must:**"
@@ -42947,6 +42994,8 @@ msgid ""
 "Follow the terms of the Open-Source Licenses for Weblate software products "
 "and code (mainly GPLv3)."
 msgstr ""
+"Befolgen Sie die Bedingungen der Open-Source-Lizenzen für Weblate-"
+"Softwareprodukte und -Code (hauptsächlich GPLv3)."
 
 #: ../../contributing/trademark.rst:61
 msgid ""
@@ -42954,10 +43003,13 @@ msgid ""
 "to clearly signal to users that there is no affiliation with or endorsement "
 "by Weblate."
 msgstr ""
+"Wählen Sie Branding, Logos und Markenzeichen, die Ihre eigene, einzigartige "
+"Kennung darstellen, um den Benutzern klar zu signalisieren, dass es keine "
+"Zugehörigkeit zu Weblate oder eine Billigung durch Weblate gibt."
 
 #: ../../contributing/trademark.rst:62
 msgid "Follow the General Guidelines, above."
-msgstr ""
+msgstr "Beachten Sie die oben genannten allgemeinen Richtlinien."
 
 #: ../../contributing/trademark.rst:64
 msgid "**You Must NOT:**"
@@ -42968,6 +43020,8 @@ msgid ""
 "Use any Weblate trademark in connection with the user-facing name or "
 "branding of your project."
 msgstr ""
+"Verwenden eines Weblate-Markenzeichens in Verbindung mit dem "
+"benutzerseitigen Namen oder dem Branding Ihres Projekts."
 
 #: ../../contributing/trademark.rst:67
 msgid ""
@@ -42975,12 +43029,18 @@ msgid ""
 "incorrectly suggest or give the impression your software is published by, "
 "affiliated with, or endorsed by Weblate."
 msgstr ""
+"Verwenden eines Weblate-Markenzeichens oder Teile davon, um "
+"fälschlicherweise den Eindruck zu erwecken, dass Ihre Software von Weblate "
+"veröffentlicht wurde, mit Weblate verbunden ist oder von Weblate unterstützt "
+"wird."
 
 #: ../../contributing/trademark.rst:69
 msgid ""
 "For example, please do not name your project, [Something]-Weblate, or "
 "Weblate-[Something]"
 msgstr ""
+"Nennen Sie Ihr Projekt beispielsweise nicht [Irgendetwas]-Weblate oder "
+"Weblate-[Irgendetwas]"
 
 #: ../../contributing/trademark.rst:71
 msgid "**You May:**"
@@ -42991,6 +43051,9 @@ msgid ""
 "State in words (not using logos or images) that your product \"works with\" "
 "or \"is compatible\" with certain Weblate products, if that is true."
 msgstr ""
+"Geben Sie in Worten (ohne Verwenden von Logos oder Bildern) an, dass Ihr "
+"Produkt mit bestimmten Weblate-Produkten „funktioniert“ oder „kompatibel ist“"
+", sofern dies zutrifft."
 
 #: ../../contributing/trademark.rst:74
 msgid ""
@@ -42999,24 +43062,32 @@ msgid ""
 "statement that your project is not officially associated with Weblate or its "
 "products."
 msgstr ""
+"Geben Sie in Worten (ohne Verwenden von Logos oder Bildern) an, dass Ihr "
+"Projekt auf der Open-Source-Technologie von Weblate basiert. Wenn dies "
+"zutrifft, fügen Sie auch eine Erklärung bei, dass Ihr Projekt nicht "
+"offiziell mit Weblate oder seinen Produkten verbunden ist."
 
 #: ../../contributing/trademark.rst:76
 msgid "For instance, you may state that your project:"
-msgstr ""
+msgstr "Sie können beispielsweise angeben, dass Ihr Projekt:"
 
 #: ../../contributing/trademark.rst:78
 msgid "\"is proudly built from Weblate's open-source software\""
 msgstr ""
+"„wurde mit Stolz auf der Grundlage der Open-Source-Software von Weblate "
+"entwickelt“"
 
 #: ../../contributing/trademark.rst:80
 msgid "as long as you also include the statement equally prominently:"
-msgstr ""
+msgstr "vorausgesetzt, Sie fügen die Erklärung an gleicher Stelle ein:"
 
 #: ../../contributing/trademark.rst:82
 msgid ""
 "\"[Brand Name] and [Product Name] are not officially associated with Weblate "
 "or its products.\""
 msgstr ""
+"„[Markenname] und [Produktname] sind nicht offiziell mit Weblate oder seinen "
+"Produkten verbunden.“"
 
 #: ../../contributing/trademark.rst:85
 msgid "Weblate Community Guidelines"
@@ -43028,6 +43099,9 @@ msgid ""
 "members of the Weblate Community, and these Weblate Trademark Guidelines do "
 "not alter any such previously granted permissions."
 msgstr ""
+"Verschiedenen Mitgliedern der Weblate-Community wurden unterschiedliche "
+"Genehmigungen zum Verwenden von Weblate-Markenzeichen erteilt, und diese "
+"Weblate-Marken-Richtlinien ändern keine dieser zuvor erteilten Genehmigungen."
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
@@ -45175,6 +45249,14 @@ msgid ""
 "automatically adjust :guilabel:`Context` by adding a numeric suffix in case "
 "such a string already exist in the translation."
 msgstr ""
+"Weblate kann für die meisten Dateiformate neue Zeichenketten zu bestehenden "
+"Dateien hinzufügen. Sie können auch :guilabel:`Kontext` für zweisprachige "
+"Formate angeben, um gleiche Zeichenketten in verschiedenen Kontexten zu "
+"unterscheiden. :guilabel:`Automatische Anpassung des Kontexts, wenn bereits "
+"eine identische Zeichenkette vorhanden ist.` kann verwendet werden, um "
+":guilabel:`Kontext` automatisch anzupassen, indem ein numerisches Suffix "
+"hinzugefügt wird, falls eine solche Zeichenkette bereits in der Übersetzung "
+"existiert."
 
 #: ../../devel/translations.rst:23
 msgid ":ref:`format-context`"
@@ -54800,6 +54882,9 @@ msgid ""
 "different extensions, please consult the database documentation below for "
 "more details."
 msgstr ""
+"Die regulären Ausdrücke werden vom Datenbank-Backend ausgewertet und können "
+"verschiedene Erweiterungen verwenden. Weitere Informationen finden Sie in "
+"der Dokumentation zur Datenbank."
 
 #: ../../user/search.rst:175
 msgid ""
@@ -54807,18 +54892,25 @@ msgid ""
 "current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the default "
 "database engine for Weblate)"
 msgstr ""
+"`PostgreSQL – Reguläre Ausdrücke – Details <https://www.postgresql.org/docs/"
+"current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (dies ist die "
+"Standarddatenbank-Engine für Weblate)"
 
 #: ../../user/search.rst:176
 msgid ""
 "`MariaDB Regular Expressions Overview <https://mariadb.com/kb/en/regular-"
 "expressions-overview/>`_"
 msgstr ""
+"`MariaDB – Reguläre Ausdrücke – Übersicht <https://mariadb.com/kb/en/"
+"regular-expressions-overview/>`_"
 
 #: ../../user/search.rst:177
 msgid ""
 "`MySQL Regular Expressions <https://dev.mysql.com/doc/refman/8.4/en/regexp."
 "html>`_"
 msgstr ""
+"`MySQL – Reguläre Ausdrücke <https://dev.mysql.com/doc/refman/8.4/en/regexp."
+"html>`_"
 
 #: ../../user/search.rst:180
 msgid "Predefined queries"
