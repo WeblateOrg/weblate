@@ -34,6 +34,19 @@ if TYPE_CHECKING:
 
 CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
 
+PREFETCH_FIELDS = (
+    "user",
+    "author",
+    "translation",
+    "component",
+    "project",
+    "component__source_language",
+    "unit",
+    "unit__source_unit",
+    "translation__language",
+    "translation__plural",
+)
+
 
 def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
     """
@@ -122,24 +135,16 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
         return base.count_stats(days, step, dtstart)
 
+    def prefetch_for_get(self):
+        return self.select_related(*PREFETCH_FIELDS)
+
     def prefetch(self):
         """
         Fetch related fields at once to avoid loading them individually.
 
         Call prefetch or prefetch_list later on paginated results to complete.
         """
-        return self.prefetch_related(
-            "user",
-            "author",
-            "translation",
-            "component",
-            "project",
-            "component__source_language",
-            "unit",
-            "unit__source_unit",
-            "translation__language",
-            "translation__plural",
-        )
+        return self.prefetch_related(*PREFETCH_FIELDS)
 
     def preload_list(self, results, skip: str | None = None):
         """Companion for prefetch to fill in nested references."""

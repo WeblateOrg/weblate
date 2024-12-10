@@ -81,7 +81,7 @@ def notify_change(change_id) -> None:
     from weblate.trans.models import Change
 
     try:
-        change = Change.objects.get(pk=change_id)
+        change = Change.objects.prefetch_for_get().get(pk=change_id)
     except Change.DoesNotExist:
         # The change was removed meanwhile
         return
