@@ -1604,7 +1604,7 @@ class Unit(models.Model, LoggerMixin):
             self.save(run_checks=False, same_content=True, update_fields=["state"])
 
         if user and self.target != self.old_unit["target"]:
-            self.update_translation_memory(user.id)
+            self.update_translation_memory(user)
 
         if change_action == Change.ACTION_AUTO:
             self.labels.add(component.project.automatically_translated_label)
@@ -1886,7 +1886,7 @@ class Unit(models.Model, LoggerMixin):
     def glossary_sort_key(self):
         return (self.translation.component.priority, self.source.lower())
 
-    def update_translation_memory(self, user_id: int | None = None) -> None:
+    def update_translation_memory(self, user: User | None = None) -> None:
         translation = self.translation
         component = translation.component
         if (
@@ -1895,4 +1895,4 @@ class Unit(models.Model, LoggerMixin):
             and not component.is_glossary
             and is_valid_memory_entry(source=self.source, target=self.target)
         ):
-            handle_unit_translation_change.delay_on_commit(self.id, user_id)
+            handle_unit_translation_change(self, user)
