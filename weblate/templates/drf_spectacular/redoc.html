@@ -12,15 +12,8 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="description" content="{{ description }}" />
-      {% if fonts_cdn_url %}
-        <link rel="stylesheet" href="{{ fonts_cdn_url }}font-source/source-sans-3.css" />
-        <link rel="stylesheet" href="{{ fonts_cdn_url }}font-source/source-code-pro.css" />
-      {% else %}
-        <link rel="stylesheet"
-              href="{% static 'vendor/font-source/source-sans-3.css' %}{{ cache_param }}" />
-        <link rel="stylesheet"
-              href="{% static 'vendor/font-source/source-code-pro.css' %}{{ cache_param }}" />
-      {% endif %}
+      <link rel="stylesheet"
+            href="{% static 'js/vendor/fonts/fonts.css' %}{{ cache_param }}" />
       <style>
       {# Redoc doesn't change outer page styles. #}
       body { margin: 0; padding: 0; }

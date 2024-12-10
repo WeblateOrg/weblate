@@ -63,10 +63,11 @@ TEST_BACKENDS = (
 SOURCE_FONT = os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
     "static",
+    "js",
     "vendor",
+    "fonts",
     "font-source",
-    "TTF",
-    "SourceSans3-Bold.ttf",
+    "SourceCodePro-Bold.ttf",
 )
 
 
@@ -1052,7 +1053,7 @@ class SeleniumTests(
         self.screenshot("font-edit.png")
 
         with self.wait_for_page_load():
-            self.click("Fonts")
+            self.driver.back()
 
         # Upload second font
         element = self.driver.find_element(By.ID, "id_font")
@@ -1069,7 +1070,7 @@ class SeleniumTests(
 
         # Create group
         Select(self.driver.find_element(By.ID, "id_group_font")).select_by_visible_text(
-            "Source Sans 3 Bold"
+            "Source Code Pro Bold"
         )
         element = self.driver.find_element(By.ID, "id_group_name")
         element.send_keys("default-font")
