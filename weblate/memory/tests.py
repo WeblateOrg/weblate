@@ -217,16 +217,16 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
 
     def test_import_unit(self) -> None:
         unit = self.get_unit()
-        handle_unit_translation_change(unit.id, self.user.id)
+        handle_unit_translation_change(unit, self.user)
         self.assertEqual(Memory.objects.count(), 0)
-        handle_unit_translation_change(unit.id, self.user.id)
+        handle_unit_translation_change(unit, self.user)
         self.assertEqual(Memory.objects.count(), 0)
         unit.translate(self.user, "Nazdar", STATE_TRANSLATED)
         self.assertEqual(Memory.objects.count(), 3)
         Memory.objects.all().delete()
-        handle_unit_translation_change(unit.id, self.user.id)
+        handle_unit_translation_change(unit, self.user)
         self.assertEqual(Memory.objects.count(), 3)
-        handle_unit_translation_change(unit.id, self.user.id)
+        handle_unit_translation_change(unit, self.user)
         self.assertEqual(Memory.objects.count(), 3)
 
 
