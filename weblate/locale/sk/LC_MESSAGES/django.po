@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-07 12:06+0000\n"
-"PO-Revision-Date: 2024-12-10 06:06+0000\n"
+"PO-Revision-Date: 2024-12-10 06:22+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -8656,14 +8656,12 @@ msgstr[1] "%(count)s odchádzajúce zápisy"
 msgstr[2] "%(count)s odchádzajúcich zápisov"
 
 #: weblate/templates/js/git-status.html:49
-#, fuzzy, python-format
-#| msgid "%(count)s missing commit"
-#| msgid_plural "%(count)s missing commits"
+#, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "%(count)s chýbajúci zápis"
-msgstr[1] "%(count)s chýbajúce zápisy"
-msgstr[2] "%(count)s chýbajúcich zápisov"
+msgstr[0] "(%(count)s chýba vo vetve push)"
+msgstr[1] "(%(count)s chýbajú vo vetve push)"
+msgstr[2] "(%(count)s chýbajúcich vo vetve push)"
 
 #: weblate/templates/js/git-status.html:60
 msgid "Update"
@@ -8927,10 +8925,8 @@ msgid "to"
 msgstr "do"
 
 #: weblate/templates/keyboard-shortcuts.html:134
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "Copies placeable of a given number from source string."
-msgstr "Tento jazyk sa používa pre zdrojové reťazce."
+msgstr "Skopíruje umiestnenie čísla zo zdrojového reťazca."
 
 #: weblate/templates/keyboard-shortcuts.html:138
 #: weblate/templates/keyboard-shortcuts.html:141
@@ -9774,14 +9770,11 @@ msgstr "Kúpiť balíček podpory"
 
 #: weblate/templates/manage/index.html:110
 msgid "Contact customer care"
-msgstr ""
+msgstr "Kontaktovať zákaznícku podporu"
 
 #: weblate/templates/manage/index.html:119
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Contact us via e-mail"
-msgstr "Kontaktný e-mail"
+msgstr "Kontaktujte nás e-mailom"
 
 #: weblate/templates/manage/performance.html:13
 #: weblate/wladmin/templates/admin/weblate-index.html:44
@@ -12623,16 +12616,12 @@ msgid "Add term to glossary"
 msgstr "Pridať výraz do slovníka"
 
 #: weblate/templates/translate.html:726
-#, fuzzy
-#| msgid "User identities"
 msgid "Unit identifier"
-msgstr "Používateľské identity"
+msgstr "Identifikátor jednotky"
 
 #: weblate/templates/translate.html:728
-#, fuzzy
-#| msgid "Invitation link copied to clipboard."
 msgid "Unit identifier copied to clipboard"
-msgstr "Odkaz na pozvánku bol skopírovaný do schránky."
+msgstr "Identifikátor jednotky skopírovaný do schránky"
 
 #: weblate/templates/translate.html:729
 msgid "String information"
@@ -13391,10 +13380,8 @@ msgid "You do not have permission to access this component."
 msgstr "Nemáte oprávnenie na prístup k tejto súčasti."
 
 #: weblate/trans/forms.py:1442
-#, fuzzy
-#| msgid "This field has been identified as spam!"
 msgid "This submission has been identified as spam!"
-msgstr "Toto pole bolo identifikované ako spam!"
+msgstr "Tento príspevok bol identifikovaný ako spam!"
 
 #: weblate/trans/forms.py:1526 weblate/trans/forms.py:2154
 msgid "Basic"
@@ -14947,10 +14934,8 @@ msgid "Could not update repository: %s"
 msgstr "Nepodarilo sa aktualizovať repozitár: %s"
 
 #: weblate/trans/models/component.py:3028
-#, fuzzy
-#| msgid "This will push changes and create a GitLab merge request."
 msgid "Pull and push branches cannot be the same when using merge requests."
-msgstr "Tým sa posunú zmeny a vytvorí sa žiadosť o zlúčenie GitLab."
+msgstr "Pri použití žiadostí o zlúčenie nemôžu byť vetvy pull a push rovnaké."
 
 #: weblate/trans/models/component.py:3041
 msgid ""
@@ -16719,7 +16704,7 @@ msgstr "Repozitáre"
 
 #: weblate/wladmin/views.py:153
 msgid "Customer care ticket created:"
-msgstr ""
+msgstr "Vytvorený lístok zákazníckej podpory:"
 
 #: weblate/wladmin/views.py:183
 msgid "Test e-mail sent."
