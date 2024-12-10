@@ -154,10 +154,17 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        test: /\.(woff|woff2|eot|otf)$/i,
         type: "asset/resource",
         generator: {
           filename: "fonts/font-source/[name][ext]",
+        },
+      },
+      {
+        test: /\.(ttf)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "fonts/font-source/TTF/[name][ext]",
         },
       },
     ],

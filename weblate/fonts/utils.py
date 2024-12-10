@@ -109,7 +109,7 @@ def configure_fontconfig() -> None:
                 data_dir("cache", "fonts"),
                 fonts_dir,
                 os.path.join(
-                    settings.STATIC_ROOT, "js", "vendor", "fonts", "font-source"
+                    settings.STATIC_ROOT, "js", "vendor", "fonts", "font-source", "TTF"
                 ),
                 os.path.join(settings.STATIC_ROOT, "vendor", "font-kurinto"),
             )
