@@ -510,6 +510,7 @@ def format_source_string(
     return format_translation(
         plurals=[value],
         language=unit.translation.component.source_language,
+        plural=unit.translation.plural,
         search_match=search_match,
         match=match,
         simple=simple,
