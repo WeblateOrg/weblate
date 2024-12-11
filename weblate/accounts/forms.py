@@ -637,7 +637,7 @@ class LoginForm(forms.Form):
                     ngettext(
                         (
                             "Too many authentication attempts from this location. "
-                            "Please try again in one minute."
+                            "Please try again in %d minute."
                         ),
                         (
                             "Too many authentication attempts from this location. "
