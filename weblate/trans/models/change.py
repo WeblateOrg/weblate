@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from datetime import date, datetime, timedelta
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, overload
 
 import sentry_sdk
 from django.conf import settings
@@ -28,6 +28,8 @@ from weblate.utils.pii import mask_email
 from weblate.utils.state import StringState
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.auth.models import User
     from weblate.trans.models import Translation
 
@@ -64,22 +66,24 @@ def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
 
 
 class ChangeQuerySet(models.QuerySet["Change"]):
-    def content(self, prefetch=False):
+    def content(self, prefetch=False) -> ChangeQuerySet:
         """Return queryset with content changes."""
         base = self
         if prefetch:
             base = base.prefetch()
         return base.filter(action__in=Change.ACTIONS_CONTENT)
 
-    def for_category(self, category):
+    def for_category(self, category) -> ChangeQuerySet:
         return self.filter(
             Q(component_id__in=category.all_component_ids) | Q(category=category)
         )
 
-    def filter_announcements(self):
+    def filter_announcements(self) -> ChangeQuerySet:
         return self.filter(action=Change.ACTION_ANNOUNCEMENT)
 
-    def count_stats(self, days: int, step: int, dtstart: datetime):
+    def count_stats(
+        self, days: int, step: int, dtstart: datetime
+    ) -> list[tuple[datetime, int]]:
         """Count the number of changes in a given period grouped by step days."""
         # Count number of changes
         result = []
@@ -109,7 +113,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         translation=None,
         language=None,
         user=None,
-    ):
+    ) -> list[tuple[datetime, int]]:
         """Core of daily/weekly/monthly stats calculation."""
         # Get range (actually start)
         dtstart = timezone.now() - timedelta(days=days + 1)
@@ -135,7 +139,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
         return base.count_stats(days, step, dtstart)
 
-    def prefetch_for_get(self):
+    def prefetch_for_get(self) -> ChangeQuerySet:
         return self.select_related(
             "alert",
             "screenshot",
@@ -145,7 +149,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             *PREFETCH_FIELDS,
         )
 
-    def prefetch(self):
+    def prefetch(self) -> ChangeQuerySet:
         """
         Fetch related fields at once to avoid loading them individually.
 
@@ -153,7 +157,15 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         """
         return self.prefetch_related(*PREFETCH_FIELDS)
 
-    def preload_list(self, results, skip: str | None = None):
+    @overload
+    def preload_list(
+        self, results: ChangeQuerySet, skip: str | None = None
+    ) -> ChangeQuerySet: ...
+    @overload
+    def preload_list(
+        self, results: list[Change], skip: str | None = None
+    ) -> list[Change]: ...
+    def preload_list(self, results, skip=None):
         """Companion for prefetch to fill in nested references."""
         for item in results:
             if item.component and skip != "component":
@@ -169,7 +181,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         date_range: tuple[datetime, datetime] | None = None,
         *,
         values_list: tuple[str, ...] = (),
-    ):
+    ) -> Iterable[tuple]:
         """Return list of authors."""
         authors = self.content()
         if date_range is not None:
@@ -187,10 +199,12 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             )
         )
 
-    def order(self):
+    def order(self) -> ChangeQuerySet:
         return self.order_by("-timestamp")
 
-    def recent(self, *, count: int = 10, skip_preload: str | None = None):
+    def recent(
+        self, *, count: int = 10, skip_preload: str | None = None
+    ) -> list[Change]:
         """
         Return recent changes to show on object pages.
 
@@ -205,7 +219,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
                     break
             return self.preload_list(result, skip_preload)
 
-    def bulk_create(self, *args, **kwargs):
+    def bulk_create(self, *args, **kwargs) -> list[Change]:
         """
         Bulk creation of changes.
 
@@ -229,7 +243,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
                 translations.add(change.translation_id)
         return changes
 
-    def filter_components(self, user: User):
+    def filter_components(self, user: User) -> ChangeQuerySet:
         if not user.needs_component_restrictions_filter:
             return self
         return self.filter(
@@ -238,7 +252,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             | Q(component_id__in=user.component_permissions)
         )
 
-    def filter_projects(self, user: User):
+    def filter_projects(self, user: User) -> ChangeQuerySet:
         if not user.needs_project_filter:
             return self
         return self.filter(project__in=user.allowed_projects)
@@ -255,14 +269,14 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             return None
 
     def generate_project_rename_lookup(self) -> dict[str, int]:
-        lookup = {}
+        lookup: dict[str, int] = {}
         for change in self.filter(action=Change.ACTION_RENAME_PROJECT).order():
-            if change.old not in lookup:
+            if change.old not in lookup and change.project_id is not None:
                 lookup[change.old] = change.project_id
         cache.set(CHANGE_PROJECT_LOOKUP_KEY, lookup, 3600 * 24 * 7)
         return lookup
 
-    def filter_by_day(self, dt: datetime | date):
+    def filter_by_day(self, dt: datetime | date) -> ChangeQuerySet:
         """
         Filter changes by given date.
 
@@ -270,7 +284,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         """
         return self.filter(timestamp__range=dt_as_day_range(dt))
 
-    def since_day(self, dt: datetime | date):
+    def since_day(self, dt: datetime | date) -> ChangeQuerySet:
         """
         Filter changes since given date.
 
