@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-07 12:06+0000\n"
-"PO-Revision-Date: 2024-12-08 02:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-12-12 07:00+0000\n"
+"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -4615,10 +4615,8 @@ msgid "Text direction"
 msgstr "Tekstin suunta"
 
 #: weblate/lang/models.py:630
-#, fuzzy
-#| msgid "Automatically accept suggestions"
 msgid "Automatically detect text direction"
-msgstr "Hyväksy ehdotukset automaattisesti"
+msgstr "Tunnista tekstin suunta automaattisesti"
 
 #: weblate/lang/models.py:631
 msgid "Left to right"
@@ -4835,8 +4833,6 @@ msgid "Language %s removed."
 msgstr "Kieli %s poistettu."
 
 #: weblate/legal/forms.py:11
-#, fuzzy
-#| msgid "I agree with the Terms of Service document"
 msgid "I agree with the General Terms and Conditions document"
 msgstr "Hyväksyn Yleiset käyttöehdot -asiakirjan"
 
@@ -4891,18 +4887,13 @@ msgstr "Evästekäytäntö"
 
 #: weblate/legal/templates/legal/cookies.html:26
 #: weblate/legal/templates/legal/index.html:24
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
 msgstr ""
-"Tämä sivu perustuu palvelun käyttöehtoihin (Terms of Service) ja "
-"tietosuojakäytäntöön (Privacy Policy). Lue silti alkuperäiset asiakirjat, "
-"jotta ymmärrät ne täysin:"
+"Tämä sivu perustuu Yleisiin käyttöehtoihin ja Tietosuojakäytäntöön, joten "
+"sinun tulee silti lukea alkuperäiset asiakirjat ymmärtääksesi ne täysin:"
 
 #: weblate/legal/templates/legal/cookies.html:31
 #: weblate/legal/templates/legal/index.html:29
@@ -4967,10 +4958,9 @@ msgid "Could not fetch supported languages: %s"
 msgstr "Tuettujen kielten hakeminen epäonnistui: %s"
 
 #: weblate/machinery/apertium.py:108
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "No supported languages found: %s"
-msgstr "Tuettujen kielten hakeminen epäonnistui: %s"
+msgstr "Tuettuja kieliä ei löytynyt: %s"
 
 #: weblate/machinery/apertium.py:116 weblate/machinery/base.py:156
 #, python-format
@@ -5108,11 +5098,9 @@ msgstr ""
 "hankkeessa tai joka on lähimpänä sinua."
 
 #: weblate/machinery/forms.py:212
-#, fuzzy
-#| msgid "Global numbers"
 msgctxt "Google Cloud region"
 msgid "Global"
-msgstr "Globaalit luvut"
+msgstr "Laajamittainen"
 
 #: weblate/machinery/forms.py:213
 msgctxt "Google Cloud region"
@@ -5127,7 +5115,7 @@ msgstr "USA"
 #: weblate/machinery/forms.py:220
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Google Storage Bucket -nimi"
 
 #: weblate/machinery/forms.py:224
 msgctxt "Google Cloud Translation configuration"
@@ -5135,6 +5123,8 @@ msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
+"Kirjoita sanastotiedostojen tallentamiseen käytettävän Google Cloud Storage -"
+"säilön nimi."
 
 #: weblate/machinery/forms.py:234
 #, python-format
@@ -5172,15 +5162,15 @@ msgid "Region ID"
 msgstr "Aluetunnus"
 
 #: weblate/machinery/forms.py:270
-#, fuzzy
-#| msgid "Context"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "Asiayhteys"
+msgstr "Kontekstivektori"
 
 #: weblate/machinery/forms.py:273
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
+"Pilkuilla eroteltu muistitunnusten luettelo:paino. esim. "
+"1234:0,123,4567:0,456"
 
 #: weblate/machinery/forms.py:286
 #, python-format
@@ -5190,7 +5180,7 @@ msgstr "Kontekstivektori ei ole kelvollinen: %s"
 #: weblate/machinery/forms.py:290
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "Painoarvon on oltava välillä 0–1: %s"
 
 #: weblate/machinery/forms.py:301
 msgctxt "Automatic suggestion service configuration"
@@ -5200,6 +5190,8 @@ msgstr "Muodollisuus"
 #: weblate/machinery/forms.py:303
 msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
+"Käyttää määritettyä muodollisuutta, jos kieltä ei ole määritetty "
+"(epä)muodolliseksi"
 
 #: weblate/machinery/forms.py:318
 msgctxt "Automatic suggestion service configuration"
@@ -5213,17 +5205,17 @@ msgid ""
 msgstr "Kuvaile käännöksen asiayhteyttä käännöksen tarkkuuden parantamiseksi."
 
 #: weblate/machinery/forms.py:332
-#, fuzzy
-#| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "Käännösraportit"
+msgstr "Kääntäjän luonne"
 
 #: weblate/machinery/forms.py:336
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
+"Kuvaile kääntäjän luonnetta käännöksen tarkkuuden parantamiseksi. "
+"Esimerkiksi: \"Olet oravankasvattaja.\""
 
 #: weblate/machinery/forms.py:343
 msgctxt "Automatic suggestion service configuration"
@@ -5233,7 +5225,7 @@ msgstr "Kääntäjän tyyli"
 #: weblate/machinery/forms.py:347
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr ""
+msgstr "Kuvaile käännöstyyliä; esimerkiksi: \"Käytä epävirallista kieltä.\""
 
 #: weblate/machinery/forms.py:356
 msgctxt "OpenAI model selection"
@@ -5248,11 +5240,13 @@ msgstr "Mukautettu malli"
 #: weblate/machinery/forms.py:369
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "OpenAI-sovellusliittymän perus-URL-osoite"
 
 #: weblate/machinery/forms.py:373
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgstr ""
+"OpenAI-sovellusliittymän perus-URL-osoite, jos se eroaa OpenAI:n oletus-URL-"
+"osoitteesta"
 
 #: weblate/machinery/forms.py:380
 msgctxt "Automatic suggestion service configuration"
@@ -5277,12 +5271,9 @@ msgid "Choose custom model here to enable it."
 msgstr "Valitse mukautettu malli tästä ottaaksesi sen käyttöön."
 
 #: weblate/machinery/forms.py:413
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application endpoint URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr "Sovelluksen päätepisteen URL-osoite"
+msgstr "Azure OpenAI -päätepisteen URL-osoite"
 
 #: weblate/machinery/forms.py:417
 msgid ""
@@ -5292,11 +5283,11 @@ msgstr ""
 #: weblate/machinery/forms.py:423
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
-msgstr ""
+msgstr "Azure OpenAI:n käyttöönotto"
 
 #: weblate/machinery/forms.py:426
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "Mallin ainutlaatuinen käyttöönottonimi."
 
 #: weblate/machinery/views.py:407
 msgid "Service is currently not available."
@@ -5311,32 +5302,28 @@ msgstr "Tiedosto"
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
+"Voit ulosladata seuraavan muotoisen tiedoston: TMX, JSON, XLIFF, PO, CSV."
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "Lähdetekstin kieli"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Source language not defined in the TMX file!"
 msgid "Source language of the document when not specified in file"
-msgstr "Lähdekieltä ei ole määritetty TMX-tiedostossa!"
+msgstr "Asiakirjan lähdekieli, kun sitä ei ole määritetty tiedostossa"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1866
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "Target language"
-msgstr "Hallinnoi kieliä"
+msgstr "Kohdekieli"
 
 #: weblate/memory/forms.py:48
 msgid "Target language of the document when not specified in file"
-msgstr ""
+msgstr "Asiakirjan kohdekieli, kun sitä ei ole määritetty tiedostossa"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
-msgstr ""
+msgstr "Lähdekieli ja kohdekieli on määritettävä tälle tiedostomuodolle."
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5372,13 +5359,11 @@ msgstr "Tiedostoa ei tueta!"
 
 #: weblate/memory/models.py:333
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "Yksikielistä muotoa ei tueta muistin uloslataamiseen"
 
 #: weblate/memory/models.py:343
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Yksikielinen kantakielitiedosto"
+msgstr "Tiedostosta puuttuu lähde- tai kohdekieli!"
 
 #: weblate/memory/models.py:436
 msgctxt "Translation memory category"
@@ -5559,34 +5544,25 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF-vahvistus epäonnistui. Pyyntö hylätty."
 
 #: weblate/templates/403_csrf.html:20
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer' header to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure your browser is not hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
 "that your browser is not being hijacked by third parties."
 msgstr ""
-"Tämä HTTPS-sivusto edellyttää, että selaimesi lähettää Viittaus-otsikon, "
-"mutta mitään ei lähetetty. Tämä otsikko tarvitaan turvallisuussyistä, jotta "
-"kolmannet osapuolet eivät kaappaa selaintasi."
+"Tämä HTTPS-sivusto edellyttää, että verkkoselaimesi lähettää "
+"Viittausotsikon, mutta mitään ei lähetetty. Tämä otsikko tarvitaan "
+"turvallisuussyistä, jotta voidaan varmistaa, etteivät kolmannet osapuolet "
+"kaappaa verkkoselaintasi."
 
 #: weblate/templates/403_csrf.html:23
-#, fuzzy
-#| msgid ""
-#| "If you have set up your web browser to not send 'Referer' headers, please "
-#| "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests)."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
-"Jos olet estänyt selaimessasi Referer-otsakkeen lähettämisen, kytke se "
-"takaisin päälle (ainakin tälle sivulle, HTTPS-yhteyksille tai saman lähteen "
-"\"same-origin\" pyynnöille)."
+"Jos olet asettanut verkkoselaimesi niin, ettei se lähetä viittausotsikoita  "
+"'Referer' , sinun on otettava se käyttöön (ainakin tälle sivustolle, HTTPS-"
+"yhteyksille tai 'same-origin'-pyynnöille)."
 
 #: weblate/templates/403_csrf.html:27
 msgid ""
@@ -5604,18 +5580,19 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"On saattanut tapahtua, että istuntoeväste vanhentui passiivisuuden vuoksi. "
+"Tämä voi helposti tapahtua todentamattomissa pyynnöissä, joissa istunnon "
+"voimassaolo on rajoitettu. Haluat ehkä yrittää aiottua toimenpidettä "
+"uudelleen tällaisessa tapauksessa."
 
 #: weblate/templates/403_csrf.html:33
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again (at-least for this site, or for 'same-origin' requests)."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"Jos olet estänyt selaintasi tallentamasta evästeitä, kytke evästeet takaisin "
-"päälle (ainakin tälle sivulle tai saman lähteen \"same-origin\" pyynnöille)."
+"Jos olet asettanut verkkoselaimesi olemaan tallentamatta evästeitä, sinun on "
+"sallittava niiden tallentaminen (ainakin tälle sivustolle tai 'same-"
+"origin'-pyynnöille)."
 
 #: weblate/templates/403_csrf.html:37
 #, python-format
@@ -5821,11 +5798,11 @@ msgstr "Tilastot"
 
 #: weblate/templates/accounts/2fa.html:24
 msgid "Second factor sign-in"
-msgstr ""
+msgstr "Toisen tekijän sisäänkirjautuminen"
 
 #: weblate/templates/accounts/2fa.html:29
 msgid "Please complete your sign-in using second factor credential."
-msgstr ""
+msgstr "Viimeistele sisäänkirjautuminen toisen tekijän valtuustiedolla."
 
 #: weblate/templates/accounts/confirm.html:9
 #: weblate/templates/accounts/password.html:8
@@ -5839,10 +5816,8 @@ msgid "Your profile"
 msgstr "Profiilisi"
 
 #: weblate/templates/accounts/confirm.html:19
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "Käyttäjän henkilöllisyyttä ei voitu poistaa"
+msgstr "Vahvista käyttäjätunnuksen lisääminen"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:24
@@ -6204,17 +6179,13 @@ msgid "Disconnect"
 msgstr "Katkaise yhteys"
 
 #: weblate/templates/accounts/profile.html:230
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user identity"
-msgstr "Lisää uusi käyttäjä"
+msgstr "Lisää uusi käyttäjätunnus"
 
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/accounts/user.html:389
-#, fuzzy
-#| msgid "Authentication"
 msgid "Two-factor authentication"
-msgstr "Tunnistautuminen"
+msgstr "Kaksivaiheinen todennus"
 
 #: weblate/templates/accounts/profile.html:253
 msgid ""
@@ -6254,17 +6225,15 @@ msgstr "Rekisteröi uusi suojausavain"
 #: weblate/templates/accounts/profile.html:294
 #: weblate/templates/accounts/webauthn.html:14
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr ""
+msgstr "Valitettavasti verkkoselaimessasi ei ole WebAuthn-tukea."
 
 #: weblate/templates/accounts/profile.html:302
 msgid "Authenticator apps (TOTP)"
 msgstr "Todennussovellukset (TOTP)"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no authenticator apps registered."
-msgstr "Varmuuskopioita ei vielä ole."
+msgstr "Tällä hetkellä ei ole rekisteröityjä todennussovelluksia."
 
 #: weblate/templates/accounts/profile.html:321
 #: weblate/templates/accounts/totp.html:15
@@ -6406,10 +6375,8 @@ msgstr "Henkilökohtainen rajapinta-avaimesi:"
 #: weblate/templates/accounts/profile.html:537 weblate/templates/data.html:95
 #: weblate/templates/data.html:144
 #: weblate/templates/trans/project-access.html:357
-#, fuzzy
-#| msgid "Changed visibility"
 msgid "Toggle API key visibility"
-msgstr "Muutettu näkyvyys"
+msgstr "Vaihda API-avaimen näkyvyys"
 
 #: weblate/templates/accounts/profile.html:541
 #: weblate/templates/trans/project-access.html:361
@@ -6507,7 +6474,7 @@ msgstr ""
 
 #: weblate/templates/accounts/recovery-codes.html:59
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr ""
+msgstr "Vanhat koodisi lakkaavat toimimasta eivätkä enää toimi."
 
 #: weblate/templates/accounts/recovery-codes.html:66
 #: weblate/templates/accounts/totp.html:53
@@ -6587,6 +6554,9 @@ msgid ""
 "Authenticator apps generate one-time passwords that are used as a second "
 "factor to verify your identity when prompted during sign-in."
 msgstr ""
+"Todennussovellukset luovat kertaluonteisia salasanoja, joita käytetään "
+"toisena tekijänä henkilöllisyytesi vahvistamiseen, kun niitä pyydetään "
+"kirjautumisen aikana."
 
 #: weblate/templates/accounts/totp.html:36
 msgid "Scan the QR code"
@@ -6594,13 +6564,11 @@ msgstr "Lue QR-koodi"
 
 #: weblate/templates/accounts/totp.html:40
 msgid "You can also enter the secret key manually:"
-msgstr ""
+msgstr "Voit myös syöttää salaisen avaimen manuaalisesti:"
 
 #: weblate/templates/accounts/totp.html:42
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Secret key copied to clipboard."
-msgstr "API-avain kopioitu leikepöydälle."
+msgstr "Salainen avain kopioitu leikepöydälle."
 
 #: weblate/templates/accounts/totp.html:49
 #: weblate/templates/mail/shared-registration.html:23
@@ -6778,7 +6746,7 @@ msgstr "Rajaus"
 
 #: weblate/templates/accounts/user.html:268
 msgid "Frequency"
-msgstr ""
+msgstr "Tiheys"
 
 #: weblate/templates/accounts/user.html:271
 msgid "One-time"
@@ -6820,20 +6788,16 @@ msgid "Edit user"
 msgstr "Muokkaa käyttäjää"
 
 #: weblate/templates/accounts/user.html:394
-#, fuzzy
-#| msgid "Any authenticated user can contribute."
 msgid "User has two-factor authentication configured."
-msgstr "Kuka tahansa kirjautunut käyttäjä voi osallistua kääntämiseen."
+msgstr "Käyttäjällä on kaksivaiheinen todennus määritetty."
 
 #: weblate/templates/accounts/user.html:396
-#, fuzzy
-#| msgid "Any authenticated user can contribute."
 msgid "User doesn't have two-factor authentication configured."
-msgstr "Kuka tahansa kirjautunut käyttäjä voi osallistua kääntämiseen."
+msgstr "Käyttäjällä ei ole kaksivaiheinen todennus määritetty."
 
 #: weblate/templates/accounts/user.html:403
 msgid "Disable two-factor authentication"
-msgstr ""
+msgstr "Poista kaksivaiheinen todennus käytöstä"
 
 #: weblate/templates/accounts/user.html:412
 msgid "Account removal deletes all user private data."
@@ -6907,7 +6871,7 @@ msgstr "Käännökset, joihin käyttäjä on osallistunut"
 
 #: weblate/templates/accounts/webauthn.html:8
 msgid "Sign in using the security key"
-msgstr ""
+msgstr "Kirjaudu sisään turva-avaimella"
 
 #: weblate/templates/addons/addon_detail.html:12
 #: weblate/templates/addons/addon_detail.html:16
@@ -6931,10 +6895,8 @@ msgstr "Tällä lisäosalla ei ole asetuksia."
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "There are no translations in this component."
 msgid "The add-on can only be installed on the component."
-msgstr "Tässä komponentissa ei ole käännöksiä."
+msgstr "Lisäosan voi asentaa vain komponenttiin."
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "This add-on is used for all components sharing this repository."
@@ -6979,7 +6941,7 @@ msgstr "Historia"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "No add-ons currently installed"
-msgstr "Asennettuja lisäosia ei ole."
+msgstr "Lisäosia ei tällä hetkellä ole asennettu"
 
 #: weblate/templates/addons/addon_list.html:46
 #, python-format
@@ -7004,22 +6966,21 @@ msgstr "Määrittele"
 
 #: weblate/templates/addons/addon_list.html:72
 msgid "Add-ons can be installed on project and component scope as well."
-msgstr ""
+msgstr "Lisäosat voidaan asentaa myös projektiin ja komponenttialueeseen."
 
 #: weblate/templates/addons/addon_list.html:77
-#, fuzzy, python-format
-#| msgid "There are no add-ons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "Asennettuja lisäosia ei ole."
-msgstr[1] "Asennettuja lisäosia ei ole."
+msgstr[0] "Hallitse projektin laajamittaisia lisäosia (%(count)s asennettu)"
+msgstr[1] "Hallitse projektin laajamittaisia lisäosia (%(count)s asennettua)"
 
 #: weblate/templates/addons/addon_list.html:85
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hallitse sivuston laajamittaisia lisäosia (%(count)s asennettu)"
+msgstr[1] "Hallitse sivuston laajamittaisia lisäosia (%(count)s asennettua)"
 
 #: weblate/templates/addons/addon_list.html:95
 msgid "Available add-ons"
@@ -7048,10 +7009,8 @@ msgid "Browse all add-on changes"
 msgstr "Selaa kaikkia lisäosien muutoksia"
 
 #: weblate/templates/addons/addon_logs.html:33
-#, fuzzy
-#| msgid "Account activity"
 msgid "Add-on Activity Logs"
-msgstr "Käyttäjätilin tapahtumat"
+msgstr "Lisäosien toimintalokit"
 
 #: weblate/templates/addons/addon_logs.html:38
 msgid "Status"
@@ -7062,10 +7021,8 @@ msgid "Event"
 msgstr "Tapahtuma"
 
 #: weblate/templates/addons/addon_logs.html:40
-#, fuzzy
-#| msgid "Detail"
 msgid "Details"
-msgstr "Yksityiskohta"
+msgstr "Yksityiskohdat"
 
 #: weblate/templates/addons/addon_logs.html:41
 msgid "Timestamp"
@@ -7073,7 +7030,7 @@ msgstr "Aikaleima"
 
 #: weblate/templates/addons/addon_logs.html:62
 msgid "No add-on activity logs available."
-msgstr ""
+msgstr "Ei saatavia lisäosien toimintalokeja."
 
 #: weblate/templates/addons/addon_logs.html:76
 #: weblate/templates/snippets/position-field.html:33
@@ -7239,6 +7196,8 @@ msgid ""
 "Automatically add newly created users to this team based on their e-mail "
 "address."
 msgstr ""
+"Lisää uudet käyttäjät automaattisesti tähän joukkueeseen heidän "
+"sähköpostiosoitteensa perusteella."
 
 #: weblate/templates/auth/team.html:86
 msgid "Add automatic assignment"
@@ -7250,10 +7209,8 @@ msgid "Last sign in"
 msgstr "Viimeinen sisäänkirjautuminen"
 
 #: weblate/templates/auth/team.html:116 weblate/trans/forms.py:1276
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrator"
-msgstr "Ylläpitäjät"
+msgstr "Joukkueen ylläpitäjä"
 
 #: weblate/templates/auth/team.html:124
 #: weblate/templates/trans/project-access-row.html:21
@@ -7262,16 +7219,12 @@ msgid "Not yet signed in"
 msgstr "Ei vielä sisäänkirjautunut"
 
 #: weblate/templates/auth/team.html:134
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Revoke administration"
-msgstr "Weblaten hallinnointi"
+msgstr "Peruuta ylläpito"
 
 #: weblate/templates/auth/team.html:142
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Grant administration"
-msgstr "Weblaten hallinnointi"
+msgstr "Myönnä ylläpito"
 
 #: weblate/templates/auth/team.html:164 weblate/templates/auth/team.html:222
 #: weblate/templates/trans/project-access.html:155
@@ -7317,13 +7270,11 @@ msgstr "Kaikki komponentit"
 
 #: weblate/templates/auth/teams-count.html:6
 msgid "Automatic assignment of users is configured for this team"
-msgstr ""
+msgstr "Tälle joukkueelle on määritetty automaattinen käyttäjien määrittäminen"
 
 #: weblate/templates/auth/teams-count.html:6
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic assignment"
-msgstr "Automaattiset tehtävät"
+msgstr "Automaattinen määrittäminen"
 
 #: weblate/templates/auth/teams-name.html:5
 msgid "Requires two-factor authentication"
@@ -7481,7 +7432,7 @@ msgstr "Osallistu Weblaten kehittämiseen"
 #: weblate/templates/base.html:432 weblate/templates/manage/index.html:47
 msgid ""
 "Your Weblate is exceeding service limits. Please upgrade the subscription."
-msgstr ""
+msgstr "Weblatesi ylittää palvelurajat. Ole hyvä ja päivitä tilaus."
 
 #: weblate/templates/base.html:477
 #: weblate/templates/screenshots/screenshot_detail.html:115
@@ -7914,16 +7865,12 @@ msgstr ""
 
 #: weblate/templates/category.html:256 weblate/templates/component.html:329
 #: weblate/templates/project.html:357
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Users will need to update their bookmarks, references in cloned "
 "repositories, or API calls!"
 msgstr ""
-"Projektin uuelleennimeäminen muuttaa kaikki URL:it, käyttäjien tulee "
-"päivittää kirjainmerkit ja viittaukset kloonatuista arkistoissa!"
+"Käyttäjien on päivitettävä kirjanmerkkinsä, viittauksensa kloonatuissa "
+"tietovarastoissa tai API-kutsut!"
 
 #: weblate/templates/category.html:262 weblate/templates/component.html:335
 #: weblate/templates/project.html:363
@@ -7999,10 +7946,8 @@ msgid "Translated"
 msgstr "Käännetty"
 
 #: weblate/templates/check_list.html:104
-#, fuzzy
-#| msgid "Git export documentation"
 msgid "View check documentation"
-msgstr "Git -vienti dokumentaatio"
+msgstr "Katso tarkistusdokumentaatio"
 
 #: weblate/templates/component-list.html:23 weblate/templates/language.html:33
 msgid "Information"
@@ -8029,10 +7974,8 @@ msgstr "Keskeytä päivitys"
 
 #: weblate/templates/component-progress.html:50
 #: weblate/templates/multi-progress.html:36
-#, fuzzy
-#| msgid "Return to the component after completion"
 msgid "Continue after completion"
-msgstr "Palaa komponenttiin, kun toiminto on valmis"
+msgstr "Jatka valmistumisen jälkeen"
 
 #: weblate/templates/component.html:43 weblate/wladmin/views.py:84
 msgid "Alerts"
@@ -8068,10 +8011,8 @@ msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Create component"
 msgid "Duplicate Component"
-msgstr "Luo komponentti"
+msgstr "Monista komponenttia"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -8670,22 +8611,18 @@ msgid "Push"
 msgstr "Lähetä"
 
 #: weblate/templates/js/git-status.html:47
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "yksi kommentti"
-msgstr[1] "%(count)s kommenttia"
+msgstr[0] "%(count)s lähtevä sitoumus"
+msgstr[1] "%(count)s lähtevää sitoumusta"
 
 #: weblate/templates/js/git-status.html:49
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "yksi kommentti"
-msgstr[1] "%(count)s kommenttia"
+msgstr[0] "(%(count)s puuttuu työntöhaarasta)"
+msgstr[1] "(%(count)s puutuvat työntöhaarasta)"
 
 #: weblate/templates/js/git-status.html:60
 msgid "Update"
@@ -8693,38 +8630,26 @@ msgstr "Päivitä"
 
 #: weblate/templates/js/git-status.html:73
 msgid "Update with merge"
-msgstr ""
+msgstr "Päivitä yhdistämisellä"
 
 #: weblate/templates/js/git-status.html:78
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "Päivitä automaattitarkistuksen ehdot"
+msgstr "Päivitä uudelleenalustamisella"
 
 #: weblate/templates/js/git-status.html:83
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "Yhdistä ilman pikakelausta"
+msgstr "Päivitä yhdistämisellä ilman nopea-eteenpäin"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "yksi kommentti"
-msgstr[1] "%(count)s kommenttia"
+msgstr[0] "%(count)s puuttuva sitoumus"
+msgstr[1] "%(count)s puuttuvaa sitoumusta"
 
 #: weblate/templates/js/git-status.html:91
-#, fuzzy
-#| msgid ""
-#| "When updating the repository Weblate was unable to merge the upstream "
-#| "changes."
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr ""
-"Paikallista arkistoa päivitettäessä Weblate ei voinut yhdistää (merge) "
-"etäarkistosta haettuja muutoksia."
+msgstr "Tämä päivittää Weblate-tietovaraston alkuvirran muutoksilla."
 
 #: weblate/templates/js/git-status.html:100
 msgid "Allow changes to the Weblate repository"
@@ -8769,22 +8694,20 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Nollaa kaikki Weblate-tietovaraston muutokset"
 
 #: weblate/templates/js/git-status.html:136
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
 msgstr ""
-"Nollaus poistaa kaikki Weblatessa tehdyt muutokset, jotta tietovarasto "
-"vastaa alkupäätä. Käytä varoen."
+"Nollaus poistaa kaikki muutokset Weblatessa, jotta tietovarasto vastaa "
+"ylävirtaa."
 
 #: weblate/templates/js/git-status.html:137
 msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
 msgstr ""
+"Käytä, kun haluat hylätä Weblatessa tehdyt muutokset ja synkronoida sen "
+"ylävirran tietovaraston kanssa."
 
 #: weblate/templates/js/git-status.html:143
 msgid "Cleanup"
@@ -8799,10 +8722,12 @@ msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
+"Puhdistus poistaa tietovarastosta kaikki tiedostot, joita versionhallinta ei "
+"seuraa."
 
 #: weblate/templates/js/git-status.html:147
 msgid "It also removes stale branches which are not used by Weblate."
-msgstr ""
+msgstr "Se myös poistaa vanhentuneet haarat, joita Weblate ei käytä."
 
 #: weblate/templates/js/git-status.html:148
 msgid "Use when there is some garbage left in the Weblate repository."
@@ -8825,33 +8750,31 @@ msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
 msgstr ""
+"Käytä tätä, kun tietovaraston tiedostot eivät jostain syystä ole synkronoitu "
+"Weblaten kanssa."
 
 #: weblate/templates/js/git-status.html:164
 msgid "Rescan"
-msgstr ""
+msgstr "Skannaa uudelleen"
 
 #: weblate/templates/js/git-status.html:165
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Siivoa kaikki jäljittämättömät tiedostot Weblate-tietovarastosta"
+msgstr "Skannaa uudelleen kaikki Weblate-tietovaraston käännöstiedostot"
 
 #: weblate/templates/js/git-status.html:167
 msgid "Loads translations from the files into Weblate."
 msgstr "Lataa käännökset tiedostoista Weblateen."
 
 #: weblate/templates/js/git-status.html:168
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
 msgstr ""
-"Weblate ei voi noutaa etäarkiston muutoksia arkiston päivittämisen aikana."
+"Käytä, kun Weblatelta puuttui joitain merkkijonoja tietovaraston päivityksen "
+"jälkeen."
 
 #: weblate/templates/js/git-status.html:172
 msgid "Use these operations with caution, they can lead to data loss."
-msgstr ""
+msgstr "Käytä näitä toimintoja varoen, ne voivat johtaa tietojen menetykseen."
 
 #: weblate/templates/js/git-status.html:180
 #, python-format
@@ -8867,14 +8790,12 @@ msgid "Repository changes"
 msgstr "Arkiston muutokset"
 
 #: weblate/templates/keyboard-shortcuts.html:18
-#, fuzzy
-#| msgid "Available add-ons"
 msgid "Available Shortcuts"
-msgstr "Saatavilla olevat lisäosat"
+msgstr "Käytettävissä olevat pikakuvakkeet"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
-msgstr ""
+msgstr "Pikakuvake"
 
 #: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:2795
 msgid "Action"
@@ -8882,18 +8803,16 @@ msgstr "Toiminta"
 
 #: weblate/templates/keyboard-shortcuts.html:33
 msgid "Open available keyboard shortcuts."
-msgstr ""
+msgstr "Avaa käytettävissä olevat näppäimistön pikakuvakkeet."
 
 #: weblate/templates/keyboard-shortcuts.html:39
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to the first translation in the current search."
-msgstr "Tämä käännös on parhaillaan lukittu."
+msgstr "Siirry nykyisen haun ensimmäiseen käännökseen."
 
 #: weblate/templates/keyboard-shortcuts.html:45
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid "Navigate to the last translation in the current search."
-msgstr ""
+msgstr "Siirry nykyisen haun viimeiseen käännökseen."
 
 #: weblate/templates/keyboard-shortcuts.html:49
 #: weblate/templates/keyboard-shortcuts.html:51
@@ -8916,21 +8835,21 @@ msgstr ""
 #: weblate/templates/keyboard-shortcuts.html:169
 #: weblate/templates/keyboard-shortcuts.html:177
 #: weblate/templates/keyboard-shortcuts.html:185
-#, fuzzy
-#| msgid "Port"
 msgctxt "between keyboard shortcuts"
 msgid "or"
-msgstr "Portti"
+msgstr "tai"
 
 #: weblate/templates/keyboard-shortcuts.html:71
 msgid "Navigate to the next translation in the current search."
-msgstr ""
+msgstr "Siirry nykyisen haun seuraavaan käännökseen."
 
 #: weblate/templates/keyboard-shortcuts.html:81
 msgid ""
 "Submit current form; this works the same as pressing Save and continue while "
 "editing translation."
 msgstr ""
+"Lähetä nykyinen lomake; tämä toimii samalla tavalla kuin paina Tallenna ja "
+"jatka käännöksen muokkaamisen aikana."
 
 #: weblate/templates/keyboard-shortcuts.html:90
 msgid "Unmark translation as Needing edit and submit it."
@@ -8941,6 +8860,8 @@ msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
 "while editing translation."
 msgstr ""
+"Välitä merkkijono ehdotuksena; tämä toimii samalla tavalla kuin Ehdota-"
+"painikkeen painaminen käännöstä muokatessasi."
 
 #: weblate/templates/keyboard-shortcuts.html:108
 msgid "Focus on translation editor."
@@ -8948,7 +8869,7 @@ msgstr "Keskity käännösmuokkaimeen."
 
 #: weblate/templates/keyboard-shortcuts.html:116
 msgid "Focus on comment editor."
-msgstr "Keskity kommenttimuokkaimeen"
+msgstr "Keskity kommenttimuokkaimeen."
 
 #: weblate/templates/keyboard-shortcuts.html:124
 msgid "Shows Automatic suggestions tab."
@@ -8962,30 +8883,22 @@ msgstr "Näyttää Automaattiset ehdotukset -välilehden."
 #: weblate/templates/keyboard-shortcuts.html:154
 msgctxt "between keyboard shortcuts"
 msgid "to"
-msgstr ""
+msgstr "sinne"
 
 #: weblate/templates/keyboard-shortcuts.html:134
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "Copies placeable of a given number from source string."
-msgstr "Tätä kieltä käytetään lähdemerkkijonoihin."
+msgstr "Tietyn numeron sijoitettavat kopiot lähdemerkkijonosta."
 
 #: weblate/templates/keyboard-shortcuts.html:138
 #: weblate/templates/keyboard-shortcuts.html:141
 #: weblate/templates/keyboard-shortcuts.html:149
 #: weblate/templates/keyboard-shortcuts.html:153
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "followed by"
-msgstr "Ladannut"
+msgstr "sitä seuraa"
 
 #: weblate/templates/keyboard-shortcuts.html:145
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded document for "
-#| "translation."
 msgid "Copy the machine translation of a given number to current translation."
-msgstr "Luo uusi käännöskomponentti ladatusta asiakirjasta käännettäväksi."
+msgstr "Kopioi tietyn numeron konekäännös nykyiseen käännökseen."
 
 #: weblate/templates/keyboard-shortcuts.html:157
 msgid "Ignore one item in the list of failing checks."
@@ -8993,11 +8906,11 @@ msgstr "Ohita yksi kohde epäonnistuneiden tarkistusten luettelossa."
 
 #: weblate/templates/keyboard-shortcuts.html:165
 msgid "Shows the Nearby strings tab."
-msgstr "Näyttää Lähellä olevat tekstit -välilehden"
+msgstr "Näyttää Läheiset merkkijonot -välilehden."
 
 #: weblate/templates/keyboard-shortcuts.html:173
 msgid "Focus on search field."
-msgstr ""
+msgstr "Keskity hakukenttään."
 
 #: weblate/templates/keyboard-shortcuts.html:181
 msgid "Copy the source string."
@@ -9005,7 +8918,7 @@ msgstr "Kopioi lähdetekstin."
 
 #: weblate/templates/keyboard-shortcuts.html:189
 msgid "Toggle the Needs editing checkbox."
-msgstr ""
+msgstr "Vaihda Vaatii muokkauksen -valintaruutu."
 
 #: weblate/templates/keyboard-shortcuts.html:195
 msgid "Browse the next translation string."
@@ -9243,19 +9156,13 @@ msgstr ""
 "libre-suunnitelmallesi."
 
 #: weblate/templates/mail/billing_expired.html:19
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "Your billing plan has expired. Please renew it to continue using the service."
 msgstr ""
-"Laskutussuunnitelmasi on päättynyt. Jos haluat jatkaa palvelun käyttöä, ole "
-"hyvä ja uusi se."
+"Laskutussuunnitelmasi on vanhentunut. Ole hyvä ja uusi se, jotta voit jatkaa "
+"palvelun käyttöä."
 
 #: weblate/templates/mail/billing_expired.html:24
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "This billing plan covers the following projects:"
 msgstr "Tämä laskutussuunnitelma kattaa seuraavat projektit:"
 
@@ -9268,34 +9175,30 @@ msgid ""
 "There are no projects attached to this billing plan. (There might be "
 "projects in other billing plans of yours.)"
 msgstr ""
+"Tähän laskutussuunnitelmaan ei ole liitetty projekteja. (Muissa "
+"laskutussuunnitelmissasi saattaa olla projekteja.)"
 
 #: weblate/templates/mail/billing_expired.html:46
 msgid "All projects covered by this billing plan have been removed."
 msgstr "Kaikki projektit jotka kuuluivat tähän sopimukseen on poistettu."
 
 #: weblate/templates/mail/billing_expired.html:52
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If you don't issue the payment, all projects within this billing plan will "
 "be removed on %(date)s."
 msgstr ""
-"Jos et suorita maksua, kaikki projektit jotka kuuluvat tähän sopimukseen "
+"Jos et suorita maksua, kaikki tämän laskutussuunnitelman projektit "
 "poistetaan %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:56
-#, fuzzy, python-format
-#| msgid ""
-#| "If your Libre hosting will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
 msgstr ""
-"Jos Libre-isännöintiäsi ei hyväksytä, kaikki tämän laskutussuunnitelman "
-"projektit poistetaan %(date)s."
+"Jos Libre-isännöintiäsi ei ole hyväksytty siihen, kaikki tämän "
+"laskutussuunnitelman projektit poistetaan %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -9494,11 +9397,9 @@ msgid "New language request in %(component)s"
 msgstr "Uuden kielen lisäyspyyntö käännöskomponenttiin %(component)s"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "String to translate in %(translation)s"
-msgstr "Uusi teksti käännettäväksi projektissa %(translation)s"
+msgstr "Käännettävä merkkijono %(translation)s:ssa"
 
 #: weblate/templates/mail/new_suggestion.html:10
 msgid "Suggestion"
@@ -9769,16 +9670,12 @@ msgid "Support status"
 msgstr "Tuen tila"
 
 #: weblate/templates/manage/index.html:43
-#, fuzzy
-#| msgid "Weblate support status"
 msgid "Refresh support status"
-msgstr "Weblaten tuen tila"
+msgstr "Virkistä tuen tila"
 
 #: weblate/templates/manage/index.html:59
-#, fuzzy
-#| msgid "Manage support package"
 msgid "Support package limits"
-msgstr "Hallinnoi tukipakettia"
+msgstr "Tukipakettien rajat"
 
 #: weblate/templates/manage/index.html:69
 msgid "Support expiry"
@@ -9823,14 +9720,11 @@ msgstr "Osta tukipaketti"
 
 #: weblate/templates/manage/index.html:110
 msgid "Contact customer care"
-msgstr ""
+msgstr "Ota yhteyttä asiakaspalveluun"
 
 #: weblate/templates/manage/index.html:119
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Contact us via e-mail"
-msgstr "Yhteyshenkilön sähköpostiosoite"
+msgstr "Ota meihin yhteyttä sähköpostitse"
 
 #: weblate/templates/manage/performance.html:13
 #: weblate/wladmin/templates/admin/weblate-index.html:44
@@ -10185,16 +10079,12 @@ msgid "off"
 msgstr "pois käytöstä"
 
 #: weblate/templates/memory/index.html:267
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of shared entries in this Weblate instance"
-msgstr "Jaettujen merkintöjen määrä"
+msgstr "Jaettujen merkintöjen määrä tässä Weblate-esiintymässä"
 
 #: weblate/templates/memory/index.html:279
-#, fuzzy
-#| msgid "Total number of entries"
 msgid "Total number of entries in this Weblate instance"
-msgstr "Kaikkien merkintöjen määrä"
+msgstr "Tämän Weblate-esiintymän merkintöjen kokonaismäärä"
 
 #: weblate/templates/memory/index.html:297
 msgid "Import translation memory"
@@ -10330,10 +10220,8 @@ msgid "Color"
 msgstr "Väri"
 
 #: weblate/templates/project-labels.html:27
-#, fuzzy
-#| msgid "Update source strings"
 msgid "Labeled source strings"
-msgstr "Päivitä lähdetekstit"
+msgstr "Merkityt lähdemerkkijonoiksi"
 
 #: weblate/templates/project-labels.html:28
 #: weblate/templates/snippets/embed-units.html:65
@@ -10345,14 +10233,14 @@ msgid "Add label"
 msgstr "Lisää otsikko"
 
 #: weblate/templates/project.html:351
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "Luo projekti"
+msgstr "Järjestä projekti"
 
 #: weblate/templates/project.html:356
 msgid "Renaming the project will also change URLs for all its components."
 msgstr ""
+"Projektin uudelleennimeäminen muuttaa myös kaikkien sen komponenttien URL-"
+"osoitteita."
 
 #: weblate/templates/projects.html:24
 msgid "Ask for project hosting"
@@ -10449,10 +10337,8 @@ msgid "strings"
 msgstr "tekstit"
 
 #: weblate/templates/search.html:29
-#, fuzzy
-#| msgid "Words"
 msgid "words"
-msgstr "Sanat"
+msgstr "sanat"
 
 #: weblate/templates/search.html:34
 #: weblate/templates/snippets/embed-units.html:126
@@ -10548,6 +10434,8 @@ msgstr ""
 #: weblate/templates/snippets/donate.html:5
 msgid "We prioritize your privacy; we never display ads or sell your data."
 msgstr ""
+"Asetamme etusijalle yksityisyytesi; emme koskaan näytä mainoksia tai myy "
+"tietojasi."
 
 #: weblate/templates/snippets/donate.html:6
 msgid ""
@@ -10599,19 +10487,23 @@ msgstr "Ladataan tuloksia…"
 
 #: weblate/templates/snippets/enforced_2fa.html:9
 msgid "Configure two-factor authentication"
-msgstr ""
+msgstr "Määritä kaksivaiheinen todennus"
 
 #: weblate/templates/snippets/enforced_2fa.html:11
 msgid ""
 "This project requires two-factor authentication from all contributors. You "
 "won’t be able to contribute until you configure it."
 msgstr ""
+"Tämä projekti vaatii kaksivaiheisen todennuksen kaikilta osallistujilta. Et "
+"voi osallistua, ennen kuin olet määrittänyt sen."
 
 #: weblate/templates/snippets/enforced_2fa.html:13
 msgid ""
 "You are a member of the team that requires two-factor authentication. You "
 "won’t be able to use any of its privileges until you configure 2FA."
 msgstr ""
+"Joukkue, jonka olet jäsen, vaatii kaksivaiheista todennusta. Et voi käyttää "
+"sen oikeuksia ennen kuin määrität kaksivaiheisen todennuksen."
 
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:379
@@ -10771,10 +10663,8 @@ msgid "Last change"
 msgstr "Viimeinen muutos"
 
 #: weblate/templates/snippets/info.html:177
-#, fuzzy
-#| msgid "Last change"
 msgid "Last change made by"
-msgstr "Viimeinen muutos"
+msgstr "Viimeisin muutos, jonka on tehnyt"
 
 #: weblate/templates/snippets/info.html:204
 msgid "Aliased language codes"
@@ -10972,10 +10862,8 @@ msgid "Non-code projects are welcome as well."
 msgstr "Ei-koodiprojektit ovat myös tervetulleita."
 
 #: weblate/templates/snippets/libre-basic.html:19
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project approval"
-msgstr "Projekti poistettu"
+msgstr "Projektin hyväksyminen"
 
 #: weblate/templates/snippets/libre-basic.html:21
 msgid "Using Weblate has been approved by the upstream project."
@@ -11093,17 +10981,12 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "Rekisteröitymällä ja kirjautumalla hyväksyt seuraavat:"
 
 #: weblate/templates/snippets/login-info.html:21
-#, fuzzy
-#| msgid ""
-#| "Quick overview of the Terms of Service and the Privacy Policy, but you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
-"Nopea yleiskatsaus palvelun käyttöehdoista (Terms of Service) ja "
-"tietosuojakäytännöstä, mutta lue silti alkuperäiset asiakirjat, jotta "
-"ymmärrät ne täysin:"
+"Nopea yleiskatsaus Yleisistä käyttöehdoista ja Tietosuojakäytännöstä, mutta "
+"sinun tulee silti lukea alkuperäiset asiakirjat ymmärtääksesi ne täysin:"
 
 #: weblate/templates/snippets/login-info.html:28
 msgid ""
@@ -11116,19 +10999,14 @@ msgstr ""
 "kussakin käännösprojektissa määritellyn lisenssin mukaisesti."
 
 #: weblate/templates/snippets/login-info.html:32
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"Rekisteröitymällä suostut käyttämään nimeäsi ja sähköpostiosoitettasi "
-"versionhallinnan commiteissa, sekä hyväksyt että työsi tulokset julkaistaan "
-"kussakin käännösprojektissa määritellyn lisenssin mukaisesti."
+"Rekisteröitymällä suostut käyttämään nimeäsi versionhallintajärjestelmän "
+"sitoumuksissa ja antamaan lahjoituksesi kunkin käännetyn projektin "
+"määrittämän lisenssin mukaisesti."
 
 #: weblate/templates/snippets/plural-formula.html:5
 msgid ""
@@ -11174,10 +11052,8 @@ msgid "/ %(filter_count)s"
 msgstr "/ %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:101
-#, fuzzy
-#| msgid "Text direction"
 msgid "Next section"
-msgstr "Tekstin suunta"
+msgstr "Seuraava osa"
 
 #: weblate/templates/snippets/position-field.html:113
 #: weblate/templates/snippets/position-field.html:132
@@ -11317,10 +11193,8 @@ msgid "All untranslated strings added the past month"
 msgstr "Kaikki viimeisen kuukauden aikana lisätyt kääntämättömät tekstit"
 
 #: weblate/templates/snippets/query-builder.html:200
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "Strings changed in the past two weeks"
-msgstr "Merkkijono päivitetty tietovarastossa"
+msgstr "Muutetut merkkijonot viimeisen kahden viikon aikana"
 
 #: weblate/templates/snippets/query-builder.html:211
 msgid "Translated strings in a certain language"
@@ -11328,7 +11202,7 @@ msgstr "Tietyn kielen käännetyt tekstit"
 
 #: weblate/templates/snippets/query-field.html:13
 msgid "Filters"
-msgstr ""
+msgstr "Suodattimet"
 
 #: weblate/templates/snippets/query-field.html:25
 #: weblate/templates/snippets/user-query-field.html:6 weblate/utils/forms.py:28
@@ -11336,12 +11210,11 @@ msgid "Query"
 msgstr "Kysely"
 
 #: weblate/templates/snippets/replace-help.html:4
-#, fuzzy
 msgid ""
 "Don’t worry about messing up the strings. This is a two-step process showing "
 "a preview of edited strings before the actual change is confirmed."
 msgstr ""
-"Älä ole huolissasi joustien sotkemisesta. Tämä on kaksivaiheinen prosessi, "
+"Älä huolehdi merkkijonojen sotkemisesta. Tämä on kaksivaiheinen prosessi, "
 "joka näyttää esikatselun muokatuista merkkijonoista ennen varsinaisen "
 "muutoksen vahvistamista."
 
@@ -11423,10 +11296,8 @@ msgid "Download %(key_type)s private key"
 msgstr "Lataa yksityinen avain %(key_type)s"
 
 #: weblate/templates/snippets/ssh-key.html:42
-#, fuzzy
-#| msgid "IP address"
 msgid "IP addresses"
-msgstr "IP-osoite"
+msgstr "IP-osoitteet"
 
 #: weblate/templates/snippets/ssh-key.html:46
 msgid ""
@@ -11437,10 +11308,8 @@ msgstr ""
 "tai käynnistääkseen verkkokoukkuja."
 
 #: weblate/templates/snippets/ssh-key.html:54
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "IP address copied to clipboard."
-msgstr "API-avain kopioitu leikepöydälle."
+msgstr "IP-osoite kopioitu leikepöydälle."
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:11
@@ -11468,10 +11337,8 @@ msgid "Accept"
 msgstr "Hyväksy"
 
 #: weblate/templates/snippets/suggestions.html:52
-#, fuzzy
-#| msgid "Accept and edit"
 msgid "Accept and approve"
-msgstr "Hyväksy ja muokkaa"
+msgstr "Suostu ja hyväksy"
 
 #: weblate/templates/snippets/suggestions.html:58
 msgid "Accept and edit"
@@ -11492,9 +11359,8 @@ msgid "Failing checks:"
 msgstr "Epäonnistuneet tarkastukset:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:5
-#, fuzzy
 msgid "Source in review"
-msgstr "Lähteen yhteenveto"
+msgstr "Lähde tarkastelussa"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:7
 msgid "Source string editing is disabled."
@@ -11613,6 +11479,8 @@ msgid ""
 "In case the above links work for you, they might just require "
 "authentication, and it is safe to dismiss this alert."
 msgstr ""
+"Jos yllä olevat linkit toimivat sinulle, ne saattavat vaatia vain "
+"todennusta, ja tämä hälytys on turvallista hylätä."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:19
 msgid ""
@@ -11644,12 +11512,16 @@ msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
+"Ylävirran tietovarastoa ei löytynyt. Tarkista, onko se olemassa ja onko se "
+"Weblaten käytettävissä."
 
 #: weblate/templates/trans/alert/common-repo.html:10
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
 "accessible to Weblate."
 msgstr ""
+"Ylävirran tietovarastoon ei voitu käyttää. Tarkista, onko se Weblaten "
+"käytettävissä."
 
 #: weblate/templates/trans/alert/common-repo.html:15
 msgid ""
@@ -11663,18 +11535,16 @@ msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr ""
+"Ylävirran tietovarastoon ei voitu tilapäisesti päästä käsiksi. Yritä "
+"myöhemmin uudelleen."
 
 #: weblate/templates/trans/alert/common-repo.html:25
-#, fuzzy
-#| msgid ""
-#| "Your push URL seems to miss credentials. Either provide them in the URL "
-#| "or use SSH with key based authentication."
 msgid ""
 "Your repository URL seems to miss credentials. Either provide them in the "
 "URL or use SSH with key based authentication."
 msgstr ""
-"Työntö-URL-osoitteestasi näyttää puuttuvan kirjautumistiedot. Anna ne joko "
-"URL-osoitteessa tai käytä SSH:ta avainpohjaisen todennuksen kanssa."
+"Tietovaraston URL-osoitteesta näyttää puuttuvan valtuustiedot. Välitä ne "
+"joko URL-osoitteessa tai käytä SSH:ta avainpohjaisen todennuksen kanssa."
 
 #: weblate/templates/trans/alert/common-repo.html:31
 msgid "You might want to use following URL instead:"
@@ -11703,6 +11573,8 @@ msgid ""
 "Weblate will retry the operation once it is needed again, so the alert might "
 "disappear for the temporary issues."
 msgstr ""
+"Weblate yrittää toimintoa uudelleen, kun sitä tarvitaan uudelleen, joten "
+"hälytys saattaa kadota tilapäisten ongelmien vuoksi."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid "Some linked components have the same file mask."
@@ -11825,12 +11697,17 @@ msgid ""
 "Using monolingual files as a glossary is not recommended because adding "
 "strings to target language only is not possible in monolingual files."
 msgstr ""
+"Yksikielisten tiedostojen käyttämistä sanastona ei suositella, koska "
+"merkkijonojen lisääminen vain kohdekieleen ei ole mahdollista yksikielisissä "
+"tiedostoissa."
 
 #: weblate/templates/trans/alert/monolingualglossary.html:8
 msgid ""
 "You can continue using the glossary this way, but some features will be "
 "unavailable."
 msgstr ""
+"Voit jatkaa sanaston käyttöä tällä tavalla, mutta jotkin ominaisuudet eivät "
+"ole käytettävissä."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 msgid ""
@@ -11890,10 +11767,8 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate ei voi pushata paikallisia muutoksia etäarkistoon."
 
 #: weblate/templates/trans/alert/pushfailure.html:15
-#, fuzzy
-#| msgid "Reset repository"
 msgid "Push the repository"
-msgstr "Nollaa arkisto"
+msgstr "Työnnä tietovarasto"
 
 #: weblate/templates/trans/alert/repositorychanges.html:5
 msgid ""
@@ -11965,13 +11840,8 @@ msgstr ""
 "komponenttilippuihin."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:3
-#, fuzzy
-#| msgid ""
-#| "There is at least one screenshot which is not assigned to any strings."
 msgid "At least one screenshot has no string assigned to it."
-msgstr ""
-"Siellä on ainakin yksi kuvakaappaus, jota ei ole määritetty millekään "
-"merkkijonolle."
+msgstr "Ainakin yhdellä kuvakaappauksella ei ole merkkijonoa määritettynä."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:6
 msgid "Manage screenshots"
@@ -11983,10 +11853,8 @@ msgstr ""
 "Weblate ei voi noutaa etäarkiston muutoksia arkiston päivittämisen aikana."
 
 #: weblate/templates/trans/alert/updatefailure.html:15
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the repository"
-msgstr "Päivitä versionhallinta-arkisto"
+msgstr "Päivitä tietovarasto"
 
 #: weblate/templates/trans/backups.html:31
 msgid "There are currently no backups."
@@ -12221,22 +12089,20 @@ msgstr[0] "Tämä poistaa yhden komponentin."
 msgstr[1] "Tämä poistaa %(count)s komponenttia."
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "Add missing languages add-on is installed on this component, removed "
-#| "language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
 msgstr ""
-"Tähän komponenttiin on asennettu puuttuvien kielten lisäosa, ja se saattaa "
-"lisätä poistetun kielen uudelleen."
+"\"Lisää puuttuvia kieliä\" -lisäosa on asennettu tähän komponenttiin, ja se "
+"saattaa lisätä poistetun kielen uudelleen."
 
 #: weblate/templates/trans/delete-translation.html:11
 msgid ""
 "The glossary component automatically maintains translation for each language "
 "used in the project, a removed language might be re-added again."
 msgstr ""
+"Sanastokomponentti ylläpitää automaattisesti käännöstä jokaiselle "
+"projektissa käytetylle kielelle, ja poistettu kieli voidaan lisätä uudelleen."
 
 #: weblate/templates/trans/delete-translation.html:16
 #, python-format
@@ -12283,10 +12149,10 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "Yhdistä (merge) Weblaten muutokset ja ratkaise kaikki konfliktit."
 
 #: weblate/templates/trans/merge_instructions.html:27
-#, fuzzy
-#| msgid "Merge Weblate changes and resolve any conflicts."
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Yhdistä (merge) Weblaten muutokset ja ratkaise kaikki konfliktit."
+msgstr ""
+"Alusta Weblate-muutokset ylävirran päälle ja ratkaise mahdolliset "
+"ristiriidat."
 
 #: weblate/templates/trans/merge_instructions.html:33
 msgid "Push changes into upstream repository."
@@ -12604,10 +12470,8 @@ msgid "Apply selected translation to current string"
 msgstr "Käytä valittua käännöstä nykyiseen tekstiin"
 
 #: weblate/templates/translate.html:463
-#, fuzzy
-#| msgid "Browse all changes"
 msgid "Browse all string changes"
-msgstr "Selaa kaikkia tekstien muutoksia"
+msgstr "Selaa kaikkia merkkijonomuutoksia"
 
 #: weblate/templates/translate.html:482
 msgid "Suggested change"
@@ -12681,16 +12545,12 @@ msgid "Add term to glossary"
 msgstr "Lisää termi sanastoon"
 
 #: weblate/templates/translate.html:726
-#, fuzzy
-#| msgid "User identities"
 msgid "Unit identifier"
-msgstr "Käyttäjän henkilöllisyydet"
+msgstr "Yksikön tunniste"
 
 #: weblate/templates/translate.html:728
-#, fuzzy
-#| msgid "Invitation link copied to clipboard."
 msgid "Unit identifier copied to clipboard"
-msgstr "Kutsulinkki kopioitu leikepöydälle."
+msgstr "Yksikön tunniste kopioitu leikepöydälle"
 
 #: weblate/templates/translate.html:729
 msgid "String information"
@@ -12791,10 +12651,8 @@ msgstr "Sanat"
 
 #: weblate/templates/translation.html:183
 #: weblate/templates/translation.html:208
-#, fuzzy
-#| msgid "Characters percent"
 msgid "Characters"
-msgstr "Merkkien prosenttiosuus"
+msgstr "Merkit"
 
 #: weblate/templates/translation.html:190
 msgid "This translation is being used as source strings within this component."
@@ -12910,7 +12768,7 @@ msgstr "Kirjaudu sisään nähdäksesi tämän kutsun."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:31
 msgid "This invitation belongs to a different user."
-msgstr ""
+msgstr "Tämä kutsu kuuluu toiselle käyttäjälle."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:52
 #, python-format
@@ -12996,7 +12854,7 @@ msgstr "Avaa täysmuokkaimessa"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "Romahda"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:623
 msgid "The translation has come to an end."
@@ -13103,10 +12961,8 @@ msgid "Strings with variants"
 msgstr "Tekstit, joissa on variantteja"
 
 #: weblate/trans/filter.py:31
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "Kommentoidut tekstit"
+msgstr "Merkkijonot kuvakaappauksilla"
 
 #: weblate/trans/filter.py:32
 msgid "Strings with labels"
@@ -13137,10 +12993,8 @@ msgid "Strings waiting for review"
 msgstr "Tarkistusta odottavat tekstit"
 
 #: weblate/trans/filter.py:64
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "Kommentoidut tekstit"
+msgstr "Merkkijonot ilman kuvakaappauksia"
 
 #: weblate/trans/filter.py:67
 msgid "Strings without a label"
@@ -13391,7 +13245,7 @@ msgstr "Komponenttia ei löydy!"
 
 #: weblate/trans/forms.py:1069
 msgid "Source component needs to have same source language as target one."
-msgstr ""
+msgstr "Lähdekomponentilla on oltava sama lähdekieli kuin kohdekomponentilla."
 
 #: weblate/trans/forms.py:1081
 msgid ""
@@ -13419,7 +13273,7 @@ msgstr "Valitse"
 
 #: weblate/trans/forms.py:1277
 msgid "Allow user to add or remove users from a team."
-msgstr ""
+msgstr "Salli käyttäjien lisätä tai poistaa käyttäjiä joukkueesta."
 
 #: weblate/trans/forms.py:1289
 msgid "Block duration"
@@ -13458,10 +13312,8 @@ msgid "You do not have permission to access this component."
 msgstr "Sinulla ei ole oikeuksia tähän komponenttiin."
 
 #: weblate/trans/forms.py:1442
-#, fuzzy
-#| msgid "This field has been identified as spam!"
 msgid "This submission has been identified as spam!"
-msgstr "Tämä kenttä on tunnistettu roskapostiksi!"
+msgstr "Tämä välitys on tunnistettu roskapostiksi!"
 
 #: weblate/trans/forms.py:1526 weblate/trans/forms.py:2154
 msgid "Basic"
@@ -13525,7 +13377,7 @@ msgstr "Käännettävä asiakirja"
 
 #: weblate/trans/forms.py:1867
 msgid "Target language of the document for bilingual files"
-msgstr ""
+msgstr "Kaksikielisten tiedostojen asiakirjan kohdekieli"
 
 #: weblate/trans/forms.py:1934
 msgid "Choose translation files to import"
@@ -13705,10 +13557,8 @@ msgid "Author username"
 msgstr "Tekijän käyttäjänimi"
 
 #: weblate/trans/forms.py:2804
-#, fuzzy
-#| msgid "Change password"
 msgid "Change period"
-msgstr "Vaihda salasana"
+msgstr "Vaihda ajanjakso"
 
 #: weblate/trans/forms.py:2816
 msgid "Could not find matching user!"
@@ -13782,23 +13632,23 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "Merkitse käännöksessä käytettävät erikoismerkkijonot lippujen avulla."
 
 #: weblate/trans/guide.py:216
-#, fuzzy
-#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
-msgstr "Lisää safe-html-asetus välttääksesi vaarallinen HTML kääntäjiltä."
+msgstr ""
+"Lisää safe-html-lippu välttääksesi vaarallisen HTML-koodin kääntäjiltä HTML-"
+"muodossa hahmonnetuille merkkijonoille."
 
 #: weblate/trans/guide.py:247
 msgid "Workflow customization"
 msgstr "Työnkulun mukauttaminen"
 
 #: weblate/trans/mixins.py:144
-#, fuzzy
-#| msgid "Component with this URL slug already exists in the project."
 msgid ""
 "Component or category with the same URL slug already exists at this level."
-msgstr "Komponentti tämän URL-etanan kanssa on jo olemassa projektissa."
+msgstr ""
+"Komponentti tai luokka, jolla on sama URL slug -osoite, on jo olemassa tällä "
+"tasolla."
 
 #: weblate/trans/mixins.py:151
 msgid "Component or category with the same name already exists at this level."
@@ -13917,22 +13767,16 @@ msgid "Component seems unused."
 msgstr "Komponentti näyttää käyttämättömältä."
 
 #: weblate/trans/models/alert.py:668
-#, fuzzy
-#| msgid "The translation uses monolingual files."
 msgid "Glossary using monolingual files."
-msgstr "Käännös käyttää yksikielisiä tiedostoja."
+msgstr "Sanasto, jossa käytetään yksikielisiä tiedostoja."
 
 #: weblate/trans/models/announcement.py:104
-#, fuzzy
-#| msgid "Security"
 msgid "Severity"
-msgstr "Turvallisuus"
+msgstr "Vakavuus"
 
 #: weblate/trans/models/announcement.py:105
-#, fuzzy
-#| msgid "Category defines color used for the message."
 msgid "Severity defines color used for the message."
-msgstr "Luokka määrittelee viestissä käytettävän värin."
+msgstr "Vakavuus määrittelee viestissä käytetyn värin."
 
 #: weblate/trans/models/announcement.py:107
 msgid "Info (light blue)"
@@ -14068,59 +13912,43 @@ msgstr "Komponentin lukitus poistettu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:427
-#, fuzzy
-#| msgid "Change word"
 msgid "Changes committed"
-msgstr "Vaihda sanaa"
+msgstr "Muutokset sidottu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:429
-#, fuzzy
-#| msgid "Change password"
 msgid "Changes pushed"
-msgstr "Vaihda salasana"
+msgstr "Muutokset työnnetty"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:431
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Repository reset"
-msgstr "Arkistoselain"
+msgstr "Tietovaraston nollaus"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:433
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository merged"
-msgstr "Arkiston muutokset"
+msgstr "Tietovarasto yhdistetty"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:435
-#, fuzzy
-#| msgid "Repository details"
 msgid "Repository rebased"
-msgstr "Arkiston tiedot"
+msgstr "Tietovarasto alustettu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:437
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository merge failed"
-msgstr "Arkistotoimenpide"
+msgstr "Tietovaraston yhdistäminen epäonnistui"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository rebase failed"
-msgstr "Arkistotoimenpide"
+msgstr "Tietovaraston alustaminen epäonnistui"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:441
-#, fuzzy
-#| msgid "Repository failure"
 msgid "Repository push failed"
-msgstr "Arkistovirhe"
+msgstr "Tietovaraston työntö epäonnistui"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:443
@@ -14159,10 +13987,8 @@ msgstr "Teksti lisätty"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:457
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Bulk status changed"
-msgstr "Tilan massamuutos"
+msgstr "Joukkotila muutettu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:459
@@ -14256,17 +14082,13 @@ msgstr "Käyttäjä kutsuttu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:495
-#, fuzzy
-#| msgid "Received repository notification"
 msgid "Repository notification received"
-msgstr "Vastaanotettu arkistoilmoitus"
+msgstr "Tietovaraston ilmoitus vastaanotettu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:497
-#, fuzzy
-#| msgid "Replaced file by upload"
 msgid "Translation replaced file by upload"
-msgstr "Tiedosto korvattu uloslatauksella"
+msgstr "Käännös korvattu tiedosto uloslatauksella"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:499
@@ -14350,38 +14172,28 @@ msgstr "Tekstin tallentaminen epäonnistui"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:534
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "Merkkijono päivitetty tietovarastossa"
+msgstr "Merkkijono lisätty tietovarastoon"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:536
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String updated in the upload"
-msgstr "Merkkijono päivitetty tietovarastossa"
+msgstr "Merkkijono päivitetty uloslatauksessa"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:538
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the upload"
-msgstr "Merkkijono päivitetty tietovarastossa"
+msgstr "Merkkijono lisätty uloslataukseen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:540
-#, fuzzy
-#| msgid "Replaced file by upload"
 msgid "Translation updated by source upload"
-msgstr "Tiedosto korvattu uloslatauksella"
+msgstr "Käännös päivitetty lähteen uloslatauksella"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:542
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Component translation completed"
-msgstr "Käännös on valmis"
+msgstr "Komponentin käännös valmis"
 
 #: weblate/trans/models/change.py:626
 msgid "The component was automatically locked because of an alert."
@@ -14615,28 +14427,24 @@ msgstr ""
 "django.po."
 
 #: weblate/trans/models/component.py:455
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "Ruudunkaappauskuvan lisätiedot"
+msgstr "Kuvakaappaustiedoston peite"
 
 #: weblate/trans/models/component.py:460
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
+"Kuvakaappausten polku suhteessa tietovaraston juureen, esimerkiksi: "
+"asiakirjat/kuvakaappaukset/*.png."
 
 #: weblate/trans/models/component.py:469
-#, fuzzy
-#| msgid ""
-#| "Filename of translation base file, containing all strings and their "
-#| "source; it is recommended for monolingual translation formats."
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
 msgstr ""
-"Tiedostonimi käännöksen kantatiedostolle joka sisältää kaikki lähdetekstit. "
-"Kantatiedostoa on suositeltavaa käyttää yksikielisille käännösmuodoille."
+"Käännösperustiedoston tiedostonimi, joka sisältää kaikki merkkijonot ja "
+"niiden lähteen yksikielisille käännöksille."
 
 #: weblate/trans/models/component.py:476
 msgid "Edit base file"
@@ -14879,22 +14687,16 @@ msgid "Glossary color"
 msgstr "Sanaston väri"
 
 #: weblate/trans/models/component.py:776
-#, fuzzy
-#| msgid "Search filter"
 msgid "Key filter"
-msgstr "Hakusuodatin"
+msgstr "Näppäinsuodatin"
 
 #: weblate/trans/models/component.py:780
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "file mask."
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
 msgstr ""
-"Säännöllinen lauseke, jota käytetään suodattamaan käännöstiedostoja, kun "
-"etsitään tiedostopeitettä."
+"Säännöllinen lauseke, jota käytetään suodattamaan avaimia. Tämä on "
+"käytettävissä vain yksikielisissä muodoissa."
 
 #: weblate/trans/models/component.py:1536
 msgid ""
@@ -14958,10 +14760,8 @@ msgid "Category does not belong to this project."
 msgstr "Luokka ei kuulu tähän projektiin."
 
 #: weblate/trans/models/component.py:2761
-#, fuzzy
-#| msgid "Component list can not be chosen when unused."
 msgid "Categorized component can not be shared."
-msgstr "Komponenttilista ei saa olla valittuna jos ominaisuus ei ole käytössä."
+msgstr "Luokiteltua komponenttia ei voi jakaa."
 
 #: weblate/trans/models/component.py:2773
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -15030,7 +14830,7 @@ msgstr "Uusien käännösten kantatiedostoa ei voida tunnistaa."
 
 #: weblate/trans/models/component.py:2920
 msgid "Editing template is not supported with this file format."
-msgstr ""
+msgstr "Mallin muokkausta ei tueta tässä tiedostomuodossa."
 
 #: weblate/trans/models/component.py:2926
 #: weblate/trans/models/component.py:2942
@@ -15082,10 +14882,9 @@ msgid "Could not update repository: %s"
 msgstr "Arkiston päivitys epäonnistui: %s"
 
 #: weblate/trans/models/component.py:3028
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Pull and push branches cannot be the same when using merge requests."
-msgstr "Gitean vetopyyntö"
+msgstr ""
+"Vedä ja työnnä haarat eivät voi olla samoja käytettäessä yhdistämispyyntöjä."
 
 #: weblate/trans/models/component.py:3041
 msgid ""
@@ -15114,6 +14913,8 @@ msgstr ""
 #: weblate/trans/models/component.py:3124
 msgid "To use the key filter, the file format must be monolingual."
 msgstr ""
+"Näppäinsuodattimen käyttäminen edellyttää, että tiedostomuoto on "
+"yksikielinen."
 
 #: weblate/trans/models/component.py:3513
 msgid "Could not add new translation file."
@@ -15163,10 +14964,8 @@ msgid "Add new translation string"
 msgstr "Lisää uusi käännösteksti"
 
 #: weblate/trans/models/component.py:3847
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Arkiston yhdistäminen epäonnistui."
+msgstr "Tietovaraston tilaa ei voitu saada!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -15202,10 +15001,8 @@ msgid "Component list to assign"
 msgstr "Liitettävä komponenttilista"
 
 #: weblate/trans/models/label.py:28
-#, fuzzy
-#| msgid "Description"
 msgid "Label description"
-msgstr "Kuvaus"
+msgstr "Nimiön kuvaus"
 
 #: weblate/trans/models/project.py:155
 msgid "Public"
@@ -15267,6 +15064,8 @@ msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
 msgstr ""
+"Edellyttää, että osallistujilla on kaksivaiheinen todennus määritetty ennen "
+"kuin he voivat osallistua."
 
 #: weblate/trans/models/project.py:227 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
@@ -15325,10 +15124,9 @@ msgstr "Tiedoston %(file)s jäsentäminen epäonnistui: %(error)s"
 #: weblate/trans/models/translation.py:1143
 #: weblate/trans/models/translation.py:1199
 #: weblate/trans/models/translation.py:1294
-#, fuzzy, python-format
-#| msgid "Failed to commit pending changes: %s"
+#, python-format
 msgid "Could not commit pending changes: %s"
-msgstr "Odottavien muutosten kommitointi epäonnistui: %s"
+msgstr "Odottavia muutoksia ei voitu sitoa: %s"
 
 #: weblate/trans/models/translation.py:1732
 msgid "Plurals are not supported by the file format!"
@@ -15342,15 +15140,16 @@ msgstr "Teksti sisältää ohjausmerkin: %s"
 
 #: weblate/trans/models/translation.py:1742
 msgid "Empty state is supported for blank strings only."
-msgstr ""
+msgstr "Tyhjä tila on tuettu vain tyhjille merkkijonoille."
 
 #: weblate/trans/models/translation.py:1745
 msgid "Blank strings require an empty state."
-msgstr ""
+msgstr "Tyhjät merkkijonot vaativat tyhjän tilan."
 
 #: weblate/trans/models/translation.py:1749
 msgid "Approved state is not available as reviews are not enabled."
 msgstr ""
+"Hyväksytty tila ei ole käytettävissä, koska arvostelut eivät ole käytössä."
 
 #: weblate/trans/models/translation.py:1757
 msgid "This string seems to already exist."
@@ -15793,16 +15592,12 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Tiedostomaski ei sisällä * kielen paikkamerkkinä!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for automatical acceptance as it would permit "
-#| "users to vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatic acceptance as it would permit "
 "users to vote on their own suggestions."
 msgstr ""
-"Arvo 1 ei ole sallittu automaattiseen hyväksymiseen, koska se mahdollistaisi "
-"käyttäjän oman ehdotuksen hyväksymisen hänen omalla äänellään."
+"Arvo 1 ei ole sallittu automaattiselle hyväksymiselle, koska se antaisi "
+"käyttäjien äänestää omista ehdotuksistaan."
 
 #: weblate/trans/validators.py:42
 #, python-format
@@ -15872,7 +15667,7 @@ msgstr "Uuden kielen lisäämisen pyyntö on lähetetty projektin ylläpitäjill
 
 #: weblate/trans/views/basic.py:755
 msgid "All languages have been added, updates of translations are in progress."
-msgstr ""
+msgstr "Kaikki kielet on lisätty, käännösten päivitykset ovat meneillään."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -15951,10 +15746,8 @@ msgid "Your suggestion has been identified as spam!"
 msgstr "Ehdotuksesi on tunnistettu roskapostiksi!"
 
 #: weblate/trans/views/edit.py:319
-#, fuzzy
-#| msgid "Only suggestions are allowed in this translation!"
 msgid "Your suggestion is similar to the current translation!"
-msgstr "Ainoastaan ehdotukset ovat sallittuja tähän käännökseen!"
+msgstr "Ehdotuksesi on samanlainen kuin nykyinen käännös!"
 
 #: weblate/trans/views/edit.py:324
 msgid "Your suggestion already exists!"
@@ -16085,26 +15878,24 @@ msgid "File upload has failed: %s"
 msgstr "Tiedoston lähetys epäonnistui: %s"
 
 #: weblate/trans/views/git.py:38
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation is in progress."
 msgid "Could not lock the repository, another operation is in progress."
-msgstr "Arkiston lukitseminen epäonnistui koska toinen toiminto on kesken."
+msgstr "Tietovarastoa ei voitu lukita, toinen toiminto on meneillään."
 
 #: weblate/trans/views/git.py:61
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr ""
+"Kaikki tietovarastot on päivitetty, käännösten päivitykset ovat meneillään."
 
 #: weblate/trans/views/git.py:84
 msgid "All repositories were pushed."
 msgstr "Kaikki paikalliset muutokset on lähetetty etäarkistoihin."
 
 #: weblate/trans/views/git.py:99
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
-msgstr "Kaikki arkistot on nollattu."
+msgstr ""
+"Kaikki tietovarastot on nollattu, käännösten päivitykset ovat meneillään."
 
 #: weblate/trans/views/git.py:123
 msgid "All repositories have been cleaned up."
@@ -16185,16 +15976,12 @@ msgid "Invalid settings. Please check the form for errors."
 msgstr "Asetukset eivät kelpaa. Tarkista lomake virheiden varalta."
 
 #: weblate/trans/views/settings.py:146
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
 msgstr ""
-"Arkisto ei ole ajantasalla ja lopputulos ei välttämättä vastaa odotuksiasi "
-"ennenkuin päivität sen."
+"Tietovarasto on vanhentunut. Et ehkä saa odotettuja tuloksia ennen kuin "
+"päivität sen."
 
 #: weblate/trans/views/settings.py:199
 msgid "The translation has been removed."
@@ -16259,20 +16046,16 @@ msgid "Component {}"
 msgstr "Komponentti {}"
 
 #: weblate/trans/widgets.py:378
-#, fuzzy
-#| msgid "Status badge"
 msgid "SVG status badge"
-msgstr "Tilamerkki"
+msgstr "SVG-tilamerkki"
 
 #: weblate/trans/widgets.py:381
 msgid "translated"
 msgstr "käännetty"
 
 #: weblate/trans/widgets.py:416
-#, fuzzy
-#| msgid "Big status badge"
 msgid "PNG status badge"
-msgstr "Iso tilamerkki"
+msgstr "PNG-tilamerkki"
 
 #: weblate/trans/widgets.py:425
 msgctxt "Status widget name"
@@ -16390,10 +16173,8 @@ msgid "Undefined variable: \"%s\""
 msgstr "Määrittelemätön muuttuja: \"%s\""
 
 #: weblate/utils/render.py:110
-#, fuzzy
-#| msgid "Failed to render template: {}"
 msgid "Could not render template: {}"
-msgstr "Mallin tekeminen epäonnistui: {}"
+msgstr "Mallia ei voitu hahmontaa: {}"
 
 #: weblate/utils/render.py:169
 msgid ""
@@ -16557,16 +16338,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Virhe parametrissa %(field)s: %(error)s"
 
 #: weblate/vcs/base.py:70
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
-msgstr "Weblate ei voi pushata paikallisia muutoksia etäarkistoon."
+msgstr "Tämä työntää muutokset ylävirran tietovarastoon."
 
 #: weblate/vcs/git.py:86
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr "Weblate ei voi pushata paikallisia muutoksia etäarkistoon."
+msgstr "Tämä työntää muutokset ylävirran Git-tietovarastoon."
 
 #: weblate/vcs/git.py:559
 msgid "Possible cleanups:"
@@ -16574,55 +16351,43 @@ msgstr "Mahdollisia siivouksia:"
 
 #: weblate/vcs/git.py:567
 msgid "This will push changes to Gerrit for a review."
-msgstr ""
+msgstr "Tämä työntää muutokset Gerritiin tarkistettavaksi."
 
 #: weblate/vcs/git.py:611
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "Commitoi muutokset sisäiseen arkistoon"
+msgstr "Tämä sitoo muutokset aliversion tietovarastoon."
 
 #: weblate/vcs/git.py:778
 msgid "Git with force push"
 msgstr "Git käyttäen force push -asetusta"
 
 #: weblate/vcs/git.py:782
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
-msgstr "Weblate ei voi pushata paikallisia muutoksia etäarkistoon."
+msgstr "Tämä pakottaa työntämään muutokset ylävirran tietovarastoon."
 
 #: weblate/vcs/git.py:1238
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Azure DevOps pull request"
-msgstr "Gitean vetopyyntö"
+msgstr "Azure DevOps -vetopyyntö"
 
 #: weblate/vcs/git.py:1246
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "This will push changes and create a Azure DevOps pull request."
-msgstr "Gitean vetopyyntö"
+msgstr "Tämä työntää muutokset ja luo Azure DevOps -vetopyynnön."
 
 #: weblate/vcs/git.py:1490
 msgid "GitHub pull request"
 msgstr "GitHubin vetopyyntö"
 
 #: weblate/vcs/git.py:1495
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "This will push changes and create a GitHub pull request."
-msgstr "Gitean vetopyyntö"
+msgstr "Tämä työntää muutokset ja luo GitHub-vetopyynnön."
 
 #: weblate/vcs/git.py:1607
 msgid "Gitea pull request"
 msgstr "Gitean vetopyyntö"
 
 #: weblate/vcs/git.py:1611
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "This will push changes and create a Gitea pull request."
-msgstr "Gitean vetopyyntö"
+msgstr "Tämä työntää muutokset ja luo Gitea-vetopyynnön."
 
 #: weblate/vcs/git.py:1682
 msgid "No remote repository"
@@ -16633,45 +16398,33 @@ msgid "GitLab merge request"
 msgstr "GitLabin yhdistämispyyntö"
 
 #: weblate/vcs/git.py:1793
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "This will push changes and create a GitLab merge request."
-msgstr "Gitean vetopyyntö"
+msgstr "Tämä työntää muutokset ja luo GitLab-yhdistämispyynnön."
 
 #: weblate/vcs/git.py:1945
 msgid "Pagure merge request"
 msgstr "Paguren yhdistämispyyntö"
 
 #: weblate/vcs/git.py:1950
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "This will push changes and create a Pagure merge request."
-msgstr "Gitean vetopyyntö"
+msgstr "Tämä työntää muutokset ja luo Pagure-yhdistämispyynnön."
 
 #. Translators: Bitbucket Server is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:2049
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Bitbucket Server pull request"
-msgstr "Gitean vetopyyntö"
+msgstr "Bitbucket-palvelimen vetopyyntö"
 
 #: weblate/vcs/git.py:2055
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "This will push changes and create a Bitbucket Server pull request."
-msgstr "Gitean vetopyyntö"
+msgstr "Tämä työntää muutokset ja luo Bitbucket-vetopyynnön."
 
 #: weblate/vcs/git.py:2196
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Bitbucket Cloud merge request"
-msgstr "Gitean vetopyyntö"
+msgstr "Bitbucket Cloud -yhdistämispyyntö"
 
 #: weblate/vcs/mercurial.py:45
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "Weblate ei voi pushata paikallisia muutoksia etäarkistoon."
+msgstr "Tämä työntää muutokset ylävirran Mercurial-tietovarastoon."
 
 #: weblate/vcs/ssh.py:46
 msgctxt "SSH key type"
@@ -16716,10 +16469,9 @@ msgid "Could not fetch public key for a host: %s"
 msgstr "Isäntäkoneen julkista avainta ei voitu noutaa: %s"
 
 #: weblate/vcs/ssh.py:253
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
-msgstr "Avaimen haku palvelimelta epäonnistui: %s"
+msgstr "Isäntäavainta ei voitu saada: %s"
 
 #: weblate/wladmin/forms.py:16
 msgid "Activation token"
@@ -16752,17 +16504,15 @@ msgstr "Otsikkofontti"
 
 #: weblate/wladmin/forms.py:96 weblate/wladmin/forms.py:103
 msgid "Navigation color (Light, Dark)"
-msgstr ""
+msgstr "Selaamisen väri (vaalea, tumma)"
 
 #: weblate/wladmin/forms.py:99
 msgid "Navigation text color (Light, Dark)"
-msgstr ""
+msgstr "Selaamisen tekstin väri (vaalea, tumma)"
 
 #: weblate/wladmin/forms.py:106
-#, fuzzy
-#| msgid "Focus color"
 msgid "Focus color (Light, Dark)"
-msgstr "Tarkennusväri"
+msgstr "Keskitymisen väri (vaalea, tumma)"
 
 #: weblate/wladmin/forms.py:109
 #, fuzzy
@@ -16879,7 +16629,7 @@ msgstr "Arkistot"
 
 #: weblate/wladmin/views.py:153
 msgid "Customer care ticket created:"
-msgstr ""
+msgstr "Asiakaspalvelulippu luotu:"
 
 #: weblate/wladmin/views.py:183
 msgid "Test e-mail sent."
@@ -16895,6 +16645,7 @@ msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
 msgstr ""
+"Muuta SITE_TITLE asetuksissa, jotta Weblatesi on helppo tunnistaa etsinnässä."
 
 #: weblate/wladmin/views.py:255 weblate/wladmin/views.py:272
 msgid "Could not activate your installation. Please try again later."
