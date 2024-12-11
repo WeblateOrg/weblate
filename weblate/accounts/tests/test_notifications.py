@@ -20,7 +20,7 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.accounts.tasks import (
-    notify_change,
+    notify_changes,
     notify_daily,
     notify_monthly,
     notify_weekly,
@@ -152,7 +152,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Add project owner
         self.component.project.add_user(self.anotheruser, "Administration")
-        notify_change(change.pk)
+        notify_changes([change.pk])
 
         # Check mail
         self.validate_notifications(2, "[Weblate] Repository failure in Test/Test")
@@ -165,7 +165,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Add project owner
         self.component.project.add_user(self.anotheruser, "Administration")
-        notify_change(change.pk)
+        notify_changes([change.pk])
 
         # Check mail
         self.validate_notifications(2, "[Weblate] Repository operation in Test/Test")
@@ -181,7 +181,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Add project owner
         self.component.project.add_user(self.anotheruser, "Administration")
-        notify_change(change.pk)
+        notify_changes([change.pk])
 
         # Check mail
         self.validate_notifications(3, "[Weblate] Parse error in Test/Test")
@@ -235,7 +235,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Add project owner
         self.component.project.add_user(anotheruser, "Administration")
-        notify_change(change.pk)
+        notify_changes([change.pk])
 
         # Check mail
         self.validate_notifications(2, "[Weblate] New language request in Test/Test")

@@ -37,6 +37,8 @@ Not yet released.
 
 * :ref:`rollbar-errors` integration no longer includes client-side error collection.
 * Weblate now requires Git 2.28 or newer.
+* Any custom code that relied on `Change` models signals should be reviewed.
+* :ref:`fedora-messaging` integration needs to be updated to be compatible with this release.
 
 **Upgrading**
 
