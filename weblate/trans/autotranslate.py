@@ -10,11 +10,16 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models.functions import MD5, Lower
 
-from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.base import BatchMachineTranslation, MachineTranslationError
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Change, Component, Suggestion, Unit
 from weblate.trans.util import split_plural
-from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+    StringState,
+)
 
 
 class AutoTranslate:
@@ -56,7 +61,9 @@ class AutoTranslate:
                 },
             )
 
-    def update(self, unit, state: int, target: list[str], user=None) -> None:
+    def update(
+        self, unit: Unit, state: StringState, target: list[str], user=None
+    ) -> None:
         if isinstance(target, str):
             target = [target]
         if self.mode == "suggest" or any(
@@ -70,7 +77,11 @@ class AutoTranslate:
         else:
             unit.is_batch_update = True
             unit.translate(
-                user or self.user, target, state, Change.ACTION_AUTO, propagate=False
+                user or self.user,
+                target,
+                state,
+                change_action=Change.ACTION_AUTO,
+                propagate=False,
             )
             self.updated += 1
 
@@ -163,18 +174,18 @@ class AutoTranslate:
 
         self.post_process()
 
-    def fetch_mt(self, engines, threshold):
+    def fetch_mt(self, engines_list: list[str], threshold: int):
         """Get the translations."""
         units = self.get_units()
         num_units = len(units)
 
         machinery_settings = self.translation.component.project.get_machinery_settings()
 
-        engines = sorted(
+        engines: list[BatchMachineTranslation] = sorted(
             (
                 MACHINERY[engine](setting)
                 for engine, setting in machinery_settings.items()
-                if engine in MACHINERY and engine in engines
+                if engine in MACHINERY and engine in engines_list
             ),
             key=lambda engine: engine.get_rank(),
             reverse=True,
