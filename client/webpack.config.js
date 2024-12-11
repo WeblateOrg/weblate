@@ -50,6 +50,7 @@ function mainLicenseTransform(packages) {
     "prismjs",
     "@altcha",
     "altcha",
+    "source-",
   ];
   return genericTransform(
     packages,
@@ -82,6 +83,10 @@ function altchaLicenseTransform(packages) {
     packages,
     (pkg) => pkg.name.startsWith("altcha") || pkg.name.startsWith("@altcha"),
   );
+}
+
+function fontsLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("source-"));
 }
 
 // REUSE-IgnoreStart
@@ -182,6 +187,8 @@ module.exports = {
         "mousetrap.js.license": mousetrapLicenseTransform,
         "prismjs.js.license": prismJsLicenseTransform,
         "altcha.js.license": altchaLicenseTransform,
+        "fonts/fonts.js.license": fontsLicenseTransform,
+        "fonts/fonts.css.license": fontsLicenseTransform,
       },
     }),
     new MiniCssExtractPlugin({
