@@ -219,11 +219,15 @@ class MetricsWrapper:
         for offset in range(days):
             current = start - timedelta(days=offset)
             if current not in result:
-                result[current] = Metric.objects.calculate_changes(
-                    date=current,
-                    obj=self.obj,
-                    **kwargs,
-                )
+                if offset == 0:
+                    result[current] = Metric.objects.calculate_changes(
+                        date=current,
+                        obj=self.obj,
+                        **kwargs,
+                    )
+                else:
+                    # Use zero if metric is not stored
+                    result[current] = 0
         return result
 
     @cached_property
