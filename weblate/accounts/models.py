@@ -187,9 +187,15 @@ class Subscription(models.Model):
     objects = SubscriptionQuerySet.as_manager()
 
     class Meta:
-        unique_together = [("notification", "scope", "project", "component", "user")]
         verbose_name = "Notification subscription"
         verbose_name_plural = "Notification subscriptions"
+        constraints = [
+            models.UniqueConstraint(
+                name="accounts_subscription_notification_unique",
+                fields=("notification", "scope", "project", "component", "user"),
+                nulls_distinct=False,
+            ),
+        ]
 
     def __str__(self) -> str:
         return f"{self.user.username}:{self.get_scope_display()},{self.get_notification_display()} ({self.project},{self.component})"
