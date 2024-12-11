@@ -1063,5 +1063,5 @@ def create_profile_callback(sender, instance, created=False, **kwargs) -> None:
         # Create profile
         instance.profile = Profile.objects.create(user=instance)
         # Create subscriptions
-        if not instance.is_anonymous:
+        if not instance.is_anonymous and not instance.is_bot:
             create_default_notifications(instance)
