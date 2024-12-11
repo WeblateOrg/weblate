@@ -58,7 +58,7 @@ if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
     from datetime import datetime
 
-    from weblate.auth.models import User
+    from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.machinery.base import UnitMemoryResultDict
 
 SIMPLE_FILTERS: dict[str, dict[str, Any]] = {
@@ -1531,13 +1531,14 @@ class Unit(models.Model, LoggerMixin):
     @transaction.atomic
     def translate(
         self,
-        user,
-        new_target,
-        new_state,
-        change_action=None,
+        user: User | None,
+        new_target: str | list[str],
+        new_state: StringState,
+        *,
+        change_action: int | None = None,
         propagate: bool = True,
-        author=None,
-        request=None,
+        author: User | None = None,
+        request: AuthenticatedHttpRequest | None = None,
         add_alternative: bool = False,
     ) -> bool:
         """
