@@ -212,7 +212,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         more effective here.
         """
         result = []
-        with transaction.atomic(), sentry_sdk.start_span(op="recent changes"):
+        with transaction.atomic(), sentry_sdk.start_span(op="change.recent"):
             for change in self.order().iterator(chunk_size=count):
                 result.append(change)
                 if len(result) >= count:

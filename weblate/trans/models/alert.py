@@ -47,7 +47,7 @@ def update_alerts(component: Component, alerts: set[str] | None = None) -> None:
     for name, alert in ALERTS.items():
         if alerts and name not in alerts:
             continue
-        with sentry_sdk.start_span(op="alerts", name=f"ALERT {name}"):
+        with sentry_sdk.start_span(op="alerts.update", name=f"ALERT {name}"):
             result = alert.check_component(component)
             if result is None:
                 continue

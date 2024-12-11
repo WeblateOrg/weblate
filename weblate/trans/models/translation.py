@@ -278,7 +278,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def load_store(self, fileobj=None, force_intermediate=False):
         """Load translate-toolkit storage from disk."""
         # Use intermediate store as template for source translation
-        with sentry_sdk.start_span(op="load_store", name=self.get_filename()):
+        with sentry_sdk.start_span(
+            op="translation.load_store", name=self.get_filename()
+        ):
             if force_intermediate or (self.is_template and self.component.intermediate):
                 template = self.component.intermediate_store
             else:
@@ -337,7 +339,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             is_new = True
 
         with sentry_sdk.start_span(
-            op="update_from_unit", name=f"{self.full_slug}:{pos}"
+            op="unit.update_from_unit", name=f"{self.full_slug}:{pos}"
         ):
             newunit.update_from_unit(unit, pos, is_new)
 
@@ -346,7 +348,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def check_sync(self, force=False, request=None, change=None) -> None:  # noqa: C901
         """Check whether database is in sync with git and possibly updates."""
-        with sentry_sdk.start_span(op="check_sync", name=self.full_slug):
+        with sentry_sdk.start_span(op="translation.check_sync", name=self.full_slug):
             if change is None:
                 change = Change.ACTION_UPDATE
             user = None if request is None else request.user
