@@ -10,7 +10,7 @@ from datetime import timedelta
 from email.mime.image import MIMEImage
 from smtplib import SMTP, SMTPConnectError
 from types import MethodType
-from typing import TypedDict
+from typing import TYPE_CHECKING, TypedDict
 
 import sentry_sdk
 from celery.schedules import crontab
@@ -23,6 +23,11 @@ from social_django.models import Code, Partial
 from weblate.utils.celery import app
 from weblate.utils.errors import report_error
 from weblate.utils.html import HTML2Text
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
+
+    from weblate.accounts.notifications import Notification
 
 LOGGER = logging.getLogger("weblate.smtp")
 
@@ -72,30 +77,44 @@ def cleanup_auditlog() -> None:
             audit.save(update_fields=["params"])
 
 
+class NotificationFactory:
+    def __init__(self):
+        self.perm_cache: dict[int, set[int]] = {}
+        self.outgoing: list[OutgoingEmail] = []
+        self.instances: dict[str, Notification] = {}
+
+    def for_action(self, action: int) -> Generator[Notification]:
+        from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
+
+        if action not in NOTIFICATIONS_ACTIONS:
+            return
+        for notification_cls in NOTIFICATIONS_ACTIONS[action]:
+            name = notification_cls.get_name()
+            try:
+                yield self.instances[name]
+            except KeyError:
+                result = self.instances[name] = notification_cls(
+                    self.outgoing, self.perm_cache
+                )
+                yield result
+
+    def send_queued(self) -> None:
+        if self.outgoing:
+            send_mails.delay(self.outgoing)
+            self.outgoing.clear()
+
+
 @app.task(trail=False)
-def notify_change(change_id) -> None:
-    from weblate.accounts.notifications import (
-        NOTIFICATIONS_ACTIONS,
-        is_notificable_action,
-    )
+def notify_changes(change_ids: list[int]) -> None:
     from weblate.trans.models import Change
 
-    try:
-        change = Change.objects.prefetch_for_get().get(pk=change_id)
-    except Change.DoesNotExist:
-        # The change was removed meanwhile
-        return
-    perm_cache: dict[int, set[int]] = {}
+    changes = Change.objects.prefetch_for_get().filter(pk__in=change_ids)
+    factory = NotificationFactory()
 
-    # The same condition is applied at notify_change.delay, but we need to recheck
-    # here to make sure this doesn't break on upgrades when processing older tasks
-    if is_notificable_action(change.action):
-        outgoing: list[OutgoingEmail] = []
-        for notification_cls in NOTIFICATIONS_ACTIONS[change.action]:
-            notification = notification_cls(outgoing, perm_cache)
+    for change in changes:
+        for notification in factory.for_action(change.action):
             notification.notify_immediate(change)
-        if outgoing:
-            send_mails.delay(outgoing)
+        factory.send_queued()
 
 
 def notify_digest(method) -> None:

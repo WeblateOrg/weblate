@@ -23,6 +23,7 @@ from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
+from weblate.trans.signals import change_bulk_create
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.pii import mask_email
 from weblate.utils.state import StringState
@@ -225,11 +226,16 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
         Add processing to bulk creation.
         """
+        from weblate.accounts.notifications import dispatch_changes_notifications
+
         changes = super().bulk_create(*args, **kwargs)
-        # Executes post save to ensure messages are sent as notifications
-        # or to fedora messaging
-        for change in changes:
-            post_save.send(change.__class__, instance=change, created=True)
+
+        # Dispatch notifications
+        dispatch_changes_notifications(changes)
+
+        # Executes post save to ensure messages are sent to fedora messaging
+        change_bulk_create.send(Change, instances=changes)
+
         # Store last content change in cache for improved performance
         translations = set()
         for change in reversed(changes):
@@ -1020,8 +1026,6 @@ class Change(models.Model, UserDisplayMixin):
 @receiver(post_save, sender=Change)
 @disable_for_loaddata
 def change_notify(sender, instance, created=False, **kwargs) -> None:
-    from weblate.accounts.notifications import is_notificable_action
-    from weblate.accounts.tasks import notify_change
+    from weblate.accounts.notifications import dispatch_changes_notifications
 
-    if is_notificable_action(instance.action):
-        notify_change.delay_on_commit(instance.pk)
+    dispatch_changes_notifications([instance])
