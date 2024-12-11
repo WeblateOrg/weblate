@@ -24,7 +24,7 @@ from matplotlib import font_manager
 
 file_dir = Path(__file__).parent.resolve()
 font_locations = (
-    "weblate/static/vendor/font-source/TTF/",
+    "weblate/static/js/vendor/fonts/font-source/",
     "weblate/static/vendor/font-kurinto/",
 )
 
@@ -152,10 +152,7 @@ html_theme_options = {
     },
 }
 
-html_css_files = [
-    "https://weblate.org/static/vendor/font-source/source-sans-3.css",
-    "https://weblate.org/static/vendor/font-source/source-code-pro.css",
-]
+html_css_files = ["https://s.weblate.org/cdn/js/vendor/fonts/fonts.css"]
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
