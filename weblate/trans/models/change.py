@@ -144,7 +144,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
         Call prefetch or prefetch_list later on paginated results to complete.
         """
-        return self.prefetch_related(*PREFETCH_FIELDS)
+        return self.prefetch_related("alert", *PREFETCH_FIELDS)
 
     def preload_list(self, results, skip: str | None = None):
         """Companion for prefetch to fill in nested references."""
