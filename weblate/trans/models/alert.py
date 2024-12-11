@@ -411,8 +411,8 @@ class MonolingualTranslation(BaseAlert):
     def check_component(component: Component) -> bool | dict | None:
         if (
             component.is_glossary
-            or not component.source_language.uses_whitespace()
             or component.template
+            or not component.source_language.uses_whitespace()
         ):
             return False
 
