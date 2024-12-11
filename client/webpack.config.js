@@ -131,6 +131,7 @@ module.exports = {
     mousetrap: "./src/mousetrap.js",
     prismjs: "./src/prismjs.js",
     altcha: "./src/altcha.js",
+    "fonts/fonts": "./src/fonts.js",
   },
   mode: "production",
   optimization: {
@@ -151,6 +152,20 @@ module.exports = {
       {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
+        test: /\.(woff|woff2|eot|otf)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "fonts/font-source/[name][ext]",
+        },
+      },
+      {
+        test: /\.(ttf)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "fonts/font-source/TTF/[name][ext]",
+        },
       },
     ],
   },
