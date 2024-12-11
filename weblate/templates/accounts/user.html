@@ -332,7 +332,7 @@
                     <th>{{ group.defining_project }}</th>
                   {% else %}
                     <td>
-                      <em>{% trans "None" context "No project associated with group" %}</em>
+                      <em>{% trans "Site-wide team" %}</em>
                     </td>
                   {% endif %}
                   <th>{{ group.name }}</th>
@@ -349,6 +349,7 @@
               {% for userblock in page_user.userblock_set.all %}
                 <tr>
                   <th>{{ userblock.project.name }}</th>
+                  <td></td>
                   <td>
                     {% if userblock.expiry %}
                       {% blocktrans with expiry=userblock.expiry|date:"DATE_FORMAT" %}Blocked until {{ expiry }}{% endblocktrans %}
