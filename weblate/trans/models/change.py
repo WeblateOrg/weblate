@@ -211,7 +211,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         This uses iterator() as server-side cursors are typically
         more effective here.
         """
-        result = []
+        result: list[Change] = []
         with transaction.atomic(), sentry_sdk.start_span(op="change.recent"):
             for change in self.order().iterator(chunk_size=count):
                 result.append(change)
