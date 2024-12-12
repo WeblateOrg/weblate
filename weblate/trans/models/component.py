@@ -953,6 +953,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.batched_checks: set[str] = set()
         self.needs_variants_update = False
         self._invalidate_scheduled = False
+        self._alerts_scheduled = False
         self._template_check_done = False
         self.new_lang_error_message: str | None = None
 
@@ -3208,13 +3209,15 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if changed_variant and not was_change:
             self.update_variants()
 
-        self.update_alerts()
         self.progress_step(100)
         self.translations_count = None
 
         # Invalidate stats on template change
         if changed_template:
             self.invalidate_cache()
+
+        # Update alerts after stats update
+        self.update_alerts()
 
         # Make sure we create glossary
         if create and settings.CREATE_GLOSSARIES:
@@ -3232,15 +3235,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     continue
                 self.log_debug("triggering add-on: %s", addon.name)
                 addon.addon.post_configure_run()
-
-        # Update libre checklist upon save on all components in a project
-        if (
-            settings.OFFER_HOSTING
-            and self.project.billings
-            and self.project.billing.plan.price == 0
-        ):
-            for component in self.project.child_components:
-                update_alerts(component, {"NoLibreConditions"})
 
     def update_variants(self, updated_units=None) -> None:
         from weblate.trans.models import Unit
@@ -3311,13 +3305,30 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         else:
             self.delete_alert("DuplicateFilemask")
 
-    def update_alerts(self) -> None:
+    def _update_alerts(self):
+        self._alerts_scheduled = False
         # Flush alerts case, mostly needed for tests
         self.__dict__.pop("all_alerts", None)
 
         update_alerts(self)
 
         self.update_link_alerts()
+
+        # Update libre checklist upon save on all components in a project
+        if (
+            settings.OFFER_HOSTING
+            and self.project.billings
+            and self.project.billing.plan.price == 0
+        ):
+            for component in self.project.child_components:
+                update_alerts(component, {"NoLibreConditions"})
+
+    def update_alerts(self) -> None:
+        if self._alerts_scheduled:
+            return
+
+        self._alerts_scheduled = True
+        transaction.on_commit(self._update_alerts)
 
     def get_ambiguous_translations(self):
         return self.translation_set.filter(language__code__in=AMBIGUOUS.keys())
