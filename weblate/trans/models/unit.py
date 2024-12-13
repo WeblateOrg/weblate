@@ -1582,11 +1582,18 @@ class Unit(models.Model, LoggerMixin):
         if "dos-eol" in self.all_flags:
             self.target = NEWLINES.sub("\r\n", self.target)
 
+        # Update string state
         if not_empty:
             self.state = new_state
         else:
             self.state = STATE_EMPTY
-        self.original_state = self.state
+
+        # Update original state unless we are updating read-only strings. This
+        # does never happen directly, but FillReadOnlyAddon does this.
+        if new_state != STATE_READONLY:
+            self.original_state = self.state
+
+        # Save to the database
         saved = self.save_backend(
             user,
             change_action=change_action,
