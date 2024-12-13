@@ -1,7 +1,7 @@
 Weblate 5.9
 -----------
 
-Not yet released.
+Released on December 16th 2024.
 
 **New features**
 
