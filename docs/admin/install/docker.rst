@@ -501,6 +501,15 @@ Generic settings
 
     Configures the site domain. This parameter is required.
 
+    Include port if using a non-standard one.
+
+   **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_SITE_DOMAIN: example.com:8080
+
     .. seealso::
 
         :ref:`production-site`,
