@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2024-12-07 13:07+0100\n"
+"POT-Creation-Date: 2024-12-13 15:50+0100\n"
 "PO-Revision-Date: 2024-12-08 02:47+0000\n"
 "Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
@@ -615,14 +615,15 @@ msgstr ""
 #: ../../admin/access.rst:269 ../../admin/access.rst:397
 #: ../../admin/config.rst:260 ../../admin/config.rst:279
 #: ../../admin/config.rst:332 ../../admin/install/docker.rst:461
-#: ../../admin/install/docker.rst:516 ../../admin/install/docker.rst:600
-#: ../../admin/install/docker.rst:617 ../../admin/install/docker.rst:629
-#: ../../admin/install/docker.rst:653 ../../admin/install/docker.rst:674
-#: ../../admin/install/docker.rst:717 ../../admin/install/docker.rst:750
-#: ../../admin/install/docker.rst:765 ../../admin/install/docker.rst:962
-#: ../../admin/install/docker.rst:1017 ../../admin/install/docker.rst:1740
-#: ../../admin/install/docker.rst:1751 ../../admin/install/docker.rst:1817
-#: ../../admin/install/docker.rst:1863 ../../admin/install/docker.rst:1896
+#: ../../admin/install/docker.rst:506 ../../admin/install/docker.rst:525
+#: ../../admin/install/docker.rst:609 ../../admin/install/docker.rst:626
+#: ../../admin/install/docker.rst:638 ../../admin/install/docker.rst:662
+#: ../../admin/install/docker.rst:683 ../../admin/install/docker.rst:726
+#: ../../admin/install/docker.rst:759 ../../admin/install/docker.rst:774
+#: ../../admin/install/docker.rst:971 ../../admin/install/docker.rst:1026
+#: ../../admin/install/docker.rst:1749 ../../admin/install/docker.rst:1760
+#: ../../admin/install/docker.rst:1826 ../../admin/install/docker.rst:1872
+#: ../../admin/install/docker.rst:1905
 msgid "**Example:**"
 msgstr "**示例：**"
 
@@ -5137,7 +5138,7 @@ msgstr ""
 msgid ":doc:`psa:backends/azuread`"
 msgstr ":doc:`psa:backends/azuread`"
 
-#: ../../admin/auth.rst:383 ../../admin/install/docker.rst:1356
+#: ../../admin/auth.rst:383 ../../admin/install/docker.rst:1365
 msgid "Slack"
 msgstr "Slack"
 
@@ -5301,8 +5302,8 @@ msgstr ""
 "``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT`` 、 "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
-#: ../../admin/auth.rst:494 ../../admin/install/docker.rst:1480
-#: ../../admin/install/docker.rst:1498
+#: ../../admin/auth.rst:494 ../../admin/install/docker.rst:1489
+#: ../../admin/install/docker.rst:1507
 msgid "Example configuration:"
 msgstr "組態的例子："
 
@@ -8586,8 +8587,12 @@ msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
 
 #: ../../admin/config.rst:461
+#, fuzzy
+#| msgid ""
+#| "This directory has to be writable by Weblate. Running it as uWSGI means "
+#| "the ``www-data`` user should have write access to it."
 msgid ""
-"This directory has to be writable by Weblate. Running it as uWSGI means the "
+"This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
 "這個目錄必須由 Weblate 寫入。執行作為 uWSGI 意味著 ``www-data`` 使用者應該對"
@@ -10687,7 +10692,7 @@ msgstr ""
 "搜尋 Weblate GPG 鑰匙鏈（\\ :file:`home/.gnupg`\\ ，在 :setting:`DATA_DIR` 之"
 "下）。如果沒有找到，則產生金鑰，更多細節請查詢 :ref:`gpg-sign`。"
 
-#: ../../admin/config.rst:2155 ../../admin/install/docker.rst:839
+#: ../../admin/config.rst:2155 ../../admin/install/docker.rst:848
 msgid ":ref:`gpg-sign`"
 msgstr ":ref:`gpg-sign`"
 
@@ -11494,7 +11499,7 @@ msgid "Azure DevOps pull request from fork"
 msgstr "Bitbucket Server 拉取請求"
 
 #: ../../admin/continuous.rst:390 ../../admin/continuous.rst:392
-#: ../../changes.rst:731
+#: ../../changes.rst:734
 msgid ":ref:`vcs-azure-devops`"
 msgstr ":ref:`vcs-azure-devops`"
 
@@ -14017,13 +14022,19 @@ msgstr ""
 "中，這可以通過將CA 證書放置在:file:`/usr/local/share/ca-certificates/`，並運"
 "行:command:`update-ca-certificates` 來完成）。"
 
-#: ../../admin/install.rst:1233
+#: ../../admin/install.rst:1235
+msgid ""
+"The Weblate container does not include it in the search path, you need to "
+"specify full path to execute it. For example:"
+msgstr ""
+
+#: ../../admin/install.rst:1242
 msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr "一旦完成，系統工具就會信任證書，這包括 Git。"
 
-#: ../../admin/install.rst:1236
+#: ../../admin/install.rst:1245
 msgid ""
 "For Python code, you will need to configure requests to use system CA bundle "
 "instead of the one shipped with it. This can be achieved by placing "
@@ -14033,11 +14044,11 @@ msgstr ""
 "個。這可以通過將後面的模板放到 :file:`settings.py` 來實現（路徑是 Debian 特有"
 "的）："
 
-#: ../../admin/install.rst:1250
+#: ../../admin/install.rst:1259
 msgid "Compressing client assets"
 msgstr "壓縮客戶端素材"
 
-#: ../../admin/install.rst:1252
+#: ../../admin/install.rst:1261
 msgid ""
 "Weblate comes with a bunch of JavaScript and CSS files. For performance "
 "reasons it is good to compress them before sending to a client. In default "
@@ -14051,7 +14062,7 @@ msgstr ""
 "中，推薦允許離線壓縮模式。這需要在組態中完成，並且必須在每次 weblate 升級時觸"
 "發壓縮。"
 
-#: ../../admin/install.rst:1259
+#: ../../admin/install.rst:1268
 msgid ""
 "The configuration switch is simple by enabling :attr:`compressor:django.conf."
 "settings.COMPRESS_OFFLINE` and configuring :attr:`compressor:django.conf."
@@ -14062,57 +14073,57 @@ msgstr ""
 "COMPRESS_OFFLINE`，並組態 :attr:`compressor:django.conf.settings."
 "COMPRESS_OFFLINE_CONTEXT` （後者已經包括在例子的組態中）："
 
-#: ../../admin/install.rst:1268
+#: ../../admin/install.rst:1277
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr "在每個部署中，您需要壓縮檔案來比對目前版本："
 
-#: ../../admin/install.rst:1276
+#: ../../admin/install.rst:1285
 msgid "The official Docker image has this feature already enabled."
 msgstr "官方 Docker 映像已經允許了這個功能。"
 
-#: ../../admin/install.rst:1280
+#: ../../admin/install.rst:1289
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
 msgstr ":ref:`compressor:scenarios`, :ref:`static-files`"
 
-#: ../../admin/install.rst:1286
+#: ../../admin/install.rst:1295
 msgid "Running server"
 msgstr "正在執行伺服器"
 
-#: ../../admin/install.rst:1290
+#: ../../admin/install.rst:1299
 msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
 msgstr "如果您沒有在下面描述的服務經歷，您可能需要嘗試 :doc:`安裝/docker`。"
 
-#: ../../admin/install.rst:1292
+#: ../../admin/install.rst:1301
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
 msgstr "需要幾個服務來執行Weblate，推薦的設定包括："
 
-#: ../../admin/install.rst:1294
+#: ../../admin/install.rst:1303
 msgid "Database server (see :ref:`database-setup`)"
 msgstr "資料庫伺服器（請參見 :ref:`database-setup`）"
 
-#: ../../admin/install.rst:1295
+#: ../../admin/install.rst:1304
 msgid "Cache server (see :ref:`production-cache`)"
 msgstr "快取伺服器（請參見 :ref:`production-cache` ）"
 
-#: ../../admin/install.rst:1296
+#: ../../admin/install.rst:1305
 msgid ""
 "Frontend web server for static files and SSL termination (see :ref:`static-"
 "files`)"
 msgstr "用於靜態檔案和終止 SSL 的前端 web 伺服器（請參見 :ref:`static-files`）"
 
-#: ../../admin/install.rst:1297
+#: ../../admin/install.rst:1306
 msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
 msgstr "用於動態內容的 WSGI 伺服器（請參見 :ref:`uwsgi` ）"
 
-#: ../../admin/install.rst:1298
+#: ../../admin/install.rst:1307
 msgid "Celery for executing background tasks (see :ref:`celery`)"
 msgstr "用於執行後台任務的 Celery （請參見 :ref:`celery` ）"
 
-#: ../../admin/install.rst:1302
+#: ../../admin/install.rst:1311
 msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
@@ -14120,7 +14131,7 @@ msgstr ""
 "這些服務之間由一些相依性，例如當啟動 Celery 或 uwsgi 行程時，快取和資料庫應該"
 "執行。"
 
-#: ../../admin/install.rst:1305
+#: ../../admin/install.rst:1314
 msgid ""
 "In most cases, you will run all services on single (virtual) server, but in "
 "case your installation is heavy loaded, you can split up the services. The "
@@ -14131,7 +14142,7 @@ msgstr ""
 "況下，可以將這些服務拆開。對此的唯一限制是 Celery 和 Wsgi 伺服器需要存取 :"
 "setting:`DATA_DIR`。"
 
-#: ../../admin/install.rst:1312
+#: ../../admin/install.rst:1321
 msgid ""
 "The WSGI process has to be executed under the same user the Celery process, "
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
@@ -14140,28 +14151,33 @@ msgstr ""
 "WSGI 行程和 Celery 行程必須在同一使用者下被執行，否則 :setting:`DATA_DIR` 中"
 "的檔案將以混合的所有權來儲存，導致執行期問題。"
 
-#: ../../admin/install.rst:1316
+#: ../../admin/install.rst:1325
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
 msgstr "另請參見 :ref:`file-permissions` 和 :ref:`celery`。"
 
-#: ../../admin/install.rst:1319
+#: ../../admin/install.rst:1328
 msgid "Running web server"
 msgstr "正在執行網頁伺服器"
 
-#: ../../admin/install.rst:1321
+#: ../../admin/install.rst:1330
+#, fuzzy
+#| msgid ""
+#| "Running Weblate is not different from running any other Django based "
+#| "program. Django is usually executed as uWSGI or fcgi (see examples for "
+#| "different webservers below)."
 msgid ""
 "Running Weblate is not different from running any other Django based "
-"program. Django is usually executed as uWSGI or fcgi (see examples for "
+"program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
 "執行 Weblate 與執行其他任何基於 Django 的程式沒什麼不同。 Django 通常作為 "
 "uWSGI 或 fcgi 執行（請參見下面不同 web 伺服器的範例）。"
 
-#: ../../admin/install.rst:1325
+#: ../../admin/install.rst:1334
 msgid "For testing purposes, you can use the built-in web server in Django:"
 msgstr "為了測試目的，您可以在 Django 中使用內建的 web 伺服器："
 
-#: ../../admin/install.rst:1333
+#: ../../admin/install.rst:1342
 msgid ""
 "DO NOT USE THIS SERVER IN A PRODUCTION SETTING. It has not gone through "
 "security audits or performance tests. See also Django documentation on :"
@@ -14170,7 +14186,7 @@ msgstr ""
 "在生產設定中不要使用這個伺服器。它還沒有通過安全稽核或效能測試。另請參見 :"
 "djadmin:`django:runserver` 上的 Django 文件。"
 
-#: ../../admin/install.rst:1339
+#: ../../admin/install.rst:1348
 #, fuzzy
 #| msgid ""
 #| "The Django built-in server serves static files only with :setting:`DEBUG` "
@@ -14187,11 +14203,11 @@ msgstr ""
 "開發的目的。對於生產使用，請參見 :ref:`uwsgi` 、 :ref:`apache` :ref:`apache-"
 "gunicorn` 和 :ref:`static-files` 中的 wsgi 設定。"
 
-#: ../../admin/install.rst:1347
+#: ../../admin/install.rst:1356
 msgid "Serving static files"
 msgstr "靜態檔案服務"
 
-#: ../../admin/install.rst:1349
+#: ../../admin/install.rst:1358
 #, fuzzy
 #| msgid ""
 #| "Django needs to collect its static files in a single directory. To do so, "
@@ -14210,18 +14226,18 @@ msgstr ""
 "collectstatic --noinput`。這會將靜態檔案複製到 :setting:`django:STATIC_ROOT` "
 "設定指定的目錄中（這預設為 :setting:`DATA_DIR` 內的 ``static`` 目錄）。"
 
-#: ../../admin/install.rst:1354
+#: ../../admin/install.rst:1363
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
 msgstr ""
 "推薦直接從您的 web 伺服器為靜態檔案提供服務，對於後面的路徑應該使用它："
 
-#: ../../admin/install.rst:1357
+#: ../../admin/install.rst:1366
 msgid ":file:`/static/`"
 msgstr ":file:`/static/`"
 
-#: ../../admin/install.rst:1358
+#: ../../admin/install.rst:1367
 #, fuzzy
 #| msgid ""
 #| "Serves static files for Weblate and the admin interface (from defined by "
@@ -14231,24 +14247,24 @@ msgid ""
 "setting:`django:STATIC_ROOT`)."
 msgstr "為 Weblate 的靜態檔案和管理介面（由 ``STATIC_ROOT`` 定義）提供服務。"
 
-#: ../../admin/install.rst:1360
+#: ../../admin/install.rst:1369
 msgid ":file:`/media/`"
 msgstr ":file:`/media/`"
 
-#: ../../admin/install.rst:1361
+#: ../../admin/install.rst:1370
 msgid "Used for user media uploads (e.g. screenshots)."
 msgstr "用於上傳使用者媒體（例如：螢幕擷圖）。"
 
-#: ../../admin/install.rst:1362
+#: ../../admin/install.rst:1371
 msgid ":file:`/favicon.ico`"
 msgstr ":file:`/favicon.ico`"
 
-#: ../../admin/install.rst:1363
+#: ../../admin/install.rst:1372
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr "應該重寫，重寫規則為 :file:`/static/favicon.ico` 提供服務。"
 
-#: ../../admin/install.rst:1367
+#: ../../admin/install.rst:1376
 msgid ""
 ":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
@@ -14258,11 +14274,11 @@ msgstr ""
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django :howto/static-"
 "files/deployment`"
 
-#: ../../admin/install.rst:1377
+#: ../../admin/install.rst:1386
 msgid "Content security policy"
 msgstr "內容安全性政策（CSP）"
 
-#: ../../admin/install.rst:1379
+#: ../../admin/install.rst:1388
 msgid ""
 "The default Weblate configuration enables ``weblate.middleware."
 "SecurityMiddleware`` middleware which sets security related HTTP headers "
@@ -14275,7 +14291,7 @@ msgstr ""
 "Protection``。這些被預設新建，與 Weblate 及其組態一起工作，但這對您的環境需要"
 "客製化。"
 
-#: ../../admin/install.rst:1386
+#: ../../admin/install.rst:1395
 #, fuzzy
 #| msgid ""
 #| ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
@@ -14288,11 +14304,11 @@ msgstr ""
 ":setting:`csp_script_src`, :setting:`csp_img_src`, :setting:"
 "`csp_connect_src`, :setting:`csp_style_src`, :setting:`csp_font_src`"
 
-#: ../../admin/install.rst:1396
+#: ../../admin/install.rst:1405
 msgid "Sample configuration for NGINX and uWSGI"
 msgstr "NGINX 和 uWSGI 的組態例子"
 
-#: ../../admin/install.rst:1399
+#: ../../admin/install.rst:1408
 #, fuzzy
 #| msgid ""
 #| "To run production webserver, use the wsgi wrapper installed with Weblate "
@@ -14312,38 +14328,38 @@ msgstr ""
 "py ` ）。別忘了將 Python 的搜尋路徑同樣設定為 您的虛擬 env （例如在 uWSGI 中"
 "使用 ``virtualenv = /home/user/weblate-env`` ）。"
 
-#: ../../admin/install.rst:1405
+#: ../../admin/install.rst:1414
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr "後面的組態將 Weblate 作為 NGINX 網頁伺服器下的 uWSGI 來執行。"
 
-#: ../../admin/install.rst:1407
+#: ../../admin/install.rst:1416
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
 "NGINX 的組態（還作為 :file:`weblate/examples/weblate.nginx.conf` 來獲得）："
 
-#: ../../admin/install.rst:1412
+#: ../../admin/install.rst:1421
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
 "uWSGI 的組態（還作為 :file:`weblate/examples/weblate.uwsgi.ini` 來獲得）："
 
-#: ../../admin/install.rst:1419
+#: ../../admin/install.rst:1428
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
 msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
-#: ../../admin/install.rst:1424
+#: ../../admin/install.rst:1433
 msgid "Sample configuration for Apache"
 msgstr "Apache 的組態例子"
 
-#: ../../admin/install.rst:1426 ../../admin/install.rst:1466
+#: ../../admin/install.rst:1435 ../../admin/install.rst:1475
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr "推薦當 Weblate 使用 WSGI 時使用 prefork MPM。"
 
-#: ../../admin/install.rst:1428
+#: ../../admin/install.rst:1437
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
@@ -14351,7 +14367,7 @@ msgstr ""
 "後面的組態將 Weblate 作為 WSGI 來執行，您需要啟用 ``mod_wsgi``（作為 :file:"
 "`weblate/examples/apache.conf` 來獲得）："
 
-#: ../../admin/install.rst:1436
+#: ../../admin/install.rst:1445
 msgid ""
 "Weblate requires Python 3, so please ensure you are running Python 3 variant "
 "of the modwsgi. Usually it is available as a separate package, for example "
@@ -14360,22 +14376,22 @@ msgstr ""
 "Weblate 需要 Python 3，所以請確認您執行 modwsgi 的 Python 3 變體。它通常作為"
 "獨立的軟體包來獲得，例如 ``libapache2-mod-wsgi-py3``。"
 
-#: ../../admin/install.rst:1440
+#: ../../admin/install.rst:1449
 #, fuzzy
 #| msgid "List of recent changes done in Weblate"
 msgid "Use matching Python version to install Weblate."
 msgstr "最近 Weblate 中所做的更動列表"
 
-#: ../../admin/install.rst:1444
+#: ../../admin/install.rst:1453
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgstr ""
 ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 
-#: ../../admin/install.rst:1450
+#: ../../admin/install.rst:1459
 msgid "Sample configuration for Apache and Gunicorn"
 msgstr "Apache 和 Gunicorn 的組態例子"
 
-#: ../../admin/install.rst:1452
+#: ../../admin/install.rst:1461
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
@@ -14383,15 +14399,15 @@ msgstr ""
 "後面的組態在 Gunicorn 和 Apache 2.4 中執行 Weblate （作為 :file:`weblate/"
 "examples/apache.gunicorn.conf` 獲得）："
 
-#: ../../admin/install.rst:1460
+#: ../../admin/install.rst:1469
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
 msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
 
-#: ../../admin/install.rst:1464
+#: ../../admin/install.rst:1473
 msgid "Running Weblate under path"
 msgstr "在路徑下執行 Weblate"
 
-#: ../../admin/install.rst:1468
+#: ../../admin/install.rst:1477
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
@@ -14400,15 +14416,15 @@ msgstr ""
 "為``/weblate`` 下的 Weblate 提供服務的 Apache 組態的例子。再次使用 "
 "``mod_wsgi`` （還作為 :file:`weblate/examples/apache-path.conf` 獲得）："
 
-#: ../../admin/install.rst:1474
+#: ../../admin/install.rst:1483
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
 msgstr "此外，您必須調整 :file:`weblate/settings.py` ："
 
-#: ../../admin/install.rst:1483
+#: ../../admin/install.rst:1492
 msgid "Background tasks using Celery"
 msgstr "使用 Celery 的後台任務"
 
-#: ../../admin/install.rst:1485
+#: ../../admin/install.rst:1494
 msgid ""
 "Weblate uses Celery to execute regular and background tasks. You are "
 "supposed to run a Celery service that will execute these. For example, it is "
@@ -14417,11 +14433,11 @@ msgstr ""
 "Weblate 使用 Celery 來執行常規或是背景的排程任務。您應該執行一組 Celery 服務"
 "來執行任務，例如它會負責處理以下的運作（此列表非完整）："
 
-#: ../../admin/install.rst:1489
+#: ../../admin/install.rst:1498
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
 msgstr "透過 webhooks 接收來自外部的服務中（請參見 :ref:`hooks`）。"
 
-#: ../../admin/install.rst:1490
+#: ../../admin/install.rst:1499
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
@@ -14429,23 +14445,23 @@ msgstr ""
 "執行規律的維護任務如備份、清理與每日的附加元件或更新。（請參見 :ref:"
 "`backup`、 :setting:`BACKGROUND_TASKS`、 :ref:`addons`）。"
 
-#: ../../admin/install.rst:1492
+#: ../../admin/install.rst:1501
 msgid "Running :ref:`auto-translation`."
 msgstr "執行 :ref:`auto-translation`。"
 
-#: ../../admin/install.rst:1493
+#: ../../admin/install.rst:1502
 #, fuzzy
 #| msgid "Added digest notifications."
 msgid "Sending digest notifications."
 msgstr "新增了摘要通知。"
 
-#: ../../admin/install.rst:1494
+#: ../../admin/install.rst:1503
 #, fuzzy
 #| msgid "Offloading expensive operations from the wsgi process."
 msgid "Offloading expensive operations from the WSGI process."
 msgstr "降載 wsgi 執行緒執行昂貴的運作。"
 
-#: ../../admin/install.rst:1495
+#: ../../admin/install.rst:1504
 #, fuzzy
 #| msgid ""
 #| "Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:"
@@ -14455,7 +14471,7 @@ msgstr ""
 "送交待定的更改（每小時），請參見 :ref:`lazy-commit` 和 :djadmin:"
 "`commit_pending`。"
 
-#: ../../admin/install.rst:1497
+#: ../../admin/install.rst:1506
 #, fuzzy
 #| msgid ""
 #| "Weblate uses Celery to process background tasks. A typical setup using "
@@ -14465,7 +14481,7 @@ msgstr ""
 "Webate 使用 Celery 來處理後台任務。使用 Redis 作為後端的典型安裝看起來像這"
 "樣："
 
-#: ../../admin/install.rst:1507
+#: ../../admin/install.rst:1516
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
@@ -14473,7 +14489,7 @@ msgstr ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 
-#: ../../admin/install.rst:1509
+#: ../../admin/install.rst:1518
 msgid ""
 "You should also start the Celery worker to process the tasks and start "
 "scheduled tasks, this can be done directly on the command-line (which is "
@@ -14482,7 +14498,7 @@ msgstr ""
 "您應該啟動 Celery worker 來處理任務，並且定時任務，這可以直接在命令行完成（儲"
 "存和開發時最有用）："
 
-#: ../../admin/install.rst:1520
+#: ../../admin/install.rst:1529
 msgid ""
 "The Celery process has to be executed under the same user as the WSGI "
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
@@ -14491,17 +14507,17 @@ msgstr ""
 "Celery 行程和 WSGI 行程必須在同一使用者下被執行，否則 :setting:`DATA_DIR` 中"
 "的檔案將以混合的擁有權來儲存，導致執行問題。"
 
-#: ../../admin/install.rst:1524
+#: ../../admin/install.rst:1533
 msgid "See also :ref:`file-permissions` and :ref:`server`."
 msgstr "另請參見 :ref:`file-permissions` 和 :ref:`server`。"
 
-#: ../../admin/install.rst:1527
+#: ../../admin/install.rst:1536
 #, fuzzy
 #| msgid "Executing Celery tasks in the wsgi using eager mode"
 msgid "Executing Celery tasks in the WSGI using eager mode"
 msgstr "執行 Celery 排程任務在 wsgi 使用 eager 模式"
 
-#: ../../admin/install.rst:1531
+#: ../../admin/install.rst:1540
 msgid ""
 "This will have severe performance impact on the web interface, and will "
 "break features depending on regular trigger (for example committing pending "
@@ -14510,7 +14526,7 @@ msgstr ""
 "這將會在網頁介面中造成效能的衝擊影響，也會造成常規的觸發功能失效（例如送交暫"
 "緩的修正、摘要通知或備份）。"
 
-#: ../../admin/install.rst:1535
+#: ../../admin/install.rst:1544
 #, fuzzy
 #| msgid ""
 #| "For development, you might want to use eager configuration, which does "
@@ -14523,11 +14539,11 @@ msgstr ""
 "為了開發，您會想要使用急切組態，它在執行中處理所有任務，但會衝擊 Weblate 的性"
 "能："
 
-#: ../../admin/install.rst:1545
+#: ../../admin/install.rst:1554
 msgid "Running Celery as system service"
 msgstr "執行 Celery 作為系統服務"
 
-#: ../../admin/install.rst:1547
+#: ../../admin/install.rst:1556
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered by :"
 "doc:`celery:userguide/daemonizing`. For the most common Linux setup using "
@@ -14538,20 +14554,20 @@ msgstr ""
 "daemonizing` 來涵蓋。對於使用 systemd 的最通常的 Linux 設定，您可以使用與下面"
 "列出的 :file:`examples` 文件夾一起上市的例子文件。"
 
-#: ../../admin/install.rst:1552
+#: ../../admin/install.rst:1561
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
 "Systemd 單元作為 :file:`/etc/systemd/system/celery-weblate.service` 放置："
 
-#: ../../admin/install.rst:1557
+#: ../../admin/install.rst:1566
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr "環境組態作為 :file:`/etc/default/celery-weblate` 放置："
 
-#: ../../admin/install.rst:1562
+#: ../../admin/install.rst:1571
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
@@ -14559,11 +14575,11 @@ msgstr ""
 "使用 :command:`logrotate` 來旋轉 Celery 記錄的額外組態將被放置為 :file:`/etc/"
 "logrotate.d/celery`:"
 
-#: ../../admin/install.rst:1569
+#: ../../admin/install.rst:1578
 msgid "Periodic tasks using Celery beat"
 msgstr "使用 Celery beat 的週期性任務"
 
-#: ../../admin/install.rst:1571
+#: ../../admin/install.rst:1580
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. You can however "
 "define additional tasks in :file:`settings.py`, for example see :ref:`lazy-"
@@ -14572,7 +14588,7 @@ msgstr ""
 "Weblate 帶有內建的定時任務設定。然而您可以在 :file:`settings.py` 中定義另外的"
 "任務，例如請參見 :ref:`lazy-commit`。"
 
-#: ../../admin/install.rst:1574
+#: ../../admin/install.rst:1583
 msgid ""
 "The tasks are supposed to be executed by Celery beats daemon. In case it is "
 "not working properly, it might not be running or its database was corrupted. "
@@ -14581,11 +14597,11 @@ msgstr ""
 "任務應該由 Celery beats 守護進程執行。在不能正常工作的情況下，它可能不會運"
 "行，或者其資料庫崩潰。在這樣的情況下檢查 Celery 啟動日誌，來找出根本原因。"
 
-#: ../../admin/install.rst:1581
+#: ../../admin/install.rst:1590
 msgid "Monitoring Celery status"
 msgstr "觀察 Celery 狀態"
 
-#: ../../admin/install.rst:1583
+#: ../../admin/install.rst:1592
 #, fuzzy
 #| msgid ""
 #| "You can use :djadmin:`celery_queues` to see current length of Celery task "
@@ -14600,7 +14616,7 @@ msgstr ""
 "可以使用 :djadmin:`celery_queues` 來查看當前 Celery 任務隊列的長度。在隊列太"
 "長的情況下，會在管理界面得到組態錯誤。"
 
-#: ../../admin/install.rst:1590
+#: ../../admin/install.rst:1599
 msgid ""
 "The Celery errors are by default only logged into Celery log and are not "
 "visible to user. In case you want to have overview on such failures, it is "
@@ -14609,7 +14625,7 @@ msgstr ""
 "Celery 錯誤預設之儲存在 Celery 日誌中，並且使用者不可見。在您想要了解故障概況"
 "的情況下，推薦組態 :ref:`collecting-errors`。"
 
-#: ../../admin/install.rst:1596
+#: ../../admin/install.rst:1605
 #, fuzzy
 #| msgid ""
 #| ":doc:`celery:userguide/configuration`, :doc:`celery:userguide/workers`, :"
@@ -14622,32 +14638,32 @@ msgid ""
 msgstr ""
 ":doc:`Celery：UserGuide / Configuration`，:doc:Celery：Usergife / Workers`"
 
-#: ../../admin/install.rst:1607
+#: ../../admin/install.rst:1616
 msgid "Single-process Celery setup"
 msgstr ""
 
-#: ../../admin/install.rst:1609
+#: ../../admin/install.rst:1618
 msgid ""
 "In case you have very limited memory, you might want to reduce number of "
 "Weblate processes. All Celery tasks can be executed in a single process "
 "using:"
 msgstr ""
 
-#: ../../admin/install.rst:1616
+#: ../../admin/install.rst:1625
 msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgstr ""
 
-#: ../../admin/install.rst:1620
+#: ../../admin/install.rst:1629
 msgid "This will have a noticeable performance impact on Weblate."
 msgstr ""
 
-#: ../../admin/install.rst:1625
+#: ../../admin/install.rst:1634
 msgid "Monitoring Weblate"
 msgstr "監測 Weblate"
 
-#: ../../admin/install.rst:1627
+#: ../../admin/install.rst:1636
 msgid ""
 "Weblate provides the ``/healthz/`` URL to be used in simple health checks, "
 "for example using Kubernetes. The Docker container has built-in health check "
@@ -14656,14 +14672,14 @@ msgstr ""
 "Weblate 提供 ``/healthz/`` URL 作為簡單的健康檢查來使用，例如使用 "
 "Kubernetes。 Docker 容器具有使用此 URL 的內建執行狀況檢查。"
 
-#: ../../admin/install.rst:1630
+#: ../../admin/install.rst:1639
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
 "用於監視Weberate的指標，您可以使用：http：get：`/ api / metrics /`api端點。"
 
-#: ../../admin/install.rst:1634
+#: ../../admin/install.rst:1643
 #, fuzzy
 #| msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
 msgid ""
@@ -14671,13 +14687,13 @@ msgid ""
 "<https://github.com/WeblateOrg/munin>`_"
 msgstr "`Weblate 的 Munin 外掛<https://github.com/WeblateOrg/munin>`_"
 
-#: ../../admin/install.rst:1641 ../../admin/install/docker.rst:1711
+#: ../../admin/install.rst:1650 ../../admin/install/docker.rst:1720
 #, fuzzy
 #| msgid "Collecting error reports"
 msgid "Collecting error reports and monitoring performance"
 msgstr "蒐集錯誤訊息報告"
 
-#: ../../admin/install.rst:1643
+#: ../../admin/install.rst:1652
 msgid ""
 "Weblate, as any other software, can fail. In order to collect useful failure "
 "states we recommend to use third party services to collect such information. "
@@ -14689,11 +14705,11 @@ msgstr ""
 "第三方服務來收集此類資訊。這在 Celery 任務失敗的情況下尤其有用，否則將只會向"
 "日誌報告錯誤，而您不會收到有關它們的通知。 Weblate 支援以下服務："
 
-#: ../../admin/install.rst:1650
+#: ../../admin/install.rst:1659
 msgid "Sentry"
 msgstr "Sentry"
 
-#: ../../admin/install.rst:1652
+#: ../../admin/install.rst:1661
 msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
@@ -14701,7 +14717,7 @@ msgstr ""
 "Weblate 內建了對 `Sentry <https://sentry.io/>`_ 的支援。要使用它，只需在 :"
 "file:`settings.py` 中設定 :setting:`SENTRY_DSN`："
 
-#: ../../admin/install.rst:1659
+#: ../../admin/install.rst:1668
 msgid ""
 "Sentry can be also used to monitor performance of Weblate by collecting "
 "traces and profiles for defined percentage of operations. This can be "
@@ -14709,17 +14725,17 @@ msgid ""
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
 
-#: ../../admin/install.rst:1665
+#: ../../admin/install.rst:1674
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 msgstr ""
 
-#: ../../admin/install.rst:1671
+#: ../../admin/install.rst:1680
 msgid "Rollbar"
 msgstr "Rollbar"
 
-#: ../../admin/install.rst:1673
+#: ../../admin/install.rst:1682
 msgid ""
 "Weblate has built-in support for `Rollbar <https://rollbar.com/>`_. To use "
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
@@ -14729,37 +14745,37 @@ msgstr ""
 "循 `Rollbar notifier for Python <https://docs.rollbar.com/docs/python/>`_ 的"
 "說明即可。"
 
-#: ../../admin/install.rst:1676
+#: ../../admin/install.rst:1685
 msgid "In short, you need to adjust :file:`settings.py`:"
 msgstr "簡而言之，您需要調整 :file:`settings.py` ："
 
-#: ../../admin/install.rst:1694
+#: ../../admin/install.rst:1703
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr ""
 "將會自動整合所有必要的設定，您將會蒐集到來自伺服器或是使用端的錯誤訊息。"
 
-#: ../../admin/install.rst:1699
+#: ../../admin/install.rst:1708
 msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
 msgstr ""
 
-#: ../../admin/install.rst:1705
+#: ../../admin/install.rst:1714
 #, fuzzy
 #| msgid "Terminology"
 msgid "Graylog log management"
 msgstr "專有名詞"
 
-#: ../../admin/install.rst:1709
+#: ../../admin/install.rst:1718
 msgid ""
 "Weblate can be configured to log using the GELF TCP protocol. This was "
 "developed for Graylog integration, but can be used with any compliant "
 "logging platform."
 msgstr ""
 
-#: ../../admin/install.rst:1712
+#: ../../admin/install.rst:1721
 #, fuzzy
 #| msgid ""
 #| "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
@@ -14771,11 +14787,11 @@ msgstr ""
 "這實現在 :ref:`sample-configuration`中。對於 Docker，使用 :envvar:"
 "`WEBLATE_REQUIRE_LOGIN`。"
 
-#: ../../admin/install.rst:1716
+#: ../../admin/install.rst:1725
 msgid "Migrating Weblate to another server"
 msgstr "將 Weblate 遷移到其他服務其中"
 
-#: ../../admin/install.rst:1718
+#: ../../admin/install.rst:1727
 msgid ""
 "Migrating Weblate to another server should be pretty easy, however it stores "
 "data in few locations which you should migrate carefully. The best approach "
@@ -14784,11 +14800,11 @@ msgstr ""
 "將 Weblate 遷移到其他伺服器應該非常簡單，然而它將資料儲存在幾個位置，您應該小"
 "心遷移。最佳的方式時停止 Weblate 再遷移。"
 
-#: ../../admin/install.rst:1723
+#: ../../admin/install.rst:1732
 msgid "Migrating database"
 msgstr "遷移資料庫"
 
-#: ../../admin/install.rst:1725
+#: ../../admin/install.rst:1734
 #, fuzzy
 #| msgid ""
 #| "Depending on your database backend, you might have several options to "
@@ -14806,17 +14822,17 @@ msgstr ""
 "伺服器上，並將它導入新的伺服器中。另外，在資料庫支援的情況下可以使用資料庫複"
 "製。"
 
-#: ../../admin/install.rst:1733
+#: ../../admin/install.rst:1742
 #, fuzzy
 #| msgid "Create the database used by Weblate, see :ref:`database-setup`."
 msgid "Migrating between databases described in :ref:`database-migration`."
 msgstr "新建 Weblate 使用的資料庫，參見 :ref:`database-setup`。"
 
-#: ../../admin/install.rst:1736
+#: ../../admin/install.rst:1745
 msgid "Migrating VCS repositories"
 msgstr "遷移 VSC 儲存庫"
 
-#: ../../admin/install.rst:1738
+#: ../../admin/install.rst:1747
 msgid ""
 "The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as "
 "well. You can simply copy them or use :command:`rsync` to do the migration "
@@ -14825,11 +14841,11 @@ msgstr ""
 "儲存在 :setting:`DATA_DIR` 下的版本控制系統（VCS）同樣需要遷移。您可以簡單地"
 "複制它們，或使用 :command:`rsync` 來更有效地遷移。"
 
-#: ../../admin/install.rst:1743
+#: ../../admin/install.rst:1752
 msgid "Other notes"
 msgstr "其他註釋"
 
-#: ../../admin/install.rst:1745
+#: ../../admin/install.rst:1754
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
@@ -15352,8 +15368,14 @@ msgid "Number of processes and memory consumption"
 msgstr "過程數量和內存消耗"
 
 #: ../../admin/install/docker.rst:346
+#, fuzzy
+#| msgid ""
+#| "The number of worker processes for both uWSGI and Celery is determined "
+#| "automatically based on number of CPUs. This works well for most cloud "
+#| "virtual machines as these typically have few CPUs and good amount of "
+#| "memory."
 msgid ""
-"The number of worker processes for both uWSGI and Celery is determined "
+"The number of worker processes for both WSGI and Celery is determined "
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
@@ -15529,11 +15551,15 @@ msgstr "更改所有頁面頁眉上顯示的站點標題。"
 msgid "Configures the site domain. This parameter is required."
 msgstr "已設定登入密碼。"
 
-#: ../../admin/install/docker.rst:506
+#: ../../admin/install/docker.rst:504
+msgid "Include port if using a non-standard one."
+msgstr ""
+
+#: ../../admin/install/docker.rst:515
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 msgstr ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 
-#: ../../admin/install/docker.rst:512
+#: ../../admin/install/docker.rst:521
 msgid ""
 "Configures the site-admin's name and e-mail. It is used for both :setting:"
 "`ADMINS` setting and creating `admin` user (see :envvar:"
@@ -15542,15 +15568,15 @@ msgstr ""
 "組態站點管理員的姓名和電子郵件。它用於 :setting:`ADMINS` 設定和建立 `管理員` "
 "使用者（有關此資訊，請參閱 :envvar:`WEBLATE_ADMIN_PASSWORD`）。"
 
-#: ../../admin/install/docker.rst:526
+#: ../../admin/install/docker.rst:535
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
-#: ../../admin/install/docker.rst:532
+#: ../../admin/install/docker.rst:541
 msgid "Sets the password for the `admin` user."
 msgstr "設定 `管理員` 使用者的密碼。"
 
-#: ../../admin/install/docker.rst:534
+#: ../../admin/install/docker.rst:543
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
@@ -15558,11 +15584,11 @@ msgstr ""
 "如果未設定並且 `管理員` 使用者不存在，則會使用首次啟動容器時顯示的隨機密碼來"
 "建立它。"
 
-#: ../../admin/install/docker.rst:536
+#: ../../admin/install/docker.rst:545
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr "如果未設定並且 `管理員` 使用者存在，則不執行任何操作。"
 
-#: ../../admin/install/docker.rst:537
+#: ../../admin/install/docker.rst:546
 msgid ""
 "If set the `admin` user is adjusted on every container startup to match :"
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
@@ -15572,7 +15598,7 @@ msgstr ""
 "`WEBLATE_ADMIN_PASSWORD`，:envvar:`WEBLATE_ADMIN_NAME` 和 :envvar:"
 "`WEBLATE_ADMIN_EMAIL`。"
 
-#: ../../admin/install/docker.rst:543
+#: ../../admin/install/docker.rst:552
 msgid ""
 "It might be a security risk to store password in the configuration file. "
 "Consider using this variable only for initial setup (or let Weblate generate "
@@ -15581,7 +15607,7 @@ msgstr ""
 "將密碼儲存在組態文件中可能會帶來安全風險。考慮僅將此變量用於初始設定（或讓 "
 "Weblate 在初始啟動時產生隨機密碼）或用於密碼恢復。"
 
-#: ../../admin/install/docker.rst:550
+#: ../../admin/install/docker.rst:559
 #, fuzzy
 #| msgid ""
 #| ":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
@@ -15593,70 +15619,70 @@ msgid ""
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ":ref:“docker-admin-login`”"
 
-#: ../../admin/install/docker.rst:558
+#: ../../admin/install/docker.rst:567
 msgid ""
 "Whether to sent e-mail to admins upon server error. Turned on by default."
 msgstr ""
 
-#: ../../admin/install/docker.rst:560
+#: ../../admin/install/docker.rst:569
 msgid ""
 "You might want to use other error collection like Sentry or Rollbar and turn "
 "this off."
 msgstr ""
 
-#: ../../admin/install/docker.rst:564
+#: ../../admin/install/docker.rst:573
 msgid ""
 ":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, :envvar:"
 "`SENTRY_DSN`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:570
+#: ../../admin/install/docker.rst:579
 msgid "The email address that error messages are sent from."
 msgstr ""
 
-#: ../../admin/install/docker.rst:574
+#: ../../admin/install/docker.rst:583
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 msgstr ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 
-#: ../../admin/install/docker.rst:579
+#: ../../admin/install/docker.rst:588
 msgid "Configures the address for outgoing e-mails."
 msgstr "組態外發電子郵件的地址。"
 
-#: ../../admin/install/docker.rst:583
+#: ../../admin/install/docker.rst:592
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 
-#: ../../admin/install/docker.rst:588
+#: ../../admin/install/docker.rst:597
 #, fuzzy
 #| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`ADMINS_CONTACT`."
 msgstr "組態 :setting:`STATUS_URL`."
 
-#: ../../admin/install/docker.rst:592
+#: ../../admin/install/docker.rst:601
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
 msgstr "組態聯繫表單行為，請參閱：設定：`contact_form`。"
 
-#: ../../admin/install/docker.rst:596
+#: ../../admin/install/docker.rst:605
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgstr "使用 :setting:`ALLOWED_HOSTS` 組態允許的 HTTP 主機名。"
 
-#: ../../admin/install/docker.rst:598
+#: ../../admin/install/docker.rst:607
 msgid "Defaults to ``*`` which allows all hostnames."
 msgstr "預設為 ``*`` 來允許所有的主機名稱。"
 
-#: ../../admin/install/docker.rst:609
+#: ../../admin/install/docker.rst:618
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 
-#: ../../admin/install/docker.rst:615
+#: ../../admin/install/docker.rst:624
 msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr "通過切換 :std:setting:`REGISTRATION_OPEN` 組態是否打開註冊。"
 
-#: ../../admin/install/docker.rst:626
+#: ../../admin/install/docker.rst:635
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
@@ -15664,23 +15690,23 @@ msgstr ""
 "組態可用於通過 :setting:`REGISTRATION_ALLOW_BACKENDS` 建立新帳戶的身份驗證方"
 "法。"
 
-#: ../../admin/install/docker.rst:642
+#: ../../admin/install/docker.rst:651
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
 msgstr "組態 :std:setting:`REGISTRATION_REBIND`。"
 
-#: ../../admin/install/docker.rst:646
+#: ../../admin/install/docker.rst:655
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
 msgstr "在 Weblate 中組態使用的時區，請參閱 :std:setting:`django:TIME_ZONE`。"
 
-#: ../../admin/install/docker.rst:650
+#: ../../admin/install/docker.rst:659
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr "為了更改 Docker 自己的時區，使用 ``TZ`` 環境變量。"
 
-#: ../../admin/install/docker.rst:662
+#: ../../admin/install/docker.rst:671
 msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
@@ -15688,11 +15714,11 @@ msgstr ""
 "讓 Weblate 假定在反向 HTTPS 代理後面操作，這使 Weblate 在電子郵件和 API 連結"
 "中使用 HTTPS，或者在 cookies 上設定安全標記。"
 
-#: ../../admin/install/docker.rst:667
+#: ../../admin/install/docker.rst:676
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
 msgstr "可能的警告請參見 :setting:`ENABLE_HTTPS` 文件。"
 
-#: ../../admin/install/docker.rst:671
+#: ../../admin/install/docker.rst:680
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
@@ -15700,7 +15726,7 @@ msgstr ""
 "這不會使 Weblate 容器接受 HTTPS 連接，您同樣需要組態它，例子請參見 :ref:"
 "`docker-ssl`。"
 
-#: ../../admin/install/docker.rst:683
+#: ../../admin/install/docker.rst:692
 msgid ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
@@ -15708,17 +15734,17 @@ msgstr ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 
-#: ../../admin/install/docker.rst:691
+#: ../../admin/install/docker.rst:700
 msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
 msgstr ""
 
-#: ../../admin/install/docker.rst:696
+#: ../../admin/install/docker.rst:705
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 
-#: ../../admin/install/docker.rst:700
+#: ../../admin/install/docker.rst:709
 msgid ""
 "Lets Weblate fetch the IP address from any given HTTP header. Use this when "
 "using a reverse proxy in front of the Weblate container."
@@ -15726,14 +15752,14 @@ msgstr ""
 "讓 Weblate 從任何給定的 HTTP 標頭中取回 IP 地址。在使用 Weblate 容器之前的反"
 "向代理時使用它。"
 
-#: ../../admin/install/docker.rst:703
+#: ../../admin/install/docker.rst:712
 msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:"
 "`IP_PROXY_HEADER`."
 msgstr ""
 "允許 :setting:`IP_BEHIND_REVERSE_PROXY` 並設定 :setting:`IP_PROXY_HEADER`。"
 
-#: ../../admin/install/docker.rst:707
+#: ../../admin/install/docker.rst:716
 msgid ""
 "The format must conform to Django's expectations. Django `transforms "
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http."
@@ -15743,46 +15769,46 @@ msgstr ""
 "com/en/2.2/ref/request-response/#django.http.HttpRequest.META>`_ 原始 HTTP 標"
 "頭如下命名："
 
-#: ../../admin/install/docker.rst:711
+#: ../../admin/install/docker.rst:720
 msgid "converts all characters to uppercase"
 msgstr "將所有字元裝換為大寫"
 
-#: ../../admin/install/docker.rst:712
+#: ../../admin/install/docker.rst:721
 msgid "replaces any hyphens with underscores"
 msgstr "用下劃線替換任何連字元"
 
-#: ../../admin/install/docker.rst:713
+#: ../../admin/install/docker.rst:722
 msgid "prepends ``HTTP_`` prefix"
 msgstr "前面新增 ``HTTP_`` 前綴字"
 
-#: ../../admin/install/docker.rst:715
+#: ../../admin/install/docker.rst:724
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr "所以 ``X-Forwarded-For`` 將被映射到 ``HTTP_X_FORWARDED_FOR``。"
 
-#: ../../admin/install/docker.rst:728
+#: ../../admin/install/docker.rst:737
 #, fuzzy
 #| msgid "Configures :setting:`LEGAL_URL`."
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
 msgstr "組態: setting:`LEGAL_URL`."
 
-#: ../../admin/install/docker.rst:734
+#: ../../admin/install/docker.rst:743
 msgid ""
 "A boolean that specifies whether to use the :http:header:`X-Forwarded-Port` "
 "header in preference to the SERVER_PORT META variable. This should only be "
 "enabled if a proxy which sets this header is in use."
 msgstr ""
 
-#: ../../admin/install/docker.rst:740
+#: ../../admin/install/docker.rst:749
 msgid ":setting:`django:USE_X_FORWARDED_PORT`"
 msgstr ":setting:`django:USE_X_FORWARDED_PORT`"
 
-#: ../../admin/install/docker.rst:742
+#: ../../admin/install/docker.rst:751
 #, fuzzy
 #| msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr "這是布林值的設定（使用 ``\"true\"`` 或 ``\"false\"``）。"
 
-#: ../../admin/install/docker.rst:746
+#: ../../admin/install/docker.rst:755
 msgid ""
 "A tuple representing a HTTP header/value combination that signifies a "
 "request is secure. This is needed when Weblate is running behind a reverse "
@@ -15792,16 +15818,16 @@ msgstr ""
 "在進行終止SSL 的反向代理之後執行時，這是需要的，終止 SSL 不通過標準 HTTPS 標"
 "頭。"
 
-#: ../../admin/install/docker.rst:759
+#: ../../admin/install/docker.rst:768
 msgid ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgstr ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 
-#: ../../admin/install/docker.rst:763
+#: ../../admin/install/docker.rst:772
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
 msgstr "啟用 :setting:`REQUIRE_LOGIN` 而在整個 Weblate 上強制認證。"
 
-#: ../../admin/install/docker.rst:776
+#: ../../admin/install/docker.rst:785
 msgid ""
 "Adds URL exceptions for authentication required for the whole Weblate "
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
@@ -15809,41 +15835,41 @@ msgstr ""
 "使用 :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` 來為整個 Webate 安裝所需的身份"
 "驗證新增 URL 例外。"
 
-#: ../../admin/install/docker.rst:779
+#: ../../admin/install/docker.rst:788
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
 msgstr "可以替換整個設定，或者使用 ``ADD`` 和 ``REMOVE`` 變量修改預設值。"
 
-#: ../../admin/install/docker.rst:781
+#: ../../admin/install/docker.rst:790
 msgid "To enforce authentication for the contact form, do:"
 msgstr "若要對聯絡表單強制進行身份驗證，請執行下列操作："
 
-#: ../../admin/install/docker.rst:790
+#: ../../admin/install/docker.rst:799
 msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
 msgstr ""
 "通過 :setting:`GOOGLE_ANALYTICS_ID` 來組態用於 Google Analytics 的 ID。"
 
-#: ../../admin/install/docker.rst:794
+#: ../../admin/install/docker.rst:803
 msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`"
 msgstr ""
 "設定拉取請求預設的標題與訊息透過 API 改變 :setting:`DEFAULT_PULL_MESSAGE`"
 
-#: ../../admin/install/docker.rst:799
+#: ../../admin/install/docker.rst:808
 msgid ":ref:`config-pull-message`"
 msgstr ":ref:`config-pull-message`"
 
-#: ../../admin/install/docker.rst:803
+#: ../../admin/install/docker.rst:812
 msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
 msgstr "組態語言簡化策略，請參見 :setting:`SIMPLIFY_LANGUAGES`。"
 
-#: ../../admin/install/docker.rst:807
+#: ../../admin/install/docker.rst:816
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
@@ -15851,7 +15877,7 @@ msgstr ""
 "為新項目組態預設的 :ref:`project-access_control`，請參見 :setting:"
 "`DEFAULT_ACCESS_CONTROL`。"
 
-#: ../../admin/install/docker.rst:811
+#: ../../admin/install/docker.rst:820
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
@@ -15859,7 +15885,7 @@ msgstr ""
 "為新組件的 :ref:`component-restricted` 組態預設值，請參見 :setting:"
 "`DEFAULT_RESTRICTED_COMPONENT`。"
 
-#: ../../admin/install/docker.rst:815
+#: ../../admin/install/docker.rst:824
 msgid ""
 "Configures the default value for :ref:`component-"
 "allow_translation_propagation` for new components, see :setting:"
@@ -15868,43 +15894,43 @@ msgstr ""
 "為新組件的 :ref:`component-allow_translation_propagation` 組態預設值，請參"
 "見 :setting:`DEFAULT_TRANSLATION_PROPAGATION`。"
 
-#: ../../admin/install/docker.rst:819
+#: ../../admin/install/docker.rst:828
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgstr "組態 :setting:`DEFAULT_COMMITER_EMAIL`。"
 
-#: ../../admin/install/docker.rst:823
+#: ../../admin/install/docker.rst:832
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgstr "組態 :setting:`DEFAULT_COMMITER_NAME`。"
 
-#: ../../admin/install/docker.rst:827
+#: ../../admin/install/docker.rst:836
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
 msgstr "組態 :setting:`DEFAULT_SHARED_TM`."
 
-#: ../../admin/install/docker.rst:831
+#: ../../admin/install/docker.rst:840
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
 msgstr "組態 Akismet API 金鑰，請參見 :setting:`AKISMET_API_KEY`。"
 
-#: ../../admin/install/docker.rst:835
+#: ../../admin/install/docker.rst:844
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr "組態送交的 GPG 簽名，請參見 :setting:`WEBLATE_GPG_IDENTITY`。"
 
-#: ../../admin/install/docker.rst:843
+#: ../../admin/install/docker.rst:852
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr "組態 Weblate 執行的 URL 前綴，請參見 :setting:`URL_PREFIX`。"
 
-#: ../../admin/install/docker.rst:847
+#: ../../admin/install/docker.rst:856
 msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
 "組態您不想要顯示的檢查，請參見 :setting:`django:SILENCED_SYSTEM_CHECKS`。"
 
-#: ../../admin/install/docker.rst:857
+#: ../../admin/install/docker.rst:866
 msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgstr "允許客製 ``Content-Security-Policy`` HTTP 標頭。"
 
-#: ../../admin/install/docker.rst:861
+#: ../../admin/install/docker.rst:870
 #, fuzzy
 #| msgid ""
 #| ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
@@ -15915,35 +15941,35 @@ msgid ""
 "setting:`CSP_FORM_SRC`"
 msgstr ":ref:“CSP”，：設定：“CSP_Script_src`”，"
 
-#: ../../admin/install/docker.rst:871
+#: ../../admin/install/docker.rst:880
 msgid "Configures :setting:`LICENSE_FILTER`."
 msgstr "組態 :setting:`LICENSE_FILTER`."
 
-#: ../../admin/install/docker.rst:875
+#: ../../admin/install/docker.rst:884
 msgid "Configures :setting:`LICENSE_REQUIRED`"
 msgstr "組態 :setting:`LICENSE_REQUIRED`"
 
-#: ../../admin/install/docker.rst:879
+#: ../../admin/install/docker.rst:888
 msgid "Configures :setting:`WEBSITE_REQUIRED`"
 msgstr "組態 :setting:`WEBSITE_REQUIRED`"
 
-#: ../../admin/install/docker.rst:883
+#: ../../admin/install/docker.rst:892
 msgid "Configures :setting:`HIDE_VERSION`."
 msgstr "組態 :setting:`HIDE_VERSION`。"
 
-#: ../../admin/install/docker.rst:887
+#: ../../admin/install/docker.rst:896
 msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgstr "組態 :setting:`BASIC_LANGUAGES`."
 
-#: ../../admin/install/docker.rst:891
+#: ../../admin/install/docker.rst:900
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
 msgstr "組態 :setting:`DEFAULT_AUTO_WATCH`."
 
-#: ../../admin/install/docker.rst:899
+#: ../../admin/install/docker.rst:908
 msgid "Configures rate limiter."
 msgstr "配置速率限制器。"
 
-#: ../../admin/install/docker.rst:903
+#: ../../admin/install/docker.rst:912
 msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
@@ -15951,7 +15977,7 @@ msgstr ""
 "您可以設定任何速率限制器範圍的組態。為此設定的任何設定新增``Web21```:ref:`速"
 "率限制`。"
 
-#: ../../admin/install/docker.rst:908
+#: ../../admin/install/docker.rst:917
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
@@ -15959,7 +15985,7 @@ msgstr ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 
-#: ../../admin/install/docker.rst:919
+#: ../../admin/install/docker.rst:928
 #, fuzzy
 #| msgid ""
 #| "The API requests are rate limited; the default configuration limits it to "
@@ -15972,92 +15998,92 @@ msgstr ""
 "這個 API 請求限制了速率；對於匿名使用者預設組態限制為每天 100 個請求，對於身"
 "份驗證的使用者限制為每小時 5000 個請求。"
 
-#: ../../admin/install/docker.rst:924
+#: ../../admin/install/docker.rst:933
 msgid ":ref:`api-rate`"
 msgstr ":ref:`api-rate`"
 
-#: ../../admin/install/docker.rst:930
+#: ../../admin/install/docker.rst:939
 msgid "Configures :setting:`ENABLE_HOOKS`."
 msgstr "組態 :setting:`ENABLE_HOOKS`。"
 
-#: ../../admin/install/docker.rst:936
+#: ../../admin/install/docker.rst:945
 msgid "Configures :setting:`ENABLE_AVATARS`."
 msgstr "組態 :setting:`ENABLE_AVATARS`."
 
-#: ../../admin/install/docker.rst:942
+#: ../../admin/install/docker.rst:951
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
 msgstr "組態 :setting:`AVATAR_URL_PREFIX`。"
 
-#: ../../admin/install/docker.rst:948
+#: ../../admin/install/docker.rst:957
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
 msgstr "組態 :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`。"
 
-#: ../../admin/install/docker.rst:954
+#: ../../admin/install/docker.rst:963
 msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgstr "組態 :setting:`SSH_EXTRA_ARGS`。"
 
-#: ../../admin/install/docker.rst:960
+#: ../../admin/install/docker.rst:969
 #, fuzzy
 #| msgid "Configures :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgstr "組態 :setting:`BORG_EXTRA_ARGS` 。"
 
-#: ../../admin/install/docker.rst:973
+#: ../../admin/install/docker.rst:982
 msgid "Configures :setting:`ENABLE_SHARING`."
 msgstr "組態 :setting:`ENABLE_SHARING`。"
 
-#: ../../admin/install/docker.rst:979
+#: ../../admin/install/docker.rst:988
 #, fuzzy
 #| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`SUPPORT_STATUS_CHECK`."
 msgstr "組態 :setting:`STATUS_URL`."
 
-#: ../../admin/install/docker.rst:985
+#: ../../admin/install/docker.rst:994
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgstr "組態 :setting:`EXTRA_HTML_HEAD`。"
 
-#: ../../admin/install/docker.rst:991
+#: ../../admin/install/docker.rst:1000
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgstr "組態 :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`。"
 
-#: ../../admin/install/docker.rst:997
+#: ../../admin/install/docker.rst:1006
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr "組態 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`。"
 
-#: ../../admin/install/docker.rst:1003
+#: ../../admin/install/docker.rst:1012
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "組態 :setting:`UNUSED_ALERT_DAYS`。"
 
-#: ../../admin/install/docker.rst:1009
+#: ../../admin/install/docker.rst:1018
 #, fuzzy
 #| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
 msgstr "組態 :setting:`BASIC_LANGUAGES`."
 
-#: ../../admin/install/docker.rst:1015
+#: ../../admin/install/docker.rst:1024
 msgid "Allow CORS requests to API from given origins."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1028
+#: ../../admin/install/docker.rst:1037
 msgid "Allows CORS requests to API from all origins."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1035
+#: ../../admin/install/docker.rst:1044
 msgid "Configures maximal body size accepted by the built-in web server."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1044
+#: ../../admin/install/docker.rst:1053
 msgid ""
 "This variable intentionally lacks ``WEBLATE_`` prefix as it is shared with "
 "third-party container used in :ref:`docker-https-portal`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1051
+#: ../../admin/install/docker.rst:1060
 msgid "Code hosting sites credentials"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1053
+#: ../../admin/install/docker.rst:1062
 msgid ""
 "In the Docker container, the code hosting credentials can be configured "
 "either in separate variables or using a Python dictionary to set them at "
@@ -16065,28 +16091,28 @@ msgid ""
 "ref:`vcs` with appropriately changed variable names."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1058
+#: ../../admin/install/docker.rst:1067
 #, fuzzy
 #| msgid "Sample configuration for Apache"
 msgid "An example configuration for GitHub might look like:"
 msgstr "Apache 的組態例子"
 
-#: ../../admin/install/docker.rst:1066
+#: ../../admin/install/docker.rst:1075
 msgid "Will be used as:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1077
+#: ../../admin/install/docker.rst:1086
 msgid "Alternatively the Python dictionary can be provided as a string:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1083
+#: ../../admin/install/docker.rst:1092
 #, fuzzy
 #| msgid ""
 #| "Sets the path to a file containing the password for the `admin` user."
 msgid "Or the path to a file containing the Python dictionary:"
 msgstr "設定指向包含 `管理員` 使用者密碼的一個文件。"
 
-#: ../../admin/install/docker.rst:1095
+#: ../../admin/install/docker.rst:1104
 #, fuzzy
 #| msgid ""
 #| "Configures GitHub pull-requests integration by changing :setting:"
@@ -16094,9 +16120,9 @@ msgstr "設定指向包含 `管理員` 使用者密碼的一個文件。"
 msgid "Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`."
 msgstr "通過變更 :setting:`GITHUB_CREDENTIALS` 來組態 GitHub 拉取請求整合。"
 
-#: ../../admin/install/docker.rst:1097 ../../admin/install/docker.rst:1106
-#: ../../admin/install/docker.rst:1115 ../../admin/install/docker.rst:1124
-#: ../../admin/install/docker.rst:1141 ../../admin/install/docker.rst:1151
+#: ../../admin/install/docker.rst:1106 ../../admin/install/docker.rst:1115
+#: ../../admin/install/docker.rst:1124 ../../admin/install/docker.rst:1133
+#: ../../admin/install/docker.rst:1150 ../../admin/install/docker.rst:1160
 #, fuzzy
 #| msgid ""
 #| ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
@@ -16105,7 +16131,7 @@ msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgstr ":ref:“調試郵件”，:ref:“在Docker容器中組態傳出電子郵件<docker-mail>`"
 
-#: ../../admin/install/docker.rst:1104
+#: ../../admin/install/docker.rst:1113
 #, fuzzy
 #| msgid ""
 #| "Configures GitLab merge-requests integration  by changing :setting:"
@@ -16113,7 +16139,7 @@ msgstr ":ref:“調試郵件”，:ref:“在Docker容器中組態傳出電子�
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
 msgstr "通過變更 :setting:`GITLAB_CREDENTIALS` 來組態 GitLab 合併請求整合。"
 
-#: ../../admin/install/docker.rst:1113
+#: ../../admin/install/docker.rst:1122
 #, fuzzy
 #| msgid ""
 #| "Configures Gitea pull-requests integration by changing :setting:"
@@ -16121,7 +16147,7 @@ msgstr "通過變更 :setting:`GITLAB_CREDENTIALS` 來組態 GitLab 合併請求
 msgid "Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`."
 msgstr "通過變更 :setting:`GITHUB_CREDENTIALS` 來組態 GitHub 拉取請求整合。"
 
-#: ../../admin/install/docker.rst:1122
+#: ../../admin/install/docker.rst:1131
 #, fuzzy
 #| msgid ""
 #| "Configures Pagure username for Pagure merge-requests by changing :setting:"
@@ -16131,7 +16157,7 @@ msgstr ""
 "通過更改 :setting:`PARGUE_USERNAME` 來組態用於 Pagure 合併請求的 Pagure 使用"
 "者名"
 
-#: ../../admin/install/docker.rst:1131
+#: ../../admin/install/docker.rst:1140
 #, fuzzy
 #| msgid ""
 #| "Configures Bitbucket Server pull-requests integration by changing :"
@@ -16142,7 +16168,7 @@ msgid ""
 msgstr ""
 "通過變更 :setting:`BITBUCKETSERVER_CREDENTIALS` 來組態 GitHub 拉取請求整合。"
 
-#: ../../admin/install/docker.rst:1139
+#: ../../admin/install/docker.rst:1148
 #, fuzzy
 #| msgid ""
 #| "Configures Bitbucket Server pull-requests integration by changing :"
@@ -16153,7 +16179,7 @@ msgid ""
 msgstr ""
 "通過變更 :setting:`BITBUCKETSERVER_CREDENTIALS` 來組態 GitHub 拉取請求整合。"
 
-#: ../../admin/install/docker.rst:1149
+#: ../../admin/install/docker.rst:1158
 #, fuzzy
 #| msgid ""
 #| "Configures Pagure username for Pagure merge-requests by changing :setting:"
@@ -16165,13 +16191,13 @@ msgstr ""
 "通過更改 :setting:`PARGUE_USERNAME` 來組態用於 Pagure 合併請求的 Pagure 使用"
 "者名"
 
-#: ../../admin/install/docker.rst:1156
+#: ../../admin/install/docker.rst:1165
 #, fuzzy
 #| msgid "Automatic suggestions"
 msgid "Automatic suggestion settings"
 msgstr "自動建議"
 
-#: ../../admin/install/docker.rst:1160
+#: ../../admin/install/docker.rst:1169
 #, fuzzy
 #| msgid ""
 #| "Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-"
@@ -16183,127 +16209,127 @@ msgstr ""
 "顯示 :guilabel:`Automatic suggestions` 標籤，請參見 :ref:`machine-"
 "translation`。"
 
-#: ../../admin/install/docker.rst:1163
+#: ../../admin/install/docker.rst:1172
 msgid ""
 "The existing environment variables are imported during the migration to "
 "Weblate 4.13, but changing them will not have any further effect."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1169
+#: ../../admin/install/docker.rst:1178
 msgid "Authentication settings"
 msgstr "身份驗證設定"
 
-#: ../../admin/install/docker.rst:1172
+#: ../../admin/install/docker.rst:1181
 msgid "LDAP"
 msgstr "LDAP"
 
-#: ../../admin/install/docker.rst:1185
+#: ../../admin/install/docker.rst:1194
 msgid "LDAP authentication configuration."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1187
+#: ../../admin/install/docker.rst:1196
 msgid "**Example for direct bind:**"
 msgstr "**直接綁定的例子：**"
 
-#: ../../admin/install/docker.rst:1198
+#: ../../admin/install/docker.rst:1207
 msgid "**Example for search and bind:**"
 msgstr "**搜尋與綁定的例子：**"
 
-#: ../../admin/install/docker.rst:1210
+#: ../../admin/install/docker.rst:1219
 msgid "**Example for union search and bind:**"
 msgstr "**聯合搜尋與綁定的例子：**"
 
-#: ../../admin/install/docker.rst:1222
+#: ../../admin/install/docker.rst:1231
 msgid "**Example with search and bind against Active Directory:**"
 msgstr "**針對作用中的目錄的搜尋與綁定的例子：**"
 
-#: ../../admin/install/docker.rst:1237
+#: ../../admin/install/docker.rst:1246
 msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
 msgstr ":ref:`docker-secrets`, :ref:`ldap-auth`"
 
-#: ../../admin/install/docker.rst:1241
+#: ../../admin/install/docker.rst:1250
 msgid "GitHub"
 msgstr "GitHub"
 
-#: ../../admin/install/docker.rst:1252
+#: ../../admin/install/docker.rst:1261
 msgid "Enables :ref:`github_auth`."
 msgstr "允許 :ref:`github_auth`。"
 
-#: ../../admin/install/docker.rst:1255
+#: ../../admin/install/docker.rst:1264
 #, fuzzy
 #| msgid "GitHub authentication"
 msgid "GitHub Enterprise Edition"
 msgstr "GitHub 驗證"
 
-#: ../../admin/install/docker.rst:1263
+#: ../../admin/install/docker.rst:1272
 msgid "Enables :ref:`github_ee_auth`."
 msgstr "允許 :ref:`github_ee_auth`。"
 
-#: ../../admin/install/docker.rst:1266
+#: ../../admin/install/docker.rst:1275
 msgid "Bitbucket"
 msgstr "Bitbucket"
 
-#: ../../admin/install/docker.rst:1273
+#: ../../admin/install/docker.rst:1282
 msgid "Enables :ref:`bitbucket_auth`."
 msgstr "允許 :ref:`bitbucket_auth`。"
 
-#: ../../admin/install/docker.rst:1276
+#: ../../admin/install/docker.rst:1285
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../../admin/install/docker.rst:1281
+#: ../../admin/install/docker.rst:1290
 msgid "Enables :ref:`facebook_auth`."
 msgstr "允許 :ref:`facebook_auth`."
 
-#: ../../admin/install/docker.rst:1284
+#: ../../admin/install/docker.rst:1293
 msgid "Google"
 msgstr "Google"
 
-#: ../../admin/install/docker.rst:1291
+#: ../../admin/install/docker.rst:1300
 msgid "Enables :ref:`google_auth`."
 msgstr "允許 :ref:`google_auth`。"
 
-#: ../../admin/install/docker.rst:1294
+#: ../../admin/install/docker.rst:1303
 msgid "GitLab"
 msgstr "GitLab"
 
-#: ../../admin/install/docker.rst:1300
+#: ../../admin/install/docker.rst:1309
 msgid "Enables :ref:`gitlab_auth`."
 msgstr "允許 :ref:`gitlab_auth`。"
 
-#: ../../admin/install/docker.rst:1303
+#: ../../admin/install/docker.rst:1312
 msgid "Gitea"
 msgstr "Gitea"
 
-#: ../../admin/install/docker.rst:1309
+#: ../../admin/install/docker.rst:1318
 #, fuzzy
 #| msgid "GitHub authentication"
 msgid "Enables Gitea authentication."
 msgstr "GitHub 驗證"
 
-#: ../../admin/install/docker.rst:1312
+#: ../../admin/install/docker.rst:1321
 msgid "Azure Active Directory"
 msgstr "Azure Active Directory"
 
-#: ../../admin/install/docker.rst:1317
+#: ../../admin/install/docker.rst:1326
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr "允許 Azure 活動目錄身份驗證，請參見 :ref:`azure-auth`。"
 
-#: ../../admin/install/docker.rst:1320
+#: ../../admin/install/docker.rst:1329
 msgid "Azure Active Directory with Tenant support"
 msgstr "帶有租戶支援的Azure 活動目錄"
 
-#: ../../admin/install/docker.rst:1326
+#: ../../admin/install/docker.rst:1335
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
 msgstr "允許帶有租戶支援的Azure 活動目錄身份驗證，請參見 :ref:`azure-auth`。"
 
-#: ../../admin/install/docker.rst:1330
+#: ../../admin/install/docker.rst:1339
 msgid "Keycloak"
 msgstr "Keycloak"
 
-#: ../../admin/install/docker.rst:1341
+#: ../../admin/install/docker.rst:1350
 msgid ""
 "Enables Keycloak authentication, see `documentation <https://github.com/"
 "python-social-auth/social-core/blob/master/social_core/backends/keycloak."
@@ -16312,11 +16338,11 @@ msgstr ""
 "允許 Keycloak 身份驗證，請參見 `documentation <https://github.com/python-"
 "social-auth/social-core/blob/master/social_core/backends/keycloak.py>`_。"
 
-#: ../../admin/install/docker.rst:1345
+#: ../../admin/install/docker.rst:1354
 msgid "Linux vendors"
 msgstr "Linux 銷售商"
 
-#: ../../admin/install/docker.rst:1347
+#: ../../admin/install/docker.rst:1356
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
@@ -16324,27 +16350,27 @@ msgstr ""
 "您可以通過將後面的變量設定為任何值，使用 Linux 銷售商身份驗證服務來允許身份驗"
 "證。"
 
-#: ../../admin/install/docker.rst:1361
+#: ../../admin/install/docker.rst:1370
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgstr "允許 Slack 身份驗證，請參見 :ref:`slack-auth`。"
 
-#: ../../admin/install/docker.rst:1365
+#: ../../admin/install/docker.rst:1374
 msgid "OpenID Connect"
 msgstr "OpenID 連結"
 
-#: ../../admin/install/docker.rst:1374
+#: ../../admin/install/docker.rst:1383
 msgid "Configures generic OpenID Connect integration."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1378
+#: ../../admin/install/docker.rst:1387
 msgid ":doc:`psa:backends/oidc`"
 msgstr ":doc:`psa:backends/oidc`"
 
-#: ../../admin/install/docker.rst:1383
+#: ../../admin/install/docker.rst:1392
 msgid "SAML"
 msgstr "SAML"
 
-#: ../../admin/install/docker.rst:1385
+#: ../../admin/install/docker.rst:1394
 msgid ""
 "Self-signed SAML keys are automatically generated on first container "
 "startup. In case you want to use own keys, place the certificate and private "
@@ -16354,19 +16380,19 @@ msgstr ""
 "下，將憑證和私鑰放置在 :file:`/app/data/ssl/saml.crt` 和 :file:`/app/data/"
 "ssl/saml.key `中。"
 
-#: ../../admin/install/docker.rst:1395
+#: ../../admin/install/docker.rst:1404
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
 msgstr "SAML 身份提供者設定，請參見 :ref:`saml-auth`。"
 
-#: ../../admin/install/docker.rst:1404
+#: ../../admin/install/docker.rst:1413
 msgid "SAML attributes mapping."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1408
+#: ../../admin/install/docker.rst:1417
 msgid "Other authentication settings"
 msgstr "其他身份驗證設定"
 
-#: ../../admin/install/docker.rst:1412
+#: ../../admin/install/docker.rst:1421
 #, fuzzy
 #| msgid "Disables e-mail authentication when set to any value."
 msgid ""
@@ -16374,18 +16400,18 @@ msgid ""
 "email-auth`."
 msgstr "當設定為任何值時禁止電子郵箱身份認證。"
 
-#: ../../admin/install/docker.rst:1418
+#: ../../admin/install/docker.rst:1427
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
 "disable strength checking."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1424
+#: ../../admin/install/docker.rst:1433
 msgid "PostgreSQL database setup"
 msgstr "PostgreSQL 資料庫設定"
 
-#: ../../admin/install/docker.rst:1426
+#: ../../admin/install/docker.rst:1435
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
@@ -16393,35 +16419,35 @@ msgstr ""
 "資料庫由 :file:`docker-compose.yml` 建立，所以這些設定影響 Weblate 和 "
 "PostgreSQL 容器。"
 
-#: ../../admin/install/docker.rst:1429
+#: ../../admin/install/docker.rst:1438
 msgid ":ref:`database-setup`"
 msgstr ":ref:`database-setup`"
 
-#: ../../admin/install/docker.rst:1433
+#: ../../admin/install/docker.rst:1442
 msgid "PostgreSQL password."
 msgstr "PostgreSQL 密碼。"
 
-#: ../../admin/install/docker.rst:1437 ../../admin/install/docker.rst:1562
+#: ../../admin/install/docker.rst:1446 ../../admin/install/docker.rst:1571
 msgid ":ref:`docker-secrets`"
 msgstr ":ref:`docker-secrets`"
 
-#: ../../admin/install/docker.rst:1441
+#: ../../admin/install/docker.rst:1450
 msgid "PostgreSQL username."
 msgstr "PostgreSQL 使用者名。"
 
-#: ../../admin/install/docker.rst:1445
+#: ../../admin/install/docker.rst:1454
 msgid "PostgreSQL database name."
 msgstr "PostgreSQL 資料庫名稱。"
 
-#: ../../admin/install/docker.rst:1449
+#: ../../admin/install/docker.rst:1458
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr "PostgreSQL 伺服器主機名成或 IP 地址。預設為 ``database``。"
 
-#: ../../admin/install/docker.rst:1453
+#: ../../admin/install/docker.rst:1462
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr "PostgreSQL 伺服器連接埠。預設為無（使用預設值）。"
 
-#: ../../admin/install/docker.rst:1457
+#: ../../admin/install/docker.rst:1466
 msgid ""
 "Configure how PostgreSQL handles SSL in connection to the server, for "
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
@@ -16431,7 +16457,7 @@ msgstr ""
 "Descriptions <https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-"
 "SSLMODE-STATEMENTS>`_"
 
-#: ../../admin/install/docker.rst:1462
+#: ../../admin/install/docker.rst:1471
 #, fuzzy
 #| msgid ""
 #| "Configures name of role to alter during migrations, see :ref:`config-"
@@ -16441,42 +16467,42 @@ msgid ""
 "migration, see :ref:`config-postgresql`."
 msgstr "在遷移過程中組態要改變的角色名稱，請參見 :ref:`config-postgresql`。"
 
-#: ../../admin/install/docker.rst:1464
+#: ../../admin/install/docker.rst:1473
 #, fuzzy
 #| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid "Defaults to :envvar:`POSTGRES_USER`."
 msgstr "依 :envvar:`WEBLATE_WORKERS` 為設定值。"
 
-#: ../../admin/install/docker.rst:1470
+#: ../../admin/install/docker.rst:1479
 msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1475
+#: ../../admin/install/docker.rst:1484
 msgid ""
 "The default behavior is to have unlimited persistent database connections."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1477
+#: ../../admin/install/docker.rst:1486
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1489
+#: ../../admin/install/docker.rst:1498
 msgid ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 msgstr ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 
-#: ../../admin/install/docker.rst:1495
+#: ../../admin/install/docker.rst:1504
 msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1507
+#: ../../admin/install/docker.rst:1516
 msgid ""
 ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
 "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
@@ -16486,45 +16512,45 @@ msgstr ""
 "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
 "cursors`"
 
-#: ../../admin/install/docker.rst:1514
+#: ../../admin/install/docker.rst:1523
 msgid ""
 "Set to false to disables environment based configuration of the database "
 "connection. Use :ref:`docker-settings-override` to configure the database "
 "connection manually."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1519
+#: ../../admin/install/docker.rst:1528
 #, fuzzy
 #| msgid "MySQL and MariaDB"
 msgid "MySQL or MariaDB server"
 msgstr "MySQL 與 MariaDB"
 
-#: ../../admin/install/docker.rst:1521
+#: ../../admin/install/docker.rst:1530
 msgid ""
 "Neither MySQL nor MariaDB can not be configured via environment variables. "
 "See :ref:`mysql` for info on using those with Weblate. Use :envvar:"
 "`WEBLATE_DATABASES` to configure the database connection manually."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1526
+#: ../../admin/install/docker.rst:1535
 msgid "Database backup settings"
 msgstr "資料庫備份設定"
 
-#: ../../admin/install/docker.rst:1529
+#: ../../admin/install/docker.rst:1538
 msgid ":ref:`backup-dumps`"
 msgstr ":ref:`backup-dumps`"
 
-#: ../../admin/install/docker.rst:1533
+#: ../../admin/install/docker.rst:1542
 msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
 msgstr "使用 :setting:`DATABASE_BACKUP` 組態每日資料庫轉儲。預設為 ``plain``。"
 
-#: ../../admin/install/docker.rst:1537
+#: ../../admin/install/docker.rst:1546
 msgid "Caching server setup"
 msgstr "快取伺服器設定"
 
-#: ../../admin/install/docker.rst:1539
+#: ../../admin/install/docker.rst:1548
 msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
@@ -16532,60 +16558,60 @@ msgstr ""
 "Weblate 強烈推薦使用 Redis，在 Docker 中執行 Weblate 時您必須提供 Redis 事"
 "例。"
 
-#: ../../admin/install/docker.rst:1542 ../../admin/projects.rst:1168
+#: ../../admin/install/docker.rst:1551 ../../admin/projects.rst:1168
 msgid ":ref:`production-cache`"
 msgstr ":ref:`production-cache`"
 
-#: ../../admin/install/docker.rst:1546
+#: ../../admin/install/docker.rst:1555
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgstr "Redis 伺服器主機名稱或 IP 地址。預設為 ``cache``。"
 
-#: ../../admin/install/docker.rst:1550
+#: ../../admin/install/docker.rst:1559
 msgid "The Redis server port. Defaults to ``6379``."
 msgstr "Redis 伺服器連接埠。預設為 ``6379``。"
 
-#: ../../admin/install/docker.rst:1554
+#: ../../admin/install/docker.rst:1563
 msgid "The Redis database number, defaults to ``1``."
 msgstr "Redis 資料庫編號，預設為 ``1``。"
 
-#: ../../admin/install/docker.rst:1558
+#: ../../admin/install/docker.rst:1567
 msgid "The Redis server password, not used by default."
 msgstr "Redis 伺服器密碼，預設不使用。"
 
-#: ../../admin/install/docker.rst:1566
+#: ../../admin/install/docker.rst:1575
 msgid "Enables using SSL for Redis connection."
 msgstr "允許使用 SSL 進行 Redis 連接。"
 
-#: ../../admin/install/docker.rst:1570
+#: ../../admin/install/docker.rst:1579
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
 msgstr "可以用於禁止 Redis 連接的 SSL 身份認證。"
 
-#: ../../admin/install/docker.rst:1575
+#: ../../admin/install/docker.rst:1584
 msgid "Email server setup"
 msgstr "郵件伺服器設定"
 
-#: ../../admin/install/docker.rst:1577
+#: ../../admin/install/docker.rst:1586
 msgid "To make outgoing e-mail work, you need to provide a mail server."
 msgstr "要使外發電子郵件正常工作，您需要提供一個郵件伺服器。"
 
-#: ../../admin/install/docker.rst:1579
+#: ../../admin/install/docker.rst:1588
 msgid "Example TLS configuration:"
 msgstr "TLS 設定範例："
 
-#: ../../admin/install/docker.rst:1588
+#: ../../admin/install/docker.rst:1597
 msgid "Example SSL configuration:"
 msgstr "SSL 設定範例："
 
-#: ../../admin/install/docker.rst:1601
+#: ../../admin/install/docker.rst:1610
 msgid ":ref:`out-mail`"
 msgstr ":ref:`out-mail`"
 
-#: ../../admin/install/docker.rst:1605
+#: ../../admin/install/docker.rst:1614
 msgid "Mail server hostname or IP address."
 msgstr "郵件伺服器主機名或 IP 地址。"
 
-#: ../../admin/install/docker.rst:1609
+#: ../../admin/install/docker.rst:1618
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
@@ -16593,33 +16619,33 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 
-#: ../../admin/install/docker.rst:1616
+#: ../../admin/install/docker.rst:1625
 msgid "Mail server port, defaults to 25."
 msgstr "郵件伺服器連接埠，預設為 25。"
 
-#: ../../admin/install/docker.rst:1618
+#: ../../admin/install/docker.rst:1627
 msgid ":setting:`django:EMAIL_PORT`"
 msgstr ":setting:`django:EMAIL_PORT`"
 
-#: ../../admin/install/docker.rst:1622
+#: ../../admin/install/docker.rst:1631
 msgid "E-mail authentication user."
 msgstr "電子郵件驗證使用者。"
 
-#: ../../admin/install/docker.rst:1624
+#: ../../admin/install/docker.rst:1633
 msgid ":setting:`django:EMAIL_HOST_USER`"
 msgstr ":setting:`django:EMAIL_HOST_USER`"
 
-#: ../../admin/install/docker.rst:1628
+#: ../../admin/install/docker.rst:1637
 #, fuzzy
 #| msgid "Authentication cancelled."
 msgid "E-mail authentication password."
 msgstr "已取消身份核對。"
 
-#: ../../admin/install/docker.rst:1632
+#: ../../admin/install/docker.rst:1641
 msgid ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
 msgstr ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
 
-#: ../../admin/install/docker.rst:1637
+#: ../../admin/install/docker.rst:1646
 msgid ""
 "Whether to use an implicit TLS (secure) connection when talking to the SMTP "
 "server. In most e-mail documentation, this type of TLS connection is "
@@ -16631,13 +16657,13 @@ msgstr ""
 "種 TLS 連接類型稱為 SSL。通常在連接埠 465 上使用。如果遇到問題，請參閱顯式 "
 "TLS 設定 :envvar:`WEBLATE_EMAIL_USE_TLS`。"
 
-#: ../../admin/install/docker.rst:1644 ../../admin/install/docker.rst:1662
+#: ../../admin/install/docker.rst:1653 ../../admin/install/docker.rst:1671
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
 msgstr "支援 SSL/TLS 將依 :envvar:`WEBLATE_EMAIL_PORT`自動啟用。"
 
-#: ../../admin/install/docker.rst:1649
+#: ../../admin/install/docker.rst:1658
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
@@ -16645,7 +16671,7 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 
-#: ../../admin/install/docker.rst:1655
+#: ../../admin/install/docker.rst:1664
 msgid ""
 "Whether to use a TLS (secure) connection when talking to the SMTP server. "
 "This is used for explicit TLS connections, generally on port 587 or 25. If "
@@ -16656,7 +16682,7 @@ msgstr ""
 "口 587 或 25 上。如果您遇到掛起的連接，請參見隱式 TLS 設定 :envvar:"
 "`WEBLATE_EMAIL_USE_SSL`。"
 
-#: ../../admin/install/docker.rst:1667
+#: ../../admin/install/docker.rst:1676
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
@@ -16664,79 +16690,79 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
 
-#: ../../admin/install/docker.rst:1673
+#: ../../admin/install/docker.rst:1682
 msgid "Configures Django back-end to use for sending e-mails."
 msgstr "將 Django 後端組態為用於發送電子郵件。"
 
-#: ../../admin/install/docker.rst:1678
+#: ../../admin/install/docker.rst:1687
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
-#: ../../admin/install/docker.rst:1683
+#: ../../admin/install/docker.rst:1692
 #, fuzzy
 #| msgid "Configuring Weblate to use PostgreSQL"
 msgid "Configures if and how Weblate should update repositories."
 msgstr "組態 Weblate 來使用 PostgreSQL"
 
-#: ../../admin/install/docker.rst:1687
+#: ../../admin/install/docker.rst:1696
 msgid ":setting:`AUTO_UPDATE`"
 msgstr ":setting:`AUTO_UPDATE`"
 
-#: ../../admin/install/docker.rst:1689
+#: ../../admin/install/docker.rst:1698
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr "這是布林值的設定（使用 ``\"true\"`` 或 ``\"false\"``）。"
 
-#: ../../admin/install/docker.rst:1692
+#: ../../admin/install/docker.rst:1701
 #, fuzzy
 #| msgid "Test Sentry integration"
 msgid "Site integration"
 msgstr "測試 Sentry 整合"
 
-#: ../../admin/install/docker.rst:1696
+#: ../../admin/install/docker.rst:1705
 msgid "Configures :setting:`GET_HELP_URL`."
 msgstr "組態 :setting:`GET_HELP_URL`."
 
-#: ../../admin/install/docker.rst:1700
+#: ../../admin/install/docker.rst:1709
 msgid "Configures :setting:`STATUS_URL`."
 msgstr "組態 :setting:`STATUS_URL`."
 
-#: ../../admin/install/docker.rst:1704
+#: ../../admin/install/docker.rst:1713
 msgid "Configures :setting:`LEGAL_URL`."
 msgstr "組態: setting:`LEGAL_URL`."
 
-#: ../../admin/install/docker.rst:1708
+#: ../../admin/install/docker.rst:1717
 msgid "Configures :setting:`PRIVACY_URL`."
 msgstr "組態 :setting:`PRIVACY_URL`。"
 
-#: ../../admin/install/docker.rst:1713
+#: ../../admin/install/docker.rst:1722
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
 msgstr "推薦從安裝中系統地收集錯誤，請參見 :ref:`collecting-errors`。"
 
-#: ../../admin/install/docker.rst:1716
+#: ../../admin/install/docker.rst:1725
 msgid "To enable support for Rollbar, set the following:"
 msgstr "要啟用對 Rollbar 的支援，請進行以下設定："
 
-#: ../../admin/install/docker.rst:1720
+#: ../../admin/install/docker.rst:1729
 msgid "Your Rollbar post server access token."
 msgstr "您的 Rollbar 發佈伺服器存取令牌。"
 
-#: ../../admin/install/docker.rst:1724
+#: ../../admin/install/docker.rst:1733
 msgid "Your Rollbar environment, defaults to ``production``."
 msgstr "您的 Rollbar 環境，預設為 ``production``。"
 
-#: ../../admin/install/docker.rst:1726
+#: ../../admin/install/docker.rst:1735
 msgid "To enable support for Sentry, set following:"
 msgstr "要啟用對 Sentry 的支援，請進行以下設定："
 
-#: ../../admin/install/docker.rst:1730
+#: ../../admin/install/docker.rst:1739
 #, fuzzy
 #| msgid "Configures :setting:`STATUS_URL`."
 msgid "Your Sentry DSN, see :setting:`SENTRY_DSN`."
 msgstr "組態 :setting:`STATUS_URL`."
 
-#: ../../admin/install/docker.rst:1734
+#: ../../admin/install/docker.rst:1743
 #, fuzzy
 #| msgid "Your Sentry Environment (optional)."
 msgid ""
@@ -16744,35 +16770,35 @@ msgid ""
 "`WEBLATE_SITE_DOMAIN`."
 msgstr "您的 Sentry 環境（可選）。"
 
-#: ../../admin/install/docker.rst:1738
+#: ../../admin/install/docker.rst:1747
 #, fuzzy
 #| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`."
 msgstr "組態 :setting:`STATUS_URL`."
 
-#: ../../admin/install/docker.rst:1749
+#: ../../admin/install/docker.rst:1758
 #, fuzzy
 #| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr "組態 :setting:`STATUS_URL`."
 
-#: ../../admin/install/docker.rst:1760
+#: ../../admin/install/docker.rst:1769
 #, fuzzy
 #| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`SENTRY_SEND_PII`."
 msgstr "組態 :setting:`STATUS_URL`."
 
-#: ../../admin/install/docker.rst:1763
+#: ../../admin/install/docker.rst:1772
 #, fuzzy
 #| msgid "Localization"
 msgid "Localization CDN"
 msgstr "在地化"
 
-#: ../../admin/install/docker.rst:1770
+#: ../../admin/install/docker.rst:1779
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgstr ":ref:`addon-weblate.cdn.cdnjs`的組態。"
 
-#: ../../admin/install/docker.rst:1772
+#: ../../admin/install/docker.rst:1781
 msgid ""
 "The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It "
 "should be stored on the persistent volume and not in the transient storage."
@@ -16780,36 +16806,36 @@ msgstr ""
 ":envvar:`WEBLATE_LOCALIZE_CDN_PATH` 是容器內的路徑。它應該儲存在持久卷上，而"
 "不能儲存在瞬態儲存器中。"
 
-#: ../../admin/install/docker.rst:1775
+#: ../../admin/install/docker.rst:1784
 msgid "One of possibilities is storing that inside the Weblate data dir:"
 msgstr "一種可能性是儲存在 Weblate 資料目錄中："
 
-#: ../../admin/install/docker.rst:1785
+#: ../../admin/install/docker.rst:1794
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
 msgstr "您負責設定Weblate產生的文件的服務，它只在組態的位置儲存文件。"
 
-#: ../../admin/install/docker.rst:1790
+#: ../../admin/install/docker.rst:1799
 msgid ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 msgstr ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 
-#: ../../admin/install/docker.rst:1796
+#: ../../admin/install/docker.rst:1805
 #, fuzzy
 #| msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgid ""
 "Changing enabled apps, checks, add-ons, machine translation or autofixes"
 msgstr "更改允許的 app 、檢查、附加元件或自動修復"
 
-#: ../../admin/install/docker.rst:1798
+#: ../../admin/install/docker.rst:1807
 msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
 msgstr "可以通過後面的變量來調整允許的檢查、附加元件或自動修復的內建組態："
 
-#: ../../admin/install/docker.rst:1827
+#: ../../admin/install/docker.rst:1836
 #, fuzzy
 #| msgid ""
 #| ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:"
@@ -16821,13 +16847,13 @@ msgstr ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
 
-#: ../../admin/install/docker.rst:1834
+#: ../../admin/install/docker.rst:1843
 #, fuzzy
 #| msgid "Notification settings"
 msgid "Container settings"
 msgstr "通知設定"
 
-#: ../../admin/install/docker.rst:1840
+#: ../../admin/install/docker.rst:1849
 msgid ""
 "Base number of worker processes running in the container. When not set it is "
 "determined automatically on container startup based on number of CPU cores "
@@ -16836,7 +16862,7 @@ msgstr ""
 "在容器中執行的工人進程基數。未設定時，基於可用的CPU核心數，在容器啟動時自動確"
 "定。"
 
-#: ../../admin/install/docker.rst:1844
+#: ../../admin/install/docker.rst:1853
 #, fuzzy
 #| msgid ""
 #| "It is used to determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
@@ -16856,7 +16882,7 @@ msgstr ""
 "`celery_translate_options`，：encvar：`celery_backup_options`："
 "`uwsgi_workers`。您可以使用這些設定來微調。"
 
-#: ../../admin/install/docker.rst:1857
+#: ../../admin/install/docker.rst:1866
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``) or use different pool "
@@ -16865,13 +16891,13 @@ msgstr ""
 "這些變量允許您調整 Celery worker 選項。它可以用於調整併發性（ ``--"
 "concurrency 16`` ），或使用不同的池實現（ ``--pool=gevent`` ）。"
 
-#: ../../admin/install/docker.rst:1861
+#: ../../admin/install/docker.rst:1870
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
 msgstr "預設情況下，並發工作人員的數量基於：envvar：`weblate_workers`。"
 
-#: ../../admin/install/docker.rst:1872
+#: ../../admin/install/docker.rst:1881
 msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
@@ -16879,41 +16905,49 @@ msgstr ""
 ":doc:“Celery Worker”選項<Celery：Reference / Celery.Bin.Worker>`，：Ref：“芹"
 "菜”"
 
-#: ../../admin/install/docker.rst:1879
+#: ../../admin/install/docker.rst:1888
 msgid ""
 "This variable can be set to ``1`` to run only one celery process. This "
 "reduces memory usage but may impact Weblate performance."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1888
+#: ../../admin/install/docker.rst:1897
 msgid ":ref:`minimal-celery`"
 msgstr ":ref:`minimal-celery`"
 
-#: ../../admin/install/docker.rst:1892
-msgid "Configure how many uWSGI workers should be executed."
+#: ../../admin/install/docker.rst:1901
+#, fuzzy
+#| msgid "Configure how many uWSGI workers should be executed."
+msgid "Configure how many WSGI workers should be executed."
 msgstr "組態應該執行多少個 uWSGI workers。"
 
-#: ../../admin/install/docker.rst:1894
+#: ../../admin/install/docker.rst:1903
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgstr "依 :envvar:`WEBLATE_WORKERS` 為設定值。"
 
-#: ../../admin/install/docker.rst:1905
+#: ../../admin/install/docker.rst:1914
+msgid ""
+"The Docker container runs two WSGI processes since 5.9 and :envvar:"
+"`WEB_WORKERS` configures how many threads each process will have."
+msgstr ""
+
+#: ../../admin/install/docker.rst:1919
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
 msgstr "定義應在容器內執行哪些服務，使用對象 :ref:`docker-scaling`。"
 
-#: ../../admin/install/docker.rst:1907
+#: ../../admin/install/docker.rst:1921
 #, fuzzy
 #| msgid "Following checks are failing:"
 msgid "Following services are defined:"
 msgstr "未通過以下查核："
 
-#: ../../admin/install/docker.rst:1909
+#: ../../admin/install/docker.rst:1923
 msgid "``celery-beat``"
 msgstr "``celery-beat``"
 
-#: ../../admin/install/docker.rst:1910
+#: ../../admin/install/docker.rst:1924
 msgid ""
 "Celery task scheduler, only one instance should be running. This container "
 "is also responsible for the database structure migrations and it should be "
@@ -16922,65 +16956,65 @@ msgstr ""
 "Celery任務調度程序，只能執行一個實例。該容器也負責資料庫結構遷移，並且應該在"
 "其他人之前啟動。"
 
-#: ../../admin/install/docker.rst:1913
+#: ../../admin/install/docker.rst:1927
 msgid "``celery-backup``"
 msgstr "``celery-backup``"
 
-#: ../../admin/install/docker.rst:1914
+#: ../../admin/install/docker.rst:1928
 msgid "Celery worker for backups, only one instance should be running."
 msgstr "凱利工人備份，只能執行一個例子。"
 
-#: ../../admin/install/docker.rst:1915
+#: ../../admin/install/docker.rst:1929
 msgid "``celery-celery``"
 msgstr "``celery-celery``"
 
-#: ../../admin/install/docker.rst:1916
+#: ../../admin/install/docker.rst:1930
 msgid "Generic Celery worker."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1917
+#: ../../admin/install/docker.rst:1931
 msgid "``celery-memory``"
 msgstr "``celery-memory``"
 
-#: ../../admin/install/docker.rst:1918
+#: ../../admin/install/docker.rst:1932
 #, fuzzy
 #| msgid "Translation memory"
 msgid "Translation memory Celery worker."
 msgstr "翻譯記憶"
 
-#: ../../admin/install/docker.rst:1919
+#: ../../admin/install/docker.rst:1933
 msgid "``celery-notify``"
 msgstr "``celery-notify``"
 
-#: ../../admin/install/docker.rst:1920
+#: ../../admin/install/docker.rst:1934
 #, fuzzy
 #| msgid "Notification hooks"
 msgid "Notifications Celery worker."
 msgstr "通知掛勾"
 
-#: ../../admin/install/docker.rst:1921
+#: ../../admin/install/docker.rst:1935
 msgid "``celery-translate``"
 msgstr "``celery-translate``"
 
-#: ../../admin/install/docker.rst:1922
+#: ../../admin/install/docker.rst:1936
 #, fuzzy
 #| msgid "Automatic translation source"
 msgid "Automatic translation Celery worker."
 msgstr "自動翻譯來源"
 
-#: ../../admin/install/docker.rst:1923
+#: ../../admin/install/docker.rst:1937
 msgid "``web``"
 msgstr "``web``"
 
-#: ../../admin/install/docker.rst:1924
+#: ../../admin/install/docker.rst:1938
 msgid "Web server."
 msgstr "Web 伺服器。"
 
-#: ../../admin/install/docker.rst:1930
+#: ../../admin/install/docker.rst:1944
 msgid "Docker container volumes"
 msgstr "Docker 容器 volumes"
 
-#: ../../admin/install/docker.rst:1932
+#: ../../admin/install/docker.rst:1946
 #, fuzzy
 #| msgid ""
 #| "There are two volumes (data and cache) exported by the Weblate container. "
@@ -16994,7 +17028,7 @@ msgstr ""
 "Weblate 容器導出了兩個卷 （資料和快取）。其他服務容器（PostgreSQL 或 Redis）"
 "也具有其資料卷，但本文件未涵蓋這些資料卷。"
 
-#: ../../admin/install/docker.rst:1936
+#: ../../admin/install/docker.rst:1950
 #, fuzzy
 #| msgid ""
 #| "The data volume is used to store Weblate persistent data such as cloned "
@@ -17007,7 +17041,7 @@ msgid ""
 msgstr ""
 "資料卷用於儲存 Weblate 持久資料（例如克隆的倉儲）或自定義 Weblate 安裝。"
 
-#: ../../admin/install/docker.rst:1940
+#: ../../admin/install/docker.rst:1954
 #, fuzzy
 #| msgid ""
 #| "The placement of the Docker volume on host system depends on your Docker "
@@ -17026,7 +17060,7 @@ msgstr ""
 "docker-compose 目錄的名稱、容器和卷的名稱組成）。在容器中，它掛載為 :file:`/"
 "app/data`。"
 
-#: ../../admin/install/docker.rst:1945
+#: ../../admin/install/docker.rst:1959
 #, fuzzy
 #| msgid ""
 #| "The cache volume is mounted as :file:`/app/cache` and is used to store "
@@ -17041,21 +17075,21 @@ msgstr ""
 "快取 volume 已掛載為 :file:`/app/cache`，用於儲存靜態文件。它的內容在容器啟動"
 "時重新建立，並且 volume 可以被當作 ephemeral 檔案系統使用，如 `tmpfs` 。"
 
-#: ../../admin/install/docker.rst:1949
+#: ../../admin/install/docker.rst:1963
 msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
 msgstr ""
 "當手動建立 volumes 時，請在容器中指定的資料夾擁有者權限設定為 UID 1000。"
 
-#: ../../admin/install/docker.rst:1952
+#: ../../admin/install/docker.rst:1966
 msgid ""
 "Weblate container can also be executed with a read-only root file system. In "
 "this case, two additional ``tmpfs`` volumes should be mounted: ``/tmp`` and "
 "``/run``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1958
+#: ../../admin/install/docker.rst:1972
 #, fuzzy
 #| msgid ""
 #| "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
@@ -17064,39 +17098,39 @@ msgid ""
 "volumes/>`_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 msgstr "`Docker 卷文件 <https://docs.docker.com/storage/volumes/>`_"
 
-#: ../../admin/install/docker.rst:1963
+#: ../../admin/install/docker.rst:1977
 #, fuzzy
 #| msgid "Local filesystem"
 msgid "Read-only root filesystem"
 msgstr "本機檔案系統"
 
-#: ../../admin/install/docker.rst:1967
+#: ../../admin/install/docker.rst:1981
 msgid ""
 "When running the container with a read-only root filesystem, two additional "
 "`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1974
+#: ../../admin/install/docker.rst:1988
 #, fuzzy
 #| msgid "Configuration errors"
 msgid "Configuration beyond environment variables"
 msgstr "組態設定錯誤"
 
-#: ../../admin/install/docker.rst:1976
+#: ../../admin/install/docker.rst:1990
 msgid ""
 ":ref:`Docker environment variables <docker-environment>` are intended to "
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1980
+#: ../../admin/install/docker.rst:1994
 msgid ""
 "If you find a setting that is not exposed as an environment variable, and "
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1984
+#: ../../admin/install/docker.rst:1998
 msgid ""
 "If you need to modify a setting that is not exposed as a Docker environment "
 "variable, you can still do so, either :ref:`from the data volume <docker-"
@@ -17104,62 +17138,62 @@ msgid ""
 "settings>`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1991
+#: ../../admin/install/docker.rst:2005
 msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
-#: ../../admin/install/docker.rst:1996
+#: ../../admin/install/docker.rst:2010
 msgid "Overriding settings from the data volume"
 msgstr "資料 volume 的覆蓋設定"
 
-#: ../../admin/install/docker.rst:1998
+#: ../../admin/install/docker.rst:2012
 msgid ""
 "You can create a file at :file:`/app/data/settings-override.py`, i.e. at the "
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2006
+#: ../../admin/install/docker.rst:2020
 msgid "Overriding settings by extending the Docker image"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2008
+#: ../../admin/install/docker.rst:2022
 msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2010
+#: ../../admin/install/docker.rst:2024
 msgid ":ref:`Create a custom Python package <custom-module>`."
 msgstr ":ref:`建立自訂的 Python 套件 <custom-module>`."
 
-#: ../../admin/install/docker.rst:2012
+#: ../../admin/install/docker.rst:2026
 msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2015
+#: ../../admin/install/docker.rst:2029
 msgid ""
 "For example, within the example package structure defined at :ref:`custom-"
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2024
+#: ../../admin/install/docker.rst:2038
 msgid ""
 "Create a custom ``Dockerfile`` that inherits from the official Weblate "
 "Docker image, and then installs your package and points the "
 "``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2040
+#: ../../admin/install/docker.rst:2054
 msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2043
+#: ../../admin/install/docker.rst:2057
 msgid ""
 "There is `no clean way <https://github.com/docker/compose/issues/7231>`__ to "
 "do this with ``docker-compose.override.yml``. You *could* add ``build: .`` "
@@ -17167,7 +17201,7 @@ msgid ""
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2049
+#: ../../admin/install/docker.rst:2063
 msgid ""
 "So, instead of using the ``docker-compose.yml`` straight from the `official "
 "repository <https://github.com/WeblateOrg/docker-compose>`__, unmodified, "
@@ -17176,17 +17210,17 @@ msgid ""
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2055
+#: ../../admin/install/docker.rst:2069
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2060
+#: ../../admin/install/docker.rst:2074
 msgid "Extend your custom settings module to define or redefine settings."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2062
+#: ../../admin/install/docker.rst:2076
 msgid ""
 "You can define settings before or after the import statement above to "
 "determine which settings take precedence. Settings defined before the import "
@@ -17195,7 +17229,7 @@ msgid ""
 "cannot be overridden."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2068
+#: ../../admin/install/docker.rst:2082
 msgid ""
 "You can also go further. For example, you can reproduce some of the things "
 "that ``weblate.docker_settings`` `does <https://github.com/WeblateOrg/"
@@ -17204,11 +17238,11 @@ msgid ""
 "the data volume."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2075
+#: ../../admin/install/docker.rst:2089
 msgid "Replacing logo and other static files"
 msgstr "替換 logo 和其它靜態文件"
 
-#: ../../admin/install/docker.rst:2077
+#: ../../admin/install/docker.rst:2091
 msgid ""
 "The static files coming with Weblate can be overridden by placing into :file:"
 "`/app/data/python/customize/static` (see :ref:`docker-volume`). For example "
@@ -17219,7 +17253,7 @@ msgstr ""
 "static` 中來覆蓋（請參閱 :ref:`docker-volume`）。例如，建立 :file:`/app/data/"
 "python/customize/static/favicon.ico` 將替換 favicon。"
 
-#: ../../admin/install/docker.rst:2084
+#: ../../admin/install/docker.rst:2098
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
@@ -17227,14 +17261,14 @@ msgstr ""
 "在容器啟動時，這些文件被複製到相應的位置，因此需要在更改卷的內容後重新啟動 "
 "Weblate。"
 
-#: ../../admin/install/docker.rst:2087
+#: ../../admin/install/docker.rst:2101
 msgid ""
 "This approach can be also used to override Weblate templates. For example :"
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
 "templates/legal/documents`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2091
+#: ../../admin/install/docker.rst:2105
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
@@ -17242,42 +17276,42 @@ msgstr ""
 "或者，您也可以包括自己的模組（請參見 :doc:`../customize`），並將其作為單獨的"
 "捲新增到 Docker 容器中，例如："
 
-#: ../../admin/install/docker.rst:2104
+#: ../../admin/install/docker.rst:2118
 msgid "Configuring PostgreSQL server"
 msgstr "組態 PostgreSQL 伺服器"
 
-#: ../../admin/install/docker.rst:2106
+#: ../../admin/install/docker.rst:2120
 msgid ""
 "The PostgreSQL container uses default PostgreSQL configuration and it won't "
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2110
+#: ../../admin/install/docker.rst:2124
 msgid ""
 "The configuration can be adjusted as described in `Database Configuration` "
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2115
+#: ../../admin/install/docker.rst:2129
 #, fuzzy
 #| msgid "Notification settings"
 msgid "Container internals"
 msgstr "通知設定"
 
-#: ../../admin/install/docker.rst:2117
+#: ../../admin/install/docker.rst:2131
 msgid ""
 "The container is using :program:`supervisor` to start individual services. "
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2120
+#: ../../admin/install/docker.rst:2134
 msgid "To check the services status use:"
 msgstr "確認服務狀態使用："
 
-#: ../../admin/install/docker.rst:2126
+#: ../../admin/install/docker.rst:2140
 msgid ""
 "There are individual services for each Celery queue (see :ref:`celery` for "
 "details). You can stop processing some tasks by stopping the appropriate "
@@ -27893,14 +27927,16 @@ msgid "Weblate 5.9"
 msgstr "Weblate 5.5"
 
 #: ../../changes.rst:4
-msgid "Not yet released."
-msgstr "尚未發佈。"
+#, fuzzy
+#| msgid "Released on December 16th 2022."
+msgid "Released on December 16th 2024."
+msgstr "於 2022 年 12 月 16 日發佈。"
 
-#: ../../changes.rst:6 ../../changes.rst:144 ../../changes.rst:249
-#: ../../changes.rst:345 ../../changes.rst:457 ../../changes.rst:494
-#: ../../changes.rst:605 ../../changes.rst:667 ../../changes.rst:729
-#: ../../changes.rst:770 ../../changes.rst:797 ../../changes.rst:873
-#: ../../changes.rst:914
+#: ../../changes.rst:6 ../../changes.rst:147 ../../changes.rst:252
+#: ../../changes.rst:348 ../../changes.rst:460 ../../changes.rst:497
+#: ../../changes.rst:608 ../../changes.rst:670 ../../changes.rst:732
+#: ../../changes.rst:773 ../../changes.rst:800 ../../changes.rst:876
+#: ../../changes.rst:917
 msgid "**New features**"
 msgstr "**新功能**"
 
@@ -27948,13 +27984,13 @@ msgstr ""
 msgid "Logging to :ref:`graylog`."
 msgstr ""
 
-#: ../../changes.rst:18 ../../changes.rst:56 ../../changes.rst:152
-#: ../../changes.rst:195 ../../changes.rst:221 ../../changes.rst:259
-#: ../../changes.rst:325 ../../changes.rst:350 ../../changes.rst:399
-#: ../../changes.rst:421 ../../changes.rst:462 ../../changes.rst:508
-#: ../../changes.rst:613 ../../changes.rst:676 ../../changes.rst:705
-#: ../../changes.rst:733 ../../changes.rst:772 ../../changes.rst:805
-#: ../../changes.rst:848 ../../changes.rst:877 ../../changes.rst:922
+#: ../../changes.rst:18 ../../changes.rst:59 ../../changes.rst:155
+#: ../../changes.rst:198 ../../changes.rst:224 ../../changes.rst:262
+#: ../../changes.rst:328 ../../changes.rst:353 ../../changes.rst:402
+#: ../../changes.rst:424 ../../changes.rst:465 ../../changes.rst:511
+#: ../../changes.rst:616 ../../changes.rst:679 ../../changes.rst:708
+#: ../../changes.rst:736 ../../changes.rst:775 ../../changes.rst:808
+#: ../../changes.rst:851 ../../changes.rst:880 ../../changes.rst:925
 msgid "**Improvements**"
 msgstr ""
 
@@ -28022,17 +28058,17 @@ msgstr ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 
-#: ../../changes.rst:31 ../../changes.rst:60 ../../changes.rst:81
-#: ../../changes.rst:102 ../../changes.rst:125 ../../changes.rst:167
-#: ../../changes.rst:201 ../../changes.rst:226 ../../changes.rst:272
-#: ../../changes.rst:305 ../../changes.rst:330 ../../changes.rst:360
-#: ../../changes.rst:383 ../../changes.rst:406 ../../changes.rst:426
-#: ../../changes.rst:442 ../../changes.rst:472 ../../changes.rst:519
-#: ../../changes.rst:550 ../../changes.rst:573 ../../changes.rst:589
-#: ../../changes.rst:628 ../../changes.rst:652 ../../changes.rst:685
-#: ../../changes.rst:710 ../../changes.rst:746 ../../changes.rst:779
-#: ../../changes.rst:820 ../../changes.rst:853 ../../changes.rst:886
-#: ../../changes.rst:943
+#: ../../changes.rst:31 ../../changes.rst:63 ../../changes.rst:84
+#: ../../changes.rst:105 ../../changes.rst:128 ../../changes.rst:170
+#: ../../changes.rst:204 ../../changes.rst:229 ../../changes.rst:275
+#: ../../changes.rst:308 ../../changes.rst:333 ../../changes.rst:363
+#: ../../changes.rst:386 ../../changes.rst:409 ../../changes.rst:429
+#: ../../changes.rst:445 ../../changes.rst:475 ../../changes.rst:522
+#: ../../changes.rst:553 ../../changes.rst:576 ../../changes.rst:592
+#: ../../changes.rst:631 ../../changes.rst:655 ../../changes.rst:688
+#: ../../changes.rst:713 ../../changes.rst:749 ../../changes.rst:782
+#: ../../changes.rst:823 ../../changes.rst:856 ../../changes.rst:889
+#: ../../changes.rst:946
 msgid "**Bug fixes**"
 msgstr "**臭蟲修復**"
 
@@ -28048,10 +28084,10 @@ msgstr ""
 msgid "Saving newly added strings in some formats."
 msgstr "修復了新建新的語言。"
 
-#: ../../changes.rst:36 ../../changes.rst:173 ../../changes.rst:278
-#: ../../changes.rst:368 ../../changes.rst:530 ../../changes.rst:636
-#: ../../changes.rst:689 ../../changes.rst:754 ../../changes.rst:784
-#: ../../changes.rst:829 ../../changes.rst:896 ../../changes.rst:951
+#: ../../changes.rst:36 ../../changes.rst:176 ../../changes.rst:281
+#: ../../changes.rst:371 ../../changes.rst:533 ../../changes.rst:639
+#: ../../changes.rst:692 ../../changes.rst:757 ../../changes.rst:787
+#: ../../changes.rst:832 ../../changes.rst:899 ../../changes.rst:954
 #, fuzzy
 #| msgid "Activity"
 msgid "**Compatibility**"
@@ -28069,17 +28105,33 @@ msgstr ""
 msgid "Weblate now requires Git 2.28 or newer."
 msgstr "Weblate 現在需要 Python 3.6 或更新版本。"
 
-#: ../../changes.rst:41 ../../changes.rst:66 ../../changes.rst:87
-#: ../../changes.rst:110 ../../changes.rst:129 ../../changes.rst:178
-#: ../../changes.rst:206 ../../changes.rst:234 ../../changes.rst:287
-#: ../../changes.rst:314 ../../changes.rst:334 ../../changes.rst:372
-#: ../../changes.rst:388 ../../changes.rst:410 ../../changes.rst:431
-#: ../../changes.rst:446 ../../changes.rst:481 ../../changes.rst:536
-#: ../../changes.rst:562 ../../changes.rst:578 ../../changes.rst:594
-#: ../../changes.rst:641 ../../changes.rst:656 ../../changes.rst:694
-#: ../../changes.rst:718 ../../changes.rst:759 ../../changes.rst:786
-#: ../../changes.rst:833 ../../changes.rst:860 ../../changes.rst:901
-#: ../../changes.rst:956 ../../changes/v4.rst:53 ../../changes/v4.rst:85
+#: ../../changes.rst:40
+msgid ""
+"Any custom code that relied on `Change` models signals should be reviewed."
+msgstr ""
+
+#: ../../changes.rst:41
+msgid ""
+":ref:`fedora-messaging` integration needs to be updated to be compatible "
+"with this release."
+msgstr ""
+
+#: ../../changes.rst:42
+msgid ""
+":envvar:`WEB_WORKERS` now configures number of threads instead of processes."
+msgstr ""
+
+#: ../../changes.rst:44 ../../changes.rst:69 ../../changes.rst:90
+#: ../../changes.rst:113 ../../changes.rst:132 ../../changes.rst:181
+#: ../../changes.rst:209 ../../changes.rst:237 ../../changes.rst:290
+#: ../../changes.rst:317 ../../changes.rst:337 ../../changes.rst:375
+#: ../../changes.rst:391 ../../changes.rst:413 ../../changes.rst:434
+#: ../../changes.rst:449 ../../changes.rst:484 ../../changes.rst:539
+#: ../../changes.rst:565 ../../changes.rst:581 ../../changes.rst:597
+#: ../../changes.rst:644 ../../changes.rst:659 ../../changes.rst:697
+#: ../../changes.rst:721 ../../changes.rst:762 ../../changes.rst:789
+#: ../../changes.rst:836 ../../changes.rst:863 ../../changes.rst:904
+#: ../../changes.rst:959 ../../changes/v4.rst:53 ../../changes/v4.rst:85
 #: ../../changes/v4.rst:168 ../../changes/v4.rst:236 ../../changes/v4.rst:317
 #: ../../changes/v4.rst:373 ../../changes/v4.rst:432 ../../changes/v4.rst:494
 #: ../../changes/v4.rst:540 ../../changes/v4.rst:595 ../../changes/v4.rst:642
@@ -28091,17 +28143,17 @@ msgstr "Weblate 現在需要 Python 3.6 或更新版本。"
 msgid "**Upgrading**"
 msgstr "升級 Weblate"
 
-#: ../../changes.rst:43 ../../changes.rst:68 ../../changes.rst:89
-#: ../../changes.rst:112 ../../changes.rst:131 ../../changes.rst:180
-#: ../../changes.rst:208 ../../changes.rst:236 ../../changes.rst:289
-#: ../../changes.rst:316 ../../changes.rst:336 ../../changes.rst:374
-#: ../../changes.rst:390 ../../changes.rst:412 ../../changes.rst:433
-#: ../../changes.rst:448 ../../changes.rst:483 ../../changes.rst:538
-#: ../../changes.rst:564 ../../changes.rst:580 ../../changes.rst:596
-#: ../../changes.rst:643 ../../changes.rst:658 ../../changes.rst:696
-#: ../../changes.rst:720 ../../changes.rst:761 ../../changes.rst:788
-#: ../../changes.rst:835 ../../changes.rst:862 ../../changes.rst:903
-#: ../../changes.rst:958 ../../changes/v4.rst:55 ../../changes/v4.rst:87
+#: ../../changes.rst:46 ../../changes.rst:71 ../../changes.rst:92
+#: ../../changes.rst:115 ../../changes.rst:134 ../../changes.rst:183
+#: ../../changes.rst:211 ../../changes.rst:239 ../../changes.rst:292
+#: ../../changes.rst:319 ../../changes.rst:339 ../../changes.rst:377
+#: ../../changes.rst:393 ../../changes.rst:415 ../../changes.rst:436
+#: ../../changes.rst:451 ../../changes.rst:486 ../../changes.rst:541
+#: ../../changes.rst:567 ../../changes.rst:583 ../../changes.rst:599
+#: ../../changes.rst:646 ../../changes.rst:661 ../../changes.rst:699
+#: ../../changes.rst:723 ../../changes.rst:764 ../../changes.rst:791
+#: ../../changes.rst:838 ../../changes.rst:865 ../../changes.rst:906
+#: ../../changes.rst:961 ../../changes/v4.rst:55 ../../changes/v4.rst:87
 #: ../../changes/v4.rst:170 ../../changes/v4.rst:238 ../../changes/v4.rst:319
 #: ../../changes/v4.rst:376 ../../changes/v4.rst:434 ../../changes/v4.rst:497
 #: ../../changes/v4.rst:542 ../../changes/v4.rst:598 ../../changes/v4.rst:644
@@ -28112,15 +28164,15 @@ msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr "請按照 :ref:`generic-upgrade-instructions` 來執行升級。"
 
-#: ../../changes.rst:45 ../../changes.rst:70 ../../changes.rst:91
-#: ../../changes.rst:114 ../../changes.rst:133 ../../changes.rst:184
-#: ../../changes.rst:210 ../../changes.rst:238 ../../changes.rst:294
+#: ../../changes.rst:48 ../../changes.rst:73 ../../changes.rst:94
+#: ../../changes.rst:117 ../../changes.rst:136 ../../changes.rst:187
+#: ../../changes.rst:213 ../../changes.rst:241 ../../changes.rst:297
 #, fuzzy
 #| msgid "Contributors"
 msgid "**Contributors**"
 msgstr "貢獻者"
 
-#: ../../changes.rst:49
+#: ../../changes.rst:52
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -28132,35 +28184,35 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:52
+#: ../../changes.rst:55
 #, fuzzy
 #| msgid "Weblate 5.5.1"
 msgid "Weblate 5.8.4"
 msgstr "Weblate 5.5.1"
 
-#: ../../changes.rst:54
+#: ../../changes.rst:57
 #, fuzzy
 #| msgid "Released on November 19th 2021."
 msgid "Released on November 19th 2024."
 msgstr "於 2021 年 11 月 19 日發佈。"
 
-#: ../../changes.rst:58
+#: ../../changes.rst:61
 msgid ":ref:`search-users` can search based on user changes."
 msgstr ""
 
-#: ../../changes.rst:62
+#: ../../changes.rst:65
 #, fuzzy
 #| msgid "Fixed possible crash in reports."
 msgid "Fixed occasional crash in :ref:`rss`."
 msgstr "修復了報告中可能的崩潰。"
 
-#: ../../changes.rst:63
+#: ../../changes.rst:66
 #, fuzzy
 #| msgid "Skip the \"Java MessageFormat\" quality check."
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgstr "跳過“ Java MesseageFormat ”品質檢查。"
 
-#: ../../changes.rst:64
+#: ../../changes.rst:67
 msgid ""
 ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
 msgstr ""
@@ -28201,7 +28253,7 @@ msgstr "文件貢獻"
 msgid "Michal Čihař"
 msgstr "Michal Čihař"
 
-#: ../../changes.rst:74
+#: ../../changes.rst:77
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -28213,29 +28265,29 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:77
+#: ../../changes.rst:80
 #, fuzzy
 #| msgid "Weblate 5.5.1"
 msgid "Weblate 5.8.3"
 msgstr "Weblate 5.5.1"
 
-#: ../../changes.rst:79
+#: ../../changes.rst:82
 #, fuzzy
 #| msgid "Released on November 16th 2012."
 msgid "Released on November 6th 2024."
 msgstr "發佈於 2012 年 11 月 16 日。"
 
-#: ../../changes.rst:83
+#: ../../changes.rst:86
 msgid "Formatting of some :ref:`audit-log` entries."
 msgstr ""
 
-#: ../../changes.rst:84 ../../changes.rst:108
+#: ../../changes.rst:87 ../../changes.rst:111
 #, fuzzy
 #| msgid "Fixed sorting of machine translation suggestions."
 msgid "Fixed XML escaped output in some machine translation integrations."
 msgstr "修復了機器翻譯建議的排序。"
 
-#: ../../changes.rst:85
+#: ../../changes.rst:88
 #, fuzzy
 #| msgid "Fixed creating new languages."
 msgid "Fixed duplicate listing of newly added glossary terms."
@@ -28247,7 +28299,7 @@ msgstr "修復了新建新的語言。"
 msgid "Michal Čihař, Mehdi El Oualy"
 msgstr "Michal Čihař"
 
-#: ../../changes.rst:95
+#: ../../changes.rst:98
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -28259,35 +28311,35 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:98
+#: ../../changes.rst:101
 #, fuzzy
 #| msgid "Weblate 5.5.1"
 msgid "Weblate 5.8.2"
 msgstr "Weblate 5.5.1"
 
-#: ../../changes.rst:100
+#: ../../changes.rst:103
 #, fuzzy
 #| msgid "Released on November 16th 2012."
 msgid "Released on November 1st 2024."
 msgstr "發佈於 2012 年 11 月 16 日。"
 
-#: ../../changes.rst:104
+#: ../../changes.rst:107
 msgid "Update outdated plural definitions during the database migration."
 msgstr ""
 
-#: ../../changes.rst:105
+#: ../../changes.rst:108
 #, fuzzy
 #| msgid "Reduce number of commits when updating upstream repository."
 msgid "Reduced number of database queries when updating multiple strings."
 msgstr "減少更新上游儲存庫時的送交數量。"
 
-#: ../../changes.rst:106
+#: ../../changes.rst:109
 msgid ""
 "Leading problematic characters in :ref:`glossary` terms are now properly "
 "stripped in uploaded files."
 msgstr ""
 
-#: ../../changes.rst:107
+#: ../../changes.rst:110
 #, fuzzy
 #| msgid "Improved reporting of configuration errors."
 msgid "Improved :ref:`workflow-customization` performance."
@@ -28321,7 +28373,7 @@ msgstr ""
 msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 msgstr ""
 
-#: ../../changes.rst:118
+#: ../../changes.rst:121
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -28333,23 +28385,23 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:121
+#: ../../changes.rst:124
 #, fuzzy
 #| msgid "Weblate 5.5.1"
 msgid "Weblate 5.8.1"
 msgstr "Weblate 5.5.1"
 
-#: ../../changes.rst:123 ../../changes.rst:142
+#: ../../changes.rst:126 ../../changes.rst:145
 #, fuzzy
 #| msgid "Released on October 15th 2020."
 msgid "Released on October 15th 2024."
 msgstr "發佈於 2020 年 10 月 15 日。"
 
-#: ../../changes.rst:127
+#: ../../changes.rst:130
 msgid "Use lower case name for the Python package."
 msgstr ""
 
-#: ../../changes.rst:137
+#: ../../changes.rst:140
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -28361,131 +28413,131 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:140
+#: ../../changes.rst:143
 #, fuzzy
 #| msgid "Weblate 5.5"
 msgid "Weblate 5.8"
 msgstr "Weblate 5.5"
 
-#: ../../changes.rst:146
+#: ../../changes.rst:149
 #, fuzzy
 #| msgid "Merge style for any new components."
 msgid "Added :ref:`component-key_filter` in the component."
 msgstr "任何新組件的合併風格。"
 
-#: ../../changes.rst:147
+#: ../../changes.rst:150
 msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
 
-#: ../../changes.rst:148
+#: ../../changes.rst:151
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, see :ref:"
 "`settings-credentials`."
 msgstr ""
 
-#: ../../changes.rst:149
+#: ../../changes.rst:152
 #, fuzzy
 #| msgid "Configured automatic suggestion services"
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
 msgstr "已設定自動建議服務"
 
-#: ../../changes.rst:150
+#: ../../changes.rst:153
 #, fuzzy
 #| msgid ":ref:`vcs-bitbucket-server`"
 msgid ":ref:`vcs-bitbucket-cloud`."
 msgstr ":ref:`vcs-bitbucket-server`"
 
-#: ../../changes.rst:154
+#: ../../changes.rst:157
 #, fuzzy
 #| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-terminology`"
 
-#: ../../changes.rst:155
+#: ../../changes.rst:158
 #, fuzzy
 #| msgid "Source string location"
 msgid ":ref:`mt-deepl` now supports specifying translation context."
 msgstr "來源字串位置"
 
-#: ../../changes.rst:156
+#: ../../changes.rst:159
 #, fuzzy
 #| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-aws` now supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-terminology`"
 
-#: ../../changes.rst:157
+#: ../../changes.rst:160
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
 msgstr ""
 
-#: ../../changes.rst:158
+#: ../../changes.rst:161
 msgid ""
 ":ref:`autofix` for French and Breton now uses a non-breaking space before "
 "colons instead of a narrow one."
 msgstr ""
 
-#: ../../changes.rst:159
+#: ../../changes.rst:162
 msgid ":ref:`api` now has a preview OpenAPI specification."
 msgstr ""
 
-#: ../../changes.rst:160
+#: ../../changes.rst:163
 msgid "Stale, empty glossaries are now automatically removed."
 msgstr ""
 
-#: ../../changes.rst:161
+#: ../../changes.rst:164
 msgid ":kbd:`?` now displays available :ref:`keyboard`."
 msgstr ""
 
-#: ../../changes.rst:162
+#: ../../changes.rst:165
 msgid ""
 "Translation and language view in the project now include basic information "
 "about the language and plurals."
 msgstr ""
 
-#: ../../changes.rst:163
+#: ../../changes.rst:166
 msgid ":ref:`search-replace` shows a preview of matched strings."
 msgstr ""
 
-#: ../../changes.rst:164
+#: ../../changes.rst:167
 msgid ":ref:`aresource` now supports translatable attribute in its strings."
 msgstr ""
 
-#: ../../changes.rst:165
+#: ../../changes.rst:168
 msgid ""
 "Creating component via file upload (Translate document) now supports "
 "bilingual files."
 msgstr ""
 
-#: ../../changes.rst:169
+#: ../../changes.rst:172
 #, fuzzy
 #| msgid "Improved reporting of configuration errors."
 msgid "Displaying :ref:`workflow-customization` setting in some cases."
 msgstr "改進了組態錯誤的報告。"
 
-#: ../../changes.rst:170
+#: ../../changes.rst:173
 #, fuzzy
 #| msgid "Component with this name already exists in the project."
 msgid "Users can add component in any language already existing in a project."
 msgstr "此專案已有同名組件。"
 
-#: ../../changes.rst:171
+#: ../../changes.rst:174
 msgid ""
 ":ref:`check-unnamed-format` better handles some strings, such as :ref:`check-"
 "python-brace-format`."
 msgstr ""
 
-#: ../../changes.rst:175
+#: ../../changes.rst:178
 #, fuzzy
 #| msgid "Weblate now requires Python 3.6 or newer."
 msgid "Weblate now requires Python 3.11 or newer."
 msgstr "Weblate 現在需要 Python 3.6 或更新版本。"
 
-#: ../../changes.rst:176
+#: ../../changes.rst:179
 msgid ":ref:`mt-aws` now requires the `TranslateFullAccess` permission"
 msgstr ""
 
-#: ../../changes.rst:182
+#: ../../changes.rst:185
 #, fuzzy
 #| msgid ""
 #| "There are several changes in :file:`settings_example.py`, most notable "
@@ -28529,7 +28581,7 @@ msgid ""
 "Ingo Brückl, Mehdi El Oualy"
 msgstr ""
 
-#: ../../changes.rst:188
+#: ../../changes.rst:191
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -28541,39 +28593,39 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:191
+#: ../../changes.rst:194
 #, fuzzy
 #| msgid "Weblate 5.5.1"
 msgid "Weblate 5.7.2"
 msgstr "Weblate 5.5.1"
 
-#: ../../changes.rst:193
+#: ../../changes.rst:196
 #, fuzzy
 #| msgid "Released on September 15th 2022."
 msgid "Released on September 5th 2024."
 msgstr "於 2022 年 9 月 15 日發佈。"
 
-#: ../../changes.rst:197
+#: ../../changes.rst:200
 msgid ":ref:`2fa` remembers last method used by user."
 msgstr ""
 
-#: ../../changes.rst:198
+#: ../../changes.rst:201
 msgid "Instead of redirecting, the sign-out now displays a page."
 msgstr ""
 
-#: ../../changes.rst:199
+#: ../../changes.rst:202
 #, fuzzy
 #| msgid "Improved handling of translation filenames."
 msgid "Improved readability of exception logs."
 msgstr "改進了翻譯文件名的處理。"
 
-#: ../../changes.rst:203
+#: ../../changes.rst:206
 #, fuzzy
 #| msgid "Adding translation projects and components"
 msgid "Updating of translations from the repository in linked components."
 msgstr "新增翻譯項目和組件"
 
-#: ../../changes.rst:204
+#: ../../changes.rst:207
 #, fuzzy
 #| msgid "Improved look of notification e-mails."
 msgid "Improved rendering of digest notification e-mails."
@@ -28593,7 +28645,7 @@ msgid ""
 "Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 msgstr ""
 
-#: ../../changes.rst:214
+#: ../../changes.rst:217
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -28605,25 +28657,25 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:217
+#: ../../changes.rst:220
 #, fuzzy
 #| msgid "Weblate 5.5.1"
 msgid "Weblate 5.7.1"
 msgstr "Weblate 5.5.1"
 
-#: ../../changes.rst:219
+#: ../../changes.rst:222
 #, fuzzy
 #| msgid "Released on August 15th 2019."
 msgid "Released on August 30th 2024."
 msgstr "發佈於 2019 年 08 月 15 日。"
 
-#: ../../changes.rst:223
+#: ../../changes.rst:226
 msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
 msgstr ""
 
-#: ../../changes.rst:224
+#: ../../changes.rst:227
 #, fuzzy
 #| msgid ""
 #| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
@@ -28635,26 +28687,26 @@ msgid ""
 msgstr ""
 "如果只想刪除陳舊的翻譯鍵，那麼使用 :ref:`addon-weblate.cleanup.generic`。"
 
-#: ../../changes.rst:228
+#: ../../changes.rst:231
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
 msgstr ""
 
-#: ../../changes.rst:229
+#: ../../changes.rst:232
 #, fuzzy
 #| msgid "Fixed authentication using some third party providers."
 msgid "Fixed authentication using some third-party providers such as Azure."
 msgstr "修復了使用第三方提供商的身份驗證。"
 
-#: ../../changes.rst:230
+#: ../../changes.rst:233
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
 msgstr ""
 
-#: ../../changes.rst:231
+#: ../../changes.rst:234
 msgid "QR code for TOTP is now black/white even in dark mode."
 msgstr ""
 
-#: ../../changes.rst:232
+#: ../../changes.rst:235
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
 msgstr ""
@@ -28683,7 +28735,7 @@ msgstr ""
 msgid "Michal Čihař, Robin"
 msgstr "Michal Čihař"
 
-#: ../../changes.rst:242
+#: ../../changes.rst:245
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -28695,87 +28747,87 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:245
+#: ../../changes.rst:248
 #, fuzzy
 #| msgid "Weblate 5.5"
 msgid "Weblate 5.7"
 msgstr "Weblate 5.5"
 
-#: ../../changes.rst:247
+#: ../../changes.rst:250
 #, fuzzy
 #| msgid "Released on August 15th 2019."
 msgid "Released on August 15th 2024."
 msgstr "發佈於 2019 年 08 月 15 日。"
 
-#: ../../changes.rst:251
+#: ../../changes.rst:254
 msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
 msgstr ""
 
-#: ../../changes.rst:252
+#: ../../changes.rst:255
 msgid ":ref:`2fa` can be enforced at the team or project level."
 msgstr ""
 
-#: ../../changes.rst:253
+#: ../../changes.rst:256
 msgid ""
 ":ref:`adding-new-strings` can now create plural strings in the user "
 "interface."
 msgstr ""
 
-#: ../../changes.rst:254
+#: ../../changes.rst:257
 msgid ":ref:`labels` now include description to explain them."
 msgstr ""
 
-#: ../../changes.rst:255
+#: ../../changes.rst:258
 #, fuzzy
 #| msgid "Prevents further translation of a component."
 msgid "New :ref:`subscriptions` for completed translation and component."
 msgstr "防止進一步翻譯組件。"
 
-#: ../../changes.rst:256
+#: ../../changes.rst:259
 msgid ""
 ":ref:`mt-openai` now supports custom models and URLs and offers rephrasing "
 "of existing strings."
 msgstr ""
 
-#: ../../changes.rst:257
+#: ../../changes.rst:260
 #, fuzzy
 #| msgid "Available automatic suggestion services"
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
 msgstr "可用的自動建議服務"
 
-#: ../../changes.rst:261
+#: ../../changes.rst:264
 #, fuzzy
 #| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
 msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 
-#: ../../changes.rst:262
+#: ../../changes.rst:265
 msgid ""
 "The status widgets are now supported site-wide and language-wide, see :ref:"
 "`promotion`."
 msgstr ""
 
-#: ../../changes.rst:263
+#: ../../changes.rst:266
 msgid ":ref:`reports` are now available for categories."
 msgstr ""
 
-#: ../../changes.rst:264
+#: ../../changes.rst:267
 #, fuzzy
 #| msgid "Focus translation editor"
 msgid "Highlight newlines in the editor."
 msgstr "聚焦翻譯編輯器"
 
-#: ../../changes.rst:265
+#: ../../changes.rst:268
 msgid ":doc:`/formats/csv` better handle files with two fields only."
 msgstr ""
 
-#: ../../changes.rst:266
+#: ../../changes.rst:269
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr ""
 
-#: ../../changes.rst:267
+#: ../../changes.rst:270
 #, fuzzy
 #| msgid ""
 #| "Please use :http:get:`/api/components/(string:project)/(string:component)/"
@@ -28791,69 +28843,69 @@ msgstr ""
 "statistics/` 和:http:get:`/api/translations/(string:project)/(string: "
 "component)/(string:language)/statistics/`；它也允許存取ACL 控制的項目。"
 
-#: ../../changes.rst:268
+#: ../../changes.rst:271
 msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
 msgstr ""
 
-#: ../../changes.rst:269
+#: ../../changes.rst:272
 #, fuzzy
 #| msgid "Skip the \"Python brace format\" quality check."
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
 msgstr "跳過“ Python brace 格式”品質檢查。"
 
-#: ../../changes.rst:270
+#: ../../changes.rst:273
 #, fuzzy
 #| msgid "Added support for animated screenshots."
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
 msgstr "為動畫螢幕截圖新增了支援。"
 
-#: ../../changes.rst:274
+#: ../../changes.rst:277
 msgid "Accessibility of keyboard navigation."
 msgstr ""
 
-#: ../../changes.rst:275
+#: ../../changes.rst:278
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
 msgstr ""
 
-#: ../../changes.rst:276
+#: ../../changes.rst:279
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
 msgstr ""
 
-#: ../../changes.rst:280
+#: ../../changes.rst:283
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
 msgstr ""
 
-#: ../../changes.rst:281
+#: ../../changes.rst:284
 msgid ":ref:`csp` is now stricter what might block third-party customizations."
 msgstr ""
 
-#: ../../changes.rst:282
+#: ../../changes.rst:285
 msgid ""
 "Monolingual formats no longer copy comments from :ref:`component-template` "
 "when adding strings to translation."
 msgstr ""
 
-#: ../../changes.rst:283
+#: ../../changes.rst:286
 msgid ""
 "Dropped support for Amagama in :ref:`machine-translation-setup` as the "
 "service is no longer maintained."
 msgstr ""
 
-#: ../../changes.rst:284
+#: ../../changes.rst:287
 #, fuzzy
 #| msgid "Default value of BASE_DIR has been changed."
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
 msgstr "BASE_DIR 的預設值已經更改。"
 
-#: ../../changes.rst:285
+#: ../../changes.rst:288
 msgid ""
 "Translation credit reports in the JSON format now follows a different format "
 "for entries."
 msgstr ""
 
-#: ../../changes.rst:291
+#: ../../changes.rst:294
 #, fuzzy
 #| msgid ""
 #| "There are several changes in :file:`settings_example.py`, most notable "
@@ -28867,7 +28919,7 @@ msgstr ""
 "在 :file:`settings_example.py` 中有几项更改，最显著的是中间件的更改，请由此调"
 "整您的设置。"
 
-#: ../../changes.rst:292
+#: ../../changes.rst:295
 msgid ""
 ":setting:`ENABLE_HTTPS` is now required for WebAuthn support. If you cannot "
 "use HTTPS, please silence related check as described in :setting:"
@@ -28901,7 +28953,7 @@ msgid ""
 "Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 msgstr ""
 
-#: ../../changes.rst:298
+#: ../../changes.rst:301
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -28913,52 +28965,52 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:301
+#: ../../changes.rst:304
 #, fuzzy
 #| msgid "Weblate 5.5.2"
 msgid "Weblate 5.6.2"
 msgstr "Weblate 5.5.2"
 
-#: ../../changes.rst:303
+#: ../../changes.rst:306
 #, fuzzy
 #| msgid "Released on July 1st 2022."
 msgid "Released on July 1st 2024."
 msgstr "於 2022 年 7 月 1 日發佈。"
 
-#: ../../changes.rst:307
+#: ../../changes.rst:310
 msgid "Rendering of :ref:`labels` color selection widget."
 msgstr ""
 
-#: ../../changes.rst:308
+#: ../../changes.rst:311
 #, fuzzy
 #| msgid "%(count)s outgoing commit"
 #| msgid_plural "%(count)s outgoing commits"
 msgid "Detection of pending outgoing commits."
 msgstr "%(count)s 個待送出送交"
 
-#: ../../changes.rst:309
+#: ../../changes.rst:312
 msgid ":ref:`addons` button layout."
 msgstr ""
 
-#: ../../changes.rst:310
+#: ../../changes.rst:313
 #, fuzzy
 #| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
 msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 
-#: ../../changes.rst:311
+#: ../../changes.rst:314
 #, fuzzy
 #| msgid "Review source strings in %s"
 msgid "Removal of source strings in :ref:`glossary`."
 msgstr "檢閱 %s 的來源字串"
 
-#: ../../changes.rst:312
+#: ../../changes.rst:315
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / "
 "GHSA-jfgp-674x-6q4p)."
 msgstr ""
 
-#: ../../changes.rst:318
+#: ../../changes.rst:321
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -28970,36 +29022,36 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:321
+#: ../../changes.rst:324
 #, fuzzy
 #| msgid "Weblate 5.5.1"
 msgid "Weblate 5.6.1"
 msgstr "Weblate 5.5.1"
 
-#: ../../changes.rst:323
+#: ../../changes.rst:326
 #, fuzzy
 #| msgid "Released on June 19th 2020."
 msgid "Released on June 24th 2024."
 msgstr "發佈於 2020 年 06 月19 日。"
 
-#: ../../changes.rst:327
+#: ../../changes.rst:330
 msgid ""
 "Docker container accepts :envvar:`WEBLATE_REMOVE_ADDONS` and :envvar:"
 "`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :"
 "envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` for CORS handling in API."
 msgstr ""
 
-#: ../../changes.rst:328
+#: ../../changes.rst:331
 msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr ""
 
-#: ../../changes.rst:332
+#: ../../changes.rst:335
 #, fuzzy
 #| msgid ":doc:`/admin/machine`"
 msgid "Language aliases in :doc:`/admin/machine`."
 msgstr ":doc:`/admin/machine`"
 
-#: ../../changes.rst:338
+#: ../../changes.rst:341
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29011,55 +29063,55 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:341
+#: ../../changes.rst:344
 #, fuzzy
 #| msgid "Weblate 5.5"
 msgid "Weblate 5.6"
 msgstr "Weblate 5.5"
 
-#: ../../changes.rst:343
+#: ../../changes.rst:346
 #, fuzzy
 #| msgid "Released on June 19th 2020."
 msgid "Released on June 19th 2024."
 msgstr "發佈於 2020 年 06 月19 日。"
 
-#: ../../changes.rst:347
+#: ../../changes.rst:350
 msgid ":ref:`addons` activity log for tracking add-on activity."
 msgstr ""
 
-#: ../../changes.rst:348
+#: ../../changes.rst:351
 #, fuzzy
 #| msgid "Improved UX of languages selection in profile."
 msgid "Improved date range selection in :ref:`reports`."
 msgstr "改進個人資料中語言選取的 UX。"
 
-#: ../../changes.rst:352
+#: ../../changes.rst:355
 msgid ":ref:`subscriptions` now include strings which need updating."
 msgstr ""
 
-#: ../../changes.rst:353
+#: ../../changes.rst:356
 #, fuzzy
 #| msgid "Improved compatibility with some Subversion setups."
 msgid "Improved compatibility with password managers."
 msgstr "改進了一些 Subversion 設定的相容性。"
 
-#: ../../changes.rst:354
+#: ../../changes.rst:357
 #, fuzzy
 #| msgid "Improved merging of upstream changes."
 msgid "Improved tracking of uploaded changes."
 msgstr "改進了上游更改的合併。"
 
-#: ../../changes.rst:355
+#: ../../changes.rst:358
 msgid ""
 "Gracefully handle temporary machine translation errors in automatic "
 "suggestions."
 msgstr ""
 
-#: ../../changes.rst:356
+#: ../../changes.rst:359
 msgid ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
 msgstr ""
 
-#: ../../changes.rst:357
+#: ../../changes.rst:360
 #, fuzzy
 #| msgid ""
 #| "link to associated componentlist; see :http:get:`/api/component-lists/"
@@ -29068,50 +29120,50 @@ msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgstr ""
 "相關聯組件列表的連接；請參見 :http:get:`/api/component-lists/(str:slug)/`"
 
-#: ../../changes.rst:358
+#: ../../changes.rst:361
 #, fuzzy
 #| msgid "Extend metrics usage to improve performance of several pages."
 msgid "Reduced memory usage and increased performance of some views."
 msgstr "擴展指標用法以提高幾頁的性能。"
 
-#: ../../changes.rst:362
+#: ../../changes.rst:365
 #, fuzzy
 #| msgid "Number of failing checks"
 msgid "Loading of strings with many glossary matches."
 msgstr "未通過查核數"
 
-#: ../../changes.rst:363
+#: ../../changes.rst:366
 #, fuzzy
 #| msgid "Source string description"
 msgid "Fixed behavior of some site-wide :ref:`addons`."
 msgstr "來源字串描述"
 
-#: ../../changes.rst:364
+#: ../../changes.rst:367
 #, fuzzy
 #| msgid "Youdao Zhiyun API machine translation"
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
 msgstr "有道智雲 API 機器翻譯"
 
-#: ../../changes.rst:365
+#: ../../changes.rst:368
 #, fuzzy
 #| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ":ref:`check-xml-tags` better handle XML entities."
 msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 
-#: ../../changes.rst:366
+#: ../../changes.rst:369
 #, fuzzy
 #| msgid "Automatic translation using already translated strings."
 msgid ""
 "Automatic suggestions could mix up replacements between translated strings."
 msgstr "使用已經翻譯的字串來自動翻譯。"
 
-#: ../../changes.rst:370
+#: ../../changes.rst:373
 #, fuzzy
 #| msgid "Compatibility with Django 2.1."
 msgid "Compatibility with Django 5.1."
 msgstr "與 Django 2.1 相容。"
 
-#: ../../changes.rst:376
+#: ../../changes.rst:379
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29123,29 +29175,29 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:379
+#: ../../changes.rst:382
 #, fuzzy
 #| msgid "Weblate 5.5.4"
 msgid "Weblate 5.5.5"
 msgstr "Weblate 5.5.4"
 
-#: ../../changes.rst:381
+#: ../../changes.rst:384
 #, fuzzy
 #| msgid "Released on May 8th 2021."
 msgid "Released on May 13th 2024."
 msgstr "於 2021 年 5 月 8 日發佈。"
 
-#: ../../changes.rst:385
+#: ../../changes.rst:388
 msgid "False-positive merge failure alert when using push branch."
 msgstr ""
 
-#: ../../changes.rst:386
+#: ../../changes.rst:389
 #, fuzzy
 #| msgid "Status of repositories"
 msgid "Cleanup of stale repositories."
 msgstr "儲存庫狀態"
 
-#: ../../changes.rst:392
+#: ../../changes.rst:395
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29157,39 +29209,39 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:395
+#: ../../changes.rst:398
 msgid "Weblate 5.5.4"
 msgstr "Weblate 5.5.4"
 
-#: ../../changes.rst:397
+#: ../../changes.rst:400
 #, fuzzy
 #| msgid "Released on May 10th 2012."
 msgid "Released on May 10th 2024."
 msgstr "發佈於 2012 年 05 月 10 日。"
 
-#: ../../changes.rst:401
+#: ../../changes.rst:404
 msgid "Visually highlight explanation in :ref:`glossary`."
 msgstr ""
 
-#: ../../changes.rst:402
+#: ../../changes.rst:405
 msgid "Add :ref:`addons` history tab in management."
 msgstr ""
 
-#: ../../changes.rst:403
+#: ../../changes.rst:406
 msgid "New :ref:`alerts` when :ref:`glossary` might not work as expected."
 msgstr ""
 
-#: ../../changes.rst:404
+#: ../../changes.rst:407
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr ""
 
-#: ../../changes.rst:408
+#: ../../changes.rst:411
 #, fuzzy
 #| msgid "Improved error handling in import_project."
 msgid "Improved handling placeables in :ref:`mt-openai`."
 msgstr "改進了 import_project 中的錯誤處理。"
 
-#: ../../changes.rst:414
+#: ../../changes.rst:417
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29201,38 +29253,38 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:417
+#: ../../changes.rst:420
 msgid "Weblate 5.5.3"
 msgstr "Weblate 5.5.3"
 
-#: ../../changes.rst:419
+#: ../../changes.rst:422
 #, fuzzy
 #| msgid "Released on Mar 3rd 2017."
 msgid "Released on May 3rd 2024."
 msgstr "發佈於 2017 年 03 月 03 日。"
 
-#: ../../changes.rst:423
+#: ../../changes.rst:426
 #, fuzzy
 #| msgid "Improved performance of changing labels."
 msgid "Improved performance of rendering large lists of objects."
 msgstr "改進了更改標籤的性能。"
 
-#: ../../changes.rst:424
+#: ../../changes.rst:427
 #, fuzzy
 #| msgid "Add-ons to tweak Weblate behavior, see :ref:`addons`."
 msgid ""
 "Component management: added links to manage project/site-wide :ref:`addons`."
 msgstr "微調 Weblate 行為的附加元件，請參見 :ref:`addons`。"
 
-#: ../../changes.rst:428
+#: ../../changes.rst:431
 msgid "Fixed crashes with librsvg older than 2.46."
 msgstr ""
 
-#: ../../changes.rst:429
+#: ../../changes.rst:432
 msgid "Daily execution of some :ref:`addons`."
 msgstr ""
 
-#: ../../changes.rst:435
+#: ../../changes.rst:438
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29244,23 +29296,23 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:438
+#: ../../changes.rst:441
 msgid "Weblate 5.5.2"
 msgstr "Weblate 5.5.2"
 
-#: ../../changes.rst:440 ../../changes.rst:455
+#: ../../changes.rst:443 ../../changes.rst:458
 #, fuzzy
 #| msgid "Released on April 20th 2022."
 msgid "Released on April 26th 2024."
 msgstr "於 2022 年 4 月 20 日發佈。"
 
-#: ../../changes.rst:444
+#: ../../changes.rst:447
 #, fuzzy
 #| msgid "Fixed package installation from PyPI."
 msgid "Fixed publishing packages to PyPI."
 msgstr "修復了來自 Pypi 的軟件包安裝。"
 
-#: ../../changes.rst:450
+#: ../../changes.rst:453
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29272,95 +29324,95 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:453
+#: ../../changes.rst:456
 msgid "Weblate 5.5.1"
 msgstr "Weblate 5.5.1"
 
-#: ../../changes.rst:459
+#: ../../changes.rst:462
 msgid ":ref:`Searching` supports ``source_changed:DATETIME``."
 msgstr ""
 
-#: ../../changes.rst:460
+#: ../../changes.rst:463
 #, fuzzy
 #| msgid ":ref:`component-language_code_style`"
 msgid "Added several new :ref:`component-language_code_style`."
 msgstr ":ref:`component-language_code_style`"
 
-#: ../../changes.rst:464
+#: ../../changes.rst:467
 #, fuzzy
 #| msgid "Record source string changes in history."
 msgid "Display more details on source string change in history."
 msgstr "在歷史中記錄源字串更改。"
 
-#: ../../changes.rst:465
+#: ../../changes.rst:468
 #, fuzzy
 #| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` now supports using custom translators."
 msgstr ":ref:`mt-microsoft-terminology`"
 
-#: ../../changes.rst:466
+#: ../../changes.rst:469
 #, fuzzy
 #| msgid "Improved error handling in import_project."
 msgid "Improved error handling in :ref:`invite-user`."
 msgstr "改進了 import_project 中的錯誤處理。"
 
-#: ../../changes.rst:467
+#: ../../changes.rst:470
 #, fuzzy
 #| msgid "Big status badge"
 msgid "Added PNG status badge."
 msgstr "大型狀態徽章"
 
-#: ../../changes.rst:468
+#: ../../changes.rst:471
 #, fuzzy
 #| msgid "Fixed listing of managed projects in profile."
 msgid "Added list of managed projects to the dashboard view."
 msgstr "修復了個人資料中管理的項目的列表。"
 
-#: ../../changes.rst:469
+#: ../../changes.rst:472
 msgid "More detailed status of outgoing commits."
 msgstr ""
 
-#: ../../changes.rst:470 ../../changes/v4.rst:977
+#: ../../changes.rst:473 ../../changes/v4.rst:977
 msgid "Reduced memory usage."
 msgstr "減少了內存的使用。"
 
-#: ../../changes.rst:474
+#: ../../changes.rst:477
 #, fuzzy
 #| msgid "Fixed Git commit squashing with trailers enabled."
 msgid "Fixed skipped component update with some add-ons enabled."
 msgstr "修復了啟動預告時的 Git 送交變形。"
 
-#: ../../changes.rst:475
+#: ../../changes.rst:478
 msgid "Daily execution of project and site wide add-ons."
 msgstr ""
 
-#: ../../changes.rst:476
+#: ../../changes.rst:479
 #, fuzzy
 #| msgid "Edit string when suggestions are enforced"
 msgid "Allow editing strings when the source is marked for editing."
 msgstr "當施行建議時編輯字串"
 
-#: ../../changes.rst:477
+#: ../../changes.rst:480
 msgid "Updates of the last updated timestamp of a string."
 msgstr ""
 
-#: ../../changes.rst:478
+#: ../../changes.rst:481
 msgid ""
 "Fixed project and site wide installation of :ref:`addon-weblate.git.squash` "
 "and :ref:`addon-weblate.discovery.discovery` add-ons."
 msgstr ""
 
-#: ../../changes.rst:479
+#: ../../changes.rst:482
 msgid "Graceful handling of locking errors in the :ref:`api`."
 msgstr ""
 
-#: ../../changes.rst:485
+#: ../../changes.rst:488
 msgid ""
 "There is a change in ``REST_FRAMEWORK`` setting (newly added "
 "``EXCEPTION_HANDLER``)."
 msgstr ""
 
-#: ../../changes.rst:487
+#: ../../changes.rst:490
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29372,25 +29424,25 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:490
+#: ../../changes.rst:493
 msgid "Weblate 5.5"
 msgstr "Weblate 5.5"
 
-#: ../../changes.rst:492
+#: ../../changes.rst:495
 #, fuzzy
 #| msgid "Released on April 20th 2022."
 msgid "Released on April 20th 2024."
 msgstr "於 2022 年 4 月 20 日發佈。"
 
-#: ../../changes.rst:496
+#: ../../changes.rst:499
 msgid ":ref:`addons` can be now installed project-wide and site-wide."
 msgstr ""
 
-#: ../../changes.rst:498
+#: ../../changes.rst:501
 msgid "API improvements"
 msgstr "API 改進"
 
-#: ../../changes.rst:500
+#: ../../changes.rst:503
 #, fuzzy
 #| msgid ""
 #| "link to associated componentlist; see :http:get:`/api/component-lists/"
@@ -29399,7 +29451,7 @@ msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
 msgstr ""
 "相關聯組件列表的連接；請參見 :http:get:`/api/component-lists/(str:slug)/`"
 
-#: ../../changes.rst:501
+#: ../../changes.rst:504
 #, fuzzy
 #| msgid ""
 #| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
@@ -29408,7 +29460,7 @@ msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgstr ""
 "更改列表的 URL；請參見 :http:get:`/api/projects/(string:project)/repository/`"
 
-#: ../../changes.rst:502
+#: ../../changes.rst:505
 #, fuzzy
 #| msgid ""
 #| "link to associated componentlist; see :http:get:`/api/component-lists/"
@@ -29417,11 +29469,11 @@ msgid "Added :http:post:`/api/groups/(int:id)/admins/`."
 msgstr ""
 "相關聯組件列表的連接；請參見 :http:get:`/api/component-lists/(str:slug)/`"
 
-#: ../../changes.rst:503
+#: ../../changes.rst:506
 msgid "Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 msgstr ""
 
-#: ../../changes.rst:504
+#: ../../changes.rst:507
 #, fuzzy
 #| msgid ""
 #| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
@@ -29433,115 +29485,115 @@ msgstr ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 
-#: ../../changes.rst:506
+#: ../../changes.rst:509
 #, fuzzy
 #| msgid "Use machine translation services"
 msgid "Added :ref:`mt-systran` automatic translation support."
 msgstr "使用機器翻譯服務"
 
-#: ../../changes.rst:510
+#: ../../changes.rst:513
 msgid ""
 "Docker container now validates user password strength by default, see :"
 "envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 msgstr ""
 
-#: ../../changes.rst:511
+#: ../../changes.rst:514
 #, fuzzy
 #| msgid "Configures :ref:`aws` machine translation."
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgstr "配置 :ref:`aws` 機器翻譯。"
 
-#: ../../changes.rst:512
+#: ../../changes.rst:515
 msgid ":ref:`check-max-size` better displays rendered text."
 msgstr ""
 
-#: ../../changes.rst:513
+#: ../../changes.rst:516
 msgid "Admins can now specify username and full name when :ref:`invite-user`."
 msgstr ""
 
-#: ../../changes.rst:514
+#: ../../changes.rst:517
 #, fuzzy
 #| msgid ":ref:`check-end-newline`"
 msgid "Added :ref:`check-end-interrobang`."
 msgstr ":ref:`check-end-newline`"
 
-#: ../../changes.rst:515
+#: ../../changes.rst:518
 msgid ":ref:`alerts` are now refreshed when needed, not just daily."
 msgstr ""
 
-#: ../../changes.rst:516
+#: ../../changes.rst:519
 msgid ":doc:`/devel/reporting` uses specific word count for CJK languages."
 msgstr ""
 
-#: ../../changes.rst:517
+#: ../../changes.rst:520
 #, fuzzy
 #| msgid "Access control changes are now tracked in history."
 msgid "Team membership changes are now tracked in :ref:`audit-log`."
 msgstr "現在在歷史中追蹤存取控制更改。"
 
-#: ../../changes.rst:521
+#: ../../changes.rst:524
 msgid ""
 ":ref:`check-check-glossary` works better for languages not using whitespace."
 msgstr ""
 
-#: ../../changes.rst:522
+#: ../../changes.rst:525
 #, fuzzy
 #| msgid "Use machine translation services"
 msgid ":ref:`alerts` better handle non-latin source languages."
 msgstr "使用機器翻譯服務"
 
-#: ../../changes.rst:523
+#: ../../changes.rst:526
 msgid ":ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag."
 msgstr ""
 
-#: ../../changes.rst:524
+#: ../../changes.rst:527
 #, fuzzy
 #| msgid "Fixed UI language selection in some cases."
 msgid "Fixed per-language statistics on nested categories."
 msgstr "修復了一些情況下的 UI 語言選取。"
 
-#: ../../changes.rst:525
+#: ../../changes.rst:528
 #, fuzzy
 #| msgid "Fixed creating new languages."
 msgid "Fixed categories listing on per-language pages."
 msgstr "修復了新建新的語言。"
 
-#: ../../changes.rst:526
+#: ../../changes.rst:529
 #, fuzzy
 #| msgid "Toggle the :guilabel:`Needs editing` checkbox."
 msgid "Fixed :guilabel:`Needs editing` state calculation."
 msgstr "切換 :guilabel:`Needs editing` 複選框。"
 
-#: ../../changes.rst:527
+#: ../../changes.rst:530
 msgid "Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`."
 msgstr ""
 
-#: ../../changes.rst:528
+#: ../../changes.rst:531
 msgid ""
 "Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:"
 "`auto-translation`."
 msgstr ""
 
-#: ../../changes.rst:532
+#: ../../changes.rst:535
 msgid ""
 "Several API calls might be affected by stricter validation of boolean fields "
 "by Django REST Framework. For example :http:post:`/api/projects/(string:"
 "project)/components/`."
 msgstr ""
 
-#: ../../changes.rst:533
+#: ../../changes.rst:536
 msgid ""
 "Uniqueness of name and slug of a component is now enforced at the database "
 "level on PostgreSQL 15+."
 msgstr ""
 
-#: ../../changes.rst:534
+#: ../../changes.rst:537
 msgid ""
 "Docker image now ships Python packages in :file:`/app/venv` and installs "
 "using :program:`uv`."
 msgstr ""
 
-#: ../../changes.rst:540
+#: ../../changes.rst:543
 #, fuzzy
 #| msgid ""
 #| "There are several changes in :file:`settings_example.py`, most notable "
@@ -29554,13 +29606,13 @@ msgstr ""
 "在 :file:`settings_example.py` 中有几项更改，最显著的是中间件的更改，请由此调"
 "整您的设置。"
 
-#: ../../changes.rst:541
+#: ../../changes.rst:544
 #, fuzzy
 #| msgid "Weblate now requires Python 3.6 or newer."
 msgid "Weblate now requires Python 3.10 and Django 5.0."
 msgstr "Weblate 現在需要 Python 3.6 或更新版本。"
 
-#: ../../changes.rst:543
+#: ../../changes.rst:546
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29572,65 +29624,65 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:546
+#: ../../changes.rst:549
 msgid "Weblate 5.4.3"
 msgstr "Weblate 5.4.3"
 
-#: ../../changes.rst:548
+#: ../../changes.rst:551
 #, fuzzy
 #| msgid "Released on March 26th 2021."
 msgid "Released on March 26th 2024."
 msgstr "發佈於 2021 年 03 月 26 日。"
 
-#: ../../changes.rst:552
+#: ../../changes.rst:555
 #, fuzzy
 #| msgid ":ref:`component`, :ref:`component-merge_style`"
 msgid "Superuser access to components with :ref:`component-restricted`."
 msgstr ":ref:`component`, :ref:`component-merge_style`"
 
-#: ../../changes.rst:553
+#: ../../changes.rst:556
 msgid ""
 "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:"
 "`manage-appearance`."
 msgstr ""
 
-#: ../../changes.rst:554
+#: ../../changes.rst:557
 #, fuzzy
 #| msgid "This will push changes to the upstream repository."
 msgid "Avoid crash on pushing changes to diverged repository."
 msgstr "這會將更動推送至上游儲存庫。"
 
-#: ../../changes.rst:555
+#: ../../changes.rst:558
 #, fuzzy
 #| msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
 msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
 msgstr ":ref:`addon-weblate.autotranslate.autotranslate` 附加元件"
 
-#: ../../changes.rst:556
+#: ../../changes.rst:559
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
 msgstr ""
 
-#: ../../changes.rst:557
+#: ../../changes.rst:560
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
 msgstr ""
 
-#: ../../changes.rst:558
+#: ../../changes.rst:561
 msgid ":doc:`/formats/excel` better handles blank cells."
 msgstr ""
 
-#: ../../changes.rst:559
+#: ../../changes.rst:562
 #, fuzzy
 #| msgid "Fixed possible metadata loss when moving component between projects."
 msgid "Fixed possible data loss when merging gettext PO file changes in Git."
 msgstr "修復了在項目之間移動組件時可能的元資料遺失。"
 
-#: ../../changes.rst:560
+#: ../../changes.rst:563
 #, fuzzy
 #| msgid "Repository operation in %(component)s"
 msgid "Repository operations on project could have skipped some components."
 msgstr "%(component)s 中有儲存庫操作"
 
-#: ../../changes.rst:566
+#: ../../changes.rst:569
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29642,25 +29694,25 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:569
+#: ../../changes.rst:572
 msgid "Weblate 5.4.2"
 msgstr "Weblate 5.4.2"
 
-#: ../../changes.rst:571
+#: ../../changes.rst:574
 #, fuzzy
 #| msgid "Released on February 22nd 2020."
 msgid "Released on February 22nd 2024."
 msgstr "發佈於 2020 年 02 月 22 日。"
 
-#: ../../changes.rst:575
+#: ../../changes.rst:578
 msgid "Displaying debugging page in case of database connection issues."
 msgstr ""
 
-#: ../../changes.rst:576 ../../changes.rst:592
+#: ../../changes.rst:579 ../../changes.rst:595
 msgid "Gracefully handle migration with duplicate built-in teams."
 msgstr ""
 
-#: ../../changes.rst:582
+#: ../../changes.rst:585
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29672,23 +29724,23 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:585
+#: ../../changes.rst:588
 msgid "Weblate 5.4.1"
 msgstr "Weblate 5.4.1"
 
-#: ../../changes.rst:587
+#: ../../changes.rst:590
 #, fuzzy
 #| msgid "Released on February 19th 2021."
 msgid "Released on February 19th 2024."
 msgstr "發佈於 2021 年 02 月 19 日。"
 
-#: ../../changes.rst:591
+#: ../../changes.rst:594
 msgid ""
 "Possible crash on Weblate upgrade check when cached from the previous "
 "versions."
 msgstr ""
 
-#: ../../changes.rst:598
+#: ../../changes.rst:601
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29700,93 +29752,93 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:601
+#: ../../changes.rst:604
 msgid "Weblate 5.4"
 msgstr "Weblate 5.4"
 
-#: ../../changes.rst:603
+#: ../../changes.rst:606
 #, fuzzy
 #| msgid "Released on February 15th 2018."
 msgid "Released on February 15th 2024."
 msgstr "發佈於 2018 年 02 月 15 日。"
 
-#: ../../changes.rst:607
+#: ../../changes.rst:610
 #, fuzzy
 #| msgid "Skip the \"Perl format\" quality check."
 msgid ":ref:`check-perl-brace-format` quality check."
 msgstr "跳過“ Perl 格式”品質檢查。"
 
-#: ../../changes.rst:608
+#: ../../changes.rst:611
 msgid ":doc:`/formats/moko`."
 msgstr ":doc:`/formats/moko`。"
 
-#: ../../changes.rst:609
+#: ../../changes.rst:612
 msgid ":doc:`/formats/formatjs`."
 msgstr ":doc:`/formats/formatjs`。"
 
-#: ../../changes.rst:610
+#: ../../changes.rst:613
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
 msgstr ""
 
-#: ../../changes.rst:611
+#: ../../changes.rst:614
 msgid "Weblate is now available in தமிழ்."
 msgstr ""
 
-#: ../../changes.rst:615
+#: ../../changes.rst:618
 #, fuzzy
 #| msgid ":wladmin:`createadmin`"
 msgid "Better logging in :wladmin:`createadmin`."
 msgstr ":wladmin:`createadmin`"
 
-#: ../../changes.rst:616
+#: ../../changes.rst:619
 #, fuzzy
 #| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 
-#: ../../changes.rst:617
+#: ../../changes.rst:620
 msgid "Adding string in a repository triggers :ref:`subscriptions`."
 msgstr ""
 
-#: ../../changes.rst:618
+#: ../../changes.rst:621
 #, fuzzy
 #| msgid "Use machine translation services"
 msgid ":ref:`mt-openai` better handles batch translations and glossaries."
 msgstr "使用機器翻譯服務"
 
-#: ../../changes.rst:619
+#: ../../changes.rst:622
 #, fuzzy
 #| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ":ref:`mt-libretranslate` better handles batch translations."
 msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 
-#: ../../changes.rst:620
+#: ../../changes.rst:623
 msgid ""
 "Text variant of notification e-mails now properly indicate changed strings."
 msgstr ""
 
-#: ../../changes.rst:621
+#: ../../changes.rst:624
 msgid "File downloads now honor :http:header:`If-Modified-Since`."
 msgstr ""
 
-#: ../../changes.rst:622
+#: ../../changes.rst:625
 #, fuzzy
 #| msgid "Improved support for RTL languages."
 msgid ":ref:`num-words` support for CJK languages."
 msgstr "改進了對 RTL 語言的支援。"
 
-#: ../../changes.rst:623
+#: ../../changes.rst:626
 #, fuzzy
 #| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`."
 msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 
-#: ../../changes.rst:624
+#: ../../changes.rst:627
 msgid "Nicer formatting of :ref:`glossary` tooltips."
 msgstr ""
 
-#: ../../changes.rst:625
+#: ../../changes.rst:628
 #, fuzzy
 #| msgid ""
 #| "Response is same as :http:get:`/api/components/(string:project)/(string:"
@@ -29798,23 +29850,23 @@ msgstr ""
 "響應時間與 :http:get:`/api/components/(string:project)/(string:component)/"
 "lock/`相同。"
 
-#: ../../changes.rst:626
+#: ../../changes.rst:629
 #, fuzzy
 #| msgid "Improved reporting of configuration errors."
 msgid "Improved :ref:`workflow-customization` configuration forms."
 msgstr "改進了組態錯誤的報告。"
 
-#: ../../changes.rst:630
+#: ../../changes.rst:633
 #, fuzzy
 #| msgid "Youdao Zhiyun API machine translation"
 msgid "Plural forms handling in :doc:`/formats/qt`."
 msgstr "有道智雲 API 機器翻譯"
 
-#: ../../changes.rst:631
+#: ../../changes.rst:634
 msgid "Added missing documentation for :setting:`ADMINS_CONTACT`."
 msgstr ""
 
-#: ../../changes.rst:632
+#: ../../changes.rst:635
 #, fuzzy
 #| msgid "Separate check for French punctuation spacing."
 msgid ""
@@ -29822,11 +29874,11 @@ msgid ""
 "whitespace."
 msgstr "將法語標點間隔檢查分開。"
 
-#: ../../changes.rst:633
+#: ../../changes.rst:636
 msgid "Pending changes committing could be omitted under some circumstances."
 msgstr ""
 
-#: ../../changes.rst:634
+#: ../../changes.rst:637
 #, fuzzy
 #| msgid ""
 #| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
@@ -29835,17 +29887,17 @@ msgid ":ref:`addon-weblate.cleanup.blank` now correctly removes blank plurals."
 msgstr ""
 "如果只想刪除陳舊的翻譯鍵，那麼使用 :ref:`addon-weblate.cleanup.generic`。"
 
-#: ../../changes.rst:638
+#: ../../changes.rst:641
 msgid ""
 "Last changed timestamp now reflects changes outside Weblate as well. This "
 "affects both :ref:`api` and the user interface."
 msgstr ""
 
-#: ../../changes.rst:639
+#: ../../changes.rst:642
 msgid "Releases are signed by Sigstore instead of PGP, see :ref:`verify`."
 msgstr ""
 
-#: ../../changes.rst:645
+#: ../../changes.rst:648
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29857,23 +29909,23 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:648
+#: ../../changes.rst:651
 msgid "Weblate 5.3.1"
 msgstr "Weblate 5.3.1"
 
-#: ../../changes.rst:650
+#: ../../changes.rst:653
 #, fuzzy
 #| msgid "Released on December 16th 2021."
 msgid "Released on December 19th 2023."
 msgstr "於 2021 年 12 月 16 日發佈。"
 
-#: ../../changes.rst:654
+#: ../../changes.rst:657
 #, fuzzy
 #| msgid "Fixed generating project backups in some situations."
 msgid "Not updating statistics in some situations."
 msgstr "修復了在某些情況下產生項目備份的問題。"
 
-#: ../../changes.rst:660
+#: ../../changes.rst:663
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29885,29 +29937,29 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:663
+#: ../../changes.rst:666
 msgid "Weblate 5.3"
 msgstr "Weblate 5.3"
 
-#: ../../changes.rst:665
+#: ../../changes.rst:668
 #, fuzzy
 #| msgid "Released on December 16th 2021."
 msgid "Released on December 14th 2023."
 msgstr "於 2021 年 12 月 16 日發佈。"
 
-#: ../../changes.rst:669
+#: ../../changes.rst:672
 #, fuzzy
 #| msgid "Configured automatic suggestion services"
 msgid ":ref:`mt-openai` automatic suggestion service."
 msgstr "已設定自動建議服務"
 
-#: ../../changes.rst:670
+#: ../../changes.rst:673
 #, fuzzy
 #| msgid "Available automatic suggestion services"
 msgid ":ref:`mt-alibaba` automatic suggestion service."
 msgstr "可用的自動建議服務"
 
-#: ../../changes.rst:671
+#: ../../changes.rst:674
 #, fuzzy
 #| msgid ""
 #| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
@@ -29917,67 +29969,67 @@ msgid ""
 msgstr ""
 "更改列表的 URL；請參見 :http:get:`/api/projects/(string:project)/repository/`"
 
-#: ../../changes.rst:672
+#: ../../changes.rst:675
 msgid ":ref:`glossary-mt`."
 msgstr ":ref:`glossary-mt`。"
 
-#: ../../changes.rst:673
+#: ../../changes.rst:676
 #, fuzzy
 #| msgid "Separate check for French punctuation spacing."
 msgid "New automatic fixer for :ref:`autofix-punctuation-spacing`."
 msgstr "將法語標點間隔檢查分開。"
 
-#: ../../changes.rst:674
+#: ../../changes.rst:677
 msgid ""
 ":ref:`mt-google-translate-api-v3` now better honors placeables or line "
 "breaks."
 msgstr ""
 
-#: ../../changes.rst:678
+#: ../../changes.rst:681
 #, fuzzy
 #| msgid "Reduced memory usage."
 msgid "Reduced memory usage for statistics."
 msgstr "減少了內存的使用。"
 
-#: ../../changes.rst:679
+#: ../../changes.rst:682
 msgid ""
 ":ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:"
 "`glossary-mt`."
 msgstr ""
 
-#: ../../changes.rst:680
+#: ../../changes.rst:683
 #, fuzzy
 #| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-terminology`"
 
-#: ../../changes.rst:681
+#: ../../changes.rst:684
 #, fuzzy
 #| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
 msgstr ":ref:`mt-google-translate-api-v3`"
 
-#: ../../changes.rst:682
+#: ../../changes.rst:685
 msgid "Added nested JSON exporter in :ref:`download`."
 msgstr ""
 
-#: ../../changes.rst:683
+#: ../../changes.rst:686
 #, fuzzy
 #| msgid "Improve performance of repository scoped add-ons."
 msgid "Improved :ref:`git-exporter` performance on huge repositories."
 msgstr "改善處理附加元件的效能。"
 
-#: ../../changes.rst:687
+#: ../../changes.rst:690
 msgid "Removing stale VCS directories."
 msgstr ""
 
-#: ../../changes.rst:691
+#: ../../changes.rst:694
 msgid ""
 "Dropped Microsoft Terminology service for automatic suggestions, as it is no "
 "longer provided by Microsoft."
 msgstr ""
 
-#: ../../changes.rst:692
+#: ../../changes.rst:695
 #, fuzzy
 #| msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgid ""
@@ -29985,7 +30037,7 @@ msgid ""
 "units/(int:id)/`."
 msgstr "源單元連結；請參見 :http:get:`/api/units/(int:id)/`"
 
-#: ../../changes.rst:698
+#: ../../changes.rst:701
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29997,51 +30049,51 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:701
+#: ../../changes.rst:704
 msgid "Weblate 5.2.1"
 msgstr "Weblate 5.2.1"
 
-#: ../../changes.rst:703
+#: ../../changes.rst:706
 #, fuzzy
 #| msgid "Released on November 16th 2012."
 msgid "Released on November 22nd 2023."
 msgstr "發佈於 2012 年 11 月 16 日。"
 
-#: ../../changes.rst:707
+#: ../../changes.rst:710
 #, fuzzy
 #| msgid "Displays similar strings while translating."
 msgid "Show search field after no strings found while translating."
 msgstr "翻譯時顯示相似的字串。"
 
-#: ../../changes.rst:708
+#: ../../changes.rst:711
 #, fuzzy
 #| msgid "Improved configuration of special characters virtual keyboard."
 msgid "Added soft hyphen to special-characters toolbar."
 msgstr "改進了特殊字元可視鍵盤的組態。"
 
-#: ../../changes.rst:712
+#: ../../changes.rst:715
 msgid "Database backups compatibility with Alibaba Cloud Database PolarDB."
 msgstr ""
 
-#: ../../changes.rst:713
+#: ../../changes.rst:716
 msgid "Crash on loading statistics calculated by previous versions."
 msgstr ""
 
-#: ../../changes.rst:714
+#: ../../changes.rst:717
 msgid "Sort icons in dark mode."
 msgstr ""
 
-#: ../../changes.rst:715
+#: ../../changes.rst:718
 msgid "Project level statistics no longer count categorized components twice."
 msgstr ""
 
-#: ../../changes.rst:716
+#: ../../changes.rst:719
 #, fuzzy
 #| msgid "Fills in translation strings with source string."
 msgid "Possible discarding pending translations after editing source strings."
 msgstr "用來源字串填充翻譯字串。"
 
-#: ../../changes.rst:722
+#: ../../changes.rst:725
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30053,111 +30105,111 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:725
+#: ../../changes.rst:728
 msgid "Weblate 5.2"
 msgstr "Weblate 5.2"
 
-#: ../../changes.rst:727
+#: ../../changes.rst:730
 #, fuzzy
 #| msgid "Released on November 16th 2012."
 msgid "Released on November 16th 2023."
 msgstr "發佈於 2012 年 11 月 16 日。"
 
-#: ../../changes.rst:735
+#: ../../changes.rst:738
 #, fuzzy
 #| msgid "Locales updates."
 msgid "Faster statistics updates."
 msgstr "區域設定更新。"
 
-#: ../../changes.rst:736
+#: ../../changes.rst:739
 #, fuzzy
 #| msgid "Registration and user profile"
 msgid "Better e-mail selection in user profile."
 msgstr "註冊和使用者資料"
 
-#: ../../changes.rst:737
+#: ../../changes.rst:740
 msgid ":ref:`autofix` are now applied to suggestions as well."
 msgstr ""
 
-#: ../../changes.rst:738
+#: ../../changes.rst:741
 msgid ":ref:`mt-deepl` can now configure default formality for translations."
 msgstr ""
 
-#: ../../changes.rst:739
+#: ../../changes.rst:742
 #, fuzzy
 #| msgid "Simplified progress bars indicating translation status."
 msgid "Use neutral colors for progress bars and translation unit states."
 msgstr "簡易的進度條顯示翻譯狀況。"
 
-#: ../../changes.rst:740
+#: ../../changes.rst:743
 msgid ""
 ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
 "editing."
 msgstr ""
 
-#: ../../changes.rst:741
+#: ../../changes.rst:744
 msgid ""
 "Use :http:header:`Accept-Language` to order translations for unauthenticated "
 "users."
 msgstr ""
 
-#: ../../changes.rst:742
+#: ../../changes.rst:745
 #, fuzzy
 #| msgid "Add option to view pending suggestions from user."
 msgid ""
 "Add option to directly approve suggestions with :ref:`reviews` workflow."
 msgstr "新增選項來查看使用者待定的建議。"
 
-#: ../../changes.rst:743
+#: ../../changes.rst:746
 #, fuzzy
 #| msgid "Specify the overall, project or component translation license."
 msgid "One-click removal of project or component :ref:`subscriptions`."
 msgstr "指定整體、項目或組件翻譯的許可。"
 
-#: ../../changes.rst:744
+#: ../../changes.rst:747
 msgid ""
 ":ref:`api-statistics` now includes character and word counts for more string "
 "states."
 msgstr ""
 
-#: ../../changes.rst:748
+#: ../../changes.rst:751
 #, fuzzy
 #| msgid "Create component"
 msgid "Fixed creating component within a category by upload."
 msgstr "建立元件"
 
-#: ../../changes.rst:749
+#: ../../changes.rst:752
 #, fuzzy
 #| msgid "Component alerts"
 msgid "Error handling in organizing components and categories."
 msgstr "組件警告"
 
-#: ../../changes.rst:750
+#: ../../changes.rst:753
 #, fuzzy
 #| msgid "Fixed crash after moving shared component between projects."
 msgid "Fixed moving categories between projects."
 msgstr "修正在專案間移動已分享的元件所造成的失敗。"
 
-#: ../../changes.rst:751
+#: ../../changes.rst:754
 #, fuzzy
 #| msgid "Fixed automatic translation for project owners."
 msgid "Fixed formatting of translation memory search results."
 msgstr "修復了專案所有者的自動翻譯。"
 
-#: ../../changes.rst:752
+#: ../../changes.rst:755
 msgid "Allow non-breaking space character in :ref:`autofix-html`."
 msgstr ""
 
-#: ../../changes.rst:756
+#: ../../changes.rst:759
 msgid ":doc:`/formats/apple` exporter now produces UTF-8 encoded files."
 msgstr ""
 
-#: ../../changes.rst:757
+#: ../../changes.rst:760
 msgid ""
 "Python 3.12 is now supported, though not recommended, see :ref:`python-deps`."
 msgstr ""
 
-#: ../../changes.rst:763
+#: ../../changes.rst:766
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30169,17 +30221,17 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:766
+#: ../../changes.rst:769
 msgid "Weblate 5.1.1"
 msgstr "Weblate 5.1.1"
 
-#: ../../changes.rst:768
+#: ../../changes.rst:771
 #, fuzzy
 #| msgid "Released on October 15th 2020."
 msgid "Released on October 25th 2023."
 msgstr "發佈於 2020 年 10 月 15 日。"
 
-#: ../../changes.rst:774
+#: ../../changes.rst:777
 #, fuzzy
 #| msgid ""
 #| "Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose."
@@ -30188,31 +30240,31 @@ msgid ""
 "changes."
 msgstr "重新命名:ref:“addon-webblate.consistency.languages`以澄清目的。"
 
-#: ../../changes.rst:775
+#: ../../changes.rst:778
 #, fuzzy
 #| msgid "Added notifications for string removals."
 msgid "Added button for sharing on Fediverse."
 msgstr "新增了刪除字串的通知。"
 
-#: ../../changes.rst:776
+#: ../../changes.rst:779
 #, fuzzy
 #| msgid "Added notifications for string removals."
 msgid "Added validation for VCS integration credentials."
 msgstr "新增了刪除字串的通知。"
 
-#: ../../changes.rst:777
+#: ../../changes.rst:780
 msgid "Reduced overhead of statistics collection."
 msgstr ""
 
-#: ../../changes.rst:781
+#: ../../changes.rst:784
 msgid "Added plurals validation when editing string using the API."
 msgstr ""
 
-#: ../../changes.rst:782
+#: ../../changes.rst:785
 msgid "Replacing a file using upload when existing is corrupted."
 msgstr ""
 
-#: ../../changes.rst:790
+#: ../../changes.rst:793
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30224,23 +30276,23 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:793
+#: ../../changes.rst:796
 msgid "Weblate 5.1"
 msgstr "Weblate 5.1"
 
-#: ../../changes.rst:795
+#: ../../changes.rst:798
 #, fuzzy
 #| msgid "Released on October 15th 2020."
 msgid "Released on October 16th 2023."
 msgstr "發佈於 2020 年 10 月 15 日。"
 
-#: ../../changes.rst:799
+#: ../../changes.rst:802
 #, fuzzy
 #| msgid "Use machine translation services"
 msgid ":ref:`mt-yandex-v2` machine translation service."
 msgstr "使用機器翻譯服務"
 
-#: ../../changes.rst:800
+#: ../../changes.rst:803
 #, fuzzy
 #| msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
 msgid ""
@@ -30248,17 +30300,17 @@ msgid ""
 "are now stored with a dedicated user as an author."
 msgstr ":ref:`addon-weblate.autotranslate.autotranslate` 附加元件"
 
-#: ../../changes.rst:801
+#: ../../changes.rst:804
 msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
 msgstr ""
 
-#: ../../changes.rst:802
+#: ../../changes.rst:805
 msgid ":ref:`download-multi` can now convert file formats."
 msgstr ""
 
-#: ../../changes.rst:803
+#: ../../changes.rst:806
 #, fuzzy
 #| msgid ":ref:`addons` are way to customize localization workflow in Weblate."
 msgid ""
@@ -30266,105 +30318,105 @@ msgid ""
 "language."
 msgstr ":ref:`addons` 是在 Weblate 中自訂在地化工作流的方法。"
 
-#: ../../changes.rst:807
+#: ../../changes.rst:810
 msgid ""
 ":ref:`project-translation_review` also shows the approval percentage in "
 "object listings."
 msgstr ""
 
-#: ../../changes.rst:808
+#: ../../changes.rst:811
 msgid "Project is added to watched upon accepting an invitation."
 msgstr ""
 
-#: ../../changes.rst:809
+#: ../../changes.rst:812
 #, fuzzy
 #| msgid "Configuration errors"
 msgid ""
 "Configure VCS API credentials as a Python dict from environment variables."
 msgstr "組態設定錯誤"
 
-#: ../../changes.rst:810
+#: ../../changes.rst:813
 #, fuzzy
 #| msgid "Improve quality checks for Armenian."
 msgid "Improved accuracy of checks on plural messages."
 msgstr "改進了亞美尼亞語的品質檢查。"
 
-#: ../../changes.rst:811
+#: ../../changes.rst:814
 msgid "Engage page better shows stats."
 msgstr ""
 
-#: ../../changes.rst:812
+#: ../../changes.rst:815
 msgid ""
 "Strings which can not be saved to a file no longer block other strings to be "
 "written."
 msgstr ""
 
-#: ../../changes.rst:813
+#: ../../changes.rst:816
 #, fuzzy
 #| msgid "Fixed showing whiteboard messages for component."
 msgid "Fixed some API URLs for categorized components."
 msgstr "修復了顯示元件的白板資訊。"
 
-#: ../../changes.rst:814
+#: ../../changes.rst:817
 #, fuzzy
 #| msgid "Show source string comment more prominently."
 msgid "Show plural form examples more prominently."
 msgstr "更突出地顯示源字串註釋。"
 
-#: ../../changes.rst:815
+#: ../../changes.rst:818
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid "Highlight whitespace in :ref:`machine-translation`."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:816
+#: ../../changes.rst:819
 #, fuzzy
 #| msgid "Added support for component and project removal."
 msgid "Faster comment and component removal."
 msgstr "為組件和項目刪除新增了支援。"
 
-#: ../../changes.rst:817
+#: ../../changes.rst:820
 #, fuzzy
 #| msgid "Show source string comment more prominently."
 msgid "Show disabled save button reason more prominently."
 msgstr "更突出地顯示源字串註釋。"
 
-#: ../../changes.rst:818
+#: ../../changes.rst:821
 #, fuzzy
 #| msgid ""
 #| "New opt-in notifications on pending suggestions or untranslated strings."
 msgid "New string notification can now be triggered for each string."
 msgstr "待定建議或未翻譯字串的新的選擇使用通知。"
 
-#: ../../changes.rst:822
+#: ../../changes.rst:825
 #, fuzzy
 #| msgid "Improved error handling in import_project."
 msgid "Improved OCR error handling in :ref:`screenshots`."
 msgstr "改進了 import_project 中的錯誤處理。"
 
-#: ../../changes.rst:823
+#: ../../changes.rst:826
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
 msgstr ""
 
-#: ../../changes.rst:824
+#: ../../changes.rst:827
 #, fuzzy
 #| msgid "Manually, :ref:`machine-translation` view while translating."
 msgid "Occasional crash in :ref:`machine-translation` caching."
 msgstr "手動， :ref:`machine-translation` 當翻譯時查看。"
 
-#: ../../changes.rst:825
+#: ../../changes.rst:828
 #, fuzzy
 #| msgid "Create component"
 msgid "Fixed history listing for entries within a :ref:`category`."
 msgstr "建立元件"
 
-#: ../../changes.rst:826
+#: ../../changes.rst:829
 #, fuzzy
 #| msgid "Add new translation string"
 msgid "Fixed editing :guilabel:`Administration` team."
 msgstr "新增翻譯字串"
 
-#: ../../changes.rst:827
+#: ../../changes.rst:830
 #, fuzzy
 #| msgid ""
 #| "Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose."
@@ -30372,11 +30424,11 @@ msgid ""
 ":ref:`addon-weblate.consistency.languages` add-on could miss some languages."
 msgstr "重新命名:ref:“addon-webblate.consistency.languages`以澄清目的。"
 
-#: ../../changes.rst:831
+#: ../../changes.rst:834
 msgid "Categories are now included ``weblate://`` repository URLs."
 msgstr ""
 
-#: ../../changes.rst:837
+#: ../../changes.rst:840
 #, fuzzy
 #| msgid "Upgrades from older version than 3.0.1 are not supported."
 msgid ""
@@ -30384,19 +30436,19 @@ msgid ""
 "5.0.2 first and then continue in upgrading."
 msgstr "不再支援從早於 3.0.1 的更舊版本的升級。"
 
-#: ../../changes.rst:838
+#: ../../changes.rst:841
 msgid ""
 "Dropped support for deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME in :file:`settings.py`."
 msgstr ""
 
-#: ../../changes.rst:839
+#: ../../changes.rst:842
 msgid ""
 "Weblate now defaults to persistent database connections in :file:"
 "`settings_example.py` and Docker."
 msgstr ""
 
-#: ../../changes.rst:841
+#: ../../changes.rst:844
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30408,55 +30460,55 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:844
+#: ../../changes.rst:847
 msgid "Weblate 5.0.2"
 msgstr "Weblate 5.0.2"
 
-#: ../../changes.rst:846
+#: ../../changes.rst:849
 #, fuzzy
 #| msgid "Released on September 10th 2021."
 msgid "Released on September 14th 2023."
 msgstr "於 2021 年 9 月 10 日發佈。"
 
-#: ../../changes.rst:850
+#: ../../changes.rst:853
 #, fuzzy
 #| msgid "Improved translation memory performance."
 msgid "Translate page performance."
 msgstr "改進了翻譯記憶庫的性能。"
 
-#: ../../changes.rst:851
+#: ../../changes.rst:854
 #, fuzzy
 #| msgid "Now shows word counts as well."
 msgid "Search now looks for categories as well."
 msgstr "現在也顯示單詞計數。"
 
-#: ../../changes.rst:855
+#: ../../changes.rst:858
 msgid "Rendering of release notes on GitHub."
 msgstr ""
 
-#: ../../changes.rst:856
+#: ../../changes.rst:859
 #, fuzzy
 #| msgid "List all projects:"
 msgid "Listing of categorized projects."
 msgstr "列出所有項目："
 
-#: ../../changes.rst:857
+#: ../../changes.rst:860
 #, fuzzy
 #| msgid "The translation base language is editable."
 msgid "Translating a language inside a category."
 msgstr "翻譯的基礎語言可被修改。"
 
-#: ../../changes.rst:858
+#: ../../changes.rst:861
 msgid "Categories sorting."
 msgstr "類別排序。"
 
-#: ../../changes.rst:864 ../../changes.rst:905
+#: ../../changes.rst:867 ../../changes.rst:908
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "indexing changes."
 msgstr ""
 
-#: ../../changes.rst:866
+#: ../../changes.rst:869
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30468,17 +30520,17 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:869
+#: ../../changes.rst:872
 msgid "Weblate 5.0.1"
 msgstr "Weblate 5.0.1"
 
-#: ../../changes.rst:871
+#: ../../changes.rst:874
 #, fuzzy
 #| msgid "Released on September 10th 2021."
 msgid "Released on September 10th 2023."
 msgstr "於 2021 年 9 月 10 日發佈。"
 
-#: ../../changes.rst:875
+#: ../../changes.rst:878
 #, fuzzy
 #| msgid ""
 #| "link to associated componentlist; see :http:get:`/api/component-lists/"
@@ -30487,91 +30539,91 @@ msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
 msgstr ""
 "相關聯組件列表的連接；請參見 :http:get:`/api/component-lists/(str:slug)/`"
 
-#: ../../changes.rst:879
+#: ../../changes.rst:882
 #, fuzzy
 #| msgid "Improved glossary lookup speed for large strings."
 msgid "Related glossary terms lookup is now faster."
 msgstr "改進了大字串的詞彙表查詢速度。"
 
-#: ../../changes.rst:880
+#: ../../changes.rst:883
 #, fuzzy
 #| msgid "Test Sentry integration"
 msgid "Logging of failures when creating pull requests."
 msgstr "測試 Sentry 整合"
 
-#: ../../changes.rst:881
+#: ../../changes.rst:884
 #, fuzzy
 #| msgid "Translation is now locked for you."
 msgid "History is now loaded faster."
 msgstr "翻譯現在已由您鎖定。"
 
-#: ../../changes.rst:882
+#: ../../changes.rst:885
 msgid "Added object ``id`` to all :ref:`api` endpoints."
 msgstr ""
 
-#: ../../changes.rst:883
+#: ../../changes.rst:886
 #, fuzzy
 #| msgid "Avoid years that are associated with you."
 msgid "Better performance of projects with a lot of components."
 msgstr "請避免和您有關的年份。"
 
-#: ../../changes.rst:884
+#: ../../changes.rst:887
 #, fuzzy
 #| msgid "Added compatibility redirects after project or component renaming."
 msgid "Added compatibility redirects for some old URLs."
 msgstr "新增了專案或組件重新命名後重新導向的相容性。"
 
-#: ../../changes.rst:888
+#: ../../changes.rst:891
 #, fuzzy
 #| msgid "Create component"
 msgid "Creating component within a category."
 msgstr "建立元件"
 
-#: ../../changes.rst:889
+#: ../../changes.rst:892
 msgid "Source strings and state display for converted formats."
 msgstr ""
 
-#: ../../changes.rst:890
+#: ../../changes.rst:893
 #, fuzzy
 #| msgid "Component name"
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
 msgstr "元件名稱"
 
-#: ../../changes.rst:891
+#: ../../changes.rst:894
 #, fuzzy
 #| msgid ""
 #| "Fixed displaying of plural source for languages with single plural form."
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgstr "修復了具有單個複數形式的語言的複數源顯示。"
 
-#: ../../changes.rst:892
+#: ../../changes.rst:895
 msgid "Performance issues while browsing some categories."
 msgstr ""
 
-#: ../../changes.rst:893
+#: ../../changes.rst:896
 #, fuzzy
 #| msgid "Added support for Slack authentication in Docker container."
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
 msgstr "新增了對 Docker 容器中 Slack 身份認證的支援。"
 
-#: ../../changes.rst:894
+#: ../../changes.rst:897
 #, fuzzy
 #| msgid "GitLab merge request from fork"
 msgid "GitLab merge requests when using a customized SSH port."
 msgstr "來自叉子的 GitLab 結合請求"
 
-#: ../../changes.rst:898
+#: ../../changes.rst:901
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
 msgstr ""
 
-#: ../../changes.rst:899
+#: ../../changes.rst:902
 msgid ""
 "The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
 msgstr ""
 
-#: ../../changes.rst:907
+#: ../../changes.rst:910
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30583,38 +30635,38 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:910
+#: ../../changes.rst:913
 msgid "Weblate 5.0"
 msgstr "Weblate 5.0"
 
-#: ../../changes.rst:912
+#: ../../changes.rst:915
 #, fuzzy
 #| msgid "Released on August 21th 2021."
 msgid "Released on August 24th 2023."
 msgstr "於 2021 年 8 月 21 日發佈。"
 
-#: ../../changes.rst:916
+#: ../../changes.rst:919
 msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr ""
 
-#: ../../changes.rst:917
+#: ../../changes.rst:920
 #, fuzzy
 #| msgid "Creates translation components in the given project."
 msgid ":ref:`category` can now organize components within a project."
 msgstr "在給定的項目中新建翻譯組件。"
 
-#: ../../changes.rst:918
+#: ../../changes.rst:921
 msgid ""
 ":doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes."
 msgstr ""
 
-#: ../../changes.rst:919
+#: ../../changes.rst:922
 #, fuzzy
 #| msgid "Authentication cancelled."
 msgid "Inviting users now works with all authentication methods."
 msgstr "已取消身份核對。"
 
-#: ../../changes.rst:920
+#: ../../changes.rst:923
 #, fuzzy
 #| msgid ""
 #| "The Docker container uses a separate volume for this, see :ref:`docker-"
@@ -30623,18 +30675,18 @@ msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr "Docker 容器為這個使用了一個單獨的捲，請參閱 :ref:`docker-volume`。"
 
-#: ../../changes.rst:924
+#: ../../changes.rst:927
 #, fuzzy
 #| msgid "Youdao Zhiyun API machine translation"
 msgid "Plurals handling in machine translation."
 msgstr "有道智雲 API 機器翻譯"
 
-#: ../../changes.rst:925
+#: ../../changes.rst:928
 msgid ""
 ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgstr ""
 
-#: ../../changes.rst:926
+#: ../../changes.rst:929
 #, fuzzy
 #| msgid ""
 #| "Fixed displaying of plural source for languages with single plural form."
@@ -30643,93 +30695,93 @@ msgid ""
 "plural form."
 msgstr "修復了具有單個複數形式的語言的複數源顯示。"
 
-#: ../../changes.rst:927
+#: ../../changes.rst:930
 #, fuzzy
 #| msgid "Added support for animated screenshots."
 msgid "WebP is now supported for :ref:`screenshots`."
 msgstr "為動畫螢幕截圖新增了支援。"
 
-#: ../../changes.rst:928
+#: ../../changes.rst:931
 #, fuzzy
 #| msgid "Avoid sending notifications for not subscribed languages."
 msgid ""
 "Avoid duplicate notification when a user is subscribed to overlapping scopes."
 msgstr "避免發送未訂閱語言的通知。"
 
-#: ../../changes.rst:929
+#: ../../changes.rst:932
 #, fuzzy
 #| msgid "Added support for animated screenshots."
 msgid "OCR support for non-English languages in :ref:`screenshots`."
 msgstr "為動畫螢幕截圖新增了支援。"
 
-#: ../../changes.rst:930
+#: ../../changes.rst:933
 #, fuzzy
 #| msgid "Source string location"
 msgid ":ref:`xliff` now supports displaying source string location."
 msgstr "來源字串位置"
 
-#: ../../changes.rst:931
+#: ../../changes.rst:934
 #, fuzzy
 #| msgid "Improved adding of new translations."
 msgid ""
 "Rendering strings with plurals, placeholders or alternative translations."
 msgstr "改進了新翻譯的新增。"
 
-#: ../../changes.rst:932
+#: ../../changes.rst:935
 msgid "User API now includes last sign in date."
 msgstr ""
 
-#: ../../changes.rst:933
+#: ../../changes.rst:936
 msgid "User API token is now hidden for privacy reasons by default."
 msgstr ""
 
-#: ../../changes.rst:934
+#: ../../changes.rst:937
 #, fuzzy
 #| msgid "Fixed adding words to glossary."
 msgid "Faster adding terms to glossary."
 msgstr "修復了向詞彙表新增單詞。"
 
-#: ../../changes.rst:935
+#: ../../changes.rst:938
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
 msgstr ""
 
-#: ../../changes.rst:936
+#: ../../changes.rst:939
 #, fuzzy
 #| msgid "Added visual indication of component alerts in navigation."
 msgid "Added indication of automatic assignment to team listing."
 msgstr "在導航中新增了組件提醒的視覺指示。"
 
-#: ../../changes.rst:937
+#: ../../changes.rst:940
 msgid "Users now have to confirm invitations to become team members."
 msgstr ""
 
-#: ../../changes.rst:938
+#: ../../changes.rst:941
 msgid ""
 ":ref:`check-formats` can now check all plural forms with the ``strict-"
 "format`` flag."
 msgstr ""
 
-#: ../../changes.rst:939
+#: ../../changes.rst:942
 msgid ":doc:`/user/checks` browsing experience."
 msgstr ""
 
-#: ../../changes.rst:940
+#: ../../changes.rst:943
 #, fuzzy
 #| msgid "Configuring automatic suggestions"
 msgid "Highlight differences in the source string in automatic suggestions."
 msgstr "配置自動建議"
 
-#: ../../changes.rst:941
+#: ../../changes.rst:944
 msgid "Visual diff now better understands compositing characters."
 msgstr ""
 
-#: ../../changes.rst:945
+#: ../../changes.rst:948
 msgid "User names handling while committing to Git."
 msgstr ""
 
-#: ../../changes.rst:946
+#: ../../changes.rst:949
 #, fuzzy
 #| msgid ""
 #| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
@@ -30740,38 +30792,38 @@ msgid ""
 msgstr ""
 "如果只想刪除陳舊的翻譯鍵，那麼使用 :ref:`addon-weblate.cleanup.generic`。"
 
-#: ../../changes.rst:947
+#: ../../changes.rst:950
 #, fuzzy
 #| msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 msgid "Language filtering in :doc:`/devel/reporting`."
 msgstr ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 
-#: ../../changes.rst:948
+#: ../../changes.rst:951
 #, fuzzy
 #| msgid "Reduced false negatives for unchanged translation check."
 msgid ""
 "Reduced false positives of :ref:`check-reused` when fixing the translation."
 msgstr "降低了為更改翻譯檢查的誤報。"
 
-#: ../../changes.rst:949
+#: ../../changes.rst:952
 #, fuzzy
 #| msgid "Added support for automated daily update of repositories."
 msgid "Fixed caching issues after updating screenshots from the repository."
 msgstr "為每天自動更新儲存庫新增了支持。"
 
-#: ../../changes.rst:953
+#: ../../changes.rst:956
 #, fuzzy
 #| msgid "Django 3.1 is now required."
 msgid "Python 3.9 or newer is now required."
 msgstr "現在需要 Django 3.1。"
 
-#: ../../changes.rst:954
+#: ../../changes.rst:957
 #, fuzzy
 #| msgid "Several URLs have changed, you might have to update your bookmarks."
 msgid "Several UI URLs have been changed to be able to handle categories."
 msgstr "幾個 URLs 已經更改，可能必須要更新您的書籤。"
 
-#: ../../changes.rst:960
+#: ../../changes.rst:963
 #, fuzzy
 #| msgid ""
 #| "There are several changes in :file:`settings_example.py`, most notable "
@@ -30784,17 +30836,17 @@ msgstr ""
 "在 :file:`settings_example.py` 中有几项更改，最显著的是中间件的更改，请由此调"
 "整您的设置。"
 
-#: ../../changes.rst:961
+#: ../../changes.rst:964
 msgid "Several previously optional dependencies are now required."
 msgstr ""
 
-#: ../../changes.rst:962
+#: ../../changes.rst:965
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "structure changes."
 msgstr ""
 
-#: ../../changes.rst:964
+#: ../../changes.rst:967
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -57010,6 +57062,9 @@ msgstr ""
 #: ../../workflows.rst:284
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ""
+
+#~ msgid "Not yet released."
+#~ msgstr "尚未發佈。"
 
 #, fuzzy
 #~| msgid ":ref:`mt-google-translate-api-v3`"

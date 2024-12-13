@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2024-12-07 13:07+0100\n"
+"POT-Creation-Date: 2024-12-13 15:50+0100\n"
 "PO-Revision-Date: 2024-12-08 02:47+0000\n"
 "Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
 "Language-Team: Afrikaans <https://hosted.weblate.org/projects/weblate/"
@@ -490,14 +490,15 @@ msgstr ""
 #: ../../admin/access.rst:269 ../../admin/access.rst:397
 #: ../../admin/config.rst:260 ../../admin/config.rst:279
 #: ../../admin/config.rst:332 ../../admin/install/docker.rst:461
-#: ../../admin/install/docker.rst:516 ../../admin/install/docker.rst:600
-#: ../../admin/install/docker.rst:617 ../../admin/install/docker.rst:629
-#: ../../admin/install/docker.rst:653 ../../admin/install/docker.rst:674
-#: ../../admin/install/docker.rst:717 ../../admin/install/docker.rst:750
-#: ../../admin/install/docker.rst:765 ../../admin/install/docker.rst:962
-#: ../../admin/install/docker.rst:1017 ../../admin/install/docker.rst:1740
-#: ../../admin/install/docker.rst:1751 ../../admin/install/docker.rst:1817
-#: ../../admin/install/docker.rst:1863 ../../admin/install/docker.rst:1896
+#: ../../admin/install/docker.rst:506 ../../admin/install/docker.rst:525
+#: ../../admin/install/docker.rst:609 ../../admin/install/docker.rst:626
+#: ../../admin/install/docker.rst:638 ../../admin/install/docker.rst:662
+#: ../../admin/install/docker.rst:683 ../../admin/install/docker.rst:726
+#: ../../admin/install/docker.rst:759 ../../admin/install/docker.rst:774
+#: ../../admin/install/docker.rst:971 ../../admin/install/docker.rst:1026
+#: ../../admin/install/docker.rst:1749 ../../admin/install/docker.rst:1760
+#: ../../admin/install/docker.rst:1826 ../../admin/install/docker.rst:1872
+#: ../../admin/install/docker.rst:1905
 msgid "**Example:**"
 msgstr ""
 
@@ -4462,7 +4463,7 @@ msgstr ""
 msgid ":doc:`psa:backends/azuread`"
 msgstr ""
 
-#: ../../admin/auth.rst:383 ../../admin/install/docker.rst:1356
+#: ../../admin/auth.rst:383 ../../admin/install/docker.rst:1365
 msgid "Slack"
 msgstr ""
 
@@ -4598,8 +4599,8 @@ msgid ""
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 msgstr ""
 
-#: ../../admin/auth.rst:494 ../../admin/install/docker.rst:1480
-#: ../../admin/install/docker.rst:1498
+#: ../../admin/auth.rst:494 ../../admin/install/docker.rst:1489
+#: ../../admin/install/docker.rst:1507
 msgid "Example configuration:"
 msgstr ""
 
@@ -7424,7 +7425,7 @@ msgstr ""
 
 #: ../../admin/config.rst:461
 msgid ""
-"This directory has to be writable by Weblate. Running it as uWSGI means the "
+"This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
 
@@ -9148,7 +9149,7 @@ msgid ""
 "ref:`gpg-sign` for more details."
 msgstr ""
 
-#: ../../admin/config.rst:2155 ../../admin/install/docker.rst:839
+#: ../../admin/config.rst:2155 ../../admin/install/docker.rst:848
 msgid ":ref:`gpg-sign`"
 msgstr ":ref:`gpg-sign`"
 
@@ -9792,7 +9793,7 @@ msgid "Azure DevOps pull request from fork"
 msgstr "Bitbucket-bediener onttrekversoek"
 
 #: ../../admin/continuous.rst:390 ../../admin/continuous.rst:392
-#: ../../changes.rst:731
+#: ../../changes.rst:734
 msgid ":ref:`vcs-azure-devops`"
 msgstr ":ref:`vcs-azure-devops`"
 
@@ -11874,24 +11875,30 @@ msgid ""
 "certificates/` and running :command:`update-ca-certificates`)."
 msgstr ""
 
-#: ../../admin/install.rst:1233
+#: ../../admin/install.rst:1235
+msgid ""
+"The Weblate container does not include it in the search path, you need to "
+"specify full path to execute it. For example:"
+msgstr ""
+
+#: ../../admin/install.rst:1242
 msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr ""
 
-#: ../../admin/install.rst:1236
+#: ../../admin/install.rst:1245
 msgid ""
 "For Python code, you will need to configure requests to use system CA bundle "
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
 
-#: ../../admin/install.rst:1250
+#: ../../admin/install.rst:1259
 msgid "Compressing client assets"
 msgstr ""
 
-#: ../../admin/install.rst:1252
+#: ../../admin/install.rst:1261
 msgid ""
 "Weblate comes with a bunch of JavaScript and CSS files. For performance "
 "reasons it is good to compress them before sending to a client. In default "
@@ -11901,7 +11908,7 @@ msgid ""
 "triggered on every Weblate upgrade."
 msgstr ""
 
-#: ../../admin/install.rst:1259
+#: ../../admin/install.rst:1268
 msgid ""
 "The configuration switch is simple by enabling :attr:`compressor:django.conf."
 "settings.COMPRESS_OFFLINE` and configuring :attr:`compressor:django.conf."
@@ -11909,63 +11916,63 @@ msgid ""
 "example configuration):"
 msgstr ""
 
-#: ../../admin/install.rst:1268
+#: ../../admin/install.rst:1277
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr ""
 
-#: ../../admin/install.rst:1276
+#: ../../admin/install.rst:1285
 msgid "The official Docker image has this feature already enabled."
 msgstr ""
 
-#: ../../admin/install.rst:1280
+#: ../../admin/install.rst:1289
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
 msgstr ""
 
-#: ../../admin/install.rst:1286
+#: ../../admin/install.rst:1295
 msgid "Running server"
 msgstr ""
 
-#: ../../admin/install.rst:1290
+#: ../../admin/install.rst:1299
 msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
 msgstr ""
 
-#: ../../admin/install.rst:1292
+#: ../../admin/install.rst:1301
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
 msgstr ""
 
-#: ../../admin/install.rst:1294
+#: ../../admin/install.rst:1303
 msgid "Database server (see :ref:`database-setup`)"
 msgstr ""
 
-#: ../../admin/install.rst:1295
+#: ../../admin/install.rst:1304
 msgid "Cache server (see :ref:`production-cache`)"
 msgstr ""
 
-#: ../../admin/install.rst:1296
+#: ../../admin/install.rst:1305
 msgid ""
 "Frontend web server for static files and SSL termination (see :ref:`static-"
 "files`)"
 msgstr ""
 
-#: ../../admin/install.rst:1297
+#: ../../admin/install.rst:1306
 msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
 msgstr ""
 
-#: ../../admin/install.rst:1298
+#: ../../admin/install.rst:1307
 msgid "Celery for executing background tasks (see :ref:`celery`)"
 msgstr ""
 
-#: ../../admin/install.rst:1302
+#: ../../admin/install.rst:1311
 msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
 msgstr ""
 
-#: ../../admin/install.rst:1305
+#: ../../admin/install.rst:1314
 msgid ""
 "In most cases, you will run all services on single (virtual) server, but in "
 "case your installation is heavy loaded, you can split up the services. The "
@@ -11973,40 +11980,40 @@ msgid ""
 "setting:`DATA_DIR`."
 msgstr ""
 
-#: ../../admin/install.rst:1312
+#: ../../admin/install.rst:1321
 msgid ""
 "The WSGI process has to be executed under the same user the Celery process, "
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
 "ownership, leading to runtime issues."
 msgstr ""
 
-#: ../../admin/install.rst:1316
+#: ../../admin/install.rst:1325
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
 msgstr ""
 
-#: ../../admin/install.rst:1319
+#: ../../admin/install.rst:1328
 msgid "Running web server"
 msgstr ""
 
-#: ../../admin/install.rst:1321
+#: ../../admin/install.rst:1330
 msgid ""
 "Running Weblate is not different from running any other Django based "
-"program. Django is usually executed as uWSGI or fcgi (see examples for "
+"program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
 
-#: ../../admin/install.rst:1325
+#: ../../admin/install.rst:1334
 msgid "For testing purposes, you can use the built-in web server in Django:"
 msgstr ""
 
-#: ../../admin/install.rst:1333
+#: ../../admin/install.rst:1342
 msgid ""
 "DO NOT USE THIS SERVER IN A PRODUCTION SETTING. It has not gone through "
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
 
-#: ../../admin/install.rst:1339
+#: ../../admin/install.rst:1348
 msgid ""
 "The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
@@ -12014,11 +12021,11 @@ msgid ""
 "ref:`static-files`."
 msgstr ""
 
-#: ../../admin/install.rst:1347
+#: ../../admin/install.rst:1356
 msgid "Serving static files"
 msgstr ""
 
-#: ../../admin/install.rst:1349
+#: ../../admin/install.rst:1358
 msgid ""
 "Django needs to collect its static files in a single directory. To do so, "
 "execute :samp:`weblate collectstatic --noinput`. This will copy the static "
@@ -12027,51 +12034,51 @@ msgid ""
 "`CACHE_DIR`)."
 msgstr ""
 
-#: ../../admin/install.rst:1354
+#: ../../admin/install.rst:1363
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
 msgstr ""
 
-#: ../../admin/install.rst:1357
+#: ../../admin/install.rst:1366
 msgid ":file:`/static/`"
 msgstr ":file:`/static/`"
 
-#: ../../admin/install.rst:1358
+#: ../../admin/install.rst:1367
 msgid ""
 "Serves static files for Weblate and the admin interface (from defined by :"
 "setting:`django:STATIC_ROOT`)."
 msgstr ""
 
-#: ../../admin/install.rst:1360
+#: ../../admin/install.rst:1369
 msgid ":file:`/media/`"
 msgstr ":file:`/media/`"
 
-#: ../../admin/install.rst:1361
+#: ../../admin/install.rst:1370
 msgid "Used for user media uploads (e.g. screenshots)."
 msgstr ""
 
-#: ../../admin/install.rst:1362
+#: ../../admin/install.rst:1371
 msgid ":file:`/favicon.ico`"
 msgstr ":file:`/favicon.ico`"
 
-#: ../../admin/install.rst:1363
+#: ../../admin/install.rst:1372
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr ""
 
-#: ../../admin/install.rst:1367
+#: ../../admin/install.rst:1376
 msgid ""
 ":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
 "files/deployment`"
 msgstr ""
 
-#: ../../admin/install.rst:1377
+#: ../../admin/install.rst:1386
 msgid "Content security policy"
 msgstr ""
 
-#: ../../admin/install.rst:1379
+#: ../../admin/install.rst:1388
 msgid ""
 "The default Weblate configuration enables ``weblate.middleware."
 "SecurityMiddleware`` middleware which sets security related HTTP headers "
@@ -12080,18 +12087,18 @@ msgid ""
 "need customization for your environment."
 msgstr ""
 
-#: ../../admin/install.rst:1386
+#: ../../admin/install.rst:1395
 msgid ""
 ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
 
-#: ../../admin/install.rst:1396
+#: ../../admin/install.rst:1405
 msgid "Sample configuration for NGINX and uWSGI"
 msgstr ""
 
-#: ../../admin/install.rst:1399
+#: ../../admin/install.rst:1408
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate (in "
 "virtual env case it is installed as :file:`~/weblate-env/lib/python3.9/site-"
@@ -12100,172 +12107,172 @@ msgid ""
 "env`` in uWSGI)."
 msgstr ""
 
-#: ../../admin/install.rst:1405
+#: ../../admin/install.rst:1414
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
 
-#: ../../admin/install.rst:1407
+#: ../../admin/install.rst:1416
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
 
-#: ../../admin/install.rst:1412
+#: ../../admin/install.rst:1421
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
 
-#: ../../admin/install.rst:1419
+#: ../../admin/install.rst:1428
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
 msgstr ""
 
-#: ../../admin/install.rst:1424
+#: ../../admin/install.rst:1433
 msgid "Sample configuration for Apache"
 msgstr ""
 
-#: ../../admin/install.rst:1426 ../../admin/install.rst:1466
+#: ../../admin/install.rst:1435 ../../admin/install.rst:1475
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr ""
 
-#: ../../admin/install.rst:1428
+#: ../../admin/install.rst:1437
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
 
-#: ../../admin/install.rst:1436
+#: ../../admin/install.rst:1445
 msgid ""
 "Weblate requires Python 3, so please ensure you are running Python 3 variant "
 "of the modwsgi. Usually it is available as a separate package, for example "
 "``libapache2-mod-wsgi-py3``."
 msgstr ""
 
-#: ../../admin/install.rst:1440
+#: ../../admin/install.rst:1449
 msgid "Use matching Python version to install Weblate."
 msgstr ""
 
-#: ../../admin/install.rst:1444
+#: ../../admin/install.rst:1453
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgstr ""
 
-#: ../../admin/install.rst:1450
+#: ../../admin/install.rst:1459
 msgid "Sample configuration for Apache and Gunicorn"
 msgstr ""
 
-#: ../../admin/install.rst:1452
+#: ../../admin/install.rst:1461
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
 
-#: ../../admin/install.rst:1460
+#: ../../admin/install.rst:1469
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
 msgstr ""
 
-#: ../../admin/install.rst:1464
+#: ../../admin/install.rst:1473
 msgid "Running Weblate under path"
 msgstr ""
 
-#: ../../admin/install.rst:1468
+#: ../../admin/install.rst:1477
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
 
-#: ../../admin/install.rst:1474
+#: ../../admin/install.rst:1483
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
 msgstr ""
 
-#: ../../admin/install.rst:1483
+#: ../../admin/install.rst:1492
 msgid "Background tasks using Celery"
 msgstr ""
 
-#: ../../admin/install.rst:1485
+#: ../../admin/install.rst:1494
 msgid ""
 "Weblate uses Celery to execute regular and background tasks. You are "
 "supposed to run a Celery service that will execute these. For example, it is "
 "responsible for handling following operations (this list is not complete):"
 msgstr ""
 
-#: ../../admin/install.rst:1489
+#: ../../admin/install.rst:1498
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
 msgstr ""
 
-#: ../../admin/install.rst:1490
+#: ../../admin/install.rst:1499
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
 
-#: ../../admin/install.rst:1492
+#: ../../admin/install.rst:1501
 msgid "Running :ref:`auto-translation`."
 msgstr ""
 
-#: ../../admin/install.rst:1493
+#: ../../admin/install.rst:1502
 msgid "Sending digest notifications."
 msgstr ""
 
-#: ../../admin/install.rst:1494
+#: ../../admin/install.rst:1503
 msgid "Offloading expensive operations from the WSGI process."
 msgstr ""
 
-#: ../../admin/install.rst:1495
+#: ../../admin/install.rst:1504
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr ""
 
-#: ../../admin/install.rst:1497
+#: ../../admin/install.rst:1506
 msgid "A typical setup using Redis as a backend looks like this:"
 msgstr ""
 
-#: ../../admin/install.rst:1507
+#: ../../admin/install.rst:1516
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
 
-#: ../../admin/install.rst:1509
+#: ../../admin/install.rst:1518
 msgid ""
 "You should also start the Celery worker to process the tasks and start "
 "scheduled tasks, this can be done directly on the command-line (which is "
 "mostly useful when debugging or developing):"
 msgstr ""
 
-#: ../../admin/install.rst:1520
+#: ../../admin/install.rst:1529
 msgid ""
 "The Celery process has to be executed under the same user as the WSGI "
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
 
-#: ../../admin/install.rst:1524
+#: ../../admin/install.rst:1533
 msgid "See also :ref:`file-permissions` and :ref:`server`."
 msgstr ""
 
-#: ../../admin/install.rst:1527
+#: ../../admin/install.rst:1536
 msgid "Executing Celery tasks in the WSGI using eager mode"
 msgstr ""
 
-#: ../../admin/install.rst:1531
+#: ../../admin/install.rst:1540
 msgid ""
 "This will have severe performance impact on the web interface, and will "
 "break features depending on regular trigger (for example committing pending "
 "changes, digest notifications, or backups)."
 msgstr ""
 
-#: ../../admin/install.rst:1535
+#: ../../admin/install.rst:1544
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
 msgstr ""
 
-#: ../../admin/install.rst:1545
+#: ../../admin/install.rst:1554
 msgid "Running Celery as system service"
 msgstr ""
 
-#: ../../admin/install.rst:1547
+#: ../../admin/install.rst:1556
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered by :"
 "doc:`celery:userguide/daemonizing`. For the most common Linux setup using "
@@ -12273,47 +12280,47 @@ msgid ""
 "folder listed below."
 msgstr ""
 
-#: ../../admin/install.rst:1552
+#: ../../admin/install.rst:1561
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
 
-#: ../../admin/install.rst:1557
+#: ../../admin/install.rst:1566
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr ""
 
-#: ../../admin/install.rst:1562
+#: ../../admin/install.rst:1571
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
 
-#: ../../admin/install.rst:1569
+#: ../../admin/install.rst:1578
 msgid "Periodic tasks using Celery beat"
 msgstr ""
 
-#: ../../admin/install.rst:1571
+#: ../../admin/install.rst:1580
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. You can however "
 "define additional tasks in :file:`settings.py`, for example see :ref:`lazy-"
 "commit`."
 msgstr ""
 
-#: ../../admin/install.rst:1574
+#: ../../admin/install.rst:1583
 msgid ""
 "The tasks are supposed to be executed by Celery beats daemon. In case it is "
 "not working properly, it might not be running or its database was corrupted. "
 "Check the Celery startup logs in such case to figure out root cause."
 msgstr ""
 
-#: ../../admin/install.rst:1581
+#: ../../admin/install.rst:1590
 msgid "Monitoring Celery status"
 msgstr ""
 
-#: ../../admin/install.rst:1583
+#: ../../admin/install.rst:1592
 msgid ""
 "You can find current length of the Celery task queues in the :ref:"
 "`management-interface` or you can use :wladmin:`celery_queues` on the "
@@ -12321,69 +12328,69 @@ msgid ""
 "configuration error in the admin interface."
 msgstr ""
 
-#: ../../admin/install.rst:1590
+#: ../../admin/install.rst:1599
 msgid ""
 "The Celery errors are by default only logged into Celery log and are not "
 "visible to user. In case you want to have overview on such failures, it is "
 "recommended to configure :ref:`collecting-errors`."
 msgstr ""
 
-#: ../../admin/install.rst:1596
+#: ../../admin/install.rst:1605
 msgid ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
 "daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 msgstr ""
 
-#: ../../admin/install.rst:1607
+#: ../../admin/install.rst:1616
 msgid "Single-process Celery setup"
 msgstr ""
 
-#: ../../admin/install.rst:1609
+#: ../../admin/install.rst:1618
 msgid ""
 "In case you have very limited memory, you might want to reduce number of "
 "Weblate processes. All Celery tasks can be executed in a single process "
 "using:"
 msgstr ""
 
-#: ../../admin/install.rst:1616
+#: ../../admin/install.rst:1625
 msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgstr ""
 
-#: ../../admin/install.rst:1620
+#: ../../admin/install.rst:1629
 msgid "This will have a noticeable performance impact on Weblate."
 msgstr ""
 
-#: ../../admin/install.rst:1625
+#: ../../admin/install.rst:1634
 msgid "Monitoring Weblate"
 msgstr ""
 
-#: ../../admin/install.rst:1627
+#: ../../admin/install.rst:1636
 msgid ""
 "Weblate provides the ``/healthz/`` URL to be used in simple health checks, "
 "for example using Kubernetes. The Docker container has built-in health check "
 "using this URL."
 msgstr ""
 
-#: ../../admin/install.rst:1630
+#: ../../admin/install.rst:1639
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
 
-#: ../../admin/install.rst:1634
+#: ../../admin/install.rst:1643
 msgid ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for Munin "
 "<https://github.com/WeblateOrg/munin>`_"
 msgstr ""
 
-#: ../../admin/install.rst:1641 ../../admin/install/docker.rst:1711
+#: ../../admin/install.rst:1650 ../../admin/install/docker.rst:1720
 msgid "Collecting error reports and monitoring performance"
 msgstr ""
 
-#: ../../admin/install.rst:1643
+#: ../../admin/install.rst:1652
 msgid ""
 "Weblate, as any other software, can fail. In order to collect useful failure "
 "states we recommend to use third party services to collect such information. "
@@ -12392,17 +12399,17 @@ msgid ""
 "Weblate has support for the following services:"
 msgstr ""
 
-#: ../../admin/install.rst:1650
+#: ../../admin/install.rst:1659
 msgid "Sentry"
 msgstr "Sentry"
 
-#: ../../admin/install.rst:1652
+#: ../../admin/install.rst:1661
 msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
 
-#: ../../admin/install.rst:1659
+#: ../../admin/install.rst:1668
 msgid ""
 "Sentry can be also used to monitor performance of Weblate by collecting "
 "traces and profiles for defined percentage of operations. This can be "
@@ -12410,72 +12417,72 @@ msgid ""
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
 
-#: ../../admin/install.rst:1665
+#: ../../admin/install.rst:1674
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 msgstr ""
 
-#: ../../admin/install.rst:1671
+#: ../../admin/install.rst:1680
 msgid "Rollbar"
 msgstr "Rollbar"
 
-#: ../../admin/install.rst:1673
+#: ../../admin/install.rst:1682
 msgid ""
 "Weblate has built-in support for `Rollbar <https://rollbar.com/>`_. To use "
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
 
-#: ../../admin/install.rst:1676
+#: ../../admin/install.rst:1685
 msgid "In short, you need to adjust :file:`settings.py`:"
 msgstr ""
 
-#: ../../admin/install.rst:1694
+#: ../../admin/install.rst:1703
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr ""
 
-#: ../../admin/install.rst:1699
+#: ../../admin/install.rst:1708
 msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
 msgstr ""
 
-#: ../../admin/install.rst:1705
+#: ../../admin/install.rst:1714
 msgid "Graylog log management"
 msgstr ""
 
-#: ../../admin/install.rst:1709
+#: ../../admin/install.rst:1718
 msgid ""
 "Weblate can be configured to log using the GELF TCP protocol. This was "
 "developed for Graylog integration, but can be used with any compliant "
 "logging platform."
 msgstr ""
 
-#: ../../admin/install.rst:1712
+#: ../../admin/install.rst:1721
 msgid ""
 "The configuration boilerplate is included in :ref:`sample-configuration`, "
 "for Docker this can be configured using :envvar:`WEBLATE_LOG_GELF_HOST`."
 msgstr ""
 
-#: ../../admin/install.rst:1716
+#: ../../admin/install.rst:1725
 msgid "Migrating Weblate to another server"
 msgstr ""
 
-#: ../../admin/install.rst:1718
+#: ../../admin/install.rst:1727
 msgid ""
 "Migrating Weblate to another server should be pretty easy, however it stores "
 "data in few locations which you should migrate carefully. The best approach "
 "is to stop Weblate for the migration."
 msgstr ""
 
-#: ../../admin/install.rst:1723
+#: ../../admin/install.rst:1732
 msgid "Migrating database"
 msgstr ""
 
-#: ../../admin/install.rst:1725
+#: ../../admin/install.rst:1734
 msgid ""
 "Depending on your database backend, you might have several options to "
 "migrate the database. The most straightforward approach is to use database "
@@ -12484,26 +12491,26 @@ msgid ""
 "case your database supports it."
 msgstr ""
 
-#: ../../admin/install.rst:1733
+#: ../../admin/install.rst:1742
 msgid "Migrating between databases described in :ref:`database-migration`."
 msgstr ""
 
-#: ../../admin/install.rst:1736
+#: ../../admin/install.rst:1745
 msgid "Migrating VCS repositories"
 msgstr ""
 
-#: ../../admin/install.rst:1738
+#: ../../admin/install.rst:1747
 msgid ""
 "The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as "
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
 
-#: ../../admin/install.rst:1743
+#: ../../admin/install.rst:1752
 msgid "Other notes"
 msgstr ""
 
-#: ../../admin/install.rst:1745
+#: ../../admin/install.rst:1754
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
@@ -12935,7 +12942,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:346
 msgid ""
-"The number of worker processes for both uWSGI and Celery is determined "
+"The number of worker processes for both WSGI and Celery is determined "
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
@@ -13076,465 +13083,469 @@ msgstr ""
 msgid "Configures the site domain. This parameter is required."
 msgstr ""
 
-#: ../../admin/install/docker.rst:506
+#: ../../admin/install/docker.rst:504
+msgid "Include port if using a non-standard one."
+msgstr ""
+
+#: ../../admin/install/docker.rst:515
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:512
+#: ../../admin/install/docker.rst:521
 msgid ""
 "Configures the site-admin's name and e-mail. It is used for both :setting:"
 "`ADMINS` setting and creating `admin` user (see :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
 
-#: ../../admin/install/docker.rst:526
+#: ../../admin/install/docker.rst:535
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:532
+#: ../../admin/install/docker.rst:541
 msgid "Sets the password for the `admin` user."
 msgstr ""
 
-#: ../../admin/install/docker.rst:534
+#: ../../admin/install/docker.rst:543
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
 msgstr ""
 
-#: ../../admin/install/docker.rst:536
+#: ../../admin/install/docker.rst:545
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr ""
 
-#: ../../admin/install/docker.rst:537
+#: ../../admin/install/docker.rst:546
 msgid ""
 "If set the `admin` user is adjusted on every container startup to match :"
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:543
+#: ../../admin/install/docker.rst:552
 msgid ""
 "It might be a security risk to store password in the configuration file. "
 "Consider using this variable only for initial setup (or let Weblate generate "
 "random password on initial startup) or for password recovery."
 msgstr ""
 
-#: ../../admin/install/docker.rst:550
+#: ../../admin/install/docker.rst:559
 msgid ""
 ":ref:`docker-admin-login`, :ref:`docker-secrets`, :envvar:"
 "`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:558
+#: ../../admin/install/docker.rst:567
 msgid ""
 "Whether to sent e-mail to admins upon server error. Turned on by default."
 msgstr ""
 
-#: ../../admin/install/docker.rst:560
+#: ../../admin/install/docker.rst:569
 msgid ""
 "You might want to use other error collection like Sentry or Rollbar and turn "
 "this off."
 msgstr ""
 
-#: ../../admin/install/docker.rst:564
+#: ../../admin/install/docker.rst:573
 msgid ""
 ":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, :envvar:"
 "`SENTRY_DSN`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:570
+#: ../../admin/install/docker.rst:579
 msgid "The email address that error messages are sent from."
 msgstr ""
 
-#: ../../admin/install/docker.rst:574
+#: ../../admin/install/docker.rst:583
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:579
+#: ../../admin/install/docker.rst:588
 msgid "Configures the address for outgoing e-mails."
 msgstr ""
 
-#: ../../admin/install/docker.rst:583
+#: ../../admin/install/docker.rst:592
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:588
+#: ../../admin/install/docker.rst:597
 msgid "Configures :setting:`ADMINS_CONTACT`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:592
+#: ../../admin/install/docker.rst:601
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:596
+#: ../../admin/install/docker.rst:605
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:598
+#: ../../admin/install/docker.rst:607
 msgid "Defaults to ``*`` which allows all hostnames."
 msgstr ""
 
-#: ../../admin/install/docker.rst:609
+#: ../../admin/install/docker.rst:618
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:615
+#: ../../admin/install/docker.rst:624
 msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:626
+#: ../../admin/install/docker.rst:635
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:642
+#: ../../admin/install/docker.rst:651
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:646
+#: ../../admin/install/docker.rst:655
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:650
+#: ../../admin/install/docker.rst:659
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr ""
 
-#: ../../admin/install/docker.rst:662
+#: ../../admin/install/docker.rst:671
 msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
 
-#: ../../admin/install/docker.rst:667
+#: ../../admin/install/docker.rst:676
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
 msgstr ""
 
-#: ../../admin/install/docker.rst:671
+#: ../../admin/install/docker.rst:680
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
 msgstr ""
 
-#: ../../admin/install/docker.rst:683
+#: ../../admin/install/docker.rst:692
 msgid ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:691
+#: ../../admin/install/docker.rst:700
 msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
 msgstr ""
 
-#: ../../admin/install/docker.rst:696
+#: ../../admin/install/docker.rst:705
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:700
+#: ../../admin/install/docker.rst:709
 msgid ""
 "Lets Weblate fetch the IP address from any given HTTP header. Use this when "
 "using a reverse proxy in front of the Weblate container."
 msgstr ""
 
-#: ../../admin/install/docker.rst:703
+#: ../../admin/install/docker.rst:712
 msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:"
 "`IP_PROXY_HEADER`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:707
+#: ../../admin/install/docker.rst:716
 msgid ""
 "The format must conform to Django's expectations. Django `transforms "
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http."
 "HttpRequest.META>`_ raw HTTP header names as follows:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:711
+#: ../../admin/install/docker.rst:720
 msgid "converts all characters to uppercase"
 msgstr ""
 
-#: ../../admin/install/docker.rst:712
+#: ../../admin/install/docker.rst:721
 msgid "replaces any hyphens with underscores"
 msgstr ""
 
-#: ../../admin/install/docker.rst:713
+#: ../../admin/install/docker.rst:722
 msgid "prepends ``HTTP_`` prefix"
 msgstr ""
 
-#: ../../admin/install/docker.rst:715
+#: ../../admin/install/docker.rst:724
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:728
+#: ../../admin/install/docker.rst:737
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:734
+#: ../../admin/install/docker.rst:743
 msgid ""
 "A boolean that specifies whether to use the :http:header:`X-Forwarded-Port` "
 "header in preference to the SERVER_PORT META variable. This should only be "
 "enabled if a proxy which sets this header is in use."
 msgstr ""
 
-#: ../../admin/install/docker.rst:740
+#: ../../admin/install/docker.rst:749
 msgid ":setting:`django:USE_X_FORWARDED_PORT`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:742
+#: ../../admin/install/docker.rst:751
 msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
 
-#: ../../admin/install/docker.rst:746
+#: ../../admin/install/docker.rst:755
 msgid ""
 "A tuple representing a HTTP header/value combination that signifies a "
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
 
-#: ../../admin/install/docker.rst:759
+#: ../../admin/install/docker.rst:768
 msgid ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:763
+#: ../../admin/install/docker.rst:772
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
 msgstr ""
 
-#: ../../admin/install/docker.rst:776
+#: ../../admin/install/docker.rst:785
 msgid ""
 "Adds URL exceptions for authentication required for the whole Weblate "
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:779
+#: ../../admin/install/docker.rst:788
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
 msgstr ""
 
-#: ../../admin/install/docker.rst:781
+#: ../../admin/install/docker.rst:790
 msgid "To enforce authentication for the contact form, do:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:790
+#: ../../admin/install/docker.rst:799
 msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:794
+#: ../../admin/install/docker.rst:803
 msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:799
+#: ../../admin/install/docker.rst:808
 msgid ":ref:`config-pull-message`"
 msgstr ":ref:`config-pull-message`"
 
-#: ../../admin/install/docker.rst:803
+#: ../../admin/install/docker.rst:812
 msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:807
+#: ../../admin/install/docker.rst:816
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:811
+#: ../../admin/install/docker.rst:820
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:815
+#: ../../admin/install/docker.rst:824
 msgid ""
 "Configures the default value for :ref:`component-"
 "allow_translation_propagation` for new components, see :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:819
+#: ../../admin/install/docker.rst:828
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:823
+#: ../../admin/install/docker.rst:832
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:827
+#: ../../admin/install/docker.rst:836
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:831
+#: ../../admin/install/docker.rst:840
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:835
+#: ../../admin/install/docker.rst:844
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:843
+#: ../../admin/install/docker.rst:852
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:847
+#: ../../admin/install/docker.rst:856
 msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:857
+#: ../../admin/install/docker.rst:866
 msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgstr ""
 
-#: ../../admin/install/docker.rst:861
+#: ../../admin/install/docker.rst:870
 msgid ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:871
+#: ../../admin/install/docker.rst:880
 msgid "Configures :setting:`LICENSE_FILTER`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:875
+#: ../../admin/install/docker.rst:884
 msgid "Configures :setting:`LICENSE_REQUIRED`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:879
+#: ../../admin/install/docker.rst:888
 msgid "Configures :setting:`WEBSITE_REQUIRED`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:883
+#: ../../admin/install/docker.rst:892
 msgid "Configures :setting:`HIDE_VERSION`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:887
+#: ../../admin/install/docker.rst:896
 msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:891
+#: ../../admin/install/docker.rst:900
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:899
+#: ../../admin/install/docker.rst:908
 msgid "Configures rate limiter."
 msgstr ""
 
-#: ../../admin/install/docker.rst:903
+#: ../../admin/install/docker.rst:912
 msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:908
+#: ../../admin/install/docker.rst:917
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:919
+#: ../../admin/install/docker.rst:928
 msgid ""
 "Configures API rate limiting. Defaults to ``100/day`` for anonymous and "
 "``5000/hour`` for authenticated users."
 msgstr ""
 
-#: ../../admin/install/docker.rst:924
+#: ../../admin/install/docker.rst:933
 msgid ":ref:`api-rate`"
 msgstr ":ref:`api-rate`"
 
-#: ../../admin/install/docker.rst:930
+#: ../../admin/install/docker.rst:939
 msgid "Configures :setting:`ENABLE_HOOKS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:936
+#: ../../admin/install/docker.rst:945
 msgid "Configures :setting:`ENABLE_AVATARS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:942
+#: ../../admin/install/docker.rst:951
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:948
+#: ../../admin/install/docker.rst:957
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:954
+#: ../../admin/install/docker.rst:963
 msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:960
+#: ../../admin/install/docker.rst:969
 msgid ""
 "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgstr ""
 
-#: ../../admin/install/docker.rst:973
+#: ../../admin/install/docker.rst:982
 msgid "Configures :setting:`ENABLE_SHARING`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:979
+#: ../../admin/install/docker.rst:988
 msgid "Configures :setting:`SUPPORT_STATUS_CHECK`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:985
+#: ../../admin/install/docker.rst:994
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:991
+#: ../../admin/install/docker.rst:1000
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:997
+#: ../../admin/install/docker.rst:1006
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1003
+#: ../../admin/install/docker.rst:1012
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1009
+#: ../../admin/install/docker.rst:1018
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1015
+#: ../../admin/install/docker.rst:1024
 msgid "Allow CORS requests to API from given origins."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1028
+#: ../../admin/install/docker.rst:1037
 msgid "Allows CORS requests to API from all origins."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1035
+#: ../../admin/install/docker.rst:1044
 msgid "Configures maximal body size accepted by the built-in web server."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1044
+#: ../../admin/install/docker.rst:1053
 msgid ""
 "This variable intentionally lacks ``WEBLATE_`` prefix as it is shared with "
 "third-party container used in :ref:`docker-https-portal`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1051
+#: ../../admin/install/docker.rst:1060
 msgid "Code hosting sites credentials"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1053
+#: ../../admin/install/docker.rst:1062
 msgid ""
 "In the Docker container, the code hosting credentials can be configured "
 "either in separate variables or using a Python dictionary to set them at "
@@ -13542,474 +13553,474 @@ msgid ""
 "ref:`vcs` with appropriately changed variable names."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1058
+#: ../../admin/install/docker.rst:1067
 msgid "An example configuration for GitHub might look like:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1066
+#: ../../admin/install/docker.rst:1075
 msgid "Will be used as:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1077
+#: ../../admin/install/docker.rst:1086
 msgid "Alternatively the Python dictionary can be provided as a string:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1083
+#: ../../admin/install/docker.rst:1092
 msgid "Or the path to a file containing the Python dictionary:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1095
+#: ../../admin/install/docker.rst:1104
 msgid "Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1097 ../../admin/install/docker.rst:1106
-#: ../../admin/install/docker.rst:1115 ../../admin/install/docker.rst:1124
-#: ../../admin/install/docker.rst:1141 ../../admin/install/docker.rst:1151
+#: ../../admin/install/docker.rst:1106 ../../admin/install/docker.rst:1115
+#: ../../admin/install/docker.rst:1124 ../../admin/install/docker.rst:1133
+#: ../../admin/install/docker.rst:1150 ../../admin/install/docker.rst:1160
 msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1104
+#: ../../admin/install/docker.rst:1113
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1113
+#: ../../admin/install/docker.rst:1122
 msgid "Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1122
+#: ../../admin/install/docker.rst:1131
 msgid "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1131
+#: ../../admin/install/docker.rst:1140
 msgid ""
 "Configures :ref:`vcs-bitbucket-server` by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1139
+#: ../../admin/install/docker.rst:1148
 msgid ""
 "Configures :ref:`vcs-bitbucket-cloud` by changing :setting:"
 "`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1149
+#: ../../admin/install/docker.rst:1158
 msgid ""
 "Configures :ref:`vcs-azure-devops` by changing :setting:"
 "`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1156
+#: ../../admin/install/docker.rst:1165
 msgid "Automatic suggestion settings"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1160
+#: ../../admin/install/docker.rst:1169
 msgid ""
 "Automatic suggestion services are now configured in the user interface, see :"
 "ref:`machine-translation-setup`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1163
+#: ../../admin/install/docker.rst:1172
 msgid ""
 "The existing environment variables are imported during the migration to "
 "Weblate 4.13, but changing them will not have any further effect."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1169
+#: ../../admin/install/docker.rst:1178
 msgid "Authentication settings"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1172
+#: ../../admin/install/docker.rst:1181
 msgid "LDAP"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1185
+#: ../../admin/install/docker.rst:1194
 msgid "LDAP authentication configuration."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1187
+#: ../../admin/install/docker.rst:1196
 msgid "**Example for direct bind:**"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1198
+#: ../../admin/install/docker.rst:1207
 msgid "**Example for search and bind:**"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1210
+#: ../../admin/install/docker.rst:1219
 msgid "**Example for union search and bind:**"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1222
+#: ../../admin/install/docker.rst:1231
 msgid "**Example with search and bind against Active Directory:**"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1237
+#: ../../admin/install/docker.rst:1246
 msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1241
+#: ../../admin/install/docker.rst:1250
 msgid "GitHub"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1252
+#: ../../admin/install/docker.rst:1261
 msgid "Enables :ref:`github_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1255
+#: ../../admin/install/docker.rst:1264
 msgid "GitHub Enterprise Edition"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1263
+#: ../../admin/install/docker.rst:1272
 msgid "Enables :ref:`github_ee_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1266
+#: ../../admin/install/docker.rst:1275
 msgid "Bitbucket"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1273
+#: ../../admin/install/docker.rst:1282
 msgid "Enables :ref:`bitbucket_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1276
+#: ../../admin/install/docker.rst:1285
 msgid "Facebook"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1281
+#: ../../admin/install/docker.rst:1290
 msgid "Enables :ref:`facebook_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1284
+#: ../../admin/install/docker.rst:1293
 msgid "Google"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1291
+#: ../../admin/install/docker.rst:1300
 msgid "Enables :ref:`google_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1294
+#: ../../admin/install/docker.rst:1303
 msgid "GitLab"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1300
+#: ../../admin/install/docker.rst:1309
 msgid "Enables :ref:`gitlab_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1303
+#: ../../admin/install/docker.rst:1312
 msgid "Gitea"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1309
+#: ../../admin/install/docker.rst:1318
 msgid "Enables Gitea authentication."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1312
+#: ../../admin/install/docker.rst:1321
 msgid "Azure Active Directory"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1317
+#: ../../admin/install/docker.rst:1326
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1320
+#: ../../admin/install/docker.rst:1329
 msgid "Azure Active Directory with Tenant support"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1326
+#: ../../admin/install/docker.rst:1335
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1330
+#: ../../admin/install/docker.rst:1339
 msgid "Keycloak"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1341
+#: ../../admin/install/docker.rst:1350
 msgid ""
 "Enables Keycloak authentication, see `documentation <https://github.com/"
 "python-social-auth/social-core/blob/master/social_core/backends/keycloak."
 "py>`_."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1345
+#: ../../admin/install/docker.rst:1354
 msgid "Linux vendors"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1347
+#: ../../admin/install/docker.rst:1356
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1361
+#: ../../admin/install/docker.rst:1370
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1365
+#: ../../admin/install/docker.rst:1374
 msgid "OpenID Connect"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1374
+#: ../../admin/install/docker.rst:1383
 msgid "Configures generic OpenID Connect integration."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1378
+#: ../../admin/install/docker.rst:1387
 msgid ":doc:`psa:backends/oidc`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1383
+#: ../../admin/install/docker.rst:1392
 msgid "SAML"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1385
+#: ../../admin/install/docker.rst:1394
 msgid ""
 "Self-signed SAML keys are automatically generated on first container "
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1395
+#: ../../admin/install/docker.rst:1404
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1404
+#: ../../admin/install/docker.rst:1413
 msgid "SAML attributes mapping."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1408
+#: ../../admin/install/docker.rst:1417
 msgid "Other authentication settings"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1412
+#: ../../admin/install/docker.rst:1421
 msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1418
+#: ../../admin/install/docker.rst:1427
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
 "disable strength checking."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1424
+#: ../../admin/install/docker.rst:1433
 msgid "PostgreSQL database setup"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1426
+#: ../../admin/install/docker.rst:1435
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1429
+#: ../../admin/install/docker.rst:1438
 msgid ":ref:`database-setup`"
 msgstr ":ref:`database-setup`"
 
-#: ../../admin/install/docker.rst:1433
+#: ../../admin/install/docker.rst:1442
 msgid "PostgreSQL password."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1437 ../../admin/install/docker.rst:1562
+#: ../../admin/install/docker.rst:1446 ../../admin/install/docker.rst:1571
 msgid ":ref:`docker-secrets`"
 msgstr ":ref:`docker-secrets`"
 
-#: ../../admin/install/docker.rst:1441
+#: ../../admin/install/docker.rst:1450
 msgid "PostgreSQL username."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1445
+#: ../../admin/install/docker.rst:1454
 msgid "PostgreSQL database name."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1449
+#: ../../admin/install/docker.rst:1458
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1453
+#: ../../admin/install/docker.rst:1462
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1457
+#: ../../admin/install/docker.rst:1466
 msgid ""
 "Configure how PostgreSQL handles SSL in connection to the server, for "
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1462
+#: ../../admin/install/docker.rst:1471
 msgid ""
 "Configures name of the PostgreSQL role to alter during the database "
 "migration, see :ref:`config-postgresql`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1464
+#: ../../admin/install/docker.rst:1473
 msgid "Defaults to :envvar:`POSTGRES_USER`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1470
+#: ../../admin/install/docker.rst:1479
 msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1475
+#: ../../admin/install/docker.rst:1484
 msgid ""
 "The default behavior is to have unlimited persistent database connections."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1477
+#: ../../admin/install/docker.rst:1486
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1489
+#: ../../admin/install/docker.rst:1498
 msgid ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1495
+#: ../../admin/install/docker.rst:1504
 msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1507
+#: ../../admin/install/docker.rst:1516
 msgid ""
 ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
 "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
 "cursors`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1514
+#: ../../admin/install/docker.rst:1523
 msgid ""
 "Set to false to disables environment based configuration of the database "
 "connection. Use :ref:`docker-settings-override` to configure the database "
 "connection manually."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1519
+#: ../../admin/install/docker.rst:1528
 msgid "MySQL or MariaDB server"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1521
+#: ../../admin/install/docker.rst:1530
 msgid ""
 "Neither MySQL nor MariaDB can not be configured via environment variables. "
 "See :ref:`mysql` for info on using those with Weblate. Use :envvar:"
 "`WEBLATE_DATABASES` to configure the database connection manually."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1526
+#: ../../admin/install/docker.rst:1535
 msgid "Database backup settings"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1529
+#: ../../admin/install/docker.rst:1538
 msgid ":ref:`backup-dumps`"
 msgstr ":ref:`backup-dumps`"
 
-#: ../../admin/install/docker.rst:1533
+#: ../../admin/install/docker.rst:1542
 msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1537
+#: ../../admin/install/docker.rst:1546
 msgid "Caching server setup"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1539
+#: ../../admin/install/docker.rst:1548
 msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1542 ../../admin/projects.rst:1168
+#: ../../admin/install/docker.rst:1551 ../../admin/projects.rst:1168
 msgid ":ref:`production-cache`"
 msgstr ":ref:`production-cache`"
 
-#: ../../admin/install/docker.rst:1546
+#: ../../admin/install/docker.rst:1555
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1550
+#: ../../admin/install/docker.rst:1559
 msgid "The Redis server port. Defaults to ``6379``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1554
+#: ../../admin/install/docker.rst:1563
 msgid "The Redis database number, defaults to ``1``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1558
+#: ../../admin/install/docker.rst:1567
 msgid "The Redis server password, not used by default."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1566
+#: ../../admin/install/docker.rst:1575
 msgid "Enables using SSL for Redis connection."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1570
+#: ../../admin/install/docker.rst:1579
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1575
+#: ../../admin/install/docker.rst:1584
 msgid "Email server setup"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1577
+#: ../../admin/install/docker.rst:1586
 msgid "To make outgoing e-mail work, you need to provide a mail server."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1579
+#: ../../admin/install/docker.rst:1588
 msgid "Example TLS configuration:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1588
+#: ../../admin/install/docker.rst:1597
 msgid "Example SSL configuration:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1601
+#: ../../admin/install/docker.rst:1610
 msgid ":ref:`out-mail`"
 msgstr ":ref:`out-mail`"
 
-#: ../../admin/install/docker.rst:1605
+#: ../../admin/install/docker.rst:1614
 msgid "Mail server hostname or IP address."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1609
+#: ../../admin/install/docker.rst:1618
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1616
+#: ../../admin/install/docker.rst:1625
 msgid "Mail server port, defaults to 25."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1618
+#: ../../admin/install/docker.rst:1627
 msgid ":setting:`django:EMAIL_PORT`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1622
+#: ../../admin/install/docker.rst:1631
 msgid "E-mail authentication user."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1624
+#: ../../admin/install/docker.rst:1633
 msgid ":setting:`django:EMAIL_HOST_USER`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1628
+#: ../../admin/install/docker.rst:1637
 msgid "E-mail authentication password."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1632
+#: ../../admin/install/docker.rst:1641
 msgid ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1637
+#: ../../admin/install/docker.rst:1646
 msgid ""
 "Whether to use an implicit TLS (secure) connection when talking to the SMTP "
 "server. In most e-mail documentation, this type of TLS connection is "
@@ -14018,19 +14029,19 @@ msgid ""
 "`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1644 ../../admin/install/docker.rst:1662
+#: ../../admin/install/docker.rst:1653 ../../admin/install/docker.rst:1671
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1649
+#: ../../admin/install/docker.rst:1658
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1655
+#: ../../admin/install/docker.rst:1664
 msgid ""
 "Whether to use a TLS (secure) connection when talking to the SMTP server. "
 "This is used for explicit TLS connections, generally on port 587 or 25. If "
@@ -14038,154 +14049,154 @@ msgid ""
 "envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1667
+#: ../../admin/install/docker.rst:1676
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1673
+#: ../../admin/install/docker.rst:1682
 msgid "Configures Django back-end to use for sending e-mails."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1678
+#: ../../admin/install/docker.rst:1687
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1683
+#: ../../admin/install/docker.rst:1692
 msgid "Configures if and how Weblate should update repositories."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1687
+#: ../../admin/install/docker.rst:1696
 msgid ":setting:`AUTO_UPDATE`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1689
+#: ../../admin/install/docker.rst:1698
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1692
+#: ../../admin/install/docker.rst:1701
 msgid "Site integration"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1696
+#: ../../admin/install/docker.rst:1705
 msgid "Configures :setting:`GET_HELP_URL`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1700
+#: ../../admin/install/docker.rst:1709
 msgid "Configures :setting:`STATUS_URL`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1704
+#: ../../admin/install/docker.rst:1713
 msgid "Configures :setting:`LEGAL_URL`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1708
+#: ../../admin/install/docker.rst:1717
 msgid "Configures :setting:`PRIVACY_URL`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1713
+#: ../../admin/install/docker.rst:1722
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1716
+#: ../../admin/install/docker.rst:1725
 msgid "To enable support for Rollbar, set the following:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1720
+#: ../../admin/install/docker.rst:1729
 msgid "Your Rollbar post server access token."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1724
+#: ../../admin/install/docker.rst:1733
 msgid "Your Rollbar environment, defaults to ``production``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1726
+#: ../../admin/install/docker.rst:1735
 msgid "To enable support for Sentry, set following:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1730
+#: ../../admin/install/docker.rst:1739
 msgid "Your Sentry DSN, see :setting:`SENTRY_DSN`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1734
+#: ../../admin/install/docker.rst:1743
 msgid ""
 "Your Sentry Environment (optional), defaults to :envvar:"
 "`WEBLATE_SITE_DOMAIN`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1738
+#: ../../admin/install/docker.rst:1747
 msgid "Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1749
+#: ../../admin/install/docker.rst:1758
 msgid "Configures :setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1760
+#: ../../admin/install/docker.rst:1769
 msgid "Configures :setting:`SENTRY_SEND_PII`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1763
+#: ../../admin/install/docker.rst:1772
 msgid "Localization CDN"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1770
+#: ../../admin/install/docker.rst:1779
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1772
+#: ../../admin/install/docker.rst:1781
 msgid ""
 "The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It "
 "should be stored on the persistent volume and not in the transient storage."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1775
+#: ../../admin/install/docker.rst:1784
 msgid "One of possibilities is storing that inside the Weblate data dir:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1785
+#: ../../admin/install/docker.rst:1794
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1790
+#: ../../admin/install/docker.rst:1799
 msgid ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1796
+#: ../../admin/install/docker.rst:1805
 msgid ""
 "Changing enabled apps, checks, add-ons, machine translation or autofixes"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1798
+#: ../../admin/install/docker.rst:1807
 msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1827
+#: ../../admin/install/docker.rst:1836
 msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS` :setting:`WEBLATE_MACHINERY`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1834
+#: ../../admin/install/docker.rst:1843
 msgid "Container settings"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1840
+#: ../../admin/install/docker.rst:1849
 msgid ""
 "Base number of worker processes running in the container. When not set it is "
 "determined automatically on container startup based on number of CPU cores "
 "available."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1844
+#: ../../admin/install/docker.rst:1853
 msgid ""
 "It is used to determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
@@ -14194,124 +14205,130 @@ msgid ""
 "to fine-tune."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1857
+#: ../../admin/install/docker.rst:1866
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``) or use different pool "
 "implementation (``--pool=gevent``)."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1861
+#: ../../admin/install/docker.rst:1870
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1872
+#: ../../admin/install/docker.rst:1881
 msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1879
+#: ../../admin/install/docker.rst:1888
 msgid ""
 "This variable can be set to ``1`` to run only one celery process. This "
 "reduces memory usage but may impact Weblate performance."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1888
+#: ../../admin/install/docker.rst:1897
 msgid ":ref:`minimal-celery`"
 msgstr ":ref:`minimal-celery`"
 
-#: ../../admin/install/docker.rst:1892
-msgid "Configure how many uWSGI workers should be executed."
+#: ../../admin/install/docker.rst:1901
+msgid "Configure how many WSGI workers should be executed."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1894
+#: ../../admin/install/docker.rst:1903
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1905
+#: ../../admin/install/docker.rst:1914
+msgid ""
+"The Docker container runs two WSGI processes since 5.9 and :envvar:"
+"`WEB_WORKERS` configures how many threads each process will have."
+msgstr ""
+
+#: ../../admin/install/docker.rst:1919
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1907
+#: ../../admin/install/docker.rst:1921
 msgid "Following services are defined:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1909
+#: ../../admin/install/docker.rst:1923
 msgid "``celery-beat``"
 msgstr "``celery-beat``"
 
-#: ../../admin/install/docker.rst:1910
+#: ../../admin/install/docker.rst:1924
 msgid ""
 "Celery task scheduler, only one instance should be running. This container "
 "is also responsible for the database structure migrations and it should be "
 "started prior others."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1913
+#: ../../admin/install/docker.rst:1927
 msgid "``celery-backup``"
 msgstr "``celery-backup``"
 
-#: ../../admin/install/docker.rst:1914
+#: ../../admin/install/docker.rst:1928
 msgid "Celery worker for backups, only one instance should be running."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1915
+#: ../../admin/install/docker.rst:1929
 msgid "``celery-celery``"
 msgstr "``celery-celery``"
 
-#: ../../admin/install/docker.rst:1916
+#: ../../admin/install/docker.rst:1930
 msgid "Generic Celery worker."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1917
+#: ../../admin/install/docker.rst:1931
 msgid "``celery-memory``"
 msgstr "``celery-memory``"
 
-#: ../../admin/install/docker.rst:1918
+#: ../../admin/install/docker.rst:1932
 msgid "Translation memory Celery worker."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1919
+#: ../../admin/install/docker.rst:1933
 msgid "``celery-notify``"
 msgstr "``celery-notify``"
 
-#: ../../admin/install/docker.rst:1920
+#: ../../admin/install/docker.rst:1934
 msgid "Notifications Celery worker."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1921
+#: ../../admin/install/docker.rst:1935
 msgid "``celery-translate``"
 msgstr "``celery-translate``"
 
-#: ../../admin/install/docker.rst:1922
+#: ../../admin/install/docker.rst:1936
 msgid "Automatic translation Celery worker."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1923
+#: ../../admin/install/docker.rst:1937
 msgid "``web``"
 msgstr "``web``"
 
-#: ../../admin/install/docker.rst:1924
+#: ../../admin/install/docker.rst:1938
 msgid "Web server."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1930
+#: ../../admin/install/docker.rst:1944
 msgid "Docker container volumes"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1932
+#: ../../admin/install/docker.rst:1946
 msgid ""
 "There are two volumes (``data`` and ``cache``) exported by the Weblate "
 "container. The other service containers (PostgreSQL or Redis) have their "
 "data volumes as well, but those are not covered by this document."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1936
+#: ../../admin/install/docker.rst:1950
 msgid ""
 "The ``data`` volume is mounted as :file:`/app/data` and is used to store "
 "Weblate persistent data such as cloned repositories or to customize Weblate "
@@ -14319,7 +14336,7 @@ msgid ""
 "here."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1940
+#: ../../admin/install/docker.rst:1954
 msgid ""
 "The placement of the Docker volume on host system depends on your Docker "
 "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
@@ -14327,7 +14344,7 @@ msgid ""
 "compose directory, container, and volume names)."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1945
+#: ../../admin/install/docker.rst:1959
 msgid ""
 "The ``cache`` volume is mounted as :file:`/app/cache` and is used to store "
 "static files and :setting:`CACHE_DIR`. Its content is recreated on container "
@@ -14335,54 +14352,54 @@ msgid ""
 "`tmpfs`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1949
+#: ../../admin/install/docker.rst:1963
 msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1952
+#: ../../admin/install/docker.rst:1966
 msgid ""
 "Weblate container can also be executed with a read-only root file system. In "
 "this case, two additional ``tmpfs`` volumes should be mounted: ``/tmp`` and "
 "``/run``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1958
+#: ../../admin/install/docker.rst:1972
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/engine/storage/"
 "volumes/>`_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1963
+#: ../../admin/install/docker.rst:1977
 msgid "Read-only root filesystem"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1967
+#: ../../admin/install/docker.rst:1981
 msgid ""
 "When running the container with a read-only root filesystem, two additional "
 "`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1974
+#: ../../admin/install/docker.rst:1988
 msgid "Configuration beyond environment variables"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1976
+#: ../../admin/install/docker.rst:1990
 msgid ""
 ":ref:`Docker environment variables <docker-environment>` are intended to "
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1980
+#: ../../admin/install/docker.rst:1994
 msgid ""
 "If you find a setting that is not exposed as an environment variable, and "
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1984
+#: ../../admin/install/docker.rst:1998
 msgid ""
 "If you need to modify a setting that is not exposed as a Docker environment "
 "variable, you can still do so, either :ref:`from the data volume <docker-"
@@ -14390,62 +14407,62 @@ msgid ""
 "settings>`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1991
+#: ../../admin/install/docker.rst:2005
 msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
-#: ../../admin/install/docker.rst:1996
+#: ../../admin/install/docker.rst:2010
 msgid "Overriding settings from the data volume"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1998
+#: ../../admin/install/docker.rst:2012
 msgid ""
 "You can create a file at :file:`/app/data/settings-override.py`, i.e. at the "
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2006
+#: ../../admin/install/docker.rst:2020
 msgid "Overriding settings by extending the Docker image"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2008
+#: ../../admin/install/docker.rst:2022
 msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2010
+#: ../../admin/install/docker.rst:2024
 msgid ":ref:`Create a custom Python package <custom-module>`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2012
+#: ../../admin/install/docker.rst:2026
 msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2015
+#: ../../admin/install/docker.rst:2029
 msgid ""
 "For example, within the example package structure defined at :ref:`custom-"
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2024
+#: ../../admin/install/docker.rst:2038
 msgid ""
 "Create a custom ``Dockerfile`` that inherits from the official Weblate "
 "Docker image, and then installs your package and points the "
 "``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2040
+#: ../../admin/install/docker.rst:2054
 msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2043
+#: ../../admin/install/docker.rst:2057
 msgid ""
 "There is `no clean way <https://github.com/docker/compose/issues/7231>`__ to "
 "do this with ``docker-compose.override.yml``. You *could* add ``build: .`` "
@@ -14453,7 +14470,7 @@ msgid ""
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2049
+#: ../../admin/install/docker.rst:2063
 msgid ""
 "So, instead of using the ``docker-compose.yml`` straight from the `official "
 "repository <https://github.com/WeblateOrg/docker-compose>`__, unmodified, "
@@ -14462,17 +14479,17 @@ msgid ""
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2055
+#: ../../admin/install/docker.rst:2069
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2060
+#: ../../admin/install/docker.rst:2074
 msgid "Extend your custom settings module to define or redefine settings."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2062
+#: ../../admin/install/docker.rst:2076
 msgid ""
 "You can define settings before or after the import statement above to "
 "determine which settings take precedence. Settings defined before the import "
@@ -14481,7 +14498,7 @@ msgid ""
 "cannot be overridden."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2068
+#: ../../admin/install/docker.rst:2082
 msgid ""
 "You can also go further. For example, you can reproduce some of the things "
 "that ``weblate.docker_settings`` `does <https://github.com/WeblateOrg/"
@@ -14490,11 +14507,11 @@ msgid ""
 "the data volume."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2075
+#: ../../admin/install/docker.rst:2089
 msgid "Replacing logo and other static files"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2077
+#: ../../admin/install/docker.rst:2091
 msgid ""
 "The static files coming with Weblate can be overridden by placing into :file:"
 "`/app/data/python/customize/static` (see :ref:`docker-volume`). For example "
@@ -14502,59 +14519,59 @@ msgid ""
 "the favicon."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2084
+#: ../../admin/install/docker.rst:2098
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2087
+#: ../../admin/install/docker.rst:2101
 msgid ""
 "This approach can be also used to override Weblate templates. For example :"
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
 "templates/legal/documents`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2091
+#: ../../admin/install/docker.rst:2105
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2104
+#: ../../admin/install/docker.rst:2118
 msgid "Configuring PostgreSQL server"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2106
+#: ../../admin/install/docker.rst:2120
 msgid ""
 "The PostgreSQL container uses default PostgreSQL configuration and it won't "
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2110
+#: ../../admin/install/docker.rst:2124
 msgid ""
 "The configuration can be adjusted as described in `Database Configuration` "
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2115
+#: ../../admin/install/docker.rst:2129
 msgid "Container internals"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2117
+#: ../../admin/install/docker.rst:2131
 msgid ""
 "The container is using :program:`supervisor` to start individual services. "
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2120
+#: ../../admin/install/docker.rst:2134
 msgid "To check the services status use:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2126
+#: ../../admin/install/docker.rst:2140
 msgid ""
 "There are individual services for each Celery queue (see :ref:`celery` for "
 "details). You can stop processing some tasks by stopping the appropriate "
@@ -23562,14 +23579,14 @@ msgid "Weblate 5.9"
 msgstr "Weblate"
 
 #: ../../changes.rst:4
-msgid "Not yet released."
+msgid "Released on December 16th 2024."
 msgstr ""
 
-#: ../../changes.rst:6 ../../changes.rst:144 ../../changes.rst:249
-#: ../../changes.rst:345 ../../changes.rst:457 ../../changes.rst:494
-#: ../../changes.rst:605 ../../changes.rst:667 ../../changes.rst:729
-#: ../../changes.rst:770 ../../changes.rst:797 ../../changes.rst:873
-#: ../../changes.rst:914
+#: ../../changes.rst:6 ../../changes.rst:147 ../../changes.rst:252
+#: ../../changes.rst:348 ../../changes.rst:460 ../../changes.rst:497
+#: ../../changes.rst:608 ../../changes.rst:670 ../../changes.rst:732
+#: ../../changes.rst:773 ../../changes.rst:800 ../../changes.rst:876
+#: ../../changes.rst:917
 msgid "**New features**"
 msgstr ""
 
@@ -23607,13 +23624,13 @@ msgstr ""
 msgid "Logging to :ref:`graylog`."
 msgstr ""
 
-#: ../../changes.rst:18 ../../changes.rst:56 ../../changes.rst:152
-#: ../../changes.rst:195 ../../changes.rst:221 ../../changes.rst:259
-#: ../../changes.rst:325 ../../changes.rst:350 ../../changes.rst:399
-#: ../../changes.rst:421 ../../changes.rst:462 ../../changes.rst:508
-#: ../../changes.rst:613 ../../changes.rst:676 ../../changes.rst:705
-#: ../../changes.rst:733 ../../changes.rst:772 ../../changes.rst:805
-#: ../../changes.rst:848 ../../changes.rst:877 ../../changes.rst:922
+#: ../../changes.rst:18 ../../changes.rst:59 ../../changes.rst:155
+#: ../../changes.rst:198 ../../changes.rst:224 ../../changes.rst:262
+#: ../../changes.rst:328 ../../changes.rst:353 ../../changes.rst:402
+#: ../../changes.rst:424 ../../changes.rst:465 ../../changes.rst:511
+#: ../../changes.rst:616 ../../changes.rst:679 ../../changes.rst:708
+#: ../../changes.rst:736 ../../changes.rst:775 ../../changes.rst:808
+#: ../../changes.rst:851 ../../changes.rst:880 ../../changes.rst:925
 msgid "**Improvements**"
 msgstr ""
 
@@ -23668,17 +23685,17 @@ msgid ""
 "project)/(string:component)/(string:language)/file/`."
 msgstr ""
 
-#: ../../changes.rst:31 ../../changes.rst:60 ../../changes.rst:81
-#: ../../changes.rst:102 ../../changes.rst:125 ../../changes.rst:167
-#: ../../changes.rst:201 ../../changes.rst:226 ../../changes.rst:272
-#: ../../changes.rst:305 ../../changes.rst:330 ../../changes.rst:360
-#: ../../changes.rst:383 ../../changes.rst:406 ../../changes.rst:426
-#: ../../changes.rst:442 ../../changes.rst:472 ../../changes.rst:519
-#: ../../changes.rst:550 ../../changes.rst:573 ../../changes.rst:589
-#: ../../changes.rst:628 ../../changes.rst:652 ../../changes.rst:685
-#: ../../changes.rst:710 ../../changes.rst:746 ../../changes.rst:779
-#: ../../changes.rst:820 ../../changes.rst:853 ../../changes.rst:886
-#: ../../changes.rst:943
+#: ../../changes.rst:31 ../../changes.rst:63 ../../changes.rst:84
+#: ../../changes.rst:105 ../../changes.rst:128 ../../changes.rst:170
+#: ../../changes.rst:204 ../../changes.rst:229 ../../changes.rst:275
+#: ../../changes.rst:308 ../../changes.rst:333 ../../changes.rst:363
+#: ../../changes.rst:386 ../../changes.rst:409 ../../changes.rst:429
+#: ../../changes.rst:445 ../../changes.rst:475 ../../changes.rst:522
+#: ../../changes.rst:553 ../../changes.rst:576 ../../changes.rst:592
+#: ../../changes.rst:631 ../../changes.rst:655 ../../changes.rst:688
+#: ../../changes.rst:713 ../../changes.rst:749 ../../changes.rst:782
+#: ../../changes.rst:823 ../../changes.rst:856 ../../changes.rst:889
+#: ../../changes.rst:946
 msgid "**Bug fixes**"
 msgstr ""
 
@@ -23692,10 +23709,10 @@ msgstr ""
 msgid "Saving newly added strings in some formats."
 msgstr ""
 
-#: ../../changes.rst:36 ../../changes.rst:173 ../../changes.rst:278
-#: ../../changes.rst:368 ../../changes.rst:530 ../../changes.rst:636
-#: ../../changes.rst:689 ../../changes.rst:754 ../../changes.rst:784
-#: ../../changes.rst:829 ../../changes.rst:896 ../../changes.rst:951
+#: ../../changes.rst:36 ../../changes.rst:176 ../../changes.rst:281
+#: ../../changes.rst:371 ../../changes.rst:533 ../../changes.rst:639
+#: ../../changes.rst:692 ../../changes.rst:757 ../../changes.rst:787
+#: ../../changes.rst:832 ../../changes.rst:899 ../../changes.rst:954
 msgid "**Compatibility**"
 msgstr ""
 
@@ -23709,17 +23726,33 @@ msgstr ""
 msgid "Weblate now requires Git 2.28 or newer."
 msgstr ""
 
-#: ../../changes.rst:41 ../../changes.rst:66 ../../changes.rst:87
-#: ../../changes.rst:110 ../../changes.rst:129 ../../changes.rst:178
-#: ../../changes.rst:206 ../../changes.rst:234 ../../changes.rst:287
-#: ../../changes.rst:314 ../../changes.rst:334 ../../changes.rst:372
-#: ../../changes.rst:388 ../../changes.rst:410 ../../changes.rst:431
-#: ../../changes.rst:446 ../../changes.rst:481 ../../changes.rst:536
-#: ../../changes.rst:562 ../../changes.rst:578 ../../changes.rst:594
-#: ../../changes.rst:641 ../../changes.rst:656 ../../changes.rst:694
-#: ../../changes.rst:718 ../../changes.rst:759 ../../changes.rst:786
-#: ../../changes.rst:833 ../../changes.rst:860 ../../changes.rst:901
-#: ../../changes.rst:956 ../../changes/v4.rst:53 ../../changes/v4.rst:85
+#: ../../changes.rst:40
+msgid ""
+"Any custom code that relied on `Change` models signals should be reviewed."
+msgstr ""
+
+#: ../../changes.rst:41
+msgid ""
+":ref:`fedora-messaging` integration needs to be updated to be compatible "
+"with this release."
+msgstr ""
+
+#: ../../changes.rst:42
+msgid ""
+":envvar:`WEB_WORKERS` now configures number of threads instead of processes."
+msgstr ""
+
+#: ../../changes.rst:44 ../../changes.rst:69 ../../changes.rst:90
+#: ../../changes.rst:113 ../../changes.rst:132 ../../changes.rst:181
+#: ../../changes.rst:209 ../../changes.rst:237 ../../changes.rst:290
+#: ../../changes.rst:317 ../../changes.rst:337 ../../changes.rst:375
+#: ../../changes.rst:391 ../../changes.rst:413 ../../changes.rst:434
+#: ../../changes.rst:449 ../../changes.rst:484 ../../changes.rst:539
+#: ../../changes.rst:565 ../../changes.rst:581 ../../changes.rst:597
+#: ../../changes.rst:644 ../../changes.rst:659 ../../changes.rst:697
+#: ../../changes.rst:721 ../../changes.rst:762 ../../changes.rst:789
+#: ../../changes.rst:836 ../../changes.rst:863 ../../changes.rst:904
+#: ../../changes.rst:959 ../../changes/v4.rst:53 ../../changes/v4.rst:85
 #: ../../changes/v4.rst:168 ../../changes/v4.rst:236 ../../changes/v4.rst:317
 #: ../../changes/v4.rst:373 ../../changes/v4.rst:432 ../../changes/v4.rst:494
 #: ../../changes/v4.rst:540 ../../changes/v4.rst:595 ../../changes/v4.rst:642
@@ -23729,17 +23762,17 @@ msgstr ""
 msgid "**Upgrading**"
 msgstr ""
 
-#: ../../changes.rst:43 ../../changes.rst:68 ../../changes.rst:89
-#: ../../changes.rst:112 ../../changes.rst:131 ../../changes.rst:180
-#: ../../changes.rst:208 ../../changes.rst:236 ../../changes.rst:289
-#: ../../changes.rst:316 ../../changes.rst:336 ../../changes.rst:374
-#: ../../changes.rst:390 ../../changes.rst:412 ../../changes.rst:433
-#: ../../changes.rst:448 ../../changes.rst:483 ../../changes.rst:538
-#: ../../changes.rst:564 ../../changes.rst:580 ../../changes.rst:596
-#: ../../changes.rst:643 ../../changes.rst:658 ../../changes.rst:696
-#: ../../changes.rst:720 ../../changes.rst:761 ../../changes.rst:788
-#: ../../changes.rst:835 ../../changes.rst:862 ../../changes.rst:903
-#: ../../changes.rst:958 ../../changes/v4.rst:55 ../../changes/v4.rst:87
+#: ../../changes.rst:46 ../../changes.rst:71 ../../changes.rst:92
+#: ../../changes.rst:115 ../../changes.rst:134 ../../changes.rst:183
+#: ../../changes.rst:211 ../../changes.rst:239 ../../changes.rst:292
+#: ../../changes.rst:319 ../../changes.rst:339 ../../changes.rst:377
+#: ../../changes.rst:393 ../../changes.rst:415 ../../changes.rst:436
+#: ../../changes.rst:451 ../../changes.rst:486 ../../changes.rst:541
+#: ../../changes.rst:567 ../../changes.rst:583 ../../changes.rst:599
+#: ../../changes.rst:646 ../../changes.rst:661 ../../changes.rst:699
+#: ../../changes.rst:723 ../../changes.rst:764 ../../changes.rst:791
+#: ../../changes.rst:838 ../../changes.rst:865 ../../changes.rst:906
+#: ../../changes.rst:961 ../../changes/v4.rst:55 ../../changes/v4.rst:87
 #: ../../changes/v4.rst:170 ../../changes/v4.rst:238 ../../changes/v4.rst:319
 #: ../../changes/v4.rst:376 ../../changes/v4.rst:434 ../../changes/v4.rst:497
 #: ../../changes/v4.rst:542 ../../changes/v4.rst:598 ../../changes/v4.rst:644
@@ -23750,45 +23783,45 @@ msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr ""
 
-#: ../../changes.rst:45 ../../changes.rst:70 ../../changes.rst:91
-#: ../../changes.rst:114 ../../changes.rst:133 ../../changes.rst:184
-#: ../../changes.rst:210 ../../changes.rst:238 ../../changes.rst:294
+#: ../../changes.rst:48 ../../changes.rst:73 ../../changes.rst:94
+#: ../../changes.rst:117 ../../changes.rst:136 ../../changes.rst:187
+#: ../../changes.rst:213 ../../changes.rst:241 ../../changes.rst:297
 msgid "**Contributors**"
 msgstr ""
 
-#: ../../changes.rst:49
+#: ../../changes.rst:52
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/127?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:52
+#: ../../changes.rst:55
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.8.4"
 msgstr "Weblate"
 
-#: ../../changes.rst:54
+#: ../../changes.rst:57
 msgid "Released on November 19th 2024."
 msgstr ""
 
-#: ../../changes.rst:58
+#: ../../changes.rst:61
 msgid ":ref:`search-users` can search based on user changes."
 msgstr ""
 
-#: ../../changes.rst:62
+#: ../../changes.rst:65
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid "Fixed occasional crash in :ref:`rss`."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:63
+#: ../../changes.rst:66
 #, fuzzy
 #| msgid ":ref:`check-icu-message-format`"
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgstr ":ref:`check-icu-message-format`"
 
-#: ../../changes.rst:64
+#: ../../changes.rst:67
 msgid ""
 ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
 msgstr ""
@@ -23825,31 +23858,31 @@ msgstr ""
 msgid "Michal Čihař"
 msgstr ""
 
-#: ../../changes.rst:74
+#: ../../changes.rst:77
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/132?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:77
+#: ../../changes.rst:80
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.8.3"
 msgstr "Weblate"
 
-#: ../../changes.rst:79
+#: ../../changes.rst:82
 msgid "Released on November 6th 2024."
 msgstr ""
 
-#: ../../changes.rst:83
+#: ../../changes.rst:86
 msgid "Formatting of some :ref:`audit-log` entries."
 msgstr ""
 
-#: ../../changes.rst:84 ../../changes.rst:108
+#: ../../changes.rst:87 ../../changes.rst:111
 msgid "Fixed XML escaped output in some machine translation integrations."
 msgstr ""
 
-#: ../../changes.rst:85
+#: ../../changes.rst:88
 msgid "Fixed duplicate listing of newly added glossary terms."
 msgstr ""
 
@@ -23857,37 +23890,37 @@ msgstr ""
 msgid "Michal Čihař, Mehdi El Oualy"
 msgstr ""
 
-#: ../../changes.rst:95
+#: ../../changes.rst:98
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/131?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:98
+#: ../../changes.rst:101
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.8.2"
 msgstr "Weblate"
 
-#: ../../changes.rst:100
+#: ../../changes.rst:103
 msgid "Released on November 1st 2024."
 msgstr ""
 
-#: ../../changes.rst:104
+#: ../../changes.rst:107
 msgid "Update outdated plural definitions during the database migration."
 msgstr ""
 
-#: ../../changes.rst:105
+#: ../../changes.rst:108
 msgid "Reduced number of database queries when updating multiple strings."
 msgstr ""
 
-#: ../../changes.rst:106
+#: ../../changes.rst:109
 msgid ""
 "Leading problematic characters in :ref:`glossary` terms are now properly "
 "stripped in uploaded files."
 msgstr ""
 
-#: ../../changes.rst:107
+#: ../../changes.rst:110
 #, fuzzy
 #| msgid ":ref:`workflow-customization`"
 msgid "Improved :ref:`workflow-customization` performance."
@@ -23921,151 +23954,151 @@ msgstr ""
 msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 msgstr ""
 
-#: ../../changes.rst:118
+#: ../../changes.rst:121
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/129?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:121
+#: ../../changes.rst:124
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.8.1"
 msgstr "Weblate"
 
-#: ../../changes.rst:123 ../../changes.rst:142
+#: ../../changes.rst:126 ../../changes.rst:145
 msgid "Released on October 15th 2024."
 msgstr ""
 
-#: ../../changes.rst:127
+#: ../../changes.rst:130
 msgid "Use lower case name for the Python package."
 msgstr ""
 
-#: ../../changes.rst:137
+#: ../../changes.rst:140
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/128?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:140
+#: ../../changes.rst:143
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.8"
 msgstr "Weblate"
 
-#: ../../changes.rst:146
+#: ../../changes.rst:149
 msgid "Added :ref:`component-key_filter` in the component."
 msgstr ""
 
-#: ../../changes.rst:147
+#: ../../changes.rst:150
 msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
 
-#: ../../changes.rst:148
+#: ../../changes.rst:151
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, see :ref:"
 "`settings-credentials`."
 msgstr ""
 
-#: ../../changes.rst:149
+#: ../../changes.rst:152
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:150
+#: ../../changes.rst:153
 #, fuzzy
 #| msgid ":ref:`vcs-bitbucket-server`"
 msgid ":ref:`vcs-bitbucket-cloud`."
 msgstr ":ref:`vcs-bitbucket-server`"
 
-#: ../../changes.rst:154
+#: ../../changes.rst:157
 #, fuzzy
 #| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-terminology`"
 
-#: ../../changes.rst:155
+#: ../../changes.rst:158
 #, fuzzy
 #| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-deepl` now supports specifying translation context."
 msgstr ":ref:`mt-microsoft-terminology`"
 
-#: ../../changes.rst:156
+#: ../../changes.rst:159
 #, fuzzy
 #| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-aws` now supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-terminology`"
 
-#: ../../changes.rst:157
+#: ../../changes.rst:160
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
 msgstr ""
 
-#: ../../changes.rst:158
+#: ../../changes.rst:161
 msgid ""
 ":ref:`autofix` for French and Breton now uses a non-breaking space before "
 "colons instead of a narrow one."
 msgstr ""
 
-#: ../../changes.rst:159
+#: ../../changes.rst:162
 msgid ":ref:`api` now has a preview OpenAPI specification."
 msgstr ""
 
-#: ../../changes.rst:160
+#: ../../changes.rst:163
 msgid "Stale, empty glossaries are now automatically removed."
 msgstr ""
 
-#: ../../changes.rst:161
+#: ../../changes.rst:164
 msgid ":kbd:`?` now displays available :ref:`keyboard`."
 msgstr ""
 
-#: ../../changes.rst:162
+#: ../../changes.rst:165
 msgid ""
 "Translation and language view in the project now include basic information "
 "about the language and plurals."
 msgstr ""
 
-#: ../../changes.rst:163
+#: ../../changes.rst:166
 msgid ":ref:`search-replace` shows a preview of matched strings."
 msgstr ""
 
-#: ../../changes.rst:164
+#: ../../changes.rst:167
 msgid ":ref:`aresource` now supports translatable attribute in its strings."
 msgstr ""
 
-#: ../../changes.rst:165
+#: ../../changes.rst:168
 msgid ""
 "Creating component via file upload (Translate document) now supports "
 "bilingual files."
 msgstr ""
 
-#: ../../changes.rst:169
+#: ../../changes.rst:172
 #, fuzzy
 #| msgid ":ref:`workflow-customization`"
 msgid "Displaying :ref:`workflow-customization` setting in some cases."
 msgstr ":ref:`workflow-customization`"
 
-#: ../../changes.rst:170
+#: ../../changes.rst:173
 msgid "Users can add component in any language already existing in a project."
 msgstr ""
 
-#: ../../changes.rst:171
+#: ../../changes.rst:174
 msgid ""
 ":ref:`check-unnamed-format` better handles some strings, such as :ref:`check-"
 "python-brace-format`."
 msgstr ""
 
-#: ../../changes.rst:175
+#: ../../changes.rst:178
 msgid "Weblate now requires Python 3.11 or newer."
 msgstr ""
 
-#: ../../changes.rst:176
+#: ../../changes.rst:179
 msgid ":ref:`mt-aws` now requires the `TranslateFullAccess` permission"
 msgstr ""
 
-#: ../../changes.rst:182
+#: ../../changes.rst:185
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS`` and changes in "
@@ -24103,41 +24136,41 @@ msgid ""
 "Ingo Brückl, Mehdi El Oualy"
 msgstr ""
 
-#: ../../changes.rst:188
+#: ../../changes.rst:191
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:191
+#: ../../changes.rst:194
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.7.2"
 msgstr "Weblate"
 
-#: ../../changes.rst:193
+#: ../../changes.rst:196
 msgid "Released on September 5th 2024."
 msgstr ""
 
-#: ../../changes.rst:197
+#: ../../changes.rst:200
 msgid ":ref:`2fa` remembers last method used by user."
 msgstr ""
 
-#: ../../changes.rst:198
+#: ../../changes.rst:201
 msgid "Instead of redirecting, the sign-out now displays a page."
 msgstr ""
 
-#: ../../changes.rst:199
+#: ../../changes.rst:202
 msgid "Improved readability of exception logs."
 msgstr ""
 
-#: ../../changes.rst:203
+#: ../../changes.rst:206
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Updating of translations from the repository in linked components."
 msgstr "Besig met outomatiese vertaling"
 
-#: ../../changes.rst:204
+#: ../../changes.rst:207
 msgid "Improved rendering of digest notification e-mails."
 msgstr ""
 
@@ -24153,53 +24186,53 @@ msgid ""
 "Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 msgstr ""
 
-#: ../../changes.rst:214
+#: ../../changes.rst:217
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:217
+#: ../../changes.rst:220
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.7.1"
 msgstr "Weblate"
 
-#: ../../changes.rst:219
+#: ../../changes.rst:222
 msgid "Released on August 30th 2024."
 msgstr ""
 
-#: ../../changes.rst:223
+#: ../../changes.rst:226
 msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
 msgstr ""
 
-#: ../../changes.rst:224
+#: ../../changes.rst:227
 msgid ""
 ":ref:`addon-weblate.cleanup.generic` is now automatically installed for "
 "formats which need it to update non-translation content in the translated "
 "files."
 msgstr ""
 
-#: ../../changes.rst:228
+#: ../../changes.rst:231
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
 msgstr ""
 
-#: ../../changes.rst:229
+#: ../../changes.rst:232
 msgid "Fixed authentication using some third-party providers such as Azure."
 msgstr ""
 
-#: ../../changes.rst:230
+#: ../../changes.rst:233
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
 msgstr ""
 
-#: ../../changes.rst:231
+#: ../../changes.rst:234
 msgid "QR code for TOTP is now black/white even in dark mode."
 msgstr ""
 
-#: ../../changes.rst:232
+#: ../../changes.rst:235
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
 msgstr ""
@@ -24226,150 +24259,150 @@ msgstr ""
 msgid "Michal Čihař, Robin"
 msgstr ""
 
-#: ../../changes.rst:242
+#: ../../changes.rst:245
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/125?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:245
+#: ../../changes.rst:248
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.7"
 msgstr "Weblate"
 
-#: ../../changes.rst:247
+#: ../../changes.rst:250
 msgid "Released on August 15th 2024."
 msgstr ""
 
-#: ../../changes.rst:251
+#: ../../changes.rst:254
 msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
 msgstr ""
 
-#: ../../changes.rst:252
+#: ../../changes.rst:255
 msgid ":ref:`2fa` can be enforced at the team or project level."
 msgstr ""
 
-#: ../../changes.rst:253
+#: ../../changes.rst:256
 msgid ""
 ":ref:`adding-new-strings` can now create plural strings in the user "
 "interface."
 msgstr ""
 
-#: ../../changes.rst:254
+#: ../../changes.rst:257
 msgid ":ref:`labels` now include description to explain them."
 msgstr ""
 
-#: ../../changes.rst:255
+#: ../../changes.rst:258
 msgid "New :ref:`subscriptions` for completed translation and component."
 msgstr ""
 
-#: ../../changes.rst:256
+#: ../../changes.rst:259
 msgid ""
 ":ref:`mt-openai` now supports custom models and URLs and offers rephrasing "
 "of existing strings."
 msgstr ""
 
-#: ../../changes.rst:257
+#: ../../changes.rst:260
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:261
+#: ../../changes.rst:264
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
 msgstr ""
 
-#: ../../changes.rst:262
+#: ../../changes.rst:265
 msgid ""
 "The status widgets are now supported site-wide and language-wide, see :ref:"
 "`promotion`."
 msgstr ""
 
-#: ../../changes.rst:263
+#: ../../changes.rst:266
 msgid ":ref:`reports` are now available for categories."
 msgstr ""
 
-#: ../../changes.rst:264
+#: ../../changes.rst:267
 msgid "Highlight newlines in the editor."
 msgstr ""
 
-#: ../../changes.rst:265
+#: ../../changes.rst:268
 msgid ":doc:`/formats/csv` better handle files with two fields only."
 msgstr ""
 
-#: ../../changes.rst:266
+#: ../../changes.rst:269
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr ""
 
-#: ../../changes.rst:267
+#: ../../changes.rst:270
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
 "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
 "components and projects."
 msgstr ""
 
-#: ../../changes.rst:268
+#: ../../changes.rst:271
 msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
 msgstr ""
 
-#: ../../changes.rst:269
+#: ../../changes.rst:272
 #, fuzzy
 #| msgid ":ref:`check-icu-message-format`"
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
 msgstr ":ref:`check-icu-message-format`"
 
-#: ../../changes.rst:270
+#: ../../changes.rst:273
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
 msgstr ""
 
-#: ../../changes.rst:274
+#: ../../changes.rst:277
 msgid "Accessibility of keyboard navigation."
 msgstr ""
 
-#: ../../changes.rst:275
+#: ../../changes.rst:278
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
 msgstr ""
 
-#: ../../changes.rst:276
+#: ../../changes.rst:279
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
 msgstr ""
 
-#: ../../changes.rst:280
+#: ../../changes.rst:283
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
 msgstr ""
 
-#: ../../changes.rst:281
+#: ../../changes.rst:284
 msgid ":ref:`csp` is now stricter what might block third-party customizations."
 msgstr ""
 
-#: ../../changes.rst:282
+#: ../../changes.rst:285
 msgid ""
 "Monolingual formats no longer copy comments from :ref:`component-template` "
 "when adding strings to translation."
 msgstr ""
 
-#: ../../changes.rst:283
+#: ../../changes.rst:286
 msgid ""
 "Dropped support for Amagama in :ref:`machine-translation-setup` as the "
 "service is no longer maintained."
 msgstr ""
 
-#: ../../changes.rst:284
+#: ../../changes.rst:287
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
 msgstr ""
 
-#: ../../changes.rst:285
+#: ../../changes.rst:288
 msgid ""
 "Translation credit reports in the JSON format now follows a different format "
 "for entries."
 msgstr ""
 
-#: ../../changes.rst:291
+#: ../../changes.rst:294
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, "
@@ -24377,7 +24410,7 @@ msgid ""
 "accordingly."
 msgstr ""
 
-#: ../../changes.rst:292
+#: ../../changes.rst:295
 msgid ""
 ":setting:`ENABLE_HTTPS` is now required for WebAuthn support. If you cannot "
 "use HTTPS, please silence related check as described in :setting:"
@@ -24411,151 +24444,151 @@ msgid ""
 "Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 msgstr ""
 
-#: ../../changes.rst:298
+#: ../../changes.rst:301
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:301
+#: ../../changes.rst:304
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.6.2"
 msgstr "Weblate"
 
-#: ../../changes.rst:303
+#: ../../changes.rst:306
 msgid "Released on July 1st 2024."
 msgstr ""
 
-#: ../../changes.rst:307
+#: ../../changes.rst:310
 msgid "Rendering of :ref:`labels` color selection widget."
 msgstr ""
 
-#: ../../changes.rst:308
+#: ../../changes.rst:311
 msgid "Detection of pending outgoing commits."
 msgstr ""
 
-#: ../../changes.rst:309
+#: ../../changes.rst:312
 msgid ":ref:`addons` button layout."
 msgstr ""
 
-#: ../../changes.rst:310
+#: ../../changes.rst:313
 #, fuzzy
 #| msgid ":ref:`addon-weblate.discovery.discovery`"
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
 msgstr ":ref:`addon-weblate.discovery.discovery`"
 
-#: ../../changes.rst:311
+#: ../../changes.rst:314
 msgid "Removal of source strings in :ref:`glossary`."
 msgstr ""
 
-#: ../../changes.rst:312
+#: ../../changes.rst:315
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / "
 "GHSA-jfgp-674x-6q4p)."
 msgstr ""
 
-#: ../../changes.rst:318
+#: ../../changes.rst:321
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/124?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:321
+#: ../../changes.rst:324
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.6.1"
 msgstr "Weblate"
 
-#: ../../changes.rst:323
+#: ../../changes.rst:326
 msgid "Released on June 24th 2024."
 msgstr ""
 
-#: ../../changes.rst:327
+#: ../../changes.rst:330
 msgid ""
 "Docker container accepts :envvar:`WEBLATE_REMOVE_ADDONS` and :envvar:"
 "`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :"
 "envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` for CORS handling in API."
 msgstr ""
 
-#: ../../changes.rst:328
+#: ../../changes.rst:331
 msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr ""
 
-#: ../../changes.rst:332
+#: ../../changes.rst:335
 #, fuzzy
 #| msgid ":doc:`/admin/machine`"
 msgid "Language aliases in :doc:`/admin/machine`."
 msgstr ":doc:`/admin/machine`"
 
-#: ../../changes.rst:338
+#: ../../changes.rst:341
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/123?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:341
+#: ../../changes.rst:344
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.6"
 msgstr "Weblate"
 
-#: ../../changes.rst:343
+#: ../../changes.rst:346
 msgid "Released on June 19th 2024."
 msgstr ""
 
-#: ../../changes.rst:347
+#: ../../changes.rst:350
 msgid ":ref:`addons` activity log for tracking add-on activity."
 msgstr ""
 
-#: ../../changes.rst:348
+#: ../../changes.rst:351
 #, fuzzy
 #| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Improved date range selection in :ref:`reports`."
 msgstr ":ref:`mt-google-translate-api-v3`"
 
-#: ../../changes.rst:352
+#: ../../changes.rst:355
 msgid ":ref:`subscriptions` now include strings which need updating."
 msgstr ""
 
-#: ../../changes.rst:353
+#: ../../changes.rst:356
 msgid "Improved compatibility with password managers."
 msgstr ""
 
-#: ../../changes.rst:354
+#: ../../changes.rst:357
 msgid "Improved tracking of uploaded changes."
 msgstr ""
 
-#: ../../changes.rst:355
+#: ../../changes.rst:358
 msgid ""
 "Gracefully handle temporary machine translation errors in automatic "
 "suggestions."
 msgstr ""
 
-#: ../../changes.rst:356
+#: ../../changes.rst:359
 msgid ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
 msgstr ""
 
-#: ../../changes.rst:357
+#: ../../changes.rst:360
 msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgstr ""
 
-#: ../../changes.rst:358
+#: ../../changes.rst:361
 msgid "Reduced memory usage and increased performance of some views."
 msgstr ""
 
-#: ../../changes.rst:362
+#: ../../changes.rst:365
 msgid "Loading of strings with many glossary matches."
 msgstr ""
 
-#: ../../changes.rst:363
+#: ../../changes.rst:366
 #, fuzzy
 #| msgctxt "String state"
 #| msgid "Suggested"
 msgid "Fixed behavior of some site-wide :ref:`addons`."
 msgstr "Voorgestel"
 
-#: ../../changes.rst:364
+#: ../../changes.rst:367
 #, fuzzy
 #| msgid "Plural forms in the uploaded file do not match current translation."
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
@@ -24563,580 +24596,580 @@ msgstr ""
 "Die meervoudsvorms in die opgelaaide lêer stem nie met die huidige vertaling "
 "ooreen nie."
 
-#: ../../changes.rst:365
+#: ../../changes.rst:368
 msgid ":ref:`check-xml-tags` better handle XML entities."
 msgstr ""
 
-#: ../../changes.rst:366
+#: ../../changes.rst:369
 msgid ""
 "Automatic suggestions could mix up replacements between translated strings."
 msgstr ""
 
-#: ../../changes.rst:370
+#: ../../changes.rst:373
 msgid "Compatibility with Django 5.1."
 msgstr ""
 
-#: ../../changes.rst:376
+#: ../../changes.rst:379
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/114?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:379
+#: ../../changes.rst:382
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.5.5"
 msgstr "Weblate"
 
-#: ../../changes.rst:381
+#: ../../changes.rst:384
 msgid "Released on May 13th 2024."
 msgstr ""
 
-#: ../../changes.rst:385
+#: ../../changes.rst:388
 msgid "False-positive merge failure alert when using push branch."
 msgstr ""
 
-#: ../../changes.rst:386
+#: ../../changes.rst:389
 msgid "Cleanup of stale repositories."
 msgstr ""
 
-#: ../../changes.rst:392
+#: ../../changes.rst:395
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/121?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:395
+#: ../../changes.rst:398
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.5.4"
 msgstr "Weblate"
 
-#: ../../changes.rst:397
+#: ../../changes.rst:400
 msgid "Released on May 10th 2024."
 msgstr ""
 
-#: ../../changes.rst:401
+#: ../../changes.rst:404
 msgid "Visually highlight explanation in :ref:`glossary`."
 msgstr ""
 
-#: ../../changes.rst:402
+#: ../../changes.rst:405
 msgid "Add :ref:`addons` history tab in management."
 msgstr ""
 
-#: ../../changes.rst:403
+#: ../../changes.rst:406
 msgid "New :ref:`alerts` when :ref:`glossary` might not work as expected."
 msgstr ""
 
-#: ../../changes.rst:404
+#: ../../changes.rst:407
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr ""
 
-#: ../../changes.rst:408
+#: ../../changes.rst:411
 #, fuzzy
 #| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Improved handling placeables in :ref:`mt-openai`."
 msgstr ":ref:`mt-google-translate-api-v3`"
 
-#: ../../changes.rst:414
+#: ../../changes.rst:417
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:417
+#: ../../changes.rst:420
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.5.3"
 msgstr "Weblate"
 
-#: ../../changes.rst:419
+#: ../../changes.rst:422
 msgid "Released on May 3rd 2024."
 msgstr ""
 
-#: ../../changes.rst:423
+#: ../../changes.rst:426
 msgid "Improved performance of rendering large lists of objects."
 msgstr ""
 
-#: ../../changes.rst:424
+#: ../../changes.rst:427
 msgid ""
 "Component management: added links to manage project/site-wide :ref:`addons`."
 msgstr ""
 
-#: ../../changes.rst:428
+#: ../../changes.rst:431
 msgid "Fixed crashes with librsvg older than 2.46."
 msgstr ""
 
-#: ../../changes.rst:429
+#: ../../changes.rst:432
 msgid "Daily execution of some :ref:`addons`."
 msgstr ""
 
-#: ../../changes.rst:435
+#: ../../changes.rst:438
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/119?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:438
+#: ../../changes.rst:441
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.5.2"
 msgstr "Weblate"
 
-#: ../../changes.rst:440 ../../changes.rst:455
+#: ../../changes.rst:443 ../../changes.rst:458
 msgid "Released on April 26th 2024."
 msgstr ""
 
-#: ../../changes.rst:444
+#: ../../changes.rst:447
 msgid "Fixed publishing packages to PyPI."
 msgstr ""
 
-#: ../../changes.rst:450
+#: ../../changes.rst:453
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/118?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:453
+#: ../../changes.rst:456
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.5.1"
 msgstr "Weblate"
 
-#: ../../changes.rst:459
+#: ../../changes.rst:462
 msgid ":ref:`Searching` supports ``source_changed:DATETIME``."
 msgstr ""
 
-#: ../../changes.rst:460
+#: ../../changes.rst:463
 #, fuzzy
 #| msgid ":ref:`component-language_code_style`"
 msgid "Added several new :ref:`component-language_code_style`."
 msgstr ":ref:`component-language_code_style`"
 
-#: ../../changes.rst:464
+#: ../../changes.rst:467
 msgid "Display more details on source string change in history."
 msgstr ""
 
-#: ../../changes.rst:465
+#: ../../changes.rst:468
 #, fuzzy
 #| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` now supports using custom translators."
 msgstr ":ref:`mt-microsoft-terminology`"
 
-#: ../../changes.rst:466
+#: ../../changes.rst:469
 msgid "Improved error handling in :ref:`invite-user`."
 msgstr ""
 
-#: ../../changes.rst:467
+#: ../../changes.rst:470
 #, fuzzy
 #| msgid "Big status badge"
 msgid "Added PNG status badge."
 msgstr "Groot statussimbool"
 
-#: ../../changes.rst:468
+#: ../../changes.rst:471
 msgid "Added list of managed projects to the dashboard view."
 msgstr ""
 
-#: ../../changes.rst:469
+#: ../../changes.rst:472
 msgid "More detailed status of outgoing commits."
 msgstr ""
 
-#: ../../changes.rst:470 ../../changes/v4.rst:977
+#: ../../changes.rst:473 ../../changes/v4.rst:977
 msgid "Reduced memory usage."
 msgstr ""
 
-#: ../../changes.rst:474
+#: ../../changes.rst:477
 msgid "Fixed skipped component update with some add-ons enabled."
 msgstr ""
 
-#: ../../changes.rst:475
+#: ../../changes.rst:478
 msgid "Daily execution of project and site wide add-ons."
 msgstr ""
 
-#: ../../changes.rst:476
+#: ../../changes.rst:479
 msgid "Allow editing strings when the source is marked for editing."
 msgstr ""
 
-#: ../../changes.rst:477
+#: ../../changes.rst:480
 msgid "Updates of the last updated timestamp of a string."
 msgstr ""
 
-#: ../../changes.rst:478
+#: ../../changes.rst:481
 msgid ""
 "Fixed project and site wide installation of :ref:`addon-weblate.git.squash` "
 "and :ref:`addon-weblate.discovery.discovery` add-ons."
 msgstr ""
 
-#: ../../changes.rst:479
+#: ../../changes.rst:482
 msgid "Graceful handling of locking errors in the :ref:`api`."
 msgstr ""
 
-#: ../../changes.rst:485
+#: ../../changes.rst:488
 msgid ""
 "There is a change in ``REST_FRAMEWORK`` setting (newly added "
 "``EXCEPTION_HANDLER``)."
 msgstr ""
 
-#: ../../changes.rst:487
+#: ../../changes.rst:490
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/117?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:490
+#: ../../changes.rst:493
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.5"
 msgstr "Weblate"
 
-#: ../../changes.rst:492
+#: ../../changes.rst:495
 msgid "Released on April 20th 2024."
 msgstr ""
 
-#: ../../changes.rst:496
+#: ../../changes.rst:499
 msgid ":ref:`addons` can be now installed project-wide and site-wide."
 msgstr ""
 
-#: ../../changes.rst:498
+#: ../../changes.rst:501
 msgid "API improvements"
 msgstr ""
 
-#: ../../changes.rst:500
+#: ../../changes.rst:503
 msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
 msgstr ""
 
-#: ../../changes.rst:501
+#: ../../changes.rst:504
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgstr ""
 
-#: ../../changes.rst:502
+#: ../../changes.rst:505
 msgid "Added :http:post:`/api/groups/(int:id)/admins/`."
 msgstr ""
 
-#: ../../changes.rst:503
+#: ../../changes.rst:506
 msgid "Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 msgstr ""
 
-#: ../../changes.rst:504
+#: ../../changes.rst:507
 msgid ""
 "Improved :http:post:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/units/`."
 msgstr ""
 
-#: ../../changes.rst:506
+#: ../../changes.rst:509
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid "Added :ref:`mt-systran` automatic translation support."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:510
+#: ../../changes.rst:513
 msgid ""
 "Docker container now validates user password strength by default, see :"
 "envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 msgstr ""
 
-#: ../../changes.rst:511
+#: ../../changes.rst:514
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:512
+#: ../../changes.rst:515
 msgid ":ref:`check-max-size` better displays rendered text."
 msgstr ""
 
-#: ../../changes.rst:513
+#: ../../changes.rst:516
 msgid "Admins can now specify username and full name when :ref:`invite-user`."
 msgstr ""
 
-#: ../../changes.rst:514
+#: ../../changes.rst:517
 #, fuzzy
 #| msgid ":ref:`check-end-newline`"
 msgid "Added :ref:`check-end-interrobang`."
 msgstr ":ref:`check-end-newline`"
 
-#: ../../changes.rst:515
+#: ../../changes.rst:518
 msgid ":ref:`alerts` are now refreshed when needed, not just daily."
 msgstr ""
 
-#: ../../changes.rst:516
+#: ../../changes.rst:519
 msgid ":doc:`/devel/reporting` uses specific word count for CJK languages."
 msgstr ""
 
-#: ../../changes.rst:517
+#: ../../changes.rst:520
 msgid "Team membership changes are now tracked in :ref:`audit-log`."
 msgstr ""
 
-#: ../../changes.rst:521
+#: ../../changes.rst:524
 msgid ""
 ":ref:`check-check-glossary` works better for languages not using whitespace."
 msgstr ""
 
-#: ../../changes.rst:522
+#: ../../changes.rst:525
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid ":ref:`alerts` better handle non-latin source languages."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:523
+#: ../../changes.rst:526
 msgid ":ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag."
 msgstr ""
 
-#: ../../changes.rst:524
+#: ../../changes.rst:527
 msgid "Fixed per-language statistics on nested categories."
 msgstr ""
 
-#: ../../changes.rst:525
+#: ../../changes.rst:528
 msgid "Fixed categories listing on per-language pages."
 msgstr ""
 
-#: ../../changes.rst:526
+#: ../../changes.rst:529
 msgid "Fixed :guilabel:`Needs editing` state calculation."
 msgstr ""
 
-#: ../../changes.rst:527
+#: ../../changes.rst:530
 msgid "Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`."
 msgstr ""
 
-#: ../../changes.rst:528
+#: ../../changes.rst:531
 msgid ""
 "Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:"
 "`auto-translation`."
 msgstr ""
 
-#: ../../changes.rst:532
+#: ../../changes.rst:535
 msgid ""
 "Several API calls might be affected by stricter validation of boolean fields "
 "by Django REST Framework. For example :http:post:`/api/projects/(string:"
 "project)/components/`."
 msgstr ""
 
-#: ../../changes.rst:533
+#: ../../changes.rst:536
 msgid ""
 "Uniqueness of name and slug of a component is now enforced at the database "
 "level on PostgreSQL 15+."
 msgstr ""
 
-#: ../../changes.rst:534
+#: ../../changes.rst:537
 msgid ""
 "Docker image now ships Python packages in :file:`/app/venv` and installs "
 "using :program:`uv`."
 msgstr ""
 
-#: ../../changes.rst:540
+#: ../../changes.rst:543
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``INSTALLED_APPS`` and ``LOGOUT_REDIRECT_URL``, please adjust "
 "your settings accordingly."
 msgstr ""
 
-#: ../../changes.rst:541
+#: ../../changes.rst:544
 msgid "Weblate now requires Python 3.10 and Django 5.0."
 msgstr ""
 
-#: ../../changes.rst:543
+#: ../../changes.rst:546
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:546
+#: ../../changes.rst:549
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.4.3"
 msgstr "Weblate"
 
-#: ../../changes.rst:548
+#: ../../changes.rst:551
 msgid "Released on March 26th 2024."
 msgstr ""
 
-#: ../../changes.rst:552
+#: ../../changes.rst:555
 msgid "Superuser access to components with :ref:`component-restricted`."
 msgstr ""
 
-#: ../../changes.rst:553
+#: ../../changes.rst:556
 msgid ""
 "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:"
 "`manage-appearance`."
 msgstr ""
 
-#: ../../changes.rst:554
+#: ../../changes.rst:557
 #, fuzzy
 #| msgid "This will push changes to the upstream repository."
 msgid "Avoid crash on pushing changes to diverged repository."
 msgstr "Hiermee word verandeirngs deurgevoer na die bostroomse opslagplek."
 
-#: ../../changes.rst:555
+#: ../../changes.rst:558
 msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
 msgstr ""
 
-#: ../../changes.rst:556
+#: ../../changes.rst:559
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
 msgstr ""
 
-#: ../../changes.rst:557
+#: ../../changes.rst:560
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
 msgstr ""
 
-#: ../../changes.rst:558
+#: ../../changes.rst:561
 msgid ":doc:`/formats/excel` better handles blank cells."
 msgstr ""
 
-#: ../../changes.rst:559
+#: ../../changes.rst:562
 msgid "Fixed possible data loss when merging gettext PO file changes in Git."
 msgstr ""
 
-#: ../../changes.rst:560
+#: ../../changes.rst:563
 msgid "Repository operations on project could have skipped some components."
 msgstr ""
 
-#: ../../changes.rst:566
+#: ../../changes.rst:569
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/115?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:569
+#: ../../changes.rst:572
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.4.2"
 msgstr "Weblate"
 
-#: ../../changes.rst:571
+#: ../../changes.rst:574
 msgid "Released on February 22nd 2024."
 msgstr ""
 
-#: ../../changes.rst:575
+#: ../../changes.rst:578
 msgid "Displaying debugging page in case of database connection issues."
 msgstr ""
 
-#: ../../changes.rst:576 ../../changes.rst:592
+#: ../../changes.rst:579 ../../changes.rst:595
 msgid "Gracefully handle migration with duplicate built-in teams."
 msgstr ""
 
-#: ../../changes.rst:582
+#: ../../changes.rst:585
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/113?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:585
+#: ../../changes.rst:588
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.4.1"
 msgstr "Weblate"
 
-#: ../../changes.rst:587
+#: ../../changes.rst:590
 msgid "Released on February 19th 2024."
 msgstr ""
 
-#: ../../changes.rst:591
+#: ../../changes.rst:594
 msgid ""
 "Possible crash on Weblate upgrade check when cached from the previous "
 "versions."
 msgstr ""
 
-#: ../../changes.rst:598
+#: ../../changes.rst:601
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/112?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:601
+#: ../../changes.rst:604
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.4"
 msgstr "Weblate"
 
-#: ../../changes.rst:603
+#: ../../changes.rst:606
 msgid "Released on February 15th 2024."
 msgstr ""
 
-#: ../../changes.rst:607
+#: ../../changes.rst:610
 #, fuzzy
 #| msgid ":ref:`check-icu-message-format`"
 msgid ":ref:`check-perl-brace-format` quality check."
 msgstr ":ref:`check-icu-message-format`"
 
-#: ../../changes.rst:608
+#: ../../changes.rst:611
 #, fuzzy
 #| msgid ":ref:`formats`"
 msgid ":doc:`/formats/moko`."
 msgstr ":ref:`formats`"
 
-#: ../../changes.rst:609
+#: ../../changes.rst:612
 #, fuzzy
 #| msgid ":ref:`formats`"
 msgid ":doc:`/formats/formatjs`."
 msgstr ":ref:`formats`"
 
-#: ../../changes.rst:610
+#: ../../changes.rst:613
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
 msgstr ""
 
-#: ../../changes.rst:611
+#: ../../changes.rst:614
 msgid "Weblate is now available in தமிழ்."
 msgstr ""
 
-#: ../../changes.rst:615
+#: ../../changes.rst:618
 #, fuzzy
 #| msgid ":wladmin:`createadmin`"
 msgid "Better logging in :wladmin:`createadmin`."
 msgstr ":wladmin:`createadmin`"
 
-#: ../../changes.rst:616
+#: ../../changes.rst:619
 msgid ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgstr ""
 
-#: ../../changes.rst:617
+#: ../../changes.rst:620
 msgid "Adding string in a repository triggers :ref:`subscriptions`."
 msgstr ""
 
-#: ../../changes.rst:618
+#: ../../changes.rst:621
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid ":ref:`mt-openai` better handles batch translations and glossaries."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:619
-msgid ":ref:`mt-libretranslate` better handles batch translations."
-msgstr ""
-
-#: ../../changes.rst:620
-msgid ""
-"Text variant of notification e-mails now properly indicate changed strings."
-msgstr ""
-
-#: ../../changes.rst:621
-msgid "File downloads now honor :http:header:`If-Modified-Since`."
-msgstr ""
-
 #: ../../changes.rst:622
-msgid ":ref:`num-words` support for CJK languages."
+msgid ":ref:`mt-libretranslate` better handles batch translations."
 msgstr ""
 
 #: ../../changes.rst:623
 msgid ""
-":ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`."
+"Text variant of notification e-mails now properly indicate changed strings."
 msgstr ""
 
 #: ../../changes.rst:624
-msgid "Nicer formatting of :ref:`glossary` tooltips."
+msgid "File downloads now honor :http:header:`If-Modified-Since`."
 msgstr ""
 
 #: ../../changes.rst:625
+msgid ":ref:`num-words` support for CJK languages."
+msgstr ""
+
+#: ../../changes.rst:626
+msgid ""
+":ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`."
+msgstr ""
+
+#: ../../changes.rst:627
+msgid "Nicer formatting of :ref:`glossary` tooltips."
+msgstr ""
+
+#: ../../changes.rst:628
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` now "
 "includes information about linked component."
 msgstr ""
 
-#: ../../changes.rst:626
+#: ../../changes.rst:629
 #, fuzzy
 #| msgid ":ref:`workflow-customization`"
 msgid "Improved :ref:`workflow-customization` configuration forms."
 msgstr ":ref:`workflow-customization`"
 
-#: ../../changes.rst:630
+#: ../../changes.rst:633
 #, fuzzy
 #| msgid "Plural forms in the uploaded file do not match current translation."
 msgid "Plural forms handling in :doc:`/formats/qt`."
@@ -25144,656 +25177,656 @@ msgstr ""
 "Die meervoudsvorms in die opgelaaide lêer stem nie met die huidige vertaling "
 "ooreen nie."
 
-#: ../../changes.rst:631
+#: ../../changes.rst:634
 msgid "Added missing documentation for :setting:`ADMINS_CONTACT`."
 msgstr ""
 
-#: ../../changes.rst:632
+#: ../../changes.rst:635
 msgid ""
 "Automatic fixer for :ref:`autofix-punctuation-spacing` no longer adds new "
 "whitespace."
 msgstr ""
 
-#: ../../changes.rst:633
+#: ../../changes.rst:636
 msgid "Pending changes committing could be omitted under some circumstances."
 msgstr ""
 
-#: ../../changes.rst:634
+#: ../../changes.rst:637
 msgid ":ref:`addon-weblate.cleanup.blank` now correctly removes blank plurals."
 msgstr ""
 
-#: ../../changes.rst:638
+#: ../../changes.rst:641
 msgid ""
 "Last changed timestamp now reflects changes outside Weblate as well. This "
 "affects both :ref:`api` and the user interface."
 msgstr ""
 
-#: ../../changes.rst:639
+#: ../../changes.rst:642
 msgid "Releases are signed by Sigstore instead of PGP, see :ref:`verify`."
 msgstr ""
 
-#: ../../changes.rst:645
+#: ../../changes.rst:648
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/109?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:648
+#: ../../changes.rst:651
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.3.1"
 msgstr "Weblate"
 
-#: ../../changes.rst:650
+#: ../../changes.rst:653
 msgid "Released on December 19th 2023."
 msgstr ""
 
-#: ../../changes.rst:654
+#: ../../changes.rst:657
 msgid "Not updating statistics in some situations."
 msgstr ""
 
-#: ../../changes.rst:660
+#: ../../changes.rst:663
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/110?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:663
+#: ../../changes.rst:666
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.3"
 msgstr "Weblate"
 
-#: ../../changes.rst:665
+#: ../../changes.rst:668
 msgid "Released on December 14th 2023."
 msgstr ""
 
-#: ../../changes.rst:669
+#: ../../changes.rst:672
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid ":ref:`mt-openai` automatic suggestion service."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:670
+#: ../../changes.rst:673
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid ":ref:`mt-alibaba` automatic suggestion service."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:671
+#: ../../changes.rst:674
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr ""
 
-#: ../../changes.rst:672
+#: ../../changes.rst:675
 #, fuzzy
 #| msgid ":ref:`glossary`"
 msgid ":ref:`glossary-mt`."
 msgstr ":ref:`glossary`"
 
-#: ../../changes.rst:673
+#: ../../changes.rst:676
 msgid "New automatic fixer for :ref:`autofix-punctuation-spacing`."
 msgstr ""
 
-#: ../../changes.rst:674
+#: ../../changes.rst:677
 msgid ""
 ":ref:`mt-google-translate-api-v3` now better honors placeables or line "
 "breaks."
 msgstr ""
 
-#: ../../changes.rst:678
+#: ../../changes.rst:681
 msgid "Reduced memory usage for statistics."
 msgstr ""
 
-#: ../../changes.rst:679
+#: ../../changes.rst:682
 msgid ""
 ":ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:"
 "`glossary-mt`."
 msgstr ""
 
-#: ../../changes.rst:680
+#: ../../changes.rst:683
 #, fuzzy
 #| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-terminology`"
 
-#: ../../changes.rst:681
+#: ../../changes.rst:684
 #, fuzzy
 #| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
 msgstr ":ref:`mt-google-translate-api-v3`"
 
-#: ../../changes.rst:682
+#: ../../changes.rst:685
 msgid "Added nested JSON exporter in :ref:`download`."
 msgstr ""
 
-#: ../../changes.rst:683
+#: ../../changes.rst:686
 msgid "Improved :ref:`git-exporter` performance on huge repositories."
 msgstr ""
 
-#: ../../changes.rst:687
+#: ../../changes.rst:690
 msgid "Removing stale VCS directories."
 msgstr ""
 
-#: ../../changes.rst:691
+#: ../../changes.rst:694
 msgid ""
 "Dropped Microsoft Terminology service for automatic suggestions, as it is no "
 "longer provided by Microsoft."
 msgstr ""
 
-#: ../../changes.rst:692
+#: ../../changes.rst:695
 msgid ""
 "``labels`` in units API now expose full label info, see :http:get:`/api/"
 "units/(int:id)/`."
 msgstr ""
 
-#: ../../changes.rst:698
+#: ../../changes.rst:701
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/107?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:701
+#: ../../changes.rst:704
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.2.1"
 msgstr "Weblate"
 
-#: ../../changes.rst:703
+#: ../../changes.rst:706
 msgid "Released on November 22nd 2023."
 msgstr ""
 
-#: ../../changes.rst:707
+#: ../../changes.rst:710
 msgid "Show search field after no strings found while translating."
 msgstr ""
 
-#: ../../changes.rst:708
+#: ../../changes.rst:711
 msgid "Added soft hyphen to special-characters toolbar."
 msgstr ""
 
-#: ../../changes.rst:712
+#: ../../changes.rst:715
 msgid "Database backups compatibility with Alibaba Cloud Database PolarDB."
 msgstr ""
 
-#: ../../changes.rst:713
+#: ../../changes.rst:716
 msgid "Crash on loading statistics calculated by previous versions."
 msgstr ""
 
-#: ../../changes.rst:714
+#: ../../changes.rst:717
 msgid "Sort icons in dark mode."
 msgstr ""
 
-#: ../../changes.rst:715
+#: ../../changes.rst:718
 msgid "Project level statistics no longer count categorized components twice."
 msgstr ""
 
-#: ../../changes.rst:716
+#: ../../changes.rst:719
 msgid "Possible discarding pending translations after editing source strings."
 msgstr ""
 
-#: ../../changes.rst:722
+#: ../../changes.rst:725
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/108?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:725
+#: ../../changes.rst:728
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.2"
 msgstr "Weblate"
 
-#: ../../changes.rst:727
+#: ../../changes.rst:730
 msgid "Released on November 16th 2023."
 msgstr ""
 
-#: ../../changes.rst:735
+#: ../../changes.rst:738
 #, fuzzy
 #| msgid "Weblate statistics"
 msgid "Faster statistics updates."
 msgstr "Weblate-statistieke"
 
-#: ../../changes.rst:736
+#: ../../changes.rst:739
 msgid "Better e-mail selection in user profile."
 msgstr ""
 
-#: ../../changes.rst:737
+#: ../../changes.rst:740
 msgid ":ref:`autofix` are now applied to suggestions as well."
 msgstr ""
 
-#: ../../changes.rst:738
+#: ../../changes.rst:741
 msgid ":ref:`mt-deepl` can now configure default formality for translations."
 msgstr ""
 
-#: ../../changes.rst:739
+#: ../../changes.rst:742
 msgid "Use neutral colors for progress bars and translation unit states."
 msgstr ""
 
-#: ../../changes.rst:740
+#: ../../changes.rst:743
 msgid ""
 ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
 "editing."
 msgstr ""
 
-#: ../../changes.rst:741
+#: ../../changes.rst:744
 msgid ""
 "Use :http:header:`Accept-Language` to order translations for unauthenticated "
 "users."
 msgstr ""
 
-#: ../../changes.rst:742
+#: ../../changes.rst:745
 msgid ""
 "Add option to directly approve suggestions with :ref:`reviews` workflow."
 msgstr ""
 
-#: ../../changes.rst:743
+#: ../../changes.rst:746
 msgid "One-click removal of project or component :ref:`subscriptions`."
 msgstr ""
 
-#: ../../changes.rst:744
+#: ../../changes.rst:747
 msgid ""
 ":ref:`api-statistics` now includes character and word counts for more string "
 "states."
 msgstr ""
 
-#: ../../changes.rst:748
+#: ../../changes.rst:751
 #, fuzzy
 #| msgid "The translation component was scheduled for removal."
 msgid "Fixed creating component within a category by upload."
 msgstr "Die vertalingskomponent is geskeduleer vir verwydering."
 
-#: ../../changes.rst:749
+#: ../../changes.rst:752
 msgid "Error handling in organizing components and categories."
 msgstr ""
 
-#: ../../changes.rst:750
+#: ../../changes.rst:753
 msgid "Fixed moving categories between projects."
 msgstr ""
 
-#: ../../changes.rst:751
+#: ../../changes.rst:754
 msgid "Fixed formatting of translation memory search results."
 msgstr ""
 
-#: ../../changes.rst:752
+#: ../../changes.rst:755
 msgid "Allow non-breaking space character in :ref:`autofix-html`."
 msgstr ""
 
-#: ../../changes.rst:756
+#: ../../changes.rst:759
 msgid ":doc:`/formats/apple` exporter now produces UTF-8 encoded files."
 msgstr ""
 
-#: ../../changes.rst:757
+#: ../../changes.rst:760
 msgid ""
 "Python 3.12 is now supported, though not recommended, see :ref:`python-deps`."
 msgstr ""
 
-#: ../../changes.rst:763
+#: ../../changes.rst:766
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/104?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:766
+#: ../../changes.rst:769
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.1.1"
 msgstr "Weblate"
 
-#: ../../changes.rst:768
+#: ../../changes.rst:771
 msgid "Released on October 25th 2023."
 msgstr ""
 
-#: ../../changes.rst:774
+#: ../../changes.rst:777
 msgid ""
 ":ref:`addon-weblate.consistency.languages` now uses a dedicated user for "
 "changes."
 msgstr ""
 
-#: ../../changes.rst:775
+#: ../../changes.rst:778
 msgid "Added button for sharing on Fediverse."
 msgstr ""
 
-#: ../../changes.rst:776
+#: ../../changes.rst:779
 msgid "Added validation for VCS integration credentials."
 msgstr ""
 
-#: ../../changes.rst:777
+#: ../../changes.rst:780
 msgid "Reduced overhead of statistics collection."
 msgstr ""
 
-#: ../../changes.rst:781
+#: ../../changes.rst:784
 msgid "Added plurals validation when editing string using the API."
 msgstr ""
 
-#: ../../changes.rst:782
+#: ../../changes.rst:785
 msgid "Replacing a file using upload when existing is corrupted."
 msgstr ""
 
-#: ../../changes.rst:790
+#: ../../changes.rst:793
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/106?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:793
+#: ../../changes.rst:796
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.1"
 msgstr "Weblate"
 
-#: ../../changes.rst:795
+#: ../../changes.rst:798
 msgid "Released on October 16th 2023."
 msgstr ""
 
-#: ../../changes.rst:799
+#: ../../changes.rst:802
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid ":ref:`mt-yandex-v2` machine translation service."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:800
+#: ../../changes.rst:803
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` "
 "are now stored with a dedicated user as an author."
 msgstr ""
 
-#: ../../changes.rst:801
+#: ../../changes.rst:804
 msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
 msgstr ""
 
-#: ../../changes.rst:802
+#: ../../changes.rst:805
 msgid ":ref:`download-multi` can now convert file formats."
 msgstr ""
 
-#: ../../changes.rst:803
+#: ../../changes.rst:806
 msgid ""
 ":ref:`workflow-customization` allows to fine-tune localization workflow per "
 "language."
 msgstr ""
 
-#: ../../changes.rst:807
+#: ../../changes.rst:810
 msgid ""
 ":ref:`project-translation_review` also shows the approval percentage in "
 "object listings."
 msgstr ""
 
-#: ../../changes.rst:808
+#: ../../changes.rst:811
 msgid "Project is added to watched upon accepting an invitation."
 msgstr ""
 
-#: ../../changes.rst:809
+#: ../../changes.rst:812
 msgid ""
 "Configure VCS API credentials as a Python dict from environment variables."
 msgstr ""
 
-#: ../../changes.rst:810
+#: ../../changes.rst:813
 msgid "Improved accuracy of checks on plural messages."
 msgstr ""
 
-#: ../../changes.rst:811
+#: ../../changes.rst:814
 msgid "Engage page better shows stats."
 msgstr ""
 
-#: ../../changes.rst:812
+#: ../../changes.rst:815
 msgid ""
 "Strings which can not be saved to a file no longer block other strings to be "
 "written."
 msgstr ""
 
-#: ../../changes.rst:813
+#: ../../changes.rst:816
 msgid "Fixed some API URLs for categorized components."
 msgstr ""
 
-#: ../../changes.rst:814
+#: ../../changes.rst:817
 msgid "Show plural form examples more prominently."
 msgstr ""
 
-#: ../../changes.rst:815
+#: ../../changes.rst:818
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid "Highlight whitespace in :ref:`machine-translation`."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:816
+#: ../../changes.rst:819
 msgid "Faster comment and component removal."
 msgstr ""
 
-#: ../../changes.rst:817
+#: ../../changes.rst:820
 msgid "Show disabled save button reason more prominently."
 msgstr ""
 
-#: ../../changes.rst:818
+#: ../../changes.rst:821
 msgid "New string notification can now be triggered for each string."
 msgstr ""
 
-#: ../../changes.rst:822
+#: ../../changes.rst:825
 msgid "Improved OCR error handling in :ref:`screenshots`."
 msgstr ""
 
-#: ../../changes.rst:823
+#: ../../changes.rst:826
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
 msgstr ""
 
-#: ../../changes.rst:824
+#: ../../changes.rst:827
 #, fuzzy
 #| msgid ":ref:`machine-translation`"
 msgid "Occasional crash in :ref:`machine-translation` caching."
 msgstr ":ref:`machine-translation`"
 
-#: ../../changes.rst:825
+#: ../../changes.rst:828
 #, fuzzy
 #| msgid "The translation component was scheduled for removal."
 msgid "Fixed history listing for entries within a :ref:`category`."
 msgstr "Die vertalingskomponent is geskeduleer vir verwydering."
 
-#: ../../changes.rst:826
+#: ../../changes.rst:829
 msgid "Fixed editing :guilabel:`Administration` team."
 msgstr ""
 
-#: ../../changes.rst:827
+#: ../../changes.rst:830
 msgid ""
 ":ref:`addon-weblate.consistency.languages` add-on could miss some languages."
 msgstr ""
 
-#: ../../changes.rst:831
+#: ../../changes.rst:834
 msgid "Categories are now included ``weblate://`` repository URLs."
 msgstr ""
 
-#: ../../changes.rst:837
+#: ../../changes.rst:840
 msgid ""
 "Upgrades from older version than 5.0.2 are not supported, please upgrade to "
 "5.0.2 first and then continue in upgrading."
 msgstr ""
 
-#: ../../changes.rst:838
+#: ../../changes.rst:841
 msgid ""
 "Dropped support for deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME in :file:`settings.py`."
 msgstr ""
 
-#: ../../changes.rst:839
+#: ../../changes.rst:842
 msgid ""
 "Weblate now defaults to persistent database connections in :file:"
 "`settings_example.py` and Docker."
 msgstr ""
 
-#: ../../changes.rst:841
+#: ../../changes.rst:844
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/100?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:844
+#: ../../changes.rst:847
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.0.2"
 msgstr "Weblate"
 
-#: ../../changes.rst:846
+#: ../../changes.rst:849
 msgid "Released on September 14th 2023."
 msgstr ""
 
-#: ../../changes.rst:850
+#: ../../changes.rst:853
 msgid "Translate page performance."
 msgstr ""
 
-#: ../../changes.rst:851
+#: ../../changes.rst:854
 msgid "Search now looks for categories as well."
 msgstr ""
 
-#: ../../changes.rst:855
+#: ../../changes.rst:858
 msgid "Rendering of release notes on GitHub."
 msgstr ""
 
-#: ../../changes.rst:856
+#: ../../changes.rst:859
 msgid "Listing of categorized projects."
 msgstr ""
 
-#: ../../changes.rst:857
+#: ../../changes.rst:860
 #, fuzzy
 #| msgid "The translation component was scheduled for removal."
 msgid "Translating a language inside a category."
 msgstr "Die vertalingskomponent is geskeduleer vir verwydering."
 
-#: ../../changes.rst:858
+#: ../../changes.rst:861
 msgid "Categories sorting."
 msgstr ""
 
-#: ../../changes.rst:864 ../../changes.rst:905
+#: ../../changes.rst:867 ../../changes.rst:908
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "indexing changes."
 msgstr ""
 
-#: ../../changes.rst:866
+#: ../../changes.rst:869
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/105?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:869
+#: ../../changes.rst:872
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.0.1"
 msgstr "Weblate"
 
-#: ../../changes.rst:871
+#: ../../changes.rst:874
 msgid "Released on September 10th 2023."
 msgstr ""
 
-#: ../../changes.rst:875
+#: ../../changes.rst:878
 msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
 msgstr ""
 
-#: ../../changes.rst:879
+#: ../../changes.rst:882
 msgid "Related glossary terms lookup is now faster."
 msgstr ""
 
-#: ../../changes.rst:880
+#: ../../changes.rst:883
 #, fuzzy
 #| msgid "This will push changes and create a Gitea pull request."
 msgid "Logging of failures when creating pull requests."
 msgstr ""
 "Hiermee word veranderings deurgevoer en ’n Gitea-onttrekversoek geskep."
 
-#: ../../changes.rst:881
+#: ../../changes.rst:884
 msgid "History is now loaded faster."
 msgstr ""
 
-#: ../../changes.rst:882
+#: ../../changes.rst:885
 msgid "Added object ``id`` to all :ref:`api` endpoints."
 msgstr ""
 
-#: ../../changes.rst:883
+#: ../../changes.rst:886
 msgid "Better performance of projects with a lot of components."
 msgstr ""
 
-#: ../../changes.rst:884
+#: ../../changes.rst:887
 msgid "Added compatibility redirects for some old URLs."
 msgstr ""
 
-#: ../../changes.rst:888
+#: ../../changes.rst:891
 #, fuzzy
 #| msgid "The translation component was scheduled for removal."
 msgid "Creating component within a category."
 msgstr "Die vertalingskomponent is geskeduleer vir verwydering."
 
-#: ../../changes.rst:889
+#: ../../changes.rst:892
 msgid "Source strings and state display for converted formats."
 msgstr ""
 
-#: ../../changes.rst:890
+#: ../../changes.rst:893
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
 msgstr ""
 
-#: ../../changes.rst:891
+#: ../../changes.rst:894
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgstr ""
 
-#: ../../changes.rst:892
+#: ../../changes.rst:895
 msgid "Performance issues while browsing some categories."
 msgstr ""
 
-#: ../../changes.rst:893
+#: ../../changes.rst:896
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
 msgstr ""
 
-#: ../../changes.rst:894
+#: ../../changes.rst:897
 msgid "GitLab merge requests when using a customized SSH port."
 msgstr ""
 
-#: ../../changes.rst:898
+#: ../../changes.rst:901
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
 msgstr ""
 
-#: ../../changes.rst:899
+#: ../../changes.rst:902
 msgid ""
 "The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
 msgstr ""
 
-#: ../../changes.rst:907
+#: ../../changes.rst:910
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/103?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:910
+#: ../../changes.rst:913
 #, fuzzy
 #| msgid "Weblate"
 msgid "Weblate 5.0"
 msgstr "Weblate"
 
-#: ../../changes.rst:912
+#: ../../changes.rst:915
 msgid "Released on August 24th 2023."
 msgstr ""
 
-#: ../../changes.rst:916
+#: ../../changes.rst:919
 msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr ""
 
-#: ../../changes.rst:917
+#: ../../changes.rst:920
 msgid ":ref:`category` can now organize components within a project."
 msgstr ""
 
-#: ../../changes.rst:918
+#: ../../changes.rst:921
 msgid ""
 ":doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes."
 msgstr ""
 
-#: ../../changes.rst:919
+#: ../../changes.rst:922
 msgid "Inviting users now works with all authentication methods."
 msgstr ""
 
-#: ../../changes.rst:920
+#: ../../changes.rst:923
 msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr ""
 
-#: ../../changes.rst:924
+#: ../../changes.rst:927
 #, fuzzy
 #| msgid "Plural forms in the uploaded file do not match current translation."
 msgid "Plurals handling in machine translation."
@@ -25801,132 +25834,132 @@ msgstr ""
 "Die meervoudsvorms in die opgelaaide lêer stem nie met die huidige vertaling "
 "ooreen nie."
 
-#: ../../changes.rst:925
+#: ../../changes.rst:928
 msgid ""
 ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgstr ""
 
-#: ../../changes.rst:926
+#: ../../changes.rst:929
 msgid ""
 ":ref:`check-reused` is no longer triggered for languages with a single "
 "plural form."
 msgstr ""
 
-#: ../../changes.rst:927
-msgid "WebP is now supported for :ref:`screenshots`."
-msgstr ""
-
-#: ../../changes.rst:928
-msgid ""
-"Avoid duplicate notification when a user is subscribed to overlapping scopes."
-msgstr ""
-
-#: ../../changes.rst:929
-msgid "OCR support for non-English languages in :ref:`screenshots`."
-msgstr ""
-
 #: ../../changes.rst:930
-msgid ":ref:`xliff` now supports displaying source string location."
+msgid "WebP is now supported for :ref:`screenshots`."
 msgstr ""
 
 #: ../../changes.rst:931
 msgid ""
-"Rendering strings with plurals, placeholders or alternative translations."
+"Avoid duplicate notification when a user is subscribed to overlapping scopes."
 msgstr ""
 
 #: ../../changes.rst:932
-msgid "User API now includes last sign in date."
+msgid "OCR support for non-English languages in :ref:`screenshots`."
 msgstr ""
 
 #: ../../changes.rst:933
-msgid "User API token is now hidden for privacy reasons by default."
+msgid ":ref:`xliff` now supports displaying source string location."
 msgstr ""
 
 #: ../../changes.rst:934
-msgid "Faster adding terms to glossary."
+msgid ""
+"Rendering strings with plurals, placeholders or alternative translations."
 msgstr ""
 
 #: ../../changes.rst:935
+msgid "User API now includes last sign in date."
+msgstr ""
+
+#: ../../changes.rst:936
+msgid "User API token is now hidden for privacy reasons by default."
+msgstr ""
+
+#: ../../changes.rst:937
+msgid "Faster adding terms to glossary."
+msgstr ""
+
+#: ../../changes.rst:938
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
 msgstr ""
 
-#: ../../changes.rst:936
+#: ../../changes.rst:939
 msgid "Added indication of automatic assignment to team listing."
 msgstr ""
 
-#: ../../changes.rst:937
+#: ../../changes.rst:940
 msgid "Users now have to confirm invitations to become team members."
 msgstr ""
 
-#: ../../changes.rst:938
+#: ../../changes.rst:941
 msgid ""
 ":ref:`check-formats` can now check all plural forms with the ``strict-"
 "format`` flag."
 msgstr ""
 
-#: ../../changes.rst:939
+#: ../../changes.rst:942
 msgid ":doc:`/user/checks` browsing experience."
 msgstr ""
 
-#: ../../changes.rst:940
+#: ../../changes.rst:943
 msgid "Highlight differences in the source string in automatic suggestions."
 msgstr ""
 
-#: ../../changes.rst:941
+#: ../../changes.rst:944
 msgid "Visual diff now better understands compositing characters."
 msgstr ""
 
-#: ../../changes.rst:945
+#: ../../changes.rst:948
 msgid "User names handling while committing to Git."
 msgstr ""
 
-#: ../../changes.rst:946
+#: ../../changes.rst:949
 msgid ""
 ":ref:`addon-weblate.cleanup.blank` and :ref:`addon-weblate.cleanup.generic` "
 "now remove all strings at once."
 msgstr ""
 
-#: ../../changes.rst:947
+#: ../../changes.rst:950
 msgid "Language filtering in :doc:`/devel/reporting`."
 msgstr ""
 
-#: ../../changes.rst:948
+#: ../../changes.rst:951
 msgid ""
 "Reduced false positives of :ref:`check-reused` when fixing the translation."
 msgstr ""
 
-#: ../../changes.rst:949
+#: ../../changes.rst:952
 msgid "Fixed caching issues after updating screenshots from the repository."
 msgstr ""
 
-#: ../../changes.rst:953
+#: ../../changes.rst:956
 msgid "Python 3.9 or newer is now required."
 msgstr ""
 
-#: ../../changes.rst:954
+#: ../../changes.rst:957
 msgid "Several UI URLs have been changed to be able to handle categories."
 msgstr ""
 
-#: ../../changes.rst:960
+#: ../../changes.rst:963
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
 "settings accordingly."
 msgstr ""
 
-#: ../../changes.rst:961
+#: ../../changes.rst:964
 msgid "Several previously optional dependencies are now required."
 msgstr ""
 
-#: ../../changes.rst:962
+#: ../../changes.rst:965
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "structure changes."
 msgstr ""
 
-#: ../../changes.rst:964
+#: ../../changes.rst:967
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?"
 "closed=1>`__."
