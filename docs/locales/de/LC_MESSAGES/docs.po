@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-13 15:50+0100\n"
-"PO-Revision-Date: 2024-12-13 17:26+0000\n"
+"PO-Revision-Date: 2024-12-14 13:47+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -14012,6 +14012,8 @@ msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
+"Der Weblate-Container nimmt das nicht in den Suchpfad auf, Sie müssen den "
+"vollständigen Pfad angeben, um ihn auszuführen. Zum Beispiel:"
 
 #: ../../admin/install.rst:1242
 msgid ""
@@ -14166,19 +14168,14 @@ msgid "Running web server"
 msgstr "Webserver ausführen"
 
 #: ../../admin/install.rst:1330
-#, fuzzy
-#| msgid ""
-#| "Running Weblate is not different from running any other Django based "
-#| "program. Django is usually executed as uWSGI or fcgi (see examples for "
-#| "different webservers below)."
 msgid ""
 "Running Weblate is not different from running any other Django based "
 "program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
-"Die Ausführung von Weblate unterscheidet sich nicht von der Ausführung "
-"anderer Django-basierter Programme. Django wird normalerweise als uWSGI oder "
-"fcgi ausgeführt (siehe Beispiele für verschiedene Webserver unten)."
+"Das Ausführen von Weblate unterscheidet sich nicht von anderen Django-"
+"basierten Programmen. Django wird normalerweise als WSGI oder fcgi "
+"ausgeführt (siehe Beispiele für verschiedene Webserver unten)."
 
 #: ../../admin/install.rst:1334
 msgid "For testing purposes, you can use the built-in web server in Django:"
@@ -15393,21 +15390,15 @@ msgid "Number of processes and memory consumption"
 msgstr "Anzahl der Prozesse und Speicherverbrauch"
 
 #: ../../admin/install/docker.rst:346
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both uWSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both WSGI and Celery is determined "
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
-"Die Anzahl der Worker-Prozesse wird sowohl für uWSGI als auch Celery "
-"automatisch auf Grundlage der Anzahl der CPUs bestimmt. Dies funktioniert "
-"für die meisten virtuellen Maschinen in der Cloud gut, da sie typischerweise "
-"wenig CPUs und große Speicherkapazitäten besitzen."
+"Die Anzahl der Worker-Prozesse wird sowohl für WSGI als auch Celery "
+"automatisch anhand der Anzahl der CPUs bestimmt. Dies funktioniert gut für "
+"die meisten virtuellen Maschinen in der Cloud, da diese normalerweise über "
+"wenige CPUs und viel Arbeitsspeicher verfügen."
 
 #: ../../admin/install/docker.rst:350
 msgid ""
@@ -15588,7 +15579,7 @@ msgstr "Konfiguriert die Seitendomain. Dieser Parameter ist erforderlich."
 
 #: ../../admin/install/docker.rst:504
 msgid "Include port if using a non-standard one."
-msgstr ""
+msgstr "Port angeben, wenn ein nicht standardmäßiger verwendet wird."
 
 #: ../../admin/install/docker.rst:515
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -16994,10 +16985,8 @@ msgid ":ref:`minimal-celery`"
 msgstr ":ref:`minimal-celery`"
 
 #: ../../admin/install/docker.rst:1901
-#, fuzzy
-#| msgid "Configure how many uWSGI workers should be executed."
 msgid "Configure how many WSGI workers should be executed."
-msgstr "Konfiguriert, wie viele uWSGI-Worker ausgeführt werden sollen."
+msgstr "Konfiguriert, wie viele WSGI-Worker ausgeführt werden sollen."
 
 #: ../../admin/install/docker.rst:1903
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
@@ -17008,6 +16997,9 @@ msgid ""
 "The Docker container runs two WSGI processes since 5.9 and :envvar:"
 "`WEB_WORKERS` configures how many threads each process will have."
 msgstr ""
+"Der Docker-Container führt seit 5.9 zwei WSGI-Prozesse aus und "
+":envvar:`WEB_WORKERS` konfiguriert, wie viele Threads jeder Prozess haben "
+"wird."
 
 #: ../../admin/install/docker.rst:1919
 msgid ""
@@ -28193,10 +28185,8 @@ msgid "Weblate 5.9"
 msgstr "Weblate 5.9"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on December 16th 2022."
 msgid "Released on December 16th 2024."
-msgstr "Veröffentlicht am 16. Dezember 2022."
+msgstr "Veröffentlicht am 16. Dezember 2024."
 
 #: ../../changes.rst:6 ../../changes.rst:147 ../../changes.rst:252
 #: ../../changes.rst:348 ../../changes.rst:460 ../../changes.rst:497
@@ -28370,17 +28360,23 @@ msgstr "Weblate erfordert jetzt Git 2.28 oder neuer."
 msgid ""
 "Any custom code that relied on `Change` models signals should be reviewed."
 msgstr ""
+"Jeder benutzerdefinierte Code, der sich auf Signale von `Change`-Modellen "
+"stützt, sollte überprüft werden."
 
 #: ../../changes.rst:41
 msgid ""
 ":ref:`fedora-messaging` integration needs to be updated to be compatible "
 "with this release."
 msgstr ""
+"Die :ref:`Fedora-Messaging <fedora-messaging>`-Integration muss aktualisiert "
+"werden, um mit dieser Version kompatibel zu sein."
 
 #: ../../changes.rst:42
 msgid ""
 ":envvar:`WEB_WORKERS` now configures number of threads instead of processes."
 msgstr ""
+":envvar:`WEB_WORKERS` konfiguriert nun die Anzahl der Threads anstatt der "
+"Prozesse."
 
 #: ../../changes.rst:44 ../../changes.rst:69 ../../changes.rst:90
 #: ../../changes.rst:113 ../../changes.rst:132 ../../changes.rst:181
@@ -31305,8 +31301,7 @@ msgstr ""
 
 #: ../../changes/v1.rst:29
 msgid "Users can login by e-mail instead of username."
-msgstr ""
-"Benutzer können sich per E-Mail statt mit ihrem Benutzernamen anmelden."
+msgstr "Benutzer können sich per E-Mail statt mit ihrem Benutzernamen anmelden."
 
 #: ../../changes/v1.rst:31
 msgid "Improved source strings review."
