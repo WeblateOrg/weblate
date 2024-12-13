@@ -4,7 +4,11 @@
 
 from __future__ import annotations
 
+import contextlib
 from typing import TYPE_CHECKING
+
+from django.conf import settings
+from django.http.request import UnreadablePostError
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -21,6 +25,21 @@ class ThrottlingMiddleware:
 
     def __call__(self, request: AuthenticatedHttpRequest):
         response = self.get_response(request)
+
+        # API payload workaround
+        if request.method != "GET" and request.path_info.startswith(
+            f"{settings.URL_PREFIX}/api"
+        ):
+            # Make sure full request is read. Django REST Framework lazily loads
+            # request body when needed, but keeping the payload in the stream the client
+            # ends up with an error:
+            #
+            # - HTTP/1.1: transfer closed with outstanding read data remaining
+            # - HTTP/2: stream was not closed cleanly
+            with contextlib.suppress(UnreadablePostError):
+                request.read()
+
+        # Actual throttling
         throttling = request.META.get("throttling_state", None)
         if throttling is not None:
             response[RATELIMIT_LIMIT_HEADER] = throttling.num_requests
