@@ -499,21 +499,21 @@ Generic settings
 
 .. envvar:: WEBLATE_SITE_DOMAIN
 
-    Configures the site domain. This parameter is required.
+   Configures the site domain. This parameter is required.
 
-    Include port if using a non-standard one.
+   Include port if using a non-standard one.
 
    **Example:**
 
-    .. code-block:: yaml
+   .. code-block:: yaml
 
-        environment:
-          WEBLATE_SITE_DOMAIN: example.com:8080
+      environment:
+        WEBLATE_SITE_DOMAIN: example.com:8080
 
-    .. seealso::
+   .. seealso::
 
-        :ref:`production-site`,
-        :setting:`SITE_DOMAIN`
+      :ref:`production-site`,
+      :setting:`SITE_DOMAIN`
 
 .. envvar:: WEBLATE_ADMIN_NAME
 .. envvar:: WEBLATE_ADMIN_EMAIL
