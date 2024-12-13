@@ -1230,6 +1230,15 @@ documentation for more details (for example on debian this can be done by
 placing the CA certificate into :file:`/usr/local/share/ca-certificates/` and
 running :command:`update-ca-certificates`).
 
+.. hint::
+
+   The Weblate container does not include it in the search path, you need to
+   specify full path to execute it. For example:
+
+   .. code-block:: sh
+
+      docker compose exec -u root weblate /usr/sbin/update-ca-certificates
+
 Once this is done, system tools will trust the certificate and this includes
 Git.
 
