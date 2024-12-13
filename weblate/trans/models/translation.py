@@ -299,7 +299,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 fileobj,
                 template,
                 language_code=self.language_code,
-                source_language=self.component.source_language.code,
+                source_language=self.language_code
+                if self.component.has_template()
+                else self.component.source_language.code,
                 is_template=self.is_template,
                 existing_units=self.unit_set.all(),
             )
