@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-13 15:50+0100\n"
-"PO-Revision-Date: 2024-12-09 05:00+0000\n"
+"PO-Revision-Date: 2024-12-14 13:47+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
@@ -18,9 +18,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 5.9-dev\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :("
+"n>6 && n<11) ? 3 : 4;\n"
+"X-Generator: Weblate 5.9-rc\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
 msgid "Access control"
@@ -8515,15 +8515,11 @@ msgstr ""
 "úsáid."
 
 #: ../../admin/config.rst:461
-#, fuzzy
-#| msgid ""
-#| "This directory has to be writable by Weblate. Running it as uWSGI means "
-#| "the ``www-data`` user should have write access to it."
 msgid ""
 "This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
-"Caithfidh Weblate an t-eolaire seo a scríobh. Má tá sé á rith mar uWSGI, ba "
+"Caithfidh Weblate an t-eolaire seo a scríobh. Má rithtear é mar WSGI, ba "
 "cheart go mbeadh rochtain scríofa ag an úsáideoir `www-data`` air."
 
 #: ../../admin/config.rst:464
@@ -13984,6 +13980,8 @@ msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
+"Ní chuireann an coimeádán Weblate san áireamh sa chonair chuardaigh, ní mór "
+"duit cosán iomlán a shonrú chun é a rith. Mar shampla:"
 
 #: ../../admin/install.rst:1242
 msgid ""
@@ -14136,19 +14134,14 @@ msgid "Running web server"
 msgstr "Freastalaí gréasáin a rith"
 
 #: ../../admin/install.rst:1330
-#, fuzzy
-#| msgid ""
-#| "Running Weblate is not different from running any other Django based "
-#| "program. Django is usually executed as uWSGI or fcgi (see examples for "
-#| "different webservers below)."
 msgid ""
 "Running Weblate is not different from running any other Django based "
 "program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
 "Níl aon difríocht idir Rith Weblate agus aon chlár eile atá bunaithe ar "
-"Django a rith. De ghnáth déantar Django a fhorghníomhú mar uWSGI nó fcgi "
-"(féach samplaí le haghaidh freastalaithe gréasáin éagsúla thíos)."
+"Django a rith. De ghnáth déantar Django a fhorghníomhú mar WSGI nó fcgi ("
+"féach samplaí le haghaidh freastalaithe gréasáin éagsúla thíos)."
 
 #: ../../admin/install.rst:1334
 msgid "For testing purposes, you can use the built-in web server in Django:"
@@ -15356,20 +15349,14 @@ msgid "Number of processes and memory consumption"
 msgstr "Líon na bpróiseas agus tomhaltas cuimhne"
 
 #: ../../admin/install/docker.rst:346
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both uWSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both WSGI and Celery is determined "
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
-"Cinntear go huathoibríoch líon na bpróiseas oibrithe don uWSGI agus don "
+"Cinntear go huathoibríoch líon na bpróiseas oibrithe don WSGI agus don "
 "Soilire araon bunaithe ar líon na LAPanna. Oibríonn sé seo go maith don "
-"chuid is mó de mheaisíní fíorúla scamall mar go hiondúil is beag CPUanna a "
+"chuid is mó de mheaisíní fíorúla scamall mar go hiondúil is beag LAPanna a "
 "bhíonn acu agus méid maith cuimhne."
 
 #: ../../admin/install/docker.rst:350
@@ -15549,7 +15536,7 @@ msgstr "Cumraíonn sé fearann an tsuímh. Tá an paraiméadar seo ag teastáil.
 
 #: ../../admin/install/docker.rst:504
 msgid "Include port if using a non-standard one."
-msgstr ""
+msgstr "Cuir port san áireamh má tá ceann neamhchaighdeánach á úsáid agat."
 
 #: ../../admin/install/docker.rst:515
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -16934,10 +16921,8 @@ msgid ":ref:`minimal-celery`"
 msgstr ":ref:`minimal-celery`"
 
 #: ../../admin/install/docker.rst:1901
-#, fuzzy
-#| msgid "Configure how many uWSGI workers should be executed."
 msgid "Configure how many WSGI workers should be executed."
-msgstr "Cumraigh cé mhéad oibrí uWSGI ba cheart a fhorghníomhú."
+msgstr "Cumraigh cé mhéad oibrí WSGI ba cheart a fhorghníomhú."
 
 #: ../../admin/install/docker.rst:1903
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
@@ -16948,6 +16933,8 @@ msgid ""
 "The Docker container runs two WSGI processes since 5.9 and :envvar:"
 "`WEB_WORKERS` configures how many threads each process will have."
 msgstr ""
+"Ritheann an coimeádán Docker dhá phróiseas WSGI ó 5.9 agus :envvar: "
+"cumraíonn `WEB_WORKERS` cé mhéad snáithe a bheidh ag gach próiseas."
 
 #: ../../admin/install/docker.rst:1919
 msgid ""
@@ -28062,10 +28049,8 @@ msgid "Weblate 5.9"
 msgstr "Weblate 5.9"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on December 16th 2022."
 msgid "Released on December 16th 2024."
-msgstr "Foilsithe ar 16 Nollaig 2022."
+msgstr "Foilsithe ar 16 Nollaig 2024."
 
 #: ../../changes.rst:6 ../../changes.rst:147 ../../changes.rst:252
 #: ../../changes.rst:348 ../../changes.rst:460 ../../changes.rst:497
@@ -28235,17 +28220,22 @@ msgstr "Tá Git 2.28 nó níos nuaí ag teastáil ó Weblate anois."
 msgid ""
 "Any custom code that relied on `Change` models signals should be reviewed."
 msgstr ""
+"Ba cheart athbhreithniú a dhéanamh ar aon chód saincheaptha a bhí ag brath "
+"ar chomharthaí samhlacha `Change`."
 
 #: ../../changes.rst:41
 msgid ""
 ":ref:`fedora-messaging` integration needs to be updated to be compatible "
 "with this release."
 msgstr ""
+":ref:`fedora-messaging` ní mór comhtháthú a nuashonrú le bheith ag luí leis "
+"an eisiúint seo."
 
 #: ../../changes.rst:42
 msgid ""
 ":envvar:`WEB_WORKERS` now configures number of threads instead of processes."
 msgstr ""
+":envvar: Cumraíonn `WEB_WORKERS` anois líon snáitheanna in ionad próisis."
 
 #: ../../changes.rst:44 ../../changes.rst:69 ../../changes.rst:90
 #: ../../changes.rst:113 ../../changes.rst:132 ../../changes.rst:181
