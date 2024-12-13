@@ -28,7 +28,7 @@
       <div class="search-summary">
         <p>{{ total_strings }} {% trans "strings" %} / {{ total_words }} {% trans "words" %}</p>
       </div>
-      {% include "snippets/embed-units.html" with units=page_obj.object_list hide_context=True include_search=True force_source=True show_translation=True %}
+      {% include "snippets/embed-units.html" with units=page_obj.object_list include_search=True force_source=True show_translation=True %}
       {% include "paginator.html" %}
     {% else %}
       {% trans "No matching strings found." as msg %}
