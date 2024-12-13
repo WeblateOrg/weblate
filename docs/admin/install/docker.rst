@@ -343,7 +343,7 @@ To reset `admin` password, restart the container with
 Number of processes and memory consumption
 ------------------------------------------
 
-The number of worker processes for both uWSGI and Celery is determined
+The number of worker processes for both WSGI and Celery is determined
 automatically based on number of CPUs. This works well for most cloud virtual
 machines as these typically have few CPUs and good amount of memory.
 
@@ -1889,7 +1889,7 @@ Container settings
 
 .. envvar:: WEB_WORKERS
 
-    Configure how many uWSGI workers should be executed.
+    Configure how many WSGI workers should be executed.
 
     It defaults to :envvar:`WEBLATE_WORKERS`.
 

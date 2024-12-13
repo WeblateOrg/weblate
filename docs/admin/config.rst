@@ -458,7 +458,7 @@ The following subdirectories usually exist:
 
 .. note::
 
-    This directory has to be writable by Weblate. Running it as uWSGI means
+    This directory has to be writable by Weblate. Running it as WSGI means
     the ``www-data`` user should have write access to it.
 
     The easiest way to achieve this is to make the user the owner of the directory:

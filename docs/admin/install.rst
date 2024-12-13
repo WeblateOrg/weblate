@@ -1319,7 +1319,7 @@ Running web server
 ++++++++++++++++++
 
 Running Weblate is not different from running any other Django based
-program. Django is usually executed as uWSGI or fcgi (see examples for
+program. Django is usually executed as WSGI or fcgi (see examples for
 different webservers below).
 
 For testing purposes, you can use the built-in web server in Django:
