@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-13 15:50+0100\n"
-"PO-Revision-Date: 2024-12-08 02:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-12-13 17:26+0000\n"
+"Last-Translator: Максим Горпиніч <mgorpinic2005@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.9-rc\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -8439,16 +8439,12 @@ msgstr ""
 "`CACHE_DIR`."
 
 #: ../../admin/config.rst:461
-#, fuzzy
-#| msgid ""
-#| "This directory has to be writable by Weblate. Running it as uWSGI means "
-#| "the ``www-data`` user should have write access to it."
 msgid ""
 "This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
-"Цей каталог має бути доступний до запису для Weblate. Якщо його запущено від "
-"імені uWSGI, користувач ``www-data`` повинен мати доступ до запису до нього."
+"Цей каталог має бути доступним для запису Weblate. Запуск як WSGI означає, "
+"що користувач ``www-data`` повинен мати доступ для запису до нього."
 
 #: ../../admin/config.rst:464
 msgid ""
@@ -13888,6 +13884,8 @@ msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
+"Контейнер Weblate не включає його в шлях пошуку, вам потрібно вказати повний "
+"шлях для його виконання. Наприклад:"
 
 #: ../../admin/install.rst:1242
 msgid ""
@@ -14037,19 +14035,14 @@ msgid "Running web server"
 msgstr "Запуск вебсервера"
 
 #: ../../admin/install.rst:1330
-#, fuzzy
-#| msgid ""
-#| "Running Weblate is not different from running any other Django based "
-#| "program. Django is usually executed as uWSGI or fcgi (see examples for "
-#| "different webservers below)."
 msgid ""
 "Running Weblate is not different from running any other Django based "
 "program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
 "Запуск Weblate не відрізняється від запуску будь-якої іншої програми на "
-"основі Django. Django, зазвичай, виконується як uWSGI або fcgi (див. "
-"приклади для різних вебсерверів нижче)."
+"основі Django. Django зазвичай виконується як WSGI або fcgi (див. приклади "
+"для різних веб-серверів нижче)."
 
 #: ../../admin/install.rst:1334
 msgid "For testing purposes, you can use the built-in web server in Django:"
@@ -15255,21 +15248,15 @@ msgid "Number of processes and memory consumption"
 msgstr "Кількість процесів і споживання пам'яті"
 
 #: ../../admin/install/docker.rst:346
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both uWSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both WSGI and Celery is determined "
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
-"Кількість процесів обробки у uWSGI і Celery визначається автоматично на "
-"основі кількості процесорів. Це добре працює для більшості «хмарних» "
-"віртуальних машин, оскільки у них, зазвичай, встановлено декілька процесорів "
-"і доволі багато оперативної пам'яті."
+"Кількість робочих процесів для WSGI та Celery визначається автоматично на "
+"основі кількості ЦП. Це добре працює для більшості хмарних віртуальних "
+"машин, оскільки вони зазвичай мають невелику кількість ЦП і достатньо "
+"пам’яті."
 
 #: ../../admin/install/docker.rst:350
 msgid ""
@@ -15449,7 +15436,7 @@ msgstr "Налаштовує домен сайта. Цей параметр сл
 
 #: ../../admin/install/docker.rst:504
 msgid "Include port if using a non-standard one."
-msgstr ""
+msgstr "Включіть порт, якщо використовуєте нестандартний."
 
 #: ../../admin/install/docker.rst:515
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -16836,10 +16823,8 @@ msgid ":ref:`minimal-celery`"
 msgstr ":ref:`minimal-celery`"
 
 #: ../../admin/install/docker.rst:1901
-#, fuzzy
-#| msgid "Configure how many uWSGI workers should be executed."
 msgid "Configure how many WSGI workers should be executed."
-msgstr "Налаштувати кількість обробників uWSGI, які має бути виконано."
+msgstr "Налаштуйте, скільки WSGI робітників має бути виконано."
 
 #: ../../admin/install/docker.rst:1903
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
@@ -16850,6 +16835,8 @@ msgid ""
 "The Docker container runs two WSGI processes since 5.9 and :envvar:"
 "`WEB_WORKERS` configures how many threads each process will have."
 msgstr ""
+"Контейнер Docker запускає два процеси WSGI, починаючи з 5.9, і "
+":envvar:`WEB_WORKERS` налаштовує, скільки потоків матиме кожен процес."
 
 #: ../../admin/install/docker.rst:1919
 msgid ""
@@ -27899,10 +27886,8 @@ msgid "Weblate 5.9"
 msgstr "Weblate 5.9"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on December 16th 2022."
 msgid "Released on December 16th 2024."
-msgstr "Випущено 16 грудня 2022 року."
+msgstr "Випущено 16 грудня 2024 року."
 
 #: ../../changes.rst:6 ../../changes.rst:147 ../../changes.rst:252
 #: ../../changes.rst:348 ../../changes.rst:460 ../../changes.rst:497
@@ -28072,17 +28057,22 @@ msgstr "Weblate тепер потребує Git 2.28 або новішої ве�
 msgid ""
 "Any custom code that relied on `Change` models signals should be reviewed."
 msgstr ""
+"Необхідно переглянути будь-який спеціальний код, який покладався на сигнали "
+"\"Зміна моделей\"."
 
 #: ../../changes.rst:41
 msgid ""
 ":ref:`fedora-messaging` integration needs to be updated to be compatible "
 "with this release."
 msgstr ""
+":ref:`fedora-messaging` інтеграцію потрібно оновити, щоб вона була сумісною "
+"з цим випуском."
 
 #: ../../changes.rst:42
 msgid ""
 ":envvar:`WEB_WORKERS` now configures number of threads instead of processes."
 msgstr ""
+":envvar:`WEB_WORKERS` тепер налаштовує кількість потоків замість процесів."
 
 #: ../../changes.rst:44 ../../changes.rst:69 ../../changes.rst:90
 #: ../../changes.rst:113 ../../changes.rst:132 ../../changes.rst:181
