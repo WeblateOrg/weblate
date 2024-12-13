@@ -1900,6 +1900,11 @@ Container settings
         environment:
           WEB_WORKERS: 32
 
+   .. versionchanged:: 5.9
+
+      The Docker container runs two WSGI processes since 5.9 and
+      :envvar:`WEB_WORKERS` configures how many threads each process will have.
+
 .. envvar:: WEBLATE_SERVICE
 
    Defines which services should be executed inside the container. Use this for :ref:`docker-scaling`.
