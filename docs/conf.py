@@ -153,7 +153,10 @@ html_theme_options = {
     },
 }
 
-html_css_files = ["https://s.weblate.org/cdn/js/vendor/fonts/fonts.css"]
+html_css_files = [
+    "https://weblate.org/static/vendor/font-source/source-sans-3.css",
+    "https://weblate.org/static/vendor/font-source/source-code-pro.css",
+]
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
