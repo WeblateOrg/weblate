@@ -57,7 +57,7 @@ from weblate.utils.templatetags.icons import icon
 from weblate.utils.views import SORT_CHOICES
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Generator, Iterable
 
     from django_stubs_ext import StrOrPromise
 
@@ -374,11 +374,10 @@ class Formatter:
             )
             self.tags[match.end()].insert(0, "</span></span>")
 
-    def format(self):
+    def format_generator(self) -> Generator[str]:
         tags = self.tags
         value = self.value
         newline = format_html(SPACE_NL, gettext("New line"))
-        output = []
         was_cr = False
         newlines = {"\r", "\n"}
         current: list[str]
@@ -399,9 +398,9 @@ class Formatter:
                     tags[pos + 1].insert(0, SPACE_END)
 
                 if previous_start != -1:
-                    output.append(value[previous_start:pos])
+                    yield value[previous_start:pos]
                     previous_start = -1
-                output.extend(current)
+                yield from current
 
             next_output = None
             if whitespace and char in newlines:
@@ -425,18 +424,20 @@ class Formatter:
                 next_output = "&#x27;"
             if next_output is not None:
                 if previous_start != -1:
-                    output.append(value[previous_start:pos])
+                    yield value[previous_start:pos]
                     previous_start = -1
-                output.append(next_output)
+                yield next_output
             elif previous_start == -1:
                 previous_start = pos
 
         if previous_start != -1:
-            output.append(value[previous_start:])
+            yield value[previous_start:]
 
         # Trailing tags
-        output.extend(tags[len(value)])
-        return mark_safe("".join(output))  # noqa: S308
+        yield from tags[len(value)]
+
+    def format(self):
+        return mark_safe("".join(self.format_generator()))  # noqa: S308
 
 
 @register.inclusion_tag("snippets/format-translation.html")
