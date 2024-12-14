@@ -242,28 +242,28 @@ epub_exclude_files = ["search.html"]
 graphviz_output_format = "svg"
 
 # Use localized Python docs on Read the Docs build
-rtd_lang = os.environ.get("READTHEDOCS_LANGUAGE")
+language = os.environ.get("READTHEDOCS_LANGUAGE", "en")
 
 python_doc_url = "https://docs.python.org/3/"
-if rtd_lang == "pt_BR":
+if language == "pt_BR":
     python_doc_url = "https://docs.python.org/pt-br/3/"
-elif rtd_lang in {"es", "fr", "ja", "ko", "tr"}:
-    python_doc_url = f"https://docs.python.org/{rtd_lang}/3/"
-elif rtd_lang == "zh_CN":
+elif language in {"es", "fr", "ja", "ko", "tr"}:
+    python_doc_url = f"https://docs.python.org/{language}/3/"
+elif language == "zh_CN":
     python_doc_url = "https://docs.python.org/zh-cn/3/"
-elif rtd_lang == "zh_TW":
+elif language == "zh_TW":
     python_doc_url = "https://docs.python.org/zh-tw/3/"
 
 django_doc_url = "https://docs.djangoproject.com/en/stable/"
-if rtd_lang in {"el", "es", "fr", "id", "ja", "ko", "pl"}:
-    django_doc_url = f"https://docs.djangoproject.com/{rtd_lang}/stable/"
-elif rtd_lang == "pt_BR":
+if language in {"el", "es", "fr", "id", "ja", "ko", "pl"}:
+    django_doc_url = f"https://docs.djangoproject.com/{language}/stable/"
+elif language == "pt_BR":
     django_doc_url = "https://docs.djangoproject.com/pt-br/stable/"
-elif rtd_lang == "zh_CN":
+elif language == "zh_CN":
     django_doc_url = "https://docs.djangoproject.com/zh-hans/stable/"
 
 sphinx_doc_url = "https://www.sphinx-doc.org/en/master/"
-if rtd_lang in {
+if language in {
     "ar",
     "ca",
     "de",
@@ -279,7 +279,13 @@ if rtd_lang in {
     "zh_CN",
     "zh_TW",
 }:
-    sphinx_doc_url = f"https://www.sphinx-doc.org/{rtd_lang}/master/"
+    sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/master/"
+
+if "-" in language:
+    # RTD normalized their language codes to ll-cc (e.g. zh-cn),
+    # but Sphinx did not and still uses ll_CC (e.g. zh_CN).
+    # `language` is the Sphinx configuration so it needs to be converted back.
+    language = language.replace("-", "_")
 
 # Configuration for intersphinx
 intersphinx_mapping = {
