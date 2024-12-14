@@ -247,6 +247,12 @@ graphviz_output_format = "svg"
 
 # Use localized Python docs on Read the Docs build
 language = os.environ.get("READTHEDOCS_LANGUAGE", "en")
+if "-" in language:
+    # RTD normalized their language codes to ll-cc (e.g. zh-cn),
+    # but Sphinx did not and still uses ll_CC (e.g. zh_CN).
+    # `language` is the Sphinx configuration so it needs to be converted back.
+    (lang_name, lang_country) = language.split("-")
+    language = lang_name + "_" + lang_country.upper()
 
 python_doc_url = "https://docs.python.org/3/"
 if language == "pt_BR":
@@ -285,11 +291,6 @@ if language in {
 }:
     sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/master/"
 
-if "-" in language:
-    # RTD normalized their language codes to ll-cc (e.g. zh-cn),
-    # but Sphinx did not and still uses ll_CC (e.g. zh_CN).
-    # `language` is the Sphinx configuration so it needs to be converted back.
-    language = language.replace("-", "_")
 
 # Configuration for intersphinx
 intersphinx_mapping = {
