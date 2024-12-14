@@ -131,13 +131,14 @@ if os.environ.get("READTHEDOCS", "") == "True":
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["../weblate/static/"]
 
-html_logo = "../weblate/static/logo-128.png"
+html_logo = "images/logo-text.svg"
 
 
 html_theme_options = {
     "source_repository": "https://github.com/WeblateOrg/weblate/",
     "source_branch": "main",
     "source_directory": "docs/",
+    "sidebar_hide_name": True,
     "dark_css_variables": {
         "font-stack": '"Source Sans 3", sans-serif',
         "font-stack--monospace": '"Source Code Pro", monospace',
