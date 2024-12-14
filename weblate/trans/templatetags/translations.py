@@ -65,14 +65,12 @@ if TYPE_CHECKING:
 
 register = template.Library()
 
-HIGHLIGTH_SPACE = '<span class="hlspace">{}</span>{}'
-SPACE_TEMPLATE = '<span class="{}">{}</span>'
-SPACE_SPACE = SPACE_TEMPLATE.format("space-space", " ")
-SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />")
 SPACE_START = '<span class="hlspace"><span class="space-space">'
+SPACE_NL_START = '<span class="hlspace"><span class="space-nl">'
 SPACE_MIDDLE_1 = "</span>"
 SPACE_MIDDLE_2 = '<span class="space-space">'
 SPACE_END = "</span></span>"
+SPACE_NL_END = "</span></span><br>"
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
@@ -83,7 +81,9 @@ WHITESPACE_REGEX = (
     r"\u202F|\u205F|\u3000)"
 )
 WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
+NEWLINE_RE = re.compile(r"(\r\n|\r|\n)", re.MULTILINE)
 MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
+ESCAPE_RE = re.compile(r"""['"&<>]""")
 TYPE_MAPPING = {True: "yes", False: "no", None: "unknown"}
 # Mapping of status report flags to names
 NAME_MAPPING = {
@@ -356,14 +356,20 @@ class Formatter:
 
     def parse_whitespace(self) -> None:
         """Highlight whitespaces."""
-        for match in MULTISPACE_RE.finditer(self.value):
+        value = self.value
+
+        for match in NEWLINE_RE.finditer(value):
+            self.tags[match.start()].append(SPACE_NL_START)
+            self.tags[match.end()].append(SPACE_NL_END)
+
+        for match in MULTISPACE_RE.finditer(value):
             self.tags[match.start()].append(SPACE_START)
             for i in range(match.start() + 1, match.end()):
                 self.tags[i].insert(0, SPACE_MIDDLE_1)
                 self.tags[i].append(SPACE_MIDDLE_2)
             self.tags[match.end()].insert(0, SPACE_END)
 
-        for match in WHITESPACE_RE.finditer(self.value):
+        for match in WHITESPACE_RE.finditer(value):
             whitespace = match.group(0)
             cls = "space-tab" if whitespace == "\t" else "space-space"
             title = get_display_char(whitespace)[0]
@@ -377,42 +383,22 @@ class Formatter:
     def format_generator(self) -> Generator[str]:
         tags = self.tags
         value = self.value
-        newline = format_html(SPACE_NL, gettext("New line"))
-        was_cr = False
-        newlines = {"\r", "\n"}
         current: list[str]
-        whitespace = self.whitespace
-        previous_start = -1
-        for pos, char in enumerate(value):
-            if pos in tags:
-                current = tags[pos]
-                # Special case for single whitespace char in diff
-                if (
-                    current
-                    and char == " "
-                    and "<ins>" in current
-                    and SPACE_START not in current
-                    and "</ins>" in tags[pos + 1]
-                ):
-                    current.append(SPACE_START)
-                    tags[pos + 1].insert(0, SPACE_END)
+        replacements: dict[int, str] = {}
 
-                if previous_start != -1:
-                    yield value[previous_start:pos]
-                    previous_start = -1
-                yield from current
+        # Extract tag positions
+        positions: set[int] = set(tags.keys())
 
-            next_output = None
-            if whitespace and char in newlines:
-                is_cr = char == "\r"
-                if was_cr and not is_cr:
-                    # treat "\r\n" as single newline
-                    continue
-                was_cr = is_cr
-                next_output = newline
-            # Replace special characters "&", "<" and ">" to HTML-safe sequences.
-            # This is like html.escape but inline and working on single character only.
-            elif char == "&":
+        # Avoid processing trailing tags in the loop
+        positions.discard(len(value))
+
+        # Replace special characters "&", "<" and ">" to HTML-safe sequences.
+        # This is like html.escape but inline
+        for match in ESCAPE_RE.finditer(value):
+            position = match.start()
+            positions.add(position)
+            char = match.group()
+            if char == "&":
                 next_output = "&amp;"
             elif char == "<":
                 next_output = "&lt;"
@@ -422,16 +408,39 @@ class Formatter:
                 next_output = "&quot;"
             elif char == "'":
                 next_output = "&#x27;"
-            if next_output is not None:
-                if previous_start != -1:
-                    yield value[previous_start:pos]
-                    previous_start = -1
-                yield next_output
-            elif previous_start == -1:
+            else:
+                raise ValueError(char)
+            replacements[position] = next_output
+
+        previous_start = 0
+        for pos in sorted(positions):
+            # String up to current position
+            yield value[previous_start:pos]
+
+            if pos in tags:
+                current = tags[pos]
+                # Special case for single whitespace char in diff
+                if (
+                    current
+                    and value[pos] == " "
+                    and "<ins>" in current
+                    and SPACE_START not in current
+                    and "</ins>" in tags[pos + 1]
+                ):
+                    current.append(SPACE_START)
+                    tags[pos + 1].insert(0, SPACE_END)
+
+                # Tags
+                yield from current
+
+            if pos in replacements:
+                # HTML escaped string
+                yield replacements[pos]
+                previous_start = pos + 1
+            else:
                 previous_start = pos
 
-        if previous_start != -1:
-            yield value[previous_start:]
+        yield value[previous_start:]
 
         # Trailing tags
         yield from tags[len(value)]
