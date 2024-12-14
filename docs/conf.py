@@ -291,6 +291,9 @@ if language in {
 }:
     sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/master/"
 
+if language != "en":
+    tags.add("i18n")  # noqa: F821
+
 
 # Configuration for intersphinx
 intersphinx_mapping = {

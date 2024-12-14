@@ -17,10 +17,10 @@ Weblate Documentation
      <https://docs.weblate.org/en/latest/>`_ by community members on
      `Hosted Weblate <https://hosted.weblate.org/projects/weblate/documentation/>`_.
 
-      Depending on the translation effort's completion level, you may find
-      paragraphs or whole pages which are still in English. You can help the
-      community by providing new translations or reviewing existing ones on
-      Weblate.
+     Depending on the translation effort's completion level, you may find
+     paragraphs or whole pages which are still in English. You can help the
+     community by providing new translations or reviewing existing ones on
+     Weblate.
 
 Welcome to the official documentation of `Weblate <https://weblate.org>`_, the
 libre software web-based continuous localization system. If you are new to this
