@@ -22,8 +22,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-13 15:50+0100\n"
-"PO-Revision-Date: 2024-12-09 05:00+0000\n"
-"Last-Translator: 大学没毕业 <ziweidao@foxmail.com>\n"
+"PO-Revision-Date: 2024-12-14 13:47+0000\n"
+"Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
+"org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -31,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.9-rc\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -7849,16 +7850,11 @@ msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr "各种缓存。可使用 :setting:`CACHE_DIR` 置于别处。"
 
 #: ../../admin/config.rst:461
-#, fuzzy
-#| msgid ""
-#| "This directory has to be writable by Weblate. Running it as uWSGI means "
-#| "the ``www-data`` user should have write access to it."
 msgid ""
 "This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
-msgstr ""
-"这个目录必须由 Weblate 写入。运行作为 uWSGI 意味着 ``www-data`` 用户应该对它"
-"具有写入权限。"
+msgstr "这个目录必须由 Weblate 写入。将它作为 WSGI 运行意味着 ``www-data`` "
+"用户应该对它具有写入权限。"
 
 #: ../../admin/config.rst:464
 msgid ""
@@ -12835,7 +12831,7 @@ msgstr ""
 msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
-msgstr ""
+msgstr "Weblate 容器不将它包括在搜索路径内，你需要指定完整路径来执行它。比如："
 
 #: ../../admin/install.rst:1242
 msgid ""
@@ -12970,18 +12966,13 @@ msgid "Running web server"
 msgstr "运行 web 服务器"
 
 #: ../../admin/install.rst:1330
-#, fuzzy
-#| msgid ""
-#| "Running Weblate is not different from running any other Django based "
-#| "program. Django is usually executed as uWSGI or fcgi (see examples for "
-#| "different webservers below)."
 msgid ""
 "Running Weblate is not different from running any other Django based "
 "program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
-"运行 Weblate 与运行其他任何基于 Django 的程序没什么不同。Django通常作为 "
-"uWSGI 或 fcgi 执行（请参见下面不同 web 服务器的示例）。"
+"运行 Weblate 与运行其他任何基于 Django 的程序没什么不同。Django通常作为 WSGI "
+"或 fcgi 执行（请参见下面不同 web 服务器的示例）。"
 
 #: ../../admin/install.rst:1334
 msgid "For testing purposes, you can use the built-in web server in Django:"
@@ -14087,18 +14078,12 @@ msgid "Number of processes and memory consumption"
 msgstr "进程数量和内存消耗"
 
 #: ../../admin/install/docker.rst:346
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both uWSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both WSGI and Celery is determined "
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
-"uWSGI 和 Celery 的工作进程数是根据 CPU 的数量自动确定的。这适用于大多数云虚拟"
+"WSGI 和 Celery 的工作进程数是根据 CPU 的数量自动确定的。这适用于大多数云虚拟"
 "机，因为这些虚拟机通常具有很少的CPU和大量的内存。"
 
 #: ../../admin/install/docker.rst:350
@@ -14261,7 +14246,7 @@ msgstr "配置站点域名。此参数为必填项。"
 
 #: ../../admin/install/docker.rst:504
 msgid "Include port if using a non-standard one."
-msgstr ""
+msgstr "包括端口，如果使用的是非标准端口。"
 
 #: ../../admin/install/docker.rst:515
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -15543,10 +15528,8 @@ msgid ":ref:`minimal-celery`"
 msgstr ":ref:`minimal-celery`"
 
 #: ../../admin/install/docker.rst:1901
-#, fuzzy
-#| msgid "Configure how many uWSGI workers should be executed."
 msgid "Configure how many WSGI workers should be executed."
-msgstr "配置应该执行多少个 uWSGI 工作进程。"
+msgstr "配置应该执行多少个 WSGI 工作进程。"
 
 #: ../../admin/install/docker.rst:1903
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
@@ -15556,7 +15539,8 @@ msgstr "它默认为 :envvar:`WEBLATE_WORKERS`。"
 msgid ""
 "The Docker container runs two WSGI processes since 5.9 and :envvar:"
 "`WEB_WORKERS` configures how many threads each process will have."
-msgstr ""
+msgstr "自 5.9 版本开始，Docker 容器运行两个 WSGI 进程，:envvar:`WEB_WORKERS` "
+"配置每个进程会有多少个线程。"
 
 #: ../../admin/install/docker.rst:1919
 msgid ""
@@ -25721,10 +25705,8 @@ msgid "Weblate 5.9"
 msgstr "Weblate 5.9"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on December 16th 2022."
 msgid "Released on December 16th 2024."
-msgstr "发布于 2022 年 12 月 16 日。"
+msgstr "发布于 2024 年 12 月 16 日。"
 
 #: ../../changes.rst:6 ../../changes.rst:147 ../../changes.rst:252
 #: ../../changes.rst:348 ../../changes.rst:460 ../../changes.rst:497
@@ -25884,18 +25866,18 @@ msgstr "Weblate 现在需要 Git 2.28 或更新版本。"
 #: ../../changes.rst:40
 msgid ""
 "Any custom code that relied on `Change` models signals should be reviewed."
-msgstr ""
+msgstr "任何依赖 `Change` 模型信号的自定义代码都应被检查。"
 
 #: ../../changes.rst:41
 msgid ""
 ":ref:`fedora-messaging` integration needs to be updated to be compatible "
 "with this release."
-msgstr ""
+msgstr "要和此版本兼容，需要更新 :ref:`fedora-messaging` 集成。"
 
 #: ../../changes.rst:42
 msgid ""
 ":envvar:`WEB_WORKERS` now configures number of threads instead of processes."
-msgstr ""
+msgstr ":envvar:`WEB_WORKERS` 现在配置线程数而非进程数。"
 
 #: ../../changes.rst:44 ../../changes.rst:69 ../../changes.rst:90
 #: ../../changes.rst:113 ../../changes.rst:132 ../../changes.rst:181
