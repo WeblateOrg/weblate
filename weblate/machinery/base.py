@@ -745,7 +745,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
             text,
             threshold,
             replacements,
-            self.tsv_checksum(get_glossary_tsv(unit)),
+            self.tsv_checksum(get_glossary_tsv(unit.translation)),
             *extra_parts,
         )
 
@@ -764,7 +764,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
             return None
 
         # Check if there is a glossary
-        glossary_tsv = get_glossary_tsv(unit)
+        glossary_tsv = get_glossary_tsv(translation)
         if not glossary_tsv:
             return None
 
