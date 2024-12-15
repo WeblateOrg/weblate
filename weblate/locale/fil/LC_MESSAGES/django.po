@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-13 14:49+0000\n"
-"PO-Revision-Date: 2024-11-13 15:00+0000\n"
+"PO-Revision-Date: 2024-12-16 08:06+0000\n"
 "Last-Translator: searinminecraft <114207889+searinminecraft@users.noreply."
 "github.com>\n"
 "Language-Team: Filipino <https://hosted.weblate.org/projects/weblate/"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1 && n != 2 && n != 3 && (n % 10 == 4 "
 "|| n % 10 == 6 || n % 10 == 9);\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.9-rc\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -67,6 +67,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
 msgstr ""
+"Ginagamit sa mga version control na commit. Mananatili sa repositoryo "
+"magpakailanman ang address kapag na-commit ng Weblate ang mga pagbabago."
 
 #: weblate/accounts/forms.py:230 weblate/accounts/models.py:702
 msgid "Public e-mail"
@@ -82,48 +84,44 @@ msgid "Component list: %s"
 msgstr "Talaan ng mga component: %s"
 
 #: weblate/accounts/forms.py:364
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Account e-mail"
-msgstr "Iyong e-mail"
+msgstr "Email ng account"
 
 #: weblate/accounts/forms.py:366
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+"Ginagamit sa mga email na abiso at bilang commit email kapag hindi naka-"
+"configure sa ibaba."
 
 #: weblate/accounts/forms.py:433
 msgid "Verification failed. Try again later."
-msgstr ""
+msgstr "Nabigo ang pagpapatunay. Subukan muli sa ibang pagkakataon."
 
 #: weblate/accounts/forms.py:434
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Nag-expire na ang pagpapatunay. Subukan muli sa ibang pagkakataon."
 
 #: weblate/accounts/forms.py:435
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Hindi ako isang robot"
 
 #: weblate/accounts/forms.py:436
-#, fuzzy
-#| msgid "Current password"
 msgid "Verification completed"
-msgstr "Kasalukuyang password"
+msgstr "Tapos na ang pagpapatunay"
 
 #: weblate/accounts/forms.py:437
 msgid "Verifying…"
-msgstr ""
+msgstr "Pinapatunay…"
 
 #: weblate/accounts/forms.py:439
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Ginagawa pa ang pagpapatunay, mangyaring maghintay."
 
 #: weblate/accounts/forms.py:449
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Human verification"
-msgstr "Pagsalin na notifications"
+msgstr "Pagpapatunay ng tao"
 
 #: weblate/accounts/forms.py:502
 #, python-format
@@ -138,10 +136,8 @@ msgid "That was not correct, please try again."
 msgstr "Mali ang iyong sagot, paki-ulit muli."
 
 #: weblate/accounts/forms.py:534 weblate/accounts/forms.py:541
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "Mali ang iyong sagot, paki-ulit muli."
+msgstr "Nabigo ang pagpapatunay, paki-ulit muli."
 
 #: weblate/accounts/forms.py:559
 msgid "Subject"
@@ -248,60 +244,72 @@ msgstr "Pinapanuod na mga proyekto"
 #: weblate/templates/accounts/user.html:162
 #: weblate/templates/dashboard/user.html:37
 msgid "Managed projects"
-msgstr ""
+msgstr "Mga pinamamahalaan na proyekto"
 
 #: weblate/accounts/forms.py:895
 msgid "Project: {}"
-msgstr ""
+msgstr "Proyekto: {}"
 
 #: weblate/accounts/forms.py:896
 msgid "Component: {}"
-msgstr ""
+msgstr "Component: {}"
 
 #: weblate/accounts/forms.py:902
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
+"Magkakaroon ka ng abiso para sa bawat pangyayari sa mga hindi pinapanood na "
+"proyekto."
 
 #: weblate/accounts/forms.py:907
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr ""
+"Magkakaroon ka ng abiso para sa bawat pangyayari sa mga pinapanood na "
+"proyekto."
 
 #: weblate/accounts/forms.py:912
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
+"Magkakaroon ka ng abiso para sa bawat pangyayari sa mga proyekto na kung "
+"saan may pangangasiwa ka na pahintulot."
 
 #: weblate/accounts/forms.py:917
 #, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
+msgstr "Magkakaroon ka ng abiso para sa bawat pangyayari sa %(project)s."
 
 #: weblate/accounts/forms.py:920
 #, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
+msgstr "Magkakaroon ka ng abiso para sa bawat pangyayari sa %(component)s."
 
 #: weblate/accounts/forms.py:927
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
+"Matatanggap mo lamang ang mga abiso na ito para sa iyong mga sinasalin na "
+"wika sa mga hindi pinapanood na proyekto."
 
 #: weblate/accounts/forms.py:932
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
+"Matatanggap mo lamang ang mga abiso na ito para sa iyong mga sinasalin na "
+"wika sa iyong mga pinapanood na proyekto."
 
 #: weblate/accounts/forms.py:937
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
+"Matatanggap mo lamang ang mga abiso na ito para sa iyong mga sinasalin na "
+"wika sa mga proyekto kung saan may pangangasiwa ka na pahintulot."
 
 #: weblate/accounts/forms.py:942
 #, python-format
@@ -309,6 +317,8 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
+"Matatanggap mo lamang ang mga abiso na ito para sa iyong mga sinasalin na "
+"wika sa %(project)s."
 
 #: weblate/accounts/forms.py:946
 #, python-format
@@ -316,145 +326,148 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
+"Matatanggap mo lamang ang mga abiso na ito para sa iyong mga sinasalin na "
+"wika sa %(component)s."
 
 #: weblate/accounts/forms.py:981 weblate/auth/models.py:396
 #: weblate/auth/models.py:1104 weblate/templates/auth/team.html:104
 #: weblate/templates/manage/users.html:49
 #: weblate/templates/trans/project-access.html:48 weblate/utils/forms.py:75
 msgid "Username"
-msgstr ""
+msgstr "Username"
 
 #: weblate/accounts/forms.py:983 weblate/auth/models.py:439
 msgid "Date joined"
-msgstr ""
+msgstr "Petsa na sumali"
 
 #: weblate/accounts/forms.py:984
 msgid "Translations made"
-msgstr ""
+msgstr "Mga pagsasalin na ginawa"
 
 #: weblate/accounts/forms.py:985
 msgid "Suggestions made"
-msgstr ""
+msgstr "Mga mungkahi na ginawa"
 
 #: weblate/accounts/forms.py:986
 msgid "Comments made"
-msgstr ""
+msgstr "Mga komento na ginawa"
 
 #: weblate/accounts/forms.py:987
 msgid "Screenshots uploaded"
-msgstr ""
+msgstr "Mga na-upload na screenshot"
 
 #: weblate/accounts/forms.py:1010
 msgid "Chosen sorting is not supported."
-msgstr ""
+msgstr "Hindi sinusuportahan ang piniling pagaayos."
 
 #: weblate/accounts/forms.py:1026
 msgid "Add user to a team"
-msgstr ""
+msgstr "Idagdag ang user sa isang koponan"
 
 #: weblate/accounts/forms.py:1038
-#, fuzzy
-#| msgid "Edit"
 msgid "Add team"
-msgstr "I-edit"
+msgstr "Magdagdag ng koponan"
 
 #: weblate/accounts/forms.py:1052
 msgid "Name your authentication app"
-msgstr ""
+msgstr "Ipangalan ang iyong authentication app"
 
 #: weblate/accounts/forms.py:1055
 msgid "Verify the code from the app"
-msgstr ""
+msgstr "I-verify ang code mula sa app"
 
 #: weblate/accounts/forms.py:1069
 msgid "Entered token is not valid."
-msgstr ""
+msgstr "Hindi wasto ang inilagay na token."
 
 #: weblate/accounts/forms.py:1137
 msgid "Recovery token"
-msgstr ""
+msgstr "Token ng pag-recover"
 
 #: weblate/accounts/forms.py:1139
 msgid ""
 "Recovery token can be used just once, mark your token as used after using it."
 msgstr ""
+"Magagamit lamang nang isang beses ang recovery token, markahan ang iyong "
+"token bilang ginamit pagkatapos gamitin."
 
 #: weblate/accounts/forms.py:1196
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "Ilagay ang code mula sa app"
 
 #: weblate/accounts/models.py:205
 msgid "Password changed."
-msgstr ""
+msgstr "Binago ang password."
 
 #: weblate/accounts/models.py:206
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr ""
+msgstr "Binago ang username mula {old} sa {new}."
 
 #: weblate/accounts/models.py:207
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgstr "Nabago ang email mula {old} sa {new}."
 
 #: weblate/accounts/models.py:208
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr ""
+msgstr "Nabago ang punong pangalan mula {old} sa {new}."
 
 #: weblate/accounts/models.py:209
 msgid "Password reset requested."
-msgstr ""
+msgstr "Hiniling ang pag-reset ng password."
 
 #: weblate/accounts/models.py:210
 msgid "Password reset confirmed, password turned off."
-msgstr ""
+msgstr "Nakumpirma ang password reset, pinatay ang password."
 
 #: weblate/accounts/models.py:211
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr ""
+msgstr "Na-configure ang sign in gamit ang {method} ({name})."
 
 #: weblate/accounts/models.py:212
 #, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr ""
+msgstr "Tinanggal ang pag-sign in gamit ang {method} ({name})."
 
 #: weblate/accounts/models.py:213
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr ""
+msgstr "Nag-sign in gamit ang {method} ({name})."
 
 #: weblate/accounts/models.py:214
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr ""
+msgstr "Nag-sign in gamit ang {method} ({name}) mula sa bagong device."
 
 #: weblate/accounts/models.py:215
 msgid "Somebody attempted to register with your e-mail."
-msgstr ""
+msgstr "May sumubok na magrehistro gamit ang iyong email."
 
 #: weblate/accounts/models.py:217
 msgid "Somebody attempted to register using your e-mail address."
-msgstr ""
+msgstr "May sumubok na magrehistro gamit ang iyong email address."
 
 #: weblate/accounts/models.py:219
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr ""
+msgstr "Hindi maka-sign in gamit ang {method} ({name})."
 
 #: weblate/accounts/models.py:220
 msgid "Account locked due to many failed sign in attempts."
 msgstr ""
+"Nakakandado ang account dahil sa masyadong maraming pagsubok sa pag-sign in."
 
 #: weblate/accounts/models.py:221
 msgid "Account and all private data removed."
-msgstr ""
+msgstr "Tinanggal ang account at ang lahat ng mga pribadong data."
 
 #: weblate/accounts/models.py:222
 #, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr ""
+msgstr "Ipinadala sa {email} ang kumpirmasyon ng pagtanggal ng account."
 
 #: weblate/accounts/models.py:223
 #, python-brace-format
