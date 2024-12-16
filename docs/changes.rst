@@ -1,3 +1,26 @@
+Weblate 5.9.1
+-------------
+
+Not yet released.
+
+**New features**
+
+**Improvements**
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.9.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/134?closed=1>`__.
+
 Weblate 5.9
 -----------
 
