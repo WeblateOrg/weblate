@@ -914,6 +914,46 @@ legend {
   position: absolute;
   left: -1.4em;
 }
+@counter-style lower-belorussian {
+  system: alphabetic;
+  symbols: "а" "б" "в" "г" "д" "е" "ё" "ж" "з" "і" "й" "к" "л" "м" "н" "о" "п"
+    "р" "с" "т" "у" "ў" "ф" "х" "ц" "ч" "ш" "ы" "ь" "э" "ю" "я";
+}
+@counter-style lower-bulgarian {
+  system: alphabetic;
+  symbols: "а" "б" "в" "г" "д" "е" "ж" "з" "и" "й" "к" "л" "м" "н" "о" "п" "р"
+    "с" "т" "у" "ф" "х" "ц" "ч" "ш" "щ" "ъ" "ь" "ю" "я";
+}
+@counter-style lower-macedonian {
+  system: alphabetic;
+  symbols: "а" "б" "в" "г" "д" "ѓ" "е" "ж" "з" "ѕ" "и" "ј" "к" "л" "љ" "м" "н"
+    "њ" "о" "п" "р" "с" "т" "ќ" "у" "ф" "х" "ц" "ч" "џ" "ш";
+}
+@counter-style lower-russian {
+  system: alphabetic;
+  symbols: "а" "б" "в" "г" "д" "е" "ж" "з" "и" "к" "л" "м" "н" "о" "п" "р" "с"
+    "т" "у" "ф" "х" "ц" "ч" "ш" "щ" "э" "ю" "я";
+}
+@counter-style lower-ukrainian {
+  system: alphabetic;
+  symbols: "а" "б" "в" "г" "д" "е" "є" "ж" "з" "и" "і" "к" "л" "м" "н" "о" "п"
+    "р" "с" "т" "у" "ф" "х" "ц" "ч" "ш" "ю" "я";
+}
+[lang="by"] .tos ol > li:before {
+  content: counter(tos_list, lower-belorussian) ") ";
+}
+[lang="bg"] .tos ol > li:before {
+  content: counter(tos_list, lower-bulgarian) ") ";
+}
+[lang="mk"] .tos ol > li:before {
+  content: counter(tos_list, lower-macedonian) ") ";
+}
+[lang="ru"] .tos ol > li:before {
+  content: counter(tos_list, lower-russian) ") ";
+}
+[lang="uk"] .tos ol > li:before {
+  content: counter(tos_list, lower-ukrainian) ") ";
+}
 
 .vertical-badge .badge {
   clear: right;
