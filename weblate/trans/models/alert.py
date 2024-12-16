@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 import sentry_sdk
 from django.conf import settings
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -29,7 +29,9 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
-    from weblate.trans.models import Component, Translation
+    from weblate.trans.models.component import Component, ComponentQuerySet
+    from weblate.trans.models.translation import Translation, TranslationQuerySet
+
 
 ALERTS: dict[str, type[BaseAlert]] = {}
 ALERTS_IMPORT: set[str] = set()
@@ -227,6 +229,48 @@ class DuplicateFilemask(BaseAlert):
     def __init__(self, instance, duplicates) -> None:
         super().__init__(instance)
         self.duplicates = duplicates
+
+    @staticmethod
+    def get_translations(component: Component) -> TranslationQuerySet:
+        from weblate.trans.models import Translation
+
+        return Translation.objects.filter(
+            Q(component=component) | Q(component__linked_component=component)
+        )
+
+    @classmethod
+    def check_component(cls, component: Component) -> bool | dict | None:
+        if component.is_repo_link:
+            return False
+
+        translations = set(
+            cls.get_translations(component)
+            .values_list("filename")
+            .annotate(count=Count("id"))
+            .filter(count__gt=1)
+            .values_list("filename", flat=True)
+        )
+        translations.discard("")
+        if translations:
+            return {"duplicates": sorted(translations)}
+        return False
+
+    def resolve_filename(
+        self, filename: str
+    ) -> ComponentQuerySet | TranslationQuerySet:
+        if "*" in filename:
+            # Legacy path for old alerts
+            # TODO: Remove in Weblate 6.0
+            return self.instance.component.component_set.filter(filemask=filename)
+        return self.get_translations(self.instance.component).filter(filename=filename)
+
+    def get_analysis(self):
+        return {
+            "duplicates_resolved": [
+                (filename, self.resolve_filename(filename))
+                for filename in self.duplicates
+            ]
+        }
 
 
 @register

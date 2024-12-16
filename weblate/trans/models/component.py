@@ -7,7 +7,7 @@ from __future__ import annotations
 import os
 import re
 import time
-from collections import Counter, defaultdict
+from collections import defaultdict
 from copy import copy
 from glob import glob
 from itertools import chain
@@ -1962,7 +1962,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return "weblate://{}".format("/".join(self.get_url_path()))
 
     @cached_property
-    def linked_childs(self):
+    def linked_childs(self) -> ComponentQuerySet:
         """Return list of components which links repository to us."""
         children = self.component_set.prefetch()
         for child in children:
@@ -3218,6 +3218,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         # Update alerts after stats update
         self.update_alerts()
+        if self.linked_component:
+            self.linked_component.update_alerts()
 
         # Make sure we create glossary
         if create and settings.CREATE_GLOSSARIES:
@@ -3293,26 +3295,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             variant_regex="", unit_count=0
         ).delete()
 
-    def update_link_alerts(self, noupdate: bool = False) -> None:
-        base = self.linked_component if self.is_repo_link else self
-        masks = [base.filemask]
-        masks.extend(base.linked_childs.values_list("filemask", flat=True))
-        duplicates = [item for item, count in Counter(masks).items() if count > 1]
-        if duplicates:
-            self.add_alert(
-                "DuplicateFilemask", duplicates=duplicates, noupdate=noupdate
-            )
-        else:
-            self.delete_alert("DuplicateFilemask")
-
     def _update_alerts(self):
         self._alerts_scheduled = False
         # Flush alerts case, mostly needed for tests
         self.__dict__.pop("all_alerts", None)
 
         update_alerts(self)
-
-        self.update_link_alerts()
 
         # Update libre checklist upon save on all components in a project
         if (
