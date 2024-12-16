@@ -872,7 +872,7 @@ BITBUCKETSERVER_CREDENTIALS
 
 .. versionadded:: 4.16
 
-List for credentials for Bitbucket servers.
+List for credentials for Bitbucket Data Center.
 
 .. code-block:: python
 
