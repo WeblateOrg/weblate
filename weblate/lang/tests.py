@@ -11,6 +11,7 @@ from itertools import chain
 
 from django.core.management import call_command
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils.translation import activate
 from weblate_language_data.aliases import ALIASES
@@ -773,3 +774,13 @@ class PluralMapperTestCase(FixtureTestCase):
             mapper.map(unit),
             ["{{periodNumber}}-я четверть", "{{periodNumber}}-я четверть"],
         )
+
+    def test_arabic_aliases(self) -> None:
+        arabic = Language.objects.get(code="ar")
+        self.assertEqual(arabic.get_aliases_names(), ["ar_aa", "ar_ar", "ara", "arb"])
+        with override_settings(SIMPLIFY_LANGUAGES=True):
+            self.assertEqual(
+                arabic.get_aliases_names(), ["ar_aa", "ar_ar", "ara", "arb"]
+            )
+        with override_settings(SIMPLIFY_LANGUAGES=False):
+            self.assertEqual(arabic.get_aliases_names(), ["ar_ar", "ara", "arb"])

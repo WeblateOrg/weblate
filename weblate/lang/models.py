@@ -711,8 +711,17 @@ class Language(models.Model, CacheKeyMixin):
                     return plural
         return self.plural_set.filter(source=Plural.SOURCE_DEFAULT)[0]
 
-    def get_aliases_names(self):
-        return [alias for alias, codename in ALIASES.items() if codename == self.code]
+    def get_aliases_names(self) -> list[str]:
+        aliases: list[str] = [
+            alias for alias, codename in ALIASES.items() if codename == self.code
+        ]
+        if settings.SIMPLIFY_LANGUAGES:
+            aliases.extend(
+                default_lang
+                for default_lang in DEFAULT_LANGS
+                if default_lang.startswith(self.code)
+            )
+        return sorted(aliases)
 
     def is_base(self, vals: tuple[str, ...]) -> bool:
         """Detect whether language is in given list, ignores variants."""
