@@ -2045,14 +2045,14 @@ class PagureRepository(GitMergeRequestBase):
 
 
 class BitbucketServerRepository(GitMergeRequestBase):
-    # Translators: Bitbucket Server is a product name, it differs from Bitbucked Cloud
-    name = gettext_lazy("Bitbucket Server pull request")
+    # Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
+    name = gettext_lazy("Bitbucket Data Center pull request")
     identifier = "bitbucketserver"
     _version = None
     API_TEMPLATE = "{scheme}://{host}/rest/api/1.0/projects/{owner}/repos/{slug}"
     bb_fork: dict = {}
     push_label = gettext_lazy(
-        "This will push changes and create a Bitbucket Server pull request."
+        "This will push changes and create a Bitbucket Data Center pull request."
     )
 
     def get_headers(self, credentials: GitCredentials) -> dict[str, str]:
@@ -2174,7 +2174,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         )
 
         """
-        Bitbucket Server will return an error if a PR already exists.
+        Bitbucket Data Center will return an error if a PR already exists.
         The push method in the parent class pushes changes to the correct
         fork or branch, and always calls this create_pull_request method after.
         If the PR exists already just do nothing because Bitbucket will

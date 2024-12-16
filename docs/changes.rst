@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Renamed :ref:`vcs-bitbucket-server` to match new product name.
+
 **Bug fixes**
 
 **Compatibility**

@@ -354,51 +354,115 @@ choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`G
 :guilabel:`Azure DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
 
 Overall, following options are available with Git, Mercurial, GitHub, GitLab,
-Gitea, Pagure, Azure DevOps, Bitbucket Server and Bitbucket Cloud:
+Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket Cloud:
 
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Desired setup                               | :ref:`component-vcs`          | :ref:`component-push`         | :ref:`component-push_branch`  |
-+=============================================+===============================+===============================+===============================+
-| No push                                     | :ref:`vcs-git`                | `empty`                       | `empty`                       |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Push directly                               | :ref:`vcs-git`                | SSH URL                       | `empty`                       |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Push to separate branch                     | :ref:`vcs-git`                | SSH URL                       | Branch name                   |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| No push                                     | :ref:`vcs-mercurial`          | `empty`                       | `empty`                       |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Push directly                               | :ref:`vcs-mercurial`          | SSH URL                       | `empty`                       |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Push to separate branch                     | :ref:`vcs-mercurial`          | SSH URL                       | Branch name                   |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitHub pull request from fork               | :ref:`vcs-github`             | `empty`                       | `empty`                       |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitHub pull request from branch             | :ref:`vcs-github`             | SSH URL [#empty]_             | Branch name                   |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitLab merge request from fork              | :ref:`vcs-gitlab`             | `empty`                       | `empty`                       |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitLab merge request from branch            | :ref:`vcs-gitlab`             | SSH URL [#empty]_             | Branch name                   |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Gitea merge request from fork               | :ref:`vcs-gitea`              | `empty`                       | `empty`                       |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Gitea merge request from branch             | :ref:`vcs-gitea`              | SSH URL [#empty]_             | Branch name                   |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Pagure merge request from fork              | :ref:`vcs-pagure`             | `empty`                       | `empty`                       |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Pagure merge request from branch            | :ref:`vcs-pagure`             | SSH URL [#empty]_             | Branch name                   |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Azure DevOps pull request from fork         | :ref:`vcs-azure-devops`       | `empty`                       | `empty`                       |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Azure DevOps pull request from branch       | :ref:`vcs-azure-devops`       | SSH URL [#empty]_             | Branch name                   |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Bitbucket server pull request from fork     | :ref:`vcs-bitbucket-server`   | `empty`                       | `empty`                       |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Bitbucket server pull request from branch   | :ref:`vcs-bitbucket-server`   | SSH URL [#empty]_             | Branch name                   |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Bitbucket Cloud pull request from fork      | :ref:`vcs-bitbucket-cloud`    | `empty`                       | `empty`                       |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Bitbucket Cloud pull request from branch    | :ref:`vcs-bitbucket-cloud`    | SSH URL [#empty]_             | Branch name                   |
-+---------------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+.. list-table::
+   :header-rows: 1
+
+   * - Desired setup
+     - :ref:`component-vcs`
+     - :ref:`component-push`
+     - :ref:`component-push_branch`
+
+   * - No push
+     - :ref:`vcs-git`
+     - `empty`
+     - `empty`
+
+   * - Push directly
+     - :ref:`vcs-git`
+     - SSH URL
+     - `empty`
+
+   * - Push to separate branch
+     - :ref:`vcs-git`
+     - SSH URL
+     - Branch name
+
+   * - No push
+     - :ref:`vcs-mercurial`
+     - `empty`
+     - `empty`
+
+   * - Push directly
+     - :ref:`vcs-mercurial`
+     - SSH URL
+     - `empty`
+
+   * - Push to separate branch
+     - :ref:`vcs-mercurial`
+     - SSH URL
+     - Branch name
+
+   * - GitHub pull request from fork
+     - :ref:`vcs-github`
+     - `empty`
+     - `empty`
+
+   * - GitHub pull request from branch
+     - :ref:`vcs-github`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - GitLab merge request from fork
+     - :ref:`vcs-gitlab`
+     - `empty`
+     - `empty`
+
+   * - GitLab merge request from branch
+     - :ref:`vcs-gitlab`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - Gitea merge request from fork
+     - :ref:`vcs-gitea`
+     - `empty`
+     - `empty`
+
+   * - Gitea merge request from branch
+     - :ref:`vcs-gitea`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - Pagure merge request from fork
+     - :ref:`vcs-pagure`
+     - `empty`
+     - `empty`
+
+   * - Pagure merge request from branch
+     - :ref:`vcs-pagure`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - Azure DevOps pull request from fork
+     - :ref:`vcs-azure-devops`
+     - `empty`
+     - `empty`
+
+   * - Azure DevOps pull request from branch
+     - :ref:`vcs-azure-devops`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - Bitbucket Data Center pull request from fork
+     - :ref:`vcs-bitbucket-server`
+     - `empty`
+     - `empty`
+
+   * - Bitbucket Data Center pull request from branch
+     - :ref:`vcs-bitbucket-server`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - Bitbucket Cloud pull request from fork
+     - :ref:`vcs-bitbucket-cloud`
+     - `empty`
+     - `empty`
+
+   * - Bitbucket Cloud pull request from branch
+     - :ref:`vcs-bitbucket-cloud`
+     - SSH URL [#empty]_
+     - Branch name
 
 .. [#empty] Can be empty in case :ref:`component-repo` supports pushing.
 
