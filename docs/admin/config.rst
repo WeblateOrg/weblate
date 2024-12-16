@@ -846,7 +846,11 @@ List for credentials for GitHub servers.
 
 .. note::
 
-   When creating a fine-grained personal access token, grant read and write access to :guilabel:`Contents` and :guilabel:`Pull requests`.
+   When creating a fine-grained personal access token, grant read and write
+   access to :guilabel:`Contents` and :guilabel:`Pull requests`.
+
+   :guilabel:`Administration` might also be necessary for forking a repository
+   if you intend to use forking and the original repository is not public.
 
 .. hint::
 
