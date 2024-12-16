@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-13 14:49+0000\n"
-"PO-Revision-Date: 2024-12-15 08:03+0000\n"
+"PO-Revision-Date: 2024-12-17 00:30+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.9-rc\n"
+"X-Generator: Weblate 5.9\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1404,7 +1404,7 @@ msgstr "Hromadné úpravy"
 
 #: weblate/addons/flags.py:101
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Hromadné úpravy charakterizácie, štítkov alebo stavov reťazcov."
+msgstr "Hromadné úpravy príznakov, štítkov alebo stavov reťazcov."
 
 #: weblate/addons/forms.py:48
 msgid "Path of generated MO file"
@@ -3314,7 +3314,7 @@ msgstr "Rozstup písma"
 
 #: weblate/checks/flags.py:65
 msgid "ICU MessageFormat flags"
-msgstr "Charakterizácia ICU MessageFormat"
+msgstr "Príznaky ICU MessageFormat"
 
 #: weblate/checks/flags.py:67
 msgid "ICU MessageFormat tag prefix"
@@ -3340,22 +3340,22 @@ msgstr "Fluent typ"
 #: weblate/checks/flags.py:295
 #, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Chybná charakterizácia prekladu: \"%s\""
+msgstr "Chybný príznak prekladu: „%s“"
 
 #: weblate/checks/flags.py:299
 #, python-format
 msgid "The translation flag has no parameters: \"%s\""
-msgstr "Charakterizácia prekladu nemá žiadne parametre: \"%s\""
+msgstr "Príznak prekladu nemá žiadne parametre: „%s“"
 
 #: weblate/checks/flags.py:305
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "Chybné parametre charakterizácie prekladu: \"%s\""
+msgstr "Chybné parametre príznaku prekladu:: „%s“"
 
 #: weblate/checks/flags.py:309
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Chýbajúce parametre pre charakterizáciu prekladu: „%s“"
+msgstr "Chýbajúce parametre pre príznak prekladu: „%s“"
 
 #: weblate/checks/fluent/inner_html.py:128
 #, python-brace-format
@@ -3719,10 +3719,8 @@ msgid "Fluent syntax error in source"
 msgstr "Chyba v syntaxi Fluent v zdroji"
 
 #: weblate/checks/fluent/syntax.py:63
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Fluent translation syntax"
-msgstr "Weblate preklady"
+msgstr "Fluent prekladová syntax"
 
 #: weblate/checks/fluent/syntax.py:64
 msgid "Fluent syntax error in translation"
@@ -10514,8 +10512,7 @@ msgstr "Prispieť Weblate"
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
-"Maximálna dĺžka reťazca je určená zo zdrojového reťazca alebo "
-"charakterizácie."
+"Maximálna dĺžka reťazca je určená zo zdrojového reťazca alebo príznakov."
 
 #: weblate/templates/snippets/editor.html:15
 msgid "Source string length"
@@ -11275,6 +11272,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
 msgstr ""
+"<a href=\"%(url)s\">Usporiadajte projekt</a> aby ste zmenili jeho URL slug "
+"alebo ho odstránili."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
@@ -11282,6 +11281,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
+"<a href=\"%(url)s\">Usporiadajte súčasť</a> aby ste zmenili jej URL slug, "
+"presunuli ho alebo odstránili."
 
 #: weblate/templates/snippets/share-menu.html:6
 msgid "Share"
@@ -11889,8 +11890,8 @@ msgid ""
 "The check can be turned on by adding the corresponding flag to string or "
 "component flags."
 msgstr ""
-"Kontrolu je možné zapnúť pridaním príslušného charakteru do charakterizácie "
-"reťazca alebo komponentu."
+"Kontrolu je možné zapnúť pridaním príslušného príznaku do príznakov reťazca "
+"alebo komponentu."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:3
 msgid "At least one screenshot has no string assigned to it."
@@ -12584,8 +12585,7 @@ msgstr "Pre všetky jazyky"
 
 #: weblate/templates/translate.html:624
 msgid "Selecting this option will set the corresponding ignore flag."
-msgstr ""
-"Výberom tejto možnosti sa nastaví príslušná charakterizácia ignorovania."
+msgstr "Výberom tejto možnosti nastavíte príslušný príznak ignorovania."
 
 #: weblate/templates/translate.html:655
 #, python-format
@@ -12639,11 +12639,11 @@ msgstr "Momentálne nie sú nastavené žiadne štítky."
 
 #: weblate/templates/translate.html:820
 msgid "Flags"
-msgstr "Charakterizácia"
+msgstr "Príznaky"
 
 #: weblate/templates/translate.html:826
 msgid "No flags currently set."
-msgstr "Neboli nastavené žiadne charaktery."
+msgstr "Neboli nastavené žiadne príznaky."
 
 #: weblate/templates/translate.html:838 weblate/utils/views.py:183
 msgid "String age"
@@ -12677,7 +12677,7 @@ msgstr "čakajúci"
 
 #: weblate/templates/translate.html:897
 msgid "Inherited flags"
-msgstr "Zdedené charaktery"
+msgstr "Zdedené príznaky"
 
 #: weblate/templates/translate.html:903
 #, python-format
@@ -13562,11 +13562,11 @@ msgstr "Bez zmeny"
 
 #: weblate/trans/forms.py:2604
 msgid "Translation flags to add"
-msgstr "Pridať charakterizáciu prekladu"
+msgstr "Pridať príznaky prekladu"
 
 #: weblate/trans/forms.py:2607
 msgid "Translation flags to remove"
-msgstr "Odstrániť charakterizáciu prekladu"
+msgstr "Odstrániť príznaky prekladu"
 
 #: weblate/trans/forms.py:2611
 msgid "Labels to add"
@@ -13694,17 +13694,15 @@ msgstr "Pridajte obrázky a ukážte, kde sa reťazce používajú."
 
 #: weblate/trans/guide.py:196
 msgid "Use flags to indicate special strings in your translation."
-msgstr "Pomocou charakterizácie označte vo svojom preklade špeciálne reťazce."
+msgstr "Pomocou príznakov označte vo svojom preklade špeciálne reťazce."
 
 #: weblate/trans/guide.py:216
-#, fuzzy
-#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
 msgstr ""
-"Pridajte charakterizáciu safe-html, aby ste sa vyhli nebezpečnému HTML zo "
-"strany prekladateľov."
+"Pridajte príznak safe-html, aby ste predišli nebezpečnému HTML od "
+"prekladačov pre reťazce, ktoré sa zobrazujú ako HTML."
 
 #: weblate/trans/guide.py:247
 msgid "Workflow customization"
@@ -14561,7 +14559,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:552 weblate/trans/models/unit.py:392
 msgid "Translation flags"
-msgstr "Charakterizácia prekladu"
+msgstr "Príznaky prekladu"
 
 #: weblate/trans/models/component.py:555 weblate/trans/models/unit.py:395
 msgid "Additional comma-separated flags to influence Weblate behavior."
@@ -15669,7 +15667,7 @@ msgstr ""
 #: weblate/trans/validators.py:42
 #, python-format
 msgid "Could not parse flags: %s"
-msgstr "Nepodarilo sa spracovať charakterizáciu: %s"
+msgstr "Nepodarilo sa spracovať príznaky: %s"
 
 #: weblate/trans/validators.py:51
 #, python-format
