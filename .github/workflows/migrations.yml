@@ -75,6 +75,8 @@ jobs:
       run: ./ci/run-migrate 5.7
     - name: Migrate from 5.8
       run: ./ci/run-migrate 5.8
+    - name: Migrate from 5.9
+      run: ./ci/run-migrate 5.9
     - name: Coverage
       run: |
         uv run --no-sources coverage combine
