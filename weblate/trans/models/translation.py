@@ -529,7 +529,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def store_update_changes(self) -> None:
         # Save change
         Change.objects.bulk_create(self.update_changes, batch_size=500)
-        self.update_changes = []
+        self.update_changes.clear()
 
     def do_update(self, request=None, method=None):
         return self.component.do_update(request, method=method)
@@ -1246,6 +1246,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             )
             existing.add(idkey)
             accepted += 1
+        self.store_update_changes()
         component.invalidate_cache()
         if component.needs_variants_update:
             component.update_variants()
@@ -1456,7 +1457,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return result
 
     @transaction.atomic
-    def add_unit(  # noqa: C901,PLR0914
+    def add_unit(  # noqa: C901,PLR0914,PLR0915
         self,
         request,
         context: str,
@@ -1613,7 +1614,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             unit_ids.append(unit.pk)
 
         if changes:
-            Change.objects.bulk_create(changes)
+            if is_batch_update:
+                self.update_changes.extend(changes)
+            else:
+                Change.objects.bulk_create(changes)
 
         if not is_batch_update:
             if self.component.needs_variants_update:
