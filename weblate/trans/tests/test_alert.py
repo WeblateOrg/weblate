@@ -112,6 +112,24 @@ class AlertTest(ViewTestCase):
             component.alert_set.filter(name="MonolingualTranslation").exists()
         )
 
+    def test_duplicate_mask(self):
+        component = self.component
+        self.assertFalse(component.alert_set.filter(name="DuplicateFilemask").exists())
+        response = self.client.get(component.get_absolute_url())
+        self.assertNotContains(
+            response, "The following files were found multiple times"
+        )
+
+        other = self.create_link_existing()
+
+        self.assertTrue(component.alert_set.filter(name="DuplicateFilemask").exists())
+        response = self.client.get(component.get_absolute_url())
+        self.assertContains(response, "The following files were found multiple times")
+
+        other.delete()
+
+        self.assertFalse(component.alert_set.filter(name="DuplicateFilemask").exists())
+
 
 class LanguageAlertTest(ViewTestCase):
     def create_component(self):
@@ -120,10 +138,8 @@ class LanguageAlertTest(ViewTestCase):
     def test_ambiguous_language(self) -> None:
         component = self.component
         self.assertFalse(component.alert_set.filter(name="AmbiguousLanguage").exists())
-        self.component.add_new_language(
-            Language.objects.get(code="ku"), self.get_request()
-        )
-        self.component.update_alerts()
+        component.add_new_language(Language.objects.get(code="ku"), self.get_request())
+        component.update_alerts()
         self.assertTrue(component.alert_set.filter(name="AmbiguousLanguage").exists())
 
 

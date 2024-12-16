@@ -184,7 +184,7 @@ def post_delete_linked(sender, instance, **kwargs) -> None:
     # When removing project, the linked component might be already deleted now
     try:
         if instance.linked_component:
-            instance.linked_component.update_link_alerts(noupdate=True)
+            instance.linked_component.update_alerts()
     except Component.DoesNotExist:
         pass
 
