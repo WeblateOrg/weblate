@@ -3,13 +3,9 @@ Weblate 5.9.1
 
 Not yet released.
 
-**New features**
-
-**Improvements**
-
 **Bug fixes**
 
-**Compatibility**
+* Fixed publishing package to PyPI.
 
 **Upgrading**
 
