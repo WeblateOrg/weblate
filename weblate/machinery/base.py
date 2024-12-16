@@ -409,11 +409,15 @@ class BatchMachineTranslation:
         msg = "Not supported"
         raise UnsupportedLanguageError(msg)
 
-    def get_cached(self, source, language, text, threshold, replacements):
+    def get_cached(
+        self, unit, source, language, text, threshold, replacements, *extra_parts
+    ):
         if not self.cache_translations:
             return None, None
         cache_key = self.get_cache_key(
-            "translation", parts=(source, language, threshold), text=text
+            "translation",
+            parts=(source, language, threshold, *extra_parts),
+            text=text,
         )
         result = cache.get(cache_key)
         if result and (replacements or self.force_uncleanup):
@@ -510,7 +514,7 @@ class BatchMachineTranslation:
 
             # Try cached results
             cache_key, result = self.get_cached(
-                source, language, text, threshold, replacements
+                unit, source, language, text, threshold, replacements
             )
             if result is not None:
                 output[original_source] = result
@@ -724,6 +728,27 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         cache.set(cache_key, result, 24 * 3600)
         return result
 
+    def tsv_checksum(self, tsv: str) -> str:
+        """Calculate checksum of given TSV glossary."""
+        return hash_to_checksum(calculate_hash(tsv)) if tsv else ""
+
+    def get_cached(
+        self, unit, source, language, text, threshold, replacements, *extra_parts
+    ):
+        """Retrieve cached translation with glossary checksum."""
+        from weblate.glossary.models import get_glossary_tsv
+
+        return super().get_cached(
+            unit,
+            source,
+            language,
+            text,
+            threshold,
+            replacements,
+            self.tsv_checksum(get_glossary_tsv(unit.translation)),
+            *extra_parts,
+        )
+
     def get_glossary_id(
         self, source_language: str, target_language: str, unit: Unit | None
     ) -> str | None:
@@ -744,7 +769,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
             return None
 
         # Calculate hash to check for changes
-        glossary_checksum = hash_to_checksum(calculate_hash(glossary_tsv))
+        glossary_checksum = self.tsv_checksum(glossary_tsv)
         glossary_name = self.glossary_name_format.format(
             project=translation.component.project.id,
             source_language=source_language,

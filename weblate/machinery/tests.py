@@ -509,6 +509,38 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
         unit = MockUnit(code="cs", source=":foo", target=":bar")
         self.assertEqual(render_glossary_units_tsv([unit]), ":foo\t:bar")
 
+    def test_glossary_changes_invalidates_result_cache(self):
+        machine = self.get_machine(cache=True)
+        source_text = "Hello, world!"
+        unit = MockUnit(code="cs", source=source_text, target="")
+
+        with (
+            patch.object(
+                DummyGlossaryTranslation,
+                "list_glossaries",
+                return_value={
+                    "weblate:1:en:cs:9e250d830c11d70f": "weblate:1:en:cs:9e250d830c11d70f"
+                },
+            ),
+            patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar"),
+        ):
+            machine.translate(unit, threshold=75)
+            cache_key, result = machine.get_cached(
+                unit, "en", "cs", source_text, 75, {}
+            )
+            self.assertIsNotNone(cache_key)
+            self.assertTrue(len(result) > 0)
+            self.assertIsNotNone(result)
+
+        with patch(
+            "weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar-edit"
+        ):
+            new_cache_key, new_result = machine.get_cached(
+                unit, "en", "cs", source_text, 75, {}
+            )
+            self.assertIsNone(new_result)
+            self.assertNotEqual(cache_key, new_cache_key)
+
 
 class GlosbeTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = GlosbeTranslation
