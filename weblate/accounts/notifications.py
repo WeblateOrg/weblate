@@ -311,8 +311,10 @@ class Notification:
         if changes is not None:
             result["changes"] = changes
         if subscription is not None:
-            result["unsubscribe_url"] = "{}?i={}".format(
-                reverse("unsubscribe"), TimestampSigner().sign(f"{subscription.pk}")
+            result["unsubscribe_url"] = get_site_url(
+                "{}?i={}".format(
+                    reverse("unsubscribe"), TimestampSigner().sign(f"{subscription.pk}")
+                )
             )
             result["subscription_user"] = subscription.user
         else:
