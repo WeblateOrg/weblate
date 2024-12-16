@@ -549,7 +549,12 @@ class Unit(models.Model, LoggerMixin):
         # Store original attributes for change tracking
         self.old_unit: OldUnit
         # Avoid loading self-referencing source unit from the database
-        if self.id and self.source_unit_id == self.id:
+        # Skip this when deferred fields are present to avoid database access
+        if (
+            self.id
+            and not self.get_deferred_fields()
+            and self.source_unit_id == self.id
+        ):
             self.source_unit = self
         if "state" in self.__dict__ and "source" in self.__dict__:
             # Avoid storing if .only() was used to fetch the query (eg. in stats)
