@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-13 15:50+0100\n"
-"PO-Revision-Date: 2024-12-17 00:30+0000\n"
+"PO-Revision-Date: 2024-12-18 02:35+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.9\n"
+"X-Generator: Weblate 5.9.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -3527,8 +3527,8 @@ msgid ""
 "must be removed from the upstream manually."
 msgstr ""
 "Se uma tradução for removida, seu arquivo PO será excluído do repositório, "
-"mas o arquivo MO gerado por esse complemento não será.  O arquivo MO deve "
-"ser removido manualmente do upstream."
+"mas o arquivo MO gerado por esse complemento não será. O arquivo MO deve ser "
+"removido manualmente do upstream."
 
 #: ../../admin/addons.rst:800
 msgid "Update PO files to match POT (msgmerge)"
@@ -12141,10 +12141,8 @@ msgid "pip extra"
 msgstr "pip extra"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "Python Package"
 msgid "Python Packages"
-msgstr "Pacote Python"
+msgstr "Pacotes Python"
 
 #: ../../admin/install.rst:210
 msgid "Weblate feature"
@@ -15372,7 +15370,7 @@ msgstr "Configura o domínio do site. Este parâmetro é obrigatório."
 
 #: ../../admin/install/docker.rst:504
 msgid "Include port if using a non-standard one."
-msgstr ""
+msgstr "Inclua um port se estiver usando uma que não seja padrão."
 
 #: ../../admin/install/docker.rst:515
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -15902,10 +15900,8 @@ msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "Configura :setting:`UNUSED_ALERT_DAYS`."
 
 #: ../../admin/install/docker.rst:1018
-#, fuzzy
-#| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
-msgstr "Configura :setting:`BASIC_LANGUAGES`."
+msgstr "Configura :setting:`UPDATE_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:1024
 msgid "Allow CORS requests to API from given origins."
@@ -15934,12 +15930,6 @@ msgid "Code hosting sites credentials"
 msgstr "Credenciais de sites de hospedagem de código"
 
 #: ../../admin/install/docker.rst:1062
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the code hosting credentials can be configured "
-#| "either in separate variables or using a Python dictionary to set them at "
-#| "once. The following examples are for :ref:`vcs-github`, but applies to "
-#| "all :ref:`vcs` with appropriately changed variable names."
 msgid ""
 "In the Docker container, the code hosting credentials can be configured "
 "either in separate variables or using a Python dictionary to set them at "
@@ -16003,16 +15993,12 @@ msgstr ""
 "`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1148
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-bitbucket-server` by changing :setting:"
-#| "`BITBUCKETSERVER_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-bitbucket-cloud` by changing :setting:"
 "`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
-"Configura :ref:`vcs-bitbucket-server` alterando :setting:"
-"`BITBUCKETSERVER_CREDENTIALS`."
+"Configura :ref:`vcs-bitbucket-cloud` alterando "
+":setting:`BITBUCKETCLOUD_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1158
 msgid ""
@@ -16291,22 +16277,16 @@ msgstr ""
 "org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_"
 
 #: ../../admin/install/docker.rst:1471
-#, fuzzy
-#| msgid ""
-#| "Configures name of role to alter during migrations, see :ref:`config-"
-#| "postgresql`."
 msgid ""
 "Configures name of the PostgreSQL role to alter during the database "
 "migration, see :ref:`config-postgresql`."
 msgstr ""
-"Configura o nome da função para alterar durante as migrações, consulte :ref:"
-"`config-postgresql`."
+"Configura o nome da função PostgreSQL para alterar durante a migração de "
+"banco de dados, consulte :ref:`config-postgresql`."
 
 #: ../../admin/install/docker.rst:1473
-#, fuzzy
-#| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid "Defaults to :envvar:`POSTGRES_USER`."
-msgstr "O padrão é :envvar:`WEBLATE_WORKERS`."
+msgstr "O padrão é :envvar:`POSTGRES_USER`."
 
 #: ../../admin/install/docker.rst:1479
 msgid ""
@@ -16762,10 +16742,8 @@ msgid ":ref:`minimal-celery`"
 msgstr ":ref:`minimal-celery`"
 
 #: ../../admin/install/docker.rst:1901
-#, fuzzy
-#| msgid "Configure how many uWSGI workers should be executed."
 msgid "Configure how many WSGI workers should be executed."
-msgstr "Configura quantos workers uWSGI devem ser executados."
+msgstr "Configura quantos workers WSGI devem ser executados."
 
 #: ../../admin/install/docker.rst:1903
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
@@ -16776,6 +16754,8 @@ msgid ""
 "The Docker container runs two WSGI processes since 5.9 and :envvar:"
 "`WEB_WORKERS` configures how many threads each process will have."
 msgstr ""
+"O contêiner do Docker executa dois processos WSGI desde a versão 5.9 e "
+":envvar:`WEB_WORKERS` configura quantos threads cada processo terá."
 
 #: ../../admin/install/docker.rst:1919
 msgid ""
@@ -16910,17 +16890,14 @@ msgstr ""
 "pois é o usuário usado dentro do contêiner."
 
 #: ../../admin/install/docker.rst:1966
-#, fuzzy
-#| msgid ""
-#| "When running the container with a read-only root filesystem, two "
-#| "additional `tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgid ""
 "Weblate container can also be executed with a read-only root file system. In "
 "this case, two additional ``tmpfs`` volumes should be mounted: ``/tmp`` and "
 "``/run``."
 msgstr ""
-"Ao executar o contêiner com um sistema de arquivos raiz somente leitura, são "
-"necessários dois volumes `tmpfs` adicionais - :file:`/tmp` e :file:`/run`."
+"O contêiner Weblate também pode ser executado com um sistema de arquivos "
+"raiz somente leitura. Neste caso, dois volumes ``tmpfs`` adicionais devem "
+"ser montados: ``/tmp`` e ``/run``."
 
 #: ../../admin/install/docker.rst:1972
 msgid ""
@@ -17759,24 +17736,17 @@ msgstr "As instruções de instalação local:"
 
 #: ../../admin/install/steps/install-uv.rst:2
 msgid "uv package manager"
-msgstr ""
+msgstr "Gerenciador de pacotes uv"
 
 #: ../../admin/install/steps/install-uv.rst:6
-#, fuzzy
-#| msgid "Permissions are not managed in Weblate."
 msgid "We're using uv package manager to install Weblate."
-msgstr "As permissões não são gerenciadas no Weblate."
+msgstr "Estamos usando o gerenciador de pacotes uv para instalar o Weblate."
 
 #: ../../admin/install/steps/install-uv.rst:15
-#, fuzzy
-#| msgid ""
-#| "`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/"
-#| "#fetch-your-app-metadata>`_"
 msgid ""
 "`Installing uv <https://docs.astral.sh/uv/getting-started/installation/>`_"
 msgstr ""
-"`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-"
-"your-app-metadata>`_"
+"`Instalando uv <https://docs.astral.sh/uv/getting-started/installation/>`_"
 
 #: ../../admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
@@ -18215,11 +18185,10 @@ msgstr ""
 "`component`, veja :ref:`component-source_language`."
 
 #: ../../admin/machine.rst:25
-#, fuzzy
-#| msgid "The source language can be configured at :ref:`project`."
 msgid ""
 "Per-project automatic suggestion can also be configured via the :ref:`api`."
-msgstr "O idioma fonte pode ser configurado na :ref:`project`."
+msgstr ""
+"A sugestão automática por projeto também pode ser configurada via :ref:`api`."
 
 #: ../../admin/machine.rst:29
 msgid ":ref:`machine-translation`"
@@ -18339,10 +18308,6 @@ msgid "Region name"
 msgstr "Nome da região"
 
 #: ../../admin/machine.rst:90
-#, fuzzy
-#| msgid ""
-#| "Amazon Translate is a neural machine translation service for translating "
-#| "text to and from English across a breadth of supported languages."
 msgid ""
 "Amazon Translate is a neural machine translation service for translating "
 "text to and from English across a breadth of supported languages. The "
@@ -18350,7 +18315,8 @@ msgid ""
 msgstr ""
 "O Amazon Translate é um serviço de tradução automática neural para traduzir "
 "textos do inglês ou para o inglês em uma ampla variedade de idiomas "
-"suportados."
+"suportados. O serviço requer a política de gerenciamento "
+"`TranslateFullAccess`."
 
 #: ../../admin/machine.rst:94 ../../admin/machine.rst:188
 #: ../../admin/machine.rst:446 ../../admin/machine.rst:544
@@ -18364,6 +18330,9 @@ msgid ""
 "`AWS TranslateFullAccess Policy <https://docs.aws.amazon.com/aws-managed-"
 "policy/latest/reference/TranslateFullAccess.html>`_"
 msgstr ""
+"`Documentação do Amazon Translate <https://docs.aws.amazon.com/translate/>`"
+"_, `Política do AWS TranslateFullAccess <https://docs.aws.amazon.com/"
+"aws-managed-policy/latest/reference/TranslateFullAccess.html>`_"
 
 #: ../../admin/machine.rst:104
 msgid "Baidu"
@@ -18748,18 +18717,20 @@ msgid ""
 "Optionally, you can configure the service to use :ref:`glossary` by setting "
 "up a Bucket:"
 msgstr ""
+"Opcionalmente, você pode configurar o serviço para usar :ref:`glossary` "
+"configurando um Bucket:"
 
 #: ../../admin/machine.rst:268
 msgid "`Create a Google Cloud bucket.`_"
-msgstr ""
+msgstr "`Crie um bucket do Google Cloud.`_"
 
 #: ../../admin/machine.rst:269
 msgid "`Set bucket location to \"us-central1\".`_"
-msgstr ""
+msgstr "`Defina o local do bucket como \"us-central1\".`_"
 
 #: ../../admin/machine.rst:270
 msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
-msgstr ""
+msgstr "`Conceda a permissão \"Storage Admin\" à conta de serviço.`_"
 
 #: ../../admin/machine.rst:279
 msgid ""
@@ -19075,10 +19046,8 @@ msgid "The model's unique deployment name."
 msgstr "O nome de implementação exclusivo do modelo."
 
 #: ../../admin/machine.rst:424
-#, fuzzy
-#| msgid "Performs translation using `OpenAI`_."
 msgid "Performs translation using `OpenAI`_ hosted on Azure."
-msgstr "Executa a tradução usando `OpenAI`_."
+msgstr "Executa a tradução usando `OpenAI`_ hospedada no Azure."
 
 #: ../../admin/machine.rst:433
 msgid "ModernMT"
@@ -19341,27 +19310,18 @@ msgstr ""
 "``password``."
 
 #: ../../admin/machine.rst:594
-#, fuzzy
-#| msgid ""
-#| "`SAP Translation Hub API <https://api.sap.com/shell/discover/"
-#| "contentpackage/SAPTranslationHub/api/translationhub>`_"
 msgid ""
 "`What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/sap-"
 "translation-hub/what-is-sap-translation-hub>`_"
 msgstr ""
-"`API SAP Translation Hub <https://api.sap.com/shell/discover/contentpackage/"
-"SAPTranslationHub/api/translationhub>`_"
+"`What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/"
+"sap-translation-hub/what-is-sap-translation-hub>`_"
 
 #: ../../admin/machine.rst:595
-#, fuzzy
-#| msgid ""
-#| "`SAP Translation Hub API <https://api.sap.com/shell/discover/"
-#| "contentpackage/SAPTranslationHub/api/translationhub>`_"
 msgid ""
 "`SAP Translation Hub API <https://api.sap.com/api/translationhub/overview>`_"
 msgstr ""
-"`API SAP Translation Hub <https://api.sap.com/shell/discover/contentpackage/"
-"SAPTranslationHub/api/translationhub>`_"
+"`SAP Translation Hub API <https://api.sap.com/api/translationhub/overview>`_"
 
 #: ../../admin/machine.rst:600
 msgid "Systran"
@@ -20014,20 +19974,20 @@ msgid "import_memory"
 msgstr "import_memory"
 
 #: ../../admin/management.rst:351
-#, fuzzy
-#| msgid "Imports a TMX or JSON file into the Weblate translation memory."
 msgid "Imports a file into the Weblate translation memory."
-msgstr "Importa um arquivo TMX ou JSON para a memória de tradução do Weblate."
+msgstr "Importa um arquivo para a memória de tradução do Weblate."
 
 #: ../../admin/management.rst:353
 msgid "Supported file formats are TMX, JSON, XLIFF, PO, CSV."
-msgstr ""
+msgstr "Os formatos de arquivo compatíveis são TMX, JSON, XLIFF, PO, CSV."
 
 #: ../../admin/management.rst:355
 msgid ""
 "Specifying a source and a target languages might be necessary for formats "
 "other than JSON and TMX."
 msgstr ""
+"Especificar um idioma de origem e um de destino pode ser necessário para "
+"formatos diferentes de JSON e TMX."
 
 #: ../../admin/management.rst:360
 msgid ""
@@ -20059,12 +20019,18 @@ msgid ""
 "Specifies the source language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"Especifica o idioma de origem para traduções importadas. Normalmente "
+"necessário para formatos em que os idiomas não podem ser determinados a "
+"partir do próprio arquivo."
 
 #: ../../admin/management.rst:376
 msgid ""
 "Specifies the target language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"Especifica o idioma de destino para traduções importadas. Normalmente "
+"necessário para formatos em que os idiomas não podem ser determinados a "
+"partir do próprio arquivo."
 
 #: ../../admin/management.rst:385
 msgid "import_project"
@@ -20387,6 +20353,8 @@ msgid ""
 "[French] Jean Dupont <jean.dupont@example.com> [English] John Doe "
 "<jd@example.com>"
 msgstr ""
+"[French] Jean Dupont <jean.dupont@example.com> [English] John Doe "
+"<jd@example.com>"
 
 #: ../../admin/management.rst:647
 msgid "List names by language code instead of language name."
@@ -20808,17 +20776,14 @@ msgstr ""
 "instância."
 
 #: ../../admin/memory.rst:88
-#, fuzzy
-#| msgid ""
-#| "Translation memories in JSON can be imported into Weblate, the TMX format "
-#| "is provided for interoperability with other tools."
 msgid ""
 "Translation memories in various formats can be imported into Weblate, the "
 "TMX format is provided for interoperability with other tools. All supported "
 "formats are TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
-"As memórias de tradução em JSON podem ser importadas para o Weblate, o "
-"formato TMX é fornecido para interoperabilidade com outras ferramentas."
+"As memórias de tradução em vários formatos podem ser importadas para o "
+"Weblate, o formato TMX é fornecido para interoperabilidade com outras "
+"ferramentas. Todos formatos compatíveis são TMX, JSON, XLIFF, PO, CSV."
 
 #: ../../admin/memory.rst:93
 msgid ":ref:`schema-memory`"
@@ -22585,16 +22550,12 @@ msgstr ""
 "menos que você esteja usando os mesmos IDs em todo o projeto."
 
 #: ../../admin/projects.rst:585
-#, fuzzy
-#| msgid ""
-#| "Default value can be changed by :setting:"
-#| "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgid ""
 "The default value can be changed by :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
-"O valor padrão pode ser alterado por :setting:"
-"`DEFAULT_TRANSLATION_PROPAGATION`."
+"O valor padrão pode ser alterado por "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/projects.rst:589 ../../faq.rst:173 ../../faq.rst:188
 #: ../../user/checks.rst:960 ../../user/translating.rst:392
@@ -23050,10 +23011,8 @@ msgstr ""
 "repositório do Weblate."
 
 #: ../../admin/projects.rst:807
-#, fuzzy
-#| msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
 msgid "The default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
-msgstr "Valor padrão pode ser alterado por :setting:`DEFAULT_MERGE_STYLE`."
+msgstr "O valor padrão pode ser alterado por :setting:`DEFAULT_MERGE_STYLE`."
 
 #: ../../admin/projects.rst:817
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
@@ -23064,22 +23023,16 @@ msgid "Message used when committing a translation, see :ref:`markup`."
 msgstr "Mensagem usada ao fazer commit uma tradução, veja :ref:`markup`."
 
 #: ../../admin/projects.rst:821
-#, fuzzy
-#| msgid ""
-#| "Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
-#| "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
-#| "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
-#| "`DEFAULT_PULL_MESSAGE`."
 msgid ""
 "The default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
 "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
 "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
 "`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"O valor padrão pode ser alterado por :setting:`DEFAULT_ADD_MESSAGE`, :"
-"setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
-"`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
-"`DEFAULT_PULL_MESSAGE`."
+"O valor padrão pode ser alterado por :setting:`DEFAULT_ADD_MESSAGE`, "
+":setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, "
+":setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, "
+":setting:`DEFAULT_PULL_MESSAGE`."
 
 #: ../../admin/projects.rst:829
 msgid "Push on commit"
@@ -23115,8 +23068,6 @@ msgstr ""
 "quando houver pelo menos uma alteração anterior a esse período."
 
 #: ../../admin/projects.rst:847
-#, fuzzy
-#| msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
 msgid "The default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
 msgstr "O valor padrão pode ser alterado por :setting:`COMMIT_PENDING_HOURS`."
 
@@ -23262,12 +23213,13 @@ msgid ""
 "only those units whose keys match the regular expression that was set as the "
 "value of this field."
 msgstr ""
+"Uma expressão regular que é usada para filtrar unidades por suas chaves. Ela "
+"exibe apenas as unidades cujas chaves correspondem à expressão regular que "
+"foi definida como o valor deste campo."
 
 #: ../../admin/projects.rst:930
-#, fuzzy
-#| msgid "Selected languages only"
 msgid "Selected keys only"
-msgstr "Apenas idiomas selecionados"
+msgstr "Apenas chaves selecionadas"
 
 #: ../../admin/projects.rst:930
 msgid "``^(one|two|other)$``"
@@ -23275,32 +23227,26 @@ msgstr "``^(one|two|other)$``"
 
 #: ../../admin/projects.rst:932
 msgid "Exclude app store changelogs"
-msgstr ""
+msgstr "Excluir registros de alterações da loja de aplicativos"
 
 #: ../../admin/projects.rst:932
 msgid "``^(?!changelogs/.*$).+$``"
 msgstr "``^(?!changelogs/.*$).+$``"
 
 #: ../../admin/projects.rst:934
-#, fuzzy
-#| msgid "Split Android strings"
 msgid "Filter prefixed strings"
-msgstr "Dividir textos do Android"
+msgstr "Filtrar textos prefixados"
 
 #: ../../admin/projects.rst:934
 msgid "``^translatable``"
 msgstr "``^translatable``"
 
 #: ../../admin/projects.rst:939
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "file mask."
 msgid ""
 "This filter is only available for components with monolingual file formats."
 msgstr ""
-"Expressão regular usada para filtrar arquivos traduções ao examinar por uma "
-"máscara de arquivo."
+"Este filtro está disponível apenas para componentes com formatos de arquivo "
+"monolíngues."
 
 #: ../../admin/projects.rst:945
 msgid "Variants regular expression"
@@ -23448,6 +23394,8 @@ msgid ""
 "Color used when displaying terms from this glossary. Useful to distinguish "
 "glossaries when using more of them."
 msgstr ""
+"Cor usada ao exibir termos deste glossário. Útil para distinguir glossários "
+"ao usar mais deles."
 
 #: ../../admin/projects.rst:1044
 msgid ""
@@ -23496,8 +23444,6 @@ msgid ":ref:`addon-script`"
 msgstr ":ref:`addon-script`"
 
 #: ../../admin/projects.rst:1064
-#, fuzzy
-#| msgid "There following variables are available in the component templates:"
 msgid "The following variables are available in the component templates:"
 msgstr "As seguintes variáveis estão disponíveis nos modelos de componentes:"
 
@@ -23696,10 +23642,8 @@ msgstr ""
 "Existem também filtros adicionais para manipular com nomes de arquivos:"
 
 #: ../../admin/projects.rst:1149
-#, fuzzy
-#| msgid "...and other Django template features."
 msgid "…and other Django template features."
-msgstr "...e outros recursos de modelos do Django."
+msgstr "… e outros recursos de modelos do Django."
 
 #: ../../admin/projects.rst:1154
 msgid "Importing speed"
@@ -24306,14 +24250,6 @@ msgstr ""
 "(consulte :file:`settings_example.py` para obter os valores corretos)."
 
 #: ../../admin/upgrade.rst:25
-#, fuzzy
-#| msgid ""
-#| "Always check :ref:`version-specific-instructions` before upgrading. If "
-#| "you are skipping any version(s), be sure to follow instructions for all "
-#| "versions you are skipping during such upgrade. It's sometimes better to "
-#| "upgrade gradually to an intermediate version to ensure a smooth "
-#| "migration. Upgrading across multiple releases should work, but is not as "
-#| "well tested as single version upgrades!"
 msgid ""
 "Always check :ref:`version-specific-instructions` before upgrading. If you "
 "are skipping any versions, be sure to follow instructions for all versions "
@@ -24323,12 +24259,12 @@ msgid ""
 "version upgrades!"
 msgstr ""
 "Sempre verifique :ref:`version-specific-instructions` antes de fazer a "
-"atualização. Se estiver pulando alguma(s) versão(ões), certifique-se de "
-"seguir as instruções de todas as versões que estiver pulando durante essa "
-"atualização. Às vezes, é melhor atualizar gradualmente para uma versão "
-"intermediária para garantir uma migração tranquila. A atualização em várias "
-"versões deve funcionar, mas não é tão bem testada quanto as atualizações em "
-"uma única versão!"
+"atualização. Se estiver pulando algumas versões. certifique-se de seguir as "
+"instruções de todas as versões que estiver pulando durante essa atualização. "
+"Às vezes, é melhor atualizar gradualmente para uma versão intermediária para "
+"garantir uma migração tranquila. A atualização em várias versões deve "
+"funcionar, mas não é tão bem testada quanto as atualizações em uma única "
+"versão!"
 
 #: ../../admin/upgrade.rst:33
 msgid ""
@@ -24492,19 +24428,13 @@ msgid "Migrating from other databases to PostgreSQL"
 msgstr "Migrando de outros bancos de dados para o PostgreSQL"
 
 #: ../../admin/upgrade.rst:143
-#, fuzzy
-#| msgid ""
-#| "If you are not running Weblate with a different database than PostgreSQL, "
-#| "consider migrating to PostgreSQL for better performance by doing the "
-#| "following steps. Remember to stop both, the web and Celery servers "
-#| "beforehand, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are running Weblate with a different database than PostgreSQL, "
 "consider migrating to PostgreSQL for better performance by doing the "
 "following steps. Remember to stop both, the web and Celery servers "
 "beforehand, otherwise you might end up with inconsistent data."
 msgstr ""
-"Se você não estiver executando o Weblate com um banco de dados diferente do "
+"Se você estiver executando o Weblate com um banco de dados diferente do "
 "PostgreSQL, considere a possibilidade de migrar para o PostgreSQL para obter "
 "melhor desempenho, executando as etapas a seguir. Lembre-se de interromper "
 "os servidores Web e Celery antes, caso contrário, você poderá acabar com "
@@ -24583,6 +24513,8 @@ msgid ""
 "The API is also documented using OpenAPI 3.0 on the ``/api/schema/`` URL, "
 "you can browse at ``/api/docs/``."
 msgstr ""
+"A API também é documentada usando OpenAPI 3.0 na URL ``/api/schema/``, você "
+"pode navegar em ``/api/docs/``."
 
 #: ../../api.rst:19
 msgid ""
@@ -24590,6 +24522,9 @@ msgid ""
 "incomplete at this point and subject to change. Please consult the "
 "documentation below for more detailed information on the API."
 msgstr ""
+"O OpenAPI está disponível como uma prévia de recurso. A documentação "
+"provavelmente está incompleta neste momento e sujeita a alterações. Consulte "
+"a documentação abaixo para obter informações mais detalhadas sobre a API."
 
 #: ../../api.rst:26
 msgid "Authentication and generic parameters"
@@ -24871,30 +24806,24 @@ msgid "``X-RateLimit-Limit``"
 msgstr "``X-RateLimit-Limit``"
 
 #: ../../api.rst:203
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Allowed number of requests to perform"
-msgstr "Limite de limitação de taxa de solicitações para realizar"
+msgstr "Número permitido de solicitações para realizar"
 
 #: ../../api.rst:205
 msgid "``X-RateLimit-Remaining``"
 msgstr "``X-RateLimit-Remaining``"
 
 #: ../../api.rst:205
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "Limite de limitação de taxa de solicitações para realizar"
+msgstr "Número restante de solicitações para realizar"
 
 #: ../../api.rst:207
 msgid "``X-RateLimit-Reset``"
 msgstr "``X-RateLimit-Reset``"
 
 #: ../../api.rst:207
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
-msgstr "Número de segundos até que a janela de \"ratelimit\" seja reiniciada"
+msgstr "Número de segundos até que a janela de limite de taxa seja reiniciada"
 
 #: ../../api.rst:212
 msgid "Added ratelimiting status headers."
@@ -25770,7 +25699,6 @@ msgid "Returns labels for a project."
 msgstr "Retorna etiquetas para um projeto."
 
 #: ../../api.rst:0
-#, fuzzy
 msgid ">json int id"
 msgstr ">json int id"
 
@@ -25865,10 +25793,8 @@ msgid "Service name"
 msgstr "Serviço"
 
 #: ../../api.rst:1259
-#, fuzzy
-#| msgid "Save configuration."
 msgid "Service configuration in JSON"
-msgstr "Salva a configuração."
+msgstr "Configuração do serviço em JSON"
 
 #: ../../api.rst:1267
 msgid ""
@@ -27936,13 +27862,12 @@ msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgstr ""
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/components/(string:project)/(string:component)/file/`"
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` exposes "
 "component lock state."
-msgstr ":http:get:`/api/components/(string:project)/(string:component)/file/`"
+msgstr ""
+":http:get:`/api/components/(string:project)/(string:component)/` expõe "
+"estado de bloqueio do componente."
 
 #: ../../changes.rst:25
 msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
@@ -27965,16 +27890,12 @@ msgid "Improved :ref:`translation-propagation` performance."
 msgstr "Formulários de configuração :ref:`workflow-customization` aprimorados."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 "More detailed error messages for :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/file/`."
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-"language)/file/`"
+"Mensagens de erro mais detalhadas para :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`."
 
 #: ../../changes.rst:31 ../../changes.rst:63 ../../changes.rst:84
 #: ../../changes.rst:105 ../../changes.rst:128 ../../changes.rst:170
@@ -41883,10 +41804,8 @@ msgid "*Old Value*"
 msgstr "Valor"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Browse the previous translation string."
 msgid "Old value of the change (eg. previous translation of the string)"
-msgstr "Navegar para o texto traduzido anteriormente."
+msgstr "Valor antigo da alteração (por exemplo, tradução anterior do texto)"
 
 #: ../../contributing/schemas.rst:29
 msgid "source"
@@ -54828,10 +54747,8 @@ msgstr ""
 "sugestões correspondendo à tradução atual."
 
 #: ../../user/translating.rst:64
-#, fuzzy
-#| msgid "The gettext type comments are used as flags."
 msgid "Three types of comments can be posted:"
-msgstr "Os comentários do tipo gettext são usados como marcadores."
+msgstr "Três tipos de comentários podem ser postados:"
 
 #: ../../user/translating.rst:66
 #, fuzzy
