@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+import threading
 from functools import reduce
 
 import mistletoe
@@ -14,6 +15,7 @@ from mistletoe import span_token
 from weblate.auth.models import User
 
 MENTION_RE = re.compile(r"(?<!\w)(@[\w.@+-]+)\b")
+MARKDOWN_LOCK = threading.Lock()
 
 
 def get_mention_users(text):
@@ -118,7 +120,7 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         return bool(self._allowed_url_re.match(url))
 
 
-def render_markdown(text):
+def render_markdown(text: str) -> str:
     users = {u.username.lower(): u for u in get_mention_users(text)}
     parts = MENTION_RE.split(text)
     for pos, part in enumerate(parts):
@@ -131,5 +133,5 @@ def render_markdown(text):
                 f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
             )
     text = "".join(parts)
-    with SaferWeblateHtmlRenderer() as renderer:
+    with MARKDOWN_LOCK, SaferWeblateHtmlRenderer() as renderer:
         return mark_safe(renderer.render(mistletoe.Document(text)))  # noqa: S308
