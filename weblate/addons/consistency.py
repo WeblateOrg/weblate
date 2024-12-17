@@ -1,14 +1,19 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import warnings
+from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.tasks import language_consistency
+
+if TYPE_CHECKING:
+    from weblate.addons.models import Addon
 
 
 class LanguageConsistencyAddon(BaseAddon):
@@ -40,8 +45,10 @@ class LanguageConsistencyAddon(BaseAddon):
 
 
 class LangaugeConsistencyAddon(LanguageConsistencyAddon):
-    warnings.warn(
-        "LangaugeConsistencyAddon is deprecated, use LanguageConsistencyAddon",
-        DeprecationWarning,
-        stacklevel=1,
-    )
+    def __init__(self, storage: Addon) -> None:
+        super().__init__(storage)
+        warnings.warn(
+            "LangaugeConsistencyAddon is deprecated, use LanguageConsistencyAddon",
+            DeprecationWarning,
+            stacklevel=1,
+        )
