@@ -13,6 +13,7 @@ Not yet released.
 **Bug fixes**
 
 * Avoid query parser crash in multi-threaded environments.
+* Avoid :ref:`autofix` crash on multi-value strings.
 
 **Compatibility**
 

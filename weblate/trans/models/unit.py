@@ -1564,10 +1564,6 @@ class Unit(models.Model, LoggerMixin):
         if isinstance(new_target, str):
             new_target = [new_target]
 
-        # Apply autofixes
-        if not self.translation.is_template:
-            new_target, self.fixups = fix_target(new_target, self)
-
         # Handle managing alternative translations
         if add_alternative:
             new_target.append("")
@@ -1578,6 +1574,10 @@ class Unit(models.Model, LoggerMixin):
 
         if not component.is_multivalue:
             new_target = self.adjust_plurals(new_target)
+
+        # Apply autofixes
+        if not self.translation.is_template:
+            new_target, self.fixups = fix_target(new_target, self)
 
         # Update unit and save it
         self.target = join_plural(new_target)
