@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * Renamed :ref:`vcs-bitbucket-server` to match new product name.
+* :http:get:`/api/users/` supports searching by user ID.
 
 **Bug fixes**
 

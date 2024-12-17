@@ -266,6 +266,9 @@ Users
     Returns a list of users if you have permissions to see manage users. If not, then you get to see
     only your own details.
 
+    :query string username: Username to search for
+    :query int id: User ID to search for
+
     .. seealso::
 
         Users object attributes are documented at :http:get:`/api/users/(str:username)/`.
