@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from typing import Literal
+
 from crispy_forms.layout import Div, Field
 from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
@@ -23,7 +25,9 @@ from .validators import WeblateServiceURLValidator, validate_email, validate_use
 
 
 class QueryField(forms.CharField):
-    def __init__(self, parser: str = "unit", **kwargs) -> None:
+    def __init__(
+        self, parser: Literal["unit", "user", "superuser"] = "unit", **kwargs
+    ) -> None:
         if "label" not in kwargs:
             kwargs["label"] = gettext_lazy("Query")
         if "required" not in kwargs:

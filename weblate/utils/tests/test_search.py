@@ -1,8 +1,10 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta
+from typing import Literal
 
 from django.db.models import F, Q
 from django.test import TestCase
@@ -24,7 +26,7 @@ from weblate.utils.state import (
 
 class SearchTestCase(TestCase):
     object_class = Unit
-    parser = "unit"
+    parser: Literal["unit", "user", "superuser"] = "unit"
 
     def assert_query(self, string, expected, exists=False, **context) -> None:
         result = parse_query(string, parser=self.parser, **context)

@@ -4,11 +4,12 @@
 
 from __future__ import annotations
 
+import threading
 from datetime import datetime, timedelta
 from functools import lru_cache, reduce
 from itertools import chain
 from operator import and_, or_
-from typing import TYPE_CHECKING, Any, cast, overload
+from typing import TYPE_CHECKING, Any, Literal, cast, overload
 
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
@@ -252,6 +253,8 @@ class BaseTermExpr:
         microsecond: int = 0,
     ) -> datetime | tuple[datetime, datetime]:
         tzinfo = timezone.get_current_timezone()
+
+        result: datetime | None
 
         try:
             # Here we inject 5:55:55 time and if that was not changed
@@ -664,11 +667,12 @@ class SuperuserUserTermExpr(UserTermExpr):
         return super().is_field(text, context)
 
 
-PARSERS = {
+PARSERS: dict[Literal["unit", "user", "superuser"], ParserElement] = {
     "unit": build_parser(UnitTermExpr),
     "user": build_parser(UserTermExpr),
     "superuser": build_parser(SuperuserUserTermExpr),
 }
+PARSER_LOCK = threading.Lock()
 
 
 def parser_to_query(obj, context: dict) -> Q:
@@ -696,13 +700,18 @@ def parser_to_query(obj, context: dict) -> Q:
 
 
 @lru_cache(maxsize=512)
-def parse_string(text: str, parser: str) -> ParseResults:
+def parse_string(
+    text: str, parser: Literal["unit", "user", "superuser"]
+) -> ParseResults:
     if "\x00" in text:
         msg = "Invalid query string."
         raise ValueError(msg)
-    return PARSERS[parser].parse_string(text, parse_all=True)
+    with PARSER_LOCK:
+        return PARSERS[parser].parse_string(text, parse_all=True)
 
 
-def parse_query(text: str, parser: str = "unit", **context) -> Q:
+def parse_query(
+    text: str, parser: Literal["unit", "user", "superuser"] = "unit", **context
+) -> Q:
     parsed = parse_string(text, parser)
     return parser_to_query(parsed, context)

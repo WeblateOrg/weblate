@@ -11,6 +11,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Avoid query parser crash in multi-threaded environments.
+
 **Compatibility**
 
 **Upgrading**
