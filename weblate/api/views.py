@@ -366,7 +366,7 @@ class UserFilter(filters.FilterSet):
 
     class Meta:
         model = User
-        fields = ["username"]
+        fields = ["username", "id"]
 
 
 class UserViewSet(viewsets.ModelViewSet):
