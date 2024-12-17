@@ -8,7 +8,7 @@ import uuid
 from collections import defaultdict
 from functools import cache as functools_cache
 from itertools import chain
-from typing import TYPE_CHECKING, TypedDict, cast
+from typing import TYPE_CHECKING, Literal, TypedDict, cast
 
 import sentry_sdk
 from appconf import AppConf
@@ -294,7 +294,12 @@ class UserQuerySet(models.QuerySet["User"]):
     def order(self):
         return self.order_by("username")
 
-    def search(self, query: str, parser: str = "user", **context):
+    def search(
+        self,
+        query: str,
+        parser: Literal["plain", "user", "superuser"] = "user",
+        **context,
+    ):
         """High level wrapper for searching."""
         if parser == "plain":
             result = self.filter(

@@ -2,9 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import re
+from __future__ import annotations
 
-from pyparsing import Optional, QuotedString, Regex, ZeroOrMore
+import re
+import threading
+
+from pyparsing import Optional, ParserElement, QuotedString, Regex, ZeroOrMore
 
 
 def single_value_flag(func, validation=None):
@@ -32,7 +35,9 @@ def length_validation(length: int):
     return validate_length
 
 
-def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
+def multi_value_flag(
+    func, minimum: int = 1, maximum: int | None = None, modulo: int | None = None
+):
     def parse_values(val):
         if modulo and len(val) % modulo != 0:
             msg = "Number of parameter is not even"
@@ -49,7 +54,7 @@ def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
 
 
 class RawQuotedString(QuotedString):
-    def __init__(self, quote_char, esc_char="\\") -> None:
+    def __init__(self, quote_char: str, esc_char: str = "\\") -> None:
         super().__init__(quote_char, esc_char=esc_char, convert_whitespace_escapes=True)
         # unlike the QuotedString this replaces only escaped quotes and not all chars
         self.unquote_scan_re = re.compile(
@@ -60,14 +65,20 @@ class RawQuotedString(QuotedString):
 
 SYNTAXCHARS = {",", ":", '"', "'", "\\"}
 
-FlagName = Regex(r"""[^,:"' \r\n\t]([^,:"']*[^,:"' \r\n\t])?""")
 
-RegexString = "r" + RawQuotedString('"')
+def get_flags_parser() -> ParserElement:
+    flag_name = Regex(r"""[^,:"' \r\n\t]([^,:"']*[^,:"' \r\n\t])?""")
 
-FlagParam = Optional(
-    RegexString | FlagName | RawQuotedString("'") | RawQuotedString('"')
-)
+    regex_string = "r" + RawQuotedString('"')
 
-Flag = FlagName + ZeroOrMore(":" + FlagParam)
+    flag_param = Optional(
+        regex_string | flag_name | RawQuotedString("'") | RawQuotedString('"')
+    )
 
-FlagsParser = Optional(Flag) + ZeroOrMore("," + Optional(Flag))
+    flag = flag_name + ZeroOrMore(":" + flag_param)
+
+    return Optional(flag) + ZeroOrMore("," + Optional(flag))
+
+
+FLAGS_PARSER: ParserElement = get_flags_parser()
+FLAGS_PARSER_LOCK = threading.Lock()
