@@ -498,6 +498,9 @@ def check_billing_view(user: User, permission: str, obj: Model):
 
 @register_perm("billing:project.permissions")
 def check_billing(user: User, permission: str, obj: Model):
+    if user.is_superuser:
+        return True
+
     if "weblate.billing" in settings.INSTALLED_APPS and not any(
         billing.plan.change_access_control for billing in obj.billings
     ):
