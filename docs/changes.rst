@@ -15,6 +15,7 @@ Not yet released.
 * Avoid query parser crash in multi-threaded environments.
 * Avoid :ref:`autofix` crash on multi-value strings.
 * Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are enforced.
+* Captcha solution were sometimes not accepted.
 
 **Compatibility**
 

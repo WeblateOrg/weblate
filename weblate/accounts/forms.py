@@ -542,8 +542,9 @@ class CaptchaForm(forms.Form):
 
     def is_valid(self) -> bool:
         result = super().is_valid()
-        self.cleanup_session()
-        if not result and self.has_captcha:
+        if result:
+            self.cleanup_session()
+        elif self.has_captcha:
             self.store_challenge()
         return result
 
