@@ -6,16 +6,21 @@
 
 set -e
 
+cd /app/src
+
+echo "Exporting Weblate requirements..."
+uv export --format requirements-txt --python /usr/local/bin/python --all-extras --no-sources > /tmp/requirements.txt
+
+echo "Checking /app/venv..."
 if [ ! -f /app/venv/bin/activate ]; then
     uv venv /app/venv
 fi
-
 echo "/app/data/python" > "/app/venv/lib/python${PYVERSION}/site-packages/weblate-docker.pth"
-
 # shellcheck disable=SC1091
 . /app/venv/bin/activate
 
-cd /app/src
-uv export --format requirements-txt --all-extras --no-sources | uv pip install -r -
+echo "Installing Weblate requirements..."
+uv pip install -r /tmp/requirements.txt
 
+echo "Starting Weblate..."
 exec /app/bin/start "$@"
