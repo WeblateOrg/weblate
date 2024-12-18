@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-13 15:50+0100\n"
-"PO-Revision-Date: 2024-12-17 00:30+0000\n"
+"PO-Revision-Date: 2024-12-19 04:56+0000\n"
 "Last-Translator: Horus68 <horus68@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_PT/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.9\n"
+"X-Generator: Weblate 5.9.2-dev\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
 msgid "Access control"
@@ -499,10 +499,10 @@ msgid ""
 "must have superuser privileges in order to use it."
 msgstr ""
 "As funcionalidades mais avançadas do sistema de controle de acesso do "
-"Weblate podem ser configuradas na :ref:`management-interface`. Pode usá-la "
-"para gerir as permissões de qualquer projeto. Não precisa necessariamente "
-"alterá-la para :guilabel:`Custom` :ref:`access control <acl>` para utilizá-"
-"la. No entanto, é necessário ter privilégios de superusuário para utilizá-la."
+"Weblate podem ser configuradas na :ref:`management-interface`. Pode usá-las "
+"para gerir as permissões de qualquer projeto. Não precisa de as alterar para "
+":guilabel:`Custom` :ref:`access control <acl>` de forma a usá-las. No "
+"entanto, é necessário ter privilégios de superutilizador para as usar."
 
 #: ../../admin/access.rst:230
 msgid ""
@@ -697,9 +697,9 @@ msgid ""
 "Management permissions this way is powerful, but can be quite a tedious job. "
 "You can only delegate it to other users by granting them Superuser status."
 msgstr ""
-"As permissões de gestão dessa forma são poderosas, mas podem ser um trabalho "
-"bastante tedioso. Só pode delegá-lo a outros utilizadores concedendo-lhes o "
-"estado de Superusuário."
+"Gerir permissões desta forma é poderoso, mas pode ser um trabalho bastante "
+"tedioso. Só o pode delegar noutros utilizadores concedendo-lhes o estatuto "
+"de superutilizador."
 
 #: ../../admin/access.rst:309
 msgid "Users, roles, teams, and permissions"
@@ -9168,7 +9168,7 @@ msgstr "GOOGLE_ANALYTICS_ID"
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
 msgstr ""
-"ID do Google Analytics para ativar o monitoramento do Weblate a usar o "
+"ID do Google Analytics para ativar a monitorização do Weblate ao usar o "
 "Google Analytics."
 
 #: ../../admin/config.rst:981
@@ -10114,7 +10114,7 @@ msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
-"Configure a taxa de amostragem para monitoramento de desempenho. Defina como "
+"Configure a taxa de amostragem para monitorização de desempenho. Defina como "
 "1 para rastrear todos os eventos, 0 (o padrão) desativa o rastreamento."
 
 #: ../../admin/config.rst:1728
@@ -10122,7 +10122,7 @@ msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_"
 msgstr ""
-"`Monitoramento de Desempenho do Sentry <https://docs.sentry.io/product/"
+"`Monitorização de desempenho do Sentry <https://docs.sentry.io/product/"
 "performance/>`_"
 
 #: ../../admin/config.rst:1733
@@ -10151,7 +10151,7 @@ msgid ""
 "Configure sampling rate for profiling monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
-"Configure a taxa de amostragem para monitoramento de perfil. Defina como 1 "
+"Configure a taxa de amostragem para monitorização do perfil. Defina como 1 "
 "para rastrear todos os eventos, 0 (o padrão) desativa o rastreamento."
 
 #: ../../admin/config.rst:1750
@@ -11942,7 +11942,7 @@ msgid ""
 "Run :samp:`weblate collectstatic --noinput`, to collect static files served "
 "to clients."
 msgstr ""
-"Execute :samp:`weblate collectstatic --noinput`, para coletar ficheiros "
+"Execute :samp:`weblate collectstatic --noinput`, para recolher ficheiros "
 "estáticos servidos aos clientes."
 
 #: ../../admin/customize.rst:121
@@ -14276,11 +14276,11 @@ msgid ""
 "setting (this defaults to a ``static`` directory inside :setting:"
 "`CACHE_DIR`)."
 msgstr ""
-"Django precisa coletar os seus ficheiros estáticos num único diretório. Para "
-"isto, execute :samp:`weblate collectstatic --noinput`. Isto copiará os "
-"ficheiros estáticos num diretório especificado pela configuração :setting:"
-"`django:STATIC_ROOT` (isto é padrão para um diretório ``static`` dentro de :"
-"setting:`CACHE_DIR`)."
+"Django precisa recolher os seus ficheiros estáticos num único diretório. "
+"Para isto, execute :samp:`weblate collectstatic --noinput`. Isto copiará os "
+"ficheiros estáticos num diretório especificado pela configuração "
+":setting:`django:STATIC_ROOT` (isto é padrão para um diretório ``static`` "
+"dentro de :setting:`CACHE_DIR`)."
 
 #: ../../admin/install.rst:1363
 msgid ""
@@ -14643,7 +14643,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1590
 msgid "Monitoring Celery status"
-msgstr "Monitorar o estado do Celery"
+msgstr "Monitorizar o estado do Celery"
 
 #: ../../admin/install.rst:1592
 msgid ""
@@ -14723,7 +14723,7 @@ msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
-"Para monitorar as métricas do Weblate, pode usar o ponto final :http:get:`/"
+"Para monitorizar as métricas do Weblate, pode usar o ponto final :http:get:`/"
 "api/metrics/` da API."
 
 #: ../../admin/install.rst:1643
@@ -14736,7 +14736,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1650 ../../admin/install/docker.rst:1720
 msgid "Collecting error reports and monitoring performance"
-msgstr "A coletar relatórios de erros e monitoramento do desempenho"
+msgstr "A recolher relatórios de erros e monitorização do desempenho"
 
 #: ../../admin/install.rst:1652
 msgid ""
@@ -14746,11 +14746,11 @@ msgid ""
 "otherwise only report error to the logs and you won't get notified on them. "
 "Weblate has support for the following services:"
 msgstr ""
-"Weblate, como qualquer outro software, pode falhar. Para coletar estados de "
-"falha úteis, recomendamos usar serviços de terceiros para coletar tais "
+"Weblate, como qualquer outro software, pode falhar. Para recolher estados de "
+"falha úteis, recomendamos o uso de serviços de terceiros para recolher tais "
 "informações. Isso é especialmente útil no caso de falhas nas tarefas do "
-"Celery, que de outra forma só relatariam erro nos logs e não será notificado "
-"sobre eles. O Weblate tem suporte para os seguintes serviços:"
+"Celery, que de outra forma só relatariam erro nos historiais mas você não "
+"seria notificado sobre eles. O Weblate suporta para os seguintes serviços:"
 
 #: ../../admin/install.rst:1659
 msgid "Sentry"
@@ -14771,17 +14771,17 @@ msgid ""
 "configured using :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:"
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
-"O Sentry também pode ser usado para monitorar o desempenho do Weblate, "
-"coletando rastros e perfis para uma percentagem definida de operações. Isto "
-"pode ser configurado usando :setting:`SENTRY_TRACES_SAMPLE_RATE` e :setting:"
-"`SENTRY_PROFILES_SAMPLE_RATE`."
+"O Sentry também pode ser usado para monitorizar o desempenho do Weblate, "
+"recolhendo rastos e perfis para uma percentagem definida de operações. Isto "
+"pode ser configurado usando :setting:`SENTRY_TRACES_SAMPLE_RATE` e "
+":setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 
 #: ../../admin/install.rst:1674
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 msgstr ""
-"`Monitoramento de Desempenho do Sentry <https://docs.sentry.io/product/"
+"`Monitorização de desempenho do Sentry <https://docs.sentry.io/product/"
 "performance/>`_, `Sentry Profiling <https://docs.sentry.io/product/explore/"
 "profiling/>`_"
 
@@ -14808,8 +14808,8 @@ msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr ""
-"Todo o resto é integrado automaticamente, agora coletará erros do lado do "
-"servidor e do cliente."
+"Tudo o resto é integrado automaticamente, agora irá recolher erros quer do "
+"servidor quer do cliente."
 
 #: ../../admin/install.rst:1708
 msgid ""
@@ -15698,8 +15698,8 @@ msgid ""
 "You might want to use other error collection like Sentry or Rollbar and turn "
 "this off."
 msgstr ""
-"Talvez queira usar outra coleta de erros, como Sentry ou Rollbar e desativar "
-"esta opção."
+"Talvez queira usar outra recolha de erros, como Sentry ou Rollbar e "
+"desativar esta opção."
 
 #: ../../admin/install/docker.rst:573
 msgid ""
@@ -16839,8 +16839,8 @@ msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
 msgstr ""
-"É recomendado coletar erros da instalação sistematicamente, veja :ref:"
-"`collecting-errors`."
+"É recomendado recolher erros da instalação sistematicamente, veja :ref"
+":`collecting-errors`."
 
 #: ../../admin/install/docker.rst:1725
 msgid "To enable support for Rollbar, set the following:"
@@ -24189,8 +24189,8 @@ msgid ""
 msgstr ""
 "O *Discover* é um serviço opcional que facilita para os tradutores "
 "encontrarem outras instâncias e comunidades do Weblate. Os utilizadores "
-"podem navegar pelos sites registados e encontrar projetos com os quais "
-"possam contribuir em https://weblate.org/discover/."
+"podem navegar pelos sítios registados e encontrar projetos com os quais "
+"possam colaborar em https://weblate.org/discover/."
 
 #: ../../admin/support.rst:65
 msgid "Getting listed"
@@ -24247,7 +24247,7 @@ msgid ""
 "instance’s visibility in the list."
 msgstr ""
 "Recomendamos que forneça uma imagem (570x260 pixels) e uma descrição do seu "
-"site Weblate em https://weblate.org/user/. Isto melhora a visibilidade da "
+"sítio Weblate em https://weblate.org/user/. Isto melhora a visibilidade da "
 "sua instância na lista."
 
 #: ../../admin/translating.rst:2
@@ -26098,10 +26098,8 @@ msgid "Service name"
 msgstr "ID do serviço"
 
 #: ../../api.rst:1259
-#, fuzzy
-#| msgid "Save configuration."
 msgid "Service configuration in JSON"
-msgstr "Salva a configuração."
+msgstr "Configuração do serviço em JSON"
 
 #: ../../api.rst:1267
 msgid ""
@@ -29690,7 +29688,8 @@ msgstr "Lançado em 26 de março de 2024."
 
 #: ../../changes.rst:555
 msgid "Superuser access to components with :ref:`component-restricted`."
-msgstr "Acesso de superusuário a componentes com :ref:`component-restricted`."
+msgstr ""
+"Acesso de superutilizador a componentes com :ref:`component-restricted`."
 
 #: ../../changes.rst:556
 msgid ""
@@ -30233,7 +30232,7 @@ msgstr "Adicionada validação para credenciais de integração VCS."
 
 #: ../../changes.rst:780
 msgid "Reduced overhead of statistics collection."
-msgstr "Redução da sobrecarga de coleta de estatísticas."
+msgstr "Redução da sobrecarga de recolha de estatísticas."
 
 #: ../../changes.rst:784
 msgid "Added plurals validation when editing string using the API."
@@ -31400,7 +31399,7 @@ msgstr "Realça frases pesquisadas em resultados de pesquisa."
 
 #: ../../changes/v1.rst:67
 msgid "Support for automatic fixups while saving the message."
-msgstr "Suporte para correções automáticas enquanto salva a mensagem."
+msgstr "Suporte para correções automáticas enquanto guarda a mensagem."
 
 #: ../../changes/v1.rst:68
 msgid "Tracking of translation history and option to revert it."
@@ -35198,7 +35197,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:500
 msgid "Add support for collecting contributor agreements."
-msgstr "Adiciona suporte para coletar acordos de colaborador."
+msgstr "Adiciona suporte para recolher acordos de colaborador."
 
 #: ../../changes/v3.rst:501
 msgid "Access control changes are now tracked in history."
@@ -36272,7 +36271,7 @@ msgstr "Melhorada a verificação de pontuação de Birmanês."
 
 #: ../../changes/v4.rst:290
 msgid "Fixed garbage collecting of metrics data."
-msgstr "Corrigida a coleta de lixo de dados de métricas."
+msgstr "Corrigida a recolha de lixo de dados de métricas."
 
 #: ../../changes/v4.rst:292
 msgid ""
@@ -37412,7 +37411,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:629
 msgid "Fixed saving glossary explanations in some cases."
-msgstr "Corrigido o salvamento das explicações do glossário em alguns casos."
+msgstr "Corrigido o guardar das explicações do glossário em alguns casos."
 
 #: ../../changes/v4.rst:633
 msgid "Fixed adding strings to monolingual glossary components."
@@ -37679,7 +37678,7 @@ msgstr "Melhorada o desempenho das métricas."
 
 #: ../../changes/v4.rst:719
 msgid "Fixed possible bug in saving glossaries."
-msgstr "Corrigido possível erro no salvamento de glossários."
+msgstr "Corrigido possível erro ao guardar glossários."
 
 #: ../../changes/v4.rst:720
 msgid ""
@@ -37881,7 +37880,7 @@ msgstr "Lançado em 1º de abril de 2021."
 
 #: ../../changes/v4.rst:782
 msgid "Fixed metrics collection."
-msgstr "Corrigida a coleta de métricas."
+msgstr "Corrigida a recolha de métricas."
 
 #: ../../changes/v4.rst:783
 msgid "Fixed possible crash when adding strings."
@@ -38815,7 +38814,7 @@ msgstr "Lançado em 21 de agosto de 2020."
 #: ../../changes/v4.rst:1057
 msgid "Fixed saving plurals for some locales in Android resources."
 msgstr ""
-"Corrigido o salvamento de plurais para alguns locais em recursos do Android."
+"Corrigido o guardar de plurais para alguns idiomas em recursos do Android."
 
 #: ../../changes/v4.rst:1058
 msgid "Fixed crash in the cleanup add-on for some XLIFF files."
@@ -39680,7 +39679,7 @@ msgstr "atualização de componente"
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.configure:1
 msgid "Save configuration."
-msgstr "Salva a configuração."
+msgstr "Guardar configuração."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.daily:1
@@ -39775,7 +39774,7 @@ msgstr ""
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.save_state:1
 msgid "Save add-on state information."
-msgstr "Salva informações do estado da extensão."
+msgstr "Guardar informações do estado da extensão."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:1
@@ -40041,10 +40040,10 @@ msgid ""
 "welcome to collect info on any such issue and submit it to the `issue "
 "tracker <https://github.com/WeblateOrg/weblate/issues>`_."
 msgstr ""
-"Os bugs podem se comportar como falhas no aplicação ou como vários mau "
-"comportamentos. É bem-vindo a coletar informações sobre qualquer problema "
-"desse tipo e enviá-las para o `rastreador de problemas <https://github.com/"
-"WeblateOrg/weblate/issues>`_."
+"Os erros podem se comportar como falhas na aplicação ou como erros de "
+"funcionamento diversos. Agradecemos a recolha de informações sobre qualquer "
+"problema desse tipo e que as envie para o `rastreador de problemas <https://"
+"github.com/WeblateOrg/weblate/issues>`_."
 
 #: ../../contributing/debugging.rst:9
 msgid "Debug mode"
@@ -40068,8 +40067,8 @@ msgid ""
 "containing error reports, or configure error collection using a third-party "
 "service."
 msgstr ""
-"Num ambiente de produção, use :setting:`ADMINS` para receber e-mails que "
-"conteem relatórios de erros ou configurar a coleta de erros a usar um "
+"Num ambiente de produção, use :setting:`ADMINS` para receber emails que "
+"contenham relatórios de erros ou configurar a recolha de erros se usar um "
 "serviço de terceiros."
 
 #: ../../contributing/debugging.rst:20
@@ -40204,9 +40203,9 @@ msgid ""
 "this up in :ref:`collecting-errors`."
 msgstr ""
 "Caso a aplicação falhe, é útil recolher o máximo de informação possível "
-"sobre a falha. Isso pode ser feito a usar serviços de terceiros que podem "
-"coletar tais informações automaticamente. Pode encontrar informações sobre "
-"como configurar isso em :ref:`collecting-errors`."
+"sobre a falha. Isso pode ser feito se usar serviços de terceiros que podem "
+"recolher tais informações automaticamente. Pode encontrar informações sobre "
+"como configurar isto em :ref:`collecting-errors`."
 
 #: ../../contributing/debugging.rst:84
 msgid "Silent failures"
@@ -40246,9 +40245,9 @@ msgid ""
 "collection tool."
 msgstr ""
 "Caso alguns pedidos demorem muito tempo sem nenhuma indicação, pode querer "
-"instalar `dogslow <https://pypi.org/project/dogslow/>`_ juntamente com :ref:"
-"`collecting-errors` e obter tracebacks detalhados na ferramenta de coleta de "
-"erros."
+"instalar `dogslow <https://pypi.org/project/dogslow/>`_ juntamente com :ref"
+":`collecting-errors` e obter tracebacks detalhados na ferramenta de recolha "
+"de erros."
 
 #: ../../contributing/debugging.rst:102
 msgid ""
@@ -40732,10 +40731,10 @@ msgid ""
 "such as funding goals and the rewards you get as a proud funder."
 msgstr ""
 "Pode impulsionar o desenvolvimento do Weblate na `página de doação`_. Os "
-"fundos coletados lá são usados para permitir hospedagem de grátis para "
-"projetos de software livre e o desenvolvimento adicional do Weblate. Por "
-"favor, verifique a `página de doação` para obter opções, como metas de "
-"financiamento e as recompensas que obtém como um financiador orgulhoso."
+"fundos obtidos serão usados para permitir alojamento grátis para projetos de "
+"software livre e desenvolvimento adicional do Weblate. Por favor, verifique "
+"a `página de donativos` para obter opções, como metas de financiamento e as "
+"recompensas que obtém como um patrocionador orgulhoso."
 
 #: ../../../BACKERS.rst:2
 msgid "Supporters who have funded Weblate"
@@ -41342,9 +41341,9 @@ msgid ""
 "you can see our roadmap at <https://github.com/WeblateOrg/weblate/"
 "milestones>."
 msgstr ""
-"Os recursos para os próximos lançamentos são coletados a usar marcos do "
-"GitHub, pode ver nosso roteiro em <https://github.com/WeblateOrg/weblate/"
-"milestones>."
+"As funcionalidades para os próximos lançamentos são recolhidas usando marcos "
+"do GitHub, pode ver o nosso roteiro em <https://github.com/WeblateOrg/"
+"weblate/milestones>."
 
 #: ../../contributing/release.rst:26
 msgid "Release process"
@@ -42660,7 +42659,7 @@ msgid ""
 "Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
 msgstr ""
-"Antes de executar os testes, deve coletar ficheiros estáticos, pois alguns "
+"Antes de executar os testes, deve recolher ficheiros estáticos, pois alguns "
 "testes contam com a presença deles:"
 
 #: ../../contributing/tests.rst:59
@@ -44695,12 +44694,12 @@ msgid ""
 "Additionally you can share information about translation using Facebook or "
 "X. All these possibilities can be found on the :guilabel:`Share` tab:"
 msgstr ""
-"O Weblate fornece widgets para compartilhar no seu site ou outras fontes "
+"O Weblate fornece widgets para compartilhar no seu sítio ou outras fontes "
 "para promover o projeto de tradução. Ele também tem uma bela página de boas-"
-"vindas para novos colaboradores, a fornecer informações básicas sobre a "
+"vindas para novos colaboradores, para fornecer informações básicas sobre a "
 "tradução. Além disso, pode compartilhar informações sobre tradução a usar o "
-"Facebook ou X. Todas essas possibilidades encontram-se na guia :guilabel:"
-"`Compartilhar`:"
+"Facebook ou X. Todas essas possibilidades encontram-se na guia "
+":guilabel:`Compartilhar`:"
 
 #: ../../devel/share.rst:14
 msgid ""
@@ -54078,8 +54077,8 @@ msgid ""
 "Bitbucket or other OAuth 2.0 providers."
 msgstr ""
 "A lista de serviços depende da configuração do Weblate, mas pode ser feita "
-"para incluir sites populares como GitLab, GitHub, Google, Facebook ou "
-"Bitbucket ou outros provedores de OAuth 2.0."
+"para incluir sítios populares como GitLab, GitHub, Google, Facebook ou "
+"Bitbucket ou outros fornecedores de OAuth 2.0."
 
 #: ../../user/profile.rst:213
 msgid "Profile"
