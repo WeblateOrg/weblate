@@ -637,6 +637,8 @@ list_translators
 
 Lists translators by contributed language for the given project:
 
+.. code-block:: text
+
     [French]
     Jean Dupont <jean.dupont@example.com>
     [English]
