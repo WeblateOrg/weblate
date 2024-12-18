@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-13 14:49+0000\n"
-"PO-Revision-Date: 2024-12-18 02:35+0000\n"
+"PO-Revision-Date: 2024-12-19 04:55+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -14642,10 +14642,8 @@ msgstr ""
 "komponent."
 
 #: weblate/trans/models/component.py:587
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Adding new translation"
-msgstr "Tilføj som anden oversættelse"
+msgstr "Tilføjer ny oversættelse"
 
 #: weblate/trans/models/component.py:591
 msgid "How to handle requests for creating new translations."
@@ -14858,10 +14856,8 @@ msgstr "Kunne ikke hente repositoriet: %s"
 #: weblate/trans/models/component.py:1625
 #: weblate/trans/models/component.py:2898
 #: weblate/trans/models/component.py:2961
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "File does not exist."
-msgstr "Oversættelsen er låst i øjeblikket."
+msgstr "Fil findes ikke."
 
 #: weblate/trans/models/component.py:1807
 #, fuzzy, python-format
@@ -14882,10 +14878,9 @@ msgid "Could not reset to remote branch on %s."
 msgstr "Mislykkedes med at nulstille fjern forgrening på %s."
 
 #: weblate/trans/models/component.py:1936
-#, fuzzy, python-format
-#| msgid "Failed to clean the repository on %s."
+#, python-format
 msgid "Could not clean the repository on %s."
-msgstr "Kunne ikke rydde op i softwarekilden på %s."
+msgstr "Kunne ikke rydde op i repositoriet på %s."
 
 #: weblate/trans/models/component.py:2181
 #, fuzzy, python-format
@@ -14902,16 +14897,12 @@ msgid "Could not merge remote branch into %s."
 msgstr "Mislykkedes med at flette fjern forgrening i ind %s."
 
 #: weblate/trans/models/component.py:2758
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "Category does not belong to this project."
-msgstr "Brugeren er tilføjet projektet."
+msgstr "Kategori hører ikke til dette projekt."
 
 #: weblate/trans/models/component.py:2762
-#, fuzzy
-#| msgid "Component list can not be chosen when unused."
 msgid "Categorized component can not be shared."
-msgstr "Komponentlisten må ikke vælges, når den ikke bruges."
+msgstr "Kategoriseret komponent kan ikke deles."
 
 #: weblate/trans/models/component.py:2774
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -14919,26 +14910,22 @@ msgstr ""
 "Ugyldigt link til et Weblate-projekt, brug weblate://projekt/komponent."
 
 #: weblate/trans/models/component.py:2784
-#, fuzzy
-#| msgid ""
-#| "Invalid link to a Weblate project, can not link to linked repository!"
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
-"Ugyldigt link til et Weblate-projekt, kan ikke linke til sammenkædet arkiv!"
+"Ugyldigt link til et Weblate-projekt; kan ikke knytte til det linkede "
+"repository!"
 
 #: weblate/trans/models/component.py:2793
-#, fuzzy
-#| msgid "Invalid link to a Weblate project, can not link to self!"
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
-msgstr "Ugyldigt link til et Weblate-projekt, kan ikke linke til sig selv!"
+msgstr "Ugyldigt link til et Weblate-projekt; kan ikke linke det til sig selv!"
 
 #: weblate/trans/models/component.py:2804
-#, fuzzy
-#| msgid "Export URL is not used when repository is linked!"
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
-msgstr "Eksport af URL anvendes ikke når arkivet er sammenkædet!"
+msgstr ""
+"Indstillingen er ikke tilgængelig for linkede repositories. Indstillingen "
+"fra den linkede komponent bruges."
 
 #: weblate/trans/models/component.py:2816
 msgid "The file mask did not match any files."
@@ -15117,10 +15104,8 @@ msgid "Add new translation string"
 msgstr "Tilføj ny oversættelsesstreng"
 
 #: weblate/trans/models/component.py:3858
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Kunne ikke flette softwarekilden."
+msgstr "Kunne ikke hente repository-status!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -15221,6 +15206,8 @@ msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
 msgstr ""
+"Kræver, at bidragsydere har konfigureret to-faktor-godkendelse, før de kan "
+"bidrage."
 
 #: weblate/trans/models/project.py:227 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
@@ -15237,10 +15224,8 @@ msgid "Enable source reviews"
 msgstr "Aktivér gennemgange"
 
 #: weblate/trans/models/project.py:235
-#, fuzzy
-#| msgid "Requires dedicated reviewers to approve translations."
 msgid "Requires dedicated reviewers to approve source strings."
-msgstr "Kræver dedikerede korrekturlæsere til at godkende oversættelser."
+msgstr "Kræver dedikerede korrekturlæsere til at godkende kildestrenge."
 
 #: weblate/trans/models/project.py:239
 msgid "Enable hooks"
@@ -15276,10 +15261,9 @@ msgstr ""
 "oversættelse, føj sprogfil til repository."
 
 #: weblate/trans/models/translation.py:249
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not parse file %(file)s: %(error)s"
-msgstr "Kunne ikke fortolke filen %(file)s: %(error)s"
+msgstr "Kunne ikke analysere filen %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1147
 #: weblate/trans/models/translation.py:1203
@@ -15839,7 +15823,7 @@ msgstr ""
 
 #: weblate/trans/views/basic.py:755
 msgid "All languages have been added, updates of translations are in progress."
-msgstr ""
+msgstr "Alle sprog er blevet tilføjet. Opdateringer af oversættelser er i gang."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -15918,10 +15902,8 @@ msgid "Your suggestion has been identified as spam!"
 msgstr "Dit forslag er blevet identificeret som spam!"
 
 #: weblate/trans/views/edit.py:332
-#, fuzzy
-#| msgid "Only suggestions are allowed in this translation!"
 msgid "Your suggestion is similar to the current translation!"
-msgstr "Kun forslag er tilladt i denne oversættelse!"
+msgstr "Dit forslag er magen til den nuværende oversættelse!"
 
 #: weblate/trans/views/edit.py:337
 msgid "Your suggestion already exists!"
@@ -16058,17 +16040,19 @@ msgstr "Kunne ikke låse repository; en anden operation er i gang."
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr ""
+"Alle repositories er blevet opdateret. Opdateringer af oversættelser er i "
+"gang."
 
 #: weblate/trans/views/git.py:84
 msgid "All repositories were pushed."
 msgstr "Alle repositories blev pushed."
 
 #: weblate/trans/views/git.py:99
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
-msgstr "Alle repositories er blevet nulstillet."
+msgstr ""
+"Alle repositories er blevet nulstillet. Opdateringer af oversættelser er i "
+"gang."
 
 #: weblate/trans/views/git.py:123
 msgid "All repositories have been cleaned up."
@@ -16079,10 +16063,8 @@ msgid "Translation files have been synchronized."
 msgstr "Oversættelsesfiler er blevet synkroniseret."
 
 #: weblate/trans/views/git.py:155
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Updates of translations are in progress."
-msgstr "Automatisk oversættelse i gang"
+msgstr "Opdateringer af oversættelser er i gang."
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
@@ -16449,10 +16431,8 @@ msgid "This e-mail address is disallowed."
 msgstr "Denne e-mailadresse er ikke tilladt."
 
 #: weblate/utils/validators.py:195
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Invalid e-mail address: {}"
-msgstr "Indtast en gyldig e-mailadresse."
+msgstr "Ugyldig e-mailadresse: {}"
 
 #: weblate/utils/validators.py:207
 msgid "Could not evaluate plural formula: {}"
@@ -16720,17 +16700,15 @@ msgstr "Overskriftens skrifttype"
 
 #: weblate/wladmin/forms.py:96 weblate/wladmin/forms.py:103
 msgid "Navigation color (Light, Dark)"
-msgstr ""
+msgstr "Navigationsfarve (Lys, Mørk)"
 
 #: weblate/wladmin/forms.py:99
 msgid "Navigation text color (Light, Dark)"
 msgstr ""
 
 #: weblate/wladmin/forms.py:106
-#, fuzzy
-#| msgid "Focus color"
 msgid "Focus color (Light, Dark)"
-msgstr "Fokusfarve"
+msgstr "Fokusfarve (Lys, Mørk)"
 
 #: weblate/wladmin/forms.py:109
 #, fuzzy
