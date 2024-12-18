@@ -6,18 +6,17 @@
 
 from __future__ import annotations
 
-import base64
-import json
+from typing import TYPE_CHECKING
 from urllib.parse import parse_qs, urlparse
 
 import responses
-from altcha import Challenge, Solution, solve_challenge
 from django.conf import settings
 from django.core import mail
 from django.test import Client, TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.accounts.captcha import solve_altcha
 from weblate.accounts.models import VerifiedEmail
 from weblate.accounts.tasks import cleanup_social_auth
 from weblate.auth.models import User
@@ -25,6 +24,9 @@ from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import get_test_file, social_core_override_settings
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.ratelimit import reset_rate_limit
+
+if TYPE_CHECKING:
+    from altcha import Challenge
 
 REGISTRATION_DATA = {
     "username": "username",
@@ -162,24 +164,7 @@ class RegistrationTest(BaseRegistrationTest):
     def solve_altcha(self, response, data: dict):
         form = response.context["form"]
         challenge: Challenge = form.challenge
-        solution: Solution = solve_challenge(
-            challenge=challenge.challenge,
-            salt=challenge.salt,
-            algorithm=challenge.algorithm,
-            max_number=challenge.maxnumber,
-            start=0,
-        )
-        data["altcha"] = base64.b64encode(
-            json.dumps(
-                {
-                    "algorithm": challenge.algorithm,
-                    "challenge": challenge.challenge,
-                    "number": solution.number,
-                    "salt": challenge.salt,
-                    "signature": challenge.signature,
-                }
-            ).encode("utf-8")
-        ).decode("utf-8")
+        data["altcha"] = solve_altcha(challenge)
 
     def solve_math(self, response, data: dict):
         form = response.context["form"]

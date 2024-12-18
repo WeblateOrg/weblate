@@ -5,10 +5,14 @@
 """Simple mathematical captcha."""
 
 import ast
+import base64
+import json
 import operator
 import time
+import urllib.parse
 from random import SystemRandom
 
+from altcha import Challenge, Solution, solve_challenge
 from django.utils.html import format_html
 
 from weblate.utils.templatetags.icons import icon
@@ -106,3 +110,30 @@ def eval_node(node):
         # binary operation
         return eval_node(node.op)(eval_node(node.left), eval_node(node.right))
     raise ValueError(node)
+
+
+def solve_altcha(challenge: Challenge, number: int | None = None) -> str:
+    solution: Solution = solve_challenge(
+        challenge=challenge.challenge,
+        salt=challenge.salt,
+        algorithm=challenge.algorithm,
+        max_number=challenge.maxnumber,
+        start=0,
+    )
+    # Make sure the challenge expiry is in past
+    split_salt = challenge.salt.split("?")
+    params = urllib.parse.parse_qs(split_salt[1])
+    expires = int(params["expires"][0])
+    while time.time() == expires:
+        time.sleep(0.1)
+    return base64.b64encode(
+        json.dumps(
+            {
+                "algorithm": challenge.algorithm,
+                "challenge": challenge.challenge,
+                "number": solution.number if number is None else number,
+                "salt": challenge.salt,
+                "signature": challenge.signature,
+            }
+        ).encode("utf-8")
+    ).decode("utf-8")
