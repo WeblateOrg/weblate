@@ -66,7 +66,7 @@ def check_global_permission(user: User, permission: str) -> bool:
 
 def check_enforced_2fa(user: User, project: Project) -> bool:
     """Check whether the user has 2FA configured, in case it is enforced by the project."""
-    return not project.enforced_2fa or user.profile.has_2fa
+    return user.is_bot or not project.enforced_2fa or user.profile.has_2fa
 
 
 def check_permission(user: User, permission: str, obj: Model):
@@ -184,8 +184,10 @@ def check_can_edit(user: User, permission: str, obj: Model, is_vote=False):  # n
             return Denied(gettext("This translation is currently locked."))
 
         # Check contributor agreement
-        if component.agreement and not ContributorAgreement.objects.has_agreed(
-            user, component
+        if (
+            not user.is_bot
+            and component.agreement
+            and not ContributorAgreement.objects.has_agreed(user, component)
         ):
             return Denied(
                 gettext(
@@ -395,8 +397,10 @@ def check_suggestion_add(user: User, permission: str, obj: Model):
     if not obj.enable_suggestions or obj.is_readonly:
         return False
     # Check contributor agreement
-    if obj.component.agreement and not ContributorAgreement.objects.has_agreed(
-        user, obj.component
+    if (
+        not user.is_bot
+        and obj.component.agreement
+        and not ContributorAgreement.objects.has_agreed(user, obj.component)
     ):
         return False
     return check_permission(user, permission, obj)
