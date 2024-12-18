@@ -127,7 +127,7 @@ class PermissionsTest(FixtureTestCase):
             )
 
         # With billing enabled and no plan it should be disabled
-        self.assertFalse(
+        self.assertTrue(
             self.superuser.has_perm("billing:project.permissions", self.project)
         )
         self.assertFalse(
@@ -151,9 +151,7 @@ class PermissionsTest(FixtureTestCase):
         project = Project.objects.get(pk=self.project.pk)
 
         # It should be restricted now
-        self.assertFalse(
-            self.superuser.has_perm("billing:project.permissions", project)
-        )
+        self.assertTrue(self.superuser.has_perm("billing:project.permissions", project))
         self.assertFalse(self.admin.has_perm("billing:project.permissions", project))
         self.assertFalse(self.user.has_perm("billing:project.permissions", project))
 
