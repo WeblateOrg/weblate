@@ -60,7 +60,7 @@ class AuthenticationMiddleware:
 
         # Extend session expiry for authenticated users
         if user.is_authenticated:
-            adjust_session_expiry(request)
+            adjust_session_expiry(request, is_login=False)
 
         # Based on django.middleware.locale.LocaleMiddleware
         activate(language)
