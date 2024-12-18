@@ -475,6 +475,8 @@ class Billing(models.Model):
                     project.web or gettext("Project website missing!"),
                 ),
             )
+            if project.access_control:
+                yield LibreCheck(False, gettext("Only public projects are allowed"))
         components = Component.objects.filter(
             project__in=self.all_projects
         ).prefetch_related("project")
