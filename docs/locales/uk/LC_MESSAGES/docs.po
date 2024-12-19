@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-19 19:39+0100\n"
-"PO-Revision-Date: 2024-12-19 18:22+0000\n"
+"PO-Revision-Date: 2024-12-20 01:16+0000\n"
 "Last-Translator: Максим Горпиніч <mgorpinic2005@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -13137,6 +13137,10 @@ msgid ""
 "reverse proxy address, so Weblate needs an additional HTTP header with "
 "client IP address."
 msgstr ""
+"Weblate аналізує IP-адресу з ``REMOTE_ADDR``, яка встановлюється обробником "
+"WSGI. Він може бути порожнім (якщо використовується сокет для WSGI) або "
+"містити адресу зворотного проксі-сервера, тому Weblate потребує додаткового "
+"заголовка HTTP з IP-адресою клієнта."
 
 #: ../../admin/install.rst:699
 msgid ""
@@ -13145,6 +13149,11 @@ msgid ""
 "setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
 "and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
+"Увімкнення :setting:`IP_BEHIND_REVERSE_PROXY` може бути достатнім для "
+"найзвичайніших налаштувань, але вам може знадобитися також налаштувати "
+":setting:`IP_PROXY_HEADER` і :setting:`IP_PROXY_OFFSET` (використовуйте "
+":envvar:`WEBLATE_IP_PROXY_HEADER` і :envvar:`WEBLATE_IP_PROXY_OFFSET` в "
+"контейнері Docker)."
 
 #: ../../admin/install.rst:706
 msgid ""
@@ -13152,6 +13161,9 @@ msgid ""
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
+"Цю конфігурацію не можна ввімкнути за замовчуванням, оскільки це дозволить "
+"підробити IP-адресу в установках, які не мають належним чином налаштований "
+"зворотний проксі."
 
 #: ../../admin/install.rst:710
 msgid ""
@@ -13168,11 +13180,6 @@ msgstr ""
 "$host;`` для nginx)."
 
 #: ../../admin/install.rst:717
-#, fuzzy
-#| msgid ""
-#| ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
-#| "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-#| "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgid ""
 ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
 "ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
@@ -13180,9 +13187,11 @@ msgid ""
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
+":ref:`захист від спаму`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, "
+":ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, "
+":envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:732
 msgid "HTTP proxy"
@@ -14185,32 +14194,22 @@ msgstr ""
 "setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install.rst:1416
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration for NGINX and Gunicorn"
-msgstr "Зразок налаштувань для Apache і Gunicorn"
+msgstr "Приклад конфігурації для NGINX і Gunicorn"
 
 #: ../../admin/install.rst:1418
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
-#| "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate using Gunicorn under the NGINX "
 "webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
 "conf`):"
 msgstr ""
-"Наведені нижче налаштування призначено для запуску Weblate у Gunicorn із "
-"Apache 2.4 (налаштування доступні як :file:`weblate/examples/apache.gunicorn."
-"conf`):"
+"Наступна конфігурація запускає Weblate за допомогою Gunicorn на веб-сервері "
+"NGINX (також доступний як :file:`weblate/examples/"
+"weblate.nginx.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1427 ../../admin/install.rst:1497
-#, fuzzy
-#| msgid ""
-#| ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ""
-":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
+msgstr ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1433
 msgid "Sample configuration for NGINX and uWSGI"
@@ -14310,10 +14309,8 @@ msgstr ""
 "conf`):"
 
 #: ../../admin/install.rst:1504
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration to start Gunicorn"
-msgstr "Зразок налаштувань для Apache і Gunicorn"
+msgstr "Приклад конфігурації для запуску Gunicorn"
 
 #: ../../admin/install.rst:1506
 msgid ""
@@ -14321,20 +14318,25 @@ msgid ""
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"Weblate має додаткову залежність `wsgi` (див. :ref:`python-deps`), яка "
+"встановлює все, що вам потрібно для запуску Gunicorn. Під час встановлення "
+"Weblate ви можете вказати його як:"
 
 #: ../../admin/install.rst:1514
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show staring via systemd:"
 msgstr ""
+"Після встановлення Gunicorn ви можете запустити його. Зазвичай це робиться "
+"на рівні системи. У наступних прикладах показано перегляд через systemd:"
 
 #: ../../admin/install.rst:1517
 msgid "/etc/systemd/system/gunicorn.socket"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.socket"
 
 #: ../../admin/install.rst:1521
 msgid "/etc/systemd/system/gunicorn.service"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.service"
 
 #: ../../admin/install.rst:1527
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -14506,32 +14508,20 @@ msgid "Periodic tasks using Celery beat"
 msgstr "Регулярні завдання з використанням тактів Celery"
 
 #: ../../admin/install.rst:1639
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. The task schedule is "
 "stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
-"Weblate постачається із вбудованою конфігурацією для запланованих завдань. "
-"Втім, ви можете визначити додаткові завдання у файлі :file:`settings.py`. "
-"Приклад наведено у розділі :ref:`lazy-commit`."
+"Weblate має вбудовані налаштування для запланованих завдань. Розклад завдань "
+"зберігається в базі даних, і завдання виконуються демоном Celery beat."
 
 #: ../../admin/install.rst:1644
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "You can define additional tasks in :file:`settings.py`, for example see :ref:"
 "`lazy-commit`."
 msgstr ""
-"Weblate постачається із вбудованою конфігурацією для запланованих завдань. "
-"Втім, ви можете визначити додаткові завдання у файлі :file:`settings.py`. "
-"Приклад наведено у розділі :ref:`lazy-commit`."
+"Ви можете визначити додаткові завдання в :file:`settings.py`, наприклад див. "
+":ref:`lazy-commit`."
 
 #: ../../admin/install.rst:1650
 msgid "Monitoring Celery status"
@@ -40669,7 +40659,7 @@ msgstr "Даніель Лейдерт"
 
 #: ../../../BACKERS.rst:27
 msgid "ELSA-X"
-msgstr ""
+msgstr "ELSA-X"
 
 #: ../../../BACKERS.rst:29
 msgid ""
