@@ -4,7 +4,7 @@
 # Mesut Akcan <makcan@gmail.com>, 2023.
 # Kaya Zeren <kayazeren@gmail.com>, 2023, 2024.
 # yangyangdaji <1504305527@qq.com>, 2023.
-# Yılmaz Durmaz <yilmaz_durmaz@hotmail.com>, 2023.
+# Yılmaz Durmaz <yilmaz_durmaz@hotmail.com>, 2023, 2024.
 # Yusuf <koyuncuo@itu.edu.tr>, 2023.
 # Emin Tufan Çetin <etcetin@gmail.com>, 2023, 2024.
 # Burak Yavuz <hitowerdigit@hotmail.com>, 2023.
@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-13 14:49+0000\n"
-"PO-Revision-Date: 2024-11-06 05:17+0000\n"
-"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
+"PO-Revision-Date: 2024-12-19 04:55+0000\n"
+"Last-Translator: Yılmaz Durmaz <yilmaz_durmaz@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
 "Language: tr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -102,38 +102,32 @@ msgstr ""
 "olarak kullanılır."
 
 #: weblate/accounts/forms.py:433
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "Lütfen bir süre sonra yeniden deneyin."
+msgstr "Doğrulama başarısız oldu. Daha sonra tekrar deneyin."
 
 #: weblate/accounts/forms.py:434
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Doğrulama süresi doldu. Tekrar deneyin."
 
 #: weblate/accounts/forms.py:435
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Ben robot değilim"
 
 #: weblate/accounts/forms.py:436
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "Çeviri tamamlandı"
+msgstr "Doğrulama tamamlandı"
 
 #: weblate/accounts/forms.py:437
 msgid "Verifying…"
-msgstr ""
+msgstr "Doğrulanıyor…"
 
 #: weblate/accounts/forms.py:439
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Doğrulama hala devam ediyor, lütfen bekleyin."
 
 #: weblate/accounts/forms.py:449
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "Anlık bildirim"
+msgstr "İnsan doğrulaması"
 
 #: weblate/accounts/forms.py:502
 #, python-format
@@ -148,10 +142,8 @@ msgid "That was not correct, please try again."
 msgstr "Bu doğru değildi, lütfen yeniden deneyin."
 
 #: weblate/accounts/forms.py:534 weblate/accounts/forms.py:541
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "Bu doğru değildi, lütfen yeniden deneyin."
+msgstr "Doğrulama başarısız oldu, lütfen tekrar deneyin."
 
 #: weblate/accounts/forms.py:559
 msgid "Subject"
@@ -1983,27 +1975,21 @@ msgstr ""
 "ayarlanmasını sağlar."
 
 #: weblate/api/docs.py:72
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Allowed number of requests to perform"
-msgstr "Yapılacak isteklerin hız sınırlama sınırı"
+msgstr "Gerçekleştirmek için izin verilen istek sayısı"
 
 #: weblate/api/docs.py:77
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "Yapılacak isteklerin hız sınırlama sınırı"
+msgstr "Gerçekleştirmek için kalan izin sayısı"
 
 #: weblate/api/docs.py:82
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
-msgstr "Saniye olarak hız sınırlama penceresinin sıfırlanma süresi"
+msgstr "Hız-sınırlama aralığı sıfırlanana kadar geçen saniye sayısı"
 
 #: weblate/api/spectacular.py:42
 #: weblate/templates/drf_spectacular/redoc.html:11
 msgid "Weblate's REST API"
-msgstr "Weblate REST API uygulaması"
+msgstr "Weblate'in REST API'si"
 
 #: weblate/api/views.py:2053 weblate/auth/models.py:926
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -3013,10 +2999,8 @@ msgid "Missing license"
 msgstr "Lisans eksik"
 
 #: weblate/billing/models.py:497
-#, fuzzy
-#| msgid "OSI approved license"
 msgid "Not a libre license"
-msgstr "OSI onaylı lisans"
+msgstr "Özgür bir lisans değil"
 
 #: weblate/billing/tasks.py:72
 msgid ""
@@ -3930,19 +3914,18 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "Şu terimler sözlüğe göre çevrilmemiş: {}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "Sekme karakteri ekle"
+msgstr "Yasaklı başlangıç karakteri"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "Dize, CSV'de yasaklanmış bir karakterle başlıyor"
 
 #: weblate/checks/glossary.py:104
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
 msgstr ""
+"Dize, aşağıdaki yasaklı karakterlerden bir veya daha fazlasıyla başlıyor: {}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -5181,7 +5164,7 @@ msgstr "ABD"
 #: weblate/machinery/forms.py:220
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Google Storage Bucket adı"
 
 #: weblate/machinery/forms.py:224
 msgctxt "Google Cloud Translation configuration"
@@ -5189,6 +5172,8 @@ msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
+"Terimler Sözlüğü dosyalarını depolamak için kullanılan Google Cloud Storage "
+"kovasının adını girin."
 
 #: weblate/machinery/forms.py:234
 #, python-format
@@ -5365,31 +5350,28 @@ msgstr "Dosya"
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
+"Şu biçimlere sahip bir dosya yükleyebilirsiniz: TMX, JSON, XLIFF, PO, CSV."
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "Kaynak dil"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "İki dilli dosyalar için belgenin hedef dili"
+msgstr "Dosyada belirtilmediği durumda belgenin kaynak dili"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1866
 msgid "Target language"
 msgstr "Hedef dil"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "İki dilli dosyalar için belgenin hedef dili"
+msgstr "Dosyada belirtilmediği durumda belgenin hedef dili"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
-msgstr ""
+msgstr "Bu dosya biçimi için kaynak dil ve hedef dil belirtilmelidir."
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5425,13 +5407,11 @@ msgstr "Dosya desteklenmiyor!"
 
 #: weblate/memory/models.py:333
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "Bellek yüklemesi için tek dilli format desteklenmiyor"
 
 #: weblate/memory/models.py:343
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Tek dilli temel dil dosyası"
+msgstr "Dosyada kaynak veya hedef dil eksik!"
 
 #: weblate/memory/models.py:436
 msgctxt "Translation memory category"
@@ -6813,10 +6793,8 @@ msgid "Members"
 msgstr "Üyeler"
 
 #: weblate/templates/accounts/user.html:335
-#, fuzzy
-#| msgid "site wide"
 msgid "Site-wide team"
-msgstr "tüm sitede"
+msgstr "Site-genelinde ekip"
 
 #: weblate/templates/accounts/user.html:345
 msgid "Remove user from this team"
@@ -8061,10 +8039,8 @@ msgid "Screenshots"
 msgstr "Ekran görüntüleri"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Create component"
 msgid "Duplicate Component"
-msgstr "Bileşen oluştur"
+msgstr "Bileşenin kopyasını oluştur"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -9773,14 +9749,11 @@ msgstr "Destek paketi satın al"
 
 #: weblate/templates/manage/index.html:110
 msgid "Contact customer care"
-msgstr ""
+msgstr "Müşteri hizmetleriyle iletişime geçin"
 
 #: weblate/templates/manage/index.html:119
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Contact us via e-mail"
-msgstr "İletişim e-posta adresi"
+msgstr "Bize e-posta yoluyla ulaşın"
 
 #: weblate/templates/manage/performance.html:13
 #: weblate/wladmin/templates/admin/weblate-index.html:44
@@ -11096,10 +11069,8 @@ msgid "First"
 msgstr "İlk"
 
 #: weblate/templates/snippets/position-field.html:22
-#, fuzzy
-#| msgid "Previous translation:"
 msgid "Previous section"
-msgstr "Önceki çeviri:"
+msgstr "Önceki bölüm"
 
 #: weblate/templates/snippets/position-field.html:65
 #, python-format
@@ -11119,10 +11090,8 @@ msgid "/ %(filter_count)s"
 msgstr "/ %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:101
-#, fuzzy
-#| msgid "Text direction"
 msgid "Next section"
-msgstr "Metin yönü"
+msgstr "Sonraki bölüm"
 
 #: weblate/templates/snippets/position-field.html:113
 #: weblate/templates/snippets/position-field.html:132
@@ -12627,16 +12596,12 @@ msgid "Add term to glossary"
 msgstr "Sözlüğe terim ekle"
 
 #: weblate/templates/translate.html:726
-#, fuzzy
-#| msgid "User identities"
 msgid "Unit identifier"
-msgstr "Kullanıcı kimlikleri"
+msgstr "Birim tanımlayıcı"
 
 #: weblate/templates/translate.html:728
-#, fuzzy
-#| msgid "Invitation link copied to clipboard."
 msgid "Unit identifier copied to clipboard."
-msgstr "Davet bağlantısı panoya kopyalandı."
+msgstr "Birim tanımlayıcısı panoya kopyalandı."
 
 #: weblate/templates/translate.html:729
 msgid "String information"
@@ -12938,7 +12903,7 @@ msgstr "Tam düzenleyicide aç"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "Katla"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:636
 msgid "The translation has come to an end."
@@ -13395,10 +13360,8 @@ msgid "You do not have permission to access this component."
 msgstr "Bu bileşene erişme izniniz yok."
 
 #: weblate/trans/forms.py:1442
-#, fuzzy
-#| msgid "This field has been identified as spam!"
 msgid "This submission has been identified as spam!"
-msgstr "Bu alan istenmeyen olarak tanımlandı!"
+msgstr "Bu gönderim spam olarak tanımlandı!"
 
 #: weblate/trans/forms.py:1526 weblate/trans/forms.py:2154
 msgid "Basic"
@@ -14974,11 +14937,8 @@ msgid "Could not update repository: %s"
 msgstr "Depo güncellenemedi: %s"
 
 #: weblate/trans/models/component.py:3029
-#, fuzzy
-#| msgid "This will push changes and create a GitLab merge request."
 msgid "Pull and push branches cannot be the same when using merge requests."
-msgstr ""
-"Bu işlem değişiklikleri iter ve bir GitLab birleştirme isteği oluşturur."
+msgstr "Birleştirme istekleri kullanılırken çekme ve itme dalları aynı olamaz."
 
 #: weblate/trans/models/component.py:3042
 msgid ""
@@ -15056,10 +15016,8 @@ msgid "Add new translation string"
 msgstr "Yeni çeviri dizgesi ekle"
 
 #: weblate/trans/models/component.py:3858
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Depo birleştirilemedi."
+msgstr "Depo durumu alınamadı!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -16599,23 +16557,19 @@ msgstr "Üst bilgi yazı tipi"
 
 #: weblate/wladmin/forms.py:96 weblate/wladmin/forms.py:103
 msgid "Navigation color (Light, Dark)"
-msgstr ""
+msgstr "Navigasyon rengi (Açık, Koyu)"
 
 #: weblate/wladmin/forms.py:99
 msgid "Navigation text color (Light, Dark)"
-msgstr ""
+msgstr "Navigasyon metin rengi (Açık, Koyu)"
 
 #: weblate/wladmin/forms.py:106
-#, fuzzy
-#| msgid "Focus color"
 msgid "Focus color (Light, Dark)"
-msgstr "Odaklanma rengi"
+msgstr "Odak rengi (Açık, Koyu)"
 
 #: weblate/wladmin/forms.py:109
-#, fuzzy
-#| msgid "Hover color"
 msgid "Hover color (Light, Dark)"
-msgstr "Üzerine gelme rengi"
+msgstr "Üzerine gelme rengi (Açık, Koyu)"
 
 #: weblate/wladmin/forms.py:113
 msgid "Hide page footer"
@@ -16726,7 +16680,7 @@ msgstr "Depolar"
 
 #: weblate/wladmin/views.py:153
 msgid "Customer care ticket created:"
-msgstr ""
+msgstr "Müşteri hizmetleri başvurusu oluşturuldu:"
 
 #: weblate/wladmin/views.py:183
 msgid "Test e-mail sent."
