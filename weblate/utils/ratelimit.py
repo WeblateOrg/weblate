@@ -17,6 +17,7 @@ from django.template.loader import render_to_string
 from weblate.logger import LOGGER
 from weblate.utils import messages
 from weblate.utils.cache import is_redis_cache
+from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.request import get_ip_address
 
@@ -41,6 +42,11 @@ def get_cache_key(
     else:
         if address is None:
             address = get_ip_address(request)
+            if not address:
+                LOGGER.error(
+                    "could not obtain remote IP address, see %s",
+                    get_doc_url("admin/install", "reverse-proxy"),
+                )
         origin = "ip"
         key = calculate_checksum(address)
     return f"ratelimit-{origin}-{scope}-{key}"
