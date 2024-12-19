@@ -1516,7 +1516,7 @@ PROJECT_WEB_RESTRICT_RE
 
 .. versionadded:: 4.15
 
-Defines a regular expression to restrict project websites. Any matching URLs will be rejected.
+Defines a regular expression to limit what can be entered as :ref:`project-web`. Any matching URLs will be rejected.
 
 .. seealso::
 
