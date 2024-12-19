@@ -214,7 +214,7 @@ Released on October 15th 2024.
 * :kbd:`?` now displays available :ref:`keyboard`.
 * Translation and language view in the project now include basic information about the language and plurals.
 * :ref:`search-replace` shows a preview of matched strings.
-* :ref:`aresource` now supports translatable attribute in its strings.
+* :ref:`aresource` now support translatable attribute in its strings.
 * Creating component via file upload (Translate document) now supports bilingual files.
 
 **Bug fixes**
