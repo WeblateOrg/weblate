@@ -632,7 +632,8 @@ class Profile(models.Model):
         verbose_name=gettext_lazy("Watched projects"),
         help_text=gettext_lazy(
             "You can receive notifications for watched projects and "
-            "they are shown on the dashboard by default."
+            "they are shown on the dashboard by default. "
+            "You can right click on a project above to inspect it, before choosing."
         ),
         blank=True,
     )
