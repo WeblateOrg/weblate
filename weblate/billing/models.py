@@ -8,6 +8,7 @@ import os.path
 from contextlib import suppress
 from datetime import timedelta
 from functools import partial
+from pathlib import Path
 
 from appconf import AppConf
 from django.conf import settings
@@ -560,6 +561,7 @@ class Invoice(models.Model):
     # Payment detailed information, used for integration
     # with payment processor
     payment = models.JSONField(editable=False, default=dict)
+    created = models.DateTimeField(auto_now_add=True)
 
     objects = InvoiceQuerySet.as_manager()
 
@@ -571,18 +573,35 @@ class Invoice(models.Model):
         return f"{self.start} - {self.end}: {self.billing if self.billing_id else None}"
 
     @cached_property
+    def is_legacy(self):
+        return len(self.ref) <= 6
+
+    @cached_property
     def filename(self) -> str | None:
-        if self.ref:
+        if not self.ref:
+            return None
+        if self.is_legacy:
             return f"{self.ref}.pdf"
-        return None
+        return f"Weblate_Invoice_{self.ref}.pdf"
 
     @cached_property
-    def full_filename(self) -> str:
-        return os.path.join(settings.INVOICE_PATH, self.filename or "")
+    def full_filename(self) -> str | None:
+        if not self.ref:
+            return None
+        if self.is_legacy:
+            invoice_path = Path(settings.INVOICE_PATH_LEGACY)
+        else:
+            invoice_path = (
+                Path(settings.INVOICE_PATH)
+                / f"{self.created.year}"
+                / f"{self.created.month:02d}"
+            )
+        full_path = invoice_path / (self.filename or "")
+        return full_path.as_posix()
 
     @cached_property
-    def filename_valid(self):
-        return os.path.exists(self.full_filename)
+    def filename_valid(self) -> bool:
+        return self.full_filename and os.path.exists(self.full_filename)
 
     def clean(self) -> None:
         if self.end is None or self.start is None:

@@ -110,3 +110,4 @@ class InvoiceAdmin(WeblateModelAdmin):
     search_fields = ("billing__projects__name", "ref", "note")
     date_hierarchy = "end"
     ordering = ["billing", "-start"]
+    autocomplete_fields = ("billing",)
