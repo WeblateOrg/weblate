@@ -1577,12 +1577,13 @@ placed as :file:`/etc/logrotate.d/celery`:
 Periodic tasks using Celery beat
 ++++++++++++++++++++++++++++++++
 
-Weblate comes with built-in setup for scheduled tasks. You can however define
-additional tasks in :file:`settings.py`, for example see :ref:`lazy-commit`.
+Weblate comes with built-in setup for scheduled tasks. The task schedule is
+stored in the database and tasks are executed by the Celery beat daemon.
 
-The tasks are supposed to be executed by Celery beats daemon. In case it is not
-working properly, it might not be running or its database was corrupted. Check
-the Celery startup logs in such case to figure out root cause.
+.. hint::
+
+   You can define additional tasks in :file:`settings.py`, for example see
+   :ref:`lazy-commit`.
 
 .. _monitoring-celery:
 
