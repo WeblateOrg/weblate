@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2024-12-19 15:18+0100\n"
+"POT-Creation-Date: 2024-12-19 19:39+0100\n"
 "PO-Revision-Date: 2024-12-19 18:22+0000\n"
 "Last-Translator: Максим Горпиніч <mgorpinic2005@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
@@ -9707,8 +9707,8 @@ msgid ""
 "Defines a regular expression to limit what can be entered as :ref:`project-"
 "web`. Any matching URLs will be rejected."
 msgstr ""
-"Визначає регулярний вираз для обмеження того, що можна ввести як :ref"
-":`project-web`. Усі відповідні URL-адреси буде відхилено."
+"Визначає регулярний вираз для обмеження того, що можна ввести як :ref:"
+"`project-web`. Усі відповідні URL-адреси буде відхилено."
 
 #: ../../admin/config.rst:1523
 msgid ""
@@ -13132,32 +13132,28 @@ msgstr ""
 
 #: ../../admin/install.rst:694
 msgid ""
-"In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
-"which is set by the WSGI handler."
+"Weblate parses IP address from the ``REMOTE_ADDR`` which is set by the WSGI "
+"handler. This might be empty (when using socket for WSGI) or contain a "
+"reverse proxy address, so Weblate needs an additional HTTP header with "
+"client IP address."
 msgstr ""
-"За типових налаштувань Weblate обробляє IP-адресу з ``REMOTE_ADDR``, яка "
-"встановлюється обробником WSGI."
 
-#: ../../admin/install.rst:697
+#: ../../admin/install.rst:699
 msgid ""
-"In case you are running a reverse proxy, this field will most likely contain "
-"its address. You need to configure Weblate to trust additional HTTP headers "
-"and parse the IP address from these. This can not be enabled by default as "
-"it would allow IP address spoofing for installations not using a reverse "
-"proxy. Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the "
-"most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
-"and :setting:`IP_PROXY_OFFSET` as well."
+"Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the most "
+"usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` and :"
+"setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
+"and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
-"Якщо ви працюєте з реверсивним проксі, це поле, найімовірніше, міститиме "
-"його адресу. Вам слід налаштувати Weblate на довіру до додаткових заголовків "
-"HTTP і визначити IP-адресу з цих заголовків. Цю можливість не може бути "
-"типово увімкнено, оскільки її вмикання дозволить підміну IP-адреси для "
-"встановлених екземплярів, які не використовують оберненого проксі. Для "
-"більшості звичайних конфігурацій може бути достатньо вмикання :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, але вам, ймовірно, доведеться скоригувати "
-"значення параметрів :setting:`IP_PROXY_HEADER` і :setting:`IP_PROXY_OFFSET`."
 
-#: ../../admin/install.rst:705
+#: ../../admin/install.rst:706
+msgid ""
+"This configuration cannot be turned on by default because it would allow IP "
+"address spoofing on installations that don't have a properly configured "
+"reverse proxy."
+msgstr ""
+
+#: ../../admin/install.rst:710
 msgid ""
 "Another thing to take care of is the :http:header:`Host` header. It should "
 "match to whatever is configured as :setting:`SITE_DOMAIN`. Additional "
@@ -13171,21 +13167,28 @@ msgstr ""
 "скористатися ``ProxyPreserveHost On`` для Apache або ``proxy_set_header Host "
 "$host;`` для nginx)."
 
-#: ../../admin/install.rst:712
+#: ../../admin/install.rst:717
+#, fuzzy
+#| msgid ""
+#| ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
+#| "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
+#| "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgid ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
+"ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
 "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
+"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
+"`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
 ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
 "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 
-#: ../../admin/install.rst:721
+#: ../../admin/install.rst:732
 msgid "HTTP proxy"
 msgstr "HTTP-проксі"
 
-#: ../../admin/install.rst:723
+#: ../../admin/install.rst:734
 msgid ""
 "Weblate does execute VCS commands and those accept proxy configuration from "
 "environment. The recommended approach is to define proxy settings in :file:"
@@ -13195,7 +13198,7 @@ msgstr ""
 "налаштування проксі-сервера із середовища. Рекомендованим підходом є "
 "визначення параметрів проксі-сервера у :file:`settings.py`:"
 
-#: ../../admin/install.rst:736
+#: ../../admin/install.rst:747
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
@@ -13203,15 +13206,15 @@ msgstr ""
 "`Змінні середовища для проксі-серверів <https://everything.curl.dev/"
 "usingcurl/proxies/env.html>`_"
 
-#: ../../admin/install.rst:741
+#: ../../admin/install.rst:752
 msgid "Adjusting configuration"
 msgstr "Коригування налаштувань"
 
-#: ../../admin/install.rst:745
+#: ../../admin/install.rst:756
 msgid ":ref:`sample-configuration`"
 msgstr ":ref:`sample-configuration`"
 
-#: ../../admin/install.rst:747
+#: ../../admin/install.rst:758
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and "
 "adjust it to match your setup. You will probably want to adjust the "
@@ -13221,11 +13224,11 @@ msgstr ""
 "і скоригуйте його відповідно до ваших потреб. Ймовірно, вам потрібно "
 "скоригувати такі параметри:"
 
-#: ../../admin/install.rst:753
+#: ../../admin/install.rst:764
 msgid "``ADMINS``"
 msgstr "``ADMINS``"
 
-#: ../../admin/install.rst:755
+#: ../../admin/install.rst:766
 msgid ""
 "List of site administrators to receive notifications when something goes "
 "wrong, for example notifications on failed merges, or Django errors."
@@ -13233,7 +13236,7 @@ msgstr ""
 "Список адміністраторів сайта, які отримуватимуть сповіщення при помилках, "
 "зокрема сповіщення щодо невдалого об'єднання або помилок Django."
 
-#: ../../admin/install.rst:758
+#: ../../admin/install.rst:769
 msgid ""
 "Contact form sends e-mail on these as well unless :setting:`ADMINS_CONTACT` "
 "is configured."
@@ -13241,17 +13244,17 @@ msgstr ""
 "Форма зв'язку надсилає повідомлення електронної пошти і на ці адреси, якщо "
 "не налаштовано :setting:`ADMINS_CONTACT`."
 
-#: ../../admin/install.rst:763
+#: ../../admin/install.rst:774
 msgid ""
 ":setting:`django:ADMINS`, :setting:`ADMINS_CONTACT`, :ref:`production-admins`"
 msgstr ""
 ":setting:`django:ADMINS`, :setting:`ADMINS_CONTACT`, :ref:`production-admins`"
 
-#: ../../admin/install.rst:769
+#: ../../admin/install.rst:780
 msgid "``ALLOWED_HOSTS``"
 msgstr "``ALLOWED_HOSTS``"
 
-#: ../../admin/install.rst:771
+#: ../../admin/install.rst:782
 msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
@@ -13259,11 +13262,11 @@ msgstr ""
 "Вам слід встановити для цього параметра значення списку вузлів, які має "
 "обслуговувати ваш сайт. Приклад:"
 
-#: ../../admin/install.rst:778
+#: ../../admin/install.rst:789
 msgid "Alternatively you can include wildcard:"
 msgstr "Крім того, ви можете включити символ-замінник:"
 
-#: ../../admin/install.rst:786
+#: ../../admin/install.rst:797
 msgid ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
@@ -13271,11 +13274,11 @@ msgstr ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
 
-#: ../../admin/install.rst:792
+#: ../../admin/install.rst:803
 msgid "``SESSION_ENGINE``"
 msgstr "``SESSION_ENGINE``"
 
-#: ../../admin/install.rst:794
+#: ../../admin/install.rst:805
 msgid ""
 "Configure how your sessions will be stored. In case you keep the default "
 "database backend engine, you should schedule: :command:`weblate "
@@ -13285,7 +13288,7 @@ msgstr ""
 "рушій обробника бази даних, вам слід запланувати :command:`weblate "
 "clearsessions` для вилучення застарілих даних сеансу з бази даних."
 
-#: ../../admin/install.rst:799
+#: ../../admin/install.rst:810
 msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
@@ -13293,15 +13296,15 @@ msgstr ""
 "Якщо ви використовуєте Redis як кеш (див. :ref:`production-cache`) "
 "рекомендуємо скористатися ним і для сеансів:"
 
-#: ../../admin/install.rst:808
+#: ../../admin/install.rst:819
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 msgstr ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 
-#: ../../admin/install.rst:813
+#: ../../admin/install.rst:824
 msgid "``DATABASES``"
 msgstr "``DATABASES``"
 
-#: ../../admin/install.rst:815
+#: ../../admin/install.rst:826
 msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
@@ -13309,7 +13312,7 @@ msgstr ""
 "Можливість з'єднання із сервером бази даних. Будь ласка, ознайомтеся із "
 "документацією до Django, щоб дізнатися більше."
 
-#: ../../admin/install.rst:820
+#: ../../admin/install.rst:831
 msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
@@ -13317,11 +13320,11 @@ msgstr ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
 
-#: ../../admin/install.rst:826
+#: ../../admin/install.rst:837
 msgid "``DEBUG``"
 msgstr "``DEBUG``"
 
-#: ../../admin/install.rst:828
+#: ../../admin/install.rst:839
 msgid ""
 "Disable this for any production server. With debug mode enabled, Django will "
 "show backtraces in case of error to users, when you disable it, errors will "
@@ -13332,7 +13335,7 @@ msgstr ""
 "зворотного трасування при помилці. Якщо ви вимкнете її, помилки буде "
 "надіслано електронною поштою до ``ADMINS`` (див. вище)."
 
-#: ../../admin/install.rst:832
+#: ../../admin/install.rst:843
 msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
@@ -13340,30 +13343,30 @@ msgstr ""
 "Режим діагностики також уповільнює роботу Weblate, оскільки у такому режимі "
 "Django на внутрішньому рівні зберігає набагато більше даних."
 
-#: ../../admin/install.rst:837
+#: ../../admin/install.rst:848
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
 msgstr ":setting:`django:DEBUG`, :ref:`production-debug`"
 
-#: ../../admin/install.rst:842
+#: ../../admin/install.rst:853
 msgid "``DEFAULT_FROM_EMAIL``"
 msgstr "``DEFAULT_FROM_EMAIL``"
 
-#: ../../admin/install.rst:844
+#: ../../admin/install.rst:855
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
 msgstr ""
 "Адреса електронної пошти відправника для вихідної електронної пошти, "
 "наприклад, повідомлень електронної пошти щодо реєстрації."
 
-#: ../../admin/install.rst:848
+#: ../../admin/install.rst:859
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
 msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
 
-#: ../../admin/install.rst:852
+#: ../../admin/install.rst:863
 msgid "``SECRET_KEY``"
 msgstr "``SECRET_KEY``"
 
-#: ../../admin/install.rst:854
+#: ../../admin/install.rst:865
 msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
@@ -13371,15 +13374,15 @@ msgstr ""
 "Ключ, який використовується Django для підписування даних у куках. Див. :ref:"
 "`production-secret`, щоб дізнатися більше."
 
-#: ../../admin/install.rst:859
+#: ../../admin/install.rst:870
 msgid ":setting:`django:SECRET_KEY`"
 msgstr ":setting:`django:SECRET_KEY`"
 
-#: ../../admin/install.rst:863
+#: ../../admin/install.rst:874
 msgid "``SERVER_EMAIL``"
 msgstr "``SERVER_EMAIL``"
 
-#: ../../admin/install.rst:865
+#: ../../admin/install.rst:876
 msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
@@ -13388,15 +13391,15 @@ msgstr ""
 "електронної пошти адміністратору, наприклад, для сповіщень щодо помилок під "
 "час об'єднання змін."
 
-#: ../../admin/install.rst:870
+#: ../../admin/install.rst:881
 msgid ":setting:`django:SERVER_EMAIL`"
 msgstr ":setting:`django:SERVER_EMAIL`"
 
-#: ../../admin/install.rst:875
+#: ../../admin/install.rst:886
 msgid "Filling up the database"
 msgstr "Заповнення бази даних"
 
-#: ../../admin/install.rst:877
+#: ../../admin/install.rst:888
 msgid ""
 "After your configuration is ready, you can run :wladmin:`migrate` to create "
 "the database structure. Now you should be able to create translation "
@@ -13406,7 +13409,7 @@ msgstr ""
 "для створення структури бази даних. Після цього ви зможете створювати "
 "проєкти перекладу за допомогою інтерфейсу адміністратора."
 
-#: ../../admin/install.rst:881
+#: ../../admin/install.rst:892
 msgid ""
 "Once you are done, you should also check the :guilabel:`Performance report` "
 "in the admin interface, which will give you hints of potential non optimal "
@@ -13416,15 +13419,15 @@ msgstr ""
 "`Звітом щодо швидкодії` в інтерфейсі адміністратора, там ви зможете знайти "
 "підказки щодо потенційних недоліків у налаштуваннях на вашому сайті."
 
-#: ../../admin/install.rst:887
+#: ../../admin/install.rst:898
 msgid ":ref:`config`, :ref:`privileges`"
 msgstr ":ref:`config`, :ref:`privileges`"
 
-#: ../../admin/install.rst:893
+#: ../../admin/install.rst:904
 msgid "Production setup"
 msgstr "Промислові налаштування"
 
-#: ../../admin/install.rst:895
+#: ../../admin/install.rst:906
 msgid ""
 "For a production setup you should carry out adjustments described in the "
 "following sections. The most critical settings will trigger a warning, which "
@@ -13436,7 +13439,7 @@ msgstr ""
 "попередження, вказівкою на яке є знак оклику на верхній панелі, який буде "
 "показано, якщо ви увійдете на сервер як супер користувач:"
 
-#: ../../admin/install.rst:901
+#: ../../admin/install.rst:912
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
@@ -13445,7 +13448,7 @@ msgstr ""
 "започатковано Django (хоча вам і не треба виправляти усі причини показаних "
 "попереджень):"
 
-#: ../../admin/install.rst:908
+#: ../../admin/install.rst:919
 msgid ""
 "You can also review the very same checklist at :ref:`manage-performance` in "
 "the :ref:`management-interface`."
@@ -13453,19 +13456,19 @@ msgstr ""
 "Ви також можете скористатися списком дій у :ref:`manage-performance` з "
 "розділу :ref:`management-interface`."
 
-#: ../../admin/install.rst:912
+#: ../../admin/install.rst:923
 msgid ":doc:`django:howto/deployment/checklist`"
 msgstr ":doc:`django:howto/deployment/checklist`"
 
-#: ../../admin/install.rst:917
+#: ../../admin/install.rst:928
 msgid "Disable debug mode"
 msgstr "Вимкнути режим діагностики"
 
-#: ../../admin/install.rst:919
+#: ../../admin/install.rst:930
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
 msgstr "Вимикання режиму діагностики Django (:setting:`DEBUG`):"
 
-#: ../../admin/install.rst:925
+#: ../../admin/install.rst:936
 msgid ""
 "With debug mode on, Django stores all executed queries and shows users "
 "backtraces of errors, which is not desired in a production setup."
@@ -13474,15 +13477,15 @@ msgstr ""
 "показує користувачеві зворотні трасування помилок. Такі надмірні дані є "
 "небажаними у промисловій конфігурації."
 
-#: ../../admin/install.rst:930 ../../admin/install.rst:946
+#: ../../admin/install.rst:941 ../../admin/install.rst:957
 msgid ":ref:`configuration`"
 msgstr ":ref:`configuration`"
 
-#: ../../admin/install.rst:935
+#: ../../admin/install.rst:946
 msgid "Properly configure admins"
 msgstr "Належне налаштовування записів адміністраторів"
 
-#: ../../admin/install.rst:937
+#: ../../admin/install.rst:948
 msgid ""
 "Set the correct admin addresses to the :setting:`ADMINS` setting to defining "
 "who will receive e-mails in case something goes wrong on the server, for "
@@ -13492,11 +13495,11 @@ msgstr ""
 "`ADMINS` для визначення того, хто отримуватиме повідомлення електронної "
 "пошти у випадку, якщо щось на сервері піде не так. Приклад:"
 
-#: ../../admin/install.rst:951
+#: ../../admin/install.rst:962
 msgid "Set correct site domain"
 msgstr "Установіть належний домен сайта"
 
-#: ../../admin/install.rst:953
+#: ../../admin/install.rst:964
 msgid ""
 "Adjust site name and domain in the admin interface, otherwise links in RSS "
 "or registration e-mails will not work. This is configured using :setting:"
@@ -13507,7 +13510,7 @@ msgstr ""
 "працюватимуть. Налаштувати ці параметри можна за допомогою параметра :"
 "setting:`SITE_DOMAIN`, який має містити назву домену сайта."
 
-#: ../../admin/install.rst:959
+#: ../../admin/install.rst:970
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
@@ -13515,7 +13518,7 @@ msgstr ""
 "До випуску 4.2 замість цього використовувалася бібліотека sites Django. Будь "
 "ласка, див. :doc:`django:ref/contrib/sites`."
 
-#: ../../admin/install.rst:964
+#: ../../admin/install.rst:975
 msgid ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
@@ -13523,11 +13526,11 @@ msgstr ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
-#: ../../admin/install.rst:973
+#: ../../admin/install.rst:984
 msgid "Correctly configure HTTPS"
 msgstr "Належне налаштовування HTTPS"
 
-#: ../../admin/install.rst:975
+#: ../../admin/install.rst:986
 msgid ""
 "It is strongly recommended to run Weblate using the encrypted HTTPS "
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
@@ -13537,7 +13540,7 @@ msgstr ""
 "протоколу HTTPS. Після його вмикання вам слід встановити :setting:"
 "`ENABLE_HTTPS` у параметрах сервера:"
 
-#: ../../admin/install.rst:984
+#: ../../admin/install.rst:995
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
@@ -13545,17 +13548,17 @@ msgstr ""
 "Вам також, ймовірно, варто налаштувати HSTS. Див. :ref:`django:security-"
 "recommendation-ssl`, щоб дізнатися більше."
 
-#: ../../admin/install.rst:989
+#: ../../admin/install.rst:1000
 msgid ""
 ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
 ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 
-#: ../../admin/install.rst:995
+#: ../../admin/install.rst:1006
 msgid "Set properly SECURE_HSTS_SECONDS"
 msgstr "Установіть SECURE_HSTS_SECONDS належним чином"
 
-#: ../../admin/install.rst:997
+#: ../../admin/install.rst:1008
 msgid ""
 "If your site is served over SSL, you have to consider setting a value for :"
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
@@ -13567,7 +13570,7 @@ msgstr ""
 "Strict Transport Security). Типово, його встановлено у значення 0, як це "
 "показано нижче."
 
-#: ../../admin/install.rst:1005
+#: ../../admin/install.rst:1016
 msgid ""
 "If set to a non-zero integer value, the :class:`django:django.middleware."
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
@@ -13577,7 +13580,7 @@ msgstr ""
 "security.SecurityMiddleware` встановлює заголовок :ref:`django:http-strict-"
 "transport-security` в усіх відповідях, які ще не містять такого заголовка."
 
-#: ../../admin/install.rst:1010
+#: ../../admin/install.rst:1021
 msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
@@ -13586,11 +13589,11 @@ msgstr ""
 "зашкодити працездатності вашого сайта. Через це, варто спочатку ознайомитися "
 "зі документацією до :ref:`django:http-strict-transport-security`."
 
-#: ../../admin/install.rst:1017
+#: ../../admin/install.rst:1028
 msgid "Use a powerful database engine"
 msgstr "Використання потужного рушія бази даних"
 
-#: ../../admin/install.rst:1019
+#: ../../admin/install.rst:1030
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
@@ -13598,7 +13601,7 @@ msgstr ""
 "Будь ласка, скористайтеся PostgreSQL для промислових середовищ. Див. :ref:"
 "`database-setup`, щоб дізнатися більше."
 
-#: ../../admin/install.rst:1021
+#: ../../admin/install.rst:1032
 msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
@@ -13606,7 +13609,7 @@ msgstr ""
 "Застосовуйте суміжне розташування для запуску сервера бази даних, інакше "
 "швидкодія або надійність мережі можуть зіпсувати роботу Weblate."
 
-#: ../../admin/install.rst:1023
+#: ../../admin/install.rst:1034
 msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
@@ -13614,7 +13617,7 @@ msgstr ""
 "Перевірте швидкодію сервера бази даних або налаштуйте його конфігурацію, "
 "наприклад, застосувавши `PGTune <https://pgtune.leopard.in.ua/>`_."
 
-#: ../../admin/install.rst:1028
+#: ../../admin/install.rst:1039
 msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
@@ -13622,11 +13625,11 @@ msgstr ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
 
-#: ../../admin/install.rst:1036
+#: ../../admin/install.rst:1047
 msgid "Enable caching"
 msgstr "Увімкніть кешування"
 
-#: ../../admin/install.rst:1038
+#: ../../admin/install.rst:1049
 msgid ""
 "If possible, use Redis from Django by adjusting the ``CACHES`` configuration "
 "variable, for example:"
@@ -13634,7 +13637,7 @@ msgstr ""
 "Якщо можна, скористайтеся Redis з Django коригуванням значення змінної "
 "налаштувань ``CACHES``. Приклад:"
 
-#: ../../admin/install.rst:1059
+#: ../../admin/install.rst:1070
 msgid ""
 "In case you change Redis settings for the cache, you might need to adjust "
 "them for Celery as well, see :ref:`celery`."
@@ -13642,15 +13645,15 @@ msgstr ""
 "Якщо ви хочете змінити параметри Redis для кешування, вам, ймовірно, варто "
 "також змінити їх і для Celery, див. :ref:`celery`."
 
-#: ../../admin/install.rst:1064
+#: ../../admin/install.rst:1075
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 msgstr ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 
-#: ../../admin/install.rst:1070
+#: ../../admin/install.rst:1081
 msgid "Avatar caching"
 msgstr "Кешування аватару"
 
-#: ../../admin/install.rst:1072
+#: ../../admin/install.rst:1083
 msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
@@ -13659,7 +13662,7 @@ msgstr ""
 "Рекомендуємо для виконання цього завдання скористатися окремим файловим "
 "кешем:"
 
-#: ../../admin/install.rst:1099
+#: ../../admin/install.rst:1110
 msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
@@ -13667,11 +13670,11 @@ msgstr ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 
-#: ../../admin/install.rst:1108
+#: ../../admin/install.rst:1119
 msgid "Configure e-mail sending"
 msgstr "Налаштовування надсилання електронної пошти"
 
-#: ../../admin/install.rst:1110
+#: ../../admin/install.rst:1121
 msgid ""
 "Weblate needs to send out e-mails on several occasions, and these e-mails "
 "should have a correct sender address, please configure :setting:"
@@ -13683,7 +13686,7 @@ msgstr ""
 "налаштуйте :setting:`SERVER_EMAIL` і :setting:`DEFAULT_FROM_EMAIL` так, щоб "
 "значення змінних відповідали вашому середовищу. Приклад:"
 
-#: ../../admin/install.rst:1122
+#: ../../admin/install.rst:1133
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
@@ -13692,7 +13695,7 @@ msgstr ""
 "setting:`django:EMAIL_BACKEND` у значення ``django.core.mail.backends.dummy."
 "EmailBackend``."
 
-#: ../../admin/install.rst:1125
+#: ../../admin/install.rst:1136
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
@@ -13700,7 +13703,7 @@ msgstr ""
 "У результаті буде вимкнено надсилання *усіх* повідомлень електронної пошти, "
 "зокрема повідомлень щодо реєстрації та повідомлень щодо скидання паролів."
 
-#: ../../admin/install.rst:1130
+#: ../../admin/install.rst:1141
 msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
@@ -13708,11 +13711,11 @@ msgstr ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 
-#: ../../admin/install.rst:1140
+#: ../../admin/install.rst:1151
 msgid "Allowed hosts setup"
 msgstr "Налаштовування дозволених вузлів"
 
-#: ../../admin/install.rst:1142
+#: ../../admin/install.rst:1153
 msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
@@ -13721,7 +13724,7 @@ msgstr ""
 "доменів, які може обслуговувати ваш сайт. Якщо ця змінна міститиме порожнє "
 "значення, будь-які запити буде заблоковано."
 
-#: ../../admin/install.rst:1145
+#: ../../admin/install.rst:1156
 msgid ""
 "In case this is not configured to match your HTTP server, you will get "
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
@@ -13731,14 +13734,14 @@ msgstr ""
 "отримаєте повідомлення про помилки, подібні до :samp:`Invalid HTTP_HOST "
 "header: '1.1.1.1'. Тоді вам потрібно додати '1.1.1.1' до ALLOWED_HOSTS.`"
 
-#: ../../admin/install.rst:1151
+#: ../../admin/install.rst:1162
 msgid ""
 "On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
 "У контейнері Docker доступ до відповідної можливості здійснюється за "
 "допомогою змінної :envvar:`WEBLATE_ALLOWED_HOSTS`."
 
-#: ../../admin/install.rst:1155
+#: ../../admin/install.rst:1166
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
@@ -13746,11 +13749,11 @@ msgstr ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
 
-#: ../../admin/install.rst:1162
+#: ../../admin/install.rst:1173
 msgid "Django secret key"
 msgstr "Секретний ключ Django"
 
-#: ../../admin/install.rst:1164
+#: ../../admin/install.rst:1175
 msgid ""
 "The :setting:`SECRET_KEY` setting is used by Django to sign cookies, and you "
 "should really generate your own value rather than using the one from the "
@@ -13760,7 +13763,7 @@ msgstr ""
 "підписування кук. Вам слід створити ваше власне значення і не користуватися "
 "значенням з прикладу налаштувань."
 
-#: ../../admin/install.rst:1167
+#: ../../admin/install.rst:1178
 msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
@@ -13768,15 +13771,15 @@ msgstr ""
 "Створити новий ключ можна за допомогою програми :file:`weblate/examples/"
 "generate-secret-key`, яка постачається разом із Weblate."
 
-#: ../../admin/install.rst:1172
+#: ../../admin/install.rst:1183
 msgid ":setting:`SECRET_KEY`"
 msgstr ":setting:`SECRET_KEY`"
 
-#: ../../admin/install.rst:1177
+#: ../../admin/install.rst:1188
 msgid "Running maintenance tasks"
 msgstr "Запуск завдань щодо супроводу"
 
-#: ../../admin/install.rst:1179
+#: ../../admin/install.rst:1190
 msgid ""
 "For optimal performance, it is good idea to run some maintenance tasks in "
 "the background. This is automatically done by :ref:`celery` and covers "
@@ -13787,11 +13790,11 @@ msgstr ""
 "автоматично виконується за допомогою :ref:`celery` і стосується таких "
 "завдань:"
 
-#: ../../admin/install.rst:1182
+#: ../../admin/install.rst:1193
 msgid "Configuration health check (hourly)."
 msgstr "Перевірки коректності налаштувань (щогодинно)."
 
-#: ../../admin/install.rst:1183
+#: ../../admin/install.rst:1194
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :wladmin:"
 "`commit_pending`."
@@ -13799,21 +13802,21 @@ msgstr ""
 "Надсилання змін з черги (щогодини), див. :ref:`lazy-commit` і :wladmin:"
 "`commit_pending`."
 
-#: ../../admin/install.rst:1184
+#: ../../admin/install.rst:1195
 msgid "Updating component alerts (daily)."
 msgstr "Оновлення нагадувань щодо складників (щоденно)."
 
-#: ../../admin/install.rst:1185
+#: ../../admin/install.rst:1196
 msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
 msgstr "Оновлення віддалених гілок (щодня), див. :setting:`AUTO_UPDATE`."
 
-#: ../../admin/install.rst:1186
+#: ../../admin/install.rst:1197
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
 msgstr ""
 "Резервного копіювання пам'яті перекладів до JSON (щодня), див. :wladmin:"
 "`dump_memory`."
 
-#: ../../admin/install.rst:1187
+#: ../../admin/install.rst:1198
 msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "wladmin:`cleanuptrans`."
@@ -13821,11 +13824,11 @@ msgstr ""
 "Завдань із супроводу обробки всього тексту й бази даних (щоденних і "
 "щотижневих завдань), див. :wladmin:`cleanuptrans`."
 
-#: ../../admin/install.rst:1192
+#: ../../admin/install.rst:1203
 msgid "System locales and encoding"
 msgstr "Локалі і кодування системи"
 
-#: ../../admin/install.rst:1194
+#: ../../admin/install.rst:1205
 msgid ""
 "The system locales should be configured to UTF-8 capable ones. On most Linux "
 "distributions this is the default setting. In case it is not the case on "
@@ -13835,7 +13838,7 @@ msgstr ""
 "дистрибутивів Linux такий вибір є типовим. Якщо у вашій системі вибрано "
 "якусь іншу локаль, будь ласка, змініть локаль на один з варіантів UTF-8."
 
-#: ../../admin/install.rst:1198
+#: ../../admin/install.rst:1209
 msgid ""
 "For example by editing :file:`/etc/default/locale` and setting there "
 "``LANG=\"C.UTF-8\"``."
@@ -13843,7 +13846,7 @@ msgstr ""
 "Зробити це можна, наприклад, редагуванням :file:`/etc/default/locale` зі "
 "встановленням ``LANG=\"C.UTF-8\"``."
 
-#: ../../admin/install.rst:1201
+#: ../../admin/install.rst:1212
 msgid ""
 "In some cases the individual services have separate configuration for "
 "locales. This varies between distribution and web servers, so check "
@@ -13853,11 +13856,11 @@ msgstr ""
 "залежить від дистрибутива та вебсерверів, тому для вирішення цього завдання "
 "ознайомтеся із документацією до пакунків вашого сервера."
 
-#: ../../admin/install.rst:1205
+#: ../../admin/install.rst:1216
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
 msgstr "У Apache на Ubuntu використовують :file:`/etc/apache2/envvars`:"
 
-#: ../../admin/install.rst:1212
+#: ../../admin/install.rst:1223
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
@@ -13865,11 +13868,11 @@ msgstr ""
 "У Apache на CentOS використовують :file:`/etc/sysconfig/httpd` (або :file:`/"
 "opt/rh/httpd24/root/etc/sysconfig/httpd`):"
 
-#: ../../admin/install.rst:1222
+#: ../../admin/install.rst:1233
 msgid "Using custom certificate authority"
 msgstr "Використання нетипових уповноважень за сертифікатом"
 
-#: ../../admin/install.rst:1224
+#: ../../admin/install.rst:1235
 msgid ""
 "Weblate does verify SSL certificates during HTTP requests. In case you are "
 "using custom certificate authority which is not trusted in default bundles, "
@@ -13879,7 +13882,7 @@ msgstr ""
 "Якщо ви використовуєте нетипову службу сертифікації, яка не є довіреною у "
 "типових пакетах, вам слід додати її сертифікат як довірений."
 
-#: ../../admin/install.rst:1228
+#: ../../admin/install.rst:1239
 msgid ""
 "The preferred approach is to do this at system level, please check your "
 "distro documentation for more details (for example on debian this can be "
@@ -13893,7 +13896,7 @@ msgstr ""
 "local/share/ca-certificates/` із наступним виконанням команди :command:"
 "`update-ca-certificates`)."
 
-#: ../../admin/install.rst:1235
+#: ../../admin/install.rst:1246
 msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
@@ -13901,7 +13904,7 @@ msgstr ""
 "Контейнер Weblate не включає його в шлях пошуку, вам потрібно вказати повний "
 "шлях для його виконання. Наприклад:"
 
-#: ../../admin/install.rst:1242
+#: ../../admin/install.rst:1253
 msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
@@ -13909,7 +13912,7 @@ msgstr ""
 "Щойно сертифікат буде додано, загальносистемні інструменти зареєструють "
 "довіру до сертифіката. Це стосується і Git."
 
-#: ../../admin/install.rst:1245
+#: ../../admin/install.rst:1256
 msgid ""
 "For Python code, you will need to configure requests to use system CA bundle "
 "instead of the one shipped with it. This can be achieved by placing "
@@ -13920,11 +13923,11 @@ msgstr ""
 "постачається разом із інтерпретатором. Для цього слід вставити до :file:"
 "`settings.py` такий фрагмент коду (шлях є специфічним для Debian):"
 
-#: ../../admin/install.rst:1259
+#: ../../admin/install.rst:1270
 msgid "Compressing client assets"
 msgstr "Стиснення клієнтських даних"
 
-#: ../../admin/install.rst:1261
+#: ../../admin/install.rst:1272
 msgid ""
 "Weblate comes with a bunch of JavaScript and CSS files. For performance "
 "reasons it is good to compress them before sending to a client. In default "
@@ -13940,7 +13943,7 @@ msgstr ""
 "увімкнути режим попереднього стискання. Зробити це слід у налаштуваннях, а "
 "стискання слід започатковувати після кожного оновлення Weblate."
 
-#: ../../admin/install.rst:1268
+#: ../../admin/install.rst:1279
 msgid ""
 "The configuration switch is simple by enabling :attr:`compressor:django.conf."
 "settings.COMPRESS_OFFLINE` and configuring :attr:`compressor:django.conf."
@@ -13952,25 +13955,25 @@ msgstr ""
 "settings.COMPRESS_OFFLINE_CONTEXT` (останній вже включено у приклад "
 "налаштувань):"
 
-#: ../../admin/install.rst:1277
+#: ../../admin/install.rst:1288
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr ""
 "При кожному розгортанні вам слід стискати файли відповідно до поточної "
 "версії:"
 
-#: ../../admin/install.rst:1285
+#: ../../admin/install.rst:1296
 msgid "The official Docker image has this feature already enabled."
 msgstr "У офіційному образі для Docker цю можливість вже увімкнено."
 
-#: ../../admin/install.rst:1289
+#: ../../admin/install.rst:1300
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
 msgstr ":ref:`compressor:scenarios`, :ref:`static-files`"
 
-#: ../../admin/install.rst:1295
+#: ../../admin/install.rst:1306
 msgid "Running server"
 msgstr "Запуск сервера"
 
-#: ../../admin/install.rst:1299
+#: ../../admin/install.rst:1310
 msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
@@ -13978,7 +13981,7 @@ msgstr ""
 "Якщо у вас немає досвіду з послугами, описаними далі, ви можете спробувати :"
 "doc:`install/docker`."
 
-#: ../../admin/install.rst:1301
+#: ../../admin/install.rst:1312
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
@@ -13986,15 +13989,15 @@ msgstr ""
 "Для роботи Weblate слід мати запущеними декілька служб. Рекомендований набір "
 "складається з таких служб:"
 
-#: ../../admin/install.rst:1303
+#: ../../admin/install.rst:1314
 msgid "Database server (see :ref:`database-setup`)"
 msgstr "Сервер бази даних (див. :ref:`database-setup`)"
 
-#: ../../admin/install.rst:1304
+#: ../../admin/install.rst:1315
 msgid "Cache server (see :ref:`production-cache`)"
 msgstr "Сервер кешу (див. :ref:`production-cache`)"
 
-#: ../../admin/install.rst:1305
+#: ../../admin/install.rst:1316
 msgid ""
 "Frontend web server for static files and SSL termination (see :ref:`static-"
 "files`)"
@@ -14002,15 +14005,15 @@ msgstr ""
 "Сервер-обгортка для статичних файлів і переривання SSL (див. :ref:`static-"
 "files`)"
 
-#: ../../admin/install.rst:1306
+#: ../../admin/install.rst:1317
 msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
 msgstr "Сервер WSGI для динамічних даних (див. :ref:`uwsgi`)"
 
-#: ../../admin/install.rst:1307
+#: ../../admin/install.rst:1318
 msgid "Celery for executing background tasks (see :ref:`celery`)"
 msgstr "Celery для виконання фонових завдань (див. :ref:`celery`)"
 
-#: ../../admin/install.rst:1311
+#: ../../admin/install.rst:1322
 msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
@@ -14018,7 +14021,7 @@ msgstr ""
 "Між службами є деякі залежності. Наприклад, служби кешування та бази даних "
 "має бути запущено до запуску процесів Celery або uwsgi."
 
-#: ../../admin/install.rst:1314
+#: ../../admin/install.rst:1325
 msgid ""
 "In most cases, you will run all services on single (virtual) server, but in "
 "case your installation is heavy loaded, you can split up the services. The "
@@ -14030,7 +14033,7 @@ msgstr ""
 "Єдиним обмеженням щодо цього є те, що сервери Celery і Wsgi повинні мати "
 "доступу до :setting:`DATA_DIR`."
 
-#: ../../admin/install.rst:1321
+#: ../../admin/install.rst:1332
 msgid ""
 "The WSGI process has to be executed under the same user the Celery process, "
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
@@ -14040,15 +14043,15 @@ msgstr ""
 "інакше файли в :setting:`DATA_DIR` буде збережено від імені різних "
 "власників, що призведе до проблем під час роботи сервера."
 
-#: ../../admin/install.rst:1325
+#: ../../admin/install.rst:1336
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
 msgstr "Див. також :ref:`file-permissions` і :ref:`celery`."
 
-#: ../../admin/install.rst:1328
+#: ../../admin/install.rst:1339
 msgid "Running web server"
 msgstr "Запуск вебсервера"
 
-#: ../../admin/install.rst:1330
+#: ../../admin/install.rst:1341
 msgid ""
 "Running Weblate is not different from running any other Django based "
 "program. Django is usually executed as WSGI or fcgi (see examples for "
@@ -14058,11 +14061,11 @@ msgstr ""
 "основі Django. Django зазвичай виконується як WSGI або fcgi (див. приклади "
 "для різних веб-серверів нижче)."
 
-#: ../../admin/install.rst:1334
+#: ../../admin/install.rst:1345
 msgid "For testing purposes, you can use the built-in web server in Django:"
 msgstr "Для тестування ви можете скористатися вбудованим до Django сервером:"
 
-#: ../../admin/install.rst:1342
+#: ../../admin/install.rst:1353
 msgid ""
 "DO NOT USE THIS SERVER IN A PRODUCTION SETTING. It has not gone through "
 "security audits or performance tests. See also Django documentation on :"
@@ -14072,7 +14075,7 @@ msgstr ""
 "перевірки захисту або швидкодії. Також ознайомтеся із документацією до "
 "Django щодо :djadmin:`django:runserver`."
 
-#: ../../admin/install.rst:1348
+#: ../../admin/install.rst:1359
 msgid ""
 "The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
@@ -14084,11 +14087,11 @@ msgstr ""
 "промислових потреб, будь ласка, скористайтеся конфігураціями WSGI з :ref:"
 "`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn` та :ref:`static-files`."
 
-#: ../../admin/install.rst:1356
+#: ../../admin/install.rst:1367
 msgid "Serving static files"
 msgstr "Обслуговування статичних файлів"
 
-#: ../../admin/install.rst:1358
+#: ../../admin/install.rst:1369
 msgid ""
 "Django needs to collect its static files in a single directory. To do so, "
 "execute :samp:`weblate collectstatic --noinput`. This will copy the static "
@@ -14102,7 +14105,7 @@ msgstr ""
 "каталогу, який визначається параметром :setting:`django:STATIC_ROOT` "
 "(типовим є каталог `static`` у :setting:`CACHE_DIR`)."
 
-#: ../../admin/install.rst:1363
+#: ../../admin/install.rst:1374
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
@@ -14110,11 +14113,11 @@ msgstr ""
 "Рекомендуємо обслуговувати статичні файли безпосередньо з вашого сервера. "
 "Вам слід використовувати це для таких шляхів:"
 
-#: ../../admin/install.rst:1366
+#: ../../admin/install.rst:1377
 msgid ":file:`/static/`"
 msgstr ":file:`/static/`"
 
-#: ../../admin/install.rst:1367
+#: ../../admin/install.rst:1378
 msgid ""
 "Serves static files for Weblate and the admin interface (from defined by :"
 "setting:`django:STATIC_ROOT`)."
@@ -14122,28 +14125,28 @@ msgstr ""
 "Обслуговує статичні файли для Weblate і адміністративного інтерфейсу (з "
 "визначеного змінною :setting:`django:STATIC_ROOT`)."
 
-#: ../../admin/install.rst:1369
+#: ../../admin/install.rst:1380
 msgid ":file:`/media/`"
 msgstr ":file:`/media/`"
 
-#: ../../admin/install.rst:1370
+#: ../../admin/install.rst:1381
 msgid "Used for user media uploads (e.g. screenshots)."
 msgstr ""
 "Використовується для вивантажених користувачами мультимедійних даних "
 "(наприклад, знімків вікон)."
 
-#: ../../admin/install.rst:1371
+#: ../../admin/install.rst:1382
 msgid ":file:`/favicon.ico`"
 msgstr ":file:`/favicon.ico`"
 
-#: ../../admin/install.rst:1372
+#: ../../admin/install.rst:1383
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr ""
 "Має бути перезаписано для перезапису правила обслуговування :file:`/static/"
 "favicon.ico`."
 
-#: ../../admin/install.rst:1376
+#: ../../admin/install.rst:1387
 msgid ""
 ":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
@@ -14153,11 +14156,11 @@ msgstr ""
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
 "files/deployment`"
 
-#: ../../admin/install.rst:1386
+#: ../../admin/install.rst:1397
 msgid "Content security policy"
 msgstr "Правила щодо безпеки даних"
 
-#: ../../admin/install.rst:1388
+#: ../../admin/install.rst:1399
 msgid ""
 "The default Weblate configuration enables ``weblate.middleware."
 "SecurityMiddleware`` middleware which sets security related HTTP headers "
@@ -14171,7 +14174,7 @@ msgstr ""
 "Protection``. Ці заголовки типово налаштовано на роботу із Weblate та його "
 "налаштуваннями, але це може потребувати підлаштовування до вашого середовища."
 
-#: ../../admin/install.rst:1395
+#: ../../admin/install.rst:1406
 msgid ""
 ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
@@ -14181,11 +14184,39 @@ msgstr ""
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 
-#: ../../admin/install.rst:1405
+#: ../../admin/install.rst:1416
+#, fuzzy
+#| msgid "Sample configuration for Apache and Gunicorn"
+msgid "Sample configuration for NGINX and Gunicorn"
+msgstr "Зразок налаштувань для Apache і Gunicorn"
+
+#: ../../admin/install.rst:1418
+#, fuzzy
+#| msgid ""
+#| "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
+#| "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
+msgid ""
+"The following configuration runs Weblate using Gunicorn under the NGINX "
+"webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
+"conf`):"
+msgstr ""
+"Наведені нижче налаштування призначено для запуску Weblate у Gunicorn із "
+"Apache 2.4 (налаштування доступні як :file:`weblate/examples/apache.gunicorn."
+"conf`):"
+
+#: ../../admin/install.rst:1427 ../../admin/install.rst:1497
+#, fuzzy
+#| msgid ""
+#| ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
+msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
+msgstr ""
+":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
+
+#: ../../admin/install.rst:1433
 msgid "Sample configuration for NGINX and uWSGI"
 msgstr "Зразок налаштувань для NGINX і uWSGI"
 
-#: ../../admin/install.rst:1408
+#: ../../admin/install.rst:1436
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate (in "
 "virtual env case it is installed as :file:`~/weblate-env/lib/python3.9/site-"
@@ -14200,14 +14231,14 @@ msgstr ""
 "вашого віртуального середовища (наприклад, за допомогою інструкції "
 "``virtualenv = /home/user/weblate-env`` у uWSGI)."
 
-#: ../../admin/install.rst:1414
+#: ../../admin/install.rst:1442
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
 "Наведені нижче налаштування призначено для запуску Weblate як uWSGI із "
 "сервером NGINX."
 
-#: ../../admin/install.rst:1416
+#: ../../admin/install.rst:1444
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
@@ -14215,7 +14246,7 @@ msgstr ""
 "Налаштування для NGINX (також доступні як :file:`weblate/examples/weblate."
 "nginx.conf`):"
 
-#: ../../admin/install.rst:1421
+#: ../../admin/install.rst:1449
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
@@ -14223,21 +14254,21 @@ msgstr ""
 "Налаштування для uWSGI (також доступне як :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 
-#: ../../admin/install.rst:1428
+#: ../../admin/install.rst:1456
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
 msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
-#: ../../admin/install.rst:1433
+#: ../../admin/install.rst:1461
 msgid "Sample configuration for Apache"
 msgstr "Зразок налаштувань для Apache"
 
-#: ../../admin/install.rst:1435 ../../admin/install.rst:1475
+#: ../../admin/install.rst:1463 ../../admin/install.rst:1534
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr ""
 "Рекомендовано скористатися попереднім відгалуженням MPM при використанні "
 "WSGI разом із Weblate."
 
-#: ../../admin/install.rst:1437
+#: ../../admin/install.rst:1465
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
@@ -14246,7 +14277,7 @@ msgstr ""
 "увімкнений ``mod_wsgi`` (налаштування доступні як :file:`weblate/examples/"
 "apache.conf`):"
 
-#: ../../admin/install.rst:1445
+#: ../../admin/install.rst:1473
 msgid ""
 "Weblate requires Python 3, so please ensure you are running Python 3 variant "
 "of the modwsgi. Usually it is available as a separate package, for example "
@@ -14256,20 +14287,20 @@ msgstr ""
 "працюєте із версією modwsgi для Python 3. Зазвичай, ця версія встановлюється "
 "з окремого пакунка, наприклад ``libapache2-mod-wsgi-py3``."
 
-#: ../../admin/install.rst:1449
+#: ../../admin/install.rst:1477
 msgid "Use matching Python version to install Weblate."
 msgstr "Використовуйте відповідну версію Python для встановлення Weblate."
 
-#: ../../admin/install.rst:1453
+#: ../../admin/install.rst:1481
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgstr ""
 ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 
-#: ../../admin/install.rst:1459
+#: ../../admin/install.rst:1487
 msgid "Sample configuration for Apache and Gunicorn"
 msgstr "Зразок налаштувань для Apache і Gunicorn"
 
-#: ../../admin/install.rst:1461
+#: ../../admin/install.rst:1489
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
@@ -14278,15 +14309,42 @@ msgstr ""
 "Apache 2.4 (налаштування доступні як :file:`weblate/examples/apache.gunicorn."
 "conf`):"
 
-#: ../../admin/install.rst:1469
+#: ../../admin/install.rst:1504
+#, fuzzy
+#| msgid "Sample configuration for Apache and Gunicorn"
+msgid "Sample configuration to start Gunicorn"
+msgstr "Зразок налаштувань для Apache і Gunicorn"
+
+#: ../../admin/install.rst:1506
+msgid ""
+"Weblate has `wsgi` optional dependency (see :ref:`python-deps`) that will "
+"install everything you need to run Gunicorn. When installing Weblate you can "
+"specify it as:"
+msgstr ""
+
+#: ../../admin/install.rst:1514
+msgid ""
+"Once you have Gunicorn installed, you can run it. This is usually done at "
+"the system level. The following examples show staring via systemd:"
+msgstr ""
+
+#: ../../admin/install.rst:1517
+msgid "/etc/systemd/system/gunicorn.socket"
+msgstr ""
+
+#: ../../admin/install.rst:1521
+msgid "/etc/systemd/system/gunicorn.service"
+msgstr ""
+
+#: ../../admin/install.rst:1527
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
 msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
 
-#: ../../admin/install.rst:1473
+#: ../../admin/install.rst:1532
 msgid "Running Weblate under path"
 msgstr "Запуск Weblate у певному каталозі"
 
-#: ../../admin/install.rst:1477
+#: ../../admin/install.rst:1536
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
@@ -14296,15 +14354,15 @@ msgstr ""
 "таки, використано ``mod_wsgi`` (ці налаштування можна знайти у файлі :file:"
 "`weblate/examples/apache-path.conf`):"
 
-#: ../../admin/install.rst:1483
+#: ../../admin/install.rst:1542
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
 msgstr "Крім того, вам слід скоригувати :file:`weblate/settings.py`:"
 
-#: ../../admin/install.rst:1492
+#: ../../admin/install.rst:1551
 msgid "Background tasks using Celery"
 msgstr "Фонові завдання з використанням Celery"
 
-#: ../../admin/install.rst:1494
+#: ../../admin/install.rst:1553
 msgid ""
 "Weblate uses Celery to execute regular and background tasks. You are "
 "supposed to run a Celery service that will execute these. For example, it is "
@@ -14315,11 +14373,11 @@ msgstr ""
 "завдання. Наприклад, ця служба відповідає за обробку таких дій (цей список "
 "не є повним):"
 
-#: ../../admin/install.rst:1498
+#: ../../admin/install.rst:1557
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
 msgstr "Отримання вебскриптів від зовнішніх служб (див. :ref:`hooks`)."
 
-#: ../../admin/install.rst:1499
+#: ../../admin/install.rst:1558
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
@@ -14328,27 +14386,27 @@ msgstr ""
 "чищення, щоденного запуску додатків або оновлень (див. :ref:`backup`, :"
 "setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 
-#: ../../admin/install.rst:1501
+#: ../../admin/install.rst:1560
 msgid "Running :ref:`auto-translation`."
 msgstr "Запуск :ref:`auto-translation`."
 
-#: ../../admin/install.rst:1502
+#: ../../admin/install.rst:1561
 msgid "Sending digest notifications."
 msgstr "Надсилання сповіщення-резюме."
 
-#: ../../admin/install.rst:1503
+#: ../../admin/install.rst:1562
 msgid "Offloading expensive operations from the WSGI process."
 msgstr "Розвантаження процесу WSGI від витратних обчислювальних дій."
 
-#: ../../admin/install.rst:1504
+#: ../../admin/install.rst:1563
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr "Надсилання змін з черги (див. :ref:`lazy-commit`)."
 
-#: ../../admin/install.rst:1506
+#: ../../admin/install.rst:1565
 msgid "A typical setup using Redis as a backend looks like this:"
 msgstr "Типова конфігурація з використанням модуля обробки Redis виглядає так:"
 
-#: ../../admin/install.rst:1516
+#: ../../admin/install.rst:1575
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
@@ -14356,7 +14414,7 @@ msgstr ""
 ":ref:`Налаштовування засобу розподілу навантаження Redis у Celery <celery:"
 "broker-redis-configuration>`"
 
-#: ../../admin/install.rst:1518
+#: ../../admin/install.rst:1577
 msgid ""
 "You should also start the Celery worker to process the tasks and start "
 "scheduled tasks, this can be done directly on the command-line (which is "
@@ -14366,7 +14424,7 @@ msgstr ""
 "запустити заплановані завдання. Зробити це можна безпосередньо з командного "
 "рядка (це здебільшого є корисним для діагностики або розробки):"
 
-#: ../../admin/install.rst:1529
+#: ../../admin/install.rst:1588
 msgid ""
 "The Celery process has to be executed under the same user as the WSGI "
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
@@ -14376,15 +14434,15 @@ msgstr ""
 "WSGI, інакше файли в :setting:`DATA_DIR` буде збережено від імені різних "
 "власників, що призведе до проблем під час роботи сервера."
 
-#: ../../admin/install.rst:1533
+#: ../../admin/install.rst:1592
 msgid "See also :ref:`file-permissions` and :ref:`server`."
 msgstr "Див. також :ref:`file-permissions` і :ref:`server`."
 
-#: ../../admin/install.rst:1536
+#: ../../admin/install.rst:1595
 msgid "Executing Celery tasks in the WSGI using eager mode"
 msgstr "Виконання завдань Celery у WSGI з використанням «жадібного» режиму"
 
-#: ../../admin/install.rst:1540
+#: ../../admin/install.rst:1599
 msgid ""
 "This will have severe performance impact on the web interface, and will "
 "break features depending on regular trigger (for example committing pending "
@@ -14394,7 +14452,7 @@ msgstr ""
 "роботі можливостей, залежно від частоти запуску (наприклад, для надсилання "
 "змін з черги, сповіщень дайджесту або резервного копіювання)."
 
-#: ../../admin/install.rst:1544
+#: ../../admin/install.rst:1603
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
@@ -14402,11 +14460,11 @@ msgstr ""
 "Для розробки варто скористатися інтенсивнішими налаштуваннями, за яких "
 "обробка усіх завдань відбувається на місці:"
 
-#: ../../admin/install.rst:1554
+#: ../../admin/install.rst:1613
 msgid "Running Celery as system service"
 msgstr "Запуск Celery як служби системи"
 
-#: ../../admin/install.rst:1556
+#: ../../admin/install.rst:1615
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered by :"
 "doc:`celery:userguide/daemonizing`. For the most common Linux setup using "
@@ -14419,7 +14477,7 @@ msgstr ""
 "ви можете скористатися файлами прикладів, які постачаються у теці :file:"
 "`examples`. Список цих файлів наведено нижче."
 
-#: ../../admin/install.rst:1561
+#: ../../admin/install.rst:1620
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
@@ -14427,7 +14485,7 @@ msgstr ""
 "Модуль systemd, який слід зберегти як :file:`/etc/systemd/system/celery-"
 "weblate.service`:"
 
-#: ../../admin/install.rst:1566
+#: ../../admin/install.rst:1625
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
@@ -14435,7 +14493,7 @@ msgstr ""
 "Налаштування середовища, які слід зберегти як :file:`/etc/default/celery-"
 "weblate`:"
 
-#: ../../admin/install.rst:1571
+#: ../../admin/install.rst:1630
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
@@ -14443,36 +14501,43 @@ msgstr ""
 "Додаткові налаштування для оновлення журналу Celery за допомогою :command:"
 "`logrotate`, які слід зберегти у :file:`/etc/logrotate.d/celery`:"
 
-#: ../../admin/install.rst:1578
+#: ../../admin/install.rst:1637
 msgid "Periodic tasks using Celery beat"
 msgstr "Регулярні завдання з використанням тактів Celery"
 
-#: ../../admin/install.rst:1580
+#: ../../admin/install.rst:1639
+#, fuzzy
+#| msgid ""
+#| "Weblate comes with built-in setup for scheduled tasks. You can however "
+#| "define additional tasks in :file:`settings.py`, for example see :ref:"
+#| "`lazy-commit`."
 msgid ""
-"Weblate comes with built-in setup for scheduled tasks. You can however "
-"define additional tasks in :file:`settings.py`, for example see :ref:`lazy-"
-"commit`."
+"Weblate comes with built-in setup for scheduled tasks. The task schedule is "
+"stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
 "Weblate постачається із вбудованою конфігурацією для запланованих завдань. "
 "Втім, ви можете визначити додаткові завдання у файлі :file:`settings.py`. "
 "Приклад наведено у розділі :ref:`lazy-commit`."
 
-#: ../../admin/install.rst:1583
+#: ../../admin/install.rst:1644
+#, fuzzy
+#| msgid ""
+#| "Weblate comes with built-in setup for scheduled tasks. You can however "
+#| "define additional tasks in :file:`settings.py`, for example see :ref:"
+#| "`lazy-commit`."
 msgid ""
-"The tasks are supposed to be executed by Celery beats daemon. In case it is "
-"not working properly, it might not be running or its database was corrupted. "
-"Check the Celery startup logs in such case to figure out root cause."
+"You can define additional tasks in :file:`settings.py`, for example see :ref:"
+"`lazy-commit`."
 msgstr ""
-"Виконання завдань має забезпечувати фонова служба регулярних подій Celery. "
-"Якщо ця служба не працює належним чином, її могло бути не запущено або її "
-"базу даних могло бути пошкоджено. Якщо виникають проблеми, ознайомтеся із "
-"журналом запуску Celery, щоб визначити причину."
+"Weblate постачається із вбудованою конфігурацією для запланованих завдань. "
+"Втім, ви можете визначити додаткові завдання у файлі :file:`settings.py`. "
+"Приклад наведено у розділі :ref:`lazy-commit`."
 
-#: ../../admin/install.rst:1590
+#: ../../admin/install.rst:1650
 msgid "Monitoring Celery status"
 msgstr "Спостереження за станом Celery"
 
-#: ../../admin/install.rst:1592
+#: ../../admin/install.rst:1652
 msgid ""
 "You can find current length of the Celery task queues in the :ref:"
 "`management-interface` or you can use :wladmin:`celery_queues` on the "
@@ -14484,7 +14549,7 @@ msgstr ""
 "випадку значного зростання довжини черги ви також побачите повідомлення про "
 "помилку налаштувань у адміністративному інтерфейсі."
 
-#: ../../admin/install.rst:1599
+#: ../../admin/install.rst:1659
 msgid ""
 "The Celery errors are by default only logged into Celery log and are not "
 "visible to user. In case you want to have overview on such failures, it is "
@@ -14494,7 +14559,7 @@ msgstr ""
 "і є невидимими для користувача. Якщо ви хочете бачити огляд помилок "
 "подібного типу, рекомендуємо вам налаштувати :ref:`collecting-errors`."
 
-#: ../../admin/install.rst:1605
+#: ../../admin/install.rst:1665
 msgid ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
@@ -14504,11 +14569,11 @@ msgstr ""
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
 "daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 
-#: ../../admin/install.rst:1616
+#: ../../admin/install.rst:1676
 msgid "Single-process Celery setup"
 msgstr "Налаштування однопроцесорного Celery"
 
-#: ../../admin/install.rst:1618
+#: ../../admin/install.rst:1678
 msgid ""
 "In case you have very limited memory, you might want to reduce number of "
 "Weblate processes. All Celery tasks can be executed in a single process "
@@ -14518,7 +14583,7 @@ msgstr ""
 "процесів Weblate. За допомогою цього можна виконати всі завдання Celery в "
 "одному процесі:"
 
-#: ../../admin/install.rst:1625
+#: ../../admin/install.rst:1685
 msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
@@ -14527,15 +14592,15 @@ msgstr ""
 "однопроцесного налаштування Celery за допомогою параметра :envvar:"
 "`CELERY_SINGLE_PROCESS`."
 
-#: ../../admin/install.rst:1629
+#: ../../admin/install.rst:1689
 msgid "This will have a noticeable performance impact on Weblate."
 msgstr "Це матиме помітний вплив на швидкодію Weblate."
 
-#: ../../admin/install.rst:1634
+#: ../../admin/install.rst:1694
 msgid "Monitoring Weblate"
 msgstr "Спостереження за Weblate"
 
-#: ../../admin/install.rst:1636
+#: ../../admin/install.rst:1696
 msgid ""
 "Weblate provides the ``/healthz/`` URL to be used in simple health checks, "
 "for example using Kubernetes. The Docker container has built-in health check "
@@ -14545,7 +14610,7 @@ msgstr ""
 "працездатності, наприклад, за допомогою Kubernetes. У контейнера Docker є "
 "вбудована перевірка працездатності з використанням цієї адреси."
 
-#: ../../admin/install.rst:1639
+#: ../../admin/install.rst:1699
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
@@ -14553,7 +14618,7 @@ msgstr ""
 "Для спостереження за метрикою Weblate ви можете скористатися кінцевою точкою "
 "програмного інтерфейсу :http:get:`/api/metrics/`."
 
-#: ../../admin/install.rst:1643
+#: ../../admin/install.rst:1703
 msgid ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for Munin "
 "<https://github.com/WeblateOrg/munin>`_"
@@ -14561,11 +14626,11 @@ msgstr ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `додаток Weblate для Munin "
 "<https://github.com/WeblateOrg/munin>`_"
 
-#: ../../admin/install.rst:1650 ../../admin/install/docker.rst:1720
+#: ../../admin/install.rst:1710 ../../admin/install/docker.rst:1720
 msgid "Collecting error reports and monitoring performance"
 msgstr "Збирання звітів щодо помилок та стеження за швидкодією"
 
-#: ../../admin/install.rst:1652
+#: ../../admin/install.rst:1712
 msgid ""
 "Weblate, as any other software, can fail. In order to collect useful failure "
 "states we recommend to use third party services to collect such information. "
@@ -14581,11 +14646,11 @@ msgstr ""
 "журналі — ви не побачите сповіщення щодо них. У Weblate передбачено "
 "підтримку таких служб:"
 
-#: ../../admin/install.rst:1659
+#: ../../admin/install.rst:1719
 msgid "Sentry"
 msgstr "Sentry"
 
-#: ../../admin/install.rst:1661
+#: ../../admin/install.rst:1721
 msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
@@ -14594,7 +14659,7 @@ msgstr ""
 "скористатися нею, достатньо встановити :setting:`SENTRY_DSN` у файлі :file:"
 "`settings.py`:"
 
-#: ../../admin/install.rst:1668
+#: ../../admin/install.rst:1728
 msgid ""
 "Sentry can be also used to monitor performance of Weblate by collecting "
 "traces and profiles for defined percentage of operations. This can be "
@@ -14606,7 +14671,7 @@ msgstr ""
 "виконати за допомогою :setting:`SENTRY_TRACES_SAMPLE_RATE` і :setting:"
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 
-#: ../../admin/install.rst:1674
+#: ../../admin/install.rst:1734
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
@@ -14615,11 +14680,11 @@ msgstr ""
 ">`_, `Профілювання Sentry <https://docs.sentry.io/product/explore/profiling/"
 ">`_"
 
-#: ../../admin/install.rst:1680
+#: ../../admin/install.rst:1740
 msgid "Rollbar"
 msgstr "Rollbar"
 
-#: ../../admin/install.rst:1682
+#: ../../admin/install.rst:1742
 msgid ""
 "Weblate has built-in support for `Rollbar <https://rollbar.com/>`_. To use "
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
@@ -14629,11 +14694,11 @@ msgstr ""
 "Щоб скористатися нею, достатньо виконати настанови для `сповіщувача Rollbar "
 "для Python <https://docs.rollbar.com/docs/python/>`_."
 
-#: ../../admin/install.rst:1685
+#: ../../admin/install.rst:1745
 msgid "In short, you need to adjust :file:`settings.py`:"
 msgstr "Якщо коротко, вам слід скоригувати :file:`settings.py`:"
 
-#: ../../admin/install.rst:1703
+#: ../../admin/install.rst:1763
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
@@ -14641,7 +14706,7 @@ msgstr ""
 "Усе інше інтегровано автоматично, ви тепер збираєте помилки на боці сервера "
 "і на боці клієнта."
 
-#: ../../admin/install.rst:1708
+#: ../../admin/install.rst:1768
 msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
@@ -14650,11 +14715,11 @@ msgstr ""
 "штатно, але вони можуть вказувати на проблему, зокрема помилки при обробці "
 "вивантаженого файла."
 
-#: ../../admin/install.rst:1714
+#: ../../admin/install.rst:1774
 msgid "Graylog log management"
 msgstr "Керування журналами Graylog"
 
-#: ../../admin/install.rst:1718
+#: ../../admin/install.rst:1778
 msgid ""
 "Weblate can be configured to log using the GELF TCP protocol. This was "
 "developed for Graylog integration, but can be used with any compliant "
@@ -14664,7 +14729,7 @@ msgstr ""
 "розроблено для інтеграції Graylog, але його можна використовувати з будь-"
 "якою сумісною платформою журналювання."
 
-#: ../../admin/install.rst:1721
+#: ../../admin/install.rst:1781
 msgid ""
 "The configuration boilerplate is included in :ref:`sample-configuration`, "
 "for Docker this can be configured using :envvar:`WEBLATE_LOG_GELF_HOST`."
@@ -14672,11 +14737,11 @@ msgstr ""
 "Шаблон конфігурації включено в :ref:`sample-configuration`, для Docker це "
 "можна налаштувати за допомогою :envvar:`WEBLATE_LOG_GELF_HOST`."
 
-#: ../../admin/install.rst:1725
+#: ../../admin/install.rst:1785
 msgid "Migrating Weblate to another server"
 msgstr "Перенесення Weblate на інший сервер"
 
-#: ../../admin/install.rst:1727
+#: ../../admin/install.rst:1787
 msgid ""
 "Migrating Weblate to another server should be pretty easy, however it stores "
 "data in few locations which you should migrate carefully. The best approach "
@@ -14686,11 +14751,11 @@ msgstr ""
 "Втім, Weblate зберігає дані у декількох місцях, і ці дані слід перенести "
 "належним чином. Найкращим підходом є зупинення Weblate для перенесення даних."
 
-#: ../../admin/install.rst:1732
+#: ../../admin/install.rst:1792
 msgid "Migrating database"
 msgstr "Перенесення бази даних"
 
-#: ../../admin/install.rst:1734
+#: ../../admin/install.rst:1794
 msgid ""
 "Depending on your database backend, you might have several options to "
 "migrate the database. The most straightforward approach is to use database "
@@ -14705,17 +14770,17 @@ msgstr ""
 "також можете скористатися реплікацією, якщо у базі даних передбачено її "
 "підтримку."
 
-#: ../../admin/install.rst:1742
+#: ../../admin/install.rst:1802
 msgid "Migrating between databases described in :ref:`database-migration`."
 msgstr ""
 "Перенесення даних між базами даних описано у розділі :ref:`database-"
 "migration`."
 
-#: ../../admin/install.rst:1745
+#: ../../admin/install.rst:1805
 msgid "Migrating VCS repositories"
 msgstr "Перенесення сховищ системи керування версіями"
 
-#: ../../admin/install.rst:1747
+#: ../../admin/install.rst:1807
 msgid ""
 "The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as "
 "well. You can simply copy them or use :command:`rsync` to do the migration "
@@ -14726,11 +14791,11 @@ msgstr ""
 "скористатися командою :command:`rsync` для виконання завдання з перенесення "
 "у ефективніший спосіб."
 
-#: ../../admin/install.rst:1752
+#: ../../admin/install.rst:1812
 msgid "Other notes"
 msgstr "Інші нотатки"
 
-#: ../../admin/install.rst:1754
+#: ../../admin/install.rst:1814
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
@@ -27908,9 +27973,9 @@ msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 msgid "Weblate 5.9.2"
 msgstr "Weblate 5.9.2"
 
-#: ../../changes.rst:4
-msgid "Not yet released."
-msgstr "Ще не випущено."
+#: ../../changes.rst:4 ../../changes.rst:704
+msgid "Released on December 19th 2023."
+msgstr "Випущено 19 грудня 2023 року."
 
 #: ../../changes.rst:6 ../../changes.rst:56 ../../changes.rst:198
 #: ../../changes.rst:303 ../../changes.rst:399 ../../changes.rst:511
@@ -27939,7 +28004,8 @@ msgstr ""
 
 #: ../../changes.rst:11
 msgid ":http:get:`/api/users/` supports searching by user ID."
-msgstr ":http:get:`/api/users/` підтримує пошук за ідентифікатором користувача."
+msgstr ""
+":http:get:`/api/users/` підтримує пошук за ідентифікатором користувача."
 
 #: ../../changes.rst:13 ../../changes.rst:37 ../../changes.rst:81
 #: ../../changes.rst:114 ../../changes.rst:135 ../../changes.rst:156
@@ -28040,8 +28106,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/135?"
 "closed=1>`__."
 msgstr ""
-"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/"
-"135?closed=1>`__."
+"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/135?"
+"closed=1>`__."
 
 #: ../../changes.rst:33
 msgid "Weblate 5.9.1"
@@ -28090,8 +28156,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/134?"
 "closed=1>`__."
 msgstr ""
-"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/"
-"134?closed=1>`__."
+"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/134?"
+"closed=1>`__."
 
 #: ../../changes.rst:52
 msgid "Weblate 5.9"
@@ -28285,11 +28351,12 @@ msgstr ""
 "Yaron Shahrabani, Milo Ivir, Kaya Zeren, Neaten “Awrawman” Awrawman, "
 "Agnieszka C, Jeff Huang, Fulup Jakez, Мілан Шка , nautilusx, Любомир "
 "Василев, Notlin4, Immeteor2, Kowih83264, Waldis, Ssantos, Reno TX, Johan "
-"Jacobsson, Peter Vančo, Sveinn í Fell, Oliver, Yvan Zo, Meshari Alnaim, தமிழ்நேரழ்நேரழழ்நேர்ழ்நேர஍ழ்நேர஍ழ்நேர஍ழ்நேர஍஍஍்நேர஍஍஍்நேர஍் , "
-"gitelo4516, Vision, Chang-Chia Tseng, Kyotaro Iijima, Ricky Tigg, ei9, "
-"Martin Srebotnjak, Horus68, 이정희, Maksim Gorpinič, Sylvain Pichon, Ldm "
-"Public, Slobodan Simiћ(Slobodan Simij), Priit Jüć, UTUõM Хіроші, Сергій, "
-"Симегак, Вінстон Сунг, Чинскі Качинські, Рафаель Фонтенелл"
+"Jacobsson, Peter Vančo, Sveinn í Fell, Oliver, Yvan Zo, Meshari Alnaim, "
+"தமிழ்நேரழ்நேரழழ்நேர்ழ்நேர஍ழ்நேர஍ழ்நேர஍ழ்நேர஍஍஍்நேர஍஍஍்நேர஍் , gitelo4516, Vision, Chang-"
+"Chia Tseng, Kyotaro Iijima, Ricky Tigg, ei9, Martin Srebotnjak, Horus68, 이정"
+"희, Maksim Gorpinič, Sylvain Pichon, Ldm Public, Slobodan Simiћ(Slobodan "
+"Simij), Priit Jüć, UTUõM Хіроші, Сергій, Симегак, Вінстон Сунг, Чинскі "
+"Качинські, Рафаель Фонтенелл"
 
 #: ../../changes/contributors/5.9.rst:9
 msgid ""
@@ -29862,10 +29929,6 @@ msgstr ""
 #: ../../changes.rst:702
 msgid "Weblate 5.3.1"
 msgstr "Weblate 5.3.1"
-
-#: ../../changes.rst:704
-msgid "Released on December 19th 2023."
-msgstr "Випущено 19 грудня 2023 року."
 
 #: ../../changes.rst:708
 msgid "Not updating statistics in some situations."
@@ -40604,7 +40667,11 @@ msgstr "`Newpipe e.V. <https://newpipe-ev.de>`_"
 msgid "Daniel Leidert"
 msgstr "Даніель Лейдерт"
 
-#: ../../../BACKERS.rst:28
+#: ../../../BACKERS.rst:27
+msgid "ELSA-X"
+msgstr ""
+
+#: ../../../BACKERS.rst:29
 msgid ""
 "Do you want to be in the list? Please see options on the `Donate to Weblate "
 "<https://weblate.org/donate/>`_."
@@ -49026,9 +49093,9 @@ msgid ""
 "docs.weblate.org/en/latest/>`_ by community members on `Hosted Weblate "
 "<https://hosted.weblate.org/projects/weblate/documentation/>`_."
 msgstr ""
-"Цю документацію перекладено з `оригіналу англійською <https://"
-"docs.weblate.org/en/latest/>`_ членами спільноти на `Hosted Weblate <https://"
-"hosted.weblate.org/projects/weblate/documentation/>`_."
+"Цю документацію перекладено з `оригіналу англійською <https://docs.weblate."
+"org/en/latest/>`_ членами спільноти на `Hosted Weblate <https://hosted."
+"weblate.org/projects/weblate/documentation/>`_."
 
 #: ../../index.rst:20
 msgid ""
@@ -49050,8 +49117,8 @@ msgid ""
 msgstr ""
 "Ласкаво просимо до офіційної документації `Weblate <https://weblate.org>`_, "
 "безкоштовної системи безперервної веб-локалізації програмного забезпечення. "
-"Якщо ви вперше ознайомилися з цією документацією, рекомендуємо вам прочитати "
-":doc:`user/basic`, щоб отримати огляд того, що робить Weblate."
+"Якщо ви вперше ознайомилися з цією документацією, рекомендуємо вам "
+"прочитати :doc:`user/basic`, щоб отримати огляд того, що робить Weblate."
 
 #: ../../index.rst:30
 msgid ""
@@ -56202,10 +56269,10 @@ msgid ""
 "Once configured, you will see a :guilabel:`Bitbucket Data Center` option "
 "when selecting :ref:`component-vcs`."
 msgstr ""
-"Вам потрібно налаштувати облікові дані API "
-"(:setting:`BITBUCKETSERVER_CREDENTIALS`) у налаштуваннях Weblate, щоб це "
-"працювало. Після налаштування ви побачите опцію :guilabel:`Центр даних "
-"Bitbucket`, вибравши :ref:`component-vcs`."
+"Вам потрібно налаштувати облікові дані API (:setting:"
+"`BITBUCKETSERVER_CREDENTIALS`) у налаштуваннях Weblate, щоб це працювало. "
+"Після налаштування ви побачите опцію :guilabel:`Центр даних Bitbucket`, "
+"вибравши :ref:`component-vcs`."
 
 #: ../../vcs.rst:438
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
@@ -57378,6 +57445,46 @@ msgstr ""
 #: ../../workflows.rst:284
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+
+#~ msgid ""
+#~ "In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
+#~ "which is set by the WSGI handler."
+#~ msgstr ""
+#~ "За типових налаштувань Weblate обробляє IP-адресу з ``REMOTE_ADDR``, яка "
+#~ "встановлюється обробником WSGI."
+
+#~ msgid ""
+#~ "In case you are running a reverse proxy, this field will most likely "
+#~ "contain its address. You need to configure Weblate to trust additional "
+#~ "HTTP headers and parse the IP address from these. This can not be enabled "
+#~ "by default as it would allow IP address spoofing for installations not "
+#~ "using a reverse proxy. Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might "
+#~ "be enough for the most usual setups, but you might need to adjust :"
+#~ "setting:`IP_PROXY_HEADER` and :setting:`IP_PROXY_OFFSET` as well."
+#~ msgstr ""
+#~ "Якщо ви працюєте з реверсивним проксі, це поле, найімовірніше, міститиме "
+#~ "його адресу. Вам слід налаштувати Weblate на довіру до додаткових "
+#~ "заголовків HTTP і визначити IP-адресу з цих заголовків. Цю можливість не "
+#~ "може бути типово увімкнено, оскільки її вмикання дозволить підміну IP-"
+#~ "адреси для встановлених екземплярів, які не використовують оберненого "
+#~ "проксі. Для більшості звичайних конфігурацій може бути достатньо "
+#~ "вмикання :setting:`IP_BEHIND_REVERSE_PROXY`, але вам, ймовірно, "
+#~ "доведеться скоригувати значення параметрів :setting:`IP_PROXY_HEADER` і :"
+#~ "setting:`IP_PROXY_OFFSET`."
+
+#~ msgid ""
+#~ "The tasks are supposed to be executed by Celery beats daemon. In case it "
+#~ "is not working properly, it might not be running or its database was "
+#~ "corrupted. Check the Celery startup logs in such case to figure out root "
+#~ "cause."
+#~ msgstr ""
+#~ "Виконання завдань має забезпечувати фонова служба регулярних подій "
+#~ "Celery. Якщо ця служба не працює належним чином, її могло бути не "
+#~ "запущено або її базу даних могло бути пошкоджено. Якщо виникають "
+#~ "проблеми, ознайомтеся із журналом запуску Celery, щоб визначити причину."
+
+#~ msgid "Not yet released."
+#~ msgstr "Ще не випущено."
 
 #~ msgid "Bitbucket server pull request from fork"
 #~ msgstr "Запит на злиття із сервера Bitbucket з відгалуження"

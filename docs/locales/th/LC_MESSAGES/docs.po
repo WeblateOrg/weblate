@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2024-12-19 15:18+0100\n"
+"POT-Creation-Date: 2024-12-19 19:39+0100\n"
 "PO-Revision-Date: 2024-12-08 02:47+0000\n"
 "Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/"
@@ -11874,22 +11874,28 @@ msgstr ""
 
 #: ../../admin/install.rst:694
 msgid ""
-"In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
-"which is set by the WSGI handler."
+"Weblate parses IP address from the ``REMOTE_ADDR`` which is set by the WSGI "
+"handler. This might be empty (when using socket for WSGI) or contain a "
+"reverse proxy address, so Weblate needs an additional HTTP header with "
+"client IP address."
 msgstr ""
 
-#: ../../admin/install.rst:697
+#: ../../admin/install.rst:699
 msgid ""
-"In case you are running a reverse proxy, this field will most likely contain "
-"its address. You need to configure Weblate to trust additional HTTP headers "
-"and parse the IP address from these. This can not be enabled by default as "
-"it would allow IP address spoofing for installations not using a reverse "
-"proxy. Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the "
-"most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
-"and :setting:`IP_PROXY_OFFSET` as well."
+"Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the most "
+"usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` and :"
+"setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
+"and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
 
-#: ../../admin/install.rst:705
+#: ../../admin/install.rst:706
+msgid ""
+"This configuration cannot be turned on by default because it would allow IP "
+"address spoofing on installations that don't have a properly configured "
+"reverse proxy."
+msgstr ""
+
+#: ../../admin/install.rst:710
 msgid ""
 "Another thing to take care of is the :http:header:`Host` header. It should "
 "match to whatever is configured as :setting:`SITE_DOMAIN`. Additional "
@@ -11898,212 +11904,214 @@ msgid ""
 "nginx)."
 msgstr ""
 
-#: ../../admin/install.rst:712
+#: ../../admin/install.rst:717
 msgid ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
+"ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
 "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
+"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
+"`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
 
-#: ../../admin/install.rst:721
+#: ../../admin/install.rst:732
 msgid "HTTP proxy"
 msgstr ""
 
-#: ../../admin/install.rst:723
+#: ../../admin/install.rst:734
 msgid ""
 "Weblate does execute VCS commands and those accept proxy configuration from "
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
 
-#: ../../admin/install.rst:736
+#: ../../admin/install.rst:747
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
 msgstr ""
 
-#: ../../admin/install.rst:741
+#: ../../admin/install.rst:752
 msgid "Adjusting configuration"
 msgstr ""
 
-#: ../../admin/install.rst:745
+#: ../../admin/install.rst:756
 msgid ":ref:`sample-configuration`"
 msgstr ":ref:`sample-configuration`"
 
-#: ../../admin/install.rst:747
+#: ../../admin/install.rst:758
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and "
 "adjust it to match your setup. You will probably want to adjust the "
 "following options:"
 msgstr ""
 
-#: ../../admin/install.rst:753
+#: ../../admin/install.rst:764
 msgid "``ADMINS``"
 msgstr "``ADMINS``"
 
-#: ../../admin/install.rst:755
+#: ../../admin/install.rst:766
 msgid ""
 "List of site administrators to receive notifications when something goes "
 "wrong, for example notifications on failed merges, or Django errors."
 msgstr ""
 
-#: ../../admin/install.rst:758
+#: ../../admin/install.rst:769
 msgid ""
 "Contact form sends e-mail on these as well unless :setting:`ADMINS_CONTACT` "
 "is configured."
 msgstr ""
 
-#: ../../admin/install.rst:763
+#: ../../admin/install.rst:774
 msgid ""
 ":setting:`django:ADMINS`, :setting:`ADMINS_CONTACT`, :ref:`production-admins`"
 msgstr ""
 
-#: ../../admin/install.rst:769
+#: ../../admin/install.rst:780
 msgid "``ALLOWED_HOSTS``"
 msgstr "``ALLOWED_HOSTS``"
 
-#: ../../admin/install.rst:771
+#: ../../admin/install.rst:782
 msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
 msgstr ""
 
-#: ../../admin/install.rst:778
+#: ../../admin/install.rst:789
 msgid "Alternatively you can include wildcard:"
 msgstr ""
 
-#: ../../admin/install.rst:786
+#: ../../admin/install.rst:797
 msgid ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
 msgstr ""
 
-#: ../../admin/install.rst:792
+#: ../../admin/install.rst:803
 msgid "``SESSION_ENGINE``"
 msgstr "``SESSION_ENGINE``"
 
-#: ../../admin/install.rst:794
+#: ../../admin/install.rst:805
 msgid ""
 "Configure how your sessions will be stored. In case you keep the default "
 "database backend engine, you should schedule: :command:`weblate "
 "clearsessions` to remove stale session data from the database."
 msgstr ""
 
-#: ../../admin/install.rst:799
+#: ../../admin/install.rst:810
 msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
 msgstr ""
 
-#: ../../admin/install.rst:808
+#: ../../admin/install.rst:819
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 msgstr ""
 
-#: ../../admin/install.rst:813
+#: ../../admin/install.rst:824
 msgid "``DATABASES``"
 msgstr "``DATABASES``"
 
-#: ../../admin/install.rst:815
+#: ../../admin/install.rst:826
 msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
 msgstr ""
 
-#: ../../admin/install.rst:820
+#: ../../admin/install.rst:831
 msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
 msgstr ""
 
-#: ../../admin/install.rst:826
+#: ../../admin/install.rst:837
 msgid "``DEBUG``"
 msgstr "``DEBUG``"
 
-#: ../../admin/install.rst:828
+#: ../../admin/install.rst:839
 msgid ""
 "Disable this for any production server. With debug mode enabled, Django will "
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
 
-#: ../../admin/install.rst:832
+#: ../../admin/install.rst:843
 msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
 msgstr ""
 
-#: ../../admin/install.rst:837
+#: ../../admin/install.rst:848
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
 msgstr ""
 
-#: ../../admin/install.rst:842
+#: ../../admin/install.rst:853
 msgid "``DEFAULT_FROM_EMAIL``"
 msgstr "``DEFAULT_FROM_EMAIL``"
 
-#: ../../admin/install.rst:844
+#: ../../admin/install.rst:855
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
 msgstr ""
 
-#: ../../admin/install.rst:848
+#: ../../admin/install.rst:859
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
 msgstr ""
 
-#: ../../admin/install.rst:852
+#: ../../admin/install.rst:863
 msgid "``SECRET_KEY``"
 msgstr "``SECRET_KEY``"
 
-#: ../../admin/install.rst:854
+#: ../../admin/install.rst:865
 msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
 msgstr ""
 
-#: ../../admin/install.rst:859
+#: ../../admin/install.rst:870
 msgid ":setting:`django:SECRET_KEY`"
 msgstr ""
 
-#: ../../admin/install.rst:863
+#: ../../admin/install.rst:874
 msgid "``SERVER_EMAIL``"
 msgstr "``SERVER_EMAIL``"
 
-#: ../../admin/install.rst:865
+#: ../../admin/install.rst:876
 msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
 msgstr ""
 
-#: ../../admin/install.rst:870
+#: ../../admin/install.rst:881
 msgid ":setting:`django:SERVER_EMAIL`"
 msgstr ""
 
-#: ../../admin/install.rst:875
+#: ../../admin/install.rst:886
 msgid "Filling up the database"
 msgstr ""
 
-#: ../../admin/install.rst:877
+#: ../../admin/install.rst:888
 msgid ""
 "After your configuration is ready, you can run :wladmin:`migrate` to create "
 "the database structure. Now you should be able to create translation "
 "projects using the admin interface."
 msgstr ""
 
-#: ../../admin/install.rst:881
+#: ../../admin/install.rst:892
 msgid ""
 "Once you are done, you should also check the :guilabel:`Performance report` "
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
 msgstr ""
 
-#: ../../admin/install.rst:887
+#: ../../admin/install.rst:898
 msgid ":ref:`config`, :ref:`privileges`"
 msgstr ""
 
-#: ../../admin/install.rst:893
+#: ../../admin/install.rst:904
 msgid "Production setup"
 msgstr ""
 
-#: ../../admin/install.rst:895
+#: ../../admin/install.rst:906
 msgid ""
 "For a production setup you should carry out adjustments described in the "
 "following sections. The most critical settings will trigger a warning, which "
@@ -12111,189 +12119,189 @@ msgid ""
 "superuser:"
 msgstr ""
 
-#: ../../admin/install.rst:901
+#: ../../admin/install.rst:912
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
 msgstr ""
 
-#: ../../admin/install.rst:908
+#: ../../admin/install.rst:919
 msgid ""
 "You can also review the very same checklist at :ref:`manage-performance` in "
 "the :ref:`management-interface`."
 msgstr ""
 
-#: ../../admin/install.rst:912
+#: ../../admin/install.rst:923
 msgid ":doc:`django:howto/deployment/checklist`"
 msgstr ""
 
-#: ../../admin/install.rst:917
+#: ../../admin/install.rst:928
 msgid "Disable debug mode"
 msgstr ""
 
-#: ../../admin/install.rst:919
+#: ../../admin/install.rst:930
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
 msgstr ""
 
-#: ../../admin/install.rst:925
+#: ../../admin/install.rst:936
 msgid ""
 "With debug mode on, Django stores all executed queries and shows users "
 "backtraces of errors, which is not desired in a production setup."
 msgstr ""
 
-#: ../../admin/install.rst:930 ../../admin/install.rst:946
+#: ../../admin/install.rst:941 ../../admin/install.rst:957
 msgid ":ref:`configuration`"
 msgstr ":ref:`configuration`"
 
-#: ../../admin/install.rst:935
+#: ../../admin/install.rst:946
 msgid "Properly configure admins"
 msgstr ""
 
-#: ../../admin/install.rst:937
+#: ../../admin/install.rst:948
 msgid ""
 "Set the correct admin addresses to the :setting:`ADMINS` setting to defining "
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
 
-#: ../../admin/install.rst:951
+#: ../../admin/install.rst:962
 msgid "Set correct site domain"
 msgstr ""
 
-#: ../../admin/install.rst:953
+#: ../../admin/install.rst:964
 msgid ""
 "Adjust site name and domain in the admin interface, otherwise links in RSS "
 "or registration e-mails will not work. This is configured using :setting:"
 "`SITE_DOMAIN` which should contain site domain name."
 msgstr ""
 
-#: ../../admin/install.rst:959
+#: ../../admin/install.rst:970
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
 msgstr ""
 
-#: ../../admin/install.rst:964
+#: ../../admin/install.rst:975
 msgid ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
 
-#: ../../admin/install.rst:973
+#: ../../admin/install.rst:984
 msgid "Correctly configure HTTPS"
 msgstr ""
 
-#: ../../admin/install.rst:975
+#: ../../admin/install.rst:986
 msgid ""
 "It is strongly recommended to run Weblate using the encrypted HTTPS "
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
 "settings:"
 msgstr ""
 
-#: ../../admin/install.rst:984
+#: ../../admin/install.rst:995
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
 msgstr ""
 
-#: ../../admin/install.rst:989
+#: ../../admin/install.rst:1000
 msgid ""
 ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
 
-#: ../../admin/install.rst:995
+#: ../../admin/install.rst:1006
 msgid "Set properly SECURE_HSTS_SECONDS"
 msgstr ""
 
-#: ../../admin/install.rst:997
+#: ../../admin/install.rst:1008
 msgid ""
 "If your site is served over SSL, you have to consider setting a value for :"
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
 
-#: ../../admin/install.rst:1005
+#: ../../admin/install.rst:1016
 msgid ""
 "If set to a non-zero integer value, the :class:`django:django.middleware."
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
 "security` header on all responses that do not already have it."
 msgstr ""
 
-#: ../../admin/install.rst:1010
+#: ../../admin/install.rst:1021
 msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
 msgstr ""
 
-#: ../../admin/install.rst:1017
+#: ../../admin/install.rst:1028
 msgid "Use a powerful database engine"
 msgstr ""
 
-#: ../../admin/install.rst:1019
+#: ../../admin/install.rst:1030
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
 msgstr ""
 
-#: ../../admin/install.rst:1021
+#: ../../admin/install.rst:1032
 msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
 msgstr ""
 
-#: ../../admin/install.rst:1023
+#: ../../admin/install.rst:1034
 msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
 msgstr ""
 
-#: ../../admin/install.rst:1028
+#: ../../admin/install.rst:1039
 msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
 msgstr ""
 
-#: ../../admin/install.rst:1036
+#: ../../admin/install.rst:1047
 msgid "Enable caching"
 msgstr ""
 
-#: ../../admin/install.rst:1038
+#: ../../admin/install.rst:1049
 msgid ""
 "If possible, use Redis from Django by adjusting the ``CACHES`` configuration "
 "variable, for example:"
 msgstr ""
 
-#: ../../admin/install.rst:1059
+#: ../../admin/install.rst:1070
 msgid ""
 "In case you change Redis settings for the cache, you might need to adjust "
 "them for Celery as well, see :ref:`celery`."
 msgstr ""
 
-#: ../../admin/install.rst:1064
+#: ../../admin/install.rst:1075
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 msgstr ""
 
-#: ../../admin/install.rst:1070
+#: ../../admin/install.rst:1081
 msgid "Avatar caching"
 msgstr ""
 
-#: ../../admin/install.rst:1072
+#: ../../admin/install.rst:1083
 msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
 msgstr ""
 
-#: ../../admin/install.rst:1099
+#: ../../admin/install.rst:1110
 msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
 
-#: ../../admin/install.rst:1108
+#: ../../admin/install.rst:1119
 msgid "Configure e-mail sending"
 msgstr ""
 
-#: ../../admin/install.rst:1110
+#: ../../admin/install.rst:1121
 msgid ""
 "Weblate needs to send out e-mails on several occasions, and these e-mails "
 "should have a correct sender address, please configure :setting:"
@@ -12301,89 +12309,89 @@ msgid ""
 "for example:"
 msgstr ""
 
-#: ../../admin/install.rst:1122
+#: ../../admin/install.rst:1133
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
 msgstr ""
 
-#: ../../admin/install.rst:1125
+#: ../../admin/install.rst:1136
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
 msgstr ""
 
-#: ../../admin/install.rst:1130
+#: ../../admin/install.rst:1141
 msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 msgstr ""
 
-#: ../../admin/install.rst:1140
+#: ../../admin/install.rst:1151
 msgid "Allowed hosts setup"
 msgstr ""
 
-#: ../../admin/install.rst:1142
+#: ../../admin/install.rst:1153
 msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
 msgstr ""
 
-#: ../../admin/install.rst:1145
+#: ../../admin/install.rst:1156
 msgid ""
 "In case this is not configured to match your HTTP server, you will get "
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
 "'1.1.1.1' to ALLOWED_HOSTS.`"
 msgstr ""
 
-#: ../../admin/install.rst:1151
+#: ../../admin/install.rst:1162
 msgid ""
 "On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
 
-#: ../../admin/install.rst:1155
+#: ../../admin/install.rst:1166
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
 msgstr ""
 
-#: ../../admin/install.rst:1162
+#: ../../admin/install.rst:1173
 msgid "Django secret key"
 msgstr ""
 
-#: ../../admin/install.rst:1164
+#: ../../admin/install.rst:1175
 msgid ""
 "The :setting:`SECRET_KEY` setting is used by Django to sign cookies, and you "
 "should really generate your own value rather than using the one from the "
 "example setup."
 msgstr ""
 
-#: ../../admin/install.rst:1167
+#: ../../admin/install.rst:1178
 msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
 msgstr ""
 
-#: ../../admin/install.rst:1172
+#: ../../admin/install.rst:1183
 msgid ":setting:`SECRET_KEY`"
 msgstr ""
 
-#: ../../admin/install.rst:1177
+#: ../../admin/install.rst:1188
 msgid "Running maintenance tasks"
 msgstr ""
 
-#: ../../admin/install.rst:1179
+#: ../../admin/install.rst:1190
 msgid ""
 "For optimal performance, it is good idea to run some maintenance tasks in "
 "the background. This is automatically done by :ref:`celery` and covers "
 "following tasks:"
 msgstr ""
 
-#: ../../admin/install.rst:1182
+#: ../../admin/install.rst:1193
 msgid "Configuration health check (hourly)."
 msgstr ""
 
-#: ../../admin/install.rst:1183
+#: ../../admin/install.rst:1194
 #, fuzzy
 #| msgid "Commit pending changes to the local repository"
 msgid ""
@@ -12391,70 +12399,70 @@ msgid ""
 "`commit_pending`."
 msgstr "จัดเก็บการเปลี่ยนแปลงที่ค้างอยู่ลงในคลังเก็บภายใน"
 
-#: ../../admin/install.rst:1184
+#: ../../admin/install.rst:1195
 msgid "Updating component alerts (daily)."
 msgstr ""
 
-#: ../../admin/install.rst:1185
+#: ../../admin/install.rst:1196
 msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
 msgstr ""
 
-#: ../../admin/install.rst:1186
+#: ../../admin/install.rst:1197
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
 msgstr ""
 
-#: ../../admin/install.rst:1187
+#: ../../admin/install.rst:1198
 msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "wladmin:`cleanuptrans`."
 msgstr ""
 
-#: ../../admin/install.rst:1192
+#: ../../admin/install.rst:1203
 msgid "System locales and encoding"
 msgstr ""
 
-#: ../../admin/install.rst:1194
+#: ../../admin/install.rst:1205
 msgid ""
 "The system locales should be configured to UTF-8 capable ones. On most Linux "
 "distributions this is the default setting. In case it is not the case on "
 "your system, please change locales to UTF-8 variant."
 msgstr ""
 
-#: ../../admin/install.rst:1198
+#: ../../admin/install.rst:1209
 msgid ""
 "For example by editing :file:`/etc/default/locale` and setting there "
 "``LANG=\"C.UTF-8\"``."
 msgstr ""
 
-#: ../../admin/install.rst:1201
+#: ../../admin/install.rst:1212
 msgid ""
 "In some cases the individual services have separate configuration for "
 "locales. This varies between distribution and web servers, so check "
 "documentation of your web server packages for that."
 msgstr ""
 
-#: ../../admin/install.rst:1205
+#: ../../admin/install.rst:1216
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
 msgstr ""
 
-#: ../../admin/install.rst:1212
+#: ../../admin/install.rst:1223
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
 msgstr ""
 
-#: ../../admin/install.rst:1222
+#: ../../admin/install.rst:1233
 msgid "Using custom certificate authority"
 msgstr ""
 
-#: ../../admin/install.rst:1224
+#: ../../admin/install.rst:1235
 msgid ""
 "Weblate does verify SSL certificates during HTTP requests. In case you are "
 "using custom certificate authority which is not trusted in default bundles, "
 "you will have to add its certificate as trusted."
 msgstr ""
 
-#: ../../admin/install.rst:1228
+#: ../../admin/install.rst:1239
 msgid ""
 "The preferred approach is to do this at system level, please check your "
 "distro documentation for more details (for example on debian this can be "
@@ -12462,30 +12470,30 @@ msgid ""
 "certificates/` and running :command:`update-ca-certificates`)."
 msgstr ""
 
-#: ../../admin/install.rst:1235
+#: ../../admin/install.rst:1246
 msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
 
-#: ../../admin/install.rst:1242
+#: ../../admin/install.rst:1253
 msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr ""
 
-#: ../../admin/install.rst:1245
+#: ../../admin/install.rst:1256
 msgid ""
 "For Python code, you will need to configure requests to use system CA bundle "
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
 
-#: ../../admin/install.rst:1259
+#: ../../admin/install.rst:1270
 msgid "Compressing client assets"
 msgstr ""
 
-#: ../../admin/install.rst:1261
+#: ../../admin/install.rst:1272
 msgid ""
 "Weblate comes with a bunch of JavaScript and CSS files. For performance "
 "reasons it is good to compress them before sending to a client. In default "
@@ -12495,7 +12503,7 @@ msgid ""
 "triggered on every Weblate upgrade."
 msgstr ""
 
-#: ../../admin/install.rst:1268
+#: ../../admin/install.rst:1279
 msgid ""
 "The configuration switch is simple by enabling :attr:`compressor:django.conf."
 "settings.COMPRESS_OFFLINE` and configuring :attr:`compressor:django.conf."
@@ -12503,63 +12511,63 @@ msgid ""
 "example configuration):"
 msgstr ""
 
-#: ../../admin/install.rst:1277
+#: ../../admin/install.rst:1288
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr ""
 
-#: ../../admin/install.rst:1285
+#: ../../admin/install.rst:1296
 msgid "The official Docker image has this feature already enabled."
 msgstr ""
 
-#: ../../admin/install.rst:1289
+#: ../../admin/install.rst:1300
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
 msgstr ""
 
-#: ../../admin/install.rst:1295
+#: ../../admin/install.rst:1306
 msgid "Running server"
 msgstr ""
 
-#: ../../admin/install.rst:1299
+#: ../../admin/install.rst:1310
 msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
 msgstr ""
 
-#: ../../admin/install.rst:1301
+#: ../../admin/install.rst:1312
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
 msgstr ""
 
-#: ../../admin/install.rst:1303
+#: ../../admin/install.rst:1314
 msgid "Database server (see :ref:`database-setup`)"
 msgstr ""
 
-#: ../../admin/install.rst:1304
+#: ../../admin/install.rst:1315
 msgid "Cache server (see :ref:`production-cache`)"
 msgstr ""
 
-#: ../../admin/install.rst:1305
+#: ../../admin/install.rst:1316
 msgid ""
 "Frontend web server for static files and SSL termination (see :ref:`static-"
 "files`)"
 msgstr ""
 
-#: ../../admin/install.rst:1306
+#: ../../admin/install.rst:1317
 msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
 msgstr ""
 
-#: ../../admin/install.rst:1307
+#: ../../admin/install.rst:1318
 msgid "Celery for executing background tasks (see :ref:`celery`)"
 msgstr ""
 
-#: ../../admin/install.rst:1311
+#: ../../admin/install.rst:1322
 msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
 msgstr ""
 
-#: ../../admin/install.rst:1314
+#: ../../admin/install.rst:1325
 msgid ""
 "In most cases, you will run all services on single (virtual) server, but in "
 "case your installation is heavy loaded, you can split up the services. The "
@@ -12567,40 +12575,40 @@ msgid ""
 "setting:`DATA_DIR`."
 msgstr ""
 
-#: ../../admin/install.rst:1321
+#: ../../admin/install.rst:1332
 msgid ""
 "The WSGI process has to be executed under the same user the Celery process, "
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
 "ownership, leading to runtime issues."
 msgstr ""
 
-#: ../../admin/install.rst:1325
+#: ../../admin/install.rst:1336
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
 msgstr ""
 
-#: ../../admin/install.rst:1328
+#: ../../admin/install.rst:1339
 msgid "Running web server"
 msgstr ""
 
-#: ../../admin/install.rst:1330
+#: ../../admin/install.rst:1341
 msgid ""
 "Running Weblate is not different from running any other Django based "
 "program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
 
-#: ../../admin/install.rst:1334
+#: ../../admin/install.rst:1345
 msgid "For testing purposes, you can use the built-in web server in Django:"
 msgstr ""
 
-#: ../../admin/install.rst:1342
+#: ../../admin/install.rst:1353
 msgid ""
 "DO NOT USE THIS SERVER IN A PRODUCTION SETTING. It has not gone through "
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
 
-#: ../../admin/install.rst:1348
+#: ../../admin/install.rst:1359
 msgid ""
 "The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
@@ -12608,11 +12616,11 @@ msgid ""
 "ref:`static-files`."
 msgstr ""
 
-#: ../../admin/install.rst:1356
+#: ../../admin/install.rst:1367
 msgid "Serving static files"
 msgstr ""
 
-#: ../../admin/install.rst:1358
+#: ../../admin/install.rst:1369
 msgid ""
 "Django needs to collect its static files in a single directory. To do so, "
 "execute :samp:`weblate collectstatic --noinput`. This will copy the static "
@@ -12621,51 +12629,51 @@ msgid ""
 "`CACHE_DIR`)."
 msgstr ""
 
-#: ../../admin/install.rst:1363
+#: ../../admin/install.rst:1374
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
 msgstr ""
 
-#: ../../admin/install.rst:1366
+#: ../../admin/install.rst:1377
 msgid ":file:`/static/`"
 msgstr ":file:`/static/`"
 
-#: ../../admin/install.rst:1367
+#: ../../admin/install.rst:1378
 msgid ""
 "Serves static files for Weblate and the admin interface (from defined by :"
 "setting:`django:STATIC_ROOT`)."
 msgstr ""
 
-#: ../../admin/install.rst:1369
+#: ../../admin/install.rst:1380
 msgid ":file:`/media/`"
 msgstr ":file:`/media/`"
 
-#: ../../admin/install.rst:1370
+#: ../../admin/install.rst:1381
 msgid "Used for user media uploads (e.g. screenshots)."
 msgstr ""
 
-#: ../../admin/install.rst:1371
+#: ../../admin/install.rst:1382
 msgid ":file:`/favicon.ico`"
 msgstr ":file:`/favicon.ico`"
 
-#: ../../admin/install.rst:1372
+#: ../../admin/install.rst:1383
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr ""
 
-#: ../../admin/install.rst:1376
+#: ../../admin/install.rst:1387
 msgid ""
 ":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
 "files/deployment`"
 msgstr ""
 
-#: ../../admin/install.rst:1386
+#: ../../admin/install.rst:1397
 msgid "Content security policy"
 msgstr ""
 
-#: ../../admin/install.rst:1388
+#: ../../admin/install.rst:1399
 msgid ""
 "The default Weblate configuration enables ``weblate.middleware."
 "SecurityMiddleware`` middleware which sets security related HTTP headers "
@@ -12674,18 +12682,33 @@ msgid ""
 "need customization for your environment."
 msgstr ""
 
-#: ../../admin/install.rst:1395
+#: ../../admin/install.rst:1406
 msgid ""
 ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
 
-#: ../../admin/install.rst:1405
+#: ../../admin/install.rst:1416
+msgid "Sample configuration for NGINX and Gunicorn"
+msgstr ""
+
+#: ../../admin/install.rst:1418
+msgid ""
+"The following configuration runs Weblate using Gunicorn under the NGINX "
+"webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
+"conf`):"
+msgstr ""
+
+#: ../../admin/install.rst:1427 ../../admin/install.rst:1497
+msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
+msgstr ""
+
+#: ../../admin/install.rst:1433
 msgid "Sample configuration for NGINX and uWSGI"
 msgstr ""
 
-#: ../../admin/install.rst:1408
+#: ../../admin/install.rst:1436
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate (in "
 "virtual env case it is installed as :file:`~/weblate-env/lib/python3.9/site-"
@@ -12694,180 +12717,205 @@ msgid ""
 "env`` in uWSGI)."
 msgstr ""
 
-#: ../../admin/install.rst:1414
+#: ../../admin/install.rst:1442
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
 
-#: ../../admin/install.rst:1416
+#: ../../admin/install.rst:1444
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
 
-#: ../../admin/install.rst:1421
+#: ../../admin/install.rst:1449
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
 
-#: ../../admin/install.rst:1428
+#: ../../admin/install.rst:1456
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
 msgstr ""
 
-#: ../../admin/install.rst:1433
+#: ../../admin/install.rst:1461
 msgid "Sample configuration for Apache"
 msgstr ""
 
-#: ../../admin/install.rst:1435 ../../admin/install.rst:1475
+#: ../../admin/install.rst:1463 ../../admin/install.rst:1534
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr ""
 
-#: ../../admin/install.rst:1437
+#: ../../admin/install.rst:1465
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
 
-#: ../../admin/install.rst:1445
+#: ../../admin/install.rst:1473
 msgid ""
 "Weblate requires Python 3, so please ensure you are running Python 3 variant "
 "of the modwsgi. Usually it is available as a separate package, for example "
 "``libapache2-mod-wsgi-py3``."
 msgstr ""
 
-#: ../../admin/install.rst:1449
+#: ../../admin/install.rst:1477
 #, fuzzy
 #| msgid "List of recent changes done in Weblate"
 msgid "Use matching Python version to install Weblate."
 msgstr "รายชื่อการเปลี่ยนแปลงที่ทำใน Weblate"
 
-#: ../../admin/install.rst:1453
+#: ../../admin/install.rst:1481
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgstr ""
 
-#: ../../admin/install.rst:1459
+#: ../../admin/install.rst:1487
 msgid "Sample configuration for Apache and Gunicorn"
 msgstr ""
 
-#: ../../admin/install.rst:1461
+#: ../../admin/install.rst:1489
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
 
-#: ../../admin/install.rst:1469
+#: ../../admin/install.rst:1504
+msgid "Sample configuration to start Gunicorn"
+msgstr ""
+
+#: ../../admin/install.rst:1506
+msgid ""
+"Weblate has `wsgi` optional dependency (see :ref:`python-deps`) that will "
+"install everything you need to run Gunicorn. When installing Weblate you can "
+"specify it as:"
+msgstr ""
+
+#: ../../admin/install.rst:1514
+msgid ""
+"Once you have Gunicorn installed, you can run it. This is usually done at "
+"the system level. The following examples show staring via systemd:"
+msgstr ""
+
+#: ../../admin/install.rst:1517
+msgid "/etc/systemd/system/gunicorn.socket"
+msgstr ""
+
+#: ../../admin/install.rst:1521
+msgid "/etc/systemd/system/gunicorn.service"
+msgstr ""
+
+#: ../../admin/install.rst:1527
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
 msgstr ""
 
-#: ../../admin/install.rst:1473
+#: ../../admin/install.rst:1532
 msgid "Running Weblate under path"
 msgstr ""
 
-#: ../../admin/install.rst:1477
+#: ../../admin/install.rst:1536
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
 
-#: ../../admin/install.rst:1483
+#: ../../admin/install.rst:1542
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
 msgstr ""
 
-#: ../../admin/install.rst:1492
+#: ../../admin/install.rst:1551
 msgid "Background tasks using Celery"
 msgstr ""
 
-#: ../../admin/install.rst:1494
+#: ../../admin/install.rst:1553
 msgid ""
 "Weblate uses Celery to execute regular and background tasks. You are "
 "supposed to run a Celery service that will execute these. For example, it is "
 "responsible for handling following operations (this list is not complete):"
 msgstr ""
 
-#: ../../admin/install.rst:1498
+#: ../../admin/install.rst:1557
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
 msgstr ""
 
-#: ../../admin/install.rst:1499
+#: ../../admin/install.rst:1558
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
 
-#: ../../admin/install.rst:1501
+#: ../../admin/install.rst:1560
 #, fuzzy
 #| msgid "Component name"
 msgid "Running :ref:`auto-translation`."
 msgstr "ชื่อคอมโพเนนต์"
 
-#: ../../admin/install.rst:1502
+#: ../../admin/install.rst:1561
 #, fuzzy
 #| msgid "Component wide notifications"
 msgid "Sending digest notifications."
 msgstr "การแจ้งเตือนแบบทั้งคอมโพเนนต์"
 
-#: ../../admin/install.rst:1503
+#: ../../admin/install.rst:1562
 msgid "Offloading expensive operations from the WSGI process."
 msgstr ""
 
-#: ../../admin/install.rst:1504
+#: ../../admin/install.rst:1563
 #, fuzzy
 #| msgid "Commit pending changes to the local repository"
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr "จัดเก็บการเปลี่ยนแปลงที่ค้างอยู่ลงในคลังเก็บภายใน"
 
-#: ../../admin/install.rst:1506
+#: ../../admin/install.rst:1565
 msgid "A typical setup using Redis as a backend looks like this:"
 msgstr ""
 
-#: ../../admin/install.rst:1516
+#: ../../admin/install.rst:1575
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
 
-#: ../../admin/install.rst:1518
+#: ../../admin/install.rst:1577
 msgid ""
 "You should also start the Celery worker to process the tasks and start "
 "scheduled tasks, this can be done directly on the command-line (which is "
 "mostly useful when debugging or developing):"
 msgstr ""
 
-#: ../../admin/install.rst:1529
+#: ../../admin/install.rst:1588
 msgid ""
 "The Celery process has to be executed under the same user as the WSGI "
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
 
-#: ../../admin/install.rst:1533
+#: ../../admin/install.rst:1592
 msgid "See also :ref:`file-permissions` and :ref:`server`."
 msgstr ""
 
-#: ../../admin/install.rst:1536
+#: ../../admin/install.rst:1595
 msgid "Executing Celery tasks in the WSGI using eager mode"
 msgstr ""
 
-#: ../../admin/install.rst:1540
+#: ../../admin/install.rst:1599
 msgid ""
 "This will have severe performance impact on the web interface, and will "
 "break features depending on regular trigger (for example committing pending "
 "changes, digest notifications, or backups)."
 msgstr ""
 
-#: ../../admin/install.rst:1544
+#: ../../admin/install.rst:1603
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
 msgstr ""
 
-#: ../../admin/install.rst:1554
+#: ../../admin/install.rst:1613
 msgid "Running Celery as system service"
 msgstr ""
 
-#: ../../admin/install.rst:1556
+#: ../../admin/install.rst:1615
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered by :"
 "doc:`celery:userguide/daemonizing`. For the most common Linux setup using "
@@ -12875,47 +12923,45 @@ msgid ""
 "folder listed below."
 msgstr ""
 
-#: ../../admin/install.rst:1561
+#: ../../admin/install.rst:1620
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
 
-#: ../../admin/install.rst:1566
+#: ../../admin/install.rst:1625
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr ""
 
-#: ../../admin/install.rst:1571
+#: ../../admin/install.rst:1630
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
 
-#: ../../admin/install.rst:1578
+#: ../../admin/install.rst:1637
 msgid "Periodic tasks using Celery beat"
 msgstr ""
 
-#: ../../admin/install.rst:1580
+#: ../../admin/install.rst:1639
 msgid ""
-"Weblate comes with built-in setup for scheduled tasks. You can however "
-"define additional tasks in :file:`settings.py`, for example see :ref:`lazy-"
-"commit`."
+"Weblate comes with built-in setup for scheduled tasks. The task schedule is "
+"stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
 
-#: ../../admin/install.rst:1583
+#: ../../admin/install.rst:1644
 msgid ""
-"The tasks are supposed to be executed by Celery beats daemon. In case it is "
-"not working properly, it might not be running or its database was corrupted. "
-"Check the Celery startup logs in such case to figure out root cause."
+"You can define additional tasks in :file:`settings.py`, for example see :ref:"
+"`lazy-commit`."
 msgstr ""
 
-#: ../../admin/install.rst:1590
+#: ../../admin/install.rst:1650
 msgid "Monitoring Celery status"
 msgstr ""
 
-#: ../../admin/install.rst:1592
+#: ../../admin/install.rst:1652
 msgid ""
 "You can find current length of the Celery task queues in the :ref:"
 "`management-interface` or you can use :wladmin:`celery_queues` on the "
@@ -12923,69 +12969,69 @@ msgid ""
 "configuration error in the admin interface."
 msgstr ""
 
-#: ../../admin/install.rst:1599
+#: ../../admin/install.rst:1659
 msgid ""
 "The Celery errors are by default only logged into Celery log and are not "
 "visible to user. In case you want to have overview on such failures, it is "
 "recommended to configure :ref:`collecting-errors`."
 msgstr ""
 
-#: ../../admin/install.rst:1605
+#: ../../admin/install.rst:1665
 msgid ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
 "daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 msgstr ""
 
-#: ../../admin/install.rst:1616
+#: ../../admin/install.rst:1676
 msgid "Single-process Celery setup"
 msgstr ""
 
-#: ../../admin/install.rst:1618
+#: ../../admin/install.rst:1678
 msgid ""
 "In case you have very limited memory, you might want to reduce number of "
 "Weblate processes. All Celery tasks can be executed in a single process "
 "using:"
 msgstr ""
 
-#: ../../admin/install.rst:1625
+#: ../../admin/install.rst:1685
 msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgstr ""
 
-#: ../../admin/install.rst:1629
+#: ../../admin/install.rst:1689
 msgid "This will have a noticeable performance impact on Weblate."
 msgstr ""
 
-#: ../../admin/install.rst:1634
+#: ../../admin/install.rst:1694
 msgid "Monitoring Weblate"
 msgstr ""
 
-#: ../../admin/install.rst:1636
+#: ../../admin/install.rst:1696
 msgid ""
 "Weblate provides the ``/healthz/`` URL to be used in simple health checks, "
 "for example using Kubernetes. The Docker container has built-in health check "
 "using this URL."
 msgstr ""
 
-#: ../../admin/install.rst:1639
+#: ../../admin/install.rst:1699
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
 
-#: ../../admin/install.rst:1643
+#: ../../admin/install.rst:1703
 msgid ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for Munin "
 "<https://github.com/WeblateOrg/munin>`_"
 msgstr ""
 
-#: ../../admin/install.rst:1650 ../../admin/install/docker.rst:1720
+#: ../../admin/install.rst:1710 ../../admin/install/docker.rst:1720
 msgid "Collecting error reports and monitoring performance"
 msgstr ""
 
-#: ../../admin/install.rst:1652
+#: ../../admin/install.rst:1712
 msgid ""
 "Weblate, as any other software, can fail. In order to collect useful failure "
 "states we recommend to use third party services to collect such information. "
@@ -12994,17 +13040,17 @@ msgid ""
 "Weblate has support for the following services:"
 msgstr ""
 
-#: ../../admin/install.rst:1659
+#: ../../admin/install.rst:1719
 msgid "Sentry"
 msgstr ""
 
-#: ../../admin/install.rst:1661
+#: ../../admin/install.rst:1721
 msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
 
-#: ../../admin/install.rst:1668
+#: ../../admin/install.rst:1728
 msgid ""
 "Sentry can be also used to monitor performance of Weblate by collecting "
 "traces and profiles for defined percentage of operations. This can be "
@@ -13012,74 +13058,74 @@ msgid ""
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
 
-#: ../../admin/install.rst:1674
+#: ../../admin/install.rst:1734
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 msgstr ""
 
-#: ../../admin/install.rst:1680
+#: ../../admin/install.rst:1740
 msgid "Rollbar"
 msgstr ""
 
-#: ../../admin/install.rst:1682
+#: ../../admin/install.rst:1742
 msgid ""
 "Weblate has built-in support for `Rollbar <https://rollbar.com/>`_. To use "
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
 
-#: ../../admin/install.rst:1685
+#: ../../admin/install.rst:1745
 msgid "In short, you need to adjust :file:`settings.py`:"
 msgstr ""
 
-#: ../../admin/install.rst:1703
+#: ../../admin/install.rst:1763
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr ""
 
-#: ../../admin/install.rst:1708
+#: ../../admin/install.rst:1768
 msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
 msgstr ""
 
-#: ../../admin/install.rst:1714
+#: ../../admin/install.rst:1774
 #, fuzzy
 #| msgid "Terminology"
 msgid "Graylog log management"
 msgstr "อภิธานศัพท์"
 
-#: ../../admin/install.rst:1718
+#: ../../admin/install.rst:1778
 msgid ""
 "Weblate can be configured to log using the GELF TCP protocol. This was "
 "developed for Graylog integration, but can be used with any compliant "
 "logging platform."
 msgstr ""
 
-#: ../../admin/install.rst:1721
+#: ../../admin/install.rst:1781
 msgid ""
 "The configuration boilerplate is included in :ref:`sample-configuration`, "
 "for Docker this can be configured using :envvar:`WEBLATE_LOG_GELF_HOST`."
 msgstr ""
 
-#: ../../admin/install.rst:1725
+#: ../../admin/install.rst:1785
 msgid "Migrating Weblate to another server"
 msgstr ""
 
-#: ../../admin/install.rst:1727
+#: ../../admin/install.rst:1787
 msgid ""
 "Migrating Weblate to another server should be pretty easy, however it stores "
 "data in few locations which you should migrate carefully. The best approach "
 "is to stop Weblate for the migration."
 msgstr ""
 
-#: ../../admin/install.rst:1732
+#: ../../admin/install.rst:1792
 msgid "Migrating database"
 msgstr ""
 
-#: ../../admin/install.rst:1734
+#: ../../admin/install.rst:1794
 msgid ""
 "Depending on your database backend, you might have several options to "
 "migrate the database. The most straightforward approach is to use database "
@@ -13088,26 +13134,26 @@ msgid ""
 "case your database supports it."
 msgstr ""
 
-#: ../../admin/install.rst:1742
+#: ../../admin/install.rst:1802
 msgid "Migrating between databases described in :ref:`database-migration`."
 msgstr ""
 
-#: ../../admin/install.rst:1745
+#: ../../admin/install.rst:1805
 msgid "Migrating VCS repositories"
 msgstr ""
 
-#: ../../admin/install.rst:1747
+#: ../../admin/install.rst:1807
 msgid ""
 "The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as "
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
 
-#: ../../admin/install.rst:1752
+#: ../../admin/install.rst:1812
 msgid "Other notes"
 msgstr ""
 
-#: ../../admin/install.rst:1754
+#: ../../admin/install.rst:1814
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
@@ -24645,11 +24691,9 @@ msgstr ""
 msgid "Weblate 5.9.2"
 msgstr "การดูแลระบบ"
 
-#: ../../changes.rst:4
-#, fuzzy
-#| msgid "Not yet signed in"
-msgid "Not yet released."
-msgstr "ยังไม่ได้ลงชื่อเข้า"
+#: ../../changes.rst:4 ../../changes.rst:704
+msgid "Released on December 19th 2023."
+msgstr ""
 
 #: ../../changes.rst:6 ../../changes.rst:56 ../../changes.rst:198
 #: ../../changes.rst:303 ../../changes.rst:399 ../../changes.rst:511
@@ -26448,10 +26492,6 @@ msgstr ""
 #| msgid "Administration"
 msgid "Weblate 5.3.1"
 msgstr "การดูแลระบบ"
-
-#: ../../changes.rst:704
-msgid "Released on December 19th 2023."
-msgstr ""
 
 #: ../../changes.rst:708
 #, fuzzy
@@ -36606,7 +36646,11 @@ msgstr ""
 msgid "Daniel Leidert"
 msgstr ""
 
-#: ../../../BACKERS.rst:28
+#: ../../../BACKERS.rst:27
+msgid "ELSA-X"
+msgstr ""
+
+#: ../../../BACKERS.rst:29
 msgid ""
 "Do you want to be in the list? Please see options on the `Donate to Weblate "
 "<https://weblate.org/donate/>`_."
@@ -51089,6 +51133,11 @@ msgstr ""
 #: ../../workflows.rst:284
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Not yet signed in"
+#~ msgid "Not yet released."
+#~ msgstr "ยังไม่ได้ลงชื่อเข้า"
 
 #, fuzzy
 #~| msgid "Bad request"
