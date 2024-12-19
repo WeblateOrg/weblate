@@ -558,8 +558,12 @@ class User(AbstractBaseUser):
 
     def __setattr__(self, name, value) -> None:
         """Mimic first/last name for third-party auth and ignore is_staff flag."""
-        if name in self.DUMMY_FIELDS:
-            self.extra_data[name] = value
+        if name in "first_name" and "full_name" in self.extra_data:
+            self.extra_data["full_name"] = f'{value} {self.extra_data["full_name"]}'
+        elif name in "last_name" and "full_name" in self.extra_data:
+            self.extra_data["full_name"] = f'{self.extra_data["full_name"]} {value}'
+        elif "first_name" in name or "last_name" in name:
+            self.extra_data["full_name"] = value
         else:
             super().__setattr__(name, value)
 
