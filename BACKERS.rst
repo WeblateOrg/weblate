@@ -24,5 +24,6 @@ List of Weblate supporters:
 * Fotema Gallery App
 * `Newpipe e.V. <https://newpipe-ev.de>`_
 * Daniel Leidert
+* ELSA-X
 
 Do you want to be in the list? Please see options on the `Donate to Weblate <https://weblate.org/donate/>`_.
