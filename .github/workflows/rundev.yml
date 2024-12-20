@@ -30,7 +30,7 @@ jobs:
       with:
         path: /tmp/cache/tesseract
         key: tesseract-data
-    - uses: astral-sh/setup-uv@v4
+    - uses: astral-sh/setup-uv@v5
     - run: ./rundev.sh build
     - run: ./rundev.sh start
     - run: ./rundev.sh wait
