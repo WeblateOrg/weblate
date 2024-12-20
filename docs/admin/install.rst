@@ -65,14 +65,14 @@ Architecture overview
             label="Third-party services",
             style=filled
          ];
-         mt	[label="Machine translation",
+         mt [label="Machine translation",
             style=dotted];
-         sentry	[label="Sentry\nError collection",
+         sentry [label="Sentry\nError collection",
             style=dotted];
-         graylog	[label="Graylog\nLog collection",
+         graylog [label="Graylog\nLog collection",
             style=dotted];
-         mail	[label="E-mail server"];
-         auth	[label="SSO\nAuthentication provider",
+         mail [label="E-mail server"];
+         auth [label="SSO\nAuthentication provider",
             style=dotted];
       }
       subgraph cluster_ingress {
@@ -80,7 +80,7 @@ Architecture overview
             label=Ingress,
             style=filled
          ];
-         web	[label="Web server",
+         web [label="Web server",
             shape=hexagon];
       }
       subgraph cluster_weblate {
@@ -88,11 +88,11 @@ Architecture overview
             label="Weblate code-base",
             style=filled
          ];
-         celery	[fillcolor="#144d3f",
+         celery [fillcolor="#144d3f",
             fontcolor=white,
             label="Celery workers",
             style=filled];
-         wsgi	[fillcolor="#144d3f",
+         wsgi [fillcolor="#144d3f",
             fontcolor=white,
             label="WSGI server",
             style=filled];
@@ -102,26 +102,26 @@ Architecture overview
             label=Services,
             style=filled
          ];
-         redis	[label="Redis\nTask queue\nCache",
+         redis [label="Redis\nTask queue\nCache",
             shape=cylinder];
-         db	[label="PostgreSQL\nDatabase",
+         db [label="PostgreSQL\nDatabase",
             shape=cylinder];
-         fs	[label=Filesystem,
+         fs [label=Filesystem,
             shape=cylinder];
       }
       web -> wsgi;
       web -> fs;
-      celery -> mt	[style=dotted];
-      celery -> sentry	[style=dotted];
-      celery -> graylog	[style=dotted];
+      celery -> mt [style=dotted];
+      celery -> sentry [style=dotted];
+      celery -> graylog [style=dotted];
       celery -> mail;
       celery -> redis;
       celery -> db;
       celery -> fs;
-      wsgi -> mt	[style=dotted];
-      wsgi -> sentry	[style=dotted];
-      wsgi -> graylog	[style=dotted];
-      wsgi -> auth	[style=dotted];
+      wsgi -> mt [style=dotted];
+      wsgi -> sentry [style=dotted];
+      wsgi -> graylog [style=dotted];
+      wsgi -> auth [style=dotted];
       wsgi -> redis;
       wsgi -> db;
       wsgi -> fs;
