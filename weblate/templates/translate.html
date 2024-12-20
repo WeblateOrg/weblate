@@ -254,7 +254,7 @@
                           type="submit"
                           name="suggest"
                           {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
-                          {% if not user_can_suggest %} title="{% trans "Insufficient privileges for adding suggestions." %}" {% elif project_locked %} title="{% trans "This translation is currently locked." %}" {% elif unit.readonly %} title="{% trans "Read only" %}" {% endif %}>
+                          {% if not user_can_suggest %} title="{% trans "Insufficient privileges for adding suggestions." %}" {% elif project_locked %} title="{% trans "This translation is currently locked." %}" {% elif unit.readonly %} title="{% trans "Read-only" %}" {% endif %}>
                     {% icon "suggest.svg" %} {% trans "Suggest" %}
                   </button>
                 {% endif %}
