@@ -26,8 +26,6 @@ Weblate 5.9.2
 
 Released on December 19th 2023.
 
-**New features**
-
 **Improvements**
 
 * Renamed :ref:`vcs-bitbucket-server` to match new product name.
@@ -39,8 +37,6 @@ Released on December 19th 2023.
 * Avoid :ref:`autofix` crash on multi-value strings.
 * Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are enforced.
 * Captcha solution were sometimes not accepted.
-
-**Compatibility**
 
 **Upgrading**
 
