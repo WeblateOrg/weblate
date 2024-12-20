@@ -30,7 +30,9 @@ $(document).ready(() => {
       const $element = $(element);
       const dataValue = $element.attr("data-value");
       if (dataValue) {
-        $element.attr("href", `/projects/${dataValue}`);
+        // Encode the data value to prevent unsafe HTML injection
+        const safeDataValue = encodeURIComponent(dataValue); // Encode the value
+        $element.attr("href", `/projects/${safeDataValue}`);
         $element.on("click", (event) => event.preventDefault());
       }
     });
