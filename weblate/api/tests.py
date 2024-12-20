@@ -3658,14 +3658,14 @@ class UnitAPITest(APIBaseTest):
             kwargs={"pk": unit.pk},
             method="patch",
             code=400,
-            request={"state": "100", "target": "Test read only translation"},
+            request={"state": "100", "target": "Test read-only translation"},
         )
         self.do_request(
             "api:unit-detail",
             kwargs={"pk": unit.pk},
             method="patch",
             code=400,
-            request={"state": "0", "target": "Test read only translation"},
+            request={"state": "0", "target": "Test read-only translation"},
         )
         self.do_request(
             "api:unit-detail",
