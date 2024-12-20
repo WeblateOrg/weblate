@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2024-12-20 03:08+0000\n"
+"PO-Revision-Date: 2024-12-21 00:25+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.9.2-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -8984,22 +8984,16 @@ msgstr ""
 "`settings-credentials`."
 
 #: ../../admin/config.rst:929
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-bitbucket-cloud`, `Create an App password <https://support."
-#| "atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`, `App "
-#| "password permissions <https://support.atlassian.com/bitbucket-cloud/docs/"
-#| "app-password-permissions/>`_"
 msgid ""
 ":ref:`vcs-bitbucket-cloud`, `Create an App password <https://support."
 "atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `App password "
 "permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-"
 "permissions/>`_"
 msgstr ""
-":ref:`vcs-bitbucket-cloud`, `Create an App password <https://support."
-"atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `App password "
-"permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-"
-"permissions/>`_"
+":ref:`vcs-bitbucket-cloud`, `Create an App password <https://"
+"support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `App "
+"password permissions <https://support.atlassian.com/bitbucket-cloud/docs/"
+"app-password-permissions/>`_"
 
 #: ../../admin/config.rst:936
 msgid "AZURE_DEVOPS_CREDENTIALS"
@@ -13099,6 +13093,10 @@ msgid ""
 "reverse proxy address, so Weblate needs an additional HTTP header with "
 "client IP address."
 msgstr ""
+"O Weblate analisa o endereço IP do ``REMOTE_ADDR`` que é definido pelo "
+"manipulador WSGI. Ele pode estar vazio (ao usar socket para WSGI) ou conter "
+"um endereço de proxy reverso, então o Weblate precisa de um cabeçalho HTTP "
+"adicional com endereço IP do cliente."
 
 #: ../../admin/install.rst:699
 msgid ""
@@ -13107,6 +13105,11 @@ msgid ""
 "setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
 "and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
+"Habilitar :setting:`IP_BEHIND_REVERSE_PROXY` pode ser suficiente para as "
+"configurações mais comuns, mas talvez você precise ajustar "
+":setting:`IP_PROXY_HEADER` e :setting:`IP_PROXY_OFFSET` também (use "
+":envvar:`WEBLATE_IP_PROXY_HEADER` e :envvar:`WEBLATE_IP_PROXY_OFFSET` no "
+"contêiner do Docker)."
 
 #: ../../admin/install.rst:706
 msgid ""
@@ -13114,6 +13117,9 @@ msgid ""
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
+"Esta configuração não pode ser ativada por padrão porque permitiria a "
+"falsificação de endereço IP em instalações que não têm um proxy reverso "
+"configurado corretamente."
 
 #: ../../admin/install.rst:710
 msgid ""
@@ -13130,11 +13136,6 @@ msgstr ""
 "nginx)."
 
 #: ../../admin/install.rst:717
-#, fuzzy
-#| msgid ""
-#| ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
-#| "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-#| "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgid ""
 ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
 "ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
@@ -13142,9 +13143,11 @@ msgid ""
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, "
+":ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, "
+":envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:732
 msgid "HTTP proxy"
@@ -14145,31 +14148,22 @@ msgstr ""
 "setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install.rst:1416
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration for NGINX and Gunicorn"
-msgstr "Amostra de configuração para Apache e Gunicorn"
+msgstr "Amostra de configuração para NGINX e Gunicorn"
 
 #: ../../admin/install.rst:1418
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
-#| "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate using Gunicorn under the NGINX "
 "webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
 "conf`):"
 msgstr ""
-"A configuração a seguir executa o Weblate em Gunicorn e Apache 2.4 "
-"(disponível como :file:`weblate/examples/apache.gunicorn.conf`):"
+"A configuração a seguir executa o Weblate usando Gunicorn sob o servidor web "
+"NGINX (também disponível como :file:`weblate/examples/"
+"apache.nginx.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1427 ../../admin/install.rst:1497
-#, fuzzy
-#| msgid ""
-#| ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ""
-":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
+msgstr ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1433
 msgid "Sample configuration for NGINX and uWSGI"
@@ -14265,10 +14259,8 @@ msgstr ""
 "(disponível como :file:`weblate/examples/apache.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1504
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration to start Gunicorn"
-msgstr "Amostra de configuração para Apache e Gunicorn"
+msgstr "Amostra de configuração para iniciar Gunicorn"
 
 #: ../../admin/install.rst:1506
 msgid ""
@@ -14276,20 +14268,26 @@ msgid ""
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"O Weblate tem a dependência opcional `wsgi` (veja :ref:`python-deps`) que "
+"instalará tudo o que você precisa para executar o Gunicorn. Ao instalar o "
+"Weblate, você pode especificá-lo como:"
 
 #: ../../admin/install.rst:1514
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show staring via systemd:"
 msgstr ""
+"Depois que você tiver o Gunicorn instalado, você pode executá-lo. Isso "
+"geralmente é feito no nível do sistema. Os exemplos a seguir mostram o start "
+"via systemd:"
 
 #: ../../admin/install.rst:1517
 msgid "/etc/systemd/system/gunicorn.socket"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.socket"
 
 #: ../../admin/install.rst:1521
 msgid "/etc/systemd/system/gunicorn.service"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.service"
 
 #: ../../admin/install.rst:1527
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -14460,32 +14458,21 @@ msgid "Periodic tasks using Celery beat"
 msgstr "Tarefas periódicas usando a batida do Celery"
 
 #: ../../admin/install.rst:1639
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. The task schedule is "
 "stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
-"O Weblate vem com configuração embutida para tarefas programadas. No "
-"entanto, você pode definir tarefas adicionais em :file:`settings.py`. Por "
-"exemplo, veja :ref:`lazy-commit`."
+"O Weblate vem com configuração embutida para tarefas agendadas. O "
+"agendamento de tarefas é armazenado no banco de dados e as tarefas são "
+"executadas pelo daemon beat do Celery."
 
 #: ../../admin/install.rst:1644
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "You can define additional tasks in :file:`settings.py`, for example see :ref:"
 "`lazy-commit`."
 msgstr ""
-"O Weblate vem com configuração embutida para tarefas programadas. No "
-"entanto, você pode definir tarefas adicionais em :file:`settings.py`. Por "
-"exemplo, veja :ref:`lazy-commit`."
+"Você pode definir tarefas adicionais em :file:`settings.py`, por exemplo, "
+"veja :ref:`lazy-commit`."
 
 #: ../../admin/install.rst:1650
 msgid "Monitoring Celery status"
@@ -28881,8 +28868,8 @@ msgid ""
 "Dropped support for Amagama in :ref:`machine-translation-setup` as the "
 "service is no longer maintained."
 msgstr ""
-"O suporte para o Amagama em :ref:`machine-translation-setup` foi removido, "
-"pois o serviço não é mais mantido."
+"Removido o suporte para o Amagama em :ref:`machine-translation-setup`, pois "
+"o serviço não é mais mantido."
 
 #: ../../changes.rst:338
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
@@ -30241,9 +30228,9 @@ msgid ""
 "Dropped support for deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME in :file:`settings.py`."
 msgstr ""
-"Descartado o suporte para configuração insegura descontinuada de chaves de "
-"API do serviço VCS por meio da configuração _TOKEN/_USERNAME em :file:"
-"`settings.py`."
+"Removido o suporte para configuração insegura descontinuada de chaves de API "
+"do serviço VCS por meio da configuração _TOKEN/_USERNAME em "
+":file:`settings.py`."
 
 #: ../../changes.rst:893
 msgid ""
@@ -30410,34 +30397,26 @@ msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr "Suporte a :doc:`/formats/markdown`, obrigado a Anders Kaplan."
 
 #: ../../changes.rst:971
-#, fuzzy
-#| msgid "Creates translation components in the given project."
 msgid ":ref:`category` can now organize components within a project."
-msgstr "Cria componentes de tradução no projeto dado."
+msgstr ":ref:`category` agora pode organizar componentes dentro de um projeto."
 
 #: ../../changes.rst:972
 msgid ""
 ":doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes."
 msgstr ""
+":doc:`/formats/fluent` agora tem melhores verificações de sintaxe graças a "
+"Henry Wilkes."
 
 #: ../../changes.rst:973
-#, fuzzy
-#| msgid "Fixed inviting users when e-mail authentication is disabled."
 msgid "Inviting users now works with all authentication methods."
-msgstr ""
-"Corrigido o convite de usuários quando a autenticação por e-mail está "
-"desabilitada."
+msgstr "Convidar usuários agora funciona com todos os métodos de autenticação."
 
 #: ../../changes.rst:974
-#, fuzzy
-#| msgid ""
-#| "The Docker container uses a separate volume for this, see :ref:`docker-"
-#| "volume`."
 msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr ""
-"O contêiner do Docker usa um volume separado para isso, veja :ref:`docker-"
-"volume`."
+"O contêiner Docker suporta segredos com suporte a arquivos, consulte :ref"
+":`docker-secrets`."
 
 #: ../../changes.rst:978
 msgid "Plurals handling in machine translation."
@@ -30447,40 +30426,35 @@ msgstr "Tratamento de plurais na tradução automática."
 msgid ""
 ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgstr ""
+"A verificação :ref:`check-same` agora respeita os espaços reservados, mesmo "
+"no modo estrito."
 
 #: ../../changes.rst:980
-#, fuzzy
-#| msgid ""
-#| "Fixed displaying of plural source for languages with single plural form."
 msgid ""
 ":ref:`check-reused` is no longer triggered for languages with a single "
 "plural form."
-msgstr "Exibição fixa de fonte plural para idiomas com forma plural única."
+msgstr ""
+":ref:`check-reused` não é mais acionado para idiomas com uma única forma "
+"plural."
 
 #: ../../changes.rst:981
-#, fuzzy
-#| msgid "Added support for animated screenshots."
 msgid "WebP is now supported for :ref:`screenshots`."
-msgstr "Adicionado suporte para capturas de tela animadas."
+msgstr "O WebP agora é suportado para :ref:`screenshots`."
 
 #: ../../changes.rst:982
-#, fuzzy
-#| msgid "Avoid sending notifications for not subscribed languages."
 msgid ""
 "Avoid duplicate notification when a user is subscribed to overlapping scopes."
-msgstr "Evita enviar notificações para idiomas não assinados."
+msgstr ""
+"Evita notificações duplicadas quando um usuário estiver inscrito em escopos "
+"sobrepostos."
 
 #: ../../changes.rst:983
-#, fuzzy
-#| msgid "Added support for animated screenshots."
 msgid "OCR support for non-English languages in :ref:`screenshots`."
-msgstr "Adicionado suporte para capturas de tela animadas."
+msgstr "Suporte OCR para idiomas diferentes do inglês em :ref:`screenshots`."
 
 #: ../../changes.rst:984
-#, fuzzy
-#| msgid "Allow absolute links in source string locations."
 msgid ":ref:`xliff` now supports displaying source string location."
-msgstr "Permite links absolutos em locais de texto fonte."
+msgstr ":ref:`xliff` agora suporta a exibição da localização de texto fonte."
 
 #: ../../changes.rst:985
 msgid ""
@@ -30500,22 +30474,20 @@ msgstr ""
 "privacidade."
 
 #: ../../changes.rst:988
-#, fuzzy
-#| msgid "Fixed adding words to glossary."
 msgid "Faster adding terms to glossary."
-msgstr "Corrigida a adição de palavras ao glossário."
+msgstr "Adição mais rápida de termos ao glossário."
 
 #: ../../changes.rst:989
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
 msgstr ""
+"Preserva melhor a tradução nas alterações do arquivo fonte em :doc:`/formats/"
+"html` e :doc:`/formats/txt`."
 
 #: ../../changes.rst:990
-#, fuzzy
-#| msgid "Added visual indication of component alerts in navigation."
 msgid "Added indication of automatic assignment to team listing."
-msgstr "Adicionada indicação visual de alertas de componentes na navegação."
+msgstr "Adicionada indicação de atribuição automática à listagem de equipes."
 
 #: ../../changes.rst:991
 msgid "Users now have to confirm invitations to become team members."
@@ -30528,16 +30500,16 @@ msgid ""
 ":ref:`check-formats` can now check all plural forms with the ``strict-"
 "format`` flag."
 msgstr ""
+":ref:`check-formats` agora pode verificar todas as formas plurais com o "
+"sinalizador ``strict-format``."
 
 #: ../../changes.rst:993
 msgid ":doc:`/user/checks` browsing experience."
-msgstr ""
+msgstr "Experiência de navegação de :doc:`/user/checks`."
 
 #: ../../changes.rst:994
-#, fuzzy
-#| msgid "Configuring automatic suggestions"
 msgid "Highlight differences in the source string in automatic suggestions."
-msgstr "Destaque as diferenças no texto fonte em sugestões automáticas."
+msgstr "Destaca as diferenças no texto fonte em sugestões automáticas."
 
 #: ../../changes.rst:995
 msgid "Visual diff now better understands compositing characters."
@@ -30548,90 +30520,66 @@ msgid "User names handling while committing to Git."
 msgstr "Gerenciamento de nomes de usuário durante os commits no Git."
 
 #: ../../changes.rst:1000
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ""
 ":ref:`addon-weblate.cleanup.blank` and :ref:`addon-weblate.cleanup.generic` "
 "now remove all strings at once."
 msgstr ""
-"Use :ref:`addon-weblate.cleanup.generic` se você só quiser remover chaves de "
-"tradução obsoletas."
+":ref:`addon-weblate.cleanup.blank` e :ref:`addon-weblate.cleanup.generic` "
+"agora removem todos os textos de uma vez."
 
 #: ../../changes.rst:1001
-#, fuzzy
-#| msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 msgid "Language filtering in :doc:`/devel/reporting`."
-msgstr "Filtragem de idiomas em :doc:`/devel/reporting`."
+msgstr "Filtragem de idioma em :doc:`/devel/reporting`."
 
 #: ../../changes.rst:1002
-#, fuzzy
-#| msgid "Reduced false negatives for unchanged translation check."
 msgid ""
 "Reduced false positives of :ref:`check-reused` when fixing the translation."
-msgstr "Redução de falso-negativos para verificação de tradução inalterada."
+msgstr ""
+"Redução de falsos positivos de :ref:`check-reused` ao corrigir a tradução."
 
 #: ../../changes.rst:1003
-#, fuzzy
-#| msgid "Added support for automated daily update of repositories."
 msgid "Fixed caching issues after updating screenshots from the repository."
 msgstr ""
-"Adicionado suporte para atualização diária automatizada de repositórios."
+"Corrigidos problemas de cache após atualizar capturas de tela do repositório."
 
 #: ../../changes.rst:1007
-#, fuzzy
-#| msgid "Django 3.1 is now required."
 msgid "Python 3.9 or newer is now required."
-msgstr "Django 3.1 agora é necessário."
+msgstr "Python 3.9 ou mais novo agora é necessário."
 
 #: ../../changes.rst:1008
-#, fuzzy
-#| msgid "Several URLs have changed, you might have to update your bookmarks."
 msgid "Several UI URLs have been changed to be able to handle categories."
 msgstr ""
-"Várias URLs foram alteradas, pode ser necessário atualizar seus favoritos."
+"Várias URLs de UI foram alteradas para ser possível manipular categorias."
 
 #: ../../changes.rst:1014
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "middleware changes, please adjust your settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
 "settings accordingly."
 msgstr ""
-"Há várias mudanças em :file:`settings_example.py`, notadamente de "
-"middleware. Por favor, ajuste suas configurações de acordo."
+"Há várias mudanças em :file:`settings_example.py`, notadamente as alterações "
+"em ``CACHES`` e ``SOCIAL_AUTH_PIPELINE``. Por favor, ajuste suas "
+"configurações de acordo."
 
 #: ../../changes.rst:1015
 msgid "Several previously optional dependencies are now required."
 msgstr "Várias dependências que antes eram opcionais agora são obrigatórias."
 
 #: ../../changes.rst:1016
-#, fuzzy
-#| msgid ""
-#| "The database migration make take hours on larger instances due to "
-#| "recreating some of the indexes."
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "structure changes."
 msgstr ""
-"A migração do banco de dados pode levar horas em instâncias maiores devido à "
-"recriação de alguns dos índices."
+"A atualização do banco de dados pode levar um tempo considerável em sites "
+"maiores devido a alterações estruturais."
 
 #: ../../changes.rst:1018
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"milestone/99?closed=1>`__."
 
 #: ../../changes/v0.rst:2
 msgid "Weblate 0.x series"
@@ -34591,10 +34539,8 @@ msgstr ""
 "uma tradução."
 
 #: ../../changes/v3.rst:387
-#, fuzzy
-#| msgid "Expose XLIFF string resname as context when available."
 msgid "Expose XLIFF string ``resname`` as context when available."
-msgstr "Expõe a \"resname\" do XLIFF como contexto quando disponível."
+msgstr "Expõe a ``resname`` do XLIFF como contexto quando disponível."
 
 #: ../../changes/v3.rst:388
 msgid "Added support for XLIFF states."
@@ -34982,162 +34928,116 @@ msgid "Add support for providing additional textual context."
 msgstr "Adiciona suporte para fornecer contexto textual adicional."
 
 #: ../../changes/v4.rst:2
-#, fuzzy
-#| msgid "Weblate 3.x series"
 msgid "Weblate 4.x series"
-msgstr "Série 3.x do Weblate"
+msgstr "Série 4.x do Weblate"
 
 #: ../../changes/v4.rst:5
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.18.2"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.18.2"
 
 #: ../../changes/v4.rst:7
-#, fuzzy
-#| msgid "Released on June 30th 2021."
 msgid "Released on June 30th 2023."
-msgstr "Lançado em 30 de junho de 2021."
+msgstr "Lançado em 30 de junho de 2023."
 
 #: ../../changes/v4.rst:9
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed parsing notes from TBX."
-msgstr "Corrigida a análise do local de arquivos CSV."
+msgstr "Corrigidas as notas de análise de TBX."
 
 #: ../../changes/v4.rst:10
 msgid "Fixed query parsing in navigation bar search."
 msgstr "Corrigida a análise de consultas na busca da barra de navegação."
 
 #: ../../changes/v4.rst:11
-#, fuzzy
-#| msgid "Fixed UI language selection in some cases."
 msgid "Fixed language filtering in reports."
-msgstr "Corrigida a seleção de idioma da interface de usuário em alguns casos."
+msgstr "Corrigida a filtragem de idioma em relatórios."
 
 #: ../../changes/v4.rst:12
-#, fuzzy
-#| msgid "Improved language code parsing."
 msgid "Improved ModernMT languages mapping."
-msgstr "Melhorada a análise de código de idioma."
+msgstr "Melhorado o mapeamento de idiomas de ModernMT."
 
 #: ../../changes/v4.rst:13
-#, fuzzy
-#| msgid ""
-#| "Fixed displaying of plural source for languages with single plural form."
 msgid "Disabled reused checks on languages with a single plural form."
-msgstr "Exibição fixa de fonte plural para idiomas com forma plural única."
+msgstr ""
+"Desabilitadas as verificações de reutilização em idiomas com uma única forma "
+"plural."
 
 #: ../../changes/v4.rst:15
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/102?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"milestone/102?closed=1>`__."
 
 #: ../../changes/v4.rst:18
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.18.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.18.1"
 
 #: ../../changes/v4.rst:20
-#, fuzzy
-#| msgid "Released on June 15th 2022."
 msgid "Released on June 16th 2023."
-msgstr "Lançado em 15 de junho de 2022."
+msgstr "Lançado em 16 de junho de 2023."
 
 #: ../../changes/v4.rst:22
-#, fuzzy
-#| msgid "Improved language code parsing."
 msgid "Fixed language code format for i18next."
-msgstr "Melhorada a análise de código de idioma."
+msgstr "Corrigido o formato de código de idioma para i18next."
 
 #: ../../changes/v4.rst:23
 msgid "Fixed CSS compression with dark theme."
 msgstr "Corrigida a compressão de CSS com o tema escuro."
 
 #: ../../changes/v4.rst:25
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/101?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"milestone/101?closed=1>`__."
 
 #: ../../changes/v4.rst:28
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.18"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.18"
 
 #: ../../changes/v4.rst:30
-#, fuzzy
-#| msgid "Released on June 15th 2022."
 msgid "Released on June 15th 2023."
-msgstr "Lançado em 15 de junho de 2022."
+msgstr "Lançado em 15 de junho de 2023."
 
 #: ../../changes/v4.rst:32
-#, fuzzy
-#| msgid "Improved error messages for failed registrations."
 msgid "Improved API error messages on permission denied."
-msgstr "Melhoradas as mensagens de erro para registros com falha."
+msgstr "Melhoradas as mensagens de erro de API em caso de permissão negada."
 
 #: ../../changes/v4.rst:33
-#, fuzzy
-#| msgid "Fixed false positive with zero width check."
 msgid "Reduced false positives of the XML checks."
-msgstr "Corrigido falso-positivo com verificação de largura zero."
+msgstr "Reduzidos falsos positivos nas verificações de XML."
 
 #: ../../changes/v4.rst:34
-#, fuzzy
-#| msgid "The translation has been removed."
 msgid "Translated check accuracy has been improved."
-msgstr "A tradução foi removida."
+msgstr "A precisão da verificação de traduzida foi melhorada."
 
 #: ../../changes/v4.rst:35
-#, fuzzy
-#| msgid "Added support for the Fluent format."
 msgid "Extended support for Fluent file format."
-msgstr "Adicionado suporte para o formato Fluent."
+msgstr "Estendido o suporte para o formato de arquivo Fluent."
 
 #: ../../changes/v4.rst:36
 msgid "Avoiding signing-out user in some rate-limits."
 msgstr "Evitar que o usuário seja desconectado em certos limites de taxa."
 
 #: ../../changes/v4.rst:37
-#, fuzzy
-#| msgid "Added support for searching in explanations."
 msgid "Added support for storing glossary explanation in TBX format."
-msgstr "Adicionado suporte para pesquisar em explicações."
+msgstr ""
+"Adicionado suporte para armazenar explicações do glossário no formato TBX."
 
 #: ../../changes/v4.rst:38
-#, fuzzy
-#| msgid "Added support for searching in explanations."
 msgid "Added support for ordering strings by last update."
-msgstr "Adicionado suporte para pesquisar em explicações."
+msgstr "Adicionado suporte para ordenar textos pela última atualização."
 
 #: ../../changes/v4.rst:39
-#, fuzzy
-#| msgid "Extended search capabilities for changes in history."
 msgid "Extended search capabilities for finding users."
-msgstr "Estendidos os recursos de pesquisa para mudanças no histórico."
+msgstr "Estendidos os recursos de pesquisa para encontrar usuários."
 
 #: ../../changes/v4.rst:40
-#, fuzzy
-#| msgid "Added support for automated daily update of repositories."
 msgid "Support for automatic update of screenshots from a repository."
 msgstr ""
-"Adicionado suporte para atualização diária automatizada de repositórios."
+"Suporte para atualização automática de capturas de tela de um repositório."
 
 #: ../../changes/v4.rst:41 ../../changes/v4.rst:1214
 msgid "Improved translation memory performance."
@@ -35152,16 +35052,12 @@ msgstr ""
 "detalhes; agora correspondem ao conteúdo disponível na API."
 
 #: ../../changes/v4.rst:43
-#, fuzzy
-#| msgid "Added check for Kashida letters."
 msgid "Added check for reused translation."
-msgstr "Adicionada verificação de letras Kashida."
+msgstr "Adicionada verificação de tradução reusada."
 
 #: ../../changes/v4.rst:44
-#, fuzzy
-#| msgid "Configuring automatic suggestions"
 msgid "Highlight suggested change in automatic suggestions."
-msgstr "Destaque a alteração sugerida nas sugestões automáticas."
+msgstr "Destaca alteração sugerida nas sugestões automáticas."
 
 #: ../../changes/v4.rst:45
 msgid "Added dark theme; browser-following and manual setting are available."
@@ -35179,32 +35075,27 @@ msgstr ""
 #, fuzzy
 #| msgid "Added confirmation before removing a user from a project."
 msgid "Added username autocompletion when adding users to a project."
-msgstr "Adicionada confirmação antes de remover um usuário de um projeto."
+msgstr ""
+"Adicionado preenchimento automático de nome de usuário ao adicionar usuários "
+"a um projeto."
 
 #: ../../changes/v4.rst:48
-#, fuzzy
-#| msgid "Added support for creating projects and components by users."
 msgid "Added site-wide search for projects, components, languages and users."
 msgstr ""
-"Adicionado suporte para a criação de projetos e componentes por usuários."
+"Adicionada pesquisa em todo o site para projetos, componentes, idiomas e "
+"usuários."
 
 #: ../../changes/v4.rst:49
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "New add-on Fill read-only strings with source."
 msgstr "Nova extensão Preencher textos somente leitura com a fonte."
 
 #: ../../changes/v4.rst:51
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"milestone/97?closed=1>`__."
 
 #: ../../changes/v4.rst:57
 msgid ""
@@ -35213,59 +35104,47 @@ msgstr ""
 "Removido o suporte para PostgreSQL 10, 11, MySQL 5.7 e MariaDB 10.2, 10.3."
 
 #: ../../changes/v4.rst:58
-#, fuzzy
-#| msgid "Added support for Python 3.9."
 msgid "Dropped support for Python 3.7."
-msgstr "Suporte adicionado para Pyton 3.9."
+msgstr "Removido o suporte para Pyton 3.7."
 
 #: ../../changes/v4.rst:59
 msgid ""
 "The :ref:`fluent` format changed identification of some strings, you might "
 "need to force reloading of the translation files to see the changes."
 msgstr ""
+"O formato :ref:`fluent` alterou a identificação de alguns textos. Talvez "
+"seja necessário forçar o recarregamento dos arquivos de tradução para ver as "
+"alterações."
 
 #: ../../changes/v4.rst:61
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "middleware changes, please adjust your settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
 "accordingly."
 msgstr ""
-"Há várias mudanças em :file:`settings_example.py`, notadamente de "
-"middleware. Por favor, ajuste suas configurações de acordo."
+"Há várias alterações em :file:`settings_example.py`, sendo a mais notável a "
+"alteração em ``COMPRESS_OFFLINE_CONTEXT``. Por favor, ajuste suas "
+"configurações adequadamente."
 
 #: ../../changes/v4.rst:64
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.17"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.17"
 
 #: ../../changes/v4.rst:66
-#, fuzzy
-#| msgid "Released on April 19th 2021."
 msgid "Released on April 17th 2023."
-msgstr "Lançado em 19 de abril de 2021."
+msgstr "Lançado em 17 de abril de 2023."
 
 #: ../../changes/v4.rst:68
-#, fuzzy
-#| msgid "Allow to show secondary language in Zen mode."
 msgid "Allow to filter on language in reports."
-msgstr "Permite mostrar o idioma secundário no modo Zen."
+msgstr "Permite filtrar por idioma em relatórios."
 
 #: ../../changes/v4.rst:69
 msgid "Dropped deprecated command ``cleanup_celery``."
 msgstr "Removido o comando obsoleto ``cleanup_celery``."
 
 #: ../../changes/v4.rst:70
-#, fuzzy
-#| msgid "Fixed rebuilding project translation memory for some components."
 msgid "Fixed private project visibility for some teams."
-msgstr ""
-"Corrigida a reconstrução da memória de tradução do projeto para alguns "
-"componentes."
+msgstr "Corrigida a visibilidade do projeto privado para algumas equipes."
 
 #: ../../changes/v4.rst:71
 msgid ""
@@ -35276,71 +35155,53 @@ msgstr ""
 "outros componentes."
 
 #: ../../changes/v4.rst:72
-#, fuzzy
-#| msgid "Improved performance of several views."
 msgid "Improved performance of public user profiles."
-msgstr "Melhorado o desempenho de várias visões."
+msgstr "Melhorado o desempenho de perfis públicos de usuários."
 
 #: ../../changes/v4.rst:73
 #, fuzzy
 #| msgid "Improved CodeMirror integration."
 msgid "Improved Sentry performance integration."
-msgstr "Integração com CodeMirror melhorada."
+msgstr "Melhorado desempenho da integração com Sentry"
 
 #: ../../changes/v4.rst:74
-#, fuzzy
-#| msgid "Added support for managing SSH host keys."
 msgid "Added support for Ed25519 SSH key."
-msgstr "Suporte adicional para gerenciamento de chaves de host SSH."
+msgstr "Adicional suporte para chave SSH Ed25519."
 
 #: ../../changes/v4.rst:75
-#, fuzzy
-#| msgid "Rewritten access control."
 msgid "Rewritten metrics storage."
-msgstr "Controle de acesso reescrito."
+msgstr "Reescrito armazenamento de métricas."
 
 #: ../../changes/v4.rst:76
-#, fuzzy
-#| msgid "Added support for searching in explanations."
 msgid "Added support for searching strings by position."
-msgstr "Adicionado suporte para pesquisar em explicações."
+msgstr "Adicionado suporte para pesquisar textos por posição."
 
 #: ../../changes/v4.rst:78
-#, fuzzy
-#| msgid "Improved management of untranslatable terms in glossary."
 msgid ""
 "Unchanged translation check can honor untranslatable terms from glossary."
-msgstr "Melhorado o gerenciamento de termos não traduzidos no glossário."
+msgstr ""
+"A verificação de tradução inalterada pode honrar termos intraduzíveis do "
+"glossário."
 
 #: ../../changes/v4.rst:79
-#, fuzzy
-#| msgid "Added automatic fix to remove control characters."
 msgid "Added automatic fixup for Devanagari danda."
-msgstr "Adicionada correção automática para remover caracteres de controle."
+msgstr "Adicionada correção automática para Devanagari danda."
 
 #: ../../changes/v4.rst:80
-#, fuzzy
-#| msgid "Added support for rebuilding project translation memory."
 msgid "Allow downloading project translation memory per language."
-msgstr "Adicionado o suporte a recompilar a memória de tradução de projeto."
+msgstr "Permite o download da memória de tradução do projeto por idioma."
 
 #: ../../changes/v4.rst:81
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgid "Added new alert on unused components."
 msgstr "Adicionado novo alerta sobre componentes não utilizados."
 
 #: ../../changes/v4.rst:83
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"milestone/93?closed=1>`__."
 
 #: ../../changes/v4.rst:89
 msgid ""
@@ -35350,6 +35211,12 @@ msgid ""
 "metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start the migration "
 "in the background. Once it is completed, perform full upgrade as usual."
 msgstr ""
+"A migração para o armazenamento de métricas reescritas pode levar um tempo "
+"considerável em uma instância maior do Weblate (espere cerca de 15 minutos "
+"por GB da tabela ``metrics_metric``). Para reduzir o tempo de inatividade, "
+"você pode copiar :file:`weblate/metrics/migrations/*.py` do Weblate 4.17 "
+"para o 4.16 e iniciar a migração em segundo plano. Após a conclusão, execute "
+"a atualização completa como de costume."
 
 #: ../../changes/v4.rst:95
 msgid ""
@@ -35369,157 +35236,118 @@ msgid ""
 "prior to migration if you want to continue using MySQL. Please consider "
 "switching to PostgreSQL, see :ref:`database-migration`."
 msgstr ""
+"A migração no MySQL tentará carregar todas as métricas na memória devido à "
+"limitação do driver do banco de dados Python. Talvez seja necessário podar "
+"as métricas antes da migração se você quiser continuar usando o MySQL. "
+"Considere mudar para o PostgreSQL, veja :ref:`database-migration`."
 
 #: ../../changes/v4.rst:107
-#, fuzzy
-#| msgid "Weblate 4.6.2"
 msgid "Weblate 4.16.4"
-msgstr "Weblate 4.6.2"
+msgstr "Weblate 4.16.4"
 
 #: ../../changes/v4.rst:109
-#, fuzzy
-#| msgid "Released on March 11th 2020."
 msgid "Released on March 16th 2023."
-msgstr "Lançado em 11 de março de 2020."
+msgstr "Lançado em 16 de março de 2023."
 
 #: ../../changes/v4.rst:111 ../../changes/v4.rst:122
-#, fuzzy
-#| msgid "Locales updates."
 msgid "Dependencies updates."
-msgstr "Atualizações de localidades."
+msgstr "Atualizações de dependências."
 
 #: ../../changes/v4.rst:112
-#, fuzzy
-#| msgid "Improved background notification processing."
 msgid "Improved background tasks scheduling."
-msgstr "Melhorado processamento de notificações de segundo plano."
+msgstr "Melhorado o agendamento de tarefas de segundo plano."
 
 #: ../../changes/v4.rst:114
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/96?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"milestone/96?closed=1>`__."
 
 #: ../../changes/v4.rst:117
-#, fuzzy
-#| msgid "Weblate 4.6.2"
 msgid "Weblate 4.16.3"
-msgstr "Weblate 4.6.2"
+msgstr "Weblate 4.16.3"
 
 #: ../../changes/v4.rst:119
-#, fuzzy
-#| msgid "Released on March 11th 2020."
 msgid "Released on March 15th 2023."
-msgstr "Lançado em 11 de março de 2020."
+msgstr "Lançado em 15 de março de 2023."
 
 #: ../../changes/v4.rst:121
-#, fuzzy
-#| msgid "Improved error handling in import_project."
 msgid "Improved session handling with project backups."
-msgstr "Melhorado o tratamento de erros em import_project."
+msgstr "Melhorado o tratamento de sessões com backups de projetos."
 
 #: ../../changes/v4.rst:126
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/95?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"milestone/95?closed=1>`__."
 
 #: ../../changes/v4.rst:129
-#, fuzzy
-#| msgid "Weblate 4.6.2"
 msgid "Weblate 4.16.2"
-msgstr "Weblate 4.6.2"
+msgstr "Weblate 4.16.2"
 
 #: ../../changes/v4.rst:131
-#, fuzzy
-#| msgid "Released on March 11th 2020."
 msgid "Released on March 8th 2023."
-msgstr "Lançado em 11 de março de 2020."
+msgstr "Lançado em 8 de março de 2023."
 
 #: ../../changes/v4.rst:133
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Fixed searching in the translation memory."
-msgstr "Correção da pesquisa na memória de tradução."
+msgstr "Corrigida a pesquisa na memória de tradução."
 
 #: ../../changes/v4.rst:134
 msgid "Fixed automatic translation with more services."
 msgstr "Tradução automática corrigida com mais serviços."
 
 #: ../../changes/v4.rst:135
-#, fuzzy
-#| msgid "Improved rendering of alerts in changes."
 msgid "Improved rendering of overlapping glossary term matches."
-msgstr "Melhorada a renderização de alertas em mudanças."
+msgstr ""
+"Melhorada a renderização de correspondência de termos do glossário "
+"sobrepostos."
 
 #: ../../changes/v4.rst:136
-#, fuzzy
-#| msgid ""
-#| "Fixed displaying of plural source for languages with single plural form."
 msgid "Fixed plurals parsing for non-English source language in some formats."
-msgstr "Exibição fixa de fonte plural para idiomas com forma plural única."
+msgstr ""
+"Corrigida a análise de plurais para idiomas fonte diferentes do inglês em "
+"alguns formatos."
 
 #: ../../changes/v4.rst:137
 msgid "Added support for go-i18n v2 JSON files."
 msgstr "Adicionado suporte para arquivos JSON go-i18n v2."
 
 #: ../../changes/v4.rst:139
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/94?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"milestone/94?closed=1>`__."
 
 #: ../../changes/v4.rst:142
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.16.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.16.1"
 
 #: ../../changes/v4.rst:144 ../../changes/v4.rst:153
-#, fuzzy
-#| msgid "Released on March 11th 2020."
 msgid "Released on March 1st 2023."
-msgstr "Lançado em 11 de março de 2020."
+msgstr "Lançado em 1º de março de 2023."
 
 #: ../../changes/v4.rst:146
 msgid "Fixed testsuite error."
-msgstr ""
+msgstr "Corrigido um erro de conjunto de testes."
 
 #: ../../changes/v4.rst:148
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/92?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"milestone/92?closed=1>`__."
 
 #: ../../changes/v4.rst:151
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.16"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.16"
 
 #: ../../changes/v4.rst:155
 msgid "Format string checks now also detects duplicated formats."
@@ -35528,10 +35356,10 @@ msgstr ""
 "duplicados."
 
 #: ../../changes/v4.rst:156
-#, fuzzy
-#| msgid "Improved performance for some monolingual translations."
 msgid "Improved search performance for some specially formatted strings."
-msgstr "Melhorado o desempenho para algumas traduções monolíngues."
+msgstr ""
+"Melhorado o desempenho da pesquisa para alguns textos formatados de forma "
+"especial."
 
 #: ../../changes/v4.rst:157
 msgid "Celery beat is now storing the tasks schedule in the database."
@@ -35539,62 +35367,42 @@ msgstr ""
 "O Celery beat agora armazena o cronograma de tarefas no banco de dados."
 
 #: ../../changes/v4.rst:158
-#, fuzzy
-#| msgid "Added support for Amazon Translate."
 msgid "Added support for IBM Watson Language Translator."
-msgstr "Adicionado suporte para o Amazon Translate."
+msgstr "Adicionado suporte para o IBM Watson Language Translator."
 
 #: ../../changes/v4.rst:159
-#, fuzzy
-#| msgid ""
-#| "Dropped support for migrating from 3.x releases, migrate through 4.1 or "
-#| "4.0."
 msgid "Dropped support for VCS integration settings deprecated in 4.14."
-msgstr "Removido o suporte a migração de versões 3.x, migre para 4.1 ou 4.0."
+msgstr ""
+"Removido o suporte a configurações de integração com VCS descontinuadas na "
+"versão 4.14."
 
 #: ../../changes/v4.rst:160
-#, fuzzy
-#| msgid "Added support for Pagure pull requests."
 msgid "Added support for Bitbucket Server pull requests."
-msgstr "Adicionado suporte a pull requests do Pagure."
+msgstr "Adicionado suporte a pull requests do Bitbucket Server."
 
 #: ../../changes/v4.rst:161
-#, fuzzy
-#| msgid "Improved error handling in gitexport module."
 msgid "Improved conflicts handling in gettext PO files."
-msgstr "Melhorado o tratamento de erros no módulo gitexport."
+msgstr "Melhorado o tratamento de conflitos em arquivos gettext PO."
 
 #: ../../changes/v4.rst:162
-#, fuzzy
-#| msgid "Added support for manually defining string variants using a flag."
 msgid "Added support for defining strings state when adding via API."
-msgstr ""
-"Adicionado suporte para definir manualmente variantes de texto usando um "
-"marcador."
+msgstr "Adicionado suporte para definir estado de texto ao adicionar via API."
 
 #: ../../changes/v4.rst:163
-#, fuzzy
-#| msgid "Add support for configuring msgmerge add-on."
 msgid "Added support for configuring CORS allowed origins."
-msgstr "Adiciona suporte para configurar extensões de msgmerge."
+msgstr "Adicionado suporte para configurar origens permitidas por CORS."
 
 #: ../../changes/v4.rst:164
-#, fuzzy
-#| msgid "Added support for voting on suggestions."
 msgid "Added plurals support to automatic suggestions."
-msgstr "Adicionado suporte para votação das sugestões."
+msgstr "Adicionado suporte a plurais para sugestões automáticas."
 
 #: ../../changes/v4.rst:166
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/88?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/88?closed=1>`__."
+"milestone/89?closed=1>`__."
 
 #: ../../changes/v4.rst:172
 msgid ""
@@ -35602,51 +35410,51 @@ msgid ""
 "``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be "
 "changed for that."
 msgstr ""
+"O beat do Celery agora está armazenando a programação de tarefas no banco de "
+"dados. ``CELERY_BEAT_SCHEDULER`` e :setting:`django:INSTALLED_APPS` precisam "
+"ser alterados para isso."
 
 #: ../../changes/v4.rst:175
 msgid ""
 "The deprecated VCS setting for credentials is no longer supported, see :ref:"
 "`up-4-14`."
 msgstr ""
+"A configuração VCS descontinuada para credenciais não é mais suportada, "
+"consulte :ref:`up-4-14`."
 
 #: ../../changes/v4.rst:176
-#, fuzzy
-#| msgid "There is a change in :setting:`django:INSTALLED_APPS`."
 msgid ""
 "Upgrade of `django-crispy-forms` requires changes in :setting:`django:"
 "INSTALLED_APPS`."
-msgstr "Há uma mudança em :setting:`django: INSTALLED_APPS`."
+msgstr ""
+"A atualização do `django-crispy-forms` requer alterações em "
+":setting:`django:INSTALLED_APPS`."
 
 #: ../../changes/v4.rst:177
 msgid ""
 "Integration of `django-cors-headers` requires changes in :setting:`django:"
 "INSTALLED_APPS` and :setting:`django:MIDDLEWARE`."
 msgstr ""
+"A integração de `django-cors-headers` requer alterações em "
+":setting:`django:INSTALLED_APPS` e :setting:`django:MIDDLEWARE`."
 
 #: ../../changes/v4.rst:178
-#, fuzzy
-#| msgid ""
-#| "Default location for static Django files, specified by :setting:`django:"
-#| "STATIC_ROOT`. See :ref:`static-files`."
 msgid ""
 "Introduction of :setting:`CACHE_DIR` changed default value of :setting:"
 "`django:STATIC_ROOT`. You might need to adjust :ref:`static-files` "
 "accordingly."
 msgstr ""
-"Local padrão para arquivos Django estáticos, especificados por :setting:"
-"`django:STATIC_ROOT`. Veja :ref:`static-files`."
+"Introdução de :setting:`CACHE_DIR` alterou o valor padrão de "
+":setting:`django:STATIC_ROOT`. Talvez seja necessário ajustar :ref:`static-"
+"files` adequadamente."
 
 #: ../../changes/v4.rst:181
-#, fuzzy
-#| msgid "Weblate 4.5.2"
 msgid "Weblate 4.15.2"
-msgstr "Weblate 4.5.2"
+msgstr "Weblate 4.15.2"
 
 #: ../../changes/v4.rst:183
-#, fuzzy
-#| msgid "Released on January 9th 2020."
 msgid "Released on January 25th 2023."
-msgstr "Lançado em 9 de janeiro de 2020."
+msgstr "Lançado em 25 de janeiro de 2023."
 
 #: ../../changes/v4.rst:185
 msgid ""
@@ -35655,38 +35463,28 @@ msgstr ""
 "Formatos gotext JSON e i18next v4 foram habilitados na configuração padrão."
 
 #: ../../changes/v4.rst:186
-#, fuzzy
-#| msgid "Fixed crash on displaying some checks."
 msgid "Fixed crash on uploading corrupted files."
-msgstr "Corrigida a falha na exibição de algumas verificações."
+msgstr "Corrigida a falha no envio de arquivos corrompidos."
 
 #: ../../changes/v4.rst:187
-#, fuzzy
-#| msgid "More detailed repository status view."
 msgid "Show stale directories in Git repository status."
-msgstr "Visualização mais detalhada do status do repositório."
+msgstr "Mostra diretórios obsoletos no status do repositório Git."
 
 #: ../../changes/v4.rst:189
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/91?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"milestone/91?closed=1>`__."
 
 #: ../../changes/v4.rst:192
 msgid "Weblate 4.15.1"
 msgstr "Weblate 4.15.1"
 
 #: ../../changes/v4.rst:194
-#, fuzzy
-#| msgid "Released on January 9th 2020."
 msgid "Released on January 19th 2023."
-msgstr "Lançado em 9 de janeiro de 2020."
+msgstr "Lançado em 19 de janeiro de 2023."
 
 #: ../../changes/v4.rst:196
 msgid "Fixed suggestions from automatic translation."
@@ -35743,11 +35541,10 @@ msgid "Released on December 16th 2022."
 msgstr "Lançado em 16 de dezembro de 2022."
 
 #: ../../changes/v4.rst:213
-#, fuzzy
-#| msgid "Added support for browsing changes for a individual string."
 msgid "Added support for browsing all changes for an individual string."
 msgstr ""
-"Adicionado suporte para alterações de navegação para um texto individual."
+"Adicionado suporte para navegar por todas as alterações de um texto "
+"individual."
 
 #: ../../changes/v4.rst:214
 msgid "Fixed plurals handling in automatic translation from other components."
@@ -35905,8 +35702,6 @@ msgid "Improved analysis on the duplicate language alert."
 msgstr "Melhorada a análise no alerta de idioma duplicado."
 
 #: ../../changes/v4.rst:257
-#, fuzzy
-#| msgid "Improved accurancy of the consecutive duplicated words check."
 msgid "Improved accuracy of the consecutive duplicated-words check."
 msgstr ""
 "Melhorada a precisão de verificação de palavras consecutivas duplicadas."
@@ -35916,8 +35711,6 @@ msgid "Improved scaling of sending many notifications."
 msgstr "Melhorado o escalonamento de enviar muitas notificações."
 
 #: ../../changes/v4.rst:259
-#, fuzzy
-#| msgid "Improved string state handling for subtitle translation."
 msgid "Improved string-state handling for subtitle translation."
 msgstr "Melhorado tratamento de estado do texto para tradução de legendas."
 
@@ -35940,11 +35733,9 @@ msgstr ""
 "comparação."
 
 #: ../../changes/v4.rst:263
-#, fuzzy
-#| msgid "Added automatic suggestions management link to management pages."
 msgid "Added link for managing automatic suggestions to the management pages."
 msgstr ""
-"Adicionado link de gerenciamento de sugestões automáticas para páginas de "
+"Adicionado link para gerenciar sugestões automáticas para páginas de "
 "gerenciamento."
 
 #: ../../changes/v4.rst:264
@@ -35957,10 +35748,8 @@ msgstr ""
 "Corrigida a restauração de backups de projetos com componentes vinculados."
 
 #: ../../changes/v4.rst:266
-#, fuzzy
-#| msgid "Fixed captcha entering on unsuccessful registration."
 msgid "Fixed CAPTCHA entering on unsuccessful registration."
-msgstr "Corrigida a entrada de captcha no registro malsucedido."
+msgstr "Corrigida a entrada de CAPTCHA no registro malsucedido."
 
 #: ../../changes/v4.rst:267
 msgid "Improved languages support in DeepL."
@@ -35996,10 +35785,8 @@ msgid "Fixed generating project backups in some situations."
 msgstr "Corrigida a geração de backups d2 projeto em algumas situações."
 
 #: ../../changes/v4.rst:279
-#, fuzzy
-#| msgid "Improved error reporting on file upload."
 msgid "Improved error reporting when uploading files."
-msgstr "Melhorado o relatório de erro no envio de arquivo."
+msgstr "Melhorado o relatório de erro ao enviar arquivos."
 
 #: ../../changes/v4.rst:280
 msgid "Fetch all user verified e-mails from GitHub during authentication."
@@ -36029,11 +35816,9 @@ msgid "Add group management interface."
 msgstr "Adiciona interface de gerenciamento de grupos."
 
 #: ../../changes/v4.rst:286
-#, fuzzy
-#| msgid "Always show review stats when reviews are enabled."
 msgid "Always show review stats when reviews are turned on."
 msgstr ""
-"Sempre mostra as estatísticas de revisão quando revisões estão habilitadas."
+"Sempre mostra as estatísticas de revisão quando revisões estão ativadas."
 
 #: ../../changes/v4.rst:287
 msgid "Added searching support in units API."
@@ -36182,10 +35967,8 @@ msgid "Fixed parsing reverse proxy info from Cloudflare."
 msgstr "Corrigida a análise de informações de proxy reverso do Cloudflare."
 
 #: ../../changes/v4.rst:338
-#, fuzzy
-#| msgid "Unlocks translation of Weblate component."
 msgid "Make parse errors lock translation of a component."
-msgstr "Desbloqueia a tradução do componente Weblate."
+msgstr "Faz com que erros de análise bloqueiem a tradução de um componente."
 
 #: ../../changes/v4.rst:339
 msgid "Fixed configuring intermediate file in the discovery add-on."
@@ -36202,10 +35985,8 @@ msgid "Fixed untranslating strings via API."
 msgstr "Corrigida a remoção de tradução de textos por meio de API."
 
 #: ../../changes/v4.rst:342
-#, fuzzy
-#| msgid "Added support for removing user from a group via API."
 msgid "Added support for removing a user from a group via API."
-msgstr "Suporte adicionado para remover usuário de um grupo por meio de API."
+msgstr "Suporte adicionado para remover um usuário de um grupo por meio de API."
 
 #: ../../changes/v4.rst:343
 msgid "Fixed audit log for user invitation e-mails."
@@ -36240,10 +36021,6 @@ msgid "Added pagination to projects listing."
 msgstr "Adicionada paginação à listagem de projetos."
 
 #: ../../changes/v4.rst:355
-#, fuzzy
-#| msgid ""
-#| "API for creating new units now returns information about newly created "
-#| "unit."
 msgid "API for creating new units now returns info about newly created unit."
 msgstr ""
 "A API para criar novas unidades agora retorna informações sobre a unidade "
@@ -36268,22 +36045,16 @@ msgstr ""
 "adequação à implementação subjacente."
 
 #: ../../changes/v4.rst:359
-#, fuzzy
-#| msgid "Added support for ResourceDictionary format."
 msgid "Added support for the ResourceDictionary format."
 msgstr "Adicionado suporte para o formato ResourceDictionary."
 
 #: ../../changes/v4.rst:360
-#, fuzzy
-#| msgid "Improved progress bar colors for color blind."
 msgid "Improved progress-bar colors for color-blind people."
-msgstr "Melhoradas as cores da barra de progresso para daltônicos."
+msgstr "Melhoradas as cores da barra de progresso para pessoas daltônicas."
 
 #: ../../changes/v4.rst:361
-#, fuzzy
-#| msgid "Fixed variants cleanup on string removal."
 msgid "Fixed variants cleanup when removing strings."
-msgstr "Corrigida a limpeza de variantes na remoção de texto."
+msgstr "Corrigida a limpeza de variantes ao remover textos."
 
 #: ../../changes/v4.rst:362
 msgid "Compatibility with Django 4.1."
@@ -36294,8 +36065,6 @@ msgid "Added support for storing escaped XML elements in XLIFF."
 msgstr "Adicionado suporte para armazenar elementos XML com escape em XLIFF."
 
 #: ../../changes/v4.rst:364
-#, fuzzy
-#| msgid "Improved formatting of placeholder check errors."
 msgid "Improved formatting of placeholder-check errors."
 msgstr "Melhorada a formatação de erros de verificação de espaço reservado."
 
@@ -36372,8 +36141,6 @@ msgid "Released on May 11th 2022."
 msgstr "Lançado em 11 de maio de 2022."
 
 #: ../../changes/v4.rst:391
-#, fuzzy
-#| msgid "Fixed rebuilding project translation memory for some components."
 msgid "Fixed rebuilding project translation-memory for some components."
 msgstr ""
 "Corrigida a reconstrução da memória de tradução do projeto para alguns "
@@ -36384,10 +36151,8 @@ msgid "Fixed sorting components by untranslated strings."
 msgstr "Corrigida a classificação de componentes por textos não traduzidos."
 
 #: ../../changes/v4.rst:393
-#, fuzzy
-#| msgid "Fixed possible loss of translations while adding new language."
 msgid "Fixed possible loss of translations while adding a new language."
-msgstr "Corrigida uma possível perda de traduções ao adicionar novo idioma."
+msgstr "Corrigida uma possível perda de traduções ao adicionar um novo idioma."
 
 #: ../../changes/v4.rst:394
 msgid "Ensure Weblate SSH key is generated during migrations."
@@ -36479,9 +36244,6 @@ msgid "Added support for :ref:`vcs-gitea`."
 msgstr "Adicionado suporte para :ref:`vcs-gitea`."
 
 #: ../../changes/v4.rst:422
-#, fuzzy
-#| msgid ""
-#| "Added Linux style language code to :ref:`component-language_code_style`."
 msgid ""
 "Added Linux-style language code to :ref:`component-language_code_style`."
 msgstr ""
@@ -36501,14 +36263,10 @@ msgid "Add copy and clone buttons to other translations."
 msgstr "Adiciona botões de cópia e clonagem a outras traduções."
 
 #: ../../changes/v4.rst:426
-#, fuzzy
-#| msgid "Make merge request message configurable at component level."
 msgid "Make merge request message configurable at the component level."
 msgstr "Torne a mensagem de merge request configurável a nível do componente."
 
 #: ../../changes/v4.rst:427
-#, fuzzy
-#| msgid "Improved maximal length restriction behavior with XML tags."
 msgid "Improved behavior of maximal-length restriction with XML tags."
 msgstr ""
 "Melhorado o comportamento de restrição de comprimento máximo com tags XML."
@@ -36677,8 +36435,6 @@ msgid "Fixed untranslating strings in :ref:`javaprop`."
 msgstr "Corrigida a não tradução de textos em :ref:`javaprop`."
 
 #: ../../changes/v4.rst:480
-#, fuzzy
-#| msgid "Fixed Git operation with non-ascii branch names."
 msgid "Fixed Git operation with non-ASCII branch names."
 msgstr "Corrigida a operação do Git com nomes de ramos não ASCII."
 
@@ -36694,16 +36450,12 @@ msgstr ""
 "forward`."
 
 #: ../../changes/v4.rst:483
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on "
-#| "newly added strings."
 msgid ""
 "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering for "
 "newly added strings."
 msgstr ""
-"Corrigido o acionamento da extensão :ref:`addon-weblate.autotranslate."
-"autotranslate` em textos recém-adicionados."
+"Corrigido o acionamento da extensão :ref:`addon-"
+"weblate.autotranslate.autotranslate` em textos recém-adicionados."
 
 #: ../../changes/v4.rst:484
 msgid "Improved punctuation checks for Burmese."
@@ -36835,10 +36587,6 @@ msgid "Added support for formality and placeholders with DeepL."
 msgstr "Adicionado suporte para formalidade e espaços reservados com DeepL."
 
 #: ../../changes/v4.rst:526
-#, fuzzy
-#| msgid ""
-#| "Bulk edit and search and replace are now available on project and "
-#| "language level."
 msgid ""
 "Bulk edit and search-and-replace are now available on project and language "
 "level."
@@ -38200,14 +37948,6 @@ msgstr ""
 "aumentaram, veja :ref:`mysql`."
 
 #: ../../changes/v4.rst:945
-#, fuzzy
-#| msgid ""
-#| ":ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. "
-#| "This will change identification of translation strings in such files "
-#| "breaking links to Weblate extended data such as screenshots or review "
-#| "states. Please ensure you commit pending changes in such files prior "
-#| "upgrading and it is recommended to force loading of affected component "
-#| "using :djadmin:`loadpo`."
 msgid ""
 ":ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. "
 "This will change identification of translation strings in such files "
@@ -38221,7 +37961,7 @@ msgstr ""
 "quebrando links para dados estendidos do Weblate, como capturas de tela ou "
 "estados de revisão. Certifique-se de confirmar as alterações pendentes em "
 "tais arquivos antes de atualizar e é recomendado forçar o carregamento do "
-"componente afetado usando :djadmin:`loadpo`."
+"componente afetado usando :wladmin:`loadpo`."
 
 #: ../../changes/v4.rst:946
 msgid ""
@@ -39298,10 +39038,8 @@ msgid "Reimplemented translation memory backend."
 msgstr "Reimplementado backend da memória de tradução."
 
 #: ../../changes/v4.rst:1253
-#, fuzzy
-#| msgid "Added support for several ``is:`` lookups in :doc:`user/search`."
 msgid "Added support for several ``is:`` lookups in :doc:`/user/search`."
-msgstr "Adicionado suporte a várias pesquisa ``is:`` em :doc:`user/search`."
+msgstr "Adicionado suporte a várias pesquisa ``is:`` em :doc:`/user/search`."
 
 #: ../../changes/v4.rst:1254
 msgid "Allow to make :ref:`check-same` avoid internal blacklist."
@@ -39330,10 +39068,8 @@ msgid "Fixed editing monolingual XLIFF source file."
 msgstr "Corrigida a edição do arquivo fonte XLIFF monolíngue."
 
 #: ../../changes/v4.rst:1260
-#, fuzzy
-#| msgid "Added support for exact matching in :doc:`user/search`."
 msgid "Added support for exact matching in :doc:`/user/search`."
-msgstr "Adicionado suporte para correspondência exata em :doc:`user/search`."
+msgstr "Adicionado suporte para correspondência exata em :doc:`/user/search`."
 
 #: ../../changes/v4.rst:1261
 msgid ""
@@ -39450,8 +39186,6 @@ msgstr "Verifica se a extensão é compatível com o componente dado."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.component_update:1
-#, fuzzy
-#| msgid "component update"
 msgid "Event handler for component update."
 msgstr "Manipulador de eventos para atualização de componentes."
 
@@ -39462,8 +39196,6 @@ msgstr "Salva a configuração."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.daily:1
-#, fuzzy
-#| msgid "event changed text or detail"
 msgid "Event handler daily."
 msgstr "Manipulador de eventos diário."
 
@@ -39480,33 +39212,28 @@ msgstr "Retorna um formulário de configuração para esta extensão."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_add:1
-#, fuzzy
-#| msgid "Hook triggered after new translation is added."
 msgid "Event handler after new translation is added."
-msgstr "Gancho acionado após nova tradução ser adicionada."
+msgstr "Manipulador de eventos após nova tradução ser adicionada."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_commit:1
-#, fuzzy
-#| msgid "Hook triggered after changes are committed to the repository."
 msgid "Event handler after changes are committed to the repository."
 msgstr ""
-"Gancho acionado após alterações terem seu commit feito para o repositório."
+"Manipulador de eventos após alterações terem seu commit feito para o "
+"repositório."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_push:1
-#, fuzzy
-#| msgid "Hook triggered after repository is pushed upstream."
 msgid "Event handler after repository is pushed upstream."
-msgstr "Gancho acionado após repositório ter o push feito para o upstream."
+msgstr ""
+"Manipulador de eventos após repositório ter o push feito para o upstream."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:1
-#, fuzzy
-#| msgid "Hook triggered after repository is updated from upstream."
 msgid "Event handler after repository is updated from upstream."
 msgstr ""
-"Gancho acionado após o repositório ser atualizado a partir do upstream."
+"Manipulador de eventos após o repositório ser atualizado a partir do "
+"upstream."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:3
@@ -39528,28 +39255,24 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_commit:1
-#, fuzzy
-#| msgid "Hook triggered before changes are committed to the repository."
 msgid "Event handler before changes are committed to the repository."
 msgstr ""
-"Gancho acionado antes das alterações terem seu commit feito para o "
+"Manipulador de eventos antes das alterações terem seu commit feito para o "
 "repositório."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_push:1
-#, fuzzy
-#| msgid "Hook triggered before repository is pushed upstream."
 msgid "Event handler before repository is pushed upstream."
 msgstr ""
-"Gancho acionado antes do repositório ter seu push feito para o upstream."
+"Manipulador de eventos antes do repositório ter seu push feito para o "
+"upstream."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_update:1
-#, fuzzy
-#| msgid "Hook triggered before repository is updated from upstream."
 msgid "Event handler before repository is updated from upstream."
 msgstr ""
-"Hook acionado antes do repositório ser atualizado a partir do upstream."
+"Manipulador de eventos antes do repositório ser atualizado a partir do "
+"upstream."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.save_state:1
@@ -39558,10 +39281,8 @@ msgstr "Salva informações do estado da extensão."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:1
-#, fuzzy
-#| msgid "Hook triggered after a file is parsed."
 msgid "Event handler after a file is parsed."
-msgstr "Gancho acionado após um arquivo ser analisado."
+msgstr "Manipulador de eventos após um arquivo ser analisado."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
@@ -39581,10 +39302,8 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.unit_pre_create:1
-#, fuzzy
-#| msgid "Hook triggered before new unit is created."
 msgid "Event handler before new unit is created."
-msgstr "Gancho acionado antes que a nova unidade seja criada."
+msgstr "Manipulador de eventos antes que a nova unidade seja criada."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.user:1
@@ -39593,28 +39312,20 @@ msgstr ""
 "Usuário do Weblate utilizado para rastrear alterações por este complemento."
 
 #: ../../contributing/addons.rst:15
-#, fuzzy
-#| msgid "name of an add-on"
 msgid "ORM object for an add-on."
 msgstr "Objeto ORM para uma extensão."
 
 #: ../../contributing/addons.rst:21
-#, fuzzy
-#| msgid "Associate project with a component."
 msgid "ORM object for a component."
-msgstr "Associa projeto a um componente."
+msgstr "Objeto ORM para um componente."
 
 #: ../../contributing/addons.rst:25
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "ORM object for a translation."
-msgstr "Exclui uma tradução."
+msgstr "Objeto ORM para uma tradução."
 
 #: ../../contributing/addons.rst:29
-#, fuzzy
-#| msgid "Returns statistics for a project."
 msgid "ORM object for a project."
-msgstr "Retorna estatísticas para um projeto."
+msgstr "Objeto ORM para um projeto."
 
 #: ../../contributing/addons.rst:33
 msgid "ORM object for an unit."
@@ -39625,8 +39336,6 @@ msgid "ORM object for an user."
 msgstr "Objeto ORM para um usuário."
 
 #: ../../contributing/addons.rst:41
-#, fuzzy
-#| msgid "Translation filename"
 msgid "Translation file wrapper."
 msgstr "Invólucro do arquivo de tradução."
 
@@ -39695,39 +39404,22 @@ msgid "Coding standard and linting the code"
 msgstr "Padrão de codificação e linting do código"
 
 #: ../../contributing/snippets/pre-commit.rst:4
-#, fuzzy
-#| msgid ""
-#| "The code should follow PEP-8 coding guidelines and should be formatted "
-#| "using :program:`black` code formatter."
 msgid ""
 "The code should follow PEP-8 coding guidelines and should be formatted "
 "using :program:`ruff` code formatter."
 msgstr ""
 "O código deve seguir as diretrizes de codificação PEP-8 e deve ser formatado "
-"usando o formatador de código :program:`black`."
+"usando o formatador de código :program:`ruff`."
 
 #: ../../contributing/snippets/pre-commit.rst:7
-#, fuzzy
-#| msgid ""
-#| "To check the code quality, you can use :program:`flake8`, the recommended "
-#| "plugins are listed in :file:`.pre-commit-config.yaml` and its "
-#| "configuration is placed in :file:`setup.cfg`."
 msgid ""
 "To check the code quality, you can use :program:`ruff`, its configuration is "
 "stored in :file:`pyproject.toml`."
 msgstr ""
-"Para verificar a qualidade do código, você pode usar :program:`flake8`, os "
-"plugins recomendados estão listados em :file:`.pre-commit-config.yaml` e sua "
-"configuração é colocada em :file:`setup.cfg`."
+"Para verificar a qualidade do código, você pode usar :program:`ruff` e sua "
+"configuração é armazenada em :file:`pyproject.toml`."
 
 #: ../../contributing/snippets/pre-commit.rst:10
-#, fuzzy
-#| msgid ""
-#| "The easiest approach to enforce all this is to install `pre-commit`_. The "
-#| "repository contains configuration for it to verify the committed files "
-#| "are sane. After installing it (it is already included in the :file:"
-#| "`requirements-lint.txt`) turn it on by running ``pre-commit install`` in "
-#| "Weblate checkout. This way all your changes will be automatically checked."
 msgid ""
 "The easiest approach to enforce all this is to install `pre-commit`_. The "
 "repository contains configuration for it to verify the committed files are "
@@ -39737,8 +39429,8 @@ msgid ""
 msgstr ""
 "A abordagem mais fácil para impor tudo isso é instalar `pre-commit`_. O "
 "repositório contém a configuração para verificar se os arquivos do commit "
-"estão sãos. Depois de instalá-lo (ele já está incluído no :file:"
-"`requirements-lint.txt`), ative-o executando ``pré-commit install`` na sua "
+"estão sãos. Depois de instalá-lo (ele já está incluído no "
+":file:`pyproject.toml`), ative-o executando ``pré-commit install`` na sua "
 "cópia do Weblate. Desta forma, todas as suas alterações serão verificadas "
 "automaticamente."
 
@@ -39753,10 +39445,8 @@ msgid "Weblate Contributor Communication Guidelines"
 msgstr "Diretrizes de Comunicação para Contribuidores do Weblate"
 
 #: ../../contributing/communication.rst:5
-#, fuzzy
-#| msgid "GitHub username"
 msgid "GitHub Issues"
-msgstr "Nome de usuário GitHub"
+msgstr "Issues do GitHub"
 
 #: ../../contributing/communication.rst:6
 msgid ""
@@ -39766,12 +39456,16 @@ msgid ""
 "implementation process; it also guides to other places with information like "
 "documentation, Discussions, HackerOne program, and Weblate Care."
 msgstr ""
+"`Issues do GitHub <https://github.com/WeblateOrg/weblate/issues>`_ é onde os "
+"bugs podem ser relatados e os recursos podem ser solicitados. O formulário "
+"de envio de problemas fornece modelos para cada um para simplificar a "
+"criação de problemas e o processo de revisão e implementação; ele também "
+"orienta para outros lugares com informações como documentação, Discussions, "
+"programa HackerOne e Weblate Care."
 
 #: ../../contributing/communication.rst:11
-#, fuzzy
-#| msgid "Weblate discussions"
 msgid "Weblate GitHub Discussions"
-msgstr "Discussões do Weblate"
+msgstr "Discussions do GitHub do Weblate"
 
 #: ../../contributing/communication.rst:12
 msgid ""
@@ -39781,12 +39475,16 @@ msgid ""
 "defined categories. Weblate team members occasionally visit Discussions and "
 "can also be mentioned by their GitHub usernames."
 msgstr ""
+"`Discussions do GitHub <https://github.com/WeblateOrg/weblate/discussions>`_ "
+"é um lugar comunitário. As categorias Ideas, Polls, Q&A e Show and Tell "
+"podem ser selecionadas ao postar lá. A categoria General se encaixa em todas "
+"as postagens fora dessas categorias definidas. Os membros da equipe do "
+"Weblate ocasionalmente visitam Discussions e também podem ser mencionados "
+"por seus nomes de usuário do GitHub."
 
 #: ../../contributing/communication.rst:18
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Weblate on Mastodon"
-msgstr "Configuração do Weblate"
+msgstr "Weblate no Mastodon"
 
 #: ../../contributing/communication.rst:19
 msgid ""
@@ -39795,10 +39493,14 @@ msgid ""
 "<https://fosstodon.org/@weblate>`_ on Mastodon. The Weblate team boosts good "
 "moods and bright ideas!"
 msgstr ""
+"Se você quiser atrair uma ampla comunidade de usuários, fãs e "
+"desenvolvedores do Weblate para o seu caso, você pode seguir e mencionar "
+"`@weblate@fosstodon.org <https://fosstodon.org/@weblate>`_ no Mastodon. A "
+"equipe do Weblate estimula o bom humor e as ideias brilhantes!"
 
 #: ../../contributing/communication.rst:22
 msgid "Libera.Chat"
-msgstr ""
+msgstr "Libera.Chat"
 
 #: ../../contributing/communication.rst:23
 msgid ""
@@ -39812,6 +39514,15 @@ msgid ""
 "the chat by specifying a nickname or as a guest by default. Weblate team "
 "members do not visit here."
 msgstr ""
+"`Libera.Chat <https://web.libera.chat/#weblate>`_ é uma rede IRC para "
+"projetos FOSS. Pode ser usada para fazer perguntas básicas informalmente ou "
+"iniciar conversas da comunidade lá. Esta plataforma pode ser considerada "
+"semelhante à comunicação pessoal, onde apenas as pessoas que estão "
+"atualmente na sala (canal) provavelmente responderão à sua mensagem. Este "
+"lugar pode ser usado quando postar no Discussions do GitHub ou Issues do "
+"GitHub não é recomendado pelas diretrizes acima. Nenhuma conta é necessária; "
+"os usuários podem entrar no chat especificando um apelido ou como um "
+"convidado por padrão. Os membros da equipe do Weblate não visitam aqui."
 
 #: ../../contributing/debugging.rst:2
 msgid "Debugging Weblate"
@@ -39887,17 +39598,14 @@ msgstr ""
 "vários arquivos em :file:`/var/log/celery/`."
 
 #: ../../contributing/debugging.rst:37
-#, fuzzy
-#| msgid ""
-#| "Docker containers log to their output (as per usual in the Docker world), "
-#| "so you can look at the logs using ``docker-compose logs``."
 msgid ""
 "Docker containers log to their output (as per usual in the Docker world), so "
 "you can look at the logs using ``docker compose logs``. You can get more "
 "detailed logs by changing :envvar:`WEBLATE_LOGLEVEL`."
 msgstr ""
-"Os contêineres Docker registram a sua saída (como é habitual no mundo "
-"Docker), por isso pode olhar para os logs utilizando ``docker-compose logs``."
+"Os contêineres Docker registram a sua saída (como é habitual no mundo Docker)"
+", por isso pode olhar para os logs utilizando ``docker compose logs``. Você "
+"pode obter logs mais detalhados alterando :envvar:`WEBLATE_LOGLEVEL`."
 
 #: ../../contributing/debugging.rst:43
 msgid ""
@@ -39930,16 +39638,12 @@ msgstr ""
 "Certifique-se que o processo do Celery está em execução, veja :ref:`celery`"
 
 #: ../../contributing/debugging.rst:57
-#, fuzzy
-#| msgid ""
-#| "Check the Celery queue status, either in :ref:`management-interface`, or "
-#| "using :djadmin:`celery_queues`"
 msgid ""
 "Check the Celery queue status, either in :ref:`management-interface`, or "
 "using :wladmin:`celery_queues`"
 msgstr ""
 "Verifique o status da fila do Celery em :ref:`management-interface` ou "
-"usando :djadmin:`celery_queues`"
+"usando :wladmin:`celery_queues`"
 
 #: ../../contributing/debugging.rst:58
 msgid "Look in the Celery logs for errors (see :ref:`weblate-logs`)"
@@ -40048,10 +39752,6 @@ msgid "Weblate frontend"
 msgstr "Frontend do Weblate"
 
 #: ../../contributing/frontend.rst:4
-#, fuzzy
-#| msgid ""
-#| "The frontend is currently built using Bootstrap, jQuery and few third "
-#| "party libraries."
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third-party "
 "libraries."
@@ -40101,9 +39801,12 @@ msgid ""
 "how to install and manage 3rd party libraries used by the `client side` of "
 "Weblate using `Webpack`."
 msgstr ""
+"Instalar e gerenciar bibliotecas de `terceiros` no `cliente` de um projeto "
+"Django pode ser um pouco complicado. Esta seção fornece um guia passo a "
+"passo sobre como instalar e gerenciar bibliotecas de terceiros usadas pelo `"
+"lado do cliente` do Weblate usando `Webpack`."
 
 #: ../../contributing/frontend.rst:27
-#, fuzzy
 msgid "Prerequisites"
 msgstr "Pré-requisitos"
 
@@ -40120,10 +39823,8 @@ msgid "``Nodejs`` version 14 or higher."
 msgstr "Versão 14 ou superior do Nodejs."
 
 #: ../../contributing/frontend.rst:32
-#, fuzzy
-#| msgid "The ``yarn`` package manager installed on your system."
 msgid "The ``yarn`` package manager is installed on your system."
-msgstr "O gerenciador de pacotes 'yarn' instalado no seu sistema."
+msgstr "O gerenciador de pacotes 'yarn' esteja instalado no seu sistema."
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``cd client``."
@@ -40134,16 +39835,12 @@ msgid "Run ``yarn install``"
 msgstr "Execute ``yarn install``"
 
 #: ../../contributing/frontend.rst:39
-#, fuzzy
-#| msgid "To enable support for Rollbar, set the following:"
 msgid "To install a library, first run the following command:"
-msgstr "Para habilitar o suporte para Rollbar, defina o seguinte:"
+msgstr "Para instalar uma biblioteca, primeiro execute o seguinte comando:"
 
 #: ../../contributing/frontend.rst:46
-#, fuzzy
-#| msgid "Importing to Weblate"
 msgid "Importing the Library"
-msgstr "Importando para o Weblate"
+msgstr "Importando a biblioteca"
 
 #: ../../contributing/frontend.rst:48
 msgid "Then, there are two ways to import the library:"
