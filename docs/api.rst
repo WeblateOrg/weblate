@@ -480,7 +480,7 @@ Groups
 
 .. http:get:: /api/groups/(int:id)/
 
-    Returns information about group.
+    Returns information about the group.
 
     :param id: Group's ID
     :type id: int
@@ -670,7 +670,7 @@ Roles
 
 .. http:get:: /api/roles/(int:id)/
 
-    Returns information about a role.
+    Returns information about the role.
 
     :param id: Role ID
     :type id: int
@@ -744,7 +744,7 @@ Languages
 
 .. http:get:: /api/languages/(string:language)/
 
-    Returns information about a language.
+    Returns information about the language.
 
     :param language: Language code
     :type language: string
@@ -847,7 +847,7 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/
 
-    Returns information about a project.
+    Returns information about the project.
 
     :param project: Project URL slug
     :type project: string
@@ -927,7 +927,7 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/repository/
 
-    Returns information about VCS repository status. This endpoint contains
+    Returns information about the VCS repository status. This endpoint contains
     only an overall summary for all repositories for the project. To get more detailed
     status use :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
@@ -1279,7 +1279,7 @@ Components
 
 .. http:get:: /api/components/(string:project)/(string:component)/
 
-    Returns information about translation component.
+    Returns information about the translation component.
 
     :param project: Project URL slug
     :type project: string
@@ -1599,7 +1599,7 @@ Components
 
 .. http:get:: /api/components/(string:project)/(string:component)/repository/
 
-    Returns information about VCS repository status.
+    Returns information about the VCS repository status.
 
     The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
 
@@ -1854,7 +1854,7 @@ Translations
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/
 
-    Returns information about a translation.
+    Returns information about the translation.
 
     :param project: Project URL slug
     :type project: string
@@ -2092,7 +2092,7 @@ Translations
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
 
-    Returns information about VCS repository status.
+    Returns information about the VCS repository status.
 
     The response is same as for :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
@@ -2181,7 +2181,7 @@ and XLIFF.
 
        The ``last_updated`` attribute is now exposed.
 
-    Returns information about translation unit.
+    Returns information about the translation unit.
 
     :param id: Unit ID
     :type id: int
@@ -2274,7 +2274,7 @@ Changes
 
 .. http:get:: /api/changes/(int:id)/
 
-    Returns information about translation change.
+    Returns information about the translation change.
 
     :param id: Change ID
     :type id: int
@@ -2304,7 +2304,7 @@ Screenshots
 
 .. http:get:: /api/screenshots/(int:id)/
 
-    Returns information about screenshot information.
+    Returns information about the screenshot.
 
     :param id: Screenshot ID
     :type id: int
