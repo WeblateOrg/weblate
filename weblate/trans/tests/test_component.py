@@ -1056,7 +1056,7 @@ class ComponentEditMonoTest(ComponentEditTest):
         self.component.edit_template = False
         self.component.save()
 
-        # It should be now read only
+        # It should be now read-only
         self.assertEqual(source.unit_set.all()[0].state, STATE_READONLY)
 
 

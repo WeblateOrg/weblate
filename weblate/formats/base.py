@@ -272,7 +272,7 @@ class TranslationUnit:
         return True
 
     def is_readonly(self) -> bool:
-        """Check whether unit is read only."""
+        """Check whether unit is read-only."""
         return False
 
     def set_target(self, target: str | list[str]) -> None:

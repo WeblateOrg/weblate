@@ -268,12 +268,12 @@ def check_edit_approved(user: User, permission: str, obj: Model):
     if isinstance(obj, Unit):
         unit = obj
         obj = unit.translation
-        # Read only check is unconditional as there is another one
+        # Read-only check is unconditional as there is another one
         # in PluralTextarea.render
         if unit.readonly:
             if not unit.source_unit.translated:
                 return Denied(gettext("The source string needs review."))
-            return Denied(gettext("The string is read only."))
+            return Denied(gettext("The string is read-only."))
         # Ignore approved state if review is not disabled. This might
         # happen after disabling them.
         if (
@@ -289,7 +289,7 @@ def check_edit_approved(user: User, permission: str, obj: Model):
     if isinstance(obj, Translation):
         component = obj.component
         if obj.is_readonly:
-            return Denied(gettext("The translation is read only."))
+            return Denied(gettext("The translation is read-only."))
     elif isinstance(obj, Component):
         component = obj
     if component is not None and component.is_glossary:

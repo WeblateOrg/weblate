@@ -47,7 +47,7 @@ PLAIN_FLAGS["url"] = gettext_lazy("URL")
 PLAIN_FLAGS["auto-java-messageformat"] = gettext_lazy(
     "Automatically detect Java MessageFormat"
 )
-PLAIN_FLAGS["read-only"] = gettext_lazy("Read only")
+PLAIN_FLAGS["read-only"] = gettext_lazy("Read-only")
 PLAIN_FLAGS["strict-same"] = gettext_lazy("Strict unchanged check")
 PLAIN_FLAGS["strict-format"] = gettext_lazy("Strict format string checks")
 PLAIN_FLAGS["forbidden"] = gettext_lazy("Forbidden translation")
