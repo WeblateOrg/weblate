@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-19 19:39+0100\n"
-"PO-Revision-Date: 2024-12-20 01:50+0000\n"
+"PO-Revision-Date: 2024-12-20 03:08+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -8280,7 +8280,8 @@ msgstr ""
 msgid ""
 ":guilabel:`Administration` might also be necessary for forking a repository "
 "if you intend to use forking and the original repository is not public."
-msgstr ""
+msgstr ":guilabel:`Administration` 对 fork 仓库来说可能也是必需的，如果你打算使用 "
+"fork ，而原始仓库并不公开。"
 
 #: ../../admin/config.rst:857
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
@@ -9008,14 +9009,11 @@ msgid "PROJECT_WEB_RESTRICT_RE"
 msgstr "PROJECT_WEB_RESTRICT_RE"
 
 #: ../../admin/config.rst:1519
-#, fuzzy
-#| msgid ""
-#| "Defines a regular expression to restrict project websites. Any matching "
-#| "URLs will be rejected."
 msgid ""
 "Defines a regular expression to limit what can be entered as :ref:`project-"
 "web`. Any matching URLs will be rejected."
-msgstr "定义用于限制项目网站的正则表达式。任何匹配的 URL 都将被拒绝。"
+msgstr "定义正则表达式限制什么可以被输入为 :ref:`project-web`。任何匹配的 URL "
+"都将被拒绝。"
 
 #: ../../admin/config.rst:1523
 msgid ""
@@ -10365,17 +10363,13 @@ msgstr ""
 "`component-vcs` 来激活这些。"
 
 #: ../../admin/continuous.rst:356
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, Mercurial, GitHub, "
-#| "GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Server and Bitbucket Cloud:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket "
 "Cloud:"
 msgstr ""
 "整体上， Git、Mercurial、GitHub、GitLab、Gitea、Pagure、Azure DevOps、"
-"Bitbucket Server 和 Bitbucket Cloud 提供以下选项："
+"Bitbucket 数据中心和 Bitbucket 云提供以下选项："
 
 #: ../../admin/continuous.rst:362
 msgid "Desired setup"
@@ -10510,20 +10504,16 @@ msgid "Azure DevOps pull request from branch"
 msgstr "来自分支的 Azure DevOps 拉取请求"
 
 #: ../../admin/continuous.rst:447
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull request from fork"
-msgstr "Bitbucket 服务器拉取请求"
+msgstr "来自分叉的 BitBucket 数据中心拉取请求"
 
 #: ../../admin/continuous.rst:448 ../../admin/continuous.rst:453
 msgid ":ref:`vcs-bitbucket-server`"
 msgstr ":ref:`vcs-bitbucket-server`"
 
 #: ../../admin/continuous.rst:452
-#, fuzzy
-#| msgid "Bitbucket server pull request from branch"
 msgid "Bitbucket Data Center pull request from branch"
-msgstr "来自分支的 Bitbucket 服务器拉取请求"
+msgstr "来自分支的 Bitbucket 数据中心拉取请求"
 
 #: ../../admin/continuous.rst:457
 msgid "Bitbucket Cloud pull request from fork"
@@ -12159,6 +12149,9 @@ msgid ""
 "reverse proxy address, so Weblate needs an additional HTTP header with "
 "client IP address."
 msgstr ""
+"Weblate 从 WGSI 处理程序设置的 ``REMOTE_ADDR`` 解析 IP 地址。这可能是空的（"
+"当对 WGSI 使用 socket 时）或者包括反向代理地址，因此 Weblate 需要带客户端 IP "
+"地址的附加 HTTP 标头。"
 
 #: ../../admin/install.rst:699
 msgid ""
@@ -12167,13 +12160,17 @@ msgid ""
 "setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
 "and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
+"启用 :setting:`IP_BEHIND_REVERSE_PROXY` 对多数通常配置可能足够了，"
+"但你可能也需要调整 :setting:`IP_PROXY_HEADER` 和 :setting:`IP_PROXY_OFFSET` "
+"（使用 Docker 容器内的 :envvar:`WEBLATE_IP_PROXY_HEADER` 和 "
+":envvar:`WEBLATE_IP_PROXY_OFFSET`）。"
 
 #: ../../admin/install.rst:706
 msgid ""
 "This configuration cannot be turned on by default because it would allow IP "
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
-msgstr ""
+msgstr "此配置默认无法启用，因其会在没有正确配置反向代理的安装上允许 IP 地址伪造。"
 
 #: ../../admin/install.rst:710
 msgid ""
@@ -12189,11 +12186,6 @@ msgstr ""
 "``）。"
 
 #: ../../admin/install.rst:717
-#, fuzzy
-#| msgid ""
-#| ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
-#| "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-#| "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgid ""
 ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
 "ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
@@ -12201,9 +12193,11 @@ msgid ""
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, "
+":ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, "
+":envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:732
 msgid "HTTP proxy"
@@ -13119,31 +13113,21 @@ msgstr ""
 "setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install.rst:1416
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration for NGINX and Gunicorn"
-msgstr "Apache 和 Gunicorn 的配置示例"
+msgstr "NGINX 和 Gunicorn 的配置示例"
 
 #: ../../admin/install.rst:1418
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
-#| "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate using Gunicorn under the NGINX "
 "webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
 "conf`):"
 msgstr ""
-"后面的配置在 Gunicorn 和 Apache 2.4 中运行 Weblate（作为 :file:`weblate/"
-"examples/apache.gunicorn.conf` 获得）："
+"下列配置在 NGINX web服务器下使用 Gunicorn 运行 Weblate （同样作为 :file:`"
+"weblate/examples/weblate.nginx.gunicorn.conf`文件可用）："
 
 #: ../../admin/install.rst:1427 ../../admin/install.rst:1497
-#, fuzzy
-#| msgid ""
-#| ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ""
-":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
+msgstr ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1433
 msgid "Sample configuration for NGINX and uWSGI"
@@ -13232,10 +13216,8 @@ msgstr ""
 "examples/apache.gunicorn.conf` 获得）："
 
 #: ../../admin/install.rst:1504
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration to start Gunicorn"
-msgstr "Apache 和 Gunicorn 的配置示例"
+msgstr "启动 Gunicorn 的配置示例"
 
 #: ../../admin/install.rst:1506
 msgid ""
@@ -13243,20 +13225,23 @@ msgid ""
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"Weblate 有 `wsgi` 可选依赖 （见 :ref:`python-deps`），此依赖会安装运行 "
+"Gunicorn 所需的一切。安装 Weblate 时，你可以将它指定为："
 
 #: ../../admin/install.rst:1514
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show staring via systemd:"
-msgstr ""
+msgstr "一旦安装了 Gunicorn，你可以运行它。这通常在系统层级完成。下列示例显示通过 "
+"systemd 的启动："
 
 #: ../../admin/install.rst:1517
 msgid "/etc/systemd/system/gunicorn.socket"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.socket"
 
 #: ../../admin/install.rst:1521
 msgid "/etc/systemd/system/gunicorn.service"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.service"
 
 #: ../../admin/install.rst:1527
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -13415,30 +13400,18 @@ msgid "Periodic tasks using Celery beat"
 msgstr "使用 Celery beat 的周期性任务"
 
 #: ../../admin/install.rst:1639
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. The task schedule is "
 "stored in the database and tasks are executed by the Celery beat daemon."
-msgstr ""
-"Weblate 带有内建的定时任务设置。然而您可以在 :file:`settings.py` 中定义另外的"
-"任务，例如请参见 :ref:`lazy-commit`。"
+msgstr "Weblate 带有内建的定时任务设置。任务计划存储在数据库内，任务由 Celery beat "
+"守护进程执行。"
 
 #: ../../admin/install.rst:1644
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "You can define additional tasks in :file:`settings.py`, for example see :ref:"
 "`lazy-commit`."
-msgstr ""
-"Weblate 带有内建的定时任务设置。然而您可以在 :file:`settings.py` 中定义另外的"
-"任务，例如请参见 :ref:`lazy-commit`。"
+msgstr "您可以在 :file:`settings.py` 中定义另外的任务，例如请参见 :ref:`lazy-"
+"commit`。"
 
 #: ../../admin/install.rst:1650
 msgid "Monitoring Celery status"
@@ -19784,10 +19757,8 @@ msgid "Rate limiting"
 msgstr "频次限制"
 
 #: ../../admin/optionals.rst:276
-#, fuzzy
-#| msgid "The rate limiting no longer applies to superusers."
 msgid "The rate limiting no longer applies to signed in superusers."
-msgstr "速率限制不再适用于超级用户。"
+msgstr "速率限制不再适用于已登录的超级用户。"
 
 #: ../../admin/optionals.rst:278
 msgid ""
@@ -19927,7 +19898,7 @@ msgstr "``PROJECT``"
 msgid ""
 "The rate limiting is based on sessions when user is signed in and on IP "
 "address if not."
-msgstr ""
+msgstr "速率限制的依据在用户登录时为会话，在未登录时为 IP 地址。"
 
 #: ../../admin/optionals.rst:307
 msgid ""
@@ -23041,16 +23012,12 @@ msgstr ""
 "息。"
 
 #: ../../api.rst:269
-#, fuzzy
-#| msgid "Language code to search for"
 msgid "Username to search for"
-msgstr "要搜索的语言代码"
+msgstr "要搜索的用户名"
 
 #: ../../api.rst:270
-#, fuzzy
-#| msgid "Language code to search for"
 msgid "User ID to search for"
-msgstr "要搜索的语言代码"
+msgstr "要搜索的用户 ID"
 
 #: ../../api.rst:274
 msgid ""
@@ -25812,10 +25779,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS <https://zh.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.8.2"
 msgid "Weblate 5.9.2"
-msgstr "Weblate 5.8.2"
+msgstr "Weblate 5.9.2"
 
 #: ../../changes.rst:4 ../../changes.rst:704
 msgid "Released on December 19th 2023."
@@ -25841,14 +25806,12 @@ msgid "**Improvements**"
 msgstr "**改进**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-server`"
 msgid "Renamed :ref:`vcs-bitbucket-server` to match new product name."
-msgstr ":ref:`vcs-bitbucket-server`"
+msgstr "已重命名 :ref:`vcs-bitbucket-server` 匹配新的产品名。"
 
 #: ../../changes.rst:11
 msgid ":http:get:`/api/users/` supports searching by user ID."
-msgstr ""
+msgstr ":http:get:`/api/users/` 支持按用户 ID 搜索。"
 
 #: ../../changes.rst:13 ../../changes.rst:37 ../../changes.rst:81
 #: ../../changes.rst:114 ../../changes.rst:135 ../../changes.rst:156
@@ -25866,21 +25829,21 @@ msgstr "**缺陷修复**"
 
 #: ../../changes.rst:15
 msgid "Avoid query parser crash in multi-threaded environments."
-msgstr ""
+msgstr "避险多线程环境下的查询解析器崩溃。"
 
 #: ../../changes.rst:16
 msgid "Avoid :ref:`autofix` crash on multi-value strings."
-msgstr ""
+msgstr "避免 ref:`autofix`面对多值字符串时崩溃。"
 
 #: ../../changes.rst:17
 msgid ""
 "Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are "
 "enforced."
-msgstr ""
+msgstr "当强制 :ref:`2fa` 或 :ref:`component-agreement`时让项目令牌工作。"
 
 #: ../../changes.rst:18
 msgid "Captcha solution were sometimes not accepted."
-msgstr ""
+msgstr "人机验证解答有时不被接受。"
 
 #: ../../changes.rst:20 ../../changes.rst:87 ../../changes.rst:227
 #: ../../changes.rst:332 ../../changes.rst:422 ../../changes.rst:584
@@ -25941,30 +25904,22 @@ msgid "**Contributors**"
 msgstr "**贡献者**"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/132?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/135?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/132?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"135?closed=1>`__。"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Weblate 5.8.1"
 msgid "Weblate 5.9.1"
-msgstr "Weblate 5.8.1"
+msgstr "Weblate 5.9.1"
 
 #: ../../changes.rst:35 ../../changes.rst:54
 msgid "Released on December 16th 2024."
 msgstr "发布于 2024 年 12 月 16 日。"
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Fixed publishing packages to PyPI."
 msgid "Fixed publishing package to PyPI."
 msgstr "修复了发布软件包到 PyPI 的问题。"
 
@@ -25999,16 +25954,12 @@ msgid "Documentation contributions"
 msgstr "文档贡献者"
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/132?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/134?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/132?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"134?closed=1>`__。"
 
 #: ../../changes.rst:52
 msgid "Weblate 5.9"
@@ -26121,10 +26072,8 @@ msgid "Saving newly added strings in some formats."
 msgstr "用某些格式保存新添加的字符串。"
 
 #: ../../changes.rst:85
-#, fuzzy
-#| msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgid ":ref:`check-java-printf-format` gracefully handles escaping."
-msgstr ":ref:`check-icu-message-format` 优雅地处理复数字符串。"
+msgstr ":ref:`check-java-printf-format` 优雅地处理转义。"
 
 #: ../../changes.rst:89
 msgid ""
@@ -26153,13 +26102,12 @@ msgid ""
 msgstr ":envvar:`WEB_WORKERS` 现在配置线程数而非进程数。"
 
 #: ../../changes/contributors/5.9.rst:3
-#, fuzzy
-#| msgid ""
-#| "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
 msgid ""
 "Michal Čihař, Mehdi El Oualy, Paul Harriet Asiñero, Yusi Z, Mehdi Eloualy, "
 "gers, nijel, michael-smt, gersona, Gersona"
-msgstr "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
+msgstr ""
+"Michal Čihař, Mehdi El Oualy, Paul Harriet Asiñero, Yusi Z, Mehdi Eloualy, "
+"gers, nijel, michael-smt, gersona, Gersona"
 
 #: ../../changes/contributors/5.7.1.rst:5
 #: ../../changes/contributors/5.7.2.rst:5 ../../changes/contributors/5.7.rst:5
@@ -26184,15 +26132,27 @@ msgid ""
 "Симић(Slobodan Simić), Priit Jõerüüt, Hugo, UTUMI Hirosi, Сергей, symegac, "
 "Winston Sung, ChinskiKaczynski, Rafael Fontenelle"
 msgstr ""
+"Michal Čihař, Besnik Bleta, gallegonovato, Blueberry, cat, Fjuro, "
+"Sketch6580, Massimo Pissarello, Linerly, 大王叫我来巡山, 大学没毕业, Yuri "
+"Chornoivan, VfBFan, JY3, Miguel A. Bouzada, Dick Groskamp, Aindriú Mac "
+"Giolla Eoin, Andi Chandler, Kristoffer Grundström, Christian Wia, Claudio "
+"Filho F Filho, Yaron Shahrabani, Milo Ivir, Kaya Zeren, Neaten “Awrawman” "
+"Awrawman, Agnieszka C, Jeff Huang, Fulup Jakez, Milan Šalka, nautilusx, "
+"Любомир Василев, notlin4, immeteor2, kowih83264, WaldiS, ssantos, Reno Tx, "
+"Johan Jacobsson, Peter Vančo, Sveinn í Felli, Oliver, Yvan Zo, meshari "
+"alnaim, தமிழ்நேரம், searinminecraft, Jwtiyar Nariman, gitelo4516, Vision, "
+"Chang-Chia Tseng, Kyotaro Iijima, Ricky Tigg, ei9, Martin Srebotnjak, "
+"Horus68, 이정희, Максим Горпиніч, Sylvain Pichon, Ldm Public, Слободан Симић("
+"Slobodan Simić), Priit Jõerüüt, Hugo, UTUMI Hirosi, Сергей, symegac, Winston "
+"Sung, ChinskiKaczynski, Rafael Fontenelle"
 
 #: ../../changes/contributors/5.9.rst:9
-#, fuzzy
-#| msgid ""
-#| "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
 msgid ""
 "Michal Čihař, Paul Harriet Asiñero, gers, michael-smt, Benjamin Alan Jamie, "
 "Gersona, Mehdi Eloualy"
-msgstr "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
+msgstr ""
+"Michal Čihař, Paul Harriet Asiñero, gers, michael-smt, Benjamin Alan Jamie, "
+"Gersona, Mehdi Eloualy"
 
 #: ../../changes.rst:103
 msgid ""
@@ -26428,8 +26388,6 @@ msgid ":ref:`search-replace` shows a preview of matched strings."
 msgstr ":ref:`search-replace` 显示匹配字符串的预览。"
 
 #: ../../changes.rst:218
-#, fuzzy
-#| msgid ":ref:`aresource` now supports translatable attribute in its strings."
 msgid ":ref:`aresource` now support translatable attribute in its strings."
 msgstr ":ref:`aresource` 现支持其字符串中可翻译的属性。"
 
@@ -37363,7 +37321,7 @@ msgstr "Daniel Leidert"
 
 #: ../../../BACKERS.rst:27
 msgid "ELSA-X"
-msgstr ""
+msgstr "ELSA-X"
 
 #: ../../../BACKERS.rst:29
 msgid ""
@@ -45116,10 +45074,8 @@ msgid "Indices and tables"
 msgstr "索引和表格"
 
 #: ../../index.rst:2
-#, fuzzy
-#| msgid "Documentation"
 msgid "Weblate Documentation"
-msgstr "文档"
+msgstr "Weblate 文档"
 
 #: ../../index.rst:8
 msgid ""
@@ -51681,24 +51637,17 @@ msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 msgstr ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:414
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull requests"
-msgstr "Bitbucket 服务器拉取请求"
+msgstr "Bitbucket 数据中心拉取请求"
 
 #: ../../vcs.rst:418
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket "
-#| "Server API`_ to allow pushing translation changes as pull requests "
-#| "instead of pushing directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Data "
 "Center API`_ to allow pushing translation changes as pull requests instead "
 "of pushing directly to the repository."
 msgstr ""
-"这只是使用 `Bitbucket Server API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许"
-"将翻译更改作为拉取请求推送，而不是直接推送到仓库。"
+"这只是使用 `Bitbucket 数据中心 API`_ 在 :ref:`vcs-git` "
+"上添加了一个薄层，以允许将翻译更改作为拉取请求推送，而不是直接推送到仓库。"
 
 #: ../../vcs.rst:424
 msgid "This does not support Bitbucket Cloud API."
@@ -51716,21 +51665,15 @@ msgstr ""
 "bitbucket-server` 创建拉取请求。"
 
 #: ../../vcs.rst:432
-#, fuzzy
-#| msgid ""
-#| "You need to configure API credentials (:setting:"
-#| "`BITBUCKETSERVER_CREDENTIALS`) in the Weblate settings to make this work. "
-#| "Once configured, you will see a :guilabel:`Bitbucket Server` option when "
-#| "selecting :ref:`component-vcs`."
 msgid ""
 "You need to configure API credentials (:setting:"
 "`BITBUCKETSERVER_CREDENTIALS`) in the Weblate settings to make this work. "
 "Once configured, you will see a :guilabel:`Bitbucket Data Center` option "
 "when selecting :ref:`component-vcs`."
 msgstr ""
-"您需要在 Weblate 设置中配置 API 凭据 (:setting:"
-"`BITBUCKETSERVER_CREDENTIALS`) 才能使其工作。配置完成后，您将在选择 :ref:"
-"`component-vcs` 时看到 :guilabel:`Bitbucket Server` 选项。"
+"您需要在 Weblate 设置中配置 API 凭据 (:setting:`BITBUCKETSERVER_CREDENTIALS`)"
+" 才能使其工作。配置完成后，您将在选择 :ref:`component-vcs` 时看到 :guilabel:`"
+"Bitbucket 数据中心` 选项。"
 
 #: ../../vcs.rst:438
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
@@ -51750,10 +51693,8 @@ msgstr ""
 "翻译更改作为拉取请求推送，而不是直接推送到仓库。"
 
 #: ../../vcs.rst:457
-#, fuzzy
-#| msgid "This is different from Bitbucket Server API."
 msgid "This is different from Bitbucket Data Center API."
-msgstr "这和 BitBucket 服务器 API 不同。"
+msgstr "这和 BitBucket 数据中心 API 不同。"
 
 #: ../../vcs.rst:460
 msgid ""
