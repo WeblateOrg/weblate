@@ -69,7 +69,7 @@
         </table>
         <div class="panel-footer">
           {% if scope == "sitewide" %}
-            {% trans "Add-ons can be installed on project and component scope as well." %}
+            {% trans "Add-ons can also be installed at the project and the component levels." %}
           {% endif %}
           {% if scope == "component" %}
             <a href="{% url 'addons' path=object.project.get_url_path %}"
@@ -104,7 +104,7 @@
                   {% if scope != "component" and addon.needs_component %}
                     <button class="btn btn-primary"
                             disabled
-                            title="{% trans "The add-on can only be installed on the component." %}">
+                            title="{% trans "The add-on can only be installed on the component level." %}">
                       {% trans "Install" %}
                     </button>
                   {% else %}
