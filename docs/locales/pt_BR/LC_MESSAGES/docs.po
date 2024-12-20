@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-19 19:39+0100\n"
-"PO-Revision-Date: 2024-12-19 18:22+0000\n"
+"PO-Revision-Date: 2024-12-20 01:16+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -16923,9 +16923,9 @@ msgid ""
 "container. The other service containers (PostgreSQL or Redis) have their "
 "data volumes as well, but those are not covered by this document."
 msgstr ""
-"Há dois volumes (``dados`` e ``cache``) exportados pelo contêiner Weblate. "
-"Os outros contêineres de serviço (PostgreSQL ou Redis) também têm seus "
-"volumes de dados, mas eles não são cobertos por este documento."
+"Há dois volumes (``data`` e ``cache``) exportados pelo contêiner Weblate. Os "
+"outros contêineres de serviço (PostgreSQL ou Redis) também têm seus volumes "
+"de dados, mas eles não são cobertos por este documento."
 
 #: ../../admin/install/docker.rst:1950
 msgid ""
@@ -16934,9 +16934,10 @@ msgid ""
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
-"O volume ``dados`` é montado como :file:`/app/data`` e é utilizado para "
+"O volume ``data`` é montado como :file:`/app/data`` e é utilizado para "
 "armazenar dados persistentes do Weblate, como repositórios clonados ou para "
-"personalizar a instalação do Weblate."
+"personalizar a instalação do Weblate. :setting:`DATA_DIR` descreve em mais "
+"detalhes o que é armazenado aqui."
 
 #: ../../admin/install/docker.rst:1954
 msgid ""
@@ -17872,8 +17873,8 @@ msgid ""
 msgstr ""
 "Definições para cerca de 650 idiomas estão incluídas no Weblate e a lista é "
 "estendida a cada versão. Sempre que o Weblate é atualizado (mais "
-"especificamente sempre que :wladmin:` migrate` é executado, veja :ref:"
-"`generic-upgrade-Instructions`) o banco de dados de idiomas é atualizado "
+"especificamente sempre que :wladmin:`migrate` é executado, veja :ref"
+":`generic-upgrade-Instructions`) o banco de dados de idiomas é atualizado "
 "para incluir todas as definições de idioma enviadas no Weblate."
 
 #: ../../admin/languages.rst:20
@@ -28407,7 +28408,7 @@ msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
-":ref:`Searching`agora suporta filtragem por caminho de objeto e:ref:`date-"
+":ref:`Searching` agora suporta filtragem por caminho de objeto e :ref:`date-"
 "search`."
 
 #: ../../changes.rst:202
@@ -29359,7 +29360,7 @@ msgstr "Aprimoramentos na API"
 
 #: ../../changes.rst:554
 msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
-msgstr "Adicionado: http:get:`/api/categories/(int:id)/statistics/`."
+msgstr "Adicionado :http:get:`/api/categories/(int:id)/statistics/`."
 
 #: ../../changes.rst:555
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
@@ -30328,7 +30329,7 @@ msgstr "O histórico agora carrega mais rápido."
 
 #: ../../changes.rst:936
 msgid "Added object ``id`` to all :ref:`api` endpoints."
-msgstr "Objeto id adicionado a todos os endpoints da :ref:api."
+msgstr "Objeto ``id`` adicionado a todos os endpoints da :ref:`api`."
 
 #: ../../changes.rst:937
 msgid "Better performance of projects with a lot of components."
@@ -30379,7 +30380,7 @@ msgstr "A dependência `pyahocorasick` foi substituída por `ahocorasick_rs`."
 msgid ""
 "The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
-msgstr "O valor padrão de :setting:IP_PROXY_OFFSET foi alterado de 1 para -1."
+msgstr "O valor padrão de :setting:`IP_PROXY_OFFSET` foi alterado de 1 para -1."
 
 #: ../../changes.rst:961
 msgid ""
@@ -35349,8 +35350,8 @@ msgid ""
 "`docker-postgres-upgrade` for upgrade instructions. Weblate itself supports "
 "older versions as well, when appropriate Django version is installed."
 msgstr ""
-"O contêiner Docker agora requer PostgreSQL 12 ou mais recente; consulte :ref:"
-"docker-postgres-upgrade para obter instruções de atualização. O Weblate "
+"O contêiner Docker agora requer PostgreSQL 12 ou mais recente; consulte :ref"
+":`docker-postgres-upgrade` para obter instruções de atualização. O Weblate "
 "também suporta versões mais antigas, desde que a versão apropriada do Django "
 "esteja instalada."
 
@@ -36556,7 +36557,7 @@ msgid ""
 msgstr ""
 "Corrigida a falta de sanitização de argumentos para Git e Mercurial -- "
 "CVE-2022-23915, consulte `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-"weblate/security/advisories/GHSA-3872-f48p-pxqj> `_ para mais detalhes."
+"weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ para mais detalhes."
 
 #: ../../changes/v4.rst:453
 msgid "Fixed loading fuzzy strings from CSV files."
@@ -48611,7 +48612,7 @@ msgid ""
 ":ref:`apple`, `Stringsdict File Format <https://developer.apple.com/"
 "documentation/xcode/localizing-strings-that-contain-plurals>`_"
 msgstr ""
-"ref:`apple`, `Formato de arquivo Stringsdict <https://developer.apple.com/"
+":ref:`apple`, `Formato de arquivo Stringsdict <https://developer.apple.com/"
 "documentation/xcode/localizing-strings-that-contain-plurals>`_"
 
 #: ../../formats/stringsdict.rst:28
