@@ -2196,7 +2196,7 @@ and XLIFF.
     :>json string note: translation unit note
     :>json string flags: translation unit flags
     :>json array labels: translation unit labels, available on source units
-    :>json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read only
+    :>json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read-only
     :>json boolean fuzzy: whether the unit is fuzzy or marked for review
     :>json boolean translated: whether the unit is translated
     :>json boolean approved: whether the translation is approved
