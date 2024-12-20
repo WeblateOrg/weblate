@@ -73,7 +73,7 @@ the original string, for example that it should be rephrased, or to ask
 questions about it.
 
 Markdown syntax can be used in all comments, as well as mentioning other
-users by using``@username``.
+users by using ``@username``.
 
 .. seealso::
 
