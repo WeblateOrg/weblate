@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2024-12-21 00:25+0000\n"
+"PO-Revision-Date: 2024-12-21 04:06+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -35072,8 +35072,6 @@ msgstr ""
 "somente leitura."
 
 #: ../../changes/v4.rst:47
-#, fuzzy
-#| msgid "Added confirmation before removing a user from a project."
 msgid "Added username autocompletion when adding users to a project."
 msgstr ""
 "Adicionado preenchimento automático de nome de usuário ao adicionar usuários "
@@ -39849,88 +39847,102 @@ msgstr "Em seguida, existem duas maneiras de importar a biblioteca:"
 #: ../../contributing/frontend.rst:50
 msgid "If it is a project-wide library (it is used/needed in all/most pages):"
 msgstr ""
+"Se for uma biblioteca para todo o projeto (é usada/necessária em todas/na "
+"maioria das páginas):"
 
 #: ../../contributing/frontend.rst:51
 msgid "Import the library in ``src/main.js``."
-msgstr ""
+msgstr "Importe a biblioteca em ``src/main.js``."
 
 #: ../../contributing/frontend.rst:52
 msgid "And declare it in the global scope (if needed)."
-msgstr ""
+msgstr "E declare-a no escopo global (se necessário)."
 
 #: ../../contributing/frontend.rst:54
 msgid ""
 "If it is page-specific library (library is used in a specific page or "
 "template):"
 msgstr ""
+"Se for uma biblioteca específica de página (a biblioteca é usada em uma "
+"página ou modelo específico):"
 
 #: ../../contributing/frontend.rst:55
 msgid "Create a new file named ``src/<lib-name>.js``."
-msgstr ""
+msgstr "Crie um novo arquivo chamado ``src/<nome-da-biblioteca>.js``."
 
 #: ../../contributing/frontend.rst:56
 msgid ""
 "Import the library in it. Then inject it into the ``window`` object to be "
 "globally accessible."
 msgstr ""
+"Importe a biblioteca nele. Então injete-a no objeto ``window`` para ser "
+"acessível globalmente."
 
 #: ../../contributing/frontend.rst:57
 msgid ""
 "Add an entry in ``webpack.config.js``: ``<lib-name>: \"src/<lib-name>.js\"``."
 msgstr ""
+"Adicione uma entrada em ``webpack.config.js``: ``<nome-da-biblioteca>: "
+"\"src/<nome-da-biblioteca>.js\"``."
 
 #: ../../contributing/frontend.rst:59
 msgid ""
 "Add library name in ``excludePrefixes`` array in ``mainLicenseTransform`` in "
 "``webpack.config.js``."
 msgstr ""
+"Adicione o nome da biblioteca no array ``excludePrefixes`` em "
+"``mainLicenseTransform`` em ``webpack.config.js``."
 
 #: ../../contributing/frontend.rst:60
 msgid ""
 "Add license file name in ``additionalFiles`` in ``LicensePlugin`` in "
 "``plugins`` array in ``webpack.config.js``."
 msgstr ""
+"Adicione o nome do arquivo de licença em ``additionalFiles`` em "
+"``LicensePlugin`` no array ``plugins`` em ``webpack.config.js``."
 
 #: ../../contributing/frontend.rst:61
 msgid ""
 "Create a ``<lib-name>LicenseTransfrom`` function for the license file "
 "introduced in the previous steps and use it."
 msgstr ""
+"Crie uma função ``<nome-da-biblioteca>LicenseTransfrom`` para o arquivo de "
+"licença introduzido nas etapas anteriores e use-a."
 
 #: ../../contributing/frontend.rst:63
 msgid ""
 "Note: Replace ``<lib-name>`` with the actual name of the 3rd party library."
 msgstr ""
+"Nota: Substitua ``<nome-da-biblioteca>`` pelo nome real da biblioteca de "
+"terceiros."
 
 #: ../../contributing/frontend.rst:66
-#, fuzzy
-#| msgid "Importing to Weblate"
 msgid "Building the Library"
-msgstr "Importando para o Weblate"
+msgstr "Construindo a biblioteca"
 
 #: ../../contributing/frontend.rst:68
-#, fuzzy
-#| msgid "To enable support for Rollbar, set the following:"
 msgid ""
 "Build the libraries used by the project, by running the following command:"
-msgstr "Para habilitar o suporte para Rollbar, defina o seguinte:"
+msgstr "Crie as bibliotecas usadas pelo projeto executando o seguinte comando:"
 
 #: ../../contributing/frontend.rst:75
-#, fuzzy
-#| msgid "Importing to Weblate"
 msgid "Including the Library"
-msgstr "Importando para o Weblate"
+msgstr "Incluindo a biblioteca"
 
 #: ../../contributing/frontend.rst:77
 msgid ""
 "Now the library is built and ready for use. To include it follow these steps:"
 msgstr ""
+"Agora a biblioteca está construída e pronta para uso. Para incluí-la siga "
+"estes passos:"
 
 #: ../../contributing/frontend.rst:79
 msgid ""
 "If the library was imported in ``src/main.js``, no further steps are "
 "required (as it is already included in ``base.html``)."
 msgstr ""
+"Se a biblioteca foi importada em ``src/main.js``, nenhuma etapa adicional é "
+"necessária (pois ela já está incluída em ``base.html``)."
 
 #: ../../contributing/frontend.rst:81
 msgid ""
@@ -39938,33 +39950,27 @@ msgid ""
 "``weblate/templates`` use the include tags to link to the built static "
 "JavaScript file:"
 msgstr ""
+"Se a biblioteca foi importada em seu arquivo específico ``src/<nome-da-"
+"biblioteca>.js``, em ``weblate/templates`` use as tags include para vincular "
+"ao arquivo JavaScript estático criado:"
 
 #: ../../contributing/frontend.rst:89
 msgid "Coding style"
 msgstr "Estilo de codificação"
 
 #: ../../contributing/frontend.rst:91
-#, fuzzy
-#| msgid ""
-#| "Weblate relies on `Prettier`_ for the code formatting for both JavaScript "
-#| "and CSS files."
 msgid ""
 "Weblate relies on `Biome`_ for formatting and linting the JavaScript and CSS "
 "code."
 msgstr ""
-"Weblate depende do `Prettier`_ para a formatação do código para arquivos "
-"JavaScript e CSS."
+"Weblate depende do `Biome`_ para a formatação e linting do código JavaScript "
+"e CSS."
 
 #: ../../contributing/frontend.rst:97
 msgid "Localization"
 msgstr "Localização"
 
 #: ../../contributing/frontend.rst:99
-#, fuzzy
-#| msgid ""
-#| "Should you need any user visible text in the frontend code, it should be "
-#| "localizable. In most cases all you need is to wrap your text inside "
-#| "``gettext`` function, but there are more complex features available:"
 msgid ""
 "Should you need any user visible text in the frontend code, it should be "
 "localizable. In most cases, all you need is to wrap your text inside "
@@ -40162,10 +40168,12 @@ msgid ""
 "Documentation can be also edited and built locally, the Python requirements "
 "are in the ``docs`` dependency group in :file:`pyproject.toml`."
 msgstr ""
+"A documentação também pode ser editada e criada localmente; os requisitos do "
+"Python estão no grupo de dependências ``docs`` em :file:`pyproject.toml`."
 
 #: ../../contributing/index.rst:58
 msgid "You will also need :program:`graphviz` to build the documentation."
-msgstr ""
+msgstr "Você também precisará do :program:`graphviz` para criar a documentação."
 
 #: ../../contributing/index.rst:62
 msgid ""
@@ -40214,13 +40222,6 @@ msgid "Funding Weblate development"
 msgstr "Financiando o desenvolvimento do Weblate"
 
 #: ../../contributing/index.rst:90
-#, fuzzy
-#| msgid ""
-#| "You can boost Weblate’s development on the `donate page`_. Funds "
-#| "collected there are used to enable gratis hosting for libre software "
-#| "projects and further development of Weblate. Please check the `donate "
-#| "page`_ for options, such as funding goals and the rewards you get as a "
-#| "proud funder."
 msgid ""
 "You can boost Weblate’s development by donating. Funds collected on "
 "donations are used to enable gratis hosting for libre software projects and "
@@ -40228,11 +40229,12 @@ msgid ""
 "<https://weblate.org/donate/>`_ for options, such as funding goals and the "
 "rewards you get as a proud funder."
 msgstr ""
-"Você pode impulsionar o desenvolvimento do Weblate na `página de doação`_. "
-"Os fundos coletados lá são usados para permitir hospedagem de grátis para "
-"projetos de software livre e o desenvolvimento adicional do Weblate. Por "
-"favor, verifique a `página de doação`_ para obter opções, como metas de "
-"financiamento e as recompensas que você obtém como um financiador orgulhoso."
+"Você pode impulsionar o desenvolvimento do Weblate doando. Os fundos "
+"coletados em doações são usados para habilitar hospedagem gratuita para "
+"projetos de software livre e para financiar o ecossistema do qual o Weblate "
+"depende. Por favor, verifique a `página de doação <https://weblate.org/"
+"donate/>`_ para opções, como metas de financiamento e as recompensas que "
+"você recebe como um orgulhoso financiador."
 
 #: ../../../BACKERS.rst:2
 msgid "Supporters who have funded Weblate"
@@ -40296,45 +40298,39 @@ msgstr "James Valleroy"
 
 #: ../../../BACKERS.rst:19
 msgid "wallabag.org"
-msgstr ""
+msgstr "wallabag.org"
 
 #: ../../../BACKERS.rst:20
-#, fuzzy
-#| msgid "`curl <https://curl.se/>`_"
 msgid "`Scenari (Kelis) <https://scenari.software/>`_"
-msgstr "`curl <https://curl.se/>`_"
+msgstr "`Scenari (Kelis) <https://scenari.software/>`_"
 
 #: ../../../BACKERS.rst:21
-#, fuzzy
-#| msgid "`Libravatar <https://www.libravatar.org/>`_"
 msgid "`BibLibre (Koha community) <https://www.biblibre.com/>`_"
-msgstr "`Libravatar <https://www.libravatar.org/>`_"
+msgstr "`BibLibre (comunidade Koha) <https://www.biblibre.com/>`_"
 
 #: ../../../BACKERS.rst:22
-#, fuzzy
-#| msgid "Building community"
 msgid "Koha community"
-msgstr "Comunidade de compilação"
+msgstr "Comunidade Koha"
 
 #: ../../../BACKERS.rst:23
 msgid "24eme.fr"
-msgstr ""
+msgstr "24eme.fr"
 
 #: ../../../BACKERS.rst:24
 msgid "Fotema Gallery App"
-msgstr ""
+msgstr "Fotema, aplicativo de galeria"
 
 #: ../../../BACKERS.rst:25
 msgid "`Newpipe e.V. <https://newpipe-ev.de>`_"
-msgstr ""
+msgstr "`Newpipe e.V. <https://newpipe-ev.de>`_"
 
 #: ../../../BACKERS.rst:26
 msgid "Daniel Leidert"
-msgstr ""
+msgstr "Daniel Leidert"
 
 #: ../../../BACKERS.rst:27
 msgid "ELSA-X"
-msgstr ""
+msgstr "ELSA-X"
 
 #: ../../../BACKERS.rst:29
 msgid ""
@@ -40579,11 +40575,6 @@ msgstr ""
 "do Weblate está hospedado no GitHub."
 
 #: ../../contributing/issues.rst:8
-#, fuzzy
-#| msgid ""
-#| "Feel welcome to report any issues you have, or suggest improvement for "
-#| "Weblate there. There are various templates prepared to comfortably guide "
-#| "you through the issue report."
 msgid ""
 "Feel welcome to report any issues you have or suggest improvements for "
 "Weblate there. There are various templates prepared to comfortably guide you "
@@ -40620,6 +40611,10 @@ msgid ""
 "policies that are geared toward delivering timely security updates to "
 "Weblate."
 msgstr ""
+"A equipe de desenvolvimento da Weblate está fortemente comprometida com "
+"relatórios e divulgação responsáveis de problemas relacionados à segurança. "
+"Adotamos e seguimos políticas voltadas para a entrega de atualizações de "
+"segurança oportunas para a Weblate."
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -40628,6 +40623,10 @@ msgid ""
 "sensitive nature of security issues, we ask that they not be publicly "
 "reported in this fashion."
 msgstr ""
+"A maioria dos bugs normais no Weblate são relatados ao nosso `rastreador de "
+"problemas do GitHub <https://github.com/WeblateOrg/weblate/issues>`_ "
+"público, mas devido à natureza sensível dos problemas de segurança, pedimos "
+"que eles não sejam relatados publicamente dessa forma."
 
 #: ../../contributing/issues.rst:30
 msgid ""
@@ -40636,35 +40635,35 @@ msgid ""
 "org, `GitHub <https://github.com/WeblateOrg/weblate/security/advisories/"
 "new>`_, or using `HackerOne <https://hackerone.com/weblate>`_."
 msgstr ""
+"Em vez disso, se você acredita ter encontrado algo no Weblate que tenha "
+"implicações de segurança, envie uma descrição do problema para security@"
+"weblate.org, `GitHub <https://github.com/WeblateOrg/weblate/security/"
+"advisories/new>`_ ou usando `HackerOne <https://hackerone.com/weblate>`_."
 
 #: ../../contributing/issues.rst:35
 msgid ""
 "A member of the security team will respond to you within 48 hours, and "
 "depending on what action is taken, you may get more follow-up emails."
 msgstr ""
+"Um membro da equipe de segurança responderá a você dentro de 48 horas e, "
+"dependendo da ação tomada, você poderá receber mais e-mails de "
+"acompanhamento."
 
 #: ../../contributing/issues.rst:40
 msgid "**Sending encrypted reports**"
-msgstr ""
+msgstr "**Enviando relatórios criptografados**"
 
 #: ../../contributing/issues.rst:42
-#, fuzzy
-#| msgid ""
-#| "If you don't want to use HackerOne, for whatever reason, you can send the "
-#| "report by e-mail to michal@weblate.org. You can choose to encrypt it "
-#| "using this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`. "
-#| "You can also get the PGP key from `Keybase <https://keybase.io/nijel>`_."
 msgid ""
 "If you want to send an encrypted email (*optional*), please use the public "
 "key for michal@weblate.org with ID ``3CB 1DF1 EF12 CF2A C0EE 5A32 9C27 B313 "
 "42B7 511D``. This public key is available on the most commonly used key "
 "servers, and from `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
-"Se você não quiser usar o HackerOne, por qualquer motivo, pode enviar o "
-"relatório por e-mail para michal@weblate.org. Você pode optar por "
-"criptografá-lo usando esta chave PGP `3CB 1DF1 EF12 CF2A C0EE 5A32 9C27 B313 "
-"42B7 511D`. Você também pode obter a chave PGP em `Keybase <https://keybase."
-"io/nijel>`_."
+"Se você quiser enviar um e-mail criptografado (*opcional*), use a chave "
+"pública para michal@weblate.org com ID ``3CB 1DF1 EF12 CF2A C0EE 5A32 9C27 "
+"B313 42B7 511D``. Esta chave pública está disponível nos servidores de "
+"chaves mais comumente usados e em `Keybase <https://keybase.io/nijel>`_."
 
 #: ../../contributing/issues.rst:49
 msgid ""
@@ -41141,14 +41140,10 @@ msgid "definitions"
 msgstr "definições"
 
 #: ../../contributing/schemas.rst:12
-#, fuzzy
-#| msgid ""
-#| ":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:"
-#| "`import_memory`"
 msgid ""
 ":ref:`translation-memory`, :wladmin:`dump_memory`, :wladmin:`import_memory`"
 msgstr ""
-":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
+":ref:`translation-memory`, :wladmin:`dump_memory`, :wladmin:`import_memory`"
 
 #: ../../contributing/schemas.rst:-1
 msgid "Weblate user data export"
@@ -41356,7 +41351,7 @@ msgstr "auto"
 
 #: ../../contributing/schemas.rst:19
 msgid "^(auto|dark|light)$"
-msgstr ""
+msgstr "^(auto|dark|light)$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**dashboard\\_view**"
@@ -41487,96 +41482,76 @@ msgid "login"
 msgstr "login"
 
 #: ../../contributing/schemas.rst:22
-#, fuzzy
-#| msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 msgid ":ref:`user-profile`, :wladmin:`dumpuserdata`"
-msgstr ":ref:`user-profile`, :djadmin:`dumpuserdata`"
+msgstr ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 
 #: ../../contributing/schemas.rst:-1
-#, fuzzy
-#| msgid "Weblate version"
 msgid "Weblate Messaging"
-msgstr "Versão do Weblate"
+msgstr "Mensageria do Weblate"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "https://weblate.org/schemas/weblate-memory.schema.json"
 msgid "https://weblate.org/schemas/weblate-messaging.schema.json"
-msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
+msgstr "https://weblate.org/schemas/weblate-messaging.schema.json"
 
 #: ../../contributing/schemas.rst:29
 msgid "Schema for Weblate Fedora Messaging"
-msgstr ""
+msgstr "Esquema para Weblate Fedora Messaging"
 
 #: ../../contributing/schemas.rst:29
 msgid "**change\\_id**"
-msgstr ""
+msgstr "**change\\_id**"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Change ID"
 msgid "*Change ID*"
-msgstr "ID da alteração"
+msgstr "*ID da alteração*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Number of changes"
 msgid "Numerical ID of change"
-msgstr "Quantidade de alterações"
+msgstr "ID numérico da alteração"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "**activity**"
 msgid "**action**"
-msgstr "**activity**"
+msgstr "**action**"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Changed string"
 msgid "*Change Action*"
-msgstr "Texto alterado"
+msgstr "*Ação de alteração*"
 
 #: ../../contributing/schemas.rst:29
 msgid ""
 "Verbose name of the change, see Change actions source code for possible "
 "values"
 msgstr ""
+"Nome detalhado da alteração, consulte o código-fonte das ações de alteração "
+"para obter os valores possíveis"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "ISO 8601 formatted timestamp to list changes after"
 msgid "ISO formatted timestamp"
-msgstr "Data e hora no formato ISO 8601 para listar as alterações após"
+msgstr "Registro de data/hora em formato ISO"
 
 #: ../../contributing/schemas.rst:29
 msgid "target"
 msgstr "destino"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "**target**"
 msgid "*Target*"
-msgstr "**target**"
+msgstr "*Alvos*"
 
 #: ../../contributing/schemas.rst:29
 msgid "New value of the change (eg. new translation of the string)"
-msgstr ""
+msgstr "Novo valor da alteração (por exemplo, nova tradução do texto)"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "*string*"
 msgid "*string* / *array*"
-msgstr "*texto*"
+msgstr "*texto* / *array*"
 
 #: ../../contributing/schemas.rst:29
 msgid "old"
-msgstr ""
+msgstr "old"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Value"
 msgid "*Old Value*"
-msgstr "Valor"
+msgstr "*Valor antigo*"
 
 #: ../../contributing/schemas.rst:29
 msgid "Old value of the change (eg. previous translation of the string)"
@@ -41587,84 +41562,68 @@ msgid "source"
 msgstr "fonte"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Source"
 msgid "*Source*"
-msgstr "Fonte"
+msgstr "*Fonte*"
 
 #: ../../contributing/schemas.rst:29
 msgid "Source string"
 msgstr "Texto fonte"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Plural"
 msgid "url"
-msgstr "Plural"
+msgstr "url"
 
 #: ../../contributing/schemas.rst:29
 msgid "*URL*"
-msgstr ""
+msgstr "*URL*"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "URL of a related unit object"
 msgid "Absolute URL to view the related object"
-msgstr "URL de um objeto de unidade relacionado"
+msgstr "URL absoluta para visualizar o objeto relacionado"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Authors"
 msgid "author"
-msgstr "Autores"
+msgstr "author"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Authors"
 msgid "*Author*"
-msgstr "Autores"
+msgstr "*Autor*"
 
 #: ../../contributing/schemas.rst:29
 msgid ""
 "Author username (this can be different from user for example when accepting "
 "suggestions)"
 msgstr ""
+"Nome de usuário do autor (pode ser diferente do usuário, por exemplo, ao "
+"aceitar sugestões)"
 
 #: ../../contributing/schemas.rst:29
 msgid "user"
 msgstr "usuário"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "SAP username"
 msgid "*Acting username*"
-msgstr "Nome de usuário SAP"
+msgstr "*Nome de usuário da ação*"
 
 #: ../../contributing/schemas.rst:29
 msgid "project"
 msgstr "projeto"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Component"
 msgid "component"
-msgstr "Componente"
+msgstr "component"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Component slug"
 msgid "*Component slug*"
-msgstr "URL amigável do componente"
+msgstr "*URL amigável do componente*"
 
 #: ../../contributing/schemas.rst:29
 msgid "translation"
 msgstr "tradução"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Translation language code"
 msgid "*Translation Language Code*"
-msgstr "Código de idioma de tradução"
+msgstr "*Código de idioma de tradução*"
 
 #: ../../contributing/schemas.rst:32
 msgid ":ref:`fedora-messaging`"
@@ -41683,57 +41642,43 @@ msgstr ""
 "nossos usuários."
 
 #: ../../contributing/security.rst:8
-#, fuzzy
-#| msgid ""
-#| "Development of Weblate adheres to the `Best Practices of the Linux "
-#| "Foundation's Core Infrastructure Initiative <https://bestpractices."
-#| "coreinfrastructure.org/projects/552>`_."
 msgid ""
 "Development of Weblate adheres to the `Best Practices of the Linux "
 "Foundation's Core Infrastructure Initiative <https://www.bestpractices.dev/"
 "en/projects/552>`_."
 msgstr ""
 "O desenvolvimento do Weblate segue as `Melhores Práticas da Core "
-"Infrastructure Initiative da Linux Foundation <https://bestpractices."
-"coreinfrastructure.org/projects/552>`_."
+"Infrastructure Initiative da Linux Foundation <https://www.bestpractices.dev/"
+"en/projects/552>`_."
 
 #: ../../contributing/security.rst:12
-#, fuzzy
-#| msgid ""
-#| "If what you have found is a security issue in Weblate, please consult "
-#| "the :ref:`security` section below."
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
 msgstr ""
-"Se o que você encontrou é um problema de segurança no Weblate, consulte a "
-"seção :ref:`security` abaixo."
+"Descobriu um problema de segurança no Weblate? Por favor, leia "
+":ref:`security`."
 
 #: ../../contributing/security.rst:15
-#, fuzzy
-#| msgid "Security issues"
 msgid "Security updates"
-msgstr "Problemas de segurança"
+msgstr "Atualizações de segurança"
 
 #: ../../contributing/security.rst:17
 msgid "Only the latest release is guaranteed to receive security updates."
 msgstr ""
+"Somente a versão mais recente tem garantia de receber atualizações de "
+"segurança."
 
 #: ../../contributing/security.rst:20
 msgid "Tracking dependencies for vulnerabilities"
 msgstr "Rastreamento de dependências para vulnerabilidades"
 
 #: ../../contributing/security.rst:22
-#, fuzzy
-#| msgid ""
-#| "Security issues in our dependencies are monitored using `Dependabot`_. "
-#| "This covers the Python and JavaScript libraries, and the latest stable "
-#| "release has its dependencies updated to avoid vulnerabilities."
 msgid ""
 "Security issues in our dependencies are monitored using `Renovate`_. This "
 "covers the Python and JavaScript libraries, and the latest stable release "
 "has its dependencies updated to avoid vulnerabilities."
 msgstr ""
 "Problemas de segurança em nossas dependências são monitorados usando "
-"`Dependabot`_. Isso cobre as bibliotecas Python e JavaScript, e a versão "
+"`Renovate`_. Isso cobre as bibliotecas Python e JavaScript, e a versão "
 "estável mais recente tem suas dependências atualizadas para evitar "
 "vulnerabilidades."
 
@@ -41871,18 +41816,16 @@ msgid "Running Weblate locally in Docker"
 msgstr "Executando Weblate localmente no Docker"
 
 #: ../../contributing/start.rst:71
-#, fuzzy
-#| msgid ""
-#| "If you have Docker and docker-compose installed, you can spin up the "
-#| "development environment by simply running:"
 msgid ""
 "If you have Docker and the docker-compose-plugin installed, you need an "
 "additional tool called ``jq`` which you can install through your favorite "
 "package manager. Then, you can spin up the development environment by simply "
 "running:"
 msgstr ""
-"Se você tiver Docker e docker-compose instalados, você pode colocar para "
-"funcionar o ambiente de desenvolvimento simplesmente executando:"
+"Se você tiver o Docker e o docker-compose-plugin instalados, precisará de "
+"uma ferramenta adicional chamada ``jq`` que pode ser instalada por meio do "
+"seu gerenciador de pacotes favorito. Então, você pode ativar o ambiente de "
+"desenvolvimento simplesmente executando:"
 
 #: ../../contributing/start.rst:79
 msgid ""
@@ -41897,10 +41840,6 @@ msgstr ""
 "vazia, então você pode querer seguir :ref:`adding-projects`."
 
 #: ../../contributing/start.rst:84
-#, fuzzy
-#| msgid ""
-#| "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are "
-#| "located in the :file:`dev-docker` directory."
 msgid ""
 "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located "
 "in the :file:`dev-docker` directory. For easier access to the database "
@@ -41908,7 +41847,9 @@ msgid ""
 "``5433``."
 msgstr ""
 "Os arquivos :file:`Dockerfile` e :file:`docker-compose.yml` para isso estão "
-"localizados no diretório :file:`dev-docker`."
+"localizados no diretório :file:`dev-docker`. Para acesso mais fácil ao banco "
+"de dados durante o desenvolvimento, o contêiner executando o PostgreSQL é "
+"exposto na porta ``5433``."
 
 #: ../../contributing/start.rst:88
 msgid ""
@@ -41947,32 +41888,24 @@ msgstr ""
 "reiniciá-lo."
 
 #: ../../contributing/start.rst:117
-#, fuzzy
-#| msgid ""
-#| "This is not a suitable setup for production, as it includes several hacks "
-#| "which are insecure, but they make development easier."
 msgid ""
 "This container is not suitable for production use. Security is sacrificed to "
 "make the development easier."
 msgstr ""
-"Esta não é uma configuração adequada para a produção, pois inclui vários "
-"hacks que são inseguros, mas que tornam o desenvolvimento mais fácil."
+"Este contêiner não é adequado para uso em produção. A segurança é "
+"sacrificada para tornar o desenvolvimento mais fácil."
 
 #: ../../contributing/start.rst:121
 msgid "Bootstrapping your devel instance"
 msgstr "Inicializando sua instância de desenvolvimento"
 
 #: ../../contributing/start.rst:123
-#, fuzzy
-#| msgid ""
-#| "You might want to use :djadmin:`import_demo` to create demo translations "
-#| "and :djadmin:`createadmin` to make an admin user."
 msgid ""
 "You might want to use :wladmin:`import_demo` to create demo translations "
 "and :wladmin:`createadmin` to make an admin user."
 msgstr ""
-"Você pode querer usar :djadmin:`import_demo` para criar traduções de "
-"demonstração e :djadmin:`createadmin` para criar um usuário administrador."
+"Você pode querer usar :wladmin:`import_demo` para criar traduções de "
+"demonstração e :wladmin:`createadmin` para criar um usuário administrador."
 
 #: ../../contributing/start.rst:127
 msgid "Coding Weblate with PyCharm"
@@ -42080,18 +42013,12 @@ msgid "Continuous integration"
 msgstr "Integração contínua"
 
 #: ../../contributing/tests.rst:12
-#, fuzzy
-#| msgid ""
-#| "Current test results can be found on `GitHub Actions <https://github.com/"
-#| "WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov "
-#| "<https://codecov.io/github/WeblateOrg/weblate>`_."
 msgid ""
 "Current test results can be found on `GitHub Actions`_ and coverage is "
 "reported on `Codecov`_."
 msgstr ""
-"Os resultados do teste atual podem ser encontrados em `GitHub Actions "
-"<https://github.com/WeblateOrg/weblate/actions>`_ e a cobertura é relatada "
-"em `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_."
+"Os resultados do teste atuais podem ser encontrados no `GitHub Actions`_ e a "
+"cobertura é relatada no `Codecov`_."
 
 #: ../../contributing/tests.rst:18
 msgid "There are several jobs to verify different aspects:"
@@ -42122,14 +42049,6 @@ msgstr ""
 "nada e possam ser testados)"
 
 #: ../../contributing/tests.rst:26
-#, fuzzy
-#| msgid ""
-#| "The configuration for the CI is in :file:`.github/workflows` directory. "
-#| "It heavily uses helper scripts stored in :file:`ci` directory. The "
-#| "scripts can be also executed manually, but they require several "
-#| "environment variables, mostly defining Django settings file to use and "
-#| "database connection. The example definition of that is in :file:`scripts/"
-#| "test-database.sh`:"
 msgid ""
 "The configuration for the CI is in :file:`.github/workflows` directory. It "
 "heavily uses helper scripts stored in :file:`ci` directory. The scripts can "
@@ -42141,8 +42060,8 @@ msgstr ""
 "muito scripts auxiliares armazenados no diretório :file:`ci`. Os scripts "
 "também podem ser executados manualmente, mas eles requerem várias variáveis "
 "de ambiente, principalmente definindo o arquivo de configurações do Django "
-"para usar e conexão com o banco de dados. A definição de exemplo disso está "
-"em :file:`scripts/test-database.sh`:"
+"para usar e conexão com o banco de dados de teste. A definição de exemplo "
+"disso está em :file:`scripts/test-database.sh`:"
 
 #: ../../contributing/tests.rst:35
 msgid "The simple execution can look like:"
@@ -42157,12 +42076,12 @@ msgid ""
 "Before running test, please ensure test dependencies are installed. This can "
 "be done by ``pip install -e .[test]``."
 msgstr ""
+"Antes de executar o teste, certifique-se de que as dependências de teste "
+"estejam instaladas. Isso pode ser feito por ``pip install -e .[test]``."
 
 #: ../../contributing/tests.rst:52
-#, fuzzy
-#| msgid "Translating using Weblate"
 msgid "Testing using pytest"
-msgstr "Traduzindo usando o Weblate"
+msgstr "Testando usando pytest"
 
 #: ../../contributing/tests.rst:53 ../../contributing/tests.rst:100
 msgid ""
@@ -42173,24 +42092,20 @@ msgstr ""
 "alguns testes contam com a presença deles:"
 
 #: ../../contributing/tests.rst:59
-#, fuzzy
-#| msgid "To run a testsuite locally, use:"
 msgid "You can use `pytest` to run a testsuite locally:"
-msgstr "Para executar um conjunto de testes localmente, use:"
+msgstr "Você pode usar `pytest` para executar um conjunto de testes localmente:"
 
 #: ../../contributing/tests.rst:65
 msgid "Running an individual test file:"
-msgstr ""
+msgstr "Executando um arquivo de teste individual:"
 
 #: ../../contributing/tests.rst:72
-#, fuzzy
-#| msgid "Installing using Docker"
 msgid "Testing using Django"
-msgstr "Instalando usando Docker"
+msgstr "Testando usando Django"
 
 #: ../../contributing/tests.rst:74
 msgid "Alternatively, Django built-in tests should also work:"
-msgstr ""
+msgstr "Alternativamente, os testes embutidos do Django também devem funcionar:"
 
 #: ../../contributing/tests.rst:82
 msgid ""
@@ -42236,12 +42151,11 @@ msgstr ""
 "execução e escrita de testes para Django."
 
 #: ../../contributing/trademark.rst:2
-#, fuzzy
-#| msgid "Weblate Contributor Communication Guidelines"
 msgid "Weblate Trademark Guidelines"
-msgstr "Diretrizes de Comunicação para Contribuidores do Weblate"
+msgstr "Diretrizes de marca registrada da Weblate"
 
 #: ../../contributing/trademark.rst:4
+#, fuzzy
 msgid ""
 "Weblate is an open-source organization. Because we make privacy-respecting "
 "localization tools and provide it as copylefted libre software, proper use "
@@ -42252,20 +42166,34 @@ msgid ""
 "(including some product names that are part of our organization) you must "
 "comply with these Weblate Trademark Guidelines."
 msgstr ""
+"A Weblate é uma organização de código aberto. Como criamos ferramentas de "
+"localização que respeitam a privacidade e as fornecemos como software livre "
+"com copyleft, o uso adequado de nossas marcas registradas é essencial para "
+"informar aos usuários se a Weblate apoia um produto ou serviço para que "
+"possamos continuar a desenvolver. O nome Weblate não é apenas uma marca "
+"registrada usada para identificar nossa tecnologia, componentes e serviços, "
+"mas também serve como o nome da nossa empresa. Ao usar marcas registradas da "
+"Weblate (incluindo alguns nomes de produtos que fazem parte da nossa "
+"organização), você deve cumprir com estas Diretrizes de Marcas Registradas "
+"da Weblate."
 
 #: ../../contributing/trademark.rst:6
 msgid "Some of our trademarks include:"
-msgstr ""
+msgstr "Algumas de nossas marcas registradas incluem:"
 
 #: ../../contributing/trademark.rst:10
 msgid ""
 "However, this is not a complete list of our names, logos, and brand "
 "features, all of which are subject to these guidelines."
 msgstr ""
+"No entanto, esta não é uma lista completa de nossos nomes, logotipos e "
+"características de marca, todos os quais estão sujeitos a essas diretrizes."
 
 #: ../../contributing/trademark.rst:13
 msgid "When do I need specific permission to use a Weblate trademark?"
 msgstr ""
+"Quando preciso de permissão específica para usar uma marca registrada da "
+"Weblate?"
 
 #: ../../contributing/trademark.rst:15
 msgid ""
@@ -42275,18 +42203,29 @@ msgid ""
 "way of using the Weblate trademark. However, in all cases it is not "
 "necessary to receive permission directly from Weblate (or its affiliates) to:"
 msgstr ""
+"Como o Weblate é um provedor de um software que pode ser usado em muitas "
+"versões – hospedado, dedicado na nuvem e de hospedagem própria (paga e "
+"gratuita), é importante distinguir entre esses casos. Cada versão tem uma "
+"maneira específica de usar a marca registrada do Weblate. No entanto, em "
+"todos os casos, não é necessário receber permissão diretamente do Weblate ("
+"ou de suas afiliadas) para:"
 
 #: ../../contributing/trademark.rst:17
 msgid ""
 "Use Weblate wordmarks and/or logos in unmodified versions of Weblate "
 "programs, products, services and technologies."
 msgstr ""
+"Usar marcas registradas e/ou logotipos do Weblate em versões não modificadas "
+"de programas, produtos, serviços e tecnologias do Weblate."
 
 #: ../../contributing/trademark.rst:18
 msgid ""
 "Use Weblate wordmarks in text to truthfully refer to and/or link to "
 "unmodified Weblate programs, products, services and technologies."
 msgstr ""
+"Usar marcas registradas do Weblate no texto para se referir verdadeiramente "
+"e/ou criar links para programas, produtos, serviços e tecnologias não "
+"modificados do Weblate."
 
 #: ../../contributing/trademark.rst:19
 msgid ""
@@ -42294,64 +42233,80 @@ msgid ""
 "applicable programs, products, services and technologies hosted on Weblate "
 "servers."
 msgstr ""
+"Usar logotipos do Weblate em elementos visuais para se referir "
+"verdadeiramente e/ou criar links para programas, produtos, serviços e "
+"tecnologias aplicáveis hospedados nos servidores do Weblate."
 
 #: ../../contributing/trademark.rst:20
 msgid ""
 "Use Weblate wordmarks to explain that your software is based on Weblate's "
 "open-source code or is compatible with Weblate's software."
 msgstr ""
+"Usar marcas registradas do Weblate para explicar que seu software é baseado "
+"no código-fonte aberto do Weblate ou é compatível com o software do Weblate."
 
 #: ../../contributing/trademark.rst:21
 msgid ""
 "Describe a social media account, page, or community in accordance with "
 "the Social Media Guidelines."
 msgstr ""
+"Descrever uma conta, página ou comunidade de mídia social de acordo com as "
+"Diretrizes de Mídia Social."
 
 #: ../../contributing/trademark.rst:23
 msgid ""
 "All other uses of a Weblate trademark require our prior written permission. "
 "This includes any use of a Weblate trademark in a domain name."
 msgstr ""
+"Todos os outros usos de uma marca registrada do Weblate exigem nossa "
+"permissão prévia por escrito. Isso inclui qualquer uso de uma marca "
+"registrada do Weblate em um nome de domínio."
 
 #: ../../contributing/trademark.rst:26
 msgid "When allowed, how should I use a Weblate trademark?"
-msgstr ""
+msgstr "Quando permitido, como devo usar uma marca registrada do Weblate?"
 
 #: ../../contributing/trademark.rst:29
-#, fuzzy
-#| msgid "Coding guidelines"
 msgid "General Guidelines"
-msgstr "Diretrizes de codificação"
+msgstr "Diretrizes gerais"
 
 #: ../../contributing/trademark.rst:31
 msgid "**Do:**"
-msgstr ""
+msgstr "**Faça:**"
 
 #: ../../contributing/trademark.rst:33
 msgid "Use the Weblate trademark exactly as shown in the list above."
 msgstr ""
+"Usar a marca registrada do Weblate exatamente como mostrado na lista acima."
 
 #: ../../contributing/trademark.rst:34
 msgid ""
 "Use Weblate wordmarks only as a noun. Avoid Adjectives and Verbs. Do not use "
 "them in plural."
 msgstr ""
+"Usar marcas de palavras do Weblate somente como substantivo. Evite adjetivos "
+"e verbos. Não os use no plural."
 
 #: ../../contributing/trademark.rst:36
 msgid "**Don't:**"
-msgstr ""
+msgstr "**Não faça:**"
 
 #: ../../contributing/trademark.rst:38
 msgid ""
 "Don't use Weblate trademarks in the name of your business, product, service, "
 "app, domain name, publication, or other offering."
 msgstr ""
+"Não usar marcas registradas do Weblate no nome da sua empresa, produto, "
+"serviço, aplicativo, nome de domínio, publicação ou outra oferta."
 
 #: ../../contributing/trademark.rst:39
 msgid ""
 "Don't use marks, logos, company names, slogans, domain names, or designs "
 "that are confusingly like Weblate trademarks."
 msgstr ""
+"Não usar marcas, logotipos, nomes de empresas, slogans, nomes de domínio ou "
+"designs que sejam confusamente parecidos com as marcas registradas do "
+"Weblate."
 
 #: ../../contributing/trademark.rst:40
 msgid ""
@@ -42359,24 +42314,33 @@ msgid ""
 "with, or sponsorship, endorsement, or approval by Weblate of your products "
 "or services."
 msgstr ""
+"Não usar marcas registradas do Weblate de forma que implique incorretamente "
+"afiliação, patrocínio, endosso ou aprovação do Weblate de seus produtos ou "
+"serviços."
 
 #: ../../contributing/trademark.rst:41
 msgid ""
 "Don't display Weblate trademarks more prominently than your product, "
 "service, or company name."
 msgstr ""
+"Não exibir as marcas registradas do Weblate de forma mais proeminente do que "
+"o nome do seu produto, serviço ou empresa."
 
 #: ../../contributing/trademark.rst:42
 msgid ""
 "Don't use Weblate trademarks on merchandise for sale (e.g., selling t-"
 "shirts, mugs, etc.)."
 msgstr ""
+"Não usar marcas registradas do Weblate em produtos para venda (por exemplo, "
+"camisetas, canecas, etc.)."
 
 #: ../../contributing/trademark.rst:43
 msgid ""
 "Don't use Weblate trademarks for any other form of commercial use (e.g. "
 "offering technical support services)."
 msgstr ""
+"Não usar as marcas registradas do Weblate para qualquer outra forma de uso "
+"comercial (por exemplo, oferecendo serviços de suporte técnico)."
 
 #: ../../contributing/trademark.rst:44
 msgid ""
@@ -42384,12 +42348,13 @@ msgid ""
 "other symbols, words, or images, or incorporate them into a tagline or "
 "slogan."
 msgstr ""
+"Não modificar as marcas registradas do Weblate, abreviá-las ou combiná-las "
+"com quaisquer outros símbolos, palavras ou imagens, nem as incorporar em um "
+"slogan."
 
 #: ../../contributing/trademark.rst:47
-#, fuzzy
-#| msgid "Coding guidelines"
 msgid "Social Media Guidelines"
-msgstr "Diretrizes de codificação"
+msgstr "Diretrizes de mídia social"
 
 #: ../../contributing/trademark.rst:49
 msgid ""
@@ -45988,8 +45953,8 @@ msgid ""
 "Weblate supports a wide range of translation formats. Each format is "
 "slightly different and provides a different set of capabilities."
 msgstr ""
-"O Weblate tem suporte a uma ampla gama de formatos de tradução (bilíngues e "
-"monolíngues) suportados pelo Translate Toolkit, veja :ref:`formats`."
+"O Weblate suporta uma ampla gama de formatos de tradução. Cada formato é "
+"ligeiramente diferente e fornece um conjunto diferente de capacidades."
 
 #: ../../formats.rst:11
 msgid ""
@@ -46019,14 +45984,17 @@ msgid ""
 "format (JSON, YAML, properties) or file encoding, so please verify that :ref:"
 "`component-file_format` is correct before creating the component."
 msgstr ""
+"O Weblate tenta detectar o formato do arquivo enquanto vai :ref:`adding-"
+"projects`. A detecção pode estar errada para diferentes variantes do mesmo "
+"formato de serialização (JSON, YAML, propriedades) ou codificação de "
+"arquivo, então verifique se o :ref:`component-file_format` está correto "
+"antes de criar o componente."
 
 #: ../../formats.rst:38
 msgid "Translation types capabilities"
 msgstr "Capacidades dos tipos de tradução"
 
 #: ../../formats.rst:40
-#, fuzzy
-#| msgid "Capabilities of all supported formats:"
 msgid "Capabilities of all supported formats"
 msgstr "Capacidades de todos os formatos suportados"
 
@@ -46314,34 +46282,24 @@ msgid "See :ref:`bimono`"
 msgstr "Veja :ref:`bimono`"
 
 #: ../../formats.rst:357
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid "See :ref:`format-plurals`"
-msgstr ":ref:`formats`"
+msgstr "Veja :ref:`format-plurals`"
 
 #: ../../formats.rst:358
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid "See :ref:`format-description`"
-msgstr ":ref:`formats`"
+msgstr "Veja :ref:`format-description`"
 
 #: ../../formats.rst:359
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid "See :ref:`format-context`"
-msgstr ":ref:`formats`"
+msgstr "Veja :ref:`format-context`"
 
 #: ../../formats.rst:360
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid "See :ref:`format-location`"
-msgstr ":ref:`formats`"
+msgstr "Veja :ref:`format-location`"
 
 #: ../../formats.rst:361
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid "See :ref:`format-states`"
-msgstr ":ref:`formats`"
+msgstr "Veja :ref:`format-states`"
 
 #: ../../formats.rst:362
 msgid ""
@@ -46422,10 +46380,8 @@ msgstr ""
 "para ser usado como está nos textos finais."
 
 #: ../../formats.rst:395
-#, fuzzy
-#| msgid "String state"
 msgid "String states"
-msgstr "Estado do texto"
+msgstr "Estados de textos"
 
 #: ../../formats.rst:397
 msgid ""
@@ -46433,6 +46389,9 @@ msgid ""
 "strings. With some formats it is possible to store more fine-grained state "
 "information, such as \"Needs editing\" or \"Approved\"."
 msgstr ""
+"Muitos formatos de arquivo diferenciam apenas textos \"Não traduzidos\" e "
+"\"Traduzidos\". Com alguns formatos, é possível armazenar informações de "
+"estado mais refinadas, como \"Necessita edição\" ou \"Aprovado\"."
 
 #: ../../formats.rst:404
 msgid "Source string description"
@@ -46454,18 +46413,23 @@ msgid ""
 "ref:`arb`, :ref:`dotnet`). Many other formats extract closest comment as "
 "source string description."
 msgstr ""
+"Vários formatos têm suporte nativo para fornecer informações adicionais aos "
+"tradutores (por exemplo, :ref:`xliff`, :ref:`gettext`, :ref:`webex`, "
+":ref:`csv`, :ref:`xlsx`, :ref:`qtling`, :ref:`go-i18n-json`, :ref:`gotext-"
+"json`, :ref:`arb`, :ref:`dotnet`). Muitos outros formatos extraem o "
+"comentário mais próximo como descrição do texto fonte."
 
 #: ../../formats.rst:419
 msgid ""
 "The :ref:`additional-explanation` on strings can be stored and parsed from a "
 "few file formats."
 msgstr ""
+"A :ref:`additional-explanation` em textos pode ser armazenada e analisada a "
+"partir de alguns formatos de arquivo."
 
 #: ../../formats.rst:422
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Currently supported only in :ref:`tbx`."
-msgstr "Adicionado suporte para :ref:`txt`."
+msgstr "Atualmente suportada apenas em :ref:`tbx`."
 
 #: ../../formats.rst:427
 msgid "Source string location"
@@ -46485,6 +46449,9 @@ msgid ""
 "are extracted from the source code using tools. For example :ref:`gettext` "
 "and :ref:`qtling`."
 msgstr ""
+"Essas informações geralmente estão disponíveis em formatos bilíngues, onde "
+"as strings são extraídas do código-fonte usando ferramentas. Por exemplo, "
+":ref:`gettext` e :ref:`qtling`."
 
 #: ../../formats.rst:440
 msgid ""
@@ -46492,19 +46459,16 @@ msgid ""
 "defining those in the translation file (you can always define them in the "
 "Weblate interface, see :ref:`custom-checks`)."
 msgstr ""
+"Os sinalizadores de tradução permitem personalizar o comportamento do "
+"Weblate. Alguns formatos suportam a definição deles no arquivo de tradução ("
+"você sempre pode defini-los na interface do Weblate, veja :ref:`custom-"
+"checks`)."
 
 #: ../../formats.rst:444
 msgid "This feature is modelled on flags in :ref:`gettext`."
-msgstr ""
+msgstr "Este recurso é modelado em sinalizadores em :ref:`gettext`."
 
 #: ../../formats.rst:446
-#, fuzzy
-#| msgid ""
-#| "The flags are extracted from the non-standard attribute ``weblate-flags`` "
-#| "for all XML based formats. Additionally ``max-length:N`` is supported "
-#| "through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/"
-#| "v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
-#| "see :ref:`xliff-flags`."
 msgid ""
 "Additionally, for all XML based format, the flags are extracted from the non-"
 "standard attribute ``weblate-flags``. Additionally ``max-length:N`` is "
@@ -46512,60 +46476,51 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
 "see :ref:`xliff-flags`."
 msgstr ""
-"Os marcadores são extraídos do atributo não padrão ``weblate-flags`` para "
-"todos os formatos baseados em XML. Adicionalmente, o ``max-length:N`` é "
-"suportado através do `atributo <http://docs.oasis-open.org/xliff/v1.2/os/"
-"xliff-core.html#maxwidth>`_ ``maxwidth`` como definido no padrão XLIFF, "
-"veja :ref:`xliff-flags`."
+"Adicionalmente, para todo formato baseado em XML, os marcadores são "
+"extraídos do atributo não padrão ``weblate-flags``. Adicionalmente, o ``max-"
+"length:N`` é suportado através do `atributo <http://docs.oasis-open.org/"
+"xliff/v1.2/os/xliff-core.html#maxwidth>`_ ``maxwidth`` como definido no "
+"padrão XLIFF, veja :ref:`xliff-flags`."
 
 #: ../../formats.rst:454
-#, fuzzy
-#| msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
 msgid ":ref:`custom-checks`, `PO files documentation`_"
-msgstr ":ref:`custom-checks`, :ref:`glossary-variants`"
+msgstr ":ref:`custom-checks`, `Documentação de arquivos PO`_"
 
 #: ../../formats.rst:463
 msgid "Context"
 msgstr "Contexto"
 
 #: ../../formats.rst:465
-#, fuzzy
-#| msgid ""
-#| "Context is used to differentiate identical strings used in different "
-#| "scopes (for example `Sun` can be used as an abbreviated name of the day "
-#| "\"Sunday\" or as the name of our closest star)."
 msgid ""
 "Context is used to differentiate identical strings in a bilingual format "
 "used in different scopes (for example `Sun` can be used as an abbreviated "
 "name of the day \"Sunday\" or as the name of our closest star)."
 msgstr ""
-"O contexto é usado para diferenciar textos idênticos usados em diferentes "
-"escopos (por exemplo, `Sun` pode ser usado como um nome abreviado do dia "
-"\"Sunday\" ou como o nome de nossa estrela mais próxima)."
+"O contexto é usado para diferenciar textos idênticos em um formato bilíngue "
+"usado em diferentes escopos (por exemplo, `Sun` pode ser usado como um nome "
+"abreviado do dia \"Sunday\" ou como o nome de nossa estrela mais próxima)."
 
 #: ../../formats.rst:469
 msgid ""
 "For monolingual formats the string identifier (often called key) can serve "
 "the same purpose and additional context is not necessary."
 msgstr ""
+"Para formatos monolíngues, o identificador de texto (geralmente chamado de "
+"chave) pode servir ao mesmo propósito e não é necessário contexto adicional."
 
 #: ../../formats.rst:475
-#, fuzzy
-#| msgid "Pluralized string"
 msgid "Pluralized strings"
-msgstr "Texto pluralizado"
+msgstr "Textos pluralizados"
 
 #: ../../formats.rst:477
-#, fuzzy
-#| msgid ""
-#| "Plurals are necessary to properly localize strings with variable count."
 msgid ""
 "Plurals are necessary to properly localize strings with variable count. The "
 "rules depend on a target language and many formats follow CLDR specification "
 "for that."
 msgstr ""
 "Os plurais são necessários para localizar adequadamente os textos com "
-"contagem variável."
+"contagem variável. As regras dependem de um idioma de destino e muitos "
+"formatos seguem a especificação CLDR para isso."
 
 #: ../../formats.rst:483
 msgid ""
@@ -46573,6 +46528,9 @@ msgid ""
 "well. Choose native format of your platform such as :ref:`gettext`, :ref:"
 "`aresource` or :ref:`stringsdict`."
 msgstr ""
+"Textos pluralizantes também precisam de suporte adequado da estrutura do "
+"aplicativo. Escolha o formato nativo da sua plataforma, como :ref:`gettext`, "
+":ref:`aresource` ou :ref:`stringsdict`."
 
 #: ../../formats.rst:490
 msgid "Read-only strings"
@@ -46628,6 +46586,8 @@ msgid ""
 "The same file format is also used by JetBrains Compose Multiplatform Kotlin "
 "Resources."
 msgstr ""
+"O mesmo formato de arquivo também é usado por Resources de Compose "
+"Multiplatform de Kotlin da JetBrains."
 
 #: ../../formats/android.rst:14
 msgid ""
@@ -46641,29 +46601,36 @@ msgstr ""
 
 #: ../../formats/android.rst:17
 msgid "Weblate does following escaping of strings:"
-msgstr ""
+msgstr "O Weblate faz o seguinte escape de textos:"
 
 #: ../../formats/android.rst:19
 msgid "If a strings is valid XML, it is inserted as XML to translation."
 msgstr ""
+"Se um texto for um XML válido, ela será inserida como XML para tradução."
 
 #: ../../formats/android.rst:20
 msgid ""
 "``?`` and ``@`` are escaped with a ``\\\\`` at the beginning of the string "
 "to avoid interpreting them as style or resource references."
 msgstr ""
+"``?`` e ``@`` são escapados com ``\\\\`` no início do texto para evitar "
+"interpretá-los como referências de estilo ou recurso."
 
 #: ../../formats/android.rst:21
 msgid ""
 "In case string contains multiple spaces, it is quoted with double quotes "
 "(``\"``)."
 msgstr ""
+"Caso o texto contenha vários espaços, ele será colocado entre aspas duplas "
+"(``\"``)."
 
 #: ../../formats/android.rst:22
 msgid ""
 "Newlines are escaped as ``\\\\n``, but the actual newline is kept for "
 "readability as well."
 msgstr ""
+"Novas linhas são escapadas como ``\\\\n"
+"``, mas a nova linha real também é mantida para facilitar a leitura."
 
 #: ../../formats/android.rst:26
 msgid ""
@@ -46702,18 +46669,17 @@ msgstr ""
 "traduzíveis. Isso pode ser especialmente útil para referências de textos:"
 
 #: ../../formats/android.rst:62
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, :doc:`tt:formats/android`"
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, `JetBrains Compose Multiplatform Kotlin "
 "Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
 "images-resources.html>`_, :doc:`tt:formats/android`"
 msgstr ""
-"`Documentação de recursos de textos de Android <https://developer.android."
-"com/guide/topics/resources/string-resource>`_, :doc:`tt:formats/android`"
+"`Documentação de recursos de textos de Android <https://"
+"developer.android.com/guide/topics/resources/string-resource>`_, `Resources "
+"de Compose Multiplatform de Kotlin da JetBrains <https://www.jetbrains.com/"
+"help/kotlin-multiplatform-dev/compose-images-resources.html>`_, :doc:`tt:"
+"formats/android`"
 
 #: ../../formats/android.rst:67
 msgid "Weblate configuration for Android resource strings"
@@ -46774,6 +46740,8 @@ msgstr "`Recurso de textos de Android`"
 msgid ""
 "Weblate configuration for JetBrains Compose Multiplatform Kotlin Resources"
 msgstr ""
+"Configuração do Weblate para Resources de Compose Multiplataforma de Kotlin "
+"da JetBrains"
 
 #: ../../formats/android.rst:87
 msgid "``commonMain/composeResources/values-*/strings.xml``"
@@ -46900,20 +46868,16 @@ msgstr ""
 "apresentará como textos separados para traduzir."
 
 #: ../../formats/appstore.rst:18
-#, fuzzy
-#| msgid ""
-#| "In case you don't want to translate certain strings (for example "
-#| "changelogs), mark them read-only (see :ref:`custom-checks`). This can be "
-#| "automated by the :ref:`addon-weblate.flags.bulk`."
 msgid ""
 "In case you don't want to translate certain strings (for example "
 "changelogs), you can hide them using :ref:`component-key_filter` or mark "
 "them read-only (see :ref:`custom-checks`). This can be automated by the :ref:"
 "`addon-weblate.flags.bulk`."
 msgstr ""
-"Caso você não queira traduzir certos textos (por exemplo, changelogs), "
-"marque-os como somente leitura (veja :ref:`custom-checks`). Isto pode ser "
-"automatizado por :ref:`addon-weblate.flags.bulk`."
+"Caso você não queira traduzir certos textos (por exemplo, changelogs), você "
+"pode ocultá-los usando :ref:`component-key_filter` ou marque-os como somente "
+"leitura (veja :ref:`custom-checks`). Isto pode ser automatizado por :ref"
+":`addon-weblate.flags.bulk`."
 
 #: ../../formats/appstore.rst:29
 msgid "``fastlane/metadata/android/*``"
@@ -46940,19 +46904,14 @@ msgstr ""
 "arquivo base com (o que é mais frequentemente os) textos em inglês."
 
 #: ../../formats/arb.rst:16
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `go-i18n <https://github.com/nicksnyder/go-"
-#| "i18n>`_, :ref:`updating-target-files`, :ref:`addon-weblate.json."
-#| "customize`, :ref:`addon-weblate.cleanup.generic`,"
 msgid ""
 ":doc:`tt:formats/json`, `Application Resource Bundle Specification`_, "
 "`Internationalizing Flutter apps`_, :ref:`updating-target-files`, :ref:"
 "`addon-weblate.json.customize`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
-":doc:`tt:formats/json`, `go-i18n <https://github.com/nicksnyder/go-i18n>`_, :"
-"ref:`updating-target-files`, :ref:`addon-weblate.json.customize`, :ref:"
-"`addon-weblate.cleanup.generic`,"
+":doc:`tt:formats/json`, `Application Resource Bundle Specification`_, `"
+"Internationalizing Flutter apps`_, :ref:`updating-target-files`, :ref:`addon-"
+"weblate.json.customize`, :ref:`addon-weblate.cleanup.generic`,"
 
 #: ../../formats/arb.rst:32
 msgid "``lib/l10n/intl_*.arb``"
@@ -47061,8 +47020,6 @@ msgstr ""
 #: ../../formats/go-i18n.rst:33 ../../formats/json.rst:56
 #: ../../formats/tbx.rst:31 ../../formats/winrc.rst:21
 #: ../../formats/xliff.rst:130
-#, fuzzy
-#| msgid "Example file:"
 msgid "Example files"
 msgstr "Exemplo de arquivos"
 
@@ -47161,10 +47118,8 @@ msgid "``path/en.xlsx``"
 msgstr "``path/en.xlsx``"
 
 #: ../../formats/excel.rst:28
-#, fuzzy
-#| msgid "Excel Open XML"
 msgid "`Excel Open XML`"
-msgstr "Excel Open XML"
+msgstr "`Excel Open XML`"
 
 #: ../../formats/flatxml.rst:4
 msgid "Flat XML files"
@@ -47195,17 +47150,14 @@ msgid "Fluent format"
 msgstr "Formato Fluent"
 
 #: ../../snippets/format-in-development.rst:3
-#, fuzzy
-#| msgid ""
-#| "Support for this format is currently in beta, feedback from testing is "
-#| "welcome."
 msgid ""
 "Support for this format is under development. Some features might not yet be "
 "available and the behavior can change between releases. Feedback from "
 "testing is welcome."
 msgstr ""
-"O suporte para este formato está atualmente em beta, feedback de testes é "
-"bem-vindo."
+"O suporte para esse formato está em desenvolvimento. Alguns recursos podem "
+"não estar disponíveis ainda e o comportamento pode mudar entre as versões. O "
+"feedback dos testes é bem-vindo."
 
 #: ../../formats/fluent.rst:10
 msgid ""
@@ -47241,12 +47193,15 @@ msgstr "Arquivo Format.JS JSON"
 msgid ""
 "File format used when translating Format.JS and React-Intl applications."
 msgstr ""
+"Formato de arquivo usado ao traduzir aplicativos Format.JS e React-Intl."
 
 #: ../../formats/formatjs.rst:12
 msgid ""
 ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs."
 "github.io/docs/getting-started/message-extraction>`_"
 msgstr ""
+":doc:`tt:formats/json`, `Extração de mensagem Format.JS <https://"
+"formatjs.github.io/docs/getting-started/message-extraction>`_"
 
 #: ../../formats/formatjs.rst:45
 msgid "``src/lang/*.json``"
@@ -47262,7 +47217,7 @@ msgstr "`arquivo JSON Format.JS`"
 
 #: ../../formats/gettext.rst:4
 msgid "GNU gettext PO (Portable Object)"
-msgstr ""
+msgstr "GNU gettext PO (Objeto Portátil)"
 
 #: ../../formats/gettext.rst:10
 msgid "Most widely used format for translating libre software."
@@ -47277,13 +47232,6 @@ msgstr ""
 "seus cabeçalhos ou vinculando-se a arquivos fonte correspondentes."
 
 #: ../../formats/gettext.rst:17
-#, fuzzy
-#| msgid ""
-#| ":doc:`devel/gettext`, :doc:`devel/sphinx`, `Gettext on Wikipedia <https://"
-#| "en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-"
-#| "weblate.gettext.configure`, :ref:`addon-weblate.gettext.customize`, :ref:"
-#| "`addon-weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:"
-#| "`addon-weblate.gettext.msgmerge`"
 msgid ""
 ":doc:`../devel/gettext`, :doc:`../devel/sphinx`, `Gettext on Wikipedia "
 "<https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-"
@@ -47291,17 +47239,15 @@ msgid ""
 "`addon-weblate.gettext.customize`, :ref:`addon-weblate.gettext.linguas`, :"
 "ref:`addon-weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`"
 msgstr ""
-":doc:`devel/gettext`, :doc:`devel/sphinx`, `Gettext no Wikipédia <https://en."
-"wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-weblate."
-"gettext.configure`, :ref:`addon-weblate.gettext.customize`, :ref:`addon-"
-"weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:`addon-"
-"weblate.gettext.msgmerge`"
+":doc:`../devel/gettext`, :doc:`../devel/sphinx`, `Gettext no Wikipédia "
+"<https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-"
+"weblate.gettext.configure`, :ref:`addon-weblate.gettext.customize`, :ref"
+":`addon-weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref"
+":`addon-weblate.gettext.msgmerge`"
 
 #: ../../formats/gettext.rst:29
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Showing source string change"
-msgstr "Texto fonte alterado"
+msgstr "Mostrando alteração no texto fonte"
 
 #: ../../formats/gettext.rst:31
 msgid ""
@@ -47310,10 +47256,14 @@ msgid ""
 "include these, :program:`msgmerge` has to be executed with ``--previous`` "
 "and the resulting PO file then contains lines such as:"
 msgstr ""
+"O Weblate pode extrair textos fonte anteriores dos arquivos PO, se "
+"presentes, e mostrar a diferença de texto para textos que precisam de edição "
+"com base nisso. Para incluí-las, :program:`msgmerge` precisa ser executado "
+"com ``--previous`` e o arquivo PO resultante então contém linhas como:"
 
 #: ../../formats/gettext.rst:44
 msgid "PO file header"
-msgstr ""
+msgstr "Cabeçalho de arquivo PO"
 
 #: ../../formats/gettext.rst:46
 msgid ""
@@ -47321,6 +47271,9 @@ msgid ""
 "it can include :ref:`component-report_source_bugs` and :ref:`project-"
 "set_language_team`."
 msgstr ""
+"O cabeçalho do arquivo PO é mantido automaticamente pelo Weblate. "
+"Opcionalmente, ele pode incluir :ref:`component-report_source_bugs` e :ref"
+":`project-set_language_team`."
 
 #: ../../formats/gettext.rst:53
 msgid "Monolingual gettext"
@@ -47352,10 +47305,8 @@ msgid "While the base language file will be:"
 msgstr "Enquanto o arquivo de idioma base será:"
 
 #: ../../formats/gettext.rst:117
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component` for bilingual CSV"
 msgid "Typical Weblate :ref:`component` for bilingual gettext"
-msgstr ":ref:`component` típica do Weblate para CSV bilíngue"
+msgstr ":ref:`component` típica do Weblate para gettext bilíngue"
 
 #: ../../formats/gettext.rst:123 ../../formats/gettext.rst:135
 msgid "``po/messages.pot``"
@@ -47366,10 +47317,8 @@ msgid "`Gettext PO file`"
 msgstr "`Arquivo Gettext PO`"
 
 #: ../../formats/gettext.rst:129
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component` for monolingual CSV"
 msgid "Typical Weblate :ref:`component` for monolingual gettext"
-msgstr ":ref:`component` típica do Weblate para CSV monolíngue"
+msgstr ":ref:`component` típica do Weblate para gettext monolíngue"
 
 #: ../../formats/gettext.rst:133
 msgid "``po/en.po``"
@@ -47384,10 +47333,8 @@ msgid "go-i18n JSON files"
 msgstr "Arquivos JSON go-i18n"
 
 #: ../../formats/go-i18n.rst:13
-#, fuzzy
-#| msgid "Support for v4 variant of this format was added."
 msgid "Support for v2 variant of this format was added."
-msgstr "O suporte para a variante v4 deste formato foi adicionado."
+msgstr "O suporte para a variante v2 deste formato foi adicionado."
 
 #: ../../formats/go-i18n.rst:15
 msgid ""
@@ -47398,15 +47345,11 @@ msgstr ""
 "arquivo base com (o que é mais frequentemente os) textos em inglês."
 
 #: ../../formats/go-i18n.rst:21
-#, fuzzy
-#| msgid ""
-#| "Weblate supports the i18next JSON v3 and v4 variants. Please choose "
-#| "correct file format matching your environment."
 msgid ""
 "Weblate supports the go-i18n JSON v1 and v2 variants. Please choose correct "
 "file format matching your environment."
 msgstr ""
-"O Weblate suporta as variantes i18next JSON v3 e v4. Escolha o formato de "
+"O Weblate suporta as variantes go-i18n JSON v1 e v2. Escolha o formato de "
 "arquivo correto que corresponda ao seu ambiente."
 
 #: ../../formats/go-i18n.rst:26
@@ -47420,22 +47363,16 @@ msgstr ""
 "`addon-weblate.cleanup.generic`,"
 
 #: ../../formats/go-i18n.rst:35
-#, fuzzy
-#| msgid "Example file:"
 msgid "Example file v1:"
-msgstr "Exemplo de arquivo:"
+msgstr "Exemplo de arquivo v1:"
 
 #: ../../formats/go-i18n.rst:40
-#, fuzzy
-#| msgid "Example file:"
 msgid "Example file v2:"
-msgstr "Exemplo de arquivo:"
+msgstr "Exemplo de arquivo v2:"
 
 #: ../../formats/go-i18n.rst:49
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component`"
 msgid "Typical Weblate :ref:`component` for v1"
-msgstr ":ref:`component` típica do Weblate"
+msgstr ":ref:`component` típica do Weblate para v1"
 
 #: ../../formats/go-i18n.rst:51 ../../formats/go-i18n.rst:64
 #: ../../formats/i18next.rst:60
@@ -47448,22 +47385,16 @@ msgid "``langs/en.json``"
 msgstr "``langs/en.json``"
 
 #: ../../formats/go-i18n.rst:57
-#, fuzzy
-#| msgid "go-i18n JSON file"
 msgid "`go-i18n v1 JSON file`"
-msgstr "Arquivo JSON go-i18n"
+msgstr "`Arquivo JSON go-i18n v1`"
 
 #: ../../formats/go-i18n.rst:62
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component`"
 msgid "Typical Weblate :ref:`component` for v2"
-msgstr ":ref:`component` típica do Weblate"
+msgstr ":ref:`component` típica do Weblate para v2"
 
 #: ../../formats/go-i18n.rst:70
-#, fuzzy
-#| msgid "go-i18n JSON file"
 msgid "`go-i18n v2 JSON file`"
-msgstr "Arquivo JSON go-i18n"
+msgstr "`Arquivo JSON go-i18n v2`"
 
 #: ../../formats/gotext.rst:4
 msgid "gotext JSON files"
@@ -47557,6 +47488,10 @@ msgid ""
 "imported to Weblate because it can not be done reliably. The source of truth "
 "for the translations is Weblate not the translated file."
 msgstr ""
+"Ao contrário da maioria dos outros formatos, as alterações nos arquivos de "
+"tradução não serão importadas para o Weblate porque isso não pode ser feito "
+"de forma confiável. A fonte da verdade para as traduções é o Weblate, não o "
+"arquivo traduzido."
 
 #: ../../formats/html.rst:14
 msgid ":doc:`tt:formats/html`"
@@ -47571,10 +47506,8 @@ msgid "``path/en.html``"
 msgstr "``path/en.html``"
 
 #: ../../formats/html.rst:33
-#, fuzzy
-#| msgid "HTML file"
 msgid "`HTML file`"
-msgstr "Arquivo HTML"
+msgstr "`Arquivo HTML`"
 
 #: ../../formats/i18next.rst:4
 msgid "i18next JSON files"
@@ -47590,6 +47523,9 @@ msgid ""
 "handling with CLDR. Older versions have different plural rules for some "
 "languages which are not correct."
 msgstr ""
+"Caso você use plurais, é recomendado usar a v4, pois ela alinha o tratamento "
+"de plural com CLDR. Versões mais antigas têm regras de plural diferentes "
+"para alguns idiomas que não são corretas."
 
 #: ../../formats/i18next.rst:19
 msgid ""
@@ -47617,6 +47553,8 @@ msgstr "Arquivo JSON i18next v4"
 msgid ""
 "Choose this format if unsure. It stores plurals using standard CLDR suffixes."
 msgstr ""
+"Escolha este formato se não tiver certeza. Ele armazena plurais usando "
+"sufixos CLDR padrão."
 
 #: ../../formats/i18next.rst:32
 msgid "i18next JSON file v3"
@@ -47624,7 +47562,7 @@ msgstr "Arquivo JSON i18next v3"
 
 #: ../../formats/i18next.rst:34
 msgid "Use for legacy projects which are using numeric suffixes for plurals."
-msgstr ""
+msgstr "Use para projetos legados que usam sufixos numéricos para plurais."
 
 #: ../../formats/i18next.rst:38
 msgid ""
@@ -47669,29 +47607,24 @@ msgid "``path/en.idml``"
 msgstr "``path/en.idml``"
 
 #: ../../formats/idml.rst:24
-#, fuzzy
-#| msgid "IDML file"
 msgid "`IDML file`"
-msgstr "Arquivo IDML"
+msgstr "`Arquivo IDML`"
 
 #: ../../formats/ini.rst:4
 msgid "INI translations"
 msgstr "Traduções de INI"
 
 #: ../../formats/ini.rst:11
-#, fuzzy
-#| msgid "Weblate currently supports several variants of JSON translations:"
 msgid ""
 "INI file format for translations. Weblate currently supports several "
 "variants of JSON translations:"
 msgstr ""
-"O Weblate atualmente tem suporte a várias variantes das traduções JSON:"
+"Formato de arquivo INI para traduções. O Weblate atualmente tem suporte a "
+"várias variantes das traduções JSON:"
 
 #: ../../formats/ini.rst:14
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Monolingual INI files"
-msgstr "Arquivo de idioma da base monolíngue"
+msgstr "Arquivos INI monolíngues"
 
 #: ../../formats/ini.rst:18
 msgid "INI translations are usually used as monolingual translations."
@@ -47969,32 +47902,24 @@ msgid "``lang/en/texts.php``"
 msgstr "``lang/en/texts.php``"
 
 #: ../../formats/laravel.rst:32
-#, fuzzy
-#| msgid "Laravel PHP strings"
 msgid "`Laravel PHP strings`"
-msgstr "Textos do PHP de Laravel"
+msgstr "`Textos do PHP de Laravel`"
 
 #: ../../formats/markdown.rst:4
 msgid "Markdown files"
 msgstr "Arquivos de Markdown"
 
 #: ../../formats/markdown.rst:10
-#, fuzzy
-#| msgid ""
-#| "The translatable content is extracted from the HTML files and offered for "
-#| "the translation."
 msgid ""
 "The translatable content is extracted from the Markdown files and offered "
 "for the translation."
 msgstr ""
-"O conteúdo traduzível é extraído dos arquivos HTML e oferecido para a "
+"O conteúdo traduzível é extraído dos arquivos Markdown e oferecido para a "
 "tradução."
 
 #: ../../formats/markdown.rst:16
-#, fuzzy
-#| msgid ":doc:`tt:formats/dtd`"
 msgid ":doc:`tt:formats/md`"
-msgstr ":doc:`tt:formats/dtd`"
+msgstr ":doc:`tt:formats/md`"
 
 #: ../../formats/markdown.rst:29
 msgid "``path/*.md``"
@@ -48005,47 +47930,34 @@ msgid "``path/en.md``"
 msgstr "``path/en.md``"
 
 #: ../../formats/markdown.rst:35
-#, fuzzy
-#| msgid "Markdown text"
 msgid "`Markdown file`"
-msgstr "Texto Markdown"
+msgstr "`Arquivo Markdown`"
 
 #: ../../formats/mi18n.rst:4
-#, fuzzy
-#| msgid "mi18n lang file"
 msgid "draggable/i18n lang files"
-msgstr "Arquivo lang mi18n"
+msgstr "Arquivo lang draggable/i18n"
 
 #: ../../formats/mi18n.rst:14
 msgid "The library was former published as mi18n."
-msgstr ""
+msgstr "A biblioteca foi publicada anteriormente como mi18n."
 
 #: ../../formats/mi18n.rst:16
-#, fuzzy
-#| msgid ""
-#| "File format used for JavaScript localization by `mi18n`_. Syntactically "
-#| "it matches :ref:`javaprop`."
 msgid ""
 "File format used for JavaScript localization by `draggable/i18n`_. "
 "Syntactically it matches :ref:`javaprop`."
 msgstr ""
-"Formato de arquivo usado para localização de JavaScript por `mi18n`_. "
-"Sintaticamente, ele corresponde a :ref:`javaprop`."
+"Formato de arquivo usado para localização de JavaScript por `draggable/i18n`"
+"_. Sintaticamente, ele corresponde a :ref:`javaprop`."
 
 #: ../../formats/mi18n.rst:20
-#, fuzzy
-#| msgid ""
-#| "`mi18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
-#| "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
-#| "cleanup.generic`"
 msgid ""
 "`draggable/i18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:"
 "`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-"
 "weblate.cleanup.generic`"
 msgstr ""
-"`mi18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
-"target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
-"cleanup.generic`"
+"`draggable/i18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref"
+":`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-"
+"weblate.cleanup.generic`"
 
 #: ../../formats/mi18n.rst:35
 msgid "``*.lang``"
@@ -48056,10 +47968,8 @@ msgid "``en-US.lang``"
 msgstr "``en-US.lang``"
 
 #: ../../formats/mi18n.rst:41
-#, fuzzy
-#| msgid "mi18n lang file"
 msgid "`draggabble/i18n lang file`"
-msgstr "Arquivo lang mi18n"
+msgstr "`Arquivo lang draggabble/i18n`"
 
 #: ../../formats/moko.rst:2
 msgid "Mobile Kotlin resources"
@@ -48070,6 +47980,8 @@ msgid ""
 "`Mobile Kotlin resources`_ specific format heavily based on :doc:`/formats/"
 "android`."
 msgstr ""
+"Formato específico para `recursos Kotlin para dispositivos móveis`_ "
+"fortemente baseado em :doc:`/formats/android`."
 
 #: ../../formats/moko.rst:13
 msgid ""
@@ -48077,6 +47989,8 @@ msgid ""
 "different format which matches :doc:`/formats/android`, please use that "
 "instead."
 msgstr ""
+"Há também o Resources de Compose Multiplatform de Kotlin da JetBrains que "
+"usa um formato diferente que corresponde a :doc:`/formats/android`, use-o."
 
 #: ../../formats/moko.rst:23
 msgid "``shared/src/commonMain/resources/MR/*/plurals.xml``"
@@ -48087,10 +48001,8 @@ msgid "``shared/src/commonMain/resources/MR/base/plurals.xml``"
 msgstr "``shared/src/commonMain/resources/MR/base/plurals.xml``"
 
 #: ../../formats/moko.rst:29
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "`Mobile Kotlin Resource`"
-msgstr "Recurso de textos de Android"
+msgstr "`Recursos Kotlin para dispositivos móveis`"
 
 #: ../../formats/odf.rst:4
 msgid "OpenDocument Format"
@@ -48117,10 +48029,8 @@ msgid "``path/en.odt``"
 msgstr "``path/en.odt``"
 
 #: ../../formats/odf.rst:26
-#, fuzzy
-#| msgid "OpenDocument file"
 msgid "`OpenDocument file`"
-msgstr "Arquivo OpenDocument"
+msgstr "`Arquivo OpenDocument`"
 
 #: ../../formats/php.rst:4
 msgid "PHP strings"
@@ -48136,17 +48046,12 @@ msgstr ""
 "inglês."
 
 #: ../../formats/php.rst:13
-#, fuzzy
-#| msgid "Weblate currently supports several variants of JSON translations:"
 msgid "Weblate currently supports several variants of PHP translations:"
-msgstr ""
-"O Weblate atualmente tem suporte a várias variantes das traduções JSON:"
+msgstr "O Weblate atualmente tem suporte a várias variantes das traduções PHP:"
 
 #: ../../formats/php.rst:15
-#, fuzzy
-#| msgid "Monolingual translations"
 msgid "Monolingual PHP strings in various syntax"
-msgstr "Traduções monolíngues"
+msgstr "Textos PHP monolíngues em várias sintaxes"
 
 #: ../../formats/php.rst:16
 msgid ":ref:`laravel-php`"
@@ -48245,6 +48150,8 @@ msgid ""
 "A .NET XML resource file employs a monolingual XML file format used in "
 "Microsoft .NET applications."
 msgstr ""
+"Um arquivo de recursos XML .NET emprega um formato de arquivo XML monolíngue "
+"usado em aplicativos Microsoft .NET."
 
 #: ../../formats/resx.rst:14
 msgid ""
@@ -48252,6 +48159,10 @@ msgid ""
 "extension, the ``.resw`` file format is identical to the ``.resx`` file "
 "format, except that ``.resw`` files may contain only strings and file paths."
 msgstr ""
+"Ele pode usar a extensão ``.resx`` ou ``.resw``. Apesar da diferença de "
+"extensão de arquivo, o formato de arquivo ``.resw`` é idêntico ao formato de "
+"arquivo ``.resx``, exceto que os arquivos ``.resw`` podem conter apenas "
+"textos e caminhos de arquivo."
 
 #: ../../formats/resx.rst:20
 msgid ""
@@ -48382,10 +48293,8 @@ msgid "TermBase eXchange format"
 msgstr "Formato TermBase eXchange"
 
 #: ../../formats/tbx.rst:6
-#, fuzzy
-#| msgid "Supported file formats"
 msgid "Supported features"
-msgstr "Formatos de arquivos suportados"
+msgstr "Recursos suportados"
 
 #: ../../formats/tbx.rst:8
 msgid ":ref:`format-explanation`"
@@ -48396,6 +48305,8 @@ msgid ""
 "Source string explanation is saved and loaded from the ``<descrip>`` tag, "
 "translation string explanation from ``<note from=\"translator\">``."
 msgstr ""
+"A explicação do texto fonte é salva e carregada da tag ``<descrip>``, a "
+"explicação do texto de tradução é de ``<note from=\"translator\">``."
 
 #: ../../formats/tbx.rst:14
 msgid "TBX is an XML format for the exchange of terminology data."
@@ -48410,26 +48321,29 @@ msgstr ""
 "`tt:formats/tbx`, :ref:`glossary`"
 
 #: ../../formats/tbx.rst:23
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanations"
-msgstr "Explicação"
+msgstr "Explicações"
 
 #: ../../formats/tbx.rst:25
 msgid ""
 "Weblate loads and saves explanation from TBX files to be displayed in :ref:"
 "`glossary`."
 msgstr ""
+"O Weblate carrega e salva explicações de arquivos TBX para serem exibidas no "
+":ref:`glossary`."
 
 #: ../../formats/tbx.rst:27
 msgid ""
 "Translation explanation is stored as ``<note from=\"translator\"></note>`` "
 "tag."
 msgstr ""
+"A explicação da tradução é armazenada como tag ``<note from=\"translator\""
+"></note>``."
 
 #: ../../formats/tbx.rst:28
 msgid "Source string explanation is stored as ``<descrip></descrip>`` tag."
 msgstr ""
+"A explicação do texto fonte é armazenada como tag ``<descrip></descrip>``."
 
 #: ../../formats/tbx.rst:44
 msgid "``tbx/*.tbx``"
@@ -48452,10 +48366,8 @@ msgstr ""
 "a tradução. Cada parágrafo é traduzido como um texto separado."
 
 #: ../../formats/txt.rst:11
-#, fuzzy
-#| msgid "There are three flavors of this format:"
 msgid "There are several flavors of this format:"
-msgstr "Há três sabores desse formato:"
+msgstr "Há vários sabores desse formato:"
 
 #: ../../formats/txt.rst:13
 msgid "Plain text file"
@@ -48482,10 +48394,8 @@ msgid "``path/en.txt``"
 msgstr "``path/en.txt``"
 
 #: ../../formats/txt.rst:41
-#, fuzzy
-#| msgid "Plain text file"
 msgid "`Plain text file`"
-msgstr "Arquivo texto simples"
+msgstr "`Arquivo texto simples`"
 
 #: ../../formats/webextension.rst:4
 msgid "WebExtension JSON"
@@ -48510,12 +48420,6 @@ msgstr ""
 "não tem suporte a arquivo com comentários."
 
 #: ../../formats/webextension.rst:16
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
-#| "docs/extensions/reference/i18n/>`_, `Mozilla Extensions "
-#| "Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/"
-#| "Add-ons/WebExtensions/Internationalization>`_"
 msgid ""
 ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
 "docs/extensions/reference/api/i18n>`_, `Mozilla Extensions "
@@ -48523,9 +48427,9 @@ msgid ""
 "ons/WebExtensions/Internationalization>`_"
 msgstr ""
 ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
-"docs/extensions/reference/i18n/>`_, `Mozilla Extensions Internationalization "
-"<https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/"
-"Internationalization>`_"
+"docs/extensions/reference/api/i18n>`_, `Mozilla Extensions "
+"Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/"
+"Add-ons/WebExtensions/Internationalization>`_"
 
 #: ../../formats/webextension.rst:31
 msgid "``_locales/*/messages.json``"
@@ -48552,6 +48456,8 @@ msgid ""
 "RC files are language files used to localize translatable text, dialogs, "
 "menus, for Windows applications."
 msgstr ""
+"Arquivos RC são arquivos de idioma usados para localizar texto traduzível, "
+"caixas de diálogo e menus para aplicativos do Windows."
 
 #: ../../formats/winrc.rst:18
 msgid ":doc:`tt:formats/rc`"
@@ -48582,6 +48488,8 @@ msgid ""
 "Weblate currently supports XLIFF 1.2. XLIFF 2.0 is not supported and is not "
 "backwards compatible with XLIFF 1.2."
 msgstr ""
+"Atualmente, o Weblate oferece suporte ao XLIFF 1.2. O XLIFF 2.0 não é "
+"compatível e não é compatível com versões anteriores do XLIFF 1.2."
 
 #: ../../formats/xliff.rst:13
 msgid ""
@@ -48604,10 +48512,8 @@ msgid "Weblate supports XLIFF in several variants:"
 msgstr "O Weblate tem suporte a XLIFF em várias variantes:"
 
 #: ../../formats/xliff.rst:20
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "`XLIFF 1.2 translation file`"
-msgstr "Arquivo de tradução XLIFF"
+msgstr "`Arquivo de tradução XLIFF 1.2`"
 
 #: ../../formats/xliff.rst:21
 msgid ""
@@ -48618,10 +48524,8 @@ msgstr ""
 "simples (todos os elementos XML sendo escapados)."
 
 #: ../../formats/xliff.rst:22
-#, fuzzy
-#| msgid "XLIFF with placeables support"
 msgid "`XLIFF 1.2 with placeables support`"
-msgstr "XLIFF com suporte transponível"
+msgstr "`XLIFF 1.2 com suporte a objetos colocáveis`"
 
 #: ../../formats/xliff.rst:23
 msgid "Standard XLIFF supporting placeables and other XML elements."
@@ -48629,10 +48533,8 @@ msgstr ""
 "XLIFF padrão que oferece suporte a objetos colocáveis e outros elementos XML."
 
 #: ../../formats/xliff.rst:24
-#, fuzzy
-#| msgid "XLIFF 1.1 with gettext extensions"
 msgid "`XLIFF 1.2 with gettext extensions`"
-msgstr "XLIFF 1.1 com extensões gettext"
+msgstr "`XLIFF 1.2 com extensões gettext`"
 
 #: ../../formats/xliff.rst:25
 msgid ""
@@ -48643,17 +48545,14 @@ msgstr ""
 "oferecer suporte a plurais."
 
 #: ../../formats/xliff.rst:30
-#, fuzzy
-#| msgid ""
-#| "`XML Localization Interchange File Format (XLIFF)`_ specification, `XLIFF "
-#| "1.2 Representation Guide for Gettext PO`_"
 msgid ""
 "`XML Localization Interchange File Format (XLIFF)`_ specification, `XLIFF "
 "1.2 Representation Guide for Gettext PO`_, `XLIFF on Wikipedia <https://en."
 "wikipedia.org/wiki/XLIFF>`_, :doc:`tt:formats/xliff`"
 msgstr ""
 "Especificação do `XML Localization Interchange File Format (XLIFF)`_, `XLIFF "
-"1.2 Representation Guide for Gettext PO`_"
+"1.2 Representation Guide for Gettext PO`_, `XLIFF no Wikipédia <https://"
+"en.wikipedia.org/wiki/XLIFF>`_, :doc:`tt:formats/xliff`"
 
 #: ../../formats/xliff.rst:40 ../../workflows.rst:59
 msgid "Translation states"
@@ -48780,21 +48679,14 @@ msgstr ""
 "favor tenha isso em mente ao nomear o grupo de fontes (veja :ref:`fonts`)."
 
 #: ../../formats/xliff.rst:114
-#, fuzzy
-#| msgid ""
-#| "`XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_, :doc:`tt:"
-#| "formats/xliff`, `font attribute in XLIFF 1.2 <http://docs.oasis-open.org/"
-#| "xliff/v1.2/os/xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 "
-#| "<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgid ""
 "`font attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-"
 "core.html#font>`_, `maxwidth attribute in XLIFF 1.2 <http://docs.oasis-open."
 "org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgstr ""
-"`XLIFF na Wikipédia <https://en.wikipedia.org/wiki/XLIFF>`_, :doc:`tt:"
-"formats/xliff`, `Atributo font no XLIFF 1.2 <http://docs.oasis-open.org/"
-"xliff/v1.2/os/xliff-core.html#font>`_, `Atributo maxwidth no XLIFF 1.2 "
-"<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
+"`Atributo font no XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-"
+"core.html#font>`_, `Atributo maxwidth no XLIFF 1.2 <http://"
+"docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 
 #: ../../formats/xliff.rst:118
 msgid "String keys"
@@ -48825,10 +48717,8 @@ msgstr ""
 "restrição de exclusividade neste atributo."
 
 #: ../../formats/xliff.rst:132
-#, fuzzy
-#| msgid "Example file:"
 msgid "Example XLIFF file:"
-msgstr "Exemplo de arquivo:"
+msgstr "Exemplo de arquivo XLIFF:"
 
 #: ../../formats/xliff.rst:142
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
@@ -48864,11 +48754,8 @@ msgstr ""
 "extrai textos de listas ou dicionários."
 
 #: ../../formats/yaml.rst:12
-#, fuzzy
-#| msgid "Weblate currently supports several variants of JSON translations:"
 msgid "Weblate currently supports several variants of YAML translations:"
-msgstr ""
-"O Weblate atualmente tem suporte a várias variantes das traduções JSON:"
+msgstr "O Weblate atualmente tem suporte a várias variantes das traduções YAML:"
 
 #: ../../formats/yaml.rst:17
 msgid ":doc:`tt:formats/yaml`, :ref:`ryaml`"
@@ -48907,10 +48794,8 @@ msgid "Indices and tables"
 msgstr "Índices e tabelas"
 
 #: ../../index.rst:2
-#, fuzzy
-#| msgid "Documentation"
 msgid "Weblate Documentation"
-msgstr "Documentação"
+msgstr "Documentação do Weblate"
 
 #: ../../index.rst:8
 msgid ""
@@ -48918,13 +48803,20 @@ msgid ""
 "Expand the \"Read the Docs\" panel at the bottom of the sidebar to see the "
 "list."
 msgstr ""
+"A documentação do Weblate está disponível em vários idiomas e versões. "
+"Expanda o painel do \"Read the Docs\" na parte inferior da barra lateral "
+"para ver a lista."
 
 #: ../../index.rst:16
+#, fuzzy
 msgid ""
 "This documentation is translated from the `original English one <https://"
 "docs.weblate.org/en/latest/>`_ by community members on `Hosted Weblate "
 "<https://hosted.weblate.org/projects/weblate/documentation/>`_."
 msgstr ""
+"Esta documentação foi traduzida do `original em inglês <https://"
+"docs.weblate.org/en/latest/>`_ por membros da comunidade no `Hosted Weblate "
+"<https://hosted.weblate.org/projects/weblate/documentation/>`_."
 
 #: ../../index.rst:20
 msgid ""
@@ -48933,6 +48825,9 @@ msgid ""
 "community by providing new translations or reviewing existing ones on "
 "Weblate."
 msgstr ""
+"Dependendo do nível de conclusão do esforço de tradução, você pode encontrar "
+"parágrafos ou páginas inteiras que ainda estão em inglês. Você pode ajudar a "
+"comunidade fornecendo novas traduções ou revisando as existentes no Weblate."
 
 #: ../../index.rst:25
 msgid ""
@@ -48941,6 +48836,10 @@ msgid ""
 "to this documentation, we recommend that you read the :doc:`user/basic` to "
 "get an overview of what Weblate does."
 msgstr ""
+"Bem-vindo à documentação oficial do `Weblate <https://weblate.org>`_, o "
+"sistema de localização contínua baseado na web de software livre. Se você é "
+"novo nesta documentação, recomendamos que leia o :doc:`user/basic` para "
+"obter uma visão geral do que o Weblate faz."
 
 #: ../../index.rst:30
 msgid ""
@@ -48948,6 +48847,9 @@ msgid ""
 "documentation for your topic of interest. You can also use the search "
 "function in the top-left corner."
 msgstr ""
+"O índice na barra lateral deve permitir que você acesse facilmente a "
+"documentação do seu tópico de interesse. Você também pode usar a função de "
+"busca no canto superior esquerdo."
 
 #: ../../legal.rst:2
 msgid "Legal documents"
@@ -49019,13 +48921,6 @@ msgstr ""
 "criptografia para autenticação, integridade de dados e confidencialidade."
 
 #: ../../legal.rst:36
-#, fuzzy
-#| msgid ""
-#| "Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as "
-#| "publicly available libre software, it should not be subject to EAR (see "
-#| "`Encryption items NOT Subject to the EAR <https://www.bis.doc.gov/index."
-#| "php/policy-guidance/encryption/1-encryption-items-not-subject-to-the-"
-#| "ear>`_)."
 msgid ""
 "Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as "
 "publicly available libre software, it should not be subject to EAR (see "
@@ -49313,40 +49208,36 @@ msgid ":setting:`AUTOFIX_LIST`"
 msgstr ":setting:`AUTOFIX_LIST`"
 
 #: ../../user/checks.rst:27
-#, fuzzy
-#| msgid "Trailing ellipsis"
 msgid "Trailing ellipsis replacer"
-msgstr "Reticências no final"
+msgstr "Substituidor de reticências no final"
 
 #: ../../user/checks.rst:29
 msgid ""
 "Replace trailing dots (``...``) with an ellipsis (``…``) to make it "
 "consistent with the source string."
 msgstr ""
+"Substitui os pontos finais (``...``) por reticências (``…``) para torná-los "
+"consistentes com o texto fonte."
 
 #: ../../user/checks.rst:33
-#, fuzzy
-#| msgid "Zero-width space"
 msgid "Zero-width space removal"
-msgstr "Espaço com largura zero"
+msgstr "Remoção de espaço com largura zero"
 
 #: ../../user/checks.rst:35
 msgid ""
 "Zero width space is typically not desired in the translation. This fix will "
 "remove it unless it is present in the source string as well."
 msgstr ""
+"Espaço de largura zero normalmente não é desejado na tradução. Esta correção "
+"irá removê-lo, a menos que esteja presente no texto fonte também."
 
 #: ../../user/checks.rst:39
-#, fuzzy
-#| msgid "Control characters"
 msgid "Control characters removal"
-msgstr "Caracteres de controle"
+msgstr "Remoção de caracteres de controle"
 
 #: ../../user/checks.rst:41
-#, fuzzy
-#| msgid "Removes control characters if the source does not contain any."
 msgid "Removes any control characters from the translation."
-msgstr "Remove caracteres de controle se a fonte não contiver nenhum."
+msgstr "Remove todos os caracteres de controle da tradução."
 
 #: ../../user/checks.rst:44
 msgid "Devanagari danda"
@@ -49355,42 +49246,43 @@ msgstr "Devanagari danda"
 #: ../../user/checks.rst:46
 msgid "Replaces wrong full stop in Devanagari by Devanagari danda (``।``)."
 msgstr ""
+"Substitui ponto final errado em Devanagari por Devanagari danda (``।``)."
 
 #: ../../user/checks.rst:51 ../../user/checks.rst:1336
 msgid "Punctuation spacing"
 msgstr "Espaçamento de pontuação"
 
 #: ../../user/checks.rst:55
-#, fuzzy
-#| msgid "Separate check for French punctuation spacing."
 msgid "Ensures French and Breton use correct punctuation spacing."
-msgstr "Verificação separada para o espaçamento de pontuação francês."
+msgstr ""
+"Garante que o francês e o bretão usem o espaçamento de pontuação correto."
 
 #: ../../user/checks.rst:57
 msgid ""
 "This fixup can be disabled via ``ignore-punctuation-spacing`` flag (which "
 "also disables :ref:`check-punctuation-spacing`)."
 msgstr ""
+"Essa correção pode ser desabilitada por meio do marcador ``ignore-"
+"punctuation-spacing`` (que também desabilita :ref:`check-punctuation-"
+"spacing`)."
 
 #: ../../user/checks.rst:63
-#, fuzzy
-#| msgid "Unsafe HTML"
 msgid "Unsafe HTML cleanup"
-msgstr "HTML inseguro"
+msgstr "Limpeza de HTML inseguro"
 
 #: ../../user/checks.rst:65
 msgid "When turned on using a ``safe-html`` flag it sanitizes HTML markup."
 msgstr ""
+"Quando ativado usando um marcador ``safe-html``, ele aplica uma limpeza na "
+"marcação HTML."
 
 #: ../../user/checks.rst:69
 msgid ":ref:`check-safe-html`"
 msgstr ":ref:`check-safe-html`"
 
 #: ../../user/checks.rst:72
-#, fuzzy
-#| msgid "Trailing and leading whitespace"
 msgid "Trailing and leading whitespace fixer"
-msgstr "Espaço em branco no início ou final"
+msgstr "Corretor de espaços em branco no final e no início"
 
 #: ../../user/checks.rst:74
 msgid ""
@@ -49398,6 +49290,9 @@ msgid ""
 "behavior can be fine-tuned using ``ignore-begin-space`` and ``ignore-end-"
 "space`` flags to skip processing parts of the string."
 msgstr ""
+"Torna os espaços em branco no início e no final consistentes com o texto "
+"fonte. O comportamento pode ser ajustado usando os marcadores``ignore-begin-"
+"space`` e ``ignore-end-space`` para pular partes do processamento da string."
 
 #: ../../user/checks.rst:81
 msgid "Quality checks"
