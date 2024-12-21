@@ -22,13 +22,14 @@
 # solokot <h8m47ysr228@users.noreply.hosted.weblate.org>, 2024.
 # Andrey <andrey@mailbox.org>, 2024.
 # Victor K <ktrace@yandex.ru>, 2024.
+# BouenMarsh <mveretsuk@yandex.ru>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2024-12-13 17:26+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-12-21 15:47+0000\n"
+"Last-Translator: BouenMarsh <mveretsuk@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -37,7 +38,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.9-rc\n"
+"X-Generator: Weblate 5.10-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -45,10 +46,6 @@ msgid "Access control"
 msgstr "Контроль доступа"
 
 #: ../../admin/access.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a fine-grained privilege system to assign user "
-#| "permissions for the whole instance, or in a limited scope."
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance with predefined roles, or by assigning "
@@ -56,7 +53,9 @@ msgid ""
 "projects, components, glossaries, and so on."
 msgstr ""
 "Weblate поставляется с детальной системой привилегий, позволяющей назначать "
-"права пользователя для всего экземпляра или в ограниченном объёме."
+"права пользователя для всего экземпляра с применением заданных ролей, или "
+"назначать группы прав пользователям для всех действий, определенных "
+"проектов, компонентов, словарей и т.д."
 
 #: ../../admin/access.rst:14
 msgid "Project access control"
@@ -73,16 +72,12 @@ msgstr ""
 "если хотите ограничить доступ к своему проекту."
 
 #: ../../admin/access.rst:22
-#, fuzzy
-#| msgid ""
-#| "You can limit user’s access to individual projects by selecting a "
-#| "different :ref:`project-access_control` setting. Available options are:"
 msgid ""
 "Limit user access to individual projects by selecting a different :ref:"
 "`project-access_control` setting. The available options are:"
 msgstr ""
-"Вы можете ограничить доступ пользователей к отдельным проектам, выбрав "
-"другой тип настройки :ref:`project-access_control`. Возможные варианты:"
+"Ограничивайте доступ пользователей к отдельным проектам, выбрав другой тип "
+"настройки :ref:`project-access_control`. Возможные варианты:"
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:502
 msgid ":guilabel:`Public`"
@@ -174,14 +169,11 @@ msgstr ""
 "соответствующего проекта."
 
 #: ../../admin/access.rst:68
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"Значение по умолчанию можно изменить с помощью :setting:"
-"`DEFAULT_ACCESS_CONTROL`."
+"Значение по умолчанию можно изменить с помощью параметра "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:72
 msgid ""
@@ -240,22 +232,16 @@ msgid "`Administration`"
 msgstr "`Администрация`"
 
 #: ../../admin/access.rst:100
-#, fuzzy
-#| msgid "Includes all permissions available for the project."
 msgid "All available permissions for the project."
-msgstr "Включает все разрешения, доступные для проекта."
+msgstr "Все разрешения, доступные для проекта."
 
 #: ../../admin/access.rst:102
-#, fuzzy
-#| msgid "Review"
 msgid "`Review`"
-msgstr "Рецензирование"
+msgstr "`Рецензирование`"
 
 #: ../../admin/access.rst:103
-#, fuzzy
-#| msgid "Can approve translations during review."
 msgid "Approve translations in a review."
-msgstr "Может одобрять переводы во время рецензирования."
+msgstr "Одобрять переводы на стадии рецензирования."
 
 #: ../../admin/access.rst:105
 msgid "Available only if :ref:`review workflow <reviews>` is on."
@@ -267,41 +253,28 @@ msgid "For `Protected` and `Private` projects only:"
 msgstr "Только для проектов `защищённых` и `частных`:"
 
 #: ../../admin/access.rst:109 ../../admin/access.rst:715
-#, fuzzy
-#| msgid "Translate"
 msgid "`Translate`"
 msgstr "`Перевести`"
 
 #: ../../admin/access.rst:110
-#, fuzzy
-#| msgid "Can translate the project and upload translations made offline."
 msgid "Translate the project and upload translations made offline."
-msgstr ""
-"Может переводить проект и загружать переводы, сделанные в автономном режиме."
+msgstr "Переводить проект и загружать переводы, сделанные в автономном режиме."
 
 #: ../../admin/access.rst:112
-#, fuzzy
-#| msgid "Sources"
 msgid "`Sources`"
-msgstr "Источники"
+msgstr "`Источники`"
 
 #: ../../admin/access.rst:113
-#, fuzzy
-#| msgid ""
-#| "Can edit source strings (if allowed in the :ref:`project settings "
-#| "<component-manage_units>`) and source string info."
 msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
-"Может редактировать исходные строки (если это разрешено в :ref:`настройках "
-"проекта <component-manage_units>`) и информацию об исходной строке."
+"Редактировать исходные строки (если это разрешено в :ref:`настройках проекта "
+"<component-manage_units>`) и информацию об исходной строке."
 
 #: ../../admin/access.rst:116
-#, fuzzy
-#| msgid "Languages"
 msgid "`Languages`"
-msgstr "Языки"
+msgstr "`Языки`"
 
 #: ../../admin/access.rst:117
 #, fuzzy
@@ -3905,8 +3878,8 @@ msgid ""
 "must be removed from the upstream manually."
 msgstr ""
 "При удалении перевода его PO-файл будет удалён из репозитория, а MO-файл, "
-"созданный этим дополнением, - нет.  MO-файл должен быть удалён из "
-"репозитория вручную."
+"созданный этим дополнением, - нет. MO-файл должен быть удалён из репозитория "
+"вручную."
 
 #: ../../admin/addons.rst:800
 msgid "Update PO files to match POT (msgmerge)"
@@ -15826,8 +15799,8 @@ msgstr ""
 "автоматической генерации SSL-сертификатов для общедоступной установки, вам "
 "нужно будет добавить дополнительный контейнер Docker с обратным HTTPS прокси "
 "— `https-portal <https://hub.docker.com/r/steveltn/https-portal/>`_. Он "
-"используется в файле :file:`docker-compose-https.yml`.  Затем создайте файл :"
-"file:`docker-compose-https.override.yml` со своими настройками:"
+"используется в файле :file:`docker-compose-https.yml`. Затем создайте файл "
+":file:`docker-compose-https.override.yml` со своими настройками:"
 
 #: ../../admin/install/docker.rst:198
 msgid ""
@@ -42085,10 +42058,8 @@ msgstr ""
 "попробовать :ref:`discussions`."
 
 #: ../../contributing/issues.rst:19
-#, fuzzy
-#| msgid "How to report a security issue?"
 msgid "Reporting security issues"
-msgstr "Как сообщить о проблеме безопасности?"
+msgstr "Уведомление о проблемах безопасности"
 
 #: ../../contributing/issues.rst:21
 msgid ""
