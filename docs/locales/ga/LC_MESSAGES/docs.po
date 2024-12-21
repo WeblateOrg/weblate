@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2024-12-19 18:22+0000\n"
+"PO-Revision-Date: 2024-12-21 12:31+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
@@ -18,9 +18,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 5.9.2-dev\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :("
+"n>6 && n<11) ? 3 : 4;\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
 msgid "Access control"
@@ -3549,7 +3549,7 @@ msgid ""
 "must be removed from the upstream manually."
 msgstr ""
 "Má bhaintear aistriúchán, scriosfar a chomhad PO ón stór, ach ní bheidh an "
-"comhad MO ginte ag an mbreiseán seo.  Ní mór an comhad MO a bhaint den "
+"comhad MO ginte ag an mbreiseán seo. Ní mór an comhad MO a bhaint den "
 "réamhtheacht de láimh."
 
 #: ../../admin/addons.rst:800
@@ -9069,22 +9069,16 @@ msgstr ""
 "`settings-credentials`."
 
 #: ../../admin/config.rst:929
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-bitbucket-cloud`, `Create an App password <https://support."
-#| "atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`, `App "
-#| "password permissions <https://support.atlassian.com/bitbucket-cloud/docs/"
-#| "app-password-permissions/>`_"
 msgid ""
 ":ref:`vcs-bitbucket-cloud`, `Create an App password <https://support."
 "atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `App password "
 "permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-"
 "permissions/>`_"
 msgstr ""
-":ref:`vcs-bitbucket-cloud`, `Cruthaigh pasfhocal Aipe <https://support."
-"atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`, `Ceadanna "
-"pasfhocail feidhmchláir <https ://support.atlassian.com/bitbucket-cloud/docs/"
-"app-password-permissions/>`_"
+":ref:`vcs-bitbucket-cloud`, `Cruthaigh pasfhocal aipe <https://"
+"support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `"
+"Ceadanna pasfhocail feidhmchláir <https://support.atlassian.com/"
+"bitbucket-cloud/docs/app-password-permissions/>`_"
 
 #: ../../admin/config.rst:936
 msgid "AZURE_DEVOPS_CREDENTIALS"
@@ -11277,13 +11271,13 @@ msgid ""
 "under :guilabel:`Repository maintenance` or using the API via :option:`wlc "
 "push`."
 msgstr ""
-"Is féidir URL brú a chur ar bun do gach comhpháirt aistriúcháin (féach :ref:"
-"`component-push`), agus sa chás sin beidh Weblate in ann athrú a bhrú ar an "
-"gcianstór.  Is féidir Weblate a chumrú freisin chun athruithe a bhrú go "
-"huathoibríoch ar gach gealltanas (tá sé seo réamhshocraithe, féach :ref:"
-"`component-push_on_commit`). Mura dteastaíonn uait athruithe a bhrú go "
-"huathoibríoch, is féidir leat é sin a dhéanamh de láimh faoi :guilabel:"
-"`Cothabháil stórtha` nó ag baint úsáide as an API trí :rogha:`wlc push`."
+"Is féidir URL brú a chur ar bun do gach comhpháirt aistriúcháin (féach :ref"
+":`component-push`), agus sa chás sin beidh Weblate in ann athrú a bhrú ar an "
+"gcianstór. Is féidir Weblate a chumrú freisin chun athruithe a bhrú go "
+"huathoibríoch ar gach gealltanas (tá sé seo réamhshocraithe, féach :ref"
+":`component-push_on_commit`). Mura dteastaíonn uait athruithe a bhrú go "
+"huathoibríoch, is féidir leat é sin a dhéanamh de láimh faoi :guilabel:`"
+"Cothabháil stórtha` nó ag baint úsáide as an API trí :rogha:`wlc push`."
 
 #: ../../admin/continuous.rst:348
 msgid ""
@@ -13241,6 +13235,11 @@ msgid ""
 "reverse proxy address, so Weblate needs an additional HTTP header with "
 "client IP address."
 msgstr ""
+"Parsálann an chomhchlár Gréasáin seoladh IP ón ``REMOTE_ADDR`` atá socraithe "
+"ag an láimhseálaí WSGI. D’fhéadfadh sé seo a bheith folamh (agus soicéad á "
+"úsáid le haghaidh WSGI) nó seoladh seachfhreastalaí droim ar ais a bheith "
+"ann, mar sin tá ceanntásc HTTP breise ag teastáil ó Weblate le seoladh IP an "
+"chliaint."
 
 #: ../../admin/install.rst:699
 msgid ""
@@ -13249,6 +13248,11 @@ msgid ""
 "setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
 "and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
+"Seans gur leor do na gnáthshocruithe a chumasú : socrú: "
+"`IP_BEHIND_REVERSE_PROXY`, ach seans go mbeidh ort : socrú:`IP_PROXY_HEADER` "
+"agus :socrú:`IP_PROXY_OFFSET` a choigeartú freisin (úsáid "
+":envvar:`WEBLATE_IP_PROXY_HEAvvar`: agus :en`: WEBLATE_IP_PROXY_OFFSET` sa "
+"Coimeádán docker)."
 
 #: ../../admin/install.rst:706
 msgid ""
@@ -13256,6 +13260,9 @@ msgid ""
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
+"Ní féidir an chumraíocht seo a chur ar siúl de réir réamhshocraithe toisc go "
+"gceadódh sé do sheoladh IP a spoofing ar shuiteálacha nach bhfuil "
+"seachfhreastalaí cúltaca cumraithe i gceart acu."
 
 #: ../../admin/install.rst:710
 msgid ""
@@ -13272,11 +13279,6 @@ msgstr ""
 "le haghaidh Apache nó `` proxy_set_header Host $host;`` le nginx)."
 
 #: ../../admin/install.rst:717
-#, fuzzy
-#| msgid ""
-#| ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
-#| "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-#| "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgid ""
 ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
 "ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
@@ -13284,9 +13286,11 @@ msgid ""
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":tag: `cosaint turscair`, :tag: `teorainn ráta`, :tag:`iniúchadh-log`, : "
-"socrú:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :shocrú:"
-"`IP_PROXY_OFFSET`, :setting :`django:SECURE_PROXY_SSL_HEADER`"
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, "
+":ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, "
+":envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:732
 msgid "HTTP proxy"
@@ -14291,31 +14295,22 @@ msgstr ""
 "setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install.rst:1416
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration for NGINX and Gunicorn"
-msgstr "Cumraíocht shamplach le haghaidh Apache agus Gunicorn"
+msgstr "Cumraíocht shamplach do NGINX agus Gunicorn"
 
 #: ../../admin/install.rst:1418
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
-#| "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate using Gunicorn under the NGINX "
 "webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
 "conf`):"
 msgstr ""
-"Ritheann an chumraíocht seo a leanas Weblate i Gunicorn agus Apache 2.4 (ar "
-"fáil mar: comhad: `weblate/examples/apache.gunicorn.conf`):"
+"Ritheann an chumraíocht seo a leanas Weblate ag baint úsáide as Gunicorn "
+"faoi fhreastalaí gréasáin NGINX (ar fáil freisin mar: `weblate/examples/"
+"weblate.nginx.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1427 ../../admin/install.rst:1497
-#, fuzzy
-#| msgid ""
-#| ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ""
-":tag:`ionchódú táirgeachta`, :doc:`django: howto/ imscaradh/wsgi/modwsgi`"
+msgstr ":tag:`running-gunicorn`, :doc:`django: howto/ imscaradh/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1433
 msgid "Sample configuration for NGINX and uWSGI"
@@ -14330,10 +14325,10 @@ msgid ""
 "env`` in uWSGI)."
 msgstr ""
 "Chun freastalaí gréasáin táirgeachta a rith, bain úsáid as an fillteán WSGI "
-"atá suiteáilte le Weblate (i gcás env fíorúil tá sé suiteáilte mar :`~/"
-"weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`).  Ná déan dearmad "
-"an cosán cuardaigh Python a shocrú chuig do virtualenv freisin (mar shampla "
-"ag baint úsáide as ``virtualenv = /home/user/weblate-env`` in uWSGI)."
+"atá suiteáilte le Weblate (i gcás env fíorúil tá sé suiteáilte mar "
+":`~/weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`). Ná déan "
+"dearmad an cosán cuardaigh Python a shocrú chuig do virtualenv freisin (mar "
+"shampla ag baint úsáide as ``virtualenv = /home/user/weblate-env`` i uWSGI)."
 
 #: ../../admin/install.rst:1442
 msgid ""
@@ -14411,10 +14406,8 @@ msgstr ""
 "fáil mar: comhad: `weblate/examples/apache.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1504
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration to start Gunicorn"
-msgstr "Cumraíocht shamplach le haghaidh Apache agus Gunicorn"
+msgstr "Cumraíocht shamplach chun Gunicorn a thosú"
 
 #: ../../admin/install.rst:1506
 msgid ""
@@ -14422,20 +14415,26 @@ msgid ""
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"Tá spleáchas roghnach `wsgi` ag Weblate (féach : ref:`python-deps`) a "
+"shuiteálfaidh gach rud atá uait chun Gunicorn a rith. Agus Weblate á "
+"shuiteáil agat is féidir leat é a shonrú mar:"
 
 #: ../../admin/install.rst:1514
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show staring via systemd:"
 msgstr ""
+"Nuair a bheidh Gunicorn suiteáilte agat, is féidir leat é a rith. Déantar é "
+"seo de ghnáth ag leibhéal an chórais. Léiríonn na samplaí seo a leanas "
+"stánadh trí systemd:"
 
 #: ../../admin/install.rst:1517
 msgid "/etc/systemd/system/gunicorn.socket"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.socket"
 
 #: ../../admin/install.rst:1521
 msgid "/etc/systemd/system/gunicorn.service"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.service"
 
 #: ../../admin/install.rst:1527
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -14609,32 +14608,21 @@ msgid "Periodic tasks using Celery beat"
 msgstr "Tascanna tréimhsiúla ag baint úsáide as buille Soilire"
 
 #: ../../admin/install.rst:1639
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. The task schedule is "
 "stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
-"Tagann Weblate le socrú ionsuite do thascanna sceidealaithe. Is féidir, "
-"áfach, tascanna breise a shainiú i :comhad:`settings.py`, mar shampla féach :"
-"tag:`leisciúil-tiomantas`."
+"Tagann Weblate le socrú ionsuite do thascanna sceidealaithe. Stóráiltear an "
+"sceideal tascanna sa bhunachar sonraí agus déanann an deamhan buille Soilire "
+"na tascanna a fhorghníomhú."
 
 #: ../../admin/install.rst:1644
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "You can define additional tasks in :file:`settings.py`, for example see :ref:"
 "`lazy-commit`."
 msgstr ""
-"Tagann Weblate le socrú ionsuite do thascanna sceidealaithe. Is féidir, "
-"áfach, tascanna breise a shainiú i :comhad:`settings.py`, mar shampla féach :"
-"tag:`leisciúil-tiomantas`."
+"Is féidir leat tascanna breise a shainiú i :comhad:`settings.py`, mar "
+"shampla féach :tag:`leisciúil-tiomantas`."
 
 #: ../../admin/install.rst:1650
 msgid "Monitoring Celery status"
@@ -40575,13 +40563,6 @@ msgid "Funding Weblate development"
 msgstr "Forbairt Weblate a mhaoiniú"
 
 #: ../../contributing/index.rst:90
-#, fuzzy
-#| msgid ""
-#| "You can boost Weblate’s development on the `donate page`_. Funds "
-#| "collected there are used to enable gratis hosting for libre software "
-#| "projects and further development of Weblate. Please check the `donate "
-#| "page`_ for options, such as funding goals and the rewards you get as a "
-#| "proud funder."
 msgid ""
 "You can boost Weblate’s development by donating. Funds collected on "
 "donations are used to enable gratis hosting for libre software projects and "
@@ -40589,11 +40570,12 @@ msgid ""
 "<https://weblate.org/donate/>`_ for options, such as funding goals and the "
 "rewards you get as a proud funder."
 msgstr ""
-"Is féidir leat forbairt Weblate a threisiú ar an `leathanach deonaigh`_. "
-"Úsáidtear cistí a bhailítear ansin chun óstáil in aisce a chumasú do "
-"thionscadail bogearraí libre agus chun Weblate a fhorbairt tuilleadh. "
-"Seiceáil an `leathanach deonaithe`_ le haghaidh roghanna, mar spriocanna "
-"maoinithe agus na luach saothair a gheobhaidh tú mar mhaoinitheoir bródúil."
+"Is féidir leat forbairt Weblate a threisiú trí bhronnadh. Úsáidtear cistí a "
+"bhailítear ar thabhartais chun óstáil saor in aisce a chumasú do "
+"thionscadail bogearraí libre agus chun an t-éiceachóras a bhfuil Weblate ag "
+"brath air a mhaoiniú. Seiceáil an leathanach `donate <https://weblate.org/"
+"donate/>`_ le do thoil le haghaidh roghanna, mar spriocanna maoinithe agus "
+"na luach saothair a gheobhaidh tú mar mhaoinitheoir bródúil."
 
 #: ../../../BACKERS.rst:2
 msgid "Supporters who have funded Weblate"
@@ -40689,7 +40671,7 @@ msgstr "Daniel Leidert"
 
 #: ../../../BACKERS.rst:27
 msgid "ELSA-X"
-msgstr ""
+msgstr "ELSA-X"
 
 #: ../../../BACKERS.rst:29
 msgid ""
@@ -44500,10 +44482,10 @@ msgid ""
 "problems arise in translation, take care of them, and fix them quickly."
 msgstr ""
 "Is féidir le haistritheoirí trácht a dhéanamh ar theaghráin aistriúcháin "
-"agus foinse araon. Is féidir gach :ref:`comhpháirt` a chumrú chun a leithéid "
+"agus foinse araon. Is féidir gach :ref:`component` a chumrú chun a leithéid "
 "de thuairimí a fháil chuig seoladh ríomhphoist (féach :tag:`component-"
 "report_source_bugs`), agus is é liosta seoltaí na bhforbróirí an cur chuige "
-"is fearr de ghnáth.  Ar an mbealach seo is féidir leat a bheith ag faire ar "
+"is fearr de ghnáth. Ar an mbealach seo is féidir leat a bheith ag faire ar "
 "nuair a thagann fadhbanna chun cinn san aistriúchán, aire a thabhairt dóibh, "
 "agus iad a shocrú go tapa."
 
@@ -44569,7 +44551,7 @@ msgstr ""
 "Ní dhíreoidh mé ar dhoiciméadú a scríobh é féin, má tá treoir uait leis sin, "
 "lean na treoracha ar shuíomh Gréasáin `Sphinx`_. Nuair a bheidh na doiciméid "
 "réidh agat, tá sé éasca go leor é a aistriú mar go dtacaíonn Sphinx leis seo "
-"agus tá sé clúdaithe go maith ina :ref:`sphinx:intl`.  Is beag treoracha "
+"agus tá sé clúdaithe go maith ina :ref:`sphinx:intl`. Is beag treoracha "
 "cumraíochta atá ann agus an uirlis ``sphinx-intl`` á agairt."
 
 #: ../../devel/sphinx.rst:17
@@ -45039,11 +45021,11 @@ msgid ""
 msgstr ""
 "Tá roinnt formáidí ag súil le comhad folamh a thosú agus gan ach teaghráin "
 "aistrithe a chur san áireamh (mar shampla :tag:`asource`), agus daoine eile "
-"ag súil go mbeidh na heochracha go léir i láthair (mar shampla :ref:"
-"`gettext`). Tosaíonn na formáidí atá bunaithe ar dhoiciméid (mar shampla :"
-"ref:`odf`) le cóip den bhundoiciméad agus gach teaghrán marcáilte mar a "
-"dteastaíonn eagarthóireacht orthu.  I gcásanna áirithe ní bhraitheann sé seo "
-"i ndáiríre ar an bhformáid, ach ar an gcreat a úsáideann tú chun an t-"
+"ag súil go mbeidh na heochracha go léir i láthair (mar shampla "
+":ref:`gettext`). Tosaíonn na formáidí atá bunaithe ar dhoiciméid (mar "
+"shampla :ref:`odf`) le cóip den bhundoiciméad agus gach teaghrán marcáilte "
+"mar a dteastaíonn eagarthóireacht orthu. I gcásanna áirithe ní bhraitheann "
+"sé seo i ndáiríre ar an bhformáid, ach ar an gcreat a úsáideann tú chun an t-"
 "aistriúchán a láimhseáil (mar shampla le :ref:`json`)."
 
 #: ../../devel/translations.rst:42
@@ -54787,16 +54769,12 @@ msgstr ""
 "ina leith."
 
 #: ../../user/translating.rst:75
-#, fuzzy
-#| msgid ""
-#| "Markdown syntax can be used in all comments, as well as mentioning other "
-#| "users by using``@username``."
 msgid ""
 "Markdown syntax can be used in all comments, as well as mentioning other "
 "users by using ``@username``."
 msgstr ""
 "Is féidir comhréir Markdown a úsáid i ngach trácht, chomh maith le "
-"húsáideoirí eile a lua trí úsáid a bhaint as `` @ainm úsáideora``."
+"húsáideoirí eile a lua trí úsáid a bhaint as``@username``."
 
 #: ../../user/translating.rst:80
 msgid ""

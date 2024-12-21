@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2024-12-08 02:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-12-21 00:25+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -8475,17 +8475,12 @@ msgstr ""
 "`CACHE_DIR`."
 
 #: ../../admin/config.rst:461
-#, fuzzy
-#| msgid ""
-#| "This directory has to be writable by Weblate. Running it as uWSGI means "
-#| "the ``www-data`` user should have write access to it."
 msgid ""
 "This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
-"Naar deze map moet kunnen worden geschreven door Weblate. Uitvoeren als "
-"uWSGI betekent dat de gebruiker ``www-data`` toegang voor schrijven zou "
-"hebben."
+"Naar deze map moet kunnen worden geschreven door Weblate. Uitvoeren als WSGI "
+"betekent dat de gebruiker van ``www-data`` toegang voor schrijven zou hebben."
 
 #: ../../admin/config.rst:464
 msgid ""
@@ -8940,6 +8935,9 @@ msgid ""
 ":guilabel:`Administration` might also be necessary for forking a repository "
 "if you intend to use forking and the original repository is not public."
 msgstr ""
+":guilabel:`Beheren` zou ook noodzakelijk kunnen zijn voor het forken van een "
+"opslagruimte, als u van plan bent om forken te gebruiken en de originele "
+"opslagruimte is niet publiek."
 
 #: ../../admin/config.rst:857
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
@@ -8955,10 +8953,8 @@ msgid "BITBUCKETSERVER_CREDENTIALS"
 msgstr "BITBUCKETSERVER_CREDENTIALS"
 
 #: ../../admin/config.rst:875
-#, fuzzy
-#| msgid "List for credentials for Bitbucket servers."
 msgid "List for credentials for Bitbucket Data Center."
-msgstr "Lijst voor inloggegevens voor servers van Bitbucket."
+msgstr "Lijst voor inloggegevens voor servers van Bitbucket Data Center."
 
 #: ../../admin/config.rst:890
 msgid ""
@@ -9029,12 +9025,6 @@ msgstr ""
 "vinden op :ref:`settings-credentials`."
 
 #: ../../admin/config.rst:929
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-bitbucket-cloud`, `Create an App password <https://support."
-#| "atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`, `App "
-#| "password permissions <https://support.atlassian.com/bitbucket-cloud/docs/"
-#| "app-password-permissions/>`_"
 msgid ""
 ":ref:`vcs-bitbucket-cloud`, `Create an App password <https://support."
 "atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `App password "
@@ -9042,8 +9032,8 @@ msgid ""
 "permissions/>`_"
 msgstr ""
 ":ref:`vcs-bitbucket-cloud`, `Maak een wachtwoord voor de App <https://"
-"support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`, "
-"`Rechten wachtwoord voor App <https://support.atlassian.com/bitbucket-cloud/"
+"support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `"
+"Rechten wachtwoord voor App <https://support.atlassian.com/bitbucket-cloud/"
 "docs/app-password-permissions/>`_"
 
 #: ../../admin/config.rst:936
@@ -9741,16 +9731,13 @@ msgid "PROJECT_WEB_RESTRICT_RE"
 msgstr "PROJECT_WEB_RESTRICT_RE"
 
 #: ../../admin/config.rst:1519
-#, fuzzy
-#| msgid ""
-#| "Defines a regular expression to restrict project websites. Any matching "
-#| "URLs will be rejected."
 msgid ""
 "Defines a regular expression to limit what can be entered as :ref:`project-"
 "web`. Any matching URLs will be rejected."
 msgstr ""
-"Definieert een reguliere uitdrukking voor het beperken van projectwebsites. "
-"Alle overeenkomende URL's zullen worden geweigerd."
+"Definieert een reguliere uitdrukking voor het beperken van wat kan worden "
+"ingevoerd als :ref:`project-web`. Alle overeenkomende URL's zullen worden "
+"geweigerd."
 
 #: ../../admin/config.rst:1523
 msgid ""
@@ -10819,23 +10806,14 @@ msgid "Avoiding merge conflicts"
 msgstr "Conflicten met samenvoegen vermijden"
 
 #: ../../admin/continuous.rst:109
-#, fuzzy
-#| msgid ""
-#| "The merge conflicts from Weblate arise when same file was changed both in "
-#| "Weblate and outside it. There are two approaches to deal with that - "
-#| "avoid edits outside Weblate or integrate Weblate into your updating "
-#| "process, so that it flushes changes prior to updating the files outside "
-#| "Weblate."
 msgid ""
 "The merge conflicts from Weblate arise when same file was changed both in "
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
 "De conflicten met samenvoegen in Weblate treden op als hetzelfde bestand "
-"werd gewijzigd, zowel in Weblate als daarbuiten. Er zijn twee benaderingen "
-"om ze af te handelen - vermijd bewerken buiten Weblate of integreer Weblate "
-"in uw proces voor bijwerken, zodat het wijzigingen verwijdert voorafgaande "
-"aan het bijwerken van de bestanden buiten Weblate."
+"werd gewijzigd, zowel in Weblate als daarbuiten. Afhankelijk van de "
+"situatie, zijn er verschillende benaderingen die hier zouden kunnen helpen:"
 
 #: ../../admin/continuous.rst:112
 msgid ":ref:`merge-weblate-only`"
@@ -10850,25 +10828,12 @@ msgid ":ref:`merge-weblate-git`"
 msgstr ":ref:`merge-weblate-git`"
 
 #: ../../admin/continuous.rst:119
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by changing translation files in Weblate only"
 msgstr ""
-"Conflicten met samenvoegen vermijden voor uit Weblate afkomstige wijzigingen"
+"Conflicten met samenvoegen vermijden door vertaalbestanden alleen in Weblate "
+"te wijzigen"
 
 #: ../../admin/continuous.rst:121
-#, fuzzy
-#| msgid ""
-#| "The first approach is easy with monolingual files — you can add new "
-#| "strings within Weblate and leave whole editing of the files there. For "
-#| "bilingual files, there is usually some kind of message extraction process "
-#| "to generate translatable files from the source code. In some cases this "
-#| "can be split into two parts - one for the extraction generates template "
-#| "(for example gettext POT is generated using :program:`xgettext`) and then "
-#| "further process merges it into actual translations (the gettext PO files "
-#| "are updated using :program:`msgmerge`). You can perform the second step "
-#| "within Weblate and it will ensure that all pending changes are included "
-#| "prior to this operation."
 msgid ""
 "Avoiding edits outside Weblate is easy with monolingual files — you can add "
 "new strings within Weblate and leave whole editing of the files there. For "
@@ -10876,58 +10841,55 @@ msgid ""
 "generate translatable files from the source code. In some cases, this can be "
 "split into two parts:"
 msgstr ""
-"De eerste benadering is gemakkelijk met eentalige bestanden — u kunt nieuwe "
-"tekenreeksen in Weblate toevoegen en het hele bewerken van de bestanden daar "
-"laten. Voor tweetalige bestanden is gewoonlijk een bepaald proces voor het "
-"uitnemen van eenheden nodig om vertaalbare bestanden te kunnen genereren "
-"vanuit de broncode. In sommige gevallen kan dit worden opgedeeld in twee "
-"delen - een waarbij het uitnemen een sjabloon genereert (bijvoorbeeld "
-"gettext POT wordt gegenereerd met :program:`xgettext`) en het verdere proces "
-"voegt dat samen met de feitelijke vertalingen (de gettext PO-bestanden "
-"worden bijgewerkt met :program:`msgmerge`). U kunt de tweede stap uitvoeren "
-"binnen Weblate en het zal ervoor zorgen dat alle openstaande wijzigingen "
-"worden opgenomen, voorafgaande aan deze bewerking."
+"Vermijden van bewerkingen buiten Weblate is gemakkelijk met eentalige "
+"bestanden — u kunt nieuwe tekenreeksen in Weblate toevoegen en het hele "
+"bewerken van de bestanden daar laten. Voor tweetalige bestanden is "
+"gewoonlijk een bepaald proces voor het uitnemen van eenheden nodig om "
+"vertaalbare bestanden te kunnen genereren vanuit de broncode. In sommige "
+"gevallen kan dit worden opgedeeld in twee delen:"
 
 #: ../../admin/continuous.rst:127
 msgid ""
 "The extraction generates template (for example gettext POT is generated "
 "using :program:`xgettext`)."
 msgstr ""
+"Het uitnemen genereert sjabloon (bijvoorbeeld gettext POT wordt gegenereerd "
+"met :program:`xgettext`)."
 
 #: ../../admin/continuous.rst:128
 msgid ""
 "Further process merges it into actual translations (the gettext PO files are "
 "updated using :program:`msgmerge`)."
 msgstr ""
+"Verdere processen voegen het samen tot de feitelijke vertalingen (de gettext "
+"PO-bestanden worden bijgewerkt met :program:`msgmerge`)."
 
 #: ../../admin/continuous.rst:130
 msgid ""
 "You can perform the second step within Weblate and it will ensure that all "
 "pending changes are included before this operation."
 msgstr ""
+"U kunt de tweede stap uitvoeren binnen Weblate en het zal ervoor zorgen dat "
+"alle openstaande wijzigingen worden opgenomen, voor deze bewerking."
 
 #: ../../admin/continuous.rst:136
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
 msgstr ""
-"Conflicten met samenvoegen vermijden voor uit Weblate afkomstige wijzigingen"
+"Conflicten met samenvoegen vermijden door Weblate te vergrendelen bij het "
+"daarbuiten maken van wijzigingen"
 
 #: ../../admin/continuous.rst:138
-#, fuzzy
-#| msgid ""
-#| "The second approach can be achieved by using :ref:`api` to force Weblate "
-#| "to push all pending changes and lock the translation while you are doing "
-#| "changes on your side."
 msgid ""
 "Integrating Weblate into your updating process so that it flushes changes "
 "before updating the files outside Weblate can be achieved by using :ref:"
 "`api` to force Weblate to push all pending changes and lock the translation "
 "while you are doing changes on your side."
 msgstr ""
-"De tweede benadering kan worden bereikt door :ref:`api` te gebruiken om "
-"Weblate te forceren om alle openstaande wijzigingen te pushen en de "
-"vertaling te vergrendelen, terwijl u wijzigingen uitvoert aan uw kant."
+"Integreren van Weblate in uw proces voor bijwerken, zodat het wijzigingen "
+"verwijderd, voordat de bestanden buiten Weblate worden bijgewerkt, kan "
+"worden bereikt door :ref:`api` te gebruiken om Weblate te forceren om alle "
+"openstaande wijzigingen te pushen en de vertaling te vergrendelen, terwijl u "
+"wijzigingen uitvoert aan uw kant."
 
 #: ../../admin/continuous.rst:142
 msgid "The script for doing updates can look like this:"
@@ -10935,10 +10897,6 @@ msgstr ""
 "Het script voor het uitvoeren van bijwerkingen kan er uitzien zoals dit:"
 
 #: ../../admin/continuous.rst:163
-#, fuzzy
-#| msgid ""
-#| "If you have multiple components sharing same repository, you need to lock "
-#| "them all separately:"
 msgid ""
 "If you have multiple components sharing the same repository, you need to "
 "lock them all separately:"
@@ -10947,11 +10905,6 @@ msgstr ""
 "allemaal afzonderlijk vergrendelen:"
 
 #: ../../admin/continuous.rst:174
-#, fuzzy
-#| msgid ""
-#| "The example uses :ref:`wlc`, which needs configuration (API keys) to be "
-#| "able to control Weblate remotely. You can also achieve this using any "
-#| "HTTP client instead of wlc, e.g. curl, see :ref:`api`."
 msgid ""
 "The example uses :ref:`wlc`, which needs configuration (API keys) to be able "
 "to control Weblate remotely. You can also achieve this using any HTTP client "
@@ -10959,24 +10912,15 @@ msgid ""
 msgstr ""
 "De voorbeelden gebruiken :ref:`wlc`, wat configuratie nodig heeft (API-"
 "sleutels) om in staat te zijn om Weblate op afstand te beheren. U kunt dit "
-"ook bereiken met elke HTTP-cliënt in plaats van met wlc, bijv. curl, bekijk :"
-"ref:`api`."
+"ook bereiken met elke HTTP-cliënt in plaats van met :ref:`wlc`, bijvoorbeeld "
+"curl, bekijk :ref:`api`."
 
 #: ../../admin/continuous.rst:181
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by focusing on Git operations"
 msgstr ""
-"Conflicten met samenvoegen vermijden voor uit Weblate afkomstige wijzigingen"
+"Conflicten met samenvoegen vermijden door te focussen op bewerkingen met Git"
 
 #: ../../admin/continuous.rst:183
-#, fuzzy
-#| msgid ""
-#| "Even when Weblate is the single source of the changes in the translation "
-#| "files, conflicts can appear when using :ref:`addon-weblate.git.squash` "
-#| "add-on, :ref:`component-merge_style` is configured to :guilabel:`Rebase`, "
-#| "or you are squashing commits outside of Weblate (for example when merging "
-#| "a pull request)."
 msgid ""
 "Even when Weblate is the single source of the changes in the translation "
 "files, conflicts can appear when using :ref:`addon-weblate.git.squash` add-"
@@ -10985,8 +10929,8 @@ msgid ""
 "request)."
 msgstr ""
 "Zelfs wanneer Weblate de enige bron is van de wijzigingen in de "
-"vertaalbestanden, kunnen conflicten optreden bij het gebruiken van de add-"
-"on :ref:`addon-weblate.git.squash`, :ref:`component-merge_style` is "
+"vertaalbestanden, kunnen conflicten optreden bij het gebruiken van de add-on "
+":ref:`addon-weblate.git.squash`, :ref:`component-merge_style` is "
 "geconfigureerd voor :guilabel:`Rebase`, of wanneer u commits bij elkaar "
 "voegt buiten Weblate (bijvoorbeeld bij het samenvoegen van een pull request)."
 
@@ -11007,11 +10951,6 @@ msgstr ""
 "uit te voeren."
 
 #: ../../admin/continuous.rst:194
-#, fuzzy
-#| msgid ""
-#| "To approach this, you either need to minimize amount of pending changes "
-#| "in Weblate when you merge a pull request, or avoid the conflicts "
-#| "completely by not squashing changes."
 msgid ""
 "To approach this, you either need to minimize the amount of pending changes "
 "in Weblate when you merge a pull request, or avoid the conflicts completely "
@@ -11035,10 +10974,6 @@ msgstr ""
 "niet meer herkent."
 
 #: ../../admin/continuous.rst:201
-#, fuzzy
-#| msgid ""
-#| "Let Weblate commit pending changes before merging. This will update the "
-#| "pull request with all its changes and both repositories will be in sync."
 msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes, and both repositories will be in sync."
@@ -11048,17 +10983,12 @@ msgstr ""
 "zullen gesynchroniseerd zijn."
 
 #: ../../admin/continuous.rst:202
-#, fuzzy
-#| msgid ""
-#| "Use the review features in Weblate (see :doc:`/workflows`), so that you "
-#| "can automatically merge GitHub pull requests after CI passes."
 msgid ""
 "Use the review features in Weblate (see :doc:`/workflows`) so that you can "
 "automatically merge GitHub pull requests after CI passes."
 msgstr ""
-"Gebruik de mogelijkheden voor nakijken in Weblate (bekijk :doc:`/"
-"workflows`), zodat u automatisch GitHub pull requesten kunt samenvoegen "
-"nadat CI slaagt."
+"Gebruik de mogelijkheden voor nakijken in Weblate (bekijk :doc:`/workflows`)"
+", zodat u automatisch GitHub pull requesten kunt samenvoegen nadat CI slaagt."
 
 #: ../../admin/continuous.rst:203
 msgid ""
@@ -11327,18 +11257,14 @@ msgstr ""
 "ref:`component`."
 
 #: ../../admin/continuous.rst:356
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, Mercurial, GitHub, "
-#| "GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Server and Bitbucket Cloud:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket "
 "Cloud:"
 msgstr ""
 "In het algemeen zijn de volgende opties beschikbaar met Git, Mercurial, "
-"GitHub, GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Server en Bitbucket "
-"Cloud:"
+"GitHub, GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Data Center en "
+"Bitbucket Cloud:"
 
 #: ../../admin/continuous.rst:362
 msgid "Desired setup"
@@ -11473,20 +11399,16 @@ msgid "Azure DevOps pull request from branch"
 msgstr "Azure DevOps pull request vanuit tak"
 
 #: ../../admin/continuous.rst:447
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull request from fork"
-msgstr "‘Pull request’ op Bitbucket"
+msgstr "Pull request op Bitbucket Data Center uit fork"
 
 #: ../../admin/continuous.rst:448 ../../admin/continuous.rst:453
 msgid ":ref:`vcs-bitbucket-server`"
 msgstr ":ref:`vcs-bitbucket-server`"
 
 #: ../../admin/continuous.rst:452
-#, fuzzy
-#| msgid "Bitbucket server pull request from branch"
 msgid "Bitbucket Data Center pull request from branch"
-msgstr "Bitbucket server pull request vanuit tak"
+msgstr "Bitbucket Data Center pull request vanuit tak"
 
 #: ../../admin/continuous.rst:457
 msgid "Bitbucket Cloud pull request from fork"
@@ -12313,10 +12235,8 @@ msgid "pip extra"
 msgstr "pip extra"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "Python Package"
 msgid "Python Packages"
-msgstr "Python pakket"
+msgstr "Python pakketten"
 
 #: ../../admin/install.rst:210
 msgid "Weblate feature"
@@ -12333,14 +12253,10 @@ msgstr ""
 "`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid ""
-#| "`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-"
-#| "alimt>`_"
 msgid ""
 "`aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_"
 msgstr ""
-"`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_"
+"`aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_"
 
 #: ../../admin/install.rst:215
 msgid ":ref:`mt-alibaba`"
@@ -12375,10 +12291,8 @@ msgid "``gelf``"
 msgstr "``gelf``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`git-review <https://pypi.org/project/git-review>`_"
 msgid "`logging-gelf <https://pypi.org/project/logging-gelf>`_"
-msgstr "`git-review <https://pypi.org/project/git-review>`_"
+msgstr "`logging-gelf <https://pypi.org/project/logging-gelf>`_"
 
 #: ../../admin/install.rst:227
 msgid ":ref:`graylog`"
@@ -12412,10 +12326,8 @@ msgstr ""
 "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
 
 #: ../../admin/install.rst:236
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr ":ref:`mt-google-translate-api-v3` met ondersteuning voor woordenlijst"
 
 #: ../../admin/install.rst:238
 msgid "``ldap``"
@@ -12491,58 +12403,44 @@ msgid "``saml2idp``"
 msgstr "``saml2idp``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
 msgid "`djangosaml2idp <https://pypi.org/project/djangosaml2idp>`_"
-msgstr "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
+msgstr "`django-auth-saml2idp <https://pypi.org/project/django-auth-saml2idp>`_"
 
 #: ../../admin/install.rst:264
-#, fuzzy
-#| msgid "Integrating with Weblate"
 msgid "Integrating SAML 2 IDP into Weblate"
-msgstr "Integreren met Weblate"
+msgstr "Integreren van SAML 2 IDP in Weblate"
 
 #: ../../admin/install.rst:266
 msgid "``wlhosted``"
 msgstr "``wlhosted``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`boto3 <https://pypi.org/project/boto3>`_"
 msgid "`wlhosted <https://pypi.org/project/wlhosted>`_"
-msgstr "`boto3 <https://pypi.org/project/boto3>`_"
+msgstr "`wlhosted <https://pypi.org/project/wlhosted>`_"
 
 #: ../../admin/install.rst:268 ../../admin/install.rst:272
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Hosted Weblate integration"
-msgstr "Weblate-beheer"
+msgstr "Hosted Weblate integratie"
 
 #: ../../admin/install.rst:270
 msgid "``wllegal``"
 msgstr "``wllegal``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`wllegal <https://pypi.org/project/wllegal>`_"
-msgstr "`openai <https://pypi.org/project/openai>`_"
+msgstr "`wllegal <https://pypi.org/project/wllegal>`_"
 
 #: ../../admin/install.rst:274
 msgid "``wsgi``"
 msgstr "``wsgi``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`gunicorn <https://pypi.org/project/gunicorn>`_"
-msgstr "`openai <https://pypi.org/project/openai>`_"
+msgstr "`gunicorn <https://pypi.org/project/gunicorn>`_"
 
 #: ../../admin/install.rst:276
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "wsgi server for Weblate"
-msgstr "Ontdek Weblate"
+msgstr "WSGI-server voor Weblate"
 
 #: ../../admin/install.rst:278
 msgid "``zxcvbn``"
@@ -12597,15 +12495,12 @@ msgstr ""
 "gegevens"
 
 #: ../../admin/install.rst:308
-#, fuzzy
-#| msgid ""
-#| "https://cairographics.org/, https://pango.gnome.org/, see :ref:"
-#| "`pangocairo`"
 msgid ""
 "https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, "
 "see :ref:`pangocairo`"
 msgstr ""
-"https://cairographics.org/, https://pango.gnome.org/, see :ref:`pangocairo`"
+"https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, see "
+":ref:`pangocairo`"
 
 #: ../../admin/install.rst:309
 msgid "``git-review`` (optional for Gerrit support)"
@@ -13288,6 +13183,10 @@ msgid ""
 "reverse proxy address, so Weblate needs an additional HTTP header with "
 "client IP address."
 msgstr ""
+"Weblate parst het IP-adres vanuit het ``REMOTE_ADDR`` dat is ingesteld door "
+"de afhandeling van WSGI. Dit zou leeg kunnen zijn (als een socket wordt "
+"gebruikt voor WSGI) of een omgekeerd proxy-adres kunnen bevatten, dus "
+"Weblate heeft een aanvullende kop HTTP nodig met het IP-adres van de cliënt."
 
 #: ../../admin/install.rst:699
 msgid ""
@@ -13296,6 +13195,11 @@ msgid ""
 "setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
 "and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
+"Instellen van :setting:`IP_BEHIND_REVERSE_PROXY` zou genoeg kunnen zijn voor "
+"de meest gewone opstellingen, maar u zou misschien :setting:`IP_PROXY_HEADER`"
+" en :setting:`IP_PROXY_OFFSET` ook moeten aanpassen (gebruik "
+":envvar:`WEBLATE_IP_PROXY_HEADER` en :envvar:`WEBLATE_IP_PROXY_OFFSET` in de "
+"container van Docker)."
 
 #: ../../admin/install.rst:706
 msgid ""
@@ -13303,6 +13207,9 @@ msgid ""
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
+"Deze configuratie kan niet ingeschakeld worden, omdat dat het voor het IP-"
+"adres mogelijk zou maken om te spoofen op installaties die geen juist "
+"geconfigureerde omgekeerde proxy hebben."
 
 #: ../../admin/install.rst:710
 msgid ""
@@ -13319,11 +13226,6 @@ msgstr ""
 "of ``proxy_set_header Host $host;`` met nginx)."
 
 #: ../../admin/install.rst:717
-#, fuzzy
-#| msgid ""
-#| ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
-#| "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-#| "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgid ""
 ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
 "ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
@@ -13331,9 +13233,11 @@ msgid ""
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, "
+":ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, "
+":envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:732
 msgid "HTTP proxy"
@@ -14052,6 +13956,8 @@ msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
+"De Weblate container heeft het niet opgenomen in het zoekpad, u moet het "
+"volledige pad specificeren om het uit te voeren. Bijvoorbeeld:"
 
 #: ../../admin/install.rst:1253
 msgid ""
@@ -14205,18 +14111,13 @@ msgid "Running web server"
 msgstr "Webserver uitvoeren"
 
 #: ../../admin/install.rst:1341
-#, fuzzy
-#| msgid ""
-#| "Running Weblate is not different from running any other Django based "
-#| "program. Django is usually executed as uWSGI or fcgi (see examples for "
-#| "different webservers below)."
 msgid ""
 "Running Weblate is not different from running any other Django based "
 "program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
 "Uitvoeren van Weblate is niet anders dan het uitvoeren van enig ander op "
-"Django gebaseerd programma. Django wordt gewoonlijk uitgevoerd als uWSGI of "
+"Django gebaseerd programma. Django wordt gewoonlijk uitgevoerd als WSGI of "
 "fcgi (bekijk voorbeelden voor de verschillende webservers hieronder)."
 
 #: ../../admin/install.rst:1345
@@ -14341,31 +14242,21 @@ msgstr ""
 "setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install.rst:1416
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration for NGINX and Gunicorn"
-msgstr "Voorbeeld configuratie voor Apache en Gunicorn"
+msgstr "Voorbeeld configuratie voor NGINX en Gunicorn"
 
 #: ../../admin/install.rst:1418
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
-#| "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate using Gunicorn under the NGINX "
 "webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
 "conf`):"
 msgstr ""
-"De volgende configuratie voert Weblate uit in Gunicorn en Apache 2.4 "
-"(beschikbaar als :file:`weblate/examples/apache.gunicorn.conf`):"
+"De volgende configuratie voert Weblate met Gunicorn onder de webserver NGINX "
+"(ook beschikbaar als :file:`weblate/examples/weblate.nginx.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1427 ../../admin/install.rst:1497
-#, fuzzy
-#| msgid ""
-#| ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ""
-":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
+msgstr ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1433
 msgid "Sample configuration for NGINX and uWSGI"
@@ -14463,10 +14354,8 @@ msgstr ""
 "(beschikbaar als :file:`weblate/examples/apache.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1504
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration to start Gunicorn"
-msgstr "Voorbeeld configuratie voor Apache en Gunicorn"
+msgstr "Voorbeeld configuratie om Gunicorn op te starten"
 
 #: ../../admin/install.rst:1506
 msgid ""
@@ -14474,20 +14363,26 @@ msgid ""
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"Weblate heeft `wsgi` optionele afhankelijkheid (bekijk :ref:`python-deps`) "
+"dat alles zal installeren dat u nodig hebt om Gunicorn uit te kunnen voeren. "
+"Bij het installeren van Weblate kunt u het specificeren als:"
 
 #: ../../admin/install.rst:1514
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show staring via systemd:"
 msgstr ""
+"Als u Gunicorn eenmaal hebt geïnstalleerd, kunt u het uitvoeren. Dat wordt "
+"gewoonlijk gedaan op het systeemniveau. De volgende voorbeelden laten zien "
+"hoe op te starten via systemd:"
 
 #: ../../admin/install.rst:1517
 msgid "/etc/systemd/system/gunicorn.socket"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.socket"
 
 #: ../../admin/install.rst:1521
 msgid "/etc/systemd/system/gunicorn.service"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.service"
 
 #: ../../admin/install.rst:1527
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -14661,31 +14556,20 @@ msgid "Periodic tasks using Celery beat"
 msgstr "Periodieke taken met Celery beat"
 
 #: ../../admin/install.rst:1639
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. The task schedule is "
 "stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
-"Weblate komt met een ingebouwde opstelling voor geplande taken. U kunt "
-"echter aanvullende taken definiëren in :file:`settings.py`, bekijk "
-"bijvoorbeeld :ref:`lazy-commit`."
+"Weblate komt met een ingebouwde opstelling voor geplande taken. Het schema "
+"voor de taak wordt opgeslagen in de database en taken worden uitgevoerd door "
+"de Celery beat daemon."
 
 #: ../../admin/install.rst:1644
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "You can define additional tasks in :file:`settings.py`, for example see :ref:"
 "`lazy-commit`."
 msgstr ""
-"Weblate komt met een ingebouwde opstelling voor geplande taken. U kunt "
-"echter aanvullende taken definiëren in :file:`settings.py`, bekijk "
+"U kunt aanvullende taken definiëren in :file:`settings.py`, bekijk "
 "bijvoorbeeld :ref:`lazy-commit`."
 
 #: ../../admin/install.rst:1650
@@ -14870,10 +14754,8 @@ msgstr ""
 "een geüpload bestand."
 
 #: ../../admin/install.rst:1774
-#, fuzzy
-#| msgid "Terminology management"
 msgid "Graylog log management"
-msgstr "Terminologiebeheer"
+msgstr "Graylog-logbeheer"
 
 #: ../../admin/install.rst:1778
 msgid ""
@@ -14881,18 +14763,18 @@ msgid ""
 "developed for Graylog integration, but can be used with any compliant "
 "logging platform."
 msgstr ""
+"Weblate kan worden geconfigureerd om te loggen met het TCP-protocol GELF. "
+"Dit werd ontwikkeld voor integratie met Graylog, maar kan worden gebruikt "
+"met elk conform platform voor loggen."
 
 #: ../../admin/install.rst:1781
-#, fuzzy
-#| msgid ""
-#| "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
-#| "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgid ""
 "The configuration boilerplate is included in :ref:`sample-configuration`, "
 "for Docker this can be configured using :envvar:`WEBLATE_LOG_GELF_HOST`."
 msgstr ""
-"Dit is geïmplementeerd in de :ref:`sample-configuration`. Voor Docker, "
-"gebruik :envvar:`WEBLATE_REQUIRE_LOGIN`."
+"Het sjabloon voor de configuratie is opgenomen in de :ref:`sample-"
+"configuration`, voor Docker kan dit worden geconfigureerd met "
+":envvar:`WEBLATE_REQUIRE_LOGIN`."
 
 #: ../../admin/install.rst:1785
 msgid "Migrating Weblate to another server"
@@ -15487,18 +15369,12 @@ msgid "Number of processes and memory consumption"
 msgstr "Aantal processen en geheugengebruik"
 
 #: ../../admin/install/docker.rst:346
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both uWSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both WSGI and Celery is determined "
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
-"Het aantal processen voor werkers voor zowel uWSGI en Celery wordt "
+"Het aantal processen voor werkers voor zowel WSGI en Celery wordt "
 "automatisch bepaald, gebaseerd op het aantal CPU's. Dit werkt goed voor de "
 "meeste machines in de virtuele cloud, omdat die gewoonlijk een paar CPU's "
 "hebben en een goede hoeveelheid geheugen."
@@ -15661,10 +15537,14 @@ msgid ""
 "Configures remote logging using GELF TCP connection. Can be used to "
 "integrate with Graylog."
 msgstr ""
+"Configureert loggen op afstand met een TCP-verbinding voor GELF. Kan worden "
+"gebruikt om te integreren met Graylog."
 
 #: ../../admin/install/docker.rst:494
 msgid "Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201."
 msgstr ""
+"Aangepaste poort gebruiken voor :envvar:`WEBLATE_LOG_GELF_HOST`, standaard "
+"is 12201."
 
 #: ../../admin/install/docker.rst:498
 msgid "Changes the site-title shown in the header of all pages."
@@ -15677,7 +15557,7 @@ msgstr "Configureert het site domein. Deze parameter is verplicht."
 
 #: ../../admin/install/docker.rst:504
 msgid "Include port if using a non-standard one."
-msgstr ""
+msgstr "Neem de poort op als er geen standaard poort gebruikt wordt."
 
 #: ../../admin/install/docker.rst:515
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -16217,10 +16097,8 @@ msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "Configureert :setting:`UNUSED_ALERT_DAYS`."
 
 #: ../../admin/install/docker.rst:1018
-#, fuzzy
-#| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
-msgstr "Configureert :setting:`BASIC_LANGUAGES`."
+msgstr "Configureert :setting:`UPDATE_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:1024
 msgid "Allow CORS requests to API from given origins."
@@ -17072,10 +16950,8 @@ msgid ":ref:`minimal-celery`"
 msgstr ":ref:`minimal-celery`"
 
 #: ../../admin/install/docker.rst:1901
-#, fuzzy
-#| msgid "Configure how many uWSGI workers should be executed."
 msgid "Configure how many WSGI workers should be executed."
-msgstr "Configureer hoeveel werkers van uWSGI zouden moeten worden uitgevoerd."
+msgstr "Configureer hoeveel werkers van WSGI zouden moeten worden uitgevoerd."
 
 #: ../../admin/install/docker.rst:1903
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
@@ -17086,6 +16962,8 @@ msgid ""
 "The Docker container runs two WSGI processes since 5.9 and :envvar:"
 "`WEB_WORKERS` configures how many threads each process will have."
 msgstr ""
+"De container van Docker voert twee processen van WSGI uit vanaf 5.9 en "
+":envvar:`WEB_WORKERS` configureert hoeveel threads elk proces mag hebben."
 
 #: ../../admin/install/docker.rst:1919
 msgid ""
@@ -18542,6 +18420,8 @@ msgstr ""
 msgid ""
 "Per-project automatic suggestion can also be configured via the :ref:`api`."
 msgstr ""
+"Per-project automatische suggesties kunnen ook worden geconfigureerd via de "
+":ref:`api`."
 
 #: ../../admin/machine.rst:29
 msgid ":ref:`machine-translation`"
@@ -21671,10 +21551,8 @@ msgid "Rate limiting"
 msgstr "Opvraaglimiet gebruiken"
 
 #: ../../admin/optionals.rst:276
-#, fuzzy
-#| msgid "The rate limiting no longer applies to superusers."
 msgid "The rate limiting no longer applies to signed in superusers."
-msgstr "De opvraaglimiet is niet meer van toepassing op superusers."
+msgstr "De opvraaglimiet is niet meer van toepassing op aangemelde superusers."
 
 #: ../../admin/optionals.rst:278
 msgid ""
@@ -21819,6 +21697,8 @@ msgid ""
 "The rate limiting is based on sessions when user is signed in and on IP "
 "address if not."
 msgstr ""
+"De opvraaglimiet is gebaseerd op sessies, als de gebruiker is aangemeld, en "
+"anders op IP-adres."
 
 #: ../../admin/optionals.rst:307
 msgid ""
@@ -23631,10 +23511,8 @@ msgstr ""
 "dit veld."
 
 #: ../../admin/projects.rst:930
-#, fuzzy
-#| msgid "Selected languages only"
 msgid "Selected keys only"
-msgstr "Alleen geselecteerde talen"
+msgstr "Alleen geselecteerde toetsen"
 
 #: ../../admin/projects.rst:930
 msgid "``^(one|two|other)$``"
@@ -23642,17 +23520,15 @@ msgstr "``^(one|two|other)$``"
 
 #: ../../admin/projects.rst:932
 msgid "Exclude app store changelogs"
-msgstr ""
+msgstr "Exclusief door app opgeslagen wijzigingenlogs"
 
 #: ../../admin/projects.rst:932
 msgid "``^(?!changelogs/.*$).+$``"
 msgstr "``^(?!changelogs/.*$).+$``"
 
 #: ../../admin/projects.rst:934
-#, fuzzy
-#| msgid "Split Android strings"
 msgid "Filter prefixed strings"
-msgstr "Tekenreeksen Android splitsen"
+msgstr "Vooraf gerepareerde tekenreeksen filteren"
 
 #: ../../admin/projects.rst:934
 msgid "``^translatable``"
@@ -25294,16 +25170,12 @@ msgstr ""
 "beheren. Indien niet, krijgt u alleen uw eigen details te zien."
 
 #: ../../api.rst:269
-#, fuzzy
-#| msgid "Language code to search for"
 msgid "Username to search for"
-msgstr "Op te zoeken taalcode"
+msgstr "Op te zoeken gebruikersnaam"
 
 #: ../../api.rst:270
-#, fuzzy
-#| msgid "Language code to search for"
 msgid "User ID to search for"
-msgstr "Op te zoeken taalcode"
+msgstr "Op te zoeken ID van gebruiker"
 
 #: ../../api.rst:274
 msgid ""
@@ -26228,30 +26100,25 @@ msgid ""
 "Returns automatic suggestion settings for a project, consisting of the "
 "configurations defined for each translation service installed."
 msgstr ""
+"Geeft instellingen voor automatische suggesties voor een project terug, "
+"bestaande uit de configuraties die zijn gedefinieerd voor elke "
+"geïnstalleerde vertaalservice."
 
 #: ../../api.rst:1250
-#, fuzzy
-#| msgid "Configuration of available VCS backends."
 msgid "Configuration for all installed services."
-msgstr "Configuratie van beschikbare backends voor VCS (versiebeheersystemen)."
+msgstr "Configuratie voor alle geïnstalleerde services."
 
 #: ../../api.rst:1257
-#, fuzzy
-#| msgid "Update the existing service configuration."
 msgid "Create or update the service configuration for a project."
-msgstr "Werk de bestaande configuratie van de service bij."
+msgstr "De configuratie voor een service voor een project maken of bijwerken."
 
 #: ../../api.rst:1261
-#, fuzzy
-#| msgid "Service"
 msgid "Service name"
-msgstr "Dienst"
+msgstr "Naam service"
 
 #: ../../api.rst:1262
-#, fuzzy
-#| msgid "Save configuration."
 msgid "Service configuration in JSON"
-msgstr "Configuratie opslaan."
+msgstr "Configuratie service in JSON"
 
 #: ../../api.rst:1270
 msgid ""
@@ -28213,10 +28080,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS op Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.8.2"
 msgid "Weblate 5.9.2"
-msgstr "Weblate 5.8.2"
+msgstr "Weblate 5.9.2"
 
 #: ../../changes.rst:4 ../../changes.rst:704
 msgid "Released on December 19th 2023."
@@ -28242,14 +28107,13 @@ msgid "**Improvements**"
 msgstr "**Verbeteringen**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-server`"
 msgid "Renamed :ref:`vcs-bitbucket-server` to match new product name."
-msgstr ":ref:`vcs-bitbucket-server`"
+msgstr ""
+":ref:`vcs-bitbucket-server` hernoemd om overeen te komen met de nieuwe naam."
 
 #: ../../changes.rst:11
 msgid ":http:get:`/api/users/` supports searching by user ID."
-msgstr ""
+msgstr ":http:get:`/api/users/` ondersteunt het zoeken op ID van de gebruiker."
 
 #: ../../changes.rst:13 ../../changes.rst:37 ../../changes.rst:81
 #: ../../changes.rst:114 ../../changes.rst:135 ../../changes.rst:156
@@ -28267,21 +28131,23 @@ msgstr "**Gerepareerde bugs**"
 
 #: ../../changes.rst:15
 msgid "Avoid query parser crash in multi-threaded environments."
-msgstr ""
+msgstr "Vermijden van query parser-crash in omgevingen met meerdere threads."
 
 #: ../../changes.rst:16
 msgid "Avoid :ref:`autofix` crash on multi-value strings."
-msgstr ""
+msgstr "Vermijden van :ref:`autofix` voor tekenreeksen met meerdere waarden."
 
 #: ../../changes.rst:17
 msgid ""
 "Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are "
 "enforced."
 msgstr ""
+"Zorg dat projecttokens werken als :ref:`2fa` of :ref:`component-agreement` "
+"worden afgedwongen."
 
 #: ../../changes.rst:18
 msgid "Captcha solution were sometimes not accepted."
-msgstr ""
+msgstr "Oplossing van captcha werd soms niet geaccepteerd."
 
 #: ../../changes.rst:20 ../../changes.rst:87 ../../changes.rst:227
 #: ../../changes.rst:332 ../../changes.rst:422 ../../changes.rst:584
@@ -28343,34 +28209,24 @@ msgid "**Contributors**"
 msgstr "**Deelnemers**"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/132?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/135?"
 "closed=1>`__."
 msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/132?closed=1>`__."
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"135?closed=1>`__."
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Weblate 5.8.1"
 msgid "Weblate 5.9.1"
-msgstr "Weblate 5.8.1"
+msgstr "Weblate 5.9.1"
 
 #: ../../changes.rst:35 ../../changes.rst:54
-#, fuzzy
-#| msgid "Released on December 16th 2022."
 msgid "Released on December 16th 2024."
-msgstr "Uitgegeven op 16 december 2022."
+msgstr "Uitgegeven op 16 december 2024."
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Fixed publishing packages to PyPI."
 msgid "Fixed publishing package to PyPI."
-msgstr "Gerepareerd het publiceren van pakketten naar PyPI."
+msgstr "Gerepareerd het publiceren van pakket naar PyPI."
 
 #: ../../changes/contributors/5.7.1.rst:2
 #: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
@@ -28403,16 +28259,12 @@ msgid "Documentation contributions"
 msgstr "Bijgedragen documentatie"
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/132?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/134?"
 "closed=1>`__."
 msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/132?closed=1>`__."
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"134?closed=1>`__."
 
 #: ../../changes.rst:52
 msgid "Weblate 5.9"
@@ -28423,32 +28275,27 @@ msgid ""
 "Per-project :ref:`machine-translation-setup` can now be configured via the "
 "Project :ref:`api`."
 msgstr ""
+"Per-project :ref:`machine-translation-setup` kan u worden geconfigureerd via "
+"de Project-:ref:`api`."
 
 #: ../../changes.rst:60
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
-msgstr "Toegevoegd :http:get:`/api/projects/(string:project)/file/`."
+msgstr ""
+"Toegevoegd :http:get:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:61
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
-msgstr "Toegevoegd :http:get:`/api/projects/(string:project)/file/`."
+msgstr ""
+"Toegevoegd :http:post:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid ""
-#| "Translation memory import now supports files with XLIFF, PO and CSV "
-#| "formats, see :ref:`memory-user` and `import_memory` command in :ref:"
-#| "`manage`."
 msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`."
 msgstr ""
 "Importeren van vertaalgeheugen ondersteunt nu bestanden met indelingen "
-"XLIFF, PO en CSV, bekijk de opdrachten :ref:`memory-user` en `import_memory` "
-"in :ref:`manage`."
+"XLIFF, PO en CSV, bekijk de opdrachten :ref:`memory-user` en "
+":wladmin:`import_memory` in :ref:`manage`."
 
 #: ../../changes.rst:64
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
@@ -28465,7 +28312,7 @@ msgstr ""
 
 #: ../../changes.rst:66
 msgid "Logging to :ref:`graylog`."
-msgstr ""
+msgstr "Loggen naar :ref:`graylog`."
 
 #: ../../changes.rst:70
 msgid ""
@@ -28519,80 +28366,70 @@ msgid "Improved :ref:`translation-propagation` performance."
 msgstr "Verbeterde prestaties voor :ref:`translation-propagation`."
 
 #: ../../changes.rst:79
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 "More detailed error messages for :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/file/`."
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-"language)/file/`"
+"Meer gedetailleerde berichten voor :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`."
 
 #: ../../changes.rst:83
-#, fuzzy
-#| msgid ""
-#| "**Bug fixes** * Using the `has:variant` field now correctly displays "
-#| "strings that have variant(s) in the search language, see :ref:`search-"
-#| "strings`."
 msgid ""
 "Using the ``has:variant`` field now correctly displays strings that have "
 "variant(s) in the search language, see :ref:`search-strings`."
 msgstr ""
-"**Reparaties problemen** * Met het veld `has:variant` worden nu correcte "
-"tekenreeksen weergegeven die variant(en) in de doeltaal hebben, bekijk :ref:"
-"`search-strings`."
+"Met het veld ``has:variant`` worden nu correcte tekenreeksen weergegeven die "
+"variant(en) in de doeltaal hebben, bekijk :ref:`search-strings`."
 
 #: ../../changes.rst:84
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Saving newly added strings in some formats."
-msgstr "Gerepareerd vertalen van nieuw toegevoegde tekenreeksen."
+msgstr "Opslaan van nieuw toegevoegde tekenreeksen in sommige indelingen."
 
 #: ../../changes.rst:85
-#, fuzzy
-#| msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgid ":ref:`check-java-printf-format` gracefully handles escaping."
-msgstr ""
-":ref:`check-icu-message-format` behandelt tekenreeksen van meervouden netjes."
+msgstr ":ref:`check-java-printf-format` behandelt escapen netjes."
 
 #: ../../changes.rst:89
 msgid ""
 ":ref:`rollbar-errors` integration no longer includes client-side error "
 "collection."
 msgstr ""
+"Integratie van :ref:`rollbar-errors`bevat niet langer het verzamelen van "
+"fouten aan de kant van de cliënt."
 
 #: ../../changes.rst:90
-#, fuzzy
-#| msgid "Weblate now requires Python 3.7 or newer."
 msgid "Weblate now requires Git 2.28 or newer."
-msgstr "Weblate vereist nu Python 3.7 of nieuwer."
+msgstr "Weblate vereist nu Git 2.28 of nieuwer."
 
 #: ../../changes.rst:91
 msgid ""
 "Any custom code that relied on `Change` models signals should be reviewed."
 msgstr ""
+"Elke aangepaste code, die vertrouwde op modelsignalen van `Change`, zou "
+"moeten worden nagekeken."
 
 #: ../../changes.rst:92
 msgid ""
 ":ref:`fedora-messaging` integration needs to be updated to be compatible "
 "with this release."
 msgstr ""
+"Integratie van :ref:`fedora-messaging` moet worden bijgewerkt om compatibel "
+"te zijn met deze uitgave."
 
 #: ../../changes.rst:93
 msgid ""
 ":envvar:`WEB_WORKERS` now configures number of threads instead of processes."
 msgstr ""
+":envvar:`WEB_WORKERS` configureert nu het aantal threads in plaats van "
+"processen."
 
 #: ../../changes/contributors/5.9.rst:3
-#, fuzzy
-#| msgid ""
-#| "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
 msgid ""
 "Michal Čihař, Mehdi El Oualy, Paul Harriet Asiñero, Yusi Z, Mehdi Eloualy, "
 "gers, nijel, michael-smt, gersona, Gersona"
-msgstr "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
+msgstr ""
+"Michal Čihař, Mehdi El Oualy, Paul Harriet Asiñero, Yusi Z, Mehdi Eloualy, "
+"gers, nijel, michael-smt, gersona, Gersona"
 
 #: ../../changes/contributors/5.7.1.rst:5
 #: ../../changes/contributors/5.7.2.rst:5 ../../changes/contributors/5.7.rst:5
@@ -28617,15 +28454,27 @@ msgid ""
 "Симић(Slobodan Simić), Priit Jõerüüt, Hugo, UTUMI Hirosi, Сергей, symegac, "
 "Winston Sung, ChinskiKaczynski, Rafael Fontenelle"
 msgstr ""
+"Michal Čihař, Besnik Bleta, gallegonovato, Blueberry, cat, Fjuro, "
+"Sketch6580, Massimo Pissarello, Linerly, 大王叫我来巡山, 大学没毕业, Yuri "
+"Chornoivan, VfBFan, JY3, Miguel A. Bouzada, Dick Groskamp, Aindriú Mac "
+"Giolla Eoin, Andi Chandler, Kristoffer Grundström, Christian Wia, Claudio "
+"Filho F Filho, Yaron Shahrabani, Milo Ivir, Kaya Zeren, Neaten “Awrawman” "
+"Awrawman, Agnieszka C, Jeff Huang, Fulup Jakez, Milan Šalka, nautilusx, "
+"Любомир Василев, notlin4, immeteor2, kowih83264, WaldiS, ssantos, Reno Tx, "
+"Johan Jacobsson, Peter Vančo, Sveinn í Felli, Oliver, Yvan Zo, meshari "
+"alnaim, தமிழ்நேரம், searinminecraft, Jwtiyar Nariman, gitelo4516, Vision, "
+"Chang-Chia Tseng, Kyotaro Iijima, Ricky Tigg, ei9, Martin Srebotnjak, "
+"Horus68, 이정희, Максим Горпиніч, Sylvain Pichon, Ldm Public, Слободан Симић("
+"Slobodan Simić), Priit Jõerüüt, Hugo, UTUMI Hirosi, Сергей, symegac, Winston "
+"Sung, ChinskiKaczynski, Rafael Fontenelle"
 
 #: ../../changes/contributors/5.9.rst:9
-#, fuzzy
-#| msgid ""
-#| "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
 msgid ""
 "Michal Čihař, Paul Harriet Asiñero, gers, michael-smt, Benjamin Alan Jamie, "
 "Gersona, Mehdi Eloualy"
-msgstr "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
+msgstr ""
+"Michal Čihař, Paul Harriet Asiñero, gers, michael-smt, Benjamin Alan Jamie, "
+"Gersona, Mehdi Eloualy"
 
 #: ../../changes.rst:103
 msgid ""
@@ -28884,8 +28733,6 @@ msgstr ""
 "weer."
 
 #: ../../changes.rst:218
-#, fuzzy
-#| msgid ":ref:`aresource` now supports translatable attribute in its strings."
 msgid ":ref:`aresource` now support translatable attribute in its strings."
 msgstr ""
 ":ref:`aresource` ondersteunt nu vertaalbare attributen in zijn tekenreeksen."
@@ -40293,10 +40140,6 @@ msgid "Weblate frontend"
 msgstr "Voorzijde van Weblate"
 
 #: ../../contributing/frontend.rst:4
-#, fuzzy
-#| msgid ""
-#| "The frontend is currently built using Bootstrap, jQuery and few third "
-#| "party libraries."
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third-party "
 "libraries."
@@ -40339,12 +40182,6 @@ msgid "Dependency management"
 msgstr "Beheren van afhankelijkheden"
 
 #: ../../contributing/frontend.rst:22
-#, fuzzy
-#| msgid ""
-#| "Installing and managing `3rd party` libraries in the `client` of a django "
-#| "project can be a bit tricky. This section provides a step-by-step guide "
-#| "on how to install and manage 3rd party libraries used by the `client "
-#| "side` of Weblate using `Webpack`."
 msgid ""
 "Installing and managing `3rd party` libraries in the `client` of a Django "
 "project can be a bit tricky. This section provides a step-by-step guide on "
@@ -40374,10 +40211,8 @@ msgid "``Nodejs`` version 14 or higher."
 msgstr "``Nodejs`` versie 14 of hoger."
 
 #: ../../contributing/frontend.rst:32
-#, fuzzy
-#| msgid "The ``yarn`` package manager installed on your system."
 msgid "The ``yarn`` package manager is installed on your system."
-msgstr "De ``yarn`` pakketbeheerder, geïnstalleerd op uw systeem."
+msgstr "De ``yarn`` pakketbeheerder is geïnstalleerd op uw systeem."
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``cd client``."
@@ -40388,8 +40223,6 @@ msgid "Run ``yarn install``"
 msgstr "Voer ``yarn install`` uit"
 
 #: ../../contributing/frontend.rst:39
-#, fuzzy
-#| msgid "To install a library, 1st run the following command:"
 msgid "To install a library, first run the following command:"
 msgstr ""
 "Voer eerst de volgende opdracht uit, voordat een bibliotheek wordt "
@@ -40532,11 +40365,6 @@ msgid "Localization"
 msgstr "Vertaling"
 
 #: ../../contributing/frontend.rst:99
-#, fuzzy
-#| msgid ""
-#| "Should you need any user visible text in the frontend code, it should be "
-#| "localizable. In most cases all you need is to wrap your text inside "
-#| "``gettext`` function, but there are more complex features available:"
 msgid ""
 "Should you need any user visible text in the frontend code, it should be "
 "localizable. In most cases, all you need is to wrap your text inside "
@@ -40731,22 +40559,18 @@ msgstr ""
 "samengevoegd, wijzig dan de structuur van de alinea's in een ander PR."
 
 #: ../../contributing/index.rst:55
-#, fuzzy
-#| msgid ""
-#| "Documentation can be also edited and built locally, the Python "
-#| "requirements are in `docs/requirements.txt`. You will also need :program:"
-#| "`graphviz` to build the documentation."
 msgid ""
 "Documentation can be also edited and built locally, the Python requirements "
 "are in the ``docs`` dependency group in :file:`pyproject.toml`."
 msgstr ""
 "Documentatie kan ook lokaal worden bewerkt en gebouwd, de vereisten voor "
-"Python staan in `docs/requirements.txt`. U zult ook :program:`graphviz` "
-"nodig hebben om de documentatie te bouwen."
+"Python staan in de ``docs`` groep met afhankelijkheden in "
+":file:`pyproject.toml`."
 
 #: ../../contributing/index.rst:58
 msgid "You will also need :program:`graphviz` to build the documentation."
 msgstr ""
+"U zult ook :program:`graphviz` nodig hebben om de documentatie te bouwen."
 
 #: ../../contributing/index.rst:62
 msgid ""
@@ -40795,13 +40619,6 @@ msgid "Funding Weblate development"
 msgstr "De ontwikkeling van Weblate financieel steunen"
 
 #: ../../contributing/index.rst:90
-#, fuzzy
-#| msgid ""
-#| "You can boost Weblate’s development on the `donate page`_. Funds "
-#| "collected there are used to enable gratis hosting for libre software "
-#| "projects and further development of Weblate. Please check the `donate "
-#| "page`_ for options, such as funding goals and the rewards you get as a "
-#| "proud funder."
 msgid ""
 "You can boost Weblate’s development by donating. Funds collected on "
 "donations are used to enable gratis hosting for libre software projects and "
@@ -40809,11 +40626,12 @@ msgid ""
 "<https://weblate.org/donate/>`_ for options, such as funding goals and the "
 "rewards you get as a proud funder."
 msgstr ""
-"U kunt de ontwikkeling van Weblate een duwtje in de goede richting geven op "
-"de `donate page`_. Hier verzamelde fondsen worden gebruikt om gratis hosten "
-"van vrije softwareprojecten in te schakelen en ook de verdere ontwikkeling "
-"van Weblate. Bekijk de `donate page`_ voor opties, zoals doelen om te "
-"steunen en de beloningen die u krijgt als trotse sponsor."
+"U kunt de ontwikkeling van Weblate een duwtje in de goede richting geven "
+"door te doneren. Verzamelde fondsen van donaties worden gebruikt om gratis "
+"hosten van vrije softwareprojecten in te schakelen en het ecosysteem, waarop "
+"Weblate vertrouwd, te steunen. Bekijk de `pagina voor doneren <https://"
+"weblate.org/donate/>`_ voor opties, zoals doelen om te steunen en de "
+"beloningen die u krijgt als trotse sponsor."
 
 #: ../../../BACKERS.rst:2
 msgid "Supporters who have funded Weblate"
@@ -40909,7 +40727,7 @@ msgstr "Daniel Leidert"
 
 #: ../../../BACKERS.rst:27
 msgid "ELSA-X"
-msgstr ""
+msgstr "ELSA-X"
 
 #: ../../../BACKERS.rst:29
 msgid ""
@@ -47427,11 +47245,6 @@ msgstr ""
 "weergeven als afzonderlijke te vertalen tekenreeksen."
 
 #: ../../formats/appstore.rst:18
-#, fuzzy
-#| msgid ""
-#| "In case you don't want to translate certain strings (for example "
-#| "changelogs), mark them read-only (see :ref:`custom-checks`). This can be "
-#| "automated by the :ref:`addon-weblate.flags.bulk`."
 msgid ""
 "In case you don't want to translate certain strings (for example "
 "changelogs), you can hide them using :ref:`component-key_filter` or mark "
@@ -47439,9 +47252,9 @@ msgid ""
 "`addon-weblate.flags.bulk`."
 msgstr ""
 "In het geval dat u bepaalde tekenreeksen niet wilt vertalen (bijvoorbeeld "
-"logs met wijzigingen), markeer ze dan als alleen-lezen (bekijk :ref:`custom-"
-"checks`). Dit kan worden geautomatiseerd door de :ref:`addon-weblate.flags."
-"bulk`."
+"logs met wijzigingen), u kunt ze verbergen met :ref:`component-key_filter` "
+"of ze markeren als alleen-lezen (bekijk :ref:`custom-checks`). Dit kan "
+"worden geautomatiseerd door de :ref:`addon-weblate.flags.bulk`."
 
 #: ../../formats/appstore.rst:29
 msgid "``fastlane/metadata/android/*``"
@@ -49379,10 +49192,8 @@ msgid "Indices and tables"
 msgstr "Indices en tabellen"
 
 #: ../../index.rst:2
-#, fuzzy
-#| msgid "Documentation"
 msgid "Weblate Documentation"
-msgstr "Documentatie"
+msgstr "Weblate documentatie"
 
 #: ../../index.rst:8
 msgid ""
@@ -49390,6 +49201,9 @@ msgid ""
 "Expand the \"Read the Docs\" panel at the bottom of the sidebar to see the "
 "list."
 msgstr ""
+"De documentatie van Weblate is beschikbaar in verschillende talen en "
+"versies. Vergroot het paneel \"Read the Docs\" aan de onderzijde van de "
+"zijbalk om de lijst te kunnen zien."
 
 #: ../../index.rst:16
 msgid ""
@@ -49397,6 +49211,9 @@ msgid ""
 "docs.weblate.org/en/latest/>`_ by community members on `Hosted Weblate "
 "<https://hosted.weblate.org/projects/weblate/documentation/>`_."
 msgstr ""
+"Deze documentatie is vertaald vanuit de `originele Engelse <https://"
+"docs.weblate.org/en/latest/>`_ door leden van de gemeenschap op `Hosted "
+"Weblate <https://hosted.weblate.org/projects/weblate/documentation/>`_."
 
 #: ../../index.rst:20
 msgid ""
@@ -49405,6 +49222,10 @@ msgid ""
 "community by providing new translations or reviewing existing ones on "
 "Weblate."
 msgstr ""
+"Afhankelijk van het niveau van het voltooien van de vertaling, zou u "
+"alinea's of hele pagina's kunnen tegenkomen die nog steeds in het Engels "
+"zijn. U kunt de gemeenschap helpen door nieuwe vertalingen aan te leveren of "
+"bestaande na te kijken op Weblate."
 
 #: ../../index.rst:25
 msgid ""
@@ -49413,6 +49234,10 @@ msgid ""
 "to this documentation, we recommend that you read the :doc:`user/basic` to "
 "get an overview of what Weblate does."
 msgstr ""
+"Welkom bij de officiële documentatie van `Weblate <https://weblate.org>`_, "
+"het op vrije software web-gebaseerde doorlopende vertaalsysteem. Als deze "
+"documentatie nieuw voor u is, raden we u aan om :doc:`user/basic` te lezen "
+"om een overzicht te krijgen van wat Weblate doet."
 
 #: ../../index.rst:30
 msgid ""
@@ -49420,6 +49245,9 @@ msgid ""
 "documentation for your topic of interest. You can also use the search "
 "function in the top-left corner."
 msgstr ""
+"De inhoudsopgave in de zijbalk zou u gemakkelijk toegang moeten geven tot de "
+"documentatie voor u onderwerp van interesse. U kunt ook de zoekfunctie in de "
+"linkerbovenhoek gebruiken."
 
 #: ../../legal.rst:2
 msgid "Legal documents"
@@ -54994,10 +54822,6 @@ msgstr ""
 "zou moeten worden verwoord, of om er vragen over te stellen."
 
 #: ../../user/translating.rst:75
-#, fuzzy
-#| msgid ""
-#| "Markdown syntax can be used in all comments, as well as mentioning other "
-#| "users by using``@username``."
 msgid ""
 "Markdown syntax can be used in all comments, as well as mentioning other "
 "users by using ``@username``."
@@ -55802,12 +55626,6 @@ msgid "Matrix View"
 msgstr "Weergave Matrix"
 
 #: ../../user/translating.rst:447
-#, fuzzy
-#| msgid ""
-#| "You can compare different languages efficiently using this view. It is "
-#| "available on every component page, from the :guilabel:`Tools` menu. First "
-#| "select all languages you want to compare, confirm your selection, then "
-#| "click on any translation to open and edit it."
 msgid ""
 "You can compare different languages efficiently using this view It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
@@ -55815,9 +55633,10 @@ msgid ""
 "on any translation to open and edit it."
 msgstr ""
 "U kunt verschillende talen efficiënt vergelijken met deze weergave. Het is "
-"beschikbaar op elke pagina van een onderdeel, vanuit het menu :guilabel:"
-"`Gereedschap`. Selecteer eerst alle talen die u wilt vergelijken, bevestig "
-"uw selectie, en klik dan op een vertaling om die te openen en te bewerken."
+"beschikbaar op elke pagina van een onderdeel, vanuit het menu "
+":guilabel:`Gereedschap`. Selecteer eerst alle talen die u wilt vergelijken, "
+"bevestig uw selectie, en klik dan op een vertaling om die te openen en te "
+"bewerken."
 
 #: ../../user/translating.rst:452
 msgid ""
@@ -56367,10 +56186,8 @@ msgid "Git"
 msgstr "Git"
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "Weblate needs Git 2.12 or newer."
 msgid "Weblate needs Git 2.28 or newer."
-msgstr "Weblate heeft Git 2.12 of nieuwer nodig."
+msgstr "Weblate heeft Git 2.28 of nieuwer nodig."
 
 #: ../../vcs.rst:271 ../../vcs.rst:557
 msgid ""
@@ -56592,25 +56409,18 @@ msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 msgstr ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:414
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull requests"
-msgstr "‘Pull request’ op Bitbucket"
+msgstr "Pull requesten op Bitbucket Data Center"
 
 #: ../../vcs.rst:418
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket "
-#| "Server API`_ to allow pushing translation changes as pull requests "
-#| "instead of pushing directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Data "
 "Center API`_ to allow pushing translation changes as pull requests instead "
 "of pushing directly to the repository."
 msgstr ""
-"Dit voegt eenvoudigweg een dunne laag toe bovenop :ref:`vcs-git` die de "
-"`Bitbucket Server API`_ gebruikt om wijzigingen in vertalingen als pull "
-"requests te pushen, in plaats van ze direct naar de opslagruimte te pushen."
+"Dit voegt eenvoudigweg een dunne laag toe bovenop :ref:`vcs-git` die de `"
+"Bitbucket Data Center API`_ gebruikt om wijzigingen in vertalingen als pull "
+"requesten te pushen, in plaats van ze direct naar de opslagruimte te pushen."
 
 #: ../../vcs.rst:424
 msgid "This does not support Bitbucket Cloud API."
@@ -56630,22 +56440,16 @@ msgstr ""
 "terwijl :ref:`vcs-bitbucket-server` een pull request maakt."
 
 #: ../../vcs.rst:432
-#, fuzzy
-#| msgid ""
-#| "You need to configure API credentials (:setting:"
-#| "`BITBUCKETSERVER_CREDENTIALS`) in the Weblate settings to make this work. "
-#| "Once configured, you will see a :guilabel:`Bitbucket Server` option when "
-#| "selecting :ref:`component-vcs`."
 msgid ""
 "You need to configure API credentials (:setting:"
 "`BITBUCKETSERVER_CREDENTIALS`) in the Weblate settings to make this work. "
 "Once configured, you will see a :guilabel:`Bitbucket Data Center` option "
 "when selecting :ref:`component-vcs`."
 msgstr ""
-"U moet inloggegevens voor de API configureren (:setting:"
-"`BITBUCKETSERVER_CREDENTIALS`) in de instellingen van Weblate om dit te "
-"laten werken. Zodra dit is geconfigureerd, ziet u een optie :guilabel:"
-"`Bitbucket Server`bij het selecteren van :ref:`component-vcs`."
+"U moet inloggegevens voor de API configureren "
+"(:setting:`BITBUCKETSERVER_CREDENTIALS`) in de instellingen van Weblate om "
+"dit te laten werken. Zodra dit is geconfigureerd, ziet u een optie "
+":guilabel:`Bitbucket Data Center`bij het selecteren van :ref:`component-vcs`."
 
 #: ../../vcs.rst:438
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
@@ -56667,10 +56471,8 @@ msgstr ""
 "pushen."
 
 #: ../../vcs.rst:457
-#, fuzzy
-#| msgid "This is different from Bitbucket Server API."
 msgid "This is different from Bitbucket Data Center API."
-msgstr "Dit is anders dan in de Bitbucket Server API."
+msgstr "Dit is anders dan in de Bitbucket data Center API."
 
 #: ../../vcs.rst:460
 msgid ""
