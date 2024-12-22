@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2024-12-22 04:04+0000\n"
+"PO-Revision-Date: 2024-12-22 14:39+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -45591,38 +45591,32 @@ msgid "Lock the translation component in :ref:`manage-vcs`."
 msgstr "Bloqueie o componente de tradução em :ref:`manage-vcs`."
 
 #: ../../faq.rst:426
-#, fuzzy
-#| msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgid "Commit pending changes in :ref:`manage-vcs`."
-msgstr "Fazer commits de alterações pendentes (veja :ref:`lazy-commit`)."
+msgstr "Faça commits de alterações pendentes em :ref:`manage-vcs`."
 
 #: ../../faq.rst:427
-#, fuzzy
-#| msgid "Rebase Weblate changes onto the remote repository"
 msgid "Merge Weblate changes to the upstream repository."
-msgstr "Mesclar as alterações do Weblate no repositório upstream."
+msgstr "Mescle as alterações do Weblate no repositório remoto."
 
 #: ../../faq.rst:428
 msgid "Disable receiving updates via hooks using :ref:`project-enable_hooks`."
 msgstr ""
+"Desabilite o recebimento de atualizações via hooks usando :ref:`project-"
+"enable_hooks`."
 
 #: ../../faq.rst:429
-#, fuzzy
-#| msgid "There has been a merge failure in the repository"
 msgid "Perform the renaming of the files in the repository."
-msgstr "Realize a renomeação dos arquivos no repositório."
+msgstr "Execute a renomeação dos arquivos no repositório."
 
 #: ../../faq.rst:430
-#, fuzzy
-#| msgid "Select an existing component configuration to copy."
 msgid "Update the component configuration to match new file names."
-msgstr "Selecione uma configuração de componente existente para copiar."
+msgstr ""
+"Atualize a configuração de componente existente para corresponder a novos "
+"nomes de arquivos."
 
 #: ../../faq.rst:431
-#, fuzzy
-#| msgid "Fixing an alert automatically unlocked the component."
 msgid "Enable update hooks and unlock the component."
-msgstr "A correção de um alerta desbloqueou automaticamente o componente."
+msgstr "Habilite os ganchos de atualização e desbloqueie o componente."
 
 #: ../../faq.rst:438
 msgid "Troubleshooting"
@@ -45795,10 +45789,8 @@ msgstr ""
 "do arquivo são atualizados para incluir o nome do tradutor."
 
 #: ../../faq.rst:539
-#, fuzzy
-#| msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 msgid ":wladmin:`list_translators`, :doc:`../devel/reporting`"
-msgstr ":djadmin:`list_translators`, :doc:`../devel/reporting`"
+msgstr ":wladmin:`list_translators`, :doc:`../devel/reporting`"
 
 #: ../../faq.rst:543
 msgid "Why does Weblate force showing all PO files in a single tree?"
@@ -45857,26 +45849,18 @@ msgstr ""
 "veja :ref:`languages` para mais detalhes."
 
 #: ../../faq.rst:574
-#, fuzzy
-#| msgid ""
-#| ":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
-#| "translations`"
 msgid ""
 ":ref:`languages`, :ref:`component-language_code_style`, :ref:`adding-"
 "translation`"
 msgstr ""
-":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
-"translations`"
+":ref:`languages`, :ref:`component-language_code_style`, :ref:`adding-"
+"translation`"
 
 #: ../../formats.rst:4 ../../user/files.rst:82
 msgid "Supported file formats"
 msgstr "Formatos de arquivos suportados"
 
 #: ../../formats.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate supports a wide range of translation formats (both bilingual and "
-#| "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgid ""
 "Weblate supports a wide range of translation formats. Each format is "
 "slightly different and provides a different set of capabilities."
@@ -48736,7 +48720,6 @@ msgstr ""
 "para ver a lista."
 
 #: ../../index.rst:16
-#, fuzzy
 msgid ""
 "This documentation is translated from the `original English one <https://"
 "docs.weblate.org/en/latest/>`_ by community members on `Hosted Weblate "
@@ -49421,6 +49404,7 @@ msgstr ""
 #: ../../user/checks.rst:158
 msgid "It also utilizes untranslatable glossary terms in :ref:`check-same`."
 msgstr ""
+"Ele também utiliza termos de glossário intraduzíveis em :ref:`check-same`."
 
 #: ../../user/checks.rst:162
 msgid ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
@@ -49485,6 +49469,11 @@ msgid ""
 "all these parts appear within the same block, using Fluent-like syntax to "
 "specify the attributes. For example:"
 msgstr ""
+"Cada Mensagem Fluent pode ter um valor opcional (o conteúdo do texto "
+"principal) e atributos opcionais, cada um dos quais é uma \"parte\" da "
+"Mensagem. No Weblate, todas essas partes aparecem dentro do mesmo bloco, "
+"usando sintaxe semelhante à do Fluent para especificar os atributos. Por "
+"exemplo:"
 
 #: ../../user/checks.rst:206
 msgid ""
@@ -49493,6 +49482,10 @@ msgid ""
 "that the same attributes used in the source Message also appear in the "
 "translation, with no additions."
 msgstr ""
+"Esta verificação garante que a Mensagem traduzida também tenha um valor se a "
+"Mensagem fonte tiver um, ou nenhum valor se a fonte não tiver nenhum. Isso "
+"também verifica se os mesmos atributos usados na Mensagem fonte também "
+"aparecem na tradução, sem adições."
 
 #: ../../user/checks.rst:213
 msgid ""
@@ -49500,13 +49493,16 @@ msgid ""
 "and Term attributes tend to be locale-specific (used for grammar rules, "
 "etc.), and are not expected to appear in all translations."
 msgstr ""
+"Essa verificação não é aplicada aos Termos Fluent, pois os Termos sempre têm "
+"um valor, e os atributos dos Termos tendem a ser específicos da localidade ("
+"usados para regras gramaticais, etc.) e não devem aparecer em todas as "
+"traduções."
 
 #: ../../user/checks.rst:219
-#, fuzzy
-#| msgid "`Project Fluent website <https://projectfluent.org/>`_"
 msgid ""
 "`Fluent Attributes <https://projectfluent.org/fluent/guide/attributes.html>`_"
-msgstr "`Site do projeto Fluent <https://projectfluent.org/>`_"
+msgstr ""
+"`Atributos Fluent <https://projectfluent.org/fluent/guide/attributes.html>`_"
 
 #: ../../user/checks.rst:224
 msgid "Fluent references"
@@ -49533,6 +49529,8 @@ msgid ""
 "A Fluent Message or Term can reference another Message, Term, Attribute, or "
 "a variable. For example:"
 msgstr ""
+"Uma Mensagem ou Termo Fluent pode referenciar outra Mensagem, Termo, "
+"Atributo ou uma variável. Por exemplo:"
 
 #: ../../user/checks.rst:243
 msgid ""
@@ -49543,6 +49541,12 @@ msgid ""
 "additions. For Messages, this will also check that each Attribute in the "
 "translation uses the same references as the matching Attribute in the source."
 msgstr ""
+"Geralmente, espera-se que Mensagens ou Termos traduzidos contenham as mesmas "
+"referências que a fonte, embora não necessariamente na mesma ordem de "
+"aparição. Então, essa verificação garante que as traduções usem as mesmas "
+"referências em seu valor que o valor da fonte, o mesmo número de vezes e sem "
+"adições. Para Mensagens, isso também verificará se cada Atributo na tradução "
+"usa as mesmas referências que o Atributo correspondente na fonte."
 
 #: ../../user/checks.rst:250
 msgid ""
@@ -49550,6 +49554,9 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same references, and vice versa."
 msgstr ""
+"Quando a fonte ou tradução contém Expressões de Seleção Fluent , cada "
+"variante possível na fonte deve ser correspondida com pelo menos uma "
+"variante na tradução com as mesmas referências, e vice-versa."
 
 #: ../../user/checks.rst:254
 msgid ""
@@ -49559,12 +49566,19 @@ msgid ""
 "the variant's key may have made the reference redundant for that variant. "
 "For example:"
 msgstr ""
+"Além disso, se uma referência de variável aparecer tanto no seletor da "
+"Expressão de Seleção quanto em uma de suas variantes, então todas as "
+"variantes também podem ser consideradas como se também contivessem essa "
+"referência. A suposição é que a chave da variante pode ter tornado a "
+"referência redundante para essa variante. Por exemplo:"
 
 #: ../../user/checks.rst:267
 msgid ""
 "Here, for the purposes of this check, the ``[one]`` variant will also be "
 "considered to contain the ``$num`` reference."
 msgstr ""
+"Aqui, para fins desta verificação, a variante ``[one]`` também será "
+"considerada como contendo a referência ``$num``."
 
 #: ../../user/checks.rst:270
 msgid ""
@@ -49574,12 +49588,19 @@ msgid ""
 "content of the string that the end-user will see, and the presence of a "
 "Select Expression is considered locale-specific. For example:"
 msgstr ""
+"No entanto, uma referência dentro do seletor da Expressão de Seleção, que "
+"pode ser apenas uma variável de um Atributo de Termo na sintaxe do Fluent, "
+"não contará por si só como uma referência necessária porque não forma o "
+"conteúdo de texto real que o usuário final verá, e a presença de uma "
+"Expressão de Seleção é considerada específica da localidade. Por exemplo:"
 
 #: ../../user/checks.rst:283
 msgid ""
 "Here a reference to ``-term.starts-with-vowel`` is not expected to appear in "
 "translations, but a reference to ``-term`` is."
 msgstr ""
+"Aqui, não se espera que uma referência a ``-term.starts-with-vowel`` apareça "
+"nas traduções, mas uma referência a ``-term`` sim."
 
 #: ../../user/checks.rst:288
 msgid ""
@@ -49588,6 +49609,10 @@ msgid ""
 "references.html>`_ `Fluent Select Expressions <https://projectfluent.org/"
 "fluent/guide/selectors.html>`_"
 msgstr ""
+"`Variáveis Fluent <https://projectfluent.org/fluent/guide/variables.html>`_ `"
+"Referências de Mensagens e Termos Fluent <https://projectfluent.org/fluent/"
+"guide/references.html>`_ `Expressões de Seleção Fluent <https://"
+"projectfluent.org/fluent/guide/selectors.html>`_"
 
 #: ../../user/checks.rst:295
 msgid "Fluent translation inner HTML"
@@ -49614,6 +49639,8 @@ msgid ""
 "This check will verify that the translated value of a Message or Term "
 "contains the same HTML elements as the source value."
 msgstr ""
+"Esta verificação verificará se o valor traduzido de uma Mensagem ou Termo "
+"contém os mesmos elementos HTML que o valor fonte."
 
 #: ../../user/checks.rst:309
 msgid ""
@@ -49621,6 +49648,9 @@ msgid ""
 "check, then this check will do nothing. Otherwise, the translated value will "
 "also be checked under the same conditions."
 msgstr ""
+"Primeiro, se o valor de fonte falhar na verificação :ref:`check-fluent-"
+"source-inner-html`, então essa verificação não fará nada. Caso contrário, o "
+"valor traduzido também será verificado sob as mesmas condições."
 
 #: ../../user/checks.rst:313
 msgid ""
@@ -49633,6 +49663,15 @@ msgid ""
 "there are multiple elements in the value, they need not appear in the same "
 "order in the translation value."
 msgstr ""
+"Segundo, os elementos HTML encontrados no valor traduzido serão comparados "
+"com os elementos HTML encontrados no valor fonte. Dois elementos "
+"corresponderão se eles compartilharem exatamente o mesmo nome de tag, "
+"exatamente os mesmos atributos e valores, e todos os seus ancestrais "
+"corresponderem da mesma forma. Essa verificação garantirá que todos os "
+"elementos fonte apareçam em algum lugar na tradução, com o mesmo *número* de "
+"aparições, e sem elementos adicionais adicionados. Quando há vários "
+"elementos no valor, eles não precisam aparecer na mesma ordem no valor da "
+"tradução."
 
 #: ../../user/checks.rst:322
 msgid ""
@@ -49640,6 +49679,9 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same HTML elements, and vice versa."
 msgstr ""
+"Quando a fonte ou tradução contém Expressões de Seleção Fluent, cada "
+"variante possível na fonte deve ser correspondida com pelo menos uma "
+"variante na tradução com os mesmos elementos HTML, e vice-versa."
 
 #: ../../user/checks.rst:326
 msgid ""
@@ -49648,32 +49690,34 @@ msgid ""
 "name`` elements that appear in the source, or any of the allowed inline "
 "elements like ``<br>``."
 msgstr ""
+"Ao usar o Fluent em combinação com o pacote DOM Fluent, essa verificação "
+"garantirá que a tradução também inclua quaisquer elementos ``data-l10n-name``"
+" necessários que apareçam na fonte, ou qualquer um dos elementos inline "
+"permitidos, como ``<br>``."
 
 #: ../../user/checks.rst:331
-#, fuzzy
-#| msgid "For example, this covers:"
 msgid "For example, the following source:"
-msgstr "Por exemplo, isso cobre:"
+msgstr "Por exemplo, o fonte seguinte:"
 
 #: ../../user/checks.rst:337
 msgid "would match with:"
-msgstr ""
+msgstr "corresponderia com:"
 
 #: ../../user/checks.rst:343
 msgid "but not:"
-msgstr ""
+msgstr "mas não:"
 
 #: ../../user/checks.rst:349
-#, fuzzy
-#| msgid "no"
 msgid "nor"
-msgstr "não"
+msgstr "nem"
 
 #: ../../user/checks.rst:357
 msgid ""
 ":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 msgstr ""
+":ref:`check-fluent-source-inner-html`, `DOM Fluent <https://"
+"projectfluent.org/dom-l10n-documentation/overview.html>`_"
 
 #: ../../user/checks.rst:363
 msgid "Fluent translation syntax"
@@ -49702,6 +49746,10 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in the "
 "translation will be valid for Fluent."
 msgstr ""
+"No Weblate, os textos Fluent usam a sintaxe Fluent para referências e "
+"variáveis, mas também para recursos mais complexos, como definição de "
+"atributos e variantes de seletor, incluindo plurais. Essa verificação "
+"garante que a sintaxe usada na tradução será válida para o Fluent."
 
 #: ../../user/checks.rst:381
 msgid ""
@@ -49710,17 +49758,16 @@ msgid ""
 "mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax."
 "html>`_"
 msgstr ""
+":ref:`check-fluent-source-syntax`, `Guia de sintaxe Fluent <https://"
+"projectfluent.org/fluent/guide/>`_ `Guia de sintaxe básica do Mozilla <https"
+"://mozilla-l10n.github.io/localizer-documentation/tools/fluent/"
+"basic_syntax.html>`_"
 
 #: ../../user/checks.rst:388
 msgid "Formatted strings"
 msgstr "Textos formatados"
 
 #: ../../user/checks.rst:390
-#, fuzzy
-#| msgid ""
-#| "Checks that formatting in strings are replicated between both source and "
-#| "translation. Omitting format strings in translation usually causes severe "
-#| "problems, so the formatting in strings should usually match the source."
 msgid ""
 "Checks that the formatting in strings is replicated between both source and "
 "translation. Omitting format strings in translation usually causes severe "
@@ -49752,24 +49799,22 @@ msgid ""
 "these cases (`One apple` instead of `%d apple`). Turn this off by adding "
 "``strict-format`` flag."
 msgstr ""
+"A maioria das verificações de formato permite omitir textos de formato para "
+"formas plurais com uma única contagem. Isso permite que os tradutores "
+"escrevam strings mais agradáveis para esses casos (`One apple` em vez de `%d "
+"apple`). Desative isso adicionando o marcador ``strict-format``."
 
 #: ../../user/checks.rst:404
-#, fuzzy
-#| msgid ""
-#| "This can be done per unit (see :ref:`additional`) or in :ref:`component`. "
-#| "Having it defined per component is simpler, but can lead to false "
-#| "positives in case the string is not interpreted as a formatting string, "
-#| "but format string syntax happens to be used."
 msgid ""
 "The flags can be customized per string (see :ref:`additional`) or in a :ref:"
 "`component`. Having it defined per component is simpler, but it can lead to "
 "false positives in case the string is not interpreted as a formatting "
 "string, but format string syntax happens to be used."
 msgstr ""
-"Isso pode ser feito por unidade (veja :ref:`additional`) ou na :ref:"
-"`component`. Tê-lo definido por componente é mais simples, mas pode levar a "
-"falsos positivos no caso de o texto não ser interpretado como um texto de "
-"formatação, mas a sintaxe de textos de formato passa a ser usada."
+"Os marcadores podem ser personalizados por texto (veja :ref:`additional`) ou "
+"na :ref:`component`. Tê-lo definido por componente é mais simples, mas isso "
+"pode levar a falsos positivos no caso de o texto não ser interpretado como "
+"um texto de formatação, mas a sintaxe de textos de formato passa a ser usada."
 
 #: ../../user/checks.rst:411
 msgid ""
@@ -50109,12 +50154,6 @@ msgstr ""
 "``<strong>isso</strong>``."
 
 #: ../../user/checks.rst:576
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-icu-message-format-syntax`, :ref:`check-formats`, `ICU: "
-#| "Formatting Messages <https://unicode-org.github.io/icu/userguide/"
-#| "format_parse/messages/>`_, `Format.JS: Message Syntax <https://formatjs."
-#| "io/docs/core-concepts/icu-syntax/>`_"
 msgid ""
 ":ref:`check-icu-message-format-syntax`, :ref:`check-formats`, `ICU: "
 "Formatting Messages <https://unicode-org.github.io/icu/userguide/"
@@ -50124,7 +50163,7 @@ msgstr ""
 ":ref:`check-icu-message-format-syntax`, :ref:`check-formats`, `ICU: "
 "Formatação de mensagens <https://unicode-org.github.io/icu/userguide/"
 "format_parse/messages/>`_, `Format.JS: sintaxe de mensagens <https://"
-"formatjs.io/docs/core-concepts/icu-syntax/>`_"
+"formatjs.github.io/docs/core-concepts/icu-syntax>`_"
 
 #: ../../user/checks.rst:585
 msgid "Java format"
@@ -50143,10 +50182,6 @@ msgid "``java_printf_format``"
 msgstr "``java_printf_format``"
 
 #: ../../user/checks.rst:598
-#, fuzzy
-#| msgid ""
-#| "This used to be toggled by ``java-format`` flag, it was changed for "
-#| "consistency with GNU gettext."
 msgid ""
 "This used to be toggled by the ``java-format`` flag, it was changed for "
 "consistency with GNU gettext."
@@ -50346,16 +50381,12 @@ msgid "``There are {number} apples``"
 msgstr "``There are {number} apples``"
 
 #: ../../user/checks.rst:725
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
 "gettext/manual/html_node/perl_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-"software/gettext/manual/html_node/javascript_002dformat.html>`_"
+":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
+"gettext/manual/html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:731
 msgid "Perl format"
@@ -50839,13 +50870,8 @@ msgid "Markdown link references do not match source."
 msgstr "As referências de link Markdown não correspondem à fonte."
 
 #: ../../user/checks.rst:1017
-#, fuzzy
-#| msgid ""
-#| "`Markdown links <https://daringfireball.net/projects/markdown/"
-#| "syntax#link>`_"
 msgid "`Markdown links <https://spec.commonmark.org/0.31.2/#links>`_"
-msgstr ""
-"`Links Markdown <https://daringfireball.net/projects/markdown/syntax#link>`_"
+msgstr "`Links Markdown <https://spec.commonmark.org/0.31.2/#links>`_"
 
 #: ../../user/checks.rst:1022
 msgid "Markdown syntax"
@@ -50865,7 +50891,7 @@ msgstr "``md-syntax``"
 
 #: ../../user/checks.rst:1035
 msgid "`Markdown inlines <https://spec.commonmark.org/0.31.2/#inlines>`_"
-msgstr ""
+msgstr "`Inlines Markdown <https://spec.commonmark.org/0.31.2/#inlines>`_"
 
 #: ../../user/checks.rst:1040
 msgid "Maximum length of translation"
@@ -51002,19 +51028,14 @@ msgid "``escaped_newline``"
 msgstr "``escaped_newline``"
 
 #: ../../user/checks.rst:1120
-#, fuzzy
-#| msgid ""
-#| "Usually escaped newlines are important for formatting program output. "
-#| "Check fails if the number of ``\\n`` literals in translation do not match "
-#| "the source."
 msgid ""
 "Usually escaped newlines are important for formatting program output. Check "
 "fails if the number of ``\\n`` literals in translation does not match the "
 "source."
 msgstr ""
 "Normalmente as novas linhas escapadas são importantes para a formatação da "
-"saída do programa. A verificação falha se o número de literais ``\\n`` na "
-"tradução não corresponder à fonte."
+"saída do programa. A verificação falha se o número de literais ``\\n"
+"`` na tradução não corresponder à fonte."
 
 #: ../../user/checks.rst:1126
 msgid "Mismatched colon"
@@ -51190,16 +51211,12 @@ msgstr ""
 "Ponto_de_interrogação>`_"
 
 #: ../../user/checks.rst:1225
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang mark"
-msgstr "Marca interrobang incompatível"
+msgstr "Sinal de Interrobangue incompatível"
 
 #: ../../user/checks.rst:1227
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with a interrobang mark"
-msgstr "A fonte e a tradução não terminam com reticências"
+msgstr "A fonte e a tradução não terminam com sinal de interrobangue"
 
 #: ../../user/checks.rst:1229
 msgid "``weblate.checks.chars.EndInterrobangCheck``"
@@ -51214,26 +51231,19 @@ msgid "``ignore-end-Interrobang``"
 msgstr "``ignore-end-Interrobang``"
 
 #: ../../user/checks.rst:1233
-#, fuzzy
-#| msgid ""
-#| "Checks that trailing spaces are replicated between both source and "
-#| "translation."
 msgid ""
 "Checks that interrobang marks are replicated between both source and "
 "translation. It allows the swap between \"!?\" and \"?!\"."
 msgstr ""
-"Verifica se os espaços no final são replicados entre a fonte e a tradução."
+"Verifica se sinais de interrobangue são replicadas entre a fonte e a "
+"tradução. Permite a troca entre \"!?\" e \"?!\"."
 
 #: ../../user/checks.rst:1238
-#, fuzzy
-#| msgid ""
-#| "`Question mark on Wikipedia <https://en.wikipedia.org/wiki/"
-#| "Question_mark>`_"
 msgid ""
 "`Interrobang mark on Wikipedia <https://en.wikipedia.org/wiki/Interrobang>`_"
 msgstr ""
-"`Ponto de interrogação na Wikipédia <https://pt.wikipedia.org/wiki/"
-"Ponto_de_interrogação>`_"
+"`Sinal de interrobangue na Wikipédia <https://pt.wikipedia.org/wiki/"
+"Interrobangue>`_"
 
 #: ../../user/checks.rst:1243
 msgid "Mismatched semicolon"
@@ -51455,6 +51465,9 @@ msgid ""
 "Check that fails if the same translation is used on different source "
 "strings. Such translations can be intentional, but can also confuse users."
 msgstr ""
+"Verifica que falha se a mesma tradução for usada em diferentes textos fonte. "
+"Essas traduções podem ser intencionais, mas também podem confundir os "
+"usuários."
 
 #: ../../user/checks.rst:1393
 msgid "Same plurals"
@@ -51639,12 +51652,12 @@ msgid ""
 "With ``check-glossary`` flag (see :ref:`check-check-glossary`), the "
 "untranslatable glossary terms are excluded from the checking."
 msgstr ""
+"Com o marcador``check-glossary`` (veja :ref:`check-check-glossary`), os "
+"termos intraduzíveis do glossário são excluídos da verificação."
 
 #: ../../user/checks.rst:1501
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`custom-checks`"
 msgid ":ref:`check-check-glossary`, :ref:`component`, :ref:`custom-checks`"
-msgstr ":ref:`component`, :ref:`custom-checks`"
+msgstr ":ref:`check-check-glossary`, :ref:`component`, :ref:`custom-checks`"
 
 #: ../../user/checks.rst:1508
 msgid "Unsafe HTML"
@@ -51678,16 +51691,12 @@ msgstr ""
 "também são permitidos."
 
 #: ../../user/checks.rst:1527
-#, fuzzy
-#| msgid ""
-#| "The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/"
-#| ">`_ library developed by Mozilla."
 msgid ""
 "The HTML check is performed by the `Ammonia <https://github.com/rust-ammonia/"
 "ammonia>`_ library."
 msgstr ""
-"A verificação HTML é feita pela biblioteca `Bleach <https://bleach."
-"readthedocs.io/>`_ desenvolvida pela Mozilla."
+"A verificação HTML é feita pela biblioteca `Ammonia <https://github.com/"
+"rust-ammonia/ammonia>`_."
 
 #: ../../user/checks.rst:1535
 msgid "URL"
@@ -51747,6 +51756,9 @@ msgid ""
 "The check is automatically enabled for XML like strings. You might need to "
 "add ``xml-text`` flag in some cases to force turning it on."
 msgstr ""
+"A verificação é habilitada automaticamente para strings do tipo XML. Você "
+"pode precisar adicionar o marcador ``xml-text`` em alguns casos para forçar "
+"a ativação."
 
 #: ../../user/checks.rst:1569 ../../user/checks.rst:1590
 msgid ""
@@ -51896,6 +51908,10 @@ msgid ""
 "meant to be used directly as ``.innerHTML`` (rather than ``.textContent``) "
 "for some HTML element. For example, when using the Fluent DOM package."
 msgstr ""
+"Fluent é frequentemente usado em contextos onde o valor para uma Mensagem ("
+"ou Termo) deve ser usado diretamente como ``.innerHTML`` (em vez de "
+"``.textContent``) para algum elemento HTML. Por exemplo, ao usar o pacote "
+"DOM Fluent."
 
 #: ../../user/checks.rst:1658
 msgid ""
@@ -51904,6 +51920,11 @@ msgid ""
 "be some \"unintended\" loss of the string, without being too strict about "
 "technical parsing errors that do *not* lead to a loss of the string."
 msgstr ""
+"O objetivo desta verificação é prever como o valor será analisado como HTML "
+"interno, assumindo um analisador em conformidade com HTML5, para capturar "
+"casos em que haveria alguma perda \"não intencional\" do texto, sem ser "
+"muito rigoroso sobre erros técnicos de análise que *não* levam à perda do "
+"texto."
 
 #: ../../user/checks.rst:1663
 msgid ""
@@ -51913,6 +51934,11 @@ msgid ""
 "Attributes are often language properties that can only be referenced in the "
 "selectors of Fluent Select Expressions."
 msgstr ""
+"Essa verificação é aplicada ao valor de Mensagens ou Termos Fluent, mas não "
+"aos seus Atributos. Para Mensagens, os Atributos Fluent geralmente são "
+"apenas valores de atributos HTML, portanto podem ser strings arbitrárias. "
+"Para Termos, os Atributos Fluent geralmente são propriedades de idioma que "
+"só podem ser referenciadas nos seletores de Expressões de Seleção Fluent."
 
 #: ../../user/checks.rst:1669
 msgid ""
@@ -51923,6 +51949,13 @@ msgid ""
 "them when they may have unintentionally opened a HTML tag or inserted a "
 "character reference."
 msgstr ""
+"Geralmente, não se espera que a maioria dos valores Fluent contenham nenhuma "
+"marcação HTML. Portanto, essa verificação não espera ou quer que tradutores "
+"e desenvolvedores tenham que se preocupar em evitar estritamente *quaisquer* "
+"erros técnicos de análise sintática de HTML5 (muito menos erros de análise "
+"sintática de XHTML). Em vez disso, essa verificação só vai querer avisá-los "
+"quando eles podem ter aberto uma tag HTML ou inserido uma referência de "
+"caractere sem querer."
 
 #: ../../user/checks.rst:1675
 msgid ""
@@ -51935,24 +51968,32 @@ msgid ""
 "tags and attributes, as well as allow *some* custom element or attribute "
 "names. This is partially to ensure that the user is using HTML intentionally."
 msgstr ""
+"Além disso, para os valores Fluent que intencionalmente contêm tags HTML ou "
+"referências de caracteres, esta verificação verificará algumas "
+"\"boas práticas\", como correspondência de tags de fechamento e finalização, "
+"referências de caracteres válidas e valores de atributos entre aspas. Além "
+"disso, embora a especificação HTML5 permita tecnicamente nomes de tags e "
+"atributos bastante arbitrários, esta verificação os restringirá a alguns "
+"valores ASCII básicos que devem cobrir as tags e atributos de elementos "
+"HTML5 padrão, bem como permitir *alguns* nomes de elementos ou atributos "
+"personalizados. Isso é parcialmente para garantir que o usuário esteja "
+"usando HTML intencionalmente."
 
 #: ../../user/checks.rst:1684 ../../user/search.rst:237
 msgid "Examples:"
 msgstr "Exemplos:"
 
 #: ../../user/checks.rst:1686
-#, fuzzy
-#| msgid "Fluent source inner HTML"
 msgid "Fluent inner HTML examples"
-msgstr "HTML interno de fonte Fluent"
+msgstr "Exemplos de HTML interno de Fluent"
 
 #: ../../user/checks.rst:1690
 msgid "Warns?"
-msgstr ""
+msgstr "Avisos?"
 
 #: ../../user/checks.rst:1691
 msgid "Reason"
-msgstr ""
+msgstr "Motivo"
 
 #: ../../user/checks.rst:1693
 msgid "``three<four``"
@@ -51960,7 +52001,7 @@ msgstr "``three<four``"
 
 #: ../../user/checks.rst:1695
 msgid "The ``<four`` part would be lost as ``.innerHTML``."
-msgstr ""
+msgstr "A parte ``<four`` seria perdida como ``.innerHTML``."
 
 #: ../../user/checks.rst:1697
 msgid "``three < four``"
@@ -51968,17 +52009,15 @@ msgstr "``three < four``"
 
 #: ../../user/checks.rst:1699
 msgid "The ``.innerHTML`` would match the ``.textContent``."
-msgstr ""
+msgstr "O ``.innerHTML`` corresponderia ao ``.textContent``."
 
 #: ../../user/checks.rst:1701
 msgid "``three <four>``"
 msgstr "``three <four>``"
 
 #: ../../user/checks.rst:1703
-#, fuzzy
-#| msgid "Missing query string."
 msgid "Missing a closing tag."
-msgstr "Faltando texto de consulta."
+msgstr "Faltando uma tag de fechamento."
 
 #: ../../user/checks.rst:1705
 msgid "``three <four/>``"
@@ -51987,6 +52026,8 @@ msgstr "``three <four/>``"
 #: ../../user/checks.rst:1707
 msgid "``four`` is not a HTML void element, so should not self-close."
 msgstr ""
+"``four`` não é um elemento HTML void, portanto não deve se fechar "
+"automaticamente."
 
 #: ../../user/checks.rst:1709
 msgid "``<a-b>text</a-b>``"
@@ -51994,7 +52035,7 @@ msgstr "``<a-b>text</a-b>``"
 
 #: ../../user/checks.rst:1711
 msgid "Custom element tag with a matching closing tag."
-msgstr ""
+msgstr "Tag de elemento personalizado com uma tag de fechamento correspondente."
 
 #: ../../user/checks.rst:1713
 msgid "``a <img/> b``"
@@ -52002,7 +52043,7 @@ msgstr "``a <img/> b``"
 
 #: ../../user/checks.rst:1715
 msgid "``img`` is a HTML void element. Self-closing is allowed."
-msgstr ""
+msgstr "``img`` é um elemento HTML void. O autofechamento é permitido."
 
 #: ../../user/checks.rst:1717
 msgid "``a <br> b``"
@@ -52010,17 +52051,15 @@ msgstr "``a <br> b``"
 
 #: ../../user/checks.rst:1719
 msgid "``br`` is a HTML void element."
-msgstr ""
+msgstr "``br`` é um elemento void do HTML."
 
 #: ../../user/checks.rst:1721
 msgid "``<img class=a/>``"
 msgstr "``<img class=a/>``"
 
 #: ../../user/checks.rst:1723
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The attribute value is not quoted."
-msgstr "Não há suporte ao formato do arquivo detectado."
+msgstr "O valor do atributo não está entre aspas."
 
 #: ../../user/checks.rst:1725
 msgid "``<aØ attr=''/>``"
@@ -52028,7 +52067,7 @@ msgstr "``<aØ attr=''/>``"
 
 #: ../../user/checks.rst:1727
 msgid "Non-ASCII tag name."
-msgstr ""
+msgstr "Nome de tag não ASCII."
 
 #: ../../user/checks.rst:1729
 msgid "``kind&ethical``"
@@ -52036,7 +52075,7 @@ msgstr "``kind&ethical``"
 
 #: ../../user/checks.rst:1731
 msgid "The ``&eth`` part would be converted to ``ð``."
-msgstr ""
+msgstr "A parte ``&eth`` seria convertida para ``ð``."
 
 #: ../../user/checks.rst:1733
 msgid "``kind&eth;ical``"
@@ -52044,7 +52083,7 @@ msgstr "``kind&eth;ical``"
 
 #: ../../user/checks.rst:1735
 msgid "The character reference seems to be intentional."
-msgstr ""
+msgstr "A referência ao personagem parece ser intencional."
 
 #: ../../user/checks.rst:1737
 msgid "``three&lte;four``"
@@ -52052,17 +52091,15 @@ msgstr "``three&lte;four``"
 
 #: ../../user/checks.rst:1739
 msgid "The ``&lte;`` part would be converted to ``<e;``."
-msgstr ""
+msgstr "A parte ``&lte;`` seria convertida para ``<e;``."
 
 #: ../../user/checks.rst:1741
 msgid "``three&lf;four``"
 msgstr "``three&lf;four``"
 
 #: ../../user/checks.rst:1743
-#, fuzzy
-#| msgid "The XML markup is not valid."
 msgid "The character reference is not valid."
-msgstr "A marcação XML não é válida."
+msgstr "A referência de caractere não é válida."
 
 #: ../../user/checks.rst:1745
 msgid "``three<{ $val }``"
@@ -52070,7 +52107,7 @@ msgstr "``three<{ $val }``"
 
 #: ../../user/checks.rst:1747
 msgid "The Fluent variable may unintentionally become a tag."
-msgstr ""
+msgstr "A variável Fluent pode involuntariamente se tornar uma tag."
 
 #: ../../user/checks.rst:1749
 msgid "``&l{ $val }``"
@@ -52079,6 +52116,8 @@ msgstr "``&l{ $val }``"
 #: ../../user/checks.rst:1751
 msgid "The Fluent variable may unintentionally become a character reference."
 msgstr ""
+"A variável Fluent pode involuntariamente se tornar uma referência de "
+"caractere."
 
 #: ../../user/checks.rst:1755
 msgid ""
@@ -52090,18 +52129,30 @@ msgid ""
 "reference will trigger this check since even an escaped value could lead to "
 "unexpected results."
 msgstr ""
+"Esta verificação *não* garantirá que o HTML interno esteja seguro ou "
+"higienizado, e não tem a intenção de proteger contra tentativas maliciosas "
+"de alterar o HTML interno. Além disso, deve-se lembrar que variáveis e "
+"referências Fluent podem se expandir para textos arbitrários, então podem se "
+"expandir para HTML arbitrário, a menos que sejam escapadas. Como exceção, um "
+"caractere ``<`` ou ``&`` antes de uma referência Fluent acionará esta "
+"verificação, pois mesmo um valor escapado pode levar a resultados "
+"inesperados."
 
 #: ../../user/checks.rst:1765
 msgid ""
 "The Fluent DOM package has further limitations, such as allowed tags and "
 "attributes, which this check will not enforce."
 msgstr ""
+"O pacote DOM Fluent tem outras limitações, como tags e atributos permitidos, "
+"que esta verificação não aplicará."
 
 #: ../../user/checks.rst:1770
 msgid ""
 ":ref:`check-fluent-target-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 msgstr ""
+":ref:`check-fluent-target-inner-html`, `DOM Fluent<https://projectfluent.org/"
+"dom-l10n-documentation/overview.html>`_"
 
 #: ../../user/checks.rst:1776
 msgid "Fluent source syntax"
@@ -52130,6 +52181,10 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in "
 "source will be valid for Fluent."
 msgstr ""
+"No Weblate, os textos Fluent usam a sintaxe Fluent para referências e "
+"variáveis, mas também para recursos mais complexos, como definição de "
+"atributos e variantes de seletor, incluindo plurais. Essa verificação "
+"garante que a sintaxe usada na fonte será válida para o Fluent."
 
 #: ../../user/checks.rst:1794
 msgid ""
@@ -52138,6 +52193,10 @@ msgid ""
 "mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax."
 "html>`_"
 msgstr ""
+":ref:`check-fluent-target-syntax`, `Guia de sintaxe do Fluent <https://"
+"projectfluent.org/fluent/guide/>`_ `Guia de sintaxe básica do Mozilla <https"
+"://mozilla-l10n.github.io/localizer-documentation/tools/fluent/"
+"basic_syntax.html>`_"
 
 #: ../../user/checks.rst:1801
 msgid "ICU MessageFormat syntax"
@@ -52362,80 +52421,64 @@ msgstr ""
 "através do menu :guilabel:`Arquivos` ↓ :guilabel:`Personalizar o download`:"
 
 #: ../../user/files.rst:30
-#, fuzzy
-#| msgid "gettext (PO)"
 msgid "gettext PO (``po``)"
-msgstr "gettext (PO)"
+msgstr "gettext PO (``po``)"
 
 #: ../../user/files.rst:31
-#, fuzzy
-#| msgid "`XLIFF with gettext extensions`"
 msgid "XLIFF 1.1 with gettext extensions (``xliff``)"
-msgstr "`XLIFF com extensões gettext`"
+msgstr "XLIFF 1.1 com extensões gettext (``xliff``)"
 
 #: ../../user/files.rst:32
 msgid "XLIFF 1.1 (``xliff11``)"
 msgstr "XLIFF 1.1 (``xliff11``)"
 
 #: ../../user/files.rst:33
-#, fuzzy
-#| msgid "TermBase eXchange"
 msgid "TermBase eXchange (``tbx``)"
-msgstr "TermBase eXchange"
+msgstr "TermBase eXchange (``tbx``)"
 
 #: ../../user/files.rst:34
-#, fuzzy
-#| msgid "Translation Memory eXchange"
 msgid "Translation Memory eXchange (``tmx``)"
-msgstr "Translation Memory eXchange"
+msgstr "Translation Memory eXchange (``tmx``)"
 
 #: ../../user/files.rst:35
-#, fuzzy
-#| msgid "gettext MO (only available when translation is using gettext PO)"
 msgid ""
 "gettext MO (only available when translation is using gettext PO) (``mo``)"
 msgstr ""
-"gettext MO (disponível apenas quando a tradução está usando gettext PO)"
+"gettext MO (disponível apenas quando a tradução está usando gettext PO) "
+"(``mo``)"
 
 #: ../../user/files.rst:36
 msgid "CSV (``csv``)"
 msgstr "CSV (``csv``)"
 
 #: ../../user/files.rst:37
-#, fuzzy
-#| msgid "Excel Open XML"
 msgid "Excel Open XML (``xlsx``)"
-msgstr "Excel Open XML"
+msgstr "Excel Open XML (``xlsx``)"
 
 #: ../../user/files.rst:38
-#, fuzzy
-#| msgid "JSON (only available for monolingual translations)"
 msgid "JSON (only available for monolingual translations) (``json``)"
-msgstr "JSON (disponível apenas para traduções monolíngues)"
+msgstr "JSON (disponível apenas para traduções monolíngues) (``json``)"
 
 #: ../../user/files.rst:39
-#, fuzzy
-#| msgid "JSON (only available for monolingual translations)"
 msgid ""
 "JSON nested structure file (only available for monolingual translations) "
 "(``json-nested``)"
-msgstr "JSON (disponível apenas para traduções monolíngues)"
+msgstr ""
+"Arquivo de estrutura aninhada JSON aninhado(disponível apenas para traduções "
+"monolíngues) (``json-nested` `)"
 
 #: ../../user/files.rst:40
-#, fuzzy
-#| msgid ""
-#| "Android String Resource (only available for monolingual translations)"
 msgid ""
 "Android String Resource (only available for monolingual translations) "
 "(``aresource``)"
 msgstr ""
-"Recurso de textos de Android (disponível apenas para traduções monolíngues)"
+"Recurso de textos de Android (disponível apenas para traduções monolíngues) "
+"(``aresource``)"
 
 #: ../../user/files.rst:41
-#, fuzzy
-#| msgid "iOS strings (only available for monolingual translations)"
 msgid "iOS strings (only available for monolingual translations) (``strings``)"
-msgstr "Textos do iOS (disponível apenas para traduções monolíngues)"
+msgstr ""
+"Textos do iOS (disponível apenas para traduções monolíngues) (``strings``)"
 
 #: ../../user/files.rst:45
 msgid ""
@@ -52447,20 +52490,15 @@ msgstr ""
 "`fmt_capabs`."
 
 #: ../../user/files.rst:52
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 ":http:get:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`, :setting:`WEBLATE_EXPORTERS`"
 msgstr ""
-":http:get:`/api/translations/(string:project)/(string:component)/(string:"
-"language)/file/`"
+":http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`, "
+":setting:`WEBLATE_EXPORTERS`"
 
 #: ../../user/files.rst:58
-#, fuzzy
-#| msgid "List all projects:"
 msgid "Downloading components, categories or projects"
 msgstr "Baixando componentes, categorias ou projetos"
 
@@ -52471,6 +52509,10 @@ msgid ""
 "file, and you can choose original or converted formats similarly as in :ref:"
 "`download`."
 msgstr ""
+"Arquivos de tradução para um componente, categoria ou projeto podem ser "
+"baixados de uma vez por meio do menu :guilabel:`Arquivos`. O download é "
+"sempre servido como um arquivo ZIP, e você pode escolher formatos originais "
+"ou convertidos, similarmente a :ref:`download`."
 
 #: ../../user/files.rst:67
 msgid ":http:get:`/api/components/(string:project)/(string:component)/file/`"
@@ -52535,21 +52577,19 @@ msgid ""
 "This option is available only if the user has the :ref:`\"Edit strings\" "
 "permission <privileges>`."
 msgstr ""
+"Esta opção só estará disponível se o usuário tiver a permissão :ref:`"
+"\"Editar textos\" <privileges>`."
 
 #: ../../user/files.rst:107
 msgid "Add as suggestion (``suggest``)"
 msgstr "Adicionar como sugestão (``suggest``)"
 
 #: ../../user/files.rst:108
-#, fuzzy
-#| msgid ""
-#| "Imported strings are added as suggestions, do this when you want to have "
-#| "your uploaded strings reviewed."
 msgid ""
 "Imported strings are added as suggestions. Do this when you want to have "
 "your uploaded strings reviewed."
 msgstr ""
-"Os textos importados são adicionados como sugestões, faça isso quando quiser "
+"Os textos importados são adicionados como sugestões. Faça isso quando quiser "
 "ter seus textos enviados revisados."
 
 #: ../../user/files.rst:113
@@ -52557,12 +52597,12 @@ msgid ""
 "This option is available only if the user has the :ref:`\"Add suggestion\" "
 "permission <privileges>`."
 msgstr ""
+"Esta opção só estará disponível se o usuário tiver a permissão :ref:`"
+"\"Adicionar sugestão\" <privileges>`."
 
 #: ../../user/files.rst:114
-#, fuzzy
-#| msgid "Add as approved translation"
 msgid "Add as approved translation (``approve``)"
-msgstr "Adicionar como tradução aprovada"
+msgstr "Adicionar como tradução aprovada (``approve``)"
 
 #: ../../user/files.rst:115
 #, fuzzy
