@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2024-12-21 15:47+0000\n"
+"PO-Revision-Date: 2024-12-22 04:04+0000\n"
 "Last-Translator: Uijong Wei <ujcsi@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "documentation/ko/>\n"
@@ -199,12 +199,16 @@ msgid ""
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
+"유저를 승인하는 것은 :guilabel: `프로젝트에 엑세스`(:ref:`특권`을 참조) "
+"그들이 다른 유저의 `퍼블릭`, `보호된` 그리고 `비공개`(`커스텀`은 해당되지 "
+"않음) 프로젝트에 팀으로 참가함으로서 접근할 수 있도록 허락하는 것을 말합니다."
 
 #: ../../admin/access.rst:96
 msgid ""
 "These are the default teams provided with Weblate; teams can be added or "
 "modified by users with sufficient privileges:"
-msgstr ""
+msgstr "이것들은 Weblate가 제공하는 기본 팀입니다; 팀은 충분한 권한을 가진 유저에 "
+"의해 생성되거나 변경될 수 있습니다:"
 
 #: ../../admin/access.rst:99 ../../admin/access.rst:608
 #, fuzzy
@@ -324,7 +328,7 @@ msgstr "자동 번역"
 
 #: ../../admin/access.rst:132
 msgid "`VCS`"
-msgstr ""
+msgstr "`VCS`"
 
 #: ../../admin/access.rst:133
 #, fuzzy
@@ -362,6 +366,8 @@ msgid ""
 "You can limit teams to languages or components, and assign them designated "
 "access roles (see :ref:`privileges`)."
 msgstr ""
+"당신은 언어나 구성 요소로 팀에 제약을 걸 수 있으며 유저가 설정된 역할에 "
+"접근할 수 있게 배치할 수 있습니다 (`privilleges` 참조)."
 
 #: ../../admin/access.rst:150
 msgid "Team administrators"
@@ -372,6 +378,8 @@ msgid ""
 "Each team can have team administrator, who can add and remove users within "
 "the team. This is useful in case you want to build self-governed teams."
 msgstr ""
+"각 팀에는 팀 관리자가 있으며 관리자는 팀에 유저를 추가하거나 옮길 수 "
+"있습니다. 이것은 당신이 혼자 통제할 수 있는 팀을 만들 때 유용합니다."
 
 #: ../../admin/access.rst:161
 #, fuzzy
@@ -386,6 +394,10 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
+"팀에 존재하지 않는 유저를 추가하면 유저에게 확인을 위한 초대장이 발송됩니다. "
+":setting:`REGISTRATION_OPEN`을 통해 관리자는 이메일을 사용하여 새로운 유저를 "
+"초대할 수 있습니다. 초대된 유저는 프로젝트에 접근할 권한을 얻기 위해서 가입 "
+"절차를 완료해야 합니다."
 
 #: ../../admin/access.rst:168
 #, fuzzy
@@ -434,7 +446,8 @@ msgstr ""
 msgid ""
 "Weblate now does not automatically create accounts or add users to the "
 "teams. This is only done after confirmation from the user."
-msgstr ""
+msgstr "웹레이트는 이제 자동으로 계정을 생성하거나 팀에 유저를 추가하지 않습니다. "
+"이것은 오직 유저가 확인했을 때만 이루어집니다."
 
 #: ../../admin/access.rst:188
 msgid "Blocking users"
@@ -528,6 +541,11 @@ msgid ""
 "guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
+"웹레이트의 접근 제어 시스템의 가장 강력한 기능은 :ref:`management-interface`"
+"에서 구현할 수 있습니다. 당신은 어떤 프로젝트에서나 이것을 사용하여 허가를 "
+"관리할 수 있습니다. 당신은 꼭 :guilabel:`Custom`:ref:`access control <acl>`"
+"로 전환해야할 필요성은 없습니다. 그러나 당신은 이것을 사용하기 위해 슈퍼유저 "
+"권한을 가지고 있어야 합니다."
 
 #: ../../admin/access.rst:230
 msgid ""
@@ -550,6 +568,8 @@ msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
+"모든 인스턴스의 허가를 한 번에 관리하기 위해서 유저를 알맞는 :ref:`default "
+"teams <default-teams>`에 추가하세요:"
 
 #: ../../admin/access.rst:241
 msgid ""
@@ -2305,7 +2325,7 @@ msgstr "번역엔진 또는 그 외의 구성요소를 사용해 문자열을 �
 
 #: ../../admin/addons.rst:170
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
-msgstr ""
+msgstr ":ref:`auto-translation`, :ref:`translation-consistency`"
 
 #: ../../admin/addons.rst:176
 msgid "JavaScript localization CDN"
@@ -2519,6 +2539,8 @@ msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
+":ref:`addon-weblate.autotranslate.translate`로 새롭게 추가된 문자열을 자동 "
+"번역할 수 있습니다."
 
 #: ../../admin/addons.rst:286
 msgid "Component discovery"
@@ -2730,6 +2752,8 @@ msgid ""
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
 msgstr ""
+":guilabel:`Save`를 선택하면,부합하는 요소의 미리보기가 제공되며 여기서 "
+"설정이 당신이 원하는 바에 부합하는지를 체크할 수 있습니다:"
 
 #: ../../admin/addons.rst:339
 #, fuzzy
