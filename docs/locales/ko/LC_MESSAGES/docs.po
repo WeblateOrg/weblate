@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2024-12-22 08:03+0000\n"
+"PO-Revision-Date: 2024-12-22 14:39+0000\n"
 "Last-Translator: Uijong Wei <ujcsi@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "documentation/ko/>\n"
@@ -595,6 +595,8 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
+"모든 프로젝트를 `퍼블릭`(:ref:`acl`을 참고하세요)으로 유지하지 않으면 `유저` "
+"및 `리뷰어` 팀의 멤버십으로 주어지는 전체 사이트 권한이 주어지지 않습니다."
 
 #: ../../admin/access.rst:252
 msgid ""
@@ -602,6 +604,8 @@ msgid ""
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
+"여러분은 또한 기본 팀에 대한 선택의 추가적인 권한을 승인해야합니다. 예를들어 "
+"여러분은 모든 `유저`들에게 스크린샷을 사용한 권리를 주고 싶을 것입니다."
 
 #: ../../admin/access.rst:256
 msgid ""
@@ -4438,25 +4442,29 @@ msgstr "전체 사이트, 한 프로젝트, 요소, 언어 공지사항을 포�
 #: ../../admin/announcements.rst:10
 msgid ""
 "Announce the purpose, deadlines, status, or specify targets for translation."
-msgstr ""
+msgstr "번역을 위해 목적, 마감기한, 상태, 구체적인 목표를 공지하세요."
 
 #: ../../admin/announcements.rst:12
 msgid ""
 "The users will receive notification on the announcements for watched "
 "projects (unless they opt out)."
-msgstr ""
+msgstr "유저들은 관심 프로젝트(선택 해제를 하지 않는다면)에 대한 공지에 알림을 받게 "
+"될 것입니다."
 
 #: ../../admin/announcements.rst:15
 msgid ""
 "This can be useful for various things from announcing the purpose of the "
 "website to specifying targets for translations."
-msgstr ""
+msgstr "이것은 웹사이트의 목적을 알리는 것부터 번역 목적을 구체화하는 것까지 다양한 "
+"용도로 쓰일 수 있습니다."
 
 #: ../../admin/announcements.rst:18
 msgid ""
 "The announcements can posted on each level in the :guilabel:`Manage` menu, "
 "using :guilabel:`Post announcement`:"
 msgstr ""
+"공지사항은 :guilabel:Manage 메뉴는 각 레벨의 :guilbael:`관리` 에서 :guilavel:"
+" `공지사항 게시`을 사용하여 게시할 수 있습니다:"
 
 #: ../../admin/announcements.rst:21
 msgid ""
@@ -4466,44 +4474,44 @@ msgstr ""
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
-msgstr ""
+msgstr "또한 관리자 인터페이스를 통해 추가될 수 있습니다:"
 
 #: ../../admin/announcements.rst:28
 msgid "The announcements are then shown based on their specified context:"
-msgstr ""
+msgstr "공지는 특정 맥락에 따라 보여집니다:"
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
-msgstr ""
+msgstr "지정된 컨텍스트가 없습니다"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
-msgstr ""
+msgstr "대시보드에 보입니다(랜딩 페이지)."
 
 #: ../../admin/announcements.rst:34
 msgid "Project specified"
-msgstr ""
+msgstr "구체화된 프로젝트"
 
 #: ../../admin/announcements.rst:36
 msgid ""
 "Shown within the project, including all its components and translations."
-msgstr ""
+msgstr "프로젝트에 요소와 번역을 포함한 모든 사항이 표시 됩니다."
 
 #: ../../admin/announcements.rst:38
 msgid "Component specified"
-msgstr ""
+msgstr "구체화된 구성 요소"
 
 #: ../../admin/announcements.rst:40
 msgid "Shown for a given component and all its translations."
-msgstr ""
+msgstr "주어진 구성 요소와 해당 번역이 표시됩니다."
 
 #: ../../admin/announcements.rst:42
 msgid "Language specified"
-msgstr ""
+msgstr "구체화된 언어"
 
 #: ../../admin/announcements.rst:44
 msgid "Shown on the language overview and all translations in that language."
-msgstr ""
+msgstr "언어 개요와 모든 번역 사항이 표시됩니다."
 
 #: ../../admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
@@ -4584,7 +4592,7 @@ msgstr ""
 msgid ""
 "Please check their documentation for generic configuration instructions in :"
 "doc:`psa:configuration/django`."
-msgstr ""
+msgstr "일반 설정에 대한 지침은 :doc: `psa:configuration/django`의 문서를 참고하세요."
 
 #: ../../admin/auth.rst:43
 msgid ""
@@ -4593,10 +4601,14 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
+"기본적으로 웹레이트는 이메일 주소를 검증하기 위한 인증 서비스를 서드 파티에 "
+"의존하고 있습니다. 만약 사용하길 원하는 서비스가 이것을 지원하지 않는다면 "
+"FORCE_EMAIL_VALIDATION을 설정하여 웹레이트에서 이메일을 검증하세요. 예를 "
+"들어:"
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
-msgstr ""
+msgstr ":doc:`psa:pipeline`"
 
 #: ../../admin/auth.rst:54
 msgid ""
@@ -4618,11 +4630,11 @@ msgstr ""
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ""
+msgstr ":doc: `파이썬 소셜 인증 백앤드 <psa:backends/index>`"
 
 #: ../../admin/auth.rst:71
 msgid "OpenID authentication"
-msgstr ""
+msgstr "공개 ID 인증"
 
 #: ../../admin/auth.rst:73
 msgid ""
@@ -4633,11 +4645,11 @@ msgstr ""
 
 #: ../../admin/auth.rst:89
 msgid ":doc:`psa:backends/openid`"
-msgstr ""
+msgstr ":doc: `psa:backends/openid`"
 
 #: ../../admin/auth.rst:94
 msgid "GitHub authentication"
-msgstr ""
+msgstr "깃허브 인증"
 
 #: ../../admin/auth.rst:96
 msgid ""
@@ -4667,10 +4679,13 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
+"웹레이트는 도메인 구성을 포함하여 인증 동안 콜백 URL을 제공합니다. 만약 URL "
+"미스매치와 관련한 에러가 발생했을 경우 이것을 고치길 원한다면 :ref: "
+"`production-site를 참고하세요."
 
 #: ../../admin/auth.rst:126
 msgid ":doc:`psa:backends/github`"
-msgstr ""
+msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:131
 #, fuzzy
@@ -4704,13 +4719,13 @@ msgstr ""
 
 #: ../../admin/auth.rst:168
 msgid "Bitbucket authentication"
-msgstr ""
+msgstr "Bitbucket 인증"
 
 #: ../../admin/auth.rst:170
 msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
-msgstr ""
+msgstr "Bitbucket에 가입한 후 Weblate에 모든 비밀 정보를 등록해야합니다:"
 
 #: ../../admin/auth.rst:190
 msgid ":doc:`psa:backends/bitbucket`"
