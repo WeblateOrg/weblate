@@ -16,7 +16,8 @@
     </label>
   {% endif %}
 
-  <div class="controls {% if "disabled" in flat_attrs %}access-control-disabled{% endif %} {{ field_class }}"{% if flat_attrs %} {{ flat_attrs|safe }}{% endif %}>
+  <div class="controls {% if "disabled" in flat_attrs %}access-control-disabled{% endif %} {{ field_class }}"
+       {% if flat_attrs %}{{ flat_attrs|safe }}{% endif %}>
     {% include 'bootstrap3/layout/field_errors_block.html' %}
     <div class="row">
       {% for choice in field.field.choices %}
@@ -25,7 +26,12 @@
             <label for="id_{{ field.html_name }}_{{ forloop.counter }}"
                    class="{% if inline_class %}radio-{{ inline_class }}{% endif %}">
               <h5>
-                <input type="radio"{% if choice_str == field.value|default_if_none:""|stringformat:"s" %} checked="checked"{% endif %} name="{{ field.html_name }}" id="id_{{ field.html_name }}_{{ forloop.counter }}" value="{{ choice.0|unlocalize }}" {{ field.field.widget.attrs|flatatt }}>
+                <input type="radio"
+                       {% if choice_str == field.value|default_if_none:""|stringformat:"s" %}checked="checked"{% endif %}
+                       name="{{ field.html_name }}"
+                       id="id_{{ field.html_name }}_{{ forloop.counter }}"
+                       value="{{ choice.0|unlocalize }}"
+                       {{ field.field.widget.attrs|flatatt }}>
                 {% with image_name="access/"|add:choice_str|add:".svg" %}
                   <img class="access-icon" src="{% static image_name %}" />
                 {% endwith %}

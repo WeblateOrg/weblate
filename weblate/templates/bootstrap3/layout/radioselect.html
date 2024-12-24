@@ -3,7 +3,8 @@
 
 {% comment %}Based on crispy original, just adds color field special handling.{% endcomment %}
 
-<div class="controls {{ field_class }}"{% if flat_attrs %} {{ flat_attrs }}{% endif %}>
+<div class="controls {{ field_class }}"
+     {% if flat_attrs %}{{ flat_attrs }}{% endif %}>
   {% include 'bootstrap3/layout/field_errors_block.html' %}
 
   {% for group, options, index in field|optgroups %}

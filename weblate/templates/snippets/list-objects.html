@@ -157,155 +157,169 @@
           {% if not hide_details %}
             {% list_objects_number value=category.stats.todo search_url=search_url translate_url=translate_url query="q=state:<translated " css="zero-width-640" %} {% list_objects_number value=category.stats.todo_words search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-720" %} {% list_objects_number value=category.stats.todo_chars search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-1200" %} {% list_objects_number value=category.stats.nottranslated search_url=search_url translate_url=translate_url query="q=state:empty" css="zero-width-1400" %} {% list_objects_number value=category.stats.allchecks search_url=search_url translate_url=translate_url query="q=has:check" css="zero-width-768" %} {% list_objects_number value=category.stats.suggestions search_url=search_url translate_url=translate_url query="q=has:suggestion#suggestions" css="zero-width-900" %} {% list_objects_number value=category.stats.comments search_url=search_url translate_url=translate_url query="q=has:comment#comments" css="zero-width-1000" %}
           {% endif %}
-        </tr> <tr data-parent="{{ row_id }}"> <td colspan="7" class="progress-row autocolspan">{% translation_progress category.stats %}</td> </tr>
+        </tr>
+        <tr data-parent="{{ row_id }}">
+          <td colspan="7" class="progress-row autocolspan">{% translation_progress category.stats %}</td>
+        </tr>
       {% endfor %}
       {% init_unique_row_id %}
       {% for object in objects %}
-        {% get_translate_url object as translate_url %} {% get_browse_url object as browse_url %} {% get_search_url object as search_url %} {% get_unique_row_id object as row_id %} <tr id="{{ row_id }}"> <td class="actions" rowspan="2">
-        {% if object.is_ghost %}
-          {% perm 'translation.add' object.component as user_can_add_translation %}
-          {% if user_can_add_translation %}
-            <form action="{% url 'new-language' path=object.component.get_url_path %}"
-                  method="post"> {% csrf_token %} <input type="hidden" name="lang" value="{{ object.language.code }}" /> <button type="submit"
-         alt="{% trans "Create translation" %}"
-         title="{% trans "Create translation" %}"
-         class="btn btn-link green">{% icon "plus.svg" %}</button> </form>
-          {% else %}
-            <span class="gray" title="{% trans "Cannot add translation right now" %}">{% icon "plus.svg" %}</span>
-          {% endif %}
+        {% get_translate_url object as translate_url %} {% get_browse_url object as browse_url %} {% get_search_url object as search_url %} {% get_unique_row_id object as row_id %}
+        <tr id="{{ row_id }}">
+          <td class="actions" rowspan="2">
+            {% if object.is_ghost %}
+              {% perm 'translation.add' object.component as user_can_add_translation %}
+              {% if user_can_add_translation %}
+                <form action="{% url 'new-language' path=object.component.get_url_path %}"
+                      method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="lang" value="{{ object.language.code }}" />
+                  <button type="submit"
+                          alt="{% trans "Create translation" %}"
+                          title="{% trans "Create translation" %}"
+                          class="btn btn-link green">{% icon "plus.svg" %}</button>
+                </form>
+              {% else %}
+                <span class="gray" title="{% trans "Cannot add translation right now" %}">{% icon "plus.svg" %}</span>
+              {% endif %}
 
-        {% else %}
-
-          {% if translate_url %}
-            <a href="{{ translate_url }}{% if object.stats.todo %}?q=state:&lt;translated{% endif %}"
-               class="btn btn-link green"
-               title="{% trans "Translate" %}"
-               alt="{% trans "Translate" %}">{% icon "pencil.svg" %}</a>
-          {% else %}
-            <a href="{{ browse_url }}"
-               class="btn btn-link green"
-               title="{% trans "Browse" %}"
-               alt="{% trans "Browse" %}">{% icon "folder-outline.svg" %}</a>
-          {% endif %}
-
-        {% endif %}
-      </td> <th class="object-link">
-      {% if name_source == "component_name" or name_source == "translation" %}
-
-        {% include "snippets/component-glossary-badge.html" with object=object.component %}
-
-      {% else %}
-
-        {% include "snippets/component-glossary-badge.html" %}
-
-      {% endif %}
-
-      {% if object.is_ghost %}
-        <span class="ghost">
-          {% if name_source == "language" %}
-            {{ object.language }}
-          {% elif name_source == "component_name" %}
-            {{ object.component.name }}
-          {% elif name_source == "name" %}
-            {{ object.name }}
-          {% elif name_source == "language" %}
-            {{ object.language }}
-          {% elif name_source == "project" %}
-            {{ object.project }}
-          {% else %}
-            {{ object }}
-          {% endif %}
-        </span>
-      {% elif name_source == "translation" %}
-        <a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project.name }}</a>/<a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a> — <a class="tail" href="{{ browse_url }}">{{ object.language }}</a>
-      {% else %}
-        <a href="{{ browse_url }}">
-          {% spaceless %}
-
-            {% if name_source == "language" %}
-              {{ object.language }}
-            {% elif name_source == "component_name" %}
-              {{ object.component.name }}
-            {% elif name_source == "name" %}
-              {{ object.name }}
-            {% elif name_source == "language" %}
-              {{ object.language }}
-            {% elif name_source == "project" %}
-              {{ object.project }}
             {% else %}
-              {{ object }}
+
+              {% if translate_url %}
+                <a href="{{ translate_url }}{% if object.stats.todo %}?q=state:&lt;translated{% endif %}"
+                   class="btn btn-link green"
+                   title="{% trans "Translate" %}"
+                   alt="{% trans "Translate" %}">{% icon "pencil.svg" %}</a>
+              {% else %}
+                <a href="{{ browse_url }}"
+                   class="btn btn-link green"
+                   title="{% trans "Browse" %}"
+                   alt="{% trans "Browse" %}">{% icon "folder-outline.svg" %}</a>
+              {% endif %}
+
+            {% endif %}
+          </td>
+          <th class="object-link">
+            {% if name_source == "component_name" or name_source == "translation" %}
+
+              {% include "snippets/component-glossary-badge.html" with object=object.component %}
+
+            {% else %}
+
+              {% include "snippets/component-glossary-badge.html" %}
+
             {% endif %}
 
-          {% endspaceless %}
-        </a>
-      {% endif %}
-      {% indicate_alerts object %}
-      {% if custom_workflows and object.pk in custom_workflows %}
-        <span class="badge">{% translate "Customized workflow" %}</span>
-      {% endif %}
-    </th>
-    {% if project and project.enable_review %}
-      {% review_percent object.stats %}
-    {% endif %}
+            {% if object.is_ghost %}
+              <span class="ghost">
+                {% if name_source == "language" %}
+                  {{ object.language }}
+                {% elif name_source == "component_name" %}
+                  {{ object.component.name }}
+                {% elif name_source == "name" %}
+                  {{ object.name }}
+                {% elif name_source == "language" %}
+                  {{ object.language }}
+                {% elif name_source == "project" %}
+                  {{ object.project }}
+                {% else %}
+                  {{ object }}
+                {% endif %}
+              </span>
+            {% elif name_source == "translation" %}
+              <a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project.name }}</a>/<a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a> — <a class="tail" href="{{ browse_url }}">{{ object.language }}</a>
+            {% else %}
+              <a href="{{ browse_url }}">
+                {% spaceless %}
 
-    {% if is_glossary %}
-      {% list_objects_number value=object.stats.translated search_url=search_url translate_url=translate_url query="q=state:>=translated" show_zero=True %}
-    {% else %}
-      {% list_objects_percent percent=object.stats.translated_percent value=object.stats.translated search_url=search_url translate_url=translate_url query="q=state:>=translated" total=object.stats.all %}
-    {% endif %}
-    {% if not hide_details %}
-      {% list_objects_number value=object.stats.todo search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-640" %}
-      {% list_objects_number value=object.stats.todo_words search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-720" %}
-      {% list_objects_number value=object.stats.todo_chars search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-1200" %}
-      {% list_objects_number value=object.stats.nottranslated search_url=search_url translate_url=translate_url query="q=state:empty" css="zero-width-1400" %}
-      {% list_objects_number value=object.stats.allchecks search_url=search_url translate_url=translate_url query="q=has:check" css="zero-width-768" %}
-      {% list_objects_number value=object.stats.suggestions search_url=search_url translate_url=translate_url query="q=has:suggestion#suggestions" css="zero-width-900" %}
-      {% list_objects_number value=object.stats.comments search_url=search_url translate_url=translate_url query="q=has:comment#comments" css="zero-width-1000" %}
-    {% endif %}
-  </tr>
-  <tr data-parent="{{ row_id }}">
-    <td colspan="7" class="progress-row autocolspan">{% translation_progress object.stats %}</td>
-  </tr>
-{% endfor %}
-</tbody>
-</table>
+                  {% if name_source == "language" %}
+                    {{ object.language }}
+                  {% elif name_source == "component_name" %}
+                    {{ object.component.name }}
+                  {% elif name_source == "name" %}
+                    {{ object.name }}
+                  {% elif name_source == "language" %}
+                    {{ object.language }}
+                  {% elif name_source == "project" %}
+                    {{ object.project }}
+                  {% else %}
+                    {{ object }}
+                  {% endif %}
+
+                {% endspaceless %}
+              </a>
+            {% endif %}
+            {% indicate_alerts object %}
+            {% if custom_workflows and object.pk in custom_workflows %}
+              <span class="badge">{% translate "Customized workflow" %}</span>
+            {% endif %}
+          </th>
+          {% if project and project.enable_review %}
+            {% review_percent object.stats %}
+          {% endif %}
+
+          {% if is_glossary %}
+            {% list_objects_number value=object.stats.translated search_url=search_url translate_url=translate_url query="q=state:>=translated" show_zero=True %}
+          {% else %}
+            {% list_objects_percent percent=object.stats.translated_percent value=object.stats.translated search_url=search_url translate_url=translate_url query="q=state:>=translated" total=object.stats.all %}
+          {% endif %}
+          {% if not hide_details %}
+            {% list_objects_number value=object.stats.todo search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-640" %}
+            {% list_objects_number value=object.stats.todo_words search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-720" %}
+            {% list_objects_number value=object.stats.todo_chars search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-1200" %}
+            {% list_objects_number value=object.stats.nottranslated search_url=search_url translate_url=translate_url query="q=state:empty" css="zero-width-1400" %}
+            {% list_objects_number value=object.stats.allchecks search_url=search_url translate_url=translate_url query="q=has:check" css="zero-width-768" %}
+            {% list_objects_number value=object.stats.suggestions search_url=search_url translate_url=translate_url query="q=has:suggestion#suggestions" css="zero-width-900" %}
+            {% list_objects_number value=object.stats.comments search_url=search_url translate_url=translate_url query="q=has:comment#comments" css="zero-width-1000" %}
+          {% endif %}
+        </tr>
+        <tr data-parent="{{ row_id }}">
+          <td colspan="7" class="progress-row autocolspan">{% translation_progress object.stats %}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% else %}
-<p>
-  <em>
-    {% if empty_message %}
-      {{ empty_message }}
-    {% else %}
-      {% trans "Nothing to list here." %}
-    {% endif %}
-  </em>
-</p>
+  <p>
+    <em>
+      {% if empty_message %}
+        {{ empty_message }}
+      {% else %}
+        {% trans "Nothing to list here." %}
+      {% endif %}
+    </em>
+  </p>
 
-<p>
-  {% if add_link == "translation" %}
-    {% if user_can_add_translation %}
-      <a class="btn btn-primary"
-         id="list-add-button"
-         href="{% url "new-language" path=object.get_url_path %}">{% trans "Start new translation" %}</a>
-    {% else %}
-      <a class="btn btn-primary" id="list-add-button" disabled href="#" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please sign in to start new translation" %}{% endif %}">{% trans "Start new translation" %}</a>
-    {% endif %}
-  {% elif add_link == "component" %}
-    {% if user_can_edit_project %}
-      {% if object.project %}
+  <p>
+    {% if add_link == "translation" %}
+      {% if user_can_add_translation %}
         <a class="btn btn-primary"
            id="list-add-button"
-           href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% trans "Add new translation component" %}</a>
+           href="{% url "new-language" path=object.get_url_path %}">{% trans "Start new translation" %}</a>
       {% else %}
         <a class="btn btn-primary"
            id="list-add-button"
-           href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
+           disabled
+           href="#"
+           title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please sign in to start new translation" %}{% endif %}">{% trans "Start new translation" %}</a>
+      {% endif %}
+    {% elif add_link == "component" %}
+      {% if user_can_edit_project %}
+        {% if object.project %}
+          <a class="btn btn-primary"
+             id="list-add-button"
+             href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% trans "Add new translation component" %}</a>
+        {% else %}
+          <a class="btn btn-primary"
+             id="list-add-button"
+             href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
+        {% endif %}
+      {% endif %}
+    {% elif add_link == "language" %}
+      {% if user_can_add_language %}
+        <a class="btn btn-primary" id="list-add-button" href="{% url 'create-language' %}">{% trans "Add language" %}</a>
       {% endif %}
     {% endif %}
-  {% elif add_link == "language" %}
-    {% if user_can_add_language %}
-      <a class="btn btn-primary" id="list-add-button" href="{% url 'create-language' %}">{% trans "Add language" %}</a>
-    {% endif %}
-  {% endif %}
-</p>
+  </p>
 
 {% endif %}
