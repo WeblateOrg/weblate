@@ -428,15 +428,13 @@ def gitlab_hook_helper(data, request: AuthenticatedHttpRequest):
         data["repository"]["git_ssh_url"],
         data["repository"]["homepage"],
     ]
-    full_name = ssh_url.split(":", 1)[1]
-    full_name = full_name.removesuffix(".git")
 
     return {
         "service_long_name": "GitLab",
         "repo_url": data["repository"]["homepage"],
         "repos": repos,
         "branch": branch,
-        "full_name": full_name,
+        "full_name": data["project"]["path_with_namespace"],
     }
 
 
