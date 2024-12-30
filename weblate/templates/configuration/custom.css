@@ -1,74 +1,134 @@
 {% comment %} Light theme color variables {% endcomment %}
 {% if header_color_light %}
-body {
---header-color: {{ header_color_light }};
+@media (prefers-color-scheme: light) {
+  body {
+    --header-color: {{ header_color_light }};
+  }
+}
+body[data-theme="light"] {
+--header-color: {{ header_color_light }}!important;
 }
 {% endif %}
 
 {% if header_text_color_light %}
-body {
---header-text-color: {{ header_text_color_light }};
+@media (prefers-color-scheme: light) {
+  body {
+    --header-text-color: {{ header_text_color_light }};    
+  }
+}
+body[data-theme="light"] {
+--header-text-color: {{ header_text_color_light }}!important;
 }
 {% endif %}
 
 {% if navi_color_light %}
-body {
---navi-color: {{ navi_color_light }};
+@media (prefers-color-scheme: light) {
+  body {
+    --navi-color: {{ navi_color_light }};    
+  }
+}
+body[data-theme="light"] {
+--navi-color: {{ navi_color_light }}!important;
 }
 {% endif %}
 
 {% if navi_text_color_light %}
-body {
---navi-text-color: {{ navi_text_color_light }};
+@media (prefers-color-scheme: light) {
+  body {
+    --navi-text-color: {{ navi_text_color_light }};    
+  }
+}
+body[data-theme="light"] {
+--navi-text-color: {{ navi_text_color_light }}!important;
 }
 {% endif %}
 
 {% if focus_color_light %}
-body {
---focus-color: {{ focus_color_light }};
+@media (prefers-color-scheme: light) {
+  body {
+    --focus-color: {{ focus_color_light }};    
+  }
+}
+body[data-theme="light"] {
+--focus-color: {{ focus_color_light }}!important;
 }
 {% endif %}
 
 {% if hover_color_light %}
-body {
---hover-color: {{ hover_color_light }};
+@media (prefers-color-scheme: light) {
+  body {
+    --hover-color: {{ hover_color_light }};    
+  }
+}
+body[data-theme="light"] {
+--hover-color: {{ hover_color_light }}!important;
 }
 {% endif %}
 
 {% comment %} Dark theme  color variables {% endcomment %}
 {% if header_color_dark %}
+@media (prefers-color-scheme: dark) {
+  body {
+    --header-color: {{ header_color_dark }};
+  }
+}
 body[data-theme="dark"] {
---header-color: {{ header_color_dark }};
+--header-color: {{ header_color_dark }}!important;
 }
 {% endif %}
 
 {% if header_text_color_dark %}
+@media (prefers-color-scheme: dark) {
+  body {
+    --header-text-color: {{ header_text_color_dark }};
+  }
+}
 body[data-theme="dark"] {
---header-text-color: {{ header_text_color_dark }};
+--header-text-color: {{ header_text_color_dark }}!important;
 }
 {% endif %}
 
 {% if navi_color_dark %}
+@media (prefers-color-scheme: dark) {
+  body {
+    --navi-color: {{ navi_color_dark }};
+  }
+}
 body[data-theme="dark"] {
---navi-color: {{ navi_color_dark }};
+--navi-color: {{ navi_color_dark }}!important;
 }
 {% endif %}
 
 {% if navi_text_color_dark %}
+@media (prefers-color-scheme: dark) {
+  body {
+  --navi-text-color: {{ navi_text_color_dark }};
+  }
+}
 body[data-theme="dark"] {
---navi-text-color: {{ navi_text_color_dark }};
+--navi-text-color: {{ navi_text_color_dark }}!important;
 }
 {% endif %}
 
 {% if focus_color_dark %}
+@media (prefers-color-scheme: dark) {
+  body {
+    --focus-color: {{ focus_color_dark }};
+  }
+}
 body[data-theme="dark"] {
-  --focus-color: {{ focus_color_dark }};
+  --focus-color: {{ focus_color_dark }}!important;
 }
 {% endif %}
 
 {% if hover_color_dark %}
+@media (prefers-color-scheme: dark) {
+  body {
+    --hover-color: {{ hover_color_dark }};
+  }
+}
 body[data-theme="dark"] {
-  --hover-color: {{ hover_color_dark }};
+  --hover-color: {{ hover_color_dark }}!important;
 }
 {% endif %}
 
