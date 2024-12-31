@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 07:29+0000\n"
-"PO-Revision-Date: 2024-11-29 13:07+0000\n"
+"PO-Revision-Date: 2024-12-31 21:09+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -2961,10 +2961,8 @@ msgid "Project website missing!"
 msgstr "Nedostaje web stranica projekta!"
 
 #: weblate/billing/models.py:480
-#, fuzzy
-#| msgid "All public projects"
 msgid "Only public projects are allowed"
-msgstr "Svi javni projekti"
+msgstr "Dozvoljeni su samo javni projekti"
 
 #: weblate/billing/models.py:486
 #, python-format
@@ -2980,7 +2978,7 @@ msgstr "Nedostaje licenca"
 
 #: weblate/billing/models.py:500
 msgid "Not a libre license"
-msgstr ""
+msgstr "Nije „libre” licenca"
 
 #: weblate/billing/tasks.py:72
 msgid ""
@@ -6784,10 +6782,8 @@ msgid "Members"
 msgstr "Članovi"
 
 #: weblate/templates/accounts/user.html:335
-#, fuzzy
-#| msgid "site wide"
 msgid "Site-wide team"
-msgstr "na svim stranicama web-mjesta"
+msgstr "Tim web stranica"
 
 #: weblate/templates/accounts/user.html:345
 msgid "Remove user from this team"
@@ -9755,14 +9751,11 @@ msgstr "Kupi paket za podršku"
 
 #: weblate/templates/manage/index.html:110
 msgid "Contact customer care"
-msgstr ""
+msgstr "Kontaktiraj podršku"
 
 #: weblate/templates/manage/index.html:119
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Contact us via e-mail"
-msgstr "E-mail adresa kontakta"
+msgstr "Kontaktiraj nas putem e-maila"
 
 #: weblate/templates/manage/performance.html:13
 #: weblate/wladmin/templates/admin/weblate-index.html:44
@@ -11638,21 +11631,19 @@ msgstr ""
 "stoga bi upozorenje moglo nestati za privremeni problem."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid "Some linked components have the same file mask."
 msgid ""
 "Some linked components have the same file mask or share some of the files."
-msgstr "Neke komponente u ovom projektu imaju istu masku datoteke."
+msgstr ""
+"Neke komponente u ovom projektu imaju istu masku datoteke ili dijele neke "
+"datoteke."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:5
 msgid "Please fix this by removing one of them."
 msgstr "Ispravi ovo, uklanjanjem jedne od njih."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:8
-#, fuzzy
-#| msgid "The following file masks were found multiple times:"
 msgid "The following files were found multiple times:"
-msgstr "Sljedeće maske datoteke su pronađene višestruko:"
+msgstr "Sljedeće datoteke su pronađene više puta:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
 msgid "The component contains translation file for the source language."
@@ -12638,16 +12629,12 @@ msgid "Add term to glossary"
 msgstr "Dodaj pojam u glosar"
 
 #: weblate/templates/translate.html:726
-#, fuzzy
-#| msgid "User identities"
 msgid "Unit identifier"
-msgstr "Identiteti korisnika"
+msgstr "Identifikator jedinice"
 
 #: weblate/templates/translate.html:728
-#, fuzzy
-#| msgid "Invitation link copied to clipboard."
 msgid "Unit identifier copied to clipboard."
-msgstr "Poveznica pozivnice je kopirana u međuspremnik."
+msgstr "Identifikator jedinice je kopiran u međuspremnik."
 
 #: weblate/templates/translate.html:729
 msgid "String information"
@@ -13405,10 +13392,8 @@ msgid "You do not have permission to access this component."
 msgstr "Nemaš dozvole za pristup ovoj komponenti."
 
 #: weblate/trans/forms.py:1442
-#, fuzzy
-#| msgid "This field has been identified as spam!"
 msgid "This submission has been identified as spam!"
-msgstr "Ovo je polje identificirano kao spam!"
+msgstr "Ovaj je podnesak identificiran kao spam!"
 
 #: weblate/trans/forms.py:1526 weblate/trans/forms.py:2154
 msgid "Basic"
@@ -14979,10 +14964,10 @@ msgid "Could not update repository: %s"
 msgstr "Nije bilo moguće aktualizirati repozitorij: %s"
 
 #: weblate/trans/models/component.py:3029
-#, fuzzy
-#| msgid "This will push changes and create a GitLab merge request."
 msgid "Pull and push branches cannot be the same when using merge requests."
-msgstr "Ovo će poslati promjene i stvoriti GitLab zahtjev za sjedinjavanje."
+msgstr ""
+"Pull i push grane ne mogu biti iste kada se koriste zahtjevi za "
+"sjedinjavanje."
 
 #: weblate/trans/models/component.py:3042
 msgid ""
@@ -16528,18 +16513,14 @@ msgstr "Ovo će poslati promjene i stvoriti Pagure zahtjev za sjedinjavanje."
 
 #. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:2049
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull request"
-msgstr "Zahtjev za preuzimanje na Bitbucket poslužitelju"
+msgstr "Bitbucket Data Center zahtjev za preuzimanje"
 
 #: weblate/vcs/git.py:2055
-#, fuzzy
-#| msgid "This will push changes and create a Bitbucket Server pull request."
 msgid "This will push changes and create a Bitbucket Data Center pull request."
 msgstr ""
-"Ovo će poslati promjene i stvoriti zahtjev za preuzimanje na Bitbucket "
-"poslužitelju."
+"Ovo će poslati promjene i stvoriti Bitbucket Data Center zahtjev za "
+"preuzimanje."
 
 #: weblate/vcs/git.py:2196
 msgid "Bitbucket Cloud merge request"
@@ -16749,7 +16730,7 @@ msgstr "Repozitoriji"
 
 #: weblate/wladmin/views.py:153
 msgid "Customer care ticket created:"
-msgstr ""
+msgstr "Stvoreni tiket za korisničku podršku:"
 
 #: weblate/wladmin/views.py:183
 msgid "Test e-mail sent."
