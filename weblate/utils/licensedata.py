@@ -2398,6 +2398,12 @@ LICENSES = (
         False,
     ),
     (
+        "MIPS",
+        "MIPS License",
+        "https://spdx.org/licenses/MIPS.html",
+        False,
+    ),
+    (
         "MITNFA",
         "MIT +no-false-attribs license",
         "https://spdx.org/licenses/MITNFA.html",
@@ -3536,6 +3542,12 @@ LICENSES = (
         "The Unlicense",
         "https://spdx.org/licenses/Unlicense.html",
         True,
+    ),
+    (
+        "ThirdEye",
+        "ThirdEye License",
+        "https://spdx.org/licenses/ThirdEye.html",
+        False,
     ),
     (
         "TPL-1.0",
