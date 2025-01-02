@@ -685,7 +685,7 @@ class Unit(models.Model, LoggerMixin):
             return STATE_READONLY
 
         if flags is not None:
-            # Read only from the source
+            # Read-only from the source
             if (
                 not self.is_source
                 and self.source_unit.state < STATE_TRANSLATED
@@ -693,7 +693,7 @@ class Unit(models.Model, LoggerMixin):
             ):
                 return STATE_READONLY
 
-            # Read only from flags
+            # Read-only from flags
             if "read-only" in self.get_all_flags(flags):
                 return STATE_READONLY
 
