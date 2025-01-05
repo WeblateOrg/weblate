@@ -15,8 +15,13 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
 
 
-def get_doc_url(page: str, anchor: str = "", user: User | None = None) -> str:
-    """Return URL to documentation."""
+def get_doc_url(page: str = "", anchor: str = "", user: User | None = None) -> str:
+    """
+    Return a URL to documentation.
+
+    If the `page` parameter is not provided, the function will return the root path
+    to the documentation.
+    """
     version = weblate.utils.version.VERSION
     # Should we use tagged release or latest version
     if version.endswith(("-dev", "-rc")) or (
@@ -31,4 +36,6 @@ def get_doc_url(page: str, anchor: str = "", user: User | None = None) -> str:
     if anchor:
         anchor = "#{}".format(anchor.replace("_", "-"))
     # Generate URL
+    if not page:
+        return f"https://docs.weblate.org/{code}/{doc_version}/"
     return f"https://docs.weblate.org/{code}/{doc_version}/{page}.html{anchor}"
