@@ -22,8 +22,6 @@ def get_doc_url(page: str = "index", anchor: str = "", user: User | None = None)
     If the `page` parameter is not provided, the function will return
     the home page of the documentation.
     """
-    if not page:
-        page = "index"
     version = weblate.utils.version.VERSION
     # Should we use tagged release or latest version
     if version.endswith(("-dev", "-rc")) or (
