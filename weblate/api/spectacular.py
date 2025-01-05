@@ -8,6 +8,8 @@ from typing import Any
 
 from django.utils.translation import gettext_lazy
 
+from weblate.utils.docs import get_doc_url
+
 
 def get_spectacular_settings(
     installed_apps: list[str], site_url: str, site_title: str
@@ -64,6 +66,10 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             "drf_spectacular.hooks.postprocess_schema_enums",
             "weblate.api.docs.add_middleware_headers",
         ],
+        "EXTERNAL_DOCS": {
+            "url": get_doc_url(),
+            "description": "Official Weblate documentation",
+        },
     }
     if "weblate.legal" in installed_apps:
         settings["TOS"] = "/legal/terms/"
