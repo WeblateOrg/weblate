@@ -8,6 +8,8 @@ from typing import Any
 
 from django.utils.translation import gettext_lazy
 
+from weblate.utils.docs import get_doc_url
+
 
 def get_spectacular_settings(
     installed_apps: list[str], site_url: str, site_title: str
@@ -67,13 +69,13 @@ def get_spectacular_settings(
     return settings
 
 
-api_description = """
+api_description = f"""
 This OpenAPI specification is offered as a feature preview, your feedback is welcome!
 
 ---
 
 Weblate's REST API is based on [Django REST framework](https://www.django-rest-framework.org).
-You can interact with it on the `/api/` URL path by using the [Weblate Client](https://docs.weblate.org/en/latest/wlc.html) or any third-party REST client of your choice.
+You can interact with it on the `/api/` URL path by using the [Weblate Client]({get_doc_url(page='wlc')}) or any third-party REST client of your choice.
 
 ## Authentication
 
@@ -96,7 +98,7 @@ to 5000 requests per hour by default.
 Rate limiting can be adjusted in the `settings.py` file; see [Throttling in Django REST framework documentation](https://www.django-rest-framework.org/api-guide/throttling/)
 for more details on how to configure it.
 
-In the Docker container, this can be configured with the [WEBLATE_API_RATELIMIT_ANON](https://docs.weblate.org/en/latest/admin/install/docker.html#envvar-WEBLATE_API_RATELIMIT_ANON) and the [WEBLATE_API_RATELIMIT_USER](https://docs.weblate.org/en/latest/admin/install/docker.html#envvar-WEBLATE_API_RATELIMIT_USER) environment variables.
+In the Docker container, this can be configured with the [WEBLATE_API_RATELIMIT_ANON]({get_doc_url(page='admin/install/docker', anchor='envvar-WEBLATE_API_RATELIMIT_ANON')}) and the [WEBLATE_API_RATELIMIT_USER]({get_doc_url(page='admin/install/docker', anchor='envvar-WEBLATE_API_RATELIMIT_USER')}) environment variables.
 
 **Added in version 4.1:**
 HTTP response headers indicating status of rate-limiting.
@@ -128,7 +130,7 @@ Those HTTP headers are:
 
 ## Components and categories
 
-To access a component which is nested inside a [Category](https://docs.weblate.org/en/latest/admin/projects.html#category),
+To access a component which is nested inside a [Category]({get_doc_url(page='admin/projects', anchor='category')}),
 you need to URL encode the category name into a component name separated with a slash.
 
 For example, usage placed in a `docs` category needs to be used as `docs%252Fusage`.
