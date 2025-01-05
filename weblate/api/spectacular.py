@@ -79,6 +79,9 @@ You can interact with it on the `/api/` URL path by using the [Weblate Client]({
 
 ## Authentication
 
+**Added in version 4.10:**
+Project-scoped tokens to access the API.
+
 Authentication works with tokens placed in the `Authorization` HTTP request header:
 
 - Each user has a personal access token which they can get from their respective user profile. These tokens have the `wlu_` prefix.
@@ -133,7 +136,7 @@ Those HTTP headers are:
 To access a component which is nested inside a [Category]({get_doc_url(page='admin/projects', anchor='category')}),
 you need to URL encode the category name into a component name separated with a slash.
 
-For example, usage placed in a `docs` category needs to be used as `docs%252Fusage`.
+For example, `usage` placed in a `docs` category needs to be used as `docs%252Fusage`.
 In this case, the full URL could be:
 
 `https://weblate.example.com/api/components/hello/docs%252Fusage/repository/`
