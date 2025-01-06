@@ -446,7 +446,7 @@ This feature is modelled on flags in :ref:`gettext`.
 Additionally, for all XML based format, the flags are extracted from the
 non-standard attribute ``weblate-flags``. Additionally ``max-length:N`` is
 supported through the ``maxwidth`` `attribute
-<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as
+<https://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as
 defined in the XLIFF standard, see :ref:`xliff-flags`.
 
 .. seealso::

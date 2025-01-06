@@ -245,4 +245,4 @@ And that's it, you're now ready to start translating your software!
 .. _msgfmt: https://www.gnu.org/software/gettext/manual/html_node/msgfmt-Invocation.html
 .. _msginit: https://www.gnu.org/software/gettext/manual/html_node/msginit-Invocation.html
 .. _intltool: https://www.freedesktop.org/wiki/Software/intltool/
-.. _pybabel: http://babel.pocoo.org/
+.. _pybabel: https://babel.pocoo.org/
