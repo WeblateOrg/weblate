@@ -43,7 +43,7 @@ For self-hosting your own Weblate clone, read our :doc:`admin/install`.
 
 FAQ
 ----
-Check our :ref:`faq`.
+Check our :doc:`faq`.
 
 Community
 ----------
