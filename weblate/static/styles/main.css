@@ -1226,7 +1226,7 @@ thead th {
 }
 
 .table > thead > tr > th {
-  border-bottom: 1px solid #bfc3c7;
+  border-bottom: none;
 }
 
 .table-listing,
@@ -2305,7 +2305,6 @@ tbody.warning {
 }
 
 .panel-default > .panel-heading {
-  background-color: #e9eaec60;
   border: var(--border);
 }
 .panel-danger > .panel-heading {
@@ -2320,6 +2319,15 @@ tbody.warning {
 }
 
 .panel-footer {
+  border-top: var(--border);
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
   border-top: var(--border);
 }
 
