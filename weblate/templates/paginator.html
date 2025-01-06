@@ -14,12 +14,14 @@
       </a>
     </li>
     <li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
-      <a {% if page_obj.has_previous %}rel="prev" href="?page={{ page_obj.previous_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}
-         {% if query_string %}&amp;{{ query_string }}{% endif %}
-         {% if anchor %}#{{ anchor }}{% endif %}
-         "
-         {% endif %}
-         class="green">
+      <a
+        {% if page_obj.has_previous %}
+          rel="prev"
+          {# djlint:off #}
+          href="?page={{ page_obj.previous_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
+          {# djlint:on #}
+        {% endif %}
+        class="green">
         {% if LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
         {% else %}
@@ -64,12 +66,14 @@
       </a>
     </li>
     <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
-      <a {% if page_obj.has_next %}rel="next" href="?page={{ page_obj.next_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}
-         {% if query_string %}&amp;{{ query_string }}{% endif %}
-         {% if anchor %}#{{ anchor }}{% endif %}
-         "
-         {% endif %}
-         class="green">
+      <a
+        {% if page_obj.has_next %}
+          rel="next"
+          {# djlint:off #}
+          href="?page={{ page_obj.next_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
+          {# djlint:on #}
+        {% endif %}
+        class="green">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
         {% else %}

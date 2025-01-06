@@ -2924,8 +2924,8 @@ Weblate provides various exports to allow you to further process the data.
                 "translated": 436,
                 "translated_percent": 100.0,
                 "translated_words": 3201,
-                "url": "http://hosted.weblate.org/engage/weblate/cs/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/main/cs/"
+                "url": "https://hosted.weblate.org/engage/weblate/cs/",
+                "url_translate": "https://hosted.weblate.org/projects/weblate/main/cs/"
             },
             {
                 "code": "nl",
@@ -2941,8 +2941,8 @@ Weblate provides various exports to allow you to further process the data.
                 "translated": 319,
                 "translated_percent": 73.2,
                 "translated_words": 3201,
-                "url": "http://hosted.weblate.org/engage/weblate/nl/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/main/nl/"
+                "url": "https://hosted.weblate.org/engage/weblate/nl/",
+                "url_translate": "https://hosted.weblate.org/projects/weblate/main/nl/"
             },
             {
                 "code": "el",
@@ -2958,8 +2958,8 @@ Weblate provides various exports to allow you to further process the data.
                 "translated": 312,
                 "translated_percent": 71.6,
                 "translated_words": 3201,
-                "url": "http://hosted.weblate.org/engage/weblate/el/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/main/el/"
+                "url": "https://hosted.weblate.org/engage/weblate/el/",
+                "url_translate": "https://hosted.weblate.org/projects/weblate/main/el/"
             }
         ]
 

@@ -27,7 +27,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.8.4
+  rev: v0.8.6
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
@@ -106,6 +106,12 @@ repos:
     entry: \S  +(?![\| +])
     language: pygrep
     exclude: docs/devel/reporting-example.rst
+  - id: rst-http
+    name: http link in rst text
+    description: Detect mistake of using http links
+    types: [rst]
+    entry: http://(?!example\.|[a-z]*\.example\.|weblate:|localhost|127\.0\.0\.1|user:password@proxy)
+    language: pygrep
 - repo: https://github.com/sphinx-contrib/sphinx-lint
   rev: v1.0.0
   hooks:

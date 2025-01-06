@@ -946,10 +946,14 @@ class AutoForm(forms.Form):
         label=gettext_lazy("Score threshold"), initial=80, min_value=1, max_value=100
     )
 
-    def __init__(self, obj, user=None, *args, **kwargs) -> None:
+    def __init__(
+        self, obj: Component | Project | None, user=None, *args, **kwargs
+    ) -> None:
         """Generate choices for other components in the same project."""
         super().__init__(*args, **kwargs)
-        self.obj, machinery_settings = obj, {}
+        self.obj = obj
+        self.project: Project | None = None
+        machinery_settings = {}
 
         if isinstance(obj, Component):
             self.components = obj.project.component_set.filter(
@@ -959,6 +963,7 @@ class AutoForm(forms.Form):
                 project__contribute_shared_tm=True,
             ).exclude(project=obj.project)
             machinery_settings = obj.project.get_machinery_settings()
+            self.project = obj.project
         elif isinstance(obj, Project):
             self.components = obj.component_set.filter(
                 source_language_id__in=obj.source_language_ids
@@ -967,6 +972,7 @@ class AutoForm(forms.Form):
                 project__contribute_shared_tm=True,
             ).exclude(project=obj)
             machinery_settings = obj.get_machinery_settings()
+            self.project = obj
         else:
             # Site-wide add-ons
             self.components = Component.objects.all()
@@ -1051,8 +1057,10 @@ class AutoForm(forms.Form):
             except Component.DoesNotExist as error:
                 raise ValidationError(gettext("Component not found!")) from error
         elif "/" not in component:
+            if self.project is None:
+                raise ValidationError(gettext("Component not found!"))
             try:
-                result = self.components.get(slug=component, project=self.obj.project)
+                result = self.components.get(slug=component, project=self.project)
             except Component.DoesNotExist as error:
                 raise ValidationError(gettext("Component not found!")) from error
         else:

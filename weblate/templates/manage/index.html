@@ -104,22 +104,24 @@
     </div>
   </div>
 
-  <form method="post" action="{% url 'manage-support' %}">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% trans "Contact customer care" %}</h4>
+  {% if support.name != 'community' %}
+    <form method="post" action="{% url 'manage-support' %}">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">{% trans "Contact customer care" %}</h4>
+        </div>
+        <div class="panel-body">
+          {% csrf_token %}
+          {{ support_form|crispy }}
+        </div>
+        <div class="panel-footer">
+          <input type="submit" value="{% trans "Get help" %}" class="btn btn-primary" />
+          <a href="mailto:support@weblate.org?subject=Weblate support for {{ site_domain }}"
+             class="btn btn-link">{% trans "Contact us via e-mail" %}</a>
+        </div>
       </div>
-      <div class="panel-body">
-        {% csrf_token %}
-        {{ support_form|crispy }}
-      </div>
-      <div class="panel-footer">
-        <input type="submit" value="{% trans "Get help" %}" class="btn btn-primary" />
-        <a href="mailto:support@weblate.org?subject=Weblate support for {{ site_domain }}"
-           class="btn btn-link">{% trans "Contact us via e-mail" %}</a>
-      </div>
-    </div>
-  </form>
+    </form>
+  {% endif %}
 
   {% include "manage/snippets/activation-form.html" %}
 
