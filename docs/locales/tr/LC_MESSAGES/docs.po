@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2025-01-07 18:15+0000\n"
+"PO-Revision-Date: 2025-01-07 20:03+0000\n"
 "Last-Translator: Turkish Wold <turkishmark@yandex.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -1909,10 +1909,8 @@ msgid "Add-on installation"
 msgstr "Eklenti kuruldu"
 
 #: ../../admin/addons.rst:25
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "Triggered when add-on is being installed."
-msgstr "Eklenti kuruldu"
+msgstr "Eklenti kurulurken tetiklenir."
 
 #: ../../admin/addons.rst:30
 #, fuzzy
@@ -1921,23 +1919,16 @@ msgid "Component update"
 msgstr "bileşen güncellemesi"
 
 #: ../../admin/addons.rst:32
-#, fuzzy
-#| msgid "Fixed deadlock when changing linked component repository."
 msgid "Triggered whenever a change happens in a component such as:"
-msgstr ""
-"Bağlı bileşen deposu değiştirilirken yaşanan kilitlenme sorunu düzeltildi."
+msgstr "Aşağıdaki gibi bir bileşende bir değişiklik olduğunda tetiklenir:"
 
 #: ../../admin/addons.rst:34
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Strings are changed in the repository."
-msgstr "Depoya dizge eklendi"
+msgstr "Depodaki dizeler değiştirilir."
 
 #: ../../admin/addons.rst:35
-#, fuzzy
-#| msgid "New string added"
 msgid "A string is added."
-msgstr "Yeni dizge eklendi"
+msgstr "Bir dize eklendi."
 
 #: ../../admin/addons.rst:36
 #, fuzzy
@@ -2073,7 +2064,7 @@ msgstr "birim oluşturulduktan sonra"
 
 #: ../../admin/addons.rst:114
 msgid "Triggered just after the newly created string is saved."
-msgstr ""
+msgstr "Yeni oluşturulan dize kaydedildikten hemen sonra tetiklenir."
 
 #: ../../admin/addons.rst:118
 msgid "Built-in add-ons"
@@ -2302,6 +2293,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
 "repository-post-commit`, :ref:`addon-event-repository-post-update`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
+"repository-post-commit`, :ref:`addon-event-repository-post-update`"
 
 #: ../../admin/addons.rst:192
 msgid ""
@@ -2377,10 +2370,13 @@ msgid "`This add-on has no configuration.`"
 msgstr "`Bu eklentinin yapılandırması yok.`"
 
 #: ../../admin/addons.rst:228
+#, fuzzy
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref:"
 "`addon-event-repository-post-update`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref"
+":`addon-event-repository-post-update`"
 
 #: ../../admin/addons.rst:230
 msgid "Removes strings without a translation from translation files."
@@ -2410,10 +2406,13 @@ msgid "``weblate.cleanup.generic``"
 msgstr "``weblate.cleanup.generic``"
 
 #: ../../admin/addons.rst:247
+#, fuzzy
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref:"
 "`addon-event-repository-pre-commit`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref"
+":`addon-event-repository-pre-commit`"
 
 #: ../../admin/addons.rst:249
 msgid ""
@@ -2445,10 +2444,13 @@ msgstr "``weblate.consistency.languages``"
 
 #: ../../admin/addons.rst:268 ../../admin/addons.rst:724
 #: ../../admin/addons.rst:769
+#, fuzzy
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
 "repository-post-add`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
+"repository-post-add`"
 
 #: ../../admin/addons.rst:270
 msgid ""
@@ -2621,8 +2623,9 @@ msgstr "Yukarıdaki eşleşmelerin doğru göründüğünü onaylıyorum"
 
 #: ../../admin/addons.rst:310 ../../admin/addons.rst:810
 #: ../../admin/addons.rst:948
+#, fuzzy
 msgid ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`"
-msgstr ""
+msgstr ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`"
 
 #: ../../admin/addons.rst:312
 msgid ""
@@ -3694,8 +3697,9 @@ msgstr ""
 "işleme iletileri yerine kullanılır."
 
 #: ../../admin/addons.rst:843
+#, fuzzy
 msgid ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
-msgstr ""
+msgstr ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
 
 #: ../../admin/addons.rst:845
 msgid "Squash Git commits prior to pushing changes."
@@ -7781,16 +7785,17 @@ msgstr ""
 
 #: ../../admin/config.rst:52
 msgid "ALTCHA_MAX_NUMBER"
-msgstr ""
+msgstr "ALTCHA_MAX_NUMBER"
 
 #: ../../admin/config.rst:56
 msgid "Configures a maximal number for ALTCHA proof-of-work mechanism."
-msgstr ""
+msgstr "ALTCHA iş kanıtı mekanizması için bir maksimal sayı yapılandırır."
 
 #: ../../admin/config.rst:60
 msgid ""
 "`ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_"
 msgstr ""
+"`ALTCHA Çalışma Kanıtı Mekanizması <https://altcha.org/docs/proof-of-work/>`_"
 
 #: ../../admin/config.rst:65
 msgid "ANONYMOUS_USER_NAME"
@@ -8950,6 +8955,9 @@ msgid ""
 ":guilabel:`Administration` might also be necessary for forking a repository "
 "if you intend to use forking and the original repository is not public."
 msgstr ""
+":guilabel:`Administration` ayrıca bir depoyu çatallamak için de gerekli "
+"olabilir, eğer çatallamayı kullanmayı düşünüyorsanız ve orijinal depo "
+"herkese açık değilse."
 
 #: ../../admin/config.rst:857
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
@@ -9916,13 +9924,15 @@ msgstr "Her dilde şu alanlar bulunur:"
 
 #: ../../admin/config.rst:1618
 msgid "Mathematical captcha to be solved by the user."
-msgstr ""
+msgstr "Kullanıcı tarafından çözülmesi gereken matematiksel captcha."
 
 #: ../../admin/config.rst:1619
 msgid ""
 "Proof of work challenge calculated by the browser. The difficulty can be "
 "adjusted using :setting:`ALTCHA_MAX_NUMBER`."
 msgstr ""
+"Tarayıcı tarafından hesaplanan çalışma kanıtı zorluğu. Zorluk "
+":setting:`ALTCHA_MAX_NUMBER` kullanılarak ayarlanabilir."
 
 #: ../../admin/config.rst:1624
 msgid "REGISTRATION_EMAIL_MATCH"
@@ -10825,24 +10835,14 @@ msgid "Avoiding merge conflicts"
 msgstr "Birleştirme çakışmalarından kaçınmak"
 
 #: ../../admin/continuous.rst:109
-#, fuzzy
-#| msgid ""
-#| "The merge conflicts from Weblate arise when same file was changed both in "
-#| "Weblate and outside it. There are two approaches to deal with that - "
-#| "avoid edits outside Weblate or integrate Weblate into your updating "
-#| "process, so that it flushes changes prior to updating the files outside "
-#| "Weblate."
 msgid ""
 "The merge conflicts from Weblate arise when same file was changed both in "
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
-"Aynı dosya hem Weblate üzerinde hem de Weblate dışında değiştirildiğinde "
-"Weblate üzerinden gelen birleştirmelerde çakışmalar ortaya çıkar. Bu sorunu "
-"çözmek için kullanılabilecek iki yaklaşım vardır. Weblate dışındaki "
-"düzenlemelerden kaçınmak ya da güncelleme sürecinizi Weblate ile "
-"bütünleştirmek. Böylece Weblate dışındaki dosyalar güncellenmeden önce "
-"değişiklikler temizlenir."
+"Weblate'teki birleştirme çakışmaları, aynı dosya hem Weblate'te hem de "
+"Weblate dışında değiştirildiğinde ortaya çıkar. Duruma bağlı olarak, burada "
+"yardımcı olabilecek birkaç yaklaşım vardır:"
 
 #: ../../admin/continuous.rst:112
 msgid ":ref:`merge-weblate-only`"
@@ -10863,18 +10863,6 @@ msgid "Avoiding merge conflicts by changing translation files in Weblate only"
 msgstr "Weblate kaynaklı değişikliklerde birleştirme çakışmalarından kaçınmak"
 
 #: ../../admin/continuous.rst:121
-#, fuzzy
-#| msgid ""
-#| "The first approach is easy with monolingual files — you can add new "
-#| "strings within Weblate and leave whole editing of the files there. For "
-#| "bilingual files, there is usually some kind of message extraction process "
-#| "to generate translatable files from the source code. In some cases this "
-#| "can be split into two parts - one for the extraction generates template "
-#| "(for example gettext POT is generated using :program:`xgettext`) and then "
-#| "further process merges it into actual translations (the gettext PO files "
-#| "are updated using :program:`msgmerge`). You can perform the second step "
-#| "within Weblate and it will ensure that all pending changes are included "
-#| "prior to this operation."
 msgid ""
 "Avoiding edits outside Weblate is easy with monolingual files — you can add "
 "new strings within Weblate and leave whole editing of the files there. For "
@@ -10882,34 +10870,35 @@ msgid ""
 "generate translatable files from the source code. In some cases, this can be "
 "split into two parts:"
 msgstr ""
-"Tek dilli dosyalar için ilk yaklaşım kolaydır. Weblate üzerinde yeni "
-"dizgeler ekleyebilir ve dosyaların tüm düzenleme işlemlerini orada "
-"yapabilirsiniz. İki dilli dosyalar için, kaynak kodundan çevrilebilir "
-"dosyalar oluşturmak için genellikle bir tür ileti ayıklama işlemi vardır. "
-"Bazı durumlarda bu işlem iki bölüme ayrılabilir. Birinci adım olan ayıklama, "
-"kalıbı oluşturur (örneğin Gettext POT :program:`xgettext` kullanılarak "
-"oluşturulur) ve ikinci adım onu gerçek çevirilerle birleştirir (Gettext PO "
-"dosyaları :program:`msgmerge` kullanılarak güncellenir). İkinci adımı "
-"Weblate içinde yapabilirsiniz ve bu işlemden önce bekleyen tüm "
-"değişikliklerin katıldığına emin olabilirsiniz."
+"Tek dilli dosyalarda Weblate dışında düzenleme yapmaktan kaçınmak kolaydır - "
+"Weblate içinde yeni dizeler ekleyebilir ve dosyaların tüm düzenlemesini "
+"orada bırakabilirsiniz. İki dilli dosyalar için, genellikle kaynak koddan "
+"çevrilebilir dosyalar oluşturmak için bir tür mesaj çıkarma işlemi vardır. "
+"Bazı durumlarda bu işlem iki kısma ayrılabilir:"
 
 #: ../../admin/continuous.rst:127
 msgid ""
 "The extraction generates template (for example gettext POT is generated "
 "using :program:`xgettext`)."
 msgstr ""
+"Çıkarma işlemi şablon oluşturur (örneğin gettext POT, :program:`xgettext` "
+"kullanılarak oluşturulur)."
 
 #: ../../admin/continuous.rst:128
 msgid ""
 "Further process merges it into actual translations (the gettext PO files are "
 "updated using :program:`msgmerge`)."
 msgstr ""
+"Daha sonraki süreç bunu gerçek çevirilerle birleştirir (gettext PO dosyaları "
+":program:`msgmerge` kullanılarak güncellenir)."
 
 #: ../../admin/continuous.rst:130
 msgid ""
 "You can perform the second step within Weblate and it will ensure that all "
 "pending changes are included before this operation."
 msgstr ""
+"İkinci adımı Weblate içinde gerçekleştirebilirsiniz ve bu işlemden önce "
+"bekleyen tüm değişikliklerin dahil edilmesini sağlayacaktır."
 
 #: ../../admin/continuous.rst:136
 #, fuzzy
@@ -10938,15 +10927,11 @@ msgid "The script for doing updates can look like this:"
 msgstr "Güncelleme betiği şunun gibi görünebilir:"
 
 #: ../../admin/continuous.rst:163
-#, fuzzy
-#| msgid ""
-#| "If you have multiple components sharing same repository, you need to lock "
-#| "them all separately:"
 msgid ""
 "If you have multiple components sharing the same repository, you need to "
 "lock them all separately:"
 msgstr ""
-"Aynı depoyu paylaşan birden fazla bileşeniniz varsa hepsini ayrı ayrı "
+"Aynı depoyu paylaşan birden fazla bileşene sahipseniz, hepsini ayrı ayrı "
 "kilitlemeniz gerekir:"
 
 #: ../../admin/continuous.rst:174
@@ -13276,6 +13261,10 @@ msgid ""
 "reverse proxy address, so Weblate needs an additional HTTP header with "
 "client IP address."
 msgstr ""
+"Weblate, WSGI işleyicisi tarafından ayarlanan ``REMOTE_ADDR`` IP adresini "
+"ayrıştırır. Bu boş olabilir (WSGI için soket kullanıldığında) veya bir ters "
+"proxy adresi içerebilir, bu nedenle Weblate istemci IP adresini içeren ek "
+"bir HTTP başlığına ihtiyaç duyar."
 
 #: ../../admin/install.rst:699
 msgid ""
@@ -13284,6 +13273,11 @@ msgid ""
 "setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
 "and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
+"setting:`IP_BEHIND_REVERSE_PROXY` seçeneğini etkinleştirmek çoğu olağan "
+"kurulum için yeterli olabilir, ancak :setting:`IP_PROXY_HEADER` ve "
+":setting:`IP_PROXY_OFFSET` seçeneklerini de ayarlamanız gerekebilir (Docker "
+"konteynerinde :envvar:`WEBLATE_IP_PROXY_HEADER` ve "
+":envvar:`WEBLATE_IP_PROXY_OFFSET` seçeneklerini kullanın)."
 
 #: ../../admin/install.rst:706
 msgid ""
@@ -13291,6 +13285,9 @@ msgid ""
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
+"Bu yapılandırma, düzgün yapılandırılmış bir ters proxy'ye sahip olmayan "
+"kurulumlarda IP adresi sahteciliğine izin vereceğinden varsayılan olarak "
+"açılamaz."
 
 #: ../../admin/install.rst:710
 msgid ""
@@ -14037,6 +14034,8 @@ msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
+"Weblate konteyneri bunu arama yoluna dahil etmez, çalıştırmak için tam yolu "
+"belirtmeniz gerekir. Örneğin:"
 
 #: ../../admin/install.rst:1253
 msgid ""
@@ -14457,25 +14456,32 @@ msgid "Sample configuration to start Gunicorn"
 msgstr "Örnek Apache ve Gunicorn yapılandırması"
 
 #: ../../admin/install.rst:1506
+#, fuzzy
 msgid ""
 "Weblate has `wsgi` optional dependency (see :ref:`python-deps`) that will "
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"Weblate, Gunicorn'u çalıştırmak için ihtiyacınız olan her şeyi yükleyecek "
+"`wsgi` isteğe bağlı bağımlılığına sahiptir (bkz. :ref:`python-deps`). "
+"Weblate'i kurarken bunu şu şekilde belirtebilirsiniz:"
 
 #: ../../admin/install.rst:1514
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show staring via systemd:"
 msgstr ""
+"Gunicorn'u yükledikten sonra çalıştırabilirsiniz. Bu işlem genellikle sistem "
+"seviyesinde yapılır. Aşağıdaki örnekler systemd ile başlatmayı "
+"göstermektedir:"
 
 #: ../../admin/install.rst:1517
 msgid "/etc/systemd/system/gunicorn.socket"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.socket"
 
 #: ../../admin/install.rst:1521
 msgid "/etc/systemd/system/gunicorn.service"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.service"
 
 #: ../../admin/install.rst:1527
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -14870,6 +14876,9 @@ msgid ""
 "developed for Graylog integration, but can be used with any compliant "
 "logging platform."
 msgstr ""
+"Weblate, GELF TCP protokolü kullanılarak günlüğe kaydedilecek şekilde "
+"yapılandırılabilir. Bu Graylog entegrasyonu için geliştirilmiştir, ancak "
+"herhangi bir uyumlu günlük platformu ile kullanılabilir."
 
 #: ../../admin/install.rst:1781
 #, fuzzy
@@ -15644,10 +15653,14 @@ msgid ""
 "Configures remote logging using GELF TCP connection. Can be used to "
 "integrate with Graylog."
 msgstr ""
+"GELF TCP bağlantısını kullanarak uzaktan günlüğü yapılandırır. Graylog ile "
+"entegre etmek için kullanılabilir."
 
 #: ../../admin/install/docker.rst:494
 msgid "Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201."
 msgstr ""
+"envvar:`WEBLATE_LOG_GELF_HOST` için özel bağlantı noktası kullanın, "
+"varsayılan değer 12201'dir."
 
 #: ../../admin/install/docker.rst:498
 msgid "Changes the site-title shown in the header of all pages."
@@ -15661,6 +15674,8 @@ msgstr "Site etki alanını yapılandırır. Bu parametre gereklidir."
 #: ../../admin/install/docker.rst:504
 msgid "Include port if using a non-standard one."
 msgstr ""
+"Standart olmayan bir bağlantı noktası kullanıyorsanız bağlantı noktasını "
+"ekleyin."
 
 #: ../../admin/install/docker.rst:515
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -17078,6 +17093,9 @@ msgid ""
 "The Docker container runs two WSGI processes since 5.9 and :envvar:"
 "`WEB_WORKERS` configures how many threads each process will have."
 msgstr ""
+"Docker konteyneri 5.9'dan beri iki WSGI süreci çalıştırmaktadır ve "
+":envvar:`WEB_WORKERS` her bir sürecin kaç iş parçacığına sahip olacağını "
+"yapılandırmaktadır."
 
 #: ../../admin/install/docker.rst:1919
 msgid ""
@@ -18517,6 +18535,7 @@ msgstr ""
 msgid ""
 "Per-project automatic suggestion can also be configured via the :ref:`api`."
 msgstr ""
+"Proje başına otomatik öneri :ref:`api` aracılığıyla da yapılandırılabilir."
 
 #: ../../admin/machine.rst:29
 msgid ":ref:`machine-translation`"
@@ -19038,18 +19057,23 @@ msgid ""
 "Optionally, you can configure the service to use :ref:`glossary` by setting "
 "up a Bucket:"
 msgstr ""
+"İsteğe bağlı olarak, bir Kova ayarlayarak hizmeti :ref:`glossary` kullanacak "
+"şekilde yapılandırabilirsiniz:"
 
 #: ../../admin/machine.rst:268
+#, fuzzy
 msgid "`Create a Google Cloud bucket.`_"
-msgstr ""
+msgstr "`Create a Google Cloud bucket.`_"
 
 #: ../../admin/machine.rst:269
+#, fuzzy
 msgid "`Set bucket location to \"us-central1\".`_"
-msgstr ""
+msgstr "`Set bucket location to \"us-central1\".`_"
 
 #: ../../admin/machine.rst:270
+#, fuzzy
 msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
-msgstr ""
+msgstr "`Hizmet Hesabına 'Depolama Yöneticisi' izni verin.`_"
 
 #: ../../admin/machine.rst:279
 msgid ""
@@ -20293,13 +20317,15 @@ msgstr "TMX ya da JSON dosyasını Weblate çeviri belleği içine aktarır."
 
 #: ../../admin/management.rst:353
 msgid "Supported file formats are TMX, JSON, XLIFF, PO, CSV."
-msgstr ""
+msgstr "Desteklenen dosya formatları TMX, JSON, XLIFF, PO, CSV'dir."
 
 #: ../../admin/management.rst:355
 msgid ""
 "Specifying a source and a target languages might be necessary for formats "
 "other than JSON and TMX."
 msgstr ""
+"JSON ve TMX dışındaki formatlar için bir kaynak ve hedef dil belirtilmesi "
+"gerekebilir."
 
 #: ../../admin/management.rst:360
 msgid ""
@@ -20331,12 +20357,16 @@ msgid ""
 "Specifies the source language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"İçe aktarılan çeviriler için kaynak dili belirtir. Genellikle dillerin "
+"dosyanın kendisinden belirlenemediği formatlar için gereklidir."
 
 #: ../../admin/management.rst:376
 msgid ""
 "Specifies the target language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"İçe aktarılan çeviriler için hedef dili belirtir. Genellikle dillerin "
+"dosyanın kendisinden belirlenemediği formatlar için gereklidir."
 
 #: ../../admin/management.rst:385
 msgid "import_project"
@@ -21741,6 +21771,8 @@ msgid ""
 "The rate limiting is based on sessions when user is signed in and on IP "
 "address if not."
 msgstr ""
+"Hız sınırlaması, kullanıcı oturum açtığında oturumlara, oturum açmadığında "
+"ise IP adresine göre yapılır."
 
 #: ../../admin/optionals.rst:307
 msgid ""
@@ -23538,7 +23570,7 @@ msgstr "``^(one|two|other)$``"
 
 #: ../../admin/projects.rst:932
 msgid "Exclude app store changelogs"
-msgstr ""
+msgstr "Uygulama mağazası değişiklik günlüklerini hariç tutma"
 
 #: ../../admin/projects.rst:932
 msgid "``^(?!changelogs/.*$).+$``"
@@ -26112,6 +26144,8 @@ msgid ""
 "Returns automatic suggestion settings for a project, consisting of the "
 "configurations defined for each translation service installed."
 msgstr ""
+"Yüklü her çeviri hizmeti için tanımlanan yapılandırmalardan oluşan bir proje "
+"için otomatik öneri ayarlarını döndürür."
 
 #: ../../api.rst:1250
 #, fuzzy
@@ -26132,10 +26166,8 @@ msgid "Service name"
 msgstr "Hizmet"
 
 #: ../../api.rst:1262
-#, fuzzy
-#| msgid "Save configuration."
 msgid "Service configuration in JSON"
-msgstr "Yapılandırmayı kaydeder."
+msgstr "JSON'da hizmet konfigürasyonu"
 
 #: ../../api.rst:1270
 msgid ""
@@ -28153,14 +28185,14 @@ msgid "**Improvements**"
 msgstr "**İyileştirmeler**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-server`"
 msgid "Renamed :ref:`vcs-bitbucket-server` to match new product name."
-msgstr ":ref:`vcs-bitbucket-server`"
+msgstr ""
+"ref:`vcs-bitbucket-server` yeni ürün adıyla eşleşecek şekilde yeniden "
+"adlandırıldı."
 
 #: ../../changes.rst:11
 msgid ":http:get:`/api/users/` supports searching by user ID."
-msgstr ""
+msgstr ":http:get:`/api/users/` kullanıcı kimliğine göre aramayı destekler."
 
 #: ../../changes.rst:13 ../../changes.rst:37 ../../changes.rst:81
 #: ../../changes.rst:114 ../../changes.rst:135 ../../changes.rst:156
@@ -28178,21 +28210,23 @@ msgstr "**Hata düzeltmeleri**"
 
 #: ../../changes.rst:15
 msgid "Avoid query parser crash in multi-threaded environments."
-msgstr ""
+msgstr "Çok iş parçacıklı ortamlarda sorgu ayrıştırıcısının çökmesini önleyin."
 
 #: ../../changes.rst:16
 msgid "Avoid :ref:`autofix` crash on multi-value strings."
-msgstr ""
+msgstr "Çok değerli dizelerde :ref:`autofix` çökmesini önleyin."
 
 #: ../../changes.rst:17
 msgid ""
 "Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are "
 "enforced."
 msgstr ""
+"Proje belirteçlerinin :ref:`2fa` veya :ref:`component-agreement` "
+"zorlandığında çalışmasını sağlayın."
 
 #: ../../changes.rst:18
 msgid "Captcha solution were sometimes not accepted."
-msgstr ""
+msgstr "Captcha çözümü bazen kabul edilmiyordu."
 
 #: ../../changes.rst:20 ../../changes.rst:87 ../../changes.rst:227
 #: ../../changes.rst:332 ../../changes.rst:422 ../../changes.rst:584
@@ -28334,6 +28368,8 @@ msgid ""
 "Per-project :ref:`machine-translation-setup` can now be configured via the "
 "Project :ref:`api`."
 msgstr ""
+"Proje başına :ref:`machine-translation-setup` artık Proje :ref:`api` "
+"aracılığıyla yapılandırılabilir."
 
 #: ../../changes.rst:60
 #, fuzzy
@@ -28352,10 +28388,13 @@ msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`."
 msgstr ""
+"Çeviri belleği içe aktarma artık XLIFF, PO ve CSV formatlarındaki dosyaları "
+"destekliyor, :ref:`memory-user` ve :ref:`manage` içindeki "
+":wladmin:`import_memory` komutuna bakın."
 
 #: ../../changes.rst:64
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
-msgstr ""
+msgstr "Kayıt CAPTCHA'sı artık iş kanıtı mekanizması ALTCHA'yı içeriyor."
 
 #: ../../changes.rst:65
 #, fuzzy
@@ -28371,7 +28410,7 @@ msgstr ""
 
 #: ../../changes.rst:66
 msgid "Logging to :ref:`graylog`."
-msgstr ""
+msgstr "Günlüğü :ref:`graylog` adresine kaydedin."
 
 #: ../../changes.rst:70
 #, fuzzy
@@ -28386,6 +28425,8 @@ msgid ""
 "A shortcut to duplicate a component is now available directly in the menu (:"
 "guilabel:`Manage` → :guilabel:`Duplicate Component`)"
 msgstr ""
+"Bir bileşeni çoğaltmak için artık doğrudan menüde bir kısayol mevcuttur "
+"(:guilabel:`Manage` → :guilabel:`Duplicate Component`)"
 
 #: ../../changes.rst:72
 msgid "Included username when generating :ref:`credits`."
@@ -28398,17 +28439,16 @@ msgstr ""
 "sağlandı."
 
 #: ../../changes.rst:74
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/components/(string:project)/(string:component)/file/`"
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` exposes "
 "component lock state."
-msgstr ":http:get:`/api/components/(string:project)/(string:component)/file/`"
+msgstr ""
+":http:get:`/api/components/(string:project)/(string:component)/` bileşen "
+"kilit durumunu gösterir."
 
 #: ../../changes.rst:75
 msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
-msgstr ""
+msgstr "ref:`zen-mode` içindeki editör artık ekranın altına yapışıyor."
 
 #: ../../changes.rst:76
 #, fuzzy
@@ -28418,7 +28458,7 @@ msgstr "Çeviri sırasında gezinme iyileştirildi."
 
 #: ../../changes.rst:77
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
-msgstr ""
+msgstr ":ref:`manage-appearance` artık karanlık mod için farklı ayarlara sahip."
 
 #: ../../changes.rst:78
 #, fuzzy
@@ -28427,22 +28467,21 @@ msgid "Improved :ref:`translation-propagation` performance."
 msgstr ":ref:`workflow-customization` başarımı iyileştirildi."
 
 #: ../../changes.rst:79
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 "More detailed error messages for :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/file/`."
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-"language)/file/`"
+"http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/` için daha "
+"ayrıntılı hata mesajları."
 
 #: ../../changes.rst:83
 msgid ""
 "Using the ``has:variant`` field now correctly displays strings that have "
 "variant(s) in the search language, see :ref:`search-strings`."
 msgstr ""
+"has:variant`` alanını kullanmak artık arama dilinde varyant(lar)ı olan "
+"dizeleri doğru bir şekilde görüntüler, bkz :ref:`search-strings`."
 
 #: ../../changes.rst:84
 #, fuzzy
@@ -28461,6 +28500,8 @@ msgid ""
 ":ref:`rollbar-errors` integration no longer includes client-side error "
 "collection."
 msgstr ""
+":ref:`rollbar-errors` entegrasyonu artık istemci tarafı hata toplamayı "
+"içermiyor."
 
 #: ../../changes.rst:90
 #, fuzzy
@@ -28469,20 +28510,27 @@ msgid "Weblate now requires Git 2.28 or newer."
 msgstr "Weblate için artık Django 3.2 gerekiyor."
 
 #: ../../changes.rst:91
+#, fuzzy
 msgid ""
 "Any custom code that relied on `Change` models signals should be reviewed."
 msgstr ""
+"Değiştir` modelleri sinyallerine dayanan tüm özel kodlar gözden "
+"geçirilmelidir."
 
 #: ../../changes.rst:92
 msgid ""
 ":ref:`fedora-messaging` integration needs to be updated to be compatible "
 "with this release."
 msgstr ""
+":ref:`fedora-messaging` entegrasyonunun bu sürümle uyumlu olması için "
+"güncellenmesi gerekiyor."
 
 #: ../../changes.rst:93
 msgid ""
 ":envvar:`WEB_WORKERS` now configures number of threads instead of processes."
 msgstr ""
+":envvar:`WEB_WORKERS` artık süreçler yerine iş parçacığı sayısını "
+"yapılandırıyor."
 
 #: ../../changes/contributors/5.9.rst:3
 #, fuzzy
@@ -28515,7 +28563,7 @@ msgid ""
 "Horus68, 이정희, Максим Горпиніч, Sylvain Pichon, Ldm Public, Слободан "
 "Симић(Slobodan Simić), Priit Jõerüüt, Hugo, UTUMI Hirosi, Сергей, symegac, "
 "Winston Sung, ChinskiKaczynski, Rafael Fontenelle"
-msgstr ""
+msgstr "Turkishmark"
 
 #: ../../changes/contributors/5.9.rst:9
 #, fuzzy
@@ -28548,7 +28596,7 @@ msgstr "19 Kasım 2021 tarihinde yayınlandı."
 
 #: ../../changes.rst:112
 msgid ":ref:`search-users` can search based on user changes."
-msgstr ""
+msgstr ":ref:`search-users` kullanıcı değişikliklerine göre arama yapabilir."
 
 #: ../../changes.rst:116
 #, fuzzy
@@ -28566,6 +28614,8 @@ msgstr ":ref:`check-icu-message-format` kalite denetimini atlar."
 msgid ""
 ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
 msgstr ""
+":ref:`vcs-bitbucket-cloud` doğru bir şekilde çekme isteği açıklaması "
+"oluşturuyor."
 
 #: ../../changes/contributors/5.8.4.rst:3
 #, fuzzy
@@ -28725,7 +28775,7 @@ msgstr "Weblate 5.8"
 
 #: ../../changes.rst:200
 msgid "Added :ref:`component-key_filter` in the component."
-msgstr "Bileşene :ref:`component-key_filter` özelliği eklendi."
+msgstr "Bileşen içerisine :ref:`component-key_filter` eklendi."
 
 #: ../../changes.rst:201
 msgid ""
@@ -35575,7 +35625,7 @@ msgstr "Herkese açık kullanıcı profillerinin başarımı iyileştirildi."
 
 #: ../../changes/v4.rst:73
 msgid "Improved Sentry performance integration."
-msgstr "Sentry bütünleştirmesi başarımı iyileştirildi."
+msgstr "Geliştirilmiş Sentry performans entegrasyonu."
 
 #: ../../changes/v4.rst:74
 msgid "Added support for Ed25519 SSH key."
@@ -40604,6 +40654,8 @@ msgstr ""
 #: ../../contributing/index.rst:58
 msgid "You will also need :program:`graphviz` to build the documentation."
 msgstr ""
+"Belgeleri oluşturmak için :program:`graphviz` dosyasına da ihtiyacınız "
+"olacak."
 
 #: ../../contributing/index.rst:62
 msgid ""
@@ -40766,7 +40818,7 @@ msgstr "Daniel Leidert"
 
 #: ../../../BACKERS.rst:27
 msgid "ELSA-X"
-msgstr ""
+msgstr "ELSA-X"
 
 #: ../../../BACKERS.rst:29
 msgid ""
@@ -41936,11 +41988,12 @@ msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
 
 #: ../../contributing/schemas.rst:29
 msgid "Schema for Weblate Fedora Messaging"
-msgstr ""
+msgstr "Weblate Fedora Mesajlaşma Şeması"
 
 #: ../../contributing/schemas.rst:29
+#, fuzzy
 msgid "**change\\_id**"
-msgstr ""
+msgstr "**change\\_id**"
 
 #: ../../contributing/schemas.rst:29
 #, fuzzy
@@ -41971,6 +42024,8 @@ msgid ""
 "Verbose name of the change, see Change actions source code for possible "
 "values"
 msgstr ""
+"Değişikliğin ayrıntılı adı, olası değerler için Değişiklik eylemleri kaynak "
+"kodu bölümüne bakın"
 
 #: ../../contributing/schemas.rst:29
 #, fuzzy
@@ -41993,7 +42048,7 @@ msgstr "**target**"
 
 #: ../../contributing/schemas.rst:29
 msgid "New value of the change (eg. new translation of the string)"
-msgstr ""
+msgstr "Değişikliğin yeni değeri (örn. dizenin yeni çevirisi)"
 
 #: ../../contributing/schemas.rst:29
 #, fuzzy
@@ -42003,7 +42058,7 @@ msgstr "*string*"
 
 #: ../../contributing/schemas.rst:29
 msgid "old"
-msgstr ""
+msgstr "eski"
 
 #: ../../contributing/schemas.rst:29
 #, fuzzy
@@ -42012,10 +42067,8 @@ msgid "*Old Value*"
 msgstr "Değer"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Browse the previous translation string."
 msgid "Old value of the change (eg. previous translation of the string)"
-msgstr "Önceki çeviri dizgesine geçer."
+msgstr "Değişikliğin eski değeri (örn. dizenin önceki çevirisi)"
 
 #: ../../contributing/schemas.rst:29
 msgid "source"
@@ -42039,7 +42092,7 @@ msgstr "Çoğul"
 
 #: ../../contributing/schemas.rst:29
 msgid "*URL*"
-msgstr ""
+msgstr "*URL*"
 
 #: ../../contributing/schemas.rst:29
 #, fuzzy
@@ -42064,6 +42117,8 @@ msgid ""
 "Author username (this can be different from user for example when accepting "
 "suggestions)"
 msgstr ""
+"Yazar kullanıcı adı (örneğin önerileri kabul ederken kullanıcıdan farklı "
+"olabilir)"
 
 #: ../../contributing/schemas.rst:29
 #, fuzzy
@@ -45080,6 +45135,12 @@ msgid ""
 "automatically adjust :guilabel:`Context` by adding a numeric suffix in case "
 "such a string already exist in the translation."
 msgstr ""
+"Weblate, dosya formatlarının çoğu için mevcut dosyalara yeni dizeler "
+"ekleyebilir. Ayrıca, farklı bağlamlarda kullanılan aynı dizgileri ayırt "
+"etmek için iki dilli formatlar için :guilabel:`Context` belirtebilirsiniz. "
+":guilabel:`Auto-adjust context when an identical string already exist.`, "
+"çeviride böyle bir dizginin zaten mevcut olması durumunda sayısal bir sonek "
+"ekleyerek :guilabel:`Context`i otomatik olarak ayarlamak için kullanılabilir."
 
 #: ../../devel/translations.rst:23
 msgid ":ref:`format-context`"
@@ -49161,6 +49222,8 @@ msgid ""
 "Expand the \"Read the Docs\" panel at the bottom of the sidebar to see the "
 "list."
 msgstr ""
+"Weblate'in belgeleri çeşitli dillerde ve sürümlerde mevcuttur. Listeyi "
+"görmek için kenar çubuğunun altındaki \"Belgeleri Oku\" panelini genişletin."
 
 #: ../../index.rst:16
 msgid ""
@@ -49168,6 +49231,9 @@ msgid ""
 "docs.weblate.org/en/latest/>`_ by community members on `Hosted Weblate "
 "<https://hosted.weblate.org/projects/weblate/documentation/>`_."
 msgstr ""
+"Bu belge, `Hosted Weblate <https://hosted.weblate.org/projects/weblate/"
+"documentation/>`_ üzerindeki topluluk üyeleri tarafından `orijinal İngilizce "
+"<https://docs.weblate.org/en/latest/>`_ belgeden çevrilmiştir."
 
 #: ../../index.rst:20
 msgid ""
@@ -49176,6 +49242,10 @@ msgid ""
 "community by providing new translations or reviewing existing ones on "
 "Weblate."
 msgstr ""
+"Çeviri çalışmasının tamamlanma seviyesine bağlı olarak, hala İngilizce olan "
+"paragraflar veya sayfalar bulabilirsiniz. Weblate'te yeni çeviriler "
+"sağlayarak veya mevcut çevirileri gözden geçirerek topluluğa yardımcı "
+"olabilirsiniz."
 
 #: ../../index.rst:25
 msgid ""
@@ -49184,6 +49254,10 @@ msgid ""
 "to this documentation, we recommend that you read the :doc:`user/basic` to "
 "get an overview of what Weblate does."
 msgstr ""
+"Özgür yazılım web tabanlı sürekli yerelleştirme sistemi `Weblate "
+"<https://weblate.org>`_'in resmi belgelerine hoş geldiniz. Bu "
+"dokümantasyonda yeniyseniz, Weblate'in ne yaptığına dair genel bir bakış "
+"elde etmek için :doc:`user/basic` bölümünü okumanızı öneririz."
 
 #: ../../index.rst:30
 msgid ""
@@ -49191,6 +49265,9 @@ msgid ""
 "documentation for your topic of interest. You can also use the search "
 "function in the top-left corner."
 msgstr ""
+"Kenar çubuğundaki içindekiler tablosu, ilgilendiğiniz konuyla ilgili "
+"belgelere kolayca erişmenizi sağlayacaktır. Sol üst köşedeki arama işlevini "
+"de kullanabilirsiniz."
 
 #: ../../legal.rst:2
 msgid "Legal documents"
@@ -54397,6 +54474,9 @@ msgid ""
 "different extensions, please consult the database documentation below for "
 "more details."
 msgstr ""
+"Düzenli ifadeler veritabanı arka ucu tarafından değerlendirilir ve farklı "
+"uzantılar kullanabilir, daha fazla ayrıntı için lütfen aşağıdaki veritabanı "
+"belgelerine bakın."
 
 #: ../../user/search.rst:175
 msgid ""
@@ -54404,18 +54484,25 @@ msgid ""
 "current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the default "
 "database engine for Weblate)"
 msgstr ""
+"`PostgreSQL Düzenli İfadeler Ayrıntıları <https://www.postgresql.org/docs/"
+"current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (bu, Weblate için "
+"varsayılan veritabanı motorudur)"
 
 #: ../../user/search.rst:176
 msgid ""
 "`MariaDB Regular Expressions Overview <https://mariadb.com/kb/en/regular-"
 "expressions-overview/>`_"
 msgstr ""
+"`MariaDB Düzenli İfadelerine Genel Bakış <https://mariadb.com/kb/en/"
+"regular-expressions-overview/>`_"
 
 #: ../../user/search.rst:177
 msgid ""
 "`MySQL Regular Expressions <https://dev.mysql.com/doc/refman/8.4/en/regexp."
 "html>`_"
 msgstr ""
+"`MySQL Düzenli İfadeleri <https://dev.mysql.com/doc/refman/8.4/en/"
+"regexp.html>`_"
 
 #: ../../user/search.rst:180
 msgid "Predefined queries"
@@ -54496,7 +54583,7 @@ msgstr ""
 
 #: ../../user/search.rst:215 ../../user/search.rst:217
 msgid "Same as in :ref:`search-strings`."
-msgstr ""
+msgstr "ref:`search-strings` ile aynıdır."
 
 #: ../../user/search.rst:219
 msgid "Additional lookups are available in the :ref:`management-interface`:"
@@ -54652,10 +54739,8 @@ msgstr ""
 "için günlük olarak taranır."
 
 #: ../../user/translating.rst:64
-#, fuzzy
-#| msgid "The gettext type comments are used as flags."
 msgid "Three types of comments can be posted:"
-msgstr "Gettext türü yorumlar im olarak kullanılır."
+msgstr "Üç tür yorum gönderilebilir:"
 
 #: ../../user/translating.rst:66
 #, fuzzy
@@ -55485,23 +55570,17 @@ msgid "Matrix View"
 msgstr "Matris görünümü"
 
 #: ../../user/translating.rst:447
-#, fuzzy
-#| msgid ""
-#| "You can compare different languages efficiently using this view. It is "
-#| "available on every component page, from the :guilabel:`Tools` menu. First "
-#| "select all languages you want to compare, confirm your selection, then "
-#| "click on any translation to open and edit it."
 msgid ""
 "You can compare different languages efficiently using this view It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
 msgstr ""
-"Farklı dilleri verimli bir şekilde karşılaştırmak için bu görünümü "
-"kullanabilirsiniz. Her bileşen sayfasında :guilabel:`Araçlar` menüsü "
-"altından erişilebilir. Öncelikle karşılaştırmak istediğiniz tüm dilleri "
-"seçin ve seçiminizi onaylayın. Ardından hızlı bir şekilde açıp düzenlemek "
-"için herhangi bir çeviriye tıklayabilirsiniz."
+"Bu görünümü kullanarak farklı dilleri verimli bir şekilde "
+"karşılaştırabilirsiniz Her bileşen sayfasında, :guilabel:`Tools` menüsünden "
+"kullanılabilir. Önce karşılaştırmak istediğiniz tüm dilleri seçin, "
+"seçiminizi onaylayın, ardından açmak ve düzenlemek için herhangi bir "
+"çeviriye tıklayın."
 
 #: ../../user/translating.rst:452
 msgid ""
