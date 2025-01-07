@@ -799,7 +799,7 @@ Security keys (WebAuthn)
 
 Authenticator apps (TOTP)
    Authenticator apps and browser extensions like Aegis, Bitwarden, Google Authenticator,
-   1Password, Authy, Microsoft Authenticator, etc. generate one-time passwords
+   1Password, Authy, Microsoft Authenticator, etc. generate time-based one-time passwords
    that are used as a second factor to verify your identity when prompted
    during sign-in.
 
