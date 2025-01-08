@@ -117,7 +117,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             },
             {
                 "name": "glossary",
-                "description": '**Changed in version 4.5:** Glossaries are now stored as regular components, translations and strings, please use respective API instead.',
+                "description": "**Changed in version 4.5:** Glossaries are now stored as regular components, translations and strings, please use respective API instead.",
             },
             {
                 "name": "tasks",
@@ -140,7 +140,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             {
                 "name": "hooks",
                 "description": """Notification hooks allow external applications to notify Weblate that the VCS repository has been updated."""
-                               """\n\nYou can use repository endpoints for projects, components and translations to update individual repositories."""
+                """\n\nYou can use repository endpoints for projects, components and translations to update individual repositories.""",
             },
             {
                 "name": "exports",
@@ -149,7 +149,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             {
                 "name": "rssFeeds",
                 "description": "Changes in translations are exported in RSS feeds.",
-            }
+            },
         ],
     }
     if "weblate.legal" in installed_apps:

@@ -240,8 +240,12 @@ class WeblateViewSet(DownloadViewSet):
             return getattr(obj, method)(*args, request)
         return getattr(obj, method)(*args, request.user)
 
-    @extend_schema(description="Return information about VCS repository status.", methods=["get"])
-    @extend_schema(description="Perform given operation on the VCS repository.", methods=["post"])
+    @extend_schema(
+        description="Return information about VCS repository status.", methods=["get"]
+    )
+    @extend_schema(
+        description="Perform given operation on the VCS repository.", methods=["post"]
+    )
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
     )
@@ -792,7 +796,9 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all roles associated with the user."),
+    list=extend_schema(
+        description="Return a list of all roles associated with the user."
+    ),
     retrieve=extend_schema(description="Return information about a role."),
     partial_update=extend_schema(description="Change the role parameters."),
 )
@@ -1215,7 +1221,9 @@ class ProjectViewSet(
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of translation components."),
-    retrieve=extend_schema(description="Return information about translation component."),
+    retrieve=extend_schema(
+        description="Return information about translation component."
+    ),
     partial_update=extend_schema(description="Edit a component by a PATCH request."),
 )
 class ComponentViewSet(
@@ -1385,7 +1393,9 @@ class ComponentViewSet(
 
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Return a list of component screenshots.", methods=["get"])
+    @extend_schema(
+        description="Return a list of component screenshots.", methods=["get"]
+    )
     @action(detail=True, methods=["get"])
     def screenshots(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1724,7 +1734,9 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all languages the user has access to."),
+    list=extend_schema(
+        description="Return a list of all languages the user has access to."
+    ),
     retrieve=extend_schema(description="Return information about a language."),
     partial_update=extend_schema(description="Change the language parameters."),
 )
@@ -1777,7 +1789,9 @@ class LanguageViewSet(viewsets.ModelViewSet):
     list=extend_schema(description="Return a list of translation units."),
     retrieve=extend_schema(description="Return information about translation unit."),
     update=extend_schema(description="Perform full update on translation unit."),
-    partial_update=extend_schema(description="Perform partial update on translation unit."),
+    partial_update=extend_schema(
+        description="Perform partial update on translation unit."
+    ),
 )
 class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
     """Units API."""
@@ -1905,8 +1919,12 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of screenshot string information."),
-    retrieve=extend_schema(description="Return information about screenshot information."),
-    partial_update=extend_schema(description="Edit partial information about screenshot."),
+    retrieve=extend_schema(
+        description="Return information about screenshot information."
+    ),
+    partial_update=extend_schema(
+        description="Edit partial information about screenshot."
+    ),
 )
 class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     """Screenshots API."""
@@ -2054,7 +2072,9 @@ class ChangesFilterBackend(filters.DjangoFilterBackend):
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of translation changes."),
-    retrieve=extend_schema(description="Return information about a translation change."),
+    retrieve=extend_schema(
+        description="Return information about a translation change."
+    ),
 )
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
     """Changes API."""
