@@ -23,7 +23,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
 from django.utils.translation import gettext
 from django_filters import rest_framework as filters
-from drf_spectacular.utils import OpenApiParameter, extend_schema
+from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
@@ -239,6 +239,8 @@ class WeblateViewSet(DownloadViewSet):
             return getattr(obj, method)(*args, request)
         return getattr(obj, method)(*args, request.user)
 
+    @extend_schema(description="Return information about VCS repository status.", methods=["get"])
+    @extend_schema(description="Perform given operation on the VCS repository.", methods=["post"])
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
     )
@@ -369,6 +371,10 @@ class UserFilter(filters.FilterSet):
         fields = ["username", "id"]
 
 
+@extend_schema_view(
+    retrieve=extend_schema(description="Return information about users."),
+    partial_update=extend_schema(description="Change the user parameters."),
+)
 class UserViewSet(viewsets.ModelViewSet):
     """Users API."""
 
@@ -393,19 +399,24 @@ class UserViewSet(viewsets.ModelViewSet):
             self.permission_denied(request, "Can not manage Users")
 
     def update(self, request: Request, *args, **kwargs):
+        """Change the user parameters."""
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
+        """Create a new user."""
         self.perm_check(request)
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete all user information and mark the user inactive."""
         self.perm_check(request)
         instance = self.get_object()
         remove_user(instance, cast("AuthenticatedHttpRequest", request))
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(description="Associate groups with a user.", methods=["post"])
+    @extend_schema(description="Remove a user from a group.", methods=["delete"])
     @action(detail=True, methods=["post", "delete"])
     def groups(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -428,6 +439,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
+    @extend_schema(description="List subscriptions of a user.", methods=["get"])
+    @extend_schema(description="Associate subscriptions with a user.", methods=["post"])
     @extend_schema(
         request=NotificationSerializer,
         responses=NotificationSerializer(many=True),
@@ -455,6 +468,16 @@ class UserViewSet(viewsets.ModelViewSet):
         )
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(
+        description="Get a subscription associated with a user.", methods=["get"]
+    )
+    @extend_schema(
+        description="Edit a subscription associated with a user.",
+        methods=["put", "patch"],
+    )
+    @extend_schema(
+        description="Delete a subscription associated with a user.", methods=["delete"]
+    )
     @extend_schema(
         parameters=[
             OpenApiParameter("subscription_id", int, OpenApiParameter.PATH),
@@ -500,6 +523,11 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
+    @extend_schema(
+        description="List statistics of a user.",
+        methods=["get"],
+        tags=["users", "statistics"],
+    )
     @action(detail=True, methods=["get"])
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -509,6 +537,10 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+@extend_schema_view(
+    retrieve=extend_schema(description="Return information about a group."),
+    partial_update=extend_schema(description="Change the group parameters."),
+)
 class GroupViewSet(viewsets.ModelViewSet):
     """Groups API."""
 
@@ -530,17 +562,21 @@ class GroupViewSet(viewsets.ModelViewSet):
             self.permission_denied(request, "Can not manage groups")
 
     def update(self, request: Request, *args, **kwargs):
+        """Change the group parameters."""
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
+        """Create a new group."""
         self.perm_check(request)
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete the group."""
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
+    @extend_schema(description="Associate roles with a group.", methods=["post"])
     @action(detail=True, methods=["post"])
     def roles(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -560,6 +596,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
+    @extend_schema(description="Associate languages with a group.", methods=["post"])
     @action(
         detail=True,
         methods=["post"],
@@ -582,6 +619,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
+    @extend_schema(description="Delete a language from a group.", methods=["delete"])
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
@@ -596,6 +634,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj.languages.remove(language)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(description="Associate projects with a group.", methods=["post"])
     @action(
         detail=True,
         methods=["post"],
@@ -619,6 +658,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
+    @extend_schema(description="Delete a project from a group.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[0-9]+)")
     def delete_projects(self, request: Request, id, project_id):  # noqa: A002
         obj = self.get_object()
@@ -631,6 +671,9 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj.projects.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(
+        description="Associate componentlists with a group.", methods=["post"]
+    )
     @action(detail=True, methods=["post"])
     def componentlists(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -651,6 +694,9 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
+    @extend_schema(
+        description="Delete a componentlist from a group.", methods=["delete"]
+    )
     @action(
         detail=True,
         methods=["delete"],
@@ -671,6 +717,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj.componentlists.remove(component_list)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(description="Associate components with a group.", methods=["post"])
     @action(
         detail=True,
         methods=["post"],
@@ -693,6 +740,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
+    @extend_schema(description="Delete a component from a group.", methods=["delete"])
     @action(
         detail=True, methods=["delete"], url_path="components/(?P<component_id>[0-9]+)"
     )
@@ -707,6 +755,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(description="Make user a group admin.", methods=["post"])
     @action(detail=True, methods=["post"], url_path="admins")
     def grant_admin(self, request: Request, id):  # noqa: A002
         group = self.get_object()
@@ -725,6 +774,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         user.add_team(cast("AuthenticatedHttpRequest", request), group)
         return Response({"Administration rights granted."}, status=HTTP_200_OK)
 
+    @extend_schema(description="Delete a user from group admins.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
     def revoke_admin(self, request: Request, id, user_pk):  # noqa: A002
         group = self.get_object()
@@ -740,6 +790,11 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=HTTP_200_OK)
 
 
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all roles associated with the user."),
+    retrieve=extend_schema(description="Return information about a role."),
+    partial_update=extend_schema(description="Change the role parameters."),
+)
 class RoleViewSet(viewsets.ModelViewSet):
     """Roles API."""
 
@@ -761,14 +816,17 @@ class RoleViewSet(viewsets.ModelViewSet):
             self.permission_denied(request, "Can not manage roles")
 
     def update(self, request: Request, *args, **kwargs):
+        """Change the role parameters."""
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
+        """Create a new role."""
         self.perm_check(request)
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete a role."""
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
@@ -812,6 +870,12 @@ class CreditsMixin:
         return Response(data=data)
 
 
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all projects."),
+    retrieve=extend_schema(description="Return information about a project."),
+    partial_update=extend_schema(description="Edit a project by a PATCH request."),
+    credits=extend_schema(description="Return contributor credits for a project."),
+)
 class ProjectViewSet(
     WeblateViewSet, UpdateModelMixin, CreateModelMixin, DestroyModelMixin, CreditsMixin
 ):
@@ -830,6 +894,14 @@ class ProjectViewSet(
             "addon_set"
         ).order_by("id")
 
+    @extend_schema(
+        description="Return a list of translation components in the given project.",
+        methods=["get"],
+    )
+    @extend_schema(
+        description="Create translation components in the given project.",
+        methods=["post"],
+    )
     @action(
         detail=True,
         methods=["get", "post"],
@@ -870,6 +942,7 @@ class ProjectViewSet(
 
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(description="Return categories for a project.", methods=["get"])
     @action(detail=True, methods=["get"])
     def categories(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -881,6 +954,11 @@ class ProjectViewSet(
 
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(
+        description="Return statistics for a project.",
+        methods=["get"],
+        tags=["projects", "statistics"],
+    )
     @action(detail=True, methods=["get"])
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -889,6 +967,11 @@ class ProjectViewSet(
 
         return Response(serializer.data)
 
+    @extend_schema(
+        description="Return paginated statistics for all languages within a project.",
+        methods=["get"],
+        tags=["projects", "statistics"],
+    )
     @action(detail=True, methods=["get"])
     def languages(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -899,6 +982,7 @@ class ProjectViewSet(
 
         return Response(serializer.data)
 
+    @extend_schema(description="Return a list of project changes.", methods=["get"])
     @action(detail=True, methods=["get"])
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -911,6 +995,8 @@ class ProjectViewSet(
 
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(description="Return labels for a project.", methods=["get"])
+    @extend_schema(description="Create a label for a project.", methods=["post"])
     @action(detail=True, methods=["get", "post"])
     def labels(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -952,6 +1038,7 @@ class ProjectViewSet(
         return Response(serializer.data, status=HTTP_201_CREATED)
 
     def create(self, request: Request, *args, **kwargs):
+        """Create a new project."""
         if not request.user.has_perm("project.add"):
             self.permission_denied(request, "Can not create projects")
         self.request = request
@@ -975,6 +1062,7 @@ class ProjectViewSet(
             serializer.instance.post_create(self.request.user, billing)
 
     def update(self, request: Request, *args, **kwargs):
+        """Edit a project by a PUT request."""
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not edit project")
@@ -982,6 +1070,7 @@ class ProjectViewSet(
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete a project."""
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not delete project")
@@ -1024,13 +1113,13 @@ class ProjectViewSet(
         request=SingleServiceConfigSerializer,
         responses=edit_service_settings_response_serializer("post", 201, 400),
         methods=["POST"],
-        description="Install a new machinery service",
+        description="Install a new machinery service.",
     )
     @extend_schema(
         request=SingleServiceConfigSerializer,
         responses=edit_service_settings_response_serializer("patch", 200, 400),
         methods=["PATCH"],
-        description="Partially update a single service. Leave configuration blank to remove the service",
+        description="Partially update a single service. Leave configuration blank to remove the service.",
     )
     @extend_schema(
         request=ProjectMachinerySettingsSerializer,
@@ -1123,6 +1212,11 @@ class ProjectViewSet(
         )
 
 
+@extend_schema_view(
+    list=extend_schema(description="Return a list of translation components."),
+    retrieve=extend_schema(description="Return information about translation component."),
+    partial_update=extend_schema(description="Edit a component by a PATCH request."),
+)
 class ComponentViewSet(
     MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin, CreditsMixin
 ):
@@ -1143,6 +1237,8 @@ class ComponentViewSet(
             .order_by("id")
         )
 
+    @extend_schema(description="Return component lock status.", methods=["get"])
+    @extend_schema(description="Sets component lock status.", methods=["post"])
     @action(
         detail=True, methods=["get", "post"], serializer_class=LockRequestSerializer
     )
@@ -1160,6 +1256,9 @@ class ComponentViewSet(
 
         return Response(data=LockSerializer(obj).data)
 
+    @extend_schema(
+        description="Download base file for monolingual translations.", methods=["get"]
+    )
     @action(detail=True, methods=["get"])
     def monolingual_base(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1172,6 +1271,9 @@ class ComponentViewSet(
             obj.get_template_filename(), obj.template_store.mimetype(), component=obj
         )
 
+    @extend_schema(
+        description="Download template file for new translations.", methods=["get"]
+    )
     @action(detail=True, methods=["get"])
     def new_template(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1182,6 +1284,13 @@ class ComponentViewSet(
 
         return self.download_file(obj.get_new_base_filename(), "application/binary")
 
+    @extend_schema(
+        description="Return a list of translation objects in the given component.",
+        methods=["get"],
+    )
+    @extend_schema(
+        description="Create a new translation in the given component.", methods=["post"]
+    )
     @action(detail=True, methods=["get", "post"])
     def translations(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1244,6 +1353,11 @@ class ComponentViewSet(
         serializer.save(component=obj)
         return Response(serializer.data, status=HTTP_201_CREATED)
 
+    @extend_schema(
+        description="Return paginated statistics for all translations within component.",
+        methods=["get"],
+        tags=["components", "statistics"],
+    )
     @action(detail=True, methods=["get"])
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1257,6 +1371,7 @@ class ComponentViewSet(
 
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(description="Return a list of component changes.", methods=["get"])
     @action(detail=True, methods=["get"])
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1269,6 +1384,7 @@ class ComponentViewSet(
 
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(description="Return a list of component screenshots.", methods=["get"])
     @action(detail=True, methods=["get"])
     def screenshots(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1281,6 +1397,7 @@ class ComponentViewSet(
         return self.get_paginated_response(serializer.data)
 
     def update(self, request: Request, *args, **kwargs):
+        """Edit a component by a PUT request."""
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not edit component")
@@ -1288,6 +1405,7 @@ class ComponentViewSet(
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete a component."""
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not delete component")
@@ -1317,6 +1435,10 @@ class ComponentViewSet(
 
         return Response(data={"data": serializer.data}, status=HTTP_201_CREATED)
 
+    @extend_schema(
+        description="Return projects linked with a component.", methods=["get"]
+    )
+    @extend_schema(description="Associate project with a component.", methods=["post"])
     @action(detail=True, methods=["get", "post"])
     def links(self, request: Request, **kwargs):
         instance = self.get_object()
@@ -1330,6 +1452,10 @@ class ComponentViewSet(
 
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(
+        description="Remove association of a project with a component.",
+        methods=["delete"],
+    )
     @action(detail=True, methods=["delete"], url_path="links/(?P<project_slug>[^/.]+)")
     def delete_links(self, request: Request, project__slug, slug, project_slug):
         instance = self.get_object()
@@ -1364,6 +1490,9 @@ class ComponentViewSet(
         )
 
 
+@extend_schema_view(
+    list=extend_schema(description="Return a list of memory results."),
+)
 class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
     """Memory API."""
 
@@ -1380,11 +1509,16 @@ class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
             self.permission_denied(request, "Can not delete memory entry")
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete a memory object."""
         instance = self.get_object()
         self.perm_check(request, instance)
         return super().destroy(request, *args, **kwargs)
 
 
+@extend_schema_view(
+    list=extend_schema(description="Return a list of translations."),
+    retrieve=extend_schema(description="Return information about a translation."),
+)
 class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
     """Translation components API."""
 
@@ -1401,6 +1535,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             .order_by("id")
         )
 
+    @extend_schema(description="Upload new file with translations.", methods=["post"])
     @action(
         detail=True,
         methods=["get", "put", "post"],
@@ -1476,6 +1611,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             }
         )
 
+    @extend_schema(
+        description="Return detailed translation statistics.",
+        methods=["get"],
+        tags=["translations", "statistics"],
+    )
     @action(detail=True, methods=["get"])
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1484,6 +1624,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
 
         return Response(serializer.data)
 
+    @extend_schema(description="Return a list of translation changes.", methods=["get"])
     @action(detail=True, methods=["get"])
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1496,6 +1637,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
 
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(description="Return a list of translation units.", methods=["get"])
+    @extend_schema(description="Add a new unit.", methods=["post"])
     @action(detail=True, methods=["get", "post"])
     def units(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1534,6 +1677,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
 
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(description="Trigger automatic translation.", methods=["post"])
     @action(detail=True, methods=["post"])
     def autotranslate(self, request: Request, **kwargs):
         translation = self.get_object()
@@ -1570,6 +1714,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         )
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete a translation."""
         instance = self.get_object()
         if not request.user.has_perm("translation.delete", instance):
             self.permission_denied(request, "Can not delete translation")
@@ -1577,6 +1722,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         return Response(status=HTTP_204_NO_CONTENT)
 
 
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all languages the user has access to."),
+    retrieve=extend_schema(description="Return information about a language."),
+    partial_update=extend_schema(description="Change the language parameters."),
+)
 class LanguageViewSet(viewsets.ModelViewSet):
     """Languages API."""
 
@@ -1594,17 +1744,25 @@ class LanguageViewSet(viewsets.ModelViewSet):
             self.permission_denied(request, "Can not manage languages")
 
     def update(self, request: Request, *args, **kwargs):
+        """Change the language parameters."""
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
+        """Create a new language."""
         self.perm_check(request)
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete the language."""
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
+    @extend_schema(
+        description="Return statistics for a language.",
+        methods=["get"],
+        tags=["languages", "statistics"],
+    )
     @action(detail=True, methods=["get"])
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1614,6 +1772,12 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+@extend_schema_view(
+    list=extend_schema(description="Return a list of translation units."),
+    retrieve=extend_schema(description="Return information about translation unit."),
+    update=extend_schema(description="Perform full update on translation unit."),
+    partial_update=extend_schema(description="Perform partial update on translation unit."),
+)
 class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
     """Units API."""
 
@@ -1722,6 +1886,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             unit.translate(user, new_target, new_state)
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete a translation unit."""
         obj = self.get_object()
         can_delete = request.user.has_perm("unit.delete", obj)
         if not can_delete:
@@ -1737,6 +1902,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         return Response(status=HTTP_204_NO_CONTENT)
 
 
+@extend_schema_view(
+    list=extend_schema(description="Return a list of screenshot string information."),
+    retrieve=extend_schema(description="Return information about screenshot information."),
+    partial_update=extend_schema(description="Edit partial information about screenshot."),
+)
 class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     """Screenshots API."""
 
@@ -1748,6 +1918,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     def get_queryset(self):
         return Screenshot.objects.filter_access(self.request.user).order_by("id")
 
+    @extend_schema(description="Download the screenshot image.", methods=["get"])
+    @extend_schema(description="Replace screenshot image.", methods=["post"])
     @action(
         detail=True,
         methods=["get", "put", "post"],
@@ -1775,6 +1947,9 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
         return Response(data={"result": True})
 
+    @extend_schema(
+        description="Associate source string with screenshot.", methods=["post"]
+    )
     @action(detail=True, methods=["post"])
     def units(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1795,6 +1970,10 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
+    @extend_schema(
+        description="Remove source string association with screenshot.",
+        methods=["delete"],
+    )
     @action(detail=True, methods=["delete"], url_path="units/(?P<unit_id>[0-9]+)")
     def delete_units(self, request: Request, pk, unit_id):
         obj = self.get_object()
@@ -1809,6 +1988,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
     def create(self, request: Request, *args, **kwargs):
+        """Create a new screenshot."""
         required_params = ["project_slug", "component_slug", "language_code"]
         for param in required_params:
             if param not in request.data:
@@ -1842,12 +2022,14 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             return Response(serializer.data, status=HTTP_201_CREATED)
 
     def update(self, request: Request, *args, **kwargs):
+        """Edit full information about screenshot."""
         instance = self.get_object()
         if not request.user.has_perm("screenshot.edit", instance.translation):
             self.permission_denied(request, "Can not edit screenshot.")
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete screenshot."""
         instance = self.get_object()
         if not request.user.has_perm("screenshot.delete", instance.translation):
             self.permission_denied(request, "Can not delete screenshot.")
@@ -1869,6 +2051,10 @@ class ChangesFilterBackend(filters.DjangoFilterBackend):
         return ChangeFilter
 
 
+@extend_schema_view(
+    list=extend_schema(description="Return a list of translation changes."),
+    retrieve=extend_schema(description="Return information about a translation change."),
+)
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
     """Changes API."""
 
@@ -1884,6 +2070,11 @@ class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
         return Change.objects.preload_list(result)
 
 
+@extend_schema_view(
+    list=extend_schema(description="Return a list of component lists."),
+    retrieve=extend_schema(description="Return information about component list."),
+    partial_update=extend_schema(description="Change the component list parameters."),
+)
 class ComponentListViewSet(viewsets.ModelViewSet):
     """Component lists API."""
 
@@ -1908,17 +2099,23 @@ class ComponentListViewSet(viewsets.ModelViewSet):
             self.permission_denied(request, "Can not manage component lists")
 
     def update(self, request: Request, *args, **kwargs):
+        """Change the component list parameters."""
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
+        """Create a new component list."""
         self.perm_check(request)
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete the component list."""
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
+    @extend_schema(
+        description="Associate component with a component list.", methods=["post"]
+    )
     @action(detail=True, methods=["post", "get"])
     def components(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1949,6 +2146,10 @@ class ComponentListViewSet(viewsets.ModelViewSet):
 
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(
+        description="Disassociate a component from the component list.",
+        methods=["delete"],
+    )
     @action(
         detail=True,
         methods=["delete"],
@@ -1966,6 +2167,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
 
+@extend_schema_view(list=extend_schema(description="List available categories."))
 class CategoryViewSet(viewsets.ModelViewSet):
     """Category API."""
 
@@ -1984,16 +2186,19 @@ class CategoryViewSet(viewsets.ModelViewSet):
             self.permission_denied(request, "Can not manage categories")
 
     def update(self, request: Request, *args, **kwargs):
+        """Edit full information about category."""
         self.perm_check(request, self.get_object())
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete category."""
         instance = self.get_object()
         self.perm_check(request, instance)
         category_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 
     def perform_create(self, serializer) -> None:
+        """Create a new category."""
         if not self.request.user.has_perm(
             "project.edit", serializer.validated_data["project"]
         ):
@@ -2013,6 +2218,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
         serializer.instance.acting_user = self.request.user
         serializer.save()
 
+    @extend_schema(
+        description="""Return statistics for a category.""",
+        methods=["get"],
+        tags=["categories", "statistics"],
+    )
     @action(detail=True, methods=["get"])
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -2030,6 +2240,7 @@ class Metrics(APIView):
     serializer_class = MetricsSerializer
 
     def get(self, request: Request, format=None):  # noqa: A002
+        """Return server metrics."""
         stats = GlobalStats()
         serializer = self.serializer_class(stats)
         return Response(serializer.data)
@@ -2039,6 +2250,7 @@ class Search(APIView):
     """Site-wide search endpoint."""
 
     def get(self, request: Request, format=None):  # noqa: A002
+        """Return site-wide search results as a list."""
         user = request.user
         projects = user.allowed_projects
         components = Component.objects.filter(project__in=projects)
@@ -2090,6 +2302,9 @@ class Search(APIView):
         return Response(results)
 
 
+@extend_schema_view(
+    list=extend_schema(description="Listing of the tasks is currently not available.")
+)
 class TasksViewSet(ViewSet):
     def get_task(
         self, request, pk, permission: str | None = None
@@ -2124,6 +2339,7 @@ class TasksViewSet(ViewSet):
 
         return task, component
 
+    @extend_schema(description="Return information about a task", methods=["get"])
     def retrieve(self, request: Request, pk=None):
         task, _component = self.get_task(request, pk)
         result = task.result
@@ -2146,6 +2362,11 @@ class TasksViewSet(ViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
 
+@extend_schema_view(
+    list=extend_schema(description="Return a list of add-ons."),
+    retrieve=extend_schema(description="Returns information about add-on information."),
+    partial_update=extend_schema(description="Edit partial information about add-on."),
+)
 class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
     queryset = Addon.objects.all()
     serializer_class = AddonSerializer
@@ -2161,6 +2382,7 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
             self.permission_denied(request, "Can not manage addons")
 
     def update(self, request: Request, *args, **kwargs):
+        """Edit full information about add-on."""
         instance = self.get_object()
         if instance.component:
             instance.component.acting_user = request.user
@@ -2170,6 +2392,7 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
+        """Delete add-on."""
         instance = self.get_object()
         if instance.component:
             instance.component.acting_user = request.user
