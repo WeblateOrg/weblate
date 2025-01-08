@@ -350,10 +350,9 @@ class Notification:
         headers = get_email_headers(self.get_name())
 
         # Set From header to contain user full name
-        user = context.get("user")
-        if user:
+        if user := context.get("user"):
             headers["From"] = formataddr(
-                (context["user"].get_visible_name(), settings.DEFAULT_FROM_EMAIL)
+                (user.get_visible_name(), settings.DEFAULT_FROM_EMAIL)
             )
 
         # References for unit events
