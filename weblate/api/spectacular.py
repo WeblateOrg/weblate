@@ -64,6 +64,92 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             "drf_spectacular.hooks.postprocess_schema_enums",
             "weblate.api.docs.add_middleware_headers",
         ],
+        "TAGS": [
+            {
+                "name": "root",
+                "description": "The API root entry point.",
+            },
+            {
+                "name": "users",
+                "description": "Added in version 4.0.",
+            },
+            {
+                "name": "groups",
+                "description": "Added in version 4.0.",
+            },
+            {
+                "name": "roles",
+            },
+            {
+                "name": "languages",
+            },
+            {
+                "name": "projects",
+            },
+            {
+                "name": "components",
+            },
+            {
+                "name": "translations",
+            },
+            {
+                "name": "memory",
+                "description": "Added in version 4.14.",
+            },
+            {
+                "name": "units",
+                "description": "A unit is a single piece of a translation which pairs a source string with a corresponding translated string and also contains some related metadata. The term is derived from the Translate Toolkit and XLIFF.",
+            },
+            {
+                "name": "changes",
+            },
+            {
+                "name": "screenshots",
+            },
+            {
+                "name": "addons",
+                "description": "Added in version 4.4.1.",
+            },
+            {
+                "name": "component-lists",
+                "description": "Added in version 4.0.",
+            },
+            {
+                "name": "glossary",
+                "description": '**Changed in version 4.5:** Glossaries are now stored as regular components, translations and strings, please use respective API instead.',
+            },
+            {
+                "name": "tasks",
+                "description": "Added in version 4.4.",
+            },
+            {
+                "name": "statistics",
+                "description": "Many endpoints support displaying statistics for their objects.",
+            },
+            {
+                "name": "metrics",
+            },
+            {
+                "name": "search",
+                "description": "Added in version 4.18.",
+            },
+            {
+                "name": "categories",
+            },
+            {
+                "name": "hooks",
+                "description": """Notification hooks allow external applications to notify Weblate that the VCS repository has been updated."""
+                               """\n\nYou can use repository endpoints for projects, components and translations to update individual repositories."""
+            },
+            {
+                "name": "exports",
+                "description": "Weblate provides various exports to allow you to further process the data.",
+            },
+            {
+                "name": "rssFeeds",
+                "description": "Changes in translations are exported in RSS feeds.",
+            }
+        ],
     }
     if "weblate.legal" in installed_apps:
         settings["TOS"] = "/legal/terms/"
