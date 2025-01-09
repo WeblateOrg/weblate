@@ -14,6 +14,7 @@ import re
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
 from json import JSONDecodeError, dumps
+from pathlib import Path
 from time import sleep, time
 from typing import TYPE_CHECKING, Any, NoReturn, NotRequired, TypedDict, cast
 from zipfile import ZipFile
@@ -27,7 +28,7 @@ from django.utils.translation import gettext, gettext_lazy
 from git.config import GitConfigParser
 from requests.exceptions import HTTPError
 
-from weblate.utils.data import data_dir
+from weblate.utils.data import data_dir, data_path
 from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded, remove_tree
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
@@ -121,7 +122,9 @@ class GitRepository(Repository):
         raise RepositoryError(0, "Could not figure out remote branch")
 
     @staticmethod
-    def git_config_update(filename: str, *updates: tuple[str, str, str | None]) -> None:
+    def git_config_update(
+        filename: Path, *updates: tuple[str, str, str | None]
+    ) -> None:
         # First, open file read-only to check current settings
         modify = False
         with GitConfigParser(file_or_files=filename, read_only=True) as config:
@@ -156,7 +159,7 @@ class GitRepository(Repository):
                     config.set_value(section, key, value)
 
     def config_update(self, *updates: tuple[str, str, str | None]) -> None:
-        filename = os.path.join(self.path, ".git", "config")
+        filename = Path(self.path) / ".git" / "config"
         self.git_config_update(filename, *updates)
 
     def check_config(self) -> None:
@@ -483,7 +486,7 @@ class GitRepository(Repository):
                 )
             )
 
-        filename = os.path.join(data_dir("home"), ".gitconfig")
+        filename = data_path("home") / ".gitconfig"
         attempts = 0
         while attempts < 5:
             try:

@@ -35,8 +35,8 @@ class SSHTest(TestCase):
         wrapper.create()
         with open(filename) as handle:
             data = handle.read()
-            self.assertIn(ssh_file("known_hosts"), data)
-            self.assertIn(ssh_file("id_rsa"), data)
+            self.assertIn(ssh_file("known_hosts").as_posix(), data)
+            self.assertIn(ssh_file("id_rsa").as_posix(), data)
             self.assertIn(settings.DATA_DIR, data)
         self.assertTrue(os.access(filename, os.X_OK))
         # Second run should not touch the file
