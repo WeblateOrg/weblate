@@ -1086,8 +1086,7 @@ class CommentForm(forms.Form):
     scope = forms.ChoiceField(
         label=gettext_lazy("Scope"),
         help_text=gettext_lazy(
-            "Is your comment specific to this "
-            "translation, or generic for all of them?"
+            "Is your comment specific to this translation, or generic for all of them?"
         ),
         choices=(
             (
@@ -2442,8 +2441,7 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
     source = PluralField(
         label=gettext_lazy("Source language text"),
         help_text=gettext_lazy(
-            "You can edit this later, as with any other string in "
-            "the source language."
+            "You can edit this later, as with any other string in the source language."
         ),
         required=True,
     )

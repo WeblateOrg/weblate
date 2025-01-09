@@ -750,6 +750,17 @@ class Change(models.Model, UserDisplayMixin):
             "translation": self.translation or self.component or self.project,
         }
 
+    def __init__(self, *args, **kwargs) -> None:
+        self.notify_state = {}
+        for attr in ("user", "author"):
+            user = kwargs.get(attr)
+            if user is not None and hasattr(user, "get_token_user"):
+                # ProjectToken / ProjectUser integration
+                kwargs[attr] = user.get_token_user()
+        super().__init__(*args, **kwargs)
+        if not self.pk:
+            self.fixup_refereces()
+
     def save(self, *args, **kwargs) -> None:
         self.fixup_refereces()
 
@@ -798,17 +809,6 @@ class Change(models.Model, UserDisplayMixin):
         if self.project is not None:
             return self.project
         return None
-
-    def __init__(self, *args, **kwargs) -> None:
-        self.notify_state = {}
-        for attr in ("user", "author"):
-            user = kwargs.get(attr)
-            if user is not None and hasattr(user, "get_token_user"):
-                # ProjectToken / ProjectUser integration
-                kwargs[attr] = user.get_token_user()
-        super().__init__(*args, **kwargs)
-        if not self.pk:
-            self.fixup_refereces()
 
     @staticmethod
     def get_last_change_cache_key(translation_id: int) -> str:

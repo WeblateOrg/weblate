@@ -2073,7 +2073,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         if "This repository URL is already taken." in error_message:
             page = 0
             self.bb_fork = {}
-            forks_url = f'{credentials["url"]}/forks'
+            forks_url = f"{credentials['url']}/forks"
             while True:
                 forks, response, error_message = self.request(
                     "get", credentials, forks_url, params={"limit": 1000, "start": page}
@@ -2145,7 +2145,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         if not self.bb_fork:
             self.create_fork(credentials)
 
-        pr_url = f'{credentials["url"]}/pull-requests'
+        pr_url = f"{credentials['url']}/pull-requests"
         title, description = self.get_merge_message()
         request_body = {
             "title": title,
@@ -2182,8 +2182,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         """
         if "id" not in response_data:
             pr_exist_message = (
-                "Only one pull request may be open "
-                "for a given source and target branch"
+                "Only one pull request may be open for a given source and target branch"
             )
             if pr_exist_message in error_message:
                 return

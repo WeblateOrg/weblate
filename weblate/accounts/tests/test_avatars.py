@@ -15,8 +15,7 @@ from weblate.auth.models import User
 from weblate.trans.tests.test_views import FixtureTestCase
 
 TEST_URL = (
-    "https://www.gravatar.com/avatar/"
-    "55502f40dc8b7c769880b10874abc9d0?d=identicon&s=32"
+    "https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=identicon&s=32"
 )
 
 

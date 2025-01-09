@@ -811,6 +811,28 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def __str__(self) -> str:
         return f"{self.category or self.project}/{self.name}"
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self._file_format = None
+        self.stats = ComponentStats(self)
+        self.needs_cleanup = False
+        self.alerts_trigger: dict[str, list[dict]] = {}
+        self.updated_sources: dict[int, Unit] = {}
+        self.old_component = copy(self)
+        self._sources: dict[int, Unit] = {}
+        self._sources_prefetched = False
+        self.logs: list[str] = []
+        self.translations_count: int | None = None
+        self.translations_progress = 0
+        self.acting_user: User | None = None
+        self.batch_checks = False
+        self.batched_checks: set[str] = set()
+        self.needs_variants_update = False
+        self._invalidate_scheduled = False
+        self._alerts_scheduled = False
+        self._template_check_done = False
+        self.new_lang_error_message: str | None = None
+
     def save(self, *args, **kwargs) -> None:
         """
         Save wrapper.
@@ -934,28 +956,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.project.invalidate_source_language_cache()
         for project in self.links.all():
             project.invalidate_source_language_cache()
-
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self._file_format = None
-        self.stats = ComponentStats(self)
-        self.needs_cleanup = False
-        self.alerts_trigger: dict[str, list[dict]] = {}
-        self.updated_sources: dict[int, Unit] = {}
-        self.old_component = copy(self)
-        self._sources: dict[int, Unit] = {}
-        self._sources_prefetched = False
-        self.logs: list[str] = []
-        self.translations_count: int | None = None
-        self.translations_progress = 0
-        self.acting_user: User | None = None
-        self.batch_checks = False
-        self.batched_checks: set[str] = set()
-        self.needs_variants_update = False
-        self._invalidate_scheduled = False
-        self._alerts_scheduled = False
-        self._template_check_done = False
-        self.new_lang_error_message: str | None = None
 
     def generate_changes(self, old) -> None:
         def getvalue(base, attribute):
@@ -3113,8 +3113,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             and not self.suggestion_voting
         ):
             msg = gettext(
-                "Accepting suggestions automatically only works with "
-                "voting turned on."
+                "Accepting suggestions automatically only works with voting turned on."
             )
             raise ValidationError(
                 {"suggestion_autoaccept": msg, "suggestion_voting": msg}
