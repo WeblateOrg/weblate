@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2025-01-09 10:26+0000\n"
-"Last-Translator: Turkish Wold <turkishmark@yandex.com>\n"
+"PO-Revision-Date: 2025-01-09 11:57+0000\n"
+"Last-Translator: Yılmaz Durmaz <yilmaz_durmaz@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
 "Language: tr\n"
@@ -11289,17 +11289,13 @@ msgstr ""
 "seçerek etkinleştirebilirsiniz."
 
 #: ../../admin/continuous.rst:356
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, Mercurial, GitHub, "
-#| "GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Server and Bitbucket Cloud:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket "
 "Cloud:"
 msgstr ""
 "Genel olarak, Git, Mercurial, GitHub, GitLab, Gitea, Pagure, Azure DevOps, "
-"Bitbucket Server ve Bitbucket Cloud ile şu seçenekler kullanılabilir:"
+"Bitbucket Data Center ve Bitbucket Cloud ile şu seçenekler kullanılabilir:"
 
 #: ../../admin/continuous.rst:362
 msgid "Desired setup"
@@ -11434,20 +11430,16 @@ msgid "Azure DevOps pull request from branch"
 msgstr "Azure DevOps dalına itme isteği"
 
 #: ../../admin/continuous.rst:447
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull request from fork"
-msgstr "Bitbucket Server çekme isteği"
+msgstr "Çataldan Bitbucket Data Center çekme isteği"
 
 #: ../../admin/continuous.rst:448 ../../admin/continuous.rst:453
 msgid ":ref:`vcs-bitbucket-server`"
 msgstr ":ref:`vcs-bitbucket-server`"
 
 #: ../../admin/continuous.rst:452
-#, fuzzy
-#| msgid "Bitbucket server pull request from branch"
 msgid "Bitbucket Data Center pull request from branch"
-msgstr "Daldan Bitbucket Server çekme istekleri"
+msgstr "Daldan Bitbucket Data Center çekme isteği"
 
 #: ../../admin/continuous.rst:457
 msgid "Bitbucket Cloud pull request from fork"
@@ -13252,10 +13244,10 @@ msgid ""
 "setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
 "and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
-"setting:`IP_BEHIND_REVERSE_PROXY` seçeneğini etkinleştirmek çoğu olağan "
+":setting:`IP_BEHIND_REVERSE_PROXY` seçeneğini etkinleştirmek çoğu olağan "
 "kurulum için yeterli olabilir, ancak :setting:`IP_PROXY_HEADER` ve "
 ":setting:`IP_PROXY_OFFSET` seçeneklerini de ayarlamanız gerekebilir (Docker "
-"konteynerinde :envvar:`WEBLATE_IP_PROXY_HEADER` ve "
+"taşıyıcısında :envvar:`WEBLATE_IP_PROXY_HEADER` ve "
 ":envvar:`WEBLATE_IP_PROXY_OFFSET` seçeneklerini kullanın)."
 
 #: ../../admin/install.rst:706
@@ -13283,11 +13275,6 @@ msgstr ""
 "kullanın)."
 
 #: ../../admin/install.rst:717
-#, fuzzy
-#| msgid ""
-#| ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
-#| "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-#| "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgid ""
 ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
 "ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
@@ -13295,9 +13282,11 @@ msgid ""
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, "
+":ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, "
+":envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:732
 msgid "HTTP proxy"
@@ -14013,7 +14002,7 @@ msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
-"Weblate konteyneri bunu arama yoluna dahil etmez, çalıştırmak için tam yolu "
+"Weblate taşıyıcısı bunu arama yoluna dahil etmez, çalıştırmak için tam yolu "
 "belirtmeniz gerekir. Örneğin:"
 
 #: ../../admin/install.rst:1253
@@ -14169,18 +14158,13 @@ msgid "Running web server"
 msgstr "Site sunucusunu çalıştırmak"
 
 #: ../../admin/install.rst:1341
-#, fuzzy
-#| msgid ""
-#| "Running Weblate is not different from running any other Django based "
-#| "program. Django is usually executed as uWSGI or fcgi (see examples for "
-#| "different webservers below)."
 msgid ""
 "Running Weblate is not different from running any other Django based "
 "program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
 "Weblate çalıştırmak, diğer Django temelli programları çalıştırmaktan farklı "
-"değildir. Django genellikle uWSGI ya da fcgi olarak çalıştırılır (aşağıda "
+"değildir. Django genellikle WSGI ya da fcgi olarak çalıştırılır (aşağıda "
 "farklı site sunucuları için örnekler bulabilirsiniz)."
 
 #: ../../admin/install.rst:1345
@@ -14309,31 +14293,22 @@ msgstr ""
 "setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install.rst:1416
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration for NGINX and Gunicorn"
-msgstr "Örnek Apache ve Gunicorn yapılandırması"
+msgstr "Örnek NGINX ve Gunicorn yapılandırması"
 
 #: ../../admin/install.rst:1418
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
-#| "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate using Gunicorn under the NGINX "
 "webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
 "conf`):"
 msgstr ""
-"Aşağıdaki yapılandırma Gunicorn ve Apache 2.4 üzerinde Weblate çalıştırır (:"
-"file:`weblate/examples/apache.gunicorn.conf` dosyasında bulunabilir):"
+"Aşağıdaki yapılandırma Weblate'i NGINX web sunucusu altında Gunicorn "
+"kullanarak çalıştırır (ayrıca :file:`weblate/examples/"
+"weblate.nginx.gunicorn.conf` olarak mevcuttur):"
 
 #: ../../admin/install.rst:1427 ../../admin/install.rst:1497
-#, fuzzy
-#| msgid ""
-#| ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ""
-":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
+msgstr ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1433
 msgid "Sample configuration for NGINX and uWSGI"
@@ -14429,13 +14404,10 @@ msgstr ""
 "file:`weblate/examples/apache.gunicorn.conf` dosyasında bulunabilir):"
 
 #: ../../admin/install.rst:1504
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration to start Gunicorn"
-msgstr "Örnek Apache ve Gunicorn yapılandırması"
+msgstr "Gunicorn'u başlatmak için örnek yapılandırma"
 
 #: ../../admin/install.rst:1506
-#, fuzzy
 msgid ""
 "Weblate has `wsgi` optional dependency (see :ref:`python-deps`) that will "
 "install everything you need to run Gunicorn. When installing Weblate you can "
@@ -14636,32 +14608,21 @@ msgid "Periodic tasks using Celery beat"
 msgstr "Celery atımını kullanarak görevleri zamanlamak"
 
 #: ../../admin/install.rst:1639
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. The task schedule is "
 "stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
-"Weblate, hazır bir zamanlanmış görevler kurulumuyla gelir. Bununla "
-"birlikte, :file:`settings.py` dosyasından ek görevler tanımlayabilirsiniz. "
-"Örnek olarak :ref:`lazy-commit` bölümüne bakabilirsiniz."
+"Weblate, zamanlanmış görevler için yerleşik kurulumla birlikte gelir. Görev "
+"zamanlaması veritabanında saklanır ve görevler Celery beat daemon tarafından "
+"yürütülür."
 
 #: ../../admin/install.rst:1644
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "You can define additional tasks in :file:`settings.py`, for example see :ref:"
 "`lazy-commit`."
 msgstr ""
-"Weblate, hazır bir zamanlanmış görevler kurulumuyla gelir. Bununla "
-"birlikte, :file:`settings.py` dosyasından ek görevler tanımlayabilirsiniz. "
-"Örnek olarak :ref:`lazy-commit` bölümüne bakabilirsiniz."
+":file:`settings.py` dosyasından ek görevler tanımlayabilirsiniz. Örnek "
+"olarak :ref:`lazy-commit` bölümüne bakabilirsiniz."
 
 #: ../../admin/install.rst:1650
 msgid "Monitoring Celery status"
