@@ -211,8 +211,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         choices=ACCESS_CHOICES,
         verbose_name=gettext_lazy("Access control"),
         help_text=gettext_lazy(
-            "How to restrict access to this project is detailed "
-            "in the documentation."
+            "How to restrict access to this project is detailed in the documentation."
         ),
     )
     enforced_2fa = models.BooleanField(

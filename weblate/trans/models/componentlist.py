@@ -40,8 +40,7 @@ class ComponentList(models.Model, CacheKeyMixin):
         default=True,
         db_index=True,
         help_text=gettext_lazy(
-            "When enabled this component list will be shown as a tab on "
-            "the dashboard"
+            "When enabled this component list will be shown as a tab on the dashboard"
         ),
     )
 
