@@ -1224,6 +1224,14 @@ th.number {
 thead th {
   font-weight: normal;
 }
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  border-top: var(--border);
+}
 
 .table > thead > tr > th {
   border-bottom: none;
@@ -2319,15 +2327,6 @@ tbody.warning {
 }
 
 .panel-footer {
-  border-top: var(--border);
-}
-
-.table > thead > tr > th,
-.table > tbody > tr > th,
-.table > tfoot > tr > th,
-.table > thead > tr > td,
-.table > tbody > tr > td,
-.table > tfoot > tr > td {
   border-top: var(--border);
 }
 
