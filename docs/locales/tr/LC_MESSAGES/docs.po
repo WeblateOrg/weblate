@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2025-01-09 11:57+0000\n"
+"PO-Revision-Date: 2025-01-09 12:02+0000\n"
 "Last-Translator: Yılmaz Durmaz <yilmaz_durmaz@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -15420,18 +15420,12 @@ msgid "Number of processes and memory consumption"
 msgstr "İşlem sayısı ve bellek kullanımı"
 
 #: ../../admin/install/docker.rst:346
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both uWSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both WSGI and Celery is determined "
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
-"Hem uWSGI hem de Celery için çalışan işlem sayısı, işlemci sayısına göre "
+"Hem WSGI hem de Celery için çalışan işlem sayısı, işlemci sayısına göre "
 "kendiliğinden belirlenir. Bu seçim, çoğu bulut sanal makinesi için iyi "
 "çalışır. Bu makinelerde genellikle az sayıda işlemci ve iyi miktarda bellek "
 "bulunur."
@@ -15599,7 +15593,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:494
 msgid "Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201."
 msgstr ""
-"envvar:`WEBLATE_LOG_GELF_HOST` için özel bağlantı noktası kullanın, "
+":envvar:`WEBLATE_LOG_GELF_HOST` için özel bağlantı noktası kullanın, "
 "varsayılan değer 12201'dir."
 
 #: ../../admin/install/docker.rst:498
@@ -17019,10 +17013,8 @@ msgid ":ref:`minimal-celery`"
 msgstr ":ref:`minimal-celery`"
 
 #: ../../admin/install/docker.rst:1901
-#, fuzzy
-#| msgid "Configure how many uWSGI workers should be executed."
 msgid "Configure how many WSGI workers should be executed."
-msgstr "Çalışacak uWSGI işlemi sayısını yapılandırın."
+msgstr "Çalışacak WSGI işlemi sayısını yapılandırın."
 
 #: ../../admin/install/docker.rst:1903
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
@@ -17033,7 +17025,7 @@ msgid ""
 "The Docker container runs two WSGI processes since 5.9 and :envvar:"
 "`WEB_WORKERS` configures how many threads each process will have."
 msgstr ""
-"Docker konteyneri 5.9'dan beri iki WSGI süreci çalıştırmaktadır ve "
+"Docker taşıyıcısı 5.9'dan beri iki WSGI süreci çalıştırmaktadır ve "
 ":envvar:`WEB_WORKERS` her bir sürecin kaç iş parçacığına sahip olacağını "
 "yapılandırmaktadır."
 
@@ -18475,7 +18467,7 @@ msgstr ""
 msgid ""
 "Per-project automatic suggestion can also be configured via the :ref:`api`."
 msgstr ""
-"Proje başına otomatik öneri :ref:`api` aracılığıyla da yapılandırılabilir."
+":ref:`api` aracılığıyla proje-başına otomatik öneri de yapılandırılabilir."
 
 #: ../../admin/machine.rst:29
 msgid ":ref:`machine-translation`"
