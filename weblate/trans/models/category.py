@@ -95,6 +95,10 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def __str__(self) -> str:
         return f"{self.category or self.project}/{self.name}"
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.stats = CategoryStats(self)
+
     def save(self, *args, **kwargs) -> None:
         old = None
         if self.id:
@@ -115,10 +119,6 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             # Move to a different project
             if old.project != self.project:
                 self.move_to_project(self.project)
-
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.stats = CategoryStats(self)
 
     def move_to_project(self, project) -> None:
         """Trigger save with changed project on categories and components."""

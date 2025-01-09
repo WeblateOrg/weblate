@@ -654,6 +654,12 @@ class Language(models.Model, CacheKeyMixin):
             return f"{gettext(self.name)} ({self.code})"
         return gettext(self.name)
 
+    def __init__(self, *args, **kwargs) -> None:
+        from weblate.utils.stats import LanguageStats
+
+        super().__init__(*args, **kwargs)
+        self.stats = LanguageStats(self)
+
     def save(self, *args, **kwargs):
         """Set default direction for language."""
         if not self.direction:
@@ -665,12 +671,6 @@ class Language(models.Model, CacheKeyMixin):
 
     def get_url_path(self):
         return ("-", "-", self.code)
-
-    def __init__(self, *args, **kwargs) -> None:
-        from weblate.utils.stats import LanguageStats
-
-        super().__init__(*args, **kwargs)
-        self.stats = LanguageStats(self)
 
     def get_name(self):
         """Not localized version of __str__."""

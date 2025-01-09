@@ -271,6 +271,15 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     def __str__(self) -> str:
         return self.name
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.old_access_control = self.access_control
+        self.stats = ProjectStats(self)
+        self.acting_user: User | None = None
+        self.project_languages = ProjectLanguageFactory(self)
+        self.label_cleanups: TranslationQuerySet | None = None
+        self.languages_cache: dict[str, Language] = {}
+
     def save(self, *args, **kwargs) -> None:
         from weblate.trans.tasks import component_alerts
 
@@ -314,15 +323,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         # Update translation memory on enabled sharing
         if update_tm:
             import_memory.delay_on_commit(self.id)
-
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.old_access_control = self.access_control
-        self.stats = ProjectStats(self)
-        self.acting_user: User | None = None
-        self.project_languages = ProjectLanguageFactory(self)
-        self.label_cleanups: TranslationQuerySet | None = None
-        self.languages_cache: dict[str, Language] = {}
 
     def generate_changes(self, old) -> None:
         from weblate.trans.models.change import Change

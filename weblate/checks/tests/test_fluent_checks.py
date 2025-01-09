@@ -69,7 +69,7 @@ class MockFluentTransUnit(MockUnit):
         return f"{fluent_type} ({source!r} -> {target!r})"
 
 
-class MockCheckModel:
+class MockCheckModel:  # noqa: B903
     # Mock Check object from weblate.checks.models
     def __init__(self, unit: MockFluentTransUnit) -> None:
         self.unit = unit

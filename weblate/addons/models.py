@@ -92,6 +92,10 @@ class Addon(models.Model):
     def __str__(self) -> str:
         return f"{self.addon.verbose}: {self.project or self.component or 'site-wide'}"
 
+    def __init__(self, *args, acting_user: User | None = None, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.acting_user = acting_user
+
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
@@ -133,10 +137,6 @@ class Addon(models.Model):
 
     def get_absolute_url(self) -> str:
         return reverse("addon-detail", kwargs={"pk": self.pk})
-
-    def __init__(self, *args, acting_user: User | None = None, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.acting_user = acting_user
 
     def store_change(self, action) -> None:
         Change.objects.create(
