@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Yılmaz Durmaz <yilmaz_durmaz@hotmail.com>, 2023.
+# Yılmaz Durmaz <yilmaz_durmaz@hotmail.com>, 2023, 2025.
 # Kaya Zeren <kayazeren@gmail.com>, 2023, 2024.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024.
 # Emin Tufan Çetin <etcetin@gmail.com>, 2023, 2024.
@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 08:30+0100\n"
-"PO-Revision-Date: 2025-01-07 20:41+0000\n"
-"Last-Translator: Turkish Wold <turkishmark@yandex.com>\n"
+"PO-Revision-Date: 2025-01-09 10:26+0000\n"
+"Last-Translator: Yılmaz Durmaz <yilmaz_durmaz@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
 "Language: tr\n"
@@ -1920,15 +1920,15 @@ msgstr "bileşen güncellemesi"
 
 #: ../../admin/addons.rst:32
 msgid "Triggered whenever a change happens in a component such as:"
-msgstr "Aşağıdaki gibi bir bileşende bir değişiklik olduğunda tetiklenir:"
+msgstr "Bir bileşende aşağıdaki gibi bir değişiklik olduğunda tetiklenir:"
 
 #: ../../admin/addons.rst:34
 msgid "Strings are changed in the repository."
-msgstr "Depodaki dizeler değiştirilir."
+msgstr "Depodaki dizeler değiştirilince."
 
 #: ../../admin/addons.rst:35
 msgid "A string is added."
-msgstr "Bir dize eklendi."
+msgstr "Bir dize eklendiğinde."
 
 #: ../../admin/addons.rst:36
 #, fuzzy
@@ -2032,7 +2032,7 @@ msgstr "depo güncellenmesinden sonra"
 
 #: ../../admin/addons.rst:93
 msgid "Triggered just before the repository update is attempted."
-msgstr "Depo güncellemesi gerçekleştirilmeden hemen önce tetiklenir."
+msgstr "Depoyu güncellemeyi denemeden hemen önce tetiklenir."
 
 #: ../../admin/addons.rst:98
 #, fuzzy
@@ -2370,7 +2370,6 @@ msgid "`This add-on has no configuration.`"
 msgstr "`Bu eklentinin yapılandırması yok.`"
 
 #: ../../admin/addons.rst:228
-#, fuzzy
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref:"
 "`addon-event-repository-post-update`"
@@ -2406,7 +2405,6 @@ msgid "``weblate.cleanup.generic``"
 msgstr "``weblate.cleanup.generic``"
 
 #: ../../admin/addons.rst:247
-#, fuzzy
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref:"
 "`addon-event-repository-pre-commit`"
@@ -7789,7 +7787,7 @@ msgstr "ALTCHA_MAX_NUMBER"
 
 #: ../../admin/config.rst:56
 msgid "Configures a maximal number for ALTCHA proof-of-work mechanism."
-msgstr "ALTCHA iş kanıtı mekanizması için bir maksimal sayı yapılandırır."
+msgstr "ALTCHA çalışma-kanıtı mekanizması için bir en yüksek sayı yapılandırır."
 
 #: ../../admin/config.rst:60
 msgid ""
@@ -8495,15 +8493,11 @@ msgstr ""
 "konuma taşınabilir."
 
 #: ../../admin/config.rst:461
-#, fuzzy
-#| msgid ""
-#| "This directory has to be writable by Weblate. Running it as uWSGI means "
-#| "the ``www-data`` user should have write access to it."
 msgid ""
 "This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
-"Bu klasör Weblate tarafından yazılabilir olmalıdır. uWSGI olarak "
+"Bu klasör Weblate tarafından yazılabilir olmalıdır. WSGI olarak "
 "çalıştırıldığında, ``www-data`` kullanıcısının bu klasöre yazma erişimi "
 "olmalıdır."
 
@@ -8973,10 +8967,8 @@ msgid "BITBUCKETSERVER_CREDENTIALS"
 msgstr "BITBUCKETSERVER_CREDENTIALS"
 
 #: ../../admin/config.rst:875
-#, fuzzy
-#| msgid "List for credentials for Bitbucket servers."
 msgid "List for credentials for Bitbucket Data Center."
-msgstr "Bitbucket sunucuları için kimlik doğrulama bilgileri listesi."
+msgstr "Bitbucket Data Center için kimlik doğrulama bilgileri listesi."
 
 #: ../../admin/config.rst:890
 msgid ""
@@ -9047,12 +9039,6 @@ msgstr ""
 "bulunabilir."
 
 #: ../../admin/config.rst:929
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-bitbucket-cloud`, `Create an App password <https://support."
-#| "atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`, `App "
-#| "password permissions <https://support.atlassian.com/bitbucket-cloud/docs/"
-#| "app-password-permissions/>`_"
 msgid ""
 ":ref:`vcs-bitbucket-cloud`, `Create an App password <https://support."
 "atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `App password "
@@ -9060,8 +9046,8 @@ msgid ""
 "permissions/>`_"
 msgstr ""
 ":ref:`vcs-bitbucket-cloud`, `Bir uygulama parolası oluşturun <https://"
-"support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`, "
-"`Uygulama parolası izinleri <https://support.atlassian.com/bitbucket-cloud/"
+"support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `"
+"Uygulama parolası izinleri <https://support.atlassian.com/bitbucket-cloud/"
 "docs/app-password-permissions/>`_"
 
 #: ../../admin/config.rst:936
@@ -9764,16 +9750,12 @@ msgid "PROJECT_WEB_RESTRICT_RE"
 msgstr "PROJECT_WEB_RESTRICT_RE"
 
 #: ../../admin/config.rst:1519
-#, fuzzy
-#| msgid ""
-#| "Defines a regular expression to restrict project websites. Any matching "
-#| "URLs will be rejected."
 msgid ""
 "Defines a regular expression to limit what can be entered as :ref:`project-"
 "web`. Any matching URLs will be rejected."
 msgstr ""
-"Proje sitelerini kısıtlayacak kurallı ifadeyi belirler. Kurallı ifadeye uyan "
-"adresler reddedilir."
+":ref:`project-web` olarak nelerin girilebileceğini sınırlamak için bir "
+"kurallı ifade tanımlar. Eşleşen tüm URL'ler reddedilecektir."
 
 #: ../../admin/config.rst:1523
 msgid ""
