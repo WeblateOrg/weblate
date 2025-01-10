@@ -216,7 +216,7 @@ class BatchMachineTranslation:
                         detail = str(payload)
 
             if detail:
-                message = f"{error.args[0]}: {detail}"
+                message = f"{error.args[0]}: {detail[:200]}"
                 raise HTTPError(message, response=response) from error
             raise
 
