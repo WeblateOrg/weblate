@@ -565,6 +565,7 @@ class GlosbeTranslationTest(BaseMachineTranslationTest):
             status=429,
         )
 
+    @responses.activate
     def test_ratelimit(self) -> None:
         """Test rate limit response handling."""
         # This raises an exception
