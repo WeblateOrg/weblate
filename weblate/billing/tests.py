@@ -167,7 +167,7 @@ class BillingTest(BaseTestCase):
         # Validation of existing
         self.invoice.clean()
 
-    @override_settings(INVOICE_PATH=TEST_DATA)
+    @override_settings(INVOICE_PATH_LEGACY=TEST_DATA)
     def test_download(self) -> None:
         self.add_project()
         # Unauthenticated

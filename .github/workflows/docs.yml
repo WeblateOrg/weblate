@@ -24,7 +24,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: astral-sh/setup-uv@v4
+    - uses: astral-sh/setup-uv@v5
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -41,7 +41,7 @@ jobs:
         echo "::add-matcher::.github/matchers/sphinx.json"
         ./ci/run-docs
         echo "::remove-matcher owner=sphinx::"
-    - uses: actions/upload-artifact@v4.4.3
+    - uses: actions/upload-artifact@v4.5.0
       with:
         name: Documentation
         path: docs/_build/html

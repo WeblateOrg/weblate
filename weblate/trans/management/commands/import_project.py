@@ -59,8 +59,7 @@ class Command(BaseCommand):
             "--language-regex",
             default="^[^.]+$",
             help=(
-                "Language filter regular expression to be used for created"
-                " components"
+                "Language filter regular expression to be used for created components"
             ),
         )
         parser.add_argument(

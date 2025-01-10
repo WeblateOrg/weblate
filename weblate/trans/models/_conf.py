@@ -143,6 +143,7 @@ Current translation status:
 
     # Billing
     INVOICE_PATH = ""
+    INVOICE_PATH_LEGACY = ""
     VAT_RATE = 1.21
     SUPPORT_API_URL = "https://weblate.org/api/support/"
 

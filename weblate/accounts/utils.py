@@ -140,7 +140,9 @@ def cycle_session_keys(request: AuthenticatedHttpRequest, user: User) -> None:
     update_session_auth_hash(request, user)
 
 
-def adjust_session_expiry(request: AuthenticatedHttpRequest) -> None:
+def adjust_session_expiry(
+    request: AuthenticatedHttpRequest, *, is_login: bool = True
+) -> None:
     """
     Adjust session expiry based on scope.
 
@@ -148,8 +150,11 @@ def adjust_session_expiry(request: AuthenticatedHttpRequest) -> None:
     - Set short lived session for SAML authentication flow.
     """
     if "saml_only" not in request.session:
-        next_url = request.POST.get("next", request.GET.get("next"))
-        request.session["saml_only"] = next_url == "/idp/login/process/"
+        if is_login:
+            next_url = request.POST.get("next", request.GET.get("next"))
+            request.session["saml_only"] = next_url == "/idp/login/process/"
+        else:
+            request.session["saml_only"] = False
 
     if request.session["saml_only"]:
         # Short lived session for SAML authentication only

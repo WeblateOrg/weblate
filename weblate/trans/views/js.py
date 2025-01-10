@@ -71,7 +71,7 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
     # Mark check for ignoring
     if obj.check_obj is None:
         # Disabled check
-        ignore = f'ignore-{obj.name.replace("_", "-")}'
+        ignore = f"ignore-{obj.name.replace('_', '-')}"
     else:
         ignore = obj.check_obj.ignore_string
     flags = Flags(unit.extra_flags)

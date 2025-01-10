@@ -52,6 +52,10 @@ class Font(models.Model, UserDisplayMixin):
     def __str__(self) -> str:
         return f"{self.family} {self.style}"
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.field_errors: dict[str, list[ValidationError]] = {}
+
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ) -> None:
@@ -68,10 +72,6 @@ class Font(models.Model, UserDisplayMixin):
 
     def get_absolute_url(self) -> str:
         return reverse("font", kwargs={"pk": self.pk, "project": self.project.slug})
-
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.field_errors: dict[str, list[ValidationError]] = {}
 
     def clean_fields(self, exclude=None) -> None:
         self.field_errors = {}

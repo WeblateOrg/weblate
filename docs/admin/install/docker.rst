@@ -630,6 +630,19 @@ Generic settings
         environment:
           WEBLATE_REGISTRATION_OPEN: 0
 
+.. envvar:: WEBLATE_REGISTRATION_CAPTCHA
+
+   .. versionadded:: 5.10
+
+   Configures whether captcha is used for registration and other unauthenticated actions, see :std:setting:`REGISTRATION_CAPTCHA`.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+      environment:
+        WEBLATE_REGISTRATION_CAPTCHA: 0
+
 .. envvar:: WEBLATE_REGISTRATION_ALLOW_BACKENDS
 
    Configure which authentication methods can be used to create new account via

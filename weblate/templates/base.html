@@ -236,27 +236,29 @@
             <ul class="nav navbar-nav navbar-right flip">
 
               {# Superuser link to admin #}
-              {% perm "management.use" user as user_can_manage %}
-              {% if user_can_manage %}
-                <li>
-                  <a class="button"
-                     id="admin-button"
-                     href="{% url 'manage' %}"
-                     title="{% trans "Administration" %}">
-                    <span class="hidden-xs">{% icon "wrench.svg" %}</span>
-                    <span class="visible-xs-inline">{% trans "Administration" %}</span>
-                  </a>
-                </li>
-                {% if configuration_errors.exists %}
+              {% if user %}
+                {% perm "management.use" user as user_can_manage %}
+                {% if user_can_manage %}
                   <li>
-                    <a class="button red"
-                       id="errors-button"
-                       href="{% url 'manage-performance' %}"
-                       title="{% trans "Configuration errors" %}">
-                      <span class="hidden-xs">{% icon "alert.svg" %}</span>
-                      <span class="visible-xs-inline">{% trans "Configuration errors" %}</span>
+                    <a class="button"
+                       id="admin-button"
+                       href="{% url 'manage' %}"
+                       title="{% trans "Administration" %}">
+                      <span class="hidden-xs">{% icon "wrench.svg" %}</span>
+                      <span class="visible-xs-inline">{% trans "Administration" %}</span>
                     </a>
                   </li>
+                  {% if configuration_errors.exists %}
+                    <li>
+                      <a class="button red"
+                         id="errors-button"
+                         href="{% url 'manage-performance' %}"
+                         title="{% trans "Configuration errors" %}">
+                        <span class="hidden-xs">{% icon "alert.svg" %}</span>
+                        <span class="visible-xs-inline">{% trans "Configuration errors" %}</span>
+                      </a>
+                    </li>
+                  {% endif %}
                 {% endif %}
               {% endif %}
 

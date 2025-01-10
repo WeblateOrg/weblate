@@ -6,13 +6,14 @@
 # "A J." <ajtnco212@gmail.com>, 2024.
 # BANKUU <bankuu@gorutan.net>, 2024.
 # Saranpat Visetrit <raksina67@gmail.com>, 2024.
+# Nichathip Polaueng <seiryuukung@gmail.com>, 2025.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.9\n"
+"Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2024-12-13 14:49+0000\n"
-"PO-Revision-Date: 2024-09-20 19:19+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"POT-Creation-Date: 2024-12-20 07:29+0000\n"
+"PO-Revision-Date: 2025-01-09 20:20+0000\n"
+"Last-Translator: Nichathip Polaueng <seiryuukung@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
 "Language: th\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -43,8 +44,8 @@ msgstr "ที่อยู่อีเมลนี้ถูกใช้แล้
 msgid "This username is already taken. Please choose another."
 msgstr "ชื่อผู้ใช้นี้ถูกใช้แล้ว โปรดเลือกชื่ออื่น"
 
-#: weblate/accounts/forms.py:129 weblate/accounts/forms.py:982
-#: weblate/auth/models.py:409 weblate/auth/models.py:1113
+#: weblate/accounts/forms.py:129 weblate/accounts/forms.py:983
+#: weblate/auth/models.py:414 weblate/auth/models.py:1118
 #: weblate/templates/auth/team.html:105 weblate/templates/manage/users.html:50
 #: weblate/templates/trans/project-access.html:49
 msgid "Full name"
@@ -95,34 +96,31 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+"ใช้อีเมลเพื่อรับการแจ้งเตือนและผูกอีเมลหากท่านยังไม่ได้ตั้งค่าดังต่อไปนี้"
 
 #: weblate/accounts/forms.py:433
-#, fuzzy
-#| msgid "CSRF verification failed. Request aborted."
 msgid "Verification failed. Try again later."
-msgstr "การตรวจสอบ CSRF ล้มเหลว คำขอถูกยกเลิก"
+msgstr "การยืนยันล้มเหลว โปรดลองใหม่อีกครั้ง"
 
 #: weblate/accounts/forms.py:434
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "การยืนยันตัวตนหมดอายุ กรุณาลองใหม่อีกครั้ง"
 
 #: weblate/accounts/forms.py:435
 msgid "I'm not a robot"
-msgstr ""
+msgstr "ฉันไม่ใช่หุ่นยนต์"
 
 #: weblate/accounts/forms.py:436
-#, fuzzy
-#| msgid "Authentication"
 msgid "Verification completed"
-msgstr "รับรองความถูกต้อง"
+msgstr "ตรวจสอบเสร็จสิ้น"
 
 #: weblate/accounts/forms.py:437
 msgid "Verifying…"
-msgstr ""
+msgstr "กำลังตรวจสอบ…"
 
 #: weblate/accounts/forms.py:439
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "กำลังอยู่ในกระบวนการตรวจสอบ กรุณารอสักครู่"
 
 #: weblate/accounts/forms.py:449
 #, fuzzy
@@ -143,37 +141,35 @@ msgid "That was not correct, please try again."
 msgstr "คำตอบนั้นไม่ถูกต้อง โปรดลองอีกครั้ง"
 
 #: weblate/accounts/forms.py:534 weblate/accounts/forms.py:541
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "คำตอบนั้นไม่ถูกต้อง โปรดลองอีกครั้ง"
+msgstr "การตรวจสอบล้มเหลว กรุณาลองใหม่อีกครั้ง"
 
-#: weblate/accounts/forms.py:559
+#: weblate/accounts/forms.py:560
 msgid "Subject"
 msgstr "หัวเรื่อง"
 
-#: weblate/accounts/forms.py:562
+#: weblate/accounts/forms.py:563
 msgid "Your name"
 msgstr "ชื่อของคุณ"
 
-#: weblate/accounts/forms.py:564
+#: weblate/accounts/forms.py:565
 msgid "Your e-mail"
 msgstr "อีเมลของคุณ"
 
-#: weblate/accounts/forms.py:566 weblate/templates/manage/performance.html:32
+#: weblate/accounts/forms.py:567 weblate/templates/manage/performance.html:32
 #: weblate/templates/manage/performance.html:85
 #: weblate/trans/models/announcement.py:71
 msgid "Message"
 msgstr "ข้อความ"
 
-#: weblate/accounts/forms.py:569
+#: weblate/accounts/forms.py:570
 msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
 msgstr "โปรดติดต่อเราในภาษาอังกฤษ มิฉะนั้นเราอาจไม่สามารถดำเนินการตามคำร้องขอของคุณได้"
 
-#: weblate/accounts/forms.py:586 weblate/accounts/templatetags/authnames.py:33
-#: weblate/auth/models.py:415 weblate/auth/models.py:1131
+#: weblate/accounts/forms.py:587 weblate/accounts/templatetags/authnames.py:33
+#: weblate/auth/models.py:420 weblate/auth/models.py:1136
 #: weblate/templates/accounts/user.html:242
 #: weblate/templates/manage/users.html:51
 #: weblate/templates/trans/project-access.html:51 weblate/utils/fields.py:36
@@ -181,216 +177,211 @@ msgstr "โปรดติดต่อเราในภาษาอังกฤ
 msgid "E-mail"
 msgstr "อีเมล"
 
-#: weblate/accounts/forms.py:587
+#: weblate/accounts/forms.py:588
 msgid "E-mail with a confirmation link will be sent here."
 msgstr "อีเมลพร้อมลิงก์ยืนยันจะถูกส่งไปที่นี่"
 
-#: weblate/accounts/forms.py:633
+#: weblate/accounts/forms.py:634
 msgid "New password"
 msgstr "รหัสผ่านใหม่"
 
-#: weblate/accounts/forms.py:638
+#: weblate/accounts/forms.py:639
 msgid "New password confirmation"
 msgstr "การยืนยันรหัสผ่านใหม่"
 
-#: weblate/accounts/forms.py:666
+#: weblate/accounts/forms.py:667
 msgid "Your password has been changed."
 msgstr "รหัสผ่านของคุณได้ถูกเปลี่ยนแล้ว"
 
-#: weblate/accounts/forms.py:680
+#: weblate/accounts/forms.py:681
 msgid "Current password"
 msgstr "รหัสผ่านปัจจุบัน"
 
-#: weblate/accounts/forms.py:681
+#: weblate/accounts/forms.py:682
 msgid "Leave empty if you have not yet set a password."
 msgstr "เว้นไว้หากคุณยังไม่ได้ตั้งค่ารหัสผ่าน"
 
-#: weblate/accounts/forms.py:695
+#: weblate/accounts/forms.py:696
 msgid "You have entered an invalid password."
 msgstr "คุณได้ป้อนรหัสผ่านที่ไม่ถูกต้อง"
 
-#: weblate/accounts/forms.py:708
+#: weblate/accounts/forms.py:709
 msgid "Username or e-mail"
 msgstr "ชื่อผู้ใช้หรืออีเมล"
 
-#: weblate/accounts/forms.py:709 weblate/accounts/templatetags/authnames.py:32
+#: weblate/accounts/forms.py:710 weblate/accounts/templatetags/authnames.py:32
 msgid "Password"
 msgstr "รหัสผ่าน"
 
-#: weblate/accounts/forms.py:713
+#: weblate/accounts/forms.py:714
 msgid "Please enter the correct username and password."
 msgstr "โปรดป้อนชื่อผู้ใช้และรหัสผ่านที่ถูกต้อง"
 
-#: weblate/accounts/forms.py:715
+#: weblate/accounts/forms.py:716
 msgid "This account is inactive."
 msgstr "บัญชีนี้ไม่มีการเปิดใช้งาน"
 
-#: weblate/accounts/forms.py:833
+#: weblate/accounts/forms.py:834
 msgid "Component wide notifications"
 msgstr "การแจ้งเตือนแบบทั้งคอมโพเนนต์"
 
-#: weblate/accounts/forms.py:838
+#: weblate/accounts/forms.py:839
 msgid "Translation notifications"
 msgstr "การแจ้งเตือนเกี่ยวกับการแปล"
 
-#: weblate/accounts/forms.py:857
+#: weblate/accounts/forms.py:858
 msgid "Use default setting"
 msgstr "ใช้การตั้งค่าเริ่มต้น"
 
-#: weblate/accounts/forms.py:889
+#: weblate/accounts/forms.py:890
 msgid "Other projects"
 msgstr "โครงการอื่น ๆ"
 
-#: weblate/accounts/forms.py:891 weblate/accounts/models.py:632
+#: weblate/accounts/forms.py:892 weblate/accounts/models.py:632
 #: weblate/templates/accounts/profile.html:97
 #: weblate/templates/accounts/user.html:165
 msgid "Watched projects"
 msgstr "โครงการที่เฝ้าดู"
 
-#: weblate/accounts/forms.py:893 weblate/accounts/models.py:605
+#: weblate/accounts/forms.py:894 weblate/accounts/models.py:605
 #: weblate/templates/accounts/user.html:162
 #: weblate/templates/dashboard/user.html:37
 msgid "Managed projects"
 msgstr "โครงการที่จัดการ"
 
-#: weblate/accounts/forms.py:895
+#: weblate/accounts/forms.py:896
 msgid "Project: {}"
 msgstr "โครงการ: {}"
 
-#: weblate/accounts/forms.py:896
+#: weblate/accounts/forms.py:897
 msgid "Component: {}"
 msgstr "คอมโพเนนต์: {}"
 
-#: weblate/accounts/forms.py:902
+#: weblate/accounts/forms.py:903
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr "คุณจะได้รับการแจ้งเตือนเกี่ยวกับทุกเหตุการณ์ที่เกิดขึ้นในโครงการที่ไม่ได้เฝ้าดู"
 
-#: weblate/accounts/forms.py:907
+#: weblate/accounts/forms.py:908
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr "คุณจะได้รับการแจ้งเตือนเกี่ยวกับทุกเหตุการณ์ที่เกิดขึ้นในโครงการที่เฝ้าดูของคุณ"
 
-#: weblate/accounts/forms.py:912
+#: weblate/accounts/forms.py:913
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr "คุณจะได้รับการแจ้งเตือนเกี่ยวกับทุกเหตุการณ์ที่เกิดขึ้นในโครงการที่คุณมีสิทธิอนุญาตผู้ดูแล"
 
-#: weblate/accounts/forms.py:917
+#: weblate/accounts/forms.py:918
 #, python-format
 msgid "You will receive a notification for every such event in %(project)s."
 msgstr "คุณจะได้รับการแจ้งเตือนเกี่ยวกับทุกเหตุการณ์ที่เกิดขึ้นใน %(project)s"
 
-#: weblate/accounts/forms.py:920
+#: weblate/accounts/forms.py:921
 #, python-format
 msgid "You will receive a notification for every such event in %(component)s."
 msgstr "คุณจะได้รับการแจ้งเตือนเกี่ยวกับทุกเหตุการณ์ที่เกิดขึ้นใน %(component)s"
 
-#: weblate/accounts/forms.py:927
+#: weblate/accounts/forms.py:928
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr "คุณจะได้รับการแจ้งเตือนเหล่านี้สำหรับภาษาที่แปลของคุณในโครงการทไม่ได้เฝ้าดูเท่านั้น"
 
-#: weblate/accounts/forms.py:932
+#: weblate/accounts/forms.py:933
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr "คุณจะได้รับการแจ้งเตือนเหล่านี้สำหรับภาษาที่แปลของคุณในโครงการที่เฝ้าดูของคุณเท่านั้น"
 
-#: weblate/accounts/forms.py:937
+#: weblate/accounts/forms.py:938
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr "คุณจะได้รับการแจ้งเตือนเหล่านี้สำหรับภาษาที่แปลของคุณในโครงการที่คุณมีสิทธิอนุญาตผู้ดูแลเท่านั้น"
 
-#: weblate/accounts/forms.py:942
+#: weblate/accounts/forms.py:943
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr "คุณจะได้รับการแจ้งเตือนเหล่านี้สำหรับภาษาที่แปลของคุณใน %(project)s เท่านั้น"
 
-#: weblate/accounts/forms.py:946
+#: weblate/accounts/forms.py:947
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr "คุณจะได้รับการแจ้งเตือนเหล่านี้สำหรับภาษาที่แปลของคุณใน %(component)s เท่านั้น"
 
-#: weblate/accounts/forms.py:981 weblate/auth/models.py:396
-#: weblate/auth/models.py:1104 weblate/templates/auth/team.html:104
+#: weblate/accounts/forms.py:982 weblate/auth/models.py:401
+#: weblate/auth/models.py:1109 weblate/templates/auth/team.html:104
 #: weblate/templates/manage/users.html:49
-#: weblate/templates/trans/project-access.html:48 weblate/utils/forms.py:75
+#: weblate/templates/trans/project-access.html:48 weblate/utils/forms.py:79
 msgid "Username"
 msgstr "ชื่อผู้ใช้"
 
-#: weblate/accounts/forms.py:983 weblate/auth/models.py:439
+#: weblate/accounts/forms.py:984 weblate/auth/models.py:444
 msgid "Date joined"
 msgstr "วันที่เข้าร่วม"
 
-#: weblate/accounts/forms.py:984
+#: weblate/accounts/forms.py:985
 msgid "Translations made"
 msgstr "คำแปล"
 
-#: weblate/accounts/forms.py:985
+#: weblate/accounts/forms.py:986
 msgid "Suggestions made"
 msgstr "ข้อเสนอแนะ"
 
-#: weblate/accounts/forms.py:986
+#: weblate/accounts/forms.py:987
 msgid "Comments made"
 msgstr "ข้อคิดเห็น"
 
-#: weblate/accounts/forms.py:987
+#: weblate/accounts/forms.py:988
 msgid "Screenshots uploaded"
 msgstr "ภาพหน้าจอที่อัพโหลด"
 
-#: weblate/accounts/forms.py:1010
+#: weblate/accounts/forms.py:1011
 msgid "Chosen sorting is not supported."
 msgstr "ไม่รองรับการเรียงลำดับที่เลือกไว้"
 
-#: weblate/accounts/forms.py:1026
+#: weblate/accounts/forms.py:1027
 #, fuzzy
 #| msgid "Add user to a group"
 msgid "Add user to a team"
 msgstr "เพิ่มผู้ใช้ไปยังกลุ่ม"
 
-#: weblate/accounts/forms.py:1038
-#, fuzzy
-#| msgid "Edit label"
+#: weblate/accounts/forms.py:1039
 msgid "Add team"
-msgstr "แก้ไขป้ายชื่อ"
+msgstr "เพิ่มทีม"
 
-#: weblate/accounts/forms.py:1052
-#, fuzzy
-#| msgid "Administration"
+#: weblate/accounts/forms.py:1053
 msgid "Name your authentication app"
-msgstr "การดูแลระบบ"
+msgstr "ชื่อแอพพลิเคชั่นยืนยันตัวตนของท่าน"
 
-#: weblate/accounts/forms.py:1055
+#: weblate/accounts/forms.py:1056
 msgid "Verify the code from the app"
-msgstr ""
+msgstr "ยืนยันรหัสจากแอพพลิเคชั่น"
 
-#: weblate/accounts/forms.py:1069
-#, fuzzy
-#| msgid "The translation is not valid XML"
+#: weblate/accounts/forms.py:1070
 msgid "Entered token is not valid."
-msgstr "คำแปลไม่ใช่ XML ที่ถูกต้อง"
+msgstr "กรอกค่าไม่ถูกต้อง"
 
-#: weblate/accounts/forms.py:1137
+#: weblate/accounts/forms.py:1138
 msgid "Recovery token"
-msgstr ""
+msgstr "กู้คืนค่า"
 
-#: weblate/accounts/forms.py:1139
+#: weblate/accounts/forms.py:1140
 msgid ""
 "Recovery token can be used just once, mark your token as used after using it."
 msgstr ""
+"สามารถกู้คืนค่าได้เพียงแค่ครั้งเดียว โปรดบันทึกค่าของท่านทุกครั้งหลังใช้งาน"
 
-#: weblate/accounts/forms.py:1196
+#: weblate/accounts/forms.py:1197
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "กรอกรหัสที่ได้รับจากแอพพลิเคชั่น"
 
 #: weblate/accounts/models.py:205
 msgid "Password changed."
@@ -461,16 +452,14 @@ msgid "Account and all private data removed."
 msgstr "เอาบัญชีและข้อมูลส่วนตัวทั้งหมดออกแล้ว"
 
 #: weblate/accounts/models.py:222
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "ส่งอีเมลยืนยันไปยัง {email}"
+msgstr "การยืนยันการลบบัญชีจะถูกส่งไปยัง {email}"
 
 #: weblate/accounts/models.py:223
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "การยินยอมกับเงื่อนไขการใช้บริการเมื่อ {date}"
+msgstr "ข้อตกลงกับข้อกำหนดและเงื่อนไขทั่วไป {date}"
 
 #: weblate/accounts/models.py:224
 #, python-brace-format
@@ -498,22 +487,17 @@ msgid ""
 msgstr "ระบบสร้างผู้ใช้เพื่อติดตามความเป็นเจ้าของของคำแปลที่อัพโหลดโดยผู้ใช้อื่น"
 
 #: weblate/accounts/models.py:232
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "การเข้าถึงโครงการ {project} ถูกบล็อก"
+msgstr "การเข้าถึง {project} ถูกปิดกั้น"
 
 #: weblate/accounts/models.py:233
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator."
-msgstr "ข้อความได้ถูกส่งไปยังผู้ดูแลแล้ว"
+msgstr "ผู้ใช้งานได้รับการอนุญาตเปิดใช้งานโดยผู้ดูแล"
 
 #: weblate/accounts/models.py:234
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator."
-msgstr "ข้อความได้ถูกส่งไปยังผู้ดูแลแล้ว"
+msgstr "ผู้ใช้งานถูกระงับการใช้งานโดยผู้ดูแล"
 
 #: weblate/accounts/models.py:235
 msgid "Semiannual support status review was displayed."
@@ -523,12 +507,12 @@ msgstr ""
 #, fuzzy, python-brace-format
 #| msgid "Invited to {site_title} by {username}."
 msgid "User was added to the {team} team by {username}."
-msgstr "ได้รับคำเชิญไปยัง {site_title} โดย {username}"
+msgstr "ผู้ใช้งานถูกเพิ่มไปยัง {site_title} โดย {username}"
 
 #: weblate/accounts/models.py:237
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "ผู้ใช้งานถูกลบออกจาก{team} โดย {username}"
 
 #: weblate/accounts/models.py:239
 msgid "Two-factor authentication recovery codes were generated"
@@ -857,35 +841,35 @@ msgstr "สรุปย่อรายสัปดาห์"
 msgid "Monthly digest"
 msgstr "สรุปย่อรายเดือน"
 
-#: weblate/accounts/notifications.py:513
+#: weblate/accounts/notifications.py:515
 #, fuzzy
 #| msgid "Update the internal repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "ปรับปรุงที่เก็บภายใน"
 
-#: weblate/accounts/notifications.py:524
+#: weblate/accounts/notifications.py:526
 #, fuzzy
 #| msgid "Language"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
 msgstr "ภาษา"
 
-#: weblate/accounts/notifications.py:531
+#: weblate/accounts/notifications.py:533
 #, fuzzy
 #| msgid "Last change"
 msgctxt "Notification name"
 msgid "License was changed"
 msgstr "การเปลี่ยนแปลงล่าสุด"
 
-#: weblate/accounts/notifications.py:538
+#: weblate/accounts/notifications.py:540
 #, fuzzy
 #| msgid "Parse error"
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "ข้อผิดพลาดในการแยกวิเคราะห์"
 
-#: weblate/accounts/notifications.py:561
+#: weblate/accounts/notifications.py:563
 #, fuzzy
 #| msgid "New string to translate in %(translation)s"
 #| msgid_plural "New strings to translate in %(translation)s"
@@ -893,119 +877,119 @@ msgctxt "Notification name"
 msgid "String is available for translation"
 msgstr "มีสตริงใหม่ให้แปลใน %(translation)s"
 
-#: weblate/accounts/notifications.py:571
+#: weblate/accounts/notifications.py:573
 #, fuzzy
 #| msgid "Administration"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
 msgstr "การดูแลระบบ"
 
-#: weblate/accounts/notifications.py:580
+#: weblate/accounts/notifications.py:582
 #, fuzzy
 #| msgid "Suggestion added"
 msgctxt "Notification name"
 msgid "Suggestion was added"
 msgstr "เพิ่มข้อเสนอแนะแล้ว"
 
-#: weblate/accounts/notifications.py:589
+#: weblate/accounts/notifications.py:591
 #, fuzzy
 #| msgid "Long untranslated"
 msgctxt "Notification name"
 msgid "Language was translated"
 msgstr "ไม่ได้แปลมานานแล้ว"
 
-#: weblate/accounts/notifications.py:597
+#: weblate/accounts/notifications.py:599
 #, fuzzy
 #| msgid "Component name"
 msgctxt "Notification name"
 msgid "Component was translated"
 msgstr "ชื่อคอมโพเนนต์"
 
-#: weblate/accounts/notifications.py:605
+#: weblate/accounts/notifications.py:607
 #, fuzzy
 #| msgid "Comments made"
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "ข้อคิดเห็น"
 
-#: weblate/accounts/notifications.py:627
+#: weblate/accounts/notifications.py:629
 #, fuzzy
 #| msgid "Mentioned in comment"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "ถูกกล่าวถึงในข้อคิดเห็น"
 
-#: weblate/accounts/notifications.py:659
+#: weblate/accounts/notifications.py:661
 #, fuzzy
 #| msgid "Administration"
 msgctxt "Notification name"
 msgid "Your translation received a comment"
 msgstr "การดูแลระบบ"
 
-#: weblate/accounts/notifications.py:684
+#: weblate/accounts/notifications.py:686
 #, fuzzy
 #| msgid "Search"
 msgctxt "Notification name"
 msgid "String was edited by user"
 msgstr "ค้นหา"
 
-#: weblate/accounts/notifications.py:692
+#: weblate/accounts/notifications.py:694
 #, fuzzy
 #| msgid "Delete"
 msgctxt "Notification name"
 msgid "String was approved"
 msgstr "ลบ"
 
-#: weblate/accounts/notifications.py:700
+#: weblate/accounts/notifications.py:702
 #, fuzzy
 #| msgid "Search"
 msgctxt "Notification name"
 msgid "String was changed"
 msgstr "ค้นหา"
 
-#: weblate/accounts/notifications.py:709
+#: weblate/accounts/notifications.py:711
 #, fuzzy
 #| msgid "New language added to %(component)s"
 msgctxt "Notification name"
 msgid "New language was added or requested"
 msgstr "เพิ่มภาษาใหม่ไปยัง %(component)s แล้ว"
 
-#: weblate/accounts/notifications.py:726
+#: weblate/accounts/notifications.py:728
 #, fuzzy
 #| msgid "New translation component"
 msgctxt "Notification name"
 msgid "New translation component was created"
 msgstr "คอมโพเนนต์การแปลใหม่"
 
-#: weblate/accounts/notifications.py:734
+#: weblate/accounts/notifications.py:736
 #, fuzzy
 #| msgid "Announcements"
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "การประกาศ"
 
-#: weblate/accounts/notifications.py:749
+#: weblate/accounts/notifications.py:751
 #, fuzzy
 #| msgid "New alert on %(component)s"
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
 msgstr "การแจ้งเตือนใหม่บน %(component)s"
 
-#: weblate/accounts/notifications.py:802
+#: weblate/accounts/notifications.py:804
 #, fuzzy
 #| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
 msgstr "การดำเนินการเกี่ยวกับคลังเก็บ"
 
-#: weblate/accounts/notifications.py:876
+#: weblate/accounts/notifications.py:878
 #, fuzzy
 #| msgid "Pending suggestions"
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
 msgstr "ข้อเสนอแนะที่รอค้างอยู่"
 
-#: weblate/accounts/notifications.py:886
+#: weblate/accounts/notifications.py:888
 #, fuzzy
 #| msgid "Unfinished strings"
 msgctxt "Notification name"
@@ -1069,13 +1053,13 @@ msgstr "การรับรองความถูกต้อง"
 msgid "Use recovery codes"
 msgstr ""
 
-#: weblate/accounts/utils.py:170
+#: weblate/accounts/utils.py:175
 #, fuzzy, python-format
 #| msgid "Security Policy"
 msgid "Security key (%s)"
 msgstr "นโยบายความปลอดภัย"
 
-#: weblate/accounts/utils.py:176
+#: weblate/accounts/utils.py:181
 #, fuzzy, python-format
 #| msgid "Authentication"
 msgid "Authentication app (%s)"
@@ -1353,11 +1337,11 @@ msgstr "เอาสตริงเปล่าออก"
 msgid "Removes strings without a translation from translation files."
 msgstr "เอาสตริงที่ไม่มีคำแปลออกจากไฟล์คำแปล"
 
-#: weblate/addons/consistency.py:17
+#: weblate/addons/consistency.py:22
 msgid "Add missing languages"
 msgstr "เพิ่มภาษาที่หายไป"
 
-#: weblate/addons/consistency.py:19
+#: weblate/addons/consistency.py:24
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
@@ -1750,7 +1734,7 @@ msgstr ""
 msgid "Could not parse CSS selector: %s"
 msgstr "ไม่สามารถแยกวิเคราะห์ที่เลือก CSS ได้: %s"
 
-#: weblate/addons/forms.py:567 weblate/billing/models.py:291
+#: weblate/addons/forms.py:567 weblate/billing/models.py:292
 #: weblate/templates/snippets/query-builder.html:19
 #: weblate/templates/snippets/query-builder.html:24
 #: weblate/templates/translation.html:149 weblate/trans/admin.py:91
@@ -2004,7 +1988,7 @@ msgstr ""
 msgid "Weblate's REST API"
 msgstr ""
 
-#: weblate/api/views.py:2053 weblate/auth/models.py:926
+#: weblate/api/views.py:2053 weblate/auth/models.py:931
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/accounts/user.html:322
@@ -2613,7 +2597,7 @@ msgid "From component list"
 msgstr "จากรายการคอมโพเนนต์"
 
 #: weblate/auth/models.py:152 weblate/billing/admin.py:74
-#: weblate/billing/models.py:283 weblate/templates/accounts/profile.html:427
+#: weblate/billing/models.py:284 weblate/templates/accounts/profile.html:427
 #: weblate/templates/auth/team.html:69 weblate/templates/base.html:154
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:117 weblate/templates/language.html:30
@@ -2652,7 +2636,7 @@ msgstr "การเลือกภาษา"
 msgid "All languages"
 msgstr "ภาษาทั้งหมด"
 
-#: weblate/auth/models.py:177 weblate/billing/models.py:319
+#: weblate/auth/models.py:177 weblate/billing/models.py:320
 #: weblate/lang/views.py:52 weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:63
 #: weblate/templates/accounts/profile.html:428
@@ -2667,7 +2651,7 @@ msgstr "ภาษาทั้งหมด"
 #: weblate/templates/snippets/info.html:434
 #: weblate/templates/trans/project-access.html:217 weblate/trans/admin.py:99
 #: weblate/trans/forms.py:1153 weblate/trans/forms.py:2362
-#: weblate/trans/templatetags/translations.py:1385
+#: weblate/trans/templatetags/translations.py:1395
 #: weblate/wladmin/models.py:218
 msgid "Languages"
 msgstr "ภาษา"
@@ -2698,39 +2682,39 @@ msgstr ""
 msgid "Requires users to have two-factor authentication configured."
 msgstr "กำลังเปลี่ยนเส้นทางไปยังตัวให้บริการรับรองความถูกต้อง"
 
-#: weblate/auth/models.py:400 weblate/utils/forms.py:72
+#: weblate/auth/models.py:405 weblate/utils/forms.py:76
 #: weblate/utils/validators.py:173
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr "ชื่อผู้ใช้สามารถมีได้เพียงตัวอักษร ตัวเลข หรืออักขระดังต่อไปนี้เท่านั้น: @ . + - _"
 
-#: weblate/auth/models.py:405
+#: weblate/auth/models.py:410
 msgid "A user with that username already exists."
 msgstr "มีผู้ใช้ชื่อนี้อยู่แล้ว"
 
-#: weblate/auth/models.py:421 weblate/auth/models.py:1135
+#: weblate/auth/models.py:426 weblate/auth/models.py:1140
 msgid "Superuser status"
 msgstr "สถานะผู้ใช้สิทธิ์ขั้นสูง"
 
-#: weblate/auth/models.py:423 weblate/auth/models.py:1137
+#: weblate/auth/models.py:428 weblate/auth/models.py:1142
 msgid "User has all possible permissions."
 msgstr "ผู้ใช้มีสิทธิ์ที่เป็นไปได้ทั้งหมด"
 
-#: weblate/auth/models.py:426 weblate/billing/models.py:166
+#: weblate/auth/models.py:431 weblate/billing/models.py:167
 #: weblate/templates/check_list.html:41
 msgid "Active"
 msgstr "ใช้งานอยู่"
 
-#: weblate/auth/models.py:428
+#: weblate/auth/models.py:433
 msgid "Mark user as inactive instead of removing."
 msgstr "ทำเครื่องหมายผู้ใช้ว่าไม่ได้ใช้งานแทนการเอาออก"
 
-#: weblate/auth/models.py:436 weblate/templates/trans/project-access.html:310
+#: weblate/auth/models.py:441 weblate/templates/trans/project-access.html:310
 msgid "Expires"
 msgstr "หมดอายุ"
 
-#: weblate/auth/models.py:443 weblate/templates/accounts/profile.html:45
+#: weblate/auth/models.py:448 weblate/templates/accounts/profile.html:45
 #: weblate/templates/accounts/user.html:189 weblate/templates/auth/team.html:23
 #: weblate/templates/manage/teams.html:15
 #: weblate/templates/manage/users.html:53
@@ -2742,7 +2726,7 @@ msgstr "หมดอายุ"
 msgid "Teams"
 msgstr "ทีม"
 
-#: weblate/auth/models.py:446 weblate/auth/models.py:1125
+#: weblate/auth/models.py:451 weblate/auth/models.py:1130
 #, fuzzy
 #| msgid ""
 #| "The user is granted all permissions included in membership of these "
@@ -2751,49 +2735,49 @@ msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr "ผู้ใช้ได้รับสิทธิ์ทั้งหมดที่รวมอยู่ในการเป็นสมาชิกของกลุ่มเหล่านี้"
 
-#: weblate/auth/models.py:897
+#: weblate/auth/models.py:902
 msgid "Regular expression for e-mail address"
 msgstr "นิพจน์ปกติสำหรับที่อยู่อีเมล"
 
-#: weblate/auth/models.py:901
+#: weblate/auth/models.py:906
 #, fuzzy
 #| msgid ""
 #| "Users with e-mail addresses found to match will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr "ผู้ใช้ที่มีที่อยู่อีเมลที่ตรงกันจะถูกเพิ่มไปยังกลุ่มนี้"
 
-#: weblate/auth/models.py:906
+#: weblate/auth/models.py:911
 #, fuzzy
 #| msgid "Group to assign"
 msgid "Team to assign"
 msgstr "กลุ่มที่จะกำหนด"
 
-#: weblate/auth/models.py:921 weblate/trans/forms.py:1283
+#: weblate/auth/models.py:926 weblate/trans/forms.py:1283
 msgid "User to block"
 msgstr "ผู้ใช้ที่จะบล็อก"
 
-#: weblate/auth/models.py:928
+#: weblate/auth/models.py:933
 msgid "Block expiry"
 msgstr "บล็อกหมดอายุ"
 
-#: weblate/auth/models.py:1098 weblate/trans/forms.py:1264
+#: weblate/auth/models.py:1103 weblate/trans/forms.py:1264
 msgid "User to add"
 msgstr "ผู้ใช้ที่จะเพิ่ม"
 
-#: weblate/auth/models.py:1100 weblate/trans/forms.py:1267
+#: weblate/auth/models.py:1105 weblate/trans/forms.py:1267
 #: weblate/trans/forms.py:1285
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
 
-#: weblate/auth/models.py:1108
+#: weblate/auth/models.py:1113
 msgid "Suggest username for the user. It can be changed later."
 msgstr ""
 
-#: weblate/auth/models.py:1117
+#: weblate/auth/models.py:1122
 msgid "Suggest full name for the user. It can be changed later."
 msgstr ""
 
-#: weblate/auth/models.py:1123 weblate/templates/accounts/profile.html:425
+#: weblate/auth/models.py:1128 weblate/templates/accounts/profile.html:425
 #: weblate/templates/accounts/user.html:323
 msgid "Team"
 msgstr ""
@@ -2813,7 +2797,7 @@ msgstr ""
 msgid "This translation is currently locked."
 msgstr "คำแปลนี้ถูกล็อกอยู่ในขณะนี้"
 
-#: weblate/auth/permissions.py:192
+#: weblate/auth/permissions.py:194
 #: weblate/templates/snippets/component/contributor-agreement.html:13
 #: weblate/templates/trans/other-row.html:27
 msgid ""
@@ -2821,77 +2805,77 @@ msgid ""
 "agreement."
 msgstr ""
 
-#: weblate/auth/permissions.py:200
+#: weblate/auth/permissions.py:202
 #, fuzzy
 #| msgid "Administration"
 msgid "Sign in to save the translation."
 msgstr "การดูแลระบบ"
 
-#: weblate/auth/permissions.py:203
+#: weblate/auth/permissions.py:205
 #, fuzzy
 #| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for approving translations."
 msgstr "มีสิทธิอนุญาตไม่เพียงพอในการบันทึกคำแปล"
 
-#: weblate/auth/permissions.py:205 weblate/trans/views/edit.py:444
+#: weblate/auth/permissions.py:207 weblate/trans/views/edit.py:444
 #: weblate/trans/views/edit.py:466 weblate/trans/views/edit.py:486
 #: weblate/trans/views/edit.py:1011
 msgid "Insufficient privileges for saving translations."
 msgstr "มีสิทธิอนุญาตไม่เพียงพอในการบันทึกคำแปล"
 
-#: weblate/auth/permissions.py:213
+#: weblate/auth/permissions.py:215
 #, fuzzy
 #| msgid "Insufficient privileges for adding suggestions."
 msgid "Insufficient privileges for editing source strings."
 msgstr "มีสิทธิอนุญาตไม่เพียงพอในการเพิ่มข้อเสนอแนะ"
 
-#: weblate/auth/permissions.py:217
+#: weblate/auth/permissions.py:219
 #, fuzzy
 #| msgid "Search"
 msgid "Suggestion voting is disabled."
 msgstr "ค้นหา"
 
-#: weblate/auth/permissions.py:227
+#: weblate/auth/permissions.py:229
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
 msgstr ""
 
-#: weblate/auth/permissions.py:233
+#: weblate/auth/permissions.py:235
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
 msgstr "จ่ายบิลเพื่อปลดล็อกโครงการนี้"
 
-#: weblate/auth/permissions.py:246
+#: weblate/auth/permissions.py:248
 #, fuzzy
 #| msgid "Search"
 msgid "Source string reviews are not enabled."
 msgstr "ค้นหา"
 
-#: weblate/auth/permissions.py:247
+#: weblate/auth/permissions.py:249
 #, fuzzy
 #| msgid "Administration"
 msgid "Translation reviews are not enabled."
 msgstr "การดูแลระบบ"
 
-#: weblate/auth/permissions.py:259
+#: weblate/auth/permissions.py:261
 #, fuzzy
 #| msgid "Administration"
 msgid "Reviews are not enabled."
 msgstr "การดูแลระบบ"
 
-#: weblate/auth/permissions.py:273 weblate/templates/translate.html:172
+#: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 #, fuzzy
 #| msgid "Search"
 msgid "The source string needs review."
 msgstr "ค้นหา"
 
-#: weblate/auth/permissions.py:274
+#: weblate/auth/permissions.py:276
 #, fuzzy
 #| msgid "Administration"
 msgid "The string is read only."
 msgstr "การดูแลระบบ"
 
-#: weblate/auth/permissions.py:284
+#: weblate/auth/permissions.py:286
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
@@ -2899,27 +2883,27 @@ msgstr ""
 "เฉพาะผู้ตรวจทานเท่านั้นที่สามารถเปลี่ยนแปลงสตริงที่อนุมัติแล้วได้ "
 "โปรดเพิ่มข้อเสนอแนะถ้าคุณคิดว่าสตริงควรมีการเปลี่ยนแปลง"
 
-#: weblate/auth/permissions.py:290
+#: weblate/auth/permissions.py:292
 #, fuzzy
 #| msgid "Administration"
 msgid "The translation is read only."
 msgstr "การดูแลระบบ"
 
-#: weblate/auth/permissions.py:307
+#: weblate/auth/permissions.py:309
 msgid "Add the string to the source language instead."
 msgstr ""
 
-#: weblate/auth/permissions.py:311
+#: weblate/auth/permissions.py:313
 #, fuzzy
 #| msgid "Information"
 msgid "Adding strings is disabled in the component configuration."
 msgstr "ข้อมูล"
 
-#: weblate/auth/permissions.py:326
+#: weblate/auth/permissions.py:328
 msgid "Cannot remove terminology translation, remove source string instead."
 msgstr ""
 
-#: weblate/auth/permissions.py:338 weblate/auth/permissions.py:355
+#: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
 #, fuzzy
 #| msgid "Administration"
 msgid "File format does not support this."
@@ -2955,109 +2939,115 @@ msgid ""
 "Please describe the project and your relation to it, preferably in English."
 msgstr "โปรดอธิบายเกี่ยวกับโครงการและความเกี่ยวข้องของคุณ ควรเป็นภาษาอังกฤษ"
 
-#: weblate/billing/models.py:156 weblate/templates/billing/detail.html:30
+#: weblate/billing/models.py:157 weblate/templates/billing/detail.html:30
 msgid "Billing plan"
 msgstr "แผนการเรียกเก็บเงิน"
 
-#: weblate/billing/models.py:159
+#: weblate/billing/models.py:160
 msgid "Billed projects"
 msgstr "โครงการที่เรียกเก็บเงิน"
 
-#: weblate/billing/models.py:162
+#: weblate/billing/models.py:163
 msgid "Billing owners"
 msgstr "เจ้าของการเรียกเก็บเงิน"
 
-#: weblate/billing/models.py:167 weblate/templates/billing/state-snippet.html:7
+#: weblate/billing/models.py:168 weblate/templates/billing/state-snippet.html:7
 #: weblate/templates/manage/billing.html:20
 msgid "Trial"
 msgstr "การทดลองใช้"
 
-#: weblate/billing/models.py:168 weblate/templates/billing/state-snippet.html:9
+#: weblate/billing/models.py:169 weblate/templates/billing/state-snippet.html:9
 #: weblate/templates/manage/billing.html:35
 msgid "Terminated"
 msgstr "สิ้นสุด"
 
-#: weblate/billing/models.py:171
+#: weblate/billing/models.py:172
 msgid "Billing state"
 msgstr "สถานะการเรียกเก็บเงิน"
 
-#: weblate/billing/models.py:176 weblate/templates/billing/list.html:13
+#: weblate/billing/models.py:177 weblate/templates/billing/list.html:13
 #: weblate/templates/billing/status.html:23
 msgid "Trial expiry date"
 msgstr "วันหมดอายุการเรียกเก็บเงิน"
 
-#: weblate/billing/models.py:182 weblate/templates/billing/list.html:16
+#: weblate/billing/models.py:183 weblate/templates/billing/list.html:16
 #: weblate/templates/billing/state-snippet.html:13
 #: weblate/templates/billing/status.html:37
 #: weblate/templates/manage/billing.html:32
 msgid "Scheduled removal"
 msgstr "การเอาออกที่จัดกำหนดการ"
 
-#: weblate/billing/models.py:186
+#: weblate/billing/models.py:187
 msgid "Paid"
 msgstr "ชำระเงินแล้ว"
 
-#: weblate/billing/models.py:190
+#: weblate/billing/models.py:191
 msgid "In limits"
 msgstr "ในขีดจำกัด"
 
-#: weblate/billing/models.py:271
+#: weblate/billing/models.py:272
 msgid "Changes in last month"
 msgstr "การเปลี่ยนแปลงในเดือนที่ผ่านมา"
 
-#: weblate/billing/models.py:275
+#: weblate/billing/models.py:276
 msgid "Number of changes"
 msgstr "จำนวนการเปลี่ยนแปลง"
 
-#: weblate/billing/models.py:299 weblate/wladmin/models.py:215
+#: weblate/billing/models.py:300 weblate/wladmin/models.py:215
 #, fuzzy
 #| msgid "Translated strings"
 msgid "Hosted strings"
 msgstr "สตริงที่แปลแล้ว"
 
-#: weblate/billing/models.py:311 weblate/trans/admin.py:95
+#: weblate/billing/models.py:312 weblate/trans/admin.py:95
 msgid "Source words"
 msgstr "คำต้นฉบับ"
 
-#: weblate/billing/models.py:352 weblate/templates/addons/generate_help.html:47
+#: weblate/billing/models.py:353 weblate/templates/addons/generate_help.html:47
 msgid "Number of strings"
 msgstr "จำนวนสตริง"
 
-#: weblate/billing/models.py:359 weblate/templates/billing/status.html:108
+#: weblate/billing/models.py:360 weblate/templates/billing/status.html:108
 msgid "Last invoice"
 msgstr "ใบแจ้งหนี้ล่าสุด"
 
-#: weblate/billing/models.py:364
+#: weblate/billing/models.py:365
 msgid "N/A"
 msgstr "ไม่มีข้อมูล"
 
-#: weblate/billing/models.py:368
+#: weblate/billing/models.py:369
 msgid "In display limits"
 msgstr "ในขีดจำกัดการแสดงผล"
 
-#: weblate/billing/models.py:460
+#: weblate/billing/models.py:461
 #, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
 msgstr[0] "มี %d โครงการ"
 
-#: weblate/billing/models.py:475
+#: weblate/billing/models.py:476
 #, fuzzy
 #| msgid "Project website"
 msgid "Project website missing!"
 msgstr "เว็บไซต์โครงการ"
 
-#: weblate/billing/models.py:483
+#: weblate/billing/models.py:480
+#, fuzzy
+#| msgid "All public projects"
+msgid "Only public projects are allowed"
+msgstr "โครงการสาธารณะทั้งหมด"
+
+#: weblate/billing/models.py:486
 #, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
 msgstr[0] "มี %d คอมโพเนนต์"
 
-#: weblate/billing/models.py:491
+#: weblate/billing/models.py:494
 msgid "Missing license"
 msgstr "ไม่มีสัญญาอนุญาต"
 
-#: weblate/billing/models.py:497
+#: weblate/billing/models.py:500
 #, fuzzy
 #| msgid "Search"
 msgid "Not a libre license"
@@ -3211,7 +3201,7 @@ msgstr "ช่องว่างที่มีความกว้างเป
 msgid "Translation contains extra zero-width space character"
 msgstr "การแปลมีอักขระช่องว่างที่มีความกว้างเป็นศูนย์พิเศษ"
 
-#: weblate/checks/chars.py:406 weblate/checks/flags.py:71
+#: weblate/checks/chars.py:406 weblate/checks/flags.py:72
 msgid "Maximum length of translation"
 msgstr "ความยาวสูงสุดของการแปล"
 
@@ -3314,134 +3304,134 @@ msgstr "คำซ้ำที่ต่อเนื่องกัน"
 msgid "Text contains the same word twice in a row:"
 msgstr "ข้อความประกอบด้วยคำเดียวกันสองคำติดกัน:"
 
-#: weblate/checks/flags.py:41
+#: weblate/checks/flags.py:42
 msgid "RST text"
 msgstr "ข้อความ RST"
 
-#: weblate/checks/flags.py:42
+#: weblate/checks/flags.py:43
 msgid "Markdown text"
 msgstr "ข้อความมาร์กดาวน์"
 
-#: weblate/checks/flags.py:43
+#: weblate/checks/flags.py:44
 msgid "XML text"
 msgstr "ข้อความ XML"
 
-#: weblate/checks/flags.py:44
+#: weblate/checks/flags.py:45
 msgid "DOS line endings"
 msgstr "ตัวจบบรรทัดของ DOS"
 
-#: weblate/checks/flags.py:45 weblate/checks/markup.py:314
+#: weblate/checks/flags.py:46 weblate/checks/markup.py:314
 #: weblate/templates/data.html:32 weblate/templates/data.html:73
 #: weblate/templates/data.html:117 weblate/templates/data.html:158
 msgid "URL"
 msgstr "URL"
 
-#: weblate/checks/flags.py:47
+#: weblate/checks/flags.py:48
 msgid "Automatically detect Java MessageFormat"
 msgstr "ตรวจหา Java MessageFormat โดยอัตโนมัติ"
 
-#: weblate/checks/flags.py:49
+#: weblate/checks/flags.py:50
 #: weblate/templates/snippets/unit-readonly-badge.html:14
 #: weblate/templates/translate.html:257
 msgid "Read only"
 msgstr "อ่านอย่างเดียว"
 
-#: weblate/checks/flags.py:50
+#: weblate/checks/flags.py:51
 msgid "Strict unchanged check"
 msgstr "ตรวจสอบรายการที่ไม่มีการเปลี่ยนแปลงอย่างเข้มงวด"
 
-#: weblate/checks/flags.py:51
+#: weblate/checks/flags.py:52
 #, fuzzy
 #| msgid "Strict unchanged check"
 msgid "Strict format string checks"
 msgstr "ตรวจสอบรายการที่ไม่มีการเปลี่ยนแปลงอย่างเข้มงวด"
 
-#: weblate/checks/flags.py:52 weblate/trans/forms.py:2501
+#: weblate/checks/flags.py:53 weblate/trans/forms.py:2501
 msgid "Forbidden translation"
 msgstr "การแปลที่ถูกห้าม"
 
-#: weblate/checks/flags.py:53 weblate/trans/forms.py:2496
+#: weblate/checks/flags.py:54 weblate/trans/forms.py:2496
 msgid "Terminology"
 msgstr "อภิธานศัพท์"
 
-#: weblate/checks/flags.py:54
+#: weblate/checks/flags.py:55
 #, fuzzy
 #| msgid "Ignore failing check"
 msgid "Ignore all checks"
 msgstr "ละเว้นการตรวจสอบความผิดพลาด"
 
-#: weblate/checks/flags.py:55
+#: weblate/checks/flags.py:56
 #, fuzzy
 #| msgid "Percent placeholders"
 msgid "Use case insensitive placeholders"
 msgstr "ตัวยึดเปอร์เซ็นต์"
 
-#: weblate/checks/flags.py:57 weblate/fonts/models.py:24
+#: weblate/checks/flags.py:58 weblate/fonts/models.py:24
 #: weblate/templates/fonts/font_detail.html:29
 #: weblate/templates/fonts/font_list.html:87
 msgid "Font family"
 msgstr "ตระกูลแบบอักษร"
 
-#: weblate/checks/flags.py:59
+#: weblate/checks/flags.py:60
 msgid "Font size"
 msgstr "ขนาดแบบอักษร"
 
-#: weblate/checks/flags.py:61
+#: weblate/checks/flags.py:62
 msgid "Font weight"
 msgstr "ความกว้างของแบบอักษร"
 
-#: weblate/checks/flags.py:63
+#: weblate/checks/flags.py:64
 msgid "Font spacing"
 msgstr "ระยะห่างแบบอักษร"
 
-#: weblate/checks/flags.py:65
+#: weblate/checks/flags.py:66
 #, fuzzy
 #| msgid "Java MessageFormat"
 msgid "ICU MessageFormat flags"
 msgstr "Java MessageFormat"
 
-#: weblate/checks/flags.py:67
+#: weblate/checks/flags.py:68
 #, fuzzy
 #| msgid "Java MessageFormat"
 msgid "ICU MessageFormat tag prefix"
 msgstr "Java MessageFormat"
 
-#: weblate/checks/flags.py:69 weblate/trans/models/component.py:733
+#: weblate/checks/flags.py:70 weblate/trans/models/component.py:733
 #: weblate/utils/views.py:179
 msgid "Priority"
 msgstr "ลำดับความสำคัญ"
 
-#: weblate/checks/flags.py:73
+#: weblate/checks/flags.py:74
 msgid "Replacements while rendering"
 msgstr "การแทนที่ขณะแสดงผล"
 
-#: weblate/checks/flags.py:75
+#: weblate/checks/flags.py:76
 msgid "String variant"
 msgstr "ตัวแปรสตริง"
 
-#: weblate/checks/flags.py:79
+#: weblate/checks/flags.py:80
 #, fuzzy
 #| msgid "Font file"
 msgid "Fluent type"
 msgstr "ไฟล์แบบอักษร"
 
-#: weblate/checks/flags.py:295
+#: weblate/checks/flags.py:299
 #, python-format
 msgid "Invalid translation flag: \"%s\""
 msgstr "ค่าสถานะการแปลไม่ถูกต้อง: \"%s\""
 
-#: weblate/checks/flags.py:299
+#: weblate/checks/flags.py:303
 #, fuzzy, python-format
 #| msgid "Translation flag has no parameters: \"%s\""
 msgid "The translation flag has no parameters: \"%s\""
 msgstr "ค่าสถานะการแปลไม่มีพารามิเตอร์: \"%s\""
 
-#: weblate/checks/flags.py:305
+#: weblate/checks/flags.py:309
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
 msgstr "พารามิเตอร์สำหรับค่าสถานะการแปลไม่ถูกต้อง: \"%s\""
 
-#: weblate/checks/flags.py:309
+#: weblate/checks/flags.py:313
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "พารามิเตอร์สำหรับค่าสถานะการแปลหายไป: \"%s\""
@@ -4772,12 +4762,12 @@ msgstr "จำนวนสตริง"
 msgid "Number of people speaking this language."
 msgstr "จำนวนภาษา"
 
-#: weblate/lang/models.py:731
+#: weblate/lang/models.py:740
 msgctxt "Plural type"
 msgid "None"
 msgstr "ไม่มี"
 
-#: weblate/lang/models.py:735
+#: weblate/lang/models.py:744
 #, fuzzy
 #| msgctxt "Plural type"
 #| msgid "One/other/two"
@@ -4785,7 +4775,7 @@ msgctxt "Plural type"
 msgid "One/other"
 msgstr "หนึ่ง/อื่นๆ/สอง"
 
-#: weblate/lang/models.py:739
+#: weblate/lang/models.py:748
 #, fuzzy
 #| msgctxt "Plural type"
 #| msgid "One/two/few/other"
@@ -4793,92 +4783,92 @@ msgctxt "Plural type"
 msgid "One/few/other"
 msgstr "หนึ่ง/สอง/น้อย/อื่นๆ"
 
-#: weblate/lang/models.py:743
+#: weblate/lang/models.py:752
 msgctxt "Plural type"
 msgid "Arabic languages"
 msgstr "ตระกูลภาษาอาหรับ"
 
-#: weblate/lang/models.py:747
+#: weblate/lang/models.py:756
 msgctxt "Plural type"
 msgid "Zero/one/other"
 msgstr "ศูนย์/หนึ่ง/อื่นๆ"
 
-#: weblate/lang/models.py:751
+#: weblate/lang/models.py:760
 msgctxt "Plural type"
 msgid "One/two/other"
 msgstr "หนึ่ง/สอง/อื่นๆ"
 
-#: weblate/lang/models.py:755
+#: weblate/lang/models.py:764
 msgctxt "Plural type"
 msgid "One/other/two"
 msgstr "หนึ่ง/อื่นๆ/สอง"
 
-#: weblate/lang/models.py:759
+#: weblate/lang/models.py:768
 msgctxt "Plural type"
 msgid "One/two/few/other"
 msgstr "หนึ่ง/สอง/น้อย/อื่นๆ"
 
-#: weblate/lang/models.py:763
+#: weblate/lang/models.py:772
 msgctxt "Plural type"
 msgid "Other/one/two/few"
 msgstr "อื่นๆ/หนึ่ง/สอง/น้อย"
 
-#: weblate/lang/models.py:767
+#: weblate/lang/models.py:776
 msgctxt "Plural type"
 msgid "One/two/three/other"
 msgstr "หนึ่ง/สอง/สาม/อื่นๆ"
 
-#: weblate/lang/models.py:771
+#: weblate/lang/models.py:780
 msgctxt "Plural type"
 msgid "One/other/zero"
 msgstr "หนึ่ง/อื่นๆ/ศูนย์"
 
-#: weblate/lang/models.py:775
+#: weblate/lang/models.py:784
 msgctxt "Plural type"
 msgid "One/few/many/other"
 msgstr "หนึ่ง/น้อย/มาก/อื่นๆ"
 
-#: weblate/lang/models.py:779
+#: weblate/lang/models.py:788
 msgctxt "Plural type"
 msgid "Two/other"
 msgstr "สอง/อื่นๆ"
 
-#: weblate/lang/models.py:783
+#: weblate/lang/models.py:792
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
 msgstr "หนึ่ง/สอง/น้อย/มาก/อื่นๆ"
 
-#: weblate/lang/models.py:787
+#: weblate/lang/models.py:796
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
 msgstr "ศูนย์/หนึ่ง/สอง/น้อย/มาก/อื่นๆ"
 
-#: weblate/lang/models.py:791
+#: weblate/lang/models.py:800
 msgctxt "Plural type"
 msgid "Zero/other"
 msgstr "ศูนย์/อื่นๆ"
 
-#: weblate/lang/models.py:795
+#: weblate/lang/models.py:804
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
 msgstr "ศูนย์/หนึ่ง/น้อย/อื่นๆ"
 
-#: weblate/lang/models.py:799
+#: weblate/lang/models.py:808
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
 msgstr "ศูนย์/หนึ่ง/สอง/น้อย/อื่นๆ"
 
-#: weblate/lang/models.py:803
+#: weblate/lang/models.py:812
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
 msgstr "ศูนย์/หนึ่ง/สอง/อื่นๆ"
 
-#: weblate/lang/models.py:807
+#: weblate/lang/models.py:816
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
 msgstr "ศูนย์/หนึ่ง/น้อย/มาก/อื่นๆ"
 
-#: weblate/lang/models.py:811
+#: weblate/lang/models.py:820
 #, fuzzy
 #| msgctxt "Plural type"
 #| msgid "One/few/many/other"
@@ -4886,7 +4876,7 @@ msgctxt "Plural type"
 msgid "One/many/other"
 msgstr "หนึ่ง/น้อย/มาก/อื่นๆ"
 
-#: weblate/lang/models.py:815
+#: weblate/lang/models.py:824
 #, fuzzy
 #| msgctxt "Plural type"
 #| msgid "Zero/one/two/few/many/other"
@@ -4894,7 +4884,7 @@ msgctxt "Plural type"
 msgid "Zero/one/many/other"
 msgstr "ศูนย์/หนึ่ง/สอง/น้อย/มาก/อื่นๆ"
 
-#: weblate/lang/models.py:819
+#: weblate/lang/models.py:828
 #, fuzzy
 #| msgctxt "Plural type"
 #| msgid "One/few/many/other"
@@ -4902,7 +4892,7 @@ msgctxt "Plural type"
 msgid "One/few/many"
 msgstr "หนึ่ง/น้อย/มาก/อื่นๆ"
 
-#: weblate/lang/models.py:823
+#: weblate/lang/models.py:832
 #, fuzzy
 #| msgctxt "Plural type"
 #| msgid "One/two/few/other"
@@ -4910,75 +4900,75 @@ msgctxt "Plural type"
 msgid "One/zero/few/other"
 msgstr "หนึ่ง/สอง/น้อย/อื่นๆ"
 
-#: weblate/lang/models.py:827
+#: weblate/lang/models.py:836
 msgctxt "Plural type"
 msgid "Unknown"
 msgstr "ไม่รู้จัก"
 
-#: weblate/lang/models.py:839
+#: weblate/lang/models.py:848
 msgid "Plural definition source"
 msgstr "แหล่งข้อกำหนดรูปแบบพหูพจน์"
 
-#: weblate/lang/models.py:841
+#: weblate/lang/models.py:850
 msgid "Default plural"
 msgstr "รูปแบบพหูพจน์เริ่มต้น"
 
-#: weblate/lang/models.py:842
+#: weblate/lang/models.py:851
 #, fuzzy
 #| msgid "Plural form"
 msgid "gettext plural formula"
 msgstr "รูปแบบพหูพจน์"
 
-#: weblate/lang/models.py:843
+#: weblate/lang/models.py:852
 msgid "CLDR plural with zero"
 msgstr ""
 
-#: weblate/lang/models.py:844
+#: weblate/lang/models.py:853
 msgid "CLDR v38+ plural"
 msgstr ""
 
-#: weblate/lang/models.py:845
+#: weblate/lang/models.py:854
 msgid "Android plural"
 msgstr "รูปแบบพหูพจน์ Android"
 
-#: weblate/lang/models.py:846
+#: weblate/lang/models.py:855
 #, fuzzy
 #| msgid "Versions"
 msgid "Qt Linguist plural"
 msgstr "รุ่น"
 
-#: weblate/lang/models.py:847
+#: weblate/lang/models.py:856
 msgid "Manually entered formula"
 msgstr "สูตรที่ป้อนเอง"
 
-#: weblate/lang/models.py:851 weblate/templates/snippets/plural.html:16
+#: weblate/lang/models.py:860 weblate/templates/snippets/plural.html:16
 msgid "Number of plurals"
 msgstr "จำนวนรูปแบบพหูพจน์"
 
-#: weblate/lang/models.py:857 weblate/templates/snippets/plural-formula.html:5
+#: weblate/lang/models.py:866 weblate/templates/snippets/plural-formula.html:5
 #: weblate/templates/snippets/plural.html:37
 msgid "Plural formula"
 msgstr "สูตรรูปแบบพหูพจน์"
 
-#: weblate/lang/models.py:862 weblate/templates/snippets/plural.html:20
+#: weblate/lang/models.py:871 weblate/templates/snippets/plural.html:20
 msgid "Plural type"
 msgstr "ชนิดรูปแบบพหูพจน์"
 
-#: weblate/lang/models.py:954
+#: weblate/lang/models.py:963
 msgid "Example counts for this plural form."
 msgstr ""
 
-#: weblate/lang/models.py:963 weblate/templates/translation.html:365
+#: weblate/lang/models.py:972 weblate/templates/translation.html:365
 #: weblate/templates/translation.html:395
 msgid "Singular"
 msgstr "รูปแบบเอกพจน์"
 
-#: weblate/lang/models.py:965 weblate/templates/translation.html:370
+#: weblate/lang/models.py:974 weblate/templates/translation.html:370
 #: weblate/templates/translation.html:399
 msgid "Plural"
 msgstr "รูปแบบพหูพจน์"
 
-#: weblate/lang/models.py:966
+#: weblate/lang/models.py:975
 #, python-format
 msgid "Plural form %d"
 msgstr "รูปแบบพหูพจน์ %d"
@@ -7713,7 +7703,7 @@ msgstr "รับความช่วยเหลือ"
 #: weblate/templates/base.html:397 weblate/templates/footer.html:35
 #: weblate/templates/trans/alert/repositorychanges.html:9
 #: weblate/templates/trans/alert/repositoryoutdated.html:9
-#: weblate/trans/templatetags/translations.py:645
+#: weblate/trans/templatetags/translations.py:655
 #: weblate/wladmin/templates/admin/base.html:11
 #: weblate/wladmin/templates/admin/permissions/change_form.html:9
 #: weblate/wladmin/templates/admin/trans/change_form.html:21
@@ -8604,7 +8594,7 @@ msgid_plural "Languages"
 msgstr[0] "ภาษา"
 
 #: weblate/templates/engage.html:39
-#: weblate/trans/templatetags/translations.py:1281 weblate/trans/widgets.py:98
+#: weblate/trans/templatetags/translations.py:1291 weblate/trans/widgets.py:98
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
@@ -10941,7 +10931,7 @@ msgid "Source code repository"
 msgstr "คลังเก็บซอร์สโค้ด"
 
 #: weblate/templates/snippets/git-info.html:20
-#: weblate/trans/templatetags/translations.py:1114
+#: weblate/trans/templatetags/translations.py:1124
 #, python-format
 msgid "This component is linked to the %(target)s repository."
 msgstr ""
@@ -10982,7 +10972,7 @@ msgid "Weblate repository"
 msgstr "รุ่น"
 
 #: weblate/templates/snippets/glossary.html:7
-#: weblate/trans/templatetags/translations.py:920
+#: weblate/trans/templatetags/translations.py:930
 #, fuzzy
 #| msgid "Administration"
 msgid "This translation is forbidden."
@@ -11726,7 +11716,7 @@ msgid "Filters"
 msgstr ""
 
 #: weblate/templates/snippets/query-field.html:25
-#: weblate/templates/snippets/user-query-field.html:6 weblate/utils/forms.py:28
+#: weblate/templates/snippets/user-query-field.html:6 weblate/utils/forms.py:32
 msgid "Query"
 msgstr "คำค้นจากตัวอย่าง"
 
@@ -11884,7 +11874,7 @@ msgid "Suggested change:"
 msgstr "การเปลี่ยนแปลงที่เสนอแนะ:"
 
 #: weblate/templates/snippets/suggestions.html:96
-#: weblate/trans/templatetags/translations.py:903
+#: weblate/trans/templatetags/translations.py:913
 #, fuzzy
 #| msgid "Failing checks:"
 msgctxt "String state"
@@ -11913,7 +11903,7 @@ msgstr ""
 msgid "The source string cannot be edited."
 msgstr "ค้นหา"
 
-#: weblate/templates/snippets/user-list.html:24 weblate/utils/forms.py:127
+#: weblate/templates/snippets/user-list.html:24 weblate/utils/forms.py:131
 #, fuzzy
 #| msgid "Administration"
 msgid "Could not find any such user."
@@ -12099,7 +12089,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-msgid "Some linked components have the same file mask."
+msgid ""
+"Some linked components have the same file mask or share some of the files."
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:5
@@ -12109,7 +12100,7 @@ msgstr ""
 #: weblate/templates/trans/alert/duplicatefilemask.html:8
 #, fuzzy
 #| msgid "The following occurrences were found:"
-msgid "The following file masks were found multiple times:"
+msgid "The following files were found multiple times:"
 msgstr "มีตำแหน่งที่พบต่อไปนี้:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
@@ -13082,7 +13073,7 @@ msgid "Browse glossary %(name)s"
 msgstr "เรียกดูการเปลี่ยนแปลงอภิธานศัพท์ทั้งหมด"
 
 #: weblate/templates/translate.html:716 weblate/templates/translate.html:1017
-#: weblate/trans/models/component.py:3808
+#: weblate/trans/models/component.py:3796
 msgid "Add term to glossary"
 msgstr "เพิ่มศัพท์ไปที่อภิธานศัพท์"
 
@@ -14120,7 +14111,7 @@ msgid ""
 msgstr ""
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/forms.py:2452 weblate/trans/models/component.py:3722
+#: weblate/trans/forms.py:2452 weblate/trans/models/component.py:3710
 msgid "Context"
 msgstr "บริบท"
 
@@ -14320,7 +14311,7 @@ msgstr ""
 msgid "Make your translations available under a libre license."
 msgstr ""
 
-#: weblate/trans/guide.py:160 weblate/trans/templatetags/translations.py:1122
+#: weblate/trans/guide.py:160 weblate/trans/templatetags/translations.py:1132
 msgid "Fix this component to clear its alerts."
 msgstr ""
 
@@ -14362,136 +14353,136 @@ msgid "Component or category with the same name already exists at this level."
 msgstr "มีผู้ใช้ชื่อนี้อยู่แล้ว"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:193
+#: weblate/trans/models/alert.py:195
 #, fuzzy
 #| msgid "Administration"
 msgid "Duplicated string found in the file."
 msgstr "การดูแลระบบ"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:200
+#: weblate/trans/models/alert.py:202
 #, fuzzy
 #| msgid "Administration"
 msgid "Duplicated translation."
 msgstr "การดูแลระบบ"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:222
+#: weblate/trans/models/alert.py:224
 #, fuzzy
 #| msgid "Administration"
 msgid "Duplicated file mask."
 msgstr "การดูแลระบบ"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:235
+#: weblate/trans/models/alert.py:279
 msgid "Could not merge the repository."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:244
+#: weblate/trans/models/alert.py:288
 msgid "Could not push the repository."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:328
+#: weblate/trans/models/alert.py:372
 msgid "Could not update the repository."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:337
+#: weblate/trans/models/alert.py:381
 #, fuzzy
 #| msgid "Administration"
 msgid "Could not parse translation files."
 msgstr "การดูแลระบบ"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:344
+#: weblate/trans/models/alert.py:388
 msgid "Your billing plan has exceeded its limits."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:350
+#: weblate/trans/models/alert.py:394
 msgid "Repository outdated."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:357
+#: weblate/trans/models/alert.py:401
 msgid "Repository has changes."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:365
+#: weblate/trans/models/alert.py:409
 msgid "License info missing."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:383 weblate/trans/models/alert.py:390
-#: weblate/trans/models/alert.py:398
+#: weblate/trans/models/alert.py:427 weblate/trans/models/alert.py:434
+#: weblate/trans/models/alert.py:442
 msgid "Could not run add-on."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:406
+#: weblate/trans/models/alert.py:450
 msgid "Misconfigured monolingual translation."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:446
+#: weblate/trans/models/alert.py:490
 #, fuzzy
 #| msgid "Information"
 msgid "Unsupported component configuration"
 msgstr "ข้อมูล"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:467
+#: weblate/trans/models/alert.py:511
 msgid "Broken repository browser URL"
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:511
+#: weblate/trans/models/alert.py:555
 msgid "Broken project website URL"
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:533
+#: weblate/trans/models/alert.py:577
 #, fuzzy
 #| msgid "Add screenshot"
 msgid "Unused screenshot"
 msgstr "เพิ่มภาพหน้าจอ"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:552
+#: weblate/trans/models/alert.py:596
 #, fuzzy
 #| msgid "Language code"
 msgid "Ambiguous language code."
 msgstr "รหัสภาษา"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:573
+#: weblate/trans/models/alert.py:617
 msgid "Does not meet Libre hosting conditions."
 msgstr ""
 
-#: weblate/trans/models/alert.py:587
+#: weblate/trans/models/alert.py:631
 #, fuzzy
 #| msgid "Ignored checks"
 msgid "Unused enforced checks."
 msgstr "จุดที่ต้องตรวจสอบที่ละเว้น"
 
-#: weblate/trans/models/alert.py:598
+#: weblate/trans/models/alert.py:642
 msgid "No file mask matches."
 msgstr ""
 
-#: weblate/trans/models/alert.py:618
+#: weblate/trans/models/alert.py:662
 msgid "Inexistent files."
 msgstr ""
 
-#: weblate/trans/models/alert.py:640
+#: weblate/trans/models/alert.py:684
 #, fuzzy
 #| msgid "Component Information"
 msgid "Component seems unused."
 msgstr "ข้อมูลคอมโพเนนต์"
 
-#: weblate/trans/models/alert.py:668
+#: weblate/trans/models/alert.py:712
 #, fuzzy
 #| msgid "Administration"
 msgid "Glossary using monolingual files."
@@ -15763,70 +15754,70 @@ msgstr ""
 msgid "To use the key filter, the file format must be monolingual."
 msgstr ""
 
-#: weblate/trans/models/component.py:3524
+#: weblate/trans/models/component.py:3512
 #, fuzzy
 #| msgid "Administration"
 msgid "Could not add new translation file."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/component.py:3531
+#: weblate/trans/models/component.py:3519
 #, fuzzy
 #| msgid "You don't have permission to start a new translation"
 msgid "You do not have permissions to add new translation file."
 msgstr "คุณไม่มีสิทธิ์เริ่มการแปลใหม่"
 
-#: weblate/trans/models/component.py:3539
-#: weblate/trans/models/component.py:3547
+#: weblate/trans/models/component.py:3527
+#: weblate/trans/models/component.py:3535
 #, fuzzy
 #| msgid "Monolingual base language file"
 msgid "The monolingual base language file is invalid."
 msgstr "ไฟล์ภาษาพื้นฐานแบบภาษาเดียว"
 
-#: weblate/trans/models/component.py:3552
+#: weblate/trans/models/component.py:3540
 #, fuzzy
 #| msgid "Administration"
 msgid "The template for new translations is invalid."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/component.py:3594
+#: weblate/trans/models/component.py:3582
 #, fuzzy
 #| msgid "Administration"
 msgid "The given language is used as a source language."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/component.py:3602
+#: weblate/trans/models/component.py:3590
 #, fuzzy
 #| msgid "A user with that username already exists."
 msgid "The given language already exists."
 msgstr "มีผู้ใช้ชื่อนี้อยู่แล้ว"
 
-#: weblate/trans/models/component.py:3611
+#: weblate/trans/models/component.py:3599
 msgid "The given language is filtered by the language filter."
 msgstr ""
 
-#: weblate/trans/models/component.py:3637
+#: weblate/trans/models/component.py:3625
 msgid "Translation file already exists!"
 msgstr ""
 
-#: weblate/trans/models/component.py:3672
+#: weblate/trans/models/component.py:3660
 #, fuzzy
 #| msgid "Administration"
 msgid "The translation will be updated in the background."
 msgstr "การดูแลระบบ"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3724 weblate/utils/views.py:188
+#: weblate/trans/models/component.py:3712 weblate/utils/views.py:188
 msgctxt "Translation key"
 msgid "Key"
 msgstr ""
 
-#: weblate/trans/models/component.py:3809
+#: weblate/trans/models/component.py:3797
 #, fuzzy
 #| msgid "Administration"
 msgid "Add new translation string"
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/component.py:3858
+#: weblate/trans/models/component.py:3846
 #, fuzzy
 #| msgid "Administration"
 msgid "Could not get repository status!"
@@ -15997,95 +15988,95 @@ msgstr "ข้อผิดพลาดในพารามิเตอร์ %(
 
 #: weblate/trans/models/translation.py:1147
 #: weblate/trans/models/translation.py:1203
-#: weblate/trans/models/translation.py:1298
+#: weblate/trans/models/translation.py:1299
 #, fuzzy, python-format
 #| msgid "Commit pending changes"
 msgid "Could not commit pending changes: %s"
 msgstr "ส่งการเปลี่ยนแปลงที่รอค้างอยู่"
 
-#: weblate/trans/models/translation.py:1736
+#: weblate/trans/models/translation.py:1740
 #, fuzzy
 #| msgid "Unsupported file format."
 msgid "Plurals are not supported by the file format!"
 msgstr "รูปแบบไฟล์ที่ไม่สนับสนุน"
 
-#: weblate/trans/models/translation.py:1741 weblate/trans/models/unit.py:716
-#: weblate/utils/forms.py:122
+#: weblate/trans/models/translation.py:1745 weblate/trans/models/unit.py:721
+#: weblate/utils/forms.py:126
 #, fuzzy, python-format
 #| msgid "Control characters"
 msgid "String contains control character: %s"
 msgstr "อักขระควบคุม"
 
-#: weblate/trans/models/translation.py:1746
+#: weblate/trans/models/translation.py:1750
 msgid "Empty state is supported for blank strings only."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1749
+#: weblate/trans/models/translation.py:1753
 msgid "Blank strings require an empty state."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1753
+#: weblate/trans/models/translation.py:1757
 msgid "Approved state is not available as reviews are not enabled."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1761
+#: weblate/trans/models/translation.py:1765
 #, fuzzy
 #| msgid "Administration"
 msgid "This string seems to already exist."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/translation.py:1768
+#: weblate/trans/models/translation.py:1772
 #, fuzzy
 #| msgid "Versions"
 msgid "Failed adding string, no translation found."
 msgstr "รุ่น"
 
-#: weblate/trans/models/unit.py:1059
+#: weblate/trans/models/unit.py:1064
 #, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1806
+#: weblate/trans/models/unit.py:1811
 #, fuzzy
 #| msgid "Administration"
 msgid "Unmark as read-only"
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/unit.py:1809
+#: weblate/trans/models/unit.py:1814
 #, fuzzy
 #| msgid "Mark as spam"
 msgid "Mark as read-only"
 msgstr "ทำเครื่องหมายว่าเป็นสแปม"
 
-#: weblate/trans/models/unit.py:1813
+#: weblate/trans/models/unit.py:1818
 #, fuzzy
 #| msgid "Administration"
 msgid "Unmark as untranslatable"
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/unit.py:1817
+#: weblate/trans/models/unit.py:1822
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as untranslatable"
 msgstr "เพิ่มเป็นคำแปลอื่น ๆ"
 
-#: weblate/trans/models/unit.py:1824
+#: weblate/trans/models/unit.py:1829
 #, fuzzy
 #| msgid "Administration"
 msgid "Unmark as forbidden translation"
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/unit.py:1832
+#: weblate/trans/models/unit.py:1837
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as forbidden translation"
 msgstr "เพิ่มเป็นคำแปลอื่น ๆ"
 
-#: weblate/trans/models/unit.py:1840
+#: weblate/trans/models/unit.py:1845
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1848
+#: weblate/trans/models/unit.py:1853
 msgid "Mark as terminology"
 msgstr ""
 
@@ -16202,253 +16193,249 @@ msgid "Glossary term:"
 msgid_plural "Glossary terms:"
 msgstr[0] "อภิธานศัพท์"
 
-#: weblate/trans/templatetags/translations.py:380
-msgid "New line"
-msgstr ""
-
-#: weblate/trans/templatetags/translations.py:682
+#: weblate/trans/templatetags/translations.py:692
 msgid "a year ago"
 msgstr "หนึ่งปีก่อน"
 
-#: weblate/trans/templatetags/translations.py:683
+#: weblate/trans/templatetags/translations.py:693
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "%(count)s ปีก่อน"
 
-#: weblate/trans/templatetags/translations.py:689
+#: weblate/trans/templatetags/translations.py:699
 msgid "a month ago"
 msgstr "หนึ่งเดือนก่อน"
 
-#: weblate/trans/templatetags/translations.py:690
+#: weblate/trans/templatetags/translations.py:700
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "%(count)s เดือนก่อน"
 
-#: weblate/trans/templatetags/translations.py:695
+#: weblate/trans/templatetags/translations.py:705
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "%(count)s สัปดาห์ก่อน"
 
-#: weblate/trans/templatetags/translations.py:700
+#: weblate/trans/templatetags/translations.py:710
 msgid "a week ago"
 msgstr "หนึ่งสัปดาห์ก่อน"
 
-#: weblate/trans/templatetags/translations.py:702
+#: weblate/trans/templatetags/translations.py:712
 msgid "yesterday"
 msgstr "เมื่อวาน"
 
-#: weblate/trans/templatetags/translations.py:703
+#: weblate/trans/templatetags/translations.py:713
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "%(count)s วันก่อน"
 
-#: weblate/trans/templatetags/translations.py:707
-#: weblate/trans/templatetags/translations.py:761
+#: weblate/trans/templatetags/translations.py:717
+#: weblate/trans/templatetags/translations.py:771
 msgid "now"
 msgstr "ตอนนี้"
 
-#: weblate/trans/templatetags/translations.py:710
+#: weblate/trans/templatetags/translations.py:720
 msgid "a second ago"
 msgstr "หนึ่งวินาทีก่อน"
 
-#: weblate/trans/templatetags/translations.py:712
+#: weblate/trans/templatetags/translations.py:722
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "%(count)s วินาทีก่อน"
 
-#: weblate/trans/templatetags/translations.py:717
+#: weblate/trans/templatetags/translations.py:727
 msgid "a minute ago"
 msgstr "หนึ่งนาทีก่อน"
 
-#: weblate/trans/templatetags/translations.py:718
+#: weblate/trans/templatetags/translations.py:728
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "%(count)s นาทีก่อน"
 
-#: weblate/trans/templatetags/translations.py:723
+#: weblate/trans/templatetags/translations.py:733
 msgid "an hour ago"
 msgstr "หนึ่งชั่วโมงก่อน"
 
-#: weblate/trans/templatetags/translations.py:724
+#: weblate/trans/templatetags/translations.py:734
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "%(count)s ชั่วโมงก่อน"
 
-#: weblate/trans/templatetags/translations.py:736
+#: weblate/trans/templatetags/translations.py:746
 msgid "a year from now"
 msgstr "หนึ่งปีจากนี้"
 
-#: weblate/trans/templatetags/translations.py:738
+#: weblate/trans/templatetags/translations.py:748
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "%(count)s ปีจากนี้"
 
-#: weblate/trans/templatetags/translations.py:743
+#: weblate/trans/templatetags/translations.py:753
 msgid "a month from now"
 msgstr "หนึ่งเดือนจากนี้"
 
-#: weblate/trans/templatetags/translations.py:745
+#: weblate/trans/templatetags/translations.py:755
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "%(count)s เดือนจากนี้"
 
-#: weblate/trans/templatetags/translations.py:750
+#: weblate/trans/templatetags/translations.py:760
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "%(count)s สัปดาห์จากนี้"
 
-#: weblate/trans/templatetags/translations.py:754
+#: weblate/trans/templatetags/translations.py:764
 msgid "tomorrow"
 msgstr "พรุ่งนี้"
 
-#: weblate/trans/templatetags/translations.py:756
+#: weblate/trans/templatetags/translations.py:766
 msgid "a week from now"
 msgstr "หนึ่งสัปดาห์จากนี้"
 
-#: weblate/trans/templatetags/translations.py:758
+#: weblate/trans/templatetags/translations.py:768
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "%(count)s วันจากนี้"
 
-#: weblate/trans/templatetags/translations.py:764
+#: weblate/trans/templatetags/translations.py:774
 msgid "a second from now"
 msgstr "หนึ่งวินาทีจากนี้"
 
-#: weblate/trans/templatetags/translations.py:766
+#: weblate/trans/templatetags/translations.py:776
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "%(count)s วินาทีจากนี้"
 
-#: weblate/trans/templatetags/translations.py:771
+#: weblate/trans/templatetags/translations.py:781
 msgid "a minute from now"
 msgstr "หนึ่งนาทีจากนี้"
 
-#: weblate/trans/templatetags/translations.py:773
+#: weblate/trans/templatetags/translations.py:783
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "%(count)s นาทีจากนี้"
 
-#: weblate/trans/templatetags/translations.py:777
+#: weblate/trans/templatetags/translations.py:787
 msgid "an hour from now"
 msgstr "หนึ่งชั่วโมงจากนี้"
 
-#: weblate/trans/templatetags/translations.py:778
+#: weblate/trans/templatetags/translations.py:788
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "%(count)s ชั่วโมงจากนี้"
 
-#: weblate/trans/templatetags/translations.py:911
+#: weblate/trans/templatetags/translations.py:921
 msgctxt "String state"
 msgid "Dismissed checks:"
 msgstr "การตรวจสอบที่ถูกเพิกถอน:"
 
-#: weblate/trans/templatetags/translations.py:916
+#: weblate/trans/templatetags/translations.py:926
 #, fuzzy
 #| msgid "Comment"
 msgctxt "String state"
 msgid "Commented"
 msgstr "หมายเหตุ"
 
-#: weblate/trans/templatetags/translations.py:918
+#: weblate/trans/templatetags/translations.py:928
 msgctxt "String state"
 msgid "Suggested"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:958
+#: weblate/trans/templatetags/translations.py:968
 #, python-format
 msgid "string ID %s"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:1103
+#: weblate/trans/templatetags/translations.py:1113
 #, fuzzy
 #| msgid "Administration"
 msgid "This language is used for source strings."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/templatetags/translations.py:1127
-#: weblate/trans/templatetags/translations.py:1147
+#: weblate/trans/templatetags/translations.py:1137
+#: weblate/trans/templatetags/translations.py:1157
 #, fuzzy
 #| msgid "Administration"
 msgid "This translation is locked."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/templatetags/translations.py:1132
+#: weblate/trans/templatetags/translations.py:1142
 msgid "Updating translation component…"
 msgstr "กำลังอัพเดตคอมโพเนนต์การแปล…"
 
-#: weblate/trans/templatetags/translations.py:1142
+#: weblate/trans/templatetags/translations.py:1152
 msgid "Some of the components within this project have alerts."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:1186
+#: weblate/trans/templatetags/translations.py:1196
 #, fuzzy
 #| msgid "Administration"
 msgid "You administrate this project."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/templatetags/translations.py:1199
+#: weblate/trans/templatetags/translations.py:1209
 #, fuzzy
 #| msgid "Administration"
 msgid "This translation does not yet exist."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/templatetags/translations.py:1212
+#: weblate/trans/templatetags/translations.py:1222
 #, fuzzy, python-format
 #| msgid "Strings needing action"
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
 msgstr[0] "สตริงที่จำเป็นต้องตรวจสอบ"
 
-#: weblate/trans/templatetags/translations.py:1225
+#: weblate/trans/templatetags/translations.py:1235
 #, fuzzy, python-format
 #| msgid "Watched projects"
 msgid "Shared from the %s project."
 msgstr "โครงการที่เฝ้าดู"
 
-#: weblate/trans/templatetags/translations.py:1249
+#: weblate/trans/templatetags/translations.py:1259
 msgid "enabled"
 msgstr ""
 
 #. Translators: Number format, in millions (mega)
-#: weblate/trans/templatetags/translations.py:1292
+#: weblate/trans/templatetags/translations.py:1302
 #, python-format
 msgid "%s M"
 msgstr ""
 
 #. Translators: Number format, in thousands (kilo)
-#: weblate/trans/templatetags/translations.py:1296
+#: weblate/trans/templatetags/translations.py:1306
 #, python-format
 msgid "%s k"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:1503
+#: weblate/trans/templatetags/translations.py:1513
 #, fuzzy, python-format
 #| msgid "Administration"
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
 msgstr[0] "การดูแลระบบ"
 
-#: weblate/trans/templatetags/translations.py:1513
+#: weblate/trans/templatetags/translations.py:1523
 #, fuzzy
 #| msgid "Administration"
 msgid "No strings to translate"
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/templatetags/translations.py:1531
+#: weblate/trans/templatetags/translations.py:1541
 #, python-format
 msgid "%(value)s of %(all)s"
 msgstr "%(value)s จาก %(all)s"
@@ -17095,25 +17082,25 @@ msgstr ""
 msgid "A user with this e-mail already exists."
 msgstr "มีผู้ใช้ชื่อนี้อยู่แล้ว"
 
-#: weblate/utils/forms.py:41
+#: weblate/utils/forms.py:45
 #, fuzzy
 #| msgid "Administration"
 msgid "Missing query string."
 msgstr "การดูแลระบบ"
 
-#: weblate/utils/forms.py:47 weblate/utils/forms.py:52
+#: weblate/utils/forms.py:51 weblate/utils/forms.py:56
 #, fuzzy
 #| msgid "Administration"
 msgid "Could not parse query string: {}"
 msgstr "การดูแลระบบ"
 
-#: weblate/utils/forms.py:118
+#: weblate/utils/forms.py:122
 #, fuzzy
 #| msgid "Username or e-mail"
 msgid "Missing username or e-mail."
 msgstr "ชื่อผู้ใช้หรืออีเมล"
 
-#: weblate/utils/forms.py:129
+#: weblate/utils/forms.py:133
 msgid "More possible users were found."
 msgstr ""
 
@@ -17134,13 +17121,13 @@ msgid ""
 "instead."
 msgstr ""
 
-#: weblate/utils/search.py:162
+#: weblate/utils/search.py:163
 #, fuzzy
 #| msgid "Status"
 msgid "Unsupported state: {}"
 msgstr "สถานะ"
 
-#: weblate/utils/search.py:361
+#: weblate/utils/search.py:364
 msgid "Invalid regular expression: {}"
 msgstr ""
 
@@ -17397,17 +17384,17 @@ msgstr "ร้องขอการตั้งค่ารหัสผ่าน
 msgid "This will push changes and create a Pagure merge request."
 msgstr "คำขอไม่ถูกต้อง"
 
-#. Translators: Bitbucket Server is a product name, it differs from Bitbucked Cloud
+#. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:2049
 #, fuzzy
 #| msgid "Bad request"
-msgid "Bitbucket Server pull request"
+msgid "Bitbucket Data Center pull request"
 msgstr "คำขอไม่ถูกต้อง"
 
 #: weblate/vcs/git.py:2055
 #, fuzzy
 #| msgid "Bad request"
-msgid "This will push changes and create a Bitbucket Server pull request."
+msgid "This will push changes and create a Bitbucket Data Center pull request."
 msgstr "คำขอไม่ถูกต้อง"
 
 #: weblate/vcs/git.py:2196

@@ -315,7 +315,7 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``.
 
    The configuration above also works with Forgejo;
    for an example of production deployment with Forgejo,
-   see `Codeberg Translate <http://translate.codeberg.org>`_
+   see `Codeberg Translate <https://translate.codeberg.org>`_
 
 .. seealso::
 
@@ -797,9 +797,9 @@ Security keys (WebAuthn)
 
    Security keys are WebAuthn credentials that can only be used as a second factor of authentication, and these only validate user presence.
 
-Authenticator app (TOTP)
+Authenticator apps (TOTP)
    Authenticator apps and browser extensions like Aegis, Bitwarden, Google Authenticator,
-   1Password, Authy, Microsoft Authenticator, etc. generate one-time passwords
+   1Password, Authy, Microsoft Authenticator, etc. generate time-based one-time passwords
    that are used as a second factor to verify your identity when prompted
    during sign-in.
 

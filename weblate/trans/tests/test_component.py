@@ -189,8 +189,8 @@ class ComponentTest(RepoTestCase):
         self.verify_component(component, 2, "cs", 4)
 
     def test_create_android_broken(self) -> None:
-        with self.assertRaises(FileParseError):
-            self.create_android(suffix="-broken")
+        component = self.create_android(suffix="-broken")
+        self.verify_component(component, 1, "en", 4)
 
     def test_create_json(self) -> None:
         component = self.create_json()
