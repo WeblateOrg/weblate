@@ -204,7 +204,16 @@ class BatchMachineTranslation:
                 pass
             else:
                 if isinstance(payload, dict) and payload:
-                    detail = payload.values()[0]
+                    if detail_error := payload.get("error"):
+                        if isinstance(detail_error, str):
+                            detail = detail_error
+                        elif isinstance(detail_error, dict):
+                            if "message" in detail_error:
+                                detail = detail_error["message"]
+                            else:
+                                detail = str(detail_error)
+                    else:
+                        detail = str(payload)
 
             if detail:
                 message = f"{error.args[0]}: {detail}"
