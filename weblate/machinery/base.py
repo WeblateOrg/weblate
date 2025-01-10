@@ -231,6 +231,7 @@ class BatchMachineTranslation:
             headers=headers,
             timeout=self.request_timeout,
             auth=self.get_auth(),
+            raise_for_status=False,
             **kwargs,
         )
 
