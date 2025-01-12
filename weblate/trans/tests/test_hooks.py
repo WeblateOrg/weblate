@@ -5,6 +5,7 @@
 """Test for notification hooks."""
 
 import json
+from abc import ABC, abstractmethod
 from unittest.mock import patch
 
 from django.test import SimpleTestCase
@@ -1582,7 +1583,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Hook working", status_code=201)
 
 
-class HookBackendTestCase(SimpleTestCase):
+class HookBackendTestCase(SimpleTestCase, ABC):
     hook: str = ""
 
     def assert_hook(self, payload, expected) -> None:
@@ -1594,6 +1595,10 @@ class HookBackendTestCase(SimpleTestCase):
             expected["repos"] = sorted(expected["repos"])
         self.maxDiff = None
         self.assertEqual(expected, result)
+
+    @abstractmethod
+    def test_git(self):
+        raise NotImplementedError
 
 
 class GitHubBackendTest(HookBackendTestCase):
@@ -1867,7 +1872,7 @@ class AzureBackendTest(HookBackendTestCase):
             },
         )
 
-    def test_git_new(self) -> None:
+    def test_git(self) -> None:
         self.assert_hook(
             AZURE_PAYLOAD_NEW,
             {
