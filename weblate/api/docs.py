@@ -69,17 +69,23 @@ def build_response_header_component(
 RATELIMIT_LIMIT_COMPONENT = build_response_header_component(
     name=RATELIMIT_LIMIT_HEADER,
     schema_type=int,
-    description=gettext("The maximum number of client requests allowed for a certain period of time."),
+    description=gettext(
+        "The maximum number of client requests allowed for a certain period of time."
+    ),
 )
 RATELIMIT_REMAINING_COMPONENT = build_response_header_component(
     name=RATELIMIT_REMAINING_HEADER,
     schema_type=int,
-    description=gettext("The remaining number of client requests allowed for the current timeframe."),
+    description=gettext(
+        "The remaining number of client requests allowed for the current timeframe."
+    ),
 )
 RATELIMIT_RESET_COMPONENT = build_response_header_component(
     name=RATELIMIT_RESET_HEADER,
     schema_type=int,
-    description=gettext("The number of seconds until the rate limit is reset by the server."),
+    description=gettext(
+        "The number of seconds until the rate limit is reset by the server."
+    ),
 )
 
 
