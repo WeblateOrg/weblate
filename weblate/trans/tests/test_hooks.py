@@ -105,7 +105,7 @@ GITHUB_NEW_PAYLOAD = """
 }
 """
 
-GITLAB_PAYLOAD = """
+GITLAB_PAYLOAD = r"""
 {
   "object_kind": "push",
   "event_name": "push",
