@@ -68,7 +68,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             "weblate.api.docs.add_middleware_headers",
         ],
         "EXTERNAL_DOCS": {
-            "url": get_doc_url(),
+            "url": "https://docs.weblate.org/en/latest/",
             "description": "Official Weblate documentation",
         },
         "TAGS": [

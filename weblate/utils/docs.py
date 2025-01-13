@@ -1,5 +1,4 @@
 # Copyright © Michal Čihař <michal@weblate.org>
-# SPDX-FileCopyrightText: 2025 Javier Pérez <jdbp@protonmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
@@ -16,13 +15,8 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
 
 
-def get_doc_url(page: str = "index", anchor: str = "", user: User | None = None) -> str:
-    """
-    Return a URL to documentation.
-
-    If the `page` parameter is not provided, the function will return
-    the home page of the documentation.
-    """
+def get_doc_url(page: str, anchor: str = "", user: User | None = None) -> str:
+    """Return URL to documentation."""
     version = weblate.utils.version.VERSION
     # Should we use tagged release or latest version
     if version.endswith(("-dev", "-rc")) or (
