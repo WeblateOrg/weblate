@@ -2028,8 +2028,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
             body = {"id": "333"}
         elif status == 409:
             pr_exist_message = (
-                "Only one pull request may be open "
-                "for a given source and target branch"
+                "Only one pull request may be open for a given source and target branch"
             )
             body = {"errors": [{"context": "<string>", "message": pr_exist_message}]}
         else:

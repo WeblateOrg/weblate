@@ -65,7 +65,7 @@ Fields
       Needing editing strings, same as ``state:needs-editing``.
    ``translated``
       Translated strings, same as ``state:>translated``.
-   ``untranslated``:
+   ``untranslated``
       Untranslated strings, same as ``state:<translated``.
    ``pending``
       Pending strings not yet committed to the file (see :ref:`lazy-commit`).

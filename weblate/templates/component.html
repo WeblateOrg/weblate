@@ -153,7 +153,7 @@
           {% endif %}
           {% if user_can_edit_component %}
             <li>
-              <a href="{% url 'create-component' %}?component={{ object.id }}#existing">{% trans "Duplicate Component" %}</a>
+              <a href="{% url 'create-component' %}?component={{ object.id }}#existing">{% trans "Duplicate this component" %}</a>
             </li>
             <li>
               <a href="{% url 'guide' path=object.get_url_path %}">{% trans "Community localization checklist" %}</a>

@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Chang-Chia Tseng <pswo10680@gmail.com>, 2023, 2024.
+# Chang-Chia Tseng <pswo10680@gmail.com>, 2023, 2024, 2025.
 # Jimmy Young <LNDDYL@users.noreply.hosted.weblate.org>, 2023.
 # notlin4 <iamnotlin4@gmail.com>, 2023, 2024.
 # pan93412 <pan93412@gmail.com>, 2023, 2024.
@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-12-20 07:29+0000\n"
-"PO-Revision-Date: 2024-12-15 08:03+0000\n"
-"Last-Translator: Winston Sung <winston21.sung@gmail.com>\n"
+"PO-Revision-Date: 2025-01-06 19:17+0000\n"
+"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.9-rc\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -100,38 +100,32 @@ msgid ""
 msgstr "用作郵件信箱通知，以及下方未設定時使用的提交信箱。"
 
 #: weblate/accounts/forms.py:433
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "請稍候重試。"
+msgstr "驗證失敗。請稍後重試。"
 
 #: weblate/accounts/forms.py:434
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "驗證已過期。請再試一次。"
 
 #: weblate/accounts/forms.py:435
 msgid "I'm not a robot"
-msgstr ""
+msgstr "我不是機器人哪"
 
 #: weblate/accounts/forms.py:436
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "完成了翻譯"
+msgstr "驗證已完成"
 
 #: weblate/accounts/forms.py:437
 msgid "Verifying…"
-msgstr ""
+msgstr "驗證中…"
 
 #: weblate/accounts/forms.py:439
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "驗證仍在進行中，請稍候。"
 
 #: weblate/accounts/forms.py:449
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "即時通知"
+msgstr "人類驗證"
 
 #: weblate/accounts/forms.py:502
 #, python-format
@@ -146,10 +140,8 @@ msgid "That was not correct, please try again."
 msgstr "答案不正確，請重試。"
 
 #: weblate/accounts/forms.py:534 weblate/accounts/forms.py:541
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "答案不正確，請重試。"
+msgstr "驗證失敗，請重試一次。"
 
 #: weblate/accounts/forms.py:560
 msgid "Subject"
@@ -1883,22 +1875,16 @@ msgid ""
 msgstr "允許調整 YAML 輸出行為，例如列長或換列。"
 
 #: weblate/api/docs.py:72
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Allowed number of requests to perform"
-msgstr "要執行的對速率限制進行限制的請求"
+msgstr "允許執行的請求數"
 
 #: weblate/api/docs.py:77
-#, fuzzy
-#| msgid "Rate limiting limit of requests to perform"
 msgid "Remaining number of requests to perform"
-msgstr "要執行的對速率限制進行限制的請求"
+msgstr "剩餘的執行請求數"
 
 #: weblate/api/docs.py:82
-#, fuzzy
-#| msgid "Number of seconds until ratelimit window resets"
 msgid "Number of seconds until the rate-limit window resets"
-msgstr "直到速率限制窗口重置時的秒數"
+msgstr "直到速率限制窗口重設時的秒數"
 
 #: weblate/api/spectacular.py:42
 #: weblate/templates/drf_spectacular/redoc.html:11
@@ -2890,10 +2876,8 @@ msgid "Project website missing!"
 msgstr "缺少專案網站！"
 
 #: weblate/billing/models.py:480
-#, fuzzy
-#| msgid "All public projects"
 msgid "Only public projects are allowed"
-msgstr "所有公開專案"
+msgstr "僅允許公開專案"
 
 #: weblate/billing/models.py:486
 #, python-format
@@ -2906,10 +2890,8 @@ msgid "Missing license"
 msgstr "缺少授權條款"
 
 #: weblate/billing/models.py:500
-#, fuzzy
-#| msgid "Approved strings"
 msgid "Not a libre license"
-msgstr "核可字串數"
+msgstr "非自由授權條款"
 
 #: weblate/billing/tasks.py:72
 msgid ""
@@ -3787,19 +3769,17 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "下述字詞未遵循詞彙表進行翻譯：{}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "插入跳格定位字元"
+msgstr "禁止的初始字元"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "CSV 中字串以禁止的字元起始"
 
 #: weblate/checks/glossary.py:104
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
-msgstr ""
+msgstr "字串以下列禁止字元中的一個或多個字起始：{}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -5017,14 +4997,14 @@ msgstr "美國"
 #: weblate/machinery/forms.py:220
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Google Storage Bucket 名稱"
 
 #: weblate/machinery/forms.py:224
 msgctxt "Google Cloud Translation configuration"
 msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
-msgstr ""
+msgstr "請輸入用來儲存詞彙表檔案的 Google Cloud Storage bucket 名稱。"
 
 #: weblate/machinery/forms.py:234
 #, python-format
@@ -5193,32 +5173,28 @@ msgstr "檔案"
 
 #: weblate/memory/forms.py:32
 msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
-msgstr ""
+msgstr "您可以上傳下列格式檔案：TMX、JSON、XLIFF、PO、CSV 等。"
 
 #: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "來源語言"
 
 #: weblate/memory/forms.py:39
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Source language of the document when not specified in file"
-msgstr "雙語文件的目標語言"
+msgstr "當檔案中未指定時的文件來源語言"
 
 #: weblate/memory/forms.py:46 weblate/trans/forms.py:1866
 msgid "Target language"
 msgstr "目標語言"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "Target language of the document for bilingual files"
 msgid "Target language of the document when not specified in file"
-msgstr "雙語文件的目標語言"
+msgstr "當檔案中未指定時的文件目標語言"
 
 #: weblate/memory/forms.py:62
 msgid ""
 "Source language and target language must be specified for this file format."
-msgstr ""
+msgstr "這個檔案格式必須指定來源語言和目標語言。"
 
 #: weblate/memory/forms.py:71
 msgid "Confirm deleting all translation memory entries"
@@ -5254,13 +5230,11 @@ msgstr "不支援的檔案！"
 
 #: weblate/memory/models.py:333
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "翻譯記憶上傳並不支援單語格式"
 
 #: weblate/memory/models.py:343
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "單語的基底語言檔"
+msgstr "檔案中缺少來源語言或目標語言！"
 
 #: weblate/memory/models.py:436
 msgctxt "Translation memory category"
@@ -6581,10 +6555,8 @@ msgid "Members"
 msgstr "成員"
 
 #: weblate/templates/accounts/user.html:335
-#, fuzzy
-#| msgid "site wide"
 msgid "Site-wide team"
-msgstr "全平台"
+msgstr "全站域團隊"
 
 #: weblate/templates/accounts/user.html:345
 msgid "Remove user from this team"
@@ -9423,14 +9395,11 @@ msgstr "購買支援套件"
 
 #: weblate/templates/manage/index.html:110
 msgid "Contact customer care"
-msgstr ""
+msgstr "聯絡客服"
 
 #: weblate/templates/manage/index.html:119
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Contact us via e-mail"
-msgstr "聯絡信箱"
+msgstr "以電子郵件聯絡"
 
 #: weblate/templates/manage/performance.html:13
 #: weblate/wladmin/templates/admin/weblate-index.html:44
@@ -11190,21 +11159,17 @@ msgstr ""
 "Weblate 會在再次需要時自動重試操作，所以警告可能會因為暫時性問題而消失。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid "Some linked components have the same file mask."
 msgid ""
 "Some linked components have the same file mask or share some of the files."
-msgstr "部分連結的組件有相同的檔案遮罩。"
+msgstr "部分連結的組件有相同的檔案遮罩，或共享部分的檔案。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:5
 msgid "Please fix this by removing one of them."
 msgstr "請移除其中一個以修正。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:8
-#, fuzzy
-#| msgid "The following file masks were found multiple times:"
 msgid "The following files were found multiple times:"
-msgstr "多次找到下列檔案遮罩："
+msgstr "多次找到下列檔案："
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
 msgid "The component contains translation file for the source language."
@@ -12086,16 +12051,12 @@ msgid "Add term to glossary"
 msgstr "加入字詞至詞彙表"
 
 #: weblate/templates/translate.html:726
-#, fuzzy
-#| msgid "User identities"
 msgid "Unit identifier"
-msgstr "使用者身份"
+msgstr "單位辨識碼"
 
 #: weblate/templates/translate.html:728
-#, fuzzy
-#| msgid "Invitation link copied to clipboard."
 msgid "Unit identifier copied to clipboard."
-msgstr "已將邀請連結複製至剪貼簿。"
+msgstr "已將單位辨識碼複製至剪貼簿。"
 
 #: weblate/templates/translate.html:729
 msgid "String information"
@@ -12378,7 +12339,7 @@ msgstr "在完整編輯器中開啟"
 
 #: weblate/templates/zen-units.html:98
 msgid "Collapse"
-msgstr ""
+msgstr "收疊"
 
 #: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:636
 msgid "The translation has come to an end."
@@ -12825,10 +12786,8 @@ msgid "You do not have permission to access this component."
 msgstr "您無權存取此組件。"
 
 #: weblate/trans/forms.py:1442
-#, fuzzy
-#| msgid "This field has been identified as spam!"
 msgid "This submission has been identified as spam!"
-msgstr "這個欄位經辨識後認定是垃圾訊息！"
+msgstr "這個提交經辨識後認定是垃圾內容！"
 
 #: weblate/trans/forms.py:1526 weblate/trans/forms.py:2154
 msgid "Basic"
@@ -14327,10 +14286,8 @@ msgid "Could not update repository: %s"
 msgstr "無法更新儲存庫：%s"
 
 #: weblate/trans/models/component.py:3029
-#, fuzzy
-#| msgid "This will push changes and create a GitLab merge request."
 msgid "Pull and push branches cannot be the same when using merge requests."
-msgstr "這將會推送更動，並建立一個 GitLab 合併請求。"
+msgstr "當使用合併請求時，拉取和推送分支無法相同。"
 
 #: weblate/trans/models/component.py:3042
 msgid ""
@@ -14403,10 +14360,8 @@ msgid "Add new translation string"
 msgstr "新增翻譯字串"
 
 #: weblate/trans/models/component.py:3846
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "無法合併到儲存庫。"
+msgstr "無法取得儲存庫狀態！"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -15788,16 +15743,12 @@ msgstr "這將會推送更動，並建立一個 Pagure 合併請求。"
 
 #. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:2049
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull request"
-msgstr "Bitbucket Server 拉取請求"
+msgstr "Bitbucket 資料中心拉取請求"
 
 #: weblate/vcs/git.py:2055
-#, fuzzy
-#| msgid "This will push changes and create a Bitbucket Server pull request."
 msgid "This will push changes and create a Bitbucket Data Center pull request."
-msgstr "這將會推送更動，並建立一個 Bitbucket Server 拉取請求。"
+msgstr "這將會推送更動，並建立 Bitbucket 資料中心拉取請求。"
 
 #: weblate/vcs/git.py:2196
 msgid "Bitbucket Cloud merge request"
@@ -16004,7 +15955,7 @@ msgstr "儲存庫"
 
 #: weblate/wladmin/views.py:153
 msgid "Customer care ticket created:"
-msgstr ""
+msgstr "客服請票單已建立："
 
 #: weblate/wladmin/views.py:183
 msgid "Test e-mail sent."

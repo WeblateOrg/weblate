@@ -55,8 +55,7 @@ class WorkflowSetting(models.Model):
     def clean(self) -> None:
         if self.suggestion_autoaccept and not self.suggestion_voting:
             msg = gettext(
-                "Accepting suggestions automatically only works with "
-                "voting turned on."
+                "Accepting suggestions automatically only works with voting turned on."
             )
             raise ValidationError(
                 {"suggestion_autoaccept": msg, "suggestion_voting": msg}

@@ -563,12 +563,12 @@ class Metric(models.Model):
     def __str__(self) -> str:
         return f"<{self.scope}.{self.relation}>:{self.date}:{self.changes} {self.data}"
 
+    def __getitem__(self, item: str):
+        return self.dict_data[item]
+
     @cached_property
     def dict_data(self) -> dict:
         return dict(zip_longest(METRIC_ORDER, self.data or [], fillvalue=0))
-
-    def __getitem__(self, item: str):
-        return self.dict_data[item]
 
     def get(self, item: str, default=None):
         return self.dict_data.get(item, default)

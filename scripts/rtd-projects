@@ -89,7 +89,7 @@ while result["next"]:
                 print(f"Not a translation {project['name']}: ", project["urls"]["home"])
             # Check versions
             versions_response = requests.get(
-                f'{project["_links"]["versions"]}?active=true', headers=AUTH, timeout=1
+                f"{project['_links']['versions']}?active=true", headers=AUTH, timeout=1
             )
             versions_response.raise_for_status()
             versions = versions_response.json()

@@ -565,6 +565,7 @@ class GlosbeTranslationTest(BaseMachineTranslationTest):
             status=429,
         )
 
+    @responses.activate
     def test_ratelimit(self) -> None:
         """Test rate limit response handling."""
         # This raises an exception
@@ -695,8 +696,7 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
         )
         responses.add(
             responses.GET,
-            "https://api.cognitive.microsofttranslator.com/"
-            "languages?api-version=3.0",
+            "https://api.cognitive.microsofttranslator.com/languages?api-version=3.0",
             json=MS_SUPPORTED_LANG_RESP,
         )
         responses.add(
@@ -736,8 +736,7 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
         )
         responses.add(
             responses.GET,
-            "https://api.cognitive.microsofttranslator.com/"
-            "languages?api-version=3.0",
+            "https://api.cognitive.microsofttranslator.com/languages?api-version=3.0",
             json=MS_SUPPORTED_LANG_RESP,
         )
         responses.add(

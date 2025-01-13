@@ -221,7 +221,7 @@ class CheckList(PathViewMixin, ListView):
         elif self.check_obj is not None and self.path_object is None:
             context["title"] = self.check_obj.name
         elif self.check_obj is None and self.path_object is not None:
-            context["title"] = f'{gettext("Failing checks")} / {self.path_object}'
+            context["title"] = f"{gettext('Failing checks')} / {self.path_object}"
         else:
             context["title"] = f"{self.check_obj.name} / {self.path_object}"
         if self.check_obj is None:

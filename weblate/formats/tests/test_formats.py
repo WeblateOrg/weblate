@@ -1145,9 +1145,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         # Perform some general assertions about the copyright
         self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
         self.assertIn(
-            "<!--\n"
-            " * See the NOTICE file distributed with"
-            " this work for additional",
+            "<!--\n * See the NOTICE file distributed with this work for additional",
             newdata,
         )
         self.assertIn(
@@ -1268,9 +1266,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         # Perform some general assertions about the copyright
         self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
         self.assertIn(
-            "<!--\n"
-            " * See the NOTICE file distributed with"
-            " this work for additional",
+            "<!--\n * See the NOTICE file distributed with this work for additional",
             newdata,
         )
         self.assertIn(

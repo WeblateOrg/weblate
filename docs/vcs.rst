@@ -318,7 +318,7 @@ For the ``hello`` repository from selenic.com using Mercurial:
 
 .. code-block:: text
 
-    hg::http://selenic.com/repo/hello
+    hg::https://selenic.com/repo/hello
 
 .. _remote helpers: https://git-scm.com/docs/gitremote-helpers
 .. _git-remote-hg: https://github.com/felipec/git-remote-hg

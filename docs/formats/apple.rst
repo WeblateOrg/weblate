@@ -16,7 +16,7 @@ Apple iOS strings are usually used as monolingual.
 
     :ref:`stringsdict`,
     `Apple "strings files" documentation <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_,
-    `Message Catalog File Format in PWG 5100.13 <http://ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_,
+    `Message Catalog File Format in PWG 5100.13 <https://ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_,
     :doc:`tt:formats/strings`
 
 Weblate configuration

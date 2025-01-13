@@ -173,11 +173,11 @@ class Repository:
         """Generate environment for process execution."""
         return get_clean_env(
             {
-                "GIT_SSH": SSH_WRAPPER.filename,
+                "GIT_SSH": SSH_WRAPPER.filename.as_posix(),
                 "GIT_TERMINAL_PROMPT": "0",
-                "SVN_SSH": SSH_WRAPPER.filename,
+                "SVN_SSH": SSH_WRAPPER.filename.as_posix(),
             },
-            extra_path=SSH_WRAPPER.path,
+            extra_path=SSH_WRAPPER.path.as_posix(),
         )
 
     @classmethod

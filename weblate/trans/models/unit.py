@@ -459,6 +459,36 @@ class Unit(models.Model, LoggerMixin):
             name = source
         return f"{self.pk}: {name}"
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.is_batch_update = False
+        self.source_updated = False
+        self.check_cache: dict[str, Any] = {}
+        self.trigger_update_variants = True
+        self.fixups: list[str] = []
+        # Data for machinery integration
+        self.machinery: UnitMemoryResultDict = {}
+        # PluralMapper integration
+        self.plural_map: list[str] | None = None
+        # Data for glossary integration
+        self.glossary_terms: list[Unit] | None = None
+        self.glossary_positions: tuple[tuple[int, int], ...] = ()
+        # Project backup integration
+        self.import_data: dict[str, Any] = {}
+        # Store original attributes for change tracking
+        self.old_unit: OldUnit
+        # Avoid loading self-referencing source unit from the database
+        # Skip this when deferred fields are present to avoid database access
+        if (
+            self.id
+            and not self.get_deferred_fields()
+            and self.source_unit_id == self.id
+        ):
+            self.source_unit = self
+        if "state" in self.__dict__ and "source" in self.__dict__:
+            # Avoid storing if .only() was used to fetch the query (eg. in stats)
+            self.store_old_unit(self)
+
     def save(
         self,
         *,
@@ -529,36 +559,6 @@ class Unit(models.Model, LoggerMixin):
 
     def get_url_path(self):
         return (*self.translation.get_url_path(), str(self.pk))
-
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.is_batch_update = False
-        self.source_updated = False
-        self.check_cache: dict[str, Any] = {}
-        self.trigger_update_variants = True
-        self.fixups: list[str] = []
-        # Data for machinery integration
-        self.machinery: UnitMemoryResultDict = {}
-        # PluralMapper integration
-        self.plural_map: list[str] | None = None
-        # Data for glossary integration
-        self.glossary_terms: list[Unit] | None = None
-        self.glossary_positions: tuple[tuple[int, int], ...] = ()
-        # Project backup integration
-        self.import_data: dict[str, Any] = {}
-        # Store original attributes for change tracking
-        self.old_unit: OldUnit
-        # Avoid loading self-referencing source unit from the database
-        # Skip this when deferred fields are present to avoid database access
-        if (
-            self.id
-            and not self.get_deferred_fields()
-            and self.source_unit_id == self.id
-        ):
-            self.source_unit = self
-        if "state" in self.__dict__ and "source" in self.__dict__:
-            # Avoid storing if .only() was used to fetch the query (eg. in stats)
-            self.store_old_unit(self)
 
     def invalidate_checks_cache(self) -> None:
         self.check_cache = {}

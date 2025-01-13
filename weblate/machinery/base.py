@@ -21,7 +21,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
-from requests.exceptions import HTTPError, RequestException
+from requests.exceptions import HTTPError, JSONDecodeError, RequestException
 
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
@@ -194,7 +194,31 @@ class BatchMachineTranslation:
     def check_failure(self, response) -> None:
         # Directly raise error as last resort, subclass can prepend this
         # with something more clever
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except HTTPError as error:
+            detail = response.text
+            try:
+                payload = response.json()
+            except JSONDecodeError:
+                pass
+            else:
+                if isinstance(payload, dict) and payload:
+                    if detail_error := payload.get("error"):
+                        if isinstance(detail_error, str):
+                            detail = detail_error
+                        elif isinstance(detail_error, dict):
+                            if "message" in detail_error:
+                                detail = detail_error["message"]
+                            else:
+                                detail = str(detail_error)
+                    else:
+                        detail = str(payload)
+
+            if detail:
+                message = f"{error.args[0]}: {detail[:200]}"
+                raise HTTPError(message, response=response) from error
+            raise
 
     def request(self, method, url, skip_auth=False, **kwargs):
         """Perform JSON request."""
@@ -216,6 +240,7 @@ class BatchMachineTranslation:
             headers=headers,
             timeout=self.request_timeout,
             auth=self.get_auth(),
+            raise_for_status=False,
             **kwargs,
         )
 

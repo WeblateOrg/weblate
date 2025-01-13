@@ -342,7 +342,7 @@ class ProjectBackup:
                 data = json.load(handle)
                 validate_schema(data, "weblate-component.schema.json")
                 if data["component"]["vcs"] not in VCS_REGISTRY:
-                    msg = f'Component {data["component"]["name"]} uses unsupported VCS: {data["component"]["vcs"]}'
+                    msg = f"Component {data['component']['name']} uses unsupported VCS: {data['component']['vcs']}"
                     raise ValueError(msg)
                 # Validate translations have unique languages
                 languages = defaultdict(list)
