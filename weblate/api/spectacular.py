@@ -107,31 +107,6 @@ In the Docker container, this can be configured with the [WEBLATE_API_RATELIMIT_
 **Added in version 4.1:**
 HTTP response headers indicating status of rate-limiting.
 
-Those HTTP headers are:
-
-<table>
-    <thead>
-        <tr>
-            <td>Header name</td>
-            <td>Description</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>X-RateLimit-Limit</td>
-            <td>The maximum number of client requests allowed for a certain period of time, depending on whether the request is anonymous or authenticated.</td>
-        </tr>
-        <tr>
-            <td>X-RateLimit-Remaining</td>
-            <td>The remaining number of client requests allowed for the current timeframe.</td>
-        </tr>
-        <tr>
-            <td>X-RateLimit-Reset</td>
-            <td>The number of seconds until the rate limit is reset by the server.</td>
-        </tr
-    </tbody>
-</table>
-
 ## Components and categories
 
 To access a component which is nested inside a [Category]({get_doc_url(page='admin/projects', anchor='category')}),
