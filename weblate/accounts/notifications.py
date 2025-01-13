@@ -340,10 +340,10 @@ class Notification:
             )
             for attrib in attribs:
                 result[attrib] = getattr(change, attrib)
-        if result.get("translation"):
-            result["translation_url"] = get_site_url(
-                result["translation"].get_absolute_url()
-            )
+            if change.translation:
+                result["translation_url"] = get_site_url(
+                    change.translation.get_absolute_url()
+                )
         return result
 
     def get_headers(self, context):
