@@ -351,9 +351,10 @@ class Notification:
 
         # Set From header to contain user full name
         if user := context.get("user"):
-            headers["From"] = formataddr(
-                (user.get_visible_name(), settings.DEFAULT_FROM_EMAIL)
-            )
+            from_name = user.get_visible_name()
+        else:
+            from_name = settings.SITE_TITLE
+        headers["From"] = formataddr((from_name, settings.DEFAULT_FROM_EMAIL))
 
         # References for unit events
         references = None
