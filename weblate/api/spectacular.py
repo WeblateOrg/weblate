@@ -9,8 +9,6 @@ from typing import Any
 
 from django.utils.translation import gettext_lazy
 
-from weblate.utils.docs import get_doc_url
-
 
 def get_spectacular_settings(
     installed_apps: list[str], site_url: str, site_title: str
