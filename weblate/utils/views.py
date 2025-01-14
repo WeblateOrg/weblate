@@ -330,7 +330,10 @@ def parse_path_units(
 
     context = {"components": None, "path_object": obj}
     if isinstance(obj, Translation):
-        unit_set = obj.unit_set.all()
+        if obj.workflow_settings and obj.workflow_settings.string_filter:
+            unit_set = obj.unit_set.search(obj.workflow_settings.string_filter)
+        else:
+            unit_set = obj.unit_set.all()
         context["translation"] = obj
         context["component"] = obj.component
         context["project"] = obj.component.project

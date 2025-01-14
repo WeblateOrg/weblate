@@ -49,6 +49,12 @@ class WorkflowSetting(models.Model):
         validators=[validate_autoaccept],
     )
 
+    string_filter = models.CharField(
+        verbose_name=gettext_lazy("Filter strings"),
+        blank=True,
+        help_text=gettext_lazy("Only include strings matching the filter."),
+    )
+
     def __str__(self) -> str:
         return f"<WorkflowSetting {self.project}:{self.language}>"
 
