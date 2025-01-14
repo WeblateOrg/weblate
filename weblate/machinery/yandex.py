@@ -35,8 +35,8 @@ class YandexTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -49,8 +49,8 @@ class YandexTranslation(MachineTranslation):
             params={
                 "key": self.settings["key"],
                 "text": text,
-                "lang": f"{source}-{language}",
-                "target": language,
+                "lang": f"{source_language}-{target_language}",
+                "target": target_language,
             },
         )
         payload = response.json()

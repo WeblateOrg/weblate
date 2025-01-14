@@ -35,8 +35,8 @@ class LibreTranslateTranslation(BatchMachineTranslation):
 
     def download_multiple_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         sources: list[tuple[str, Unit | None]],
         user=None,
         threshold: int = 75,
@@ -49,8 +49,8 @@ class LibreTranslateTranslation(BatchMachineTranslation):
             json={
                 "api_key": self.settings["key"],
                 "q": texts,
-                "source": source,
-                "target": language,
+                "source": source_language,
+                "target": target_language,
             },
         )
         payload = response.json()

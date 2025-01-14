@@ -17,12 +17,12 @@ class MyMemoryTranslation(ResponseStatusMachineTranslation):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-")
 
-    def is_supported(self, source, language):
+    def is_supported(self, source_language, target_language):
         """Check whether given language combination is supported."""
         return (
-            self.lang_supported(source)
-            and self.lang_supported(language)
-            and source != language
+            self.lang_supported(source_language)
+            and self.lang_supported(target_language)
+            and source_language != target_language
         )
 
     @staticmethod
@@ -51,8 +51,8 @@ class MyMemoryTranslation(ResponseStatusMachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -61,7 +61,7 @@ class MyMemoryTranslation(ResponseStatusMachineTranslation):
         """Download list of possible translations from MyMemory."""
         args = {
             "q": text.split(". ")[0][:500],
-            "langpair": f"{source}|{language}",
+            "langpair": f"{source_language}|{target_language}",
         }
         if self.settings["email"]:
             args["de"] = self.settings["email"]

@@ -19,8 +19,8 @@ class WeblateTranslation(InternalMachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -40,8 +40,8 @@ class WeblateTranslation(InternalMachineTranslation):
         lookup = {lookup_term: text}
 
         matching_units = base.filter(
-            translation__component__source_language=source,
-            translation__language=language,
+            translation__component__source_language=source_language,
+            translation__language=target_language,
             state__gte=STATE_TRANSLATED,
             **lookup,
         ).prefetch()

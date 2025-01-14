@@ -17,8 +17,8 @@ class WeblateMemory(InternalMachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -26,8 +26,8 @@ class WeblateMemory(InternalMachineTranslation):
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         for result in Memory.objects.lookup(
-            source,
-            language,
+            source_language,
+            target_language,
             text,
             user,
             unit.translation.component.project,

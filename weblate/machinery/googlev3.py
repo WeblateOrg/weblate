@@ -90,8 +90,8 @@ class GoogleV3Translation(
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -101,13 +101,13 @@ class GoogleV3Translation(
         request = {
             "parent": self.parent,
             "contents": [text],
-            "target_language_code": language,
-            "source_language_code": source,
+            "target_language_code": target_language,
+            "source_language_code": source_language,
             "mime_type": "text/html",
         }
         glossary_path: str | None = None
         if self.settings.get("bucket_name"):
-            glossary_path = self.get_glossary_id(source, language, unit)
+            glossary_path = self.get_glossary_id(source_language, target_language, unit)
             request["glossary_config"] = TranslateTextGlossaryConfig(
                 glossary=glossary_path
             )

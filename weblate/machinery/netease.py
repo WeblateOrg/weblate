@@ -45,8 +45,8 @@ class NeteaseSightTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -54,7 +54,7 @@ class NeteaseSightTranslation(MachineTranslation):
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         response = self.request(
-            "post", NETEASE_API_ROOT, json={"lang": source, "content": text}
+            "post", NETEASE_API_ROOT, json={"lang": target_language, "content": text}
         )
         payload = response.json()
 

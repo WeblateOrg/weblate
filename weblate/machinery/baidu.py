@@ -92,8 +92,8 @@ class BaiduTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -105,8 +105,8 @@ class BaiduTranslation(MachineTranslation):
         )
         args = {
             "q": text,
-            "from": source,
-            "to": language,
+            "from": source_language,
+            "to": target_language,
             "appid": self.settings["key"],
             "salt": salt,
             "sign": sign,

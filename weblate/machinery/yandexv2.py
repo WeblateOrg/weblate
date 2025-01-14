@@ -39,8 +39,8 @@ class YandexV2Translation(MachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -53,8 +53,8 @@ class YandexV2Translation(MachineTranslation):
             "https://translate.api.cloud.yandex.net/translate/v2/translate",
             params={
                 "texts": text,
-                "sourceLanguageCode": source,
-                "targetLanguageCode": language,
+                "sourceLanguageCode": source_language,
+                "targetLanguageCode": target_language,
             },
             headers={"Authorization": f"Api-Key {key}"},
         )
