@@ -68,7 +68,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
     def __init__(self, settings=None) -> None:
         super().__init__(settings)
 
-    def is_supported(self, source, language) -> bool:
+    def is_supported(self, source_language, target_language) -> bool:
         return True
 
     def format_prompt_part(self, name: Literal["style", "persona"]):
@@ -124,8 +124,8 @@ class BaseOpenAITranslation(BatchMachineTranslation):
 
     def download_multiple_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         sources: list[tuple[str, Unit | None]],
         user=None,
         threshold: int = 75,
@@ -148,11 +148,18 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         # Fetch rephrasing each string separately
         if rephrase:
             for text, unit in rephrase:
-                self._download(result, source, language, [text], [unit], rephrase=True)
+                self._download(
+                    result,
+                    source_language,
+                    target_language,
+                    [text],
+                    [unit],
+                    rephrase=True,
+                )
 
         # Fetch translations in batch
         if texts:
-            self._download(result, source, language, texts, units)
+            self._download(result, source_language, target_language, texts, units)
 
         return result
 
@@ -160,8 +167,8 @@ class BaseOpenAITranslation(BatchMachineTranslation):
     def _download(
         self,
         result: DownloadMultipleTranslations,
-        source,
-        language,
+        source_language,
+        target_language,
         texts: list[str],
         units: list[Unit],
         *,
@@ -171,16 +178,16 @@ class BaseOpenAITranslation(BatchMachineTranslation):
     def _download(
         self,
         result: DownloadMultipleTranslations,
-        source,
-        language,
+        source_language,
+        target_language,
         texts: list[str],
         units: list[Unit | None],
     ): ...
     def _download(
         self,
         result: DownloadMultipleTranslations,
-        source,
-        language,
+        source_language,
+        target_language,
         texts,
         units,
         *,
@@ -191,7 +198,9 @@ class BaseOpenAITranslation(BatchMachineTranslation):
             ChatCompletionUserMessageParam,
         )
 
-        prompt = self._get_prompt(source, language, texts, units, rephrase=rephrase)
+        prompt = self._get_prompt(
+            source_language, target_language, texts, units, rephrase=rephrase
+        )
         content = SEPARATOR.join(texts if not rephrase else [*texts, units[0].target])
         add_breadcrumb("openai", "prompt", prompt=prompt)
         add_breadcrumb("openai", "chat", content=content)

@@ -19,6 +19,7 @@ from .base import (
 from .forms import DeepLMachineryForm
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
     from weblate.trans.models import Unit
 
 
@@ -88,39 +89,39 @@ class DeepLTranslation(
             for target in target_languages
         )
 
-    def is_supported(self, source, language):
+    def is_supported(self, source_language, target_language):
         """Check whether given language combination is supported."""
-        return (source, language) in self.supported_languages
+        return (source_language, target_language) in self.supported_languages
 
     def download_multiple_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         sources: list[tuple[str, Unit | None]],
-        user=None,
+        user: User | None = None,
         threshold: int = 75,
     ) -> DownloadMultipleTranslations:
         """Download list of possible translations from a service."""
         texts = [text for text, _unit in sources]
         unit = sources[0][1]
 
-        glossary_id = self.get_glossary_id(source, language, unit)
+        glossary_id = self.get_glossary_id(source_language, target_language, unit)
 
         params = {
             "text": texts,
-            "source_lang": source,
-            "target_lang": language,
+            "source_lang": source_language,
+            "target_lang": target_language,
             "formality": self.settings.get("formality", "default"),
             "tag_handling": "xml",
             "ignore_tags": ["x"],
         }
         if context := self.settings.get("context", ""):
             params["context"] = context
-        if language.endswith("@FORMAL"):
-            params["target_lang"] = language[:-7]
+        if target_language.endswith("@FORMAL"):
+            params["target_lang"] = target_language[:-7]
             params["formality"] = "more"
-        elif language.endswith("@INFORMAL"):
-            params["target_lang"] = language[:-9]
+        elif target_language.endswith("@INFORMAL"):
+            params["target_lang"] = target_language[:-9]
             params["formality"] = "less"
         if glossary_id is not None:
             params["glossary_id"] = glossary_id

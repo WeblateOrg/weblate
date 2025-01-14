@@ -56,8 +56,8 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -65,11 +65,13 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
     ) -> DownloadTranslations:
         params = {
             "Text": text,
-            "SourceLanguageCode": source,
-            "TargetLanguageCode": language,
+            "SourceLanguageCode": source_language,
+            "TargetLanguageCode": target_language,
         }
 
-        glossary_name: str | None = self.get_glossary_id(source, language, unit)
+        glossary_name: str | None = self.get_glossary_id(
+            source_language, target_language, unit
+        )
         if glossary_name:
             params["TerminologyNames"] = [glossary_name]
 

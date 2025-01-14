@@ -51,8 +51,8 @@ class SAPTranslationHub(MachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -65,8 +65,8 @@ class SAPTranslationHub(MachineTranslation):
 
         # build the json body
         data = {
-            "targetLanguages": [language],
-            "sourceLanguage": source,
+            "targetLanguages": [target_language],
+            "sourceLanguage": source_language,
             "enableMT": enable_mt,
             "enableTranslationQualityEstimation": enable_mt,
             "units": [{"value": text}],

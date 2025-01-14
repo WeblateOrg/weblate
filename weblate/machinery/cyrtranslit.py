@@ -45,17 +45,23 @@ class CyrTranslitTranslation(MachineTranslation):
         return list(CYRTRANSLIT_TO_WEBLATE_LANGS.keys())
 
     def download_translations(
-        self, source, language, text: str, unit, user, threshold: int = 75
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
         import cyrtranslit
 
-        language, script = language.split("@")
+        target_language, script = target_language.split("@")
 
         translated_text = (
-            cyrtranslit.to_cyrillic(text, language)
+            cyrtranslit.to_cyrillic(text, target_language)
             if script == "cyrillic"
-            else cyrtranslit.to_latin(text, language)
+            else cyrtranslit.to_latin(text, target_language)
         )
 
         yield TranslationResultDict(
@@ -65,10 +71,10 @@ class CyrTranslitTranslation(MachineTranslation):
             source=text,
         )
 
-    def is_supported(self, source, language):
+    def is_supported(self, source_language, target_language):
         """Check whether given language combination is supported."""
-        if super().is_supported(source, language):
-            return source.split("@")[0] == language.split("@")[0]
+        if super().is_supported(source_language, target_language):
+            return source_language.split("@")[0] == target_language.split("@")[0]
         return False
 
     def map_language_code(self, code: str) -> str:

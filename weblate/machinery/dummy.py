@@ -24,8 +24,8 @@ class DummyTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -36,7 +36,7 @@ class DummyTranslation(MachineTranslation):
 
         Dummy translation supports just few phrases.
         """
-        if source == "en" and text.strip() == "Hello, world!":
+        if source_language == "en" and text.strip() == "Hello, world!":
             yield {
                 "text": "Nazdar světe!",
                 "quality": self.max_score,
@@ -49,7 +49,7 @@ class DummyTranslation(MachineTranslation):
                 "service": "Dummy",
                 "source": text,
             }
-        if source == "en" and text.strip() == "Hello, [X7X]!":
+        if source_language == "en" and text.strip() == "Hello, [X7X]!":
             yield {
                 "text": "Nazdar [X7X ]!",
                 "quality": self.max_score,
@@ -64,12 +64,18 @@ class DummyGlossaryTranslation(DummyTranslation, GlossaryMachineTranslationMixin
     glossary_count_limit = 1
 
     def download_translations(
-        self, source, language, text: str, unit, user, threshold: int = 75
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = 75,
     ) -> DownloadTranslations:
         """Translate with glossary."""
-        self.get_glossary_id(source, language, unit)
+        self.get_glossary_id(source_language, target_language, unit)
         return super().download_translations(
-            source, language, text, unit, user, threshold
+            source_language, target_language, text, unit, user, threshold
         )
 
     def list_glossaries(self) -> dict[str, str]:

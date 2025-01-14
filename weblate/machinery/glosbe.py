@@ -16,21 +16,26 @@ class GlosbeTranslation(MachineTranslation):
         """Convert language to service specific code."""
         return code.replace("_", "-").split("-")[0].lower()
 
-    def is_supported(self, source, language) -> bool:
+    def is_supported(self, source_language, target_language) -> bool:
         """Any language is supported."""
         return True
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
         threshold: int = 75,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
-        params = {"from": source, "dest": language, "format": "json", "phrase": text}
+        params = {
+            "from": source_language,
+            "dest": target_language,
+            "format": "json",
+            "phrase": text,
+        }
         response = self.request(
             "get", "https://glosbe.com/gapi/translate", params=params
         )

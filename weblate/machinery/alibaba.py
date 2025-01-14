@@ -255,8 +255,8 @@ class AlibabaTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -265,9 +265,9 @@ class AlibabaTranslation(MachineTranslation):
         """Download list of possible translations from a service."""
         # Create an API request and set the request parameters.
         request = TranslateGeneralRequest.TranslateGeneralRequest()
-        request.set_SourceLanguage(source)  # source language
+        request.set_SourceLanguage(source_language)  # source language
         request.set_SourceText(text)  # original
-        request.set_TargetLanguage(language)
+        request.set_TargetLanguage(target_language)
         request.set_FormatType("text")
         request.set_method("POST")
 
