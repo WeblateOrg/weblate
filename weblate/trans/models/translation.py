@@ -55,7 +55,6 @@ from weblate.utils.state import (
 from weblate.utils.stats import GhostStats, TranslationStats
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -629,7 +628,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             self.log_error("skipping commit due to error: %s", error)
             return False
 
-        units = (
+        units = list(
             self.unit_set.filter(pending=True)
             .prefetch_recent_content_changes()
             .select_for_update()
@@ -733,7 +732,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def update_units(  # noqa: C901
         self,
-        units: Iterable[Unit],
+        units: list[Unit],
         store: TranslationFormat,
         author_name: str,
         author_id: int,
