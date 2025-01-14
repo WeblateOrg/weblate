@@ -9,6 +9,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Fixed translations caching in :ref:`machine-translation-setup`.
+
 **Compatibility**
 
 **Upgrading**
