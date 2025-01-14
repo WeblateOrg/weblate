@@ -2177,6 +2177,10 @@ and XLIFF.
        The ``target`` and ``source`` are now arrays to properly handle plural
        strings.
 
+    .. versionchanged:: 5.6
+
+       The ``last_updated`` attribute is now exposed.
+
     Returns information about translation unit.
 
     :param id: Unit ID
