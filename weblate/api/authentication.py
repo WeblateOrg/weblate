@@ -17,11 +17,11 @@ class BearerAuthentication(TokenAuthentication):
 class BearerScheme(OpenApiAuthenticationExtension):
     """Fix an issue where the drf-spectacular library duplicates the `tokenAuth` security scheme when generating the OpenAPI schema."""
 
-    target_class = 'weblate.api.authentication.BearerAuthentication'
-    name = 'bearerAuth'
+    target_class = "weblate.api.authentication.BearerAuthentication"
+    name = "bearerAuth"
 
     def get_security_definition(self, auto_schema):
         return build_bearer_security_scheme_object(
-            header_name='Authorization',
+            header_name="Authorization",
             token_prefix=self.target.keyword,
         )
