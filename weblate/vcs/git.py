@@ -153,10 +153,13 @@ class GitRepository(Repository):
                         continue
                     if old == value:
                         continue
-                except (NoSectionError, NoOptionError):
+                except NoSectionError:
+                    if value is not None:
+                        config.add_section(section)
+                except NoOptionError:
                     pass
                 if value is not None:
-                    config.set_value(section, key, value)
+                    config.set(section, key, value)
 
     def config_update(self, *updates: tuple[str, str, str | None]) -> None:
         filename = Path(self.path) / ".git" / "config"
