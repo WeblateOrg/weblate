@@ -88,6 +88,7 @@ class TranslationResultDict(TypedDict):
     quality: int
     service: str
     source: str
+    original_source: NotRequired[str]
     show_quality: NotRequired[bool]
     origin: NotRequired[str | None]
     origin_url: NotRequired[str]
@@ -97,7 +98,7 @@ class TranslationResultDict(TypedDict):
 class UnitMemoryResultDict(TypedDict, total=False):
     quality: list[int]
     translation: list[str]
-    origin: list[BatchMachineTranslation] | None
+    origin: list[BatchMachineTranslation | None]
 
 
 DownloadTranslations = Iterable[TranslationResultDict]
@@ -443,7 +444,7 @@ class BatchMachineTranslation:
         threshold,
         replacements,
         *extra_parts,
-    ):
+    ) -> tuple[str | None, list[TranslationResultDict] | None]:
         if not self.cache_translations:
             return None, None
         cache_key = self.get_cache_key(
@@ -536,6 +537,8 @@ class BatchMachineTranslation:
     ) -> DownloadMultipleTranslations:
         output: DownloadMultipleTranslations = {}
         pending = defaultdict(list)
+        cache_keys: dict[str, str | None] = {}
+        result: list[TranslationResultDict] | None
         for text, unit in sources:
             original_source = text
             text, replacements = self.cleanup_text(text, unit)
@@ -545,7 +548,7 @@ class BatchMachineTranslation:
                 continue
 
             # Try cached results
-            cache_key, result = self.get_cached(
+            cache_keys[text], result = self.get_cached(
                 unit, source_language, target_language, text, threshold, replacements
             )
             if result is not None:
@@ -586,7 +589,7 @@ class BatchMachineTranslation:
 
                     for item in partial:
                         item["original_source"] = original_source
-                    if cache_key:
+                    if cache_key := cache_keys[text]:
                         cache.set(cache_key, partial, 30 * 86400)
                     if replacements or self.force_uncleanup:
                         self.uncleanup_results(replacements, partial)
