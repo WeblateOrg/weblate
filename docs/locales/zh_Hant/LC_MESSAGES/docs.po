@@ -16,13 +16,14 @@
 # Ricky From Hong Kong <lamricky11@hotmail.com>, 2024.
 # ei9 <ei498@proton.me>, 2024.
 # Winston Sung <winston21.sung@gmail.com>, 2024.
+# Michal Čihař <michal@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 16:26+0100\n"
-"PO-Revision-Date: 2025-01-15 14:32+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-01-15 18:47+0000\n"
+"Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -4837,7 +4838,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ":doc:`python seamial auth stend <psa：backends / index>`"
+msgstr ":doc:`python seamial auth stend <psa:backends/index>`"
 
 #: ../../admin/auth.rst:71
 msgid "OpenID authentication"
@@ -5378,8 +5379,7 @@ msgstr ""
 #: ../../admin/auth.rst:559
 msgid ""
 ":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
-msgstr ""
-":ref:“在Docker <docker-collect>`中組態收集，:doc:`psa：beftends / collect`"
+msgstr ":ref:`在Docker <docker-saml>`中組態收集，:doc:`psa:backends/saml`"
 
 #: ../../admin/auth.rst:565
 msgid "LDAP authentication"
@@ -9367,9 +9367,9 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_OFFSET`"
 msgstr ""
-":ref:“反向代理”，:ref:“速率限制”，：設定：“Django："
-"secure_proxy_sl_header`，：設定：`ip_behind_reverse_proxy`，：設定："
-"`Ip_proxy_offset`"
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:1082
 msgid "IP_PROXY_OFFSET"
@@ -9426,9 +9426,9 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_HEADER`"
 msgstr ""
-":ref:“反向代理”，:ref:“速率限制”，：設定：“Django："
-"secure_proxy_ssl_header`，：設定：`ip_behind_reverse_proxy`，：設定："
-"``ip_proxy_header`"
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_HEADER`"
 
 #: ../../admin/config.rst:1114
 msgid "LEGAL_TOS_DATE"
@@ -10399,11 +10399,11 @@ msgid "SUGGESTION_CLEANUP_DAYS"
 msgstr "SUGGESTION_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:1895
+#, fuzzy
 msgid ""
 "Automatically deletes suggestions after a given number of days. Defaults to "
 "``None``, meaning no deletions."
-msgstr ""
-"指示當 :setting:`IP_BEHIND_REVERSE_PROXY` 開啟時，Weblate應該從那個標頭得到 "
+msgstr "指示當 :setting:`IP_BEHIND_REVERSE_PROXY` 開啟時，Weblate應該從那個標頭得到 "
 "IP 地址。"
 
 #: ../../admin/config.rst:1901
@@ -13805,8 +13805,8 @@ msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
-"：設定：`enabent_avatars`，：設定：`avatar_url_prefix`，:ref:`avatars`，:ref:"
-"spections-cache`，:doc:`django：主題/快取`"
+":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :ref"
+":`production-cache`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:1119
 msgid "Configure e-mail sending"
@@ -13842,8 +13842,8 @@ msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 msgstr ""
-":ref:“組態”，:ref:“外郵件”，：STD：設定：`Django：Email_Backend`，：std：設"
-"置：`django：default_mail`，：std：設定：`django：server_email`"
+":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, "
+":std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:1151
 msgid "Allowed hosts setup"
@@ -16439,9 +16439,9 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
-"在第一次啟動容器時自動產生自簽名的 SAML 金鑰。在您想要使用自己的金鑰的情況"
-"下，將憑證和私鑰放置在 :file:`/app/data/ssl/saml.crt` 和 :file:`/app/data/"
-"ssl/saml.key `中。"
+"在第一次啟動容器時自動產生自簽名的 SAML "
+"金鑰。在您想要使用自己的金鑰的情況下，將憑證和私鑰放置在 :file:`/app/data/"
+"ssl/saml.crt` 和 :file:`/app/data/ssl/saml.key`中。"
 
 #: ../../admin/install/docker.rst:1417
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
@@ -17631,9 +17631,8 @@ msgstr "新建 Weblate 使用的資料庫，參見 :ref:`database-setup`。"
 msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
-msgstr ""
-"建立 Django 表、靜態文件和初始資料（參見 :ref:`tables-setup` 和 :ref:`tables-"
-"setup` ）："
+msgstr "建立 Django 表、靜態文件和初始資料（參見 :ref:`tables-setup` 和 :ref:`static-"
+"files` ）："
 
 #: ../../admin/install/source.rst:48
 msgid "This step should be repeated whenever you update the repository."
@@ -17664,11 +17663,11 @@ msgid ""
 msgstr "使用安裝時得到的管理管理員證明來登入，或註冊新使用者。"
 
 #: ../../admin/install/steps/install-after.rst:8
+#, fuzzy
 msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate virtualenv is active, see :ref:`manage`."
-msgstr ""
-"現在，您可以在 Weblate virtualenv 活動時使用 :command:`weblate` 命令來執行 "
+msgstr "現在，您可以在 Weblate virtualenv 活動時使用 :command:`weblate` 命令來執行 "
 "Weblate 命令。"
 
 #: ../../admin/install/steps/install-after.rst:10
@@ -25544,8 +25543,7 @@ msgstr ""
 #: ../../api.rst:859
 msgid ""
 "URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`"
-msgstr ""
-"更改列表的 URL；請參見 :http:get:`/api/projects/(string:project)/repository/`"
+msgstr "更改列表的 URL；請參見 :http:get:`/api/projects/(string:project)/changes/`"
 
 #: ../../api.rst:860
 #, fuzzy
@@ -27984,8 +27982,9 @@ msgid ""
 "controlled projects as well."
 msgstr ""
 "請替代使用:http:get:`/api/components/(string:project)/(string:component)/"
-"statistics/` 和:http:get:`/api/translations/(string:project)/(string: "
-"component)/(string:language)/statistics/`；它也允許存取ACL 控制的項目。"
+"statistics/` 和:http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/statistics/`；"
+"它也允許存取ACL 控制的項目。"
 
 #: ../../api.rst:2898
 msgid "Retrieves statistics for given component in given format."
@@ -40665,7 +40664,7 @@ msgstr ""
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
-msgstr ":doc:`django文件中的翻譯主題<django：主題/ i18n / translation>`"
+msgstr ":doc:`django文件中的翻譯主題<django:topics/i18n/translation>`"
 
 #: ../../contributing/frontend.rst:121
 msgid "Icons"
@@ -49567,8 +49566,8 @@ msgid ""
 "`wlc` configuration file (:file:`~/.config/wlc`) placed in your XDG "
 "configuration path (:file:`/etc/xdg/wlc`)."
 msgstr ""
-"從文件中載入組態，如果沒有指定，則從“WLC”組態文件（：“文件：`〜/ .config / "
-"wlc`）中載入（：file：`/ etc / xdg / wlc`）。"
+"從文件中載入組態，如果沒有指定，則從“WLC”組態文件（:file:`~/.config/"
+"wlc`）中載入（:file:`/etc/xdg/wlc`）。"
 
 #: ../../python.rst:92
 msgid ":mod:`wlc.main`"
@@ -51434,8 +51433,9 @@ msgid ""
 "checks`), for example following translation flags say that the text rendered "
 "with ubuntu font size 22 should fit into two lines and 500 pixels:"
 msgstr ""
-"您還可以通過``font- *``指令組態已使用的字體（請參閱:ref:``custom-check`），例"
-"如隨圖的翻譯標誌說，使用ubuntu字體大小22呈現的文本應該適合兩行和500像素："
+"您還可以通過``font- *``指令組態已使用的字體（請參閱:ref:`custom-"
+"checks`），例如隨圖的翻譯標誌說，使用ubuntu字體大小22呈現的文本應該適合兩行和"
+"500像素："
 
 #: ../../user/checks.rst:1111
 msgid ""
@@ -51443,8 +51443,9 @@ msgid ""
 "same font configured for all strings within a component. You can override "
 "those values per string in case you need to customize it per string."
 msgstr ""
-"您可能希望設定“字體 - *”`指令:ref:“組件”（Component）以具有為組件中的所有字串"
-"組態的相同字體。您可以每字串覆蓋每個字串的值，以防每個字串自定義它。"
+"您可能希望設定“字體 - "
+"*”`指令:ref:`component`以具有為組件中的所有字串組態的相同字體。您可以每字串覆"
+"蓋每個字串的值，以防每個字串自定義它。"
 
 #: ../../user/checks.rst:1122
 msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
@@ -52081,8 +52082,8 @@ msgid ""
 "``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied "
 "autofixer which can automatically sanitize the markup."
 msgstr ""
-"翻譯使用不安全的HTML標記。必須使用“安全 - HTML”標誌（參見:ref:“客製檢查”）啟"
-"用此檢查。還有伴隨的AutoFixer，可以自動消毒標記。"
+"翻譯使用不安全的HTML標記。必須使用“安全 - HTML”標誌（參見:ref:`custom-"
+"checks`）啟用此檢查。還有伴隨的AutoFixer，可以自動消毒標記。"
 
 #: ../../user/checks.rst:1538
 msgid ""
@@ -52986,9 +52987,8 @@ msgstr "更新來源字串 (``source``)"
 msgid ""
 "Updates source strings in bilingual translation file. This is similar to "
 "what :ref:`addon-weblate.gettext.msgmerge` does."
-msgstr ""
-"更新雙語翻譯文件中的源字串。這類似於什麼 :ref:`addon-webblate.gettext."
-"msgmerge` 。"
+msgstr "更新雙語翻譯文件中的源字串。這類似於什麼 :ref:`addon-"
+"weblate.gettext.msgmerge` 。"
 
 #: ../../user/files.rst:138
 msgid ""
@@ -53411,9 +53411,9 @@ msgid ""
 "In addition, the drop-down can also show any number of *component lists*, "
 "sets of project components preconfigured by the Weblate administrator, see :"
 "ref:`componentlists`."
-msgstr ""
-"此外，DROP-DOWN還可以顯示Web2管理員預先組態的任何數量的*組件列表*，請參閱:"
-"ref:“ComponentLists`”。"
+msgstr "此外，DROP-"
+"DOWN還可以顯示Web2管理員預先組態的任何數量的*組件列表*，請參閱:ref:`component"
+"lists`。"
 
 #: ../../user/profile.rst:47
 msgid ""
@@ -53539,16 +53539,14 @@ msgstr "編輯器連結"
 msgid ""
 "A source code link is shown in the web-browser configured in the :ref:"
 "`component` by default."
-msgstr ""
-"在預設情況下，來源碼連結會顯示在\\ :ref:`組件`\\ 中組態的 Web 瀏覽器中。"
+msgstr "在預設情況下，來源碼連結會顯示在 :ref:`component` 中組態的 Web 瀏覽器中。"
 
 #: ../../user/profile.rst:135
 msgid ""
 "By setting the :guilabel:`Editor link`, you use your local editor to open "
 "the VCS source code file of translated strings. You can use :ref:`markup`."
-msgstr ""
-"通過設定\\\\ :guilabel:`編輯器連結`，您可以使用本地編輯器開啟翻譯字串的 VCS "
-"來源碼檔案。您可以使用\\\\ :ref:`標記`。"
+msgstr "通過設定 :guilabel:`編輯器連結`，您可以使用本地編輯器開啟翻譯字串的 VCS "
+"來源碼檔案。您可以使用 :ref:`markup`。"
 
 #: ../../user/profile.rst:138
 msgid ""
@@ -53681,8 +53679,8 @@ msgid ""
 "Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`). "
 "These images are obtained using https://gravatar.com/."
 msgstr ""
-"可以為每個使用者顯示化身（取決於：設定：`enable_avatars`）。這些圖像是使用"
-"https://gravatar.com/獲得的。"
+"可以為每個使用者顯示化身（取決於:setting:`ENABLE_AVATARS`）。這些圖像是使用ht"
+"tps://gravatar.com/獲得的。"
 
 #: ../../user/profile.rst:223
 msgid "Licenses"
@@ -55110,9 +55108,8 @@ msgstr "像訊息 ID、上下文（`````````）或來源碼中的位置。"
 msgid ""
 "Screenshots can be uploaded to Weblate to better inform translators of where "
 "and how the string is used, see :ref:`screenshots`."
-msgstr ""
-"螢幕截圖可以上傳到WebLate，以更好地通知譯者的位置以及如何如何使用字串，參見:"
-"ref:“螢幕截圖”。"
+msgstr "螢幕截圖可以上傳到WebLate，以更好地通知譯者的位置以及如何如何使用字串，參見:r"
+"ef:`screenshots`。"
 
 #: ../../user/translating.rst:300
 msgid "Nearby strings"
@@ -55267,7 +55264,7 @@ msgstr "共享的翻譯記憶"
 #: ../../user/translating.rst:356
 msgid ""
 "You can find the list of supported tools in :ref:`machine-translation-setup`."
-msgstr "您可以找到支援的工具列表:ref:“計算機翻譯設定”。"
+msgstr "您可以找到支援的工具列表:ref:`machine-translation-setup`。"
 
 #: ../../user/translating.rst:363
 msgid ""
@@ -55778,10 +55775,10 @@ msgid ""
 "translate. This approach is also used for Hosted Weblate, there is "
 "dedicated :guilabel:`weblate` user for that."
 msgstr ""
-"對於更大的設定，通常更好地為 Weblate 建立專用使用者，將其分配它在Webleate中產"
-"生的公共SSH金鑰（請參閱 :ref:`WebLate-Ssh-key`）並授予您存取要轉換的所有儲存"
-"庫的訪問權限。這種方法也用於託管的 Weblate，有專門的 :guilabel:`weblate` 使用"
-"者為此。"
+"對於更大的設定，通常更好地為 Weblate "
+"建立專用使用者，將其分配它在Webleate中產生的公共SSH金鑰（請參閱 :ref"
+":`weblate-ssh-key`）並授予您存取要轉換的所有儲存庫的訪問權限。"
+"這種方法也用於託管的 Weblate，有專門的 :guilabel:`weblate` 使用者為此。"
 
 #: ../../vcs.rst:190
 msgid ":ref:`hosted-push`"
@@ -55837,8 +55834,7 @@ msgstr "使更新更快，只更新一個儲存庫。"
 msgid ""
 "There is just single exported repository with Weblate translations (see :ref:"
 "`git-exporter`)."
-msgstr ""
-"只有單一匯出的儲存庫，具有 Weblate 翻譯（請參見 :ref:`Git-Exporter`）。"
+msgstr "只有單一匯出的儲存庫，具有 Weblate 翻譯（請參見 :ref:`git-exporter`）。"
 
 #: ../../vcs.rst:215
 msgid ""
@@ -55931,7 +55927,7 @@ msgstr "Weblate 現在需要 Git 2.12 或更新版本。"
 msgid ""
 "See :ref:`vcs-repos` for info on how to access different kinds of "
 "repositories."
-msgstr "請參見 :ref:`VCS-REPOS` 用於如何存取不同型別的儲存庫的資訊。"
+msgstr "請參見 :ref:`vcs-repos` 用於如何存取不同型別的儲存庫的資訊。"
 
 #: ../../vcs.rst:276
 msgid "Git with force push"
@@ -55986,8 +55982,8 @@ msgid ""
 "installed."
 msgstr ""
 "此時，在Github上的單獨儲存庫中提供了 Bazaar 和 Mercurial 的助手：`Git-remote-"
-"Hg`_ 和 `git-remote-bzr`_ 。手動下載並將其放在搜尋路徑中（例如 :file:`〜/ "
-"bin`）。確保安裝了相應的版本控制系統。"
+"Hg`_ 和 `git-remote-bzr`_ 。手動下載並將其放在搜尋路徑中（例如 "
+":file:`~/bin`）。確保安裝了相應的版本控制系統。"
 
 #: ../../vcs.rst:308
 msgid ""
@@ -56031,9 +56027,8 @@ msgid ""
 ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
 "github` creates pull requests. The latter is not needed for merely accessing "
 "Git repositories."
-msgstr ""
-":ref:`vcs-git` 將變更直接推送到儲存庫，而 :ref:`VCS-GitHub` 建立拉取請求。僅"
-"存取 Git 儲存庫不需要後者。"
+msgstr ":ref:`vcs-git` 將變更直接推送到儲存庫，而 :ref:`vcs-github` 建立拉取請求。"
+"僅存取 Git 儲存庫不需要後者。"
 
 #: ../../vcs.rst:345
 msgid ""
