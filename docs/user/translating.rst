@@ -235,7 +235,7 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+1` to :kbd:`Cmd+9`              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+M` followed by                 | Copy the machine translation of given number to current translation.  |
+| :kbd:`Ctrl+M` followed by                 | Copy the machine translation of a given number to current translation.|
 | :kbd:`1` to :kbd:`9` or                   |                                                                       |
 |                                           |                                                                       |
 | :kbd:`Cmd+M` followed by                  |                                                                       |
