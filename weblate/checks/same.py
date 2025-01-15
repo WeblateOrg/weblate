@@ -18,6 +18,7 @@ from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
 from weblate.checks.ruby import RUBY_FORMAT_MATCH
 
 if TYPE_CHECKING:
+    from weblate.checks.flags import Flags
     from weblate.trans.models import Unit
 
 # Email address to ignore
@@ -60,7 +61,7 @@ EMOJI_RE = re.compile(r"[\U00002600-\U000027bf]|[\U0001f000-\U0001fffd]")
 DB_TAGS = ("screen", "indexterm", "programlisting")
 
 
-def strip_format(msg, flags):
+def strip_format(msg: str, flags: Flags) -> str:
     """
     Remove format strings from the strings.
 
@@ -85,7 +86,7 @@ def strip_format(msg, flags):
     return regex.sub("", msg)
 
 
-def strip_string(msg):
+def strip_string(msg: str) -> str:
     """Strip (usually) untranslated parts from the string."""
     # Strip HTML markup
     stripped = strip_tags(msg)
@@ -122,7 +123,7 @@ def test_word(word, extra_ignore):
     )
 
 
-def strip_placeholders(msg, unit: Unit):
+def strip_placeholders(msg: str, unit: Unit) -> str:
     return re.sub(
         "|".join(
             re.escape(param) if isinstance(param, str) else param.pattern
