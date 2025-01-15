@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 import sentry_sdk
 from django.http import Http404
@@ -18,7 +18,7 @@ from weblate.utils.docs import get_doc_url
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Generator, Iterable
 
     from django_stubs_ext import StrOrPromise
 
@@ -27,6 +27,8 @@ if TYPE_CHECKING:
 
     from .flags import Flags
     from .models import Check
+
+MissingExtraDict = dict[Literal["missing", "extra"], list[str]]
 
 
 class BaseCheck:
@@ -102,25 +104,31 @@ class BaseCheck:
         )
         return result
 
-    def check_target_unit(
+    def check_target_generator(
         self, sources: list[str], targets: list[str], unit: Unit
-    ) -> bool:
+    ) -> Generator[bool | MissingExtraDict]:
         """Check single unit, handling plurals."""
         from weblate.lang.models import PluralMapper
 
         source_plural = unit.translation.component.source_language.plural
         target_plural = unit.translation.plural
         if len(sources) != source_plural.number or len(targets) != target_plural.number:
-            return any(
-                self.check_single(sources[-1], target, unit) for target in targets
-            )
-        plural_mapper = PluralMapper(source_plural, target_plural)
-        return any(
-            self.check_single(source, target, unit)
-            for source, target in plural_mapper.zip(sources, targets, unit)
-        )
+            for target in targets:
+                yield self.check_single(sources[-1], target, unit)
+        else:
+            plural_mapper = PluralMapper(source_plural, target_plural)
+            for source, target in plural_mapper.zip(sources, targets, unit):
+                yield self.check_single(source, target, unit)
 
-    def check_single(self, source: str, target: str, unit: Unit) -> bool:
+    def check_target_unit(
+        self, sources: list[str], targets: list[str], unit: Unit
+    ) -> bool:
+        """Check single unit, handling plurals."""
+        return any(self.check_target_generator(sources, targets, unit))
+
+    def check_single(
+        self, source: str, target: str, unit: Unit
+    ) -> bool | MissingExtraDict:
         """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError
 
@@ -312,6 +320,20 @@ class TargetCheck(BaseCheck):
         return self.get_values_text(
             gettext("The following format strings are extra: {}"), values
         )
+
+    def format_string(self, string: str) -> str:
+        """Format parsed format string into human readable value."""
+        return string
+
+    def format_result(self, result: MissingExtraDict) -> Iterable[StrOrPromise]:
+        if result["missing"]:
+            yield self.get_missing_text(
+                self.format_string(x) for x in set(result["missing"])
+            )
+        if result["extra"]:
+            yield self.get_extra_text(
+                self.format_string(x) for x in set(result["extra"])
+            )
 
 
 class SourceCheck(BaseCheck):

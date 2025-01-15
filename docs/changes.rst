@@ -5,6 +5,8 @@ Not yet released.
 
 **New features**
 
+* :ref:`check-rst-references` check to validate reStructuredText references.
+
 **Improvements**
 
 * Improved error handling in :ref:`machine-translation-setup`.

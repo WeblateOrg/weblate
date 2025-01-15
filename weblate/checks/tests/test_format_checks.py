@@ -160,7 +160,7 @@ class PythonFormatCheckTest(CheckTestCase):
             translation=Translation(
                 component=Component(
                     file_format="po",
-                    source_language=Language("en"),
+                    source_language=Language(code="en"),
                 )
             ),
         )
@@ -184,7 +184,7 @@ class PythonFormatCheckTest(CheckTestCase):
             translation=Translation(
                 component=Component(
                     file_format="po",
-                    source_language=Language("en"),
+                    source_language=Language(code="en"),
                 )
             ),
         )
@@ -527,7 +527,7 @@ class PerlBraceFormatCheckTest(CheckTestCase):
             translation=Translation(
                 component=Component(
                     file_format="po",
-                    source_language=Language("en"),
+                    source_language=Language(code="en"),
                 )
             ),
         )

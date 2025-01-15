@@ -704,6 +704,9 @@ class Language(models.Model, CacheKeyMixin):
 
     @cached_property
     def plural(self):
+        if not self.pk:
+            # Not yet saved, used in tests
+            return Plural(language=self)
         # Filter in Python if query is cached
         if self.plural_set.all()._result_cache is not None:  # noqa: SLF001
             for plural in self.plural_set.all():
