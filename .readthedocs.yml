@@ -27,7 +27,7 @@ build:
     - uv sync --no-sources --only-group docs --frozen
     build:
       html:
-      - .venv/bin/sphinx-build -T -b html -d docs/_build/doctrees docs $READTHEDOCS_OUTPUT/html
+      - .venv/bin/sphinx-build --show-traceback --fail-on-warning --builder html --doctree-dir docs/_build/doctrees docs $READTHEDOCS_OUTPUT/html
 
 # Avoid cloning submodules
 submodules:
