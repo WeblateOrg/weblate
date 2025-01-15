@@ -247,6 +247,9 @@ graphviz_output_format = "svg"
 
 # Use localized Python docs on Read the Docs build
 language = os.environ.get("READTHEDOCS_LANGUAGE", "en")
+# RTD uses no but the correct code is nb
+if language == "no":
+    language = "nb"
 if "-" in language:
     # RTD normalized their language codes to ll-cc (e.g. zh-cn),
     # but Sphinx did not and still uses ll_CC (e.g. zh_CN).
