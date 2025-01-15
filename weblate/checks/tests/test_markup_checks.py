@@ -420,3 +420,13 @@ class RSTReferencesCheckTest(CheckTestCase):
             <span class="hlcheck" data-value=":ref:`bar &lt;baz&gt;`">:ref:`bar &lt;baz&gt;`</span>
             """,
         )
+
+    def test_roles(self) -> None:
+        self.do_test(
+            False,
+            (
+                ":guilabel:`Help`",
+                ":guilabel:`Pomoc`",
+                "rst-text",
+            ),
+        )

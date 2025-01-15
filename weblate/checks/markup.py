@@ -63,7 +63,9 @@ XML_ENTITY_MATCH = re.compile(
     re.VERBOSE,
 )
 
-RST_REF_MATCH = re.compile(r"((:[a-z:]+:)(?:`([^<`]+)`|`[^<`]+<([^<`]+)>`))")
+RST_REF_MATCH = re.compile(
+    r"((:(?!guilabel|code|math|eq|abbr|dfn|menuselection)[a-z:]+:)(?:`([^<` ]+)`|`[^<`]+<([^<` ]+)>`))"
+)
 
 
 def strip_entities(text):
