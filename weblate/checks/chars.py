@@ -13,6 +13,7 @@ from django.utils.translation import gettext_lazy
 from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
 from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
+from weblate.checks.same import strip_format
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -470,6 +471,8 @@ class PunctuationSpacingCheck(TargetCheck):
         ):
             return False
 
+        # Remove possible markup
+        target = strip_format(target, unit.all_flags)
         # Remove XML/HTML entities to simplify parsing
         target = strip_entities(target)
 
