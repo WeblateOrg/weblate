@@ -7,7 +7,7 @@ Congratulations, your Weblate server is now running and you can start using it.
 * Sign in with admin credentials obtained during installation or register with new users.
 * You can now run Weblate commands using :command:`weblate` command when
   Weblate virtualenv is active, see :ref:`manage`.
-* You can stop the test server with Ctrl+C.
+* You can stop the test server with :kbd:`Ctrl+C`.
 * Review potential issues with your installation either on ``/manage/performance/`` URL (see :ref:`manage-performance`) or using :command:`weblate check --deploy`, see :ref:`production`.
 
 Adding translation
