@@ -41,7 +41,9 @@ class ConvertFormatTest(BaseFormatTest):
 
     def test_convert(self) -> None:
         if not self.CONVERT_TEMPLATE:
-            self.skipTest(f"Test template not provided for {self.FORMAT.format_id}")
+            self.skipTest(
+                f"Test template not provided for {self.format_class.format_id}"
+            )
         translation = template = None
         try:
             # Generate test files
@@ -51,9 +53,9 @@ class ConvertFormatTest(BaseFormatTest):
                 translation.write(self.CONVERT_TRANSLATION)
 
             # Parse
-            storage = self.FORMAT(
+            storage = self.format_class(
                 translation.name,
-                template_store=self.FORMAT(template.name, is_template=True),
+                template_store=self.format_class(template.name, is_template=True),
                 existing_units=self.CONVERT_EXISTING,
             )
 
@@ -83,7 +85,7 @@ class ConvertFormatTest(BaseFormatTest):
 
 
 class HTMLFormatTest(ConvertFormatTest):
-    FORMAT = HTMLFormat
+    format_class = HTMLFormat
     FILE = HTML_FILE
     MIME = "text/html"
     EXT = "html"
@@ -104,7 +106,7 @@ class HTMLFormatTest(ConvertFormatTest):
 
 
 class MarkdownFormatTest(ConvertFormatTest):
-    FORMAT = MarkdownFormat
+    format_class = MarkdownFormat
     FILE = MARKDOWN_FILE
     MIME = "text/markdown"
     EXT = "md"
@@ -143,9 +145,9 @@ Nazdar
             handle.write(testdata)
 
         # Parse test file
-        storage = self.FORMAT(
+        storage = self.format_class(
             testfile,
-            template_store=self.FORMAT(testfile, is_template=True),
+            template_store=self.format_class(testfile, is_template=True),
             existing_units=[
                 MockUnit(
                     source="Orangutan has five bananas.",
@@ -175,7 +177,7 @@ Try Weblate at [weblate.org](https://demo.weblate.org/)!
 
 
 class OpenDocumentFormatTest(ConvertFormatTest):
-    FORMAT = OpenDocumentFormat
+    format_class = OpenDocumentFormat
     FILE = OPENDOCUMENT_FILE
     MIME = "application/vnd.oasis.opendocument.text"
     EXT = "odt"
@@ -206,7 +208,7 @@ class OpenDocumentFormatTest(ConvertFormatTest):
 
 
 class IDMLFormatTest(ConvertFormatTest):
-    FORMAT = IDMLFormat
+    format_class = IDMLFormat
     FILE = IDML_FILE
     MIME = "application/octet-stream"
     EXT = "idml"
@@ -235,7 +237,7 @@ class IDMLFormatTest(ConvertFormatTest):
 
 
 class WindowsRCFormatTest(ConvertFormatTest):
-    FORMAT = WindowsRCFormat
+    format_class = WindowsRCFormat
     FILE = TEST_RC
     BASE = TEST_RC
     MIME = "text/plain"
@@ -274,7 +276,7 @@ END
 
 
 class PlainTextFormatTest(ConvertFormatTest):
-    FORMAT = PlainTextFormat
+    format_class = PlainTextFormat
     FILE = TEST_TXT
     BASE = TEST_TXT
     MIME = "text/plain"

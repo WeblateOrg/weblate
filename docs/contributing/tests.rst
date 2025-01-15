@@ -50,6 +50,7 @@ Before running test, please ensure test dependencies are installed. This can be 
 
 Testing using pytest
 ~~~~~~~~~~~~~~~~~~~~
+
 Prior to running tests you should collect static files as some tests rely on them being present:
 
 .. code-block:: sh
@@ -67,15 +68,6 @@ Running an individual test file:
 .. code-block:: sh
 
    pytest weblate/utils/tests/test_search.py
-
-Testing using Django
-~~~~~~~~~~~~~~~~~~~~
-
-Alternatively, Django built-in tests should also work:
-
-.. code-block:: sh
-
-    DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py test
 
 .. hint::
 
@@ -96,18 +88,6 @@ The :file:`weblate/settings_test.py` is used in CI environment as well (see
    export CI_DB_HOST=127.0.0.1
    export CI_DB_PORT=60000
    export DJANGO_SETTINGS_MODULE=weblate.settings_test
-
-Prior to running tests you should collect static files as some tests rely on them being present:
-
-.. code-block:: sh
-
-    DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py collectstatic
-
-You can also specify individual tests to run:
-
-.. code-block:: sh
-
-    DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py test weblate.gitexport
 
 .. hint::
 

@@ -19,7 +19,7 @@ FRENCH_FILE = get_test_file("fr.xlsx")
 
 
 class XlsxFormatTest(BaseFormatTest):
-    FORMAT = XlsxFormat
+    format_class = XlsxFormat
     FILE = XLSX_FILE
     MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     EXT = "xlsx"
@@ -45,14 +45,14 @@ class XlsxFormatTest(BaseFormatTest):
         )
 
     def test_japanese(self) -> None:
-        storage = self.FORMAT(JAPANESE_FILE)
+        storage = self.format_class(JAPANESE_FILE)
         self.assertEqual(len(storage.all_units), 1)
         self.assertEqual(storage.all_units[0].target, "秒")
         with tempfile.NamedTemporaryFile(suffix="xlsx") as temp_file:
             storage.save_atomic(temp_file.name, storage.save_content)
 
     def test_fr(self) -> None:
-        storage = self.FORMAT(FRENCH_FILE)
+        storage = self.format_class(FRENCH_FILE)
         self.assertEqual(len(storage.all_units), 4)
         self.assertEqual(storage.all_units[0].target, "Traitement A")
         with tempfile.NamedTemporaryFile(suffix="xlsx") as temp_file:

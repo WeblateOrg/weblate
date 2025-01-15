@@ -17,6 +17,8 @@ Not yet released.
 
 **Compatibility**
 
+* Running tests using Django test executor is no longer supported, see :doc:`/contributing/tests`.
+
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
