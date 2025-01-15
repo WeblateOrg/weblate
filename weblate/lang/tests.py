@@ -8,6 +8,7 @@ import warnings
 from gettext import c2py
 from io import StringIO
 from itertools import chain
+from unittest.mock import patch
 
 from django.core.management import call_command
 from django.test import TestCase
@@ -16,13 +17,14 @@ from django.urls import reverse
 from django.utils.translation import activate
 from weblate_language_data.aliases import ALIASES
 from weblate_language_data.languages import LANGUAGES
-from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS
+from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS, QTPLURALS
+from weblate_language_data.population import POPULATION
 
 from weblate.lang import data
 from weblate.lang.models import Language, Plural, PluralMapper, get_plural_type
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_models import BaseTestCase
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.utils.db import using_postgresql
 
@@ -784,3 +786,93 @@ class PluralMapperTestCase(FixtureTestCase):
             )
         with override_settings(SIMPLIFY_LANGUAGES=False):
             self.assertEqual(arabic.get_aliases_names(), ["ar_ar", "ara", "arb"])
+
+
+class LanguageAliasesEditTest(ViewTestCase):
+    old_code = "it"
+    new_code = "it_XX"
+
+    def setUp(self):
+        super().setUp()
+
+        def update_codes_in_dict(data: dict) -> dict:
+            copy = data.copy()
+            cs = copy.pop(self.old_code)
+            copy[self.new_code] = cs
+            return copy
+
+        def update_code_in_tuple(data: tuple) -> tuple:
+            new_data = []
+            for item in data:
+                if item[0] == self.old_code:
+                    item = tuple([self.new_code], *item[1:])
+                new_data.append(tuple(item))
+            return tuple(new_data)
+
+        updated_aliases = ALIASES | {self.old_code: self.new_code}
+
+        patch_values = [
+            (
+                "weblate_language_data.languages.LANGUAGES",
+                update_code_in_tuple(LANGUAGES),
+            ),
+            (
+                "weblate_language_data.population.POPULATION",
+                update_codes_in_dict(POPULATION),
+            ),
+            ("weblate.lang.models.EXTRAPLURALS", update_code_in_tuple(EXTRAPLURALS)),
+            ("weblate.lang.models.QTPLURALS", update_code_in_tuple(QTPLURALS)),
+            ("weblate.lang.models.CLDRPLURALS", update_code_in_tuple(CLDRPLURALS)),
+            ("weblate_language_data.aliases.ALIASES", updated_aliases),
+            ("weblate.lang.data.ALIASES", updated_aliases),
+            ("weblate.lang.models.ALIASES", updated_aliases),
+        ]
+
+        for target, new_value in patch_values:
+            patcher = patch(target, new_value)
+            patcher.start()
+
+    def tearDown(self):
+        super().tearDown()
+        patch.stopall()
+
+    def do_alias_language_update_and_check(
+        self, new_language_created: bool = True, old_language_deleted: bool = True
+    ):
+        def component_language_codes():
+            return [
+                translation.language.code
+                for translation in self.component.translation_set.all()
+            ]
+
+        self.assertIn(self.old_code, component_language_codes())
+        logs: list[str] = []
+        Language.objects.setup(True, logs.append)
+        self.assertEqual(
+            f"Created language {self.new_code}" in logs, new_language_created
+        )
+
+        self.assertIn(self.new_code, component_language_codes())
+        self.assertEqual(
+            self.old_code in component_language_codes(), not old_language_deleted
+        )
+        # alias language should be deleted if blank
+        self.assertNotEqual(
+            Language.objects.filter(code=self.old_code).exists(), old_language_deleted
+        )
+
+    def test_update_language_alias(self):
+        self.do_alias_language_update_and_check()
+
+    def test_update_language_alias_no_deletion(self):
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        it_xx = Language.objects.create(code="it_XX", name="New Italian")
+        it_xx.plural_set.create(
+            number=0,
+            formula="0",
+            source=Plural.SOURCE_DEFAULT,
+        )
+        self.component.add_new_language(it_xx, None)
+        self.do_alias_language_update_and_check(False, False)
