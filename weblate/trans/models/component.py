@@ -1944,7 +1944,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def do_file_sync(self, request=None):
         from weblate.trans.models import Unit
 
-        Unit.objects.filter(translation__component=self).exclude(
+        Unit.objects.filter(
+            Q(translation__component=self)
+            | Q(translation__component__linked_component=self)
+        ).exclude(
             translation__language_id=self.source_language_id
         ).select_for_update().update(pending=True)
         return self.commit_pending("file-sync", request.user if request else None)
