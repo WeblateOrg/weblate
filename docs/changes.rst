@@ -7,6 +7,9 @@ Not yet released.
 
 **Improvements**
 
+* Improved error handling in :ref:`machine-translation-setup`.
+* :envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker container.
+
 **Bug fixes**
 
 **Compatibility**
