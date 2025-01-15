@@ -57,7 +57,7 @@ sources.
    .. code-block:: sh
 
       . scripts/test-database.sh
-      ./manage.py test
+      pytest
 
 .. seealso::
 
@@ -91,7 +91,7 @@ for example running only tests in the ``weblate.machine`` module:
 
 .. code-block:: sh
 
-   ./rundev.sh test --failfast weblate.machine
+   ./rundev.sh test --exitfirst weblate/machine
 
 .. note::
 

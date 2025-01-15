@@ -6,19 +6,14 @@
 
 # Testsuite executor
 
-. ci/lib.sh
+set -x
 
-run_coverage ./manage.py compilemessages
-check
+./manage.py compilemessages
 
-run_coverage ./manage.py collectstatic --noinput --verbosity 0
-check
+./manage.py collectstatic --noinput --verbosity 0
 
-run_coverage ./manage.py migrate --noinput --traceback
-check
+./manage.py migrate --noinput --traceback
 
-run_coverage ./manage.py check
-check
+./manage.py check
 
-run_coverage ./manage.py test
-check
+pytest
