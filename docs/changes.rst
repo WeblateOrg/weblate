@@ -9,6 +9,7 @@ Not yet released.
 
 * Improved error handling in :ref:`machine-translation-setup`.
 * :envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker container.
+* :guilabel:`Synchronize` on shared repository now operates on all its components.
 
 **Bug fixes**
 
