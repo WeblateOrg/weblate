@@ -101,6 +101,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.markup.MarkdownSyntaxCheck",
         "weblate.checks.markup.URLCheck",
         "weblate.checks.markup.SafeHTMLCheck",
+        "weblate.checks.markup.RSTReferencesCheck",
         "weblate.checks.placeholders.PlaceholderCheck",
         "weblate.checks.placeholders.RegexCheck",
         "weblate.checks.duplicate.DuplicateCheck",

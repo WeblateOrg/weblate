@@ -5,14 +5,17 @@
 from __future__ import annotations
 
 import re
+from collections import defaultdict
 from typing import TYPE_CHECKING
 
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.functional import cached_property
+from django.utils.html import format_html_join
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 
-from weblate.checks.base import TargetCheck
+from weblate.checks.base import MissingExtraDict, TargetCheck
 from weblate.utils.html import (
     MD_BROKEN_LINK,
     MD_LINK,
@@ -24,9 +27,12 @@ from weblate.utils.html import (
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
     from lxml.etree import _Element
 
     from weblate.trans.models import Unit
+
+    from .models import Check
 
 BBCODE_MATCH = re.compile(
     r"(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])", re.MULTILINE
@@ -56,6 +62,8 @@ XML_ENTITY_MATCH = re.compile(
     """,
     re.VERBOSE,
 )
+
+RST_REF_MATCH = re.compile(r"((:[a-z:]+:)(?:`([^<`]+)`|`[^<`]+<([^<`]+)>`))")
 
 
 def strip_entities(text):
@@ -344,3 +352,69 @@ class SafeHTMLCheck(TargetCheck):
         cleaned_target = sanitizer.clean(target, source, unit.all_flags)
 
         return cleaned_target != target
+
+
+class RSTReferencesCheck(TargetCheck):
+    check_id = "rst-references"
+    name = gettext_lazy("Inconsistent reStructuredText references")
+    description = gettext_lazy(
+        "Inconsistent reStructuredText term references in the translated message."
+    )
+    default_disabled = True
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.enable_string = "rst-text"
+
+    def extract_references(self, text: str) -> dict[str, str]:
+        return {
+            f"{role}{target or named_target}": text
+            for text, role, target, named_target in RST_REF_MATCH.findall(text)
+        }
+
+    def check_single(
+        self, source: str, target: str, unit: Unit
+    ) -> bool | MissingExtraDict:
+        src_references = self.extract_references(source)
+        tgt_references = self.extract_references(target)
+
+        src_set = set(src_references.keys())
+        tgt_set = set(tgt_references.keys())
+
+        missing = src_set - tgt_set
+        extra = tgt_set - src_set
+        if missing or extra:
+            return {
+                "missing": [src_references[item] for item in missing],
+                "extra": [tgt_references[item] for item in extra],
+            }
+        return False
+
+    def get_description(self, check_obj: Check) -> StrOrPromise:
+        unit = check_obj.unit
+
+        errors: list[StrOrPromise] = []
+        results: MissingExtraDict = defaultdict(list)
+
+        # Merge plurals
+        for result in self.check_target_generator(
+            unit.get_source_plurals(), unit.get_target_plurals(), unit
+        ):
+            if isinstance(result, dict):
+                for key, value in result.items():
+                    results[key].extend(value)
+        if results:
+            errors.extend(self.format_result(results))
+        if errors:
+            return format_html_join(
+                mark_safe("<br />"),  # noqa: S308
+                "{}",
+                ((error,) for error in errors),
+            )
+        return super().get_description(check_obj)
+
+    def check_highlight(self, source: str, unit: Unit):
+        if self.should_skip(unit):
+            return
+        for match in RST_REF_MATCH.finditer(source):
+            yield match.start(0), match.end(0), match.group(0)
