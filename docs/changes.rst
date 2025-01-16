@@ -19,6 +19,7 @@ Not yet released.
 **Bug fixes**
 
 * Fixed translations caching in :ref:`machine-translation-setup`.
+* :ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag.
 
 **Compatibility**
 

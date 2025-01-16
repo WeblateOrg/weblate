@@ -74,6 +74,16 @@ class AutoFixTest(TestCase):
             (["%(percent)s %%"], False),
         )
 
+    def test_html_ignored(self) -> None:
+        fix = BleachHTML()
+        unit = MockUnit(
+            source='<a href="script:foo()">link</a>', flags="safe-html,ignore-safe-html"
+        )
+        self.assertEqual(
+            fix.fix_target(["Allow <b>"], unit),
+            (["Allow <b>"], False),
+        )
+
     def test_html_markdown(self) -> None:
         fix = BleachHTML()
         unit = MockUnit(
