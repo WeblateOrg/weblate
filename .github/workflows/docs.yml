@@ -34,11 +34,11 @@ jobs:
 
   translations:
     runs-on: ubuntu-24.04
-    continue-on-error: true
     needs:
     - list-languages
     name: Sphinx
     strategy:
+      fail-fast: false
       matrix:
         language: ${{ fromJson(needs.list-languages.outputs.languages) }}
     env:
