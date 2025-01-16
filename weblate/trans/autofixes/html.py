@@ -21,7 +21,7 @@ class BleachHTML(AutoFix):
 
     def fix_single_target(self, target: str, source: str, unit):
         flags = unit.all_flags
-        if "safe-html" not in flags:
+        if "safe-html" not in flags or "ignore-safe-html" in flags:
             return target, False
 
         sanitizer = HTMLSanitizer()
