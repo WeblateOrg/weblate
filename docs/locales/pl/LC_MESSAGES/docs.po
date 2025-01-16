@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 16:26+0100\n"
-"PO-Revision-Date: 2025-01-15 19:18+0000\n"
+"PO-Revision-Date: 2025-01-16 08:25+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
@@ -386,7 +386,7 @@ msgid ""
 "access roles (see :ref:`privileges`)."
 msgstr ""
 "Możesz ograniczyć zespoły do poszczególnych języków lub komponentów, i "
-"przydzielić im wyznaczone role dostępu (zobacz :ref:`uprawnienia`)"
+"przydzielić im wyznaczone role dostępu (zobacz :ref:`privileges`)"
 
 #: ../../admin/access.rst:150
 msgid "Team administrators"
@@ -933,10 +933,10 @@ msgid ""
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
 "W innym przypadku, jeżeli zespół poda jakikolwiek :guilabel: `Projects`, "
-"albo wymieniając je albo poprzez posiadanie :guilabel: `Projects selection` "
-"i ustawienie wartości jak: :guilabel: `All public projects`, wszystkie te "
+"albo wymieniając je albo poprzez posiadanie :guilabel:`Projects selection` i "
+"ustawienie wartości jak: :guilabel:`All public projects`, wszystkie te "
 "uprawnienia są aplikowane do wszystkich projektów, co daje takie same "
-"uprawnienie każdemu projektowi :ref: `unrestricted components<component-"
+"uprawnienie każdemu projektowi :ref:`unrestricted components <component-"
 "restricted>`."
 
 #: ../../admin/access.rst:387
@@ -3309,7 +3309,7 @@ msgid ""
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
 "Możesz także zaostrzyć kontrolę :ref:`check-same`, dodając flagę ``strict-"
-"same`` do flagi :ref:`component-check flags`."
+"same`` do flagi :ref:`component-check_flags`."
 
 #: ../../admin/addons.rst:522 ../../admin/addons.rst:539
 #: ../../admin/addons.rst:556
@@ -16493,8 +16493,8 @@ msgid ""
 "The services translate from the source language as configured at :ref:"
 "`component`, see :ref:`component-source_language`."
 msgstr ""
-"Usługi tłumaczą z języka źródłowego zgodnie z konfiguracją w :"
-"ref:'component', patrz :ref:'component-source_language'."
+"Usługi tłumaczą z języka źródłowego zgodnie z konfiguracją w :ref:`component`"
+", patrz :ref:`component-source_language`."
 
 #: ../../admin/machine.rst:25
 msgid ""
@@ -18629,7 +18629,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:15
 msgid "Manually: in the :ref:`machine-translation` view while translating."
-msgstr "Ręcznie: w widoku :ref:`tłumaczenie maszynowe` podczas tłumaczenia."
+msgstr "Ręcznie: w widoku :ref:`machine-translation` podczas tłumaczenia."
 
 #: ../../admin/memory.rst:16
 #, fuzzy
@@ -26748,7 +26748,7 @@ msgstr "Dodano :http:get:`/api/categories/(int:id)/statistics/`."
 
 #: ../../changes.rst:585
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
-msgstr "Dodano :http:get:`/api/projects/(ciąg:projekt)/file/`."
+msgstr "Dodano :http:get:`/api/projects/(string:project)/file/`."
 
 #: ../../changes.rst:586
 #, fuzzy
@@ -26767,8 +26767,8 @@ msgid ""
 "Improved :http:post:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/units/`."
 msgstr ""
-"Poprawiono :http:post:`/api/tłumaczenia/(ciąg:projekt)/(ciąg:komponent)/"
-"(ciąg:język)/jednostki/`."
+"Poprawiono :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../changes.rst:590
 msgid "Added :ref:`mt-systran` automatic translation support."
@@ -27074,11 +27074,11 @@ msgstr ""
 #: ../../changes.rst:702
 msgid ":ref:`mt-openai` better handles batch translations and glossaries."
 msgstr ""
-"ref:`mt-openai` lepiej radzi sobie z tłumaczeniami wsadowymi i słownikami."
+":ref:`mt-openai` lepiej radzi sobie z tłumaczeniami wsadowymi i słownikami."
 
 #: ../../changes.rst:703
 msgid ":ref:`mt-libretranslate` better handles batch translations."
-msgstr "ref:`mt-libretranslate` lepiej radzi sobie z tłumaczeniami wsadowymi."
+msgstr ":ref:`mt-libretranslate` lepiej radzi sobie z tłumaczeniami wsadowymi."
 
 #: ../../changes.rst:704
 msgid ""
@@ -27109,8 +27109,8 @@ msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` now "
 "includes information about linked component."
 msgstr ""
-":http:get:`/api/components/(ciąg:projekt)/(ciąg:komponent)/` zawiera teraz "
-"informacje o powiązanym komponencie."
+":http:get:`/api/components/(string:project)/(string:component)/` zawiera "
+"teraz informacje o powiązanym komponencie."
 
 #: ../../changes.rst:710
 #, fuzzy
@@ -27210,11 +27210,12 @@ msgstr ":ref:`mt-alibaba` usługa automatycznych sugestii."
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr ""
-"Dodano API etykiet, zobacz :http:get:`/api/projects/(ciąg:projekt)/labels/`."
+"Dodano API etykiet, zobacz :http:get:`/api/projects/(string:project)/labels/"
+"`."
 
 #: ../../changes.rst:756
 msgid ":ref:`glossary-mt`."
-msgstr ":ref:`słownik-mt`."
+msgstr ":ref:`glossary-mt`."
 
 #: ../../changes.rst:757
 msgid "New automatic fixer for :ref:`autofix-punctuation-spacing`."
@@ -34649,8 +34650,8 @@ msgid ""
 "API for creating components now automatically uses :ref:`internal-urls`, "
 "see :http:post:`/api/projects/(string:project)/components/`."
 msgstr ""
-"Interfejs API do tworzenia komponentów teraz automatycznie używa :"
-"ref:'internal-urls', patrz :http:post:`/api/projects/(string:project)/"
+"Interfejs API do tworzenia komponentów teraz automatycznie używa :ref"
+":`internal-urls`, patrz :http:post:`/api/projects/(string:project)/"
 "components/`."
 
 #: ../../changes/v4.rst:775
@@ -42186,7 +42187,7 @@ msgstr ""
 
 #: ../../formats.rst:363
 msgid "See :ref:`format-flags`."
-msgstr "Zobacz :ref:'flagi-formatów'."
+msgstr "Zobacz :ref:`format-flags`."
 
 #: ../../formats.rst:364
 msgid "The gettext type comments are used as flags."
