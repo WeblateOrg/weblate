@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Linerly <linerly@protonmail.com>, 2023.
-# Linerly <linerly@proton.me>, 2024.
+# Linerly <linerly@proton.me>, 2024, 2025.
 # Taufik Adi Wicaksono <taufikadi.wicaksono@tutamail.com>, 2024.
 # Ian Perdiansah <ianperdiansah05@gmail.com>, 2024.
 # Yi Chi Fauzi <a0932636771@gmail.com>, 2025.
@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 15:25+0000\n"
-"PO-Revision-Date: 2025-01-15 19:23+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-01-16 02:50+0000\n"
+"Last-Translator: Linerly <linerly@proton.me>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -2793,20 +2793,14 @@ msgid "This translation is currently locked."
 msgstr "Terjemahan ini tengah dikunci."
 
 #: weblate/auth/permissions.py:194
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires accepting its contributor license "
 "agreement."
 msgstr ""
-"Berkontribusi pada terjemahan ini mengharuskan Anda untuk menyetujui "
+"Berkontribusi pada terjemahan ini mengharuskan Anda untuk menerima "
 "perjanjian kontributornya."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
 msgstr "Masuk untuk menyimpan terjemahan."
 
@@ -2829,13 +2823,9 @@ msgid "Suggestion voting is disabled."
 msgstr "Pemungutan suara saran dinonaktifkan."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
 msgstr ""
-"Terjemahan ini hanya menerima saran dan ini disetujui melalui pemungutan "
+"Terjemahan ini hanya menerima saran yang lalu disetujui melalui pemungutan "
 "suara."
 
 #: weblate/auth/permissions.py:235
@@ -2844,48 +2834,34 @@ msgid "Pay the bills to unlock this project."
 msgstr "Bayar tagihan untuk membuka proyek ini."
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
-msgstr "Peninjauan string sumber tidak diaktifkan."
+msgstr "Peninjauan string sumber dinonaktifkan."
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "Saran terjemahan dimatikan."
+msgstr "Tinjauan terjemahan dimatikan."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "Daftar objek dimatikan"
+msgstr "Peninjauan dimatikan."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "String sumber memerlukan peninjauan."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
 msgstr "String ini hanya‐baca."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Hanya pemeriksa yang bisa mengubah string yang disetujui, tambahkan saran "
+"Hanya pemeriksa yang bisa mengubah string yang disetujui. Tambahkan saran "
 "jika menurut Anda string itu harus diubah."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "Terjemahan ini hanya‐baca."
 
@@ -2898,16 +2874,11 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "Menambahkan string dinonaktifkan dalam konfigurasi komponen."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
-msgstr ""
-"Tidak dapat menghapus terjemahan terminologi, hapus string sumber saja."
+msgstr "Tidak dapat menghapus terjemahan terminologi. Hapus string sumber saja."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
 msgstr "Format berkas tidak mendukung ini."
 
@@ -4116,12 +4087,13 @@ msgstr "Terjemahan menggunakan HTML markup yang tidak aman"
 
 #: weblate/checks/markup.py:359
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "Referensi reStructuredText tidak konsisten"
 
 #: weblate/checks/markup.py:361
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
+"Referensi reStructuredText tidak konsisten dalam pesan yang diterjemahkan."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5403,13 +5375,9 @@ msgid "File"
 msgstr "Berkas"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr ""
-"Anda dapat mengunggah berkas dengan format berikut: TMX, JSON, XLIFF, PO, "
-"CSV."
+msgstr "Anda dapat mengunggah berkas dengan format berikut: %s."
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5438,10 +5406,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "Konfirmasikan penghapusan semua entri memori terjemahan"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "Jenis gambar tidak didukung: %s"
+msgstr "Ekstensi berkas tidak didukung: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -7068,10 +7035,8 @@ msgid "Configure"
 msgstr "Penyesuaian"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
-msgstr "Pengaya juga dapat dipasang pada lingkup proyek dan komponen."
+msgstr "Pengaya juga dapat dipasang pada tingkat proyek dan komponen."
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -7090,10 +7055,8 @@ msgid "Available add-ons"
 msgstr "Pengaya yang tersedia"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "Pengaya hanya dapat diinstal pada komponen."
+msgstr "Pengaya hanya dapat diinstal pada tingkat komponen."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -8122,10 +8085,8 @@ msgid "Screenshots"
 msgstr "Cuplikan layar, Tangkapan layar"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "Gandakan Komponen"
+msgstr "Gandakan komponen ini"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -10963,7 +10924,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
-msgstr ""
+msgstr "Proyek non-kode (seperti konten buku dan grafis) juga diperbolehkan."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"

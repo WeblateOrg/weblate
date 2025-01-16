@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 15:25+0000\n"
-"PO-Revision-Date: 2025-01-15 19:23+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-01-16 02:50+0000\n"
+"Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -329,7 +329,7 @@ msgstr "Uživatelské jméno"
 
 #: weblate/accounts/forms.py:984 weblate/auth/models.py:444
 msgid "Date joined"
-msgstr "Kdy se přidal"
+msgstr "Datum připojení"
 
 #: weblate/accounts/forms.py:985
 msgid "Translations made"
@@ -639,11 +639,11 @@ msgstr "Skrýt z nástěnky kompletní překlady"
 
 #: weblate/accounts/models.py:528
 msgid "Show secondary translations in the Zen mode"
-msgstr "Zobrazit alternativní jazyky v režimu Zen"
+msgstr "Zobrazit sekundární překlady v režimu Zen"
 
 #: weblate/accounts/models.py:532
 msgid "Hide source if a secondary translation exists"
-msgstr "Skrýt zdroj pokud je dostupný překlad do alternativního jazyka"
+msgstr "Skrýt zdroj, pokud existuje sekundární překlad"
 
 #: weblate/accounts/models.py:539
 msgid "Editor link"
@@ -673,7 +673,7 @@ msgstr "Nerušivý režim"
 
 #: weblate/accounts/models.py:560
 msgid "Zen editor mode"
-msgstr "Režim editoru neodvádějící pozornost"
+msgstr "Režim editoru Zen"
 
 #: weblate/accounts/models.py:562
 msgid "Top to bottom"
@@ -2440,7 +2440,7 @@ msgstr "Uživatelé"
 #: weblate/auth/data.py:247
 msgctxt "Access-control team name"
 msgid "Reviewers"
-msgstr "Recenzenti"
+msgstr "Kontroloři"
 
 #: weblate/auth/data.py:252
 msgctxt "Access-control team name"
@@ -2805,36 +2805,26 @@ msgid "Translation reviews are turned off."
 msgstr "Kontroly překladů jsou vypnuté."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "Vypisování objektů je vypnuté"
+msgstr "Kontrola je vypnutá."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "Zdrojový řetězec je třeba zkontrolovat."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
 msgstr "Řetězec je určen pouze pro čtení."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Už schválené překlady mohou měnit jenom recenzenti. Prosím přidejte návrh, "
-"pokud si myslíte, že by překlad měl být změněn."
+"Již schválené překlady mohou měnit pouze kontroloři. Pokud si myslíte, že by "
+"měl být překlad změněn, přidejte prosím návrh."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "Překlad je určen pouze pro čtení."
 
@@ -2847,18 +2837,15 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "Přidání řetězců je zakázáno v nastavení součásti."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
-"Nelze odstranit překlad terminologie, místo toho odstraňte zdrojový řetězec."
+"Nelze odstranit překlad terminologie. Odstraňte namísto toho zdrojový "
+"řetězec."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
-msgstr "Formát souboru to nepodporuje."
+msgstr "Není podporováno formátem souboru."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -4055,12 +4042,12 @@ msgstr "Překlad používá nebezpečné HTML značky"
 
 #: weblate/checks/markup.py:359
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "Nekonzistentní reference na reStructuredText"
 
 #: weblate/checks/markup.py:361
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
-msgstr ""
+msgstr "Nekonzistentní reference termínů reStructuredText v přeložené zprávě."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5338,12 +5325,9 @@ msgid "File"
 msgstr "Soubor"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr ""
-"Můžete nahrát soubor v následujících formátech: TMX, JSON, XLIFF, PO, CSV."
+msgstr "Můžete nahrát soubor v následujících formátech: %s."
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5372,10 +5356,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "Potvrďte smazání všech položek paměti překladu"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "Nepodporovaný typ obrázku: %s"
+msgstr "Nepodporovaná přípona souboru: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -6386,7 +6369,7 @@ msgstr "IP adresa"
 #: weblate/templates/accounts/user.html:302
 #: weblate/templates/mail/shared-activity.html:9
 msgid "User agent"
-msgstr "Prohlížeč"
+msgstr "User agent"
 
 #: weblate/templates/accounts/profile.html:505
 msgid "No recent activity found!"
@@ -6658,7 +6641,7 @@ msgstr "Uživatelé"
 #: weblate/templates/accounts/user.html:35
 #, python-format
 msgid "Joined on %(date)s"
-msgstr "Připojil se %(date)s"
+msgstr "Připojil/a se %(date)s"
 
 #: weblate/templates/accounts/user.html:39
 #, python-format
@@ -7004,10 +6987,8 @@ msgid "Configure"
 msgstr "Nastavit"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
-msgstr "Doplňky lze také instalovat na projekty a součásti."
+msgstr "Doplňky lze instalovat také na úrovni projektů a součástí."
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -7030,10 +7011,8 @@ msgid "Available add-ons"
 msgstr "Dostupné doplňky"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "Doplněk lze instalovat pouze na součást."
+msgstr "Doplněk lze nainstalovat pouze na úrovni součástí."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -8057,10 +8036,8 @@ msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "Duplikovat součást"
+msgstr "Duplikovat tuto součást"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -8434,7 +8411,7 @@ msgstr "Vytvořeno"
 #: weblate/templates/fonts/font_detail.html:45
 #: weblate/templates/screenshots/screenshot_detail.html:124
 msgid "Uploaded by"
-msgstr "Nahrál(a)"
+msgstr "Nahráno uživatelem"
 
 #: weblate/templates/fonts/font_detail.html:49
 msgid "Used in groups"
@@ -10692,11 +10669,11 @@ msgstr "Je možné dávat návrhy překladu."
 
 #: weblate/templates/snippets/info.html:115
 msgid "Translation suggestions are turned off."
-msgstr "Návrhy překladu jsou vypnuté."
+msgstr "Návrhy překladů jsou vypnuté."
 
 #: weblate/templates/snippets/info.html:119
 msgid "Translations are reviewed by dedicated reviewers."
-msgstr "Překlady kontrolují specializovaní recenzenti."
+msgstr "Překlady kontrolují pověření kontroloři."
 
 #: weblate/templates/snippets/info.html:127
 msgid "The translation uses monolingual files."
@@ -10887,8 +10864,8 @@ msgid ""
 "Please check in advance whether your project is eligible for gratis project "
 "hosting on this site."
 msgstr ""
-"Prosím nejdříve si ověřte zda váš projekt splňuje podmínky hostování zdarma "
-"na těchto stránkách."
+"Nejdříve si prosím ověřte, zda váš projekt splňuje podmínky bezplatného "
+"hostování na tomto webu."
 
 #: weblate/templates/snippets/libre-basic.html:5
 msgid "Libre project with open-source code"
@@ -10901,9 +10878,9 @@ msgid ""
 "%(link_osi_start)sapproved by OSI%(link_end)s or "
 "%(link_fsf_start)srecognized as libre by FSF%(link_end)s."
 msgstr ""
-"Je třeba, aby překládaný obsah byl vydáván pod svobodnou licencí "
-"%(link_osi_start)sschválenou OSI%(link_end)s nebo "
-"%(link_fsf_start)suznávanou jako svobodnou FSF%(link_end)s."
+"Je třeba, aby byl překládaný obsah vydán pod svobodnou licencí "
+"%(link_osi_start)sschválenou organizací OSI%(link_end)s nebo "
+"%(link_fsf_start)suznávanou jako svobodnou organizací FSF%(link_end)s."
 
 #: weblate/templates/snippets/libre-basic.html:11
 msgid ""
@@ -10923,7 +10900,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
-msgstr ""
+msgstr "Vítány jsou i nekódové projekty (například knihy nebo grafický obsah)."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
@@ -10947,7 +10924,7 @@ msgstr "Zavedené projekty"
 
 #: weblate/templates/snippets/libre-basic.html:29
 msgid "The project receives a reasonable number of contributions."
-msgstr "Projekt obdrží přiměřený počet příspěvků."
+msgstr "Projekt získává přiměřený počet příspěvků."
 
 #: weblate/templates/snippets/libre-basic.html:30
 msgid "The project has had active development for at least three months."
@@ -12489,7 +12466,7 @@ msgstr "Další výskyty"
 
 #: weblate/templates/translate.html:319
 msgid "Computer-aided translation suggestions"
-msgstr "Počítačem podporované návrhy překladu"
+msgstr "Počítačem generované návrhy překladu"
 
 #: weblate/templates/translate.html:327
 msgid "Translations of this string in the other languages"
@@ -15134,7 +15111,7 @@ msgstr "Povolit kontroly"
 
 #: weblate/trans/models/project.py:228 weblate/trans/models/workflow.py:25
 msgid "Requires dedicated reviewers to approve translations."
-msgstr "Vyžaduje pověřené recenzenty kteří schvalují překlady."
+msgstr "Vyžaduje pověřené kontrolory pro schvalování překladů."
 
 #: weblate/trans/models/project.py:231
 msgid "Enable source reviews"
@@ -15142,7 +15119,7 @@ msgstr "Povolit kontroly zdroje"
 
 #: weblate/trans/models/project.py:234
 msgid "Requires dedicated reviewers to approve source strings."
-msgstr "Vyžaduje pověřené recenzenty kteří schvalují zdrojové řetezce."
+msgstr "Vyžaduje pověřené kontrolory pro schvalování zdrojových řetězců."
 
 #: weblate/trans/models/project.py:238
 msgid "Enable hooks"
