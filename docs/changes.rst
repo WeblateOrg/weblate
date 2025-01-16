@@ -14,6 +14,7 @@ Not yet released.
 * :guilabel:`Synchronize` on shared repository now operates on all its components.
 * :ref:`check-punctuation-spacing` ignores markup such as Markdown or reStructuredText.
 * :ref:`autofix-punctuation-spacing` does not alter reStructuredText markup.
+* Improved validation errors in :doc:`/api`.
 
 **Bug fixes**
 
