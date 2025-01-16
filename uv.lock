@@ -1211,6 +1211,25 @@ wheels = [
 ]
 
 [[package]]
+name = "drf-standardized-errors"
+version = "0.14.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "djangorestframework" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4d/cc/fd5b8cbc66c361125cba0497573a5ecac94521a715267d7db4d113257a73/drf_standardized_errors-0.14.1.tar.gz", hash = "sha256:0610dcd0096b75365102d276022a22e59a1f8db8825bb0bff05e1b7194ba145d", size = 58730 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/44/70/589efc32d6f268576e2f3c2a595ef19a305c5d5acbfd26d10ebd45278778/drf_standardized_errors-0.14.1-py3-none-any.whl", hash = "sha256:4941e0f81be94eb0904549999cf221988a5b0f524041c3877530e24f70328ed8", size = 25512 },
+]
+
+[package.optional-dependencies]
+openapi = [
+    { name = "drf-spectacular" },
+    { name = "inflection" },
+]
+
+[[package]]
 name = "elementpath"
 version = "4.7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -4212,6 +4231,7 @@ dependencies = [
     { name = "djangorestframework" },
     { name = "docutils" },
     { name = "drf-spectacular", extra = ["sidecar"] },
+    { name = "drf-standardized-errors", extra = ["openapi"] },
     { name = "filelock" },
     { name = "fluent-syntax" },
     { name = "gitpython" },
@@ -4456,6 +4476,7 @@ requires-dist = [
     { name = "djangosaml2idp", marker = "extra == 'saml2idp'", specifier = "==0.7.2" },
     { name = "docutils", specifier = ">=0.21.2,<0.22" },
     { name = "drf-spectacular", extras = ["sidecar"], specifier = ">=0.27.2,<0.29" },
+    { name = "drf-standardized-errors", extras = ["openapi"], specifier = ">=0.14.1,<0.15" },
     { name = "filelock", specifier = ">=3.16.1,<4" },
     { name = "fluent-syntax", specifier = ">=0.18.1,<0.20" },
     { name = "git-review", marker = "extra == 'gerrit'", specifier = ">=2.4.0,<2.5.0" },

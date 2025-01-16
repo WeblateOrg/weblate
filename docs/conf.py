@@ -324,6 +324,10 @@ intersphinx_mapping = {
     "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
     "pip": ("https://pip.pypa.io/en/stable/", None),
     "compressor": ("https://django-compressor.readthedocs.io/en/stable/", None),
+    "drf-standardized-error": (
+        "https://drf-standardized-errors.readthedocs.io/en/latest/",
+        None,
+    ),
 }
 intersphinx_disabled_reftypes = ["*"]
 

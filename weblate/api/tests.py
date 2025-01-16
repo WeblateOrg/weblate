@@ -10,7 +10,6 @@ from io import BytesIO
 import responses
 from django.core.files import File
 from django.urls import reverse
-from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
 
@@ -119,6 +118,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         if data is not None:
             for item in skip:
                 del response.data[item]
+            self.maxDiff = None
             self.assertEqual(response.data, data)
         return response
 
@@ -1165,8 +1165,17 @@ class ProjectAPITest(APIBaseTest):
             Component.objects.get(slug="api-project").source_language.code, "ru"
         )
         self.assertEqual(
-            error_response.data["source_language"]["code"][0],
-            "Language with this language code was not found.",
+            error_response.data,
+            {
+                "type": "validation_error",
+                "errors": [
+                    {
+                        "code": "invalid",
+                        "detail": "Language with this language code was not found.",
+                        "attr": "source_language.code",
+                    }
+                ],
+            },
         )
 
     def test_create_with_source_language_string(self, format="json") -> None:  # noqa: A002
@@ -1400,7 +1409,20 @@ class ProjectAPITest(APIBaseTest):
                 "new_lang": "none",
             },
         )
-        self.assertIn("file_format", response.data)
+        self.maxDiff = None
+        self.assertEqual(
+            {
+                "errors": [
+                    {
+                        "attr": "file_format",
+                        "code": "required",
+                        "detail": "This field is required.",
+                    }
+                ],
+                "type": "validation_error",
+            },
+            response.data,
+        )
 
     def test_create_component_link(self) -> None:
         repo_url = self.format_local_path(self.git_repo_path)
@@ -1507,7 +1529,20 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Component.objects.count(), 2)
-        self.assertIn("filemask", response.data)
+        self.maxDiff = None
+        self.assertEqual(
+            {
+                "errors": [
+                    {
+                        "attr": "filemask",
+                        "code": "invalid",
+                        "detail": "The file mask did not match any files.",
+                    }
+                ],
+                "type": "validation_error",
+            },
+            response.data,
+        )
 
     def test_create_component_local(self) -> None:
         response = self.do_request(
@@ -3094,9 +3129,14 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(
             response.data,
             {
-                "file": ErrorDetail(
-                    string="Plural forms do not match the language.", code="invalid"
-                )
+                "errors": [
+                    {
+                        "attr": "file",
+                        "code": "invalid",
+                        "detail": "Plural forms do not match the language.",
+                    }
+                ],
+                "type": "validation_error",
             },
         )
 
@@ -4040,9 +4080,14 @@ class ScreenshotAPITest(APIBaseTest):
                 code=400,
                 superuser=True,
                 data={
-                    "language_code": ErrorDetail(
-                        string="This field is required.", code="invalid"
-                    )
+                    "errors": [
+                        {
+                            "attr": "language_code",
+                            "code": "invalid",
+                            "detail": "This field is required.",
+                        }
+                    ],
+                    "type": "validation_error",
                 },
                 request={
                     "project_slug": "test",
@@ -4057,18 +4102,24 @@ class ScreenshotAPITest(APIBaseTest):
                 code=400,
                 superuser=True,
                 data={
-                    "project_slug": ErrorDetail(
-                        string="Translation matching query does not exist.",
-                        code="invalid",
-                    ),
-                    "component_slug": ErrorDetail(
-                        string="Translation matching query does not exist.",
-                        code="invalid",
-                    ),
-                    "language_code": ErrorDetail(
-                        string="Translation matching query does not exist.",
-                        code="invalid",
-                    ),
+                    "errors": [
+                        {
+                            "attr": "project_slug",
+                            "code": "invalid",
+                            "detail": "Translation matching query does not exist.",
+                        },
+                        {
+                            "attr": "component_slug",
+                            "code": "invalid",
+                            "detail": "Translation matching query does not exist.",
+                        },
+                        {
+                            "attr": "language_code",
+                            "code": "invalid",
+                            "detail": "Translation matching query does not exist.",
+                        },
+                    ],
+                    "type": "validation_error",
                 },
                 request={
                     "name": "Test create screenshot",
@@ -4083,12 +4134,19 @@ class ScreenshotAPITest(APIBaseTest):
             method="post",
             code=400,
             data={
-                "name": [
-                    ErrorDetail(string="This field is required.", code="required")
+                "errors": [
+                    {
+                        "attr": "name",
+                        "code": "required",
+                        "detail": "This field is required.",
+                    },
+                    {
+                        "attr": "image",
+                        "code": "required",
+                        "detail": "No file was submitted.",
+                    },
                 ],
-                "image": [
-                    ErrorDetail(string="No file was submitted.", code="required")
-                ],
+                "type": "validation_error",
             },
             superuser=True,
             request={
@@ -4266,7 +4324,20 @@ class MetricsAPITest(APIBaseTest):
 
     def test_forbidden(self) -> None:
         response = self.client.get(reverse("api:metrics"))
-        self.assertEqual(response.data["detail"].code, "not_authenticated")
+        self.maxDiff = None
+        self.assertEqual(
+            response.data,
+            {
+                "type": "client_error",
+                "errors": [
+                    {
+                        "attr": None,
+                        "code": "not_authenticated",
+                        "detail": "Authentication credentials were not provided.",
+                    }
+                ],
+            },
+        )
 
     def test_ratelimit(self) -> None:
         self.authenticate()

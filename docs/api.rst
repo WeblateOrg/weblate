@@ -218,6 +218,17 @@ The status of rate limiting is reported in following headers:
    :envvar:`WEBLATE_API_RATELIMIT_ANON`,
    :envvar:`WEBLATE_API_RATELIMIT_USER`
 
+.. _api-errors:
+
+Error responses
+~~~~~~~~~~~~~~~
+
+.. versionchanged:: 5.10
+
+   Error responses were endpoint specific before this release.
+
+Weblate error responses are formatted based on :doc:`drf-standardized-error:error_response`.
+
 
 API Entry Point
 +++++++++++++++

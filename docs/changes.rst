@@ -15,7 +15,7 @@ Not yet released.
 * :guilabel:`Synchronize` on shared repository now operates on all its components.
 * :ref:`check-punctuation-spacing` ignores markup such as Markdown or reStructuredText.
 * :ref:`autofix-punctuation-spacing` does not alter reStructuredText markup.
-* Improved validation errors in :doc:`/api`.
+* Improved validation errors in :doc:`/api`, see :ref:`api-errors`.
 
 **Bug fixes**
 
@@ -29,6 +29,9 @@ Not yet released.
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notable is changes in ``REST_FRAMEWORK`` and ``DRF_STANDARDIZED_ERRORS``, please adjust your settings accordingly.
+* API error responses format has changed, see :ref:`api-errors`.
 
 **Contributors**
 
