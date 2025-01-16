@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 15:25+0000\n"
-"PO-Revision-Date: 2025-01-16 08:12+0000\n"
+"PO-Revision-Date: 2025-01-16 08:25+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -2890,38 +2890,26 @@ msgid "Pay the bills to unlock this project."
 msgstr "Bezahlen Sie die Rechnungen, um dieses Projekt freizuschalten."
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
-msgstr "Überprüfung der Ausgangszeichenkette ist nicht aktiviert."
+msgstr "Das Überprüfen der Ausgangszeichenketten ist ausgeschaltet."
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "Übersetzungsvorschläge sind deaktiviert."
+msgstr "Das Überprüfen der Übersetzungen ist ausgeschaltet."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "Objektliste deaktiviert"
+msgstr "Das Überprüfen ist ausgeschaltet."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "Die Ausgangszeichenkette muss überprüft werden."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
 msgstr "Die Zeichenkette ist schreibgeschützt."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
@@ -2931,8 +2919,6 @@ msgstr ""
 "werden sollte."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "Die Übersetzung ist schreibgeschützt."
 
@@ -2947,17 +2933,13 @@ msgstr ""
 "deaktiviert."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
-"Terminologieübersetzung kann nicht entfernt werden, stattdessen wird die "
-"Ausgangszeichenkette entfernt."
+"Terminologieübersetzung kann nicht entfernt werden. Entfernen Sie "
+"stattdessen die Ausgangszeichenkette."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
 msgstr "Das Dateiformat unterstützt dies nicht."
 
@@ -4194,12 +4176,14 @@ msgstr "Die Übersetzung verwendet unsichere HTML-Auszeichnungen"
 
 #: weblate/checks/markup.py:359
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "Inkonsistente reStructuredText-Referenzen"
 
 #: weblate/checks/markup.py:361
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
+"Inkonsistente reStructuredText-Begriffsreferenzen in der übersetzten "
+"Nachricht."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5510,13 +5494,9 @@ msgid "File"
 msgstr "Datei"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr ""
-"Sie können eine Datei in folgenden Formaten hochladen: TMX, JSON, XLIFF, PO, "
-"CSV."
+msgstr "Sie können eine Datei in folgenden Formaten hochladen: %s"
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5546,10 +5526,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "Bestätigen Sie das Löschen aller Übersetzungsspeichereintrage"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "Nicht unterstütztes Bildformat: %s"
+msgstr "Nicht unterstützte Dateierweiterung: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
