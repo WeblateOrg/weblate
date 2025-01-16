@@ -458,6 +458,14 @@ class RSTReferencesCheckTest(CheckTestCase):
                 "rst-text",
             ),
         )
+        self.do_test(
+            True,
+            (
+                ":ref:`Searching` now supports",
+                ":ref:`Searching`agora suporta",
+                "rst-text",
+            ),
+        )
 
     def test_translatable(self) -> None:
         self.do_test(
