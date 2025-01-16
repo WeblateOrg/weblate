@@ -101,7 +101,14 @@ ogp_social_cards = {
     "image": "../weblate/static/logo-1024.png",
     "line_color": "#144d3f",
     "site_url": "docs.weblate.org",
-    "font": ["Source Sans 3", "Kurinto Sans"],
+    "font": [
+        "Source Sans 3",
+        "Kurinto Sans JP",
+        "Kurinto Sans KR",
+        "Kurinto Sans SC",
+        "Kurinto Sans TC",
+        "Kurinto Sans",
+    ],
 }
 ogp_custom_meta_tags = [
     '<meta property="fb:app_id" content="741121112629028" />',

@@ -4,7 +4,7 @@
 # Yuri Chornoivan <yurchor@ukr.net>, 2023, 2024.
 # Олександр Кревський <sasha135280@gmail.com>, 2023.
 # Tymofii Lytvynenko <till.svit@gmail.com>, 2023, 2024.
-# Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024.
+# Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # Ihor Hordiichuk <igor_ck@outlook.com>, 2023, 2024.
 # Alexander Ivanov <saiv46.dev@gmail.com>, 2024.
 # Hotripak <hotr1pak@gmail.com>, 2024.
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 16:26+0100\n"
-"PO-Revision-Date: 2025-01-15 19:20+0000\n"
+"PO-Revision-Date: 2025-01-16 09:15+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -493,9 +493,9 @@ msgstr ""
 "Найпотужніші можливості поточної версії системи керування доступом Weblate "
 "можна налаштувати за допомогою :ref:`адміністративного інтерфейсу Django "
 "<management-interface>`. Цей інтерфейс надає змогу керувати правами доступу "
-"до будь-якого проєкту. Щоб скористатися ним, не обов'язково перемикатися на :"
-"ref:`керування доступом <acl>` `Custom`. Втім, що скористатися цим вам "
-"знадобляться права доступу надкористувача."
+"до будь-якого проєкту. Щоб скористатися ним, не обов'язково перемикатися на "
+":ref:`керування доступом <acl>` :guilabel:`Custom`. Втім, що скористатися "
+"цим вам знадобляться права доступу надкористувача."
 
 #: ../../admin/access.rst:230
 msgid ""
@@ -5247,8 +5247,8 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "wladmin:`createadmin`)."
 msgstr ""
-"Вам слід вилучити ``'social_core.backends.email.EmailAuth'`` з параметра :"
-"setting:`django:`AUTHENTICATION_BACKENDS`, інакше користувачі зможуть "
+"Вам слід вилучити ``'social_core.backends.email.EmailAuth'`` з параметра "
+":setting:`django:AUTHENTICATION_BACKENDS`, інакше користувачі зможуть "
 "встановлювати пароль у Weblate і проходити розпізнавання за допомогою "
 "пароля. Збереження ``'weblate.accounts.auth.WeblateUserBackend'`` все одно "
 "потрібен для того, щоб встановити права доступу і полегшити роботу з "
@@ -6006,9 +6006,9 @@ msgid ""
 "doc:`upgrade` on more detailed info on how to upgrade between versions."
 msgstr ""
 "Ви можете відновити цю резервну копію у новішому випуску Weblate — усі "
-"необхідні процедури із перенесення даних буде виконано під час запуску :"
-"djadmin:`django:migrate`. Будь ласка, зверніться до розділу :doc:`upgrade`, "
-"щоб ознайомитися із докладнішими відомостями щодо оновлення версій."
+"необхідні процедури із перенесення даних буде виконано під час запуску "
+":wladmin:`migrate`. Будь ласка, зверніться до розділу :doc:`upgrade`, щоб "
+"ознайомитися із докладнішими відомостями щодо оновлення версій."
 
 #: ../../admin/backup.rst:257
 msgid "Django database backup"
@@ -9468,7 +9468,8 @@ msgid ""
 "See the :ref:`sample-configuration` for recommended configuration of this "
 "setting."
 msgstr ""
-"Рекомендовану конфігурацію цього параметра див. у :ref:`ample-configuration`."
+"Рекомендовану конфігурацію цього параметра див. у :ref:`sample-"
+"configuration`."
 
 #: ../../admin/config.rst:1294
 msgid "MATOMO_SITE_ID"
@@ -10084,7 +10085,7 @@ msgid ""
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
 "Встановити термін дії сеансу для автентифікованих користувачів. Це доповнює: "
-"параметр: `django:SESSION_COOKIE_AGE`, який застосовується для "
+"параметр: :setting:`django:SESSION_COOKIE_AGE`, який застосовується для "
 "неавтентифікованих користувачів."
 
 #: ../../admin/config.rst:1768
@@ -10895,10 +10896,10 @@ msgid ""
 "request)."
 msgstr ""
 "Навіть якщо Weblate є єдиним джерелом змін у файлах перекладу, можуть "
-"виникати конфлікти під час використання надбудови :ref:`addon-weblate.git."
-"squash`, :ref:`component-merge_style` налаштовано на :guilabel: `Rebase`, "
-"або ви стискаєте коміти за межами Weblate (наприклад, під час об’єднання "
-"запиту на отримання)."
+"виникати конфлікти під час використання надбудови :ref:`addon-"
+"weblate.git.squash`, :ref:`component-merge_style` налаштовано на "
+":guilabel:`Rebase`, або ви стискаєте коміти за межами Weblate (наприклад, "
+"під час об’єднання запиту на отримання)."
 
 #: ../../admin/continuous.rst:188
 msgid ""
@@ -11963,7 +11964,7 @@ msgstr ""
 
 #: ../../admin/install.rst:25
 msgid ":doc:`install/docker`, recommended for production setups."
-msgstr ":ref:`install/docker`, рекомендовано для промислових налаштувань."
+msgstr ":doc:`install/docker`, рекомендовано для промислових налаштувань."
 
 #: ../../admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
@@ -11989,7 +11990,7 @@ msgstr ":doc:`install/venv-macos`"
 
 #: ../../admin/install.rst:34
 msgid ":doc:`install/source`, recommended for development."
-msgstr ":ref:`install/source`, рекомендовано для розробки."
+msgstr ":doc:`install/source`, рекомендовано для розробки."
 
 #: ../../admin/install.rst:43
 msgid "Architecture overview"
@@ -12464,8 +12465,8 @@ msgid ""
 "https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, "
 "see :ref:`pangocairo`"
 msgstr ""
-"https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, "
-"see :ref: `pangocairo`"
+"https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, see "
+":ref:`pangocairo`"
 
 #: ../../admin/install.rst:309
 msgid "``git-review`` (optional for Gerrit support)"
@@ -13200,11 +13201,11 @@ msgid ""
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`захист від спаму`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
-"ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
-"`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, "
+":ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, "
+":envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:732
 msgid "HTTP proxy"
@@ -13587,8 +13588,8 @@ msgid ""
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
 "Якщо обслуговування вашого сайта виконується за допомогою SSL, вам варто "
-"встановити значення для :setting:`django:SECURE_HSTS_SECONDS` у :"
-"file`settings.py`, щоб увімкнути строгий захист передавання даних (HTTP "
+"встановити значення для :setting:`django:SECURE_HSTS_SECONDS` у "
+":file:`settings.py`, щоб увімкнути строгий захист передавання даних (HTTP "
 "Strict Transport Security). Типово, його встановлено у значення 0, як це "
 "показано нижче."
 
@@ -13754,7 +13755,7 @@ msgid ""
 msgstr ""
 "Якщо для змінної вказано значення, яке не відповідає вашому серверу HTTP, ви "
 "отримаєте повідомлення про помилки, подібні до :samp:`Invalid HTTP_HOST "
-"header: '1.1.1.1'. Тоді вам потрібно додати '1.1.1.1' до ALLOWED_HOSTS.`"
+"header: '1.1.1.1'. You may need to add '1.1.1.1' to ALLOWED_HOSTS.`"
 
 #: ../../admin/install.rst:1162
 msgid ""
@@ -13790,8 +13791,8 @@ msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
 msgstr ""
-"Створити новий ключ можна за допомогою програми :file:`weblate/examples/"
-"generate-secret-key`, яка постачається разом із Weblate."
+"Створити новий ключ можна за допомогою програми :program:`weblate-generate-"
+"secret-key`, яка постачається разом із Weblate."
 
 #: ../../admin/install.rst:1183
 msgid ":setting:`SECRET_KEY`"
@@ -15152,7 +15153,7 @@ msgid ""
 "Whenever invoking :program:`docker compose` you need to pass both files to "
 "it, and then do:"
 msgstr ""
-"Під час кожного виклику :program:`docker-compose` вам слід передавати "
+"Під час кожного виклику :program:`docker compose` вам слід передавати "
 "програмі обидва файли, а потім виконати:"
 
 #: ../../admin/install/docker.rst:209
@@ -16938,7 +16939,7 @@ msgid ""
 "for :ref:`docker-scaling`."
 msgstr ""
 "Визначає, які служби слід запускати всередині контейнера. Скористайтеся цим "
-"для :ref:`масштабування <docker-scaling`."
+"для :ref:`масштабування <docker-scaling>`."
 
 #: ../../admin/install/docker.rst:1934
 msgid "Following services are defined:"
@@ -19612,8 +19613,9 @@ msgid ""
 "<states>` inside Weblate."
 msgstr ""
 "Служба машинного перекладу Weblate може надавати переклад на основі точних "
-"збігів рядка з існуючими рядками у :guilabel:`Translated`, :guilabel:"
-"`Approved` або :guilabel:`Read-only` :ref:`states <стани>` всередині Weblate."
+"збігів рядка з існуючими рядками у :guilabel:`Translated`, "
+":guilabel:`Approved` або :guilabel:`Read-only` :ref:`стани <states>` "
+"всередині Weblate."
 
 #: ../../admin/machine.rst:667
 msgid "Weblate Translation Memory"
@@ -19824,7 +19826,7 @@ msgid ""
 "to use :command:`docker compose exec`:"
 msgstr ""
 "Для :program:`docker-compose-plugin` процедура є подібною, вам лише треба "
-"скористатися :command:`docker-compose exec`:"
+"скористатися :command:`docker compose exec`:"
 
 #: ../../admin/management.rst:64
 msgid "In case you need to pass it a file, you can temporary add a volume:"
@@ -24451,7 +24453,7 @@ msgid ""
 "upgrade steps. Typically, no manual interaction is needed beyond pulling the "
 "latest (or at least newer) version."
 msgstr ""
-"До офіційного образу Docker для Weblate (див. :ref:`install/docker`) "
+"До офіційного образу Docker для Weblate (див. :doc:`install/docker`) "
 "інтегровано усі кроки оновлення. Кроків, які слід виконати вручну, окрім "
 "отримання коду найсвіжішої (або принаймні новішої) версії, немає."
 
@@ -27358,7 +27360,7 @@ msgstr "Ідентифікатор складника"
 
 #: ../../api.rst:0
 msgid ">json array results"
-msgstr ">масив json results"
+msgstr ">json array results"
 
 #: ../../api.rst:2533
 msgid "Associate component with a component list."
@@ -27697,7 +27699,7 @@ msgstr "ідентифікатор типу"
 
 #: ../../api.rst:0
 msgid ">json object configuration"
-msgstr "налаштування об'єкта json"
+msgstr ">json object configuration"
 
 #: ../../api.rst:2706 ../../api.rst:2716
 msgid "Optional category configuration"
@@ -28390,7 +28392,7 @@ msgstr "Редактор у :ref:`zen-mode` тепер розміщений у �
 
 #: ../../changes.rst:106
 msgid "Added page navigation while :ref:`translating`."
-msgstr "Додано навігацію сторінкою під час :ref:`перекладу`."
+msgstr "Додано навігацію сторінкою під час :ref:`translating`."
 
 #: ../../changes.rst:107
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
@@ -28463,8 +28465,8 @@ msgid ""
 "Michal Čihař, Mehdi El Oualy, Paul Harriet Asiñero, Yusi Z, Mehdi Eloualy, "
 "gers, nijel, michael-smt, gersona, Gersona"
 msgstr ""
-"Міхал Чихарж, Мехді Ель Уалі, Пол Гаррієт Асінеро, Юсі З, Мехді Елуалі, "
-"герс, ніжел, майкл-смт, герсона, Герсона"
+"Michal Čihař, Mehdi El Oualy, Paul Harriet Asiñero, Yusi Z, Mehdi Eloualy, "
+"gers, nijel, michael-smt, gersona, Gersona"
 
 #: ../../changes/contributors/5.9.rst:6
 msgid ""
@@ -28483,26 +28485,26 @@ msgid ""
 "Winston Sung, ChinskiKaczynski, Rafael Fontenelle"
 msgstr ""
 "Michal Čihař, Besnik Bleta, gallegonovato, Blueberry, cat, Fjuro, "
-"Sketch6580, Massimo Pissarello, Linerly, 大王叫我来巡山, 大学没毕业, Юрій "
-"Чорної, J. F. Mivan, A.Y.B. Bouzada, Dick Groskamp, Aindriú Mac Giolla Eoin, "
-"Andi Chandler, Kristoffer Grundström, Christian Wia, Claudio Filho F Filho, "
-"Yaron Shahrabani, Milo Ivir, Kaya Zeren, Neaten “Awrawman” Awrawman, "
-"Agnieszka C, Jeff Huang, Fulup Jakez, Мілан Шка , nautilusx, Любомир "
-"Василев, Notlin4, Immeteor2, Kowih83264, Waldis, Ssantos, Reno TX, Johan "
-"Jacobsson, Peter Vančo, Sveinn í Fell, Oliver, Yvan Zo, Meshari Alnaim, "
-"தமிழ்நேரழ்நேரழழ்நேர்ழ்நேர஍ழ்நேர஍ழ்நேர஍ழ்நேர஍஍஍்நேர஍஍஍்நேர஍் , gitelo4516, Vision, Chang-"
-"Chia Tseng, Kyotaro Iijima, Ricky Tigg, ei9, Martin Srebotnjak, Horus68, 이정"
-"희, Maksim Gorpinič, Sylvain Pichon, Ldm Public, Slobodan Simiћ(Slobodan "
-"Simij), Priit Jüć, UTUõM Хіроші, Сергій, Симегак, Вінстон Сунг, Чинскі "
-"Качинські, Рафаель Фонтенелл"
+"Sketch6580, Massimo Pissarello, Linerly, 大王叫我来巡山, 大学没毕业, Yuri "
+"Chornoivan, VfBFan, JY3, Miguel A. Bouzada, Dick Groskamp, Aindriú Mac "
+"Giolla Eoin, Andi Chandler, Kristoffer Grundström, Christian Wia, Claudio "
+"Filho F Filho, Yaron Shahrabani, Milo Ivir, Kaya Zeren, Neaten “Awrawman” "
+"Awrawman, Agnieszka C, Jeff Huang, Fulup Jakez, Milan Šalka, nautilusx, "
+"Любомир Василев, notlin4, immeteor2, kowih83264, WaldiS, ssantos, Reno Tx, "
+"Johan Jacobsson, Peter Vančo, Sveinn í Felli, Oliver, Yvan Zo, meshari "
+"alnaim, தமிழ்நேரம், searinminecraft, Jwtiyar Nariman, gitelo4516, Vision, "
+"Chang-Chia Tseng, Kyotaro Iijima, Ricky Tigg, ei9, Martin Srebotnjak, "
+"Horus68, 이정희, Максим Горпиніч, Sylvain Pichon, Ldm Public, Слободан Симић("
+"Slobodan Simić), Priit Jõerüüt, Hugo, UTUMI Hirosi, Сергей, symegac, Winston "
+"Sung, ChinskiKaczynski, Rafael Fontenelle"
 
 #: ../../changes/contributors/5.9.rst:9
 msgid ""
 "Michal Čihař, Paul Harriet Asiñero, gers, michael-smt, Benjamin Alan Jamie, "
 "Gersona, Mehdi Eloualy"
 msgstr ""
-"Міхал Чигарж, Пол Гаррієт Асінеро, Джерс, Майкл-СМТ, Бенджамін Алан Джеймі, "
-"Герсона, Мехді Елуалі"
+"Michal Čihař, Paul Harriet Asiñero, gers, michael-smt, Benjamin Alan Jamie, "
+"Gersona, Mehdi Eloualy"
 
 #: ../../changes.rst:133
 msgid ""
@@ -28543,7 +28545,7 @@ msgstr ""
 
 #: ../../changes/contributors/5.8.4.rst:3
 msgid "Michal Čihař, gersona, Mehdi El Oualy"
-msgstr "Міхал Чигарж, Герсона, Мехді Ель Уалі"
+msgstr "Michal Čihař, gersona, Mehdi El Oualy"
 
 #: ../../changes.rst:158
 msgid ""
@@ -28635,12 +28637,12 @@ msgid ""
 "Ivir, Jim Spentzos, Dženan, Claudio Filho F Filho, 大学没毕业, پرویز قادر"
 msgstr ""
 "VfBFan, 大王叫我来巡山, Любомир Василев, Miguel A. Bouzada, Besnik Bleta, "
-"Юрій Чорноіван, Wuzzy, Michal Čihař, gallegonovato, Vin, Blueberry, "
+"Yuri Chornoivan, Wuzzy, Michal Čihař, gallegonovato, Vin, Blueberry, "
 "befag74614, Agnieszka C, Rhoslyn Prys, Aindriú Mac Giolla Eoin, Fulup Jakez, "
 "Christian Wia, ssantos, Vlăduț Ilie, Fjuro, amano, Andi Chandler, Peter "
 "Vančo, test-session, famese, Yaron Shahrabani, Geert-Jan Knapen, Ricky From "
-"Hong Kong, Тимофій Литвиненко, Dick Groskamp, Horus68, Reno Tx, Jim Kats, "
-"Massimo Pissarello, Florent, Ігор Гордійчук, hugoalh, Vaclovas Intas, Milo "
+"Hong Kong, Tymofii Lytvynenko, Dick Groskamp, Horus68, Reno Tx, Jim Kats, "
+"Massimo Pissarello, Florent, Ihor Hordiichuk, hugoalh, Vaclovas Intas, Milo "
 "Ivir, Jim Spentzos, Dženan, Claudio Filho F Filho, 大学没毕业, پرویز قادر"
 
 #: ../../changes/contributors/5.8.2.rst:9
@@ -28690,8 +28692,8 @@ msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
-":ref:`Search` тепер підтримує фільтрацію за шляхом до об'єкта та :ref:`date-"
-"search`."
+":ref:`Searching` тепер підтримує фільтрацію за шляхом до об'єкта та :ref"
+":`date-search`."
 
 #: ../../changes.rst:232
 msgid ""
@@ -29207,9 +29209,9 @@ msgid ""
 "Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
 "michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey, Bastien Montagne"
 msgstr ""
-"Міхал Чихар, Жоао Феррейра, Пол Гаррієт Асіньєро, gers, Бенджамін Алан "
-"Джеймі, Джон Р. Д'Ораціо, Тобіас Шлаттер, Макс Віттіг, Мехді Елуалі, michael-"
-"smt, Йохен Спрікергоф, Вінсент, Дуейн Бейлі, Бастьєн Монтань"
+"Michal Čihař, João Ferreira, Paul Harriet Asiñero, gers, Benjamin Alan "
+"Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
+"michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey, Bastien Montagne"
 
 #: ../../changes/contributors/5.7.rst:6
 msgid ""
@@ -29224,15 +29226,15 @@ msgid ""
 "Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
 "Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 msgstr ""
-"Хосе Дельвані, Джулія Джулі, Енді Чендлер, pan93412, Milo Ivir, "
-"gallegonovato, ngocanhtve, kapatych, Marco Ciampa, Úr Balázs, Artemka, Ricky "
-"From Hong Kong, Massimo Pissarello, dreigiau, Igor Hordiichuk, Allan "
+"Jose Delvani, Julija Juli, Andi Chandler, pan93412, Milo Ivir, "
+"gallegonovato, ngocanhtve, kapatych, Marco Ciampa, Balázs Úr, Artemka, Ricky "
+"From Hong Kong, Massimo Pissarello, dreigiau, Ihor Hordiichuk, Allan "
 "Nordhøy, Selyan Sliman Amiri, iwonder, Besnik Bleta, Nathan, yangyangdaji, "
 "Priit Jõerüüt, Aindriú Mac Giolla Eoin, Diego Beraldin, Marino Díaz, پرویز "
-"قادر, Horus68, ssantos, M. Д. Кулькарні (MDK), Мігель А. Бузада, А. Бенто, "
-"mpt. c, ovl-1, Fjuro, Luna, Antônio Breno, alefsanderribeiro, Alefsander "
+"قادر, Horus68, ssantos, M. D. Kulkarni (MDK), Miguel A. Bouzada, A. Bento, "
+"mpt.c, ovl-1, Fjuro, Luna, Antônio Breno, alefsanderribeiro, Alefsander "
 "Ribeiro Nascimento, Ian Perdiansah, amano, Petter Reinholdtsen, Malik "
-"Shoaib, Emin Tufan Çetin, John kh, Sergey, tygyh, Semih, Balázs Meskó, "
+"Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
 "Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 
 #: ../../changes/contributors/5.7.rst:9
@@ -29240,8 +29242,8 @@ msgid ""
 "Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
 "Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 msgstr ""
-"Міхал Чихар, Бенджамін Алан Джеймі, Пол Гаррієт Асіньєро, Аллан Нордхой, "
-"Макс Віттіг, Мехді Елуалі, Вінсент, LE MEILLAT, gers, lotigara"
+"Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
+"Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 
 #: ../../changes.rst:382
 msgid ""
@@ -29374,7 +29376,7 @@ msgstr ""
 
 #: ../../changes.rst:441
 msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
-msgstr "http:get:`/api/changes/(int:id)/` тепер включає `old` та `details`."
+msgstr ":http:get:`/api/changes/(int:id)/` тепер включає `old` та `details`."
 
 #: ../../changes.rst:442
 msgid "Reduced memory usage and increased performance of some views."
@@ -29467,7 +29469,7 @@ msgstr ""
 #: ../../changes.rst:488
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr ""
-"doc:`/admin/announcements` може бути розміщено у проєкті/ мовному розділі."
+":doc:`/admin/announcements` може бути розміщено у проєкті/ мовному розділі."
 
 #: ../../changes.rst:492
 msgid "Improved handling placeables in :ref:`mt-openai`."
@@ -30398,7 +30400,7 @@ msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` "
 "are now stored with a dedicated user as an author."
 msgstr ""
-":ref:`addon-weblate.autotranslate.autotranslate` і :ref:`auto-translate` "
+":ref:`addon-weblate.autotranslate.autotranslate` і :ref:`auto-translation` "
 "тепер зберігаються з виділеним користувачем як автором."
 
 #: ../../changes.rst:885
@@ -30406,8 +30408,8 @@ msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
 msgstr ""
-"ref:`addons` зміни до рядків тепер зберігаються з пов'язаним користувачем як "
-"автором."
+":ref:`addons` зміни до рядків тепер зберігаються з пов'язаним користувачем "
+"як автором."
 
 #: ../../changes.rst:886
 msgid ":ref:`download-multi` can now convert file formats."
@@ -42241,7 +42243,7 @@ msgid ""
 "editable Weblate sources."
 msgstr ""
 "Найкомфортнішим способом розпочати розробку Weblate є виконання настанов "
-"розділу :ref:`../admin/install/source`. Виконання цих настанов надасть вам "
+"розділу :doc:`../admin/install/source`. Виконання цих настанов надасть вам "
 "змогу отримати віртуальне середовище із придатними до редагування "
 "початковими кодами Weblate."
 
@@ -42258,8 +42260,8 @@ msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`) and all dependencies useful for development:"
 msgstr ""
-"Установіть Weblate (це потребуватиме декількох залежностей у системі, див. :"
-"ref:`../admin/install/source`) і усі залежності, які корисні для розробки:"
+"Установіть Weblate (це потребуватиме декількох залежностей у системі, див. "
+":doc:`../admin/install/source`) і усі залежності, які корисні для розробки:"
 
 #: ../../contributing/start.rst:43
 msgid "Start a development server:"
@@ -42441,7 +42443,7 @@ msgid ""
 "own setting and set it there."
 msgstr ""
 "Будьте обережні, `корінь проєкту Django` є кореневою текою сховища, а не "
-"підкаталогом Weblate. Щодо параметрів, ви можете скористатися `weblate/"
+"підкаталогом Weblate. Щодо параметрів, ви можете скористатися :file:`weblate/"
 "settings_test.py` з сховища коду, але ви можете створити власні параметри і "
 "вказати їх у відповідному місці."
 
@@ -45278,7 +45280,7 @@ msgid ""
 "monolingual translations in the :ref:`component`:"
 msgstr ""
 "Ви можете визначити регулярний вираз для групування рядків на основі "
-"ключових рядків одномовних перекладів у налаштуваннях :ref:`складника`:"
+"ключових рядків одномовних перекладів у налаштуваннях :ref:`component`:"
 
 #: ../../devel/translations.rst:121
 msgid ""
@@ -45435,9 +45437,9 @@ msgid ""
 "this will make Weblate push changes to your repository whenever they happen "
 "at Weblate."
 msgstr ""
-"Увімкніть `запис після внеску <component-push_on_commit>` у параметрах "
-"вашого :ref:`складника <component>` на Weblate — Weblate записуватиме зміни "
-"до вашого сховища, коли вони траплятимуться на Weblate."
+"Увімкніть :ref:`component-push_on_commit` у параметрах вашого :ref:`"
+"складника <component>` на Weblate — Weblate записуватиме зміни до вашого "
+"сховища, коли вони траплятимуться на Weblate."
 
 #: ../../faq.rst:26
 msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
@@ -48164,9 +48166,9 @@ msgid ""
 "ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
 "`addon-weblate.cleanup.generic`"
 msgstr ""
-"`Властивості Java у Вікіпедії <https://en.wikipedia.org/wiki/."
-"properties>`_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:"
-"`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-"
+"`Властивості Java у Вікіпедії <https://en.wikipedia.org/wiki/.properties>`_, "
+":doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :ref:`updating-"
+"target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-"
 "weblate.cleanup.generic`"
 
 #: ../../formats/java.rst:46
@@ -57418,8 +57420,8 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
-"Рядок доступний лише для читання внаслідок того, що він має `` read-only`` :"
-"ref:``прапор <custom-checks>`, є нередагованим вихідним рядком або "
+"Рядок доступний лише для читання внаслідок того, що він має `` read-only`` "
+":ref:`прапор <custom-checks>`, є нередагованим вихідним рядком або "
 "позначений як такий у файлі перекладу."
 
 #: ../../workflows.rst:84

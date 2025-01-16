@@ -7,7 +7,21 @@ from __future__ import annotations
 
 from typing import Any
 
+from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy
+
+
+def get_doc_url_wrapper(page: str, anchor: str = "") -> str:
+    """
+    Wrap get_doc_url to delay get_doc_url import.
+
+    It cannot be imported directly, because get_spectacular_settings is used
+    from settings and get_doc_url needs settings to determine if it should hide t
+    he version info.
+    """
+    from weblate.utils.docs import get_doc_url
+
+    return get_doc_url(page, anchor)
 
 
 def get_spectacular_settings(
@@ -43,7 +57,7 @@ def get_spectacular_settings(
         "TITLE": gettext_lazy("Weblate's REST API"),
         "LICENSE": {
             "name": "GNU General Public License v3 or later",
-            "url": "https://docs.weblate.org/en/latest/contributing/license.html",
+            "url": lazy(get_doc_url_wrapper, str)("contributing/license"),
         },
         "DESCRIPTION": """
 The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
@@ -65,6 +79,10 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             "drf_spectacular.hooks.postprocess_schema_enums",
             "weblate.api.docs.add_middleware_headers",
         ],
+        "EXTERNAL_DOCS": {
+            "url": lazy(get_doc_url_wrapper, str)("index"),
+            "description": "Official Weblate documentation",
+        },
         "TAGS": [
             {
                 "name": "root",

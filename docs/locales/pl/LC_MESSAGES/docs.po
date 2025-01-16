@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 16:26+0100\n"
-"PO-Revision-Date: 2025-01-15 19:18+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2025-01-16 08:35+0000\n"
+"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
 "Language: pl\n"
@@ -386,7 +386,7 @@ msgid ""
 "access roles (see :ref:`privileges`)."
 msgstr ""
 "Możesz ograniczyć zespoły do poszczególnych języków lub komponentów, i "
-"przydzielić im wyznaczone role dostępu (zobacz :ref:`uprawnienia`)"
+"przydzielić im wyznaczone role dostępu (zobacz :ref:`privileges`)"
 
 #: ../../admin/access.rst:150
 msgid "Team administrators"
@@ -933,10 +933,10 @@ msgid ""
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
 "W innym przypadku, jeżeli zespół poda jakikolwiek :guilabel: `Projects`, "
-"albo wymieniając je albo poprzez posiadanie :guilabel: `Projects selection` "
-"i ustawienie wartości jak: :guilabel: `All public projects`, wszystkie te "
+"albo wymieniając je albo poprzez posiadanie :guilabel:`Projects selection` i "
+"ustawienie wartości jak: :guilabel:`All public projects`, wszystkie te "
 "uprawnienia są aplikowane do wszystkich projektów, co daje takie same "
-"uprawnienie każdemu projektowi :ref: `unrestricted components<component-"
+"uprawnienie każdemu projektowi :ref:`unrestricted components <component-"
 "restricted>`."
 
 #: ../../admin/access.rst:387
@@ -3309,7 +3309,7 @@ msgid ""
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
 "Możesz także zaostrzyć kontrolę :ref:`check-same`, dodając flagę ``strict-"
-"same`` do flagi :ref:`component-check flags`."
+"same`` do flagi :ref:`component-check_flags`."
 
 #: ../../admin/addons.rst:522 ../../admin/addons.rst:539
 #: ../../admin/addons.rst:556
@@ -4895,10 +4895,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:163
-#, fuzzy
-#| msgid ":doc:`psa:backends/github`"
 msgid ":doc:`psa:backends/github_enterprise`"
-msgstr ":doc:`psa:backends/github`"
+msgstr ":doc:`psa:backends/github_enterprise`"
 
 #: ../../admin/auth.rst:168
 msgid "Bitbucket authentication"
@@ -4998,10 +4996,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:322
-#, fuzzy
-#| msgid ":doc:`psa:backends/gitlab`"
 msgid ":doc:`psa:backends/gitea`"
-msgstr ":doc:`psa:backends/gitlab`"
+msgstr ":doc:`psa:backends/gitea`"
 
 #: ../../admin/auth.rst:327
 msgid "Microsoft Azure Active Directory"
@@ -5152,10 +5148,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:476
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_EMAIL_HOST_PASSWORD`"
 msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_EMAIL_HOST_PASSWORD`"
+msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/auth.rst:481
 msgid "SAML authentication"
@@ -7989,10 +7983,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:430
-#, fuzzy
-#| msgid ":setting:`AUTO_UPDATE`"
 msgid ":setting:`ADMINS_CONTACT`"
-msgstr ":setting:`AUTO_UPDATE`"
+msgstr ":setting:`ADMINS_CONTACT`"
 
 #: ../../admin/config.rst:435
 msgid "DATA_DIR"
@@ -14336,10 +14328,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:762
-#, fuzzy
-#| msgid ":setting:`django:EMAIL_PORT`"
 msgid ":setting:`django:USE_X_FORWARDED_PORT`"
-msgstr ":setting:`django:EMAIL_PORT`"
+msgstr ":setting:`django:USE_X_FORWARDED_PORT`"
 
 #: ../../admin/install/docker.rst:764
 msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
@@ -14850,10 +14840,8 @@ msgid "Configures generic OpenID Connect integration."
 msgstr ""
 
 #: ../../admin/install/docker.rst:1400
-#, fuzzy
-#| msgid ":doc:`psa:backends/openid`"
 msgid ":doc:`psa:backends/oidc`"
-msgstr ":doc:`psa:backends/openid`"
+msgstr ":doc:`psa:backends/oidc`"
 
 #: ../../admin/install/docker.rst:1405
 msgid "SAML"
@@ -16493,8 +16481,8 @@ msgid ""
 "The services translate from the source language as configured at :ref:"
 "`component`, see :ref:`component-source_language`."
 msgstr ""
-"Usługi tłumaczą z języka źródłowego zgodnie z konfiguracją w :"
-"ref:'component', patrz :ref:'component-source_language'."
+"Usługi tłumaczą z języka źródłowego zgodnie z konfiguracją w :ref:`component`"
+", patrz :ref:`component-source_language`."
 
 #: ../../admin/machine.rst:25
 msgid ""
@@ -18629,7 +18617,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:15
 msgid "Manually: in the :ref:`machine-translation` view while translating."
-msgstr "Ręcznie: w widoku :ref:`tłumaczenie maszynowe` podczas tłumaczenia."
+msgstr "Ręcznie: w widoku :ref:`machine-translation` podczas tłumaczenia."
 
 #: ../../admin/memory.rst:16
 #, fuzzy
@@ -19576,10 +19564,8 @@ msgid "Verbose project name, used to display the project name."
 msgstr ""
 
 #: ../../admin/projects.rst:130
-#, fuzzy
-#| msgid ":setting:`SECRET_KEY`"
 msgid ":setting:`PROJECT_NAME_RESTRICT_RE`"
-msgstr ":setting:`SECRET_KEY`"
+msgstr ":setting:`PROJECT_NAME_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:135
 msgid "URL slug"
@@ -23039,7 +23025,7 @@ msgstr "Zwraca statystyki dla projektu."
 
 #: ../../api.rst:0
 msgid ">json int id"
-msgstr ""
+msgstr ">json int id"
 
 #: ../../api.rst:1208
 #, fuzzy
@@ -23048,10 +23034,8 @@ msgid "ID of the label"
 msgstr "Identyfikator terminu"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "string age"
 msgid ">json string name"
-msgstr "wiek ciągu"
+msgstr ">json string name"
 
 #: ../../api.rst:1209 ../../api.rst:1220
 msgid "name of the label"
@@ -23059,7 +23043,7 @@ msgstr "nazwa etykiety"
 
 #: ../../api.rst:0
 msgid ">json string color"
-msgstr ""
+msgstr ">json string color"
 
 #: ../../api.rst:1210 ../../api.rst:1221
 msgid "color of the label"
@@ -23072,14 +23056,12 @@ msgid "Creates a label for a project."
 msgstr "Tworzy nowy projekt."
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "string age"
 msgid "<json string name"
-msgstr "wiek ciągu"
+msgstr "<json string name"
 
 #: ../../api.rst:0
 msgid "<json string color"
-msgstr ""
+msgstr "<json string color"
 
 #: ../../api.rst:1225 ../../api.rst:1828
 #, fuzzy
@@ -24383,7 +24365,7 @@ msgstr "Identyfikator komponentu"
 
 #: ../../api.rst:0
 msgid ">json array results"
-msgstr ""
+msgstr ">json array results"
 
 #: ../../api.rst:2533
 msgid "Associate component with a component list."
@@ -24759,10 +24741,8 @@ msgid "type id"
 msgstr "Typ"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Project configuration"
 msgid ">json object configuration"
-msgstr "Konfiguracja projektu"
+msgstr ">json object configuration"
 
 #: ../../api.rst:2706 ../../api.rst:2716
 #, fuzzy
@@ -25523,6 +25503,8 @@ msgid ""
 "Michal Čihař, Mehdi El Oualy, Paul Harriet Asiñero, Yusi Z, Mehdi Eloualy, "
 "gers, nijel, michael-smt, gersona, Gersona"
 msgstr ""
+"Michal Čihař, Mehdi El Oualy, Paul Harriet Asiñero, Yusi Z, Mehdi Eloualy, "
+"gers, nijel, michael-smt, gersona, Gersona"
 
 #: ../../changes/contributors/5.9.rst:6
 msgid ""
@@ -25540,12 +25522,27 @@ msgid ""
 "Симић(Slobodan Simić), Priit Jõerüüt, Hugo, UTUMI Hirosi, Сергей, symegac, "
 "Winston Sung, ChinskiKaczynski, Rafael Fontenelle"
 msgstr ""
+"Michal Čihař, Besnik Bleta, gallegonovato, Blueberry, cat, Fjuro, "
+"Sketch6580, Massimo Pissarello, Linerly, 大王叫我来巡山, 大学没毕业, Yuri "
+"Chornoivan, VfBFan, JY3, Miguel A. Bouzada, Dick Groskamp, Aindriú Mac "
+"Giolla Eoin, Andi Chandler, Kristoffer Grundström, Christian Wia, Claudio "
+"Filho F Filho, Yaron Shahrabani, Milo Ivir, Kaya Zeren, Neaten “Awrawman” "
+"Awrawman, Agnieszka C, Jeff Huang, Fulup Jakez, Milan Šalka, nautilusx, "
+"Любомир Василев, notlin4, immeteor2, kowih83264, WaldiS, ssantos, Reno Tx, "
+"Johan Jacobsson, Peter Vančo, Sveinn í Felli, Oliver, Yvan Zo, meshari "
+"alnaim, தமிழ்நேரம், searinminecraft, Jwtiyar Nariman, gitelo4516, Vision, "
+"Chang-Chia Tseng, Kyotaro Iijima, Ricky Tigg, ei9, Martin Srebotnjak, "
+"Horus68, 이정희, Максим Горпиніч, Sylvain Pichon, Ldm Public, Слободан Симић("
+"Slobodan Simić), Priit Jõerüüt, Hugo, UTUMI Hirosi, Сергей, symegac, Winston "
+"Sung, ChinskiKaczynski, Rafael Fontenelle"
 
 #: ../../changes/contributors/5.9.rst:9
 msgid ""
 "Michal Čihař, Paul Harriet Asiñero, gers, michael-smt, Benjamin Alan Jamie, "
 "Gersona, Mehdi Eloualy"
 msgstr ""
+"Michal Čihař, Paul Harriet Asiñero, gers, michael-smt, Benjamin Alan Jamie, "
+"Gersona, Mehdi Eloualy"
 
 #: ../../changes.rst:133
 #, fuzzy
@@ -25593,10 +25590,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes/contributors/5.8.4.rst:3
-#, fuzzy
-#| msgid "Michal Čihař"
 msgid "Michal Čihař, gersona, Mehdi El Oualy"
-msgstr "Michal Čihař"
+msgstr "Michal Čihař, gersona, Mehdi El Oualy"
 
 #: ../../changes.rst:158
 #, fuzzy
@@ -25637,10 +25632,8 @@ msgid "Fixed duplicate listing of newly added glossary terms."
 msgstr "Naprawiono tłumaczenie nowo dodanych ciągów."
 
 #: ../../changes/contributors/5.8.3.rst:3
-#, fuzzy
-#| msgid "Michal Čihař"
 msgid "Michal Čihař, Mehdi El Oualy"
-msgstr "Michal Čihař"
+msgstr "Michal Čihař, Mehdi El Oualy"
 
 #: ../../changes.rst:179
 #, fuzzy
@@ -25688,7 +25681,7 @@ msgstr "Ulepszono raportowanie błędów konfiguracji."
 
 #: ../../changes/contributors/5.8.2.rst:3
 msgid "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
-msgstr ""
+msgstr "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
 
 #: ../../changes/contributors/5.8.2.rst:6
 msgid ""
@@ -25701,10 +25694,18 @@ msgid ""
 "Massimo Pissarello, Florent, Ihor Hordiichuk, hugoalh, Vaclovas Intas, Milo "
 "Ivir, Jim Spentzos, Dženan, Claudio Filho F Filho, 大学没毕业, پرویز قادر"
 msgstr ""
+"VfBFan, 大王叫我来巡山, Любомир Василев, Miguel A. Bouzada, Besnik Bleta, "
+"Yuri Chornoivan, Wuzzy, Michal Čihař, gallegonovato, Vin, Blueberry, "
+"befag74614, Agnieszka C, Rhoslyn Prys, Aindriú Mac Giolla Eoin, Fulup Jakez, "
+"Christian Wia, ssantos, Vlăduț Ilie, Fjuro, amano, Andi Chandler, Peter "
+"Vančo, test-session, famese, Yaron Shahrabani, Geert-Jan Knapen, Ricky From "
+"Hong Kong, Tymofii Lytvynenko, Dick Groskamp, Horus68, Reno Tx, Jim Kats, "
+"Massimo Pissarello, Florent, Ihor Hordiichuk, hugoalh, Vaclovas Intas, Milo "
+"Ivir, Jim Spentzos, Dženan, Claudio Filho F Filho, 大学没毕业, پرویز قادر"
 
 #: ../../changes/contributors/5.8.2.rst:9
 msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
-msgstr ""
+msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 
 #: ../../changes.rst:202
 #, fuzzy
@@ -25882,6 +25883,9 @@ msgid ""
 "ButterflyOfFire, Saurmanđal, Paul Harriet Asiñero, Ingo Brückl, Vincent, "
 "Jakub Boukal, nijel"
 msgstr ""
+"Michal Čihař, Mehdi Eloualy, Mehdi El Oualy, gers, michael-smt, "
+"ButterflyOfFire, Saurmanđal, Paul Harriet Asiñero, Ingo Brückl, Vincent, "
+"Jakub Boukal, nijel"
 
 #: ../../changes/contributors/5.8.rst:6
 msgid ""
@@ -25899,12 +25903,27 @@ msgid ""
 "Šalka, Justin Nogossek, Floure, Eduardo Malaspina, Oğuz Ersen, Priit "
 "Jõerüüt, Jeff Huang"
 msgstr ""
+"gallegonovato, Jose Delvani, Andi Chandler, Massimo Pissarello, Christian "
+"Wia, Kaya Zeren, Muhammad B Madara, Assem Askarova, pan93412, Reno Tx, "
+"Sagiri, symegac, Allan Nordhøy, VfBFan, Peter Vančo, Yaron Shahrabani, Dick "
+"Groskamp, Besnik Bleta, Masahiro Fujimoto, Kyotaro Iijima, ButterflyOfFire, "
+"Michal Čihař, پرویز قادر, amano, Mirka Danylenko, Yuri Chornoivan, Milo "
+"Ivir, Blueberry, Julien Humbert, JY3, Ricky Tigg, Hotripak, Vin, Fjuro, "
+"大王叫我来巡山, Miguel A. Bouzada, Любомир Василев, Aindriú Mac Giolla Eoin, "
+"Coool (github.com/Coool), Ihor Hordiichuk, Martin Srebotnjak, Сергей, "
+"jonnysemon, Wuzzy, Ldm Public, Nived, Hoseok Seo, Tuomas Hietala, Andrey, "
+"solokot, Agnieszka C, Luna, Alan Marques, ssantos, Yamin Siahmargooei, "
+"Vaclovas Intas, Linerly, Victor K, Rhoslyn Prys, Iker García Calviño, Milan "
+"Šalka, Justin Nogossek, Floure, Eduardo Malaspina, Oğuz Ersen, Priit "
+"Jõerüüt, Jeff Huang"
 
 #: ../../changes/contributors/5.8.rst:9
 msgid ""
 "Michal Čihař, gers, Jorge, michael-smt, Mehdi Eloualy, Paul Harriet Asiñero, "
 "Ingo Brückl, Mehdi El Oualy"
 msgstr ""
+"Michal Čihař, gers, Jorge, michael-smt, Mehdi Eloualy, Paul Harriet Asiñero, "
+"Ingo Brückl, Mehdi El Oualy"
 
 #: ../../changes.rst:272
 #, fuzzy
@@ -25957,10 +25976,8 @@ msgid "Improved rendering of digest notification e-mails."
 msgstr "Wysyłanie powiadomień podsumowujących."
 
 #: ../../changes/contributors/5.7.2.rst:3
-#, fuzzy
-#| msgid "Michal Čihař"
 msgid "Michal Čihař, Mehdi Eloualy"
-msgstr "Michal Čihař"
+msgstr "Michal Čihař, Mehdi Eloualy"
 
 #: ../../changes/contributors/5.7.2.rst:6
 msgid ""
@@ -25969,6 +25986,10 @@ msgid ""
 "Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
 "Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 msgstr ""
+"Christian Wia, Ihor Hordiichuk, Hanaa MSB, Hoseok Seo, پرویز قادر, Reno Tx, "
+"Jose Delvani, Artemka, Blueberry, Elisabeth Pieringer, VfBFan, ɴᴇᴋᴏ, Andi "
+"Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
+"Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 
 #: ../../changes.rst:298
 #, fuzzy
@@ -26037,7 +26058,7 @@ msgstr ""
 
 #: ../../changes/contributors/5.7.1.rst:3
 msgid "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
-msgstr ""
+msgstr "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
 
 #: ../../changes/contributors/5.7.1.rst:6
 msgid ""
@@ -26052,12 +26073,20 @@ msgid ""
 "Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
 "Saranpat Visetrit, Vlăduț Ilie"
 msgstr ""
+"Michal Čihař, Miguel A. Bouzada, Ldm Public, gallegonovato, Besnik Bleta, "
+"Yaron Shahrabani, Alefsander Ribeiro Nascimento, Aindriú Mac Giolla Eoin, "
+"Massimo Pissarello, hugoalh, Xzonn, Jose Delvani, 大王叫我来巡山, Сергей, "
+"Milo Ivir, VfBFan, Blueberry, Ihor Hordiichuk, Christian Wia, Fjuro, simmon, "
+"Chikita Isaac, Oğuz Ersen, 马牛逼（Felix）, Sketch6580, Emin Tufan Çetin, "
+"Simona Iacob, Andi Chandler, Jorge Gemetto, Assem Askarova, Julien Humbert, "
+"Peter Vančo, Wuzzy, ovl-1, Jim Kats, WaldiS, Nicolas MAGERE, Eduard Ereza "
+"Martínez, Kaya Zeren, Pierfrancesco Passerini, Dick Groskamp, Chang-Chia "
+"Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
+"Saranpat Visetrit, Vlăduț Ilie"
 
 #: ../../changes/contributors/5.7.1.rst:9
-#, fuzzy
-#| msgid "Michal Čihař"
 msgid "Michal Čihař, Robin"
-msgstr "Michal Čihař"
+msgstr "Michal Čihař, Robin"
 
 #: ../../changes.rst:326
 #, fuzzy
@@ -26249,6 +26278,9 @@ msgid ""
 "Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
 "michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey, Bastien Montagne"
 msgstr ""
+"Michal Čihař, João Ferreira, Paul Harriet Asiñero, gers, Benjamin Alan "
+"Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
+"michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey, Bastien Montagne"
 
 #: ../../changes/contributors/5.7.rst:6
 msgid ""
@@ -26263,12 +26295,24 @@ msgid ""
 "Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
 "Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 msgstr ""
+"Jose Delvani, Julija Juli, Andi Chandler, pan93412, Milo Ivir, "
+"gallegonovato, ngocanhtve, kapatych, Marco Ciampa, Balázs Úr, Artemka, Ricky "
+"From Hong Kong, Massimo Pissarello, dreigiau, Ihor Hordiichuk, Allan "
+"Nordhøy, Selyan Sliman Amiri, iwonder, Besnik Bleta, Nathan, yangyangdaji, "
+"Priit Jõerüüt, Aindriú Mac Giolla Eoin, Diego Beraldin, Marino Díaz, پرویز "
+"قادر, Horus68, ssantos, M. D. Kulkarni (MDK), Miguel A. Bouzada, A. Bento, "
+"mpt.c, ovl-1, Fjuro, Luna, Antônio Breno, alefsanderribeiro, Alefsander "
+"Ribeiro Nascimento, Ian Perdiansah, amano, Petter Reinholdtsen, Malik "
+"Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
+"Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 
 #: ../../changes/contributors/5.7.rst:9
 msgid ""
 "Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
 "Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 msgstr ""
+"Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
+"Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 
 #: ../../changes.rst:382
 #, fuzzy
@@ -26748,7 +26792,7 @@ msgstr "Dodano :http:get:`/api/categories/(int:id)/statistics/`."
 
 #: ../../changes.rst:585
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
-msgstr "Dodano :http:get:`/api/projects/(ciąg:projekt)/file/`."
+msgstr "Dodano :http:get:`/api/projects/(string:project)/file/`."
 
 #: ../../changes.rst:586
 #, fuzzy
@@ -26767,8 +26811,8 @@ msgid ""
 "Improved :http:post:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/units/`."
 msgstr ""
-"Poprawiono :http:post:`/api/tłumaczenia/(ciąg:projekt)/(ciąg:komponent)/"
-"(ciąg:język)/jednostki/`."
+"Poprawiono :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../changes.rst:590
 msgid "Added :ref:`mt-systran` automatic translation support."
@@ -27074,11 +27118,11 @@ msgstr ""
 #: ../../changes.rst:702
 msgid ":ref:`mt-openai` better handles batch translations and glossaries."
 msgstr ""
-"ref:`mt-openai` lepiej radzi sobie z tłumaczeniami wsadowymi i słownikami."
+":ref:`mt-openai` lepiej radzi sobie z tłumaczeniami wsadowymi i słownikami."
 
 #: ../../changes.rst:703
 msgid ":ref:`mt-libretranslate` better handles batch translations."
-msgstr "ref:`mt-libretranslate` lepiej radzi sobie z tłumaczeniami wsadowymi."
+msgstr ":ref:`mt-libretranslate` lepiej radzi sobie z tłumaczeniami wsadowymi."
 
 #: ../../changes.rst:704
 msgid ""
@@ -27109,8 +27153,8 @@ msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` now "
 "includes information about linked component."
 msgstr ""
-":http:get:`/api/components/(ciąg:projekt)/(ciąg:komponent)/` zawiera teraz "
-"informacje o powiązanym komponencie."
+":http:get:`/api/components/(string:project)/(string:component)/` zawiera "
+"teraz informacje o powiązanym komponencie."
 
 #: ../../changes.rst:710
 #, fuzzy
@@ -27210,11 +27254,12 @@ msgstr ":ref:`mt-alibaba` usługa automatycznych sugestii."
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr ""
-"Dodano API etykiet, zobacz :http:get:`/api/projects/(ciąg:projekt)/labels/`."
+"Dodano API etykiet, zobacz :http:get:`/api/projects/(string:project)/labels/"
+"`."
 
 #: ../../changes.rst:756
 msgid ":ref:`glossary-mt`."
-msgstr ":ref:`słownik-mt`."
+msgstr ":ref:`glossary-mt`."
 
 #: ../../changes.rst:757
 msgid "New automatic fixer for :ref:`autofix-punctuation-spacing`."
@@ -34649,8 +34694,8 @@ msgid ""
 "API for creating components now automatically uses :ref:`internal-urls`, "
 "see :http:post:`/api/projects/(string:project)/components/`."
 msgstr ""
-"Interfejs API do tworzenia komponentów teraz automatycznie używa :"
-"ref:'internal-urls', patrz :http:post:`/api/projects/(string:project)/"
+"Interfejs API do tworzenia komponentów teraz automatycznie używa :ref"
+":`internal-urls`, patrz :http:post:`/api/projects/(string:project)/"
 "components/`."
 
 #: ../../changes/v4.rst:775
@@ -42186,7 +42231,7 @@ msgstr ""
 
 #: ../../formats.rst:363
 msgid "See :ref:`format-flags`."
-msgstr "Zobacz :ref:'flagi-formatów'."
+msgstr "Zobacz :ref:`format-flags`."
 
 #: ../../formats.rst:364
 msgid "The gettext type comments are used as flags."
@@ -43619,10 +43664,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats/markdown.rst:16
-#, fuzzy
-#| msgid ":doc:`tt:formats/dtd`"
 msgid ":doc:`tt:formats/md`"
-msgstr ":doc:`tt:formats/dtd`"
+msgstr ":doc:`tt:formats/md`"
 
 #: ../../formats/markdown.rst:29
 msgid "``path/*.md``"

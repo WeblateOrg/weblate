@@ -36,7 +36,7 @@ Having navigated to a component, a set of links lead to its actual translation.
 The translation is further divided into individual checks, like
 :guilabel:`Untranslated strings` or :guilabel:`Unfinished strings`.
 If the whole project is already translated without any errors, :guilabel:`All strings`
-is still available. Alternatively you can use the :ref:`Search <Searching>` feature
+is still available. Alternatively you can use the :doc:`Search </user/search>` feature
 to find a specific string or term.
 
 

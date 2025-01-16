@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# VfBFan <drop0815@posteo.de>, 2023, 2024.
+# VfBFan <drop0815@posteo.de>, 2023, 2024, 2025.
 # Wuzzy <Wuzzy@disroot.org>, 2023, 2024.
 # VfBFan <VfBFan@users.noreply.hosted.weblate.org>, 2023, 2024.
 # Ben <srcmkr@srcmkr.io>, 2023.
@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 15:25+0000\n"
-"PO-Revision-Date: 2025-01-15 19:23+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-01-16 08:29+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -2849,22 +2849,16 @@ msgid "This translation is currently locked."
 msgstr "Diese Übersetzungseinheit ist momentan gesperrt."
 
 #: weblate/auth/permissions.py:194
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires accepting its contributor license "
 "agreement."
 msgstr ""
-"Um zu dieser Übersetzung beizutragen, müssen Sie der Mitwirkungsvereinbarung "
-"zustimmen."
+"Um zu dieser Übersetzung beizutragen, müssen Sie die Mitwirkungsvereinbarung "
+"akzeptieren."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
-msgstr "Anmelden, um die Übersetzung zu speichern."
+msgstr "Anmelden, um Übersetzungen zu speichern."
 
 #: weblate/auth/permissions.py:205
 msgid "Insufficient privileges for approving translations."
@@ -2885,14 +2879,10 @@ msgid "Suggestion voting is disabled."
 msgstr "Das Abstimmen über Vorschläge ist deaktiviert."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
 msgstr ""
-"Für diese Übersetzung werden nur Vorschläge angenommen, die durch Abstimmung "
-"genehmigt werden."
+"Für diese Übersetzung werden nur Vorschläge angenommen, die wiederum durch "
+"Abstimmung genehmigt werden."
 
 #: weblate/auth/permissions.py:235
 #: weblate/templates/snippets/project/state.html:6
@@ -2900,38 +2890,26 @@ msgid "Pay the bills to unlock this project."
 msgstr "Bezahlen Sie die Rechnungen, um dieses Projekt freizuschalten."
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
-msgstr "Überprüfung der Ausgangszeichenkette ist nicht aktiviert."
+msgstr "Das Überprüfen der Ausgangszeichenketten ist ausgeschaltet."
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "Übersetzungsvorschläge sind deaktiviert."
+msgstr "Das Überprüfen der Übersetzungen ist ausgeschaltet."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "Objektliste deaktiviert"
+msgstr "Das Überprüfen ist ausgeschaltet."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "Die Ausgangszeichenkette muss überprüft werden."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
 msgstr "Die Zeichenkette ist schreibgeschützt."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
@@ -2941,8 +2919,6 @@ msgstr ""
 "werden sollte."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "Die Übersetzung ist schreibgeschützt."
 
@@ -2957,17 +2933,13 @@ msgstr ""
 "deaktiviert."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
-"Terminologieübersetzung kann nicht entfernt werden, stattdessen wird die "
-"Ausgangszeichenkette entfernt."
+"Terminologieübersetzung kann nicht entfernt werden. Entfernen Sie "
+"stattdessen die Ausgangszeichenkette."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
 msgstr "Das Dateiformat unterstützt dies nicht."
 
@@ -4204,12 +4176,14 @@ msgstr "Die Übersetzung verwendet unsichere HTML-Auszeichnungen"
 
 #: weblate/checks/markup.py:359
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "Inkonsistente reStructuredText-Referenzen"
 
 #: weblate/checks/markup.py:361
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
+"Inkonsistente reStructuredText-Begriffsreferenzen in der übersetzten "
+"Nachricht."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5520,13 +5494,9 @@ msgid "File"
 msgstr "Datei"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr ""
-"Sie können eine Datei in folgenden Formaten hochladen: TMX, JSON, XLIFF, PO, "
-"CSV."
+msgstr "Sie können eine Datei in den folgenden Formaten hochladen: %s."
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5556,10 +5526,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "Bestätigen Sie das Löschen aller Übersetzungsspeichereintrage"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "Nicht unterstütztes Bildformat: %s"
+msgstr "Nicht unterstützte Dateierweiterung: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -7229,8 +7198,6 @@ msgid "Configure"
 msgstr "Konfigurieren"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
 msgstr ""
 "Erweiterungen können auch auf Projekt- und Komponentenebene installiert "
@@ -7255,10 +7222,8 @@ msgid "Available add-ons"
 msgstr "Verfügbare Erweiterungen"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "Die Erweiterung kann nur auf der Komponente installiert werden."
+msgstr "Die Erweiterung kann nur auf Komponentenebene installiert werden."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -8296,10 +8261,8 @@ msgid "Screenshots"
 msgstr "Bildschirmfotos"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "Komponente duplizieren"
+msgstr "Diese Komponente duplizieren"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -11228,6 +11191,8 @@ msgstr ""
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
 msgstr ""
+"Projekte, die nicht auf Code basieren (wie Bücher oder grafische Inhalte), "
+"sind ebenfalls willkommen."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
