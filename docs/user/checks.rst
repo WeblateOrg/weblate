@@ -964,7 +964,7 @@ This check applies to all components in a project that have
 Inconsistent reStructuredText references
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. versionchanged:: 5.10
+.. versionadded:: 5.10
 
 :Summary: Inconsistent reStructuredText term references in the translated message.
 :Scope: translated strings
