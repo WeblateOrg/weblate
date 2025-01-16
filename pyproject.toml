@@ -7,11 +7,7 @@ requires = [
 
 [dependency-groups]
 dev = [
-  "django-debug-toolbar==5.0.1",
-  "PyICU==2.14",
-  "reuse==5.0.2",
-  "scour==0.38.2",
-  "tinyunicodeblock==1.3",
+  {include-group = "scripts"},
   {include-group = "docs"},
   {include-group = "lint"},
   {include-group = "test"},
@@ -38,6 +34,13 @@ pre-commit = [
 ]
 pylint = [
   "pylint==3.3.3"
+]
+scripts = [
+  "django-debug-toolbar==5.0.1",
+  "PyICU==2.14",
+  "reuse==5.0.2",
+  "scour==0.38.2",
+  "tinyunicodeblock==1.3"
 ]
 test = [
   "coverage==7.6.10",
