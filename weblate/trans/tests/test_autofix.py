@@ -182,3 +182,14 @@ class AutoFixTest(TestCase):
         self.assertEqual(fix.fix_target(["Bar:"], fr_unit), (["Bar:"], False))
         self.assertEqual(fix.fix_target(["Bar:"], fr_ca_unit), (["Bar:"], False))
         self.assertEqual(fix.fix_target(["Bar:"], cs_unit), (["Bar:"], False))
+
+    def test_punctuation_spacing_rst(self) -> None:
+        fix = PunctuationSpacing()
+        fr_rst_unit = MockUnit(source="This :ref:`doc`", code="fr", flags="rst-text")
+        self.assertEqual(
+            fix.fix_target(["This :ref:`doc`"], fr_rst_unit),
+            (["This :ref:`doc`"], False),
+        )
+        self.assertEqual(
+            fix.fix_target(["This :"], fr_rst_unit), (["This\u00a0:"], True)
+        )
