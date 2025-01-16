@@ -37,7 +37,7 @@ security scanners.
 This allows us to detect vulnerabilities early and release improvements quickly.
 
 You can get the results of these scans at GitHub — they are stored as artifacts
-on our CI in the SARIF format (Static Analysis Results Interchange Format).
+on our CI as :abbr:`SARIF (Static Analysis Results Interchange Format)`.
 
 .. seealso::
 
