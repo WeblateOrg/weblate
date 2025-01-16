@@ -229,7 +229,7 @@ Released on October 15th 2024.
 **New features**
 
 * Added :ref:`component-key_filter` in the component.
-* :ref:`Searching` now supports filtering by object path and :ref:`date-search`.
+* :doc:`/user/search` now supports filtering by object path and :ref:`date-search`.
 * Merge requests credentials can now be passed in the repository URL, see :ref:`settings-credentials`.
 * :ref:`mt-azure-openai` automatic suggestion service.
 * :ref:`vcs-bitbucket-cloud`.
@@ -541,7 +541,7 @@ Released on April 26th 2024.
 
 **New features**
 
-* :ref:`Searching` supports ``source_changed:DATETIME``.
+* :doc:`/user/search` supports ``source_changed:DATETIME``.
 * Added several new :ref:`component-language_code_style`.
 
 **Improvements**
