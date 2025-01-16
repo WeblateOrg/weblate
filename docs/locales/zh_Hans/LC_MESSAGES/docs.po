@@ -18,13 +18,14 @@
 # Sketch6580 <Sketch6580@users.noreply.hosted.weblate.org>, 2024.
 # 大学没毕业 <ziweidao@foxmail.com>, 2024, 2025.
 # Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>, 2025.
+# Michal Čihař <michal@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 16:26+0100\n"
-"PO-Revision-Date: 2025-01-16 05:49+0000\n"
-"Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2025-01-16 08:25+0000\n"
+"Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -414,9 +415,10 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "默认情况下，这可防止 Weblate 因 `用户` 和 `查看者` :ref:`默认团队 <default-"
-"groups>` 本身的配置而授予其提供的访问权限。但这并不妨碍您向这些项目授予站点范"
-"围的权限，可用的方法有改变默认团队、创建一个新团队，或如下方 :ref:`custom-"
-"acl` 中所述为单个部件创建额外的自定义设置。"
+"teams>` "
+"本身的配置而授予其提供的访问权限。但这并不妨碍您向这些项目授予站点范围的权限"
+"，可用的方法有改变默认团队、创建一个新团队，或如下方 :ref:`custom-acl` "
+"中所述为单个部件创建额外的自定义设置。"
 
 #: ../../admin/access.rst:208
 msgid ""
@@ -478,9 +480,8 @@ msgstr "站点范围内的权限管理"
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
-msgstr ""
-"要一次性管理整个实例的权限，请将用户添加到适当的 :ref:`默认团队 <default-"
-"groups>`："
+msgstr "要一次性管理整个实例的权限，请将用户添加到适当的 :ref:`默认团队 <default-"
+"teams>`："
 
 #: ../../admin/access.rst:241
 msgid ""
@@ -10811,7 +10812,7 @@ msgstr "为你的包建立文件夹（我们会使用 `weblate_customization` �
 
 #: ../../admin/customize.rst:48
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
-msgstr "在里面新建 `setup.py` 文件来描述包："
+msgstr "在里面新建 :file:`setup.py` 文件来描述包："
 
 #: ../../admin/customize.rst:65
 msgid ""
@@ -23555,8 +23556,7 @@ msgstr ""
 #: ../../api.rst:859
 msgid ""
 "URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`"
-msgstr ""
-"更改列表的 URL；请参见 :http:get:`/api/projects/(string:project)/repository/`"
+msgstr "更改列表的 URL；请参见 :http:get:`/api/projects/(string:project)/changes/`"
 
 #: ../../api.rst:860
 msgid ""
@@ -24144,8 +24144,8 @@ msgid ""
 "Whether component is locked, this field is read-only; see :http:get:`/api/"
 "components/(string:project)/(string:component)/lock/`"
 msgstr ""
-"不管部件锁定与否，此字段是只读的；见: http:get:`/api/components/(string:"
-"project)/(string:component)/lock/`"
+"不管部件锁定与否，此字段是只读的；见:http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1328
 msgid ":ref:`component-commit_pending_age`"
@@ -25094,7 +25094,7 @@ msgstr "返回附加组件的列表。"
 #: ../../api.rst:2417
 msgid ""
 "Add-on object attributes are documented at :http:get:`/api/addons/(int:id)/`."
-msgstr "附加组件对象属性记录在 :http:get:`/api/units/(int:id)/`。"
+msgstr "附加组件对象属性记录在 :http:get:`/api/addons/(int:id)/`。"
 
 #: ../../api.rst:2421
 msgid "Returns information about add-on information."
@@ -26153,7 +26153,7 @@ msgstr ""
 
 #: ../../changes.rst:102
 msgid "Included username when generating :ref:`credits`."
-msgstr "生成 :ref:`致谢` 时包含用户名。"
+msgstr "生成 :ref:`credits` 时包含用户名。"
 
 #: ../../changes.rst:103
 msgid ":ref:`bulk-edit` shows a preview of matched strings."
@@ -26553,9 +26553,9 @@ msgid ""
 "``REST_FRAMEWORK`` and ``INSTALLED_APPS``; please adjust your settings "
 "accordingly."
 msgstr ""
-":file:`settings_example.py` 中有几项更改，最显著的是 "
-"``SPECTACULAR_SETTINGS`` 中 :ref:`2fa` 的新设置以及 ``REST_FRAMEWORK`` 和 "
-"``INSTALLED_APPS`` 中的更改；请相应调整你的设置。"
+":file:`settings_example.py` 中有几项更改，最显著的是 ``SPECTACULAR_SETTINGS``"
+" 中 :ref:`api` 的新设置以及 ``REST_FRAMEWORK`` 和 ``INSTALLED_APPS`` "
+"中的更改；请相应调整你的设置。"
 
 #: ../../changes/contributors/5.8.rst:3
 msgid ""
@@ -27160,7 +27160,7 @@ msgstr "在管理中添加 :ref:`addons` 历史记录选项卡。"
 
 #: ../../changes.rst:487
 msgid "New :ref:`alerts` when :ref:`glossary` might not work as expected."
-msgstr "当 :ref:`术语表` 可能不会按预期工作时的新 :ref:`警报`。"
+msgstr "当 :ref:`glossary` 可能不会按预期工作时的新 :ref:`alerts`。"
 
 #: ../../changes.rst:488
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
@@ -27689,7 +27689,7 @@ msgstr ""
 
 #: ../../changes.rst:723
 msgid "Releases are signed by Sigstore instead of PGP, see :ref:`verify`."
-msgstr "发行文件由 Sigstore 而非 PGP 签名，见 :ref:`验证`。"
+msgstr "发行文件由 Sigstore 而非 PGP 签名，见 :ref:`verify`。"
 
 #: ../../changes.rst:729
 msgid ""
@@ -36271,7 +36271,7 @@ msgstr "重新实现了翻译记忆库后端。"
 
 #: ../../changes/v4.rst:1253
 msgid "Added support for several ``is:`` lookups in :doc:`/user/search`."
-msgstr "新增支持在 :doc:`user/search` 中同时使用几个 ``is:`` 进行查找。"
+msgstr "新增支持在 :doc:`/user/search` 中同时使用几个 ``is:`` 进行查找。"
 
 #: ../../changes/v4.rst:1254
 msgid "Allow to make :ref:`check-same` avoid internal blacklist."
@@ -51479,8 +51479,8 @@ msgid ""
 msgstr ""
 "对于这些情况，可能需要有选择地重新启用 RSA/SHA1 以允许通过 HostkeyAlgorithms "
 "和 PubkeyAcceptedAlgorithms 选项来允许连接和/或用户身份验证。比如，文件 "
-"`DATA_DIR/ssh/config` 中的下列段落会为单一目标主机的主机和用户身份验证启用 "
-"RSA/SHA1:"
+":file:`DATA_DIR/ssh/config` "
+"中的下列段落会为单一目标主机的主机和用户身份验证启用 RSA/SHA1:"
 
 #: ../../vcs.rst:160
 msgid ""
