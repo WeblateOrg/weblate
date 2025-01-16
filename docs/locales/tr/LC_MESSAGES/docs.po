@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 16:26+0100\n"
-"PO-Revision-Date: 2025-01-15 19:20+0000\n"
+"PO-Revision-Date: 2025-01-16 07:12+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -439,7 +439,7 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "Varsayılan olarak bu durum, bu takımların kendi yapılandırması nedeniyle "
-"Weblate tarafından `Kullanıcılar` ve `Görüntüleyenler` :ref: `varsayılan "
+"Weblate tarafından `Kullanıcılar` ve `Görüntüleyenler` :ref:`varsayılan "
 "takımlar <default-teams>` için sunulan erişim izinlerinin verilmesini "
 "engeller. Bu durum, varsayılan takımları değiştirerek, yeni bir tane "
 "oluşturarak ya da aşağıdaki :ref:`custom-acl` bölümünde açıklandığı gibi tek "
@@ -530,7 +530,7 @@ msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
-"`Onaylayanlar` (:ref: `onaylayan kişiler ile onaylama iş akışını <reviews>` "
+"`Onaylayanlar` (:ref:`onaylayan kişiler ile onaylama iş akışını <reviews>` "
 "kullanıyorsanız)."
 
 #: ../../admin/access.rst:245
@@ -1894,8 +1894,8 @@ msgid ""
 "You can also configure add-ons using :ref:`API <addons-api>`, :setting:"
 "`DEFAULT_ADDONS`, or :wladmin:`install_addon`."
 msgstr ""
-"Eklentileri :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS` ya da :"
-"wladmin:`install_addon kullanarak da yapılandırabilirsiniz."
+"Eklentileri :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS` ya da "
+":wladmin:`install_addon` kullanarak da yapılandırabilirsiniz."
 
 #: ../../admin/addons.rst:18
 msgid "Events that trigger add-ons"
@@ -4318,7 +4318,7 @@ msgid ""
 "`django:howto/deployment/checklist`."
 msgstr ""
 ":guilabel:`Sistem denetimleri` olası yapılandırma sorunlarını görüntüler. "
-"Bunlar :settin:`django:SILENCED_SYSTEM_CHECKS` kullanılarak susturulabilir. "
+"Bunlar :setting:`django:SILENCED_SYSTEM_CHECKS` kullanılarak susturulabilir. "
 "Ayrıca ayrıntılı bilgi almak için: :doc:`django:howto/deployment/checklist`."
 
 #: ../../admin/admin.rst:40
@@ -5302,13 +5302,14 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "wladmin:`createadmin`)."
 msgstr ""
-":setting:``django:AUTHENTICATION_BACKENDS` ayarından ``’social_core.backends."
-"email.EmailAuth’`` seçeneğini kaldırmalısınız. Yoksa kullanıcılar Weblate "
-"üzerinde kendi parolalarını ayarlayabilir ve bunu kullanarak kimlik "
-"doğrulaması yapabilir. İzinler almak ve anonim kullanıcılara kolaylık "
-"sağlamak için ``weblate.accounts.auth.WeblateUserBackend`` seçeneğinin "
-"tutulması hala gereklidir. Ayrıca, yerel bir yönetici hesabı oluşturduysanız "
-"(örneğin :wladmin:`createadmin` kullanarak) oturum açmanızı da sağlar."
+":setting:`django:AUTHENTICATION_BACKENDS` ayarından "
+"``’social_core.backends.email.EmailAuth’`` seçeneğini kaldırmalısınız. Yoksa "
+"kullanıcılar Weblate üzerinde kendi parolalarını ayarlayabilir ve bunu "
+"kullanarak kimlik doğrulaması yapabilir. İzinler almak ve anonim "
+"kullanıcılara kolaylık sağlamak için "
+"``weblate.accounts.auth.WeblateUserBackend`` seçeneğinin tutulması hala "
+"gereklidir. Ayrıca, yerel bir yönetici hesabı oluşturduysanız (örneğin "
+":wladmin:`createadmin` kullanarak) oturum açmanızı da sağlar."
 
 #: ../../admin/auth.rst:636
 msgid "Using bind password"
@@ -6543,7 +6544,7 @@ msgstr "``font-spacing:SPACING``"
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
 msgstr ""
 "Görselleştirme denetimleri için harf aralığını belirler. Ayrıntılı bilgi "
-"almak için: :ref:`fonts’."
+"almak için: :ref:`fonts`."
 
 #: ../../admin/checks.rst:95
 msgid "``icu-flags:FLAGS``"
@@ -6566,7 +6567,7 @@ msgid ""
 "Set a required prefix for XML tags for the :ref:`check-icu-message-format` "
 "quality check."
 msgstr ""
-":ref:`check-java-messageformat` kalite denetimi için XML kod imlerinin "
+":ref:`check-icu-message-format` kalite denetimi için XML kod imlerinin "
 "gerekli olan ön ekini belirler."
 
 #: ../../admin/checks.rst:99
@@ -6607,7 +6608,7 @@ msgid ""
 "`variants`."
 msgstr ""
 "Bu dizgenin, eşleşen kaynağın bir dizge çeşidi olarak imlenmesini sağlar. "
-"Ayrıntılı bilgi almak için: :ref:'variants`."
+"Ayrıntılı bilgi almak için: :ref:`variants`."
 
 #: ../../admin/checks.rst:108
 msgid "``regex:REGEX``"
@@ -6969,7 +6970,7 @@ msgstr "``ignore-i18next-interpolation``"
 
 #: ../../admin/checks.rst:191
 msgid "Skip the :ref:`check-i18next-interpolation` quality check."
-msgstr ":ref:`check-i18next-format` kalite denetimini atlar."
+msgstr ":ref:`check-i18next-interpolation` kalite denetimini atlar."
 
 #: ../../admin/checks.rst:192 ../../user/checks.rst:527
 #: ../../user/checks.rst:1825
@@ -7455,7 +7456,7 @@ msgstr ""
 "sayılmayacak denetimlerin listesini yapılandırabilirsiniz. Listelenen "
 "denetimler kullanıcı arayüzünden kapatılamaz ve bu denetimde hatalı bulunan "
 "dizgeler :guilabel:`Düzenlenmesi gerekli` olarak imlenir (ayrıntılı bilgi "
-"almak için: :ref:`states')."
+"almak için: :ref:`states`)."
 
 #: ../../admin/checks.rst:325
 msgid ""
@@ -8222,7 +8223,7 @@ msgid ""
 "volume`."
 msgstr ""
 "Docker kapsayıcısı bunun için ayrı bir birim kullanır. Ayrıntılı bilgi almak "
-"için: :ref:`docker-volume'."
+"için: :ref:`docker-volume`."
 
 #: ../../admin/config.rst:305 ../../admin/config.rst:440
 msgid "The following subdirectories usually exist:"
@@ -8255,7 +8256,7 @@ msgid ""
 "STATIC_ROOT`. See :ref:`static-files`."
 msgstr ""
 "Durağan Django dosyalarının varsayılan konumu :setting:`django:STATIC_ROOT` "
-"tarafından belirlenir. Ayrıntılı bilgi almak için: :ref:`static-files'."
+"tarafından belirlenir. Ayrıntılı bilgi almak için: :ref:`static-files`."
 
 #: ../../admin/config.rst:313
 msgid ":file:`tesseract`"
@@ -8279,9 +8280,10 @@ msgid ""
 "header is automatically generated based on enabled integrations with third-"
 "party services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
-"Weblate için ``Content-Security-Policy`` üst bilgisini özelleştirin. Üst "
-"bilgi, kullanıma alınmış üçüncü taraf hizmetlerinin (Matomo, Google "
-"Analytics, Sentry, ...) bütünleştirmelerine göre kendiliğinden oluşturulur."
+"Weblate için :http:header:`Content-Security-Policy` üst bilgisini "
+"özelleştirin. Üst bilgi, kullanıma alınmış üçüncü taraf hizmetlerinin ("
+"Matomo, Google Analytics, Sentry, ...) bütünleştirmelerine göre "
+"kendiliğinden oluşturulur."
 
 #: ../../admin/config.rst:330
 msgid "All these default to empty list."
@@ -8401,7 +8403,8 @@ msgid ""
 "The sender is used in as :mailheader:`Reply-To`, this is the default "
 "behaviour."
 msgstr ""
-"Gönderici :mailheader:`Yanıt` olarak kullanılır. Varsayılan davranış budur."
+"Gönderici :mailheader:`Reply-To` olarak kullanılır. Varsayılan davranış "
+"budur."
 
 #: ../../admin/config.rst:423
 msgid "``\"from\"``"
@@ -8412,7 +8415,7 @@ msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
 msgstr ""
-"Gönderici :mailheader:`Kimden` olarak kullanılır. E-posta sunucunuz bu tür e-"
+"Gönderici :mailheader:`From` olarak kullanılır. E-posta sunucunuz bu tür e-"
 "postaların gönderilmesine izin vermelidir."
 
 #: ../../admin/config.rst:430
@@ -8460,7 +8463,7 @@ msgid ""
 msgstr ""
 "Django ortam dosyalarının varsayılan konumu :setting:`django:MEDIA_ROOT` "
 "tarafından belirlenir. Yüklenen ekran görüntülerini içerir. Ayrıntılı bilgi "
-"almak için: :ref:`screenshots'."
+"almak için: :ref:`screenshots`."
 
 #: ../../admin/config.rst:448
 msgid ":file:`vcs`"
@@ -8829,10 +8832,10 @@ msgstr ""
 "bilgilerini Django üzerine doğru şekilde iletmeyen bir SSL sonlandırma "
 "işlemini yapan ters bir vekil sunucu kullanmanız durumunda, sonsuz "
 "yönlendirme sorunu yaşayabilirsiniz. Lütfen ters vekil sunucu "
-"yapılandırmanızı `X-Forwarded-Proto` veya :http:header:`Forwarded` üst "
-"bilgilerini yayacak şekilde ayarlayın ya da SSL durumunun Django tarafından "
-"doğru bir şekilde algılanmasını sağlamak için :setting:`django:"
-"SECURE_PROXY_SSL_HEADER` seçeneğini yapılandırın."
+"yapılandırmanızı :http:header:`X-Forwarded-Proto` veya "
+":http:header:`Forwarded` üst bilgilerini yayacak şekilde ayarlayın ya da SSL "
+"durumunun Django tarafından doğru bir şekilde algılanmasını sağlamak için "
+":setting:`django:SECURE_PROXY_SSL_HEADER` seçeneğini yapılandırın."
 
 #: ../../admin/config.rst:731
 msgid ""
@@ -10755,8 +10758,8 @@ msgstr ""
 msgid ""
 "Use :ref:`hooks` to integrate with most of common code hosting services:"
 msgstr ""
-"Yaygın kullanılan kod barındırma hizmetlerinin çoğuyla bütünleştirmek için :"
-"ref:`hooks' kullanın:"
+"Yaygın kullanılan kod barındırma hizmetlerinin çoğuyla bütünleştirmek için "
+":ref:`hooks` kullanın:"
 
 #: ../../admin/continuous.rst:86 ../../api.rst:2785
 msgid ":ref:`github-setup`"
@@ -12800,9 +12803,9 @@ msgid ""
 msgstr ""
 "Weblate işleminin, verileri tuttuğu :setting:`DATA_DIR` klasöründe okuma ve "
 "yazma yapabilmesi gerekir. Bu klasördeki tüm dosyaların sahibi, tüm Weblate "
-"işlemlerini çalıştıran kullanıcı olmalı ve bu klasöre yazabilmelidir "
-"(genellikle WSGI ve Celery, ayrıntılı bilgi almak için: :ref:`sunucu` ve :"
-"ref:`celery`)."
+"işlemlerini çalıştıran kullanıcı olmalı ve bu klasöre yazabilmelidir ("
+"genellikle WSGI ve Celery, ayrıntılı bilgi almak için: :ref:`server` ve "
+":ref:`celery`)."
 
 #: ../../admin/install.rst:375
 msgid ""
@@ -12894,7 +12897,7 @@ msgstr ""
 "Varsayılan yapılandırmada, her Weblate işlemi veri tabanı ile kalıcı bir "
 "bağlantı kurar. Kalıcı bağlantılar Weblate yanıt verme hızını artırır ancak "
 "veri tabanı sunucusu için daha fazla kaynak gerekebilir. Ayrıntılı bilgi "
-"almak için :setting:`Django:CONN_MAX_AGE` bölümüne bakabilirsiniz."
+"almak için :setting:`django:CONN_MAX_AGE` bölümüne bakabilirsiniz."
 
 #: ../../admin/install.rst:428
 msgid "Weblate needs at least the following number of connections:"
@@ -13754,7 +13757,7 @@ msgid ""
 "them for Celery as well, see :ref:`celery`."
 msgstr ""
 "Ön bellek için Redis ayarlarını değiştirirseniz, bunları Celery için de "
-"ayarlamanız gerekebilir. Ayrıntılı bilgi almak için: :ref:`Celery."
+"ayarlamanız gerekebilir. Ayrıntılı bilgi almak için: :ref:`celery`."
 
 #: ../../admin/install.rst:1075
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
@@ -15253,7 +15256,7 @@ msgid ""
 "Whenever invoking :program:`docker compose` you need to pass both files to "
 "it, and then do:"
 msgstr ""
-":program:`docker-compose` komutunu her çağırdığınızda, her iki dosyayı da "
+":program:`docker compose` komutunu her çağırdığınızda, her iki dosyayı da "
 "belirtmeniz ve ardından şunları yapmanız gerekir:"
 
 #: ../../admin/install/docker.rst:209
@@ -15782,7 +15785,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:664
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
-msgstr ":setting:`REGISTRATION_REBIND` seçeneğini yapılandırır."
+msgstr ":std:setting:`REGISTRATION_REBIND` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:668
 msgid ""
@@ -16094,7 +16097,7 @@ msgid ""
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
 "Yapılandırmayı herhangi bir hız sınırlayıcı kapsamı için ayarlayabilirsiniz. "
-"Bunu yapmak için, :ref:``rate-limit``içinde belirtilen ayarlardan herhangi "
+"Bunu yapmak için, :ref:`rate-limit`içinde belirtilen ayarlardan herhangi "
 "birine ``WEBLATE_`` ön ekini ekleyin."
 
 #: ../../admin/install/docker.rst:930
@@ -16287,7 +16290,7 @@ msgid ""
 "Configures :ref:`vcs-azure-devops` by changing :setting:"
 "`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
-":setting:`AZURE_DEVOPS_CREDENTIALS` seçeneğini değiştirerek :ref:`azure-"
+":setting:`AZURE_DEVOPS_CREDENTIALS` seçeneğini değiştirerek :ref:`vcs-azure-"
 "devops` yapılandırır."
 
 #: ../../admin/install/docker.rst:1178
@@ -17267,7 +17270,7 @@ msgid ""
 "settings defined through environment variables."
 msgstr ""
 "Ortam değişkenleri ile tanımlanan ayarları genişletmek ya da değiştirmek "
-"için :ref:`veri birimi </docker-volume>` kök klasöründe bir :file:`/app/data/"
+"için :ref:`veri birimi <docker-volume>` kök klasöründe bir :file:`/app/data/"
 "settings-override.py` dosyası oluşturabilirsiniz."
 
 #: ../../admin/install/docker.rst:2033
@@ -17470,7 +17473,7 @@ msgid ""
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
-"Kapsayıcı, bireysel hizmetleri başlatmak için :program: `supervisor` "
+"Kapsayıcı, bireysel hizmetleri başlatmak için :program:`supervisor` "
 "kullanır. :ref:`docker-scaling` kullanılması durumunda, bir kapsayıcıda "
 "yalnızca tek bir hizmet başlatılır."
 
@@ -17485,7 +17488,7 @@ msgid ""
 "worker:"
 msgstr ""
 "Her Celery kuyruğu için ayrı hizmetler bulunur (ayrıntılı bilgi almak için: "
-"ref:`celery`). Uygun işlemi durdurarak bazı görevlerin yürütülmesini "
+":ref:`celery`). Uygun işlemi durdurarak bazı görevlerin yürütülmesini "
 "durdurabilirsiniz:"
 
 #: ../../admin/install/kubernetes.rst:2
@@ -18483,7 +18486,7 @@ msgid ""
 "`component`, see :ref:`component-source_language`."
 msgstr ""
 "Hizmetler, :ref:`component` konumunda yapılandırılmış kaynak dilden çeviri "
-"yapar. Ayrıntılı bilgi almak için: :ref:`component-source_language'."
+"yapar. Ayrıntılı bilgi almak için: :ref:`component-source_language`."
 
 #: ../../admin/machine.rst:25
 msgid ""
@@ -21191,10 +21194,10 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
-"Sınırlanmış erişimi olan depolara göz atmak için erişim (`Gizli` :ref:"
-"`erişim denetimi <acl>` ile ya da :setting:`REQUIRE_LOGIN` seçeneği "
-"kullanıma alınarak), :ref:`<user-profile> kullanıcı profilinizden` "
-"alabileceğiniz bir API kodu ile sağlanır:"
+"Sınırlanmış erişimi olan depolara göz atmak için erişim (`Gizli` :ref:`"
+"erişim denetimi <acl>` ile ya da :setting:`REQUIRE_LOGIN` seçeneği kullanıma "
+"alınarak), :ref:`kullanıcı profilinizden <user-profile>` alabileceğiniz bir "
+"API kodu ile sağlanır:"
 
 #: ../../admin/optionals.rst:61
 msgid ""
@@ -22122,8 +22125,7 @@ msgstr ""
 #: ../../admin/projects.rst:177 ../../admin/projects.rst:188
 msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
 msgstr ""
-"Varsayılan değer :setting:`DEFAULT_ACCESS_CONTROL` seçeneği ile "
-"değiştirilebilir."
+"Varsayılan değer :setting:`DEFAULT_SHARED_TM` seçeneği ile değiştirilebilir."
 
 #: ../../admin/projects.rst:182
 msgid "Contribute to shared translation memory"
@@ -22908,8 +22910,8 @@ msgid ""
 "ref:`additional`."
 msgstr ""
 "Denetim dayatması kendiliğinden kullanıma alınmaz. :ref:`component-"
-"check_flags checks` ya da :ref:`additional` içindeki :ref:`custom-checks` "
-"ile kullanıma almanız gerekir."
+"check_flags` ya da :ref:`additional` içindeki :ref:`custom-checks` ile "
+"kullanıma almanız gerekir."
 
 #: ../../admin/projects.rst:647
 msgid "Translation license"
@@ -23338,8 +23340,8 @@ msgid ""
 msgstr ""
 "İşlenen değişikliklerin kendiliğinden yukarı akış deposuna itilip "
 "itilmeyeceğini belirler. Kullanıma alındığında, Weblate değişiklikleri temel "
-"depoya kaydettikten sonra itme başlatılır (ayrıntılı bilgi almak için: ref:"
-"`lazy-commit`). İtmeyi kullanıma almak için :guilabel:`Depo itme adresi` "
+"depoya kaydettikten sonra itme başlatılır (ayrıntılı bilgi almak için: :ref"
+":`lazy-commit`). İtmeyi kullanıma almak için :guilabel:`Depo itme adresi` "
 "ayarının da yapılandırılması gerekir."
 
 #: ../../admin/projects.rst:840
@@ -24278,8 +24280,8 @@ msgid ""
 msgstr ""
 "Varsayılan olarak herkes, oturum açmış kullanıcılar tarafından "
 "değerlendirilebilecek öneriler ekleyebilir. Öneri oylama özelliği açılarak "
-"oturum açmış birkaç kullanıcının bir dizgeyi değerlendirmesi sağlanabilir. :"
-"ref:’component` için :guilabel:`Öneriler oylanabilsin` seçeneğini açmak ve "
+"oturum açmış birkaç kullanıcının bir dizgeyi değerlendirmesi sağlanabilir. "
+":ref:`component` için :guilabel:`Öneriler oylanabilsin` seçeneğini açmak ve "
 "önerilerin onaylanması için bir eşik belirlemek üzere :guilabel:`Öneriler "
 "kendiliğinden onaylansın` (bu, önerilmişse öneriyi yapan kullanıcının oyunu "
 "da içerir) seçeneği ayarlanabilir."
@@ -24292,9 +24294,9 @@ msgid ""
 "`permission <privileges>`."
 msgstr ""
 "Kendiliğinden onaylama ayarlandıktan sonra, normal kullanıcılar çevirileri "
-"doğrudan kaydetme ya da önerileri onaylama yetkisini kaybeder. Bu, :guilabel:"
-"`Öneriler dayatıldığında dizge düzenlenebilsin` :ref:`<privileges> izni` ile "
-"değiştirilebilir."
+"doğrudan kaydetme ya da önerileri onaylama yetkisini kaybeder. Bu, "
+":guilabel:`Öneriler dayatıldığında dizge düzenlenebilsin` :ref:`izni "
+"<privileges>` ile değiştirilebilir."
 
 #: ../../admin/translating.rst:23
 msgid ""
@@ -26893,7 +26895,7 @@ msgid ""
 "`download` for supported formats"
 msgstr ""
 "Kullanılacak dosya biçimi. Belirtilmemişse biçim dönüşümü yapılmaz. "
-"Desteklenen biçimlerle ilgili bilgi almak için: :ref:`download'"
+"Desteklenen biçimlerle ilgili bilgi almak için: :ref:`download`"
 
 #: ../../api.rst:2058
 msgid ""
@@ -27175,7 +27177,7 @@ msgid ""
 msgstr ""
 "birim durumu, 0 - Çevrilmemiş, 10 - Düzenlenmesi gerekli, 20 - Çevrilmiş, 30 "
 "- Onaylanmış (gözden geçirme iş akışı kullanıma alınmalıdır. Ayrıntılı bilgi "
-"almak için: :ref:`reviews')"
+"almak için: :ref:`reviews`)"
 
 #: ../../api.rst:2230 ../../api.rst:2244
 msgid "labels, available on source units"
@@ -28842,8 +28844,8 @@ msgid ""
 ":ref:`Searching` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
-":ref:`Arama` özelliğine nesne yolu ve :ref:`date-search` ile süzme desteği "
-"eklendi."
+":ref:`Searching` özelliğine nesne yolu ve :ref:`date-search` ile süzme "
+"desteği eklendi."
 
 #: ../../changes.rst:232
 msgid ""
@@ -29261,7 +29263,7 @@ msgstr ""
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr ""
 "Göz atma kipinin klavye ile kullanılabilmesi sağlandı. Ayrıntılı bilgi almak "
-"için: :ref:`klavye`."
+"için: :ref:`keyboard`."
 
 #: ../../changes.rst:351
 msgid ""
@@ -29557,7 +29559,7 @@ msgstr "Çok sayıda sözlük eşleşmesi olan dizgelerin yüklenmesi sağlandı
 
 #: ../../changes.rst:447
 msgid "Fixed behavior of some site-wide :ref:`addons`."
-msgstr "Bazı site geneli :ref:`eklentilerin` davranışları düzeltildi."
+msgstr "Bazı site geneli :ref:`addons` davranışları düzeltildi."
 
 #: ../../changes.rst:448
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
@@ -30171,7 +30173,7 @@ msgstr ""
 #: ../../changes.rst:705
 msgid "File downloads now honor :http:header:`If-Modified-Since`."
 msgstr ""
-"Dosya indirme işlemlerinin http:header:`If-Modified-Since` üst bilgisine "
+"Dosya indirme işlemlerinin :http:header:`If-Modified-Since` üst bilgisine "
 "uygun davranması sağlandı."
 
 #: ../../changes.rst:706
@@ -30474,7 +30476,7 @@ msgstr ""
 #: ../../changes.rst:827
 msgid "One-click removal of project or component :ref:`subscriptions`."
 msgstr ""
-"Tek tıkla proje veya bileşen için :ref:`subscription` sonlandırma özelliği "
+"Tek tıkla proje veya bileşen için :ref:`subscriptions` sonlandırma özelliği "
 "eklendi."
 
 #: ../../changes.rst:828
@@ -30603,7 +30605,7 @@ msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
 msgstr ""
-":ref:`addons’ dizge değişiklikleri artık sorumlu olarak özel bir sorumlu "
+":ref:`addons` dizge değişiklikleri artık sorumlu olarak özel bir sorumlu "
 "olarak aranmış bir kullanıcı ile kaydediliyor."
 
 #: ../../changes.rst:886
@@ -30615,7 +30617,7 @@ msgid ""
 ":ref:`workflow-customization` allows to fine-tune localization workflow per "
 "language."
 msgstr ""
-":ref:`workflow-customization’ üzerinde her dil için yerelleştirme iş "
+":ref:`workflow-customization` üzerinde her dil için yerelleştirme iş "
 "akışında ince ayar yapılması sağlandı."
 
 #: ../../changes.rst:891
@@ -30876,8 +30878,7 @@ msgid ""
 "The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
 msgstr ""
-":setting::`IP_PROXY_OFFSET` seçeneğinin varsayılan değeri 1 yerine -1 "
-"yapıldı."
+":setting:`IP_PROXY_OFFSET` seçeneğinin varsayılan değeri 1 yerine -1 yapıldı."
 
 #: ../../changes.rst:991
 msgid ""
@@ -37924,7 +37925,7 @@ msgid ""
 "There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to "
 "prefer Argon2 for passwords hashing."
 msgstr ""
-"Bağımlılıklarda ve :setting:`django:'PASSWORD_HASHERS` kalıplarında bir "
+"Bağımlılıklarda ve :setting:`django:PASSWORD_HASHERS` kalıplarında bir "
 "değişiklik yapıldı. Artık parolaların şifrelenmesi için Argon2 kullanılıyor."
 
 #: ../../changes/v4.rst:778
@@ -38776,8 +38777,8 @@ msgid ""
 "There is a new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` which "
 "complements :setting:`django:SESSION_COOKIE_AGE`."
 msgstr ""
-":setting:`django:SESSION_COOKIE_AGE_AUTHENTICATED` seçeneğini tamamlayan :"
-"setting:`SESSION_COOKIE_AGE` ayarı eklendi."
+":setting:`SESSION_COOKIE_AGE_AUTHENTICATED` seçeneğini tamamlayan "
+":setting:`django:SESSION_COOKIE_AGE` ayarı eklendi."
 
 #: ../../changes/v4.rst:1030
 msgid ""
@@ -38787,7 +38788,7 @@ msgid ""
 msgstr ""
 "GitHub ya da GitLab bütünleştirmesi için :command:`hub` ya da :command:`lab` "
 "kullanıyorsanız, bunu yeniden yapılandırmanız gerekir. Ayrıntılı bilgi almak "
-"için: :setting:`GITHUB_CREDENTIALS` ve :setting:`GITLAB_CREDENTIALS'."
+"için: :setting:`GITHUB_CREDENTIALS` ve :setting:`GITLAB_CREDENTIALS`."
 
 #: ../../changes/v4.rst:1034
 msgid ""
@@ -39569,7 +39570,7 @@ msgstr "Çeviri belleği arka ucu yeniden yazıldı."
 
 #: ../../changes/v4.rst:1253
 msgid "Added support for several ``is:`` lookups in :doc:`/user/search`."
-msgstr ":doc:`user/search` içine birkaç ``is:`` araması desteği eklendi."
+msgstr ":doc:`/user/search` içine birkaç ``is:`` araması desteği eklendi."
 
 #: ../../changes/v4.rst:1254
 msgid "Allow to make :ref:`check-same` avoid internal blacklist."
@@ -39599,7 +39600,7 @@ msgstr "Tek dilli XLIFF kaynak dosyasını düzenlenme sorunu düzeltildi."
 
 #: ../../changes/v4.rst:1260
 msgid "Added support for exact matching in :doc:`/user/search`."
-msgstr ":doc:`user/search` içine tam eşleşme desteği eklendi."
+msgstr ":doc:`/user/search` içine tam eşleşme desteği eklendi."
 
 #: ../../changes/v4.rst:1261
 msgid ""
@@ -40149,7 +40150,7 @@ msgstr "Bu durumda şunlar denetlenmelidir:"
 msgid "Check that the Celery process is running, see :ref:`celery`"
 msgstr ""
 "Celery işleminin çalışıp çalışmadığını denetleyin. Ayrıntılı bilgi almak "
-"için: ref:`celery`"
+"için: :ref:`celery`"
 
 #: ../../contributing/debugging.rst:57
 msgid ""
@@ -43178,8 +43179,8 @@ msgid ""
 "The alerts are updated daily, or on related change (for example when :ref:"
 "`component` is changed or when repository is updated)."
 msgstr ""
-"Uyarılar günlük olarak veya ilgili değişiklik yapıldığında güncellenir (:"
-"ref:'component' değiştirildiğinde veya depo güncellendiğinde gibi)."
+"Uyarılar günlük olarak veya ilgili değişiklik yapıldığında güncellenir "
+"(:ref:`component` değiştirildiğinde veya depo güncellendiğinde gibi)."
 
 #: ../../devel/alerts.rst:31
 msgid ""
@@ -43422,7 +43423,7 @@ msgstr ""
 "araçlardan biridir. Yazılımı yerelleştirmek için basit ama esnek bir yol "
 "sağlar. Büyük bir çoğul biçim desteği vardır. Çevrilmiş dizgeye bağlam "
 "ekleyebilir ve etrafında geliştirilmiş pek çok araç vardır. Tabii ki büyük "
-"bir Weblate desteği de var (ayrıntılı bilgi almak için: ref: `gettext` dosya "
+"bir Weblate desteği de var (ayrıntılı bilgi almak için: :ref:`gettext` dosya "
 "biçimi açıklaması)."
 
 #: ../../devel/gettext.rst:12
@@ -44192,8 +44193,8 @@ msgid ""
 "Programmatically, using the API :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/units/`."
 msgstr ""
-"Programlamada API kullanılarak: http:post:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/units/`."
+"Programlamada API kullanılarak: :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:83
 msgid ""
@@ -44227,12 +44228,12 @@ msgid ""
 "do this, please install the :ref:`addon-weblate.cleanup.generic` add-on, "
 "which handles cleanup according to your requirements."
 msgstr ""
-"Tek dilli dosyalar için (ayrıntılı bilgi almak için: :ref:`format`) Weblate, "
-"gerçek çevirilerde değil, :ref:`component-template` içinde bulunmayan yeni "
-"çeviri dizgeleri ekleyebilir. Bununla birlikte, beklenmeyen sonuçları "
-"olabileceğinden, eski dizgeleri kendiliğinden temizlemez. Bunu yapmak "
-"istiyorsanız, lütfen gereksinimlerinize göre temizleme işlemini yapacak "
-"olan :ref:`addon-weblate.cleanup.generic` eklentisini kurun."
+"Tek dilli dosyalar için (ayrıntılı bilgi almak için: :ref:`formats`) "
+"Weblate, gerçek çevirilerde değil, :ref:`component-template` içinde "
+"bulunmayan yeni çeviri dizgeleri ekleyebilir. Bununla birlikte, beklenmeyen "
+"sonuçları olabileceğinden, eski dizgeleri kendiliğinden temizlemez. Bunu "
+"yapmak istiyorsanız, lütfen gereksinimlerinize göre temizleme işlemini "
+"yapacak olan :ref:`addon-weblate.cleanup.generic` eklentisini kurun."
 
 #: ../../devel/integration.rst:103
 msgid ""
@@ -45873,7 +45874,7 @@ msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
-"İnternet kancalarını almayı kullanımdan kaldırın: ref:`project`. Böylece "
+"İnternet kancalarını almayı kullanımdan kaldırın: :ref:`project`. Böylece "
 "Weblate depodaki değişiklikleri hemen görmez."
 
 #: ../../faq.rst:294
@@ -46871,11 +46872,11 @@ msgid ""
 "ref:`arb`, :ref:`dotnet`). Many other formats extract closest comment as "
 "source string description."
 msgstr ""
-"Çeşitli biçimler çevirmenlere ek bilgi sağlamak için yerel destek sağlar (:"
-"ref:`xliff`, :ref:`gettext`, :ref:`webex`, :ref:`csv`, :ref:`xlsx`, : ref:"
-"`qtling`, :ref:`go-i18n-json`, :ref:`gotext-json`, :ref:`arb`, :ref:`dotnet` "
-"gibi). Diğer birçok biçim, kaynak dizge açıklaması olarak en yakın yorumu "
-"işler."
+"Çeşitli biçimler çevirmenlere ek bilgi sağlamak için yerel destek sağlar "
+"(:ref:`xliff`, :ref:`gettext`, :ref:`webex`, :ref:`csv`, :ref:`xlsx`, "
+":ref:`qtling`, :ref:`go-i18n-json`, :ref:`gotext-json`, :ref:`arb`, "
+":ref:`dotnet` gibi). Diğer birçok biçim, kaynak dizge açıklaması olarak en "
+"yakın yorumu işler."
 
 #: ../../formats.rst:419
 msgid ""
@@ -46919,8 +46920,8 @@ msgid ""
 msgstr ""
 "Çeviri imleri, Weblate davranışının özelleştirilmesini sağlar. Bazı "
 "biçimler, imlerin çeviri dosyasında tanımlanmasını destekler (Weblate "
-"arayüzünden her zaman tanımlayabilirsiniz. Ayrıntılı bilgi almak için: :ref:"
-"`custom-checks')."
+"arayüzünden her zaman tanımlayabilirsiniz. Ayrıntılı bilgi almak için: :ref"
+":`custom-checks`)."
 
 #: ../../formats.rst:444
 msgid "This feature is modelled on flags in :ref:`gettext`."
@@ -46994,8 +46995,8 @@ msgid ""
 "`aresource` or :ref:`stringsdict`."
 msgstr ""
 "Çoğul biçimli dizgeler uygulama çatısı tarafından da desteklenmelidir. "
-"Platformunuza uygun :ref:`gettext`, :ref:`aresource' ya da :"
-"ref:'stringsdict' yerel biçimini seçin."
+"Platformunuza uygun :ref:`gettext`, :ref:`aresource` ya da :ref:`stringsdict`"
+" yerel biçimini seçin."
 
 #: ../../formats.rst:490
 msgid "Read-only strings"
@@ -55901,7 +55902,7 @@ msgid ""
 "please see :ref:`hosted-push`."
 msgstr ""
 "Hosted Weblate üzerinde bu yapılandırma, herkese açık sitelerin çoğu için "
-"önceden hazırlanmıştır. Ayrıntılı bilgi almak için: :ref:`hosted-Push`."
+"önceden hazırlanmıştır. Ayrıntılı bilgi almak için: :ref:`hosted-push`."
 
 #: ../../vcs.rst:67
 msgid "SSH repositories"
@@ -56862,9 +56863,9 @@ msgid ""
 "ref:`wlc-config` for other locations), please create it to match your "
 "environment:"
 msgstr ""
-":program:`wlc yapılandırması ``~/.config/weblate`` klasöründe bulunur (diğer "
-"konumlar ile ilgili ayrıntılı bilgi almak için: :ref:`wlc-config`). Lütfen "
-"ortamınızla uygun şekilde ayarlayın:"
+":program:`wlc` yapılandırması ``~/.config/weblate`` klasöründe bulunur ("
+"diğer konumlar ile ilgili ayrıntılı bilgi almak için: :ref:`wlc-config`). "
+"Lütfen ortamınızla uygun şekilde ayarlayın:"
 
 #: ../../wlc.rst:81
 msgid "You can then invoke commands on the default server:"
