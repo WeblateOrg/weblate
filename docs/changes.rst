@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 * :ref:`check-rst-references` check to validate reStructuredText references.
+* :ref:`check-rst-syntax` check to validate reStructuredText syntax.
 
 **Improvements**
 
