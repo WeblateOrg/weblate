@@ -10,10 +10,12 @@ from typing import TYPE_CHECKING
 from weblate.checks.models import CHECKS
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from weblate.trans.models import Unit
 
 
-def highlight_pygments(source: str, unit: Unit):
+def highlight_pygments(source: str, unit: Unit) -> Generator[tuple[int, int, str]]:
     """
     Highlight syntax characters using pygments.
 
@@ -46,7 +48,7 @@ def highlight_pygments(source: str, unit: Unit):
 
 
 def highlight_string(
-    source: str, unit, hightlight_syntax: bool = False
+    source: str, unit: Unit, *, hightlight_syntax: bool = False
 ) -> list[tuple[int, int, str]]:
     """Return highlights for a string."""
     if unit is None:
