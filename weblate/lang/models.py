@@ -588,7 +588,62 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                     zero_plural.number = cldr_plural.number + 1
                     zero_plural.save(update_fields=["formula", "number"])
 
+        # Migrate content from aliased language to alias target
+        weblate_data_lang_codes = [lang[0] for lang in LANGUAGES]
+        for code, language in languages.items():
+            if (code in ALIASES) and (code not in weblate_data_lang_codes):
+                alias_target = Language.objects.get(code=ALIASES[code])
+                self.move_language(language, alias_target, logger)
+
+                # delete alias language if blank
+                if not any(
+                    [
+                        language.translation_set.exists(),
+                        language.profile_set.exists(),
+                        language.secondary_profile_set.exists(),
+                        language.component_set.exists(),
+                        language.change_set.exists(),
+                        language.announcement_set.exists(),
+                    ]
+                ):
+                    language.delete()
+
         self._fixup_plural_types(logger)
+
+    def move_language(self, source: Language, target: Language, logger=lambda x: x):
+        for translation in source.translation_set.iterator():
+            other = translation.component.translation_set.filter(language=target)
+            if other.exists():
+                logger(f"Already exists: {translation}")
+                continue
+            translation.language = target
+            translation.save()
+        source.announcement_set.update(language=target)
+
+        for profile in source.profile_set.iterator():
+            profile.languages.remove(source)
+            profile.languages.add(target)
+
+        for profile in source.secondary_profile_set.iterator():
+            profile.secondary_languages.remove(source)
+            profile.secondary_languages.add(target)
+
+        source.change_set.update(language=target)
+
+        source.component_set.update(source_language=target)
+        for group in source.group_set.iterator():
+            group.languages.remove(source)
+            group.languages.add(target)
+
+        for plural in source.plural_set.iterator():
+            formulas = target.plural_set.filter(formula=plural.formula)
+            try:
+                new_plural = formulas[0]
+            except IndexError:
+                plural.language = target
+                plural.save()
+            else:
+                plural.translation_set.update(plural=new_plural)
 
     def _fixup_plural_types(self, logger) -> None:
         """Fix plural types as they were changed in Weblate codebase."""
