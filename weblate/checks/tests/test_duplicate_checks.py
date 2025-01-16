@@ -106,6 +106,11 @@ class DuplicateCheckTest(CheckTestCase):
         self.assertFalse(self.check.check_single("", "for [em]x[/em]", MockUnit()))
         self.assertTrue(self.check.check_single("", "em [em]x[/em]", MockUnit()))
         self.assertTrue(self.check.check_single("", "em [em]x", MockUnit()))
+        self.assertFalse(
+            self.check.check_single(
+                "", "em [em]x[/em]", MockUnit(flags=["bbcode-text"])
+            )
+        )
 
     def test_duplicated_punctuation(self) -> None:
         self.assertFalse(

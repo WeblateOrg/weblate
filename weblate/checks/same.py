@@ -14,6 +14,7 @@ from weblate_language_data.check_languages import LANGUAGES
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import IGNORE_WORDS
 from weblate.checks.format import FLAG_RULES, PERCENT_MATCH
+from weblate.checks.markup import BBCODE_MATCH
 from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
 from weblate.checks.ruby import RUBY_FORMAT_MATCH
 
@@ -80,6 +81,8 @@ def strip_format(msg, flags):
         regex = RST_MATCH
     elif "percent-placeholders" in flags:
         regex = PERCENT_MATCH
+    elif "bbcode-text" in flags:
+        regex = BBCODE_MATCH
     else:
         return msg
     return regex.sub("", msg)

@@ -69,6 +69,11 @@ class BBCodeCheck(TargetCheck):
     check_id = "bbcode"
     name = gettext_lazy("BBCode markup")
     description = gettext_lazy("BBCode in translation does not match source")
+    default_disabled = True
+
+    def __init__(self):
+        super().__init__()
+        self.enable_string = "bbcode-text"
 
     def check_single(self, source: str, target: str, unit: Unit):
         # Parse source

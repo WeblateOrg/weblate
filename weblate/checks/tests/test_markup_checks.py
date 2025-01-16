@@ -23,10 +23,15 @@ class BBCodeCheckTest(CheckTestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.test_good_matching = ("[a]string[/a]", "[a]string[/a]", "")
-        self.test_failure_1 = ("[a]string[/a]", "[b]string[/b]", "")
-        self.test_failure_2 = ("[a]string[/a]", "string", "")
-        self.test_highlight = ("", "[a]string[/a]", [(0, 3, "[a]"), (9, 13, "[/a]")])
+        self.test_good_matching = ("[a]string[/a]", "[a]string[/a]", "bbcode-text")
+        self.test_failure_1 = ("[a]string[/a]", "[b]string[/b]", "bbcode-text")
+        self.test_failure_2 = ("[a]string[/a]", "string", "bbcode-text")
+        self.test_ignore_check = ("[a]string[/a]", "[a]string[/a]", "")
+        self.test_highlight = (
+            "bbcode-text",
+            "[a]string[/a]",
+            [(0, 3, "[a]"), (9, 13, "[/a]")],
+        )
 
 
 class XMLValidityCheckTest(CheckTestCase):
