@@ -582,7 +582,7 @@ def handle_suggestions(
             request.user,
             is_spam="spam" in request.POST,
             rejection_reason=request.POST.get("rejection", ""),
-            old=suggestion.change_set.latest("timestamp").old,
+            old=unit.target,
         )
     elif "upvote" in request.POST:
         suggestion.add_vote(request, Vote.POSITIVE)

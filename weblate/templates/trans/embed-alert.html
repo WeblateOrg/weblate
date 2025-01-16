@@ -4,9 +4,9 @@
 {% for icon, text, url in icons %}
   {% spaceless %}
     {% if url %}<a href="{{ url }}">{% endif %}
-      <span class="state-icon {% if icon == "state/ghost.svg" %} grey{% elif icon == "state/alert.svg" %} red{% endif %}" title="{{ text }}" alt="{{ text }}">
-        {% icon icon %}
-      </span>
+      <span class="state-icon {% if icon == "state/ghost.svg" %} grey{% elif icon == "state/alert.svg" %} red{% endif %}"
+            title="{{ text }}"
+            alt="{{ text }}">{% icon icon %}</span>
       {% if url %}</a>{% endif %}
   {% endspaceless %}
 {% endfor %}

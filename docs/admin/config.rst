@@ -927,7 +927,7 @@ Additional settings not described here can be found at :ref:`settings-credential
 .. seealso::
 
    :ref:`vcs-bitbucket-cloud`,
-   `Create an App password <https://support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`,
+   `Create an App password <https://support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_,
    `App password permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-permissions/>`_
 
 .. setting:: AZURE_DEVOPS_CREDENTIALS
@@ -1516,7 +1516,7 @@ PROJECT_WEB_RESTRICT_RE
 
 .. versionadded:: 4.15
 
-Defines a regular expression to restrict project websites. Any matching URLs will be rejected.
+Defines a regular expression to limit what can be entered as :ref:`project-web`. Any matching URLs will be rejected.
 
 .. seealso::
 

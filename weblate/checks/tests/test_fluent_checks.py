@@ -69,7 +69,7 @@ class MockFluentTransUnit(MockUnit):
         return f"{fluent_type} ({source!r} -> {target!r})"
 
 
-class MockCheckModel:
+class MockCheckModel:  # noqa: B903
     # Mock Check object from weblate.checks.models
     def __init__(self, unit: MockFluentTransUnit) -> None:
         self.unit = unit
@@ -675,14 +675,8 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
                 "  [yes] an { -term }\n"
                 " *[no] a { -term }\n"
                 "}",
-                "with { -term.starts-with-vowel ->\n"
-                "  [yes] an\n"
-                " *[no] a\n"
-                "} { -term }",
-                "with { PLATFORM() ->\n"
-                "  [linux] { -term }!\n"
-                " *[other] { -term }\n"
-                "}",
+                "with { -term.starts-with-vowel ->\n  [yes] an\n *[no] a\n} { -term }",
+                "with { PLATFORM() ->\n  [linux] { -term }!\n *[other] { -term }\n}",
                 "with { -term.starts-with-vowel ->\n"
                 "  [yes] an { -term }\n"
                 " *[no] a { PLATFORM() ->\n"
@@ -723,10 +717,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
                 "  [one] a variable\n"
                 " *[other] { $var } variables\n"
                 "}",
-                "with { $var }{ $var ->\n"
-                "  [one] variable\n"
-                " *[other] variables\n"
-                "}",
+                "with { $var }{ $var ->\n  [one] variable\n *[other] variables\n}",
                 # $var that is two selection expressions up still gets shared as
                 # long as each variant below has the same number of refs.
                 "with { $var ->\n"
@@ -744,10 +735,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
                 "  [one] { $num } is { message }\n"
                 " *[other] { $num } are { message }\n"
                 "}",
-                "{ $num ->\n"
-                "  [one] { $num } is\n"
-                " *[other] { $num } are\n"
-                "} { message }",
+                "{ $num ->\n  [one] { $num } is\n *[other] { $num } are\n} { message }",
                 "{ $num ->\n"
                 "  [one] a person is { message }\n"
                 " *[other] { $num } people are { message }\n"
@@ -854,10 +842,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
             (
                 # Have two variants with different refs, just need at least one
                 # match for each set of refs.
-                "value { PLATFORM() ->\n"
-                "  [linux] none\n"
-                " *[other] with { -term }\n"
-                "}",
+                "value { PLATFORM() ->\n  [linux] none\n *[other] with { -term }\n}",
                 "value { PLATFORM() ->\n"
                 "  [linux] none\n"
                 "  [macos] and { -term }\n"
@@ -1090,10 +1075,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
                 self.assert_target_check_fails(
                     self.check,
                     source,
-                    "{ PLATFORM() ->\n"
-                    "  [linux] a { num }\n"
-                    " *[other] b { num }\n"
-                    "}",
+                    "{ PLATFORM() ->\n  [linux] a { num }\n *[other] b { num }\n}",
                     fluent_type,
                     # Even though we have multiple target variants, they each
                     # have the same missing and extra refs, so the variants are
@@ -1210,10 +1192,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
                 self.assert_target_check_fails(
                     self.check,
                     source,
-                    "{ $var ->\n"
-                    "  [one] a { $num }\n"
-                    " *[other] { $var } { $num }\n"
-                    "}",
+                    "{ $var ->\n  [one] a { $num }\n *[other] { $var } { $num }\n}",
                     fluent_type,
                     # Even though the $var ref is shared between the variants,
                     # since it is an extra ref we do not report it for the
@@ -1225,10 +1204,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
 
             for source in (
                 "{ $num } and { $var }",
-                "{ $var ->\n"
-                "  *[yes] { $num } and { $var }\n"
-                "   [no] { $num }\n"
-                "}",
+                "{ $var ->\n  *[yes] { $num } and { $var }\n   [no] { $num }\n}",
                 "{ $num ->\n"
                 "  *[other] { $num }\n"
                 "   [0] none\n"
@@ -1344,10 +1320,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
             self.assert_target_check_fails(
                 self.check,
                 "{ $n ->\n  [a] { $n } and { -term }\n *[b] { message }\n}",
-                "{ $n ->\n"
-                "  [x] { $n } and { message }\n"
-                " *[y] { $ns } and { -term }\n"
-                "}",
+                "{ $n ->\n  [x] { $n } and { message }\n *[y] { $ns } and { -term }\n}",
                 fluent_type,
                 "The following variants in the original Fluent value do not "
                 "have at least one matching variant in the translation with "
@@ -1473,10 +1446,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
         # With source variants having different references.
         self.assert_target_check_fails(
             self.check,
-            ".title = { PLATFORM() ->\n"
-            "  [linux]  with { -term }\n"
-            " *[other] none\n"
-            "}",
+            ".title = { PLATFORM() ->\n  [linux]  with { -term }\n *[other] none\n}",
             ".title = { -terms }",
             "Message",
             "The following variants in the original Fluent <code>title</code> "
@@ -1788,10 +1758,7 @@ class FluentInnerHTMLCheckTestBase:
             'a&{ "{" }b',
             'a{ "&{b" }c',
             # With variants, each variant is parsed individually.
-            "<p>add ${ $n ->\n"
-            "  [one] { $n } tab\n"
-            " *[other] { $n } tabs\n"
-            "}</p>",
+            "<p>add ${ $n ->\n  [one] { $n } tab\n *[other] { $n } tabs\n}</p>",
             # Need not match.
             "<p>add ${ $n ->\n"
             "  [one] { $n } tab <br> more\n"
@@ -2227,10 +2194,7 @@ class FluentInnerHTMLCheckTestBase:
 
             # Some errors with variants.
             self.assert_html_error(
-                "{ $var ->\n"
-                "  [one] <span>open\n"
-                " *[other] none\n"
-                "} close</span>",
+                "{ $var ->\n  [one] <span>open\n *[other] none\n} close</span>",
                 fluent_type,
                 "Unmatched HTML end tag: <code>&lt;/span&gt;</code>.",
             )
@@ -2645,10 +2609,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
             )
             self.assert_target_check_fails(
                 self.check,
-                "{ PLATFORM() ->\n"
-                "  [yes] <a data-val='ok'>text</a>\n"
-                " *[no] none\n"
-                "}",
+                "{ PLATFORM() ->\n  [yes] <a data-val='ok'>text</a>\n *[no] none\n}",
                 "<a data-val='not'>text</a>",
                 fluent_type,
                 "The following variants in the original Fluent value do not "

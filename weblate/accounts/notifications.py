@@ -340,21 +340,21 @@ class Notification:
             )
             for attrib in attribs:
                 result[attrib] = getattr(change, attrib)
-        if result.get("translation"):
-            result["translation_url"] = get_site_url(
-                result["translation"].get_absolute_url()
-            )
+            if change.translation:
+                result["translation_url"] = get_site_url(
+                    change.translation.get_absolute_url()
+                )
         return result
 
     def get_headers(self, context):
         headers = get_email_headers(self.get_name())
 
         # Set From header to contain user full name
-        user = context.get("user")
-        if user:
-            headers["From"] = formataddr(
-                (context["user"].get_visible_name(), settings.DEFAULT_FROM_EMAIL)
-            )
+        if user := context.get("user"):
+            from_name = user.get_visible_name()
+        else:
+            from_name = settings.SITE_TITLE
+        headers["From"] = formataddr((from_name, settings.DEFAULT_FROM_EMAIL))
 
         # References for unit events
         references = None

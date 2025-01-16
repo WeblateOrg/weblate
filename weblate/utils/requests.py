@@ -15,8 +15,10 @@ from weblate.utils.version import USER_AGENT
 def request(
     method: str,
     url: str,
+    *,
     headers: dict[str, str] | None = None,
     timeout: float = 5,
+    raise_for_status: bool = True,
     **kwargs,
 ) -> Response:
     agent = {"User-Agent": USER_AGENT}
@@ -25,7 +27,8 @@ def request(
     else:
         headers.update(agent)
     response = requests.request(method, url, headers=headers, timeout=timeout, **kwargs)
-    response.raise_for_status()
+    if raise_for_status:
+        response.raise_for_status()
     return response
 
 

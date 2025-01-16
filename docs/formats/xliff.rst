@@ -32,7 +32,7 @@ Weblate supports XLIFF in several variants:
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
     :doc:`tt:formats/xliff`
 
-.. _XML Localization Interchange File Format (XLIFF): http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html
+.. _XML Localization Interchange File Format (XLIFF): https://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html
 .. _XLIFF 1.2 Representation Guide for Gettext PO: https://docs.oasis-open.org/xliff/v1.2/xliff-profile-po/xliff-profile-po-1.2-cd02.html
 
 
@@ -111,8 +111,8 @@ in the font family is converted to underscore, so ``Source Sans Pro`` becomes
 
 .. seealso::
 
-    `font attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#font>`_,
-    `maxwidth attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_
+    `font attribute in XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#font>`_,
+    `maxwidth attribute in XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_
 
 String keys
 +++++++++++

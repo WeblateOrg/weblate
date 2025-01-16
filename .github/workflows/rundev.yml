@@ -30,13 +30,14 @@ jobs:
       with:
         path: /tmp/cache/tesseract
         key: tesseract-data
-    - uses: astral-sh/setup-uv@v4
+    - uses: astral-sh/setup-uv@v5
     - run: ./rundev.sh build
     - run: ./rundev.sh start
     - run: ./rundev.sh wait
     - run: ./rundev.sh check
     - run: ./rundev.sh compilemessages
-    - run: ./rundev.sh test --failfast weblate
+    - run: ./rundev.sh test --exitfirst
+    - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
     - run: ./rundev.sh logs
       if: always()
     - run: ./rundev.sh stop

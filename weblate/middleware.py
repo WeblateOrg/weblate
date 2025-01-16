@@ -415,7 +415,7 @@ class CSPBuilder:
         # Third-party login flow extensions
         if self.request.resolver_match and (
             self.request.resolver_match.view_name.startswith("social:")
-            or self.request.resolver_match.view_name in {"login", "profile"}
+            or self.request.resolver_match.view_name in {"login", "profile", "register"}
         ):
             social_strategy: WeblateStrategy
             if hasattr(self.request, "social_strategy"):

@@ -205,9 +205,10 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         """Test the import of an GNU PO file."""
         self.import_file_with_languages_test("cs.po", "en", "cs", 1)
 
-    def test_import_tbx(self) -> None:
-        """Test the import of a TBX file."""
-        self.import_file_with_languages_test("cs.tbx", "en", "cs", 4)
+    def test_import_unsupported_format(self) -> None:
+        """Test the import of an unsupported file."""
+        with self.assertRaises(CommandError):
+            self.import_file_with_languages_test("cs.ts", "en", "cs", 0)
 
     def test_import_project(self) -> None:
         import_memory(self.project.id)
@@ -413,6 +414,15 @@ class MemoryViewTest(FixtureTestCase):
             {"format": "json", "kind": "shared"},
         )
         validate(response.json(), load_schema("weblate-memory.schema.json"))
+
+    def test_upload_unsupported_file(self) -> None:
+        response = self.upload_file("cs.ts")
+        self.assertContains(
+            response, "Error in parameter file: File extension “ts” is not allowed."
+        )
+        self.assertContains(
+            response, "Allowed extensions are: json, tmx, xliff, po, csv."
+        )
 
 
 class ThresholdTestCase(SimpleTestCase):

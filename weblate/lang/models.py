@@ -654,6 +654,12 @@ class Language(models.Model, CacheKeyMixin):
             return f"{gettext(self.name)} ({self.code})"
         return gettext(self.name)
 
+    def __init__(self, *args, **kwargs) -> None:
+        from weblate.utils.stats import LanguageStats
+
+        super().__init__(*args, **kwargs)
+        self.stats = LanguageStats(self)
+
     def save(self, *args, **kwargs):
         """Set default direction for language."""
         if not self.direction:
@@ -665,12 +671,6 @@ class Language(models.Model, CacheKeyMixin):
 
     def get_url_path(self):
         return ("-", "-", self.code)
-
-    def __init__(self, *args, **kwargs) -> None:
-        from weblate.utils.stats import LanguageStats
-
-        super().__init__(*args, **kwargs)
-        self.stats = LanguageStats(self)
 
     def get_name(self):
         """Not localized version of __str__."""
@@ -704,6 +704,9 @@ class Language(models.Model, CacheKeyMixin):
 
     @cached_property
     def plural(self):
+        if not self.pk:
+            # Not yet saved, used in tests
+            return Plural(language=self)
         # Filter in Python if query is cached
         if self.plural_set.all()._result_cache is not None:  # noqa: SLF001
             for plural in self.plural_set.all():

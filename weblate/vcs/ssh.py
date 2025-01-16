@@ -17,10 +17,12 @@ from django.utils.translation import gettext, pgettext_lazy
 
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
-from weblate.utils.data import data_dir
+from weblate.utils.data import data_path
 from weblate.utils.hash import calculate_checksum
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -55,9 +57,9 @@ KEYS: dict[KeyType, KeyInfo] = {
 }
 
 
-def ssh_file(filename):
+def ssh_file(filename: str) -> Path:
     """Generate full path to SSH configuration file."""
-    return os.path.join(data_dir("ssh"), filename)
+    return data_path("ssh") / filename
 
 
 def is_key_line(key):
@@ -228,12 +230,12 @@ def add_host_key(request: AuthenticatedHttpRequest | None, host, port="") -> Non
             if keys:
                 known_hosts_file = ssh_file(KNOWN_HOSTS)
                 # Remove existing key entries
-                if os.path.exists(known_hosts_file):
-                    with open(known_hosts_file) as handle:
+                if known_hosts_file.exists():
+                    with known_hosts_file.open() as handle:
                         keys.difference_update(line.strip() for line in handle)
                 # Write any new keys
                 if keys:
-                    with open(known_hosts_file, "a") as handle:
+                    with known_hosts_file.open(mode="a") as handle:
                         for key in keys:
                             handle.write(key)
                             handle.write("\n")
@@ -264,11 +266,11 @@ GITHUB_RSA_KEY = (
 
 def cleanup_host_keys(*args, **kwargs) -> None:
     known_hosts_file = ssh_file(KNOWN_HOSTS)
-    if not os.path.exists(known_hosts_file):
+    if not known_hosts_file.exists():
         return
     logger = kwargs.get("logger", print)
     keys = []
-    with open(known_hosts_file) as handle:
+    with known_hosts_file.open() as handle:
         for line in handle:
             # Ignore IP address based RSA keys for GitHub, these
             # are duplicate to hostname based and cause problems on
@@ -285,7 +287,7 @@ def cleanup_host_keys(*args, **kwargs) -> None:
 
             keys.append(line)
 
-    with open(known_hosts_file, "w") as handle:
+    with known_hosts_file.open(mode="w") as handle:
         handle.writelines(keys)
 
 
@@ -320,7 +322,7 @@ class SSHWrapper:
         return calculate_checksum(self.get_content())
 
     @property
-    def path(self):
+    def path(self) -> Path:
         """
         Calculates unique wrapper path.
 
@@ -331,26 +333,26 @@ class SSHWrapper:
     def get_content(self, command="ssh"):
         return SSH_WRAPPER_TEMPLATE.format(
             command=command,
-            known_hosts=ssh_file(KNOWN_HOSTS),
-            config_file=ssh_file(CONFIG),
-            identity_rsa=ssh_file(KEYS["rsa"]["private"]),
-            identity_ed25519=ssh_file(KEYS["ed25519"]["private"]),
+            known_hosts=ssh_file(KNOWN_HOSTS).as_posix(),
+            config_file=ssh_file(CONFIG).as_posix(),
+            identity_rsa=ssh_file(KEYS["rsa"]["private"]).as_posix(),
+            identity_ed25519=ssh_file(KEYS["ed25519"]["private"]).as_posix(),
             extra_args=settings.SSH_EXTRA_ARGS,
         )
 
     @property
-    def filename(self):
+    def filename(self) -> Path:
         """Calculate unique wrapper filename."""
-        return os.path.join(self.path, "ssh")
+        return self.path / "ssh"
 
     def create(self) -> None:
         """Create wrapper for SSH to pass custom known hosts and key."""
-        if not os.path.exists(self.path):
-            os.makedirs(self.path)
+        self.path.mkdir(parents=True, exist_ok=True)
 
-        if not os.path.exists(ssh_file(CONFIG)):
+        ssh_config = ssh_file(CONFIG)
+        if not ssh_config.exists():
             try:
-                with open(ssh_file(CONFIG), "x") as handle:
+                with ssh_config.open(mode="x") as handle:
                     handle.write(
                         "# SSH configuration for customising SSH client in Weblate\n"
                     )
@@ -358,14 +360,13 @@ class SSHWrapper:
                 pass
 
         for command in ("ssh", "scp"):
-            filename = os.path.join(self.path, command)
+            filename = self.path / command
 
-            if not os.path.exists(filename):
-                with open(filename, "w") as handle:
-                    handle.write(self.get_content(find_command(command)))
+            if not filename.exists():
+                filename.write_text(self.get_content(find_command(command)))
 
             if not os.access(filename, os.X_OK):
-                os.chmod(filename, 0o755)  # noqa: S103, nosec
+                filename.chmod(0o755)
 
 
 SSH_WRAPPER = SSHWrapper()

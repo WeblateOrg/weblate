@@ -677,6 +677,7 @@ CSP_FORM_SRC = get_env_list("WEBLATE_CSP_FORM_SRC")
 
 # Allow new user registrations
 REGISTRATION_OPEN = get_env_bool("WEBLATE_REGISTRATION_OPEN", True)
+REGISTRATION_CAPTCHA = get_env_bool("WEBLATE_REGISTRATION_CAPTCHA", True)
 REGISTRATION_REBIND = get_env_bool("WEBLATE_REGISTRATION_REBIND", False)
 REGISTRATION_ALLOW_BACKENDS = get_env_list("WEBLATE_REGISTRATION_ALLOW_BACKENDS")
 
@@ -1122,6 +1123,7 @@ CHECK_LIST = [
     "weblate.checks.markup.MarkdownSyntaxCheck",
     "weblate.checks.markup.URLCheck",
     "weblate.checks.markup.SafeHTMLCheck",
+    "weblate.checks.markup.RSTReferencesCheck",
     "weblate.checks.placeholders.PlaceholderCheck",
     "weblate.checks.placeholders.RegexCheck",
     "weblate.checks.duplicate.DuplicateCheck",

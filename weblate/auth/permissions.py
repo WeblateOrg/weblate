@@ -58,7 +58,7 @@ def register_perm(*perms):
 
 
 def check_global_permission(user: User, permission: str) -> bool:
-    """Check whether user has a global permission."""
+    """Check whether the user has a global permission."""
     if user.is_superuser:
         return True
     return permission in user.global_permissions
@@ -66,7 +66,7 @@ def check_global_permission(user: User, permission: str) -> bool:
 
 def check_enforced_2fa(user: User, project: Project) -> bool:
     """Check whether the user has 2FA configured, in case it is enforced by the project."""
-    return not project.enforced_2fa or user.profile.has_2fa
+    return user.is_bot or not project.enforced_2fa or user.profile.has_2fa
 
 
 def check_permission(user: User, permission: str, obj: Model):
@@ -184,12 +184,14 @@ def check_can_edit(user: User, permission: str, obj: Model, is_vote=False):  # n
             return Denied(gettext("This translation is currently locked."))
 
         # Check contributor agreement
-        if component.agreement and not ContributorAgreement.objects.has_agreed(
-            user, component
+        if (
+            not user.is_bot
+            and component.agreement
+            and not ContributorAgreement.objects.has_agreed(user, component)
         ):
             return Denied(
                 gettext(
-                    "Contributing to this translation requires agreeing to its contributor agreement."
+                    "Contributing to this translation requires accepting its contributor license agreement."
                 )
             )
 
@@ -197,7 +199,7 @@ def check_can_edit(user: User, permission: str, obj: Model, is_vote=False):  # n
     if not check_permission(user, permission, obj):
         if not user.is_authenticated:
             # Signing in might help, but user still might need additional privileges
-            return Denied(gettext("Sign in to save the translation."))
+            return Denied(gettext("Sign in to save translations."))
         if permission == "unit.review":
             return Denied(
                 gettext("Insufficient privileges for approving translations.")
@@ -224,7 +226,7 @@ def check_can_edit(user: User, permission: str, obj: Model, is_vote=False):  # n
     ):
         return Denied(
             gettext(
-                "This translation only accepts suggestions, and these are approved by voting."
+                "This translation only accepts suggestions, in turn approved by voting."
             )
         )
 
@@ -243,8 +245,8 @@ def check_unit_review(user: User, permission: str, obj: Model, skip_enabled=Fals
         if isinstance(obj, Translation):
             if not obj.enable_review:
                 if obj.is_source:
-                    return Denied(gettext("Source string reviews are not enabled."))
-                return Denied(gettext("Translation reviews are not enabled."))
+                    return Denied(gettext("Source-string reviews are turned off."))
+                return Denied(gettext("Translation reviews are turned off."))
         else:
             if isinstance(obj, CategoryLanguage):
                 project = obj.category.project
@@ -256,7 +258,7 @@ def check_unit_review(user: User, permission: str, obj: Model, skip_enabled=Fals
             else:
                 project = obj
             if not project.source_review and not project.translation_review:
-                return Denied(gettext("Reviews are not enabled."))
+                return Denied(gettext("Reviewing is turned off."))
     return check_can_edit(user, permission, obj)
 
 
@@ -266,12 +268,12 @@ def check_edit_approved(user: User, permission: str, obj: Model):
     if isinstance(obj, Unit):
         unit = obj
         obj = unit.translation
-        # Read only check is unconditional as there is another one
+        # Read-only check is unconditional as there is another one
         # in PluralTextarea.render
         if unit.readonly:
             if not unit.source_unit.translated:
                 return Denied(gettext("The source string needs review."))
-            return Denied(gettext("The string is read only."))
+            return Denied(gettext("The string is read-only."))
         # Ignore approved state if review is not disabled. This might
         # happen after disabling them.
         if (
@@ -281,13 +283,13 @@ def check_edit_approved(user: User, permission: str, obj: Model):
         ):
             return Denied(
                 gettext(
-                    "Only reviewers can change approved strings, please add a suggestion if you think the string should be changed."
+                    "Only reviewers can change approved strings. Please add a suggestion if you think the string should be changed."
                 )
             )
     if isinstance(obj, Translation):
         component = obj.component
         if obj.is_readonly:
-            return Denied(gettext("The translation is read only."))
+            return Denied(gettext("The translation is read-only."))
     elif isinstance(obj, Component):
         component = obj
     if component is not None and component.is_glossary:
@@ -323,7 +325,7 @@ def check_unit_delete(user: User, permission: str, obj: Model):
         ):
             return Denied(
                 gettext(
-                    "Cannot remove terminology translation, remove source string instead."
+                    "Cannot remove terminology translation. Remove the source string instead."
                 )
             )
         obj = obj.translation
@@ -335,7 +337,7 @@ def check_unit_delete(user: User, permission: str, obj: Model):
 
     # Does file format support removing?
     if not component.file_format_cls.can_delete_unit:
-        return Denied(gettext("File format does not support this."))
+        return Denied(gettext("The file format does not support this."))
 
     if component.is_glossary:
         permission = "glossary.delete"
@@ -352,7 +354,7 @@ def check_unit_add(user: User, permission, translation):
 
     # Does file format support adding?
     if not component.file_format_cls.can_add_unit:
-        return Denied(gettext("File format does not support this."))
+        return Denied(gettext("The file format does not support this."))
 
     if component.is_glossary:
         permission = "glossary.add"
@@ -395,8 +397,10 @@ def check_suggestion_add(user: User, permission: str, obj: Model):
     if not obj.enable_suggestions or obj.is_readonly:
         return False
     # Check contributor agreement
-    if obj.component.agreement and not ContributorAgreement.objects.has_agreed(
-        user, obj.component
+    if (
+        not user.is_bot
+        and obj.component.agreement
+        and not ContributorAgreement.objects.has_agreed(user, obj.component)
     ):
         return False
     return check_permission(user, permission, obj)
@@ -498,8 +502,13 @@ def check_billing_view(user: User, permission: str, obj: Model):
 
 @register_perm("billing:project.permissions")
 def check_billing(user: User, permission: str, obj: Model):
-    if "weblate.billing" in settings.INSTALLED_APPS and not any(
-        billing.plan.change_access_control for billing in obj.billings
+    if user.is_superuser:
+        return True
+
+    if (
+        "weblate.billing" in settings.INSTALLED_APPS
+        and not any(billing.plan.change_access_control for billing in obj.billings)
+        and not obj.access_control
     ):
         return False
 

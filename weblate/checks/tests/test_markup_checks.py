@@ -4,18 +4,23 @@
 
 """Tests for markup quality checks."""
 
+from __future__ import annotations
+
 from weblate.checks.markup import (
     BBCodeCheck,
     MarkdownLinkCheck,
     MarkdownRefLinkCheck,
     MarkdownSyntaxCheck,
+    RSTReferencesCheck,
     SafeHTMLCheck,
     URLCheck,
     XMLTagsCheck,
     XMLValidityCheck,
 )
+from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase
-from weblate.trans.models import Unit
+from weblate.lang.models import Language, Plural
+from weblate.trans.models import Component, Translation, Unit
 
 
 class BBCodeCheckTest(CheckTestCase):
@@ -374,5 +379,95 @@ class SafeHTMLCheckTest(CheckTestCase):
                 "See <noreply@weblate.org>",
                 "Viz <noreply@weblate.org>",
                 "safe-html",
+            ),
+        )
+
+
+class RSTReferencesCheckTest(CheckTestCase):
+    check = RSTReferencesCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        base = ":ref:`foo`"
+        self.test_good_matching = (base, base, "rst-text")
+        self.test_good_none = (base, base, "")
+        self.test_good_flag = ("string", "string", "rst-text")
+        self.test_failure_1 = (base, ":ref:`bar`", "rst-text")
+        self.test_failure_2 = (base, ":doc:`foo`", "rst-text")
+        self.test_failure_3 = (base, ":ref:`foo <bar>`", "rst-text")
+        self.test_highlight = (
+            "rst-text",
+            ":ref:`bar` is :doc:`foo <baz>`",
+            [(0, 10, ":ref:`bar`"), (14, 30, ":doc:`foo <baz>`")],
+        )
+
+    def test_description(self) -> None:
+        unit = Unit(
+            source=":ref:`bar`",
+            target=":ref:`bar <baz>`",
+            extra_flags="rst-text",
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language(code="en"),
+                ),
+                plural=Plural(),
+            ),
+        )
+        check = Check(unit=unit)
+        self.assertHTMLEqual(
+            self.check.get_description(check),
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value=":ref:`bar`">:ref:`bar`</span>
+            <br />
+            The following format strings are extra:
+            <span class="hlcheck" data-value=":ref:`bar &lt;baz&gt;`">:ref:`bar &lt;baz&gt;`</span>
+            """,
+        )
+
+    def test_roles(self) -> None:
+        self.do_test(
+            False,
+            (
+                ":guilabel:`Help`",
+                ":guilabel:`Pomoc`",
+                "rst-text",
+            ),
+        )
+
+    def test_option_space(self) -> None:
+        self.do_test(
+            True,
+            (
+                ":option:`wlc push`",
+                ":option:`wlc pull`",
+                "rst-text",
+            ),
+        )
+
+    def test_translatable(self) -> None:
+        self.do_test(
+            True,
+            (
+                ":kbd:`Ctrl+Home`",
+                ": kbd:`Ctrl+Home`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                ":kbd:`Ctrl+Home`",
+                ":kbd:`Ctrl+Home`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                ":kbd:`Ctrl+Home`",
+                ":kbd:`Ctrl+Inicio`",
+                "rst-text",
             ),
         )

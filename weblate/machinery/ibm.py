@@ -44,8 +44,8 @@ class IBMTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -57,8 +57,8 @@ class IBMTranslation(MachineTranslation):
             f"{self.api_base_url}/v3/translate?version=2018-05-01",
             json={
                 "text": [text],
-                "source": source,
-                "target": language,
+                "source": source_language,
+                "target": target_language,
             },
         )
         yield {

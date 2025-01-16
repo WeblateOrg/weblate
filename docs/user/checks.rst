@@ -959,6 +959,21 @@ This check applies to all components in a project that have
 
    :ref:`translation-consistency`
 
+.. _check-rst-references:
+
+Inconsistent reStructuredText references
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionchanged:: 5.10
+
+:Summary: Inconsistent reStructuredText term references in the translated message.
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.RSTReferencesCheck``
+:Check identifier: ``rst-references``
+:Flag to enable: ``rst-text``
+:Flag to ignore: ``ignore-rst-references``
+
+reStructuredText term references do not match source.
 
 .. _check-kashida:
 

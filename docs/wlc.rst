@@ -66,7 +66,7 @@ volume:
 Getting started
 +++++++++++++++
 
-The :program:`wlc` configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-config`
+The :program:`wlc` configuration is stored in :file:`~/.config/weblate` (see :ref:`wlc-config`
 for other locations), please create it to match your environment:
 
 .. code-block:: ini

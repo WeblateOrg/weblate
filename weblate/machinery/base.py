@@ -21,7 +21,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
-from requests.exceptions import HTTPError, RequestException
+from requests.exceptions import HTTPError, JSONDecodeError, RequestException
 
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
@@ -88,8 +88,9 @@ class TranslationResultDict(TypedDict):
     quality: int
     service: str
     source: str
+    original_source: NotRequired[str]
     show_quality: NotRequired[bool]
-    origin: NotRequired[str]
+    origin: NotRequired[str | None]
     origin_url: NotRequired[str]
     delete_url: NotRequired[str]
 
@@ -97,7 +98,7 @@ class TranslationResultDict(TypedDict):
 class UnitMemoryResultDict(TypedDict, total=False):
     quality: list[int]
     translation: list[str]
-    origin: list[BatchMachineTranslation] | None
+    origin: list[BatchMachineTranslation | None]
 
 
 DownloadTranslations = Iterable[TranslationResultDict]
@@ -194,7 +195,31 @@ class BatchMachineTranslation:
     def check_failure(self, response) -> None:
         # Directly raise error as last resort, subclass can prepend this
         # with something more clever
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except HTTPError as error:
+            detail = response.text
+            try:
+                payload = response.json()
+            except JSONDecodeError:
+                pass
+            else:
+                if isinstance(payload, dict) and payload:
+                    if detail_error := payload.get("error"):
+                        if isinstance(detail_error, str):
+                            detail = detail_error
+                        elif isinstance(detail_error, dict):
+                            if "message" in detail_error:
+                                detail = detail_error["message"]
+                            else:
+                                detail = str(detail_error)
+                    else:
+                        detail = str(payload)
+
+            if detail:
+                message = f"{error.args[0]}: {detail[:200]}"
+                raise HTTPError(message, response=response) from error
+            raise
 
     def request(self, method, url, skip_auth=False, **kwargs):
         """Perform JSON request."""
@@ -216,6 +241,7 @@ class BatchMachineTranslation:
             headers=headers,
             timeout=self.request_timeout,
             auth=self.get_auth(),
+            raise_for_status=False,
             **kwargs,
         )
 
@@ -410,13 +436,20 @@ class BatchMachineTranslation:
         raise UnsupportedLanguageError(msg)
 
     def get_cached(
-        self, unit, source, language, text, threshold, replacements, *extra_parts
-    ):
+        self,
+        unit,
+        source_language,
+        target_language,
+        text,
+        threshold,
+        replacements,
+        *extra_parts,
+    ) -> tuple[str | None, list[TranslationResultDict] | None]:
         if not self.cache_translations:
             return None, None
         cache_key = self.get_cache_key(
             "translation",
-            parts=(source, language, threshold, *extra_parts),
+            parts=(source_language, target_language, threshold, *extra_parts),
             text=text,
         )
         result = cache.get(cache_key)
@@ -428,7 +461,7 @@ class BatchMachineTranslation:
         """Search for known translations of `text`."""
         translation = unit.translation
         try:
-            source, language = self.get_languages(
+            source_language, target_language = self.get_languages(
                 translation.component.source_language, translation.language
             )
         except UnsupportedLanguageError:
@@ -440,15 +473,15 @@ class BatchMachineTranslation:
             return []
 
         self.account_usage(translation.component.project)
-        return self._translate(source, language, [(text, unit)], user, threshold=10)[
-            text
-        ]
+        return self._translate(
+            source_language, target_language, [(text, unit)], user, threshold=10
+        )[text]
 
     def translate(self, unit, user=None, threshold: int = 75):
         """Return list of machine translations."""
         translation = unit.translation
         try:
-            source, language = self.get_languages(
+            source_language, target_language = self.get_languages(
                 translation.component.source_language, translation.language
             )
         except UnsupportedLanguageError:
@@ -466,8 +499,8 @@ class BatchMachineTranslation:
         plural_mapper = PluralMapper(source_plural, target_plural)
         plural_mapper.map_units([unit])
         translations = self._translate(
-            source,
-            language,
+            source_language,
+            target_language,
             [(text, unit) for text in unit.plural_map],
             user,
             threshold=threshold,
@@ -476,10 +509,10 @@ class BatchMachineTranslation:
 
     def download_multiple_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         sources: list[tuple[str, Unit | None]],
-        user=None,
+        user: User | None = None,
         threshold: int = 75,
     ) -> DownloadMultipleTranslations:
         """
@@ -496,14 +529,16 @@ class BatchMachineTranslation:
 
     def _translate(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         sources: list[tuple[str, Unit]],
         user=None,
         threshold: int = 75,
     ) -> DownloadMultipleTranslations:
         output: DownloadMultipleTranslations = {}
         pending = defaultdict(list)
+        cache_keys: dict[str, str | None] = {}
+        result: list[TranslationResultDict] | None
         for text, unit in sources:
             original_source = text
             text, replacements = self.cleanup_text(text, unit)
@@ -513,8 +548,8 @@ class BatchMachineTranslation:
                 continue
 
             # Try cached results
-            cache_key, result = self.get_cached(
-                unit, source, language, text, threshold, replacements
+            cache_keys[text], result = self.get_cached(
+                unit, source_language, target_language, text, threshold, replacements
             )
             if result is not None:
                 output[original_source] = result
@@ -528,8 +563,8 @@ class BatchMachineTranslation:
             # so it doesn't matter we potentionally flatten this.
             try:
                 translations = self.download_multiple_translations(
-                    source,
-                    language,
+                    source_language,
+                    target_language,
                     [
                         (text, occurrences[0][0])
                         for text, occurrences in pending.items()
@@ -554,7 +589,7 @@ class BatchMachineTranslation:
 
                     for item in partial:
                         item["original_source"] = original_source
-                    if cache_key:
+                    if cache_key := cache_keys[text]:
                         cache.set(cache_key, partial, 30 * 86400)
                     if replacements or self.force_uncleanup:
                         self.uncleanup_results(replacements, partial)
@@ -625,11 +660,11 @@ class BatchMachineTranslation:
 class MachineTranslation(BatchMachineTranslation):
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = 75,
     ) -> DownloadTranslations:
         """
@@ -646,16 +681,21 @@ class MachineTranslation(BatchMachineTranslation):
 
     def download_multiple_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         sources: list[tuple[str, Unit | None]],
-        user=None,
+        user: User | None = None,
         threshold: int = 75,
     ) -> DownloadMultipleTranslations:
         return {
             text: list(
                 self.download_translations(
-                    source, language, text, unit, user, threshold=threshold
+                    source_language,
+                    target_language,
+                    text,
+                    unit,
+                    user,
+                    threshold=threshold,
                 )
             )
             for text, unit in sources
@@ -667,7 +707,9 @@ class InternalMachineTranslation(MachineTranslation):
     accounting_key = "internal"
     cache_translations = False
 
-    def is_supported(self, source: Language, language: Language) -> bool:
+    def is_supported(
+        self, source_language: Language, target_language: Language
+    ) -> bool:
         """Any language is supported."""
         return True
 
@@ -733,15 +775,22 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         return hash_to_checksum(calculate_hash(tsv)) if tsv else ""
 
     def get_cached(
-        self, unit, source, language, text, threshold, replacements, *extra_parts
+        self,
+        unit,
+        source_language,
+        target_language,
+        text,
+        threshold,
+        replacements,
+        *extra_parts,
     ):
         """Retrieve cached translation with glossary checksum."""
         from weblate.glossary.models import get_glossary_tsv
 
         return super().get_cached(
             unit,
-            source,
-            language,
+            source_language,
+            target_language,
             text,
             threshold,
             replacements,

@@ -46,8 +46,8 @@ class YoudaoTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -63,8 +63,8 @@ class YoudaoTranslation(MachineTranslation):
             YOUDAO_API_ROOT,
             params={
                 "q": text,
-                "_from": source,
-                "to": language,
+                "_from": source_language,
+                "to": target_language,
                 "appKey": self.settings["key"],
                 "salt": salt,
                 "sign": sign,

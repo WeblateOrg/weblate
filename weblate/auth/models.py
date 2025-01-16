@@ -448,8 +448,7 @@ class User(AbstractBaseUser):
         verbose_name=gettext_lazy("Teams"),
         blank=True,
         help_text=gettext_lazy(
-            "The user is granted all permissions included in "
-            "membership of these teams."
+            "The user is granted all permissions included in membership of these teams."
         ),
     )
 
@@ -1127,8 +1126,7 @@ class Invitation(models.Model):
         Group,
         verbose_name=gettext_lazy("Team"),
         help_text=gettext_lazy(
-            "The user is granted all permissions included in "
-            "membership of these teams."
+            "The user is granted all permissions included in membership of these teams."
         ),
         on_delete=models.deletion.CASCADE,
     )

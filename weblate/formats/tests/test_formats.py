@@ -9,10 +9,11 @@ from __future__ import annotations
 
 import os.path
 import shutil
+from abc import ABC, abstractmethod
 from io import BytesIO
 from pathlib import Path
 from typing import NoReturn
-from unittest import SkipTest, TestCase
+from unittest import TestCase
 
 from lxml import etree
 from translate.storage.po import pofile
@@ -159,8 +160,7 @@ class AutoLoadTest(TestCase):
         self.assertIsInstance(store.store, pofile)
 
 
-class BaseFormatTest(FixtureTestCase, TempDirMixin):
-    FORMAT: type[TranslationFormat] = TranslationFormat
+class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
     FILE = TEST_PO
     BASE = TEST_POT
     TEMPLATE = None
@@ -185,13 +185,6 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
     EDIT_TARGET: str | list[str] = "Nazdar, svete!\n"
     MONOLINGUAL = False
 
-    @classmethod
-    def setUpClass(cls) -> None:
-        if cls.FORMAT is TranslationFormat:
-            msg = "Base test class not intended for execution."
-            raise SkipTest(msg)
-        super().setUpClass()
-
     def setUp(self) -> None:
         super().setUp()
         self.create_temp()
@@ -200,15 +193,20 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         super().tearDown()
         self.remove_temp()
 
+    @property
+    @abstractmethod
+    def format_class(self) -> TranslationFormat:
+        raise NotImplementedError
+
     def parse_file(self, filename: str, template: str | None = None):
         if self.MONOLINGUAL:
-            return self.FORMAT(
+            return self.format_class(
                 filename,
-                template_store=self.FORMAT(
+                template_store=self.format_class(
                     template or self.TEMPLATE or filename, is_template=True
                 ),
             )
-        return self.FORMAT(filename)
+        return self.format_class(filename)
 
     def test_parse(self) -> None:
         storage = self.parse_file(self.FILE)
@@ -286,9 +284,9 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
             self.assertEqual(unit.target, self.FIND_MATCH)
 
     def test_add(self) -> None:
-        self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE, True))
+        self.assertTrue(self.format_class.is_valid_base_for_new(self.BASE, True))
         out = os.path.join(self.tempdir, f"test.{self.EXT}")
-        self.FORMAT.add_language(out, Language.objects.get(code="cs"), self.BASE)
+        self.format_class.add_language(out, Language.objects.get(code="cs"), self.BASE)
         self.parse_file(out)  # check the parser agrees that the new file is valid.
         if self.MATCH is None:
             self.assertTrue(os.path.isdir(out))
@@ -300,14 +298,14 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
 
     def test_get_language_filename(self) -> None:
         self.assertEqual(
-            self.FORMAT.get_language_filename(
-                self.MASK, self.FORMAT.get_language_code("cs_CZ")
+            self.format_class.get_language_filename(
+                self.MASK, self.format_class.get_language_code("cs_CZ")
             ),
             self.EXPECTED_PATH,
         )
 
     def test_new_unit(self) -> None:
-        if not self.FORMAT.can_add_unit:
+        if not self.format_class.can_add_unit:
             self.skipTest("Not supported")
         # Read test content
         with open(self.FILE, "rb") as handle:
@@ -363,7 +361,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         This is used when Weblate is translating string not present in the translation
         in Translation.update_units().
         """
-        if not self.MONOLINGUAL or not self.FORMAT.can_add_unit:
+        if not self.MONOLINGUAL or not self.format_class.can_add_unit:
             self.skipTest("Not supported")
 
         temp_dir = Path(self.tempdir)
@@ -394,7 +392,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
 
         # Create the template under test with a single string
         shutil.copy(self.FILE, template_file)
-        template_storage = self.FORMAT(template_file, is_template=True)
+        template_storage = self.format_class(template_file, is_template=True)
         template_unit = template_storage.new_unit(self.NEW_UNIT_KEY, "Source string")
         if self.SUPPORTS_NOTES:
             template_unit.unit.addnote(self.NOTE_FOR_TEST)
@@ -403,7 +401,9 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         template_content = template_file.read_text()
 
         # Add a new language and translate the new string.
-        self.FORMAT.add_language(main_file, Language.objects.get(code="cs"), self.BASE)
+        self.format_class.add_language(
+            main_file, Language.objects.get(code="cs"), self.BASE
+        )
         target_storage = self.parse_file(main_file, template=template_file)
         target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
         self.assertTrue(add)
@@ -449,12 +449,14 @@ class XMLMixin:
 
 
 class PoFormatTest(BaseFormatTest):
-    FORMAT = PoFormat
+    format_class = PoFormat
     EDIT_OFFSET = 1
 
     def test_add_encoding(self) -> None:
         out = os.path.join(self.tempdir, "test.po")
-        self.FORMAT.add_language(out, Language.objects.get(code="cs"), TEST_POT_UNICODE)
+        self.format_class.add_language(
+            out, Language.objects.get(code="cs"), TEST_POT_UNICODE
+        )
         with open(out) as handle:
             data = handle.read()
         self.assertIn("Michal Čihař", data)
@@ -484,25 +486,27 @@ class PoFormatTest(BaseFormatTest):
             handle.write("")
 
         # Test file content is updated
-        self.FORMAT.update_bilingual(test_file, TEST_POT)
+        self.format_class.update_bilingual(test_file, TEST_POT)
         with open(test_file) as handle:
             self.assertEqual(len(handle.read()), 340)
 
         # Backup flag is not compatible with others
         with self.assertRaises(UpdateError):
-            self.FORMAT.update_bilingual(test_file, TEST_POT, args=["--backup=none"])
+            self.format_class.update_bilingual(
+                test_file, TEST_POT, args=["--backup=none"]
+            )
         with open(test_file) as handle:
             self.assertEqual(len(handle.read()), 340)
 
         # Test warning in output (used Unicode POT file without charset specified)
         with self.assertRaises(UpdateError):
-            self.FORMAT.update_bilingual(test_file, TEST_POT_UNICODE)
+            self.format_class.update_bilingual(test_file, TEST_POT_UNICODE)
         with open(test_file) as handle:
             self.assertEqual(len(handle.read()), 340)
 
     def test_obsolete(self) -> None:
         # Test adding unit matching obsolete one
-        storage = self.FORMAT(TEST_PO)
+        storage = self.format_class(TEST_PO)
         # Remove duplicate entry
         unit = storage.all_units[0]
         self.assertEqual(unit.source, "Hello, world!\n")
@@ -526,7 +530,7 @@ class PoFormatTest(BaseFormatTest):
 
 
 class PropertiesFormatTest(BaseFormatTest):
-    FORMAT: type[TranslationFormat] = PropertiesFormat
+    format_class: type[TranslationFormat] = PropertiesFormat
     FILE = TEST_PROPERTIES
     MIME = "text/plain"
     COUNT = 12
@@ -549,7 +553,7 @@ class PropertiesFormatTest(BaseFormatTest):
 
 
 class GWTFormatTest(BaseFormatTest):
-    FORMAT = GWTFormat
+    format_class = GWTFormat
     FILE = TEST_GWT
     MIME = "text/plain"
     COUNT = 1
@@ -585,7 +589,7 @@ class GWTFormatTest(BaseFormatTest):
 
 
 class JoomlaFormatTest(BaseFormatTest):
-    FORMAT = JoomlaFormat
+    format_class = JoomlaFormat
     FILE = TEST_JOOMLA
     MIME = "text/plain"
     COUNT = 4
@@ -602,7 +606,7 @@ class JoomlaFormatTest(BaseFormatTest):
 
 
 class JSONFormatTest(BaseFormatTest):
-    FORMAT = JSONFormat
+    format_class = JSONFormat
     FILE = TEST_JSON
     MIME = "application/json"
     COUNT = 4
@@ -619,7 +623,7 @@ class JSONFormatTest(BaseFormatTest):
 
 
 class JSONNestedFormatTest(JSONFormatTest):
-    FORMAT = JSONNestedFormat
+    format_class = JSONNestedFormat
     FILE = TEST_NESTED_JSON
     COUNT = 4
     MASK = "json-nested/*.json"
@@ -632,7 +636,7 @@ class JSONNestedFormatTest(JSONFormatTest):
 
 
 class WebExtesionJSONFormatTest(JSONFormatTest):
-    FORMAT = WebExtensionJSONFormat
+    format_class = WebExtensionJSONFormat
     FILE = TEST_WEBEXT_JSON
     COUNT = 4
     MASK = "webextension/_locales/*/messages.json"
@@ -647,7 +651,7 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
 
 
 class GoI18NV1JSONFormatTest(JSONFormatTest):
-    FORMAT = GoI18JSONFormat
+    format_class = GoI18JSONFormat
     FILE = TEST_GO18N_V1_JSON
     COUNT = 4
     MASK = "go-i18n-json/*.json"
@@ -661,7 +665,7 @@ class GoI18NV1JSONFormatTest(JSONFormatTest):
 
 
 class GoI18NV2JSONFormatTest(JSONFormatTest):
-    FORMAT = GoI18V2JSONFormat
+    format_class = GoI18V2JSONFormat
     FILE = TEST_GO18N_V2_JSON
     COUNT = 4
     MASK = "go-i18n-json-v2/*.json"
@@ -672,7 +676,7 @@ class GoI18NV2JSONFormatTest(JSONFormatTest):
 
 
 class PhpFormatTest(BaseFormatTest):
-    FORMAT = PhpFormat
+    format_class = PhpFormat
     FILE = TEST_PHP
     MIME = "text/x-php"
     COUNT = 4
@@ -692,7 +696,7 @@ class PhpFormatTest(BaseFormatTest):
 
 
 class LaravelPhpFormatTest(PhpFormatTest):
-    FORMAT = LaravelPhpFormat
+    format_class = LaravelPhpFormat
     FILE = TEST_LARAVEL
     FIND = "return[]->'apples'"
     FIND_CONTEXT = "return[]->'apples'"
@@ -701,7 +705,7 @@ class LaravelPhpFormatTest(PhpFormatTest):
 
 
 class AndroidFormatTest(XMLMixin, BaseFormatTest):
-    FORMAT = AndroidFormat
+    format_class = AndroidFormat
     FILE = TEST_ANDROID
     MIME = "application/xml"
     EXT = "xml"
@@ -718,15 +722,15 @@ class AndroidFormatTest(XMLMixin, BaseFormatTest):
 
     def test_get_language_filename(self) -> None:
         self.assertEqual(
-            self.FORMAT.get_language_filename(
-                self.MASK, self.FORMAT.get_language_code("sr_Latn")
+            self.format_class.get_language_filename(
+                self.MASK, self.format_class.get_language_code("sr_Latn")
             ),
             "res/values-b+sr+Latn/strings.xml",
         )
 
 
 class XliffFormatTest(XMLMixin, BaseFormatTest):
-    FORMAT = XliffFormat
+    format_class = XliffFormat
     FILE = TEST_XLIFF
     BASE = TEST_XLIFF
     MIME = "application/x-xliff"
@@ -780,7 +784,7 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
 
 
 class RichXliffFormatTest(XliffFormatTest):
-    FORMAT = RichXliffFormat
+    format_class = RichXliffFormat
     EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
 
 
@@ -800,9 +804,9 @@ class XliffIdFormatTest(RichXliffFormatTest):
         translated_name = os.path.join(self.tempdir, "cs.xliff")
         shutil.copy(self.FILE, template_name)
         shutil.copy(self.FILE, translated_name)
-        template = self.FORMAT(template_name)
-        source = self.FORMAT(template_name, template, is_template=True)
-        translation = self.FORMAT(translated_name, template)
+        template = self.format_class(template_name)
+        source = self.format_class(template_name, template, is_template=True)
+        translation = self.format_class(translated_name, template)
 
         unit = source.all_units[0]
         self.assertEqual(unit.source, "Hello, world!\n")
@@ -846,7 +850,7 @@ class XliffIdFormatTest(RichXliffFormatTest):
 
 
 class PoXliffFormatTest(XMLMixin, BaseFormatTest):
-    FORMAT = PoXliffFormat
+    format_class = PoXliffFormat
     FILE = TEST_XLIFF
     BASE = TEST_XLIFF
     MIME = "application/x-xliff"
@@ -876,7 +880,7 @@ class PoXliffFormatTest2(PoXliffFormatTest):
 
 
 class RESXFormatTest(XMLMixin, BaseFormatTest):
-    FORMAT = RESXFormat
+    format_class = RESXFormat
     FILE = TEST_RESX
     MIME = "text/microsoft-resx"
     EXT = "resx"
@@ -896,7 +900,7 @@ class RESXFormatTest(XMLMixin, BaseFormatTest):
 
 
 class YAMLFormatTest(BaseFormatTest):
-    FORMAT = YAMLFormat
+    format_class = YAMLFormat
     FILE = TEST_YAML
     BASE = TEST_YAML
     MIME = "text/yaml"
@@ -922,7 +926,7 @@ class YAMLFormatTest(BaseFormatTest):
 
 
 class RubyYAMLFormatTest(YAMLFormatTest):
-    FORMAT = RubyYAMLFormat
+    format_class = RubyYAMLFormat
     FILE = TEST_RUBY_YAML
     BASE = TEST_RUBY_YAML
     NEW_UNIT_MATCH = b"\n  key: Source string\n"
@@ -931,7 +935,7 @@ class RubyYAMLFormatTest(YAMLFormatTest):
 
 
 class TSFormatTest(XMLMixin, BaseFormatTest):
-    FORMAT = TSFormat
+    format_class = TSFormat
     FILE = TEST_TS
     BASE = TEST_TS
     MIME = "application/x-linguist"
@@ -951,7 +955,7 @@ class TSFormatTest(XMLMixin, BaseFormatTest):
 
 
 class DTDFormatTest(BaseFormatTest):
-    FORMAT = DTDFormat
+    format_class = DTDFormat
     FILE = TEST_DTD
     BASE = TEST_DTD
     MIME = "application/xml-dtd"
@@ -969,7 +973,7 @@ class DTDFormatTest(BaseFormatTest):
 
 
 class CSVFormatTest(BaseFormatTest):
-    FORMAT = CSVFormat
+    format_class = CSVFormat
     FILE = TEST_CSV
     MIME = "text/csv"
     COUNT = 4
@@ -997,12 +1001,12 @@ class CSVFormatNoHeadTest(CSVFormatTest):
 
 
 class CSVSimpleFormatNoHeadTest(CSVFormatNoHeadTest):
-    FORMAT = CSVSimpleFormat
+    format_class = CSVSimpleFormat
     EXPECTED_FLAGS = ""
 
 
 class FlatXMLFormatTest(BaseFormatTest):
-    FORMAT = FlatXMLFormat
+    format_class = FlatXMLFormat
     FILE = TEST_FLATXML
     MIME = "text/xml"
     COUNT = 2
@@ -1021,7 +1025,7 @@ class FlatXMLFormatTest(BaseFormatTest):
 
 
 class ResourceDictionaryFormatTest(BaseFormatTest):
-    FORMAT = ResourceDictionaryFormat
+    format_class = ResourceDictionaryFormat
     FILE = TEST_RESOURCEDICTIONARY
     MIME = "application/xaml+xml"
     COUNT = 2
@@ -1040,7 +1044,7 @@ class ResourceDictionaryFormatTest(BaseFormatTest):
 
 
 class INIFormatTest(BaseFormatTest):
-    FORMAT = INIFormat
+    format_class = INIFormat
     FILE = TEST_INI
     MIME = "text/plain"
     COUNT = 4
@@ -1060,12 +1064,12 @@ class INIFormatTest(BaseFormatTest):
 
 
 class InnoSetupINIFormatTest(INIFormatTest):
-    FORMAT = InnoSetupINIFormat
+    format_class = InnoSetupINIFormat
     EXT = "islu"
 
 
 class XWikiPropertiesFormatTest(PropertiesFormatTest):
-    FORMAT = XWikiPropertiesFormat
+    format_class = XWikiPropertiesFormat
     FILE = TEST_XWIKI_PROPERTIES
     BASE = ""
     MIME = "text/plain"
@@ -1087,9 +1091,9 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
         self.maxDiff = None
         out = os.path.join(self.tempdir, f"test_new_language.{self.EXT}")
         language = Language.objects.get(code="cs")
-        self.FORMAT.add_language(out, language, self.BASE)
+        self.format_class.add_language(out, language, self.BASE)
         template_storage = self.parse_file(self.FILE)
-        new_language = self.FORMAT(out, template_storage, language.code)
+        new_language = self.format_class(out, template_storage, language.code)
         unit, add = new_language.find_unit("job.status.success", "")
         self.assertTrue(add)
         unit.set_target("Fait")
@@ -1107,7 +1111,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
 
 
 class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
-    FORMAT = XWikiPagePropertiesFormat
+    format_class = XWikiPagePropertiesFormat
     FILE = TEST_XWIKI_PAGE_PROPERTIES
     SOURCE_FILE = TEST_XWIKI_PAGE_PROPERTIES_SOURCE
     BASE = ""
@@ -1126,8 +1130,8 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
 
     def test_get_language_filename(self) -> None:
         self.assertEqual(
-            self.FORMAT.get_language_filename(
-                self.MASK, self.FORMAT.get_language_code("cs")
+            self.format_class.get_language_filename(
+                self.MASK, self.format_class.get_language_code("cs")
             ),
             self.EXPECTED_PATH,
         )
@@ -1145,9 +1149,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         # Perform some general assertions about the copyright
         self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
         self.assertIn(
-            "<!--\n"
-            " * See the NOTICE file distributed with"
-            " this work for additional",
+            "<!--\n * See the NOTICE file distributed with this work for additional",
             newdata,
         )
         self.assertIn(
@@ -1179,10 +1181,10 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         translation_file = os.path.join(
             self.tempdir, os.path.basename(self.EXPECTED_PATH)
         )
-        self.FORMAT.add_language(
+        self.format_class.add_language(
             translation_file, Language.objects.get(code="fr"), self.BASE
         )
-        translation_data = self.FORMAT(
+        translation_data = self.format_class(
             storefile=translation_file,
             template_store=storage.template_store,
             language_code="fr",
@@ -1218,7 +1220,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
 
 
 class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
-    FORMAT = XWikiFullPageFormat
+    format_class = XWikiFullPageFormat
     FILE = TEST_XWIKI_FULL_PAGE
     SOURCE_FILE = TEST_XWIKI_FULL_PAGE_SOURCE
     BASE = ""
@@ -1244,8 +1246,8 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
 
     def test_get_language_filename(self) -> None:
         self.assertEqual(
-            self.FORMAT.get_language_filename(
-                self.MASK, self.FORMAT.get_language_code("cs")
+            self.format_class.get_language_filename(
+                self.MASK, self.format_class.get_language_code("cs")
             ),
             self.EXPECTED_PATH,
         )
@@ -1268,9 +1270,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         # Perform some general assertions about the copyright
         self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
         self.assertIn(
-            "<!--\n"
-            " * See the NOTICE file distributed with"
-            " this work for additional",
+            "<!--\n * See the NOTICE file distributed with this work for additional",
             newdata,
         )
         self.assertIn(
@@ -1303,10 +1303,10 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         translation_file = os.path.join(
             self.tempdir, os.path.basename(self.EXPECTED_PATH)
         )
-        self.FORMAT.add_language(
+        self.format_class.add_language(
             translation_file, Language.objects.get(code="it"), self.BASE
         )
-        translation_data = self.FORMAT(
+        translation_data = self.format_class(
             storefile=translation_file,
             template_store=storage.template_store,
             language_code="it",
@@ -1338,7 +1338,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
 
 
 class TBXFormatTest(XMLMixin, BaseFormatTest):
-    FORMAT = TBXFormat
+    format_class = TBXFormat
     FILE = TEST_TBX
     BASE = ""
     MIME = "application/x-tbx"
@@ -1354,7 +1354,7 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
 
 
 class StringsdictFormatTest(XMLMixin, BaseFormatTest):
-    FORMAT = StringsdictFormat
+    format_class = StringsdictFormat
     FILE = TEST_STRINGSDICT
     MIME = "application/xml"
     EXT = "stringsdict"
@@ -1396,7 +1396,7 @@ class StringsdictFormatTest(XMLMixin, BaseFormatTest):
 
 
 class FluentFormatTest(BaseFormatTest):
-    FORMAT = FluentFormat
+    format_class = FluentFormat
     FILE = TEST_FLUENT
     MIME = "text/x-fluent"
     EXT = "ftl"

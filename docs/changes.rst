@@ -1,9 +1,41 @@
-Weblate 5.9.2
--------------
+Weblate 5.10
+------------
 
 Not yet released.
 
 **New features**
+
+* :ref:`check-rst-references` check to validate reStructuredText references.
+
+**Improvements**
+
+* Improved error handling in :ref:`machine-translation-setup`.
+* :envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker container.
+* :guilabel:`Synchronize` on shared repository now operates on all its components.
+* :ref:`check-punctuation-spacing` ignores markup such as Markdown or reStructuredText.
+
+**Bug fixes**
+
+* Fixed translations caching in :ref:`machine-translation-setup`.
+
+**Compatibility**
+
+* Running tests using Django test executor is no longer supported, see :doc:`/contributing/tests`.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+**Contributors**
+
+.. include:: changes/contributors/5.10.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/133?closed=1>`__.
+
+Weblate 5.9.2
+-------------
+
+Released on December 19th 2023.
 
 **Improvements**
 
@@ -14,8 +46,8 @@ Not yet released.
 
 * Avoid query parser crash in multi-threaded environments.
 * Avoid :ref:`autofix` crash on multi-value strings.
-
-**Compatibility**
+* Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are enforced.
+* Captcha solution were sometimes not accepted.
 
 **Upgrading**
 
@@ -213,7 +245,7 @@ Released on October 15th 2024.
 * :kbd:`?` now displays available :ref:`keyboard`.
 * Translation and language view in the project now include basic information about the language and plurals.
 * :ref:`search-replace` shows a preview of matched strings.
-* :ref:`aresource` now supports translatable attribute in its strings.
+* :ref:`aresource` now support translatable attribute in its strings.
 * Creating component via file upload (Translate document) now supports bilingual files.
 
 **Bug fixes**

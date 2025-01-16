@@ -189,8 +189,8 @@ class ComponentTest(RepoTestCase):
         self.verify_component(component, 2, "cs", 4)
 
     def test_create_android_broken(self) -> None:
-        with self.assertRaises(FileParseError):
-            self.create_android(suffix="-broken")
+        component = self.create_android(suffix="-broken")
+        self.verify_component(component, 1, "en", 4)
 
     def test_create_json(self) -> None:
         component = self.create_json()
@@ -1056,7 +1056,7 @@ class ComponentEditMonoTest(ComponentEditTest):
         self.component.edit_template = False
         self.component.save()
 
-        # It should be now read only
+        # It should be now read-only
         self.assertEqual(source.unit_set.all()[0].state, STATE_READONLY)
 
 

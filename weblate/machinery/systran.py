@@ -29,14 +29,14 @@ class SystranTranslation(MachineTranslation):
         self.check_failure(payload)
         return [(item["source"], item["target"]) for item in payload["languagePairs"]]
 
-    def is_supported(self, source, language):
+    def is_supported(self, source_language, target_language):
         """Check whether given language combination is supported."""
-        return (source, language) in self.supported_languages
+        return (source_language, target_language) in self.supported_languages
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -48,8 +48,8 @@ class SystranTranslation(MachineTranslation):
             "https://api-translate.systran.net/translation/text/translate",
             params={
                 "key": self.settings["key"],
-                "source": source,
-                "target": language,
+                "source": source_language,
+                "target": target_language,
                 "input": text,
             },
         )
@@ -62,5 +62,5 @@ class SystranTranslation(MachineTranslation):
                 "text": translation["output"],
                 "quality": self.max_score,
                 "service": self.name,
-                "source": source,
+                "source": text,
             }

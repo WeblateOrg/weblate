@@ -40,8 +40,7 @@ class ComponentList(models.Model, CacheKeyMixin):
         default=True,
         db_index=True,
         help_text=gettext_lazy(
-            "When enabled this component list will be shown as a tab on "
-            "the dashboard"
+            "When enabled this component list will be shown as a tab on the dashboard"
         ),
     )
 
@@ -56,12 +55,12 @@ class ComponentList(models.Model, CacheKeyMixin):
     def __str__(self) -> str:
         return self.name
 
-    def get_absolute_url(self) -> str:
-        return reverse("component-list", kwargs={"name": self.slug})
-
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.stats = ComponentListStats(self)
+
+    def get_absolute_url(self) -> str:
+        return reverse("component-list", kwargs={"name": self.slug})
 
     def tab_slug(self):
         return "list-" + self.slug

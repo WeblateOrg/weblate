@@ -457,3 +457,23 @@ class PunctuationSpacingCheckTest(CheckTestCase):
             ),
             "fr",
         )
+
+    def test_restructured_text(self) -> None:
+        self.do_test(
+            True,
+            (
+                ":ref:`document` here",
+                ":ref:`document` tam",
+                "",
+            ),
+            "fr",
+        )
+        self.do_test(
+            False,
+            (
+                ":ref:`document` here",
+                ":ref:`document` tam",
+                "rst-text",
+            ),
+            "fr",
+        )

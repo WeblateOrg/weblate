@@ -124,8 +124,8 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -134,8 +134,8 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         """Download list of possible translations from a service."""
         args = {
             "api-version": "3.0",
-            "from": source,
-            "to": language,
+            "from": source_language,
+            "to": target_language,
             "category": self.settings.get("category", "general"),
             "textType": "html",
         }

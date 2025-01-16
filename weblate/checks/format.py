@@ -14,7 +14,7 @@ from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.checks.base import SourceCheck, TargetCheck
+from weblate.checks.base import MissingExtraDict, SourceCheck, TargetCheck
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -25,7 +25,6 @@ if TYPE_CHECKING:
 
     from .models import Check
 
-MissingExtraDict = dict[Literal["missing", "extra"], list[str]]
 
 PYTHON_PRINTF_MATCH = re.compile(
     r"""
@@ -397,10 +396,6 @@ class BaseFormatCheck(TargetCheck):
                 sources[1], target, len(plural_examples[i + 1]) == 1, unit
             )
 
-    def format_string(self, string: str) -> str:
-        """Format parsed format string into human readable value."""
-        return string
-
     def cleanup_string(self, text):
         return text
 
@@ -486,14 +481,7 @@ class BaseFormatCheck(TargetCheck):
                 "The following format strings are in the wrong order: %s"
             ) % ", ".join(self.format_string(x) for x in sorted(set(result["missing"])))
         else:
-            if result["missing"]:
-                yield self.get_missing_text(
-                    self.format_string(x) for x in set(result["missing"])
-                )
-            if result["extra"]:
-                yield self.get_extra_text(
-                    self.format_string(x) for x in set(result["extra"])
-                )
+            yield from super().format_result(result)
 
     def get_description(self, check_obj: Check) -> StrOrPromise:
         unit = check_obj.unit

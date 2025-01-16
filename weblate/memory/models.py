@@ -35,6 +35,15 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project
 
 
+SUPPORTED_FORMATS = (
+    "json",
+    "tmx",
+    "xliff",
+    "po",
+    "csv",
+)
+
+
 class MemoryImportError(Exception):
     pass
 
@@ -164,6 +173,12 @@ class MemoryManager(models.Manager):
     ):
         origin = os.path.basename(fileobj.name).lower()
         name, extension = os.path.splitext(origin)
+
+        if extension.lower().strip(".") not in SUPPORTED_FORMATS:
+            raise MemoryImportError(
+                gettext("Unsupported file extension: %s") % extension
+            )
+
         if len(name) > 25:
             origin = f"{name[:25]}...{extension}"
 

@@ -16,7 +16,7 @@ TEST_MONO_BASE_CSV = get_test_file("en-multi.csv")
 
 
 class MultiCSVUtf8FormatTest(BaseFormatTest):
-    FORMAT = MultiCSVUtf8Format
+    format_class = MultiCSVUtf8Format
     FILE = TEST_CSV
     MIME = "text/csv"
     COUNT = 2

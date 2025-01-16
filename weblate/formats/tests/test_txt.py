@@ -14,7 +14,7 @@ APPSTORE_FILE = get_test_file("short_description.txt")
 
 
 class AppStoreFormatTest(BaseFormatTest):
-    FORMAT = AppStoreFormat
+    format_class = AppStoreFormat
     FILE = APPSTORE_FILE
     MIME = "text/plain"
     EXT = "txt"
@@ -31,4 +31,4 @@ class AppStoreFormatTest(BaseFormatTest):
     def parse_file(self, filename):
         if not os.path.isdir(filename):
             filename = os.path.dirname(filename)
-        return self.FORMAT(filename)
+        return self.format_class(filename)

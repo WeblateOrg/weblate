@@ -1224,9 +1224,17 @@ th.number {
 thead th {
   font-weight: normal;
 }
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  border-top: var(--border);
+}
 
 .table > thead > tr > th {
-  border-bottom: 1px solid #bfc3c7;
+  border-bottom: none;
 }
 
 .table-listing,
@@ -1941,7 +1949,7 @@ a.language:hover {
   padding: 20px 0;
   margin: 0;
   border: 2px solid #e9eaec;
-  border-radius: 15px;
+  border-radius: calc(var(--border-radius) - 2px);
 }
 .metric-number {
   font-size: 40px;
@@ -2305,7 +2313,6 @@ tbody.warning {
 }
 
 .panel-default > .panel-heading {
-  background-color: #e9eaec60;
   border: var(--border);
 }
 .panel-danger > .panel-heading {
