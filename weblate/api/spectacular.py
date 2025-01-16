@@ -65,6 +65,10 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             "drf_spectacular.hooks.postprocess_schema_enums",
             "weblate.api.docs.add_middleware_headers",
         ],
+        "EXTERNAL_DOCS": {
+            "url": "https://docs.weblate.org/en/latest/",
+            "description": "Official Weblate documentation",
+        },
         "TAGS": [
             {
                 "name": "root",
