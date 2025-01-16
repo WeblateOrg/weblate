@@ -430,3 +430,13 @@ class RSTReferencesCheckTest(CheckTestCase):
                 "rst-text",
             ),
         )
+
+    def test_option_space(self) -> None:
+        self.do_test(
+            True,
+            (
+                ":option:`wlc push`",
+                ":option:`wlc pull`",
+                "rst-text",
+            ),
+        )

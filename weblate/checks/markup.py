@@ -64,7 +64,7 @@ XML_ENTITY_MATCH = re.compile(
 )
 
 RST_REF_MATCH = re.compile(
-    r"((:(?!guilabel|file|code|math|eq|abbr|dfn|menuselection|sub|sup)[a-z:]+:)(?:`([^<` ]+)`|`[^<`]+<([^<` ]+)>`))"
+    r"((:(?!guilabel|file|code|math|eq|abbr|dfn|menuselection|sub|sup)[a-z:]+:)(?:`([^<`]+)`|`[^<`]+<([^<` ]+)>`))"
 )
 
 
