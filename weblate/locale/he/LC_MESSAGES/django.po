@@ -1,15 +1,15 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2023, 2024.
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2023, 2024, 2025.
 # שלמה <shlomo.mail16@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 15:25+0000\n"
-"PO-Revision-Date: 2025-01-15 19:23+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-01-16 10:57+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
 "Language: he\n"
@@ -2696,20 +2696,14 @@ msgid "This translation is currently locked."
 msgstr "תרגום זה נעול כרגע."
 
 #: weblate/auth/permissions.py:194
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires accepting its contributor license "
 "agreement."
 msgstr "התרומה לתרגום זה דורשת ממך להסכים להסכם ההתנדבות שלו."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
-msgstr "נא להיכנס כדי לשמור את התרגום."
+msgstr "נא להיכנס כדי לשמור תרגומים."
 
 #: weblate/auth/permissions.py:205
 msgid "Insufficient privileges for approving translations."
@@ -2730,10 +2724,6 @@ msgid "Suggestion voting is disabled."
 msgstr "הצבעה על הצעות מושבתת."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
 msgstr "תרגום זה מקבל הצעות בלבד שאותן ניתן לאשר באמצעות הצבעה."
 
@@ -2743,48 +2733,34 @@ msgid "Pay the bills to unlock this project."
 msgstr "עליך לשלם את החוב כדי לשחרר את המיזם הזה."
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
 msgstr "סקירות מחרוזת מקור אינן פעילות."
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "הצעות לתרגומים כבויות."
+msgstr "סקירות תרגומים כבויות."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "הצגת הפריטים כבתה"
+msgstr "סקירה מושבתת."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "מחרוזת המקור דורשת סקירה."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
 msgstr "המחרוזת היא לקריאה בלבד."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"רק סוקרים יכולים לשנות מחרוזות שאושרו, נא להוסיף הצעה אם לדעתך יש לשנות את "
+"רק סוקרים יכולים לשנות מחרוזות שאושרו. נא להוסיף הצעה אם לדעתך יש לשנות את "
 "המחרוזת."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "התרגום הוא לקריאה בלבד."
 
@@ -2797,15 +2773,11 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "הוספת מחרוזות מושבתת בהגדרות הרכיב."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
-msgstr "לא ניתן להסיר את תרגום המינוח, נא להסיר את המחרוזת במקור."
+msgstr "לא ניתן להסיר את תרגום המינוח, נא להסיר את מחרוזת המקור במקום."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
 msgstr "סוג הקובץ לא תומך בזה."
 
@@ -3315,6 +3287,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"ההפניה של Fluent תחת {sequence} עלולה להתפרס לתגית HTML. אולי מוטב להשתמש "
+"ב־{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
@@ -3322,6 +3296,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"ההפניה של Fluent תחת {sequence} עלולה להתפרס להפניית תווים של HTML. אולי "
+"מוטב להשתמש ב־{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
@@ -3393,7 +3369,7 @@ msgstr "תגית HTML סוגרת לא תואמת: {tag}."
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "לרכיב ה־HTML בשם {name} שלא מחזיר כלום לא אמורה להיות תגית סיום: {end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
@@ -3456,6 +3432,8 @@ msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
+"לערך ה־Fluent יש תגית HTML מסוג {tag} נוספות עבור ההגוונים הבאים: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1116
 #, python-brace-format
@@ -3464,6 +3442,8 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
+"להגוונים הבאים בערך המקורי של Fluent אין לפחות הגוון אחד תואם בתרגום עם אותה "
+"סדרה של רכיבי HTML‏: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1131
 msgid ""
@@ -3477,6 +3457,8 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
+"להגוונים הבאים בערך המתורגם של Fluent אין לפחות הגוון אחד תואם במקור עם אותה "
+"סדרה של רכיבי HTML‏: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1219
 msgid "Fluent translation inner HTML"
@@ -3527,7 +3509,7 @@ msgstr ""
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "לערך ה־Fluent חסרה הפניית {reference} של Fluent."
 
 #: weblate/checks/fluent/references.py:395
 #, python-brace-format
@@ -3964,12 +3946,12 @@ msgstr "התרגום משתמש בסימון HTML בלתי בטוח"
 
 #: weblate/checks/markup.py:359
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "הפניות בלתי עקביות של reStructuredText"
 
 #: weblate/checks/markup.py:361
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
-msgstr ""
+msgstr "הפניות מונחים בלתי עקביות של reStructuredText בהודעה המתורגמת."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5266,10 +5248,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "אישור מחיקת כל רשומות זיכרון התרגום"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "סוג התמונה אינו נתמך: %s"
+msgstr "סיומת הקובץ אינה נתמכת: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -6907,10 +6888,8 @@ msgid "Available add-ons"
 msgstr "תוספים זמינים"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "אפשר להתקין את התוסף רק על הרכיב."
+msgstr "אפשר להתקין את התוסף רק ברמת הרכיב."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -7920,10 +7899,8 @@ msgid "Screenshots"
 msgstr "צילומי מסך"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "שכפול רכיב"
+msgstr "שכפול הרכיב הזה"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -10730,7 +10707,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
-msgstr ""
+msgstr "מיזמים שאינם מתוכנתים (כגון ספרים או תוכן גרפי) מוזמנים גם כן."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
