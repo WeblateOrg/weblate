@@ -441,6 +441,24 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
+    def test_ref_space(self) -> None:
+        self.do_test(
+            True,
+            (
+                "Add it to :setting:`django:INSTALLED_APPS`:",
+                "把它添加到:setting:`django:INSTALLED_APPS`:",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "Add it to :setting:`django:INSTALLED_APPS`:",
+                "把它添加到 :setting:`django:INSTALLED_APPS`:",
+                "rst-text",
+            ),
+        )
+
     def test_translatable(self) -> None:
         self.do_test(
             True,

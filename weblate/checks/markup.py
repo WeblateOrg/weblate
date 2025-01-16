@@ -63,7 +63,9 @@ XML_ENTITY_MATCH = re.compile(
     re.VERBOSE,
 )
 
-RST_REF_MATCH = re.compile(r"((:[a-z:]+:)(?:`([^<`]+)`|`[^<`]+<([^<` ]+)>`))")
+RST_REF_MATCH = re.compile(
+    r"(?:(?<=\s)|^)((:[a-z:]+:)(?:`([^<`]+)`|`[^<`]+<([^<` ]+)>`))"
+)
 
 # These should be present in translation if present in source, but might be translated
 RST_TRANSLATABLE = {
