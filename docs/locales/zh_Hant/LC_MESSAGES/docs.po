@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 16:26+0100\n"
-"PO-Revision-Date: 2025-01-15 19:19+0000\n"
+"PO-Revision-Date: 2025-01-16 07:02+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -559,6 +559,7 @@ msgstr ""
 "`使用者` （預設完成於經由 :ref:`automatic team assignment <autoteam>`）。"
 
 #: ../../admin/access.rst:243
+#, fuzzy
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
@@ -804,7 +805,7 @@ msgid ""
 msgstr ""
 "使用者必須為團隊成員並團隊連結到專案或任何元件的成員。擁有成員身份就足夠了，"
 "瀏覽專案不需要特定的權限（這被用於預設的 `檢視者` 小組，見 :ref:`default-"
-"groups` ）。"
+"teams` ）。"
 
 #: ../../admin/access.rst:352
 #, fuzzy
@@ -3131,11 +3132,11 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
-"元件發現附加用途 :ref:`內部網址`。它是在多個元件之間共享 VCS 設定的便捷方式。"
-"連結元件使用透過填寫 ``webbleate:// project / main-component`` 中設定的主要元"
-"件的本機儲存庫 :ref:`component-repo` 欄位（\\ :guilabel:`Manage` ↓ :guilabel:"
-"`Settings` ↓ :guilabel:`Version control system`）。這也可以節省時間和系統資"
-"源。"
+"元件發現附加用途 :ref:`internal-urls`。它是在多個元件之間共享 VCS "
+"設定的便捷方式。連結元件使用透過填寫 ``webbleate:// project / main-"
+"component`` 中設定的主要元件的本機儲存庫 :ref:`component-repo` 欄位（\\ "
+":guilabel:`Manage` ↓ :guilabel:`Settings` ↓ :guilabel:`Version control "
+"system`）。這也可以節省時間和系統資源。"
 
 #: ../../admin/addons.rst:434
 msgid ":ref:`markup`, :wladmin:`import_project`"
@@ -4105,12 +4106,12 @@ msgid "Set a timeframe for removal of suggestions."
 msgstr "設定移除建議的時間間隔。"
 
 #: ../../admin/addons.rst:937
+#, fuzzy
 msgid ""
 "Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
-msgstr ""
-"此附加元件在與建議投票一道用來刪除在給定的時間內沒有得到足夠的正面投票的建議"
+msgstr "此附加元件在與建議投票一道用來刪除在給定的時間內沒有得到足夠的正面投票的建議"
 "方面非常有用。"
 
 #: ../../admin/addons.rst:944
@@ -5964,7 +5965,7 @@ msgstr ":ref:`cloudbackup` 為您提供自動化遠端備份，無需費力。"
 
 #: ../../admin/backup.rst:172
 msgid ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
-msgstr ":doc:`borg:usage/list` ， :doc:`borg:usage/extract`"
+msgstr ":ref:`weblate-ssh-key` ， :doc:`borg:usage/general`"
 
 #: ../../admin/backup.rst:175
 msgid "Restoring from BorgBackup"
@@ -6144,8 +6145,8 @@ msgid ""
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
-"之後，一些條目將已經在資料庫中建立，您也會在資料庫備份中看到它們。推薦的方法"
-"是使用管理 shell 手動刪除這些條目 (見：ref:`invoke-manage`)："
+"之後，一些條目將已經在資料庫中建立，您也會在資料庫備份中看到它們。"
+"推薦的方法是使用管理 shell 手動刪除這些條目 (見:ref:`invoke-manage`)："
 
 #: ../../admin/backup.rst:280
 msgid "Files"
@@ -6340,6 +6341,7 @@ msgid ""
 msgstr "按照上面備份與恢復說明，將您的安裝遷移到不同系統。"
 
 #: ../../admin/backup.rst:389
+#, fuzzy
 msgid ""
 "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
@@ -6645,7 +6647,7 @@ msgstr "``forbidden``"
 #: ../../admin/checks.rst:111
 msgid ""
 "Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`."
-msgstr "表示術語表中的禁止翻譯，請參閱:ref:“詞彙表禁止”。"
+msgstr "表示術語表中的禁止翻譯，請參閱:ref:`glossary-forbidden`。"
 
 #: ../../admin/checks.rst:112
 msgid "``strict-same``"
@@ -6961,7 +6963,7 @@ msgstr "``ignore-c-format``"
 
 #: ../../admin/checks.rst:185
 msgid "Skip the :ref:`check-c-format` quality check."
-msgstr "略過\\ :ref:`檢查 C 格式`\\ 品質檢查。"
+msgstr "略過:ref:`check-c-format` 品質檢查。"
 
 #: ../../admin/checks.rst:186 ../../user/checks.rst:467
 msgid "``ignore-c-sharp-format``"
@@ -7588,9 +7590,8 @@ msgstr "管理字型"
 msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
-msgstr ""
-"上傳到Weberate的字體純粹用於:ref:“Check-Max-Size`”檢查，它們在WebLate使用者界"
-"面中沒有效果。"
+msgstr "上傳到Weberate的字體純粹用於:ref:`check-max-"
+"size`”檢查，它們在WebLate使用者界面中沒有效果。"
 
 #: ../../admin/checks.rst:344
 msgid ""
@@ -7598,7 +7599,7 @@ msgid ""
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
-"用於計算呈現文本需要的尺寸的 :ref: ' check-max-size '檢查需要字體被載入進 "
+"用於計算呈現文本需要的尺寸的 :ref:`check-max-size`檢查需要字體被載入進 "
 "Weblate 並被一個翻譯標識選中 (見 :ref:`custom-checks`)。"
 
 #: ../../admin/checks.rst:348
@@ -8276,7 +8277,7 @@ msgstr ""
 
 #: ../../admin/config.rst:287
 msgid ":ref:`backup`, :doc:`borg:usage/create`"
-msgstr ":doc:`borg:usage/list` ， :doc:`borg:usage/extract`"
+msgstr ":ref:`backup` ， :doc:`borg:usage/create`"
 
 #: ../../admin/config.rst:293
 msgid "CACHE_DIR"
@@ -8493,7 +8494,7 @@ msgstr "``\"reply-to\"``"
 msgid ""
 "The sender is used in as :mailheader:`Reply-To`, this is the default "
 "behaviour."
-msgstr "寄件人用於：MailHeader：“回覆”，這是預設行為。"
+msgstr "寄件人用於:mailheader:`Reply-To`，這是預設行為。"
 
 #: ../../admin/config.rst:423
 msgid "``\"from\"``"
@@ -8965,8 +8966,9 @@ msgid ""
 "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 msgstr ""
-"：設定：`django：session_cookie_secure`，：設定：`django："
-"csrf_cookie_secure`，：設定：`django：secure_sl_redirect`"
+":setting:`django:SESSION_COOKIE_SECURE`，:setting:`django:CSRF_COOKIE_SECURE`"
+"，:setting:`django:SECURE_SSL_REDIRECT`，:setting:`django:SECURE_PROXY_SSL_HE"
+"ADER`"
 
 #: ../../admin/config.rst:747
 msgid "ENABLE_SHARING"
@@ -11640,9 +11642,8 @@ msgstr "明確地請求了送交。"
 msgid ""
 "Change is older than period defined as :ref:`component-commit_pending_age` "
 "on :ref:`component`."
-msgstr ""
-"更改比 :ref:`component` 上定義為 :guilabel:`Age of changes to commit` 的時間"
-"段更陳舊。"
+msgstr "更改比 :ref:`component` 上定義為 :ref:`component-commit_pending_age` "
+"的時間段更陳舊。"
 
 #: ../../admin/continuous.rst:523
 #, fuzzy
@@ -12889,9 +12890,9 @@ msgid ""
 "should be owned and writable by the user running all Weblate processes "
 "(typically WSGI and Celery, see :ref:`server` and :ref:`celery`)."
 msgstr ""
-"Weblate 進程需要能夠讀寫它保存資料的目錄 - setting:`DATA_DIR`。該目錄下的所有"
-"檔案都應該由執行所有 Weblate 進程的使用者擁有和可寫入（通常是 WSGI 和 "
-"Celery，見 :ref:`server` and :ref:`celery`）。"
+"Weblate 進程需要能夠讀寫它保存資料的目錄 - :setting:`DATA_DIR`。"
+"該目錄下的所有檔案都應該由執行所有 Weblate 進程的使用者擁有和可寫入（通常是 "
+"WSGI 和 Celery，見 :ref:`server` and :ref:`celery`）。"
 
 #: ../../admin/install.rst:375
 msgid ""
@@ -13188,10 +13189,10 @@ msgid ""
 "of concurrent users accessing the system. See the various vendors "
 "documentation on those details."
 msgstr ""
-"下面是用於 8 GB 記憶體伺服器的 /:file:`etc/my.cnf.d/server.cnf 的範例。這些設"
-"定應該足以用於多數安裝。 MySQL 和 MariaDB 具有來提高伺服器性能的可調整部分，"
-"除非計劃有大量並發使用者存取系統，否則這些可調整部分被認為是不必要的。這些細"
-"節請查看各廠商的說明文件。"
+"下面是用於 8 GB 記憶體伺服器的 :file:`/etc/my.cnf.d/server.cnf` "
+"的範例。這些設定應該足以用於多數安裝。 MySQL 和 MariaDB "
+"具有來提高伺服器性能的可調整部分，除非計劃有大量並發使用者存取系統，否則這些"
+"可調整部分被認為是不必要的。這些細節請查看各廠商的說明文件。"
 
 #: ../../admin/install.rst:580
 msgid ""
@@ -13260,11 +13261,11 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
-"郵件伺服器使用這些設定進行組態: :setting:`django:EMAIL_HOST`, :setting:"
-"`django:EMAIL_HOST_PASSWORD`, :setting:`django:EMAIL_USE_TLS`, :setting:"
-"`django:EMAIL_USE_SSL`, :setting:`django: EMAIL_HOST_USER` and :setting:"
-"`django:EMAIL_PORT`。從名稱就可以大概知道它們的含義，但是您可以在Django說明文"
-"件中找到更多資訊。"
+"郵件伺服器使用這些設定進行組態: :setting:`django:EMAIL_HOST`, "
+":setting:`django:EMAIL_HOST_PASSWORD`, :setting:`django:EMAIL_USE_TLS`, "
+":setting:`django:EMAIL_USE_SSL`, :setting:`django:EMAIL_HOST_USER` and "
+":setting:`django:EMAIL_PORT`。從名稱就可以大概知道它們的含義，但是您可以在Dja"
+"ngo說明文件中找到更多資訊。"
 
 #: ../../admin/install.rst:676
 msgid ""
@@ -13281,7 +13282,7 @@ msgstr ""
 msgid ""
 ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
-msgstr ":ref:“調試郵件”，:ref:“在Docker容器中組態傳出電子郵件<docker-mail>`"
+msgstr ":ref:`debug-mails`，:ref:`在Docker容器中組態傳出電子郵件<docker-mail>`"
 
 #: ../../admin/install.rst:689
 msgid "Running behind reverse proxy"
@@ -14099,7 +14100,7 @@ msgstr "正在執行伺服器"
 msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
-msgstr "如果您沒有在下面描述的服務經歷，您可能需要嘗試 :doc:`安裝/docker`。"
+msgstr "如果您沒有在下面描述的服務經歷，您可能需要嘗試 :doc:`install/docker`。"
 
 #: ../../admin/install.rst:1312
 msgid ""
@@ -14277,8 +14278,8 @@ msgid ""
 "files/deployment`"
 msgstr ""
 ":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
-"compress`, :doc:`django:howto/deployment/index`, :doc:`django :howto/static-"
-"files/deployment`"
+"compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/"
+"static-files/deployment`"
 
 #: ../../admin/install.rst:1397
 msgid "Content security policy"
@@ -14744,8 +14745,7 @@ msgstr ""
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
-msgstr ""
-"用於監視Weberate的指標，您可以使用：http：get：`/ api / metrics /`api端點。"
+msgstr "用於監視Weberate的指標，您可以使用:http:get:`/api/metrics/` api端點。"
 
 #: ../../admin/install.rst:1703
 #, fuzzy
@@ -15494,8 +15494,8 @@ msgid ""
 "the services should be running just once in the cluster, and the order of "
 "the services matters as well."
 msgstr ""
-"每個Weblate容器都有定義的角色：envvar：`weblate_service`環境變數。請仔細追蹤"
-"說明文件，因為某些服務應該在叢集中僅執行一次，並且服務的順序也是如此。"
+"每個Weblate容器都有定義的角色:envvar:`WEBLATE_SERVICE`環境變數。請仔細追蹤說"
+"明文件，因為某些服務應該在叢集中僅執行一次，並且服務的順序也是如此。"
 
 #: ../../admin/install/docker.rst:404
 msgid ""
@@ -15713,7 +15713,7 @@ msgstr "組態 :setting:`STATUS_URL`."
 
 #: ../../admin/install/docker.rst:601
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
-msgstr "組態聯繫表單行為，請參閱：設定：`contact_form`。"
+msgstr "組態聯繫表單行為，請參閱:setting:`CONTACT_FORM`。"
 
 #: ../../admin/install/docker.rst:605
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
@@ -16033,12 +16033,12 @@ msgid "Configures rate limiter."
 msgstr "配置速率限制器。"
 
 #: ../../admin/install/docker.rst:925
+#, fuzzy
 msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
-msgstr ""
-"您可以設定任何速率限制器範圍的組態。為此設定的任何設定新增``Web21```:ref:`速"
-"率限制`。"
+msgstr "您可以設定任何速率限制器範圍的組態。為此設定的任何設定新增``WEBLATE_`` :ref"
+":`rate-limit`。"
 
 #: ../../admin/install/docker.rst:930
 msgid ""
@@ -16791,7 +16791,7 @@ msgstr "組態 :setting:`STATUS_URL`."
 
 #: ../../admin/install/docker.rst:1726
 msgid "Configures :setting:`LEGAL_URL`."
-msgstr "組態: setting:`LEGAL_URL`."
+msgstr "組態:setting:`LEGAL_URL`."
 
 #: ../../admin/install/docker.rst:1730
 msgid "Configures :setting:`PRIVACY_URL`."
@@ -16958,7 +16958,7 @@ msgstr ""
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
-msgstr "預設情況下，並發工作人員的數量基於：envvar：`weblate_workers`。"
+msgstr "預設情況下，並發工作人員的數量基於:envvar:`WEBLATE_WORKERS`。"
 
 #: ../../admin/install/docker.rst:1894
 msgid ""
@@ -17451,9 +17451,9 @@ msgid ""
 "There is also :file:`template-external-postgresql.yml` which does not start "
 "a PostgreSQL server and allows you to configure external PostgreSQL server."
 msgstr ""
-"：文件：`template.yml`非常適合執行OpenShift中的所有元件。還有：文件：“模板 - "
-"外部PostgreSQL.yml`”不啟動PostgreSQL伺服器，並允許您組態外部PostgreSQL服務"
-"器。"
+":file:`template.yml`非常適合執行OpenShift中的所有元件。還有：文件：“模板 - "
+"外部PostgreSQL.yml`”不啟動PostgreSQL伺服器，並允許您組態外部PostgreSQL服務器"
+"。"
 
 #: ../../admin/install/openshift.rst:23
 msgid "Web Console"
@@ -17768,7 +17768,7 @@ msgid ""
 "weblate/settings.py`."
 msgstr ""
 "將文件:file:`~/weblate-env/lib/python3.9/site-packages/weblate/"
-"settings_example.py` 複製為:file:`~/weblate-env/lib/python3.9/site-packages/ "
+"settings_example.py` 複製為:file:`~/weblate-env/lib/python3.9/site-packages/"
 "weblate/settings.py`。"
 
 #: ../../admin/install/steps/install-configure.rst:16
@@ -19899,7 +19899,8 @@ msgid ""
 ":doc:`install/docker`, :doc:`install/venv-debian`, :doc:`install/venv-"
 "suse`, :doc:`install/venv-redhat`, :doc:`install/source`"
 msgstr ""
-":doc:`安裝/ docker`，:doc:westal / Venv-debian`，:doc:westall / Venv-suse`"
+":doc:`install/docker`， :doc:`install/venv-debian`， :doc:`install/venv-"
+"suse`， :doc:`install/venv-redhat`， :doc:`install/source`"
 
 #: ../../admin/management.rst:80
 msgid "add_suggestions"
@@ -20149,7 +20150,7 @@ msgstr "dumpuserdata"
 
 #: ../../admin/management.rst:286
 msgid "Dumps userdata to a file for later use by :wladmin:`importuserdata`."
-msgstr "透過 :djadmin:`importuserdata` 將 userdata 傾印到檔案供以後使用"
+msgstr "透過 :wladmin:`importuserdata` 將 userdata 傾印到檔案供以後使用"
 
 #: ../../admin/management.rst:290
 msgid "This comes in handy when migrating or merging Weblate instances."
@@ -21155,9 +21156,9 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
-"對儲存庫的受限制的存取（使用 `Private` :ref:`存取控制 <acl>` 或在 :setting:"
-"`REQUIRE_LOGIN` 處於啟用狀態時）需要一個 API 代符，取得位置在您的 :ref: "
-"`user-profile <user-profile>`:"
+"對儲存庫的受限制的存取（使用 `Private` :ref:`存取控制 <acl>` 或在 "
+":setting:`REQUIRE_LOGIN` 處於啟用狀態時）需要一個 API 代符，取得位置在您的 "
+":ref:`user-profile`:"
 
 #: ../../admin/optionals.rst:61
 msgid ""
