@@ -1995,7 +1995,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :param q: Search query string :ref:`Searching` (optional)
+    :param q: Search query string :doc:`/user/search` (optional)
     :type q: string
     :>json array results: array of component objects; see :http:get:`/api/units/(int:id)/`
 
@@ -2163,7 +2163,7 @@ and XLIFF.
 
     Returns list of translation units.
 
-    :param q: Search query string :ref:`Searching` (optional)
+    :param q: Search query string :doc:`/user/search` (optional)
     :type q: string
 
     .. seealso::
