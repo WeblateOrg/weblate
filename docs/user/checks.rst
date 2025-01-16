@@ -1385,6 +1385,21 @@ translation file or defined manually using ``regex`` flag:
 
    regex:^foo|bar$
 
+.. _check-rst-syntax:
+
+reStructuredText syntax error
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.10
+
+:Summary: reStructuredText syntax error in the translation.
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.RSTSyntaxCheck``
+:Check identifier: ``rst-syntax``
+:Flag to enable: ``rst-text``
+:Flag to ignore: ``ignore-rst-syntax``
+
+reStructuredText syntax error in the translation.
 
 .. _check-reused:
 

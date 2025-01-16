@@ -3939,6 +3939,15 @@ wheels = [
 ]
 
 [[package]]
+name = "types-docutils"
+version = "0.21.0.20241128"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/dd/df/64e7ab01a4fc5ce46895dc94e31cffc8b8087c8d91ee54c45ac2d8d82445/types_docutils-0.21.0.20241128.tar.gz", hash = "sha256:4dd059805b83ac6ec5a223699195c4e9eeb0446a4f7f2aeff1759a4a7cc17473", size = 26739 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/59/b6/10ba95739f2cbb9c5bd2f6568148d62b468afe01a94c633e8892a2936d8a/types_docutils-0.21.0.20241128-py3-none-any.whl", hash = "sha256:e0409204009639e9b0bf4521eeabe58b5e574ce9c0db08421c2ac26c32be0039", size = 34677 },
+]
+
+[[package]]
 name = "types-html5lib"
 version = "1.1.11.20241018"
 source = { registry = "https://pypi.org/simple" }
@@ -4201,6 +4210,7 @@ dependencies = [
     { name = "django-otp-webauthn" },
     { name = "django-redis" },
     { name = "djangorestframework" },
+    { name = "docutils" },
     { name = "drf-spectacular", extra = ["sidecar"] },
     { name = "filelock" },
     { name = "fluent-syntax" },
@@ -4347,6 +4357,7 @@ dev = [
     { name = "sphinxext-opengraph" },
     { name = "tinyunicodeblock" },
     { name = "types-dateparser" },
+    { name = "types-docutils" },
     { name = "types-jsonschema" },
     { name = "types-lxml" },
     { name = "types-openpyxl" },
@@ -4401,6 +4412,7 @@ types = [
     { name = "djangorestframework-stubs" },
     { name = "mypy" },
     { name = "types-dateparser" },
+    { name = "types-docutils" },
     { name = "types-jsonschema" },
     { name = "types-lxml" },
     { name = "types-openpyxl" },
@@ -4442,6 +4454,7 @@ requires-dist = [
     { name = "django-zxcvbn-password", marker = "extra == 'zxcvbn'", specifier = "==2.1.1" },
     { name = "djangorestframework", specifier = ">=3.15.2,<3.16" },
     { name = "djangosaml2idp", marker = "extra == 'saml2idp'", specifier = "==0.7.2" },
+    { name = "docutils", specifier = ">=0.21.2,<0.22" },
     { name = "drf-spectacular", extras = ["sidecar"], specifier = ">=0.27.2,<0.29" },
     { name = "filelock", specifier = ">=3.16.1,<4" },
     { name = "fluent-syntax", specifier = ">=0.18.1,<0.20" },
@@ -4531,6 +4544,7 @@ dev = [
     { name = "sphinxext-opengraph", specifier = "==0.9.1" },
     { name = "tinyunicodeblock", specifier = "==1.3" },
     { name = "types-dateparser", specifier = "==1.2.0.20240420" },
+    { name = "types-docutils", specifier = "==0.21.0.20241128" },
     { name = "types-jsonschema", specifier = "==4.23.0.20241208" },
     { name = "types-lxml", specifier = "==2024.12.13" },
     { name = "types-openpyxl", specifier = "==3.1.5.20241225" },
@@ -4581,6 +4595,7 @@ types = [
     { name = "djangorestframework-stubs", specifier = "==3.15.2" },
     { name = "mypy", specifier = "==1.14.1" },
     { name = "types-dateparser", specifier = "==1.2.0.20240420" },
+    { name = "types-docutils", specifier = "==0.21.0.20241128" },
     { name = "types-jsonschema", specifier = "==4.23.0.20241208" },
     { name = "types-lxml", specifier = "==2024.12.13" },
     { name = "types-openpyxl", specifier = "==3.1.5.20241225" },

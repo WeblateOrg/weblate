@@ -5,11 +5,12 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, TypedDict
 
 import sentry_sdk
 from django.http import Http404
 from django.utils.html import format_html, format_html_join
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext
 from lxml import etree
 from siphashc import siphash
@@ -28,7 +29,11 @@ if TYPE_CHECKING:
     from .flags import Flags
     from .models import Check
 
-MissingExtraDict = dict[Literal["missing", "extra"], list[str]]
+
+class MissingExtraDict(TypedDict, total=False):
+    missing: list[str]
+    extra: list[str]
+    errors: list[str]
 
 
 class BaseCheck:
@@ -321,19 +326,27 @@ class TargetCheck(BaseCheck):
             gettext("The following format strings are extra: {}"), values
         )
 
+    def get_errors_text(self, values: Iterable[str]) -> StrOrPromise:
+        return format_html_join(
+            mark_safe("<br />"),  # noqa: S308
+            "{}",
+            (
+                (value,)
+                for value in (gettext("The following errors were found:"), *values)
+            ),
+        )
+
     def format_string(self, string: str) -> str:
         """Format parsed format string into human readable value."""
         return string
 
     def format_result(self, result: MissingExtraDict) -> Iterable[StrOrPromise]:
-        if result["missing"]:
-            yield self.get_missing_text(
-                self.format_string(x) for x in set(result["missing"])
-            )
-        if result["extra"]:
-            yield self.get_extra_text(
-                self.format_string(x) for x in set(result["extra"])
-            )
+        if missing := result.get("missing"):
+            yield self.get_missing_text(self.format_string(x) for x in set(missing))
+        if extra := result.get("extra"):
+            yield self.get_extra_text(self.format_string(x) for x in set(extra))
+        if errors := result.get("errors"):
+            yield self.get_errors_text(set(errors))
 
 
 class SourceCheck(BaseCheck):
