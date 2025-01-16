@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 16:26+0100\n"
-"PO-Revision-Date: 2025-01-15 18:46+0000\n"
+"PO-Revision-Date: 2025-01-16 08:25+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "documentation/ko/>\n"
@@ -182,8 +182,8 @@ msgid ""
 "settings <custom-acl>`."
 msgstr ""
 "기본적으로 `공개`, `보호됨` 및 `비공개` 프로젝트에서 사용자가 사용할 수 있는 "
-"실제 권한 집합은 웨브레이트 인스턴스 관리자가 :ref:`사용자 정의 설정`를 사용"
-"하여 재정의할 수 있습니다."
+"실제 권한 집합은 웨브레이트 인스턴스 관리자가 :ref:`사용자 정의 설정 <custom-"
+"acl>`를 사용하여 재정의할 수 있습니다."
 
 #: ../../admin/access.rst:83
 msgid ":ref:`project-access_control`"
@@ -203,9 +203,9 @@ msgid ""
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
-"유저를 승인하는 것은 :guilabel: `프로젝트에 엑세스`(:ref:`특권`을 참조) 그들"
-"이 다른 유저의 `퍼블릭`, `보호된` 그리고 `비공개`(`커스텀`은 해당되지 않음) "
-"프로젝트에 팀으로 참가함으로서 접근할 수 있도록 허락하는 것을 말합니다."
+"유저를 승인하는 것은 :guilabel: `프로젝트에 엑세스`(:ref:`privileges`을 참조)"
+" 그들이 다른 유저의 `퍼블릭`, `보호된` 그리고 `비공개`(`커스텀`은 해당되지 "
+"않음) 프로젝트에 팀으로 참가함으로서 접근할 수 있도록 허락하는 것을 말합니다."
 
 #: ../../admin/access.rst:96
 msgid ""
@@ -239,7 +239,7 @@ msgstr "검토 중에 번역을 승인할 수 있습니다."
 
 #: ../../admin/access.rst:105
 msgid "Available only if :ref:`review workflow <reviews>` is on."
-msgstr ":ref:`워크플로 검토`기능이 켜져 있는 경우에만 사용할 수 있습니다."
+msgstr ":ref:`워크플로 검토 <reviews>`기능이 켜져 있는 경우에만 사용할 수 있습니다."
 
 #: ../../admin/access.rst:107
 msgid "For `Protected` and `Private` projects only:"
@@ -371,8 +371,8 @@ msgid ""
 "You can limit teams to languages or components, and assign them designated "
 "access roles (see :ref:`privileges`)."
 msgstr ""
-"당신은 언어나 구성 요소로 팀에 제약을 걸 수 있으며 유저가 설정된 역할에 접근"
-"할 수 있게 배치할 수 있습니다 (`privilleges` 참조)."
+"당신은 언어나 구성 요소로 팀에 제약을 걸 수 있으며 유저가 설정된 역할에 "
+"접근할 수 있게 배치할 수 있습니다 (:ref:`privilleges` 참조)."
 
 #: ../../admin/access.rst:150
 msgid "Team administrators"
@@ -480,12 +480,12 @@ msgid "Per-project permission management"
 msgstr "프로젝트별 권한 관리"
 
 #: ../../admin/access.rst:199
+#, fuzzy
 msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
-msgstr ""
-"대상 프로젝트를 `보호됨` 또는 `비공개` 로 설정하고, Weblate 인터페이스에서 프"
-"로젝트당 사용자를 관리합니다."
+msgstr "대상 프로젝트를 `보호됨` 또는 `비공개` 로 설정하고, Weblate 인터페이스에서 "
+"프로젝트당 사용자를 관리합니다."
 
 #: ../../admin/access.rst:202
 msgid ""
@@ -497,11 +497,11 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "기본적으로 이것은 Weblate가 `Users` 및 `Viewers` :ref:`default groups "
-"<default-groups>`가 제공하는 접속 권한을 부여하는 것을 방지합니다. 이는 이러"
-"한 그룹의 자체 구성으로 인해 발생합니다. 이는 기본 그룹을 변경하거나, 새 그룹"
-"을 생성하거나, 아래의 :ref:`custom-acl`에 설명된 대로 개별 구성요소에 대한 추"
-"가 사용자 지정 설정을 생성하여 사이트 전체에서 해당 프로젝트에 권한을 부여하"
-"는 것을 방지하지 않습니다."
+"<default-teams>`가 제공하는 접속 권한을 부여하는 것을 방지합니다. 이는 "
+"이러한 그룹의 자체 구성으로 인해 발생합니다. 이는 기본 그룹을 변경하거나, 새 "
+"그룹을 생성하거나, 아래의 :ref:`custom-acl`에 설명된 대로 개별 구성요소에 "
+"대한 추가 사용자 지정 설정을 생성하여 사이트 전체에서 해당 프로젝트에 권한을 "
+"부여하는 것을 방지하지 않습니다."
 
 #: ../../admin/access.rst:208
 msgid ""
@@ -581,8 +581,7 @@ msgstr ""
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
-msgstr ""
-"`Users`(:ref:`automatic team assignment <autoteam>을 기본으로 처리됩니다)."
+msgstr "`Users`(:ref:`automatic team assignment <autoteam>`을 기본으로 처리됩니다)."
 
 #: ../../admin/access.rst:243
 msgid ""
@@ -44691,7 +44690,7 @@ msgstr "또한 :ref:`check-same`에서 번역 불가 용어집을 활용합니�
 
 #: ../../user/checks.rst:162
 msgid ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
-msgstr ":ref:`용어집`, :ref:`custom-checks`, :ref:`component-check_flags`"
+msgstr ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
 
 #: ../../user/checks.rst:169
 msgid "Double space"
@@ -49037,7 +49036,7 @@ msgstr ""
 
 #: ../../user/translating.rst:93
 msgid ":ref:`variants`, :ref:`glossary-variants`"
-msgstr ":ref:`변형`, :ref:`glossary-variants`"
+msgstr ":ref:`variants`, :ref:`glossary-variants`"
 
 #: ../../user/translating.rst:97
 msgid "Labels"
