@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 16:26+0100\n"
-"PO-Revision-Date: 2025-01-16 09:15+0000\n"
+"PO-Revision-Date: 2025-01-16 09:18+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -14449,14 +14449,11 @@ msgid ""
 msgstr "通过切换 :std:setting:`REGISTRATION_OPEN` 配置是否打开注册。"
 
 #: ../../admin/install/docker.rst:637
-#, fuzzy
-#| msgid ""
-#| "Configures whether registrations are open by toggling :std:setting:"
-#| "`REGISTRATION_OPEN`."
 msgid ""
 "Configures whether captcha is used for registration and other "
 "unauthenticated actions, see :std:setting:`REGISTRATION_CAPTCHA`."
-msgstr "通过切换 :std:setting:`REGISTRATION_OPEN` 配置是否打开注册。"
+msgstr "配置是否将人机验证码用于账户注册和其他未经身份验证的操作，见 "
+":std:setting:`REGISTRATION_CAPTCHA`。"
 
 #: ../../admin/install/docker.rst:648
 msgid ""
@@ -23636,12 +23633,6 @@ msgid ""
 msgstr "要下载的语言码；如未指定，将包括所有语言。"
 
 #: ../../api.rst:930
-#, fuzzy
-#| msgid ""
-#| "Returns information about VCS repository status. This endpoint contains "
-#| "only an overall summary for all repositories for the project. To get more "
-#| "detailed status use :http:get:`/api/components/(string:project)/(string:"
-#| "component)/repository/`."
 msgid ""
 "Returns information about the VCS repository status. This endpoint contains "
 "only an overall summary for all repositories for the project. To get more "
@@ -23649,8 +23640,8 @@ msgid ""
 "component)/repository/`."
 msgstr ""
 "返回版本控制系统仓库状态的信息。这个端点只包含项目所有仓库的整体概况。为了得"
-"到更多细节，请使用 :http:get:`/api/components/(string:project)/(string:"
-"component)/repository/`。"
+"到更多细节，请使用 :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`。"
 
 #: ../../api.rst:936 ../../api.rst:1610
 msgid "whether there are any pending changes to commit"
@@ -24757,10 +24748,8 @@ msgid ""
 msgstr "``target`` 和 ``source`` 现在是数组了，可以正确处理复数字符串。"
 
 #: ../../api.rst:2182
-#, fuzzy
-#| msgid "The attribute value is not quoted."
 msgid "The ``last_updated`` attribute is now exposed."
-msgstr "属性值未被引用。"
+msgstr "现在暴露 ``last_updated`` 属性。"
 
 #: ../../api.rst:2184
 msgid "Returns information about the translation unit."
@@ -24816,10 +24805,6 @@ msgid "translation unit labels, available on source units"
 msgstr "译文单元标签，在原文单元上可用"
 
 #: ../../api.rst:2199
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved, 100 - read only"
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read-only"
@@ -25843,10 +25828,8 @@ msgid "**Improvements**"
 msgstr "**改进**"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgid "Improved error handling in :ref:`machine-translation-setup`."
-msgstr "改进了 :ref:`machine-translation-setup` 中的错误报告。"
+msgstr "改进了 :ref:`machine-translation-setup` 中的错误处理。"
 
 #: ../../changes.rst:13
 msgid ""
@@ -25881,10 +25864,8 @@ msgid "**Bug fixes**"
 msgstr "**缺陷修复**"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgid "Fixed translations caching in :ref:`machine-translation-setup`."
-msgstr "改进了 :ref:`machine-translation-setup` 中的错误报告。"
+msgstr "修复了 :ref:`machine-translation-setup` 中的翻译缓存。"
 
 #: ../../changes.rst:21 ../../changes.rst:117 ../../changes.rst:257
 #: ../../changes.rst:362 ../../changes.rst:452 ../../changes.rst:614
@@ -25951,16 +25932,12 @@ msgid "**Contributors**"
 msgstr "**贡献者**"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/135?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/133?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/135?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"133?closed=1>`__。"
 
 #: ../../changes.rst:36
 msgid "Weblate 5.9.2"
@@ -42982,13 +42959,6 @@ msgid "This feature is modelled on flags in :ref:`gettext`."
 msgstr "这个功能是以 :ref:`gettext` 中的标志为模型。"
 
 #: ../../formats.rst:446
-#, fuzzy
-#| msgid ""
-#| "Additionally, for all XML based format, the flags are extracted from the "
-#| "non-standard attribute ``weblate-flags``. Additionally ``max-length:N`` "
-#| "is supported through the ``maxwidth`` `attribute <http://docs.oasis-open."
-#| "org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF "
-#| "standard, see :ref:`xliff-flags`."
 msgid ""
 "Additionally, for all XML based format, the flags are extracted from the non-"
 "standard attribute ``weblate-flags``. Additionally ``max-length:N`` is "
@@ -42996,10 +42966,10 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
 "see :ref:`xliff-flags`."
 msgstr ""
-"此外，对于所有基于 XML 的格式，标记是从非标准属性 ``weblate-flags`` 中提取"
-"的。而且还通过 XLIFF 标准中定义的 ``maxwidth`` `属性 <http://docs.oasis-open."
-"org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ 支持了 ``max-length:N``，请参"
-"阅 :ref:`xliff-flags`。"
+"此外，对于所有基于 XML 的格式，标记是从非标准属性 ``weblate-flags`` "
+"中提取的。而且还通过 XLIFF 标准中定义的 ``maxwidth`` `属性 <https://"
+"docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ 支持了 ``max-"
+"length:N``，请参阅 :ref:`xliff-flags`。"
 
 #: ../../formats.rst:454
 msgid ":ref:`custom-checks`, `PO files documentation`_"
@@ -43268,14 +43238,6 @@ msgid "Apple iOS strings are usually used as monolingual."
 msgstr "苹果 iOS 字符串通常用作单语言。"
 
 #: ../../formats/apple.rst:17
-#, fuzzy
-#| msgid ""
-#| ":ref:`stringsdict`, `Apple \"strings files\" documentation <https://"
-#| "developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
-#| "BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles."
-#| "html>`_, `Message Catalog File Format in PWG 5100.13 <http://ftp.pwg.org/"
-#| "pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13."
-#| "pdf#page=66>`_, :doc:`tt:formats/strings`"
 msgid ""
 ":ref:`stringsdict`, `Apple \"strings files\" documentation <https://"
 "developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
@@ -43286,8 +43248,8 @@ msgid ""
 msgstr ""
 ":ref:`stringsdict`, `Apple“字符串文件”文档 <https://developer.apple.com/"
 "library/archive/documentation/MacOSX/Conceptual/BPInternational/"
-"MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_, `消息目录"
-"文件PWG 5100.13 中的格式 <http://ftp.pwg.org/pub/pwg/candidates/cs-"
+"MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_, `"
+"消息目录文件PWG 5100.13 中的格式 <https://ftp.pwg.org/pub/pwg/candidates/cs-"
 "ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :doc:`tt:formats/"
 "strings`"
 
@@ -45079,19 +45041,14 @@ msgstr ""
 "``Source_Sans_Pro``，当命名字符集时请记住这些请参见 :ref:`fonts`）。"
 
 #: ../../formats/xliff.rst:114
-#, fuzzy
-#| msgid ""
-#| "`font attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/"
-#| "xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 <http://docs."
-#| "oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgid ""
 "`font attribute in XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/"
 "xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 <https://docs."
 "oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgstr ""
-"`XLIFF 1.2 中的字体属性 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core."
-"html#font>`_，`XLIFF 1.2 中的 maxwidth 属性 <http://docs.oasis-open.org/"
-"xliff/v1.2/os/xliff-core.html#maxwidth>`_"
+"`XLIFF 1.2 中的字体属性 <https://docs.oasis-open.org/xliff/v1.2/os/xliff-"
+"core.html#font>`_，`XLIFF 1.2 中的 maxwidth 属性 <https://"
+"docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 
 #: ../../formats/xliff.rst:118
 msgid "String keys"
