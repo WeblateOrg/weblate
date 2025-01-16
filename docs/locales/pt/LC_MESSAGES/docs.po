@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 16:26+0100\n"
-"PO-Revision-Date: 2025-01-16 07:35+0000\n"
+"PO-Revision-Date: 2025-01-16 07:56+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -17176,13 +17176,14 @@ msgstr ""
 "volumes de dados, mas eles não são cobertos por este documento."
 
 #: ../../admin/install/docker.rst:1963
+#, fuzzy
 msgid ""
 "The ``data`` volume is mounted as :file:`/app/data` and is used to store "
 "Weblate persistent data such as cloned repositories or to customize Weblate "
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
-"O volume ``dados`` é montado como :file:`/app/data`` e é utilizado para "
+"O volume ``data`` é montado como :file:`/app/data`` e é utilizado para "
 "armazenar dados persistentes do Weblate, como repositórios clonados ou para "
 "personalizar a instalação do Weblate."
 
@@ -17283,7 +17284,7 @@ msgstr ""
 "Se precisar modificar uma configuração que não está exposta como uma "
 "variável de ambiente do Docker, ainda poderá fazê-lo :ref:`a partir do "
 "volume de dados <docker-settings-override>` ou :ref:`estendendo a imagem do "
-"Docker < docker-custom-settings>`."
+"Docker <docker-custom-settings>`."
 
 #: ../../admin/install/docker.rst:2018
 msgid ":doc:`../customize`"
@@ -18128,8 +18129,8 @@ msgid ""
 msgstr ""
 "Definições para cerca de 650 idiomas estão incluídas no Weblate e a lista é "
 "estendida a cada versão. Sempre que o Weblate é atualizado (mais "
-"especificamente sempre que :wladmin:` migrate` é executado, veja :ref:"
-"`generic-upgrade-Instructions`) o banco de dados de idiomas é atualizado "
+"especificamente sempre que :wladmin:`migrate` é executado, veja :ref"
+":`generic-upgrade-instructions`) o banco de dados de idiomas é atualizado "
 "para incluir todas as definições de idioma enviadas no Weblate."
 
 #: ../../admin/languages.rst:20
@@ -18160,9 +18161,9 @@ msgid ""
 "the ISO 639-1 one) from the :ref:`component-filemask` to any existing "
 "language object."
 msgstr ""
-"Ao analisar as traduções, o Weblate tenta mapear o código de idioma "
-"(geralmente o ISO 639-1) a partir da :ref: `component-filemask` para "
-"qualquer objeto de idioma existente."
+"Ao analisar as traduções, o Weblate tenta mapear o código de idioma ("
+"geralmente o ISO 639-1) a partir da :ref:`component-filemask` para qualquer "
+"objeto de idioma existente."
 
 #: ../../admin/languages.rst:38
 msgid ""
@@ -18232,7 +18233,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:65
 msgid ":ref:`language-code`, :ref:`adding-translation`"
-msgstr ":ref:`language-code`, :ref:`adding-translations`"
+msgstr ":ref:`language-code`, :ref:`adding-translation`"
 
 #: ../../admin/languages.rst:72
 msgid "Changing language definitions"
@@ -18307,7 +18308,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:116
 msgid ":ref:`language-parsing-codes`, :ref:`adding-translation`"
-msgstr ":ref:`language-parsing-codes`, :ref:`adding-translations`"
+msgstr ":ref:`language-parsing-codes`, :ref:`adding-translation`"
 
 #: ../../admin/languages.rst:122 ../../admin/projects.rst:1069
 #: ../../api.rst:734 ../../api.rst:736 ../../api.rst:791 ../../api.rst:802
@@ -19939,7 +19940,7 @@ msgid ""
 "`./setup.py` script, the :command:`weblate` is installed to your path (or "
 "virtualenv path), from where you can use it to control Weblate:"
 msgstr ""
-"Se instalou o Weblate pelo instalador pip, ou usando o script :file:`. /"
+"Se instalou o Weblate pelo instalador pip, ou usando o script :file:`./"
 "setup.py`, o :command:`weblate` é instalado no seu caminho (ou caminho "
 "virtualenv), de onde pode usá-lo para controlar o Weblate:"
 
@@ -23286,7 +23287,7 @@ msgid ""
 "actual implementation depends on VCS, see :doc:`/vcs`."
 msgstr ""
 "Pode configurar como as atualizações a partir do repositório upstream são "
-"tratadas. A implementação real depende do VCS, veja :doc:`/vcs'."
+"tratadas. A implementação real depende do VCS, veja :doc:`/vcs`."
 
 #: ../../admin/projects.rst:787
 msgid "Rebase"
@@ -25824,7 +25825,7 @@ msgstr "URL semântico do componente"
 
 #: ../../api.rst:895
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr "Edita um projeto por uma solicitação :http:method:PUT`."
+msgstr "Edita um projeto por uma solicitação :http:method:`PUT`."
 
 #: ../../api.rst:902
 msgid "Deletes a project."
@@ -26190,7 +26191,7 @@ msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
 msgstr ""
-"Usa :http:post:`/api/projects/(string:project)/repository/` para criar "
+"Usa :http:post:`/api/projects/(string:project)/components/` para criar "
 "componentes."
 
 #: ../../api.rst:1274
@@ -29624,7 +29625,7 @@ msgstr "Lançado em 10 de maio de 2024."
 
 #: ../../changes.rst:485
 msgid "Visually highlight explanation in :ref:`glossary`."
-msgstr "Destaque visualmente a explicação em :ref:`glossário`."
+msgstr "Destaque visualmente a explicação em :ref:`glossary`."
 
 #: ../../changes.rst:486
 msgid "Add :ref:`addons` history tab in management."
@@ -29818,7 +29819,7 @@ msgstr "Aprimoramentos na API"
 
 #: ../../changes.rst:584
 msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
-msgstr "Adicionado: http:get:`/api/categories/(int:id)/statistics/`."
+msgstr "Adicionado :http:get:`/api/categories/(int:id)/statistics/`."
 
 #: ../../changes.rst:585
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
@@ -30165,7 +30166,7 @@ msgstr ""
 
 #: ../../changes.rst:708
 msgid "Nicer formatting of :ref:`glossary` tooltips."
-msgstr "Melhor formatação para dicas de ferramentas do :ref:`glossário`."
+msgstr "Melhor formatação para dicas de ferramentas do :ref:`glossary`."
 
 #: ../../changes.rst:709
 msgid ""
@@ -30204,7 +30205,7 @@ msgstr ""
 #: ../../changes.rst:718
 msgid ":ref:`addon-weblate.cleanup.blank` now correctly removes blank plurals."
 msgstr ""
-":ref: `addon-weblate.cleanup.blank` agora remove corretamente os plurais em "
+":ref:`addon-weblate.cleanup.blank` agora remove corretamente os plurais em "
 "branco."
 
 #: ../../changes.rst:722
@@ -30293,12 +30294,12 @@ msgid ""
 ":ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:"
 "`glossary-mt`."
 msgstr ""
-":ref:`mt-deepl` tem melhor desempenho em :ref:`auto-tradução` e suporta :ref:"
-"`glossary-mt`."
+":ref:`mt-deepl` tem melhor desempenho em :ref:`auto-translation` e suporta "
+":ref:`glossary-mt`."
 
 #: ../../changes.rst:764
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-translator` suporta o :ref:`glossário-mt`."
+msgstr ":ref:`mt-microsoft-translator` suporta o :ref:`glossary-mt`."
 
 #: ../../changes.rst:765
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
@@ -37180,8 +37181,8 @@ msgid ""
 "Automatically initialize user languages based on the :http:header:`Accept-"
 "Language` header."
 msgstr ""
-"Inicializar automaticamente os idiomas do utilizador à base do cabeçalho :"
-"http:header:'Accept-Language'."
+"Inicializar automaticamente os idiomas do utilizador à base do cabeçalho "
+":http:header:`Accept-Language`."
 
 #: ../../changes/v4.rst:473
 msgid "Improved error handling on string removal."
@@ -37944,7 +37945,7 @@ msgid ""
 "settings accordingly."
 msgstr ""
 "Há várias mudanças em :file:`settings_example.py`, notadamente mudanças de "
-"middleware (:setting:`django: MIDDLEWARE`). Ajuste as suas configurações de "
+"middleware (:setting:`django:MIDDLEWARE`). Ajuste as suas configurações de "
 "acordo."
 
 #: ../../changes/v4.rst:704
@@ -38191,7 +38192,7 @@ msgid ""
 "There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to "
 "prefer Argon2 for passwords hashing."
 msgstr ""
-"Há uma mudança nas dependências e :setting:`django: PASSWORD_HASHERS` para "
+"Há uma mudança nas dependências e :setting:`django:PASSWORD_HASHERS` para "
 "preferir Argon2 para hashing de palavras-passe."
 
 #: ../../changes/v4.rst:778
@@ -38509,7 +38510,7 @@ msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` "
 "should be added."
 msgstr ""
-"Há uma mudança em :setting:`django: INSTALLED_APPS` - ``weblate.metrics`` "
+"Há uma mudança em :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` "
 "deve ser adicionado."
 
 #: ../../changes/v4.rst:871
@@ -38731,8 +38732,8 @@ msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`, ``weblate."
 "configuration`` has to be added there."
 msgstr ""
-"Há uma mudança em :setting:`django: INSTALLED_APPS`, ``weblate."
-"configuration`` deve ser adicionado lá."
+"Há uma mudança em :setting:`django:INSTALLED_APPS`, ``weblate.configuration``"
+" deve ser adicionado lá."
 
 #: ../../changes/v4.rst:940
 msgid "Django 3.1 is now required."
@@ -42670,8 +42671,8 @@ msgid ""
 "follow :doc:`../admin/install/source`. It will get you a virtualenv with "
 "editable Weblate sources."
 msgstr ""
-"A abordagem mais confortável para começar a desenvolver Weblate é seguir :"
-"doc:`.../admin/install/source`. Isso lhe dará um virtualenv com fontes "
+"A abordagem mais confortável para começar a desenvolver Weblate é seguir "
+":doc:`../admin/install/source`. Isso lhe dará um virtualenv com fontes "
 "editáveis do Weblate."
 
 #: ../../contributing/start.rst:23
@@ -45119,8 +45120,8 @@ msgid ""
 msgstr ""
 "Agora tudo que precisa é traduzir o conteúdo da documentação. O Sphinx gera "
 "um ficheiro PO para cada diretório ou ficheiro de nível superior, o que pode "
-"levar a muitos ficheiros para traduzir (dependendo das configurações de :"
-"confval:`sphinx: gettext_compact`). Pode importar o :file:`index.po` no "
+"levar a muitos ficheiros para traduzir (dependendo das configurações de "
+":confval:`sphinx:gettext_compact`). Pode importar o :file:`index.po` no "
 "Weblate como um componente inicial e então configurar a extensão :ref:`addon-"
 "weblate.discovery.discovery` para descobrir automaticamente todos os outros."
 
@@ -46258,7 +46259,7 @@ msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
-"Desativar o recebimento de webhooks o :ref:'project'; isto impede que o "
+"Desativar o recebimento de webhooks o :ref:`project`; isto impede que o "
 "Weblate veja imediatamente alterações no repositório."
 
 #: ../../faq.rst:294
@@ -46275,7 +46276,7 @@ msgid ""
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
-"Altere o :ref:`component' para corresponder à nova configuração; ao alterar "
+"Altere o :ref:`component` para corresponder à nova configuração; ao alterar "
 "a configuração, Weblate irá buscar o repositório atualizado e notará as "
 "localizações alteradas enquanto mantém as cadeias existentes."
 
@@ -46659,8 +46660,8 @@ msgid ""
 msgstr ""
 "Isto pode ser causado pelo uso de códigos de idioma obsoletos juntamente com "
 "um novo (``ja`` e ``jp`` para japonês) ou incluindo tanto códigos "
-"específicos do país como genéricos (``fr`` e ``fr_FR``). Veja :ref:"
-"`languagage-parsing-codes` para mais detalhes."
+"específicos do país como genéricos (``fr`` e ``fr_FR``). Veja :ref:`language-"
+"parsing-codes` para mais detalhes."
 
 #: ../../faq.rst:503
 msgid "Features"
@@ -47728,6 +47729,7 @@ msgstr ""
 "apresentará como cadeias separados para traduzir."
 
 #: ../../formats/appstore.rst:18
+#, fuzzy
 msgid ""
 "In case you don't want to translate certain strings (for example "
 "changelogs), you can hide them using :ref:`component-key_filter` or mark "
@@ -54788,8 +54790,7 @@ msgstr "``changed:DATETIME``"
 #: ../../user/search.rst:83 ../../user/search.rst:209
 msgid "String content was changed on date, supports :ref:`search-operators`."
 msgstr ""
-"O conteúdo da cadeia foi alterado na data, suporta :ref:`operadores de "
-"pesquisa`."
+"O conteúdo da cadeia foi alterado na data, suporta :ref:`search-operators`."
 
 #: ../../user/search.rst:84 ../../user/search.rst:214
 msgid "``change_time:DATETIME``"
@@ -56103,9 +56104,9 @@ msgid ""
 "translation page."
 msgstr ""
 "Baseado na configuração e o seu idioma traduzido, o Weblate fornece "
-"sugestões de várias ferramentas de tradução e :ref:`memoria-tradução`. Todas "
-"as traduções de máquina estão disponíveis numa única guia de cada página de "
-"tradução."
+"sugestões de várias ferramentas de tradução e :ref:`translation-memory`. "
+"Todas as traduções de máquina estão disponíveis numa única guia de cada "
+"página de tradução."
 
 #: ../../user/translating.rst:352
 #, fuzzy
@@ -57403,9 +57404,9 @@ msgid ""
 "`$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
 "Weblate espera que tenha aceito o certificado com antecedência (e as suas "
-"credenciais, se necessário). Ele procurará inseri-las no diretório :set:"
-"`DATA_DIR`. Aceite o certificado a utilizar `svn` uma vez com a variável de "
-"ambiente `$HOME` definida como :setting:`DATA_DIR`:"
+"credenciais, se necessário). Ele procurará inseri-las no diretório "
+":setting:`DATA_DIR`. Aceite o certificado a utilizar `svn` uma vez com a "
+"variável de ambiente `$HOME` definida como :setting:`DATA_DIR`:"
 
 #: ../../vcs.rst:603
 msgid "Local files"
