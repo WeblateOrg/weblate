@@ -440,3 +440,29 @@ class RSTReferencesCheckTest(CheckTestCase):
                 "rst-text",
             ),
         )
+
+    def test_translatable(self) -> None:
+        self.do_test(
+            True,
+            (
+                ":kbd:`Ctrl+Home`",
+                ": kbd:`Ctrl+Home`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                ":kbd:`Ctrl+Home`",
+                ":kbd:`Ctrl+Home`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                ":kbd:`Ctrl+Home`",
+                ":kbd:`Ctrl+Inicio`",
+                "rst-text",
+            ),
+        )

@@ -63,9 +63,22 @@ XML_ENTITY_MATCH = re.compile(
     re.VERBOSE,
 )
 
-RST_REF_MATCH = re.compile(
-    r"((:(?!guilabel|file|code|math|eq|abbr|dfn|menuselection|sub|sup)[a-z:]+:)(?:`([^<`]+)`|`[^<`]+<([^<` ]+)>`))"
-)
+RST_REF_MATCH = re.compile(r"((:[a-z:]+:)(?:`([^<`]+)`|`[^<`]+<([^<` ]+)>`))")
+
+# These should be present in translation if present in source, but might be translated
+RST_TRANSLATABLE = {
+    ":guilabel:",
+    ":file:",
+    ":code:",
+    ":math:",
+    ":eq:",
+    ":abbr:",
+    ":dfn:",
+    ":menuselection:",
+    ":sub:",
+    ":sup:",
+    ":kbd:",
+}
 
 
 def strip_entities(text):
@@ -370,7 +383,9 @@ class RSTReferencesCheck(TargetCheck):
 
     def extract_references(self, text: str) -> dict[str, str]:
         return {
-            f"{role}{target or named_target}": text
+            role
+            if role in RST_TRANSLATABLE
+            else f"{role}{target or named_target}": text
             for text, role, target, named_target in RST_REF_MATCH.findall(text)
         }
 
