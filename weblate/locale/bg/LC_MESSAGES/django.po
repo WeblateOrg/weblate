@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-15 15:25+0000\n"
-"PO-Revision-Date: 2025-01-16 07:31+0000\n"
+"PO-Revision-Date: 2025-01-16 07:56+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -2804,8 +2804,6 @@ msgstr ""
 "споразумение за принос."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
 msgstr "Впишете се, за да можете да запазвате преводите си."
 
@@ -2828,12 +2826,10 @@ msgid "Suggestion voting is disabled."
 msgstr "Гласуването за предложения е изключено."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
-msgstr "Този превод приема само предложения, а те се одобряват чрез гласуване."
+msgstr ""
+"Този превод приема само предложения, които трябва да бъдат одобрени чрез "
+"гласуване."
 
 #: weblate/auth/permissions.py:235
 #: weblate/templates/snippets/project/state.html:6
@@ -2841,38 +2837,26 @@ msgid "Pay the bills to unlock this project."
 msgstr "Платете сметките, за да отблокирате този проект."
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
-msgstr "Рецензирането на изходни низове не е включено."
+msgstr "Рецензирането на изходни низове е изключено."
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "Предложенията за преводи са изключени."
+msgstr "Рецензирането на преводи е изключено."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "Показването на обектите е изключено"
+msgstr "Рецензирането е изключено."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "Изходният низ има нужда от одобрение."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
 msgstr "Този низ е само за четене."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
@@ -2881,8 +2865,6 @@ msgstr ""
 "предложение, ако смятате, че низът трябва да бъде променен."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "Този превод е само за четене."
 
@@ -2895,8 +2877,6 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "Добавянето на низове в настройката на компонента е изключена."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
@@ -2904,8 +2884,6 @@ msgstr ""
 "премахнете изходния низ."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
 msgstr "Файловият формат не поддържа това."
 
@@ -4117,12 +4095,12 @@ msgstr "Преводът използва опасен код HTML"
 
 #: weblate/checks/markup.py:359
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "Непоследователни препратки на reStructuredText"
 
 #: weblate/checks/markup.py:361
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
-msgstr ""
+msgstr "Непоследователни препратки на reStructuredText в преведения текст."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5414,12 +5392,9 @@ msgid "File"
 msgstr "Файл"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr ""
-"Можете да качите файл в един от следните формати: TMX, JSON, XLIFF, PO, CSV."
+msgstr "Можете да качите файл в един от следните формати: %s."
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5448,10 +5423,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "Потвърдете изтриването на всички записи в паметта за преводи"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "Неподдържан тип изображение: %s"
+msgstr "Неподдържан вид файлово разширение: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -7098,11 +7072,8 @@ msgid "Configure"
 msgstr "Настройка"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
-msgstr ""
-"Добавките могат да се инсталират за цял проект или само за отделен компонент."
+msgstr "Добавките могат да се инсталират също и на ниво проект или компонент."
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -7123,10 +7094,8 @@ msgid "Available add-ons"
 msgstr "Налични добавки"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "Добавката може да бъде инсталирана само за компонента."
+msgstr "Добавката може да бъде инсталирана само на ниво компонент."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -8157,10 +8126,8 @@ msgid "Screenshots"
 msgstr "Екранни снимки"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "Дублиране на компонент"
+msgstr "Дублиране на този компонент"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -11034,6 +11001,8 @@ msgstr ""
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
 msgstr ""
+"Проекти, които не са свързани с код (например книги или графично съдържание)"
+", също са добре дошли."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
