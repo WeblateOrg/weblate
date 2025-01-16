@@ -70,6 +70,8 @@ Here is a list of flags currently accepted:
 
 ``rst-text``
     Treat a text as an reStructuredText document, affects :ref:`check-same`.
+``bbcode-text``
+    Treat a text as an Bulletin Board Code (BBCode) document, affects :ref:`check-same`.
 ``dos-eol``
     Uses DOS end-of-line markers instead of Unix ones (``\r\n`` instead of ``\n``).
 ``read-only``

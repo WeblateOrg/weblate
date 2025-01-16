@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 * :ref:`check-rst-references` check to validate reStructuredText references.
+* New `bbcode-text` flag to activate BBCode check was added, see :ref:`custom-checks`.
 
 **Improvements**
 
