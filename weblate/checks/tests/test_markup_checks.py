@@ -494,6 +494,24 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
+    def test_footnotes(self) -> None:
+        self.do_test(
+            True,
+            (
+                "Context [#c]_",
+                "Kontext",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "Context [#c]_",
+                "Kontext [#c]_",
+                "rst-text",
+            ),
+        )
+
 
 class RSTSyntaxCheckTest(CheckTestCase):
     check = RSTSyntaxCheck()

@@ -70,6 +70,8 @@ XML_ENTITY_MATCH = re.compile(
 RST_REF_MATCH = re.compile(
     r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`([^<`]+)`|`[^<`]+<([^<` ]+)>`))(?=\W|$)"
 )
+RST_FOOTNOTE_MATCH = re.compile(r"(?:(?<=\W)|^)(\[#[^]]+\]_)(?=\W|$)")
+
 
 # These should be present in translation if present in source, but might be translated
 RST_TRANSLATABLE = {
@@ -393,12 +395,16 @@ class RSTReferencesCheck(RSTBaseCheck):
     )
 
     def extract_references(self, text: str) -> dict[str, str]:
-        return {
+        result: dict[str, str] = {
             role
             if role in RST_TRANSLATABLE
             else f"{role}{target or named_target}": text
             for text, role, target, named_target in RST_REF_MATCH.findall(text)
         }
+        result.update(
+            {footnote: footnote for footnote in RST_FOOTNOTE_MATCH.findall(text)}
+        )
+        return result
 
     def check_single(
         self, source: str, target: str, unit: Unit
@@ -445,6 +451,8 @@ class RSTReferencesCheck(RSTBaseCheck):
         if self.should_skip(unit):
             return
         for match in RST_REF_MATCH.finditer(source):
+            yield match.start(0), match.end(0), match.group(0)
+        for match in RST_FOOTNOTE_MATCH.finditer(source):
             yield match.start(0), match.end(0), match.group(0)
 
 
@@ -554,9 +562,3 @@ class RSTSyntaxCheck(RSTBaseCheck):
                 ((error,) for error in errors),
             )
         return super().get_description(check_obj)
-
-    def check_highlight(self, source: str, unit: Unit):
-        if self.should_skip(unit):
-            return
-        for match in RST_REF_MATCH.finditer(source):
-            yield match.start(0), match.end(0), match.group(0)
