@@ -23,9 +23,9 @@ from django.utils.translation import activate
 from openpyxl import load_workbook
 from PIL import Image
 
-from weblate.auth.models import Group, get_anonymous, setup_project_groups
+from weblate.auth.models import Group, User, get_anonymous, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import Component, ComponentList, Project
+from weblate.trans.models import Component, ComponentList, Project, Translation, Unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -147,18 +147,25 @@ class ViewTestCase(RepoTestCase):
         request._messages = messages  # noqa: SLF001
         return request
 
-    def get_translation(self, language="cs"):
+    def get_translation(self, language: str = "cs") -> Translation:
         return self.component.translation_set.get(language__code=language)
 
     def get_unit(
-        self, source: str = "Hello, world!\n", language: str = "cs", translation=None
-    ):
+        self,
+        source: str = "Hello, world!\n",
+        language: str = "cs",
+        translation: Translation | None = None,
+    ) -> Unit:
         if translation is None:
             translation = self.get_translation(language)
         return translation.unit_set.get(source__startswith=source)
 
     def change_unit(
-        self, target, source="Hello, world!\n", language="cs", user=None
+        self,
+        target: str,
+        source: str = "Hello, world!\n",
+        language: str = "cs",
+        user: User | None = None,
     ) -> None:
         unit = self.get_unit(source, language)
         unit.target = target
@@ -170,7 +177,7 @@ class ViewTestCase(RepoTestCase):
         target: str,
         language: str = "cs",
         follow: bool = False,
-        translation=None,
+        translation: Translation | None = None,
         **kwargs,
     ):
         """Do edit single unit using web interface."""
@@ -238,9 +245,15 @@ class ViewTestCase(RepoTestCase):
         tree = parse_xml(response.content)
         self.assertEqual(tree.tag, "{http://www.w3.org/2000/svg}svg")
 
-    def assert_backend(self, expected_translated, language="cs") -> None:
+    def assert_backend(
+        self,
+        expected_translated: int,
+        language: str = "cs",
+        translation: Translation | None = None,
+    ) -> None:
         """Check that backend has correct data."""
-        translation = self.get_translation(language)
+        if translation is None:
+            translation = self.get_translation(language)
         translation.commit_pending("test", None)
         store = translation.component.file_format_cls(translation.get_filename(), None)
         messages = set()

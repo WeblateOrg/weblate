@@ -1068,6 +1068,7 @@ class Unit(models.Model, LoggerMixin):
                     continue
                 unit.target = self.target
                 unit.state = self.state
+                unit.pending = True
                 unit.commit_if_pending(user)
                 to_update.append(unit)
 
@@ -1078,6 +1079,7 @@ class Unit(models.Model, LoggerMixin):
             Unit.objects.filter(pk__in=(unit.pk for unit in to_update)).update(
                 target=self.target,
                 state=self.state,
+                pending=True,
                 last_updated=self.last_updated,
             )
 
