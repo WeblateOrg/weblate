@@ -509,6 +509,14 @@ class RSTReferencesCheckTest(CheckTestCase):
                 "rst-text",
             ),
         )
+        self.do_test(
+            True,
+            (
+                ":kbd:`Ctrl+Home`",
+                ":kbd:`Ctrl+Inicio `",
+                "rst-text",
+            ),
+        )
 
     def test_footnotes(self) -> None:
         self.do_test(
