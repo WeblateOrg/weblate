@@ -431,6 +431,22 @@ class RSTReferencesCheckTest(CheckTestCase):
                 "rst-text",
             ),
         )
+        self.do_test(
+            False,
+            (
+                ":index:`bilingual <pair: translation; bilingual>`",
+                ":index:`vícejazyčný <pair: překlad; vícejazyčný>`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                ":index:`bilingual <pair: translation; bilingual>`",
+                ":ndex:`vícejazyčný <pair: překlad; vícejazyčný>`",
+                "rst-text",
+            ),
+        )
 
     def test_option_space(self) -> None:
         self.do_test(

@@ -68,7 +68,7 @@ XML_ENTITY_MATCH = re.compile(
 )
 
 RST_REF_MATCH = re.compile(
-    r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`([^<`]+)`|`[^<`]+<([^<` ]+)>`))(?=\W|$)"
+    r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`([^<`]+)`|`[^<`]+<([^<`]+)>`))(?=\W|$)"
 )
 RST_FOOTNOTE_MATCH = re.compile(r"(?:(?<=\W)|^)(\[#[^]]+\]_)(?=\W|$)")
 
@@ -86,9 +86,13 @@ RST_TRANSLATABLE = {
     ":sub:",
     ":sup:",
     ":kbd:",
+    ":index:",
 }
 
-RST_ROLE_RE = re.compile(r"""Unknown interpreted text role "([^"]*)"\.""")
+RST_ROLE_RE = [
+    re.compile(r"""Unknown interpreted text role "([^"]*)"\."""),
+    re.compile(r"""Interpreted text role "([^"]*)" not implemented\."""),
+]
 
 
 def strip_entities(text):
@@ -478,16 +482,10 @@ def validate_rst_snippet(
     def error_collector(data: system_message) -> None:
         """Save the error."""
         message = Element.astext(data)
-        if match := RST_ROLE_RE.match(message):
-            role = match.group(1)
-            roles.append(role)
-            if source_tags is not None and role in source_tags:
-                # Skip if the role was found in the source
-                return
-        elif message.startswith("Unknown target name:") and "`" not in message:
+        if message.startswith("Unknown target name:") and "`" not in message:
             # Translating targets is okay, just catch obvious errors
             return
-        elif message.startswith(
+        if message.startswith(
             (
                 # Duplicates Unknown interpreted in our case
                 "No role entry",
@@ -498,6 +496,13 @@ def validate_rst_snippet(
             )
         ):
             return
+        for rst_role_re in RST_ROLE_RE:
+            if match := rst_role_re.match(message):
+                role = match.group(1)
+                roles.append(role)
+                if source_tags is not None and role in source_tags:
+                    # Skip if the role was found in the source
+                    return
         errors.append(message)
 
     document.reporter.attach_observer(error_collector)
