@@ -470,6 +470,8 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         from weblate_language_data.languages import LANGUAGES
         from weblate_language_data.population import POPULATION
 
+        from weblate.trans.models import Translation
+
         # Invalidate cache, we might change languages
         self.flush_object_cache()
         languages = {
@@ -604,6 +606,9 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                         language.component_set.exists(),
                         language.change_set.exists(),
                         language.announcement_set.exists(),
+                        Translation.objects.filter(
+                            plural__in=language.plural_set.all()
+                        ).exists(),
                     ]
                 ):
                     language.delete()
@@ -611,6 +616,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         self._fixup_plural_types(logger)
 
     def move_language(self, source: Language, target: Language, logger=lambda x: x):
+        """Migrate all content from one language to anoother."""
         for translation in source.translation_set.iterator():
             other = translation.component.translation_set.filter(language=target)
             if other.exists():
