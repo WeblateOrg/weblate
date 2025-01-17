@@ -25,13 +25,13 @@ Not yet released.
 **Compatibility**
 
 * Running tests using Django test executor is no longer supported, see :doc:`/contributing/tests`.
+* API error responses format has changed, see :ref:`api-errors`.
 
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``REST_FRAMEWORK``, ``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
-* API error responses format has changed, see :ref:`api-errors`.
 
 **Contributors**
 
