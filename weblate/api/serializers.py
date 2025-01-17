@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, TypeVar, cast
 from zipfile import BadZipfile
 
 from django.conf import settings
+from django.db import models
 from django.db.models import Model
 from drf_spectacular.extensions import OpenApiSerializerExtension
 from drf_spectacular.plumbing import build_basic_type, build_object_type
@@ -17,6 +18,7 @@ from drf_spectacular.utils import (
     extend_schema_serializer,
     inline_serializer,
 )
+from drf_standardized_errors.openapi_serializers import ServerErrorEnum
 from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
@@ -1590,3 +1592,18 @@ def edit_service_settings_response_serializer(
         ),
     }
     return {code: serializers_[code] for code in codes}
+
+
+class ErrorCode423Enum(models.TextChoices):
+    REPOSITORY_LOCKED = "repository-locked"
+
+
+class Error423Serializer(serializers.Serializer):
+    code = serializers.ChoiceField(choices=ErrorCode423Enum.choices)
+    detail = serializers.CharField()
+    attr = serializers.CharField(allow_null=True)
+
+
+class ErrorResponse423Serializer(serializers.Serializer):
+    type = serializers.ChoiceField(choices=ServerErrorEnum.choices)
+    errors = Error423Serializer(many=True)

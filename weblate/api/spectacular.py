@@ -85,6 +85,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             "ErrorCode415Enum": "drf_standardized_errors.openapi_serializers.ErrorCode415Enum.choices",
             "ErrorCode429Enum": "drf_standardized_errors.openapi_serializers.ErrorCode429Enum.choices",
             "ErrorCode500Enum": "drf_standardized_errors.openapi_serializers.ErrorCode500Enum.choices",
+            "ErrorCode423Enum": "weblate.api.serializers.ErrorCode423Enum.choices",
         },
         "POSTPROCESSING_HOOKS": [
             "drf_standardized_errors.openapi_hooks.postprocess_schema_enums",
@@ -185,3 +186,57 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         settings["TOS"] = "/legal/terms/"
 
     return settings
+
+
+def get_drf_standardized_errors_sertings() -> dict[str, Any]:
+    return {
+        "ALLOWED_ERROR_STATUS_CODES": [
+            "400",
+            "401",
+            "403",
+            "404",
+            "405",
+            "406",
+            "415",
+            "423",  # Added by Weblate
+            "429",
+            "500",
+        ],
+        "ERROR_SCHEMAS": {
+            "423": "weblate.api.serializers.ErrorResponse423Serializer",
+        },
+    }
+
+
+def get_drf_settings(
+    *, require_login: bool, anon_throttle: str, user_throttle: str
+) -> dict[str, Any]:
+    return {
+        # Use Django's standard `django.contrib.auth` permissions,
+        # or allow read-only access for unauthenticated users.
+        "DEFAULT_PERMISSION_CLASSES": [
+            # Require authentication for login required sites
+            "rest_framework.permissions.IsAuthenticated"
+            if require_login
+            else "rest_framework.permissions.IsAuthenticatedOrReadOnly"
+        ],
+        "DEFAULT_AUTHENTICATION_CLASSES": (
+            "rest_framework.authentication.TokenAuthentication",
+            "weblate.api.authentication.BearerAuthentication",
+            "rest_framework.authentication.SessionAuthentication",
+        ),
+        "DEFAULT_THROTTLE_CLASSES": (
+            "weblate.api.throttling.UserRateThrottle",
+            "weblate.api.throttling.AnonRateThrottle",
+        ),
+        "DEFAULT_THROTTLE_RATES": {
+            "anon": anon_throttle,
+            "user": user_throttle,
+        },
+        "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
+        "PAGE_SIZE": 50,
+        "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
+        "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler",
+        "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
+        "DEFAULT_SCHEMA_CLASS": "drf_standardized_errors.openapi.AutoSchema",
+    }
