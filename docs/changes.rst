@@ -26,13 +26,13 @@ Not yet released.
 
 * Running tests using Django test executor is no longer supported, see :doc:`/contributing/tests`.
 * :ref:`check-bbcode` check is now disabled by default. The `bbcode-text` flag is required to activate this check, see :ref:`custom-checks`.
+* API error responses format has changed, see :ref:`api-errors`.
 
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
-* API error responses format has changed, see :ref:`api-errors`.
+* There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``REST_FRAMEWORK``, ``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 
 **Contributors**
 

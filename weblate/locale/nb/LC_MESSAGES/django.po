@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-01-15 15:25+0000\n"
+"POT-Creation-Date: 2025-01-17 12:43+0000\n"
 "PO-Revision-Date: 2025-01-15 19:23+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -2091,12 +2091,18 @@ msgstr ""
 msgid "Number of seconds until the rate-limit window resets"
 msgstr ""
 
-#: weblate/api/spectacular.py:43
+#: weblate/api/spectacular.py:57
 #: weblate/templates/drf_spectacular/redoc.html:11
 msgid "Weblate's REST API"
 msgstr ""
 
-#: weblate/api/views.py:2286 weblate/auth/models.py:930
+#: weblate/api/views.py:153
+#, fuzzy
+#| msgid "Failed to lock the repository, another operation is in progress."
+msgid "Could not obtain repository lock to perform the operation."
+msgstr "Kan ikke låse kodelageret, siden en annen operasjon pågår."
+
+#: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/accounts/user.html:322
@@ -2109,13 +2115,13 @@ msgstr ""
 msgid "Project"
 msgstr "Prosjekt"
 
-#: weblate/api/views.py:2294 weblate/trans/forms.py:1799
+#: weblate/api/views.py:2290 weblate/trans/forms.py:1799
 #: weblate/trans/models/announcement.py:83 weblate/trans/models/category.py:65
 #: weblate/trans/models/component.py:361
 msgid "Category"
 msgstr "Kategori"
 
-#: weblate/api/views.py:2302 weblate/checks/views.py:232
+#: weblate/api/views.py:2298 weblate/checks/views.py:232
 #: weblate/checks/views.py:239 weblate/templates/accounts/user.html:270
 #: weblate/templates/addons/discovery_preview.html:6
 #: weblate/templates/category-project.html:78
@@ -2128,11 +2134,11 @@ msgstr "Kategori"
 msgid "Component"
 msgstr "Komponent"
 
-#: weblate/api/views.py:2310
+#: weblate/api/views.py:2306
 msgid "User"
 msgstr "Bruker"
 
-#: weblate/api/views.py:2318 weblate/fonts/models.py:148
+#: weblate/api/views.py:2314 weblate/fonts/models.py:148
 #: weblate/templates/category.html:151 weblate/templates/component.html:188
 #: weblate/templates/lang/language_form.html:22
 #: weblate/templates/languages.html:16 weblate/templates/project.html:226
@@ -3210,17 +3216,23 @@ msgstr "AngularJS interpoleringsstreng"
 msgid "AngularJS interpolation strings do not match source"
 msgstr "AngularJS interpoleringsstrenger samsvarer ikke med kilde"
 
-#: weblate/checks/base.py:316
+#: weblate/checks/base.py:321
 #, fuzzy
 #| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
 msgstr "Følgende formatstrenger mangler: {}"
 
-#: weblate/checks/base.py:321
+#: weblate/checks/base.py:326
 #, fuzzy
 #| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
 msgstr "Følgende formatstrenger er ekstra: {}"
+
+#: weblate/checks/base.py:335
+#, fuzzy
+#| msgid "The following occurrences were found:"
+msgid "The following errors were found:"
+msgstr "Figurerer følgende steder:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -3332,7 +3344,7 @@ msgstr "Ikke samsvarende linjeskift"
 msgid "Number of new lines in translation does not match source"
 msgstr "Antallet nye linjer i oversettelser sammenfaller ikke med kilde"
 
-#: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:48
+#: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "Rom for Zero-bredde"
 
@@ -3364,7 +3376,7 @@ msgstr "Kashida-bokstav i bruk"
 msgid "The decorative kashida letters should not be used"
 msgstr "De dekorative kashida-bokstavene kan ikke brukes"
 
-#: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:100
+#: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "Tegnsettingsavstand"
 
@@ -3469,7 +3481,7 @@ msgstr "XML-tekst"
 msgid "DOS line endings"
 msgstr "DOS-linjeavslutninger"
 
-#: weblate/checks/flags.py:46 weblate/checks/markup.py:322
+#: weblate/checks/flags.py:46 weblate/checks/markup.py:353
 #: weblate/templates/data.html:32 weblate/templates/data.html:73
 #: weblate/templates/data.html:117 weblate/templates/data.html:158
 msgid "URL"
@@ -4194,74 +4206,93 @@ msgstr "XML-tagg har uventet innhold i oversettelsesdelen: %s"
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "Én eller flere XML-etiketter mangler innhold i oversettelsen: %s"
 
-#: weblate/checks/markup.py:78
+#: weblate/checks/markup.py:109
 msgid "BBCode markup"
 msgstr "BB-kode-oppmerking"
 
-#: weblate/checks/markup.py:79
+#: weblate/checks/markup.py:110
 msgid "BBCode in translation does not match source"
 msgstr "BBCode i oversettelsen stemmer ikke med kilden"
 
-#: weblate/checks/markup.py:159
+#: weblate/checks/markup.py:190
 msgid "XML syntax"
 msgstr "XML-syntaks"
 
-#: weblate/checks/markup.py:160
+#: weblate/checks/markup.py:191
 msgid "The translation is not valid XML"
 msgstr "Oversettelsen er ikke gyldig XML"
 
-#: weblate/checks/markup.py:184
+#: weblate/checks/markup.py:215
 msgid "XML markup"
 msgstr "XML-oppmerking"
 
-#: weblate/checks/markup.py:185
+#: weblate/checks/markup.py:216
 msgid "XML tags in translation do not match source"
 msgstr "XML-koder i oversettelsen stemmer ikke med kilden"
 
-#: weblate/checks/markup.py:243
+#: weblate/checks/markup.py:274
 msgid "Markdown references"
 msgstr "Markdown-referanser"
 
-#: weblate/checks/markup.py:244
+#: weblate/checks/markup.py:275
 msgid "Markdown link references do not match source"
 msgstr "Markdownlenkereferanser stemmer ikke overens med kilden"
 
-#: weblate/checks/markup.py:260
+#: weblate/checks/markup.py:291
 msgid "Markdown links"
 msgstr "Markdown-lenker"
 
-#: weblate/checks/markup.py:261
+#: weblate/checks/markup.py:292
 msgid "Markdown links do not match source"
 msgstr "Markdown-lenker stemmer ikke med kilden"
 
-#: weblate/checks/markup.py:289
+#: weblate/checks/markup.py:320
 msgid "Markdown syntax"
 msgstr "Markdown-syntaks"
 
-#: weblate/checks/markup.py:290
+#: weblate/checks/markup.py:321
 msgid "Markdown syntax does not match source"
 msgstr "Markdown-syntaks samsvarer ikke med kilde"
 
-#: weblate/checks/markup.py:323
+#: weblate/checks/markup.py:354
 msgid "The translation does not contain an URL"
 msgstr "Oversettelsen inneholder ikke en nettadresse"
 
-#: weblate/checks/markup.py:342 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:373 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "Utrygg HTML"
 
-#: weblate/checks/markup.py:343
+#: weblate/checks/markup.py:374
 msgid "The translation uses unsafe HTML markup"
 msgstr "Oversettelsen bruker utrygg HTML-oppmerking"
 
-#: weblate/checks/markup.py:359
+#: weblate/checks/markup.py:398
 msgid "Inconsistent reStructuredText references"
 msgstr ""
 
-#: weblate/checks/markup.py:361
+#: weblate/checks/markup.py:400
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
+
+#: weblate/checks/markup.py:432
+#, fuzzy
+#| msgid "%(count)s string is not being translated here."
+#| msgid_plural "%(count)s strings are not being translated here."
+msgid "Inconsistent links in the translated message."
+msgstr "%(count)s streng blir ikke oversatt her."
+
+#: weblate/checks/markup.py:545
+#, fuzzy
+#| msgid "reStructuredText"
+msgid "reStructuredText syntax error"
+msgstr "reStructuredText"
+
+#: weblate/checks/markup.py:546
+#, fuzzy
+#| msgid "Comment on own translation"
+msgid "reStructuredText syntax error in the translation."
+msgstr "Kommentar på egen oversettelse"
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -13828,15 +13859,15 @@ msgstr "Kodelager for versjonskontrollsystemer"
 msgid "Weblate translations"
 msgstr "Weblate-oversettelser"
 
-#: weblate/trans/autofixes/chars.py:30
+#: weblate/trans/autofixes/chars.py:31
 msgid "Trailing ellipsis"
 msgstr "Etterfølgende utelatelsestegn"
 
-#: weblate/trans/autofixes/chars.py:68
+#: weblate/trans/autofixes/chars.py:69
 msgid "Control characters"
 msgstr "Kontrolltegn"
 
-#: weblate/trans/autofixes/chars.py:81
+#: weblate/trans/autofixes/chars.py:82
 #, fuzzy
 msgid "Devanagari danda"
 msgstr "Devanagari-danda"
@@ -16370,40 +16401,40 @@ msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr ""
 "Bidrag til denne oversettelsen krever at du samtykker til bidragsyteravtalen."
 
-#: weblate/trans/models/unit.py:1811
+#: weblate/trans/models/unit.py:1813
 msgid "Unmark as read-only"
 msgstr "Opphev skrivebeskyttelsesmerking"
 
-#: weblate/trans/models/unit.py:1814
+#: weblate/trans/models/unit.py:1816
 msgid "Mark as read-only"
 msgstr "Marker som skrivebeskyttet"
 
-#: weblate/trans/models/unit.py:1818
+#: weblate/trans/models/unit.py:1820
 #, fuzzy
 #| msgid "Unmark as forbidden translation"
 msgid "Unmark as untranslatable"
 msgstr "Opphev merking som forbudt oversettelse"
 
-#: weblate/trans/models/unit.py:1822
+#: weblate/trans/models/unit.py:1824
 #, fuzzy
 #| msgid "Mark as forbidden translation"
 msgid "Mark as untranslatable"
 msgstr "Marker som forbudt oversettelse"
 
-#: weblate/trans/models/unit.py:1829
+#: weblate/trans/models/unit.py:1831
 msgid "Unmark as forbidden translation"
 msgstr "Opphev merking som forbudt oversettelse"
 
-#: weblate/trans/models/unit.py:1837
+#: weblate/trans/models/unit.py:1839
 msgid "Mark as forbidden translation"
 msgstr "Marker som forbudt oversettelse"
 
-#: weblate/trans/models/unit.py:1845
+#: weblate/trans/models/unit.py:1847
 #, fuzzy
 msgid "Unmark as terminology"
 msgstr "Opphev terminologimerking"
 
-#: weblate/trans/models/unit.py:1853
+#: weblate/trans/models/unit.py:1855
 #, fuzzy
 msgid "Mark as terminology"
 msgstr "Marker som terminologi"

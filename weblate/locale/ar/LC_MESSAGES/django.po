@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-01-15 15:25+0000\n"
+"POT-Creation-Date: 2025-01-17 12:43+0000\n"
 "PO-Revision-Date: 2024-12-08 02:46+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
@@ -2104,12 +2104,18 @@ msgstr ""
 msgid "Number of seconds until the rate-limit window resets"
 msgstr ""
 
-#: weblate/api/spectacular.py:43
+#: weblate/api/spectacular.py:57
 #: weblate/templates/drf_spectacular/redoc.html:11
 msgid "Weblate's REST API"
 msgstr ""
 
-#: weblate/api/views.py:2286 weblate/auth/models.py:930
+#: weblate/api/views.py:153
+#, fuzzy
+#| msgid "Failed to clean the repository on %s."
+msgid "Could not obtain repository lock to perform the operation."
+msgstr "فشلت عملية تنضيف المستودع على %s."
+
+#: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/accounts/user.html:322
@@ -2122,13 +2128,13 @@ msgstr ""
 msgid "Project"
 msgstr "المشروع"
 
-#: weblate/api/views.py:2294 weblate/trans/forms.py:1799
+#: weblate/api/views.py:2290 weblate/trans/forms.py:1799
 #: weblate/trans/models/announcement.py:83 weblate/trans/models/category.py:65
 #: weblate/trans/models/component.py:361
 msgid "Category"
 msgstr "الفئة"
 
-#: weblate/api/views.py:2302 weblate/checks/views.py:232
+#: weblate/api/views.py:2298 weblate/checks/views.py:232
 #: weblate/checks/views.py:239 weblate/templates/accounts/user.html:270
 #: weblate/templates/addons/discovery_preview.html:6
 #: weblate/templates/category-project.html:78
@@ -2141,11 +2147,11 @@ msgstr "الفئة"
 msgid "Component"
 msgstr "مكون"
 
-#: weblate/api/views.py:2310
+#: weblate/api/views.py:2306
 msgid "User"
 msgstr "المستخدم"
 
-#: weblate/api/views.py:2318 weblate/fonts/models.py:148
+#: weblate/api/views.py:2314 weblate/fonts/models.py:148
 #: weblate/templates/category.html:151 weblate/templates/component.html:188
 #: weblate/templates/lang/language_form.html:22
 #: weblate/templates/languages.html:16 weblate/templates/project.html:226
@@ -3281,17 +3287,23 @@ msgstr "سلسلة الاستيفاء AngularJS"
 msgid "AngularJS interpolation strings do not match source"
 msgstr "لا تتطابق سلاسل الاستيفاء AngularJS مع المصدر"
 
-#: weblate/checks/base.py:316
+#: weblate/checks/base.py:321
 #, fuzzy
 #| msgid "Following fixups were applied to translation: %s"
 msgid "The following format strings are missing: {}"
 msgstr "تم تطبيق التصحيحات التالية على الترجمة: {}"
 
-#: weblate/checks/base.py:321
+#: weblate/checks/base.py:326
 #, fuzzy
 #| msgid "Following fixups were applied to translation: %s"
 msgid "The following format strings are extra: {}"
 msgstr "تم تطبيق التصحيحات التالية على الترجمة: {}"
+
+#: weblate/checks/base.py:335
+#, fuzzy
+#| msgid "The following occurrences were found:"
+msgid "The following errors were found:"
+msgstr "تم العثور على النتائج التالية:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -3407,7 +3419,7 @@ msgstr "فواصل الأسطر غير متطابقة"
 msgid "Number of new lines in translation does not match source"
 msgstr "عدد الأسطر الجديدة في الترجمة لا يتطابق مع المصدر"
 
-#: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:48
+#: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "مسافة صفريّة العرض"
 
@@ -3441,7 +3453,7 @@ msgstr "أستُخدِم رمز التطويل"
 msgid "The decorative kashida letters should not be used"
 msgstr "لا ينبغي استخدام حروف الزخرفة كالتطويل أو الكشيدة"
 
-#: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:100
+#: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "مسافة بين النقاط"
 
@@ -3545,7 +3557,7 @@ msgstr "نص XML"
 msgid "DOS line endings"
 msgstr "نهايات خط DOS"
 
-#: weblate/checks/flags.py:46 weblate/checks/markup.py:322
+#: weblate/checks/flags.py:46 weblate/checks/markup.py:353
 #: weblate/templates/data.html:32 weblate/templates/data.html:73
 #: weblate/templates/data.html:117 weblate/templates/data.html:158
 msgid "URL"
@@ -4298,82 +4310,101 @@ msgstr "علم ترجمة غير صحيح: \"%s\""
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "علم ترجمة غير صحيح: \"%s\""
 
-#: weblate/checks/markup.py:78
+#: weblate/checks/markup.py:109
 #, fuzzy
 #| msgid "BBCode"
 msgid "BBCode markup"
 msgstr "شيفرة BB"
 
-#: weblate/checks/markup.py:79
+#: weblate/checks/markup.py:110
 msgid "BBCode in translation does not match source"
 msgstr "لا يتطابق رمز BB في الترجمة مع المصدر"
 
-#: weblate/checks/markup.py:159
+#: weblate/checks/markup.py:190
 #, fuzzy
 #| msgid "XML text"
 msgid "XML syntax"
 msgstr "نص XML"
 
-#: weblate/checks/markup.py:160
+#: weblate/checks/markup.py:191
 msgid "The translation is not valid XML"
 msgstr "الترجمة لا تحترم نسق XML"
 
-#: weblate/checks/markup.py:184
+#: weblate/checks/markup.py:215
 #, fuzzy
 #| msgid "Invalid XML markup"
 msgid "XML markup"
 msgstr "علامات XML غير صالحة"
 
-#: weblate/checks/markup.py:185
+#: weblate/checks/markup.py:216
 msgid "XML tags in translation do not match source"
 msgstr "وسوم XML في الترجمة لا تطابق المصدر"
 
-#: weblate/checks/markup.py:243
+#: weblate/checks/markup.py:274
 msgid "Markdown references"
 msgstr "مَراجع مارك داون"
 
-#: weblate/checks/markup.py:244
+#: weblate/checks/markup.py:275
 #, fuzzy
 #| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
 msgstr "مرجع رابط ماركداون (Markdown) لا يتطابق مع المصدر"
 
-#: weblate/checks/markup.py:260
+#: weblate/checks/markup.py:291
 msgid "Markdown links"
 msgstr "رابط ماركداون (Markdown)"
 
-#: weblate/checks/markup.py:261
+#: weblate/checks/markup.py:292
 msgid "Markdown links do not match source"
 msgstr "وسوم ماركداون (Markdown) في الترجمة لا تطابق المصدر"
 
-#: weblate/checks/markup.py:289
+#: weblate/checks/markup.py:320
 msgid "Markdown syntax"
 msgstr "تركيب جمل ماركداون (Markdown)"
 
-#: weblate/checks/markup.py:290
+#: weblate/checks/markup.py:321
 msgid "Markdown syntax does not match source"
 msgstr "تركيب جملة ماركداون (Markdown) لا يطابق المصدر"
 
-#: weblate/checks/markup.py:323
+#: weblate/checks/markup.py:354
 msgid "The translation does not contain an URL"
 msgstr "لا تحتوي الترجمة على عنوان رابط الكتروني"
 
-#: weblate/checks/markup.py:342 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:373 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "HTML غير آمن"
 
-#: weblate/checks/markup.py:343
+#: weblate/checks/markup.py:374
 msgid "The translation uses unsafe HTML markup"
 msgstr "تستخدم الترجمة ترميز HTML غير آمن"
 
-#: weblate/checks/markup.py:359
+#: weblate/checks/markup.py:398
 msgid "Inconsistent reStructuredText references"
 msgstr ""
 
-#: weblate/checks/markup.py:361
+#: weblate/checks/markup.py:400
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
+
+#: weblate/checks/markup.py:432
+#, fuzzy
+#| msgid "%(count)s string is not being translated here."
+#| msgid_plural "%(count)s strings are not being translated here."
+msgid "Inconsistent links in the translated message."
+msgstr "%(count)s من السلاسل تتطلب اتخاذ إجراء."
+
+#: weblate/checks/markup.py:545
+#, fuzzy
+#| msgid "reStructuredText"
+msgid "reStructuredText syntax error"
+msgstr "نسق reStructuredText"
+
+#: weblate/checks/markup.py:546
+#, fuzzy
+#| msgid "Comment on own translation"
+msgid "reStructuredText syntax error in the translation."
+msgstr "تعليق ما على ترجمتك"
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -14244,15 +14275,15 @@ msgstr "مستودعات VCS"
 msgid "Weblate translations"
 msgstr "ترجمات وابلايت"
 
-#: weblate/trans/autofixes/chars.py:30
+#: weblate/trans/autofixes/chars.py:31
 msgid "Trailing ellipsis"
 msgstr "الانتهاء بالنُقط"
 
-#: weblate/trans/autofixes/chars.py:68
+#: weblate/trans/autofixes/chars.py:69
 msgid "Control characters"
 msgstr "أحرف التحكم"
 
-#: weblate/trans/autofixes/chars.py:81
+#: weblate/trans/autofixes/chars.py:82
 msgid "Devanagari danda"
 msgstr ""
 
@@ -16839,47 +16870,47 @@ msgstr "سلسلة مكررة للترجمة."
 msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "تعذر نشر السلسلة إلى %(component)s لأنك لم توافق على اتفاقية المساهم."
 
-#: weblate/trans/models/unit.py:1811
+#: weblate/trans/models/unit.py:1813
 #, fuzzy
 #| msgid "Weblate translations"
 msgid "Unmark as read-only"
 msgstr "ترجمات وابلايت"
 
-#: weblate/trans/models/unit.py:1814
+#: weblate/trans/models/unit.py:1816
 #, fuzzy
 #| msgid "Mark as spam"
 msgid "Mark as read-only"
 msgstr "وضع علامة كرسالة غير مرغوب فيها"
 
-#: weblate/trans/models/unit.py:1818
+#: weblate/trans/models/unit.py:1820
 #, fuzzy
 #| msgid "Weblate translations"
 msgid "Unmark as untranslatable"
 msgstr "ترجمات وابلايت"
 
-#: weblate/trans/models/unit.py:1822
+#: weblate/trans/models/unit.py:1824
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as untranslatable"
 msgstr "إضافة كترجمة بديلة"
 
-#: weblate/trans/models/unit.py:1829
+#: weblate/trans/models/unit.py:1831
 #, fuzzy
 #| msgid "Weblate translations"
 msgid "Unmark as forbidden translation"
 msgstr "ترجمات وابلايت"
 
-#: weblate/trans/models/unit.py:1837
+#: weblate/trans/models/unit.py:1839
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as forbidden translation"
 msgstr "إضافة كترجمة بديلة"
 
-#: weblate/trans/models/unit.py:1845
+#: weblate/trans/models/unit.py:1847
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1853
+#: weblate/trans/models/unit.py:1855
 msgid "Mark as terminology"
 msgstr ""
 

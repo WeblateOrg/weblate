@@ -7,6 +7,7 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 from functools import cache, lru_cache
+from itertools import chain
 from typing import TYPE_CHECKING
 
 from django.core.exceptions import ValidationError
@@ -14,7 +15,7 @@ from django.core.validators import URLValidator
 from django.utils.functional import cached_property
 from django.utils.html import format_html_join
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 from docutils import utils
 from docutils.core import Publisher
 from docutils.nodes import Element, system_message
@@ -68,8 +69,11 @@ XML_ENTITY_MATCH = re.compile(
 )
 
 RST_REF_MATCH = re.compile(
-    r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`([^<`]+)`|`[^<`]+<([^<` ]+)>`))(?=\W|$)"
+    r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`([^<`]*[^<` ])`|`[^<`]+<([^<`]+)>`))(?=\W|$)"
 )
+RST_FOOTNOTE_MATCH = re.compile(r"(?:(?<=\W)|^)(\[#[^]]+\]_)(?=\W|$)")
+RST_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`]*[^` ]`_)(?=\W|$)")
+
 
 # These should be present in translation if present in source, but might be translated
 RST_TRANSLATABLE = {
@@ -84,9 +88,13 @@ RST_TRANSLATABLE = {
     ":sub:",
     ":sup:",
     ":kbd:",
+    ":index:",
 }
 
-RST_ROLE_RE = re.compile(r"""Unknown interpreted text role "([^"]*)"\.""")
+RST_ROLE_RE = [
+    re.compile(r"""Unknown interpreted text role "([^"]*)"\."""),
+    re.compile(r"""Interpreted text role "([^"]*)" not implemented\."""),
+]
 
 
 def strip_entities(text):
@@ -398,12 +406,16 @@ class RSTReferencesCheck(RSTBaseCheck):
     )
 
     def extract_references(self, text: str) -> dict[str, str]:
-        return {
+        result: dict[str, str] = {
             role
             if role in RST_TRANSLATABLE
             else f"{role}{target or named_target}": text
             for text, role, target, named_target in RST_REF_MATCH.findall(text)
         }
+        result.update(
+            {footnote: footnote for footnote in RST_FOOTNOTE_MATCH.findall(text)}
+        )
+        return result
 
     def check_single(
         self, source: str, target: str, unit: Unit
@@ -414,12 +426,20 @@ class RSTReferencesCheck(RSTBaseCheck):
         src_set = set(src_references.keys())
         tgt_set = set(tgt_references.keys())
 
+        errors: list[str] = []
+
         missing = src_set - tgt_set
         extra = tgt_set - src_set
-        if missing or extra:
+
+        src_links = len(RST_LINK_MATCH.findall(source))
+        tgt_links = len(RST_LINK_MATCH.findall(target))
+        if src_links != tgt_links:
+            errors.append(gettext("Inconsistent links in the translated message."))
+        if missing or extra or errors:
             return {
                 "missing": [src_references[item] for item in missing],
                 "extra": [tgt_references[item] for item in extra],
+                "errors": errors,
             }
         return False
 
@@ -449,7 +469,9 @@ class RSTReferencesCheck(RSTBaseCheck):
     def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
             return
-        for match in RST_REF_MATCH.finditer(source):
+        for match in chain(
+            RST_REF_MATCH.finditer(source), RST_FOOTNOTE_MATCH.finditer(source)
+        ):
             yield match.start(0), match.end(0), match.group(0)
 
 
@@ -475,18 +497,27 @@ def validate_rst_snippet(
     def error_collector(data: system_message) -> None:
         """Save the error."""
         message = Element.astext(data)
-        if match := RST_ROLE_RE.match(message):
-            role = match.group(1)
-            roles.append(role)
-            if source_tags is not None and role in source_tags:
-                # Skip if the role was found in the source
-                return
-        elif message.startswith("Unknown target name:") and "`" not in message:
+        if message.startswith("Unknown target name:") and "`" not in message:
             # Translating targets is okay, just catch obvious errors
             return
-        elif message.startswith("No role entry"):
-            # Ignore as this duplicates Unknown interpreted in our case
+        if message.startswith(
+            (
+                # Duplicates Unknown interpreted in our case
+                "No role entry",
+                # Can not work on snippets
+                "Too many autonumbered footnote",
+                # Can not work on snippets
+                "Enumerated list start value not ordinal",
+            )
+        ):
             return
+        for rst_role_re in RST_ROLE_RE:
+            if match := rst_role_re.match(message):
+                role = match.group(1)
+                roles.append(role)
+                if source_tags is not None and role in source_tags:
+                    # Skip if the role was found in the source
+                    return
         errors.append(message)
 
     document.reporter.attach_observer(error_collector)
@@ -551,9 +582,3 @@ class RSTSyntaxCheck(RSTBaseCheck):
                 ((error,) for error in errors),
             )
         return super().get_description(check_obj)
-
-    def check_highlight(self, source: str, unit: Unit):
-        if self.should_skip(unit):
-            return
-        for match in RST_REF_MATCH.finditer(source):
-            yield match.start(0), match.end(0), match.group(0)
