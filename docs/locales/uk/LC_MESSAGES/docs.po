@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
 "PO-Revision-Date: 2025-01-17 19:02+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"Last-Translator: Максим Горпиніч <maksimgorpinic2005a@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -17015,22 +17015,16 @@ msgstr ""
 "але про них у цій документації не йтиметься."
 
 #: ../../admin/install/docker.rst:1963
-#, fuzzy
-#| msgid ""
-#| "The ``data`` volume is mounted as :file:`/app/data` and is used to store "
-#| "Weblate persistent data such as cloned repositories or to customize "
-#| "Weblate installation. :setting:`DATA_DIR` describes in more detail what "
-#| "is stored here."
 msgid ""
 "The :file:`data` volume is mounted as :file:`/app/data` and is used to store "
 "Weblate persistent data such as cloned repositories or to customize Weblate "
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
-"Том ``data`` буде змонтовано як :file:`/app/data` і використано для "
-"зберігання сталих даних Weblate, зокрема клонованих сховищ, або для "
-"налаштовування встановленого Weblate. У :setting:`DATA_DIR` докладніше "
-"описано дані, які там зберігатимуться."
+"Том :file:`data` монтується як :file:`/app/data` і використовується для "
+"зберігання постійних даних Weblate, таких як клоновані сховища, або для "
+"налаштування встановлення Weblate. :setting:`DATA_DIR` більш детально "
+"описує, що тут зберігається."
 
 #: ../../admin/install/docker.rst:1967
 msgid ""
@@ -17045,22 +17039,16 @@ msgstr ""
 "каталогу docker-compose, назви контейнера та назви тому)."
 
 #: ../../admin/install/docker.rst:1972
-#, fuzzy
-#| msgid ""
-#| "The ``cache`` volume is mounted as :file:`/app/cache` and is used to "
-#| "store static files and :setting:`CACHE_DIR`. Its content is recreated on "
-#| "container startup and the volume can be mounted using ephemeral "
-#| "filesystem such as `tmpfs`."
 msgid ""
 "The :file:`cache` volume is mounted as :file:`/app/cache` and is used to "
 "store static files and :setting:`CACHE_DIR`. Its content is recreated on "
 "container startup and the volume can be mounted using ephemeral filesystem "
 "such as `tmpfs`."
 msgstr ""
-"Том ``cache`` монтується як :file:`/app/cache` і використовується для "
+"Том :file:`cache` монтується як :file:`/app/cache` і використовується для "
 "зберігання статичних файлів і :setting:`CACHE_DIR`. Його вміст відтворюється "
-"при запуску контейнера, а тому може бути змонтовано з використанням "
-"тимчасової файлової системи, зокрема `tmpfs`."
+"під час запуску контейнера, а тому можна монтувати за допомогою тимчасової "
+"файлової системи, такої як `tmpfs`."
 
 #: ../../admin/install/docker.rst:1976
 msgid ""
@@ -17071,19 +17059,14 @@ msgstr ""
 "користувачеві, що використовується всередині контейнера."
 
 #: ../../admin/install/docker.rst:1979
-#, fuzzy
-#| msgid ""
-#| "Weblate container can also be executed with a read-only root file system. "
-#| "In this case, two additional ``tmpfs`` volumes should be mounted: ``/"
-#| "tmp`` and ``/run``."
 msgid ""
 "Weblate container can also be executed with a read-only root file system. In "
 "this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` "
 "and :file:`/run`."
 msgstr ""
 "Контейнер Weblate також можна виконувати з кореневою файловою системою лише "
-"для читання. У цьому випадку потрібно змонтувати два додаткових томи "
-"``tmpfs``: ``/tmp`` і ``/run``."
+"для читання. У цьому випадку слід змонтувати два додаткових томи ``tmpfs``: "
+":file:`/tmp` і :file:`/run`."
 
 #: ../../admin/install/docker.rst:1985
 msgid ""
@@ -17689,12 +17672,8 @@ msgstr ""
 "коли віртуальне середовище Weblate є активним, див. :ref:`manage`."
 
 #: ../../admin/install/steps/install-after.rst:10
-#, fuzzy
-#| msgid "You can stop the test server with Ctrl+C."
 msgid "You can stop the test server with :kbd:`Ctrl+C`."
-msgstr ""
-"Припинити роботу тестового сервера можна за допомогою натискання комбінації "
-"клавіш Ctrl+C."
+msgstr "Ви можете зупинити тестовий сервер за допомогою :kbd:`Ctrl+C`."
 
 #: ../../admin/install/steps/install-after.rst:11
 msgid ""
@@ -21456,17 +21435,12 @@ msgstr ""
 "Усі внески можна підписувати за допомогою ключа GnuPG екземпляра Weblate."
 
 #: ../../admin/optionals.rst:239
-#, fuzzy
-#| msgid ""
-#| "1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a "
-#| "GnuPG key when needed and will use it to sign all translation commits.)"
 msgid ""
 "Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG key "
 "when needed and will use it to sign all translation commits.)"
 msgstr ""
-"1. Увімкніть :setting:`WEBLATE_GPG_IDENTITY`. (Weblate створить ключ GnuPG, "
-"якщо потрібно, і використовуватиме його для підписування усіх внесків із "
-"перекладами.)"
+"Увімкніть :setting:`WEBLATE_GPG_IDENTITY`. (Weblate за потреби згенерує ключ "
+"GnuPG і використовуватиме його для підпису всіх комітів перекладу.)"
 
 #: ../../admin/optionals.rst:242
 msgid "This feature needs GnuPG 2.1 or newer installed."
@@ -21482,16 +21456,12 @@ msgstr ""
 "показано на сторінці «Про Weblate»:"
 
 #: ../../admin/optionals.rst:249
-#, fuzzy
-#| msgid ""
-#| "2. Alternatively you can also import existing keys into Weblate, just set "
-#| "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgid ""
 "Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgstr ""
-"2. Крім того, ви можете імпортувати до Weblate наявні ключі. Просто вкажіть "
-"``HOME=$DATA_DIR/home`` при виклику gpg."
+"Крім того, ви також можете імпортувати існуючі ключі в Weblate, просто "
+"встановіть ``HOME=$DATA_DIR/home`` під час виклику gpg."
 
 #: ../../admin/optionals.rst:254
 msgid ""
@@ -25096,20 +25066,20 @@ msgstr ""
 "envvar:`WEBLATE_API_RATELIMIT_USER`"
 
 #: ../../api.rst:224
-#, fuzzy
-#| msgid "Error reporting"
 msgid "Error responses"
-msgstr "Звітування про помилки"
+msgstr "Відповіді на помилки"
 
 #: ../../api.rst:228
 msgid "Error responses were endpoint specific before this release."
-msgstr ""
+msgstr "До цього випуску відповіді на помилки стосувалися кінцевих точок."
 
 #: ../../api.rst:230
 msgid ""
 "Weblate error responses are formatted based on :doc:`drf-standardized-error:"
 "error_response`."
 msgstr ""
+"Відповіді на помилки Weblate форматуються на основі :doc:`drf-standardized-"
+"error:error_response`."
 
 #: ../../api.rst:234
 msgid "API Entry Point"
@@ -25362,10 +25332,8 @@ msgstr ""
 "див. :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:494
-#, fuzzy
-#| msgid "Returns information about group."
 msgid "Returns information about the group."
-msgstr "Повертає відомості щодо групи."
+msgstr "Повертає інформацію про групу."
 
 #: ../../api.rst:496 ../../api.rst:539 ../../api.rst:549 ../../api.rst:559
 #: ../../api.rst:566 ../../api.rst:574 ../../api.rst:582 ../../api.rst:591
@@ -25520,10 +25488,8 @@ msgid "List of codenames of permissions"
 msgstr "Список кодових назв прав доступу"
 
 #: ../../api.rst:684
-#, fuzzy
-#| msgid "Returns information about a role."
 msgid "Returns information about the role."
-msgstr "Повертає відомості щодо ролі."
+msgstr "Повертає інформацію про роль."
 
 #: ../../api.rst:686
 msgid "Role ID"
@@ -25566,10 +25532,8 @@ msgid "Language plural formula and number"
 msgstr "Кількість і формула форм множини мови"
 
 #: ../../api.rst:758
-#, fuzzy
-#| msgid "Returns information about a language."
 msgid "Returns information about the language."
-msgstr "Повертає відомості щодо мови."
+msgstr "Повертає інформацію про мову."
 
 #: ../../api.rst:765
 msgid "Object of language plural information"
@@ -25621,10 +25585,8 @@ msgid "Creates a new project."
 msgstr "Створює проєкт."
 
 #: ../../api.rst:861
-#, fuzzy
-#| msgid "Returns information about a project."
 msgid "Returns information about the project."
-msgstr "Повертає відомості щодо проєкту."
+msgstr "Повертає інформацію про проект."
 
 #: ../../api.rst:863 ../../api.rst:897 ../../api.rst:908 ../../api.rst:915
 #: ../../api.rst:923 ../../api.rst:933 ../../api.rst:945 ../../api.rst:967
@@ -25767,22 +25729,16 @@ msgid ""
 msgstr "Код мови для отримання; якщо не вказано, буде включено усі мови."
 
 #: ../../api.rst:941
-#, fuzzy
-#| msgid ""
-#| "Returns information about VCS repository status. This endpoint contains "
-#| "only an overall summary for all repositories for the project. To get more "
-#| "detailed status use :http:get:`/api/components/(string:project)/(string:"
-#| "component)/repository/`."
 msgid ""
 "Returns information about the VCS repository status. This endpoint contains "
 "only an overall summary for all repositories for the project. To get more "
 "detailed status use :http:get:`/api/components/(string:project)/(string:"
 "component)/repository/`."
 msgstr ""
-"Повертає відомості про стан сховища системи керування версіями. Ця кінцева "
-"точка містить лише загальне резюме для всіх сховищ проєкту. Щоб отримати "
-"докладні дані про стан скористайтеся :http:get:`/api/components/(string:"
-"project)/(string:component)/repository/`."
+"Повертає інформацію про стан репозиторію VCS. Ця кінцева точка містить лише "
+"загальний підсумок для всіх репозиторіїв для проекту. Щоб отримати "
+"детальніший статус, використовуйте :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:947 ../../api.rst:1621
 msgid "whether there are any pending changes to commit"
@@ -26100,10 +26056,8 @@ msgstr ""
 "(string:project)/(string:component)/`."
 
 #: ../../api.rst:1293
-#, fuzzy
-#| msgid "Returns information about translation component."
 msgid "Returns information about the translation component."
-msgstr "Повертає дані щодо складника перекладу."
+msgstr "Повертає інформацію про компонент перекладу."
 
 #: ../../api.rst:1299
 msgid ""
@@ -26460,10 +26414,8 @@ msgid "Boolean whether to lock or not."
 msgstr "Булеве значення, яке визначає, замкнено сховище чи ні."
 
 #: ../../api.rst:1613 ../../api.rst:2106
-#, fuzzy
-#| msgid "Returns information about VCS repository status."
 msgid "Returns information about the VCS repository status."
-msgstr "Повертає дані щодо стану сховища системи керування версіями."
+msgstr "Повертає інформацію про статус репозиторію VCS."
 
 #: ../../api.rst:1615
 msgid ""
@@ -26577,10 +26529,8 @@ msgstr ""
 "(string:project)/(string:component)/(string:language)/`."
 
 #: ../../api.rst:1868
-#, fuzzy
-#| msgid "Returns information about a translation."
 msgid "Returns information about the translation."
-msgstr "Повертає відомості щодо перекладу."
+msgstr "Повертає інформацію про переклад."
 
 #: ../../api.rst:1874 ../../api.rst:1982 ../../api.rst:1994 ../../api.rst:2007
 #: ../../api.rst:2021 ../../api.rst:2044 ../../api.rst:2075 ../../api.rst:2086
@@ -26714,10 +26664,8 @@ msgid "Returns a list of translation units."
 msgstr "Повертає список модулів перекладу."
 
 #: ../../api.rst:2009 ../../api.rst:2177
-#, fuzzy
-#| msgid "Search query string :ref:`Searching` (optional)"
 msgid "Search query string :doc:`/user/search` (optional)"
-msgstr "Рядок пошукового запиту :ref:`Searching` (необов'язково)"
+msgstr "Рядок пошукового запиту :doc:`/user/search` (необов’язково)"
 
 #: ../../api.rst:2011
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
@@ -26941,16 +26889,12 @@ msgstr ""
 "форм множини."
 
 #: ../../api.rst:2193
-#, fuzzy
-#| msgid "The attribute value is not quoted."
 msgid "The ``last_updated`` attribute is now exposed."
-msgstr "Значення атрибуту вказано без лапок."
+msgstr "Тепер доступний атрибут ``last_updated``."
 
 #: ../../api.rst:2195
-#, fuzzy
-#| msgid "Returns information about translation unit."
 msgid "Returns information about the translation unit."
-msgstr "Повертає відомості щодо модуля перекладу."
+msgstr "Повертає інформацію про одиницю перекладу."
 
 #: ../../api.rst:2197 ../../api.rst:2235 ../../api.rst:2249 ../../api.rst:2263
 #: ../../api.rst:2357
@@ -27004,16 +26948,12 @@ msgid "translation unit labels, available on source units"
 msgstr "мітки модулів перекладу, доступні у початкових модулях"
 
 #: ../../api.rst:2210
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved, 100 - read only"
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read-only"
 msgstr ""
-"стан модуля, 0 — не перекладено, 10 — потребує редагування, 20 — "
-"перекладено, 30 — затверджено, 100 — лише читання"
+"стан пристрою, 0 - неперекладено, 10 - потребує редагування, 20 - "
+"перекладено, 30 - схвалено, 100 - лише для читання"
 
 #: ../../api.rst:2211
 msgid "whether the unit is fuzzy or marked for review"
@@ -27145,10 +27085,8 @@ msgid "ISO 8601 formatted timestamp to list changes before"
 msgstr "Часова позначка у форматі ISO 8601 для показу списку попередніх змін"
 
 #: ../../api.rst:2288
-#, fuzzy
-#| msgid "Returns information about translation change."
 msgid "Returns information about the translation change."
-msgstr "Повертає відомості щодо зміни перекладу."
+msgstr "Повертає інформацію про зміну перекладу."
 
 #: ../../api.rst:2290
 msgid "Change ID"
@@ -27212,10 +27150,8 @@ msgstr ""
 "(int:id)/`."
 
 #: ../../api.rst:2318
-#, fuzzy
-#| msgid "Returns information about screenshot information."
 msgid "Returns information about the screenshot."
-msgstr "Повертає дані щодо даних знімка вікна."
+msgstr "Повертає інформацію про скріншот."
 
 #: ../../api.rst:2320 ../../api.rst:2331 ../../api.rst:2338 ../../api.rst:2355
 #: ../../api.rst:2367 ../../api.rst:2390 ../../api.rst:2401 ../../api.rst:2412
@@ -28027,10 +27963,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.10"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.10"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -28048,10 +27982,12 @@ msgstr "**Нові можливості**"
 msgid ""
 ":ref:`check-rst-references` check to validate reStructuredText references."
 msgstr ""
+"Перевірка :ref:`check-rst-references` для перевірки посилань на "
+"reStructuredText."
 
 #: ../../changes.rst:9
 msgid ":ref:`check-rst-syntax` check to validate reStructuredText syntax."
-msgstr ""
+msgstr ":ref:`check-rst-syntax` перевірити синтаксис reStructuredText."
 
 #: ../../changes.rst:11 ../../changes.rst:47 ../../changes.rst:105
 #: ../../changes.rst:147 ../../changes.rst:243 ../../changes.rst:286
@@ -28065,39 +28001,39 @@ msgid "**Improvements**"
 msgstr "**Удосконалення**"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgid "Improved error handling in :ref:`machine-translation-setup`."
-msgstr ""
-"Удосконалено звітування про помилки у :ref:`machine-translation-setup`."
+msgstr "Покращена обробка помилок у :ref:`machine-translation-setup`."
 
 #: ../../changes.rst:14
 msgid ""
 ":envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker container."
 msgstr ""
+":envvar:`WEBLATE_REGISTRATION_CAPTCHA` тепер доступний у контейнері Docker."
 
 #: ../../changes.rst:15
 msgid ""
 ":guilabel:`Synchronize` on shared repository now operates on all its "
 "components."
 msgstr ""
+":guilabel:`Synchronize` у спільному сховищі тепер працює з усіма його "
+"компонентами."
 
 #: ../../changes.rst:16
 msgid ""
 ":ref:`check-punctuation-spacing` ignores markup such as Markdown or "
 "reStructuredText."
 msgstr ""
+":ref:`check-punctuation-spacing` ігнорує розмітку, таку як Markdown або "
+"reStructuredText."
 
 #: ../../changes.rst:17
 msgid ""
 ":ref:`autofix-punctuation-spacing` does not alter reStructuredText markup."
-msgstr ""
+msgstr ":ref:`autofix-punctuation-spacing` не змінює розмітку reStructuredText."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Improved validation of several forms."
 msgid "Improved validation errors in :doc:`/api`, see :ref:`api-errors`."
-msgstr "Удосконалено перевірку коректності декількох форм."
+msgstr "Покращено перевірку помилок у :doc:`/api`, див. :ref:`api-errors`."
 
 #: ../../changes.rst:20 ../../changes.rst:52 ../../changes.rst:74
 #: ../../changes.rst:118 ../../changes.rst:151 ../../changes.rst:172
@@ -28115,16 +28051,15 @@ msgid "**Bug fixes**"
 msgstr "**Виправлення вад**"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgid "Fixed translations caching in :ref:`machine-translation-setup`."
-msgstr ""
-"Удосконалено звітування про помилки у :ref:`machine-translation-setup`."
+msgstr "Виправлено кешування перекладів у :ref:`machine-translation-setup`."
 
 #: ../../changes.rst:23
 msgid ""
 ":ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag."
 msgstr ""
+":ref:`autofix-html` автоматичні виправлення вшановують прапор ``ignore-safe-"
+"html``."
 
 #: ../../changes.rst:25 ../../changes.rst:124 ../../changes.rst:264
 #: ../../changes.rst:369 ../../changes.rst:459 ../../changes.rst:621
@@ -28139,6 +28074,8 @@ msgid ""
 "Running tests using Django test executor is no longer supported, see :doc:`/"
 "contributing/tests`."
 msgstr ""
+"Запуск тестів за допомогою Django Test Executor більше не підтримується, "
+"див. :doc:`/contributing/tests`."
 
 #: ../../changes.rst:29 ../../changes.rst:59 ../../changes.rst:78
 #: ../../changes.rst:132 ../../changes.rst:157 ../../changes.rst:178
@@ -28186,26 +28123,20 @@ msgstr ""
 "instructions` для виконання оновлення."
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "are the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS`` and "
-#| "changes in ``REST_FRAMEWORK`` and ``INSTALLED_APPS``; please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`api` in ``REST_FRAMEWORK``, "
 "``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and "
 "``INSTALLED_APPS``; please adjust your settings accordingly."
 msgstr ""
-"У файлі :file:`settings_example.py` відбулося кілька змін, найпомітнішими з "
-"яких є нові налаштування для :ref:`api` у ``SPECTACULAR_SETTINGS`` і зміни у "
-"``REST_FRAMEWORK`` і ``INSTALLED_APPS``; будь ласка, внесіть відповідні "
-"зміни у свої налаштування."
+"Є кілька змін у :file:`settings_example.py`, найбільш помітними є нові "
+"налаштування для :ref:`api` в ``REST_FRAMEWORK``, ``SPECTACULAR_SETTINGS``, "
+"``DRF_STANDARDIZED_ERRORS`` і ``INSTALLED_APPS``; відкоригуйте налаштування "
+"відповідно."
 
 #: ../../changes.rst:34
 msgid "API error responses format has changed, see :ref:`api-errors`."
-msgstr ""
+msgstr "Формат відповідей на помилки API змінено, див. :ref:`api-errors`."
 
 #: ../../changes.rst:36 ../../changes.rst:63 ../../changes.rst:82
 #: ../../changes.rst:136 ../../changes.rst:161 ../../changes.rst:182
@@ -28215,16 +28146,12 @@ msgid "**Contributors**"
 msgstr "**Учасники**"
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/135?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/133?"
 "closed=1>`__."
 msgstr ""
-"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/135?"
-"closed=1>`__."
+"`Усі зміни детально <https://github.com/WeblateOrg/weblate/milestone/"
+"133?closed=1>`__."
 
 #: ../../changes.rst:43
 msgid "Weblate 5.9.2"
@@ -28734,16 +28661,12 @@ msgid "Added :ref:`component-key_filter` in the component."
 msgstr "Додано :ref:`component-key_filter` до складника."
 
 #: ../../changes.rst:238
-#, fuzzy
-#| msgid ""
-#| ":ref:`Searching` now supports filtering by object path and :ref:`date-"
-#| "search`."
 msgid ""
 ":doc:`/user/search` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
-":ref:`Searching` тепер підтримує фільтрацію за шляхом до об'єкта та :ref:"
-"`date-search`."
+":doc:`/user/search` тепер підтримує фільтрацію за шляхом до об’єкта та :ref"
+":`date-search`."
 
 #: ../../changes.rst:239
 msgid ""
@@ -29593,12 +29516,8 @@ msgid "Weblate 5.5.1"
 msgstr "Weblate 5.5.1"
 
 #: ../../changes.rst:550
-#, fuzzy
-#| msgid ":ref:`Searching` supports ``source_changed:DATETIME``."
 msgid ":doc:`/user/search` supports ``source_changed:DATETIME``."
-msgstr ""
-"У :ref:`пошуку <Searching>` передбачено підтримку ``source_changed:"
-"ДАТА_ЧАС``."
+msgstr ":doc:`/user/search` підтримує ``source_changed:DATETIME``."
 
 #: ../../changes.rst:551
 msgid "Added several new :ref:`component-language_code_style`."
@@ -42235,19 +42154,14 @@ msgstr ""
 "удосконалену версію."
 
 #: ../../contributing/security.rst:39
-#, fuzzy
-#| msgid ""
-#| "You can get the results of these scans at GitHub — they are stored as "
-#| "artifacts on our CI in the SARIF format (Static Analysis Results "
-#| "Interchange Format)."
 msgid ""
 "You can get the results of these scans at GitHub — they are stored as "
 "artifacts on our CI as :abbr:`SARIF (Static Analysis Results Interchange "
 "Format)`."
 msgstr ""
-"Результати сканувань розміщено на GitHub — вони зберігаються як запис у "
-"нашій системі неперервної інтеграції у форматі Static Analysis Results "
-"Interchange Format (SARIF)."
+"Ви можете отримати результати цих сканувань на GitHub — вони зберігаються як "
+"артефакти в нашому КІ як :abbr:`SARIF (Формат обміну результатами статичного "
+"аналізу)`."
 
 #: ../../contributing/security.rst:44
 msgid ":ref:`ci-tests`"
@@ -46941,11 +46855,11 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
 "see :ref:`xliff-flags`."
 msgstr ""
-"Крім того, прапорці видобуваються з нестандартного атрибута ``weblate-"
-"flags`` для всіх заснованих на XML форматів. Крім того, передбачено "
-"підтримку ``max-length:N`` шляхом обробки `атрибута <http://docs.oasis-open."
-"org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ ``maxwidth`` у формі, яку "
-"визначено у стандарті XLIFF, див. :ref:`xliff-flags`."
+"Крім того, для всіх форматів на основі XML прапори витягуються з "
+"нестандартного атрибута ``weblate-flags``. Крім того, ``max-length:N`` "
+"підтримується через ``maxwidth`` `атрибут <https://docs.oasis-open.org/xliff/"
+"v1.2/os/xliff-core.html#maxwidth> `_, як визначено в стандарті XLIFF, див. "
+":ref:`xliff-flags`."
 
 #: ../../formats.rst:454
 msgid ":ref:`custom-checks`, `PO files documentation`_"
