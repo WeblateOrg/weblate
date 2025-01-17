@@ -11,11 +11,11 @@ from weblate.trans.models import Component
 
 
 class WeblateMessagingAddon(BaseAddon):
-    name = 'weblate.messaging'
+    name = "weblate.messaging"
     verbose = gettext_lazy("Weblate Fedora Messaging")
     description = gettext_lazy("An add-on to integrate Fedora Messaging with weblate.")
     settings_form = MessagingAddonForm
-    events = (AddonEvent.EVENT_COMPONENT_UPDATE, )
+    events = (AddonEvent.EVENT_COMPONENT_UPDATE,)
     icon = "email.svg"
 
     def component_update(self, component: Component) -> None:
