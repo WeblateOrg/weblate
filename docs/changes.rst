@@ -6,7 +6,6 @@ Not yet released.
 **New features**
 
 * :ref:`check-rst-references` check to validate reStructuredText references.
-* New `bbcode-text` flag to activate BBCode check was added, see :ref:`custom-checks`.
 * :ref:`check-rst-syntax` check to validate reStructuredText syntax.
 
 **Improvements**
@@ -26,6 +25,7 @@ Not yet released.
 **Compatibility**
 
 * Running tests using Django test executor is no longer supported, see :doc:`/contributing/tests`.
+* :ref:`check-bbcode` check is now disabled by default. The `bbcode-text` flag is required to activate this check, see :ref:`custom-checks`.
 
 **Upgrading**
 
