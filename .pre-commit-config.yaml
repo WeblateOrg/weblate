@@ -45,8 +45,10 @@ repos:
   hooks:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']
-  - id: pretty-format-toml
-    args: [--autofix]
+- repo: https://github.com/pappasam/toml-sort
+  rev: v0.24.2
+  hooks:
+  - id: toml-sort-fix
 - repo: https://github.com/executablebooks/mdformat
   rev: 0.7.21
   hooks:
