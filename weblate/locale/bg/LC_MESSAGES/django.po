@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-01-15 15:25+0000\n"
+"POT-Creation-Date: 2025-01-17 12:43+0000\n"
 "PO-Revision-Date: 2025-01-16 07:56+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -1999,12 +1999,19 @@ msgid "Number of seconds until the rate-limit window resets"
 msgstr ""
 "Брой секунди, преди прозорецът за ограничение на заявките да бъде нулиран"
 
-#: weblate/api/spectacular.py:43
+#: weblate/api/spectacular.py:57
 #: weblate/templates/drf_spectacular/redoc.html:11
 msgid "Weblate's REST API"
 msgstr "ППИ REST на Weblate"
 
-#: weblate/api/views.py:2286 weblate/auth/models.py:930
+#: weblate/api/views.py:153
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Could not obtain repository lock to perform the operation."
+msgstr ""
+"Заключването на хранилището е невъзможно. В момента протича друга операция."
+
+#: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/accounts/user.html:322
@@ -2017,13 +2024,13 @@ msgstr "ППИ REST на Weblate"
 msgid "Project"
 msgstr "Проект"
 
-#: weblate/api/views.py:2294 weblate/trans/forms.py:1799
+#: weblate/api/views.py:2290 weblate/trans/forms.py:1799
 #: weblate/trans/models/announcement.py:83 weblate/trans/models/category.py:65
 #: weblate/trans/models/component.py:361
 msgid "Category"
 msgstr "Категория"
 
-#: weblate/api/views.py:2302 weblate/checks/views.py:232
+#: weblate/api/views.py:2298 weblate/checks/views.py:232
 #: weblate/checks/views.py:239 weblate/templates/accounts/user.html:270
 #: weblate/templates/addons/discovery_preview.html:6
 #: weblate/templates/category-project.html:78
@@ -2036,11 +2043,11 @@ msgstr "Категория"
 msgid "Component"
 msgstr "Компонент"
 
-#: weblate/api/views.py:2310
+#: weblate/api/views.py:2306
 msgid "User"
 msgstr "Потребител"
 
-#: weblate/api/views.py:2318 weblate/fonts/models.py:148
+#: weblate/api/views.py:2314 weblate/fonts/models.py:148
 #: weblate/templates/category.html:151 weblate/templates/component.html:188
 #: weblate/templates/lang/language_form.html:22
 #: weblate/templates/languages.html:16 weblate/templates/project.html:226
@@ -3047,13 +3054,19 @@ msgstr "Низ за интерполация на AngularJS"
 msgid "AngularJS interpolation strings do not match source"
 msgstr "Низовете за интерполация на AngularJS не съвпадат с изходните"
 
-#: weblate/checks/base.py:316
+#: weblate/checks/base.py:321
 msgid "The following format strings are missing: {}"
 msgstr "Следните низове за форматиране липсват: {}"
 
-#: weblate/checks/base.py:321
+#: weblate/checks/base.py:326
 msgid "The following format strings are extra: {}"
 msgstr "Следните низове за форматиране са излишни: {}"
+
+#: weblate/checks/base.py:335
+#, fuzzy
+#| msgid "The following occurrences were found:"
+msgid "The following errors were found:"
+msgstr "Открити са следните срещания:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -3162,7 +3175,7 @@ msgid "Number of new lines in translation does not match source"
 msgstr ""
 "Броят на знаците за нов ред в превода не е същият като този в изходния низ"
 
-#: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:48
+#: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "Интервал с нулева ширина"
 
@@ -3194,7 +3207,7 @@ msgstr "Използва се кашида"
 msgid "The decorative kashida letters should not be used"
 msgstr "Декоративните букви кашида не трябва да се използват"
 
-#: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:100
+#: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "Интервали и пунктуация"
 
@@ -3287,7 +3300,7 @@ msgstr "Текст във формата XML"
 msgid "DOS line endings"
 msgstr "Край на реда във формата на DOS"
 
-#: weblate/checks/flags.py:46 weblate/checks/markup.py:322
+#: weblate/checks/flags.py:46 weblate/checks/markup.py:353
 #: weblate/templates/data.html:32 weblate/templates/data.html:73
 #: weblate/templates/data.html:117 weblate/templates/data.html:158
 msgid "URL"
@@ -4033,74 +4046,93 @@ msgstr ""
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "В един или повече XML-елемента липсва съдържание в превода: „%s“"
 
-#: weblate/checks/markup.py:78
+#: weblate/checks/markup.py:109
 msgid "BBCode markup"
 msgstr "Код на BBCode"
 
-#: weblate/checks/markup.py:79
+#: weblate/checks/markup.py:110
 msgid "BBCode in translation does not match source"
 msgstr "Кодът на BBCode в превода не съвпада с изходния"
 
-#: weblate/checks/markup.py:159
+#: weblate/checks/markup.py:190
 msgid "XML syntax"
 msgstr "Синтаксис на XML"
 
-#: weblate/checks/markup.py:160
+#: weblate/checks/markup.py:191
 msgid "The translation is not valid XML"
 msgstr "Преводът не е правилен код на XML"
 
-#: weblate/checks/markup.py:184
+#: weblate/checks/markup.py:215
 msgid "XML markup"
 msgstr "Код на XML"
 
-#: weblate/checks/markup.py:185
+#: weblate/checks/markup.py:216
 msgid "XML tags in translation do not match source"
 msgstr "Елементите на XML в превода не съвпадат с изходните"
 
-#: weblate/checks/markup.py:243
+#: weblate/checks/markup.py:274
 msgid "Markdown references"
 msgstr "Препратки във формата на Markdown"
 
-#: weblate/checks/markup.py:244
+#: weblate/checks/markup.py:275
 msgid "Markdown link references do not match source"
 msgstr "Препратки към връзки в Markdown не съвпадат с изходните"
 
-#: weblate/checks/markup.py:260
+#: weblate/checks/markup.py:291
 msgid "Markdown links"
 msgstr "Връзки във формата на Markdown"
 
-#: weblate/checks/markup.py:261
+#: weblate/checks/markup.py:292
 msgid "Markdown links do not match source"
 msgstr "Връзките във формата на Markdown не съвпадат с изходните"
 
-#: weblate/checks/markup.py:289
+#: weblate/checks/markup.py:320
 msgid "Markdown syntax"
 msgstr "Синтаксис на Markdown"
 
-#: weblate/checks/markup.py:290
+#: weblate/checks/markup.py:321
 msgid "Markdown syntax does not match source"
 msgstr "Синтаксисът на Markdown не съвпада с изходния"
 
-#: weblate/checks/markup.py:323
+#: weblate/checks/markup.py:354
 msgid "The translation does not contain an URL"
 msgstr "Преводът не съдържа даден уеб-адрес"
 
-#: weblate/checks/markup.py:342 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:373 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "Небезопасен код HTML"
 
-#: weblate/checks/markup.py:343
+#: weblate/checks/markup.py:374
 msgid "The translation uses unsafe HTML markup"
 msgstr "Преводът използва опасен код HTML"
 
-#: weblate/checks/markup.py:359
+#: weblate/checks/markup.py:398
 msgid "Inconsistent reStructuredText references"
 msgstr "Непоследователни препратки на reStructuredText"
 
-#: weblate/checks/markup.py:361
+#: weblate/checks/markup.py:400
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr "Непоследователни препратки на reStructuredText в преведения текст."
+
+#: weblate/checks/markup.py:432
+#, fuzzy
+#| msgid ""
+#| "Inconsistent reStructuredText term references in the translated message."
+msgid "Inconsistent links in the translated message."
+msgstr "Непоследователни препратки на reStructuredText в преведения текст."
+
+#: weblate/checks/markup.py:545
+#, fuzzy
+#| msgid "reStructuredText"
+msgid "reStructuredText syntax error"
+msgstr "reStructuredText"
+
+#: weblate/checks/markup.py:546
+#, fuzzy
+#| msgid "Fluent syntax error in translation"
+msgid "reStructuredText syntax error in the translation."
+msgstr "Грешка в синтаксиса на превода на Fluent"
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -11001,8 +11033,8 @@ msgstr ""
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
 msgstr ""
-"Проекти, които не са свързани с код (например книги или графично съдържание)"
-", също са добре дошли."
+"Проекти, които не са свързани с код (например книги или графично "
+"съдържание), също са добре дошли."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
@@ -13067,15 +13099,15 @@ msgstr "Хранилища за контрол на версиите"
 msgid "Weblate translations"
 msgstr "Преводи на Weblate"
 
-#: weblate/trans/autofixes/chars.py:30
+#: weblate/trans/autofixes/chars.py:31
 msgid "Trailing ellipsis"
 msgstr "Многоточие накрая"
 
-#: weblate/trans/autofixes/chars.py:68
+#: weblate/trans/autofixes/chars.py:69
 msgid "Control characters"
 msgstr "Контролни знаци"
 
-#: weblate/trans/autofixes/chars.py:81
+#: weblate/trans/autofixes/chars.py:82
 msgid "Devanagari danda"
 msgstr "Данда в деванагари"
 
@@ -15372,35 +15404,35 @@ msgstr "Неуспешно добавяне на низа, няма намере
 msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "Низът не може да бъде прехвърлен в %(component)s: %(reason)s"
 
-#: weblate/trans/models/unit.py:1811
+#: weblate/trans/models/unit.py:1813
 msgid "Unmark as read-only"
 msgstr "Премахване на отбелязването като „само за четене“"
 
-#: weblate/trans/models/unit.py:1814
+#: weblate/trans/models/unit.py:1816
 msgid "Mark as read-only"
 msgstr "Отбелязване като „само за четене“"
 
-#: weblate/trans/models/unit.py:1818
+#: weblate/trans/models/unit.py:1820
 msgid "Unmark as untranslatable"
 msgstr "Премахване на отбелязването като „непреводимо“"
 
-#: weblate/trans/models/unit.py:1822
+#: weblate/trans/models/unit.py:1824
 msgid "Mark as untranslatable"
 msgstr "Отбелязване като „непреводимо“"
 
-#: weblate/trans/models/unit.py:1829
+#: weblate/trans/models/unit.py:1831
 msgid "Unmark as forbidden translation"
 msgstr "Премахване на отбелязването като „забранен превод“"
 
-#: weblate/trans/models/unit.py:1837
+#: weblate/trans/models/unit.py:1839
 msgid "Mark as forbidden translation"
 msgstr "Отбелязване като „забранен превод“"
 
-#: weblate/trans/models/unit.py:1845
+#: weblate/trans/models/unit.py:1847
 msgid "Unmark as terminology"
 msgstr "Премахване на отбелязването като „терминология“"
 
-#: weblate/trans/models/unit.py:1853
+#: weblate/trans/models/unit.py:1855
 msgid "Mark as terminology"
 msgstr "Отбелязване като „терминология“"
 

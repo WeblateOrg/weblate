@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-01-15 15:25+0000\n"
+"POT-Creation-Date: 2025-01-17 12:43+0000\n"
 "PO-Revision-Date: 2025-01-15 19:23+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -1949,12 +1949,18 @@ msgstr "残りの接続制限回数"
 msgid "Number of seconds until the rate-limit window resets"
 msgstr "接続制限がリセットされるまでの秒数"
 
-#: weblate/api/spectacular.py:43
+#: weblate/api/spectacular.py:57
 #: weblate/templates/drf_spectacular/redoc.html:11
 msgid "Weblate's REST API"
 msgstr "Weblate の REST API"
 
-#: weblate/api/views.py:2286 weblate/auth/models.py:930
+#: weblate/api/views.py:153
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Could not obtain repository lock to perform the operation."
+msgstr "リポジトリのロックに失敗しました。他の処理が実行中です。"
+
+#: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/accounts/user.html:322
@@ -1967,13 +1973,13 @@ msgstr "Weblate の REST API"
 msgid "Project"
 msgstr "プロジェクト"
 
-#: weblate/api/views.py:2294 weblate/trans/forms.py:1799
+#: weblate/api/views.py:2290 weblate/trans/forms.py:1799
 #: weblate/trans/models/announcement.py:83 weblate/trans/models/category.py:65
 #: weblate/trans/models/component.py:361
 msgid "Category"
 msgstr "カテゴリ"
 
-#: weblate/api/views.py:2302 weblate/checks/views.py:232
+#: weblate/api/views.py:2298 weblate/checks/views.py:232
 #: weblate/checks/views.py:239 weblate/templates/accounts/user.html:270
 #: weblate/templates/addons/discovery_preview.html:6
 #: weblate/templates/category-project.html:78
@@ -1986,11 +1992,11 @@ msgstr "カテゴリ"
 msgid "Component"
 msgstr "コンポーネント"
 
-#: weblate/api/views.py:2310
+#: weblate/api/views.py:2306
 msgid "User"
 msgstr "利用者"
 
-#: weblate/api/views.py:2318 weblate/fonts/models.py:148
+#: weblate/api/views.py:2314 weblate/fonts/models.py:148
 #: weblate/templates/category.html:151 weblate/templates/component.html:188
 #: weblate/templates/lang/language_form.html:22
 #: weblate/templates/languages.html:16 weblate/templates/project.html:226
@@ -3019,13 +3025,19 @@ msgstr "AngularJS 補間文字列"
 msgid "AngularJS interpolation strings do not match source"
 msgstr "原文と AngularJS 補間文字列が一致してないもの"
 
-#: weblate/checks/base.py:316
+#: weblate/checks/base.py:321
 msgid "The following format strings are missing: {}"
 msgstr "次のフォーマット文字列が足りません: {}"
 
-#: weblate/checks/base.py:321
+#: weblate/checks/base.py:326
 msgid "The following format strings are extra: {}"
 msgstr "次のフォーマット文字列は余分です: {}"
+
+#: weblate/checks/base.py:335
+#, fuzzy
+#| msgid "The following occurrences were found:"
+msgid "The following errors were found:"
+msgstr "次のような現象が起きました:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -3131,7 +3143,7 @@ msgstr "改行数の不一致"
 msgid "Number of new lines in translation does not match source"
 msgstr "改行の数が原文と一致しないもの"
 
-#: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:48
+#: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "ゼロ幅スペース"
 
@@ -3163,7 +3175,7 @@ msgstr "Kashida 文字の使用"
 msgid "The decorative kashida letters should not be used"
 msgstr "装飾的なカシーダが使用されている翻訳文"
 
-#: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:100
+#: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "句読点のスペース"
 
@@ -3255,7 +3267,7 @@ msgstr "XML テキスト"
 msgid "DOS line endings"
 msgstr "DOS 形式の改行"
 
-#: weblate/checks/flags.py:46 weblate/checks/markup.py:322
+#: weblate/checks/flags.py:46 weblate/checks/markup.py:353
 #: weblate/templates/data.html:32 weblate/templates/data.html:73
 #: weblate/templates/data.html:117 weblate/templates/data.html:158
 msgid "URL"
@@ -3982,74 +3994,93 @@ msgstr "XML タグに予期しないコンテンツを含む翻訳: %s"
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "コンテンツが欠損している XML タグを含む翻訳: %s"
 
-#: weblate/checks/markup.py:78
+#: weblate/checks/markup.py:109
 msgid "BBCode markup"
 msgstr "BBCode マークアップ"
 
-#: weblate/checks/markup.py:79
+#: weblate/checks/markup.py:110
 msgid "BBCode in translation does not match source"
 msgstr "翻訳文の BBCode が原文と不一致"
 
-#: weblate/checks/markup.py:159
+#: weblate/checks/markup.py:190
 msgid "XML syntax"
 msgstr "XML 構文"
 
-#: weblate/checks/markup.py:160
+#: weblate/checks/markup.py:191
 msgid "The translation is not valid XML"
 msgstr "翻訳文が XML として正しくない"
 
-#: weblate/checks/markup.py:184
+#: weblate/checks/markup.py:215
 msgid "XML markup"
 msgstr "XML マークアップ"
 
-#: weblate/checks/markup.py:185
+#: weblate/checks/markup.py:216
 msgid "XML tags in translation do not match source"
 msgstr "翻訳文の XML タグが原文と不一致"
 
-#: weblate/checks/markup.py:243
+#: weblate/checks/markup.py:274
 msgid "Markdown references"
 msgstr "Markdown の参照"
 
-#: weblate/checks/markup.py:244
+#: weblate/checks/markup.py:275
 msgid "Markdown link references do not match source"
 msgstr "Markdown の参照リンクが原文と不一致"
 
-#: weblate/checks/markup.py:260
+#: weblate/checks/markup.py:291
 msgid "Markdown links"
 msgstr "Markdown のリンク"
 
-#: weblate/checks/markup.py:261
+#: weblate/checks/markup.py:292
 msgid "Markdown links do not match source"
 msgstr "Markdown のリンクが原文と不一致"
 
-#: weblate/checks/markup.py:289
+#: weblate/checks/markup.py:320
 msgid "Markdown syntax"
 msgstr "Markdown 構文"
 
-#: weblate/checks/markup.py:290
+#: weblate/checks/markup.py:321
 msgid "Markdown syntax does not match source"
 msgstr "Markdown 構文が原文と一致しません"
 
-#: weblate/checks/markup.py:323
+#: weblate/checks/markup.py:354
 msgid "The translation does not contain an URL"
 msgstr "翻訳文に URL が含まれていない"
 
-#: weblate/checks/markup.py:342 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:373 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "安全でない HTML"
 
-#: weblate/checks/markup.py:343
+#: weblate/checks/markup.py:374
 msgid "The translation uses unsafe HTML markup"
 msgstr "翻訳文には、安全でない HTML マークアップが使用されている"
 
-#: weblate/checks/markup.py:359
+#: weblate/checks/markup.py:398
 msgid "Inconsistent reStructuredText references"
 msgstr ""
 
-#: weblate/checks/markup.py:361
+#: weblate/checks/markup.py:400
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
+
+#: weblate/checks/markup.py:432
+#, fuzzy
+#| msgid "%(count)s string is not being translated here."
+#| msgid_plural "%(count)s strings are not being translated here."
+msgid "Inconsistent links in the translated message."
+msgstr "%(count)s 個の文字列が未翻訳です。"
+
+#: weblate/checks/markup.py:545
+#, fuzzy
+#| msgid "reStructuredText"
+msgid "reStructuredText syntax error"
+msgstr "reStructuredText"
+
+#: weblate/checks/markup.py:546
+#, fuzzy
+#| msgid "Fluent syntax error in translation"
+msgid "reStructuredText syntax error in the translation."
+msgstr "翻訳での Fluent 構文エラー"
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -12868,15 +12899,15 @@ msgstr "VCS リポジトリ"
 msgid "Weblate translations"
 msgstr "Weblate 翻訳"
 
-#: weblate/trans/autofixes/chars.py:30
+#: weblate/trans/autofixes/chars.py:31
 msgid "Trailing ellipsis"
 msgstr "文末の省略記号"
 
-#: weblate/trans/autofixes/chars.py:68
+#: weblate/trans/autofixes/chars.py:69
 msgid "Control characters"
 msgstr "制御文字"
 
-#: weblate/trans/autofixes/chars.py:81
+#: weblate/trans/autofixes/chars.py:82
 msgid "Devanagari danda"
 msgstr "デーヴァナーガリー文字のダンダ句読点"
 
@@ -15121,35 +15152,35 @@ msgstr "文字列の追加に失敗しました。翻訳が見つかりません
 msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "文字列を %(component)s へ反映できません: %(reason)s"
 
-#: weblate/trans/models/unit.py:1811
+#: weblate/trans/models/unit.py:1813
 msgid "Unmark as read-only"
 msgstr "翻訳禁止の解除"
 
-#: weblate/trans/models/unit.py:1814
+#: weblate/trans/models/unit.py:1816
 msgid "Mark as read-only"
 msgstr "翻訳禁止に設定"
 
-#: weblate/trans/models/unit.py:1818
+#: weblate/trans/models/unit.py:1820
 msgid "Unmark as untranslatable"
 msgstr "翻訳禁止の解除"
 
-#: weblate/trans/models/unit.py:1822
+#: weblate/trans/models/unit.py:1824
 msgid "Mark as untranslatable"
 msgstr "翻訳禁止に設定"
 
-#: weblate/trans/models/unit.py:1829
+#: weblate/trans/models/unit.py:1831
 msgid "Unmark as forbidden translation"
 msgstr "使用禁止の訳語の解除"
 
-#: weblate/trans/models/unit.py:1837
+#: weblate/trans/models/unit.py:1839
 msgid "Mark as forbidden translation"
 msgstr "使用禁止の訳語に設定"
 
-#: weblate/trans/models/unit.py:1845
+#: weblate/trans/models/unit.py:1847
 msgid "Unmark as terminology"
 msgstr "固有の用語を解除"
 
-#: weblate/trans/models/unit.py:1853
+#: weblate/trans/models/unit.py:1855
 msgid "Mark as terminology"
 msgstr "固有の用語に設定"
 
