@@ -3,8 +3,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from django.utils.translation import gettext
 from drf_spectacular.extensions import OpenApiAuthenticationExtension
-from drf_spectacular.plumbing import build_bearer_security_scheme_object
 from rest_framework.authentication import TokenAuthentication
 
 
@@ -15,13 +17,35 @@ class BearerAuthentication(TokenAuthentication):
 
 
 class BearerScheme(OpenApiAuthenticationExtension):
-    """Fix an issue where the drf-spectacular library duplicates the `tokenAuth` security scheme when generating the OpenAPI schema."""
-
     target_class = "weblate.api.authentication.BearerAuthentication"
     name = "bearerAuth"
 
-    def get_security_definition(self, auto_schema):
-        return build_bearer_security_scheme_object(
-            header_name="Authorization",
-            token_prefix=self.target.keyword,
+    def get_description(self, keyword: str) -> str:
+        intro = (
+            gettext("Token-based authentication with required prefix `%s`.") % keyword
         )
+        user_token = gettext(
+            "Each user has a personal access token which they can get from their respective user profile. These tokens have the `wlu_` prefix."
+        )
+        project_token = gettext(
+            "It is possible to create project tokens whose access to the API is limited to operations to their associated project. These tokens have the `wlp_` prefix."
+        )
+        return f"""{intro}
+
+- {user_token}
+- {project_token}
+        """
+
+    def get_security_definition(self, auto_schema):
+        keyword = self.target.keyword
+        return {
+            "type": "apiKey",
+            "in": "header",
+            "name": keyword,
+            "description": self.get_description(keyword),
+        }
+
+
+class TokenScheme(BearerScheme):
+    target_class = "rest_framework.authentication.TokenAuthentication"
+    name = "tokenAuth"
