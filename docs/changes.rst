@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 * :ref:`check-rst-references` check to validate reStructuredText references.
+* :ref:`check-rst-syntax` check to validate reStructuredText syntax.
 
 **Improvements**
 
@@ -13,18 +14,24 @@ Not yet released.
 * :envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker container.
 * :guilabel:`Synchronize` on shared repository now operates on all its components.
 * :ref:`check-punctuation-spacing` ignores markup such as Markdown or reStructuredText.
+* :ref:`autofix-punctuation-spacing` does not alter reStructuredText markup.
+* Improved validation errors in :doc:`/api`, see :ref:`api-errors`.
 
 **Bug fixes**
 
 * Fixed translations caching in :ref:`machine-translation-setup`.
+* :ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag.
 
 **Compatibility**
 
 * Running tests using Django test executor is no longer supported, see :doc:`/contributing/tests`.
+* API error responses format has changed, see :ref:`api-errors`.
 
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``REST_FRAMEWORK``, ``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 
 **Contributors**
 
@@ -228,7 +235,7 @@ Released on October 15th 2024.
 **New features**
 
 * Added :ref:`component-key_filter` in the component.
-* :ref:`Searching` now supports filtering by object path and :ref:`date-search`.
+* :doc:`/user/search` now supports filtering by object path and :ref:`date-search`.
 * Merge requests credentials can now be passed in the repository URL, see :ref:`settings-credentials`.
 * :ref:`mt-azure-openai` automatic suggestion service.
 * :ref:`vcs-bitbucket-cloud`.
@@ -540,7 +547,7 @@ Released on April 26th 2024.
 
 **New features**
 
-* :ref:`Searching` supports ``source_changed:DATETIME``.
+* :doc:`/user/search` supports ``source_changed:DATETIME``.
 * Added several new :ref:`component-language_code_style`.
 
 **Improvements**

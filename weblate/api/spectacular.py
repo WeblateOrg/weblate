@@ -7,7 +7,21 @@ from __future__ import annotations
 
 from typing import Any
 
+from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy
+
+
+def get_doc_url_wrapper(page: str, anchor: str = "") -> str:
+    """
+    Wrap get_doc_url to delay get_doc_url import.
+
+    It cannot be imported directly, because get_spectacular_settings is used
+    from settings and get_doc_url needs settings to determine if it should hide t
+    he version info.
+    """
+    from weblate.utils.docs import get_doc_url
+
+    return get_doc_url(page, anchor)
 
 
 def get_spectacular_settings(
@@ -43,7 +57,7 @@ def get_spectacular_settings(
         "TITLE": gettext_lazy("Weblate's REST API"),
         "LICENSE": {
             "name": "GNU General Public License v3 or later",
-            "url": "https://docs.weblate.org/en/latest/contributing/license.html",
+            "url": lazy(get_doc_url_wrapper, str)("contributing/license"),
         },
         "DESCRIPTION": """
 The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
@@ -60,11 +74,27 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         # Flatten enum definitions
         "ENUM_NAME_OVERRIDES": {
             "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
+            "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",
+            "ClientErrorEnum": "drf_standardized_errors.openapi_serializers.ClientErrorEnum.choices",
+            "ServerErrorEnum": "drf_standardized_errors.openapi_serializers.ServerErrorEnum.choices",
+            "ErrorCode401Enum": "drf_standardized_errors.openapi_serializers.ErrorCode401Enum.choices",
+            "ErrorCode403Enum": "drf_standardized_errors.openapi_serializers.ErrorCode403Enum.choices",
+            "ErrorCode404Enum": "drf_standardized_errors.openapi_serializers.ErrorCode404Enum.choices",
+            "ErrorCode405Enum": "drf_standardized_errors.openapi_serializers.ErrorCode405Enum.choices",
+            "ErrorCode406Enum": "drf_standardized_errors.openapi_serializers.ErrorCode406Enum.choices",
+            "ErrorCode415Enum": "drf_standardized_errors.openapi_serializers.ErrorCode415Enum.choices",
+            "ErrorCode429Enum": "drf_standardized_errors.openapi_serializers.ErrorCode429Enum.choices",
+            "ErrorCode500Enum": "drf_standardized_errors.openapi_serializers.ErrorCode500Enum.choices",
+            "ErrorCode423Enum": "weblate.api.serializers.ErrorCode423Enum.choices",
         },
         "POSTPROCESSING_HOOKS": [
-            "drf_spectacular.hooks.postprocess_schema_enums",
+            "drf_standardized_errors.openapi_hooks.postprocess_schema_enums",
             "weblate.api.docs.add_middleware_headers",
         ],
+        "EXTERNAL_DOCS": {
+            "url": lazy(get_doc_url_wrapper, str)("index"),
+            "description": "Official Weblate documentation",
+        },
         "TAGS": [
             {
                 "name": "root",
@@ -156,3 +186,57 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         settings["TOS"] = "/legal/terms/"
 
     return settings
+
+
+def get_drf_standardized_errors_sertings() -> dict[str, Any]:
+    return {
+        "ALLOWED_ERROR_STATUS_CODES": [
+            "400",
+            "401",
+            "403",
+            "404",
+            "405",
+            "406",
+            "415",
+            "423",  # Added by Weblate
+            "429",
+            "500",
+        ],
+        "ERROR_SCHEMAS": {
+            "423": "weblate.api.serializers.ErrorResponse423Serializer",
+        },
+    }
+
+
+def get_drf_settings(
+    *, require_login: bool, anon_throttle: str, user_throttle: str
+) -> dict[str, Any]:
+    return {
+        # Use Django's standard `django.contrib.auth` permissions,
+        # or allow read-only access for unauthenticated users.
+        "DEFAULT_PERMISSION_CLASSES": [
+            # Require authentication for login required sites
+            "rest_framework.permissions.IsAuthenticated"
+            if require_login
+            else "rest_framework.permissions.IsAuthenticatedOrReadOnly"
+        ],
+        "DEFAULT_AUTHENTICATION_CLASSES": (
+            "rest_framework.authentication.TokenAuthentication",
+            "weblate.api.authentication.BearerAuthentication",
+            "rest_framework.authentication.SessionAuthentication",
+        ),
+        "DEFAULT_THROTTLE_CLASSES": (
+            "weblate.api.throttling.UserRateThrottle",
+            "weblate.api.throttling.AnonRateThrottle",
+        ),
+        "DEFAULT_THROTTLE_RATES": {
+            "anon": anon_throttle,
+            "user": user_throttle,
+        },
+        "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
+        "PAGE_SIZE": 50,
+        "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
+        "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler",
+        "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
+        "DEFAULT_SCHEMA_CLASS": "drf_standardized_errors.openapi.AutoSchema",
+    }

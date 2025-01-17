@@ -13,7 +13,7 @@ from django.urls import reverse
 
 from weblate.addons.resx import ResxUpdateAddon
 from weblate.checks.models import Check
-from weblate.trans.models import Change, Component, Unit
+from weblate.trans.models import Change, Component, Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.utils.hash import hash_to_checksum
@@ -659,6 +659,46 @@ class EditXliffMonoTest(EditTest):
 class EditLinkTest(EditTest):
     def create_component(self):
         return self.create_link()
+
+
+class EditPropagateTest(EditTest):
+    def create_component(self):
+        result = super().create_component()
+        self._create_component(
+            "po", "second-po/*.po", name="Second", project=result.project
+        )
+        return result
+
+    def test_edit(self) -> None:
+        def get_targets() -> list[str]:
+            return list(
+                Unit.objects.filter(
+                    source=self.source, translation__language_code="cs"
+                ).values_list("target", flat=True)
+            )
+
+        # String should not be translated now
+        self.assertEqual(get_targets(), ["", ""])
+
+        super().test_edit()
+
+        # Verify that propagation worked well
+        self.assertEqual(get_targets(), [self.second_target, self.second_target])
+
+        second_translation = Translation.objects.get(
+            component__slug="second", language_code="cs"
+        )
+
+        # Verify second component backend
+        self.assert_backend(1, translation=second_translation)
+
+        # Force rescan
+        components = Component.objects.all()
+        for component in components:
+            component.do_file_scan()
+
+        # Verify that propagated units survived scan
+        self.assertEqual(get_targets(), [self.second_target, self.second_target])
 
 
 class EditTSTest(EditTest):

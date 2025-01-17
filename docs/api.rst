@@ -218,6 +218,17 @@ The status of rate limiting is reported in following headers:
    :envvar:`WEBLATE_API_RATELIMIT_ANON`,
    :envvar:`WEBLATE_API_RATELIMIT_USER`
 
+.. _api-errors:
+
+Error responses
+~~~~~~~~~~~~~~~
+
+.. versionchanged:: 5.10
+
+   Error responses were endpoint specific before this release.
+
+Weblate error responses are formatted based on :doc:`drf-standardized-error:error_response`.
+
 
 API Entry Point
 +++++++++++++++
@@ -1995,7 +2006,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :param q: Search query string :ref:`Searching` (optional)
+    :param q: Search query string :doc:`/user/search` (optional)
     :type q: string
     :>json array results: array of component objects; see :http:get:`/api/units/(int:id)/`
 
@@ -2163,7 +2174,7 @@ and XLIFF.
 
     Returns list of translation units.
 
-    :param q: Search query string :ref:`Searching` (optional)
+    :param q: Search query string :doc:`/user/search` (optional)
     :type q: string
 
     .. seealso::
@@ -2877,95 +2888,6 @@ update individual repositories; see
             Generic information about Gitee Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
-
-.. _exports:
-
-Exports
-+++++++
-
-Weblate provides various exports to allow you to further process the data.
-
-.. http:get:: /exports/stats/(string:project)/(string:component)/
-
-    :query string format: Output format: either ``json`` or ``csv``
-
-    .. deprecated:: 2.6
-
-        Please use :http:get:`/api/components/(string:project)/(string:component)/statistics/`
-        and :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
-        instead; it allows access to ACL controlled projects as well.
-
-    Retrieves statistics for given component in given format.
-
-    **Example request:**
-
-    .. sourcecode:: http
-
-        GET /exports/stats/weblate/main/ HTTP/1.1
-        Host: example.com
-        Accept: application/json, text/javascript
-
-    **Example response:**
-
-    .. sourcecode:: http
-
-        HTTP/1.1 200 OK
-        Vary: Accept
-        Content-Type: application/json
-
-        [
-            {
-                "code": "cs",
-                "failing": 0,
-                "failing_percent": 0.0,
-                "fuzzy": 0,
-                "fuzzy_percent": 0.0,
-                "last_author": "Michal Čihař",
-                "last_change": "2012-03-28T15:07:38+00:00",
-                "name": "Czech",
-                "total": 436,
-                "total_words": 15271,
-                "translated": 436,
-                "translated_percent": 100.0,
-                "translated_words": 3201,
-                "url": "https://hosted.weblate.org/engage/weblate/cs/",
-                "url_translate": "https://hosted.weblate.org/projects/weblate/main/cs/"
-            },
-            {
-                "code": "nl",
-                "failing": 21,
-                "failing_percent": 4.8,
-                "fuzzy": 11,
-                "fuzzy_percent": 2.5,
-                "last_author": null,
-                "last_change": null,
-                "name": "Dutch",
-                "total": 436,
-                "total_words": 15271,
-                "translated": 319,
-                "translated_percent": 73.2,
-                "translated_words": 3201,
-                "url": "https://hosted.weblate.org/engage/weblate/nl/",
-                "url_translate": "https://hosted.weblate.org/projects/weblate/main/nl/"
-            },
-            {
-                "code": "el",
-                "failing": 11,
-                "failing_percent": 2.5,
-                "fuzzy": 21,
-                "fuzzy_percent": 4.8,
-                "last_author": null,
-                "last_change": null,
-                "name": "Greek",
-                "total": 436,
-                "total_words": 15271,
-                "translated": 312,
-                "translated_percent": 71.6,
-                "translated_words": 3201,
-                "url": "https://hosted.weblate.org/engage/weblate/el/",
-                "url_translate": "https://hosted.weblate.org/projects/weblate/main/el/"
-            }
-        ]
 
 .. _rss:
 

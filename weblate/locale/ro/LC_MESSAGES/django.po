@@ -6,11 +6,11 @@
 # Licaon Kter <licaon.kter@protonmail.com>, 2023, 2024.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.9.2\n"
+"Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2024-12-20 07:29+0000\n"
-"PO-Revision-Date: 2024-10-18 19:15+0000\n"
-"Last-Translator: Vlăduț Ilie <vladilie94@gmail.com>\n"
+"POT-Creation-Date: 2025-01-17 12:43+0000\n"
+"PO-Revision-Date: 2025-01-15 19:23+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
 "Language: ro\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -27,7 +27,7 @@ msgid "None"
 msgstr "Nespecificat"
 
 #: weblate/accounts/avatar.py:109 weblate/templates/accounts/profile.html:409
-#: weblate/templates/accounts/user.html:31 weblate/templates/base.html:326
+#: weblate/templates/accounts/user.html:31 weblate/templates/base.html:328
 #: weblate/templates/snippets/user-list.html:16
 msgid "User avatar"
 msgstr "Avatar utilizator"
@@ -45,7 +45,7 @@ msgid "This username is already taken. Please choose another."
 msgstr "Acest nume de utilizator este deja ocupat. Te rugăm să alegi altul."
 
 #: weblate/accounts/forms.py:129 weblate/accounts/forms.py:983
-#: weblate/auth/models.py:414 weblate/auth/models.py:1118
+#: weblate/auth/models.py:414 weblate/auth/models.py:1117
 #: weblate/templates/auth/team.html:105 weblate/templates/manage/users.html:50
 #: weblate/templates/trans/project-access.html:49
 msgid "Full name"
@@ -179,7 +179,7 @@ msgstr ""
 "procesa solicitarea."
 
 #: weblate/accounts/forms.py:587 weblate/accounts/templatetags/authnames.py:33
-#: weblate/auth/models.py:420 weblate/auth/models.py:1136
+#: weblate/auth/models.py:420 weblate/auth/models.py:1134
 #: weblate/templates/accounts/user.html:242
 #: weblate/templates/manage/users.html:51
 #: weblate/templates/trans/project-access.html:51 weblate/utils/fields.py:36
@@ -344,7 +344,7 @@ msgstr ""
 "%(component)s."
 
 #: weblate/accounts/forms.py:982 weblate/auth/models.py:401
-#: weblate/auth/models.py:1109 weblate/templates/auth/team.html:104
+#: weblate/auth/models.py:1108 weblate/templates/auth/team.html:104
 #: weblate/templates/manage/users.html:49
 #: weblate/templates/trans/project-access.html:48 weblate/utils/forms.py:79
 msgid "Username"
@@ -1135,7 +1135,7 @@ msgid "Too many messages sent, please try again later."
 msgstr "Prea multe mesaje trimise, te rugăm să încerci din nou mai târziu."
 
 #: weblate/accounts/views.py:578 weblate/templates/accounts/contact.html:8
-#: weblate/templates/base.html:390 weblate/templates/footer.html:32
+#: weblate/templates/base.html:392 weblate/templates/footer.html:32
 msgid "Contact"
 msgstr "Contact"
 
@@ -1171,7 +1171,7 @@ msgstr "Probă gratuită"
 #: weblate/templates/accounts/login.html:10
 #: weblate/templates/accounts/login.html:30
 #: weblate/templates/accounts/login.html:39
-#: weblate/templates/accounts/redirect.html:9 weblate/templates/base.html:273
+#: weblate/templates/accounts/redirect.html:9 weblate/templates/base.html:275
 #: weblate/templates/registration/logged_out.html:19
 #: weblate/templates/weblate_auth/invitation_detail.html:38
 #: weblate/wladmin/sites.py:60
@@ -1671,7 +1671,7 @@ msgstr "Expresie regulată pentru a potrivi fișierele de traducere"
 #: weblate/addons/forms.py:283
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
 #: weblate/templates/trans/discover-choice.html:7 weblate/trans/forms.py:633
-#: weblate/trans/forms.py:1832 weblate/trans/models/component.py:506
+#: weblate/trans/forms.py:1839 weblate/trans/models/component.py:506
 msgid "File format"
 msgstr "Format fișier"
 
@@ -1739,11 +1739,11 @@ msgstr "Elimină componente pentru fișiere inexistente"
 msgid "I confirm the above matches look correct"
 msgstr "Confirm că potrivirile de mai sus par corecte"
 
-#: weblate/addons/forms.py:397 weblate/trans/models/component.py:2983
+#: weblate/addons/forms.py:397 weblate/trans/models/component.py:2986
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Nu poți utiliza o traducere monolingvă fără un fișier de bază."
 
-#: weblate/addons/forms.py:405 weblate/trans/models/component.py:2917
+#: weblate/addons/forms.py:405 weblate/trans/models/component.py:2920
 msgid "You can not use a base file for bilingual translation."
 msgstr "Nu poți utiliza un fișier de bază pentru o traducere bilingvă."
 
@@ -2059,31 +2059,37 @@ msgstr "Limitarea ratei de limitare a numărului de solicitări de efectuat"
 msgid "Number of seconds until the rate-limit window resets"
 msgstr "Numărul de secunde până la resetarea ferestrei ratelimit"
 
-#: weblate/api/spectacular.py:42
+#: weblate/api/spectacular.py:57
 #: weblate/templates/drf_spectacular/redoc.html:11
 msgid "Weblate's REST API"
 msgstr "Weblate's REST API"
 
-#: weblate/api/views.py:2053 weblate/auth/models.py:931
+#: weblate/api/views.py:153
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Could not obtain repository lock to perform the operation."
+msgstr "Nu s-a putut bloca depozitarul, altă operațiune este în curs."
+
+#: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/accounts/user.html:322
 #: weblate/templates/dashboard/user.html:95 weblate/templates/data.html:31
 #: weblate/templates/data.html:72 weblate/templates/data.html:116
 #: weblate/templates/language.html:70 weblate/templates/list-projects.html:5
-#: weblate/templates/snippets/list-objects.html:54 weblate/trans/forms.py:1788
+#: weblate/templates/snippets/list-objects.html:54 weblate/trans/forms.py:1795
 #: weblate/trans/models/announcement.py:76 weblate/trans/models/category.py:60
 #: weblate/trans/models/component.py:355 weblate/trans/models/component.py:388
 msgid "Project"
 msgstr "Proiect"
 
-#: weblate/api/views.py:2061 weblate/trans/forms.py:1792
+#: weblate/api/views.py:2290 weblate/trans/forms.py:1799
 #: weblate/trans/models/announcement.py:83 weblate/trans/models/category.py:65
 #: weblate/trans/models/component.py:361
 msgid "Category"
 msgstr "Categorie"
 
-#: weblate/api/views.py:2069 weblate/checks/views.py:232
+#: weblate/api/views.py:2298 weblate/checks/views.py:232
 #: weblate/checks/views.py:239 weblate/templates/accounts/user.html:270
 #: weblate/templates/addons/discovery_preview.html:6
 #: weblate/templates/category-project.html:78
@@ -2091,16 +2097,16 @@ msgstr "Categorie"
 #: weblate/templates/language-project.html:121
 #: weblate/templates/project.html:214 weblate/templates/translate.html:378
 #: weblate/templates/translation.html:251 weblate/trans/forms.py:934
-#: weblate/trans/forms.py:981 weblate/trans/forms.py:1731
+#: weblate/trans/forms.py:987 weblate/trans/forms.py:1738
 #: weblate/trans/models/announcement.py:90
 msgid "Component"
 msgstr "Componentă"
 
-#: weblate/api/views.py:2077
+#: weblate/api/views.py:2306
 msgid "User"
 msgstr "Utilizator"
 
-#: weblate/api/views.py:2085 weblate/fonts/models.py:148
+#: weblate/api/views.py:2314 weblate/fonts/models.py:148
 #: weblate/templates/category.html:151 weblate/templates/component.html:188
 #: weblate/templates/lang/language_form.html:22
 #: weblate/templates/languages.html:16 weblate/templates/project.html:226
@@ -2109,7 +2115,7 @@ msgstr "Utilizator"
 #: weblate/templates/snippets/info.html:184
 #: weblate/templates/trans/alert/duplicatelanguage.html:52
 #: weblate/templates/trans/alert/duplicatestring.html:11
-#: weblate/trans/forms.py:1172 weblate/trans/forms.py:1320
+#: weblate/trans/forms.py:1179 weblate/trans/forms.py:1327
 #: weblate/trans/models/announcement.py:97
 msgid "Language"
 msgstr "Limbă"
@@ -2237,7 +2243,7 @@ msgid "Add screenshot"
 msgstr "Adăugare captură de ecran"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:59 weblate/templates/base.html:477
+#: weblate/auth/data.py:59 weblate/templates/base.html:479
 #: weblate/templates/screenshots/screenshot_detail.html:103
 msgid "Edit screenshot"
 msgstr "Editare captură de ecran"
@@ -2625,7 +2631,7 @@ msgstr "%s (permisiune la nivel de site)"
 #: weblate/templates/manage/performance.html:84
 #: weblate/templates/manage/teams.html:29
 #: weblate/templates/trans/project-access.html:215
-#: weblate/templates/trans/project-access.html:309 weblate/trans/forms.py:1528
+#: weblate/templates/trans/project-access.html:309 weblate/trans/forms.py:1535
 msgid "Name"
 msgstr "Nume"
 
@@ -2690,7 +2696,7 @@ msgstr "Proiecte"
 #: weblate/templates/mail/base.html:84 weblate/templates/manage/teams.html:33
 #: weblate/templates/project.html:35 weblate/templates/snippets/info.html:405
 #: weblate/templates/snippets/info.html:441
-#: weblate/templates/trans/project-access.html:218 weblate/trans/forms.py:2201
+#: weblate/templates/trans/project-access.html:218 weblate/trans/forms.py:2208
 msgid "Components"
 msgstr "Componente"
 
@@ -2704,7 +2710,7 @@ msgid "Language selection"
 msgstr "Selectare limbă"
 
 #: weblate/auth/models.py:172 weblate/templates/auth/teams-languages.html:4
-#: weblate/trans/forms.py:1129 weblate/trans/forms.py:1321
+#: weblate/trans/forms.py:1136 weblate/trans/forms.py:1328
 msgid "All languages"
 msgstr "Toate limbile"
 
@@ -2722,7 +2728,7 @@ msgstr "Toate limbile"
 #: weblate/templates/project.html:38 weblate/templates/snippets/info.html:399
 #: weblate/templates/snippets/info.html:434
 #: weblate/templates/trans/project-access.html:217 weblate/trans/admin.py:99
-#: weblate/trans/forms.py:1153 weblate/trans/forms.py:2362
+#: weblate/trans/forms.py:1160 weblate/trans/forms.py:2369
 #: weblate/trans/templatetags/translations.py:1395
 #: weblate/wladmin/models.py:218
 msgid "Languages"
@@ -2742,7 +2748,7 @@ msgstr "Administratori echipă"
 msgid "The administrator can add or remove users from a team."
 msgstr "Administratorul poate adăuga sau elimina utilizatori dintr-o echipă."
 
-#: weblate/auth/models.py:194 weblate/trans/models/project.py:219
+#: weblate/auth/models.py:194 weblate/trans/models/project.py:218
 msgid "Enforced two-factor authentication"
 msgstr ""
 
@@ -2765,11 +2771,11 @@ msgstr ""
 msgid "A user with that username already exists."
 msgstr "Există deja un utilizator cu acest nume de utilizator."
 
-#: weblate/auth/models.py:426 weblate/auth/models.py:1140
+#: weblate/auth/models.py:426 weblate/auth/models.py:1138
 msgid "Superuser status"
 msgstr "Statut de super-utilizator"
 
-#: weblate/auth/models.py:428 weblate/auth/models.py:1142
+#: weblate/auth/models.py:428 weblate/auth/models.py:1140
 msgid "User has all possible permissions."
 msgstr "Utilizatorul are toate permisiunile posibile."
 
@@ -2793,23 +2799,23 @@ msgstr "Expiră"
 #: weblate/templates/trans/project-access.html:29
 #: weblate/templates/trans/project-access.html:54
 #: weblate/templates/trans/project-access.html:209
-#: weblate/templates/trans/project-access.html:311 weblate/trans/forms.py:2910
+#: weblate/templates/trans/project-access.html:311 weblate/trans/forms.py:2916
 #: weblate/wladmin/views.py:87
 msgid "Teams"
 msgstr "Echipe"
 
-#: weblate/auth/models.py:451 weblate/auth/models.py:1130
+#: weblate/auth/models.py:451 weblate/auth/models.py:1129
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr ""
 "Utilizatorului i se acordă toate permisiunile incluse în calitatea de membru "
 "al acestor echipe."
 
-#: weblate/auth/models.py:902
+#: weblate/auth/models.py:901
 msgid "Regular expression for e-mail address"
 msgstr "Expresie regulată pentru adresa de e-mail"
 
-#: weblate/auth/models.py:906
+#: weblate/auth/models.py:905
 #, fuzzy
 #| msgid ""
 #| "Users with e-mail addresses found to match will be added to this group."
@@ -2818,40 +2824,40 @@ msgstr ""
 "Utilizatorii ale căror adrese de e-mail se potrivesc vor fi adăugați la "
 "acest grup."
 
-#: weblate/auth/models.py:911
+#: weblate/auth/models.py:910
 #, fuzzy
 #| msgid "Group to assign"
 msgid "Team to assign"
 msgstr "Grup de atribuit"
 
-#: weblate/auth/models.py:926 weblate/trans/forms.py:1283
+#: weblate/auth/models.py:925 weblate/trans/forms.py:1290
 msgid "User to block"
 msgstr "Utilizator de blocat"
 
-#: weblate/auth/models.py:933
+#: weblate/auth/models.py:932
 msgid "Block expiry"
 msgstr "Expirarea blocării"
 
-#: weblate/auth/models.py:1103 weblate/trans/forms.py:1264
+#: weblate/auth/models.py:1102 weblate/trans/forms.py:1271
 msgid "User to add"
 msgstr "Utilizator de adăugat"
 
-#: weblate/auth/models.py:1105 weblate/trans/forms.py:1267
-#: weblate/trans/forms.py:1285
+#: weblate/auth/models.py:1104 weblate/trans/forms.py:1274
+#: weblate/trans/forms.py:1292
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
 "Te rugăm să introduci un nume de cont Weblate existent sau o adresă de e-"
 "mail."
 
-#: weblate/auth/models.py:1113
+#: weblate/auth/models.py:1112
 msgid "Suggest username for the user. It can be changed later."
 msgstr ""
 
-#: weblate/auth/models.py:1122
+#: weblate/auth/models.py:1121
 msgid "Suggest full name for the user. It can be changed later."
 msgstr ""
 
-#: weblate/auth/models.py:1128 weblate/templates/accounts/profile.html:425
+#: weblate/auth/models.py:1127 weblate/templates/accounts/profile.html:425
 #: weblate/templates/accounts/user.html:323
 msgid "Team"
 msgstr "Echipă"
@@ -2872,10 +2878,12 @@ msgid "This translation is currently locked."
 msgstr "Această traducere este momentan blocată."
 
 #: weblate/auth/permissions.py:194
-#: weblate/templates/snippets/component/contributor-agreement.html:13
-#: weblate/templates/trans/other-row.html:27
+#, fuzzy
+#| msgid ""
+#| "Contributing to this translation requires agreeing to its contributor "
+#| "agreement."
 msgid ""
-"Contributing to this translation requires agreeing to its contributor "
+"Contributing to this translation requires accepting its contributor license "
 "agreement."
 msgstr ""
 "Pentru a contribui la această traducere, este necesar să fii de acord cu "
@@ -2884,7 +2892,7 @@ msgstr ""
 #: weblate/auth/permissions.py:202
 #, fuzzy
 #| msgid "Please sign in to save translations."
-msgid "Sign in to save the translation."
+msgid "Sign in to save translations."
 msgstr "Vă rugăm să vă conectați pentru a salva traducerile."
 
 #: weblate/auth/permissions.py:205
@@ -2908,8 +2916,11 @@ msgid "Suggestion voting is disabled."
 msgstr "Votarea sugestiei este dezactivată."
 
 #: weblate/auth/permissions.py:229
-msgid ""
-"This translation only accepts suggestions, and these are approved by voting."
+#, fuzzy
+#| msgid ""
+#| "This translation only accepts suggestions, and these are approved by "
+#| "voting."
+msgid "This translation only accepts suggestions, in turn approved by voting."
 msgstr ""
 "Această traducere acceptă doar sugestii, iar acestea sunt aprobate prin vot."
 
@@ -2919,35 +2930,49 @@ msgid "Pay the bills to unlock this project."
 msgstr "Plătește facturile pentru a debloca acest proiect."
 
 #: weblate/auth/permissions.py:248
-msgid "Source string reviews are not enabled."
+#, fuzzy
+#| msgid "Source string reviews are not enabled."
+msgid "Source-string reviews are turned off."
 msgstr "Revizuirile pentru șirurile sursă nu sunt activate."
 
 #: weblate/auth/permissions.py:249
-msgid "Translation reviews are not enabled."
-msgstr "Recenziile traducerilor nu sunt activate."
+#, fuzzy
+#| msgid "Translation suggestions are turned off."
+msgid "Translation reviews are turned off."
+msgstr "Sugestiile de traducere sunt dezactivate."
 
 #: weblate/auth/permissions.py:261
-msgid "Reviews are not enabled."
-msgstr "Recenziile nu sunt activate."
+#, fuzzy
+#| msgid "Object listing turned off"
+msgid "Reviewing is turned off."
+msgstr "Listarea obiectelor dezactivată"
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "Șirul sursă necesită revizuire."
 
 #: weblate/auth/permissions.py:276
-msgid "The string is read only."
+#, fuzzy
+#| msgid "The string is read only."
+msgid "The string is read-only."
 msgstr "Șirul este doar pentru citire."
 
 #: weblate/auth/permissions.py:286
+#, fuzzy
+#| msgid ""
+#| "Only reviewers can change approved strings, please add a suggestion if "
+#| "you think the string should be changed."
 msgid ""
-"Only reviewers can change approved strings, please add a suggestion if you "
+"Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
 "Doar recenzorii pot schimba șirurile aprobate, te rugăm să adaugi o sugestie "
 "dacă crezi că șirul ar trebui schimbat."
 
 #: weblate/auth/permissions.py:292
-msgid "The translation is read only."
+#, fuzzy
+#| msgid "The translation is read only."
+msgid "The translation is read-only."
 msgstr "Această traducere este doar pentru citire."
 
 #: weblate/auth/permissions.py:309
@@ -2959,12 +2984,17 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "Adăugarea de șiruri este dezactivată în configurarea componentelor."
 
 #: weblate/auth/permissions.py:328
-msgid "Cannot remove terminology translation, remove source string instead."
+#, fuzzy
+#| msgid "Cannot remove terminology translation, remove source string instead."
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
 "Nu se poate elimina traducerea terminologică, elimină în schimb șirul sursă."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-msgid "File format does not support this."
+#, fuzzy
+#| msgid "File format does not support this."
+msgid "The file format does not support this."
 msgstr "Formatul de fișier nu acceptă acest lucru."
 
 #: weblate/auth/views.py:121
@@ -3136,159 +3166,165 @@ msgstr "Șir de interpolare AngularJS"
 msgid "AngularJS interpolation strings do not match source"
 msgstr "Șirurile de interpolare AngularJS nu se potrivesc cu sursa"
 
-#: weblate/checks/base.py:308
+#: weblate/checks/base.py:321
 msgid "The following format strings are missing: {}"
 msgstr "Lipsesc următoarele șiruri de format: {}"
 
-#: weblate/checks/base.py:313
+#: weblate/checks/base.py:326
 msgid "The following format strings are extra: {}"
 msgstr "Următoarele șiruri de format sunt în plus: {}"
 
-#: weblate/checks/chars.py:46
+#: weblate/checks/base.py:335
+#, fuzzy
+#| msgid "The following occurrences were found:"
+msgid "The following errors were found:"
+msgstr "Au fost găsite următoarele apariții:"
+
+#: weblate/checks/chars.py:47
 msgid "Starting newline"
 msgstr "Începe linie nouă"
 
-#: weblate/checks/chars.py:48
+#: weblate/checks/chars.py:49
 msgid "Source and translation do not both start with a newline"
 msgstr "Sursa și traducerea nu încep cu o linie nouă"
 
-#: weblate/checks/chars.py:59
+#: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Linie nouă de urmărire"
 
-#: weblate/checks/chars.py:60
+#: weblate/checks/chars.py:61
 msgid "Source and translation do not both end with a newline"
 msgstr "Sursa și traducerea nu se termină cu o linie nouă"
 
-#: weblate/checks/chars.py:70
+#: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "Spații de pornire"
 
-#: weblate/checks/chars.py:72
+#: weblate/checks/chars.py:73
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "Sursa și traducerea nu încep cu același număr de spații"
 
-#: weblate/checks/chars.py:106
+#: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "Spațiu de urmărire"
 
-#: weblate/checks/chars.py:107
+#: weblate/checks/chars.py:108
 msgid "Source and translation do not both end with a space"
 msgstr "Sursa și traducerea nu se termină cu un spațiu"
 
-#: weblate/checks/chars.py:142
+#: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "Spațiu dublu"
 
-#: weblate/checks/chars.py:143
+#: weblate/checks/chars.py:144
 msgid "Translation contains double space"
 msgstr "Traducerea conține spațiu dublu"
 
-#: weblate/checks/chars.py:164
+#: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "Punct final nepotrivit"
 
-#: weblate/checks/chars.py:166
+#: weblate/checks/chars.py:167
 msgid "Source and translation do not both end with a full stop"
 msgstr "Sursa și traducerea nu se termină cu un punct"
 
-#: weblate/checks/chars.py:217
+#: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "Două puncte nepotrivite"
 
-#: weblate/checks/chars.py:218
+#: weblate/checks/chars.py:219
 msgid "Source and translation do not both end with a colon"
 msgstr "Sursa și traducerea nu se termină cu două puncte"
 
-#: weblate/checks/chars.py:248
+#: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "Semn de întrebare nepotrivit"
 
-#: weblate/checks/chars.py:250
+#: weblate/checks/chars.py:251
 msgid "Source and translation do not both end with a question mark"
 msgstr "Sursa și traducerea nu se termină cu un semn de întrebare"
 
-#: weblate/checks/chars.py:290
+#: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "Semn exclamare nepotrivit"
 
-#: weblate/checks/chars.py:292
+#: weblate/checks/chars.py:293
 msgid "Source and translation do not both end with an exclamation mark"
 msgstr "Sursa și traducerea nu se termină cu un semn de exclamare"
 
-#: weblate/checks/chars.py:320
+#: weblate/checks/chars.py:321
 #, fuzzy
 #| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
 msgstr "Nepotrivit \\n"
 
-#: weblate/checks/chars.py:322
+#: weblate/checks/chars.py:323
 #, fuzzy
 #| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression"
 msgstr "Sursa și traducerea nu se termină cu o elipsă"
 
-#: weblate/checks/chars.py:336
+#: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
 msgstr "Elipsă nepotrivită"
 
-#: weblate/checks/chars.py:338
+#: weblate/checks/chars.py:339
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Sursa și traducerea nu se termină cu o elipsă"
 
-#: weblate/checks/chars.py:357
+#: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
 msgstr "Nepotrivit \\n"
 
-#: weblate/checks/chars.py:359
+#: weblate/checks/chars.py:360
 msgid "Number of \\n literals in translation does not match source"
 msgstr "Numărul de linii noi \\n din traducere nu corespunde sursei"
 
-#: weblate/checks/chars.py:378
+#: weblate/checks/chars.py:379
 msgid "Mismatching line breaks"
 msgstr "Întreruperi de linie nepotrivite"
 
-#: weblate/checks/chars.py:380
+#: weblate/checks/chars.py:381
 msgid "Number of new lines in translation does not match source"
 msgstr "Numărul de linii noi din traducere nu corespunde sursei"
 
-#: weblate/checks/chars.py:388 weblate/trans/autofixes/chars.py:48
+#: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "Spațiu cu lățime zero"
 
-#: weblate/checks/chars.py:389
+#: weblate/checks/chars.py:390
 msgid "Translation contains extra zero-width space character"
 msgstr "Traducerea conține un caracter suplimentar de spațiu cu lățimea zero"
 
-#: weblate/checks/chars.py:406 weblate/checks/flags.py:72
+#: weblate/checks/chars.py:407 weblate/checks/flags.py:72
 msgid "Maximum length of translation"
 msgstr "Lungime maximă a traducerii"
 
-#: weblate/checks/chars.py:407
+#: weblate/checks/chars.py:408
 msgid "Translation should not exceed given length"
 msgstr "Traducerea nu trebuie să depășească lungimea dată"
 
-#: weblate/checks/chars.py:425
+#: weblate/checks/chars.py:426
 msgid "Mismatched semicolon"
 msgstr "Punct și virgulă nepotrivit"
 
-#: weblate/checks/chars.py:427
+#: weblate/checks/chars.py:428
 msgid "Source and translation do not both end with a semicolon"
 msgstr "Sursa și traducerea nu se termină cu punct și virgulă"
 
-#: weblate/checks/chars.py:441
+#: weblate/checks/chars.py:442
 msgid "Kashida letter used"
 msgstr "Literă Kashida folosită"
 
-#: weblate/checks/chars.py:442
+#: weblate/checks/chars.py:443
 msgid "The decorative kashida letters should not be used"
 msgstr "Literele decorative kashida nu trebuie să fie folosite"
 
-#: weblate/checks/chars.py:461 weblate/trans/autofixes/chars.py:100
+#: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "Spațiere punctuație"
 
-#: weblate/checks/chars.py:463
+#: weblate/checks/chars.py:464
 msgid "Missing non breakable space before double punctuation sign"
 msgstr ""
 "Lipsește spațiul neîntreruptibile înainte de semnul dublu de punctuație"
@@ -3379,7 +3415,7 @@ msgstr "Text XML"
 msgid "DOS line endings"
 msgstr "Terminții de linie DOS"
 
-#: weblate/checks/flags.py:46 weblate/checks/markup.py:314
+#: weblate/checks/flags.py:46 weblate/checks/markup.py:353
 #: weblate/templates/data.html:32 weblate/templates/data.html:73
 #: weblate/templates/data.html:117 weblate/templates/data.html:158
 msgid "URL"
@@ -3392,8 +3428,8 @@ msgstr "Detectează automat Java MessageFormat"
 #: weblate/checks/flags.py:50
 #: weblate/templates/snippets/unit-readonly-badge.html:14
 #: weblate/templates/translate.html:257
-msgid "Read only"
-msgstr "Doar pentru citire"
+msgid "Read-only"
+msgstr "Doar în citire"
 
 #: weblate/checks/flags.py:51
 msgid "Strict unchanged check"
@@ -3403,11 +3439,11 @@ msgstr "Verificare strictă neschimbată"
 msgid "Strict format string checks"
 msgstr "Verificare strictă de formatare șir"
 
-#: weblate/checks/flags.py:53 weblate/trans/forms.py:2501
+#: weblate/checks/flags.py:53 weblate/trans/forms.py:2507
 msgid "Forbidden translation"
 msgstr "Traducere interzisă"
 
-#: weblate/checks/flags.py:54 weblate/trans/forms.py:2496
+#: weblate/checks/flags.py:54 weblate/trans/forms.py:2502
 msgid "Terminology"
 msgstr "Terminologie"
 
@@ -3861,164 +3897,164 @@ msgstr "Sintaxă traducere Fluent"
 msgid "Fluent syntax error in translation"
 msgstr "Eroare sintaxă Fluent în traducere"
 
-#: weblate/checks/format.py:486
+#: weblate/checks/format.py:481
 #, python-format
 msgid "The following format strings are in the wrong order: %s"
 msgstr "Următoarele șiruri de format sunt ordonate greșit: %s"
 
-#: weblate/checks/format.py:576
+#: weblate/checks/format.py:564
 msgid "Python format"
 msgstr "Format Python"
 
-#: weblate/checks/format.py:577
+#: weblate/checks/format.py:565
 msgid "Python format string does not match source"
 msgstr "Șirul de format Python nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:585
+#: weblate/checks/format.py:573
 msgid "PHP format"
 msgstr "Format PHP"
 
-#: weblate/checks/format.py:586
+#: weblate/checks/format.py:574
 msgid "PHP format string does not match source"
 msgstr "Șirul de format PHP nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:593
+#: weblate/checks/format.py:581
 msgid "C format"
 msgstr "Format C"
 
-#: weblate/checks/format.py:594
+#: weblate/checks/format.py:582
 msgid "C format string does not match source"
 msgstr "Șirul de format C nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:601
+#: weblate/checks/format.py:589
 #, fuzzy
 #| msgid "Perl format"
 msgid "Perl brace format"
 msgstr "Format Perl"
 
-#: weblate/checks/format.py:602
+#: weblate/checks/format.py:590
 #, fuzzy
 #| msgid "Perl format string does not match source"
 msgid "Perl brace format string does not match source"
 msgstr "Șirul de format Perl nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:614
+#: weblate/checks/format.py:602
 msgid "Perl format"
 msgstr "Format Perl"
 
-#: weblate/checks/format.py:615
+#: weblate/checks/format.py:603
 msgid "Perl format string does not match source"
 msgstr "Șirul de format Perl nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:622
+#: weblate/checks/format.py:610
 msgid "JavaScript format"
 msgstr "Format JavaScript"
 
-#: weblate/checks/format.py:623
+#: weblate/checks/format.py:611
 msgid "JavaScript format string does not match source"
 msgstr "Șirul de format JavaScript nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:630
+#: weblate/checks/format.py:618
 msgid "Lua format"
 msgstr "Format Lua"
 
-#: weblate/checks/format.py:631
+#: weblate/checks/format.py:619
 msgid "Lua format string does not match source"
 msgstr "Șirul de format Lua nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:638
+#: weblate/checks/format.py:626
 msgid "Object Pascal format"
 msgstr "Format Object Pascal"
 
-#: weblate/checks/format.py:639
+#: weblate/checks/format.py:627
 msgid "Object Pascal format string does not match source"
 msgstr "Șirul de format Object Pascal nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:647
+#: weblate/checks/format.py:635
 msgid "Scheme format"
 msgstr "Format schemă"
 
-#: weblate/checks/format.py:648
+#: weblate/checks/format.py:636
 msgid "Scheme format string does not match source"
 msgstr "Șirul de format al schemei nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:659
+#: weblate/checks/format.py:647
 msgid "Python brace format"
 msgstr "Format de acolade Python"
 
-#: weblate/checks/format.py:660
+#: weblate/checks/format.py:648
 msgid "Python brace format string does not match source"
 msgstr "Șirul de format de acolade Python nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:679
+#: weblate/checks/format.py:667
 msgid "Single {} encountered in the format string."
 msgstr ""
 
-#: weblate/checks/format.py:706
+#: weblate/checks/format.py:694
 msgid "C# format"
 msgstr "Format C#"
 
-#: weblate/checks/format.py:707
+#: weblate/checks/format.py:695
 msgid "C# format string does not match source"
 msgstr "Șirul de format C# nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:721
+#: weblate/checks/format.py:709
 msgid "Java format"
 msgstr "Format Java"
 
-#: weblate/checks/format.py:722
+#: weblate/checks/format.py:710
 msgid "Java format string does not match source"
 msgstr "Șirul de format Java nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:729
+#: weblate/checks/format.py:717
 msgid "Java MessageFormat"
 msgstr "MessageFormat Java"
 
-#: weblate/checks/format.py:730
+#: weblate/checks/format.py:718
 msgid "Java MessageFormat string does not match source"
 msgstr "Șirul Java MessageFormat nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:769
+#: weblate/checks/format.py:757
 msgid "You need to pair up an apostrophe with another one."
 msgstr "Trebuie să împerechezi un apostrof cu un alt apostrof."
 
-#: weblate/checks/format.py:775
+#: weblate/checks/format.py:763
 msgid "i18next interpolation"
 msgstr "Interpolare i18next"
 
-#: weblate/checks/format.py:776
+#: weblate/checks/format.py:764
 msgid "The i18next interpolation does not match source"
 msgstr "Interpolarea i18next nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:789
+#: weblate/checks/format.py:777
 msgid "ECMAScript template literals"
 msgstr "Literale șablon ECMAScript"
 
-#: weblate/checks/format.py:790
+#: weblate/checks/format.py:778
 msgid "ECMAScript template literals do not match source"
 msgstr "Literalele șablon ECMAScript nu se potrivesc cu sursa"
 
-#: weblate/checks/format.py:803
+#: weblate/checks/format.py:791
 msgid "Percent placeholders"
 msgstr "Procentaj substituenți"
 
-#: weblate/checks/format.py:804
+#: weblate/checks/format.py:792
 msgid "The percent placeholders do not match source"
 msgstr "Substituenții procentuali nu se potrivesc cu sursa"
 
-#: weblate/checks/format.py:811
+#: weblate/checks/format.py:799
 msgid "Vue I18n formatting"
 msgstr "Formatare Vue I18n"
 
-#: weblate/checks/format.py:812
+#: weblate/checks/format.py:800
 msgid "The Vue I18n formatting does not match source"
 msgstr "Formatarea Vue I18n nu se potrivește cu sursa"
 
-#: weblate/checks/format.py:820
+#: weblate/checks/format.py:808
 msgid "Multiple unnamed variables"
 msgstr "Variabile multiple fără nume"
 
-#: weblate/checks/format.py:822
+#: weblate/checks/format.py:810
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
@@ -4135,65 +4171,93 @@ msgstr ""
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "Una sau mai multe etichete XML fără conținut în traducere: %s"
 
-#: weblate/checks/markup.py:70
+#: weblate/checks/markup.py:109
 msgid "BBCode markup"
 msgstr "Marcaj BBCode"
 
-#: weblate/checks/markup.py:71
+#: weblate/checks/markup.py:110
 msgid "BBCode in translation does not match source"
 msgstr "BBCode în traducere nu se potrivește cu sursa"
 
-#: weblate/checks/markup.py:151
+#: weblate/checks/markup.py:190
 msgid "XML syntax"
 msgstr "Sintaxă XML"
 
-#: weblate/checks/markup.py:152
+#: weblate/checks/markup.py:191
 msgid "The translation is not valid XML"
 msgstr "Traducerea nu este validă XML"
 
-#: weblate/checks/markup.py:176
+#: weblate/checks/markup.py:215
 msgid "XML markup"
 msgstr "Marcaj XML"
 
-#: weblate/checks/markup.py:177
+#: weblate/checks/markup.py:216
 msgid "XML tags in translation do not match source"
 msgstr "Etichetele XML din traducere nu se potrivesc cu sursa"
 
-#: weblate/checks/markup.py:235
+#: weblate/checks/markup.py:274
 msgid "Markdown references"
 msgstr "Referințe Markdown"
 
-#: weblate/checks/markup.py:236
+#: weblate/checks/markup.py:275
 msgid "Markdown link references do not match source"
 msgstr "Referințele de legătură Markdown nu se potrivesc cu sursa"
 
-#: weblate/checks/markup.py:252
+#: weblate/checks/markup.py:291
 msgid "Markdown links"
 msgstr "Legături Markdown"
 
-#: weblate/checks/markup.py:253
+#: weblate/checks/markup.py:292
 msgid "Markdown links do not match source"
 msgstr "Legăturile Markdown nu se potrivesc cu sursa"
 
-#: weblate/checks/markup.py:281
+#: weblate/checks/markup.py:320
 msgid "Markdown syntax"
 msgstr "Sintaxă Markdown"
 
-#: weblate/checks/markup.py:282
+#: weblate/checks/markup.py:321
 msgid "Markdown syntax does not match source"
 msgstr "Sintaxa Markdown nu se potrivește cu sursa"
 
-#: weblate/checks/markup.py:315
+#: weblate/checks/markup.py:354
 msgid "The translation does not contain an URL"
 msgstr "Traducerea nu conține un URL"
 
-#: weblate/checks/markup.py:334 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:373 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "HTML nesigur"
 
-#: weblate/checks/markup.py:335
+#: weblate/checks/markup.py:374
 msgid "The translation uses unsafe HTML markup"
 msgstr "Traducerea folosește marcaje HTML nesigure"
+
+#: weblate/checks/markup.py:398
+msgid "Inconsistent reStructuredText references"
+msgstr ""
+
+#: weblate/checks/markup.py:400
+msgid ""
+"Inconsistent reStructuredText term references in the translated message."
+msgstr ""
+
+#: weblate/checks/markup.py:432
+#, fuzzy
+#| msgid "%(count)s string is not being translated here."
+#| msgid_plural "%(count)s strings are not being translated here."
+msgid "Inconsistent links in the translated message."
+msgstr "%(count)s șir nu este tradus aici."
+
+#: weblate/checks/markup.py:545
+#, fuzzy
+#| msgid "reStructuredText"
+msgid "reStructuredText syntax error"
+msgstr "reStructuredText"
+
+#: weblate/checks/markup.py:546
+#, fuzzy
+#| msgid "Fluent syntax error in translation"
+msgid "reStructuredText syntax error in the translation."
+msgstr "Eroare sintaxă Fluent în traducere"
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -4252,11 +4316,11 @@ msgstr "Format Ruby"
 msgid "Ruby format string does not match source"
 msgstr "Șirul de format Ruby nu se potrivește cu sursa"
 
-#: weblate/checks/same.py:140
+#: weblate/checks/same.py:141
 msgid "Unchanged translation"
 msgstr "Traducere neschimbată"
 
-#: weblate/checks/same.py:141
+#: weblate/checks/same.py:142
 msgid "Source and translation are identical"
 msgstr "Sursa și traducerea sunt identice"
 
@@ -4320,7 +4384,7 @@ msgstr "Verifică"
 #: weblate/templates/mail/todo_strings.html:10
 #: weblate/templates/snippets/embed-units.html:12
 #: weblate/templates/translate.html:99 weblate/templates/translate.html:381
-#: weblate/templates/translate.html:481 weblate/trans/forms.py:1554
+#: weblate/templates/translate.html:481 weblate/trans/forms.py:1561
 msgid "Translation"
 msgstr "Traducere"
 
@@ -4465,7 +4529,7 @@ msgstr "CSV"
 msgid "XLSX"
 msgstr "XLSX"
 
-#: weblate/formats/exporters.py:275 weblate/trans/forms.py:1311
+#: weblate/formats/exporters.py:275 weblate/trans/forms.py:1318
 msgid "JSON"
 msgstr "JSON"
 
@@ -4706,7 +4770,7 @@ msgstr "Lista de numere întregi nevalidă!"
 
 #: weblate/glossary/forms.py:81 weblate/templates/mail/base.html:41
 #: weblate/templates/snippets/component-glossary-badge.html:4
-#: weblate/templates/translate.html:695 weblate/trans/forms.py:1547
+#: weblate/templates/translate.html:695 weblate/trans/forms.py:1554
 msgid "Glossary"
 msgstr "Glosar"
 
@@ -4818,122 +4882,122 @@ msgstr "Număr de vorbitori"
 msgid "Number of people speaking this language."
 msgstr "Număr de persoane care vorbesc această limbă."
 
-#: weblate/lang/models.py:740
+#: weblate/lang/models.py:743
 msgctxt "Plural type"
 msgid "None"
 msgstr "Niciunul"
 
-#: weblate/lang/models.py:744
+#: weblate/lang/models.py:747
 msgctxt "Plural type"
 msgid "One/other"
 msgstr "Unul/altele"
 
-#: weblate/lang/models.py:748
+#: weblate/lang/models.py:751
 msgctxt "Plural type"
 msgid "One/few/other"
 msgstr "Unul/câteva/altele"
 
-#: weblate/lang/models.py:752
+#: weblate/lang/models.py:755
 msgctxt "Plural type"
 msgid "Arabic languages"
 msgstr "Limbi arabe"
 
-#: weblate/lang/models.py:756
+#: weblate/lang/models.py:759
 msgctxt "Plural type"
 msgid "Zero/one/other"
 msgstr "Zero/unul/altele"
 
-#: weblate/lang/models.py:760
+#: weblate/lang/models.py:763
 msgctxt "Plural type"
 msgid "One/two/other"
 msgstr "Unul/două/altele"
 
-#: weblate/lang/models.py:764
+#: weblate/lang/models.py:767
 msgctxt "Plural type"
 msgid "One/other/two"
 msgstr "Unul/altele/două"
 
-#: weblate/lang/models.py:768
+#: weblate/lang/models.py:771
 msgctxt "Plural type"
 msgid "One/two/few/other"
 msgstr "Unul/două/câteva/altele"
 
-#: weblate/lang/models.py:772
+#: weblate/lang/models.py:775
 msgctxt "Plural type"
 msgid "Other/one/two/few"
 msgstr "Altele/unul/două/câteva"
 
-#: weblate/lang/models.py:776
+#: weblate/lang/models.py:779
 msgctxt "Plural type"
 msgid "One/two/three/other"
 msgstr "Unul/două/trei/altele"
 
-#: weblate/lang/models.py:780
+#: weblate/lang/models.py:783
 msgctxt "Plural type"
 msgid "One/other/zero"
 msgstr "Unul/altele/zero"
 
-#: weblate/lang/models.py:784
+#: weblate/lang/models.py:787
 msgctxt "Plural type"
 msgid "One/few/many/other"
 msgstr "Unul/câteva/multe/altele"
 
-#: weblate/lang/models.py:788
+#: weblate/lang/models.py:791
 msgctxt "Plural type"
 msgid "Two/other"
 msgstr "Două/altele"
 
-#: weblate/lang/models.py:792
+#: weblate/lang/models.py:795
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
 msgstr "Unul/două/câteva/multe/altele"
 
-#: weblate/lang/models.py:796
+#: weblate/lang/models.py:799
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
 msgstr "Zero/unul/două/câteva/multe/altele"
 
-#: weblate/lang/models.py:800
+#: weblate/lang/models.py:803
 msgctxt "Plural type"
 msgid "Zero/other"
 msgstr "Zero/altele"
 
-#: weblate/lang/models.py:804
+#: weblate/lang/models.py:807
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
 msgstr "Zero/unul/câteva/altele"
 
-#: weblate/lang/models.py:808
+#: weblate/lang/models.py:811
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
 msgstr "Zero/unul/două/câteva/altele"
 
-#: weblate/lang/models.py:812
+#: weblate/lang/models.py:815
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
 msgstr "Zero/unul/două/altele"
 
-#: weblate/lang/models.py:816
+#: weblate/lang/models.py:819
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
 msgstr "Zero/unul/câteva/multe/altele"
 
-#: weblate/lang/models.py:820
+#: weblate/lang/models.py:823
 msgctxt "Plural type"
 msgid "One/many/other"
 msgstr "Unul/multe/altele"
 
-#: weblate/lang/models.py:824
+#: weblate/lang/models.py:827
 msgctxt "Plural type"
 msgid "Zero/one/many/other"
 msgstr "Zero/unul/multe/altele"
 
-#: weblate/lang/models.py:828
+#: weblate/lang/models.py:831
 msgctxt "Plural type"
 msgid "One/few/many"
 msgstr "Unul/câteva/multe"
 
-#: weblate/lang/models.py:832
+#: weblate/lang/models.py:835
 #, fuzzy
 #| msgctxt "Plural type"
 #| msgid "One/two/few/other"
@@ -4941,73 +5005,73 @@ msgctxt "Plural type"
 msgid "One/zero/few/other"
 msgstr "Unul/două/câteva/altele"
 
-#: weblate/lang/models.py:836
+#: weblate/lang/models.py:839
 msgctxt "Plural type"
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: weblate/lang/models.py:848
+#: weblate/lang/models.py:851
 msgid "Plural definition source"
 msgstr "Sursă definiție plural"
 
-#: weblate/lang/models.py:850
+#: weblate/lang/models.py:853
 msgid "Default plural"
 msgstr "Plural implicit"
 
-#: weblate/lang/models.py:851
+#: weblate/lang/models.py:854
 msgid "gettext plural formula"
 msgstr "Formulă plural gettext"
 
-#: weblate/lang/models.py:852
+#: weblate/lang/models.py:855
 msgid "CLDR plural with zero"
 msgstr "Plural CLDR cu zero"
 
-#: weblate/lang/models.py:853
+#: weblate/lang/models.py:856
 msgid "CLDR v38+ plural"
 msgstr "Plural CLDR v38+"
 
-#: weblate/lang/models.py:854
+#: weblate/lang/models.py:857
 msgid "Android plural"
 msgstr "Plural Android"
 
-#: weblate/lang/models.py:855
+#: weblate/lang/models.py:858
 #, fuzzy
 #| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
 msgstr "stringsdict la plural"
 
-#: weblate/lang/models.py:856
+#: weblate/lang/models.py:859
 msgid "Manually entered formula"
 msgstr "Formulă introdusă manual"
 
-#: weblate/lang/models.py:860 weblate/templates/snippets/plural.html:16
+#: weblate/lang/models.py:863 weblate/templates/snippets/plural.html:16
 msgid "Number of plurals"
 msgstr "Numărul de plurale"
 
-#: weblate/lang/models.py:866 weblate/templates/snippets/plural-formula.html:5
+#: weblate/lang/models.py:869 weblate/templates/snippets/plural-formula.html:5
 #: weblate/templates/snippets/plural.html:37
 msgid "Plural formula"
 msgstr "Formulă plural"
 
-#: weblate/lang/models.py:871 weblate/templates/snippets/plural.html:20
+#: weblate/lang/models.py:874 weblate/templates/snippets/plural.html:20
 msgid "Plural type"
 msgstr "Tip plural"
 
-#: weblate/lang/models.py:963
+#: weblate/lang/models.py:966
 msgid "Example counts for this plural form."
 msgstr "Număr de exemple pentru această formă de plural."
 
-#: weblate/lang/models.py:972 weblate/templates/translation.html:365
+#: weblate/lang/models.py:975 weblate/templates/translation.html:365
 #: weblate/templates/translation.html:395
 msgid "Singular"
 msgstr "Singular"
 
-#: weblate/lang/models.py:974 weblate/templates/translation.html:370
+#: weblate/lang/models.py:977 weblate/templates/translation.html:370
 #: weblate/templates/translation.html:399
 msgid "Plural"
 msgstr "Plural"
 
-#: weblate/lang/models.py:975
+#: weblate/lang/models.py:978
 #, python-format
 msgid "Plural form %d"
 msgstr "Formă de plural %d"
@@ -5157,7 +5221,7 @@ msgstr "Termeni"
 msgid "Overview"
 msgstr "Prezentare generală"
 
-#: weblate/machinery/apertium.py:102 weblate/machinery/base.py:150
+#: weblate/machinery/apertium.py:102 weblate/machinery/base.py:151
 #, python-format
 msgid "Could not fetch supported languages: %s"
 msgstr "Nu s-a reușit preluarea limbilor acceptate: %s"
@@ -5168,7 +5232,7 @@ msgstr "Nu s-a reușit preluarea limbilor acceptate: %s"
 msgid "No supported languages found: %s"
 msgstr "Nu s-a reușit preluarea limbilor acceptate: %s"
 
-#: weblate/machinery/apertium.py:116 weblate/machinery/base.py:156
+#: weblate/machinery/apertium.py:116 weblate/machinery/base.py:157
 #, python-format
 msgid "Could not fetch translation: %s"
 msgstr "Nu s-a reușit preluarea traducerii: %s"
@@ -5512,101 +5576,108 @@ msgstr ""
 msgid "Service is currently not available."
 msgstr "Serviciul nu este disponibil momentan."
 
-#: weblate/memory/forms.py:19
+#: weblate/memory/forms.py:20
 #: weblate/templates/trans/alert/duplicatestring.html:12
 #: weblate/trans/forms.py:657
 msgid "File"
 msgstr "Fișier"
 
-#: weblate/memory/forms.py:32
-msgid "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#: weblate/memory/forms.py:22
+#, python-format
+msgid "You can upload a file of following formats: %s."
 msgstr ""
 
-#: weblate/memory/forms.py:37 weblate/trans/models/component.py:705
+#: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
 msgstr "Limba sursă"
 
-#: weblate/memory/forms.py:39
+#: weblate/memory/forms.py:29
 #, fuzzy
 #| msgid "Source language not defined in the TMX file!"
 msgid "Source language of the document when not specified in file"
 msgstr "Limbă sursă nedefinită în fișierul TMX!"
 
-#: weblate/memory/forms.py:46 weblate/trans/forms.py:1866
+#: weblate/memory/forms.py:36 weblate/trans/forms.py:1873
 #, fuzzy
 #| msgctxt "Access-control role"
 #| msgid "Manage languages"
 msgid "Target language"
 msgstr "Gestionează limbi"
 
-#: weblate/memory/forms.py:48
+#: weblate/memory/forms.py:38
 msgid "Target language of the document when not specified in file"
 msgstr ""
 
-#: weblate/memory/forms.py:62
+#: weblate/memory/forms.py:53
 msgid ""
 "Source language and target language must be specified for this file format."
 msgstr ""
 
-#: weblate/memory/forms.py:71
+#: weblate/memory/forms.py:62
 msgid "Confirm deleting all translation memory entries"
 msgstr "Confirmarea ștergerii tuturor intrărilor din memoria de traducere"
 
-#: weblate/memory/models.py:186
+#: weblate/memory/models.py:179
+#, fuzzy, python-format
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported file extension: %s"
+msgstr "Tip de imagine nesuportat: %s"
+
+#: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
 msgstr "Nu s-au găsit intrări valide în fișierul încărcat!"
 
-#: weblate/memory/models.py:203 weblate/memory/models.py:210
+#: weblate/memory/models.py:218 weblate/memory/models.py:225
 #, python-format
 msgid "Could not parse JSON file: %s"
 msgstr "Nu s-aa reușit interpretarea fișierul JSON: %s"
 
-#: weblate/memory/models.py:248
+#: weblate/memory/models.py:263
 #, fuzzy, python-format
 #| msgid "Could not parse TMX file!"
 msgid "Could not parse TMX file: %s"
 msgstr "Nu s-aa reușit interpretarea fișierul TMX!"
 
-#: weblate/memory/models.py:257
+#: weblate/memory/models.py:272
 msgid "Source language not defined in the TMX file!"
 msgstr "Limbă sursă nedefinită în fișierul TMX!"
 
-#: weblate/memory/models.py:263 weblate/memory/models.py:281
-#: weblate/memory/models.py:349
+#: weblate/memory/models.py:278 weblate/memory/models.py:296
+#: weblate/memory/models.py:364
 #, python-format
 msgid "Could not find language %s!"
 msgstr "Nu s-a găsit limba %s!"
 
-#: weblate/memory/models.py:329
+#: weblate/memory/models.py:344
 msgid "Unsupported file!"
 msgstr "Fișier neacceptat!"
 
-#: weblate/memory/models.py:333
+#: weblate/memory/models.py:348
 msgid "Monolingual format not supported for memory upload"
 msgstr ""
 
-#: weblate/memory/models.py:343
+#: weblate/memory/models.py:358
 #, fuzzy
 #| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
 msgstr "Fișier de limbă de bază monolingvă"
 
-#: weblate/memory/models.py:436
+#: weblate/memory/models.py:451
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Proiect: {}"
 
-#: weblate/memory/models.py:438
+#: weblate/memory/models.py:453
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Personal: {}"
 
-#: weblate/memory/models.py:440
+#: weblate/memory/models.py:455
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Partajat: {}"
 
-#: weblate/memory/models.py:442
+#: weblate/memory/models.py:457
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Fișier: {}"
@@ -5759,7 +5830,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "Privilegii insuficiente pentru a afișa această pagină."
 
 #: weblate/templates/403.html:23 weblate/templates/404.html:24
-#: weblate/templates/base.html:151 weblate/templates/base.html:417
+#: weblate/templates/base.html:151 weblate/templates/base.html:419
 msgid "Dashboard"
 msgstr "Panou de control"
 
@@ -5934,12 +6005,12 @@ msgstr[2] "Modificări recente"
 
 #: weblate/templates/about/index.html:7 weblate/templates/about/index.html:16
 #: weblate/templates/about/keys.html:9 weblate/templates/about/stats.html:10
-#: weblate/templates/base.html:393 weblate/templates/footer.html:10
+#: weblate/templates/base.html:395 weblate/templates/footer.html:10
 #: weblate/trans/views/about.py:20 weblate/trans/views/about.py:41
 msgid "About Weblate"
 msgstr "Despre Weblate"
 
-#: weblate/templates/about/index.html:20 weblate/templates/base.html:403
+#: weblate/templates/about/index.html:20 weblate/templates/base.html:405
 #: weblate/templates/footer.html:38 weblate/templates/manage/index.html:102
 msgid "Donate to Weblate"
 msgstr "Donează către Weblate"
@@ -5966,7 +6037,7 @@ msgid ""
 "commercial hosting solutions."
 msgstr ""
 
-#: weblate/templates/about/index.html:38 weblate/templates/base.html:308
+#: weblate/templates/about/index.html:38 weblate/templates/base.html:310
 #: weblate/templates/snippets/billing-failure.html:11
 msgid "Ask for Libre hosting"
 msgstr "Solicită găzduire Libre"
@@ -6061,8 +6132,8 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:12
 #: weblate/templates/accounts/recovery-codes.html:12
 #: weblate/templates/accounts/removal.html:9
-#: weblate/templates/accounts/totp.html:12 weblate/templates/base.html:322
-#: weblate/templates/base.html:329 weblate/templates/billing/detail.html:11
+#: weblate/templates/accounts/totp.html:12 weblate/templates/base.html:324
+#: weblate/templates/base.html:331 weblate/templates/billing/detail.html:11
 #: weblate/templates/billing/overview.html:7
 msgid "Your profile"
 msgstr "Profilul tău"
@@ -6220,7 +6291,7 @@ msgid "Verify new e-mail address"
 msgstr "Verifică adresa de e-mail nouă"
 
 #: weblate/templates/accounts/email.html:27
-#: weblate/templates/accounts/register.html:48 weblate/templates/base.html:267
+#: weblate/templates/accounts/register.html:48 weblate/templates/base.html:269
 #: weblate/templates/engage.html:69
 msgid "Register"
 msgstr "Înregistrare"
@@ -6959,7 +7030,7 @@ msgstr "Identități utilizator"
 #: weblate/templates/billing/detail.html:14
 #: weblate/templates/billing/overview.html:10
 #: weblate/templates/manage/billing.html:11 weblate/templates/project.html:186
-#: weblate/templates/snippets/info.html:39 weblate/trans/forms.py:2237
+#: weblate/templates/snippets/info.html:39 weblate/trans/forms.py:2244
 #: weblate/wladmin/views.py:94
 msgid "Billing"
 msgstr "Facturare"
@@ -7014,7 +7085,7 @@ msgstr "ID utilizator"
 msgid "Notification"
 msgstr "Notificări"
 
-#: weblate/templates/accounts/user.html:267 weblate/trans/forms.py:1079
+#: weblate/templates/accounts/user.html:267 weblate/trans/forms.py:1087
 msgid "Scope"
 msgstr "Domeniu de aplicare"
 
@@ -7110,7 +7181,7 @@ msgstr "Șterge"
 
 #: weblate/templates/accounts/user.html:433
 #: weblate/templates/auth/team.html:187 weblate/templates/auth/team.html:219
-#: weblate/templates/base.html:467 weblate/templates/base.html:478
+#: weblate/templates/base.html:469 weblate/templates/base.html:480
 #: weblate/templates/keyboard-shortcuts.html:15
 #: weblate/templates/keyboard-shortcuts.html:207
 #: weblate/templates/manage/backups.html:111
@@ -7180,7 +7251,6 @@ msgid "This add-on has no settings."
 msgstr "Acest supliment execută un script."
 
 #: weblate/templates/addons/addon_head.html:7
-#: weblate/templates/addons/addon_list.html:107
 #, fuzzy
 #| msgid "There are no translations in this component."
 msgid "The add-on can only be installed on the component."
@@ -7260,8 +7330,10 @@ msgid "Configure"
 msgstr "Configurează"
 
 #: weblate/templates/addons/addon_list.html:72
-msgid "Add-ons can be installed on project and component scope as well."
-msgstr ""
+#, fuzzy
+#| msgid "There are no translations in this component."
+msgid "Add-ons can also be installed at the project and the component levels."
+msgstr "Nu există traduceri în această componentă."
 
 #: weblate/templates/addons/addon_list.html:77
 #, fuzzy, python-format
@@ -7283,6 +7355,12 @@ msgstr[2] ""
 #: weblate/templates/addons/addon_list.html:95
 msgid "Available add-ons"
 msgstr "Suplimente disponibile"
+
+#: weblate/templates/addons/addon_list.html:107
+#, fuzzy
+#| msgid "There are no translations in this component."
+msgid "The add-on can only be installed on the component level."
+msgstr "Nu există traduceri în această componentă."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -7461,7 +7539,7 @@ msgstr "Șirurile vor fi generate folosind următorul model:"
 #: weblate/templates/snippets/unit-readonly-badge.html:7
 #: weblate/templates/snippets/unit-readonly-badge.html:10
 #: weblate/templates/snippets/unit-readonly-badge.html:12
-#: weblate/templates/translate.html:97 weblate/trans/forms.py:2464
+#: weblate/templates/translate.html:97 weblate/trans/forms.py:2470
 #: weblate/utils/views.py:181
 msgid "Source string"
 msgstr "Șir sursă"
@@ -7487,7 +7565,7 @@ msgstr ""
 msgid "Access control"
 msgstr "Control acces"
 
-#: weblate/templates/auth/team.html:39 weblate/templates/base.html:353
+#: weblate/templates/auth/team.html:39 weblate/templates/base.html:355
 #: weblate/templates/component-settings.html:10
 #: weblate/templates/component.html:169
 #: weblate/templates/language-project.html:104
@@ -7518,7 +7596,7 @@ msgstr "Adaugă atribuire automată"
 msgid "Last sign in"
 msgstr "Ultima conectare"
 
-#: weblate/templates/auth/team.html:116 weblate/trans/forms.py:1276
+#: weblate/templates/auth/team.html:116 weblate/trans/forms.py:1283
 msgid "Team administrator"
 msgstr "Administrator echipă"
 
@@ -7548,7 +7626,7 @@ msgid "This will remove <b>%(user)s</b> access to this project."
 msgstr ""
 "Aceasta va elimina accesul utilizatorului <b>%(user)s</b> la acest proiect."
 
-#: weblate/templates/auth/team.html:227 weblate/templates/base.html:282
+#: weblate/templates/auth/team.html:227 weblate/templates/base.html:284
 #: weblate/templates/category.html:235 weblate/templates/category.html:293
 #: weblate/templates/component.html:308 weblate/templates/lang/create.html:22
 #: weblate/templates/language-project.html:213
@@ -7575,7 +7653,7 @@ msgstr ""
 msgid "Add"
 msgstr "Adaugă"
 
-#: weblate/templates/auth/teams-components.html:6 weblate/trans/forms.py:1136
+#: weblate/templates/auth/teams-components.html:6 weblate/trans/forms.py:1143
 msgid "All components"
 msgstr "Toate componentele"
 
@@ -7656,50 +7734,50 @@ msgstr "Eșec verificări în %(language)s"
 msgid "Checks overview"
 msgstr "Prezentare generală verificări"
 
-#: weblate/templates/base.html:245 weblate/templates/base.html:247
+#: weblate/templates/base.html:246 weblate/templates/base.html:248
 msgid "Administration"
 msgstr "Administrare"
 
-#: weblate/templates/base.html:255 weblate/templates/base.html:257
+#: weblate/templates/base.html:256 weblate/templates/base.html:258
 #: weblate/templates/manage/performance.html:24
 msgid "Configuration errors"
 msgstr "Erori de configurare"
 
-#: weblate/templates/base.html:287 weblate/templates/billing/status.html:124
+#: weblate/templates/base.html:289 weblate/templates/billing/status.html:124
 #: weblate/templates/trans/project_form.html:28
 msgid "Add new translation project"
 msgstr "Adaugă un nou proiect de traducere"
 
-#: weblate/templates/base.html:290 weblate/templates/category.html:117
+#: weblate/templates/base.html:292 weblate/templates/category.html:117
 #: weblate/templates/project.html:145
 #: weblate/templates/snippets/list-objects.html:25
 #: weblate/templates/snippets/list-objects.html:32
-#: weblate/templates/snippets/list-objects.html:297
-#: weblate/templates/snippets/list-objects.html:301
+#: weblate/templates/snippets/list-objects.html:311
+#: weblate/templates/snippets/list-objects.html:315
 #: weblate/templates/snippets/project-component-settings.html:19
 #: weblate/templates/trans/component_form.html:30
 msgid "Add new translation component"
 msgstr "Adaugă o nouă componentă de traducere"
 
-#: weblate/templates/base.html:296 weblate/templates/component.html:119
+#: weblate/templates/base.html:298 weblate/templates/component.html:119
 #: weblate/templates/new-language.html:25
 #: weblate/templates/new-language.html:81
 #: weblate/templates/snippets/list-objects.html:18
-#: weblate/templates/snippets/list-objects.html:288
-#: weblate/templates/snippets/list-objects.html:290
+#: weblate/templates/snippets/list-objects.html:298
+#: weblate/templates/snippets/list-objects.html:304
 msgid "Start new translation"
 msgstr "Începe traducere nouă"
 
-#: weblate/templates/base.html:304
+#: weblate/templates/base.html:306
 msgid "Try Weblate for free"
 msgstr "Încearcă Weblate gratuit"
 
-#: weblate/templates/base.html:346
+#: weblate/templates/base.html:348
 #: weblate/templates/trans/alert/billinglimit.html:9
 msgid "Billing overview"
 msgstr "Prezentare generală facturare"
 
-#: weblate/templates/base.html:350 weblate/templates/component.html:142
+#: weblate/templates/base.html:352 weblate/templates/component.html:142
 #: weblate/templates/memory/index.html:16
 #: weblate/templates/memory/index.html:23
 #: weblate/templates/memory/index.html:30 weblate/templates/project.html:133
@@ -7709,25 +7787,25 @@ msgstr "Prezentare generală facturare"
 msgid "Translation memory"
 msgstr "Memorie de traducere"
 
-#: weblate/templates/base.html:360
+#: weblate/templates/base.html:362
 #: weblate/templates/weblate_auth/invitation_detail.html:40
 #: weblate/wladmin/templates/admin/base.html:18
 msgid "Sign out"
 msgstr "Deconectează-te"
 
-#: weblate/templates/base.html:371 weblate/templates/base.html:374
+#: weblate/templates/base.html:373 weblate/templates/base.html:376
 msgid "Help"
 msgstr "Ajutor"
 
-#: weblate/templates/base.html:381
+#: weblate/templates/base.html:383
 msgid "Get support"
 msgstr "Obține asistență"
 
-#: weblate/templates/base.html:386 weblate/templates/manage/index.html:117
+#: weblate/templates/base.html:388 weblate/templates/manage/index.html:118
 msgid "Get help"
 msgstr "Obține ajutor"
 
-#: weblate/templates/base.html:397 weblate/templates/footer.html:35
+#: weblate/templates/base.html:399 weblate/templates/footer.html:35
 #: weblate/templates/trans/alert/repositorychanges.html:9
 #: weblate/templates/trans/alert/repositoryoutdated.html:9
 #: weblate/trans/templatetags/translations.py:655
@@ -7739,18 +7817,18 @@ msgstr "Obține ajutor"
 msgid "Documentation"
 msgstr "Documentație"
 
-#: weblate/templates/base.html:400
+#: weblate/templates/base.html:402
 msgid "Contribute to Weblate"
 msgstr "Contribuie la Weblate"
 
-#: weblate/templates/base.html:432 weblate/templates/manage/index.html:47
+#: weblate/templates/base.html:434 weblate/templates/manage/index.html:47
 msgid ""
 "Your Weblate is exceeding service limits. Please upgrade the subscription."
 msgstr ""
 "Instanța ta de Weblate depășește limitele serviciului. Te rugăm să "
 "actualizezi abonamentul."
 
-#: weblate/templates/base.html:477
+#: weblate/templates/base.html:479
 #: weblate/templates/screenshots/screenshot_detail.html:115
 msgid "Screenshot details"
 msgstr "Detalii captură de ecran"
@@ -7954,40 +8032,40 @@ msgstr "Utilizat %(used)s"
 msgid "Used %(used)s of %(total)s"
 msgstr "Utilizat %(used)s din %(total)s"
 
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:36
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:44
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:42
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:50
 msgid "Visible to everybody."
 msgstr "Vizibil pentru toată lumea."
 
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:37
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:43
 #: weblate/templates/snippets/info.html:124
 msgid "Any authenticated user can contribute."
 msgstr "Orice utilizator autentificat poate contribui."
 
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:40
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:46
 msgid "VCS repository might be exposed to everybody."
 msgstr "Depozitarul SCV ar putea fi expus tuturor."
 
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:45
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:53
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:51
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:59
 #: weblate/templates/snippets/info.html:122
 msgid "Only chosen users can contribute."
 msgstr "Numai utilizatorii selectați pot contribui."
 
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:48
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:56
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:54
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:62
 msgid "Only chosen users can access VCS repository."
 msgstr "Numai utilizatorii selectați pot accesa depozitarul SCV."
 
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:52
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:58
 msgid "Visible only to chosen users."
 msgstr "Vizibil doar pentru utilizatori selectați."
 
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:60
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:66
 msgid "Permissions are not managed in Weblate."
 msgstr "Permisiunile nu sunt gestionate în Weblate."
 
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:63
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:69
 msgid ""
 "Only use this if you know what you are doing, enabling it might revoke your "
 "access to this project."
@@ -7995,12 +8073,12 @@ msgstr ""
 "Folosește această opțiune numai dacă știi ce faci, deoarece activarea "
 "acesteia îți poate anula accesul la acest proiect."
 
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:75
-#: weblate/trans/forms.py:2106 weblate/trans/forms.py:2147
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:81
+#: weblate/trans/forms.py:2113 weblate/trans/forms.py:2154
 msgid "You do not have permission to change project access control."
 msgstr "Nu ai permisiunea de a modifica controlul accesului la proiect."
 
-#: weblate/templates/bootstrap3/layout/radioselect_access.html:77
+#: weblate/templates/bootstrap3/layout/radioselect_access.html:83
 #: weblate/templates/snippets/billing-failure.html:14
 msgid "Check your billing status"
 msgstr "Verifică starea facturării tale"
@@ -8008,8 +8086,8 @@ msgstr "Verifică starea facturării tale"
 #: weblate/templates/browse.html:24
 #: weblate/templates/snippets/list-objects.html:147
 #: weblate/templates/snippets/list-objects.html:148
-#: weblate/templates/snippets/list-objects.html:187
-#: weblate/templates/snippets/list-objects.html:188
+#: weblate/templates/snippets/list-objects.html:196
+#: weblate/templates/snippets/list-objects.html:197
 #: weblate/templates/translation.html:167
 #: weblate/templates/translation.html:237
 msgid "Browse"
@@ -8039,7 +8117,7 @@ msgstr "Privire generală"
 #: weblate/templates/category.html:64 weblate/templates/component-list.html:27
 #: weblate/templates/component.html:72
 #: weblate/templates/language-project.html:50 weblate/templates/project.html:74
-#: weblate/templates/translation.html:59 weblate/trans/forms.py:1607
+#: weblate/templates/translation.html:59 weblate/trans/forms.py:1614
 msgid "Files"
 msgstr "Fișiere"
 
@@ -8326,14 +8404,14 @@ msgstr "Întreținere depozitar"
 #: weblate/templates/component.html:139
 #: weblate/templates/screenshots/screenshot_detail.html:29
 #: weblate/templates/screenshots/screenshot_list.html:24
-#: weblate/trans/forms.py:1629
+#: weblate/trans/forms.py:1636
 msgid "Screenshots"
 msgstr "Capturi de ecran"
 
 #: weblate/templates/component.html:156
 #, fuzzy
 #| msgid "Create component"
-msgid "Duplicate Component"
+msgid "Duplicate this component"
 msgstr "Creează componentă"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
@@ -9141,7 +9219,7 @@ msgstr "Suplimente disponibile"
 msgid "Shortcut"
 msgstr ""
 
-#: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:2795
+#: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:2801
 msgid "Action"
 msgstr "Acțiune"
 
@@ -9298,11 +9376,11 @@ msgstr "Păstrează msgid-urile anterioare ale șirurilor traduse"
 
 #: weblate/templates/lang/create.html:11
 #: weblate/templates/snippets/list-objects.html:39
-#: weblate/templates/snippets/list-objects.html:306
+#: weblate/templates/snippets/list-objects.html:320
 msgid "Add language"
 msgstr "Adaugă limbă"
 
-#: weblate/templates/lang/language_form.html:25 weblate/trans/forms.py:2178
+#: weblate/templates/lang/language_form.html:25 weblate/trans/forms.py:2185
 msgid "Workflow"
 msgstr "Flux de lucru"
 
@@ -10104,11 +10182,11 @@ msgstr "Gestionează pachetul de suport"
 msgid "Purchase support package"
 msgstr "Achiziționează pachet suport"
 
-#: weblate/templates/manage/index.html:110
+#: weblate/templates/manage/index.html:111
 msgid "Contact customer care"
 msgstr ""
 
-#: weblate/templates/manage/index.html:119
+#: weblate/templates/manage/index.html:120
 #, fuzzy
 #| msgctxt "Automatic suggestion service configuration"
 #| msgid "Contact e-mail"
@@ -10571,32 +10649,32 @@ msgid "Request new translation"
 msgstr "Solicită traducere nouă"
 
 #: weblate/templates/new-language.html:90
-#: weblate/templates/snippets/list-objects.html:290
+#: weblate/templates/snippets/list-objects.html:304
 msgid "You don't have permission to start a new translation"
 msgstr "Nu ai permisiunea de a începe traducere nouă"
 
-#: weblate/templates/paginator.html:31
+#: weblate/templates/paginator.html:33
 #: weblate/templates/snippets/position-field.html:63
 msgid "Click to edit position"
 msgstr "Clic pentru a edita poziția"
 
-#: weblate/templates/paginator.html:32
+#: weblate/templates/paginator.html:34
 #, python-format
 msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
-#: weblate/templates/paginator.html:34
+#: weblate/templates/paginator.html:36
 #: weblate/templates/snippets/position-field.html:71
 msgid "Go to position"
 msgstr "Mergi la poziție"
 
-#: weblate/templates/paginator.html:56
+#: weblate/templates/paginator.html:58
 #: weblate/templates/snippets/position-field.html:79
 msgid "Jump to"
 msgstr "Salt la"
 
 #. Translators: This is partial position indicator shown when editing position
-#: weblate/templates/paginator.html:60
+#: weblate/templates/paginator.html:62
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
@@ -10823,6 +10901,15 @@ msgstr ""
 msgid "View contributor agreement"
 msgstr "Vezi acordul contribuitorului"
 
+#: weblate/templates/snippets/component/contributor-agreement.html:13
+#: weblate/templates/trans/other-row.html:27
+msgid ""
+"Contributing to this translation requires agreeing to its contributor "
+"agreement."
+msgstr ""
+"Pentru a contribui la această traducere, este necesar să fii de acord cu "
+"acordul de contribuitor."
+
 #: weblate/templates/snippets/component/lock.html:21
 msgid "Get notified when this project is unlocked again"
 msgstr "Primește o notificare atunci când acest proiect este deblocat din nou"
@@ -10930,7 +11017,7 @@ msgstr "Această componentă este legată de depozitarul %(target)s."
 msgid "Repository URL copied to clipboard."
 msgstr "URL-ul depozitarului a fost copiat în clipboard."
 
-#: weblate/templates/snippets/git-info.html:32 weblate/trans/forms.py:1744
+#: weblate/templates/snippets/git-info.html:32 weblate/trans/forms.py:1751
 #: weblate/trans/models/component.py:429
 msgid "Repository branch"
 msgstr "Ramură depozitar"
@@ -11276,7 +11363,7 @@ msgstr ""
 "cadrul aceluiași proiect/organizație ca și depozitarul de cod sursă."
 
 #: weblate/templates/snippets/libre-basic.html:16
-msgid "Non-code projects are welcome as well."
+msgid "Non-code projects (such as books or graphic content) are also welcome."
 msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:19
@@ -11359,7 +11446,7 @@ msgstr "Netradus"
 #: weblate/templates/snippets/list-objects.html:120
 #: weblate/templates/trans/suggestion_list.html:14
 #: weblate/templates/translate.html:298 weblate/templates/translate.html:577
-#: weblate/trans/forms.py:1556
+#: weblate/trans/forms.py:1563
 msgid "Suggestions"
 msgstr "Sugestii"
 
@@ -11368,32 +11455,32 @@ msgstr "Sugestii"
 msgid "Comments"
 msgstr "Comentarii"
 
-#: weblate/templates/snippets/list-objects.html:170
-#: weblate/templates/snippets/list-objects.html:171
+#: weblate/templates/snippets/list-objects.html:178
+#: weblate/templates/snippets/list-objects.html:179
 msgid "Create translation"
 msgstr "Crează traducere"
 
-#: weblate/templates/snippets/list-objects.html:174
+#: weblate/templates/snippets/list-objects.html:183
 msgid "Cannot add translation right now"
 msgstr "Nu s-a putut adăuga traducere acum"
 
-#: weblate/templates/snippets/list-objects.html:182
-#: weblate/templates/snippets/list-objects.html:183
+#: weblate/templates/snippets/list-objects.html:191
+#: weblate/templates/snippets/list-objects.html:192
 #: weblate/templates/translate.html:28 weblate/templates/translation.html:169
 #: weblate/templates/translation.html:238
 msgid "Translate"
 msgstr "Tradu"
 
-#: weblate/templates/snippets/list-objects.html:244
+#: weblate/templates/snippets/list-objects.html:254
 #: weblate/templates/snippets/project-workflow-settings.html:12
 msgid "Customized workflow"
 msgstr "Personalizează flux de lucru"
 
-#: weblate/templates/snippets/list-objects.html:278
+#: weblate/templates/snippets/list-objects.html:288
 msgid "Nothing to list here."
 msgstr "Nimic de enumerat aici."
 
-#: weblate/templates/snippets/list-objects.html:290
+#: weblate/templates/snippets/list-objects.html:304
 msgid "Please sign in to start new translation"
 msgstr "Te rugăm să te conectezi pentru a începe o nouă traducere"
 
@@ -12831,7 +12918,7 @@ msgstr "Limbaj intermediar"
 msgid "Explanation"
 msgstr "Explicație"
 
-#: weblate/templates/translate.html:175 weblate/trans/forms.py:1087
+#: weblate/templates/translate.html:175 weblate/trans/forms.py:1094
 msgid "Report issue with the source string"
 msgstr "Raportează problemă cu șirul sursă"
 
@@ -12972,7 +13059,7 @@ msgstr "Origine"
 msgid "Similarity"
 msgstr "Similaritate"
 
-#: weblate/templates/translate.html:541 weblate/trans/forms.py:1103
+#: weblate/templates/translate.html:541 weblate/trans/forms.py:1110
 msgid "New comment"
 msgstr "Comentariu nou"
 
@@ -13037,7 +13124,7 @@ msgid "Browse glossary %(name)s"
 msgstr "Răsfoiește glosarul %(name)s"
 
 #: weblate/templates/translate.html:716 weblate/templates/translate.html:1017
-#: weblate/trans/models/component.py:3796
+#: weblate/trans/models/component.py:3798
 msgid "Add term to glossary"
 msgstr "Adaugă termen la glosar"
 
@@ -13329,7 +13416,7 @@ msgstr ""
 msgid "Color variants:"
 msgstr "Variante de culoare:"
 
-#: weblate/templates/widgets.html:69 weblate/trans/forms.py:1312
+#: weblate/templates/widgets.html:69 weblate/trans/forms.py:1319
 msgid "HTML"
 msgstr "HTML"
 
@@ -13341,7 +13428,7 @@ msgstr "Cod BB"
 msgid "Markdown"
 msgstr "Markdown"
 
-#: weblate/templates/widgets.html:72 weblate/trans/forms.py:1310
+#: weblate/templates/widgets.html:72 weblate/trans/forms.py:1317
 msgid "reStructuredText"
 msgstr "reStructuredText"
 
@@ -13397,15 +13484,15 @@ msgstr "Depozitari SCV"
 msgid "Weblate translations"
 msgstr "Traduceri Weblate"
 
-#: weblate/trans/autofixes/chars.py:30
+#: weblate/trans/autofixes/chars.py:31
 msgid "Trailing ellipsis"
 msgstr "Elipsă de urmărire"
 
-#: weblate/trans/autofixes/chars.py:68
+#: weblate/trans/autofixes/chars.py:69
 msgid "Control characters"
 msgstr "Caractere de control"
 
-#: weblate/trans/autofixes/chars.py:81
+#: weblate/trans/autofixes/chars.py:82
 msgid "Devanagari danda"
 msgstr "Devanagari danda"
 
@@ -13609,15 +13696,15 @@ msgstr "Textul traducerii este prea lung!"
 msgid "File upload mode"
 msgstr "Mod încărcare fișier"
 
-#: weblate/trans/forms.py:662 weblate/trans/forms.py:1028
+#: weblate/trans/forms.py:662 weblate/trans/forms.py:1034
 msgid "Add as translation"
 msgstr "Adaugă ca traducere"
 
-#: weblate/trans/forms.py:663 weblate/trans/forms.py:1032
+#: weblate/trans/forms.py:663 weblate/trans/forms.py:1038
 msgid "Add as approved translation"
 msgstr "Adaugă ca traducere aprobată"
 
-#: weblate/trans/forms.py:664 weblate/trans/forms.py:1027
+#: weblate/trans/forms.py:664 weblate/trans/forms.py:1033
 msgid "Add as suggestion"
 msgstr "Adaugă ca sugestie"
 
@@ -13737,7 +13824,7 @@ msgstr "Motoare de traducere automată"
 msgid "Score threshold"
 msgstr "Prag de punctaj"
 
-#: weblate/trans/forms.py:983
+#: weblate/trans/forms.py:989
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
@@ -13746,168 +13833,168 @@ msgstr ""
 "păstrează spațiul gol pentru a utiliza toate componentele din proiectul "
 "curent."
 
-#: weblate/trans/forms.py:994
+#: weblate/trans/forms.py:1000
 msgid "All components in current project"
 msgstr "Toate componentele din proiectul curent"
 
-#: weblate/trans/forms.py:1029
+#: weblate/trans/forms.py:1035
 msgid "Add as \"Needing edit\""
 msgstr "Adaugă ca „Necesită editare”"
 
-#: weblate/trans/forms.py:1052 weblate/trans/forms.py:1057
-#: weblate/trans/forms.py:1062
+#: weblate/trans/forms.py:1058 weblate/trans/forms.py:1061
+#: weblate/trans/forms.py:1065 weblate/trans/forms.py:1070
 msgid "Component not found!"
 msgstr "Componenta nu a fost găsită!"
 
-#: weblate/trans/forms.py:1069
+#: weblate/trans/forms.py:1077
 msgid "Source component needs to have same source language as target one."
 msgstr "Componenta sursă trebuie să aibă aceeași limbă sursă ca și cea țintă."
 
-#: weblate/trans/forms.py:1081
+#: weblate/trans/forms.py:1089
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
 msgstr ""
 "Comentariul tău este specific acestei traduceri sau este generic pentru "
 "toate?"
 
-#: weblate/trans/forms.py:1092
+#: weblate/trans/forms.py:1099
 msgid "Source string comment, suggestions for changes to this string"
 msgstr "Comentariu la șirul sursă, sugestii de modificare a acestui șir"
 
-#: weblate/trans/forms.py:1097
+#: weblate/trans/forms.py:1104
 msgid "Translation comment, discussions with other translators"
 msgstr "Comentariu privind traducerea, discuții cu alți traducători"
 
-#: weblate/trans/forms.py:1104 weblate/trans/models/announcement.py:72
+#: weblate/trans/forms.py:1111 weblate/trans/models/announcement.py:72
 #: weblate/trans/models/project.py:184
 msgid "You can use Markdown and mention users by @username."
 msgstr ""
 "Poți utiliza Markdown și poți menționa utilizatorii prin @nume_utilizator."
 
-#: weblate/trans/forms.py:1196
+#: weblate/trans/forms.py:1203
 msgid "Please choose"
 msgstr "Te rugăm alege"
 
-#: weblate/trans/forms.py:1277
+#: weblate/trans/forms.py:1284
 msgid "Allow user to add or remove users from a team."
 msgstr ""
 "Permite utilizatorului să adauge sau să elimine utilizatori dintr-o echipă."
 
-#: weblate/trans/forms.py:1289
+#: weblate/trans/forms.py:1296
 msgid "Block duration"
 msgstr "Durată blocare"
 
-#: weblate/trans/forms.py:1291
+#: weblate/trans/forms.py:1298
 msgid "Block the user until I unblock"
 msgstr "Blochează utilizator până când îl deblochez"
 
-#: weblate/trans/forms.py:1292
+#: weblate/trans/forms.py:1299
 msgid "Block the user for one day"
 msgstr "Blochează utilizatorul pentru o zi"
 
-#: weblate/trans/forms.py:1293
+#: weblate/trans/forms.py:1300
 msgid "Block the user for one week"
 msgstr "Blochează utilizatorul pentru o săptămână"
 
-#: weblate/trans/forms.py:1294
+#: weblate/trans/forms.py:1301
 msgid "Block the user for one month"
 msgstr "Blochează utilizatorul pentru o lună"
 
-#: weblate/trans/forms.py:1307
+#: weblate/trans/forms.py:1314
 msgid "Report format"
 msgstr "Format raport"
 
-#: weblate/trans/forms.py:1308
+#: weblate/trans/forms.py:1315
 msgid "Choose a file format for the report"
 msgstr "Alege un format de fișier pentru raport"
 
-#: weblate/trans/forms.py:1316
+#: weblate/trans/forms.py:1323
 msgid "Report period"
 msgstr "Perioadă raportare"
 
-#: weblate/trans/forms.py:1371
+#: weblate/trans/forms.py:1378
 msgid "You do not have permission to access this component."
 msgstr "Nu ai permisiunea de a accesa această componentă."
 
-#: weblate/trans/forms.py:1442
+#: weblate/trans/forms.py:1449
 #, fuzzy
 #| msgid "This field has been identified as spam!"
 msgid "This submission has been identified as spam!"
 msgstr "Acest câmp a fost identificat ca fiind spam!"
 
-#: weblate/trans/forms.py:1526 weblate/trans/forms.py:2154
+#: weblate/trans/forms.py:1533 weblate/trans/forms.py:2161
 msgid "Basic"
 msgstr "De bază"
 
-#: weblate/trans/forms.py:1538
+#: weblate/trans/forms.py:1545
 msgid "License"
 msgstr "Licență"
 
-#: weblate/trans/forms.py:1539
+#: weblate/trans/forms.py:1546
 msgid "Upstream links"
 msgstr "Legături sursă principală"
 
-#: weblate/trans/forms.py:1541
+#: weblate/trans/forms.py:1548
 msgid "Listing and access"
 msgstr "Listare și acces"
 
-#: weblate/trans/forms.py:1562
+#: weblate/trans/forms.py:1569
 msgid "Translation settings"
 msgstr "Setări de traducere"
 
-#: weblate/trans/forms.py:1572
+#: weblate/trans/forms.py:1579
 msgid "Version control"
 msgstr "Control versiune"
 
-#: weblate/trans/forms.py:1574
+#: weblate/trans/forms.py:1581
 msgid "Locations"
 msgstr "Locații"
 
-#: weblate/trans/forms.py:1584
+#: weblate/trans/forms.py:1591
 msgid "Version control settings"
 msgstr "Setări control versiune"
 
-#: weblate/trans/forms.py:1593
+#: weblate/trans/forms.py:1600
 msgid "Commit messages"
 msgstr "Mesaje de comitere"
 
-#: weblate/trans/forms.py:1609
+#: weblate/trans/forms.py:1616
 msgid "Translation files"
 msgstr "Fișiere de traducere"
 
-#: weblate/trans/forms.py:1617
+#: weblate/trans/forms.py:1624
 msgid "Monolingual translations"
 msgstr "Traduceri monolingve"
 
-#: weblate/trans/forms.py:1623
+#: weblate/trans/forms.py:1630
 msgid "Adding new languages"
 msgstr "Adăugare limbi noi"
 
-#: weblate/trans/forms.py:1732
+#: weblate/trans/forms.py:1739
 msgid "Select an existing component configuration to copy."
 msgstr "Selectează o configurație de componentă existentă pentru a o copia."
 
-#: weblate/trans/forms.py:1846
+#: weblate/trans/forms.py:1853
 msgid "ZIP file containing translations"
 msgstr "Fișier ZIP conținând traducerile"
 
-#: weblate/trans/forms.py:1860
+#: weblate/trans/forms.py:1867
 msgid "Document to translate"
 msgstr "Document de tradus"
 
-#: weblate/trans/forms.py:1867
+#: weblate/trans/forms.py:1874
 msgid "Target language of the document for bilingual files"
 msgstr ""
 
-#: weblate/trans/forms.py:1934
+#: weblate/trans/forms.py:1941
 msgid "Choose translation files to import"
 msgstr "Alege fișierele de traducere pentru a le importa"
 
-#: weblate/trans/forms.py:1935
+#: weblate/trans/forms.py:1942
 msgid "Specify configuration manually"
 msgstr "Specifică manual configurația"
 
-#: weblate/trans/forms.py:2119
+#: weblate/trans/forms.py:2126
 #, python-format
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -13916,46 +14003,46 @@ msgstr ""
 "Trebuie să specifici o licență pentru aceste componente pentru a le face "
 "accesibile publicului: %s"
 
-#: weblate/trans/forms.py:2168
+#: weblate/trans/forms.py:2175
 msgid "Access"
 msgstr "Accesează"
 
-#: weblate/trans/forms.py:2215
+#: weblate/trans/forms.py:2222
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
 msgstr ""
 "Folosește și contribuie la fondul de traduceri partajate între proiecte."
 
-#: weblate/trans/forms.py:2283
+#: weblate/trans/forms.py:2290
 msgid "ZIP file containing project backup"
 msgstr "Fișier ZIP care conține copia de siguranță a proiectului"
 
-#: weblate/trans/forms.py:2308
+#: weblate/trans/forms.py:2315
 #, python-format
 msgid "Could not load project backup: %s"
 msgstr "Nu s-a putut încărca copia de siguranță a proiectului: %s"
 
-#: weblate/trans/forms.py:2317
+#: weblate/trans/forms.py:2324
 msgid "Optional additional filter applied to the strings"
 msgstr "Filtru suplimentar opțional aplicat șirurilor"
 
-#: weblate/trans/forms.py:2321
+#: weblate/trans/forms.py:2328
 msgid "Search string"
 msgstr "Șir de căutare"
 
-#: weblate/trans/forms.py:2325
+#: weblate/trans/forms.py:2332
 msgid "Case-sensitive string to search for and replace."
 msgstr "Șir sensibil la majuscule și minuscule de căutat și înlocuit."
 
-#: weblate/trans/forms.py:2328
+#: weblate/trans/forms.py:2335
 msgid "Replacement string"
 msgstr "Șir de înlocuire"
 
-#: weblate/trans/forms.py:2427
+#: weblate/trans/forms.py:2434
 msgid "Translation key"
 msgstr "Cheie traducere"
 
-#: weblate/trans/forms.py:2429
+#: weblate/trans/forms.py:2436
 msgid ""
 "Key used to identify the string in the translation file. File-format "
 "specific rules might apply."
@@ -13963,143 +14050,143 @@ msgstr ""
 "Cheie utilizată pentru a identifica șirul în fișierul de traducere. Se pot "
 "aplica reguli specifice formatului de fișier."
 
-#: weblate/trans/forms.py:2435
+#: weblate/trans/forms.py:2442
 msgid "Source language text"
 msgstr "Text în limba sursă"
 
-#: weblate/trans/forms.py:2437
+#: weblate/trans/forms.py:2444
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 "Poți edita acest lucru mai târziu, la fel ca orice alt șir din limba sursă."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/forms.py:2452 weblate/trans/models/component.py:3710
+#: weblate/trans/forms.py:2458 weblate/trans/models/component.py:3712
 msgid "Context"
 msgstr "Context"
 
-#: weblate/trans/forms.py:2453
+#: weblate/trans/forms.py:2459
 msgid "Optional context to clarify the source strings."
 msgstr "Context opțional pentru a clarifica șirurile sursă."
 
-#: weblate/trans/forms.py:2460
+#: weblate/trans/forms.py:2466
 msgid "Auto-adjust context when an identical string already exists."
 msgstr ""
 "Ajustare automată a contextului atunci când există deja un șir identic."
 
-#: weblate/trans/forms.py:2480
+#: weblate/trans/forms.py:2486
 msgid "Translated string"
 msgstr "Șir tradus"
 
-#: weblate/trans/forms.py:2482
+#: weblate/trans/forms.py:2488
 msgid "You can edit this later, as with any other string in the translation."
 msgstr ""
 "Poți edita acest lucru mai târziu, la fel ca orice alt șir de caractere din "
 "traducere."
 
-#: weblate/trans/forms.py:2497
+#: weblate/trans/forms.py:2503
 msgid "String will be part of the glossary in all languages"
 msgstr "Șirul va face parte din glosar în toate limbile"
 
-#: weblate/trans/forms.py:2505
+#: weblate/trans/forms.py:2511
 msgid "Untranslatable term"
 msgstr "Termen intraductibil"
 
-#: weblate/trans/forms.py:2533
+#: weblate/trans/forms.py:2539
 #, fuzzy
 #| msgid "You currently do not have permission to create projects."
 msgid "You do not have permission to create terminology."
 msgstr "În prezent, nu ai permisiunea de a crea proiecte."
 
-#: weblate/trans/forms.py:2599
+#: weblate/trans/forms.py:2605
 msgid "State to set"
 msgstr "Stare de setat"
 
-#: weblate/trans/forms.py:2600
+#: weblate/trans/forms.py:2606
 msgid "Do not change"
 msgstr "Nu modifica"
 
-#: weblate/trans/forms.py:2604
+#: weblate/trans/forms.py:2610
 msgid "Translation flags to add"
 msgstr "Indicator de traducere de adăugat"
 
-#: weblate/trans/forms.py:2607
+#: weblate/trans/forms.py:2613
 msgid "Translation flags to remove"
 msgstr "Indicatoare de traducere de eliminat"
 
-#: weblate/trans/forms.py:2611
+#: weblate/trans/forms.py:2617
 msgid "Labels to add"
 msgstr "Etichete de adăugat"
 
-#: weblate/trans/forms.py:2617
+#: weblate/trans/forms.py:2623
 msgid "Labels to remove"
 msgstr "Etichete de eliminat"
 
-#: weblate/trans/forms.py:2671
+#: weblate/trans/forms.py:2677
 msgid "I accept the contributor agreement"
 msgstr "Accept acordul contribuitorului"
 
-#: weblate/trans/forms.py:2700
+#: weblate/trans/forms.py:2706
 msgid "The slug does not match the one marked for deletion!"
 msgstr "Descriptorul nu se potrivește cu cel marcat pentru ștergere!"
 
-#: weblate/trans/forms.py:2706 weblate/trans/forms.py:2725
-#: weblate/trans/forms.py:2736 weblate/trans/forms.py:2752
-#: weblate/trans/forms.py:2761 weblate/trans/forms.py:2772
+#: weblate/trans/forms.py:2712 weblate/trans/forms.py:2731
+#: weblate/trans/forms.py:2742 weblate/trans/forms.py:2758
+#: weblate/trans/forms.py:2767 weblate/trans/forms.py:2778
 msgid "Removal confirmation"
 msgstr "Confirmare eliminare"
 
-#: weblate/trans/forms.py:2708
+#: weblate/trans/forms.py:2714
 msgid "Please type in the full slug of the translation to confirm."
 msgstr ""
 "Te rugăm să introduci descriptorul complet al traducerii pentru a confirma."
 
-#: weblate/trans/forms.py:2727
+#: weblate/trans/forms.py:2733
 msgid "Please type in the full slug of the component to confirm."
 msgstr ""
 "Te rugăm să introduci descriptorul complet al componentei pentru a confirma."
 
-#: weblate/trans/forms.py:2737
+#: weblate/trans/forms.py:2743
 msgid "Please type in the slug of the project to confirm."
 msgstr "Te rugăm să introduci descriptorul proiectului pentru a confirma."
 
-#: weblate/trans/forms.py:2753
+#: weblate/trans/forms.py:2759
 msgid "Please type in the slug of the category to confirm."
 msgstr "Te rugăm să introduci descriptorul categoriei pentru a confirma."
 
-#: weblate/trans/forms.py:2763
+#: weblate/trans/forms.py:2769
 msgid "Please type in the slug of the project and language to confirm."
 msgstr ""
 "Te rugăm să introduci descriptorul proiectului și limba pentru a confirma."
 
-#: weblate/trans/forms.py:2774
+#: weblate/trans/forms.py:2780
 msgid "Please type in the slug of the category and language to confirm."
 msgstr ""
 "Te rugăm să introduci descriptorul categoriei și limba pentru a confirma."
 
-#: weblate/trans/forms.py:2801
+#: weblate/trans/forms.py:2807
 msgid "Author username"
 msgstr "Nume utilizator autor"
 
-#: weblate/trans/forms.py:2804
+#: weblate/trans/forms.py:2810
 #, fuzzy
 #| msgid "Changes pushed"
 msgid "Change period"
 msgstr "Modificări încărcate"
 
-#: weblate/trans/forms.py:2816
+#: weblate/trans/forms.py:2822
 msgid "Could not find matching user!"
 msgstr "Nu s-a reușit găsirea utilizatorul potrivit!"
 
-#: weblate/trans/forms.py:2889
+#: weblate/trans/forms.py:2895
 msgid "Expiry cannot be in the past."
 msgstr "Expirarea nu poate fi în trecut."
 
-#: weblate/trans/forms.py:2928
+#: weblate/trans/forms.py:2934
 msgid "Customize translation workflow for this language"
 msgstr "Personalizează fluxul de lucru de traducere pentru această limbă"
 
-#: weblate/trans/forms.py:2930
+#: weblate/trans/forms.py:2936
 msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
@@ -14107,13 +14194,13 @@ msgstr ""
 "Fluxul de lucru de traducere este configurat la proiect și componentă. Prin "
 "activarea personalizării aici, anulezi aceste setări pentru această limbă."
 
-#: weblate/trans/forms.py:2973
+#: weblate/trans/forms.py:2979
 #, fuzzy
 #| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
 msgstr "Personalizează fluxul de lucru de traducere pentru această limbă"
 
-#: weblate/trans/forms.py:2976
+#: weblate/trans/forms.py:2982
 #, fuzzy
 #| msgid ""
 #| "The translation workflow is configured at project and component. By "
@@ -14428,7 +14515,7 @@ msgid "Comment added"
 msgstr "Comentariu adăugat"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:445 weblate/trans/models/project.py:702
+#: weblate/trans/models/change.py:445 weblate/trans/models/project.py:701
 msgid "Automatically translated"
 msgstr "Tradus automat"
 
@@ -15312,8 +15399,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "Nu s-a putut prelua depozitarul: %s"
 
 #: weblate/trans/models/component.py:1625
-#: weblate/trans/models/component.py:2898
-#: weblate/trans/models/component.py:2961
+#: weblate/trans/models/component.py:2901
+#: weblate/trans/models/component.py:2964
 msgid "File does not exist."
 msgstr "Fișierul nu există."
 
@@ -15337,43 +15424,43 @@ msgstr "Nu s-a putut reseta la ramura de la distanță pe %s."
 msgid "Could not clean the repository on %s."
 msgstr "Nu s-a putut curăța depozitarul pe %s."
 
-#: weblate/trans/models/component.py:2181
+#: weblate/trans/models/component.py:2184
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "Nu s-a putut rebaza ramura locală pe ramura de la distanță %s."
 
-#: weblate/trans/models/component.py:2187
+#: weblate/trans/models/component.py:2190
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "Nu s-a putut îmbina ramura de la distanță în %s."
 
-#: weblate/trans/models/component.py:2758
+#: weblate/trans/models/component.py:2761
 msgid "Category does not belong to this project."
 msgstr "Categoria nu aparține acestui proiect."
 
-#: weblate/trans/models/component.py:2762
+#: weblate/trans/models/component.py:2765
 msgid "Categorized component can not be shared."
 msgstr "Componenta categorisită nu poate fi partajată."
 
-#: weblate/trans/models/component.py:2774
+#: weblate/trans/models/component.py:2777
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Legătură invalidă către un proiect Weblate, utilizează weblate://proiect/"
 "componentă."
 
-#: weblate/trans/models/component.py:2784
+#: weblate/trans/models/component.py:2787
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Legătură invalidă către un proiect Weblate, nu se poate face legătura cu "
 "depozitarul legat!"
 
-#: weblate/trans/models/component.py:2793
+#: weblate/trans/models/component.py:2796
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Legătură invalidă către un proiect Weblate, nu se poate face legătura cu el "
 "însuși!"
 
-#: weblate/trans/models/component.py:2804
+#: weblate/trans/models/component.py:2807
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
@@ -15381,11 +15468,11 @@ msgstr ""
 "Opțiunea nu este disponibilă pentru depozitarele legate. Se vor utiliza "
 "setările din componenta legată."
 
-#: weblate/trans/models/component.py:2816
+#: weblate/trans/models/component.py:2819
 msgid "The file mask did not match any files."
 msgstr "Masca de fișier nu s-a potrivit cu niciun fișier."
 
-#: weblate/trans/models/component.py:2826
+#: weblate/trans/models/component.py:2829
 #, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
@@ -15396,13 +15483,13 @@ msgstr ""
 "%(filename2)s Te rugăm să ajustezi masca de fișier și să utilizezi "
 "componente pentru traducerea diferitelor resurse."
 
-#: weblate/trans/models/component.py:2844
+#: weblate/trans/models/component.py:2847
 msgid "Could not find any matching language, please check the file mask."
 msgstr ""
 "Nu a fost găsită nicio limbă corespunzătoare, te rugăm să verifici masca de "
 "fișier."
 
-#: weblate/trans/models/component.py:2863
+#: weblate/trans/models/component.py:2866
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
@@ -15410,7 +15497,7 @@ msgstr[0] "Nu s-a putut interpreta %d fișier potrivit."
 msgstr[1] "Nu s-au putut interpreta %d fișiere potrivite."
 msgstr[2] "Nu s-au putut interpreta %d de fișiere potrivite."
 
-#: weblate/trans/models/component.py:2891
+#: weblate/trans/models/component.py:2894
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -15418,28 +15505,28 @@ msgstr ""
 "Ai configurat Weblate pentru a adăuga noi fișiere de traducere, dar nu ai "
 "furnizat un fișier de bază pentru a face acest lucru."
 
-#: weblate/trans/models/component.py:2902
+#: weblate/trans/models/component.py:2905
 #, python-format
 msgid "Could not parse base file for new translations: %s"
 msgstr "Nu s-a reușit interpretarea fișierul de bază pentru traduceri noi: %s"
 
-#: weblate/trans/models/component.py:2906
+#: weblate/trans/models/component.py:2909
 msgid "Unrecognized base file for new translations."
 msgstr "Fișier de bază nerecunoscut pentru noile traduceri."
 
-#: weblate/trans/models/component.py:2921
+#: weblate/trans/models/component.py:2924
 msgid "Editing template is not supported with this file format."
 msgstr "Editarea șablonului nu este acceptată cu acest format de fișier."
 
-#: weblate/trans/models/component.py:2927
-#: weblate/trans/models/component.py:2943
+#: weblate/trans/models/component.py:2930
+#: weblate/trans/models/component.py:2946
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
 "Un fișier de limbaj intermediar nu poate fi utilizat fără un șablon de "
 "editare."
 
-#: weblate/trans/models/component.py:2935
+#: weblate/trans/models/component.py:2938
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -15447,29 +15534,29 @@ msgstr ""
 "Un fișier de limbă intermediară trebuie să fie diferit de fișierul monolingv "
 "al limbii de bază. Probabil că îl poți ține gol."
 
-#: weblate/trans/models/component.py:2950
+#: weblate/trans/models/component.py:2953
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Utilizarea unui fișier .pot ca fișier de bază nu este acceptată."
 
-#: weblate/trans/models/component.py:2966
+#: weblate/trans/models/component.py:2969
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "Nu s-a putut interpreta fișierul de bază al traducerii: %s"
 
-#: weblate/trans/models/component.py:2977
+#: weblate/trans/models/component.py:2980
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "Limba șablonului ({0}) nu se potrivește cu limba sursă ({1})!"
 
-#: weblate/trans/models/component.py:2996
+#: weblate/trans/models/component.py:2999
 msgid "Choose No remote repository for local: URL."
 msgstr "Alege Niciun depozitar la distanță pentru resursa locală: URL."
 
-#: weblate/trans/models/component.py:3001
+#: weblate/trans/models/component.py:3004
 msgid "Push URL is not used without a remote repository."
 msgstr "URL-ul de încărcare nu este folosit fără un depozitar la distanță."
 
-#: weblate/trans/models/component.py:3015
+#: weblate/trans/models/component.py:3018
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -15477,18 +15564,18 @@ msgstr ""
 "Se pare că URL-ul tău de încărcare nu are date de conectare. Fie le "
 "furnizezi în URL, fie utilizezi SSH cu autentificare bazată pe cheie."
 
-#: weblate/trans/models/component.py:3020
+#: weblate/trans/models/component.py:3023
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "Nu s-a putut actualiza depozitarul: %s"
 
-#: weblate/trans/models/component.py:3029
+#: weblate/trans/models/component.py:3032
 #, fuzzy
 #| msgid "This will push changes and create a GitLab merge request."
 msgid "Pull and push branches cannot be the same when using merge requests."
 msgstr "Aceasta va încărca modificările și va crea o cerere de tragere GitLab."
 
-#: weblate/trans/models/component.py:3042
+#: weblate/trans/models/component.py:3045
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -15496,75 +15583,75 @@ msgstr ""
 "Te rugăm fie să completezi un URL de instrucțiuni, fie să utilizezi o altă "
 "opțiune pentru adăugarea unei noi limbi."
 
-#: weblate/trans/models/component.py:3073
+#: weblate/trans/models/component.py:3076
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 "Limba sursă nu poate fi schimbată, te rugăm să recreezi în schimb componenta."
 
-#: weblate/trans/models/component.py:3105
+#: weblate/trans/models/component.py:3108
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Nu se pot valida potrivirile de fișiere din cauza unei expresii regulate "
 "invalide."
 
-#: weblate/trans/models/component.py:3116 weblate/trans/models/workflow.py:58
+#: weblate/trans/models/component.py:3119 weblate/trans/models/workflow.py:58
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Acceptarea automată a sugestiilor funcționează numai dacă votul este activat."
 
-#: weblate/trans/models/component.py:3125
+#: weblate/trans/models/component.py:3127
 msgid "To use the key filter, the file format must be monolingual."
 msgstr ""
 
-#: weblate/trans/models/component.py:3512
+#: weblate/trans/models/component.py:3514
 msgid "Could not add new translation file."
 msgstr "Nu s-a putut adăuga un nou fișier de traducere."
 
-#: weblate/trans/models/component.py:3519
+#: weblate/trans/models/component.py:3521
 msgid "You do not have permissions to add new translation file."
 msgstr "Nu ai permisiunea de a adăuga un nou fișier de traducere."
 
-#: weblate/trans/models/component.py:3527
-#: weblate/trans/models/component.py:3535
+#: weblate/trans/models/component.py:3529
+#: weblate/trans/models/component.py:3537
 msgid "The monolingual base language file is invalid."
 msgstr "Fișierul de limbă de bază monolingvă este nevalid."
 
-#: weblate/trans/models/component.py:3540
+#: weblate/trans/models/component.py:3542
 msgid "The template for new translations is invalid."
 msgstr "Șablonul pentru traduceri noi este nevalid."
 
-#: weblate/trans/models/component.py:3582
+#: weblate/trans/models/component.py:3584
 msgid "The given language is used as a source language."
 msgstr "Limba dată este utilizată ca limbă sursă."
 
-#: weblate/trans/models/component.py:3590
+#: weblate/trans/models/component.py:3592
 msgid "The given language already exists."
 msgstr "Limba dată există deja."
 
-#: weblate/trans/models/component.py:3599
+#: weblate/trans/models/component.py:3601
 msgid "The given language is filtered by the language filter."
 msgstr "Limba dată este filtrată de filtrul de limbă."
 
-#: weblate/trans/models/component.py:3625
+#: weblate/trans/models/component.py:3627
 msgid "Translation file already exists!"
 msgstr "Fișierul de traducere există deja!"
 
-#: weblate/trans/models/component.py:3660
+#: weblate/trans/models/component.py:3662
 msgid "The translation will be updated in the background."
 msgstr "Traducerea va fi actualizată în fundal."
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3712 weblate/utils/views.py:188
+#: weblate/trans/models/component.py:3714 weblate/utils/views.py:188
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Cheie"
 
-#: weblate/trans/models/component.py:3797
+#: weblate/trans/models/component.py:3799
 msgid "Add new translation string"
 msgstr "Adaugă șir nou de traducere"
 
-#: weblate/trans/models/component.py:3846
+#: weblate/trans/models/component.py:3848
 #, fuzzy
 #| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
@@ -15585,27 +15672,27 @@ msgstr ""
 "Atunci când este activată, această listă de componente va fi afișată ca o "
 "filă în panoul de control"
 
-#: weblate/trans/models/componentlist.py:72
+#: weblate/trans/models/componentlist.py:71
 msgid "Project regular expression"
 msgstr "Expresie regulată proiect"
 
-#: weblate/trans/models/componentlist.py:76
+#: weblate/trans/models/componentlist.py:75
 msgid "Regular expression which is used to match project slug."
 msgstr ""
 "Expresie regulată care este utilizată pentru a se potrivi cu descriptorul "
 "proiectului."
 
-#: weblate/trans/models/componentlist.py:80
+#: weblate/trans/models/componentlist.py:79
 msgid "Component regular expression"
 msgstr "Expresie regulată componentă"
 
-#: weblate/trans/models/componentlist.py:84
+#: weblate/trans/models/componentlist.py:83
 msgid "Regular expression which is used to match component slug."
 msgstr ""
 "Expresie regulată care este utilizată pentru a se potrivi cu descriptorul "
 "componentei."
 
-#: weblate/trans/models/componentlist.py:89
+#: weblate/trans/models/componentlist.py:88
 msgid "Component list to assign"
 msgstr "Listă de componente de atribuit"
 
@@ -15672,42 +15759,42 @@ msgstr ""
 "Modul de restricționare a accesului la acest proiect este detaliat în "
 "documentație."
 
-#: weblate/trans/models/project.py:222
+#: weblate/trans/models/project.py:221
 msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
 msgstr ""
 
-#: weblate/trans/models/project.py:227 weblate/trans/models/workflow.py:23
+#: weblate/trans/models/project.py:226 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
 msgstr "Activează recenzii"
 
-#: weblate/trans/models/project.py:229 weblate/trans/models/workflow.py:25
+#: weblate/trans/models/project.py:228 weblate/trans/models/workflow.py:25
 msgid "Requires dedicated reviewers to approve translations."
 msgstr "Este nevoie de recenzenți dedicați pentru a aproba traducerile."
 
-#: weblate/trans/models/project.py:232
+#: weblate/trans/models/project.py:231
 msgid "Enable source reviews"
 msgstr "Activează revizuiri sursă"
 
-#: weblate/trans/models/project.py:235
+#: weblate/trans/models/project.py:234
 msgid "Requires dedicated reviewers to approve source strings."
 msgstr "Este nevoie de recenzenți dedicați pentru a aproba șirurile de surse."
 
-#: weblate/trans/models/project.py:239
+#: weblate/trans/models/project.py:238
 msgid "Enable hooks"
 msgstr "Activează cârlige"
 
-#: weblate/trans/models/project.py:242
+#: weblate/trans/models/project.py:241
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr ""
 "Dacă se permite actualizarea acestui depozitar prin cârlige de la distanță."
 
-#: weblate/trans/models/project.py:246
+#: weblate/trans/models/project.py:245
 msgid "Language aliases"
 msgstr "Aliasuri limbi"
 
-#: weblate/trans/models/project.py:250
+#: weblate/trans/models/project.py:249
 msgid ""
 "Comma-separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
@@ -15719,7 +15806,7 @@ msgstr ""
 msgid "Could not accept suggestion!"
 msgstr "Nu s-a putut accepta sugestia!"
 
-#: weblate/trans/models/translation.py:240
+#: weblate/trans/models/translation.py:239
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -15728,46 +15815,46 @@ msgstr ""
 "Numele de fișier %s nu a fost găsit în depozitar! Pentru a adăuga o nouă "
 "traducere, adaugă fișierul de limbă în depozitar."
 
-#: weblate/trans/models/translation.py:249
+#: weblate/trans/models/translation.py:248
 #, python-format
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "Nu s-a reușit interpretarea fișierul %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1147
-#: weblate/trans/models/translation.py:1203
-#: weblate/trans/models/translation.py:1299
+#: weblate/trans/models/translation.py:1146
+#: weblate/trans/models/translation.py:1202
+#: weblate/trans/models/translation.py:1298
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Nu s-a reușit comiterea modificărilor în așteptare: %s"
 
-#: weblate/trans/models/translation.py:1740
+#: weblate/trans/models/translation.py:1739
 msgid "Plurals are not supported by the file format!"
 msgstr "Pluralurile nu sunt acceptate de formatul de fișier!"
 
-#: weblate/trans/models/translation.py:1745 weblate/trans/models/unit.py:721
+#: weblate/trans/models/translation.py:1744 weblate/trans/models/unit.py:721
 #: weblate/utils/forms.py:126
 #, python-format
 msgid "String contains control character: %s"
 msgstr "Șirul conține caracterul de control: %s"
 
-#: weblate/trans/models/translation.py:1750
+#: weblate/trans/models/translation.py:1749
 msgid "Empty state is supported for blank strings only."
 msgstr "Starea goală este acceptată numai pentru șirurile goale."
 
-#: weblate/trans/models/translation.py:1753
+#: weblate/trans/models/translation.py:1752
 msgid "Blank strings require an empty state."
 msgstr "Șirurile goale necesită o stare goală."
 
-#: weblate/trans/models/translation.py:1757
+#: weblate/trans/models/translation.py:1756
 msgid "Approved state is not available as reviews are not enabled."
 msgstr ""
 "Starea aprobată nu este disponibilă deoarece recenziile nu sunt activate."
 
-#: weblate/trans/models/translation.py:1765
+#: weblate/trans/models/translation.py:1764
 msgid "This string seems to already exist."
 msgstr "Acest șir pare să existe deja."
 
-#: weblate/trans/models/translation.py:1772
+#: weblate/trans/models/translation.py:1771
 msgid "Failed adding string, no translation found."
 msgstr "Adăugarea șirului a eșuat, nicio traducere găsită."
 
@@ -15781,35 +15868,35 @@ msgstr ""
 "Șirul nu a putut fi propagat către %(component)s pentru că nu ai fost de "
 "acord cu un acord de contribuitor."
 
-#: weblate/trans/models/unit.py:1811
+#: weblate/trans/models/unit.py:1813
 msgid "Unmark as read-only"
 msgstr "Demarchează ca fiind doar pentru citire"
 
-#: weblate/trans/models/unit.py:1814
+#: weblate/trans/models/unit.py:1816
 msgid "Mark as read-only"
 msgstr "Marchează ca fiind doar pentru citire"
 
-#: weblate/trans/models/unit.py:1818
+#: weblate/trans/models/unit.py:1820
 msgid "Unmark as untranslatable"
 msgstr "Demarchează ca intraductibil"
 
-#: weblate/trans/models/unit.py:1822
+#: weblate/trans/models/unit.py:1824
 msgid "Mark as untranslatable"
 msgstr "Marchează ca intraductibil"
 
-#: weblate/trans/models/unit.py:1829
+#: weblate/trans/models/unit.py:1831
 msgid "Unmark as forbidden translation"
 msgstr "Demarchează ca traducere interzisă"
 
-#: weblate/trans/models/unit.py:1837
+#: weblate/trans/models/unit.py:1839
 msgid "Mark as forbidden translation"
 msgstr "Marchează ca traducere interzisă"
 
-#: weblate/trans/models/unit.py:1845
+#: weblate/trans/models/unit.py:1847
 msgid "Unmark as terminology"
 msgstr "Demarchează ca terminologie"
 
-#: weblate/trans/models/unit.py:1853
+#: weblate/trans/models/unit.py:1855
 msgid "Mark as terminology"
 msgstr "Marchează ca terminologie"
 
@@ -16884,8 +16971,8 @@ msgstr "Aprobat"
 
 #: weblate/utils/state.py:21
 msgctxt "String state"
-msgid "Read only"
-msgstr "Doar citire"
+msgid "Read-only"
+msgstr "Doar în citire"
 
 #: weblate/utils/state.py:47
 msgctxt "String state"
@@ -17014,85 +17101,85 @@ msgstr "Eroare în parametrul %(field)s: %(error)s"
 msgid "This will push changes to the upstream repository."
 msgstr "Aceasta va încărca modificările în depozitarul din sursa principală."
 
-#: weblate/vcs/git.py:86
+#: weblate/vcs/git.py:87
 msgid "This will push changes to the upstream Git repository."
 msgstr ""
 "Aceasta va încărca modificările în depozitarul din sursa principală Git."
 
-#: weblate/vcs/git.py:559
+#: weblate/vcs/git.py:565
 msgid "Possible cleanups:"
 msgstr "Curățări posibile:"
 
-#: weblate/vcs/git.py:567
+#: weblate/vcs/git.py:573
 msgid "This will push changes to Gerrit for a review."
 msgstr "Aceasta va încărca modificările în Gerrit pentru o revizie."
 
-#: weblate/vcs/git.py:611
+#: weblate/vcs/git.py:617
 msgid "This will commit changes to the Subversion repository."
 msgstr "Aceasta va comite modificările în depozitarul Subversion."
 
-#: weblate/vcs/git.py:778
+#: weblate/vcs/git.py:784
 msgid "Git with force push"
 msgstr "Git cu încărcare forțată"
 
-#: weblate/vcs/git.py:782
+#: weblate/vcs/git.py:788
 msgid "This will force push changes to the upstream repository."
 msgstr ""
 "Aceasta va încărca forțat modificările în depozitarul din sursa principală."
 
-#: weblate/vcs/git.py:1238
+#: weblate/vcs/git.py:1244
 msgid "Azure DevOps pull request"
 msgstr "Cerere de tragere Azure DevOps"
 
-#: weblate/vcs/git.py:1246
+#: weblate/vcs/git.py:1252
 msgid "This will push changes and create a Azure DevOps pull request."
 msgstr ""
 "Aceasta va încărca modificările și va crea o cerere de tragere Azure DevOps."
 
-#: weblate/vcs/git.py:1490
+#: weblate/vcs/git.py:1496
 msgid "GitHub pull request"
 msgstr "Cerere de tragere GitHub"
 
-#: weblate/vcs/git.py:1495
+#: weblate/vcs/git.py:1501
 msgid "This will push changes and create a GitHub pull request."
 msgstr "Aceasta va încărca modificările și va crea o cerere de tragere GitHub."
 
-#: weblate/vcs/git.py:1607
+#: weblate/vcs/git.py:1613
 msgid "Gitea pull request"
 msgstr "Cerere de tragere Gitea"
 
-#: weblate/vcs/git.py:1611
+#: weblate/vcs/git.py:1617
 msgid "This will push changes and create a Gitea pull request."
 msgstr "Aceasta va încărca modificările și va crea o cerere de tragere Gitea."
 
-#: weblate/vcs/git.py:1682
+#: weblate/vcs/git.py:1688
 msgid "No remote repository"
 msgstr "Fără depozitar la distanță"
 
-#: weblate/vcs/git.py:1788
+#: weblate/vcs/git.py:1794
 msgid "GitLab merge request"
 msgstr "Cerere îmbinare GitLab"
 
-#: weblate/vcs/git.py:1793
+#: weblate/vcs/git.py:1799
 msgid "This will push changes and create a GitLab merge request."
 msgstr "Aceasta va încărca modificările și va crea o cerere de tragere GitLab."
 
-#: weblate/vcs/git.py:1945
+#: weblate/vcs/git.py:1951
 msgid "Pagure merge request"
 msgstr "Cerere îmbinare Pagure"
 
-#: weblate/vcs/git.py:1950
+#: weblate/vcs/git.py:1956
 msgid "This will push changes and create a Pagure merge request."
 msgstr "Aceasta va încărca modificările și va crea o cerere de tragere Pagure."
 
 #. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
-#: weblate/vcs/git.py:2049
+#: weblate/vcs/git.py:2055
 #, fuzzy
 #| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull request"
 msgstr "Cerere tragere server Bitbucket"
 
-#: weblate/vcs/git.py:2055
+#: weblate/vcs/git.py:2061
 #, fuzzy
 #| msgid "This will push changes and create a Bitbucket Server pull request."
 msgid "This will push changes and create a Bitbucket Data Center pull request."
@@ -17100,7 +17187,7 @@ msgstr ""
 "Aceasta va încărca modificările și va crea o cerere de tragere pe serverul "
 "Bitbucket."
 
-#: weblate/vcs/git.py:2196
+#: weblate/vcs/git.py:2201
 #, fuzzy
 #| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Cloud merge request"
@@ -17112,35 +17199,35 @@ msgstr ""
 "Aceasta va încărca modificările în depozitarul din sursa principală "
 "Mercurial."
 
-#: weblate/vcs/ssh.py:46
+#: weblate/vcs/ssh.py:48
 msgctxt "SSH key type"
 msgid "RSA"
 msgstr "RSA"
 
-#: weblate/vcs/ssh.py:52
+#: weblate/vcs/ssh.py:54
 msgctxt "SSH key type"
 msgid "Ed25519"
 msgstr "Ed25519"
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/vcs/ssh.py:85
+#: weblate/vcs/ssh.py:87
 msgid "[hostname hashed]"
 msgstr "[nume gazdă hașurat]"
 
-#: weblate/vcs/ssh.py:185
+#: weblate/vcs/ssh.py:187
 #, python-format
 msgid "Could not generate key: %s"
 msgstr "Nu s-a putut genera cheia: %s"
 
-#: weblate/vcs/ssh.py:192
+#: weblate/vcs/ssh.py:194
 msgid "Created new SSH key."
 msgstr "A fost creată o nouă cheie SSH."
 
-#: weblate/vcs/ssh.py:198
+#: weblate/vcs/ssh.py:200
 msgid "Invalid host name given!"
 msgstr "Nume gazdă dat nevalid!"
 
-#: weblate/vcs/ssh.py:222
+#: weblate/vcs/ssh.py:224
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -17149,12 +17236,12 @@ msgstr ""
 "A fost adăugată cheia gazdă pentru %(host)s cu amprenta digitală "
 "%(fingerprint)s (%(keytype)s), te rugăm să verifici dacă este corectă."
 
-#: weblate/vcs/ssh.py:243 weblate/vcs/ssh.py:249
+#: weblate/vcs/ssh.py:245 weblate/vcs/ssh.py:251
 #, python-format
 msgid "Could not fetch public key for a host: %s"
 msgstr "Nu s-a putut obține cheia publică pentru o gazdă: %s"
 
-#: weblate/vcs/ssh.py:253
+#: weblate/vcs/ssh.py:255
 #, python-format
 msgid "Could not get host key: %s"
 msgstr "Nu s-a putut obține cheia gazdă: %s"
@@ -17367,6 +17454,19 @@ msgstr "Procesul de copie de siguranță a fost declanșat"
 #: weblate/wladmin/views.py:345
 msgid "Could not dismiss the configuration error!"
 msgstr "Nu s-a putut respinge eroarea de configurare!"
+
+#~ msgid "Translation reviews are not enabled."
+#~ msgstr "Recenziile traducerilor nu sunt activate."
+
+#~ msgid "Reviews are not enabled."
+#~ msgstr "Recenziile nu sunt activate."
+
+#~ msgid "Read only"
+#~ msgstr "Doar pentru citire"
+
+#~ msgctxt "String state"
+#~ msgid "Read only"
+#~ msgstr "Doar citire"
 
 #~ msgid "New line"
 #~ msgstr "Linie nouă"

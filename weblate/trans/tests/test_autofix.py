@@ -74,6 +74,16 @@ class AutoFixTest(TestCase):
             (["%(percent)s %%"], False),
         )
 
+    def test_html_ignored(self) -> None:
+        fix = BleachHTML()
+        unit = MockUnit(
+            source='<a href="script:foo()">link</a>', flags="safe-html,ignore-safe-html"
+        )
+        self.assertEqual(
+            fix.fix_target(["Allow <b>"], unit),
+            (["Allow <b>"], False),
+        )
+
     def test_html_markdown(self) -> None:
         fix = BleachHTML()
         unit = MockUnit(
@@ -182,3 +192,14 @@ class AutoFixTest(TestCase):
         self.assertEqual(fix.fix_target(["Bar:"], fr_unit), (["Bar:"], False))
         self.assertEqual(fix.fix_target(["Bar:"], fr_ca_unit), (["Bar:"], False))
         self.assertEqual(fix.fix_target(["Bar:"], cs_unit), (["Bar:"], False))
+
+    def test_punctuation_spacing_rst(self) -> None:
+        fix = PunctuationSpacing()
+        fr_rst_unit = MockUnit(source="This :ref:`doc`", code="fr", flags="rst-text")
+        self.assertEqual(
+            fix.fix_target(["This :ref:`doc`"], fr_rst_unit),
+            (["This :ref:`doc`"], False),
+        )
+        self.assertEqual(
+            fix.fix_target(["This :"], fr_rst_unit), (["This\u00a0:"], True)
+        )

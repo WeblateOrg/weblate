@@ -9,7 +9,11 @@ import os
 import platform
 from logging.handlers import SysLogHandler
 
-from weblate.api.spectacular import get_spectacular_settings
+from weblate.api.spectacular import (
+    get_drf_settings,
+    get_drf_standardized_errors_sertings,
+    get_spectacular_settings,
+)
 
 # Title of site to use
 SITE_TITLE = "Weblate"
@@ -442,6 +446,7 @@ INSTALLED_APPS = [
     "django_otp_webauthn",
     "drf_spectacular",
     "drf_spectacular_sidecar",
+    "drf_standardized_errors",
 ]
 
 # Custom exception reporter to include some details
@@ -744,6 +749,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.checks.markup.URLCheck",
 #     "weblate.checks.markup.SafeHTMLCheck",
 #     "weblate.checks.markup.RSTReferencesCheck",
+#     "weblate.checks.markup.RSTSyntaxCheck",
 #     "weblate.checks.placeholders.PlaceholderCheck",
 #     "weblate.checks.placeholders.RegexCheck",
 #     "weblate.checks.duplicate.DuplicateCheck",
@@ -845,35 +851,12 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # REST framework settings for API
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    "DEFAULT_PERMISSION_CLASSES": [
-        # Require authentication for login required sites
-        "rest_framework.permissions.IsAuthenticated"
-        if REQUIRE_LOGIN
-        else "rest_framework.permissions.IsAuthenticatedOrReadOnly"
-    ],
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.TokenAuthentication",
-        "weblate.api.authentication.BearerAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
-    ),
-    "DEFAULT_THROTTLE_CLASSES": (
-        "weblate.api.throttling.UserRateThrottle",
-        "weblate.api.throttling.AnonRateThrottle",
-    ),
-    "DEFAULT_THROTTLE_RATES": {
-        "anon": "100/day",
-        "user": "5000/hour",
-    },
-    "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
-    "PAGE_SIZE": 50,
-    "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
-    "EXCEPTION_HANDLER": "weblate.api.views.weblate_exception_handler",
-    "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-}
+REST_FRAMEWORK = get_drf_settings(
+    require_login=REQUIRE_LOGIN,
+    anon_throttle="100/day",
+    user_throttle="5000/hour",
+)
+DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_sertings()
 SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
 
 # Fonts CDN URL

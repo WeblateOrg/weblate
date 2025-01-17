@@ -14,7 +14,7 @@ from celery.result import AsyncResult
 from django.conf import settings
 from django.contrib.messages import get_messages
 from django.core.cache import cache
-from django.core.exceptions import BadRequest, PermissionDenied
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models import Model, Q
 from django.forms.utils import from_current_timezone
@@ -22,12 +22,13 @@ from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
-from django.utils.translation import gettext
+from django.utils.translation import gettext, gettext_lazy
 from django_filters import rest_framework as filters
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
+from drf_standardized_errors.handler import ExceptionHandler
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
@@ -38,12 +39,11 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
-    HTTP_400_BAD_REQUEST,
     HTTP_423_LOCKED,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
 from rest_framework.utils import formatting
-from rest_framework.views import APIView, exception_handler
+from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 
 from weblate.accounts.models import Subscription
@@ -147,18 +147,19 @@ description of the API.</p>
 """
 
 
-def weblate_exception_handler(exc, context):
-    # Call REST framework's default exception handler first,
-    # to get the standard error response.
-    response = exception_handler(exc, context)
+class LockedError(APIException):
+    status_code = HTTP_423_LOCKED
+    default_detail = gettext_lazy(
+        "Could not obtain repository lock to perform the operation."
+    )
+    default_code = "repository-locked"
 
-    if response is None and isinstance(exc, WeblateLockTimeoutError):
-        return Response(
-            data={"error": "Could not obtain repository lock to delete the string."},
-            status=HTTP_423_LOCKED,
-        )
 
-    return response
+class WeblateExceptionHandler(ExceptionHandler):
+    def convert_known_exceptions(self, exc: Exception) -> Exception:
+        if isinstance(exc, WeblateLockTimeoutError):
+            return LockedError()
+        return super().convert_known_exceptions(exc)
 
 
 def get_view_description(view, html=False):
@@ -429,12 +430,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
         if "group_id" not in request.data:
             msg = "Missing group_id parameter"
-            raise ValidationError(msg)
+            raise ValidationError({"group_id": msg})
 
         try:
             group = Group.objects.get(pk=int(request.data["group_id"]))
         except (Group.DoesNotExist, ValueError) as error:
-            raise ValidationError(str(error)) from error
+            raise ValidationError({"group_id": str(error)}) from error
 
         if request.method == "POST":
             obj.add_team(request, group)
@@ -589,12 +590,12 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         if "role_id" not in request.data:
             msg = "Missing role_id parameter"
-            raise ValidationError(msg)
+            raise ValidationError({"role_id": msg})
 
         try:
             role = Role.objects.get(pk=int(request.data["role_id"]))
         except (Role.DoesNotExist, ValueError) as error:
-            raise ValidationError(str(error)) from error
+            raise ValidationError({"role_id": str(error)}) from error
 
         obj.roles.add(role)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -612,12 +613,12 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         if "language_code" not in request.data:
             msg = "Missing language_code parameter"
-            raise ValidationError(msg)
+            raise ValidationError({"language_code": msg})
 
         try:
             language = Language.objects.get(code=request.data["language_code"])
         except (Language.DoesNotExist, ValueError) as error:
-            raise ValidationError(str(error)) from error
+            raise ValidationError({"language_code": str(error)}) from error
 
         obj.languages.add(language)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -650,14 +651,14 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         if "project_id" not in request.data:
             msg = "Missing project_id parameter"
-            raise ValidationError(msg)
+            raise ValidationError({"project_id": msg})
 
         try:
             project = Project.objects.get(
                 pk=int(request.data["project_id"]),
             )
         except (Project.DoesNotExist, ValueError) as error:
-            raise ValidationError(str(error)) from error
+            raise ValidationError({"project_id": str(error)}) from error
         obj.projects.add(project)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -686,14 +687,14 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         if "component_list_id" not in request.data:
             msg = "Missing component_list_id parameter"
-            raise ValidationError(msg)
+            raise ValidationError({"component_list_id": msg})
 
         try:
             component_list = ComponentList.objects.get(
                 pk=int(request.data["component_list_id"]),
             )
         except (ComponentList.DoesNotExist, ValueError) as error:
-            raise ValidationError(str(error)) from error
+            raise ValidationError({"component_list_id": str(error)}) from error
         obj.componentlists.add(component_list)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -732,14 +733,14 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         if "component_id" not in request.data:
             msg = "Missing component_id parameter"
-            raise ValidationError(msg)
+            raise ValidationError({"component_id": msg})
 
         try:
             component = Component.objects.filter_access(request.user).get(
                 pk=int(request.data["component_id"])
             )
         except (Component.DoesNotExist, ValueError) as error:
-            raise ValidationError(str(error)) from error
+            raise ValidationError({"component_id": str(error)}) from error
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -768,13 +769,13 @@ class GroupViewSet(viewsets.ModelViewSet):
         user_id = request.data.get("user_id")
         if not user_id:
             msg = "User ID is required"
-            raise ValidationError(msg)
+            raise ValidationError({"user_id": msg})
 
         try:
             user = User.objects.get(pk=user_id)
         except User.DoesNotExist as error:
             msg = "User not found"
-            raise ValidationError(msg) from error
+            raise ValidationError({"user_id": msg}) from error
         group.admins.add(user)
         user.add_team(cast("AuthenticatedHttpRequest", request), group)
         return Response({"Administration rights granted."}, status=HTTP_200_OK)
@@ -852,7 +853,7 @@ class CreditsMixin:
             )
         except (ValueError, MultiValueDictKeyError) as err:
             msg = "Invalid format for `start`"
-            raise BadRequest(msg) from err
+            raise ValidationError({"start": msg}) from err
 
         try:
             end_date = from_current_timezone(
@@ -860,7 +861,7 @@ class CreditsMixin:
             )
         except (ValueError, MultiValueDictKeyError) as err:
             msg = "Invalid format for `end`"
-            raise BadRequest(msg) from err
+            raise ValidationError({"end": msg}) from err
 
         language = None
 
@@ -1147,17 +1148,15 @@ class ProjectViewSet(
         if request.method in {"POST", "PATCH"}:
             try:
                 service_name = request.data["service"]
-            except KeyError:
-                return Response(
-                    {"errors": ["Missing service name"]}, status=HTTP_400_BAD_REQUEST
-                )
+            except KeyError as error:
+                raise ValidationError({"service": "Missing service name"}) from error
 
             service, configuration, errors = validate_service_configuration(
                 service_name, request.data.get("configuration", "{}")
             )
 
             if service is None or errors:
-                return Response({"errors": errors}, status=HTTP_400_BAD_REQUEST)
+                raise ValidationError({"configuration": errors})
 
             if request.method == "PATCH":
                 if configuration:
@@ -1178,10 +1177,7 @@ class ProjectViewSet(
 
             if request.method == "POST":
                 if service_name in project.machinery_settings:
-                    return Response(
-                        {"errors": ["Service already exists"]},
-                        status=HTTP_400_BAD_REQUEST,
-                    )
+                    raise ValidationError({"service": ["Service already exists"]})
 
                 project.machinery_settings[service_name] = configuration
                 project.save(update_fields=["machinery_settings"])
@@ -1199,7 +1195,7 @@ class ProjectViewSet(
                 )
 
                 if service is None or errors:
-                    return Response({"errors": errors}, status=HTTP_400_BAD_REQUEST)
+                    raise ValidationError({"configuration": errors})
 
                 valid_configurations[service_name] = configuration
 
@@ -1310,7 +1306,7 @@ class ComponentViewSet(
 
             if "language_code" not in request.data:
                 msg = "Missing 'language_code' parameter"
-                raise ValidationError(msg)
+                raise ValidationError({"languge_code": msg})
 
             language_code = request.data["language_code"]
 
@@ -1318,7 +1314,7 @@ class ComponentViewSet(
                 language = Language.objects.get(code=language_code)
             except Language.DoesNotExist as error:
                 msg = f"No language code {language_code!r} found!"
-                raise ValidationError(msg) from error
+                raise ValidationError({"language_code": msg}) from error
 
             if not obj.can_add_new_language(request.user):
                 self.permission_denied(request, message=obj.new_lang_error_message)
@@ -1330,7 +1326,7 @@ class ComponentViewSet(
                     message = "\n".join(m.message for m in storage)
                 else:
                     message = f"Could not add {language_code!r}!"
-                raise ValidationError(message)
+                raise ValidationError({"language_code": message})
 
             serializer = TranslationSerializer(
                 translation, context={"request": request}, remove_fields=("component",)
@@ -1429,7 +1425,7 @@ class ComponentViewSet(
             self.permission_denied(request, "Can not edit component")
         if "project_slug" not in request.data:
             msg = "Missing 'project_slug' parameter"
-            raise ValidationError(msg)
+            raise ValidationError({"project_slug": msg})
 
         project_slug = request.data["project_slug"]
 
@@ -1439,7 +1435,7 @@ class ComponentViewSet(
             )
         except Project.DoesNotExist as error:
             msg = f"No project slug {project_slug!r} found!"
-            raise ValidationError(msg) from error
+            raise ValidationError({"project_slug": msg}) from error
 
         instance.links.add(project)
         serializer = self.serializer_class(instance, context={"request": request})
@@ -1679,7 +1675,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             parse_query(query_string)
         except Exception as error:
             msg = f"Could not parse query string: {error}"
-            raise ValidationError(msg) from error
+            raise ValidationError({"q": msg}) from error
 
         queryset = obj.unit_set.search(query_string).order_by("id").prefetch_full()
         page = self.paginate_queryset(queryset)
@@ -1821,7 +1817,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             parse_query(query_string)
         except Exception as error:
             msg = f"Could not parse query string: {error}"
-            raise ValidationError(msg) from error
+            raise ValidationError({"q": msg}) from error
         if query_string:
             result = result.search(query_string)
         return result
@@ -1855,7 +1851,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 self.permission_denied(request, "The string is read-only.")
             if not new_target or new_state is None:
                 msg = "Please provide both state and target for a partial update"
-                raise ValidationError(msg)
+                raise ValidationError({"state": msg, "target": msg})
 
             if new_state not in {
                 STATE_APPROVED,

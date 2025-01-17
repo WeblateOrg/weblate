@@ -18,9 +18,33 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  list-languages:
     runs-on: ubuntu-24.04
+    outputs:
+      languages: ${{ steps.list.outputs.languages }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v5
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    - run: uv run --no-project scripts/list-documentation-languages.py >>"$GITHUB_OUTPUT"
+      id: list
+
+  translations:
+    runs-on: ubuntu-24.04
+    needs:
+    - list-languages
     name: Sphinx
+    # TODO: ignore failures on non-English builds until we fix these
+    continue-on-error: ${{ matrix.language != 'en' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ${{ fromJson(needs.list-languages.outputs.languages) }}
+    env:
+      READTHEDOCS_LANGUAGE: ${{ matrix.language }}
 
     steps:
     - uses: actions/checkout@v4
@@ -43,5 +67,14 @@ jobs:
         echo "::remove-matcher owner=sphinx::"
     - uses: actions/upload-artifact@v4.6.0
       with:
-        name: Documentation
+        name: Documentation ${{ matrix.language }}
         path: docs/_build/html
+
+  build:
+    runs-on: ubuntu-24.04
+    name: Sphinx
+    needs:
+    - translations
+    steps:
+    # This is dependency only job to collect all test results
+    - run: echo

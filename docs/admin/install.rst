@@ -205,7 +205,7 @@ Django REST Framework
 .. list-table:: Optional dependencies
      :header-rows: 1
 
-     * - pip extra
+     * - Optional dependency specifier
        - Python Packages
        - Weblate feature
 

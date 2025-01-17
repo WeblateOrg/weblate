@@ -224,8 +224,9 @@ as shown on the image below:
 
 .. image:: /images/github-settings.png
 
-For the payload URL, append ``/hooks/github/`` to your Weblate URL, for example
-for the Hosted Weblate service, this is ``https://hosted.weblate.org/hooks/github/``.
+The :guilabel:`Payload URL` consists of your Weblate URL appended by
+``/hooks/github/``, for example for the Hosted Weblate service, this is
+``https://hosted.weblate.org/hooks/github/``.
 
 You can leave other values at default settings (Weblate can handle both
 content types and consumes just the `push` event).

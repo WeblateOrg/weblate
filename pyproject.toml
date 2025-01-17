@@ -7,13 +7,9 @@ requires = [
 
 [dependency-groups]
 dev = [
-  "django-debug-toolbar==5.0.1",
-  "PyICU==2.14",
-  "reuse==5.0.2",
-  "scour==0.38.2",
-  "tinyunicodeblock==1.3",
   {include-group = "docs"},
   {include-group = "lint"},
+  {include-group = "scripts"},
   {include-group = "test"},
   {include-group = "types"}
 ]
@@ -23,15 +19,15 @@ docs = [
   "matplotlib==3.10.0",
   "Pillow>=10.3.0,<12",
   "Pygments>=2.17.0,<3.0",
-  "Sphinx==8.1.3",
   "sphinx-copybutton==0.5.2",
   "sphinx-jsonschema==1.19.1",
+  "Sphinx==8.1.3",
   "sphinxcontrib-httpdomain==1.8.1",
   "sphinxext-opengraph==0.9.1"
 ]
 lint = [
-  {include-group = "pylint"},
-  {include-group = "pre-commit"}
+  {include-group = "pre-commit"},
+  {include-group = "pylint"}
 ]
 pre-commit = [
   "pre-commit==4.0.1"
@@ -39,26 +35,34 @@ pre-commit = [
 pylint = [
   "pylint==3.3.3"
 ]
+scripts = [
+  "django-debug-toolbar==5.0.1",
+  "PyICU==2.14",
+  "reuse==5.0.2",
+  "scour==0.38.2",
+  "tinyunicodeblock==1.3"
+]
 test = [
   "coverage==7.6.10",
-  "pytest==8.3.4",
   "pytest-cov==6.0.0",
   "pytest-django==4.9.0",
   "pytest-profiling==1.8.1",
+  "pytest==8.3.4",
   "responses==0.25.6",
   "respx==0.22.0",
   "selenium==4.27.1"
 ]
 types = [
-  "boto3-stubs==1.35.99",
+  "boto3-stubs==1.36.1",
   "celery-types==0.22.0",
   "django-stubs-ext==5.1.2",
   "django-stubs==5.1.2",
   "djangorestframework-stubs==3.15.2",
-  "types-lxml==2024.12.13",
   "mypy==1.14.1",
   "types-dateparser==1.2.0.20240420",
+  "types-docutils==0.21.0.20241128",
   "types-jsonschema==4.23.0.20241208",
+  "types-lxml==2024.12.13",
   "types-openpyxl==3.1.5.20241225",
   "types-Pillow==10.2.0.20240822",
   "types-python-dateutil==2.9.0.20241206",
@@ -66,7 +70,9 @@ types = [
 ]
 
 [project]
-authors = [{name = "Michal Čihař", email = "michal@weblate.org"}]
+authors = [
+  {email = "michal@weblate.org", name = "Michal Čihař"}
+]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Web Environment",
@@ -75,16 +81,16 @@ classifiers = [
   "Intended Audience :: System Administrators",
   "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
   "Operating System :: OS Independent",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
-  "Topic :: Software Development :: Internationalization",
-  "Topic :: Software Development :: Localization",
+  "Programming Language :: Python",
+  "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
   "Topic :: Internet :: WWW/HTTP",
-  "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
+  "Topic :: Software Development :: Internationalization",
+  "Topic :: Software Development :: Localization"
 ]
 dependencies = [
   "aeidon>=1.14.1,<1.16",
@@ -97,8 +103,8 @@ dependencies = [
   "crispy-bootstrap3==2024.1",
   "cryptography>=42.0.4",
   "cssselect>=1.2,<1.3",
-  "Cython>=3.0.0,<3.1",
   "cyrtranslit>=1.1.0,<1.2.0",
+  "Cython>=3.0.0,<3.1",
   "dateparser>=1.2.0,<1.3.0",
   "diff-match-patch==20241021",
   "django-appconf>=1.0.3,<1.1",
@@ -107,12 +113,14 @@ dependencies = [
   "django-cors-headers>=4.3.0,<4.7",
   "django-crispy-forms>=2.3,<2.4",
   "django-filter>=23.4,<24.4",
-  "django-redis>=5.4.0,<6.0",
-  "django-otp>=1.5.2,<2.0",
   "django-otp-webauthn>=0.4.0,<0.5",
+  "django-otp>=1.5.2,<2.0",
+  "django-redis>=5.4.0,<6.0",
   "Django[argon2]>=5.0,<5.2",
   "djangorestframework>=3.15.2,<3.16",
+  "docutils>=0.21.2,<0.22",
   "drf-spectacular[sidecar]>=0.27.2,<0.29",
+  "drf-standardized-errors[openapi]>=0.14.1,<0.15",
   "filelock<4,>=3.16.1",
   "fluent.syntax>=0.18.1,<0.20",
   "GitPython>=3.1.0,<3.2",
@@ -155,10 +163,10 @@ dependencies = [
 ]
 description = "A web-based continuous localization system with tight version control integration"
 keywords = [
-  "i18n",
-  "l10n",
   "gettext",
   "git",
+  "i18n",
+  "l10n",
   "mercurial",
   "translate"
 ]
@@ -176,7 +184,7 @@ all = [
   "weblate[alibaba,amazon,antispam,gerrit,gelf,google,ldap,mercurial,openai,postgres,saml,zxcvbn]"
 ]
 amazon = [
-  "boto3>=1.28.62,<1.36.0"
+  "boto3>=1.28.62,<1.37.0"
 ]
 antispam = [
   "python-akismet>=0.4.2,<0.5"
@@ -188,8 +196,8 @@ gerrit = [
   "git-review>=2.4.0,<2.5.0"
 ]
 google = [
-  "google-cloud-translate>=3.13.0,<4.0",
-  "google-cloud-storage>=2.18.2,<3.0"
+  "google-cloud-storage>=2.18.2,<3.0",
+  "google-cloud-translate>=3.13.0,<4.0"
 ]
 ldap = [
   "django-auth-ldap>=4.6.0,<6.0.0"
@@ -245,34 +253,34 @@ X = "https://x.com/WeblateOrg"
 
 [tool.check-manifest]
 ignore = [
-  ".well-known/*",
-  ".gitmodules",
-  "scripts/*",
-  "scripts/*/*",
-  "scripts/*/*/*",
-  "scripts/*/*/*/*",
-  "docs/*",
-  "docs/*/*",
-  "docs/*/*/*",
-  "docs/*/*/*/*",
-  "client/*",
-  "client/*/*",
-  "ci/*",
-  "dev-docker/*",
-  "dev-docker/*/*",
-  "LICENSES/*",
-  "*.toml",
-  "*.yml",
-  "*.yaml",
   "*.json",
-  "rundev.sh",
+  "*.toml",
+  "*.yaml",
+  "*.yml",
   ".editorconfig",
+  ".gitmodules",
   ".gitmodules",
   ".imgbotconfig",
   ".reuse/dep5",
   ".stylelintrc",
   ".weblate",
-  ".yamllint.yml"
+  ".well-known/*",
+  ".yamllint.yml",
+  "ci/*",
+  "client/*",
+  "client/*/*",
+  "dev-docker/*",
+  "dev-docker/*/*",
+  "docs/*",
+  "docs/*/*",
+  "docs/*/*/*",
+  "docs/*/*/*/*",
+  "LICENSES/*",
+  "rundev.sh",
+  "scripts/*",
+  "scripts/*/*",
+  "scripts/*/*/*",
+  "scripts/*/*/*/*"
 ]
 ignore-bad-ideas = [
   "weblate/trans/tests/data/cs.mo"  # Test data
@@ -298,28 +306,28 @@ source = [
 [tool.coverage.report]
 exclude_also = [
   "@(abc\\.)?abstractmethod",
-  # Have to re-enable the standard pragma
-  "pragma: no cover",
   # Don't complain about missing debug-only code:
   "def __repr__",
-  "if self\\.debug",
-  # Don't complain if tests don't hit defensive assertion code:
-  "raise AssertionError",
-  "raise NotImplementedError",
   # Don't complain if non-runnable code isn't run:
   "if 0:",
   "if __name__ == .__main__.:",
+  "if self\\.debug",
   # Type checking
-  "if TYPE_CHECKING:"
+  "if TYPE_CHECKING:",
+  # Have to re-enable the standard pragma
+  "pragma: no cover",
+  # Don't complain if tests don't hit defensive assertion code:
+  "raise AssertionError",
+  "raise NotImplementedError"
 ]
 
 [tool.coverage.run]
 branch = true
-concurrency = ["thread", "multiprocessing"]
+concurrency = ["multiprocessing", "thread"]
 omit = [
-  "weblate/settings_*.py",
+  ".venv*/*",
   "weblate/settings.py",
-  ".venv*/*"
+  "weblate/settings_*.py"
 ]
 
 [tool.django-stubs]
@@ -359,45 +367,45 @@ plugins = [
 disallow_untyped_defs = true
 ignore_missing_imports = true
 module = [
-  "cyrtranslit.*",
-  "mistletoe.*",
-  "simple_sso.*",
-  "social_django.*",
-  "social_core.*",
-  "ruamel.*",
-  "aliyunsdkcore.*",
-  "aliyunsdkalimt.*",
-  "google.oauth2.*",
-  "user_agents.*",
-  "translation_finder.*",
-  "weblate_language_data.*",
-  "django_redis.*",
-  "pygments.*",
-  "redis_lock.*",
-  "borg.*",
-  "rollbar.*",
-  "crispy_forms.*",
   "akismet.*",
-  "gi.*",
-  "diff_match_patch.*",
-  "saml2.*",
-  "ldap.*",
-  "django_auth_ldap.*",
-  "pyicumessageformat.*",
-  "django_filters.*",
-  "tesserocr.*",
-  "django_celery_beat.*",
-  "translate.*",
+  "aliyunsdkalimt.*",
+  "aliyunsdkcore.*",
   "appconf.*",
-  "wllegal.*",
-  "wlhosted.*",
-  "djangosaml2idp.*",
+  "borg.*",
+  "crispy_forms.*",
+  "cyrtranslit.*",
   "debug_toolbar.*",
-  "weblate_schemas.*",
+  "diff_match_patch.*",
   "django.db.backends.postgresql.psycopg_any",
+  "django_auth_ldap.*",
+  "django_celery_beat.*",
+  "django_filters.*",
   "django_otp.*",
   "django_otp_webauthn.*",
-  "qrcode.*"
+  "django_redis.*",
+  "djangosaml2idp.*",
+  "gi.*",
+  "google.oauth2.*",
+  "ldap.*",
+  "mistletoe.*",
+  "pygments.*",
+  "pyicumessageformat.*",
+  "qrcode.*",
+  "redis_lock.*",
+  "rollbar.*",
+  "ruamel.*",
+  "saml2.*",
+  "simple_sso.*",
+  "social_core.*",
+  "social_django.*",
+  "tesserocr.*",
+  "translate.*",
+  "translation_finder.*",
+  "user_agents.*",
+  "weblate_language_data.*",
+  "weblate_schemas.*",
+  "wlhosted.*",
+  "wllegal.*"
 ]
 
 [tool.pydistcheck]
@@ -408,77 +416,55 @@ max_allowed_size_uncompressed = '300M'
 [tool.pylint.main]
 disable = [
   "C",
-  "W",
-  "R",
-  "I",
-  "no-member",
-  "not-a-mapping",
-  "unsubscriptable-object",
-  "unsupported-membership-test",
-  "not-an-iterable",
-  "unsupported-binary-operation",
   "c-extension-no-member",
-  "not-callable",
+  "I",
+  "import-error",
   "invalid-str-returned",
-  "raising-bad-type",
+  "no-member",
   "no-name-in-module",
-  "import-error"
+  "not-a-mapping",
+  "not-an-iterable",
+  "not-callable",
+  "R",
+  "raising-bad-type",
+  "unsubscriptable-object",
+  "unsupported-binary-operation",
+  "unsupported-membership-test",
+  "W"
 ]
 extension-pkg-whitelist = ["siphashc"]
 ignore = [
+  ".git",
+  ".venv",
+  "build",
   "migrations",
+  "repos",
   "settings.py",
   "settings_test.py",
-  ".git",
-  "test-repos",
-  "repos",
-  "build",
-  ".venv"
+  "test-repos"
 ]
 
 [tool.pytest.ini_options]
+addopts = "--reuse-db --cov=weblate --cov-report= --durations=20 --durations-min=2 --ignore=data --ignore=data-test --ignore=dev-docker --ignore=scripts"
 DJANGO_SETTINGS_MODULE = "weblate.settings_test"
 FAIL_INVALID_TEMPLATE_VARS = true
-addopts = "--reuse-db --cov=weblate --cov-report= --durations=20 --durations-min=2 --ignore=data --ignore=data-test --ignore=dev-docker --ignore=scripts"
 python_files = ["test_*.py", "tests.py"]
 
 [tool.ruff.lint]
 extend-safe-fixes = [
+  "ANN",
   "D",
-  "TCH",
+  "FA102",
   "FLY",
   "SIM",
-  "ANN",
-  "FA102",
+  "TCH",
   "UP"
 ]
 # CONFIG - intentional configuration
 # TODO - needs decision whether intention, add noqa tags or fix
 # WONTFIX - not fixable in current codebase, might be better to go for noqa
 ignore = [
-  "COM",  # CONFIG: No trailing commas
-  "PT",  # CONFIG: Not using pytest
-  "D203",  # CONFIG: incompatible with D211
-  "D212",  # CONFIG: incompatible with D213
-  "FIX002",  # CONFIG: we use TODO
-  "TD002",  # CONFIG: no detailed TODO documentation is required
-  "TD003",  # CONFIG: no detailed TODO documentation is required
-  "S404",  # CONFIG: `subprocess` module is possibly insecure
-  "S603",  # CONFIG: `subprocess` call: check for execution of untrusted input
-  "S607",  # CONFIG: executing system installed tools
-  "D206",  # CONFIG: formatter
-  'ISC001',  # CONFIG: formatter
-  'Q000',  # CONFIG: formatter
-  'Q001',  # CONFIG: formatter
-  'Q002',  # CONFIG: formatter
-  'Q003',  # CONFIG: formatter
-  'W191',  # CONFIG: formatter
-  "E203",  # CONFIG: formatter
-  "PTH",  # TODO: Not using pathlib
-  "FBT",  # TODO: Boolean in function definition
-  "BLE001",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
-  "ARG001",  # TODO: Unused function argument (mostly for API compatibility)
-  "ARG002",  # TODO: Unused method argument (mostly for API compatibility)
+  "A005",  # WONTFIX: Module is shadowing a Python builtin module
   "ANN001",  # TODO: Missing type annotation for function argument
   "ANN002",  # TODO: Missing type annotation for `*args`
   "ANN003",  # TODO: Missing type annotation for `**kwargs`
@@ -487,6 +473,10 @@ ignore = [
   "ANN204",  # TODO: Missing return type annotation for special method
   "ANN205",  # TODO: Missing return type annotation for staticmethod
   "ANN206",  # TODO: Missing return type annotation for classmethod
+  "ARG001",  # TODO: Unused function argument (mostly for API compatibility)
+  "ARG002",  # TODO: Unused method argument (mostly for API compatibility)
+  "BLE001",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
+  "COM",  # CONFIG: No trailing commas
   "D100",  # TODO: Missing docstring in public module
   "D101",  # TODO: Missing docstring in public class
   "D102",  # TODO: Missing docstring in public method
@@ -495,20 +485,38 @@ ignore = [
   "D105",  # TODO: Missing docstring in magic method
   "D106",  # TODO: Missing docstring in public nested class
   "D107",  # TODO: Missing docstring in `__init__`
+  "D203",  # CONFIG: incompatible with D211
+  "D206",  # CONFIG: formatter
+  "D212",  # CONFIG: incompatible with D213
   "DOC",  # TODO: Ignore all pydoclint rules for now
-  "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
+  "E203",  # CONFIG: formatter
+  "E501",  # WONTFIX: we accept long strings (rest is formatted by black)
+  "FBT",  # TODO: Boolean in function definition
+  "FIX002",  # CONFIG: we use TODO
+  "FURB101",  # TODO:  `open` and `read` should be replaced by `Path(hostsfile).read_text()`
+  "FURB103",  # TODO: `open` and `write` should be replaced by `Path(name).write_text(content)`
   "PERF203",  # WONTFIX: This rule is only enforced for Python versions prior to 3.11
-  "PLR6301",  # TODO: Method could be a function, class method, or static method
-  "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
   "PLC0415",  # TODO: `import` should be at the top-level of a file
+  "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
+  "PLR6301",  # TODO: Method could be a function, class method, or static method
+  "PLW1514",  # TODO: `open` in text mode without explicit `encoding` argument
+  "PLW2901",  # TODO: overwriting variables inside loop
+  "PT",  # CONFIG: Not using pytest
+  "PTH",  # TODO: Not using pathlib
   "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
   "RUF012",  # TODO: Mutable class attributes should be annotated with `typing.ClassVar`
-  "E501",  # WONTFIX: we accept long strings (rest is formatted by black)
-  "A005",  # WONTFIX: Module is shadowing a Python builtin module
-  "PLW2901",  # TODO: overwriting variables inside loop
-  "PLW1514",  # TODO: `open` in text mode without explicit `encoding` argument
-  "FURB101",  # TODO:  `open` and `read` should be replaced by `Path(hostsfile).read_text()`
-  "FURB103"  # TODO: `open` and `write` should be replaced by `Path(name).write_text(content)`
+  "S404",  # CONFIG: `subprocess` module is possibly insecure
+  "S603",  # CONFIG: `subprocess` call: check for execution of untrusted input
+  "S607",  # CONFIG: executing system installed tools
+  "TD002",  # CONFIG: no detailed TODO documentation is required
+  "TD003",  # CONFIG: no detailed TODO documentation is required
+  "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
+  'ISC001',  # CONFIG: formatter
+  'Q000',  # CONFIG: formatter
+  'Q001',  # CONFIG: formatter
+  'Q002',  # CONFIG: formatter
+  'Q003',  # CONFIG: formatter
+  'W191'  # CONFIG: formatter
 ]
 preview = true
 select = ["ALL"]
@@ -523,9 +531,9 @@ max-complexity = 16  # TODO: should be lower
 
 [tool.ruff.lint.per-file-ignores]
 "docs/_ext/djangodocs.py" = ["INP001"]
-"docs/conf.py" = ["INP001", "ERA001"]
+"docs/conf.py" = ["ERA001", "INP001"]
 "scripts/*" = ["T201", "T203"]
-"weblate/*/tests**.py" = ["S106", "S105"]
+"weblate/*/tests**.py" = ["S105", "S106"]
 "weblate/auth/migrations/0003_fixup_teams.py" = ["T201"]
 "weblate/examples/*.py" = ["INP001"]
 "weblate/settings_*.py" = ["F405"]
@@ -552,5 +560,12 @@ zip-safe = false
 [tool.setuptools.packages]
 find = {namespaces = false}
 
+[tool.tomlsort]
+ignore_case = true
+sort_inline_arrays = true
+sort_inline_tables = true
+sort_table_keys = true
+spaces_before_inline_comment = 2
+
 [tool.uv.sources]
-wlhosted = {path = "../hosted", editable = true}
+wlhosted = {editable = true, path = "../hosted"}

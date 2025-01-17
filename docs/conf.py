@@ -101,7 +101,14 @@ ogp_social_cards = {
     "image": "../weblate/static/logo-1024.png",
     "line_color": "#144d3f",
     "site_url": "docs.weblate.org",
-    "font": ["Source Sans 3", "Kurinto Sans"],
+    "font": [
+        "Source Sans 3",
+        "Kurinto Sans JP",
+        "Kurinto Sans KR",
+        "Kurinto Sans SC",
+        "Kurinto Sans TC",
+        "Kurinto Sans",
+    ],
 }
 ogp_custom_meta_tags = [
     '<meta property="fb:app_id" content="741121112629028" />',
@@ -247,6 +254,9 @@ graphviz_output_format = "svg"
 
 # Use localized Python docs on Read the Docs build
 language = os.environ.get("READTHEDOCS_LANGUAGE", "en")
+# RTD uses no but the correct code is nb
+if language == "no":
+    language = "nb"
 if "-" in language:
     # RTD normalized their language codes to ll-cc (e.g. zh-cn),
     # but Sphinx did not and still uses ll_CC (e.g. zh_CN).
@@ -314,6 +324,10 @@ intersphinx_mapping = {
     "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
     "pip": ("https://pip.pypa.io/en/stable/", None),
     "compressor": ("https://django-compressor.readthedocs.io/en/stable/", None),
+    "drf-standardized-error": (
+        "https://drf-standardized-errors.readthedocs.io/en/latest/",
+        None,
+    ),
 }
 intersphinx_disabled_reftypes = ["*"]
 

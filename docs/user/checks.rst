@@ -964,7 +964,7 @@ This check applies to all components in a project that have
 Inconsistent reStructuredText references
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. versionchanged:: 5.10
+.. versionadded:: 5.10
 
 :Summary: Inconsistent reStructuredText term references in the translated message.
 :Scope: translated strings
@@ -1385,6 +1385,21 @@ translation file or defined manually using ``regex`` flag:
 
    regex:^foo|bar$
 
+.. _check-rst-syntax:
+
+reStructuredText syntax error
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.10
+
+:Summary: reStructuredText syntax error in the translation.
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.RSTSyntaxCheck``
+:Check identifier: ``rst-syntax``
+:Flag to enable: ``rst-text``
+:Flag to ignore: ``ignore-rst-syntax``
+
+reStructuredText syntax error in the translation.
 
 .. _check-reused:
 

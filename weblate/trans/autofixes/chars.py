@@ -16,6 +16,7 @@ from weblate.checks.chars import (
     PunctuationSpacingCheck,
     ZeroWidthSpaceCheck,
 )
+from weblate.checks.same import RST_MATCH
 from weblate.formats.helpers import CONTROLCHARS_TRANS
 from weblate.trans.autofixes.base import AutoFix
 
@@ -106,13 +107,24 @@ class PunctuationSpacing(AutoFix):
     def fix_single_target(
         self, target: str, source: str, unit: Unit
     ) -> tuple[str, bool]:
+        def spacing_replace(matchobj: re.Match) -> str:
+            if "rst-text" in unit.all_flags:
+                offset = matchobj.start(2)
+                rst_position = RST_MATCH.search(target, offset)
+                if rst_position is not None and rst_position.start(0) == offset:
+                    # Skip escaping inside rst tag
+                    return matchobj.group(0)
+            return f"\u00a0{matchobj.group(2)}"
+
         if (
             unit.translation.language.is_base(("fr", "br"))
             and unit.translation.language.code != "fr_CA"
             and "ignore-punctuation-spacing" not in unit.all_flags
         ):
             # Fix existing
-            new_target = re.sub(FRENCH_PUNCTUATION_FIXUP_RE_NBSP, "\u00a0\\2", target)
+            new_target = re.sub(
+                FRENCH_PUNCTUATION_FIXUP_RE_NBSP, spacing_replace, target
+            )
             new_target = re.sub(
                 FRENCH_PUNCTUATION_FIXUP_RE_NNBSP, "\u202f\\2", new_target
             )

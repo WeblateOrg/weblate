@@ -36,7 +36,7 @@ Having navigated to a component, a set of links lead to its actual translation.
 The translation is further divided into individual checks, like
 :guilabel:`Untranslated strings` or :guilabel:`Unfinished strings`.
 If the whole project is already translated without any errors, :guilabel:`All strings`
-is still available. Alternatively you can use the :ref:`Search <Searching>` feature
+is still available. Alternatively you can use the :doc:`Search </user/search>` feature
 to find a specific string or term.
 
 
@@ -235,7 +235,7 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+1` to :kbd:`Cmd+9`              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+M` followed by                 | Copy the machine translation of given number to current translation.  |
+| :kbd:`Ctrl+M` followed by                 | Copy the machine translation of a given number to current translation.|
 | :kbd:`1` to :kbd:`9` or                   |                                                                       |
 |                                           |                                                                       |
 | :kbd:`Cmd+M` followed by                  |                                                                       |
