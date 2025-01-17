@@ -30,7 +30,7 @@ Not yet released.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* There are several changes in :file:`settings_example.py`, most notable is changes in ``REST_FRAMEWORK`` and ``DRF_STANDARDIZED_ERRORS``, please adjust your settings accordingly.
+* There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 * API error responses format has changed, see :ref:`api-errors`.
 
 **Contributors**
