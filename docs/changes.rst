@@ -7,6 +7,7 @@ Not yet released.
 
 * :ref:`check-rst-references` check to validate reStructuredText references.
 * New `bbcode-text` flag to activate BBCode check was added, see :ref:`custom-checks`.
+* :ref:`check-rst-syntax` check to validate reStructuredText syntax.
 
 **Improvements**
 
@@ -15,7 +16,7 @@ Not yet released.
 * :guilabel:`Synchronize` on shared repository now operates on all its components.
 * :ref:`check-punctuation-spacing` ignores markup such as Markdown or reStructuredText.
 * :ref:`autofix-punctuation-spacing` does not alter reStructuredText markup.
-* Improved validation errors in :doc:`/api`.
+* Improved validation errors in :doc:`/api`, see :ref:`api-errors`.
 
 **Bug fixes**
 
@@ -29,6 +30,9 @@ Not yet released.
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
+* API error responses format has changed, see :ref:`api-errors`.
 
 **Contributors**
 

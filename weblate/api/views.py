@@ -14,7 +14,7 @@ from celery.result import AsyncResult
 from django.conf import settings
 from django.contrib.messages import get_messages
 from django.core.cache import cache
-from django.core.exceptions import BadRequest, PermissionDenied
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models import Model, Q
 from django.forms.utils import from_current_timezone
@@ -22,12 +22,13 @@ from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
-from django.utils.translation import gettext
+from django.utils.translation import gettext, gettext_lazy
 from django_filters import rest_framework as filters
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
+from drf_standardized_errors.handler import ExceptionHandler
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
@@ -42,7 +43,7 @@ from rest_framework.status import (
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
 from rest_framework.utils import formatting
-from rest_framework.views import APIView, exception_handler
+from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 
 from weblate.accounts.models import Subscription
@@ -146,18 +147,19 @@ description of the API.</p>
 """
 
 
-def weblate_exception_handler(exc, context):
-    # Call REST framework's default exception handler first,
-    # to get the standard error response.
-    response = exception_handler(exc, context)
+class LockedError(APIException):
+    status_code = HTTP_423_LOCKED
+    default_detail = gettext_lazy(
+        "Could not obtain repository lock to perform the operation."
+    )
+    default_code = "repository-locked"
 
-    if response is None and isinstance(exc, WeblateLockTimeoutError):
-        return Response(
-            data={"error": "Could not obtain repository lock to delete the string."},
-            status=HTTP_423_LOCKED,
-        )
 
-    return response
+class WeblateExceptionHandler(ExceptionHandler):
+    def convert_known_exceptions(self, exc: Exception) -> Exception:
+        if isinstance(exc, WeblateLockTimeoutError):
+            return LockedError()
+        return super().convert_known_exceptions(exc)
 
 
 def get_view_description(view, html=False):
@@ -851,7 +853,7 @@ class CreditsMixin:
             )
         except (ValueError, MultiValueDictKeyError) as err:
             msg = "Invalid format for `start`"
-            raise BadRequest(msg) from err
+            raise ValidationError({"start": msg}) from err
 
         try:
             end_date = from_current_timezone(
@@ -859,7 +861,7 @@ class CreditsMixin:
             )
         except (ValueError, MultiValueDictKeyError) as err:
             msg = "Invalid format for `end`"
-            raise BadRequest(msg) from err
+            raise ValidationError({"end": msg}) from err
 
         language = None
 

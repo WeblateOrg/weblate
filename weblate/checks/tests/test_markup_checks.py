@@ -12,6 +12,7 @@ from weblate.checks.markup import (
     MarkdownRefLinkCheck,
     MarkdownSyntaxCheck,
     RSTReferencesCheck,
+    RSTSyntaxCheck,
     SafeHTMLCheck,
     URLCheck,
     XMLTagsCheck,
@@ -496,4 +497,82 @@ class RSTReferencesCheckTest(CheckTestCase):
                 ":kbd:`Ctrl+Inicio`",
                 "rst-text",
             ),
+        )
+
+
+class RSTSyntaxCheckTest(CheckTestCase):
+    check = RSTSyntaxCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        base = "``foo``"
+        self.test_good_matching = (base, base, "rst-text")
+        self.test_good_none = (base, base, "")
+        self.test_good_flag = ("string", "string", "rst-text")
+        self.test_failure_1 = (base, "``foo`", "rst-text")
+        self.test_failure_2 = (base, ":ref:`foo`bar", "rst-text")
+        self.test_failure_3 = (base, ":ref:`foo bar` `", "rst-text")
+
+    def test_roles(self) -> None:
+        self.do_test(
+            False,
+            (
+                ":abcde:`Ctrl+Home`",
+                ":abcde:`Ctrl+Home`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                ":abcde:`Ctrl+Home`",
+                ":defgh:`Ctrl+Home`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_",
+                "`Webhooks în manualul Gitea <https://docs.gitea.io/en-us/webhooks/>``_",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_",
+                "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "`Webhooks in Gitea manual`_",
+                "`Webhooks in Gitea manual`_",
+                "rst-text",
+            ),
+        )
+
+    def test_description(self) -> None:
+        unit = Unit(
+            source=":ref:`bar`",
+            target=":ref:`bar",
+            extra_flags="rst-text",
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language(code="en"),
+                ),
+                plural=Plural(),
+            ),
+        )
+        check = Check(unit=unit)
+        self.assertHTMLEqual(
+            self.check.get_description(check),
+            """
+            The following errors were found:<br>
+            Inline interpreted text or phrase reference start-string without end-string.
+            """,
         )

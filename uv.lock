@@ -287,16 +287,16 @@ wheels = [
 
 [[package]]
 name = "boto3-stubs"
-version = "1.36.0"
+version = "1.36.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "botocore-stubs" },
     { name = "types-s3transfer" },
     { name = "typing-extensions", marker = "python_full_version < '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7d/71/d2e9cfb5b00bff546f960a91d4127b7da4c83c556367c806272b007ddb86/boto3_stubs-1.36.0.tar.gz", hash = "sha256:2f766cb3a10000c08464f4894cce607f65704619c96971970fd49a681d0875b3", size = 98586 }
+sdist = { url = "https://files.pythonhosted.org/packages/25/0d/1f85e86a56e817c5bd09d519392ee4303fa747101006bbda941edadf37d2/boto3_stubs-1.36.1.tar.gz", hash = "sha256:d7cbf8aab4eacf0988a879243bbb5cd3139f08f83e82c9556c3412d71373840f", size = 98577 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ab/83/5b75d7dd7c5da2982a26d7a5ce24e76bcc060dcb714763fcddb7c7628505/boto3_stubs-1.36.0-py3-none-any.whl", hash = "sha256:87376acbbde3aeeea301aefb1e7725be2aa7b9d7ebcc340a8ce0bdcfa10b8e95", size = 68229 },
+    { url = "https://files.pythonhosted.org/packages/f2/d7/d21eeab1f4605fc6b5481290f21066288b4506bb8bd9ed6be4b4224dcf28/boto3_stubs-1.36.1-py3-none-any.whl", hash = "sha256:ddc44b30598067a6c20bd8df4e72cf4155be8dc29fb2cd3e7ed26149cf7dd69a", size = 68236 },
 ]
 
 [[package]]
@@ -1208,6 +1208,25 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/7c/42/d4fb1284412e51c991fc1da051d7799063a9070a09750def92ae9fb255eb/drf_spectacular_sidecar-2024.12.1.tar.gz", hash = "sha256:6be31df38bcf95681224b6550faa9344ee6dd5360dcf2b44afcc3f7460385613", size = 2385777 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2c/b4/250f5c3073835f04997c2ff489cbba51de5e29b4e1deb96d949859c0bd72/drf_spectacular_sidecar-2024.12.1-py3-none-any.whl", hash = "sha256:e30821d150d29294f3be2018aab31b55cd724158e9e690b51a215264751aa8c7", size = 2405338 },
+]
+
+[[package]]
+name = "drf-standardized-errors"
+version = "0.14.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "djangorestframework" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4d/cc/fd5b8cbc66c361125cba0497573a5ecac94521a715267d7db4d113257a73/drf_standardized_errors-0.14.1.tar.gz", hash = "sha256:0610dcd0096b75365102d276022a22e59a1f8db8825bb0bff05e1b7194ba145d", size = 58730 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/44/70/589efc32d6f268576e2f3c2a595ef19a305c5d5acbfd26d10ebd45278778/drf_standardized_errors-0.14.1-py3-none-any.whl", hash = "sha256:4941e0f81be94eb0904549999cf221988a5b0f524041c3877530e24f70328ed8", size = 25512 },
+]
+
+[package.optional-dependencies]
+openapi = [
+    { name = "drf-spectacular" },
+    { name = "inflection" },
 ]
 
 [[package]]
@@ -3939,6 +3958,15 @@ wheels = [
 ]
 
 [[package]]
+name = "types-docutils"
+version = "0.21.0.20241128"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/dd/df/64e7ab01a4fc5ce46895dc94e31cffc8b8087c8d91ee54c45ac2d8d82445/types_docutils-0.21.0.20241128.tar.gz", hash = "sha256:4dd059805b83ac6ec5a223699195c4e9eeb0446a4f7f2aeff1759a4a7cc17473", size = 26739 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/59/b6/10ba95739f2cbb9c5bd2f6568148d62b468afe01a94c633e8892a2936d8a/types_docutils-0.21.0.20241128-py3-none-any.whl", hash = "sha256:e0409204009639e9b0bf4521eeabe58b5e574ce9c0db08421c2ac26c32be0039", size = 34677 },
+]
+
+[[package]]
 name = "types-html5lib"
 version = "1.1.11.20241018"
 source = { registry = "https://pypi.org/simple" }
@@ -4201,7 +4229,9 @@ dependencies = [
     { name = "django-otp-webauthn" },
     { name = "django-redis" },
     { name = "djangorestframework" },
+    { name = "docutils" },
     { name = "drf-spectacular", extra = ["sidecar"] },
+    { name = "drf-standardized-errors", extra = ["openapi"] },
     { name = "filelock" },
     { name = "fluent-syntax" },
     { name = "gitpython" },
@@ -4347,6 +4377,7 @@ dev = [
     { name = "sphinxext-opengraph" },
     { name = "tinyunicodeblock" },
     { name = "types-dateparser" },
+    { name = "types-docutils" },
     { name = "types-jsonschema" },
     { name = "types-lxml" },
     { name = "types-openpyxl" },
@@ -4401,6 +4432,7 @@ types = [
     { name = "djangorestframework-stubs" },
     { name = "mypy" },
     { name = "types-dateparser" },
+    { name = "types-docutils" },
     { name = "types-jsonschema" },
     { name = "types-lxml" },
     { name = "types-openpyxl" },
@@ -4442,7 +4474,9 @@ requires-dist = [
     { name = "django-zxcvbn-password", marker = "extra == 'zxcvbn'", specifier = "==2.1.1" },
     { name = "djangorestframework", specifier = ">=3.15.2,<3.16" },
     { name = "djangosaml2idp", marker = "extra == 'saml2idp'", specifier = "==0.7.2" },
+    { name = "docutils", specifier = ">=0.21.2,<0.22" },
     { name = "drf-spectacular", extras = ["sidecar"], specifier = ">=0.27.2,<0.29" },
+    { name = "drf-standardized-errors", extras = ["openapi"], specifier = ">=0.14.1,<0.15" },
     { name = "filelock", specifier = ">=3.16.1,<4" },
     { name = "fluent-syntax", specifier = ">=0.18.1,<0.20" },
     { name = "git-review", marker = "extra == 'gerrit'", specifier = ">=2.4.0,<2.5.0" },
@@ -4499,7 +4533,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "boto3-stubs", specifier = "==1.36.0" },
+    { name = "boto3-stubs", specifier = "==1.36.1" },
     { name = "celery-types", specifier = "==0.22.0" },
     { name = "coverage", specifier = "==7.6.10" },
     { name = "django-debug-toolbar", specifier = "==5.0.1" },
@@ -4531,6 +4565,7 @@ dev = [
     { name = "sphinxext-opengraph", specifier = "==0.9.1" },
     { name = "tinyunicodeblock", specifier = "==1.3" },
     { name = "types-dateparser", specifier = "==1.2.0.20240420" },
+    { name = "types-docutils", specifier = "==0.21.0.20241128" },
     { name = "types-jsonschema", specifier = "==4.23.0.20241208" },
     { name = "types-lxml", specifier = "==2024.12.13" },
     { name = "types-openpyxl", specifier = "==3.1.5.20241225" },
@@ -4574,13 +4609,14 @@ test = [
     { name = "selenium", specifier = "==4.27.1" },
 ]
 types = [
-    { name = "boto3-stubs", specifier = "==1.36.0" },
+    { name = "boto3-stubs", specifier = "==1.36.1" },
     { name = "celery-types", specifier = "==0.22.0" },
     { name = "django-stubs", specifier = "==5.1.2" },
     { name = "django-stubs-ext", specifier = "==5.1.2" },
     { name = "djangorestframework-stubs", specifier = "==3.15.2" },
     { name = "mypy", specifier = "==1.14.1" },
     { name = "types-dateparser", specifier = "==1.2.0.20240420" },
+    { name = "types-docutils", specifier = "==0.21.0.20241128" },
     { name = "types-jsonschema", specifier = "==4.23.0.20241208" },
     { name = "types-lxml", specifier = "==2024.12.13" },
     { name = "types-openpyxl", specifier = "==3.1.5.20241225" },
