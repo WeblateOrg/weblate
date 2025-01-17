@@ -89,6 +89,7 @@ RST_TRANSLATABLE = {
     ":sup:",
     ":kbd:",
     ":index:",
+    ":samp:",
 }
 
 RST_ROLE_RE = [
