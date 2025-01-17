@@ -399,8 +399,8 @@ class RSTReferencesCheckTest(CheckTestCase):
 
     def test_description(self) -> None:
         unit = Unit(
-            source=":ref:`bar`",
-            target=":ref:`bar <baz>`",
+            source=":ref:`bar` `baz`_",
+            target=":ref:`bar <baz>` `baz`",
             extra_flags="rst-text",
             translation=Translation(
                 component=Component(
@@ -419,6 +419,10 @@ class RSTReferencesCheckTest(CheckTestCase):
             <br />
             The following format strings are extra:
             <span class="hlcheck" data-value=":ref:`bar &lt;baz&gt;`">:ref:`bar &lt;baz&gt;`</span>
+            <br>
+            The following errors were found:
+            <br>
+            Inconsistent links in the translated message.
             """,
         )
 
@@ -532,6 +536,33 @@ class RSTReferencesCheckTest(CheckTestCase):
             (
                 "Context [#c]_",
                 "Kontext [#c]_",
+                "rst-text",
+            ),
+        )
+
+    def test_links(self) -> None:
+        self.do_test(
+            True,
+            (
+                "Context `c`_",
+                "Kontext",
+                "rst-text",
+            ),
+        )
+        # Missing underscore
+        self.do_test(
+            True,
+            (
+                "Context `c`_",
+                "Kontext `c`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "Context `c`_",
+                "Kontext `c`_",
                 "rst-text",
             ),
         )
