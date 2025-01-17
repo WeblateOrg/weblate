@@ -479,8 +479,16 @@ def validate_rst_snippet(
         elif message.startswith("Unknown target name:") and "`" not in message:
             # Translating targets is okay, just catch obvious errors
             return
-        elif message.startswith("No role entry"):
-            # Ignore as this duplicates Unknown interpreted in our case
+        elif message.startswith(
+            (
+                # Duplicates Unknown interpreted in our case
+                "No role entry",
+                # Can not work on snippets
+                "Too many autonumbered footnote",
+                # Can not work on snippets
+                "Enumerated list start value not ordinal",
+            )
+        ):
             return
         errors.append(message)
 
