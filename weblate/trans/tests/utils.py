@@ -257,7 +257,7 @@ class RepoTestMixin:
     def create_po_empty(self, project=None):
         kwargs = {"new_base": "po-empty/hello.pot", "new_lang": "add"}
         if project:
-            kwargs |= {"project": project}
+            kwargs["project"] = project
 
         return self._create_component("po", "po-empty/*.po", **kwargs)
 

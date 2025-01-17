@@ -788,25 +788,30 @@ class PluralMapperTestCase(FixtureTestCase):
             self.assertEqual(arabic.get_aliases_names(), ["ar_ar", "ara", "arb"])
 
 
-class LanguageAliasesEditTest(ViewTestCase):
+class LanguageAliasesChangeTest(ViewTestCase):
+    """Simulate language aliases change in weblate_language_data and test results."""
+
     old_code = "it"
     new_code = "it_XX"
 
     def setUp(self):
+        """Set up test environment."""
         super().setUp()
 
         def update_codes_in_dict(data: dict) -> dict:
+            """Replace old_code key with new_code in a language dict."""
             copy = data.copy()
-            cs = copy.pop(self.old_code)
-            copy[self.new_code] = cs
+            value = copy.pop(self.old_code)
+            copy[self.new_code] = value
             return copy
 
         def update_code_in_tuple(data: tuple) -> tuple:
+            """Replace old_code with new_code in a language tuple."""
             new_data = []
             for item in data:
                 if item[0] == self.old_code:
-                    item = tuple([self.new_code], *item[1:])
-                new_data.append(tuple(item))
+                    item = tuple(self.new_code, *item[1:])
+                new_data.append(item)
             return tuple(new_data)
 
         updated_aliases = ALIASES | {self.old_code: self.new_code}
@@ -833,13 +838,17 @@ class LanguageAliasesEditTest(ViewTestCase):
             patcher.start()
 
     def tearDown(self):
+        """Tear down after tests."""
         super().tearDown()
         patch.stopall()
 
     def do_alias_language_update_and_check(
         self, new_language_created: bool = True, old_language_deleted: bool = True
     ):
+        """Test alias language update."""
+
         def component_language_codes():
+            """Get current language codes for component translations."""
             return [
                 translation.language.code
                 for translation in self.component.translation_set.all()
@@ -848,23 +857,25 @@ class LanguageAliasesEditTest(ViewTestCase):
         self.assertIn(self.old_code, component_language_codes())
         logs: list[str] = []
         Language.objects.setup(True, logs.append)
-        self.assertEqual(
-            f"Created language {self.new_code}" in logs, new_language_created
-        )
+        if new_language_created:
+            self.assertIn(f"Created language {self.new_code}", logs)
+        else:
+            self.assertNotIn(f"Created language {self.new_code}", logs)
 
         self.assertIn(self.new_code, component_language_codes())
-        self.assertEqual(
-            self.old_code in component_language_codes(), not old_language_deleted
-        )
-        # alias language should be deleted if blank
-        self.assertNotEqual(
-            Language.objects.filter(code=self.old_code).exists(), old_language_deleted
-        )
+        if old_language_deleted:
+            # alias language should be deleted if blank
+            self.assertFalse(Language.objects.filter(code=self.old_code).exists())
+        else:
+            self.assertIn(self.old_code, component_language_codes())
+            self.assertTrue(Language.objects.filter(code=self.old_code).exists())
 
     def test_update_language_alias(self):
+        """Test simple alias change."""
         self.do_alias_language_update_and_check()
 
     def test_update_language_alias_no_deletion(self):
+        """Test alias change with no deletion of old language."""
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
         self.component.save()
