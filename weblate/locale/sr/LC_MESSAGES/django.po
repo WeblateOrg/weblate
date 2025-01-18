@@ -1978,7 +1978,7 @@ msgstr "Веблејтов REST API"
 #, fuzzy
 #| msgid "Could not lock the repository, another operation is in progress."
 msgid "Could not obtain repository lock to perform the operation."
-msgstr "Нисмо могли закључати складиште, друга операција је у току."
+msgstr "Није могао добити катанац складишта да изврши операцију."
 
 #: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -3060,7 +3060,7 @@ msgstr "Следеће форматске ниске су вишак: {}"
 #, fuzzy
 #| msgid "The following occurrences were found:"
 msgid "The following errors were found:"
-msgstr "Нађена су следећа појављивања:"
+msgstr "Следеће грешке су пронађене:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -4099,16 +4099,17 @@ msgid "Inconsistent reStructuredText references"
 msgstr "Неконзистентне reStructuredText референце"
 
 #: weblate/checks/markup.py:400
+#, fuzzy
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
-msgstr ""
+msgstr "Неконзистентне reStructuredText референце термина у преведеној поруци."
 
 #: weblate/checks/markup.py:432
 #, fuzzy
 #| msgid "%(count)s string is not being translated here."
 #| msgid_plural "%(count)s strings are not being translated here."
 msgid "Inconsistent links in the translated message."
-msgstr "%(count)s ниска није преведена овде."
+msgstr "Неконзистентне везе у преведеној поруци."
 
 #: weblate/checks/markup.py:545
 #, fuzzy
@@ -5401,7 +5402,7 @@ msgstr "Фајл"
 #| msgid ""
 #| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
 msgid "You can upload a file of following formats: %s."
-msgstr "Можете отпремити фајл следећих формата: TMX, JSON, XLIFF, PO, CSV."
+msgstr "Можете отпремити фајл следећих формата: %s."
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5432,7 +5433,7 @@ msgstr "Потврдите брисање свих уноса из превод�
 #, fuzzy, python-format
 #| msgid "Unsupported image type: %s"
 msgid "Unsupported file extension: %s"
-msgstr "Неподржан тип слике: %s"
+msgstr "Неподржана екстензија фајла: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -7071,7 +7072,7 @@ msgstr "Подеси"
 #, fuzzy
 #| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
-msgstr "Додаци могу бити инсталирани и на нивоу пројекта и компоненте."
+msgstr "Додаци могу такође бити инсталирани на нивоу пројекта и компоненте."
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -7097,7 +7098,7 @@ msgstr "Доступни додаци"
 #, fuzzy
 #| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "Додатак се може инсталирати само на ову компоненту."
+msgstr "Додатак може бити инсталиран само на нивоу компоненте."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -8125,7 +8126,7 @@ msgstr "Снимци екрана"
 #, fuzzy
 #| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "Дуплирај компоненту"
+msgstr "Дуплирајте ову компоненту"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -10989,8 +10990,11 @@ msgstr ""
 "пројектом/организацијом као и складиште изворног кода."
 
 #: weblate/templates/snippets/libre-basic.html:16
+#, fuzzy
 msgid "Non-code projects (such as books or graphic content) are also welcome."
 msgstr ""
+"Пројекти који нису код (као што су књиге или графички садржај) су такође "
+"добродошли."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
