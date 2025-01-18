@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+from django.contrib.admindocs.utils import docutils_is_available
+
 from weblate.checks.markup import (
     BBCodeCheck,
     MarkdownLinkCheck,
@@ -451,6 +453,14 @@ class RSTReferencesCheckTest(CheckTestCase):
                 "rst-text",
             ),
         )
+        self.do_test(
+            True,
+            (
+                ":ref:`acl`",
+                ":tag:`acl`",
+                "rst-text",
+            ),
+        )
 
     def test_option_space(self) -> None:
         self.do_test(
@@ -619,6 +629,18 @@ class RSTSyntaxCheckTest(CheckTestCase):
             (
                 "`Webhooks in Gitea manual`_",
                 "`Webhooks in Gitea manual`_",
+                "rst-text",
+            ),
+        )
+
+    def test_admindocs_tags(self):
+        # admindocs registers own parsers which fail without specific settings
+        self.assertTrue(docutils_is_available)
+        self.do_test(
+            False,
+            (
+                ":tag:`acl`",
+                ":tag:`acl`",
                 "rst-text",
             ),
         )

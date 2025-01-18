@@ -475,7 +475,16 @@ class RSTReferencesCheck(RSTBaseCheck):
 def get_rst_publisher() -> Publisher:
     publisher = Publisher(settings=None)
     publisher.set_components("standalone", "restructuredtext", "null")
-    publisher.get_settings(halt_level=5)
+    publisher.get_settings(
+        # Never halt parsing with an exception
+        halt_level=5,
+        # Do not allow file insertion
+        file_insertion_enabled=False,
+        # Following are needed in case django.contrib.admindocs is imported
+        # and registers own rst tags
+        default_reference_context="",
+        link_base="",
+    )
     return publisher
 
 
