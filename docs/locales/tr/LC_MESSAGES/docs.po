@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-01-18 04:48+0000\n"
+"PO-Revision-Date: 2025-01-18 05:06+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -10934,13 +10934,6 @@ msgid "Avoiding merge conflicts by focusing on Git operations"
 msgstr "Weblate kaynaklı değişikliklerde birleştirme çakışmalarından kaçınmak"
 
 #: ../../admin/continuous.rst:183
-#, fuzzy
-#| msgid ""
-#| "Even when Weblate is the single source of the changes in the translation "
-#| "files, conflicts can appear when using :ref:`addon-weblate.git.squash` "
-#| "add-on, :ref:`component-merge_style` is configured to :guilabel:`Rebase`, "
-#| "or you are squashing commits outside of Weblate (for example when merging "
-#| "a pull request)."
 msgid ""
 "Even when Weblate is the single source of the changes in the translation "
 "files, conflicts can appear when using :ref:`addon-weblate.git.squash` add-"
@@ -10948,11 +10941,11 @@ msgid ""
 "are squashing commits outside of Weblate (for example, when merging a pull "
 "request)."
 msgstr ""
-"Çeviri dosyalarındaki değişikliklerin tek kaynağı Weblate olsa bile, :ref:"
-"`addon-weblate.git.squash` eklentisi kullanıldığında, :ref:`component-"
-"merge_style` :guilabel olarak yapılandırıldığında çakışmalar ortaya "
-"çıkabilir: `Rebase` yapar ya da Weblate dışındaki işlemeleri ezersiniz "
-"(örneğin bir çekme isteğini birleştirirken)."
+"Çeviri dosyalarındaki değişikliklerin tek kaynağı Weblate olsa bile, :ref"
+":`addon-weblate.git.squash` eklentisi kullanıldığında, :ref:`component-"
+"merge_style` :guilabel:`Yeniden yerleştir` olarak yapılandırıldığında "
+"çakışmalar ortaya çıkabilir ya da Weblate dışından yapılmış işlemeleri "
+"ezersiniz (örneğin bir çekme isteği birleştirilirken)."
 
 #: ../../admin/continuous.rst:188
 msgid ""
@@ -11066,19 +11059,14 @@ msgstr ""
 "ekleyin:"
 
 #: ../../admin/continuous.rst:227
-#, fuzzy
-#| msgid ""
-#| "For the payload URL, append ``/hooks/github/`` to your Weblate URL, for "
-#| "example for the Hosted Weblate service, this is ``https://hosted.weblate."
-#| "org/hooks/github/``."
 msgid ""
 "The :guilabel:`Payload URL` consists of your Weblate URL appended by ``/"
 "hooks/github/``, for example for the Hosted Weblate service, this is "
 "``https://hosted.weblate.org/hooks/github/``."
 msgstr ""
-"Yük adresi olarak, Weblate adresinizin sonuna \"/hooks/github/\" ekleyin. "
-"Örneğin Hosted Weblate hizmeti için \"https://hosted.weblate.org/hooks/"
-"github/\" kullanabilirsiniz."
+":guilabel:`Yük adresi` olarak Weblate adresinizin sonuna ``/hooks/github/`` "
+"ekleyin. Örneğin Hosted Weblate hizmeti için ``https://hosted.weblate.org/"
+"hooks/github/`` kullanabilirsiniz."
 
 #: ../../admin/continuous.rst:231
 msgid ""
@@ -12879,7 +12867,6 @@ msgid "Database connections"
 msgstr "Veri tabanı bağlantıları"
 
 #: ../../admin/install.rst:422
-#, fuzzy
 msgid ""
 "In the default configuration, each Weblate process keeps a persistent "
 "connection to the database. Persistent connections improve Weblate "
@@ -12890,7 +12877,8 @@ msgstr ""
 "Varsayılan yapılandırmada, her Weblate işlemi veri tabanı ile kalıcı bir "
 "bağlantı kurar. Kalıcı bağlantılar Weblate yanıt verme hızını artırır ancak "
 "veri tabanı sunucusu için daha fazla kaynak gerekebilir. Ayrıntılı bilgi "
-"almak için :setting:`django:CONN_MAX_AGE` bölümüne bakabilirsiniz."
+"almak için :setting:`django:CONN_MAX_AGE` ve :ref:`django:persistent-"
+"database-connections` bölümlerine bakabilirsiniz."
 
 #: ../../admin/install.rst:428
 msgid "Weblate needs at least the following number of connections:"
@@ -13836,8 +13824,8 @@ msgid ""
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
 "'1.1.1.1' to ALLOWED_HOSTS.`"
 msgstr ""
-"Bu seçenek, HTTP sunucunuzla eşleşecek şekilde yapılandırılmamışsa, :samp:"
-"`Invalid HTTP_HOST header: ‘1.1.1.1’. You may need to add ‘1.1.1.1’ to "
+"Bu seçenek, HTTP sunucunuzla eşleşecek şekilde yapılandırılmamışsa, :samp:`"
+"Invalid HTTP_HOST header: '1.1.1.1'. You may need to add '1.1.1.1' to "
 "ALLOWED_HOSTS.` gibi hata iletileri görürsünüz"
 
 #: ../../admin/install.rst:1162
@@ -15756,16 +15744,12 @@ msgstr ""
 "özelliğini kullanıma alır ya da kaldırır."
 
 #: ../../admin/install/docker.rst:637
-#, fuzzy
-#| msgid ""
-#| "Configures whether registrations are open by toggling :std:setting:"
-#| "`REGISTRATION_OPEN`."
 msgid ""
 "Configures whether captcha is used for registration and other "
 "unauthenticated actions, see :std:setting:`REGISTRATION_CAPTCHA`."
 msgstr ""
-":std:setting:`REGISTRATION_OPEN` seçeneğini değiştirerek hesap açma "
-"özelliğini kullanıma alır ya da kaldırır."
+":std:setting:`REGISTRATION_CAPTCHA` seçeneğini değiştirerek hesap "
+"açılışlarında güvenlik kodu kullanılması özelliğini açar ya da kapatır."
 
 #: ../../admin/install/docker.rst:648
 msgid ""
@@ -16166,10 +16150,8 @@ msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr ":setting:`UNUSED_ALERT_DAYS` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:1031
-#, fuzzy
-#| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
-msgstr ":setting:`BASIC_LANGUAGES` seçeneğini yapılandırır."
+msgstr ":setting:`UPDATE_LANGUAGES` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:1037
 msgid "Allow CORS requests to API from given origins."
@@ -17810,10 +17792,8 @@ msgstr ""
 "için: :ref:`manage`."
 
 #: ../../admin/install/steps/install-after.rst:10
-#, fuzzy
-#| msgid "You can stop the test server with Ctrl+C."
 msgid "You can stop the test server with :kbd:`Ctrl+C`."
-msgstr "Deneme sunucusunu Ctrl+C tuşlarıyla durdurabilirsiniz."
+msgstr "Deneme sunucusunu :kbd:`Ctrl+C` tuşlarıyla durdurabilirsiniz."
 
 #: ../../admin/install/steps/install-after.rst:11
 msgid ""
@@ -28209,10 +28189,10 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Improved validation of several forms."
 msgid "Improved validation errors in :doc:`/api`, see :ref:`api-errors`."
-msgstr "Çeşitli formların doğrulaması iyileştirildi."
+msgstr ""
+":doc:`/api` doğrulama sorunları iyileştirildi. :ref:`api-errors` bölümüne "
+"bakın."
 
 #: ../../changes.rst:20 ../../changes.rst:52 ../../changes.rst:74
 #: ../../changes.rst:118 ../../changes.rst:151 ../../changes.rst:172
@@ -28471,10 +28451,8 @@ msgstr ""
 "aracılığıyla yapılandırılabilir."
 
 #: ../../changes.rst:97
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
-msgstr ":http:get:`/api/projects/(string:project)/file/` eklendi."
+msgstr ":http:get:`/api/projects/{string:project}/machinery_settings/` eklendi."
 
 #: ../../changes.rst:98
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
@@ -28511,12 +28489,11 @@ msgid "Logging to :ref:`graylog`."
 msgstr "Günlüğü :ref:`graylog` 'a kaydetme."
 
 #: ../../changes.rst:107
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgid ""
 ":ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional)."
 msgstr ""
-":ref:`mt-microsoft-translator` için :ref:`glossary-mt` desteği eklendi."
+":ref:`mt-google-translate-api-v3` için :ref:`glossary-mt` desteği eklendi ("
+"isteğe bağlı)."
 
 #: ../../changes.rst:108
 msgid ""
@@ -28549,10 +28526,8 @@ msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
 msgstr ":ref:`zen-mode` içindeki düzenleyici artık ekranın altına yapışıyor."
 
 #: ../../changes.rst:113
-#, fuzzy
-#| msgid "Improved navigation while translating."
 msgid "Added page navigation while :ref:`translating`."
-msgstr "Çeviri sırasında gezinme iyileştirildi."
+msgstr ":ref:`translating` sırasında sayfa gezinmesi eklendi."
 
 #: ../../changes.rst:114
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
@@ -28560,10 +28535,8 @@ msgstr ""
 ":ref:`manage-appearance` artık karanlık mod için farklı ayarlara sahip."
 
 #: ../../changes.rst:115
-#, fuzzy
-#| msgid "Improved :ref:`workflow-customization` performance."
 msgid "Improved :ref:`translation-propagation` performance."
-msgstr ":ref:`workflow-customization` başarımı iyileştirildi."
+msgstr ":ref:`translation-propagation` başarımı iyileştirildi."
 
 #: ../../changes.rst:116
 msgid ""
@@ -28700,10 +28673,8 @@ msgid ":ref:`search-users` can search based on user changes."
 msgstr ":ref:`search-users` kullanıcı değişikliklerine göre arama yapabilir."
 
 #: ../../changes.rst:153
-#, fuzzy
-#| msgid "Fixed possible crash in reports."
 msgid "Fixed occasional crash in :ref:`rss`."
-msgstr "Raporlarda yaşanabilecek kilitlenme sorunu düzeltildi."
+msgstr ":ref:`rss` ile yaşanabilen çökme sorunu düzeltildi."
 
 #: ../../changes.rst:154
 #, fuzzy
@@ -28875,15 +28846,11 @@ msgid "Added :ref:`component-key_filter` in the component."
 msgstr "Bileşen içerisine :ref:`component-key_filter` eklendi."
 
 #: ../../changes.rst:238
-#, fuzzy
-#| msgid ""
-#| ":ref:`Searching` now supports filtering by object path and :ref:`date-"
-#| "search`."
 msgid ""
 ":doc:`/user/search` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
-":ref:`Searching` özelliğine nesne yolu ve :ref:`date-search` ile süzme "
+":doc:`/user/search` özelliğine nesne yolu ve :ref:`date-search` ile süzme "
 "desteği eklendi."
 
 #: ../../changes.rst:239
@@ -28951,11 +28918,9 @@ msgstr ""
 "bilgiler eklendi."
 
 #: ../../changes.rst:254
-#, fuzzy
-#| msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgid ":ref:`search-replace` shows a preview of matched strings."
 msgstr ""
-":ref:`bulk-edit` ile eşleşen dizgelerin ön izlemesinin görüntülenmesi "
+":ref:`search-replace` ile eşleşen dizgelerin ön izlemesinin görüntülenmesi "
 "sağlandı."
 
 #: ../../changes.rst:255
@@ -43308,7 +43273,7 @@ msgid ""
 msgstr ""
 "Makine çevirisinin terminoloji ataması ile sonradan düzenlenmesi, çeviri "
 "sürecinin her düzeyini etkiler. Makine çevirisi sistemi, sürekli bir eğitim "
-"veya `nöral bulanık onarım <https://aclanthology.org/P19-1175.pdf>` ile "
+"veya `nöral bulanık onarım <https://aclanthology.org/P19-1175.pdf>`_ ile "
 "belirli sözcük dağarcığına ve biçeme uyarlanabilir. Var olan çeviri "
 "belleğinizi Weblate `içine aktarın <https://docs.weblate.org/en/latest/admin/"
 "memory.html#imported-translation-memory>`_ ya da temel terminolojinizle bir "
@@ -45155,7 +45120,7 @@ msgstr ""
 msgid ""
 "`GoLang API library for weblate <https://gitlab.com/gajdusek/goweblate>`_"
 msgstr ""
-"'Weblate için GoLang API kitaplığı <https://gitlab.com/gajdusek/goweblate>`_"
+"`Weblate için GoLang API kitaplığı <https://gitlab.com/gajdusek/goweblate>`_"
 
 #: ../../devel/thirdparty.rst:13
 msgid ""
