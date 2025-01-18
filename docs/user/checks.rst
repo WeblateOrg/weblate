@@ -973,7 +973,12 @@ Inconsistent reStructuredText references
 :Flag to enable: ``rst-text``
 :Flag to ignore: ``ignore-rst-references``
 
-reStructuredText term references do not match source.
+reStructuredText term references do not match source, the typical causes for these errors are:
+
+* Mismatched or missing backticks.
+* Missing spaces or interpunction around the reference. The reStructuredText inline blocks need to be separated by non-word characters.
+* The reference name is not being translated.
+* Using quotes instead of backticks.
 
 .. _check-kashida:
 
@@ -1399,7 +1404,11 @@ reStructuredText syntax error
 :Flag to enable: ``rst-text``
 :Flag to ignore: ``ignore-rst-syntax``
 
-reStructuredText syntax error in the translation.
+reStructuredText syntax error in the translation. Issues to look for:
+
+* Mismatched closing/opening tags.
+* Missing spaces or interpunction around the reference. The reStructuredText inline blocks need to be separated by non-word characters.
+* Using quotes instead of backticks.
 
 .. _check-reused:
 
