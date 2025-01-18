@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 12:43+0000\n"
-"PO-Revision-Date: 2025-01-18 15:57+0000\n"
+"PO-Revision-Date: 2025-01-18 16:15+0000\n"
 "Last-Translator: n1ck <n1ck.lim@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -4175,10 +4175,8 @@ msgid "reStructuredText syntax error"
 msgstr "Error de sintaxis reStructuredText"
 
 #: weblate/checks/markup.py:546
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "Comentario en una traducción Fluent"
+msgstr "Error reStructuredText en la traducción."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5473,13 +5471,9 @@ msgid "File"
 msgstr "Archivo"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr ""
-"Puede cargar un archivo de los siguientes formatos: TMX, JSON, XLIFF, PO, "
-"CSV."
+msgstr "Puede cargar un archivo de los siguientes formatos: %s"
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5510,10 +5504,9 @@ msgstr ""
 "Confirmar la eliminación de todos los registros de la memoria de traducción"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "Tipo de imagen no admitida: %s"
+msgstr "Extension de archivo no soportada: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -7157,8 +7150,6 @@ msgid "Configure"
 msgstr "Configurar"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
 msgstr ""
 "Los complementos también se pueden instalar en el alcance del proyecto y de "
@@ -8224,10 +8215,8 @@ msgid "Screenshots"
 msgstr "Capturas de pantalla"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "Componente duplicado"
+msgstr "Duplicar este componente"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -11113,6 +11102,7 @@ msgstr ""
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
 msgstr ""
+"Tambien se aceptan proyectos sin código (como libros o contenido gráfico)."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
@@ -11848,21 +11838,19 @@ msgstr ""
 "que la alerta podría desaparecer por los problemas temporales."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid "Some linked components have the same file mask."
 msgid ""
 "Some linked components have the same file mask or share some of the files."
-msgstr "Algún componente enlazado tiene la misma máscara de archivos."
+msgstr ""
+"Algún componente enlazado tiene la misma máscara de archivos o comparte "
+"algunos de ellos."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:5
 msgid "Please fix this by removing one of them."
 msgstr "Arregle esto quitando uno de ellos."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:8
-#, fuzzy
-#| msgid "The following file masks were found multiple times:"
 msgid "The following files were found multiple times:"
-msgstr "Las siguientes máscaras de archivo se han encontrado varias veces:"
+msgstr "El siguiente archivo fue encontrado varias veces:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
 msgid "The component contains translation file for the source language."
@@ -16775,18 +16763,14 @@ msgstr "Esto empujará los cambios y creará una solicitud de fusión en Pagure.
 
 #. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:2055
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull request"
-msgstr "Solicitud de incorporación del servidor de BitBucket"
+msgstr "\"Pull request\" de Bitbucket Data Center"
 
 #: weblate/vcs/git.py:2061
-#, fuzzy
-#| msgid "This will push changes and create a Bitbucket Server pull request."
 msgid "This will push changes and create a Bitbucket Data Center pull request."
 msgstr ""
 "Esto empujará los cambios y creará una solicitud de fusión en el servidor de "
-"Bitbucket."
+"datos de Bitbucket."
 
 #: weblate/vcs/git.py:2201
 msgid "Bitbucket Cloud merge request"
