@@ -42,7 +42,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.9.2
 -------------
 
-Released on December 19th 2023.
+Released on December 19th 2024.
 
 **Improvements**
 
