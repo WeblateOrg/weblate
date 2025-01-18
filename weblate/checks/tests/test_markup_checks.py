@@ -577,12 +577,20 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
-    def test_missing_space(self):
+    def test_broken_links(self):
         self.do_test(
             True,
             (
                 "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_",
                 "`Webhooks în manualul Gitea<https://docs.gitea.io/en-us/webhooks/>`_",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "`backup service at weblate.org <https://weblate.org/support/#backup>`_",
+                "`weblate.org <https://weblate.org/support/#backup> üzerinden yedekleme hizmeti`_",
                 "rst-text",
             ),
         )
