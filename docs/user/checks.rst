@@ -980,6 +980,10 @@ reStructuredText term references do not match source, the typical causes for the
 * The reference name is not being translated.
 * Using quotes instead of backticks.
 
+.. seealso::
+
+   `reStructuredText Primer`_
+
 .. _check-kashida:
 
 Kashida letter used
@@ -1409,6 +1413,10 @@ reStructuredText syntax error in the translation. Issues to look for:
 * Mismatched closing/opening tags.
 * Missing spaces or interpunction around the reference. The reStructuredText inline blocks need to be separated by non-word characters.
 * Using quotes instead of backticks.
+
+.. seealso::
+
+   `reStructuredText Primer`_
 
 .. _check-reused:
 
@@ -1939,3 +1947,6 @@ For example with Gettext in Python it could be:
     from gettext import ngettext
 
     print(ngettext("Selected %d file", "Selected %d files", files) % files)
+
+
+.. _reStructuredText Primer: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
