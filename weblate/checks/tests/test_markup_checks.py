@@ -587,6 +587,16 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
+    def test_extra_backtick(self):
+        self.do_test(
+            True,
+            (
+                "see :ref:`check-object-pascal-format`.",
+                "zobacz :ref:`check-object-pascal-format``.",
+                "rst-text",
+            ),
+        )
+
 
 class RSTSyntaxCheckTest(CheckTestCase):
     check = RSTSyntaxCheck()
