@@ -700,6 +700,24 @@ class EditPropagateTest(EditTest):
         # Verify that propagated units survived scan
         self.assertEqual(get_targets(), [self.second_target, self.second_target])
 
+        # Verify that changes were properly generated
+        for unit in Unit.objects.filter(
+            source=self.source, translation__language_code="cs"
+        ):
+            self.assertEqual(
+                unit.change_set.filter(action=Change.ACTION_NEW_UNIT_REPO).count(), 1
+            )
+            self.assertEqual(
+                unit.change_set.filter(action=Change.ACTION_STRING_REPO_UPDATE).count(),
+                0,
+            )
+            self.assertEqual(
+                unit.change_set.filter(action=Change.ACTION_NEW).count(), 1
+            )
+            self.assertEqual(
+                unit.change_set.filter(action=Change.ACTION_CHANGE).count(), 1
+            )
+
 
 class EditTSTest(EditTest):
     def create_component(self):

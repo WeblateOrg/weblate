@@ -1079,6 +1079,7 @@ class Unit(models.Model, LoggerMixin):
             Unit.objects.filter(pk__in=(unit.pk for unit in to_update)).update(
                 target=self.target,
                 state=self.state,
+                original_state=self.state,
                 pending=True,
                 last_updated=self.last_updated,
             )
