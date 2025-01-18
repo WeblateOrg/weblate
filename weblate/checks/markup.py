@@ -72,7 +72,7 @@ RST_REF_MATCH = re.compile(
     r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`([^<`]*[^<` ])`|`[^<`]+<([^<`]+)>`))(?=\W|$)"
 )
 RST_FOOTNOTE_MATCH = re.compile(r"(?:(?<=\W)|^)(\[#[^]]+\]_)(?=\W|$)")
-RST_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`]*[^` ]`_)(?=\W|$)")
+RST_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`<]*[^` <]( <[^`>]*>)?`_)(?=\W|$)")
 
 
 # These should be present in translation if present in source, but might be translated

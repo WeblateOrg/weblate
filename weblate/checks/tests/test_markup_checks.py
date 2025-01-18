@@ -577,6 +577,16 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
+    def test_missing_space(self):
+        self.do_test(
+            True,
+            (
+                "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_",
+                "`Webhooks în manualul Gitea<https://docs.gitea.io/en-us/webhooks/>`_",
+                "rst-text",
+            ),
+        )
+
 
 class RSTSyntaxCheckTest(CheckTestCase):
     check = RSTSyntaxCheck()
