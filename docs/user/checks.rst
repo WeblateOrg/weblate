@@ -977,6 +977,7 @@ reStructuredText term references do not match source, the typical causes for the
 
 * Mismatched or missing backticks.
 * Missing spaces or interpunction around the reference. The reStructuredText inline blocks need to be separated by non-word characters.
+* Space between inline tag and backticks.
 * The reference name is not being translated.
 * Using quotes instead of backticks.
 
