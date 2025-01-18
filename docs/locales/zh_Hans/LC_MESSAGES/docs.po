@@ -24,8 +24,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-01-16 16:18+0000\n"
-"Last-Translator: 大学没毕业 <ziweidao@foxmail.com>\n"
+"PO-Revision-Date: 2025-01-18 04:23+0000\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -10157,18 +10158,14 @@ msgstr ""
 "guilabel:`Webhooks` ）中，如下图所示："
 
 #: ../../admin/continuous.rst:227
-#, fuzzy
-#| msgid ""
-#| "For the payload URL, append ``/hooks/github/`` to your Weblate URL, for "
-#| "example for the Hosted Weblate service, this is ``https://hosted.weblate."
-#| "org/hooks/github/``."
 msgid ""
 "The :guilabel:`Payload URL` consists of your Weblate URL appended by ``/"
 "hooks/github/``, for example for the Hosted Weblate service, this is "
 "``https://hosted.weblate.org/hooks/github/``."
 msgstr ""
-"对于负载 URL，将 ``/hooks/github/`` 增补到你的 Weblate URL中，例如对于 "
-"Hosted Weblate 服务，这是 ``https://hosted.weblate.org/hooks/github/``。"
+":guilabel:`Payload URL` 由附加 ``/hooks/github/`` 的 Weblate URL "
+"所组成。比如，Hosted Weblate 服务的 URL 为 ``https://hosted.weblate.org/"
+"hooks/github/``."
 
 #: ../../admin/continuous.rst:231
 msgid ""
@@ -11277,10 +11274,8 @@ msgid "Optional dependencies"
 msgstr "可选依赖项"
 
 #: ../../admin/install.rst:208
-#, fuzzy
-#| msgid "Optional dependencies"
 msgid "Optional dependency specifier"
-msgstr "可选依赖项"
+msgstr "可选的依赖项指定程序"
 
 #: ../../admin/install.rst:209
 msgid "Python Packages"
@@ -15708,34 +15703,23 @@ msgid "Docker container volumes"
 msgstr "Docker 容器卷"
 
 #: ../../admin/install/docker.rst:1959
-#, fuzzy
-#| msgid ""
-#| "There are two volumes (``data`` and ``cache``) exported by the Weblate "
-#| "container. The other service containers (PostgreSQL or Redis) have their "
-#| "data volumes as well, but those are not covered by this document."
 msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container. The other service containers (PostgreSQL or Redis) have "
 "their data volumes as well, but those are not covered by this document."
 msgstr ""
-"Weblate 容器导出了两个卷（``数据`` 和 ``缓存``）。其他服务容器（PostgreSQL "
-"或 Redis）也具有其数据卷，但本文档未涵盖这些数据卷。"
+"Weblate 容器导出了两个卷（`:file:`data` 和 :file:`cache`）。其他服务容器（"
+"PostgreSQL 或 Redis）也具有其数据卷，但本文档未涵盖这些数据卷。"
 
 #: ../../admin/install/docker.rst:1963
-#, fuzzy
-#| msgid ""
-#| "The ``data`` volume is mounted as :file:`/app/data` and is used to store "
-#| "Weblate persistent data such as cloned repositories or to customize "
-#| "Weblate installation. :setting:`DATA_DIR` describes in more detail what "
-#| "is stored here."
 msgid ""
 "The :file:`data` volume is mounted as :file:`/app/data` and is used to store "
 "Weblate persistent data such as cloned repositories or to customize Weblate "
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
-"``数据`` 卷作为 :file:`/app/data` 装载并被用来储存克隆的仓库等 Weblate 持久数"
-"据或者定制 Weblate 安装。:setting:`DATA_DIR` 更详细描述了存储内容。"
+":file:`data`卷作为 :file:`/app/data` 装载并被用来储存克隆的仓库等 Weblate "
+"持久数据或者定制 Weblate 安装。:setting:`DATA_DIR` 更详细描述了存储内容。"
 
 #: ../../admin/install/docker.rst:1967
 msgid ""
@@ -15749,21 +15733,16 @@ msgstr ""
 "docker-compose 目录的名称、容器和卷的名称组成）。"
 
 #: ../../admin/install/docker.rst:1972
-#, fuzzy
-#| msgid ""
-#| "The ``cache`` volume is mounted as :file:`/app/cache` and is used to "
-#| "store static files and :setting:`CACHE_DIR`. Its content is recreated on "
-#| "container startup and the volume can be mounted using ephemeral "
-#| "filesystem such as `tmpfs`."
 msgid ""
 "The :file:`cache` volume is mounted as :file:`/app/cache` and is used to "
 "store static files and :setting:`CACHE_DIR`. Its content is recreated on "
 "container startup and the volume can be mounted using ephemeral filesystem "
 "such as `tmpfs`."
 msgstr ""
-"``缓存`` 卷被挂载为 :file:`/app/cache`，用于存储静态文件和 :setting:"
-"`CACHE_DIR` 。它的内容在容器启动时被重新创建，卷可以使用短暂的文件系统（如 "
-"`tmpfs` ）挂载。"
+":file:`cache`卷被挂载为 :file:`/app/cache`，用于存储静态文件和 "
+":setting:`CACHE_DIR` "
+"。它的内容在容器启动时被重新创建，卷可以使用短暂的文件系统（如 `tmpfs` "
+"）挂载。"
 
 #: ../../admin/install/docker.rst:1976
 msgid ""
@@ -15772,18 +15751,12 @@ msgid ""
 msgstr "当手动创建卷时，目录应该由UID 1000拥有，因为那是容器内使用的用户。"
 
 #: ../../admin/install/docker.rst:1979
-#, fuzzy
-#| msgid ""
-#| "Weblate container can also be executed with a read-only root file system. "
-#| "In this case, two additional ``tmpfs`` volumes should be mounted: ``/"
-#| "tmp`` and ``/run``."
 msgid ""
 "Weblate container can also be executed with a read-only root file system. In "
 "this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` "
 "and :file:`/run`."
-msgstr ""
-"Weblate 容器也可以用只读根文件目录执行。不过这种情况下，应该加载两个额外的 "
-"``tmpfs`` 卷：``/tmp`` 和 ``/run``."
+msgstr "Weblate 容器也可以用只读根文件目录执行。不过这种情况下，应该挂载两个额外卷： "
+":file:`/tmp` 和 :file:`/run`。"
 
 #: ../../admin/install/docker.rst:1985
 msgid ""
@@ -16327,10 +16300,8 @@ msgstr ""
 "Weblate 命令，见 :ref:`manage`。"
 
 #: ../../admin/install/steps/install-after.rst:10
-#, fuzzy
-#| msgid "You can stop the test server with Ctrl+C."
 msgid "You can stop the test server with :kbd:`Ctrl+C`."
-msgstr "您可以使用 Ctrl+C 来停止测试的服务器。"
+msgstr "要停止测试用服务器，你可以按下 :kbd:`Ctrl+C`。"
 
 #: ../../admin/install/steps/install-after.rst:11
 msgid ""
@@ -19748,15 +19719,11 @@ msgid "All commits can be signed by the GnuPG key of the Weblate instance."
 msgstr "所有的提交均可由 Weblate 实例的 GnuPG 密钥为其签名。"
 
 #: ../../admin/optionals.rst:239
-#, fuzzy
-#| msgid ""
-#| "1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a "
-#| "GnuPG key when needed and will use it to sign all translation commits.)"
 msgid ""
 "Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG key "
 "when needed and will use it to sign all translation commits.)"
 msgstr ""
-"1. 开启 :setting:`WEBLATE_GPG_IDENTITY`。（Weblate 将在需要时生成一个 GnuPG "
+"开启 :setting:`WEBLATE_GPG_IDENTITY`。（Weblate 将在需要时生成一个 GnuPG "
 "密钥，并使用它为所有的翻译提交签名。）"
 
 #: ../../admin/optionals.rst:242
@@ -19770,16 +19737,11 @@ msgid ""
 msgstr "您可以在 :setting:`DATA_DIR` 中找到密钥，公钥显示在“关于”页面上："
 
 #: ../../admin/optionals.rst:249
-#, fuzzy
-#| msgid ""
-#| "2. Alternatively you can also import existing keys into Weblate, just set "
-#| "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgid ""
 "Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
-msgstr ""
-"2. 另外您还可以将现有的密钥导入 Weblate 中，当调用 pgp 时只设置 "
-"``HOME=$DATA_DIR/home``。"
+msgstr "另外您还可以将现有的密钥导入 Weblate 中，当调用 pgp 时只设置 ``HOME=$"
+"DATA_DIR/home``。"
 
 #: ../../admin/optionals.rst:254
 msgid ""
@@ -23045,10 +23007,8 @@ msgstr ""
 "envvar:`WEBLATE_API_RATELIMIT_USER`"
 
 #: ../../api.rst:224
-#, fuzzy
-#| msgid "Error reporting"
 msgid "Error responses"
-msgstr "错误报告"
+msgstr "错误响应"
 
 #: ../../api.rst:228
 msgid "Error responses were endpoint specific before this release."
@@ -24596,7 +24556,7 @@ msgstr "返回翻译单元的列表。"
 #, fuzzy
 #| msgid "Search query string :ref:`Searching` (optional)"
 msgid "Search query string :doc:`/user/search` (optional)"
-msgstr "搜索查询字符串 :ref:`Searching`\\ （可选）"
+msgstr "搜索查询字符串 :doc:`/user/search`（可选）"
 
 #: ../../api.rst:2011
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
@@ -25847,11 +25807,8 @@ msgid ""
 msgstr "验证 reStructuredText 参考的 :ref:`check-rst-references` 检查。"
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-rst-references` check to validate reStructuredText references."
 msgid ":ref:`check-rst-syntax` check to validate reStructuredText syntax."
-msgstr "验证 reStructuredText 参考的 :ref:`check-rst-references` 检查。"
+msgstr "验证 reStructuredText 语法的 :ref:`check-rst-syntax` 检查。"
 
 #: ../../changes.rst:11 ../../changes.rst:47 ../../changes.rst:105
 #: ../../changes.rst:147 ../../changes.rst:243 ../../changes.rst:286
@@ -25888,21 +25845,13 @@ msgstr ""
 "reStructuredText。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-punctuation-spacing` ignores markup such as Markdown or "
-#| "reStructuredText."
 msgid ""
 ":ref:`autofix-punctuation-spacing` does not alter reStructuredText markup."
-msgstr ""
-":ref:`check-punctuation-spacing` 忽略 markup 语言，比如 Markdown 或 "
-"reStructuredText。"
+msgstr ":ref:`autofix-punctuation-spacing` 不改变 reStructuredText 标记。"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Improved validation of several forms."
 msgid "Improved validation errors in :doc:`/api`, see :ref:`api-errors`."
-msgstr "改进了几种形式的验证。"
+msgstr "改进了 :doc:`/api` 验证错误，见 :ref:`api-errors`。"
 
 #: ../../changes.rst:20 ../../changes.rst:52 ../../changes.rst:74
 #: ../../changes.rst:118 ../../changes.rst:151 ../../changes.rst:172
@@ -25987,21 +25936,15 @@ msgid ""
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "are the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS`` and "
-#| "changes in ``REST_FRAMEWORK`` and ``INSTALLED_APPS``; please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`api` in ``REST_FRAMEWORK``, "
 "``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and "
 "``INSTALLED_APPS``; please adjust your settings accordingly."
 msgstr ""
-":file:`settings_example.py` 中有几项更改，最显著的是 "
-"``SPECTACULAR_SETTINGS`` 中 :ref:`api` 的新设置以及 ``REST_FRAMEWORK`` 和 "
-"``INSTALLED_APPS`` 中的更改；请相应调整你的设置。"
+":file:`settings_example.py` 中有几项更改，最明显的是 ``REST_FRAMEWORK``, "
+"``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` 和 ``INSTALLED_APPS`` "
+"中 :ref:`api` 的新设置；请相应调整你的设置。"
 
 #: ../../changes.rst:34
 msgid "API error responses format has changed, see :ref:`api-errors`."
@@ -26497,14 +26440,10 @@ msgid "Added :ref:`component-key_filter` in the component."
 msgstr "在部件中新增了 :ref:`component-key_filter`。"
 
 #: ../../changes.rst:238
-#, fuzzy
-#| msgid ""
-#| ":ref:`Searching` now supports filtering by object path and :ref:`date-"
-#| "search`."
 msgid ""
 ":doc:`/user/search` now supports filtering by object path and :ref:`date-"
 "search`."
-msgstr ":ref:`Searching` 现在支持按照对象路径和 :ref:`date-search` 进行筛选。"
+msgstr ":doc:`/user/search` 现在支持按照对象路径和 :ref:`date-search` 进行筛选。"
 
 #: ../../changes.rst:239
 msgid ""
@@ -27290,10 +27229,8 @@ msgid "Weblate 5.5.1"
 msgstr "Weblate 5.5.1"
 
 #: ../../changes.rst:550
-#, fuzzy
-#| msgid ":ref:`Searching` supports ``source_changed:DATETIME``."
 msgid ":doc:`/user/search` supports ``source_changed:DATETIME``."
-msgstr ":ref:`Searching` 支持 ``source_changed:DATETIME``."
+msgstr ":doc:`/user/search` 支持 ``source_changed:DATETIME``."
 
 #: ../../changes.rst:551
 msgid "Added several new :ref:`component-language_code_style`."
@@ -37841,7 +37778,7 @@ msgstr "`Python 社交认证 <https://github.com/python-social-auth>`_"
 
 #: ../../contributing/license.rst:2
 msgid "License"
-msgstr "许可协议"
+msgstr "许可"
 
 #: ../../contributing/license.rst:4
 msgid ""
