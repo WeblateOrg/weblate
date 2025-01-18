@@ -810,7 +810,7 @@ class LanguageAliasesChangeTest(ViewTestCase):
             new_data = []
             for item in data:
                 if item[0] == self.old_code:
-                    item = tuple(self.new_code, *item[1:])
+                    item = (self.new_code, *item[1:])
                 new_data.append(item)
             return tuple(new_data)
 
