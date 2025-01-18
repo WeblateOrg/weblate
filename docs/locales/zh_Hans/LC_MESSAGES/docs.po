@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-01-18 04:25+0000\n"
+"PO-Revision-Date: 2025-01-18 04:47+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -10906,7 +10906,7 @@ msgstr "在通知电子邮件中使用。"
 
 #: ../../admin/customize.rst:106
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
-msgstr "把它添加到:setting:`django:INSTALLED_APPS`:"
+msgstr "把它添加到 :setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/customize.rst:116
 msgid ""
@@ -12666,9 +12666,9 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
-"Weblate 需要在几种情况下发送电子邮件，这些电子邮件应具有正确的发送者地址，请"
-"配置:setting:`SERVER_EMAIL` 和 :setting:`DEFAULT_FROM_EMAIL`，与你的环境匹"
-"配，例如："
+"Weblate 需要在几种情况下发送电子邮件，这些电子邮件应具有正确的发送者地址，"
+"请配置 :setting:`SERVER_EMAIL` 和 :setting:`DEFAULT_FROM_EMAIL` "
+"来匹配你的环境，例如："
 
 #: ../../admin/install.rst:1133
 msgid ""
@@ -13129,8 +13129,8 @@ msgid ""
 "webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
 "conf`):"
 msgstr ""
-"下列配置在 NGINX web服务器下使用 Gunicorn 运行 Weblate （同样作为 :file:"
-"`weblate/examples/weblate.nginx.gunicorn.conf`文件可用）："
+"下列配置在 NGINX web服务器下使用 Gunicorn 运行 Weblate (同样作为 :file:`"
+"weblate/examples/weblate.nginx.gunicorn.conf` 文件可用)："
 
 #: ../../admin/install.rst:1427 ../../admin/install.rst:1497
 msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -15788,8 +15788,8 @@ msgid ""
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
-":ref:`Docker 环境变量 <docker-environment>`旨在公开与 Weblate 安装相关的大多"
-"数 :ref:`配置设置 <config>`。"
+":ref:`Docker environment variables <docker-environment>` 旨在暴露与 Weblate "
+"安装相关的大多数 :ref:`configuration settings <config>`。"
 
 #: ../../admin/install/docker.rst:2007
 msgid ""
@@ -16309,9 +16309,9 @@ msgid ""
 "performance/`` URL (see :ref:`manage-performance`) or using :command:"
 "`weblate check --deploy`, see :ref:`production`."
 msgstr ""
-"要检查你安装的潜在问题，有两个途径。一是 ``/manage/performance/`` URL (参见 :"
-"ref:`manage-performance`)，二是使用命令 :`weblate check --deploy`，参见 :ref:"
-"`production`。"
+"要检查你安装的潜在问题，有两个途径。一是 ``/manage/performance/`` URL (参见 "
+":ref:`manage-performance`)，二是使用 :command:`weblate check --deploy`，参见 "
+":ref:`production`。"
 
 #: ../../admin/install/steps/install-after.rst:14
 msgid "Adding translation"
@@ -23012,13 +23012,13 @@ msgstr "错误响应"
 
 #: ../../api.rst:228
 msgid "Error responses were endpoint specific before this release."
-msgstr ""
+msgstr "此版本前不同端点的错误响应不一样。"
 
 #: ../../api.rst:230
 msgid ""
 "Weblate error responses are formatted based on :doc:`drf-standardized-error:"
 "error_response`."
-msgstr ""
+msgstr "Weblate 错误响应格式依据 :doc:`drf-standardized-error:error_response`。"
 
 #: ../../api.rst:234
 msgid "API Entry Point"
@@ -23947,8 +23947,7 @@ msgstr "JSON 格式的服务配置"
 msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
-msgstr ""
-"使用:http:post:`/api/projects/(string:project)/components/` 创建新部件。"
+msgstr "使用 :http:post:`/api/projects/(string:project)/components/` 创建新部件。"
 
 #: ../../api.rst:1285
 msgid "Returns a list of translation components."
@@ -24141,8 +24140,8 @@ msgid ""
 "Whether component is locked, this field is read-only; see :http:get:`/api/"
 "components/(string:project)/(string:component)/lock/`"
 msgstr ""
-"不管部件锁定与否，此字段是只读的；见:http:get:`/api/components/(string:"
-"project)/(string:component)/lock/`"
+"不管部件锁定与否，此字段是只读的；见 :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1339
 msgid ":ref:`component-commit_pending_age`"
@@ -25875,7 +25874,7 @@ msgstr "修复了 :ref:`machine-translation-setup` 中的翻译缓存。"
 #: ../../changes.rst:23
 msgid ""
 ":ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag."
-msgstr ""
+msgstr ":ref:`autofix-html` 自动修复遵照 ``ignore-safe-html`` 标记。"
 
 #: ../../changes.rst:25 ../../changes.rst:124 ../../changes.rst:264
 #: ../../changes.rst:369 ../../changes.rst:459 ../../changes.rst:621
@@ -25948,7 +25947,7 @@ msgstr ""
 
 #: ../../changes.rst:34
 msgid "API error responses format has changed, see :ref:`api-errors`."
-msgstr ""
+msgstr "API 错误响应格式已更改，见 :ref:`api-errors`。"
 
 #: ../../changes.rst:36 ../../changes.rst:63 ../../changes.rst:82
 #: ../../changes.rst:136 ../../changes.rst:161 ../../changes.rst:182
@@ -38756,19 +38755,13 @@ msgid ""
 msgstr "这使我们能够及早发现漏洞并迅速发布改进措施。"
 
 #: ../../contributing/security.rst:39
-#, fuzzy
-#| msgid ""
-#| "You can get the results of these scans at GitHub — they are stored as "
-#| "artifacts on our CI in the SARIF format (Static Analysis Results "
-#| "Interchange Format)."
 msgid ""
 "You can get the results of these scans at GitHub — they are stored as "
 "artifacts on our CI as :abbr:`SARIF (Static Analysis Results Interchange "
 "Format)`."
 msgstr ""
 "你可以在 GitHub 上获得这些扫描的结果 — 它们作为工件存储在我们的 CI 上，"
-"格式为 :abbr:`SARIF (Static Analysis Results Interchange "
-"Format)`（静态分析结果交换格式）。"
+"格式为 :abbr:`SARIF (Static Analysis Results Interchange Format)`。"
 
 #: ../../contributing/security.rst:44
 msgid ":ref:`ci-tests`"
@@ -47817,10 +47810,8 @@ msgid "reStructuredText syntax error"
 msgstr "reStructuredText 语法错误"
 
 #: ../../user/checks.rst:1395 ../../user/checks.rst:1402
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "译文中的 Fluent 语法错误"
+msgstr "译文中的 reStructuredText 语法错误。"
 
 #: ../../user/checks.rst:1397
 #, fuzzy
@@ -50387,14 +50378,6 @@ msgid "Translation links"
 msgstr "翻译链接"
 
 #: ../../user/translating.rst:35
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to its actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Untranslated strings` or :guilabel:`Unfinished strings`. "
-#| "If the whole project is already translated without any errors, :guilabel:"
-#| "`All strings` is still available. Alternatively you can use the :ref:"
-#| "`Search <Searching>` feature to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -50403,10 +50386,11 @@ msgid ""
 "strings` is still available. Alternatively you can use the :doc:`Search </"
 "user/search>` feature to find a specific string or term."
 msgstr ""
-"导航到一个组件后，一组链接会指向它的实际翻译。翻译进一步分为单独的检查，如 :"
-"guilabel:`未翻译的字符串` 或 :guilabel:`未完成的字符串`。如果整个项目已被翻"
-"译，且没有任何错误，:guilabel:`所有字符串` 仍然可用。或者，您可以使用 :ref:`"
-"搜索 <Searching>` 功能来查找特定的字符串或术语。"
+"导航到一个组件后，一组链接会指向它的实际翻译。翻译进一步分为单独的检查，如 "
+":guilabel:`未翻译的字符串` 或 "
+":guilabel:`未完成的字符串`。如果整个项目已被翻译，且没有任何错误，:guilabel:`"
+"所有字符串` 仍然可用。或者，你可以使用 :doc:`Search </user/search>` "
+"功能来查找特定的字符串或术语。"
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -52200,18 +52184,13 @@ msgid "Getting started"
 msgstr "入门"
 
 #: ../../wlc.rst:69
-#, fuzzy
-#| msgid ""
-#| "The :program:`wlc` configuration is stored in ``~/.config/weblate`` (see :"
-#| "ref:`wlc-config` for other locations), please create it to match your "
-#| "environment:"
 msgid ""
 "The :program:`wlc` configuration is stored in :file:`~/.config/weblate` "
 "(see :ref:`wlc-config` for other locations), please create it to match your "
 "environment:"
 msgstr ""
-":program:`wlc` 配置存储在 ``~/.config/weblate`` 中（其他位置请参见 :ref:`wlc-"
-"config`），请根据你的环境创建它："
+":program:`wlc` 配置存储在 :file:`~/.config/weblate` 中（其他位置请参见 :ref"
+":`wlc-config`），请创建它来匹配你的环境："
 
 #: ../../wlc.rst:81
 msgid "You can then invoke commands on the default server:"
