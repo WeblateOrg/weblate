@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-01-18 17:21+0000\n"
+"PO-Revision-Date: 2025-01-18 18:39+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -10574,7 +10574,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
-msgstr "Sürekli yerelleştirme"
+msgstr "Kesintisiz yerelleştirme"
 
 #: ../../admin/continuous.rst:6
 msgid ""
@@ -10808,20 +10808,16 @@ msgstr ""
 "çakışmalarından kaçınmak"
 
 #: ../../admin/continuous.rst:138
-#, fuzzy
-#| msgid ""
-#| "The second approach can be achieved by using :ref:`api` to force Weblate "
-#| "to push all pending changes and lock the translation while you are doing "
-#| "changes on your side."
 msgid ""
 "Integrating Weblate into your updating process so that it flushes changes "
 "before updating the files outside Weblate can be achieved by using :ref:"
 "`api` to force Weblate to push all pending changes and lock the translation "
 "while you are doing changes on your side."
 msgstr ""
-"İkinci yaklaşım, :ref:`api` ile Weblate uygulamasını bekleyen tüm "
-"değişiklikleri itmek ve kendi tarafınızda değişiklikler yaparken çeviriyi "
-"kilitlemek yoluyla uygulanabilir."
+"Weblate ile güncelleme sürecinizi bütünleştirmek ve Weblate dışından yapılan "
+"dosya güncellemelerini yok saymak, :ref:`api` ile Weblate uygulamasını "
+"bekleyen tüm değişiklikleri itmek ve kendi tarafınızda değişiklikler "
+"yaparken çeviriyi kilitlemek yoluyla uygulanabilir."
 
 #: ../../admin/continuous.rst:142
 msgid "The script for doing updates can look like this:"
@@ -10836,20 +10832,15 @@ msgstr ""
 "kilitlemeniz gerekir:"
 
 #: ../../admin/continuous.rst:174
-#, fuzzy
-#| msgid ""
-#| "The example uses :ref:`wlc`, which needs configuration (API keys) to be "
-#| "able to control Weblate remotely. You can also achieve this using any "
-#| "HTTP client instead of wlc, e.g. curl, see :ref:`api`."
 msgid ""
 "The example uses :ref:`wlc`, which needs configuration (API keys) to be able "
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of :ref:`wlc`, for example curl, see :ref:`api`."
 msgstr ""
 "Örnekte, uzaktan Weblate yönetimi için yapılandırmaya (API anahtarları) "
-"gerek duyan :ref:`wlc` kullanılır. Bunu wlc yerine curl gibi herhangi bir "
-"HTTP istemcisini kullanarak da yapabilirsiniz. Ayrıntılı bilgi almak için: :"
-"ref:`api`."
+"gerek duyan :ref:`wlc` kullanılır. Bunu :ref:`wlc` yerine curl gibi herhangi "
+"bir HTTP istemcisini kullanarak da yapabilirsiniz. Ayrıntılı bilgi almak "
+"için: :ref:`api`."
 
 #: ../../admin/continuous.rst:181
 msgid "Avoiding merge conflicts by focusing on Git operations"
@@ -10922,8 +10913,8 @@ msgid ""
 "automatically merge GitHub pull requests after CI passes."
 msgstr ""
 "Weblate üzerindeki onaylama özelliklerini kullanın (ayrıntılı bilgi almak "
-"için: :doc:`/workflows`). Böylece sürekli bütünleştirmeden geçtikten sonra "
-"GitHub çekme isteklerini kendiliğinden birleştirebilirsiniz."
+"için: :doc:`/workflows`). Böylece kesintisiz bütünleştirmeden geçtikten "
+"sonra GitHub çekme isteklerini kendiliğinden birleştirebilirsiniz."
 
 #: ../../admin/continuous.rst:203
 msgid ""
@@ -14993,8 +14984,8 @@ msgid ""
 "Every image is tested by our CI before it gets published, so even the "
 "`bleeding` version should be quite safe to use."
 msgstr ""
-"Her kalıp yayınlanmadan önce sürekli bütünleştirmemiz tarafından denenir. Bu "
-"nedenle `bleeding` sürümünün kullanımı bile oldukça güvenli olmalıdır."
+"Her kalıp yayınlanmadan önce kesintisiz bütünleştirmemiz tarafından denenir. "
+"Bu nedenle `bleeding` sürümünün kullanımı bile oldukça güvenli olmalıdır."
 
 #: ../../admin/install/docker.rst:111
 msgid "Full list of published tags can be found at `GitHub Packages`_"
@@ -17010,20 +17001,14 @@ msgstr ""
 "ve birim adlarından oluşur) içinde tutulur."
 
 #: ../../admin/install/docker.rst:1972
-#, fuzzy
-#| msgid ""
-#| "The ``cache`` volume is mounted as :file:`/app/cache` and is used to "
-#| "store static files and :setting:`CACHE_DIR`. Its content is recreated on "
-#| "container startup and the volume can be mounted using ephemeral "
-#| "filesystem such as `tmpfs`."
 msgid ""
 "The :file:`cache` volume is mounted as :file:`/app/cache` and is used to "
 "store static files and :setting:`CACHE_DIR`. Its content is recreated on "
 "container startup and the volume can be mounted using ephemeral filesystem "
 "such as `tmpfs`."
 msgstr ""
-"``Cache`` birimi :file:`/app/cache` olarak bağlanır ve durağan dosyalar ile :"
-"setting:`CACHE_DIR` klasörünü tutmak için kullanılır. İçeriği kapsayıcı "
+":file:`cache` birimi :file:`/app/cache` olarak bağlanır ve durağan dosyalar "
+"ile :setting:`CACHE_DIR` klasörünü tutmak için kullanılır. İçeriği kapsayıcı "
 "başlangıcında yeniden oluşturulur ve birim `tmpfs` gibi kısa ömürlü dosya "
 "sistemi kullanılarak bağlanabilir."
 
@@ -19446,16 +19431,12 @@ msgstr ""
 "ayarlamalısınız."
 
 #: ../../admin/machine.rst:594
-#, fuzzy
-#| msgid ""
-#| "`SAP Translation Hub <https://www.sap.com/products/artificial-"
-#| "intelligence/translation-hub.html>`_"
 msgid ""
 "`What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/sap-"
 "translation-hub/what-is-sap-translation-hub>`_"
 msgstr ""
-"`SAP Translation Hub <https://www.sap.com/products/artificial-intelligence/"
-"translation-hub.html>`_"
+"`SAP Translation Hub nedir <https://help.sap.com/docs/translation-hub/"
+"sap-translation-hub/what-is-sap-translation-hub>`_"
 
 #: ../../admin/machine.rst:595
 msgid ""
@@ -20109,10 +20090,8 @@ msgid "import_memory"
 msgstr "import_memory"
 
 #: ../../admin/management.rst:351
-#, fuzzy
-#| msgid "Imports a TMX or JSON file into the Weblate translation memory."
 msgid "Imports a file into the Weblate translation memory."
-msgstr "TMX ya da JSON dosyasını Weblate çeviri belleği içine aktarır."
+msgstr "Bir dosyayı Weblate çeviri belleği içine aktarır."
 
 #: ../../admin/management.rst:353
 msgid "Supported file formats are TMX, JSON, XLIFF, PO, CSV."
@@ -20896,17 +20875,14 @@ msgid ""
 msgstr "Tüm kopyadaki çeviri belleğini indirmek için birkaç seçenek vardır."
 
 #: ../../admin/memory.rst:88
-#, fuzzy
-#| msgid ""
-#| "Translation memories in JSON can be imported into Weblate, the TMX format "
-#| "is provided for interoperability with other tools."
 msgid ""
 "Translation memories in various formats can be imported into Weblate, the "
 "TMX format is provided for interoperability with other tools. All supported "
 "formats are TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
-"Çeviri bellekleri JSON biçiminde Weblate içine aktarılabilir. Diğer "
-"araçlarla birlikte çalışabilmek için TMX biçimi de desteklenir."
+"Çeşitli biçimlerdeki çeviri bellekleri Weblate içine aktarılabilir. Diğer "
+"araçlarla birlikte çalışabilmek için TMX biçimi sunulur. TMX, JSON, XLOFF, "
+"PO ve CSV biçimleri desteklenir."
 
 #: ../../admin/memory.rst:93
 msgid ":ref:`schema-memory`"
@@ -21363,15 +21339,11 @@ msgstr ""
 "Tüm işlemeler Weblate kopyasının GnuPG anahtarı tarafından imzalanabilir."
 
 #: ../../admin/optionals.rst:239
-#, fuzzy
-#| msgid ""
-#| "1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a "
-#| "GnuPG key when needed and will use it to sign all translation commits.)"
 msgid ""
 "Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG key "
 "when needed and will use it to sign all translation commits.)"
 msgstr ""
-"1. :setting:`WEBLATE_GPG_IDENTITY` ayarını açın. (Weblate, gerektiğinde bir "
+":setting:`WEBLATE_GPG_IDENTITY` ayarını açın. (Weblate, gerektiğinde bir "
 "GnuPG anahtarı oluşturur ve bunu tüm çeviri işlemelerini imzalamak için "
 "kullanır.)"
 
@@ -21388,17 +21360,12 @@ msgstr ""
 "\"Hakkında\" sayfasında görüntülenir:"
 
 #: ../../admin/optionals.rst:249
-#, fuzzy
-#| msgid ""
-#| "2. Alternatively you can also import existing keys into Weblate, just set "
-#| "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgid ""
 "Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgstr ""
-"2. Alternatif olarak, var olan anahtarları Weblate içine de "
-"aktarabilirsiniz. gpg çağırırken ``HOME = $DATA_DIR/home`` ayarını yapmanız "
-"yeterlidir."
+"Alternatif olarak, var olan anahtarları Weblate içine de aktarabilirsiniz. "
+"gpg çağırırken ``HOME = $DATA_DIR/home`` ayarını yapmanız yeterlidir."
 
 #: ../../admin/optionals.rst:254
 msgid ""
@@ -23379,10 +23346,8 @@ msgid "``^(?!changelogs/.*$).+$``"
 msgstr "``^(?!changelogs/.*$).+$``"
 
 #: ../../admin/projects.rst:934
-#, fuzzy
-#| msgid "Split Android strings"
 msgid "Filter prefixed strings"
-msgstr "Ayrılmış Android dizgeleri"
+msgstr "Hazır düzeltilmiş dizgeleri süz"
 
 #: ../../admin/projects.rst:934
 msgid "``^translatable``"
@@ -24578,12 +24543,6 @@ msgid "Migrating from other databases to PostgreSQL"
 msgstr "Diğer veri tabanlarından PostgreSQL üzerine aktarmak"
 
 #: ../../admin/upgrade.rst:143
-#, fuzzy
-#| msgid ""
-#| "If you are not running Weblate with a different database than PostgreSQL, "
-#| "consider migrating to PostgreSQL for better performance by doing the "
-#| "following steps. Remember to stop both, the web and Celery servers "
-#| "beforehand, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are running Weblate with a different database than PostgreSQL, "
 "consider migrating to PostgreSQL for better performance by doing the "
@@ -24996,10 +24955,8 @@ msgstr ""
 "envvar:`WEBLATE_API_RATELIMIT_USER`"
 
 #: ../../api.rst:224
-#, fuzzy
-#| msgid "Error reporting"
 msgid "Error responses"
-msgstr "Hataları bildirmek"
+msgstr "Hata yanıtları"
 
 #: ../../api.rst:228
 msgid "Error responses were endpoint specific before this release."
@@ -25269,8 +25226,6 @@ msgstr ""
 "bilgi almak için: :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:494
-#, fuzzy
-#| msgid "Returns information about group."
 msgid "Returns information about the group."
 msgstr "Grup hakkındaki bilgileri görüntüler."
 
@@ -25430,10 +25385,8 @@ msgid "List of codenames of permissions"
 msgstr "İzinlerin kod adı listesi"
 
 #: ../../api.rst:684
-#, fuzzy
-#| msgid "Returns information about a role."
 msgid "Returns information about the role."
-msgstr "Bir rol hakkındaki bilgileri görüntüler."
+msgstr "Rol hakkındaki bilgileri görüntüler."
 
 #: ../../api.rst:686
 msgid "Role ID"
@@ -25476,10 +25429,8 @@ msgid "Language plural formula and number"
 msgstr "Dil çoğul formülü ve sayısı"
 
 #: ../../api.rst:758
-#, fuzzy
-#| msgid "Returns information about a language."
 msgid "Returns information about the language."
-msgstr "Bir dil hakkındaki bilgileri görüntüler."
+msgstr "Dil hakkındaki bilgileri görüntüler."
 
 #: ../../api.rst:765
 msgid "Object of language plural information"
@@ -25531,10 +25482,8 @@ msgid "Creates a new project."
 msgstr "Yeni bir proje oluşturur."
 
 #: ../../api.rst:861
-#, fuzzy
-#| msgid "Returns information about a project."
 msgid "Returns information about the project."
-msgstr "Bir proje hakkındaki bilgileri görüntüler."
+msgstr "Proje hakkındaki bilgileri görüntüler."
 
 #: ../../api.rst:863 ../../api.rst:897 ../../api.rst:908 ../../api.rst:915
 #: ../../api.rst:923 ../../api.rst:933 ../../api.rst:945 ../../api.rst:967
@@ -25681,12 +25630,6 @@ msgid ""
 msgstr "İndirilecek dil kodu. Belirtilmediğinde tüm diller katılır."
 
 #: ../../api.rst:941
-#, fuzzy
-#| msgid ""
-#| "Returns information about VCS repository status. This endpoint contains "
-#| "only an overall summary for all repositories for the project. To get more "
-#| "detailed status use :http:get:`/api/components/(string:project)/(string:"
-#| "component)/repository/`."
 msgid ""
 "Returns information about the VCS repository status. This endpoint contains "
 "only an overall summary for all repositories for the project. To get more "
@@ -25695,8 +25638,8 @@ msgid ""
 msgstr ""
 "Sürüm denetimi sistemi deposunun durumu ile ilgili bilgileri görüntüler. Bu "
 "noktada, projenin tüm depoları için yalnızca genel bir özet bulunur. Daha "
-"ayrıntılı durum bilgileri almak için :http:get:`/api/components/(string:"
-"project)/(string:component)/repository/` kullanın."
+"ayrıntılı durum bilgileri almak için :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/` kullanın."
 
 #: ../../api.rst:947 ../../api.rst:1621
 msgid "whether there are any pending changes to commit"
@@ -26014,8 +25957,6 @@ msgstr ""
 "(string:component)/` bölümünde bulunabilir."
 
 #: ../../api.rst:1293
-#, fuzzy
-#| msgid "Returns information about translation component."
 msgid "Returns information about the translation component."
 msgstr "Çeviri bileşeni hakkındaki bilgileri görüntüler."
 
@@ -26268,16 +26209,12 @@ msgstr ""
 "tasks/(str:uuid)/`"
 
 #: ../../api.rst:1350
-#, fuzzy
-#| msgid ""
-#| "URL to to list contributor credits; see :http:get:`/api/components/"
-#| "(string:project)/(string:component)/credits/`"
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
 msgstr ""
-"Katılımcı kredileri listesi adresi. Ayrıntılı bilgi almak için: :http:get:`/"
-"api/components/(string:project)/(string:component)/credits/`"
+"Katılımcı kredilerini görüntüleme adresi. Ayrıntılı bilgi almak için: "
+":http:get:`/api/components/(string:project)/(string:component)/credits/`"
 
 #: ../../api.rst:1398
 msgid "Edit a component by a :http:method:`PATCH` request."
@@ -26383,11 +26320,8 @@ msgid "Boolean whether to lock or not."
 msgstr "Kilitli olduğunu ya da olmadığını belirten ikili değer."
 
 #: ../../api.rst:1613 ../../api.rst:2106
-#, fuzzy
-#| msgid "Returns information about VCS repository status."
 msgid "Returns information about the VCS repository status."
-msgstr ""
-"Sürüm denetimi sitemi deposunun durumu hakkındaki bilgileri görüntüler."
+msgstr "Sürüm denetimi sitemi deposunun durumu hakkındaki bilgileri görüntüler."
 
 #: ../../api.rst:1615
 msgid ""
@@ -26505,10 +26439,8 @@ msgstr ""
 "(string:component)/(string:language)/` bölümünde bulunabilir."
 
 #: ../../api.rst:1868
-#, fuzzy
-#| msgid "Returns information about a translation."
 msgid "Returns information about the translation."
-msgstr "Bir çeviriyle ilgili bilgileri görüntüler."
+msgstr "Çeviri hakkındaki bilgileri görüntüler."
 
 #: ../../api.rst:1874 ../../api.rst:1982 ../../api.rst:1994 ../../api.rst:2007
 #: ../../api.rst:2021 ../../api.rst:2044 ../../api.rst:2075 ../../api.rst:2086
@@ -26875,8 +26807,6 @@ msgid "The ``last_updated`` attribute is now exposed."
 msgstr "``last_updated`` özniteliğinin görüntülenmesi sağlandı."
 
 #: ../../api.rst:2195
-#, fuzzy
-#| msgid "Returns information about translation unit."
 msgid "Returns information about the translation unit."
 msgstr "Çeviri birimi hakkındaki bilgileri görüntüler."
 
@@ -26930,10 +26860,6 @@ msgid "translation unit labels, available on source units"
 msgstr "çeviri birimi etiketleri, kaynak birimlerde kullanılabilir"
 
 #: ../../api.rst:2210
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved, 100 - read only"
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read-only"
@@ -27075,8 +27001,6 @@ msgid "ISO 8601 formatted timestamp to list changes before"
 msgstr "Önceki değişiklikleri listelemek için ISO 8601 biçiminde zaman damgası"
 
 #: ../../api.rst:2288
-#, fuzzy
-#| msgid "Returns information about translation change."
 msgid "Returns information about the translation change."
 msgstr "Çeviri değişikliği hakkındaki bilgileri görüntüler."
 
@@ -27142,10 +27066,8 @@ msgstr ""
 "bölümünde bulunabilir."
 
 #: ../../api.rst:2318
-#, fuzzy
-#| msgid "Returns information about screenshot information."
 msgid "Returns information about the screenshot."
-msgstr "Ekran görüntüsü bilgileriyle ilgili bilgileri görüntüler."
+msgstr "Ekran görüntüsü hakkındaki bilgileri görüntüler."
 
 #: ../../api.rst:2320 ../../api.rst:2331 ../../api.rst:2338 ../../api.rst:2355
 #: ../../api.rst:2367 ../../api.rst:2390 ../../api.rst:2401 ../../api.rst:2412
@@ -28147,16 +28069,12 @@ msgid "**Contributors**"
 msgstr "**Katılımcılar**"
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/135?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/133?"
 "closed=1>`__."
 msgstr ""
 "`Tüm değişiklikler ayrıntılı olarak <https://github.com/WeblateOrg/weblate/"
-"milestone/135?closed=1>`__."
+"milestone/133?closed=1>`__."
 
 #: ../../changes.rst:43
 msgid "Weblate 5.9.2"
@@ -28416,10 +28334,8 @@ msgstr ""
 "içermiyor."
 
 #: ../../changes.rst:127
-#, fuzzy
-#| msgid "Weblate now requires Python 3.7 or newer."
 msgid "Weblate now requires Git 2.28 or newer."
-msgstr "Weblate için artık Django 3.2 gerekiyor."
+msgstr "Weblate için artık Git 2.28 ve üzerindeki sürümleri gerekiyor."
 
 #: ../../changes.rst:128
 msgid ""
@@ -39470,7 +39386,7 @@ msgid ""
 msgstr ""
 "Çevirmenlerin katkıda bulunmasını kolaylaştıran, geniş bir :ref:`formats` "
 "yelpazesini destekleyen sıkı :ref:`vcs` bütünleşmesi ile internet temelli "
-"sürekli yerelleştirme aracı."
+"kesintisiz yerelleştirme aracı."
 
 #: ../../contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
@@ -39730,7 +39646,7 @@ msgid ""
 "in our CI yet as existing code does not yet include them."
 msgstr ""
 "Herhangi bir yeni kod :pep:`484` türünde ipuçları kullanmalıdır. Var olan "
-"kod henüz bunları içermediğinden bunu henüz sürekli bütünleştirme ile "
+"kod henüz bunları içermediğinden bunu henüz kesintisiz bütünleştirme ile "
 "denetlemiyoruz."
 
 #: ../../contributing/snippets/code-guide.rst:15
@@ -40095,10 +40011,6 @@ msgid "Weblate frontend"
 msgstr "Weblate ön yüzü"
 
 #: ../../contributing/frontend.rst:4
-#, fuzzy
-#| msgid ""
-#| "The frontend is currently built using Bootstrap, jQuery and few third "
-#| "party libraries."
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third-party "
 "libraries."
@@ -40139,12 +40051,6 @@ msgid "Dependency management"
 msgstr "Bağımlılık yönetimi"
 
 #: ../../contributing/frontend.rst:22
-#, fuzzy
-#| msgid ""
-#| "Installing and managing `3rd party` libraries in the `client` of a django "
-#| "project can be a bit tricky. This section provides a step-by-step guide "
-#| "on how to install and manage 3rd party libraries used by the `client "
-#| "side` of Weblate using `Webpack`."
 msgid ""
 "Installing and managing `3rd party` libraries in the `client` of a Django "
 "project can be a bit tricky. This section provides a step-by-step guide on "
@@ -40184,8 +40090,6 @@ msgid "Run ``yarn install``"
 msgstr "``yarn install`` komutunu yürütün"
 
 #: ../../contributing/frontend.rst:39
-#, fuzzy
-#| msgid "To install a library, 1st run the following command:"
 msgid "To install a library, first run the following command:"
 msgstr "Bir kitaplığı kurmak için öncelikle şu komutu yürütün:"
 
@@ -40322,11 +40226,6 @@ msgid "Localization"
 msgstr "Yerelleştirme"
 
 #: ../../contributing/frontend.rst:99
-#, fuzzy
-#| msgid ""
-#| "Should you need any user visible text in the frontend code, it should be "
-#| "localizable. In most cases all you need is to wrap your text inside "
-#| "``gettext`` function, but there are more complex features available:"
 msgid ""
 "Should you need any user visible text in the frontend code, it should be "
 "localizable. In most cases, all you need is to wrap your text inside "
@@ -40424,7 +40323,7 @@ msgid ""
 "Weblate available in as many human languages as possible. It brings Weblate "
 "closer to its users!"
 msgstr ""
-"Weblate, gene Weblate kullanılarak sürekli olarak `çevriliyor <https://"
+"Weblate, gene Weblate kullanılarak kesintisiz olarak `çevriliyor <https://"
 "hosted.weblate.org/>`_. Weblate kullanımının olabildiğince çok dilde "
 "sağlanmasına yardımcı olmaktan çekinmeyin. Böylece Weblate kullanıcıları ile "
 "yakınlaşır!"
@@ -41008,23 +40907,17 @@ msgid "**Sending encrypted reports**"
 msgstr "**Şifrelenmiş bildirimler göndermek**"
 
 #: ../../contributing/issues.rst:42
-#, fuzzy
-#| msgid ""
-#| "If you want to send an encrypted email (*optional*), please use the "
-#| "public key for michal@weblate.org with ID ``3CB 1DF1 EF12 CF2A C0EE  5A32 "
-#| "9C27 B313 42B7 511D``. This public key is available on the most commonly "
-#| "used key servers, and from `Keybase <https://keybase.io/nijel>`_."
 msgid ""
 "If you want to send an encrypted email (*optional*), please use the public "
 "key for michal@weblate.org with ID ``3CB 1DF1 EF12 CF2A C0EE 5A32 9C27 B313 "
 "42B7 511D``. This public key is available on the most commonly used key "
 "servers, and from `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
-"Şifrelenmiş bir e-posta göndermek isterseniz (*isteğe bağlı*), "
-"michal@weblate.org için herkese açık ``3CB 1DF1 EF12 CF2A C0EE 5A32 9C27 "
-"B313 42B7 511D`` anahtarını kullanın. Bu herkese açık anahtar yaygın "
-"kullanılan anahtar sunucularında ve `Keybase <https://keybase.io/nijel>`_ "
-"üzerinde bulunabilir."
+"Şifrelenmiş bir e-posta göndermek isterseniz (*isteğe bağlı*), michal@"
+"weblate.org için herkese açık ``3CB 1DF1 EF12 CF2A C0EE 5A32 9C27 B313 42B7 "
+"511D`` anahtarını kullanın. Bu herkese açık anahtar yaygın kullanılan "
+"anahtar sunucularında ve `Keybase <https://keybase.io/nijel>`_ üzerinde "
+"bulunabilir."
 
 #: ../../contributing/issues.rst:49
 msgid ""
@@ -41161,7 +41054,7 @@ msgstr "Daha sonra depo checkout sayfasında sınama paketini yürütebilirsiniz
 
 #: ../../contributing/modules.rst:34
 msgid "The CI integration is very similar to :doc:`tests`."
-msgstr "Sürekli bütünleştirme bütünleştirmesi :doc:`tests` ile çok benzer."
+msgstr "Kesintisiz bütünleştirme bütünleştirmesi :doc:`tests` ile çok benzer."
 
 #: ../../contributing/modules.rst:40
 msgid ":doc:`code`"
@@ -41332,7 +41225,7 @@ msgstr "tür"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*array*"
-msgstr "*dizi*"
+msgstr "*array*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "items"
@@ -41345,7 +41238,7 @@ msgstr "*Çeviri belleği ögesi*"
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../contributing/schemas.rst:29
 msgid "*object*"
-msgstr "*nesne*"
+msgstr "*object*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../contributing/schemas.rst:29
@@ -41880,15 +41773,12 @@ msgid ""
 "Verbose name of the change, see Change actions source code for possible "
 "values"
 msgstr ""
-"Değişikliğin ayrıntılı adı, olası değerler için Değişiklik eylemleri kaynak "
+"Değişikliğin ayrıntılı adı, olası değerler için Değişiklik işlemleri kaynak "
 "kodu bölümüne bakın"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "ISO 8601 formatted timestamp to list changes after"
 msgid "ISO formatted timestamp"
-msgstr ""
-"Sonraki değişiklikleri listelemek için ISO 8601 biçiminde zaman damgası"
+msgstr "ISO biçiminde zaman damgası"
 
 #: ../../contributing/schemas.rst:29
 msgid "target"
@@ -41896,7 +41786,7 @@ msgstr "hedef"
 
 #: ../../contributing/schemas.rst:29
 msgid "*Target*"
-msgstr "**Target**"
+msgstr "*Hedef*"
 
 #: ../../contributing/schemas.rst:29
 msgid "New value of the change (eg. new translation of the string)"
@@ -41924,7 +41814,7 @@ msgstr "kaynak"
 
 #: ../../contributing/schemas.rst:29
 msgid "*Source*"
-msgstr "*Source*"
+msgstr "*Kaynak*"
 
 #: ../../contributing/schemas.rst:29
 msgid "Source string"
@@ -42074,9 +41964,9 @@ msgid ""
 "artifacts on our CI as :abbr:`SARIF (Static Analysis Results Interchange "
 "Format)`."
 msgstr ""
-"Bu taramaların sonuçlarını GitHub üzerinden alabilirsiniz. Bunlar komut "
-"arayüzümüzde :abbr:`SARIF (Static Analysis Results Interchange Format)` "
-"olarak tutulur."
+"Bu taramaların sonuçlarını GitHub üzerinden alabilirsiniz. Bunlar kesintisiz "
+"bütünleştirmemizde :abbr:`SARIF (Static Analysis Results Interchange Format)`"
+" olarak tutulur."
 
 #: ../../contributing/security.rst:44
 msgid ":ref:`ci-tests`"
@@ -42245,16 +42135,12 @@ msgstr ""
 "yeniden oluşturur ve yeniden başlatır."
 
 #: ../../contributing/start.rst:117
-#, fuzzy
-#| msgid ""
-#| "This is not a suitable setup for production, as it includes several hacks "
-#| "which are insecure, but they make development easier."
 msgid ""
 "This container is not suitable for production use. Security is sacrificed to "
 "make the development easier."
 msgstr ""
-"Bu, üretim için uygun bir kurulum değildir. Güvenli olmayan birkaç ayar "
-"yapılmıştır, ancak geliştirmeyi kolaylaştırır."
+"Bu kapsayıcı üretim için uygun değildir. Geliştirmeyi kolaylaştırmak için "
+"güvenlikten ödün verilmiştir."
 
 #: ../../contributing/start.rst:121
 msgid "Bootstrapping your devel instance"
@@ -42359,7 +42245,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
-msgstr "Weblate sınama paketi ve sürekli bütünleştirme"
+msgstr "Weblate sınama paketi ve kesintisiz bütünleştirme"
 
 #: ../../contributing/tests.rst:4
 msgid ""
@@ -42372,7 +42258,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
-msgstr "Sürekli bütünleştirme"
+msgstr "Kesintisiz bütünleştirme"
 
 #: ../../contributing/tests.rst:12
 msgid ""
@@ -42418,7 +42304,7 @@ msgid ""
 "mostly defining Django settings file to use and test database connection. "
 "The example definition of that is in :file:`scripts/test-database.sh`:"
 msgstr ""
-"Sürekli bütünleştirme yapılandırması :file:`.github/workflows` klasöründe "
+"Kesintisiz bütünleştirme yapılandırması :file:`.github/workflows` klasöründe "
 "bulunur ve yoğun olarak :file:`ci` klasöründeki yardımcı betikleri kullanır. "
 "Betikler el ile de yürütülebilir, ancak çoğunlukla kullanılacak Django "
 "ayarları dosyasını ve veri tabanı bağlantısını denetleyen birkaç ortam "
@@ -42483,7 +42369,7 @@ msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well (see :"
 "ref:`ci-tests`) and can be tuned using environment variables:"
 msgstr ""
-":file:`weblate/settings_test.py` sürekli bütünleştirme ortamında da "
+":file:`weblate/settings_test.py` kesintisiz bütünleştirme ortamında da "
 "kullanılır (ayrıntılı bilgi almak için: :ref:`ci-tests`) ve ortam "
 "değişkenleri kullanılarak ayarlanabilir:"
 
@@ -44098,7 +43984,7 @@ msgid ""
 msgstr ""
 "Weblate şu anda dizge ayıklamanın kendiliğinden yapılması ile ilgilenmiyor. "
 "Bunun için genellikle güvenilmeyen bir kodun çalıştırılması gerekir. Bu "
-"durum yerelleştirmeye özgü bir platformdan yerine genel bir sürekli "
+"durum yerelleştirmeye özgü bir platformdan yerine genel bir kesintisiz "
 "bütünleştirme için daha uygundur."
 
 #: ../../devel/integration.rst:147
@@ -44108,7 +43994,7 @@ msgid ""
 "should also cover :ref:`avoid-merge-conflicts`."
 msgstr ""
 "Yeni dizgelerin kendiliğinden çeviri olarak görünmesini sağlamak için bunu "
-"sürekli bütünleştirme altyapınızla birleştirmek isteyebilirsiniz. Bu "
+"kesintisiz bütünleştirme altyapınızla birleştirmek isteyebilirsiniz. Bu "
 "altyapıda :ref:`avoid-merge-conflicts` seçeneği de kapsanmalıdır."
 
 #: ../../devel/integration.rst:153
@@ -44133,17 +44019,12 @@ msgstr ""
 "olabilir. :guilabel:`Depo bakımı` bölümünden depoyu denetleyebilirsiniz."
 
 #: ../../devel/integration.rst:169
-#, fuzzy
-#| msgid ""
-#| "With :doc:`/admin/continuous`, any changes are automatically pushed from "
-#| "the repository, so there is usually no need to manually manage it "
-#| "manually."
 msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
 "repository, so there is usually no need to manage it manually."
 msgstr ""
 ":doc:`/admin/continuous` ile değişiklikler depodan kendiliğinden itilir ve "
-"genellikle el ile işlem yapmak gerekmez."
+"genellikle işlemi el ile yönetmek gerekmez."
 
 #: ../../devel/integration.rst:176
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
@@ -46710,13 +46591,6 @@ msgid "This feature is modelled on flags in :ref:`gettext`."
 msgstr "Bu özellik, :ref:`gettext` içindeki imlerde modellenmiştir."
 
 #: ../../formats.rst:446
-#, fuzzy
-#| msgid ""
-#| "Additionally, for all XML based format, the flags are extracted from the "
-#| "non-standard attribute ``weblate-flags``. Additionally ``max-length:N`` "
-#| "is supported through the ``maxwidth`` `attribute <http://docs.oasis-open."
-#| "org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF "
-#| "standard, see :ref:`xliff-flags`."
 msgid ""
 "Additionally, for all XML based format, the flags are extracted from the non-"
 "standard attribute ``weblate-flags``. Additionally ``max-length:N`` is "
@@ -46726,9 +46600,9 @@ msgid ""
 msgstr ""
 "İmler, tüm XML tabanlı biçimler için standart olmayan ``weblate-flags`` "
 "özniteliğinden ayıklanır. Ek olarak, ``max-length:N``, XLIFF standardında "
-"tanımlandığı gibi ``maxwidth`` `özniteliği <http://docs.oasis-open.org/xliff/"
-"v1.2/os/xliff-core.html#maxwidth>`_ ile desteklenir. Ayrıntılı bilgi almak "
-"için: :ref:`xliff-flags`."
+"tanımlandığı gibi ``maxwidth`` `özniteliği <https://docs.oasis-open.org/"
+"xliff/v1.2/os/xliff-core.html#maxwidth>`_ ile desteklenir. Ayrıntılı bilgi "
+"almak için: :ref:`xliff-flags`."
 
 #: ../../formats.rst:454
 msgid ":ref:`custom-checks`, `PO files documentation`_"
@@ -47014,14 +46888,6 @@ msgid "Apple iOS strings are usually used as monolingual."
 msgstr "Apple iOS dizgeleri genellikle tek dilli çeviriler olarak kullanılır."
 
 #: ../../formats/apple.rst:17
-#, fuzzy
-#| msgid ""
-#| ":ref:`stringsdict`, `Apple \"strings files\" documentation <https://"
-#| "developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
-#| "BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles."
-#| "html>`_, `Message Catalog File Format in PWG 5100.13 <http://ftp.pwg.org/"
-#| "pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13."
-#| "pdf#page=66>`_, :doc:`tt:formats/strings`"
 msgid ""
 ":ref:`stringsdict`, `Apple \"strings files\" documentation <https://"
 "developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
@@ -47030,11 +46896,12 @@ msgid ""
 "pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :"
 "doc:`tt:formats/strings`"
 msgstr ""
-":ref:`stringsdict`, `Apple \"dizge dosyaları\" belgeleri <https://developer."
-"apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/"
-"MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_, ` PWG "
-"5100.13 İleti Kataloğu Dosya Biçimi <http://ftp.pwg.org/pub/pwg/candidates/"
-"cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :doc:`tt:formats/"
+":ref:`stringsdict`, `Apple \"dizge dosyaları\" belgeleri <https://"
+"developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
+"BPInternational/MaintaingYourOwnStringsFiles/"
+"MaintaingYourOwnStringsFiles.html>`_, ` PWG 5100.13 İleti Kataloğu Dosya "
+"Biçimi <https://ftp.pwg.org/pub/pwg/candidates/cs-"
+"ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :doc:`tt:formats/"
 "strings`"
 
 #: ../../formats/apple.rst:23 ../../formats/appstore.rst:24
@@ -48924,19 +48791,14 @@ msgstr ""
 "bilgi almak için: :ref:`fonts`)."
 
 #: ../../formats/xliff.rst:114
-#, fuzzy
-#| msgid ""
-#| "`font attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/"
-#| "xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 <http://docs."
-#| "oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgid ""
 "`font attribute in XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/"
 "xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 <https://docs."
 "oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgstr ""
 "`XLIFF 1.2 font özniteliği <http://docs.oasis-open.org/xliff/v1.2/os/xliff-"
-"core.html#font>`_, `XLIFF 1.2 maxwidth özniteliği <http://docs.oasis-open."
-"org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
+"core.html#font>`_, `XLIFF 1.2 maxwidth özniteliği <https://"
+"docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 
 #: ../../formats/xliff.rst:118
 msgid "String keys"
