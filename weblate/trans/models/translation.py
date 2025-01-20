@@ -580,8 +580,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def store_hash(self) -> None:
         """Store current hash in database."""
-        self.revision = self.get_git_blob_hash()
-        self.save(update_fields=["revision"])
+        try:
+            self.revision = self.get_git_blob_hash()
+            self.save(update_fields=["revision"])
+        except FileNotFoundError:
+            self.reason = ""
+            return
 
     def get_last_author(self):
         """Return last author of change done in Weblate."""
