@@ -297,9 +297,10 @@ if language in {
     "pt_BR",
     "sr",
     "zh_CN",
-    "zh_TW",
 }:
     sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/master/"
+elif language == "zh_TW":
+    sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/latest/"
 
 if language != "en":
     tags.add("i18n")  # noqa: F821
