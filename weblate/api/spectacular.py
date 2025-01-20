@@ -63,6 +63,12 @@ def get_spectacular_settings(
 The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
 
 The OpenAPI specification is available as feature preview, feedback welcome!
+
+## Authorization
+
+<!-- Redoc-Inject: <security-definitions> -->
+
+
     """,
         "EXTENSIONS_INFO": {
             "x-logo": {
