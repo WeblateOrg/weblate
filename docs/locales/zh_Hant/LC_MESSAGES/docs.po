@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-01-20 12:12+0000\n"
+"PO-Revision-Date: 2025-01-20 12:33+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -198,7 +198,7 @@ msgstr "管理單一專案的存取控制"
 
 #: ../../admin/access.rst:90
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr "於`公開`、`保護`與`隱私`專案："
+msgstr "於 `公開`、`保護` 與 `隱私` 專案："
 
 #: ../../admin/access.rst:92
 msgid ""
@@ -1026,8 +1026,8 @@ msgid ""
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
 "從一個 Weblate 版本升級到另一個版本時，總是會重新建立對 `Users` 和 `Viewers` "
-"的使用者團隊指派。如果您想關閉它，將常規表達式設定為 ``^$``（不比對任何內"
-"容）。"
+"的使用者團隊指派。如果您想關閉它，將常規表達式設定為 ``^$`` "
+"（不比對任何內容）。"
 
 #: ../../admin/access.rst:449
 msgid ""
@@ -6220,7 +6220,7 @@ msgstr "版本控制儲存庫"
 
 #: ../../admin/backup.rst:319
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
-msgstr "儲存在 :setting:`DATA_DIR` ``/vcs``中。"
+msgstr "儲存在 :setting:`DATA_DIR` ``/vcs`` 中。"
 
 #: ../../admin/backup.rst:321
 #, fuzzy
@@ -6444,7 +6444,7 @@ msgstr ""
 msgid ""
 "Both single and double quotes are accepted, special characters are being "
 "escaped using backslash:"
-msgstr "單引號或是雙引號是可接受的，特殊符號就會被使用反斜線 `\\` 挑脫處理："
+msgstr "單引號或是雙引號是可接受的，特殊符號就會被使用反斜線 `\\\\` 挑脫處理："
 
 #: ../../admin/checks.rst:57
 msgid ""
@@ -6614,8 +6614,9 @@ msgid ""
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
 "當檢查結果文字引數時執行替換（例如在 :ref:`check-max-size` 或 :ref:`check-"
-"max-length` 中）。這一典型應用的情況拓展了非譯元素，確保匹配那些即使使用了長"
-"值的文字，例如 placements:%s:\"John Doe\"``。"
+"max-length` "
+"中）。這一典型應用的情況拓展了非譯元素，確保匹配那些即使使用了長值的文字，"
+"例如 ``replacements:%s:\"John Doe\"``。"
 
 #: ../../admin/checks.rst:106
 msgid "``variants:SOURCE``"
@@ -8193,7 +8194,7 @@ msgstr "可能的選項："
 
 #: ../../admin/config.rst:231
 msgid "``monthly`` (this is the default)"
-msgstr "``每月``（這是預設值）"
+msgstr "``每月`` （這是預設值）"
 
 #: ../../admin/config.rst:232
 msgid "``weekly``"
@@ -14403,8 +14404,8 @@ msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
-"後面的組態將 Weblate 作為 WSGI 來執行，您需要啟用 ``mod_wsgi``（作為 :file:"
-"`weblate/examples/apache.conf` 來獲得）："
+"後面的組態將 Weblate 作為 WSGI 來執行，您需要啟用 ``mod_wsgi`` （作為 :file:`"
+"weblate/examples/apache.conf` 來獲得）："
 
 #: ../../admin/install.rst:1473
 msgid ""
@@ -16447,9 +16448,9 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
-"在第一次啟動容器時自動產生自簽名的 SAML 金鑰。在您想要使用自己的金鑰的情況"
-"下，將憑證和私鑰放置在 :file:`/app/data/ssl/saml.crt` 和 :file:`/app/data/"
-"ssl/saml.key`中。"
+"在第一次啟動容器時自動產生自簽名的 SAML "
+"金鑰。在您想要使用自己的金鑰的情況下，將憑證和私鑰放置在 :file:`/app/data/"
+"ssl/saml.crt` 和 :file:`/app/data/ssl/saml.key` 中。"
 
 #: ../../admin/install/docker.rst:1417
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
@@ -20606,7 +20607,7 @@ msgstr "list_translators"
 
 #: ../../admin/management.rst:638
 msgid "Lists translators by contributed language for the given project:"
-msgstr "對給定的項目列出為這種語言做出貢獻的譯者::"
+msgstr "對給定的項目列出為這種語言做出貢獻的譯者:"
 
 #: ../../admin/management.rst:649
 msgid "List names by language code instead of language name."
@@ -21773,9 +21774,9 @@ msgid ""
 "On the level above, :ref:`component`, which is actually the component to "
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
-msgstr ""
-"在上面的級別上，:ref:`component`（實際上是要翻譯的組件），您定義要使用的版本"
-"控制系統（VCS ）倉儲以及要翻譯的文件的掩碼。"
+msgstr "在上面的級別上，:ref:`component` "
+"（實際上是要翻譯的組件），您定義要使用的版本控制系統（VCS "
+"）倉儲以及要翻譯的文件的掩碼。"
 
 #: ../../admin/projects.rst:22
 #, fuzzy
@@ -22338,8 +22339,8 @@ msgid ""
 "For example on GitHub, use something like: ``https://github.com/WeblateOrg/"
 "hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 msgstr ""
-"例如在 GitHub 上，使用像：``https://github.com/WeblateOrg/hello/blob/"
-"{{branch}}/{{filename}}#L{{line}}``那樣的一些東西"
+"例如在 GitHub 上，使用像： ``https://github.com/WeblateOrg/hello/blob/"
+"{{branch}}/{{filename}}#L{{line}}`` 那樣的一些東西"
 
 #: ../../admin/projects.rst:386
 #, fuzzy
@@ -26438,8 +26439,7 @@ msgstr "文件請參見 :http:post:`/api/projects/(string:project)/repository/`�
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``"
-msgstr ""
-"執行的操作： ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``之一"
+msgstr "執行的操作： ``push``, ``pull``, ``commit``, ``reset``, ``cleanup`` 之一"
 
 #: ../../api.rst:1680
 msgid "Downloads base file for monolingual translations."
@@ -26747,9 +26747,8 @@ msgstr "開啟對專案的共享翻譯記憶作貢獻，以取得其他組件的
 msgid ""
 "Download current translation file as it is stored in the VCS (without the "
 "``format`` parameter) or converted to another format (see :ref:`download`)."
-msgstr ""
-"下載儲存在 VCS 中的目前翻譯文件（不帶 ``format``參數）或將其轉換為另一格式"
-"（見 :ref:`download`）。"
+msgstr "下載儲存在 VCS 中的目前翻譯文件（不帶 ``format`` 參數）或將其轉換為另一格式（"
+"見 :ref:`download`）。"
 
 #: ../../api.rst:2060
 msgid ""
@@ -39209,7 +39208,7 @@ msgstr "改進了 Google Translate 整合中的語言代碼處理。"
 
 #: ../../changes/v4.rst:1074
 msgid "The Git squash add-on can generate ``Co-authored-by:`` trailers."
-msgstr "Git 變形附加元件可以產生 ``Co-authored-by:``預告。"
+msgstr "Git 變形附加元件可以產生 ``Co-authored-by:`` 預告。"
 
 #: ../../changes/v4.rst:1075
 msgid "Improved query search parser."
@@ -40176,9 +40175,8 @@ msgstr "編碼風格"
 msgid ""
 "Any code for Weblate should be written with `Security by Design Principles`_ "
 "in mind."
-msgstr ""
-"編寫 Weblate 的任何代碼應該時刻記得 `Security by Design Principles`_（由設計"
-"原理來提供安全性）。"
+msgstr "編寫 Weblate 的任何代碼應該時刻記得 `Security by Design Principles`_ "
+"（由設計原理來提供安全性）。"
 
 #: ../../contributing/snippets/code-guide.rst:9
 msgid ""
@@ -40867,9 +40865,9 @@ msgid ""
 "Weblate available in as many human languages as possible. It brings Weblate "
 "closer to its users!"
 msgstr ""
-"Weblate 持續使用 Weblate 自身進行`translated <https://hosted.weblate.org/"
-">`_。盡您所能，使 Weblate 能以盡可能多的人類語言提供。它讓 Weblate 更接近它的"
-"使用者！"
+"Weblate 持續使用 Weblate 自身進行 `translated <https://hosted.weblate.org/"
+">`_。盡您所能，使 Weblate 能以盡可能多的人類語言提供。它讓 Weblate "
+"更接近它的使用者！"
 
 #: ../../contributing/index.rst:28
 msgid ""
@@ -40891,9 +40889,8 @@ msgid ""
 "You are welcome to improve the documentation page of your choice. Do it "
 "easily by clicking the :guilabel:`Edit on GitHub` button in the top-right "
 "corner of the page."
-msgstr ""
-"歡迎您來改進您選擇的文件頁面。點擊符號:guilabel:`編輯在頁面的右上角的github`"
-"按鈕上輕鬆進行。"
+msgstr "歡迎您來改進您選擇的文件頁面。點擊符號 :guilabel:`編輯在頁面的右上角的github`"
+" 按鈕上輕鬆進行。"
 
 #: ../../contributing/index.rst:40
 msgid "Please respect these guidelines while writing:"
@@ -40963,12 +40960,13 @@ msgid "You will also need :program:`graphviz` to build the documentation."
 msgstr ""
 
 #: ../../contributing/index.rst:62
+#, fuzzy
 msgid ""
 "You can `translate the docs <https://hosted.weblate.org/projects/weblate/"
 "documentation/>`_."
 msgstr ""
-"您可以使用docs <https://hosted.weblate.org/projects/weblate/documentation/>`_"
-"翻譯。"
+"您可以使用docs <https://hosted.weblate.org/projects/weblate/documentation/"
+">`_翻譯。"
 
 #: ../../contributing/index.rst:68
 #, fuzzy
@@ -40981,8 +40979,8 @@ msgid ""
 "The language definitions are in the `weblate-language-data repository "
 "<https://github.com/WeblateOrg/language-data/>`_."
 msgstr ""
-"語言定義是在`webleate-language-data 儲存庫 <https://github.com/weblateorg/"
-"anguage-data/> 中`_ 。"
+"語言定義是在 `webleate-language-data 儲存庫中 <https://github.com/weblateorg/"
+"anguage-data/>`_ 。"
 
 #: ../../contributing/index.rst:73
 msgid ""
@@ -41382,7 +41380,7 @@ msgstr ""
 msgid ""
 "If what you have found is a security issue in Weblate, please consult the :"
 "ref:`security` section below."
-msgstr "如果您在 Weblate 中發現了安全問題，請查閱下方的 :ref:`security`部分。"
+msgstr "如果您在 Weblate 中發現了安全問題，請查閱下方的 :ref:`security` 部分。"
 
 #: ../../contributing/issues.rst:14
 #, fuzzy
@@ -41654,7 +41652,8 @@ msgid ""
 "Merge any possibly pending translations :command:`wlc push; git remote "
 "update; git merge origin/weblate`"
 msgstr ""
-"合併任何可能掛起的翻譯：命令：`wlc推動;git遠端更新;git合併起源/ web blate`"
+"合併任何可能掛起的翻譯 :command:`wlc push; git remote update; git merge "
+"origin/weblate`"
 
 #: ../../contributing/release.rst:35
 msgid "Perform the release:"
@@ -42894,8 +42893,9 @@ msgid ""
 "existing debugger breakpoints to persist, when they normally would be "
 "discarded upon reloading the server."
 msgstr ""
-"小心被稱為 :guilabel:`No reload`的屬性：如果您修改文件，它會阻止伺服器被實時"
-"重新載入。這允許保留現有的調試器斷點，而它們通常會在重新載入伺服器時被丟棄。"
+"小心被稱為 :guilabel:`No reload` "
+"的屬性：如果您修改文件，它會阻止伺服器被實時重新載入。這允許保留現有的調試器"
+"斷點，而它們通常會在重新載入伺服器時被丟棄。"
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
@@ -43737,8 +43737,9 @@ msgid ""
 "(you would use `msgmerge`_ for that). The resulting file is simply a "
 "structured text file:"
 msgstr ""
-"這新建了模板文件，您可以用它來開始新的翻譯（使用`msginit`_），或在代碼更改後"
-"更新現有的翻譯（為此您將使用 `msgmerge`_）。結果文件是簡單的結構化文本文件："
+"這新建了模板文件，您可以用它來開始新的翻譯（使用 "
+"`msginit`_），或在代碼更改後更新現有的翻譯（為此您將使用 "
+"`msgmerge`_）。結果文件是簡單的結構化文本文件："
 
 #: ../../devel/gettext.rst:142
 msgid ""
@@ -43773,8 +43774,8 @@ msgid ""
 "`GNU gettext`_ functions at runtime."
 msgstr ""
 "這個文件被編譯為優化的二進制形式，`.mo <https://www.gnu.org/software/gettext/"
-"manual/gettext.html#MO-Files>`_ 文件，由`GNU gettext`_ 函數在執行時使用。時使"
-"用。"
+"manual/gettext.html#MO-Files>`_ 文件，由 `GNU gettext`_ "
+"函數在執行時使用。時使用。"
 
 #: ../../devel/gettext.rst:198
 msgid "Updating strings"
@@ -43843,7 +43844,7 @@ msgstr "新增語言"
 
 #: ../../devel/gettext.rst:232
 msgid "Choose :guilabel:`Create new language file`"
-msgstr "選擇 :guilabel:`Create new language file`（新建新語言文件）"
+msgstr "選擇 :guilabel:`Create new language file` （新建新語言文件）"
 
 #: ../../devel/gettext.rst:235
 msgid "And that's it, you're now ready to start translating your software!"
@@ -43936,9 +43937,9 @@ msgid ""
 "`JSON file` as a file format (it is okay to choose any monolingual format at "
 "this point)."
 msgstr ""
-"對於那些不想要使用（或不具有）現有倉儲的人，當新建元件時選擇:guilabel:`Start "
-"from scratch`，並選擇`JSON file` 作為文件格式（這是選擇任何單語言格式都可"
-"以）。"
+"對於那些不想要使用（或不具有）現有倉儲的人，當新建元件時選擇 :guilabel:`"
+"Start from scratch`，並選擇 `JSON file` "
+"作為文件格式（這是選擇任何單語言格式都可以）。"
 
 #: ../../devel/html.rst:45
 msgid "Configuring Weblate CDN add-on"
@@ -44116,7 +44117,7 @@ msgid ""
 msgstr ""
 "預設情況下，每個專案內都有對跨元件傳播的公共字串的翻譯。這減輕了重複和多版本"
 "翻譯的負擔。但假如翻譯應當有所不同，可以使用 :ref:`component-"
-"allow_translation_propagation` 通過 :ref:`component`停用翻譯傳播。"
+"allow_translation_propagation` 通過 :ref:`component` 停用翻譯傳播。"
 
 #: ../../snippets/basics.rst:24
 #, fuzzy
@@ -44729,7 +44730,7 @@ msgstr "字串中編輯的數量，以 Damerau–Levenshtein 距離來衡量。"
 
 #: ../../devel/reporting.rst:99
 msgid "`Source words`"
-msgstr "`Source words`（源語言單詞）"
+msgstr "`Source words` （源語言單詞）"
 
 #: ../../devel/reporting.rst:100
 #, fuzzy
@@ -44739,7 +44740,7 @@ msgstr "源語言字串中單詞的數量。"
 
 #: ../../devel/reporting.rst:101
 msgid "`Source characters`"
-msgstr "`Source characters`（源語言字元）"
+msgstr "`Source characters` （源語言字元）"
 
 #: ../../devel/reporting.rst:102
 #, fuzzy
@@ -44749,7 +44750,7 @@ msgstr "源語言字串中字元的數量。"
 
 #: ../../devel/reporting.rst:103
 msgid "`Target words`"
-msgstr "`Target words`（目標語言單詞）"
+msgstr "`Target words` （目標語言單詞）"
 
 #: ../../devel/reporting.rst:104
 #, fuzzy
@@ -44759,7 +44760,7 @@ msgstr "翻譯的字串中單詞的數量。"
 
 #: ../../devel/reporting.rst:105
 msgid "`Target characters`"
-msgstr "`Target characters`（目標語言字元）"
+msgstr "`Target characters` （目標語言字元）"
 
 #: ../../devel/reporting.rst:106
 #, fuzzy
@@ -44797,12 +44798,12 @@ msgstr ""
 "reports`。"
 
 #: ../../devel/review.rst:21
+#, fuzzy
 msgid ""
 "The activity of the currently signed in user can be seen by clicking on the "
 "user name from the user menu on the top right."
-msgstr ""
-"可以通過點擊右上角使用者選單的 :guilabel:`Profile`，看到目前登入使用者的活"
-"動。"
+msgstr "可以通過點擊右上角使用者選單的 "
+":guilabel:`Profile`，看到目前登入使用者的活動。"
 
 #: ../../devel/review.rst:25
 msgid "Source strings checks"
@@ -45248,8 +45249,7 @@ msgstr "在地化程式庫與軟體包"
 msgid ""
 "Weblate can be integrated into your framework using :doc:`/api`. This page "
 "lists third-party libraries which integrate Weblate."
-msgstr ""
-"Weblate 可以使用 :doc:`/api`整合到您所使用的框架中。此頁面條列了有支援 "
+msgstr "Weblate 可以使用 :doc:`/api` 整合到您所使用的框架中。此頁面條列了有支援 "
 "Weblate 的套件。"
 
 #: ../../devel/thirdparty.rst:7
@@ -45367,9 +45367,10 @@ msgid ""
 "addition. This can be done using :ref:`component-new_lang` in :ref:"
 "`component`."
 msgstr ""
-"在 Weblate 中，當使用者要求時新的語言可以立刻加入，或者新的通知會發送給項目管"
-"理員來同一或手動新增。這可以使用 :ref:`component` 中的:ref:`component-"
-"new_lang` 來實現。"
+"在 Weblate "
+"中，當使用者要求時新的語言可以立刻加入，或者新的通知會發送給項目管理員來同一"
+"或手動新增。這可以使用 :ref:`component` 中的 :ref:`component-new_lang` "
+"來實現。"
 
 #: ../../devel/translations.rst:34
 #, fuzzy
@@ -45473,8 +45474,8 @@ msgid ""
 "from Weblate and remote repository if used) from the menu :guilabel:`Manage` "
 "↓ :guilabel:`Removal` of each project, component, or language."
 msgstr ""
-"語言、元件、或是他們所在的專案是可以從每一項目的選單上移除 :guilabel:`管理` "
-"↓ :guilabel:`移除`（也可透過 Weblate 或是遠端倉儲）。"
+"語言、元件、或是他們所在的專案是可以從每一項目的選單上移除 :guilabel:`管理` ↓"
+" :guilabel:`移除` （也可透過 Weblate 或是遠端倉儲）。"
 
 #: ../../devel/translations.rst:79
 msgid ""
@@ -45760,8 +45761,8 @@ msgid ""
 "authentication. When using the built-in :ref:`git-exporter` in Weblate, you "
 "authenticate with your username and the API key."
 msgstr ""
-"取決於您的設定， 存取 Weblate 代碼庫可能需要身份驗證。使用 Weblate 中內建的 :"
-"ref:`git-exporter`時，您使用使用者名和 API 金鑰進行身份驗證。"
+"取決於您的設定， 存取 Weblate 代碼庫可能需要身份驗證。使用 Weblate 中內建的 "
+":ref:`git-exporter` 時，您使用使用者名和 API 金鑰進行身份驗證。"
 
 #: ../../faq.rst:93
 msgid ""
@@ -46412,15 +46413,16 @@ msgid "Does Weblate support other VCSes than Git and Mercurial?"
 msgstr "Weblate 支援 Git 和 Mercurial 意外的 VCS 嗎？"
 
 #: ../../faq.rst:510
+#, fuzzy
 msgid ""
 "Weblate currently does not have native support for anything other than :ref:"
 "`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-gerrit` "
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
-"Weblate 目前不支援:ref:`vcs-git` （擴展支援:ref:`vcs-github`、:ref:`vcs-"
-"gerrit` 和:ref:`vcs-git-svn`）和:ref:`vcs-mercurial` 以外的任何VCSes，但能夠"
-"對其它VCSes 寫後端。"
+"Weblate 目前不支援 :ref:`vcs-git` （擴展支援 :ref:`vcs-github`、:ref:`vcs-"
+"gerrit` 和 :ref:`vcs-git-svn`）和:ref:`vcs-mercurial` 以外的任何VCSes，"
+"但能夠對其它VCSes 寫後端。"
 
 #: ../../faq.rst:515
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
@@ -46946,9 +46948,9 @@ msgid ""
 "is called :ref:`component-template` within Weblate, though the naming might "
 "vary in your paradigm."
 msgstr ""
-"為了正確使用單語文件，Weblate 要求存取一個包含完整字串列表的文件，以與其源一"
-"起翻譯—— 該文件在Weblate 中稱為:ref:`component-template`，儘管命名方式可能會"
-"有所不同。"
+"為了正確使用單語文件，Weblate "
+"要求存取一個包含完整字串列表的文件，以與其源一起翻譯—— 該文件在Weblate "
+"中稱為 :ref:`component-template`，儘管命名方式可能會有所不同。"
 
 #: ../../formats.rst:388
 msgid ""
@@ -47114,30 +47116,31 @@ msgid ""
 "`xliff` and :ref:`aresource`), but can be emulated in others by adding a "
 "``read-only`` flag, see :ref:`custom-checks`."
 msgstr ""
-"將包含來自翻譯文件的只讀字串，但不能在 Webleate 中編輯。此功能本功能僅由少量"
-"格式支援（ :ref:`xliff`和 :ref:`aresource`），但可以通過新增一個 ``read-"
-"only`` 標記，參閱 :ref:`custom-checks`。"
+"將包含來自翻譯文件的只讀字串，但不能在 Webleate "
+"中編輯。此功能本功能僅由少量格式支援（ :ref:`xliff` 和 :ref:`aresource`），"
+"但可以通過新增一個 ``read-only`` 標記，參閱 :ref:`custom-checks`。"
 
 #: ../../formats.rst:499
 msgid "Supporting other formats"
 msgstr "支援其他格式"
 
 #: ../../formats.rst:501
+#, fuzzy
 msgid ""
 "Most formats supported by `translate-toolkit`_ which support serializing can "
 "be easily supported, but they did not (yet) receive any testing. In most "
 "cases some thin layer is needed in Weblate to hide differences in behavior "
 "of different `translate-toolkit`_ storages."
 msgstr ""
-"支援序列化的大多數格式可以輕鬆支援支援序列化，但他們沒有（尚未）接收任何測"
-"試。在大多數情況下，Weberate需要一些薄層以隱藏不同`Translate-Toolkit`_ "
+"支援序列化的大多數格式可以輕鬆支援支援序列化，但他們沒有（尚未）接收任何測試"
+"。在大多數情況下，Weberate需要一些薄層以隱藏不同 `Translate-Toolkit`_ "
 "Storage的行為的差異。"
 
 #: ../../formats.rst:506
 msgid ""
 "To add support for a new format, the preferred approach is to first "
 "implement support for it in the `translate-toolkit`_."
-msgstr "要為新格式新增支援，首先要在“translate-toolkit`_中為其實現支援。"
+msgstr "要為新格式新增支援，首先要在 `translate-toolkit`_ 中為其實現支援。"
 
 #: ../../formats/android.rst:4
 msgid "Android string resources"
@@ -47524,9 +47527,10 @@ msgid ""
 "``translator_comments``, ``developer_comments``. Choose :guilabel:`CSV file` "
 "as a file format."
 msgstr ""
-"無標頭文件字段順序由`translate-toolkit`_: ``location``、 ``source``、"
-"``target``、 ``ID``、 ``fuzzy``、 ``context``、 ``translator_comments``、 "
-"``developer_comments`` 所定義。選擇 :guilabel:`CSV file` 作為一種文件格式。"
+"無標頭文件字段順序由 `translate-toolkit`_: ``location``、 "
+"``source``、``target``、 ``ID``、 ``fuzzy``、 ``context``、 "
+"``translator_comments``、 ``developer_comments`` 所定義。選擇 :guilabel:`CSV "
+"file` 作為一種文件格式。"
 
 #: ../../formats/csv.rst:22
 #, fuzzy
@@ -49136,9 +49140,9 @@ msgid ""
 "into Weblate as \"Approved\", anything else will be imported as \"Waiting "
 "for review\" (which matches the XLIFF specification)."
 msgstr ""
-"如果翻譯字串具有``approved=\"yes\"``，那麼它還將被導入Weblate 作為"
-"\"Approved\"（同意的），任何其它內容被導入作為\"Waiting for review\" （等待複"
-"核，這與XLIFF 規範匹配）。"
+"如果翻譯字串具有 ``approved=\"yes\"`` ，那麼它還將被導入Weblate "
+"作為\"Approved\"（同意的），任何其它內容被導入作為\"Waiting for review\" "
+"（等待複核，這與XLIFF 規範匹配）。"
 
 #: ../../formats/xliff.rst:53
 msgid "While saving, Weblate doesn't add those attributes unless necessary:"
@@ -49617,10 +49621,11 @@ msgid "Generating signatures for code commits (PGP)"
 msgstr "為代碼的送交產生簽名（PGP）"
 
 #: ../../legal.rst:73
+#, fuzzy
 msgid ""
 "`Export Controls (EAR) on Open Source Software <https://www.magicsplat.com/"
 "blog/ear/>`_"
-msgstr "“出口控制（耳朵）開源軟件<https://www.magicsplat.com/blog/ear/>`_"
+msgstr "`出口控制（耳朵）開源軟件<https://www.magicsplat.com/blog/ear/>`_"
 
 #: ../../python.rst:8
 msgid "Weblate's Python API"
@@ -49733,7 +49738,7 @@ msgstr "命令行界面的主要入口點。"
 msgid ""
 "Decorator to register :class:`Command` class in main parser used by :func:"
 "`main`."
-msgstr "註冊 :class:`Command`裝飾器類別在主要解析程式 :func:`main` 中。"
+msgstr "註冊 :class:`Command` 裝飾器類別在主要解析程式 :func:`main` 中。"
 
 #: ../../python.rst:114
 msgid ":class:`Command`"
@@ -50432,7 +50437,7 @@ msgid ""
 ":ref:`check-formats`, `AngularJS text interpolation <https://angular.io/"
 "guide/interpolation>`_"
 msgstr ""
-":ref:`check-formats`，`angularjs text插值<https://angular.io/guide/"
+":ref:`check-formats`，`angularjs text插值 <https://angular.io/guide/"
 "interpolation>`_"
 
 #: ../../user/checks.rst:440
@@ -50483,12 +50488,13 @@ msgid ":ref:`check-formats`,"
 msgstr "檔案格式"
 
 #: ../../user/checks.rst:454
+#, fuzzy
 msgid ""
 "`C format strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "c_002dformat.html>`_, `C printf format <https://en.wikipedia.org/wiki/"
 "Printf_format_string>`_"
 msgstr ""
-"`c格式字串<https://www.gnu.org/software/gettext/manual/html_node/"
+"`c格式字串 <https://www.gnu.org/software/gettext/manual/html_node/"
 "c_002dformat.html>`_，`c printf格式<https://en.wikipedia.org/wiki/"
 "printf_format_string>`_"
 
@@ -50747,7 +50753,7 @@ msgid ""
 ":ref:`check-formats`, `Java Format Strings <https://docs.oracle.com/javase/7/"
 "docs/api/java/util/Formatter.html>`_"
 msgstr ""
-":ref:`check-formats`，`java格式字串<https://docs.oracle.com/javase/7/docs/"
+":ref:`check-formats`，`java格式字串 <https://docs.oracle.com/javase/7/docs/"
 "api/java/util/formatter.html>`_"
 
 #: ../../user/checks.rst:609
@@ -50826,7 +50832,7 @@ msgid ""
 ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `JavaScript 格式字串<https://www.gnu.org/software/"
+":ref:`check-formats`, `JavaScript 格式字串 <https://www.gnu.org/software/"
 "gettext/manual/html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:656
@@ -50850,7 +50856,7 @@ msgid ""
 ":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/software/"
 "gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 msgstr ""
-":ref:`check-formats`, `Lua 格式字串<https://www.gnu.org/software/gettext/"
+":ref:`check-formats`, `Lua 格式字串 <https://www.gnu.org/software/gettext/"
 "manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 
 #: ../../user/checks.rst:674
@@ -50967,7 +50973,7 @@ msgid ""
 "manual/html_node/perl_002dformat.html>`_"
 msgstr ""
 ":ref:`check-formats`, `Perl sprintf <https://perldoc.perl.org/functions/"
-"sprintf>`_, `Perl 格式字串<https://www.gnu.org/software/gettext/ manual/"
+"sprintf>`_, `Perl 格式字串 <https://www.gnu.org/software/gettext/ manual/"
 "html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:751
@@ -51031,8 +51037,8 @@ msgid ""
 "`Python Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/python_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, :ref:`Python brace 格式<python:formatstrings>`, "
-"`Python 格式字串<https://www.gnu.org/software/gettext/manual/html_node/"
+":ref:`check-formats`, :ref:`Python brace 格式 <python:formatstrings>`, `"
+"Python 格式字串 <https://www.gnu.org/software/gettext/manual/html_node/"
 "python_002dformat.html >`_"
 
 #: ../../user/checks.rst:791
@@ -51062,7 +51068,7 @@ msgid ""
 "manual/html_node/python_002dformat.html>`_"
 msgstr ""
 ":ref:`check-formats`, :ref:`Python string formatting <python:old-string-"
-"formatting>`, `Python 格式字串<https://www.gnu.org/software/gettext/manual/"
+"formatting>`, `Python 格式字串 <https://www.gnu.org/software/gettext/manual/"
 "html_node /python_002dformat.html>`_"
 
 #: ../../user/checks.rst:811
@@ -51122,7 +51128,7 @@ msgid ""
 ":ref:`check-formats`, `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-"
 "translation.html#handling-plurals>`_"
 msgstr ""
-":ref:`check-formats`，`qt i18n指南<https://doc.qt.io/qt-5/i18n-source-"
+":ref:`check-formats`，`qt i18n指南 <https://doc.qt.io/qt-5/i18n-source-"
 "translation.html#andling-purals>`_"
 
 #: ../../user/checks.rst:847
@@ -51249,14 +51255,15 @@ msgid "``@:message.dio @:message.the_world!``"
 msgstr "``@:message.dio @:message.the_world!``"
 
 #: ../../user/checks.rst:902
+#, fuzzy
 msgid ""
 ":ref:`check-formats`, `Vue I18n Formatting <https://kazupon.github.io/vue-"
 "i18n/guide/formatting.html>`_, `Vue I18n Linked locale messages <https://"
 "kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_"
 msgstr ""
-":ref:`check-formats`，'查看i18n格式<https://kazupon.github.io/vue-i18n/guide/"
-"formatting.html>`_，查看i18n連結本地消息<https：// kazupon。github .io / vue-"
-"i18n / guide / messages.html＃linked-locale-messages>`_"
+":ref:`check-formats`，`查看i18n格式 <https://kazupon.github.io/vue-i18n/"
+"guide/formatting.html>`_，查看i18n連結本地消息 <https://kazupon.github.io/"
+"vue-i18n/guide/messages.html#linked-locale-messages>`_"
 
 #: ../../user/checks.rst:909
 msgid "Has been translated"
@@ -51517,15 +51524,14 @@ msgid ""
 "This check looks at number of chars, what might not be the best metric when "
 "using proportional fonts to render the text. The :ref:`check-max-size` check "
 "does check actual rendering of the text."
-msgstr ""
-"此檢查查看字元數，使用比例字體呈現文本時可能不是最佳度量。:ref:`check-max-"
-"size`檢查確實檢查了文本的實際渲染。"
+msgstr "此檢查查看字元數，使用比例字體呈現文本時可能不是最佳度量。:ref:`check-max-"
+"size` 檢查確實檢查了文本的實際渲染。"
 
 #: ../../user/checks.rst:1076 ../../user/checks.rst:1115
 msgid ""
 "The ``replacements:`` flag might be also useful to expand placeables before "
 "checking the string."
-msgstr "“替換：```````標誌可能也很有用，在檢查字串之前展開PLATEABLE。"
+msgstr "``replacements:`` 標誌可能也很有用，在檢查字串之前展開PLATEABLE。"
 
 #: ../../user/checks.rst:1079 ../../user/checks.rst:1118
 msgid ""
@@ -51566,22 +51572,26 @@ msgstr ""
 "本。"
 
 #: ../../user/checks.rst:1100
+#, fuzzy
 msgid ""
 "You can also configure used font by ``font-*`` directives (see :ref:`custom-"
 "checks`), for example following translation flags say that the text rendered "
 "with ubuntu font size 22 should fit into two lines and 500 pixels:"
 msgstr ""
-"您還可以通過``font- *``指令組態已使用的字體（請參閱:ref:`custom-checks`），例"
-"如隨圖的翻譯標誌說，使用ubuntu字體大小22呈現的文本應該適合兩行和500像素："
+"您還可以通過``font- *``指令組態已使用的字體（請參閱 :ref:`custom-"
+"checks`），例如隨圖的翻譯標誌說，使用ubuntu字體大小22呈現的文本應該適合兩行和"
+"500像素："
 
 #: ../../user/checks.rst:1111
+#, fuzzy
 msgid ""
 "You might want to set ``font-*`` directives in :ref:`component` to have the "
 "same font configured for all strings within a component. You can override "
 "those values per string in case you need to customize it per string."
 msgstr ""
-"您可能希望設定“字體 - *”`指令:ref:`component`以具有為組件中的所有字串組態的相"
-"同字體。您可以每字串覆蓋每個字串的值，以防每個字串自定義它。"
+"您可能希望設定``字體 - *``指令 :ref:`component` "
+"以具有為組件中的所有字串組態的相同字體。您可以每字串覆蓋每個字串的值，以防每"
+"個字串自定義它。"
 
 #: ../../user/checks.rst:1122
 msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
@@ -51714,7 +51724,7 @@ msgstr ""
 msgid ""
 "`Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/"
 "Exclamation_mark>`_"
-msgstr "Wikipedia的感嘆號<https://en.wikipedia.org/wiki/exclamation_mark>`_"
+msgstr "`Wikipedia的感嘆號 <https://en.wikipedia.org/wiki/exclamation_mark>`_"
 
 #: ../../user/checks.rst:1201
 msgid "Mismatched full stop"
@@ -51774,7 +51784,7 @@ msgstr ""
 #: ../../user/checks.rst:1235
 msgid ""
 "`Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_"
-msgstr "`wikipedia上的問號<https://en.wikipedia.org/wiki/question_mark>`_"
+msgstr "`wikipedia上的問號 <https://en.wikipedia.org/wiki/question_mark>`_"
 
 #: ../../user/checks.rst:1240
 msgid "Mismatched interrobang mark"
@@ -51979,7 +51989,7 @@ msgid ""
 "`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 msgstr ""
-"`wikipedia的法語和英語間距<https://en.wikipedia.org/wiki/"
+"`wikipedia的法語和英語間距 <https://en.wikipedia.org/wiki/"
 "history_of_sentence_spacing#french_and_english_spacing>`_"
 
 #: ../../user/checks.rst:1374
@@ -52242,7 +52252,7 @@ msgid ""
 "``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied "
 "autofixer which can automatically sanitize the markup."
 msgstr ""
-"翻譯使用不安全的HTML標記。必須使用“安全 - HTML”標誌（參見:ref:`custom-"
+"翻譯使用不安全的HTML標記。必須使用 ``safe-html`` 標誌（參見 :ref:`custom-"
 "checks`）啟用此檢查。還有伴隨的AutoFixer，可以自動消毒標記。"
 
 #: ../../user/checks.rst:1553
@@ -52418,8 +52428,7 @@ msgstr "``ellipsis``"
 msgid ""
 "This fails when the string uses three dots (``...``) when it should use an "
 "ellipsis character (``…``)."
-msgstr ""
-"當字串使用三個點時，這會失敗（``...``）時，它應該使用省略號字元（````）。"
+msgstr "當字串使用三個點時，這會失敗（``...``）時，它應該使用省略號字元（``…``）。"
 
 #: ../../user/checks.rst:1663
 msgid ""
@@ -53554,9 +53563,8 @@ msgid ""
 "Selecting a language in the main menu :guilabel:`Languages` will show "
 "translation status of all projects, filtered by one of your primary "
 "languages."
-msgstr ""
-"在主選單中選取一種語言 :guilabel:`語言`（語言）將顯示所有專案的翻譯狀態，由您"
-"的主要語言之一篩選。"
+msgstr "在主選單中選取一種語言 :guilabel:`語言` "
+"（語言）將顯示所有專案的翻譯狀態，由您的主要語言之一篩選。"
 
 #: ../../user/profile.rst:40
 msgid ""
@@ -53572,17 +53580,16 @@ msgid ""
 "In addition, the drop-down can also show any number of *component lists*, "
 "sets of project components preconfigured by the Weblate administrator, see :"
 "ref:`componentlists`."
-msgstr ""
-"此外，DROP-DOWN還可以顯示Web2管理員預先組態的任何數量的*組件列表*，請參閱:"
-"ref:`componentlists`。"
+msgstr "此外，DROP-DOWN還可以顯示Web2管理員預先組態的任何數量的*組件列表*，請參閱 "
+":ref:`componentlists`。"
 
 #: ../../user/profile.rst:47
+#, fuzzy
 msgid ""
 "You can configure your personal default dashboard view in the :guilabel:"
 "`Preferences` section of your user profile settings."
-msgstr ""
-"您可以在“使用者組態文件”設定的“使用者組態文件”設定中組態“個人預設儀表板”視"
-"圖：“首選項”部分。"
+msgstr "您可以在“使用者組態文件”設定的“使用者組態文件”設定中組態“個人預設儀表板”視圖"
+"：“首選項”部分。"
 
 #: ../../user/profile.rst:52
 msgid ""
@@ -53769,8 +53776,8 @@ msgid ""
 "the component overview page and select appropriate choice from the :guilabel:"
 "`Watching` menu."
 msgstr ""
-"您可以切換監視項目和管理專案的通知，每個專案和元件都可以進一步調整（或靜"
-"音）。存取「元件概覽」頁面，然後選取以下選項 :Guilabel: `觀看` 選單。"
+"您可以切換監視項目和管理專案的通知，每個專案和元件都可以進一步調整（或靜音）"
+"。存取「元件概覽」頁面，然後選取以下選項 :guilabel:`觀看` 選單。"
 
 #: ../../user/profile.rst:170
 #, fuzzy
@@ -53843,8 +53850,8 @@ msgid ""
 "Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`). "
 "These images are obtained using https://gravatar.com/."
 msgstr ""
-"可以為每個使用者顯示化身（取決於:setting:`ENABLE_AVATARS`）。這些圖像是使用"
-"https://gravatar.com/獲得的。"
+"可以為每個使用者顯示化身（取決於 :setting:`ENABLE_AVATARS`）。這些圖像是使用 "
+"https://gravatar.com/ 獲得的。"
 
 #: ../../user/profile.rst:223
 msgid "Licenses"
@@ -54402,8 +54409,9 @@ msgid ""
 "``change_time:2018 AND change_action:marked-for-edit`` or ``change_time:2018 "
 "AND change_action:\"Marked for edit\"``."
 msgstr ""
-"例如，可以將標記為2018年編輯的字串輸入為“Change_time：2018和Change_Action：標"
-"記為編輯”“”或“Change_Time：2018和Change_Action：”標記為編輯“```。"
+"例如，可以將標記為2018年編輯的字串輸入為 ``change_time:2018 AND change_action"
+":marked-for-edit`` 或 ``change_time:2018 AND change_action:"
+"\"Marked for edit\"``。"
 
 #: ../../user/search.rst:160
 msgid "Regular expressions"
@@ -55028,8 +55036,7 @@ msgstr ":kbd:`Cmd+Enter`"
 msgid ""
 "Submit current form; this is same as pressing :guilabel:`Save and continue` "
 "while editing translation."
-msgstr ""
-"提交目前的表單。這與在編輯翻譯時按下 :guilabel:`Save and continue`是一樣的。"
+msgstr "提交目前的表單。這與在編輯翻譯時按下 :guilabel:`Save and continue` 是一樣的。"
 
 #: ../../user/translating.rst:214
 msgid ":kbd:`Ctrl+Shift+Enter` or"
@@ -55273,9 +55280,8 @@ msgstr "像訊息 ID、上下文（`````````）或來源碼中的位置。"
 msgid ""
 "Screenshots can be uploaded to Weblate to better inform translators of where "
 "and how the string is used, see :ref:`screenshots`."
-msgstr ""
-"螢幕截圖可以上傳到WebLate，以更好地通知譯者的位置以及如何如何使用字串，參見:"
-"ref:`screenshots`。"
+msgstr "螢幕截圖可以上傳到WebLate，以更好地通知譯者的位置以及如何如何使用字串，參見 "
+":ref:`screenshots`。"
 
 #: ../../user/translating.rst:300
 msgid "Nearby strings"
@@ -55309,7 +55315,7 @@ msgstr ""
 
 #: ../../user/translating.rst:309
 msgid "Look at similar strings translated in past, see :ref:`memory`."
-msgstr "查找過去曾經翻譯的相識字串，參見:ref:`memory`。"
+msgstr "查找過去曾經翻譯的相識字串，參見 :ref:`memory`。"
 
 #: ../../user/translating.rst:311
 msgid "Displays terms from the project glossary used in the current message."
@@ -55431,7 +55437,7 @@ msgstr "共享的翻譯記憶"
 #: ../../user/translating.rst:356
 msgid ""
 "You can find the list of supported tools in :ref:`machine-translation-setup`."
-msgstr "您可以找到支援的工具列表:ref:`machine-translation-setup`。"
+msgstr "您可以找到支援的工具列表 :ref:`machine-translation-setup`。"
 
 #: ../../user/translating.rst:363
 msgid ""
@@ -55558,11 +55564,11 @@ msgstr "更改字串狀態（例如批准所有未升義的字串）。"
 
 #: ../../user/translating.rst:430
 msgid "Adjust translation flags (see :ref:`custom-checks`)"
-msgstr "調整翻譯標誌（參見:ref:`custom-checks`）"
+msgstr "調整翻譯標誌（參見 :ref:`custom-checks`）"
 
 #: ../../user/translating.rst:431
 msgid "Adjust string labels (see :ref:`labels`)"
-msgstr "調整字串標籤（參見:ref:`labels`）"
+msgstr "調整字串標籤（參見 :ref:`labels`）"
 
 #: ../../user/translating.rst:435
 #, fuzzy
@@ -55714,12 +55720,12 @@ msgstr ""
 "會立即發生，或者需要在Webleate方面確認。"
 
 #: ../../vcs.rst:42
+#, fuzzy
 msgid ""
 "The :guilabel:`weblate` user on GitHub accepts invitations automatically "
 "within five minutes. Manual processing might be needed on the other "
 "services, so please be patient."
-msgstr ""
-"：圭冊：Github上的“Webleate”使用者在五分鐘內自動接受邀請函。在其他服務可能需"
+msgstr "：圭冊：Github上的“Webleate”使用者在五分鐘內自動接受邀請函。在其他服務可能需"
 "要手動處理，所以請耐心等待。"
 
 #: ../../vcs.rst:45
@@ -55924,16 +55930,17 @@ msgid ""
 "and changes pushed through a fork. In case it is set, changes are pushed to "
 "the upstream repository and chosen branch."
 msgstr ""
-"如果 :ref:`component-push_branch`未設定，則項目被叉，並通過叉子推出的變化。如"
-"果設定，則將更改推送到上游儲存庫和所選分支。"
+"如果 :ref:`component-push_branch` "
+"未設定，則項目被叉，並通過叉子推出的變化。如果設定，則將更改推送到上游儲存庫"
+"和所選分支。"
 
 #: ../../vcs.rst:177
+#, fuzzy
 msgid ""
 "For smaller deployments, use HTTPS authentication with a personal access "
 "token and your GitHub account, see `Creating an access token for command-"
 "line use`_."
-msgstr ""
-"對於較小的部署，請使用HTTPS身份驗證使用個人存取令牌和GitHub帳戶，參見“建立用"
+msgstr "對於較小的部署，請使用HTTPS身份驗證使用個人存取令牌和GitHub帳戶，參見“建立用"
 "於命令行使用”的存取令牌。"
 
 #: ../../vcs.rst:182
@@ -56056,6 +56063,7 @@ msgstr ""
 "如果需要使用代理伺服器存取 HTTP / HTTPS VCS 儲存庫，請組態 VCS 以使用它。"
 
 #: ../../vcs.rst:240
+#, fuzzy
 msgid ""
 "This can be done using the ``http_proxy``, ``https_proxy``, and "
 "``all_proxy`` environment variables, (as described in the `cURL "
@@ -56080,8 +56088,8 @@ msgid ""
 "`The cURL manpage <https://curl.se/docs/manpage.html>`_, `Git config "
 "documentation <https://git-scm.com/docs/git-config>`_"
 msgstr ""
-"`curl manpage <https://curl.se/docs/manpage.html>`_，`git組態文件<https://"
-"git-cm.com/docs/git-config>`_"
+"`curl manpage <https://curl.se/docs/manpage.html>`_，`git組態文件 <https"
+"://git-cm.com/docs/git-config>`_"
 
 #: ../../vcs.rst:263
 msgid "Git"
@@ -56136,12 +56144,12 @@ msgid "Git remote helpers"
 msgstr ""
 
 #: ../../vcs.rst:299
+#, fuzzy
 msgid ""
 "You can also use Git `remote helpers`_ for additionally supporting other "
 "version control systems, but be prepared to debug problems this may lead to."
-msgstr ""
-"您還可以使用Git`Reary Helpers`_另外支援其他版本控制系統，但準備好調試問題，這"
-"可能會導致。"
+msgstr "您還可以使用Git`Reary Helpers`_ "
+"另外支援其他版本控制系統，但準備好調試問題，這可能會導致。"
 
 #: ../../vcs.rst:302
 msgid ""
@@ -56163,11 +56171,11 @@ msgstr "安裝這些已安裝後，此類遙控器可用於在 Weblate 中指定
 
 #: ../../vcs.rst:311
 msgid "To clone the ``gnuhello`` project from Launchpad using Bazaar:"
-msgstr "使用 Bazaar 來複製在 Launchpad 上的 ``gnuhello`` 專案 ::"
+msgstr "使用 Bazaar 來複製在 Launchpad 上的 ``gnuhello`` 專案 :"
 
 #: ../../vcs.rst:317
 msgid "For the ``hello`` repository from selenic.com using Mercurial:"
-msgstr "為 ``hello`` 倉儲在 selenic.com 上使用 Mercurial ::"
+msgstr "為 ``hello`` 倉儲在 selenic.com 上使用 Mercurial :"
 
 #: ../../vcs.rst:329
 msgid ""
@@ -56228,9 +56236,8 @@ msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ to "
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
-msgstr ""
-"這只需在 :ref:`vcs-git` 上使用 `GITLAB API`_ 使用 `GITLAB API`_ 允許將翻譯變"
-"更為合併請求，而不是直接推送到儲存庫。"
+msgstr "這只需在 :ref:`vcs-git` 上使用 `GITLAB API`_ "
+"允許將翻譯變更為合併請求，而不是直接推送到儲存庫。"
 
 #: ../../vcs.rst:366
 msgid ""
@@ -56239,9 +56246,9 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitlab` creates merge request."
 msgstr ""
-"不需要將此用於存取 Git 儲存庫，普通 :ref:`vcs-git` 執行相同，唯一的區別是如何"
-"處理推送儲存庫。使用 :ref:`vcs-git` 變更直接推送到儲存庫，而 :ref:`vcs-"
-"gitlab`建立合併請求。"
+"不需要將此用於存取 Git 儲存庫，普通 :ref:`vcs-git` "
+"執行相同，唯一的區別是如何處理推送儲存庫。使用 :ref:`vcs-git` "
+"變更直接推送到儲存庫，而 :ref:`vcs-gitlab` 建立合併請求。"
 
 #: ../../vcs.rst:371
 msgid ""
@@ -56287,9 +56294,9 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitea` creates pull requests."
 msgstr ""
-"不需要將此用於存取 Git 儲存庫，普通 :ref:`vcs-git` 執行相同，唯一的區別是如何"
-"處理推送儲存庫。使用 :ref:`vcs-git` 變更直接推送到儲存庫，而 :ref:`vcs-gitea`"
-"建立拉取請求。"
+"不需要將此用於存取 Git 儲存庫，普通 :ref:`vcs-git` "
+"執行相同，唯一的區別是如何處理推送儲存庫。使用 :ref:`vcs-git` "
+"變更直接推送到儲存庫，而 :ref:`vcs-gitea` 建立拉取請求。"
 
 #: ../../vcs.rst:399
 msgid ""
@@ -56339,9 +56346,9 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-server` creates pull request."
 msgstr ""
-"不需要將此用於存取 Git 儲存庫，普通 :ref:`vcs-git` 執行相同，唯一的區別是如何"
-"處理推送儲存庫。使用 :ref:`vcs-git` 變更直接推送到儲存庫，而 :ref:`vcs-"
-"bitbucket-server`建立拉取請求。"
+"不需要將此用於存取 Git 儲存庫，普通 :ref:`vcs-git` "
+"執行相同，唯一的區別是如何處理推送儲存庫。使用 :ref:`vcs-git` "
+"變更直接推送到儲存庫，而 :ref:`vcs-bitbucket-server` 建立拉取請求。"
 
 #: ../../vcs.rst:432
 msgid ""
@@ -56561,9 +56568,9 @@ msgid ""
 "Perl script that lets subversion be used by a Git client, enabling users to "
 "maintain a full clone of the internal repository and commit locally."
 msgstr ""
-"Weblate 使用 `git-svn`_ 與 `subversion`_ 儲存庫進行互動。它是一個 Perl 指令"
-"稿，它允許 Git 客戶端使用 `subversion`_ ，使使用者能夠維護內部儲存庫的完整克"
-"隆並在本機送交。"
+"Weblate 使用 `git-svn`_ 與 `subversion`_ 儲存庫進行互動。它是一個 Perl "
+"指令稿，它允許 Git 客戶端使用 "
+"subversion，使使用者能夠維護內部儲存庫的完整克隆並在本機送交。"
 
 #: ../../vcs.rst:571
 msgid ""
@@ -56575,11 +56582,12 @@ msgid ""
 "and you encounter errors, try including the branch name in the repository "
 "URL and leaving branch empty."
 msgstr ""
-"Weblate 嘗試自動檢測 Subversion 儲存庫組態 - 它支援具有標準組態的分支或儲存庫"
-"的直接網址（branches/、tags/ 和 trunk/）。有關此內容的更多資訊將在 `git-svn "
-"文件 <https://git-scm.com/docs/git-svn#documentation/git-svn.txt---"
-"tdlayout>`_中找到。如果您的儲存庫沒有標準組態並且您遇到錯誤，請嘗試在儲存庫網"
-"址中包含分支名稱並將分支為空。"
+"Weblate 嘗試自動檢測 Subversion 儲存庫組態 - "
+"它支援具有標準組態的分支或儲存庫的直接網址（branches/、tags/ 和 trunk/）。"
+"有關此內容的更多資訊將在 `git-svn 文件 <https://git-scm.com/docs/"
+"git-svn#documentation/git-svn.txt---tdlayout>`_ "
+"中找到。如果您的儲存庫沒有標準組態並且您遇到錯誤，請嘗試在儲存庫網址中包含分"
+"支名稱並將分支為空。"
 
 #: ../../vcs.rst:583
 msgid "Subversion credentials"
@@ -56976,6 +56984,7 @@ msgid "System wide configuration file"
 msgstr ""
 
 #: ../../wlc.rst:306
+#, fuzzy
 msgid ""
 "The program follows the XDG specification, so you can adjust placement of "
 "config files by environment variables ``XDG_CONFIG_HOME`` or "
@@ -56983,8 +56992,8 @@ msgid ""
 "for the configuration file."
 msgstr ""
 "該程序遵循 XDG 規範，因此您可以通過環境變數 ``XDG_CONFIG_HOME`` 或 "
-"``XDG_CONFIG_DIRS`` 來調整組態檔的位置。在 Windows 系統上 `APPDATA``目錄是組"
-"態檔的偏好位置。"
+"``XDG_CONFIG_DIRS`` 來調整組態檔的位置。在 Windows 系統上 "
+"``APPDATA``目錄是組態檔的偏好位置。"
 
 #: ../../wlc.rst:310
 msgid ""
@@ -57151,9 +57160,9 @@ msgid ""
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
-":ref:`access control <access-control>`並沒有作為一個整體在工作流程中被詳細討"
-"論，因它的大多數選項都可以應用於任何工作流。請參考有關如何管理對翻譯的存取的"
-"相關文件。"
+":ref:`access control <access-control>` "
+"並沒有作為一個整體在工作流程中被詳細討論，因它的大多數選項都可以應用於任何工"
+"作流。請參考有關如何管理對翻譯的存取的相關文件。"
 
 #: ../../workflows.rst:52
 #, fuzzy
