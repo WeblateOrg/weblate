@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import NON_WORD_CHARS
-from weblate.checks.same import strip_format
+from weblate.checks.same import replace_format_placeholder, strip_format
 
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
@@ -65,11 +65,15 @@ class DuplicateCheck(TargetCheck):
         lang_code = unit.translation.language.base_code
 
         source_groups, source_words = self.extract_groups(
-            strip_format(source, unit.all_flags),
+            strip_format(
+                source, unit.all_flags, replacement=replace_format_placeholder
+            ),
             source_code,
         )
         target_groups, target_words = self.extract_groups(
-            strip_format(target, unit.all_flags),
+            strip_format(
+                target, unit.all_flags, replacement=replace_format_placeholder
+            ),
             lang_code,
         )
 
