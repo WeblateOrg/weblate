@@ -75,8 +75,8 @@ Username of users that are not signed in.
 AUDITLOG_EXPIRY
 ---------------
 
-How many days Weblate should keep audit logs (which contain info about account
-activity).
+The maximum number of days Weblate will keep audit logs containing information
+about the account activity.
 
 Defaults to 180 days.
 
