@@ -375,6 +375,8 @@ linkcheck_ignore = [
     # Seems unstable
     "https://pagure.io/",
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
+    # Probably blocked
+    "https://www.gnu.org/",
 ]
 
 # HTTP docs
