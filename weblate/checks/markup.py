@@ -72,7 +72,8 @@ RST_REF_MATCH = re.compile(
     r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`([^<]*?[^ ])`|`[^<]+?<([^<]+?)>`))(?!`)(?=\W|$)"
 )
 RST_FOOTNOTE_MATCH = re.compile(r"(?:(?<=\W)|^)(\[#[^]]+\]_)(?=\W|$)")
-RST_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`<]*[^` <]( <[^`>]*>)?`_)(?=\W|$)")
+RST_INLINE_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`<]*[^` <] <[^`> ]*>`_)(?=\W|$)")
+RST_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`<]*[^` <]`_)(?=\W|$)")
 
 
 # These should be present in translation if present in source, but might be translated
@@ -427,10 +428,18 @@ class RSTReferencesCheck(RSTBaseCheck):
         missing = src_set - tgt_set
         extra = tgt_set - src_set
 
+        src_links = len(RST_INLINE_LINK_MATCH.findall(source))
+        tgt_links = len(RST_INLINE_LINK_MATCH.findall(target))
+        if src_links != tgt_links:
+            errors.append(
+                gettext("Inconsistent inline links in the translated message.")
+            )
         src_links = len(RST_LINK_MATCH.findall(source))
         tgt_links = len(RST_LINK_MATCH.findall(target))
         if src_links != tgt_links:
-            errors.append(gettext("Inconsistent links in the translated message."))
+            errors.append(
+                gettext("Inconsistent external links in the translated message.")
+            )
         if missing or extra or errors:
             return {
                 "missing": [src_references[item] for item in missing],

@@ -424,7 +424,7 @@ class RSTReferencesCheckTest(CheckTestCase):
             <br>
             The following errors were found:
             <br>
-            Inconsistent links in the translated message.
+            Inconsistent external links in the translated message.
             """,
         )
 
@@ -591,6 +591,22 @@ class RSTReferencesCheckTest(CheckTestCase):
             (
                 "`backup service at weblate.org <https://weblate.org/support/#backup>`_",
                 "`weblate.org <https://weblate.org/support/#backup> üzerinden yedekleme hizmeti`_",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "`GWT Internationalization Tutorial <https://www.gwtproject.org/doc/latest/tutorial/i18n.html>`_",
+                "`Руководство по интернационализации GWT <https://www.gwtproject.org/doc/latest/tutorial/i18n.html >`_",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "`Setup Authentication.`_",
+                "`Авторизация <Setup Authentication.>`_",
                 "rst-text",
             ),
         )
