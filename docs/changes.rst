@@ -17,6 +17,7 @@ Not yet released.
 * :ref:`autofix-punctuation-spacing` does not alter reStructuredText markup.
 * Improved validation errors in :doc:`/api`, see :ref:`api-errors`.
 * :ref:`check-duplicate` better works with markup such as Markdown or reStructuredText.
+* Automatically use DeepL API Free endpoint for the DeepL API Free authentication keys in :ref:`mt-deepl`.
 
 **Bug fixes**
 
