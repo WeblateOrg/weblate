@@ -65,13 +65,13 @@ $(document).ready(() => {
       }
     });
 
-    // Close the preview on focusout, form submit, form reset, and form clear
-    $searchElment.on("focusout", () => {
-      // Hide after a delay to allow click on a result
-      setTimeout(() => {
+    // Close the preview on form submit, form reset, and form clear
+    // or if there is no search query
+    $searchForm.on("input", () => {
+      if ($searchElment.val() === "") {
         $searchPreview.hide();
-        $("#results-num").hide();
-      }, 700);
+        $("#results-num").remove();
+      }
     });
     $searchForm.on("submit", () => {
       $searchPreview.html("");
