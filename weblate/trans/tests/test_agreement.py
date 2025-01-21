@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Test for contributor agreement management."""
+"""Test for contributor license agreement management."""
 
 from weblate.trans.models import ContributorAgreement
 from weblate.trans.tests.test_views import FixtureTestCase

@@ -41,8 +41,8 @@ class ContributorAgreement(models.Model):
 
     class Meta:
         unique_together = [("user", "component")]
-        verbose_name = "contributor agreement"
-        verbose_name_plural = "contributor agreements"
+        verbose_name = "contributor license agreement"
+        verbose_name_plural = "contributor license agreements"
 
     def __str__(self) -> str:
         return f"{self.user.username}:{self.component}"

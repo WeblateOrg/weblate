@@ -530,7 +530,10 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_LICENSE_CHANGE, gettext_lazy("License changed")),
         # Translators: Name of event in the history
-        (ACTION_AGREEMENT_CHANGE, gettext_lazy("Contributor agreement changed")),
+        (
+            ACTION_AGREEMENT_CHANGE,
+            gettext_lazy("Contributor license agreement changed"),
+        ),
         # Translators: Name of event in the history
         (ACTION_SCREENSHOT_ADDED, gettext_lazy("Screenshot added")),
         # Translators: Name of event in the history
