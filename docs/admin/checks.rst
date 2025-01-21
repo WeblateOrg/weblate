@@ -70,6 +70,7 @@ Here is a list of flags currently accepted:
 
 ``rst-text``
     Treat a text as an reStructuredText document, affects :ref:`check-same`.
+    Turns on :ref:`check-rst-syntax` and :ref:`check-rst-references`.
 ``dos-eol``
     Uses DOS end-of-line markers instead of Unix ones (``\r\n`` instead of ``\n``).
 ``read-only``

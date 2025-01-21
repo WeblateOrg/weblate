@@ -983,7 +983,8 @@ reStructuredText term references do not match source, the typical causes for the
 
 .. seealso::
 
-   `reStructuredText Primer`_
+   `reStructuredText Primer`_,
+   :ref:`check-rst-syntax`
 
 .. _check-kashida:
 
@@ -1417,7 +1418,8 @@ reStructuredText syntax error in the translation. Issues to look for:
 
 .. seealso::
 
-   `reStructuredText Primer`_
+   `reStructuredText Primer`_,
+   :ref:`check-rst-references`
 
 .. _check-reused:
 
