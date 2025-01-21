@@ -38,7 +38,7 @@ If you would like to contribute to a project as a translator, read about :doc:`u
 
 Starting a translation project
 -------------------------------
-For starting your own project on our cloud service Hosted Webalte, refer to :doc:`admin/projects`.
+For starting your own project on our cloud service Hosted Weblate, refer to :doc:`admin/projects`.
 For self-hosting your own Weblate clone, read our :doc:`admin/install`.
 
 FAQ
