@@ -82,7 +82,7 @@ extensions = [
     "sphinx-jsonschema",
     "sphinx_copybutton",
     "sphinxext.opengraph",
-    "sphinxcontrib.redirects",
+    "sphinx_reredirects",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -420,4 +420,6 @@ autodoc_mock_imports = [
 # instead of having one file per chapter.
 gettext_compact = "docs"
 
-redirects_file = "redirects.txt"
+redirects = {
+    "devel/thirdparty": "third-party.html",  # codespell:ignore thirdparty
+}
