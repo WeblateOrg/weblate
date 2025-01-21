@@ -1642,7 +1642,7 @@ Whether registration of new accounts is currently permitted.
 Defaults to enabled.
 
 This setting affects built-in authentication by e-mail address or through the
-Python Social Auth (you can whitelist certain back-ends using
+Python Social Auth (you can allow certain back-ends using
 :setting:`REGISTRATION_ALLOW_BACKENDS`).
 
 .. note::
