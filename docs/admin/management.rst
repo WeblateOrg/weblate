@@ -465,8 +465,8 @@ separate a folder with the translations of each chapter:
 
     weblate import_project \
         debian-handbook \
-        git://anonscm.debian.org/debian-handbook/debian-handbook.git \
-        squeeze/master \
+        https://salsa.debian.org/hertzog/debian-handbook.git \
+        bullseye/main \
         '*/**.po'
 
 Then the Tanaguru tool, where the file format needs be specified,
