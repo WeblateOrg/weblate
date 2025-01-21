@@ -1360,8 +1360,7 @@ Keycloak
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE
 
-    Enables Keycloak authentication, see
-    `documentation <https://github.com/python-social-auth/social-core/blob/master/social_core/backends/keycloak.py>`_.
+    Enables Keycloak authentication, see :doc:`psa:backends/keycloak`.
 
 Linux vendors
 ~~~~~~~~~~~~~
