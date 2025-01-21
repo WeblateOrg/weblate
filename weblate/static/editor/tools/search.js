@@ -5,6 +5,7 @@
 $(document).ready(() => {
   searchPreview("#replace", "#id_replace_q");
   searchPreview("#bulk-edit", "#id_bulk_q");
+  searchPreview("#addon-form", "#id_bulk_q");
 
   /**
    * Add preview to the search input search results.
