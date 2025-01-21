@@ -1528,18 +1528,18 @@ Unchanged translation
 :Check identifier: ``same``
 :Flag to ignore: ``ignore-same``
 
-Happens if the source and corresponding translation strings is identical, down to
-at least one of the plural forms. Some strings commonly found across all
-languages are ignored, and various markup is stripped. This reduces
-the number of false positives.
+Happens if the source and corresponding translation strings are identical, down
+to at least one of the plural forms. Some strings commonly found across all
+languages are ignored, and various markups are stripped. This reduces the
+number of false positives.
 
 This check can help find strings mistakenly untranslated.
 
-The default behavior of this check is to exclude words from the built-in
-blacklist from the checking. These are words which are frequently not being
+The default behavior of this check is to exclude words from the built-in terms
+list from the checking. These are words which are frequently not being
 translated. This is useful to avoid false positives on short strings, which
-consist only of single word which is same in several languages. This blacklist
-can be disabled by adding ``strict-same`` flag to string or component.
+consist only of a single word which is the same in several languages. This list
+can be disabled by adding ``strict-same`` flag to a string or component.
 
 .. versionchanged:: 4.17
 

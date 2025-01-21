@@ -207,7 +207,7 @@ class SameCheck(TargetCheck):
         # or are whole uppercase (abbreviations)
         if len(stripped) <= 1 or stripped.isupper():
             return True
-        # Check if we have any word which is not in blacklist
+        # Check if we have any word which is not in exceptions list
         # (words which are often same in foreign language)
         for word in SPLIT_RE.split(stripped.lower()):
             if not test_word(word, extra_ignore):
