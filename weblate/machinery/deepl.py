@@ -43,6 +43,13 @@ class DeepLTranslation(
     settings_form = DeepLMachineryForm
     glossary_count_limit = 1000
 
+    @property
+    def api_base_url(self):
+        url = super().api_base_url
+        if self.settings["key"].endswith(":fx") and url == "https://api.deepl.com/v2":
+            return "https://api-free.deepl.com/v2"
+        return url
+
     def map_language_code(self, code):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").upper()

@@ -1856,6 +1856,30 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
         self.assertEqual(len(responses.calls), 0)
 
+    def test_api_url(self) -> None:
+        self.assertEqual(
+            self.MACHINE_CLS(self.CONFIGURATION).api_base_url,
+            "https://api.deepl.com/v2",
+        )
+        self.assertEqual(
+            self.MACHINE_CLS(
+                {
+                    "key": "KEY:fx",
+                    "url": "https://api.deepl.com/v2",
+                }
+            ).api_base_url,
+            "https://api-free.deepl.com/v2",
+        )
+        self.assertEqual(
+            self.MACHINE_CLS(
+                {
+                    "key": "KEY:fx",
+                    "url": "https://example.com/v2",
+                }
+            ).api_base_url,
+            "https://example.com/v2",
+        )
+
 
 class LibreTranslateTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = LibreTranslateTranslation
