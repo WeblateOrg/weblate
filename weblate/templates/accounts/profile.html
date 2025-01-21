@@ -258,7 +258,7 @@
                 <h5>{% trans "Security keys (WebAuthn)" %}</h5>
                 {% if not webauthn_keys %}
                   <p>
-                    <em>{% trans "There are currently no WebAuthn keys registered." %}</em>
+                    <em>{% trans "No WebAuthn keys registered yet." %}</em>
                   </p>
                 {% else %}
                   <ul class="list-group">
@@ -291,7 +291,7 @@
                 </template>
 
                 <template id="passkey-registration-unavailable-template">
-                  <p>{% trans "Unfortunately, your browser has no WebAuthn support." %}</p>
+                  <p>{% trans "Your web browser lacks WebAuthn support." %}</p>
                 </template>
 
                 <span id="passkey-registration-placeholder"></span>
@@ -302,7 +302,7 @@
                 <h5>{% trans "Authenticator apps (TOTP)" %}</h5>
                 {% if not totp_keys %}
                   <p>
-                    <em>{% trans "There are currently no authenticator apps registered." %}</em>
+                    <em>{% trans "No authenticator apps registered yet." %}</em>
                   </p>
                 {% else %}
                   <ul class="list-group">
@@ -324,7 +324,7 @@
                 <h5>{% trans "Recovery codes" %}</h5>
                 {% if recovery_keys_count == 0 %}
                   <p>
-                    <em>{% trans "There are currently no recovery codes generated." %}</em>
+                    <em>{% trans "No recovery codes generated yet." %}</em>
                   </p>
                   <a href=""
                      data-href="{% url "recovery-codes" %}"
@@ -332,9 +332,9 @@
                 {% else %}
                   <p>
                     {% blocktranslate count count=recovery_keys_count trimmed %}
-                      {{ count }} recovery code is available.
+                      {{ count }} recovery code available.
                     {% plural %}
-                      {{ count }} recovery codes are available.
+                      {{ count }} recovery codes available.
                     {% endblocktranslate %}
                   </p>
                   <a href="{% url "recovery-codes" %}" class="btn btn-primary">{% trans "View recovery codes" %}</a>
