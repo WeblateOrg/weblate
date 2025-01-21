@@ -2674,7 +2674,7 @@ class BulkEditForm(forms.Form):
 
 class ContributorAgreementForm(forms.Form):
     confirm = forms.BooleanField(
-        label=gettext_lazy("I accept the contributor agreement"), required=True
+        label=gettext_lazy("I accept the contributor license agreement"), required=True
     )
     next = forms.CharField(required=False, widget=forms.HiddenInput)
 

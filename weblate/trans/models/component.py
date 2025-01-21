@@ -573,11 +573,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         choices=get_license_choices(),
     )
     agreement = models.TextField(
-        verbose_name=gettext_lazy("Contributor agreement"),
+        verbose_name=gettext_lazy("Contributor license agreement"),
         blank=True,
         default="",
         help_text=gettext_lazy(
-            "User agreement which needs to be approved before a user can "
+            "Contributor license agreement which needs to be approved before a user can "
             "translate this component."
         ),
     )

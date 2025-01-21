@@ -650,11 +650,13 @@ License of the translation (does not need to be the same as the source code lice
 
 .. _component-agreement:
 
-Contributor agreement
-+++++++++++++++++++++
+Contributor license agreement
++++++++++++++++++++++++++++++
 
-User agreement which needs to be approved before a user can translate this
-component.
+Contributor license agreement which needs to be approved before a user can
+translate this component.
+
+Markdown can be used for text formatting or inserting links.
 
 .. _component-new_lang:
 

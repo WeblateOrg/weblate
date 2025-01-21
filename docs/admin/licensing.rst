@@ -16,16 +16,13 @@ shown in the translation info section of the respective :ref:`component`.
 Usually this is best place to post licensing info if no explicit consent is required.
 If your project or translation is not libre you most probably need prior consent.
 
-Contributor agreement
----------------------
+Contributor license agreement
+-----------------------------
 
-If you specify a contributor license agreement, only users who have agreed to it will
+If you specify a :ref:`component-agreement`, only users who have agreed to it will
 be able to contribute. This is a clearly visible step when accessing the translation:
 
 .. image:: /screenshots/contributor-agreement.webp
-
-The entered text is formatted into paragraphs and external links can be included.
-HTML markup can not be used.
 
 User licenses
 -------------

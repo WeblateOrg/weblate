@@ -183,7 +183,7 @@ def check_can_edit(user: User, permission: str, obj: Model, is_vote=False):  # n
         if component.locked:
             return Denied(gettext("This translation is currently locked."))
 
-        # Check contributor agreement
+        # Check contributor license agreement
         if (
             not user.is_bot
             and component.agreement
@@ -396,7 +396,7 @@ def check_suggestion_add(user: User, permission: str, obj: Model):
         obj = obj.translation
     if not obj.enable_suggestions or obj.is_readonly:
         return False
-    # Check contributor agreement
+    # Check contributor license agreement
     if (
         not user.is_bot
         and obj.component.agreement
