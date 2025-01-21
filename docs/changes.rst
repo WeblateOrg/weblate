@@ -47,7 +47,7 @@ Released on December 19th 2024.
 
 **Improvements**
 
-* Renamed :ref:`vcs-bitbucket-server` to match new product name.
+* Renamed :ref:`vcs-bitbucket-data-center` to match new product name.
 * :http:get:`/api/users/` supports searching by user ID.
 
 **Bug fixes**

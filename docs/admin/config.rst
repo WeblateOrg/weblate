@@ -887,7 +887,7 @@ List for credentials for Bitbucket Data Center.
 
 .. seealso::
 
-   :ref:`vcs-bitbucket-server`,
+   :ref:`vcs-bitbucket-data-center`,
    `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
 
 .. setting:: BITBUCKETCLOUD_CREDENTIALS
