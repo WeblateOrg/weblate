@@ -111,7 +111,7 @@ Learn more about :ref:`contributing`.
     devel/gettext
     devel/sphinx
     devel/html
-    devel/thirdparty
+    devel/third-party
     devel/alerts
     devel/community
     devel/translations

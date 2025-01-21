@@ -82,6 +82,7 @@ extensions = [
     "sphinx-jsonschema",
     "sphinx_copybutton",
     "sphinxext.opengraph",
+    "sphinxcontrib.redirects",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -418,3 +419,5 @@ autodoc_mock_imports = [
 # Create single gettext PO file for while documentation,
 # instead of having one file per chapter.
 gettext_compact = "docs"
+
+redirects_file = "redirects.txt"
