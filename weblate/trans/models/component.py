@@ -1068,6 +1068,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             cache_template="{scope}-lock-{key}",
             file_template="{slug}-update.lock",
             timeout=5,
+            origin=self.full_slug,
         )
 
     @cached_property

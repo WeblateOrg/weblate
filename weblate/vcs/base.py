@@ -102,6 +102,7 @@ class Repository:
             slug=os.path.basename(base_path),
             file_template="{slug}.lock",
             timeout=120,
+            origin=component.full_slug if component else base_path,
         )
         self._config_updated = False
         self.local = local

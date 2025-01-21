@@ -149,15 +149,36 @@ description of the API.</p>
 
 class LockedError(APIException):
     status_code = HTTP_423_LOCKED
-    default_detail = gettext_lazy(
-        "Could not obtain repository lock to perform the operation."
-    )
-    default_code = "repository-locked"
+    default_detail = gettext_lazy("Could not obtain the lock to perform the operation.")
+    default_code = "unknown-locked"
 
 
 class WeblateExceptionHandler(ExceptionHandler):
     def convert_known_exceptions(self, exc: Exception) -> Exception:
         if isinstance(exc, WeblateLockTimeoutError):
+            if exc.lock.scope == "repo":
+                return LockedError(
+                    code="repository-locked",
+                    detail=gettext(
+                        "Could not obtain the repository lock for %s to perform the operation."
+                    )
+                    % exc.lock.origin,
+                )
+            if exc.lock.scope == "component-update":
+                return LockedError(
+                    code="component-locked",
+                    detail=gettext(
+                        "Could not obtain the update lock for component %s to perform the operation."
+                    )
+                    % exc.lock.origin,
+                )
+            if exc.lock.origin:
+                return LockedError(
+                    detail=gettext(
+                        "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
+                    )
+                    % {"scope": exc.lock.scope, "origin": exc.lock.origin},
+                )
             return LockedError()
         return super().convert_known_exceptions(exc)
 
