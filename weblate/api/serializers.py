@@ -1596,6 +1596,8 @@ def edit_service_settings_response_serializer(
 
 class ErrorCode423Enum(models.TextChoices):
     REPOSITORY_LOCKED = "repository-locked"
+    COMPONENT_LOCKED = "component-locked"
+    UNKNOWN_LOCKED = "unknown-locked"
 
 
 class Error423Serializer(serializers.Serializer):
