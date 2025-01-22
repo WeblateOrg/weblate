@@ -523,7 +523,7 @@ def auto_translate_component(
     auto_source: str,
     engines: list[str],
     threshold: int,
-    component: int | None,
+    component: int | None = None,
 ):
     component_obj = Component.objects.get(pk=component_id)
 
