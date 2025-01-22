@@ -5,7 +5,6 @@ YAML files
 
 .. index::
     pair: YAML; file format
-    pair: YAML Ain't Markup Language; file format
 
 The plain YAML files with string keys and values. Weblate also extract strings from lists or dictionaries.
 
