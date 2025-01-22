@@ -18,6 +18,7 @@ Not yet released.
 * Improved validation errors in :doc:`/api`, see :ref:`api-errors`.
 * :ref:`check-duplicate` better works with markup such as Markdown or reStructuredText.
 * Automatically use DeepL API Free endpoint for the DeepL API Free authentication keys in :ref:`mt-deepl`.
+* Compatibility with third-party static files storage backends for Django.
 
 **Bug fixes**
 

@@ -13,10 +13,10 @@ from typing import NamedTuple
 
 import cairo
 import gi
-from django.conf import settings
 from django.core.cache import cache as django_cache
 
 from weblate.utils.data import data_dir
+from weblate.utils.icons import find_static_file
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
@@ -108,10 +108,14 @@ def configure_fontconfig() -> None:
             FONTCONFIG_CONFIG.format(
                 data_dir("cache", "fonts"),
                 fonts_dir,
-                os.path.join(
-                    settings.STATIC_ROOT, "js", "vendor", "fonts", "font-source", "TTF"
+                os.path.dirname(
+                    find_static_file(
+                        "js/vendor/fonts/font-source/TTF/SourceSans3-Regular.ttf"
+                    )
                 ),
-                os.path.join(settings.STATIC_ROOT, "vendor", "font-kurinto"),
+                os.path.dirname(
+                    find_static_file("vendor/font-kurinto/KurintoSans-Rg.ttf")
+                ),
             )
         )
 
