@@ -63,11 +63,37 @@ Learn more about :ref:`contributing`.
     user/search
     workflows
     faq
-    formats
     vcs
     api
     wlc
     python
+
+.. toctree::
+    :caption: Application developer guide
+    :maxdepth: 1
+    :hidden:
+
+    devel/starting
+    devel/integration
+    devel/gettext
+    devel/sphinx
+    devel/html
+    devel/third-party
+    devel/alerts
+    devel/community
+    devel/translations
+    devel/review
+    devel/share
+    devel/reporting
+
+.. toctree::
+   :caption: File formats
+   :maxdepth: 1
+   :glob:
+   :hidden:
+
+   formats
+   formats/*
 
 
 .. toctree::
@@ -100,24 +126,6 @@ Learn more about :ref:`contributing`.
     admin/admin
     admin/support
     legal
-
-.. toctree::
-    :caption: Application developer guide
-    :maxdepth: 1
-    :hidden:
-
-    devel/starting
-    devel/integration
-    devel/gettext
-    devel/sphinx
-    devel/html
-    devel/third-party
-    devel/alerts
-    devel/community
-    devel/translations
-    devel/review
-    devel/share
-    devel/reporting
 
 .. toctree::
     :caption: Contributor docs
