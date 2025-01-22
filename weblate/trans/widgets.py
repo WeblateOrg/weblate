@@ -27,6 +27,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode
+from weblate.utils.icons import find_static_file
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import (
     BaseStats,
@@ -141,10 +142,11 @@ class BitmapWidget(Widget):
 
     def get_filename(self):
         """Return widgets filename."""
-        return os.path.join(
-            settings.STATIC_ROOT,
-            "widget-images",
-            f"{self.name}-{self.color}.png",
+        return find_static_file(
+            os.path.join(
+                "widget-images",
+                f"{self.name}-{self.color}.png",
+            )
         )
 
     def get_columns(self) -> list[list[str]]:
