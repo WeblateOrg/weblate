@@ -6,9 +6,12 @@ from __future__ import annotations
 import re
 import uuid
 from collections import defaultdict
+from collections.abc import (
+    Iterable,
+)
 from functools import cache as functools_cache
 from itertools import chain
-from typing import TYPE_CHECKING, Literal, TypedDict, cast
+from typing import TYPE_CHECKING, Any, Literal, TypedDict, cast
 
 import sentry_sdk
 from appconf import AppConf
@@ -57,7 +60,10 @@ from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import (
+        Iterable,
+        Mapping,
+    )
 
     from social_core.backends.base import BaseAuth
     from social_django.models import DjangoStorage
@@ -333,6 +339,26 @@ class UserQuerySet(models.QuerySet["User"]):
             if author.is_active and not author.is_bot and not author.is_anonymous:
                 return author
         return fallback
+
+    def get_or_create(
+        self,
+        defaults: Mapping[str, Any] | None = None,
+        **kwargs: Any,  # noqa: ANN401
+    ) -> tuple[User, bool]:
+        filtered = {
+            name: value
+            for name, value in defaults.items()
+            if name not in User.DUMMY_FIELDS
+        }
+        extra = {
+            name: value for name, value in defaults.items() if name in User.DUMMY_FIELDS
+        }
+
+        user, created = super().get_or_create(defaults=filtered, **kwargs)
+        if created:
+            user.extra_data = extra
+            user.save()
+        return user, created
 
 
 @functools_cache
