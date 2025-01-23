@@ -37,8 +37,6 @@ jobs:
     needs:
     - list-languages
     name: Sphinx
-    # TODO: ignore failures on non-English builds until we fix these
-    continue-on-error: ${{ matrix.language != 'en' }}
     strategy:
       fail-fast: false
       matrix:
