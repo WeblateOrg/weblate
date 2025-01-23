@@ -19,6 +19,7 @@ Not yet released.
 * :ref:`check-duplicate` better works with markup such as Markdown or reStructuredText.
 * Automatically use DeepL API Free endpoint for the DeepL API Free authentication keys in :ref:`mt-deepl`.
 * Compatibility with third-party static files storage backends for Django.
+* Improved language compatibility in :ref:`mt-microsoft-translator`.
 
 **Bug fixes**
 
