@@ -397,7 +397,7 @@ Database setup for Weblate
 
 It is recommended to run Weblate with a PostgreSQL database server.
 
-PostgreSQL 12 and higher is supported. PostgreSQL 15 or newer is recommended.
+PostgreSQL 13 and higher is supported. PostgreSQL 15 or newer is recommended.
 
 :ref:`mysql` is supported, but not recommended for new installs.
 
@@ -557,7 +557,7 @@ Weblate can be also used with MySQL or MariaDB, please see
 Django with those. Because of the limitations it is recommended to use
 :ref:`postgresql` for new installations.
 
-Weblate requires MySQL at least 8 or MariaDB at least 10.4.
+Weblate requires MySQL at least 8 or MariaDB at least 10.5.
 
 Following configuration is recommended for Weblate:
 

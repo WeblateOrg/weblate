@@ -35,6 +35,7 @@ Not yet released.
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``REST_FRAMEWORK``, ``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
+* PostgreSQL 12 and MariaDB 10.4 are no longer supported.
 
 **Contributors**
 
