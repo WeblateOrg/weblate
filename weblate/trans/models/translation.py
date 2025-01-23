@@ -1009,7 +1009,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             .exists()
         )
 
-        unit_set = self.unit_set.all()
+        unit_set = self.unit_set.select_for_update()
 
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
@@ -1191,6 +1191,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         filecopy = fileobj.read()
         fileobj.close()
         fileobj = NamedBytesIO(fileobj.name, filecopy)
+        self.unit_set.select_for_update()
         with self.component.repository.lock:
             try:
                 if self.is_source:
