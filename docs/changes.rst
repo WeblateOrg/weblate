@@ -28,6 +28,7 @@ Not yet released.
 **Compatibility**
 
 * Running tests using Django test executor is no longer supported, see :doc:`/contributing/tests`.
+* :ref:`check-bbcode` check is now disabled by default. The `bbcode-text` flag is required to activate this check, see :ref:`custom-checks`.
 * API error responses format has changed, see :ref:`api-errors`.
 
 **Upgrading**
