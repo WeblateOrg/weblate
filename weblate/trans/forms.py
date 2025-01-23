@@ -798,9 +798,6 @@ class SearchForm(forms.Form):
         """Return verbose name for a search."""
         return FILTERS.get_search_name(self.cleaned_data.get("q", ""))
 
-    def get_search_query(self):
-        return self.cleaned_data["q"]
-
     def clean_offset(self):
         if self.cleaned_data.get("offset") is None:
             self.cleaned_data["offset"] = 1
