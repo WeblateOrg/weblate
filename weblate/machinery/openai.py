@@ -17,6 +17,7 @@ from weblate.utils.errors import add_breadcrumb
 from .base import (
     BatchMachineTranslation,
     DownloadMultipleTranslations,
+    MachineryRateLimitError,
     MachineTranslationError,
 )
 from .forms import AzureOpenAIMachineryForm, OpenAIMachineryForm
@@ -193,6 +194,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         *,
         rephrase=False,
     ):
+        from openai import RateLimitError
         from openai.types.chat import (
             ChatCompletionSystemMessageParam,
             ChatCompletionUserMessageParam,
@@ -213,13 +215,20 @@ class BaseOpenAITranslation(BatchMachineTranslation):
             ),
         ]
 
-        response = self.client.chat.completions.create(
-            model=self.get_model(),
-            messages=messages,  # type: ignore[arg-type]
-            temperature=0,
-            frequency_penalty=0,
-            presence_penalty=0,
-        )
+        try:
+            response = self.client.chat.completions.create(
+                model=self.get_model(),
+                messages=messages,  # type: ignore[arg-type]
+                temperature=0,
+                frequency_penalty=0,
+                presence_penalty=0,
+            )
+        except RateLimitError as error:
+            if not isinstance(error.body, dict) or not (
+                message := error.body.get("message")
+            ):
+                message = error.message
+            raise MachineryRateLimitError(message) from error
 
         translations_string = response.choices[0].message.content
         add_breadcrumb("openai", "response", translations_string=translations_string)
