@@ -242,7 +242,7 @@ def search(
     if form_valid:
         cleaned_data = form.cleaned_data
         search_url = form.urlencode()
-        search_query = form.get_search_query()
+        search_query = form.cleaned_data["q"]
         name = form.get_name()
         search_items = form.items()
     else:
