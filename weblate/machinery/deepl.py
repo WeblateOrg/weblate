@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 from dateutil.parser import isoparse
 from django.core.cache import cache
-from requests.exceptions import RequestException
+from requests.exceptions import HTTPError, RequestException
 
 from .base import (
     BatchMachineTranslation,
@@ -68,6 +68,9 @@ class DeepLTranslation(
                     return data["message"]
                 except KeyError:
                     pass
+
+        if isinstance(exc, HTTPError) and exc.response.status_code == 456:
+            return "Quota exceeded. The character limit has been reached."
 
         return super().get_error_message(exc)
 
