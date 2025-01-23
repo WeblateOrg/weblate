@@ -876,7 +876,7 @@ Generic settings
 .. envvar:: WEBLATE_CSP_FONT_SRC
 .. envvar:: WEBLATE_CSP_FORM_SRC
 
-    Allows to customize ``Content-Security-Policy`` HTTP header.
+    Allows to customize :http:header:`Content-Security-Policy` HTTP header.
 
     .. seealso::
 
@@ -1150,7 +1150,7 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_BITBUCKETSERVER_HOST
 .. envvar:: WEBLATE_BITBUCKETSERVER_CREDENTIALS
 
-    Configures :ref:`vcs-bitbucket-server` by changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
+    Configures :ref:`vcs-bitbucket-data-center` by changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
 
 .. envvar:: WEBLATE_BITBUCKETCLOUD_USERNAME
 .. envvar:: WEBLATE_BITBUCKETCLOUD_WORKSPACE
@@ -1360,8 +1360,7 @@ Keycloak
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE
 
-    Enables Keycloak authentication, see
-    `documentation <https://github.com/python-social-auth/social-core/blob/master/social_core/backends/keycloak.py>`_.
+    Enables Keycloak authentication, see :doc:`psa:backends/keycloak`.
 
 Linux vendors
 ~~~~~~~~~~~~~

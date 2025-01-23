@@ -446,12 +446,12 @@ Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket Cloud:
      - Branch name
 
    * - Bitbucket Data Center pull request from fork
-     - :ref:`vcs-bitbucket-server`
+     - :ref:`vcs-bitbucket-data-center`
      - `empty`
      - `empty`
 
    * - Bitbucket Data Center pull request from branch
-     - :ref:`vcs-bitbucket-server`
+     - :ref:`vcs-bitbucket-data-center`
      - SSH URL [#empty]_
      - Branch name
 

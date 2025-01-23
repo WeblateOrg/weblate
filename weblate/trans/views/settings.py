@@ -237,8 +237,10 @@ def perform_rename(form_cls, request: AuthenticatedHttpRequest, obj, perm: str):
     except ValidationError as err:
         messages.error(
             request,
-            gettext("Could not change %s due to outstanding issue in its settings: %s")
-            % (obj, err),
+            gettext(
+                "Could not change %(obj)s due to an outstanding issue in its settings: %(error)s"
+            )
+            % {"obj": obj, "error": err},
         )
         return redirect_param(obj, "#organize")
 

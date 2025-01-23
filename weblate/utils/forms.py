@@ -137,7 +137,7 @@ class EmailField(forms.EmailField):
     """
     Slightly restricted EmailField.
 
-    We blacklist some additional local parts and customize error messages.
+    We block some additional local parts and customize error messages.
     """
 
     default_validators = [validate_email]

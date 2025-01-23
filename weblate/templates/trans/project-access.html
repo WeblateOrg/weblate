@@ -258,7 +258,7 @@
                             <h4 class="modal-title" id="delete_group_title_{{ group.id }}">{% trans "Are you absolutely sure?" %}</h4>
                           </div>
                           <div class="modal-body" id="delete_group_body_{{ group.id }}">
-                            {% blocktrans with name=group.name %}This will delete the team <b>{{ name }}</b> from this project.{% endblocktrans %}
+                            {% blocktrans with name=group %}This will delete the team <b>{{ name }}</b> from this project.{% endblocktrans %}
                             {% if group.user__count %}
                               {% blocktrans count count=group.user__count %}This team contains {{count}} member. Deleting the team might affect their access to the project.{% plural %}This team contains {{count}} members. Deleting the team might affect their access to the project.{% endblocktrans %}
                             {% endif %}

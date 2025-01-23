@@ -540,7 +540,7 @@ Groups
     :type id: int
     :>json string name: name of a group
     :>json int project_selection: integer corresponding to group of projects
-    :>json int language_selection: integer corresponding to group of Languages
+    :>json int language_selection: integer corresponding to group of languages
 
 .. http:patch:: /api/groups/(int:id)/
 
@@ -683,7 +683,7 @@ Roles
 
     Returns information about the role.
 
-    :param id: Role ID
+    :param id: Role's ID
     :type id: int
     :>json string name: Role name
     :>json array permissions: list of codenames of permissions
@@ -2172,7 +2172,7 @@ and XLIFF.
 
 .. http:get:: /api/units/
 
-    Returns list of translation units.
+    Returns a list of translation units.
 
     :param q: Search query string :doc:`/user/search` (optional)
     :type q: string
@@ -2741,7 +2741,7 @@ Categories
 
     Returns statistics for a category.
 
-    :param project: Category id
+    :param project: Category ID
     :type project: int
 
     .. seealso::

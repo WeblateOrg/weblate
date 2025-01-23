@@ -114,6 +114,7 @@ class LocaleGenerateAddonBase(BaseAddon):
                     new_strings,
                     target_state,
                     change_action=Change.ACTION_AUTO,
+                    propagate=False,
                 )
                 updated += 1
         if updated > 0:

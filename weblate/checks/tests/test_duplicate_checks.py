@@ -139,3 +139,13 @@ class DuplicateCheckTest(CheckTestCase):
             ),
             {"para"},
         )
+
+    def test_rst_markup(self) -> None:
+        self.assertEqual(
+            self.check.check_single(
+                "This can be done in :guilabel:`Service hooks` under :guilabel:`Project settings`.",
+                "Esto se puede hacer en :guilabel:`Ganchos de servicio` en :guilabel:` Configuración del proyecto` .",
+                MockUnit(code="es", flags="rst-text"),
+            ),
+            {},
+        )

@@ -69,10 +69,11 @@ XML_ENTITY_MATCH = re.compile(
 )
 
 RST_REF_MATCH = re.compile(
-    r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`([^<`]*[^<` ])`|`[^<`]+<([^<`]+)>`))(?=\W|$)"
+    r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`([^<]*?[^ ])`|`[^<]+?<([^<]+?)>`))(?!`)(?=\W|$)"
 )
 RST_FOOTNOTE_MATCH = re.compile(r"(?:(?<=\W)|^)(\[#[^]]+\]_)(?=\W|$)")
-RST_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`]*[^` ]`_)(?=\W|$)")
+RST_INLINE_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`<]*[^` <] <[^`> ]*>`_)(?=\W|$)")
+RST_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`<]*[^` <]`_)(?=\W|$)")
 
 
 # These should be present in translation if present in source, but might be translated
@@ -89,6 +90,7 @@ RST_TRANSLATABLE = {
     ":sup:",
     ":kbd:",
     ":index:",
+    ":samp:",
 }
 
 RST_ROLE_RE = [
@@ -429,10 +431,18 @@ class RSTReferencesCheck(RSTBaseCheck):
         missing = src_set - tgt_set
         extra = tgt_set - src_set
 
+        src_links = len(RST_INLINE_LINK_MATCH.findall(source))
+        tgt_links = len(RST_INLINE_LINK_MATCH.findall(target))
+        if src_links != tgt_links:
+            errors.append(
+                gettext("Inconsistent inline links in the translated message.")
+            )
         src_links = len(RST_LINK_MATCH.findall(source))
         tgt_links = len(RST_LINK_MATCH.findall(target))
         if src_links != tgt_links:
-            errors.append(gettext("Inconsistent links in the translated message."))
+            errors.append(
+                gettext("Inconsistent external links in the translated message.")
+            )
         if missing or extra or errors:
             return {
                 "missing": [src_references[item] for item in missing],
@@ -477,7 +487,16 @@ class RSTReferencesCheck(RSTBaseCheck):
 def get_rst_publisher() -> Publisher:
     publisher = Publisher(settings=None)
     publisher.set_components("standalone", "restructuredtext", "null")
-    publisher.get_settings(halt_level=5)
+    publisher.get_settings(
+        # Never halt parsing with an exception
+        halt_level=5,
+        # Do not allow file insertion
+        file_insertion_enabled=False,
+        # Following are needed in case django.contrib.admindocs is imported
+        # and registers own rst tags
+        default_reference_context="",
+        link_base="",
+    )
     return publisher
 
 

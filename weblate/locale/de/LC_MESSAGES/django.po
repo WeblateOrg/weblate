@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 12:43+0000\n"
-"PO-Revision-Date: 2025-01-16 08:29+0000\n"
+"PO-Revision-Date: 2025-01-21 07:21+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -2049,12 +2049,10 @@ msgid "Weblate's REST API"
 msgstr "Weblates REST-API"
 
 #: weblate/api/views.py:153
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Could not obtain repository lock to perform the operation."
 msgstr ""
-"Das Repository konnte nicht gesperrt werden, ein anderer Vorgang wird "
-"durchgeführt."
+"Es konnte keine Repository-Sperre zum Durchführen des Vorgangs erlangt "
+"werden."
 
 #: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -3123,10 +3121,8 @@ msgid "The following format strings are extra: {}"
 msgstr "Folgende Formatzeichenketten sind zusätzlich: {}"
 
 #: weblate/checks/base.py:335
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following errors were found:"
-msgstr "Die folgenden Vorkommnisse wurden gefunden:"
+msgstr "Die folgenden Fehler wurden gefunden:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -3848,7 +3844,7 @@ msgstr "Fluent-Quellsyntax"
 
 #: weblate/checks/fluent/syntax.py:47
 msgid "Fluent syntax error in source"
-msgstr "Fluent-Syntaxfehler in Quelle"
+msgstr "Fluent-Syntaxfehler in der Quelle"
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
@@ -3856,7 +3852,7 @@ msgstr "Fluent-Übersetzungssyntax"
 
 #: weblate/checks/fluent/syntax.py:64
 msgid "Fluent syntax error in translation"
-msgstr "Fluent-Syntaxfehler in Übersetzung"
+msgstr "Fluent-Syntaxfehler in der Übersetzung"
 
 #: weblate/checks/format.py:481
 #, python-format
@@ -4200,25 +4196,16 @@ msgstr ""
 "Nachricht."
 
 #: weblate/checks/markup.py:432
-#, fuzzy
-#| msgid ""
-#| "Inconsistent reStructuredText term references in the translated message."
 msgid "Inconsistent links in the translated message."
-msgstr ""
-"Inkonsistente reStructuredText-Begriffsreferenzen in der übersetzten "
-"Nachricht."
+msgstr "Inkonsistente Links in der übersetzten Nachricht."
 
 #: weblate/checks/markup.py:545
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "reStructuredText syntax error"
-msgstr "reStructuredText"
+msgstr "reStructuredText-Syntaxfehler"
 
 #: weblate/checks/markup.py:546
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "Fluent-Syntaxfehler in Übersetzung"
+msgstr "reStructuredText-Syntaxfehler in der Übersetzung."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -6820,9 +6807,9 @@ msgid ""
 "Authenticator apps generate one-time passwords that are used as a second "
 "factor to verify your identity when prompted during sign-in."
 msgstr ""
-"Authentifizierungs-Apps generieren Einmalpasswörter, die als zweiter Faktor "
-"zur Überprüfung Ihrer Identität verwendet werden, wenn Sie beim Anmelden "
-"dazu aufgefordert werden."
+"Authentifizierungs-Apps generieren zeitbasierte Einmalpasswörter, die als "
+"zweiter Faktor zur Überprüfung Ihrer Identität verwendet werden, wenn Sie "
+"beim Anmelden dazu aufgefordert werden."
 
 #: weblate/templates/accounts/totp.html:36
 msgid "Scan the QR code"
@@ -7959,8 +7946,8 @@ msgid ""
 "Only use this if you know what you are doing, enabling it might revoke your "
 "access to this project."
 msgstr ""
-"Verwenden Sie diese Option nur, wenn Sie wissen, was Sie tun, damit Sie "
-"Ihren Zugang zu diesem Projekt sperren können."
+"Benutzen Sie diese Funktion nur, wenn Sie wissen, was Sie tun, denn damit "
+"könnte Ihr Zugang zu diesem Projekt gesperrt werden."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:81
 #: weblate/trans/forms.py:2113 weblate/trans/forms.py:2154
@@ -13806,7 +13793,7 @@ msgstr "Versionsverwaltungseinstellungen"
 
 #: weblate/trans/forms.py:1600
 msgid "Commit messages"
-msgstr "Commit-Nachricht"
+msgstr "Commit-Nachrichten"
 
 #: weblate/trans/forms.py:1616
 msgid "Translation files"

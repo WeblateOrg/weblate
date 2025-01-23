@@ -295,17 +295,22 @@ Configuration files
 +++++++++++++++++++
 
 :file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`
-    Per project configuration file
-:file:`C:\\Users\\NAME\\AppData\\weblate.ini`
-    User configuration file on Windows.
+    Configuration file placed in the project directory.
+:file:`C:\\Users\\NAME\\AppData\\Roaming\\weblate.ini`
+    User configuration file on Windows in the roamed profile.
+:file:`C:\\Users\\NAME\\AppData\\Local\\weblate.ini`
+    User configuration file on Windows in the local profile.
 :file:`~/.config/weblate`
-    User configuration file
+    User configuration file.
 :file:`/etc/xdg/weblate`
-    System wide configuration file
+    System wide configuration file.
 
-The program follows the XDG specification, so you can adjust placement of config files
-by environment variables ``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``. On Windows
-``APPDATA`` directory is preferred location for the configuration file.
+The program follows the XDG specification, so you can adjust the placement of
+config files by environment variables ``XDG_CONFIG_HOME`` or
+``XDG_CONFIG_DIRS``.
+
+On Windows ``APPDATA`` and ``LOCALAPPDATA`` directories are the preferred
+locations for the configuration file.
 
 Following settings can be configured in the ``[weblate]`` section (you can
 customize this by :option:`--config-section`):

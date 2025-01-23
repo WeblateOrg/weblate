@@ -16,6 +16,9 @@ Not yet released.
 * :ref:`check-punctuation-spacing` ignores markup such as Markdown or reStructuredText.
 * :ref:`autofix-punctuation-spacing` does not alter reStructuredText markup.
 * Improved validation errors in :doc:`/api`, see :ref:`api-errors`.
+* :ref:`check-duplicate` better works with markup such as Markdown or reStructuredText.
+* Automatically use DeepL API Free endpoint for the DeepL API Free authentication keys in :ref:`mt-deepl`.
+* Compatibility with third-party static files storage backends for Django.
 
 **Bug fixes**
 
@@ -43,11 +46,11 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.9.2
 -------------
 
-Released on December 19th 2023.
+Released on December 19th 2024.
 
 **Improvements**
 
-* Renamed :ref:`vcs-bitbucket-server` to match new product name.
+* Renamed :ref:`vcs-bitbucket-data-center` to match new product name.
 * :http:get:`/api/users/` supports searching by user ID.
 
 **Bug fixes**
@@ -118,7 +121,7 @@ Released on December 16th 2024.
 
 **Bug fixes**
 
-* Using the ``has:variant`` field now correctly displays strings that have variant(s) in the search language, see :ref:`search-strings`.
+* Using the ``has:variant`` field now correctly displays strings that have variants in the search language, see :ref:`search-strings`.
 * Saving newly added strings in some formats.
 * :ref:`check-java-printf-format` gracefully handles escaping.
 

@@ -896,9 +896,9 @@ class ComponentValidationTest(RepoTestCase):
 
     def test_lang_code_plus(self) -> None:
         component = Component(project=Project())
-        component.filemask = "po/*/master/pages/C_and_C++.po"
+        component.filemask = "po/*/pages/C_and_C++.po"
         self.assertEqual(
-            component.get_lang_code("po/cs/master/pages/C_and_C++.po"),
+            component.get_lang_code("po/cs/pages/C_and_C++.po"),
             "cs",
         )
 

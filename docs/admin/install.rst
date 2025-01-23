@@ -1397,8 +1397,8 @@ Content security policy
 +++++++++++++++++++++++
 
 The default Weblate configuration enables ``weblate.middleware.SecurityMiddleware``
-middleware which sets security related HTTP headers like ``Content-Security-Policy``
-or ``X-XSS-Protection``. These are by default set up to work with Weblate and its
+middleware which sets security related HTTP headers like :http:header:`Content-Security-Policy`
+or :http:header:`X-XSS-Protection`. These are by default set up to work with Weblate and its
 configuration, but this might need customization for your environment.
 
 .. seealso::
@@ -1512,7 +1512,7 @@ install everything you need to run Gunicorn. When installing Weblate you can spe
 
 
 Once you have Gunicorn installed, you can run it. This is usually done at the
-system level. The following examples show staring via systemd:
+system level. The following examples show starting via systemd:
 
 .. literalinclude:: ../../weblate/examples/gunicorn.socket
    :caption: /etc/systemd/system/gunicorn.socket

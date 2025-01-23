@@ -444,7 +444,7 @@ Supported operations:
 Matrix View
 -----------
 
-You can compare different languages efficiently using this view
+You can compare different languages efficiently using this view.
 It is available on every component page, from the :guilabel:`Tools` menu.
 First select all languages you want to compare, confirm your selection,
 then click on any translation to open and edit it.

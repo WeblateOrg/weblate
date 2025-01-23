@@ -443,6 +443,7 @@ def alerts(request: AuthenticatedHttpRequest) -> HttpResponse:
 class AdminUserList(UserList):
     template_name = "manage/users.html"
     form_class = AdminUserSearchForm
+    initial_query = "is:active"
 
     def get_base_queryset(self) -> QuerySet[User]:
         return User.objects.all()
@@ -467,7 +468,7 @@ class AdminUserList(UserList):
         result["menu_items"] = MENU
         result["menu_page"] = "users"
         result["invite_form"] = invite_form
-        result["search_form"] = AdminUserSearchForm()
+        result["search_form"] = self.form
         result["invitations"] = Invitation.objects.all().select_related("user")
         return result
 

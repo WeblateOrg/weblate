@@ -978,7 +978,18 @@ Inconsistent reStructuredText references
 :Flag to enable: ``rst-text``
 :Flag to ignore: ``ignore-rst-references``
 
-reStructuredText term references do not match source.
+reStructuredText term references do not match source, the typical causes for these errors are:
+
+* Mismatched or missing backticks.
+* Missing spaces or interpunction around the reference. The reStructuredText inline blocks need to be separated by non-word characters.
+* Space between inline tag and backticks.
+* The reference name is not being translated.
+* Using quotes instead of backticks.
+
+.. seealso::
+
+   `reStructuredText Primer`_,
+   :ref:`check-rst-syntax`
 
 .. _check-kashida:
 
@@ -1404,7 +1415,16 @@ reStructuredText syntax error
 :Flag to enable: ``rst-text``
 :Flag to ignore: ``ignore-rst-syntax``
 
-reStructuredText syntax error in the translation.
+reStructuredText syntax error in the translation. Issues to look for:
+
+* Mismatched closing/opening tags.
+* Missing spaces or interpunction around the reference. The reStructuredText inline blocks need to be separated by non-word characters.
+* Using quotes instead of backticks.
+
+.. seealso::
+
+   `reStructuredText Primer`_,
+   :ref:`check-rst-references`
 
 .. _check-reused:
 
@@ -1513,18 +1533,18 @@ Unchanged translation
 :Check identifier: ``same``
 :Flag to ignore: ``ignore-same``
 
-Happens if the source and corresponding translation strings is identical, down to
-at least one of the plural forms. Some strings commonly found across all
-languages are ignored, and various markup is stripped. This reduces
-the number of false positives.
+Happens if the source and corresponding translation strings are identical, down
+to at least one of the plural forms. Some strings commonly found across all
+languages are ignored, and various markups are stripped. This reduces the
+number of false positives.
 
 This check can help find strings mistakenly untranslated.
 
-The default behavior of this check is to exclude words from the built-in
-blacklist from the checking. These are words which are frequently not being
+The default behavior of this check is to exclude words from the built-in terms
+list from the checking. These are words which are frequently not being
 translated. This is useful to avoid false positives on short strings, which
-consist only of single word which is same in several languages. This blacklist
-can be disabled by adding ``strict-same`` flag to string or component.
+consist only of a single word which is the same in several languages. This list
+can be disabled by adding ``strict-same`` flag to a string or component.
 
 .. versionchanged:: 4.17
 
@@ -1935,3 +1955,6 @@ For example with Gettext in Python it could be:
     from gettext import ngettext
 
     print(ngettext("Selected %d file", "Selected %d files", files) % files)
+
+
+.. _reStructuredText Primer: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
