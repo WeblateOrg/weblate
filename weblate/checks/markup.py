@@ -117,9 +117,7 @@ class BBCodeCheck(TargetCheck):
     def check_single(self, source: str, target: str, unit: Unit):
         # Parse source
         src_match = BBCODE_MATCH.findall(source)
-        # Any BBCode in source?
-        if not src_match:
-            return False
+
         # Parse target
         tgt_match = BBCODE_MATCH.findall(target)
         if len(src_match) != len(tgt_match):
