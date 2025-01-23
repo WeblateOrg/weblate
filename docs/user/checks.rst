@@ -101,6 +101,8 @@ BBCode markup
 
 .. versionchanged:: 5.10
 
+This checks no longer relies on unreliable automatic detection, it now needs to be turned on using the ``bbcode-text`` flag.
+
 :Summary: BBCode in translation does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.BBCodeCheck``
