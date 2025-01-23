@@ -138,6 +138,7 @@ def init_sentry() -> None:
     )
     # Ignore Weblate logging, those should trigger proper errors
     ignore_logger("weblate")
+    ignore_logger("weblate.*")
 
 
 def init_rollbar() -> None:
