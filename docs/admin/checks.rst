@@ -70,6 +70,7 @@ Here is a list of flags currently accepted:
 
 ``rst-text``
     Treat a text as an reStructuredText document, affects :ref:`check-same`.
+    Turns on :ref:`check-rst-syntax` and :ref:`check-rst-references`.
 ``dos-eol``
     Uses DOS end-of-line markers instead of Unix ones (``\r\n`` instead of ``\n``).
 ``read-only``
@@ -110,7 +111,7 @@ Here is a list of flags currently accepted:
 ``forbidden``
     Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`.
 ``strict-same``
-    Make "Unchanged translation" avoid using built-in words blacklist, see :ref:`check-same`.
+    Make the :ref:`check-same` avoid using the built-in words exceptions.
 ``strict-format``
     Make format checks enforce using format even for plural forms with a single value, see :ref:`check-formats`.
 ``check-glossary``

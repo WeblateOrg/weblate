@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-01-17 18:50+0000\n"
+"PO-Revision-Date: 2025-01-19 13:12+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -466,7 +466,7 @@ msgid ""
 msgstr ""
 "Het systeem voor rechten is gebaseerd op rollen die een set rechten "
 "definiëren, en teams om deze rollen toe te wijzen aan gebruikers en "
-"vertalingen, lees :ref:`auth-model`voor meer details."
+"vertalingen, lees :ref:`auth-model` voor meer details."
 
 #: ../../admin/access.rst:224
 msgid ""
@@ -8971,10 +8971,10 @@ msgstr "Lijst voor inloggegevens voor servers van Bitbucket Data Center."
 
 #: ../../admin/config.rst:890
 msgid ""
-":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
+":ref:`vcs-bitbucket-data-center`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
-":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP token voor toegang <https://"
+":ref:`vcs-bitbucket-data-center`, `Bitbucket: HTTP token voor toegang <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:896
@@ -11422,8 +11422,8 @@ msgid "Bitbucket Data Center pull request from fork"
 msgstr "Pull request op Bitbucket Data Center uit fork"
 
 #: ../../admin/continuous.rst:449 ../../admin/continuous.rst:454
-msgid ":ref:`vcs-bitbucket-server`"
-msgstr ":ref:`vcs-bitbucket-server`"
+msgid ":ref:`vcs-bitbucket-data-center`"
+msgstr ":ref:`vcs-bitbucket-data-center`"
 
 #: ../../admin/continuous.rst:453
 msgid "Bitbucket Data Center pull request from branch"
@@ -16226,10 +16226,10 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1153
 msgid ""
-"Configures :ref:`vcs-bitbucket-server` by changing :setting:"
+"Configures :ref:`vcs-bitbucket-data-center` by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Configureert :ref:`vcs-bitbucket-server` door :setting:"
+"Configureert :ref:`vcs-bitbucket-data-center` door :setting:"
 "`BITBUCKETSERVER_CREDENTIALS` te wijzigen."
 
 #: ../../admin/install/docker.rst:1161
@@ -28373,9 +28373,9 @@ msgid "Released on December 19th 2023."
 msgstr "Uitgegeven op 19 december 2023."
 
 #: ../../changes.rst:49
-msgid "Renamed :ref:`vcs-bitbucket-server` to match new product name."
+msgid "Renamed :ref:`vcs-bitbucket-data-center` to match new product name."
 msgstr ""
-":ref:`vcs-bitbucket-server` hernoemd om overeen te komen met de nieuwe naam."
+":ref:`vcs-bitbucket-data-center` hernoemd om overeen te komen met de nieuwe naam."
 
 #: ../../changes.rst:50
 msgid ":http:get:`/api/users/` supports searching by user ID."
@@ -28616,7 +28616,7 @@ msgid ""
 ":ref:`rollbar-errors` integration no longer includes client-side error "
 "collection."
 msgstr ""
-"Integratie van :ref:`rollbar-errors`bevat niet langer het verzamelen van "
+"Integratie van :ref:`rollbar-errors` bevat niet langer het verzamelen van "
 "fouten aan de kant van de cliënt."
 
 #: ../../changes.rst:127
@@ -29223,7 +29223,7 @@ msgstr ""
 #: ../../changes.rst:343
 msgid ":ref:`2fa` can be enforced at the team or project level."
 msgstr ""
-":ref:`2fa`kan worden afgedwongen op het niveau van het team of het project."
+":ref:`2fa` kan worden afgedwongen op het niveau van het team of het project."
 
 #: ../../changes.rst:344
 msgid ""
@@ -44418,8 +44418,9 @@ msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
 "repository, so there is usually no need to manage it manually."
 msgstr ""
-"Met :doc:`/admin/continuous`worden wijzigingen automatisch gepusht vanuit de "
-"opslagruimte, dus is er gewoonlijk geen noodzaak om dat handmatig te beheren."
+"Met :doc:`/admin/continuous` worden wijzigingen automatisch gepusht vanuit "
+"de opslagruimte, dus is er gewoonlijk geen noodzaak om dat handmatig te "
+"beheren."
 
 #: ../../devel/integration.rst:176
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
@@ -49517,7 +49518,7 @@ msgstr "Promoot vertaalprojecten"
 
 #: ../../index.rst:41
 msgid ""
-"For starting your own project on our cloud service Hosted Webalte, refer to :"
+"For starting your own project on our cloud service Hosted Weblate, refer to :"
 "doc:`admin/projects`. For self-hosting your own Weblate clone, read our :doc:"
 "`admin/install`."
 msgstr ""
@@ -52281,22 +52282,16 @@ msgid "reStructuredText syntax error in the translation."
 msgstr "Fluent-syntaxisfout in vertaling"
 
 #: ../../user/checks.rst:1397
-#, fuzzy
-#| msgid "``weblate.checks.markup.MarkdownSyntaxCheck``"
 msgid "``weblate.checks.markup.RSTSyntaxCheck``"
-msgstr "``weblate.checks.markup.MarkdownSyntaxCheck``"
+msgstr "``weblate.checks.markup.RSTSyntaxCheck``"
 
 #: ../../user/checks.rst:1398
-#, fuzzy
-#| msgid "``md-syntax``"
 msgid "``rst-syntax``"
-msgstr "``md-syntax``"
+msgstr "``rst-syntax``"
 
 #: ../../user/checks.rst:1400
-#, fuzzy
-#| msgid "``ignore-md-syntax``"
 msgid "``ignore-rst-syntax``"
-msgstr "``ignore-md-syntax``"
+msgstr "``ignore-rst-syntax``"
 
 #: ../../user/checks.rst:1407
 msgid "Reused translation"
@@ -56040,7 +56035,7 @@ msgstr "Versiebeheerintegratie"
 msgid ""
 "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:"
-"`vcs-git-svn`, :ref:`vcs-bitbucket-cloud`, :ref:`vcs-bitbucket-server`, and :"
+"`vcs-git-svn`, :ref:`vcs-bitbucket-cloud`, :ref:`vcs-bitbucket-data-center`, and :"
 "ref:`vcs-azure-devops`) and :ref:`vcs-mercurial` as version control back-"
 "ends."
 msgstr ""
@@ -56746,10 +56741,10 @@ msgid ""
 "while :ref:`vcs-gitea` creates pull requests."
 msgstr ""
 "Het is niet nodig om dit te gebruiken voor toegang tot opslagruimten van "
-"Git, gewoonlijk werkt :ref:`vcs-git`hetzelfde, het enige verschil is hoe het "
-"pushen naar een opslagruimte wordt afgehandeld. Met :ref:`vcs-git` worden "
-"wijzigingen direct naar de opslagruimte gepusht, terwijl :ref:`vcs-gitea` "
-"pull requests maakt."
+"Git, gewoonlijk werkt :ref:`vcs-git` hetzelfde, het enige verschil is hoe "
+"het pushen naar een opslagruimte wordt afgehandeld. Met :ref:`vcs-git` "
+"worden wijzigingen direct naar de opslagruimte gepusht, terwijl :ref:`vcs-"
+"gitea` pull requests maakt."
 
 #: ../../vcs.rst:399
 msgid ""
@@ -56759,8 +56754,8 @@ msgid ""
 msgstr ""
 "U moet inloggegevens voor de API configureren (:setting:`GITEA_CREDENTIALS`) "
 "in de instellingen van Weblate om dit te laten werken. Zodra dit is "
-"geconfigureerd, ziet u een optie :guilabel:`Gitea`bij het selecteren van :"
-"ref:`component-vcs`."
+"geconfigureerd, ziet u een optie :guilabel:`Gitea` bij het selecteren van "
+":ref:`component-vcs`."
 
 #: ../../vcs.rst:405
 msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
@@ -56789,13 +56784,13 @@ msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
-"while :ref:`vcs-bitbucket-server` creates pull request."
+"while :ref:`vcs-bitbucket-data-center` creates pull request."
 msgstr ""
 "Er is geen noodzaak om dit te gebruiken om toegang te krijgen tot "
 "opslagruimten van Git, gewoonlijk werkt :ref:`vcs-git` hetzelfde, het enige "
 "verschil is hoe het pushen naar een opslagruimte wordt afgehandeld. Met :ref:"
 "`vcs-git` worden wijzigingen rechtstreeks naar de opslagruimte gepusht, "
-"terwijl :ref:`vcs-bitbucket-server` een pull request maakt."
+"terwijl :ref:`vcs-bitbucket-data-center` een pull request maakt."
 
 #: ../../vcs.rst:432
 msgid ""
@@ -56804,10 +56799,11 @@ msgid ""
 "Once configured, you will see a :guilabel:`Bitbucket Data Center` option "
 "when selecting :ref:`component-vcs`."
 msgstr ""
-"U moet inloggegevens voor de API configureren (:setting:"
-"`BITBUCKETSERVER_CREDENTIALS`) in de instellingen van Weblate om dit te "
-"laten werken. Zodra dit is geconfigureerd, ziet u een optie :guilabel:"
-"`Bitbucket Data Center`bij het selecteren van :ref:`component-vcs`."
+"U moet inloggegevens voor de API configureren "
+"(:setting:`BITBUCKETSERVER_CREDENTIALS`) in de instellingen van Weblate om "
+"dit te laten werken. Zodra dit is geconfigureerd, ziet u een optie "
+":guilabel:`Bitbucket Data Center` bij het selecteren van :ref:`component-"
+"vcs`."
 
 #: ../../vcs.rst:438
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
@@ -56840,10 +56836,10 @@ msgid ""
 "while :ref:`vcs-bitbucket-cloud` creates pull request."
 msgstr ""
 "Het is niet nodig om dit te gebruiken voor toegang tot opslagruimten van "
-"Git, gewoonlijk werkt :ref:`vcs-git`hetzelfde, het enige verschil is hoe het "
-"pushen naar een opslagruimte wordt afgehandeld. Met :ref:`vcs-git` worden "
-"wijzigingen direct naar de opslagruimte gepusht, terwijl :ref:`vcs-bitbucket-"
-"cloud` pull requests maakt."
+"Git, gewoonlijk werkt :ref:`vcs-git` hetzelfde, het enige verschil is hoe "
+"het pushen naar een opslagruimte wordt afgehandeld. Met :ref:`vcs-git` "
+"worden wijzigingen direct naar de opslagruimte gepusht, terwijl :ref:`vcs-"
+"bitbucket-cloud` pull requests maakt."
 
 #: ../../vcs.rst:465
 msgid ""
@@ -56852,10 +56848,10 @@ msgid ""
 "Once configured, you will see a :guilabel:`Bitbucket Cloud` option when "
 "selecting :ref:`component-vcs`."
 msgstr ""
-"U moet inloggegevens voor de API configureren (:setting:"
-"`BITBUCKETCLOUD_CREDENTIALS`) in de instellingen van Weblate om dit te laten "
-"werken. Zodra dit is geconfigureerd, ziet u een optie :guilabel:`Bitbucket "
-"Cloud`bij het selecteren van :ref:`component-vcs`."
+"U moet inloggegevens voor de API configureren "
+"(:setting:`BITBUCKETCLOUD_CREDENTIALS`) in de instellingen van Weblate om "
+"dit te laten werken. Zodra dit is geconfigureerd, ziet u een optie "
+":guilabel:`Bitbucket Cloud` bij het selecteren van :ref:`component-vcs`."
 
 #: ../../vcs.rst:471
 msgid ":ref:`push-changes`, :setting:`BITBUCKETCLOUD_CREDENTIALS`"
@@ -56894,10 +56890,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Pagure` option when selecting :ref:`component-vcs`."
 msgstr ""
-"U moet inloggegevens voor de API configureren (:setting:"
-"`PAGURE_CREDENTIALS`) in de instellingen van Weblate om dit te laten werken. "
-"Zodra dit is geconfigureerd, ziet u een optie :guilabel:`Pagure`bij het "
-"selecteren van :ref:`component-vcs`."
+"U moet inloggegevens voor de API configureren (:setting:`PAGURE_CREDENTIALS`)"
+" in de instellingen van Weblate om dit te laten werken. Zodra dit is "
+"geconfigureerd, ziet u een optie :guilabel:`Pagure` bij het selecteren van "
+":ref:`component-vcs`."
 
 #: ../../vcs.rst:499
 msgid ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
@@ -56956,10 +56952,10 @@ msgid ""
 "in the Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Azure DevOps` option when selecting :ref:`component-vcs`."
 msgstr ""
-"U moet inloggegevens voor de API configureren (:setting:"
-"`AZURE_DEVOPS_CREDENTIALS`) in de instellingen van Weblate om dit te laten "
-"werken. Zodra dit is geconfigureerd, ziet u een optie :guilabel:`Azure "
-"DevOps`bij het selecteren van :ref:`component-vcs`."
+"U moet inloggegevens voor de API configureren "
+"(:setting:`AZURE_DEVOPS_CREDENTIALS`) in de instellingen van Weblate om dit "
+"te laten werken. Zodra dit is geconfigureerd, ziet u een optie :guilabel:`"
+"Azure DevOps` bij het selecteren van :ref:`component-vcs`."
 
 #: ../../vcs.rst:535
 msgid ":ref:`push-changes`, :setting:`AZURE_DEVOPS_CREDENTIALS`"
@@ -57935,7 +57931,7 @@ msgid ""
 "done, strings are available for translations to target languages, based on "
 "what is now a polished source language."
 msgstr ""
-"Door :ref:`component-intermediate`in te stellen wordt dat bestand gebruikt "
+"Door :ref:`component-intermediate` in te stellen wordt dat bestand gebruikt "
 "voor het vertalen van tekenreeksen naar de brontaal door vertalers/"
 "bewerkers. Als dit stadium eenmaal is gepasseerd zijn de tekenreeksen "
 "beschikbaar voor vertalingen naar de doeltalen, gebaseerd op wat nu een "

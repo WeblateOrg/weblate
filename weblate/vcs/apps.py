@@ -112,7 +112,13 @@ class VCSConfig(AppConfig):
         # We need to do this behind lock to avoid errors when servers
         # start in parallel
         lockfile = WeblateLock(
-            home, "gitlock", 0, "", "lock:{scope}", "{scope}", timeout=120
+            lock_path=home,
+            scope="gitlock",
+            key=0,
+            slug="",
+            cache_template="lock:{scope}",
+            file_template="{scope}",
+            timeout=120,
         )
         with lockfile:
             try:

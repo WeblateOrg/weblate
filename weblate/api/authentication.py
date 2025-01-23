@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 from django.utils.translation import gettext
+from drf_spectacular.authentication import SessionScheme
 from drf_spectacular.extensions import OpenApiAuthenticationExtension
 from rest_framework.authentication import TokenAuthentication
 
@@ -16,9 +17,22 @@ class BearerAuthentication(TokenAuthentication):
     keyword = "Bearer"
 
 
+class WeblateSessionScheme(SessionScheme):
+    target_class = "rest_framework.authentication.SessionAuthentication"
+    priority = 1
+
+    def get_security_definition(self, auto_schema):
+        result = super().get_security_definition(auto_schema)
+        result["description"] = gettext(
+            "Session-based authentication used when user is signed in."
+        )
+        return result
+
+
 class BearerScheme(OpenApiAuthenticationExtension):
     target_class = "weblate.api.authentication.BearerAuthentication"
     name = "bearerAuth"
+    priority = 1
 
     def get_description(self, keyword: str) -> str:
         intro = (

@@ -40,6 +40,10 @@ Developing add-ons
 
    Translation file wrapper.
 
+.. class:: BaseAddonForm
+
+   Base form for configuring add-ons.
+
 Here is an example add-on:
 
 .. literalinclude:: ../../weblate/addons/example.py

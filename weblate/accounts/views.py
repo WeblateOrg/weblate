@@ -1561,6 +1561,7 @@ class UserList(ListView):
     paginate_by = 50
     model = User
     form_class = UserSearchForm
+    initial_query = ""
 
     def get_base_queryset(self):
         return User.objects.filter(is_active=True, is_bot=False)
@@ -1579,7 +1580,11 @@ class UserList(ListView):
 
     def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         super().setup(request, *args, **kwargs)
-        self.form = form = self.form_class(request.GET)
+        if "q" in request.GET:
+            form = self.form_class(request.GET)
+        else:
+            form = self.form_class({"q": self.initial_query})
+        self.form = form
         self.sort_query = ""
         if form.is_valid():
             self.sort_query = form.cleaned_data.get("sort_by", "")

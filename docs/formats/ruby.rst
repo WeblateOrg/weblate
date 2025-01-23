@@ -5,7 +5,6 @@ Ruby YAML files
 
 .. index::
     pair: Ruby YAML; file format
-    pair: Ruby YAML Ain't Markup Language; file format
 
 Ruby i18n YAML files with language as root node.
 

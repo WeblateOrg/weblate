@@ -4,22 +4,22 @@
 # Weblate localization.
 #
 # Jordan <jordandunican@gmail.com>, 2023.
-# Aindriú Mac Giolla Eoin <aindriu80@gmail.com>, 2024.
+# Aindriú Mac Giolla Eoin <aindriu80@gmail.com>, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 12:43+0000\n"
-"PO-Revision-Date: 2025-01-15 19:23+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-01-18 10:39+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
 "Language: ga\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :("
+"n>6 && n<11) ? 3 : 4;\n"
 "X-Generator: Weblate 5.10-dev\n"
 
 #: weblate/accounts/avatar.py:84
@@ -2017,10 +2017,9 @@ msgid "Weblate's REST API"
 msgstr "Weblate's REST API"
 
 #: weblate/api/views.py:153
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Could not obtain repository lock to perform the operation."
-msgstr "Níorbh fhéidir an stór a ghlasáil, tá oibríocht eile ar siúl."
+msgstr ""
+"Níorbh fhéidir glas an taisclainne a fháil chun an oibríocht a dhéanamh."
 
 #: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2818,21 +2817,16 @@ msgid "This translation is currently locked."
 msgstr "Tá an t-aistriúchán seo faoi ghlas faoi láthair."
 
 #: weblate/auth/permissions.py:194
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires accepting its contributor license "
 "agreement."
 msgstr ""
-"Teastaíonn aontú lena chomhaontú ranníocóra chun cur leis an aistriúchán seo."
+"Ní mór glacadh lena chomhaontú ceadúnais ranníocóra chun cur leis an "
+"aistriúchán seo."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
-msgstr "Sínigh isteach chun an t-aistriúchán a shábháil."
+msgstr "Sínigh isteach chun aistriúcháin a shábháil."
 
 #: weblate/auth/permissions.py:205
 msgid "Insufficient privileges for approving translations."
@@ -2853,13 +2847,9 @@ msgid "Suggestion voting is disabled."
 msgstr "Tá vótáil moltaí díchumasaithe."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
 msgstr ""
-"Ní ghlacann an t-aistriúchán seo ach le moltaí, agus ceadaítear iad seo trí "
+"Ní ghlacann an t-aistriúchán seo ach le moltaí, agus ceadaítear iad trí "
 "vótáil."
 
 #: weblate/auth/permissions.py:235
@@ -2868,50 +2858,36 @@ msgid "Pay the bills to unlock this project."
 msgstr "Íoc na billí chun an tionscadal seo a dhíghlasáil."
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
-msgstr "Níl léirmheasanna ar theaghrán foinse cumasaithe."
+msgstr "Tá athbhreithnithe teaghrán foinse múchta."
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "Tá moltaí aistriúcháin múchta."
+msgstr "Tá léirmheasanna aistriúcháin múchta."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "Tá liostú réad múchta"
+msgstr "Tá athbhreithniú múchta."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "Ní mór athbhreithniú a dhéanamh ar an teaghrán foinse."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
-msgstr "Tá an teaghrán léite amháin."
+msgstr "Tá an teaghrán inléite amháin."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Ní féidir ach le hathbhreithneoirí teaghráin cheadaithe a athrú, cuir moladh "
+"Ní féidir ach le hathbhreithneoirí teaghráin cheadaithe a athrú. Cuir moladh "
 "leis má cheapann tú gur cheart an teaghrán a athrú."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
-msgstr "Tá an t-aistriúchán léite amháin."
+msgstr "Tá an t-aistriúchán inléite amháin."
 
 #: weblate/auth/permissions.py:309
 msgid "Add the string to the source language instead."
@@ -2922,19 +2898,15 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "Tá teaghráin curtha leis díchumasaithe i gcumraíocht an chomhpháirte."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
-"Ní féidir aistriúchán téarmaíochta a bhaint, bain an teaghrán foinse ina "
-"ionad."
+"Ní féidir aistriúchán téarmaíochta a bhaint. Bain an teaghrán foinse ina "
+"ionad sin."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
-msgstr "Ní thacaíonn formáid comhaid leis seo."
+msgstr "Ní thacaíonn formáid an chomhaid leis seo."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3112,10 +3084,8 @@ msgid "The following format strings are extra: {}"
 msgstr "Tá na teaghráin fhormáide seo a leanas sa bhreis: {}"
 
 #: weblate/checks/base.py:335
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following errors were found:"
-msgstr "Fuarthas na teagmhais seo a leanas:"
+msgstr "Fuarthas na hearráidí seo a leanas:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -4155,31 +4125,26 @@ msgstr "Úsáideann an t-aistriúchán marcáil HTML neamhshábháilte"
 
 #: weblate/checks/markup.py:398
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "Tagairtí Téacs athstruchtúrtha neamh-chomhsheasmhach"
 
 #: weblate/checks/markup.py:400
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
+"Tagairtí téarma athstruchtúrtha Téacs neamh-chomhsheasmhach sa "
+"teachtaireacht aistrithe."
 
 #: weblate/checks/markup.py:432
-#, fuzzy
-#| msgid "%(count)s string is not being translated here."
-#| msgid_plural "%(count)s strings are not being translated here."
 msgid "Inconsistent links in the translated message."
-msgstr "Níl teaghrán %(count)s á aistriú anseo."
+msgstr "Naisc neamh-chomhsheasmhacha sa teachtaireacht aistrithe."
 
 #: weblate/checks/markup.py:545
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "reStructuredText syntax error"
-msgstr "Téacs athstruchtúrtha"
+msgstr "Earráid chomhréire reStructuredText"
 
 #: weblate/checks/markup.py:546
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "Earráid chomhréire líofa san aistriúchán"
+msgstr "Earráid chomhréire reStructuredText san aistriúchán."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5472,13 +5437,9 @@ msgid "File"
 msgstr "Comhaid"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr ""
-"Is féidir leat comhad de na formáidí seo a leanas a uaslódáil: TMX, JSON, "
-"XLIFF, PO, CSV."
+msgstr "Is féidir leat comhad de na formáidí seo a leanas a uaslódáil: %s."
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5506,10 +5467,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "Deimhnigh scriosadh gach iontráil cuimhne aistriúcháin"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "Ní cheadaítear an cineál íomhá: %s"
+msgstr "Iarmhír chomhaid nach dtacaítear leis: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -7204,12 +7164,10 @@ msgid "Configure"
 msgstr "Cumraigh"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
 msgstr ""
-"Is féidir breiseáin a shuiteáil ar raon feidhme an tionscadail agus na "
-"gcomhpháirteanna freisin."
+"Is féidir breiseáin a shuiteáil freisin ag leibhéil an tionscadail agus na "
+"gcomhpháirteanna."
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -7236,10 +7194,8 @@ msgid "Available add-ons"
 msgstr "Breiseáin ar fáil"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "Ní féidir an breiseán a shuiteáil ach ar an gcomhpháirt."
+msgstr "Ní féidir an breiseán a shuiteáil ach ar leibhéal an chomhpháirte."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -8273,10 +8229,8 @@ msgid "Screenshots"
 msgstr "Gabhálacha scáileáin"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "Comhpháirt Dhúblach"
+msgstr "Déan an chomhpháirt seo a dhúbailt"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -11250,6 +11204,8 @@ msgstr ""
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
 msgstr ""
+"Cuirtear fáilte freisin roimh thionscadail nach mbaineann le cód (cosúil le "
+"leabhair nó ábhar grafach)."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"

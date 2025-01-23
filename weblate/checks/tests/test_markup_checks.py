@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+from django.contrib.admindocs.utils import docutils_is_available
+
 from weblate.checks.markup import (
     BBCodeCheck,
     MarkdownLinkCheck,
@@ -422,7 +424,7 @@ class RSTReferencesCheckTest(CheckTestCase):
             <br>
             The following errors were found:
             <br>
-            Inconsistent links in the translated message.
+            Inconsistent external links in the translated message.
             """,
         )
 
@@ -448,6 +450,14 @@ class RSTReferencesCheckTest(CheckTestCase):
             (
                 ":index:`bilingual <pair: translation; bilingual>`",
                 ":ndex:`vícejazyčný <pair: překlad; vícejazyčný>`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                ":ref:`acl`",
+                ":tag:`acl`",
                 "rst-text",
             ),
         )
@@ -567,6 +577,50 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
+    def test_broken_links(self):
+        self.do_test(
+            True,
+            (
+                "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_",
+                "`Webhooks în manualul Gitea<https://docs.gitea.io/en-us/webhooks/>`_",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "`backup service at weblate.org <https://weblate.org/support/#backup>`_",
+                "`weblate.org <https://weblate.org/support/#backup> üzerinden yedekleme hizmeti`_",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "`GWT Internationalization Tutorial <https://www.gwtproject.org/doc/latest/tutorial/i18n.html>`_",
+                "`Руководство по интернационализации GWT <https://www.gwtproject.org/doc/latest/tutorial/i18n.html >`_",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "`Setup Authentication.`_",
+                "`Авторизация <Setup Authentication.>`_",
+                "rst-text",
+            ),
+        )
+
+    def test_extra_backtick(self):
+        self.do_test(
+            True,
+            (
+                "see :ref:`check-object-pascal-format`.",
+                "zobacz :ref:`check-object-pascal-format``.",
+                "rst-text",
+            ),
+        )
+
 
 class RSTSyntaxCheckTest(CheckTestCase):
     check = RSTSyntaxCheck()
@@ -619,6 +673,18 @@ class RSTSyntaxCheckTest(CheckTestCase):
             (
                 "`Webhooks in Gitea manual`_",
                 "`Webhooks in Gitea manual`_",
+                "rst-text",
+            ),
+        )
+
+    def test_admindocs_tags(self):
+        # admindocs registers own parsers which fail without specific settings
+        self.assertTrue(docutils_is_available)
+        self.do_test(
+            False,
+            (
+                ":tag:`acl`",
+                ":tag:`acl`",
                 "rst-text",
             ),
         )

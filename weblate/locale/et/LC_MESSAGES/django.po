@@ -2,15 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Lauri Linnamäe <de0g7o8f@duck.com>, 2024.
-# Priit Jõerüüt <hwlate@joeruut.com>, 2024.
+# Priit Jõerüüt <hwlate@joeruut.com>, 2024, 2025.
 # FOXHELL <foxhell768@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 12:43+0000\n"
-"PO-Revision-Date: 2024-10-15 02:45+0000\n"
-"Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
+"PO-Revision-Date: 2025-01-20 13:43+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
 "Language: et\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -29,14 +29,14 @@ msgstr "Puudub"
 #: weblate/templates/accounts/user.html:31 weblate/templates/base.html:328
 #: weblate/templates/snippets/user-list.html:16
 msgid "User avatar"
-msgstr "Kasutaja profilipild"
+msgstr "Kasutaja profilipilt"
 
 #: weblate/accounts/forms.py:87
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
 msgstr ""
-"See e-kirja aadress on juba kasutusel. Palun vali erinev e-kirja aadress."
+"See e-posti aadress on juba kasutusel. Palun vali erinev e-posti aadress."
 
 #: weblate/accounts/forms.py:118
 msgid "This username is already taken. Please choose another."
@@ -51,13 +51,11 @@ msgstr "Täisnimi"
 
 #: weblate/accounts/forms.py:131
 msgid "Name is also used in version control commits."
-msgstr ""
+msgstr "Nimi on kasutusel ka versioonihalduse sissekannetel."
 
 #: weblate/accounts/forms.py:195 weblate/accounts/models.py:708
-#, fuzzy
-#| msgid "Username or email"
 msgid "Commit e-mail"
-msgstr "Kasutajanimi või e-post"
+msgstr "Sissekande e-posti aadress"
 
 #: weblate/accounts/forms.py:196
 msgid "Use account e-mail address"
@@ -68,6 +66,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
 msgstr ""
+"Kasutusel versioonihalduse sissekannetes. Peale Weblate'i poolt sissekande "
+"tegemist jääb aadress jääb tarkvarahoidlasse igavesti."
 
 #: weblate/accounts/forms.py:230 weblate/accounts/models.py:702
 msgid "Public e-mail"
@@ -93,38 +93,32 @@ msgid ""
 msgstr ""
 
 #: weblate/accounts/forms.py:433
-#, fuzzy
-#| msgid "CSRF verification failed. Request aborted."
 msgid "Verification failed. Try again later."
-msgstr "CSRF verifitseerimine ebaõnnestus. Päring katkestati."
+msgstr "Verifitseerimine ei õnnestunud. Proovi hiljem uuesti."
 
 #: weblate/accounts/forms.py:434
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Verifitseerimine aegus. Proovi hiljem uuesti."
 
 #: weblate/accounts/forms.py:435
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Ma pole robot"
 
 #: weblate/accounts/forms.py:436
-#, fuzzy
-#| msgid "Activation completed."
 msgid "Verification completed"
-msgstr "Aktiveerimine sai valmis."
+msgstr "Verifitseerimine sai valmis"
 
 #: weblate/accounts/forms.py:437
 msgid "Verifying…"
-msgstr ""
+msgstr "Verifitseerime…"
 
 #: weblate/accounts/forms.py:439
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Verifitseerimine on veel pooleli, palun oota."
 
 #: weblate/accounts/forms.py:449
-#, fuzzy
-#| msgid "Instant notification"
 msgid "Human verification"
-msgstr "Kiirteated"
+msgstr "Verifitseerimine inimese poolt"
 
 #: weblate/accounts/forms.py:502
 #, python-format
@@ -139,10 +133,8 @@ msgid "That was not correct, please try again."
 msgstr "See polnud õige, palun proovi uuesti."
 
 #: weblate/accounts/forms.py:534 weblate/accounts/forms.py:541
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "See polnud õige, palun proovi uuesti."
+msgstr "Tuvastamine ei õnnestunud, palun proovi uuesti."
 
 #: weblate/accounts/forms.py:560
 msgid "Subject"
@@ -154,7 +146,7 @@ msgstr "Sinu nimi"
 
 #: weblate/accounts/forms.py:565
 msgid "Your e-mail"
-msgstr "Sinu e-kiri"
+msgstr "Sinu e-posti aadress"
 
 #: weblate/accounts/forms.py:567 weblate/templates/manage/performance.html:32
 #: weblate/templates/manage/performance.html:85
@@ -177,7 +169,7 @@ msgstr ""
 #: weblate/templates/trans/project-access.html:51 weblate/utils/fields.py:36
 #: weblate/wladmin/forms.py:44
 msgid "E-mail"
-msgstr "E-kiri"
+msgstr "E-posti aadress"
 
 #: weblate/accounts/forms.py:588
 msgid "E-mail with a confirmation link will be sent here."
@@ -475,10 +467,9 @@ msgstr ""
 "Saatsime kasutajakonto eemaldamise kinnituse e-posti aadressile {email}."
 
 #: weblate/accounts/models.py:223
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "Kasutajatingimustega nõusolek antud {date}."
+msgstr "Nõusolek Üldiste Kasutajatingimustega antud {date}."
 
 #: weblate/accounts/models.py:224
 #, python-brace-format
@@ -3035,10 +3026,8 @@ msgid "Number of changes"
 msgstr "Muudatuste arv"
 
 #: weblate/billing/models.py:300 weblate/wladmin/models.py:215
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Hosted strings"
-msgstr "Tõlgitud lausendid"
+msgstr "Lähtelausendid"
 
 #: weblate/billing/models.py:312 weblate/trans/admin.py:95
 msgid "Source words"
@@ -4514,7 +4503,7 @@ msgstr "Tõlgitud"
 
 #: weblate/formats/external.py:27
 msgid "Excel Open XML"
-msgstr ""
+msgstr "Excel Open XML"
 
 #: weblate/formats/multi.py:177
 msgid "Multivalue CSV file (UTF-8)"
@@ -4588,13 +4577,11 @@ msgstr ""
 
 #: weblate/formats/ttkit.py:1405
 msgid "PHP strings"
-msgstr ""
+msgstr "PHP-sõned"
 
 #: weblate/formats/ttkit.py:1424
-#, fuzzy
-#| msgid "Translated"
 msgid "Laravel PHP strings"
-msgstr "Tõlgitud"
+msgstr "Laraveli PHP-sõned"
 
 #: weblate/formats/ttkit.py:1431
 msgid ".NET resource file"
@@ -4640,7 +4627,7 @@ msgstr "Järjesta võtmed JSON'is"
 
 #: weblate/formats/ttkit.py:1552
 msgid "ARB file"
-msgstr ""
+msgstr "ARB-fail"
 
 #: weblate/formats/ttkit.py:1561
 #, fuzzy
@@ -4750,7 +4737,7 @@ msgstr ""
 
 #: weblate/formats/txt.py:197
 msgid "App store metadata files"
-msgstr ""
+msgstr "App Store'i metaandmete failid"
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -5107,10 +5094,8 @@ msgid "Legal"
 msgstr ""
 
 #: weblate/legal/templates/legal/confirm.html:18
-#, fuzzy
-#| msgid "You have agreed to the following as a contributor:"
 msgid "You have to agree to the General Terms and Conditions"
-msgstr "Panustajana oled nõustunud järgnevaga:"
+msgstr "Sa pead nõustuma Üldiste Kasutustingimustega"
 
 #: weblate/legal/templates/legal/confirm.html:21
 #, fuzzy
@@ -5949,16 +5934,13 @@ msgid "Server Error"
 msgstr "Serveri viga"
 
 #: weblate/templates/500.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
+#, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"Serveril oli tõsine vaev sinu päringule vastamisega. Meie pisikesed "
-"väljaõppinud tarsierid on juba teel selle vea parandamiseks."
+"Sinu päringu täitmisel esines serveris tõsiseid probleeme ja viga on "
+"salvestatud kui %(error_id)s."
 
 #: weblate/templates/500.html:40
 #, fuzzy
@@ -6024,7 +6006,7 @@ msgstr "Teave Weblate'i kohta"
 #: weblate/templates/about/index.html:20 weblate/templates/base.html:405
 #: weblate/templates/footer.html:38 weblate/templates/manage/index.html:102
 msgid "Donate to Weblate"
-msgstr "Anneta Weblatele"
+msgstr "Anneta Weblate'ile"
 
 #: weblate/templates/about/index.html:28
 msgid "Hosting translations"
@@ -7643,10 +7625,8 @@ msgstr "Haldamine"
 
 #: weblate/templates/auth/team.html:164 weblate/templates/auth/team.html:222
 #: weblate/templates/trans/project-access.html:155
-#, fuzzy
-#| msgid "Translated languages"
 msgid "Add a user"
-msgstr "Tõlgitud keeled"
+msgstr "Lisa kasutaja"
 
 #: weblate/templates/auth/team.html:193
 #: weblate/templates/trans/project-access-row.html:57
@@ -7855,7 +7835,7 @@ msgstr "Dokumentatsioon"
 
 #: weblate/templates/base.html:402
 msgid "Contribute to Weblate"
-msgstr "Toeta Weblate-t"
+msgstr "Osale Weblate'i arendamisel"
 
 #: weblate/templates/base.html:434 weblate/templates/manage/index.html:47
 msgid ""
@@ -11358,11 +11338,9 @@ msgstr "Vaikimisi komponentide nimekiri"
 #: weblate/templates/snippets/info.html:275
 #: weblate/templates/snippets/info.html:472
 #: weblate/templates/snippets/info.html:509
-#, fuzzy
-#| msgid "Translated strings"
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
-msgstr "Tõlgitud lausendid"
+msgstr "Lähtelausendid"
 
 #: weblate/templates/snippets/info.html:276
 msgid "Words percent"
@@ -17342,7 +17320,7 @@ msgstr "Kasutajanimi ei saa alata punktiga."
 
 #: weblate/utils/validators.py:180 weblate/utils/validators.py:188
 msgid "Enter a valid e-mail address."
-msgstr "Palun sisestage kehtiv e-posti aadress."
+msgstr "Palun sisesta kehtiv e-posti aadress."
 
 #: weblate/utils/validators.py:190
 #, fuzzy

@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import logging
-import os
 from datetime import timedelta
 from email.mime.image import MIMEImage
 from smtplib import SMTP, SMTPConnectError
@@ -23,6 +22,7 @@ from social_django.models import Code, Partial
 from weblate.utils.celery import app
 from weblate.utils.errors import report_error
 from weblate.utils.html import HTML2Text
+from weblate.utils.icons import load_icon
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -200,9 +200,7 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
     images = []
     with sentry_sdk.start_span(op="email.images"):
         for name in ("email-logo.png", "email-logo-footer.png"):
-            filename = os.path.join(settings.STATIC_ROOT, name)
-            with open(filename, "rb") as handle:
-                image = MIMEImage(handle.read())
+            image = MIMEImage(load_icon(name, auto_prefix=False))
             image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
             image.add_header("Content-Disposition", "inline", filename=name)
             images.append(image)

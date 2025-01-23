@@ -126,7 +126,10 @@ class RenameTest(ViewTestCase):
             follow=True,
         )
         self.assertRedirects(response, f"{url}#organize")
-        self.assertContains(response, "due to outstanding issue in its settings")
+        self.assertContains(
+            response,
+            "Could not change Test/Test due to an outstanding issue in its settings:",
+        )
 
     def test_rename_component(self) -> None:
         self.make_manager()

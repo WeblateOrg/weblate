@@ -6,7 +6,7 @@
 # zbirow 3dx <pawelkepczynski53@gmail.com>, 2023.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # WaldiS <sto@tutanota.de>, 2023, 2024.
-# Agnieszka C <aga_04@o2.pl>, 2023, 2024.
+# Agnieszka C <aga_04@o2.pl>, 2023, 2024, 2025.
 # Deleted User <noreply+58184@weblate.org>, 2024.
 # Julia Deoniziak <juliadeo@proton.me>, 2024.
 # Deleted User <noreply+83369@weblate.org>, 2024.
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-01-17 19:45+0000\n"
+"PO-Revision-Date: 2025-01-18 20:28+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
@@ -2090,11 +2090,11 @@ msgstr ""
 "Jeśli chcesz używać swojej instalacji Weblate mniej publicznie, tj. zezwolić "
 "nowym użytkownikom na dołączenie tylko po otrzymaniu zaproszenia, możesz to "
 "zrobić konfigurując Weblate w taki sposób, że tylko znani użytkownicy mają "
-"do niego dostęp. Aby to zrobić możesz zmienić :setting:`REGISTRATION_OPEN`na "
-"``False``, aby zapobiec rejestracji nowych użytkowników i ustawić :setting:"
-"`REQUIRE_LOGIN` na ``/.*``, aby wymagać zalogowania się, by otrzymać dostęp "
-"do wszystkich stron. W zasadzie jest to sposób na zablokowanie twojej "
-"instalacji Weblate."
+"do niego dostęp. Aby to zrobić możesz zmienić :setting:`REGISTRATION_OPEN` "
+"na ``False``, aby zapobiec rejestracji nowych użytkowników i ustawić "
+":setting:`REQUIRE_LOGIN` na ``/.*``, aby wymagać zalogowania się, by "
+"otrzymać dostęp do wszystkich stron. W zasadzie jest to sposób na "
+"zablokowanie twojej instalacji Weblate."
 
 #: ../../admin/access.rst:825
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -8505,7 +8505,7 @@ msgstr ""
 
 #: ../../admin/config.rst:890
 msgid ""
-":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
+":ref:`vcs-bitbucket-data-center`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
 
@@ -10562,9 +10562,9 @@ msgstr "Bitbucket Server pull request"
 
 #: ../../admin/continuous.rst:449 ../../admin/continuous.rst:454
 #, fuzzy
-#| msgid ":ref:`vcs-bitbucket-server`"
-msgid ":ref:`vcs-bitbucket-server`"
-msgstr ":ref:`vcs-bitbucket-server`"
+#| msgid ":ref:`vcs-bitbucket-data-center`"
+msgid ":ref:`vcs-bitbucket-data-center`"
+msgstr ":ref:`vcs-bitbucket-data-center`"
 
 #: ../../admin/continuous.rst:453
 #, fuzzy
@@ -14654,22 +14654,22 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1153
 msgid ""
-"Configures :ref:`vcs-bitbucket-server` by changing :setting:"
+"Configures :ref:`vcs-bitbucket-data-center` by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Konfiguruje :ref:`vcs-bitbucket-server` zmieniając :setting:"
+"Konfiguruje :ref:`vcs-bitbucket-data-center` zmieniając :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1161
 #, fuzzy
 #| msgid ""
-#| "Configures :ref:`vcs-bitbucket-server` by changing :setting:"
+#| "Configures :ref:`vcs-bitbucket-data-center` by changing :setting:"
 #| "`BITBUCKETSERVER_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-bitbucket-cloud` by changing :setting:"
 "`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
-"Konfiguruje :ref:`vcs-bitbucket-server` zmieniając :setting:"
+"Konfiguruje :ref:`vcs-bitbucket-data-center` zmieniając :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1171
@@ -25235,9 +25235,9 @@ msgstr "Wydano 16 grudnia 2021 r."
 
 #: ../../changes.rst:49
 #, fuzzy
-#| msgid ":ref:`vcs-bitbucket-server`"
-msgid "Renamed :ref:`vcs-bitbucket-server` to match new product name."
-msgstr ":ref:`vcs-bitbucket-server`"
+#| msgid ":ref:`vcs-bitbucket-data-center`"
+msgid "Renamed :ref:`vcs-bitbucket-data-center` to match new product name."
+msgstr ":ref:`vcs-bitbucket-data-center`"
 
 #: ../../changes.rst:50
 msgid ":http:get:`/api/users/` supports searching by user ID."
@@ -25802,9 +25802,9 @@ msgstr ":ref:`mt-openai` usługa automatycznych sugestii."
 
 #: ../../changes.rst:241
 #, fuzzy
-#| msgid ":ref:`vcs-bitbucket-server`"
+#| msgid ":ref:`vcs-bitbucket-data-center`"
 msgid ":ref:`vcs-bitbucket-cloud`."
-msgstr ":ref:`vcs-bitbucket-server`"
+msgstr ":ref:`vcs-bitbucket-data-center`"
 
 #: ../../changes.rst:245
 #, fuzzy
@@ -34418,8 +34418,8 @@ msgid ""
 "Added support for ``object-pascal-format`` used in gettext PO, see :ref:"
 "`check-object-pascal-format`."
 msgstr ""
-"Dodano wsparcie dla ``object-pascal-format`` używanego w gettext PO, zobacz :"
-"ref:`check-object-pascal-format``."
+"Dodano wsparcie dla ``object-pascal-format`` używanego w gettext PO, zobacz "
+":ref:`check-object-pascal-format`."
 
 #: ../../changes/v4.rst:680
 msgid ""
@@ -37065,7 +37065,7 @@ msgid ""
 "Weblate available in as many human languages as possible. It brings Weblate "
 "closer to its users!"
 msgstr ""
-"Weblate jest stale `translated<https://hosted.weblate.org/>`_ przy użyciu "
+"Weblate jest stale `translated <https://hosted.weblate.org/>`_ przy użyciu "
 "samego Weblate. Zapraszam do wzięcia udziału w staraniach o udostępnienie "
 "Weblate w jak największej liczbie języków. Przybliża to Weblate do swoich "
 "użytkowników!"
@@ -44584,7 +44584,7 @@ msgstr "Promowanie projektów tłumaczeniowych"
 
 #: ../../index.rst:41
 msgid ""
-"For starting your own project on our cloud service Hosted Webalte, refer to :"
+"For starting your own project on our cloud service Hosted Weblate, refer to :"
 "doc:`admin/projects`. For self-hosting your own Weblate clone, read our :doc:"
 "`admin/install`."
 msgstr ""
@@ -46990,34 +46990,24 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1391
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "reStructuredText syntax error"
-msgstr "reStructuredText"
+msgstr "Błąd składniowy reStructuredText"
 
 #: ../../user/checks.rst:1395 ../../user/checks.rst:1402
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "Błąd składni Fluent w tłumaczeniu"
+msgstr "Błąd składniowy reStructuredText w tłumaczeniu."
 
 #: ../../user/checks.rst:1397
-#, fuzzy
-#| msgid "``weblate.checks.markup.MarkdownSyntaxCheck``"
 msgid "``weblate.checks.markup.RSTSyntaxCheck``"
-msgstr "``weblate.checks.markup.MarkdownSyntaxCheck``"
+msgstr "``weblate.checks.markup.RSTSyntaxCheck``"
 
 #: ../../user/checks.rst:1398
-#, fuzzy
-#| msgid "``md-syntax``"
 msgid "``rst-syntax``"
-msgstr "``md-syntax``"
+msgstr "``rst-syntax``"
 
 #: ../../user/checks.rst:1400
-#, fuzzy
-#| msgid "``ignore-md-syntax``"
 msgid "``ignore-rst-syntax``"
-msgstr "``ignore-md-syntax``"
+msgstr "``ignore-rst-syntax``"
 
 #: ../../user/checks.rst:1407
 msgid "Reused translation"
@@ -50232,7 +50222,7 @@ msgstr "Integracja kontroli wersji"
 msgid ""
 "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:"
-"`vcs-git-svn`, :ref:`vcs-bitbucket-cloud`, :ref:`vcs-bitbucket-server`, and :"
+"`vcs-git-svn`, :ref:`vcs-bitbucket-cloud`, :ref:`vcs-bitbucket-data-center`, and :"
 "ref:`vcs-azure-devops`) and :ref:`vcs-mercurial` as version control back-"
 "ends."
 msgstr ""
@@ -50792,7 +50782,7 @@ msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
-"while :ref:`vcs-bitbucket-server` creates pull request."
+"while :ref:`vcs-bitbucket-data-center` creates pull request."
 msgstr ""
 
 #: ../../vcs.rst:432

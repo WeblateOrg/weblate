@@ -38,7 +38,7 @@ If you would like to contribute to a project as a translator, read about :doc:`u
 
 Starting a translation project
 -------------------------------
-For starting your own project on our cloud service Hosted Webalte, refer to :doc:`admin/projects`.
+For starting your own project on our cloud service Hosted Weblate, refer to :doc:`admin/projects`.
 For self-hosting your own Weblate clone, read our :doc:`admin/install`.
 
 FAQ
@@ -63,11 +63,37 @@ Learn more about :ref:`contributing`.
     user/search
     workflows
     faq
-    formats
     vcs
     api
     wlc
     python
+
+.. toctree::
+    :caption: Application developer guide
+    :maxdepth: 1
+    :hidden:
+
+    devel/starting
+    devel/integration
+    devel/gettext
+    devel/sphinx
+    devel/html
+    devel/third-party
+    devel/alerts
+    devel/community
+    devel/translations
+    devel/review
+    devel/share
+    devel/reporting
+
+.. toctree::
+   :caption: File formats
+   :maxdepth: 1
+   :glob:
+   :hidden:
+
+   formats
+   formats/*
 
 
 .. toctree::
@@ -100,24 +126,6 @@ Learn more about :ref:`contributing`.
     admin/admin
     admin/support
     legal
-
-.. toctree::
-    :caption: Application developer guide
-    :maxdepth: 1
-    :hidden:
-
-    devel/starting
-    devel/integration
-    devel/gettext
-    devel/sphinx
-    devel/html
-    devel/thirdparty
-    devel/alerts
-    devel/community
-    devel/translations
-    devel/review
-    devel/share
-    devel/reporting
 
 .. toctree::
     :caption: Contributor docs

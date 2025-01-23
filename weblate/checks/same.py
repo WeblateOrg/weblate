@@ -18,6 +18,8 @@ from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
 from weblate.checks.ruby import RUBY_FORMAT_MATCH
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from weblate.checks.flags import Flags
     from weblate.trans.models import Unit
 
@@ -61,7 +63,13 @@ EMOJI_RE = re.compile(r"[\U00002600-\U000027bf]|[\U0001f000-\U0001fffd]")
 DB_TAGS = ("screen", "indexterm", "programlisting")
 
 
-def strip_format(msg: str, flags: Flags) -> str:
+def replace_format_placeholder(match: re.Match) -> str:
+    return f"x-weblate-{match.start(0)}"
+
+
+def strip_format(
+    msg: str, flags: Flags, replacement: str | Callable[[re.Match], str] = ""
+) -> str:
     """
     Remove format strings from the strings.
 
@@ -83,7 +91,7 @@ def strip_format(msg: str, flags: Flags) -> str:
         regex = PERCENT_MATCH
     else:
         return msg
-    return regex.sub("", msg)
+    return regex.sub(replacement, msg)
 
 
 def strip_string(msg: str) -> str:
@@ -199,7 +207,7 @@ class SameCheck(TargetCheck):
         # or are whole uppercase (abbreviations)
         if len(stripped) <= 1 or stripped.isupper():
             return True
-        # Check if we have any word which is not in blacklist
+        # Check if we have any word which is not in exceptions list
         # (words which are often same in foreign language)
         for word in SPLIT_RE.split(stripped.lower()):
             if not test_word(word, extra_ignore):

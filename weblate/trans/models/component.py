@@ -1068,6 +1068,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             cache_template="{scope}-lock-{key}",
             file_template="{slug}-update.lock",
             timeout=5,
+            origin=self.full_slug,
         )
 
     @cached_property
@@ -3608,28 +3609,31 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         filename = file_format.get_language_filename(self.filemask, code)
         fullname = os.path.join(self.full_path, filename)
 
-        # Create or get translation object
-        translation = self.translation_set.get_or_create(
-            language=language,
-            defaults={
-                "plural": language.plural,
-                "filename": filename,
-                "language_code": code,
-            },
-        )[0]
+        with self.repository.lock:
+            if create_translations:
+                self.commit_pending("add language", None)
 
-        # Create the file
-        if os.path.exists(fullname):
-            # Ignore request if file exists (possibly race condition as
-            # the processing of new language can take some time and user
-            # can submit again)
-            messages.error(
-                request, gettext("Translation file already exists!"), fail_silently=True
-            )
-        else:
-            with self.repository.lock:
-                if create_translations:
-                    self.commit_pending("add language", None)
+            # Create or get translation object
+            translation = self.translation_set.get_or_create(
+                language=language,
+                defaults={
+                    "plural": language.plural,
+                    "filename": filename,
+                    "language_code": code,
+                },
+            )[0]
+
+            # Create the file
+            if os.path.exists(fullname):
+                # Ignore request if file exists (possibly race condition as
+                # the processing of new language can take some time and user
+                # can submit again)
+                messages.error(
+                    request,
+                    gettext("Translation file already exists!"),
+                    fail_silently=True,
+                )
+            else:
                 file_format.add_language(
                     fullname,
                     language,

@@ -82,6 +82,7 @@ extensions = [
     "sphinx-jsonschema",
     "sphinx_copybutton",
     "sphinxext.opengraph",
+    "sphinx_reredirects",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -297,9 +298,10 @@ if language in {
     "pt_BR",
     "sr",
     "zh_CN",
-    "zh_TW",
 }:
     sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/master/"
+elif language == "zh_TW":
+    sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/latest/"
 
 if language != "en":
     tags.add("i18n")  # noqa: F821
@@ -375,6 +377,8 @@ linkcheck_ignore = [
     # Seems unstable
     "https://pagure.io/",
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
+    # Probably blocked
+    "https://www.gnu.org/",
 ]
 
 # HTTP docs
@@ -415,3 +419,7 @@ autodoc_mock_imports = [
 # Create single gettext PO file for while documentation,
 # instead of having one file per chapter.
 gettext_compact = "docs"
+
+redirects = {
+    "devel/thirdparty": "third-party.html",  # codespell:ignore thirdparty
+}

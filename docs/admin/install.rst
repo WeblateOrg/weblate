@@ -1512,7 +1512,7 @@ install everything you need to run Gunicorn. When installing Weblate you can spe
 
 
 Once you have Gunicorn installed, you can run it. This is usually done at the
-system level. The following examples show staring via systemd:
+system level. The following examples show starting via systemd:
 
 .. literalinclude:: ../../weblate/examples/gunicorn.socket
    :caption: /etc/systemd/system/gunicorn.socket

@@ -91,13 +91,11 @@ Performance issues
 ------------------
 
 In case Weblate performs badly in some scenario, please collect the relevant logs
-showing the issue, and anything that might help figuring out where the code might be
-improved.
+showing the issue, and anything that might help figuring out where the code
+might be improved.
 
-In case some requests take too long without any indication, you might
-want to install `dogslow <https://pypi.org/project/dogslow/>`_ along with
-:ref:`collecting-errors` and get pinpointed and detailed tracebacks in
-the error collection tool.
+See :ref:`collecting-errors` for information on setting up Sentry which can
+provide useful insights on badly performing operations.
 
 In case the slow performance is linked to the database, you can also enable
 logging of all database queries using following configuration after enabling

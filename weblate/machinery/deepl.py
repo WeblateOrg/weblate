@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 from dateutil.parser import isoparse
 from django.core.cache import cache
-from requests.exceptions import RequestException
+from requests.exceptions import HTTPError, RequestException
 
 from .base import (
     BatchMachineTranslation,
@@ -43,6 +43,13 @@ class DeepLTranslation(
     settings_form = DeepLMachineryForm
     glossary_count_limit = 1000
 
+    @property
+    def api_base_url(self):
+        url = super().api_base_url
+        if self.settings["key"].endswith(":fx") and url == "https://api.deepl.com/v2":
+            return "https://api-free.deepl.com/v2"
+        return url
+
     def map_language_code(self, code):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").upper()
@@ -61,6 +68,9 @@ class DeepLTranslation(
                     return data["message"]
                 except KeyError:
                     pass
+
+        if isinstance(exc, HTTPError) and exc.response.status_code == 456:
+            return "Quota exceeded. The character limit has been reached."
 
         return super().get_error_message(exc)
 

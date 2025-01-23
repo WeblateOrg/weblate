@@ -75,8 +75,8 @@ Username of users that are not signed in.
 AUDITLOG_EXPIRY
 ---------------
 
-How many days Weblate should keep audit logs (which contain info about account
-activity).
+The maximum number of days Weblate will keep audit logs containing information
+about the account activity.
 
 Defaults to 180 days.
 
@@ -887,7 +887,7 @@ List for credentials for Bitbucket Data Center.
 
 .. seealso::
 
-   :ref:`vcs-bitbucket-server`,
+   :ref:`vcs-bitbucket-data-center`,
    `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
 
 .. setting:: BITBUCKETCLOUD_CREDENTIALS
@@ -1642,7 +1642,7 @@ Whether registration of new accounts is currently permitted.
 Defaults to enabled.
 
 This setting affects built-in authentication by e-mail address or through the
-Python Social Auth (you can whitelist certain back-ends using
+Python Social Auth (you can allow certain back-ends using
 :setting:`REGISTRATION_ALLOW_BACKENDS`).
 
 .. note::
