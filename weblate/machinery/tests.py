@@ -718,6 +718,13 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
             json=MICROSOFT_RESPONSE,
         )
 
+    def test_map_codes(self):
+        machine = self.get_machine()
+        self.assertEqual(machine.map_language_code("zh_Hant"), "zh-Hant")
+        self.assertEqual(machine.map_language_code("zh_TW"), "zh-Hant")
+        self.assertEqual(machine.map_language_code("fr_CA"), "fr-ca")
+        self.assertEqual(machine.map_language_code("iu_Latn"), "iu-Latn")
+
 
 class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest):
     CONFIGURATION = {

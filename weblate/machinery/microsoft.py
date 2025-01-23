@@ -35,10 +35,16 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     settings_form = MicrosoftMachineryForm
 
     language_map = {
-        "zh_Hant": "zh-hant",
-        "zh_Hans": "zh-hans",
-        "zh_TW": "zh-hant",
-        "zh_CN": "zh-hans",
+        "zh_TW": "zh-Hant",
+        "zh_CN": "zh-Hans",
+        "yue_Hant": "yue",
+        "tlh": "tlh-Latn",
+        "tlh_Qaak": "tlh-Piqd",
+        "lg": "lug",
+        "mn": "mn-Cyrl",
+        "pt_BR": "pt",
+        "rn": "run",
+        "sr": "sr-Cyrl",
     }
 
     @classmethod
@@ -84,7 +90,13 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
-        return super().map_language_code(code).replace("_", "-")
+        code = super().map_language_code(code).replace("_", "-")
+        if "-" in code:
+            lang, country = code.split("-", 1)
+            if len(country) == 2:
+                country = country.lower()
+            code = f"{lang}-{country}"
+        return code
 
     def check_failure(self, response) -> None:
         # Microsoft tends to use utf-8-sig instead of plain utf-8
