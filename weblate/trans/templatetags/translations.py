@@ -59,6 +59,7 @@ from weblate.utils.views import SORT_CHOICES
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
 
+    from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
 
     from weblate.metrics.wrapper import MetricsWrapper
@@ -1557,6 +1558,7 @@ def show_info(
     show_source: bool = False,
     show_global: bool = False,
     show_full_language: bool = True,
+    top_users: QuerySet[Profile] | None = None,
 ):
     """
     Render project information table.
@@ -1575,4 +1577,5 @@ def show_info(
         "show_source": show_source,
         "show_global": show_global,
         "show_full_language": show_full_language,
+        "top_users": top_users,
     }
