@@ -161,8 +161,9 @@ class ProjectBackup:
                 handle.write(f"# Weblate project backups for {project.name}\n")
                 handle.write(f"slug={project.slug}\n")
                 handle.write(f"web={project.web}\n")
-                for billing in project.billings:
-                    handle.write(f"billing={billing.id}\n")
+                handle.writelines(
+                    f"billing={billing.id}\n" for billing in project.billings
+                )
         while os.path.exists(
             os.path.join(backup_dir, f"{timestamp}.zip")
         ) or os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip.part")):
