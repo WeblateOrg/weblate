@@ -501,6 +501,10 @@ class UserQueryParserTest(SearchTestCase):
     def test_translates(self) -> None:
         self.assert_query(
             "translates:cs",
+            Q(change__language__code__iexact="cs"),
+        )
+        self.assert_query(
+            "translates:cs change_time:>'90 days ago'",
             Q(change__language__code__iexact="cs")
             & Q(
                 change__timestamp__gte=datetime.now(tz=UTC).replace(
@@ -513,17 +517,15 @@ class UserQueryParserTest(SearchTestCase):
     def test_contributes(self) -> None:
         self.assert_query(
             "contributes:test",
-            Q(change__project__slug__iexact="test")
-            & Q(
-                change__timestamp__gte=datetime.now(tz=UTC).replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
-                - timedelta(days=90)
-            ),
+            Q(change__project__slug__iexact="test"),
         )
         self.assert_query(
             "contributes:test/test",
-            Q(change__component_id__in=[])
+            Q(change__component_id__in=[]),
+        )
+        self.assert_query(
+            "contributes:test change_time:>'90 days ago'",
+            Q(change__project__slug__iexact="test")
             & Q(
                 change__timestamp__gte=datetime.now(tz=UTC).replace(
                     hour=0, minute=0, second=0, microsecond=0
