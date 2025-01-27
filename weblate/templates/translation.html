@@ -356,15 +356,15 @@
                 {% endif %}
                 {% csrf_token %}
                 {{ new_unit_form|crispy }}
-                <label class="radio-inline">
-                  <input type="radio"
-                         name="new-unit-form-type"
-                         id="show-singular"
-                         value="singular"
-                         checked>
-                  {% trans "Singular" %}
-                </label>
                 {% if supports_plural and object.plural.number > 1 %}
+                  <label class="radio-inline">
+                    <input type="radio"
+                           name="new-unit-form-type"
+                           id="show-singular"
+                           value="singular"
+                           checked>
+                    {% trans "Singular" %}
+                  </label>
                   <label class="radio-inline">
                     <input type="radio" name="new-unit-form-type" id="show-plural" value="plural">
                     {% trans "Plural" %}
