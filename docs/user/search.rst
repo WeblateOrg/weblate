@@ -172,7 +172,7 @@ and 5, use ``source:r"[2-5]"``.
 
    * `PostgreSQL Regular Expressions Details <https://www.postgresql.org/docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the default database engine for Weblate)
    * `MariaDB Regular Expressions Overview <https://mariadb.com/kb/en/regular-expressions-overview/>`_
-   * `MySQL Regular Expressions <https://dev.mysql.com/doc/refman/8.4/en/regexp.html>`_
+   * `MySQL Regular Expressions <https://dev.mysql.com/doc/refman/9.2/en/regexp.html>`_
 
 Predefined queries
 ------------------
