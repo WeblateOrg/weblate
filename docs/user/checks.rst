@@ -26,11 +26,15 @@ it add errors.
 Trailing ellipsis replacer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+:Class name: ``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
+
 Replace trailing dots (``...``) with an ellipsis (``…``) to make it consistent with the source string.
 
 
 Zero-width space removal
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Class name: ``weblate.trans.autofixes.chars.RemoveZeroSpace``
 
 Zero width space is typically not desired in the translation. This fix will
 remove it unless it is present in the source string as well.
@@ -38,17 +42,23 @@ remove it unless it is present in the source string as well.
 Control characters removal
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Removes any control characters from the translation.
+:Class name: ``weblate.trans.autofixes.chars.RemoveControlChars``
+
+Removes control characters if the source does not contain any.
 
 Devanagari danda
 ~~~~~~~~~~~~~~~~
 
-Replaces wrong full stop in Devanagari by Devanagari danda (``।``).
+:Class name: ``weblate.trans.autofixes.chars.DevanagariDanda``
+
+Replaces sentence full stop in Bangla by the Devanagari danda character (``।``).
 
 .. _autofix-punctuation-spacing:
 
 Punctuation spacing
 ~~~~~~~~~~~~~~~~~~~
+
+:Class name: ``weblate.trans.autofixes.chars.PunctuationSpacing``
 
 .. versionadded:: 5.3
 
@@ -62,7 +72,9 @@ disables :ref:`check-punctuation-spacing`).
 Unsafe HTML cleanup
 ~~~~~~~~~~~~~~~~~~~
 
-When turned on using a ``safe-html`` flag it sanitizes HTML markup.
+:Class name: ``weblate.trans.autofixes.html.BleachHTML``
+
+Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:`check-safe-html`).
 
 .. seealso::
 
@@ -70,6 +82,8 @@ When turned on using a ``safe-html`` flag it sanitizes HTML markup.
 
 Trailing and leading whitespace fixer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Class name: ``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``
 
 Makes leading and trailing whitespace consistent with the source string. The
 behavior can be fine-tuned using ``ignore-begin-space`` and

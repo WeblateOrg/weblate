@@ -183,20 +183,7 @@ List of automatic fixes to apply when saving a string.
     Provide a fully-qualified path to the Python class that implements the
     autofixer interface.
 
-Available fixes:
-
-``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``
-    Matches whitespace at the start and end of the string to the source.
-``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
-    Replaces trailing dots (...) if the source string has a corresponding ellipsis (…).
-``weblate.trans.autofixes.chars.RemoveZeroSpace``
-    Removes zero-width space characters if the source does not contain any.
-``weblate.trans.autofixes.chars.RemoveControlChars``
-    Removes control characters if the source does not contain any.
-``weblate.trans.autofixes.chars.DevanagariDanda``
-    Replaces sentence full stop in Bangla by the devanagari danda character.
-``weblate.trans.autofixes.html.BleachHTML``
-    Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:`check-safe-html`).
+Available fixes are described at :ref:`autofix`.
 
 You can select which ones to use:
 
