@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import threading
-from datetime import datetime, timedelta
+from datetime import datetime
 from functools import lru_cache, reduce
 from itertools import chain
 from operator import and_, or_
@@ -614,33 +614,15 @@ class UserTermExpr(BaseTermExpr):
     def convert_non_field(self) -> Q:
         return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
 
-    def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
-        if field == "translates":
-            return query & Q(
-                change__timestamp__gte=timezone.now().replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
-                - timedelta(days=90)
-            )
-
-        return super().field_extra(field, query, match)
-
     def contributes_field(self, text: str, context: dict) -> Q:
         from weblate.trans.models import Component
 
-        if "/" in text:
-            query = Q(
-                change__component_id__in=list(
-                    Component.objects.filter_by_path(text).values_list("id", flat=True)
-                )
+        if "/" not in text:
+            return Q(change__project__slug__iexact=text)
+        return Q(
+            change__component_id__in=list(
+                Component.objects.filter_by_path(text).values_list("id", flat=True)
             )
-        else:
-            query = Q(change__project__slug__iexact=text)
-        return query & Q(
-            change__timestamp__gte=timezone.now().replace(
-                hour=0, minute=0, second=0, microsecond=0
-            )
-            - timedelta(days=90)
         )
 
 

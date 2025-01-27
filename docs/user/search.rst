@@ -206,9 +206,13 @@ The user browsing has similar search abilities:
 ``joined:DATETIME``
    String content was changed on date, supports :ref:`search-operators`.
 ``translates:TEXT``
-   User has contributed to a given language in the past 90 days.
+   User has contributed to a given language.
+
+   You might want to limit contribution time by ``change_time``, for example ``change_time:>"90 days ago"``.
 ``contributes:TEXT``
-   User has contributed to a given project or component in the past 90 days.
+   User has contributed to a given project or component.
+
+   You might want to limit contribution time by ``change_time``, for example ``change_time:>"90 days ago"``.
 ``change_time:DATETIME``
    Same as in :ref:`search-strings`.
 ``change_action:TEXT``
