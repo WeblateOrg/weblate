@@ -254,14 +254,7 @@ class MetricManager(models.Manager["Metric"]):
             ).count(),
             "contributors": Change.objects.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
-            )
-            .filter(
-                user__is_active=True,
-                user__is_bot=False,
-            )
-            .values("user")
-            .distinct()
-            .count(),
+            ).count_users(),
             "users": User.objects.count(),
         }
         return self.create_metrics(data, stats, SOURCE_KEYS, Metric.SCOPE_GLOBAL, 0)
@@ -279,14 +272,7 @@ class MetricManager(models.Manager["Metric"]):
             ).count(),
             "contributors": changes.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
-            )
-            .filter(
-                user__is_active=True,
-                user__is_bot=False,
-            )
-            .values("user")
-            .distinct()
-            .count(),
+            ).count_users(),
         }
 
         return self.create_metrics(
@@ -311,14 +297,7 @@ class MetricManager(models.Manager["Metric"]):
             ).count(),
             "contributors": changes.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
-            )
-            .filter(
-                user__is_active=True,
-                user__is_bot=False,
-            )
-            .values("user")
-            .distinct()
-            .count(),
+            ).count_users(),
         }
 
         return self.create_metrics(
@@ -348,14 +327,7 @@ class MetricManager(models.Manager["Metric"]):
             ).count(),
             "contributors": changes.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
-            )
-            .filter(
-                user__is_active=True,
-                user__is_bot=False,
-            )
-            .values("user")
-            .distinct()
-            .count(),
+            ).count_users(),
         }
 
         return self.create_metrics(
@@ -383,14 +355,7 @@ class MetricManager(models.Manager["Metric"]):
             ).count(),
             "contributors": project.change_set.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
-            )
-            .filter(
-                user__is_active=True,
-                user__is_bot=False,
-            )
-            .values("user")
-            .distinct()
-            .count(),
+            ).count_users(),
         }
         keys = [
             f"machinery-accounting:internal:{project.id}",
@@ -419,14 +384,7 @@ class MetricManager(models.Manager["Metric"]):
             ).count(),
             "contributors": component.change_set.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
-            )
-            .filter(
-                user__is_active=True,
-                user__is_bot=False,
-            )
-            .values("user")
-            .distinct()
-            .count(),
+            ).count_users(),
         }
         return self.create_metrics(
             data, component.stats, SOURCE_KEYS, Metric.SCOPE_COMPONENT, component.pk
@@ -441,14 +399,7 @@ class MetricManager(models.Manager["Metric"]):
             ).count(),
             "contributors": changes.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
-            )
-            .filter(
-                user__is_active=True,
-                user__is_bot=False,
-            )
-            .values("user")
-            .distinct()
-            .count(),
+            ).count_users(),
         }
         return self.create_metrics(
             data,
@@ -467,14 +418,7 @@ class MetricManager(models.Manager["Metric"]):
             ).count(),
             "contributors": translation.change_set.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
-            )
-            .filter(
-                user__is_active=True,
-                user__is_bot=False,
-            )
-            .values("user")
-            .distinct()
-            .count(),
+            ).count_users(),
         }
         return self.create_metrics(
             data,
@@ -514,14 +458,7 @@ class MetricManager(models.Manager["Metric"]):
             ).count(),
             "contributors": changes.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
-            )
-            .filter(
-                user__is_active=True,
-                user__is_bot=False,
-            )
-            .values("user")
-            .distinct()
-            .count(),
+            ).count_users(),
             "users": language.profile_set.count(),
         }
         return self.create_metrics(

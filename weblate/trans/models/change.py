@@ -298,6 +298,19 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         """
         return self.filter(timestamp__gte=dt_as_day_range(dt)[0])
 
+    def count_users(self) -> int:
+        """
+        Count contributing users.
+
+        Used mostly in the metrics.
+        """
+        return (
+            self.filter(user__is_active=True, user__is_bot=False)
+            .values("user")
+            .distinct()
+            .count()
+        )
+
 
 class ChangeManager(models.Manager["Change"]):
     def create(self, *, user=None, **kwargs):
