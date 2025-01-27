@@ -1137,6 +1137,18 @@ wheels = [
 ]
 
 [[package]]
+name = "djangorestframework-csv"
+version = "3.0.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "djangorestframework" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/3c/5d/d2862d98a1eaca0d05d0e2d0a4278fbcd8ff8353460edfb18c1d9969036b/djangorestframework-csv-3.0.2.tar.gz", hash = "sha256:b269b692feda1971e1342f395a21d339c6a16d2961ff64357a9a6188f27af10f", size = 32039 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e0/de/d063e4e0e0a7225a2a2b8e76fa690b12a9deb0c5c60f73afe0cffe9da38a/djangorestframework_csv-3.0.2-py3-none-any.whl", hash = "sha256:d1bcfbaaeaa5145af6bb0985a36a5bbf2f853d9961c722f69c7b0c9c3bcc269a", size = 49681 },
+]
+
+[[package]]
 name = "djangorestframework-stubs"
 version = "3.15.2"
 source = { registry = "https://pypi.org/simple" }
@@ -4222,6 +4234,7 @@ dependencies = [
     { name = "django-otp-webauthn" },
     { name = "django-redis" },
     { name = "djangorestframework" },
+    { name = "djangorestframework-csv" },
     { name = "docutils" },
     { name = "drf-spectacular", extra = ["sidecar"] },
     { name = "drf-standardized-errors", extra = ["openapi"] },
@@ -4467,6 +4480,7 @@ requires-dist = [
     { name = "django-redis", specifier = ">=5.4.0,<6.0" },
     { name = "django-zxcvbn-password", marker = "extra == 'zxcvbn'", specifier = "==2.1.1" },
     { name = "djangorestframework", specifier = ">=3.15.2,<3.16" },
+    { name = "djangorestframework-csv", specifier = ">=3.0.2,<3.1" },
     { name = "djangosaml2idp", marker = "extra == 'saml2idp'", specifier = "==0.7.2" },
     { name = "docutils", specifier = ">=0.21.2,<0.22" },
     { name = "drf-spectacular", extras = ["sidecar"], specifier = ">=0.28.0,<0.29" },

@@ -239,6 +239,11 @@ def get_drf_settings(
             "anon": anon_throttle,
             "user": user_throttle,
         },
+        "DEFAULT_RENDERER_CLASSES": [
+            "rest_framework.renderers.JSONRenderer",
+            "rest_framework.renderers.BrowsableAPIRenderer",
+            "weblate.api.renderers.AutoCSVRenderer",
+        ],
         "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
         "PAGE_SIZE": 50,
         "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
