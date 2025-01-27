@@ -37,7 +37,7 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
 
     :query format: Response format (overrides :http:header:`Accept`).
                    Possible values depends on REST framework setup,
-                   by default ``json`` and ``api`` are supported. The
+                   by default ``json``, ``csv`` and ``api`` are supported. The
                    latter provides web browser interface for API.
     :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
     :query page_size: Return the given number of items per request.
