@@ -1389,13 +1389,15 @@ class ComponentViewSet(
         obj = self.get_object()
 
         queryset = obj.translation_set.all().prefetch_meta().order_by("id")
-        page = self.paginate_queryset(queryset)
+
+        paginator = LargePagination()
+        page = paginator.paginate_queryset(queryset, request, view=self)
 
         serializer = StatisticsSerializer(
             prefetch_stats(page), many=True, context={"request": request}
         )
 
-        return self.get_paginated_response(serializer.data)
+        return paginator.get_paginated_response(serializer.data)
 
     @extend_schema(description="Return a list of component changes.", methods=["get"])
     @action(detail=True, methods=["get"])
