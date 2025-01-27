@@ -87,6 +87,7 @@ METRIC_ORDER = [
     "machinery:internal",
     "machinery:external",
     "public_projects",
+    "contributors_total",
 ]
 
 
@@ -255,6 +256,7 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": Change.objects.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
             ).count_users(),
+            "contributors_total": Change.objects.count_users(),
             "users": User.objects.count(),
         }
         return self.create_metrics(data, stats, SOURCE_KEYS, Metric.SCOPE_GLOBAL, 0)
@@ -273,6 +275,7 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": changes.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
             ).count_users(),
+            "contributors_total": changes.count_users(),
         }
 
         return self.create_metrics(
@@ -298,6 +301,7 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": changes.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
             ).count_users(),
+            "contributors_total": changes.count_users(),
         }
 
         return self.create_metrics(
@@ -328,6 +332,7 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": changes.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
             ).count_users(),
+            "contributors_total": changes.count_users(),
         }
 
         return self.create_metrics(
@@ -356,6 +361,7 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": project.change_set.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
             ).count_users(),
+            "contributors_total": project.change_set.count_users(),
         }
         keys = [
             f"machinery-accounting:internal:{project.id}",
@@ -385,6 +391,7 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": component.change_set.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
             ).count_users(),
+            "contributors_total": component.change_set.count_users(),
         }
         return self.create_metrics(
             data, component.stats, SOURCE_KEYS, Metric.SCOPE_COMPONENT, component.pk
@@ -400,6 +407,7 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": changes.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
             ).count_users(),
+            "contributors_total": changes.count_users(),
         }
         return self.create_metrics(
             data,
@@ -419,6 +427,7 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": translation.change_set.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
             ).count_users(),
+            "contributors_total": translation.change_set.count_users(),
         }
         return self.create_metrics(
             data,
@@ -459,6 +468,7 @@ class MetricManager(models.Manager["Metric"]):
             "contributors": changes.since_day(
                 timezone.now().date() - datetime.timedelta(days=30)
             ).count_users(),
+            "contributors_total": changes.count_users(),
             "users": language.profile_set.count(),
         }
         return self.create_metrics(
