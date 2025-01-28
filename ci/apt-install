@@ -12,8 +12,9 @@ mkdir -p /run/user/1000
 chown -R 1000:1000 /run/user/1000
 
 # Add PostgreSQL repo
-echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+install -d /usr/share/postgresql-common/pgdg
+curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 # Update package lists
 apt-get update
