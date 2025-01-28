@@ -598,7 +598,12 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
                 # delete alias language if blank
                 if language.has_no_children():
+                    logger(f"Removing {language}")
                     language.delete()
+                else:
+                    logger(
+                        f"Skipping removal of {language} due to existing child objects"
+                    )
 
         self._fixup_plural_types(logger)
 
