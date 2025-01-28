@@ -157,7 +157,7 @@ class RepoTestMixin:
             remove_tree(test_repo_path)
         os.makedirs(test_repo_path)
 
-    def create_project(self, name="Test", slug="test", **kwargs):
+    def create_project(self, name: str = "Test", slug: str = "test", **kwargs):
         """Create test project."""
         project = Project.objects.create(
             name=name, slug=slug, web="https://nonexisting.weblate.org/", **kwargs
