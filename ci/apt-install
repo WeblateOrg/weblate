@@ -18,11 +18,6 @@ curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 # Update package lists
 apt-get update
 
-# Remove non-installable git packages. There git-svn can not be installed
-# because the image contains newer versions which do not have matching git-svn
-# in enabled repositories.
-apt-get purge git git-man
-
 # Install dependencies
 apt-get install -y \
     gettext \
