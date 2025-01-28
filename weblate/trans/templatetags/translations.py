@@ -838,6 +838,7 @@ def review_percent(obj):
         percent=stats.approved_percent + stats.readonly_percent,
         query="q=state:>=approved",
         total=stats.all,
+        checks=stats.allchecks,
         css="zero-width-540",
     )
 
@@ -1490,6 +1491,7 @@ def list_objects_percent(
     percent: float,
     value: int,
     total: int,
+    checks: int,
     search_url: str | None = None,
     translate_url: str | None = None,
     query: str = "",
@@ -1507,7 +1509,7 @@ def list_objects_percent(
     else:
         url_start = url_end = ""
 
-    if value and value == total:
+    if value and value == total and checks == 0:
         percent_formatted = format_html(
             """<span class="green" title="{}">{}</span>""",
             ngettext(
