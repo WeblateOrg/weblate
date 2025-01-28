@@ -180,31 +180,31 @@ class EndStopCheck(TargetCheck):
         if not target:
             return False
         # Thai and Lojban does not have a full stop
-        if unit.translation.language.is_base(("th", "jbo")):
+        if unit.translation.language.is_base({"th", "jbo"}):
             return False
         # Allow ... to be translated into ellipsis
         if source.endswith("...") and target[-1] == "…":
             return False
-        if unit.translation.language.is_base(("ja",)) and source[-1] in {":", ";"}:
+        if unit.translation.language.is_base({"ja"}) and source[-1] in {":", ";"}:
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
             return self.check_chars(source, target, -1, {";", ":", "：", ".", "。"})
-        if unit.translation.language.is_base(("hy",)):
+        if unit.translation.language.is_base({"hy"}):
             return self.check_chars(
                 source,
                 target,
                 -1,
                 {".", "。", "।", "۔", "։", "·", "෴", "។", ":", "՝", "?", "!", "`"},
             )
-        if unit.translation.language.is_base(("hi", "bn", "or")):
+        if unit.translation.language.is_base({"hi", "bn", "or"}):
             # Using | instead of । is not typographically correct, but
             # seems to be quite usual. \u0964 is correct, but \u09F7
             # is also sometimes used instead in some popular editors.
             return self.check_chars(source, target, -1, {".", "\u0964", "\u09f7", "|"})
-        if unit.translation.language.is_base(("sat",)):
+        if unit.translation.language.is_base({"sat"}):
             # Santali uses "᱾" as full stop
             return self.check_chars(source, target, -1, {".", "᱾"})
-        if unit.translation.language.is_base(("my",)):
+        if unit.translation.language.is_base({"my"}):
             return self._check_my(source, target)
         return self.check_chars(
             source, target, -1, {".", "。", "।", "۔", "։", "·", "෴", "។", "።"}
@@ -233,11 +233,11 @@ class EndColonCheck(TargetCheck):
     def check_single(self, source: str, target: str, unit: Unit):
         if not source or not target:
             return False
-        if unit.translation.language.is_base(("jbo",)):
+        if unit.translation.language.is_base({"jbo"}):
             return False
-        if unit.translation.language.is_base(("hy",)):
+        if unit.translation.language.is_base({"hy"}):
             return self._check_hy(source, target)
-        if unit.translation.language.is_base(("ja",)):
+        if unit.translation.language.is_base({"ja"}):
             return self._check_ja(source, target)
         return self.check_chars(source, target, -1, {":", "：", "៖"})
 
@@ -270,13 +270,13 @@ class EndQuestionCheck(TargetCheck):
             return False
         if source.endswith(INTERROBANGS) or target.endswith(INTERROBANGS):
             return False
-        if unit.translation.language.is_base(("jbo",)):
+        if unit.translation.language.is_base({"jbo"}):
             return False
-        if unit.translation.language.is_base(("hy",)):
+        if unit.translation.language.is_base({"hy"}):
             return self._check_hy(source, target)
-        if unit.translation.language.is_base(("el",)):
+        if unit.translation.language.is_base({"el"}):
             return self._check_el(source, target)
-        if unit.translation.language.is_base(("my",)):
+        if unit.translation.language.is_base({"my"}):
             return self._check_my(source, target)
 
         return self.check_chars(
@@ -299,15 +299,15 @@ class EndExclamationCheck(TargetCheck):
         if source.endswith(INTERROBANGS) or target.endswith(INTERROBANGS):
             return False
         if (
-            unit.translation.language.is_base(("eu",))
+            unit.translation.language.is_base({"eu"})
             and source[-1] == "!"
             and "¡" in target
             and "!" in target
         ):
             return False
-        if unit.translation.language.is_base(("hy", "jbo")):
+        if unit.translation.language.is_base({"hy", "jbo"}):
             return False
-        if unit.translation.language.is_base(("my",)):
+        if unit.translation.language.is_base({"my"}):
             return self.check_chars(source, target, -1, {"!", "႟"})
         if source.endswith("Texy!") or target.endswith("Texy!"):
             return False
@@ -342,7 +342,7 @@ class EndEllipsisCheck(TargetCheck):
     def check_single(self, source: str, target: str, unit: Unit):
         if not target:
             return False
-        if unit.translation.language.is_base(("jbo",)):
+        if unit.translation.language.is_base({"jbo"}):
             return False
         # Allow ... to be translated into ellipsis
         if source.endswith("...") and target[-1] == "…":
@@ -390,7 +390,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
     description = gettext_lazy("Translation contains extra zero-width space character")
 
     def check_single(self, source: str, target: str, unit: Unit):
-        if unit.translation.language.is_base(("km",)):
+        if unit.translation.language.is_base({"km"}):
             return False
         if "\u200b" in source:
             return False
@@ -429,7 +429,7 @@ class EndSemicolonCheck(TargetCheck):
     )
 
     def check_single(self, source: str, target: str, unit: Unit):
-        if unit.translation.language.is_base(("el",)) and source and source[-1] == "?":
+        if unit.translation.language.is_base({"el"}) and source and source[-1] == "?":
             # Complement to question mark check
             return False
         return self.check_chars(
@@ -466,7 +466,7 @@ class PunctuationSpacingCheck(TargetCheck):
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if (
-            not unit.translation.language.is_base(("fr", "br"))
+            not unit.translation.language.is_base({"fr", "br"})
             or unit.translation.language.code == "fr_CA"
         ):
             return False
