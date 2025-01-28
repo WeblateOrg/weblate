@@ -362,9 +362,6 @@ linkcheck_ignore = [
     "https://docwiki.embarcadero.com/",
     # Example URL
     "https://my-instance.openai.azure.com",
-    # 403 for linkcheck
-    "https://docs.github.com/",
-    "https://translate.yandex.com/",
     # These are PDF and fails with Unicode decode error
     "http://ftp.pwg.org/",
     # Access to our service has been temporarily blocked
@@ -377,8 +374,11 @@ linkcheck_ignore = [
     # Seems unstable
     "https://pagure.io/",
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
-    # Probably blocked
+    # These seems to block bots/GitHub
+    "https://docs.github.com/",
+    "https://translate.yandex.com/",
     "https://www.gnu.org/",
+    "https://dev.mysql.com/",
 ]
 
 # HTTP docs
