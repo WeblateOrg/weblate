@@ -278,6 +278,14 @@ class BaseStats:
             # Migration path for legacy stat data
             return self._data.get(name, 0)
 
+        # Virtual fields
+        if name == "translated_without_checks":
+            return self.translated - self.translated_checks
+        if name == "translated_without_checks_words":
+            return self.translated_words - self.translated_checks_words
+        if name == "translated_without_checks_chars":
+            return self.translated_chars - self.translated_checks_chars
+
         # Calculate missing data
         if name not in self._data:
             was_pending = self._pending_save
