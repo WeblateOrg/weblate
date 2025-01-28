@@ -863,7 +863,7 @@ def translation_progress(obj):
         stats.all,
         stats.readonly,
         stats.approved,
-        stats.translated - stats.translated_checks,
+        stats.translated_without_checks,
         stats.has_review,
     )
 
@@ -875,7 +875,7 @@ def words_progress(obj):
         stats.all_words,
         stats.readonly_words,
         stats.approved_words,
-        stats.translated_words - stats.translated_checks_words,
+        stats.translated_without_checks_words,
         stats.has_review,
     )
 
@@ -887,7 +887,7 @@ def chars_progress(obj):
         stats.all_chars,
         stats.readonly_chars,
         stats.approved_chars,
-        stats.translated_chars - stats.translated_checks_chars,
+        stats.translated_without_checks_chars,
         stats.has_review,
     )
 
