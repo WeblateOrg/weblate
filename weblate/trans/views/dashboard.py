@@ -23,7 +23,7 @@ from weblate.trans.forms import ReportsForm, SearchForm
 from weblate.trans.models import Component, ComponentList, Project, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
-from weblate.trans.models.translation import GhostTranslation
+from weblate.trans.models.translation import GhostTranslation, TranslationQuerySet
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
@@ -33,7 +33,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
-def get_untranslated(base, limit=None):
+def get_untranslated(base, limit: int | None = None):
     """Filter untranslated."""
     result = []
     for item in base:
@@ -44,7 +44,12 @@ def get_untranslated(base, limit=None):
     return result
 
 
-def get_suggestions(user: User, user_has_languages: bool, base, filtered=False):
+def get_suggestions(
+    user: User,
+    user_has_languages: bool,
+    base: TranslationQuerySet,
+    filtered: bool = False,
+):
     """Return suggested translations for user."""
     if not filtered:
         non_alerts = base.annotate(alert_count=Count("component__alert__pk")).filter(
@@ -67,7 +72,7 @@ def get_suggestions(user: User, user_has_languages: bool, base, filtered=False):
 
 
 def guess_user_language(
-    request: AuthenticatedHttpRequest, translations
+    request: AuthenticatedHttpRequest, translations: TranslationQuerySet
 ) -> Language | None:
     """
     Guess user language for translations.
