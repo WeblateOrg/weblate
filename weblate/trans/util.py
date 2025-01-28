@@ -30,6 +30,7 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import User
     from weblate.auth.permissions import PermissionResult
+    from weblate.lang.models import Language
     from weblate.trans.models import Project, Translation
 
 PLURAL_SEPARATOR = "\x1e\x1e"
@@ -360,9 +361,9 @@ def is_unused_string(string: str) -> bool:
     return string.startswith("<unused singular")
 
 
-def count_words(string: str, lang_code: str = "") -> int:
+def count_words(string: str, language: Language | None = None) -> int:
     """Count number of words in a string."""
-    if lang_code in {"ja", "zh", "ko"}:
+    if language is not None and language.is_cjk():
         count = 0
         for s in split_plural(string):
             if is_unused_string(s):

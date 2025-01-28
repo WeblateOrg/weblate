@@ -786,6 +786,10 @@ class Language(models.Model, CacheKeyMixin):
         """Detect whether language is in given list, ignores variants."""
         return self.base_code in vals
 
+    def is_cjk(self) -> bool:
+        """Detect whether language is CJK, ignores variants."""
+        return self.is_base({"ja", "zh", "ko"})
+
     def has_no_children(self) -> bool:
         """
         Check if language has no child objects.
