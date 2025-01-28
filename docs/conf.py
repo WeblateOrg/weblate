@@ -297,11 +297,10 @@ if language in {
     "pl",
     "pt_BR",
     "sr",
-    "ta",
     "zh_CN",
 }:
     sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/master/"
-elif language == "zh_TW":
+elif language in {"zh_TW", "ta"}:
     sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/latest/"
 
 if language != "en":
