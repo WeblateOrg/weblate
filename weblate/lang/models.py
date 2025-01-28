@@ -14,6 +14,7 @@ from weakref import WeakValueDictionary
 
 from appconf import AppConf
 from django.conf import settings
+from django.contrib.admin.utils import NestedObjects
 from django.db import models, transaction
 from django.db.models import Exists, OuterRef, Q
 from django.db.utils import OperationalError
@@ -588,7 +589,57 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                     zero_plural.number = cldr_plural.number + 1
                     zero_plural.save(update_fields=["formula", "number"])
 
+        # Migrate content from aliased language to alias target
+        weblate_data_lang_codes = {lang[0] for lang in LANGUAGES}
+        for code, language in languages.items():
+            if (code in ALIASES) and (code not in weblate_data_lang_codes):
+                alias_target = Language.objects.get(code=ALIASES[code])
+                self.move_language(language, alias_target, logger)
+
+                # delete alias language if blank
+                if language.has_no_children():
+                    language.delete()
+
         self._fixup_plural_types(logger)
+
+    def move_language(self, source: Language, target: Language, logger=lambda x: x):
+        """Migrate all content from one language to anoother."""
+        for translation in source.translation_set.iterator():
+            other = translation.component.translation_set.filter(language=target)
+            if other.exists():
+                logger(f"Already exists: {translation}")
+                continue
+            translation.language = target
+            translation.save()
+        source.announcement_set.update(language=target)
+
+        for profile in source.profile_set.iterator():
+            profile.languages.remove(source)
+            profile.languages.add(target)
+
+        for profile in source.secondary_profile_set.iterator():
+            profile.secondary_languages.remove(source)
+            profile.secondary_languages.add(target)
+
+        source.change_set.update(language=target)
+
+        source.component_set.update(source_language=target)
+        for group in source.group_set.iterator():
+            group.languages.remove(source)
+            group.languages.add(target)
+
+        for plural in source.plural_set.iterator():
+            formulas = target.plural_set.filter(formula=plural.formula)
+            try:
+                new_plural = formulas[0]
+            except IndexError:
+                plural.language = target
+                plural.save()
+            else:
+                plural.translation_set.update(plural=new_plural)
+
+        source.memory_source_set.update(source_language=target)
+        source.memory_target_set.update(target_language=target)
 
     def _fixup_plural_types(self, logger) -> None:
         """Fix plural types as they were changed in Weblate codebase."""
@@ -729,6 +780,30 @@ class Language(models.Model, CacheKeyMixin):
     def is_base(self, vals: set[str]) -> bool:
         """Detect whether language is in given list, ignores variants."""
         return self.base_code in vals
+
+    def has_no_children(self) -> bool:
+        """
+        Check if language has no child objects.
+
+        Can be used to determine if language can be safely deleted.
+        """
+        # translations are most likely objects to exist for a language
+        if self.translation_set.exists():
+            return False
+
+        # Collect all objects that will be deleted along with the current instance.
+        # This can be expensive as it fetches all the objects from the database.
+        collector = NestedObjects(self.__class__.objects.db)
+        collector.collect([self])
+
+        for nodes in collector.edges.values():
+            for node in nodes:
+                if isinstance(node, Language) and node == self:
+                    continue
+                if isinstance(node, Plural) and node.language == self:
+                    continue
+                return False
+        return True
 
 
 class PluralQuerySet(models.QuerySet):

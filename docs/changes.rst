@@ -17,6 +17,8 @@ Not yet released.
 * :ref:`check-punctuation-spacing` ignores markup such as Markdown or reStructuredText.
 * :ref:`autofix-punctuation-spacing` does not alter reStructuredText markup.
 * Improved validation errors in :doc:`/api`, see :ref:`api-errors`.
+* Any language changed into an alias in `Weblate language data <https://github.com/WeblateOrg/language-data/>`__ is now reflected in all existing installations.
+* Blank alias languages (not linked to any translation, profile, component, ...) are now automatically removed.
 * :ref:`check-duplicate` better works with markup such as Markdown or reStructuredText.
 * Automatically use DeepL API Free endpoint for the DeepL API Free authentication keys in :ref:`mt-deepl`.
 * Compatibility with third-party static files storage backends for Django.

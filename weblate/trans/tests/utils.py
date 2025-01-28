@@ -157,10 +157,10 @@ class RepoTestMixin:
             remove_tree(test_repo_path)
         os.makedirs(test_repo_path)
 
-    def create_project(self, **kwargs):
+    def create_project(self, name: str = "Test", slug: str = "test", **kwargs):
         """Create test project."""
         project = Project.objects.create(
-            name="Test", slug="test", web="https://nonexisting.weblate.org/", **kwargs
+            name=name, slug=slug, web="https://nonexisting.weblate.org/", **kwargs
         )
         self.addCleanup(remove_tree, project.full_path, True)
         return project
@@ -254,10 +254,12 @@ class RepoTestMixin:
     def create_po_push(self):
         return self.create_po(push_on_commit=True)
 
-    def create_po_empty(self):
-        return self._create_component(
-            "po", "po-empty/*.po", new_base="po-empty/hello.pot", new_lang="add"
-        )
+    def create_po_empty(self, project=None):
+        kwargs = {"new_base": "po-empty/hello.pot", "new_lang": "add"}
+        if project:
+            kwargs["project"] = project
+
+        return self._create_component("po", "po-empty/*.po", **kwargs)
 
     def create_po_mercurial(self):
         return self.create_po(vcs="mercurial")
