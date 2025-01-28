@@ -2,15 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Heimen Stoffels <vistausss@fastmail.com>, 2023, 2024.
-# Dick Groskamp <dikgro@yahoo.co.uk>, 2024.
+# Dick Groskamp <dikgro@yahoo.co.uk>, 2024, 2025.
 # test-session <u4n5yp+f2i3ra2m3khdc@sharklasers.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 12:43+0000\n"
-"PO-Revision-Date: 2025-01-15 19:23+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-01-28 10:11+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -1994,12 +1994,10 @@ msgid "Weblate's REST API"
 msgstr "Weblate REST API"
 
 #: weblate/api/views.py:153
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Could not obtain repository lock to perform the operation."
 msgstr ""
-"Het vergrendelen van de opslagruimte is mislukt; er wordt al een actie "
-"uitgevoerd."
+"Kon geen vergrendeling van de opslagruimte krijgen om de bewerking uit te "
+"voeren."
 
 #: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2796,22 +2794,16 @@ msgid "This translation is currently locked."
 msgstr "Deze vertaling is momenteel vergrendeld."
 
 #: weblate/auth/permissions.py:194
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires accepting its contributor license "
 "agreement."
 msgstr ""
-"Als u wilt meewerken aan deze vertaling, dient u in te stemmen met de "
-"medewerkersovereenkomst."
+"Als u wilt meewerken aan deze vertaling, dient u de medewerkers "
+"licentieovereenkomst te accepteren."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
-msgstr "Log in om uw vertaling op te kunnen slaan."
+msgstr "Log in om vertalingen op te kunnen slaan."
 
 #: weblate/auth/permissions.py:205
 msgid "Insufficient privileges for approving translations."
@@ -2832,14 +2824,10 @@ msgid "Suggestion voting is disabled."
 msgstr "Suggestiestemmen is uitgeschakeld."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
 msgstr ""
-"Deze vertaling aanvaardt alleen suggesties welke worden goedgekeurd door "
-"stemmen."
+"Deze vertaling accepteert alleen suggesties, die moeten worden goedgekeurd "
+"door stemmen."
 
 #: weblate/auth/permissions.py:235
 #: weblate/templates/snippets/project/state.html:6
@@ -2847,50 +2835,36 @@ msgid "Pay the bills to unlock this project."
 msgstr "Betaal de rekeningen om dit project te ontgrendelen."
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
 msgstr "Beoordelingen van brontekenreeksen zijn uitgeschakeld."
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "Vertaalsuggesties zijn uitgeschakeld."
+msgstr "Beoordelingen van vertalingen zijn uitgeschakeld."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "Lijst met objecten uitgeschakeld"
+msgstr "Beoordelen is uitgeschakeld."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "De brontekenreeks dient te worden nagekeken."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
 msgstr "Deze tekenreeks is alleen-lezen."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Enkel reviewers kunnen goedgekeurde tekenreeksen wijzigen. Voeg een nieuwe "
+"Alleen reviewers kunnen goedgekeurde tekenreeksen wijzigen. Voeg een nieuwe "
 "suggestie toe als u vindt dat de tekenreeks gewijzigd moet worden."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
-msgstr "Deze vertaling is alleen-lezen."
+msgstr "De vertaling is alleen-lezen."
 
 #: weblate/auth/permissions.py:309
 msgid "Add the string to the source language instead."
@@ -2902,19 +2876,15 @@ msgstr ""
 "Het toevoegen van tekenreeksen is uitgeschakeld in de onderdeelinstellingen."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
-"De terminologie kan niet worden verwijderd. Verwijder in plaats daarvan de "
-"brontekenreeks."
+"De terminologie van de vertaling kan niet worden verwijderd. Verwijder in "
+"plaats daarvan de brontekenreeks."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
-msgstr "Het bestandsformaat ondersteunt dit niet."
+msgstr "De bestandsindeling ondersteunt dit niet."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3084,10 +3054,8 @@ msgid "The following format strings are extra: {}"
 msgstr "De volgende notatietekenreeksen zijn een aanvulling: {}"
 
 #: weblate/checks/base.py:335
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following errors were found:"
-msgstr "De volgende gevallen zijn aangetroffen:"
+msgstr "De volgende fouten zijn aangetroffen:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -4129,31 +4097,26 @@ msgstr "De vertaling gebruikt onveilige html-opmaak"
 
 #: weblate/checks/markup.py:398
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "Inconsistente verwijzingen reStructuredText"
 
 #: weblate/checks/markup.py:400
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
+"Inconsistente verwijzingen naar termen van reStructuredText in het vertaalde "
+"bericht."
 
 #: weblate/checks/markup.py:432
-#, fuzzy
-#| msgid "%(count)s string is not being translated here."
-#| msgid_plural "%(count)s strings are not being translated here."
 msgid "Inconsistent links in the translated message."
-msgstr "%(count)s tekenreeks wordt elders vertaald."
+msgstr "Inconsistente koppelingen in het vertaalde bericht."
 
 #: weblate/checks/markup.py:545
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "reStructuredText syntax error"
-msgstr "reStructuredText"
+msgstr "reStructuredText fout in syntaxis"
 
 #: weblate/checks/markup.py:546
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "Fluent-syntaxisfout in vertaling"
+msgstr "reStructuredText syntaxisfout in de vertaling."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5443,13 +5406,9 @@ msgid "File"
 msgstr "Bestand"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr ""
-"U kunt een bestand uploaden in een van de volgende indelingen: TMX, JSON, "
-"XLIFF, PO, CSV."
+msgstr "U kunt een bestand uploaden in een van de volgende indelingen: %s."
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5477,10 +5436,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "Bevestig het verwijderen van alle vertaalgeheugenitems"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "Niet-ondersteund afbeeldingstype: %s"
+msgstr "Niet-ondersteunde bestandsextensie: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -7119,12 +7077,10 @@ msgid "Configure"
 msgstr "Configureren"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
 msgstr ""
-"Uitbreidingen kunnen in het bereik van het project, als ook van de "
-"component, worden geïnstalleerd."
+"Add-ons kunnen ook in het bereik van het project en van de component worden "
+"geïnstalleerd."
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -7145,10 +7101,9 @@ msgid "Available add-ons"
 msgstr "Beschikbare uitbreidingen"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "De uitbreiding kan alleen op de component worden geïnstalleerd."
+msgstr ""
+"De add-on kan alleen op het niveau van de component worden geïnstalleerd."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -8181,10 +8136,8 @@ msgid "Screenshots"
 msgstr "Schermafdrukken"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "Onderdeel dupliceren"
+msgstr "Dit onderdeel dupliceren"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -11058,7 +11011,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
-msgstr ""
+msgstr "Niet-code projecten (zoals boeken of grafische inhoud) zijn ook welkom."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
