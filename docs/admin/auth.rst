@@ -315,7 +315,7 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``.
 
    The configuration above also works with Forgejo;
    for an example of production deployment with Forgejo,
-   see `Codeberg Translate <https://translate.codeberg.org>`_
+   see `Codeberg Translate <https://translate.codeberg.org>`_.
 
 .. seealso::
 
