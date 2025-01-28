@@ -234,7 +234,7 @@ def generate_counts(user: User, start_date, end_date, language_code: str, **kwar
         src_chars = len(change.unit.source)
         src_words = change.unit.num_words
         tgt_chars = len(change.target)
-        tgt_words = count_words(change.target, change.language.base_code)
+        tgt_words = count_words(change.target, change.language)
         edits = change.get_distance()
 
         current["chars"] += src_chars

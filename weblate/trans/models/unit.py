@@ -510,7 +510,7 @@ class Unit(models.Model, LoggerMixin):
         # Store number of words
         if not same_content or not self.num_words:
             self.num_words = count_words(
-                self.source, self.translation.component.source_language.base_code
+                self.source, self.translation.component.source_language
             )
             if update_fields and "num_words" not in update_fields:
                 update_fields.append("num_words")
