@@ -15,5 +15,5 @@ class StandardPagination(PageNumberPagination):
 
 
 class LargePagination(StandardPagination):
-    page_size = StandardPagination.page_size * 2
+    page_size = StandardPagination.page_size * 4
     max_page_size = 10000

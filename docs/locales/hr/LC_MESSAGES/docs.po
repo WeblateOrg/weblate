@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-01-22 15:09+0000\n"
+"PO-Revision-Date: 2025-01-23 16:01+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hr/>\n"
@@ -2764,7 +2764,7 @@ msgstr "Ponavljajući jezični kodovi"
 
 #: ../../admin/addons.rst:383
 msgid "Using language in both path and filename."
-msgstr "Upotreba jezika za putanju i za ime datoteke."
+msgstr "Upotreba jezika za stazu i ime datoteke."
 
 #: ../../admin/addons.rst:386
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
@@ -2816,10 +2816,8 @@ msgid ":file:`res/values-de/strings-help.xml`"
 msgstr ":file:`res/values-de/strings-help.xml`"
 
 #: ../../admin/addons.rst:408
-#, fuzzy
-#| msgid "Mismatching line breaks"
 msgid "Matching multiple paths"
-msgstr "Nepoklapanje prekida redaka"
+msgstr "Podudaranje više staza"
 
 #: ../../admin/addons.rst:410
 msgid "Multi-module Maven project with Java properties translations."
@@ -3981,7 +3979,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:1060
 msgid "Absolute path to VCS repository."
-msgstr ""
+msgstr "Apsolutna staza do repozitorija sustava za kontrolu verzija."
 
 #: ../../admin/addons.rst:1064
 msgid "Repository branch configured in the current component."
@@ -23736,12 +23734,12 @@ msgstr "Vraća popis dodataka."
 msgid ""
 "Add-on object attributes are documented at :http:get:`/api/addons/(int:id)/`."
 msgstr ""
-"Atributi dodatnih objekata su dokumentirani na :http:get:`/api/addons/(int:"
-"id)/`."
+"Atributi objekta dodataka su dokumentirani na :http:get:`/api/addons/"
+"(int:id)/`."
 
 #: ../../api.rst:2432
 msgid "Returns information about add-on information."
-msgstr "Vraća informacije o podacima dodatka."
+msgstr "Vraća informacije o podatcima dodatka."
 
 #: ../../api.rst:2436 ../../api.rst:2450
 msgid "name of an add-on"
@@ -23777,22 +23775,24 @@ msgstr "Popisi komponenti"
 
 #: ../../api.rst:2486
 msgid "Returns a list of component lists."
-msgstr ""
+msgstr "Vraća popis popisa komponenti."
 
 #: ../../api.rst:2490
 msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
 msgstr ""
+"Atributi objekta popisa komponenti su dokumentirani na :http:get:`/api/"
+"component-lists/(str:slug)/`."
 
 #: ../../api.rst:2494
 msgid "Returns information about component list."
-msgstr ""
+msgstr "Vraća informacije o popisu komponenti."
 
 #: ../../api.rst:2496 ../../api.rst:2508 ../../api.rst:2518 ../../api.rst:2528
 #: ../../api.rst:2537 ../../api.rst:2546 ../../api.rst:2554
 msgid "Component list slug"
-msgstr ""
+msgstr "URL identifikator popisa komponenti"
 
 #: ../../api.rst:2498 ../../api.rst:2510 ../../api.rst:2520
 msgid "name of a component list"
@@ -23800,15 +23800,15 @@ msgstr "ime popisa komponenti"
 
 #: ../../api.rst:2499 ../../api.rst:2511 ../../api.rst:2521
 msgid "slug of a component list"
-msgstr ""
+msgstr "URL identifikator popisa komponenti"
 
 #: ../../api.rst:2500 ../../api.rst:2512 ../../api.rst:2522
 msgid "whether to show it on a dashboard"
-msgstr ""
+msgstr "da li ga prikazati na preglednoj ploči"
 
 #: ../../api.rst:2502
 msgid "automatic assignment rules"
-msgstr ""
+msgstr "pravila automatskog dodjeljivanja"
 
 #: ../../api.rst:2506 ../../api.rst:2516
 msgid "Changes the component list parameters."
@@ -23850,17 +23850,19 @@ msgstr ">json array results"
 
 #: ../../api.rst:2544
 msgid "Associate component with a component list."
-msgstr ""
+msgstr "Poveži komponentu s jednim popisom komponenti."
 
 #: ../../api.rst:2552
 msgid "Disassociate a component from the component list."
-msgstr ""
+msgstr "Odspoji komponentu iz popisa komponenti."
 
 #: ../../api.rst:2564
 msgid ""
 "Glossaries are now stored as regular components, translations and strings, "
 "please use respective API instead."
 msgstr ""
+"Glosari se sada spremaju kao uobičajene komponente, prijevodi i izrazi. "
+"Koristi odgovarajući API umjesto toga."
 
 #: ../../api.rst:2568
 msgid "Tasks"
@@ -23879,24 +23881,20 @@ msgid "Task UUID"
 msgstr "UUID zadatka"
 
 #: ../../api.rst:2582
-#, fuzzy
-#| msgid "String has comment"
 msgid "Whether the task has completed"
-msgstr "Izraz ima komentar"
+msgstr "Je li je zadatak završen"
 
 #: ../../api.rst:2583
 msgid "Task progress in percent"
-msgstr ""
+msgstr "Napredak zadatka u postocima"
 
 #: ../../api.rst:2584
 msgid "Task result or progress details"
-msgstr ""
+msgstr "Detalji rezultata zadatka ili napretka"
 
 #: ../../api.rst:2585
-#, fuzzy
-#| msgid "Last login"
 msgid "Task log"
-msgstr "Zadnja prijava"
+msgstr "Dnevnik zadatka"
 
 #: ../../api.rst:2590
 msgid "Statistics"
@@ -23910,93 +23908,71 @@ msgstr ""
 
 #: ../../api.rst:2597
 msgid "URL path"
-msgstr ""
+msgstr "URL staza"
 
 #: ../../api.rst:2601
-#, fuzzy
-#| msgid "Number of characters"
 msgid "total number of characters"
-msgstr "Broj znakova"
+msgstr "ukupni broj znakova"
 
 #: ../../api.rst:2602
 msgid "date of last change"
-msgstr ""
+msgstr "datum zadnje promjene"
 
 #: ../../api.rst:2607
 msgid "number of translated characters"
-msgstr ""
+msgstr "broj prevedenih znakova"
 
 #: ../../api.rst:2608
 msgid "percentage of translated characters"
-msgstr ""
+msgstr "postotak prevedenih znakova"
 
 #: ../../api.rst:2610
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "number of fuzzy (marked for edit) words"
-msgstr "Broj izvornih izraza"
+msgstr "broj nepreciznih (označenih za uređivanje) riječi"
 
 #: ../../api.rst:2611
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "number of fuzzy (marked for edit) characters"
-msgstr "Broj izvornih izraza"
+msgstr "broj nepreciznih (označenih za uređivanje) znakova"
 
 #: ../../api.rst:2613
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "percentage of fuzzy (marked for edit) words"
-msgstr "Broj izvornih izraza"
+msgstr "postotak nepreciznih (označenih za uređivanje) riječi"
 
 #: ../../api.rst:2614
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "percentage of fuzzy (marked for edit) characters"
-msgstr "Broj izvornih izraza"
+msgstr "postotak nepreciznih (označenih za uređivanje) znakova"
 
 #: ../../api.rst:2615
 msgid "number of failing checks"
-msgstr ""
+msgstr "broj neuspjelih provjera"
 
 #: ../../api.rst:2616
 msgid "percentage of failing checks"
-msgstr ""
+msgstr "postotak neuspjelih provjera"
 
 #: ../../api.rst:2617
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "number of approved strings"
-msgstr "Uključi izraze samo-za-čitanje"
+msgstr "broj odobrenih izraza"
 
 #: ../../api.rst:2618
-#, fuzzy
-#| msgid "Number of components"
 msgid "number of approved words"
-msgstr "Broj komponenti"
+msgstr "broj odobrenih riječi"
 
 #: ../../api.rst:2619
-#, fuzzy
-#| msgid "Number of components"
 msgid "number of approved characters"
-msgstr "Broj komponenti"
+msgstr "broj odobrenih znakova"
 
 #: ../../api.rst:2620
-#, fuzzy
-#| msgid "Change translated and approved strings"
 msgid "percentage of approved strings"
-msgstr "Promijeni prevedene i odobrene izraze"
+msgstr "postotak odobrenih izraza"
 
 #: ../../api.rst:2621
-#, fuzzy
-#| msgid "Change translated and approved strings"
 msgid "percentage of approved words"
-msgstr "Promijeni prevedene i odobrene izraze"
+msgstr "postotak odobrenih riječi"
 
 #: ../../api.rst:2622
-#, fuzzy
-#| msgid "Change translated and approved strings"
 msgid "percentage of approved characters"
-msgstr "Promijeni prevedene i odobrene izraze"
+msgstr "postotak odobrenih znakova"
 
 #: ../../api.rst:2623
 msgid "number of read-only strings"
@@ -24027,32 +24003,24 @@ msgid "number of strings with suggestions"
 msgstr "broj izrazi s prijedlozima"
 
 #: ../../api.rst:2630
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "number of strings with comments"
-msgstr "Izrazi s komentarima"
+msgstr "broj izraza s komentarima"
 
 #: ../../api.rst:2631
-#, fuzzy
-#| msgid "Project name"
 msgid "object name"
-msgstr "Ime projekta"
+msgstr "ime objekta"
 
 #: ../../api.rst:2632
 msgid "URL to access the object (if applicable)"
-msgstr ""
+msgstr "URL za pristup objektu (ako je primjenjivo)"
 
 #: ../../api.rst:2633
-#, fuzzy
-#| msgid "Translation approved"
 msgid "URL to access the translation (if applicable)"
-msgstr "Prijevod odobren"
+msgstr "URL za pristup prijevodu (ako je primjenjivo)"
 
 #: ../../api.rst:2634
-#, fuzzy
-#| msgid "Language code style"
 msgid "language code (if applicable)"
-msgstr "Stil jezičnog koda"
+msgstr "jezični kod (ako je primjenjivo)"
 
 #: ../../api.rst:2638
 msgid ""
@@ -24074,7 +24042,7 @@ msgstr "Metrični podatci"
 
 #: ../../api.rst:2649
 msgid "Returns server metrics."
-msgstr ""
+msgstr "Vraća metrične podatke servera."
 
 #: ../../api.rst:2653
 msgid ""
@@ -45804,7 +45772,7 @@ msgstr "Nedosljedne reStructuredText reference"
 #: ../../user/checks.rst:969
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
-msgstr ""
+msgstr "Nedosljedne reference reStructuredText pojmova u prevedenoj poruci."
 
 #: ../../user/checks.rst:971
 msgid "``weblate.checks.markup.RSTReferencesCheck``"

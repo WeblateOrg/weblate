@@ -86,7 +86,7 @@
 
             {% if component.agreement %}
               <tr>
-                <th>{% trans "Contributor agreement" %}</th>
+                <th>{% trans "Contributor license agreement" %}</th>
                 <td colspan="2" class="full-cell">
                   {% if user.is_authenticated %}
                     <a class="btn btn-primary pull-right flip"
@@ -480,8 +480,15 @@
           </div>
           <div class="col-sm-3">
             <div class="metric">
-              <a href="{% url "user_list" %}?q={% if language %}translates:{{ language.code|urlencode }}{% elif translation %}translates:{{ translation.language.code|urlencode }}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %} change_time:&gt;'30 days ago' ">
-                <div class="metric-number">{{ metrics.contributors|number_format }}</div>
+              <a href="{% url "user_list" %}?q={% if language %}translates:{{ language.code|urlencode }}{% elif translation %}translates:{{ translation.language.code|urlencode }}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
+                {# TODO: show contributors_total only in Weblate 6.0 #}
+                <div class="metric-number">
+                  {% if metrics.contributors_total %}
+                    {{ metrics.contributors_total|number_format }}
+                  {% else %}
+                    {{ metrics.contributors|number_format }}
+                  {% endif %}
+                </div>
                 <div class="metric-text">{% trans "Contributors" %}</div>
               </a>
             </div>

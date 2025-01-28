@@ -172,7 +172,7 @@ and 5, use ``source:r"[2-5]"``.
 
    * `PostgreSQL Regular Expressions Details <https://www.postgresql.org/docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the default database engine for Weblate)
    * `MariaDB Regular Expressions Overview <https://mariadb.com/kb/en/regular-expressions-overview/>`_
-   * `MySQL Regular Expressions <https://dev.mysql.com/doc/refman/8.4/en/regexp.html>`_
+   * `MySQL Regular Expressions <https://dev.mysql.com/doc/refman/9.2/en/regexp.html>`_
 
 Predefined queries
 ------------------
@@ -206,9 +206,13 @@ The user browsing has similar search abilities:
 ``joined:DATETIME``
    String content was changed on date, supports :ref:`search-operators`.
 ``translates:TEXT``
-   User has contributed to a given language in the past 90 days.
+   User has contributed to a given language.
+
+   You might want to limit contribution time by ``change_time``, for example ``change_time:>"90 days ago"``.
 ``contributes:TEXT``
-   User has contributed to a given project or component in the past 90 days.
+   User has contributed to a given project or component.
+
+   You might want to limit contribution time by ``change_time``, for example ``change_time:>"90 days ago"``.
 ``change_time:DATETIME``
    Same as in :ref:`search-strings`.
 ``change_action:TEXT``

@@ -31,7 +31,6 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.settings import api_settings
@@ -1389,13 +1388,15 @@ class ComponentViewSet(
         obj = self.get_object()
 
         queryset = obj.translation_set.all().prefetch_meta().order_by("id")
-        page = self.paginate_queryset(queryset)
+
+        paginator = LargePagination()
+        page = paginator.paginate_queryset(queryset, request, view=self)
 
         serializer = StatisticsSerializer(
             prefetch_stats(page), many=True, context={"request": request}
         )
 
-        return self.get_paginated_response(serializer.data)
+        return paginator.get_paginated_response(serializer.data)
 
     @extend_schema(description="Return a list of component changes.", methods=["get"])
     @action(detail=True, methods=["get"])
@@ -2274,7 +2275,7 @@ class Metrics(APIView):
     """Metrics view for monitoring."""
 
     permission_classes = (IsAuthenticated,)
-    renderer_classes = (JSONRenderer, BrowsableAPIRenderer, OpenMetricsRenderer)
+    renderer_classes = (*api_settings.DEFAULT_RENDERER_CLASSES, OpenMetricsRenderer)
     serializer_class = MetricsSerializer
 
     def get(self, request: Request, format=None):  # noqa: A002

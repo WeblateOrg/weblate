@@ -24,7 +24,7 @@
     {% needs_agreement item.translation.component as needs_agreement %}
     {% if needs_agreement %}
       <span class="badge pull-right flip"
-            title="{% trans "Contributing to this translation requires agreeing to its contributor agreement." %}">{% trans "Contributor agreement" %}</span>
+            title="{% trans "Contributing to this translation requires agreeing to its contributor license agreement." %}">{% trans "Contributor license agreement" %}</span>
     {% endif %}
     <span class="badge pull-right flip">{{ item.get_state_display }}</span>
     <a href="{{ item.get_absolute_url }}">{{ item.translation.component }}</a>

@@ -4322,6 +4322,11 @@ class MetricsAPITest(APIBaseTest):
         response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
         self.assertContains(response, "# EOF")
 
+    def test_metrics_csv(self) -> None:
+        self.authenticate()
+        response = self.client.get(reverse("api:metrics"), {"format": "csv"})
+        self.assertContains(response, "units_translated")
+
     def test_forbidden(self) -> None:
         response = self.client.get(reverse("api:metrics"))
         self.maxDiff = None

@@ -822,7 +822,7 @@ class SeleniumTests(
         self.click("Insights")
         self.screenshot("reporting.png")
 
-        # Contributor agreement
+        # Contributor license agreement
         self.click("Manage")
         with self.wait_for_page_load():
             self.click("Settings")
@@ -834,7 +834,7 @@ class SeleniumTests(
             self.click("Language names")
         self.screenshot("contributor-agreement.png")
         with self.wait_for_page_load():
-            self.click("View contributor agreement")
+            self.click("View contributor license agreement")
         element = self.driver.find_element(By.ID, "id_confirm")
         self.click(element)
         with self.wait_for_page_load():

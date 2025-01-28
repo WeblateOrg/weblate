@@ -1066,10 +1066,15 @@ class Unit(models.Model, LoggerMixin):
                             % {"component": component, "reason": denied.reason},
                         )
                     continue
+
+                # Commit any previous pending changes
+                unit.commit_if_pending(user)
+
+                # Update unit attributes for the current instance, the database is bulk updated later
                 unit.target = self.target
                 unit.state = self.state
                 unit.pending = True
-                unit.commit_if_pending(user)
+
                 to_update.append(unit)
 
             if not to_update:

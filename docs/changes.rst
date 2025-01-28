@@ -7,6 +7,7 @@ Not yet released.
 
 * :ref:`check-rst-references` check to validate reStructuredText references.
 * :ref:`check-rst-syntax` check to validate reStructuredText syntax.
+* API can now produce CSV output.
 
 **Improvements**
 
@@ -21,6 +22,7 @@ Not yet released.
 * :ref:`check-duplicate` better works with markup such as Markdown or reStructuredText.
 * Automatically use DeepL API Free endpoint for the DeepL API Free authentication keys in :ref:`mt-deepl`.
 * Compatibility with third-party static files storage backends for Django.
+* Improved language compatibility in :ref:`mt-microsoft-translator`.
 
 **Bug fixes**
 
@@ -30,6 +32,7 @@ Not yet released.
 **Compatibility**
 
 * Running tests using Django test executor is no longer supported, see :doc:`/contributing/tests`.
+* :ref:`check-bbcode` check is now disabled by default. The `bbcode-text` flag is required to activate this check, see :ref:`custom-checks`.
 * API error responses format has changed, see :ref:`api-errors`.
 
 **Upgrading**
@@ -37,6 +40,7 @@ Not yet released.
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``REST_FRAMEWORK``, ``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
+* PostgreSQL 12 and MariaDB 10.4 are no longer supported.
 
 **Contributors**
 

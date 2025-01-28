@@ -21,7 +21,7 @@
     {% if check.component.agreement %}
       <p>
         {% icon "suggest.svg" %}
-        <a href="{{ check.component.get_absolute_url }}#information">{% trans "Contributor agreement" %}</a>
+        <a href="{{ check.component.get_absolute_url }}#information">{% trans "Contributor license agreement" %}</a>
         {{ check.component.agreement|markdown }}
       </p>
     {% endif %}

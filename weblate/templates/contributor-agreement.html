@@ -7,7 +7,7 @@
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
   <li>
-    <a href="{% url 'contributor-agreement' path=object.get_url_path %}">{% trans "Contributor agreement" %}</a>
+    <a href="{% url 'contributor-agreement' path=object.get_url_path %}">{% trans "Contributor license agreement" %}</a>
   </li>
 {% endblock %}
 
@@ -19,10 +19,10 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4 class="panel-title">{% trans "Please review the contributor agreement" %}</h4>
+        <h4 class="panel-title">{% trans "Please review the contributor license agreement" %}</h4>
       </div>
       <div class="panel-body">
-        <p>{% trans "Please read following contributor agreement:" %}</p>
+        <p>{% trans "Please read the following contributor license agreement:" %}</p>
         <div class="list-group-item pre-scrollable">{{ object.agreement|markdown }}</div>
 
         {% csrf_token %}

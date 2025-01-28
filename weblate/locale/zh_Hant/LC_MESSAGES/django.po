@@ -4,7 +4,7 @@
 # Chang-Chia Tseng <pswo10680@gmail.com>, 2023, 2024, 2025.
 # Jimmy Young <LNDDYL@users.noreply.hosted.weblate.org>, 2023.
 # notlin4 <iamnotlin4@gmail.com>, 2023, 2024.
-# pan93412 <pan93412@gmail.com>, 2023, 2024.
+# pan93412 <pan93412@gmail.com>, 2023, 2024, 2025.
 # Kagamine_Rinrin <a12076543@sina.com>, 2023.
 # Haowei Hsu <hwhsu1231@gmail.com>, 2023.
 # hugoalh <hugoalh@users.noreply.hosted.weblate.org>, 2024.
@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 12:43+0000\n"
-"PO-Revision-Date: 2025-01-15 19:23+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-01-26 15:32+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -1892,10 +1892,8 @@ msgid "Weblate's REST API"
 msgstr "Weblate 的 REST API"
 
 #: weblate/api/views.py:153
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Could not obtain repository lock to perform the operation."
-msgstr "無法鎖定儲存庫：正在進行另一個操作。"
+msgstr "無法取得儲存庫的鎖，因此無法執行這個動作。"
 
 #: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2680,18 +2678,12 @@ msgid "This translation is currently locked."
 msgstr "此翻譯目前正被鎖定。"
 
 #: weblate/auth/permissions.py:194
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires accepting its contributor license "
 "agreement."
-msgstr "若要貢獻此翻譯，必須同意貢獻者協議書。"
+msgstr "若要貢獻此翻譯，需要同意其貢獻者協議書。"
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
 msgstr "請登入以儲存翻譯。"
 
@@ -2714,12 +2706,8 @@ msgid "Suggestion voting is disabled."
 msgstr "已停用建議投票。"
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
-msgstr "此翻譯僅只接受建議，這些建議需要經過投票核可。"
+msgstr "此翻譯僅只接受建議，且需要經過投票核可。"
 
 #: weblate/auth/permissions.py:235
 #: weblate/templates/snippets/project/state.html:6
@@ -2727,47 +2715,32 @@ msgid "Pay the bills to unlock this project."
 msgstr "請付帳以解開專案鎖定。"
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
-msgstr "未啟用來源編輯的檢閱。"
+msgstr "來源字串檢閱已關閉。"
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "已關閉翻譯建議功能。"
+msgstr "翻譯檢閱已關閉。"
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "物件表列已關閉"
+msgstr "檢閱已關閉。"
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "來源字串需要檢閱。"
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
 msgstr "此字串唯讀。"
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
-msgstr ""
-"僅檢閱者可以變更核可後的字串。如果您認為字串應該要修改，請加入翻譯建議。"
+msgstr "僅檢閱者可以變更核可後的字串。如果您認為字串應該要修改，請加入翻譯建議。"
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "此翻譯唯讀。"
 
@@ -2780,15 +2753,11 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "已在組件組態中停用「加入字串」功能。"
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
-msgstr "無法移除專有名詞的翻譯，請改移除來源字串。"
+msgstr "無法移除專有名詞的翻譯。請改移除來源字串。"
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
 msgstr "檔案格式不支援本功能。"
 
@@ -2954,10 +2923,8 @@ msgid "The following format strings are extra: {}"
 msgstr "多出下列格式字串：{}"
 
 #: weblate/checks/base.py:335
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following errors were found:"
-msgstr "找到下列出現位置："
+msgstr "找到下列錯誤："
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -3956,31 +3923,24 @@ msgstr "翻譯使用了不安全的 HTML 標示"
 
 #: weblate/checks/markup.py:398
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "reStructuredText 的引用不一致"
 
 #: weblate/checks/markup.py:400
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
-msgstr ""
+msgstr "已翻譯訊息的 reStructuredText 專有名詞引用不一致。"
 
 #: weblate/checks/markup.py:432
-#, fuzzy
-#| msgid "%(count)s string is not being translated here."
-#| msgid_plural "%(count)s strings are not being translated here."
 msgid "Inconsistent links in the translated message."
-msgstr "這裡有 %(count)s 則尚未翻譯的字串。"
+msgstr "翻譯訊息中的連結不一致。"
 
 #: weblate/checks/markup.py:545
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "reStructuredText syntax error"
-msgstr "reStructuredText"
+msgstr "reStructuredText 語法錯誤"
 
 #: weblate/checks/markup.py:546
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "譯文中 Fluent 的語法有錯"
+msgstr "譯文中 reStructuredText 的語法有錯。"
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5238,11 +5198,9 @@ msgid "File"
 msgstr "檔案"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr "您可以上傳下列格式檔案：TMX、JSON、XLIFF、PO、CSV 等。"
+msgstr "您可以上傳下列格式檔案：%s。"
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5270,10 +5228,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "確認刪除所有翻譯記憶條目"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "不支援的影像類型：%s"
+msgstr "不支援的檔案副檔名：%s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -6831,10 +6788,8 @@ msgid "Configure"
 msgstr "設定"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
-msgstr "附加元件也可以安裝在專案和組件範圍內。"
+msgstr "附加元件也可以安裝在專案和組件範圍中。"
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -6853,10 +6808,8 @@ msgid "Available add-ons"
 msgstr "可用的附加元件"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "這個附加元件只能安裝在組件上。"
+msgstr "這個附加元件只能安裝在組件範圍上。"
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -7862,10 +7815,8 @@ msgid "Screenshots"
 msgstr "螢幕擷圖"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "再製組件"
+msgstr "再製此組件"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -8692,7 +8643,7 @@ msgstr "將指定數量的機器翻譯複製到目前的翻譯。"
 
 #: weblate/templates/keyboard-shortcuts.html:157
 msgid "Ignore one item in the list of failing checks."
-msgstr "忽略一個項目於未通過的查核列表。"
+msgstr "忽略清單中的其中一個失敗查核項目。"
 
 #: weblate/templates/keyboard-shortcuts.html:165
 msgid "Shows the Nearby strings tab."
@@ -10560,7 +10511,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
-msgstr ""
+msgstr "我們也很歡迎不是程式碼的專案（比如圖書或者是圖像內容）。"
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"

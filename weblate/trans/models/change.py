@@ -298,6 +298,19 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         """
         return self.filter(timestamp__gte=dt_as_day_range(dt)[0])
 
+    def count_users(self) -> int:
+        """
+        Count contributing users.
+
+        Used mostly in the metrics.
+        """
+        return (
+            self.filter(user__is_active=True, user__is_bot=False)
+            .values("user")
+            .distinct()
+            .count()
+        )
+
 
 class ChangeManager(models.Manager["Change"]):
     def create(self, *, user=None, **kwargs):
@@ -530,7 +543,10 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_LICENSE_CHANGE, gettext_lazy("License changed")),
         # Translators: Name of event in the history
-        (ACTION_AGREEMENT_CHANGE, gettext_lazy("Contributor agreement changed")),
+        (
+            ACTION_AGREEMENT_CHANGE,
+            gettext_lazy("Contributor license agreement changed"),
+        ),
         # Translators: Name of event in the history
         (ACTION_SCREENSHOT_ADDED, gettext_lazy("Screenshot added")),
         # Translators: Name of event in the history

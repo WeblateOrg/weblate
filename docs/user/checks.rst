@@ -99,10 +99,15 @@ good quality translations.
 BBCode markup
 ~~~~~~~~~~~~~
 
+.. versionchanged:: 5.10
+
+This checks no longer relies on unreliable automatic detection, it now needs to be turned on using the ``bbcode-text`` flag.
+
 :Summary: BBCode in translation does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.BBCodeCheck``
 :Check identifier: ``bbcode``
+:Flag to enable: ``bbcode-text``
 :Flag to ignore: ``ignore-bbcode``
 
 BBCode represents simple markup, like for example highlighting important parts of a
