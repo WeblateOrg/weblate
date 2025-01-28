@@ -22,7 +22,7 @@ class PluralCzechCheck(TargetCheck):
 
     # Real check code
     def check_target_unit(self, sources, targets, unit):
-        if unit.translation.language.is_base(("cs",)):
+        if unit.translation.language.is_base({"cs"}):
             return targets[1] == targets[2]
         return False
 

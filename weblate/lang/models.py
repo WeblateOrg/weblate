@@ -726,7 +726,7 @@ class Language(models.Model, CacheKeyMixin):
             )
         return sorted(aliases)
 
-    def is_base(self, vals: tuple[str, ...]) -> bool:
+    def is_base(self, vals: set[str]) -> bool:
         """Detect whether language is in given list, ignores variants."""
         return self.base_code in vals
 

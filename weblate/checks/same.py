@@ -229,10 +229,10 @@ class SameCheck(TargetCheck):
         # English variants will have most things untranslated
         # Interlingua is also quite often similar to English
         return bool(
-            unit.translation.language.is_base((source_language,))
+            unit.translation.language.is_base({source_language})
             or (
                 source_language == "en"
-                and unit.translation.language.is_base(("en", "ia"))
+                and unit.translation.language.is_base({"en", "ia"})
             )
         )
 

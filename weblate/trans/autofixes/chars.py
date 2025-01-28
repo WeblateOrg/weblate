@@ -85,7 +85,7 @@ class DevanagariDanda(AutoFix):
         self, target: str, source: str, unit: Unit
     ) -> tuple[str, bool]:
         if (
-            unit.translation.language.is_base(("hi", "bn", "or"))
+            unit.translation.language.is_base({"hi", "bn", "or"})
             and "_Latn" not in unit.translation.language.code
             and source.endswith(".")
             and target.endswith((".", "\u09f7", "|"))
@@ -117,7 +117,7 @@ class PunctuationSpacing(AutoFix):
             return f"\u00a0{matchobj.group(2)}"
 
         if (
-            unit.translation.language.is_base(("fr", "br"))
+            unit.translation.language.is_base({"fr", "br"})
             and unit.translation.language.code != "fr_CA"
             and "ignore-punctuation-spacing" not in unit.all_flags
         ):
