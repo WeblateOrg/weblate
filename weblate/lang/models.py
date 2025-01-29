@@ -790,6 +790,13 @@ class Language(models.Model, CacheKeyMixin):
         """Detect whether language is CJK, ignores variants."""
         return self.is_base({"ja", "zh", "ko"})
 
+    def is_case_sensitive(self) -> bool:
+        """Detect whether language is case sensitive."""
+        # TODO: this list is very incomplete
+        return not self.is_cjk() and not self.is_base(
+            {"he", "ar", "th", "ru", "uk", "el"}
+        )
+
     def has_no_children(self) -> bool:
         """
         Check if language has no child objects.
