@@ -3326,6 +3326,21 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(component.source_translation.unit_set.count(), 6)
+        # Duplicate
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "acl",
+            },
+            method="post",
+            superuser=True,
+            format="json",
+            request={"key": "plural", "value": ["Source Language", "Source Languages"]},
+            code=400,
+        )
+        self.assertEqual(component.source_translation.unit_set.count(), 6)
         self.do_request(
             "api:translation-units",
             {
