@@ -3,14 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Jiri Grönroos <jiri.gronroos@iki.fi>, 2023, 2024.
 # Tuomas Hietala <tuomas.hietala@iki.fi>, 2024, 2025.
-# Ricky Tigg <ricky.tigg@gmail.com>, 2024.
+# Ricky Tigg <ricky.tigg@gmail.com>, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 12:43+0000\n"
-"PO-Revision-Date: 2025-01-19 14:30+0000\n"
-"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
+"PO-Revision-Date: 2025-01-29 11:01+0000\n"
+"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -1999,10 +1999,8 @@ msgid "Weblate's REST API"
 msgstr "Weblaten REST API"
 
 #: weblate/api/views.py:153
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Could not obtain repository lock to perform the operation."
-msgstr "Tietovarastoa ei voitu lukita, toinen toiminto on meneillään."
+msgstr "Tietovaraston lukitusta ei voitu saada toiminnon suorittamiseksi."
 
 #: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2795,15 +2793,11 @@ msgid "This translation is currently locked."
 msgstr "Tämä käännös on parhaillaan lukittu."
 
 #: weblate/auth/permissions.py:194
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires accepting its contributor license "
 "agreement."
 msgstr ""
-"Tähän käännökseen osallistuminen edellyttää osallistujasopimuksen "
+"Tämän käännöksen lisääminen edellyttää sen avustajan käyttöoikeussopimuksen "
 "hyväksymistä."
 
 #: weblate/auth/permissions.py:202
@@ -2844,16 +2838,12 @@ msgid "Source-string reviews are turned off."
 msgstr "Lähdetekstien tarkistukset eivät ole käytössä."
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "Käännösehdotukset ovat pois käytöstä."
+msgstr "Käännöstarkistukset ovat pois käytöstä."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "Kohteiden listaus pois käytöstä"
+msgstr "Tarkastus on poistettu käytöstä."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
@@ -2864,16 +2854,12 @@ msgid "The string is read-only."
 msgstr "Teksti on kirjoitussuojattu."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Vain tarkistajat voivat muuttaa hyväksyttyjä tekstejä. Voit kuitenkin lisätä "
-"käännösehdotuksen jos tekstiä pitää mielestäsi muuttaa."
+"Vain arvioijat voivat muuttaa hyväksyttyjä merkkijonoja. Lisää ehdotus, jos "
+"merkkijonoa pitäisi mielestäsi muuttaa."
 
 #: weblate/auth/permissions.py:292
 msgid "The translation is read-only."
@@ -2888,16 +2874,12 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "Ehdota käyttäjälle käyttäjätunnusta. Se voidaan muuttaa myöhemmin."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
-"Terminologian käännöstä ei voi poistaa, poista sen sijaan lähdemerkkijono."
+"Terminologian käännöstä ei voi poistaa. Poista sen sijaan lähdemerkkijono."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
 msgstr "Tiedostomuoto ei tue tätä."
 
@@ -3018,10 +3000,8 @@ msgid "Project website missing!"
 msgstr "Projektin verkkosivusto puuttuu!"
 
 #: weblate/billing/models.py:480
-#, fuzzy
-#| msgid "All public projects"
 msgid "Only public projects are allowed"
-msgstr "Kaikki julkiset projektit"
+msgstr "Vain julkiset projektit ovat sallittuja"
 
 #: weblate/billing/models.py:486
 #, python-format
@@ -3035,10 +3015,8 @@ msgid "Missing license"
 msgstr "Lisenssi puuttuu"
 
 #: weblate/billing/models.py:500
-#, fuzzy
-#| msgid "OSI approved license"
 msgid "Not a libre license"
-msgstr "OSI:n hyväksymä lisenssi"
+msgstr "Ei vapaa lisenssi"
 
 #: weblate/billing/tasks.py:72
 msgid ""
@@ -3414,6 +3392,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"Fluent-viittaus {sequence}:ssa voi laajentua HTML-tunnisteeksi. Ehkä käytä "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
@@ -3421,6 +3401,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"Fluent-viittaus {sequence}:ssa voi laajentua HTML-merkkiviittaukseksi. Ehkä "
+"käytä {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
@@ -3428,6 +3410,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"Sarja {sequence} alkaa HTML-sulkutunnisteella, mutta nimi tai syntaksi ei "
+"kelpaa. Jos et halua sulkevaa tunnistetta, käytä {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3435,6 +3419,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Sarja {sequence} alkaa HTML-tunnisteella, mutta nimi ei ole kelvollinen. Jos "
+"et halua aloittaa HTML-tunnistetta, käytä {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -3442,12 +3428,15 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Sarja {sequence} alkaa HTML-tunnisteella, mutta tunnistetta ei koskaan sulje "
+"{close}. Jos et halua aloittaa HTML-tunnistetta, käytä {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"Fluentin sisäinen HTML ei saa sisältää {sequence}. Ehkä käytä {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3456,6 +3445,9 @@ msgid ""
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
+"Sarja {sequence} alkaa HTML-tunnisteella, mutta sekvenssi {attribute} ei ole "
+"kelvollinen attribuutti, jolla on arvo. Jos et halua aloittaa HTML-"
+"tunnistetta, käytä {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
@@ -3468,6 +3460,8 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"Tagin {tag} HTML-attribuutin {name} arvo {value} ei ole kelvollinen "
+"lainausarvo."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
@@ -3477,12 +3471,12 @@ msgstr "HTML-attribuutti {name} esiintyy kahdesti tunnisteelle {tag}."
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Vastaamaton HTML-lopputunniste: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "HTML {name} void -elementillä ei saa olla lopputunnistetta: {end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
@@ -3490,11 +3484,13 @@ msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
 msgstr ""
+"HTML {name} -elementti ei ole tunnettu void-elementti, joten siinä ei "
+"pitäisi olla itsestään sulkeutuvaa tunnistetta: {self_close}."
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
-msgstr ""
+msgstr "HTML {tag} -tunnisteesta puuttuu vastaava lopputunniste: {end}."
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
@@ -3503,24 +3499,26 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"Jakso {sequence} alkaa HTML-merkkiviittauksella, mutta ei pääty {semicolon}:"
+"lla. Jos et halua merkkiviittausta, käytä {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "Sarja {sequence} ei ole kelvollinen HTML-merkkiviittaus."
 
 #: weblate/checks/fluent/inner_html.py:943
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "Fluent-lähteen sisäinen HTML"
 
 #: weblate/checks/fluent/inner_html.py:944
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "Fluent-lähteen tulee olla kelvollinen sisäinen HTML"
 
 #: weblate/checks/fluent/inner_html.py:1015
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "Fluent-arvosta puuttuu HTML {tag} -tunniste."
 
 #: weblate/checks/fluent/inner_html.py:1020
 #, python-brace-format
@@ -3528,11 +3526,13 @@ msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
+"Fluent-arvosta puuttuu HTML {tag} -tunniste seuraaville muunnelmille: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1034
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "Fluent-arvolla on odottamaton ylimääräinen HTML {tag} -tunniste."
 
 #: weblate/checks/fluent/inner_html.py:1039
 #, python-brace-format
@@ -3540,6 +3540,8 @@ msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
+"Fluent-arvolla on odottamaton ylimääräinen HTML {tag} -tunniste seuraaville "
+"muunnelmille: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1116
 #, python-brace-format
@@ -3548,12 +3550,17 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
+"Seuraavilla alkuperäisen Fluent-arvon muunnelmilla ei ole vähintään yhtä "
+"vastaavaa muunnelmaa käännöksessä, jossa on sama HTML-elementtijoukko: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1131
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
 msgstr ""
+"Käännetyllä Fluent-arvolla ei ole vastaavaa varianttia alkuperäisessä, jossa "
+"on samat HTML-elementit."
 
 #: weblate/checks/fluent/inner_html.py:1138
 #, python-brace-format
@@ -3561,16 +3568,16 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
+"Seuraavilla käännetyn Fluent-arvon muunnelmilla ei ole vastaavaa muunnelmaa "
+"alkuperäisessä, jossa on sama HTML-elementtijoukko: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1219
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "Nykyinen käännös"
+msgstr "Fluent-käännöksen sisäinen HTML"
 
 #: weblate/checks/fluent/inner_html.py:1220
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr ""
+msgstr "Fluent-kohteen tulee olla kelvollinen sisäinen HTML, joka vastaa"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -3601,7 +3608,7 @@ msgstr "Fluent-osien tulee täsmätä"
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
 msgid "Fluent {attribute} attribute is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent {attribute} -määritteestä puuttuu {reference} Fluent-viite."
 
 #: weblate/checks/fluent/references.py:381
 #, python-brace-format
@@ -3609,11 +3616,13 @@ msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
 msgstr ""
+"Fluent {attribute} -attribuutista puuttuu {reference} Fluent -viite "
+"seuraavista muunnelmista: {variant_list}."
 
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent-arvosta puuttuu {reference} Fluent -viite."
 
 #: weblate/checks/fluent/references.py:395
 #, python-brace-format
@@ -3621,6 +3630,8 @@ msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
 msgstr ""
+"Fluent-arvosta puuttuu {reference} Fluent -viite seuraaville muunnelmille: "
+"{variant_list}."
 
 #: weblate/checks/fluent/references.py:411
 #, python-brace-format
@@ -3628,6 +3639,8 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
 msgstr ""
+"Fluent {attribute} -attribuutilla on odottamaton ylimääräinen {reference} "
+"Fluent -viite."
 
 #: weblate/checks/fluent/references.py:419
 #, python-brace-format
@@ -3635,11 +3648,13 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
+"Fluent {attribute} -attribuutilla on odottamaton ylimääräinen {reference} "
+"Fluent -viite seuraaville muunnelmille: {variant_list}."
 
 #: weblate/checks/fluent/references.py:429
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent-arvolla on odottamaton ylimääräinen {reference} Fluent -viite."
 
 #: weblate/checks/fluent/references.py:435
 #, python-brace-format
@@ -3647,6 +3662,8 @@ msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
 msgstr ""
+"Fluent-arvolla on odottamaton ylimääräinen {reference} Fluent -viite "
+"seuraaville muunnelmille: {variant_list}."
 
 #: weblate/checks/fluent/references.py:524
 #, python-brace-format
@@ -3655,6 +3672,9 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
+"Seuraavilla alkuperäisen Fluent {attribute} -attribuutin muunnelmilla ei ole "
+"vähintään yhtä vastaavaa muunnelmaa käännöksessä, jossa on sama Fluent-"
+"viittausjoukko: {variant_list}."
 
 #: weblate/checks/fluent/references.py:534
 #, python-brace-format
@@ -3663,6 +3683,9 @@ msgid ""
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"Seuraavilla alkuperäisen Fluent-arvon muunnelmilla ei ole vähintään yhtä "
+"vastaavaa muunnelmaa käännöksessä, jossa on sama Fluent-viittausjoukko: "
+"{variant_list}."
 
 #: weblate/checks/fluent/references.py:550
 #, python-brace-format
@@ -3670,6 +3693,8 @@ msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
 msgstr ""
+"Käännetyllä Fluent {attribute} -attribuutilla ei ole vastaavaa muunnelmaa "
+"alkuperäisessä, jossa on sama Fluent-viittausjoukko."
 
 #: weblate/checks/fluent/references.py:558
 #, python-brace-format
@@ -3678,12 +3703,17 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
+"Seuraavilla muunnelmilla käännetyssä Fluent {attribute} -attribuutissa ei "
+"ole vastaavaa muunnelmaa alkuperäisessä, jossa on sama Fluent-viittausjoukko:"
+" {variant_list}."
 
 #: weblate/checks/fluent/references.py:569
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
 msgstr ""
+"Käännetyllä Fluent-arvolla ei ole vastaavaa varianttia alkuperäisessä, jossa "
+"on sama Fluent-viittausjoukko."
 
 #: weblate/checks/fluent/references.py:576
 #, python-brace-format
@@ -3692,6 +3722,8 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"Seuraavilla käännetyn Fluent-arvon muunnelmilla ei ole vastaavaa muunnelmaa "
+"alkuperäisessä, jossa on sama Fluent-viittausjoukko: {variant_list}."
 
 #: weblate/checks/fluent/references.py:670
 msgid "Fluent references"
@@ -3809,7 +3841,7 @@ msgstr "Python-aaltosuljemuotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:667
 msgid "Single {} encountered in the format string."
-msgstr ""
+msgstr "Yksittäinen {} havaittiin muotomerkkijonossa."
 
 #: weblate/checks/format.py:694
 msgid "C# format"
@@ -3896,19 +3928,19 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "Seuraavia termejä ei ole käännetty sanaston mukaan: {}"
 
 #: weblate/checks/glossary.py:89
-#, fuzzy
-#| msgid "Insert tab character"
 msgid "Prohibited initial character"
-msgstr "Lisää sarkainmerkki"
+msgstr "Kielletty alkumerkki"
 
 #: weblate/checks/glossary.py:90
 msgid "The string starts with a prohibited character in CSV"
-msgstr ""
+msgstr "Merkkijono alkaa kielletyllä merkillä CSV:ssa"
 
 #: weblate/checks/glossary.py:104
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
 msgstr ""
+"Merkkijono alkaa yhdellä tai useammalla seuraavista kielletyistä merkeistä: "
+"{}"
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
@@ -4055,31 +4087,25 @@ msgstr "Käännös käyttää turvatonta HTML-merkintää"
 
 #: weblate/checks/markup.py:398
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "Epäjohdonmukaiset reStructuredText-viittaukset"
 
 #: weblate/checks/markup.py:400
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
+"Epäjohdonmukaiset reStructuredText-termiviittaukset käännetyssä viestissä."
 
 #: weblate/checks/markup.py:432
-#, fuzzy
-#| msgid "%(count)s string is not being translated here."
-#| msgid_plural "%(count)s strings are not being translated here."
 msgid "Inconsistent links in the translated message."
-msgstr "Yhtä tekstiä ei käännetä täällä."
+msgstr "Epäjohdonmukaiset linkit käännetyssä viestissä."
 
 #: weblate/checks/markup.py:545
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "reStructuredText syntax error"
-msgstr "reStructuredText"
+msgstr "reStructuredText syntaksivirhe"
 
 #: weblate/checks/markup.py:546
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "Fluent-syntaksivirhe käännöksessä"
+msgstr "reStructuredText syntaksivirhe käännöksessä."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -4129,6 +4155,8 @@ msgstr "Käännöksen ei tulisi ylittää määrättyä kokoa tekstiksi renderö
 msgid ""
 "It fits into given boundaries. The rendering is shown for your convenience."
 msgstr ""
+"Se sopii annettuihin rajoihin. Hahmonnointi näytetään käyttömukavuutesi "
+"vuoksi."
 
 #: weblate/checks/ruby.py:54
 msgid "Ruby format"
@@ -4557,10 +4585,8 @@ msgid "TermBase eXchange file"
 msgstr "TermBase eXchange -tiedosto"
 
 #: weblate/formats/ttkit.py:2089
-#, fuzzy
-#| msgid "mi18n lang file"
 msgid "@draggable/i18n lang file"
-msgstr "mi18n lang -tiedosto"
+msgstr "@draggable/i18n -kielitiedosto"
 
 #: weblate/formats/ttkit.py:2098
 msgid "Stringsdict file"
@@ -5343,6 +5369,8 @@ msgstr "Azure OpenAI -päätepisteen URL-osoite"
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr ""
+"Ilmentymän päätepisteen URL-osoite, esim. "
+"https://ilmentymani.openai.azure.com."
 
 #: weblate/machinery/forms.py:423
 msgctxt "Automatic suggestion service configuration"
@@ -5364,12 +5392,9 @@ msgid "File"
 msgstr "Tiedosto"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr ""
-"Voit ulosladata seuraavan muotoisen tiedoston: TMX, JSON, XLIFF, PO, CSV."
+msgstr "Voit ulosladata seuraavan muotoisen tiedoston: %s."
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5397,10 +5422,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "Vahvista kaikkien käännösmuistimerkintöjen poistaminen"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "Kuvatyyppiä ei tueta: %s"
+msgstr "Ei tuettu tiedostopääte: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -6832,10 +6856,8 @@ msgid "Members"
 msgstr "Jäsenet"
 
 #: weblate/templates/accounts/user.html:335
-#, fuzzy
-#| msgid "site wide"
 msgid "Site-wide team"
-msgstr "sivustonlaajuinen"
+msgstr "Sivustonlaajuinen joukkue"
 
 #: weblate/templates/accounts/user.html:345
 msgid "Remove user from this team"
@@ -7038,10 +7060,8 @@ msgid "Configure"
 msgstr "Määrittele"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
-msgstr "Lisäosat voidaan asentaa myös projektiin ja komponenttialueeseen."
+msgstr "Lisäosat voidaan asentaa myös projekti- ja komponenttitasolle."
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -7062,10 +7082,8 @@ msgid "Available add-ons"
 msgstr "Saatavilla olevat lisäosat"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "Lisäosan voi asentaa vain komponenttiin."
+msgstr "Lisäosan voi asentaa vain komponenttitasolle."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -8092,10 +8110,8 @@ msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "Monista komponenttia"
+msgstr "Monista tämä komponentti"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -10145,7 +10161,7 @@ msgstr "Muisti täytetään tämän jälkeen nykyisillä käännöksillä."
 #: weblate/templates/memory/index.html:230
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
-msgstr ""
+msgstr "Merkinnät %(source_language)s:lle %(target_language)s:een"
 
 #: weblate/templates/memory/index.html:244
 msgid "Shared translation memory"
@@ -10952,6 +10968,8 @@ msgstr ""
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
 msgstr ""
+"Ei-koodiprojektit (kuten kirjat tai graafinen sisältö) ovat myös "
+"tervetulleita."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
@@ -11316,6 +11334,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
 msgstr ""
+"<a href=\"%(url)s\">Järjestä projekti</a> ja muuta sen URL-osoite-slugia tai "
+"poista se."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
