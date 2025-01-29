@@ -217,7 +217,12 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         # List strings with different sources
         # Limit this to 20 strings, otherwise the resulting query is too slow
         matches = (
-            units.values("target__md5", "translation__language", "translation__plural")
+            units.values(
+                "target__lower__md5",
+                "target",
+                "translation__language",
+                "translation__plural",
+            )
             .annotate(source__count=Count("source", distinct=True))
             .filter(source__count__gt=1)
             .order_by("target__md5")[:20]
@@ -231,7 +236,8 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
                 reduce(
                     lambda x, y: x
                     | (
-                        Q(target__md5=y["target__md5"])
+                        Q(target__lower__md5=y["target__lower__md5"])
+                        & Q(target=y["target"])
                         & Q(translation__language=y["translation__language"])
                         & Q(translation__plural=y["translation__plural"])
                     ),
