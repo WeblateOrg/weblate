@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 from functools import cache, lru_cache
 from itertools import chain
 from typing import TYPE_CHECKING
@@ -69,7 +69,7 @@ XML_ENTITY_MATCH = re.compile(
 )
 
 RST_REF_MATCH = re.compile(
-    r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`([^<]*?[^ ])`|`[^<]+?<([^<]+?)>`))(?!`)(?=\W|$)"
+    r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`([^< ][^<]*?[^ ])`|`[^< ][^<]*?<([^<]+?)>`))(?!`)(?=\W|$)"
 )
 RST_FOOTNOTE_MATCH = re.compile(r"(?:(?<=\W)|^)(\[#[^]]+\]_)(?=\W|$)")
 RST_INLINE_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`<]*[^` <] <[^`> ]*>`_)(?=\W|$)")
@@ -405,26 +405,24 @@ class RSTReferencesCheck(RSTBaseCheck):
         "Inconsistent reStructuredText term references in the translated message."
     )
 
-    def extract_references(self, text: str) -> dict[str, str]:
-        result: dict[str, str] = {
-            role
-            if role in RST_TRANSLATABLE
-            else f"{role}{target or named_target}": text
+    def extract_references(self, text: str) -> tuple[dict[str, str], Counter]:
+        result: list[tuple[str, str]] = [
+            (
+                role if role in RST_TRANSLATABLE else f"{role}{target or named_target}",
+                text,
+            )
             for text, role, target, named_target in RST_REF_MATCH.findall(text)
-        }
-        result.update(
-            {footnote: footnote for footnote in RST_FOOTNOTE_MATCH.findall(text)}
+        ]
+        result.extend(
+            (footnote, footnote) for footnote in RST_FOOTNOTE_MATCH.findall(text)
         )
-        return result
+        return dict(result), Counter(item[0] for item in result)
 
     def check_single(
         self, source: str, target: str, unit: Unit
     ) -> bool | MissingExtraDict:
-        src_references = self.extract_references(source)
-        tgt_references = self.extract_references(target)
-
-        src_set = set(src_references.keys())
-        tgt_set = set(tgt_references.keys())
+        src_references, src_set = self.extract_references(source)
+        tgt_references, tgt_set = self.extract_references(target)
 
         errors: list[str] = []
 
