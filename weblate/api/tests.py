@@ -3921,6 +3921,14 @@ class UnitAPITest(APIBaseTest):
             method="patch",
             code=400,
             superuser=True,
+            request={"labels": ["name"]},
+        )
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=400,
+            superuser=True,
             request={"labels": [label2.id]},
         )
 
