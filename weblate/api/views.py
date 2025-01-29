@@ -1681,16 +1681,17 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             serializer_class = BilingualUnitSerializer
 
         if request.method == "POST":
-            if not (can_add := request.user.has_perm("unit.add", obj)):
-                self.permission_denied(request, can_add.reason)
-            serializer = serializer_class(
-                data=request.data, context={"translation": obj}
-            )
-            serializer.is_valid(raise_exception=True)
+            with transaction.atomic():
+                if not (can_add := request.user.has_perm("unit.add", obj)):
+                    self.permission_denied(request, can_add.reason)
+                serializer = serializer_class(
+                    data=request.data, context={"translation": obj}
+                )
+                serializer.is_valid(raise_exception=True)
 
-            unit = obj.add_unit(request, **serializer.as_kwargs())
-            outserializer = UnitSerializer(unit, context={"request": request})
-            return Response(outserializer.data, status=HTTP_200_OK)
+                unit = obj.add_unit(request, **serializer.as_kwargs())
+                outserializer = UnitSerializer(unit, context={"request": request})
+                return Response(outserializer.data, status=HTTP_200_OK)
 
         query_string = request.GET.get("q", "")
         try:
