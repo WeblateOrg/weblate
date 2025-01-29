@@ -37,7 +37,7 @@ The Python API is shipped separately, you need to install the
 
     :param key: User key
     :type key: str
-    :param url: API server URL, if not specified default is used
+    :param url: API server URL, if not specified default is used.
     :type url: str
     :param config: Configuration object, overrides any other parameters.
     :type config: wlc.config.WeblateConfig
