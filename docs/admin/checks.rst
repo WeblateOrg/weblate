@@ -54,8 +54,8 @@ Both single and double quotes are accepted, special characters are being escaped
 
    placeholders:r"^#*"
 
-To verify that translators do not change the heading of a Markdown document:
-A failing check will be triggered if the string '### Index' is translated as '# Indice'
+To verify that translators do not change the heading of a Markdown document.
+A failing check will be triggered if the string ``### Index`` is translated as ``# Indice``.
 
 .. code-block:: text
 
