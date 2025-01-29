@@ -93,7 +93,12 @@ from weblate.utils.render import (
     validate_repoweb,
 )
 from weblate.utils.site import get_site_url
-from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_FUZZY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 from weblate.utils.stats import ComponentStats
 from weblate.utils.validators import (
     validate_filename,
@@ -851,6 +856,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         changed_setup = False
         changed_template = False
         changed_variant = False
+        changed_enforced_checks = False
         create = True
 
         # Sets the key_filter to blank if the file format is bilingual
@@ -896,6 +902,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             if changed_git:
                 self.drop_repository_cache()
 
+            changed_enforced_checks = (
+                old.enforced_checks != self.enforced_checks and self.enforced_checks
+            )
+
             create = False
         elif self.is_glossary:
             # Creating new glossary
@@ -931,6 +941,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 changed_setup=changed_setup,
                 changed_template=changed_template,
                 changed_variant=changed_variant,
+                changed_enforced_checks=changed_enforced_checks,
                 skip_push=kwargs.get("force_insert", False),
                 create=create,
             )
@@ -941,6 +952,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 changed_setup=changed_setup,
                 changed_template=changed_template,
                 changed_variant=changed_variant,
+                changed_enforced_checks=changed_enforced_checks,
                 skip_push=kwargs.get("force_insert", False),
                 create=create,
             )
@@ -2460,7 +2472,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 raise InvalidTemplateError(info=str(exc)) from exc
         self._template_check_done = True
 
-    def _create_translations(  # noqa: C901
+    def _create_translations(  # noqa: C901,PLR0915
         self,
         force: bool = False,
         langs: list[str] | None = None,
@@ -2470,6 +2482,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         change: int | None = None,
     ) -> bool:
         """Load translations from VCS."""
+        from weblate.trans.tasks import update_enforced_checks
+
         self.store_background_task()
 
         # Store the revision as add-ons might update it later
@@ -2651,6 +2665,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.processed_revision = current_revision
         # Avoid using save() here
         Component.objects.filter(pk=self.pk).update(processed_revision=current_revision)
+
+        if self.enforced_checks:
+            update_enforced_checks.delay_on_commit(component=self.pk)
 
         self.log_info("updating completed")
         return was_change
@@ -3183,6 +3200,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         changed_setup: bool,
         changed_template: bool,
         changed_variant: bool,
+        changed_enforced_checks: bool,
         skip_push: bool,
         create: bool,
     ) -> None:
@@ -3211,6 +3229,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Update variants (create_translation does this on change)
         if changed_variant and not was_change:
             self.update_variants()
+
+        # Update changed enforced checks
+        if changed_enforced_checks:
+            self.update_enforced_checks()
 
         self.progress_step(100)
         self.translations_count = None
@@ -3850,6 +3872,24 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return self.repository.status()
         except RepositoryError as error:
             return "{}\n\n{}".format(gettext("Could not get repository status!"), error)
+
+    def update_enforced_checks(self) -> None:
+        from weblate.trans.models import Unit
+
+        units = Unit.objects.filter(
+            check__name__in=self.enforced_checks,
+            translation__component=self,
+            state__in=(STATE_TRANSLATED, STATE_APPROVED),
+        )
+
+        for unit in units.select_for_update():
+            unit.translate(
+                None,
+                unit.target,
+                STATE_FUZZY,
+                change_action=Change.ACTION_ENFORCED_CHECK,
+                propagate=False,
+            )
 
 
 @receiver(m2m_changed, sender=Component.links.through)

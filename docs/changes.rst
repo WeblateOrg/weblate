@@ -24,6 +24,7 @@ Not yet released.
 * Compatibility with third-party static files storage backends for Django.
 * Improved language compatibility in :ref:`mt-microsoft-translator`.
 * :ref:`check-reused` check gracefully handles languages which are not case sensitive.
+* :ref:`component-enforced_checks` are now applied on strings imported from the repository.
 
 **Bug fixes**
 

@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from glob import glob
 from operator import itemgetter
 from pathlib import Path
+from typing import Literal
 
 from celery import current_task
 from celery.schedules import crontab
@@ -353,19 +354,33 @@ def component_after_save(
     changed_setup: bool,
     changed_template: bool,
     changed_variant: bool,
+    changed_enforced_checks: bool,
     skip_push: bool,
     create: bool,
-):
+) -> dict[Literal["component"], int]:
     component = Component.objects.get(pk=pk)
     component.after_save(
         changed_git=changed_git,
         changed_setup=changed_setup,
         changed_template=changed_template,
         changed_variant=changed_variant,
+        changed_enforced_checks=changed_enforced_checks,
         skip_push=skip_push,
         create=create,
     )
     return {"component": pk}
+
+
+@app.task(
+    trail=False,
+    autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
+    retry_backoff=60,
+)
+@transaction.atomic
+def update_enforced_checks(component: int | Component) -> None:
+    if isinstance(component, int):
+        component = Component.objects.get(pk=component)
+    component.update_enforced_checks()
 
 
 @app.task(trail=False)

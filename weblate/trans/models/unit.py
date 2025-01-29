@@ -1115,10 +1115,10 @@ class Unit(models.Model, LoggerMixin):
 
     def save_backend(
         self,
-        user,
+        user: User,
         propagate: bool = True,
         change_action=None,
-        author=None,
+        author: User | None = None,
         run_checks: bool = True,
         request=None,
     ) -> bool:
@@ -1188,7 +1188,7 @@ class Unit(models.Model, LoggerMixin):
 
     def post_save(
         self,
-        user: User,
+        user: User | None,
         author: User | None,
         change_action: int | None,
         *,
@@ -1220,7 +1220,7 @@ class Unit(models.Model, LoggerMixin):
             )
 
             # Update user stats
-            if save:
+            if save and change.author:
                 change.author.profile.increase_count("translated")
         return change
 
