@@ -11,13 +11,13 @@ privileges, accessible by using the wrench icon top right:
 
 It includes basic overview of your Weblate:
 
-* Support status, see :doc:`support`
-* Backups, see :doc:`backup`
-* Shared translation memory, see :doc:`memory`
-* :ref:`manage-performance` to review Weblate health and length of Celery queues
-* SSH keys management, see :ref:`ssh-repos`
-* Alerts overview for all components, see :ref:`alerts`
-* Users and teams, see :ref:`custom-acl`
+* Support status, see :doc:`support`.
+* Backups, see :doc:`backup`.
+* Shared translation memory, see :doc:`memory`.
+* :ref:`manage-performance` to review Weblate health and length of Celery queues.
+* SSH keys management, see :ref:`ssh-repos`.
+* Alerts overview for all components, see :ref:`alerts`.
+* Users and teams, see :ref:`custom-acl`.
 * :ref:`manage-appearance`.
 * Configure :ref:`machine-translation-setup`.
 * Configure site-wide addons, see :ref:`addons`.
