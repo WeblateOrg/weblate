@@ -24,6 +24,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 from django.utils.translation.trans_real import parse_accept_lang_header
 from weblate_language_data.aliases import ALIASES
+from weblate_language_data.case_insensitive import CASE_INSENSITIVE_LANGS
 from weblate_language_data.countries import DEFAULT_LANGS
 from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS, QTPLURALS
 from weblate_language_data.rtl import RTL_LANGS
@@ -40,6 +41,8 @@ from weblate.utils.validators import validate_plural_formula
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
+
+    from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.models import Unit
@@ -792,10 +795,15 @@ class Language(models.Model, CacheKeyMixin):
 
     def is_case_sensitive(self) -> bool:
         """Detect whether language is case sensitive."""
-        # TODO: this list is very incomplete
-        return not self.is_cjk() and not self.is_base(
-            {"he", "ar", "th", "ru", "uk", "el"}
+        return (
+            self.code not in CASE_INSENSITIVE_LANGS
+            and self.base_code not in CASE_INSENSITIVE_LANGS
         )
+
+    def get_case_sensitivity_display(self) -> StrOrPromise:
+        if self.is_case_sensitive():
+            return gettext("Case-sensitive")
+        return gettext("Case-insensitive")
 
     def has_no_children(self) -> bool:
         """
