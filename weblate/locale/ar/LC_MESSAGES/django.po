@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # mohammadA <mohammadAbdulhadi1@gmail.com>, 2023.
 # ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>, 2023, 2024.
-# Mohammed Al Otaibi <mopes.03.belle@icloud.com>, 2024.
+# Mohammed Al Otaibi <mopes.03.belle@icloud.com>, 2024, 2025.
 # "Mr.k" <mineshtine28546271@gmail.com>, 2024.
 # jonnysemon <jonnysemon@users.noreply.hosted.weblate.org>, 2024.
 msgid ""
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 12:43+0000\n"
-"PO-Revision-Date: 2024-12-08 02:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-01-29 19:26+0000\n"
+"Last-Translator: Mohammed Al Otaibi <mopes.03.belle@icloud.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "application/ar/>\n"
 "Language: ar\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -52,7 +52,7 @@ msgstr "اسم المستخدم هذا محجوز مسبقاً. الرجاء ا�
 #: weblate/templates/auth/team.html:105 weblate/templates/manage/users.html:50
 #: weblate/templates/trans/project-access.html:49
 msgid "Full name"
-msgstr "الاسم الكامل"
+msgstr "الإسم الكامل"
 
 #: weblate/accounts/forms.py:131
 msgid "Name is also used in version control commits."
@@ -163,7 +163,7 @@ msgstr "الموضوع"
 
 #: weblate/accounts/forms.py:563
 msgid "Your name"
-msgstr "اسمك"
+msgstr "أسمك"
 
 #: weblate/accounts/forms.py:565
 msgid "Your e-mail"
@@ -244,7 +244,7 @@ msgstr "إشعارات الترجمة"
 
 #: weblate/accounts/forms.py:858
 msgid "Use default setting"
-msgstr "استخدم الإعداد الافتراضي"
+msgstr "أستخدم الإعداد الإفتراضي"
 
 #: weblate/accounts/forms.py:890
 msgid "Other projects"
@@ -534,10 +534,9 @@ msgid "Semiannual support status review was displayed."
 msgstr ""
 
 #: weblate/accounts/models.py:236
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "دعاه {username} إلى {site_title}."
+msgstr "تمت إضافة المستخدم إلى فريق {team} بواسطة {username}."
 
 #: weblate/accounts/models.py:237
 #, python-brace-format
@@ -589,10 +588,8 @@ msgid "Invited to {project} by {username}."
 msgstr "دعاه {username} إلى {project}."
 
 #: weblate/accounts/models.py:260
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "عُدّلت كلمة السر."
+msgstr "تم تكوين كلمة المرور."
 
 #: weblate/accounts/models.py:266
 msgid "To restore access to your account, please reset your password."
@@ -3210,16 +3207,15 @@ msgid "In display limits"
 msgstr "في حدود العرض"
 
 #: weblate/billing/models.py:461
-#, fuzzy, python-format
-#| msgid "Create project"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "إنشاء مشروع"
-msgstr[1] "إنشاء مشروع"
-msgstr[2] "إنشاء مشروع"
-msgstr[3] "إنشاء مشروع"
-msgstr[4] "إنشاء مشروع"
-msgstr[5] "إنشاء مشروع"
+msgstr[0] "يحتوي على %d مشروع"
+msgstr[1] "يحتوي على %d مشروع"
+msgstr[2] "يحتوي على %d مشروعان"
+msgstr[3] "يحتوي على %d مشاريع"
+msgstr[4] "يحتوي على %d مشروع"
+msgstr[5] "يحتوي على %d مشروع"
 
 #: weblate/billing/models.py:476
 #, fuzzy
@@ -3234,16 +3230,15 @@ msgid "Only public projects are allowed"
 msgstr "كل المشاريع العامة"
 
 #: weblate/billing/models.py:486
-#, fuzzy, python-format
-#| msgid "Renamed component"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "تم إعادة تسمية العنصر"
-msgstr[1] "تم إعادة تسمية العنصر"
-msgstr[2] "تم إعادة تسمية العنصر"
-msgstr[3] "تم إعادة تسمية العنصر"
-msgstr[4] "تم إعادة تسمية العنصر"
-msgstr[5] "تم إعادة تسمية العنصر"
+msgstr[0] "يحتوي على %d مكون"
+msgstr[1] "يحتوي على %d مكون"
+msgstr[2] "يحتوي على %d مكونان"
+msgstr[3] "يحتوي على %d مكونات"
+msgstr[4] "يحتوي على %d مكون"
+msgstr[5] "يحتوي على %d مكون"
 
 #: weblate/billing/models.py:494
 #, fuzzy
@@ -3382,10 +3377,8 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "لا تنتهي السلسلة المصدرية و الترجمة معًا بنفس نقطة التعجّب"
 
 #: weblate/checks/chars.py:321
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
-msgstr "غير متطابقة \\n"
+msgstr "استفهام غير متطابق"
 
 #: weblate/checks/chars.py:323
 #, fuzzy
@@ -3502,16 +3495,15 @@ msgid "Different strings are translated the same."
 msgstr "إشعار عند توفّر سلاسل جديدة لترجمتها"
 
 #: weblate/checks/consistency.py:199
-#, fuzzy, python-format
-#| msgid "Edit source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "تعديل السلاسل المصدرية"
-msgstr[1] "تعديل السلاسل المصدرية"
-msgstr[2] "تعديل السلاسل المصدرية"
-msgstr[3] "تعديل السلاسل المصدرية"
-msgstr[4] "تعديل السلاسل المصدرية"
-msgstr[5] "تعديل السلاسل المصدرية"
+msgstr[0] "سلسلة المصدر الأخرى: %s"
+msgstr[1] "سلسلة المصدر الأخرى: %s"
+msgstr[2] "سلسلة المصدر الأخرى: %s"
+msgstr[3] "سلاسل المصدر الأخرى: %s"
+msgstr[4] "سلاسل المصدر الأخرى: %s"
+msgstr[5] "سلاسل المصدر الأخرى: %s"
 
 #: weblate/checks/consistency.py:200
 #, python-format
@@ -5597,7 +5589,7 @@ msgstr "منطقة خدمة المصادقة"
 #: weblate/machinery/forms.py:170
 msgctxt "Automatic suggestion service configuration"
 msgid "Category"
-msgstr "الفئة"
+msgstr "التصنيف"
 
 #: weblate/machinery/forms.py:173
 msgctxt "Automatic suggestion service configuration"
@@ -6264,17 +6256,15 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/about/donate.html:33
-#, fuzzy
-#| msgid "GitHub username"
 msgctxt "Label on engage page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "اسم مستخدم GitHub"
-msgstr[1] "اسم مستخدم GitHub"
-msgstr[2] "اسم مستخدم GitHub"
-msgstr[3] "اسم مستخدم GitHub"
-msgstr[4] "اسم مستخدم GitHub"
-msgstr[5] "اسم مستخدم GitHub"
+msgstr[0] "نجم GitHub"
+msgstr[1] "نجم GitHub"
+msgstr[2] "نجمان GitHub"
+msgstr[3] "نجوم GitHub"
+msgstr[4] "نجمة GitHub"
+msgstr[5] "نجوم GitHub"
 
 #: weblate/templates/about/donate.html:39
 msgctxt "Label on engage page"
@@ -6288,8 +6278,6 @@ msgstr[4] ""
 msgstr[5] ""
 
 #: weblate/templates/about/donate.html:45
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on engage page"
 msgid "Recent changes"
 msgid_plural "Recent changes"
@@ -7292,29 +7280,27 @@ msgstr[4] "%(count)s تراجم"
 msgstr[5] "%(count)s تراجم"
 
 #: weblate/templates/accounts/user.html:68
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
-msgstr[0] "الإقتراحات المعلقة"
-msgstr[1] "الإقتراحات المعلقة"
-msgstr[2] "الإقتراحات المعلقة"
-msgstr[3] "الإقتراحات المعلقة"
-msgstr[4] "الإقتراحات المعلقة"
-msgstr[5] "الإقتراحات المعلقة"
+msgstr[0] "%(count)s اقتراح"
+msgstr[1] "%(count)s اقتراح"
+msgstr[2] "%(count)s اقتراحان"
+msgstr[3] "%(count)s اقتراحات"
+msgstr[4] "%(count)s اقتراح"
+msgstr[5] "%(count)s اقتراح"
 
 #: weblate/templates/accounts/user.html:76
 #: weblate/templates/mail/pending_suggestions_subject.txt:8
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "الإقتراحات المعلقة"
-msgstr[1] "الإقتراحات المعلقة"
-msgstr[2] "الإقتراحات المعلقة"
-msgstr[3] "الإقتراحات المعلقة"
-msgstr[4] "الإقتراحات المعلقة"
-msgstr[5] "الإقتراحات المعلقة"
+msgstr[0] "%(count)s اقتراح معلق"
+msgstr[1] "%(count)s اقتراح معلق"
+msgstr[2] "%(count)s اقتراحان معلقة"
+msgstr[3] "%(count)s اقتراحات معلقة"
+msgstr[4] "%(count)s اقتراح معلق"
+msgstr[5] "%(count)s اقتراح معلق"
 
 #: weblate/templates/accounts/user.html:84
 #, fuzzy, python-format
@@ -7654,16 +7640,15 @@ msgid "No add-ons currently installed"
 msgstr "لا توجد حاليا أية إضافات مُثبّتة."
 
 #: weblate/templates/addons/addon_list.html:46
-#, fuzzy, python-format
-#| msgid "Installed addons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "الإضافات المُثبّتة"
-msgstr[1] "الإضافات المُثبّتة"
-msgstr[2] "الإضافات المُثبّتة"
-msgstr[3] "الإضافات المُثبّتة"
-msgstr[4] "الإضافات المُثبّتة"
-msgstr[5] "الإضافات المُثبّتة"
+msgstr[0] "تم تثبيت %(count)s وظيفة إضافية"
+msgstr[1] "تم تثبيت %(count)s وظيفة إضافية"
+msgstr[2] "تم تثبيت %(count)s وظيفتان إضافية"
+msgstr[3] "تم تثبيت %(count)s وظائف إضافية"
+msgstr[4] "تم تثبيت %(count)s وظيفة إضافية"
+msgstr[5] "تم تثبيت %(count)s وظيفة إضافية"
 
 #: weblate/templates/addons/addon_list.html:59
 msgid "Uninstall"
@@ -7689,16 +7674,15 @@ msgid "Add-ons can also be installed at the project and the component levels."
 msgstr "هناك بعض مِن التنبيهات بشأن هذا العنصر"
 
 #: weblate/templates/addons/addon_list.html:77
-#, fuzzy, python-format
-#| msgid "There are no addons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "لا توجد حاليا أية إضافات مُثبّتة."
-msgstr[1] "لا توجد حاليا أية إضافات مُثبّتة."
-msgstr[2] "لا توجد حاليا أية إضافات مُثبّتة."
-msgstr[3] "لا توجد حاليا أية إضافات مُثبّتة."
-msgstr[4] "لا توجد حاليا أية إضافات مُثبّتة."
-msgstr[5] "لا توجد حاليا أية إضافات مُثبّتة."
+msgstr[0] "إدارة الوظائف الإضافية على مستوى المشروع (تم تثبيت %(count)s)"
+msgstr[1] "إدارة الوظائف الإضافية على مستوى المشروع (تم تثبيت %(count)s)"
+msgstr[2] "إدارة الوظائف الإضافية على مستوى المشروع (تم تثبيت %(count)s)"
+msgstr[3] "إدارة الوظائف الإضافية على مستوى المشروع (تم تثبيت %(count)s)"
+msgstr[4] "إدارة الوظائف الإضافية على مستوى المشروع (تم تثبيت %(count)s)"
+msgstr[5] "إدارة الوظائف الإضافية على مستوى المشروع (تم تثبيت %(count)s)"
 
 #: weblate/templates/addons/addon_list.html:85
 #, python-format
@@ -9161,8 +9145,8 @@ msgstr[4] ""
 "الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
 "%(percent)s%%."
 msgstr[5] ""
-"يحتوي مشروع الترجمة ل %(project)s حاليا على سلاسل %(count)s للترجمة وهو "
-"<strong>%(percent)s%% مكتمل</strong>."
+"يحتوي مشروع الترجمة لـ %(project)s حاليًا على <strong>%(count)s سلاسل</"
+"strong> للترجمة وهو <strong>%(percent)s%% مكتمل</strong>."
 
 #: weblate/templates/engage.html:51
 #, fuzzy, python-format
@@ -9198,8 +9182,8 @@ msgstr[4] ""
 "الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
 "%(percent)s%%."
 msgstr[5] ""
-"يحتوي مشروع الترجمة ل %(project)s حاليا على <strong>سلاسل %(count)s</strong> "
-"للترجمة."
+"يحتوي مشروع الترجمة الخاص بـ %(project)s حاليًا على <strong>%(count)s سلاسل</"
+"strong> للترجمة."
 
 #: weblate/templates/engage.html:53
 #, fuzzy, python-format
@@ -9212,7 +9196,7 @@ msgstr[1] "شارك في <strong>%(project)s</strong>."
 msgstr[2] "شارك في <strong>%(project)s</strong>."
 msgstr[3] "شارك في <strong>%(project)s</strong>."
 msgstr[4] "شارك في <strong>%(project)s</strong>."
-msgstr[5] "تتم ترجمته إلى لغات <strong> %(count)s </strong>."
+msgstr[5] "يتم ترجمته إلى <strong>لغات %(count)s</strong>."
 
 #: weblate/templates/engage.html:55
 #, python-format
@@ -10601,16 +10585,15 @@ msgstr[4] "%(count)s الإقتراحات المعلقة في %(component)s"
 msgstr[5] "%(count)s الإقتراحات المعلقة في %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "الإقتراحات المعلقة"
-msgstr[1] "الإقتراحات المعلقة"
-msgstr[2] "الإقتراحات المعلقة"
-msgstr[3] "الإقتراحات المعلقة"
-msgstr[4] "الإقتراحات المعلقة"
-msgstr[5] "الإقتراحات المعلقة"
+msgstr[0] "%(count)s سلسلة غير مكتملة"
+msgstr[1] "%(count)s سلسلة غير مكتملة"
+msgstr[2] "%(count)s سلسلتين غير مكتملة"
+msgstr[3] "%(count)s سلاسل غير مكتملة"
+msgstr[4] "%(count)s سلسلة غير مكتملة"
+msgstr[5] "%(count)s سلسلة غير مكتملة"
 
 #: weblate/templates/mail/translated_component_subject.txt:3
 #, fuzzy, python-format
@@ -10619,10 +10602,9 @@ msgid "Translations in all languages have been completed in %(component)s"
 msgstr "الترجمات في لغات عديدة فيها فحوص فاشلة"
 
 #: weblate/templates/mail/translated_language_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translation comment has been deleted."
+#, python-format
 msgid "%(translation)s has been completed"
-msgstr "تمت إزالة تعليق عن الترجمة."
+msgstr "تم الانتهاء من %(translation)s"
 
 #: weblate/templates/manage/alerts.html:11
 msgid "Component alerts"
@@ -11597,10 +11579,8 @@ msgid "Purchase a support package"
 msgstr "شراء حزمة الدعم"
 
 #: weblate/templates/snippets/donate.html:14
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Give to Weblate"
-msgstr "تبرع لِ Weblate"
+msgstr "أعط إلى Weblate"
 
 #: weblate/templates/snippets/editor.html:11
 msgid ""
@@ -11932,11 +11912,9 @@ msgid "Needs editing"
 msgstr "تحتاج إلى تعديل"
 
 #: weblate/templates/snippets/info.html:342
-#, fuzzy
-#| msgid "Read only"
 msgctxt "Number of strings"
 msgid "Read-only"
-msgstr "يقرأ فقط"
+msgstr "للقراءة فقط"
 
 #: weblate/templates/snippets/info.html:351
 #, fuzzy
@@ -14314,10 +14292,9 @@ msgid "File mask matches the main component."
 msgstr "عرض عنصر الترجمة"
 
 #: weblate/trans/discovery.py:318
-#, fuzzy, python-brace-format
-#| msgid "This translation does not yet exist."
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "هذه الترجمة غير موجودة بعد."
+msgstr "{filename} ({parameter}) غير موجود."
 
 #: weblate/trans/feeds.py:31 weblate/trans/feeds.py:68
 #, python-format
@@ -17089,7 +17066,7 @@ msgstr[1] "%(count).0sأسبوع واحد"
 msgstr[2] "%(count).0sأسبوعان"
 msgstr[3] "%(count)s أسابيع"
 msgstr[4] "%(count)s أسبوعًا"
-msgstr[5] "%(count)s أسبوع"
+msgstr[5] "%(count)s منذ أسابيع"
 
 #: weblate/trans/templatetags/translations.py:710
 msgid "a week ago"
@@ -18085,7 +18062,7 @@ msgstr "يقرأ فقط"
 #: weblate/utils/state.py:47
 msgctxt "String state"
 msgid "Waiting for review"
-msgstr "تنتظر إعادة النظر فيها"
+msgstr "في إنتظار المراجعة"
 
 #: weblate/utils/validators.py:60
 #, python-brace-format
