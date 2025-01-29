@@ -440,6 +440,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_NEW_UNIT_UPLOAD = 73
     ACTION_SOURCE_UPLOAD = 74
     ACTION_COMPLETED_COMPONENT = 75
+    ACTION_ENFORCED_CHECK = 76
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -588,6 +589,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_SOURCE_UPLOAD, gettext_lazy("Translation updated by source upload")),
         # Translators: Name of event in the history
         (ACTION_COMPLETED_COMPONENT, gettext_lazy("Component translation completed")),
+        # Translators: Name of event in the history
+        (ACTION_ENFORCED_CHECK, gettext_lazy("Applied enforced check")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -625,6 +628,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_SOURCE_CHANGE,
         ACTION_EXPLANATION,
         ACTION_NEW_UNIT,
+        ACTION_ENFORCED_CHECK,
     }
 
     # Actions shown on the repository management page
