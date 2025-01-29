@@ -1624,7 +1624,12 @@ class Unit(models.Model, LoggerMixin):
             self.state = self.original_state = STATE_FUZZY
             self.save(run_checks=False, same_content=True, update_fields=["state"])
 
-        if user and self.target != self.old_unit["target"]:
+        if (
+            user
+            and not user.is_bot
+            and user.is_active
+            and self.target != self.old_unit["target"]
+        ):
             self.update_translation_memory(user)
 
         if change_action == Change.ACTION_AUTO:
