@@ -404,8 +404,8 @@ be made simple using wildcards, or it can use the full power of regular expressi
 The simple matching uses ``**`` for component name and ``*`` for language, for
 example: ``**/*.po``
 
-The regular expression has to contain groups named `component` and `language`.
-For example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\.po``
+The regular expression has to contain groups named `component` and `language`,
+for example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\.po``.
 
 The import matches existing components based on files and adds the ones that
 do not exist. It does not change already existing ones.
