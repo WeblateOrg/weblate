@@ -23,6 +23,7 @@ Not yet released.
 * Automatically use DeepL API Free endpoint for the DeepL API Free authentication keys in :ref:`mt-deepl`.
 * Compatibility with third-party static files storage backends for Django.
 * Improved language compatibility in :ref:`mt-microsoft-translator`.
+* :ref:`check-reused` check gracefully handles languages which are not case sensitive.
 
 **Bug fixes**
 

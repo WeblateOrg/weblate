@@ -15,6 +15,7 @@ from weblate.checks.consistency import (
 )
 from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import MockUnit
+from weblate.lang.models import Language
 from weblate.trans.models import Change
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED
@@ -144,13 +145,13 @@ class ConsistencyCheckTest(ViewTestCase):
 
     def test_reuse(self) -> None:
         check = ReusedCheck()
-        self.assertEqual(check.check_component(self.component), [])
+        self.assertEqual(list(check.check_component(self.component)), [])
 
         # Add non-triggering units
         unit = self.add_unit(self.translation_1, "one", "One", "Jeden")
         unit = self.add_unit(self.translation_2, "one", "One", "Jeden", increment=False)
         self.assertFalse(check.check_target_unit([], [], unit))
-        self.assertEqual(check.check_component(self.component), [])
+        self.assertEqual(list(check.check_component(self.component)), [])
 
         # Add triggering unit
         unit2 = self.add_unit(self.translation_2, "two", "Two", "Jeden")
@@ -159,7 +160,7 @@ class ConsistencyCheckTest(ViewTestCase):
         unit3 = self.add_unit(self.translation_2, "three", "Three", "Jeden")
         self.assertTrue(check.check_target_unit([], [], unit3))
 
-        self.assertNotEqual(check.check_component(self.component), [])
+        self.assertNotEqual(list(check.check_component(self.component)), [])
 
         # Run all checks
         unit2.run_checks()
@@ -177,19 +178,38 @@ class ConsistencyCheckTest(ViewTestCase):
 
     def test_reuse_nocontext(self) -> None:
         check = ReusedCheck()
-        self.assertEqual(check.check_component(self.component), [])
+        self.assertEqual(list(check.check_component(self.component)), [])
 
         # Add non-triggering units
         unit = self.add_unit(self.translation_1, "", "One", "Jeden")
         unit = self.add_unit(self.translation_2, "", "One", "Jeden", increment=False)
         self.assertFalse(check.check_target_unit([], [], unit))
-        self.assertEqual(check.check_component(self.component), [])
+        self.assertEqual(list(check.check_component(self.component)), [])
 
         # Add triggering unit
         unit = self.add_unit(self.translation_2, "", "Two", "Jeden")
         self.assertTrue(check.check_target_unit([], [], unit))
 
-        self.assertNotEqual(check.check_component(self.component), [])
+        self.assertNotEqual(list(check.check_component(self.component)), [])
+
+    def test_reuse_case(self) -> None:
+        check = ReusedCheck()
+        self.assertEqual(list(check.check_component(self.component)), [])
+        self.translation_1.language = Language.objects.get(code="he")
+        self.translation_1.save()
+        self.translation_2.language = Language.objects.get(code="he")
+        self.translation_2.save()
+
+        # Add non-triggering units
+        unit = self.add_unit(self.translation_1, "", "One", "Jeden")
+        unit2 = self.add_unit(self.translation_2, "", "one", "Jeden")
+        self.assertFalse(check.check_target_unit([], [], unit))
+        # Verify there are no checks triggered
+        self.assertEqual(list(check.check_component(self.component)), [])
+
+        # Run all checks
+        unit2.run_checks()
+        self.assertEqual(Check.objects.filter(name="reused").count(), 0)
 
     def test_consistency(self) -> None:
         check = ConsistencyCheck()
