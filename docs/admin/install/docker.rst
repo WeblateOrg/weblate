@@ -814,7 +814,7 @@ Generic settings
 .. envvar:: WEBLATE_DEFAULT_PULL_MESSAGE
 
     Configures the default title and message for pull requests via API by changing
-    :setting:`DEFAULT_PULL_MESSAGE`
+    :setting:`DEFAULT_PULL_MESSAGE`.
 
     .. seealso::
 
@@ -894,11 +894,11 @@ Generic settings
 
 .. envvar:: WEBLATE_LICENSE_REQUIRED
 
-   Configures :setting:`LICENSE_REQUIRED`
+   Configures :setting:`LICENSE_REQUIRED`.
 
 .. envvar:: WEBLATE_WEBSITE_REQUIRED
 
-   Configures :setting:`WEBSITE_REQUIRED`
+   Configures :setting:`WEBSITE_REQUIRED`.
 
 .. envvar:: WEBLATE_HIDE_VERSION
 
@@ -1476,7 +1476,7 @@ both Weblate and PostgreSQL containers.
 .. envvar:: POSTGRES_SSL_MODE
 
    Configure how PostgreSQL handles SSL in connection to the server, for possible choices see
-   `SSL Mode Descriptions <https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_
+   `SSL Mode Descriptions <https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_.
 
 .. envvar:: POSTGRES_ALTER_ROLE
 
