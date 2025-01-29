@@ -259,7 +259,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         )
 
         # Filter out case differing source for case insensitive languages
-        found: dict[tuple(str, str), set[str]] = defaultdict(set)
+        found: dict[tuple[str, str], set[str]] = defaultdict(set)
         remaining: list[tuple[str, Unit]] = []
         for unit in result:
             if not unit.translation.language.is_case_sensitive():
