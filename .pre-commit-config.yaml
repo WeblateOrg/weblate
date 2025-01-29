@@ -114,6 +114,12 @@ repos:
     types: [rst]
     entry: http://(?!example\.|[a-z]*\.example\.|weblate:|localhost|127\.0\.0\.1|user:password@proxy)
     language: pygrep
+  - id: rst-bullet-stop
+    name: Changes end with a stop
+    description: Bullet list in changes should end with a stop.
+    files: docs/changes\.rst
+    entry: ^ *\* .*[^.]\n$
+    language: pygrep
 - repo: https://github.com/sphinx-contrib/sphinx-lint
   rev: v1.0.0
   hooks:

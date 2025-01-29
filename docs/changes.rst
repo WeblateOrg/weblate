@@ -114,7 +114,7 @@ Released on December 16th 2024.
 **Improvements**
 
 * :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
-* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate Component`)
+* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate Component`).
 * Included username when generating :ref:`credits`.
 * :ref:`bulk-edit` shows a preview of matched strings.
 * :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
@@ -273,7 +273,7 @@ Released on October 15th 2024.
 **Compatibility**
 
 * Weblate now requires Python 3.11 or newer.
-* :ref:`mt-aws` now requires the `TranslateFullAccess` permission
+* :ref:`mt-aws` now requires the `TranslateFullAccess` permission.
 
 **Upgrading**
 
@@ -595,7 +595,7 @@ Released on April 20th 2024.
 
 * :ref:`addons` can be now installed project-wide and site-wide.
 
-* API improvements
+* API improvements.
 
   * Added :http:get:`/api/categories/(int:id)/statistics/`.
   * Added :http:get:`/api/projects/(string:project)/file/`.
@@ -828,7 +828,7 @@ Released on November 16th 2023.
 
 **New features**
 
-* :ref:`vcs-azure-devops`
+* :ref:`vcs-azure-devops`.
 
 **Improvements**
 
