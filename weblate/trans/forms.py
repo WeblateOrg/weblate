@@ -2851,11 +2851,20 @@ class ChangesForm(forms.Form):
 class LabelForm(forms.ModelForm):
     class Meta:
         model = Label
-        fields = ("name", "description", "color")
-        widgets = {"color": ColorWidget()}
+        fields = ("name", "description", "color", "project")
+        widgets = {
+            "color": ColorWidget(),
+            "project": forms.HiddenInput(),
+        }
 
-    def __init__(self, *args, **kwargs) -> None:
+    def clean_project(self):
+        # Ignore any passed value, override by current one
+        return self.project
+
+    def __init__(self, project: Project, *args, **kwargs) -> None:
+        kwargs["initial"] = {"project": project}
         super().__init__(*args, **kwargs)
+        self.project = project
         self.helper = FormHelper(self)
         self.helper.form_tag = False
 
