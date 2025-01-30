@@ -566,6 +566,9 @@ class GitRepository(Repository):
 
         return "\n".join(result)
 
+    def compact(self) -> None:
+        self.execute(["gc"])
+
 
 class GitWithGerritRepository(GitRepository):
     name = "Gerrit"

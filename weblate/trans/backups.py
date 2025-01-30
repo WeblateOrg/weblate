@@ -278,6 +278,12 @@ class ProjectBackup:
         # Store VCS repo in case it is present
         if component.is_repo_link:
             return
+
+        # Compact the repository
+        with component.repository.lock:
+            component.repository.compact()
+
+        # Actually perform the backup
         self.backup_dir(
             backupzip,
             component.full_path,
