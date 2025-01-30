@@ -512,8 +512,10 @@ class ProjectBackup:
         # Apply metadata
         for unit in chain(source_units, units):
             # Labels
-            for label in unit.import_data["labels"]:
-                unit.labels.add(self.labels_map[label])
+            unit.labels.through.objects.bulk_create(
+                unit.labels.through(unit=unit, label=self.labels_map[label])
+                for label in unit.import_data["labels"]
+            )
 
             # Comments
             if unit.import_data["comments"]:
