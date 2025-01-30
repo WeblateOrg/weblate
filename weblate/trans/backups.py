@@ -412,6 +412,13 @@ class ProjectBackup:
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]
         )
+
+        # Fixup linked components
+        if kwargs["repo"].startswith("weblate:"):
+            old_slug = f"weblate://{self.data['project']['slug']}/"
+            new_slug = f"weblate://{self.project.slug}/"
+            kwargs["repo"] = kwargs["repo"].replace(old_slug, new_slug)
+
         component = Component(project=self.project, **kwargs)
         # Trigger pre_save to update git export URL
         pre_save.send(
@@ -616,15 +623,6 @@ class ProjectBackup:
 
             # Create components
             self.load_components(zipfile, self.restore_component)
-
-        # Fixup linked components
-        old_slug = f"/{self.data['project']['slug']}/"
-        new_slug = f"/{project.slug}/"
-        for component in self.project.component_set.filter(
-            repo__istartswith="weblate:"
-        ):
-            component.repo = component.repo.replace(old_slug, new_slug)
-            component.save()
 
         return self.project
 
