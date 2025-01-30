@@ -92,9 +92,11 @@ def is_notificable_action(action: int) -> bool:
 def dispatch_changes_notifications(changes: Iterable[Change]) -> None:
     from weblate.accounts.tasks import notify_changes
 
-    notify_changes.delay_on_commit(
-        [change.pk for change in changes if is_notificable_action(change.action)]
-    )
+    notifiable: list[int] = [
+        change.pk for change in changes if is_notificable_action(change.action)
+    ]
+    if notifiable:
+        notify_changes.delay_on_commit(notifiable)
 
 
 class Notification:
