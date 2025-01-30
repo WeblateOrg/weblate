@@ -337,27 +337,47 @@ class ProjectBackup:
         validate_schema(data, "weblate-memory.schema.json")
         return data
 
-    def load_components(self, zipfile, callback: Callable | None = None) -> None:
-        for component in self.list_components(zipfile):
-            with zipfile.open(component) as handle:
-                data = json.load(handle)
-                validate_schema(data, "weblate-component.schema.json")
-                if data["component"]["vcs"] not in VCS_REGISTRY:
-                    msg = f"Component {data['component']['name']} uses unsupported VCS: {data['component']['vcs']}"
+    def load_component(
+        self,
+        zipfile,
+        filename: str,
+        callback: Callable | None = None,
+        *,
+        skip_linked: bool = False,
+    ) -> None:
+        with zipfile.open(filename) as handle:
+            data = json.load(handle)
+            validate_schema(data, "weblate-component.schema.json")
+            if skip_linked and data["component"]["repo"].startswith("weblate:"):
+                return False
+            if data["component"]["vcs"] not in VCS_REGISTRY:
+                msg = f"Component {data['component']['name']} uses unsupported VCS: {data['component']['vcs']}"
+                raise ValueError(msg)
+            # Validate translations have unique languages
+            languages = defaultdict(list)
+            for item in data["translations"]:
+                language = self.import_language(item["language_code"])
+                languages[language.code].append(item["language_code"])
+
+            for code, values in languages.items():
+                if len(values) > 1:
+                    msg = f"Several languages from backup map to single language on this server {values} -> {code}"
                     raise ValueError(msg)
-                # Validate translations have unique languages
-                languages = defaultdict(list)
-                for item in data["translations"]:
-                    language = self.import_language(item["language_code"])
-                    languages[language.code].append(item["language_code"])
 
-                for code, values in languages.items():
-                    if len(values) > 1:
-                        msg = f"Several languages from backup map to single language on this server {values} -> {code}"
-                        raise ValueError(msg)
+            if callback is not None:
+                callback(zipfile, data)
+            return True
 
-                if callback is not None:
-                    callback(zipfile, data)
+    def load_components(self, zipfile, callback: Callable | None = None) -> None:
+        pending: list[str] = []
+        for component in self.list_components(zipfile):
+            processed = self.load_component(
+                zipfile, component, callback, skip_linked=True
+            )
+            if not processed:
+                pending.append(component)
+        for component in pending:
+            self.load_component(zipfile, component, callback, skip_linked=False)
 
     def validate(self) -> None:
         if not self.supports_restore:
