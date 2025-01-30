@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.management import call_command
 from django.db import connection
 from django.test import skipIfDBFeature, skipUnlessDBFeature
 from django.urls import reverse
@@ -128,9 +129,20 @@ class BackupsTest(ViewTestCase):
     def test_restore_4_14(self) -> None:
         restore = ProjectBackup(TEST_BACKUP)
         restore.validate()
-        restored = restore.restore(
+        restore.restore(
             project_name="Restored", project_slug="restored", user=self.user
         )
+        self.verify_restored()
+
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_cli(self) -> None:
+        call_command(
+            "import_projectbackup", "Restored", "restored", "testuser", TEST_BACKUP
+        )
+        self.verify_restored()
+
+    def verify_restored(self):
+        restored = Project.objects.get(slug="restored")
         self.assertEqual(
             16,
             Unit.objects.filter(translation__component__project=restored).count(),

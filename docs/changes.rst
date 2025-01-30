@@ -8,6 +8,7 @@ Not yet released.
 * :ref:`check-rst-references` check to validate reStructuredText references.
 * :ref:`check-rst-syntax` check to validate reStructuredText syntax.
 * API can now produce CSV output.
+* New management command :wladmin:`import_projectbackup` to import :ref:`projectbackup`.
 
 **Improvements**
 
