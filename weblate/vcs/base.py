@@ -562,3 +562,6 @@ class Repository:
 
     def list_remote_branches(self):
         return []
+
+    def compact(self) -> None:
+        return
