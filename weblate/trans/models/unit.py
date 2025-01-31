@@ -1210,17 +1210,18 @@ class Unit(models.Model, LoggerMixin):
             # Update translation stats
             self.translation.invalidate_cache()
 
-            # Postpone completed translation detection
-            transaction.on_commit(
-                partial(
-                    self.translation.detect_completed_translation,
-                    change,
-                    old_translated,
+            # Postpone completed translation detection for translated strings
+            if self.state >= STATE_TRANSLATED:
+                transaction.on_commit(
+                    partial(
+                        self.translation.detect_completed_translation,
+                        change,
+                        old_translated,
+                    )
                 )
-            )
 
             # Update user stats
-            if save and change.author:
+            if save and change.author and not change.author.is_anonymous:
                 change.author.profile.increase_count("translated")
         return change
 
