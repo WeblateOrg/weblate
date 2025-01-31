@@ -73,10 +73,10 @@ The user profile contains your preferences. Name and e-mail address is used in V
     them available too.
 
 Languages
-+++++++++
+---------
 
 Interface language
-------------------
+++++++++++++++++++
 
 Choose the language you want to display the UI in.
 
