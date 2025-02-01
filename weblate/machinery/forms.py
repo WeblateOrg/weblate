@@ -356,6 +356,8 @@ class OpenAIMachineryForm(BaseOpenAIMachineryForm):
         ("auto", pgettext_lazy("OpenAI model selection", "Automatic selection")),
         ("gpt-4o-mini", "GPT-4o mini"),
         ("gpt-4o", "GPT-4o"),
+        ("o3-mini", "OpenAI o3-mini"),
+        ("o3", "OpenAI o3"),
         ("o1-mini", "OpenAI o1-mini"),
         ("o1", "OpenAI o1"),
         ("gpt-4-turbo", "GPT-4 Turbo"),
