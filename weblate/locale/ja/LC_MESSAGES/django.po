@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # amano <amano@users.noreply.hosted.weblate.org>, 2023, 2024.
 # Kazushi Hayama <hosted.weblate.3yoe@1984.pmail.li>, 2023.
-# Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2023, 2024.
+# Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2023, 2024, 2025.
 # yangyangdaji <1504305527@qq.com>, 2023.
 # Ryo Nakano <ryonakaknock3@gmail.com>, 2024.
 # Miyu Sakatsuki <miyu-sakatsuki@outlook.jp>, 2024.
@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 12:43+0000\n"
-"PO-Revision-Date: 2025-01-15 19:23+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-02-01 19:28+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1955,10 +1955,8 @@ msgid "Weblate's REST API"
 msgstr "Weblate の REST API"
 
 #: weblate/api/views.py:153
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Could not obtain repository lock to perform the operation."
-msgstr "リポジトリのロックに失敗しました。他の処理が実行中です。"
+msgstr "リポジトリロックを取得できなかったため、操作を実行できません。"
 
 #: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2749,18 +2747,12 @@ msgid "This translation is currently locked."
 msgstr "この翻訳は現在ロックされています。"
 
 #: weblate/auth/permissions.py:194
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires accepting its contributor license "
 "agreement."
 msgstr "この翻訳に貢献するにあたっては、貢献者同意条項への同意が必要です。"
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
 msgstr "翻訳を保存するには、サインインが必要です。"
 
@@ -2783,13 +2775,9 @@ msgid "Suggestion voting is disabled."
 msgstr "提案への投票は無効になっています。"
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
-msgstr ""
-"この翻訳は提案のみを受け付け、投票によって承認されるようになっています。"
+msgstr "この翻訳は提案のみを受け付け、提案は投票によって承認されるようになっています"
+"。"
 
 #: weblate/auth/permissions.py:235
 #: weblate/templates/snippets/project/state.html:6
@@ -2797,48 +2785,33 @@ msgid "Pay the bills to unlock this project."
 msgstr "プロジェクトのロックを解除するには、料金を支払ってください。"
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
 msgstr "原文の査読は無効になっています。"
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "翻訳の提案は無効になっています。"
+msgstr "翻訳の査読は無効になっています。"
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "オブジェクトの一覧が無効化されています"
+msgstr "査読は無効になっています。"
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "原文の査読が必要です。"
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
 msgstr "この文字列の編集は禁止されています。"
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
-msgstr ""
-"査読者だけが承認済み文字列を変更できます。この文字列を変更する必要があるとお"
+msgstr "査読者だけが承認済み文字列を変更できます。この文字列を変更する必要があるとお"
 "考えの場合は、提案を追加してください。"
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "この翻訳の編集は禁止されています。"
 
@@ -2851,17 +2824,13 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "文字列の追加はコンポーネントの設定で無効になっています。"
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr "用語の翻訳は削除できません。代わりに原文を削除してください。"
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
-msgstr "ファイル形式がこの操作に対応していません。"
+msgstr "このファイル形式には対応していません。"
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -2981,10 +2950,8 @@ msgid "Project website missing!"
 msgstr "プロジェクトの Web サイトがありません！"
 
 #: weblate/billing/models.py:480
-#, fuzzy
-#| msgid "All public projects"
 msgid "Only public projects are allowed"
-msgstr "すべての公開プロジェクト"
+msgstr "公開プロジェクトのみが許可されています"
 
 #: weblate/billing/models.py:486
 #, python-format
@@ -2997,10 +2964,8 @@ msgid "Missing license"
 msgstr "ライセンスがありません"
 
 #: weblate/billing/models.py:500
-#, fuzzy
-#| msgid "OSI approved license"
 msgid "Not a libre license"
-msgstr "OSI 承認ライセンス"
+msgstr "Libre ライセンスではありません"
 
 #: weblate/billing/tasks.py:72
 msgid ""
@@ -3034,10 +2999,8 @@ msgid "The following format strings are extra: {}"
 msgstr "次のフォーマット文字列は余分です: {}"
 
 #: weblate/checks/base.py:335
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following errors were found:"
-msgstr "次のような現象が起きました:"
+msgstr "検出されたエラー:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -4056,31 +4019,24 @@ msgstr "翻訳文には、安全でない HTML マークアップが使用され
 
 #: weblate/checks/markup.py:398
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "reStructuredText 参照の不整合"
 
 #: weblate/checks/markup.py:400
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
-msgstr ""
+msgstr "翻訳メッセージ内の reStructuredText 用語参照の不整合"
 
 #: weblate/checks/markup.py:432
-#, fuzzy
-#| msgid "%(count)s string is not being translated here."
-#| msgid_plural "%(count)s strings are not being translated here."
 msgid "Inconsistent links in the translated message."
-msgstr "%(count)s 個の文字列が未翻訳です。"
+msgstr "翻訳メッセージ内のリンクの不整合"
 
 #: weblate/checks/markup.py:545
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "reStructuredText syntax error"
-msgstr "reStructuredText"
+msgstr "reStructuredText 構文エラー"
 
 #: weblate/checks/markup.py:546
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "翻訳での Fluent 構文エラー"
+msgstr "翻訳文中の reStructuredText 構文エラー"
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5353,11 +5309,9 @@ msgid "File"
 msgstr "ファイル"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr "アップロード可能なファイル形式: TMX、JSON、XLIFF、PO、CSV。"
+msgstr "アップロード可能なファイル形式: %s。"
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5385,10 +5339,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "すべての翻訳メモリ項目の削除確認"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "未対応の画像形式: %s"
+msgstr "未対応のファイル拡張子: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -6792,10 +6745,8 @@ msgid "Members"
 msgstr "メンバー"
 
 #: weblate/templates/accounts/user.html:335
-#, fuzzy
-#| msgid "site wide"
 msgid "Site-wide team"
-msgstr "サイト全体"
+msgstr "サイト全体のチーム"
 
 #: weblate/templates/accounts/user.html:345
 msgid "Remove user from this team"
@@ -6997,11 +6948,9 @@ msgid "Configure"
 msgstr "設定"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
-msgstr ""
-"アドオンは、プロジェクトおよびコンポーネント単位でもインストールできます。"
+msgstr "アドオンは、プロジェクト レベルおよびコンポーネント "
+"レベルでもインストールできます。"
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -7020,10 +6969,8 @@ msgid "Available add-ons"
 msgstr "利用可能なアドオン"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "このアドオンは、コンポーネントにのみインストールできます。"
+msgstr "このアドオンは、コンポーネント レベルにのみインストールできます。"
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -8053,8 +8000,6 @@ msgid "Screenshots"
 msgstr "スクリーンショット"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
 msgstr "コンポーネントの複製"
 
@@ -9741,14 +9686,11 @@ msgstr "サポート パッケージの購入"
 
 #: weblate/templates/manage/index.html:111
 msgid "Contact customer care"
-msgstr ""
+msgstr "カスタマーサポートに問い合わせる"
 
 #: weblate/templates/manage/index.html:120
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Contact us via e-mail"
-msgstr "連絡先メールアドレス"
+msgstr "メールで問い合わせる"
 
 #: weblate/templates/manage/performance.html:13
 #: weblate/wladmin/templates/admin/weblate-index.html:44
@@ -10873,7 +10815,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
-msgstr ""
+msgstr "コード以外のプロジェクト（書籍やグラフィック コンテンツなど）も歓迎します。"
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
@@ -11594,11 +11536,10 @@ msgstr ""
 "ることがあります。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid "Some linked components have the same file mask."
 msgid ""
 "Some linked components have the same file mask or share some of the files."
-msgstr "リンクされたコンポーネントの中には、同じファイル マスクがあります。"
+msgstr "リンクされたコンポーネントの中には、同じファイル "
+"マスクを持つものや、一部のファイルを共有しているものがあります。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:5
 msgid "Please fix this by removing one of them."
@@ -12559,16 +12500,12 @@ msgid "Add term to glossary"
 msgstr "用語集に用語を追加"
 
 #: weblate/templates/translate.html:726
-#, fuzzy
-#| msgid "User identities"
 msgid "Unit identifier"
-msgstr "ユーザーの認証方法"
+msgstr "ユニット識別子"
 
 #: weblate/templates/translate.html:728
-#, fuzzy
-#| msgid "Invitation link copied to clipboard."
 msgid "Unit identifier copied to clipboard."
-msgstr "招待リンクをクリップボードにコピーしました。"
+msgstr "ユニット識別子をクリップボードにコピーしました。"
 
 #: weblate/templates/translate.html:729
 msgid "String information"
@@ -13319,10 +13256,8 @@ msgid "You do not have permission to access this component."
 msgstr "このコンポーネントにアクセスする権限がありません。"
 
 #: weblate/trans/forms.py:1449
-#, fuzzy
-#| msgid "This field has been identified as spam!"
 msgid "This submission has been identified as spam!"
-msgstr "このフィールドの内容はスパムと認定されました！"
+msgstr "この投稿はスパムと判定されました！"
 
 #: weblate/trans/forms.py:1533 weblate/trans/forms.py:2161
 msgid "Basic"
@@ -14872,11 +14807,9 @@ msgid "Could not update repository: %s"
 msgstr "リポジトリを更新できません: %s"
 
 #: weblate/trans/models/component.py:3032
-#, fuzzy
-#| msgid "This will push changes and create a GitLab merge request."
 msgid "Pull and push branches cannot be the same when using merge requests."
-msgstr ""
-"これにより、変更がプッシュされ、GitLab マージ リクエストが作成されます。"
+msgstr "マージ リクエストを使用する場合、プル ブランチとプッシュ "
+"ブランチを同じにすることはできません。"
 
 #: weblate/trans/models/component.py:3045
 msgid ""
@@ -16365,18 +16298,13 @@ msgstr ""
 
 #. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:2055
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull request"
-msgstr "Bitbucket Server プルリクエスト"
+msgstr "Bitbucket Data Center プル リクエスト"
 
 #: weblate/vcs/git.py:2061
-#, fuzzy
-#| msgid "This will push changes and create a Bitbucket Server pull request."
 msgid "This will push changes and create a Bitbucket Data Center pull request."
-msgstr ""
-"これにより、変更がプッシュされ、Bitbucket Server プル リクエストが作成されま"
-"す。"
+msgstr "これにより、変更がプッシュされ、Bitbucket Data Center プル "
+"リクエストが作成されます。"
 
 #: weblate/vcs/git.py:2201
 msgid "Bitbucket Cloud merge request"
@@ -16590,7 +16518,7 @@ msgstr "リポジトリ"
 
 #: weblate/wladmin/views.py:153
 msgid "Customer care ticket created:"
-msgstr ""
+msgstr "作成されたカスタマーチケット:"
 
 #: weblate/wladmin/views.py:183
 msgid "Test e-mail sent."
