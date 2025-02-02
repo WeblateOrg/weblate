@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# 이정희 <daemul72@gmail.com>, 2023, 2024.
+# 이정희 <daemul72@gmail.com>, 2023, 2024, 2025.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # Minseo Lee <itoupluk427@gmail.com>, 2023.
 # simmon <simmon@nplob.com>, 2024.
@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-01-19 13:12+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2025-02-02 19:27+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "documentation/ko/>\n"
 "Language: ko\n"
@@ -58,16 +58,12 @@ msgstr ""
 "전환할 수 있습니다."
 
 #: ../../admin/access.rst:22
-#, fuzzy
-#| msgid ""
-#| "You can limit user’s access to individual projects by selecting a "
-#| "different :guilabel:`Access control` setting. Available options are:"
 msgid ""
 "Limit user access to individual projects by selecting a different :ref:"
 "`project-access_control` setting. The available options are:"
 msgstr ""
-"여러분은 다양한 :guilabel:`Access control` 설정을 선택하여 특정 프로젝트에 대"
-"한 사용자의 접근을 제한할 수 있습니다. 사용 가능한 옵션은 다음과 같습니다:"
+"다른 :ref:`project-access_control` 설정을 선택하여 개별 프로젝트에 대한 "
+"사용자 액세스를 제한합니다. 사용 가능한 옵션은 다음과 같습니다:"
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:502
 msgid ":guilabel:`Public`"
@@ -165,7 +161,7 @@ msgstr ""
 #| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
-msgstr "기본값은 :setting:`DEFAULT_ACCESS_CONTROL`에 의해 변경될 수 있습니다."
+msgstr ":setting:`DEFAULT_ACCESS_CONTROL`을 설정하여 기본값을 변경할 수도 있습니다."
 
 #: ../../admin/access.rst:72
 msgid ""
@@ -198,16 +194,15 @@ msgid "For `Public`, `Protected` and `Private` projects:"
 msgstr "`공개`, `보호됨` 및 `비공개` 프로젝트의 경우:"
 
 #: ../../admin/access.rst:92
-#, fuzzy
 msgid ""
 "Granting users :guilabel:`Manage project access` (see :ref:`privileges`) "
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
-"유저를 승인하는 것은 :guilabel:`프로젝트에 엑세스` (:ref:`privileges` 을 "
-"참조) 그들이 다른 유저의 `퍼블릭`, `보호된` 그리고 `비공개`(`커스텀`은 "
-"해당되지 않음) 프로젝트에 팀으로 참가함으로서 접근할 수 있도록 허락하는 것을 "
-"말합니다."
+"유저를 승인하는 것은 :guilabel:`프로젝트에 엑세스 관리하기` "
+"(:ref:`privileges` 참조) 그들이 다른 유저의 `공개`, `보호됨` 및 `비공개`(`"
+"사용자 지정` 해당 않됨) 프로젝트에 팀으로 참가함으로서 접근할 수 있도록 "
+"허락하는 것을 말합니다."
 
 #: ../../admin/access.rst:96
 msgid ""
@@ -270,8 +265,8 @@ msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
-"원본 문자열(:ref:`프로젝트 설정 `에서 허용되는 경우) 및 원본 문자열 정보를 편"
-"집할 수 있습니다."
+"원본 문자열(:ref:`project settings <component-manage_units>`에서 허용되는 "
+"경우)과 원본 문자열 정보를 편집합니다."
 
 #: ../../admin/access.rst:116
 #, fuzzy
@@ -312,14 +307,8 @@ msgid "`Screenshots`"
 msgstr "`스크린숏`"
 
 #: ../../admin/access.rst:126
-#, fuzzy
-#| msgid ""
-#| "Can manage screenshots (add or remove them, and associate them to source "
-#| "strings)."
 msgid "Manage screenshots (add, remove, and associate them to source strings)."
-msgstr ""
-"스크린숏을 관리할 수 있습니다(스크린숏 추가 또는 제거하기, 원본 문자열에 연결"
-"하기)."
+msgstr "스크린숏을 관리합니다(스크린숏 추가, 제거, 원본 문자열에 연결하기)."
 
 #: ../../admin/access.rst:129 ../../admin/access.rst:731
 #, fuzzy
@@ -538,9 +527,8 @@ msgid ""
 "teams linking roles to users and translations, read :ref:`auth-model` for "
 "more details."
 msgstr ""
-"권한 시스템은 그룹 및 역할을 기준으로 합니다. 여기서 역할은 권한 그룹을 지정"
-"하고, 그룹은 권한 그룹을 사용자들 및 번역과에 할당합니다. 자세한 내용은 : "
-"ref :`auth-model`을 참조하십시오."
+"권한 시스템은 권한 집합을 정의하는 역할과, 역할을 사용자 및 번역에 연결하는 "
+"팀을 기반으로 합니다. 자세한 내용은 :ref:`auth-model`을 참조하세요."
 
 #: ../../admin/access.rst:224
 msgid ""
@@ -587,10 +575,12 @@ msgid ""
 msgstr "`Users`(:ref:`automatic team assignment <autoteam>` 을 기본으로 처리됩니다)."
 
 #: ../../admin/access.rst:243
+#, fuzzy
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
-msgstr ""
+msgstr "`검토자` (전담 검토자가 있는 :ref:`review workflow <reviews>`를 사용하는 "
+"경우)."
 
 #: ../../admin/access.rst:245
 msgid ""
@@ -608,13 +598,15 @@ msgstr ""
 " 및 `리뷰어` 팀의 멤버십으로 주어지는 전체 사이트 권한이 주어지지 않습니다."
 
 #: ../../admin/access.rst:252
+#, fuzzy
 msgid ""
 "You may also grant some additional permissions of your choice to the default "
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
-"여러분은 또한 기본 팀에 대한 선택의 추가적인 권한을 승인해야합니다. 예를들어 "
-"여러분은 모든 `유저` 들에게 스크린샷을 사용한 권리를 주고 싶을 것입니다."
+"또한 기본 팀에 여러분의 선택에 따른 추가 권한을 부여할 수도 있습니다. 예를 "
+"들어, 여러분은 모든 `사용자`에게 스크린숏 관리 권한을 부여하고 싶어할 수 "
+"있습니다."
 
 #: ../../admin/access.rst:256
 msgid ""
@@ -1011,9 +1003,8 @@ msgid "Built-in roles"
 msgstr "내장 애드온"
 
 #: ../../admin/access.rst:473
-#, fuzzy
 msgid "Billing (see :ref:`billing`)"
-msgstr "청구서(`청구서`항목 참조)"
+msgstr "청구서 (:ref:`billing` 참조)"
 
 #: ../../admin/access.rst:473
 msgid "View billing info"
@@ -1188,7 +1179,7 @@ msgstr "보고서 내려받기"
 
 #: ../../admin/access.rst:509 ../../api.rst:2306 ../../user/translating.rst:297
 msgid "Screenshots"
-msgstr "스크린샷"
+msgstr "스크린숏"
 
 #: ../../admin/access.rst:509
 msgid "Add screenshot"
@@ -1196,10 +1187,8 @@ msgstr "스크린숏 추가하기"
 
 #: ../../admin/access.rst:509 ../../admin/access.rst:511
 #: ../../admin/access.rst:513
-#, fuzzy
-#| msgid "`Administration`, `Manage screenshots`"
 msgid ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
-msgstr "`관리`, `스크린숏 관리하기`"
+msgstr ":guilabel:`관리`, :guilabel:`크린숏 관리하기`"
 
 #: ../../admin/access.rst:511
 msgid "Edit screenshot"
@@ -1595,22 +1584,16 @@ msgid ":guilabel:`Download reports`"
 msgstr "보고서 내려받기"
 
 #: ../../admin/access.rst:627 ../../admin/access.rst:737
-#, fuzzy
-#| msgid "Add suggestion"
 msgid ":guilabel:`Add screenshot`"
-msgstr "제안으로 추가하기"
+msgstr ":guilabel:`스크린숏 추가하기`"
 
 #: ../../admin/access.rst:628 ../../admin/access.rst:738
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid ":guilabel:`Delete screenshot`"
-msgstr "스크린숏 삭제하기"
+msgstr ":guilabel:`스크린숏 삭제하기`"
 
 #: ../../admin/access.rst:629 ../../admin/access.rst:739
-#, fuzzy
-#| msgid "Edit screenshot"
 msgid ":guilabel:`Edit screenshot`"
-msgstr "스크린숏 편집하기"
+msgstr ":guilabel:`스크린숏 편집하기`"
 
 #: ../../admin/access.rst:630 ../../admin/access.rst:659
 #, fuzzy
@@ -1842,10 +1825,8 @@ msgid "`Manage translation memory`"
 msgstr "번역 메모리 관리"
 
 #: ../../admin/access.rst:736
-#, fuzzy
-#| msgid "Manage screenshots"
 msgid "`Manage screenshots`"
-msgstr "스크린숏 관리하기"
+msgstr "`스크린숏 관리하기`"
 
 #: ../../admin/access.rst:740
 #, fuzzy
@@ -2041,10 +2022,8 @@ msgid "Component update"
 msgstr "구성요소 업데이트"
 
 #: ../../admin/addons.rst:32
-#, fuzzy
-#| msgid "When new strings appear in a component."
 msgid "Triggered whenever a change happens in a component such as:"
-msgstr "구성요소에 새 문자열이 나타나는 경우."
+msgstr "다음과 같은 구성 요소에서 변경이 발생할 때마다 트리거됩니다:"
 
 #: ../../admin/addons.rst:34
 #, fuzzy
@@ -2991,13 +2970,12 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
-"구성요소 검색 애드온은 :ref:`internal-urls`을 사용합니다. 여러 구성요소 간에 "
-"VCS 설정을 공유할 수 있는 편리한 방법입니다. 연결된 구성요소는 각 구성요소의 "
-":ref:`component-repo` 필드에 ``weblate://project/main-component`` 를 "
-"입력하여 설정한 기본 구성요소의 로컬 저장소를 사용합니다(각 구성요소의 "
-":guilabel:`Manage` ↓ :guilabel:`Settings` ↓ :guilabel:`Version control "
-"system` 내). 이렇게 하면 구성 및 시스템 리소스를 사용하는 시간도 절약할 수 "
-"있습니다."
+"구성요소 검색 애드온은 :ref:`internal-urls`를 사용합니다. 이는 여러 구성요소 "
+"간에 VCS 설정을 공유하는 편리한 방법입니다. 연결된 구성 요소는 각 구성요소의 "
+":ref:`component-repo` 필드(:guilabel:`관리하기` ↓ :guilabel:`설정` ↓ "
+":guilabel:`버전 제어 시스템`)에 ``weblate://project/main-component``를 "
+"채워서 설정한 주요 구성요소의 로컬 저장소를 사용합니다. 이렇게 하면 구성 및 "
+"시스템 리소스에 소요되는 시간도 절약됩니다."
 
 #: ../../admin/addons.rst:434
 msgid ":ref:`markup`, :wladmin:`import_project`"
@@ -5858,7 +5836,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:341
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
-msgstr ""
+msgstr "사용자가 업로드한 모든 파일(예 :ref:`screenshots`)을 백업해야 합니다."
 
 #: ../../admin/backup.rst:344
 msgid "Celery tasks"
@@ -7842,8 +7820,9 @@ msgid ":file:`tesseract`"
 msgstr ":file:`tesseract`"
 
 #: ../../admin/config.rst:314
+#, fuzzy
 msgid "OCR trained data for :ref:`screenshots`."
-msgstr ""
+msgstr ":ref:`screenshots`에 대한 OCR 훈련 데이터입니다."
 
 #: ../../admin/config.rst:324
 msgid ""
@@ -8005,10 +7984,13 @@ msgid ":file:`media`"
 msgstr ":file:`media`"
 
 #: ../../admin/config.rst:447
+#, fuzzy
 msgid ""
 "Default location for Django media files, specified by :setting:`django:"
 "MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`."
 msgstr ""
+":setting:`django:MEDIA_ROOT`로 지정된, Django 미디어 파일의 기본 위치입니다. "
+"업로드된 스크린숏을 포함합니다. :ref:`screenshots`를 참조하세요."
 
 #: ../../admin/config.rst:448
 msgid ":file:`vcs`"
@@ -10030,18 +10012,6 @@ msgid "Avoiding merge conflicts by changing translation files in Weblate only"
 msgstr "모든 번역 메모리 항목 삭제 확인"
 
 #: ../../admin/continuous.rst:121
-#, fuzzy
-#| msgid ""
-#| "The first approach is easy with monolingual files — you can add new "
-#| "strings within Weblate and leave whole editing of the files there. For "
-#| "bilingual files, there is usually some kind of message extraction process "
-#| "to generate translatable files from the source code. In some cases this "
-#| "can be split into two parts - one for the extraction generates template "
-#| "(for example gettext POT is generated using :program:`xgettext`) and then "
-#| "further process merges it into actual translations (the gettext PO files "
-#| "are updated using :program:`msgmerge`). You can perform the second step "
-#| "within Weblate and it will ensure that all pending changes are included "
-#| "prior to this operation."
 msgid ""
 "Avoiding edits outside Weblate is easy with monolingual files — you can add "
 "new strings within Weblate and leave whole editing of the files there. For "
@@ -10049,15 +10019,11 @@ msgid ""
 "generate translatable files from the source code. In some cases, this can be "
 "split into two parts:"
 msgstr ""
-"첫 번째 접근 방식은 단일 언어 파일을 사용하는 경우 쉽습니다. Weblate 내에서 "
-"새 문자열을 추가하고 파일의 전체 편집을 그대로 둘 수 있습니다. 이중 언어 파일"
-"의 경우 일반적으로 소스 코드에서 번역 가능한 파일을 생성하는 일종의 메시지 추"
-"출 프로세스가 있습니다. 경우에 따라 이 프로세스는 두 부분으로 나눌 수 있는"
-"데, 하나는 추출을 위한 템플릿을 생성하는 부분(예: gettext POT는 :program:"
-"`xgettext`를 사용하여 생성됨)이고, 그런 다음 추가 프로세스는 실제 번역으로 병"
-"합합니다(gettext PO 파일은 :program:`msgmerge`를 사용하여 업데이트됨). 두 번"
-"째 단계는 Weblate 내에서 수행할 수 있으며 이 작업 전에 보류 중인 모든 변경 사"
-"항이 포함됩니다."
+"단일 언어 파일을 사용하면 Weblate 외부에서 편집을 피하는 것이 쉽습니다. "
+"Weblate 내에서 새 문자열을 추가하고 파일의 전체 편집을 그대로 둘 수 "
+"있습니다. 이중 언어 파일의 경우 일반적으로 소스 코드에서 번역 가능한 파일을 "
+"생성하는 일종의 메시지 추출 프로세스가 있습니다. 어떤 경우에는 두 부분으로 "
+"나눌 수 있습니다:"
 
 #: ../../admin/continuous.rst:127
 msgid ""
@@ -10205,9 +10171,9 @@ msgid ""
 "hooks/github/``, for example for the Hosted Weblate service, this is "
 "``https://hosted.weblate.org/hooks/github/``."
 msgstr ""
-"페이로드 URL의 경우 Weblate URL에 ``/hooks/github/``를 사용자의 Weblate URL"
-"에 추가합니다. 예를 들어 웹레이트 번역 플랫폼 서비스의 경우 ``https://hosted."
-"weblate.org/hooks/github/``입니다."
+":guilabel:`페이로드 URL`은 Weblate URL 뒤에 ``/hooks/github/``를 덧붙인 "
+"형태로 구성됩니다. 예를 들어 호스팅 Weblate 서비스의 경우 ``https://"
+"hosted.weblate.org/hooks/github/``입니다."
 
 #: ../../admin/continuous.rst:231
 msgid ""
@@ -10268,9 +10234,10 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
-"Weblate는 Pagure hooks를 지원하며, Weblate 설치 시 목적지가 ``/hooks/pagure/"
-"`` URL인 웹훅을 추가합니다(예: ``https://hosted.weblate.org/hooks/pagure/``)"
-". 이는 :guilabel:`프로젝트 옵션` 아래 ``웹훅 활성화`에서 수행할 수 있습니다:"
+"Weblate는 Pagure hooks를 지원하며, 사용자의 Weblate 설치 시 목적지가 ``/"
+"hooks/pagure/`` URL인 웹훅을 추가합니다(예: ``https://hosted.weblate.org/"
+"hooks/pagure/``). 이는 :guilabel:`프로젝트 옵션`의 :guilabel:`웹훅 활성화`"
+"에서 수행할 수 있습니다:"
 
 #: ../../admin/continuous.rst:281
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
@@ -19369,7 +19336,7 @@ msgstr ""
 #| msgid ""
 #| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
-msgstr "기본값은 :setting:`DEFAULT_ACCESS_CONTROL`에 의해 변경될 수 있습니다."
+msgstr "기본값은 :setting:`DEFAULT_SHARED_TM`을 통해 변경할 수 있습니다."
 
 #: ../../admin/projects.rst:182
 msgid "Contribute to shared translation memory"
@@ -19967,7 +19934,8 @@ msgstr ""
 msgid ""
 "The default value can be changed by :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
-msgstr "기본값은 :setting:`DEFAULT_ACCESS_CONTROL`에 의해 변경될 수 있습니다."
+msgstr "기본값은 :setting:`DEFAULT_TRANSLATION_PROPAGATION`을 통해 변경할 수 "
+"있습니다."
 
 #: ../../admin/projects.rst:589 ../../faq.rst:173 ../../faq.rst:188
 #: ../../user/checks.rst:960 ../../user/translating.rst:392
@@ -20352,7 +20320,7 @@ msgstr ""
 #| msgid ""
 #| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
-msgstr "기본값은 :setting:`DEFAULT_ACCESS_CONTROL`에 의해 변경될 수 있습니다."
+msgstr "기본값은 :setting:`DEFAULT_MERGE_STYLE`을 통해 변경할 수 있습니다."
 
 #: ../../admin/projects.rst:817
 #, fuzzy
@@ -20401,7 +20369,7 @@ msgstr ""
 #| msgid ""
 #| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
-msgstr "기본값은 :setting:`DEFAULT_ACCESS_CONTROL`에 의해 변경될 수 있습니다."
+msgstr "기본값은 :setting:`COMMIT_PENDING_HOURS`를 통해 변경할 수 있습니다."
 
 #: ../../admin/projects.rst:851
 msgid ""
@@ -23435,10 +23403,8 @@ msgid "Returns a list of translation units."
 msgstr ""
 
 #: ../../api.rst:2009 ../../api.rst:2177
-#, fuzzy
-#| msgid "Search query string :ref:`Searching` (optional)"
 msgid "Search query string :doc:`/user/search` (optional)"
-msgstr "검색 쿼리 문자열 :ref:`Searching` (선택사항)"
+msgstr "검색 쿼리 문자열 :doc:`/user/search` (선택사항)"
 
 #: ../../api.rst:2011
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
@@ -25104,8 +25070,6 @@ msgstr ""
 #: ../../changes/contributors/5.8.4.rst:6
 #: ../../changes/contributors/5.9.1.rst:3
 #: ../../changes/contributors/5.9.1.rst:6
-#, fuzzy
-#| msgid "Michal Čihař"
 msgid "Michal Čihař"
 msgstr "Michal Čihař"
 
@@ -25190,7 +25154,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Added integration with :ref:`discover-weblate`."
 msgid "Added page navigation while :ref:`translating`."
-msgstr ":ref:`discover-weblate`와의 통합이 추가되었습니다."
+msgstr ":ref:`translating`하는 동안 페이지 탐색 기능이 추가되었습니다."
 
 #: ../../changes.rst:114
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
@@ -25889,7 +25853,7 @@ msgstr "캐쉬된 템플릿 로더"
 #, fuzzy
 #| msgid "Added support for localized screenshots."
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
-msgstr "현지화된 스크린숏에 대한 지원이 추가되었습니다."
+msgstr "이제 :ref:`screenshots`에서 클립보드에서 스크린숏을 붙여넣을 수 있습니다."
 
 #: ../../changes.rst:365
 msgid "Accessibility of keyboard navigation."
@@ -26667,16 +26631,12 @@ msgid ":ref:`check-perl-brace-format` quality check."
 msgstr "캐쉬된 템플릿 로더"
 
 #: ../../changes.rst:699
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid ":doc:`/formats/moko`."
-msgstr ":ref:`formats`"
+msgstr ":doc:`/formats/moko`."
 
 #: ../../changes.rst:700
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid ":doc:`/formats/formatjs`."
-msgstr ":ref:`formats`"
+msgstr ":doc:`/formats/formatjs`."
 
 #: ../../changes.rst:701
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
@@ -27208,7 +27168,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Approved translation in %(translation)s"
 msgid "Improved OCR error handling in :ref:`screenshots`."
-msgstr "%(translation)s의 승인된 번역"
+msgstr ":ref:`screenshots`에서 OCR 오류 처리가 개선되었습니다."
 
 #: ../../changes.rst:914
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
@@ -27473,7 +27433,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Added support for localized screenshots."
 msgid "WebP is now supported for :ref:`screenshots`."
-msgstr "현지화된 스크린숏에 대한 지원이 추가되었습니다."
+msgstr ":ref:`screenshots`에 대해 WebP가 지원됩니다."
 
 #: ../../changes.rst:1019
 msgid ""
@@ -27484,7 +27444,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Added support for localized screenshots."
 msgid "OCR support for non-English languages in :ref:`screenshots`."
-msgstr "현지화된 스크린숏에 대한 지원이 추가되었습니다."
+msgstr ":ref:`screenshots`에서 영어 이외의 언어에 대한 OCR을 지원합니다."
 
 #: ../../changes.rst:1021
 #, fuzzy
@@ -38165,10 +38125,8 @@ msgid "translation"
 msgstr "번역"
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Translation language:"
 msgid "*Translation Language Code*"
-msgstr "번역 언어:"
+msgstr "*번역 언어 코드*"
 
 #: ../../contributing/schemas.rst:32
 msgid ":ref:`fedora-messaging`"
@@ -38199,8 +38157,9 @@ msgid ""
 "Foundation's Core Infrastructure Initiative <https://www.bestpractices.dev/"
 "en/projects/552>`_."
 msgstr ""
-"Weblate의 개발은 `리눅스 재단의 핵심 인프라 이니셔티브<https://bestpractices."
-"coreinfrastructure.org/projects/552>`_의 모범 사례를 준수합니다."
+"Weblate의 개발은 `리눅스 재단의 핵심 인프라 이니셔티브<https://"
+"bestpractices.coreinfrastructure.org/projects/552>`_의 모범 사례를 "
+"준수합니다."
 
 #: ../../contributing/security.rst:12
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
@@ -44143,10 +44102,8 @@ msgid ""
 msgstr ""
 
 #: ../../index.rst:32
-#, fuzzy
-#| msgid "First name"
 msgid "First time here?"
-msgstr "이름"
+msgstr "이곳이 처음이신가요?"
 
 #: ../../index.rst:33
 msgid "Read the :doc:`user/basic` to get an overview of what Weblate does."
@@ -45994,12 +45951,12 @@ msgstr ""
 
 #: ../../user/checks.rst:965
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "일관되지 않은 reStructuredText 참조"
 
 #: ../../user/checks.rst:969
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
-msgstr ""
+msgstr "번역된 메시지에서 reStructuredText 용어 참조가 일관되지 않습니다."
 
 #: ../../user/checks.rst:971
 msgid "``weblate.checks.markup.RSTReferencesCheck``"
@@ -46580,16 +46537,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1391
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "reStructuredText syntax error"
-msgstr "reStructuredText"
+msgstr "reStructuredText 구문 오류"
 
 #: ../../user/checks.rst:1395 ../../user/checks.rst:1402
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "번역에 Fluent 구문 오류 발생"
+msgstr "번역에 reStructuredText 구문 오류가 있습니다."
 
 #: ../../user/checks.rst:1397
 msgid "``weblate.checks.markup.RSTSyntaxCheck``"
@@ -49564,10 +49517,14 @@ msgid ""
 msgstr ""
 
 #: ../../user/translating.rst:298
+#, fuzzy
 msgid ""
 "Screenshots can be uploaded to Weblate to better inform translators of where "
 "and how the string is used, see :ref:`screenshots`."
 msgstr ""
+"번역자에게 문자열이 어디서 어떻게 사용되는지 더 잘 알려주기 위해 스크린숏을 "
+"Weblate에 업로드할 수 있습니다. 자세한 내용은 :ref:`screenshots`을 "
+"참조하세요."
 
 #: ../../user/translating.rst:300
 msgid "Nearby strings"
