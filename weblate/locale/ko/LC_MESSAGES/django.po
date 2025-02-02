@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# 이정희 <daemul72@gmail.com>, 2023, 2024.
+# 이정희 <daemul72@gmail.com>, 2023, 2024, 2025.
 # Hoseok Seo <ddinghoya@gmail.com>, 2023, 2024.
 # simmon <simmon@nplob.com>, 2024.
 msgid ""
@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 12:43+0000\n"
-"PO-Revision-Date: 2025-01-15 19:23+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-02-02 19:27+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -1932,10 +1932,8 @@ msgid "Weblate's REST API"
 msgstr "Weblate의 REST API"
 
 #: weblate/api/views.py:153
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Could not obtain repository lock to perform the operation."
-msgstr "저장소를 잠글 수 없습니다. 다른 작업이 진행 중입니다."
+msgstr "작업을 수행하기 위한 저장소 잠금을 얻을 수 없습니다."
 
 #: weblate/api/views.py:2282 weblate/auth/models.py:930
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2723,18 +2721,12 @@ msgid "This translation is currently locked."
 msgstr "이 번역은 현재 잠겨있습니다."
 
 #: weblate/auth/permissions.py:194
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires accepting its contributor license "
 "agreement."
-msgstr "이 번역에 기여하려면 기여자 계약에 동의해야 합니다."
+msgstr "이 번역에 기여하려면 기여자 라이선스 계약에 동의해야 합니다."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
 msgstr "번역을 저장하려면 로그인하세요."
 
@@ -2757,12 +2749,8 @@ msgid "Suggestion voting is disabled."
 msgstr "제안 투표는 비활성화되어 있습니다."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
-msgstr "이 번역은 제안만을 수락하고, 투표를 통해 승인됩니다."
+msgstr "이 번역은 제안만 허용하며, 제안된 내용은 투표를 통해 승인됩니다."
 
 #: weblate/auth/permissions.py:235
 #: weblate/templates/snippets/project/state.html:6
@@ -2770,48 +2758,33 @@ msgid "Pay the bills to unlock this project."
 msgstr "프로젝트를 잠금 해제하려면 금액을 지불하여야 합니다."
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
-msgstr "원본 문자열 검토는 활성화되어 있지 않습니다."
+msgstr "원본 문자열 검토가 활성화되어 있지 않습니다."
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "번역 제안이 해제됩니다."
+msgstr "번역 검토가 활성화되어 있지 않습니다."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "대상 목록이 꺼졌습니다"
+msgstr "검토 기능이 활성화되어 있지 않습니다."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "소스 문자열을 검토해야 합니다."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
-msgstr "문자열이 읽기 전용입니다."
+msgstr "문자열은 읽기 전용입니다."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
-msgstr ""
-"검토자만 승인된 문자열을 변경할 수 있으며, 문자열을 변경해야 한다고 생각되면 "
-"제안을 추가하세요."
+msgstr "검토자만 승인된 문자열을 변경할 수 있습니다. 문자열을 변경해야 한다고 "
+"생각되면 제안을 추가하세요."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "번역이 읽기 전용입니다."
 
@@ -2824,15 +2797,11 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "구성요소 구성에서 문자열 추가가 비활성화되어 있습니다."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr "용어 번역을 제거할 수 없습니다. 대신 소스 문자열을 제거하세요."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
 msgstr "파일 형식이 이를 지원하지 않습니다."
 
@@ -2952,10 +2921,8 @@ msgid "Project website missing!"
 msgstr "프로젝트 웹사이트가 사라졌습니다!"
 
 #: weblate/billing/models.py:480
-#, fuzzy
-#| msgid "All public projects"
 msgid "Only public projects are allowed"
-msgstr "모든 공개 프로젝트"
+msgstr "공개 프로젝트만 허용됩니다"
 
 #: weblate/billing/models.py:486
 #, python-format
@@ -2968,10 +2935,8 @@ msgid "Missing license"
 msgstr "라이선스 누락"
 
 #: weblate/billing/models.py:500
-#, fuzzy
-#| msgid "OSI approved license"
 msgid "Not a libre license"
-msgstr "OSI 승인 라이센스"
+msgstr "자유 라이선스가 아닙니다"
 
 #: weblate/billing/tasks.py:72
 msgid ""
@@ -3002,10 +2967,8 @@ msgid "The following format strings are extra: {}"
 msgstr "다음 형식 문자열은 추가 항목입니다: {}"
 
 #: weblate/checks/base.py:335
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following errors were found:"
-msgstr "다음과 같은 현상이 발견되었습니다:"
+msgstr "다음과 같은 오류가 발견되었습니다:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -4025,31 +3988,24 @@ msgstr "번역이 안전하지 않은 HTML 마크업을 사용합니다"
 
 #: weblate/checks/markup.py:398
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "일관되지 않은 reStructuredText 참조"
 
 #: weblate/checks/markup.py:400
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
-msgstr ""
+msgstr "번역된 메시지에서 reStructuredText 용어 참조가 일관되지 않습니다."
 
 #: weblate/checks/markup.py:432
-#, fuzzy
-#| msgid "%(count)s string is not being translated here."
-#| msgid_plural "%(count)s strings are not being translated here."
 msgid "Inconsistent links in the translated message."
-msgstr "%(count)s개의 문자열이 번역되지 않았습니다."
+msgstr "번역된 메시지의 링크가 일관되지 않습니다."
 
 #: weblate/checks/markup.py:545
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "reStructuredText syntax error"
-msgstr "reStructuredText"
+msgstr "reStructuredText 구문 오류"
 
 #: weblate/checks/markup.py:546
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "번역에 Fluent 구문 오류 발생"
+msgstr "번역에 reStructuredText 구문 오류가 있습니다."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5316,11 +5272,9 @@ msgid "File"
 msgstr "파일"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr "TMX, JSON, XLIFF, PO, CSV 형식의 파일을 업로드할 수 있습니다."
+msgstr "다음 형식의 파일을 업로드할 수 있습니다: %s."
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
 msgid "Source language"
@@ -5348,10 +5302,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "모든 번역 메모리 항목 삭제 확인"
 
 #: weblate/memory/models.py:179
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "지원하지 않는 이미지 유형: %s"
+msgstr "지원되지 않는 파일 확장자: %s"
 
 #: weblate/memory/models.py:201
 msgid "No valid entries found in the uploaded file!"
@@ -6730,10 +6683,8 @@ msgid "Members"
 msgstr "회원"
 
 #: weblate/templates/accounts/user.html:335
-#, fuzzy
-#| msgid "site wide"
 msgid "Site-wide team"
-msgstr "사이트 전체"
+msgstr "사이트 전반을 관리하는 팀"
 
 #: weblate/templates/accounts/user.html:345
 msgid "Remove user from this team"
@@ -6933,10 +6884,8 @@ msgid "Configure"
 msgstr "구성하기"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
-msgstr "프로젝트 및 구성 요소 범위에도 애드온을 설치할 수 있습니다."
+msgstr "프로젝트 및 구성요소 레벨에도 애드온을 설치할 수 있습니다."
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -6955,10 +6904,8 @@ msgid "Available add-ons"
 msgstr "사용 가능한 애드온"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "추가 기능은 구성 요소에만 설치할 수 있습니다."
+msgstr "애드온은 컴포넌트 레벨에서만 설치할 수 있습니다."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -7971,10 +7918,8 @@ msgid "Screenshots"
 msgstr "스크린숏"
 
 #: weblate/templates/component.html:156
-#, fuzzy
-#| msgid "Duplicate Component"
 msgid "Duplicate this component"
-msgstr "구성요소 복제하기"
+msgstr "이 구성요소 복제하기"
 
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
@@ -10749,7 +10694,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
-msgstr ""
+msgstr "코드가 아닌 프로젝트(예: 책이나 그래픽 콘텐츠)도 환영합니다."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
@@ -11464,21 +11409,18 @@ msgstr ""
 "질 수 있습니다."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid "Some linked components have the same file mask."
 msgid ""
 "Some linked components have the same file mask or share some of the files."
-msgstr "연결된 일부 구성요소는 동일한 파일 마스크를 갖습니다."
+msgstr "일부 연결된 구성 요소는 동일한 파일 마스크를 가지고 있거나 일부 파일을 "
+"공유합니다."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:5
 msgid "Please fix this by removing one of them."
 msgstr "이 중 하나를 제거하여 이 문제를 해결하십시오."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:8
-#, fuzzy
-#| msgid "The following file masks were found multiple times:"
 msgid "The following files were found multiple times:"
-msgstr "많이 발견된 파일 마스크:"
+msgstr "다음 파일이 여러 번 발견되었습니다:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
 msgid "The component contains translation file for the source language."
@@ -12415,10 +12357,8 @@ msgid "Unit identifier"
 msgstr "유닛 식별자"
 
 #: weblate/templates/translate.html:728
-#, fuzzy
-#| msgid "Unit identifier copied to clipboard"
 msgid "Unit identifier copied to clipboard."
-msgstr "클립보드에 복사된 유닛 식별자"
+msgstr "유닛 식별자가 클립보드에 복사되었습니다."
 
 #: weblate/templates/translate.html:729
 msgid "String information"
@@ -16184,17 +16124,13 @@ msgstr "이렇게 하면 변경사항이 푸시되고 Pagure 병합 요청이 �
 
 #. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:2055
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull request"
-msgstr "Bitbucket 서버 풀 리퀘스트"
+msgstr "Bitbucket 데이터 센터 풀 리퀘스트"
 
 #: weblate/vcs/git.py:2061
-#, fuzzy
-#| msgid "This will push changes and create a Bitbucket Server pull request."
 msgid "This will push changes and create a Bitbucket Data Center pull request."
-msgstr ""
-"이렇게 하면 변경사항이 푸시되고 BitBucket Server 풀 리퀘스트가 만들어집니다."
+msgstr "이렇게 하면 변경 사항이 푸시되고 Bitbucket 데이터 센터 풀 리퀘스트가 "
+"만들어집니다."
 
 #: weblate/vcs/git.py:2201
 msgid "Bitbucket Cloud merge request"
