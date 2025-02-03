@@ -367,9 +367,13 @@ def check_translation_add(user: User, permission, component):
     if component.new_lang == "none" and not component.can_add_new_language(
         user, fast=True
     ):
-        return False
+        return Denied(
+            gettext(
+                "Adding new translations is turned off in the component configuration."
+            )
+        )
     if component.locked:
-        return False
+        return Denied(gettext("This component is currently locked."))
     return check_permission(user, permission, component)
 
 

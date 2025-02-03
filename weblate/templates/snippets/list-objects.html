@@ -180,7 +180,8 @@
                           class="btn btn-link green">{% icon "plus.svg" %}</button>
                 </form>
               {% else %}
-                <span class="gray" title="{% trans "Cannot add translation right now" %}">{% icon "plus.svg" %}</span>
+                <span class="gray"
+                      title="{% if user_can_add_translation.reason %}{{ user_can_add_translation.reason }}{% else %}{% trans "Cannot add translation right now" %}{% endif %}">{% icon "plus.svg" %}</span>
               {% endif %}
 
             {% else %}
