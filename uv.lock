@@ -2745,12 +2745,18 @@ wheels = [
 
 [[package]]
 name = "pygobject"
-version = "3.50.0"
+version = "3.48.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pycairo" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2b/58/d34e67a79631177e3c08e7d02b5165147f590171f2cae6769502af5f7f7e/pygobject-3.50.0.tar.gz", hash = "sha256:4500ad3dbf331773d8dedf7212544c999a76fc96b63a91b3dcac1e5925a1d103", size = 1080367 }
+sdist = { url = "https://files.pythonhosted.org/packages/f9/9e/6bab1ed3bd878f0912d9a0600c21f3d88bab0e8a8d4c3ce50f5cf336faaf/pygobject-3.48.2.tar.gz", hash = "sha256:c3c0a7afbe5b2c1c64dc0530109b4dd571085153dbedfbccb8ec7c5ad233f977", size = 715243 }
+
+[[package]]
+name = "pygobject-stubs"
+version = "2.12.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/99/04/e7dd3a2dc52977d54b98542742da2aa8c2fc5356e45339f37b908ff5dfc5/pygobject_stubs-2.12.0.tar.gz", hash = "sha256:4dad2d876c070a16f604c249bb70e8cbc36373151a6731d826a8436c6a80b99d", size = 810326 }
 
 [[package]]
 name = "pyicu"
@@ -4376,6 +4382,7 @@ dev = [
     { name = "pillow" },
     { name = "pre-commit" },
     { name = "pygments" },
+    { name = "pygobject-stubs" },
     { name = "pyicu" },
     { name = "pylint" },
     { name = "pytest" },
@@ -4450,6 +4457,7 @@ types = [
     { name = "django-stubs-ext" },
     { name = "djangorestframework-stubs" },
     { name = "mypy" },
+    { name = "pygobject-stubs" },
     { name = "types-dateparser" },
     { name = "types-docutils" },
     { name = "types-jsonschema" },
@@ -4522,7 +4530,7 @@ requires-dist = [
     { name = "psycopg", extras = ["binary"], marker = "extra == 'postgres'", specifier = ">=3.1.8,<4" },
     { name = "pycairo", specifier = ">=1.20.0" },
     { name = "pygments", specifier = ">=2.17.0,<3.0" },
-    { name = "pygobject", specifier = ">=3.40.1" },
+    { name = "pygobject", specifier = ">=3.40.1,<3.50.0" },
     { name = "pyicumessageformat", specifier = ">=1.0.0,<1.1" },
     { name = "pyparsing", specifier = ">=3.1.1,<3.3" },
     { name = "python-akismet", marker = "extra == 'antispam'", specifier = ">=0.4.2,<0.5" },
@@ -4566,6 +4574,7 @@ dev = [
     { name = "pillow", specifier = ">=10.3.0,<12" },
     { name = "pre-commit", specifier = "==4.1.0" },
     { name = "pygments", specifier = ">=2.17.0,<3.0" },
+    { name = "pygobject-stubs", specifier = "==2.12.0" },
     { name = "pyicu", specifier = "==2.14" },
     { name = "pylint", specifier = "==3.3.4" },
     { name = "pytest", specifier = "==8.3.4" },
@@ -4636,6 +4645,7 @@ types = [
     { name = "django-stubs-ext", specifier = "==5.1.2" },
     { name = "djangorestframework-stubs", specifier = "==3.15.2" },
     { name = "mypy", specifier = "==1.14.1" },
+    { name = "pygobject-stubs", specifier = "==2.12.0" },
     { name = "types-dateparser", specifier = "==1.2.0.20240420" },
     { name = "types-docutils", specifier = "==0.21.0.20241128" },
     { name = "types-jsonschema", specifier = "==4.23.0.20241208" },
