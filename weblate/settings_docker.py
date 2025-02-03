@@ -387,7 +387,6 @@ if SOCIAL_AUTH_GITLAB_KEY:
     SOCIAL_AUTH_GITLAB_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_GITLAB_SECRET", required=True
     )
-    SOCIAL_AUTH_GITLAB_SCOPE = ["read_user"]
     if "WEBLATE_SOCIAL_AUTH_GITLAB_API_URL" in os.environ:
         SOCIAL_AUTH_GITLAB_API_URL = get_env_str("WEBLATE_SOCIAL_AUTH_GITLAB_API_URL")
     AUTHENTICATION_BACKENDS += ("social_core.backends.gitlab.GitLabOAuth2",)
