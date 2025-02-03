@@ -206,6 +206,12 @@
                   </tr>
                 {% endif %}
               {% endwith %}
+              {% if LANGUAGE_CODE != "en" %}
+                <tr>
+                  <th>{% trans "English name of the language" %}</th>
+                  <td colspan="2">{{ language.name }}</td>
+                </tr>
+              {% endif %}
             {% endif %}
             <tr>
               <th>{% trans "Text direction" %}</th>
