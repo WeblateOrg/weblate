@@ -39,6 +39,8 @@
 
     <div class="tab-pane active" id="overview">
       {% include "snippets/list-objects.html" with objects=components label=_("Component") %}
+
+      {% include "paginator.html" with page_obj=components %}
     </div>
 
     <div class="tab-pane" id="information">

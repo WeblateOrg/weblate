@@ -794,7 +794,11 @@ def healthz(request: AuthenticatedHttpRequest):
 def show_component_list(request: AuthenticatedHttpRequest, name):
     obj = get_object_or_404(ComponentList, slug__iexact=name)
     components = prefetch_tasks(
-        prefetch_stats(obj.components.filter_access(request.user).order().prefetch())
+        get_paginator(
+            prefetch_stats(
+                obj.components.filter_access(request.user).order().prefetch()
+            )
+        )
     )
 
     return render(
