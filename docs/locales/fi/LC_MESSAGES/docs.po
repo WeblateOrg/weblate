@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-01-29 11:01+0000\n"
+"PO-Revision-Date: 2025-02-04 11:43+0000\n"
 "Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "documentation/fi/>\n"
@@ -3900,11 +3900,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:1064
 msgid "Repository branch configured in the current component."
-msgstr ""
+msgstr "Nykyisessä komponentissa määritetty tietovaraston haara."
 
 #: ../../admin/addons.rst:1068
 msgid "File mask for current component."
-msgstr ""
+msgstr "Tiedoston peite nykyiselle komponentille."
 
 #: ../../admin/addons.rst:1072
 msgid "Filename of template for monolingual translations (can be empty)."
@@ -5066,6 +5066,8 @@ msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
 msgstr ""
+"Pakotetun kaksivaiheisen todennuksen käyttävän joukkueen oikeuksia ei "
+"sovelleta käyttäjille, joilla ei ole sitä määritettynä."
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -8747,6 +8749,11 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
+"Hylkää käyttämällä tiettyjä isäntiä projektin verkkosivuilla. Mikä tahansa "
+"aliverkkotunnus löytyy, mukaan lukien ``esimerkki.com`` estää "
+"``testi.esimerkki.com`` myös. Luettelon tulee sisältää vain pieniä "
+"kirjaimia, jäsennetty verkkotunnus kirjoitetaan pienillä kirjaimilla ennen "
+"täsmäämistä."
 
 #: ../../admin/config.rst:1484
 msgid "Default configuration:"
@@ -8765,6 +8772,8 @@ msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 #: ../../admin/config.rst:1504
 msgid "Reject using numeric IP address in project website. On by default."
 msgstr ""
+"Hylkää käyttämällä numeerista IP-osoitetta projektin verkkosivuilla. "
+"Käytössä oletuksena."
 
 #: ../../admin/config.rst:1508
 msgid ""
@@ -11943,6 +11952,9 @@ msgid ""
 "the database structure. Now you should be able to create translation "
 "projects using the admin interface."
 msgstr ""
+"Kun määrityksesi ovat valmiit, voit suorittaa :wladmin:`migrate` luodaksesi "
+"tietokantarakenteen. Nyt sinun pitäisi pystyä luomaan käännösprojekteja "
+"järjestelmänvalvojan käyttöliittymän avulla."
 
 #: ../../admin/install.rst:892
 msgid ""
@@ -12858,11 +12870,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:1665
-#, fuzzy
-#| msgid ""
-#| ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
-#| "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
-#| "daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
 msgid ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
@@ -12870,7 +12877,7 @@ msgid ""
 msgstr ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
-"daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
+"daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 
 #: ../../admin/install.rst:1676
 msgid "Single-process Celery setup"
@@ -12915,6 +12922,8 @@ msgid ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for Munin "
 "<https://github.com/WeblateOrg/munin>`_"
 msgstr ""
+":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate-liitännäinen "
+"Muninille <https://github.com/WeblateOrg/munin>`_"
 
 #: ../../admin/install.rst:1710 ../../admin/install/docker.rst:1733
 msgid "Collecting error reports and monitoring performance"
@@ -13294,6 +13303,9 @@ msgid ""
 "docker container and have file mask set to ``600`` (readable and writable "
 "only by the owning user)."
 msgstr ""
+"Molempien tiedostojen on oltava saman käyttäjän omistuksessa kuin Docker-"
+"säilön aloittajan, ja niiden tiedoston peitteen on oltava ``600`` (vain "
+"omistavan käyttäjän luettavissa ja kirjoitettavissa)."
 
 #: ../../admin/install/docker.rst:134
 msgid ""
@@ -15485,6 +15497,7 @@ msgstr ""
 #: ../../admin/install/steps/install-after.rst:19
 msgid "All you need to specify here is the project name and its website."
 msgstr ""
+"Sinun tarvitsee vain määrittää tässä projektin nimi ja sen verkkosivusto."
 
 #: ../../admin/install/steps/install-after.rst:21
 msgid ""
@@ -17681,6 +17694,9 @@ msgid ""
 "the :ref:`addon-weblate.discovery.discovery` add-on, so you might want to "
 "use that instead."
 msgstr ""
+"Erä tuotuja komponentteja projektiin tiedoston peitteen perusteella. Se "
+"perustuu :ref:`addon-weblate.discovery.discovery` -lisäosaan, joten sinun "
+"kannattaa käyttää sitä sen sijaan."
 
 #: ../../admin/management.rst:393
 msgid ""
@@ -18421,6 +18437,10 @@ msgid ""
 "git/`` part of the Weblate URL, for example ``https://example.org/git/"
 "weblate/main/``."
 msgstr ""
+"Moduuli muodostaa automaattisesti koukun Weblateen ja asettaa viedyn "
+"tietovaraston URL-osoitteen :ref:`component`:ssa. Tietovarastot ovat "
+"saavutettavissa Weblate-URL-osoitteen ``/git/``-osassa, esimerkiksi "
+"``https://example.org/git/weblate/main/``."
 
 #: ../../admin/optionals.rst:44
 msgid ""
@@ -18927,7 +18947,7 @@ msgstr "Käännösprojektit"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
-msgstr ""
+msgstr "Käännösorganisaatio"
 
 #: ../../admin/projects.rst:7
 msgid ""
@@ -18935,6 +18955,9 @@ msgid ""
 "like structure. You can additionally organize components within a project "
 "using categories."
 msgstr ""
+"Weblate järjestää projektin/komponenttien käännettävän VCS-sisällön puun "
+"kaltaiseksi rakenteeksi. Voit lisäksi järjestää projektin komponentteja "
+"luokkien avulla."
 
 #: ../../admin/projects.rst:11
 msgid ""
@@ -18942,12 +18965,17 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
+"Alimman tason objekti on :ref:`project`, jonka pitäisi sisältää kaikki "
+"yhteen kuuluvat käännökset (esimerkiksi sovelluksen käännös useissa "
+"versioissa ja/tai mukana oleva dokumentaatio)."
 
 #: ../../admin/projects.rst:15
 msgid ""
 "The middle level is optionally created by :ref:`category`. The categories "
 "can be nested to achieve more complex structure."
 msgstr ""
+"Keskitason luo valinnaisesti :ref:`category`. Luokat voidaan sijoittaa "
+"sisäkkäin monimutkaisemman rakenteen aikaansaamiseksi."
 
 #: ../../admin/projects.rst:18
 msgid ""
@@ -18955,6 +18983,9 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
+"Yllä olevalla tasolla :ref:`component`, joka on itse asiassa käännettävä "
+"komponentti, määrität käytettävän VCS-tietovaraston ja käännettävien "
+"tiedostojen peitteen."
 
 #: ../../admin/projects.rst:22
 msgid ""
@@ -18962,12 +18993,17 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
+"Yllä :ref:`component` on yksittäisiä käännöksiä, joita Weblate käsittelee "
+"automaattisesti, kun käännöstiedostot (jotka vastaavat :ref:`component` "
+"määritettyä :ref:`component-filemask`) näkyvät VCS-tietovarastoon."
 
 #: ../../admin/projects.rst:25
 msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
+"Weblate tukee laajaa valikoimaa käännösmuotoja (sekä kaksi- että "
+"yksikielisiä), joita Translate Toolkit tukee, katso :ref:`formats`."
 
 #: ../../admin/projects.rst:30
 msgid ""
@@ -18975,10 +19011,14 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
+"Voit jakaa kloonattuja VCS-tietovarastoja käyttämällä :ref:`internal-urls`. "
+"Tämän ominaisuuden käyttäminen on erittäin suositeltavaa, jos sinulla on "
+"useita komponentteja, jotka jakavat saman VCS:n. Se parantaa suorituskykyä "
+"ja vähentää vaadittua levytilaa."
 
 #: ../../admin/projects.rst:38
 msgid "Adding translation projects and components"
-msgstr ""
+msgstr "Käännösprojektien ja komponenttien lisääminen"
 
 #: ../../admin/projects.rst:40
 msgid ""
@@ -18988,16 +19028,23 @@ msgid ""
 "hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
 "your plans allowance from the user account that manages billing."
 msgstr ""
+"Lupien perusteella voidaan luoda uusia käännösprojekteja ja komponentteja. "
+"Se on aina sallittu käyttäjille, joilla on :guilabel:`Lisää uusia projekteja`"
+" -oikeus, ja jos esiintymäsi käyttää laskutusta (esim. https://"
+"hosted.weblate.org/ katso :ref:`billing`), voit myös luoda ne perustuvat "
+"laskutusta hallinnoivalta käyttäjätililtä suunnitelmakorvauksiin."
 
 #: ../../admin/projects.rst:48
 msgid ""
 "To grant every user permission to create new projects create new :ref:"
 "`autoteam` for the :guilabel:`Project creators` team."
 msgstr ""
+"Myöntääksesi jokaiselle käyttäjälle oikeuden luoda uusia projekteja, luo "
+"uusi :ref:`autoteam` :guilabel:`Project Creators` -joukkueelle."
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
-msgstr ""
+msgstr "Voit tarkastella nykyistä laskutussuunnitelmaasi erillisellä sivulla:"
 
 #: ../../admin/projects.rst:55
 msgid ""
@@ -19005,10 +19052,12 @@ msgid ""
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
 msgstr ""
+"Projektin luominen voidaan aloittaa sieltä tai käyttämällä navigointipalkin "
+"valikkoa täyttämällä käännösprojektin perustiedot sen lisäämiseksi:"
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
-msgstr ""
+msgstr "Projektin luomisen jälkeen sinut ohjataan suoraan projektisivulle:"
 
 #: ../../admin/projects.rst:64
 msgid ""
@@ -19017,6 +19066,9 @@ msgid ""
 "detects most translation parameters. There are several approaches to "
 "creating component:"
 msgstr ""
+"Uuden käännöskomponentin luominen voidaan aloittaa yhdellä napsautuksella. "
+"Komponentin luontiprosessi on monivaiheinen ja tunnistaa automaattisesti "
+"useimmat käännösparametrit. Komponenttien luomiseen on useita tapoja:"
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
@@ -19024,7 +19076,7 @@ msgstr "Versionhallinnasta"
 
 #: ../../admin/projects.rst:69
 msgid "Creates component from remote version control repository."
-msgstr ""
+msgstr "Luo komponentin etäversionhallintatietovarastosta."
 
 #: ../../admin/projects.rst:70
 msgid "From existing component"
@@ -19034,6 +19086,7 @@ msgstr "Olemassa olevasta komponentista"
 msgid ""
 "Creates additional component to existing one by choosing different files."
 msgstr ""
+"Luo lisäosan olemassa olevaan komponenttiin valitsemalla eri tiedostoja."
 
 #: ../../admin/projects.rst:72
 msgid "Additional branch"
@@ -19042,7 +19095,7 @@ msgstr "Lisähaara"
 #: ../../admin/projects.rst:73
 msgid ""
 "Creates additional component to existing one, just for different branch."
-msgstr ""
+msgstr "Luo lisäkomponentin olemassa olevaan, vain eri haaralle."
 
 #: ../../admin/projects.rst:74
 msgid "Upload translations files"
@@ -19054,6 +19107,9 @@ msgid ""
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
+"Uloslataa käännöstiedostot Weblateen, jos sinulla ei ole versionhallintaa "
+"tai et halua integroida sitä Weblateen. Voit päivittää sisältöä myöhemmin "
+"verkkokäyttöliittymän tai :ref:`api`:n avulla."
 
 #: ../../admin/projects.rst:78
 msgid "Translate document"
@@ -19061,7 +19117,7 @@ msgstr "Käännä asiakirja"
 
 #: ../../admin/projects.rst:79
 msgid "Upload single document or translation file and translate that."
-msgstr ""
+msgstr "Uloslataa yksi asiakirja tai käännöstiedosto ja käännä se."
 
 #: ../../admin/projects.rst:80
 msgid "Start from scratch"
@@ -19069,29 +19125,36 @@ msgstr "Aloita tyhjästä"
 
 #: ../../admin/projects.rst:81
 msgid "Create blank translation project and add strings manually."
-msgstr ""
+msgstr "Luo tyhjä käännösprojekti ja lisää merkkijonoja manuaalisesti."
 
 #: ../../admin/projects.rst:83
 msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
 msgstr ""
+"Kun sinulla on olemassa olevia käännöskomponentteja, voit myös helposti "
+"lisätä uusia, uusia tiedostoja tai haaroja varten käyttämällä samaa "
+"tietovarastoa."
 
 #: ../../admin/projects.rst:86
 msgid "First you need to fill in name and repository location:"
-msgstr ""
+msgstr "Ensin sinun on täytettävä nimi ja tietovaraston sijainti:"
 
 #: ../../admin/projects.rst:90
 msgid ""
 "On the next page, you are presented with a list of discovered translatable "
 "resources:"
 msgstr ""
+"Seuraavalla sivulla näytetään luettelo löydetyistä käännettävistä "
+"resursseista:"
 
 #: ../../admin/projects.rst:94
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
 msgstr ""
+"Viimeisenä vaiheena tarkistat käännöskomponentin tiedot ja täytät "
+"valinnaiset tiedot:"
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
@@ -19099,7 +19162,7 @@ msgstr ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 
 #: ../../admin/projects.rst:107
 msgid "Project configuration"
-msgstr ""
+msgstr "Projektin määritys"
 
 #: ../../admin/projects.rst:109
 msgid ""
@@ -19110,6 +19173,12 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
+"Luo käännösprojekti ja lisää siihen sitten uusi käännöskomponentti. Projekti "
+"on kuin hylly, johon on pinottu oikeat käännökset. Kaikki saman projektin "
+"komponentit jakavat ehdotuksia ja niiden sanakirjaa; käännökset etenevät "
+"myös automaattisesti kaikkien yksittäisen projektin komponenttien kautta ("
+"ellei niitä ole kytketty pois päältä komponenttikokoonpanossa), katso "
+":ref:`memory`."
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:289
 msgid ":doc:`/devel/integration`"
@@ -19117,7 +19186,7 @@ msgstr ":doc:`/devel/integration`"
 
 #: ../../admin/projects.rst:119
 msgid "These basic attributes set up and inform translators of a project:"
-msgstr ""
+msgstr "Nämä perusattribuutit määrittävät ja tiedottavat projektin kääntäjille:"
 
 #: ../../admin/projects.rst:124 ../../admin/projects.rst:1075 ../../api.rst:852
 #: ../../contributing/about.rst:11
@@ -19127,6 +19196,7 @@ msgstr "Projektin nimi"
 #: ../../admin/projects.rst:126
 msgid "Verbose project name, used to display the project name."
 msgstr ""
+"Monisanainen projektin nimi, jota käytetään projektin nimen näyttämiseen."
 
 #: ../../admin/projects.rst:130
 msgid ":setting:`PROJECT_NAME_RESTRICT_RE`"
@@ -19138,7 +19208,7 @@ msgstr "URL-polkutunnus"
 
 #: ../../admin/projects.rst:137
 msgid "Project name suitable for URLs."
-msgstr ""
+msgstr "URL-osoitteille sopiva projektin nimi."
 
 #: ../../admin/projects.rst:142 ../../api.rst:856
 #: ../../contributing/about.rst:16
@@ -19147,13 +19217,15 @@ msgstr "Projektin verkkosivusto"
 
 #: ../../admin/projects.rst:144
 msgid "URL where translators can find more info about the project."
-msgstr ""
+msgstr "URL-osoite, josta kääntäjät voivat löytää lisätietoja projektista."
 
 #: ../../admin/projects.rst:146
 msgid ""
 "This is a required parameter unless turned off by :setting:"
 "`WEBSITE_REQUIRED`."
 msgstr ""
+"Tämä on pakollinen parametri, ellei sitä ole poistettu käytöstä "
+":setting:`WEBSITE_REQUIRED`."
 
 #: ../../admin/projects.rst:150
 msgid ""
@@ -19171,6 +19243,9 @@ msgid ""
 "information useful for translators. Markdown can be used for text formatting "
 "or inserting links."
 msgstr ""
+"Teksti, joka kuvaa projektin lokalisointiprosessia ja muuta kääntäjille "
+"hyödyllistä tietoa. Markdownia voidaan käyttää tekstin muotoiluun tai "
+"linkkien lisäämiseen."
 
 #: ../../admin/projects.rst:165
 msgid "Set \"Language-Team\" header"
@@ -19181,6 +19256,8 @@ msgid ""
 "Whether Weblate should manage the ``Language-Team`` header (this is a :ref:"
 "`gettext` only feature right now)."
 msgstr ""
+"Pitääkö Weblate hallinnoida ``Language-Team``-otsikkoa (tämä on tällä "
+"hetkellä ainoa :ref:`gettext`-ominaisuus)."
 
 #: ../../admin/projects.rst:173
 msgid "Use shared translation memory"
@@ -19191,10 +19268,12 @@ msgid ""
 "Whether to use shared translation memory, see :ref:`shared-tm` for more "
 "details."
 msgstr ""
+"Käytetäänkö jaettua käännösmuistia; katso :ref:`shared-tm` saadaksesi "
+"lisätietoja."
 
 #: ../../admin/projects.rst:177 ../../admin/projects.rst:188
 msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
-msgstr ""
+msgstr "Oletusarvoa voidaan muuttaa komennolla :setting:`DEFAULT_SHARED_TM`."
 
 #: ../../admin/projects.rst:182
 msgid "Contribute to shared translation memory"
@@ -19211,20 +19290,27 @@ msgid ""
 "This also affects whether the project can be used as source for :ref:"
 "`automatic-translation`."
 msgstr ""
+"Tämä vaikuttaa myös siihen, voidaanko projektia käyttää lähteenä :ref"
+":`automatic-translation`."
 
 #: ../../admin/projects.rst:192
 msgid ""
 "This option is unavailable on Hosted Weblate, it is toggled together with :"
 "ref:`project-use_shared_tm`."
 msgstr ""
+"Tämä vaihtoehto ei ole käytettävissä Hosted Weblatessa; se vaihdetaan "
+"yhdessä parametrin :ref:`project-use_shared_tm` kanssa."
 
 #: ../../admin/projects.rst:199
 msgid "Configure per project access control, see :ref:`acl` for more details."
 msgstr ""
+"Määritä projektikohtainen pääsynhallinta, katso lisätietoja kohdasta "
+":ref:`acl`."
 
 #: ../../admin/projects.rst:201
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Oletusarvoa voidaan muuttaa komennolla :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/projects.rst:206
 msgid "Enforced two-factor authentication"
@@ -19235,6 +19321,8 @@ msgid ""
 "Enforce :ref:`2fa` for all contributors. Users won’t be allowed to perform "
 "any operations within the project without having it configured."
 msgstr ""
+"Pakota :ref:`2fa` kaikille osallistujille. Käyttäjät eivät saa suorittaa "
+"mitään toimintoja projektin sisällä ilman, että se on määritetty."
 
 #: ../../admin/projects.rst:216 ../../workflows.rst:112 ../../workflows.rst:144
 #: ../../workflows.rst:177
@@ -19243,7 +19331,7 @@ msgstr "Ota tarkistukset käyttöön"
 
 #: ../../admin/projects.rst:218
 msgid "Enable review workflow for translations, see :ref:`reviews`."
-msgstr ""
+msgstr "Ota käännösten tarkistustyönkulku käyttöön, katso :ref:`reviews`."
 
 #: ../../admin/projects.rst:222 ../../admin/projects.rst:600
 #: ../../admin/projects.rst:611 ../../admin/projects.rst:622
@@ -19257,6 +19345,8 @@ msgstr "Ota lähdetekstien tarkistus käyttöön"
 #: ../../admin/projects.rst:229
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgstr ""
+"Ota lähdemerkkijonojen tarkistustyönkulku käyttöön, katso :ref:`source-"
+"reviews`."
 
 #: ../../admin/projects.rst:233 ../../faq.rst:326
 msgid ":ref:`report-source`, :ref:`user-comments`"
@@ -19269,7 +19359,7 @@ msgstr "Ota käyttöön koukut"
 #: ../../admin/projects.rst:241
 msgid ""
 "Whether unauthenticated :ref:`hooks` are to be used for this repository."
-msgstr ""
+msgstr "Käytetäänkö tässä tietovarastossa todentamattomia :ref:`hooks`."
 
 #: ../../admin/projects.rst:245
 msgid ""
@@ -19290,20 +19380,26 @@ msgid ""
 "to get a consistent view in Weblate or in case you want to use non-standard "
 "naming of your translation files."
 msgstr ""
+"Määritä kielikoodien kartoitus tuodessasi käännöksiä Weblateen. Käytä tätä, "
+"kun kielikoodit ovat epäjohdonmukaisia arkistoissasi ja haluat saada "
+"yhtenäisen näkymän Weblatessa tai jos haluat käyttää käännöstiedostojesi "
+"standardista poikkeavaa nimeämistä."
 
 #: ../../admin/projects.rst:260
 msgid ""
 "The typical use case might be mapping American English to English: ``en_US:"
 "en``"
 msgstr ""
+"Tyypillinen käyttötapa voi olla kartoitus Amerikan englannista englanniksi: "
+"``en_US:en``"
 
 #: ../../admin/projects.rst:262
 msgid "Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``"
-msgstr ""
+msgstr "Useita kartoituksia erotetaan pilkulla: ``en_GB:en,en_US:en``"
 
 #: ../../admin/projects.rst:264
 msgid "Using non standard code: ``ia_FOO:ia``"
-msgstr ""
+msgstr "Käyttäen tavallisesta poikkeavaa koodia: ``ia_FOO:ia``"
 
 #: ../../admin/projects.rst:268
 msgid ""
@@ -19311,6 +19407,9 @@ msgid ""
 "matches are case sensitive, so ensure you use the source language codes in "
 "same form as used in the filenames."
 msgstr ""
+"Kielikoodit kartoitetaan käännöstiedostoja sovitettaessa, ja vastaavuuksissa "
+"isot ja pienet kirjaimet ovat erottelevia, joten varmista, että käytät "
+"lähdekielikoodeja samassa muodossa kuin tiedostojen nimissä."
 
 #: ../../admin/projects.rst:274
 #, fuzzy
@@ -19325,7 +19424,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:281 ../../devel/sphinx.rst:30
 msgid "Component configuration"
-msgstr ""
+msgstr "Komponenttien määritys"
 
 #: ../../admin/projects.rst:283
 msgid ""
@@ -19334,6 +19433,10 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
+"Komponentti on jonkin ryhmittely käännettäväksi. Ilmoitat VCS-tietovaraston "
+"sijainnin ja tiedostopeitteen, joille tiedostot haluat kääntää, ja Weblate "
+"noutaa automaattisesti tästä VCS:stä ja löytää kaikki vastaavat käännettävät "
+"tiedostot."
 
 #: ../../admin/projects.rst:291
 msgid ""
@@ -19346,6 +19449,9 @@ msgid ""
 "split the translation by anything that makes sense in your case (individual "
 "apps or add-ons, book chapters or websites)."
 msgstr ""
+"On suositeltavaa pitää käännöskomponentit kohtuullisen kokoisina - jaa "
+"käännös mihin tahansa tarkoitukseen sopivaan tapaukseen (yksittäiset "
+"sovellukset tai lisäosat, kirjan luvut tai verkkosivustot)."
 
 #: ../../admin/projects.rst:299
 msgid ""
@@ -19353,6 +19459,9 @@ msgid ""
 "to split work and coordinate among translators with such large translation "
 "components."
 msgstr ""
+"Weblate käsittelee helposti käännökset, joissa on 10 000 merkkijonoa, mutta "
+"niin suurilla käännöskomponenteilla on vaikeampaa jakaa työtä ja koordinoida "
+"kääntäjien kesken."
 
 #: ../../admin/projects.rst:302
 msgid ""
@@ -19361,12 +19470,18 @@ msgid ""
 "the definition and report this back to the Weblate authors, so that the "
 "missing languages can be included in next release."
 msgstr ""
+"Jos käännöksen kielimääritys puuttuu, luodaan tyhjä määritelmä ja nimetään "
+"\"cs_CZ (generated)\". Sinun tulee muokata määritelmää ja raportoida siitä "
+"Weblate-tekijöille, jotta puuttuvat kielet voidaan sisällyttää seuraavaan "
+"julkaisuun."
 
 #: ../../admin/projects.rst:307
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
 msgstr ""
+"Komponentti sisältää kaikki tärkeät parametrit VCS:n kanssa työskentelyyn ja "
+"käännösten saamiseen siitä irti:"
 
 #: ../../admin/projects.rst:313 ../../admin/projects.rst:1071
 msgid "Component name"
@@ -19391,7 +19506,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:329
 msgid ":ref:`project` where the component belongs."
-msgstr ""
+msgstr ":ref:`project`, johon komponentti kuuluu."
 
 #: ../../admin/projects.rst:334
 msgid "Version control system"
@@ -19407,11 +19522,11 @@ msgstr ":ref:`push-changes`"
 
 #: ../../admin/projects.rst:345 ../../devel/gettext.rst:224
 msgid "Source code repository"
-msgstr "Lähdekoodin arkisto"
+msgstr "Lähdekoodin tietovarasto"
 
 #: ../../admin/projects.rst:347
 msgid "VCS repository used to pull changes."
-msgstr ""
+msgstr "Käytettävä VCS-tietovarasto muutosten vetämiseen."
 
 #: ../../admin/projects.rst:351
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
@@ -19423,10 +19538,13 @@ msgid ""
 "indicating that the repository should be shared with another component. See :"
 "ref:`internal-urls` for more details."
 msgstr ""
+"Tämä voi olla joko todellinen VCS-URL-osoite tai ``weblate://project/"
+"component``, joka osoittaa, että tietovarasto tulee jakaa toisen komponentin "
+"kanssa. Katso lisätietoja kohdasta :ref:`internal-urls`."
 
 #: ../../admin/projects.rst:362
 msgid "Repository push URL"
-msgstr "Etäarkiston päivityslinkki (push URL)"
+msgstr "Tietovaraston työntö-URL-osoite"
 
 #: ../../admin/projects.rst:364
 msgid ""
@@ -19440,16 +19558,21 @@ msgid ""
 "For linked repositories, this is not used and setting from linked component "
 "applies."
 msgstr ""
+"Linkitetyille tietovarastoille tätä ei käytetä, ja linkitetyn komponentin "
+"asetus sovelletaan."
 
 #: ../../admin/projects.rst:372
 msgid ""
 "See :ref:`vcs-repos` for more details on how to specify a repository URL "
 "and :ref:`push-changes` for more details on pushing changes from Weblate."
 msgstr ""
+"Katso :ref:`vcs-repos` saadaksesi lisätietoja tietovaraston URL-osoitteen "
+"määrittämisestä ja :ref:`push-changes` saadaksesi lisätietoja muutosten "
+"työntämisestä Weblatesta."
 
 #: ../../admin/projects.rst:378
 msgid "Repository browser"
-msgstr "Arkistoselain"
+msgstr "Tietovarastoselain"
 
 #: ../../admin/projects.rst:380
 msgid ""
@@ -19457,12 +19580,17 @@ msgid ""
 "messages). When empty, no such links will be generated. You can use :ref:"
 "`markup`."
 msgstr ""
+"Lähdetiedostojen näyttämiseen käytettävän tietovarastoselaimen URL-osoite ("
+"käytettyjen viestien sijainti). Kun se on tyhjä, tällaisia linkkejä ei "
+"luoda. Voit käyttää :ref:`markup`."
 
 #: ../../admin/projects.rst:383
 msgid ""
 "For example on GitHub, use something like: ``https://github.com/WeblateOrg/"
 "hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 msgstr ""
+"Käytä esimerkiksi GitHubissa jotain tällaista: ``https://github.com/"
+"WeblateOrg/hello/blob/{{branch}}/{{tiedostonimi}}#L{{line}}``"
 
 #: ../../admin/projects.rst:386
 msgid ""
@@ -19471,10 +19599,14 @@ msgid ""
 "`markup`): ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|"
 "parentdir}}#L{{line}}``"
 msgstr ""
+"Jos polkusi ovat suhteessa eri kansioon (polku sisältää ``..``), sinun "
+"kannattaa poistaa johtava hakemisto ``parentdir``-suodattimella (katso "
+":ref:`markup`): ``https://github.com/WeblateOrg/hello/blob/"
+"{{branch}}/{{tiedostonimi|parentdir}}#L{{line}}``"
 
 #: ../../admin/projects.rst:394
 msgid "Exported repository URL"
-msgstr "Viedyn arkiston osoite (URL)"
+msgstr "Viedyn tietovaraston URL-osoite"
 
 #: ../../admin/projects.rst:396
 msgid ""
@@ -19483,10 +19615,14 @@ msgid ""
 "merge changes. You can use :ref:`git-exporter` to automate this for Git "
 "repositories."
 msgstr ""
+"URL-osoite, johon Weblaten tekemät muutokset viedään. Tämä on tärkeää, kun "
+":ref:`continuous-translation` ei ole käytössä tai kun muutokset on "
+"yhdistettävä manuaalisesti. Voit käyttää :ref:`git-exporter` "
+"automatisoidaksesi tämän Git-tietovarastoissa."
 
 #: ../../admin/projects.rst:404
 msgid "Repository branch"
-msgstr "Arkistohaara"
+msgstr "Tietovaraston haara"
 
 #: ../../admin/projects.rst:406
 msgid ""
@@ -19500,12 +19636,16 @@ msgstr "Työntöhaara"
 #: ../../admin/projects.rst:415
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
 msgstr ""
+"Haara muutosten työntämistä varten, jätä tyhjäksi käyttääksesi :ref"
+":`component-branch`."
 
 #: ../../admin/projects.rst:421
 msgid ""
 "This is currently only supported for Git, GitLab and GitHub, it is ignored "
 "for other VCS integrations."
 msgstr ""
+"Tätä tuetaan tällä hetkellä vain Gitissä, GitLabissa ja GitHubissa; se "
+"jätetään huomioimatta muiden VCS-integraatioiden yhteydessä."
 
 #: ../../admin/projects.rst:431 ../../devel/gettext.rst:226
 #: ../../formats/android.rst:72 ../../formats/android.rst:87
@@ -19531,7 +19671,7 @@ msgstr ""
 #: ../../formats/winrc.rst:34 ../../formats/xliff.rst:144
 #: ../../formats/xliff.rst:156 ../../formats/yaml.rst:30
 msgid "File mask"
-msgstr "Tiedoston maski"
+msgstr "Tiedoston peite"
 
 #: ../../admin/projects.rst:433
 msgid ""
@@ -19559,7 +19699,7 @@ msgstr ":ref:`bimono`, :ref:`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:452
 msgid "Screenshot file mask"
-msgstr "Kuvakaappaustiedoston peite"
+msgstr "Kuvakaappaus tiedoston peitteestä"
 
 #: ../../admin/projects.rst:454
 msgid ""
@@ -19568,6 +19708,10 @@ msgid ""
 "the component level and necessitates the use of an asterisk \"*\" to replace "
 "the screenshot file name."
 msgstr ""
+"Tämä ominaisuus mahdollistaa kuvakaappausten löytämisen ja päivityksen "
+"kuvakaappaustiedostomaskien avulla käyttämällä VCS-tietovaraston polkuja. "
+"Tämä toimii komponenttitasolla ja vaatii tähden \"*\" käytön korvaamaan "
+"kuvakaappaustiedoston nimi."
 
 #: ../../admin/projects.rst:457
 msgid "Allowed formats are WebP, JPEG, PNG, APNG and GIF."
@@ -19582,6 +19726,8 @@ msgid ""
 "The file mask and screenshot file mask are not related. Configure them "
 "separately."
 msgstr ""
+"Tiedoston peite ja kuvakaappauksen tiedoston peite eivät liity toisiinsa. "
+"Määritä ne erikseen."
 
 #: ../../admin/projects.rst:462
 msgid ""
@@ -19594,6 +19740,7 @@ msgid "Let's assume your VCS repository has a structure like this:"
 msgstr ""
 
 #: ../../admin/projects.rst:475
+#, fuzzy
 msgid ""
 "For component_A, you want to allow discovery and updates of PNG screenshots. "
 "You'd set the screenshot file mask for component_A as ``component_A/docs/*."
@@ -19602,6 +19749,13 @@ msgid ""
 "you provide should be named ``image1.png``, matching the existing "
 "``filename``, and stored under ``component_A/docs/``."
 msgstr ""
+"Komponentti_A:lle haluat sallia PNG-kuvakaappausten etsimisen ja "
+"päivitykset. Määrität komponentin_A kuvakaappauksen tiedoston peitteeksi ``"
+"komponentti_A/docs/*.png``. Tämä tarkoittaa, että kaikki komponentin_A "
+"dokumenttien PNG-kuvat voidaan löytää ja päivittää. Joten jos haluat "
+"päivittää kuvan ``image1.png``, tarjoamasi uuden kuvakaappauksen tulee "
+"nimetä ``image1.png``, joka vastaa olemassa olevaa ``tiedostonimeä`` ja "
+"tallentaa kohtaan ``component_A/docs/` `."
 
 #: ../../admin/projects.rst:484 ../../formats/android.rst:74
 #: ../../formats/android.rst:89 ../../formats/apple.rst:30
@@ -19642,15 +19796,12 @@ msgid "Whether to allow editing strings in the :ref:`component-template`."
 msgstr ""
 
 #: ../../admin/projects.rst:502
-#, fuzzy
-#| msgid ""
-#| ":ref:`new-translations`, :ref:`language-code`, :ref:`language-parsing-"
-#| "codes`"
 msgid ""
 ":ref:`bimono`, :ref:`monolingual`, :ref:`faq-duplicate-files`, :ref:"
 "`component-manage_units`"
 msgstr ""
-":ref:`new-translations`, :ref:`language-code`, :ref:`language-parsing-codes`"
+":ref:`bimono`, :ref:`monolingual`, :ref:`faq-duplicate-files`, :ref"
+":`component-manage_units`"
 
 #: ../../admin/projects.rst:512
 msgid ""
@@ -19751,16 +19902,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:550
-#, fuzzy
-#| msgid ""
-#| ":ref:`adding-translation`, :ref:`new-translations`, :ref:`component-"
-#| "new_lang`, :ref:`bimono`, :ref:`faq-duplicate-files`"
 msgid ""
 ":ref:`adding-translation`, :ref:`component-new_lang`, :ref:`bimono`, :ref:"
 "`faq-duplicate-files`"
 msgstr ""
-":ref:`adding-translation`, :ref:`new-translations`, :ref:`component-"
-"new_lang`, :ref:`bimono`, :ref:`faq-duplicate-files`"
+":ref:`adding-translation`, :ref:`component-new_lang`, :ref:`bimono`, :ref"
+":`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:560
 msgid "Translation file format, see also :ref:`formats`."
@@ -19801,16 +19948,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:585
-#, fuzzy
-#| msgid ""
-#| "The default can also be changed by setting :setting:"
-#| "`DEFAULT_ACCESS_CONTROL`."
 msgid ""
 "The default value can be changed by :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
-"Oletusasetusta voidaan muuttaa myös asettamalla :setting:"
-"`DEFAULT_ACCESS_CONTROL`."
+"Oletusarvoa voidaan muuttaa komennolla "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/projects.rst:589 ../../faq.rst:173 ../../faq.rst:188
 #: ../../user/checks.rst:960 ../../user/translating.rst:392
@@ -20200,14 +20343,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:807
-#, fuzzy
-#| msgid ""
-#| "The default can also be changed by setting :setting:"
-#| "`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
-msgstr ""
-"Oletusasetusta voidaan muuttaa myös asettamalla :setting:"
-"`DEFAULT_ACCESS_CONTROL`."
+msgstr "Oletusarvoa voidaan muuttaa komennolla :setting:`DEFAULT_MERGE_STYLE`."
 
 #: ../../admin/projects.rst:817
 #, fuzzy
@@ -20220,18 +20357,16 @@ msgid "Message used when committing a translation, see :ref:`markup`."
 msgstr ""
 
 #: ../../admin/projects.rst:821
-#, fuzzy
-#| msgid ""
-#| "DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
-#| "DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 msgid ""
 "The default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
 "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
 "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
 "`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
-"DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
+"Oletusarvoa voidaan muuttaa komennoilla :setting:`DEFAULT_ADD_MESSAGE`, "
+":setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, "
+":setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, "
+":setting:`DEFAULT_PULL_MESSAGE`."
 
 #: ../../admin/projects.rst:829
 msgid "Push on commit"
@@ -20244,6 +20379,11 @@ msgid ""
 "to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
+"Pitäisikö sidotut muutokset automaattisesti työntää ylävirran "
+"tietovarastoon. Kun tämä on käytössä, työntö käynnistetään, kun Weblate "
+"sitoo muutokset taustalla olevaan tietovarastoon (katso :ref:`lazy-commit`). "
+"Jotta työntö voidaan ottaa käyttöön, :guilabel:`Arkiston push URL` on myös "
+"määritettävä."
 
 #: ../../admin/projects.rst:840
 msgid "Age of changes to commit"
@@ -20258,14 +20398,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:847
-#, fuzzy
-#| msgid ""
-#| "The default can also be changed by setting :setting:"
-#| "`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
-msgstr ""
-"Oletusasetusta voidaan muuttaa myös asettamalla :setting:"
-"`DEFAULT_ACCESS_CONTROL`."
+msgstr "Oletusarvoa voidaan muuttaa komennolla :setting:`COMMIT_PENDING_HOURS`."
 
 #: ../../admin/projects.rst:851
 msgid ""
@@ -20728,6 +20862,8 @@ msgid ""
 "The following variables are available in the repository browser or editor "
 "templates:"
 msgstr ""
+"Seuraavat muuttujat ovat saatavilla tietovaraston selaimessa tai "
+"muokkausmalleissa:"
 
 #: ../../admin/projects.rst:1105
 msgid "``{{branch}}``"
@@ -20908,6 +21044,11 @@ msgid ""
 "packages are available for everyone, including self-hosting users. Find info "
 "about current support offerings at https://weblate.org/support."
 msgstr ""
+"*Weblate* on kopiojätetty vapaa ohjelmisto yhteisön tuella. "
+"Isännöintitilaajat saavat ensisijaista tukea ilman lisämaksua. Prepaid-"
+"apupaketit ovat saatavilla kaikille, myös itseisännöiville käyttäjille. "
+"Lisätietoja nykyisistä tukitarjouksista on osoitteessa https://weblate.org/"
+"support."
 
 #: ../../admin/support.rst:13
 msgid "Integrating support"
@@ -22310,7 +22451,7 @@ msgstr ""
 
 #: ../../api.rst:867
 msgid "project website"
-msgstr ""
+msgstr "projektin verkkosivusto"
 
 #: ../../api.rst:868
 msgid ""
@@ -22774,6 +22915,8 @@ msgid ""
 ":ref:`component-branch`, this is the actual repository branch even when :ref:"
 "`internal-urls` are used"
 msgstr ""
+":ref:`component-branch`; tämä on todellinen tietovaraston haara, vaikka "
+"käytettäisiin :ref:`internal-urls`"
 
 #: ../../api.rst:1307
 msgid ""
@@ -22786,6 +22929,8 @@ msgid ""
 ":ref:`component-push_branch`, this is the actual repository branch even "
 "when :ref:`internal-urls` are used"
 msgstr ""
+":ref:`component-push_branch`; tämä on todellinen tietovaraston haara, vaikka "
+"käytettäisiin :ref:`internal-urls`"
 
 #: ../../api.rst:1309 ../../devel/sphinx.rst:34
 msgid ":ref:`component-filemask`"
@@ -23007,7 +23152,7 @@ msgstr ""
 
 #: ../../api.rst:1488
 msgid "VCS repository branch"
-msgstr ""
+msgstr "VCS-tietovaraston haara"
 
 #: ../../api.rst:1489
 msgid "file format of translations"
@@ -25937,10 +26082,8 @@ msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr ""
 
 #: ../../changes.rst:423
-#, fuzzy
-#| msgid ":doc:`/admin/machine`"
 msgid "Language aliases in :doc:`/admin/machine`."
-msgstr ":doc:`/admin/machine`"
+msgstr "Kielen aliakset :doc:`/admin/machine`:ssa."
 
 #: ../../changes.rst:429
 msgid ""
@@ -26051,7 +26194,7 @@ msgstr ""
 
 #: ../../changes.rst:476
 msgid "False-positive merge failure alert when using push branch."
-msgstr ""
+msgstr "Väärä positiivinen yhdistämisvika käytettäessä työntöhaaraa."
 
 #: ../../changes.rst:477
 #, fuzzy
@@ -28345,6 +28488,7 @@ msgstr ""
 #: ../../changes/v1.rst:159
 msgid "Added widgets which can be used for promoting translation projects."
 msgstr ""
+"Lisätyt vimpaimet, joita voidaan käyttää käännösprojektien edistämiseen."
 
 #: ../../changes/v1.rst:160
 msgid "Added option to reset repository to origin (for privileged users)."
@@ -30832,7 +30976,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:260
 msgid "Use templates for editor link and repository browser URL."
-msgstr ""
+msgstr "Käytä malleja muokkauslinkille ja tietovaraston selaimen URL-osoitetta."
 
 #: ../../changes/v3.rst:261
 msgid ""
@@ -33735,10 +33879,8 @@ msgid "Released on July 15th 2021."
 msgstr ""
 
 #: ../../changes/v4.rst:653
-#, fuzzy
-#| msgid "Add support for searching by component and project."
 msgid "Support more language aliases to be configured on a project."
-msgstr "Lisää tukea komponenttien ja projektien hakemiseen."
+msgstr "Tukee useampia kielialiaksia, jotka määritetään projektille."
 
 #: ../../changes/v4.rst:654
 msgid "Fixed search string validation in API."
@@ -35613,6 +35755,8 @@ msgstr ""
 #: ../../changes/v4.rst:1244
 msgid "Added component alert for broken repository browser URLs."
 msgstr ""
+"Lisätty komponenttivaroitus rikkoutuneista tietovarastoselaimen URL-"
+"osoitteista."
 
 #: ../../changes/v4.rst:1245
 msgid "Improved sign in and registration pages."
@@ -36067,6 +36211,12 @@ msgid ""
 "defined categories. Weblate team members occasionally visit Discussions and "
 "can also be mentioned by their GitHub usernames."
 msgstr ""
+"`GitHub Discussions <https://github.com/WeblateOrg/weblate/discussions>`_ on "
+"yhteisöllinen paikka. Ideat, kyselyt, kysymykset ja vastaukset sekä Näytä ja "
+"kerro -kategoriat voidaan valita postauksen yhteydessä. Yleinen kategoria "
+"sopii kaikkiin määriteltyjen luokkien ulkopuolisiin virkoihin. Weblate-"
+"joukkueen jäsenet vierailevat ajoittain keskusteluissa, ja heidät voidaan "
+"myös mainita GitHub-käyttäjänimillään."
 
 #: ../../contributing/communication.rst:18
 #, fuzzy
@@ -36081,6 +36231,10 @@ msgid ""
 "<https://fosstodon.org/@weblate>`_ on Mastodon. The Weblate team boosts good "
 "moods and bright ideas!"
 msgstr ""
+"Jos haluat houkutella tapauksiisi laajan yhteisön Weblate-käyttäjiä, faneja "
+"ja kehittäjiä, voit seurata ja mainita osoitteen `@weblate@fosstodon.org "
+"<https://fosstodon.org/@weblate>`_ Mastodonissa. Weblate-joukkue lisää hyvää "
+"mieltä ja valoisia ideoita!"
 
 #: ../../contributing/communication.rst:22
 msgid "Libera.Chat"
@@ -36098,6 +36252,15 @@ msgid ""
 "the chat by specifying a nickname or as a guest by default. Weblate team "
 "members do not visit here."
 msgstr ""
+"`Libera.Chat <https://web.libera.chat/#weblate>`_ on IRC-verkko FOSS-"
+"projekteille. Sitä voidaan käyttää epävirallisesti kysymään peruskysymyksiä "
+"tai aloittamaan keskusteluja siellä olevan yhteisön kanssa. Tämän alustan "
+"voidaan ajatella olevan samanlainen kuin henkilökohtainen viestintä, jossa "
+"vain huoneessa (kanavalla) tällä hetkellä olevat ihmiset vastaavat "
+"viestiisi. Tätä paikkaa voidaan käyttää, kun julkaiset GitHub-keskusteluissa "
+"tai GitHub-ongelmia ei suositella yllä olevien ohjeiden mukaisesti. Tiliä ei "
+"vaadita; käyttäjät voivat osallistua keskusteluun määrittämällä lempinimen "
+"tai oletuksena vieraana. Weblate-joukkueen jäsenet eivät käy täällä."
 
 #: ../../contributing/debugging.rst:2
 msgid "Debugging Weblate"
@@ -36655,6 +36818,9 @@ msgid ""
 "You can join the community in `GitHub discussions <https://github.com/"
 "WeblateOrg/weblate/discussions>`_."
 msgstr ""
+"Jos sinulla on idea etkä ole varma, sopiiko se johonkin ongelmaan, älä "
+"huoli. Voit liittyä yhteisöön `GitHub-keskusteluissa <https://github.com/"
+"WeblateOrg/weblate/discussions>`_."
 
 #: ../../contributing/index.rst:88
 msgid "Funding Weblate development"
@@ -36738,16 +36904,12 @@ msgid "`Scenari (Kelis) <https://scenari.software/>`_"
 msgstr ""
 
 #: ../../../BACKERS.rst:21
-#, fuzzy
-#| msgid "`Libravatar <https://www.libravatar.org/>`_"
 msgid "`BibLibre (Koha community) <https://www.biblibre.com/>`_"
-msgstr "`Libravatar <https://www.libravatar.org/>`_"
+msgstr "`BibLibre (Koha-yhteisö) <https://www.biblibre.com/>`_"
 
 #: ../../../BACKERS.rst:22
-#, fuzzy
-#| msgid "Building community"
 msgid "Koha community"
-msgstr "Yhteisön rakentaminen"
+msgstr "Koha-yhteisö"
 
 #: ../../../BACKERS.rst:23
 msgid "24eme.fr"
@@ -38628,6 +38790,8 @@ msgid ""
 "Describe a social media account, page, or community in accordance with "
 "the Social Media Guidelines."
 msgstr ""
+"Kuvaile sosiaalisen median tiliä, sivua tai yhteisöä Sosiaalisen median "
+"ohjeiden mukaisesti."
 
 #: ../../contributing/trademark.rst:23
 msgid ""
@@ -38730,6 +38894,11 @@ msgid ""
 "trademarks or Weblate logos or otherwise suggest any affiliation with "
 "Weblate."
 msgstr ""
+"Et voi esimerkiksi nimetä tiliäsi, sivuasi tai yhteisöäsi "
+"\"Weblate-edustajat\" tai \"Weblate-ohjelmisto\". On kuitenkin hyväksyttävää "
+"nimetä tilisi, sivusi tai yhteisösi \"Weblate-fanit\" tai "
+"\"Tiedot Weblate-ohjelmistosta\", jos et käytä Weblate-tavaramerkkejä tai "
+"Weblate-logoja tai muuten annat ymmärtää sidoksia Weblateen."
 
 #: ../../contributing/trademark.rst:54
 msgid "Open-Source Project Guidelines"
@@ -38825,7 +38994,7 @@ msgstr ""
 
 #: ../../contributing/trademark.rst:85
 msgid "Weblate Community Guidelines"
-msgstr ""
+msgstr "Weblaten yhteisön säännöt"
 
 #: ../../contributing/trademark.rst:87
 msgid ""
@@ -38833,6 +39002,9 @@ msgid ""
 "members of the Weblate Community, and these Weblate Trademark Guidelines do "
 "not alter any such previously granted permissions."
 msgstr ""
+"Useille Weblate-yhteisön jäsenille on myönnetty erilaisia käyttöoikeuksia "
+"Weblate-tavaramerkkien käyttöön, eivätkä nämä Weblate-tavaramerkkiohjeet "
+"muuta tällaisia aiemmin myönnettyjä käyttöoikeuksia."
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
@@ -38948,10 +39120,8 @@ msgid ":ref:`production-certs`"
 msgstr ":ref:`production-certs`"
 
 #: ../../devel/community.rst:2
-#, fuzzy
-#| msgid "Building community"
 msgid "Building a translators community"
-msgstr "Yhteisön rakentaminen"
+msgstr "Kääntäjäyhteisön rakentaminen"
 
 #: ../../devel/community.rst:4
 msgid ""
@@ -38984,6 +39154,9 @@ msgid ""
 "menu of each component can give you guidance to make your localization "
 "process easy for community translators."
 msgstr ""
+":guilabel:`Yhteisön lokalisoinnin tarkistuslista`, joka löytyy kunkin "
+"komponentin valikosta, voi auttaa sinua tekemään lokalisointiprosessistasi "
+"helppoa yhteisön kääntäjille."
 
 #: ../../devel/community.rst:22
 #, fuzzy
@@ -39638,7 +39811,7 @@ msgstr ""
 
 #: ../../devel/integration.rst:19
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
-msgstr ""
+msgstr ":ref:`adding-projects`, :ref:`faq-submodule`"
 
 #: ../../devel/integration.rst:23
 #, fuzzy
@@ -40514,6 +40687,8 @@ msgid ""
 "`Weblate plugin for Figma <https://www.figma.com/community/"
 "plugin/1053050985172660071/weblate-integration>`_"
 msgstr ""
+"`Weblate-liitännäinen Figmalle <https://www.figma.com/community/plugin/"
+"1053050985172660071/weblate-integration>`_"
 
 #: ../../devel/thirdparty.rst:9
 msgid ""
@@ -40811,6 +40986,8 @@ msgid ""
 "Split component translation strings into categories by text and colour in "
 "the project configuration."
 msgstr ""
+"Jaa komponenttien käännösjonot luokkiin tekstin ja värin mukaan projektin "
+"kokoonpanossa."
 
 #: ../../devel/translations.rst:179
 msgid ""
@@ -41108,6 +41285,12 @@ msgid ""
 "is updated, but the component configuration still points to the old files. "
 "This makes Weblate assume that it should delete all the translations."
 msgstr ""
+"Jos haluat säilyttää historian, kommentit tai kuvakaappaukset linkitetyinä "
+"merkkijonoihin tiedostojen sijainnin muuttamisen jälkeen, sinun on "
+"varmistettava, että näitä merkkijonoja ei koskaan poisteta Weblatessa. Nämä "
+"poistot voivat tapahtua, jos Weblate-tietovarastoa päivitetään, mutta "
+"komponenttien kokoonpano viittaa edelleen vanhoihin tiedostoihin. Tämä saa "
+"Weblate olettamaan, että sen pitäisi poistaa kaikki käännökset."
 
 #: ../../faq.rst:289
 msgid "The solution to this is to perform the operation in sync with Weblate:"
@@ -41142,10 +41325,10 @@ msgid ""
 msgstr ""
 
 #: ../../faq.rst:296
-#, fuzzy
-#| msgid "The component contains unsupported configuration."
 msgid "Unlock the component and re-enable hooks in the project configuration."
-msgstr "Komponentti sisältää asetuksia, joita ei tueta."
+msgstr ""
+"Avaa komponentin lukitus ja ota koukut uudelleen käyttöön "
+"projektikokoonpanossa."
 
 #: ../../faq.rst:300 ../../faq.rst:435
 msgid ""
@@ -41360,10 +41543,8 @@ msgid "Perform the renaming of the files in the repository."
 msgstr "Versioiden yhdistämisessä (merge) on tapahtunut virhe"
 
 #: ../../faq.rst:430
-#, fuzzy
-#| msgid "Select an existing component configuration to copy."
 msgid "Update the component configuration to match new file names."
-msgstr "Valitse olemassa oleva komponentin asetukset kopioitavaksi."
+msgstr "Päivitä komponenttien kokoonpano vastaamaan uusia tiedostojen nimiä."
 
 #: ../../faq.rst:431
 #, fuzzy
@@ -41585,6 +41766,8 @@ msgid ""
 "Weblate supports a wide range of translation formats. Each format is "
 "slightly different and provides a different set of capabilities."
 msgstr ""
+"Weblate tukee monenlaisia käännösmuotoja. Jokainen muoto on hieman erilainen "
+"ja tarjoaa erilaiset ominaisuudet."
 
 #: ../../formats.rst:11
 msgid ""
@@ -44131,6 +44314,9 @@ msgid ""
 "Expand the \"Read the Docs\" panel at the bottom of the sidebar to see the "
 "list."
 msgstr ""
+"Weblaten dokumentaatio on saatavilla monina eri kielinä ja versioina. "
+"Laajenna \"Lue dokumentit\" paneeli sivupaneelin alareunasta nähdäksesi "
+"listan."
 
 #: ../../index.rst:16
 msgid ""
@@ -44138,6 +44324,10 @@ msgid ""
 "docs.weblate.org/en/latest/>`_ by community members on `Hosted Weblate "
 "<https://hosted.weblate.org/projects/weblate/documentation/>`_."
 msgstr ""
+"Yhteisön jäsenet ovat kääntäneet tämän dokumentaation `alkuperäisestä "
+"englanninkielisestä versiosta <https://docs.weblate.org/en/latest/>`_ `"
+"Hosted Weblatessa <https://hosted.weblate.org/projects/weblate/documentation/"
+">`_."
 
 #: ../../index.rst:20
 msgid ""
@@ -44146,12 +44336,18 @@ msgid ""
 "community by providing new translations or reviewing existing ones on "
 "Weblate."
 msgstr ""
+"Käännöstyön valmistumisasteesta riippuen saatat löytää kappaleita tai "
+"kokonaisia sivuja, jotka ovat edelleen englanninkielisiä. Voit auttaa "
+"yhteisöä tarjoamalla uusia käännöksiä tai arvioimalla olemassa olevia "
+"käännöksiä Weblatessa."
 
 #: ../../index.rst:25
 msgid ""
 "Welcome to the official documentation of `Weblate <https://weblate.org>`_, "
 "the libre software web-based continuous localization system."
 msgstr ""
+"Tervetuloa ilmaisen verkkopohjaisen jatkuvan lokalisointijärjestelmän `"
+"Weblate <https://weblate.org>`_ viralliseen dokumentaatioon."
 
 #: ../../index.rst:28
 msgid ""
@@ -44159,40 +44355,33 @@ msgid ""
 "documentation for your topic of interest. You can also use the search "
 "function in the top-left corner."
 msgstr ""
+"Pääset helposti selaamaan sinua kiinnostavia aiheita sivupalkista tai alla "
+"olevasta sisällysluettelosta. Voit myös käyttää vasemmassa yläkulmassa "
+"olevaa hakutoimintoa."
 
 #: ../../index.rst:32
-#, fuzzy
-#| msgid "First name"
 msgid "First time here?"
-msgstr "Etunimi"
+msgstr "Ensimmäistä kertaa täällä?"
 
 #: ../../index.rst:33
 msgid "Read the :doc:`user/basic` to get an overview of what Weblate does."
-msgstr ""
+msgstr "Lue :doc:`user/basic` saadaksesi yleiskuvan Weblaten toiminnasta."
 
 #: ../../index.rst:36
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Joining a translation project"
-msgstr "Käännösprojektien mainostaminen"
+msgstr "Liittyminen käännösprojektiin"
 
 #: ../../index.rst:37
-#, fuzzy
-#| msgid ""
-#| "If you would like to contribute to translation of %(project)s, you need "
-#| "to register on this server."
 msgid ""
 "If you would like to contribute to a project as a translator, read about :"
 "doc:`user/translating`."
 msgstr ""
-"Jos haluat osallistua projektin %(project)s kääntämiseen, sinun pitää ensin "
-"rekisteröityä tälle palvelimelle."
+"Jos haluat osallistua projektiin kääntäjänä, lue aiheesta :doc:`user/"
+"translating`."
 
 #: ../../index.rst:40
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Starting a translation project"
-msgstr "Käännösprojektien mainostaminen"
+msgstr "Käännösprojektin aloittaminen"
 
 #: ../../index.rst:41
 msgid ""
@@ -44200,6 +44389,9 @@ msgid ""
 "doc:`admin/projects`. For self-hosting your own Weblate clone, read our :doc:"
 "`admin/install`."
 msgstr ""
+"Aloitaksesi oma projektisi pilvipalvelussamme Hosted Weblate, katso :doc:`"
+"admin/projects`. Jos haluat isännöidä omaa Weblate-kloonisi, lue :doc:`admin/"
+"install`."
 
 #: ../../index.rst:45
 msgid "FAQ"
@@ -44207,19 +44399,15 @@ msgstr ""
 
 #: ../../index.rst:46
 msgid "Check our :doc:`faq`."
-msgstr ""
+msgstr "Tarkista :doc:`faq`."
 
 #: ../../index.rst:49
-#, fuzzy
-#| msgid "Commit"
 msgid "Community"
-msgstr "Commitoi"
+msgstr "Yhteisö"
 
 #: ../../index.rst:50
-#, fuzzy
-#| msgid ":ref:`contributing`"
 msgid "Learn more about :ref:`contributing`."
-msgstr ":ref:`contributing`"
+msgstr "Lisätietoja :ref:`contributing`."
 
 #: ../../legal.rst:2
 msgid "Legal documents"
@@ -49067,6 +49255,8 @@ msgid ""
 "Translation projects hold related components; resources for the same "
 "software, book, or project."
 msgstr ""
+"Käännösprojektit sisältävät niihin liittyviä komponentteja; resursseja "
+"samaan ohjelmistoon, kirjaan tai projektiin."
 
 #: ../../user/translating.rst:33
 msgid "Translation links"
@@ -50145,6 +50335,9 @@ msgid ""
 "if it finds a component with a matching repository setup. You can override "
 "this in the last step of the component configuration."
 msgstr ""
+"Weblate säätää automaattisesti arkiston URL-osoitetta komponenttia "
+"luodessaan, jos se löytää komponentin, jolla on vastaavat arkistoasetukset. "
+"Voit ohittaa tämän komponentin määrityksen viimeisessä vaiheessa."
 
 #: ../../vcs.rst:210
 msgid "Reasons to use this:"
@@ -50939,7 +51132,7 @@ msgstr ""
 
 #: ../../wlc.rst:298
 msgid "Per project configuration file"
-msgstr ""
+msgstr "Projektin määritystiedostoa kohti"
 
 #: ../../wlc.rst:299
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
@@ -51350,6 +51543,9 @@ msgid ""
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → :guilabel:`Settings` menu):"
 msgstr ""
+"Tarkastukset voidaan ottaa käyttöön projektin asetuksissa projektiasetusten "
+":guilabel:`Workflow`-alisivulta (löytyy :guilabel:`Manage` → "
+":guilabel:`Settings`-valikosta):"
 
 #: ../../workflows.rst:207
 msgid "Quality gateway for the source strings"
