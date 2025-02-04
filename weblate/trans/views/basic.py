@@ -102,7 +102,7 @@ def list_projects(request: AuthenticatedHttpRequest):
         {
             "allow_index": True,
             "projects": prefetch_project_flags(
-                get_paginator(request, prefetch_stats(projects))
+                get_paginator(request, projects, stats=True)
             ),
             "title": gettext("Projects"),
             "query_string": query_string,
@@ -149,7 +149,7 @@ def show_engage(request: AuthenticatedHttpRequest, path):
                 language=language, component__in=project.glossaries
             ).prefetch()
         )
-        for glossary in prefetch_stats(glossaries):
+        for glossary in glossaries:
             all_count -= glossary.stats.all
             translated_count -= glossary.stats.translated
             strings_count -= glossary.stats.all
@@ -380,7 +380,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
     all_components = obj.get_child_components_access(
         user, lambda qs: qs.filter(category=None)
     )
-    all_components = get_paginator(request, prefetch_stats(all_components))
+    all_components = get_paginator(request, all_components, stats=True)
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
 
@@ -462,7 +462,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
     last_announcements = all_changes.filter_announcements().recent()
 
     all_components = obj.get_child_components_access(user)
-    all_components = get_paginator(request, prefetch_stats(all_components))
+    all_components = get_paginator(request, all_components, stats=True)
 
     language_stats = obj.stats.get_language_stats()
     # Show ghost translations for user languages
@@ -795,9 +795,9 @@ def show_component_list(request: AuthenticatedHttpRequest, name):
     obj = get_object_or_404(ComponentList, slug__iexact=name)
     components = prefetch_tasks(
         get_paginator(
-            prefetch_stats(
-                obj.components.filter_access(request.user).order().prefetch()
-            )
+            request,
+            obj.components.filter_access(request.user).order().prefetch(),
+            stats=True,
         )
     )
 
