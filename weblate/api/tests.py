@@ -2978,15 +2978,28 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_source(self) -> None:
         self.authenticate(True)
+
+        # Upload to translation
         with open(TEST_POT, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
                 {"file": handle, "method": "source"},
             )
         self.assertEqual(response.status_code, 400)
+
+        source_kwargs = copy(self.translation_kwargs)
+        source_kwargs["language__code"] = "en"
+
+        # Upload to source without a method
         with open(TEST_POT, "rb") as handle:
-            source_kwargs = copy(self.translation_kwargs)
-            source_kwargs["language__code"] = "en"
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=source_kwargs),
+                {"file": handle, "method": "translate"},
+            )
+        self.assertEqual(response.status_code, 400)
+
+        # Correct upload
+        with open(TEST_POT, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=source_kwargs),
                 {"file": handle, "method": "source"},

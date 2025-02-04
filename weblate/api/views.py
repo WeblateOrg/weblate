@@ -1578,10 +1578,10 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
     def file(self, request: Request, **kwargs):
         obj = self.get_object()
         user = request.user
-        if obj.get_filename() is None:
-            msg = "No translation file!"
-            raise Http404(msg)
         if request.method == "GET":
+            if obj.get_filename() is None:
+                msg = "No translation file!"
+                raise Http404(msg)
             if not user.has_perm("translation.download", obj):
                 raise PermissionDenied
             fmt = self.format_kwarg or request.query_params.get("format")
@@ -1607,6 +1607,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         serializer.check_perms(request.user, obj)
 
         data = serializer.validated_data
+
+        if obj.get_filename() is None and data["method"] != "source":
+            raise ValidationError(
+                {"method": "No translation file, try using method=source."}
+            )
 
         author_name = None
         author_email = None
