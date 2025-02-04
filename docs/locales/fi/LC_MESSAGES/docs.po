@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-02-04 12:05+0000\n"
+"PO-Revision-Date: 2025-02-04 13:09+0000\n"
 "Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "documentation/fi/>\n"
@@ -15224,6 +15224,8 @@ msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
+"Vaihtoehtoisesti voit myös sisällyttää oman moduulin (katso :doc:`../"
+"customize`) ja lisätä sen erillisenä talteena Docker-kontin, esimerkiksi:"
 
 #: ../../admin/install/docker.rst:2131
 #, fuzzy
@@ -17756,12 +17758,16 @@ msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
 msgstr ""
+"Yksinkertaisessa vastaavuudessa käytetään ``**`` komponentin nimelle ja ``*``"
+" kielelle, esimerkiksi: ``**/*.po``"
 
 #: ../../admin/management.rst:407
 msgid ""
 "The regular expression has to contain groups named `component` and "
 "`language`. For example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 msgstr ""
+"Säännöllisen lausekkeen on sisällettävä ryhmiä nimeltä \"komponentti\" ja "
+"\"kieli\"; esimerkiksi: ``(?P<kieli>[^/]*)/(?P<komponentti>[^-/]*)\\.po``"
 
 #: ../../admin/management.rst:410
 msgid ""
@@ -17775,7 +17781,7 @@ msgstr ""
 
 #: ../../admin/management.rst:417
 msgid "For example: ``Documentation: {{ component }}``"
-msgstr ""
+msgstr "Esimerkki: ``Dokumentaatio: {{ component }}``"
 
 #: ../../admin/management.rst:421
 msgid "Customize the base file for monolingual translations."
@@ -19771,7 +19777,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:466
 msgid "Let's assume your VCS repository has a structure like this:"
-msgstr ""
+msgstr "Oletetaan, että VCS-tietovarastossasi on seuraavanlainen rakenne:"
 
 #: ../../admin/projects.rst:475
 msgid ""
@@ -41502,6 +41508,8 @@ msgid ""
 "For Gettext PO files, you have to pass the parameter ``--previous`` to :"
 "command:`msgmerge` when updating PO files, for example:"
 msgstr ""
+"Gettext PO-tiedostoissa sinun on välitettävä parametri ``--previous`` "
+"kohtaan :command:`msgmerge` kun päivität PO-tiedostoja, esimerkiksi:"
 
 #: ../../faq.rst:390
 msgid ""
@@ -41624,6 +41632,9 @@ msgid ""
 "`ALLOWED_HOSTS`. It needs to contain all hostnames you want to access on "
 "your Weblate. For example:"
 msgstr ""
+"Tämä johtuu todennäköisesti väärin määritetystä :setting:`ALLOWED_HOSTS`. "
+"Sen on sisällettävä kaikki isäntänimet, joita haluat käyttää Weblatessasi; "
+"esimerkiksi:"
 
 #: ../../faq.rst:476
 msgid ":ref:`production-hosts`"
@@ -45082,6 +45093,10 @@ msgid ""
 "all these parts appear within the same block, using Fluent-like syntax to "
 "specify the attributes. For example:"
 msgstr ""
+"Jokaisella Fluent-viestillä voi olla valinnainen arvo (päätekstin sisältö) "
+"ja valinnaiset attribuutit, joista jokainen on \"osa\" viestiä. Weblatessa "
+"kaikki nämä osat näkyvät samassa lohkossa käyttämällä Fluent-tyyppistä "
+"syntaksia määritteiden määrittämiseen; esimerkiksi:"
 
 #: ../../user/checks.rst:206
 msgid ""
@@ -45128,6 +45143,8 @@ msgid ""
 "A Fluent Message or Term can reference another Message, Term, Attribute, or "
 "a variable. For example:"
 msgstr ""
+"Fluent-viesti tai Termi voi viitata toiseen viestiin, termiin, attribuuttiin "
+"tai muuttujaan; esimerkiksi:"
 
 #: ../../user/checks.rst:243
 msgid ""
@@ -45154,6 +45171,11 @@ msgid ""
 "the variant's key may have made the reference redundant for that variant. "
 "For example:"
 msgstr ""
+"Lisäksi, jos muuttujaviittaus esiintyy sekä Select Expression -valitsimessa "
+"että jossakin sen muunnelmassa, kaikkien muunnelmien voidaan katsoa "
+"sisältävän myös kyseisen viittauksen. Oletuksena on, että muunnelman avain "
+"on saattanut tehdä viitteen tarpeettomaksi kyseiselle muunnokselle; "
+"esimerkiksi:"
 
 #: ../../user/checks.rst:267
 msgid ""
@@ -45169,6 +45191,11 @@ msgid ""
 "content of the string that the end-user will see, and the presence of a "
 "Select Expression is considered locale-specific. For example:"
 msgstr ""
+"Kuitenkaan Select Expression -valitsimessa olevaa viittausta, joka voi olla "
+"vain Fluentin syntaksin termiattribuutin muuttuja, ei sinänsä lasketa "
+"pakolliseksi viittaukseksi, koska ne eivät muodosta loppukäyttäjän "
+"merkkijonon todellista tekstisisältöä. näkee, ja Select-lausekkeen läsnäolo "
+"katsotaan aluekohtaiseksi; esimerkiksi:"
 
 #: ../../user/checks.rst:283
 msgid ""
@@ -48990,6 +49017,9 @@ msgid ""
 "form complex queries. For example: ``state:translated AND (source:hello OR "
 "source:bar)``"
 msgstr ""
+"Voit yhdistää hakuja käyttämällä AND-, OR-, NOT- ja sulkeita muodostaaksesi "
+"monimutkaisia kyselyitä. esimerkiksi: ``state:translated AND (source:hello "
+"OR source:bar)``"
 
 #: ../../user/search.rst:123
 msgid "Field operators"
@@ -50447,6 +50477,10 @@ msgid ""
 "documentation <https://curl.se/docs/>`_) or by enforcing it in the VCS "
 "configuration, for example:"
 msgstr ""
+"Tämä voidaan tehdä käyttämällä ympäristömuuttujia ``https_proxy``, "
+"``http_proxy`` ja ``all_proxy`` (kuten on kuvattu `cURL-dokumentaatiossa "
+"<https://curl.se/docs/>`_) tai pakottamalla se VCS-kokoonpanossa; "
+"esimerkiksi:"
 
 #: ../../vcs.rst:250
 msgid ""
@@ -51161,6 +51195,8 @@ msgid ""
 "You can get more detailed information on invoking individual commands by "
 "passing ``--help``, for example: ``wlc ls --help``."
 msgstr ""
+"Saat tarkempia tietoja yksittäisten komentojen kutsumisesta välittämällä "
+"``--help``,; esimerkiksi: ``wlc ls --help``."
 
 #: ../../wlc.rst:295
 msgid "Configuration files"
@@ -51226,7 +51262,7 @@ msgstr ""
 
 #: ../../wlc.rst:325
 msgid "The configuration file is an INI file, for example:"
-msgstr ""
+msgstr "Määritystiedosto on INI-tiedosto; esimerkiksi:"
 
 #: ../../wlc.rst:334
 msgid "Additionally API keys can be stored in the ``[keys]`` section:"
