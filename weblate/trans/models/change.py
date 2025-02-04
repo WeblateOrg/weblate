@@ -441,6 +441,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_SOURCE_UPLOAD = 74
     ACTION_COMPLETED_COMPONENT = 75
     ACTION_ENFORCED_CHECK = 76
+    ACTION_PROPAGATED_EDIT = 77
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -591,6 +592,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_COMPLETED_COMPONENT, gettext_lazy("Component translation completed")),
         # Translators: Name of event in the history
         (ACTION_ENFORCED_CHECK, gettext_lazy("Applied enforced check")),
+        # Translators: Name of event in the history
+        (ACTION_PROPAGATED_EDIT, gettext_lazy("Propagated change")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -609,6 +612,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_AUTO,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
+        ACTION_PROPAGATED_EDIT,
         ACTION_STRING_REPO_UPDATE,
         ACTION_STRING_UPLOAD_UPDATE,
     }
@@ -625,6 +629,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_BULK_EDIT,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
+        ACTION_PROPAGATED_EDIT,
         ACTION_SOURCE_CHANGE,
         ACTION_EXPLANATION,
         ACTION_NEW_UNIT,
