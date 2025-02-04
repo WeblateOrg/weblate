@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-02-04 11:43+0000\n"
+"PO-Revision-Date: 2025-02-04 12:05+0000\n"
 "Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "documentation/fi/>\n"
@@ -2522,14 +2522,10 @@ msgstr ""
 "mallikentissä."
 
 #: ../../admin/addons.rst:324
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid "You can use Django template markup in all filename fields, for example:"
 msgstr ""
-"Voit käyttää Djangon mallineiden (templates) merkintää sekä tiedostonimessä "
-"että sisällössä, esimerkiksi:"
+"Voit käyttää Django-mallin markupia kaikissa tiedostonimikentissä, "
+"esimerkiksi:"
 
 #: ../../admin/addons.rst:326
 msgid "``{{ component }}``"
@@ -4383,6 +4379,10 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
+"Oletusarvoisesti Weblate luottaa kolmannen osapuolen todennuspalveluihin "
+"vahvistaakseen sähköpostiosoitteen. Jos jotkin palveluista, joita haluat "
+"käyttää, eivät tue tätä, pakota sähköpostin vahvistus Weblate-puolella "
+"määrittämällä niille FORCE_EMAIL_VALIDATION. Esimerkiksi:"
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
@@ -4892,6 +4892,8 @@ msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
+"Jos et voi käyttää suoraa sidontaa todentamiseen, sinun on käytettävä hakua "
+"ja annettava käyttäjä, joka sitoo haun. Esimerkiksi:"
 
 #: ../../admin/auth.rst:653
 msgid "Active Directory integration"
@@ -5555,6 +5557,8 @@ msgstr ""
 msgid ""
 "To restore the database backup, load it using database tools, for example:"
 msgstr ""
+"Voit palauttaa tietokannan varmuuskopion lataamalla sen "
+"tietokantatyökaluilla, esimerkiksi:"
 
 #: ../../admin/backup.rst:317
 msgid "Version control repositories"
@@ -5629,6 +5633,8 @@ msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
 msgstr ""
+"Käyttämällä cron-työtä voit määrittää Bash-komennon suoritettavaksi "
+"päivittäin, esimerkiksi:"
 
 #: ../../admin/backup.rst:364
 msgid ""
@@ -5916,6 +5922,11 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
+"Korvaukset, jotka suoritetaan tarkistettaessa tuloksena olevia "
+"tekstiparametreja (esimerkiksi :ref:`check-max-size` tai :ref:`check-max-"
+"length`). Tyypillinen käyttötapa tälle on laajentaa sijoitettavaa tekstiä "
+"sen varmistamiseksi, että teksti sopii pitkillekin arvoille, esimerkiksi: "
+"``replacements:%s:\"John Doe\"``."
 
 #: ../../admin/checks.rst:106
 msgid "``variants:SOURCE``"
@@ -7995,6 +8006,8 @@ msgid ""
 "Insert additional markup into the HTML header. Can be used for verification "
 "of site ownership, for example:"
 msgstr ""
+"Lisää ylimääräinen markup HTML-otsikkoon. Voidaan käyttää sivuston "
+"omistajuuden vahvistamiseen, esimerkiksi:"
 
 #: ../../admin/config.rst:766
 msgid ""
@@ -9411,6 +9424,10 @@ msgid ""
 "ons, when extending the list you will probably want to keep existing ones "
 "enabled, for example:"
 msgstr ""
+"Luettelo käytettävissä olevista lisäosista. Jotta niitä voidaan käyttää, ne "
+"on otettava käyttöön tietylle käännöskomponentille. Oletusarvoisesti tämä "
+"sisältää kaikki sisäänrakennetut lisäosat. Kun laajennat luetteloa, haluat "
+"todennäköisesti pitää olemassa olevat lisäosat käytössä, esimerkiksi:"
 
 #: ../../admin/config.rst:2080
 msgid ""
@@ -9481,6 +9498,8 @@ msgstr "WEBLATE_GPG_IDENTITY"
 #: ../../admin/config.rst:2147
 msgid "Identity used by Weblate to sign Git commits, for example:"
 msgstr ""
+"Weblate käyttää identiteettiä Git-sitoumusten allekirjoittamiseen, "
+"esimerkiksi:"
 
 #: ../../admin/config.rst:2153
 msgid ""
@@ -11826,6 +11845,8 @@ msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
 msgstr ""
+"Sinun on määritettävä tämä listataksesi isännät, joita sivustosi on "
+"tarkoitus palvella.; esimerkiksi:"
 
 #: ../../admin/install.rst:789
 msgid "Alternatively you can include wildcard:"
@@ -12026,6 +12047,9 @@ msgid ""
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
+"Aseta oikeat järjestelmänvalvojan osoitteet asetukseen :setting:`ADMINS`, "
+"joka määrittää, kuka vastaanottaa sähköpostit, jos palvelimella tapahtuu "
+"jotain, esimerkiksi:"
 
 #: ../../admin/install.rst:962
 msgid "Set correct site domain"
@@ -12142,6 +12166,8 @@ msgid ""
 "If possible, use Redis from Django by adjusting the ``CACHES`` configuration "
 "variable, for example:"
 msgstr ""
+"Jos mahdollista, käytä Djangon Redisiä säätämällä ``CACHES``-"
+"määritysmuuttujaa, esimerkiksi:"
 
 #: ../../admin/install.rst:1070
 msgid ""
@@ -12182,6 +12208,10 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
+"Weblaten on lähetettävä sähköposteja useaan otteeseen, ja näissä "
+"sähköpostiviesteissä tulee olla oikea lähettäjän osoite. Määritä "
+":setting:`SERVER_EMAIL` ja :setting:`DEFAULT_FROM_EMAIL` sopimaan "
+"ympäristöösi, esimerkiksi:"
 
 #: ../../admin/install.rst:1133
 msgid ""
@@ -12355,6 +12385,8 @@ msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
+"Weblate-kontti ei sisällytä sitä hakupolkuun, sinun on määritettävä koko "
+"polku sen suorittamiseksi. Esimerkiksi:"
 
 #: ../../admin/install.rst:1253
 msgid ""
@@ -19734,13 +19766,14 @@ msgid ""
 "It is a manual job to link a discovered screenshot in a component to a "
 "specific translation key."
 msgstr ""
+"Komponentista löydetyn kuvakaappauksen linkittäminen tiettyyn "
+"käännösavaimeen on manuaalinen työ."
 
 #: ../../admin/projects.rst:466
 msgid "Let's assume your VCS repository has a structure like this:"
 msgstr ""
 
 #: ../../admin/projects.rst:475
-#, fuzzy
 msgid ""
 "For component_A, you want to allow discovery and updates of PNG screenshots. "
 "You'd set the screenshot file mask for component_A as ``component_A/docs/*."
@@ -19751,11 +19784,11 @@ msgid ""
 msgstr ""
 "Komponentti_A:lle haluat sallia PNG-kuvakaappausten etsimisen ja "
 "päivitykset. Määrität komponentin_A kuvakaappauksen tiedoston peitteeksi ``"
-"komponentti_A/docs/*.png``. Tämä tarkoittaa, että kaikki komponentin_A "
+"component_A/docs/*.png``. Tämä tarkoittaa, että kaikki komponentin_A "
 "dokumenttien PNG-kuvat voidaan löytää ja päivittää. Joten jos haluat "
 "päivittää kuvan ``image1.png``, tarjoamasi uuden kuvakaappauksen tulee "
-"nimetä ``image1.png``, joka vastaa olemassa olevaa ``tiedostonimeä`` ja "
-"tallentaa kohtaan ``component_A/docs/` `."
+"nimetä ``image1.png``, joka vastaa olemassa olevaa ``filename`` ja tallentaa "
+"kohtaan ``component_A/docs/``."
 
 #: ../../admin/projects.rst:484 ../../formats/android.rst:74
 #: ../../formats/android.rst:89 ../../formats/apple.rst:30
@@ -21368,6 +21401,10 @@ msgid ""
 "creating a component, which will be monitored for updates in the repository, "
 "or you can add or update screenshots when uploading them manually."
 msgstr ""
+"Ottaaksesi tämän ominaisuuden käyttöön, voit joko asettaa kuvakaappauksen "
+"tiedoston peitteen luodessasi komponenttia, jota seurataan päivitysten "
+"varalta tietovarastossa, tai voit lisätä tai päivittää kuvakaappauksia, kun "
+"lataat ne manuaalisesti."
 
 #: ../../admin/translating.rst:145
 msgid ""
@@ -21376,6 +21413,10 @@ msgid ""
 "screenshots matching the specified screenshot file mask will be added to the "
 "component."
 msgstr ""
+"Kun tietovarasto päivitetään, järjestelmä etsii muutokset automaattisesti. "
+"Arkiston olemassa olevat kuvakaappaukset päivitetään ja komponenttiin "
+"lisätään uudet kuvakaappaukset, jotka vastaavat määritettyä kuvakaappauksen "
+"tiedoston peitettä."
 
 #: ../../admin/translating.rst:154
 msgid ":ref:`component-screenshot_filemask`"
@@ -30343,6 +30384,7 @@ msgstr ""
 #: ../../changes/v3.rst:65
 msgid "New alert to warn about using the same file mask twice."
 msgstr ""
+"Uusi hälytys, joka varoittaa saman tiedoston peitteen käytöstä kahdesti."
 
 #: ../../changes/v3.rst:66
 msgid "Improve XML placeables extraction."
@@ -34844,10 +34886,8 @@ msgid "Released on November 4th 2020."
 msgstr ""
 
 #: ../../changes/v4.rst:953
-#, fuzzy
-#| msgid "Added support for sharing a component between projects."
 msgid "Fixed crash on certain component file masks."
-msgstr "Lisätty tuki komponentin jakamiseen projektien välillä."
+msgstr "Korjattu kaatuminen tiettyihin komponenttitiedostojen peitteihin."
 
 #: ../../changes/v4.rst:955
 msgid "Added support for Pagure pull requests."
