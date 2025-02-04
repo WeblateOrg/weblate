@@ -1578,12 +1578,12 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
     def file(self, request: Request, **kwargs):
         obj = self.get_object()
         user = request.user
+        if obj.get_filename() is None:
+            msg = "No translation file!"
+            raise Http404(msg)
         if request.method == "GET":
             if not user.has_perm("translation.download", obj):
                 raise PermissionDenied
-            if obj.get_filename() is None:
-                msg = "No translation file!"
-                raise Http404(msg)
             fmt = self.format_kwarg or request.query_params.get("format")
             query_string = request.GET.get("q", "")
             if query_string and not fmt:
