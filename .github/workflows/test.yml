@@ -78,7 +78,6 @@ jobs:
     - uses: astral-sh/setup-uv@v5
       with:
         enable-cache: true
-        cache-dependency-glob: ''
         cache-suffix: ${{ matrix.python-version }}
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
@@ -89,10 +88,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
-    - name: Used versions
-      run: ./ci/print-versions
     - name: Install Python dependencies
       run: ./ci/pip-install ${{ matrix.requirements }}
+    - name: Used versions
+      run: |
+        source .venv/bin/activate
+        ./ci/print-versions
     - name: Prepare database
       run: ./ci/prepare-database
     - name: Compile MO files
@@ -107,6 +108,7 @@ jobs:
       run: uv run --no-sources coverage run ./manage.py import_demo
     - name: Test with Django
       run: |
+        source .venv/bin/activate
         uv run --no-sources --all-extras pytest --junitxml=junit.xml --cov=weblate weblate
         cp .coverage .coverage.pytest
     - name: Test wsgi startup
