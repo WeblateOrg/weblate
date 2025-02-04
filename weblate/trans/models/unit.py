@@ -1091,7 +1091,13 @@ class Unit(models.Model, LoggerMixin):
 
             # Postprocess changes and generate change objects
             changes = [
-                unit.post_save(user, user, None, check_new=False, save=False)
+                unit.post_save(
+                    user,
+                    user,
+                    change_action=Change.ACTION_PROPAGATED_EDIT,
+                    check_new=False,
+                    save=False,
+                )
                 for unit in to_update
             ]
 
