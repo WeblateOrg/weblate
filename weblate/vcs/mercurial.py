@@ -44,7 +44,7 @@ class HgRepository(Repository):
     push_label = gettext_lazy(
         "This will push changes to the upstream Mercurial repository."
     )
-    req_version = "2.8"
+    req_version = "6.8"
     default_branch = "default"
     ref_to_remote = "head() and branch(.) and not closed() - ."
     ref_from_remote = "outgoing()"
