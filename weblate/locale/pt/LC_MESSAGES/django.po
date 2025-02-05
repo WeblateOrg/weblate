@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 12:43+0000\n"
-"PO-Revision-Date: 2025-02-04 22:47+0000\n"
+"PO-Revision-Date: 2025-02-05 19:31+0000\n"
 "Last-Translator: Horus68 <horus68@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -1966,11 +1966,11 @@ msgstr ""
 #: weblate/addons/views.py:129
 #, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "Nome do extra inválido: ”%s”"
+msgstr "Nome inválido da extensão: ”%s”"
 
 #: weblate/addons/views.py:149
 msgid "Add-on installed, please review integration instructions."
-msgstr "Extra instalado, reveja as instruções de integração."
+msgstr "Extensão instalada, reveja as instruções de integração."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -3062,7 +3062,7 @@ msgstr "As seguintes cadeias de formato estão em falta: {}"
 
 #: weblate/checks/base.py:326
 msgid "The following format strings are extra: {}"
-msgstr "As seguintes cadeias de formato são extras: {}"
+msgstr "As seguintes cadeias de formato estão a mais: {}"
 
 #: weblate/checks/base.py:335
 msgid "The following errors were found:"
@@ -3180,7 +3180,7 @@ msgstr "Espaçamento nulo"
 
 #: weblate/checks/chars.py:390
 msgid "Translation contains extra zero-width space character"
-msgstr "A tradução contém caracteres extra de espaço nulo"
+msgstr "A tradução contém um carácter adicional de espaço nulo"
 
 #: weblate/checks/chars.py:407 weblate/checks/flags.py:72
 msgid "Maximum length of translation"
@@ -3552,7 +3552,7 @@ msgstr ""
 #: weblate/checks/fluent/inner_html.py:1034
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr "O valor Fluent tem uma etiqueta HTML {tag} extra inesperada."
+msgstr "O valor Fluent tem uma etiqueta HTML {tag} adicional inesperada."
 
 #: weblate/checks/fluent/inner_html.py:1039
 #, python-brace-format
@@ -3560,7 +3560,7 @@ msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
-"O valor Fluent tem uma etiqueta HTML extra inesperada {tag} para as "
+"O valor Fluent tem uma etiqueta HTML {tag} adicional inesperada nas "
 "seguintes variantes: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1116
@@ -3662,8 +3662,8 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
 msgstr ""
-"O atributo Fluent {attribute} tem uma referência Fluent {reference} extra "
-"inesperada."
+"O atributo Fluent {attribute} tem uma referência Fluent {reference} "
+"adicional inesperada."
 
 #: weblate/checks/fluent/references.py:419
 #, python-brace-format
@@ -3671,13 +3671,14 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
-"O atributo Fluent {attribute} tem uma referência Fluent extra inesperada "
-"{reference} para as seguintes variantes: {variant_list}."
+"O atributo Fluent {attribute} tem uma referência Fluent {reference} "
+"adicional inesperada nas seguintes variantes: {variant_list}."
 
 #: weblate/checks/fluent/references.py:429
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
-msgstr "O valor Fluent tem uma referência Fluent {reference} extra inesperada."
+msgstr ""
+"O valor Fluent tem uma referência Fluent {reference} adicional inesperada."
 
 #: weblate/checks/fluent/references.py:435
 #, python-brace-format
@@ -3685,8 +3686,8 @@ msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
 msgstr ""
-"O valor Fluent tem uma referência Fluent extra inesperada {reference} para "
-"as seguintes variantes: {variant_list}."
+"O valor Fluent tem uma referência Fluent {reference} adicional inesperada "
+"nas seguintes variantes: {variant_list}."
 
 #: weblate/checks/fluent/references.py:524
 #, python-brace-format
@@ -4216,7 +4217,7 @@ msgstr "Várias verificações falhadas"
 
 #: weblate/checks/source.py:61
 msgid "The translations in several languages have failing checks"
-msgstr "As traduções em várias línguas têm verificações falhadas"
+msgstr "As traduções em vários idiomas têm falhas nas verificações"
 
 #: weblate/checks/source.py:85
 msgid "Following checks are failing:"
@@ -4236,7 +4237,7 @@ msgstr "A cadeia não é traduzida há muito tempo"
 #: weblate/templates/language.html:47 weblate/templates/project.html:114
 #: weblate/templates/translation.html:101
 msgid "Failing checks"
-msgstr "Verificações falhadas"
+msgstr "Falhas em verificações"
 
 #: weblate/checks/views.py:228
 msgid "Check"
@@ -9035,7 +9036,7 @@ msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:157
 msgid "Ignore one item in the list of failing checks."
-msgstr "Ignorar um item na lista de verificações falhadas."
+msgstr "Ignorar um item na lista de falhas em verificações."
 
 #: weblate/templates/keyboard-shortcuts.html:165
 msgid "Shows the Nearby strings tab."
@@ -9684,21 +9685,21 @@ msgstr "Contexto da captura"
 #: weblate/templates/mail/todo_strings.html:11 weblate/trans/filter.py:26
 #: weblate/trans/filter.py:123
 msgid "Unfinished strings"
-msgstr "Cadeias não finalizadas"
+msgstr "Cadeias por concluir"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(count)s cadeia não finalizada em %(component)s"
-msgstr[1] "%(count)s cadeias não finalizadas em %(component)s"
+msgstr[0] "%(count)s cadeia por concluir em %(component)s"
+msgstr[1] "%(count)s cadeias por concluir em %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
 #, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "%(count)s cadeia não finalizada"
-msgstr[1] "%(count)s cadeias não finalizadas"
+msgstr[0] "%(count)s cadeia por concluir"
+msgstr[1] "%(count)s cadeias por concluir"
 
 #: weblate/templates/mail/translated_component_subject.txt:3
 #, python-format
@@ -10907,7 +10908,7 @@ msgstr "Apenas de leitura"
 #: weblate/templates/snippets/info.html:351
 msgctxt "Number of strings"
 msgid "Failing checks"
-msgstr "Verificações falhadas"
+msgstr "Falhas em verificações"
 
 #: weblate/templates/snippets/info.html:360
 msgctxt "Number of strings"
@@ -11339,7 +11340,7 @@ msgstr "Cadeias com comentários"
 #: weblate/templates/snippets/query-builder.html:164 weblate/trans/filter.py:40
 #: weblate/trans/filter.py:129
 msgid "Strings with any failing checks"
-msgstr "Cadeias com quaisquer verificações falhadas"
+msgstr "Cadeias com alguma falha nas verificações"
 
 #: weblate/templates/snippets/query-builder.html:173
 msgid "Strings with suggestions from others"
@@ -11523,7 +11524,7 @@ msgstr "Alteração sugerida:"
 #: weblate/trans/templatetags/translations.py:913
 msgctxt "String state"
 msgid "Failing checks:"
-msgstr "Verificações falhadas:"
+msgstr "Falhas em verificações:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:5
 msgid "Source in review"
@@ -11583,7 +11584,7 @@ msgstr "Monitorizar o componente %(component)s"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script add-on."
-msgstr "Weblate não conseguiu executar o ''script'' do extra."
+msgstr "Weblate não conseguiu executar o Script da extensão."
 
 #: weblate/templates/trans/alert/addonscripterror.html:6
 #: weblate/templates/trans/alert/ambiguouslanguage.html:9
@@ -11669,7 +11670,7 @@ msgstr "O URL do sítio Web do projeto aponta para um destino inexistente:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
 msgid "Weblate CDN add-on could not parse the HTML files."
-msgstr "O extra CDN do Weblate não conseguiu analisar os ficheiros HTML."
+msgstr "A extensão CDN do Weblate não conseguiu analisar os ficheiros HTML."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:11
 #: weblate/templates/trans/alert/parseerror.html:11
@@ -12703,7 +12704,7 @@ msgstr[1] "Existem %(count)s sugestões para esta cadeia."
 
 #: weblate/templates/translate.html:595
 msgid "Enforced"
-msgstr "Reforçado"
+msgstr "Forçado"
 
 #: weblate/templates/translate.html:606
 msgid "Fix string"
@@ -12925,7 +12926,7 @@ msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
 msgstr ""
-"Cadeias não finalizadas, ficheiros convertidos enriquecidos com comentários; "
+"Cadeias por concluir, ficheiros convertidos enriquecidos com comentários; "
 "adequado para tradução offline"
 
 #: weblate/templates/translation.html:489
@@ -13170,15 +13171,15 @@ msgstr "Cadeias com contexto"
 
 #: weblate/trans/filter.py:36 weblate/trans/filter.py:127
 msgid "Unfinished strings without suggestions"
-msgstr "Cadeias não finalizadas sem sugestões"
+msgstr "Cadeias por concluir e sem sugestões"
 
 #: weblate/trans/filter.py:43
 msgid "Translated strings with any failing checks"
-msgstr "Cadeias traduzidas com quaisquer verificações falhadas"
+msgstr "Cadeias traduzidas com alguma falha nas verificações"
 
 #: weblate/trans/filter.py:48
 msgid "Translated strings with dismissed checks"
-msgstr "Cadeias traduzidas com verificações dispensadas"
+msgstr "Cadeias traduzidas e com verificações dispensadas"
 
 #: weblate/trans/filter.py:51 weblate/trans/filter.py:130
 msgid "Approved strings"
@@ -13202,7 +13203,7 @@ msgstr "Cadeia pluralizada"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:137
 msgid "Failing check: {}"
-msgstr "Verificação falhada: {}"
+msgstr "Falha na verificação: {}"
 
 #: weblate/trans/filter.py:88
 msgid "Custom search"
@@ -14770,9 +14771,9 @@ msgid ""
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
-"Ativa a adição e remoção de cadeias direto do Weblate. Se as suas cadeias "
-"são extraídas do código-fonte ou geridas externamente, provavelmente queira "
-"manter isto desativado."
+"Ativa a adição e remoção de cadeias diretamente do Weblate. Se as suas "
+"cadeias são extraídas do código-fonte ou geridas externamente, provavelmente "
+"irá querer manter isto desativado."
 
 #: weblate/trans/models/component.py:616
 msgid "Merge style"
@@ -16555,7 +16556,7 @@ msgstr "Número de comentários"
 
 #: weblate/utils/views.py:187
 msgid "Number of failing checks"
-msgstr "Número de verificações falhadas"
+msgstr "Número de falhas em verificações"
 
 #: weblate/utils/views.py:189
 msgid "String location"
