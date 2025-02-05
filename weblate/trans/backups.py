@@ -75,6 +75,7 @@ class ProjectBackup:
         self.languages_cache: dict[str, Language] = {}
         self.labels_map: dict[str, Label] = {}
         self.user_cache: dict[str, User] = {}
+        self.components_cache: dict[str, Component] = {}
 
     @property
     def supports_restore(self):
@@ -446,6 +447,11 @@ class ProjectBackup:
             old_slug = f"weblate://{self.data['project']['slug']}/"
             new_slug = f"weblate://{self.project.slug}/"
             kwargs["repo"] = kwargs["repo"].replace(old_slug, new_slug)
+            # Update linked_component attribute
+            if kwargs["repo"].startswith(new_slug):
+                kwargs["linked_component"] = self.components_cache[
+                    kwargs["repo"].removeprefix("weblate://")
+                ]
 
         component = Component(project=self.project, **kwargs)
         # Trigger pre_save to update git export URL
@@ -586,6 +592,9 @@ class ProjectBackup:
 
         # Trigger checks update, the implementation might have changed
         component.schedule_update_checks()
+
+        # Update cache
+        self.components_cache[component.full_slug] = component
 
     def import_language(self, code: str):
         if not self.languages_cache:

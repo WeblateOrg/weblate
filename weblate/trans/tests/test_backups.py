@@ -33,6 +33,8 @@ class BackupsTest(ViewTestCase):
     CREATE_GLOSSARIES: bool = True
 
     def test_create_backup(self) -> None:
+        # Create linked component
+        self.create_link_existing()
         # Additional content to test on backups
         label = self.project.label_set.create(name="Label", color="navy")
         unit = self.component.source_translation.unit_set.all()[0]
@@ -115,6 +117,10 @@ class BackupsTest(ViewTestCase):
         self.assertEqual(
             set(self.project.label_set.values_list("name", "color")),
             set(restored.label_set.values_list("name", "color")),
+        )
+        self.assertEqual(
+            set(self.project.component_set.values_list("slug", flat=True)),
+            set(restored.component_set.values_list("slug", flat=True)),
         )
 
     @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
