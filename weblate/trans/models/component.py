@@ -3854,8 +3854,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         update_checks.delay_on_commit(self.pk, update_token, update_state=update_state)
 
     @property
-    def all_repo_components(self):
-        if self.is_repo_link:
+    def all_repo_components(self) -> list[Component]:
+        if self.linked_component:
             return [self.linked_component]
         return [self]
 
