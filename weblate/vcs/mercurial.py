@@ -10,6 +10,8 @@ import os
 import os.path
 import re
 from configparser import RawConfigParser
+from pathlib import Path
+from shutil import which
 from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext_lazy
@@ -26,7 +28,7 @@ if TYPE_CHECKING:
 class HgRepository(Repository):
     """Repository implementation for Mercurial."""
 
-    _cmd = "hg"
+    _cmd = "rhg" if which("rhg") is not None else "hg"
     _cmd_last_revision = ["log", "--limit", "1", "--template", "{node}"]
     _cmd_last_remote_revision = [
         "log",
@@ -88,7 +90,7 @@ class HgRepository(Repository):
         self.set_config_file(filename, *values)
 
     @staticmethod
-    def set_config_file(filename: str, *values: tuple[str, str, str]) -> None:
+    def set_config_file(filename: str | Path, *values: tuple[str, str, str]) -> None:
         config = RawConfigParser()
         config.read(filename)
         changed = False
@@ -406,3 +408,13 @@ class HgRepository(Repository):
                 # Empty revision set
                 return []
             raise
+
+    @classmethod
+    def global_setup(cls) -> None:
+        """Perform global settings."""
+        if cls._cmd == "rhg":
+            cls.set_config_file(
+                Path.home() / ".hgrc",
+                ("rhg", "fallback-executable", "hg"),
+                ("rhg", "on-unsupported", "fallback"),
+            )
