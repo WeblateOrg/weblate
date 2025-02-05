@@ -347,9 +347,9 @@ class ProjectBackup:
         self,
         zipfile,
         filename: str,
-        callback: Callable | None = None,
         *,
         skip_linked: bool = False,
+        do_restore: bool = False,
     ) -> None:
         with zipfile.open(filename) as handle:
             data = json.load(handle)
@@ -370,20 +370,22 @@ class ProjectBackup:
                     msg = f"Several languages from backup map to single language on this server {values} -> {code}"
                     raise ValueError(msg)
 
-            if callback is not None:
-                callback(zipfile, data)
+            if do_restore:
+                self.restore_component(zipfile, data)
             return True
 
-    def load_components(self, zipfile, callback: Callable | None = None) -> None:
+    def load_components(self, zipfile, *, do_restore: bool = False) -> None:
         pending: list[str] = []
         for component in self.list_components(zipfile):
             processed = self.load_component(
-                zipfile, component, callback, skip_linked=True
+                zipfile, component, skip_linked=True, do_restore=do_restore
             )
             if not processed:
                 pending.append(component)
         for component in pending:
-            self.load_component(zipfile, component, callback, skip_linked=False)
+            self.load_component(
+                zipfile, component, skip_linked=False, do_restore=do_restore
+            )
 
     def validate(self) -> None:
         if not self.supports_restore:
@@ -650,7 +652,7 @@ class ProjectBackup:
                         copyfileobj(source, target)
 
             # Create components
-            self.load_components(zipfile, self.restore_component)
+            self.load_components(zipfile, do_restore=True)
 
         return self.project
 
