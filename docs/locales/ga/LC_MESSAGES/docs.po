@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-01-17 13:44+0100\n"
-"PO-Revision-Date: 2025-02-03 19:24+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2025-02-05 19:31+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
 "Language: ga\n"
@@ -12842,7 +12842,6 @@ msgid "Database connections"
 msgstr "Naisc bunachar sonraí"
 
 #: ../../admin/install.rst:422
-#, fuzzy
 msgid ""
 "In the default configuration, each Weblate process keeps a persistent "
 "connection to the database. Persistent connections improve Weblate "
@@ -12853,8 +12852,8 @@ msgstr ""
 "Sa chumraíocht réamhshocraithe, coinníonn gach próiseas Weblate nasc "
 "leanúnach leis an mbunachar sonraí. Feabhsaíonn naisc leanúnacha "
 "freagarthacht Weblate, ach d'fhéadfadh go mbeadh níos mó acmhainní ag "
-"teastáil ón bhfreastalaí Téigh i gcomhair:setting: `django:conn_max_age` "
-"agus:ref: `django:persistent-database-connections` le haghaidh tuilleadh "
+"teastáil ón bhfreastalaí Téigh i gcomhair :setting:`django:CONN_MAX_AGE` "
+"agus: :ref:`django:persistent-database-connections` le haghaidh tuilleadh "
 "eolais."
 
 #: ../../admin/install.rst:428
@@ -12889,9 +12888,8 @@ msgstr ""
 "airde chun cuntas a thabhairt sna cásanna seo a leanas:"
 
 #: ../../admin/install.rst:440
-#, fuzzy
 msgid ":ref:`manage` need their connection as well."
-msgstr ":ref: teastaíonn a nasc ag `bainist` freisin."
+msgstr "Teastaíonn a nasc ó :ref:`manage` freisin."
 
 #: ../../admin/install.rst:441
 msgid ""
@@ -12959,9 +12957,8 @@ msgid "Configuring Weblate to use PostgreSQL"
 msgstr "Weblate a chumrú chun PostgreSQL a úsáid"
 
 #: ../../admin/install.rst:499
-#, fuzzy
 msgid "The :file:`settings.py` snippet for PostgreSQL:"
-msgstr "An snippet: file: `settings.py` do PostgreSQL:"
+msgstr "An snippet :file:`settings.py` do PostgreSQL:"
 
 #: ../../admin/install.rst:525
 msgid ""
@@ -13072,7 +13069,6 @@ msgstr ""
 "rud atá ag teastáil a chumrú ar thaobh an chliaint."
 
 #: ../../admin/install.rst:573
-#, fuzzy
 msgid ""
 "Below is an example :file:`/etc/my.cnf.d/server.cnf` for a server with 8 GB "
 "of RAM. These settings should be sufficient for most installs. MySQL and "
@@ -13081,9 +13077,9 @@ msgid ""
 "of concurrent users accessing the system. See the various vendors "
 "documentation on those details."
 msgstr ""
-"Seo thíos sampla :comhad:`/etc/my.cnf.d/server.cnf` le haghaidh freastalaí "
-"le 8 GB RAM. Ba cheart go mbeadh na socruithe seo leordhóthanach don chuid "
-"is mó de shuiteálacha. Tá tunables ag MySQL agus MariaDB a mhéadóidh "
+"Seo thíos sampla :file:`/etc/my.cnf.d/server.cnf` le haghaidh freastalaí le "
+"8 GB RAM. Ba cheart go mbeadh na socruithe seo leordhóthanach don chuid is "
+"mó de shuiteálacha. Tá tunables ag MySQL agus MariaDB a mhéadóidh "
 "feidhmíocht do fhreastalaí a mheastar nach bhfuil gá leo ach amháin má tá sé "
 "beartaithe agat líon mór úsáideoirí comhthráthacha a rochtain ar an gcóras. "
 "Féach ar na doiciméid díoltóirí éagsúla ar na sonraí sin."
@@ -13110,22 +13106,20 @@ msgstr ""
 "atosaigh do shuiteáil."
 
 #: ../../admin/install.rst:609
-#, fuzzy
 msgid ""
 "In case you are getting ``#2006 - MySQL server has gone away`` error, "
 "configuring :setting:`django:CONN_MAX_AGE` might help."
 msgstr ""
-"Sa chás go bhfuil tú ag fáil ``#2006 - earráid`` tar éis freastalaí MySQL "
-"imithe as ``, d'fhéadfadh cumraí:setting: `django:conn_max_age` cabhrú."
+"Sa chás go bhfuil tú ag fáil ``#2006 - MySQL server has gone away``, "
+"d'fhéadfadh cumraí :setting:`django:CONN_MAX_AGE` cabhrú."
 
 #: ../../admin/install.rst:617
 msgid "Configuring Weblate to use MySQL/MariaDB"
 msgstr "Gréasáin a chumrú chun MySQL/MariaDB a úsáid"
 
 #: ../../admin/install.rst:619
-#, fuzzy
 msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
-msgstr "An snippet: file: `settings.py` do MySQL agus MariaDB:"
+msgstr "An snippet :file:`settings.py` do MySQL agus MariaDB:"
 
 #: ../../admin/install.rst:643
 msgid ""
@@ -13183,27 +13177,25 @@ msgstr ""
 "EMAIL_USE_TLS` a chumasú sa chás sin."
 
 #: ../../admin/install.rst:683
-#, fuzzy
 msgid ""
 ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
 msgstr ""
-":ref:`debug-mails`, :ref:`Ríomhphost ag dul as oifig a chumrú i gcoimeádán "
-"Docker <ducker-mail>`"
+":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
+"<docker-mail>`"
 
 #: ../../admin/install.rst:689
 msgid "Running behind reverse proxy"
 msgstr "Rith taobh thiar seachfhreastalaí droim ar ais"
 
 #: ../../admin/install.rst:691
-#, fuzzy
 msgid ""
 "Several features in Weblate rely on being able to get client IP address. "
 "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`."
 msgstr ""
 "Braitheann roinnt gnéithe i Weblate ar a bheith in ann seoladh IP an "
-"chliaint a fháil. Cuimsíonn sé seo: ref: `rate-limit`, :ref: `spam-"
-"protection` nó:ref: `audit-log`."
+"chliaint a fháil. Cuimsíonn sé seo :ref:`rate-limit`, :ref:`spam-protection` "
+"nó :ref:`audit-log`."
 
 #: ../../admin/install.rst:694
 msgid ""
@@ -13219,18 +13211,17 @@ msgstr ""
 "chliaint."
 
 #: ../../admin/install.rst:699
-#, fuzzy
 msgid ""
 "Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the most "
 "usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` and :"
 "setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
 "and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
-"Cumasach:SETTING: B'fhéidir go leor `IP_BEHIND_REVERSE_PROXY` do na "
-"socruithe is gnách, ach b'fhéidir go mbeidh ort a choigeartú:setting: "
-"`IP_PROXY_HEADER` agus:setting: `IP_PROXY_OFFSET` chomh maith (úsáid: envvar:"
-" `WEBLATE_IP_PROXY_HEADER` agus:envvar: `WEBLATE_IP_PROXY_IP' _PROXY_OFFSET` "
-"sa choimeádán Docker)."
+"Cumasach:SETTING: B'fhéidir go leor :setting:`IP_BEHIND_REVERSE_PROXY` do na "
+"socruithe is gnách, ach b'fhéidir go mbeidh ort a choigeartú "
+":setting:`IP_PROXY_HEADER` agus :setting:`IP_PROXY_OFFSET` chomh maith ("
+"úsáid :envvar:`WEBLATE_IP_PROXY_HEADER` agus "
+":envvar:`WEBLATE_IP_PROXY_OFFSET` sa choimeádán Docker)."
 
 #: ../../admin/install.rst:706
 msgid ""
@@ -13275,7 +13266,6 @@ msgid "HTTP proxy"
 msgstr "seachfhreastalaí HTTP"
 
 #: ../../admin/install.rst:734
-#, fuzzy
 msgid ""
 "Weblate does execute VCS commands and those accept proxy configuration from "
 "environment. The recommended approach is to define proxy settings in :file:"
@@ -13283,7 +13273,7 @@ msgid ""
 msgstr ""
 "Feidhmíonn Weblate orduithe VCS agus glacann siad leo cumraíocht "
 "seachfhreastalaí ón gcomhshaol. Is é an cur chuige a mholtar socruithe "
-"seachfhreastalaí a shainiú in:file: `settings.py`:"
+"seachfhreastalaí a shainiú in :file:`settings.py`"
 
 #: ../../admin/install.rst:747
 msgid ""
@@ -13302,13 +13292,12 @@ msgid ":ref:`sample-configuration`"
 msgstr ":ref:`sample-configuration`"
 
 #: ../../admin/install.rst:758
-#, fuzzy
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and "
 "adjust it to match your setup. You will probably want to adjust the "
 "following options:"
 msgstr ""
-"Cóipeáil: file: `weblate/settings_example.py` chuig: file: `weblate/"
+"Cóipeáil :file:`weblate/settings_example.py` chuig :file:`weblate/"
 "settings.py` agus é a choigeartú chun do shocrú a mheaitseáil. Is dócha gur "
 "mhaith leat na roghanna seo a leanas a choigeartú:"
 
@@ -13325,21 +13314,18 @@ msgstr ""
 "mícheart, mar shampla fógraí ar chumaisc theipthe, nó earráidí Django."
 
 #: ../../admin/install.rst:769
-#, fuzzy
 msgid ""
 "Contact form sends e-mail on these as well unless :setting:`ADMINS_CONTACT` "
 "is configured."
 msgstr ""
-"Seolann foirm teagmhála ríomhphost ar na nithe seo chomh maith: tá socrú: "
-"`ADMINS_CONTACT` cumraithe."
+"Seolann an fhoirm teagmhála r-phost orthu seo freisin ach amháin má tá "
+":setting:`ADMINS_CONTACT` cumraithe."
 
 #: ../../admin/install.rst:774
-#, fuzzy
 msgid ""
 ":setting:`django:ADMINS`, :setting:`ADMINS_CONTACT`, :ref:`production-admins`"
 msgstr ""
-":setting: `django:admins`, :setting: `ADMINS_CONTACT`, :ref: `táirgeach-"
-"riaracháin `"
+":setting:`django:ADMINS`, :setting:`ADMINS_CONTACT`, :ref:`production-admins`"
 
 #: ../../admin/install.rst:780
 msgid "``ALLOWED_HOSTS``"
@@ -13358,13 +13344,12 @@ msgid "Alternatively you can include wildcard:"
 msgstr "Nó is féidir leat saoróg a chur san áireamh:"
 
 #: ../../admin/install.rst:797
-#, fuzzy
 msgid ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
 msgstr ""
-":setting: `django:allowed_hosts`, :envvar: `WEBLATE_ALLOWED_HOSTS`, :ref: `"
-"óstálacha táirgeach`"
+":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref"
+":`production-hosts`"
 
 #: ../../admin/install.rst:803
 msgid "``SESSION_ENGINE``"
@@ -13390,10 +13375,8 @@ msgstr ""
 "é a úsáid le haghaidh seisiúin freisin:"
 
 #: ../../admin/install.rst:819
-#, fuzzy
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
-msgstr ""
-":ref: `django:seisiúin cumraitheoireach`, :setting: `django:seisiún_inneall`"
+msgstr ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 
 #: ../../admin/install.rst:824
 msgid "``DATABASES``"
@@ -13408,13 +13391,12 @@ msgstr ""
 "haghaidh tuilleadh sonraí."
 
 #: ../../admin/install.rst:831
-#, fuzzy
 msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
 msgstr ""
-":ref: `bunachar sonraí bunachair`, :setting: `django:bunachair sonraí`, :doc:"
-" `django:ref/bunachar sonraí `"
+":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
+"databases`"
 
 #: ../../admin/install.rst:837
 msgid "``DEBUG``"
@@ -13440,9 +13422,8 @@ msgstr ""
 "bhfad níos mó faisnéise go hinmheánach sa chás seo."
 
 #: ../../admin/install.rst:848
-#, fuzzy
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
-msgstr ":setting: `django:debug`, :ref: `táirgeach-debug`"
+msgstr ":setting:`django:DEBUG`, :ref:`production-debug`"
 
 #: ../../admin/install.rst:853
 msgid "``DEFAULT_FROM_EMAIL``"
@@ -13517,9 +13498,8 @@ msgstr ""
 "duit maidir le cumraíocht féideartha neamh-optamach ar do shuíomh."
 
 #: ../../admin/install.rst:898
-#, fuzzy
 msgid ":ref:`config`, :ref:`privileges`"
-msgstr ":ref: `config`, :ref: `phribhléidí `"
+msgstr ":ref:`config`, :ref:`privileges`"
 
 #: ../../admin/install.rst:904
 msgid "Production setup"
@@ -13616,13 +13596,12 @@ msgstr ""
 "doc:`django:ref/contrib/sites`."
 
 #: ../../admin/install.rst:975
-#, fuzzy
 msgid ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
-":ref: `óstálacha táirgeach`, :ref: `táirgeach-ssl`:socrú: `SITE_DOMAIN`, "
-":envvar: `WEBLATE_SITE_DOMAIN`, :setting: `ENABLE_HTTPS`"
+":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, "
+":envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
 #: ../../admin/install.rst:984
 msgid "Correctly configure HTTPS"
@@ -13647,27 +13626,24 @@ msgstr ""
 "recommendation-ssl` le haghaidh tuilleadh sonraí."
 
 #: ../../admin/install.rst:1000
-#, fuzzy
 msgid ""
 ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
-":setting: `ENABLE_HTTPS`, :ref: `óstálacha táirgeach', :ref: `láithreán "
-"táirgeach'"
+":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 
 #: ../../admin/install.rst:1006
 msgid "Set properly SECURE_HSTS_SECONDS"
 msgstr "Socraigh i gceart SECURE_HSTS_SECONDS"
 
 #: ../../admin/install.rst:1008
-#, fuzzy
 msgid ""
 "If your site is served over SSL, you have to consider setting a value for :"
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
 "Má sheirbheáltar do shuíomh thar SSL, caithfidh tú smaoineamh ar luach a "
-"shocrú le haghaidh: setting: `django:secure_hsts_seconds` in:file: "
-"`settings.py` chun slándáil iompair docht HTTP a chumasú. De réir "
+"shocrú le haghaidh :setting:`django:SECURE_HSTS_SECONDS` sna "
+":file:`settings.py` chun slándáil iompair docht HTTP a chumasú. De réir "
 "réamhshocraithe tá sé socraithe go 0 mar a thaispeántar thíos."
 
 #: ../../admin/install.rst:1016
@@ -13695,12 +13671,11 @@ msgid "Use a powerful database engine"
 msgstr "Bain úsáid as inneall bunachar sonraí cumhachtach"
 
 #: ../../admin/install.rst:1030
-#, fuzzy
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
 msgstr ""
-"Úsáid PostgreSQL le haghaidh timpeallacht táirgeachta, féach: ref: `database-"
+"Úsáid PostgreSQL le haghaidh timpeallacht táirgeachta, féach :ref:`database-"
 "setup` le haghaidh tuilleadh faisnéise."
 
 #: ../../admin/install.rst:1032
@@ -13721,13 +13696,12 @@ msgstr ""
 "mar shampla ag baint úsáide as `PGTune <https://pgtune.leopard.in.ua/>`_."
 
 #: ../../admin/install.rst:1039
-#, fuzzy
 msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
 msgstr ""
-":ref: `socrú bunachar sonraí`, :ref: `imirce bunachar sonraí`, :ref: `cumraí`"
-", :doc: `django:ref/bunachar sonraí `"
+":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, "
+":doc:`django:ref/databases`"
 
 #: ../../admin/install.rst:1047
 msgid "Enable caching"
@@ -13742,18 +13716,16 @@ msgstr ""
 "CACHES`` a choigeartú, mar shampla:"
 
 #: ../../admin/install.rst:1070
-#, fuzzy
 msgid ""
 "In case you change Redis settings for the cache, you might need to adjust "
 "them for Celery as well, see :ref:`celery`."
 msgstr ""
 "Sa chás go n-athraíonn tú socruithe Redis don taisce, b'fhéidir go mbeidh "
-"ort iad a choigeartú do Soilire freisin, féach:ref: `celery`."
+"ort iad a choigeartú do Soilire freisin, féach :ref:`celery`."
 
 #: ../../admin/install.rst:1075
-#, fuzzy
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
-msgstr ":ref: `táirgeach-cache-avatar`, :doc: `django:topics/cache`"
+msgstr ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:1081
 msgid "Avatar caching"
@@ -13768,13 +13740,12 @@ msgstr ""
 "taisce ar leith, comhad-thacaithe a úsáid chun na críche seo:"
 
 #: ../../admin/install.rst:1110
-#, fuzzy
 msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
-":setting: `ENABLE_AVATARS`, :setting: `AVATAR_URL_PREFIX`, :ref: `avatars`, "
-":ref: `taisce táirgeach`, :doc: `django:topics/cache`"
+":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :ref"
+":`production-cache`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:1119
 msgid "Configure e-mail sending"
@@ -13809,26 +13780,23 @@ msgstr ""
 "phoist athshocraithe pasfhocail."
 
 #: ../../admin/install.rst:1141
-#, fuzzy
 msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 msgstr ""
-":ref: `cumraí`, :ref: `allamh-phost`, :std:setting: `django:email_backend`, "
-":std:setting: `django:default_from_email`, :std:setting: "
-"`django:server_email`"
+":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, "
+":std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:1151
 msgid "Allowed hosts setup"
 msgstr "Ceadaíodh socrú na n-óstach"
 
 #: ../../admin/install.rst:1153
-#, fuzzy
 msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
 msgstr ""
-"Éilíonn Django: setting: `ALLOWED_HOSTS` chun liosta d'ainmneacha fearainn a "
+"Éilíonn Django :setting:`ALLOWED_HOSTS` chun liosta d'ainmneacha fearainn a "
 "shealbhú ceadaítear do shuíomh a sheirbheáil, rud a fhágfaidh sé folamh bac "
 "ar aon iarratais."
 
@@ -13850,13 +13818,12 @@ msgstr ""
 "`WEBLATE_ALLOWED_HOSTS`."
 
 #: ../../admin/install.rst:1166
-#, fuzzy
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
 msgstr ""
-":setting: `ALLOWED_HOSTS`, :envvar: `WEBLATE_ALLOWED_HOSTS`, :ref: `"
-"láithreán táirgeach'"
+":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
+"site`"
 
 #: ../../admin/install.rst:1173
 msgid "Django secret key"
@@ -13889,28 +13856,26 @@ msgid "Running maintenance tasks"
 msgstr "Tascanna cothabhála a rith"
 
 #: ../../admin/install.rst:1190
-#, fuzzy
 msgid ""
 "For optimal performance, it is good idea to run some maintenance tasks in "
 "the background. This is automatically done by :ref:`celery` and covers "
 "following tasks:"
 msgstr ""
 "Chun feidhmíocht is fearr a fháil, is smaoineamh maith roinnt tascanna "
-"cothabhála a reáchtáil sa chúlra. Déanann sé seo go huathoibríoch ó:ref: "
-"`celery` agus clúdaíonn sé na tascanna seo a leanas:"
+"cothabhála a reáchtáil sa chúlra. Déanann sé seo go huathoibríoch ó "
+":ref:`celery` agus clúdaíonn sé na tascanna seo a leanas:"
 
 #: ../../admin/install.rst:1193
 msgid "Configuration health check (hourly)."
 msgstr "Seiceáil sláinte cumraíochta (in aghaidh na huaire)."
 
 #: ../../admin/install.rst:1194
-#, fuzzy
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :wladmin:"
 "`commit_pending`."
 msgstr ""
-"Athruithe atá ar feitheamh (in aghaidh na huaire) a dhéanamh, féach:ref: "
-"`lazy-chommit` agus:wladmin: `commit_pending`."
+"Athruithe atá ar feitheamh (in aghaidh na huaire) a dhéanamh, féach :ref"
+":`lazy-commit` agus :wladmin:`commit_pending`."
 
 #: ../../admin/install.rst:1195
 msgid "Updating component alerts (daily)."
@@ -13949,12 +13914,11 @@ msgstr ""
 "bhfuil sé amhlaidh ar do chóras, athraigh logaí go leagan UTF-8 le do thoil."
 
 #: ../../admin/install.rst:1209
-#, fuzzy
 msgid ""
 "For example by editing :file:`/etc/default/locale` and setting there "
 "``LANG=\"C.UTF-8\"``."
 msgstr ""
-"Mar shampla trí:file: `/etc/default/locale` a chur in eagar agus socrú ann "
+"Mar shampla trí :file:`/etc/default/locale` a chur in eagar agus socrú ann "
 "``LANG=\"C.UTF-8\"``."
 
 #: ../../admin/install.rst:1212
@@ -13968,18 +13932,16 @@ msgstr ""
 "seiceáil doiciméadú do phacáistí freastalaí gréasáin chuige sin."
 
 #: ../../admin/install.rst:1216
-#, fuzzy
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
-msgstr "Úsáideann Apache ar Ubuntu: comhad: `/etc/apache2/envvars`:"
+msgstr "Úsáideann Apache ar Ubuntu :file:`/etc/apache2/envvars`:"
 
 #: ../../admin/install.rst:1223
-#, fuzzy
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
 msgstr ""
-"Úsáideann Apache ar CentOS: comhad: `/etc/sysconfig/httpd` (nó:comhad: `/opt/"
-"rh/httpd24/root/etc/sysconfig/httpd`):"
+"Úsáideann Apache ar CentOS :file:`/etc/sysconfig/httpd` (nó :file:`/opt/rh/"
+"httpd24/root/etc/sysconfig/httpd`):"
 
 #: ../../admin/install.rst:1233
 msgid "Using custom certificate authority"
@@ -13997,7 +13959,6 @@ msgstr ""
 "muinín agat as."
 
 #: ../../admin/install.rst:1239
-#, fuzzy
 msgid ""
 "The preferred approach is to do this at system level, please check your "
 "distro documentation for more details (for example on debian this can be "
@@ -14006,8 +13967,8 @@ msgid ""
 msgstr ""
 "Is é an cur chuige is fearr é seo a dhéanamh ar leibhéal an chórais, "
 "seiceáil do dhoiciméadú distro le haghaidh tuilleadh sonraí (mar shampla ar "
-"debian is féidir é seo a dhéanamh tríd an deimhniú CA a chur in:file: `/usr/"
-"local/share/ca-certificates/` agus running:command: `update-ca-"
+"debian is féidir é seo a dhéanamh tríd an deimhniú CA a chur i :file:`/usr/"
+"local/share/ca-certificates/` agus running :command:`update-ca-"
 "certificates`)."
 
 #: ../../admin/install.rst:1246
@@ -14027,7 +13988,6 @@ msgstr ""
 "agus cuimsíonn sé seo Git."
 
 #: ../../admin/install.rst:1256
-#, fuzzy
 msgid ""
 "For Python code, you will need to configure requests to use system CA bundle "
 "instead of the one shipped with it. This can be achieved by placing "
@@ -14035,7 +13995,7 @@ msgid ""
 msgstr ""
 "Maidir le cód Python, beidh ort iarratais a chumrú chun beartán CA córais a "
 "úsáid in ionad an ceann a sheoltar leis. Is féidir é seo a bhaint amach tríd "
-"an snippet seo a leanas a chur chuig:file: `settings.py` (tá an cosán go "
+"an snippet seo a leanas a chur chuig :file:`settings.py` (tá an cosán go "
 "sonrach le Debian):"
 
 #: ../../admin/install.rst:1270
@@ -14081,9 +14041,8 @@ msgid "The official Docker image has this feature already enabled."
 msgstr "Tá an ghné seo cumasaithe cheana féin ag íomhá oifigiúil an Docker."
 
 #: ../../admin/install.rst:1300
-#, fuzzy
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
-msgstr ":ref: `comhbhrúiteoir:scanos`, :ref: `comhaid stataigh`"
+msgstr ":ref:`compressor:scenarios`, :ref:`static-files`"
 
 #: ../../admin/install.rst:1306
 msgid "Running server"
@@ -14126,9 +14085,8 @@ msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
 msgstr "Freastalaí WSGI le haghaidh ábhar dinimiciúil (féach :ref:`uwsgi`)"
 
 #: ../../admin/install.rst:1318
-#, fuzzy
 msgid "Celery for executing background tasks (see :ref:`celery`)"
-msgstr "Soilire chun tascanna cúlra a fhorghníomhú (féach:ref: `celery`)"
+msgstr "Soilire chun tascanna cúlra a fhorghníomhú (féach :ref:`celery`)"
 
 #: ../../admin/install.rst:1322
 msgid ""
@@ -14153,21 +14111,19 @@ msgstr ""
 "`DATA_DIR`."
 
 #: ../../admin/install.rst:1332
-#, fuzzy
 msgid ""
 "The WSGI process has to be executed under the same user the Celery process, "
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
 "ownership, leading to runtime issues."
 msgstr ""
-"Caithfear an próiseas WSGI a fhorghníomhú faoin úsáideoir céanna an próiseas "
-"Soilire, ar shlí eile stóráilfear comhaid in:setting: `DATA_DIR` le "
-"húinéireacht mheasctha, rud a fhágann go mbeidh saincheisteanna reatha mar "
-"thoradh air."
+"Ní mór an próiseas WSGI a chur i gcrích faoin úsáideoir céanna agus an "
+"próiseas Soilire, nó déanfar comhaid sa :setting:`DATA_DIR` a stóráil le "
+"húinéireacht mheasctha, rud a fhágfaidh go mbeidh saincheisteanna am rite "
+"ann."
 
 #: ../../admin/install.rst:1336
-#, fuzzy
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
-msgstr "Féach freis:ref: `ceaduithe comhad` agus:ref: `celery`."
+msgstr "Féach freisin :ref:`file-permissions` agus :ref:`celery`."
 
 #: ../../admin/install.rst:1339
 msgid "Running web server"
@@ -14200,17 +14156,17 @@ msgstr ""
 "djadmin:`django:runserver`."
 
 #: ../../admin/install.rst:1359
-#, fuzzy
 msgid ""
 "The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
 "see WSGI setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
-"Freastalaíonn an freastalaí ionsuite Django comhaid statacha ach le: socrú: "
-"`DEBUG` cumasaithe mar tá sé beartaithe le haghaidh forbartha amháin. Le "
-"haghaidh úsáide táirgeachta, féach socruithe WSGI in:ref: `uwsgi`, :ref: "
-"`apache`, :ref: `apache-gunicorn`, agus:ref: `static-files`."
+"Ní fhreastalaíonn freastalaí ionsuite Django ach ar chomhaid statacha agus "
+":setting:`DEBUG` cumasaithe mar go bhfuil sé beartaithe le haghaidh "
+"forbartha amháin. Le haghaidh úsáide táirgeachta, féach le do thoil "
+"socruithe WSGI i :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, agus "
+":ref:`static-files`."
 
 #: ../../admin/install.rst:1367
 msgid "Serving static files"
@@ -14243,13 +14199,12 @@ msgid ":file:`/static/`"
 msgstr ":file:`/static/`"
 
 #: ../../admin/install.rst:1378
-#, fuzzy
 msgid ""
 "Serves static files for Weblate and the admin interface (from defined by :"
 "setting:`django:STATIC_ROOT`)."
 msgstr ""
 "Freastalaíonn sé ar chomhaid statacha do Weblate agus don chomhéadan "
-"riaracháin (ó shainithe ag: setting: `django: static_root`)."
+"riaracháin (ó shainithe ag :setting:`django:STATIC_ROOT`)."
 
 #: ../../admin/install.rst:1380
 msgid ":file:`/media/`"
@@ -14264,23 +14219,21 @@ msgid ":file:`/favicon.ico`"
 msgstr ":file:`/favicon.ico`"
 
 #: ../../admin/install.rst:1383
-#, fuzzy
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr ""
-"Ba chóir é a athscríobh chun riail a athscríobh chun freastalaí:file: `/"
+"Ba chóir é a athscríobh chun riail a athscríobh chun freastalaí :file:`/"
 "static/favicon.ico`."
 
 #: ../../admin/install.rst:1387
-#, fuzzy
 msgid ""
 ":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
 "files/deployment`"
 msgstr ""
-":ref: `uwsgi`, :ref: `apache`, :ref: `apache-gunicorn`, :ref: `táirgeach-"
-"comhbhrúiteach`, :doc: `django:cona/imscaradú/index`, :doc: `django:howto/"
-"static-files/imscaradh `"
+":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
+"compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/"
+"static-files/deployment`"
 
 #: ../../admin/install.rst:1397
 msgid "Content security policy"
@@ -14315,27 +14268,24 @@ msgid "Sample configuration for NGINX and Gunicorn"
 msgstr "Cumraíocht shamplach do NGINX agus Gunicorn"
 
 #: ../../admin/install.rst:1418
-#, fuzzy
 msgid ""
 "The following configuration runs Weblate using Gunicorn under the NGINX "
 "webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
 "conf`):"
 msgstr ""
 "Ritheann an chumraíocht seo a leanas Weblate ag baint úsáide as Gunicorn "
-"faoin bhfreastalaí gréasáin NGINX (ar fáil freisin mar: file: `weblate/"
+"faoin bhfreastalaí gréasáin NGINX (ar fáil freisin mar :file:`weblate/"
 "examples/weblate.nginx.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1427 ../../admin/install.rst:1497
-#, fuzzy
 msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ":ref: `running-gunicorn`, :doc: `django:howto/imployment/wsgi/gunicorn`"
+msgstr ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1433
 msgid "Sample configuration for NGINX and uWSGI"
 msgstr "Cumraíocht shamplach do NGINX agus uWSGI"
 
 #: ../../admin/install.rst:1436
-#, fuzzy
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate (in "
 "virtual env case it is installed as :file:`~/weblate-env/lib/python3.9/site-"
@@ -14344,10 +14294,10 @@ msgid ""
 "env`` in uWSGI)."
 msgstr ""
 "Chun freastalaí gréasáin táirgeachta a reáchtáil, bain úsáid as an fillteán "
-"WSGI atá suiteáilte le Weblate (i gcás env fíorúil tá sé suiteáilte mar: "
-"file: `~/weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`). Ná déan "
+"WSGI atá suiteáilte le Weblate (i gcás env fíorúil tá sé suiteáilte mar :file"
+":`~/weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`). Ná déan "
 "dearmad an cosán cuardaigh Python a shocrú chuig do virtualenv freisin (mar "
-"shampla ag baint úsáide as ``virtualenv = /home/user/weblate-env ``i UWSGI)."
+"shampla ag baint úsáide as ``virtualenv = /home/user/weblate-env`` i UWSGI)."
 
 #: ../../admin/install.rst:1442
 msgid ""
@@ -14357,21 +14307,19 @@ msgstr ""
 "gréasáin NGINX."
 
 #: ../../admin/install.rst:1444
-#, fuzzy
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
-"Cumraíocht do NGINX (ar fáil freisin mar: file: `weblate/examples/"
+"Cumraíocht do NGINX (ar fáil freisin mar :file:`weblate/examples/"
 "weblate.nginx.conf`):"
 
 #: ../../admin/install.rst:1449
-#, fuzzy
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
-"Cumraíocht do UwsGi (ar fáil freisin mar: file: `weblate/examples/"
+"Cumraíocht do UwsGi (ar fáil freisin mar :file:`weblate/examples/"
 "weblate.uwsgi.ini`):"
 
 #: ../../admin/install.rst:1456
@@ -14387,13 +14335,12 @@ msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr "Moltar prefork MPM a úsáid agus WSGI á úsáid le Weblate."
 
 #: ../../admin/install.rst:1465
-#, fuzzy
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
 "Ritheann an chumraíocht seo a leanas Weblate mar WSGI, ní mór duit "
-"`mod_wsgi`` a chumasú (ar fáil mar: file: `weblate/examples/apache.conf`):"
+"``mod_wsgi`` a chumasú (ar fáil mar :file:`weblate/examples/apache.conf`):"
 
 #: ../../admin/install.rst:1473
 msgid ""
@@ -14410,36 +14357,32 @@ msgid "Use matching Python version to install Weblate."
 msgstr "Úsáid an leagan comhoiriúnach Python chun Weblate a shuiteáil."
 
 #: ../../admin/install.rst:1481
-#, fuzzy
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
-msgstr ""
-":ref: `táirgeach-ionchódú `, :doc: `django:howto/imscaradú/wsgi/modwsgi`"
+msgstr ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 
 #: ../../admin/install.rst:1487
 msgid "Sample configuration for Apache and Gunicorn"
 msgstr "Cumraíocht shamplach le haghaidh Apache agus Gunicorn"
 
 #: ../../admin/install.rst:1489
-#, fuzzy
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
 "Ritheann an chumraíocht seo a leanas Weblate i Gunicorn agus Apache 2.4 (ar "
-"fáil mar: file: `weblate/examples/apache.gunicorn.conf`):"
+"fáil mar :file:`weblate/examples/apache.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1504
 msgid "Sample configuration to start Gunicorn"
 msgstr "Cumraíocht shamplach chun Gunicorn a thosú"
 
 #: ../../admin/install.rst:1506
-#, fuzzy
 msgid ""
 "Weblate has `wsgi` optional dependency (see :ref:`python-deps`) that will "
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
-"Tá spleáchas roghnach `wsgi` ag Weblate (féach: ref: `python-deps`) a "
+"Tá spleáchas roghnach `wsgi` ag Weblate (féach :ref:`python-deps`) a "
 "shuiteálfaidh gach rud a theastaíonn uait chun Gunicorn a reáchtáil. Agus "
 "Weblate á shuiteáil agat is féidir leat é a shonrú mar:"
 
@@ -14469,20 +14412,18 @@ msgid "Running Weblate under path"
 msgstr "Ag rith Weblate faoin gcosán"
 
 #: ../../admin/install.rst:1536
-#, fuzzy
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
 "Cumraíocht Apache samplach chun freastal ar Weblate faoi ``/weblate``. Arís "
-"ag baint úsáide as `mod_wsgi`` (ar fáil freisin mar: file: `weblate/examples/"
+"ag baint úsáide as `mod_wsgi`` (ar fáil freisin mar :file:`weblate/examples/"
 "apache-path.conf`):"
 
 #: ../../admin/install.rst:1542
-#, fuzzy
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
-msgstr "Ina theannta sin, beidh ort: file: `weblate/settings.py` a choigeartú:"
+msgstr "Ina theannta sin, beidh or :file:`weblate/settings.py` a choigeartú:"
 
 #: ../../admin/install.rst:1551
 msgid "Background tasks using Celery"
@@ -14500,19 +14441,17 @@ msgstr ""
 "iomlán):"
 
 #: ../../admin/install.rst:1557
-#, fuzzy
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
-msgstr "Crúcaí gréasáin a fháil ó sheirbhísí seachtracha (féach: ref: `hooks`)."
+msgstr "Crúcaí gréasáin a fháil ó sheirbhísí seachtracha (féach :ref:`hooks`)."
 
 #: ../../admin/install.rst:1558
-#, fuzzy
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
 "Tascanna cothabhála rialta a reáchtáil mar chúltacaí, glantacháin, breiseáin "
-"laethúla nó nuashonruithe (féach: ref: `backup`, :setting: `BACKGROUND_TASKS`"
-", :ref: `addons`)."
+"laethúla nó nuashonruithe (féach :ref:`backup`, :setting:`BACKGROUND_TASKS`, "
+":ref:`addons`)."
 
 #: ../../admin/install.rst:1560
 msgid "Running :ref:`auto-translation`."
@@ -14555,21 +14494,18 @@ msgstr ""
 "mó nuair a bhíonn tú ag dífhabhtú nó ag forbairt):"
 
 #: ../../admin/install.rst:1588
-#, fuzzy
 msgid ""
 "The Celery process has to be executed under the same user as the WSGI "
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
-"Caithfear an próiseas soilire a fhorghníomhú faoin úsáideoir céanna leis an "
-"bpróiseas WSGI, ar shlí eile stóráilfear comhaid in:setting: `DATA_DIR` le "
-"húinéireacht mheasctha, rud a fhágann go mbeidh saincheisteanna reatha mar "
-"thoradh air."
+"Ní mór an próiseas Soilire a chur i gcrích faoin úsáideoir céanna leis an "
+"bpróiseas WSGI, nó déanfar comhaid sa :setting:`DATA_DIR` a stóráil le "
+"húinéireacht mheasctha, rud a fhágann go n-eascróidh am rite."
 
 #: ../../admin/install.rst:1592
-#, fuzzy
 msgid "See also :ref:`file-permissions` and :ref:`server`."
-msgstr "Féach freisin: ref: `ceadúnais comhad` agus:ref: `freastalaí`."
+msgstr "Féach freisin :ref:`file-permissions` agus :ref:`server`."
 
 #: ../../admin/install.rst:1595
 msgid "Executing Celery tasks in the WSGI using eager mode"
@@ -14598,7 +14534,6 @@ msgid "Running Celery as system service"
 msgstr "Rith Soilire mar sheirbhís córais"
 
 #: ../../admin/install.rst:1615
-#, fuzzy
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered by :"
 "doc:`celery:userguide/daemonizing`. For the most common Linux setup using "
@@ -14606,35 +14541,32 @@ msgid ""
 "folder listed below."
 msgstr ""
 "Is dóichí go mbeidh tú ag iarraidh Soilire a reáchtáil mar dhéamón agus tá "
-"sé sin clúdaithe le: doc: `celery:userguide/daemonizing`. Maidir leis an "
+"sé sin clúdaithe le :doc:`celery:userguide/daemonizing`. Maidir leis an "
 "socrú Linux is coitianta ag baint úsáide as systemd, is féidir leat na "
-"comhaid shamplacha a sheoltar san fhillteán:file: `sampla` atá liostaithe "
+"comhaid shamplacha a sheoltar san fhillteán :file:`examples` atá liostaithe "
 "thíos a úsáid."
 
 #: ../../admin/install.rst:1620
-#, fuzzy
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
-"Aonad Córais atá le cur mar: file: `/etc/systemd/system/celery-"
+"Aonad Córais atá le cur mar :file:`/etc/systemd/system/celery-"
 "weblate.service`:"
 
 #: ../../admin/install.rst:1625
-#, fuzzy
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
-msgstr "Cumraíocht comhshaoil le cur mar: file: `/etc/default/celery-weblate`:"
+msgstr "Cumraíocht comhshaoil le cur mar :file:`/etc/default/celery-weblate`:"
 
 #: ../../admin/install.rst:1630
-#, fuzzy
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
-"Cumraíocht bhreise chun logaí soilire a rothlú ag baint úsáide:command: "
-"`logrotate` le cur mar: :file: `/etc/logrotate.d/celery`:"
+"Cumraíocht bhreise chun logaí Celery a rothlú ag baint úsáide as "
+":command:`logrotate` le cur mar :file:`/etc/logrotate.d/celery`:"
 
 #: ../../admin/install.rst:1637
 msgid "Periodic tasks using Celery beat"
@@ -14650,30 +14582,28 @@ msgstr ""
 "na tascanna a fhorghníomhú."
 
 #: ../../admin/install.rst:1644
-#, fuzzy
 msgid ""
 "You can define additional tasks in :file:`settings.py`, for example see :ref:"
 "`lazy-commit`."
 msgstr ""
-"Is féidir leat tascanna breise a shainiú in:file: `settings.py`, mar shampla "
-"féach:ref: `lazy-commit`."
+"Is féidir leat tascanna breise a shainiú i :file:`settings.py`, mar shampla "
+"féach :ref:`lazy-commit`."
 
 #: ../../admin/install.rst:1650
 msgid "Monitoring Celery status"
 msgstr "Monatóireacht ar stádas soilire"
 
 #: ../../admin/install.rst:1652
-#, fuzzy
 msgid ""
 "You can find current length of the Celery task queues in the :ref:"
 "`management-interface` or you can use :wladmin:`celery_queues` on the "
 "command-line. In case the queue will get too long, you will also get "
 "configuration error in the admin interface."
 msgstr ""
-"Is féidir leat fad reatha na scuaineanna tasc soilire a fháil in:ref: "
-"`management-interface` nó is féidir leat:wladmin: `celery_queues` a úsáid ar "
-"an líne ordaithe. Sa chás go n-éireoidh an scuaine rófhada, gheobhaidh tú "
-"earráid cumraíochta sa chomhéadan riaracháin freisin."
+"Is féidir leat fad reatha na scuainí tascanna Celery a fháil sa :ref"
+":`management-interface` nó is féidir leat :wladmin:`celery_queues` a úsáid "
+"ar an líne ordaithe. Ar eagla go n-éireoidh an scuaine ró-fhada, gheobhaidh "
+"tú earráid chumraíochta sa chomhéadan riaracháin freisin."
 
 #: ../../admin/install.rst:1659
 msgid ""
@@ -14687,16 +14617,14 @@ msgstr ""
 "`collecting-errors` a chumrú."
 
 #: ../../admin/install.rst:1665
-#, fuzzy
 msgid ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
 "daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 msgstr ""
-":ref: `monatóireach`, :ref: `faq-monatóireach`, :doc: `celery:treoir úsá"
-"ideach/cumraí`, :doc: `celery:treoir úsáide/oibrithe `, :doc: `celery:"
-"userguide/daemonizing`, :doc: `celery:treoir úsáide/monatóireach`, :wladmin: "
-"`celery_queues`"
+":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
+"configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
+"daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 
 #: ../../admin/install.rst:1676
 msgid "Single-process Celery setup"
@@ -14780,13 +14708,12 @@ msgid "Sentry"
 msgstr "Sentry"
 
 #: ../../admin/install.rst:1721
-#, fuzzy
 msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
 "Tá tacaíocht ionsuite ag Weblate do `Sentry <https://sentry.io/>`_. Chun é a "
-"úsáid, is leor :setting:`SENTRY_DSN` a shocrú sa :comhad:`settings.py`:"
+"úsáid, is leor :setting:`SENTRY_DSN` a shocrú sa :file:`settings.py`:"
 
 #: ../../admin/install.rst:1728
 msgid ""
@@ -14824,9 +14751,8 @@ msgstr ""
 "Python <https://docs.rollbar.com/docs/python/>`_."
 
 #: ../../admin/install.rst:1745
-#, fuzzy
 msgid "In short, you need to adjust :file:`settings.py`:"
-msgstr "I mbeagán focal, ní mór duit a choigeartú:file: `settings.py`:"
+msgstr "I mbeagán focal, ní mór duit a choigeartú :file:`settings.py`:"
 
 #: ../../admin/install.rst:1763
 msgid ""
@@ -14910,15 +14836,14 @@ msgid "Migrating VCS repositories"
 msgstr "Taisclanna VCS a aistriú"
 
 #: ../../admin/install.rst:1807
-#, fuzzy
 msgid ""
 "The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as "
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
-"Ní mór na stórais VCS a stóráiltear fao:setting: `DATA_DIR` a aistriú "
-"freisin. Is féidir leat iad a chóipeáil nó úsáid: command: `rsync` chun an "
-"imirce a dhéanamh níos éifeachtaí."
+"Ní mór na stórtha VCS atá stóráilte faoi :setting:`DATA_DIR` a aistriú "
+"freisin. Is féidir leat iad a chóipeáil go simplí nó :command:`rsync` a "
+"úsáid chun an t-aistriú a dhéanamh ar bhealach níos éifeachtaí."
 
 #: ../../admin/install.rst:1812
 msgid "Other notes"
@@ -14986,32 +14911,30 @@ msgid "Clone the weblate-docker repo:"
 msgstr "Clón an repo weblate-docker:"
 
 #: ../../admin/install/docker.rst:33
-#, fuzzy
 msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
-"Cruthaigh a:file: comhad `docker-compose.override.yml` le do shocruithe. "
-"Féach:ref: `docker-environment` le haghaidh liosta iomlán d'athróga "
-"comhshaoil."
+"Cruthaigh a:file: comhad :file:`docker-compose.override.yml` le do "
+"shocruithe. Féach :ref:`docker-environment` le haghaidh liosta iomlán "
+"d'athróga comhshaoil."
 
 #: ../../admin/install/docker.rst:55
-#, fuzzy
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
-"If: Envvar: Níl `WEBLATE_ADMIN_PASSWORD` socraithe, cruthaítear an t-"
-"úsáideoir riaracháin le pasfhocal randamach a thaispeántar ar an gcéad tosú."
+"Mura bhfuil :envvar:`WEBLATE_ADMIN_PASSWORD` socraithe, cruthaítear an t-"
+"úsáideoir riaracháin le pasfhocal randamach a thaispeántar ar an gcéad "
+"tosaithe."
 
 #: ../../admin/install/docker.rst:58
-#, fuzzy
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose.override.yml` file to change it."
 msgstr ""
 "Déanann an sampla a chuirtear ar fáil éisteacht le Weblate ar chalafort 80, "
-"déanann mapáil an chalafoirt a chur in eagar sa chomhad:file: `docker-"
+"déanann mapáil an chalafoirt a chur in eagar sa chomhad :file:`docker-"
 "compose.override.yml` chun é a athrú."
 
 #: ../../admin/install/docker.rst:61
@@ -15197,27 +15120,24 @@ msgid "Using own SSL certificates"
 msgstr "Ag baint úsáide as deimhnithe SSL féin"
 
 #: ../../admin/install/docker.rst:126
-#, fuzzy
 msgid ""
 "In case you have own SSL certificate you want to use, simply place the files "
 "into the Weblate data volume (see :ref:`docker-volume`):"
 msgstr ""
 "Sa chás go bhfuil deimhniú SSL féin agat is mian leat a úsáid, ní gá ach na "
-"comhaid a chur isteach i toirt sonraí Weblate (féach: ref: `docker-volume`):"
+"comhaid a chur isteach i toirt sonraí Weblate (féach :ref:`docker-volume`):"
 
 #: ../../admin/install/docker.rst:129
-#, fuzzy
 msgid ""
 ":file:`ssl/fullchain.pem` containing the certificate including any needed CA "
 "certificates"
 msgstr ""
-":file: `ssl/fullchain.pem` ina bhfuil an deimhniú lena n-áirítear aon "
-"teastais CA is gá"
+":file:`ssl/fullchain.pem` ina bhfuil an teastas lena n-áirítear aon "
+"deimhnithe CA atá ag teastáil"
 
 #: ../../admin/install/docker.rst:130
-#, fuzzy
 msgid ":file:`ssl/privkey.pem` containing the private key"
-msgstr ":file: `ssl/privkey.pem` ina bhfuil an eochair phríobháideach"
+msgstr ":file:`ssl/privkey.pem` ina bhfuil an eochair phríobháideach"
 
 #: ../../admin/install/docker.rst:132
 msgid ""
@@ -15265,7 +15185,6 @@ msgid "Automatic SSL certificates using Let’s Encrypt"
 msgstr "Deimhnithe SSL uathoibríoch ag baint úsáide as Let's Encrypt"
 
 #: ../../admin/install/docker.rst:176
-#, fuzzy
 msgid ""
 "In case you want to use `Let’s Encrypt <https://letsencrypt.org/>`_ "
 "automatically generated SSL certificates on public installation, you need to "
@@ -15276,10 +15195,10 @@ msgid ""
 msgstr ""
 "Ar eagla go dteastaíonn uait `Let's Encrypt <https://letsencrypt.org/>`_ "
 "deimhnithe SSL a ghintear go huathoibríoch ar shuiteáil phoiblí a úsáid, ní "
-"mór duit seachfhreastalaí HTTPS droim ar ais a chur leis mar choimeádán "
-"Docker breise, `https-portal <https:// /hub.docker.com/r/steveltn/"
-"https-portal/> Úsáidfear `_ chuige sin. Baintear úsáid as seo sa chomhad "
-":comhad:`docker-compose-https.yml`. Ansin cruthaigh comhad ::`docker-compose-"
+"mór duit seachfhreastalaí HTTPS droim ar ais a chur le coimeádán Docker "
+"breise, úsáidfear `https-portal <https://hub.docker.com/r/steveltn/"
+"https-portal/>`_ chuige sin. Baintear úsáid as seo sa chomhad :file:`docker-"
+"compose-https.yml`. Ansin cruthaigh comhad :file:`docker-compose-"
 "https.override.yml` le do shocruithe:"
 
 #: ../../admin/install/docker.rst:198
@@ -15399,9 +15318,9 @@ msgstr ""
 "seo."
 
 #: ../../admin/install/docker.rst:291
-#, fuzzy
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
-msgstr "Coigeart:file: `docker-compose.yml` chun leagan nua PostgreSQL a úsáid."
+msgstr ""
+"Coigeartaigh :file:`docker-compose.yml` chun leagan nua PostgreSQL a úsáid."
 
 #: ../../admin/install/docker.rst:293
 msgid "Start the database container:"
@@ -15454,13 +15373,12 @@ msgstr ""
 "`WEBLATE_ADMIN_PASSWORD` socraithe go pasfhocal nua."
 
 #: ../../admin/install/docker.rst:339
-#, fuzzy
 msgid ""
 ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
-":envvar: `WEBLATE_ADMIN_PASSWORD`, :envvar: `WEBLATE_ADMIN_AINM`, :envvar: "
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:344
 msgid "Number of processes and memory consumption"
@@ -15513,7 +15431,6 @@ msgid "Scaling horizontally"
 msgstr "Scálú go cothrománach"
 
 #: ../../admin/install/docker.rst:394
-#, fuzzy
 msgid ""
 "You can run multiple Weblate containers to scale the service horizontally. "
 "The :file:`/app/data` volume has to be shared by all containers, it is "
@@ -15521,9 +15438,9 @@ msgid ""
 "`/app/cache` volume should be separate for each container."
 msgstr ""
 "Is féidir leat iolracha coimeádáin Weblate a reáchtáil chun an tseirbhís a "
-"scáileáil Caithfidh gach coimeádán an toirte:file: `/app/data` a roinnt, "
-"moltar córas comhaid braisle mar GlusterFS a úsáid chuige seo. Ba chóir go "
-"mbeadh an toirte:file: `/app/cache` ar leithligh do gach coimeádán."
+"scáileáil Caithfidh gach coimeádán an toirte:file: :file:`/app/data` a "
+"roinnt, moltar córas comhaid braisle mar GlusterFS a úsáid chuige seo. Ba "
+"chóir go mbeadh an toirte :file:`/app/cache` ar leithligh do gach coimeádán."
 
 #: ../../admin/install/docker.rst:399
 msgid ""
@@ -15538,15 +15455,14 @@ msgstr ""
 "siúl uair amháin sa chnuasach, agus tá tábhacht le hord na seirbhísí freisin."
 
 #: ../../admin/install/docker.rst:404
-#, fuzzy
 msgid ""
 "You can find example setup in the ``docker-compose`` repo as `docker-compose-"
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
-"Is féidir leat socrú samplaí a fháil san repo ``docker-compose`` mar `docker-"
-"compose-split.yml <https://github.com/WebateOrg/docker-compose/blob/main/"
-"docker-compose-split.yml >`__."
+"Is féidir leat socrú samplaí a fháil sa ``docker-compose`` repo mar `docker-"
+"compose-split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/"
+"docker-compose-split.yml>`__."
 
 #: ../../admin/install/docker.rst:411
 msgid "Docker environment variables"
@@ -15582,9 +15498,8 @@ msgstr ""
 "comhad rúnda trí Docker."
 
 #: ../../admin/install/docker.rst:429
-#, fuzzy
 msgid "Related :file:`docker-compose.yml` might look like:"
-msgstr "Gaolmhar: Comhad: D'fhéadfadh go mbeadh cuma “docker-compose.yml” mar:"
+msgstr "Seans go mbeidh cuma ar :file:`docker-compose.yml` gaolmhar:"
 
 #: ../../admin/install/docker.rst:452
 msgid ""
@@ -15659,26 +15574,22 @@ msgid "Include port if using a non-standard one."
 msgstr "Cuir port san áireamh má tá ceann neamhchaighdeánach á úsáid agat."
 
 #: ../../admin/install/docker.rst:515
-#, fuzzy
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
-msgstr ":ref: `láithreán táirgeach', :socrú: `SITE_DOMAIN`"
+msgstr ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 
 #: ../../admin/install/docker.rst:521
-#, fuzzy
 msgid ""
 "Configures the site-admin's name and e-mail. It is used for both :setting:"
 "`ADMINS` setting and creating `admin` user (see :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
 "Cumraíonn sé ainm agus r-phost riaracháin an láithreáin. Úsáidtear é chun an "
-"bheirt: socrú: `ADMINS` agus úsáideoir `admin` a chruthú (féach: envvar: "
-"`WEBLATE_ADMIN_PASSWORD` le haghaidh tuilleadh eolais faoi sin)."
+"bheirt :setting:`ADMINS` agus úsáideoir `admin` a chruthú (féach "
+":envvar:`WEBLATE_ADMIN_PASSWORD` le haghaidh tuilleadh eolais faoi sin)."
 
 #: ../../admin/install/docker.rst:535
-#, fuzzy
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
-msgstr ""
-":ref: `docker-admin-logain`, :ref: `riaracháin táirgeach`, :setting: `ADMINS`"
+msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
 #: ../../admin/install/docker.rst:541
 msgid "Sets the password for the `admin` user."
@@ -15720,15 +15631,14 @@ msgstr ""
 "tosaigh) nó chun pasfhocal a ghnóthú."
 
 #: ../../admin/install/docker.rst:559
-#, fuzzy
 msgid ""
 ":ref:`docker-admin-login`, :ref:`docker-secrets`, :envvar:"
 "`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
-":ref: `docker-admin-logain`, :ref: `docker-rúnaí`, :envvar: "
-"`WEBLATE_ADMIN_PASSWORD`, :envvar: `WEBLATE_ADMIN_AINM`, :envvar: "
-"`WEBLATE_ADMIN_EMAIL`"
+":ref:`docker-admin-login`, :ref:`docker-secrets`, "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:567
 msgid ""
@@ -15746,37 +15656,32 @@ msgstr ""
 "Sentry nó Barra Rolla agus é seo a mhúchadh."
 
 #: ../../admin/install/docker.rst:573
-#, fuzzy
 msgid ""
 ":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, :envvar:"
 "`SENTRY_DSN`"
 msgstr ""
-":ref: `django:impleachtaí slándála logging`, :envvar: `ROLLBAR_KEY`, :envvar:"
-" `SENTRY_DSN`"
+":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, "
+":envvar:`SENTRY_DSN`"
 
 #: ../../admin/install/docker.rst:579
 msgid "The email address that error messages are sent from."
 msgstr "An seoladh ríomhphoist óna seoltar teachtaireachtaí earráide."
 
 #: ../../admin/install/docker.rst:583
-#, fuzzy
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
-msgstr ":std:setting: `django:server_email`, :ref: `táirgeach-ríomhphost`"
+msgstr ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:588
 msgid "Configures the address for outgoing e-mails."
 msgstr "Cumraíonn sé an seoladh le haghaidh ríomhphoist amach."
 
 #: ../../admin/install/docker.rst:592
-#, fuzzy
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
-msgstr ""
-":std:setting: `django:default_from_email`, :ref: `táirgeacht-ríomhphost`"
+msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:597
-#, fuzzy
 msgid "Configures :setting:`ADMINS_CONTACT`."
-msgstr "Cumraí:SOCRÚ: `ADMINS_CONTACT`."
+msgstr "Cumraíonn :setting:`ADMINS_CONTACT`."
 
 #: ../../admin/install/docker.rst:601
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
@@ -15794,12 +15699,10 @@ msgid "Defaults to ``*`` which allows all hostnames."
 msgstr "Réamhshocraithe go ``*`` a cheadaíonn gach ainm óstach."
 
 #: ../../admin/install/docker.rst:618
-#, fuzzy
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
-":setting: `ALLOWED_HOSTS`, :ref: `óstálacha táirgeach', :ref: `láithreán "
-"táirgeach'"
+":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 
 #: ../../admin/install/docker.rst:624
 msgid ""
@@ -15870,13 +15773,12 @@ msgstr ""
 "é sin a chumrú freisin, féach :ref:`docker-ssl` le haghaidh samplaí."
 
 #: ../../admin/install/docker.rst:705
-#, fuzzy
 msgid ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 msgstr ""
-":setting: `cumasach_https`:ref: `láithreán táirgeach', :envvar: "
-"`WEBLATE_SECURE_PROXY_SSL_HEADER`"
+":setting:`ENABLE_HTTPS` :ref:`production-site`, "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install/docker.rst:713
 msgid ""
@@ -16047,15 +15949,14 @@ msgstr ""
 "haghaidh comhpháirteanna nua, féach :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: ../../admin/install/docker.rst:837
-#, fuzzy
 msgid ""
 "Configures the default value for :ref:`component-"
 "allow_translation_propagation` for new components, see :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
-"Cumraíonn sé an luach réamhshocraithe le haghaidh: ref: `component-"
-"allow_translation_propagation` do chomhpháirteanna nua, féach:setting: "
-"`DEFAULT_TRANSLATION_PROPAGATION`."
+"Cumraíonn sé an luach réamhshocraithe le haghaidh :ref:`component-"
+"allow_translation_propagation` do chomhpháirteanna nua, féach "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/install/docker.rst:841
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
@@ -16098,15 +15999,14 @@ msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgstr "Is féidir ceanntásc HTTP ``Content-Slándáil-Polasaí`` a shaincheapadh."
 
 #: ../../admin/install/docker.rst:883
-#, fuzzy
 msgid ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
-":ref: `csp`, :setting: `CSP_SCRIPT_SRC`, :setting: `CSP_IMG_SRC`, :setting: "
-"`CSP_CONNECT_SRC`, :setting: `CSP_STYLE_SRC`, :setting: `CSP_FONT_SRC`:Socrú:"
-" `CSP_FORM_SRC`"
+":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, "
+":setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
+" :setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install/docker.rst:893
 msgid "Configures :setting:`LICENSE_FILTER`."
@@ -16125,9 +16025,8 @@ msgid "Configures :setting:`HIDE_VERSION`."
 msgstr "Cumraítear :setting:`HIDE_VERSION`."
 
 #: ../../admin/install/docker.rst:909
-#, fuzzy
 msgid "Configures :setting:`BASIC_LANGUAGES`."
-msgstr "Cumraí:SOCRÚ: `BASIC_LANGUAGES`."
+msgstr "Cumraíonn :setting:`BASIC_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:913
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
@@ -16138,23 +16037,21 @@ msgid "Configures rate limiter."
 msgstr "Cumraigh teorannóir rátaí."
 
 #: ../../admin/install/docker.rst:925
-#, fuzzy
 msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
 "Is féidir leat cumraíocht a shocrú d'aon scóipí teoranta rátaí. Chun sin a "
 "dhéanamh cuir réimír ``WEBLATE_`` le haon cheann de na suíomhanna a "
-"thuairiscítear in:ref: `rate-limit`."
+"thuairiscítear in :ref:`rate-limit`"
 
 #: ../../admin/install/docker.rst:930
-#, fuzzy
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 msgstr ""
-":ref: `rate-teorann`, :setting: `RATELIMIT_ATTEMPTS`, :setting: "
-"`RATELIMIT_WINDOW`, :setting: `RATELIMIT_LOCKOUT`"
+":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
+", :setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/install/docker.rst:941
 msgid ""
@@ -16169,9 +16066,8 @@ msgid ":ref:`api-rate`"
 msgstr ":ref:`api-rate`"
 
 #: ../../admin/install/docker.rst:952
-#, fuzzy
 msgid "Configures :setting:`ENABLE_HOOKS`."
-msgstr "Cumraí:SOCRÚ: `ENABLE_HOOKS`."
+msgstr "Cumraíonn :setting:`ENABLE_HOOKS`."
 
 #: ../../admin/install/docker.rst:958
 msgid "Configures :setting:`ENABLE_AVATARS`."
@@ -16190,10 +16086,9 @@ msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgstr "Cumraíonn :setting:`SSH_EXTRA_ARGS`."
 
 #: ../../admin/install/docker.rst:982
-#, fuzzy
 msgid ""
 "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
-msgstr "Cumraí:SETTING: `BORG_EXTRA_ARGS` mar liosta de args scartha camóg."
+msgstr "Cumraíonn :setting:`BORG_EXTRA_ARGS` mar liosta de args scartha camóg."
 
 #: ../../admin/install/docker.rst:995
 msgid "Configures :setting:`ENABLE_SHARING`."
@@ -16278,17 +16173,16 @@ msgid "Or the path to a file containing the Python dictionary:"
 msgstr "Nó an cosán chuig comhad ina bhfuil an foclóir Python:"
 
 #: ../../admin/install/docker.rst:1117
-#, fuzzy
 msgid "Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`."
-msgstr "Cumraí:ref: `vcs-github` trí athrú: socrú: `GITHUB_CREDENTIALS`."
+msgstr "Cumraíonn :ref:`vcs-github` trí athrú :setting:`GITHUB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1119 ../../admin/install/docker.rst:1128
 #: ../../admin/install/docker.rst:1137 ../../admin/install/docker.rst:1146
 #: ../../admin/install/docker.rst:1163 ../../admin/install/docker.rst:1173
-#, fuzzy
 msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
-msgstr ": ref:`Cod a chumrú dintiúir óstála i Docker <docker-vcs-config>`"
+msgstr ""
+":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 
 #: ../../admin/install/docker.rst:1126
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
@@ -16303,13 +16197,12 @@ msgid "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
 msgstr "Cumraigh :ref:`vcs-pagure` trí :setting:`PAGURE_CREDENTIALS` a athrú."
 
 #: ../../admin/install/docker.rst:1153
-#, fuzzy
 msgid ""
 "Configures :ref:`vcs-bitbucket-data-center` by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Cumraí:ref: `vcs-bitbucket-data-center` trí athrú: socrú: "
-"`BITBUCKETSERVER_CREDENTIALS`."
+"Cumraíonn :ref:`vcs-bitbucket-data-center` trí athrú "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1161
 msgid ""
@@ -16504,7 +16397,6 @@ msgid "SAML"
 msgstr "SAML"
 
 #: ../../admin/install/docker.rst:1407
-#, fuzzy
 msgid ""
 "Self-signed SAML keys are automatically generated on first container "
 "startup. In case you want to use own keys, place the certificate and private "
@@ -16512,7 +16404,7 @@ msgid ""
 msgstr ""
 "Gintear eochracha SAML féin-shínithe go huathoibríoch ar an gcéad thos Sa "
 "chás gur mhaith leat eochracha féin a úsáid, cuir an deimhniú agus an "
-"eochair phríobháideach in:file: `/app/data/ssl/saml.crt` agus:file: `/app/"
+"eochair phríobháideach in :file:`/app/data/ssl/saml.crt` agus :file:`/app/"
 "data/ssl/saml.key`."
 
 #: ../../admin/install/docker.rst:1417
@@ -16536,15 +16428,14 @@ msgstr ""
 "Féach :ref:`disable-email-auth`."
 
 #: ../../admin/install/docker.rst:1440
-#, fuzzy
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
 "disable strength checking."
 msgstr ""
 "Íosscór focal faire arna mheas ag an meastóir láidreachta pasfhocail `zxcvbn "
-"<https://github.com/dropbox/zxcvbn>`. Réamhshocrú go 3, socraithe go 0 chun "
-"seiceáil neart a dhíchumasú."
+"<https://github.com/dropbox/zxcvbn>`_ . Réamhshocrú go 3, socraithe go 0 "
+"chun seiceáil neart a dhíchumasú."
 
 #: ../../admin/install/docker.rst:1446
 msgid "PostgreSQL database setup"
@@ -16637,12 +16528,10 @@ msgstr ""
 "roimh chumasú."
 
 #: ../../admin/install/docker.rst:1511
-#, fuzzy
 msgid ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 msgstr ""
-":setting: `django:conn_max_age`, :ref: `django:naisc bunachar sonraí "
-"leanúnach`"
+":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 
 #: ../../admin/install/docker.rst:1517
 msgid ""
@@ -16803,9 +16692,8 @@ msgid "E-mail authentication password."
 msgstr "Pasfhocal fíordheimhnithe ríomhphoist."
 
 #: ../../admin/install/docker.rst:1654
-#, fuzzy
 msgid ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
-msgstr ":ref: `docker-secrets`, :setting: `django:email_host_password`"
+msgstr ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1659
 msgid ""
@@ -16862,9 +16750,8 @@ msgid "Configures Django back-end to use for sending e-mails."
 msgstr "Cumraítear cúl-deireadh Django lena úsáid chun ríomhphoist a sheoladh."
 
 #: ../../admin/install/docker.rst:1700
-#, fuzzy
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
-msgstr ":ref: `táirgeach-ríomhphost`, :setting: `django:email_backend`"
+msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:1705
 msgid "Configures if and how Weblate should update repositories."
@@ -16884,9 +16771,8 @@ msgid "Site integration"
 msgstr "Comhtháthú suímh"
 
 #: ../../admin/install/docker.rst:1718
-#, fuzzy
 msgid "Configures :setting:`GET_HELP_URL`."
-msgstr "Cumraí:SOCRÚ: `GET_HELP_URL`."
+msgstr "Cumraíonn :setting:`GET_HELP_URL`."
 
 #: ../../admin/install/docker.rst:1722
 msgid "Configures :setting:`STATUS_URL`."
@@ -16925,9 +16811,8 @@ msgid "To enable support for Sentry, set following:"
 msgstr "Chun tacaíocht do Sentry a chumasú, socraigh an méid seo a leanas:"
 
 #: ../../admin/install/docker.rst:1752
-#, fuzzy
 msgid "Your Sentry DSN, see :setting:`SENTRY_DSN`."
-msgstr "Do Sentry DSN, féach: socrú: `SENTRY_DSN`."
+msgstr "Do Sentry DSN, féach :setting:`SENTRY_DSN`."
 
 #: ../../admin/install/docker.rst:1756
 msgid ""
@@ -16981,12 +16866,10 @@ msgstr ""
 "stórálann sé ach na comhaid i suíomh cumraithe."
 
 #: ../../admin/install/docker.rst:1812
-#, fuzzy
 msgid ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 msgstr ""
-":ref: `weblate-cdn`, :setting: `LOCALIZE_CDN_URL`, :setting: "
-"`LOCALIZE_CDN_PATH`"
+":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 
 #: ../../admin/install/docker.rst:1818
 msgid ""
@@ -17026,7 +16909,6 @@ msgstr ""
 "bunaithe ar líon na gcroí LAP atá ar fáil."
 
 #: ../../admin/install/docker.rst:1866
-#, fuzzy
 msgid ""
 "It is used to determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
@@ -17034,10 +16916,11 @@ msgid ""
 "`CELERY_BEAT_OPTIONS`, and :envvar:`WEB_WORKERS`. You can use these settings "
 "to fine-tune."
 msgstr ""
-"Úsáidtear é chun cinne:envvar: `CELERY_MAIN_OPTIONS`, :envvar: "
-"`CELERY_NOTIFY_OPTIONS`, :envvar: `CELERY_MEMORY_OPTIONS`, :envvar: "
-"`CELERY_TRANSLATE_OPTIONS`, :envvar: `CELERY_BEAT_OPTIONS`, agus:envvar: "
-"`WEB_WORKERS`. Is féidir leat na socruithe seo a úsáid chun mionchoigeartú."
+"Úsáidtear é chun a chinneadh :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, agus :envvar:`WEB_WORKERS`. Is féidir leat na "
+"socruithe seo a úsáid chun mionchoigeartú."
 
 #: ../../admin/install/docker.rst:1879
 msgid ""
@@ -17059,13 +16942,12 @@ msgstr ""
 "envvar:`WEBLATE_WORKERS`."
 
 #: ../../admin/install/docker.rst:1894
-#, fuzzy
 msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
 msgstr ""
-":doc:`Roghanna oibrithe soilire <celery:reference/celery.bin.worker>`, "
-":ref:`soilire`"
+":doc:`Celery worker options <celery:reference/celery.bin.worker>`, "
+":ref:`celery`"
 
 #: ../../admin/install/docker.rst:1901
 msgid ""
@@ -17089,22 +16971,20 @@ msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgstr "Réamhshocrú é go :envvar:`WEBLATE_WORKERS`."
 
 #: ../../admin/install/docker.rst:1927
-#, fuzzy
 msgid ""
 "The Docker container runs two WSGI processes since 5.9 and :envvar:"
 "`WEB_WORKERS` configures how many threads each process will have."
 msgstr ""
-"Ritheann an coimeádán Docker dhá phróiseas WSGI ó 5.9 agus:envvar: cumraíonn "
-"`WEB_WORKERS` cé mhéad snáithe a bheidh ag gach próiseas."
+"Ritheann an coimeádán Docker dhá phróiseas WSGI ó 5.9 agus cumraíonn "
+":envvar:`WEB_WORKERS` cé mhéad snáithe a bheidh ag gach próiseas."
 
 #: ../../admin/install/docker.rst:1932
-#, fuzzy
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
 msgstr ""
 "Sainmhíníonn cé na seirbhísí ba chóir a fhorghníomhú taobh Úsáid é seo le "
-"haghaidh: ref: `docker-scaling`."
+"haghaidh :ref:`docker-scaling`."
 
 #: ../../admin/install/docker.rst:1934
 msgid "Following services are defined:"
@@ -17201,7 +17081,6 @@ msgstr ""
 "mine ar a bhfuil stóráilte anseo."
 
 #: ../../admin/install/docker.rst:1967
-#, fuzzy
 msgid ""
 "The placement of the Docker volume on host system depends on your Docker "
 "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
@@ -17209,7 +17088,7 @@ msgid ""
 "compose directory, container, and volume names)."
 msgstr ""
 "Braitheann socrúchán toirt Docker ar chóras óstach ar do chumraíocht Docker, "
-"ach de ghnáth stóráiltear é in:file: `/var/lib/docker/volumes/"
+"ach de ghnáth stóráiltear é in :file:`/var/lib/docker/volumes/"
 "weblate-docker_weblate-data/_data/` (tá ainm d'eolaire docker-componc, "
 "coimeádán agus ainmneacha toirte sa chosán)."
 
@@ -17245,13 +17124,12 @@ msgstr ""
 "tmpfs`` a fheistiú: :file:`/tmp` agus :file:`/run`."
 
 #: ../../admin/install/docker.rst:1985
-#, fuzzy
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/engine/storage/"
 "volumes/>`_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 msgstr ""
-"`Docker toirteanna doiciméad <https://docs.docker.com/engine/storage/"
-"volumes/> `_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
+"`Docker toirteanna doiciméad <https://docs.docker.com/engine/storage/volumes/"
+">`_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 
 #: ../../admin/install/docker.rst:1990
 msgid "Read-only root filesystem"
@@ -17290,7 +17168,6 @@ msgstr ""
 "nochtfaí é i leagan amach anseo de Weblate <report-issue>`."
 
 #: ../../admin/install/docker.rst:2011
-#, fuzzy
 msgid ""
 "If you need to modify a setting that is not exposed as a Docker environment "
 "variable, you can still do so, either :ref:`from the data volume <docker-"
@@ -17298,9 +17175,9 @@ msgid ""
 "settings>`."
 msgstr ""
 "Más gá duit socrú nach bhfuil nochtaithe mar athróg timpeallachta Docker a "
-"mhodhnú, is féidir leat é sin a dhéanamh fós, ceachtar :ref:`ón toirt sonraí "
-"<docker-settings-override>` nó :ref:`ag leathnú íomhá an Docker < docker-"
-"custom-settings>`."
+"mhodhnú, is féidir leat é sin a dhéanamh fós, ceachtar :ref:`from the data "
+"volume <docker-settings-override>` no :ref:`extending the Docker image "
+"<docker-custom-settings>`."
 
 #: ../../admin/install/docker.rst:2018
 msgid ":doc:`../customize`"
@@ -17332,9 +17209,8 @@ msgstr ""
 "Chun socruithe ag leibhéal íomhá an Docker a shárú seachas ón méid sonraí:"
 
 #: ../../admin/install/docker.rst:2037
-#, fuzzy
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ":ref:`Cruthaigh pacáiste Python saincheaptha <modúl-saincheaptha>`."
+msgstr ":ref:`Cruthaigh pacáiste Python saincheaptha <custom-module>`."
 
 #: ../../admin/install/docker.rst:2039
 msgid ""
@@ -17381,14 +17257,13 @@ msgid ""
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
-"Níl bealach glan <https://github.com/docker/compose/issues/7231 >`__ é seo "
-"a dhéanamh le ``docker-compose.override.yml``. *D'fhéadfá * `` build: .`` a "
-"chur leis an nód ``gréasáin `` sa chomhad sin, ach ansin déanfar d'íomhá "
-"saincheaptha a chlibeáil mar ``gréasán/clár gréasáin`` i do chóras, rud a "
-"d'fhéadfadh a bheith ina fhadhb."
+"Níl `bealach glan <https://github.com/docker/compose/issues/7231>`__ b.com/"
+"docker/compose/ié seo a dhéanamh le ``docker-compose.override.yml``. *"
+"D'fhéadfá * `` build: .`` a chur leis an nód ``weblate `` sa chomhad sin, "
+"ach ansin déanfar d'íomhá saincheaptha a chlibeáil mar ``weblate/weblate`` i "
+"do chóras, rud a d'fhéadfadh a bheith ina fhadhb."
 
 #: ../../admin/install/docker.rst:2076
-#, fuzzy
 msgid ""
 "So, instead of using the ``docker-compose.yml`` straight from the `official "
 "repository <https://github.com/WeblateOrg/docker-compose>`__, unmodified, "
@@ -17401,7 +17276,7 @@ msgstr ""
 "agus é a leathnú trí ``docker-compose .override.yml``, b'fhéidir gur mhaith "
 "leat cóip den chomhad oifigiúil ``docker-compose.yml`` a dhéanamh, agus do "
 "chóip a chur in eagar chun ``image: weblate/weblate`` a chur in ionad "
-"``build: .` `."
+"``build: .``."
 
 #: ../../admin/install/docker.rst:2082
 msgid ""
