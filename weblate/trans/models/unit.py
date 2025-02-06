@@ -1359,7 +1359,7 @@ class Unit(models.Model, LoggerMixin):
         return self.suggestion_set.order()
 
     @cached_property
-    def all_checks(self) -> models.QuerySet[Check]:
+    def all_checks(self) -> Iterable[Check]:
         result = self.check_set.all()
         # Force fetching
         list(result)
