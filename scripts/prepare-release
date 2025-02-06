@@ -27,7 +27,7 @@ version=$(python -c 'import weblate.utils.version; print(weblate.utils.version.V
 today=$(./manage.py shell -c 'from django.utils.dateformat import format; import datetime; print(format('"$datespec"', "F jS Y"))')
 
 sed -i "s/^VERSION =.*/VERSION = \"$version$suffix\"/" weblate/utils/version.py
-sed -i "s/^Not yet released./Released on $today./" docs/changes.rst
+sed -E -i "s/^\*(Not yet released.|Expected ).*/*Released on $today.*/" docs/changes.rst
 
 if [ -z "$suffix" ]; then
     ./scripts/list-contributors --update

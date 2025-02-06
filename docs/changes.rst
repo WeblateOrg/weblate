@@ -1,7 +1,7 @@
 Weblate 5.10
 ------------
 
-Not yet released.
+*Expected 15th February 2025.*
 
 **New features**
 
@@ -54,7 +54,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.9.2
 -------------
 
-Released on December 19th 2024.
+*Released on December 19th 2024.*
 
 **Improvements**
 
@@ -81,7 +81,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.9.1
 -------------
 
-Released on December 16th 2024.
+*Released on December 16th 2024.*
 
 **Bug fixes**
 
@@ -100,7 +100,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.9
 -----------
 
-Released on December 16th 2024.
+*Released on December 16th 2024.*
 
 **New features**
 
@@ -154,7 +154,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.8.4
 -------------
 
-Released on November 19th 2024.
+*Released on November 19th 2024.*
 
 **Improvements**
 
@@ -179,7 +179,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.8.3
 -------------
 
-Released on November 6th 2024.
+*Released on November 6th 2024.*
 
 **Bug fixes**
 
@@ -200,7 +200,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.8.2
 -------------
 
-Released on November 1st 2024.
+*Released on November 1st 2024.*
 
 **Bug fixes**
 
@@ -223,7 +223,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.8.1
 -------------
 
-Released on October 15th 2024.
+*Released on October 15th 2024.*
 
 **Bug fixes**
 
@@ -242,7 +242,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.8
 -----------
 
-Released on October 15th 2024.
+*Released on October 15th 2024.*
 
 **New features**
 
@@ -293,7 +293,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.7.2
 -------------
 
-Released on September 5th 2024.
+*Released on September 5th 2024.*
 
 **Improvements**
 
@@ -319,7 +319,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.7.1
 -------------
 
-Released on August 30th 2024.
+*Released on August 30th 2024.*
 
 **Improvements**
 
@@ -347,7 +347,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.7
 -----------
 
-Released on August 15th 2024.
+*Released on August 15th 2024.*
 
 **New features**
 
@@ -403,7 +403,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.6.2
 -------------
 
-Released on July 1st 2024.
+*Released on July 1st 2024.*
 
 **Bug fixes**
 
@@ -423,7 +423,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.6.1
 -------------
 
-Released on June 24th 2024.
+*Released on June 24th 2024.*
 
 **Improvements**
 
@@ -443,7 +443,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.6
 -----------
 
-Released on June 19th 2024.
+*Released on June 19th 2024.*
 
 **New features**
 
@@ -481,7 +481,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5.5
 -------------
 
-Released on May 13th 2024.
+*Released on May 13th 2024.*
 
 **Bug fixes**
 
@@ -497,7 +497,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5.4
 -------------
 
-Released on May 10th 2024.
+*Released on May 10th 2024.*
 
 **Improvements**
 
@@ -519,7 +519,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5.3
 -------------
 
-Released on May 3rd 2024.
+*Released on May 3rd 2024.*
 
 **Improvements**
 
@@ -540,7 +540,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5.2
 -------------
 
-Released on April 26th 2024.
+*Released on April 26th 2024.*
 
 **Bug fixes**
 
@@ -555,7 +555,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5.1
 -------------
 
-Released on April 26th 2024.
+*Released on April 26th 2024.*
 
 **New features**
 
@@ -592,7 +592,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5
 -----------
 
-Released on April 20th 2024.
+*Released on April 20th 2024.*
 
 **New features**
 
@@ -648,7 +648,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.4.3
 -------------
 
-Released on March 26th 2024.
+*Released on March 26th 2024.*
 
 **Bug fixes**
 
@@ -671,7 +671,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.4.2
 -------------
 
-Released on February 22nd 2024.
+*Released on February 22nd 2024.*
 
 **Bug fixes**
 
@@ -687,7 +687,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.4.1
 -------------
 
-Released on February 19th 2024.
+*Released on February 19th 2024.*
 
 **Bug fixes**
 
@@ -703,7 +703,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.4
 -----------
 
-Released on February 15th 2024.
+*Released on February 15th 2024.*
 
 **New features**
 
@@ -750,7 +750,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.3.1
 -------------
 
-Released on December 19th 2023.
+*Released on December 19th 2023.*
 
 **Bug fixes**
 
@@ -765,7 +765,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.3
 -----------
 
-Released on December 14th 2023.
+*Released on December 14th 2023.*
 
 **New features**
 
@@ -803,7 +803,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.2.1
 -------------
 
-Released on November 22nd 2023.
+*Released on November 22nd 2023.*
 
 **Improvements**
 
@@ -827,7 +827,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.2
 -----------
 
-Released on November 16th 2023.
+*Released on November 16th 2023.*
 
 **New features**
 
@@ -868,7 +868,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.1.1
 -------------
 
-Released on October 25th 2023.
+*Released on October 25th 2023.*
 
 **New features**
 
@@ -895,7 +895,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.1
 -----------
 
-Released on October 16th 2023.
+*Released on October 16th 2023.*
 
 **New features**
 
@@ -946,7 +946,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.0.2
 -------------
 
-Released on September 14th 2023.
+*Released on September 14th 2023.*
 
 **Improvements**
 
@@ -971,7 +971,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.0.1
 -------------
 
-Released on September 10th 2023.
+*Released on September 10th 2023.*
 
 **New features**
 
@@ -1012,7 +1012,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.0
 -----------
 
-Released on August 24th 2023.
+*Released on August 24th 2023.*
 
 **New features**
 
