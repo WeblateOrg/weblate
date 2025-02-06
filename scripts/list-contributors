@@ -26,7 +26,9 @@ CATEGORIES: dict[CategoryType, str] = {
 }
 TEMPLATE = """
 {label}
-    {contributors}"""
+    .. only:: not gettext
+
+       {contributors}"""
 
 
 def get_file_category(filename: str) -> CategoryType:
@@ -56,7 +58,12 @@ def get_contributors() -> dict[CategoryType, list[str]]:
     previous = recent_tag.object.object
     for commit in reversed(commits):
         author = str(commit.author)
-        if "[bot]" not in author and "add-on" not in author and author != "Anonymous":
+        if (
+            "(bot)" not in author
+            and "[bot]" not in author
+            and "add-on" not in author
+            and author != "Anonymous"
+        ):
             diff = previous.diff(commit.tree)
             for category in get_diff_categories(diff):
                 if author not in contributors[category]:
