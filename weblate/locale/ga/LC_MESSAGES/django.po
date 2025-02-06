@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-01-17 12:43+0000\n"
+"POT-Creation-Date: 2025-02-06 15:48+0000\n"
 "PO-Revision-Date: 2025-01-18 10:39+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
@@ -18,8 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :("
-"n>6 && n<11) ? 3 : 4;\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
+"(n>6 && n<11) ? 3 : 4;\n"
 "X-Generator: Weblate 5.10-dev\n"
 
 #: weblate/accounts/avatar.py:84
@@ -41,55 +41,63 @@ msgstr ""
 "Úsáideadh an seoladh ríomhphoist seo cheana. Cuir isteach seoladh "
 "ríomhphoist eile."
 
-#: weblate/accounts/forms.py:118
-msgid "This username is already taken. Please choose another."
+#: weblate/accounts/forms.py:119
+#, fuzzy
+#| msgid "This username is already taken. Please choose another."
+msgid "This username is already taken. Please pick something else."
 msgstr "Tá an t-ainm úsáideora tógtha cheana féin. Roghnaigh ceann eile."
 
-#: weblate/accounts/forms.py:129 weblate/accounts/forms.py:983
-#: weblate/auth/models.py:414 weblate/auth/models.py:1117
+#: weblate/accounts/forms.py:131 weblate/accounts/forms.py:985
+#: weblate/auth/models.py:440 weblate/auth/models.py:1143
 #: weblate/templates/auth/team.html:105 weblate/templates/manage/users.html:50
 #: weblate/templates/trans/project-access.html:49
 msgid "Full name"
 msgstr "Ainm iomlán"
 
-#: weblate/accounts/forms.py:131
+#: weblate/accounts/forms.py:133
 msgid "Name is also used in version control commits."
 msgstr "Úsáidtear ainm freisin i gceangaltas rialaithe leagan."
 
-#: weblate/accounts/forms.py:195 weblate/accounts/models.py:708
+#: weblate/accounts/forms.py:197 weblate/accounts/models.py:708
 msgid "Commit e-mail"
 msgstr "Tiomantas r-phost"
 
-#: weblate/accounts/forms.py:196
+#: weblate/accounts/forms.py:198
 msgid "Use account e-mail address"
 msgstr "Úsáid seoladh ríomhphoist an chuntais"
 
-#: weblate/accounts/forms.py:198
+#: weblate/accounts/forms.py:200
+#, fuzzy
+#| msgid ""
+#| "Used in version control commits. The address will stay in the repository "
+#| "forever once changes are committed by Weblate."
 msgid ""
-"Used in version control commits. The address will stay in the repository "
-"forever once changes are committed by Weblate."
+"Used in version-control commits. The address stays in the repository forever "
+"once changes are committed by Weblate."
 msgstr ""
 "Úsáidtear i gceangaltas rialaithe leagan. Fanfaidh an seoladh sa stór go deo "
 "nuair a bheidh athruithe geallta ag Weblate."
 
-#: weblate/accounts/forms.py:230 weblate/accounts/models.py:702
+#: weblate/accounts/forms.py:232 weblate/accounts/models.py:702
 msgid "Public e-mail"
 msgstr "R-phost poiblí"
 
-#: weblate/accounts/forms.py:231
-msgid "Do not publicly display e-mail address"
-msgstr "Ná taispeáin go poiblí an seoladh r-phoist"
+#: weblate/accounts/forms.py:233
+#, fuzzy
+#| msgid "This e-mail address is disallowed."
+msgid "Hide e-mail address from public view"
+msgstr "Tá an seoladh r-phoist seo dícheadaithe."
 
-#: weblate/accounts/forms.py:337
+#: weblate/accounts/forms.py:339
 #, python-format
 msgid "Component list: %s"
 msgstr "Liosta na ngnéithe: %s"
 
-#: weblate/accounts/forms.py:364
+#: weblate/accounts/forms.py:366
 msgid "Account e-mail"
 msgstr "Ríomhphost cuntais"
 
-#: weblate/accounts/forms.py:366
+#: weblate/accounts/forms.py:368
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
@@ -97,35 +105,35 @@ msgstr ""
 "Úsáidtear é le haghaidh fógraí ríomhphoist agus mar r-phost geallta mura "
 "bhfuil sé cumraithe thíos."
 
-#: weblate/accounts/forms.py:433
+#: weblate/accounts/forms.py:435
 msgid "Verification failed. Try again later."
 msgstr "Theip ar an bhfíorú. Bain triail eile as ar ball."
 
-#: weblate/accounts/forms.py:434
+#: weblate/accounts/forms.py:436
 msgid "Verification expired. Try again."
 msgstr "Chuaigh an fíorú in éag. Bain triail eile as."
 
-#: weblate/accounts/forms.py:435
+#: weblate/accounts/forms.py:437
 msgid "I'm not a robot"
 msgstr "Ní róbat mé"
 
-#: weblate/accounts/forms.py:436
+#: weblate/accounts/forms.py:438
 msgid "Verification completed"
 msgstr "Fíorú críochnaithe"
 
-#: weblate/accounts/forms.py:437
+#: weblate/accounts/forms.py:439
 msgid "Verifying…"
 msgstr "Ag fíorú…"
 
-#: weblate/accounts/forms.py:439
+#: weblate/accounts/forms.py:441
 msgid "Verification is still in progress, please wait."
 msgstr "Tá an fíorú fós ar siúl, fan le do thoil."
 
-#: weblate/accounts/forms.py:449
+#: weblate/accounts/forms.py:451
 msgid "Human verification"
 msgstr "Fíorú daonna"
 
-#: weblate/accounts/forms.py:502
+#: weblate/accounts/forms.py:504
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
@@ -133,42 +141,45 @@ msgid "What is %s?"
 msgstr "Céard é %s?"
 
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
-#: weblate/accounts/forms.py:521
+#: weblate/accounts/forms.py:523
 msgid "That was not correct, please try again."
 msgstr "Freagra mícheart, bain triail as arís."
 
-#: weblate/accounts/forms.py:534 weblate/accounts/forms.py:541
+#: weblate/accounts/forms.py:536 weblate/accounts/forms.py:543
 msgid "Validation failed, please try again."
 msgstr "Theip ar bhailíochtú, bain triail eile as."
 
-#: weblate/accounts/forms.py:560
+#: weblate/accounts/forms.py:562
 msgid "Subject"
 msgstr "Ábhar"
 
-#: weblate/accounts/forms.py:563
+#: weblate/accounts/forms.py:565
 msgid "Your name"
 msgstr "D'ainm"
 
-#: weblate/accounts/forms.py:565
+#: weblate/accounts/forms.py:567
 msgid "Your e-mail"
 msgstr "Do r-phost"
 
-#: weblate/accounts/forms.py:567 weblate/templates/manage/performance.html:32
+#: weblate/accounts/forms.py:569 weblate/templates/manage/performance.html:32
 #: weblate/templates/manage/performance.html:85
 #: weblate/trans/models/announcement.py:71
 msgid "Message"
 msgstr "Teachtaireacht"
 
-#: weblate/accounts/forms.py:570
+#: weblate/accounts/forms.py:572
+#, fuzzy
+#| msgid ""
+#| "Please contact us in English, otherwise we might be unable to process "
+#| "your request."
 msgid ""
-"Please contact us in English, otherwise we might be unable to process your "
-"request."
+"Please contact us in English. Otherwise, we might not process your request."
 msgstr ""
 "Téigh i dteagmháil linn as Béarla, murach sin tá seans nach mbeidh muid in "
 "ann freastail ar d'iarratas."
 
-#: weblate/accounts/forms.py:587 weblate/accounts/templatetags/authnames.py:33
-#: weblate/auth/models.py:420 weblate/auth/models.py:1134
+#: weblate/accounts/forms.py:589 weblate/accounts/templatetags/authnames.py:33
+#: weblate/auth/models.py:446 weblate/auth/models.py:1160
 #: weblate/templates/accounts/user.html:242
 #: weblate/templates/manage/users.html:51
 #: weblate/templates/trans/project-access.html:51 weblate/utils/fields.py:36
@@ -176,94 +187,98 @@ msgstr ""
 msgid "E-mail"
 msgstr "Ríomhphost"
 
-#: weblate/accounts/forms.py:588
-msgid "E-mail with a confirmation link will be sent here."
+#: weblate/accounts/forms.py:590
+#, fuzzy
+#| msgid "E-mail with a confirmation link will be sent here."
+msgid "An e-mail with a confirmation link will be sent here."
 msgstr "Seolfar r-phost anseo le nasc deimhniúcháin."
 
-#: weblate/accounts/forms.py:634
+#: weblate/accounts/forms.py:636
 msgid "New password"
 msgstr "Pasfhocal nua"
 
-#: weblate/accounts/forms.py:639
+#: weblate/accounts/forms.py:641
 msgid "New password confirmation"
 msgstr "Deimhniúcháin an phasfhocail nua"
 
-#: weblate/accounts/forms.py:667
+#: weblate/accounts/forms.py:669
 msgid "Your password has been changed."
 msgstr "Athraíodh do phasfhocal."
 
-#: weblate/accounts/forms.py:681
+#: weblate/accounts/forms.py:683
 msgid "Current password"
 msgstr "Pasfhocal reatha"
 
-#: weblate/accounts/forms.py:682
-msgid "Leave empty if you have not yet set a password."
+#: weblate/accounts/forms.py:684
+#, fuzzy
+#| msgid "Leave empty if you have not yet set a password."
+msgid "Leave empty if you have not set a password yet."
 msgstr "Fág glan muna bhfuil pasfhocal socraithe agat go fóill."
 
-#: weblate/accounts/forms.py:696
+#: weblate/accounts/forms.py:698
 msgid "You have entered an invalid password."
 msgstr "Chuir tú isteach pasfhocal neamhbhailí."
 
-#: weblate/accounts/forms.py:709
+#: weblate/accounts/forms.py:711
 msgid "Username or e-mail"
 msgstr "Ainm úsáideora nó r-phost"
 
-#: weblate/accounts/forms.py:710 weblate/accounts/templatetags/authnames.py:32
+#: weblate/accounts/forms.py:712 weblate/accounts/templatetags/authnames.py:32
 msgid "Password"
 msgstr "Pasfhocal"
 
-#: weblate/accounts/forms.py:714
+#: weblate/accounts/forms.py:716
 msgid "Please enter the correct username and password."
 msgstr "Cuir isteach an ainm úsáideora agus an pasfhocal i gceart."
 
-#: weblate/accounts/forms.py:716
+#: weblate/accounts/forms.py:718
 msgid "This account is inactive."
 msgstr "Tá an cuntas seo neamhghníomhach."
 
-#: weblate/accounts/forms.py:834
+#: weblate/accounts/forms.py:836
 msgid "Component wide notifications"
 msgstr "Fógraí ar fud na Comhpháirte"
 
-#: weblate/accounts/forms.py:839
+#: weblate/accounts/forms.py:841
 msgid "Translation notifications"
 msgstr "Fógraí aistriúcháin"
 
-#: weblate/accounts/forms.py:858
+#: weblate/accounts/forms.py:860
 msgid "Use default setting"
 msgstr "Úsáid an socrú réamhshocraithe"
 
-#: weblate/accounts/forms.py:890
+#: weblate/accounts/forms.py:892
 msgid "Other projects"
 msgstr "Tionscadail eile"
 
-#: weblate/accounts/forms.py:892 weblate/accounts/models.py:632
+#: weblate/accounts/forms.py:894 weblate/accounts/models.py:632
 #: weblate/templates/accounts/profile.html:97
 #: weblate/templates/accounts/user.html:165
 msgid "Watched projects"
 msgstr "Féachadh ar thionscadail"
 
-#: weblate/accounts/forms.py:894 weblate/accounts/models.py:605
+#: weblate/accounts/forms.py:896 weblate/accounts/models.py:605
 #: weblate/templates/accounts/user.html:162
 #: weblate/templates/dashboard/user.html:37
 msgid "Managed projects"
 msgstr "Tionscadail bainistithe"
 
-#: weblate/accounts/forms.py:896
+#: weblate/accounts/forms.py:898
 msgid "Project: {}"
 msgstr "Tionscadal: {}"
 
-#: weblate/accounts/forms.py:897
+#: weblate/accounts/forms.py:899
 msgid "Component: {}"
 msgstr "Gné: {}"
 
-#: weblate/accounts/forms.py:903
+#: weblate/accounts/forms.py:905
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
 "Gheobhaidh tú fógra le haghaidh gach ceann de na himeachtaí seo sna "
 "tionscadail nach leanann tú."
 
-#: weblate/accounts/forms.py:908
+#: weblate/accounts/forms.py:910
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
@@ -271,7 +286,7 @@ msgstr ""
 "Gheobhaidh tú fógra le haghaidh gach ceann de na himeachtaí seo sna "
 "tionscadail a leanann tú."
 
-#: weblate/accounts/forms.py:913
+#: weblate/accounts/forms.py:915
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
@@ -279,21 +294,21 @@ msgstr ""
 "Gheobhaidh tú fógra le haghaidh gach ceann de na himeachtaí seo i "
 "dtionscadail a bhfuil ceadanna riarthóra agat."
 
-#: weblate/accounts/forms.py:918
+#: weblate/accounts/forms.py:920
 #, python-format
 msgid "You will receive a notification for every such event in %(project)s."
 msgstr ""
 "Gheobhaidh tú fógra le haghaidh gach ceann de na himeachtaí seo i "
 "%(project)s."
 
-#: weblate/accounts/forms.py:921
+#: weblate/accounts/forms.py:923
 #, python-format
 msgid "You will receive a notification for every such event in %(component)s."
 msgstr ""
 "Gheobhaidh tú fógra le haghaidh gach ceann de na himeachtaí seo i "
 "%(component)s."
 
-#: weblate/accounts/forms.py:928
+#: weblate/accounts/forms.py:930
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
@@ -301,7 +316,7 @@ msgstr ""
 "Ní bhfaighidh tú na fógraí seo ach le haghaidh na teangacha a d'aistrigh tú "
 "sna tionscadail nach leanann tú."
 
-#: weblate/accounts/forms.py:933
+#: weblate/accounts/forms.py:935
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
@@ -309,7 +324,7 @@ msgstr ""
 "Ní bhfaighidh tú na fógraí seo ach le haghaidh na teangacha a d'aistrigh tú "
 "sna tionscadail a leanann tú."
 
-#: weblate/accounts/forms.py:938
+#: weblate/accounts/forms.py:940
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
@@ -317,7 +332,7 @@ msgstr ""
 "Ní bhfaighidh tú na fógraí seo ach le haghaidh na teangacha a d'aistrigh tú "
 "sna tionscadail a bhfuil ceadanna riarthóra agat."
 
-#: weblate/accounts/forms.py:943
+#: weblate/accounts/forms.py:945
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
@@ -326,7 +341,7 @@ msgstr ""
 "Ní bhfaighidh tú na fógraí seo ach le haghaidh na teangacha a d'aistrigh tú "
 "i %(project)s."
 
-#: weblate/accounts/forms.py:947
+#: weblate/accounts/forms.py:949
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
@@ -335,69 +350,77 @@ msgstr ""
 "Ní bhfaighidh tú na fógraí seo ach le haghaidh na teangacha a d'aistrigh tú "
 "i %(component)s."
 
-#: weblate/accounts/forms.py:982 weblate/auth/models.py:401
-#: weblate/auth/models.py:1108 weblate/templates/auth/team.html:104
+#: weblate/accounts/forms.py:984 weblate/auth/models.py:427
+#: weblate/auth/models.py:1134 weblate/templates/auth/team.html:104
 #: weblate/templates/manage/users.html:49
 #: weblate/templates/trans/project-access.html:48 weblate/utils/forms.py:79
 msgid "Username"
 msgstr "Ainm Úsáideora"
 
-#: weblate/accounts/forms.py:984 weblate/auth/models.py:444
+#: weblate/accounts/forms.py:986 weblate/auth/models.py:470
 msgid "Date joined"
 msgstr "Dáta a cláraíodh"
 
-#: weblate/accounts/forms.py:985
+#: weblate/accounts/forms.py:987
 msgid "Translations made"
 msgstr "Aistriúcháin déanta"
 
-#: weblate/accounts/forms.py:986
+#: weblate/accounts/forms.py:988
 msgid "Suggestions made"
 msgstr "Moltaí déanta"
 
-#: weblate/accounts/forms.py:987
+#: weblate/accounts/forms.py:989
 msgid "Comments made"
 msgstr "Tráchtaí déanta"
 
-#: weblate/accounts/forms.py:988
+#: weblate/accounts/forms.py:990
 msgid "Screenshots uploaded"
 msgstr "Gabhálacha scáileáin uaslódáilte"
 
-#: weblate/accounts/forms.py:1011
-msgid "Chosen sorting is not supported."
+#: weblate/accounts/forms.py:1014
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "The chosen sorting is not supported."
 msgstr "Ní thacaítear leis an sórtáil roghnaithe."
 
-#: weblate/accounts/forms.py:1027
+#: weblate/accounts/forms.py:1031
 msgid "Add user to a team"
 msgstr "Cuir úsáideoir le foireann"
 
-#: weblate/accounts/forms.py:1039
+#: weblate/accounts/forms.py:1043
 msgid "Add team"
 msgstr "Cuir foireann leis"
 
-#: weblate/accounts/forms.py:1053
+#: weblate/accounts/forms.py:1057
 msgid "Name your authentication app"
 msgstr "Ainmnigh d'aip fíordheimhnithe"
 
-#: weblate/accounts/forms.py:1056
+#: weblate/accounts/forms.py:1060
 msgid "Verify the code from the app"
 msgstr "Fíoraigh an cód ón aip"
 
-#: weblate/accounts/forms.py:1070
-msgid "Entered token is not valid."
+#: weblate/accounts/forms.py:1074
+#, fuzzy
+#| msgid "Entered token is not valid."
+msgid "The entered token is not valid."
 msgstr "Níl an comhartha iontrála bailí."
 
-#: weblate/accounts/forms.py:1138
+#: weblate/accounts/forms.py:1142
 msgid "Recovery token"
 msgstr "Comhartha aisghabhála"
 
-#: weblate/accounts/forms.py:1140
+#: weblate/accounts/forms.py:1144
+#, fuzzy
+#| msgid ""
+#| "Recovery token can be used just once, mark your token as used after using "
+#| "it."
 msgid ""
-"Recovery token can be used just once, mark your token as used after using it."
+"Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
 "Is féidir comhartha athshlánaithe a úsáid uair amháin, marcáil do chomhartha "
 "mar a úsáideadh tar éis é a úsáid."
 
-#: weblate/accounts/forms.py:1197
+#: weblate/accounts/forms.py:1201
 msgid "Enter the code from the app"
 msgstr "Cuir isteach an cód as an aip"
 
@@ -741,7 +764,7 @@ msgstr "Nuair a aistríonn tú teaghrán, beidh tú fós ag amharc air."
 msgid "Watched translations"
 msgstr "Aistriúcháin a leanann tú"
 
-#: weblate/accounts/models.py:602 weblate/auth/models.py:164
+#: weblate/accounts/models.py:602 weblate/auth/models.py:170
 #: weblate/templates/dashboard/user.html:29
 msgid "Component lists"
 msgstr "Liosta míre"
@@ -879,112 +902,112 @@ msgstr "Achoimre na seachtaine"
 msgid "Monthly digest"
 msgstr "Achoimre míosúil"
 
-#: weblate/accounts/notifications.py:515
+#: weblate/accounts/notifications.py:517
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Rinneadh oibríocht sa stór"
 
-#: weblate/accounts/notifications.py:526
+#: weblate/accounts/notifications.py:528
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
 msgstr "Glasáladh nó díghlasáladh an chomhpháirt"
 
-#: weblate/accounts/notifications.py:533
+#: weblate/accounts/notifications.py:535
 msgctxt "Notification name"
 msgid "License was changed"
 msgstr "Athraíodh an ceadúnas"
 
-#: weblate/accounts/notifications.py:540
+#: weblate/accounts/notifications.py:542
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "Tharla earráid pharsála"
 
-#: weblate/accounts/notifications.py:563
+#: weblate/accounts/notifications.py:565
 msgctxt "Notification name"
 msgid "String is available for translation"
 msgstr "Tá teaghrán ar fáil le haistriú"
 
-#: weblate/accounts/notifications.py:573
+#: weblate/accounts/notifications.py:575
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
 msgstr "Rinne an rannpháirtí a chéad aistriúchán"
 
-#: weblate/accounts/notifications.py:582
+#: weblate/accounts/notifications.py:584
 msgctxt "Notification name"
 msgid "Suggestion was added"
 msgstr "Cuireadh moladh leis"
 
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:593
 msgctxt "Notification name"
 msgid "Language was translated"
 msgstr "Aistríodh teanga"
 
-#: weblate/accounts/notifications.py:599
+#: weblate/accounts/notifications.py:601
 msgctxt "Notification name"
 msgid "Component was translated"
 msgstr "Aistríodh comhpháirt"
 
-#: weblate/accounts/notifications.py:607
+#: weblate/accounts/notifications.py:609
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Cuireadh trácht leis"
 
-#: weblate/accounts/notifications.py:629
+#: weblate/accounts/notifications.py:631
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "Luadh thú i dtrácht"
 
-#: weblate/accounts/notifications.py:661
+#: weblate/accounts/notifications.py:663
 msgctxt "Notification name"
 msgid "Your translation received a comment"
 msgstr "Fuair d'aistriúchán nóta tráchta"
 
-#: weblate/accounts/notifications.py:686
+#: weblate/accounts/notifications.py:688
 msgctxt "Notification name"
 msgid "String was edited by user"
 msgstr "Chuir an t-úsáideoir an teaghrán in eagar"
 
-#: weblate/accounts/notifications.py:694
+#: weblate/accounts/notifications.py:696
 msgctxt "Notification name"
 msgid "String was approved"
 msgstr "Ceadaíodh teaghrán"
 
-#: weblate/accounts/notifications.py:702
+#: weblate/accounts/notifications.py:704
 msgctxt "Notification name"
 msgid "String was changed"
 msgstr "Athraíodh an teaghrán"
 
-#: weblate/accounts/notifications.py:711
+#: weblate/accounts/notifications.py:713
 msgctxt "Notification name"
 msgid "New language was added or requested"
 msgstr "Cuireadh teanga nua leis nó iarradh é"
 
-#: weblate/accounts/notifications.py:728
+#: weblate/accounts/notifications.py:730
 msgctxt "Notification name"
 msgid "New translation component was created"
 msgstr "Cruthaíodh comhpháirt aistriúcháin nua"
 
-#: weblate/accounts/notifications.py:736
+#: weblate/accounts/notifications.py:738
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "Foilsíodh fógra"
 
-#: weblate/accounts/notifications.py:751
+#: weblate/accounts/notifications.py:753
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
 msgstr "Tháinig foláireamh nua chun cinn i gcomhpháirt"
 
-#: weblate/accounts/notifications.py:804
+#: weblate/accounts/notifications.py:806
 msgctxt "Notification name"
 msgid "Repository operation failed"
 msgstr "Theip ar oibríocht stórtha"
 
-#: weblate/accounts/notifications.py:878
+#: weblate/accounts/notifications.py:880
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
 msgstr "Tá moltaí ar feitheamh ann"
 
-#: weblate/accounts/notifications.py:888
+#: weblate/accounts/notifications.py:890
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "Tá teaghráin neamhchríochnaithe ann"
@@ -1259,34 +1282,34 @@ msgstr ""
 "Níl an nasc chun na fógraí a athrú bailí a thuilleadh. Sínigh isteach chun "
 "na fógraí a shocrú."
 
-#: weblate/accounts/views.py:1647
+#: weblate/accounts/views.py:1652
 msgid "The security key was removed."
 msgstr "Baineadh an eochair shlándála."
 
-#: weblate/accounts/views.py:1648
+#: weblate/accounts/views.py:1653
 #, python-format
 msgid "The security key %s was registered."
 msgstr "Cláraíodh an eochair shlándála %s."
 
-#: weblate/accounts/views.py:1685
+#: weblate/accounts/views.py:1690
 msgid "The authentication app was removed."
 msgstr "Baineadh an aip fíordheimhnithe."
 
-#: weblate/accounts/views.py:1686
+#: weblate/accounts/views.py:1691
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "Cláraíodh an aip fíordheimhnithe %s."
 
-#: weblate/accounts/views.py:1819
+#: weblate/accounts/views.py:1824
 msgid "Second factor sign in"
 msgstr "Sínigh isteach an dara fachtóir"
 
-#: weblate/addons/autotranslate.py:21 weblate/templates/translation.html:94
+#: weblate/addons/autotranslate.py:28 weblate/templates/translation.html:94
 #: weblate/templates/translation.html:282
 msgid "Automatic translation"
 msgstr "Aistriúchán uathoibríoch"
 
-#: weblate/addons/autotranslate.py:23
+#: weblate/addons/autotranslate.py:30
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
@@ -1294,7 +1317,7 @@ msgstr ""
 "Aistrítear teaghráin go huathoibríoch ag baint úsáide as aistriúchán meaisín "
 "nó comhpháirteanna eile."
 
-#: weblate/addons/base.py:400 weblate/trans/views/create.py:251
+#: weblate/addons/base.py:404 weblate/trans/views/create.py:251
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
@@ -1629,7 +1652,7 @@ msgstr "slonn rialta chun comhaid aistriúcháin a mheaitseáil le"
 #: weblate/addons/forms.py:283
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
 #: weblate/templates/trans/discover-choice.html:7 weblate/trans/forms.py:633
-#: weblate/trans/forms.py:1839 weblate/trans/models/component.py:506
+#: weblate/trans/forms.py:1836 weblate/trans/models/component.py:511
 msgid "File format"
 msgstr "Formáid comhaid"
 
@@ -1649,7 +1672,7 @@ msgstr "Fág folamh le haghaidh comhaid aistriúcháin dhátheangacha."
 msgid "Define the base file for new translations"
 msgstr "Sainmhínigh an bunchomhad le haghaidh aistriúcháin nua"
 
-#: weblate/addons/forms.py:304 weblate/trans/models/component.py:500
+#: weblate/addons/forms.py:304 weblate/trans/models/component.py:505
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1659,11 +1682,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:309
 #: weblate/templates/trans/alert/inexistantfiles.html:14
-#: weblate/trans/models/component.py:484
+#: weblate/trans/models/component.py:489
 msgid "Intermediate language file"
 msgstr "Comhad teanga idirmheánach"
 
-#: weblate/addons/forms.py:313 weblate/trans/models/component.py:488
+#: weblate/addons/forms.py:313 weblate/trans/models/component.py:493
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
@@ -1673,7 +1696,7 @@ msgstr ""
 "is comhad aistriúcháin é seo a sholáthraíonn forbróirí agus a úsáidtear "
 "nuair a bhíonn teaghráin fhoinse iarbhír á gcruthú."
 
-#: weblate/addons/forms.py:320 weblate/trans/models/component.py:711
+#: weblate/addons/forms.py:320 weblate/trans/models/component.py:716
 msgid "Language filter"
 msgstr "Scagaire teanga"
 
@@ -1697,11 +1720,11 @@ msgstr "Bain comhpháirteanna as comhaid nach bhfuil ann"
 msgid "I confirm the above matches look correct"
 msgstr "Deimhním go bhfuil cuma cheart ar na cluichí thuas"
 
-#: weblate/addons/forms.py:397 weblate/trans/models/component.py:2986
+#: weblate/addons/forms.py:397 weblate/trans/models/component.py:3004
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Ní féidir leat aistriúchán aonteangach a úsáid gan bunchomhad."
 
-#: weblate/addons/forms.py:405 weblate/trans/models/component.py:2920
+#: weblate/addons/forms.py:405 weblate/trans/models/component.py:2938
 msgid "You can not use a base file for bilingual translation."
 msgstr "Ní féidir leat bunchomhad a úsáid le haghaidh aistriúchán dátheangach."
 
@@ -1820,11 +1843,11 @@ msgstr ""
 "Gintear comhad ina bhfuil faisnéis mhionsonraithe faoi stádas an "
 "aistriúcháin."
 
-#: weblate/addons/generate.py:132
+#: weblate/addons/generate.py:133
 msgid "Pseudolocale generation"
 msgstr "Giniúint pseudolocale"
 
-#: weblate/addons/generate.py:134
+#: weblate/addons/generate.py:135
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
@@ -1832,19 +1855,19 @@ msgstr ""
 "Gintear aistriúchán trí réimír agus iarmhír a chur le teaghráin foinse go "
 "huathoibríoch."
 
-#: weblate/addons/generate.py:206
+#: weblate/addons/generate.py:207
 msgid "Prefill translation with source"
 msgstr "Réamhlíon an t-aistriúchán leis an bhfoinse"
 
-#: weblate/addons/generate.py:207
+#: weblate/addons/generate.py:208
 msgid "Fills in translation strings with source string."
 msgstr "Líonann sé teaghráin aistriúcháin le teaghrán foinse."
 
-#: weblate/addons/generate.py:237
+#: weblate/addons/generate.py:238
 msgid "Fill read-only strings with source"
 msgstr "Líon teaghráin inléite amháin leis an bhfoinse"
 
-#: weblate/addons/generate.py:239
+#: weblate/addons/generate.py:240
 msgid "Fills in translation of read-only strings with source string."
 msgstr "Líonann sé aistriúchán teaghráin inléite amháin le teaghrán foinse."
 
@@ -1999,6 +2022,28 @@ msgstr ""
 "Ceadaíonn sé iompar aschuir YAML a choigeartú, mar shampla fad líne nó línte "
 "nua."
 
+#: weblate/api/authentication.py:27
+msgid "Session-based authentication used when user is signed in."
+msgstr ""
+
+#: weblate/api/authentication.py:39
+#, python-format
+msgid "Token-based authentication with required prefix `%s`."
+msgstr ""
+
+#: weblate/api/authentication.py:42
+msgid ""
+"Each user has a personal access token which they can get from their "
+"respective user profile. These tokens have the `wlu_` prefix."
+msgstr ""
+
+#: weblate/api/authentication.py:45
+msgid ""
+"It is possible to create project tokens whose access to the API is limited "
+"to operations to their associated project. These tokens have the `wlp_` "
+"prefix."
+msgstr ""
+
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
 msgstr "Líon iarratas ceadaithe a dhéanamh"
@@ -2016,48 +2061,73 @@ msgstr "Líon soicind go dtí go n-athshocraíonn an fhuinneog teorainn ráta"
 msgid "Weblate's REST API"
 msgstr "Weblate's REST API"
 
-#: weblate/api/views.py:153
-msgid "Could not obtain repository lock to perform the operation."
+#: weblate/api/views.py:151
+#, fuzzy
+#| msgid "Could not obtain repository lock to perform the operation."
+msgid "Could not obtain the lock to perform the operation."
 msgstr ""
 "Níorbh fhéidir glas an taisclainne a fháil chun an oibríocht a dhéanamh."
 
-#: weblate/api/views.py:2282 weblate/auth/models.py:930
+#: weblate/api/views.py:162
+#, fuzzy, python-format
+#| msgid "Could not obtain repository lock to perform the operation."
+msgid "Could not obtain the repository lock for %s to perform the operation."
+msgstr ""
+"Níorbh fhéidir glas an taisclainne a fháil chun an oibríocht a dhéanamh."
+
+#: weblate/api/views.py:170
+#, fuzzy, python-format
+#| msgid "Could not obtain repository lock to perform the operation."
+msgid ""
+"Could not obtain the update lock for component %s to perform the operation."
+msgstr ""
+"Níorbh fhéidir glas an taisclainne a fháil chun an oibríocht a dhéanamh."
+
+#: weblate/api/views.py:177
+#, fuzzy, python-format
+#| msgid "Could not obtain repository lock to perform the operation."
+msgid ""
+"Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
+msgstr ""
+"Níorbh fhéidir glas an taisclainne a fháil chun an oibríocht a dhéanamh."
+
+#: weblate/api/views.py:2310 weblate/auth/models.py:956
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/accounts/user.html:322
 #: weblate/templates/dashboard/user.html:95 weblate/templates/data.html:31
 #: weblate/templates/data.html:72 weblate/templates/data.html:116
 #: weblate/templates/language.html:70 weblate/templates/list-projects.html:5
-#: weblate/templates/snippets/list-objects.html:54 weblate/trans/forms.py:1795
+#: weblate/templates/snippets/list-objects.html:54 weblate/trans/forms.py:1792
 #: weblate/trans/models/announcement.py:76 weblate/trans/models/category.py:60
-#: weblate/trans/models/component.py:355 weblate/trans/models/component.py:388
+#: weblate/trans/models/component.py:360 weblate/trans/models/component.py:393
 msgid "Project"
 msgstr "Tionscadal"
 
-#: weblate/api/views.py:2290 weblate/trans/forms.py:1799
+#: weblate/api/views.py:2318 weblate/trans/forms.py:1796
 #: weblate/trans/models/announcement.py:83 weblate/trans/models/category.py:65
-#: weblate/trans/models/component.py:361
+#: weblate/trans/models/component.py:366
 msgid "Category"
 msgstr "Catagóir"
 
-#: weblate/api/views.py:2298 weblate/checks/views.py:232
+#: weblate/api/views.py:2326 weblate/checks/views.py:232
 #: weblate/checks/views.py:239 weblate/templates/accounts/user.html:270
 #: weblate/templates/addons/discovery_preview.html:6
 #: weblate/templates/category-project.html:78
 #: weblate/templates/category.html:139 weblate/templates/component-list.html:41
 #: weblate/templates/language-project.html:121
 #: weblate/templates/project.html:214 weblate/templates/translate.html:378
-#: weblate/templates/translation.html:251 weblate/trans/forms.py:934
-#: weblate/trans/forms.py:987 weblate/trans/forms.py:1738
+#: weblate/templates/translation.html:251 weblate/trans/forms.py:931
+#: weblate/trans/forms.py:984 weblate/trans/forms.py:1735
 #: weblate/trans/models/announcement.py:90
 msgid "Component"
 msgstr "Comhpháirt"
 
-#: weblate/api/views.py:2306
+#: weblate/api/views.py:2334
 msgid "User"
 msgstr "Úsáideoir"
 
-#: weblate/api/views.py:2314 weblate/fonts/models.py:148
+#: weblate/api/views.py:2342 weblate/fonts/models.py:148
 #: weblate/templates/category.html:151 weblate/templates/component.html:188
 #: weblate/templates/lang/language_form.html:22
 #: weblate/templates/languages.html:16 weblate/templates/project.html:226
@@ -2066,7 +2136,7 @@ msgstr "Úsáideoir"
 #: weblate/templates/snippets/info.html:184
 #: weblate/templates/trans/alert/duplicatelanguage.html:52
 #: weblate/templates/trans/alert/duplicatestring.html:11
-#: weblate/trans/forms.py:1179 weblate/trans/forms.py:1327
+#: weblate/trans/forms.py:1176 weblate/trans/forms.py:1324
 #: weblate/trans/models/announcement.py:97
 msgid "Language"
 msgstr "Teanga"
@@ -2079,7 +2149,7 @@ msgstr "Eolas pearsanta"
 msgid "Authentication"
 msgstr "Fíordheimhniú"
 
-#: weblate/auth/admin.py:160 weblate/auth/models.py:104
+#: weblate/auth/admin.py:160 weblate/auth/models.py:110
 msgid "Permissions"
 msgstr "Ceadanna"
 
@@ -2566,100 +2636,100 @@ msgstr "Seoladh ríomhphost le cuireadh úsáideora."
 msgid "Cannot change this on a built-in team."
 msgstr "Ní féidir é seo a athrú ar fhoireann ionsuite."
 
-#: weblate/auth/models.py:94
+#: weblate/auth/models.py:100
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (cead ar fud an tsuímh)"
 
-#: weblate/auth/models.py:100 weblate/auth/models.py:124
+#: weblate/auth/models.py:106 weblate/auth/models.py:130
 #: weblate/templates/fonts/fontgroup_detail.html:29
 #: weblate/templates/manage/performance.html:31
 #: weblate/templates/manage/performance.html:84
 #: weblate/templates/manage/teams.html:29
 #: weblate/templates/trans/project-access.html:215
-#: weblate/templates/trans/project-access.html:309 weblate/trans/forms.py:1535
+#: weblate/templates/trans/project-access.html:309 weblate/trans/forms.py:1532
 msgid "Name"
 msgstr "Ainm"
 
-#: weblate/auth/models.py:106
+#: weblate/auth/models.py:112
 msgid "Choose permissions granted to this role."
 msgstr "Roghnaigh ceadanna a tugadh don ról seo."
 
-#: weblate/auth/models.py:127 weblate/templates/accounts/profile.html:426
+#: weblate/auth/models.py:133 weblate/templates/accounts/profile.html:426
 #: weblate/templates/auth/team.html:61 weblate/templates/manage/teams.html:30
 #: weblate/templates/trans/project-access.html:216
 msgid "Roles"
 msgstr "Róil"
 
-#: weblate/auth/models.py:129
+#: weblate/auth/models.py:135
 msgid "Choose roles granted to this team."
 msgstr "Roghnaigh róil a bhronntar ar an bhfoireann seo."
 
-#: weblate/auth/models.py:141
+#: weblate/auth/models.py:147
 msgid "Project selection"
 msgstr "Roghnú tionscadail"
 
-#: weblate/auth/models.py:143 weblate/auth/models.py:171
+#: weblate/auth/models.py:149 weblate/auth/models.py:177
 msgid "As defined"
 msgstr "Mar atá sainmhínithe"
 
-#: weblate/auth/models.py:144 weblate/templates/auth/teams-projects.html:4
+#: weblate/auth/models.py:150 weblate/templates/auth/teams-projects.html:4
 msgid "All projects"
 msgstr "Gach tionscadal"
 
-#: weblate/auth/models.py:145 weblate/templates/auth/teams-projects.html:6
+#: weblate/auth/models.py:151 weblate/templates/auth/teams-projects.html:6
 msgid "All public projects"
 msgstr "Gach tionscadal poiblí"
 
-#: weblate/auth/models.py:146 weblate/templates/auth/teams-projects.html:8
+#: weblate/auth/models.py:152 weblate/templates/auth/teams-projects.html:8
 msgid "All protected projects"
 msgstr "Gach tionscadal faoi chosaint"
 
-#: weblate/auth/models.py:147
+#: weblate/auth/models.py:153
 msgid "From component list"
 msgstr "Ón liosta comhpháirteanna"
 
-#: weblate/auth/models.py:152 weblate/billing/admin.py:74
+#: weblate/auth/models.py:158 weblate/billing/admin.py:74
 #: weblate/billing/models.py:284 weblate/templates/accounts/profile.html:427
 #: weblate/templates/auth/team.html:69 weblate/templates/base.html:154
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:117 weblate/templates/language.html:30
 #: weblate/templates/manage/teams.html:32
 #: weblate/templates/manage/users.html:52 weblate/templates/projects.html:7
-#: weblate/templates/snippets/info.html:393
-#: weblate/templates/snippets/info.html:427 weblate/trans/views/basic.py:107
+#: weblate/templates/snippets/info.html:403
+#: weblate/templates/snippets/info.html:437 weblate/trans/views/basic.py:107
 #: weblate/wladmin/models.py:217
 msgid "Projects"
 msgstr "Tionscadail"
 
-#: weblate/auth/models.py:156 weblate/templates/accounts/profile.html:429
+#: weblate/auth/models.py:162 weblate/templates/accounts/profile.html:429
 #: weblate/templates/auth/team.html:73
 #: weblate/templates/category-project.html:17
 #: weblate/templates/category.html:31 weblate/templates/component-list.html:20
 #: weblate/templates/language-project.html:25
 #: weblate/templates/mail/base.html:84 weblate/templates/manage/teams.html:33
-#: weblate/templates/project.html:35 weblate/templates/snippets/info.html:405
-#: weblate/templates/snippets/info.html:441
-#: weblate/templates/trans/project-access.html:218 weblate/trans/forms.py:2208
+#: weblate/templates/project.html:35 weblate/templates/snippets/info.html:415
+#: weblate/templates/snippets/info.html:451
+#: weblate/templates/trans/project-access.html:218 weblate/trans/forms.py:2205
 msgid "Components"
 msgstr "Comhpháirteanna"
 
-#: weblate/auth/models.py:159
+#: weblate/auth/models.py:165
 msgid "Empty selection grants access to all components in project scope."
 msgstr ""
 "Tugann roghnú folamh rochtain ar na comhpháirteanna uile i raon feidhme an "
 "tionscadail."
 
-#: weblate/auth/models.py:169
+#: weblate/auth/models.py:175
 msgid "Language selection"
 msgstr "Roghnú teanga"
 
-#: weblate/auth/models.py:172 weblate/templates/auth/teams-languages.html:4
-#: weblate/trans/forms.py:1136 weblate/trans/forms.py:1328
+#: weblate/auth/models.py:178 weblate/templates/auth/teams-languages.html:4
+#: weblate/trans/forms.py:1133 weblate/trans/forms.py:1325
 msgid "All languages"
 msgstr "Gach teanga"
 
-#: weblate/auth/models.py:177 weblate/billing/models.py:320
+#: weblate/auth/models.py:183 weblate/billing/models.py:320
 #: weblate/lang/views.py:52 weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:63
 #: weblate/templates/accounts/profile.html:428
@@ -2670,38 +2740,38 @@ msgstr "Gach teanga"
 #: weblate/templates/lang/plural_form.html:9 weblate/templates/language.html:10
 #: weblate/templates/languages.html:8 weblate/templates/mail/base.html:68
 #: weblate/templates/mail/base.html:91 weblate/templates/manage/teams.html:31
-#: weblate/templates/project.html:38 weblate/templates/snippets/info.html:399
-#: weblate/templates/snippets/info.html:434
+#: weblate/templates/project.html:38 weblate/templates/snippets/info.html:409
+#: weblate/templates/snippets/info.html:444
 #: weblate/templates/trans/project-access.html:217 weblate/trans/admin.py:99
-#: weblate/trans/forms.py:1160 weblate/trans/forms.py:2369
-#: weblate/trans/templatetags/translations.py:1395
+#: weblate/trans/forms.py:1157 weblate/trans/forms.py:2366
+#: weblate/trans/templatetags/translations.py:1397
 #: weblate/wladmin/models.py:218
 msgid "Languages"
 msgstr "Teangacha"
 
-#: weblate/auth/models.py:181
+#: weblate/auth/models.py:187
 msgid "Internal Weblate team"
 msgstr "Foireann Inmheánach Weblate"
 
-#: weblate/auth/models.py:186
+#: weblate/auth/models.py:192
 msgid "Team administrators"
 msgstr "Riarthóirí foirne"
 
-#: weblate/auth/models.py:189
+#: weblate/auth/models.py:195
 msgid "The administrator can add or remove users from a team."
 msgstr ""
 "Is féidir leis an riarthóir úsáideoirí a chur leis nó a bhaint de fhoireann."
 
-#: weblate/auth/models.py:194 weblate/trans/models/project.py:218
+#: weblate/auth/models.py:200 weblate/trans/models/project.py:218
 msgid "Enforced two-factor authentication"
 msgstr "Fíordheimhniú dhá fhachtóir curtha i bhfeidhm"
 
-#: weblate/auth/models.py:197
+#: weblate/auth/models.py:203
 msgid "Requires users to have two-factor authentication configured."
 msgstr ""
 "Éilíonn sé go mbeidh fíordheimhniú dhá fhachtóir cumraithe ag úsáideoirí."
 
-#: weblate/auth/models.py:405 weblate/utils/forms.py:76
+#: weblate/auth/models.py:431 weblate/utils/forms.py:76
 #: weblate/utils/validators.py:173
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -2710,91 +2780,91 @@ msgstr ""
 "Ní féidir ach litreacha, uimhreacha nó na carachtair seo a leanas a bheith "
 "san ainm úsáideora: @ . + - _"
 
-#: weblate/auth/models.py:410
+#: weblate/auth/models.py:436
 msgid "A user with that username already exists."
 msgstr "Tá úsáideoir leis an ainm úsáideora sin ann cheana."
 
-#: weblate/auth/models.py:426 weblate/auth/models.py:1138
+#: weblate/auth/models.py:452 weblate/auth/models.py:1164
 msgid "Superuser status"
 msgstr "Stádas sár-úsáideoir"
 
-#: weblate/auth/models.py:428 weblate/auth/models.py:1140
+#: weblate/auth/models.py:454 weblate/auth/models.py:1166
 msgid "User has all possible permissions."
 msgstr "Tá gach cead féideartha ag an úsáideoir."
 
-#: weblate/auth/models.py:431 weblate/billing/models.py:167
+#: weblate/auth/models.py:457 weblate/billing/models.py:167
 #: weblate/templates/check_list.html:41
 msgid "Active"
 msgstr "Gníomhach"
 
-#: weblate/auth/models.py:433
+#: weblate/auth/models.py:459
 msgid "Mark user as inactive instead of removing."
 msgstr "Marcáil an t-úsáideoir mar neamhghníomhach seachas é a bhaint."
 
-#: weblate/auth/models.py:441 weblate/templates/trans/project-access.html:310
+#: weblate/auth/models.py:467 weblate/templates/trans/project-access.html:310
 msgid "Expires"
 msgstr "Téigh in éag"
 
-#: weblate/auth/models.py:448 weblate/templates/accounts/profile.html:45
+#: weblate/auth/models.py:474 weblate/templates/accounts/profile.html:45
 #: weblate/templates/accounts/user.html:189 weblate/templates/auth/team.html:23
 #: weblate/templates/manage/teams.html:15
 #: weblate/templates/manage/users.html:53
 #: weblate/templates/trans/project-access.html:29
 #: weblate/templates/trans/project-access.html:54
 #: weblate/templates/trans/project-access.html:209
-#: weblate/templates/trans/project-access.html:311 weblate/trans/forms.py:2916
+#: weblate/templates/trans/project-access.html:311 weblate/trans/forms.py:2922
 #: weblate/wladmin/views.py:87
 msgid "Teams"
 msgstr "Foirne"
 
-#: weblate/auth/models.py:451 weblate/auth/models.py:1129
+#: weblate/auth/models.py:477 weblate/auth/models.py:1155
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr ""
 "Tugtar gach cead atá san áireamh i mballraíocht na bhfoirne seo don "
 "úsáideoir."
 
-#: weblate/auth/models.py:901
+#: weblate/auth/models.py:927
 msgid "Regular expression for e-mail address"
 msgstr "Slonn rialta le haghaidh seoladh r-phoist"
 
-#: weblate/auth/models.py:905
+#: weblate/auth/models.py:931
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr ""
 "Cuirfear úsáideoirí a bhfuil seoltaí r-phoist acu a aimsítear a bhí ag "
 "teacht leis an bhfoireann seo."
 
-#: weblate/auth/models.py:910
+#: weblate/auth/models.py:936
 msgid "Team to assign"
 msgstr "Foireann le sannadh"
 
-#: weblate/auth/models.py:925 weblate/trans/forms.py:1290
+#: weblate/auth/models.py:951 weblate/trans/forms.py:1287
 msgid "User to block"
 msgstr "Úsáideoir chun bac a chur air"
 
-#: weblate/auth/models.py:932
+#: weblate/auth/models.py:958
 msgid "Block expiry"
 msgstr "Bloc éaga"
 
-#: weblate/auth/models.py:1102 weblate/trans/forms.py:1271
+#: weblate/auth/models.py:1128 weblate/trans/forms.py:1268
 msgid "User to add"
 msgstr "Úsáideoir le cur leis"
 
-#: weblate/auth/models.py:1104 weblate/trans/forms.py:1274
-#: weblate/trans/forms.py:1292
+#: weblate/auth/models.py:1130 weblate/trans/forms.py:1271
+#: weblate/trans/forms.py:1289
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
 "Clóscríobh isteach ainm chuntais Weblate reatha nó seoladh ríomhphoist."
 
-#: weblate/auth/models.py:1112
+#: weblate/auth/models.py:1138
 msgid "Suggest username for the user. It can be changed later."
 msgstr "Mol ainm úsáideora don úsáideoir. Is féidir é a athrú níos déanaí."
 
-#: weblate/auth/models.py:1121
+#: weblate/auth/models.py:1147
 msgid "Suggest full name for the user. It can be changed later."
 msgstr "Mol ainm iomlán don úsáideoir. Is féidir é a athrú níos déanaí."
 
-#: weblate/auth/models.py:1127 weblate/templates/accounts/profile.html:425
+#: weblate/auth/models.py:1153 weblate/templates/accounts/profile.html:425
 #: weblate/templates/accounts/user.html:323
 msgid "Team"
 msgstr "Foireann"
@@ -2907,6 +2977,18 @@ msgstr ""
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
 msgid "The file format does not support this."
 msgstr "Ní thacaíonn formáid an chomhaid leis seo."
+
+#: weblate/auth/permissions.py:372
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Adding new translations is turned off in the component configuration."
+msgstr "Tá teaghráin curtha leis díchumasaithe i gcumraíocht an chomhpháirte."
+
+#: weblate/auth/permissions.py:376
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "This component is currently locked."
+msgstr "Tá an t-aistriúchán seo faoi ghlas faoi láthair."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3232,27 +3314,27 @@ msgstr "Spásáil poncaíochta"
 msgid "Missing non breakable space before double punctuation sign"
 msgstr "Spás neamhbhriste in easnamh roimh chomhartha poncaíochta dúbailte"
 
-#: weblate/checks/consistency.py:26
+#: weblate/checks/consistency.py:29
 msgid "Missing plurals"
 msgstr "Iolra ar iarraidh"
 
-#: weblate/checks/consistency.py:27
+#: weblate/checks/consistency.py:30
 msgid "Some plural forms are untranslated"
 msgstr "Tá roinnt foirmeacha iolra gan aistriú"
 
-#: weblate/checks/consistency.py:53
+#: weblate/checks/consistency.py:56
 msgid "Same plurals"
 msgstr "Na foirmeacha iolra céanna"
 
-#: weblate/checks/consistency.py:54
+#: weblate/checks/consistency.py:57
 msgid "Some plural forms are translated in the same way"
 msgstr "Aistrítear roinnt foirmeacha iolra ar an mbealach céanna"
 
-#: weblate/checks/consistency.py:73
+#: weblate/checks/consistency.py:76
 msgid "Inconsistent"
 msgstr "Neamh-chomhsheasmhach"
 
-#: weblate/checks/consistency.py:75
+#: weblate/checks/consistency.py:78
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
@@ -3260,15 +3342,15 @@ msgstr ""
 "Tá níos mó ná aistriúchán amháin ag an teaghrán seo sa tionscadal seo nó níl "
 "sé aistrithe i gcomhpháirteanna áirithe."
 
-#: weblate/checks/consistency.py:160
+#: weblate/checks/consistency.py:163
 msgid "Reused translation"
 msgstr "Aistriúchán athúsáidte"
 
-#: weblate/checks/consistency.py:161
+#: weblate/checks/consistency.py:164
 msgid "Different strings are translated the same."
 msgstr "Aistrítear teaghráin éagsúla mar an gcéanna."
 
-#: weblate/checks/consistency.py:199
+#: weblate/checks/consistency.py:208
 #, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
@@ -3278,20 +3360,20 @@ msgstr[2] "Teaghráin foinse eile: %s"
 msgstr[3] "Teaghráin foinse eile: %s"
 msgstr[4] "Teaghráin foinse eile: %s"
 
-#: weblate/checks/consistency.py:200
+#: weblate/checks/consistency.py:209
 #, python-format
 msgid "“%s”"
 msgstr "“%s”"
 
-#: weblate/checks/consistency.py:251
+#: weblate/checks/consistency.py:282
 msgid "Has been translated"
 msgstr "Aistríodh"
 
-#: weblate/checks/consistency.py:252
+#: weblate/checks/consistency.py:283
 msgid "This string has been translated in the past"
 msgstr "Aistríodh an teaghrán seo san am atá caite"
 
-#: weblate/checks/consistency.py:261
+#: weblate/checks/consistency.py:292
 #, python-format
 msgid "Previous translation was \"%s\"."
 msgstr "Aistriúchán roimhe seo ná \"%s\"."
@@ -3320,7 +3402,7 @@ msgstr "Téacs XML"
 msgid "DOS line endings"
 msgstr "Críochnaíonn líne DOS"
 
-#: weblate/checks/flags.py:46 weblate/checks/markup.py:353
+#: weblate/checks/flags.py:46 weblate/checks/markup.py:358
 #: weblate/templates/data.html:32 weblate/templates/data.html:73
 #: weblate/templates/data.html:117 weblate/templates/data.html:158
 msgid "URL"
@@ -3344,11 +3426,11 @@ msgstr "Seiceáil dhian gan athrú"
 msgid "Strict format string checks"
 msgstr "Seiceálacha teaghrán formáide docht"
 
-#: weblate/checks/flags.py:53 weblate/trans/forms.py:2507
+#: weblate/checks/flags.py:53 weblate/trans/forms.py:2504
 msgid "Forbidden translation"
 msgstr "Aistriúchán toirmiscthe"
 
-#: weblate/checks/flags.py:54 weblate/trans/forms.py:2502
+#: weblate/checks/flags.py:54 weblate/trans/forms.py:2499
 msgid "Terminology"
 msgstr "Téarmaíocht"
 
@@ -3386,8 +3468,8 @@ msgstr "Bratacha ICU MessageFormat"
 msgid "ICU MessageFormat tag prefix"
 msgstr "Réimír chlib ICU MessageFormat"
 
-#: weblate/checks/flags.py:70 weblate/trans/models/component.py:733
-#: weblate/utils/views.py:179
+#: weblate/checks/flags.py:70 weblate/trans/models/component.py:738
+#: weblate/utils/views.py:202
 msgid "Priority"
 msgstr "Tosaíocht"
 
@@ -3785,7 +3867,9 @@ msgid "Fluent source syntax"
 msgstr "Comhréir foinse líofa"
 
 #: weblate/checks/fluent/syntax.py:47
-msgid "Fluent syntax error in source"
+#, fuzzy
+#| msgid "Fluent syntax error in source"
+msgid "Fluent syntax error in the source"
 msgstr "Earráid chomhréire líofa sa fhoinse"
 
 #: weblate/checks/fluent/syntax.py:63
@@ -3793,7 +3877,9 @@ msgid "Fluent translation syntax"
 msgstr "Comhréir aistriúcháin líofa"
 
 #: weblate/checks/fluent/syntax.py:64
-msgid "Fluent syntax error in translation"
+#, fuzzy
+#| msgid "Fluent syntax error in translation"
+msgid "Fluent syntax error in the translation"
 msgstr "Earráid chomhréire líofa san aistriúchán"
 
 #: weblate/checks/format.py:481
@@ -4063,86 +4149,94 @@ msgstr "Tá ábhar gan choinne san aistriúchán ag clib XML amháin nó níos m
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "Clib XML amháin nó níos mó inneachar in easnamh san aistriúchán: %s"
 
-#: weblate/checks/markup.py:109
+#: weblate/checks/markup.py:111
 msgid "BBCode markup"
 msgstr "Marcáil BBCode"
 
-#: weblate/checks/markup.py:110
+#: weblate/checks/markup.py:112
 msgid "BBCode in translation does not match source"
 msgstr "Ní mheaitseálann BBCode san aistriúchán leis an bhfoinse"
 
-#: weblate/checks/markup.py:190
+#: weblate/checks/markup.py:195
 msgid "XML syntax"
 msgstr "Comhréir XML"
 
-#: weblate/checks/markup.py:191
+#: weblate/checks/markup.py:196
 msgid "The translation is not valid XML"
 msgstr "Níl an t-aistriúchán bailí XML"
 
-#: weblate/checks/markup.py:215
+#: weblate/checks/markup.py:220
 msgid "XML markup"
 msgstr "XML marcáil"
 
-#: weblate/checks/markup.py:216
+#: weblate/checks/markup.py:221
 msgid "XML tags in translation do not match source"
 msgstr "Ní mheaitseálann clibeanna XML atá san aistriúchán leis an bhfoinse"
 
-#: weblate/checks/markup.py:274
+#: weblate/checks/markup.py:279
 msgid "Markdown references"
 msgstr "Tagairtí Markdown"
 
-#: weblate/checks/markup.py:275
+#: weblate/checks/markup.py:280
 msgid "Markdown link references do not match source"
 msgstr "Sagairtí Markdown"
 
-#: weblate/checks/markup.py:291
+#: weblate/checks/markup.py:296
 msgid "Markdown links"
 msgstr "naisc Markdown"
 
-#: weblate/checks/markup.py:292
+#: weblate/checks/markup.py:297
 msgid "Markdown links do not match source"
 msgstr "Ní mheaitseálann naisc Markdown an fhoinse"
 
-#: weblate/checks/markup.py:320
+#: weblate/checks/markup.py:325
 msgid "Markdown syntax"
 msgstr "Comhréir Markdown"
 
-#: weblate/checks/markup.py:321
+#: weblate/checks/markup.py:326
 msgid "Markdown syntax does not match source"
 msgstr "Ní mheaitseálann comhréir Markdown an fhoinse"
 
-#: weblate/checks/markup.py:354
+#: weblate/checks/markup.py:359
 msgid "The translation does not contain an URL"
 msgstr "Níl URL san aistriúchán"
 
-#: weblate/checks/markup.py:373 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "HTML neamhshábháilte"
 
-#: weblate/checks/markup.py:374
+#: weblate/checks/markup.py:379
 msgid "The translation uses unsafe HTML markup"
 msgstr "Úsáideann an t-aistriúchán marcáil HTML neamhshábháilte"
 
-#: weblate/checks/markup.py:398
+#: weblate/checks/markup.py:403
 msgid "Inconsistent reStructuredText references"
 msgstr "Tagairtí Téacs athstruchtúrtha neamh-chomhsheasmhach"
 
-#: weblate/checks/markup.py:400
+#: weblate/checks/markup.py:405
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
 "Tagairtí téarma athstruchtúrtha Téacs neamh-chomhsheasmhach sa "
 "teachtaireacht aistrithe."
 
-#: weblate/checks/markup.py:432
-msgid "Inconsistent links in the translated message."
+#: weblate/checks/markup.py:436
+#, fuzzy
+#| msgid "Inconsistent links in the translated message."
+msgid "Inconsistent inline links in the translated message."
 msgstr "Naisc neamh-chomhsheasmhacha sa teachtaireacht aistrithe."
 
-#: weblate/checks/markup.py:545
+#: weblate/checks/markup.py:442
+#, fuzzy
+#| msgid "Inconsistent links in the translated message."
+msgid "Inconsistent external links in the translated message."
+msgstr "Naisc neamh-chomhsheasmhacha sa teachtaireacht aistrithe."
+
+#: weblate/checks/markup.py:565
 msgid "reStructuredText syntax error"
 msgstr "Earráid chomhréire reStructuredText"
 
-#: weblate/checks/markup.py:546
+#: weblate/checks/markup.py:566
 msgid "reStructuredText syntax error in the translation."
 msgstr "Earráid chomhréire reStructuredText san aistriúchán."
 
@@ -4205,11 +4299,11 @@ msgstr "Formáid Ruby"
 msgid "Ruby format string does not match source"
 msgstr "Ní mheaitseálann teaghrán formáide Ruby an fhoinse"
 
-#: weblate/checks/same.py:141
+#: weblate/checks/same.py:152
 msgid "Unchanged translation"
 msgstr "Aistriúchán gan athrú"
 
-#: weblate/checks/same.py:142
+#: weblate/checks/same.py:153
 msgid "Source and translation are identical"
 msgstr "Tá an fhoinse agus an t-aistriúchán comhionann"
 
@@ -4271,7 +4365,7 @@ msgstr "Seiceáil"
 #: weblate/templates/mail/todo_strings.html:10
 #: weblate/templates/snippets/embed-units.html:12
 #: weblate/templates/translate.html:99 weblate/templates/translate.html:381
-#: weblate/templates/translate.html:481 weblate/trans/forms.py:1561
+#: weblate/templates/translate.html:481 weblate/trans/forms.py:1558
 msgid "Translation"
 msgstr "Aistriúchán"
 
@@ -4417,7 +4511,7 @@ msgstr "CSV"
 msgid "XLSX"
 msgstr "XLSX"
 
-#: weblate/formats/exporters.py:275 weblate/trans/forms.py:1318
+#: weblate/formats/exporters.py:275 weblate/trans/forms.py:1315
 msgid "JSON"
 msgstr "JSON"
 
@@ -4652,7 +4746,7 @@ msgstr "Liosta slánuimhir neamhbhailí!"
 
 #: weblate/glossary/forms.py:81 weblate/templates/mail/base.html:41
 #: weblate/templates/snippets/component-glossary-badge.html:4
-#: weblate/templates/translate.html:695 weblate/trans/forms.py:1554
+#: weblate/templates/translate.html:695 weblate/trans/forms.py:1551
 msgid "Glossary"
 msgstr "Gluais"
 
@@ -4728,225 +4822,233 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Trí"
 
-#: weblate/lang/models.py:623 weblate/templates/addons/generate_help.html:27
+#: weblate/lang/models.py:682 weblate/templates/addons/generate_help.html:27
 #: weblate/templates/snippets/info.html:191
 #: weblate/templates/trans/alert/ambiguouslanguage.html:14
 msgid "Language code"
 msgstr "Cód teanga"
 
-#: weblate/lang/models.py:626 weblate/templates/addons/generate_help.html:17
+#: weblate/lang/models.py:685 weblate/templates/addons/generate_help.html:17
 msgid "Language name"
 msgstr "Ainm teanga"
 
-#: weblate/lang/models.py:629 weblate/templates/snippets/info.html:211
+#: weblate/lang/models.py:688 weblate/templates/snippets/info.html:217
 msgid "Text direction"
 msgstr "Treo téacs"
 
-#: weblate/lang/models.py:633
+#: weblate/lang/models.py:692
 msgid "Automatically detect text direction"
 msgstr "Braith go huathoibríoch treo an téacs"
 
-#: weblate/lang/models.py:634
+#: weblate/lang/models.py:693
 msgid "Left to right"
 msgstr "Clé go deas"
 
-#: weblate/lang/models.py:635
+#: weblate/lang/models.py:694
 msgid "Right to left"
 msgstr "Ar dheis ar chlé"
 
-#: weblate/lang/models.py:639 weblate/templates/snippets/info.html:216
+#: weblate/lang/models.py:698 weblate/templates/snippets/info.html:226
 msgid "Number of speakers"
 msgstr "Líon na gcainteoirí"
 
-#: weblate/lang/models.py:640
+#: weblate/lang/models.py:699
 msgid "Number of people speaking this language."
 msgstr "Líon na ndaoine a labhraíonn an teanga seo."
 
-#: weblate/lang/models.py:743
+#: weblate/lang/models.py:805
+msgid "Case-sensitive"
+msgstr ""
+
+#: weblate/lang/models.py:806
+msgid "Case-insensitive"
+msgstr ""
+
+#: weblate/lang/models.py:842
 msgctxt "Plural type"
 msgid "None"
 msgstr "Dada"
 
-#: weblate/lang/models.py:747
+#: weblate/lang/models.py:846
 msgctxt "Plural type"
 msgid "One/other"
 msgstr "Duine/eile"
 
-#: weblate/lang/models.py:751
+#: weblate/lang/models.py:850
 msgctxt "Plural type"
 msgid "One/few/other"
 msgstr "Amháin/cúpla/eile"
 
-#: weblate/lang/models.py:755
+#: weblate/lang/models.py:854
 msgctxt "Plural type"
 msgid "Arabic languages"
 msgstr "Teangacha Araibis"
 
-#: weblate/lang/models.py:759
+#: weblate/lang/models.py:858
 msgctxt "Plural type"
 msgid "Zero/one/other"
 msgstr "Nialais/duine amháin/eile"
 
-#: weblate/lang/models.py:763
+#: weblate/lang/models.py:862
 msgctxt "Plural type"
 msgid "One/two/other"
 msgstr "Duine amháin/dó/eile"
 
-#: weblate/lang/models.py:767
+#: weblate/lang/models.py:866
 msgctxt "Plural type"
 msgid "One/other/two"
 msgstr "Duine amháin/eile/dó"
 
-#: weblate/lang/models.py:771
+#: weblate/lang/models.py:870
 msgctxt "Plural type"
 msgid "One/two/few/other"
 msgstr "A haon/dhá/beagán/eile"
 
-#: weblate/lang/models.py:775
+#: weblate/lang/models.py:874
 msgctxt "Plural type"
 msgid "Other/one/two/few"
 msgstr "Eile/duine amháin/dó/beagán"
 
-#: weblate/lang/models.py:779
+#: weblate/lang/models.py:878
 msgctxt "Plural type"
 msgid "One/two/three/other"
 msgstr "A haon/dó/trí/eile"
 
-#: weblate/lang/models.py:783
+#: weblate/lang/models.py:882
 msgctxt "Plural type"
 msgid "One/other/zero"
 msgstr "Duine amháin/eile/nialas"
 
-#: weblate/lang/models.py:787
+#: weblate/lang/models.py:886
 msgctxt "Plural type"
 msgid "One/few/many/other"
 msgstr "Amháin/cúpla/go leor/eile"
 
-#: weblate/lang/models.py:791
+#: weblate/lang/models.py:890
 msgctxt "Plural type"
 msgid "Two/other"
 msgstr "Beirt/eile"
 
-#: weblate/lang/models.py:795
+#: weblate/lang/models.py:894
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
 msgstr "A haon/dhá/beagán/go leor/eile"
 
-#: weblate/lang/models.py:799
+#: weblate/lang/models.py:898
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
 msgstr "Nialais/duine amháin/dhá/beagán/go leor/eile"
 
-#: weblate/lang/models.py:803
+#: weblate/lang/models.py:902
 msgctxt "Plural type"
 msgid "Zero/other"
 msgstr "Nialais/eile"
 
-#: weblate/lang/models.py:807
+#: weblate/lang/models.py:906
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
 msgstr "Nialais/duine amháin/cúpla/eile"
 
-#: weblate/lang/models.py:811
+#: weblate/lang/models.py:910
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
 msgstr "Nialais/duine amháin/dhá/beagán/eile"
 
-#: weblate/lang/models.py:815
+#: weblate/lang/models.py:914
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
 msgstr "Nialais/duine amháin/dó/eile"
 
-#: weblate/lang/models.py:819
+#: weblate/lang/models.py:918
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
 msgstr "Nialais/duine amháin/cúpla/go leor/eile"
 
-#: weblate/lang/models.py:823
+#: weblate/lang/models.py:922
 msgctxt "Plural type"
 msgid "One/many/other"
 msgstr "Duine amháin/go leor/eile"
 
-#: weblate/lang/models.py:827
+#: weblate/lang/models.py:926
 msgctxt "Plural type"
 msgid "Zero/one/many/other"
 msgstr "Nialais/duine amháin/go leor/eile"
 
-#: weblate/lang/models.py:831
+#: weblate/lang/models.py:930
 msgctxt "Plural type"
 msgid "One/few/many"
 msgstr "A haon/cúpla/go leor"
 
-#: weblate/lang/models.py:835
+#: weblate/lang/models.py:934
 msgctxt "Plural type"
 msgid "One/zero/few/other"
 msgstr "Ceann amháin/nialas/beagán/eile"
 
-#: weblate/lang/models.py:839
+#: weblate/lang/models.py:938
 msgctxt "Plural type"
 msgid "Unknown"
 msgstr "Anaithnid"
 
-#: weblate/lang/models.py:851
+#: weblate/lang/models.py:950
 msgid "Plural definition source"
 msgstr "Foinse sainmhíniú iolra"
 
-#: weblate/lang/models.py:853
+#: weblate/lang/models.py:952
 msgid "Default plural"
 msgstr "Réamhshocrú iolra"
 
-#: weblate/lang/models.py:854
+#: weblate/lang/models.py:953
 msgid "gettext plural formula"
 msgstr "foirmle iolra gettext"
 
-#: weblate/lang/models.py:855
+#: weblate/lang/models.py:954
 msgid "CLDR plural with zero"
 msgstr "CLDR iolra le nialas"
 
-#: weblate/lang/models.py:856
+#: weblate/lang/models.py:955
 msgid "CLDR v38+ plural"
 msgstr "CLDR v38+ iolra"
 
-#: weblate/lang/models.py:857
+#: weblate/lang/models.py:956
 msgid "Android plural"
 msgstr "Android iolra"
 
-#: weblate/lang/models.py:858
+#: weblate/lang/models.py:957
 msgid "Qt Linguist plural"
 msgstr "Qt Teangeolaí iolra"
 
-#: weblate/lang/models.py:859
+#: weblate/lang/models.py:958
 msgid "Manually entered formula"
 msgstr "Foirmle isteach de láimh"
 
-#: weblate/lang/models.py:863 weblate/templates/snippets/plural.html:16
+#: weblate/lang/models.py:962 weblate/templates/snippets/plural.html:16
 msgid "Number of plurals"
 msgstr "Líon iolra"
 
-#: weblate/lang/models.py:869 weblate/templates/snippets/plural-formula.html:5
+#: weblate/lang/models.py:968 weblate/templates/snippets/plural-formula.html:5
 #: weblate/templates/snippets/plural.html:37
 msgid "Plural formula"
 msgstr "Foirmle iolra"
 
-#: weblate/lang/models.py:874 weblate/templates/snippets/plural.html:20
+#: weblate/lang/models.py:973 weblate/templates/snippets/plural.html:20
 msgid "Plural type"
 msgstr "Cineál iolra"
 
-#: weblate/lang/models.py:966
+#: weblate/lang/models.py:1065
 msgid "Example counts for this plural form."
 msgstr "Áireamh samplaí don fhoirm iolra seo."
 
-#: weblate/lang/models.py:975 weblate/templates/translation.html:365
+#: weblate/lang/models.py:1074 weblate/templates/translation.html:366
 #: weblate/templates/translation.html:395
 msgid "Singular"
 msgstr "Uatha"
 
-#: weblate/lang/models.py:977 weblate/templates/translation.html:370
+#: weblate/lang/models.py:1076 weblate/templates/translation.html:370
 #: weblate/templates/translation.html:399
 msgid "Plural"
 msgstr "Iolra"
 
-#: weblate/lang/models.py:978
+#: weblate/lang/models.py:1077
 #, python-format
 msgid "Plural form %d"
 msgstr "Foirm iolra %d"
@@ -5370,59 +5472,59 @@ msgctxt "OpenAI model selection"
 msgid "Automatic selection"
 msgstr "Roghnú uathoibríoch"
 
-#: weblate/machinery/forms.py:364
+#: weblate/machinery/forms.py:366
 msgctxt "OpenAI model selection"
 msgid "Custom model"
 msgstr "Múnla saincheaptha"
 
-#: weblate/machinery/forms.py:369
+#: weblate/machinery/forms.py:371
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
 msgstr "URL bonn OpenAI API"
 
-#: weblate/machinery/forms.py:373
+#: weblate/machinery/forms.py:375
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgstr "Bun-URL an API OpenAI, má tá sé difriúil ó URL réamhshocraithe OpenAI"
 
-#: weblate/machinery/forms.py:380
+#: weblate/machinery/forms.py:382
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "Múnla OpenAI"
 
-#: weblate/machinery/forms.py:388
+#: weblate/machinery/forms.py:390
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "Ainm múnla saincheaptha"
 
-#: weblate/machinery/forms.py:390
+#: weblate/machinery/forms.py:392
 msgid "Only needed when model is set to 'Custom model'"
 msgstr ""
 "Ní gá ach amháin nuair atá an tsamhail socraithe mar 'Samhail shaincheaptha'"
 
-#: weblate/machinery/forms.py:400
+#: weblate/machinery/forms.py:402
 msgid "Missing custom model name."
 msgstr "Ainm múnla saincheaptha ar iarraidh."
 
-#: weblate/machinery/forms.py:404
+#: weblate/machinery/forms.py:406
 msgid "Choose custom model here to enable it."
 msgstr "Roghnaigh múnla saincheaptha anseo chun é a chumasú."
 
-#: weblate/machinery/forms.py:413
+#: weblate/machinery/forms.py:415
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
 msgstr "URL críochphointe Azure OpenAI"
 
-#: weblate/machinery/forms.py:417
+#: weblate/machinery/forms.py:419
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr "URL críochphointe an ásc, m.sh.: https://my-instance.openai.azure.com."
 
-#: weblate/machinery/forms.py:423
+#: weblate/machinery/forms.py:425
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
 msgstr "Imscaradh Azure OpenAI"
 
-#: weblate/machinery/forms.py:426
+#: weblate/machinery/forms.py:428
 msgid "The model's unique deployment name."
 msgstr "Ainm imscaradh uathúil an tsamhail."
 
@@ -5441,7 +5543,7 @@ msgstr "Comhaid"
 msgid "You can upload a file of following formats: %s."
 msgstr "Is féidir leat comhad de na formáidí seo a leanas a uaslódáil: %s."
 
-#: weblate/memory/forms.py:27 weblate/trans/models/component.py:705
+#: weblate/memory/forms.py:27 weblate/trans/models/component.py:710
 msgid "Source language"
 msgstr "Teanga foinse"
 
@@ -5449,7 +5551,7 @@ msgstr "Teanga foinse"
 msgid "Source language of the document when not specified in file"
 msgstr "Teanga foinse an doiciméid nuair nach bhfuil sé sonraithe sa chomhad"
 
-#: weblate/memory/forms.py:36 weblate/trans/forms.py:1873
+#: weblate/memory/forms.py:36 weblate/trans/forms.py:1870
 msgid "Target language"
 msgstr "Sprioctheanga"
 
@@ -6371,7 +6473,9 @@ msgid "Security keys (WebAuthn)"
 msgstr "Eochracha slándála (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:261
-msgid "There are currently no WebAuthn keys registered."
+#, fuzzy
+#| msgid "There are currently no WebAuthn keys registered."
+msgid "No WebAuthn keys registered yet."
 msgstr "Níl aon eochracha WebAuthn cláraithe faoi láthair."
 
 #: weblate/templates/accounts/profile.html:270
@@ -6394,8 +6498,9 @@ msgid "Register new security key"
 msgstr "Cláraigh eochair shlándála nua"
 
 #: weblate/templates/accounts/profile.html:294
-#: weblate/templates/accounts/webauthn.html:14
-msgid "Unfortunately, your browser has no WebAuthn support."
+#, fuzzy
+#| msgid "Unfortunately, your browser has no WebAuthn support."
+msgid "Your web browser lacks WebAuthn support."
 msgstr "Ar an drochuair, níl aon tacaíocht WebAuthn ag do bhrabhsálaí."
 
 #: weblate/templates/accounts/profile.html:302
@@ -6403,8 +6508,10 @@ msgid "Authenticator apps (TOTP)"
 msgstr "Aipeanna Authenticator (TOTP)"
 
 #: weblate/templates/accounts/profile.html:305
-msgid "There are currently no authenticator apps registered."
-msgstr "Níl aon aipeanna fíordheimhneora cláraithe faoi láthair."
+#, fuzzy
+#| msgid "The authentication app %s was registered."
+msgid "No authenticator apps registered yet."
+msgstr "Cláraíodh an aip fíordheimhnithe %s."
 
 #: weblate/templates/accounts/profile.html:321
 #: weblate/templates/accounts/totp.html:15
@@ -6419,8 +6526,9 @@ msgid "Recovery codes"
 msgstr "Cóid aisghabhála"
 
 #: weblate/templates/accounts/profile.html:327
-#: weblate/templates/accounts/recovery-codes.html:51
-msgid "There are currently no recovery codes generated."
+#, fuzzy
+#| msgid "There are currently no recovery codes generated."
+msgid "No recovery codes generated yet."
 msgstr "Níl aon chóid athshlánaithe ginte faoi láthair."
 
 #: weblate/templates/accounts/profile.html:331
@@ -6430,9 +6538,11 @@ msgid "Generate new recovery codes"
 msgstr "Gin cóid athshlánaithe nua"
 
 #: weblate/templates/accounts/profile.html:334
-#, python-format
-msgid "%(count)s recovery code is available."
-msgid_plural "%(count)s recovery codes are available."
+#, fuzzy, python-format
+#| msgid "%(count)s recovery code is available."
+#| msgid_plural "%(count)s recovery codes are available."
+msgid "%(count)s recovery code available."
+msgid_plural "%(count)s recovery codes available."
 msgstr[0] "Tá cód athshlánaithe %(count)s ar fáil."
 msgstr[1] "Tá %(count)s cóid athshlánaithe ar fáil."
 msgstr[2] "Tá %(count)s cóid athshlánaithe ar fáil."
@@ -6504,7 +6614,12 @@ msgid "Description"
 msgstr "Cur síos"
 
 #: weblate/templates/accounts/profile.html:477
-msgid "Contact us immediately if you see anything suspicious in the audit log."
+#, fuzzy
+#| msgid ""
+#| "Contact us immediately if you see anything suspicious in the audit log."
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
 msgstr ""
 "Déan teagmháil linn láithreach má fheiceann tú aon rud amhrasach sa loga "
 "iniúchta."
@@ -6527,7 +6642,9 @@ msgid "User agent"
 msgstr "Gníomhaire úsáideora"
 
 #: weblate/templates/accounts/profile.html:505
-msgid "No recent activity found!"
+#, fuzzy
+#| msgid "No recent activity found!"
+msgid "No recent activity found."
 msgstr "Níor aimsíodh aon ghníomhaíocht le déanaí!"
 
 #: weblate/templates/accounts/profile.html:511
@@ -6535,12 +6652,16 @@ msgid "Report suspicious activity"
 msgstr "Tuairiscigh gníomhaíocht amhrasach"
 
 #: weblate/templates/accounts/profile.html:526
+#, fuzzy
+#| msgid ""
+#| "The API key is also used to authenticate to automatically exported Git "
+#| "repositories."
 msgid ""
-"You can control Weblate using the HTTP REST API and your API key is used to "
-"authenticate to it."
+"The API key can be used to control Weblate via the HTTP REST API and to "
+"access Weblate Git repositories."
 msgstr ""
-"Is féidir leat Weblate a rialú ag baint úsáide as an HTTP REST API agus "
-"úsáidtear d'eochair API chun é a fhíordheimhniú."
+"Úsáidtear an eochair API freisin chun stórtha Git a easpórtáiltear go "
+"huathoibríoch a fhíordheimhniú."
 
 #: weblate/templates/accounts/profile.html:531
 #: weblate/templates/trans/project-access.html:351
@@ -6642,6 +6763,10 @@ msgstr ""
 msgid "Recovery codes copied to clipboard."
 msgstr "Cóipeáladh na cóid athshlánaithe chuig an ngearrthaisce."
 
+#: weblate/templates/accounts/recovery-codes.html:51
+msgid "There are currently no recovery codes generated."
+msgstr "Níl aon chóid athshlánaithe ginte faoi láthair."
+
 #: weblate/templates/accounts/recovery-codes.html:58
 msgid ""
 "When you generate new recovery codes, you must download or print the new "
@@ -6731,9 +6856,13 @@ msgid "Reset my password"
 msgstr "Athshocraigh mo phasfhocal"
 
 #: weblate/templates/accounts/totp.html:33
+#, fuzzy
+#| msgid ""
+#| "Authenticator apps generate one-time passwords that are used as a second "
+#| "factor to verify your identity when prompted during sign-in."
 msgid ""
-"Authenticator apps generate one-time passwords that are used as a second "
-"factor to verify your identity when prompted during sign-in."
+"Authenticator apps generate time-based one-time passwords that are used as a "
+"second factor to verify your identity when prompted during sign-in."
 msgstr ""
 "Gineann aipeanna fíordheimhnithe pasfhocail aonuaire a úsáidtear mar dhara "
 "fachtóir chun d’aitheantas a fhíorú nuair a iarrtar ort le linn síniú "
@@ -6792,8 +6921,8 @@ msgstr "Cuir tús leis an triail!"
 #: weblate/templates/accounts/user_contributions.html:14
 #: weblate/templates/auth/team.html:98 weblate/templates/component.html:151
 #: weblate/templates/manage/users.html:14 weblate/templates/project.html:159
-#: weblate/templates/snippets/info.html:411
-#: weblate/templates/snippets/info.html:448
+#: weblate/templates/snippets/info.html:421
+#: weblate/templates/snippets/info.html:458
 #: weblate/templates/trans/project-access.html:26
 #: weblate/templates/trans/project-access.html:42
 #: weblate/templates/trans/suggestion_list.html:8
@@ -6887,7 +7016,7 @@ msgstr "Aitheantas úsáideora"
 #: weblate/templates/billing/detail.html:14
 #: weblate/templates/billing/overview.html:10
 #: weblate/templates/manage/billing.html:11 weblate/templates/project.html:186
-#: weblate/templates/snippets/info.html:39 weblate/trans/forms.py:2244
+#: weblate/templates/snippets/info.html:39 weblate/trans/forms.py:2241
 #: weblate/wladmin/views.py:94
 msgid "Billing"
 msgstr "Billeáil"
@@ -6938,7 +7067,7 @@ msgstr "ID Úsáideora"
 msgid "Notification"
 msgstr "Fógra"
 
-#: weblate/templates/accounts/user.html:267 weblate/trans/forms.py:1087
+#: weblate/templates/accounts/user.html:267 weblate/trans/forms.py:1084
 msgid "Scope"
 msgstr "Raon feidhme"
 
@@ -6985,16 +7114,22 @@ msgid "Edit user"
 msgstr "Cuir úsáideoir in eagar"
 
 #: weblate/templates/accounts/user.html:395
-msgid "User has two-factor authentication configured."
-msgstr "Tá fíordheimhniú dhá-fhachtóir cumraithe ag an úsáideoir."
+#, fuzzy
+#| msgid "Requires two-factor authentication"
+msgid "The user has two-factor authentication."
+msgstr "Teastaíonn fíordheimhniú dhá fhachtóir"
 
 #: weblate/templates/accounts/user.html:397
-msgid "User doesn't have two-factor authentication configured."
+#, fuzzy
+#| msgid "User doesn't have two-factor authentication configured."
+msgid "The user doesn't have two-factor authentication."
 msgstr "Níl fíordheimhniú dhá fhachtóir cumraithe ag an úsáideoir."
 
 #: weblate/templates/accounts/user.html:404
-msgid "Disable two-factor authentication"
-msgstr "Díchumasaigh fíordheimhniú dhá-fhachtóir"
+#, fuzzy
+#| msgid "Two-factor authentication"
+msgid "Turn off two-factor authentication"
+msgstr "Fíordheimhniú dhá-fhachtóir"
 
 #: weblate/templates/accounts/user.html:413
 msgid "Account removal deletes all user private data."
@@ -7069,6 +7204,10 @@ msgstr "Aistriúcháin le ranníocaíocht"
 #: weblate/templates/accounts/webauthn.html:8
 msgid "Sign in using the security key"
 msgstr "Sínigh isteach ag baint úsáide as an eochair shlándála"
+
+#: weblate/templates/accounts/webauthn.html:14
+msgid "Unfortunately, your browser has no WebAuthn support."
+msgstr "Ar an drochuair, níl aon tacaíocht WebAuthn ag do bhrabhsálaí."
 
 #: weblate/templates/addons/addon_detail.html:12
 #: weblate/templates/addons/addon_detail.html:16
@@ -7285,7 +7424,7 @@ msgstr "Chruthófaí na comhpháirteanna seo a leanas"
 #: weblate/templates/addons/discovery_preview.html:88
 #: weblate/templates/snippets/info.html:151
 #: weblate/templates/trans/alert/inexistantfiles.html:12
-#: weblate/trans/models/component.py:465
+#: weblate/trans/models/component.py:470
 msgid "Monolingual base language file"
 msgstr "Comhad aonteangach bunteanga"
 
@@ -7294,7 +7433,7 @@ msgstr "Comhad aonteangach bunteanga"
 #: weblate/templates/addons/discovery_preview.html:91
 #: weblate/templates/snippets/info.html:143
 #: weblate/templates/trans/discover-choice.html:7
-#: weblate/trans/models/component.py:445
+#: weblate/trans/models/component.py:450
 msgid "File mask"
 msgstr "Masc comhaid"
 
@@ -7332,7 +7471,7 @@ msgid "Translation filename"
 msgstr "Ainm comhaid aistriúcháin"
 
 #: weblate/templates/addons/generate_help.html:77
-#: weblate/trans/models/component.py:343
+#: weblate/trans/models/component.py:348
 msgid "Component name"
 msgstr "Ainm cló aistriúcháin"
 
@@ -7363,8 +7502,8 @@ msgstr "Ginfear na teaghráin ag baint úsáide as an bpatrún seo a leanas:"
 #: weblate/templates/snippets/unit-readonly-badge.html:7
 #: weblate/templates/snippets/unit-readonly-badge.html:10
 #: weblate/templates/snippets/unit-readonly-badge.html:12
-#: weblate/templates/translate.html:97 weblate/trans/forms.py:2470
-#: weblate/utils/views.py:181
+#: weblate/templates/translate.html:97 weblate/trans/forms.py:2467
+#: weblate/utils/views.py:204
 msgid "Source string"
 msgstr "Teaghrán foinse"
 
@@ -7420,7 +7559,7 @@ msgstr "Cuir sannadh uathoibríoch leis"
 msgid "Last sign in"
 msgstr "Sínigh isteach go deireanach"
 
-#: weblate/templates/auth/team.html:116 weblate/trans/forms.py:1283
+#: weblate/templates/auth/team.html:116 weblate/trans/forms.py:1280
 msgid "Team administrator"
 msgstr "Riarthóir foirne"
 
@@ -7476,7 +7615,7 @@ msgstr "Bainfidh sé seo <b>%(user)s</b> rochtain ar an tionscadal seo."
 msgid "Add"
 msgstr "Cuir"
 
-#: weblate/templates/auth/teams-components.html:6 weblate/trans/forms.py:1143
+#: weblate/templates/auth/teams-components.html:6 weblate/trans/forms.py:1140
 msgid "All components"
 msgstr "Gach comhpháirteanna"
 
@@ -7572,8 +7711,8 @@ msgstr "Cuir tionscadal aistriúcháin nua leis"
 #: weblate/templates/project.html:145
 #: weblate/templates/snippets/list-objects.html:25
 #: weblate/templates/snippets/list-objects.html:32
-#: weblate/templates/snippets/list-objects.html:311
-#: weblate/templates/snippets/list-objects.html:315
+#: weblate/templates/snippets/list-objects.html:312
+#: weblate/templates/snippets/list-objects.html:316
 #: weblate/templates/snippets/project-component-settings.html:19
 #: weblate/templates/trans/component_form.html:30
 msgid "Add new translation component"
@@ -7583,8 +7722,8 @@ msgstr "Cuir comhpháirt aistriúcháin nua leis"
 #: weblate/templates/new-language.html:25
 #: weblate/templates/new-language.html:81
 #: weblate/templates/snippets/list-objects.html:18
-#: weblate/templates/snippets/list-objects.html:298
-#: weblate/templates/snippets/list-objects.html:304
+#: weblate/templates/snippets/list-objects.html:299
+#: weblate/templates/snippets/list-objects.html:305
 msgid "Start new translation"
 msgstr "Cuir tús le haistriúchán nua"
 
@@ -7628,7 +7767,7 @@ msgstr "Faigh cabhair"
 #: weblate/templates/base.html:399 weblate/templates/footer.html:35
 #: weblate/templates/trans/alert/repositorychanges.html:9
 #: weblate/templates/trans/alert/repositoryoutdated.html:9
-#: weblate/trans/templatetags/translations.py:655
+#: weblate/trans/templatetags/translations.py:656
 #: weblate/wladmin/templates/admin/base.html:11
 #: weblate/wladmin/templates/admin/permissions/change_form.html:9
 #: weblate/wladmin/templates/admin/trans/change_form.html:21
@@ -7895,7 +8034,7 @@ msgstr ""
 "fhágann go bhféadfadh sé do rochtain ar an tionscadal seo a chúlghairm."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:81
-#: weblate/trans/forms.py:2113 weblate/trans/forms.py:2154
+#: weblate/trans/forms.py:2110 weblate/trans/forms.py:2151
 msgid "You do not have permission to change project access control."
 msgstr "Níl cead agat rialú rochtana tionscadail a athrú."
 
@@ -7907,8 +8046,8 @@ msgstr "Seiceáil stádas do bhilleála"
 #: weblate/templates/browse.html:24
 #: weblate/templates/snippets/list-objects.html:147
 #: weblate/templates/snippets/list-objects.html:148
-#: weblate/templates/snippets/list-objects.html:196
 #: weblate/templates/snippets/list-objects.html:197
+#: weblate/templates/snippets/list-objects.html:198
 #: weblate/templates/translation.html:167
 #: weblate/templates/translation.html:237
 msgid "Browse"
@@ -7938,7 +8077,7 @@ msgstr "Léargais"
 #: weblate/templates/category.html:64 weblate/templates/component-list.html:27
 #: weblate/templates/component.html:72
 #: weblate/templates/language-project.html:50 weblate/templates/project.html:74
-#: weblate/templates/translation.html:59 weblate/trans/forms.py:1614
+#: weblate/templates/translation.html:59 weblate/trans/forms.py:1611
 msgid "Files"
 msgstr "Comhaid"
 
@@ -8156,10 +8295,10 @@ msgid "Dismissed"
 msgstr "Briseadh as a post"
 
 #: weblate/templates/check_list.html:42 weblate/templates/engage.html:40
-#: weblate/templates/snippets/info.html:478
-#: weblate/templates/snippets/info.html:516
-#: weblate/templates/snippets/list-objects.html:72 weblate/trans/widgets.py:286
-#: weblate/trans/widgets.py:304
+#: weblate/templates/snippets/info.html:488
+#: weblate/templates/snippets/info.html:533
+#: weblate/templates/snippets/list-objects.html:72 weblate/trans/widgets.py:288
+#: weblate/trans/widgets.py:306
 msgid "Translated"
 msgstr "Aistrithe"
 
@@ -8224,7 +8363,7 @@ msgstr "Cothabháil stór"
 #: weblate/templates/component.html:139
 #: weblate/templates/screenshots/screenshot_detail.html:29
 #: weblate/templates/screenshots/screenshot_list.html:24
-#: weblate/trans/forms.py:1636
+#: weblate/trans/forms.py:1633
 msgid "Screenshots"
 msgstr "Gabhálacha scáileáin"
 
@@ -8298,16 +8437,22 @@ msgstr ""
 #: weblate/templates/snippets/info.html:89
 #: weblate/templates/snippets/libre-checklist.html:24
 #: weblate/templates/trans/other-row.html:27
-#: weblate/trans/models/component.py:576
-msgid "Contributor agreement"
+#: weblate/trans/models/component.py:581
+#, fuzzy
+#| msgid "Contributor agreement"
+msgid "Contributor license agreement"
 msgstr "Comhaontú ranníocóra"
 
 #: weblate/templates/contributor-agreement.html:22
-msgid "Please review the contributor agreement"
+#, fuzzy
+#| msgid "Please review the contributor agreement"
+msgid "Please review the contributor license agreement"
 msgstr "Déan athbhreithniú ar an gcomhaontú ranníocóra"
 
 #: weblate/templates/contributor-agreement.html:25
-msgid "Please read following contributor agreement:"
+#, fuzzy
+#| msgid "Please read following contributor agreement:"
+msgid "Please read the following contributor license agreement:"
 msgstr "Léigh an comhaontú ranníocóra seo a leanas le do thoil:"
 
 #: weblate/templates/contributor-agreement.html:34
@@ -8481,7 +8626,7 @@ msgstr ""
 "Tá %(project)s á aistriú le %(weblate_name_link)s, uirlis ghréasáin atá "
 "deartha chun aistriúchán a éascú d'fhorbróirí agus d'aistritheoirí araon."
 
-#: weblate/templates/engage.html:29 weblate/trans/widgets.py:271
+#: weblate/templates/engage.html:29 weblate/trans/widgets.py:273
 msgctxt "Label on engage page"
 msgid "String"
 msgid_plural "Strings"
@@ -8491,7 +8636,7 @@ msgstr[2] "Teaghráin"
 msgstr[3] "Teaghráin"
 msgstr[4] "Teaghráin"
 
-#: weblate/templates/engage.html:35 weblate/trans/widgets.py:280
+#: weblate/templates/engage.html:35 weblate/trans/widgets.py:282
 msgctxt "Label on engage page"
 msgid "Language"
 msgid_plural "Languages"
@@ -8502,7 +8647,7 @@ msgstr[3] "Teangacha"
 msgstr[4] "Teangacha"
 
 #: weblate/templates/engage.html:39
-#: weblate/trans/templatetags/translations.py:1291 weblate/trans/widgets.py:98
+#: weblate/trans/templatetags/translations.py:1293 weblate/trans/widgets.py:99
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
@@ -9067,7 +9212,7 @@ msgstr "Aicearraí Ar Fáil"
 msgid "Shortcut"
 msgstr "Aicearra"
 
-#: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:2801
+#: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:2798
 msgid "Action"
 msgstr "Gníomh"
 
@@ -9207,11 +9352,11 @@ msgstr "Brabhsáil teaghrán an aistriúcháin roimhe seo."
 
 #: weblate/templates/lang/create.html:11
 #: weblate/templates/snippets/list-objects.html:39
-#: weblate/templates/snippets/list-objects.html:320
+#: weblate/templates/snippets/list-objects.html:321
 msgid "Add language"
 msgstr "Cuir teanga leis"
 
-#: weblate/templates/lang/language_form.html:25 weblate/trans/forms.py:2185
+#: weblate/templates/lang/language_form.html:25 weblate/trans/forms.py:2182
 msgid "Workflow"
 msgstr "Sreabhadh oibre"
 
@@ -9522,8 +9667,9 @@ msgid "New translation in %(translation)s"
 msgstr "Aistriúchán nua in %(translation)s"
 
 #: weblate/templates/mail/component_license.html:10
-#, python-format
-msgid "Contributor agreement for component %(component)s was changed."
+#, fuzzy, python-format
+#| msgid "Contributor agreement for component %(component)s was changed."
+msgid "Contributor license agreement for component %(component)s was changed."
 msgstr "Athraíodh comhaontú ranníocóra le haghaidh comhpháirt %(component)s."
 
 #: weblate/templates/mail/component_license.html:13
@@ -9531,7 +9677,9 @@ msgid "Old agreement:"
 msgstr "Sean-chomhaontú:"
 
 #: weblate/templates/mail/component_license.html:16
-msgid "There was no contributor agreement before."
+#, fuzzy
+#| msgid "There was no contributor agreement before."
+msgid "There was no contributor license agreement before."
 msgstr "Ní raibh aon chomhaontú ranníocóra ann roimhe seo."
 
 #: weblate/templates/mail/component_license.html:19
@@ -9539,7 +9687,9 @@ msgid "New agreement:"
 msgstr "Comhaontú nua:"
 
 #: weblate/templates/mail/component_license.html:22
-msgid "Contributor agreement was removed."
+#, fuzzy
+#| msgid "Contributor agreement was removed."
+msgid "Contributor license agreement was removed."
 msgstr "Baineadh comhaontú ranníocóra."
 
 #: weblate/templates/mail/component_license_subject.txt:4
@@ -9548,8 +9698,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "Athcheadaíodh %(component)s go %(target)s"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, python-format
-msgid "Contributor agreement for %(component)s was changed"
+#, fuzzy, python-format
+#| msgid "Contributor agreement for %(component)s was changed"
+msgid "Contributor license agreement for %(component)s was changed"
 msgstr "Athraíodh comhaontú ranníocóra le haghaidh %(component)s"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
@@ -10485,8 +10636,8 @@ msgstr ""
 msgid "Request new translation"
 msgstr "Iarr aistriúchán nua"
 
-#: weblate/templates/new-language.html:90
-#: weblate/templates/snippets/list-objects.html:304
+#: weblate/templates/new-language.html:94
+#: weblate/templates/snippets/list-objects.html:305
 msgid "You don't have permission to start a new translation"
 msgstr "Níl cead agat aistriúchán nua a thosú"
 
@@ -10519,7 +10670,7 @@ msgstr "/ %(total)s"
 #: weblate/templates/project-label-edit.html:13
 #: weblate/templates/project-labels.html:14 weblate/templates/project.html:170
 #: weblate/templates/translate.html:799 weblate/trans/models/unit.py:415
-#: weblate/utils/views.py:180
+#: weblate/utils/views.py:203
 msgid "Labels"
 msgstr "Lipéid"
 
@@ -10731,14 +10882,20 @@ msgstr ""
 "láithreach."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:11
-msgid "View contributor agreement"
+#, fuzzy
+#| msgid "View contributor agreement"
+msgid "View contributor license agreement"
 msgstr "Féach ar chomhaontú ranníocóra"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:13
 #: weblate/templates/trans/other-row.html:27
+#, fuzzy
+#| msgid ""
+#| "Contributing to this translation requires agreeing to its contributor "
+#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
-"agreement."
+"license agreement."
 msgstr ""
 "Teastaíonn aontú lena chomhaontú ranníocóra chun cur leis an aistriúchán seo."
 
@@ -10809,7 +10966,7 @@ msgstr "Fad teaghrán foinse"
 msgid "Clone to translation"
 msgstr "Clónáil don aistriúchán"
 
-#: weblate/templates/snippets/embed-units.html:45 weblate/utils/views.py:182
+#: weblate/templates/snippets/embed-units.html:45 weblate/utils/views.py:205
 msgid "Target string"
 msgstr "Teaghrán sprice"
 
@@ -10844,12 +11001,12 @@ msgstr ""
 "a chumrú."
 
 #: weblate/templates/snippets/git-info.html:10
-#: weblate/trans/models/component.py:379
+#: weblate/trans/models/component.py:384
 msgid "Source code repository"
 msgstr "Stór cód foinse"
 
 #: weblate/templates/snippets/git-info.html:20
-#: weblate/trans/templatetags/translations.py:1124
+#: weblate/trans/templatetags/translations.py:1126
 #, python-format
 msgid "This component is linked to the %(target)s repository."
 msgstr "Tá an chomhpháirt seo nasctha le stór %(target)s."
@@ -10859,8 +11016,8 @@ msgstr "Tá an chomhpháirt seo nasctha le stór %(target)s."
 msgid "Repository URL copied to clipboard."
 msgstr "Cóipeáladh URL an taisc chuig an ngearrthaisce."
 
-#: weblate/templates/snippets/git-info.html:32 weblate/trans/forms.py:1751
-#: weblate/trans/models/component.py:429
+#: weblate/templates/snippets/git-info.html:32 weblate/trans/forms.py:1748
+#: weblate/trans/models/component.py:434
 msgid "Repository branch"
 msgstr "Brainse stór"
 
@@ -10884,7 +11041,7 @@ msgid "Weblate repository"
 msgstr "Stór Weblate"
 
 #: weblate/templates/snippets/glossary.html:7
-#: weblate/trans/templatetags/translations.py:930
+#: weblate/trans/templatetags/translations.py:932
 msgid "This translation is forbidden."
 msgstr "Tá cosc ar an aistriúchán seo."
 
@@ -10929,7 +11086,7 @@ msgid "Automatic component list assignment"
 msgstr "Tasc liosta comhpháirteanna uathoibríoch"
 
 #: weblate/templates/snippets/info.html:76
-#: weblate/trans/models/component.py:569
+#: weblate/trans/models/component.py:574
 msgid "Translation license"
 msgstr "Ceadúnas aistriúcháin"
 
@@ -11015,119 +11172,129 @@ msgstr "An t-athrú deiridh a rinne"
 msgid "Aliased language codes"
 msgstr "Cóid teanga ailiasaithe"
 
-#: weblate/templates/snippets/info.html:235
+#: weblate/templates/snippets/info.html:211
+#, fuzzy
+#| msgid "String target language"
+msgid "English name of the language"
+msgstr "Téadtheanga sprioctheanga"
+
+#: weblate/templates/snippets/info.html:221
+msgid "Case sensitivity"
+msgstr ""
+
+#: weblate/templates/snippets/info.html:245
 msgid "Most active translators"
 msgstr "Aistritheoirí is gníomhaí"
 
-#: weblate/templates/snippets/info.html:260
+#: weblate/templates/snippets/info.html:270
 msgid "Browse all users"
 msgstr "Brabhsáil gach úsáideoir"
 
-#: weblate/templates/snippets/info.html:268
+#: weblate/templates/snippets/info.html:278
 msgid "String statistics"
 msgstr "Staitisticí teaghrán"
 
-#: weblate/templates/snippets/info.html:274
+#: weblate/templates/snippets/info.html:284
 msgid "Strings percent"
 msgstr "Teaghráin faoin gcéad"
 
-#: weblate/templates/snippets/info.html:275
-#: weblate/templates/snippets/info.html:472
-#: weblate/templates/snippets/info.html:509
+#: weblate/templates/snippets/info.html:285
+#: weblate/templates/snippets/info.html:482
+#: weblate/templates/snippets/info.html:526
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
 msgstr "Teaghráin óstáilte"
 
-#: weblate/templates/snippets/info.html:276
+#: weblate/templates/snippets/info.html:286
 msgid "Words percent"
 msgstr "Focail faoin gcéad"
 
-#: weblate/templates/snippets/info.html:277
-#: weblate/templates/snippets/info.html:466
-#: weblate/templates/snippets/info.html:502
+#: weblate/templates/snippets/info.html:287
+#: weblate/templates/snippets/info.html:476
+#: weblate/templates/snippets/info.html:519
 msgctxt "Number of hosted words"
 msgid "Hosted words"
 msgstr "Focail óstáilte"
 
-#: weblate/templates/snippets/info.html:278
+#: weblate/templates/snippets/info.html:288
 msgid "Characters percent"
 msgstr "Carachtair faoin gcéad"
 
-#: weblate/templates/snippets/info.html:279
+#: weblate/templates/snippets/info.html:289
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
 msgstr "Carachtair óstáilte"
 
-#: weblate/templates/snippets/info.html:284
+#: weblate/templates/snippets/info.html:294
 msgctxt "Number of strings"
 msgid "Total"
 msgstr "Iomlán"
 
-#: weblate/templates/snippets/info.html:294
+#: weblate/templates/snippets/info.html:304
 msgctxt "Number of strings"
 msgid "Source"
 msgstr "Foinse"
 
-#: weblate/templates/snippets/info.html:305
+#: weblate/templates/snippets/info.html:315
 msgctxt "Number of strings"
 msgid "Approved"
 msgstr "Ceadaithe"
 
-#: weblate/templates/snippets/info.html:314
+#: weblate/templates/snippets/info.html:324
 msgctxt "Number of strings"
 msgid "Waiting for review"
 msgstr "Ag fanacht le léirmheas"
 
-#: weblate/templates/snippets/info.html:324
+#: weblate/templates/snippets/info.html:334
 msgctxt "Number of strings"
 msgid "Translated"
 msgstr "Aistrithe"
 
-#: weblate/templates/snippets/info.html:333
+#: weblate/templates/snippets/info.html:343
 msgctxt "Number of strings"
 msgid "Needs editing"
 msgstr "Tá eagarthóireacht de dhíth"
 
-#: weblate/templates/snippets/info.html:342
+#: weblate/templates/snippets/info.html:352
 msgctxt "Number of strings"
 msgid "Read-only"
 msgstr "Léamh-amháin"
 
-#: weblate/templates/snippets/info.html:351
+#: weblate/templates/snippets/info.html:361
 msgctxt "Number of strings"
 msgid "Failing checks"
 msgstr "Seiceálacha ag teip"
 
-#: weblate/templates/snippets/info.html:360
+#: weblate/templates/snippets/info.html:370
 msgctxt "Number of strings"
 msgid "Strings with suggestions"
 msgstr "Teaghráin le moltaí"
 
-#: weblate/templates/snippets/info.html:369
+#: weblate/templates/snippets/info.html:379
 msgctxt "Number of strings"
 msgid "Untranslated strings"
 msgstr "Teaghráin gan aistriú"
 
-#: weblate/templates/snippets/info.html:386
+#: weblate/templates/snippets/info.html:396
 msgid "Global numbers"
 msgstr "Uimhreacha domhanda"
 
-#: weblate/templates/snippets/info.html:419
-#: weblate/templates/snippets/info.html:494
+#: weblate/templates/snippets/info.html:429
+#: weblate/templates/snippets/info.html:511
 msgid "and previous 30 days"
 msgstr "agus 30 lá roimhe sin"
 
-#: weblate/templates/snippets/info.html:420
-#: weblate/templates/snippets/info.html:495
+#: weblate/templates/snippets/info.html:430
+#: weblate/templates/snippets/info.html:512
 msgid "Trends of last 30 days"
 msgstr "Treochtaí na 30 lá seo caite"
 
-#: weblate/templates/snippets/info.html:459
+#: weblate/templates/snippets/info.html:469
 msgid "Quick numbers"
 msgstr "Uimhreacha tapa"
 
-#: weblate/templates/snippets/info.html:485
-#: weblate/templates/snippets/info.html:523
+#: weblate/templates/snippets/info.html:502
+#: weblate/templates/snippets/info.html:540
 msgid "Contributors"
 msgstr "Rannpháirtithe"
 
@@ -11282,7 +11449,7 @@ msgstr "Neamhaistrithe"
 #: weblate/templates/snippets/list-objects.html:120
 #: weblate/templates/trans/suggestion_list.html:14
 #: weblate/templates/translate.html:298 weblate/templates/translate.html:577
-#: weblate/trans/forms.py:1563
+#: weblate/trans/forms.py:1560
 msgid "Suggestions"
 msgstr "Moltaí"
 
@@ -11296,27 +11463,27 @@ msgstr "Tuairimí"
 msgid "Create translation"
 msgstr "Cruthaigh aistriúchán"
 
-#: weblate/templates/snippets/list-objects.html:183
+#: weblate/templates/snippets/list-objects.html:184
 msgid "Cannot add translation right now"
 msgstr "Ní féidir an t-aistriúchán a chur leis faoi láthair"
 
-#: weblate/templates/snippets/list-objects.html:191
 #: weblate/templates/snippets/list-objects.html:192
+#: weblate/templates/snippets/list-objects.html:193
 #: weblate/templates/translate.html:28 weblate/templates/translation.html:169
 #: weblate/templates/translation.html:238
 msgid "Translate"
 msgstr "Aistrigh"
 
-#: weblate/templates/snippets/list-objects.html:254
+#: weblate/templates/snippets/list-objects.html:255
 #: weblate/templates/snippets/project-workflow-settings.html:12
 msgid "Customized workflow"
 msgstr "Sreabhadh oibre saincheaptha"
 
-#: weblate/templates/snippets/list-objects.html:288
+#: weblate/templates/snippets/list-objects.html:289
 msgid "Nothing to list here."
 msgstr "Ní dhéanfaidh aon ní le liostú anseo."
 
-#: weblate/templates/snippets/list-objects.html:304
+#: weblate/templates/snippets/list-objects.html:305
 msgid "Please sign in to start new translation"
 msgstr "Sínigh isteach chun aistriúchán nua a thosú"
 
@@ -11672,7 +11839,7 @@ msgstr "Cóipeáladh an seoladh IP chuig an ngearrthaisce."
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:11
-#: weblate/trans/models/change.py:443
+#: weblate/trans/models/change.py:458
 msgid "Suggestion added"
 msgstr "Moladh curtha leis"
 
@@ -11715,7 +11882,7 @@ msgid "Suggested change:"
 msgstr "Athrú molta:"
 
 #: weblate/templates/snippets/suggestions.html:96
-#: weblate/trans/templatetags/translations.py:913
+#: weblate/trans/templatetags/translations.py:915
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Seiceálacha ag teip:"
@@ -12050,7 +12217,7 @@ msgid "Following files are no longer present in the repository:"
 msgstr "Níl na comhaid seo a leanas i láthair sa stór a thuilleadh:"
 
 #: weblate/templates/trans/alert/inexistantfiles.html:16
-#: weblate/trans/models/component.py:496
+#: weblate/trans/models/component.py:501
 msgid "Template for new translations"
 msgstr "Teimpléad le haghaidh aistriúcháin nua"
 
@@ -12166,7 +12333,7 @@ msgstr ""
 "hathruithe de láimh nó socraigh crúcaí chun é seo a uathoibriú."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:10
-#: weblate/trans/models/component.py:367
+#: weblate/trans/models/component.py:372
 msgid "Version control system"
 msgstr "Córas rialaithe leagan"
 
@@ -12592,7 +12759,7 @@ msgid "Propagated"
 msgstr "Iomadaíodh"
 
 #: weblate/templates/trans/other-row.html:22
-#: weblate/trans/models/component.py:513
+#: weblate/trans/models/component.py:518
 msgid "Locked"
 msgstr "Faoi ghlas"
 
@@ -12768,7 +12935,7 @@ msgstr "Teanga idirmheánach"
 msgid "Explanation"
 msgstr "Míniú"
 
-#: weblate/templates/translate.html:175 weblate/trans/forms.py:1094
+#: weblate/templates/translate.html:175 weblate/trans/forms.py:1091
 msgid "Report issue with the source string"
 msgstr "Tuairiscigh saincheist leis an teaghrán foinse"
 
@@ -12923,7 +13090,7 @@ msgstr "Bunús"
 msgid "Similarity"
 msgstr "Cosúlacht"
 
-#: weblate/templates/translate.html:541 weblate/trans/forms.py:1110
+#: weblate/templates/translate.html:541 weblate/trans/forms.py:1107
 msgid "New comment"
 msgstr "Trácht nua"
 
@@ -12989,7 +13156,7 @@ msgid "Browse glossary %(name)s"
 msgstr "Brabhsáil gluais %(name)s"
 
 #: weblate/templates/translate.html:716 weblate/templates/translate.html:1017
-#: weblate/trans/models/component.py:3798
+#: weblate/trans/models/component.py:3824
 msgid "Add term to glossary"
 msgstr "Cuir téarma leis an ngluais"
 
@@ -13025,11 +13192,11 @@ msgstr "Bratacha"
 msgid "No flags currently set."
 msgstr "Níl bratacha socraithe faoi láthair."
 
-#: weblate/templates/translate.html:838 weblate/utils/views.py:183
+#: weblate/templates/translate.html:838 weblate/utils/views.py:206
 msgid "String age"
 msgstr "Aois teaghrán"
 
-#: weblate/templates/translate.html:842 weblate/utils/views.py:184
+#: weblate/templates/translate.html:842 weblate/utils/views.py:207
 msgid "Last updated"
 msgstr "Nuashonraithe is déanaí"
 
@@ -13276,7 +13443,7 @@ msgstr ""
 msgid "Color variants:"
 msgstr "Leaganacha datha:"
 
-#: weblate/templates/widgets.html:69 weblate/trans/forms.py:1319
+#: weblate/templates/widgets.html:69 weblate/trans/forms.py:1316
 msgid "HTML"
 msgstr "HTML"
 
@@ -13288,7 +13455,7 @@ msgstr "BBCóid"
 msgid "Markdown"
 msgstr "Marcáil síos"
 
-#: weblate/templates/widgets.html:72 weblate/trans/forms.py:1317
+#: weblate/templates/widgets.html:72 weblate/trans/forms.py:1314
 msgid "reStructuredText"
 msgstr "Téacs athstruchtúrtha"
 
@@ -13550,15 +13717,15 @@ msgstr "Téacs aistriúcháin rófhada!"
 msgid "File upload mode"
 msgstr "Modh uaslódáil comhad"
 
-#: weblate/trans/forms.py:662 weblate/trans/forms.py:1034
+#: weblate/trans/forms.py:662 weblate/trans/forms.py:1031
 msgid "Add as translation"
 msgstr "Cuir leis mar aistriúchán"
 
-#: weblate/trans/forms.py:663 weblate/trans/forms.py:1038
+#: weblate/trans/forms.py:663 weblate/trans/forms.py:1035
 msgid "Add as approved translation"
 msgstr "Cuir leis mar aistriúchán ceadaithe"
 
-#: weblate/trans/forms.py:664 weblate/trans/forms.py:1033
+#: weblate/trans/forms.py:664 weblate/trans/forms.py:1030
 msgid "Add as suggestion"
 msgstr "Cuir leis mar mholadh"
 
@@ -13626,23 +13793,23 @@ msgstr "Ainm an údair"
 msgid "Author e-mail"
 msgstr "R-phost an údair"
 
-#: weblate/trans/forms.py:880
+#: weblate/trans/forms.py:877
 msgid "Could not find the merged string."
 msgstr "Níorbh fhéidir an teaghrán cumaiscthe a aimsiú."
 
-#: weblate/trans/forms.py:885
+#: weblate/trans/forms.py:882
 msgid "Could not find merged string."
 msgstr "Níorbh fhéidir teaghrán cumaiscthe a aimsiú."
 
-#: weblate/trans/forms.py:904
+#: weblate/trans/forms.py:901
 msgid "Could not find the reverted change."
 msgstr "Níorbh fhéidir an t-athrú ar ais a aimsiú."
 
-#: weblate/trans/forms.py:913
+#: weblate/trans/forms.py:910
 msgid "Automatic translation mode"
 msgstr "Modh aistriúcháin uathoibríoch"
 
-#: weblate/trans/forms.py:920
+#: weblate/trans/forms.py:917
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
@@ -13650,19 +13817,19 @@ msgstr ""
 "Tabhair faoi deara le do thoil go gcaithfí na haistriúcháin go léir atá ann "
 "cheana féin agus tú ag aistriú gach teaghrán."
 
-#: weblate/trans/forms.py:925
+#: weblate/trans/forms.py:922
 msgid "Source of automated translations"
 msgstr "Foinse aistriúcháin uathoibrithe"
 
-#: weblate/trans/forms.py:927
+#: weblate/trans/forms.py:924
 msgid "Other translation components"
 msgstr "Comhpháirteanna aistriúcháin eile"
 
-#: weblate/trans/forms.py:928
+#: weblate/trans/forms.py:925
 msgid "Machine translation"
 msgstr "Aistriúchán meaisín"
 
-#: weblate/trans/forms.py:937
+#: weblate/trans/forms.py:934
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
@@ -13670,15 +13837,15 @@ msgstr ""
 "Cuir an ranníocaíocht chuig cuimhne aistriúcháin roinnte ar siúl don "
 "tionscadal chun rochtain a fháil ar chomhpháirteanna breise."
 
-#: weblate/trans/forms.py:943
+#: weblate/trans/forms.py:940
 msgid "Machine translation engines"
 msgstr "Innill aistriúcháin meaisín"
 
-#: weblate/trans/forms.py:946
+#: weblate/trans/forms.py:943
 msgid "Score threshold"
 msgstr "Tairseach scóir"
 
-#: weblate/trans/forms.py:989
+#: weblate/trans/forms.py:986
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
@@ -13686,168 +13853,168 @@ msgstr ""
 "Cuir isteach sluga comhpháirte le húsáid mar fhoinse, coinnigh bán chun gach "
 "comhpháirt sa tionscadal reatha a úsáid."
 
-#: weblate/trans/forms.py:1000
+#: weblate/trans/forms.py:997
 msgid "All components in current project"
 msgstr "Na comhpháirteanna uile sa tionscadal reatha"
 
-#: weblate/trans/forms.py:1035
+#: weblate/trans/forms.py:1032
 msgid "Add as \"Needing edit\""
 msgstr "Cuir leis mar \"Eagarthóireacht de dhíth\""
 
-#: weblate/trans/forms.py:1058 weblate/trans/forms.py:1061
-#: weblate/trans/forms.py:1065 weblate/trans/forms.py:1070
+#: weblate/trans/forms.py:1055 weblate/trans/forms.py:1058
+#: weblate/trans/forms.py:1062 weblate/trans/forms.py:1067
 msgid "Component not found!"
 msgstr "Comhpháirt gan aimsiú!"
 
-#: weblate/trans/forms.py:1077
+#: weblate/trans/forms.py:1074
 msgid "Source component needs to have same source language as target one."
 msgstr ""
 "Ní mór an teanga foinse chéanna a bheith ag comhpháirt foinse agus atá ag an "
 "spriocghrúpa."
 
-#: weblate/trans/forms.py:1089
+#: weblate/trans/forms.py:1086
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
 msgstr ""
 "An mbaineann do thuairim go sonrach leis an aistriúchán seo, nó an cineálach "
 "do gach ceann acu?"
 
-#: weblate/trans/forms.py:1099
+#: weblate/trans/forms.py:1096
 msgid "Source string comment, suggestions for changes to this string"
 msgstr ""
 "Nóta tráchta ar an teaghrán foinse, moltaí le haghaidh athruithe ar an "
 "teaghrán seo"
 
-#: weblate/trans/forms.py:1104
+#: weblate/trans/forms.py:1101
 msgid "Translation comment, discussions with other translators"
 msgstr "Trácht aistriúcháin, plé le haistritheoirí eile"
 
-#: weblate/trans/forms.py:1111 weblate/trans/models/announcement.py:72
+#: weblate/trans/forms.py:1108 weblate/trans/models/announcement.py:72
 #: weblate/trans/models/project.py:184
 msgid "You can use Markdown and mention users by @username."
 msgstr "Is féidir leat Markdown a úsáid agus úsáideoirí a lua le @username."
 
-#: weblate/trans/forms.py:1203
+#: weblate/trans/forms.py:1200
 msgid "Please choose"
 msgstr "Roghnaigh le do thoil"
 
-#: weblate/trans/forms.py:1284
+#: weblate/trans/forms.py:1281
 msgid "Allow user to add or remove users from a team."
 msgstr "Lig don úsáideoir úsáideoirí a chur leis nó a bhaint as foireann."
 
-#: weblate/trans/forms.py:1296
+#: weblate/trans/forms.py:1293
 msgid "Block duration"
 msgstr "Fad bloc"
 
-#: weblate/trans/forms.py:1298
+#: weblate/trans/forms.py:1295
 msgid "Block the user until I unblock"
 msgstr "Cuir bac ar an úsáideoir go dtí go ndíbhloicim"
 
-#: weblate/trans/forms.py:1299
+#: weblate/trans/forms.py:1296
 msgid "Block the user for one day"
 msgstr "Cuir bac ar an úsáideoir ar feadh lá amháin"
 
-#: weblate/trans/forms.py:1300
+#: weblate/trans/forms.py:1297
 msgid "Block the user for one week"
 msgstr "Cuir bac ar an úsáideoir ar feadh seachtaine"
 
-#: weblate/trans/forms.py:1301
+#: weblate/trans/forms.py:1298
 msgid "Block the user for one month"
 msgstr "Cuir bac ar an úsáideoir ar feadh míosa"
 
-#: weblate/trans/forms.py:1314
+#: weblate/trans/forms.py:1311
 msgid "Report format"
 msgstr "Formáid tuairisce"
 
-#: weblate/trans/forms.py:1315
+#: weblate/trans/forms.py:1312
 msgid "Choose a file format for the report"
 msgstr "Roghnaigh formáid comhaid don tuarascáil"
 
-#: weblate/trans/forms.py:1323
+#: weblate/trans/forms.py:1320
 msgid "Report period"
 msgstr "Tréimhse tuairisce"
 
-#: weblate/trans/forms.py:1378
+#: weblate/trans/forms.py:1375
 msgid "You do not have permission to access this component."
 msgstr "Níl cead agat an chomhpháirt seo a rochtain."
 
-#: weblate/trans/forms.py:1449
+#: weblate/trans/forms.py:1446
 msgid "This submission has been identified as spam!"
 msgstr "Aithníodh an aighneacht seo mar thurscar!"
 
-#: weblate/trans/forms.py:1533 weblate/trans/forms.py:2161
+#: weblate/trans/forms.py:1530 weblate/trans/forms.py:2158
 msgid "Basic"
 msgstr "Bunúsach"
 
-#: weblate/trans/forms.py:1545
+#: weblate/trans/forms.py:1542
 msgid "License"
 msgstr "Ceadúnas"
 
-#: weblate/trans/forms.py:1546
+#: weblate/trans/forms.py:1543
 msgid "Upstream links"
 msgstr "Naisc in aghaidh srutha"
 
-#: weblate/trans/forms.py:1548
+#: weblate/trans/forms.py:1545
 msgid "Listing and access"
 msgstr "Liostú agus rochtain"
 
-#: weblate/trans/forms.py:1569
+#: weblate/trans/forms.py:1566
 msgid "Translation settings"
 msgstr "Socruithe aistriúcháin"
 
-#: weblate/trans/forms.py:1579
+#: weblate/trans/forms.py:1576
 msgid "Version control"
 msgstr "Rialú leagan"
 
-#: weblate/trans/forms.py:1581
+#: weblate/trans/forms.py:1578
 msgid "Locations"
 msgstr "Suímh"
 
-#: weblate/trans/forms.py:1591
+#: weblate/trans/forms.py:1588
 msgid "Version control settings"
 msgstr "Socruithe rialaithe leagan"
 
-#: weblate/trans/forms.py:1600
+#: weblate/trans/forms.py:1597
 msgid "Commit messages"
 msgstr "Tiomantas teachtaireachtaí"
 
-#: weblate/trans/forms.py:1616
+#: weblate/trans/forms.py:1613
 msgid "Translation files"
 msgstr "Comhaid aistriúcháin"
 
-#: weblate/trans/forms.py:1624
+#: weblate/trans/forms.py:1621
 msgid "Monolingual translations"
 msgstr "Aistriúcháin aonteangacha"
 
-#: weblate/trans/forms.py:1630
+#: weblate/trans/forms.py:1627
 msgid "Adding new languages"
 msgstr "Teangacha nua á gcur leis"
 
-#: weblate/trans/forms.py:1739
+#: weblate/trans/forms.py:1736
 msgid "Select an existing component configuration to copy."
 msgstr "Roghnaigh cumraíocht chomhpháirt atá ann cheana lena chóipeáil."
 
-#: weblate/trans/forms.py:1853
+#: weblate/trans/forms.py:1850
 msgid "ZIP file containing translations"
 msgstr "Comhad ZIP ina bhfuil aistriúcháin"
 
-#: weblate/trans/forms.py:1867
+#: weblate/trans/forms.py:1864
 msgid "Document to translate"
 msgstr "Doiciméad le haistriú"
 
-#: weblate/trans/forms.py:1874
+#: weblate/trans/forms.py:1871
 msgid "Target language of the document for bilingual files"
 msgstr "Sprioctheanga an doiciméid do chomhaid dhátheangacha"
 
-#: weblate/trans/forms.py:1941
+#: weblate/trans/forms.py:1938
 msgid "Choose translation files to import"
 msgstr "Roghnaigh comhaid aistriúcháin le hiompórtáil"
 
-#: weblate/trans/forms.py:1942
+#: weblate/trans/forms.py:1939
 msgid "Specify configuration manually"
 msgstr "Sonraigh cumraíocht de láimh"
 
-#: weblate/trans/forms.py:2126
+#: weblate/trans/forms.py:2123
 #, python-format
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -13856,46 +14023,46 @@ msgstr ""
 "Ní mór duit ceadúnas a shonrú do na comhpháirteanna seo chun iad a chur ar "
 "fáil don phobal: %s"
 
-#: weblate/trans/forms.py:2175
+#: weblate/trans/forms.py:2172
 msgid "Access"
 msgstr "Rochtain"
 
-#: weblate/trans/forms.py:2222
+#: weblate/trans/forms.py:2219
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
 msgstr ""
 "Úsáideann sé agus cuireann sé leis an linn comhaistriúcháin idir tionscadail."
 
-#: weblate/trans/forms.py:2290
+#: weblate/trans/forms.py:2287
 msgid "ZIP file containing project backup"
 msgstr "Comhad ZIP ina bhfuil cúltaca tionscadail"
 
-#: weblate/trans/forms.py:2315
+#: weblate/trans/forms.py:2312
 #, python-format
 msgid "Could not load project backup: %s"
 msgstr "Níorbh fhéidir cúltaca an tionscadail a luchtú: %s"
 
-#: weblate/trans/forms.py:2324
+#: weblate/trans/forms.py:2321
 msgid "Optional additional filter applied to the strings"
 msgstr "Scagaire breise roghnach i bhfeidhm ar na teaghráin"
 
-#: weblate/trans/forms.py:2328
+#: weblate/trans/forms.py:2325
 msgid "Search string"
 msgstr "Teaghrán cuardaigh"
 
-#: weblate/trans/forms.py:2332
+#: weblate/trans/forms.py:2329
 msgid "Case-sensitive string to search for and replace."
 msgstr "Teaghrán cás-íogair le cuardach agus le hathsholáthar."
 
-#: weblate/trans/forms.py:2335
+#: weblate/trans/forms.py:2332
 msgid "Replacement string"
 msgstr "Teaghrán athsholáthair"
 
-#: weblate/trans/forms.py:2434
+#: weblate/trans/forms.py:2431
 msgid "Translation key"
 msgstr "Eochair aistriúcháin"
 
-#: weblate/trans/forms.py:2436
+#: weblate/trans/forms.py:2433
 msgid ""
 "Key used to identify the string in the translation file. File-format "
 "specific rules might apply."
@@ -13903,11 +14070,11 @@ msgstr ""
 "Úsáidtear eochair chun an teaghrán sa chomhad aistriúcháin a aithint. "
 "D’fhéadfadh go mbeadh feidhm ag rialacha sonracha formáid comhaid."
 
-#: weblate/trans/forms.py:2442
+#: weblate/trans/forms.py:2439
 msgid "Source language text"
 msgstr "Téacs teanga foinse"
 
-#: weblate/trans/forms.py:2444
+#: weblate/trans/forms.py:2441
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
@@ -13915,125 +14082,127 @@ msgstr ""
 "eile sa teanga foinse."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/forms.py:2458 weblate/trans/models/component.py:3712
+#: weblate/trans/forms.py:2455 weblate/trans/models/component.py:3738
 msgid "Context"
 msgstr "Comhthéacs"
 
-#: weblate/trans/forms.py:2459
+#: weblate/trans/forms.py:2456
 msgid "Optional context to clarify the source strings."
 msgstr "Comhthéacs roghnach chun na teaghráin foinse a shoiléiriú."
 
-#: weblate/trans/forms.py:2466
+#: weblate/trans/forms.py:2463
 msgid "Auto-adjust context when an identical string already exists."
 msgstr ""
 "Comhthéacs a choigeartú go huathoibríoch nuair atá teaghrán comhionann ann "
 "cheana féin."
 
-#: weblate/trans/forms.py:2486
+#: weblate/trans/forms.py:2483
 msgid "Translated string"
 msgstr "Teaghrán aistrithe"
 
-#: weblate/trans/forms.py:2488
+#: weblate/trans/forms.py:2485
 msgid "You can edit this later, as with any other string in the translation."
 msgstr ""
 "Is féidir leat é seo a chur in eagar ar ball, mar aon le haon teaghrán eile "
 "san aistriúchán."
 
-#: weblate/trans/forms.py:2503
+#: weblate/trans/forms.py:2500
 msgid "String will be part of the glossary in all languages"
 msgstr "Beidh teaghrán mar chuid den ghluais i ngach teanga"
 
-#: weblate/trans/forms.py:2511
+#: weblate/trans/forms.py:2508
 msgid "Untranslatable term"
 msgstr "Téarma do-aistrithe"
 
-#: weblate/trans/forms.py:2539
+#: weblate/trans/forms.py:2536
 msgid "You do not have permission to create terminology."
 msgstr "Níl cead agat téarmaíocht a chruthú."
 
-#: weblate/trans/forms.py:2605
+#: weblate/trans/forms.py:2602
 msgid "State to set"
 msgstr "Luaigh a shocrú"
 
-#: weblate/trans/forms.py:2606
+#: weblate/trans/forms.py:2603
 msgid "Do not change"
 msgstr "Ná athraigh"
 
-#: weblate/trans/forms.py:2610
+#: weblate/trans/forms.py:2607
 msgid "Translation flags to add"
 msgstr "Bratacha aistriúcháin le cur leis"
 
-#: weblate/trans/forms.py:2613
+#: weblate/trans/forms.py:2610
 msgid "Translation flags to remove"
 msgstr "Bratacha aistriúcháin le baint"
 
-#: weblate/trans/forms.py:2617
+#: weblate/trans/forms.py:2614
 msgid "Labels to add"
 msgstr "Lipéid le cur leis"
 
-#: weblate/trans/forms.py:2623
+#: weblate/trans/forms.py:2620
 msgid "Labels to remove"
 msgstr "Lipéid le baint"
 
-#: weblate/trans/forms.py:2677
-msgid "I accept the contributor agreement"
+#: weblate/trans/forms.py:2674
+#, fuzzy
+#| msgid "I accept the contributor agreement"
+msgid "I accept the contributor license agreement"
 msgstr "Glacaim leis an gcomhaontú ranníocóra"
 
-#: weblate/trans/forms.py:2706
+#: weblate/trans/forms.py:2703
 msgid "The slug does not match the one marked for deletion!"
 msgstr "Ní mheaitseálann an seilide leis an gceann atá marcáilte le scriosadh!"
 
-#: weblate/trans/forms.py:2712 weblate/trans/forms.py:2731
-#: weblate/trans/forms.py:2742 weblate/trans/forms.py:2758
-#: weblate/trans/forms.py:2767 weblate/trans/forms.py:2778
+#: weblate/trans/forms.py:2709 weblate/trans/forms.py:2728
+#: weblate/trans/forms.py:2739 weblate/trans/forms.py:2755
+#: weblate/trans/forms.py:2764 weblate/trans/forms.py:2775
 msgid "Removal confirmation"
 msgstr "Deimhniú a bhaint"
 
-#: weblate/trans/forms.py:2714
+#: weblate/trans/forms.py:2711
 msgid "Please type in the full slug of the translation to confirm."
 msgstr "Clóscríobh seilide iomlán an aistriúcháin le deimhniú."
 
-#: weblate/trans/forms.py:2733
+#: weblate/trans/forms.py:2730
 msgid "Please type in the full slug of the component to confirm."
 msgstr "Clóscríobh isteach seilide iomlán an chomhpháirt le deimhniú."
 
-#: weblate/trans/forms.py:2743
+#: weblate/trans/forms.py:2740
 msgid "Please type in the slug of the project to confirm."
 msgstr "Clóscríobh seilide an tionscadail le do thoil le deimhniú."
 
-#: weblate/trans/forms.py:2759
+#: weblate/trans/forms.py:2756
 msgid "Please type in the slug of the category to confirm."
 msgstr "Clóscríobh isteach seilide an chatagóir le deimhniú."
 
-#: weblate/trans/forms.py:2769
+#: weblate/trans/forms.py:2766
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "Clóscríobh seilide an tionscadail agus an teanga le deimhniú."
 
-#: weblate/trans/forms.py:2780
+#: weblate/trans/forms.py:2777
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Clóscríobh seilide na catagóire agus na teanga le deimhniú."
 
-#: weblate/trans/forms.py:2807
+#: weblate/trans/forms.py:2804
 msgid "Author username"
 msgstr "Ainm úsáideora an údair"
 
-#: weblate/trans/forms.py:2810
+#: weblate/trans/forms.py:2807
 msgid "Change period"
 msgstr "Athrú tréimhse"
 
-#: weblate/trans/forms.py:2822
+#: weblate/trans/forms.py:2819
 msgid "Could not find matching user!"
 msgstr "Níorbh fhéidir an t-úsáideoir comhoiriúnach a aimsiú!"
 
-#: weblate/trans/forms.py:2895
+#: weblate/trans/forms.py:2901
 msgid "Expiry cannot be in the past."
 msgstr "Ní féidir dul in éag san am atá caite."
 
-#: weblate/trans/forms.py:2934
+#: weblate/trans/forms.py:2940
 msgid "Customize translation workflow for this language"
 msgstr "Saincheap sreabhadh oibre aistriúcháin don teanga seo"
 
-#: weblate/trans/forms.py:2936
+#: weblate/trans/forms.py:2942
 msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
@@ -14042,12 +14211,12 @@ msgstr ""
 "Trí shaincheapadh a chumasú anseo, sáraíonn tú na socruithe seo don teanga "
 "seo."
 
-#: weblate/trans/forms.py:2979
+#: weblate/trans/forms.py:2985
 msgid "Customize translation workflow for this language in this project"
 msgstr ""
 "Saincheap sreabhadh oibre aistriúcháin don teanga seo sa tionscadal seo"
 
-#: weblate/trans/forms.py:2982
+#: weblate/trans/forms.py:2988
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
@@ -14087,7 +14256,7 @@ msgstr ""
 msgid "Make your translations available under a libre license."
 msgstr "Cuir do chuid aistriúcháin ar fáil faoi cheadúnas libre."
 
-#: weblate/trans/guide.py:160 weblate/trans/templatetags/translations.py:1132
+#: weblate/trans/guide.py:160 weblate/trans/templatetags/translations.py:1134
 msgid "Fix this component to clear its alerts."
 msgstr "Deisigh an chomhpháirt seo chun a foláirimh a ghlanadh."
 
@@ -14297,17 +14466,17 @@ msgstr "Ná sonraigh comhpháirt agus tionscadal araon!"
 msgid "Category name"
 msgstr "Ainm na catagóire"
 
-#: weblate/trans/models/category.py:50 weblate/trans/models/component.py:345
+#: weblate/trans/models/category.py:50 weblate/trans/models/component.py:350
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:165
 msgid "Display name"
 msgstr "Ainm taispeána"
 
-#: weblate/trans/models/category.py:53 weblate/trans/models/component.py:348
+#: weblate/trans/models/category.py:53 weblate/trans/models/component.py:353
 #: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:169
 msgid "URL slug"
 msgstr "seilide URL"
 
-#: weblate/trans/models/category.py:55 weblate/trans/models/component.py:350
+#: weblate/trans/models/category.py:55 weblate/trans/models/component.py:355
 #: weblate/trans/models/componentlist.py:36 weblate/trans/models/project.py:172
 msgid "Name used in URLs and filenames."
 msgstr "Ainm a úsáidtear i URLanna agus i gcomhainmneacha."
@@ -14325,390 +14494,405 @@ msgid "Parent category has to be different!"
 msgstr "Caithfidh catagóir na dtuismitheoirí a bheith difriúil!"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:433
+#: weblate/trans/models/change.py:448
 msgid "Resource updated"
 msgstr "Acmhainn nuashonraithe"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:435
+#: weblate/trans/models/change.py:450
 msgid "Translation completed"
 msgstr "Aistriúchán críochnaithe"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:437
+#: weblate/trans/models/change.py:452
 msgid "Translation changed"
 msgstr "Athraíodh an t-aistriúchán"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:439
+#: weblate/trans/models/change.py:454
 msgid "Translation added"
 msgstr "Aistriúchán curtha leis"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:441
+#: weblate/trans/models/change.py:456
 msgid "Comment added"
 msgstr "Trácht curtha leis"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:445 weblate/trans/models/project.py:701
+#: weblate/trans/models/change.py:460 weblate/trans/models/project.py:701
 msgid "Automatically translated"
 msgstr "Aistrithe go huathoibríoch"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:447
+#: weblate/trans/models/change.py:462
 msgid "Suggestion accepted"
 msgstr "Glacadh le moladh"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:449
+#: weblate/trans/models/change.py:464
 msgid "Translation reverted"
 msgstr "Aistriúchán ar ais"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:451
+#: weblate/trans/models/change.py:466
 msgid "Translation uploaded"
 msgstr "Aistriúchán uaslódáilte"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:453
+#: weblate/trans/models/change.py:468
 msgid "Source string added"
 msgstr "Cuireadh teaghrán foinse leis"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:455
+#: weblate/trans/models/change.py:470
 msgid "Component locked"
 msgstr "Comhpháirt faoi ghlas"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:457
+#: weblate/trans/models/change.py:472
 msgid "Component unlocked"
 msgstr "Comhpháirt díghlasáilte"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:459
+#: weblate/trans/models/change.py:474
 msgid "Changes committed"
 msgstr "Athruithe geallta"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:461
+#: weblate/trans/models/change.py:476
 msgid "Changes pushed"
 msgstr "Athruithe bhrú"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:463
+#: weblate/trans/models/change.py:478
 msgid "Repository reset"
 msgstr "Athshocrú stór"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:465
+#: weblate/trans/models/change.py:480
 msgid "Repository merged"
 msgstr "Cumasc an stór"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:467
+#: weblate/trans/models/change.py:482
 msgid "Repository rebased"
 msgstr "Stór athbhunaithe"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:469
+#: weblate/trans/models/change.py:484
 msgid "Repository merge failed"
 msgstr "Theip ar chumasc stórtha"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:471
+#: weblate/trans/models/change.py:486
 msgid "Repository rebase failed"
 msgstr "Theip ar athbhunú an taisc"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:473
+#: weblate/trans/models/change.py:488
 msgid "Repository push failed"
 msgstr "Theip ar bhrú stórtha"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:475
+#: weblate/trans/models/change.py:490
 msgid "Parsing failed"
 msgstr "Theip ar pharsáil"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:477
+#: weblate/trans/models/change.py:492
 msgid "Translation removed"
 msgstr "Baineadh an t-aistriúchán"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:479
+#: weblate/trans/models/change.py:494
 msgid "Suggestion removed"
 msgstr "Baineadh an moladh"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:481
+#: weblate/trans/models/change.py:496
 msgid "Translation replaced"
 msgstr "Aistriúchán ionad"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:483
+#: weblate/trans/models/change.py:498
 msgid "Suggestion removed during cleanup"
 msgstr "Baineadh an moladh le linn glantacháin"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:485
+#: weblate/trans/models/change.py:500
 msgid "Source string changed"
 msgstr "Athraíodh teaghrán foinse"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:487
+#: weblate/trans/models/change.py:502
 msgid "String added"
 msgstr "Teaghrán curtha leis"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:489
+#: weblate/trans/models/change.py:504
 msgid "Bulk status changed"
 msgstr "Athraíodh an stádas mórchóir"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:491
+#: weblate/trans/models/change.py:506
 msgid "Visibility changed"
 msgstr "Infheictheacht athraithe"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:493
+#: weblate/trans/models/change.py:508
 msgid "User added"
 msgstr "Úsáideoir curtha leis"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:495
+#: weblate/trans/models/change.py:510
 msgid "User removed"
 msgstr "Baineadh an t-úsáideoir"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:497
+#: weblate/trans/models/change.py:512
 msgid "Translation approved"
 msgstr "Aistriúchán ceadaithe"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:499
+#: weblate/trans/models/change.py:514
 msgid "Marked for edit"
 msgstr "Marcáilte le haghaidh eagarthóireacht"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:501
+#: weblate/trans/models/change.py:516
 msgid "Component removed"
 msgstr "Baineadh an chomhpháirt"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:503
+#: weblate/trans/models/change.py:518
 msgid "Project removed"
 msgstr "Baineadh an tionscadal"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:505
+#: weblate/trans/models/change.py:520
 msgid "Project renamed"
 msgstr "Athainmníodh an tionscadal"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:507
+#: weblate/trans/models/change.py:522
 msgid "Component renamed"
 msgstr "Comhpháirt athainmnithe"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:509
+#: weblate/trans/models/change.py:524
 msgid "Moved component"
 msgstr "Comhpháirt bhog"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:511
+#: weblate/trans/models/change.py:526
 msgid "Contributor joined"
 msgstr "Chuaigh an ranníocóir isteach"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:513
+#: weblate/trans/models/change.py:528
 msgid "Announcement posted"
 msgstr "Fógraí curtha suas"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:515
+#: weblate/trans/models/change.py:530
 msgid "Alert triggered"
 msgstr "Spreagadh foláireamh"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:517
+#: weblate/trans/models/change.py:532
 msgid "Language added"
 msgstr "Cuireadh teanga leis"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:519
+#: weblate/trans/models/change.py:534
 msgid "Language requested"
 msgstr "Teanga iarrtha"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:521
+#: weblate/trans/models/change.py:536
 msgid "Project created"
 msgstr "Tionscadal cruthaithe"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:523
+#: weblate/trans/models/change.py:538
 msgid "Component created"
 msgstr "Comhpháirt cruthaithe"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:525
+#: weblate/trans/models/change.py:540
 msgid "User invited"
 msgstr "Tugadh cuireadh don úsáideoir"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:527
+#: weblate/trans/models/change.py:542
 msgid "Repository notification received"
 msgstr "Fuarthas fógra stórtha"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:529
+#: weblate/trans/models/change.py:544
 msgid "Translation replaced file by upload"
 msgstr "Uaslódáil in ionad an aistriúcháin"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:531
+#: weblate/trans/models/change.py:546
 msgid "License changed"
 msgstr "Athraíodh an ceadúnas"
 
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:533
-msgid "Contributor agreement changed"
+#: weblate/trans/models/change.py:550
+#, fuzzy
+#| msgid "Contributor agreement changed"
+msgid "Contributor license agreement changed"
 msgstr "Athraíodh comhaontú ranníocóra"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:535
+#: weblate/trans/models/change.py:553
 msgid "Screenshot added"
 msgstr "Cuireadh gabháil scáileáin leis"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:537
+#: weblate/trans/models/change.py:555
 msgid "Screenshot uploaded"
 msgstr "Uaslódáladh gabháil scáileáin"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:539
+#: weblate/trans/models/change.py:557
 msgid "String updated in the repository"
 msgstr "Teaghrán nuashonraithe sa stór"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:541
+#: weblate/trans/models/change.py:559
 msgid "Add-on installed"
 msgstr "Breiseán suiteáilte"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:543
+#: weblate/trans/models/change.py:561
 msgid "Add-on configuration changed"
 msgstr "Athraíodh cumraíocht an bhreiseáin"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:545
+#: weblate/trans/models/change.py:563
 msgid "Add-on uninstalled"
 msgstr "Breiseán díshuiteáilte"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:547
+#: weblate/trans/models/change.py:565
 msgid "String removed"
 msgstr "Teaghrán bainte"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:549
+#: weblate/trans/models/change.py:567
 msgid "Comment removed"
 msgstr "Baineadh an nóta tráchta"
 
-#: weblate/trans/models/change.py:553
+#: weblate/trans/models/change.py:571
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
 msgstr "Trácht réitithe"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:556
+#: weblate/trans/models/change.py:574
 msgid "Explanation updated"
 msgstr "Míniú nuashonraithe"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:558
+#: weblate/trans/models/change.py:576
 msgid "Category removed"
 msgstr "Baineadh an chatagóir"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:560
+#: weblate/trans/models/change.py:578
 msgid "Category renamed"
 msgstr "Athainmníodh an chatagóir"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:562
+#: weblate/trans/models/change.py:580
 msgid "Category moved"
 msgstr "Bogadh an chatagóir"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:564
+#: weblate/trans/models/change.py:582
 msgid "Saving string failed"
 msgstr "Theip ar shábháil teaghrán"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:566
+#: weblate/trans/models/change.py:584
 msgid "String added in the repository"
 msgstr "Teaghrán curtha leis sa stór"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:568
+#: weblate/trans/models/change.py:586
 msgid "String updated in the upload"
 msgstr "Nuashonraíodh an teaghrán sa uaslódáil"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:570
+#: weblate/trans/models/change.py:588
 msgid "String added in the upload"
 msgstr "Teaghrán curtha leis san uaslódáil"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:572
+#: weblate/trans/models/change.py:590
 msgid "Translation updated by source upload"
 msgstr "Aistriúchán nuashonraithe ag foinse uaslódáil"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:574
+#: weblate/trans/models/change.py:592
 msgid "Component translation completed"
 msgstr "Aistriú comhpháirte críochnaithe"
 
-#: weblate/trans/models/change.py:658
+#. Translators: Name of event in the history
+#: weblate/trans/models/change.py:594
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Applied enforced check"
+msgstr "Seiceálacha forfheidhmithe nár úsáideadh."
+
+#. Translators: Name of event in the history
+#: weblate/trans/models/change.py:596
+#, fuzzy
+#| msgid "Propagated"
+msgid "Propagated change"
+msgstr "Iomadaíodh"
+
+#: weblate/trans/models/change.py:683
 msgid "The component was automatically locked because of an alert."
 msgstr ""
 "Cuireadh an chomhpháirt faoi ghlas go huathoibríoch mar gheall ar foláireamh."
 
-#: weblate/trans/models/change.py:662
+#: weblate/trans/models/change.py:687
 msgid "Fixing an alert automatically unlocked the component."
 msgstr ""
 "Trí foláireamh a shocrú, díghlasáiltear an chomhpháirt go huathoibríoch."
 
 #. Translators: condensed rendering of a change action in history
-#: weblate/trans/models/change.py:740
+#: weblate/trans/models/change.py:765
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s ag %(time)s ar %(translation)s le %(user)s"
 
 #. Translators: condensed rendering of a change action in history
-#: weblate/trans/models/change.py:747
+#: weblate/trans/models/change.py:772
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s ag %(time)s ar %(translation)s"
 
-#: weblate/trans/models/change.py:924
+#: weblate/trans/models/change.py:949
 msgid "The “{}” file was changed."
 msgstr "Athraíodh an comhad “{}”."
 
-#: weblate/trans/models/change.py:926
+#: weblate/trans/models/change.py:951
 msgid "Parsing of the “{}” file was enforced."
 msgstr "Cuireadh parsáil an chomhaid “{}” i bhfeidhm."
 
-#: weblate/trans/models/change.py:928
+#: weblate/trans/models/change.py:953
 msgid "File “{}” was added."
 msgstr "Cuireadh comhad “{}” leis."
 
-#: weblate/trans/models/change.py:935
+#: weblate/trans/models/change.py:960
 msgctxt "License information not available"
 msgid "N/A"
 msgstr "N/B"
 
-#: weblate/trans/models/change.py:937
+#: weblate/trans/models/change.py:962
 #, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
@@ -14716,56 +14900,56 @@ msgid ""
 msgstr ""
 "Athraíodh ceadúnas na comhpháirte \"%(component)s\" ó %(old)s go %(target)s."
 
-#: weblate/trans/models/change.py:990
+#: weblate/trans/models/change.py:1015
 msgid "Original revision: {}"
 msgstr "Bunathbhreithniú: {}"
 
-#: weblate/trans/models/change.py:994
+#: weblate/trans/models/change.py:1019
 msgid "New revision: {}"
 msgstr "Leasú nua: {}"
 
 #. Translators: Action when adding new translation
-#: weblate/trans/models/component.py:119
+#: weblate/trans/models/component.py:124
 msgid "Contact maintainers"
 msgstr "Déan teagmháil le cothaitheoirí"
 
 #. Translators: Action when adding new translation
-#: weblate/trans/models/component.py:121
+#: weblate/trans/models/component.py:126
 msgid "Point to translation instructions URL"
 msgstr "Pointe ar threoracha aistriúcháin URL"
 
 #. Translators: Action when adding new translation
-#: weblate/trans/models/component.py:123
+#: weblate/trans/models/component.py:128
 msgid "Create new language file"
 msgstr "Cruthaigh comhad teanga nua"
 
 #. Translators: Action when adding new translation
-#: weblate/trans/models/component.py:125
+#: weblate/trans/models/component.py:130
 msgid "Disable adding new translations"
 msgstr "Díchumasaigh aistriúcháin nua a chur leis"
 
-#: weblate/trans/models/component.py:128
+#: weblate/trans/models/component.py:133
 msgid "Default based on the file format"
 msgstr "Réamhshocrú bunaithe ar an bhformáid comhaid"
 
-#: weblate/trans/models/component.py:129
+#: weblate/trans/models/component.py:134
 msgid "POSIX style using underscore as a separator"
 msgstr "Stíl POSIX ag baint úsáide as béim mar dheighilteoir"
 
-#: weblate/trans/models/component.py:132
+#: weblate/trans/models/component.py:137
 msgid "POSIX style using underscore as a separator, lower cased"
 msgstr "Stíl POSIX ag baint úsáide as béim mar dheighilteoir, cás íochtair"
 
-#: weblate/trans/models/component.py:134
+#: weblate/trans/models/component.py:139
 msgid "BCP style using hyphen as a separator"
 msgstr "Stíl BCP ag baint úsáide as fleiscín mar dheighilteoir"
 
-#: weblate/trans/models/component.py:138
+#: weblate/trans/models/component.py:143
 msgid "POSIX style using underscore as a separator, including country code"
 msgstr ""
 "Stíl POSIX ag baint úsáide as béim mar dheighilteoir, cód tíre san áireamh"
 
-#: weblate/trans/models/component.py:144
+#: weblate/trans/models/component.py:149
 msgid ""
 "POSIX style using underscore as a separator, including country code, lower "
 "cased"
@@ -14773,54 +14957,54 @@ msgstr ""
 "Stíl POSIX ag baint úsáide as béim mar dheighilteoir, cód tíre san áireamh, "
 "cás íochtair"
 
-#: weblate/trans/models/component.py:149
+#: weblate/trans/models/component.py:154
 msgid "BCP style using hyphen as a separator, including country code"
 msgstr ""
 "Stíl BCP ag baint úsáide as fleiscín mar dheighilteoir, cód tíre san áireamh"
 
-#: weblate/trans/models/component.py:153
+#: weblate/trans/models/component.py:158
 msgid "BCP style using hyphen as a separator, legacy language codes"
 msgstr ""
 "Stíl BCP ag baint úsáide as fleiscín mar dheighilteoir, cóid teanga "
 "oidhreachta"
 
-#: weblate/trans/models/component.py:155
+#: weblate/trans/models/component.py:160
 msgid "BCP style using hyphen as a separator, lower cased"
 msgstr "Stíl BCP ag baint úsáide as fleiscín mar dheighilteoir, cás íochtair"
 
-#: weblate/trans/models/component.py:156
+#: weblate/trans/models/component.py:161
 msgid "Android style"
 msgstr "Stíl Android"
 
-#: weblate/trans/models/component.py:157
+#: weblate/trans/models/component.py:162
 msgid "Apple App Store metadata style"
 msgstr "Stíl meiteashonraí Apple App Store"
 
-#: weblate/trans/models/component.py:158
+#: weblate/trans/models/component.py:163
 msgid "Google Play metadata style"
 msgstr "Stíl meiteashonraí Google Play"
 
-#: weblate/trans/models/component.py:159
+#: weblate/trans/models/component.py:164
 msgid "Linux style"
 msgstr "Stíl Linux"
 
-#: weblate/trans/models/component.py:160
+#: weblate/trans/models/component.py:165
 msgid "Linux style, lower cased"
 msgstr "Stíl Linux, cás íochtair"
 
-#: weblate/trans/models/component.py:164
+#: weblate/trans/models/component.py:169
 msgid "Merge"
 msgstr "Cumaisc"
 
-#: weblate/trans/models/component.py:165
+#: weblate/trans/models/component.py:170
 msgid "Rebase"
 msgstr "sionnach"
 
-#: weblate/trans/models/component.py:166
+#: weblate/trans/models/component.py:171
 msgid "Merge without fast-forward"
 msgstr "Cumaisc gan tapa-ar aghaidh"
 
-#: weblate/trans/models/component.py:370
+#: weblate/trans/models/component.py:375
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
@@ -14830,7 +15014,7 @@ msgstr ""
 "aistriúcháin. Is féidir leat comhtháthú breise a roghnú le soláthraithe tríú "
 "páirtí freisin chun iarratais chumaisc a chur isteach."
 
-#: weblate/trans/models/component.py:382
+#: weblate/trans/models/component.py:387
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -14838,19 +15022,19 @@ msgstr ""
 "URL stórais, úsáid weblate://project/component chun é a roinnt le comhpháirt "
 "eile."
 
-#: weblate/trans/models/component.py:394
+#: weblate/trans/models/component.py:399
 msgid "Repository push URL"
 msgstr "URL bhrú stórais"
 
-#: weblate/trans/models/component.py:397
+#: weblate/trans/models/component.py:402
 msgid "URL of a push repository, pushing is turned off if empty."
 msgstr "URL stórtha bhrú, múchtar an bhrú má tá sé folamh."
 
-#: weblate/trans/models/component.py:402
+#: weblate/trans/models/component.py:407
 msgid "Repository browser"
 msgstr "Brabhsálaí stórtha"
 
-#: weblate/trans/models/component.py:405
+#: weblate/trans/models/component.py:410
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
@@ -14861,20 +15045,20 @@ msgstr ""
 "líne. Seans gur mhaith leat an t-eolaire tosaigh a bhaint de trí úsáid a "
 "bhaint as {{filename|parentdir}}."
 
-#: weblate/trans/models/component.py:413
+#: weblate/trans/models/component.py:418
 msgid "Exported repository URL"
 msgstr "URL stórtha easpórtáilte"
 
-#: weblate/trans/models/component.py:416
+#: weblate/trans/models/component.py:421
 msgid "URL of repository where users can fetch changes from Weblate"
 msgstr ""
 "URL an taisclann inar féidir le húsáideoirí athruithe a fháil ó Weblate"
 
-#: weblate/trans/models/component.py:421
+#: weblate/trans/models/component.py:426
 msgid "Source string bug reporting address"
 msgstr "Seoladh tuairiscithe fabht teaghrán foinse"
 
-#: weblate/trans/models/component.py:423
+#: weblate/trans/models/component.py:428
 msgid ""
 "E-mail address for reports on errors in source strings. Leave empty for no e-"
 "mails."
@@ -14882,20 +15066,20 @@ msgstr ""
 "Seoladh r-phoist le haghaidh tuairiscí ar earráidí sna teaghráin foinse. Fág "
 "folamh gan aon r-phoist."
 
-#: weblate/trans/models/component.py:431
+#: weblate/trans/models/component.py:436
 msgid "Repository branch to translate"
 msgstr "Brainse stórtha le haistriú"
 
-#: weblate/trans/models/component.py:436
+#: weblate/trans/models/component.py:441
 msgid "Push branch"
 msgstr "Brainse a bhrú"
 
-#: weblate/trans/models/component.py:439
+#: weblate/trans/models/component.py:444
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
 "Brainse le haghaidh athruithe a bhrú, fág folamh chun brainse stór a úsáid"
 
-#: weblate/trans/models/component.py:449
+#: weblate/trans/models/component.py:454
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
@@ -14904,11 +15088,11 @@ msgstr ""
 "úsáid as * in ionad an chóid teanga, mar shampla: po/*.po nó locale/*/"
 "LC_MESSAGES/django.po."
 
-#: weblate/trans/models/component.py:455
+#: weblate/trans/models/component.py:460
 msgid "Screenshot file mask"
 msgstr "Masc comhaid scáileáin"
 
-#: weblate/trans/models/component.py:460
+#: weblate/trans/models/component.py:465
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
@@ -14916,7 +15100,7 @@ msgstr ""
 "Conair na ngabhálacha scáileáin i gcoibhneas le fréamh an taisclainne, mar "
 "shampla: docs/screenshots/*.png."
 
-#: weblate/trans/models/component.py:469
+#: weblate/trans/models/component.py:474
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
@@ -14924,11 +15108,11 @@ msgstr ""
 "Ainm comhaid an bhunchomhaid aistriúcháin, ina bhfuil gach teaghrán agus a "
 "bhfoinse le haghaidh aistriúcháin aonteangacha."
 
-#: weblate/trans/models/component.py:476
+#: weblate/trans/models/component.py:481
 msgid "Edit base file"
 msgstr "Cuir bunchomhad in eagar"
 
-#: weblate/trans/models/component.py:479
+#: weblate/trans/models/component.py:484
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
@@ -14936,16 +15120,16 @@ msgstr ""
 "Cé acu an mbeidh úsáideoirí in ann an bunchomhad le haghaidh aistriúcháin "
 "aonteangacha a chur in eagar."
 
-#: weblate/trans/models/component.py:516
+#: weblate/trans/models/component.py:521
 msgid "Locked component will not get any translation updates."
 msgstr ""
 "Ní bhfaighidh an chomhpháirt faoi ghlas aon nuashonruithe aistriúcháin."
 
-#: weblate/trans/models/component.py:520
+#: weblate/trans/models/component.py:525
 msgid "Allow translation propagation"
 msgstr "Ceadaigh iomadú aistriúcháin"
 
-#: weblate/trans/models/component.py:523
+#: weblate/trans/models/component.py:528
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
@@ -14953,29 +15137,29 @@ msgstr ""
 "Cibé an mbeidh nuashonruithe aistriúcháin i gcomhpháirteanna eile ina gcúis "
 "le haistriúchán uathoibríoch sa cheann seo"
 
-#: weblate/trans/models/component.py:529 weblate/trans/models/workflow.py:29
+#: weblate/trans/models/component.py:534 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
 msgstr "Cuir moltaí ar siúl"
 
-#: weblate/trans/models/component.py:531 weblate/trans/models/workflow.py:31
+#: weblate/trans/models/component.py:536 weblate/trans/models/workflow.py:31
 msgid "Whether to allow translation suggestions at all."
 msgstr "Cibé an gceadófar moltaí aistriúcháin ar chor ar bith."
 
-#: weblate/trans/models/component.py:535 weblate/trans/models/workflow.py:35
+#: weblate/trans/models/component.py:540 weblate/trans/models/workflow.py:35
 msgid "Suggestion voting"
 msgstr "Vótáil moltaí"
 
-#: weblate/trans/models/component.py:538 weblate/trans/models/workflow.py:38
+#: weblate/trans/models/component.py:543 weblate/trans/models/workflow.py:38
 msgid "Users can only vote for suggestions and can’t make direct translations."
 msgstr ""
 "Ní féidir le húsáideoirí vótáil ach le haghaidh moltaí agus ní féidir leo "
 "aistriúcháin dhíreacha a dhéanamh."
 
-#: weblate/trans/models/component.py:543 weblate/trans/models/workflow.py:43
+#: weblate/trans/models/component.py:548 weblate/trans/models/workflow.py:43
 msgid "Automatically accept suggestions"
 msgstr "Glac le moltaí go huathoibríoch"
 
-#: weblate/trans/models/component.py:546 weblate/trans/models/workflow.py:46
+#: weblate/trans/models/component.py:551 weblate/trans/models/workflow.py:46
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
@@ -14983,43 +15167,47 @@ msgstr ""
 "Glac le moltaí leis an líon vótaí seo go huathoibríoch, bain úsáid as 0 chun "
 "é a chasadh as."
 
-#: weblate/trans/models/component.py:552 weblate/trans/models/unit.py:392
+#: weblate/trans/models/component.py:557 weblate/trans/models/unit.py:392
 msgid "Translation flags"
 msgstr "Bratacha aistriúcháin"
 
-#: weblate/trans/models/component.py:555 weblate/trans/models/unit.py:395
+#: weblate/trans/models/component.py:560 weblate/trans/models/unit.py:395
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Bratacha breise camóg-scartha chun tionchar a imirt ar iompar Weblate."
 
-#: weblate/trans/models/component.py:561
+#: weblate/trans/models/component.py:566
 msgid "Enforced checks"
 msgstr "Seiceálacha forfheidhmithe"
 
-#: weblate/trans/models/component.py:562
+#: weblate/trans/models/component.py:567
 msgid "List of checks which can not be ignored."
 msgstr "Liosta seiceálacha nach féidir neamhaird a dhéanamh orthu."
 
-#: weblate/trans/models/component.py:580
+#: weblate/trans/models/component.py:585
+#, fuzzy
+#| msgid ""
+#| "User agreement which needs to be approved before a user can translate "
+#| "this component."
 msgid ""
-"User agreement which needs to be approved before a user can translate this "
-"component."
+"Contributor license agreement which needs to be approved before a user can "
+"translate this component."
 msgstr ""
 "Comhaontú úsáideora nach mór a cheadú sular féidir le húsáideoir an "
 "chomhpháirt seo a aistriú."
 
-#: weblate/trans/models/component.py:587
+#: weblate/trans/models/component.py:592
 msgid "Adding new translation"
 msgstr "Aistriúchán nua á chur leis"
 
-#: weblate/trans/models/component.py:591
+#: weblate/trans/models/component.py:596
 msgid "How to handle requests for creating new translations."
 msgstr "Conas iarratais ar aistriúcháin nua a chruthú a láimhseáil."
 
-#: weblate/trans/models/component.py:594
+#: weblate/trans/models/component.py:599
 msgid "Language code style"
 msgstr "Stíl cód teanga"
 
-#: weblate/trans/models/component.py:600
+#: weblate/trans/models/component.py:605
 msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
@@ -15027,11 +15215,11 @@ msgstr ""
 "Saincheap an cód teanga a úsáidtear chun an comhadainm le haghaidh "
 "aistriúcháin cruthaithe ag Weblate a ghiniúint."
 
-#: weblate/trans/models/component.py:605
+#: weblate/trans/models/component.py:610
 msgid "Manage strings"
 msgstr "Bainistigh teaghráin"
 
-#: weblate/trans/models/component.py:608
+#: weblate/trans/models/component.py:613
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
@@ -15041,11 +15229,11 @@ msgstr ""
 "bhaintear do theaghráin ón gcód foinse nó má bhainistítear iad go seachtrach "
 "is dócha gur mhaith leat é a choinneáil díchumasaithe."
 
-#: weblate/trans/models/component.py:616
+#: weblate/trans/models/component.py:621
 msgid "Merge style"
 msgstr "Cumasc stíl"
 
-#: weblate/trans/models/component.py:621
+#: weblate/trans/models/component.py:626
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
@@ -15053,13 +15241,13 @@ msgstr ""
 "Sainmhínigh ar cheart do Weblate an stór in aghaidh an tsrutha a chumasc nó "
 "na hathruithe a athbhunú air."
 
-#: weblate/trans/models/component.py:626
+#: weblate/trans/models/component.py:631
 msgid "Commit message when translating"
 msgstr "Tiomantas teachtaireacht agus tú á aistriú"
 
-#: weblate/trans/models/component.py:628 weblate/trans/models/component.py:637
-#: weblate/trans/models/component.py:646 weblate/trans/models/component.py:655
-#: weblate/trans/models/component.py:664 weblate/trans/models/component.py:673
+#: weblate/trans/models/component.py:633 weblate/trans/models/component.py:642
+#: weblate/trans/models/component.py:651 weblate/trans/models/component.py:660
+#: weblate/trans/models/component.py:669 weblate/trans/models/component.py:678
 msgid ""
 "You can use template language for various info, please consult the "
 "documentation for more details."
@@ -15067,60 +15255,60 @@ msgstr ""
 "Is féidir leat teanga theimpléad a úsáid le haghaidh faisnéise éagsúla, "
 "féach ar an doiciméadú le haghaidh tuilleadh sonraí."
 
-#: weblate/trans/models/component.py:635
+#: weblate/trans/models/component.py:640
 msgid "Commit message when adding translation"
 msgstr "Tiomantas teachtaireacht agus aistriúchán á chur leis"
 
-#: weblate/trans/models/component.py:644
+#: weblate/trans/models/component.py:649
 msgid "Commit message when removing translation"
 msgstr "Tiomantas teachtaireacht nuair a bhaintear an t-aistriúchán"
 
-#: weblate/trans/models/component.py:653
+#: weblate/trans/models/component.py:658
 msgid "Commit message when merging translation"
 msgstr "Tiomantas teachtaireacht agus aistriúchán á chumasc"
 
-#: weblate/trans/models/component.py:662
+#: weblate/trans/models/component.py:667
 msgid "Commit message when add-on makes a change"
 msgstr "Tiomantas teachtaireacht nuair a dhéanann an breiseán athrú"
 
-#: weblate/trans/models/component.py:671
+#: weblate/trans/models/component.py:676
 msgid "Merge request message"
 msgstr "Cumaisc teachtaireacht iarratais"
 
-#: weblate/trans/models/component.py:680
+#: weblate/trans/models/component.py:685
 msgid "Push on commit"
 msgstr "Brúigh ar thiomantas"
 
-#: weblate/trans/models/component.py:683
+#: weblate/trans/models/component.py:688
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Ar cheart an stór a bhrú suas an sruth ar gach gealltanas."
 
-#: weblate/trans/models/component.py:687
+#: weblate/trans/models/component.py:692
 msgid "Age of changes to commit"
 msgstr "Aois na n-athruithe le gealltanas"
 
-#: weblate/trans/models/component.py:691
+#: weblate/trans/models/component.py:696
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
 "Am ina n-uaireanta ina dhiaidh sin beidh aon athruithe ar feitheamh geallta "
 "don VCS."
 
-#: weblate/trans/models/component.py:696
+#: weblate/trans/models/component.py:701
 msgid "Lock on error"
 msgstr "Earráid a ghlasáil"
 
-#: weblate/trans/models/component.py:699
+#: weblate/trans/models/component.py:704
 msgid "Whether the component should be locked on repository errors."
 msgstr "Cibé ar cheart an chomhpháirt a ghlasáil ar earráidí stórtha."
 
-#: weblate/trans/models/component.py:706
+#: weblate/trans/models/component.py:711
 msgid "Language used for source strings in all components"
 msgstr ""
 "An teanga a úsáidtear le haghaidh teaghráin foinse sna comhpháirteanna go "
 "léir"
 
-#: weblate/trans/models/component.py:715
+#: weblate/trans/models/component.py:720
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
@@ -15128,53 +15316,53 @@ msgstr ""
 "Sloinneadh rialta a úsáidtear chun comhaid aistriúcháin a scagadh nuair a "
 "bhíonn masc comhaid á scanadh."
 
-#: weblate/trans/models/component.py:720
+#: weblate/trans/models/component.py:725
 msgid "Variants regular expression"
 msgstr "Leaganacha abairt rialta"
 
-#: weblate/trans/models/component.py:726
+#: weblate/trans/models/component.py:731
 msgid "Regular expression used to determine variants of a string."
 msgstr "Sloinneadh rialta a úsáidtear chun malairtí teaghrán a aimsiú."
 
-#: weblate/trans/models/component.py:735
+#: weblate/trans/models/component.py:740
 msgid "Components with higher priority are offered first to translators."
 msgstr ""
 "Déantar comhpháirteanna a bhfuil tosaíocht níos airde acu a thairiscint "
 "d’aistritheoirí ar dtús."
 
-#: weblate/trans/models/component.py:739
+#: weblate/trans/models/component.py:744
 msgid "Restricted component"
 msgstr "Comhpháirt srianta"
 
-#: weblate/trans/models/component.py:743
+#: weblate/trans/models/component.py:748
 msgid ""
 "Restrict access to the component to only those explicitly given permission."
 msgstr ""
 "Srian a chur le rochtain ar an gcomhpháirt dóibh siúd amháin ar tugadh cead "
 "sainráite dóibh."
 
-#: weblate/trans/models/component.py:750
+#: weblate/trans/models/component.py:755
 msgid "Share in projects"
 msgstr "Roinn i dtionscadail"
 
-#: weblate/trans/models/component.py:754
+#: weblate/trans/models/component.py:759
 msgid "Choose additional projects where this component will be listed."
 msgstr ""
 "Roghnaigh tionscadail bhreise ina mbeidh an chomhpháirt seo liostaithe."
 
-#: weblate/trans/models/component.py:760
+#: weblate/trans/models/component.py:765
 msgid "Use as a glossary"
 msgstr "Úsáid mar ghluais"
 
-#: weblate/trans/models/component.py:765
+#: weblate/trans/models/component.py:770
 msgid "Glossary color"
 msgstr "Dath gluais"
 
-#: weblate/trans/models/component.py:776
+#: weblate/trans/models/component.py:781
 msgid "Key filter"
 msgstr "Scagaire eochair"
 
-#: weblate/trans/models/component.py:780
+#: weblate/trans/models/component.py:785
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
@@ -15182,7 +15370,7 @@ msgstr ""
 "Sloinneadh rialta a úsáidtear chun eochracha a scagadh. Níl sé seo ar fáil "
 "ach i bhformáidí aonteangacha."
 
-#: weblate/trans/models/component.py:1537
+#: weblate/trans/models/component.py:1550
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -15190,7 +15378,7 @@ msgstr ""
 "Níorbh fhéidir eochair óstaigh SSH a fhíorú, cuir iad ar leathanach SSH sa "
 "chomhéadan riaracháin le do thoil."
 
-#: weblate/trans/models/component.py:1546
+#: weblate/trans/models/component.py:1559
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
@@ -15198,72 +15386,72 @@ msgstr ""
 "Teastaíonn fíordheimhniú ón stór, sonraigh le do thoil na dintiúir san URL "
 "nó bain úsáid as rochtain SSH ina ionad sin."
 
-#: weblate/trans/models/component.py:1552
+#: weblate/trans/models/component.py:1565
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr "Níorbh fhéidir an stór a fháil: %s"
 
-#: weblate/trans/models/component.py:1625
-#: weblate/trans/models/component.py:2901
-#: weblate/trans/models/component.py:2964
+#: weblate/trans/models/component.py:1638
+#: weblate/trans/models/component.py:2919
+#: weblate/trans/models/component.py:2982
 msgid "File does not exist."
 msgstr "Níl an comhad ann."
 
-#: weblate/trans/models/component.py:1807
+#: weblate/trans/models/component.py:1820
 #, python-format
 msgid "Could not push %(component)s: %(error_text)s"
 msgstr "Níorbh fhéidir %(component)s a bhrú: %(error_text)s"
 
-#: weblate/trans/models/component.py:1834
+#: weblate/trans/models/component.py:1847
 #, python-format
 msgid "Push is turned off for %s."
 msgstr "Tá an brú múchta le haghaidh %s."
 
-#: weblate/trans/models/component.py:1896
+#: weblate/trans/models/component.py:1909
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "Níorbh fhéidir athshocrú go brainse cianda ar %s."
 
-#: weblate/trans/models/component.py:1936
+#: weblate/trans/models/component.py:1949
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr "Níorbh fhéidir an stór ar %s a ghlanadh."
 
-#: weblate/trans/models/component.py:2184
+#: weblate/trans/models/component.py:2197
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "Níorbh fhéidir brainse áitiúil a athbhunú go brainse cianda %s."
 
-#: weblate/trans/models/component.py:2190
+#: weblate/trans/models/component.py:2203
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "Níorbh fhéidir brainse cianda a chumasc le %s."
 
-#: weblate/trans/models/component.py:2761
+#: weblate/trans/models/component.py:2779
 msgid "Category does not belong to this project."
 msgstr "Ní bhaineann an chatagóir leis an tionscadal seo."
 
-#: weblate/trans/models/component.py:2765
+#: weblate/trans/models/component.py:2783
 msgid "Categorized component can not be shared."
 msgstr "Ní féidir comhpháirt chatagóirithe a roinnt."
 
-#: weblate/trans/models/component.py:2777
+#: weblate/trans/models/component.py:2795
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Nasc neamhbhailí le tionscadal Weblate, úsáid weblate://project/component."
 
-#: weblate/trans/models/component.py:2787
+#: weblate/trans/models/component.py:2805
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Nasc neamhbhailí le tionscadal Weblate, ní féidir nasc a dhéanamh le stór "
 "nasctha!"
 
-#: weblate/trans/models/component.py:2796
+#: weblate/trans/models/component.py:2814
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Nasc neamhbhailí le tionscadal Weblate, ní féidir é a nascadh leis féin!"
 
-#: weblate/trans/models/component.py:2807
+#: weblate/trans/models/component.py:2825
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
@@ -15271,11 +15459,11 @@ msgstr ""
 "Níl an rogha ar fáil do stórtha nasctha. Úsáidfear socrú ón gcomhpháirt "
 "nasctha."
 
-#: weblate/trans/models/component.py:2819
+#: weblate/trans/models/component.py:2837
 msgid "The file mask did not match any files."
 msgstr "Níor mheaitseáil an masc comhaid le haon chomhad."
 
-#: weblate/trans/models/component.py:2829
+#: weblate/trans/models/component.py:2847
 #, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
@@ -15286,11 +15474,11 @@ msgstr ""
 "%(filename2)s Cuir an masc comhaid in oiriúint agus bain úsáid as "
 "comhpháirteanna chun acmhainní éagsúla a aistriú."
 
-#: weblate/trans/models/component.py:2847
+#: weblate/trans/models/component.py:2865
 msgid "Could not find any matching language, please check the file mask."
 msgstr "Níorbh fhéidir aon teanga a mheaitseáil, seiceáil an masc comhaid."
 
-#: weblate/trans/models/component.py:2866
+#: weblate/trans/models/component.py:2884
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
@@ -15300,7 +15488,7 @@ msgstr[2] "Níorbh fhéidir %d comhaid comhoiriúnaithe a pharsáil."
 msgstr[3] "Níorbh fhéidir %d comhaid comhoiriúnaithe a pharsáil."
 msgstr[4] "Níorbh fhéidir %d comhaid comhoiriúnaithe a pharsáil."
 
-#: weblate/trans/models/component.py:2894
+#: weblate/trans/models/component.py:2912
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -15308,29 +15496,29 @@ msgstr ""
 "Tá Weblate socraithe agat chun comhaid aistriúcháin nua a chur leis, ach "
 "níor chuir tú bunchomhad ar fáil chun é sin a dhéanamh."
 
-#: weblate/trans/models/component.py:2905
+#: weblate/trans/models/component.py:2923
 #, python-format
 msgid "Could not parse base file for new translations: %s"
 msgstr ""
 "Níorbh fhéidir an bunchomhad a pharsáil le haghaidh aistriúcháin nua: %s"
 
-#: weblate/trans/models/component.py:2909
+#: weblate/trans/models/component.py:2927
 msgid "Unrecognized base file for new translations."
 msgstr "Bunchomhad neamhaitheanta le haghaidh aistriúcháin nua."
 
-#: weblate/trans/models/component.py:2924
+#: weblate/trans/models/component.py:2942
 msgid "Editing template is not supported with this file format."
 msgstr ""
 "Ní thacaítear leis an bhformáid comhaid seo le teimpléad a chur in eagar."
 
-#: weblate/trans/models/component.py:2930
-#: weblate/trans/models/component.py:2946
+#: weblate/trans/models/component.py:2948
+#: weblate/trans/models/component.py:2964
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
 "Ní féidir comhad teanga idirmheánach a úsáid gan teimpléad eagarthóireachta."
 
-#: weblate/trans/models/component.py:2938
+#: weblate/trans/models/component.py:2956
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -15338,29 +15526,29 @@ msgstr ""
 "Caithfidh comhad teanga idirmheánach a bheith difriúil ó chomhad aonteangach "
 "bunteanga. Is dócha gur féidir leat é a choinneáil folamh."
 
-#: weblate/trans/models/component.py:2953
+#: weblate/trans/models/component.py:2971
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Ní thacaítear le comhad .pot a úsáid mar bhunchomhad."
 
-#: weblate/trans/models/component.py:2969
+#: weblate/trans/models/component.py:2987
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "Níorbh fhéidir bunchomhad an aistriúcháin a pharsáil: %s"
 
-#: weblate/trans/models/component.py:2980
+#: weblate/trans/models/component.py:2998
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "Ní mheaitseálann teanga teimpléid ({0}) an teanga foinse ({1})!"
 
-#: weblate/trans/models/component.py:2999
+#: weblate/trans/models/component.py:3017
 msgid "Choose No remote repository for local: URL."
 msgstr "Roghnaigh Gan cianstóras le haghaidh URL áitiúil."
 
-#: weblate/trans/models/component.py:3004
+#: weblate/trans/models/component.py:3022
 msgid "Push URL is not used without a remote repository."
 msgstr "Ní úsáidtear URL Brúigh gan stór cianda."
 
-#: weblate/trans/models/component.py:3018
+#: weblate/trans/models/component.py:3036
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -15368,96 +15556,96 @@ msgstr ""
 "Dealraíonn sé go bhfuil do bhrú-URL in easnamh ar na dintiúir. Cuir ar fáil "
 "iad san URL nó bain úsáid as SSH le fíordheimhniú bunaithe ar eochrach."
 
-#: weblate/trans/models/component.py:3023
+#: weblate/trans/models/component.py:3041
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "Níorbh fhéidir an stór a nuashonrú: %s"
 
-#: weblate/trans/models/component.py:3032
+#: weblate/trans/models/component.py:3050
 msgid "Pull and push branches cannot be the same when using merge requests."
 msgstr ""
 "Ní féidir le brainsí tarraingthe agus brú a bheith mar an gcéanna nuair a "
 "úsáidtear iarratais chumaisc."
 
-#: weblate/trans/models/component.py:3045
+#: weblate/trans/models/component.py:3063
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
 msgstr ""
 "Comhlánaigh URL treoracha nó úsáid rogha eile chun teanga nua a chur leis."
 
-#: weblate/trans/models/component.py:3076
+#: weblate/trans/models/component.py:3094
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 "Ní féidir teanga foinse a athrú, le do thoil athchruthaigh an chomhpháirt "
 "ina ionad."
 
-#: weblate/trans/models/component.py:3108
+#: weblate/trans/models/component.py:3126
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Ní féidir meaitseáil comhaid a bhailíochtú de bharr slonn rialta neamhbhailí."
 
-#: weblate/trans/models/component.py:3119 weblate/trans/models/workflow.py:58
+#: weblate/trans/models/component.py:3137 weblate/trans/models/workflow.py:58
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Ní oibríonn glacadh le moltaí go huathoibríoch ach amháin nuair a chuirtear "
 "an vótáil ar siúl."
 
-#: weblate/trans/models/component.py:3127
+#: weblate/trans/models/component.py:3145
 msgid "To use the key filter, the file format must be monolingual."
 msgstr ""
 "Chun an eochair-scagaire a úsáid, ní mór formáid an chomhaid a bheith "
 "aonteangach."
 
-#: weblate/trans/models/component.py:3514
+#: weblate/trans/models/component.py:3537
 msgid "Could not add new translation file."
 msgstr "Níorbh fhéidir comhad aistriúcháin nua a chur leis."
 
-#: weblate/trans/models/component.py:3521
+#: weblate/trans/models/component.py:3544
 msgid "You do not have permissions to add new translation file."
 msgstr "Níl cead agat comhad aistriúcháin nua a chur leis."
 
-#: weblate/trans/models/component.py:3529
-#: weblate/trans/models/component.py:3537
+#: weblate/trans/models/component.py:3552
+#: weblate/trans/models/component.py:3560
 msgid "The monolingual base language file is invalid."
 msgstr "Tá an bunteanga aonteangach neamhbhailí."
 
-#: weblate/trans/models/component.py:3542
+#: weblate/trans/models/component.py:3565
 msgid "The template for new translations is invalid."
 msgstr "Tá an teimpléad le haghaidh aistriúcháin nua neamhbhailí."
 
-#: weblate/trans/models/component.py:3584
+#: weblate/trans/models/component.py:3607
 msgid "The given language is used as a source language."
 msgstr "Úsáidtear an teanga tugtha mar theanga fhoinseach."
 
-#: weblate/trans/models/component.py:3592
+#: weblate/trans/models/component.py:3615
 msgid "The given language already exists."
 msgstr "Tá an teanga tugtha ann cheana féin."
 
-#: weblate/trans/models/component.py:3601
+#: weblate/trans/models/component.py:3624
 msgid "The given language is filtered by the language filter."
 msgstr "Tá an teanga tugtha scagtha ag an scagaire teanga."
 
-#: weblate/trans/models/component.py:3627
+#: weblate/trans/models/component.py:3655
 msgid "Translation file already exists!"
 msgstr "Tá comhad aistriúcháin ann cheana féin!"
 
-#: weblate/trans/models/component.py:3662
+#: weblate/trans/models/component.py:3688
 msgid "The translation will be updated in the background."
 msgstr "Déanfar an t-aistriúchán a nuashonrú sa chúlra."
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3714 weblate/utils/views.py:188
+#: weblate/trans/models/component.py:3740 weblate/utils/views.py:211
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Eochair"
 
-#: weblate/trans/models/component.py:3799
+#: weblate/trans/models/component.py:3825
 msgid "Add new translation string"
 msgstr "Cuir teaghrán aistriúcháin nua leis"
 
-#: weblate/trans/models/component.py:3848
+#: weblate/trans/models/component.py:3874
 msgid "Could not get repository status!"
 msgstr "Níorbh fhéidir stádas stórtha a fháil!"
 
@@ -15619,40 +15807,40 @@ msgstr ""
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "Níorbh fhéidir comhad %(file)s a pharsáil: %(error)s"
 
-#: weblate/trans/models/translation.py:1146
-#: weblate/trans/models/translation.py:1202
-#: weblate/trans/models/translation.py:1298
+#: weblate/trans/models/translation.py:1148
+#: weblate/trans/models/translation.py:1205
+#: weblate/trans/models/translation.py:1301
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Níorbh fhéidir athruithe ar feitheamh a dhéanamh: %s"
 
-#: weblate/trans/models/translation.py:1739
+#: weblate/trans/models/translation.py:1742
 msgid "Plurals are not supported by the file format!"
 msgstr "Ní thacaíonn an fhormáid comhaid le hiolra!"
 
-#: weblate/trans/models/translation.py:1744 weblate/trans/models/unit.py:721
+#: weblate/trans/models/translation.py:1747 weblate/trans/models/unit.py:721
 #: weblate/utils/forms.py:126
 #, python-format
 msgid "String contains control character: %s"
 msgstr "Tá carachtar rialaithe sa teaghrán: %s"
 
-#: weblate/trans/models/translation.py:1749
+#: weblate/trans/models/translation.py:1752
 msgid "Empty state is supported for blank strings only."
 msgstr "Is le haghaidh teaghráin bhána amháin a thacaítear le staid fholamh."
 
-#: weblate/trans/models/translation.py:1752
+#: weblate/trans/models/translation.py:1755
 msgid "Blank strings require an empty state."
 msgstr "Éilíonn teaghráin bhána stát folamh."
 
-#: weblate/trans/models/translation.py:1756
+#: weblate/trans/models/translation.py:1759
 msgid "Approved state is not available as reviews are not enabled."
 msgstr "Níl stát ceadaithe ar fáil mar níl athbhreithnithe cumasaithe."
 
-#: weblate/trans/models/translation.py:1764
+#: weblate/trans/models/translation.py:1767
 msgid "This string seems to already exist."
 msgstr "Is cosúil go bhfuil an teaghrán seo ann cheana féin."
 
-#: weblate/trans/models/translation.py:1771
+#: weblate/trans/models/translation.py:1774
 msgid "Failed adding string, no translation found."
 msgstr "Theip ar theaghrán a chur leis, níor aimsíodh aon aistriúchán."
 
@@ -15661,35 +15849,35 @@ msgstr "Theip ar theaghrán a chur leis, níor aimsíodh aon aistriúchán."
 msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "Níorbh fhéidir an teaghrán a iomadú go %(component)s: %(reason)s"
 
-#: weblate/trans/models/unit.py:1813
+#: weblate/trans/models/unit.py:1831
 msgid "Unmark as read-only"
 msgstr "Dímharcáil mar inléite amháin"
 
-#: weblate/trans/models/unit.py:1816
+#: weblate/trans/models/unit.py:1834
 msgid "Mark as read-only"
 msgstr "Marcáil mar inléite amháin"
 
-#: weblate/trans/models/unit.py:1820
+#: weblate/trans/models/unit.py:1838
 msgid "Unmark as untranslatable"
 msgstr "Dímharcáil mar neamh-aistrithe"
 
-#: weblate/trans/models/unit.py:1824
+#: weblate/trans/models/unit.py:1842
 msgid "Mark as untranslatable"
 msgstr "Marcáil mar neamh-aistrithe"
 
-#: weblate/trans/models/unit.py:1831
+#: weblate/trans/models/unit.py:1849
 msgid "Unmark as forbidden translation"
 msgstr "Dímharcáil mar aistriúchán toirmiscthe"
 
-#: weblate/trans/models/unit.py:1839
+#: weblate/trans/models/unit.py:1857
 msgid "Mark as forbidden translation"
 msgstr "Marcáil mar aistriúchán toirmiscthe"
 
-#: weblate/trans/models/unit.py:1847
+#: weblate/trans/models/unit.py:1865
 msgid "Unmark as terminology"
 msgstr "Dímharcáil mar théarmaíocht"
 
-#: weblate/trans/models/unit.py:1855
+#: weblate/trans/models/unit.py:1873
 msgid "Mark as terminology"
 msgstr "Marcáil mar théarmaíocht"
 
@@ -15750,17 +15938,17 @@ msgstr "I Fleasc"
 msgid "User configured character: {}"
 msgstr "Carachtar cumraithe ag an úsáideoir: {}"
 
-#: weblate/trans/tasks.py:492
+#: weblate/trans/tasks.py:507
 #, python-format
 msgid "Automatic translation failed: %s"
 msgstr "Theip ar aistriúchán uathoibríoch: %s"
 
-#: weblate/trans/tasks.py:499
+#: weblate/trans/tasks.py:514
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
 "Aistriú uathoibríoch curtha i gcrích, níor nuashonraíodh aon teaghráin."
 
-#: weblate/trans/tasks.py:504
+#: weblate/trans/tasks.py:519
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
@@ -15770,26 +15958,26 @@ msgstr[2] "Aistriúchán uathoibríoch críochnaithe, nuashonraíodh %d teaghrá
 msgstr[3] "Aistriúchán uathoibríoch críochnaithe, nuashonraíodh %d teaghráin."
 msgstr[4] "Aistriúchán uathoibríoch críochnaithe, nuashonraíodh %d teaghráin."
 
-#: weblate/trans/templatetags/translations.py:90
+#: weblate/trans/templatetags/translations.py:91
 msgid "Good configuration"
 msgstr "Cumraíocht mhaith"
 
-#: weblate/trans/templatetags/translations.py:91
+#: weblate/trans/templatetags/translations.py:92
 msgid "Bad configuration"
 msgstr "Droch-chumraíocht"
 
-#: weblate/trans/templatetags/translations.py:92
+#: weblate/trans/templatetags/translations.py:93
 msgid "Possible configuration"
 msgstr "Cumraíocht féideartha"
 
 #. Translators: Glossary term formatting used in a tooltip
-#: weblate/trans/templatetags/translations.py:262
+#: weblate/trans/templatetags/translations.py:263
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
 msgstr "{target} [{source}]"
 
-#: weblate/trans/templatetags/translations.py:280
+#: weblate/trans/templatetags/translations.py:281
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
 msgstr[0] "Aistriúchán toirmiscthe:"
@@ -15798,7 +15986,7 @@ msgstr[2] "Aistriúcháin toirmiscthe:"
 msgstr[3] "Aistriúcháin toirmiscthe:"
 msgstr[4] "Aistriúcháin toirmiscthe:"
 
-#: weblate/trans/templatetags/translations.py:293
+#: weblate/trans/templatetags/translations.py:294
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
 msgstr[0] "Téarma do-aistrithe:"
@@ -15807,7 +15995,7 @@ msgstr[2] "Téarmaí do-aistrithe:"
 msgstr[3] "Téarmaí do-aistrithe:"
 msgstr[4] "Téarmaí do-aistrithe:"
 
-#: weblate/trans/templatetags/translations.py:306
+#: weblate/trans/templatetags/translations.py:307
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
 msgstr[0] "Téarma gluais:"
@@ -15816,11 +16004,11 @@ msgstr[2] "Téarmaí gluaise:"
 msgstr[3] "Téarmaí gluaise:"
 msgstr[4] "Téarmaí gluaise:"
 
-#: weblate/trans/templatetags/translations.py:692
+#: weblate/trans/templatetags/translations.py:693
 msgid "a year ago"
 msgstr "bliain ó shin"
 
-#: weblate/trans/templatetags/translations.py:693
+#: weblate/trans/templatetags/translations.py:694
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
@@ -15830,11 +16018,11 @@ msgstr[2] "%(count)s blianta ó shin"
 msgstr[3] "%(count)s blianta ó shin"
 msgstr[4] "%(count)s blianta ó shin"
 
-#: weblate/trans/templatetags/translations.py:699
+#: weblate/trans/templatetags/translations.py:700
 msgid "a month ago"
 msgstr "mí ó shin"
 
-#: weblate/trans/templatetags/translations.py:700
+#: weblate/trans/templatetags/translations.py:701
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
@@ -15844,7 +16032,7 @@ msgstr[2] "%(count)s míonna ó shin"
 msgstr[3] "%(count)s míonna ó shin"
 msgstr[4] "%(count)s míonna ó shin"
 
-#: weblate/trans/templatetags/translations.py:705
+#: weblate/trans/templatetags/translations.py:706
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
@@ -15854,15 +16042,15 @@ msgstr[2] "%(count)s seachtainí ó shin"
 msgstr[3] "%(count)s seachtainí ó shin"
 msgstr[4] "%(count)s seachtainí ó shin"
 
-#: weblate/trans/templatetags/translations.py:710
+#: weblate/trans/templatetags/translations.py:711
 msgid "a week ago"
 msgstr "seachtain ó shin"
 
-#: weblate/trans/templatetags/translations.py:712
+#: weblate/trans/templatetags/translations.py:713
 msgid "yesterday"
 msgstr "inné"
 
-#: weblate/trans/templatetags/translations.py:713
+#: weblate/trans/templatetags/translations.py:714
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
@@ -15872,16 +16060,16 @@ msgstr[2] "%(count)s laethanta ó shin"
 msgstr[3] "%(count)s laethanta ó shin"
 msgstr[4] "%(count)s laethanta ó shin"
 
-#: weblate/trans/templatetags/translations.py:717
-#: weblate/trans/templatetags/translations.py:771
+#: weblate/trans/templatetags/translations.py:718
+#: weblate/trans/templatetags/translations.py:772
 msgid "now"
 msgstr "anois"
 
-#: weblate/trans/templatetags/translations.py:720
+#: weblate/trans/templatetags/translations.py:721
 msgid "a second ago"
 msgstr "soicind ó shin"
 
-#: weblate/trans/templatetags/translations.py:722
+#: weblate/trans/templatetags/translations.py:723
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
@@ -15891,11 +16079,11 @@ msgstr[2] "%(count)s soicindí ó shin"
 msgstr[3] "%(count)s soicindí ó shin"
 msgstr[4] "%(count)s soicindí ó shin"
 
-#: weblate/trans/templatetags/translations.py:727
+#: weblate/trans/templatetags/translations.py:728
 msgid "a minute ago"
 msgstr "nóiméad ó shin"
 
-#: weblate/trans/templatetags/translations.py:728
+#: weblate/trans/templatetags/translations.py:729
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
@@ -15905,11 +16093,11 @@ msgstr[2] "%(count)s nóiméad ó shin"
 msgstr[3] "%(count)s nóiméad ó shin"
 msgstr[4] "%(count)s nóiméad ó shin"
 
-#: weblate/trans/templatetags/translations.py:733
+#: weblate/trans/templatetags/translations.py:734
 msgid "an hour ago"
 msgstr "uair an chloig ó shin"
 
-#: weblate/trans/templatetags/translations.py:734
+#: weblate/trans/templatetags/translations.py:735
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
@@ -15919,11 +16107,11 @@ msgstr[2] "%(count)s uair ó shin"
 msgstr[3] "%(count)s uair ó shin"
 msgstr[4] "%(count)s uair ó shin"
 
-#: weblate/trans/templatetags/translations.py:746
+#: weblate/trans/templatetags/translations.py:747
 msgid "a year from now"
 msgstr "bliain as seo"
 
-#: weblate/trans/templatetags/translations.py:748
+#: weblate/trans/templatetags/translations.py:749
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
@@ -15933,11 +16121,11 @@ msgstr[2] "%(count)s blianta as seo amach"
 msgstr[3] "%(count)s blianta as seo amach"
 msgstr[4] "%(count)s blianta as seo amach"
 
-#: weblate/trans/templatetags/translations.py:753
+#: weblate/trans/templatetags/translations.py:754
 msgid "a month from now"
 msgstr "mí ó anois"
 
-#: weblate/trans/templatetags/translations.py:755
+#: weblate/trans/templatetags/translations.py:756
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
@@ -15947,7 +16135,7 @@ msgstr[2] "%(count)s míonna as seo amach"
 msgstr[3] "%(count)s míonna as seo amach"
 msgstr[4] "%(count)s míonna as seo amach"
 
-#: weblate/trans/templatetags/translations.py:760
+#: weblate/trans/templatetags/translations.py:761
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
@@ -15957,15 +16145,15 @@ msgstr[2] "%(count)s seachtainí as seo amach"
 msgstr[3] "%(count)s seachtainí as seo amach"
 msgstr[4] "%(count)s seachtainí as seo amach"
 
-#: weblate/trans/templatetags/translations.py:764
+#: weblate/trans/templatetags/translations.py:765
 msgid "tomorrow"
 msgstr "amárach"
 
-#: weblate/trans/templatetags/translations.py:766
+#: weblate/trans/templatetags/translations.py:767
 msgid "a week from now"
 msgstr "seachtain ó anois"
 
-#: weblate/trans/templatetags/translations.py:768
+#: weblate/trans/templatetags/translations.py:769
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
@@ -15975,11 +16163,11 @@ msgstr[2] "%(count)s laethanta as seo amach"
 msgstr[3] "%(count)s laethanta as seo amach"
 msgstr[4] "%(count)s laethanta as seo amach"
 
-#: weblate/trans/templatetags/translations.py:774
+#: weblate/trans/templatetags/translations.py:775
 msgid "a second from now"
 msgstr "soicind as seo amach"
 
-#: weblate/trans/templatetags/translations.py:776
+#: weblate/trans/templatetags/translations.py:777
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
@@ -15989,11 +16177,11 @@ msgstr[2] "%(count)s soicindí as seo amach"
 msgstr[3] "%(count)s soicindí as seo amach"
 msgstr[4] "%(count)s soicindí as seo amach"
 
-#: weblate/trans/templatetags/translations.py:781
+#: weblate/trans/templatetags/translations.py:782
 msgid "a minute from now"
 msgstr "nóiméad ó anois"
 
-#: weblate/trans/templatetags/translations.py:783
+#: weblate/trans/templatetags/translations.py:784
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
@@ -16003,11 +16191,11 @@ msgstr[2] "%(count)s nóiméad as seo amach"
 msgstr[3] "%(count)s nóiméad as seo amach"
 msgstr[4] "%(count)s nóiméad as seo amach"
 
-#: weblate/trans/templatetags/translations.py:787
+#: weblate/trans/templatetags/translations.py:788
 msgid "an hour from now"
 msgstr "uair an chloig ó anois"
 
-#: weblate/trans/templatetags/translations.py:788
+#: weblate/trans/templatetags/translations.py:789
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
@@ -16017,53 +16205,53 @@ msgstr[2] "%(count)s uair as seo amach"
 msgstr[3] "%(count)s uair as seo amach"
 msgstr[4] "%(count)s uair as seo amach"
 
-#: weblate/trans/templatetags/translations.py:921
+#: weblate/trans/templatetags/translations.py:923
 msgctxt "String state"
 msgid "Dismissed checks:"
 msgstr "Seiceálacha diúltaithe:"
 
-#: weblate/trans/templatetags/translations.py:926
+#: weblate/trans/templatetags/translations.py:928
 msgctxt "String state"
 msgid "Commented"
 msgstr "Dúirt"
 
-#: weblate/trans/templatetags/translations.py:928
+#: weblate/trans/templatetags/translations.py:930
 msgctxt "String state"
 msgid "Suggested"
 msgstr "Molta"
 
-#: weblate/trans/templatetags/translations.py:968
+#: weblate/trans/templatetags/translations.py:970
 #, python-format
 msgid "string ID %s"
 msgstr "ID teaghrán %s"
 
-#: weblate/trans/templatetags/translations.py:1113
+#: weblate/trans/templatetags/translations.py:1115
 msgid "This language is used for source strings."
 msgstr "Úsáidtear an teanga seo le haghaidh teaghráin foinse."
 
-#: weblate/trans/templatetags/translations.py:1137
-#: weblate/trans/templatetags/translations.py:1157
+#: weblate/trans/templatetags/translations.py:1139
+#: weblate/trans/templatetags/translations.py:1159
 msgid "This translation is locked."
 msgstr "Tá an t-aistriúchán seo faoi ghlas."
 
-#: weblate/trans/templatetags/translations.py:1142
+#: weblate/trans/templatetags/translations.py:1144
 msgid "Updating translation component…"
 msgstr "Comhpháirt aistriúcháin á nuashonrú…"
 
-#: weblate/trans/templatetags/translations.py:1152
+#: weblate/trans/templatetags/translations.py:1154
 msgid "Some of the components within this project have alerts."
 msgstr ""
 "Tá foláirimh ag cuid de na comhpháirteanna laistigh den tionscadal seo."
 
-#: weblate/trans/templatetags/translations.py:1196
+#: weblate/trans/templatetags/translations.py:1198
 msgid "You administrate this project."
 msgstr "Is tusa a riarann an tionscadal seo."
 
-#: weblate/trans/templatetags/translations.py:1209
+#: weblate/trans/templatetags/translations.py:1211
 msgid "This translation does not yet exist."
 msgstr "Níl an t-aistriúchán seo ann fós."
 
-#: weblate/trans/templatetags/translations.py:1222
+#: weblate/trans/templatetags/translations.py:1224
 #, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
@@ -16073,28 +16261,28 @@ msgstr[2] "Níl teaghráin %(count)s á aistriú anseo."
 msgstr[3] "Níl teaghráin %(count)s á aistriú anseo."
 msgstr[4] "Níl teaghráin %(count)s á aistriú anseo."
 
-#: weblate/trans/templatetags/translations.py:1235
+#: weblate/trans/templatetags/translations.py:1237
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Roinnte ón tionscadal %s."
 
-#: weblate/trans/templatetags/translations.py:1259
+#: weblate/trans/templatetags/translations.py:1261
 msgid "enabled"
 msgstr "cumasaithe"
 
 #. Translators: Number format, in millions (mega)
-#: weblate/trans/templatetags/translations.py:1302
+#: weblate/trans/templatetags/translations.py:1304
 #, python-format
 msgid "%s M"
 msgstr "%s M"
 
 #. Translators: Number format, in thousands (kilo)
-#: weblate/trans/templatetags/translations.py:1306
+#: weblate/trans/templatetags/translations.py:1308
 #, python-format
 msgid "%s k"
 msgstr "%s k"
 
-#: weblate/trans/templatetags/translations.py:1513
+#: weblate/trans/templatetags/translations.py:1516
 #, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
@@ -16104,36 +16292,36 @@ msgstr[2] "Aistriúchán críochnaithe le teaghráin %(count)s"
 msgstr[3] "Aistriúchán críochnaithe le teaghráin %(count)s"
 msgstr[4] "Aistriúchán críochnaithe le teaghráin %(count)s"
 
-#: weblate/trans/templatetags/translations.py:1523
+#: weblate/trans/templatetags/translations.py:1526
 msgid "No strings to translate"
 msgstr "Níl aon teaghráin le haistriú"
 
-#: weblate/trans/templatetags/translations.py:1541
+#: weblate/trans/templatetags/translations.py:1544
 #, python-format
 msgid "%(value)s of %(all)s"
 msgstr "%(value)s de %(all)s"
 
-#: weblate/trans/util.py:39
+#: weblate/trans/util.py:40
 msgid "Very high"
 msgstr "An-ard"
 
-#: weblate/trans/util.py:40
+#: weblate/trans/util.py:41
 msgid "High"
 msgstr "Ard"
 
-#: weblate/trans/util.py:41
+#: weblate/trans/util.py:42
 msgid "Medium"
 msgstr "Meán"
 
-#: weblate/trans/util.py:42
+#: weblate/trans/util.py:43
 msgid "Low"
 msgstr "Íseal"
 
-#: weblate/trans/util.py:43
+#: weblate/trans/util.py:44
 msgid "Very low"
 msgstr "An-íseal"
 
-#: weblate/trans/util.py:228
+#: weblate/trans/util.py:229
 #, python-brace-format
 msgid ""
 "{0} is being translated into {1} languages using Weblate. Join the "
@@ -16267,7 +16455,7 @@ msgstr "Braitheadh ceadúnas mar %s, seiceáil an bhfuil sé ceart."
 msgid "Could not parse uploaded ZIP file."
 msgstr "Níorbh fhéidir an comhad ZIP uaslódáilte a pharsáil."
 
-#: weblate/trans/views/dashboard.py:152
+#: weblate/trans/views/dashboard.py:157
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -16275,7 +16463,7 @@ msgstr ""
 "Tá an tionscadal a bhí á lorg agat bainte, ach tá fáilte romhat cur le cinn "
 "eile."
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:166
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -16283,7 +16471,7 @@ msgstr ""
 "Tá do chuntas gníomhachtaithe agat, anois ba cheart duit an pasfhocal a "
 "shocrú le go mbeidh tú in ann síniú isteach an chéad uair eile."
 
-#: weblate/trans/views/dashboard.py:175
+#: weblate/trans/views/dashboard.py:180
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Cuir d'ainm iomlán agus do r-phost i do phróifíl le do thoil."
 
@@ -16590,14 +16778,17 @@ msgstr "Baineadh teanga sa tionscadal."
 msgid "A language in the category was removed."
 msgstr "Baineadh teanga sa chatagóir."
 
-#: weblate/trans/views/settings.py:240
-#, python-format
-msgid "Could not change %s due to outstanding issue in its settings: %s"
+#: weblate/trans/views/settings.py:241
+#, fuzzy, python-format
+#| msgid "Could not change %s due to outstanding issue in its settings: %s"
+msgid ""
+"Could not change %(obj)s due to an outstanding issue in its settings: "
+"%(error)s"
 msgstr ""
 "Níorbh fhéidir %s a athrú mar gheall ar cheist gan réiteach ina shocruithe: "
 "%s"
 
-#: weblate/trans/views/settings.py:413
+#: weblate/trans/views/settings.py:415
 msgid "Backup scheduled. It will be available soon."
 msgstr "Cúltaca sceidealta. Beidh sé ar fáil go luath."
 
@@ -16605,47 +16796,47 @@ msgstr "Cúltaca sceidealta. Beidh sé ar fáil go luath."
 msgid "Could not change additional string info!"
 msgstr "Níorbh fhéidir faisnéis teaghrán breise a athrú!"
 
-#: weblate/trans/widgets.py:262
+#: weblate/trans/widgets.py:264
 msgid "Big status badge"
 msgstr "Suaitheantas mór stádais"
 
-#: weblate/trans/widgets.py:298
+#: weblate/trans/widgets.py:300
 msgid "Small status badge"
 msgstr "Suaitheantas beag stádais"
 
-#: weblate/trans/widgets.py:320
+#: weblate/trans/widgets.py:322
 msgctxt "Status widget name"
 msgid "Panel"
 msgstr "Painéal"
 
 #. Translators: Text on OpenGraph image
-#: weblate/trans/widgets.py:341
+#: weblate/trans/widgets.py:343
 msgid "Project {}"
 msgstr "Tionscadal {}"
 
 #. Translators: Text on OpenGraph image
-#: weblate/trans/widgets.py:344
+#: weblate/trans/widgets.py:346
 msgid "Component {}"
 msgstr "Comhpháirt {}"
 
-#: weblate/trans/widgets.py:378
+#: weblate/trans/widgets.py:380
 msgid "SVG status badge"
 msgstr "Suaitheantas stádais SVG"
 
-#: weblate/trans/widgets.py:381
+#: weblate/trans/widgets.py:383
 msgid "translated"
 msgstr "aistrithe"
 
-#: weblate/trans/widgets.py:416
+#: weblate/trans/widgets.py:418
 msgid "PNG status badge"
 msgstr "Suaitheantas stádais PNG"
 
-#: weblate/trans/widgets.py:425
+#: weblate/trans/widgets.py:427
 msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Barrachairt teanga ingearach"
 
-#: weblate/trans/widgets.py:506
+#: weblate/trans/widgets.py:508
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Barrachairt teanga chothrománach"
@@ -16891,31 +17082,31 @@ msgstr "Earráid chomhréire in ailiasanna teanga."
 msgid "This URL is prohibited"
 msgstr "Tá cosc ar an URL seo"
 
-#: weblate/utils/views.py:177 weblate/utils/views.py:203
+#: weblate/utils/views.py:200 weblate/utils/views.py:226
 msgid "Position and priority"
 msgstr "Seasamh agus tosaíocht"
 
-#: weblate/utils/views.py:178
+#: weblate/utils/views.py:201
 msgid "Position"
 msgstr "Post"
 
-#: weblate/utils/views.py:185
+#: weblate/utils/views.py:208
 msgid "Number of words"
 msgstr "Líon na bhfocal"
 
-#: weblate/utils/views.py:186
+#: weblate/utils/views.py:209
 msgid "Number of comments"
 msgstr "Líon tuairimí"
 
-#: weblate/utils/views.py:187
+#: weblate/utils/views.py:210
 msgid "Number of failing checks"
 msgstr "Líon seiceálacha a dteipeann orthu"
 
-#: weblate/utils/views.py:189
+#: weblate/utils/views.py:212
 msgid "String location"
 msgstr "Suíomh teaghrán"
 
-#: weblate/utils/views.py:590
+#: weblate/utils/views.py:613
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Earráid i bparaiméadar %(field)s: %(error)s"
@@ -16932,88 +17123,88 @@ msgstr "Cuirfidh sé seo brú ar athruithe ar an stór Git in aghaidh an tsrutha
 msgid "Possible cleanups:"
 msgstr "Glanta féideartha:"
 
-#: weblate/vcs/git.py:573
+#: weblate/vcs/git.py:576
 msgid "This will push changes to Gerrit for a review."
 msgstr ""
 "Cuirfidh sé seo brú ar athruithe ar Gerrit le haghaidh athbhreithnithe."
 
-#: weblate/vcs/git.py:617
+#: weblate/vcs/git.py:620
 msgid "This will commit changes to the Subversion repository."
 msgstr "Geallfaidh sé seo athruithe ar an stór Subversion."
 
-#: weblate/vcs/git.py:784
+#: weblate/vcs/git.py:787
 msgid "Git with force push"
 msgstr "Git le brú fórsa"
 
-#: weblate/vcs/git.py:788
+#: weblate/vcs/git.py:791
 msgid "This will force push changes to the upstream repository."
 msgstr ""
 "Cuirfidh sé seo brú ar athruithe a dhéanamh ar an stór in aghaidh an tsrutha."
 
-#: weblate/vcs/git.py:1244
+#: weblate/vcs/git.py:1247
 msgid "Azure DevOps pull request"
 msgstr "Iarratas tarraingt Azure DevOps"
 
-#: weblate/vcs/git.py:1252
+#: weblate/vcs/git.py:1255
 msgid "This will push changes and create a Azure DevOps pull request."
 msgstr ""
 "Déanfaidh sé seo athruithe a bhrú agus cruthóidh sé iarratas tarraingt Azure "
 "DevOps."
 
-#: weblate/vcs/git.py:1496
+#: weblate/vcs/git.py:1499
 msgid "GitHub pull request"
 msgstr "Iarratas tarraingt GitHub"
 
-#: weblate/vcs/git.py:1501
+#: weblate/vcs/git.py:1504
 msgid "This will push changes and create a GitHub pull request."
 msgstr "Brúfaidh sé seo athruithe agus cruthóidh sé iarratas tarraingt GitHub."
 
-#: weblate/vcs/git.py:1613
+#: weblate/vcs/git.py:1616
 msgid "Gitea pull request"
 msgstr "Iarratas tarraingt Gitea"
 
-#: weblate/vcs/git.py:1617
+#: weblate/vcs/git.py:1620
 msgid "This will push changes and create a Gitea pull request."
 msgstr ""
 "Déanfaidh sé seo athruithe a bhrú agus cruthóidh sé iarratas tarraingt Gitea."
 
-#: weblate/vcs/git.py:1688
+#: weblate/vcs/git.py:1691
 msgid "No remote repository"
 msgstr "Gan aon stór cianda"
 
-#: weblate/vcs/git.py:1794
+#: weblate/vcs/git.py:1797
 msgid "GitLab merge request"
 msgstr "Iarratas cumaisc GitLab"
 
-#: weblate/vcs/git.py:1799
+#: weblate/vcs/git.py:1802
 msgid "This will push changes and create a GitLab merge request."
 msgstr "Brúfaidh sé seo athruithe agus cruthófar iarratas cumasc GitLab."
 
-#: weblate/vcs/git.py:1951
+#: weblate/vcs/git.py:1954
 msgid "Pagure merge request"
 msgstr "Iarratas cumaisc leathanach"
 
-#: weblate/vcs/git.py:1956
+#: weblate/vcs/git.py:1959
 msgid "This will push changes and create a Pagure merge request."
 msgstr ""
 "Cuirfidh sé seo brú ar athruithe agus cruthóidh sé iarratas cumasc Pageure."
 
 #. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
-#: weblate/vcs/git.py:2055
+#: weblate/vcs/git.py:2058
 msgid "Bitbucket Data Center pull request"
 msgstr "Iarratas ar tharraingt Ionad Sonraí Bitbucket"
 
-#: weblate/vcs/git.py:2061
+#: weblate/vcs/git.py:2064
 msgid "This will push changes and create a Bitbucket Data Center pull request."
 msgstr ""
 "Déanfaidh sé seo athruithe a bhrú agus cruthóidh sé iarratas tarraingt ar "
 "Ionad Sonraí Bitbucket."
 
-#: weblate/vcs/git.py:2201
+#: weblate/vcs/git.py:2204
 msgid "Bitbucket Cloud merge request"
 msgstr "Iarratas cumaisc Bitbucket Cloud"
 
-#: weblate/vcs/mercurial.py:45
+#: weblate/vcs/mercurial.py:47
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr ""
 "Cuirfidh sé seo brú ar athruithe ar an stór mearcair in aghaidh an tsrutha."
@@ -17268,6 +17459,25 @@ msgstr "Spreagadh an próiseas cúltaca"
 #: weblate/wladmin/views.py:345
 msgid "Could not dismiss the configuration error!"
 msgstr "Níorbh fhéidir an earráid chumraíochta a dhíbhe!"
+
+#~ msgid "Do not publicly display e-mail address"
+#~ msgstr "Ná taispeáin go poiblí an seoladh r-phoist"
+
+#~ msgid "There are currently no authenticator apps registered."
+#~ msgstr "Níl aon aipeanna fíordheimhneora cláraithe faoi láthair."
+
+#~ msgid ""
+#~ "You can control Weblate using the HTTP REST API and your API key is used "
+#~ "to authenticate to it."
+#~ msgstr ""
+#~ "Is féidir leat Weblate a rialú ag baint úsáide as an HTTP REST API agus "
+#~ "úsáidtear d'eochair API chun é a fhíordheimhniú."
+
+#~ msgid "User has two-factor authentication configured."
+#~ msgstr "Tá fíordheimhniú dhá-fhachtóir cumraithe ag an úsáideoir."
+
+#~ msgid "Disable two-factor authentication"
+#~ msgstr "Díchumasaigh fíordheimhniú dhá-fhachtóir"
 
 #~ msgid "Translation reviews are not enabled."
 #~ msgstr "Níl athbhreithnithe aistriúcháin cumasaithe."
