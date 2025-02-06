@@ -41,7 +41,7 @@ class AutoTranslate:
         self.target_state = STATE_TRANSLATED
         if mode == "fuzzy":
             self.target_state = STATE_FUZZY
-        elif mode == "approved":
+        elif mode == "approved" and translation.enable_review:
             self.target_state = STATE_APPROVED
         self.component_wide = component_wide
 

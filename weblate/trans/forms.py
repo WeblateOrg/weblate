@@ -1031,7 +1031,7 @@ class AutoForm(forms.Form):
             ("translate", gettext("Add as translation")),
             ("fuzzy", gettext('Add as "Needing edit"')),
         ]
-        if user is not None and user.has_perm("unit.review", obj):
+        if user is not None and (user.has_perm("unit.review", obj) or obj is None):
             choices.append(("approved", gettext("Add as approved translation")))
         self.fields["mode"].choices = choices
 
