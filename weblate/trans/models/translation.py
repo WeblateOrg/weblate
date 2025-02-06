@@ -315,7 +315,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         except FileParseError:
             raise
         except Exception as exc:
-            report_error("Translation parse error", project=self.component.project)
+            report_error(
+                "Translation parse error", project=self.component.project, print_tb=True
+            )
             self.component.handle_parse_error(exc, self)
 
     def sync_unit(
