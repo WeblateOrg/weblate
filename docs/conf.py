@@ -18,7 +18,9 @@ import os
 import sys
 from pathlib import Path
 
+import sphinx.builders.gettext
 from matplotlib import font_manager
+from sphinx.util.tags import Tags
 
 # -- Path setup --------------------------------------------------------------
 
@@ -35,7 +37,16 @@ sys.path.append(str(file_dir / "_ext"))
 sys.path.append(str(weblate_dir))
 
 
+class WeblateTags(Tags):
+    def eval_condition(self, condition):
+        # Exclude blocks marked as not gettext
+        return condition != "not gettext"
+
+
 def setup(app) -> None:
+    # Monkey path gettext build tags handling, this is workaround until
+    # https://github.com/sphinx-doc/sphinx/issues/13307 is addressed.
+    sphinx.builders.gettext.I18nTags = WeblateTags
     # Used in Sphinx docs, needed for intersphinx links to it
     app.add_object_type(
         "confval",
