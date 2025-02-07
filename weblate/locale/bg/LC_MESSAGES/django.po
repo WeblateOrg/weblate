@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-06 15:48+0000\n"
-"PO-Revision-Date: 2025-01-18 17:21+0000\n"
+"PO-Revision-Date: 2025-02-07 07:50+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -39,8 +39,6 @@ msgstr ""
 "Тази е-поща вече се използва в системата. Моля, въведете друга ел. поща."
 
 #: weblate/accounts/forms.py:119
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
 msgstr "Това потребителско име е заето. Моля, изберете друго."
 
@@ -65,26 +63,20 @@ msgid "Use account e-mail address"
 msgstr "Да се използва адресът на е-пощата на профила"
 
 #: weblate/accounts/forms.py:200
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
 msgstr ""
-"Използва се при подавания към системата за управление на версии. Адресът ще "
-"остане в хранилището завинаги, след като промените бъдат подадени от Weblate."
+"Използва се при подавания към системата за контрол на версиите. Адресът "
+"остава завинаги в хранилището, след като промените бъдат подадени от Weblate."
 
 #: weblate/accounts/forms.py:232 weblate/accounts/models.py:702
 msgid "Public e-mail"
 msgstr "Публична е-поща"
 
 #: weblate/accounts/forms.py:233
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Hide e-mail address from public view"
-msgstr "Този адрес на е-поща не е позволен."
+msgstr "Скриване на адреса на е-пощата от публичния изглед"
 
 #: weblate/accounts/forms.py:339
 #, python-format
@@ -166,15 +158,10 @@ msgid "Message"
 msgstr "Съобщение"
 
 #: weblate/accounts/forms.py:572
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to process "
-#| "your request."
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
 msgstr ""
-"Пишете на английски, в противен случай може да не успеем да обработим вашата "
-"заявка."
+"Пишете на английски. В противен случай може да не обработим Вашата заявка."
 
 #: weblate/accounts/forms.py:589 weblate/accounts/templatetags/authnames.py:33
 #: weblate/auth/models.py:446 weblate/auth/models.py:1160
@@ -186,8 +173,6 @@ msgid "E-mail"
 msgstr "Е-поща"
 
 #: weblate/accounts/forms.py:590
-#, fuzzy
-#| msgid "E-mail with a confirmation link will be sent here."
 msgid "An e-mail with a confirmation link will be sent here."
 msgstr "Тук ще бъде изпратено е-писмо с връзка за потвърждение."
 
@@ -208,8 +193,6 @@ msgid "Current password"
 msgstr "Текуща парола"
 
 #: weblate/accounts/forms.py:684
-#, fuzzy
-#| msgid "Leave empty if you have not yet set a password."
 msgid "Leave empty if you have not set a password yet."
 msgstr "Оставете полето празно, ако все още не сте задали парола."
 
@@ -371,8 +354,6 @@ msgid "Screenshots uploaded"
 msgstr "Качени снимки"
 
 #: weblate/accounts/forms.py:1014
-#, fuzzy
-#| msgid "Chosen sorting is not supported."
 msgid "The chosen sorting is not supported."
 msgstr "Избраната подредба не се поддържа."
 
@@ -393,8 +374,6 @@ msgid "Verify the code from the app"
 msgstr "Потвърдете кода от приложението"
 
 #: weblate/accounts/forms.py:1074
-#, fuzzy
-#| msgid "Entered token is not valid."
 msgid "The entered token is not valid."
 msgstr "Въведеният идентификатор не е правилен."
 
@@ -403,15 +382,11 @@ msgid "Recovery token"
 msgstr "Идентификатор за възстановяване"
 
 #: weblate/accounts/forms.py:1144
-#, fuzzy
-#| msgid ""
-#| "Recovery token can be used just once, mark your token as used after using "
-#| "it."
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
-"Идентификаторът за възстановяване може да бъде използван само веднъж. "
-"Отбележете го като използван, след като го ползвате."
+"Кодовете за възстановяване може да бъдат използвани само по веднъж. Не "
+"забравяйте да отбележите използваните след употреба."
 
 #: weblate/accounts/forms.py:1201
 msgid "Enter the code from the app"
@@ -2011,18 +1986,21 @@ msgstr ""
 
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
-msgstr ""
+msgstr "Сесийно удостоверяване, използвано когато потребителят е вписан."
 
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "Удостоверяване чрез идентификатор със задължителен префикс `%s`."
 
 #: weblate/api/authentication.py:42
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Всеки потребител има личен идентификатор за достъп, който потребителят може "
+"да намери в профилната си страница. Тези идентификатори имат представка "
+"`wlu_`."
 
 #: weblate/api/authentication.py:45
 msgid ""
