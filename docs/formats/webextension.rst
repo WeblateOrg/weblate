@@ -7,9 +7,9 @@ File format used when translating extensions for Mozilla Firefox or Google Chrom
 
 .. note::
 
-    While this format is called JSON, its specification allows to include
-    comments, which are not part of JSON specification. Weblate currently does
-    not support file with comments.
+   While this format is called JSON, its specification allows including
+   "//"-style comments. Weblate does strip these comments while parsing the
+   files and discards them when saving.
 
 .. seealso::
 
