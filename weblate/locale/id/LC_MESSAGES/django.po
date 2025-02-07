@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-06 15:48+0000\n"
-"PO-Revision-Date: 2025-01-18 08:31+0000\n"
+"PO-Revision-Date: 2025-02-07 07:50+0000\n"
 "Last-Translator: Linerly <linerly@proton.me>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -42,8 +42,6 @@ msgstr ""
 "berbeda."
 
 #: weblate/accounts/forms.py:119
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
 msgstr "Nama pengguna ini sudah digunakan. Silakan pilih yang lain."
 
@@ -67,15 +65,11 @@ msgid "Use account e-mail address"
 msgstr "Gunakan alamat surel akun"
 
 #: weblate/accounts/forms.py:200
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
 msgstr ""
-"Digunakan dalam komit pengendalian versi. Alamat akan tetap dalam repositori "
+"Digunakan dalam komit pengendalian versi. Alamat tetap dalam repositori "
 "selamanya setelah perubahan dikomit oleh Weblate."
 
 #: weblate/accounts/forms.py:232 weblate/accounts/models.py:702
@@ -83,10 +77,8 @@ msgid "Public e-mail"
 msgstr "Surel publik"
 
 #: weblate/accounts/forms.py:233
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Hide e-mail address from public view"
-msgstr "Alamat surel ini tidak diizinkan."
+msgstr "Sembunyikan alamat e-mail dari tampilkan publik"
 
 #: weblate/accounts/forms.py:339
 #, python-format
@@ -168,15 +160,11 @@ msgid "Message"
 msgstr "Pesan"
 
 #: weblate/accounts/forms.py:572
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to process "
-#| "your request."
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
 msgstr ""
-"Silakan hubungi kami dalam Bahasa Inggris. Jika tidak, kami mungkin tidak "
-"dapat menindaklanjuti permintaan Anda."
+"Silakan hubungi kami dalam bahasa Inggris. Jika tidak, kami mungkin tidak "
+"memproses permintaan Anda."
 
 #: weblate/accounts/forms.py:589 weblate/accounts/templatetags/authnames.py:33
 #: weblate/auth/models.py:446 weblate/auth/models.py:1160
@@ -188,8 +176,6 @@ msgid "E-mail"
 msgstr "Surel"
 
 #: weblate/accounts/forms.py:590
-#, fuzzy
-#| msgid "E-mail with a confirmation link will be sent here."
 msgid "An e-mail with a confirmation link will be sent here."
 msgstr "Surel dengan tautan konfirmasi akan dikirim di sini."
 
@@ -210,8 +196,6 @@ msgid "Current password"
 msgstr "Kata sandi saat ini"
 
 #: weblate/accounts/forms.py:684
-#, fuzzy
-#| msgid "Leave empty if you have not yet set a password."
 msgid "Leave empty if you have not set a password yet."
 msgstr "Biarkan kosong jika Anda belum mengatur kata sandi."
 
@@ -378,8 +362,6 @@ msgid "Screenshots uploaded"
 msgstr "Tangkapan layar diunggah"
 
 #: weblate/accounts/forms.py:1014
-#, fuzzy
-#| msgid "Chosen sorting is not supported."
 msgid "The chosen sorting is not supported."
 msgstr "Penyortiran yang dipilih tidak didukung."
 
@@ -400,8 +382,6 @@ msgid "Verify the code from the app"
 msgstr "Verifikasi kode dari aplikasi"
 
 #: weblate/accounts/forms.py:1074
-#, fuzzy
-#| msgid "Entered token is not valid."
 msgid "The entered token is not valid."
 msgstr "Token yang dimasukkan tidak valid."
 
@@ -410,15 +390,11 @@ msgid "Recovery token"
 msgstr "Token pemulihan"
 
 #: weblate/accounts/forms.py:1144
-#, fuzzy
-#| msgid ""
-#| "Recovery token can be used just once, mark your token as used after using "
-#| "it."
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
-"Token pemulihan hanya dapat digunakan sekali saja, tandai token Anda setelah "
-"menggunakannya."
+"Kode pemulihan hanya dapat digunakan sekali saja. Pastikan untuk menandai "
+"yang lama sebagai kedaluwarsa."
 
 #: weblate/accounts/forms.py:1201
 msgid "Enter the code from the app"
@@ -2012,18 +1988,20 @@ msgstr ""
 
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
-msgstr ""
+msgstr "Autentikasi berbasis sesi digunkan ketika pengguna masuk."
 
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "Autentikasi berbasis token dengan awalan `%s`yang diperlukan."
 
 #: weblate/api/authentication.py:42
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Setiap pengguna memiliki token akses pribadi yang didapatkan dari profil "
+"penggunanya. Token ini memiliki awalan `wlu_`."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -2031,6 +2009,8 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"Dimungkinkan membuat token proyek di mana akses API terbatas pada tindakan "
+"dalam proyek yang berkaitan. Token ini memiliki awalan `wlp_`."
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -2050,16 +2030,14 @@ msgid "Weblate's REST API"
 msgstr "API REST Weblate"
 
 #: weblate/api/views.py:151
-#, fuzzy
-#| msgid "Could not obtain repository lock to perform the operation."
 msgid "Could not obtain the lock to perform the operation."
-msgstr "Tidak dapat mendapatkan kunci repositori untuk melalukan tindakan."
+msgstr "Tidak dapat mendapatkan kunci untuk melalukan tindakan."
 
 #: weblate/api/views.py:162
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "Tidak dapat mendapatkan kunci repositori untuk melalukan tindakan."
+msgstr ""
+"Tidak dapat mendapatkan kunci repositori untuk %s untuk melalukan tindakan."
 
 #: weblate/api/views.py:170
 #, fuzzy, python-format
@@ -4823,11 +4801,11 @@ msgstr "Jumlah orang yang berbicara menggunakan bahasa ini."
 
 #: weblate/lang/models.py:805
 msgid "Case-sensitive"
-msgstr ""
+msgstr "Sensitif besar-kecil huruf"
 
 #: weblate/lang/models.py:806
 msgid "Case-insensitive"
-msgstr ""
+msgstr "Tidak sensitif besar-kecil huruf"
 
 #: weblate/lang/models.py:842
 msgctxt "Plural type"
@@ -6450,10 +6428,8 @@ msgid "Recovery codes"
 msgstr "Kode pemulihan"
 
 #: weblate/templates/accounts/profile.html:327
-#, fuzzy
-#| msgid "There are currently no recovery codes generated."
 msgid "No recovery codes generated yet."
-msgstr "Saat ini tidak ada kode pemulihan yang dibuat."
+msgstr "Belum ada kode pemulihan yang dibuat."
 
 #: weblate/templates/accounts/profile.html:331
 #: weblate/templates/accounts/recovery-codes.html:55
@@ -6462,12 +6438,10 @@ msgid "Generate new recovery codes"
 msgstr "Buat kode pemulihan yang baru"
 
 #: weblate/templates/accounts/profile.html:334
-#, fuzzy, python-format
-#| msgid "%(count)s recovery code is available."
-#| msgid_plural "%(count)s recovery codes are available."
+#, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
-msgstr[0] "%(count)s kode pemulihan tersedia."
+msgstr[0] "%(count)s kode pemulihan yang tersedia."
 
 #: weblate/templates/accounts/profile.html:340
 msgid "View recovery codes"
@@ -6560,10 +6534,8 @@ msgid "User agent"
 msgstr "Agen pengguna"
 
 #: weblate/templates/accounts/profile.html:505
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent activity found."
-msgstr "Tidak ada aktivitas terbaru yang ditemukan!"
+msgstr "Tidak ada aktivitas terbaru yang ditemukan."
 
 #: weblate/templates/accounts/profile.html:511
 msgid "Report suspicious activity"
@@ -6770,17 +6742,13 @@ msgid "Reset my password"
 msgstr "Atur ulang kata sandi Anda"
 
 #: weblate/templates/accounts/totp.html:33
-#, fuzzy
-#| msgid ""
-#| "Authenticator apps generate one-time passwords that are used as a second "
-#| "factor to verify your identity when prompted during sign-in."
 msgid ""
 "Authenticator apps generate time-based one-time passwords that are used as a "
 "second factor to verify your identity when prompted during sign-in."
 msgstr ""
-"Aplikasi autentikator menghasilkan kata sandi sekali pakai yang digunakan "
-"sebagai faktor kedua untuk memverifikasi identitas Anda ketika diminta saat "
-"masuk."
+"Aplikasi autentikator menghasilkan kata sandi sekali pakai berbasis waktu "
+"yang digunakan sebagai faktor kedua untuk memverifikasi identitas Anda "
+"ketika diminta saat masuk."
 
 #: weblate/templates/accounts/totp.html:36
 msgid "Scan the QR code"
@@ -7008,22 +6976,16 @@ msgid "Edit user"
 msgstr "Edit pengguna"
 
 #: weblate/templates/accounts/user.html:395
-#, fuzzy
-#| msgid "Requires two-factor authentication"
 msgid "The user has two-factor authentication."
-msgstr "Membutuhkan autentikasi dua faktor"
+msgstr "Pengguna ini memiliki autentikasi dua faktor."
 
 #: weblate/templates/accounts/user.html:397
-#, fuzzy
-#| msgid "User doesn't have two-factor authentication configured."
 msgid "The user doesn't have two-factor authentication."
-msgstr "Pengguna tidak mengonfigurasi autentikasi dua faktor."
+msgstr "Pengguna tidak memiliki autentikasi dua faktor."
 
 #: weblate/templates/accounts/user.html:404
-#, fuzzy
-#| msgid "Two-factor authentication"
 msgid "Turn off two-factor authentication"
-msgstr "Autentikasi dua faktor"
+msgstr "Matikan autentikasi dua faktor"
 
 #: weblate/templates/accounts/user.html:413
 msgid "Account removal deletes all user private data."
@@ -8311,22 +8273,16 @@ msgstr ""
 #: weblate/templates/snippets/libre-checklist.html:24
 #: weblate/templates/trans/other-row.html:27
 #: weblate/trans/models/component.py:581
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor license agreement"
-msgstr "Perjanjian kontributor"
+msgstr "Perjanjian lisensi kontributor"
 
 #: weblate/templates/contributor-agreement.html:22
-#, fuzzy
-#| msgid "Please review the contributor agreement"
 msgid "Please review the contributor license agreement"
-msgstr "Harap tinjau perjanjian kontributor"
+msgstr "Harap tinjau perjanjian lisensi kontributor"
 
 #: weblate/templates/contributor-agreement.html:25
-#, fuzzy
-#| msgid "Please read following contributor agreement:"
 msgid "Please read the following contributor license agreement:"
-msgstr "Silakan baca perjanjian kontributor berikut:"
+msgstr "Silakan baca perjanjian lisensi kontributor berikut:"
 
 #: weblate/templates/contributor-agreement.html:34
 msgid "You have already agreed to this agreement."
@@ -9460,30 +9416,25 @@ msgid "New translation in %(translation)s"
 msgstr "Terjemahan baru di %(translation)s"
 
 #: weblate/templates/mail/component_license.html:10
-#, fuzzy, python-format
-#| msgid "Contributor agreement for component %(component)s was changed."
+#, python-format
 msgid "Contributor license agreement for component %(component)s was changed."
-msgstr "Perjanjian kontributor untuk komponen %(component)s diubah."
+msgstr "Perjanjian lisensi kontributor untuk komponen %(component)s diubah."
 
 #: weblate/templates/mail/component_license.html:13
 msgid "Old agreement:"
 msgstr "Perjanjian lama:"
 
 #: weblate/templates/mail/component_license.html:16
-#, fuzzy
-#| msgid "There was no contributor agreement before."
 msgid "There was no contributor license agreement before."
-msgstr "Tidak ada perjanjian kontributor sebelumnya."
+msgstr "Tidak ada perjanjian lisensi kontributor sebelumnya."
 
 #: weblate/templates/mail/component_license.html:19
 msgid "New agreement:"
 msgstr "Perjanjian baru:"
 
 #: weblate/templates/mail/component_license.html:22
-#, fuzzy
-#| msgid "Contributor agreement was removed."
 msgid "Contributor license agreement was removed."
-msgstr "Perjanjian kontributor telah dihapus."
+msgstr "Perjanjian lisensi kontributor telah dihapus."
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
@@ -9491,10 +9442,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "%(component)s dilisensikan ulang ke %(target)s"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Contributor agreement for %(component)s was changed"
+#, python-format
 msgid "Contributor license agreement for %(component)s was changed"
-msgstr "Perjanjian kontributor untuk %(component)s diubah"
+msgstr "Perjanjian lisensi kontributor untuk %(component)s diubah"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -10633,23 +10583,17 @@ msgstr ""
 "Anda bisa mengubah keadaan tipe dari semua string yang cocok sekaligus."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:11
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "View contributor license agreement"
-msgstr "Lihat perjanjian kontributor"
+msgstr "Lihat perjanjian lisensi kontributor"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:13
 #: weblate/templates/trans/other-row.html:27
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "license agreement."
 msgstr ""
 "Berkontribusi pada terjemahan ini mengharuskan Anda untuk menyetujui "
-"perjanjian kontributornya."
+"perjanjian lisensi kontributornya."
 
 #: weblate/templates/snippets/component/lock.html:21
 msgid "Get notified when this project is unlocked again"
@@ -10912,16 +10856,12 @@ msgid "Aliased language codes"
 msgstr "Kode bahasa alias"
 
 #: weblate/templates/snippets/info.html:211
-#, fuzzy
-#| msgid "String target language"
 msgid "English name of the language"
-msgstr "Bahasa target string"
+msgstr "Nama bahasa dalam bahasa Inggris"
 
 #: weblate/templates/snippets/info.html:221
-#, fuzzy
-#| msgid "Last activity"
 msgid "Case sensitivity"
-msgstr "Aktivitas terakhir"
+msgstr "Sensitivitas besar-kecil huruf"
 
 #: weblate/templates/snippets/info.html:245
 msgid "Most active translators"
@@ -13782,10 +13722,8 @@ msgid "Labels to remove"
 msgstr "Label untuk dihapus"
 
 #: weblate/trans/forms.py:2674
-#, fuzzy
-#| msgid "I accept the contributor agreement"
 msgid "I accept the contributor license agreement"
-msgstr "Saya menyetujui perjanjian kontributor"
+msgstr "Saya menyetujui perjanjian lisensi kontributor"
 
 #: weblate/trans/forms.py:2703
 msgid "The slug does not match the one marked for deletion!"
@@ -14371,10 +14309,8 @@ msgid "License changed"
 msgstr "Lisensi diubah"
 
 #: weblate/trans/models/change.py:550
-#, fuzzy
-#| msgid "Contributor agreement changed"
 msgid "Contributor license agreement changed"
-msgstr "Perjanjian kontributor diubah"
+msgstr "Perjanjian lisensi kontributor diubah"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:553
@@ -14473,17 +14409,13 @@ msgstr "Penerjemahan komponen telah selesai"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:594
-#, fuzzy
-#| msgid "Unused enforced checks."
 msgid "Applied enforced check"
-msgstr "Pemeriksaan paksa yang tidak digunakan."
+msgstr "Pemeriksaan paksa diterapkan"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:596
-#, fuzzy
-#| msgid "Propagated"
 msgid "Propagated change"
-msgstr "Disebarkan"
+msgstr "Perubahan tersebar"
 
 #: weblate/trans/models/change.py:683
 msgid "The component was automatically locked because of an alert."
