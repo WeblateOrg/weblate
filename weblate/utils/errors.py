@@ -84,7 +84,8 @@ def report_error(
         else:
             log("%s: %s", cause, extra_log)
     if print_tb:
-        LOGGER.exception(cause)
+        # This is called from an exception handler
+        LOGGER.exception(cause)  # noqa: LOG004
 
 
 def add_breadcrumb(category: str, message: str, level: str = "info", **data) -> None:
