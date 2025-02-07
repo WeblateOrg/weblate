@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-06 15:48+0000\n"
-"PO-Revision-Date: 2025-02-03 19:24+0000\n"
+"PO-Revision-Date: 2025-02-07 10:36+0000\n"
 "Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -39,10 +39,8 @@ msgid ""
 msgstr "Tuto e-mailovou adresu už někdo používá. Prosím zadejte jinou."
 
 #: weblate/accounts/forms.py:119
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
-msgstr "Toto uživatelské jméno je už obsazené. Prosím zvolte si jiné."
+msgstr "Toto uživatelské jméno je už zabrané. Zvolte si prosím jiné."
 
 #: weblate/accounts/forms.py:131 weblate/accounts/forms.py:985
 #: weblate/auth/models.py:440 weblate/auth/models.py:1143
@@ -64,10 +62,6 @@ msgid "Use account e-mail address"
 msgstr "Použít e-mailovou adresu profilu"
 
 #: weblate/accounts/forms.py:200
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
@@ -80,10 +74,8 @@ msgid "Public e-mail"
 msgstr "Veřejný e-mail"
 
 #: weblate/accounts/forms.py:233
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Hide e-mail address from public view"
-msgstr "Tento e-mail není možné použít."
+msgstr "Skrýt e-mailovou adresu veřejnosti"
 
 #: weblate/accounts/forms.py:339
 #, python-format
@@ -165,15 +157,11 @@ msgid "Message"
 msgstr "Zpráva"
 
 #: weblate/accounts/forms.py:572
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to process "
-#| "your request."
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
 msgstr ""
-"Prosím pište nám v angličtině, jinak se může stát, že váš požadavek nebudeme "
-"schopní zpracovat."
+"Kontaktujte nás prosím v angličtině. V opačném případě nebudeme schopni "
+"zpracovat váš požadavek."
 
 #: weblate/accounts/forms.py:589 weblate/accounts/templatetags/authnames.py:33
 #: weblate/auth/models.py:446 weblate/auth/models.py:1160
@@ -185,8 +173,6 @@ msgid "E-mail"
 msgstr "E-mail"
 
 #: weblate/accounts/forms.py:590
-#, fuzzy
-#| msgid "E-mail with a confirmation link will be sent here."
 msgid "An e-mail with a confirmation link will be sent here."
 msgstr "Na tuto adresu vám přijde aktivační e-mail."
 
@@ -207,10 +193,8 @@ msgid "Current password"
 msgstr "Stávající heslo"
 
 #: weblate/accounts/forms.py:684
-#, fuzzy
-#| msgid "Leave empty if you have not yet set a password."
 msgid "Leave empty if you have not set a password yet."
-msgstr "Pokud nemáte nastavené heslo, kolonku nevyplňujte."
+msgstr "Pokud zatím nemáte nastavené heslo, kolonku nevyplňujte."
 
 #: weblate/accounts/forms.py:698
 msgid "You have entered an invalid password."
@@ -364,8 +348,6 @@ msgid "Screenshots uploaded"
 msgstr "Nahráno snímků obrazovky"
 
 #: weblate/accounts/forms.py:1014
-#, fuzzy
-#| msgid "Chosen sorting is not supported."
 msgid "The chosen sorting is not supported."
 msgstr "Zvolené řazení není podporované."
 
@@ -386,25 +368,18 @@ msgid "Verify the code from the app"
 msgstr "Ověřte kód z aplikace"
 
 #: weblate/accounts/forms.py:1074
-#, fuzzy
-#| msgid "Entered token is not valid."
 msgid "The entered token is not valid."
-msgstr "Zadaný token není platný."
+msgstr "Zadaný token je neplatný."
 
 #: weblate/accounts/forms.py:1142
 msgid "Recovery token"
 msgstr "Obnovovací token"
 
 #: weblate/accounts/forms.py:1144
-#, fuzzy
-#| msgid ""
-#| "Recovery token can be used just once, mark your token as used after using "
-#| "it."
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
-"Obnovovací token lze použít pouze jednou, označte svůj token jako použitý, "
-"jakmile tak učiníte."
+"Obnovovací kódy lze použít pouze jednou. Nezapomeňte si použité kódy označit."
 
 #: weblate/accounts/forms.py:1201
 msgid "Enter the code from the app"
@@ -1979,18 +1954,20 @@ msgstr ""
 
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
-msgstr ""
+msgstr "Autentifikace založená na relacích, když je uživatel přihlášen."
 
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "Autentifikace založená na tokenu s požadovanou předponou `%s`."
 
 #: weblate/api/authentication.py:42
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Každý uživatel má svůj osobní přístupový token, který získají ze svého "
+"uživatelského profilu. Tyto tokeny mají předponu `wlu_`."
 
 #: weblate/api/authentication.py:45
 msgid ""
