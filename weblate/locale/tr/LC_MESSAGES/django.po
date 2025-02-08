@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-06 15:48+0000\n"
-"PO-Revision-Date: 2025-01-21 18:29+0000\n"
+"PO-Revision-Date: 2025-02-08 01:46+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -47,8 +47,6 @@ msgstr ""
 "Bu e-posta adresi zaten kullanılıyor. Lütfen farklı bir e-posta adresi yazın."
 
 #: weblate/accounts/forms.py:119
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
 msgstr "Bu kullanıcı adı zaten alınmış. Lütfen başka bir tane seçin."
 
@@ -72,10 +70,6 @@ msgid "Use account e-mail address"
 msgstr "Hesap e-postası kullanılsın"
 
 #: weblate/accounts/forms.py:200
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
@@ -88,10 +82,8 @@ msgid "Public e-mail"
 msgstr "Herkese açık e-posta"
 
 #: weblate/accounts/forms.py:233
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Hide e-mail address from public view"
-msgstr "Bu e-posta adresine izin verilmiyor."
+msgstr "E-posta adresi herkese açık olarak görüntülenmesin"
 
 #: weblate/accounts/forms.py:339
 #, python-format
@@ -173,10 +165,6 @@ msgid "Message"
 msgstr "İleti"
 
 #: weblate/accounts/forms.py:572
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to process "
-#| "your request."
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
 msgstr ""
@@ -192,10 +180,8 @@ msgid "E-mail"
 msgstr "E-posta"
 
 #: weblate/accounts/forms.py:590
-#, fuzzy
-#| msgid "E-mail with a confirmation link will be sent here."
 msgid "An e-mail with a confirmation link will be sent here."
-msgstr "Doğrulama bağlantısının bulunduğu e-posta bu adrese gönderilecektir."
+msgstr "Doğrulama bağlantısının bulunduğu e-posta buraya gönderilecek."
 
 #: weblate/accounts/forms.py:636
 msgid "New password"
@@ -214,8 +200,6 @@ msgid "Current password"
 msgstr "Şu anki parola"
 
 #: weblate/accounts/forms.py:684
-#, fuzzy
-#| msgid "Leave empty if you have not yet set a password."
 msgid "Leave empty if you have not set a password yet."
 msgstr "Henüz bir parola belirlemediyseniz bu alanı boş bırakın."
 
@@ -374,10 +358,8 @@ msgid "Screenshots uploaded"
 msgstr "Yüklenen ekran görüntüsü"
 
 #: weblate/accounts/forms.py:1014
-#, fuzzy
-#| msgid "Chosen sorting is not supported."
 msgid "The chosen sorting is not supported."
-msgstr "Seçilen sıralama desteklenmiyor."
+msgstr "Seçilmiş sıralama desteklenmiyor."
 
 #: weblate/accounts/forms.py:1031
 msgid "Add user to a team"
@@ -396,8 +378,6 @@ msgid "Verify the code from the app"
 msgstr "Uygulamadaki kodu doğrulayın"
 
 #: weblate/accounts/forms.py:1074
-#, fuzzy
-#| msgid "Entered token is not valid."
 msgid "The entered token is not valid."
 msgstr "Yazılan kod geçersiz."
 
@@ -406,15 +386,11 @@ msgid "Recovery token"
 msgstr "Kurtarma kodu"
 
 #: weblate/accounts/forms.py:1144
-#, fuzzy
-#| msgid ""
-#| "Recovery token can be used just once, mark your token as used after using "
-#| "it."
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
-"Kurtarma kodu yalnızca bir kez kullanılabilir. Kullandıktan sonra kodu "
-"kullanılmış olarak işaretleyin."
+"Kurtarma kodları yalnızca bir kez kullanılabilir. Kullandığınız kodları "
+"kullanılmış olarak işaretlemeyi unutmayın."
 
 #: weblate/accounts/forms.py:1201
 msgid "Enter the code from the app"
@@ -2000,18 +1976,20 @@ msgstr ""
 
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
-msgstr ""
+msgstr "Kullanıcı oturum açtığında kullanılan oturum tabanlı kimlik doğrulama."
 
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "`%s` zorunlu ön eki ile kod tabanlı kimlik doğrulama."
 
 #: weblate/api/authentication.py:42
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Her kullanıcının kendi kullanıcı profilinden alabileceği bir kişisel erişim "
+"kodu vardır. Bu kodlarda `wlu_` ön eki bulunur."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -2019,6 +1997,8 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"API erişimini ilgili projeye yönelik işlemlerle sınırlayan proje kodları "
+"oluşturulabilir. Bu kodlarda `wlp_` ön eki bulunur."
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -2038,30 +2018,25 @@ msgid "Weblate's REST API"
 msgstr "Weblate REST API uygulaması"
 
 #: weblate/api/views.py:151
-#, fuzzy
-#| msgid "Could not obtain repository lock to perform the operation."
 msgid "Could not obtain the lock to perform the operation."
-msgstr "İşlemi yapmak için depo kilitlenemedi."
+msgstr "İşlemi yapmak için kilit alınamadı."
 
 #: weblate/api/views.py:162
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "İşlemi yapmak için depo kilitlenemedi."
+msgstr "İşlemi yapmak için %s depo kilidi alınamadı."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "İşlemi yapmak için depo kilitlenemedi."
+msgstr "İşlemi yapmak için %s bileşeninin güncelleme kilidi alınamadı."
 
 #: weblate/api/views.py:177
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "İşlemi yapmak için depo kilitlenemedi."
+msgstr "İşlemi yapmak için %(origin)s üzerinde %(scope)s kilidi alınamadı."
 
 #: weblate/api/views.py:2310 weblate/auth/models.py:956
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2930,7 +2905,7 @@ msgstr "Bunun yerine dizgeyi kaynak dile ekleyin."
 #: weblate/auth/permissions.py:313
 msgid "Adding strings is disabled in the component configuration."
 msgstr ""
-"Dizge ekleme özelliği bileşen yapılandırmasında kullanıdan kaldırılmış."
+"Dizge ekleme özelliği bileşen yapılandırmasında kullanımdan kaldırılmış."
 
 #: weblate/auth/permissions.py:328
 msgid ""
@@ -2942,17 +2917,13 @@ msgid "The file format does not support this."
 msgstr "Dosya biçimi bunu desteklenmiyor."
 
 #: weblate/auth/permissions.py:372
-#, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
 msgid "Adding new translations is turned off in the component configuration."
 msgstr ""
-"Dizge ekleme özelliği bileşen yapılandırmasında kullanıdan kaldırılmış."
+"Çeviri ekleme özelliği bileşen yapılandırmasında kullanımdan kaldırılmış."
 
 #: weblate/auth/permissions.py:376
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This component is currently locked."
-msgstr "Bu çeviri kilitlenmiş."
+msgstr "Bu bileşen şu anda kilitli."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3821,18 +3792,14 @@ msgid "Fluent source syntax"
 msgstr "Fluent kaynak söz dizimi"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in source"
 msgid "Fluent syntax error in the source"
 msgstr "Kaynakta Fluent söz dizimi sorunu"
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
-msgstr "Fluent çevirisi söz dizimi"
+msgstr "Fluent çeviri söz dizimi"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "Fluent syntax error in the translation"
 msgstr "Çeviride Fluent söz dizimi sorunu"
 
@@ -4173,16 +4140,12 @@ msgid ""
 msgstr "Çevrilmiş iletide reStructuredText terimi başvuruları tutarsız."
 
 #: weblate/checks/markup.py:436
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent inline links in the translated message."
-msgstr "Çevrilmiş iletide tutarsız bağlantılar var."
+msgstr "Çevrilmiş iletide tutarsız iç bağlantılar var."
 
 #: weblate/checks/markup.py:442
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent external links in the translated message."
-msgstr "Çevrilmiş iletide tutarsız bağlantılar var."
+msgstr "Çevrilmiş iletide tutarsız dış bağlantılar var."
 
 #: weblate/checks/markup.py:565
 msgid "reStructuredText syntax error"
@@ -4806,11 +4769,11 @@ msgstr "Bu dili konuşan insan sayısı."
 
 #: weblate/lang/models.py:805
 msgid "Case-sensitive"
-msgstr ""
+msgstr "Büyük/küçük harfe duyarlı"
 
 #: weblate/lang/models.py:806
 msgid "Case-insensitive"
-msgstr ""
+msgstr "Büyük/küçük harfe duyarsız"
 
 #: weblate/lang/models.py:842
 msgctxt "Plural type"
@@ -6372,8 +6335,6 @@ msgid "Security keys (WebAuthn)"
 msgstr "Güvenlik anahtarları (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:261
-#, fuzzy
-#| msgid "There are currently no WebAuthn keys registered."
 msgid "No WebAuthn keys registered yet."
 msgstr "Henüz bir WebAuthn anahtarı kaydedilmemiş."
 
@@ -6397,20 +6358,16 @@ msgid "Register new security key"
 msgstr "Yeni bir güvenlik anahtarı kaydet"
 
 #: weblate/templates/accounts/profile.html:294
-#, fuzzy
-#| msgid "Unfortunately, your browser has no WebAuthn support."
 msgid "Your web browser lacks WebAuthn support."
-msgstr "Ne yazık ki, tarayıcınızda WebAuthn desteği yok."
+msgstr "Tarayıcınızda WebAuthn desteği yok."
 
 #: weblate/templates/accounts/profile.html:302
 msgid "Authenticator apps (TOTP)"
 msgstr "Kimlik doğrulama uygulamaları (tek kullanımlık parola)"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "The authentication app %s was registered."
 msgid "No authenticator apps registered yet."
-msgstr "%s kimlik doğrulama uygulaması kaydedildi."
+msgstr "Henüz bir kimlik doğrulama uygulaması kaydedilmemiş."
 
 #: weblate/templates/accounts/profile.html:321
 #: weblate/templates/accounts/totp.html:15
@@ -6425,8 +6382,6 @@ msgid "Recovery codes"
 msgstr "Kurtarma kodları"
 
 #: weblate/templates/accounts/profile.html:327
-#, fuzzy
-#| msgid "There are currently no recovery codes generated."
 msgid "No recovery codes generated yet."
 msgstr "Henüz kurtarma kodları oluşturulmamış."
 
@@ -6437,9 +6392,7 @@ msgid "Generate new recovery codes"
 msgstr "Yeni kurtarma kodları oluştur"
 
 #: weblate/templates/accounts/profile.html:334
-#, fuzzy, python-format
-#| msgid "%(count)s recovery code is available."
-#| msgid_plural "%(count)s recovery codes are available."
+#, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
 msgstr[0] "%(count)s kurtarma kodu var."
@@ -6509,13 +6462,10 @@ msgid "Description"
 msgstr "Açıklama"
 
 #: weblate/templates/accounts/profile.html:477
-#, fuzzy
-#| msgid ""
-#| "Contact us immediately if you see anything suspicious in the audit log."
 msgid ""
 "Get in contact immediately if you notice anything suspicious in the audit "
 "log."
-msgstr "Denetim günlüğünde şüpheli bir şey görürseniz derhal bize ulaşın."
+msgstr "Denetim günlüğünde şüpheli bir şey görürseniz hemen bizimle görüşün."
 
 #: weblate/templates/accounts/profile.html:489
 #: weblate/templates/accounts/user.html:299
@@ -6535,26 +6485,20 @@ msgid "User agent"
 msgstr "Kullanıcı uygulaması"
 
 #: weblate/templates/accounts/profile.html:505
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent activity found."
-msgstr "Herhangi bir son işlem bulunamadı!"
+msgstr "Herhangi bir son işlem bulunamadı."
 
 #: weblate/templates/accounts/profile.html:511
 msgid "Report suspicious activity"
 msgstr "Şüpheli etkinliği bildir"
 
 #: weblate/templates/accounts/profile.html:526
-#, fuzzy
-#| msgid ""
-#| "The API key is also used to authenticate to automatically exported Git "
-#| "repositories."
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
 "access Weblate Git repositories."
 msgstr ""
-"API anahtarı, kendiliğinden dışa aktarılan Git depolarının kimlik "
-"doğrulaması için de kullanılır."
+"API anahtarı, Weblate uygulamasını HTTP REST API ile yönetmek ve Weblate Git "
+"depolarına erişmek için kullanılabilir."
 
 #: weblate/templates/accounts/profile.html:531
 #: weblate/templates/trans/project-access.html:351
@@ -6744,16 +6688,13 @@ msgid "Reset my password"
 msgstr "Parolamı sıfırla"
 
 #: weblate/templates/accounts/totp.html:33
-#, fuzzy
-#| msgid ""
-#| "Authenticator apps generate one-time passwords that are used as a second "
-#| "factor to verify your identity when prompted during sign-in."
 msgid ""
 "Authenticator apps generate time-based one-time passwords that are used as a "
 "second factor to verify your identity when prompted during sign-in."
 msgstr ""
 "Kimlik doğrulama uygulamaları, oturum açma sırasında kimliğinizi doğrulamak "
-"için ikinci adım olarak kullanacağınız tek kullanımlık parolalar üretir."
+"için ikinci adım olarak kullanacağınız zamana bağlı tek kullanımlık "
+"parolalar oluşturur."
 
 #: weblate/templates/accounts/totp.html:36
 msgid "Scan the QR code"
@@ -6986,22 +6927,16 @@ msgid "Edit user"
 msgstr "Kullanıcıyı düzenle"
 
 #: weblate/templates/accounts/user.html:395
-#, fuzzy
-#| msgid "Requires two-factor authentication"
 msgid "The user has two-factor authentication."
-msgstr "İki adımlı doğrulama gereklidir"
+msgstr "Kullanıcı iki adımlı doğrulama kullanıyor."
 
 #: weblate/templates/accounts/user.html:397
-#, fuzzy
-#| msgid "User doesn't have two-factor authentication configured."
 msgid "The user doesn't have two-factor authentication."
-msgstr "Kullanıcı iki adımlı doğrulamayı yapılandırmamış."
+msgstr "Kullanıcı iki adımlı doğrulama kullanmıyor."
 
 #: weblate/templates/accounts/user.html:404
-#, fuzzy
-#| msgid "Two-factor authentication"
 msgid "Turn off two-factor authentication"
-msgstr "İki adımlı doğrulama"
+msgstr "İki adımlı doğrulamayı kapat"
 
 #: weblate/templates/accounts/user.html:413
 msgid "Account removal deletes all user private data."
@@ -8285,22 +8220,16 @@ msgstr ""
 #: weblate/templates/snippets/libre-checklist.html:24
 #: weblate/templates/trans/other-row.html:27
 #: weblate/trans/models/component.py:581
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor license agreement"
-msgstr "Katılımcı anlaşması"
+msgstr "Katılımcı lisans anlaşması"
 
 #: weblate/templates/contributor-agreement.html:22
-#, fuzzy
-#| msgid "Please review the contributor agreement"
 msgid "Please review the contributor license agreement"
-msgstr "Lütfen katılımcı anlaşmasını gözden geçirin"
+msgstr "Lütfen katılımcı lisans anlaşmasını gözden geçirin"
 
 #: weblate/templates/contributor-agreement.html:25
-#, fuzzy
-#| msgid "Please read following contributor agreement:"
 msgid "Please read the following contributor license agreement:"
-msgstr "Lütfen aşağıdaki katılımcı anlaşmasını okuyun:"
+msgstr "Lütfen aşağıdaki katılımcı lisans anlaşmasını okuyun:"
 
 #: weblate/templates/contributor-agreement.html:34
 msgid "You have already agreed to this agreement."
@@ -9451,30 +9380,25 @@ msgid "New translation in %(translation)s"
 msgstr "%(translation)s içinde yeni çeviri"
 
 #: weblate/templates/mail/component_license.html:10
-#, fuzzy, python-format
-#| msgid "Contributor agreement for component %(component)s was changed."
+#, python-format
 msgid "Contributor license agreement for component %(component)s was changed."
-msgstr "%(component)s bileşeni için katılımcı anlaşması değiştirildi."
+msgstr "%(component)s bileşeni için katılımcı lisans anlaşması değiştirildi."
 
 #: weblate/templates/mail/component_license.html:13
 msgid "Old agreement:"
 msgstr "Eski anlaşma:"
 
 #: weblate/templates/mail/component_license.html:16
-#, fuzzy
-#| msgid "There was no contributor agreement before."
 msgid "There was no contributor license agreement before."
-msgstr "Daha önce bir katılımcı anlaşması yoktu."
+msgstr "Daha önce bir katılımcı lisans anlaşması yoktu."
 
 #: weblate/templates/mail/component_license.html:19
 msgid "New agreement:"
 msgstr "Yeni anlaşma:"
 
 #: weblate/templates/mail/component_license.html:22
-#, fuzzy
-#| msgid "Contributor agreement was removed."
 msgid "Contributor license agreement was removed."
-msgstr "Katılımcı anlaşması kaldırıldı."
+msgstr "Katılımcı lisans anlaşması kaldırıldı."
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
@@ -9482,10 +9406,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "%(component)s bileşeninin lisansı %(target)s olarak değiştirildi"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Contributor agreement for %(component)s was changed"
+#, python-format
 msgid "Contributor license agreement for %(component)s was changed"
-msgstr "%(component)s için katılımcı anlaşması değiştirildi"
+msgstr "%(component)s için katılımcı lisans anlaşması değiştirildi"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -10632,22 +10555,17 @@ msgstr ""
 "Verilen türle eşleşen tüm dizgelerin durumunu bir kerede değiştirebilirsiniz."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:11
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "View contributor license agreement"
-msgstr "Katılımcı anlaşmasını görüntüle"
+msgstr "Katılımcı lisans anlaşmasını görüntüle"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:13
 #: weblate/templates/trans/other-row.html:27
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "license agreement."
 msgstr ""
-"Bu çeviriye katkıda bulunmak için katılımcı anlaşmasını kabul etmelisiniz."
+"Bu çeviriye katkıda bulunmak için katılımcı lisans anlaşmasını kabul "
+"etmelisiniz."
 
 #: weblate/templates/snippets/component/lock.html:21
 msgid "Get notified when this project is unlocked again"
@@ -10910,16 +10828,12 @@ msgid "Aliased language codes"
 msgstr "Kısaltılmış dil kodları"
 
 #: weblate/templates/snippets/info.html:211
-#, fuzzy
-#| msgid "String target language"
 msgid "English name of the language"
-msgstr "Dizgenin hedef dili"
+msgstr "Dilin İngilizce adı"
 
 #: weblate/templates/snippets/info.html:221
-#, fuzzy
-#| msgid "Last activity"
 msgid "Case sensitivity"
-msgstr "Son etkinlik"
+msgstr "Büyük/küçük harf duyarlılığı"
 
 #: weblate/templates/snippets/info.html:245
 msgid "Most active translators"
@@ -13782,10 +13696,8 @@ msgid "Labels to remove"
 msgstr "Kaldırılacak etiketler"
 
 #: weblate/trans/forms.py:2674
-#, fuzzy
-#| msgid "I accept the contributor agreement"
 msgid "I accept the contributor license agreement"
-msgstr "Katılımcı anlaşmasını kabul ediyorum"
+msgstr "Katılımcı lisans anlaşmasını kabul ediyorum"
 
 #: weblate/trans/forms.py:2703
 msgid "The slug does not match the one marked for deletion!"
@@ -14373,10 +14285,8 @@ msgid "License changed"
 msgstr "Lisans değiştirildi"
 
 #: weblate/trans/models/change.py:550
-#, fuzzy
-#| msgid "Contributor agreement changed"
 msgid "Contributor license agreement changed"
-msgstr "Katılımcı anlaşması değiştirildi"
+msgstr "Katılımcı lisans anlaşması değiştirildi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:553
@@ -14475,17 +14385,13 @@ msgstr "Bileşen çevirisi tamamlandı"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:594
-#, fuzzy
-#| msgid "Unused enforced checks."
 msgid "Applied enforced check"
-msgstr "Kullanılmayan zorunlu denetimler."
+msgstr "Uygulanan zorunlu denetim"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:596
-#, fuzzy
-#| msgid "Propagated"
 msgid "Propagated change"
-msgstr "Yayılmış"
+msgstr "Yayılmış değişiklik"
 
 #: weblate/trans/models/change.py:683
 msgid "The component was automatically locked because of an alert."
@@ -14810,16 +14716,12 @@ msgid "List of checks which can not be ignored."
 msgstr "Yok sayılamayacak denetim hataları listesi."
 
 #: weblate/trans/models/component.py:585
-#, fuzzy
-#| msgid ""
-#| "User agreement which needs to be approved before a user can translate "
-#| "this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
 "Bir kullanıcının bu bileşeni çevirmeden önce kabul etmesi gereken katılımcı "
-"anlaşması."
+"lisans anlaşması."
 
 #: weblate/trans/models/component.py:592
 msgid "Adding new translation"
@@ -16298,12 +16200,11 @@ msgid "A language in the category was removed."
 msgstr "Kategorideki bir dil silindi."
 
 #: weblate/trans/views/settings.py:241
-#, fuzzy, python-format
-#| msgid "Could not change %s due to outstanding issue in its settings: %s"
+#, python-format
 msgid ""
 "Could not change %(obj)s due to an outstanding issue in its settings: "
 "%(error)s"
-msgstr "Ayarlardaki bir eksiklik nedeniyle %s değiştirilemedi: %s"
+msgstr "Ayarlardaki bir eksiklik nedeniyle %(obj)s değiştirilemedi: %(error)s"
 
 #: weblate/trans/views/settings.py:415
 msgid "Backup scheduled. It will be available soon."
