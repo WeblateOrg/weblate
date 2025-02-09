@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-09 08:33+0000\n"
-"PO-Revision-Date: 2025-02-07 19:32+0000\n"
+"PO-Revision-Date: 2025-02-09 15:16+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -369,13 +369,10 @@ msgid "Recovery token"
 msgstr "אסימון שחזור"
 
 #: weblate/accounts/forms.py:1144
-#, fuzzy
-#| msgid ""
-#| "Recovery token can be used just once, mark your token as used after using "
-#| "it."
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
-msgstr "אפשר להשתמש באסימון שחזור פעם אחת, נא לסמן את האסימון לאחר השימוש בו."
+msgstr ""
+"אפשר להשתמש בקודים לשחזור פעם אחת, נא לסמן את אלו שהשתמשת בהם לאחר השימוש."
 
 #: weblate/accounts/forms.py:1201
 msgid "Enter the code from the app"
@@ -1913,6 +1910,8 @@ msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"לכל משתמש יש אסימון גישה אישי שניתן לקבל מפרופיל המשתמש התואם. לאסימונים יש "
+"את הקידומת `wlu_‎`."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -1920,6 +1919,8 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"אפשר ליצור אסימוני מיזמים שהגישה שלהם ל־API מוגבלת לפעולות לפי המיזם שמוקצה "
+"להם. לאסימונים האלה יש את הקידומת `wlp_‎`."
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -1939,30 +1940,25 @@ msgid "Weblate's REST API"
 msgstr "REST API של Weblate"
 
 #: weblate/api/views.py:151
-#, fuzzy
-#| msgid "Could not obtain repository lock to perform the operation."
 msgid "Could not obtain the lock to perform the operation."
-msgstr "לא ניתן לתפוס נעילת מאגר לביצוע הפעולה."
+msgstr "לא ניתן לתפוס נעילה לביצוע הפעולה."
 
 #: weblate/api/views.py:162
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "לא ניתן לתפוס נעילת מאגר לביצוע הפעולה."
+msgstr "לא ניתן לתפוס נעילת מאגר על %s לביצוע הפעולה."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "לא ניתן לתפוס נעילת מאגר לביצוע הפעולה."
+msgstr "לא ניתן לתפוס את נעילת העדכון לרכיב %s לביצוע הפעולה."
 
 #: weblate/api/views.py:177
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "לא ניתן לתפוס נעילת מאגר לביצוע הפעולה."
+msgstr "לא ניתן לתפוס נעילת %(scope)s על %(origin)s לביצוע הפעולה."
 
 #: weblate/api/views.py:2310 weblate/auth/models.py:956
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2833,16 +2829,12 @@ msgid "The file format does not support this."
 msgstr "סוג הקובץ לא תומך בזה."
 
 #: weblate/auth/permissions.py:372
-#, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
 msgid "Adding new translations is turned off in the component configuration."
-msgstr "הוספת מחרוזות מושבתת בהגדרות הרכיב."
+msgstr "הוספת תרגומים חדשים כבויה בהגדרות הרכיב."
 
 #: weblate/auth/permissions.py:376
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This component is currently locked."
-msgstr "תרגום זה נעול כרגע."
+msgstr "הרכיב הזה נעול כרגע."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3422,6 +3414,7 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"הערך {value} של המאפיין {name} ב־HTML לתגית {tag} לא תחום במירכאות כראוי."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
@@ -3573,6 +3566,8 @@ msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
 msgstr ""
+"למאפיין {attribute} ב־Fluent חסרה הפניית ה־Fluent‏ {reference} להגוונים הבאים:"
+" {variant_list}."
 
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
@@ -3585,6 +3580,7 @@ msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
 msgstr ""
+"לערך ה־Fluent חסרה הפניית Fluent‏ {reference} להגוונים הבאים: {variant_list}."
 
 #: weblate/checks/fluent/references.py:411
 #, python-brace-format
@@ -3682,8 +3678,6 @@ msgid "Fluent source syntax"
 msgstr "תחביר מקור Fluent"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in source"
 msgid "Fluent syntax error in the source"
 msgstr "שגיאת תחביר Fluent במקור"
 
@@ -3692,8 +3686,6 @@ msgid "Fluent translation syntax"
 msgstr "תחביר תרגום Fluent"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "Fluent syntax error in the translation"
 msgstr "שגיאת תחביר Fluent בתרגום"
 
@@ -4026,16 +4018,12 @@ msgid ""
 msgstr "הפניות מונחים בלתי עקביות של reStructuredText בהודעה המתורגמת."
 
 #: weblate/checks/markup.py:436
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent inline links in the translated message."
-msgstr "קישורים בלתי עקביים בהודעה המתורגמת."
+msgstr "קישורים פנימיים בלתי עקביים בהודעה המתורגמת."
 
 #: weblate/checks/markup.py:442
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent external links in the translated message."
-msgstr "קישורים בלתי עקביים בהודעה המתורגמת."
+msgstr "קישורים חיצוניים בלתי עקביים בהודעה המתורגמת."
 
 #: weblate/checks/markup.py:565
 msgid "reStructuredText syntax error"
@@ -4660,11 +4648,11 @@ msgstr "מספר האנשים שמדברים את השפה הזאת."
 
 #: weblate/lang/models.py:805
 msgid "Case-sensitive"
-msgstr ""
+msgstr "תלוי רישיות"
 
 #: weblate/lang/models.py:806
 msgid "Case-insensitive"
-msgstr ""
+msgstr "ללא תלות ברישיות"
 
 #: weblate/lang/models.py:842
 msgctxt "Plural type"
@@ -6196,10 +6184,8 @@ msgid "Security keys (WebAuthn)"
 msgstr "מפתחות אבטחה (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:261
-#, fuzzy
-#| msgid "There are currently no WebAuthn keys registered."
 msgid "No WebAuthn keys registered yet."
-msgstr "אין מפתחות WebAuthn רשומים כרגע."
+msgstr "עדיין לא נרשמו מפתחות WebAuthn."
 
 #: weblate/templates/accounts/profile.html:270
 #: weblate/templates/accounts/profile.html:314
@@ -6221,20 +6207,16 @@ msgid "Register new security key"
 msgstr "רישום מפתח אבטחה חדש"
 
 #: weblate/templates/accounts/profile.html:294
-#, fuzzy
-#| msgid "Unfortunately, your browser has no WebAuthn support."
 msgid "Your web browser lacks WebAuthn support."
-msgstr "לרוע המזל, הדפדפן שלך לא תומך ב־WebAuthn."
+msgstr "לדפדפן שלך חסרה תמיכה ב־WebAuthn."
 
 #: weblate/templates/accounts/profile.html:302
 msgid "Authenticator apps (TOTP)"
 msgstr "יישומוני אימות (TOTP)"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "The authentication app %s was registered."
 msgid "No authenticator apps registered yet."
-msgstr "יישומון האימות %s נרשם."
+msgstr "טרם נרשמו יישומוני אימות."
 
 #: weblate/templates/accounts/profile.html:321
 #: weblate/templates/accounts/totp.html:15
@@ -6249,10 +6231,8 @@ msgid "Recovery codes"
 msgstr "קודים לשחזור"
 
 #: weblate/templates/accounts/profile.html:327
-#, fuzzy
-#| msgid "There are currently no recovery codes generated."
 msgid "No recovery codes generated yet."
-msgstr "לא נוצרו קודים לשחזור נכון לעכשיו."
+msgstr "לא נוצרו קודים לשחזור עדיין."
 
 #: weblate/templates/accounts/profile.html:331
 #: weblate/templates/accounts/recovery-codes.html:55
@@ -6261,9 +6241,7 @@ msgid "Generate new recovery codes"
 msgstr "יצירת קודים חדשים לשחזור"
 
 #: weblate/templates/accounts/profile.html:334
-#, fuzzy, python-format
-#| msgid "%(count)s recovery code is available."
-#| msgid_plural "%(count)s recovery codes are available."
+#, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
 msgstr[0] "קוד לשחזור זמין."
@@ -6334,13 +6312,10 @@ msgid "Description"
 msgstr "תיאור"
 
 #: weblate/templates/accounts/profile.html:477
-#, fuzzy
-#| msgid ""
-#| "Contact us immediately if you see anything suspicious in the audit log."
 msgid ""
 "Get in contact immediately if you notice anything suspicious in the audit "
 "log."
-msgstr "רצוי ליצור קשר באופן בהול אם משהו נראה חשוד ביומן הפיקוח."
+msgstr "נא ליצור קשר אם הבחנת במשהו חשוד ביומן הפיקוח."
 
 #: weblate/templates/accounts/profile.html:489
 #: weblate/templates/accounts/user.html:299
@@ -6360,24 +6335,20 @@ msgid "User agent"
 msgstr "סוכן משתמש"
 
 #: weblate/templates/accounts/profile.html:505
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent activity found."
-msgstr "לא נרשמו פעילויות לאחרונה!"
+msgstr "לא נרשמו פעילויות לאחרונה."
 
 #: weblate/templates/accounts/profile.html:511
 msgid "Report suspicious activity"
 msgstr "דיווח על פעילות חשודה"
 
 #: weblate/templates/accounts/profile.html:526
-#, fuzzy
-#| msgid ""
-#| "The API key is also used to authenticate to automatically exported Git "
-#| "repositories."
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
 "access Weblate Git repositories."
-msgstr "מפתח ה־API משמש גם לצורך אימות מול מאגרי Git שיוצאו באופן אוטומטי."
+msgstr ""
+"מפתח ה־API יכול לשמש לשליטה ב־Weblate דרך ה־REST API ב־HTTP וכדי לגשת למאגרי "
+"Git של Weblate."
 
 #: weblate/templates/accounts/profile.html:531
 #: weblate/templates/trans/project-access.html:351
@@ -6557,16 +6528,12 @@ msgid "Reset my password"
 msgstr "איפוס הסיסמה שלי"
 
 #: weblate/templates/accounts/totp.html:33
-#, fuzzy
-#| msgid ""
-#| "Authenticator apps generate one-time passwords that are used as a second "
-#| "factor to verify your identity when prompted during sign-in."
 msgid ""
 "Authenticator apps generate time-based one-time passwords that are used as a "
 "second factor to verify your identity when prompted during sign-in."
 msgstr ""
-"יישומוני אימות מייצרים סיסמאות חד־פעמים שמשמשות כגורם נוסף לאימות הזהות שלך "
-"כשמופיעה הבקשה כחלק מהכניסה למערכת."
+"יישומוני אימות מייצרים סיסמאות חד־פעמיות וקצובות בזמן שמשמשות כגורם נוסף "
+"לאימות הזהות שלך כשמופיעה הבקשה כחלק מהכניסה למערכת."
 
 #: weblate/templates/accounts/totp.html:36
 msgid "Scan the QR code"
@@ -6807,22 +6774,16 @@ msgid "Edit user"
 msgstr "עריכת משתמש"
 
 #: weblate/templates/accounts/user.html:395
-#, fuzzy
-#| msgid "Requires two-factor authentication"
 msgid "The user has two-factor authentication."
-msgstr "דורש אימות דו־שלבי"
+msgstr "למשתמש יש אימות דו־שלבי."
 
 #: weblate/templates/accounts/user.html:397
-#, fuzzy
-#| msgid "User doesn't have two-factor authentication configured."
 msgid "The user doesn't have two-factor authentication."
-msgstr "למשתמש לא מוגדר אימות דו־שלבי."
+msgstr "למשתמש אין אימות דו־שלבי."
 
 #: weblate/templates/accounts/user.html:404
-#, fuzzy
-#| msgid "Two-factor authentication"
 msgid "Turn off two-factor authentication"
-msgstr "אימות דו־שלבי"
+msgstr "כיבוי אימות דו־שלבי"
 
 #: weblate/templates/accounts/user.html:413
 msgid "Account removal deletes all user private data."
@@ -6993,10 +6954,8 @@ msgid "Configure"
 msgstr "הגדרה"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
-msgstr "אפשר להתקין תוספים גם ברמת מיזם ורכיב."
+msgstr "אפשר להתקין תוספים גם ברמת המיזם וגם ברמת הרכיב."
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -8099,22 +8058,16 @@ msgstr ""
 #: weblate/templates/snippets/libre-checklist.html:24
 #: weblate/templates/trans/other-row.html:27
 #: weblate/trans/models/component.py:581
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor license agreement"
-msgstr "הסכם תרומה"
+msgstr "הסכם רישוי תרומה"
 
 #: weblate/templates/contributor-agreement.html:22
-#, fuzzy
-#| msgid "Please review the contributor agreement"
 msgid "Please review the contributor license agreement"
-msgstr "נא לסקור את הסכם ההתנדבות"
+msgstr "נא לסקור את הסכם רישוי התרומה"
 
 #: weblate/templates/contributor-agreement.html:25
-#, fuzzy
-#| msgid "Please read following contributor agreement:"
 msgid "Please read the following contributor license agreement:"
-msgstr "נא לקרוא את הסכם ההתנדבות הבא:"
+msgstr "נא לקרוא את הסכם רישוי התרומה הבא:"
 
 #: weblate/templates/contributor-agreement.html:34
 msgid "You have already agreed to this agreement."
@@ -9250,30 +9203,25 @@ msgid "New translation in %(translation)s"
 msgstr "תרגום חדש תחת %(translation)s"
 
 #: weblate/templates/mail/component_license.html:10
-#, fuzzy, python-format
-#| msgid "Contributor agreement for component %(component)s was changed."
+#, python-format
 msgid "Contributor license agreement for component %(component)s was changed."
-msgstr "הסכם התרומה לרכיב %(component)s הוחלף."
+msgstr "הסכם רישוי התרומה לרכיב %(component)s הוחלף."
 
 #: weblate/templates/mail/component_license.html:13
 msgid "Old agreement:"
 msgstr "הסכם ישן:"
 
 #: weblate/templates/mail/component_license.html:16
-#, fuzzy
-#| msgid "There was no contributor agreement before."
 msgid "There was no contributor license agreement before."
-msgstr "לא היה הסכם תרומה קודם לכן."
+msgstr "לא היה הסכם רישוי תרומה קודם לכן."
 
 #: weblate/templates/mail/component_license.html:19
 msgid "New agreement:"
 msgstr "הסכם חדש:"
 
 #: weblate/templates/mail/component_license.html:22
-#, fuzzy
-#| msgid "Contributor agreement was removed."
 msgid "Contributor license agreement was removed."
-msgstr "הסכם התרומה הוסר."
+msgstr "הסכם רישוי התרומה הוסר."
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
@@ -9281,10 +9229,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "לרכיב %(component)s הוחלף הרישיון לכדי %(target)s"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Contributor agreement for %(component)s was changed"
+#, python-format
 msgid "Contributor license agreement for %(component)s was changed"
-msgstr "הסכם התרומה של %(component)s הוחלף"
+msgstr "הסכם רישוי התרומה של %(component)s הוחלף"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -13466,10 +13413,8 @@ msgid "Labels to remove"
 msgstr "תוויות להסרה"
 
 #: weblate/trans/forms.py:2674
-#, fuzzy
-#| msgid "I accept the contributor agreement"
 msgid "I accept the contributor license agreement"
-msgstr "הסכם התרומה מקובל עלי"
+msgstr "הסכם רישוי התרומה מקובל עליי"
 
 #: weblate/trans/forms.py:2703
 msgid "The slug does not match the one marked for deletion!"
@@ -14148,10 +14093,8 @@ msgstr "תרגום הרכיב הושלם"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:594
-#, fuzzy
-#| msgid "Unused enforced checks."
 msgid "Applied enforced check"
-msgstr "בדיקות שנאכפות ואינן בשימוש."
+msgstr "בדיקות שנאכפות"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:596
@@ -14466,14 +14409,10 @@ msgid "List of checks which can not be ignored."
 msgstr "רשימה של בדיקות שלא ניתן להתעלם מהן."
 
 #: weblate/trans/models/component.py:585
-#, fuzzy
-#| msgid ""
-#| "User agreement which needs to be approved before a user can translate "
-#| "this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
-msgstr "הסכם משתמש אותו יש לאשר לפני שמשתמש יכול לתרגם את הרכיב הזה."
+msgstr "הסכם תרומה אותו יש לאשר לפני שאפשר יהיה לתרגם את הרכיב הזה."
 
 #: weblate/trans/models/component.py:592
 msgid "Adding new translation"
@@ -15950,12 +15889,11 @@ msgid "A language in the category was removed."
 msgstr "הוסרה שפה מהקטגוריה."
 
 #: weblate/trans/views/settings.py:241
-#, fuzzy, python-format
-#| msgid "Could not change %s due to outstanding issue in its settings: %s"
+#, python-format
 msgid ""
 "Could not change %(obj)s due to an outstanding issue in its settings: "
 "%(error)s"
-msgstr "לא ניתן לשנות את %s עקב תקלה שאירעה בהגדרות שלו: %s"
+msgstr "לא ניתן לשנות את %(obj)s עקב תקלה בהגדרות שלו שלא טופלה: %(error)s"
 
 #: weblate/trans/views/settings.py:415
 msgid "Backup scheduled. It will be available soon."
