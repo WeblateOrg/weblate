@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-06 15:48+0000\n"
-"PO-Revision-Date: 2025-01-29 09:28+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2025-02-09 08:30+0000\n"
+"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -44,10 +44,8 @@ msgstr ""
 "Ten adres e-mail jest już używany. Proszę wprowadzić inny adres e-mail."
 
 #: weblate/accounts/forms.py:119
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
-msgstr "Ta nazwa użytkownika jest zajęta. Proszę wybrać inną."
+msgstr "Ta nazwa użytkownika jest już zajęta. Wybierz inną."
 
 #: weblate/accounts/forms.py:131 weblate/accounts/forms.py:985
 #: weblate/auth/models.py:440 weblate/auth/models.py:1143
@@ -69,15 +67,11 @@ msgid "Use account e-mail address"
 msgstr "Używaj adresu e-mail konta"
 
 #: weblate/accounts/forms.py:200
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
 msgstr ""
-"Używany w commitach kontroli wersji. Adres pozostanie w repozytorium na "
+"Używany w commitach kontroli wersji. Adres pozostaje w repozytorium na "
 "zawsze po zatwierdzeniu zmian przez Weblate."
 
 #: weblate/accounts/forms.py:232 weblate/accounts/models.py:702
@@ -85,10 +79,8 @@ msgid "Public e-mail"
 msgstr "Publiczny adres e-mail"
 
 #: weblate/accounts/forms.py:233
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Hide e-mail address from public view"
-msgstr "Ten adres e-mail jest niedozwolony."
+msgstr "Ukryj adres e-mail w widoku publicznym"
 
 #: weblate/accounts/forms.py:339
 #, python-format
@@ -170,15 +162,11 @@ msgid "Message"
 msgstr "Wiadomość"
 
 #: weblate/accounts/forms.py:572
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to process "
-#| "your request."
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
 msgstr ""
-"Skontaktuj się z nami w języku angielskim, w przeciwnym razie możemy nie być "
-"w stanie przetworzyć Twojego żądania."
+"Skontaktuj się z nami w języku angielskim. W przeciwnym razie możemy nie "
+"przetworzyć Twojego żądania."
 
 #: weblate/accounts/forms.py:589 weblate/accounts/templatetags/authnames.py:33
 #: weblate/auth/models.py:446 weblate/auth/models.py:1160
@@ -190,8 +178,6 @@ msgid "E-mail"
 msgstr "Adres e-mail"
 
 #: weblate/accounts/forms.py:590
-#, fuzzy
-#| msgid "E-mail with a confirmation link will be sent here."
 msgid "An e-mail with a confirmation link will be sent here."
 msgstr "E-mail z linkiem potwierdzającym zostanie wysłany tutaj."
 
@@ -212,8 +198,6 @@ msgid "Current password"
 msgstr "Aktualne hasło"
 
 #: weblate/accounts/forms.py:684
-#, fuzzy
-#| msgid "Leave empty if you have not yet set a password."
 msgid "Leave empty if you have not set a password yet."
 msgstr "Pozostaw puste, jeśli jeszcze nie ustawiłeś hasła."
 
@@ -375,8 +359,6 @@ msgid "Screenshots uploaded"
 msgstr "Przesłane zrzuty ekranu"
 
 #: weblate/accounts/forms.py:1014
-#, fuzzy
-#| msgid "Chosen sorting is not supported."
 msgid "The chosen sorting is not supported."
 msgstr "Wybrane sortowanie nie jest obsługiwane."
 
@@ -397,8 +379,6 @@ msgid "Verify the code from the app"
 msgstr "Zweryfikuj kod z poziomu aplikacji"
 
 #: weblate/accounts/forms.py:1074
-#, fuzzy
-#| msgid "Entered token is not valid."
 msgid "The entered token is not valid."
 msgstr "Wprowadzony token jest nieprawidłowy."
 
@@ -407,15 +387,11 @@ msgid "Recovery token"
 msgstr "Token odzyskiwania"
 
 #: weblate/accounts/forms.py:1144
-#, fuzzy
-#| msgid ""
-#| "Recovery token can be used just once, mark your token as used after using "
-#| "it."
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
-"Token odzyskiwania może być użyty tylko raz, po użyciu należy oznaczyć token "
-"jako użyty."
+"Kodów odzyskiwania można użyć tylko raz. Pamiętaj, aby oznaczyć je jako "
+"wygasłe."
 
 #: weblate/accounts/forms.py:1201
 msgid "Enter the code from the app"
@@ -2006,17 +1982,21 @@ msgstr ""
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
 msgstr ""
+"Uwierzytelnianie oparte na sesji jest używane, gdy użytkownik jest "
+"zalogowany."
 
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "Uwierzytelnianie oparte na tokenach z wymaganym prefiksem `%s`."
 
 #: weblate/api/authentication.py:42
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Każdy użytkownik ma osobisty token dostępu, który może uzyskać ze swojego "
+"profilu użytkownika. Tokeny te mają prefiks `wlu_`."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -2024,6 +2004,9 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"Możliwe jest tworzenie tokenów projektów, których dostęp do API jest "
+"ograniczony do operacji na powiązanym z nimi projekcie. Tokeny te mają "
+"prefiks `wlp_`."
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -2043,30 +2026,30 @@ msgid "Weblate's REST API"
 msgstr "REST API Weblate"
 
 #: weblate/api/views.py:151
-#, fuzzy
-#| msgid "Could not obtain repository lock to perform the operation."
 msgid "Could not obtain the lock to perform the operation."
-msgstr "Nie udało się uzyskać blokady repozytorium w celu wykonania operacji."
+msgstr "Nie udało się uzyskać blokady w celu wykonania operacji."
 
 #: weblate/api/views.py:162
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "Nie udało się uzyskać blokady repozytorium w celu wykonania operacji."
+msgstr ""
+"Nie udało się uzyskać blokady repozytorium dla %s w celu wykonania operacji."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "Nie udało się uzyskać blokady repozytorium w celu wykonania operacji."
+msgstr ""
+"Nie udało się uzyskać blokady aktualizacji dla komponentu %s w celu "
+"wykonania operacji."
 
 #: weblate/api/views.py:177
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "Nie udało się uzyskać blokady repozytorium w celu wykonania operacji."
+msgstr ""
+"Nie udało się uzyskać blokady %(scope)s dla %(origin)s w celu wykonania "
+"operacji."
 
 #: weblate/api/views.py:2310 weblate/auth/models.py:956
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2950,16 +2933,12 @@ msgid "The file format does not support this."
 msgstr "Format pliku tego nie obsługuje."
 
 #: weblate/auth/permissions.py:372
-#, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
 msgid "Adding new translations is turned off in the component configuration."
-msgstr "Dodawanie ciągów jest wyłączone w konfiguracji komponentu."
+msgstr "Dodawanie nowych tłumaczeń jest wyłączone w konfiguracji komponentu."
 
 #: weblate/auth/permissions.py:376
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This component is currently locked."
-msgstr "Tłumaczenie jest aktualnie zablokowanie."
+msgstr "Ten komponent jest aktualnie zablokowany."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3830,8 +3809,6 @@ msgid "Fluent source syntax"
 msgstr "Składnia źródła Fluent"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in source"
 msgid "Fluent syntax error in the source"
 msgstr "Błąd składni Fluent w źródle"
 
@@ -3840,8 +3817,6 @@ msgid "Fluent translation syntax"
 msgstr "Składnia tłumaczenia Fluent"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "Fluent syntax error in the translation"
 msgstr "Błąd składni Fluent w tłumaczeniu"
 
