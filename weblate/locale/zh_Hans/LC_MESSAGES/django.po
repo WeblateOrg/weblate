@@ -19,10 +19,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-02-06 15:48+0000\n"
+"POT-Creation-Date: 2025-02-09 08:33+0000\n"
 "PO-Revision-Date: 2025-02-07 11:46+0000\n"
-"Last-Translator: 大王叫我来巡山 "
-"<hamburger2048@users.noreply.hosted.weblate.org>\n"
+"Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
+"org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -76,7 +76,8 @@ msgstr "使用账户电子邮箱地址"
 msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
-msgstr "用于版本控制提交。一旦 Weblate 提交了更改，此地址就会永远保留在仓库中。"
+msgstr ""
+"用于版本控制提交。一旦 Weblate 提交了更改，此地址就会永远保留在仓库中。"
 
 #: weblate/accounts/forms.py:232 weblate/accounts/models.py:702
 msgid "Public e-mail"
@@ -1891,7 +1892,8 @@ msgstr "基于令牌的身份验证，必须使用 `%s` 前缀。"
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
-msgstr "每个用户都有一枚个人访问令牌，可以从各自的用户个人资料那里获得。这些令牌有 "
+msgstr ""
+"每个用户都有一枚个人访问令牌，可以从各自的用户个人资料那里获得。这些令牌有 "
 "`wlu_`前缀。"
 
 #: weblate/api/authentication.py:45
@@ -1899,8 +1901,9 @@ msgid ""
 "It is possible to create project tokens whose access to the API is limited "
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
-msgstr "有可能创建多枚项目令牌，这些令牌对 API "
-"的访问被限制在和它们相关的项目的操作上。这些令牌有 `wlp_` 前缀。"
+msgstr ""
+"有可能创建多枚项目令牌，这些令牌对 API 的访问被限制在和它们相关的项目的操作"
+"上。这些令牌有 `wlp_` 前缀。"
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -6266,7 +6269,8 @@ msgstr "报告可疑活动"
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
 "access Weblate Git repositories."
-msgstr "API 密钥可用于通过 HTTP REST API 控制 Weblate 并访问 Weblate Git 仓库。"
+msgstr ""
+"API 密钥可用于通过 HTTP REST API 控制 Weblate 并访问 Weblate Git 仓库。"
 
 #: weblate/templates/accounts/profile.html:531
 #: weblate/templates/trans/project-access.html:351
@@ -6446,7 +6450,8 @@ msgstr "重置我的密码"
 msgid ""
 "Authenticator apps generate time-based one-time passwords that are used as a "
 "second factor to verify your identity when prompted during sign-in."
-msgstr "身份验证器应用会生成基于时间的一次性代码，在您登录时，此代码将用作验证您身份"
+msgstr ""
+"身份验证器应用会生成基于时间的一次性代码，在您登录时，此代码将用作验证您身份"
 "的第二个因素。"
 
 #: weblate/templates/accounts/totp.html:36
@@ -10216,8 +10221,9 @@ msgstr ""
 msgid ""
 "You are a member of the team that requires two-factor authentication. You "
 "won’t be able to use any of its privileges until you configure 2FA."
-msgstr "您所在的团队需要双因素身份验证（2FA）。在配置 2FA "
-"之前，您将无法使用其任何权限。"
+msgstr ""
+"您所在的团队需要双因素身份验证（2FA）。在配置 2FA 之前，您将无法使用其任何权"
+"限。"
 
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:384
@@ -14606,7 +14612,7 @@ msgstr "逗号隔开的语言码映射的列表，例如：en_GB:en,en_US:en"
 msgid "Could not accept suggestion!"
 msgstr "无法接受建议！"
 
-#: weblate/trans/models/translation.py:239
+#: weblate/trans/models/translation.py:246
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -14614,45 +14620,45 @@ msgid ""
 msgstr ""
 "仓库中找不到 %s 文件！若要添加新的翻译语言，请先将该语言文档上传至仓库。"
 
-#: weblate/trans/models/translation.py:248
+#: weblate/trans/models/translation.py:255
 #, python-format
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "无法解析%(file)s 文件: 错误 %(error)s"
 
-#: weblate/trans/models/translation.py:1148
-#: weblate/trans/models/translation.py:1205
-#: weblate/trans/models/translation.py:1301
+#: weblate/trans/models/translation.py:1160
+#: weblate/trans/models/translation.py:1217
+#: weblate/trans/models/translation.py:1317
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "无法提交待处理的更改：%s"
 
-#: weblate/trans/models/translation.py:1742
+#: weblate/trans/models/translation.py:1758
 msgid "Plurals are not supported by the file format!"
 msgstr "此文件格式不支持复数！"
 
-#: weblate/trans/models/translation.py:1747 weblate/trans/models/unit.py:721
+#: weblate/trans/models/translation.py:1763 weblate/trans/models/unit.py:721
 #: weblate/utils/forms.py:126
 #, python-format
 msgid "String contains control character: %s"
 msgstr "字符串包含控制字符：%s"
 
-#: weblate/trans/models/translation.py:1752
+#: weblate/trans/models/translation.py:1768
 msgid "Empty state is supported for blank strings only."
 msgstr "仅空白字符串支持空状态。"
 
-#: weblate/trans/models/translation.py:1755
+#: weblate/trans/models/translation.py:1771
 msgid "Blank strings require an empty state."
 msgstr "空白字符串需要空状态。"
 
-#: weblate/trans/models/translation.py:1759
+#: weblate/trans/models/translation.py:1775
 msgid "Approved state is not available as reviews are not enabled."
 msgstr "已批准状态不可用，因审校未启用。"
 
-#: weblate/trans/models/translation.py:1767
+#: weblate/trans/models/translation.py:1783
 msgid "This string seems to already exist."
 msgstr "此字符串似乎已存在。"
 
-#: weblate/trans/models/translation.py:1774
+#: weblate/trans/models/translation.py:1790
 msgid "Failed adding string, no translation found."
 msgstr "添加字符串失败，没找到翻译。"
 
