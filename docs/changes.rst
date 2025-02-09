@@ -117,7 +117,7 @@ Weblate 5.9
 .. rubric:: Improvements
 
 * :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
-* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate Component`).
+* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate this component`).
 * Included username when generating :ref:`credits`.
 * :ref:`bulk-edit` shows a preview of matched strings.
 * :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
