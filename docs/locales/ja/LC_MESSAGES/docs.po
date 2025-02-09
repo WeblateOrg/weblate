@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2023, 2024, 2025.
-# amano <amano@users.noreply.hosted.weblate.org>, 2023, 2024.
+# amano <amano@users.noreply.hosted.weblate.org>, 2023, 2024, 2025.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # Ryo Nakano <ryonakaknock3@gmail.com>, 2024.
 # Assem Askarova <assask499@users.noreply.hosted.weblate.org>, 2024.
@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-06 16:49+0100\n"
-"PO-Revision-Date: 2025-02-07 11:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-02-09 02:35+0000\n"
+"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -10479,9 +10479,9 @@ msgid ""
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
-"Weblate によるマージ競合は、同じファイルが Weblate 内と外部の両方で変更された"
-"場合に発生します。対処方法は 2 つあります。Weblate 外部での編集を避けるか、状"
-"況に応じて、役立つ可能性のある解決方法:"
+"Weblate からのマージ競合は、同じファイルが Weblate "
+"内と外部の両方で変更された場合に発生します。状況に応じて、役立つ可能性のある"
+"解決方法:"
 
 #: ../../admin/continuous.rst:112
 msgid ":ref:`merge-weblate-only`"
@@ -10497,21 +10497,9 @@ msgstr ":ref:`merge-weblate-git`"
 
 #: ../../admin/continuous.rst:119
 msgid "Avoiding merge conflicts by changing translation files in Weblate only"
-msgstr "Weblateの翻訳ファイルのみを変更することで、マージの衝突を回避する"
+msgstr "Weblate でのみ翻訳ファイルを変更することで、マージ競合を回避する"
 
 #: ../../admin/continuous.rst:121
-#, fuzzy
-#| msgid ""
-#| "The first approach is easy with monolingual files — you can add new "
-#| "strings within Weblate and leave whole editing of the files there. For "
-#| "bilingual files, there is usually some kind of message extraction process "
-#| "to generate translatable files from the source code. In some cases this "
-#| "can be split into two parts - one for the extraction generates template "
-#| "(for example gettext POT is generated using :program:`xgettext`) and then "
-#| "further process merges it into actual translations (the gettext PO files "
-#| "are updated using :program:`msgmerge`). You can perform the second step "
-#| "within Weblate and it will ensure that all pending changes are included "
-#| "prior to this operation."
 msgid ""
 "Avoiding edits outside Weblate is easy with monolingual files — you can add "
 "new strings within Weblate and leave whole editing of the files there. For "
@@ -10519,15 +10507,11 @@ msgid ""
 "generate translatable files from the source code. In some cases, this can be "
 "split into two parts:"
 msgstr ""
-"最初の方法は、モノリンガル ファイルで簡単です。Weblate 上で新しい文字列を追加"
-"し、ファイルの編集も全てそこで行います。バイリンガル ファイルの場合、通常、"
-"ソースコードから翻訳可能なファイルを生成するため、何らかのメッセージ抽出プロ"
-"セスがあります。場合によっては、これを 2 つの処理に分割できます。まず、抽出し"
-"てテンプレートを生成し（例えば、gettext POT は :program:`xgettext` を使用して"
-"生成する）、次の処理で、テンプレートを実際の翻訳にマージします（gettext PO "
-"ファイルは :program:`msgmerge` を使用して更新する）。2 番目の処理は Weblate "
-"で実行でき、この処理の前に、保留中の変更がすべて含まれているかどうかを確認で"
-"きます。"
+"Weblate の外で編集を避けることは、モノリンガル ファイルで簡単です。Weblate "
+"上で新しい文字列を追加し、ファイルの編集も全てそこで行います。バイリンガル "
+"ファイルの場合、通常、ソースコードから翻訳可能なファイルを生成するため、何ら"
+"かのメッセージ抽出プロセスがあります。場合によっては、これを 2 "
+"つの処理に分割できます。"
 
 #: ../../admin/continuous.rst:127
 msgid ""
