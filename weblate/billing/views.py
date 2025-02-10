@@ -98,7 +98,7 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
                 billing.save(update_fields=["payment"])
                 mail_admins_contact(
                     request,
-                    subject=f"Hosting request for {billing}",
+                    subject=f"Hosting request for {project}",
                     message=HOSTING_TEMPLATE,
                     context={
                         "billing": billing,
