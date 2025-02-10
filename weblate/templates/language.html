@@ -69,6 +69,8 @@
 
       {% include "snippets/list-objects.html" with show_admin_badge=True objects=projects name_source="project" label=_("Project") language=object global_base="stats" %}
 
+      {% include "paginator.html" with page_obj=projects %}
+
     </div>
 
     <div class="tab-pane" id="information">{% show_info language=object stats=object.stats metrics=object|metrics %}</div>
