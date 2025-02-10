@@ -50,11 +50,11 @@ class MarkdownTestCase(TestCase):
 
     def test_autolink(self) -> None:
         self.assertEqual(
-            '<p><a href="http://valid.link">http://valid.link</a></p>\n',
+            '<p><a rel="ugc" target="_blank" href="http://valid.link">http://valid.link</a></p>\n',
             render_markdown("<http://valid.link>"),
         )
         self.assertEqual(
-            '<p><a href="https://valid.link">https://valid.link</a></p>\n',
+            '<p><a rel="ugc" target="_blank" href="https://valid.link">https://valid.link</a></p>\n',
             render_markdown("<https://valid.link>"),
         )
         self.assertEqual(
@@ -68,11 +68,11 @@ class MarkdownTestCase(TestCase):
             "<p>&lt;javascript:foo&gt;</p>\n", render_markdown("<javascript:foo>")
         )
         self.assertEqual(
-            '<p><a href="mailto:valid@email.com">valid@email.com</a></p>\n',
+            '<p><a rel="ugc" target="_blank" href="mailto:valid@email.com">valid@email.com</a></p>\n',
             render_markdown("<valid@email.com>"),
         )
         self.assertEqual(
-            '<p><a href="mailto:valid@email.com">mailto:valid@email.com</a></p>\n',
+            '<p><a rel="ugc" target="_blank" href="mailto:valid@email.com">mailto:valid@email.com</a></p>\n',
             render_markdown("<mailto:valid@email.com>"),
         )
         self.assertEqual(
@@ -106,7 +106,7 @@ class MarkdownTestCase(TestCase):
 
     def test_plain_link(self) -> None:
         self.assertEqual(
-            '<p>This is <a href="https://weblate.org">https://weblate.org</a></p>\n',
+            '<p>This is <a rel="ugc" target="_blank" href="https://weblate.org">https://weblate.org</a></p>\n',
             render_markdown("This is https://weblate.org"),
         )
 
