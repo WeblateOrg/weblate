@@ -3905,6 +3905,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 propagate=False,
             )
 
+    @cached_property
+    def api_slug(self):
+        return "%252F".join(self.get_url_path()[1:])
+
 
 @receiver(m2m_changed, sender=Component.links.through)
 @disable_for_loaddata
