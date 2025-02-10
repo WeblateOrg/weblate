@@ -30,7 +30,6 @@ import weblate.screenshots.views
 import weblate.trans.views.about
 import weblate.trans.views.acl
 import weblate.trans.views.agreement
-import weblate.trans.views.api
 import weblate.trans.views.basic
 import weblate.trans.views.charts
 import weblate.trans.views.create
@@ -640,12 +639,6 @@ real_patterns = [
     path(
         "hooks/<slug:service>",
         weblate.trans.views.hooks.vcs_service_hook,
-    ),
-    # Stats exports
-    path(
-        "exports/stats/<object_path:path>/",
-        weblate.trans.views.api.export_stats,
-        name="export_stats",
     ),
     # RSS exports
     path("exports/rss/", ChangesFeed(), name="rss"),
