@@ -26,6 +26,7 @@ Weblate 5.10
 * Improved language compatibility in :ref:`mt-microsoft-translator`.
 * :ref:`check-reused` check gracefully handles languages which are not case sensitive.
 * :ref:`component-enforced_checks` are now applied on strings imported from the repository.
+* Reduced false positives in :ref:`check-end-colon` and :ref:`check-end-stop` for CJK languages.
 
 .. rubric:: Bug fixes
 
