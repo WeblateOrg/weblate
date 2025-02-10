@@ -1047,11 +1047,8 @@ $(function () {
   const clickedOutsideEditableInput = (event) => {
     // Check if clicked outside of the input and the editable input
     if (
-      // biome-ignore lint/complexity/useSimplifiedLogicExpression: TODO
-      !$positionInputEditable.is(event.target) &&
-      // biome-ignore lint/style/useExplicitLengthCheck: Done?
-      !($positionInputEditable.has(event.target).length === 0) &&
-      !$positionInput.is(event.target)
+      !$positionInput.is(event.target) &&
+      event.target.id !== "position-input-editable-input"
     ) {
       $positionInput.show();
       $positionInputEditableInput.attr("type", "hidden");
