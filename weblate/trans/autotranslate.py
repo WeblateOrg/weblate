@@ -17,6 +17,7 @@ from weblate.trans.util import split_plural
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
+    STATE_READONLY,
     STATE_TRANSLATED,
     StringState,
 )
@@ -46,7 +47,7 @@ class AutoTranslate:
         self.component_wide = component_wide
 
     def get_units(self):
-        units = self.translation.unit_set.all()
+        units = self.translation.unit_set.exclude(state=STATE_READONLY)
         if self.mode == "suggest":
             units = units.filter(suggestion__isnull=True)
         return units.filter_type(self.filter_type)
