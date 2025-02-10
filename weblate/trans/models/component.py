@@ -27,6 +27,8 @@ from django.db.models import Count, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils.functional import cached_property
+from django.utils.html import format_html, format_html_join
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
 
@@ -2868,7 +2870,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def clean_files(self, matches) -> None:
         """Validate that translation files can be parsed."""
-        errors = []
+        errors: list[str, Exception] = []
         dir_path = self.full_path
         for match in matches:
             try:
@@ -2877,17 +2879,29 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 )
                 store.check_valid()
             except Exception as error:
-                errors.append(f"{match}: {error}")
+                errors.append((match, error))
         if errors:
-            msg = "{}\n{}".format(
-                ngettext(
-                    "Could not parse %d matched file.",
-                    "Could not parse %d matched files.",
-                    len(errors),
+            if len(errors) == 1:
+                msg = format_html(
+                    gettext("Could not parse {file}: {error}"),
+                    file=format_html("<code>{}</code>", errors[0][0]),
+                    error=errors[0][1],
                 )
-                % len(errors),
-                "\n".join(errors),
-            )
+            else:
+                msg = format_html(
+                    "{}<br>{}",
+                    ngettext(
+                        "Could not parse %d matched file.",
+                        "Could not parse %d matched files.",
+                        len(errors),
+                    )
+                    % len(errors),
+                    format_html_join(
+                        mark_safe("<br>"),  # noqa: S308
+                        "<code>{}</code>: {}",
+                        errors,
+                    ),
+                )
             raise ValidationError({"filemask": msg})
 
     def is_valid_base_for_new(self, errors: list | None = None, fast: bool = False):
