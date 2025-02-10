@@ -164,7 +164,10 @@
       {% endfor %}
       {% init_unique_row_id %}
       {% for object in objects %}
-        {% get_translate_url object as translate_url %} {% get_browse_url object as browse_url %} {% get_search_url object as search_url %} {% get_unique_row_id object as row_id %}
+        {% get_translate_url object as translate_url %}
+        {% get_browse_url object as browse_url %}
+        {% get_search_url object as search_url %}
+        {% get_unique_row_id object as row_id %}
         <tr id="{{ row_id }}">
           <td class="actions" rowspan="2">
             {% if object.is_ghost %}

@@ -247,7 +247,10 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
         .recent()
     )
 
-    translations = translation_prefetch_tasks(prefetch_stats(obj.translation_set))
+    translations = translation_prefetch_tasks(
+        get_paginator(request, obj.translation_set, stats=True)
+    )
+    extra_translations = []
 
     # Add ghost translations
     if user.is_authenticated:
@@ -259,11 +262,11 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
         )
         for item in missing:
             item.project = project_object
-        translations.extend(
+        extra_translations = [
             GhostTranslation(component, language_object)
             for component in missing
             if component.can_add_new_language(user, fast=True)
-        )
+        ]
 
     return render(
         request,
@@ -277,6 +280,7 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
             "last_changes": last_changes,
             "last_announcements": last_announcements,
             "translations": translations,
+            "translation_objects": [*extra_translations, *translations],
             "categories": prefetch_stats(
                 CategoryLanguage(category, obj.language)
                 for category in obj.project.category_set.filter(category=None).all()
