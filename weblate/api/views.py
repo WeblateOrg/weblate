@@ -125,7 +125,7 @@ from weblate.utils.state import (
 from weblate.utils.stats import GlobalStats, prefetch_stats
 from weblate.utils.views import download_translation_file, zip_download
 
-from .renderers import OpenMetricsRenderer
+from .renderers import FlatJsonRenderer, OpenMetricsRenderer
 
 if TYPE_CHECKING:
     from rest_framework.request import Request
@@ -554,7 +554,11 @@ class UserViewSet(viewsets.ModelViewSet):
         methods=["get"],
         tags=["users", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -987,7 +991,11 @@ class ProjectViewSet(
         methods=["get"],
         tags=["projects", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -1000,7 +1008,11 @@ class ProjectViewSet(
         methods=["get"],
         tags=["projects", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def languages(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -1383,7 +1395,11 @@ class ComponentViewSet(
         methods=["get"],
         tags=["components", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -1650,7 +1666,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         methods=["get"],
         tags=["translations", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -1800,7 +1820,11 @@ class LanguageViewSet(viewsets.ModelViewSet):
         methods=["get"],
         tags=["languages", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -2268,7 +2292,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
         methods=["get"],
         tags=["categories", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
