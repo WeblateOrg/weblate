@@ -107,7 +107,9 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         if authenticated:
             self.authenticate(superuser)
         url = name if name.startswith(("http:", "/")) else reverse(name, kwargs=kwargs)
-        response = getattr(self.client, method)(url, request, format, headers=headers)
+        response = getattr(self.client, method)(
+            url, request, format=format, headers=headers
+        )
         content = response.content if hasattr(response, "content") else "<stream>"
 
         self.assertEqual(
@@ -1057,6 +1059,18 @@ class ProjectAPITest(APIBaseTest):
     def test_languages(self) -> None:
         request = self.do_request("api:project-languages", self.project_kwargs)
         self.assertEqual(len(request.data), 4)
+        response = self.do_request(
+            "api:project-languages",
+            self.project_kwargs,
+            request={
+                "format": "json-flat",
+            },
+        )
+        data = response.json()
+        self.assertIsInstance(data, list)
+        self.assertEqual(len(data), 4)
+        for item in data:
+            self.assertIsInstance(item, dict)
 
     def test_delete(self) -> None:
         self.do_request(
@@ -2366,6 +2380,18 @@ class ComponentAPITest(APIBaseTest):
             data={"count": 4},
             skip=("results", "previous", "next"),
         )
+        response = self.do_request(
+            "api:component-statistics",
+            self.component_kwargs,
+            request={
+                "format": "json-flat",
+            },
+        )
+        data = response.json()
+        self.assertIsInstance(data, list)
+        self.assertEqual(len(data), 4)
+        for item in data:
+            self.assertIsInstance(item, dict)
 
     def test_new_template_404(self) -> None:
         self.do_request("api:component-new-template", self.component_kwargs, code=404)
