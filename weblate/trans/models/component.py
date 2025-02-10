@@ -2888,7 +2888,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 % len(errors),
                 "\n".join(errors),
             )
-            raise ValidationError(msg)
+            raise ValidationError({"filemask": msg})
 
     def is_valid_base_for_new(self, errors: list | None = None, fast: bool = False):
         filename = self.get_new_base_filename()
