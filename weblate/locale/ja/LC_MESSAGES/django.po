@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-09 08:33+0000\n"
-"PO-Revision-Date: 2025-02-08 15:12+0000\n"
+"PO-Revision-Date: 2025-02-11 19:48+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -45,8 +45,6 @@ msgstr ""
 "このメールアドレスはすでに使用中です。別のメールアドレスを入力してください。"
 
 #: weblate/accounts/forms.py:119
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
 msgstr "このユーザー名はすでに使用されています。別の名前にしてください。"
 
@@ -70,16 +68,11 @@ msgid "Use account e-mail address"
 msgstr "アカウントのメールアドレスを使用する"
 
 #: weblate/accounts/forms.py:200
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
-msgstr ""
-"バージョン管理のコミットに使用します。Weblate から変更がコミットされると、ア"
-"ドレスはリポジトリに永久に残ります。"
+msgstr "バージョン管理のコミットに使用します。Weblate "
+"から変更がコミットされると、アドレスはリポジトリに永久に残ります。"
 
 #: weblate/accounts/forms.py:232 weblate/accounts/models.py:702
 msgid "Public e-mail"
@@ -104,9 +97,8 @@ msgstr "アカウントのメールアドレス"
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
-msgstr ""
-"メール通知、または以下で設定していない場合はコミット用メールアドレスとして使"
-"用します。"
+msgstr "メール通知と、以下で設定していない場合はコミット用メールアドレスとしても使用"
+"します。"
 
 #: weblate/accounts/forms.py:435
 msgid "Verification failed. Try again later."
@@ -171,15 +163,9 @@ msgid "Message"
 msgstr "メッセージ"
 
 #: weblate/accounts/forms.py:572
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to process "
-#| "your request."
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
-msgstr ""
-"問い合わせは、英語でお願いします。英語でなければ、処理できない場合がありま"
-"す。"
+msgstr "英語でご連絡ください。英語でなければ、処理できない場合があります。"
 
 #: weblate/accounts/forms.py:589 weblate/accounts/templatetags/authnames.py:33
 #: weblate/auth/models.py:446 weblate/auth/models.py:1160
@@ -191,8 +177,6 @@ msgid "E-mail"
 msgstr "メールアドレス"
 
 #: weblate/accounts/forms.py:590
-#, fuzzy
-#| msgid "E-mail with a confirmation link will be sent here."
 msgid "An e-mail with a confirmation link will be sent here."
 msgstr "このアドレスに確認のリンクを載せたメールを送信します。"
 
@@ -213,11 +197,8 @@ msgid "Current password"
 msgstr "現在のパスワード"
 
 #: weblate/accounts/forms.py:684
-#, fuzzy
-#| msgid "Leave empty if you have not yet set a password."
 msgid "Leave empty if you have not set a password yet."
-msgstr ""
-"まだパスワードを設定していない場合、この項目には何も入力しないでください。"
+msgstr "まだパスワードを設定していない場合、この項目には何も入力しないでください。"
 
 #: weblate/accounts/forms.py:698
 msgid "You have entered an invalid password."
@@ -372,8 +353,6 @@ msgid "Screenshots uploaded"
 msgstr "アップロードしたスクリーンショット"
 
 #: weblate/accounts/forms.py:1014
-#, fuzzy
-#| msgid "Chosen sorting is not supported."
 msgid "The chosen sorting is not supported."
 msgstr "選択したソートには対応していません。"
 
@@ -394,8 +373,6 @@ msgid "Verify the code from the app"
 msgstr "アプリからコードを検証する"
 
 #: weblate/accounts/forms.py:1074
-#, fuzzy
-#| msgid "Entered token is not valid."
 msgid "The entered token is not valid."
 msgstr "入力されたトークンが無効です。"
 
@@ -3768,8 +3745,6 @@ msgid "Fluent source syntax"
 msgstr "Fluent ソース構文"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in source"
 msgid "Fluent syntax error in the source"
 msgstr "原文での Fluent 構文エラー"
 
@@ -3778,10 +3753,8 @@ msgid "Fluent translation syntax"
 msgstr "Fluent 翻訳構文"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "Fluent syntax error in the translation"
-msgstr "翻訳での Fluent 構文エラー"
+msgstr "翻訳文での Fluent 構文エラー"
 
 #: weblate/checks/format.py:481
 #, python-format
@@ -4112,16 +4085,12 @@ msgid ""
 msgstr "翻訳メッセージ内の reStructuredText 用語参照の不整合"
 
 #: weblate/checks/markup.py:436
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent inline links in the translated message."
-msgstr "翻訳メッセージ内のリンクの不整合"
+msgstr "翻訳メッセージ内のインラインリンクの不整合"
 
 #: weblate/checks/markup.py:442
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent external links in the translated message."
-msgstr "翻訳メッセージ内のリンクの不整合"
+msgstr "翻訳メッセージ内の外部リンクの不整合"
 
 #: weblate/checks/markup.py:565
 msgid "reStructuredText syntax error"
@@ -6366,12 +6335,10 @@ msgid "Generate new recovery codes"
 msgstr "新しい回復コードの生成"
 
 #: weblate/templates/accounts/profile.html:334
-#, fuzzy, python-format
-#| msgid "%(count)s recovery code is available."
-#| msgid_plural "%(count)s recovery codes are available."
+#, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
-msgstr[0] "%(count)s の回復コードが使用できます。"
+msgstr[0] "%(count)s 個の回復コードが使用できます。"
 
 #: weblate/templates/accounts/profile.html:340
 msgid "View recovery codes"
@@ -6463,10 +6430,8 @@ msgid "User agent"
 msgstr "ユーザーエージェント"
 
 #: weblate/templates/accounts/profile.html:505
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent activity found."
-msgstr "最近の活動が見つかりませんでした！"
+msgstr "最近の活動が見つかりませんでした。"
 
 #: weblate/templates/accounts/profile.html:511
 msgid "Report suspicious activity"
@@ -10788,16 +10753,12 @@ msgid "Aliased language codes"
 msgstr "言語コードのエイリアス"
 
 #: weblate/templates/snippets/info.html:211
-#, fuzzy
-#| msgid "String target language"
 msgid "English name of the language"
-msgstr "翻訳対象の言語"
+msgstr "英語での言語名"
 
 #: weblate/templates/snippets/info.html:221
-#, fuzzy
-#| msgid "Last activity"
 msgid "Case sensitivity"
-msgstr "最終作業"
+msgstr "大文字と小文字の区別"
 
 #: weblate/templates/snippets/info.html:245
 msgid "Most active translators"
@@ -14312,17 +14273,13 @@ msgstr "コンポーネント翻訳完了"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:594
-#, fuzzy
-#| msgid "Unused enforced checks."
 msgid "Applied enforced check"
-msgstr "強制したが使われていない検査。"
+msgstr "検査の強制を適用"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:596
-#, fuzzy
-#| msgid "Propagated"
 msgid "Propagated change"
-msgstr "反映対象"
+msgstr "変更の反映"
 
 #: weblate/trans/models/change.py:683
 msgid "The component was automatically locked because of an alert."
