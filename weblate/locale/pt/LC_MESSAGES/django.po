@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-09 08:33+0000\n"
-"PO-Revision-Date: 2025-02-05 19:31+0000\n"
+"PO-Revision-Date: 2025-02-11 19:48+0000\n"
 "Last-Translator: Horus68 <horus68@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -44,11 +44,9 @@ msgstr ""
 "diferente."
 
 #: weblate/accounts/forms.py:119
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
 msgstr ""
-"Este nome de utilizador já está a ser utilizado. Por favor, escolha outro."
+"Este nome de utilizador já está a ser utilizado. Por favor, use um diferente."
 
 #: weblate/accounts/forms.py:131 weblate/accounts/forms.py:985
 #: weblate/auth/models.py:440 weblate/auth/models.py:1143
@@ -87,10 +85,8 @@ msgid "Public e-mail"
 msgstr "Email público"
 
 #: weblate/accounts/forms.py:233
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Hide e-mail address from public view"
-msgstr "Este endereço de e-mail não é permitido."
+msgstr "Ocultar do público o endereço do email"
 
 #: weblate/accounts/forms.py:339
 #, python-format
@@ -172,14 +168,10 @@ msgid "Message"
 msgstr "Mensagem"
 
 #: weblate/accounts/forms.py:572
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to process "
-#| "your request."
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
 msgstr ""
-"Por favor, contacte-nos em inglês, caso contrário, nós talvez não possamos "
+"Por favor, contacte-nos em inglês. Caso contrário talvez não possamos "
 "processar o seu pedido."
 
 #: weblate/accounts/forms.py:589 weblate/accounts/templatetags/authnames.py:33
@@ -192,10 +184,8 @@ msgid "E-mail"
 msgstr "Email"
 
 #: weblate/accounts/forms.py:590
-#, fuzzy
-#| msgid "E-mail with a confirmation link will be sent here."
 msgid "An e-mail with a confirmation link will be sent here."
-msgstr "Será enviado para aqui um email com uma hiperligação de confirmação."
+msgstr "Será enviado um email com uma hiperligação de confirmação."
 
 #: weblate/accounts/forms.py:636
 msgid "New password"
@@ -214,10 +204,8 @@ msgid "Current password"
 msgstr "Palavra-passe atual"
 
 #: weblate/accounts/forms.py:684
-#, fuzzy
-#| msgid "Leave empty if you have not yet set a password."
 msgid "Leave empty if you have not set a password yet."
-msgstr "Deixe em branco se ainda não tiver definido uma palavra-passe."
+msgstr "Deixe em branco se não tiver definido uma palavra-passe."
 
 #: weblate/accounts/forms.py:698
 msgid "You have entered an invalid password."
@@ -2055,34 +2043,31 @@ msgid "Weblate's REST API"
 msgstr "API REST do Weblate"
 
 #: weblate/api/views.py:151
-#, fuzzy
-#| msgid "Could not obtain repository lock to perform the operation."
 msgid "Could not obtain the lock to perform the operation."
-msgstr ""
-"Não foi possível efetuar o bloqueio do repositório para realizar a operação."
+msgstr "Não foi possível obter o bloqueio para executar a operação."
 
 #: weblate/api/views.py:162
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
 msgstr ""
-"Não foi possível efetuar o bloqueio do repositório para realizar a operação."
+"Não foi possível efetuar o bloqueio do repositório %s para realizar a "
+"operação."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
 msgstr ""
-"Não foi possível efetuar o bloqueio do repositório para realizar a operação."
+"Não foi possível obter o bloqueio de atualização do repositório %s para "
+"executar a operação."
 
 #: weblate/api/views.py:177
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr ""
-"Não foi possível efetuar o bloqueio do repositório para realizar a operação."
+"Não foi possível efetuar o bloqueio de %(scope)s de %(origin)s para executar "
+"a operação."
 
 #: weblate/api/views.py:2310 weblate/auth/models.py:956
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2166,7 +2151,7 @@ msgstr "Ver informação de faturação"
 #. Translators: Permission name
 #: weblate/auth/data.py:23
 msgid "Download changes"
-msgstr "Transferir alterações"
+msgstr "Descarregar alterações"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:25
@@ -2246,7 +2231,7 @@ msgstr "Gerir acesso do projeto"
 #. Translators: Permission name
 #: weblate/auth/data.py:55
 msgid "Download reports"
-msgstr "Transferir relatórios"
+msgstr "Descarregar relatórios"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:57 weblate/templates/translate.html:753
@@ -2972,10 +2957,8 @@ msgid "Adding new translations is turned off in the component configuration."
 msgstr "A adição de cadeias está desativada na configuração do componente."
 
 #: weblate/auth/permissions.py:376
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This component is currently locked."
-msgstr "De momento, esta tradução está bloqueada."
+msgstr "De momento, este componente está bloqueado."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -4839,11 +4822,11 @@ msgstr "Número de pessoas que falam esta língua."
 
 #: weblate/lang/models.py:805
 msgid "Case-sensitive"
-msgstr ""
+msgstr "Sensível a maiúsculas"
 
 #: weblate/lang/models.py:806
 msgid "Case-insensitive"
-msgstr ""
+msgstr "Não sensível a maiúsculas"
 
 #: weblate/lang/models.py:842
 msgctxt "Plural type"
@@ -6424,10 +6407,8 @@ msgid "Security keys (WebAuthn)"
 msgstr "Chaves de segurança (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:261
-#, fuzzy
-#| msgid "There are currently no WebAuthn keys registered."
 msgid "No WebAuthn keys registered yet."
-msgstr "Atualmente, não existem chaves WebAuthn registadas."
+msgstr "Não existem chaves WebAuthn registadas."
 
 #: weblate/templates/accounts/profile.html:270
 #: weblate/templates/accounts/profile.html:314
@@ -6449,20 +6430,16 @@ msgid "Register new security key"
 msgstr "Registar nova chave de segurança"
 
 #: weblate/templates/accounts/profile.html:294
-#, fuzzy
-#| msgid "Unfortunately, your browser has no WebAuthn support."
 msgid "Your web browser lacks WebAuthn support."
-msgstr "Infelizmente, o seu navegador não tem suporte ao WebAuthn."
+msgstr "O seu navegador não tem suporte ao WebAuthn."
 
 #: weblate/templates/accounts/profile.html:302
 msgid "Authenticator apps (TOTP)"
 msgstr "Apps de autenticação (TOTP)"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "The authentication app %s was registered."
 msgid "No authenticator apps registered yet."
-msgstr "A app de autenticação %s foi registado."
+msgstr "Nenhuma aplicação de autenticação registada."
 
 #: weblate/templates/accounts/profile.html:321
 #: weblate/templates/accounts/totp.html:15
@@ -6477,10 +6454,8 @@ msgid "Recovery codes"
 msgstr "Códigos de recuperação"
 
 #: weblate/templates/accounts/profile.html:327
-#, fuzzy
-#| msgid "There are currently no recovery codes generated."
 msgid "No recovery codes generated yet."
-msgstr "Atualmente, não existem códigos de recuperação gerados."
+msgstr "Ainda não existem códigos de recuperação gerados."
 
 #: weblate/templates/accounts/profile.html:331
 #: weblate/templates/accounts/recovery-codes.html:55
@@ -6489,13 +6464,11 @@ msgid "Generate new recovery codes"
 msgstr "Gerar novos códigos de recuperação"
 
 #: weblate/templates/accounts/profile.html:334
-#, fuzzy, python-format
-#| msgid "%(count)s recovery code is available."
-#| msgid_plural "%(count)s recovery codes are available."
+#, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
-msgstr[0] "%(count)s código de recuperação está disponível."
-msgstr[1] "%(count)s códigos de recuperação estão disponíveis."
+msgstr[0] "%(count)s código de recuperação disponível."
+msgstr[1] "%(count)s códigos de recuperação disponíveis."
 
 #: weblate/templates/accounts/profile.html:340
 msgid "View recovery codes"
@@ -6507,11 +6480,11 @@ msgstr "Dados do utilizador"
 
 #: weblate/templates/accounts/profile.html:357
 msgid "You can download all your private data."
-msgstr "Pode transferir todos os seus dados privados."
+msgstr "Pode descarregar todos os seus dados privados."
 
 #: weblate/templates/accounts/profile.html:360
 msgid "Download user data"
-msgstr "Transferir dados do utilizador"
+msgstr "Descarregar dados do utilizador"
 
 #: weblate/templates/accounts/profile.html:368
 #: weblate/templates/accounts/user.html:411
@@ -6588,10 +6561,8 @@ msgid "User agent"
 msgstr "Agente do utilizador"
 
 #: weblate/templates/accounts/profile.html:505
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent activity found."
-msgstr "Nenhuma atividade recente encontrada!"
+msgstr "Nenhuma atividade recente encontrada."
 
 #: weblate/templates/accounts/profile.html:511
 msgid "Report suspicious activity"
@@ -7042,10 +7013,8 @@ msgid "Edit user"
 msgstr "Editar utilizador"
 
 #: weblate/templates/accounts/user.html:395
-#, fuzzy
-#| msgid "Requires two-factor authentication"
 msgid "The user has two-factor authentication."
-msgstr "Requer autenticação a dois fatores"
+msgstr "O utilizador tem autenticação a dois fatores."
 
 #: weblate/templates/accounts/user.html:397
 #, fuzzy
@@ -7757,7 +7726,7 @@ msgstr "Valor da fatura"
 
 #: weblate/templates/billing/detail.html:85
 msgid "Download invoice"
-msgstr "Transferir fatura"
+msgstr "Descarregar fatura"
 
 #: weblate/templates/billing/detail.html:99
 #: weblate/templates/snippets/info.html:168
@@ -8016,7 +7985,7 @@ msgstr "Transfira para traduzir off-line."
 #: weblate/templates/component-list.html:32
 #: weblate/templates/language-project.html:55
 msgid "Download original translation files as ZIP file"
-msgstr "Transferir os ficheiros de tradução originais como ficheiro ZIP"
+msgstr "Descarregar os ficheiros de tradução originais como ficheiro ZIP"
 
 #: weblate/templates/category-project.html:48
 #: weblate/templates/category.html:87 weblate/templates/component.html:95
@@ -8081,7 +8050,7 @@ msgstr "Relatórios de tradução"
 #: weblate/templates/category.html:69 weblate/templates/component.html:77
 #: weblate/templates/project.html:79
 msgid "Download translation files as ZIP file"
-msgstr "Transferir os ficheiros de tradução como ficheiro ZIP"
+msgstr "Descarregar os ficheiros de tradução como ficheiro ZIP"
 
 #: weblate/templates/category.html:73 weblate/templates/component.html:81
 #: weblate/templates/language-project.html:59 weblate/templates/project.html:83
@@ -10142,7 +10111,7 @@ msgstr "Chave SSH"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:29
 msgid "Download private key"
-msgstr "Transferir a chave privada"
+msgstr "Descarregar a chave privada"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:30
 msgid "The private key is needed to access the remote backup repository."
@@ -10970,7 +10939,7 @@ msgstr "Ficheiro de tradução"
 #: weblate/templates/snippets/info.html:165
 #: weblate/templates/translation.html:468
 msgid "Download"
-msgstr "Transferir"
+msgstr "Descarregar"
 
 #: weblate/templates/snippets/info.html:173
 msgid "Last change"
@@ -12239,7 +12208,7 @@ msgstr "Alterações"
 #: weblate/templates/trans/change_list.html:37
 #: weblate/templates/trans/change_list.html:41
 msgid "Download latest changes as CSV"
-msgstr "Transferir as últimas alterações como CSV"
+msgstr "Descarregar as últimas alterações como CSV"
 
 #: weblate/templates/trans/change_list.html:46
 msgid "Follow using RSS"
@@ -12999,7 +12968,7 @@ msgstr "Descarregar tradução"
 
 #: weblate/templates/translation.html:68 weblate/templates/translation.html:463
 msgid "Customize download"
-msgstr "Personalizar transferência"
+msgstr "Personalizar descarregamento"
 
 #: weblate/templates/translation.html:72
 msgid "Upload translation"
@@ -14475,10 +14444,8 @@ msgid "License changed"
 msgstr "Licença alterada"
 
 #: weblate/trans/models/change.py:550
-#, fuzzy
-#| msgid "Contributor agreement changed"
 msgid "Contributor license agreement changed"
-msgstr "Acordo de colaborador alterado"
+msgstr "Acordo de licença de colaborador alterado"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:553
@@ -14577,17 +14544,13 @@ msgstr "Tradução de componentes concluída"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:594
-#, fuzzy
-#| msgid "Unused enforced checks."
 msgid "Applied enforced check"
-msgstr "Verificações forçadas."
+msgstr "Verificação forçada aplicada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:596
-#, fuzzy
-#| msgid "Propagated"
 msgid "Propagated change"
-msgstr "Propagada"
+msgstr "Alteração propagada"
 
 #: weblate/trans/models/change.py:683
 msgid "The component was automatically locked because of an alert."
@@ -14920,16 +14883,12 @@ msgid "List of checks which can not be ignored."
 msgstr "Lista de verificações que não podem ser ignoradas."
 
 #: weblate/trans/models/component.py:585
-#, fuzzy
-#| msgid ""
-#| "User agreement which needs to be approved before a user can translate "
-#| "this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Acordo de utilizador que tem de ser aprovado antes do utilizador poder "
-"traduzir este componente."
+"Acordo de licença de utilizador que tem de ser aprovado antes do utilizador "
+"poder traduzir este componente."
 
 #: weblate/trans/models/component.py:592
 msgid "Adding new translation"
@@ -16427,14 +16386,13 @@ msgid "A language in the category was removed."
 msgstr "Um idioma da categoria foi removido."
 
 #: weblate/trans/views/settings.py:241
-#, fuzzy, python-format
-#| msgid "Could not change %s due to outstanding issue in its settings: %s"
+#, python-format
 msgid ""
 "Could not change %(obj)s due to an outstanding issue in its settings: "
 "%(error)s"
 msgstr ""
-"Não foi possível alterar %s devido a um problema pendente nas configurações: "
-"%s"
+"Não foi possível alterar %(obj)s devido a um problema significativo nas "
+"configurações: %(error)s"
 
 #: weblate/trans/views/settings.py:415
 msgid "Backup scheduled. It will be available soon."
