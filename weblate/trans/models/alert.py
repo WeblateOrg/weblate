@@ -195,6 +195,8 @@ class DuplicateString(MultiAlert):
     verbose = gettext_lazy("Duplicated string found in the file.")
     on_import = True
 
+    # Note: The removal of this alert can be also done in Translation.delete_unit
+
 
 @register
 class DuplicateLanguage(MultiAlert):

@@ -1658,7 +1658,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         )
 
     @transaction.atomic
-    def delete_unit(self, request: AuthenticatedHttpRequest, unit) -> None:
+    def delete_unit(self, request: AuthenticatedHttpRequest | None, unit: Unit) -> None:
         from weblate.auth.models import get_anonymous
 
         component = self.component
@@ -1714,6 +1714,22 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
             if cleanup_variants:
                 self.component.update_variants()
+
+            try:
+                alert = self.component.alert_set.get(name="DuplicateString")
+            except ObjectDoesNotExist:
+                pass
+            else:
+                occurrences = [
+                    item
+                    for item in alert.details["occurrences"]
+                    if unit.pk != item["unit_pk"]
+                ]
+                if not occurrences:
+                    alert.delete()
+                elif occurrences != alert.details["occurrences"]:
+                    alert.details["occurrences"] = occurrences
+                    alert.save(update_fields=["details"])
 
             self.handle_store_change(request, user, previous_revision)
 
