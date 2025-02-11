@@ -4,9 +4,9 @@
 
 from __future__ import annotations
 
-import re
 from typing import TYPE_CHECKING, Any, Literal
 
+import regex as re
 from django.utils.functional import SimpleLazyObject
 from django.utils.html import escape, format_html, format_html_join
 from django.utils.safestring import mark_safe
