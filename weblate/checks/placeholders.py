@@ -4,9 +4,9 @@
 
 from __future__ import annotations
 
-import re
 from typing import TYPE_CHECKING, Any, Literal
 
+import regex
 from django.utils.functional import SimpleLazyObject
 from django.utils.html import escape, format_html, format_html_join
 from django.utils.safestring import mark_safe
@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 def parse_regex(val):
     if isinstance(val, str):
-        return re.compile(val)
+        return regex.compile(val)
     return val
 
 
@@ -36,12 +36,12 @@ class PlaceholderCheck(TargetCheckParametrized):
         return multi_value_flag(lambda x: x)
 
     def get_value(self, unit: Unit):
-        return re.compile(
+        return regex.compile(
             "|".join(
-                re.escape(param) if isinstance(param, str) else param.pattern
+                regex.escape(param) if isinstance(param, str) else param.pattern
                 for param in super().get_value(unit)
             ),
-            re.IGNORECASE if "case-insensitive" in unit.all_flags else 0,
+            regex.IGNORECASE if "case-insensitive" in unit.all_flags else 0,
         )
 
     @staticmethod
