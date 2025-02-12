@@ -206,7 +206,7 @@ class GitRepository(Repository):
             cmd = ["rebase"]
             cmd.extend(self.get_gpg_sign_args())
             cmd.append(self.get_remote_branch_name())
-            self.execute(cmd)
+            self.execute(cmd, environment={"WEBLATE_MERGE_SKIP": "1"})
         self.clean_revision_cache()
 
     def has_git_file(self, name):
