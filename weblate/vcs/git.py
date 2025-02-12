@@ -463,6 +463,7 @@ class GitRepository(Repository):
     @classmethod
     def global_setup(cls) -> None:
         """Perform global settings."""
+        home = data_path("home")
         merge_driver = cls.get_merge_driver("po")
         updates = [
             ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
@@ -489,7 +490,7 @@ class GitRepository(Repository):
                 )
             )
 
-        filename = data_path("home") / ".gitconfig"
+        filename = home / ".gitconfig"
         attempts = 0
         while attempts < 5:
             try:
@@ -498,6 +499,12 @@ class GitRepository(Repository):
             except OSError:
                 attempts += 1
                 sleep(attempts * 0.1)
+
+        # Use it for *.po by default
+        configfile = home / ".config" / "git" / "attributes"
+        if configfile.parent.is_dir():
+            configfile.parent.mkdir(parents=True, exist_ok=True)
+            configfile.write_text("*.po merge=weblate-merge-gettext-po\n")
 
     def get_file(self, path, revision) -> str:
         """Return content of file at given revision."""

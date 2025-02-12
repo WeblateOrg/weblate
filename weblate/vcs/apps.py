@@ -136,11 +136,3 @@ class VCSConfig(AppConfig):
                     HgRepository.global_setup()
                 except RepositoryError as error:
                     GIT_ERRORS.append(str(error))
-        # Use it for *.po by default
-        configdir = os.path.join(home, ".config", "git")
-        configfile = os.path.join(configdir, "attributes")
-        if not os.path.exists(configfile):
-            if not os.path.exists(configdir):
-                os.makedirs(configdir)
-            with open(configfile, "w") as handle:
-                handle.write("*.po merge=weblate-merge-gettext-po\n")
