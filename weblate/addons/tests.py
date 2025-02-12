@@ -1221,9 +1221,9 @@ class GitSquashAddonTest(ViewTestCase):
             component=component, configuration={"squash": mode}
         )
 
-    def edit(self) -> None:
+    def edit(self, *, repeated: bool = False) -> None:
         for lang in ("cs", "de"):
-            self.change_unit("Nazdar svete!\n", "Hello, world!\n", lang)
+            self.change_unit("Nazdar svete!\n", "Hello, world!\n", language=lang)
             self.component.commit_pending("test", None)
             self.change_unit(
                 "Diky za pouziti Weblate.",
@@ -1233,8 +1233,22 @@ class GitSquashAddonTest(ViewTestCase):
             )
             self.component.commit_pending("test", None)
 
+        # Add commit on the same unit, that is touched by anotheruser
+        if repeated:
+            self.change_unit(
+                "Danke für die Benutzung von Weblate.",
+                "Thank you for using Weblate.",
+                language="de",
+            )
+            self.component.commit_pending("test", None)
+
     def test_squash(
-        self, mode: str = "all", expected: int = 1, sitewide: bool = False
+        self,
+        mode: str = "all",
+        expected: int = 1,
+        *,
+        sitewide: bool = False,
+        repeated: bool = False,
     ) -> None:
         addon = self.create(mode=mode, sitewide=sitewide)
         repo = self.component.repository
@@ -1242,7 +1256,7 @@ class GitSquashAddonTest(ViewTestCase):
         # Test no-op behavior
         addon.post_commit(self.component, True)
         # Make some changes
-        self.edit()
+        self.edit(repeated=repeated)
         self.assertEqual(repo.count_outgoing(), expected)
 
     def test_squash_sitewide(self) -> None:
@@ -1264,6 +1278,9 @@ class GitSquashAddonTest(ViewTestCase):
         self.change_unit("Diky za pouzivani Weblate.", "Thank you for using Weblate.")
         self.component.commit_pending("test", None)
         self.assertEqual(self.component.repository.count_outgoing(), 3)
+
+    def test_multiple_authors_on_same_file(self) -> None:
+        self.test_squash("author", 3, repeated=True)
 
     def test_commit_message(self) -> None:
         commit_message = "Squashed commit message"
