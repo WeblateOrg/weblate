@@ -436,6 +436,11 @@ class ThresholdTestCase(SimpleTestCase):
         self.assertAlmostEqual(
             Memory.objects.threshold_to_similarity("x" * 500, 10), 0.74, delta=0.006
         )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("<" * 50 + "x" * 50 + ">" * 50, 10),
+            0.71,
+            delta=0.006,
+        )
 
     def test_auto(self) -> None:
         self.assertAlmostEqual(
@@ -446,6 +451,11 @@ class ThresholdTestCase(SimpleTestCase):
         )
         self.assertAlmostEqual(
             Memory.objects.threshold_to_similarity("x" * 500, 80), 0.98, delta=0.006
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("<" * 50 + "x" * 50 + ">" * 50, 80),
+            0.98,
+            delta=0.006,
         )
 
     def test_machine(self) -> None:
@@ -458,6 +468,11 @@ class ThresholdTestCase(SimpleTestCase):
         self.assertAlmostEqual(
             Memory.objects.threshold_to_similarity("x" * 500, 75), 0.97, delta=0.006
         )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("<" * 50 + "x" * 50 + ">" * 50, 75),
+            0.97,
+            delta=0.006,
+        )
 
     def test_machine_exact(self) -> None:
         self.assertAlmostEqual(
@@ -468,4 +483,9 @@ class ThresholdTestCase(SimpleTestCase):
         )
         self.assertAlmostEqual(
             Memory.objects.threshold_to_similarity("x" * 500, 100), 1.0, delta=0.006
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("<" * 50 + "x" * 50 + ">" * 50, 100),
+            1.0,
+            delta=0.006,
         )

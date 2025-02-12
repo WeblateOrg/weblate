@@ -7,6 +7,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import re
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -34,6 +35,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import Project
 
+NON_WORD_RE = re.compile(r"\W")
 
 SUPPORTED_FORMATS = (
     "json",
@@ -112,8 +114,11 @@ class MemoryQuerySet(models.QuerySet):
 
         PostgreSQL similarity threshold needs to be higher to avoid too slow
         queries.
+
+        We exclude non-word characters while calculating this as those are
+        excluded in the trigram matching.
         """
-        length = len(text)
+        length = len(NON_WORD_RE.sub("", text))
 
         base = 0.172489 * math.log(threshold) + 0.207051
         bonus = 7.03436 * math.exp(-6.07957 * base)
