@@ -2953,6 +2953,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
             "enable_suggestions",
             "suggestion_voting",
             "suggestion_autoaccept",
+            "string_filter",
         ]
 
     def __init__(
@@ -2998,6 +2999,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
                 Field("enable_suggestions"),
                 Field("suggestion_voting"),
                 Field("suggestion_autoaccept"),
+                Field("string_filter"),
                 css_id="workflow-enable-target",
             ),
         )
