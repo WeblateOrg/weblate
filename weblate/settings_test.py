@@ -60,7 +60,12 @@ if "CI_BASE_DIR" in os.environ:
     BASE_DIR = os.environ["CI_BASE_DIR"]
 else:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(BASE_DIR, "data-test")
+
+PYTEST_XDIST_TESTRUNUID = os.environ.get("PYTEST_XDIST_TESTRUNUID")
+if PYTEST_XDIST_TESTRUNUID:
+    DATA_DIR = os.path.join(BASE_DIR, f"data-test-{PYTEST_XDIST_TESTRUNUID}")
+else:
+    DATA_DIR = os.path.join(BASE_DIR, "data-test")
 CACHE_DIR = os.path.join(DATA_DIR, "cache")
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 STATIC_ROOT = os.path.join(DATA_DIR, "static")
