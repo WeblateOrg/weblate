@@ -206,14 +206,20 @@ class GitSquashAddon(BaseAddon):
                 base = repository.get_last_revision()
                 # Cherry pick current commit (this should work
                 # unless something is messed up)
-                repository.execute(["cherry-pick", commit, *gpg_sign])
+                repository.execute(
+                    ["cherry-pick", commit, *gpg_sign],
+                    environment={"WEBLATE_MERGE_SKIP": "1"},
+                )
                 handled = []
                 # Pick other commits by same author
                 for i, other in enumerate(commits):
                     if other[1] != author:
                         continue
                     try:
-                        repository.execute(["cherry-pick", other[0], *gpg_sign])
+                        repository.execute(
+                            ["cherry-pick", other[0], *gpg_sign],
+                            environment={"WEBLATE_MERGE_SKIP": "1"},
+                        )
                         handled.append(i)
                     except RepositoryError:
                         # If fails, continue to another author, we will

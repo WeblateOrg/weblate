@@ -170,16 +170,16 @@ class Repository:
         return real_path[len(repository_path) :].lstrip("/")
 
     @staticmethod
-    def _getenv() -> dict[str, str]:
+    def _getenv(environment: dict[str, str] | None = None) -> dict[str, str]:
         """Generate environment for process execution."""
-        return get_clean_env(
-            {
-                "GIT_SSH": SSH_WRAPPER.filename.as_posix(),
-                "GIT_TERMINAL_PROMPT": "0",
-                "SVN_SSH": SSH_WRAPPER.filename.as_posix(),
-            },
-            extra_path=SSH_WRAPPER.path.as_posix(),
-        )
+        base: dict[str, str] = {
+            "GIT_SSH": SSH_WRAPPER.filename.as_posix(),
+            "GIT_TERMINAL_PROMPT": "0",
+            "SVN_SSH": SSH_WRAPPER.filename.as_posix(),
+        }
+        if environment:
+            base.update(environment)
+        return get_clean_env(base, extra_path=SSH_WRAPPER.path.as_posix())
 
     @classmethod
     def _popen(
@@ -192,6 +192,7 @@ class Repository:
         raw: bool = False,
         local: bool = False,
         stdin: str | None = None,
+        environment: dict[str, str] | None = None,
     ):
         """Execute the command using popen."""
         if args is None:
@@ -203,7 +204,7 @@ class Repository:
             process = subprocess.run(
                 args,
                 cwd=cwd,
-                env={} if local else cls._getenv(),
+                env=environment or {} if local else cls._getenv(environment),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
                 text=not raw,
@@ -240,6 +241,7 @@ class Repository:
         fullcmd: bool = False,
         merge_err: bool = True,
         stdin: str | None = None,
+        environment: dict[str, str] | None = None,
     ):
         """Execute command and caches its output."""
         if needs_lock:
@@ -257,6 +259,7 @@ class Repository:
                 local=self.local,
                 merge_err=merge_err,
                 stdin=stdin,
+                environment=environment,
             )
         except RepositoryError as error:
             if not is_status and not self.local:
