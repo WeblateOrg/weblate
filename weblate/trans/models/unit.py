@@ -1461,7 +1461,6 @@ class Unit(models.Model, LoggerMixin):
 
         # Delete no longer failing checks
         if old_checks:
-            propagated_units = Unit.objects.none()
             Check.objects.filter(unit=self, name__in=old_checks).delete()
             for check_name in old_checks:
                 try:
