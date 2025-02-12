@@ -265,6 +265,23 @@ class AddonsConf(AppConf):
         prefix = ""
 
 
+# Events to exclude from logging
+NO_LOG_EVENTS = {
+    AddonEvent.EVENT_UNIT_PRE_CREATE,
+    AddonEvent.EVENT_UNIT_POST_SAVE,
+    AddonEvent.EVENT_STORE_POST_LOAD,
+}
+
+# Repository scoped events
+REPO_EVENTS = {
+    AddonEvent.EVENT_PRE_UPDATE,
+    AddonEvent.EVENT_POST_UPDATE,
+    AddonEvent.EVENT_PRE_PUSH,
+    AddonEvent.EVENT_POST_PUSH,
+    AddonEvent.EVENT_COMPONENT_UPDATE,
+}
+
+
 def execute_addon_event(
     addon: Addon,
     component: Component,
@@ -274,19 +291,12 @@ def execute_addon_event(
     args: tuple | None = None,
 ) -> None:
     # Trigger repository scoped add-ons only on the main component
-    if addon.repo_scope and component.linked_component:
+    if addon.repo_scope and component.linked_component and event in REPO_EVENTS:
         return
 
     # Log logging result and error flag for add-on activity log
     log_result = None
     error_occurred = False
-
-    # Events to exclude from logging
-    exclude_from_logging = {
-        AddonEvent.EVENT_UNIT_PRE_CREATE,
-        AddonEvent.EVENT_UNIT_POST_SAVE,
-        AddonEvent.EVENT_STORE_POST_LOAD,
-    }
 
     with transaction.atomic():
         scope.log_debug("running %s add-on: %s", event.label, addon.name)
@@ -323,7 +333,7 @@ def execute_addon_event(
             scope.log_debug("completed %s add-on: %s", event.label, addon.name)
         finally:
             # Check if add-on is still installed and log activity
-            if event not in exclude_from_logging and addon.pk is not None:
+            if event not in NO_LOG_EVENTS and addon.pk is not None:
                 AddonActivityLog.objects.create(
                     addon=addon,
                     component=component,

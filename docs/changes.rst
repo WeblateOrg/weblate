@@ -38,6 +38,7 @@ Weblate 5.10
 * Fixed translations caching in :ref:`machine-translation-setup`.
 * :ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag.
 * :ref:`check-punctuation-spacing` no longer applies to Breton.
+* Fixed :ref:`addon-weblate.git.squash` on linked repositories.
 
 .. rubric:: Compatibility
 
