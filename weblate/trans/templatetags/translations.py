@@ -420,13 +420,12 @@ class Formatter:
 
             if pos in tags:
                 current = tags[pos]
-                # Special case for single whitespace char in diff
+                # Special case for leading whitespace char in diff
                 if (
                     current
                     and value[pos] == " "
                     and "<ins>" in current
                     and SPACE_START not in current
-                    and "</ins>" in tags[pos + 1]
                 ):
                     current.append(SPACE_START)
                     tags[pos + 1].insert(0, SPACE_END)
