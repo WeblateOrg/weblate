@@ -62,7 +62,7 @@ Punctuation spacing
 
 .. versionadded:: 5.3
 
-Ensures French and Breton use correct punctuation spacing.
+Ensures French uses correct punctuation spacing.
 
 This fixup can be disabled via ``ignore-punctuation-spacing`` flag (which also
 disables :ref:`check-punctuation-spacing`).
@@ -1386,9 +1386,14 @@ Punctuation spacing
 :Check identifier: ``punctuation_spacing``
 :Flag to ignore: ``ignore-punctuation-spacing``
 
+.. versionchanged:: 5.10
+
+   This check used to apply to Breton language as well, but it was limited to
+   French only.
+
 Checks that there is non breakable space before double punctuation sign
 (exclamation mark, question mark, semicolon and colon). This rule is used only
-in a few selected languages like French or Breton, where space before double
+in a few selected languages like French, where space before double
 punctuation sign is a typographic rule.
 
 .. seealso::
