@@ -34,13 +34,13 @@ jobs:
       id: detect
       run: |
         if test -f requirements-lint.txt ; then
-          echo "method=requirements" >> $GITHUB_OUTPUT
+          echo "method=requirements" >> "$GITHUB_OUTPUT"
         elif test -f pyproject.toml && grep -q dependency-groups pyproject.toml ; then
-          echo "method=pep735" >> $GITHUB_OUTPUT
+          echo "method=pep735" >> "$GITHUB_OUTPUT"
         elif test -f pyproject.toml && grep -q dependency-groups pyproject.toml ; then
-          echo "method=pyproject" >> $GITHUB_OUTPUT
+          echo "method=pyproject" >> "$GITHUB_OUTPUT"
         else
-          echo "method=uvx" >> $GITHUB_OUTPUT
+          echo "method=uvx" >> "$GITHUB_OUTPUT"
         fi
     - name: pre-commit (PEP 735)
       if: steps.detect.outputs.method == 'pep735'
@@ -59,7 +59,7 @@ jobs:
       run: uv pip install --system -r requirements-lint.txt
     - name: Install dependencies
       if: steps.detect.outputs.method == 'pyproject'
-      run: uv pip install --system $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
+      run: uv pip install --system "$(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)"
     - name: pre-commit (installed)
       if: steps.detect.outputs.method == 'requirements' || steps.detect.outputs.method == 'pyproject'
       run: pre-commit run --all

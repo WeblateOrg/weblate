@@ -9,6 +9,10 @@ on:
   issues:
     types: [closed]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.issue.id }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -24,7 +28,11 @@ jobs:
       if: |
         github.actor != 'renovate[bot]' &&
         github.event.issue.state_reason == 'completed' &&
-        (contains(github.event.issue.labels.*.name, 'question') && ! contains(github.event.issue.labels.*.name, 'duplicate') && ! contains(github.event.issue.labels.*.name, 'wontfix')) || join(github.event.issue.labels.*.name) == ''
+        (
+          contains(github.event.issue.labels.*.name, 'question') &&
+          ! contains(github.event.issue.labels.*.name, 'duplicate') &&
+          ! contains(github.event.issue.labels.*.name, 'wontfix')
+        ) || join(github.event.issue.labels.*.name) == ''
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         issue-number: ${{ github.event.issue.number }}

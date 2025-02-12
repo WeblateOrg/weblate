@@ -125,6 +125,10 @@ repos:
     additional_dependencies:
     - tomli
     exclude: client/yarn.lock
+- repo: https://github.com/rhysd/actionlint
+  rev: v1.7.7
+  hooks:
+  - id: actionlint
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock$
 ci:
   autoupdate_schedule: quarterly
