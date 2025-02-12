@@ -57,7 +57,7 @@ test)
         --env CI_DB_PASSWORD=weblate \
         --env DJANGO_SETTINGS_MODULE=weblate.settings_test \
         --workdir /app/src \
-        weblate pytest "$@"
+        weblate pytest -n auto "$@"
     ;;
 check)
     shift

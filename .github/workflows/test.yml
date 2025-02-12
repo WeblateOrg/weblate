@@ -110,7 +110,7 @@ jobs:
     - name: Test with Django
       run: |
         source .venv/bin/activate
-        uv run --no-sources --all-extras pytest --junitxml=junit.xml --cov=weblate weblate
+        uv run --no-sources --all-extras pytest --junitxml=junit.xml --cov=weblate --numprocesses=auto weblate
         cp .coverage .coverage.pytest
     - name: Test wsgi startup
       env:
