@@ -466,7 +466,7 @@ class PunctuationSpacingCheck(TargetCheck):
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if (
-            not unit.translation.language.is_base({"fr", "br"})
+            not unit.translation.language.is_base({"fr"})
             or unit.translation.language.code == "fr_CA"
         ):
             return False
