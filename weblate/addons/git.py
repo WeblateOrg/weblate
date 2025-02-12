@@ -183,7 +183,7 @@ class GitSquashAddon(BaseAddon):
     def squash_author(self, component: Component, repository: GitRepository) -> None:
         remote = repository.get_remote_branch_name()
         # Get list of pending commits with authors
-        commits = [
+        commits: list[tuple[str, str]] = [
             x.split(None, 1)
             for x in reversed(
                 repository.execute(
