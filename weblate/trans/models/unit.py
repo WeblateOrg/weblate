@@ -1150,7 +1150,7 @@ class Unit(models.Model, LoggerMixin):
                 user, change_action, author=author, request=request
             )
 
-        changed = (
+        unchanged = (
             self.old_unit["state"] == self.state
             and self.old_unit["target"] == self.target
             and self.old_unit["explanation"] == self.explanation
@@ -1158,7 +1158,7 @@ class Unit(models.Model, LoggerMixin):
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
-        if changed and not was_propagated:
+        if unchanged and not was_propagated:
             return False
 
         update_fields = ["target", "state", "original_state", "pending", "explanation"]
@@ -1180,7 +1180,7 @@ class Unit(models.Model, LoggerMixin):
         self.save(
             update_fields=update_fields,
             run_checks=run_checks,
-            propagate_checks=was_propagated or changed,
+            propagate_checks=was_propagated or not unchanged,
         )
 
         # Generate change and process it

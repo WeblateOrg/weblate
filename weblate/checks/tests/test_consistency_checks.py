@@ -16,7 +16,7 @@ from weblate.checks.consistency import (
 from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.lang.models import Language
-from weblate.trans.models import Change
+from weblate.trans.models import Change, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -173,6 +173,27 @@ class ConsistencyCheckTest(ViewTestCase):
         self.assertEqual(Check.objects.filter(name="reused").count(), 3)
         # Change translation
         unit3.translate(self.user, "Tři", STATE_TRANSLATED)
+        # No units should be now failing
+        self.assertEqual(Check.objects.filter(name="reused").count(), 0)
+
+    def test_reuse_existing(self) -> None:
+        check = ReusedCheck()
+        self.assertEqual(list(check.check_component(self.component)), [])
+
+        # Add units
+        unit = self.add_unit(self.translation_1, "one", "One", "Dva")
+        unit2 = self.add_unit(self.translation_2, "two", "Two", "")
+        # Run all checks
+        unit2.run_checks()
+        # No units should be now failing
+        self.assertEqual(Check.objects.filter(name="reused").count(), 0)
+
+        # Change translation
+        Unit.objects.get(pk=unit2.pk).translate(self.user, "Dva", STATE_TRANSLATED)
+        # Both units should be now failing
+        self.assertEqual(Check.objects.filter(name="reused").count(), 2)
+        # Change translation
+        Unit.objects.get(pk=unit.pk).translate(self.user, "Jeden", STATE_TRANSLATED)
         # No units should be now failing
         self.assertEqual(Check.objects.filter(name="reused").count(), 0)
 

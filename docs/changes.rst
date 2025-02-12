@@ -31,6 +31,7 @@ Weblate 5.10
 
 .. rubric:: Bug fixes
 
+* :ref:`check-reused` wrongly triggered after fixing the error.
 * Dark theme behavior in some situations.
 * Translation propagation sometimes did not work as expected.
 * :http:header:`Content-Security-Policy` is now automatically set for AWS.
