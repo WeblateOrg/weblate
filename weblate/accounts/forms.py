@@ -276,6 +276,9 @@ class SubscriptionForm(ProfileBaseForm):
         user = kwargs["instance"].user
         self.fields["watched"].required = False
         self.fields["watched"].queryset = user.allowed_projects
+        self.fields["watched"].choices = [
+            (x.slug, x.name) for x in user.allowed_projects
+        ]
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
