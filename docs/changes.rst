@@ -27,9 +27,14 @@ Weblate 5.10
 * :ref:`check-reused` check gracefully handles languages which are not case sensitive.
 * :ref:`component-enforced_checks` are now applied on strings imported from the repository.
 * Reduced false positives in :ref:`check-end-colon` and :ref:`check-end-stop` for CJK languages.
+* OpenAPI schema for API includes more information.
 
 .. rubric:: Bug fixes
 
+* Dark theme behavior in some situations.
+* Translation propagation sometimes did not work as expected.
+* :http:header:`Content-Security-Policy` is now automatically set for AWS.
+* :ref:`machine-translation-setup` sometimes cached results too aggressively.
 * Fixed translations caching in :ref:`machine-translation-setup`.
 * :ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag.
 
