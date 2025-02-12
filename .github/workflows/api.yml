@@ -37,9 +37,9 @@ jobs:
         cache-dependency-glob: ''
         cache-suffix: '3.13'
     - name: Start services
-      run: ./ci/services-up $CI_DATABASE
+      run: ./ci/services-up "$CI_DATABASE"
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install $CI_DATABASE
+      run: sudo ./ci/apt-install "$CI_DATABASE"
     - name: Set up Python
       uses: actions/setup-python@v5
       with:

@@ -32,10 +32,10 @@ jobs:
         python-version: '3.13'
     - name: Install Python dependencies
       run: |
-        uv pip install --system $(sed -n 's/.*"\(weblate-schemas==\([^"]*\)\)".*/\1/p' pyproject.toml)
-        uv pip install --system $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
+        uv pip install --system $(sed -n 's/.*"\(weblate-schemas==\([^"]*\)\)".*/\1/p' pyproject.toml) # shellcheck: disable=SC2046
+        uv pip install --system $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml # shellcheck: disable=SC2046)
     - run: make -C docs update-schemas
-    - run: pre-commit run --files $(git diff --name-only)
+    - run: pre-commit run --files $(git diff --name-only) # shellcheck: disable=SC2046
       continue-on-error: true
     - name: Update renovate branch
       if: github.ref != 'refs/heads/main'

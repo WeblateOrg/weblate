@@ -82,7 +82,7 @@ jobs:
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install $CI_DATABASE
+      run: sudo ./ci/apt-install "$CI_DATABASE"
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:

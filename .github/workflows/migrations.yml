@@ -39,7 +39,7 @@ jobs:
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install $CI_DATABASE
+      run: sudo ./ci/apt-install "$CI_DATABASE"
     - uses: astral-sh/setup-uv@v5
       with:
         enable-cache: true

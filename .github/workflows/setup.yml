@@ -169,7 +169,7 @@ jobs:
       run: tail -n+3 notes/Weblate-*.md > notes.md
     - name: Extract notes title
       id: get-name
-      run: echo name=$(head -n1 notes/Weblate-*.md)  > "$GITHUB_OUTPUT"
+      run: echo "name=$(head -n1 notes/Weblate-*.md)"  > "$GITHUB_OUTPUT"
     - uses: ncipollo/release-action@v1
       with:
         artifacts: dist/*
