@@ -388,6 +388,20 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_diff_whitespace_leading_added(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["新增 :http:get:"],
+                self.component.source_language,
+                diff="新增：http:get:",
+            )["items"][0]["content"],
+            """新增
+            <del>：</del>
+            <ins><span class="hlspace"><span class="space-space"> </span></span>:</ins>
+            http:get:
+            """,
+        )
+
     def test_glossary(self) -> None:
         self.assertHTMLEqual(
             format_translation(
