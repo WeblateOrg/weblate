@@ -28,6 +28,7 @@ Weblate 5.10
 * :ref:`component-enforced_checks` are now applied on strings imported from the repository.
 * Reduced false positives in :ref:`check-end-colon` and :ref:`check-end-stop` for CJK languages.
 * OpenAPI schema for API includes more information.
+* :ref:`check-regex` supports advanced regular expressions.
 
 .. rubric:: Bug fixes
 
