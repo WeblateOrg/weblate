@@ -1,7 +1,7 @@
 Weblate 5.10
 ------------
 
-*Expected 15th February 2025.*
+*Released on February 14th 2025.*
 
 .. rubric:: New features
 
