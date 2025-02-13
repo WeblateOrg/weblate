@@ -845,8 +845,8 @@ class Change(models.Model, UserDisplayMixin):
         cache_key = cls.get_last_change_cache_key(translation.id)
         cache.set(cache_key, change.pk if change else 0, 180 * 86400)
 
-    def is_last_content_change_storable(self):
-        return self.translation_id
+    def is_last_content_change_storable(self) -> bool:
+        return self.translation_id is not None
 
     def update_cache_last_change(self) -> None:
         self.store_last_change(self.translation, self)
