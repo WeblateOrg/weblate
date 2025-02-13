@@ -46,7 +46,7 @@ class PlaceholderCheck(TargetCheckParametrized):
 
     @staticmethod
     def get_matches(value, text: str):
-        for match in value.finditer(text):
+        for match in value.finditer(text, concurrent=True):
             yield match.group()
 
     def diff_case_sensitive(self, expected, found):
@@ -159,7 +159,7 @@ class RegexCheck(TargetCheckParametrized):
 
         regex = self.get_value(unit)
 
-        for match in regex.finditer(source):
+        for match in regex.finditer(source, concurrent=True):
             yield (match.start(), match.end(), match.group())
 
     def get_description(self, check_obj):
