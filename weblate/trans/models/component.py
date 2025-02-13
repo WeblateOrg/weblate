@@ -3650,14 +3650,18 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.commit_pending("add language", None)
 
             # Create or get translation object
-            translation = self.translation_set.get_or_create(
+            translation, created = self.translation_set.get_or_create(
                 language=language,
                 defaults={
                     "plural": language.plural,
                     "filename": filename,
                     "language_code": code,
                 },
-            )[0]
+            )
+            # Make it clear that there is no change for the newly created translation
+            # to avoid expensive last change lookup in stats while committing changes.
+            if created:
+                Change.store_last_change(translation, None)
 
             # Create the file
             if os.path.exists(fullname):
