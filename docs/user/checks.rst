@@ -1413,12 +1413,26 @@ Regular expression
 :Flag to enable: ``regex``
 :Flag to ignore: ``ignore-regex``
 
+.. versionchanged:: 5.10
+
+   Extended support for advanced regular expressions including Unicode codepoint properties.
+
 Translation does not match regular expression. The expression is either extracted from the
 translation file or defined manually using ``regex`` flag:
 
 .. code-block:: text
 
    regex:^foo|bar$
+
+The matching also supports Unicode codepoint properties, including scripts and blocks:
+
+.. code-block:: text
+
+   regex:^[-_\p{L}\p{N}\p{sc=Deva}\p{sc=Thai}]{1,32}$
+
+.. seealso::
+
+   `regex documentation <https://github.com/mrabarnett/mrab-regex>`_
 
 .. _check-rst-syntax:
 
