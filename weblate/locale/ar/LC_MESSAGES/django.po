@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-02-13 15:31+0000\n"
+"POT-Creation-Date: 2025-02-14 09:02+0000\n"
 "PO-Revision-Date: 2025-01-31 14:41+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
@@ -854,7 +854,7 @@ msgstr "يُرجى اختيار قائمة المكونات التي تريد ع
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr "تحديد قائمة المكونات ليس له أي تأثير عندما لا يظهر على لوحة المراقبة."
 
-#: weblate/accounts/models.py:921 weblate/trans/views/edit.py:386
+#: weblate/accounts/models.py:921 weblate/trans/views/edit.py:385
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
@@ -3048,9 +3048,9 @@ msgstr "سجل الدخول رجاءً لحفظ الترجمات."
 msgid "Insufficient privileges for approving translations."
 msgstr "تصاريح غير كافية لحفظ الترجمات."
 
-#: weblate/auth/permissions.py:207 weblate/trans/views/edit.py:444
-#: weblate/trans/views/edit.py:466 weblate/trans/views/edit.py:486
-#: weblate/trans/views/edit.py:1011
+#: weblate/auth/permissions.py:207 weblate/trans/views/edit.py:443
+#: weblate/trans/views/edit.py:465 weblate/trans/views/edit.py:485
+#: weblate/trans/views/edit.py:1010
 msgid "Insufficient privileges for saving translations."
 msgstr "تصاريح غير كافية لحفظ الترجمات."
 
@@ -4568,15 +4568,15 @@ msgstr "فحوص فاشلة متعددة"
 msgid "The translations in several languages have failing checks"
 msgstr "الترجمات في لغات عديدة فيها فحوص فاشلة"
 
-#: weblate/checks/source.py:85
+#: weblate/checks/source.py:89
 msgid "Following checks are failing:"
 msgstr "فشل عمليات التحقق التالية:"
 
-#: weblate/checks/source.py:107
+#: weblate/checks/source.py:111
 msgid "Long untranslated"
 msgstr "ليست مترجَمة منذ زمن"
 
-#: weblate/checks/source.py:108
+#: weblate/checks/source.py:112
 #, fuzzy
 #| msgid "This string has been translated in the past"
 msgid "The string has not been translated for a long time"
@@ -8563,8 +8563,8 @@ msgstr "تحقق من حالة الفاتورة"
 msgid "Browse"
 msgstr "استعراض"
 
-#: weblate/templates/browse.html:53 weblate/trans/views/edit.py:282
-#: weblate/trans/views/edit.py:631
+#: weblate/templates/browse.html:53 weblate/trans/views/edit.py:281
+#: weblate/trans/views/edit.py:630
 #, fuzzy
 #| msgid "No words found!"
 msgid "No strings found!"
@@ -14358,7 +14358,7 @@ msgstr "إفتح في المحرر الكامل"
 msgid "Collapse"
 msgstr ""
 
-#: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:636
+#: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:635
 msgid "The translation has come to an end."
 msgstr "لقد بلغت نهاية الترجمة."
 
@@ -17684,29 +17684,29 @@ msgstr "الرجاء إدخال إسمك الكامل وعنوان بريدك ا
 msgid "Following fixups were applied to translation: %s"
 msgstr "تم تطبيق التصحيحات التالية على الترجمة: %s"
 
-#: weblate/trans/views/edit.py:304
+#: weblate/trans/views/edit.py:303
 msgid "Your suggestion is empty!"
 msgstr "اقتراحك فارغ !"
 
-#: weblate/trans/views/edit.py:310
+#: weblate/trans/views/edit.py:309
 msgid "You don't have privileges to add suggestions!"
 msgstr "ليس لديك الصلاحيات الكافية لإضافة اقتراحات !"
 
-#: weblate/trans/views/edit.py:318
+#: weblate/trans/views/edit.py:317
 msgid "Your suggestion has been identified as spam!"
 msgstr "عُرِّفت اقترحاتك للترجمة على أنها إزعاج!"
 
-#: weblate/trans/views/edit.py:332
+#: weblate/trans/views/edit.py:331
 #, fuzzy
 #| msgid "The uploaded file will be merged with the current translation."
 msgid "Your suggestion is similar to the current translation!"
 msgstr "سيتم دمج الملف الذي تم إرساله مع الترجمة الحالية."
 
-#: weblate/trans/views/edit.py:337
+#: weblate/trans/views/edit.py:336
 msgid "Your suggestion already exists!"
 msgstr "إقتراجك موجود بالفعل!"
 
-#: weblate/trans/views/edit.py:396
+#: weblate/trans/views/edit.py:395
 #, fuzzy, python-format
 #| msgid ""
 #| "Added %(language)s to your translated languages. You can adjust them in "
@@ -17716,89 +17716,89 @@ msgid ""
 "the settings."
 msgstr "أُضيفت %(language)s إلى لغاتك المترجمة. يمكنك ضبطها في الإعدادات."
 
-#: weblate/trans/views/edit.py:415
+#: weblate/trans/views/edit.py:414
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr "تم حفظ الترجمة ، ولكن هناك بعض عمليات التحقق الفاشلة حديثًا: {0}"
 
-#: weblate/trans/views/edit.py:459
+#: weblate/trans/views/edit.py:458
 msgid "Invalid merge request!"
 msgstr "طلب دمج غير صالح !"
 
-#: weblate/trans/views/edit.py:479
+#: weblate/trans/views/edit.py:478
 msgid "Invalid revert request!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:491
+#: weblate/trans/views/edit.py:490
 msgid "Can not revert to empty translation!"
 msgstr "لا يمكن إلغاء ترجمة كانت فارغة!"
 
-#: weblate/trans/views/edit.py:514
+#: weblate/trans/views/edit.py:513
 msgid "You do not have privilege to accept suggestions!"
 msgstr "ليست لديك الصلاحيات الكافية لقبول اقتراحات !"
 
-#: weblate/trans/views/edit.py:520
+#: weblate/trans/views/edit.py:519
 msgid "You do not have privilege to delete suggestions!"
 msgstr "ليست لديك الصلاحيات الكافية لحذف الاقتراحات!"
 
-#: weblate/trans/views/edit.py:525
+#: weblate/trans/views/edit.py:524
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "ليست لديك الصلاحيات الكافية للتصويت على الاقتراحات!"
 
-#: weblate/trans/views/edit.py:559
+#: weblate/trans/views/edit.py:558
 msgid "Invalid suggestion!"
 msgstr "اقتراح غير صالح !"
 
-#: weblate/trans/views/edit.py:646
+#: weblate/trans/views/edit.py:645
 msgid "Invalid search string!"
 msgstr "سلسلة البحث غير صالحة !"
 
-#: weblate/trans/views/edit.py:778 weblate/trans/views/search.py:57
+#: weblate/trans/views/edit.py:777 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:219
 #, fuzzy
 #| msgid "Could not update the repository."
 msgid "Could not process form!"
 msgstr "لا يمكن تحديث المستودع."
 
-#: weblate/trans/views/edit.py:800
+#: weblate/trans/views/edit.py:799
 #, fuzzy
 #| msgid "Automatic translation source"
 msgid "Automatic translation in progress"
 msgstr "مصدر الترجمة الآلية"
 
-#: weblate/trans/views/edit.py:837
+#: weblate/trans/views/edit.py:836
 msgid "Source needs review"
 msgstr "يحتاج المصدر إلى مراجعة"
 
-#: weblate/trans/views/edit.py:840
+#: weblate/trans/views/edit.py:839
 msgid "Posted new comment"
 msgstr "قام بنشر تعليق جديد"
 
-#: weblate/trans/views/edit.py:842
+#: weblate/trans/views/edit.py:841
 #, fuzzy
 #| msgid "Failed to add comment!"
 msgid "Could not add comment!"
 msgstr "فَشِلَ إجراء إضافة التعليق!"
 
-#: weblate/trans/views/edit.py:862
+#: weblate/trans/views/edit.py:861
 #, fuzzy
 #| msgid "Translation comment has been deleted."
 msgid "Comment has been deleted."
 msgstr "تمت إزالة تعليق عن الترجمة."
 
-#: weblate/trans/views/edit.py:880
+#: weblate/trans/views/edit.py:879
 #, fuzzy
 #| msgid "Translation comment has been deleted."
 msgid "Comment has been resolved."
 msgstr "تمت إزالة تعليق عن الترجمة."
 
-#: weblate/trans/views/edit.py:1056
+#: weblate/trans/views/edit.py:1055
 msgid "New string has been added."
 msgstr "تم إضافة سلسلة جديدة."
 
-#: weblate/trans/views/edit.py:1076
+#: weblate/trans/views/edit.py:1075
 #, fuzzy, python-format
 #| msgid "Failed to remove the string: %s"
 msgid "Could not remove the string: %s"

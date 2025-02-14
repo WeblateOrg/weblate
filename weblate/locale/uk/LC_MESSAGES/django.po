@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-02-13 15:31+0000\n"
+"POT-Creation-Date: 2025-02-14 09:02+0000\n"
 "PO-Revision-Date: 2025-02-13 21:29+0000\n"
 "Last-Translator: Максим Горпиніч <maksimgorpinic2005a@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
@@ -845,7 +845,7 @@ msgstr ""
 "Вибір списку складників не має ніякого впливу, коли не показується на "
 "приладовій панелі."
 
-#: weblate/accounts/models.py:921 weblate/trans/views/edit.py:386
+#: weblate/accounts/models.py:921 weblate/trans/views/edit.py:385
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
@@ -2869,9 +2869,9 @@ msgstr "Увійдіть, щоб зберегти переклади."
 msgid "Insufficient privileges for approving translations."
 msgstr "Недостатньо прав для затвердження перекладів."
 
-#: weblate/auth/permissions.py:207 weblate/trans/views/edit.py:444
-#: weblate/trans/views/edit.py:466 weblate/trans/views/edit.py:486
-#: weblate/trans/views/edit.py:1011
+#: weblate/auth/permissions.py:207 weblate/trans/views/edit.py:443
+#: weblate/trans/views/edit.py:465 weblate/trans/views/edit.py:485
+#: weblate/trans/views/edit.py:1010
 msgid "Insufficient privileges for saving translations."
 msgstr "Недостатньо прав для збереження перекладів."
 
@@ -4278,15 +4278,15 @@ msgstr "Кратні невдалі перевірки"
 msgid "The translations in several languages have failing checks"
 msgstr "Переклади на декількох мовах мають непройдені перевірки"
 
-#: weblate/checks/source.py:85
+#: weblate/checks/source.py:89
 msgid "Following checks are failing:"
 msgstr "Не пройдено такі перевірки:"
 
-#: weblate/checks/source.py:107
+#: weblate/checks/source.py:111
 msgid "Long untranslated"
 msgstr "Тривалий час не перекладено"
 
-#: weblate/checks/source.py:108
+#: weblate/checks/source.py:112
 msgid "The string has not been translated for a long time"
 msgstr "Цей рядок вже тривалий час не перекладено"
 
@@ -7933,8 +7933,8 @@ msgstr "Перевірте стан платежів"
 msgid "Browse"
 msgstr "Перегляд змін"
 
-#: weblate/templates/browse.html:53 weblate/trans/views/edit.py:282
-#: weblate/trans/views/edit.py:631
+#: weblate/templates/browse.html:53 weblate/trans/views/edit.py:281
+#: weblate/trans/views/edit.py:630
 msgid "No strings found!"
 msgstr "Не знайдено жодного рядка!"
 
@@ -13221,7 +13221,7 @@ msgstr "Відкрити у повному редакторі"
 msgid "Collapse"
 msgstr "Згорнути"
 
-#: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:636
+#: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:635
 msgid "The translation has come to an end."
 msgstr "Переклад завершено."
 
@@ -16170,27 +16170,27 @@ msgstr "Будь ласка, вкажіть у профілі повне імʼ�
 msgid "Following fixups were applied to translation: %s"
 msgstr "До перекладу застосовано такі правки: %s"
 
-#: weblate/trans/views/edit.py:304
+#: weblate/trans/views/edit.py:303
 msgid "Your suggestion is empty!"
 msgstr "Ваша пропозиція – порожня!"
 
-#: weblate/trans/views/edit.py:310
+#: weblate/trans/views/edit.py:309
 msgid "You don't have privileges to add suggestions!"
 msgstr "У вас немає прав для додавання пропозицій!"
 
-#: weblate/trans/views/edit.py:318
+#: weblate/trans/views/edit.py:317
 msgid "Your suggestion has been identified as spam!"
 msgstr "Ваша пропозиція визначена як спам!"
 
-#: weblate/trans/views/edit.py:332
+#: weblate/trans/views/edit.py:331
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Ваша пропозиція збігається із поточним перекладом!"
 
-#: weblate/trans/views/edit.py:337
+#: weblate/trans/views/edit.py:336
 msgid "Your suggestion already exists!"
 msgstr "Ваша пропозиція вже існує!"
 
-#: weblate/trans/views/edit.py:396
+#: weblate/trans/views/edit.py:395
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust this behavior in "
@@ -16199,79 +16199,79 @@ msgstr ""
 "%(project)s додано до проєктів, за якими ви спостерігаєте. Ви можете "
 "скоригувати цю поведінку у параметрах облікового запису."
 
-#: weblate/trans/views/edit.py:415
+#: weblate/trans/views/edit.py:414
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr "Переклад збережено, однак зʼявилися нові непройдені перевірки: {0}"
 
-#: weblate/trans/views/edit.py:459
+#: weblate/trans/views/edit.py:458
 msgid "Invalid merge request!"
 msgstr "Неправильний запит на злиття!"
 
-#: weblate/trans/views/edit.py:479
+#: weblate/trans/views/edit.py:478
 msgid "Invalid revert request!"
 msgstr "Неправильний запит на відкликання!"
 
-#: weblate/trans/views/edit.py:491
+#: weblate/trans/views/edit.py:490
 msgid "Can not revert to empty translation!"
 msgstr "Не можна повернутися до порожнього перекладу!"
 
-#: weblate/trans/views/edit.py:514
+#: weblate/trans/views/edit.py:513
 msgid "You do not have privilege to accept suggestions!"
 msgstr "У вас немає прав для прийняття пропозицій!"
 
-#: weblate/trans/views/edit.py:520
+#: weblate/trans/views/edit.py:519
 msgid "You do not have privilege to delete suggestions!"
 msgstr "У вас немає прав для видалення пропозицій!"
 
-#: weblate/trans/views/edit.py:525
+#: weblate/trans/views/edit.py:524
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "У вас немає прав для голосування за пропозиції!"
 
-#: weblate/trans/views/edit.py:559
+#: weblate/trans/views/edit.py:558
 msgid "Invalid suggestion!"
 msgstr "Хибна пропозиція!"
 
-#: weblate/trans/views/edit.py:646
+#: weblate/trans/views/edit.py:645
 msgid "Invalid search string!"
 msgstr "Хибний пошуковий рядок!"
 
-#: weblate/trans/views/edit.py:778 weblate/trans/views/search.py:57
+#: weblate/trans/views/edit.py:777 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:219
 msgid "Could not process form!"
 msgstr "Не вдалося обробити форму!"
 
-#: weblate/trans/views/edit.py:800
+#: weblate/trans/views/edit.py:799
 msgid "Automatic translation in progress"
 msgstr "Виконуємо автоматичний переклад"
 
-#: weblate/trans/views/edit.py:837
+#: weblate/trans/views/edit.py:836
 msgid "Source needs review"
 msgstr "Початкові рядки потребують рецензування"
 
-#: weblate/trans/views/edit.py:840
+#: weblate/trans/views/edit.py:839
 msgid "Posted new comment"
 msgstr "Опублікований новий коментар"
 
-#: weblate/trans/views/edit.py:842
+#: weblate/trans/views/edit.py:841
 msgid "Could not add comment!"
 msgstr "Не вдалося додати коментар!"
 
-#: weblate/trans/views/edit.py:862
+#: weblate/trans/views/edit.py:861
 msgid "Comment has been deleted."
 msgstr "Коментар було вилучено."
 
-#: weblate/trans/views/edit.py:880
+#: weblate/trans/views/edit.py:879
 msgid "Comment has been resolved."
 msgstr "Описану в коментарі проблему усунуто."
 
-#: weblate/trans/views/edit.py:1056
+#: weblate/trans/views/edit.py:1055
 msgid "New string has been added."
 msgstr "Новий рядок додано."
 
-#: weblate/trans/views/edit.py:1076
+#: weblate/trans/views/edit.py:1075
 #, python-format
 msgid "Could not remove the string: %s"
 msgstr "Не вдалося вилучити рядок: %s"

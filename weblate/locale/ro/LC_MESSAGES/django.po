@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-02-13 15:31+0000\n"
+"POT-Creation-Date: 2025-02-14 09:02+0000\n"
 "PO-Revision-Date: 2025-02-06 18:36+0000\n"
 "Last-Translator: Vlăduț Ilie <vladilie94@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
@@ -883,7 +883,7 @@ msgstr ""
 "Selectarea listei de componente nu are niciun efect atunci când nu este "
 "afișată în panoul de control."
 
-#: weblate/accounts/models.py:921 weblate/trans/views/edit.py:386
+#: weblate/accounts/models.py:921 weblate/trans/views/edit.py:385
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
@@ -2956,9 +2956,9 @@ msgstr "Vă rugăm să vă conectați pentru a salva traducerile."
 msgid "Insufficient privileges for approving translations."
 msgstr "Privilegii insuficiente pentru salvarea traducerilor."
 
-#: weblate/auth/permissions.py:207 weblate/trans/views/edit.py:444
-#: weblate/trans/views/edit.py:466 weblate/trans/views/edit.py:486
-#: weblate/trans/views/edit.py:1011
+#: weblate/auth/permissions.py:207 weblate/trans/views/edit.py:443
+#: weblate/trans/views/edit.py:465 weblate/trans/views/edit.py:485
+#: weblate/trans/views/edit.py:1010
 msgid "Insufficient privileges for saving translations."
 msgstr "Privilegii insuficiente pentru salvarea traducerilor."
 
@@ -4428,15 +4428,15 @@ msgstr "Mai multe verificări eșuate"
 msgid "The translations in several languages have failing checks"
 msgstr "Traducerile în mai multe limbi au verificări eșuate"
 
-#: weblate/checks/source.py:85
+#: weblate/checks/source.py:89
 msgid "Following checks are failing:"
 msgstr "Următoarele verificări eșuează:"
 
-#: weblate/checks/source.py:107
+#: weblate/checks/source.py:111
 msgid "Long untranslated"
 msgstr "Mult timp netradus"
 
-#: weblate/checks/source.py:108
+#: weblate/checks/source.py:112
 msgid "The string has not been translated for a long time"
 msgstr "Șirul nu a mai fost tradus de mult timp"
 
@@ -8204,8 +8204,8 @@ msgstr "Verifică starea facturării tale"
 msgid "Browse"
 msgstr "Navighează"
 
-#: weblate/templates/browse.html:53 weblate/trans/views/edit.py:282
-#: weblate/trans/views/edit.py:631
+#: weblate/templates/browse.html:53 weblate/trans/views/edit.py:281
+#: weblate/trans/views/edit.py:630
 msgid "No strings found!"
 msgstr "Nu s-au găsit șiruri!"
 
@@ -13599,7 +13599,7 @@ msgstr "Deschide în editor complet"
 msgid "Collapse"
 msgstr ""
 
-#: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:636
+#: weblate/templates/zen-units.html:111 weblate/trans/views/edit.py:635
 msgid "The translation has come to an end."
 msgstr "Traducerea a ajuns la final."
 
@@ -16654,29 +16654,29 @@ msgstr "Te rugăm să-ți introduci numele complet și adresa de e-mail în prof
 msgid "Following fixups were applied to translation: %s"
 msgstr "Următoarele corecturi au fost aplicate traducerii: %s"
 
-#: weblate/trans/views/edit.py:304
+#: weblate/trans/views/edit.py:303
 msgid "Your suggestion is empty!"
 msgstr "Sugestia ta este goală!"
 
-#: weblate/trans/views/edit.py:310
+#: weblate/trans/views/edit.py:309
 msgid "You don't have privileges to add suggestions!"
 msgstr "Nu ai privilegii pentru a adăuga sugestii!"
 
-#: weblate/trans/views/edit.py:318
+#: weblate/trans/views/edit.py:317
 msgid "Your suggestion has been identified as spam!"
 msgstr "Sugestia ta a fost identificată ca fiind spam!"
 
-#: weblate/trans/views/edit.py:332
+#: weblate/trans/views/edit.py:331
 #, fuzzy
 #| msgid "Memory will be then populated with the current translations."
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Memoria va fi apoi completată cu traducerile curente."
 
-#: weblate/trans/views/edit.py:337
+#: weblate/trans/views/edit.py:336
 msgid "Your suggestion already exists!"
 msgstr "Sugestia ta există deja!"
 
-#: weblate/trans/views/edit.py:396
+#: weblate/trans/views/edit.py:395
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust this behavior in "
@@ -16685,7 +16685,7 @@ msgstr ""
 "Ai adăugat %(project)s la proiectele urmărite. Poți să ajustezi acest "
 "comportament în setări."
 
-#: weblate/trans/views/edit.py:415
+#: weblate/trans/views/edit.py:414
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
@@ -16694,72 +16694,72 @@ msgstr ""
 "Traducerea a fost salvată, dar există unele verificări care au eșuat recent: "
 "{0}"
 
-#: weblate/trans/views/edit.py:459
+#: weblate/trans/views/edit.py:458
 msgid "Invalid merge request!"
 msgstr "Cerere de îmbinare nevalidă!"
 
-#: weblate/trans/views/edit.py:479
+#: weblate/trans/views/edit.py:478
 msgid "Invalid revert request!"
 msgstr "Cerere de revenire nevalidă!"
 
-#: weblate/trans/views/edit.py:491
+#: weblate/trans/views/edit.py:490
 msgid "Can not revert to empty translation!"
 msgstr "Nu se poate reveni la traducerea goală!"
 
-#: weblate/trans/views/edit.py:514
+#: weblate/trans/views/edit.py:513
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nu ai privilegiul de a accepta sugestii!"
 
-#: weblate/trans/views/edit.py:520
+#: weblate/trans/views/edit.py:519
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nu ai privilegiul de a șterge sugestii!"
 
-#: weblate/trans/views/edit.py:525
+#: weblate/trans/views/edit.py:524
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Nu ai privilegiul de a vota sugestii!"
 
-#: weblate/trans/views/edit.py:559
+#: weblate/trans/views/edit.py:558
 msgid "Invalid suggestion!"
 msgstr "Sugestie nevalidă!"
 
-#: weblate/trans/views/edit.py:646
+#: weblate/trans/views/edit.py:645
 msgid "Invalid search string!"
 msgstr "Șir de căutare nevalid!"
 
-#: weblate/trans/views/edit.py:778 weblate/trans/views/search.py:57
+#: weblate/trans/views/edit.py:777 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:219
 msgid "Could not process form!"
 msgstr "Nu s-a putut procesa formularul!"
 
-#: weblate/trans/views/edit.py:800
+#: weblate/trans/views/edit.py:799
 msgid "Automatic translation in progress"
 msgstr "Traducere automată în curs"
 
-#: weblate/trans/views/edit.py:837
+#: weblate/trans/views/edit.py:836
 msgid "Source needs review"
 msgstr "Sursa trebuie revizuită"
 
-#: weblate/trans/views/edit.py:840
+#: weblate/trans/views/edit.py:839
 msgid "Posted new comment"
 msgstr "A publicat un comentariu nou"
 
-#: weblate/trans/views/edit.py:842
+#: weblate/trans/views/edit.py:841
 msgid "Could not add comment!"
 msgstr "Nu s-a putut adăuga comentariul!"
 
-#: weblate/trans/views/edit.py:862
+#: weblate/trans/views/edit.py:861
 msgid "Comment has been deleted."
 msgstr "Comentariul a fost șters."
 
-#: weblate/trans/views/edit.py:880
+#: weblate/trans/views/edit.py:879
 msgid "Comment has been resolved."
 msgstr "Comentariul a fost rezolvat."
 
-#: weblate/trans/views/edit.py:1056
+#: weblate/trans/views/edit.py:1055
 msgid "New string has been added."
 msgstr "A fost adăugat un șir nou."
 
-#: weblate/trans/views/edit.py:1076
+#: weblate/trans/views/edit.py:1075
 #, python-format
 msgid "Could not remove the string: %s"
 msgstr "Nu s-a putut elimina șirul: %s"
