@@ -25,40 +25,41 @@ from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.trans.models.unit import Unit
 
 
 class SuggestionManager(models.Manager["Suggestion"]):
     def add(
         self,
-        unit,
+        unit: Unit,
         target: list[str],
-        request,
+        request: AuthenticatedHttpRequest,
         vote: bool = False,
-        user=None,
+        user: User | None = None,
         raise_exception: bool = True,
     ):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous
 
         # Apply fixups
-        fixups = []
+        fixups: list[str] = []
         if not unit.translation.is_template:
             target, fixups = fix_target(target, unit)
 
-        target = join_plural(target)
+        target_merged = join_plural(target)
 
         if user is None:
             user = request.user if request else get_anonymous()
 
-        if unit.translated and unit.target == target:
+        if unit.translated and unit.target == target_merged:
             if raise_exception:
                 raise SuggestionSimilarToTranslationError
             return False
 
-        same_suggestions = self.filter(target=target, unit=unit)
+        same_suggestions = self.filter(target=target_merged, unit=unit)
         # Do not rely on the SQL as MySQL compares strings case insensitive
         for same in same_suggestions:
-            if same.target == target:
+            if same.target == target_merged:
                 if same.user == user or not vote:
                     return False
                 same.add_vote(request, Vote.POSITIVE)
@@ -66,7 +67,7 @@ class SuggestionManager(models.Manager["Suggestion"]):
 
         # Create the suggestion
         suggestion = self.create(
-            target=target,
+            target=target_merged,
             unit=unit,
             user=user,
             userdetails={
@@ -81,7 +82,7 @@ class SuggestionManager(models.Manager["Suggestion"]):
             user, user, Change.ACTION_SUGGESTION, check_new=False, save=False
         )
         change.suggestion = suggestion
-        change.target = target
+        change.target = target_merged
         change.save()
 
         # Add unit vote
