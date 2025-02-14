@@ -217,7 +217,7 @@ class MemoryManager(models.Manager):
         content = fileobj.read()
         try:
             data = json.loads(force_str(content))
-        except ValueError as error:
+        except json.JSONDecodeError as error:
             report_error("Could not parse memory")
             raise MemoryImportError(
                 gettext("Could not parse JSON file: %s") % error
