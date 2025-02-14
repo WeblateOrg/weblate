@@ -67,7 +67,11 @@ class MultipleFailingCheck(SourceCheck):
         return Check.objects.filter(unit__in=unit.unit_set.exclude(pk=unit.id))
 
     def check_source_unit(self, sources: list[str], unit: Unit):
-        related = self.get_related_checks(unit)
+        related = (
+            self.get_related_checks(unit)
+            .values_list("unit__translation", flat=True)
+            .distinct()
+        )
         return related.count() >= 2
 
     def get_description(self, check_obj):
@@ -80,7 +84,7 @@ class MultipleFailingCheck(SourceCheck):
         checks = defaultdict(list)
 
         for check in related:
-            checks[check.check].append(check)
+            checks[check.name].append(check)
 
         output = [(gettext("Following checks are failing:"),)]
         output.extend(

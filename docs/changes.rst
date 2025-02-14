@@ -29,6 +29,7 @@ Weblate 5.10
 * Reduced false positives in :ref:`check-end-colon` and :ref:`check-end-stop` for CJK languages.
 * OpenAPI schema for API includes more information.
 * :ref:`check-regex` supports advanced regular expressions.
+* :ref:`check-same` gracefully deals with case-insensitive languages.
 
 .. rubric:: Bug fixes
 
@@ -41,6 +42,7 @@ Weblate 5.10
 * :ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag.
 * :ref:`check-punctuation-spacing` no longer applies to Breton.
 * Fixed :ref:`addon-weblate.git.squash` on linked repositories.
+* :ref:`check-multiple-failures` avoids false positives and better lists related checks.
 
 .. rubric:: Compatibility
 
