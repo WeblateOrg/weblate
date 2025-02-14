@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from weblate.lang.models import Language
 from weblate.utils.management.base import BaseCommand
 
@@ -20,7 +22,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options) -> None:
         """Create default set of languages."""
-        kwargs = {}
-        if options["verbosity"] >= 1:
-            kwargs["logger"] = self.stdout.write
-        Language.objects.setup(options["update"], **kwargs)
+        Language.objects.setup(
+            update=options["update"],
+            logger=self.stdout.write if options["verbosity"] >= 1 else None,
+        )

@@ -856,7 +856,7 @@ class LanguageAliasesChangeTest(ViewTestCase):
 
         self.assertIn(self.old_code, component_language_codes())
         logs: list[str] = []
-        Language.objects.setup(True, logs.append)
+        Language.objects.setup(update=True, logger=logs.append)
         if new_language_created:
             self.assertIn(f"Created language {self.new_code}", logs)
         else:
