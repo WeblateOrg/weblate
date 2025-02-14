@@ -122,7 +122,6 @@ def get_other_units(unit):
 
         base = (
             Unit.objects.filter(
-                query,
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
