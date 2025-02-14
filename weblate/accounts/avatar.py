@@ -7,7 +7,7 @@ import hashlib
 import os.path
 from ssl import CertificateError
 from typing import TYPE_CHECKING
-from urllib.parse import quote
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.staticfiles import finders
@@ -31,7 +31,9 @@ def avatar_for_email(email, size=80) -> str:
 
     mail_hash = hashlib.md5(email.lower().encode(), usedforsecurity=False).hexdigest()
 
-    return f"{settings.AVATAR_URL_PREFIX}avatar/{mail_hash}?d={quote(settings.AVATAR_DEFAULT_IMAGE)}&s={size!s}"
+    querystring = urlencode({"d": settings.AVATAR_DEFAULT_IMAGE, "s": str(size)})
+
+    return f"{settings.AVATAR_URL_PREFIX}avatar/{mail_hash}?{querystring}"
 
 
 def get_fallback_avatar_url(size: int):
