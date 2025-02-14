@@ -656,14 +656,24 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
             group.languages.add(target)
 
         for plural in source.plural_set.iterator():
-            formulas = target.plural_set.filter(formula=plural.formula)
+            formulas = target.plural_set.filter(
+                source=plural.source, formula=plural.formula
+            )
             try:
+                # Use matching plural if it exists
                 new_plural = formulas[0]
             except IndexError:
-                plural.language = target
+                # Create new plural based on current one
+                new_plural = target.plural_set.create(
+                    source=plural.source,
+                    number=plural.number,
+                    formula=plural.formula,
+                    type=plural.type,
+                )
                 plural.save()
-            else:
-                plural.translation_set.update(plural=new_plural)
+
+            # Migrate all moved translations to the new plural
+            plural.translation_set.filter(language=target).update(plural=new_plural)
 
         source.memory_source_set.update(source_language=target)
         source.memory_target_set.update(target_language=target)
