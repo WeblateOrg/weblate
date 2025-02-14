@@ -93,8 +93,8 @@ def get_version_module(name, optional=False):
     url = package.get("Home-page")
     if url is None and (project_urls := package.get_all("Project-URL")):
         for project_url in project_urls:
-            name, current_url = project_url.split(",", 1)
-            if name.lower().strip() == "homepage":
+            url_name, current_url = project_url.split(",", 1)
+            if url_name.lower().strip() == "homepage":
                 url = current_url.strip()
                 break
     if url is None:
