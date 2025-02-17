@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-14 09:02+0000\n"
-"PO-Revision-Date: 2025-02-14 21:25+0000\n"
+"PO-Revision-Date: 2025-02-17 16:37+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.10\n"
+"X-Generator: Weblate 5.10.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1950,17 +1950,20 @@ msgstr ""
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
 msgstr ""
+"Korištena autentifikacija temeljena na sesiji kada je korisnik prijavljen."
 
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "Autentifikacija temeljena na tokenu s potrebnim prefiksom `%s`."
 
 #: weblate/api/authentication.py:42
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Svaki korisnik ima osobni pristupni token koji može dobiti u svom "
+"korisničkom profilu. Ovi tokeni imaju prefiks `wlu_`."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -1968,6 +1971,8 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"Moguće je stvoriti tokene projekta čiji je pristup API-ju ograničen na "
+"operacije na njihov pridruženi projekt. Ovi tokeni imaju prefiks `wlp_`."
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -1987,30 +1992,31 @@ msgid "Weblate's REST API"
 msgstr "Weblateov REST API"
 
 #: weblate/api/views.py:151
-#, fuzzy
-#| msgid "Could not obtain repository lock to perform the operation."
 msgid "Could not obtain the lock to perform the operation."
-msgstr "Nije bilo moguće zaključati repozitorij za izvršavanje operacije."
+msgstr "Nije bilo moguće dobiti zaključavanje za izvršavanje operacije."
 
 #: weblate/api/views.py:162
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "Nije bilo moguće zaključati repozitorij za izvršavanje operacije."
+msgstr ""
+"Nije bilo moguće dobiti zaključavanje repozitorija za %s za izvršavanje "
+"operacije."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "Nije bilo moguće zaključati repozitorij za izvršavanje operacije."
+msgstr ""
+"Nije bilo moguće dobiti zaključavanje aktualiziranja za komponentu %s za "
+"izvršavanje operacije."
 
 #: weblate/api/views.py:177
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "Nije bilo moguće zaključati repozitorij za izvršavanje operacije."
+msgstr ""
+"Nije bilo moguće dobiti zaključavanje %(scope)s za %(origin)s za izvršavanje "
+"operacije."
 
 #: weblate/api/views.py:2338 weblate/auth/models.py:956
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
