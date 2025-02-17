@@ -113,6 +113,12 @@ repos:
     files: docs/changes\.rst
     entry: ^ *\* .*[^.]\n$
     language: pygrep
+  - id: py-join-comma
+    name: Localized comma in join
+    types: [python]
+    args: [--multiline]
+    entry: format_html_join\(\s*", "
+    language: pygrep
 - repo: https://github.com/sphinx-contrib/sphinx-lint
   rev: v1.0.0
   hooks:

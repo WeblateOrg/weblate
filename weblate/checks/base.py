@@ -16,6 +16,7 @@ from lxml import etree
 from siphashc import siphash
 
 from weblate.utils.docs import get_doc_url
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
@@ -309,8 +310,7 @@ class TargetCheck(BaseCheck):
     def get_values_text(self, message: str, values: Iterable[str]) -> StrOrPromise:
         return format_html(
             message,
-            format_html_join(
-                ", ",
+            format_html_join_comma(
                 "{}",
                 ((self.format_value(value),) for value in sorted(values)),
             ),
