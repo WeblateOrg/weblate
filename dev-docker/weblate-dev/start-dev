@@ -20,7 +20,11 @@ echo "/app/data/python" > "/app/venv/lib/python${PYVERSION}/site-packages/weblat
 . /app/venv/bin/activate
 
 echo "Installing Weblate requirements..."
-uv pip install --no-config -r /tmp/requirements.txt
+uv pip install \
+    --no-config \
+    --no-binary xmlsec \
+    --no-binary lxml \
+    -r /tmp/requirements.txt
 
 echo "Starting Weblate..."
 exec /app/bin/start "$@"
