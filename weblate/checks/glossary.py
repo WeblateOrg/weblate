@@ -7,11 +7,12 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
-from django.utils.html import escape, format_html, format_html_join
+from django.utils.html import escape, format_html
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import SourceCheck, TargetCheck
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
+from weblate.utils.html import format_html_join_comma
 
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
@@ -80,7 +81,7 @@ class GlossaryCheck(TargetCheck):
             escape(
                 gettext("Following terms are not translated according to glossary: {}")
             ),
-            format_html_join(", ", "{}", ((term,) for term in sorted(results))),
+            format_html_join_comma("{}", ((term,) for term in sorted(results))),
         )
 
 
@@ -104,5 +105,5 @@ class ProhibitedInitialCharacterCheck(SourceCheck):
                     "The string starts with one or more of the following forbidden characters: {}"
                 )
             ),
-            format_html_join(", ", "{}", PROHIBITED_INITIAL_CHARS),
+            format_html_join_comma("{}", PROHIBITED_INITIAL_CHARS),
         )
