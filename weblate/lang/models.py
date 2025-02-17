@@ -55,6 +55,7 @@ PLURAL_TITLE = """
 """
 COPY_RE = re.compile(r"\([0-9]+\)")
 KNOWN_SUFFIXES = {"hant", "hans", "latn", "cyrl", "shaw"}
+GENERATED_SUFFIX = "(generated)"
 
 
 def get_plural_type(base_code, plural_formula):
@@ -339,7 +340,7 @@ class LanguageQuerySet(models.QuerySet):
         It is based on code and best guess of parameters.
         """
         # Create standard language
-        name = f"{code} (generated)"
+        name = f"{code} {GENERATED_SUFFIX}"
         if create:
             lang = self.get_or_create(code=code, defaults={"name": name})[0]
         else:
@@ -738,9 +739,7 @@ class Language(models.Model, CacheKeyMixin):
         base_manager_name = "objects"
 
     def __str__(self) -> str:
-        if self.show_language_code:
-            return f"{gettext(self.name)} ({self.code})"
-        return gettext(self.name)
+        return self.format_full_name(self.get_localized_name())
 
     def __init__(self, *args, **kwargs) -> None:
         from weblate.utils.stats import LanguageStats
@@ -762,9 +761,18 @@ class Language(models.Model, CacheKeyMixin):
 
     def get_name(self):
         """Not localized version of __str__."""
+        return self.format_full_name(self.name)
+
+    def format_full_name(self, name: str):
         if self.show_language_code:
-            return f"{self.name} ({self.code})"
-        return self.name
+            return f"{name} ({self.code})"
+        return name
+
+    def get_localized_name(self):
+        if self.name.endswith(GENERATED_SUFFIX):
+            return self.name
+        name = gettext(self.name)
+        return f"{name[0].title()}{name[1:]}"
 
     def guess_direction(self) -> str:
         if self.base_code in RTL_LANGS or self.code in RTL_LANGS:
