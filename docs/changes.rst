@@ -7,6 +7,8 @@ Weblate 5.10.1
 
 .. rubric:: Improvements
 
+* :ref:`check-multiple-failures` better shows failing checks including links to the strings.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
