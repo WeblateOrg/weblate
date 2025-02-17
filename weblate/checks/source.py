@@ -10,11 +10,11 @@ from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from django.utils import timezone
-from django.utils.html import format_html_join
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html, format_html_join
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import SourceCheck
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
 
 if TYPE_CHECKING:
@@ -86,23 +86,29 @@ class MultipleFailingCheck(SourceCheck):
         for check in related:
             checks[check.name].append(check)
 
-        output = [(gettext("Following checks are failing:"),)]
-        output.extend(
-            (
-                "{}: {}".format(
-                    check_list[0].get_name(),
-                    ", ".join(
-                        str(check.unit.translation.language) for check in check_list
-                    ),
+        return format_html(
+            "{}<dl>{}</dl>",
+            gettext("Following checks are failing:"),
+            format_html_join(
+                "\n",
+                "<dt>{}</dt><dd>{}</dd>",
+                (
+                    (
+                        check_list[0].get_name(),
+                        format_html_join_comma(
+                            '<a href="{}">{}</a>',
+                            (
+                                (
+                                    check.unit.get_absolute_url(),
+                                    str(check.unit.translation.language),
+                                )
+                                for check in check_list
+                            ),
+                        ),
+                    )
+                    for check_list in checks.values()
                 ),
-            )
-            for check_list in checks.values()
-        )
-
-        return format_html_join(
-            mark_safe("<br>"),  # noqa: S308
-            "{}",
-            output,
+            ),
         )
 
 
