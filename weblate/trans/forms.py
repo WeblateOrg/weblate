@@ -76,6 +76,7 @@ from weblate.utils.forms import (
     UsernameField,
 )
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -2123,7 +2124,13 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                             "You must specify a license for these components "
                             "to make them publicly accessible: %s"
                         )
-                        % ", ".join(unlicensed.values_list("name", flat=True))
+                        % format_html_join_comma(
+                            '<a href="{}">{}</a>',
+                            (
+                                (component.get_absolute_url(), component.name)
+                                for component in unlicensed
+                            ),
+                        )
                     }
                 )
 
