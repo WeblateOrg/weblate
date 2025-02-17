@@ -16,6 +16,7 @@ concurrency:
 
 permissions:
   contents: read
+  checks: write
 
 jobs:
   test:
@@ -129,6 +130,13 @@ jobs:
       uses: codecov/test-results-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        comment_mode: off
+        files: |
+          junit.xml
     - name: Stop services
       if: always()
       run: ./ci/services-down ${{ matrix.database }}
