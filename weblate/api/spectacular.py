@@ -211,6 +211,7 @@ def get_drf_standardized_errors_sertings() -> dict[str, Any]:
         "ERROR_SCHEMAS": {
             "423": "weblate.api.serializers.ErrorResponse423Serializer",
         },
+        "EXCEPTION_HANDLER_CLASS": "weblate.api.views.WeblateExceptionHandler",
     }
 
 
