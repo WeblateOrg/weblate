@@ -138,7 +138,9 @@ def download(request: AuthenticatedHttpRequest, path):
         components = obj.project.component_set.filter_access(request.user)
         return download_multi(
             request,
-            Translation.objects.filter(component__in=components, language=obj.language),
+            Translation.objects.filter(
+                component__in=components, language=obj.language
+            ).prefetch(),
             [obj.project],
             request.GET.get("format"),
             name=f"{obj.project.slug}-{obj.language.code}",
@@ -147,7 +149,7 @@ def download(request: AuthenticatedHttpRequest, path):
         components = obj.component_set.filter_access(request.user)
         return download_multi(
             request,
-            Translation.objects.filter(component__in=components),
+            Translation.objects.filter(component__in=components).prefetch(),
             [obj],
             request.GET.get("format"),
             name=obj.slug,
@@ -158,7 +160,9 @@ def download(request: AuthenticatedHttpRequest, path):
         ).filter(pk__in=obj.category.all_component_ids)
         return download_multi(
             request,
-            Translation.objects.filter(component__in=components, language=obj.language),
+            Translation.objects.filter(
+                component__in=components, language=obj.language
+            ).prefetch(),
             [obj.category.project],
             request.GET.get("format"),
             name=f"{obj.category.slug}-{obj.language.code}",
@@ -169,7 +173,7 @@ def download(request: AuthenticatedHttpRequest, path):
         )
         return download_multi(
             request,
-            Translation.objects.filter(component__in=components),
+            Translation.objects.filter(component__in=components).prefetch(),
             [obj.project],
             request.GET.get("format"),
             name=obj.slug,

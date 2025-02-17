@@ -11,6 +11,8 @@ Weblate 5.10.1
 
 .. rubric:: Bug fixes
 
+* :ref:`download` performs faster and project and language scopes.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
