@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-14 10:03+0100\n"
-"PO-Revision-Date: 2025-02-18 13:02+0000\n"
+"PO-Revision-Date: 2025-02-18 13:06+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -5580,8 +5580,8 @@ msgid ""
 "Use the generated file to import project when :ref:`adding-projects` or in :"
 "wladmin:`import_projectbackup`."
 msgstr ""
-"Gebruik het gegenereerde bestand om het project te importeren bij :ref:"
-"`adding-projects`."
+"Gebruik het gegenereerde bestand om het project te importeren bij :ref"
+":`adding-projects`of in :wladmin:`import_projectbackup`."
 
 #: ../../admin/backup.rst:39
 msgid ""
@@ -6416,15 +6416,13 @@ msgid "``rst-text``"
 msgstr "``rst-text``"
 
 #: ../../admin/checks.rst:72
-#, fuzzy
-#| msgid ""
-#| "Treat a text as an reStructuredText document, affects :ref:`check-same`."
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`. "
 "Turns on :ref:`check-rst-syntax` and :ref:`check-rst-references`."
 msgstr ""
-"Behandel tekst als een document met reStructuredText, heeft invloed op :ref:"
-"`check-same`."
+"Behandelt een tekst als een document met reStructuredText, heeft invloed op "
+":ref:`check-same`. Schakelt :ref:`check-rst-syntax` en :ref:`check-rst-"
+"references` in."
 
 #: ../../admin/checks.rst:74 ../../user/checks.rst:124
 msgid "``bbcode-text``"
@@ -14226,13 +14224,6 @@ msgid "Content security policy"
 msgstr "Beleid beveiliging inhoud"
 
 #: ../../admin/install.rst:1399
-#, fuzzy
-#| msgid ""
-#| "The default Weblate configuration enables ``weblate.middleware."
-#| "SecurityMiddleware`` middleware which sets security related HTTP headers "
-#| "like ``Content-Security-Policy`` or ``X-XSS-Protection``. These are by "
-#| "default set up to work with Weblate and its configuration, but this might "
-#| "need customization for your environment."
 msgid ""
 "The default Weblate configuration enables ``weblate.middleware."
 "SecurityMiddleware`` middleware which sets security related HTTP headers "
@@ -14240,11 +14231,12 @@ msgid ""
 "Protection`. These are by default set up to work with Weblate and its "
 "configuration, but this might need customization for your environment."
 msgstr ""
-"De standaard configuratie van Weblate schakelt middleware ``weblate."
-"middleware.SecurityMiddleware`` in die op beveiliging gerelateerde HTTP-"
-"koppen, zoals ``Content-Security-Policy`` of ``X-XSS-Protection`` instelt. "
-"Deze worden standaard ingesteld om te werken met Weblate en zijn "
-"configuratie, maar dit zou aanpassingen kunnen vergen voor uw omgeving."
+"De standaard configuratie van Weblate schakelt middleware "
+"``weblate.middleware.SecurityMiddleware`` in die op beveiliging gerelateerde "
+"HTTP-koppen, zoals :http:header:`Content-Security-Policy` of :http:header:`X"
+"-XSS-Protection`, instelt. Deze worden standaard ingesteld om te werken met "
+"Weblate en zijn configuratie, maar dit zou aanpassingen kunnen vergen voor "
+"uw omgeving."
 
 #: ../../admin/install.rst:1406
 msgid ""
@@ -16005,11 +15997,10 @@ msgstr ""
 "`django:SILENCED_SYSTEM_CHECKS`."
 
 #: ../../admin/install/docker.rst:879
-#, fuzzy
-#| msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgid "Allows to customize :http:header:`Content-Security-Policy` HTTP header."
 msgstr ""
-"Maakt het mogelijk de HTTP header ``Content-Security-Policy`` aan te passen."
+"Maakt het mogelijk de HTTP header :http:header:`Content-Security-Policy` aan "
+"te passen."
 
 #: ../../admin/install/docker.rst:883
 msgid ""
@@ -16385,10 +16376,9 @@ msgid "Keycloak"
 msgstr "Keycloak"
 
 #: ../../admin/install/docker.rst:1363
-#, fuzzy
-#| msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgid "Enables Keycloak authentication, see :doc:`psa:backends/keycloak`."
-msgstr "Schakelt Slack authenticatie in, bekijk :ref:`slack-auth`."
+msgstr ""
+"Schakelt authenticatie voor Keycloak in, bekijk :doc:`psa:backends/keycloak`."
 
 #: ../../admin/install/docker.rst:1366
 msgid "Linux vendors"
@@ -17535,13 +17525,6 @@ msgid "Web Console"
 msgstr "Webconsole"
 
 #: ../../admin/install/openshift.rst:25
-#, fuzzy
-#| msgid ""
-#| "Copy the raw content from `template.yml <https://github.com/WeblateOrg/"
-#| "openshift/blob/main/template.yml>`_ and import them into your project, "
-#| "then use the ``Create`` button in the OpenShift web console to create "
-#| "your application. The web console will prompt you for the values for all "
-#| "of the parameters used by the template."
 msgid ""
 "Copy the raw content from `template.yml <https://github.com/WeblateOrg/"
 "openshift/blob/main/template.yml>`_ and import them into your project, then "
@@ -17551,9 +17534,9 @@ msgid ""
 msgstr ""
 "Kopieer de ruwe inhoud van `template.yml <https://github.com/WeblateOrg/"
 "openshift/blob/main/template.yml>`_ en importeer die in uw project, gebruik "
-"dan de knop ``Create`` in de OpenShift webconsole om uw toepassing te maken. "
-"De webconsole zal u vragen naar de waarden voor alle parameters die worden "
-"gebruikt door het sjabloon."
+"dan de knop :guilabel:`Create` in de OpenShift webconsole om uw toepassing "
+"te maken. De webconsole zal u vragen naar de waarden voor alle parameters "
+"die worden gebruikt door het sjabloon."
 
 #: ../../admin/install/openshift.rst:32
 msgid "CLI"
