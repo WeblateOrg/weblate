@@ -12,7 +12,6 @@ from operator import itemgetter
 from pathlib import Path
 from typing import Literal
 
-from celery import current_task
 from celery.schedules import crontab
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -22,13 +21,12 @@ from django.db.models import Count, F
 from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
-from django.utils.translation import gettext, ngettext, override
+from django.utils.translation import override
 
 from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
-from weblate.machinery.base import MachineTranslationError
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -470,58 +468,33 @@ def project_removal(pk: int, uid: int | None) -> None:
     retry_backoff_max=3600,
 )
 def auto_translate(
+    *,
     user_id: int | None,
     translation_id: int,
     mode: str,
     filter_type: str,
-    auto_source: str,
+    auto_source: Literal["mt", "others"],
     component: int | None,
     engines: list[str],
     threshold: int,
-    *,
-    translation: Translation | None = None,
     component_wide: bool = False,
 ):
-    if translation is None:
-        translation = Translation.objects.get(pk=translation_id)
+    translation = Translation.objects.get(pk=translation_id)
     user = User.objects.get(pk=user_id) if user_id else None
-    translation.log_info(
-        "starting automatic translation %s: %s: %s",
-        current_task.request.id,
-        auto_source,
-        ", ".join(engines) if engines else component,
-    )
-    with translation.component.lock, override(user.profile.language if user else "en"):
+    with override(user.profile.language if user else "en"):
         auto = AutoTranslate(
-            user, translation, filter_type, mode, component_wide=component_wide
+            user=user,
+            translation=translation,
+            filter_type=filter_type,
+            mode=mode,
+            component_wide=component_wide,
         )
-        try:
-            if auto_source == "mt":
-                auto.process_mt(engines, threshold)
-            else:
-                auto.process_others(component)
-        except (MachineTranslationError, Component.DoesNotExist) as error:
-            translation.log_error("failed automatic translation: %s", error)
-            return {
-                "translation": translation_id,
-                "message": gettext("Automatic translation failed: %s") % error,
-            }
-
-        translation.log_info("completed automatic translation")
-
-        if auto.updated == 0:
-            message = gettext(
-                "Automatic translation completed, no strings were updated."
-            )
-        else:
-            message = (
-                ngettext(
-                    "Automatic translation completed, %d string was updated.",
-                    "Automatic translation completed, %d strings were updated.",
-                    auto.updated,
-                )
-                % auto.updated
-            )
+        message = auto.perform(
+            auto_source=auto_source,
+            engines=engines,
+            threshold=threshold,
+            source=component,
+        )
         return {"translation": translation_id, "message": message}
 
 
@@ -535,7 +508,7 @@ def auto_translate_component(
     component_id: int,
     mode: str,
     filter_type: str,
-    auto_source: str,
+    auto_source: Literal["mt", "others"],
     engines: list[str],
     threshold: int,
     component: int | None = None,
@@ -547,17 +520,18 @@ def auto_translate_component(
             if translation.is_source:
                 continue
 
-            auto_translate(
-                None,
-                translation.pk,
-                mode,
-                filter_type,
-                auto_source,
-                component,
-                engines,
-                threshold,
+            auto = AutoTranslate(
+                user=None,
                 translation=translation,
+                filter_type=filter_type,
+                mode=mode,
                 component_wide=True,
+            )
+            auto.perform(
+                auto_source=auto_source,
+                engines=engines,
+                threshold=threshold,
+                source=component,
             )
         component_obj.update_source_checks()
         component_obj.run_batched_checks()

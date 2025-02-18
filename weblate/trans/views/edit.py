@@ -32,6 +32,7 @@ from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
+from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
 from weblate.trans.forms import (
     AutoForm,
@@ -778,23 +779,31 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
         show_form_errors(request, autoform)
         return redirect(translation)
 
-    args = (
-        request.user.id,
-        translation.id,
-        autoform.cleaned_data["mode"],
-        autoform.cleaned_data["filter_type"],
-        autoform.cleaned_data["auto_source"],
-        autoform.cleaned_data["component"],
-        autoform.cleaned_data["engines"],
-        autoform.cleaned_data["threshold"],
-    )
-
     if settings.CELERY_TASK_ALWAYS_EAGER:
-        messages.success(
-            request, auto_translate(*args, translation=translation)["message"]
+        auto = AutoTranslate(
+            user=request.user,
+            translation=translation,
+            mode=autoform.cleaned_data["mode"],
+            filter_type=autoform.cleaned_data["filter_type"],
         )
+        message = auto.perform(
+            auto_source=autoform.cleaned_data["auto_source"],
+            source=autoform.cleaned_data["component"],
+            engines=autoform.cleaned_data["engines"],
+            threshold=autoform.cleaned_data["threshold"],
+        )
+        messages.success(request, message)
     else:
-        task = auto_translate.delay(*args)
+        task = auto_translate.delay(
+            user_id=request.user.id,
+            translation_id=translation.id,
+            mode=autoform.cleaned_data["mode"],
+            filter_type=autoform.cleaned_data["filter_type"],
+            auto_source=autoform.cleaned_data["auto_source"],
+            component=autoform.cleaned_data["component"],
+            engines=autoform.cleaned_data["engines"],
+            threshold=autoform.cleaned_data["threshold"],
+        )
         messages.success(
             request, gettext("Automatic translation in progress"), f"task:{task.id}"
         )

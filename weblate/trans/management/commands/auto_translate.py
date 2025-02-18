@@ -2,13 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from django.core.management.base import CommandError
 
 from weblate.auth.models import User
 from weblate.machinery.models import MACHINERY
+from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.management.commands import WeblateTranslationCommand
 from weblate.trans.models import Component
-from weblate.trans.tasks import auto_translate
 
 
 class Command(WeblateTranslationCommand):
@@ -94,15 +96,17 @@ class Command(WeblateTranslationCommand):
         else:
             filter_type = "todo"
 
-        result = auto_translate(
-            user.id,
-            translation.id,
-            options["mode"],
-            filter_type,
-            "mt" if options["mt"] else "others",
-            source,
-            options["mt"],
-            options["threshold"],
+        auto = AutoTranslate(
+            user=user,
             translation=translation,
+            mode=options["mode"],
+            filter_type=filter_type,
         )
-        self.stdout.write(result["message"])
+
+        message = auto.perform(
+            auto_source="mt" if options["mt"] else "others",
+            source=source,
+            engines=options["mt"],
+            threshold=options["threshold"],
+        )
+        self.stdout.write(message)

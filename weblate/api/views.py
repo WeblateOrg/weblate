@@ -92,6 +92,7 @@ from weblate.lang.models import Language
 from weblate.machinery.models import validate_service_configuration
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
+from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
@@ -104,7 +105,6 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.tasks import (
-    auto_translate,
     category_removal,
     component_removal,
     project_removal,
@@ -1752,19 +1752,21 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
                         errors[field.name] = str(error)
             raise ValidationError(errors)
 
+        auto = AutoTranslate(
+            user=request.user,
+            translation=translation,
+            filter_type=autoform.cleaned_data["filter_type"],
+            mode=autoform.cleaned_data["mode"],
+        )
+        message = auto.perform(
+            auto_source=autoform.cleaned_data["auto_source"],
+            source=autoform.cleaned_data["component"],
+            engines=autoform.cleaned_data["engines"],
+            threshold=autoform.cleaned_data["threshold"],
+        )
+
         return Response(
-            data={
-                "details": auto_translate(
-                    request.user.id,
-                    translation.id,
-                    autoform.cleaned_data["mode"],
-                    autoform.cleaned_data["filter_type"],
-                    autoform.cleaned_data["auto_source"],
-                    autoform.cleaned_data["component"],
-                    autoform.cleaned_data["engines"],
-                    autoform.cleaned_data["threshold"],
-                )
-            },
+            data={"details": message},
             status=HTTP_200_OK,
         )
 

@@ -76,15 +76,14 @@ class BatchUpdateTest(ViewTestCase):
         other = self.do_base()
         translation = other.translation_set.get(language_code="cs")
         auto_translate(
-            None,
-            translation.pk,
-            "translate",
-            "todo",
-            "others",
-            self.component.pk,
-            [],
-            99,
-            translation=translation,
+            user_id=None,
+            translation_id=translation.pk,
+            mode="translate",
+            filter_type="todo",
+            auto_source="others",
+            component=self.component.pk,
+            engines=[],
+            threshold=99,
         )
         unit = self.get_unit()
         self.assertEqual(unit.all_checks_names, set())
