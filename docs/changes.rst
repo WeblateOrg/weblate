@@ -13,6 +13,7 @@ Weblate 5.10.1
 
 * :ref:`download` performs faster and project and language scopes.
 * :ref:`zen-mode` does not display the source string twice when editing it.
+* Fixed :ref:`glossary` terms highlighting.
 
 .. rubric:: Compatibility
 

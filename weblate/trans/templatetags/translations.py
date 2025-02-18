@@ -361,7 +361,7 @@ class Formatter:
 
         for match in NEWLINE_RE.finditer(value):
             self.tags[match.start()].append(SPACE_NL_START)
-            self.tags[match.end()].append(SPACE_NL_END)
+            self.tags[match.end()].insert(0, SPACE_NL_END)
 
         for match in MULTISPACE_RE.finditer(value):
             self.tags[match.start()].append(SPACE_START)
