@@ -1,21 +1,29 @@
 {% load querystring %}
 
 <nav class="pagination">
-    <ul>
-        {% if page_obj.has_previous %}
-            <li><a href="?{% querystring page=page_obj.previous_page_number %}">&laquo; Previous</a></li>
-        {% endif %}
+  <ul>
+    {% if page_obj.has_previous %}
+      <li>
+        <a href="?{% querystring page=page_obj.previous_page_number %}">&laquo; Previous</a>
+      </li>
+    {% endif %}
 
-        {% for page_number in page_obj.paginator.page_range %}
-            {% if page_number == page_obj.number %}
-                <li class="active"><span>{{ page_number }}</span></li>
-            {% else %}
-                <li><a href="?{% querystring page=page_number %}">{{ page_number }}</a></li>
-            {% endif %}
-        {% endfor %}
+    {% for page_number in page_obj.paginator.page_range %}
+      {% if page_number == page_obj.number %}
+        <li class="active">
+          <span>{{ page_number }}</span>
+        </li>
+      {% else %}
+        <li>
+          <a href="?{% querystring page=page_number %}">{{ page_number }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
 
-        {% if page_obj.has_next %}
-            <li><a href="?{% querystring page=page_obj.next_page_number %}">Next &raquo;</a></li>
-        {% endif %}
-    </ul>
+    {% if page_obj.has_next %}
+      <li>
+        <a href="?{% querystring page=page_obj.next_page_number %}">Next &raquo;</a>
+      </li>
+    {% endif %}
+  </ul>
 </nav>
