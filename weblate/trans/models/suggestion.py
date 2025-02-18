@@ -33,7 +33,7 @@ class SuggestionManager(models.Manager["Suggestion"]):
         self,
         unit: Unit,
         target: list[str],
-        request: AuthenticatedHttpRequest,
+        request: AuthenticatedHttpRequest | None,
         vote: bool = False,
         user: User | None = None,
         raise_exception: bool = True,
@@ -150,7 +150,10 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     @transaction.atomic
     def accept(
-        self, request, permission="suggestion.accept", state=STATE_TRANSLATED
+        self,
+        request: AuthenticatedHttpRequest,
+        permission: str = "suggestion.accept",
+        state=STATE_TRANSLATED,
     ) -> None:
         if not request.user.has_perm(permission, self.unit):
             messages.error(request, gettext("Could not accept suggestion!"))
@@ -175,7 +178,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     def delete_log(
         self,
-        user,
+        user: User,
         change=Change.ACTION_SUGGESTION_DELETE,
         is_spam: bool = False,
         rejection_reason: str = "",
@@ -205,7 +208,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         """Return number of votes."""
         return self.vote_set.aggregate(Sum("value"))["value__sum"] or 0
 
-    def add_vote(self, request: AuthenticatedHttpRequest, value) -> None:
+    def add_vote(self, request: AuthenticatedHttpRequest | None, value: int) -> None:
         """Add (or updates) vote for a suggestion."""
         if request is None or not request.user.is_authenticated:
             return
