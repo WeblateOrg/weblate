@@ -33,7 +33,7 @@ from weblate.trans.exceptions import (
     FileParseError,
     PluralFormsMismatchError,
 )
-from weblate.trans.mixins import CacheKeyMixin, LoggerMixin, URLMixin
+from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import Unit
@@ -153,7 +153,7 @@ class TranslationQuerySet(models.QuerySet):
         )
 
 
-class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
+class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin):
     component = models.ForeignKey(
         "trans.Component", on_delete=models.deletion.CASCADE, db_index=False
     )
@@ -173,7 +173,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     objects = TranslationManager.from_queryset(TranslationQuerySet)()
 
-    is_lockable = False
     remove_permission = "translation.delete"
     settings_permission = "component.edit"
 

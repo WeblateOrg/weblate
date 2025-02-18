@@ -9,7 +9,7 @@ import os.path
 from collections import UserDict
 from datetime import datetime
 from operator import itemgetter
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.conf import settings
 from django.core.cache import cache
@@ -27,7 +27,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
-from weblate.trans.mixins import CacheKeyMixin, PathMixin
+from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
@@ -145,7 +145,7 @@ def prefetch_project_flags(projects):
     return projects
 
 
-class Project(models.Model, PathMixin, CacheKeyMixin):
+class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100
@@ -254,7 +254,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
     machinery_settings = models.JSONField(default=dict, blank=True)
 
-    is_lockable = True
+    is_lockable: ClassVar[bool] = True
+    lockable_count: ClassVar[bool] = True
     remove_permission = "project.edit"
     settings_permission = "project.edit"
 
@@ -384,11 +385,22 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         return get_site_url(reverse("engage", kwargs={"path": self.get_url_path()}))
 
     @cached_property
-    def locked(self):
-        return (
-            self.component_set.filter(locked=False).count() == 0
-            and self.component_set.exists()
-        )
+    def locked(self) -> bool:
+        return self.unlocked_components == 0 and self.locked_components > 0
+
+    def can_unlock(self) -> bool:
+        return self.locked_components > 0
+
+    def can_lock(self) -> bool:
+        return self.unlocked_components > 0
+
+    @cached_property
+    def unlocked_components(self) -> int:
+        return self.component_set.filter(locked=False).count()
+
+    @cached_property
+    def locked_components(self) -> int:
+        return self.component_set.filter(locked=True).count()
 
     @cached_property
     def languages(self):
