@@ -45,7 +45,12 @@ from weblate.trans.defines import (
 )
 from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
-from weblate.trans.mixins import CacheKeyMixin, ComponentCategoryMixin, PathMixin
+from weblate.trans.mixins import (
+    CacheKeyMixin,
+    ComponentCategoryMixin,
+    LockMixin,
+    PathMixin,
+)
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT, Alert, update_alerts
 from weblate.trans.models.change import Change
 from weblate.trans.models.translation import Translation
@@ -345,7 +350,9 @@ class ComponentQuerySet(models.QuerySet):
         )
 
 
-class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
+class Component(
+    models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
+):
     name = models.CharField(
         verbose_name=gettext_lazy("Component name"),
         max_length=COMPONENT_NAME_LENGTH,

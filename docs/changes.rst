@@ -8,6 +8,7 @@ Weblate 5.10.1
 .. rubric:: Improvements
 
 * :ref:`check-multiple-failures` better shows failing checks including links to the strings.
+* Detailed overview of locked components on project repository management.
 
 .. rubric:: Bug fixes
 
