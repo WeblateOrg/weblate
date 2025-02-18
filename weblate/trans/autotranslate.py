@@ -4,15 +4,18 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Literal
+
 from celery import current_task
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models.functions import MD5, Lower
+from django.utils.translation import gettext, ngettext
 
 from weblate.machinery.base import BatchMachineTranslation, MachineTranslationError
 from weblate.machinery.models import MACHINERY
-from weblate.trans.models import Change, Component, Suggestion, Unit
+from weblate.trans.models import Change, Component, Suggestion, Translation, Unit
 from weblate.trans.util import split_plural
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -22,12 +25,16 @@ from weblate.utils.state import (
     StringState,
 )
 
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+
 
 class AutoTranslate:
     def __init__(
         self,
-        user,
-        translation,
+        *,
+        user: User | None,
+        translation: Translation,
         filter_type: str,
         mode: str,
         component_wide: bool = False,
@@ -256,3 +263,45 @@ class AutoTranslate:
                 self.set_progress(offset + pos)
 
             self.post_process()
+
+    def perform(
+        self,
+        *,
+        auto_source: Literal["mt", "others"],
+        engines: list[str],
+        threshold: int,
+        source: int | None,
+    ) -> str:
+        translation = self.translation
+        with translation.component.lock:
+            translation.log_info(
+                "starting automatic translation %s: %s: %s",
+                current_task.request.id
+                if current_task and current_task.request.id
+                else "",
+                auto_source,
+                ", ".join(engines) if engines else source,
+            )
+            try:
+                if auto_source == "mt":
+                    self.process_mt(engines, threshold)
+                else:
+                    self.process_others(source)
+            except (MachineTranslationError, Component.DoesNotExist) as error:
+                translation.log_error("failed automatic translation: %s", error)
+                return gettext("Automatic translation failed: %s") % error
+
+            translation.log_info("completed automatic translation")
+
+            if self.updated == 0:
+                return gettext(
+                    "Automatic translation completed, no strings were updated."
+                )
+            return (
+                ngettext(
+                    "Automatic translation completed, %d string was updated.",
+                    "Automatic translation completed, %d strings were updated.",
+                    self.updated,
+                )
+                % self.updated
+            )
