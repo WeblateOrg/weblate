@@ -118,7 +118,7 @@ class MemoryQuerySet(models.QuerySet):
         We exclude non-word characters while calculating this as those are
         excluded in the trigram matching.
         """
-        length = len(NON_WORD_RE.sub("", text))
+        length = max(1, len(NON_WORD_RE.sub("", text)))
 
         base = 0.172489 * math.log(threshold) + 0.207051
         bonus = 7.03436 * math.exp(-6.07957 * base)

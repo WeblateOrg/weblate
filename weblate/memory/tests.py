@@ -441,6 +441,11 @@ class ThresholdTestCase(SimpleTestCase):
             0.71,
             delta=0.006,
         )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("🩸", 10),
+            0.66,
+            delta=0.006,
+        )
 
     def test_auto(self) -> None:
         self.assertAlmostEqual(
