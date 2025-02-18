@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-14 09:02+0000\n"
-"PO-Revision-Date: 2025-02-18 12:19+0000\n"
+"PO-Revision-Date: 2025-02-18 12:29+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -2025,30 +2025,27 @@ msgid "Could not obtain the lock to perform the operation."
 msgstr "Kon geen vergrendeling krijgen om de bewerking uit te voeren."
 
 #: weblate/api/views.py:162
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
 msgstr ""
-"Kon geen vergrendeling van de opslagruimte krijgen om de bewerking uit te "
-"voeren."
+"Kon geen vergrendeling van de opslagruimte voor %s krijgen om de bewerking "
+"uit te voeren."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
 msgstr ""
-"Kon geen vergrendeling van de opslagruimte krijgen om de bewerking uit te "
-"voeren."
+"Kon geen bijgewerkte vergrendeling van het onderdeel %s krijgen om de "
+"bewerking uit te voeren."
 
 #: weblate/api/views.py:177
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr ""
-"Kon geen vergrendeling van de opslagruimte krijgen om de bewerking uit te "
-"voeren."
+"Kon geen vergrendeling van de %(scope)s voor %(origin)s krijgen om de "
+"bewerking uit te voeren."
 
 #: weblate/api/views.py:2338 weblate/auth/models.py:956
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2938,17 +2935,14 @@ msgid "The file format does not support this."
 msgstr "De bestandsindeling ondersteunt dit niet."
 
 #: weblate/auth/permissions.py:372
-#, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
 msgid "Adding new translations is turned off in the component configuration."
 msgstr ""
-"Het toevoegen van tekenreeksen is uitgeschakeld in de onderdeelinstellingen."
+"Het toevoegen van nieuwe vertalingen is uitgeschakeld in de configuratie van "
+"het onderdeel."
 
 #: weblate/auth/permissions.py:376
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This component is currently locked."
-msgstr "Deze vertaling is momenteel vergrendeld."
+msgstr "Dit onderdeel is momenteel vergrendeld."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3823,20 +3817,16 @@ msgid "Fluent source syntax"
 msgstr "Fluent-syntaxis bron"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in source"
 msgid "Fluent syntax error in the source"
-msgstr "Fluent-syntaxisfout in bron"
+msgstr "Fout in syntaxis van Fluent in de bron"
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
 msgstr "Fluent-vertaalsyntaxis"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "Fluent syntax error in the translation"
-msgstr "Fluent-syntaxisfout in vertaling"
+msgstr "Fout in syntaxis van Fluent in de vertaling"
 
 #: weblate/checks/format.py:481
 #, python-format
@@ -4175,16 +4165,12 @@ msgstr ""
 "bericht."
 
 #: weblate/checks/markup.py:436
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent inline links in the translated message."
-msgstr "Inconsistente koppelingen in het vertaalde bericht."
+msgstr "Inconsistente in-regelige koppelingen in het vertaalde bericht."
 
 #: weblate/checks/markup.py:442
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent external links in the translated message."
-msgstr "Inconsistente koppelingen in het vertaalde bericht."
+msgstr "Inconsistente externe koppelingen in het vertaalde bericht."
 
 #: weblate/checks/markup.py:565
 msgid "reStructuredText syntax error"
@@ -6391,10 +6377,8 @@ msgid "Security keys (WebAuthn)"
 msgstr "Beveiligingssleutels (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:271
-#, fuzzy
-#| msgid "There are currently no WebAuthn keys registered."
 msgid "No WebAuthn keys registered yet."
-msgstr "Er zijn geen momenteel geen sleutels voor WebAuthn geregistreerd."
+msgstr "Nog geen sleutels voor WebAuthn geregistreerd."
 
 #: weblate/templates/accounts/profile.html:280
 #: weblate/templates/accounts/profile.html:324
@@ -6416,20 +6400,16 @@ msgid "Register new security key"
 msgstr "Registreer een nieuwe beveiligingssleutel"
 
 #: weblate/templates/accounts/profile.html:304
-#, fuzzy
-#| msgid "Unfortunately, your browser has no WebAuthn support."
 msgid "Your web browser lacks WebAuthn support."
-msgstr "Helaas, uw browser ondersteunt geen WebAuthn."
+msgstr "Uw webbrowser ondersteunt geen WebAuthn."
 
 #: weblate/templates/accounts/profile.html:312
 msgid "Authenticator apps (TOTP)"
 msgstr "Apps voor authenticatie (TOTP)"
 
 #: weblate/templates/accounts/profile.html:315
-#, fuzzy
-#| msgid "The authentication app %s was registered."
 msgid "No authenticator apps registered yet."
-msgstr "De app voor authenticatie %s werd geregistreerd."
+msgstr "Nog geen app voor authenticatie geregistreerd."
 
 #: weblate/templates/accounts/profile.html:331
 #: weblate/templates/accounts/totp.html:15
@@ -6444,10 +6424,8 @@ msgid "Recovery codes"
 msgstr "Herstelcodes"
 
 #: weblate/templates/accounts/profile.html:337
-#, fuzzy
-#| msgid "There are currently no recovery codes generated."
 msgid "No recovery codes generated yet."
-msgstr "Er zijn geen momenteel geen herstelcodes gemaakt."
+msgstr "Nog geen herstelcodes gemaakt."
 
 #: weblate/templates/accounts/profile.html:341
 #: weblate/templates/accounts/recovery-codes.html:55
@@ -6456,13 +6434,11 @@ msgid "Generate new recovery codes"
 msgstr "Nieuwe herstelcodes genereren"
 
 #: weblate/templates/accounts/profile.html:344
-#, fuzzy, python-format
-#| msgid "%(count)s recovery code is available."
-#| msgid_plural "%(count)s recovery codes are available."
+#, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
-msgstr[0] "%(count)s herstelcode is beschikbaar."
-msgstr[1] "%(count)s herstelcodes zijn beschikbaar."
+msgstr[0] "%(count)s herstelcode beschikbaar."
+msgstr[1] "%(count)s herstelcodes beschikbaar."
 
 #: weblate/templates/accounts/profile.html:350
 msgid "View recovery codes"
@@ -6529,15 +6505,11 @@ msgid "Description"
 msgstr "Omschrijving"
 
 #: weblate/templates/accounts/profile.html:487
-#, fuzzy
-#| msgid ""
-#| "Contact us immediately if you see anything suspicious in the audit log."
 msgid ""
 "Get in contact immediately if you notice anything suspicious in the audit "
 "log."
 msgstr ""
-"Neem onmiddellijk contact met ons op als u iets verdachts ziet in het "
-"logboek."
+"Neem onmiddellijk contact op als u iets verdachts opmerkt in het logboek."
 
 #: weblate/templates/accounts/profile.html:499
 #: weblate/templates/accounts/user.html:299
@@ -6557,26 +6529,20 @@ msgid "User agent"
 msgstr "Gebruikersagent"
 
 #: weblate/templates/accounts/profile.html:515
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent activity found."
-msgstr "Geen recente activiteit gevonden!"
+msgstr "Geen recente activiteit gevonden."
 
 #: weblate/templates/accounts/profile.html:521
 msgid "Report suspicious activity"
 msgstr "Verdachte activiteit melden"
 
 #: weblate/templates/accounts/profile.html:536
-#, fuzzy
-#| msgid ""
-#| "The API key is also used to authenticate to automatically exported Git "
-#| "repositories."
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
 "access Weblate Git repositories."
 msgstr ""
-"De api-sleutel wordt ook gebruikt voor verificatie met automatisch "
-"geëxporteerde Git-opslagruimten."
+"De API-sleutel kan ook worden gebruikt om Weblate te beheren via de HTTP "
+"REST API en voor toegang tot Weblate Git-opslagruimtes."
 
 #: weblate/templates/accounts/profile.html:541
 #: weblate/templates/trans/project-access.html:351
@@ -6767,17 +6733,13 @@ msgid "Reset my password"
 msgstr "Wachtwoord herstellen"
 
 #: weblate/templates/accounts/totp.html:33
-#, fuzzy
-#| msgid ""
-#| "Authenticator apps generate one-time passwords that are used as a second "
-#| "factor to verify your identity when prompted during sign-in."
 msgid ""
 "Authenticator apps generate time-based one-time passwords that are used as a "
 "second factor to verify your identity when prompted during sign-in."
 msgstr ""
-"Apps voor authenticatie maken eenmalige wachtwoorden, die als twee-factor "
-"worden gebruikt om uw identiteit te verifiëren, indien daar tijdens het "
-"inloggen naar gevraagd wordt."
+"Apps voor authenticatie maken eenmalige, op tijd gebaseerde, wachtwoorden, "
+"die als tweede factor worden gebruikt om uw identiteit te verifiëren, indien "
+"daar tijdens het inloggen naar gevraagd wordt."
 
 #: weblate/templates/accounts/totp.html:36
 msgid "Scan the QR code"
