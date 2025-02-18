@@ -326,6 +326,15 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             unit_sources_and_positions(get_glossary_terms(unit)), {("thank", ((0, 5),))}
         )
 
+    def test_get_newline(self) -> None:
+        unit = self.get_unit("Thank you for using Weblate.")
+        unit.source = "Thank you for using Weblate.\nThank you again."
+        self.add_term("thank", "díky")
+        self.assertEqual(
+            unit_sources_and_positions(get_glossary_terms(unit)),
+            {("thank", ((0, 5), (29, 34)))},
+        )
+
     def do_add_unit(
         self, language: str = "cs", expected_status: int = 200, **kwargs
     ) -> None:

@@ -417,6 +417,27 @@ ahoj [hello]">Hello</span>
             """,
         )
 
+    def test_glossary_newline(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\nworld"],
+                self.component.source_language,
+                glossary=[self.build_glossary("world", "svět", [(6, 11)])],
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-nl">
+                </span>
+            </span><br>
+            <span class="glossary-term"
+                title="Glossary term:
+svět [world]">
+                world
+            </span>
+            """,
+        )
+
     def test_glossary_overlap(self) -> None:
         self.maxDiff = None
         self.assertHTMLEqual(
