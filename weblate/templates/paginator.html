@@ -1,95 +1,21 @@
-{% load i18n %}
-{% load icons %}
+{% load querystring %}
 
-{% if page_obj.paginator.num_pages > 1 %}
-  <ul class="pagination">
-    <li {% if page_obj.number == 1 %}class="disabled"{% endif %}>
-      <a href="?page=1&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
-         class="green">
-        {% if LANGUAGE_BIDI %}
-          {% icon "page-last.svg" %}
-        {% else %}
-          {% icon "page-first.svg" %}
-        {% endif %}
-      </a>
-    </li>
-    <li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
-      <a
+<nav class="pagination">
+    <ul>
         {% if page_obj.has_previous %}
-          rel="prev"
-          {# djlint:off #}
-          href="?page={{ page_obj.previous_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
-          {# djlint:on #}
+            <li><a href="?{% querystring page=page_obj.previous_page_number %}">&laquo; Previous</a></li>
         {% endif %}
-        class="green">
-        {% if LANGUAGE_BIDI %}
-          {% icon "page-next.svg" %}
-        {% else %}
-          {% icon "page-previous.svg" %}
-        {% endif %}
-      </a>
-    </li>
-    <li>
-      <a class="position-input" title="{% trans "Click to edit position" %}">
-        {% blocktrans with page_obj.number as position and page_obj.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}
-      </a>
-      <a class="position-input-editable" title="{% trans "Go to position" %}">
-        {% if not paginator_form %}<form method="get">{% endif %}
-          {% for key, value in search_items %}
-            <input {% if paginator_form %}form="{{ paginator_form }}"{% endif %}
-                   type="hidden"
-                   name="{{ key }}"
-                   value="{{ value }}"
-                   aria-label="{{ value }}" />
-          {% endfor %}
-          <input {% if paginator_form %}form="{{ paginator_form }}"{% endif %}
-                 type="hidden"
-                 name="limit"
-                 value="{{ page_obj.paginator.per_page }}"
-                 aria-label="{{ page_obj.paginator.per_page }}" />
-          <div class="input-group">
-            <input {% if paginator_form %}form="{{ paginator_form }}"{% endif %}
-                   type="number"
-                   min="1"
-                   max="{{ page_obj.paginator.num_pages }}"
-                   name="page"
-                   class="form-control"
-                   value="{{ page_obj.number }}"
-                   aria-label="{% trans "Jump to" %}"
-                   id="position-input-editable-input">
-            <span class="input-group-addon">
-              {% comment %}Translators: This is partial position indicator shown when editing position{% endcomment %}
-              {% blocktrans with page_obj.paginator.num_pages as total %}/ {{ total }}{% endblocktrans %}
-            </span>
-          </div>
-          {% if not paginator_form %}</form>{% endif %}
-      </a>
-    </li>
-    <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
-      <a
+
+        {% for page_number in page_obj.paginator.page_range %}
+            {% if page_number == page_obj.number %}
+                <li class="active"><span>{{ page_number }}</span></li>
+            {% else %}
+                <li><a href="?{% querystring page=page_number %}">{{ page_number }}</a></li>
+            {% endif %}
+        {% endfor %}
+
         {% if page_obj.has_next %}
-          rel="next"
-          {# djlint:off #}
-          href="?page={{ page_obj.next_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
-          {# djlint:on #}
+            <li><a href="?{% querystring page=page_obj.next_page_number %}">Next &raquo;</a></li>
         {% endif %}
-        class="green">
-        {% if not LANGUAGE_BIDI %}
-          {% icon "page-next.svg" %}
-        {% else %}
-          {% icon "page-previous.svg" %}
-        {% endif %}
-      </a>
-    </li>
-    <li {% if page_obj.paginator.num_pages == page_obj.number %}class="disabled"{% endif %}>
-      <a href="?page={{ page_obj.paginator.num_pages }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
-         class="green">
-        {% if not LANGUAGE_BIDI %}
-          {% icon "page-last.svg" %}
-        {% else %}
-          {% icon "page-first.svg" %}
-        {% endif %}
-      </a>
-    </li>
-  </ul>
-{% endif %}
+    </ul>
+</nav>
