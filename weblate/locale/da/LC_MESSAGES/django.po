@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-14 09:02+0000\n"
-"PO-Revision-Date: 2025-02-19 19:32+0000\n"
+"PO-Revision-Date: 2025-02-19 20:11+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -1979,6 +1979,8 @@ msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Hver bruger har et personligt adgangstoken, som de kan få fra deres "
+"respektive brugerprofil. Disse tokens har præfikset `wlu_`."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -1986,6 +1988,8 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"Det er muligt at oprette projekttokens, hvis adgang til API'en er begrænset "
+"til operationer i det tilknyttede projekt. Disse tokens har præfikset `wlp_`."
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -2005,30 +2009,26 @@ msgid "Weblate's REST API"
 msgstr "Weblate's REST API"
 
 #: weblate/api/views.py:151
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Could not obtain the lock to perform the operation."
-msgstr "Kunne ikke låse repository; en anden operation er i gang."
+msgstr "Kunne ikke få låsen til at udføre handlingen."
 
 #: weblate/api/views.py:162
-#, fuzzy, python-format
-#| msgid "Could not lock the repository, another operation is in progress."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "Kunne ikke låse repository; en anden operation er i gang."
+msgstr "Kunne ikke få repository-låsen for %s til at udføre handlingen."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not lock the repository, another operation is in progress."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "Kunne ikke låse repository; en anden operation er i gang."
+msgstr ""
+"Kunne ikke få opdateringslåsen for komponent %s til at udføre handlingen."
 
 #: weblate/api/views.py:177
-#, fuzzy, python-format
-#| msgid "Could not lock the repository, another operation is in progress."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "Kunne ikke låse repository; en anden operation er i gang."
+msgstr "Kunne ikke få %(scope)s-låsen for %(origin)s til at udføre handlingen."
 
 #: weblate/api/views.py:2338 weblate/auth/models.py:956
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2826,10 +2826,8 @@ msgstr ""
 "Bidrag til denne oversættelse kræver, at man accepterer bidragsyderaftalen."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
-msgstr "Log ind for at gemme oversættelsen."
+msgstr "Log ind for at gemme oversættelser."
 
 #: weblate/auth/permissions.py:205
 msgid "Insufficient privileges for approving translations."
@@ -2850,13 +2848,8 @@ msgid "Suggestion voting is disabled."
 msgstr "Forslagsafstemning er deaktiveret."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
-msgstr ""
-"Oversættelsen accepterer kun forslag, og disse godkendes ved afstemning."
+msgstr "Oversættelsen accepterer kun forslag, som så godkendes ved afstemning."
 
 #: weblate/auth/permissions.py:235
 #: weblate/templates/snippets/project/state.html:6
@@ -2864,30 +2857,22 @@ msgid "Pay the bills to unlock this project."
 msgstr "Betal regningerne for at låse op for dette projekt."
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
-msgstr "Gennemgang af kildestrenge er ikke aktiveret."
+msgstr "Gennemgang af kildestrenge er slået fra."
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "Oversættelsesforslag er slået fra."
+msgstr "Gennemgang af oversættelser er slået fra."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "Objektliste slået fra"
+msgstr "Gennemgang er slået fra."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "Kildestrengen skal gennemgås."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
 msgstr "Strengen er skrivebeskyttet."
 
@@ -2904,8 +2889,6 @@ msgstr ""
 "du mener, at strengen bør ændres."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "Oversættelsen er skrivebeskyttet."
 
@@ -2918,29 +2901,22 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "Tilføjelse af strenge er deaktiveret i komponentkonfigurationen."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
-msgstr "Kan ikke fjerne terminologioversættelsen; fjern kildeteksten i stedet."
+msgstr "Kan ikke fjerne terminologioversættelsen. Fjern kildeteksten i stedet."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
-msgstr "Filformat understøtter ikke dette."
+msgstr "Filformatet understøtter ikke dette."
 
 #: weblate/auth/permissions.py:372
-#, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
 msgid "Adding new translations is turned off in the component configuration."
-msgstr "Tilføjelse af strenge er deaktiveret i komponentkonfigurationen."
+msgstr ""
+"Tilføjelse af nye oversættelser er slået fra i komponentkonfigurationen."
 
 #: weblate/auth/permissions.py:376
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This component is currently locked."
-msgstr "Oversættelsen er låst i øjeblikket."
+msgstr "Denne komponent er i øjeblikket låst."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
