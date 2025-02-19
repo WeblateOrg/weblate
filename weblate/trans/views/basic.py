@@ -394,7 +394,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
     for component in all_components:
         if component.can_add_new_language(user, fast=True):
             break
-    if component:
+    if component and all_components.number == 1:
         add_ghost_translations(
             component,
             user,
@@ -474,7 +474,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
     for component in all_components:
         if component.can_add_new_language(user, fast=True):
             break
-    if component:
+    if component and all_components.number == 1:
         add_ghost_translations(
             component,
             user,
