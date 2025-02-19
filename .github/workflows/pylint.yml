@@ -19,13 +19,13 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: astral-sh/setup-uv@v5
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
     - name: Setup Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
         python-version: '3.13'
     - name: Add pylint annotator
-      uses: pr-annotators/pylint-pr-annotator@v0.0.1
+      uses: pr-annotators/pylint-pr-annotator@9c31057f2f495d9aee9b96e10299cc6b0a010cc2 # v0.0.1
     - name: Run pylint
       run: uv run --no-sources --only-group pylint pylint weblate/
