@@ -228,6 +228,23 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("state:translated", Q(state=STATE_TRANSLATED))
         self.assert_query("state:needs-editing", Q(state=STATE_FUZZY))
 
+    def test_source_state(self) -> None:
+        self.assert_query(
+            "source_state:>=empty", Q(source_unit__state__gte=STATE_EMPTY)
+        )
+        self.assert_query(
+            "source_state:>=translated", Q(source_unit__state__gte=STATE_TRANSLATED)
+        )
+        self.assert_query(
+            "source_state:<translated", Q(source_unit__state__lt=STATE_TRANSLATED)
+        )
+        self.assert_query(
+            "source_state:translated", Q(source_unit__state=STATE_TRANSLATED)
+        )
+        self.assert_query(
+            "source_state:needs-editing", Q(source_unit__state=STATE_FUZZY)
+        )
+
     def test_position(self) -> None:
         self.assert_query("position:>=1", Q(position__gte=1))
         self.assert_query("position:<10", Q(position__lt=10))

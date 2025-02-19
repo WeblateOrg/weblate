@@ -48,6 +48,8 @@ Fields
    Search for string states (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``).
 
    This field also supports :ref:`search-operators`, so searching for completed strings can be performed as ``state:>=translated``, searching for strings needing translation as ``state:<translated``.
+``source_state:TEXT``
+   Search for source string states, see above for more info.
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
