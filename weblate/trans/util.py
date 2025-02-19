@@ -31,7 +31,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.auth.permissions import PermissionResult
     from weblate.lang.models import Language
-    from weblate.trans.models import Project, Translation
+    from weblate.trans.models import Project, Translation, Unit
 
 PLURAL_SEPARATOR = "\x1e\x1e"
 LOCALE_SETUP = True
@@ -94,7 +94,7 @@ def is_repo_link(val: str) -> bool:
     return val.startswith("weblate://")
 
 
-def get_distinct_translations(units):
+def get_distinct_translations(units: Iterable[Unit]) -> list[Unit]:
     """
     Return list of distinct translations.
 
