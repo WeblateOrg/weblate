@@ -1703,7 +1703,7 @@ class Unit(models.Model, LoggerMixin):
                 Q(translation__language__in=secondary_langs)
                 & Q(state__gte=STATE_TRANSLATED)
                 & Q(state__lt=STATE_READONLY)
-                & ~Q(target="")
+                & ~Q(target__lower__md5=MD5(Value("")))
                 & ~Q(pk=self.pk)
             ).select_related(
                 "source_unit",
