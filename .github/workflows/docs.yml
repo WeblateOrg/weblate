@@ -22,10 +22,10 @@ jobs:
     outputs:
       languages: ${{ steps.list.outputs.languages }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: astral-sh/setup-uv@v5
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
         python-version: '3.13'
     - run: uv run --no-project scripts/list-documentation-languages.py >>"$GITHUB_OUTPUT"
@@ -44,10 +44,10 @@ jobs:
       READTHEDOCS_LANGUAGE: ${{ matrix.language }}
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: astral-sh/setup-uv@v5
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
         python-version: '3.13'
     - name: Install apt dependencies
@@ -62,7 +62,7 @@ jobs:
         echo "::add-matcher::.github/matchers/sphinx.json"
         ./ci/run-docs
         echo "::remove-matcher owner=sphinx::"
-    - uses: actions/upload-artifact@v4.6.0
+    - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
       with:
         name: Documentation ${{ matrix.language }}
         path: docs/_build/html

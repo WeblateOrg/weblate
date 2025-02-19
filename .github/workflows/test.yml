@@ -71,12 +71,12 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       PYTHONUNBUFFERED: 1
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/cache@v4
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+    - uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4
       with:
         path: data-test/cache/tesseract
         key: tesseract-data
-    - uses: astral-sh/setup-uv@v5
+    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
       with:
         enable-cache: true
         cache-suffix: ${{ matrix.python-version }}
@@ -85,7 +85,7 @@ jobs:
     - name: Install apt dependencies
       run: sudo ./ci/apt-install "$CI_DATABASE"
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
@@ -120,18 +120,18 @@ jobs:
       run: |
         uv run --no-sources coverage combine
         uv run --no-sources coverage xml
-    - uses: codecov/codecov-action@v5
+    - uses: codecov/codecov-action@13ce06bfc6bbe3ecf90edbbf1bc32fe5978ca1d3 # v5
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: unittests
         name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
     - name: Upload test results to Codecov
       if: ${{ !cancelled() }}
-      uses: codecov/test-results-action@v1
+      uses: codecov/test-results-action@5c441a7bcc06f8706cde90192857d337c5dab8a6 # v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
     - name: Publish Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v2
+      uses: EnricoMi/publish-unit-test-result-action@170bf24d20d201b842d7a52403b73ed297e6645b # v2
       if: always()
       with:
         comment_mode: off

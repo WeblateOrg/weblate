@@ -22,12 +22,12 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       with:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
-    - uses: astral-sh/setup-uv@v5
+    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
         python-version: '3.13'
     - name: Install Python dependencies
@@ -43,13 +43,13 @@ jobs:
       continue-on-error: true
     - name: Update renovate branch
       if: github.ref != 'refs/heads/main'
-      uses: stefanzweifel/git-auto-commit-action@v5
+      uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # v5
       with:
         commit_message: 'docs: Update JSON schemas'
     - name: Create Pull Request
       id: cpr
       if: github.ref == 'refs/heads/main'
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7
       with:
         branch: create-pull-request/jsonschema-update
         title: 'docs: Update JSON schemas'
