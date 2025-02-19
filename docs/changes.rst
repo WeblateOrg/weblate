@@ -9,6 +9,7 @@ Weblate 5.10.1
 
 * :ref:`check-multiple-failures` better shows failing checks including links to the strings.
 * Detailed overview of locked components on project repository management.
+* :ref:`search-strings` supports searching by source string state.
 
 .. rubric:: Bug fixes
 

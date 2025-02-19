@@ -401,6 +401,7 @@ class UnitTermExpr(BaseTermExpr):
         "priority": "priority",
         "id": "id",
         "state": "state",
+        "source_state": "source_unit__state",
         "position": "position",
         "pending": "pending",
         "changed": "change__timestamp",
@@ -506,6 +507,9 @@ class UnitTermExpr(BaseTermExpr):
             )
 
         return super().has_field(text, context)
+
+    def convert_source_state(self, text: str) -> int | None:
+        return self.convert_state(text)
 
     def path_field(self, text: str, context: dict) -> Q:
         try:
