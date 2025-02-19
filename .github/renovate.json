@@ -1,9 +1,14 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    "helpers:pinGitHubActionDigests"
+  ],
   "labels": [
     "dependencies"
   ],
   "rangeStrategy": "widen",
-  "dependencyDashboard": true,
   "automerge": true,
   "automergeType": "pr",
   "automergeStrategy": "rebase",
