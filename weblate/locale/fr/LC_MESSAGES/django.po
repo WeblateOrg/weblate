@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-20 15:37+0000\n"
-"PO-Revision-Date: 2025-02-20 16:20+0000\n"
+"PO-Revision-Date: 2025-02-20 22:18+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -2103,12 +2103,11 @@ msgstr ""
 "réaliser l'opération."
 
 #: weblate/api/views.py:177
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr ""
-"Impossible d'obtenir le verrou de %(scope)s pour que %(scope)s réalise "
+"Impossible d'obtenir le verrou de %(scope)s pour que %(origin)s réalise "
 "l'opération."
 
 #: weblate/api/views.py:2340 weblate/auth/models.py:956
@@ -9034,26 +9033,23 @@ msgid "Lock"
 msgstr "Verrouiller"
 
 #: weblate/templates/js/git-status.html:112
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "%(count)s component is locked"
 msgid_plural "%(count)s components are locked"
-msgstr[0] "Le composant %(component)s a été verrouillé"
-msgstr[1] "Le composant %(component)s a été verrouillé"
+msgstr[0] "%(count)s composant a été verrouillé"
+msgstr[1] "%(count)s composants ont été verrouillés"
 
 #: weblate/templates/js/git-status.html:116 weblate/utils/html.py:200
-#, fuzzy
 msgctxt "Joins a list of values"
 msgid ", "
 msgstr ", "
 
 #: weblate/templates/js/git-status.html:118
-#, fuzzy, python-format
-#| msgid "Component %(component)s was unlocked"
+#, python-format
 msgid "%(count)s component is unlocked"
 msgid_plural "%(count)s components are unlocked"
-msgstr[0] "Le composant %(component)s a été déverrouillé"
-msgstr[1] "Le composant %(component)s a été déverrouillé"
+msgstr[0] "%(count)s composant a été déverrouillé"
+msgstr[1] "%(count)s composants ont été déverrouillés"
 
 #: weblate/templates/js/git-status.html:121
 #: weblate/templates/js/git-status.html:126
@@ -15378,10 +15374,9 @@ msgstr ""
 "de fichier."
 
 #: weblate/trans/models/component.py:2898
-#, fuzzy, python-brace-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-brace-format
 msgid "Could not parse {file}: {error}"
-msgstr "Impossible d’analyser le fichier %(file)s : %(error)s"
+msgstr "Impossible d’analyser {file} : {error}"
 
 #: weblate/trans/models/component.py:2906
 #, python-format
@@ -16618,13 +16613,13 @@ msgid "A language in the category was removed."
 msgstr "Une langue de la catégorie a été supprimée."
 
 #: weblate/trans/views/settings.py:241
-#, fuzzy, python-format
-#| msgid "Could not change %s due to outstanding issue in its settings: %s"
+#, python-format
 msgid ""
 "Could not change %(obj)s due to an outstanding issue in its settings: "
 "%(error)s"
 msgstr ""
-"Impossible de modifier %s en raison d’un problème dans ses paramètres : %s"
+"Impossible de modifier %(obj)s en raison d’un problème dans ses paramètres : "
+"%(error)s"
 
 #: weblate/trans/views/settings.py:415
 msgid "Backup scheduled. It will be available soon."
