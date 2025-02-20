@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-14 09:02+0000\n"
-"PO-Revision-Date: 2025-02-20 11:48+0000\n"
+"PO-Revision-Date: 2025-02-20 12:39+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -401,15 +401,11 @@ msgid "Recovery token"
 msgstr "Jeton de récupération"
 
 #: weblate/accounts/forms.py:1147
-#, fuzzy
-#| msgid ""
-#| "Recovery token can be used just once, mark your token as used after using "
-#| "it."
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
-"Le jeton de récupération ne peut être utilisé qu’une fois, marquez votre "
-"jeton après l’avoir utilisé."
+"Les codes de récupération ne peuvent être utilisés qu’une fois. Marquez les "
+"jetons utilisés comme étant expirés."
 
 #: weblate/accounts/forms.py:1204
 msgid "Enter the code from the app"
@@ -2090,30 +2086,30 @@ msgid "Weblate's REST API"
 msgstr "API REST de Weblate"
 
 #: weblate/api/views.py:151
-#, fuzzy
-#| msgid "Could not obtain repository lock to perform the operation."
 msgid "Could not obtain the lock to perform the operation."
-msgstr "Impossible de verrouiller le dépôt, une autre opération est en cours."
+msgstr "Impossible d'obtenir le verrou pour réaliser l'opération."
 
 #: weblate/api/views.py:162
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "Impossible de verrouiller le dépôt, une autre opération est en cours."
+msgstr "Impossible de verrouiller le dépôt pour que %s réalise l'opération."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "Impossible de verrouiller le dépôt, une autre opération est en cours."
+msgstr ""
+"Impossible de verrouiller le dépôt en mise à jour pour que %s puisse "
+"réaliser l'opération."
 
 #: weblate/api/views.py:177
 #, fuzzy, python-format
 #| msgid "Could not obtain repository lock to perform the operation."
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "Impossible de verrouiller le dépôt, une autre opération est en cours."
+msgstr ""
+"Impossible d'obtenir le verrou de %(scope)s pour que %(scope)s réalise "
+"l'opération."
 
 #: weblate/api/views.py:2338 weblate/auth/models.py:956
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -3003,16 +2999,14 @@ msgid "The file format does not support this."
 msgstr "Le format de fichier ne le prend pas en charge."
 
 #: weblate/auth/permissions.py:372
-#, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
 msgid "Adding new translations is turned off in the component configuration."
-msgstr "L’ajout de chaînes est désactivé dans la configuration du composant."
+msgstr ""
+"L’ajout de nouvelles chaînes est désactivé dans la configuration du "
+"composant."
 
 #: weblate/auth/permissions.py:376
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This component is currently locked."
-msgstr "Cette traduction est actuellement verrouillée."
+msgstr "Ce composant est actuellement verrouillé."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3909,8 +3903,6 @@ msgid "Fluent source syntax"
 msgstr "Syntaxe Fluent source"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in source"
 msgid "Fluent syntax error in the source"
 msgstr "Erreur de syntaxe Fluent dans le source"
 
@@ -3919,8 +3911,6 @@ msgid "Fluent translation syntax"
 msgstr "Syntaxe de traduction Fluent"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "Fluent syntax error in the translation"
 msgstr "Erreur de syntaxe Fluent dans la traduction"
 
@@ -4271,16 +4261,12 @@ msgstr ""
 "Références de termes reStructuredText incohérentes dans le message traduit."
 
 #: weblate/checks/markup.py:436
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent inline links in the translated message."
-msgstr "Liens incohérents dans le message traduit."
+msgstr "Liens en ligne incohérents dans le message traduit."
 
 #: weblate/checks/markup.py:442
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent external links in the translated message."
-msgstr "Liens incohérents dans le message traduit."
+msgstr "Liens externes incohérents dans le message traduit."
 
 #: weblate/checks/markup.py:565
 msgid "reStructuredText syntax error"
@@ -6532,10 +6518,8 @@ msgid "Security keys (WebAuthn)"
 msgstr "Clés de sécurité (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:271
-#, fuzzy
-#| msgid "There are currently no WebAuthn keys registered."
 msgid "No WebAuthn keys registered yet."
-msgstr "Il n’y a actuellement aucune clé WebAuthn enregistrée."
+msgstr "Pas de clé WebAuthn enregistrée."
 
 #: weblate/templates/accounts/profile.html:280
 #: weblate/templates/accounts/profile.html:324
@@ -6557,20 +6541,16 @@ msgid "Register new security key"
 msgstr "Enregistrer une nouvelle clé de sécurité"
 
 #: weblate/templates/accounts/profile.html:304
-#, fuzzy
-#| msgid "Unfortunately, your browser has no WebAuthn support."
 msgid "Your web browser lacks WebAuthn support."
-msgstr "Malheureusement votre navigateur ne prend pas en charge WebAuthn."
+msgstr "Votre navigateur ne prend pas en charge WebAuthn."
 
 #: weblate/templates/accounts/profile.html:312
 msgid "Authenticator apps (TOTP)"
 msgstr "Applications d’authentification (TOTP)"
 
 #: weblate/templates/accounts/profile.html:315
-#, fuzzy
-#| msgid "The authentication app %s was registered."
 msgid "No authenticator apps registered yet."
-msgstr "L’application d’authentification %s a été enregistrée."
+msgstr "Aucune application d’authentification n'a encore été enregistrée."
 
 #: weblate/templates/accounts/profile.html:331
 #: weblate/templates/accounts/totp.html:15
@@ -6585,8 +6565,6 @@ msgid "Recovery codes"
 msgstr "Codes de récupération"
 
 #: weblate/templates/accounts/profile.html:337
-#, fuzzy
-#| msgid "There are currently no recovery codes generated."
 msgid "No recovery codes generated yet."
 msgstr "Aucun code de récupération n’a encore été généré."
 
@@ -6597,13 +6575,11 @@ msgid "Generate new recovery codes"
 msgstr "Générer de nouveaux codes de récupération"
 
 #: weblate/templates/accounts/profile.html:344
-#, fuzzy, python-format
-#| msgid "%(count)s recovery code is available."
-#| msgid_plural "%(count)s recovery codes are available."
+#, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
-msgstr[0] "%(count)s code de récupération est disponible."
-msgstr[1] "%(count)s codes de récupération sont disponibles."
+msgstr[0] "%(count)s code de récupération disponible."
+msgstr[1] "%(count)s codes de récupération disponibles."
 
 #: weblate/templates/accounts/profile.html:350
 msgid "View recovery codes"
@@ -6670,15 +6646,12 @@ msgid "Description"
 msgstr "Description"
 
 #: weblate/templates/accounts/profile.html:487
-#, fuzzy
-#| msgid ""
-#| "Contact us immediately if you see anything suspicious in the audit log."
 msgid ""
 "Get in contact immediately if you notice anything suspicious in the audit "
 "log."
 msgstr ""
-"Contactez-nous immédiatement si vous voyez quoi que ce soit de suspect dans "
-"les journaux d’audit."
+"Prenez contact immédiatement si vous observez quoi que ce soit de suspect "
+"dans les journaux d’audit."
 
 #: weblate/templates/accounts/profile.html:499
 #: weblate/templates/accounts/user.html:299
@@ -6698,26 +6671,20 @@ msgid "User agent"
 msgstr "User agent"
 
 #: weblate/templates/accounts/profile.html:515
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent activity found."
-msgstr "Aucune activité récente !"
+msgstr "Aucune activité récente."
 
 #: weblate/templates/accounts/profile.html:521
 msgid "Report suspicious activity"
 msgstr "Signaler une activité suspecte"
 
 #: weblate/templates/accounts/profile.html:536
-#, fuzzy
-#| msgid ""
-#| "The API key is also used to authenticate to automatically exported Git "
-#| "repositories."
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
 "access Weblate Git repositories."
 msgstr ""
-"La clé API est également utilisée pour s’authentifier auprès des dépôts Git "
-"exportés automatiquement."
+"La clé API peut être utilisée pour contrôler Weblate via l'API REST HTTP et "
+"pour accéder aux dépôts Git de Weblate."
 
 #: weblate/templates/accounts/profile.html:541
 #: weblate/templates/trans/project-access.html:351
@@ -6911,16 +6878,12 @@ msgid "Reset my password"
 msgstr "Réinitialiser mon mot de passe"
 
 #: weblate/templates/accounts/totp.html:33
-#, fuzzy
-#| msgid ""
-#| "Authenticator apps generate one-time passwords that are used as a second "
-#| "factor to verify your identity when prompted during sign-in."
 msgid ""
 "Authenticator apps generate time-based one-time passwords that are used as a "
 "second factor to verify your identity when prompted during sign-in."
 msgstr ""
-"Les applications d’authentification génèrent une fois des mots de passe qui "
-"sont utilisés comme second facteur pour vérifier votre identité lorsqu’elle "
+"Les applications d’authentification génèrent des mots de passe utilisables "
+"une seule fois comme second facteur pour vérifier votre identité lorsqu'elle "
 "est demandée à la connexion."
 
 #: weblate/templates/accounts/totp.html:36
@@ -7154,23 +7117,16 @@ msgid "Edit user"
 msgstr "Modifier l’utilisateur"
 
 #: weblate/templates/accounts/user.html:395
-#, fuzzy
-#| msgid "Requires two-factor authentication"
 msgid "The user has two-factor authentication."
-msgstr "Nécessite l’authentification à deux facteurs"
+msgstr "L'utilisateur possède l’authentification à deux facteurs."
 
 #: weblate/templates/accounts/user.html:397
-#, fuzzy
-#| msgid "User doesn't have two-factor authentication configured."
 msgid "The user doesn't have two-factor authentication."
-msgstr ""
-"L’authentification à deux facteurs de l’utilisateur n’est pas configurée."
+msgstr "L’utilisateur ne possède pas l'identification à deux facteurs."
 
 #: weblate/templates/accounts/user.html:404
-#, fuzzy
-#| msgid "Two-factor authentication"
 msgid "Turn off two-factor authentication"
-msgstr "Authentification à deux facteurs"
+msgstr "Désactiver l'authentification à deux facteurs"
 
 #: weblate/templates/accounts/user.html:413
 msgid "Account removal deletes all user private data."
@@ -8381,16 +8337,12 @@ msgid "Alerts"
 msgstr "Alertes"
 
 #: weblate/templates/component.html:58 weblate/templates/project.html:60
-#, fuzzy
-#| msgid "Download statistics (CSV)"
 msgid "Download language statistics (CSV)"
-msgstr "Télécharger les statistiques (format CSV)"
+msgstr "Télécharger les statistiques de langue (format CSV)"
 
 #: weblate/templates/component.html:61 weblate/templates/project.html:63
-#, fuzzy
-#| msgid "Download statistics (JSON)"
 msgid "Download language statistics (JSON)"
-msgstr "Télécharger les statistiques (format JSON)"
+msgstr "Télécharger les statistiques de langue (format JSON)"
 
 #: weblate/templates/component.html:109 weblate/templates/data.html:12
 #: weblate/templates/project.html:111 weblate/templates/translation.html:104
@@ -8482,22 +8434,16 @@ msgstr ""
 #: weblate/templates/snippets/libre-checklist.html:24
 #: weblate/templates/trans/other-row.html:27
 #: weblate/trans/models/component.py:583
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor license agreement"
-msgstr "Accord de contribution"
+msgstr "Accord de licence du contributeur"
 
 #: weblate/templates/contributor-agreement.html:22
-#, fuzzy
-#| msgid "Please review the contributor agreement"
 msgid "Please review the contributor license agreement"
-msgstr "Veuillez examiner l’accord de contribution"
+msgstr "Veuillez vérifier l’accord de licence du contributeur"
 
 #: weblate/templates/contributor-agreement.html:25
-#, fuzzy
-#| msgid "Please read following contributor agreement:"
 msgid "Please read the following contributor license agreement:"
-msgstr "Veuillez lire l’accord de contribution suivant :"
+msgstr "Veuillez lire l’accord suivant de licence du contributeur :"
 
 #: weblate/templates/contributor-agreement.html:34
 msgid "You have already agreed to this agreement."
@@ -9666,30 +9612,26 @@ msgid "New translation in %(translation)s"
 msgstr "Nouvelle traduction pour %(translation)s"
 
 #: weblate/templates/mail/component_license.html:10
-#, fuzzy, python-format
-#| msgid "Contributor agreement for component %(component)s was changed."
+#, python-format
 msgid "Contributor license agreement for component %(component)s was changed."
-msgstr "L’accord de contribution du composant %(component)s a été modifié."
+msgstr ""
+"L’accord de licence du contributeur du composant %(component)s a été modifié."
 
 #: weblate/templates/mail/component_license.html:13
 msgid "Old agreement:"
 msgstr "Ancien accord :"
 
 #: weblate/templates/mail/component_license.html:16
-#, fuzzy
-#| msgid "There was no contributor agreement before."
 msgid "There was no contributor license agreement before."
-msgstr "Auparavant, il n’y avait aucun accord de contribution."
+msgstr "Auparavant, il n’y avait pas d'accord de licence du contributeur."
 
 #: weblate/templates/mail/component_license.html:19
 msgid "New agreement:"
 msgstr "Nouvel accord de contribution :"
 
 #: weblate/templates/mail/component_license.html:22
-#, fuzzy
-#| msgid "Contributor agreement was removed."
 msgid "Contributor license agreement was removed."
-msgstr "L’accord de contribution a été supprimé."
+msgstr "L’accord de licence du contributeur a été supprimé."
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
@@ -9697,10 +9639,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "Le composant %(component)s est passé sous licence %(target)s"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Contributor agreement for %(component)s was changed"
+#, python-format
 msgid "Contributor license agreement for %(component)s was changed"
-msgstr "L’accord de contribution de %(component)s a été modifié"
+msgstr "L’accord de licence du contributeur de %(component)s a été modifié"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -10858,23 +10799,17 @@ msgstr ""
 "donné."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:11
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "View contributor license agreement"
-msgstr "Afficher l’accord de contribution"
+msgstr "Afficher l’accord de licence du contributeur"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:13
 #: weblate/templates/trans/other-row.html:27
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "license agreement."
 msgstr ""
 "Pour participer à cette traduction, vous devez accepter son accord de "
-"contribution."
+"licence du contributeur."
 
 #: weblate/templates/snippets/component/lock.html:21
 msgid "Get notified when this project is unlocked again"
@@ -11145,16 +11080,12 @@ msgid "Aliased language codes"
 msgstr "Codes langue alias"
 
 #: weblate/templates/snippets/info.html:211
-#, fuzzy
-#| msgid "String target language"
 msgid "English name of the language"
-msgstr "Langue cible de la chaîne"
+msgstr "Nom de la langue en anglais"
 
 #: weblate/templates/snippets/info.html:221
-#, fuzzy
-#| msgid "Last activity"
 msgid "Case sensitivity"
-msgstr "Activité"
+msgstr "Sensibilité à la casse"
 
 #: weblate/templates/snippets/info.html:245
 msgid "Most active translators"
@@ -14087,10 +14018,8 @@ msgid "Labels to remove"
 msgstr "Étiquettes à supprimer"
 
 #: weblate/trans/forms.py:2674
-#, fuzzy
-#| msgid "I accept the contributor agreement"
 msgid "I accept the contributor license agreement"
-msgstr "J’accepte l’accord de contribution"
+msgstr "J’accepte l’accord de licence du contributeur"
 
 #: weblate/trans/forms.py:2703
 msgid "The slug does not match the one marked for deletion!"
@@ -14685,10 +14614,8 @@ msgid "License changed"
 msgstr "Licence modifiée"
 
 #: weblate/trans/models/change.py:550
-#, fuzzy
-#| msgid "Contributor agreement changed"
 msgid "Contributor license agreement changed"
-msgstr "Accord de contribution modifié"
+msgstr "L'accord de licence du contributeur a été modifié"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:553
@@ -14787,17 +14714,13 @@ msgstr "Traduction du composant terminée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:594
-#, fuzzy
-#| msgid "Unused enforced checks."
 msgid "Applied enforced check"
-msgstr "Vérifications forcées inutilisées."
+msgstr "La vérification étendue a été appliquée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:596
-#, fuzzy
-#| msgid "Propagated"
 msgid "Propagated change"
-msgstr "Propagé"
+msgstr "Modification propagée"
 
 #: weblate/trans/models/change.py:683
 msgid "The component was automatically locked because of an alert."
@@ -15134,16 +15057,12 @@ msgid "List of checks which can not be ignored."
 msgstr "Liste des vérifications qui ne peuvent être ignorées."
 
 #: weblate/trans/models/component.py:587
-#, fuzzy
-#| msgid ""
-#| "User agreement which needs to be approved before a user can translate "
-#| "this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Accord que l’utilisateur doit approuver avant de pouvoir traduire ce "
-"composant."
+"Accord de licence du contributeur devant être approuvé avant que l’"
+"utilisateur puisse traduire ce composant."
 
 #: weblate/trans/models/component.py:594
 msgid "Adding new translation"
