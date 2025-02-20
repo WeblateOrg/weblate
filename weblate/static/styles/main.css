@@ -642,24 +642,29 @@ form + .login-label {
   gap: 30px;
 }
 
+#changes-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#changes-item .full-cell {
+  border-top: none;
+}
+
 .btn-float {
   display: flex;
   gap: 5px;
   padding: 4px;
-  background-color: #fff;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(-100%);
+  background-color: #fff;
   border-radius: 5px;
   position: absolute;
   right: 15px;
-  transform: translateY(-100%);
   z-index: 10;
 }
 
 @media only screen and (max-width: 600px) {
-  .btn-float {
-    box-shadow: none;
-    transform: none;
-  }
 
   #comments #comment-section {
     display: flex;
@@ -677,13 +682,26 @@ form + .login-label {
     gap: 20px;
   }
 
-  #changes-item {
-    display: flex;
-    flex-direction: column;
+  .btn-float {
+    transform: none;
+    box-shadow: none;
   }
 
-  #changes-item .full-cell {
-    border-top: none;
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;;
+}
+}
+
+@media only screen and (min-width: 700px) {
+  #changes-list {
+    max-width: calc(100vw - 240px);
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #changes-list {
+    max-width: 95vw;
   }
 }
 
