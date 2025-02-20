@@ -73,6 +73,8 @@ from weblate.utils.views import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
@@ -111,11 +113,15 @@ def list_projects(request: AuthenticatedHttpRequest):
 
 
 def add_ghost_translations(
-    component, user: User, translations, generator, **kwargs
+    component: Component,
+    user: User,
+    translations: list,
+    existing: set[str],
+    generator: Callable,
+    **kwargs,
 ) -> None:
     """Add ghost translations for user languages to the list."""
     if component.can_add_new_language(user, fast=True):
-        existing = {translation.language.code for translation in translations}
         for language in user.profile.all_languages:
             if language.code in existing:
                 continue
@@ -253,8 +259,8 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
     extra_translations = []
 
     # Add ghost translations
-    if user.is_authenticated:
-        existing = {translation.component.slug for translation in translations}
+    if user.is_authenticated and translations.number == 1:
+        existing = {translation.component.slug for translation in obj.translation_set}
         missing = project_object.get_child_components_filter(
             lambda qs: qs.exclude(slug__in=existing)
             .prefetch()
@@ -323,17 +329,18 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
         .recent()
     )
 
-    translations = list(obj.translation_set)
+    translations = get_paginator(request, obj.translation_set, stats=True)
+    extra_translations = []
 
     # Add ghost translations
-    if user.is_authenticated:
-        existing = {translation.component.slug for translation in translations}
+    if user.is_authenticated and translations.number == 1:
+        existing = {translation.component.slug for translation in obj.translation_set}
         missing = category_object.component_set.exclude(slug__in=existing)
-        translations.extend(
+        extra_translations = [
             GhostTranslation(component, language_object)
             for component in missing
             if component.can_add_new_language(user, fast=True)
-        )
+        ]
 
     return render(
         request,
@@ -346,6 +353,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
             "path_object": obj,
             "last_changes": last_changes,
             "translations": translations,
+            "translation_objects": [*extra_translations, *translations],
             "categories": prefetch_stats(
                 CategoryLanguage(category, obj.language)
                 for category in obj.category.category_set.all()
@@ -399,6 +407,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
             component,
             user,
             language_stats,
+            {translation.language.code for translation in language_stats},
             GhostProjectLanguageStats,
             is_shared=component.is_shared,
         )
@@ -479,6 +488,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
             component,
             user,
             language_stats,
+            {translation.language.code for translation in language_stats},
             GhostProjectLanguageStats,
         )
 
@@ -544,7 +554,13 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
     translations = prefetch_stats(list(obj.translation_set.prefetch_meta()))
 
     # Show ghost translations for user languages
-    add_ghost_translations(obj, user, translations, GhostTranslation)
+    add_ghost_translations(
+        obj,
+        user,
+        translations,
+        set(obj.translation_set.values_list("language__code", flat=True)),
+        GhostTranslation,
+    )
 
     translations = sort_unicode(
         translations, user.profile.get_translation_orderer(request)
