@@ -51,6 +51,7 @@ from weblate.utils.stats import (
     BaseStats,
     CategoryLanguage,
     GhostProjectLanguageStats,
+    GhostStats,
     ProjectLanguage,
 )
 from weblate.utils.templatetags.icons import icon
@@ -1362,6 +1363,17 @@ def urlize_ugc(value, autoescape=True):
     )
 
 
+@register.simple_tag
+def get_glossary_badge(component: Component | GhostStats) -> StrOrPromise:
+    if isinstance(component, Component) and component.is_glossary:
+        return format_html(
+            '<span class="label label-{}">{}</span>',
+            component.glossary_color,
+            gettext("Glossary"),
+        )
+    return ""
+
+
 def get_breadcrumbs(path_object, flags: bool = True):
     if isinstance(path_object, Unit):
         yield from get_breadcrumbs(path_object.translation)
@@ -1376,13 +1388,7 @@ def get_breadcrumbs(path_object, flags: bool = True):
             yield from get_breadcrumbs(path_object.project)
         name = path_object.name
         if flags:
-            name = format_html(
-                "{}{}",
-                name,
-                render_to_string(
-                    "snippets/component-glossary-badge.html", {"object": path_object}
-                ),
-            )
+            name = format_html("{}{}", name, get_glossary_badge(path_object))
         yield path_object.get_absolute_url(), name
     elif isinstance(path_object, Category):
         if path_object.category:
