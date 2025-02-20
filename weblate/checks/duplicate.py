@@ -13,6 +13,7 @@ from django.utils.translation import gettext_lazy
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import NON_WORD_CHARS
 from weblate.checks.same import replace_format_placeholder, strip_format
+from weblate.utils.html import format_html_join_comma
 
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
@@ -89,4 +90,8 @@ class DuplicateCheck(TargetCheck):
         source = unit.source_string
         for target in unit.get_target_plurals():
             duplicate.update(self.check_single(source, target, unit))
-        return format_html("{} {}", self.description, ", ".join(sorted(duplicate)))
+        return format_html(
+            "{} {}",
+            self.description,
+            format_html_join_comma("{}", ((word,) for word in sorted(duplicate))),
+        )
