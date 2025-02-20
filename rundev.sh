@@ -56,15 +56,6 @@ test)
         --env CI_DB_USER=weblate \
         --env CI_DB_PASSWORD=weblate \
         --env DJANGO_SETTINGS_MODULE=weblate.settings_test \
-        weblate weblate collectstatic --noinput
-    docker compose exec -T \
-        --env CI_BASE_DIR=/tmp \
-        --env CI_DATABASE=postgresql \
-        --env CI_DB_HOST=database \
-        --env CI_DB_NAME=weblate \
-        --env CI_DB_USER=weblate \
-        --env CI_DB_PASSWORD=weblate \
-        --env DJANGO_SETTINGS_MODULE=weblate.settings_test \
         --workdir /app/src \
         weblate pytest "$@"
     ;;
