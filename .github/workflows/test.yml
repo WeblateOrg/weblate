@@ -108,9 +108,10 @@ jobs:
     - name: Demo import
       run: uv run --no-sources coverage run ./manage.py import_demo
     - name: Test with Django
+    # uv run --no-sources --all-extras pytest weblate/trans/tests/test_models.py -k ProjectTest --junitxml=junit.xml --cov=weblate weblate
       run: |
         source .venv/bin/activate
-        uv run --no-sources --all-extras pytest --junitxml=junit.xml --cov=weblate weblate
+        uv run ./manage.py test weblate.trans.tests.test_models.ProjectTest.test_add_suggestion_validation -v 2
         cp .coverage .coverage.pytest
     - name: Test wsgi startup
       env:

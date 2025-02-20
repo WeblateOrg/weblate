@@ -51,6 +51,13 @@ class SuggestionManager(models.Manager["Suggestion"]):
         if user is None:
             user = request.user if request else get_anonymous()
 
+        import logging
+
+        log = logging.getLogger(__name__)
+        log.error("###################")
+        log.error(unit.translated)
+        log.error(unit.target)
+        log.error(target_merged)
         if unit.translated and unit.target == target_merged:
             if raise_exception:
                 raise SuggestionSimilarToTranslationError
