@@ -205,13 +205,9 @@
           </td>
           <th class="object-link">
             {% if name_source == "component_name" or name_source == "translation" %}
-
-              {% include "snippets/component-glossary-badge.html" with object=object.component %}
-
+              {% get_glossary_badge object.component %}
             {% else %}
-
-              {% include "snippets/component-glossary-badge.html" %}
-
+              {% get_glossary_badge object %}
             {% endif %}
 
             {% if object.is_ghost %}
