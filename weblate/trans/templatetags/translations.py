@@ -846,24 +846,60 @@ def review_percent(obj):
     )
 
 
-def translation_progress_data(
+def translation_progress_render(
     total: int, readonly: int, approved: int, translated: int, has_review: bool
-):
+) -> StrOrPromise:
     if has_review:
         translated -= approved
         approved += readonly
         translated -= readonly
 
-    return {
-        "approved": f"{translation_percent(approved, total, False):.1f}",
-        "good": f"{translation_percent(translated, total):.1f}",
-    }
+    approved_percent = translation_percent(approved, total, False)
+    good_percent = translation_percent(translated, total)
+
+    approved_tag = ""
+    good_tag = ""
+    if approved_percent > 0.1:
+        approved_tag = format_html(
+            """
+            <div class="progress-bar"
+                role="progressbar"
+                aria-valuenow="{approved}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style="width: {approved}%"
+                title="{title}"></div>
+            """,
+            approved=f"{approved_percent:.1f}",
+            title=gettext("Approved"),
+        )
+    if good_percent > 0.1:
+        good_tag = format_html(
+            """
+            <div class="progress-bar progress-bar-success"
+                role="progressbar"
+                aria-valuenow="{good}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style="width: {good}%"
+                title="{title}"></div>
+            """,
+            good=f"{good_percent:.1f}",
+            title=gettext("Translated without any problems"),
+        )
+
+    return format_html(
+        """<div class="progress" title="{}">{}{}</div>""",
+        gettext("Needs attention"),
+        approved_tag,
+        good_tag,
+    )
 
 
-@register.inclusion_tag("snippets/progress.html")
+@register.simple_tag
 def translation_progress(obj):
     stats = get_stats(obj)
-    return translation_progress_data(
+    return translation_progress_render(
         stats.all,
         stats.readonly,
         stats.approved,
@@ -872,10 +908,10 @@ def translation_progress(obj):
     )
 
 
-@register.inclusion_tag("snippets/progress.html")
+@register.simple_tag
 def words_progress(obj):
     stats = get_stats(obj)
-    return translation_progress_data(
+    return translation_progress_render(
         stats.all_words,
         stats.readonly_words,
         stats.approved_words,
@@ -884,10 +920,10 @@ def words_progress(obj):
     )
 
 
-@register.inclusion_tag("snippets/progress.html")
+@register.simple_tag
 def chars_progress(obj):
     stats = get_stats(obj)
-    return translation_progress_data(
+    return translation_progress_render(
         stats.all_chars,
         stats.readonly_chars,
         stats.approved_chars,
