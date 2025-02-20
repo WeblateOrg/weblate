@@ -566,8 +566,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def get_child_components_filter(self, filter_callback):
         own = filter_callback(self.component_set.defer_huge())
-        shared = filter_callback(self.shared_components.defer_huge())
-        return own.union(shared)
+        if self.shared_components.exists():
+            shared = filter_callback(self.shared_components.defer_huge())
+            return own.union(shared)
+        return own
 
     @cached_property
     def child_components(self):
