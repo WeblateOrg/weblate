@@ -8,10 +8,9 @@ import os
 import re
 import time
 from collections import defaultdict
-from copy import copy
 from glob import glob
 from itertools import chain
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypedDict
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
@@ -348,6 +347,10 @@ class ComponentQuerySet(models.QuerySet):
             "category__category__category",
             "category__category__category__project",
         )
+
+
+class OldComponentSettings(TypedDict):
+    check_flags: str
 
 
 class Component(
@@ -832,7 +835,9 @@ class Component(
         self.needs_cleanup = False
         self.alerts_trigger: dict[str, list[dict]] = {}
         self.updated_sources: dict[int, Unit] = {}
-        self.old_component = copy(self)
+        self.old_component_settings: OldComponentSettings = {
+            "check_flags": self.check_flags
+        }
         self._sources: dict[int, Unit] = {}
         self._sources_prefetched = False
         self.logs: list[str] = []
@@ -967,7 +972,7 @@ class Component(
             )
             self.store_background_task(task)
 
-        if self.old_component.check_flags != self.check_flags:
+        if self.old_component_settings["check_flags"] != self.check_flags:
             transaction.on_commit(
                 lambda: self.schedule_update_checks(update_state=True)
             )
