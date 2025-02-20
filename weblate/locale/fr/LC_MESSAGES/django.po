@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-14 09:02+0000\n"
-"PO-Revision-Date: 2025-02-20 11:29+0000\n"
+"PO-Revision-Date: 2025-02-20 11:45+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -51,10 +51,8 @@ msgstr ""
 "courriel différente."
 
 #: weblate/accounts/forms.py:119
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
-msgstr "Ce nom d’utilisateur existe déjà. Veuillez en choisir un autre."
+msgstr "Ce nom d’utilisateur existe déjà. Veuillez choisir autre chose."
 
 #: weblate/accounts/forms.py:131 weblate/accounts/forms.py:988
 #: weblate/auth/models.py:440 weblate/auth/models.py:1143
@@ -78,26 +76,20 @@ msgid "Use account e-mail address"
 msgstr "Utiliser l’adresse courriel du compte"
 
 #: weblate/accounts/forms.py:200
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
 msgstr ""
-"Utilisé dans les commits de contrôle de version. L’adresse restera dans le "
-"dépôt pour toujours une fois les modifications validées par Weblate."
+"Utilisé pour les commits de contrôle de version. L’adresse reste toujours "
+"dans le dépôt une fois les modifications validées par Weblate."
 
 #: weblate/accounts/forms.py:232 weblate/accounts/models.py:702
 msgid "Public e-mail"
 msgstr "Adresse courriel publique"
 
 #: weblate/accounts/forms.py:233
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Hide e-mail address from public view"
-msgstr "Cette adresse courriel n’est pas autorisée."
+msgstr "Masquer l'adresse courriel de la vue publique"
 
 #: weblate/accounts/forms.py:342
 #, python-format
@@ -179,15 +171,11 @@ msgid "Message"
 msgstr "Message"
 
 #: weblate/accounts/forms.py:575
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to process "
-#| "your request."
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
 msgstr ""
-"Veuillez nous contacter en anglais sinon nous risquons de ne pas pouvoir "
-"traiter votre demande."
+"Veuillez nous contacter en anglais pour que nous puissions traiter votre "
+"demande."
 
 #: weblate/accounts/forms.py:592 weblate/accounts/templatetags/authnames.py:33
 #: weblate/auth/models.py:446 weblate/auth/models.py:1160
@@ -2077,6 +2065,8 @@ msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Chaque utilisateur possède un jeton d'accès personnel qu'il peut obtenir à "
+"partir de son propre profil. Ces jetons ont le préfixe `wlu_`."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -2084,6 +2074,9 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"Il est possible de créer des jetons par projet, dont l'accès à l'API est "
+"restreint aux opérations associées au projet. Ces jetons ont le préfixe "
+"`wlp_`."
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -16368,6 +16361,7 @@ msgstr "Modifications pour %s"
 #: weblate/trans/views/create.py:68
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
+"La configuration fournie est incorrecte. Vérifier les erreurs ci-dessous."
 
 #: weblate/trans/views/create.py:290
 #, python-format
