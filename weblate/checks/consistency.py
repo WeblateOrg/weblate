@@ -13,6 +13,7 @@ from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.checks.base import BatchCheckMixin, TargetCheck
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
@@ -206,7 +207,9 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
 
         return ngettext(
             "Other source string: %s", "Other source strings: %s", len(other_sources)
-        ) % ", ".join(gettext("“%s”") % source for source in other_sources)
+        ) % format_html_join_comma(
+            "{}", ((gettext("“%s”") % source,) for source in other_sources)
+        )
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Target strings are checked in check_target_unit."""
