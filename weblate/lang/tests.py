@@ -294,7 +294,7 @@ class BasicLanguagesTest(TestCase):
 
 
 class LanguageTestSequenceMeta(type):
-    def __new__(mcs, name, bases, dict):  # noqa: N804, A002
+    def __new__(mcs, name, bases, dict):  # noqa: A002
         def gen_test(original, expected, direction, plural, name, create):
             def test(self) -> None:
                 self.run_create(original, expected, direction, plural, name, create)
