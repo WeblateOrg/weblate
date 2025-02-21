@@ -1359,10 +1359,11 @@ def choiceval(boundfield):
 def format_commit_author(commit):
     users = User.objects.filter(
         social_auth__verifiedemail__email=commit["author_email"]
-    ).distinct()
-    if len(users) == 1:
-        return get_user_display(users[0], True, True)
-    return commit["author_name"]
+    )
+    user = users.first()
+    if user is None:
+        return commit["author_name"]
+    return get_user_display(user, True, True)
 
 
 @register.filter
