@@ -1322,7 +1322,7 @@ def indicate_alerts(
     license_badge = ""
     if component and component.license and component.license != "proprietary":
         license_badge = format_html(
-            '<span title="{}" class="license badge">{}</span>',
+            ' <span title="{}" class="license badge">{}</span>',
             component.get_license_display(),
             component.license,
         )
