@@ -11,7 +11,7 @@ Weblate 5.10.1
 
 .. rubric:: Bug fixes
 
-* :ref:`download` performs faster and project and language scopes.
+* :ref:`download` performs faster on project and language scopes.
 * :ref:`zen-mode` does not display the source string twice when editing it.
 * Fixed :ref:`glossary` terms highlighting.
 
