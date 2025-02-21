@@ -50,7 +50,7 @@ jobs:
       uses: actions/attest-build-provenance@520d128f165991a6c774bcb264f323e3d70747f4 # v2
       with:
         subject-path: dist/*
-    - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
+    - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         path: dist/*
         name: dist
@@ -128,7 +128,7 @@ jobs:
         ./scripts/extract-release-notes > "dist/Weblate-$version.html"
         pandoc "dist/Weblate-$version.html" --write=gfm --wrap=none --lua-filter=scripts/release-notes-filter.version.lua -o "dist/Weblate-$version.md"
         rm scripts/release-notes-filter.version.lua
-    - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
+    - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         path: dist/*
         name: notes
