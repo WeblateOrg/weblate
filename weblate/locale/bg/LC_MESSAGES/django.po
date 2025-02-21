@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-21 06:38+0000\n"
-"PO-Revision-Date: 2025-02-14 08:21+0000\n"
+"PO-Revision-Date: 2025-02-21 07:13+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-rc\n"
+"X-Generator: Weblate 5.10.1-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -2126,7 +2126,7 @@ msgstr "Важни дати"
 
 #: weblate/auth/admin.py:218
 msgid "This is not used when a component list is selected."
-msgstr "Това не се ползва, когато е избран списък от компоненти."
+msgstr "Това не се използва, когато има избран списък от компоненти."
 
 #: weblate/auth/admin.py:225
 msgid "This is not used when a component is selected."
@@ -8879,25 +8879,23 @@ msgid "Lock"
 msgstr "Заключване"
 
 #: weblate/templates/js/git-status.html:112
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "%(count)s component is locked"
 msgid_plural "%(count)s components are locked"
-msgstr[0] "Компонентът %(component)s е заключен"
-msgstr[1] "Компонентът %(component)s е заключен"
+msgstr[0] "%(count)s компонент е заключен"
+msgstr[1] "%(count)s компонента са заключени"
 
 #: weblate/templates/js/git-status.html:116 weblate/utils/html.py:200
 msgctxt "Joins a list of values"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: weblate/templates/js/git-status.html:118
-#, fuzzy, python-format
-#| msgid "Component %(component)s was unlocked"
+#, python-format
 msgid "%(count)s component is unlocked"
 msgid_plural "%(count)s components are unlocked"
-msgstr[0] "Компонентът %(component)s е отключен"
-msgstr[1] "Компонентът %(component)s е отключен"
+msgstr[0] "%(count)s компонент е отключен"
+msgstr[1] "%(count)s компонента са отключени"
 
 #: weblate/templates/js/git-status.html:121
 #: weblate/templates/js/git-status.html:126
@@ -10360,7 +10358,7 @@ msgid ""
 "A translation file will be created based on <code>%(new_base)s</code> with "
 "all strings untranslated."
 msgstr ""
-"Ще бъде създаден файл въз основата не <code>%(new_base)s</code>, в който "
+"Ще бъде създаден файл въз основата на <code>%(new_base)s</code>, в който "
 "всички низове ще бъдат непреведени."
 
 #: weblate/templates/new-language.html:41
