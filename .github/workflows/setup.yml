@@ -30,7 +30,7 @@ jobs:
       attestations: write
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
+    - uses: astral-sh/setup-uv@1edb52594c857e2b5b13128931090f0640537287 # v5
     - name: Setup Python
       uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
@@ -70,7 +70,7 @@ jobs:
       uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
         python-version: '3.13'
-    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
+    - uses: astral-sh/setup-uv@1edb52594c857e2b5b13128931090f0640537287 # v5
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -104,7 +104,7 @@ jobs:
     name: Build release notes
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
+    - uses: astral-sh/setup-uv@1edb52594c857e2b5b13128931090f0640537287 # v5
     - name: Set up Python
       uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
@@ -149,7 +149,7 @@ jobs:
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
       run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delete
-    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
+    - uses: astral-sh/setup-uv@1edb52594c857e2b5b13128931090f0640537287 # v5
     - run: uv publish --trusted-publishing always
 
   publish_github:
