@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 from django.utils.html import escape, format_html
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.checks.base import SourceCheck, TargetCheck
+from weblate.checks.base import TargetCheck
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 from weblate.utils.html import format_html_join_comma
 
@@ -85,17 +85,24 @@ class GlossaryCheck(TargetCheck):
         )
 
 
-class ProhibitedInitialCharacterCheck(SourceCheck):
+class ProhibitedInitialCharacterCheck(TargetCheck):
     check_id = "prohibited_initial_character"
     name = gettext_lazy("Prohibited initial character")
     description = gettext_lazy("The string starts with a prohibited character in CSV")
-    default_disabled = False
+    # Process readonly (source) strings
+    ignore_readonly = False
     glossary = True
-    source = False  # only apply to source of glossaries
 
-    def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
+    def should_skip(self, unit: Unit) -> bool:
+        if not unit.translation.component.is_glossary:
+            return True
+        return super().should_skip(unit)
+
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Check if the source string starts with a prohibited character."""
-        return unit.source and unit.source[0] in PROHIBITED_INITIAL_CHARS
+        return (target and target[0] in PROHIBITED_INITIAL_CHARS) or (
+            source and source[0] in PROHIBITED_INITIAL_CHARS
+        )
 
     def get_description(self, check_obj) -> str:
         """Return description of the check."""
@@ -105,5 +112,5 @@ class ProhibitedInitialCharacterCheck(SourceCheck):
                     "The string starts with one or more of the following forbidden characters: {}"
                 )
             ),
-            format_html_join_comma("{}", PROHIBITED_INITIAL_CHARS),
+            format_html_join_comma("<code>{}</code>", PROHIBITED_INITIAL_CHARS),
         )

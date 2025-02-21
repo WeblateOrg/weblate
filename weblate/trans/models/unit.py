@@ -1419,8 +1419,8 @@ class Unit(models.Model, LoggerMixin):
             args = src, tgt, self
         if self.translation.component.is_glossary:
             checks = CHECKS.glossary
-            meth = "check_source"
-            args = src, self
+            meth = "check_target"
+            args = src, tgt, self
 
         # Run all checks
         if propagate is True:
