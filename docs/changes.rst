@@ -3,8 +3,6 @@ Weblate 5.10.1
 
 *Released on February 21st 2025.*
 
-.. rubric:: New features
-
 .. rubric:: Improvements
 
 * :ref:`check-multiple-failures` better shows failing checks including links to the strings.
@@ -16,8 +14,6 @@ Weblate 5.10.1
 * :ref:`download` performs faster and project and language scopes.
 * :ref:`zen-mode` does not display the source string twice when editing it.
 * Fixed :ref:`glossary` terms highlighting.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
@@ -913,8 +909,6 @@ Weblate 5.1.1
 
 *Released on October 25th 2023.*
 
-.. rubric:: New features
-
 .. rubric:: Improvements
 
 * :ref:`addon-weblate.consistency.languages` now uses a dedicated user for changes.
@@ -926,8 +920,6 @@ Weblate 5.1.1
 
 * Added plurals validation when editing string using the API.
 * Replacing a file using upload when existing is corrupted.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
