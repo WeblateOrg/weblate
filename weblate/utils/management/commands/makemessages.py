@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from django.conf import settings
 from django.core.management.commands.makemessages import Command as BaseCommand
 
 from weblate.utils.files import should_skip
@@ -9,9 +10,13 @@ from weblate.utils.files import should_skip
 
 class Command(BaseCommand):
     def find_files(self, root):
+        result = super().find_files(root)
+        if not settings.LOCALE_FILTER_FILES:
+            # Used in wlhosted
+            return result
         return [
             obj
-            for obj in super().find_files(root)
+            for obj in result
             if not should_skip(obj.path)  # type: ignore[attr-defined]
         ]
 
