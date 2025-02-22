@@ -170,7 +170,7 @@ jobs:
     - name: Extract notes title
       id: get-name
       run: echo "name=$(head -n1 notes/Weblate-*.md)"  > "$GITHUB_OUTPUT"
-    - uses: ncipollo/release-action@cdcc88a9acf3ca41c16c37bb7d21b9ad48560d87 # v1
+    - uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1
       with:
         artifacts: dist/*
         bodyFile: notes.md
