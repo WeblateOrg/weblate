@@ -253,6 +253,7 @@ class AddonsConf(AppConf):
         "weblate.addons.resx.ResxUpdateAddon",
         "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
+        "weblate.addons.webhooks.WebhookAddon",
     )
 
     LOCALIZE_CDN_URL = None
@@ -532,6 +533,14 @@ def store_post_load_handler(sender, translation: Translation, store, **kwargs) -
         (translation, store),
         translation=translation,
     )
+
+
+@receiver(post_save, sender=Change)
+def change_post_save_handler(sender, instance: Change, created, **kwargs) -> None:
+    from weblate.addons.tasks import addon_change
+
+    if created:  # ignore Change updates, they should not be updated anyway
+        addon_change(sender, instance, **kwargs)
 
 
 class AddonActivityLog(models.Model):

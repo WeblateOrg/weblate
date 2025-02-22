@@ -163,3 +163,25 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
         cleanup_addon_activity_log.s(),
         name="cleanup-addon-activity-log",
     )
+
+
+@app.task(trail=True)
+def addon_change(sender, change, **kwargs) -> None:
+    # find all installed Change related addon
+
+    def addon_callback(addon: Addon, component: Component) -> None:
+        if change.component and change.component != component:
+            return
+        if addon.component and addon.component != change.component:
+            return
+        if addon.project and change.project and addon.project != change.project:
+            return
+        addon.addon.change_event(change)
+
+    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_CHANGE)
+    handle_addon_event(
+        AddonEvent.EVENT_CHANGE,
+        addon_callback,
+        addon_queryset=addons,
+        auto_scope=True,
+    )

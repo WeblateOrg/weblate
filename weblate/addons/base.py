@@ -17,7 +17,7 @@ from django.utils.translation import gettext
 
 from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.models import Component
+from weblate.trans.models import Change, Component
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -295,6 +295,10 @@ class BaseAddon:
         """Event handler for component update."""
         # To be implemented in a subclass
 
+    def change_event(self, change: Change) -> None:
+        """Handle change event TODO: improve this docstring."""
+        # To be implemented in a subclass
+
     def execute_process(
         self, component: Component, cmd: list[str], env: dict[str, str] | None = None
     ) -> None:
@@ -457,3 +461,11 @@ class StoreBaseAddon(BaseAddon):
         AddonEvent.EVENT_STORE_POST_LOAD,
     }
     icon = "wrench.svg"
+
+
+class ChangeBaseAddon(BaseAddon):
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_CHANGE,
+    }
+
+    icon = "pencil.svg"
