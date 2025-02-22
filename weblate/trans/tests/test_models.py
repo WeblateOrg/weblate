@@ -5,6 +5,8 @@
 """Test for translation models."""
 
 import os
+import re
+from collections import defaultdict
 from datetime import timedelta
 
 from django.core.management.color import no_style
@@ -584,3 +586,26 @@ class ChangeTest(ModelTestCase):
             Change.objects.since_day(timezone.now() - timedelta(days=1)).count(),
             2,
         )
+
+    def test_action_types(self) -> None:
+        """Check that all Action types are valid."""
+        duplicate_count: dict[int, int] = defaultdict(int)
+
+        # Check that each action has a matching type identifier
+        for action, _ in Change.ACTION_CHOICES:
+            self.assertIn(
+                action,
+                Change.ACTION_TYPES,
+                f"Action {action} not found in ACTION_TYPES",
+            )
+            duplicate_count[action] += 1
+
+        # Check that there's no duplicates value
+        for action, count in duplicate_count.items():
+            self.assertEqual(
+                count, 1, f"Action {action} has duplicates in ACTION_TYPES"
+            )
+
+        # Check that the types ID have the correct format
+        for _type in Change.ACTION_TYPES.values():
+            self.assertTrue(re.fullmatch(r"[a-z]+(\.[a-z]+)*", _type) is not None)

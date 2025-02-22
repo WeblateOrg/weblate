@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import uuid
 from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING, overload
 
@@ -679,6 +680,79 @@ class Change(models.Model, UserDisplayMixin):
         ),
     }
 
+    ACTION_TYPES = {
+        ACTION_UPDATE: "resource.updated",
+        ACTION_COMPLETE: "translation.completed",
+        ACTION_CHANGE: "translation.changed",
+        ACTION_NEW: "translation.added",
+        ACTION_COMMENT: "comment.added",
+        ACTION_SUGGESTION: "suggestion.added",
+        ACTION_AUTO: "translation.automatically.translated",
+        ACTION_ACCEPT: "suggestion.accepted",
+        ACTION_REVERT: "translation.reverted",
+        ACTION_UPLOAD: "translation.uploaded",
+        ACTION_NEW_SOURCE: "source.string.added",
+        ACTION_LOCK: "component.locked",
+        ACTION_UNLOCK: "component.unlocked",
+        ACTION_COMMIT: "changes.committed",
+        ACTION_PUSH: "changes.pushed",
+        ACTION_RESET: "repository.reset",
+        ACTION_MERGE: "repository.merged",
+        ACTION_REBASE: "repository.rebased",
+        ACTION_FAILED_MERGE: "repository.merge.failed",
+        ACTION_FAILED_REBASE: "repository.rebase.failed",
+        ACTION_FAILED_PUSH: "repository.push.failed",
+        ACTION_PARSE_ERROR: "parsing.failed",
+        ACTION_REMOVE_TRANSLATION: "translation.removed",
+        ACTION_SUGGESTION_DELETE: "suggestion.removed",
+        ACTION_REPLACE: "translation.replaced",
+        ACTION_SUGGESTION_CLEANUP: "suggestion.cleanup.removed",
+        ACTION_SOURCE_CHANGE: "source.string.changed",
+        ACTION_NEW_UNIT: "string.added",
+        ACTION_BULK_EDIT: "bulk.status.changed",
+        ACTION_ACCESS_EDIT: "visibility.changed",
+        ACTION_ADD_USER: "user.added",
+        ACTION_REMOVE_USER: "user.removed",
+        ACTION_APPROVE: "translation.approved",
+        ACTION_MARKED_EDIT: "translation.marked.edit",
+        ACTION_REMOVE_COMPONENT: "component.removed",
+        ACTION_REMOVE_PROJECT: "project.removed",
+        ACTION_RENAME_PROJECT: "project.renamed",
+        ACTION_RENAME_COMPONENT: "component.renamed",
+        ACTION_MOVE_COMPONENT: "moved.component",
+        ACTION_NEW_CONTRIBUTOR: "contributor.joined",
+        ACTION_ANNOUNCEMENT: "announcement.posted",
+        ACTION_ALERT: "alert.triggered",
+        ACTION_ADDED_LANGUAGE: "language.added",
+        ACTION_REQUESTED_LANGUAGE: "language.requested",
+        ACTION_CREATE_PROJECT: "project.created",
+        ACTION_CREATE_COMPONENT: "component.created",
+        ACTION_INVITE_USER: "user.invited",
+        ACTION_HOOK: "repository.notification.received",
+        ACTION_REPLACE_UPLOAD: "translation.file.replaced.upload",
+        ACTION_LICENSE_CHANGE: "license.changed",
+        ACTION_AGREEMENT_CHANGE: "licenseagreement.changed",
+        ACTION_SCREENSHOT_ADDED: "screenshot.added",
+        ACTION_SCREENSHOT_UPLOADED: "screenshot.uploaded",
+        ACTION_STRING_REPO_UPDATE: "repository.string.updated",
+        ACTION_ADDON_CREATE: "addon.installed",
+        ACTION_ADDON_CHANGE: "addon.configuration.changed",
+        ACTION_ADDON_REMOVE: "addon.uninstalled",
+        ACTION_STRING_REMOVE: "string.removed",
+        ACTION_COMMENT_DELETE: "comment.removed",
+        ACTION_COMMENT_RESOLVE: "comment.resolved",
+        ACTION_EXPLANATION: "explanation.updated",
+        ACTION_REMOVE_CATEGORY: "category.removed",
+        ACTION_RENAME_CATEGORY: "category.renamed",
+        ACTION_MOVE_CATEGORY: "category.moved",
+        ACTION_SAVE_FAILED: "string.save.failed",
+        ACTION_NEW_UNIT_REPO: "repository.string",
+        ACTION_STRING_UPLOAD_UPDATE: "string.upload.updated",
+        ACTION_NEW_UNIT_UPLOAD: "string.upload.added",
+        ACTION_SOURCE_UPLOAD: "translation.source.upload.updated",
+        ACTION_COMPLETED_COMPONENT: "component.translation.completed",
+    }
+
     unit = models.ForeignKey(
         "trans.Unit", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
@@ -1037,6 +1111,14 @@ class Change(models.Model, UserDisplayMixin):
             self.ACTION_SUGGESTION_DELETE,
             self.ACTION_SUGGESTION_CLEANUP,
         }
+
+    def get_uuid(self) -> uuid.UUID:
+        """Return uuid for this change."""
+        return uuid.uuid5(uuid.NAMESPACE_OID, f"{self.action}.{self.id}")
+
+    def get_type(self) -> str:
+        """Return type identifier for this change."""
+        return self.ACTION_TYPES[self.action]
 
 
 @receiver(post_save, sender=Change)
