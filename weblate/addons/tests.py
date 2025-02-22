@@ -10,6 +10,7 @@ from datetime import timedelta
 from io import StringIO
 from typing import TYPE_CHECKING
 
+import responses
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
@@ -18,7 +19,15 @@ from django.urls import reverse
 from django.utils import timezone
 
 from weblate.lang.models import Language
-from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
+from weblate.trans.models import (
+    Change,
+    Comment,
+    Component,
+    Suggestion,
+    Translation,
+    Unit,
+    Vote,
+)
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_READONLY
 from weblate.utils.unittest import tempdir_setting
@@ -31,12 +40,7 @@ from .consistency import LanguageConsistencyAddon
 from .discovery import DiscoveryAddon
 from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
-from .flags import (
-    BulkEditAddon,
-    SameEditAddon,
-    SourceEditAddon,
-    TargetEditAddon,
-)
+from .flags import BulkEditAddon, SameEditAddon, SourceEditAddon, TargetEditAddon
 from .forms import BaseAddonForm
 from .generate import (
     FillReadOnlyAddon,
@@ -59,6 +63,7 @@ from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
 from .tasks import cleanup_addon_activity_log, daily_addons
+from .webhooks import WebhookAddon
 from .xml import XMLCustomizeAddon
 from .yaml import YAMLCustomizeAddon
 
@@ -1560,3 +1565,132 @@ class SiteWideAddonsTest(ViewTestCase):
 class TasksTest(TestCase):
     def test_cleanup_addon_activity_log(self) -> None:
         cleanup_addon_activity_log()
+
+
+class WebhookAddonsTest(ViewTestCase):
+    default_addon_configuration = {
+        "webhook_url": "https://example.com/webhooks",
+        "events": [
+            Change.ACTION_NEW,
+        ],
+    }
+
+    def do_translation_added_test(self):
+        WebhookAddon.create(configuration=self.default_addon_configuration)
+        responses.add(
+            responses.POST,
+            "https://example.com/webhooks",
+            status=200,
+        )
+        self.edit_unit(
+            "Hello, world!\n", "Nazdar svete!\n"
+        )  # triggers ACTION_NEW event
+        unit_to_delete = self.get_unit("Orangutan has %d banana")
+        self.translation.delete_unit(
+            None, unit_to_delete
+        )  # triggers ACTION_STRING_REMOVE event
+
+        # Check that webhook was only called once (for the ACTION_NEW event)
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    def test_translation_added(self) -> None:
+        self.do_translation_added_test()
+
+    @responses.activate
+    def test_with_secret(self) -> None:
+        self.default_addon_configuration["secret"] = "secret-string"
+        self.do_translation_added_test()
+        self.assertEqual(
+            json.loads(responses.calls[0].request.body)["secret"], "secret-string"
+        )
+
+    @responses.activate
+    def test_component_scopes(self) -> None:
+        # install on component level, check changes in another component don't trigger webhook
+        component1 = self.component
+        component2 = self.create_po(
+            new_base="po/project.pot", project=self.project, name="Secondary component"
+        )
+        config1 = self.default_addon_configuration.copy()
+        config2 = self.default_addon_configuration.copy() | {
+            "webhook_url": "https://example.com/webhooks-2"
+        }
+
+        WebhookAddon.create(configuration=config1, component=component1)
+        WebhookAddon.create(configuration=config2, component=component2)
+
+        resp1 = responses.post("https://example.com/webhooks", status=200)
+        resp2 = responses.post("https://example.com/webhooks-2", status=200)
+        translation1 = self.get_translation()
+        translation2 = component2.translation_set.get(language__code="cs")
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation1)
+        self.edit_unit(
+            "Thank you for using Weblate.",
+            "Díky za používání Weblate.",
+            translation=translation2,
+        )
+
+        self.assertEqual(len(resp1.calls), 1)
+        self.assertEqual(len(resp2.calls), 1)
+
+    @responses.activate
+    def test_project_scopes(self) -> None:
+        project_a = self.project
+        component_a1 = self.component
+        component_a2 = self.create_po(
+            new_base="po/project.pot", project=project_a, name="Component A2"
+        )
+
+        project_b = self.create_project(name="Test 2", slug="project2")
+        component_b1 = self.create_po(
+            new_base="po/project.pot", project=project_b, name="Component B1"
+        )
+
+        config_a = self.default_addon_configuration.copy()
+        config_b = self.default_addon_configuration.copy() | {
+            "webhook_url": "https://example.com/webhooks-2"
+        }
+
+        WebhookAddon.create(configuration=config_a, project=project_a)
+        WebhookAddon.create(configuration=config_b, project=project_b)
+
+        resp_a = responses.post("https://example.com/webhooks", status=200)
+        resp_b = responses.post("https://example.com/webhooks-2", status=200)
+
+        translation_a1 = component_a1.translation_set.get(language__code="cs")
+        translation_a2 = component_a2.translation_set.get(language__code="cs")
+        translation_b1 = component_b1.translation_set.get(language__code="cs")
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_a1)
+        self.edit_unit(
+            "Thank you for using Weblate.",
+            "Díky za používání Weblate.",
+            translation=translation_a2,
+        )
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_b1)
+
+        self.assertEqual(len(resp_a.calls), 2)
+        self.assertEqual(len(resp_b.calls), 1)
+
+    @responses.activate
+    def test_site_wide_scope(self) -> None:
+        project_b = self.create_project(name="Test 2", slug="project2")
+        component_b1 = self.create_po(
+            new_base="po/project.pot", project=project_b, name="Component B1"
+        )
+
+        WebhookAddon.create(configuration=self.default_addon_configuration)
+        responses.add(responses.POST, "https://example.com/webhooks", status=200)
+
+        translation_a1 = self.get_translation()
+        translation_b1 = component_b1.translation_set.get(language__code="cs")
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_a1)
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_b1)
+
+        self.assertEqual(len(responses.calls), 2)
+
+    def test_endpoint_failure(self):
+        # TODO: complete
+        pass
