@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-21 06:38+0000\n"
-"PO-Revision-Date: 2025-02-21 16:58+0000\n"
+"PO-Revision-Date: 2025-02-23 15:17+0000\n"
 "Last-Translator: Horus68 <horus68@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -69,17 +69,13 @@ msgid "Use account e-mail address"
 msgstr "Utilizar um endereço de e-mail da conta"
 
 #: weblate/accounts/forms.py:200
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
 msgstr ""
-"Usado em commits de controlo de versão. O endereço permanecerá no "
-"repositório para sempre assim que as alterações sejam armazenadas num commit "
-"pelo Weblate."
+"Usado em Commits de controlo de versão. O endereço permanecerá no "
+"repositório, para sempre, assim que as alterações sejam submetidas pelo "
+"Weblate."
 
 #: weblate/accounts/forms.py:232 weblate/accounts/models.py:702
 msgid "Public e-mail"
@@ -393,15 +389,11 @@ msgid "Recovery token"
 msgstr "Token de recuperação"
 
 #: weblate/accounts/forms.py:1144
-#, fuzzy
-#| msgid ""
-#| "Recovery token can be used just once, mark your token as used after using "
-#| "it."
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
-"O token de recuperação pode ser usado apenas uma vez, marque o seu token "
-"como usado após o utilizar."
+"Os códigos de recuperação só podem ser utilizados uma vez. Lembre-se de "
+"marcar os usados como expirados."
 
 #: weblate/accounts/forms.py:1201
 msgid "Enter the code from the app"
@@ -2003,17 +1995,20 @@ msgstr ""
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
 msgstr ""
+"Autenticação baseada em sessão, usada quando o utilizador está autenticado."
 
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "Autenticação baseada em Token, com prefixo obrigatório `%s`."
 
 #: weblate/api/authentication.py:42
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Cada utilizador tem um Token de acesso pessoal que pode ser obtido no seu "
+"respetivo perfil de utilizador. Estes Tokens têm o prefixo `wlu_`."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -2021,6 +2016,8 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"É possível criar Tokens de projeto cujo acesso à API esteja limitado às "
+"operações do projeto associado. Estes Tokens têm o prefixo `wlp_`."
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -6556,16 +6553,12 @@ msgid "Report suspicious activity"
 msgstr "Reportar atividade suspeita"
 
 #: weblate/templates/accounts/profile.html:526
-#, fuzzy
-#| msgid ""
-#| "The API key is also used to authenticate to automatically exported Git "
-#| "repositories."
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
 "access Weblate Git repositories."
 msgstr ""
-"A chave API também é utilizada para autenticar automaticamente os "
-"repositórios Git exportados."
+"A chave API pode ser utilizada para controlar o Weblate através da API HTTP "
+"REST e para aceder aos repositórios Git do Weblate."
 
 #: weblate/templates/accounts/profile.html:531
 #: weblate/templates/trans/project-access.html:351
@@ -10940,7 +10933,7 @@ msgstr "Nome em inglês do idioma"
 
 #: weblate/templates/snippets/info.html:221
 msgid "Case sensitivity"
-msgstr "Sensível a maiúsculas"
+msgstr "Sensibilidade a maiúsculas"
 
 #: weblate/templates/snippets/info.html:245
 msgid "Most active translators"
