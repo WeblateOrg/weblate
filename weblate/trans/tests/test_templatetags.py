@@ -701,14 +701,34 @@ class DiffTestCase(SimpleTestCase):
         self.assertEqual(self.html_diff("first text", "first text"), "first text")
 
     def test_add(self) -> None:
-        self.assertEqual(
-            self.html_diff("first text", "first new text"), "first <ins>new </ins>text"
+        self.assertHTMLEqual(
+            self.html_diff("first text", "first new text"),
+            """
+            first
+            <ins>
+            new
+            <span class="hlspace">
+            <span class="space-space">
+            </span>
+            </span>
+            </ins>
+            text
+            """,
         )
 
     def test_unicode(self) -> None:
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.html_diff("zkouška text", "zkouška nový text"),
-            "zkouška <ins>nový </ins>text",
+            """
+            zkouška
+            <ins>nový
+            <span class="hlspace">
+            <span class="space-space">
+            </span>
+            </span>
+            </ins>
+            text
+            """,
         )
 
     def test_remove(self) -> None:
@@ -719,6 +739,7 @@ class DiffTestCase(SimpleTestCase):
             <del>old
              <span class="hlspace">
              <span class="space-space">
+             </span>
              </span>
             </del>
             text""",

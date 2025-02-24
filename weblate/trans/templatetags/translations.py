@@ -422,7 +422,7 @@ class Formatter:
 
             if pos in tags:
                 current = tags[pos]
-                # Special case for leading whitespace char in diff
+                # Special case for leading/trailing whitespace char in diff
                 if (
                     current
                     and value[pos] == " "
@@ -431,6 +431,18 @@ class Formatter:
                 ):
                     current.append(SPACE_START)
                     tags[pos + 1].insert(0, SPACE_END)
+
+                elif pos + 1 in tags:
+                    next_tags = tags[pos + 1]
+                    if (
+                        next_tags
+                        and value[pos] == " "
+                        and "</ins>" in next_tags
+                        and SPACE_END not in next_tags
+                        and SPACE_MIDDLE_1 not in next_tags
+                    ):
+                        current.append(SPACE_START)
+                        next_tags.insert(0, SPACE_END)
 
                 # Tags
                 yield from current
