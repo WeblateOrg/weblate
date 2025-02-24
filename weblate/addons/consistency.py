@@ -30,14 +30,14 @@ class LanguageConsistencyAddon(BaseAddon):
     user_verbose = "Languages add-on"
 
     def daily(self, component) -> None:
-        language_consistency.delay(
+        language_consistency.delay_on_commit(
             self.instance.id,
             [language.id for language in component.project.languages],
             component.project_id,
         )
 
     def post_add(self, translation) -> None:
-        language_consistency.delay(
+        language_consistency.delay_on_commit(
             self.instance.id,
             [translation.language_id],
             translation.component.project_id,
