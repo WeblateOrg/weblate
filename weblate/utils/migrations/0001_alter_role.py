@@ -24,7 +24,5 @@ class Migration(migrations.Migration):
     dependencies = []
 
     operations = [
-        migrations.RunPython(
-            alter_role, migrations.RunPython.noop, elidable=False, atomic=False
-        )
+        migrations.RunPython(alter_role, migrations.RunPython.noop, elidable=False)
     ]
