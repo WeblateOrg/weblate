@@ -9,6 +9,8 @@ Weblate 5.10.2
 
 .. rubric:: Bug fixes
 
+* Consistency of :ref:`search-boolean` in :doc:`/user/search`.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
