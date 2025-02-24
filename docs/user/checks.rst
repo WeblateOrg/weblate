@@ -383,7 +383,7 @@ Fluent translation syntax
 
 .. versionadded:: 5.0
 
-:Summary: Fluent syntax error in translation
+:Summary: Fluent syntax error in the translation
 :Scope: translated strings
 :Check class: ``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``
 :Check identifier: ``fluent-target-syntax``
@@ -1865,7 +1865,7 @@ Fluent source syntax
 
 .. versionadded:: 5.0
 
-:Summary: Fluent syntax error in source
+:Summary: Fluent syntax error in the source
 :Scope: source strings
 :Check class: ``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``
 :Check identifier: ``fluent-source-syntax``

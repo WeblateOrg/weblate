@@ -252,6 +252,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-end-exclamation` quality check.
 ``ignore-end-stop``
     Skip the :ref:`check-end-stop` quality check.
+``ignore-end-interrobang``
+    Skip the :ref:`check-end-interrobang` quality check.
 ``ignore-end-question``
     Skip the :ref:`check-end-question` quality check.
 ``ignore-end-semicolon``
@@ -262,10 +264,14 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-plurals` quality check.
 ``ignore-placeholders``
     Skip the :ref:`check-placeholders` quality check.
+``ignore-prohibited-initial-character``
+    Skip the :ref:`check-prohibited-initial-character` quality check.
 ``ignore-punctuation-spacing``
     Skip the :ref:`check-punctuation-spacing` quality check.
 ``ignore-regex``
     Skip the :ref:`check-regex` quality check.
+``ignore-rst-syntax``
+    Skip the :ref:`check-rst-syntax` quality check.
 ``ignore-reused``
     Skip the :ref:`check-reused` quality check.
 ``ignore-same-plurals``
@@ -300,8 +306,6 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-multiple-failures` quality check.
 ``ignore-unnamed-format``
     Skip the :ref:`check-unnamed-format` quality check.
-``ignore-prohibited-initial-character``
-    Skip the :ref:`check-prohibited-initial-character` quality check.
 ``ignore-optional-plural``
     Skip the :ref:`check-optional-plural` quality check.
 
