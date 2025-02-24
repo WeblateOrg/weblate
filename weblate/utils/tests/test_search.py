@@ -266,6 +266,44 @@ class UnitQueryParserTest(SearchTestCase):
             & (Q(source__substring="hello") | Q(source__substring="bar")),
         )
 
+    def test_priorities(self) -> None:
+        self.assertEqual(
+            parse_query("source:a AND target:b OR context:c"),
+            parse_query("(source:a AND target:b) OR context:c"),
+        )
+        self.assertEqual(
+            parse_query("context:c OR source:a AND target:b"),
+            parse_query("context:c OR (source:a AND target:b)"),
+        )
+
+    def test_implicit_mixed(self) -> None:
+        self.assertEqual(
+            parse_query("context:c source:a AND target:b"),
+            parse_query("context:c AND source:a AND target:b"),
+        )
+        self.assertEqual(
+            parse_query("context:c source:a OR target:b"),
+            parse_query("context:c AND source:a OR target:b"),
+        )
+        self.assertEqual(
+            parse_query("context:c source:a target:b"),
+            parse_query("context:c AND source:a AND target:b"),
+        )
+        self.assertEqual(
+            parse_query("context:c OR source:a target:b"),
+            parse_query("context:c OR source:a AND target:b"),
+        )
+        self.assertEqual(
+            parse_query("c is:translated"),
+            parse_query("(source:c OR target:c OR context:c) AND is:translated"),
+        )
+        self.assertEqual(
+            parse_query("c is:translated OR has:dismissed-check"),
+            parse_query(
+                "((source:c OR target:c OR context:c) AND is:translated) OR has:dismissed-check"
+            ),
+        )
+
     def test_language(self) -> None:
         self.assert_query("language:cs", Q(translation__language__code__iexact="cs"))
         self.assert_query(
