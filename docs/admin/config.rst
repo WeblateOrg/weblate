@@ -1357,6 +1357,23 @@ List for credentials for Pagure servers.
    :ref:`vcs-pagure`,
    `Pagure API <https://pagure.io/api/0/>`_
 
+.. setting:: PASSWORD_MINIMAL_STRENGTH
+
+PASSWORD_MINIMAL_STRENGTH
+-------------------------
+
+.. versionadded:: 5.10.2
+
+Minimal password score as evaluated by the `zxcvbn
+<https://github.com/dwolfhub/zxcvbn-python>`_ password strength estimator.
+
+Defaults to 0, which means strength checking is disabled.
+
+.. seealso::
+
+   :ref:`password-authentication`,
+   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
+
 
 .. setting:: PRIVACY_URL
 

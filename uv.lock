@@ -1130,15 +1130,16 @@ wheels = [
 ]
 
 [[package]]
-name = "django-zxcvbn-password"
-version = "2.1.1"
+name = "django-zxcvbn-password-validator"
+version = "1.4.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
+    { name = "django" },
     { name = "zxcvbn" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f6/08/4cab5e483ccf4c19e2c38ee2d2786ff7a429cd4207e1582e816b8c02a707/django-zxcvbn-password-2.1.1.tar.gz", hash = "sha256:08eb4e5a92e214ba6b6d6fe320d921d4f557582ec567ed3a2b82a4ec175948c2", size = 419007 }
+sdist = { url = "https://files.pythonhosted.org/packages/e6/84/501070029bf091c57063d51745012b151f5ece486cd5c9ffa41914b0bc26/django_zxcvbn_password_validator-1.4.5.tar.gz", hash = "sha256:7cc697f2c2d873e8681374f6b777f06534e70d7c612929f1604427011d8745a4", size = 17351 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a8/70/eec479706df53b1d4691cdbdc293216f7c2fbccf00a56d708e33c6502e71/django_zxcvbn_password-2.1.1-py2.py3-none-any.whl", hash = "sha256:f0135773a737cfb29fe67420464e2483afc41472aab15cbd3cac5dacbcd69d9b", size = 409354 },
+    { url = "https://files.pythonhosted.org/packages/11/cf/f5bd73b14d21bd759515cf5384f072c161ae63235a08ae02a9d65d0640e3/django_zxcvbn_password_validator-1.4.5-py3-none-any.whl", hash = "sha256:1879f8803e5adbed5462093ccd89a583d2da2af264fbc1347a28785545219327", size = 25877 },
 ]
 
 [[package]]
@@ -4369,7 +4370,7 @@ all = [
     { name = "aliyun-python-sdk-core" },
     { name = "boto3" },
     { name = "django-auth-ldap" },
-    { name = "django-zxcvbn-password" },
+    { name = "django-zxcvbn-password-validator" },
     { name = "git-review" },
     { name = "google-cloud-storage" },
     { name = "google-cloud-translate" },
@@ -4427,7 +4428,7 @@ wsgi = [
     { name = "gunicorn" },
 ]
 zxcvbn = [
-    { name = "django-zxcvbn-password" },
+    { name = "django-zxcvbn-password-validator" },
 ]
 
 [package.dev-dependencies]
@@ -4566,7 +4567,7 @@ requires-dist = [
     { name = "django-otp", specifier = ">=1.5.4,<2.0" },
     { name = "django-otp-webauthn", specifier = ">=0.4.0,<0.5" },
     { name = "django-redis", specifier = ">=5.4.0,<6.0" },
-    { name = "django-zxcvbn-password", marker = "extra == 'zxcvbn'", specifier = "==2.1.1" },
+    { name = "django-zxcvbn-password-validator", marker = "extra == 'zxcvbn'", specifier = ">=1.4.5,<1.5" },
     { name = "djangorestframework", specifier = ">=3.15.2,<3.16" },
     { name = "djangorestframework-csv", specifier = ">=3.0.2,<3.1" },
     { name = "djangosaml2idp", marker = "extra == 'saml2idp'", specifier = "==0.7.2" },
