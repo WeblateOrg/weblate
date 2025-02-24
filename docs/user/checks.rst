@@ -141,7 +141,7 @@ Consecutive duplicated words
 
 .. versionadded:: 4.1
 
-:Summary: Text contains the same word twice in a row:
+:Summary: Text contains the same word twice in a row
 :Scope: translated strings
 :Check class: ``weblate.checks.duplicate.DuplicateCheck``
 :Check identifier: ``duplicate``
