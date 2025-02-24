@@ -245,7 +245,9 @@ class MetricsWrapper:
     def get_month_cache_key(self, year, month) -> str:
         return f"{self.cache_key_prefix}:month:{year}:{month}"
 
-    def get_month_activity(self, year, month, cached_results) -> int:
+    def get_month_activity(
+        self, year: int, month: int, cached_results: dict[str, int]
+    ) -> int:
         cache_key = self.get_month_cache_key(year, month)
         if cache_key in cached_results:
             return cached_results[cache_key]
@@ -258,8 +260,8 @@ class MetricsWrapper:
 
     @cached_property
     def monthly_activity(self) -> list[dict[str, int | date | str | Promise]]:
-        months = []
-        prefetch = []
+        months: list[tuple[int, int]] = []
+        prefetch: list[str] = []
         last_month_date = timezone.now().date().replace(day=1) - timedelta(days=1)
         month = last_month_date.month
         year = last_month_date.year
@@ -276,7 +278,7 @@ class MetricsWrapper:
                 month = 12
                 year -= 1
 
-        cached_results = cache.get_many(prefetch)
+        cached_results: dict[str, int] = cache.get_many(prefetch)
         result: list[dict[str, int | date | str | Promise]] = [
             {
                 "month": month,
