@@ -4,14 +4,21 @@
 
 """Tests for unitdata models."""
 
+from django.test import SimpleTestCase
 from django.urls import reverse
 from django.utils.html import format_html
 
-from weblate.checks.models import Check
+from weblate.checks.models import CHECKS, Check
 from weblate.checks.tasks import batch_update_checks
 from weblate.trans.models import Unit
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+
+
+class CheckLintTestCase(SimpleTestCase):
+    def test_check_id(self):
+        for check in CHECKS.values():
+            self.assertRegex(check.check_id, r"^[a-z][a-z0-9_-]*[a-z]$")
 
 
 class CheckModelTestCase(FixtureTestCase):
