@@ -39,27 +39,26 @@ class MetricsWrapper:
 
     @cached_property
     def _data(self) -> tuple[Metric, Metric, Metric]:
-        metrics = Metric.objects.filter_metric(
-            self.scope, self.relation, self.secondary
-        )
         today = timezone.now().date()
         dates = [today - timedelta(days=days) for days in [0, 1, 30, 31, 60, 61]]
-        metrics = metrics.filter(date__in=dates)
 
-        current = past_30 = past_60 = None
+        # Use use range as it is more likely to use index than
+        # the IN operator with six values.
+        metrics = Metric.objects.filter_metric(
+            self.scope, self.relation, self.secondary
+        ).filter(date__range=(dates[0], dates[-1]))
+
+        # Fetch the most recent metric for each date
+        current = past_30 = past_60 = Metric()
         for metric in metrics:
-            if metric.date in dates[0:2] and current is None:
+            if metric.date in dates[0:2] and current.pk is None:
                 current = metric
-            if metric.date in dates[2:4] and past_30 is None:
+            if metric.date in dates[2:4] and past_30.pk is None:
                 past_30 = metric
-            if metric.date in dates[4:6] and past_60 is None:
+            if metric.date in dates[4:6] and past_60.pk is None:
                 past_30 = metric
 
-        return (
-            current if current is not None else Metric(),
-            past_30 if past_30 is not None else Metric(),
-            past_60 if past_60 is not None else Metric(),
-        )
+        return (current, past_30, past_60)
 
     @property
     def current(self) -> Metric:
