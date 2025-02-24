@@ -8,7 +8,7 @@ import re
 from typing import TYPE_CHECKING
 
 from django.utils.html import format_html
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy, ngettext
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import NON_WORD_CHARS
@@ -36,7 +36,7 @@ class DuplicateCheck(TargetCheck):
 
     check_id = "duplicate"
     name = gettext_lazy("Consecutive duplicated words")
-    description = gettext_lazy("Text contains the same word twice in a row:")
+    description = gettext_lazy("Text contains the same word twice in a row")
 
     def extract_groups(
         self, text: str, language_code: str
@@ -92,6 +92,12 @@ class DuplicateCheck(TargetCheck):
             duplicate.update(self.check_single(source, target, unit))
         return format_html(
             "{} {}",
-            self.description,
-            format_html_join_comma("{}", ((word,) for word in sorted(duplicate))),
+            ngettext(
+                "The following word is duplicated:",
+                "The following words are duplicated:",
+                len(duplicate),
+            ),
+            format_html_join_comma(
+                "<code>{}</code>", ((word,) for word in sorted(duplicate))
+            ),
         )
