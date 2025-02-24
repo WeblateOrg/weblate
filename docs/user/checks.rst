@@ -1375,6 +1375,24 @@ You can also have case insensitive placeholders:
 
    :ref:`custom-checks`
 
+.. _check-prohibited-initial-character:
+
+Prohibited initial character
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.9
+
+:Summary: The string starts with a prohibited character in CSV
+:Scope: glossary strings
+:Check class: ``weblate.checks.glossary.ProhibitedInitialCharacterCheck``
+:Check identifier: ``prohibited_initial_character``
+:Flag to ignore: ``ignore-prohibited-initial-character``
+
+The glossary is often shared as CSV and using some characters at the beginning is
+restricted by many applications as these can cause the text being evaluated as
+an expression. This also affects :ref:`glossary-mt` where many services use CSV
+for synchronizing glossaries and reject such strings.
+
 .. _check-punctuation-spacing:
 
 Punctuation spacing
@@ -1952,19 +1970,6 @@ There are multiple unnamed variables in the string, making it impossible for
 translators to reorder them.
 
 Consider using named variables instead to allow translators to reorder them.
-
-.. _check-prohibited-initial-character:
-
-Prohibited initial character
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 5.9
-
-:Summary: The string starts with a prohibited character in CSV
-:Scope: source strings
-:Check class: ``weblate.checks.glossary.ProhibitedInitialCharacterCheck``
-:Check identifier: ``prohibited_initial_character``
-:Flag to ignore: ``ignore-prohibited-initial-character``
 
 .. _check-optional-plural:
 
