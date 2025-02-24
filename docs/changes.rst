@@ -19,11 +19,13 @@ Weblate 5.10.2
 
 .. rubric:: Compatibility
 
+* Weblate has switched to a different library for zxcvbn integration, as the old one is no longer maintained, see :ref:`password-authentication`.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* There are several changes in :file:`settings_example.py`, most notable are changed settings ``AUTH_PASSWORD_VALIDATORS``; please adjust your settings accordingly.
+* There are several changes in :file:`settings_example.py`, most notable are changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 
