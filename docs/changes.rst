@@ -23,6 +23,8 @@ Weblate 5.10.2
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
+* There are several changes in :file:`settings_example.py`, most notable are changed settings ``AUTH_PASSWORD_VALIDATORS``; please adjust your settings accordingly.
+
 .. rubric:: Contributors
 
 .. include:: changes/contributors/5.10.2.rst

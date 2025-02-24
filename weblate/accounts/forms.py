@@ -101,7 +101,7 @@ class PasswordField(forms.CharField):
             },
             render_value=False,
         )
-        kwargs["max_length"] = 256
+        kwargs["max_length"] = settings.MAXIMAL_PASSWORD_LENGTH
         kwargs["strip"] = False
         super().__init__(**kwargs)
 
