@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-21 06:38+0000\n"
-"PO-Revision-Date: 2025-02-17 16:37+0000\n"
-"Last-Translator: Dwi Cahyono <wongciecahyono@gmail.com>\n"
+"PO-Revision-Date: 2025-02-24 01:42+0000\n"
+"Last-Translator: Linerly <linerly@proton.me>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -2041,18 +2041,20 @@ msgstr ""
 "Tidak dapat mendapatkan kunci repositori untuk %s untuk melalukan tindakan."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "Tidak dapat mendapatkan kunci repositori untuk melalukan tindakan."
+msgstr ""
+"Tidak bisa mendapatkan kunci pembaruan untuk komponen %s untuk melakukan "
+"tindakan."
 
 #: weblate/api/views.py:177
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "Tidak dapat mendapatkan kunci repositori untuk melalukan tindakan."
+msgstr ""
+"Tidak bisa mendapatkan kunci %(scope)s untuk %(origin)s untuk melakukan "
+"tindakan."
 
 #: weblate/api/views.py:2340 weblate/auth/models.py:956
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -3808,8 +3810,6 @@ msgid "Fluent source syntax"
 msgstr "Sintaks sumber Fluent"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in source"
 msgid "Fluent syntax error in the source"
 msgstr "Kesalahan sintaks Fluent dalam sumber"
 
@@ -3818,8 +3818,6 @@ msgid "Fluent translation syntax"
 msgstr "Sintaks sumber Fluent"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "Fluent syntax error in the translation"
 msgstr "Kesalahan sintaks Fluent dalam terjemahan"
 
@@ -4163,16 +4161,12 @@ msgstr ""
 "Referensi reStructuredText tidak konsisten dalam pesan yang diterjemahkan."
 
 #: weblate/checks/markup.py:436
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent inline links in the translated message."
-msgstr "Tautan tidak konsisten dalam pesan yang diterjemahkan."
+msgstr "Tautan dalam baris tidak konsisten dalam pesan yang diterjemahkan."
 
 #: weblate/checks/markup.py:442
-#, fuzzy
-#| msgid "Inconsistent links in the translated message."
 msgid "Inconsistent external links in the translated message."
-msgstr "Tautan tidak konsisten dalam pesan yang diterjemahkan."
+msgstr "Tautan eksternal tidak konsisten dalam pesan yang diterjemahkan."
 
 #: weblate/checks/markup.py:565
 msgid "reStructuredText syntax error"
@@ -6372,10 +6366,8 @@ msgid "Security keys (WebAuthn)"
 msgstr "Kunci keamanan (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:261
-#, fuzzy
-#| msgid "There are currently no WebAuthn keys registered."
 msgid "No WebAuthn keys registered yet."
-msgstr "Saat ini tidak ada kunci WebAuthn yang terdaftar."
+msgstr "Tidak ada kunci WebAuthn yang terdaftar."
 
 #: weblate/templates/accounts/profile.html:270
 #: weblate/templates/accounts/profile.html:314
@@ -6397,20 +6389,16 @@ msgid "Register new security key"
 msgstr "Mendaftarkan kunci keamanan baru"
 
 #: weblate/templates/accounts/profile.html:294
-#, fuzzy
-#| msgid "Unfortunately, your browser has no WebAuthn support."
 msgid "Your web browser lacks WebAuthn support."
-msgstr "Sayangnya, peramban Anda tidak mendukung WebAuthn."
+msgstr "Peramban Anda tidak memiliki dukungan WebAuthn."
 
 #: weblate/templates/accounts/profile.html:302
 msgid "Authenticator apps (TOTP)"
 msgstr "Aplikasi autentikator (TOTP)"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "The authentication app %s was registered."
 msgid "No authenticator apps registered yet."
-msgstr "Aplikasi autentikasi %s telah terdaftar."
+msgstr "Tidak ada aplikasi autentikator yang belum didaftarkan."
 
 #: weblate/templates/accounts/profile.html:321
 #: weblate/templates/accounts/totp.html:15
@@ -6504,14 +6492,12 @@ msgid "Description"
 msgstr "Deskripsi"
 
 #: weblate/templates/accounts/profile.html:477
-#, fuzzy
-#| msgid ""
-#| "Contact us immediately if you see anything suspicious in the audit log."
 msgid ""
 "Get in contact immediately if you notice anything suspicious in the audit "
 "log."
 msgstr ""
-"Hubungi kami segera jika Anda melihat sesuatu yang mencurigakan di log audit."
+"Segera menghubungi jika Anda melihat hal-hal yang mencurigakan dalam log "
+"audit."
 
 #: weblate/templates/accounts/profile.html:489
 #: weblate/templates/accounts/user.html:299
@@ -6539,16 +6525,12 @@ msgid "Report suspicious activity"
 msgstr "Laporkan aktivitas yang mencurigakan"
 
 #: weblate/templates/accounts/profile.html:526
-#, fuzzy
-#| msgid ""
-#| "The API key is also used to authenticate to automatically exported Git "
-#| "repositories."
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
 "access Weblate Git repositories."
 msgstr ""
-"Kunci API juga digunakan untuk mengautentikasi penyimpanan Git yang diekspor "
-"secara otomatis."
+"Kunci API dapat digunakan untuk mengendalikan Weblate melalui API REST HTTP "
+"dan mengakses repositori Git di Weblate."
 
 #: weblate/templates/accounts/profile.html:531
 #: weblate/templates/trans/project-access.html:351
@@ -8176,10 +8158,8 @@ msgid "Download language statistics (CSV)"
 msgstr "Unduh statistik bahasa (CSV)"
 
 #: weblate/templates/component.html:61 weblate/templates/project.html:63
-#, fuzzy
-#| msgid "Download statistics (JSON)"
 msgid "Download language statistics (JSON)"
-msgstr "Unduh statistik (JSON)"
+msgstr "Unduh statistik bahasa (JSON)"
 
 #: weblate/templates/component.html:109 weblate/templates/data.html:12
 #: weblate/templates/project.html:111 weblate/templates/translation.html:104
@@ -8846,23 +8826,21 @@ msgid "Lock"
 msgstr "Kunci"
 
 #: weblate/templates/js/git-status.html:112
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "%(count)s component is locked"
 msgid_plural "%(count)s components are locked"
-msgstr[0] "Komponen %(component)s terkunci"
+msgstr[0] "%(count)s komponen terkunci"
 
 #: weblate/templates/js/git-status.html:116 weblate/utils/html.py:200
 msgctxt "Joins a list of values"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: weblate/templates/js/git-status.html:118
-#, fuzzy, python-format
-#| msgid "Component %(component)s was unlocked"
+#, python-format
 msgid "%(count)s component is unlocked"
 msgid_plural "%(count)s components are unlocked"
-msgstr[0] "Komponen %(component)s tidak terkunci"
+msgstr[0] "%(count)s komponen dibuka"
 
 #: weblate/templates/js/git-status.html:121
 #: weblate/templates/js/git-status.html:126
@@ -14778,15 +14756,11 @@ msgid "List of checks which can not be ignored."
 msgstr "Daftar cek yang tidak bisa diabaikan."
 
 #: weblate/trans/models/component.py:597
-#, fuzzy
-#| msgid ""
-#| "User agreement which needs to be approved before a user can translate "
-#| "this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Persyaratan pengguna yang harus disetujui sebelum pengguna dapat "
+"Penyetujuan lisensi kontributor yang harus disetujui sebelum pengguna dapat "
 "menerjemahkan komponen ini."
 
 #: weblate/trans/models/component.py:604
@@ -15069,10 +15043,9 @@ msgid "Could not find any matching language, please check the file mask."
 msgstr "Tidak dapat menemukan bahasa yang cocok, harap periksa file mask."
 
 #: weblate/trans/models/component.py:2898
-#, fuzzy, python-brace-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-brace-format
 msgid "Could not parse {file}: {error}"
-msgstr "Tidak dapat untuk mengurai berkas %(file)s: %(error)s"
+msgstr "Tidak dapat mengurai berkas {file}: {error}"
 
 #: weblate/trans/models/component.py:2906
 #, python-format
@@ -15944,6 +15917,7 @@ msgstr "Perubahan dalam %s"
 #: weblate/trans/views/create.py:68
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
+"Konfigurasi yang disediakan tidak benar. Silakan periksa kesalahan di bawah."
 
 #: weblate/trans/views/create.py:290
 #, python-format
@@ -16249,13 +16223,13 @@ msgid "A language in the category was removed."
 msgstr "Sebuah bahasa dalam kategori telah dihapus."
 
 #: weblate/trans/views/settings.py:241
-#, fuzzy, python-format
-#| msgid "Could not change %s due to outstanding issue in its settings: %s"
+#, python-format
 msgid ""
 "Could not change %(obj)s due to an outstanding issue in its settings: "
 "%(error)s"
 msgstr ""
-"Tidak dapat mengubah %s karena masalah yang terlihat dalam pengaturannya: %s"
+"Tidak dapat mengubah %(obj)s karena masalah yang terlihat dalam "
+"pengaturannya: %(error)s"
 
 #: weblate/trans/views/settings.py:415
 msgid "Backup scheduled. It will be available soon."
