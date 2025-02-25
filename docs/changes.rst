@@ -7,6 +7,10 @@ Weblate 5.10.2
 
 .. rubric:: Improvements
 
+* Improved :ref:`translation-memory` matching.
+* Visual diff now better highlights whitespace additions.
+* Improved performance on large projects.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
