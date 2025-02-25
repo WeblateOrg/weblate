@@ -15,6 +15,7 @@ Weblate 5.10.2
 
 * Consistency of :ref:`search-boolean` in :doc:`/user/search`.
 * Fixed some :ref:`addons` trigger upon installation.
+* Fixed restoring of Git repositories from :ref:`projectbackup`.
 
 .. rubric:: Compatibility
 

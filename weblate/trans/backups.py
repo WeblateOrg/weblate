@@ -11,6 +11,7 @@ import os
 from collections import defaultdict
 from datetime import datetime
 from itertools import chain
+from pathlib import Path
 from shutil import copyfileobj
 from typing import TYPE_CHECKING, Any, BinaryIO, TypedDict
 from zipfile import ZipFile
@@ -647,18 +648,23 @@ class ProjectBackup:
             )
 
             # Extract VCS
+            project_path = Path(project.full_path)
             for name in zipfile.namelist():
                 if name.startswith(self.VCS_PREFIX):
                     path = name[self.VCS_PREFIX_LEN :]
                     # Skip potentially dangerous paths
                     if path != os.path.normpath(path):
                         continue
-                    targetpath = os.path.join(project.full_path, path)
-                    upperdirs = os.path.dirname(targetpath)
-                    if upperdirs and not os.path.exists(upperdirs):
-                        os.makedirs(upperdirs)
-                    with zipfile.open(name) as source, open(targetpath, "wb") as target:
+                    targetpath = project_path / path
+                    # Make sure the directory exists
+                    targetpath.parent.mkdir(parents=True, exist_ok=True)
+                    with zipfile.open(name) as source, targetpath.open("wb") as target:
                         copyfileobj(source, target)
+                    # Create possibly missing refs directory in .git, this is not restored as
+                    # all references are in packed_refs after `git gc`.
+                    if path.endswith(".git/packed-refs"):
+                        git_refs_dir = targetpath.parent / "refs"
+                        git_refs_dir.mkdir(parents=True, exist_ok=True)
 
             # Create components
             self.load_components(zipfile, do_restore=True)
