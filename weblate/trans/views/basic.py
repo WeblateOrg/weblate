@@ -259,7 +259,7 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
     extra_translations = []
 
     # Add ghost translations
-    if user.is_authenticated and translations.number == 1:
+    if user.is_authenticated and translations.paginator.num_pages == 1:
         existing = {translation.component.slug for translation in obj.translation_set}
         missing = project_object.get_child_components_filter(
             lambda qs: qs.exclude(slug__in=existing)
@@ -333,7 +333,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
     extra_translations = []
 
     # Add ghost translations
-    if user.is_authenticated and translations.number == 1:
+    if user.is_authenticated and translations.paginator.num_pages == 1:
         existing = {translation.component.slug for translation in obj.translation_set}
         missing = category_object.component_set.exclude(slug__in=existing)
         extra_translations = [
@@ -402,7 +402,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
     for component in all_components:
         if component.can_add_new_language(user, fast=True):
             break
-    if component and all_components.number == 1:
+    if component and all_components.paginator.num_pages == 1:
         add_ghost_translations(
             component,
             user,
@@ -483,7 +483,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
     for component in all_components:
         if component.can_add_new_language(user, fast=True):
             break
-    if component and all_components.number == 1:
+    if component and all_components.paginator.num_pages == 1:
         add_ghost_translations(
             component,
             user,
