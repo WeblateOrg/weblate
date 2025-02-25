@@ -10,6 +10,7 @@ from datetime import timedelta
 from io import StringIO
 from typing import TYPE_CHECKING
 
+import requests
 import responses
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -1575,13 +1576,16 @@ class WebhookAddonsTest(ViewTestCase):
         ],
     }
 
-    def do_translation_added_test(self):
+    def do_translation_added_test(
+        self, response_code=None, expected_calls: int = 1, **responses_kwargs
+    ):
         WebhookAddon.create(configuration=self.default_addon_configuration)
+        if response_code:
+            responses_kwargs |= {"status": response_code}
         responses.add(
-            responses.POST,
-            "https://example.com/webhooks",
-            status=200,
+            responses.POST, "https://example.com/webhooks", **responses_kwargs
         )
+
         self.edit_unit(
             "Hello, world!\n", "Nazdar svete!\n"
         )  # triggers ACTION_NEW event
@@ -1589,18 +1593,16 @@ class WebhookAddonsTest(ViewTestCase):
         self.translation.delete_unit(
             None, unit_to_delete
         )  # triggers ACTION_STRING_REMOVE event
-
-        # Check that webhook was only called once (for the ACTION_NEW event)
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(responses.calls), expected_calls)
 
     @responses.activate
     def test_translation_added(self) -> None:
-        self.do_translation_added_test()
+        self.do_translation_added_test(response_code=200)
 
     @responses.activate
     def test_with_secret(self) -> None:
         self.default_addon_configuration["secret"] = "secret-string"
-        self.do_translation_added_test()
+        self.do_translation_added_test(response_code=200)
         self.assertEqual(
             json.loads(responses.calls[0].request.body)["secret"], "secret-string"
         )
@@ -1691,6 +1693,10 @@ class WebhookAddonsTest(ViewTestCase):
 
         self.assertEqual(len(responses.calls), 2)
 
-    def test_endpoint_failure(self):
-        # TODO: complete
-        pass
+    @responses.activate
+    def test_invalid_response(self):
+        self.do_translation_added_test(response_code=301)
+
+    @responses.activate
+    def test_connection_error(self):
+        self.do_translation_added_test(body=requests.ConnectionError())
