@@ -20,6 +20,7 @@ from django.utils.translation import gettext_lazy
 from packaging.version import Version
 
 from weblate.trans.util import get_clean_env, path_separator
+from weblate.utils.data import data_path
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
@@ -173,8 +174,12 @@ class Repository:
     def _getenv(environment: dict[str, str] | None = None) -> dict[str, str]:
         """Generate environment for process execution."""
         base: dict[str, str] = {
-            "GIT_SSH": SSH_WRAPPER.filename.as_posix(),
+            # Avoid prompts from Git
             "GIT_TERMINAL_PROMPT": "0",
+            # Avoid Git traversing outside the data dir
+            "GIT_CEILING_DIRECTORIES": data_path("vcs").as_posix(),
+            # Use ssh wrapper
+            "GIT_SSH": SSH_WRAPPER.filename.as_posix(),
             "SVN_SSH": SSH_WRAPPER.filename.as_posix(),
         }
         if environment:
