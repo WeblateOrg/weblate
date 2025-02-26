@@ -159,7 +159,7 @@ class RegexCheck(TargetCheckParametrized):
 
         regex = self.get_value(unit)
 
-        for match in regex.finditer(source, concurrent=True):
+        for match in regex.finditer(source):
             yield (match.start(), match.end(), match.group())
 
     def get_description(self, check_obj):
