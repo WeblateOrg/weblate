@@ -2107,7 +2107,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
 class ChangeFilter(filters.FilterSet):
     timestamp = filters.IsoDateTimeFromToRangeFilter()
-    action = filters.MultipleChoiceFilter(choices=Change.ACTIONS.ACTION_CHOICES)
+    action = filters.MultipleChoiceFilter(choices=Change.ACTIONS.choices)
     user = filters.CharFilter(field_name="user__username")
 
     class Meta:

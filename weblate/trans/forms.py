@@ -2805,7 +2805,7 @@ class ChangesForm(forms.Form):
         label=gettext_lazy("Action"),
         required=False,
         widget=SortedSelectMultiple,
-        choices=Change.ACTIONS.ACTION_CHOICES,
+        choices=Change.ACTIONS.choices,
     )
     user = UsernameField(
         label=gettext_lazy("Author username"), required=False, help_text=None
