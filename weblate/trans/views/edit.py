@@ -494,8 +494,10 @@ def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
     unit.translate(
         request.user,
         split_plural(change.old),
-        STATE_FUZZY if change.action == Change.ACTION_MARKED_EDIT else unit.state,
-        change_action=Change.ACTION_REVERT,
+        STATE_FUZZY
+        if change.action == Change.ACTIONS.ACTION_MARKED_EDIT
+        else unit.state,
+        change_action=Change.ACTIONS.ACTION_REVERT,
     )
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
@@ -838,7 +840,7 @@ def comment(request: AuthenticatedHttpRequest, pk):
                         request.user,
                         scope.target,
                         STATE_FUZZY,
-                        change_action=Change.ACTION_MARKED_EDIT,
+                        change_action=Change.ACTIONS.ACTION_MARKED_EDIT,
                     )
             else:
                 label = component.project.label_set.get_or_create(

@@ -705,25 +705,31 @@ class EditPropagateTest(EditTest):
             source=self.source, translation__language_code="cs"
         ):
             self.assertEqual(
-                unit.change_set.filter(action=Change.ACTION_NEW_UNIT_REPO).count(), 1
+                unit.change_set.filter(
+                    action=Change.ACTIONS.ACTION_NEW_UNIT_REPO
+                ).count(),
+                1,
             )
             self.assertEqual(
-                unit.change_set.filter(action=Change.ACTION_STRING_REPO_UPDATE).count(),
+                unit.change_set.filter(
+                    action=Change.ACTIONS.ACTION_STRING_REPO_UPDATE
+                ).count(),
                 0,
             )
             if unit.translation.component.slug == "second":
                 self.assertEqual(
                     unit.change_set.filter(
-                        action=Change.ACTION_PROPAGATED_EDIT
+                        action=Change.ACTIONS.ACTION_PROPAGATED_EDIT
                     ).count(),
                     2,
                 )
             else:
                 self.assertEqual(
-                    unit.change_set.filter(action=Change.ACTION_NEW).count(), 1
+                    unit.change_set.filter(action=Change.ACTIONS.ACTION_NEW).count(), 1
                 )
                 self.assertEqual(
-                    unit.change_set.filter(action=Change.ACTION_CHANGE).count(), 1
+                    unit.change_set.filter(action=Change.ACTIONS.ACTION_CHANGE).count(),
+                    1,
                 )
 
 

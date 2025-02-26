@@ -49,7 +49,7 @@ class AnnouncementManager(models.Manager["Announcement"]):
         result = super().create(**kwargs)
 
         Change.objects.create(
-            action=Change.ACTION_ANNOUNCEMENT,
+            action=Change.ACTIONS.ACTION_ANNOUNCEMENT,
             project=result.project,
             category=result.category,
             component=result.component,

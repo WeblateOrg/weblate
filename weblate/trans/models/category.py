@@ -243,9 +243,9 @@ class Category(
             return getattr(result, "slug", result)
 
         tracked = (
-            ("slug", Change.ACTION_RENAME_CATEGORY),
-            ("category", Change.ACTION_MOVE_CATEGORY),
-            ("project", Change.ACTION_MOVE_CATEGORY),
+            ("slug", Change.ACTIONS.ACTION_RENAME_CATEGORY),
+            ("category", Change.ACTIONS.ACTION_MOVE_CATEGORY),
+            ("project", Change.ACTIONS.ACTION_MOVE_CATEGORY),
         )
         for attribute, action in tracked:
             old_value = getvalue(old, attribute)

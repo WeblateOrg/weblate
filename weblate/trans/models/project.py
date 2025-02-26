@@ -328,7 +328,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def generate_changes(self, old) -> None:
         from weblate.trans.models.change import Change
 
-        tracked = (("slug", Change.ACTION_RENAME_PROJECT),)
+        tracked = (("slug", Change.ACTIONS.ACTION_RENAME_PROJECT),)
         for attribute, action in tracked:
             old_value = getattr(old, attribute)
             current_value = getattr(self, attribute)
@@ -528,7 +528,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if not user.is_superuser:
             self.add_user(user, "Administration")
         self.change_set.create(
-            action=Change.ACTION_CREATE_PROJECT, user=user, author=user
+            action=Change.ACTIONS.ACTION_CREATE_PROJECT, user=user, author=user
         )
 
     @cached_property

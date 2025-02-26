@@ -691,7 +691,7 @@ class ComponentChangeTest(RepoTestCase):
         # Locked event, alert added
         self.assertEqual(component.change_set.count() - start, 2)
 
-        change = component.change_set.get(action=Change.ACTION_LOCK)
+        change = component.change_set.get(action=Change.ACTIONS.ACTION_LOCK)
         self.assertEqual(change.details, {"auto": True})
         self.assertEqual(change.get_action_display(), "Component locked")
         self.assertEqual(

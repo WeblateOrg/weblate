@@ -212,7 +212,10 @@ COUNT_DEFAULTS = dict.fromkeys(
 def generate_counts(user: User, start_date, end_date, language_code: str, **kwargs):
     """Generate credits data for given component."""
     result = {}
-    action_map = {Change.ACTION_NEW: "new", Change.ACTION_APPROVE: "approve"}
+    action_map = {
+        Change.ACTIONS.ACTION_NEW: "new",
+        Change.ACTIONS.ACTION_APPROVE: "approve",
+    }
 
     base = Change.objects.content().filter(unit__isnull=False)
     base = base.filter(author=user) if user else base.filter(author__isnull=False)

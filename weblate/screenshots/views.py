@@ -231,7 +231,7 @@ class ScreenshotList(PathViewMixin, ListView):
             )
             request.user.profile.increase_count("uploaded")
             obj.change_set.create(
-                action=Change.ACTION_SCREENSHOT_ADDED,
+                action=Change.ACTIONS.ACTION_SCREENSHOT_ADDED,
                 user=request.user,
                 target=obj.name,
             )
@@ -285,7 +285,7 @@ class ScreenshotDetail(DetailView):
                     obj.user = request.user
                     request.user.profile.increase_count("uploaded")
                     obj.change_set.create(
-                        action=Change.ACTION_SCREENSHOT_UPLOADED,
+                        action=Change.ACTIONS.ACTION_SCREENSHOT_UPLOADED,
                         user=request.user,
                         target=obj.name,
                     )

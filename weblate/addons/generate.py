@@ -113,7 +113,7 @@ class LocaleGenerateAddonBase(BaseAddon):
                     self.user,
                     new_strings,
                     target_state,
-                    change_action=Change.ACTION_AUTO,
+                    change_action=Change.ACTIONS.ACTION_AUTO,
                     propagate=False,
                 )
                 updated += 1

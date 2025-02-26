@@ -88,7 +88,7 @@ class AutoTranslate:
                 user or self.user,
                 target,
                 state,
-                change_action=Change.ACTION_AUTO,
+                change_action=Change.ACTIONS.ACTION_AUTO,
                 propagate=False,
             )
             self.updated += 1

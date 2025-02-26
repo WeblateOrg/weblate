@@ -558,7 +558,7 @@ class ChangeTest(ModelTestCase):
     def test_day_filtering(self) -> None:
         Change.objects.all().delete()
         for days_since in range(3):
-            change = Change.objects.create(action=Change.ACTION_CREATE_PROJECT)
+            change = Change.objects.create(action=Change.ACTIONS.ACTION_CREATE_PROJECT)
             change.timestamp -= timedelta(days=days_since)
             change.save()
 

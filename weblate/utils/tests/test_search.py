@@ -150,7 +150,7 @@ class UnitQueryParserTest(SearchTestCase):
                 datetime(2018, 1, 1, 0, 0, tzinfo=UTC),
                 datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=UTC),
             )
-        ) & Q(change__action=Change.ACTION_MARKED_EDIT)
+        ) & Q(change__action=Change.ACTIONS.ACTION_MARKED_EDIT)
         self.assert_query(
             "change_time:2018 AND change_action:marked-for-edit", expected
         )

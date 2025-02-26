@@ -195,8 +195,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         # Project backup integration
         self.original_id = -1
 
-        self.create_unit_change_action = Change.ACTION_NEW_UNIT_REPO
-        self.update_unit_change_action = Change.ACTION_STRING_REPO_UPDATE
+        self.create_unit_change_action = Change.ACTIONS.ACTION_NEW_UNIT_REPO
+        self.update_unit_change_action = Change.ACTIONS.ACTION_STRING_REPO_UPDATE
 
     @property
     def code(self):
@@ -364,7 +364,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         """Check whether database is in sync with git and possibly updates."""
         with sentry_sdk.start_span(op="translation.check_sync", name=self.full_slug):
             if change is None:
-                change = Change.ACTION_UPDATE
+                change = Change.ACTIONS.ACTION_UPDATE
             user = None if request is None else request.user
 
             details = {
@@ -734,7 +734,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 store_hash=store_hash,
             ):
                 self.log_info("committed %s as %s", self.filenames, author)
-                self.change_set.create(action=Change.ACTION_COMMIT, user=user)
+                self.change_set.create(action=Change.ACTIONS.ACTION_COMMIT, user=user)
 
             # Store updated hash
             if store_hash:
@@ -798,7 +798,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                     # Use update instead of hitting expensive save()
                     Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
                     unit.change_set.create(
-                        action=Change.ACTION_SAVE_FAILED,
+                        action=Change.ACTIONS.ACTION_SAVE_FAILED,
                         target="Could not find string in the translation file",
                     )
                     clear_pending.append(unit.pk)
@@ -828,7 +828,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                     # Use update instead of hitting expensive save()
                     Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
                     unit.change_set.create(
-                        action=Change.ACTION_SAVE_FAILED,
+                        action=Change.ACTIONS.ACTION_SAVE_FAILED,
                         target=self.component.get_parse_error_message(error),
                     )
                     clear_pending.append(unit.pk)
@@ -1053,7 +1053,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 request.user,
                 split_plural(unit2.target),
                 state,
-                change_action=Change.ACTION_UPLOAD,
+                change_action=Change.ACTIONS.ACTION_UPLOAD,
                 propagate=propagate,
                 author=author,
                 request=request,
@@ -1121,8 +1121,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         if not component.repository.needs_commit(self.filenames):
             return
 
-        self.create_unit_change_action = Change.ACTION_NEW_UNIT_UPLOAD
-        self.update_unit_change_action = Change.ACTION_STRING_UPLOAD_UPDATE
+        self.create_unit_change_action = Change.ACTIONS.ACTION_NEW_UNIT_UPLOAD
+        self.update_unit_change_action = Change.ACTIONS.ACTION_STRING_UPLOAD_UPDATE
 
         previous_revision = component.repository.last_revision
         self.drop_store_cache()
@@ -1141,8 +1141,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         # revision before parsing
         component.send_post_commit_signal()
 
-        self.create_unit_change_action = Change.ACTION_NEW_UNIT_REPO
-        self.update_unit_change_action = Change.ACTION_STRING_REPO_UPDATE
+        self.create_unit_change_action = Change.ACTIONS.ACTION_NEW_UNIT_REPO
+        self.update_unit_change_action = Change.ACTIONS.ACTION_STRING_REPO_UPDATE
 
     def handle_source(self, request: AuthenticatedHttpRequest, author: User, fileobj):
         """Replace source translations with uploaded one."""
@@ -1195,7 +1195,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
             # Commit changes
             self.handle_upload_store_change(
-                request, author, change_action=Change.ACTION_SOURCE_UPLOAD
+                request, author, change_action=Change.ACTIONS.ACTION_SOURCE_UPLOAD
             )
         return (0, 0, self.unit_set.count(), self.unit_set.count())
 
@@ -1227,7 +1227,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
             # Commit to VCS
             self.handle_upload_store_change(
-                request, author, change_action=Change.ACTION_REPLACE_UPLOAD
+                request, author, change_action=Change.ACTIONS.ACTION_REPLACE_UPLOAD
             )
 
         return (0, 0, self.unit_set.count(), len(store2.content_units))
@@ -1382,7 +1382,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         translated = self.stats.translated
         if old_translated < translated and translated == self.stats.all:
             self.change_set.create(
-                action=Change.ACTION_COMPLETE,
+                action=Change.ACTIONS.ACTION_COMPLETE,
                 user=change.user,
                 author=change.author,
             )
@@ -1391,7 +1391,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             component = self.component
             if component.stats.translated == component.stats.all:
                 self.component.change_set.create(
-                    action=Change.ACTION_COMPLETED_COMPONENT,
+                    action=Change.ACTIONS.ACTION_COMPLETED_COMPONENT,
                     user=change.user,
                     author=change.author,
                 )
@@ -1434,7 +1434,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
         # Record change
         self.component.change_set.create(
-            action=Change.ACTION_REMOVE_TRANSLATION,
+            action=Change.ACTIONS.ACTION_REMOVE_TRANSLATION,
             target=self.filename,
             user=user,
             author=user,
@@ -1613,7 +1613,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                             unit.generate_change(
                                 user=user,
                                 author=author or user,
-                                change_action=Change.ACTION_NEW_UNIT,
+                                change_action=Change.ACTIONS.ACTION_NEW_UNIT,
                                 check_new=False,
                                 save=False,
                             )
@@ -1647,7 +1647,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
     def notify_deletion(self, unit, user: User) -> None:
         self.change_set.create(
-            action=Change.ACTION_STRING_REMOVE,
+            action=Change.ACTIONS.ACTION_STRING_REMOVE,
             user=user,
             target=unit.target,
             details={
