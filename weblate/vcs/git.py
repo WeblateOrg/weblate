@@ -170,16 +170,37 @@ class GitRepository(Repository):
         self.config_update(("push", "default", "current"))
 
     @staticmethod
-    def get_depth():
+    def get_depth() -> Iterator[str]:
         if settings.VCS_CLONE_DEPTH:
-            return ["--depth", str(settings.VCS_CLONE_DEPTH)]
+            yield "--depth"
+            yield str(settings.VCS_CLONE_DEPTH)
+
+    @staticmethod
+    def _get_auth_args(repo: str) -> Iterator[str]:
+        if repo.startswith("http") and "@" in repo:
+            # proactive HTTP authentication, needs Git 2.46
+            yield "-c"
+            yield "http.proactiveAuth=auto"
+
+    def get_auth_args(self) -> list[str]:
+        if self.component:
+            return list(self._get_auth_args(self.component.repo))
         return []
 
     @classmethod
     def _clone(cls, source: str, target: str, branch: str) -> None:
         """Clone repository."""
         cls._popen(
-            ["clone", *cls.get_depth(), "--branch", branch, "--", source, target]
+            [
+                *cls._get_auth_args(source),
+                "clone",
+                *cls.get_depth(),
+                "--branch",
+                branch,
+                "--",
+                source,
+                target,
+            ]
         )
 
     def get_config(self, path):
@@ -534,18 +555,19 @@ class GitRepository(Repository):
 
     def update_remote(self) -> None:
         """Update remote repository."""
-        self.execute(["remote", "prune", "origin"])
+        auth_args = self.get_auth_args()
+        self.execute([*auth_args, "remote", "prune", "origin"])
         if self.list_remote_branches():
             # Updating existing fork
-            self.execute(["fetch", "origin"])
+            self.execute([*auth_args, "fetch", "origin"])
         else:
             # Doing initial fetch
             try:
-                self.execute(["fetch", "origin", *self.get_depth()])
+                self.execute([*auth_args, "fetch", "origin", *self.get_depth()])
             except RepositoryError as error:
                 if error.retcode == 1 and not error.args[0]:
                     # Fetch with --depth fails on blank repo
-                    self.execute(["fetch", "origin"])
+                    self.execute([*auth_args, "fetch", "origin"])
                 else:
                     raise
 
@@ -557,7 +579,7 @@ class GitRepository(Repository):
         self.execute([*self._cmd_push, "origin", refspec])
 
     def unshallow(self) -> None:
-        self.execute(["fetch", "--unshallow"])
+        self.execute([*self.get_auth_args(), "fetch", "--unshallow"])
 
     def parse_changed_files(self, lines: list[str]) -> Iterator[str]:
         """Parse output with changed files."""
