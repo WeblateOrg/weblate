@@ -210,7 +210,7 @@ def vcs_service_hook(request: AuthenticatedHttpRequest, service):
     for obj in enabled_components:
         updates += 1
         LOGGER.info("%s notification will update %s", service_long_name, obj)
-        obj.change_set.create(action=ActionEvents.ACTION_HOOK, details=service_data)
+        obj.change_set.create(action=ActionEvents.HOOK, details=service_data)
         perform_update.delay("Component", obj.pk)
 
     match_status = {
