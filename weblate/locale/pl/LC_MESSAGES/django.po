@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-02-20 22:18+0000\n"
+"PO-Revision-Date: 2025-02-26 17:54+0000\n"
 "Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.10.1-dev\n"
+"X-Generator: Weblate 5.10.2-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -997,24 +997,24 @@ msgstr ""
 "pojedynczej spacji."
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "To hasło jest tylko pojedynczym znakiem."
-msgstr[1] "To hasło jest tylko pojedynczym znakiem."
-msgstr[2] "To hasło jest tylko pojedynczym znakiem."
+msgstr[0] "To hasło jest za długie. Musi zawierać maksymalnie %(max_length)d znak."
+msgstr[1] ""
+"To hasło jest za długie. Musi zawierać maksymalnie %(max_length)d znaki."
+msgstr[2] ""
+"To hasło jest za długie. Musi zawierać maksymalnie %(max_length)d znaków."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password can't contain repeated words or characters."
+#, python-format
 msgid "Your password must contain at most %(min_length)d character."
 msgid_plural "Your password must contain at most %(min_length)d characters."
-msgstr[0] "Twoje hasło nie może zawierać powtarzających się słów ani znaków."
-msgstr[1] "Twoje hasło nie może zawierać powtarzających się słów ani znaków."
-msgstr[2] "Twoje hasło nie może zawierać powtarzających się słów ani znaków."
+msgstr[0] "Twoje hasło musi zawierać maksymalnie %(min_length)d znak."
+msgstr[1] "Twoje hasło musi zawierać maksymalnie %(min_length)d znaki."
+msgstr[2] "Twoje hasło musi zawierać maksymalnie %(min_length)d znaków."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -2044,7 +2044,7 @@ msgstr "Liczba sekund do zresetowania okna limitu szybkości"
 #: weblate/api/spectacular.py:57
 #: weblate/templates/drf_spectacular/redoc.html:11
 msgid "Weblate's REST API"
-msgstr "REST API Weblate"
+msgstr "API REST Weblate"
 
 #: weblate/api/views.py:151
 msgid "Could not obtain the lock to perform the operation."
@@ -3345,19 +3345,15 @@ msgid "Consecutive duplicated words"
 msgstr "Kolejne zduplikowane wyrazy"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "Tekst zawiera to samo słowo dwa razy z rzędu:"
+msgstr "Tekst zawiera to samo słowo dwa razy z rzędu"
 
 #: weblate/checks/duplicate.py:96
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "Następujące komponenty zostaną utworzone"
-msgstr[1] "Następujące komponenty zostaną utworzone"
-msgstr[2] "Następujące komponenty zostaną utworzone"
+msgstr[0] "Następujące słowo jest duplikatem:"
+msgstr[1] "Następujące słowa są duplikatami:"
+msgstr[2] "Następujące słowa są duplikatami:"
 
 #: weblate/checks/flags.py:42
 msgid "RST text"
@@ -5870,10 +5866,6 @@ msgstr ""
 "źródła."
 
 #: weblate/templates/about/donate.html:33
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgctxt "Label on donate page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
@@ -5882,10 +5874,6 @@ msgstr[1] "Gwiazdki na GitHubie"
 msgstr[2] "Gwiazdki na GitHubie"
 
 #: weblate/templates/about/donate.html:39
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "Open issues"
-#| msgid_plural "Open issues"
 msgctxt "Label on donate page"
 msgid "Open issue"
 msgid_plural "Open issues"
@@ -5894,12 +5882,10 @@ msgstr[1] "Otwarte zgłoszenia"
 msgstr[2] "Otwarte zgłoszenia"
 
 #: weblate/templates/about/donate.html:45
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on donate page"
 msgid "Recent change"
 msgid_plural "Recent changes"
-msgstr[0] "Ostatnie zmiany"
+msgstr[0] "Ostatnia zmiana"
 msgstr[1] "Ostatnie zmiany"
 msgstr[2] "Ostatnie zmiany"
 
@@ -9872,7 +9858,7 @@ msgstr "Tłumaczenia we wszystkich językach zostały ukończone w %(component)s
 #: weblate/templates/mail/translated_language_subject.txt:3
 #, python-format
 msgid "%(translation)s has been completed"
-msgstr "projekt %(translation)s został ukończony"
+msgstr "Projekt %(translation)s został ukończony"
 
 #: weblate/templates/manage/alerts.html:11
 msgid "Component alerts"
