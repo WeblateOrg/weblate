@@ -12,11 +12,11 @@
 # Michal Čihař <michal@weblate.org>, 2025.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.10\n"
+"Project-Id-Version: Weblate 5.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-02-14 10:03+0100\n"
-"PO-Revision-Date: 2025-02-18 14:05+0000\n"
-"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
+"POT-Creation-Date: 2025-02-21 07:39+0100\n"
+"PO-Revision-Date: 2025-02-24 15:17+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -783,6 +783,7 @@ msgstr ""
 "worden toegepast met de volgende regels:"
 
 #: ../../admin/access.rst:367
+#, fuzzy
 msgid ""
 "If the team specifies any :guilabel:`Component list`, all the permissions "
 "given to members of that team are granted for all the components in the "
@@ -793,8 +794,8 @@ msgstr ""
 "Als het team een :guilabel:`Onderdelenlijst`specificeert , worden alle "
 "rechten, die aan leden van dat team zijn toegekend, voor alle componenten in "
 "de onderdelen lijsten gekoppeld aan het team, en toegang zonder aanvullende "
-"rechten wordt toegewezen voor alle projecten waar deze onderdelen in staan. :"
-"guilabel:`Onderdelen ` en :guilabel:`Projecten` worden genegeerd."
+"rechten wordt toegewezen voor alle projecten waar deze onderdelen in staan. "
+":guilabel:`Onderdelen ` en :guilabel:`Projecten` worden genegeerd."
 
 #: ../../admin/access.rst:373
 msgid ""
@@ -819,6 +820,7 @@ msgstr ""
 "`Projecten` wordt genegeerd."
 
 #: ../../admin/access.rst:381
+#, fuzzy
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -4884,8 +4886,8 @@ msgid ""
 "translate.codeberg.org>`_."
 msgstr ""
 "Bovenstaande configuratie werkt ook met Forgejo; voor een voorbeeld voor "
-"productie uitrollen met Forgejo, bekijk `Codeberg Translate "
-"<https://translate.codeberg.org>`_."
+"productie uitrollen met Forgejo, bekijk `Codeberg Translate <https://"
+"translate.codeberg.org>`_."
 
 #: ../../admin/auth.rst:322
 msgid ":doc:`psa:backends/gitea`"
@@ -5556,8 +5558,8 @@ msgid ""
 "Use the generated file to import project when :ref:`adding-projects` or in :"
 "wladmin:`import_projectbackup`."
 msgstr ""
-"Gebruik het gegenereerde bestand om het project te importeren bij :ref"
-":`adding-projects` of in :wladmin:`import_projectbackup`."
+"Gebruik het gegenereerde bestand om het project te importeren bij :ref:"
+"`adding-projects` of in :wladmin:`import_projectbackup`."
 
 #: ../../admin/backup.rst:39
 msgid ""
@@ -6391,8 +6393,8 @@ msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`. "
 "Turns on :ref:`check-rst-syntax` and :ref:`check-rst-references`."
 msgstr ""
-"Behandelt een tekst als een document met reStructuredText, heeft invloed op "
-":ref:`check-same`. Schakelt :ref:`check-rst-syntax` en :ref:`check-rst-"
+"Behandelt een tekst als een document met reStructuredText, heeft invloed op :"
+"ref:`check-same`. Schakelt :ref:`check-rst-syntax` en :ref:`check-rst-"
 "references` in."
 
 #: ../../admin/checks.rst:74 ../../user/checks.rst:124
@@ -9894,8 +9896,8 @@ msgid ""
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
 "Deze instelling beïnvloedt ingebouwde authenticatie door e-mailadres of via "
-"de Python Social Auth (u kunt bepaalde backends toestaan met "
-":setting:`REGISTRATION_ALLOW_BACKENDS`)."
+"de Python Social Auth (u kunt bepaalde backends toestaan met :setting:"
+"`REGISTRATION_ALLOW_BACKENDS`)."
 
 #: ../../admin/config.rst:1637
 msgid ""
@@ -14184,10 +14186,10 @@ msgid ""
 "Protection`. These are by default set up to work with Weblate and its "
 "configuration, but this might need customization for your environment."
 msgstr ""
-"De standaard configuratie van Weblate schakelt middleware "
-"``weblate.middleware.SecurityMiddleware`` in die op beveiliging gerelateerde "
-"HTTP-koppen, zoals :http:header:`Content-Security-Policy` of :http:header:`X"
-"-XSS-Protection`, instelt. Deze worden standaard ingesteld om te werken met "
+"De standaard configuratie van Weblate schakelt middleware ``weblate."
+"middleware.SecurityMiddleware`` in die op beveiliging gerelateerde HTTP-"
+"koppen, zoals :http:header:`Content-Security-Policy` of :http:header:`X-XSS-"
+"Protection`, instelt. Deze worden standaard ingesteld om te werken met "
 "Weblate en zijn configuratie, maar dit zou aanpassingen kunnen vergen voor "
 "uw omgeving."
 
@@ -16442,8 +16444,8 @@ msgid ""
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 msgstr ""
 "Configureer hoe PostgreSQL SSL afhandelt in verbindingen met de server, "
-"bekijk voor mogelijke keuzes `SSL Mode Descriptions <https://"
-"www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
+"bekijk voor mogelijke keuzes `SSL Mode Descriptions <https://www.postgresql."
+"org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 
 #: ../../admin/install/docker.rst:1483
 msgid ""
@@ -28030,69 +28032,196 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS op Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-msgid "Weblate 5.10"
-msgstr "Weblate 5.10"
+msgid "Weblate 5.10.1"
+msgstr "Weblate 5.10.1"
 
 #: ../../changes.rst:4
-msgid "*Released on February 14th 2025.*"
-msgstr "*Uitgegeven op 14 februari 2025.*"
+msgid "*Released on February 21st 2025.*"
+msgstr "*Uitgegeven op 21 februari 2025.*"
 
-#: ../../changes.rst:7 ../../changes.rst:118 ../../changes.rst:260
-#: ../../changes.rst:365 ../../changes.rst:461 ../../changes.rst:573
-#: ../../changes.rst:610 ../../changes.rst:721 ../../changes.rst:783
-#: ../../changes.rst:845 ../../changes.rst:886 ../../changes.rst:913
-#: ../../changes.rst:989 ../../changes.rst:1030
+#: ../../changes.rst:7 ../../changes.rst:38 ../../changes.rst:149
+#: ../../changes.rst:291 ../../changes.rst:396 ../../changes.rst:492
+#: ../../changes.rst:604 ../../changes.rst:641 ../../changes.rst:752
+#: ../../changes.rst:814 ../../changes.rst:876 ../../changes.rst:917
+#: ../../changes.rst:944 ../../changes.rst:1020 ../../changes.rst:1061
 msgid "New features"
 msgstr "Nieuwe mogelijkheden"
 
-#: ../../changes.rst:8
+#: ../../changes.rst:9 ../../changes.rst:45 ../../changes.rst:103
+#: ../../changes.rst:161 ../../changes.rst:203 ../../changes.rst:299
+#: ../../changes.rst:342 ../../changes.rst:368 ../../changes.rst:406
+#: ../../changes.rst:472 ../../changes.rst:497 ../../changes.rst:546
+#: ../../changes.rst:568 ../../changes.rst:609 ../../changes.rst:655
+#: ../../changes.rst:760 ../../changes.rst:823 ../../changes.rst:852
+#: ../../changes.rst:880 ../../changes.rst:919 ../../changes.rst:952
+#: ../../changes.rst:995 ../../changes.rst:1024 ../../changes.rst:1069
+msgid "Improvements"
+msgstr "Verbeteringen"
+
+#: ../../changes.rst:10
+msgid ""
+":ref:`check-multiple-failures` better shows failing checks including links "
+"to the strings."
+msgstr ""
+":ref:`check-multiple-failures` laat mislukte controles beter zien, inclusief "
+"links naar de tekenreeksen."
+
+#: ../../changes.rst:11
+msgid ""
+"Detailed overview of locked components on project repository management."
+msgstr ""
+"Gedetailleerd overzicht van vergrendelde onderdelen in beheer van "
+"opslagruimte van project."
+
+#: ../../changes.rst:12
+msgid ":ref:`search-strings` supports searching by source string state."
+msgstr ""
+":ref:`search-strings` ondersteunt nu zoeken op status van de brontekenreeks."
+
+#: ../../changes.rst:15 ../../changes.rst:66 ../../changes.rst:108
+#: ../../changes.rst:130 ../../changes.rst:174 ../../changes.rst:207
+#: ../../changes.rst:228 ../../changes.rst:249 ../../changes.rst:272
+#: ../../changes.rst:314 ../../changes.rst:348 ../../changes.rst:373
+#: ../../changes.rst:419 ../../changes.rst:452 ../../changes.rst:477
+#: ../../changes.rst:507 ../../changes.rst:530 ../../changes.rst:553
+#: ../../changes.rst:573 ../../changes.rst:589 ../../changes.rst:619
+#: ../../changes.rst:666 ../../changes.rst:697 ../../changes.rst:720
+#: ../../changes.rst:736 ../../changes.rst:775 ../../changes.rst:799
+#: ../../changes.rst:832 ../../changes.rst:857 ../../changes.rst:893
+#: ../../changes.rst:926 ../../changes.rst:967 ../../changes.rst:1000
+#: ../../changes.rst:1033 ../../changes.rst:1090
+msgid "Bug fixes"
+msgstr "Gerepareerde bugs"
+
+#: ../../changes.rst:16
+msgid ":ref:`download` performs faster and project and language scopes."
+msgstr ""
+":ref:`download` wordt sneller uitgevoerd en bereiken voor project en taal."
+
+#: ../../changes.rst:17
+msgid ""
+":ref:`zen-mode` does not display the source string twice when editing it."
+msgstr ""
+":ref:`zen-mode` geeft de brontekenreeks niet twee keer weer bij het bewerken "
+"ervan."
+
+#: ../../changes.rst:18
+msgid "Fixed :ref:`glossary` terms highlighting."
+msgstr "Gerepareerd accentueren termen :ref:`glossary`."
+
+#: ../../changes.rst:21 ../../changes.rst:79 ../../changes.rst:180
+#: ../../changes.rst:320 ../../changes.rst:425 ../../changes.rst:515
+#: ../../changes.rst:677 ../../changes.rst:783 ../../changes.rst:836
+#: ../../changes.rst:901 ../../changes.rst:931 ../../changes.rst:976
+#: ../../changes.rst:1043 ../../changes.rst:1098
+msgid "Compatibility"
+msgstr "Compatibiliteit"
+
+#: ../../changes.rst:23 ../../changes.rst:85 ../../changes.rst:115
+#: ../../changes.rst:134 ../../changes.rst:188 ../../changes.rst:213
+#: ../../changes.rst:234 ../../changes.rst:257 ../../changes.rst:276
+#: ../../changes.rst:325 ../../changes.rst:353 ../../changes.rst:381
+#: ../../changes.rst:434 ../../changes.rst:461 ../../changes.rst:481
+#: ../../changes.rst:519 ../../changes.rst:535 ../../changes.rst:557
+#: ../../changes.rst:578 ../../changes.rst:593 ../../changes.rst:628
+#: ../../changes.rst:683 ../../changes.rst:709 ../../changes.rst:725
+#: ../../changes.rst:741 ../../changes.rst:788 ../../changes.rst:803
+#: ../../changes.rst:841 ../../changes.rst:865 ../../changes.rst:906
+#: ../../changes.rst:933 ../../changes.rst:980 ../../changes.rst:1007
+#: ../../changes.rst:1048 ../../changes.rst:1103 ../../changes/v4.rst:54
+#: ../../changes/v4.rst:86 ../../changes/v4.rst:169 ../../changes/v4.rst:237
+#: ../../changes/v4.rst:318 ../../changes/v4.rst:375 ../../changes/v4.rst:433
+#: ../../changes/v4.rst:496 ../../changes/v4.rst:541 ../../changes/v4.rst:597
+#: ../../changes/v4.rst:643 ../../changes/v4.rst:698 ../../changes/v4.rst:768
+#: ../../changes/v4.rst:859 ../../changes/v4.rst:934 ../../changes/v4.rst:1020
+#: ../../changes/v4.rst:1095 ../../changes/v4.rst:1168
+msgid "Upgrading"
+msgstr "Upgraden"
+
+#: ../../changes.rst:24 ../../changes.rst:86 ../../changes.rst:116
+#: ../../changes.rst:135 ../../changes.rst:189 ../../changes.rst:214
+#: ../../changes.rst:235 ../../changes.rst:258 ../../changes.rst:277
+#: ../../changes.rst:326 ../../changes.rst:354 ../../changes.rst:382
+#: ../../changes.rst:435 ../../changes.rst:462 ../../changes.rst:482
+#: ../../changes.rst:520 ../../changes.rst:536 ../../changes.rst:558
+#: ../../changes.rst:579 ../../changes.rst:594 ../../changes.rst:629
+#: ../../changes.rst:684 ../../changes.rst:710 ../../changes.rst:726
+#: ../../changes.rst:742 ../../changes.rst:789 ../../changes.rst:804
+#: ../../changes.rst:842 ../../changes.rst:866 ../../changes.rst:907
+#: ../../changes.rst:934 ../../changes.rst:981 ../../changes.rst:1008
+#: ../../changes.rst:1049 ../../changes.rst:1104 ../../changes/v4.rst:55
+#: ../../changes/v4.rst:87 ../../changes/v4.rst:170 ../../changes/v4.rst:238
+#: ../../changes/v4.rst:319 ../../changes/v4.rst:376 ../../changes/v4.rst:434
+#: ../../changes/v4.rst:497 ../../changes/v4.rst:542 ../../changes/v4.rst:598
+#: ../../changes/v4.rst:644 ../../changes/v4.rst:699 ../../changes/v4.rst:769
+#: ../../changes/v4.rst:860 ../../changes/v4.rst:935 ../../changes/v4.rst:1021
+#: ../../changes/v4.rst:1096 ../../changes/v4.rst:1169
+msgid ""
+"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
+msgstr ""
+"Volg :ref:`generic-upgrade-instructions` om het bijwerken uit te voeren."
+
+#: ../../changes.rst:27 ../../changes.rst:92 ../../changes.rst:119
+#: ../../changes.rst:138 ../../changes.rst:192 ../../changes.rst:217
+#: ../../changes.rst:238 ../../changes.rst:261 ../../changes.rst:280
+#: ../../changes.rst:331 ../../changes.rst:357 ../../changes.rst:385
+#: ../../changes.rst:441
+msgid "Contributors"
+msgstr "Medewerkers"
+
+#: ../../changes.rst:30
+msgid ""
+"`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/137?"
+"closed=1>`__."
+msgstr ""
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"137?closed=1>`__."
+
+#: ../../changes.rst:33
+msgid "Weblate 5.10"
+msgstr "Weblate 5.10"
+
+#: ../../changes.rst:35
+msgid "*Released on February 14th 2025.*"
+msgstr "*Uitgegeven op 14 februari 2025.*"
+
+#: ../../changes.rst:39
 msgid ""
 ":ref:`check-rst-references` check to validate reStructuredText references."
 msgstr ""
 ":ref:`check-rst-references` controle om verwijzingen naar reStructuredText "
 "te valideren."
 
-#: ../../changes.rst:9
+#: ../../changes.rst:40
 msgid ":ref:`check-rst-syntax` check to validate reStructuredText syntax."
 msgstr ""
 ":ref:`check-rst-syntax` controle om syntaxis van reStructuredText te "
 "valideren."
 
-#: ../../changes.rst:10
+#: ../../changes.rst:41
 msgid "API can now produce CSV output."
 msgstr "API kan nu uitvoer als CSV produceren."
 
-#: ../../changes.rst:11
+#: ../../changes.rst:42
 msgid ""
 "New management command :wladmin:`import_projectbackup` to import :ref:"
 "`projectbackup`."
 msgstr ""
-"Nieuwe opdracht voor beheer :wladmin:`import_projectbackup` om "
-":ref:`projectbackup` te importeren."
+"Nieuwe opdracht voor beheer :wladmin:`import_projectbackup` om :ref:"
+"`projectbackup` te importeren."
 
-#: ../../changes.rst:14 ../../changes.rst:72 ../../changes.rst:130
-#: ../../changes.rst:172 ../../changes.rst:268 ../../changes.rst:311
-#: ../../changes.rst:337 ../../changes.rst:375 ../../changes.rst:441
-#: ../../changes.rst:466 ../../changes.rst:515 ../../changes.rst:537
-#: ../../changes.rst:578 ../../changes.rst:624 ../../changes.rst:729
-#: ../../changes.rst:792 ../../changes.rst:821 ../../changes.rst:849
-#: ../../changes.rst:888 ../../changes.rst:921 ../../changes.rst:964
-#: ../../changes.rst:993 ../../changes.rst:1038
-msgid "Improvements"
-msgstr "Verbeteringen"
-
-#: ../../changes.rst:15
+#: ../../changes.rst:46
 msgid "Improved error handling in :ref:`machine-translation-setup`."
 msgstr "Verbeterd afhandelen van fouten in :ref:`machine-translation-setup`."
 
-#: ../../changes.rst:16
+#: ../../changes.rst:47
 msgid ""
 ":envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker container."
 msgstr ""
 ":envvar:`WEBLATE_REGISTRATION_CAPTCHA` is nu beschikbaar in de container van "
 "Docker."
 
-#: ../../changes.rst:17
+#: ../../changes.rst:48
 msgid ""
 ":guilabel:`Synchronize` on shared repository now operates on all its "
 "components."
@@ -28100,7 +28229,7 @@ msgstr ""
 ":guilabel:`Synchroniseren` op gedeelde opslagruimte werkt nu op al zijn "
 "onderdelen."
 
-#: ../../changes.rst:18
+#: ../../changes.rst:49
 msgid ""
 ":ref:`check-punctuation-spacing` ignores markup such as Markdown or "
 "reStructuredText."
@@ -28108,18 +28237,18 @@ msgstr ""
 ":ref:`check-punctuation-spacing` negeert opmaak zoals Markdown of "
 "reStructuredText."
 
-#: ../../changes.rst:19
+#: ../../changes.rst:50
 msgid ""
 ":ref:`autofix-punctuation-spacing` does not alter reStructuredText markup."
 msgstr ""
 ":ref:`autofix-punctuation-spacing` wijzigt geen opmaak van reStructuredText."
 
-#: ../../changes.rst:20
+#: ../../changes.rst:51
 msgid "Improved validation errors in :doc:`/api`, see :ref:`api-errors`."
 msgstr ""
 "Verbeterd valideren van fouten in :doc:`/api`, bekijk :ref:`api-errors`."
 
-#: ../../changes.rst:21
+#: ../../changes.rst:52
 msgid ""
 "Any language changed into an alias in `Weblate language data <https://github."
 "com/WeblateOrg/language-data/>`__ is now reflected in all existing "
@@ -28129,15 +28258,15 @@ msgstr ""
 "github.com/WeblateOrg/language-data/>`__ wordt nu weergegeven in alle "
 "bestaande installaties."
 
-#: ../../changes.rst:22
+#: ../../changes.rst:53
 msgid ""
 "Blank alias languages (not linked to any translation, profile, "
 "component, ...) are now automatically removed."
 msgstr ""
-"Blanco alias-talen (niet gekoppeld aan enige vertaling, profiel, onderdeel, "
-"...) worden nu automatisch verwijderd."
+"Blanco alias-talen (niet gekoppeld aan enige vertaling, profiel, "
+"onderdeel, ...) worden nu automatisch verwijderd."
 
-#: ../../changes.rst:23
+#: ../../changes.rst:54
 msgid ""
 ":ref:`check-duplicate` better works with markup such as Markdown or "
 "reStructuredText."
@@ -28145,7 +28274,7 @@ msgstr ""
 ":ref:`check-duplicate` werkt beter met opmaak zoals Markdown of "
 "reStructuredText."
 
-#: ../../changes.rst:24
+#: ../../changes.rst:55
 msgid ""
 "Automatically use DeepL API Free endpoint for the DeepL API Free "
 "authentication keys in :ref:`mt-deepl`."
@@ -28153,18 +28282,19 @@ msgstr ""
 "Automatisch DeepL API Free eindpunt gebruiken voor de DeepL API Free "
 "authenticatiesleutels in :ref:`mt-deepl`."
 
-#: ../../changes.rst:25
+#: ../../changes.rst:56
 msgid ""
 "Compatibility with third-party static files storage backends for Django."
 msgstr ""
 "Compatibiliteit met statische bestanden opslag-backends voor Django van "
 "derde partijen."
 
-#: ../../changes.rst:26
+#: ../../changes.rst:57
 msgid "Improved language compatibility in :ref:`mt-microsoft-translator`."
-msgstr "Verbeterde compatibiliteit voor taal in :ref:`mt-microsoft-translator`."
+msgstr ""
+"Verbeterde compatibiliteit voor taal in :ref:`mt-microsoft-translator`."
 
-#: ../../changes.rst:27
+#: ../../changes.rst:58
 msgid ""
 ":ref:`check-reused` check gracefully handles languages which are not case "
 "sensitive."
@@ -28172,7 +28302,7 @@ msgstr ""
 ":ref:`check-reused` behandelt talen, die niet hoofdlettergevoelig zijn, "
 "netjes."
 
-#: ../../changes.rst:28
+#: ../../changes.rst:59
 msgid ""
 ":ref:`component-enforced_checks` are now applied on strings imported from "
 "the repository."
@@ -28180,7 +28310,7 @@ msgstr ""
 ":ref:`component-enforced_checks` worden nu toegepast op tekenreeksen die "
 "worden geïmporteerd uit de opslagruimte."
 
-#: ../../changes.rst:29
+#: ../../changes.rst:60
 msgid ""
 "Reduced false positives in :ref:`check-end-colon` and :ref:`check-end-stop` "
 "for CJK languages."
@@ -28188,79 +28318,65 @@ msgstr ""
 "Verminderde valse positieven in :ref:`check-end-colon` en :ref:`check-end-"
 "stop` voor talen CJK."
 
-#: ../../changes.rst:30
+#: ../../changes.rst:61
 msgid "OpenAPI schema for API includes more information."
 msgstr "OpenAPI-schema voor API bevat meer informatie."
 
-#: ../../changes.rst:31
+#: ../../changes.rst:62
 msgid ":ref:`check-regex` supports advanced regular expressions."
-msgstr ":ref:`check-regex` ondersteunt nu geavanceerde reguliere uitdrukkingen."
+msgstr ""
+":ref:`check-regex` ondersteunt nu geavanceerde reguliere uitdrukkingen."
 
-#: ../../changes.rst:32
+#: ../../changes.rst:63
 msgid ":ref:`check-same` gracefully deals with case-insensitive languages."
 msgstr ""
 ":ref:`check-same` behandelt talen, die niet hoofdlettergevoelig zijn, netjes."
 
-#: ../../changes.rst:35 ../../changes.rst:77 ../../changes.rst:99
-#: ../../changes.rst:143 ../../changes.rst:176 ../../changes.rst:197
-#: ../../changes.rst:218 ../../changes.rst:241 ../../changes.rst:283
-#: ../../changes.rst:317 ../../changes.rst:342 ../../changes.rst:388
-#: ../../changes.rst:421 ../../changes.rst:446 ../../changes.rst:476
-#: ../../changes.rst:499 ../../changes.rst:522 ../../changes.rst:542
-#: ../../changes.rst:558 ../../changes.rst:588 ../../changes.rst:635
-#: ../../changes.rst:666 ../../changes.rst:689 ../../changes.rst:705
-#: ../../changes.rst:744 ../../changes.rst:768 ../../changes.rst:801
-#: ../../changes.rst:826 ../../changes.rst:862 ../../changes.rst:895
-#: ../../changes.rst:936 ../../changes.rst:969 ../../changes.rst:1002
-#: ../../changes.rst:1059
-msgid "Bug fixes"
-msgstr "Gerepareerde bugs"
-
-#: ../../changes.rst:36
+#: ../../changes.rst:67
 msgid ":ref:`check-reused` wrongly triggered after fixing the error."
 msgstr ":ref:`check-reused` verkeerd geactiveerd na het repareren van de fout."
 
-#: ../../changes.rst:37
+#: ../../changes.rst:68
 msgid "Dark theme behavior in some situations."
 msgstr "Gedrag van donker thema in sommige situaties."
 
-#: ../../changes.rst:38
+#: ../../changes.rst:69
 msgid "Translation propagation sometimes did not work as expected."
 msgstr "Doorvoeren van vertalingen werkte niet altijd zoals werd verwacht."
 
-#: ../../changes.rst:39
+#: ../../changes.rst:70
 msgid ""
 ":http:header:`Content-Security-Policy` is now automatically set for AWS."
 msgstr ""
 ":http:header:`Content-Security-Policy` is nu automatisch ingesteld voor AWS."
 
-#: ../../changes.rst:40
+#: ../../changes.rst:71
 msgid ""
 ":ref:`machine-translation-setup` sometimes cached results too aggressively."
 msgstr ":ref:`machine-translation-setup` cachete soms resultaten te agressief."
 
-#: ../../changes.rst:41
+#: ../../changes.rst:72
 msgid "Fixed translations caching in :ref:`machine-translation-setup`."
 msgstr ""
 "Gerepareerd cachen van vertalingen in :ref:`machine-translation-setup`."
 
-#: ../../changes.rst:42
+#: ../../changes.rst:73
 msgid ""
 ":ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag."
 msgstr ""
 ":ref:`autofix-html` automatische reparaties houden rekening met de vlag "
 "``ignore-safe-html``."
 
-#: ../../changes.rst:43
+#: ../../changes.rst:74
 msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
 msgstr ":ref:`check-punctuation-spacing` geldt niet langer voor Bretons."
 
-#: ../../changes.rst:44
+#: ../../changes.rst:75
 msgid "Fixed :ref:`addon-weblate.git.squash` on linked repositories."
 msgstr ""
 "Gerepareerde :ref:`addon-weblate.git.squash` voor gekoppelde opslagruimtes."
 
-#: ../../changes.rst:45
+#: ../../changes.rst:76
 msgid ""
 ":ref:`check-multiple-failures` avoids false positives and better lists "
 "related checks."
@@ -28268,15 +28384,7 @@ msgstr ""
 ":ref:`check-multiple-failures` vermijdt valse positieven en verbeterde "
 "controles die gerelateerd zijn aan lijsten."
 
-#: ../../changes.rst:48 ../../changes.rst:149 ../../changes.rst:289
-#: ../../changes.rst:394 ../../changes.rst:484 ../../changes.rst:646
-#: ../../changes.rst:752 ../../changes.rst:805 ../../changes.rst:870
-#: ../../changes.rst:900 ../../changes.rst:945 ../../changes.rst:1012
-#: ../../changes.rst:1067
-msgid "Compatibility"
-msgstr "Compatibiliteit"
-
-#: ../../changes.rst:49
+#: ../../changes.rst:80
 msgid ""
 "Running tests using Django test executor is no longer supported, see :doc:`/"
 "contributing/tests`."
@@ -28284,7 +28392,7 @@ msgstr ""
 "Uitvoeren van testen met Django test executor wordt niet langer ondersteund, "
 "bekijk :doc:`/contributing/tests`."
 
-#: ../../changes.rst:50
+#: ../../changes.rst:81
 msgid ""
 ":ref:`check-bbcode` check is now disabled by default. The `bbcode-text` flag "
 "is required to activate this check, see :ref:`custom-checks`."
@@ -28292,57 +28400,13 @@ msgstr ""
 "Controle :ref:`check-bbcode` is nu standaard uitgeschakeld. De vlag `bbcode-"
 "text` is vereist om deze controle te activeren, bekijk :ref:`custom-checks`."
 
-#: ../../changes.rst:51
+#: ../../changes.rst:82
 msgid "API error responses format has changed, see :ref:`api-errors`."
 msgstr ""
 "Indeling voor API antwoorden voor fouten is gewijzigd, bekijk :ref:`api-"
 "errors`."
 
-#: ../../changes.rst:54 ../../changes.rst:84 ../../changes.rst:103
-#: ../../changes.rst:157 ../../changes.rst:182 ../../changes.rst:203
-#: ../../changes.rst:226 ../../changes.rst:245 ../../changes.rst:294
-#: ../../changes.rst:322 ../../changes.rst:350 ../../changes.rst:403
-#: ../../changes.rst:430 ../../changes.rst:450 ../../changes.rst:488
-#: ../../changes.rst:504 ../../changes.rst:526 ../../changes.rst:547
-#: ../../changes.rst:562 ../../changes.rst:597 ../../changes.rst:652
-#: ../../changes.rst:678 ../../changes.rst:694 ../../changes.rst:710
-#: ../../changes.rst:757 ../../changes.rst:772 ../../changes.rst:810
-#: ../../changes.rst:834 ../../changes.rst:875 ../../changes.rst:902
-#: ../../changes.rst:949 ../../changes.rst:976 ../../changes.rst:1017
-#: ../../changes.rst:1072 ../../changes/v4.rst:54 ../../changes/v4.rst:86
-#: ../../changes/v4.rst:169 ../../changes/v4.rst:237 ../../changes/v4.rst:318
-#: ../../changes/v4.rst:375 ../../changes/v4.rst:433 ../../changes/v4.rst:496
-#: ../../changes/v4.rst:541 ../../changes/v4.rst:597 ../../changes/v4.rst:643
-#: ../../changes/v4.rst:698 ../../changes/v4.rst:768 ../../changes/v4.rst:859
-#: ../../changes/v4.rst:934 ../../changes/v4.rst:1020 ../../changes/v4.rst:1095
-#: ../../changes/v4.rst:1168
-msgid "Upgrading"
-msgstr "Upgraden"
-
-#: ../../changes.rst:55 ../../changes.rst:85 ../../changes.rst:104
-#: ../../changes.rst:158 ../../changes.rst:183 ../../changes.rst:204
-#: ../../changes.rst:227 ../../changes.rst:246 ../../changes.rst:295
-#: ../../changes.rst:323 ../../changes.rst:351 ../../changes.rst:404
-#: ../../changes.rst:431 ../../changes.rst:451 ../../changes.rst:489
-#: ../../changes.rst:505 ../../changes.rst:527 ../../changes.rst:548
-#: ../../changes.rst:563 ../../changes.rst:598 ../../changes.rst:653
-#: ../../changes.rst:679 ../../changes.rst:695 ../../changes.rst:711
-#: ../../changes.rst:758 ../../changes.rst:773 ../../changes.rst:811
-#: ../../changes.rst:835 ../../changes.rst:876 ../../changes.rst:903
-#: ../../changes.rst:950 ../../changes.rst:977 ../../changes.rst:1018
-#: ../../changes.rst:1073 ../../changes/v4.rst:55 ../../changes/v4.rst:87
-#: ../../changes/v4.rst:170 ../../changes/v4.rst:238 ../../changes/v4.rst:319
-#: ../../changes/v4.rst:376 ../../changes/v4.rst:434 ../../changes/v4.rst:497
-#: ../../changes/v4.rst:542 ../../changes/v4.rst:598 ../../changes/v4.rst:644
-#: ../../changes/v4.rst:699 ../../changes/v4.rst:769 ../../changes/v4.rst:860
-#: ../../changes/v4.rst:935 ../../changes/v4.rst:1021 ../../changes/v4.rst:1096
-#: ../../changes/v4.rst:1169
-msgid ""
-"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
-msgstr ""
-"Volg :ref:`generic-upgrade-instructions` om het bijwerken uit te voeren."
-
-#: ../../changes.rst:57
+#: ../../changes.rst:88
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`api` in ``REST_FRAMEWORK``, "
@@ -28354,64 +28418,11 @@ msgstr ""
 "``REST_FRAMEWORK``, ``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` en "
 "``INSTALLED_APPS``; pas uw instellingen overeenkomstig aan."
 
-#: ../../changes.rst:58
+#: ../../changes.rst:89
 msgid "PostgreSQL 12 and MariaDB 10.4 are no longer supported."
 msgstr "PostgreSQL 12 en MariaDB 10.4 worden niet langer ondersteund."
 
-#: ../../changes.rst:61 ../../changes.rst:88 ../../changes.rst:107
-#: ../../changes.rst:161 ../../changes.rst:186 ../../changes.rst:207
-#: ../../changes.rst:230 ../../changes.rst:249 ../../changes.rst:300
-#: ../../changes.rst:326 ../../changes.rst:354 ../../changes.rst:410
-msgid "Contributors"
-msgstr "Medewerkers"
-
-#: ../../changes.rst:64
-msgid ""
-"`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/133?"
-"closed=1>`__."
-msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/133?closed=1>`__."
-
-#: ../../changes.rst:67
-msgid "Weblate 5.9.2"
-msgstr "Weblate 5.9.2"
-
-#: ../../changes.rst:69
-msgid "*Released on December 19th 2024.*"
-msgstr "*Uitgegeven op 19 december 2024.*"
-
-#: ../../changes.rst:73
-msgid "Renamed :ref:`vcs-bitbucket-data-center` to match new product name."
-msgstr ""
-":ref:`vcs-bitbucket-data-center` hernoemd om overeen te komen met de nieuwe "
-"naam."
-
-#: ../../changes.rst:74
-msgid ":http:get:`/api/users/` supports searching by user ID."
-msgstr ":http:get:`/api/users/` ondersteunt het zoeken op ID van de gebruiker."
-
-#: ../../changes.rst:78
-msgid "Avoid query parser crash in multi-threaded environments."
-msgstr "Vermijden van query parser-crash in omgevingen met meerdere threads."
-
-#: ../../changes.rst:79
-msgid "Avoid :ref:`autofix` crash on multi-value strings."
-msgstr "Vermijden van :ref:`autofix` voor tekenreeksen met meerdere waarden."
-
-#: ../../changes.rst:80
-msgid ""
-"Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are "
-"enforced."
-msgstr ""
-"Zorg dat projecttokens werken als :ref:`2fa` of :ref:`component-agreement` "
-"worden afgedwongen."
-
-#: ../../changes.rst:81
-msgid "Captcha solution were sometimes not accepted."
-msgstr "Oplossing van captcha werd soms niet geaccepteerd."
-
-#: ../../changes/contributors/5.7.1.rst:2
+#: ../../changes/contributors/5.10.rst:2 ../../changes/contributors/5.7.1.rst:2
 #: ../../changes/contributors/5.7.2.rst:2 ../../changes/contributors/5.7.rst:2
 #: ../../changes/contributors/5.8.1.rst:2
 #: ../../changes/contributors/5.8.2.rst:2
@@ -28422,13 +28433,14 @@ msgstr "Oplossing van captcha werd soms niet geaccepteerd."
 msgid "Code contributions"
 msgstr "Bijgedragen code"
 
-#: ../../changes/contributors/5.7.1.rst:7
+#: ../../changes/contributors/5.10.rst:7 ../../changes/contributors/5.7.1.rst:7
 #: ../../changes/contributors/5.7.2.rst:7 ../../changes/contributors/5.7.rst:7
 #: ../../changes/contributors/5.8.2.rst:7 ../../changes/contributors/5.8.rst:7
 #: ../../changes/contributors/5.9.2.rst:7 ../../changes/contributors/5.9.rst:6
 msgid "Translations contributions"
 msgstr "Bijgedragen vertalingen"
 
+#: ../../changes/contributors/5.10.rst:12
 #: ../../changes/contributors/5.7.1.rst:12
 #: ../../changes/contributors/5.7.2.rst:12
 #: ../../changes/contributors/5.7.rst:12 ../../changes/contributors/5.8.1.rst:7
@@ -28441,7 +28453,53 @@ msgstr "Bijgedragen vertalingen"
 msgid "Documentation contributions"
 msgstr "Bijgedragen documentatie"
 
-#: ../../changes.rst:91
+#: ../../changes.rst:95
+msgid ""
+"`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/133?"
+"closed=1>`__."
+msgstr ""
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
+"milestone/133?closed=1>`__."
+
+#: ../../changes.rst:98
+msgid "Weblate 5.9.2"
+msgstr "Weblate 5.9.2"
+
+#: ../../changes.rst:100
+msgid "*Released on December 19th 2024.*"
+msgstr "*Uitgegeven op 19 december 2024.*"
+
+#: ../../changes.rst:104
+msgid "Renamed :ref:`vcs-bitbucket-data-center` to match new product name."
+msgstr ""
+":ref:`vcs-bitbucket-data-center` hernoemd om overeen te komen met de nieuwe "
+"naam."
+
+#: ../../changes.rst:105
+msgid ":http:get:`/api/users/` supports searching by user ID."
+msgstr ":http:get:`/api/users/` ondersteunt het zoeken op ID van de gebruiker."
+
+#: ../../changes.rst:109
+msgid "Avoid query parser crash in multi-threaded environments."
+msgstr "Vermijden van query parser-crash in omgevingen met meerdere threads."
+
+#: ../../changes.rst:110
+msgid "Avoid :ref:`autofix` crash on multi-value strings."
+msgstr "Vermijden van :ref:`autofix` voor tekenreeksen met meerdere waarden."
+
+#: ../../changes.rst:111
+msgid ""
+"Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are "
+"enforced."
+msgstr ""
+"Zorg dat projecttokens werken als :ref:`2fa` of :ref:`component-agreement` "
+"worden afgedwongen."
+
+#: ../../changes.rst:112
+msgid "Captcha solution were sometimes not accepted."
+msgstr "Oplossing van captcha werd soms niet geaccepteerd."
+
+#: ../../changes.rst:122
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/135?"
 "closed=1>`__."
@@ -28449,19 +28507,19 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/135?closed=1>`__."
 
-#: ../../changes.rst:94
+#: ../../changes.rst:125
 msgid "Weblate 5.9.1"
 msgstr "Weblate 5.9.1"
 
-#: ../../changes.rst:96 ../../changes.rst:115
+#: ../../changes.rst:127 ../../changes.rst:146
 msgid "*Released on December 16th 2024.*"
 msgstr "*Uitgegeven op 16 december 2024.*"
 
-#: ../../changes.rst:100
+#: ../../changes.rst:131
 msgid "Fixed publishing package to PyPI."
 msgstr "Gerepareerd het publiceren van pakket naar PyPI."
 
-#: ../../changes.rst:110
+#: ../../changes.rst:141
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/134?"
 "closed=1>`__."
@@ -28469,11 +28527,11 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/134?closed=1>`__."
 
-#: ../../changes.rst:113
+#: ../../changes.rst:144
 msgid "Weblate 5.9"
 msgstr "Weblate 5.9"
 
-#: ../../changes.rst:119
+#: ../../changes.rst:150
 msgid ""
 "Per-project :ref:`machine-translation-setup` can now be configured via the "
 "Project :ref:`api`."
@@ -28481,17 +28539,17 @@ msgstr ""
 "Per-project :ref:`machine-translation-setup` kan u worden geconfigureerd via "
 "de Project-:ref:`api`."
 
-#: ../../changes.rst:121
+#: ../../changes.rst:152
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
 msgstr ""
 "Toegevoegd :http:get:`/api/projects/{string:project}/machinery_settings/`."
 
-#: ../../changes.rst:122
+#: ../../changes.rst:153
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
 msgstr ""
 "Toegevoegd :http:post:`/api/projects/{string:project}/machinery_settings/`."
 
-#: ../../changes.rst:124
+#: ../../changes.rst:155
 msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`."
@@ -28500,12 +28558,12 @@ msgstr ""
 "XLIFF, PO en CSV, bekijk de opdrachten :ref:`memory-user` en :wladmin:"
 "`import_memory` in :ref:`manage`."
 
-#: ../../changes.rst:125
+#: ../../changes.rst:156
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
 msgstr ""
 "De CAPTCHA voor de registratie bevat nu het Proof-of-work-mechanisme ALTCHA."
 
-#: ../../changes.rst:126
+#: ../../changes.rst:157
 msgid ""
 "Leading problematic characters in CSV are now checks for :ref:`glossary`, "
 "see :ref:`check-prohibited-initial-character`."
@@ -28513,18 +28571,18 @@ msgstr ""
 "Voorafgaande problematische tekens in CSV zijn nu controles voor :ref:"
 "`glossary`, bekijk :ref:`check-prohibited-initial-character`."
 
-#: ../../changes.rst:127
+#: ../../changes.rst:158
 msgid "Logging to :ref:`graylog`."
 msgstr "Loggen naar :ref:`graylog`."
 
-#: ../../changes.rst:131
+#: ../../changes.rst:162
 msgid ""
 ":ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional)."
 msgstr ""
 ":ref:`mt-google-translate-api-v3` ondersteunt nu :ref:`glossary-mt` "
 "(optioneel)."
 
-#: ../../changes.rst:132
+#: ../../changes.rst:163
 msgid ""
 "A shortcut to duplicate a component is now available directly in the menu (:"
 "guilabel:`Manage` → :guilabel:`Duplicate this component`)."
@@ -28532,16 +28590,16 @@ msgstr ""
 "Een sneltoets om een onderdeel te dupliceren is nu direct beschikbaar in het "
 "menu (:guilabel:`Beheren` → :guilabel:`Dit onderdeel dupliceren`)."
 
-#: ../../changes.rst:133
+#: ../../changes.rst:164
 msgid "Included username when generating :ref:`credits`."
 msgstr "Opgenomen gebruikersnaam bij genereren van :ref:`credits`."
 
-#: ../../changes.rst:134
+#: ../../changes.rst:165
 msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgstr ""
 ":ref:`bulk-edit` geeft een voorbeeld van overeenkomende tekenreeksen weer."
 
-#: ../../changes.rst:135
+#: ../../changes.rst:166
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` exposes "
 "component lock state."
@@ -28549,26 +28607,26 @@ msgstr ""
 ":http:get:`/api/components/(string:project)/(string:component)/` geeft de "
 "status van de vergrendeling van het onderdeel weer."
 
-#: ../../changes.rst:136
+#: ../../changes.rst:167
 msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
 msgstr ""
 "Bewerker in :ref:`zen-mode` is nu vastgezet aan de onderzijde van het scherm."
 
-#: ../../changes.rst:137
+#: ../../changes.rst:168
 msgid "Added page navigation while :ref:`translating`."
 msgstr "Verbeterde navigatie op pagina tijdens :ref:`translating`."
 
-#: ../../changes.rst:138
+#: ../../changes.rst:169
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
 msgstr ""
 ":ref:`manage-appearance` heeft nu afzonderlijke instellingen voor modus "
 "Donker."
 
-#: ../../changes.rst:139
+#: ../../changes.rst:170
 msgid "Improved :ref:`translation-propagation` performance."
 msgstr "Verbeterde prestaties voor :ref:`translation-propagation`."
 
-#: ../../changes.rst:140
+#: ../../changes.rst:171
 msgid ""
 "More detailed error messages for :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/file/`."
@@ -28576,7 +28634,7 @@ msgstr ""
 "Meer gedetailleerde berichten voor :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/file/`."
 
-#: ../../changes.rst:144
+#: ../../changes.rst:175
 msgid ""
 "Using the ``has:variant`` field now correctly displays strings that have "
 "variants in the search language, see :ref:`search-strings`."
@@ -28584,15 +28642,15 @@ msgstr ""
 "Met het veld ``has:variant`` worden nu correcte tekenreeksen weergegeven die "
 "varianten in de doeltaal hebben, bekijk :ref:`search-strings`."
 
-#: ../../changes.rst:145
+#: ../../changes.rst:176
 msgid "Saving newly added strings in some formats."
 msgstr "Opslaan van nieuw toegevoegde tekenreeksen in sommige indelingen."
 
-#: ../../changes.rst:146
+#: ../../changes.rst:177
 msgid ":ref:`check-java-printf-format` gracefully handles escaping."
 msgstr ":ref:`check-java-printf-format` behandelt escapen netjes."
 
-#: ../../changes.rst:150
+#: ../../changes.rst:181
 msgid ""
 ":ref:`rollbar-errors` integration no longer includes client-side error "
 "collection."
@@ -28600,18 +28658,18 @@ msgstr ""
 "Integratie van :ref:`rollbar-errors` bevat niet langer het verzamelen van "
 "fouten aan de kant van de cliënt."
 
-#: ../../changes.rst:151
+#: ../../changes.rst:182
 msgid "Weblate now requires Git 2.28 or newer."
 msgstr "Weblate vereist nu Git 2.28 of nieuwer."
 
-#: ../../changes.rst:152
+#: ../../changes.rst:183
 msgid ""
 "Any custom code that relied on `Change` models signals should be reviewed."
 msgstr ""
 "Elke aangepaste code, die vertrouwde op modelsignalen van `Change`, zou "
 "moeten worden nagekeken."
 
-#: ../../changes.rst:153
+#: ../../changes.rst:184
 msgid ""
 ":ref:`fedora-messaging` integration needs to be updated to be compatible "
 "with this release."
@@ -28619,14 +28677,14 @@ msgstr ""
 "Integratie van :ref:`fedora-messaging` moet worden bijgewerkt om compatibel "
 "te zijn met deze uitgave."
 
-#: ../../changes.rst:154
+#: ../../changes.rst:185
 msgid ""
 ":envvar:`WEB_WORKERS` now configures number of threads instead of processes."
 msgstr ""
 ":envvar:`WEB_WORKERS` configureert nu het aantal threads in plaats van "
 "processen."
 
-#: ../../changes.rst:164
+#: ../../changes.rst:195
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/127?"
 "closed=1>`__."
@@ -28634,36 +28692,36 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/127?closed=1>`__."
 
-#: ../../changes.rst:167
+#: ../../changes.rst:198
 msgid "Weblate 5.8.4"
 msgstr "Weblate 5.8.4"
 
-#: ../../changes.rst:169
+#: ../../changes.rst:200
 msgid "*Released on November 19th 2024.*"
 msgstr "*Uitgegeven op 19 november 2024.*"
 
-#: ../../changes.rst:173
+#: ../../changes.rst:204
 msgid ":ref:`search-users` can search based on user changes."
 msgstr ""
 ":ref:`search-users` kan zoeken, gebaseerd op wijzigingen van de gebruiker."
 
-#: ../../changes.rst:177
+#: ../../changes.rst:208
 msgid "Fixed occasional crash in :ref:`rss`."
 msgstr "Mogelijke crash in :ref:`rss` gerepareerd."
 
-#: ../../changes.rst:178
+#: ../../changes.rst:209
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgstr ""
 ":ref:`check-icu-message-format` behandelt tekenreeksen van meervouden netjes."
 
-#: ../../changes.rst:179
+#: ../../changes.rst:210
 msgid ""
 ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
 msgstr ""
 ":ref:`vcs-bitbucket-cloud` genereert correct een beschrijving voor een pull "
 "request."
 
-#: ../../changes.rst:189
+#: ../../changes.rst:220
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/132?"
 "closed=1>`__."
@@ -28671,31 +28729,31 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/132?closed=1>`__."
 
-#: ../../changes.rst:192
+#: ../../changes.rst:223
 msgid "Weblate 5.8.3"
 msgstr "Weblate 5.8.3"
 
-#: ../../changes.rst:194
+#: ../../changes.rst:225
 msgid "*Released on November 6th 2024.*"
 msgstr "*Uitgegeven op 6 november 2024.*"
 
-#: ../../changes.rst:198
+#: ../../changes.rst:229
 msgid "Formatting of some :ref:`audit-log` entries."
 msgstr "Opmaken van enkele items van :ref:`audit-log`."
 
-#: ../../changes.rst:199 ../../changes.rst:223
+#: ../../changes.rst:230 ../../changes.rst:254
 msgid "Fixed XML escaped output in some machine translation integrations."
 msgstr ""
 "Gerepareerde XML geëscapete uitvoer in sommig integraties van "
 "machinevertaling."
 
-#: ../../changes.rst:200
+#: ../../changes.rst:231
 msgid "Fixed duplicate listing of newly added glossary terms."
 msgstr ""
 "Gedupliceerde vermelding van nieuw toegevoegde termen in woordenlijst "
 "gerepareerd."
 
-#: ../../changes.rst:210
+#: ../../changes.rst:241
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/131?"
 "closed=1>`__."
@@ -28703,26 +28761,26 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/131?closed=1>`__."
 
-#: ../../changes.rst:213
+#: ../../changes.rst:244
 msgid "Weblate 5.8.2"
 msgstr "Weblate 5.8.2"
 
-#: ../../changes.rst:215
+#: ../../changes.rst:246
 msgid "*Released on November 1st 2024.*"
 msgstr "*Uitgegeven op 1 november 2024.*"
 
-#: ../../changes.rst:219
+#: ../../changes.rst:250
 msgid "Update outdated plural definitions during the database migration."
 msgstr ""
 "Bijwerken verouderde definities voor meervoud gedurende de migratie van de "
 "database."
 
-#: ../../changes.rst:220
+#: ../../changes.rst:251
 msgid "Reduced number of database queries when updating multiple strings."
 msgstr ""
 "Verminderd aantal databasequery's bij bijwerken van meerdere tekenreeksen."
 
-#: ../../changes.rst:221
+#: ../../changes.rst:252
 msgid ""
 "Leading problematic characters in :ref:`glossary` terms are now properly "
 "stripped in uploaded files."
@@ -28730,11 +28788,11 @@ msgstr ""
 "Voorafgaande problematische tekens in termen voor :ref:`glossary` worden nu "
 "op de juiste wijze verwijderd in geüploade bestanden."
 
-#: ../../changes.rst:222
+#: ../../changes.rst:253
 msgid "Improved :ref:`workflow-customization` performance."
 msgstr "Verbeterde prestaties voor :ref:`workflow-customization`."
 
-#: ../../changes.rst:233
+#: ../../changes.rst:264
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/129?"
 "closed=1>`__."
@@ -28742,19 +28800,19 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/129?closed=1>`__."
 
-#: ../../changes.rst:236
+#: ../../changes.rst:267
 msgid "Weblate 5.8.1"
 msgstr "Weblate 5.8.1"
 
-#: ../../changes.rst:238 ../../changes.rst:257
+#: ../../changes.rst:269 ../../changes.rst:288
 msgid "*Released on October 15th 2024.*"
 msgstr "*Uitgegeven op 15 oktober 2024.*"
 
-#: ../../changes.rst:242
+#: ../../changes.rst:273
 msgid "Use lower case name for the Python package."
 msgstr "Naam in kleine letters gebruiken voor pakket van Python."
 
-#: ../../changes.rst:252
+#: ../../changes.rst:283
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/128?"
 "closed=1>`__."
@@ -28762,15 +28820,15 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/128?closed=1>`__."
 
-#: ../../changes.rst:255
+#: ../../changes.rst:286
 msgid "Weblate 5.8"
 msgstr "Weblate 5.8"
 
-#: ../../changes.rst:261
+#: ../../changes.rst:292
 msgid "Added :ref:`component-key_filter` in the component."
 msgstr "Toegevoegd :ref:`component-key_filter` in het onderdeel."
 
-#: ../../changes.rst:262
+#: ../../changes.rst:293
 msgid ""
 ":doc:`/user/search` now supports filtering by object path and :ref:`date-"
 "search`."
@@ -28778,7 +28836,7 @@ msgstr ""
 ":doc:`/user/search` ondersteunt nu filteren op objectpad en :ref:`date-"
 "search`."
 
-#: ../../changes.rst:263
+#: ../../changes.rst:294
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, see :ref:"
 "`settings-credentials`."
@@ -28786,34 +28844,34 @@ msgstr ""
 "Inloggegevens voor verzoeken tot samenvoegen kunnen nu worden doorgegeven in "
 "de URL van de opslagruimte, bekijk :ref:`settings-credentials`."
 
-#: ../../changes.rst:264
+#: ../../changes.rst:295
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
 msgstr ":ref:`mt-azure-openai` automatische service voor suggesties."
 
-#: ../../changes.rst:265
+#: ../../changes.rst:296
 msgid ":ref:`vcs-bitbucket-cloud`."
 msgstr ":ref:`vcs-bitbucket-cloud`."
 
-#: ../../changes.rst:269
+#: ../../changes.rst:300
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-modernmt` ondersteunt :ref:`glossary-mt`."
 
-#: ../../changes.rst:270
+#: ../../changes.rst:301
 msgid ":ref:`mt-deepl` now supports specifying translation context."
 msgstr ""
 ":ref:`mt-deepl` ondersteunt nu het specificeren van context voor de "
 "vertaling."
 
-#: ../../changes.rst:271
+#: ../../changes.rst:302
 msgid ":ref:`mt-aws` now supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-aws` ondersteunt nu :ref:`glossary-mt`."
 
-#: ../../changes.rst:272
+#: ../../changes.rst:303
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
 msgstr ""
 ":ref:`autofix` voor Devanagari danda behandelt nu Latijns schrift beter."
 
-#: ../../changes.rst:273
+#: ../../changes.rst:304
 msgid ""
 ":ref:`autofix` for French and Breton now uses a non-breaking space before "
 "colons instead of a narrow one."
@@ -28821,19 +28879,19 @@ msgstr ""
 ":ref:`autofix` voor Frans en Bretons gebruikt nu een niet afbrekende spatie "
 "voor dubbele punten, in plaats van een smalle."
 
-#: ../../changes.rst:274
+#: ../../changes.rst:305
 msgid ":ref:`api` now has a preview OpenAPI specification."
 msgstr ":ref:`api` heeft nu een voorbeeld OpenAPI-specificatie."
 
-#: ../../changes.rst:275
+#: ../../changes.rst:306
 msgid "Stale, empty glossaries are now automatically removed."
 msgstr "Verouderde, lege woordenlijsten worden nu automatisch verwijderd."
 
-#: ../../changes.rst:276
+#: ../../changes.rst:307
 msgid ":kbd:`?` now displays available :ref:`keyboard`."
 msgstr ":kbd:`?` geeft nu beschikbare :ref:`keyboard` weer."
 
-#: ../../changes.rst:277
+#: ../../changes.rst:308
 msgid ""
 "Translation and language view in the project now include basic information "
 "about the language and plurals."
@@ -28841,18 +28899,18 @@ msgstr ""
 "Vertaling en taalweergave in het project bevatten nu basisinformatie over de "
 "taal en de meervoudsvormen."
 
-#: ../../changes.rst:278
+#: ../../changes.rst:309
 msgid ":ref:`search-replace` shows a preview of matched strings."
 msgstr ""
 ":ref:`search-replace` geeft een voorbeeld van overeenkomende tekenreeksen "
 "weer."
 
-#: ../../changes.rst:279
+#: ../../changes.rst:310
 msgid ":ref:`aresource` now support translatable attribute in its strings."
 msgstr ""
 ":ref:`aresource` ondersteunt nu vertaalbare attributen in zijn tekenreeksen."
 
-#: ../../changes.rst:280
+#: ../../changes.rst:311
 msgid ""
 "Creating component via file upload (Translate document) now supports "
 "bilingual files."
@@ -28860,19 +28918,19 @@ msgstr ""
 "Onderdeel maken via uploaden van bestand (Translate document) ondersteunt nu "
 "tweetalige indelingen."
 
-#: ../../changes.rst:284
+#: ../../changes.rst:315
 msgid "Displaying :ref:`workflow-customization` setting in some cases."
 msgstr ""
 "Weergeven van de instelling :ref:`workflow-customization` in sommige "
 "gevallen."
 
-#: ../../changes.rst:285
+#: ../../changes.rst:316
 msgid "Users can add component in any language already existing in a project."
 msgstr ""
 "Gebruikers kunnen een onderdeel toevoegen in elke taal die al bestaat in een "
 "project."
 
-#: ../../changes.rst:286
+#: ../../changes.rst:317
 msgid ""
 ":ref:`check-unnamed-format` better handles some strings, such as :ref:`check-"
 "python-brace-format`."
@@ -28880,15 +28938,15 @@ msgstr ""
 ":ref:`check-unnamed-format` handelt sommige tekenreeksen beter af, zoals :"
 "ref:`check-python-brace-format`."
 
-#: ../../changes.rst:290
+#: ../../changes.rst:321
 msgid "Weblate now requires Python 3.11 or newer."
 msgstr "Weblate vereist nu Python 3.11 of nieuwer."
 
-#: ../../changes.rst:291
+#: ../../changes.rst:322
 msgid ":ref:`mt-aws` now requires the `TranslateFullAccess` permission."
 msgstr ":ref:`mt-aws` vereist nu het recht `TranslateFullAccess`."
 
-#: ../../changes.rst:297
+#: ../../changes.rst:328
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS`` and changes in "
@@ -28900,7 +28958,7 @@ msgstr ""
 "``SPECTACULAR_SETTINGS`` en wijzigingen in ``REST_FRAMEWORK`` en "
 "``INSTALLED_APPS``; pas uw instellingen overeenkomstig aan."
 
-#: ../../changes.rst:303
+#: ../../changes.rst:334
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__."
@@ -28908,36 +28966,36 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/122?closed=1>`__."
 
-#: ../../changes.rst:306
+#: ../../changes.rst:337
 msgid "Weblate 5.7.2"
 msgstr "Weblate 5.7.2"
 
-#: ../../changes.rst:308
+#: ../../changes.rst:339
 msgid "*Released on September 5th 2024.*"
 msgstr "*Uitgegeven op 5 september 2024.*"
 
-#: ../../changes.rst:312
+#: ../../changes.rst:343
 msgid ":ref:`2fa` remembers last method used by user."
 msgstr ":ref:`2fa` onthoud de door de gebruiker laatst gebruikte methode."
 
-#: ../../changes.rst:313
+#: ../../changes.rst:344
 msgid "Instead of redirecting, the sign-out now displays a page."
 msgstr "In plaats van verwijzen, geeft uitloggen nu een pagina weer."
 
-#: ../../changes.rst:314
+#: ../../changes.rst:345
 msgid "Improved readability of exception logs."
 msgstr "Verbeterde leesbaarheid van logs voor uitzonderingen."
 
-#: ../../changes.rst:318
+#: ../../changes.rst:349
 msgid "Updating of translations from the repository in linked components."
 msgstr ""
 "Bijwerken van vertalingen vanuit de opslagruimte in gekoppelde onderdelen."
 
-#: ../../changes.rst:319
+#: ../../changes.rst:350
 msgid "Improved rendering of digest notification e-mails."
 msgstr "Verbeterd renderen van e-mails met samengevatte notificaties."
 
-#: ../../changes.rst:329
+#: ../../changes.rst:360
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__."
@@ -28945,15 +29003,15 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/126?closed=1>`__."
 
-#: ../../changes.rst:332
+#: ../../changes.rst:363
 msgid "Weblate 5.7.1"
 msgstr "Weblate 5.7.1"
 
-#: ../../changes.rst:334
+#: ../../changes.rst:365
 msgid "*Released on August 30th 2024.*"
 msgstr "*Uitgegeven op 30 augustus 2024.*"
 
-#: ../../changes.rst:338
+#: ../../changes.rst:369
 msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
@@ -28961,7 +29019,7 @@ msgstr ""
 "Bijgewerkte namen voor talen om de verschillende schriften en Sinitische "
 "talen beter te beschrijven."
 
-#: ../../changes.rst:339
+#: ../../changes.rst:370
 msgid ""
 ":ref:`addon-weblate.cleanup.generic` is now automatically installed for "
 "formats which need it to update non-translation content in the translated "
@@ -28970,33 +29028,33 @@ msgstr ""
 ":ref:`addon-weblate.cleanup.generic` wordt nu automatisch geïnstalleerd voor "
 "indelingen die niet-vertaalbare inhoud in vertaalbestanden moeten bijwerken."
 
-#: ../../changes.rst:343
+#: ../../changes.rst:374
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
 msgstr ""
 "Ondersteuning voor het gebruiken van netwerknamen voor Docker in "
 "instellingen voor automatische suggesties."
 
-#: ../../changes.rst:344
+#: ../../changes.rst:375
 msgid "Fixed authentication using some third-party providers such as Azure."
 msgstr "Gerepareerde authenticatie voor enkele derde partijen, zoals Azure."
 
-#: ../../changes.rst:345
+#: ../../changes.rst:376
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
 msgstr "Ondersteuning voor formeel en informeel Portugees in :ref:`mt-deepl`."
 
-#: ../../changes.rst:346
+#: ../../changes.rst:377
 msgid "QR code for TOTP is now black/white even in dark mode."
 msgstr "QR-code voor TOTP is nu zwart-wit, zelfs in donkere modus."
 
-#: ../../changes.rst:347
+#: ../../changes.rst:378
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
 msgstr ""
 "Gerepareerde TOTP-authenticatie als WebAuthn ook is geconfigureerd voor de "
 "gebruiker."
 
-#: ../../changes.rst:357
+#: ../../changes.rst:388
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/125?"
 "closed=1>`__."
@@ -29004,15 +29062,15 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/125?closed=1>`__."
 
-#: ../../changes.rst:360
+#: ../../changes.rst:391
 msgid "Weblate 5.7"
 msgstr "Weblate 5.7"
 
-#: ../../changes.rst:362
+#: ../../changes.rst:393
 msgid "*Released on August 15th 2024.*"
 msgstr "*Uitgegeven op 15 augustus 2024.*"
 
-#: ../../changes.rst:366
+#: ../../changes.rst:397
 msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
@@ -29020,12 +29078,12 @@ msgstr ""
 ":ref:`2fa` wordt nu ondersteund met Passkeys, WebAuthn, apps voor "
 "authenticatie (TOTP) en herstelcodes."
 
-#: ../../changes.rst:367
+#: ../../changes.rst:398
 msgid ":ref:`2fa` can be enforced at the team or project level."
 msgstr ""
 ":ref:`2fa` kan worden afgedwongen op het niveau van het team of het project."
 
-#: ../../changes.rst:368
+#: ../../changes.rst:399
 msgid ""
 ":ref:`adding-new-strings` can now create plural strings in the user "
 "interface."
@@ -29033,15 +29091,15 @@ msgstr ""
 ":ref:`adding-new-strings` kan nu tekenreeksen in meervoud maken in de "
 "gebruikersinterface."
 
-#: ../../changes.rst:369
+#: ../../changes.rst:400
 msgid ":ref:`labels` now include description to explain them."
 msgstr ":ref:`labels` bevatten nu een beschrijving om ze uit te leggen."
 
-#: ../../changes.rst:370
+#: ../../changes.rst:401
 msgid "New :ref:`subscriptions` for completed translation and component."
 msgstr "Nieuwe :ref:`subscriptions` voor volledige vertaling en onderdeel."
 
-#: ../../changes.rst:371
+#: ../../changes.rst:402
 msgid ""
 ":ref:`mt-openai` now supports custom models and URLs and offers rephrasing "
 "of existing strings."
@@ -29049,17 +29107,17 @@ msgstr ""
 ":ref:`mt-openai` ondersteunt nu aangepaste modellen en URL's en biedt "
 "opnieuw fraseren van bestaande tekenreeksen aan."
 
-#: ../../changes.rst:372
+#: ../../changes.rst:403
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
 msgstr ":ref:`mt-cyrtranslit` automatische service voor suggesties."
 
-#: ../../changes.rst:376
+#: ../../changes.rst:407
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
 msgstr ""
 ":ref:`addon-weblate.properties.sort` kan nu hoofdlettergevoelig sorteren "
 "uitvoeren."
 
-#: ../../changes.rst:377
+#: ../../changes.rst:408
 msgid ""
 "The status widgets are now supported site-wide and language-wide, see :ref:"
 "`promotion`."
@@ -29067,26 +29125,26 @@ msgstr ""
 "De widgets voor de status worden nu sitebreed en taalbreed ondersteund, "
 "bekijk :ref:`promotion`."
 
-#: ../../changes.rst:378
+#: ../../changes.rst:409
 msgid ":ref:`reports` are now available for categories."
 msgstr ":ref:`reports` zijn nu beschikbaar voor categorieën."
 
-#: ../../changes.rst:379
+#: ../../changes.rst:410
 msgid "Highlight newlines in the editor."
 msgstr "Accentueer nieuwe regels in de bewerker."
 
-#: ../../changes.rst:380
+#: ../../changes.rst:411
 msgid ":doc:`/formats/csv` better handle files with two fields only."
 msgstr ""
 ":doc:`/formats/csv` handelen bestanden met slechts twee velden beter af."
 
-#: ../../changes.rst:381
+#: ../../changes.rst:412
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr ""
 "In modus Bladeren kan nu worden genavigeerd met het toetsenbord, bekijk :ref:"
 "`keyboard`."
 
-#: ../../changes.rst:382
+#: ../../changes.rst:413
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
 "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
@@ -29096,7 +29154,7 @@ msgstr ""
 "http:get:`/api/projects/(string:project)/credits/` API-eindpunten voor "
 "onderdelen en projecten."
 
-#: ../../changes.rst:383
+#: ../../changes.rst:414
 msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
@@ -29105,41 +29163,41 @@ msgstr ""
 "gemaakt door gebruikers met het recht :guilabel:`Terminologie woordenlijst "
 "toevoegen`."
 
-#: ../../changes.rst:384
+#: ../../changes.rst:415
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
 msgstr ":ref:`check-python-brace-format` detecteert extra gekrulde haken."
 
-#: ../../changes.rst:385
+#: ../../changes.rst:416
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
 msgstr ""
 "Schermafdrukken kunnen nu geplakt worden vanaf het klembord in :ref:"
 "`screenshots`."
 
-#: ../../changes.rst:389
+#: ../../changes.rst:420
 msgid "Accessibility of keyboard navigation."
 msgstr "Toegankelijkheid van navigatie met toetsenbord."
 
-#: ../../changes.rst:390
+#: ../../changes.rst:421
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
 msgstr ":ref:`git-exporter` werkt nu met alle op Git gebaseerde :ref:`vcs`."
 
-#: ../../changes.rst:391
+#: ../../changes.rst:422
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
 msgstr ":ref:`check-max-size` faalt soms om een schermafdruk te renderen."
 
-#: ../../changes.rst:395
+#: ../../changes.rst:426
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
 msgstr ""
 "Weblate gebruikt nu mistletoe in plaats van misaka als een renderer voor "
 "Markdown."
 
-#: ../../changes.rst:396
+#: ../../changes.rst:427
 msgid ":ref:`csp` is now stricter what might block third-party customizations."
 msgstr ""
 ":ref:`csp` is nu strikter met wat aanpassingen van derde partijen zou kunnen "
 "blokkeren."
 
-#: ../../changes.rst:397
+#: ../../changes.rst:428
 msgid ""
 "Monolingual formats no longer copy comments from :ref:`component-template` "
 "when adding strings to translation."
@@ -29147,7 +29205,7 @@ msgstr ""
 "Eentalige indelingen kopiëren niet langer opmerkingen uit :ref:`component-"
 "template` bij het toevoegen van tekenreeksen aan de vertaling."
 
-#: ../../changes.rst:398
+#: ../../changes.rst:429
 msgid ""
 "Dropped support for Amagama in :ref:`machine-translation-setup` as the "
 "service is no longer maintained."
@@ -29155,11 +29213,11 @@ msgstr ""
 "Ondersteuning voor Amagama vervallen in :ref:`machine-translation-setup` "
 "omdat de service niet langer wordt onderhouden."
 
-#: ../../changes.rst:399
+#: ../../changes.rst:430
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
 msgstr "Standaard waarde voor :setting:`SENTRY_SEND_PII` werd gewijzigd."
 
-#: ../../changes.rst:400
+#: ../../changes.rst:431
 msgid ""
 "Translation credit reports in the JSON format now follows a different format "
 "for entries."
@@ -29167,7 +29225,7 @@ msgstr ""
 "Rapporten voor attributie van vertalingen in de indeling JSON volgen nu een "
 "andere indeling voor items."
 
-#: ../../changes.rst:406
+#: ../../changes.rst:437
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, "
@@ -29179,7 +29237,7 @@ msgstr ""
 "``INSTALLED_APPS``, ``SOCIAL_AUTH_PIPELINE`` en ``MIDDLEWARE``; pas uw "
 "instellingen overeenkomstig aan."
 
-#: ../../changes.rst:407
+#: ../../changes.rst:438
 msgid ""
 ":setting:`ENABLE_HTTPS` is now required for WebAuthn support. If you cannot "
 "use HTTPS, please silence related check as described in :setting:"
@@ -29189,7 +29247,7 @@ msgstr ""
 "geen HTTPS kunt gebruiken, schakel dan de gerelateerde controle uit, zoals "
 "beschreven in de documentatie voor :setting:`ENABLE_HTTPS`."
 
-#: ../../changes.rst:413
+#: ../../changes.rst:444
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?"
 "closed=1>`__."
@@ -29197,36 +29255,36 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/116?closed=1>`__."
 
-#: ../../changes.rst:416
+#: ../../changes.rst:447
 msgid "Weblate 5.6.2"
 msgstr "Weblate 5.6.2"
 
-#: ../../changes.rst:418
+#: ../../changes.rst:449
 msgid "*Released on July 1st 2024.*"
 msgstr "*Uitgegeven op 1 juli 2024.*"
 
-#: ../../changes.rst:422
+#: ../../changes.rst:453
 msgid "Rendering of :ref:`labels` color selection widget."
 msgstr "Renderen van :ref:`labels` widget voor selecteren kleur."
 
-#: ../../changes.rst:423
+#: ../../changes.rst:454
 msgid "Detection of pending outgoing commits."
 msgstr "Detectie van openstaande uitgaande commits."
 
-#: ../../changes.rst:424
+#: ../../changes.rst:455
 msgid ":ref:`addons` button layout."
 msgstr ":ref:`addons` knop lay-out."
 
-#: ../../changes.rst:425
+#: ../../changes.rst:456
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
 msgstr ""
 "Crash bij installeren van add-on :ref:`addon-weblate.discovery.discovery`."
 
-#: ../../changes.rst:426
+#: ../../changes.rst:457
 msgid "Removal of source strings in :ref:`glossary`."
 msgstr "Verwijderen van brontekenreeksen in :ref:`glossary`."
 
-#: ../../changes.rst:427
+#: ../../changes.rst:458
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / "
 "GHSA-jfgp-674x-6q4p)."
@@ -29234,7 +29292,7 @@ msgstr ""
 "Valideren van :ref:`projectbackup` ZIP-bestand bij herstellen "
 "(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
 
-#: ../../changes.rst:433
+#: ../../changes.rst:464
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/124?"
 "closed=1>`__."
@@ -29242,15 +29300,15 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/124?closed=1>`__."
 
-#: ../../changes.rst:436
+#: ../../changes.rst:467
 msgid "Weblate 5.6.1"
 msgstr "Weblate 5.6.1"
 
-#: ../../changes.rst:438
+#: ../../changes.rst:469
 msgid "*Released on June 24th 2024.*"
 msgstr "*Uitgegeven op 24 juni 2024.*"
 
-#: ../../changes.rst:442
+#: ../../changes.rst:473
 msgid ""
 "Docker container accepts :envvar:`WEBLATE_REMOVE_ADDONS` and :envvar:"
 "`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :"
@@ -29261,16 +29319,16 @@ msgstr ""
 "passen en :envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` voor behandeling van CORS "
 "in API."
 
-#: ../../changes.rst:443
+#: ../../changes.rst:474
 msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr ""
 "Toegevoegd compatibiliteit voor OpenMetrics voor :http:get:`/api/metrics/`."
 
-#: ../../changes.rst:447
+#: ../../changes.rst:478
 msgid "Language aliases in :doc:`/admin/machine`."
 msgstr "Aliassen voor taal in :doc:`/admin/machine`."
 
-#: ../../changes.rst:453
+#: ../../changes.rst:484
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/123?"
 "closed=1>`__."
@@ -29278,38 +29336,38 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/123?closed=1>`__."
 
-#: ../../changes.rst:456
+#: ../../changes.rst:487
 msgid "Weblate 5.6"
 msgstr "Weblate 5.6"
 
-#: ../../changes.rst:458
+#: ../../changes.rst:489
 msgid "*Released on June 19th 2024.*"
 msgstr "*Uitgegeven op 19 juni 2024.*"
 
-#: ../../changes.rst:462
+#: ../../changes.rst:493
 msgid ":ref:`addons` activity log for tracking add-on activity."
 msgstr ""
 "Activiteitenlog :ref:`addons` voor het bijhouden van de activiteiten voor "
 "add-on."
 
-#: ../../changes.rst:463
+#: ../../changes.rst:494
 msgid "Improved date range selection in :ref:`reports`."
 msgstr "Verbeterde selectie datumbereik in :ref:`reports`."
 
-#: ../../changes.rst:467
+#: ../../changes.rst:498
 msgid ":ref:`subscriptions` now include strings which need updating."
 msgstr ""
 ":ref:`subscriptions` bevatten nu tekenreeksen die bijgewerkt moeten worden."
 
-#: ../../changes.rst:468
+#: ../../changes.rst:499
 msgid "Improved compatibility with password managers."
 msgstr "Verbeterde compatibiliteit met wachtwoordbeheerders."
 
-#: ../../changes.rst:469
+#: ../../changes.rst:500
 msgid "Improved tracking of uploaded changes."
 msgstr "Verbeterd bijhouden van bijgewerkte wijzigingen."
 
-#: ../../changes.rst:470
+#: ../../changes.rst:501
 msgid ""
 "Gracefully handle temporary machine translation errors in automatic "
 "suggestions."
@@ -29317,48 +29375,48 @@ msgstr ""
 "Nette afhandeling van tijdelijke fouten machinevertaling in automatische "
 "suggesties."
 
-#: ../../changes.rst:471
+#: ../../changes.rst:502
 msgid ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
 msgstr ":http:get:`/api/units/(int:id)/` bevat nu tijdstempel `last_updated`."
 
-#: ../../changes.rst:472
+#: ../../changes.rst:503
 msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgstr ":http:get:`/api/changes/(int:id)/` bevat nu `old` en `details`."
 
-#: ../../changes.rst:473
+#: ../../changes.rst:504
 msgid "Reduced memory usage and increased performance of some views."
 msgstr ""
 "Verminderd geheugengebruik en verhoogde prestaties van enkele weergaven."
 
-#: ../../changes.rst:477
+#: ../../changes.rst:508
 msgid "Loading of strings with many glossary matches."
 msgstr "Laden van tekenreeksen met veel overeenkomsten in de woordenlijst."
 
-#: ../../changes.rst:478
+#: ../../changes.rst:509
 msgid "Fixed behavior of some site-wide :ref:`addons`."
 msgstr "Gerepareerd gedrag van enkele sitebrede :ref:`addons`."
 
-#: ../../changes.rst:479
+#: ../../changes.rst:510
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
 msgstr ""
 "Opslaan van tekenreeksen die moeten worden bewerkt in :doc:`/formats/winrc`."
 
-#: ../../changes.rst:480
+#: ../../changes.rst:511
 msgid ":ref:`check-xml-tags` better handle XML entities."
 msgstr ":ref:`check-xml-tags` beter afhandelen van entiteiten voor XML."
 
-#: ../../changes.rst:481
+#: ../../changes.rst:512
 msgid ""
 "Automatic suggestions could mix up replacements between translated strings."
 msgstr ""
 "Automatische suggesties zouden vervangingen tussen vertaalde tekenreeksen "
 "kunnen verstoren."
 
-#: ../../changes.rst:485
+#: ../../changes.rst:516
 msgid "Compatibility with Django 5.1."
 msgstr "Compatibiliteit met Django 5.1."
 
-#: ../../changes.rst:491
+#: ../../changes.rst:522
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/114?"
 "closed=1>`__."
@@ -29366,23 +29424,23 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/114?closed=1>`__."
 
-#: ../../changes.rst:494
+#: ../../changes.rst:525
 msgid "Weblate 5.5.5"
 msgstr "Weblate 5.5.5"
 
-#: ../../changes.rst:496
+#: ../../changes.rst:527
 msgid "*Released on May 13th 2024.*"
 msgstr "*Uitgegeven op 13 mei 2024.*"
 
-#: ../../changes.rst:500
+#: ../../changes.rst:531
 msgid "False-positive merge failure alert when using push branch."
 msgstr "Vals-positief alarm voor mislukken samenvoegen bij pushen naar tak."
 
-#: ../../changes.rst:501
+#: ../../changes.rst:532
 msgid "Cleanup of stale repositories."
 msgstr "Schoonmaken van vaststaande opslagruimten."
 
-#: ../../changes.rst:507
+#: ../../changes.rst:538
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/121?"
 "closed=1>`__."
@@ -29390,38 +29448,38 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/121?closed=1>`__."
 
-#: ../../changes.rst:510
+#: ../../changes.rst:541
 msgid "Weblate 5.5.4"
 msgstr "Weblate 5.5.4"
 
-#: ../../changes.rst:512
+#: ../../changes.rst:543
 msgid "*Released on May 10th 2024.*"
 msgstr "*Uitgegeven op 10 mei 2024.*"
 
-#: ../../changes.rst:516
+#: ../../changes.rst:547
 msgid "Visually highlight explanation in :ref:`glossary`."
 msgstr "Visueel accentueren uitleg in :ref:`glossary`."
 
-#: ../../changes.rst:517
+#: ../../changes.rst:548
 msgid "Add :ref:`addons` history tab in management."
 msgstr "Toevoegen tab geschiedenis voor :ref:`addons` in beheer."
 
-#: ../../changes.rst:518
+#: ../../changes.rst:549
 msgid "New :ref:`alerts` when :ref:`glossary` might not work as expected."
 msgstr ""
 "Nieuwe :ref:`alerts` als :ref:`glossary` niet zou werken zoals verwacht."
 
-#: ../../changes.rst:519
+#: ../../changes.rst:550
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr ""
 ":doc:`/admin/announcements` kunnen worden gepost in het bereik van het "
 "project/de taal."
 
-#: ../../changes.rst:523
+#: ../../changes.rst:554
 msgid "Improved handling placeables in :ref:`mt-openai`."
 msgstr "Verbeterde afhandeling plaatsvervangers in :ref:`mt-openai`."
 
-#: ../../changes.rst:529
+#: ../../changes.rst:560
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__."
@@ -29429,34 +29487,34 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/120?closed=1>`__."
 
-#: ../../changes.rst:532
+#: ../../changes.rst:563
 msgid "Weblate 5.5.3"
 msgstr "Weblate 5.5.3"
 
-#: ../../changes.rst:534
+#: ../../changes.rst:565
 msgid "*Released on May 3rd 2024.*"
 msgstr "*Uitgegeven op 3 mei 2024.*"
 
-#: ../../changes.rst:538
+#: ../../changes.rst:569
 msgid "Improved performance of rendering large lists of objects."
 msgstr "Verbeterde prestaties bij renderen van lange lijsten met objecten."
 
-#: ../../changes.rst:539
+#: ../../changes.rst:570
 msgid ""
 "Component management: added links to manage project/site-wide :ref:`addons`."
 msgstr ""
 "Onderdeelbeheer: toegevoegde koppelingen om project-/sitebrede :ref:`addons` "
 "te beheren."
 
-#: ../../changes.rst:543
+#: ../../changes.rst:574
 msgid "Fixed crashes with librsvg older than 2.46."
 msgstr "Gerepareerde crashes met librsvg ouder dan 2.46."
 
-#: ../../changes.rst:544
+#: ../../changes.rst:575
 msgid "Daily execution of some :ref:`addons`."
 msgstr "Dagelijks uitvoeren van enkele :ref:`addons`."
 
-#: ../../changes.rst:550
+#: ../../changes.rst:581
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/119?"
 "closed=1>`__."
@@ -29464,19 +29522,19 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/119?closed=1>`__."
 
-#: ../../changes.rst:553
+#: ../../changes.rst:584
 msgid "Weblate 5.5.2"
 msgstr "Weblate 5.5.2"
 
-#: ../../changes.rst:555 ../../changes.rst:570
+#: ../../changes.rst:586 ../../changes.rst:601
 msgid "*Released on April 26th 2024.*"
 msgstr "*Uitgegeven op 26 april 2024.*"
 
-#: ../../changes.rst:559
+#: ../../changes.rst:590
 msgid "Fixed publishing packages to PyPI."
 msgstr "Gerepareerd het publiceren van pakketten naar PyPI."
 
-#: ../../changes.rst:565
+#: ../../changes.rst:596
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/118?"
 "closed=1>`__."
@@ -29484,69 +29542,69 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/118?closed=1>`__."
 
-#: ../../changes.rst:568
+#: ../../changes.rst:599
 msgid "Weblate 5.5.1"
 msgstr "Weblate 5.5.1"
 
-#: ../../changes.rst:574
+#: ../../changes.rst:605
 msgid ":doc:`/user/search` supports ``source_changed:DATETIME``."
 msgstr ":doc:`/user/search` ondersteunt ``source_changed:DATETIME``."
 
-#: ../../changes.rst:575
+#: ../../changes.rst:606
 msgid "Added several new :ref:`component-language_code_style`."
 msgstr "Verscheidene nieuwe :ref:`component-language_code_style` toegevoegd."
 
-#: ../../changes.rst:579
+#: ../../changes.rst:610
 msgid "Display more details on source string change in history."
 msgstr ""
 "Geef in geschiedenis meer details weer over wijziging in brontekenreeks."
 
-#: ../../changes.rst:580
+#: ../../changes.rst:611
 msgid ":ref:`mt-microsoft-translator` now supports using custom translators."
 msgstr ""
 ":ref:`mt-microsoft-translator` ondersteunt nu het gebruiken van aangepaste "
 "vertalers."
 
-#: ../../changes.rst:581
+#: ../../changes.rst:612
 msgid "Improved error handling in :ref:`invite-user`."
 msgstr "Verbeterde foutafhandeling in :ref:`invite-user`."
 
-#: ../../changes.rst:582
+#: ../../changes.rst:613
 msgid "Added PNG status badge."
 msgstr "Toegevoegd PNG status badge."
 
-#: ../../changes.rst:583
+#: ../../changes.rst:614
 msgid "Added list of managed projects to the dashboard view."
 msgstr "Lijst met beheerde projecten toegevoegd aan de dashboardweergave."
 
-#: ../../changes.rst:584
+#: ../../changes.rst:615
 msgid "More detailed status of outgoing commits."
 msgstr "Meer gedetailleerde status van uitgaande indieningen."
 
-#: ../../changes.rst:585 ../../changes/v4.rst:977
+#: ../../changes.rst:616 ../../changes/v4.rst:977
 msgid "Reduced memory usage."
 msgstr "Verminderd geheugengebruik."
 
-#: ../../changes.rst:589
+#: ../../changes.rst:620
 msgid "Fixed skipped component update with some add-ons enabled."
 msgstr ""
 "Gerepareerd overgeslagen bijwerken onderdeel voor enkele add-ons "
 "ingeschakeld."
 
-#: ../../changes.rst:590
+#: ../../changes.rst:621
 msgid "Daily execution of project and site wide add-ons."
 msgstr "Dagelijks uitvoeren van project- en sitebrede add-ons."
 
-#: ../../changes.rst:591
+#: ../../changes.rst:622
 msgid "Allow editing strings when the source is marked for editing."
 msgstr ""
 "Bewerken van tekenreeks toestaan als de bron is gemarkeerd voor bewerken."
 
-#: ../../changes.rst:592
+#: ../../changes.rst:623
 msgid "Updates of the last updated timestamp of a string."
 msgstr "Bijwerken van tijdstempel laatst bijgewerkt van ene tekenreeks."
 
-#: ../../changes.rst:593
+#: ../../changes.rst:624
 msgid ""
 "Fixed project and site wide installation of :ref:`addon-weblate.git.squash` "
 "and :ref:`addon-weblate.discovery.discovery` add-ons."
@@ -29554,11 +29612,11 @@ msgstr ""
 "Gerepareerde project- en sitebrede installatie van :ref:`addon-weblate.git."
 "squash` en :ref:`addon-weblate.discovery.discovery` add-ons."
 
-#: ../../changes.rst:594
+#: ../../changes.rst:625
 msgid "Graceful handling of locking errors in the :ref:`api`."
 msgstr "Nette afhandeling van fouten bij vergrendelen in de :ref:`api`."
 
-#: ../../changes.rst:600
+#: ../../changes.rst:631
 msgid ""
 "There is a change in ``REST_FRAMEWORK`` setting (newly added "
 "``EXCEPTION_HANDLER``)."
@@ -29566,7 +29624,7 @@ msgstr ""
 "Er is een wijziging in de instelling ``REST_FRAMEWORK`` (nieuw toegevoegde "
 "``EXCEPTION_HANDLER``)."
 
-#: ../../changes.rst:602
+#: ../../changes.rst:633
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/117?"
 "closed=1>`__."
@@ -29574,40 +29632,40 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/117?closed=1>`__."
 
-#: ../../changes.rst:605
+#: ../../changes.rst:636
 msgid "Weblate 5.5"
 msgstr "Weblate 5.5"
 
-#: ../../changes.rst:607
+#: ../../changes.rst:638
 msgid "*Released on April 20th 2024.*"
 msgstr "*Uitgegeven op 20 april 2024.*"
 
-#: ../../changes.rst:611
+#: ../../changes.rst:642
 msgid ":ref:`addons` can be now installed project-wide and site-wide."
 msgstr ""
 ":ref:`addons` kunnen nu projectbreed en sitebreed worden geïnstalleerd."
 
-#: ../../changes.rst:613
+#: ../../changes.rst:644
 msgid "API improvements."
 msgstr "Verbeteringen API."
 
-#: ../../changes.rst:615
+#: ../../changes.rst:646
 msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
 msgstr "Toegevoegd :http:get:`/api/categories/(int:id)/statistics/`."
 
-#: ../../changes.rst:616
+#: ../../changes.rst:647
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgstr "Toegevoegd :http:get:`/api/projects/(string:project)/file/`."
 
-#: ../../changes.rst:617
+#: ../../changes.rst:648
 msgid "Added :http:post:`/api/groups/(int:id)/admins/`."
 msgstr "Toegevoegd :http:post:`/api/groups/(int:id)/admins/`."
 
-#: ../../changes.rst:618
+#: ../../changes.rst:649
 msgid "Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 msgstr "Toegevoegd :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 
-#: ../../changes.rst:619
+#: ../../changes.rst:650
 msgid ""
 "Improved :http:post:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/units/`."
@@ -29615,12 +29673,12 @@ msgstr ""
 "Verbeterd :http:post:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/units/`."
 
-#: ../../changes.rst:621
+#: ../../changes.rst:652
 msgid "Added :ref:`mt-systran` automatic translation support."
 msgstr ""
 "Toegevoegd :ref:`mt-systran` automatische ondersteuning voor vertaling."
 
-#: ../../changes.rst:625
+#: ../../changes.rst:656
 msgid ""
 "Docker container now validates user password strength by default, see :"
 "envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
@@ -29628,71 +29686,71 @@ msgstr ""
 "Docker container valideert nu standaard de lengte van "
 "gebruikerswachtwoorden, bekijk :envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 
-#: ../../changes.rst:626
+#: ../../changes.rst:657
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgstr "Verbeterd rapporteren van fout in :ref:`machine-translation-setup`."
 
-#: ../../changes.rst:627
+#: ../../changes.rst:658
 msgid ":ref:`check-max-size` better displays rendered text."
 msgstr ":ref:`check-max-size` betere weergave van gerenderde tekst."
 
-#: ../../changes.rst:628
+#: ../../changes.rst:659
 msgid "Admins can now specify username and full name when :ref:`invite-user`."
 msgstr ""
 "Beheerders kunnen nu gebruikersnaam en volledige naam specificeren bij :ref:"
 "`invite-user`."
 
-#: ../../changes.rst:629
+#: ../../changes.rst:660
 msgid "Added :ref:`check-end-interrobang`."
 msgstr "Toegevoegd :ref:`check-end-interrobang`."
 
-#: ../../changes.rst:630
+#: ../../changes.rst:661
 msgid ":ref:`alerts` are now refreshed when needed, not just daily."
 msgstr ""
 ":ref:`alerts` worden nu vernieuwd indien nodig, niet slechts dagelijks."
 
-#: ../../changes.rst:631
+#: ../../changes.rst:662
 msgid ":doc:`/devel/reporting` uses specific word count for CJK languages."
 msgstr ""
 ":doc:`/devel/reporting` gebruikt specifieke telling woorden voor CJK-talen."
 
-#: ../../changes.rst:632
+#: ../../changes.rst:663
 msgid "Team membership changes are now tracked in :ref:`audit-log`."
 msgstr ""
 "Wijzigingen in lidmaatschap team worden nu bijgehouden in :ref:`audit-log`."
 
-#: ../../changes.rst:636
+#: ../../changes.rst:667
 msgid ""
 ":ref:`check-check-glossary` works better for languages not using whitespace."
 msgstr ""
 ":ref:`check-check-glossary` werkt beter voor talen die geen witruimte "
 "gebruiken."
 
-#: ../../changes.rst:637
+#: ../../changes.rst:668
 msgid ":ref:`alerts` better handle non-latin source languages."
 msgstr ":ref:`alerts` handelt niet-Latijnse brontalen beter af."
 
-#: ../../changes.rst:638
+#: ../../changes.rst:669
 msgid ":ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag."
 msgstr ":ref:`check-max-size` negeert soms de vlag ``font-spacing:SPACING``."
 
-#: ../../changes.rst:639
+#: ../../changes.rst:670
 msgid "Fixed per-language statistics on nested categories."
 msgstr "Gerepareerde statistieken per-taal voor geneste categorieën."
 
-#: ../../changes.rst:640
+#: ../../changes.rst:671
 msgid "Fixed categories listing on per-language pages."
 msgstr "Gerepareerde vermelding categorieën op pagina's per-taal."
 
-#: ../../changes.rst:641
+#: ../../changes.rst:672
 msgid "Fixed :guilabel:`Needs editing` state calculation."
 msgstr "Gerepareerde berekening status :guilabel:`Bewerken nodig`."
 
-#: ../../changes.rst:642
+#: ../../changes.rst:673
 msgid "Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`."
 msgstr "Gerepareerde wijziging :ref:`component-push` met :ref:`vcs-gerrit`."
 
-#: ../../changes.rst:643
+#: ../../changes.rst:674
 msgid ""
 "Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:"
 "`auto-translation`."
@@ -29700,7 +29758,7 @@ msgstr ""
 "Gerepareerd gebruiken van gecategoriseerde onderdelen in :ref:`manage`, :ref:"
 "`memory` of :ref:`auto-translation`."
 
-#: ../../changes.rst:647
+#: ../../changes.rst:678
 msgid ""
 "Several API calls might be affected by stricter validation of boolean fields "
 "by Django REST Framework. For example :http:post:`/api/projects/(string:"
@@ -29711,7 +29769,7 @@ msgstr ""
 "Framework. Bijvoorbeeld :http:post:`/api/projects/(string:project)/"
 "components/`."
 
-#: ../../changes.rst:648
+#: ../../changes.rst:679
 msgid ""
 "Uniqueness of name and slug of a component is now enforced at the database "
 "level on PostgreSQL 15+."
@@ -29719,7 +29777,7 @@ msgstr ""
 "Uniek zijn van de naam en slug van een onderdeel wordt u afgedwongen op het "
 "niveau van de database op PostgreSQL 15+."
 
-#: ../../changes.rst:649
+#: ../../changes.rst:680
 msgid ""
 "Docker image now ships Python packages in :file:`/app/venv` and installs "
 "using :program:`uv`."
@@ -29727,7 +29785,7 @@ msgstr ""
 "Docker image levert nu pakketten voor Python in :file:`/app/venv` en "
 "installeert met :program:`uv`."
 
-#: ../../changes.rst:655
+#: ../../changes.rst:686
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``INSTALLED_APPS`` and ``LOGOUT_REDIRECT_URL``, please adjust "
@@ -29737,11 +29795,11 @@ msgstr ""
 "opvallende zijn wijzigingen in ``INSTALLED_APPS`` en "
 "``LOGOUT_REDIRECT_URL``, pas uw instellingen overeenkomstig aan."
 
-#: ../../changes.rst:656
+#: ../../changes.rst:687
 msgid "Weblate now requires Python 3.10 and Django 5.0."
 msgstr "Weblate vereist nu Python 3.10 en Django 5.0."
 
-#: ../../changes.rst:658
+#: ../../changes.rst:689
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?"
 "closed=1>`__."
@@ -29749,19 +29807,19 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/111?closed=1>`__."
 
-#: ../../changes.rst:661
+#: ../../changes.rst:692
 msgid "Weblate 5.4.3"
 msgstr "Weblate 5.4.3"
 
-#: ../../changes.rst:663
+#: ../../changes.rst:694
 msgid "*Released on March 26th 2024.*"
 msgstr "*Uitgegeven op 26 maart 2024.*"
 
-#: ../../changes.rst:667
+#: ../../changes.rst:698
 msgid "Superuser access to components with :ref:`component-restricted`."
 msgstr "Toegang voor superuser tot onderdelen met :ref:`component-restricted`."
 
-#: ../../changes.rst:668
+#: ../../changes.rst:699
 msgid ""
 "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:"
 "`manage-appearance`."
@@ -29769,42 +29827,42 @@ msgstr ""
 "Aangepaste standaard :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` om niet :ref:"
 "`manage-appearance` te blokkeren."
 
-#: ../../changes.rst:669
+#: ../../changes.rst:700
 msgid "Avoid crash on pushing changes to diverged repository."
 msgstr "Vermijd crash bij pushen van wijzigingen naar afgeweken opslagruimte."
 
-#: ../../changes.rst:670
+#: ../../changes.rst:701
 msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
 msgstr ""
 "Vermijd crash bij installeren van :ref:`addon-weblate.generate.pseudolocale`."
 
-#: ../../changes.rst:671
+#: ../../changes.rst:702
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
 msgstr ""
 ":ref:`azure-setup` behandelt netjes opslagruimten met spaties in de URL."
 
-#: ../../changes.rst:672
+#: ../../changes.rst:703
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
 msgstr ""
 ":ref:`mt-deepl` behandelt netjes woordenlijsten voor varianten van talen."
 
-#: ../../changes.rst:673
+#: ../../changes.rst:704
 msgid ":doc:`/formats/excel` better handles blank cells."
 msgstr ":doc:`/formats/excel` handelt blanco cellen beter af."
 
-#: ../../changes.rst:674
+#: ../../changes.rst:705
 msgid "Fixed possible data loss when merging gettext PO file changes in Git."
 msgstr ""
 "Gerepareerd mogelijk gegevensverlies bij samenvoegen van wijzigingen gettext "
 "PO-bestand in Git."
 
-#: ../../changes.rst:675
+#: ../../changes.rst:706
 msgid "Repository operations on project could have skipped some components."
 msgstr ""
 "Bewerkingen opslagruimten in project zouden enkele onderdelen hebben kunnen "
 "overslaan."
 
-#: ../../changes.rst:681
+#: ../../changes.rst:712
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/115?"
 "closed=1>`__."
@@ -29812,25 +29870,25 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/115?closed=1>`__."
 
-#: ../../changes.rst:684
+#: ../../changes.rst:715
 msgid "Weblate 5.4.2"
 msgstr "Weblate 5.4.2"
 
-#: ../../changes.rst:686
+#: ../../changes.rst:717
 msgid "*Released on February 22nd 2024.*"
 msgstr "*Uitgegeven op 22 februari 2024.*"
 
-#: ../../changes.rst:690
+#: ../../changes.rst:721
 msgid "Displaying debugging page in case of database connection issues."
 msgstr ""
 "Weergeven van pagina voor debuggen in het geval van problemen met de "
 "databaseverbinding."
 
-#: ../../changes.rst:691 ../../changes.rst:707
+#: ../../changes.rst:722 ../../changes.rst:738
 msgid "Gracefully handle migration with duplicate built-in teams."
 msgstr "Netjes afhandelen van migratie met duplicaat ingebouwde teams."
 
-#: ../../changes.rst:697
+#: ../../changes.rst:728
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/113?"
 "closed=1>`__."
@@ -29838,15 +29896,15 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/113?closed=1>`__."
 
-#: ../../changes.rst:700
+#: ../../changes.rst:731
 msgid "Weblate 5.4.1"
 msgstr "Weblate 5.4.1"
 
-#: ../../changes.rst:702
+#: ../../changes.rst:733
 msgid "*Released on February 19th 2024.*"
 msgstr "*Uitgegeven op 19 februari 2024.*"
 
-#: ../../changes.rst:706
+#: ../../changes.rst:737
 msgid ""
 "Possible crash on Weblate upgrade check when cached from the previous "
 "versions."
@@ -29854,7 +29912,7 @@ msgstr ""
 "Mogelijke crash bij controle upgraden van Weblate indien gecachet uit "
 "eerdere versies."
 
-#: ../../changes.rst:713
+#: ../../changes.rst:744
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/112?"
 "closed=1>`__."
@@ -29862,86 +29920,86 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/112?closed=1>`__."
 
-#: ../../changes.rst:716
+#: ../../changes.rst:747
 msgid "Weblate 5.4"
 msgstr "Weblate 5.4"
 
-#: ../../changes.rst:718
+#: ../../changes.rst:749
 msgid "*Released on February 15th 2024.*"
 msgstr "*Uitgegeven op 15 februari 2024.*"
 
-#: ../../changes.rst:722
+#: ../../changes.rst:753
 msgid ":ref:`check-perl-brace-format` quality check."
 msgstr "kwaliteitscontrole :ref:`check-perl-brace-format`."
 
-#: ../../changes.rst:723
+#: ../../changes.rst:754
 msgid ":doc:`/formats/moko`."
 msgstr ":doc:`/formats/moko`."
 
-#: ../../changes.rst:724
+#: ../../changes.rst:755
 msgid ":doc:`/formats/formatjs`."
 msgstr ":doc:`/formats/formatjs`."
 
-#: ../../changes.rst:725
+#: ../../changes.rst:756
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
 msgstr ""
 "Invoer voor zoeken is nu geaccentueerd voor de syntaxis, bekijk :doc:`/user/"
 "search`."
 
-#: ../../changes.rst:726
+#: ../../changes.rst:757
 msgid "Weblate is now available in தமிழ்."
 msgstr "Weblate is nu beschikbaar in தமிழ்."
 
-#: ../../changes.rst:730
+#: ../../changes.rst:761
 msgid "Better logging in :wladmin:`createadmin`."
 msgstr "Beter loggen in :wladmin:`createadmin`."
 
-#: ../../changes.rst:731
+#: ../../changes.rst:762
 msgid ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgstr ""
 ":ref:`addon-weblate.discovery.discovery` rapporteert nu overgeslagen items."
 
-#: ../../changes.rst:732
+#: ../../changes.rst:763
 msgid "Adding string in a repository triggers :ref:`subscriptions`."
 msgstr ""
 "Toevoegen van tekenreeks in opslagruimte activeert :ref:`subscriptions`."
 
-#: ../../changes.rst:733
+#: ../../changes.rst:764
 msgid ":ref:`mt-openai` better handles batch translations and glossaries."
 msgstr ""
 ":ref:`mt-openai` handelt vertalingen in bulk en woordenlijsten beter af."
 
-#: ../../changes.rst:734
+#: ../../changes.rst:765
 msgid ":ref:`mt-libretranslate` better handles batch translations."
 msgstr ":ref:`mt-libretranslate` handelt vertalingen in bulk beter af."
 
-#: ../../changes.rst:735
+#: ../../changes.rst:766
 msgid ""
 "Text variant of notification e-mails now properly indicate changed strings."
 msgstr ""
 "Tekstvariant van e-mails voor notificatie geven nu correct de gewijzigde "
 "tekenreeksen aan."
 
-#: ../../changes.rst:736
+#: ../../changes.rst:767
 msgid "File downloads now honor :http:header:`If-Modified-Since`."
 msgstr ""
 "Bestand downloaden houdt nu rekening met :http:header:`If-Modified-Since`."
 
-#: ../../changes.rst:737
+#: ../../changes.rst:768
 msgid ":ref:`num-words` support for CJK languages."
 msgstr ":ref:`num-words` ondersteuning voor CJK-talen."
 
-#: ../../changes.rst:738
+#: ../../changes.rst:769
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`."
 msgstr ""
 ":ref:`addon-weblate.discovery.discovery` behoudt nu :ref:`componentlists`."
 
-#: ../../changes.rst:739
+#: ../../changes.rst:770
 msgid "Nicer formatting of :ref:`glossary` tooltips."
 msgstr "Netter opmaken van :ref:`glossary` helptips."
 
-#: ../../changes.rst:740
+#: ../../changes.rst:771
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` now "
 "includes information about linked component."
@@ -29949,20 +30007,20 @@ msgstr ""
 ":http:get:`/api/components/(string:project)/(string:component)/` bevat nu "
 "informatie over het gekoppelde onderdeel."
 
-#: ../../changes.rst:741
+#: ../../changes.rst:772
 msgid "Improved :ref:`workflow-customization` configuration forms."
 msgstr ""
 "Verbeterde formulieren voor configuratie :ref:`workflow-customization`."
 
-#: ../../changes.rst:745
+#: ../../changes.rst:776
 msgid "Plural forms handling in :doc:`/formats/qt`."
 msgstr "Afhandeling meervoudsvormen in :doc:`/formats/qt`."
 
-#: ../../changes.rst:746
+#: ../../changes.rst:777
 msgid "Added missing documentation for :setting:`ADMINS_CONTACT`."
 msgstr "Ontbrekende documentatie voor :setting:`ADMINS_CONTACT` toegevoegd."
 
-#: ../../changes.rst:747
+#: ../../changes.rst:778
 msgid ""
 "Automatic fixer for :ref:`autofix-punctuation-spacing` no longer adds new "
 "whitespace."
@@ -29970,17 +30028,17 @@ msgstr ""
 "Automatische reparatie voor :ref:`autofix-punctuation-spacing` voegt niet "
 "langer nieuwe witruimte toe."
 
-#: ../../changes.rst:748
+#: ../../changes.rst:779
 msgid "Pending changes committing could be omitted under some circumstances."
 msgstr ""
 "Openstaande wijzigingen voor indienen zouden onder bepaalde omstandigheden "
 "kunnen worden weggelaten."
 
-#: ../../changes.rst:749
+#: ../../changes.rst:780
 msgid ":ref:`addon-weblate.cleanup.blank` now correctly removes blank plurals."
 msgstr ":ref:`addon-weblate.cleanup.blank` verwijdert nu blanco meervouden."
 
-#: ../../changes.rst:753
+#: ../../changes.rst:784
 msgid ""
 "Last changed timestamp now reflects changes outside Weblate as well. This "
 "affects both :ref:`api` and the user interface."
@@ -29988,13 +30046,13 @@ msgstr ""
 "Tijdstempel voor laatste wijziging reflecteert nu ook wijzigingen buiten "
 "Weblate. Dit heeft invloed op zowel de :ref:`api` als de gebruikersinterface."
 
-#: ../../changes.rst:754
+#: ../../changes.rst:785
 msgid "Releases are signed by Sigstore instead of PGP, see :ref:`verify`."
 msgstr ""
 "Uitgaven worden ondertekend door Sigstore in plaats van door PGP, bekijk :"
 "ref:`verify`."
 
-#: ../../changes.rst:760
+#: ../../changes.rst:791
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/109?"
 "closed=1>`__."
@@ -30002,19 +30060,19 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/109?closed=1>`__."
 
-#: ../../changes.rst:763
+#: ../../changes.rst:794
 msgid "Weblate 5.3.1"
 msgstr "Weblate 5.3.1"
 
-#: ../../changes.rst:765
+#: ../../changes.rst:796
 msgid "*Released on December 19th 2023.*"
 msgstr "*Uitgegeven op 19 december 2023.*"
 
-#: ../../changes.rst:769
+#: ../../changes.rst:800
 msgid "Not updating statistics in some situations."
 msgstr "In sommige situaties worden statistieken niet bijgewerkt."
 
-#: ../../changes.rst:775
+#: ../../changes.rst:806
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/110?"
 "closed=1>`__."
@@ -30022,38 +30080,38 @@ msgstr ""
 "`Alle wijzigingenin detail <https://github.com/WeblateOrg/weblate/"
 "milestone/110?closed=1>`__."
 
-#: ../../changes.rst:778
+#: ../../changes.rst:809
 msgid "Weblate 5.3"
 msgstr "Weblate 5.3"
 
-#: ../../changes.rst:780
+#: ../../changes.rst:811
 msgid "*Released on December 14th 2023.*"
 msgstr "*Uitgegeven op 14 december 2023.*"
 
-#: ../../changes.rst:784
+#: ../../changes.rst:815
 msgid ":ref:`mt-openai` automatic suggestion service."
 msgstr ":ref:`mt-openai` automatische service voor suggesties."
 
-#: ../../changes.rst:785
+#: ../../changes.rst:816
 msgid ":ref:`mt-alibaba` automatic suggestion service."
 msgstr ":ref:`mt-alibaba` automatische service voor suggesties."
 
-#: ../../changes.rst:786
+#: ../../changes.rst:817
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr ""
 "Labels voor API toegevoegd, bekijk :http:get:`/api/projects/(string:project)/"
 "labels/`."
 
-#: ../../changes.rst:787
+#: ../../changes.rst:818
 msgid ":ref:`glossary-mt`."
 msgstr ":ref:`glossary-mt`."
 
-#: ../../changes.rst:788
+#: ../../changes.rst:819
 msgid "New automatic fixer for :ref:`autofix-punctuation-spacing`."
 msgstr "Nieuwe automatische reparatie voor :ref:`autofix-punctuation-spacing`."
 
-#: ../../changes.rst:789
+#: ../../changes.rst:820
 msgid ""
 ":ref:`mt-google-translate-api-v3` now better honors placeables or line "
 "breaks."
@@ -30061,11 +30119,11 @@ msgstr ""
 ":ref:`mt-google-translate-api-v3` houdt nu beter rekening met "
 "plaatsvervangers of regeleinden."
 
-#: ../../changes.rst:793
+#: ../../changes.rst:824
 msgid "Reduced memory usage for statistics."
 msgstr "Verminderd geheugengebruik voor statistieken."
 
-#: ../../changes.rst:794
+#: ../../changes.rst:825
 msgid ""
 ":ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:"
 "`glossary-mt`."
@@ -30073,27 +30131,27 @@ msgstr ""
 ":ref:`mt-deepl` presteert beter in :ref:`auto-translation` en ondersteunt :"
 "ref:`glossary-mt`."
 
-#: ../../changes.rst:795
+#: ../../changes.rst:826
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-translator` ondersteunt :ref:`glossary-mt`."
 
-#: ../../changes.rst:796
+#: ../../changes.rst:827
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
 msgstr "Verbeterd selecteren regio in :ref:`mt-google-translate-api-v3`."
 
-#: ../../changes.rst:797
+#: ../../changes.rst:828
 msgid "Added nested JSON exporter in :ref:`download`."
 msgstr "Geneste JSON-exporteerder toegevoegd in :ref:`download`."
 
-#: ../../changes.rst:798
+#: ../../changes.rst:829
 msgid "Improved :ref:`git-exporter` performance on huge repositories."
 msgstr "Verbeterde prestaties :ref:`git-exporter` op grote opslagruimten."
 
-#: ../../changes.rst:802
+#: ../../changes.rst:833
 msgid "Removing stale VCS directories."
 msgstr "Verwijderen van verouderde mappen in het VCS."
 
-#: ../../changes.rst:806
+#: ../../changes.rst:837
 msgid ""
 "Dropped Microsoft Terminology service for automatic suggestions, as it is no "
 "longer provided by Microsoft."
@@ -30101,7 +30159,7 @@ msgstr ""
 "Service Microsoft Terminology voor automatische suggesties verwijderd, omdat "
 "die niet langer wordt verschaft door Microsoft."
 
-#: ../../changes.rst:807
+#: ../../changes.rst:838
 msgid ""
 "``labels`` in units API now expose full label info, see :http:get:`/api/"
 "units/(int:id)/`."
@@ -30109,7 +30167,7 @@ msgstr ""
 "``labels`` in eenheden van de API geven nu volledige informatie over het "
 "label weer, bekijk :http:get:`/api/units/(int:id)/`."
 
-#: ../../changes.rst:813
+#: ../../changes.rst:844
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/107?"
 "closed=1>`__."
@@ -30117,47 +30175,47 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/107?closed=1>`__."
 
-#: ../../changes.rst:816
+#: ../../changes.rst:847
 msgid "Weblate 5.2.1"
 msgstr "Weblate 5.2.1"
 
-#: ../../changes.rst:818
+#: ../../changes.rst:849
 msgid "*Released on November 22nd 2023.*"
 msgstr "*Uitgegeven op 22 november 2023.*"
 
-#: ../../changes.rst:822
+#: ../../changes.rst:853
 msgid "Show search field after no strings found while translating."
 msgstr ""
 "Zoekveld weergeven nadat geen tekenreeksen werden gevonden tijdens vertalen."
 
-#: ../../changes.rst:823
+#: ../../changes.rst:854
 msgid "Added soft hyphen to special-characters toolbar."
 msgstr "Zacht afbreekstreepje toegevoegd aan werkbalk voor speciale tekens."
 
-#: ../../changes.rst:827
+#: ../../changes.rst:858
 msgid "Database backups compatibility with Alibaba Cloud Database PolarDB."
 msgstr ""
 "Compatibiliteit back-ups voor database met Alibaba Cloud Database PolarDB."
 
-#: ../../changes.rst:828
+#: ../../changes.rst:859
 msgid "Crash on loading statistics calculated by previous versions."
 msgstr "Crash bij laden berekende statistieken uit eerdere versies."
 
-#: ../../changes.rst:829
+#: ../../changes.rst:860
 msgid "Sort icons in dark mode."
 msgstr "Pictogrammen sorteren in donkere modus."
 
-#: ../../changes.rst:830
+#: ../../changes.rst:861
 msgid "Project level statistics no longer count categorized components twice."
 msgstr ""
 "Statistieken op projectniveau tellen niet langer tweemaal gecategoriseerde "
 "onderdelen."
 
-#: ../../changes.rst:831
+#: ../../changes.rst:862
 msgid "Possible discarding pending translations after editing source strings."
 msgstr "Mogelijk negeren openstaande vertalingen na bewerken brontekenreeksen."
 
-#: ../../changes.rst:837
+#: ../../changes.rst:868
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/108?"
 "closed=1>`__."
@@ -30165,42 +30223,42 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/108?closed=1>`__."
 
-#: ../../changes.rst:840
+#: ../../changes.rst:871
 msgid "Weblate 5.2"
 msgstr "Weblate 5.2"
 
-#: ../../changes.rst:842
+#: ../../changes.rst:873
 msgid "*Released on November 16th 2023.*"
 msgstr "*Uitgegeven op 16 november 2023.*"
 
-#: ../../changes.rst:846
+#: ../../changes.rst:877
 msgid ":ref:`vcs-azure-devops`."
 msgstr ":ref:`vcs-azure-devops`."
 
-#: ../../changes.rst:850
+#: ../../changes.rst:881
 msgid "Faster statistics updates."
 msgstr "Sneller bijwerken statistieken."
 
-#: ../../changes.rst:851
+#: ../../changes.rst:882
 msgid "Better e-mail selection in user profile."
 msgstr "Beter selecteren e-mail in gebruikersprofiel."
 
-#: ../../changes.rst:852
+#: ../../changes.rst:883
 msgid ":ref:`autofix` are now applied to suggestions as well."
 msgstr ":ref:`autofix` worden nu ook toegepast op suggesties."
 
-#: ../../changes.rst:853
+#: ../../changes.rst:884
 msgid ":ref:`mt-deepl` can now configure default formality for translations."
 msgstr ""
 ":ref:`mt-deepl` kan nu standaard formaliteit voor vertalingen configureren."
 
-#: ../../changes.rst:854
+#: ../../changes.rst:885
 msgid "Use neutral colors for progress bars and translation unit states."
 msgstr ""
 "Neutrale kleuren gebruiken voor voortgangsbalken en statussen van "
 "vertaaleenheden."
 
-#: ../../changes.rst:855
+#: ../../changes.rst:886
 msgid ""
 ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
 "editing."
@@ -30208,7 +30266,7 @@ msgstr ""
 ":ref:`addon-weblate.gettext.mo` kan optioneel tekenreeksen die bewerken "
 "nodig hebben opnemen."
 
-#: ../../changes.rst:856
+#: ../../changes.rst:887
 msgid ""
 "Use :http:header:`Accept-Language` to order translations for unauthenticated "
 "users."
@@ -30216,19 +30274,19 @@ msgstr ""
 "Gebruik :http:header:`Accept-Language` om vertalingen voor niet "
 "geauthenticeerde gebruikers op te halen."
 
-#: ../../changes.rst:857
+#: ../../changes.rst:888
 msgid ""
 "Add option to directly approve suggestions with :ref:`reviews` workflow."
 msgstr ""
 "Optie toegevoegd om suggesties direct goed te keuren met de werkstroom :ref:"
 "`reviews`."
 
-#: ../../changes.rst:858
+#: ../../changes.rst:889
 msgid "One-click removal of project or component :ref:`subscriptions`."
 msgstr ""
 "Verwijderen met ene klik van project- of component-:ref:`subscriptions`."
 
-#: ../../changes.rst:859
+#: ../../changes.rst:890
 msgid ""
 ":ref:`api-statistics` now includes character and word counts for more string "
 "states."
@@ -30236,40 +30294,40 @@ msgstr ""
 ":ref:`api-statistics` bevat nu tellingen van tekens en woorden voor meer "
 "statussen van tekenreeksen."
 
-#: ../../changes.rst:863
+#: ../../changes.rst:894
 msgid "Fixed creating component within a category by upload."
 msgstr "Maken van een onderdeel in een categorie bij uploaden gerepareerd."
 
-#: ../../changes.rst:864
+#: ../../changes.rst:895
 msgid "Error handling in organizing components and categories."
 msgstr "Foutafhandeling bij het beheren van onderdelen en categorieën."
 
-#: ../../changes.rst:865
+#: ../../changes.rst:896
 msgid "Fixed moving categories between projects."
 msgstr "Verplaatsen van categorieën tussen projecten gerepareerd."
 
-#: ../../changes.rst:866
+#: ../../changes.rst:897
 msgid "Fixed formatting of translation memory search results."
 msgstr "Opmaken van zoekresultaten vertaalgeheugen gerepareerd."
 
-#: ../../changes.rst:867
+#: ../../changes.rst:898
 msgid "Allow non-breaking space character in :ref:`autofix-html`."
 msgstr "Teken voor niet afbrekende spatie in :ref:`autofix-html` toestaan."
 
-#: ../../changes.rst:871
+#: ../../changes.rst:902
 msgid ":doc:`/formats/apple` exporter now produces UTF-8 encoded files."
 msgstr ""
 ":doc:`/formats/apple` exporteerder produceert nu in UTF-8 gecodeerde "
 "bestanden."
 
-#: ../../changes.rst:872
+#: ../../changes.rst:903
 msgid ""
 "Python 3.12 is now supported, though not recommended, see :ref:`python-deps`."
 msgstr ""
 "Python 3.12 wordt nu ondersteund, hoewel niet aanbevolen, bekijk :ref:"
 "`python-deps`."
 
-#: ../../changes.rst:878
+#: ../../changes.rst:909
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/104?"
 "closed=1>`__."
@@ -30277,15 +30335,15 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/104?closed=1>`__."
 
-#: ../../changes.rst:881
+#: ../../changes.rst:912
 msgid "Weblate 5.1.1"
 msgstr "Weblate 5.1.1"
 
-#: ../../changes.rst:883
+#: ../../changes.rst:914
 msgid "*Released on October 25th 2023.*"
 msgstr "*Uitgegeven op 25 oktober 2023.*"
 
-#: ../../changes.rst:889
+#: ../../changes.rst:920
 msgid ""
 ":ref:`addon-weblate.consistency.languages` now uses a dedicated user for "
 "changes."
@@ -30293,28 +30351,28 @@ msgstr ""
 ":ref:`addon-weblate.consistency.languages` gebruikt nu een aangewezen "
 "gebruiker voor wijzigingen."
 
-#: ../../changes.rst:890
+#: ../../changes.rst:921
 msgid "Added button for sharing on Fediverse."
 msgstr "Knop toegevoegd voor delen op Fediverse."
 
-#: ../../changes.rst:891
+#: ../../changes.rst:922
 msgid "Added validation for VCS integration credentials."
 msgstr "Valideren toegevoegd voor integratie van inloggegevens voor VCS."
 
-#: ../../changes.rst:892
+#: ../../changes.rst:923
 msgid "Reduced overhead of statistics collection."
 msgstr "Verminderde overhead bij verzamelen van statistieken."
 
-#: ../../changes.rst:896
+#: ../../changes.rst:927
 msgid "Added plurals validation when editing string using the API."
 msgstr ""
 "Valideren van meervoud toegevoegd bij bewerken van tekenreeks met de API."
 
-#: ../../changes.rst:897
+#: ../../changes.rst:928
 msgid "Replacing a file using upload when existing is corrupted."
 msgstr "Vervangen van een bestand met uploaden als het bestaande corrupt is."
 
-#: ../../changes.rst:905
+#: ../../changes.rst:936
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/106?"
 "closed=1>`__."
@@ -30322,19 +30380,19 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/106?closed=1>`__."
 
-#: ../../changes.rst:908
+#: ../../changes.rst:939
 msgid "Weblate 5.1"
 msgstr "Weblate 5.1"
 
-#: ../../changes.rst:910
+#: ../../changes.rst:941
 msgid "*Released on October 16th 2023.*"
 msgstr "*Uitgegeven op 16 oktober 2023.*"
 
-#: ../../changes.rst:914
+#: ../../changes.rst:945
 msgid ":ref:`mt-yandex-v2` machine translation service."
 msgstr ":ref:`mt-yandex-v2` service voor machinevertaling."
 
-#: ../../changes.rst:915
+#: ../../changes.rst:946
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` "
 "are now stored with a dedicated user as an author."
@@ -30342,7 +30400,7 @@ msgstr ""
 ":ref:`addon-weblate.autotranslate.autotranslate` en :ref:`auto-translation` "
 "worden nu opgeslagen met een toegewezen gebruiker als auteur."
 
-#: ../../changes.rst:916
+#: ../../changes.rst:947
 msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
@@ -30350,11 +30408,11 @@ msgstr ""
 ":ref:`addons` wijzigingen aan tekenreeksen worden nu opgeslagen met een "
 "toegewezen gebruiker als auteur."
 
-#: ../../changes.rst:917
+#: ../../changes.rst:948
 msgid ":ref:`download-multi` can now convert file formats."
 msgstr ":ref:`download-multi` kan nu bestandsindelingen converteren."
 
-#: ../../changes.rst:918
+#: ../../changes.rst:949
 msgid ""
 ":ref:`workflow-customization` allows to fine-tune localization workflow per "
 "language."
@@ -30362,7 +30420,7 @@ msgstr ""
 ":ref:`workflow-customization` maakt het mogelijk per taal de werkwijze voor "
 "vertalen fijn af te stemmen."
 
-#: ../../changes.rst:922
+#: ../../changes.rst:953
 msgid ""
 ":ref:`project-translation_review` also shows the approval percentage in "
 "object listings."
@@ -30370,27 +30428,27 @@ msgstr ""
 ":ref:`project-translation_review` geeft ook het percentage voor goedgekeurd "
 "weer in vermeldingen van objecten."
 
-#: ../../changes.rst:923
+#: ../../changes.rst:954
 msgid "Project is added to watched upon accepting an invitation."
 msgstr ""
 "Project wordt toegevoegd aan gevolgd bij het accepteren van een invitatie."
 
-#: ../../changes.rst:924
+#: ../../changes.rst:955
 msgid ""
 "Configure VCS API credentials as a Python dict from environment variables."
 msgstr ""
 "Configureer VCS API-inloggegevens als een dictionary voor Python uit "
 "omgevingsvariabelen."
 
-#: ../../changes.rst:925
+#: ../../changes.rst:956
 msgid "Improved accuracy of checks on plural messages."
 msgstr "Verbeterde nauwkeurigheid van controles op berichten met meervoud."
 
-#: ../../changes.rst:926
+#: ../../changes.rst:957
 msgid "Engage page better shows stats."
 msgstr "Landingspagina geeft statistieken beter weer."
 
-#: ../../changes.rst:927
+#: ../../changes.rst:958
 msgid ""
 "Strings which can not be saved to a file no longer block other strings to be "
 "written."
@@ -30398,66 +30456,66 @@ msgstr ""
 "Tekenreeksen, die niet kunnen worden opgeslagen in een bestand, blokkeren "
 "niet langer andere tekenreeksen om weg te schrijven."
 
-#: ../../changes.rst:928
+#: ../../changes.rst:959
 msgid "Fixed some API URLs for categorized components."
 msgstr "Enkele API URL's voor gecategoriseerde onderdelen gerepareerd."
 
-#: ../../changes.rst:929
+#: ../../changes.rst:960
 msgid "Show plural form examples more prominently."
 msgstr "Voorbeelden voor meervoudsvorm meer prominent weergeven."
 
-#: ../../changes.rst:930
+#: ../../changes.rst:961
 msgid "Highlight whitespace in :ref:`machine-translation`."
 msgstr "Accentueer witruimte in :ref:`machine-translation`."
 
-#: ../../changes.rst:931
+#: ../../changes.rst:962
 msgid "Faster comment and component removal."
 msgstr "Sneller verwijderen van opmerking en onderdeel."
 
-#: ../../changes.rst:932
+#: ../../changes.rst:963
 msgid "Show disabled save button reason more prominently."
 msgstr "Reden voor uitgeschakelde knop Opslaan meer prominent weergeven."
 
-#: ../../changes.rst:933
+#: ../../changes.rst:964
 msgid "New string notification can now be triggered for each string."
 msgstr ""
 "Notificatie voor nieuwe tekenreeks kan nu worden geactiveerd voor elke "
 "tekenreeks."
 
-#: ../../changes.rst:937
+#: ../../changes.rst:968
 msgid "Improved OCR error handling in :ref:`screenshots`."
 msgstr "Verbeterde foutafhandeling OCR in :ref:`screenshots`."
 
-#: ../../changes.rst:938
+#: ../../changes.rst:969
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
 msgstr ""
 ":ref:`autofix` behandelt tekenreeksen uit :ref:`multivalue-csv` netjes."
 
-#: ../../changes.rst:939
+#: ../../changes.rst:970
 msgid "Occasional crash in :ref:`machine-translation` caching."
 msgstr "Af en toe optredende crash bij cachen van :ref:`machine-translation`."
 
-#: ../../changes.rst:940
+#: ../../changes.rst:971
 msgid "Fixed history listing for entries within a :ref:`category`."
 msgstr ""
 "Gerepareerde vermelding geschiedenis voor items in een :ref:`category`."
 
-#: ../../changes.rst:941
+#: ../../changes.rst:972
 msgid "Fixed editing :guilabel:`Administration` team."
 msgstr "Gerepareerd bewerken team :guilabel:`Beheer`."
 
-#: ../../changes.rst:942
+#: ../../changes.rst:973
 msgid ""
 ":ref:`addon-weblate.consistency.languages` add-on could miss some languages."
 msgstr ""
 ":ref:`addon-weblate.consistency.languages` add-on zou enkele talen kunnen "
 "missen."
 
-#: ../../changes.rst:946
+#: ../../changes.rst:977
 msgid "Categories are now included ``weblate://`` repository URLs."
 msgstr "Categorieën bevatten nu URL's voor de opslagruimte ``weblate://``."
 
-#: ../../changes.rst:952
+#: ../../changes.rst:983
 msgid ""
 "Upgrades from older version than 5.0.2 are not supported, please upgrade to "
 "5.0.2 first and then continue in upgrading."
@@ -30465,7 +30523,7 @@ msgstr ""
 "Upgraden vanuit oudere versie dan 5.0.2 wordt niet ondersteund, upgrade "
 "eerst naar 5.0.2 en ga dan door met upgraden."
 
-#: ../../changes.rst:953
+#: ../../changes.rst:984
 msgid ""
 "Dropped support for deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME in :file:`settings.py`."
@@ -30473,7 +30531,7 @@ msgstr ""
 "Vervallen verouderde onveilige configuratie van service voor VCS API-"
 "sleutels via _TOKEN/_USERNAME in :file:`settings.py`."
 
-#: ../../changes.rst:954
+#: ../../changes.rst:985
 msgid ""
 "Weblate now defaults to persistent database connections in :file:"
 "`settings_example.py` and Docker."
@@ -30481,7 +30539,7 @@ msgstr ""
 "Weblate heeft nu standaard blijvende databaseverbindingen in :file:"
 "`settings_example.py` en Docker."
 
-#: ../../changes.rst:956
+#: ../../changes.rst:987
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/100?"
 "closed=1>`__."
@@ -30489,39 +30547,39 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/100?closed=1>`__."
 
-#: ../../changes.rst:959
+#: ../../changes.rst:990
 msgid "Weblate 5.0.2"
 msgstr "Weblate 5.0.2"
 
-#: ../../changes.rst:961
+#: ../../changes.rst:992
 msgid "*Released on September 14th 2023.*"
 msgstr "*Uitgegeven op 14 september 2023.*"
 
-#: ../../changes.rst:965
+#: ../../changes.rst:996
 msgid "Translate page performance."
 msgstr "Prestaties pagina vertalen."
 
-#: ../../changes.rst:966
+#: ../../changes.rst:997
 msgid "Search now looks for categories as well."
 msgstr "Zoeken zoekt nu ook naar categorieën."
 
-#: ../../changes.rst:970
+#: ../../changes.rst:1001
 msgid "Rendering of release notes on GitHub."
 msgstr "Renderen van opmerkingen voor uitgave op GitHub."
 
-#: ../../changes.rst:971
+#: ../../changes.rst:1002
 msgid "Listing of categorized projects."
 msgstr "Vermelden van gecategoriseerde projecten."
 
-#: ../../changes.rst:972
+#: ../../changes.rst:1003
 msgid "Translating a language inside a category."
 msgstr "Vertalen van een taal in een categorie."
 
-#: ../../changes.rst:973
+#: ../../changes.rst:1004
 msgid "Categories sorting."
 msgstr "Sorteren van categorieën."
 
-#: ../../changes.rst:979 ../../changes.rst:1020
+#: ../../changes.rst:1010 ../../changes.rst:1051
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "indexing changes."
@@ -30529,7 +30587,7 @@ msgstr ""
 "Upgraden van de database kan aanzienlijk veel tijd vergen op grote sites, "
 "vanwege de wijzigingen bij indexeren."
 
-#: ../../changes.rst:981
+#: ../../changes.rst:1012
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/105?"
 "closed=1>`__."
@@ -30537,83 +30595,83 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/105?closed=1>`__."
 
-#: ../../changes.rst:984
+#: ../../changes.rst:1015
 msgid "Weblate 5.0.1"
 msgstr "Weblate 5.0.1"
 
-#: ../../changes.rst:986
+#: ../../changes.rst:1017
 msgid "*Released on September 10th 2023.*"
 msgstr "*Uitgegeven op 10 september 2023.*"
 
-#: ../../changes.rst:990
+#: ../../changes.rst:1021
 msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
 msgstr "Toegevoegd :http:get:`/api/component-lists/(str:slug)/components/`."
 
-#: ../../changes.rst:994
+#: ../../changes.rst:1025
 msgid "Related glossary terms lookup is now faster."
 msgstr "Opzoeken van gerelateerde termen in de woordenlijst is nu sneller."
 
-#: ../../changes.rst:995
+#: ../../changes.rst:1026
 msgid "Logging of failures when creating pull requests."
 msgstr "Loggen van mislukkingen bij maken van pull requests."
 
-#: ../../changes.rst:996
+#: ../../changes.rst:1027
 msgid "History is now loaded faster."
 msgstr "Geschiedenis wordt nu sneller geladen."
 
-#: ../../changes.rst:997
+#: ../../changes.rst:1028
 msgid "Added object ``id`` to all :ref:`api` endpoints."
 msgstr "Object ``id`` toegevoegd aan alle :ref:`api` eindpunten."
 
-#: ../../changes.rst:998
+#: ../../changes.rst:1029
 msgid "Better performance of projects with a lot of components."
 msgstr "Betere prestaties van projecten met heel veel onderdelen."
 
-#: ../../changes.rst:999
+#: ../../changes.rst:1030
 msgid "Added compatibility redirects for some old URLs."
 msgstr "Compatibiliteit van verwijzingen voor enkele oude URL's toegevoegd."
 
-#: ../../changes.rst:1003
+#: ../../changes.rst:1034
 msgid "Creating component within a category."
 msgstr "Onderdeel aanmaken in een categorie."
 
-#: ../../changes.rst:1004
+#: ../../changes.rst:1035
 msgid "Source strings and state display for converted formats."
 msgstr ""
 "Weergave van brontekenreeksen en status voor geconverteerde indelingen."
 
-#: ../../changes.rst:1005
+#: ../../changes.rst:1036
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
 msgstr ""
 "Blokkeer :ref:`component-edit_template` voor indelingen die het niet "
 "ondersteunen."
 
-#: ../../changes.rst:1006
+#: ../../changes.rst:1037
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgstr ""
 ":ref:`check-reused` wordt niet langer geactiveerd voor lege tekenreeksen."
 
-#: ../../changes.rst:1007
+#: ../../changes.rst:1038
 msgid "Performance issues while browsing some categories."
 msgstr "Problemen met prestaties tijdens bladeren door sommige categorieën."
 
-#: ../../changes.rst:1008
+#: ../../changes.rst:1039
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
 msgstr ""
 "Gerepareerde authenticatie GitHub Team en Organization in Docker container."
 
-#: ../../changes.rst:1009
+#: ../../changes.rst:1040
 msgid "GitLab merge requests when using a customized SSH port."
 msgstr ""
 "GitLab verzoeken voor samenvoegen bij gebruiken van een aangepaste poort "
 "voor SSH."
 
-#: ../../changes.rst:1013
+#: ../../changes.rst:1044
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
 msgstr "afhankelijkheid `pyahocorasick` is vervangen door `ahocorasick_rs`."
 
-#: ../../changes.rst:1014
+#: ../../changes.rst:1045
 msgid ""
 "The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
@@ -30621,7 +30679,7 @@ msgstr ""
 "De standaard waarde van :setting:`IP_PROXY_OFFSET` is gewijzigd van 1 naar "
 "-1."
 
-#: ../../changes.rst:1022
+#: ../../changes.rst:1053
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/103?"
 "closed=1>`__."
@@ -30629,53 +30687,53 @@ msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
 "milestone/103?closed=1>`__."
 
-#: ../../changes.rst:1025
+#: ../../changes.rst:1056
 msgid "Weblate 5.0"
 msgstr "Weblate 5.0"
 
-#: ../../changes.rst:1027
+#: ../../changes.rst:1058
 msgid "*Released on August 24th 2023.*"
 msgstr "*Uitgegeven op 24 augustus 2023.*"
 
-#: ../../changes.rst:1031
+#: ../../changes.rst:1062
 msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr ":doc:`/formats/markdown` ondersteuning, dank aan Anders Kaplan."
 
-#: ../../changes.rst:1032
+#: ../../changes.rst:1063
 msgid ":ref:`category` can now organize components within a project."
 msgstr ":ref:`category` kan nu onderdelen binnen een project beheren."
 
-#: ../../changes.rst:1033
+#: ../../changes.rst:1064
 msgid ""
 ":doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes."
 msgstr ""
 ":doc:`/formats/fluent` heeft nu betere controles voor syntaxis, dankzij "
 "Henry Wilkes."
 
-#: ../../changes.rst:1034
+#: ../../changes.rst:1065
 msgid "Inviting users now works with all authentication methods."
 msgstr ""
 "Uitnodigen van gebruikers werkt nu met alle methoden voor authenticatie."
 
-#: ../../changes.rst:1035
+#: ../../changes.rst:1066
 msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr ""
 "Docker container ondersteunt in bestanden opgeslagen geheimen, bekijk :ref:"
 "`docker-secrets`."
 
-#: ../../changes.rst:1039
+#: ../../changes.rst:1070
 msgid "Plurals handling in machine translation."
 msgstr "Afhandeling meervouden in machinevertaling."
 
-#: ../../changes.rst:1040
+#: ../../changes.rst:1071
 msgid ""
 ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgstr ""
 "controle :ref:`check-same` houdt rekening met plaatsvervangers, zelfs in de "
 "modus strict."
 
-#: ../../changes.rst:1041
+#: ../../changes.rst:1072
 msgid ""
 ":ref:`check-reused` is no longer triggered for languages with a single "
 "plural form."
@@ -30683,47 +30741,47 @@ msgstr ""
 ":ref:`check-reused` wordt niet langer geactiveerd voor talen met een enkele "
 "vorm voor meervoud."
 
-#: ../../changes.rst:1042
+#: ../../changes.rst:1073
 msgid "WebP is now supported for :ref:`screenshots`."
 msgstr "WebP wordt nu ondersteund voor :ref:`screenshots`."
 
-#: ../../changes.rst:1043
+#: ../../changes.rst:1074
 msgid ""
 "Avoid duplicate notification when a user is subscribed to overlapping scopes."
 msgstr ""
 "Vermijd dupliceren van notificatie als gebruiker geabonneerd is op "
 "overlappende bereiken."
 
-#: ../../changes.rst:1044
+#: ../../changes.rst:1075
 msgid "OCR support for non-English languages in :ref:`screenshots`."
 msgstr "Ondersteuning voor OCR voor niet-Engelse talen in :ref:`screenshots`."
 
-#: ../../changes.rst:1045
+#: ../../changes.rst:1076
 msgid ":ref:`xliff` now supports displaying source string location."
 msgstr ""
 ":ref:`xliff` ondersteunt nu het weergeven van de locatie van de "
 "brontekenreeks."
 
-#: ../../changes.rst:1046
+#: ../../changes.rst:1077
 msgid ""
 "Rendering strings with plurals, placeholders or alternative translations."
 msgstr ""
 "Renderen van tekenreeksen met meervouden, plaatsvervangers of alternatieve "
 "vertalingen."
 
-#: ../../changes.rst:1047
+#: ../../changes.rst:1078
 msgid "User API now includes last sign in date."
 msgstr "API-gebruiker bevat nu de laatste datum van inloggen."
 
-#: ../../changes.rst:1048
+#: ../../changes.rst:1079
 msgid "User API token is now hidden for privacy reasons by default."
 msgstr "Gebruiker API-token wordt nu om privacy-redenen standaard verborgen."
 
-#: ../../changes.rst:1049
+#: ../../changes.rst:1080
 msgid "Faster adding terms to glossary."
 msgstr "Sneller toevoegen van termen aan woordenlijst."
 
-#: ../../changes.rst:1050
+#: ../../changes.rst:1081
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
@@ -30731,15 +30789,15 @@ msgstr ""
 "Beter behouden van vertaling voor wijziging in bronbestand in :doc:`/formats/"
 "html` en :doc:`/formats/txt`."
 
-#: ../../changes.rst:1051
+#: ../../changes.rst:1082
 msgid "Added indication of automatic assignment to team listing."
 msgstr "Toegevoegde indicatie van automatische toewijzing aan vermelding team."
 
-#: ../../changes.rst:1052
+#: ../../changes.rst:1083
 msgid "Users now have to confirm invitations to become team members."
 msgstr "Gebruikers moeten nu invitaties bevestigen om teamleden te worden."
 
-#: ../../changes.rst:1053
+#: ../../changes.rst:1084
 msgid ""
 ":ref:`check-formats` can now check all plural forms with the ``strict-"
 "format`` flag."
@@ -30747,24 +30805,24 @@ msgstr ""
 ":ref:`check-formats` kan nu alle meervoudsvormen controleren met de vlag "
 "``strict-format``."
 
-#: ../../changes.rst:1054
+#: ../../changes.rst:1085
 msgid ":doc:`/user/checks` browsing experience."
 msgstr ":doc:`/user/checks` bladeren ervaring."
 
-#: ../../changes.rst:1055
+#: ../../changes.rst:1086
 msgid "Highlight differences in the source string in automatic suggestions."
 msgstr ""
 "Accentueren van verschillen in de brontekenreeks in automatische suggesties."
 
-#: ../../changes.rst:1056
+#: ../../changes.rst:1087
 msgid "Visual diff now better understands compositing characters."
 msgstr "Visueel verschil begrijpt samengestelde tekens nu beter."
 
-#: ../../changes.rst:1060
+#: ../../changes.rst:1091
 msgid "User names handling while committing to Git."
 msgstr "Afhandeling gebruikersnamen tijdens indienen bij Git."
 
-#: ../../changes.rst:1061
+#: ../../changes.rst:1092
 msgid ""
 ":ref:`addon-weblate.cleanup.blank` and :ref:`addon-weblate.cleanup.generic` "
 "now remove all strings at once."
@@ -30772,34 +30830,34 @@ msgstr ""
 ":ref:`addon-weblate.cleanup.blank` en :ref:`addon-weblate.cleanup.generic` "
 "verwijderen nu alle tekenreeksen in een keer."
 
-#: ../../changes.rst:1062
+#: ../../changes.rst:1093
 msgid "Language filtering in :doc:`/devel/reporting`."
 msgstr "Filteren van taal in :doc:`/devel/reporting`."
 
-#: ../../changes.rst:1063
+#: ../../changes.rst:1094
 msgid ""
 "Reduced false positives of :ref:`check-reused` when fixing the translation."
 msgstr ""
 "Verminderde valse positieven van :ref:`check-reused` bij repareren van de "
 "vertaling."
 
-#: ../../changes.rst:1064
+#: ../../changes.rst:1095
 msgid "Fixed caching issues after updating screenshots from the repository."
 msgstr ""
 "Gerepareerde problemen met cachen na bijwerken van schermafdrukken vanuit de "
 "opslagruimte."
 
-#: ../../changes.rst:1068
+#: ../../changes.rst:1099
 msgid "Python 3.9 or newer is now required."
 msgstr "Python 3.9 of nieuwer is nu vereist."
 
-#: ../../changes.rst:1069
+#: ../../changes.rst:1100
 msgid "Several UI URLs have been changed to be able to handle categories."
 msgstr ""
 "Verscheidene URL's voor de gebruikersinterface zijn gewijzigd om categorieën "
 "af te kunnen handelen."
 
-#: ../../changes.rst:1075
+#: ../../changes.rst:1106
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
@@ -30809,11 +30867,11 @@ msgstr ""
 "opvallende wijzigingen zijn in ``CACHES`` en ``SOCIAL_AUTH_PIPELINE``, pas "
 "uw instellingen overeenkomstig aan."
 
-#: ../../changes.rst:1076
+#: ../../changes.rst:1107
 msgid "Several previously optional dependencies are now required."
 msgstr "Verscheidene, eerder optionele, afhankelijkheden zijn nu vereist."
 
-#: ../../changes.rst:1077
+#: ../../changes.rst:1108
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "structure changes."
@@ -30821,7 +30879,7 @@ msgstr ""
 "Het upgraden van de database kan aanzienlijk lang duren op grote sites, "
 "vanwege de wijzigingen in de structuur."
 
-#: ../../changes.rst:1079
+#: ../../changes.rst:1110
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?"
 "closed=1>`__."
@@ -51273,7 +51331,7 @@ msgstr "alle tekenreeksen"
 msgid "``weblate.checks.consistency.TranslatedCheck``"
 msgstr "``weblate.checks.consistency.TranslatedCheck``"
 
-#: ../../user/checks.rst:933 ../../user/search.rst:64
+#: ../../user/checks.rst:933 ../../user/search.rst:66
 msgid "``translated``"
 msgstr "``translated``"
 
@@ -52672,7 +52730,7 @@ msgstr ""
 "namen voor element of attributen toestaan. Dat is gedeeltelijk om ervoor te "
 "zorgen dat de gebruiker HTML met opzet gebruikt."
 
-#: ../../user/checks.rst:1772 ../../user/search.rst:239
+#: ../../user/checks.rst:1772 ../../user/search.rst:241
 msgid "Examples:"
 msgstr "Voorbeelden:"
 
@@ -54319,18 +54377,27 @@ msgstr ""
 "<translated``."
 
 #: ../../user/search.rst:51
+msgid "``source_state:TEXT``"
+msgstr "``source_state:TEXT``"
+
+#: ../../user/search.rst:52
+msgid "Search for source string states, see above for more info."
+msgstr ""
+"Zoeken naar status voor brontekenreeksen, zie boven voor meer informatie."
+
+#: ../../user/search.rst:53
 msgid "``pending:BOOLEAN``"
 msgstr "``pending:BOOLEAN``"
 
-#: ../../user/search.rst:52
+#: ../../user/search.rst:54
 msgid "String pending for flushing to VCS."
 msgstr "Openstaande tekenreeks, wachtend om te worden doorgegeven aan VCS."
 
-#: ../../user/search.rst:53
+#: ../../user/search.rst:55
 msgid "``has:TEXT``"
 msgstr "``has:TEXT``"
 
-#: ../../user/search.rst:54
+#: ../../user/search.rst:56
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
@@ -54342,74 +54409,74 @@ msgstr ""
 "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
 "``glossary``, ``note``, ``label``."
 
-#: ../../user/search.rst:55
+#: ../../user/search.rst:57
 msgid "``is:TEXT``"
 msgstr "``is:TEXT``"
 
-#: ../../user/search.rst:56
+#: ../../user/search.rst:58
 msgid "Filters string on a condition:"
 msgstr "Filtert tekenreeks met een voorwaarde:"
 
-#: ../../user/search.rst:58
+#: ../../user/search.rst:60
 msgid "``read-only`` or ``readonly``"
 msgstr "``read-only`` of ``readonly``"
 
-#: ../../user/search.rst:59
+#: ../../user/search.rst:61
 msgid "Read-only strings, same as ``state:read-only``."
 msgstr "Tekenreeksen Alleen-lezen, hetzelfde als ``state:read-only``."
 
-#: ../../user/search.rst:60
+#: ../../user/search.rst:62
 msgid "``approved``"
 msgstr "``approved``"
 
-#: ../../user/search.rst:61
+#: ../../user/search.rst:63
 msgid "Approved strings, same as ``state:approved``."
 msgstr "Goedgekeurde tekenreeksen, hetzelfde als ``state:approved``."
 
-#: ../../user/search.rst:62
+#: ../../user/search.rst:64
 msgid "``needs-editing`` or ``fuzzy``"
 msgstr "``needs-editing`` of ``fuzzy``"
 
-#: ../../user/search.rst:63
+#: ../../user/search.rst:65
 msgid "Needing editing strings, same as ``state:needs-editing``."
 msgstr ""
 "Tekenreeksen met Bewerken nodig, hetzelfde als ``state:needs-editing``."
 
-#: ../../user/search.rst:65
+#: ../../user/search.rst:67
 msgid "Translated strings, same as ``state:>translated``."
 msgstr "Vertaalde tekenreeksen, hetzelfde als ``state:>translated``."
 
-#: ../../user/search.rst:66
+#: ../../user/search.rst:68
 msgid "``untranslated``"
 msgstr "``untranslated``"
 
-#: ../../user/search.rst:67
+#: ../../user/search.rst:69
 msgid "Untranslated strings, same as ``state:<translated``."
 msgstr "Niet vertaalde tekenreeksen, hetzelfde als ``state:<translated``."
 
-#: ../../user/search.rst:68
+#: ../../user/search.rst:70
 msgid "``pending``"
 msgstr "``pending``"
 
-#: ../../user/search.rst:69
+#: ../../user/search.rst:71
 msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
 msgstr ""
 "Openstaande tekenreeksen nog niet doorgevoerd naar het bestand (bekijk :ref:"
 "`lazy-commit`)."
 
-#: ../../user/search.rst:70 ../../user/search.rst:204
+#: ../../user/search.rst:72 ../../user/search.rst:206
 msgid "``language:TEXT``"
 msgstr "``language:TEXT``"
 
-#: ../../user/search.rst:71
+#: ../../user/search.rst:73
 msgid "String target language."
 msgstr "Tekenreeks doeltaal."
 
-#: ../../user/search.rst:72
+#: ../../user/search.rst:74
 msgid "``component:TEXT``"
 msgstr "``component:TEXT``"
 
-#: ../../user/search.rst:73
+#: ../../user/search.rst:75
 msgid ""
 "Component slug or name case-insensitive search, see :ref:`component-slug` "
 "and :ref:`component-name`."
@@ -54417,19 +54484,19 @@ msgstr ""
 "Slug of naam van onderdeel, niet hoofdlettergevoelige zoekactie, bekijk :ref:"
 "`component-slug` en :ref:`component-name`."
 
-#: ../../user/search.rst:74
+#: ../../user/search.rst:76
 msgid "``project:TEXT``"
 msgstr "``project:TEXT``"
 
-#: ../../user/search.rst:75
+#: ../../user/search.rst:77
 msgid "Project slug, see :ref:`project-slug`."
 msgstr "Slug van project , bekijk :ref:`project-slug`."
 
-#: ../../user/search.rst:76
+#: ../../user/search.rst:78
 msgid "``path:TEXT``"
 msgstr "``path:TEXT``"
 
-#: ../../user/search.rst:77
+#: ../../user/search.rst:79
 msgid ""
 "Path to the object to limit searching inside component, category, project, "
 "or translation."
@@ -54437,29 +54504,29 @@ msgstr ""
 "Pad naar het object om zoeken te beperken binnen onderdeel, categorie, "
 "project of vertaling."
 
-#: ../../user/search.rst:78
+#: ../../user/search.rst:80
 msgid "``changed_by:TEXT``"
 msgstr "``changed_by:TEXT``"
 
-#: ../../user/search.rst:79
+#: ../../user/search.rst:81
 msgid "String was changed by author with given username."
 msgstr "Tekenreeks werd gewijzigd door auteur met de opgegeven gebruikersnaam."
 
-#: ../../user/search.rst:80
+#: ../../user/search.rst:82
 msgid "``changed:DATETIME``"
 msgstr "``changed:DATETIME``"
 
-#: ../../user/search.rst:81 ../../user/search.rst:207
+#: ../../user/search.rst:83 ../../user/search.rst:209
 msgid "String content was changed on date, supports :ref:`search-operators`."
 msgstr ""
 "Inhoud van de tekenreeks werd gewijzigd op de datum, ondersteunt :ref:"
 "`search-operators`."
 
-#: ../../user/search.rst:82 ../../user/search.rst:216
+#: ../../user/search.rst:84 ../../user/search.rst:218
 msgid "``change_time:DATETIME``"
 msgstr "``change_time:DATETIME``"
 
-#: ../../user/search.rst:83
+#: ../../user/search.rst:85
 msgid ""
 "String was changed on date, supports :ref:`search-operators`, unlike "
 "``changed`` this includes event which don't change content and you can apply "
@@ -54469,11 +54536,11 @@ msgstr ""
 "anders dan ``changed`` bevat dit de gebeurtenis die niet de inhoud wijzigde "
 "en u kunt aangepast filteren op de actie met ``change_action``."
 
-#: ../../user/search.rst:86 ../../user/search.rst:218
+#: ../../user/search.rst:88 ../../user/search.rst:220
 msgid "``change_action:TEXT``"
 msgstr "``change_action:TEXT``"
 
-#: ../../user/search.rst:87
+#: ../../user/search.rst:89
 msgid ""
 "Filters on change action, useful together with ``change_time``. Accepts "
 "English name of the change action, either quoted and with spaces or "
@@ -54485,107 +54552,107 @@ msgstr ""
 "spaties of kleine letters en spaties vervangen door een afbreekstreepje. "
 "Bekijk :ref:`search-changes` voor voorbeelden."
 
-#: ../../user/search.rst:91
+#: ../../user/search.rst:93
 msgid "``source_changed:DATETIME``"
 msgstr "``source_changed:DATETIME``"
 
-#: ../../user/search.rst:92
+#: ../../user/search.rst:94
 msgid "Source string was changed on date, supports :ref:`search-operators`."
 msgstr ""
 "Brontekenreeks werd gewijzigd op de datum, ondersteunt :ref:`search-"
 "operators`."
 
-#: ../../user/search.rst:93
+#: ../../user/search.rst:95
 msgid "``check:TEXT``"
 msgstr "``check:TEXT``"
 
-#: ../../user/search.rst:94
+#: ../../user/search.rst:96
 msgid ""
 "String has failing check, see :doc:`/user/checks` for check identifiers."
 msgstr ""
 "Tekenreeks heeft een mislukte controle, bekijk :doc:`/user/checks` voor "
 "identificaties van de controles."
 
-#: ../../user/search.rst:95
+#: ../../user/search.rst:97
 msgid "``dismissed_check:TEXT``"
 msgstr "``dismissed_check:TEXT``"
 
-#: ../../user/search.rst:96
+#: ../../user/search.rst:98
 msgid ""
 "String has dismissed check, see :doc:`/user/checks` for check identifiers."
 msgstr ""
 "Tekenreeks heeft genegeerde controle, bekijk :doc:`/user/checks` voor "
 "identificaties van controles."
 
-#: ../../user/search.rst:97
+#: ../../user/search.rst:99
 msgid "``comment:TEXT``"
 msgstr "``comment:TEXT``"
 
-#: ../../user/search.rst:98
+#: ../../user/search.rst:100
 msgid "Search in user comments."
 msgstr "Zoeken in opmerkingen van gebruiker."
 
-#: ../../user/search.rst:99
+#: ../../user/search.rst:101
 msgid "``resolved_comment:TEXT``"
 msgstr "``resolved_comment:TEXT``"
 
-#: ../../user/search.rst:100
+#: ../../user/search.rst:102
 msgid "Search in resolved comments."
 msgstr "Zoeken in opgeloste opmerkingen."
 
-#: ../../user/search.rst:101
+#: ../../user/search.rst:103
 msgid "``comment_author:TEXT``"
 msgstr "``comment_author:TEXT``"
 
-#: ../../user/search.rst:102
+#: ../../user/search.rst:104
 msgid "Filter by comment author."
 msgstr "Filteren op opmerking van auteur."
 
-#: ../../user/search.rst:103
+#: ../../user/search.rst:105
 msgid "``suggestion:TEXT``"
 msgstr "``suggestion:TEXT``"
 
-#: ../../user/search.rst:104
+#: ../../user/search.rst:106
 msgid "Search in suggestions."
 msgstr "Zoeken in suggesties."
 
-#: ../../user/search.rst:105
+#: ../../user/search.rst:107
 msgid "``suggestion_author:TEXT``"
 msgstr "``suggestion_author:TEXT``"
 
-#: ../../user/search.rst:106
+#: ../../user/search.rst:108
 msgid "Filter by suggestion author."
 msgstr "Filteren op suggestie van auteur."
 
-#: ../../user/search.rst:107
+#: ../../user/search.rst:109
 msgid "``explanation:TEXT``"
 msgstr "``explanation:TEXT``"
 
-#: ../../user/search.rst:108
+#: ../../user/search.rst:110
 msgid "Search in explanations."
 msgstr "Zoeken in uitleg."
 
-#: ../../user/search.rst:109
+#: ../../user/search.rst:111
 msgid "``label:TEXT``"
 msgstr "``label:TEXT``"
 
-#: ../../user/search.rst:110
+#: ../../user/search.rst:112
 msgid "Search in labels."
 msgstr "Zoeken in labels."
 
-#: ../../user/search.rst:111
+#: ../../user/search.rst:113
 msgid "``screenshot:TEXT``"
 msgstr "``screenshot:TEXT``"
 
-#: ../../user/search.rst:112
+#: ../../user/search.rst:114
 msgid "Search in screenshots."
 msgstr "Zoeken in schermafdrukken."
 
-#: ../../user/search.rst:115
+#: ../../user/search.rst:117
 msgid "Boolean operators"
 msgstr "Booleaanse operatoren"
 
-#: ../../user/search.rst:117
+#: ../../user/search.rst:119
 msgid ""
 "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
 "form complex queries. For example: ``state:translated AND (source:hello OR "
@@ -54595,11 +54662,11 @@ msgstr ""
 "complexe query's te vormen. Bijvoorbeeld: ``state:translated AND (source:"
 "hello OR source:bar)``"
 
-#: ../../user/search.rst:123
+#: ../../user/search.rst:125
 msgid "Field operators"
 msgstr "Veld operatoren"
 
-#: ../../user/search.rst:125
+#: ../../user/search.rst:127
 msgid ""
 "You can specify operators, ranges or partial lookups for date or numeric "
 "searches:"
@@ -54607,43 +54674,43 @@ msgstr ""
 "U mag operatoren, bereiken of gedeeltelijk opzoeken specificeren voor "
 "numerieke zoekacties of:"
 
-#: ../../user/search.rst:127
+#: ../../user/search.rst:129
 msgid "``state:>=translated``"
 msgstr "``state:>=translated``"
 
-#: ../../user/search.rst:128
+#: ../../user/search.rst:130
 msgid "State is ``translated`` or better (``approved``)."
 msgstr "Status is ``translated`` of beter nog (``approved``)."
 
-#: ../../user/search.rst:129
+#: ../../user/search.rst:131
 msgid "``changed:2019``"
 msgstr "``changed:2019``"
 
-#: ../../user/search.rst:130
+#: ../../user/search.rst:132
 msgid "Changed in year 2019."
 msgstr "Gewijzigd in het jaar 2019."
 
-#: ../../user/search.rst:131
+#: ../../user/search.rst:133
 msgid "``changed:[2019-03-01 to 2019-04-01]``"
 msgstr "``changed:[2019-03-01 to 2019-04-01]``"
 
-#: ../../user/search.rst:132
+#: ../../user/search.rst:134
 msgid "Changed between two given dates."
 msgstr "Gewijzigd tussen twee opgegeven datums."
 
-#: ../../user/search.rst:133
+#: ../../user/search.rst:135
 msgid "``position:[10 to 100]``"
 msgstr "``position:[10 to 100]``"
 
-#: ../../user/search.rst:134
+#: ../../user/search.rst:136
 msgid "Strings with position between 10 and 100 (inclusive)."
 msgstr "Tekenreeksen met een positie tussen 10 en 100 (inclusief)."
 
-#: ../../user/search.rst:137
+#: ../../user/search.rst:139
 msgid "Exact operators"
 msgstr "Exacte operatoren"
 
-#: ../../user/search.rst:139
+#: ../../user/search.rst:141
 msgid ""
 "You can do an exact match query on different string fields using ``=`` "
 "operator. For example, to search for all source strings exactly matching "
@@ -54659,11 +54726,11 @@ msgstr ""
 "naar alle brontekenreeksen die overeenkomen met ``hello``, kunt u gebruiken: "
 "``source:=hello``."
 
-#: ../../user/search.rst:147
+#: ../../user/search.rst:149
 msgid "Searching for changes"
 msgstr "Zoeken naar wijzigingen"
 
-#: ../../user/search.rst:151
+#: ../../user/search.rst:153
 msgid ""
 "Searching for history events can be done using ``change_action`` and "
 "``change_time`` operators."
@@ -54671,7 +54738,7 @@ msgstr ""
 "Zoeken naar historische gebeurtenissen kan wordne uitgevoerd met de "
 "operatoren ``change_action`` en ``change_time``."
 
-#: ../../user/search.rst:154
+#: ../../user/search.rst:156
 msgid ""
 "For example, searching for strings marked for edit in 2018 can be entered as "
 "``change_time:2018 AND change_action:marked-for-edit`` or ``change_time:2018 "
@@ -54681,11 +54748,11 @@ msgstr ""
 "in 2018 kan worden ingevoerd als ``change_time:2018 AND change_action:marked-"
 "for-edit`` of ``change_time:2018 AND change_action:\"Marked for edit\"``."
 
-#: ../../user/search.rst:160
+#: ../../user/search.rst:162
 msgid "Regular expressions"
 msgstr "Reguliere uitdrukkingen"
 
-#: ../../user/search.rst:162
+#: ../../user/search.rst:164
 msgid ""
 "Anywhere text is accepted you can also specify a regular expression as "
 "``r\"regexp\"``."
@@ -54693,7 +54760,7 @@ msgstr ""
 "Overal waar tekst wordt geaccepteerd mag u ook een reguliere uitdrukking "
 "specificeren, zoals ``r\"regexp\"``."
 
-#: ../../user/search.rst:164
+#: ../../user/search.rst:166
 msgid ""
 "For example, to search for all source strings which contain any digit "
 "between 2 and 5, use ``source:r\"[2-5]\"``."
@@ -54701,7 +54768,7 @@ msgstr ""
 "Zoeken naar bijvoorbeeld alle brontekenreeksen die een cijfer bevatten "
 "tussen 2 en 5, gebruik ``source:r\"[2-5]\"``."
 
-#: ../../user/search.rst:169
+#: ../../user/search.rst:171
 msgid ""
 "The regular expressions are evaluated by the database backend and might use "
 "different extensions, please consult the database documentation below for "
@@ -54711,7 +54778,7 @@ msgstr ""
 "database en zouden andere uitdrukkingen kunnen gebruiken, bekijk de "
 "documentatie voor de database hieronder voor meer details."
 
-#: ../../user/search.rst:173
+#: ../../user/search.rst:175
 msgid ""
 "`PostgreSQL Regular Expressions Details <https://www.postgresql.org/docs/"
 "current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the default "
@@ -54721,7 +54788,7 @@ msgstr ""
 "current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (dit is het "
 "standaard databaseprogramma voor Weblate)"
 
-#: ../../user/search.rst:174
+#: ../../user/search.rst:176
 msgid ""
 "`MariaDB Regular Expressions Overview <https://mariadb.com/kb/en/regular-"
 "expressions-overview/>`_"
@@ -54729,19 +54796,19 @@ msgstr ""
 "`MariaDB Regular Expressions Overview <https://mariadb.com/kb/en/regular-"
 "expressions-overview/>`_"
 
-#: ../../user/search.rst:175
+#: ../../user/search.rst:177
 msgid ""
 "`MySQL Regular Expressions <https://dev.mysql.com/doc/refman/9.2/en/regexp."
 "html>`_"
 msgstr ""
-"`MySQL Regular Expressions <https://dev.mysql.com/doc/refman/9.2/en/"
-"regexp.html>`_"
+"`MySQL Regular Expressions <https://dev.mysql.com/doc/refman/9.2/en/regexp."
+"html>`_"
 
-#: ../../user/search.rst:178
+#: ../../user/search.rst:180
 msgid "Predefined queries"
 msgstr "Voorgedefinieerde query's"
 
-#: ../../user/search.rst:180
+#: ../../user/search.rst:182
 msgid ""
 "You can select out of predefined queries on the search page, this allows you "
 "to quickly access the most frequent searches:"
@@ -54749,40 +54816,40 @@ msgstr ""
 "U kunt selecteren uit voorgedefinieerde query's op de zoekpagina, dat geeft "
 "u snelle toegang tot meest gebruikte zoekacties:"
 
-#: ../../user/search.rst:185
+#: ../../user/search.rst:187
 msgid "Ordering the results"
 msgstr "De resultaten ordenen"
 
-#: ../../user/search.rst:187
+#: ../../user/search.rst:189
 msgid "There are many options to order the strings according to your needs:"
 msgstr ""
 "Er zijn vele manieren om de tekenreeksen overeenkomstig uw wensen te ordenen:"
 
-#: ../../user/search.rst:194
+#: ../../user/search.rst:196
 msgid "Searching for users"
 msgstr "Zoeken naar gebruikers"
 
-#: ../../user/search.rst:198
+#: ../../user/search.rst:200
 msgid "The user browsing has similar search abilities:"
 msgstr "Het zoeken naar gebruikers heeft soortgelijke zoekmogelijkheden:"
 
-#: ../../user/search.rst:200
+#: ../../user/search.rst:202
 msgid "``username:TEXT``"
 msgstr "``username:TEXT``"
 
-#: ../../user/search.rst:201
+#: ../../user/search.rst:203
 msgid "Search in usernames."
 msgstr "Zoeken in gebruikersnamen."
 
-#: ../../user/search.rst:202
+#: ../../user/search.rst:204
 msgid "``full_name:TEXT``"
 msgstr "``full_name:TEXT``"
 
-#: ../../user/search.rst:203
+#: ../../user/search.rst:205
 msgid "Search in full names."
 msgstr "Zoeken in volledige namen."
 
-#: ../../user/search.rst:205
+#: ../../user/search.rst:207
 msgid ""
 "User configured translation language (see :ref:`profile-translated-"
 "languages`)."
@@ -54790,19 +54857,19 @@ msgstr ""
 "Gebruiker geconfigureerde taal voor vertaling (bekijk :ref:`profile-"
 "translated-languages`)."
 
-#: ../../user/search.rst:206
+#: ../../user/search.rst:208
 msgid "``joined:DATETIME``"
 msgstr "``joined:DATETIME``"
 
-#: ../../user/search.rst:208
+#: ../../user/search.rst:210
 msgid "``translates:TEXT``"
 msgstr "``translates:TEXT``"
 
-#: ../../user/search.rst:209
+#: ../../user/search.rst:211
 msgid "User has contributed to a given language."
 msgstr "Gebruiker heeft bijgedragen aan een bepaalde taal."
 
-#: ../../user/search.rst:211 ../../user/search.rst:215
+#: ../../user/search.rst:213 ../../user/search.rst:217
 msgid ""
 "You might want to limit contribution time by ``change_time``, for example "
 "``change_time:>\"90 days ago\"``."
@@ -54810,52 +54877,52 @@ msgstr ""
 "U wilt misschien de tijd voor de bijdrage beperken met ``change_time``, "
 "bijvoorbeeld met ``change_time:>\"90 days ago\"``."
 
-#: ../../user/search.rst:212
+#: ../../user/search.rst:214
 msgid "``contributes:TEXT``"
 msgstr "``contributes:TEXT``"
 
-#: ../../user/search.rst:213
+#: ../../user/search.rst:215
 msgid "User has contributed to a given project or component."
 msgstr "Gebruiker heeft bijgedragen aan een bepaald project of onderdeel."
 
-#: ../../user/search.rst:217 ../../user/search.rst:219
+#: ../../user/search.rst:219 ../../user/search.rst:221
 msgid "Same as in :ref:`search-strings`."
 msgstr "Hetzelfde als in :ref:`search-strings`."
 
-#: ../../user/search.rst:221
+#: ../../user/search.rst:223
 msgid "Additional lookups are available in the :ref:`management-interface`:"
 msgstr ""
 "Aanvullende zoekacties zijn beschikbaar in de :ref:`management-interface`:"
 
-#: ../../user/search.rst:223
+#: ../../user/search.rst:225
 msgid "``is:bot``"
 msgstr "``is:bot``"
 
-#: ../../user/search.rst:224
+#: ../../user/search.rst:226
 msgid "Search for bots (used for project scoped tokens)."
 msgstr "Zoeken naar bots (gebruikt voor tokens in bereik project)."
 
-#: ../../user/search.rst:225
+#: ../../user/search.rst:227
 msgid "``is:active``"
 msgstr "``is:active``"
 
-#: ../../user/search.rst:226
+#: ../../user/search.rst:228
 msgid "Search for active users."
 msgstr "Zoeken naar actieve gebruikers."
 
-#: ../../user/search.rst:227
+#: ../../user/search.rst:229
 msgid "``email:TEXT``"
 msgstr "``email:TEXT``"
 
-#: ../../user/search.rst:228
+#: ../../user/search.rst:230
 msgid "Search by e-mail."
 msgstr "Zoeken op e-mail."
 
-#: ../../user/search.rst:233
+#: ../../user/search.rst:235
 msgid "Fuzzy values for DATETIME fields"
 msgstr "Fuzzy waarden voor velden DATETIME"
 
-#: ../../user/search.rst:235
+#: ../../user/search.rst:237
 msgid ""
 "Instead of using DATETIME values like MM-DD-YYYY, a string containing adverb "
 "of time like ``yesterday``, ``last month``, and ``2 days ago`` can be used "
@@ -54865,22 +54932,22 @@ msgstr ""
 "tekenreeks die een bijwoord van tijd bevat, zoals ``yesterday``, ``last "
 "month`` en ``2 days ago`` worden gebruikt als waarden in de velden DATETIME."
 
-#: ../../user/search.rst:241
+#: ../../user/search.rst:243
 msgid "``changed:>=\"2 weeks ago\"``"
 msgstr "``changed:>=\"2 weeks ago\"``"
 
-#: ../../user/search.rst:242
+#: ../../user/search.rst:244
 msgid ""
 "Returns strings that are changed 2 weeks ago from the current date and time."
 msgstr ""
 "Geeft tekenreeksen terug die 2 weken geleden werden gewijzigd, gerekend "
 "vanaf de huidige datum en tijd."
 
-#: ../../user/search.rst:243
+#: ../../user/search.rst:245
 msgid "``changed:>=yesterday``"
 msgstr "``changed:>=yesterday``"
 
-#: ../../user/search.rst:244
+#: ../../user/search.rst:246
 msgid "Returns strings that are changed starting yesterday."
 msgstr "Geeft tekenreeksen terug die werden gewijzigd vanaf gisteren."
 
@@ -55822,10 +55889,9 @@ msgid ""
 "on any translation to open and edit it."
 msgstr ""
 "U kunt verschillende talen efficiënt vergelijken met deze weergave. Het is "
-"beschikbaar op elke pagina van een onderdeel, vanuit het menu "
-":guilabel:`Tools`. Selecteer eerst alle talen die u wilt vergelijken, "
-"bevestig uw selectie, en klik dan op een vertaling om die te openen en te "
-"bewerken."
+"beschikbaar op elke pagina van een onderdeel, vanuit het menu :guilabel:"
+"`Tools`. Selecteer eerst alle talen die u wilt vergelijken, bevestig uw "
+"selectie, en klik dan op een vertaling om die te openen en te bewerken."
 
 #: ../../user/translating.rst:452
 msgid ""
@@ -57834,6 +57900,11 @@ msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 
 #, fuzzy
+#~| msgid "Not yet released."
+#~ msgid "*Not yet released.*"
+#~ msgstr "Nog niet uitgegeven."
+
+#, fuzzy
 #~| msgid "Released on February 8th 2012."
 #~ msgid "*Expected 15th February 2025.*"
 #~ msgstr "Uitgegeven op 8 februari 2012."
@@ -57901,9 +57972,6 @@ msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 
 #~ msgid "Category id"
 #~ msgstr "Categorie id"
-
-#~ msgid "Not yet released."
-#~ msgstr "Nog niet uitgegeven."
 
 #~ msgid "**Contributors**"
 #~ msgstr "**Deelnemers**"

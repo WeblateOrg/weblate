@@ -1437,8 +1437,13 @@ Other authentication settings
 .. envvar:: WEBLATE_MIN_PASSWORD_SCORE
 
    Minimal password score as evaluated by the `zxcvbn
-   <https://github.com/dropbox/zxcvbn>`_ password strength estimator.
+   <https://github.com/dwolfhub/zxcvbn-python>`_ password strength estimator.
    Defaults to 3, set to 0 to disable strength checking.
+
+   .. seealso::
+
+      :ref:`password-authentication`,
+      :setting:`PASSWORD_MINIMAL_STRENGTH`
 
 
 PostgreSQL database setup

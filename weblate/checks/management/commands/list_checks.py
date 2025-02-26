@@ -54,12 +54,14 @@ class Command(BaseCommand):
             else:
                 lines.append("~" * len(name))
             lines.extend(("\n", f":Summary: {escape(check.description)}"))
-            if check.target:
+            if check.glossary:
+                lines.append(":Scope: glossary strings")
+            elif check.target:
                 if check.ignore_untranslated:
                     lines.append(":Scope: translated strings")
                 else:
                     lines.append(":Scope: all strings")
-            if check.source:
+            elif check.source:
                 lines.append(":Scope: source strings")
             lines.extend(
                 (

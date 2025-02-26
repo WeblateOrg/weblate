@@ -22,8 +22,7 @@ run-selenium:
 	@rm -rf ../data-test ../test-images
 	@cd .. && \
 		. scripts/test-database.sh && \
-		./manage.py collectstatic --noinput && \
-		pytest weblate/trans/tests/test_selenium.py
+		pytest -n 3 weblate/trans/tests/test_selenium.py
 
 SCREENSHOTS = $(wildcard screenshots/*.webp)
 

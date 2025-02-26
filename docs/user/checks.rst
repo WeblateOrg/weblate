@@ -141,7 +141,7 @@ Consecutive duplicated words
 
 .. versionadded:: 4.1
 
-:Summary: Text contains the same word twice in a row:
+:Summary: Text contains the same word twice in a row
 :Scope: translated strings
 :Check class: ``weblate.checks.duplicate.DuplicateCheck``
 :Check identifier: ``duplicate``
@@ -383,7 +383,7 @@ Fluent translation syntax
 
 .. versionadded:: 5.0
 
-:Summary: Fluent syntax error in translation
+:Summary: Fluent syntax error in the translation
 :Scope: translated strings
 :Check class: ``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``
 :Check identifier: ``fluent-target-syntax``
@@ -1375,6 +1375,24 @@ You can also have case insensitive placeholders:
 
    :ref:`custom-checks`
 
+.. _check-prohibited-initial-character:
+
+Prohibited initial character
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.9
+
+:Summary: The string starts with a prohibited character in CSV
+:Scope: glossary strings
+:Check class: ``weblate.checks.glossary.ProhibitedInitialCharacterCheck``
+:Check identifier: ``prohibited_initial_character``
+:Flag to ignore: ``ignore-prohibited-initial-character``
+
+The glossary is often shared as CSV and using some characters at the beginning is
+restricted by many applications as these can cause the text being evaluated as
+an expression. This also affects :ref:`glossary-mt` where many services use CSV
+for synchronizing glossaries and reject such strings.
+
 .. _check-punctuation-spacing:
 
 Punctuation spacing
@@ -1865,7 +1883,7 @@ Fluent source syntax
 
 .. versionadded:: 5.0
 
-:Summary: Fluent syntax error in source
+:Summary: Fluent syntax error in the source
 :Scope: source strings
 :Check class: ``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``
 :Check identifier: ``fluent-source-syntax``
@@ -1952,19 +1970,6 @@ There are multiple unnamed variables in the string, making it impossible for
 translators to reorder them.
 
 Consider using named variables instead to allow translators to reorder them.
-
-.. _check-prohibited-initial-character:
-
-Prohibited initial character
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 5.9
-
-:Summary: The string starts with a prohibited character in CSV
-:Scope: source strings
-:Check class: ``weblate.checks.glossary.ProhibitedInitialCharacterCheck``
-:Check identifier: ``prohibited_initial_character``
-:Flag to ignore: ``ignore-prohibited-initial-character``
 
 .. _check-optional-plural:
 

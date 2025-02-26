@@ -401,6 +401,7 @@ class UnitTermExpr(BaseTermExpr):
         "priority": "priority",
         "id": "id",
         "state": "state",
+        "source_state": "source_unit__state",
         "position": "position",
         "pending": "pending",
         "changed": "change__timestamp",
@@ -506,6 +507,9 @@ class UnitTermExpr(BaseTermExpr):
             )
 
         return super().has_field(text, context)
+
+    def convert_source_state(self, text: str) -> int | None:
+        return self.convert_state(text)
 
     def path_field(self, text: str, context: dict) -> Q:
         try:
@@ -663,13 +667,23 @@ def parser_to_query(obj, context: dict) -> Q:
         return obj.as_query(context)
 
     # Operators
-    operator = "AND"
+    operator = ""
     expressions = []
+    was_operator = False
     for item in obj:
-        if isinstance(item, str) and item.upper() in {"OR", "AND", "NOT"}:
-            operator = item.upper()
+        if isinstance(item, str) and (current := item.upper()) in {"OR", "AND", "NOT"}:
+            if operator and current != operator:
+                msg = "Mixed operators!"
+                raise ValueError(msg)
+            operator = current
+            was_operator = True
             continue
-        expressions.append(parser_to_query(item, context))
+        if not was_operator and expressions:
+            # Implicit AND
+            expressions[-1] &= parser_to_query(item, context)
+        else:
+            expressions.append(parser_to_query(item, context))
+        was_operator = False
 
     if not expressions:
         return Q()

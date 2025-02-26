@@ -964,7 +964,12 @@ Additional settings not described here can be found at :ref:`settings-credential
 GOOGLE_ANALYTICS_ID
 -------------------
 
-Google Analytics ID to turn on monitoring of Weblate using Google Analytics.
+Google Analytics ID to turn on monitoring of Weblate using Google Universal Analytics.
+
+.. note::
+
+   Google Analytics 4 integration is currently not available for Weblate,
+   please see https://github.com/WeblateOrg/weblate/issues/14015.
 
 .. setting:: HIDE_REPO_CREDENTIALS
 
@@ -1356,6 +1361,23 @@ List for credentials for Pagure servers.
 
    :ref:`vcs-pagure`,
    `Pagure API <https://pagure.io/api/0/>`_
+
+.. setting:: PASSWORD_MINIMAL_STRENGTH
+
+PASSWORD_MINIMAL_STRENGTH
+-------------------------
+
+.. versionadded:: 5.10.2
+
+Minimal password score as evaluated by the `zxcvbn
+<https://github.com/dwolfhub/zxcvbn-python>`_ password strength estimator.
+
+Defaults to 0, which means strength checking is disabled.
+
+.. seealso::
+
+   :ref:`password-authentication`,
+   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
 
 
 .. setting:: PRIVACY_URL

@@ -9,6 +9,7 @@ from datetime import timedelta
 
 from celery.schedules import crontab
 from django.conf import settings
+from django.db import transaction
 from django.db.models import F, Q
 from django.http import HttpRequest
 from django.utils import timezone
@@ -80,10 +81,14 @@ def cdn_parse_html(files: str, selector: str, component_id: int) -> None:
     retry_backoff=600,
     retry_backoff_max=3600,
 )
+@transaction.atomic
 def language_consistency(
     addon_id: int, language_ids: list[int], project_id: int
 ) -> None:
-    addon = Addon.objects.get(pk=addon_id)
+    try:
+        addon = Addon.objects.get(pk=addon_id)
+    except Addon.DoesNotExist:
+        return
     project = Project.objects.get(pk=project_id)
     languages = Language.objects.filter(id__in=language_ids)
     request = HttpRequest()
@@ -149,6 +154,7 @@ def cleanup_addon_activity_log() -> None:
     autoretry_for=(WeblateLockTimeoutError,),
     retry_backoff=60,
 )
+@transaction.atomic
 def postconfigure_addon(addon_id: int, addon=None) -> None:
     if addon is None:
         addon = Addon.objects.get(pk=addon_id)

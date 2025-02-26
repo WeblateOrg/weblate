@@ -39,27 +39,26 @@ class MetricsWrapper:
 
     @cached_property
     def _data(self) -> tuple[Metric, Metric, Metric]:
-        metrics = Metric.objects.filter_metric(
-            self.scope, self.relation, self.secondary
-        )
         today = timezone.now().date()
         dates = [today - timedelta(days=days) for days in [0, 1, 30, 31, 60, 61]]
-        metrics = metrics.filter(date__in=dates)
 
-        current = past_30 = past_60 = None
+        # Use use range as it is more likely to use index than
+        # the IN operator with six values.
+        metrics = Metric.objects.filter_metric(
+            self.scope, self.relation, self.secondary
+        ).filter(date__range=(dates[0], dates[-1]))
+
+        # Fetch the most recent metric for each date
+        current = past_30 = past_60 = Metric()
         for metric in metrics:
-            if metric.date in dates[0:2] and current is None:
+            if metric.date in dates[0:2] and current.pk is None:
                 current = metric
-            if metric.date in dates[2:4] and past_30 is None:
+            if metric.date in dates[2:4] and past_30.pk is None:
                 past_30 = metric
-            if metric.date in dates[4:6] and past_60 is None:
+            if metric.date in dates[4:6] and past_60.pk is None:
                 past_30 = metric
 
-        return (
-            current if current is not None else Metric(),
-            past_30 if past_30 is not None else Metric(),
-            past_60 if past_60 is not None else Metric(),
-        )
+        return (current, past_30, past_60)
 
     @property
     def current(self) -> Metric:
@@ -245,7 +244,9 @@ class MetricsWrapper:
     def get_month_cache_key(self, year, month) -> str:
         return f"{self.cache_key_prefix}:month:{year}:{month}"
 
-    def get_month_activity(self, year, month, cached_results) -> int:
+    def get_month_activity(
+        self, year: int, month: int, cached_results: dict[str, int]
+    ) -> int:
         cache_key = self.get_month_cache_key(year, month)
         if cache_key in cached_results:
             return cached_results[cache_key]
@@ -258,8 +259,8 @@ class MetricsWrapper:
 
     @cached_property
     def monthly_activity(self) -> list[dict[str, int | date | str | Promise]]:
-        months = []
-        prefetch = []
+        months: list[tuple[int, int]] = []
+        prefetch: list[str] = []
         last_month_date = timezone.now().date().replace(day=1) - timedelta(days=1)
         month = last_month_date.month
         year = last_month_date.year
@@ -276,7 +277,7 @@ class MetricsWrapper:
                 month = 12
                 year -= 1
 
-        cached_results = cache.get_many(prefetch)
+        cached_results: dict[str, int] = cache.get_many(prefetch)
         result: list[dict[str, int | date | str | Promise]] = [
             {
                 "month": month,

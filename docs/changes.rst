@@ -1,4 +1,4 @@
-Weblate 5.10.1
+Weblate 5.10.2
 --------------
 
 *Not yet released.*
@@ -7,16 +7,48 @@ Weblate 5.10.1
 
 .. rubric:: Improvements
 
-* :ref:`check-multiple-failures` better shows failing checks including links to the strings.
-* Detailed overview of locked components on project repository management.
+* Improved :ref:`translation-memory` matching.
+* Visual diff now better highlights whitespace additions.
+* Improved performance on large projects.
 
 .. rubric:: Bug fixes
 
-* :ref:`download` performs faster and project and language scopes.
-* :ref:`zen-mode` does not display the source string twice when editing it.
-* Fixed :ref:`glossary` terms highlighting.
+* Consistency of :ref:`search-boolean` in :doc:`/user/search`.
+* Fixed some :ref:`addons` trigger upon installation.
+* Fixed restoring of Git repositories from :ref:`projectbackup`.
 
 .. rubric:: Compatibility
+
+* Weblate has switched to a different library for zxcvbn integration, as the old one is no longer maintained, see :ref:`password-authentication`.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notable are changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.10.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/138?closed=1>`__.
+
+Weblate 5.10.1
+--------------
+
+*Released on February 21st 2025.*
+
+.. rubric:: Improvements
+
+* :ref:`check-multiple-failures` better shows failing checks including links to the strings.
+* Detailed overview of locked components on project repository management.
+* :ref:`search-strings` supports searching by source string state.
+
+.. rubric:: Bug fixes
+
+* :ref:`download` performs faster on project and language scopes.
+* :ref:`zen-mode` does not display the source string twice when editing it.
+* Fixed :ref:`glossary` terms highlighting.
 
 .. rubric:: Upgrading
 
@@ -912,8 +944,6 @@ Weblate 5.1.1
 
 *Released on October 25th 2023.*
 
-.. rubric:: New features
-
 .. rubric:: Improvements
 
 * :ref:`addon-weblate.consistency.languages` now uses a dedicated user for changes.
@@ -925,8 +955,6 @@ Weblate 5.1.1
 
 * Added plurals validation when editing string using the API.
 * Replacing a file using upload when existing is corrupted.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 

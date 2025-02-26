@@ -51,6 +51,7 @@ from weblate.utils.stats import (
     BaseStats,
     CategoryLanguage,
     GhostProjectLanguageStats,
+    GhostStats,
     ProjectLanguage,
 )
 from weblate.utils.templatetags.icons import icon
@@ -60,6 +61,7 @@ if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
 
     from django.db.models import QuerySet
+    from django.template.context import Context
     from django_stubs_ext import StrOrPromise
 
     from weblate.metrics.wrapper import MetricsWrapper
@@ -420,7 +422,7 @@ class Formatter:
 
             if pos in tags:
                 current = tags[pos]
-                # Special case for leading whitespace char in diff
+                # Special case for leading/trailing whitespace char in diff
                 if (
                     current
                     and value[pos] == " "
@@ -429,6 +431,18 @@ class Formatter:
                 ):
                     current.append(SPACE_START)
                     tags[pos + 1].insert(0, SPACE_END)
+
+                elif pos + 1 in tags:
+                    next_tags = tags[pos + 1]
+                    if (
+                        next_tags
+                        and value[pos] == " "
+                        and "</ins>" in next_tags
+                        and SPACE_END not in next_tags
+                        and SPACE_MIDDLE_1 not in next_tags
+                    ):
+                        current.append(SPACE_START)
+                        next_tags.insert(0, SPACE_END)
 
                 # Tags
                 yield from current
@@ -635,7 +649,7 @@ def check_description(check):
 
 
 @register.simple_tag(takes_context=True)
-def documentation(context, page, anchor=""):
+def documentation(context: Context, page, anchor=""):
     """Return link to Weblate documentation."""
     # User might not be present on error pages
     user = context.get("user")
@@ -658,12 +672,14 @@ def render_documentation_icon(doc_url: str, *, right: bool = False):
 
 
 @register.simple_tag(takes_context=True)
-def documentation_icon(context, page: str, anchor: str = "", right: bool = False):
+def documentation_icon(
+    context: Context, page: str, anchor: str = "", right: bool = False
+):
     return render_documentation_icon(documentation(context, page, anchor), right=right)
 
 
 @register.simple_tag(takes_context=True)
-def form_field_doc_link(context, form: forms.Form, field: forms.Field) -> str:
+def form_field_doc_link(context: Context, form: forms.Form, field: forms.Field) -> str:
     if isinstance(form, FieldDocsMixin) and (field_doc := form.get_field_doc(field)):
         return render_documentation_icon(get_doc_url(*field_doc, user=context["user"]))
     return ""
@@ -842,24 +858,60 @@ def review_percent(obj):
     )
 
 
-def translation_progress_data(
+def translation_progress_render(
     total: int, readonly: int, approved: int, translated: int, has_review: bool
-):
+) -> StrOrPromise:
     if has_review:
         translated -= approved
         approved += readonly
         translated -= readonly
 
-    return {
-        "approved": f"{translation_percent(approved, total, False):.1f}",
-        "good": f"{translation_percent(translated, total):.1f}",
-    }
+    approved_percent = translation_percent(approved, total, False)
+    good_percent = translation_percent(translated, total)
+
+    approved_tag = ""
+    good_tag = ""
+    if approved_percent > 0.1:
+        approved_tag = format_html(
+            """
+            <div class="progress-bar"
+                role="progressbar"
+                aria-valuenow="{approved}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style="width: {approved}%"
+                title="{title}"></div>
+            """,
+            approved=f"{approved_percent:.1f}",
+            title=gettext("Approved"),
+        )
+    if good_percent > 0.1:
+        good_tag = format_html(
+            """
+            <div class="progress-bar progress-bar-success"
+                role="progressbar"
+                aria-valuenow="{good}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style="width: {good}%"
+                title="{title}"></div>
+            """,
+            good=f"{good_percent:.1f}",
+            title=gettext("Translated without any problems"),
+        )
+
+    return format_html(
+        """<div class="progress" title="{}">{}{}</div>""",
+        gettext("Needs attention"),
+        approved_tag,
+        good_tag,
+    )
 
 
-@register.inclusion_tag("snippets/progress.html")
+@register.simple_tag
 def translation_progress(obj):
     stats = get_stats(obj)
-    return translation_progress_data(
+    return translation_progress_render(
         stats.all,
         stats.readonly,
         stats.approved,
@@ -868,10 +920,10 @@ def translation_progress(obj):
     )
 
 
-@register.inclusion_tag("snippets/progress.html")
+@register.simple_tag
 def words_progress(obj):
     stats = get_stats(obj)
-    return translation_progress_data(
+    return translation_progress_render(
         stats.all_words,
         stats.readonly_words,
         stats.approved_words,
@@ -880,10 +932,10 @@ def words_progress(obj):
     )
 
 
-@register.inclusion_tag("snippets/progress.html")
+@register.simple_tag
 def chars_progress(obj):
     stats = get_stats(obj)
-    return translation_progress_data(
+    return translation_progress_render(
         stats.all_chars,
         stats.readonly_chars,
         stats.approved_chars,
@@ -986,7 +1038,7 @@ def get_location_links(user: User | None, unit):
 
 
 @register.simple_tag(takes_context=True)
-def announcements(context, project=None, component=None, language=None):
+def announcements(context: Context, project=None, component=None, language=None):
     """Display announcement messages for given context."""
     user = context["user"]
 
@@ -1015,13 +1067,13 @@ def announcements(context, project=None, component=None, language=None):
 
 
 @register.simple_tag(takes_context=True)
-def active_tab(context, slug):
+def active_tab(context: Context, slug):
     active = "active" if slug == context["active_tab_slug"] else ""
     return format_html('class="tab-pane {}" id="{}"', active, slug)
 
 
 @register.simple_tag(takes_context=True)
-def active_link(context, slug):
+def active_link(context: Context, slug):
     if slug == context["active_tab_slug"]:
         return mark_safe('class="active"')  # noqa: S308
     return ""
@@ -1034,12 +1086,12 @@ def _needs_agreement(component, user: User) -> bool:
 
 
 @register.simple_tag(takes_context=True)
-def needs_agreement(context, component):
+def needs_agreement(context: Context, component):
     return _needs_agreement(component, context["user"])
 
 
 @register.simple_tag(takes_context=True)
-def show_contributor_agreement(context, component):
+def show_contributor_agreement(context: Context, component):
     if not _needs_agreement(component, context["user"]):
         return ""
 
@@ -1054,7 +1106,7 @@ def show_contributor_agreement(context, component):
 
 
 @register.simple_tag(takes_context=True)
-def get_translate_url(context, obj, glossary_browse=True) -> str:
+def get_translate_url(context: Context, obj, glossary_browse=True) -> str:
     """Get translate URL based on user preference."""
     if isinstance(obj, BaseStats) or not hasattr(obj, "get_translate_url"):
         return ""
@@ -1077,7 +1129,7 @@ def get_search_url(obj) -> str:
 
 
 @register.simple_tag(takes_context=True)
-def get_browse_url(context, obj):
+def get_browse_url(context: Context, obj):
     """Get translate URL based on user preference."""
     # Project listing on language page
     if "language" in context and isinstance(obj, Project):
@@ -1094,7 +1146,7 @@ def init_unique_row_id(context) -> str:
 
 
 @register.simple_tag(takes_context=True)
-def get_unique_row_id(context, obj):
+def get_unique_row_id(context: Context, obj):
     """Get unique row ID for multiline tables."""
     return "{}-{}".format(context["row_uuid"], obj.pk)
 
@@ -1158,55 +1210,38 @@ def project_alerts(project: Project) -> Iterable[tuple[str, StrOrPromise, str | 
         yield ("state/lock.svg", gettext("This translation is locked."), None)
 
 
-@register.inclusion_tag("trans/embed-alert.html", takes_context=True)
-def indicate_alerts(
-    context,
+def get_alerts(
+    *,
+    context: Context,
     obj: Translation
     | Component
     | ProjectLanguage
     | Project
     | GhostProjectLanguageStats,
-):
-    result: list[tuple[str, StrOrPromise, str | None]] = []
-
-    translation: Translation | GhostTranslation | None = None
-    component: Component | None = None
-    project: Project | None = None
-
+    translation: Translation | GhostTranslation | None,
+    component: Component | None,
+    project: Project | None,
+    project_language: ProjectLanguage | None,
+) -> Iterable[tuple[str, StrOrPromise, str | None]]:
     global_base = context.get("global_base")
 
-    if isinstance(obj, Translation | GhostTranslation):
-        translation = obj
-        component = obj.component
-        project = component.project
-    elif isinstance(obj, Component):
-        component = obj
-        project = component.project
-    elif isinstance(obj, Project):
-        project = obj
-    elif isinstance(obj, ProjectLanguage):
-        project = obj.project
+    if project_language is not None:
         # For source language
-        result.extend(translation_alerts(obj))
-    elif isinstance(obj, GhostProjectLanguageStats):
-        component = obj.component
-        project = component.project
+        yield from translation_alerts(project_language)
 
     if project is not None and context["user"].has_perm("project.edit", project):
-        result.append(
-            ("state/admin.svg", gettext("You administrate this project."), None)
-        )
+        yield ("state/admin.svg", gettext("You administrate this project."), None)
 
     if translation is not None:
-        result.extend(translation_alerts(translation))
+        yield from translation_alerts(translation)
 
     if component is not None:
-        result.extend(component_alerts(component))
+        yield from (component_alerts(component))
     elif project is not None:
-        result.extend(project_alerts(project))
+        yield from (project_alerts(project))
 
     if getattr(obj, "is_ghost", False):
-        result.append(
+        yield (
             ("state/ghost.svg", gettext("This translation does not yet exist."), None)
         )
     elif global_base:
@@ -1216,7 +1251,7 @@ def indicate_alerts(
 
         count = global_base.source_strings - stats.all
         if count:
-            result.append(
+            yield (
                 (
                     "state/ghost.svg",
                     ngettext(
@@ -1230,7 +1265,7 @@ def indicate_alerts(
             )
 
     if is_shared := getattr(obj, "is_shared", False):
-        result.append(
+        yield (
             (
                 "state/share.svg",
                 gettext("Shared from the %s project.") % is_shared,
@@ -1238,7 +1273,73 @@ def indicate_alerts(
             )
         )
 
-    return {"icons": result, "component": component, "project": project}
+
+@register.simple_tag(takes_context=True)
+def indicate_alerts(
+    context: Context,
+    obj: Translation
+    | Component
+    | ProjectLanguage
+    | Project
+    | GhostProjectLanguageStats,
+):
+    translation: Translation | GhostTranslation | None = None
+    component: Component | None = None
+    project: Project | None = None
+    project_language: ProjectLanguage | None = None
+
+    if isinstance(obj, Translation | GhostTranslation):
+        translation = obj
+        component = obj.component
+        project = component.project
+    elif isinstance(obj, Component):
+        component = obj
+        project = component.project
+    elif isinstance(obj, Project):
+        project = obj
+    elif isinstance(obj, ProjectLanguage):
+        project = obj.project
+        project_language = obj
+    elif isinstance(obj, GhostProjectLanguageStats):
+        component = obj.component
+        project = component.project
+
+    icons = format_html_join(
+        "\n",
+        '{}<span class="state-icon {}" title="{}" alt="{}">{}</span>{}',
+        (
+            (
+                format_html('<a href="{}">', url) if url else "",
+                "grey"
+                if icon_name == "state/ghost.svg"
+                else "red"
+                if icon_name == "state/alert.svg"
+                else "",
+                text,
+                text,
+                icon(icon_name),
+                mark_safe("</a>") if url else "",  # noqa: S308
+            )
+            for icon_name, text, url in get_alerts(
+                context=context,
+                translation=translation,
+                component=component,
+                project=project,
+                project_language=project_language,
+                obj=obj,
+            )
+        ),
+    )
+
+    license_badge = ""
+    if component and component.license and component.license != "proprietary":
+        license_badge = format_html(
+            ' <span title="{}" class="license badge">{}</span>',
+            component.get_license_display(),
+            component.license,
+        )
+
+    return format_html("{}{}", icons, license_badge)
 
 
 @register.filter(is_safe=True)
@@ -1270,10 +1371,11 @@ def choiceval(boundfield):
 def format_commit_author(commit):
     users = User.objects.filter(
         social_auth__verifiedemail__email=commit["author_email"]
-    ).distinct()
-    if len(users) == 1:
-        return get_user_display(users[0], True, True)
-    return commit["author_name"]
+    )
+    user = users.first()
+    if user is None:
+        return commit["author_name"]
+    return get_user_display(user, True, True)
 
 
 @register.filter
@@ -1339,7 +1441,7 @@ def sort_choices():
 
 
 @register.simple_tag(takes_context=True)
-def render_alert(context, alert):
+def render_alert(context: Context, alert):
     return alert.render(user=context["user"])
 
 
@@ -1362,6 +1464,17 @@ def urlize_ugc(value, autoescape=True):
     )
 
 
+@register.simple_tag
+def get_glossary_badge(component: Component | GhostStats) -> StrOrPromise:
+    if isinstance(component, Component) and component.is_glossary:
+        return format_html(
+            '<span class="label label-{}">{}</span>',
+            component.glossary_color,
+            gettext("Glossary"),
+        )
+    return ""
+
+
 def get_breadcrumbs(path_object, flags: bool = True):
     if isinstance(path_object, Unit):
         yield from get_breadcrumbs(path_object.translation)
@@ -1376,13 +1489,7 @@ def get_breadcrumbs(path_object, flags: bool = True):
             yield from get_breadcrumbs(path_object.project)
         name = path_object.name
         if flags:
-            name = format_html(
-                "{}{}",
-                name,
-                render_to_string(
-                    "snippets/component-glossary-badge.html", {"object": path_object}
-                ),
-            )
+            name = format_html("{}{}", name, get_glossary_badge(path_object))
         yield path_object.get_absolute_url(), name
     elif isinstance(path_object, Category):
         if path_object.category:
@@ -1547,7 +1654,7 @@ def list_objects_percent(
 
 @register.inclusion_tag("snippets/info.html", takes_context=True)
 def show_info(  # noqa: PLR0913
-    context,
+    context: Context,
     *,
     project: Project | None = None,
     component: Component | None = None,

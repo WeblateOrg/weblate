@@ -48,6 +48,8 @@ Fields
    Search for string states (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``).
 
    This field also supports :ref:`search-operators`, so searching for completed strings can be performed as ``state:>=translated``, searching for strings needing translation as ``state:<translated``.
+``source_state:TEXT``
+   Search for source string states, see above for more info.
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
@@ -111,11 +113,29 @@ Fields
 ``screenshot:TEXT``
    Search in screenshots.
 
+.. _search-boolean:
+
 Boolean operators
 -----------------
 
 You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to
-form complex queries. For example: ``state:translated AND (source:hello OR source:bar)``
+form complex queries.
+
+The ``NOT`` operator has higher precedence than the ``AND`` operator; the
+``AND`` operator has higher precedence than the ``OR`` operator. You can add
+parenthesis to define a precedence of your own.
+
+Omitting the operator will make the query behave like the ``AND`` operator was
+used.
+
+.. list-table:: Equivalent expressions
+
+   * - ``(state:translated AND source:hello) OR source:bar``
+     - Parenthesized expression to clearly show the precedence.
+   * - ``state:translated AND source:hello OR source:bar``
+     - The ``AND`` operator has higher precedence than the ``OR`` operator.
+   * - ``state:translated source:hello OR source:bar``
+     - Query using an implicit ``AND`` operator.
 
 .. _search-operators:
 

@@ -7,9 +7,10 @@
 import os
 from datetime import timedelta
 
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.management.color import no_style
 from django.db import connection, transaction
-from django.test import LiveServerTestCase, TestCase
+from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 
@@ -70,7 +71,7 @@ class BaseTestCase(TestCase):
         immediate_on_commit_leave(cls)
 
 
-class BaseLiveServerTestCase(LiveServerTestCase):
+class BaseLiveServerTestCase(StaticLiveServerTestCase):
     @classmethod
     def setUpTestData(cls) -> None:
         fixup_languages_seq()

@@ -23,7 +23,7 @@ jobs:
       languages: ${{ steps.list.outputs.languages }}
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
+    - uses: astral-sh/setup-uv@1edb52594c857e2b5b13128931090f0640537287 # v5
     - name: Set up Python
       uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
@@ -45,7 +45,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
+    - uses: astral-sh/setup-uv@1edb52594c857e2b5b13128931090f0640537287 # v5
     - name: Set up Python
       uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
@@ -62,7 +62,7 @@ jobs:
         echo "::add-matcher::.github/matchers/sphinx.json"
         ./ci/run-docs
         echo "::remove-matcher owner=sphinx::"
-    - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+    - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
       with:
         name: Documentation ${{ matrix.language }}
         path: docs/_build/html

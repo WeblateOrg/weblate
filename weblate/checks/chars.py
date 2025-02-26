@@ -317,7 +317,7 @@ class EndExclamationCheck(TargetCheck):
 class EndInterrobangCheck(TargetCheck):
     """Check for final interrobang expression."""
 
-    check_id = "end_Interrobang"
+    check_id = "end_interrobang"
     name = gettext_lazy("Mismatched interrobang")
     description = gettext_lazy(
         "Source and translation do not both end with an interrobang expression"

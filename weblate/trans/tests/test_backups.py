@@ -122,6 +122,8 @@ class BackupsTest(ViewTestCase):
             set(self.project.component_set.values_list("slug", flat=True)),
             set(restored.component_set.values_list("slug", flat=True)),
         )
+        # Verify that Git operations work on restored repos
+        restored.do_reset()
 
     @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_supported(self) -> None:

@@ -381,6 +381,7 @@ def handle_addon_event(
 ) -> None: ...
 
 
+@transaction.atomic
 def handle_addon_event(
     event,
     method,

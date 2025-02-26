@@ -30,7 +30,7 @@ jobs:
       attestations: write
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
+    - uses: astral-sh/setup-uv@1edb52594c857e2b5b13128931090f0640537287 # v5
     - name: Setup Python
       uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
@@ -50,7 +50,7 @@ jobs:
       uses: actions/attest-build-provenance@520d128f165991a6c774bcb264f323e3d70747f4 # v2
       with:
         subject-path: dist/*
-    - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
+    - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         path: dist/*
         name: dist
@@ -70,7 +70,7 @@ jobs:
       uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
         python-version: '3.13'
-    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
+    - uses: astral-sh/setup-uv@1edb52594c857e2b5b13128931090f0640537287 # v5
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -104,7 +104,7 @@ jobs:
     name: Build release notes
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
+    - uses: astral-sh/setup-uv@1edb52594c857e2b5b13128931090f0640537287 # v5
     - name: Set up Python
       uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
       with:
@@ -128,7 +128,7 @@ jobs:
         ./scripts/extract-release-notes > "dist/Weblate-$version.html"
         pandoc "dist/Weblate-$version.html" --write=gfm --wrap=none --lua-filter=scripts/release-notes-filter.version.lua -o "dist/Weblate-$version.md"
         rm scripts/release-notes-filter.version.lua
-    - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
+    - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         path: dist/*
         name: notes
@@ -149,7 +149,7 @@ jobs:
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
       run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delete
-    - uses: astral-sh/setup-uv@4db96194c378173c656ce18a155ffc14a9fc4355 # v5
+    - uses: astral-sh/setup-uv@1edb52594c857e2b5b13128931090f0640537287 # v5
     - run: uv publish --trusted-publishing always
 
   publish_github:
@@ -170,7 +170,7 @@ jobs:
     - name: Extract notes title
       id: get-name
       run: echo "name=$(head -n1 notes/Weblate-*.md)"  > "$GITHUB_OUTPUT"
-    - uses: ncipollo/release-action@cdcc88a9acf3ca41c16c37bb7d21b9ad48560d87 # v1
+    - uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1
       with:
         artifacts: dist/*
         bodyFile: notes.md

@@ -245,6 +245,10 @@ class GitSquashAddon(BaseAddon):
             repository.delete_branch(tmp)
 
     def post_commit(self, component: Component, store_hash: bool) -> None:
+        # Operate on parent
+        if component.linked_component:
+            component = component.linked_component
+
         repository = cast("GitRepository", component.repository)
         branch_updated = False
         with repository.lock:

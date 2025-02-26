@@ -31,6 +31,7 @@ sed -E -i "s/^\*(Not yet released.|Expected ).*/*Released on $today.*/" docs/cha
 
 if [ -z "$suffix" ]; then
     ./scripts/list-contributors --update
+    ./scripts/compact-changes.py
 fi
 
 if ! git diff --exit-code --quiet; then

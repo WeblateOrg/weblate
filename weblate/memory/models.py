@@ -118,13 +118,34 @@ class MemoryQuerySet(models.QuerySet):
         We exclude non-word characters while calculating this as those are
         excluded in the trigram matching.
         """
-        length = max(1, len(NON_WORD_RE.sub("", text)))
+        # Highest similarity we want to get
+        high = 0.985
+        # Limit the number of decimals to avoid too frequent flipping of the setting
+        # inside PostgreSQL
+        decimals = 3
 
-        base = 0.172489 * math.log(threshold) + 0.207051
-        bonus = 7.03436 * math.exp(-6.07957 * base)
-        length_bonus = (0.0733418 * math.log(length) + 0.324497) * bonus
+        # Maps threshold to a minimal score, approximately:
+        #  10 => 0.7
+        #  75 => 0.95
+        #  80 => 0.96
+        # 100 => 1.0
+        base = 0.127264 * math.log(24.282 * threshold)
+        if base >= high:
+            return min(round(base, decimals), 1.0)
 
-        return max(0.6, min(1.0, round(base + length_bonus, 3)))
+        # Allow up to +20% boost based on length
+        maximum = min(base * 1.2, high)
+
+        # Measure the length of alphanumeric characters in the text
+        max_length = 2000
+        length = min(max(1, len(NON_WORD_RE.sub("", text))), max_length)
+
+        # Apply boost based on square root of length so that it grows faster
+        # for shorter strings
+        boost = (maximum - base) * math.sqrt(length) / math.sqrt(max_length)
+
+        # Cap result into reasonable limits
+        return max(0.6, min(1.0, round(base + boost, decimals)))
 
     def lookup(
         self,
