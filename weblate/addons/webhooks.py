@@ -17,7 +17,7 @@ class WebhookAddon(ChangeBaseAddon):
     description = gettext_lazy("some desc")
 
     settings_form = WebhooksAddonForm
-    # TODO: find a webhook icon
+    icon = "webhook.svg"
 
     def change_event(self, change) -> None:
         config = self.instance.configuration
