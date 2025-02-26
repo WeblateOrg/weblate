@@ -13,6 +13,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import CATEGORY_DEPTH, COMPONENT_NAME_LENGTH
 from weblate.trans.mixins import (
     CacheKeyMixin,
@@ -20,7 +21,6 @@ from weblate.trans.mixins import (
     LockMixin,
     PathMixin,
 )
-from weblate.trans.models.change import Change
 from weblate.utils.stats import CategoryStats
 from weblate.utils.validators import validate_slug
 
@@ -243,9 +243,9 @@ class Category(
             return getattr(result, "slug", result)
 
         tracked = (
-            ("slug", Change.ACTIONS.ACTION_RENAME_CATEGORY),
-            ("category", Change.ACTIONS.ACTION_MOVE_CATEGORY),
-            ("project", Change.ACTIONS.ACTION_MOVE_CATEGORY),
+            ("slug", ActionEvents.RENAME_CATEGORY),
+            ("category", ActionEvents.MOVE_CATEGORY),
+            ("project", ActionEvents.MOVE_CATEGORY),
         )
         for attribute, action in tracked:
             old_value = getvalue(old, attribute)

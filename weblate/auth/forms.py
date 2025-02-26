@@ -19,6 +19,7 @@ from weblate.auth.models import (
     Role,
     User,
 )
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change
 from weblate.utils import messages
 from weblate.utils.forms import UserField
@@ -71,7 +72,7 @@ class InviteUserForm(forms.ModelForm):
                 details = {"email": self.instance.email}
             Change.objects.create(
                 project=self.project,  # Might be None
-                action=Change.ACTIONS.ACTION_INVITE_USER,
+                action=ActionEvents.INVITE_USER,
                 user=author,
                 details=details,
             )

@@ -9,8 +9,8 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.db import models
 
+from weblate.trans.actions import ActionEvents
 from weblate.trans.mixins import UserDisplayMixin
-from weblate.trans.models.change import Change
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
 
@@ -34,7 +34,7 @@ class CommentManager(models.Manager):
         user.profile.increase_count("commented")
         unit.change_set.create(
             comment=new_comment,
-            action=Change.ACTIONS.ACTION_COMMENT,
+            action=ActionEvents.COMMENT,
             user=user,
             author=user,
             details={"comment": text},
@@ -79,7 +79,7 @@ class Comment(models.Model, UserDisplayMixin):
     def resolve(self, user: User) -> None:
         self.unit.change_set.create(
             comment=self,
-            action=Change.ACTIONS.ACTION_COMMENT_RESOLVE,
+            action=ActionEvents.COMMENT_RESOLVE,
             user=user,
             author=self.user,
             details={"comment": self.comment},
@@ -89,7 +89,7 @@ class Comment(models.Model, UserDisplayMixin):
 
     def delete(self, user=None, using=None, keep_parents=False) -> None:
         self.unit.change_set.create(
-            action=Change.ACTIONS.ACTION_COMMENT_DELETE,
+            action=ActionEvents.COMMENT_DELETE,
             user=user,
             author=self.user,
             details={"comment": self.comment},

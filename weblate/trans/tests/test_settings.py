@@ -8,7 +8,8 @@ from django.test.utils import modify_settings
 from django.urls import reverse
 
 from weblate.checks.models import Check
-from weblate.trans.models import Change, Component, Project, Unit
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing
 
@@ -107,7 +108,7 @@ class SettingsTest(ViewTestCase):
         project = Project.objects.get(pk=self.project.pk)
         self.assertEqual(project.access_control, Project.ACCESS_PROTECTED)
         self.assertTrue(
-            project.change_set.filter(action=Change.ACTIONS.ACTION_ACCESS_EDIT).exists()
+            project.change_set.filter(action=ActionEvents.ACCESS_EDIT).exists()
         )
 
     def test_component_denied(self) -> None:

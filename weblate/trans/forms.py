@@ -40,6 +40,7 @@ from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
+from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup
 from weblate.trans.defines import (
     BRANCH_LENGTH,
@@ -2138,7 +2139,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
         super().save(commit=commit)
         if self.changed_access:
             self.instance.change_set.create(
-                action=Change.ACTIONS.ACTION_ACCESS_EDIT,
+                action=ActionEvents.ACCESS_EDIT,
                 user=self.user,
                 details={"access_control": self.instance.access_control},
             )
@@ -2805,7 +2806,7 @@ class ChangesForm(forms.Form):
         label=gettext_lazy("Action"),
         required=False,
         widget=SortedSelectMultiple,
-        choices=Change.ACTIONS.choices,
+        choices=ActionEvents.choices,
     )
     user = UsernameField(
         label=gettext_lazy("Author username"), required=False, help_text=None

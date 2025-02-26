@@ -13,7 +13,8 @@ from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.forms import GenerateForm, PseudolocaleAddonForm
 from weblate.checks.flags import Flags
-from weblate.trans.models import Change, Translation
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Translation
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.state import (
@@ -113,7 +114,7 @@ class LocaleGenerateAddonBase(BaseAddon):
                     self.user,
                     new_strings,
                     target_state,
-                    change_action=Change.ACTIONS.ACTION_AUTO,
+                    change_action=ActionEvents.AUTO,
                     propagate=False,
                 )
                 updated += 1

@@ -26,6 +26,7 @@ from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
+from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.utils.data import data_dir
@@ -326,9 +327,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             import_memory.delay_on_commit(self.id)
 
     def generate_changes(self, old) -> None:
-        from weblate.trans.models.change import Change
-
-        tracked = (("slug", Change.ACTIONS.ACTION_RENAME_PROJECT),)
+        tracked = (("slug", ActionEvents.RENAME_PROJECT),)
         for attribute, action in tracked:
             old_value = getattr(old, attribute)
             current_value = getattr(self, attribute)
@@ -516,8 +515,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return any(billing.is_libre_trial for billing in self.billings)
 
     def post_create(self, user: User, billing=None) -> None:
-        from weblate.trans.models import Change
-
         if billing:
             billing.projects.add(self)
             if billing.plan.change_access_control:
@@ -528,7 +525,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if not user.is_superuser:
             self.add_user(user, "Administration")
         self.change_set.create(
-            action=Change.ACTIONS.ACTION_CREATE_PROJECT, user=user, author=user
+            action=ActionEvents.CREATE_PROJECT, user=user, author=user
         )
 
     @cached_property

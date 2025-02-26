@@ -21,6 +21,7 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.formats.models import FILE_FORMATS
+from weblate.trans.actions import ActionEvents
 from weblate.utils.requests import get_uri_error
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.vcs.models import VCS_REGISTRY
@@ -83,10 +84,8 @@ class Alert(models.Model):
         is_new = not self.id
         super().save(*args, **kwargs)
         if is_new:
-            from weblate.trans.models import Change
-
             self.component.change_set.create(
-                action=Change.ACTIONS.ACTION_ALERT,
+                action=ActionEvents.ALERT,
                 alert=self,
                 details={"alert": self.name},
             )

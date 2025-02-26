@@ -21,7 +21,8 @@ from django.views.decorators.http import require_POST
 
 from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.logger import LOGGER
-from weblate.trans.models import Change, Component, Project
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Component, Project
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
@@ -209,7 +210,7 @@ def vcs_service_hook(request: AuthenticatedHttpRequest, service):
     for obj in enabled_components:
         updates += 1
         LOGGER.info("%s notification will update %s", service_long_name, obj)
-        obj.change_set.create(action=Change.ACTIONS.ACTION_HOOK, details=service_data)
+        obj.change_set.create(action=ActionEvents.ACTION_HOOK, details=service_data)
         perform_update.delay("Component", obj.pk)
 
     match_status = {

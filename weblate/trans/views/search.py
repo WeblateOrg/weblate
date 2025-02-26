@@ -15,6 +15,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.forms import (
     BulkEditForm,
@@ -22,7 +23,7 @@ from weblate.trans.forms import (
     ReplaceForm,
     SearchForm,
 )
-from weblate.trans.models import Category, Change, Component, Project, Translation, Unit
+from weblate.trans.models import Category, Component, Project, Translation, Unit
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit
@@ -106,7 +107,7 @@ def search_replace(request: AuthenticatedHttpRequest, path):
                     request.user,
                     unit.target.replace(search_text, replacement),
                     unit.state,
-                    change_action=Change.ACTIONS.ACTION_REPLACE,
+                    change_action=ActionEvents.REPLACE,
                 )
                 updated += 1
 

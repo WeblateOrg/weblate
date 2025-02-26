@@ -15,7 +15,8 @@ from django.utils.translation import gettext, ngettext
 
 from weblate.machinery.base import BatchMachineTranslation, MachineTranslationError
 from weblate.machinery.models import MACHINERY
-from weblate.trans.models import Change, Component, Suggestion, Translation, Unit
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Component, Suggestion, Translation, Unit
 from weblate.trans.util import split_plural
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -88,7 +89,7 @@ class AutoTranslate:
                 user or self.user,
                 target,
                 state,
-                change_action=Change.ACTIONS.ACTION_AUTO,
+                change_action=ActionEvents.AUTO,
                 propagate=False,
             )
             self.updated += 1

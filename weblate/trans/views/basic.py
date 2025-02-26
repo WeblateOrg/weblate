@@ -20,6 +20,7 @@ from django.views.generic import RedirectView
 from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import (
     AddCategoryForm,
@@ -752,11 +753,11 @@ def new_language(request: AuthenticatedHttpRequest, path):
                             if len(langs) == 1:
                                 result = translation
                             obj.change_set.create(
-                                action=Change.ACTIONS.ACTION_ADDED_LANGUAGE, **kwargs
+                                action=ActionEvents.ADDED_LANGUAGE, **kwargs
                             )
                     elif obj.new_lang == "contact":
                         obj.change_set.create(
-                            action=Change.ACTIONS.ACTION_REQUESTED_LANGUAGE, **kwargs
+                            action=ActionEvents.REQUESTED_LANGUAGE, **kwargs
                         )
                         messages.success(
                             request,

@@ -13,6 +13,7 @@ from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.checks.base import BatchCheckMixin, TargetCheck
+from weblate.trans.actions import ActionEvents
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -295,23 +296,19 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         return gettext('Previous translation was "%s".') % target
 
     def should_skip_change(self, change, unit: Unit):
-        from weblate.trans.models import Change
-
         # Skip automatic translation entries adding needs editing string
         return (
-            change.action == Change.ACTIONS.ACTION_AUTO
+            change.action == ActionEvents.AUTO
             and change.details.get("state", STATE_TRANSLATED) < STATE_TRANSLATED
         )
 
     @staticmethod
     def should_break_changes(change):
-        from weblate.trans.models import Change
-
         # Stop changes processing on source string change or on
         # intentional marking as needing edit
         return change.action in {
-            Change.ACTIONS.ACTION_SOURCE_CHANGE,
-            Change.ACTIONS.ACTION_MARKED_EDIT,
+            ActionEvents.SOURCE_CHANGE,
+            ActionEvents.MARKED_EDIT,
         }
 
     def handle_batch(self, unit: Unit, component: Component) -> Literal[False] | str:  # type: ignore[override]

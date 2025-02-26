@@ -5,7 +5,8 @@
 from django.db import transaction
 
 from weblate.checks.flags import Flags
-from weblate.trans.models import Change, Component, Unit
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Component, Unit
 from weblate.trans.models.label import TRANSLATION_LABELS
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
@@ -71,7 +72,7 @@ def bulk_perform(  # noqa: C901
                     ):
                         # Create change object for edit, update is done outside the loop
                         unit.generate_change(
-                            user, user, Change.ACTIONS.ACTION_BULK_EDIT, check_new=False
+                            user, user, ActionEvents.BULK_EDIT, check_new=False
                         )
                         updated += 1
                         update_unit_ids.append(unit.pk)

@@ -35,6 +35,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, get_default_lang
+from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -992,11 +993,11 @@ class Component(
             return getattr(result, "slug", result)
 
         tracked = (
-            ("license", Change.ACTIONS.ACTION_LICENSE_CHANGE),
-            ("agreement", Change.ACTIONS.ACTION_AGREEMENT_CHANGE),
-            ("slug", Change.ACTIONS.ACTION_RENAME_COMPONENT),
-            ("category", Change.ACTIONS.ACTION_MOVE_COMPONENT),
-            ("project", Change.ACTIONS.ACTION_MOVE_COMPONENT),
+            ("license", ActionEvents.LICENSE_CHANGE),
+            ("agreement", ActionEvents.AGREEMENT_CHANGE),
+            ("slug", ActionEvents.RENAME_COMPONENT),
+            ("category", ActionEvents.MOVE_COMPONENT),
+            ("project", ActionEvents.MOVE_COMPONENT),
         )
         for attribute, action in tracked:
             old_value = getvalue(old, attribute)
@@ -1264,7 +1265,7 @@ class Component(
                 source.generate_change(
                     self.acting_user,
                     self.acting_user,
-                    Change.ACTIONS.ACTION_NEW_SOURCE,
+                    ActionEvents.NEW_SOURCE,
                     check_new=False,
                 )
                 self.updated_sources[source.id] = source
@@ -1803,7 +1804,7 @@ class Component(
                     skip_sentry=not settings.DEBUG,
                 )
                 self.change_set.create(
-                    action=Change.ACTIONS.ACTION_FAILED_PUSH,
+                    action=ActionEvents.FAILED_PUSH,
                     target=error_text,
                     user=request.user if request else self.acting_user,
                 )
@@ -1890,7 +1891,7 @@ class Component(
             return False
 
         self.change_set.create(
-            action=Change.ACTIONS.ACTION_PUSH,
+            action=ActionEvents.PUSH,
             user=request.user if request else self.acting_user,
         )
 
@@ -1925,7 +1926,7 @@ class Component(
                 return False
 
             self.change_set.create(
-                action=Change.ACTIONS.ACTION_RESET,
+                action=ActionEvents.RESET,
                 user=request.user if request else self.acting_user,
                 details={
                     "new_head": self.repository.last_revision,
@@ -2176,7 +2177,7 @@ class Component(
         if self.id:
             self.change_set.create(
                 translation=translation,
-                action=Change.ACTIONS.ACTION_PARSE_ERROR,
+                action=ActionEvents.PARSE_ERROR,
                 details={"error_message": error_message, "filename": filename},
                 user=self.acting_user,
             )
@@ -2209,14 +2210,14 @@ class Component(
         if method == "rebase":
             method_func = self.repository.rebase
             error_msg = gettext("Could not rebase local branch onto remote branch %s.")
-            action = Change.ACTIONS.ACTION_REBASE
-            action_failed = Change.ACTIONS.ACTION_FAILED_REBASE
+            action = ActionEvents.REBASE
+            action_failed = ActionEvents.FAILED_REBASE
             kwargs = {}
         else:
             method_func = self.repository.merge
             error_msg = gettext("Could not merge remote branch into %s.")
-            action = Change.ACTIONS.ACTION_MERGE
-            action_failed = Change.ACTIONS.ACTION_FAILED_MERGE
+            action = ActionEvents.MERGE
+            action_failed = ActionEvents.FAILED_MERGE
             kwargs = {"message": render_template(self.merge_message, component=self)}
             if method == "merge_noff":
                 kwargs["no_ff"] = True
@@ -2371,7 +2372,7 @@ class Component(
                 and self.auto_lock_error
                 and alert in LOCKING_ALERTS
                 and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
-                and self.change_set.filter(action=Change.ACTIONS.ACTION_LOCK)
+                and self.change_set.filter(action=ActionEvents.LOCK)
                 .order_by("-id")[0]
                 .auto_status
             ):
@@ -3736,7 +3737,7 @@ class Component(
         Component.objects.filter(pk=self.pk).update(locked=lock)
         self.change_set.create(
             user=user,
-            action=Change.ACTIONS.ACTION_LOCK if lock else Change.ACTIONS.ACTION_UNLOCK,
+            action=ActionEvents.LOCK if lock else ActionEvents.UNLOCK,
             details={"auto": auto},
         )
         if lock and not auto:
@@ -3756,7 +3757,7 @@ class Component(
 
     def post_create(self, user: User) -> None:
         self.change_set.create(
-            action=Change.ACTIONS.ACTION_CREATE_COMPONENT,
+            action=ActionEvents.CREATE_COMPONENT,
             user=user,
             author=user,
         )
@@ -3917,7 +3918,7 @@ class Component(
                 None,
                 unit.target,
                 STATE_FUZZY,
-                change_action=Change.ACTIONS.ACTION_ENFORCED_CHECK,
+                change_action=ActionEvents.ENFORCED_CHECK,
                 propagate=False,
             )
 

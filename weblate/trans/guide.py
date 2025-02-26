@@ -14,7 +14,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.models import ADDONS
-from weblate.trans.models import Change
+from weblate.trans.actions import ActionEvents
 from weblate.utils.docs import get_doc_url
 
 if TYPE_CHECKING:
@@ -84,9 +84,7 @@ class HookGuideline(Guideline):
     anchor = "vcs"
 
     def is_passing(self):
-        return self.component.change_set.filter(
-            action=Change.ACTIONS.ACTION_HOOK
-        ).exists()
+        return self.component.change_set.filter(action=ActionEvents.HOOK).exists()
 
     def is_relevant(self) -> bool:
         return not self.component.is_repo_link

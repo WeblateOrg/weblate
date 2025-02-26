@@ -25,6 +25,7 @@ from social_django.utils import load_strategy
 from weblate.auth.models import AuthenticatedHttpRequest, get_auth_backends
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Project
 from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
@@ -182,7 +183,7 @@ class RedirectMiddleware:
                     # Look for renamed components in a project
                     component = (
                         project.change_set.filter(
-                            action=Change.ACTIONS.ACTION_RENAME_COMPONENT, old=slug
+                            action=ActionEvents.RENAME_COMPONENT, old=slug
                         )
                         .order()[0]
                         .component

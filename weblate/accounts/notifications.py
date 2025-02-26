@@ -31,6 +31,7 @@ from weblate.accounts.tasks import OutgoingEmail, send_mails
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Alert, Change, Component, Project, Translation
 from weblate.utils.errors import report_error
 from weblate.utils.markdown import get_mention_users
@@ -507,11 +508,11 @@ class Notification:
 @register_notification
 class RepositoryNotification(Notification):
     actions = (
-        Change.ACTIONS.ACTION_COMMIT,
-        Change.ACTIONS.ACTION_PUSH,
-        Change.ACTIONS.ACTION_RESET,
-        Change.ACTIONS.ACTION_REBASE,
-        Change.ACTIONS.ACTION_MERGE,
+        ActionEvents.COMMIT,
+        ActionEvents.PUSH,
+        ActionEvents.RESET,
+        ActionEvents.REBASE,
+        ActionEvents.MERGE,
     )
     verbose = pgettext_lazy(
         "Notification name", "Operation was performed in the repository"
@@ -522,8 +523,8 @@ class RepositoryNotification(Notification):
 @register_notification
 class LockNotification(Notification):
     actions = (
-        Change.ACTIONS.ACTION_LOCK,
-        Change.ACTIONS.ACTION_UNLOCK,
+        ActionEvents.LOCK,
+        ActionEvents.UNLOCK,
     )
     verbose = pgettext_lazy("Notification name", "Component was locked or unlocked")
     template_name = "component_lock"
@@ -532,8 +533,8 @@ class LockNotification(Notification):
 @register_notification
 class LicenseNotification(Notification):
     actions = (
-        Change.ACTIONS.ACTION_LICENSE_CHANGE,
-        Change.ACTIONS.ACTION_AGREEMENT_CHANGE,
+        ActionEvents.LICENSE_CHANGE,
+        ActionEvents.AGREEMENT_CHANGE,
     )
     verbose = pgettext_lazy("Notification name", "License was changed")
     template_name = "component_license"
@@ -541,7 +542,7 @@ class LicenseNotification(Notification):
 
 @register_notification
 class ParseErrorNotification(Notification):
-    actions = (Change.ACTIONS.ACTION_PARSE_ERROR,)
+    actions = (ActionEvents.PARSE_ERROR,)
     verbose = pgettext_lazy("Notification name", "Parse error occurred")
     template_name = "parse_error"
 
@@ -559,11 +560,11 @@ class ParseErrorNotification(Notification):
 @register_notification
 class NewStringNotificaton(Notification):
     actions = (
-        Change.ACTIONS.ACTION_NEW_UNIT,
-        Change.ACTIONS.ACTION_NEW_UNIT_REPO,
-        Change.ACTIONS.ACTION_NEW_UNIT_UPLOAD,
-        Change.ACTIONS.ACTION_MARKED_EDIT,
-        Change.ACTIONS.ACTION_SOURCE_CHANGE,
+        ActionEvents.NEW_UNIT,
+        ActionEvents.NEW_UNIT_REPO,
+        ActionEvents.NEW_UNIT_UPLOAD,
+        ActionEvents.MARKED_EDIT,
+        ActionEvents.SOURCE_CHANGE,
     )
     verbose = pgettext_lazy("Notification name", "String is available for translation")
     template_name = "new_string"
@@ -573,7 +574,7 @@ class NewStringNotificaton(Notification):
 
 @register_notification
 class NewContributorNotificaton(Notification):
-    actions = (Change.ACTIONS.ACTION_NEW_CONTRIBUTOR,)
+    actions = (ActionEvents.NEW_CONTRIBUTOR,)
     verbose = pgettext_lazy(
         "Notification name", "Contributor made their first translation"
     )
@@ -583,7 +584,7 @@ class NewContributorNotificaton(Notification):
 
 @register_notification
 class NewSuggestionNotificaton(Notification):
-    actions = (Change.ACTIONS.ACTION_SUGGESTION,)
+    actions = (ActionEvents.SUGGESTION,)
     verbose = pgettext_lazy("Notification name", "Suggestion was added")
     template_name = "new_suggestion"
     filter_languages = True
@@ -592,7 +593,7 @@ class NewSuggestionNotificaton(Notification):
 
 @register_notification
 class LanguageTranslatedNotificaton(Notification):
-    actions = (Change.ACTIONS.ACTION_COMPLETE,)
+    actions = (ActionEvents.COMPLETE,)
     verbose = pgettext_lazy("Notification name", "Language was translated")
     template_name = "translated_language"
     required_attr = "translation"
@@ -600,7 +601,7 @@ class LanguageTranslatedNotificaton(Notification):
 
 @register_notification
 class ComponentTranslatedNotificaton(Notification):
-    actions = (Change.ACTIONS.ACTION_COMPLETED_COMPONENT,)
+    actions = (ActionEvents.COMPLETED_COMPONENT,)
     verbose = pgettext_lazy("Notification name", "Component was translated")
     template_name = "translated_component"
     required_attr = "component"
@@ -608,7 +609,7 @@ class ComponentTranslatedNotificaton(Notification):
 
 @register_notification
 class NewCommentNotificaton(Notification):
-    actions = (Change.ACTIONS.ACTION_COMMENT,)
+    actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy("Notification name", "Comment was added")
     template_name = "new_comment"
     filter_languages = True
@@ -630,7 +631,7 @@ class NewCommentNotificaton(Notification):
 
 @register_notification
 class MentionCommentNotificaton(Notification):
-    actions = (Change.ACTIONS.ACTION_COMMENT,)
+    actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy("Notification name", "You were mentioned in a comment")
     template_name = "new_comment"
     ignore_watched = True
@@ -662,7 +663,7 @@ class MentionCommentNotificaton(Notification):
 
 @register_notification
 class LastAuthorCommentNotificaton(Notification):
-    actions = (Change.ACTIONS.ACTION_COMMENT,)
+    actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy("Notification name", "Your translation received a comment")
     template_name = "new_comment"
     ignore_watched = True
@@ -688,9 +689,9 @@ class LastAuthorCommentNotificaton(Notification):
 @register_notification
 class TranslatedStringNotificaton(Notification):
     actions = (
-        Change.ACTIONS.ACTION_CHANGE,
-        Change.ACTIONS.ACTION_NEW,
-        Change.ACTIONS.ACTION_ACCEPT,
+        ActionEvents.CHANGE,
+        ActionEvents.NEW,
+        ActionEvents.ACCEPT,
     )
     verbose = pgettext_lazy("Notification name", "String was edited by user")
     template_name = "translated_string"
@@ -699,7 +700,7 @@ class TranslatedStringNotificaton(Notification):
 
 @register_notification
 class ApprovedStringNotificaton(Notification):
-    actions = (Change.ACTIONS.ACTION_APPROVE,)
+    actions = (ActionEvents.APPROVE,)
     verbose = pgettext_lazy("Notification name", "String was approved")
     template_name = "approved_string"
     filter_languages = True
@@ -717,8 +718,8 @@ class ChangedStringNotificaton(Notification):
 @register_notification
 class NewTranslationNotificaton(Notification):
     actions = (
-        Change.ACTIONS.ACTION_ADDED_LANGUAGE,
-        Change.ACTIONS.ACTION_REQUESTED_LANGUAGE,
+        ActionEvents.ADDED_LANGUAGE,
+        ActionEvents.REQUESTED_LANGUAGE,
     )
     verbose = pgettext_lazy("Notification name", "New language was added or requested")
     template_name = "new_language"
@@ -729,13 +730,13 @@ class NewTranslationNotificaton(Notification):
         context = super().get_context(change, subscription, extracontext, changes)
         if change:
             context["language"] = Language.objects.get(code=change.details["language"])
-            context["was_added"] = change.action == Change.ACTIONS.ACTION_ADDED_LANGUAGE
+            context["was_added"] = change.action == ActionEvents.ADDED_LANGUAGE
         return context
 
 
 @register_notification
 class NewComponentNotificaton(Notification):
-    actions = (Change.ACTIONS.ACTION_CREATE_COMPONENT,)
+    actions = (ActionEvents.CREATE_COMPONENT,)
     verbose = pgettext_lazy(
         "Notification name", "New translation component was created"
     )
@@ -744,7 +745,7 @@ class NewComponentNotificaton(Notification):
 
 @register_notification
 class NewAnnouncementNotificaton(Notification):
-    actions = (Change.ACTIONS.ACTION_ANNOUNCEMENT,)
+    actions = (ActionEvents.ANNOUNCEMENT,)
     verbose = pgettext_lazy("Notification name", "Announcement was published")
     template_name = "new_announcement"
     required_attr = "announcement"
@@ -759,7 +760,7 @@ class NewAnnouncementNotificaton(Notification):
 
 @register_notification
 class NewAlertNotificaton(Notification):
-    actions = (Change.ACTIONS.ACTION_ALERT,)
+    actions = (ActionEvents.ALERT,)
     verbose = pgettext_lazy("Notification name", "New alert emerged in a component")
     template_name = "new_alert"
     required_attr = "alert"
@@ -809,9 +810,9 @@ class NewAlertNotificaton(Notification):
 @register_notification
 class MergeFailureNotification(Notification):
     actions = (
-        Change.ACTIONS.ACTION_FAILED_MERGE,
-        Change.ACTIONS.ACTION_FAILED_REBASE,
-        Change.ACTIONS.ACTION_FAILED_PUSH,
+        ActionEvents.FAILED_MERGE,
+        ActionEvents.FAILED_REBASE,
+        ActionEvents.FAILED_PUSH,
     )
     verbose = pgettext_lazy("Notification name", "Repository operation failed")
     template_name = "repository_error"
@@ -819,7 +820,7 @@ class MergeFailureNotification(Notification):
 
     def _convert_change_skip(self, change):
         fake = copy(change)
-        fake.action = Change.ACTIONS.ACTION_ALERT
+        fake.action = ActionEvents.ALERT
         fake.alert = Alert(name="MergeFailure", details={"error": ""})
         return fake
 

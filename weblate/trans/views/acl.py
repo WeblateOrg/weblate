@@ -21,13 +21,14 @@ from weblate.accounts.utils import remove_user
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.forms import InviteEmailForm, InviteUserForm, ProjectTeamForm
 from weblate.auth.models import AuthenticatedHttpRequest, Invitation, User
+from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import (
     ProjectTokenCreateForm,
     ProjectUserGroupForm,
     UserBlockForm,
     UserManageForm,
 )
-from weblate.trans.models import Change, Project
+from weblate.trans.models import Project
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.views import parse_path, show_form_errors
@@ -79,7 +80,7 @@ def set_groups(request: AuthenticatedHttpRequest, project):
                 continue
             user.add_team(request, group)
             obj.change_set.create(
-                action=Change.ACTIONS.ACTION_ADD_USER,
+                action=ActionEvents.ADD_USER,
                 user=request.user,
                 details={"username": user.username, "group": group.name},
             )
@@ -89,7 +90,7 @@ def set_groups(request: AuthenticatedHttpRequest, project):
                 continue
             user.remove_team(request, group)
             obj.change_set.create(
-                action=Change.ACTIONS.ACTION_REMOVE_USER,
+                action=ActionEvents.REMOVE_USER,
                 user=request.user,
                 details={"username": user.username, "group": group.name},
             )
@@ -198,7 +199,7 @@ def delete_user(request: AuthenticatedHttpRequest, project):
             else:
                 obj.remove_user(user)
             obj.change_set.create(
-                action=Change.ACTIONS.ACTION_REMOVE_USER,
+                action=ActionEvents.REMOVE_USER,
                 user=request.user,
                 details={"username": user.username},
             )

@@ -14,6 +14,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import ReportsForm
 from weblate.trans.models import Category, Change, Component, Project
 from weblate.trans.util import count_words, redirect_param
@@ -213,8 +214,8 @@ def generate_counts(user: User, start_date, end_date, language_code: str, **kwar
     """Generate credits data for given component."""
     result = {}
     action_map = {
-        Change.ACTIONS.ACTION_NEW: "new",
-        Change.ACTIONS.ACTION_APPROVE: "approve",
+        ActionEvents.NEW: "new",
+        ActionEvents.APPROVE: "approve",
     }
 
     base = Change.objects.content().filter(unit__isnull=False)

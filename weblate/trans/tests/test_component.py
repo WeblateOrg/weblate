@@ -11,8 +11,9 @@ from django.test.utils import override_settings
 
 from weblate.checks.models import Check
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.models import Change, Component, Project, Unit
+from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.files import remove_tree
@@ -691,7 +692,7 @@ class ComponentChangeTest(RepoTestCase):
         # Locked event, alert added
         self.assertEqual(component.change_set.count() - start, 2)
 
-        change = component.change_set.get(action=Change.ACTIONS.ACTION_LOCK)
+        change = component.change_set.get(action=ActionEvents.LOCK)
         self.assertEqual(change.details, {"auto": True})
         self.assertEqual(change.get_action_display(), "Component locked")
         self.assertEqual(

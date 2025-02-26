@@ -22,7 +22,8 @@ from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.logger import LOGGER
 from weblate.screenshots.forms import ScreenshotEditForm, ScreenshotForm, SearchForm
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Component, Unit
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Component, Unit
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
@@ -231,7 +232,7 @@ class ScreenshotList(PathViewMixin, ListView):
             )
             request.user.profile.increase_count("uploaded")
             obj.change_set.create(
-                action=Change.ACTIONS.ACTION_SCREENSHOT_ADDED,
+                action=ActionEvents.SCREENSHOT_ADDED,
                 user=request.user,
                 target=obj.name,
             )
@@ -285,7 +286,7 @@ class ScreenshotDetail(DetailView):
                     obj.user = request.user
                     request.user.profile.increase_count("uploaded")
                     obj.change_set.create(
-                        action=Change.ACTIONS.ACTION_SCREENSHOT_UPLOADED,
+                        action=ActionEvents.SCREENSHOT_UPLOADED,
                         user=request.user,
                         target=obj.name,
                     )

@@ -89,7 +89,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         )
 
     def filter_announcements(self) -> ChangeQuerySet:
-        return self.filter(action=ActionEvents.ACTION_ANNOUNCEMENT)
+        return self.filter(action=ActionEvents.ANNOUNCEMENT)
 
     def count_stats(
         self, days: int, step: int, dtstart: datetime
@@ -285,7 +285,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
     def generate_project_rename_lookup(self) -> dict[str, int]:
         lookup: dict[str, int] = {}
-        for change in self.filter(action=Change.ACTIONS.ACTION_RENAME_PROJECT).order():
+        for change in self.filter(action=ActionEvents.RENAME_PROJECT).order():
             if change.old not in lookup and change.project_id is not None:
                 lookup[change.old] = change.project_id
         cache.set(CHANGE_PROJECT_LOOKUP_KEY, lookup, 3600 * 24 * 7)
@@ -376,8 +376,6 @@ class ChangeManager(models.Manager["Change"]):
 
 
 class Change(models.Model, UserDisplayMixin):
-    ACTIONS = ActionEvents
-
     ACTIONS_DICT = dict(ActionEvents.choices)
     ACTION_STRINGS = {
         name.lower().replace(" ", "-"): value for value, name in ActionEvents.choices
@@ -393,11 +391,11 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_NAMES = {str(name): value for value, name in ActionEvents.choices}
     AUTO_ACTIONS = {
         # Translators: Name of event in the history
-        ActionEvents.ACTION_LOCK: gettext_lazy(
+        ActionEvents.LOCK: gettext_lazy(
             "The component was automatically locked because of an alert."
         ),
         # Translators: Name of event in the history
-        ActionEvents.ACTION_UNLOCK: gettext_lazy(
+        ActionEvents.UNLOCK: gettext_lazy(
             "Fixing an alert automatically unlocked the component."
         ),
     }
@@ -452,7 +450,7 @@ class Change(models.Model, UserDisplayMixin):
     )
     timestamp = models.DateTimeField(auto_now_add=True)
     action = models.IntegerField(
-        choices=ActionEvents.choices, default=ActionEvents.ACTION_CHANGE
+        choices=ActionEvents.choices, default=ActionEvents.CHANGE
     )
     target = models.TextField(default="", blank=True)
     old = models.TextField(default="", blank=True)
@@ -519,7 +517,7 @@ class Change(models.Model, UserDisplayMixin):
             # Make sure stats is updated at the end of transaction
             self.translation.invalidate_cache()
 
-        if self.action == Change.ACTIONS.ACTION_RENAME_PROJECT:
+        if self.action == ActionEvents.RENAME_PROJECT:
             Change.objects.generate_project_rename_lookup()
 
     def get_absolute_url(self) -> str:
@@ -610,13 +608,13 @@ class Change(models.Model, UserDisplayMixin):
     def show_source(self):
         """Whether to show content as source change."""
         return self.action in {
-            ActionEvents.ACTION_SOURCE_CHANGE,
-            ActionEvents.ACTION_NEW_SOURCE,
+            ActionEvents.SOURCE_CHANGE,
+            ActionEvents.NEW_SOURCE,
         }
 
     def show_removed_string(self):
         """Whether to show content as source change."""
-        return self.action == ActionEvents.ACTION_STRING_REMOVE
+        return self.action == ActionEvents.STRING_REMOVE
 
     def show_content(self):
         """Whether to show content as translation."""
@@ -630,18 +628,18 @@ class Change(models.Model, UserDisplayMixin):
         action = self.action
 
         if action in {
-            ActionEvents.ACTION_ANNOUNCEMENT,
-            ActionEvents.ACTION_AGREEMENT_CHANGE,
+            ActionEvents.ANNOUNCEMENT,
+            ActionEvents.AGREEMENT_CHANGE,
         }:
             return render_markdown(self.target)
 
-        if action == ActionEvents.ACTION_COMMENT_DELETE and "comment" in details:
+        if action == ActionEvents.COMMENT_DELETE and "comment" in details:
             return render_markdown(details["comment"])
 
         if action in {
-            ActionEvents.ACTION_ADDON_CREATE,
-            ActionEvents.ACTION_ADDON_CHANGE,
-            ActionEvents.ACTION_ADDON_REMOVE,
+            ActionEvents.ADDON_CREATE,
+            ActionEvents.ADDON_CHANGE,
+            ActionEvents.ADDON_REMOVE,
         }:
             try:
                 return ADDONS[self.target].name
@@ -651,7 +649,7 @@ class Change(models.Model, UserDisplayMixin):
         if action in self.AUTO_ACTIONS and self.auto_status:
             return str(self.AUTO_ACTIONS[action])
 
-        if action == ActionEvents.ACTION_UPDATE:
+        if action == ActionEvents.UPDATE:
             reason = details.get("reason", "content changed")
             filename = format_html(
                 "<code>{}</code>",
@@ -671,7 +669,7 @@ class Change(models.Model, UserDisplayMixin):
                 raise ValueError(msg)
             return format_html(escape(message), filename)
 
-        if action == ActionEvents.ACTION_LICENSE_CHANGE:
+        if action == ActionEvents.LICENSE_CHANGE:
             not_available = pgettext("License information not available", "N/A")
             return gettext(
                 'The license of the "%(component)s" component was changed '
@@ -686,11 +684,11 @@ class Change(models.Model, UserDisplayMixin):
         if not details:
             return ""
         user_actions = {
-            ActionEvents.ACTION_ADD_USER,
-            ActionEvents.ACTION_INVITE_USER,
-            ActionEvents.ACTION_REMOVE_USER,
+            ActionEvents.ADD_USER,
+            ActionEvents.INVITE_USER,
+            ActionEvents.REMOVE_USER,
         }
-        if action == ActionEvents.ACTION_ACCESS_EDIT:
+        if action == ActionEvents.ACCESS_EDIT:
             for number, name in Project.ACCESS_CHOICES:
                 if number == details["access_control"]:
                     return name
@@ -704,28 +702,28 @@ class Change(models.Model, UserDisplayMixin):
                 result = f"{result} ({details['group']})"
             return result
         if action in {
-            ActionEvents.ACTION_ADDED_LANGUAGE,
-            ActionEvents.ACTION_REQUESTED_LANGUAGE,
+            ActionEvents.ADDED_LANGUAGE,
+            ActionEvents.REQUESTED_LANGUAGE,
         }:
             try:
                 return Language.objects.get(code=details["language"])
             except Language.DoesNotExist:
                 return details["language"]
-        if action == ActionEvents.ACTION_ALERT:
+        if action == ActionEvents.ALERT:
             try:
                 return ALERTS[details["alert"]].verbose
             except KeyError:
                 return details["alert"]
-        if action == ActionEvents.ACTION_PARSE_ERROR:
+        if action == ActionEvents.PARSE_ERROR:
             return "{filename}: {error_message}".format(**details)
-        if action == ActionEvents.ACTION_HOOK:
+        if action == ActionEvents.HOOK:
             return "{service_long_name}: {repo_url}, {branch}".format(**details)
-        if action == ActionEvents.ACTION_COMMENT and "comment" in details:
+        if action == ActionEvents.COMMENT and "comment" in details:
             return render_markdown(details["comment"])
         if action in {
-            ActionEvents.ACTION_RESET,
-            ActionEvents.ACTION_MERGE,
-            ActionEvents.ACTION_REBASE,
+            ActionEvents.RESET,
+            ActionEvents.MERGE,
+            ActionEvents.REBASE,
         }:
             return format_html(
                 "{}<br/><br/>{}<br/>{}",
@@ -761,9 +759,9 @@ class Change(models.Model, UserDisplayMixin):
 
     def show_unit_state(self):
         return "state" in self.details and self.action not in {
-            ActionEvents.ACTION_SUGGESTION,
-            ActionEvents.ACTION_SUGGESTION_DELETE,
-            ActionEvents.ACTION_SUGGESTION_CLEANUP,
+            ActionEvents.SUGGESTION,
+            ActionEvents.SUGGESTION_DELETE,
+            ActionEvents.SUGGESTION_CLEANUP,
         }
 
 

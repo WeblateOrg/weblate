@@ -13,10 +13,10 @@ from django.db.models import Q, Sum
 from django.utils.translation import gettext
 
 from weblate.checks.models import CHECKS, Check
+from weblate.trans.actions import ActionEvents
 from weblate.trans.autofixes import fix_target
 from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.mixins import UserDisplayMixin
-from weblate.trans.models.change import Change
 from weblate.trans.util import join_plural, split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
@@ -79,7 +79,7 @@ class SuggestionManager(models.Manager["Suggestion"]):
 
         # Record in change
         change = unit.generate_change(
-            user, user, Change.ACTIONS.ACTION_SUGGESTION, check_new=False, save=False
+            user, user, ActionEvents.SUGGESTION, check_new=False, save=False
         )
         change.suggestion = suggestion
         change.target = target_merged
@@ -170,7 +170,7 @@ class Suggestion(models.Model, UserDisplayMixin):
                 split_plural(self.target),
                 state,
                 author=author,
-                change_action=Change.ACTIONS.ACTION_ACCEPT,
+                change_action=ActionEvents.ACCEPT,
             )
 
         # Delete the suggestion
@@ -179,7 +179,7 @@ class Suggestion(models.Model, UserDisplayMixin):
     def delete_log(
         self,
         user: User,
-        change=Change.ACTIONS.ACTION_SUGGESTION_DELETE,
+        change=ActionEvents.SUGGESTION_DELETE,
         is_spam: bool = False,
         rejection_reason: str = "",
         old: str = "",

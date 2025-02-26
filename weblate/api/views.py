@@ -92,6 +92,7 @@ from weblate.lang.models import Language
 from weblate.machinery.models import validate_service_configuration
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
+from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import AutoForm
@@ -2084,7 +2085,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             serializer.is_valid(raise_exception=True)
             instance = serializer.save(translation=translation, user=request.user)
             instance.change_set.create(
-                action=Change.ACTIONS.ACTION_SCREENSHOT_ADDED,
+                action=ActionEvents.SCREENSHOT_ADDED,
                 user=request.user,
                 target=instance.name,
             )
@@ -2107,7 +2108,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
 class ChangeFilter(filters.FilterSet):
     timestamp = filters.IsoDateTimeFromToRangeFilter()
-    action = filters.MultipleChoiceFilter(choices=Change.ACTIONS.choices)
+    action = filters.MultipleChoiceFilter(choices=ActionEvents.choices)
     user = filters.CharFilter(field_name="user__username")
 
     class Meta:

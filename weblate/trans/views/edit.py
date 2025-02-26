@@ -32,6 +32,7 @@ from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
+from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
 from weblate.trans.forms import (
@@ -46,7 +47,7 @@ from weblate.trans.forms import (
     ZenTranslationForm,
     get_new_unit_form,
 )
-from weblate.trans.models import Change, Comment, Suggestion, Translation, Unit, Vote
+from weblate.trans.models import Comment, Suggestion, Translation, Unit, Vote
 from weblate.trans.tasks import auto_translate
 from weblate.trans.templatetags.translations import (
     try_linkify_filename,
@@ -494,10 +495,8 @@ def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
     unit.translate(
         request.user,
         split_plural(change.old),
-        STATE_FUZZY
-        if change.action == Change.ACTIONS.ACTION_MARKED_EDIT
-        else unit.state,
-        change_action=Change.ACTIONS.ACTION_REVERT,
+        STATE_FUZZY if change.action == ActionEvents.MARKED_EDIT else unit.state,
+        change_action=ActionEvents.REVERT,
     )
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
@@ -840,7 +839,7 @@ def comment(request: AuthenticatedHttpRequest, pk):
                         request.user,
                         scope.target,
                         STATE_FUZZY,
-                        change_action=Change.ACTIONS.ACTION_MARKED_EDIT,
+                        change_action=ActionEvents.MARKED_EDIT,
                     )
             else:
                 label = component.project.label_set.get_or_create(

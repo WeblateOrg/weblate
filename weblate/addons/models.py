@@ -17,6 +17,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.functional import cached_property
 
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Alert, Change, Component, Project, Translation, Unit
 from weblate.trans.signals import (
     component_post_update,
@@ -123,9 +124,9 @@ class Addon(models.Model):
         # Store history (if not updating state only)
         if update_fields != ["state"]:
             self.store_change(
-                Change.ACTIONS.ACTION_ADDON_CREATE
+                ActionEvents.ADDON_CREATE
                 if not self.pk or force_insert
-                else Change.ACTIONS.ACTION_ADDON_CHANGE
+                else ActionEvents.ADDON_CHANGE
             )
 
         return super().save(
@@ -163,7 +164,7 @@ class Addon(models.Model):
 
     def delete(self, using=None, keep_parents=False):
         # Store history
-        self.store_change(Change.ACTIONS.ACTION_ADDON_REMOVE)
+        self.store_change(ActionEvents.ADDON_REMOVE)
         # Delete any addon alerts
         if self.addon.alert:
             if self.component:

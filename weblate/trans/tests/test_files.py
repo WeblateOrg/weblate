@@ -12,8 +12,9 @@ from django.urls import reverse
 from openpyxl import load_workbook
 
 from weblate.formats.helpers import NamedBytesIO
+from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import SimpleUploadForm
-from weblate.trans.models import Change, ComponentList
+from weblate.trans.models import ComponentList
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_READONLY
@@ -353,9 +354,7 @@ class AndroidImportTest(ViewTestCase):
     def test_replace(self) -> None:
         translation = self.get_translation()
         self.assertFalse(
-            translation.change_set.filter(
-                action=Change.ACTIONS.ACTION_REPLACE_UPLOAD
-            ).exists()
+            translation.change_set.filter(action=ActionEvents.REPLACE_UPLOAD).exists()
         )
         self.user.is_superuser = True
         self.user.save()
@@ -381,9 +380,7 @@ class AndroidImportTest(ViewTestCase):
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 2)
         self.assertTrue(
-            translation.change_set.filter(
-                action=Change.ACTIONS.ACTION_REPLACE_UPLOAD
-            ).exists()
+            translation.change_set.filter(action=ActionEvents.REPLACE_UPLOAD).exists()
         )
 
     def test_readonly_upload_download(self) -> None:
@@ -624,9 +621,7 @@ class ImportSourceTest(ImportBaseTest):
         """Test importing normally."""
         translation = self.get_translation()
         self.assertFalse(
-            translation.change_set.filter(
-                action=Change.ACTIONS.ACTION_SOURCE_UPLOAD
-            ).exists()
+            translation.change_set.filter(action=ActionEvents.SOURCE_UPLOAD).exists()
         )
         response = self.do_import(method="source", follow=True)
         self.assertRedirects(response, self.translation.get_absolute_url())
@@ -644,9 +639,7 @@ class ImportSourceTest(ImportBaseTest):
         self.assertEqual(unit.target, "")
 
         self.assertEqual(
-            translation.change_set.filter(
-                action=Change.ACTIONS.ACTION_SOURCE_UPLOAD
-            ).count(),
+            translation.change_set.filter(action=ActionEvents.SOURCE_UPLOAD).count(),
             self.expected_uploads,
         )
 

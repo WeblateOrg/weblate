@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 
 
 class AnnouncementManager(models.Manager["Announcement"]):
@@ -49,7 +50,7 @@ class AnnouncementManager(models.Manager["Announcement"]):
         result = super().create(**kwargs)
 
         Change.objects.create(
-            action=Change.ACTIONS.ACTION_ANNOUNCEMENT,
+            action=ActionEvents.ANNOUNCEMENT,
             project=result.project,
             category=result.category,
             component=result.component,

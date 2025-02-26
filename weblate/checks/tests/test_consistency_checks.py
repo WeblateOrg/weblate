@@ -16,7 +16,8 @@ from weblate.checks.consistency import (
 from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.lang.models import Language
-from weblate.trans.models import Change, Unit
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -95,7 +96,7 @@ class TranslatedCheckTest(ViewTestCase):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.edit_unit("Hello, world!\n", "")
         unit = self.get_unit()
-        unit.change_set.create(action=Change.ACTIONS.ACTION_SOURCE_CHANGE)
+        unit.change_set.create(action=ActionEvents.SOURCE_CHANGE)
         self.assertFalse(self.run_check())
 
     def test_get_description(self) -> None:

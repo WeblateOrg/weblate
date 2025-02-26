@@ -28,7 +28,8 @@ from weblate.accounts.tasks import (
 )
 from weblate.auth.models import User
 from weblate.lang.models import Language
-from weblate.trans.models import Announcement, Change, Comment, Suggestion
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Announcement, Comment, Suggestion
 from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
 
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)
@@ -98,12 +99,12 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_lock(self) -> None:
         self.component.change_set.create(
-            action=Change.ACTIONS.ACTION_LOCK,
+            action=ActionEvents.LOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was locked")
         mail.outbox = []
         self.component.change_set.create(
-            action=Change.ACTIONS.ACTION_UNLOCK,
+            action=ActionEvents.UNLOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
 
@@ -117,12 +118,12 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             onetime=True,
         )
         self.component.change_set.create(
-            action=Change.ACTIONS.ACTION_UNLOCK,
+            action=ActionEvents.UNLOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
         mail.outbox = []
         self.component.change_set.create(
-            action=Change.ACTIONS.ACTION_LOCK,
+            action=ActionEvents.LOCK,
         )
         self.validate_notifications(0)
         self.assertFalse(
@@ -144,7 +145,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_merge_failure(self) -> None:
         change = self.component.change_set.create(
             details={"error": "Failed merge", "status": "Error\nstatus"},
-            action=Change.ACTIONS.ACTION_FAILED_MERGE,
+            action=ActionEvents.FAILED_MERGE,
         )
 
         # Check mail
@@ -158,7 +159,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(2, "[Weblate] Repository failure in Test/Test")
 
     def test_notify_repository(self) -> None:
-        change = self.component.change_set.create(action=Change.ACTIONS.ACTION_MERGE)
+        change = self.component.change_set.create(action=ActionEvents.MERGE)
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
@@ -173,7 +174,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_parse_error(self) -> None:
         change = self.get_translation().change_set.create(
             details={"error_message": "Failed merge", "filename": "test/file.po"},
-            action=Change.ACTIONS.ACTION_PARSE_ERROR,
+            action=ActionEvents.PARSE_ERROR,
         )
 
         # Check mail
@@ -188,7 +189,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_string(self) -> None:
         unit = self.get_unit()
-        unit.change_set.create(action=Change.ACTIONS.ACTION_NEW_UNIT)
+        unit.change_set.create(action=ActionEvents.NEW_UNIT)
 
         # Check mail
         self.validate_notifications(
@@ -200,7 +201,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         unit.change_set.create(
             user=self.anotheruser,
             old="",
-            action=Change.ACTIONS.ACTION_CHANGE,
+            action=ActionEvents.CHANGE,
         )
 
         # Check mail - TranslatedStringNotificaton
@@ -211,7 +212,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         unit.change_set.create(
             user=self.anotheruser,
             old="",
-            action=Change.ACTIONS.ACTION_APPROVE,
+            action=ActionEvents.APPROVE,
         )
 
         # Check mail - ApprovedStringNotificaton
@@ -227,7 +228,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         change = self.component.change_set.create(
             user=anotheruser,
             details={"language": "de"},
-            action=Change.ACTIONS.ACTION_REQUESTED_LANGUAGE,
+            action=ActionEvents.REQUESTED_LANGUAGE,
         )
 
         # Check mail
@@ -244,7 +245,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         unit = self.get_unit()
         unit.change_set.create(
             user=self.anotheruser,
-            action=Change.ACTIONS.ACTION_NEW_CONTRIBUTOR,
+            action=ActionEvents.NEW_CONTRIBUTOR,
         )
 
         # Check mail
@@ -255,7 +256,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         unit.change_set.create(
             suggestion=Suggestion.objects.create(unit=unit, target="Foo"),
             user=self.anotheruser,
-            action=Change.ACTIONS.ACTION_SUGGESTION,
+            action=ActionEvents.SUGGESTION,
         )
 
         # Check mail
@@ -266,7 +267,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         unit.change_set.create(
             comment=Comment.objects.create(unit=unit, comment=comment),
             user=self.thirduser,
-            action=Change.ACTIONS.ACTION_COMMENT,
+            action=ActionEvents.COMMENT,
         )
 
     def test_notify_new_comment(self, expected=1, comment="Foo") -> None:
@@ -309,7 +310,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         mail.outbox = []
 
     def test_notify_new_component(self) -> None:
-        self.component.change_set.create(action=Change.ACTIONS.ACTION_CREATE_COMPONENT)
+        self.component.change_set.create(action=ActionEvents.CREATE_COMPONENT)
         self.validate_notifications(1, "[Weblate] New translation component Test/Test")
 
     def test_notify_new_announcement(self) -> None:
@@ -356,7 +357,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         unit.translation.component.change_set.create(
             user=self.anotheruser,
             old="",
-            action=Change.ACTIONS.ACTION_COMPLETED_COMPONENT,
+            action=ActionEvents.COMPLETED_COMPONENT,
         )
 
         # Check mail - TranslatedComponentNotification
@@ -369,7 +370,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         unit = self.get_unit(language="cs")
         unit.translation.change_set.create(
             user=self.anotheruser,
-            action=Change.ACTIONS.ACTION_COMPLETE,
+            action=ActionEvents.COMPLETE,
         )
 
         self.validate_notifications(1, "[Weblate] Test/Test — Czech has been completed")
@@ -424,7 +425,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self,
         frequency=NotificationFrequency.FREQ_DAILY,
         notify=notify_daily,
-        change=Change.ACTIONS.ACTION_FAILED_MERGE,
+        change=ActionEvents.FAILED_MERGE,
         subj="Repository operation failed",
     ) -> None:
         Subscription.objects.filter(
@@ -457,7 +458,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_digest_new_lang(self) -> None:
         self.test_digest(
-            change=Change.ACTIONS.ACTION_REQUESTED_LANGUAGE,
+            change=ActionEvents.REQUESTED_LANGUAGE,
             subj="New language was added or requested",
         )
 
@@ -501,7 +502,7 @@ class SubscriptionTest(ViewTestCase):
 
     def get_users(self, frequency):
         change = self.component.change_set.create(
-            action=Change.ACTIONS.ACTION_FAILED_MERGE,
+            action=ActionEvents.FAILED_MERGE,
             details={"error": "error", "status": "status"},
         )
         notification = self.notification(None)

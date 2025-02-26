@@ -17,6 +17,7 @@ from django.utils import timezone
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
 from weblate.lang.models import Language, Plural
+from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.models import (
     Announcement,
@@ -558,7 +559,7 @@ class ChangeTest(ModelTestCase):
     def test_day_filtering(self) -> None:
         Change.objects.all().delete()
         for days_since in range(3):
-            change = Change.objects.create(action=Change.ACTIONS.ACTION_CREATE_PROJECT)
+            change = Change.objects.create(action=ActionEvents.CREATE_PROJECT)
             change.timestamp -= timedelta(days=days_since)
             change.save()
 

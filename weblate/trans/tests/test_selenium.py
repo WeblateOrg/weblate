@@ -31,6 +31,7 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 from weblate.fonts.tests.utils import FONT
 from weblate.lang.models import Language
 from weblate.screenshots.views import ensure_tesseract_language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Project, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
@@ -423,9 +424,7 @@ class SeleniumTests(
         # Generate nice changes data
         for day in range(365):
             for _unused in range(int(10 + 10 * math.sin(2 * math.pi * day / 30))):
-                change = Change.objects.create(
-                    action=Change.ACTIONS.ACTION_CREATE_PROJECT
-                )
+                change = Change.objects.create(action=ActionEvents.CREATE_PROJECT)
                 change.timestamp -= timedelta(days=day)
                 change.save()
 
