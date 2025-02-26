@@ -19,6 +19,7 @@ from django.utils.functional import cached_property
 
 from weblate.trans.models import Alert, Change, Component, Project, Translation, Unit
 from weblate.trans.signals import (
+    change_bulk_create,
     component_post_update,
     store_post_load,
     translation_post_add,
@@ -541,6 +542,14 @@ def change_post_save_handler(sender, instance: Change, created, **kwargs) -> Non
 
     if created:  # ignore Change updates, they should not be updated anyway
         addon_change(sender, instance, **kwargs)
+
+
+@receiver(change_bulk_create)
+def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> None:
+    from weblate.addons.tasks import addon_change
+
+    for change in instances:
+        addon_change(sender, change, **kwargs)
 
 
 class AddonActivityLog(models.Model):

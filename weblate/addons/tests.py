@@ -1700,3 +1700,20 @@ class WebhookAddonsTest(ViewTestCase):
     @responses.activate
     def test_connection_error(self):
         self.do_translation_added_test(body=requests.ConnectionError())
+
+    @responses.activate
+    def test_bulk_changes(self):
+        """Test bulk change create via the propagate() method."""
+        # create another component in project with same units as self.component
+        self.create_po(
+            new_base="po/project.pot", project=self.project, name="Component B1"
+        )
+
+        WebhookAddon.create(
+            configuration=self.default_addon_configuration, project=self.project
+        )
+        responses.add(responses.POST, "https://example.com/webhooks", status=200)
+
+        # create translation for unit and similar units across project
+        self.change_unit("Nazdar svete!\n", "Hello, world!\n", "cs")
+        self.assertEqual(len(responses.calls), 2)

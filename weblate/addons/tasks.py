@@ -167,8 +167,6 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
 
 @app.task(trail=True)
 def addon_change(sender, change, **kwargs) -> None:
-    # find all installed Change related addon
-
     def addon_callback(addon: Addon, component: Component) -> None:
         if change.component and change.component != component:
             return
@@ -178,7 +176,9 @@ def addon_change(sender, change, **kwargs) -> None:
             return
         addon.addon.change_event(change)
 
+    # find all installed Change related addon
     addons = Addon.objects.filter(event__event=AddonEvent.EVENT_CHANGE)
+
     handle_addon_event(
         AddonEvent.EVENT_CHANGE,
         addon_callback,
