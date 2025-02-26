@@ -19,7 +19,7 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.models import Addon, handle_addon_event
 from weblate.lang.models import Language
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Change, Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -166,22 +166,25 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
 
 
 @app.task(trail=True)
-def addon_change(sender, change, **kwargs) -> None:
-    def addon_callback(addon: Addon, component: Component) -> None:
-        if change.component and change.component != component:
-            return
-        if addon.component and addon.component != change.component:
-            return
-        if addon.project and change.project and addon.project != change.project:
-            return
-        addon.addon.change_event(change)
-
-    # find all installed Change related addon
+def addon_change(sender, change_ids: list[int], **kwargs) -> None:
     addons = Addon.objects.filter(event__event=AddonEvent.EVENT_CHANGE)
 
-    handle_addon_event(
-        AddonEvent.EVENT_CHANGE,
-        addon_callback,
-        addon_queryset=addons,
-        auto_scope=True,
-    )
+    def callback_wrapper(change: Change):
+        def addon_callback(addon: Addon, component: Component) -> None:
+            if change.component and change.component != component:
+                return
+            if addon.component and addon.component != change.component:
+                return
+            if addon.project and change.project and addon.project != change.project:
+                return
+            addon.addon.change_event(change)
+
+        return addon_callback
+
+    for change in Change.objects.filter(pk__in=change_ids):
+        handle_addon_event(
+            AddonEvent.EVENT_CHANGE,
+            callback_wrapper(change),
+            addon_queryset=addons,
+            auto_scope=True,
+        )

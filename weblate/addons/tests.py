@@ -1627,6 +1627,10 @@ class WebhookAddonsTest(ViewTestCase):
         translation1 = self.get_translation()
         translation2 = component2.translation_set.get(language__code="cs")
 
+        # delete similar units to avoid propagation of changes
+        translation1.unit_set.filter(source="Thank you for using Weblate.").delete()
+        translation2.unit_set.filter(source="Hello, world!\n").delete()
+
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation1)
         self.edit_unit(
             "Thank you for using Weblate.",
@@ -1664,6 +1668,10 @@ class WebhookAddonsTest(ViewTestCase):
         translation_a1 = component_a1.translation_set.get(language__code="cs")
         translation_a2 = component_a2.translation_set.get(language__code="cs")
         translation_b1 = component_b1.translation_set.get(language__code="cs")
+
+        # delete similar units between components to avoir propagation
+        translation_a1.unit_set.filter(source="Thank you for using Weblate.").delete()
+        translation_a2.unit_set.filter(source="Hello, world!\n").delete()
 
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_a1)
         self.edit_unit(
