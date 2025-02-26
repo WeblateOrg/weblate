@@ -84,6 +84,7 @@ only. These tokens can be identified by the ``wlp_`` prefix.
 .. seealso::
 
    :doc:`/user/profile`,
+   :ref:`project-api`,
    :ref:`acl`
 
 Authentication examples

@@ -210,6 +210,8 @@ user interface is that you can delegate it to other users without giving them
 the superuser privilege. In order to do so, add them to the `Administration`
 team of the project.
 
+.. _project-api:
+
 Per-project access tokens
 +++++++++++++++++++++++++
 
