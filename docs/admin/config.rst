@@ -964,7 +964,12 @@ Additional settings not described here can be found at :ref:`settings-credential
 GOOGLE_ANALYTICS_ID
 -------------------
 
-Google Analytics ID to turn on monitoring of Weblate using Google Analytics.
+Google Analytics ID to turn on monitoring of Weblate using Google Universal Analytics.
+
+.. note::
+
+   Google Analytics 4 integration is currently not available for Weblate,
+   please see https://github.com/WeblateOrg/weblate/issues/14015.
 
 .. setting:: HIDE_REPO_CREDENTIALS
 
