@@ -86,15 +86,6 @@ Learn more about :ref:`contributing`.
     devel/share
     devel/reporting
 
-.. toctree::
-   :caption: File formats
-   :maxdepth: 1
-   :glob:
-   :hidden:
-
-   formats
-   formats/*
-
 
 .. toctree::
     :caption: Administrator docs
@@ -149,6 +140,15 @@ Learn more about :ref:`contributing`.
     contributing/about
     contributing/license
     contributing/trademark
+
+.. toctree::
+   :caption: File formats
+   :maxdepth: 1
+   :glob:
+   :hidden:
+
+   formats
+   formats/*
 
 .. toctree::
     :caption: Change history
