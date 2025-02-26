@@ -79,7 +79,7 @@ def set_groups(request: AuthenticatedHttpRequest, project):
                 continue
             user.add_team(request, group)
             obj.change_set.create(
-                action=Change.ACTION_ADD_USER,
+                action=Change.ACTIONS.ACTION_ADD_USER,
                 user=request.user,
                 details={"username": user.username, "group": group.name},
             )
@@ -89,7 +89,7 @@ def set_groups(request: AuthenticatedHttpRequest, project):
                 continue
             user.remove_team(request, group)
             obj.change_set.create(
-                action=Change.ACTION_REMOVE_USER,
+                action=Change.ACTIONS.ACTION_REMOVE_USER,
                 user=request.user,
                 details={"username": user.username, "group": group.name},
             )
@@ -198,7 +198,7 @@ def delete_user(request: AuthenticatedHttpRequest, project):
             else:
                 obj.remove_user(user)
             obj.change_set.create(
-                action=Change.ACTION_REMOVE_USER,
+                action=Change.ACTIONS.ACTION_REMOVE_USER,
                 user=request.user,
                 details={"username": user.username},
             )

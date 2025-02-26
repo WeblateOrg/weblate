@@ -95,7 +95,7 @@ class TranslatedCheckTest(ViewTestCase):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.edit_unit("Hello, world!\n", "")
         unit = self.get_unit()
-        unit.change_set.create(action=Change.ACTION_SOURCE_CHANGE)
+        unit.change_set.create(action=Change.ACTIONS.ACTION_SOURCE_CHANGE)
         self.assertFalse(self.run_check())
 
     def test_get_description(self) -> None:

@@ -71,7 +71,7 @@ def bulk_perform(  # noqa: C901
                     ):
                         # Create change object for edit, update is done outside the loop
                         unit.generate_change(
-                            user, user, Change.ACTION_BULK_EDIT, check_new=False
+                            user, user, Change.ACTIONS.ACTION_BULK_EDIT, check_new=False
                         )
                         updated += 1
                         update_unit_ids.append(unit.pk)

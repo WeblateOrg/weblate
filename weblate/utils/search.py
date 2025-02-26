@@ -296,9 +296,9 @@ class BaseTermExpr:
         from weblate.trans.models import Change
 
         try:
-            return Change.ACTION_NAMES[text]
+            return Change.ACTIONS.ACTION_NAMES[text]
         except KeyError:
-            return Change.ACTION_STRINGS[text]
+            return Change.ACTIONS.ACTION_STRINGS[text]
 
     def convert_change_time(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)

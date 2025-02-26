@@ -423,7 +423,9 @@ class SeleniumTests(
         # Generate nice changes data
         for day in range(365):
             for _unused in range(int(10 + 10 * math.sin(2 * math.pi * day / 30))):
-                change = Change.objects.create(action=Change.ACTION_CREATE_PROJECT)
+                change = Change.objects.create(
+                    action=Change.ACTIONS.ACTION_CREATE_PROJECT
+                )
                 change.timestamp -= timedelta(days=day)
                 change.save()
 

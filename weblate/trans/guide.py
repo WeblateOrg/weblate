@@ -84,7 +84,9 @@ class HookGuideline(Guideline):
     anchor = "vcs"
 
     def is_passing(self):
-        return self.component.change_set.filter(action=Change.ACTION_HOOK).exists()
+        return self.component.change_set.filter(
+            action=Change.ACTIONS.ACTION_HOOK
+        ).exists()
 
     def is_relevant(self) -> bool:
         return not self.component.is_repo_link

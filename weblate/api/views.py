@@ -2084,7 +2084,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             serializer.is_valid(raise_exception=True)
             instance = serializer.save(translation=translation, user=request.user)
             instance.change_set.create(
-                action=Change.ACTION_SCREENSHOT_ADDED,
+                action=Change.ACTIONS.ACTION_SCREENSHOT_ADDED,
                 user=request.user,
                 target=instance.name,
             )
@@ -2107,7 +2107,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
 class ChangeFilter(filters.FilterSet):
     timestamp = filters.IsoDateTimeFromToRangeFilter()
-    action = filters.MultipleChoiceFilter(choices=Change.ACTION_CHOICES)
+    action = filters.MultipleChoiceFilter(choices=Change.ACTIONS.ACTION_CHOICES)
     user = filters.CharFilter(field_name="user__username")
 
     class Meta:

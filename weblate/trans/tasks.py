@@ -199,7 +199,7 @@ def cleanup_suggestions() -> None:
                 and suggestion.unit.translated
             ):
                 suggestion.delete_log(
-                    anonymous_user, change=Change.ACTION_SUGGESTION_CLEANUP
+                    anonymous_user, change=Change.ACTIONS.ACTION_SUGGESTION_CLEANUP
                 )
                 continue
 
@@ -211,7 +211,7 @@ def cleanup_suggestions() -> None:
             for other in sugs:
                 if other.target == suggestion.target:
                     suggestion.delete_log(
-                        anonymous_user, change=Change.ACTION_SUGGESTION_CLEANUP
+                        anonymous_user, change=Change.ACTIONS.ACTION_SUGGESTION_CLEANUP
                     )
                     break
 
@@ -391,7 +391,7 @@ def component_removal(pk: int, uid: int) -> None:
         return
     component.acting_user = user
     component.project.change_set.create(
-        action=Change.ACTION_REMOVE_COMPONENT,
+        action=Change.ACTIONS.ACTION_REMOVE_COMPONENT,
         target=component.slug,
         user=user,
         author=user,
@@ -418,7 +418,7 @@ def category_removal(pk: int, uid: int) -> None:
     for component_id in category.component_set.values_list("id", flat=True):
         component_removal(component_id, uid)
     category.project.change_set.create(
-        action=Change.ACTION_REMOVE_CATEGORY,
+        action=Change.ACTIONS.ACTION_REMOVE_CATEGORY,
         target=category.slug,
         user=user,
         author=user,
@@ -445,7 +445,7 @@ def actual_project_removal(pk: int, uid: int | None) -> None:
         except Project.DoesNotExist:
             return
         Change.objects.create(
-            action=Change.ACTION_REMOVE_PROJECT,
+            action=Change.ACTIONS.ACTION_REMOVE_PROJECT,
             target=project.slug,
             user=user,
             author=user,
@@ -547,7 +547,7 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
     # tasks in discovery
     component.full_clean()
     component.save(force_insert=True)
-    component.change_set.create(action=Change.ACTION_CREATE_COMPONENT)
+    component.change_set.create(action=Change.ACTIONS.ACTION_CREATE_COMPONENT)
     if copy_from:
         # Copy non-automatic component lists
         for clist in ComponentList.objects.filter(

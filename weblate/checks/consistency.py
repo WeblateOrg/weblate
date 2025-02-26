@@ -296,7 +296,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
 
         # Skip automatic translation entries adding needs editing string
         return (
-            change.action == Change.ACTION_AUTO
+            change.action == Change.ACTIONS.ACTION_AUTO
             and change.details.get("state", STATE_TRANSLATED) < STATE_TRANSLATED
         )
 
@@ -306,7 +306,10 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
 
         # Stop changes processing on source string change or on
         # intentional marking as needing edit
-        return change.action in {Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT}
+        return change.action in {
+            Change.ACTIONS.ACTION_SOURCE_CHANGE,
+            Change.ACTIONS.ACTION_MARKED_EDIT,
+        }
 
     def handle_batch(self, unit: Unit, component: Component) -> Literal[False] | str:  # type: ignore[override]
         # TODO: this is type annotation hack, instead the check should have a proper return type

@@ -34,7 +34,7 @@ class CommentManager(models.Manager):
         user.profile.increase_count("commented")
         unit.change_set.create(
             comment=new_comment,
-            action=Change.ACTION_COMMENT,
+            action=Change.ACTIONS.ACTION_COMMENT,
             user=user,
             author=user,
             details={"comment": text},
@@ -79,7 +79,7 @@ class Comment(models.Model, UserDisplayMixin):
     def resolve(self, user: User) -> None:
         self.unit.change_set.create(
             comment=self,
-            action=Change.ACTION_COMMENT_RESOLVE,
+            action=Change.ACTIONS.ACTION_COMMENT_RESOLVE,
             user=user,
             author=self.user,
             details={"comment": self.comment},
@@ -89,7 +89,7 @@ class Comment(models.Model, UserDisplayMixin):
 
     def delete(self, user=None, using=None, keep_parents=False) -> None:
         self.unit.change_set.create(
-            action=Change.ACTION_COMMENT_DELETE,
+            action=Change.ACTIONS.ACTION_COMMENT_DELETE,
             user=user,
             author=self.user,
             details={"comment": self.comment},

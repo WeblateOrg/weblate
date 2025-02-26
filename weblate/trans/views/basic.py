@@ -736,11 +736,11 @@ def new_language(request: AuthenticatedHttpRequest, path):
                             if len(langs) == 1:
                                 result = translation
                             obj.change_set.create(
-                                action=Change.ACTION_ADDED_LANGUAGE, **kwargs
+                                action=Change.ACTIONS.ACTION_ADDED_LANGUAGE, **kwargs
                             )
                     elif obj.new_lang == "contact":
                         obj.change_set.create(
-                            action=Change.ACTION_REQUESTED_LANGUAGE, **kwargs
+                            action=Change.ACTIONS.ACTION_REQUESTED_LANGUAGE, **kwargs
                         )
                         messages.success(
                             request,

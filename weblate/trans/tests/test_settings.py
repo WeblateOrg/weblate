@@ -107,7 +107,7 @@ class SettingsTest(ViewTestCase):
         project = Project.objects.get(pk=self.project.pk)
         self.assertEqual(project.access_control, Project.ACCESS_PROTECTED)
         self.assertTrue(
-            project.change_set.filter(action=Change.ACTION_ACCESS_EDIT).exists()
+            project.change_set.filter(action=Change.ACTIONS.ACTION_ACCESS_EDIT).exists()
         )
 
     def test_component_denied(self) -> None:

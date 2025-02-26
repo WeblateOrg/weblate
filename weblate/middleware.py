@@ -182,7 +182,7 @@ class RedirectMiddleware:
                     # Look for renamed components in a project
                     component = (
                         project.change_set.filter(
-                            action=Change.ACTION_RENAME_COMPONENT, old=slug
+                            action=Change.ACTIONS.ACTION_RENAME_COMPONENT, old=slug
                         )
                         .order()[0]
                         .component

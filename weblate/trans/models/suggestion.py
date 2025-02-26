@@ -79,7 +79,7 @@ class SuggestionManager(models.Manager["Suggestion"]):
 
         # Record in change
         change = unit.generate_change(
-            user, user, Change.ACTION_SUGGESTION, check_new=False, save=False
+            user, user, Change.ACTIONS.ACTION_SUGGESTION, check_new=False, save=False
         )
         change.suggestion = suggestion
         change.target = target_merged
@@ -170,7 +170,7 @@ class Suggestion(models.Model, UserDisplayMixin):
                 split_plural(self.target),
                 state,
                 author=author,
-                change_action=Change.ACTION_ACCEPT,
+                change_action=Change.ACTIONS.ACTION_ACCEPT,
             )
 
         # Delete the suggestion
@@ -179,7 +179,7 @@ class Suggestion(models.Model, UserDisplayMixin):
     def delete_log(
         self,
         user: User,
-        change=Change.ACTION_SUGGESTION_DELETE,
+        change=Change.ACTIONS.ACTION_SUGGESTION_DELETE,
         is_spam: bool = False,
         rejection_reason: str = "",
         old: str = "",

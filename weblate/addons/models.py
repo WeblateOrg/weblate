@@ -123,9 +123,9 @@ class Addon(models.Model):
         # Store history (if not updating state only)
         if update_fields != ["state"]:
             self.store_change(
-                Change.ACTION_ADDON_CREATE
+                Change.ACTIONS.ACTION_ADDON_CREATE
                 if not self.pk or force_insert
-                else Change.ACTION_ADDON_CHANGE
+                else Change.ACTIONS.ACTION_ADDON_CHANGE
             )
 
         return super().save(
@@ -163,7 +163,7 @@ class Addon(models.Model):
 
     def delete(self, using=None, keep_parents=False):
         # Store history
-        self.store_change(Change.ACTION_ADDON_REMOVE)
+        self.store_change(Change.ACTIONS.ACTION_ADDON_REMOVE)
         # Delete any addon alerts
         if self.addon.alert:
             if self.component:

@@ -2138,7 +2138,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
         super().save(commit=commit)
         if self.changed_access:
             self.instance.change_set.create(
-                action=Change.ACTION_ACCESS_EDIT,
+                action=Change.ACTIONS.ACTION_ACCESS_EDIT,
                 user=self.user,
                 details={"access_control": self.instance.access_control},
             )
@@ -2805,7 +2805,7 @@ class ChangesForm(forms.Form):
         label=gettext_lazy("Action"),
         required=False,
         widget=SortedSelectMultiple,
-        choices=Change.ACTION_CHOICES,
+        choices=Change.ACTIONS.ACTION_CHOICES,
     )
     user = UsernameField(
         label=gettext_lazy("Author username"), required=False, help_text=None

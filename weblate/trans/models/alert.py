@@ -86,7 +86,7 @@ class Alert(models.Model):
             from weblate.trans.models import Change
 
             self.component.change_set.create(
-                action=Change.ACTION_ALERT,
+                action=Change.ACTIONS.ACTION_ALERT,
                 alert=self,
                 details={"alert": self.name},
             )

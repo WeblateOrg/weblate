@@ -106,7 +106,7 @@ def search_replace(request: AuthenticatedHttpRequest, path):
                     request.user,
                     unit.target.replace(search_text, replacement),
                     unit.state,
-                    change_action=Change.ACTION_REPLACE,
+                    change_action=Change.ACTIONS.ACTION_REPLACE,
                 )
                 updated += 1
 
