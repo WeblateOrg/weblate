@@ -268,7 +268,10 @@ def path_separator(path: str) -> str:
 
 def sort_unicode(choices, key):
     """Unicode aware sorting if available."""
-    return sorted(choices, key=lambda tup: locale.strxfrm(key(tup)))
+    try:
+        return sorted(choices, key=lambda tup: locale.strxfrm(key(tup)))
+    except OSError:
+        return sorted(choices, key=key)
 
 
 def sort_choices(choices):
