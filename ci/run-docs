@@ -12,4 +12,4 @@ if ! command -v dot &> /dev/null; then
 fi
 
 # Build documentation with warnings treated as errors
-make -C docs "${1:-html}" SPHINXOPTS='-n -W -a --keep-going'
+make -C docs "${1:-html}" SPHINXOPTS='--nitpicky --fail-on-warning --write-all --keep-going --jobs auto'

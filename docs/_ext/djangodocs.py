@@ -39,6 +39,10 @@ def setup(app) -> None:
         indextemplate="pair: %s; django-admin command",
         parse_node=parse_django_admin_node,
     )
+    return {
+        "parallel_read_safe": True,
+        "parallel_write_safe": True,
+    }
 
 
 def parse_weblate_admin_node(env, sig, signode):
