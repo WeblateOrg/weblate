@@ -28,6 +28,7 @@ from django.dispatch import receiver
 from django.utils.functional import cached_property
 from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
+from django.utils.timezone import localtime
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
 
@@ -2137,7 +2138,7 @@ class Component(
                 message = render_template(template, **context)
 
             # Actual commit
-            if not self.repository.commit(message, author, timestamp, files):
+            if not self.repository.commit(message, author, localtime(timestamp), files):
                 return False
 
             # Send post commit signal
