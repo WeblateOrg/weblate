@@ -24,8 +24,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-02-26 17:57+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-02-27 08:00+0000\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -431,10 +432,8 @@ msgstr ""
 "团队中。"
 
 #: ../../admin/access.rst:216
-#, fuzzy
-#| msgid "Project access control"
 msgid "Per-project access tokens"
-msgstr "项目访问控制"
+msgstr "项目访问令牌"
 
 #: ../../admin/access.rst:220
 msgid ""
@@ -4733,40 +4732,31 @@ msgid "Password authentication"
 msgstr "密码身份验证"
 
 #: ../../admin/auth.rst:457
-#, fuzzy
-#| msgid ""
-#| "The default :file:`settings.py` comes with a reasonable set of :setting:"
-#| "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS` that ensures that weak passwords are not "
 "allowed. You can customize this setting to match your password policy."
 msgstr ""
-"默认 :file:`settings.py` 与一组合理的设置 :setting:`django:"
-"AUTH_PASSWORD_VALIDATORS` 在一起："
+"默认的 :file:`settings.py` 自带一组合理的 "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`，确保不允许弱密码。你可以自定义这"
+"个设置来符合你的密码策略。"
 
 #: ../../admin/auth.rst:461
-#, fuzzy
-#| msgid ""
-#| "Additionally you can also install `django-zxcvbn-password <https://pypi."
-#| "org/project/django-zxcvbn-password/>`_ which gives quite realistic "
-#| "estimates of password difficulty and allows rejecting passwords below a "
-#| "certain threshold."
 msgid ""
 "Additionally you can also install `django-zxcvbn-password-validator <https://"
 "github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ which gives "
 "quite realistic estimates of password difficulty and allows rejecting "
 "passwords below a certain threshold."
 msgstr ""
-"可以另外安装 `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-"
-"password/>`_ 这会非常实际地估计密码的难度，并允许拒绝低于下面适当阈值的密码。"
+"另外，你可以安装 `django-zxcvbn-password-validator <https://github.com/"
+"Pierre-Sassoulas/django-zxcvbn-password-validator>`_ "
+"，它会给出非常实际的密码强度预估，并允许拒绝强度低于某个阈值的密码。"
 
 #: ../../admin/auth.rst:468
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ""
 ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+msgstr ""
+":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/auth.rst:474
 msgid "SAML authentication"
@@ -6682,10 +6672,8 @@ msgid "``ignore-end-interrobang``"
 msgstr "``ignore-end-Interrobang``"
 
 #: ../../admin/checks.rst:256
-#, fuzzy
-#| msgid "Skip the :ref:`check-end-stop` quality check."
 msgid "Skip the :ref:`check-end-interrobang` quality check."
-msgstr "跳过 :ref:`check-end-stop` 质量检查。"
+msgstr "逃过 :ref:`check-end-interrobang` 质量检查。"
 
 #: ../../admin/checks.rst:257 ../../user/checks.rst:1256
 msgid "``ignore-end-question``"
@@ -6756,10 +6744,8 @@ msgid "``ignore-rst-syntax``"
 msgstr "``ignore-rst-syntax``"
 
 #: ../../admin/checks.rst:274
-#, fuzzy
-#| msgid "Skip the :ref:`check-md-syntax` quality check."
 msgid "Skip the :ref:`check-rst-syntax` quality check."
-msgstr "跳过 :ref:`check-md-syntax` 质量检查。"
+msgstr "跳过 :ref:`check-rst-syntax` 质量检查。"
 
 #: ../../admin/checks.rst:275 ../../user/checks.rst:1491
 msgid "``ignore-reused``"
@@ -8414,15 +8400,10 @@ msgid "GOOGLE_ANALYTICS_ID"
 msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:967
-#, fuzzy
-#| msgid ""
-#| "Google Analytics ID to turn on monitoring of Weblate using Google "
-#| "Analytics."
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Universal "
 "Analytics."
-msgstr ""
-"使用 Google Analytics 时，开启对 Weblate 的监测的 Google Analytics ID。"
+msgstr "Google Analytics ID， 打开使用 Google Universal Analytics 对 Weblate 的监控。"
 
 #: ../../admin/config.rst:971
 msgid ""
@@ -8866,27 +8847,20 @@ msgid "PASSWORD_MINIMAL_STRENGTH"
 msgstr "PASSWORD_MINIMAL_STRENGTH"
 
 #: ../../admin/config.rst:1372
-#, fuzzy
-#| msgid ""
-#| "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
-#| "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
-#| "disable strength checking."
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator."
 msgstr ""
-"最小的密码得分由 `zxcvbn <https://github.com/dropbox/zxcvbn>`_ 密码长度预测器"
-"进行评估。默认为 3，设为 0 禁用强度检查。"
+"最小的密码得分由 `zxcvbn <https://github.com/dwolfhub/zxcvbn-python>`_ "
+"密码长度预测器进行评估。"
 
 #: ../../admin/config.rst:1375
 msgid "Defaults to 0, which means strength checking is disabled."
 msgstr ""
 
 #: ../../admin/config.rst:1379
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+msgstr ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/config.rst:1386
 msgid "PRIVACY_URL"
@@ -15142,24 +15116,17 @@ msgstr ""
 "当设置为任何值时禁止电子邮箱身份认证。请参见 :ref:`disable-email-auth`。"
 
 #: ../../admin/install/docker.rst:1439
-#, fuzzy
-#| msgid ""
-#| "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
-#| "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
-#| "disable strength checking."
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator. Defaults to 3, set to "
 "0 to disable strength checking."
 msgstr ""
-"最小的密码得分由 `zxcvbn <https://github.com/dropbox/zxcvbn>`_ 密码长度预测器"
-"进行评估。默认为 3，设为 0 禁用强度检查。"
+"最小的密码得分由 `zxcvbn <https://github.com/dwolfhub/zxcvbn-python>`_ "
+"密码长度预测器进行评估。默认为 3，设为 0 禁用强度检查。"
 
 #: ../../admin/install/docker.rst:1445
-#, fuzzy
-#| msgid ":ref:`password-authentication`"
 msgid ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
-msgstr ":ref:`password-authentication`"
+msgstr ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
 
 #: ../../admin/install/docker.rst:1450
 msgid "PostgreSQL database setup"
@@ -19198,41 +19165,29 @@ msgid "Automatically imported past translations."
 msgstr "自动导入以前的翻译。"
 
 #: ../../admin/memory.rst:13
-#, fuzzy
-#| msgid "Content in the translation memory can be applied one of two ways:"
 msgid ""
 "Content in the translation memory can be applied to strings in several ways:"
-msgstr "翻译记忆库中的内容可以以两种方式之一来应用："
+msgstr "可以用几种方法将翻译记忆库中的内容应用于字符串："
 
 #: ../../admin/memory.rst:15
-#, fuzzy
-#| msgid "Manually: in the :ref:`machine-translation` view while translating."
 msgid ""
 "User can accept suggestions from the :ref:`machine-translation` tab while "
 "editing the string."
-msgstr "手动：翻译时在 :ref:`machine-translation` 视图中。"
+msgstr "用户可以在编辑字符串时从 :ref:`machine-translation` 标签页接受建议。"
 
 #: ../../admin/memory.rst:16
-#, fuzzy
-#| msgid ""
-#| "When you have made your changes, use :guilabel:`Upload translation` in "
-#| "the :guilabel:`Files` menu."
 msgid ""
 "The selected strings can be processed using :ref:`auto-translation` from "
 "the :guilabel:`Tools` menu."
-msgstr "进行更改后，请使用 :guilabel:`文件` 菜单中的 :guilabel:`上传译文`。"
+msgstr "可以从 :guilabel:`Tools` 菜单使用 :ref:`auto-translation` 处理所选的字符串。"
 
 #: ../../admin/memory.rst:17
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering "
-#| "for newly added strings."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` add-on can automatically "
 "apply changes to new and existing strings."
 msgstr ""
-"修复了新添加的字符串触发 :ref:`addon-weblate.autotranslate.autotranslate` 的"
-"问题。"
+":ref:`addon-weblate.autotranslate.autotranslate` "
+"附加组件可以自动将更改应用于新的和现有的字符串。"
 
 #: ../../admin/memory.rst:19
 msgid ""
@@ -22935,10 +22890,8 @@ msgstr ""
 "``wlp_`` 前缀。"
 
 #: ../../api.rst:86
-#, fuzzy
-#| msgid ":doc:`tt:formats/properties`, :ref:`ini`, :ref:`islu`"
 msgid ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
-msgstr ":doc:`tt:formats/properties`, :ref:`ini`, :ref:`islu`"
+msgstr ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
 
 #: ../../api.rst:91
 msgid "Authentication examples"
