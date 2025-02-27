@@ -18,7 +18,11 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils.functional import cached_property
 from selenium import webdriver
-from selenium.common.exceptions import ElementNotVisibleException, WebDriverException
+from selenium.common.exceptions import (
+    ElementNotVisibleException,
+    NoSuchElementException,
+    WebDriverException,
+)
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -184,10 +188,14 @@ class SeleniumTests(
 
     def click(self, element="", htmlid=None) -> None:
         """Click on element and scroll it into view."""
-        if htmlid:
-            element = self.driver.find_element(By.ID, htmlid)
-        if isinstance(element, str):
-            element = self.driver.find_element(By.LINK_TEXT, element)
+        try:
+            if htmlid:
+                element = self.driver.find_element(By.ID, htmlid)
+            if isinstance(element, str):
+                element = self.driver.find_element(By.LINK_TEXT, element)
+        except NoSuchElementException:
+            print(self.driver.page_source)  # noqa: T201
+            raise
 
         try:
             element.click()
