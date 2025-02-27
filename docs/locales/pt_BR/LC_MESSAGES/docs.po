@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-02-26 18:47+0000\n"
+"PO-Revision-Date: 2025-02-27 03:33+0000\n"
 "Last-Translator: leyakid803 <leyakid803@minduls.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -463,10 +463,8 @@ msgstr ""
 "`Administração` do projeto."
 
 #: ../../admin/access.rst:216
-#, fuzzy
-#| msgid "Project access control"
 msgid "Per-project access tokens"
-msgstr "Controle de acesso do projeto"
+msgstr "Tokens de acesso por projeto"
 
 #: ../../admin/access.rst:220
 msgid ""
@@ -474,6 +472,10 @@ msgid ""
 "The API tokens can have expiry date set, and their permissions can be "
 "customized by team memberships same as with users."
 msgstr ""
+"Você pode definir tokens de acesso no escopo do projeto na guia :guilabel:`"
+"API access`. Os tokens da API podem ter uma data de expiração definida e "
+"suas permissões podem ser personalizadas pelas associações da equipe, assim "
+"como pelos usuários."
 
 #: ../../admin/access.rst:226
 #, fuzzy
@@ -5052,42 +5054,33 @@ msgid "Password authentication"
 msgstr "Autenticação por senha"
 
 #: ../../admin/auth.rst:457
-#, fuzzy
-#| msgid ""
-#| "The default :file:`settings.py` comes with a reasonable set of :setting:"
-#| "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS` that ensures that weak passwords are not "
 "allowed. You can customize this setting to match your password policy."
 msgstr ""
-"O :file:`settings.py` padrão vem com um razoável conjunto de :setting:"
-"`django:AUTH_PASSWORD_VALIDATORS`:"
+"O :file:`settings.py` padrão vem com um conjunto razoável de "
+":setting:`django:AUTH_PASSWORD_VALIDATORS` que garante que senhas fracas não "
+"sejam permitidas. Você pode personalizar essa configuração para corresponder "
+"à sua política de senha."
 
 #: ../../admin/auth.rst:461
-#, fuzzy
-#| msgid ""
-#| "Additionally you can also install `django-zxcvbn-password <https://pypi."
-#| "org/project/django-zxcvbn-password/>`_ which gives quite realistic "
-#| "estimates of password difficulty and allows rejecting passwords below a "
-#| "certain threshold."
 msgid ""
 "Additionally you can also install `django-zxcvbn-password-validator <https://"
 "github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ which gives "
 "quite realistic estimates of password difficulty and allows rejecting "
 "passwords below a certain threshold."
 msgstr ""
-"Além disso, você também pode instalar o `django-zxcvbn-password <https://"
-"pypi.org/project/django-zxcvbn-password/>`_ o que dá bastante estimativas "
-"realistas de senha dificuldade e permite rejeitar senhas abaixo de um "
-"determinado limite."
+"Além disso, você também pode instalar o `django-zxcvbn-password-validator "
+"<https://github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ que "
+"fornece estimativas bastante realistas para dificuldade da senha e permite "
+"rejeitar senhas abaixo de um determinado limite."
 
 #: ../../admin/auth.rst:468
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ""
 ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+msgstr ""
+":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/auth.rst:474
 msgid "SAML authentication"
@@ -7168,10 +7161,8 @@ msgid "``ignore-end-interrobang``"
 msgstr "``ignore-end-Interrobang``"
 
 #: ../../admin/checks.rst:256
-#, fuzzy
-#| msgid "Skip the :ref:`check-end-stop` quality check."
 msgid "Skip the :ref:`check-end-interrobang` quality check."
-msgstr "Ignora a verificação de qualidade :ref:`check-end-stop`."
+msgstr "Ignora a verificação de qualidade :ref:`check-end-interrobang`."
 
 #: ../../admin/checks.rst:257 ../../user/checks.rst:1256
 msgid "``ignore-end-question``"
@@ -7243,10 +7234,8 @@ msgid "``ignore-rst-syntax``"
 msgstr "``ignore-rst-syntax``"
 
 #: ../../admin/checks.rst:274
-#, fuzzy
-#| msgid "Skip the :ref:`check-md-syntax` quality check."
 msgid "Skip the :ref:`check-rst-syntax` quality check."
-msgstr "Ignora a verificação de qualidade :ref:`check-md-syntax`."
+msgstr "Ignora a verificação de qualidade :ref:`check-rst-syntax`."
 
 #: ../../admin/checks.rst:275 ../../user/checks.rst:1491
 msgid "``ignore-reused``"
@@ -9025,22 +9014,20 @@ msgid "GOOGLE_ANALYTICS_ID"
 msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:967
-#, fuzzy
-#| msgid ""
-#| "Google Analytics ID to turn on monitoring of Weblate using Google "
-#| "Analytics."
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Universal "
 "Analytics."
 msgstr ""
-"Google Analytics ID para ativar o monitoramento do Weblate usando o Google "
-"Analytics."
+"ID do Google Analytics para ativar o monitoramento do Weblate usando o "
+"Google Universal Analytics."
 
 #: ../../admin/config.rst:971
 msgid ""
 "Google Analytics 4 integration is currently not available for Weblate, "
 "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgstr ""
+"No momento, a integração com o Google Analytics 4 não está disponível para o "
+"Weblate; consulte https://github.com/WeblateOrg/weblate/issues/14015."
 
 #: ../../admin/config.rst:977
 msgid "HIDE_REPO_CREDENTIALS"
@@ -9514,28 +9501,22 @@ msgid "PASSWORD_MINIMAL_STRENGTH"
 msgstr "PASSWORD_MINIMAL_STRENGTH"
 
 #: ../../admin/config.rst:1372
-#, fuzzy
-#| msgid ""
-#| "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
-#| "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
-#| "disable strength checking."
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator."
 msgstr ""
-"Pontuação mínima da senha conforme avaliada pelo estimador de força de senha "
-"`zxcvbn <https://github.com/dropbox/zxcvbn>`_. O padrão é 3, defina como 0 "
-"para desabilitar a verificação de força."
+"Pontuação mínima da senha conforme avaliada pelo estimador que verifica a "
+"força da senha `zxcvbn <https://github.com/dwolfhub/zxcvbn-python>`_."
 
 #: ../../admin/config.rst:1375
 msgid "Defaults to 0, which means strength checking is disabled."
 msgstr ""
+"O padrão é 0, o que significa que a verificação para força de senha está "
+"desabilitada."
 
 #: ../../admin/config.rst:1379
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+msgstr ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/config.rst:1386
 msgid "PRIVACY_URL"
@@ -16311,25 +16292,18 @@ msgstr ""
 "ref:`disable-email-auth`."
 
 #: ../../admin/install/docker.rst:1439
-#, fuzzy
-#| msgid ""
-#| "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
-#| "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
-#| "disable strength checking."
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator. Defaults to 3, set to "
 "0 to disable strength checking."
 msgstr ""
 "Pontuação mínima da senha conforme avaliada pelo estimador de força de senha "
-"`zxcvbn <https://github.com/dropbox/zxcvbn>`_. O padrão é 3, defina como 0 "
-"para desabilitar a verificação de força."
+"`zxcvbn <https://github.com/dwolfhub/zxcvbn-python>`_. O padrão é 3, defina "
+"como 0 para desabilitar a verificação de força da senha."
 
 #: ../../admin/install/docker.rst:1445
-#, fuzzy
-#| msgid ":ref:`password-authentication`"
 msgid ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
-msgstr ":ref:`password-authentication`"
+msgstr ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
 
 #: ../../admin/install/docker.rst:1450
 msgid "PostgreSQL database setup"
@@ -20729,44 +20703,35 @@ msgid "Automatically imported past translations."
 msgstr "Traduções anteriores importadas automaticamente."
 
 #: ../../admin/memory.rst:13
-#, fuzzy
-#| msgid "Content in the translation memory can be applied one of two ways:"
 msgid ""
 "Content in the translation memory can be applied to strings in several ways:"
-msgstr "O conteúdo da memória de tradução pode ser aplicado de duas maneiras:"
+msgstr ""
+"O conteúdo da memória de tradução pode ser aplicado ao texto de diversas "
+"maneiras:"
 
 #: ../../admin/memory.rst:15
-#, fuzzy
-#| msgid "Manually: in the :ref:`machine-translation` view while translating."
 msgid ""
 "User can accept suggestions from the :ref:`machine-translation` tab while "
 "editing the string."
 msgstr ""
-"Manualmente: na visualização :ref:`machine-translation` durante a tradução."
+"O usuário pode aceitar sugestões a partir da guia :ref:`machine-translation` "
+"enquanto edita o texto."
 
 #: ../../admin/memory.rst:16
-#, fuzzy
-#| msgid ""
-#| "When you have made your changes, use :guilabel:`Upload translation` in "
-#| "the :guilabel:`Files` menu."
 msgid ""
 "The selected strings can be processed using :ref:`auto-translation` from "
 "the :guilabel:`Tools` menu."
 msgstr ""
-"Quando você tiver feito suas alterações, use :guilabel:`Enviar tradução` no "
-"menu :guilabel:`Arquivos`."
+"Os textos selecionados podem ser processados usando :ref:`auto-translation` "
+"no menu :guilabel:`Tools`."
 
 #: ../../admin/memory.rst:17
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering "
-#| "for newly added strings."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` add-on can automatically "
 "apply changes to new and existing strings."
 msgstr ""
-"Corrigido o acionamento da extensão :ref:`addon-weblate.autotranslate."
-"autotranslate` em textos recém-adicionados."
+"A extensão :ref:`addon-weblate.autotranslate.autotranslate` pode aplicar "
+"automaticamente alterações nos textos novos e existentes."
 
 #: ../../admin/memory.rst:19
 msgid ""
@@ -24844,10 +24809,8 @@ msgstr ""
 "``wlp_``."
 
 #: ../../api.rst:86
-#, fuzzy
-#| msgid ":doc:`tt:formats/properties`, :ref:`ini`, :ref:`islu`"
 msgid ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
-msgstr ":doc:`tt:formats/properties`, :ref:`ini`, :ref:`islu`"
+msgstr ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
 
 #: ../../api.rst:91
 msgid "Authentication examples"
@@ -27872,16 +27835,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS na Wikipédia <https://pt.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.2"
 msgid "Weblate 5.10.2"
-msgstr "Weblate 5.0.2"
+msgstr "Weblate 5.10.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on February 8th 2012.*"
 msgid "*Released on February 28th 2025.*"
-msgstr "*Lançado em 8 de fevereiro de 2012.*"
+msgstr "*Lançado em 28 de fevereiro de 2025.*"
 
 #: ../../changes.rst:7 ../../changes.rst:69 ../../changes.rst:180
 #: ../../changes.rst:322 ../../changes.rst:427 ../../changes.rst:523
@@ -27904,20 +27863,17 @@ msgid "Improvements"
 msgstr "Melhorias"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved translation memory matches."
 msgid "Improved :ref:`translation-memory` matching."
-msgstr "Melhoradas as correspondências de memória de tradução."
+msgstr "Melhorado a correspondência :ref:`translation-memory`."
 
 #: ../../changes.rst:11
 msgid "Visual diff now better highlights whitespace additions."
 msgstr ""
+"A diferença visual agora destaca melhor as adições de espaços em branco."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of file updates."
 msgid "Improved performance on large projects."
-msgstr "Melhorado o desempenho de atualizações de arquivo."
+msgstr "Melhorado o desempenho em grandes projetos."
 
 #: ../../changes.rst:15 ../../changes.rst:48 ../../changes.rst:97
 #: ../../changes.rst:139 ../../changes.rst:161 ../../changes.rst:205
@@ -27936,17 +27892,16 @@ msgstr "Correções de erros"
 
 #: ../../changes.rst:16
 msgid "Consistency of :ref:`search-boolean` in :doc:`/user/search`."
-msgstr ""
+msgstr "Consistência de :ref:`search-boolean` em :doc:`/user/search`."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Fixed some checks triggering on non translated strings."
 msgid "Fixed some :ref:`addons` trigger upon installation."
-msgstr "Corrigidas algumas verificações acionadas em textos não traduzidos."
+msgstr "Correção de algumas :ref:`addons` acionadas na instalação."
 
 #: ../../changes.rst:18
 msgid "Fixed restoring of Git repositories from :ref:`projectbackup`."
 msgstr ""
+"Corrigida a restauração de repositórios Git a partir de :ref:`projectbackup`."
 
 #: ../../changes.rst:21 ../../changes.rst:110 ../../changes.rst:211
 #: ../../changes.rst:351 ../../changes.rst:456 ../../changes.rst:546
@@ -27961,6 +27916,9 @@ msgid ""
 "Weblate has switched to a different library for zxcvbn integration, as the "
 "old one is no longer maintained, see :ref:`password-authentication`."
 msgstr ""
+"O Weblate mudou para uma biblioteca diferente para a integração com o "
+"zxcvbn, pois a antiga não é mais mantida, consulte :ref:`password-"
+"authentication`."
 
 #: ../../changes.rst:25 ../../changes.rst:54 ../../changes.rst:116
 #: ../../changes.rst:146 ../../changes.rst:165 ../../changes.rst:219
@@ -28009,19 +27967,14 @@ msgstr ""
 "Siga as :ref:`generic-upgrade-instructions` para realizar a atualização."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; please "
 "adjust your settings accordingly."
 msgstr ""
-"Há várias mudanças em :file:`settings_example.py`, notadamente as alterações "
-"em ``CACHES`` e ``SOCIAL_AUTH_PIPELINE``. Por favor, ajuste suas "
-"configurações de acordo."
+"Há várias alterações em :file:`settings_example.py`, as mais notáveis são as "
+"configurações alteradas ``AUTH_PASSWORD_VALIDATORS`` e ``INSTALLED_APPS``; "
+"ajuste suas configurações de acordo."
 
 #: ../../changes.rst:31 ../../changes.rst:58 ../../changes.rst:123
 #: ../../changes.rst:150 ../../changes.rst:169 ../../changes.rst:223
@@ -28032,16 +27985,12 @@ msgid "Contributors"
 msgstr "Colaboradores"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/137?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/138?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/137?closed=1>`__."
+"milestone/138?closed=1>`__."
 
 #: ../../changes.rst:37
 msgid "Weblate 5.10.1"
@@ -28071,11 +28020,10 @@ msgid ":ref:`search-strings` supports searching by source string state."
 msgstr ":ref:`search-strings` suporta pesquisar por estado do texto fonte."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid ":ref:`download` performs faster and project and language scopes."
 msgid ":ref:`download` performs faster on project and language scopes."
 msgstr ""
-":ref:`download` tem desempenho mais rápido e escopos de projeto e idioma."
+":ref:`download` tem um desempenho mais rápido nos escopos de projeto e de "
+"idioma."
 
 #: ../../changes.rst:50
 msgid ""
@@ -51756,10 +51704,8 @@ msgid "The string starts with a prohibited character in CSV"
 msgstr "O texto começa com um caractere proibido em CSV"
 
 #: ../../user/checks.rst:1386
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "glossary strings"
-msgstr "Textos próximos"
+msgstr "textos do glossário"
 
 #: ../../user/checks.rst:1387
 msgid "``weblate.checks.glossary.ProhibitedInitialCharacterCheck``"
@@ -51776,6 +51722,11 @@ msgid ""
 "being evaluated as an expression. This also affects :ref:`glossary-mt` where "
 "many services use CSV for synchronizing glossaries and reject such strings."
 msgstr ""
+"O glossário é frequentemente compartilhado como CSV e o uso de alguns "
+"caracteres no início é restrito por muitos aplicativos, pois eles podem "
+"fazer com que o texto seja avaliado como uma expressão. Isso também afeta o "
+":ref:`glossary-mt`, em que muitos serviços usam CSV para sincronizar "
+"glossários e rejeitam esses textos."
 
 #: ../../user/checks.rst:1401
 msgid "Missing non breakable space before double punctuation sign"
@@ -54301,18 +54252,12 @@ msgid "Boolean operators"
 msgstr "Operadores booleanos"
 
 #: ../../user/search.rst:121
-#, fuzzy
-#| msgid ""
-#| "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
-#| "form complex queries. For example: ``state:translated AND (source:hello "
-#| "OR source:bar)``"
 msgid ""
 "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
 "form complex queries."
 msgstr ""
 "Você pode combinar pesquisas usando ``AND``, ``OR``, ``NOT`` e parênteses "
-"para formar consultas complexas. Por exemplo: ``state:translated AND (source:"
-"hello OR source:bar)``"
+"para formar consultas complexas."
 
 #: ../../user/search.rst:124
 msgid ""
@@ -54320,18 +54265,21 @@ msgid ""
 "``AND`` operator has higher precedence than the ``OR`` operator. You can add "
 "parenthesis to define a precedence of your own."
 msgstr ""
+"O operador ``NOT`` tem maior precedência que o operador ``AND``; o operador "
+"``AND`` tem maior precedência que o operador ``OR``. Você pode adicionar "
+"parênteses para definir sua própria precedência."
 
 #: ../../user/search.rst:128
 msgid ""
 "Omitting the operator will make the query behave like the ``AND`` operator "
 "was used."
 msgstr ""
+"A omissão do operador fará com que a consulta se comporte como o operador "
+"``AND`` foi usado."
 
 #: ../../user/search.rst:131
-#, fuzzy
-#| msgid "Regular expressions"
 msgid "Equivalent expressions"
-msgstr "Expressões regulares"
+msgstr "Expressões equivalentes"
 
 #: ../../user/search.rst:133
 msgid "``(state:translated AND source:hello) OR source:bar``"
@@ -54339,7 +54287,7 @@ msgstr ""
 
 #: ../../user/search.rst:134
 msgid "Parenthesized expression to clearly show the precedence."
-msgstr ""
+msgstr "Expressão entre parênteses para mostrar claramente a precedência."
 
 #: ../../user/search.rst:135
 msgid "``state:translated AND source:hello OR source:bar``"
@@ -54347,7 +54295,7 @@ msgstr ""
 
 #: ../../user/search.rst:136
 msgid "The ``AND`` operator has higher precedence than the ``OR`` operator."
-msgstr ""
+msgstr "O operador ``AND`` tem maior precedência que o operador ``OR``."
 
 #: ../../user/search.rst:137
 msgid "``state:translated source:hello OR source:bar``"
@@ -54355,7 +54303,7 @@ msgstr ""
 
 #: ../../user/search.rst:138
 msgid "Query using an implicit ``AND`` operator."
-msgstr ""
+msgstr "Consulta usando um operador ``AND`` implícito."
 
 #: ../../user/search.rst:143
 msgid "Field operators"
