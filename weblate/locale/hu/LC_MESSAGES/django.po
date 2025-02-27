@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Balázs Úr <balazs@urbalazs.hu>, 2023, 2024.
 # Balázs Meskó <meskobalazs@mailbox.org>, 2025.
+# RViktor <rviktor@ivankapal.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-01-16 02:50+0000\n"
-"Last-Translator: Balázs Meskó <meskobalazs@mailbox.org>\n"
+"PO-Revision-Date: 2025-02-27 18:05+0000\n"
+"Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
 "Language: hu\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.10.2-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -38,10 +39,8 @@ msgstr ""
 "Ez az e-mail-cím már használatban van. Adjon meg egy másik e-mail-címet."
 
 #: weblate/accounts/forms.py:119
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
-msgstr "Ez a felhasználónév már használatban van. Válasszon egy másikat."
+msgstr "Ez a felhasználónév már foglalt. Kérjük, válasszon másikat."
 
 #: weblate/accounts/forms.py:131 weblate/accounts/forms.py:985
 #: weblate/auth/models.py:440 weblate/auth/models.py:1143
@@ -63,26 +62,20 @@ msgid "Use account e-mail address"
 msgstr "Fiók e-mail-címének használata"
 
 #: weblate/accounts/forms.py:200
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
 msgstr ""
-"A verziókövető véglegesítéseiben van használva. A cím örökre a tárolóban "
-"marad, amint a Weblate véglegesíti a változtatásokat."
+"A verziókezelési műveletek során kerül felhasználásra. Az e-mail cím a "
+"változások a hozzájárulása után véglegesen a tárolóban marad."
 
 #: weblate/accounts/forms.py:232 weblate/accounts/models.py:704
 msgid "Public e-mail"
 msgstr "Nyilvános e-mail"
 
 #: weblate/accounts/forms.py:233
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Hide e-mail address from public view"
-msgstr "Ez az e-mail-cím nem engedélyezett."
+msgstr "E-mail cím elrejtése a nyilvános megjelenítés elől"
 
 #: weblate/accounts/forms.py:339
 #, python-format
@@ -164,15 +157,11 @@ msgid "Message"
 msgstr "Üzenet"
 
 #: weblate/accounts/forms.py:572
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to process "
-#| "your request."
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
 msgstr ""
-"Angolul írjon nekünk, különben előfordulhat, hogy nem tudjuk feldolgozni a "
-"kérést."
+"Kérjük, angol nyelven lépjen kapcsolatba velünk, ellenkező esetben "
+"előfordulhat, hogy nem tudjuk feldolgozni a kérését."
 
 #: weblate/accounts/forms.py:589 weblate/accounts/templatetags/authnames.py:33
 #: weblate/auth/models.py:446 weblate/auth/models.py:1160
@@ -184,10 +173,8 @@ msgid "E-mail"
 msgstr "E-mail"
 
 #: weblate/accounts/forms.py:590
-#, fuzzy
-#| msgid "E-mail with a confirmation link will be sent here."
 msgid "An e-mail with a confirmation link will be sent here."
-msgstr "Egy megerősítési hivatkozást tartalmazó e-mail lesz küldve ide."
+msgstr "Egy megerősítő linket tartalmazó e-mailt küldünk erre a címre."
 
 #: weblate/accounts/forms.py:636
 msgid "New password"
@@ -206,8 +193,6 @@ msgid "Current password"
 msgstr "Jelenlegi jelszó"
 
 #: weblate/accounts/forms.py:684
-#, fuzzy
-#| msgid "Leave empty if you have not yet set a password."
 msgid "Leave empty if you have not set a password yet."
 msgstr "Hagyja üresen, ha még nem állított be jelszót."
 
@@ -370,10 +355,8 @@ msgid "Screenshots uploaded"
 msgstr "Feltöltött képernyőképek"
 
 #: weblate/accounts/forms.py:1014
-#, fuzzy
-#| msgid "Chosen sorting is not supported."
 msgid "The chosen sorting is not supported."
-msgstr "A választott rendezés nem támogatott."
+msgstr "A választott rendezési mód nem támogatott."
 
 #: weblate/accounts/forms.py:1031
 msgid "Add user to a team"
@@ -392,25 +375,19 @@ msgid "Verify the code from the app"
 msgstr "Az alkalmazásból érkező kód ellenőrzése"
 
 #: weblate/accounts/forms.py:1074
-#, fuzzy
-#| msgid "Entered token is not valid."
 msgid "The entered token is not valid."
-msgstr "A megadott token nem érvényes."
+msgstr "A megadott token érvénytelen."
 
 #: weblate/accounts/forms.py:1142
 msgid "Recovery token"
 msgstr "Visszaszerzési token"
 
 #: weblate/accounts/forms.py:1144
-#, fuzzy
-#| msgid ""
-#| "Recovery token can be used just once, mark your token as used after using "
-#| "it."
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
-"A visszaszerzési token csak egyszer használható, a használat után jelölje a "
-"tokent használtnak."
+"A helyreállítási kódok csak egyszer használhatók. Ne felejtse el a "
+"felhasználtakat lejártként megjelölni."
 
 #: weblate/accounts/forms.py:1201
 msgid "Enter the code from the app"
@@ -1018,22 +995,22 @@ msgid "Your password can't consist of a single character or only whitespace."
 msgstr "A jelszava nem állhat egyetlen karakterből vagy csak szóközökből."
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "Ez a jelszó csak egyetlen karakter."
-msgstr[1] "Ez a jelszó csak egyetlen karakter."
+msgstr[0] ""
+"Ez a jelszó túl hosszú. Legfeljebb %(max_length)d karaktert tartalmazhat."
+msgstr[1] ""
+"Ez a jelszó túl hosszú. Legfeljebb %(max_length)d karaktert tartalmazhat."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password can't contain repeated words or characters."
+#, python-format
 msgid "Your password must contain at most %(min_length)d character."
 msgid_plural "Your password must contain at most %(min_length)d characters."
-msgstr[0] "A jelszava nem tartalmazhat ismétlődő szavakat vagy karaktereket."
-msgstr[1] "A jelszava nem tartalmazhat ismétlődő szavakat vagy karaktereket."
+msgstr[0] "A jelszónak legalább %(min_length)d karaktert kell tartalmaznia."
+msgstr[1] "A jelszónak legalább %(min_length)d karaktert kell tartalmaznia."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -2029,17 +2006,22 @@ msgstr ""
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
 msgstr ""
+"Munkamenet-alapú hitelesítés, amelyet a bejelentkezett felhasználók "
+"használnak."
 
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "Token-alapú hitelesítés a szükséges %s előtaggal."
 
 #: weblate/api/authentication.py:42
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Minden felhasználó rendelkezik egy személyes hozzáférési tokennel, amelyet "
+"saját felhasználói profiljából szerezhet be. Ezek a tokenek `wlu_` előtaggal "
+"kezdődnek."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -2047,6 +2029,9 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"Lehetőség van olyan projekt tokenek létrehozására, amelyek API-hozzáférése "
+"kizárólag a hozzájuk tartozó projektre korlátozódik. Ezek a tokenek `wlp_` "
+"előtaggal kezdődnek."
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -2066,30 +2051,30 @@ msgid "Weblate's REST API"
 msgstr "A Weblate REST API-ja"
 
 #: weblate/api/views.py:151
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Could not obtain the lock to perform the operation."
-msgstr "Nem sikerült zárolni a tárolót, egy másik művelet folyamatban van."
+msgstr "Nem sikerült zárolni az erőforrást a művelet végrehajtásához."
 
 #: weblate/api/views.py:162
-#, fuzzy, python-format
-#| msgid "Could not lock the repository, another operation is in progress."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "Nem sikerült zárolni a tárolót, egy másik művelet folyamatban van."
+msgstr ""
+"Nem sikerült beállítani a tároló zárolást a(z) %s művelet végrehajtásához."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not lock the repository, another operation is in progress."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "Nem sikerült zárolni a tárolót, egy másik művelet folyamatban van."
+msgstr ""
+"Nem sikerült beállítani a frissítési zárolást a(z) %s komponens műveletének "
+"végrehajtásához."
 
 #: weblate/api/views.py:177
-#, fuzzy, python-format
-#| msgid "Could not lock the repository, another operation is in progress."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "Nem sikerült zárolni a tárolót, egy másik művelet folyamatban van."
+msgstr ""
+"Nem sikerült megszerezni a(z) %(scope)s zárolását a(z) %(origin)s művelet "
+"végrehajtásához."
 
 #: weblate/api/views.py:2340 weblate/auth/models.py:956
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2885,22 +2870,16 @@ msgid "This translation is currently locked."
 msgstr "Ez a fordítás jelenleg zárolva van."
 
 #: weblate/auth/permissions.py:194
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires accepting its contributor license "
 "agreement."
 msgstr ""
-"A fordításban történő közreműködéséhez a közreműködői megállapodás "
-"elfogadása szükséges."
+"Ehhez a fordításhoz való hozzájárulás a hozzájárulói licencszerződés "
+"elfogadását igényli."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
-msgstr "Jelentkezzen be a fordítás mentéséhez."
+msgstr "Jelentkezzen be a fordítások mentéséhez."
 
 #: weblate/auth/permissions.py:205
 msgid "Insufficient privileges for approving translations."
@@ -2921,14 +2900,9 @@ msgid "Suggestion voting is disabled."
 msgstr "A javaslatról történő szavazás le van tiltva."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
 msgstr ""
-"Ez a fordítás csak javaslatokat fogad el, és azok szavazás alapján lesznek "
-"jóváhagyva."
+"Ez a fordítás csak javaslatokat fogad el, amelyeket szavazással hagynak jóvá."
 
 #: weblate/auth/permissions.py:235
 #: weblate/templates/snippets/project/state.html:6
@@ -2936,48 +2910,34 @@ msgid "Pay the bills to unlock this project."
 msgstr "Fizesse ki a számlákat a projekt feloldásához."
 
 #: weblate/auth/permissions.py:248
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
-msgstr "A forrásszöveg felülvizsgálatai nincsenek engedélyezve."
+msgstr "A forrásszöveg ellenőrzése ki van kapcsolva."
 
 #: weblate/auth/permissions.py:249
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "A fordítási javaslatok ki vannak kapcsolva."
+msgstr "A fordítások ellenőrzése ki van kapcsolva."
 
 #: weblate/auth/permissions.py:261
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "Az objektumfelsorolás ki van kapcsolva"
+msgstr "Az ellenőrzés ki van kapcsolva."
 
 #: weblate/auth/permissions.py:275 weblate/templates/translate.html:172
 msgid "The source string needs review."
 msgstr "A forrásszöveg felülvizsgálatot igényel."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
-msgstr "A szöveg csak olvasható."
+msgstr "Ez a szöveg csak olvasható."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Csak a felülvizsgálók tudják megváltoztatni a jóváhagyott szövegeket. Adjon "
-"hozzá javaslatot, ha úgy gondolja, hogy a szöveget meg kell változtatni."
+"Csak a felülvizsgálók módosíthatják a jóváhagyott szövegeket. Kérjük, adjon "
+"hozzá egy javaslatot, ha úgy gondolja, hogy a szöveget módosítani kellene."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "A fordítás csak olvasható."
 
@@ -2990,31 +2950,23 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "A szövegek hozzáadása le van tiltva az összetevő beállításaiban."
 
 #: weblate/auth/permissions.py:328
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
-"Nem lehet eltávolítani a terminológia fordítását, távolítsa el a "
-"forrásszöveget helyette."
+"A terminológiai fordítás nem távolítható el. Ehelyett törölje a "
+"forrásszöveget."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
-msgstr "A fájlformátum ezt nem támogatja."
+msgstr "Ez a fájlformátum nem támogatott."
 
 #: weblate/auth/permissions.py:372
-#, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
 msgid "Adding new translations is turned off in the component configuration."
-msgstr "A szövegek hozzáadása le van tiltva az összetevő beállításaiban."
+msgstr "Új fordítások hozzáadása ki van kapcsolva az összetevő beállításaiban."
 
 #: weblate/auth/permissions.py:376
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This component is currently locked."
-msgstr "Ez a fordítás jelenleg zárolva van."
+msgstr "Ez az összetevő jelenleg zárolva van."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3100,7 +3052,7 @@ msgstr "Változtatások száma"
 
 #: weblate/billing/models.py:300 weblate/wladmin/models.py:215
 msgid "Hosted strings"
-msgstr "Kiszolgált szövegek"
+msgstr "Kiszolgált sztringek"
 
 #: weblate/billing/models.py:312 weblate/trans/admin.py:95
 msgid "Source words"
@@ -3185,10 +3137,8 @@ msgid "The following format strings are extra: {}"
 msgstr "A következő formátumszövegek feleslegesek: {}"
 
 #: weblate/checks/base.py:341
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following errors were found:"
-msgstr "A következő előfordulások találhatók:"
+msgstr "A következő hibákat találtuk:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
@@ -3401,18 +3351,14 @@ msgid "Consecutive duplicated words"
 msgstr "Egymás utáni kettőzött szavak"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "A szöveg ugyanazt a szót tartalmazza egymás után kétszer:"
+msgstr "A szöveg ugyanazt a szót kétszer egymás után tartalmazza"
 
 #: weblate/checks/duplicate.py:96
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "A következő összetevők lesznek létrehozva"
-msgstr[1] "A következő összetevők lesznek létrehozva"
+msgstr[0] "A következő szó ismétlődik:"
+msgstr[1] "A következő szavak ismétlődnek:"
 
 #: weblate/checks/flags.py:42
 msgid "RST text"
@@ -3901,20 +3847,16 @@ msgid "Fluent source syntax"
 msgstr "Fluent-forrás szintaxisa"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in source"
 msgid "Fluent syntax error in the source"
-msgstr "Fluent szintaktikai hiba a forrásban"
+msgstr "Hiba a Fluent szintaxisban a forrás szövegben"
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
 msgstr "Fluent-fordítás szintaxisa"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "Fluent syntax error in the translation"
-msgstr "Fluent szintaktikai hiba a fordításban"
+msgstr "Hiba a Fluent szintaxisban a fordításban"
 
 #: weblate/checks/format.py:481
 #, python-format
@@ -4246,38 +4188,29 @@ msgstr "A fordítás nem biztonságos HTML jelölőt használ"
 
 #: weblate/checks/markup.py:403
 msgid "Inconsistent reStructuredText references"
-msgstr ""
+msgstr "Nem egységes reStructuredText hivatkozások"
 
 #: weblate/checks/markup.py:405
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
+"Nem egységes reStructuredText fogalomhivatkozások a fordított üzenetben."
 
 #: weblate/checks/markup.py:436
-#, fuzzy
-#| msgid "%(count)s string is not being translated here."
-#| msgid_plural "%(count)s strings are not being translated here."
 msgid "Inconsistent inline links in the translated message."
-msgstr "%(count)s szöveg nem itt van lefordítva."
+msgstr "Nem egységes beágyazott hivatkozások a fordított üzenetben."
 
 #: weblate/checks/markup.py:442
-#, fuzzy
-#| msgid "%(count)s string is not being translated here."
-#| msgid_plural "%(count)s strings are not being translated here."
 msgid "Inconsistent external links in the translated message."
-msgstr "%(count)s szöveg nem itt van lefordítva."
+msgstr "Nem egységes külső hivatkozások a fordított üzenetben."
 
 #: weblate/checks/markup.py:565
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "reStructuredText syntax error"
-msgstr "reStructuredText"
+msgstr "reStructuredText szintaktikai hiba"
 
 #: weblate/checks/markup.py:566
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "Fluent szintaktikai hiba a fordításban"
+msgstr "reStructuredText szintaktikai hiba a fordításban."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -4634,11 +4567,11 @@ msgstr "GWT-tulajdonságok (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1405
 msgid "PHP strings"
-msgstr "PHP szövegek"
+msgstr "PHP sztringek"
 
 #: weblate/formats/ttkit.py:1424
 msgid "Laravel PHP strings"
-msgstr "Laravel PHP szövegek"
+msgstr "Laravel PHP sztringek"
 
 #: weblate/formats/ttkit.py:1431
 msgid ".NET resource file"
@@ -4679,7 +4612,7 @@ msgstr "go-i18n v2 JSON-fájl"
 
 #: weblate/formats/ttkit.py:1552
 msgid "ARB file"
-msgstr "ARB-fájl"
+msgstr "ARB fájl"
 
 #: weblate/formats/ttkit.py:1561
 msgid "gotext JSON file"
@@ -4899,11 +4832,11 @@ msgstr "A nyelvet beszélő emberek száma."
 
 #: weblate/lang/models.py:842
 msgid "Case-sensitive"
-msgstr ""
+msgstr "Kis- és nagybetűérzékeny"
 
 #: weblate/lang/models.py:843
 msgid "Case-insensitive"
-msgstr ""
+msgstr "Nem kis- és nagybetűérzékeny"
 
 #: weblate/lang/models.py:879
 msgctxt "Plural type"
@@ -5577,11 +5510,9 @@ msgid "File"
 msgstr "Fájl"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid ""
-#| "You can upload a file of following formats: TMX, JSON, XLIFF, PO, CSV."
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr "A következő formátumban tölthet fel fájt: TMX, JSON, XLIFF, PO, CSV."
+msgstr "A következő fájlformátumok tölthetők fel: %s."
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:722
 msgid "Source language"
@@ -5609,10 +5540,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "Az összes fordítási memória bejegyzés törlésének megerősítése"
 
 #: weblate/memory/models.py:205
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "Nem támogatott képtípus: %s"
+msgstr "Nem támogatott fájlkiterjesztés: %s"
 
 #: weblate/memory/models.py:227
 msgid "No valid entries found in the uploaded file!"
@@ -5863,18 +5793,18 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"Elképzelhető, hogy a munkamenet sütije lejárt inaktivitás miatt. Ez könnyen "
+"előfordulhat hitelesítetlen kéréseknél, ahol a munkamenet érvényessége "
+"korlátozott. Ilyen esetben próbálja meg újra a kívánt műveletet."
 
 #: weblate/templates/403_csrf.html:33
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again (at-least for this site, or for 'same-origin' requests)."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"Ha úgy állította be böngészőjét, hogy ne mentse a sütiket, akkor kapcsolja "
-"be újra (legalábbis ezen a webhelyen vagy az „azonos eredetű” kéréseknél)."
+"Ha a böngészőjét úgy állította be, hogy ne mentse a sütiket, engedélyeznie "
+"kell azok mentését (legalább ezen az oldalon vagy az 'azonos eredetű' "
+"kérésekhez)."
 
 #: weblate/templates/403_csrf.html:37
 #, python-format
@@ -5910,8 +5840,8 @@ msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"A kiszolgáló súlyos problémákkal küzdött a kérése kiszolgálásakor, ez a hiba "
-"pedig így lett rögzítve: %(error_id)s."
+"A szerver súlyos problémába ütközött a kérés kiszolgálása során, és ezt a "
+"hibát rögzítette: %(error_id)s."
 
 #: weblate/templates/500.html:40
 msgid ""
@@ -5942,35 +5872,25 @@ msgstr ""
 "tartó honosítási platformot."
 
 #: weblate/templates/about/donate.html:33
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgctxt "Label on donate page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
 msgstr[0] "GitHub csillag"
-msgstr[1] "GitHub csillagok"
+msgstr[1] "GitHub csillag"
 
 #: weblate/templates/about/donate.html:39
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "Open issues"
-#| msgid_plural "Open issues"
 msgctxt "Label on donate page"
 msgid "Open issue"
 msgid_plural "Open issues"
-msgstr[0] "Nyitott problémák"
-msgstr[1] "Nyitott problémák"
+msgstr[0] "Megnyitott probléma"
+msgstr[1] "Megnyitott probléma"
 
 #: weblate/templates/about/donate.html:45
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on donate page"
 msgid "Recent change"
 msgid_plural "Recent changes"
-msgstr[0] "Legutóbbi változtatások"
-msgstr[1] "Legutóbbi változtatások"
+msgstr[0] "Legutóbbi változások"
+msgstr[1] "Legutóbbi változások"
 
 #: weblate/templates/about/index.html:7 weblate/templates/about/index.html:16
 #: weblate/templates/about/keys.html:9 weblate/templates/about/stats.html:10
@@ -6497,10 +6417,8 @@ msgid "Security keys (WebAuthn)"
 msgstr "Biztonsági kulcsok (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:261
-#, fuzzy
-#| msgid "There are currently no WebAuthn keys registered."
 msgid "No WebAuthn keys registered yet."
-msgstr "Jelenleg nincsenek WebAuthn-kulcsok regisztrálva."
+msgstr "Nincs még WebAuthn kulcs regisztrálva."
 
 #: weblate/templates/accounts/profile.html:270
 #: weblate/templates/accounts/profile.html:314
@@ -6522,20 +6440,16 @@ msgid "Register new security key"
 msgstr "Új biztonsági kulcs regisztrálása"
 
 #: weblate/templates/accounts/profile.html:294
-#, fuzzy
-#| msgid "Unfortunately, your browser has no WebAuthn support."
 msgid "Your web browser lacks WebAuthn support."
-msgstr "Sajnos a böngészője nem rendelkezik WebAuthn támogatással."
+msgstr "A webböngészője nem támogatja a WebAuthn-t."
 
 #: weblate/templates/accounts/profile.html:302
 msgid "Authenticator apps (TOTP)"
 msgstr "Hitelesítő alkalmazások (TOTP)"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "The authentication app %s was registered."
 msgid "No authenticator apps registered yet."
-msgstr "A(z) %s hitelesítő alkalmazás regisztrálva lett."
+msgstr "Még nincsenek hitelesítőalkalmazások regisztrálva."
 
 #: weblate/templates/accounts/profile.html:321
 #: weblate/templates/accounts/totp.html:15
@@ -6550,10 +6464,8 @@ msgid "Recovery codes"
 msgstr "Visszaszerzési kódok"
 
 #: weblate/templates/accounts/profile.html:327
-#, fuzzy
-#| msgid "There are currently no recovery codes generated."
 msgid "No recovery codes generated yet."
-msgstr "Jelenleg nincsenek visszaszerzési kódok előállítva."
+msgstr "Még nincsenek helyreállítási kódok generálva."
 
 #: weblate/templates/accounts/profile.html:331
 #: weblate/templates/accounts/recovery-codes.html:55
@@ -6562,13 +6474,11 @@ msgid "Generate new recovery codes"
 msgstr "Új visszaszerzési kódok előállítása"
 
 #: weblate/templates/accounts/profile.html:334
-#, fuzzy, python-format
-#| msgid "%(count)s recovery code is available."
-#| msgid_plural "%(count)s recovery codes are available."
+#, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
-msgstr[0] "%(count)s visszaszerzési kód érhető el."
-msgstr[1] "%(count)s visszaszerzési kód érhető el."
+msgstr[0] "%(count)s helyreállítási kód elérhető."
+msgstr[1] "%(count)s helyreállítási kód elérhető."
 
 #: weblate/templates/accounts/profile.html:340
 msgid "View recovery codes"
@@ -6635,14 +6545,11 @@ msgid "Description"
 msgstr "Leírás"
 
 #: weblate/templates/accounts/profile.html:477
-#, fuzzy
-#| msgid ""
-#| "Contact us immediately if you see anything suspicious in the audit log."
 msgid ""
 "Get in contact immediately if you notice anything suspicious in the audit "
 "log."
 msgstr ""
-"Azonnal vegye fel velünk a kapcsolatot, ha bármi gyanúsat lát az ellenőrzési "
+"Azonnal lépjen kapcsolatba velünk, ha bármi gyanúsat észlel az ellenőrzési "
 "naplóban."
 
 #: weblate/templates/accounts/profile.html:489
@@ -6663,26 +6570,20 @@ msgid "User agent"
 msgstr "Felhasználóügynök"
 
 #: weblate/templates/accounts/profile.html:505
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent activity found."
-msgstr "Nem található legutóbbi tevékenység!"
+msgstr "Nem található friss tevékenység."
 
 #: weblate/templates/accounts/profile.html:511
 msgid "Report suspicious activity"
 msgstr "Gyanús tevékenység jelentése"
 
 #: weblate/templates/accounts/profile.html:526
-#, fuzzy
-#| msgid ""
-#| "The API key is also used to authenticate to automatically exported Git "
-#| "repositories."
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
 "access Weblate Git repositories."
 msgstr ""
-"Az API-kulcs az automatikusan exportált Git tárolókhoz történő "
-"hitelesítéshez is használható."
+"Az API-kulcs a Weblate vezérlésére használható a HTTP REST API-n keresztül, "
+"valamint a Weblate Git tárolóinak elérésére."
 
 #: weblate/templates/accounts/profile.html:531
 #: weblate/templates/trans/project-access.html:351
@@ -6874,17 +6775,13 @@ msgid "Reset my password"
 msgstr "Saját jelszó visszaállítása"
 
 #: weblate/templates/accounts/totp.html:33
-#, fuzzy
-#| msgid ""
-#| "Authenticator apps generate one-time passwords that are used as a second "
-#| "factor to verify your identity when prompted during sign-in."
 msgid ""
 "Authenticator apps generate time-based one-time passwords that are used as a "
 "second factor to verify your identity when prompted during sign-in."
 msgstr ""
-"A hitelesítő alkalmazások egyszer használható jelszavakat állítanak elő, "
-"amelyek második faktorként használhatóak a személyazonosságának "
-"ellenőrzéséhez, amikor a bejelentkezés során ezt kérik."
+"A hitelesítőalkalmazások időalapú egyszer használatos jelszavakat "
+"generálnak, amelyeket második hitelesítési tényezőként kell megadni "
+"bejelentkezéskor a személyazonosság ellenőrzésére."
 
 #: weblate/templates/accounts/totp.html:36
 msgid "Scan the QR code"
@@ -7064,10 +6961,8 @@ msgid "User ID"
 msgstr "Felhasználó-azonosító"
 
 #: weblate/templates/accounts/user.html:266
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
-msgstr "Értesítések"
+msgstr "Értesítés"
 
 #: weblate/templates/accounts/user.html:267 weblate/trans/forms.py:1085
 msgid "Scope"
@@ -7075,7 +6970,7 @@ msgstr "Hatókör"
 
 #: weblate/templates/accounts/user.html:268
 msgid "Frequency"
-msgstr ""
+msgstr "Gyakoriság"
 
 #: weblate/templates/accounts/user.html:271
 msgid "One-time"
@@ -7088,10 +6983,8 @@ msgid "Members"
 msgstr "Tagok"
 
 #: weblate/templates/accounts/user.html:335
-#, fuzzy
-#| msgid "site wide"
 msgid "Site-wide team"
-msgstr "webhelyszintű"
+msgstr "Teljes webhelyre kiterjedő csapat"
 
 #: weblate/templates/accounts/user.html:345
 msgid "Remove user from this team"
@@ -7118,22 +7011,16 @@ msgid "Edit user"
 msgstr "Felhasználó szerkesztése"
 
 #: weblate/templates/accounts/user.html:395
-#, fuzzy
-#| msgid "Requires two-factor authentication"
 msgid "The user has two-factor authentication."
-msgstr "Kétfaktoros hitelesítést igényel"
+msgstr "A felhasználó rendelkezik kétlépcsős hitelesítéssel."
 
 #: weblate/templates/accounts/user.html:397
-#, fuzzy
-#| msgid "User doesn't have two-factor authentication configured."
 msgid "The user doesn't have two-factor authentication."
-msgstr "A felhasználó nem rendelkezik beállított kétfaktoros hitelesítéssel."
+msgstr "A felhasználó nem rendelkezik kétlépcsős hitelesítéssel."
 
 #: weblate/templates/accounts/user.html:404
-#, fuzzy
-#| msgid "Two-factor authentication"
 msgid "Turn off two-factor authentication"
-msgstr "Kétfaktoros hitelesítés"
+msgstr "Kétlépcsős hitelesítés kikapcsolása"
 
 #: weblate/templates/accounts/user.html:413
 msgid "Account removal deletes all user private data."
@@ -7230,10 +7117,8 @@ msgid "Configure add-on"
 msgstr "Kiegészítő beállítása"
 
 #: weblate/templates/addons/addon_detail.html:51
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
-msgstr "Ez a kiegészítő végrehajt egy parancsfájlt."
+msgstr "Ennek a kiegészítőnek nincsenek beállításai."
 
 #: weblate/templates/addons/addon_head.html:7
 msgid "The add-on can only be installed on the component."
@@ -7305,10 +7190,8 @@ msgid "Configure"
 msgstr "Beállítás"
 
 #: weblate/templates/addons/addon_list.html:72
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "Add-ons can also be installed at the project and the component levels."
-msgstr "A kiegészítők projekt- és összetevő-hatókörrel is telepíthetők."
+msgstr "A kiegészítők projekt- és összetevő-szinten is telepíthetők."
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -7329,10 +7212,8 @@ msgid "Available add-ons"
 msgstr "Elérhető kiegészítők"
 
 #: weblate/templates/addons/addon_list.html:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on can only be installed on the component level."
-msgstr "A kiegészítő csak az összetevőre telepíthető."
+msgstr "A kiegészítő csak összetevő.szinten telepíthető."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -8336,16 +8217,12 @@ msgid "Alerts"
 msgstr "Riasztások"
 
 #: weblate/templates/component.html:58 weblate/templates/project.html:60
-#, fuzzy
-#| msgid "Download statistics (CSV)"
 msgid "Download language statistics (CSV)"
-msgstr "Statisztikák letöltése (CSV)"
+msgstr "Nyelvi statisztikák letöltése (CSV)"
 
 #: weblate/templates/component.html:61 weblate/templates/project.html:63
-#, fuzzy
-#| msgid "Download statistics (JSON)"
 msgid "Download language statistics (JSON)"
-msgstr "Statisztikák letöltése (JSON)"
+msgstr "Nyelvi statisztikák letöltése (JSON)"
 
 #: weblate/templates/component.html:109 weblate/templates/data.html:12
 #: weblate/templates/project.html:111 weblate/templates/translation.html:104
@@ -8439,22 +8316,16 @@ msgstr ""
 #: weblate/templates/snippets/libre-checklist.html:24
 #: weblate/templates/trans/other-row.html:27
 #: weblate/trans/models/component.py:593
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor license agreement"
-msgstr "Közreműködői megállapodás"
+msgstr "Hozzájárulói licencszerződés"
 
 #: weblate/templates/contributor-agreement.html:22
-#, fuzzy
-#| msgid "Please review the contributor agreement"
 msgid "Please review the contributor license agreement"
-msgstr "Nézze át a közreműködői megállapodást"
+msgstr "Kérjük, tekintse át a hozzájárulói licencszerződést"
 
 #: weblate/templates/contributor-agreement.html:25
-#, fuzzy
-#| msgid "Please read following contributor agreement:"
 msgid "Please read the following contributor license agreement:"
-msgstr "Olvassa el a következő közreműködői megállapodást:"
+msgstr "Kérjük, olvassa el az alábbi hozzájárulói licencszerződést:"
 
 #: weblate/templates/contributor-agreement.html:34
 msgid "You have already agreed to this agreement."
@@ -9036,25 +8907,23 @@ msgid "Lock"
 msgstr "Zárolás"
 
 #: weblate/templates/js/git-status.html:112
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "%(count)s component is locked"
 msgid_plural "%(count)s components are locked"
-msgstr[0] "A(z) %(component)s összetevő zárolva lett"
-msgstr[1] "A(z) %(component)s összetevő zárolva lett"
+msgstr[0] "%(count)s összetevő zárolva van"
+msgstr[1] "%(count)s összetevő zárolva van"
 
 #: weblate/templates/js/git-status.html:116 weblate/utils/html.py:200
 msgctxt "Joins a list of values"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: weblate/templates/js/git-status.html:118
-#, fuzzy, python-format
-#| msgid "Component %(component)s was unlocked"
+#, python-format
 msgid "%(count)s component is unlocked"
 msgid_plural "%(count)s components are unlocked"
-msgstr[0] "A(z) %(component)s összetevő fel lett oldva"
-msgstr[1] "A(z) %(component)s összetevő fel lett oldva"
+msgstr[0] "%(count)s összetevő fel van oldva"
+msgstr[1] "%(count)s összetevő fel van oldva"
 
 #: weblate/templates/js/git-status.html:121
 #: weblate/templates/js/git-status.html:126
@@ -9274,22 +9143,18 @@ msgstr "Automatikus javaslatok lap megjelenítése."
 #: weblate/templates/keyboard-shortcuts.html:154
 msgctxt "between keyboard shortcuts"
 msgid "to"
-msgstr ""
+msgstr "–"
 
 #: weblate/templates/keyboard-shortcuts.html:134
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "Copies placeable of a given number from source string."
-msgstr "Ez a nyelv forrásszövegeknél van használva."
+msgstr "A forrásszövegből másolható megadott számérték."
 
 #: weblate/templates/keyboard-shortcuts.html:138
 #: weblate/templates/keyboard-shortcuts.html:141
 #: weblate/templates/keyboard-shortcuts.html:149
 #: weblate/templates/keyboard-shortcuts.html:153
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "followed by"
-msgstr "Feltöltötte"
+msgstr "ezt követően"
 
 #: weblate/templates/keyboard-shortcuts.html:145
 msgid "Copy the machine translation of a given number to current translation."
@@ -9637,31 +9502,26 @@ msgid "New translation in %(translation)s"
 msgstr "Új %(translation)s nyelvű fordítás"
 
 #: weblate/templates/mail/component_license.html:10
-#, fuzzy, python-format
-#| msgid "Contributor agreement for component %(component)s was changed."
+#, python-format
 msgid "Contributor license agreement for component %(component)s was changed."
 msgstr ""
-"A(z) %(component)s összetevő közreműködői megállapodása meg lett változtatva."
+"A(z) %(component)s komponens hozzájárulói licencszerződése megváltozott."
 
 #: weblate/templates/mail/component_license.html:13
 msgid "Old agreement:"
 msgstr "Régi megállapodás:"
 
 #: weblate/templates/mail/component_license.html:16
-#, fuzzy
-#| msgid "There was no contributor agreement before."
 msgid "There was no contributor license agreement before."
-msgstr "Nem volt korábban közreműködői megállapodás."
+msgstr "Korábban nem volt hozzájárulói licencszerződés."
 
 #: weblate/templates/mail/component_license.html:19
 msgid "New agreement:"
 msgstr "Új megállapodás:"
 
 #: weblate/templates/mail/component_license.html:22
-#, fuzzy
-#| msgid "Contributor agreement was removed."
 msgid "Contributor license agreement was removed."
-msgstr "A közreműködői megállapodás el lett távolítva."
+msgstr "A hozzájárulói licencszerződés eltávolításra került."
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
@@ -9669,10 +9529,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "A(z) %(component)s összetevő újra lett licencelve %(target)s licencre"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Contributor agreement for %(component)s was changed"
+#, python-format
 msgid "Contributor license agreement for %(component)s was changed"
-msgstr "A(z) %(component)s közreműködői megállapodása meg lett változtatva"
+msgstr "A(z) %(component)s hozzájárulói licencszerződése megváltozott"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -10827,23 +10686,17 @@ msgstr ""
 "állapotát."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:11
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "View contributor license agreement"
-msgstr "Közreműködői megállapodás megtekintése"
+msgstr "Hozzájárulói licencszerződés megtekintése"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:13
 #: weblate/templates/trans/other-row.html:27
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "license agreement."
 msgstr ""
-"A fordításban történő közreműködéséhez a közreműködői megállapodás "
-"elfogadása szükséges."
+"Ehhez a fordításhoz való hozzájárulás a hozzájárulói licencszerződéshez való "
+"hozzájárulást igényel."
 
 #: weblate/templates/snippets/component/lock.html:21
 msgid "Get notified when this project is unlocked again"
@@ -10895,7 +10748,7 @@ msgstr "Támogatási csomag vásárlása"
 
 #: weblate/templates/snippets/donate.html:14
 msgid "Give to Weblate"
-msgstr "Adakozás a Weblate-nek"
+msgstr "Adományozzon a Weblate számára"
 
 #: weblate/templates/snippets/editor.html:11
 msgid ""
@@ -11112,16 +10965,12 @@ msgid "Aliased language codes"
 msgstr "Álnevesített nyelvkódok"
 
 #: weblate/templates/snippets/info.html:211
-#, fuzzy
-#| msgid "String target language"
 msgid "English name of the language"
-msgstr "Szöveg célnyelve"
+msgstr "A nyelv angol neve"
 
 #: weblate/templates/snippets/info.html:221
-#, fuzzy
-#| msgid "Last activity"
 msgid "Case sensitivity"
-msgstr "Utolsó tevékenység"
+msgstr "Kis- és nagybetű érzékenység"
 
 #: weblate/templates/snippets/info.html:245
 msgid "Most active translators"
@@ -11313,6 +11162,8 @@ msgstr ""
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
 msgstr ""
+"Nem kódalapú projektek (például könyvek vagy grafikus tartalmak) is szívesen "
+"látottak."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
@@ -11438,17 +11289,12 @@ msgstr ""
 "következőket:"
 
 #: weblate/templates/snippets/login-info.html:21
-#, fuzzy
-#| msgid ""
-#| "Quick overview of the Terms of Service and the Privacy Policy, but you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
-"Az általános szerződési feltételek és az adatvédelmi irányelv gyors "
-"áttekintése, de továbbra is el kell olvasnia az eredeti dokumentumot, hogy "
-"teljes mértékben megértse azt:"
+"Általános Szerződési Feltételek és Adatvédelmi szabályzat rövid áttekintése, "
+"de a teljes megértés érdekében olvassa el az eredeti dokumentumokat is:"
 
 #: weblate/templates/snippets/login-info.html:28
 msgid ""
@@ -11493,10 +11339,8 @@ msgid "First"
 msgstr "Első"
 
 #: weblate/templates/snippets/position-field.html:22
-#, fuzzy
-#| msgid "Previous"
 msgid "Previous section"
-msgstr "Előző"
+msgstr "Előző szakasz"
 
 #: weblate/templates/snippets/position-field.html:65
 #, python-format
@@ -13360,7 +13204,7 @@ msgstr "Megnyitás teljes szerkesztőben"
 
 #: weblate/templates/zen-units.html:100
 msgid "Collapse"
-msgstr ""
+msgstr "Összezárás"
 
 #: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:636
 msgid "The translation has come to an end."
@@ -13906,7 +13750,7 @@ msgstr "Lefordítandó dokumentum"
 
 #: weblate/trans/forms.py:1872
 msgid "Target language of the document for bilingual files"
-msgstr ""
+msgstr "A dokumentum célnyelve kétnyelvű fájlok esetén"
 
 #: weblate/trans/forms.py:1939
 msgid "Choose translation files to import"
@@ -14040,10 +13884,8 @@ msgid "Labels to remove"
 msgstr "Eltávolítandó címkék"
 
 #: weblate/trans/forms.py:2681
-#, fuzzy
-#| msgid "I accept the contributor agreement"
 msgid "I accept the contributor license agreement"
-msgstr "Elfogadom a közreműködői megállapodást"
+msgstr "Elfogadom a hozzájárulói licencszerződést"
 
 #: weblate/trans/forms.py:2710
 msgid "The slug does not match the one marked for deletion!"
@@ -14636,10 +14478,8 @@ msgid "License changed"
 msgstr "Licenc megváltoztatva"
 
 #: weblate/trans/models/change.py:550
-#, fuzzy
-#| msgid "Contributor agreement changed"
 msgid "Contributor license agreement changed"
-msgstr "Közreműködői megállapodás megváltoztatva"
+msgstr "A hozzájárulói licencszerződés megváltozott"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:553
@@ -14738,17 +14578,13 @@ msgstr "Összetevő fordítása befejezve"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:594
-#, fuzzy
-#| msgid "Unused enforced checks."
 msgid "Applied enforced check"
-msgstr "Nem használt kényszerített ellenőrzések."
+msgstr "Alkalmazott kényszerített ellenőrzés"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:596
-#, fuzzy
-#| msgid "Propagated"
 msgid "Propagated change"
-msgstr "Terjesztve"
+msgstr "Továbbított változás"
 
 #: weblate/trans/models/change.py:683
 msgid "The component was automatically locked because of an alert."
@@ -15080,16 +14916,12 @@ msgid "List of checks which can not be ignored."
 msgstr "Ellenőrzések listája, amelyeket nem lehet figyelmen kívül hagyni."
 
 #: weblate/trans/models/component.py:597
-#, fuzzy
-#| msgid ""
-#| "User agreement which needs to be approved before a user can translate "
-#| "this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Felhasználói megállapodás, amelyet jóvá kell hagyni, mielőtt egy felhasználó "
-"lefordíthatja ezt az összetevőt."
+"A hozzájárulói licencszerződés, amelyet jóvá kell hagyni, mielőtt egy "
+"felhasználó fordíthatná ezt a komponenst."
 
 #: weblate/trans/models/component.py:604
 msgid "Adding new translation"
@@ -15374,10 +15206,9 @@ msgid "Could not find any matching language, please check the file mask."
 msgstr "Nem található egyetlen egyező nyelv sem, ellenőrizze a fájlmaszkot."
 
 #: weblate/trans/models/component.py:2898
-#, fuzzy, python-brace-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-brace-format
 msgid "Could not parse {file}: {error}"
-msgstr "Nem sikerült feldolgozni a(z) %(file)s fájlt: %(error)s"
+msgstr "Nem sikerült feldolgozni a(z) {file} fájlt: {error}"
 
 #: weblate/trans/models/component.py:2906
 #, python-format
@@ -15493,6 +15324,7 @@ msgstr ""
 #: weblate/trans/models/component.py:3171
 msgid "To use the key filter, the file format must be monolingual."
 msgstr ""
+"A kulcsszűrő használatához az adott fájlformátumnak egynyelvűnek kell lennie."
 
 #: weblate/trans/models/component.py:3563
 msgid "Could not add new translation file."
@@ -16280,6 +16112,7 @@ msgstr "Változtatások ebben: %s"
 #: weblate/trans/views/create.py:68
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
+"A megadott konfiguráció helytelen. Kérjük, ellenőrizze az alábbi hibákat."
 
 #: weblate/trans/views/create.py:290
 #, python-format
@@ -16591,14 +16424,13 @@ msgid "A language in the category was removed."
 msgstr "A kategóriában lévő egyik nyelv el lett távolítva."
 
 #: weblate/trans/views/settings.py:241
-#, fuzzy, python-format
-#| msgid "Could not change %s due to outstanding issue in its settings: %s"
+#, python-format
 msgid ""
 "Could not change %(obj)s due to an outstanding issue in its settings: "
 "%(error)s"
 msgstr ""
-"Nem sikerült a(z) %s megváltoztatása a beállításaiban fennálló probléma "
-"miatt: %s"
+"Nem sikerült módosítani a(z) %(obj)s elemet, mert egy fennálló probléma van "
+"a beállításaiban: %(error)s"
 
 #: weblate/trans/views/settings.py:415
 msgid "Backup scheduled. It will be available soon."
@@ -17103,11 +16935,11 @@ msgstr "Fejléc betűkészlete"
 
 #: weblate/wladmin/forms.py:96 weblate/wladmin/forms.py:103
 msgid "Navigation color (Light, Dark)"
-msgstr ""
+msgstr "Navigációs szín (Világos, Sötét)"
 
 #: weblate/wladmin/forms.py:99
 msgid "Navigation text color (Light, Dark)"
-msgstr ""
+msgstr "Navigációs szöveg színe (Világos, Sötét)"
 
 #: weblate/wladmin/forms.py:106
 msgid "Focus color (Light, Dark)"
@@ -17226,7 +17058,7 @@ msgstr "Tárolók"
 
 #: weblate/wladmin/views.py:153
 msgid "Customer care ticket created:"
-msgstr ""
+msgstr "Ügyfélszolgálati jegy létrehozva:"
 
 #: weblate/wladmin/views.py:183
 msgid "Test e-mail sent."
