@@ -25,7 +25,7 @@ jobs:
     - name: Get changed files
       if: github.event_name == 'pull_request'
       id: changed-files
-      uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45
+      uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45.0.7@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45
       with:
         files: '**.py'
     - name: List all changed files

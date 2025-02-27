@@ -47,10 +47,10 @@ jobs:
         inputs: dist/*
     - name: Attest
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
-      uses: actions/attest-build-provenance@f9eaf234fc1c2e333c1eca18177db0f44fa6ba52 # v2
+      uses: actions/attest-build-provenance@f9eaf234fc1c2e333c1eca18177db0f44fa6ba52 # v2.2.1@f9eaf234fc1c2e333c1eca18177db0f44fa6ba52 # v2
       with:
         subject-path: dist/*
-    - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
+    - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         path: dist/*
         name: dist
@@ -75,7 +75,7 @@ jobs:
         enable-cache: true
         cache-dependency-glob: ''
         cache-suffix: '3.13'
-    - uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4
+    - uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9@cc203385981b70ca67e1cc392babf9cc229d5806 # v4
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
       run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delete
@@ -128,7 +128,7 @@ jobs:
         ./scripts/extract-release-notes > "dist/Weblate-$version.html"
         pandoc "dist/Weblate-$version.html" --write=gfm --wrap=none --lua-filter=scripts/release-notes-filter.version.lua -o "dist/Weblate-$version.md"
         rm scripts/release-notes-filter.version.lua
-    - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
+    - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         path: dist/*
         name: notes
@@ -145,7 +145,7 @@ jobs:
     - lint
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4
+    - uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9@cc203385981b70ca67e1cc392babf9cc229d5806 # v4
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
       run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delete
@@ -164,13 +164,13 @@ jobs:
     - lint
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4
+    - uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9@cc203385981b70ca67e1cc392babf9cc229d5806 # v4
     - name: Extract notes body
       run: tail -n+3 notes/Weblate-*.md > notes.md
     - name: Extract notes title
       id: get-name
       run: echo "name=$(head -n1 notes/Weblate-*.md)"  > "$GITHUB_OUTPUT"
-    - uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1
+    - uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1.16.0@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1
       with:
         artifacts: dist/*
         bodyFile: notes.md
