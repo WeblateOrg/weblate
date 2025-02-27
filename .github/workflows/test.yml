@@ -127,11 +127,11 @@ jobs:
         name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
     - name: Upload test results to Codecov
       if: ${{ !cancelled() }}
-      uses: codecov/test-results-action@5c441a7bcc06f8706cde90192857d337c5dab8a6 # v1.0.4@5c441a7bcc06f8706cde90192857d337c5dab8a6 # v1
+      uses: codecov/test-results-action@5c441a7bcc06f8706cde90192857d337c5dab8a6 # v1.0.4
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
     - name: Publish Test Results
-      uses: EnricoMi/publish-unit-test-result-action@170bf24d20d201b842d7a52403b73ed297e6645b # v2.18.0@170bf24d20d201b842d7a52403b73ed297e6645b # v2
+      uses: EnricoMi/publish-unit-test-result-action@170bf24d20d201b842d7a52403b73ed297e6645b # v2.18.0
       if: always()
       with:
         comment_mode: off
