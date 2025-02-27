@@ -20,6 +20,7 @@ Weblate 5.10.2
 .. rubric:: Compatibility
 
 * Weblate has switched to a different library for zxcvbn integration, as the old one is no longer maintained, see :ref:`password-authentication`.
+* Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP credentials are supplied.
 
 .. rubric:: Upgrading
 
