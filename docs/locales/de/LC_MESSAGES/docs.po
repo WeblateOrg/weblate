@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-02-26 17:56+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-02-27 07:31+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -460,10 +460,8 @@ msgstr ""
 "`Administration` des Projekts hinzu."
 
 #: ../../admin/access.rst:216
-#, fuzzy
-#| msgid "Project access control"
 msgid "Per-project access tokens"
-msgstr "Projekt-Zugriffssteuerung"
+msgstr "Zugangstoken pro Projekt"
 
 #: ../../admin/access.rst:220
 msgid ""
@@ -5109,29 +5107,23 @@ msgstr ""
 "setting:`django:AUTH_PASSWORD_VALIDATORS`:"
 
 #: ../../admin/auth.rst:461
-#, fuzzy
-#| msgid ""
-#| "Additionally you can also install `django-zxcvbn-password <https://pypi."
-#| "org/project/django-zxcvbn-password/>`_ which gives quite realistic "
-#| "estimates of password difficulty and allows rejecting passwords below a "
-#| "certain threshold."
 msgid ""
 "Additionally you can also install `django-zxcvbn-password-validator <https://"
 "github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ which gives "
 "quite realistic estimates of password difficulty and allows rejecting "
 "passwords below a certain threshold."
 msgstr ""
-"Zusätzlich können Sie auch `django-zxcvbn-password <https://pypi.org/project/"
-"django-zxcvbn-password/>`_ installieren, das eine recht realistische "
-"Schätzung des Schwierigkeitsgrades von Passwörtern liefert und es "
-"ermöglicht, Passwörter unterhalb eines bestimmten Schwellenwertes abzulehnen."
+"Zusätzlich können Sie auch `django-zxcvbn-password-validator <https://"
+"github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ "
+"installieren, das eine recht realistische Schätzung des Schwierigkeitsgrades "
+"von Passwörtern liefert und es ermöglicht, Passwörter unterhalb eines "
+"bestimmten Schwellenwertes abzulehnen."
 
 #: ../../admin/auth.rst:468
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ""
 ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+msgstr ""
+":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/auth.rst:474
 msgid "SAML authentication"
@@ -7245,10 +7237,8 @@ msgid "``ignore-end-interrobang``"
 msgstr "``ignore-end-Interrobang``"
 
 #: ../../admin/checks.rst:256
-#, fuzzy
-#| msgid "Skip the :ref:`check-end-stop` quality check."
 msgid "Skip the :ref:`check-end-interrobang` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-end-stop`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-end-interrobang`."
 
 #: ../../admin/checks.rst:257 ../../user/checks.rst:1256
 msgid "``ignore-end-question``"
@@ -7320,10 +7310,8 @@ msgid "``ignore-rst-syntax``"
 msgstr "``ignore-rst-syntax``"
 
 #: ../../admin/checks.rst:274
-#, fuzzy
-#| msgid "Skip the :ref:`check-md-syntax` quality check."
 msgid "Skip the :ref:`check-rst-syntax` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-md-syntax`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-rst-syntax`."
 
 #: ../../admin/checks.rst:275 ../../user/checks.rst:1491
 msgid "``ignore-reused``"
@@ -9134,16 +9122,12 @@ msgid "GOOGLE_ANALYTICS_ID"
 msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:967
-#, fuzzy
-#| msgid ""
-#| "Google Analytics ID to turn on monitoring of Weblate using Google "
-#| "Analytics."
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Universal "
 "Analytics."
 msgstr ""
-"Google-Analytics-ID, um die Überwachung von Weblate mit Google Analytics zu "
-"aktivieren."
+"Google-Analytics-ID, um die Überwachung von Weblate mit Google Universal "
+"Analytics zu aktivieren."
 
 #: ../../admin/config.rst:971
 msgid ""
@@ -9630,28 +9614,20 @@ msgid "PASSWORD_MINIMAL_STRENGTH"
 msgstr "PASSWORD_MINIMAL_STRENGTH"
 
 #: ../../admin/config.rst:1372
-#, fuzzy
-#| msgid ""
-#| "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
-#| "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
-#| "disable strength checking."
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator."
 msgstr ""
-"Minimaler Passwortwert, wie er vom `zxcvbn <https://github.com/dropbox/"
-"zxcvbn>`_-Passwortstärke-Schätzer ermittelt wurde. Standardwert ist 3, auf 0 "
-"setzen, um die Prüfung zu deaktivieren."
+"Minimaler Passwortwert, wie er vom `zxcvbn <https://github.com/dwolfhub/"
+"zxcvbn-python>`_-Passwortstärke-Schätzer ermittelt wurde."
 
 #: ../../admin/config.rst:1375
 msgid "Defaults to 0, which means strength checking is disabled."
 msgstr ""
 
 #: ../../admin/config.rst:1379
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+msgstr ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/config.rst:1386
 msgid "PRIVACY_URL"
@@ -16537,25 +16513,18 @@ msgstr ""
 "gesetzt. Siehe :ref:`disable-email-auth`."
 
 #: ../../admin/install/docker.rst:1439
-#, fuzzy
-#| msgid ""
-#| "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
-#| "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
-#| "disable strength checking."
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator. Defaults to 3, set to "
 "0 to disable strength checking."
 msgstr ""
-"Minimaler Passwortwert, wie er vom `zxcvbn <https://github.com/dropbox/"
-"zxcvbn>`_-Passwortstärke-Schätzer ermittelt wurde. Standardwert ist 3, auf 0 "
-"setzen, um die Prüfung zu deaktivieren."
+"Minimaler Passwortwert, wie er vom `zxcvbn <https://github.com/dwolfhub/"
+"zxcvbn-python>`_-Passwortstärke-Schätzer ermittelt wurde. Standardwert ist "
+"3, auf 0 setzen, um die Prüfung zu deaktivieren."
 
 #: ../../admin/install/docker.rst:1445
-#, fuzzy
-#| msgid ":ref:`password-authentication`"
 msgid ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
-msgstr ":ref:`password-authentication`"
+msgstr ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
 
 #: ../../admin/install/docker.rst:1450
 msgid "PostgreSQL database setup"
@@ -28306,16 +28275,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://de.wikipedia.org/wiki/RSS_(Web-Feed)>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.2"
 msgid "Weblate 5.10.2"
-msgstr "Weblate 5.0.2"
+msgstr "Weblate 5.10.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on February 8th 2012.*"
 msgid "*Released on February 28th 2025.*"
-msgstr "*Veröffentlicht am 8. Februar 2012.*"
+msgstr "*Veröffentlicht am 28. Februar 2025.*"
 
 #: ../../changes.rst:7 ../../changes.rst:69 ../../changes.rst:180
 #: ../../changes.rst:322 ../../changes.rst:427 ../../changes.rst:523
@@ -28469,16 +28434,12 @@ msgid "Contributors"
 msgstr "Mitwirkende"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/137?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/138?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/137?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"138?closed=1>`__."
 
 #: ../../changes.rst:37
 msgid "Weblate 5.10.1"
@@ -28510,8 +28471,6 @@ msgstr ""
 "Ausgangszeichenkette."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid ":ref:`download` performs faster and project and language scopes."
 msgid ":ref:`download` performs faster on project and language scopes."
 msgstr ":ref:`download` erfolgt schneller bei Projekt- und Sprachbereichen."
 
@@ -28685,10 +28644,8 @@ msgid ""
 msgstr "Kompatibilität mit dem PostgreSQL-Datenbank-Backend."
 
 #: ../../changes.rst:88
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator`"
 msgid "Improved language compatibility in :ref:`mt-microsoft-translator`."
-msgstr ":ref:`mt-microsoft-translator`"
+msgstr "Verbesserte Sprachkompatibilität in :ref:`mt-microsoft-translator`."
 
 #: ../../changes.rst:89
 #, fuzzy
@@ -28754,21 +28711,18 @@ msgid "Translation propagation sometimes did not work as expected."
 msgstr ""
 
 #: ../../changes.rst:101
-#, fuzzy
-#| msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgid ""
 ":http:header:`Content-Security-Policy` is now automatically set for AWS."
-msgstr "Ermöglicht die Anpassung des HTTP-Headers ``Content-Security-Policy``."
+msgstr ""
+":http:header:`Content-Security-Policy` ist jetzt automatisch für AWS "
+"eingestellt."
 
 #: ../../changes.rst:102
-#, fuzzy
-#| msgid ""
-#| ":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:"
-#| "`memory`"
 msgid ""
 ":ref:`machine-translation-setup` sometimes cached results too aggressively."
 msgstr ""
-":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
+":ref:`machine-translation-setup` hat Ergebnisse manchmal zu aggressiv "
+"zwischengespeichert."
 
 #: ../../changes.rst:103
 msgid "Fixed translations caching in :ref:`machine-translation-setup`."
@@ -28783,10 +28737,8 @@ msgstr ""
 "``ignore-safe-html``."
 
 #: ../../changes.rst:105
-#, fuzzy
-#| msgid "Skip the :ref:`check-punctuation-spacing` quality check."
 msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-punctuation-spacing`."
+msgstr ":ref:`check-punctuation-spacing` gilt nicht mehr für Bretonisch."
 
 #: ../../changes.rst:106
 #, fuzzy
@@ -28974,16 +28926,13 @@ msgstr ""
 "(optional)."
 
 #: ../../changes.rst:194
-#, fuzzy
-#| msgid ""
-#| "A shortcut to duplicate a component is now available directly in the menu "
-#| "(:guilabel:`Manage` → :guilabel:`Duplicate Component`)."
 msgid ""
 "A shortcut to duplicate a component is now available directly in the menu (:"
 "guilabel:`Manage` → :guilabel:`Duplicate this component`)."
 msgstr ""
 "Eine Verknüpfung zum Duplizieren einer Komponente ist jetzt direkt im Menü "
-"verfügbar (:guilabel:`Verwaltung` → :guilabel:`Komponente duplizieren`)."
+"verfügbar (:guilabel:`Verwaltung` → :guilabel:`Diese Komponente "
+"duplizieren`)."
 
 #: ../../changes.rst:195
 msgid "Included username when generating :ref:`credits`."
@@ -29030,17 +28979,12 @@ msgstr ""
 "project)/(string:component)/(string:language)/file/`."
 
 #: ../../changes.rst:206
-#, fuzzy
-#| msgid ""
-#| "Using the ``has:variant`` field now correctly displays strings that have "
-#| "variant(s) in the search language, see :ref:`search-strings`."
 msgid ""
 "Using the ``has:variant`` field now correctly displays strings that have "
 "variants in the search language, see :ref:`search-strings`."
 msgstr ""
-"Das Verwenden des Feldes ``has:variant`` zeigt nun korrekt die Zeichenketten "
-"an, die eine oder mehrere Varianten in der jeweiligen Sprache haben, siehe :"
-"ref:`search-strings`."
+"Das Verwenden des Feldes ``has:variant`` zeigt nun korrekt Zeichenketten an, "
+"die Varianten in der Suchsprache haben, siehe :ref:`search-strings`."
 
 #: ../../changes.rst:207
 msgid "Saving newly added strings in some formats."
@@ -34244,8 +34188,7 @@ msgstr "Verbesserte Darstellung von Klartext-E-Mails."
 #: ../../changes/v3.rst:57
 msgid "Display ignored checks and allow to make them active again."
 msgstr ""
-"Anzeige von ignorierten Prüfungen und Möglichkeit, diese wieder zu "
-"aktivieren."
+"Anzeige von ignorierten Prüfungen und deren erneute Aktivierung ermöglichen."
 
 #: ../../changes/v3.rst:58
 msgid "Display nearby keys on monolingual translations."
@@ -36104,10 +36047,8 @@ msgid "Improved performance of public user profiles."
 msgstr "Verbesserte Leistung von öffentlichen Benutzerprofilen."
 
 #: ../../changes/v4.rst:73
-#, fuzzy
-#| msgid "Improved Sentry performance integration."
 msgid "Improved Sentry performance monitoring integration."
-msgstr "Verbesserte Leistung der Sentry-Integration."
+msgstr "Verbesserte Integration der Sentry-Leistungsüberwachung."
 
 #: ../../changes/v4.rst:74
 msgid "Added support for Ed25519 SSH key."
@@ -39673,13 +39614,11 @@ msgid "Fixed UI language selection in some cases."
 msgstr "Die Sprachauswahl der Bedienoberfläche in einigen Fällen korrigiert."
 
 #: ../../changes/v4.rst:1137
-#, fuzzy
-#| msgid "Allow to whitelist registration methods with registrations closed."
 msgid ""
 "Possibility to allow certain registration methods with registrations closed."
 msgstr ""
-"Registrierungsmethoden mit abgeschlossenen Registrierungen können nun auf "
-"die Positivliste gesetzt werden."
+"Möglichkeit, bestimmte Registrierungsmethoden bei geschlossenen "
+"Registrierungen zuzulassen."
 
 #: ../../changes/v4.rst:1138
 msgid "Improved lookup of related terms in glossary."
@@ -40097,10 +40036,10 @@ msgstr ""
 "hinzugefügt."
 
 #: ../../changes/v4.rst:1254
-#, fuzzy
-#| msgid "Allow to make :ref:`check-same` avoid internal blacklist."
 msgid "Allow to make :ref:`check-same` avoid the built-in words exceptions."
-msgstr "Ermöglicht, dass :ref:`check-same` die interne Sperrliste vermeidet."
+msgstr ""
+"Ermöglicht, dass :ref:`check-same` die integrierte Wörter-Ausnahmeliste "
+"vermeidet."
 
 #: ../../changes/v4.rst:1255
 msgid "Improved comments extraction from monolingual po files."
@@ -47017,10 +46956,8 @@ msgstr ""
 "translation`"
 
 #: ../../formats.rst:4
-#, fuzzy
-#| msgid "Localization guide"
 msgid "Localization file formats"
-msgstr "Lokalisierungsleitfaden"
+msgstr "Lokalisierungsdateiformate"
 
 #: ../../formats.rst:6
 msgid ""
@@ -49523,19 +49460,14 @@ msgstr ""
 "Google Chromium verwendet wird."
 
 #: ../../formats/webextension.rst:10
-#, fuzzy
-#| msgid ""
-#| "While this format is called JSON, its specification allows to include "
-#| "comments, which are not part of JSON specification. Weblate currently "
-#| "does not support file with comments."
 msgid ""
 "While this format is called JSON, its specification allows including \"//\"-"
 "style comments. Weblate does strip these comments while parsing the files "
 "and discards them when saving."
 msgstr ""
-"Während dieses Format JSON genannt wird, erlaubt seine Spezifikation die "
-"Aufnahme von Kommentaren, die nicht Teil der JSON-Spezifikation sind. "
-"Weblate unterstützt derzeit keine Dateien mit Kommentaren."
+"Dieses Format heißt zwar JSON, aber seine Spezifikation erlaubt es, "
+"Kommentare im Stil von \"//\" einzufügen. Weblate entfernt diese Kommentare "
+"beim Analysieren der Dateien und verwirft sie beim Speichern."
 
 #: ../../formats/webextension.rst:16
 msgid ""
@@ -50650,10 +50582,8 @@ msgid "Consecutive duplicated words"
 msgstr "Aufeinanderfolgende doppelte Wörter"
 
 #: ../../user/checks.rst:144
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "Text enthält zweimal hintereinander dasselbe Wort:"
+msgstr "Der Text enthält zweimal hintereinander das gleiche Wort"
 
 #: ../../user/checks.rst:146
 msgid "``weblate.checks.duplicate.DuplicateCheck``"
@@ -52817,10 +52747,8 @@ msgid "The string starts with a prohibited character in CSV"
 msgstr "Die Zeichenkette beginnt mit einem in CSV unzulässigen Zeichen"
 
 #: ../../user/checks.rst:1386
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "glossary strings"
-msgstr "Benachbarte Zeichenketten"
+msgstr "Glossar-Zeichenketten"
 
 #: ../../user/checks.rst:1387
 msgid "``weblate.checks.glossary.ProhibitedInitialCharacterCheck``"
@@ -55426,18 +55354,12 @@ msgid "Boolean operators"
 msgstr "Boolesche Operatoren"
 
 #: ../../user/search.rst:121
-#, fuzzy
-#| msgid ""
-#| "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
-#| "form complex queries. For example: ``state:translated AND (source:hello "
-#| "OR source:bar)``"
 msgid ""
 "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
 "form complex queries."
 msgstr ""
 "Sie können Suchanfragen mit ``AND``, ``OR``, ``NOT`` und Klammern "
-"kombinieren, um komplexe Abfragen zu bilden. Zum Beispiel: ``state:"
-"translated AND (source:hello OR source:bar)``"
+"kombinieren, um komplexe Abfragen zu bilden."
 
 #: ../../user/search.rst:124
 msgid ""
