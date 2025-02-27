@@ -10,7 +10,7 @@ import re
 import sys
 from operator import itemgetter
 from types import GeneratorType
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypeVar
 from urllib.parse import urlparse
 
 import django.shortcuts
@@ -26,7 +26,9 @@ from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 from weblate.utils.data import data_dir
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
+
+    from django.db.models import Model
 
     from weblate.auth.models import User
     from weblate.auth.permissions import PermissionResult
@@ -266,22 +268,25 @@ def path_separator(path: str) -> str:
     return path
 
 
-def sort_unicode(choices, key):
+T = TypeVar("T")
+
+
+def sort_unicode(choices: list[T], key: Callable[[T], str]) -> list[T]:
     """Unicode aware sorting if available."""
     return sorted(choices, key=lambda tup: locale.strxfrm(key(tup)))
 
 
-def sort_choices(choices):
+def sort_choices(choices: list[tuple[str, str]]) -> list[tuple[str, str]]:
     """Sort choices alphabetically."""
     return sort_unicode(choices, itemgetter(1))
 
 
-def sort_objects(objects):
+def sort_objects(objects: list[Model]) -> list[Model]:
     """Sort objects alphabetically."""
     return sort_unicode(objects, str)
 
 
-def redirect_next(next_url, fallback):
+def redirect_next(next_url: str | None, fallback: str | Model) -> HttpResponseRedirect:
     """Redirect to next URL from request after validating it."""
     if (
         next_url is None
@@ -292,7 +297,7 @@ def redirect_next(next_url, fallback):
     return HttpResponseRedirect(next_url)
 
 
-def xliff_string_to_rich(string):
+def xliff_string_to_rich(string: str):
     """
     Convert XLIFF string to StringElement.
 
