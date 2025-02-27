@@ -1586,7 +1586,7 @@ def list_objects_number(
         """,
         url_start=url_start,
         url_end=url_end,
-        css=css,
+        css=css if css is not None else "",
         value=value,
         value_formatted=value_formatted,
     )
