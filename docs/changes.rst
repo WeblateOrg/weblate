@@ -11,6 +11,7 @@ Weblate 5.10.3
 
 * Improved performance of API download endpoints.
 * Reduced notifications overhead.
+* Improved handling of components using :ref:`internal-urls`.
 
 .. rubric:: Compatibility
 

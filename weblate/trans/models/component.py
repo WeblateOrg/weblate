@@ -1996,6 +1996,8 @@ class Component(
     @cached_property
     def linked_childs(self) -> ComponentQuerySet:
         """Return list of components which links repository to us."""
+        if self.is_repo_link:
+            return self.component_set.none()
         children = self.component_set.prefetch()
         for child in children:
             child.linked_component = self
