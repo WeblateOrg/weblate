@@ -360,6 +360,7 @@ class OpenAIMachineryForm(BaseOpenAIMachineryForm):
         ("o3", "OpenAI o3"),
         ("o1-mini", "OpenAI o1-mini"),
         ("o1", "OpenAI o1"),
+        ("gpt-4.5-preview", "GPT-4.5"),
         ("gpt-4-turbo", "GPT-4 Turbo"),
         ("gpt-4", "GPT-4"),
         ("gpt-3.5-turbo", "GPT-3.5 Turbo"),
