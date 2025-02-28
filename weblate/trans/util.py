@@ -8,6 +8,7 @@ import locale
 import os
 import re
 import sys
+from functools import cmp_to_key
 from operator import itemgetter
 from types import GeneratorType
 from typing import TYPE_CHECKING, Any, TypeVar
@@ -36,7 +37,6 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project, Translation, Unit
 
 PLURAL_SEPARATOR = "\x1e\x1e"
-USE_STRXFRM = False
 
 PRIORITY_CHOICES = (
     (60, gettext_lazy("Very high")),
@@ -51,21 +51,8 @@ CJK_PATTERN = re.compile(
     r"([\u1100-\u11ff\u2e80-\u2fdf\u2ff0-\u9fff\ua960-\ua97f\uac00-\ud7ff\uf900-\ufaff\ufe30-\ufe4f\uff00-\uffef\U0001aff0-\U0001b16f\U0001f200-\U0001f2ff\U00020000-\U0003FFFF]+)"
 )
 
-# Initialize to sane Unicode locales for strxfrm
-if locale.strxfrm("a") == "a":
-    try:
-        locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
-    except locale.Error:
-        USE_STRXFRM = False
-    else:
-        try:
-            locale.strxfrm("zkouška")
-        except OSError:
-            # Crashes on macOS 15, see
-            # https://github.com/python/cpython/issues/130567
-            USE_STRXFRM = False
-        else:
-            USE_STRXFRM = True
+# Initialize to sane Unicode locales for strcoll
+locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
 
 
 def is_plural(text: str) -> bool:
@@ -284,9 +271,9 @@ def sort_unicode(choices: list[T], key: Callable[[T], str]) -> list[T]:
     """Unicode aware sorting if available."""
 
     def sort_strxfrm(item: T) -> str:
-        return locale.strxfrm(key(item))
+        return cmp_to_key(locale.strcoll)(key(item))
 
-    return sorted(choices, key=sort_strxfrm if USE_STRXFRM else key)
+    return sorted(choices, key=sort_strxfrm)
 
 
 def sort_choices(choices: list[tuple[str, str]]) -> list[tuple[str, str]]:
