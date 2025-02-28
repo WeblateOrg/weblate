@@ -1146,7 +1146,7 @@ class Component(
             self.linked_component.store_log(slug, msg, *args)
             return
         self.logs.append(f"{slug}: {msg % args}")
-        if current_task:
+        if current_task and current_task.request.id:
             cache.set(f"task-log-{current_task.request.id}", self.logs, 2 * 3600)
 
     def log_hook(self, level, msg, *args) -> None:
