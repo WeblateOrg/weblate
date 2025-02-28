@@ -3,8 +3,6 @@ Weblate 5.10.2
 
 *Released on February 28th 2025.*
 
-.. rubric:: New features
-
 .. rubric:: Improvements
 
 * Improved :ref:`translation-memory` matching.
