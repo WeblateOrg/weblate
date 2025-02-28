@@ -7,7 +7,7 @@ from __future__ import annotations
 from collections import defaultdict
 from copy import copy
 from email.utils import formataddr
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 from uuid import uuid4
 
 from dateutil.relativedelta import relativedelta
@@ -31,7 +31,16 @@ from weblate.accounts.tasks import OutgoingEmail, send_mails
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
-from weblate.trans.models import Alert, Change, Component, Project, Translation
+from weblate.trans.models import (
+    Alert,
+    Announcement,
+    Change,
+    Comment,
+    Component,
+    Project,
+    Translation,
+    Unit,
+)
 from weblate.utils.errors import report_error
 from weblate.utils.markdown import get_mention_users
 from weblate.utils.ratelimit import rate_limit
@@ -127,9 +136,9 @@ class Notification:
             self.perm_cache = {}
 
     def get_language_filter(
-        self, change: Change, translation: Translation
+        self, change: Change | None, translation: Translation | None
     ) -> Language | None:
-        if self.filter_languages:
+        if self.filter_languages and translation is not None:
             return translation.language
         return None
 
@@ -184,7 +193,14 @@ class Notification:
             .prefetch_related("user", "user__profile", "user__profile__watched")
         )
 
-    def get_subscriptions(self, change, project, component, translation, users):
+    def get_subscriptions(
+        self,
+        change: Change | None,
+        project: Project | None,
+        component: Component | None,
+        translation: Translation | None,
+        users: list[int] | None,
+    ) -> Iterable[Subscription]:
         lang_filter = self.get_language_filter(change, translation)
         cache_key: tuple[int | str | None, ...] = (
             lang_filter.id if lang_filter else None,
@@ -219,13 +235,13 @@ class Notification:
 
     def get_users(
         self,
-        frequency,
-        change=None,
-        project=None,
-        component=None,
-        translation=None,
-        users=None,
-    ):
+        frequency: NotificationFrequency,
+        change: Change | None = None,
+        project: Project | None = None,
+        component: Component | None = None,
+        translation: Translation | None = None,
+        users: list[int] | None = None,
+    ) -> Iterable[User]:
         if self.has_required_attrs(change):
             return
         if change is not None:
@@ -426,8 +442,9 @@ class Notification:
                     subscription=user.current_subscription,
                 )
                 # Delete onetime subscription
-                if user.current_subscription.onetime:
-                    user.current_subscription.delete()
+                current_subscription = cast("Subscription", user.current_subscription)
+                if current_subscription.onetime:
+                    current_subscription.delete()
 
     def send_digest(self, language, email, changes, subscription=None) -> None:
         with override("en" if language is None else language):
@@ -611,8 +628,14 @@ class NewCommentNotificaton(Notification):
     filter_languages = True
     required_attr = "comment"
 
-    def get_language_filter(self, change, translation):
-        if not change.comment.unit.is_source:
+    def get_language_filter(
+        self, change: Change | None, translation: Translation | None
+    ) -> Language | None:
+        if (
+            translation is not None
+            and change is not None
+            and not cast("Unit", change.unit).is_source
+        ):
             return translation.language
         return None
 
@@ -636,14 +659,14 @@ class MentionCommentNotificaton(Notification):
 
     def get_users(
         self,
-        frequency,
-        change=None,
-        project=None,
-        component=None,
-        translation=None,
-        users=None,
-    ):
-        if self.has_required_attrs(change):
+        frequency: NotificationFrequency,
+        change: Change | None = None,
+        project: Project | None = None,
+        component: Component | None = None,
+        translation: Translation | None = None,
+        users: list[int] | None = None,
+    ) -> Iterable[User]:
+        if change is None or self.has_required_attrs(change):
             return []
         return super().get_users(
             frequency,
@@ -652,7 +675,9 @@ class MentionCommentNotificaton(Notification):
             component,
             translation,
             list(
-                get_mention_users(change.comment.comment).values_list("id", flat=True)
+                get_mention_users(cast("Comment", change.comment).comment).values_list(
+                    "id", flat=True
+                )
             ),
         )
 
@@ -668,17 +693,20 @@ class LastAuthorCommentNotificaton(Notification):
 
     def get_users(
         self,
-        frequency: int,
+        frequency: NotificationFrequency,
         change: Change | None = None,
         project: Project | None = None,
         component: Component | None = None,
         translation: Translation | None = None,
         users: list[int] | None = None,
-    ):
-        last_author = change.unit.get_last_content_change()[0]
-        users = [] if last_author.is_anonymous else [last_author.pk]
+    ) -> Iterable[User]:
+        change_users: list[int] = []
+        if change is not None:
+            last_author = cast("Unit", change.unit).get_last_content_change()[0]
+            if not last_author.is_anonymous:
+                change_users.append(last_author.pk)
         return super().get_users(
-            frequency, change, project, component, translation, users
+            frequency, change, project, component, translation, change_users
         )
 
 
@@ -743,8 +771,12 @@ class NewAnnouncementNotificaton(Notification):
     def should_skip(self, user: User, change) -> bool:
         return not change.announcement.notify
 
-    def get_language_filter(self, change, translation):
-        return change.announcement.language
+    def get_language_filter(
+        self, change: Change | None, translation: Translation | None
+    ) -> Language | None:
+        if change is None:
+            return None
+        return cast("Announcement", change.announcement).language
 
 
 @register_notification
