@@ -126,9 +126,7 @@ class Notification:
         perm_cache: dict[int, set[int]] | None = None,
     ) -> None:
         self.outgoing: list[OutgoingEmail] = outgoing
-        self.subscription_cache: dict[
-            tuple[str | int | None, ...], QuerySet[Subscription]
-        ] = {}
+        self.subscription_cache: dict[int | None, list[Subscription]] = {}
         self.child_notify: list[Notification] | None = None
         if perm_cache is not None:
             self.perm_cache = perm_cache
@@ -154,43 +152,30 @@ class Notification:
     def get_name(cls):
         return cls.__name__
 
-    def filter_subscriptions(
-        self,
-        project: Project | None,
-        component: Component | None,
-        translation: Translation | None,
-        users: list[int] | None,
-        lang_filter: Language | None,
-    ) -> QuerySet[Subscription]:
+    def filter_subscriptions(self, project: Project | None) -> list[Subscription]:
         from weblate.accounts.models import Subscription
 
         result = Subscription.objects.filter(notification=self.get_name())
-        if users is not None:
-            result = result.filter(user_id__in=users)
-        query = Q(
-            scope__in=(NotificationScope.SCOPE_ADMIN, NotificationScope.SCOPE_ALL)
-        )
-        # Special case for site-wide announcements
-        if self.any_watched and not project and not component:
-            query |= Q(scope=NotificationScope.SCOPE_WATCHED)
-        if component:
-            if not self.ignore_watched:
-                query |= Q(scope=NotificationScope.SCOPE_WATCHED) & Q(
-                    user__profile__watched=component.project
-                )
-            query |= Q(component=component)
+        scopes: set[NotificationScope] = {
+            NotificationScope.SCOPE_ADMIN,
+            NotificationScope.SCOPE_ALL,
+        }
+        # special case for site-wide announcements
+        if self.any_watched and not project:
+            scopes.add(NotificationScope.SCOPE_WATCHED)
+
+        query = Q(scope__in=scopes)
+
         if project:
             if not self.ignore_watched:
                 query |= Q(scope=NotificationScope.SCOPE_WATCHED) & Q(
                     user__profile__watched=project
                 )
-            query |= Q(project=project)
-        if lang_filter:
-            result = result.filter(user__profile__languages=lang_filter)
-        return (
+            query |= Q(project=project) | Q(component__project=project)
+        return list(
             result.filter(query)
             .order_by("user", "-scope")
-            .prefetch_related("user", "user__profile", "user__profile__watched")
+            .prefetch_related("user", "user__profile", "user__profile__languages")
         )
 
     def get_subscriptions(
@@ -201,20 +186,29 @@ class Notification:
         translation: Translation | None,
         users: list[int] | None,
     ) -> Iterable[Subscription]:
-        lang_filter = self.get_language_filter(change, translation)
-        cache_key: tuple[int | str | None, ...] = (
-            lang_filter.id if lang_filter else None,
-            component.pk if component else None,
-            project.pk if project else None,
-        )
-        if users is not None:
-            users.sort()
-            cache_key += tuple(users)
+        lang_filter: Language | None = self.get_language_filter(change, translation)
+        cache_key: int | None = project.pk if project else None
         if cache_key not in self.subscription_cache:
-            self.subscription_cache[cache_key] = self.filter_subscriptions(
-                project, component, translation, users, lang_filter
-            )
-        return self.subscription_cache[cache_key]
+            self.subscription_cache[cache_key] = self.filter_subscriptions(project)
+        for subscription in self.subscription_cache[cache_key]:
+            # Users filter
+            if users is not None and subscription.user_id not in users:
+                continue
+
+            # Languages filter
+            if (
+                lang_filter
+                and lang_filter not in subscription.user.profile.languages.all()
+            ):
+                continue
+
+            # Component filter
+            if subscription.component_id is not None and (
+                component is None or subscription.component_id != component.id
+            ):
+                continue
+
+            yield subscription
 
     def has_required_attrs(self, change):
         try:
