@@ -9,17 +9,25 @@ import json
 from datetime import UTC, datetime, timedelta
 from math import floor
 
+import requests
 from django.utils import timezone as dj_timezone
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import WebhooksAddonForm
-from weblate.api.tasks import webhook_delivery_task
 from weblate.trans.util import split_plural
 
 
 def hmac_data(key: bytes, data: bytes) -> bytes:
     return hmac.new(key, data, hashlib.sha256).digest()
+
+
+class WebhookVerificationError(Exception):
+    pass
+
+
+class MessageNotDeliveredError(Exception):
+    """Exception raised when a message could not be delivered."""
 
 
 class WebhookAddon(ChangeBaseAddon):
@@ -35,11 +43,18 @@ class WebhookAddon(ChangeBaseAddon):
         config = self.instance.configuration
         if change.action in config["events"]:
             payload = self.build_webhook_payload(change)
-            webhook_delivery_task.delay(
-                url=config["webhook_url"],
-                headers=self.build_headers(change, payload),
-                data=payload,
-            )
+            try:
+                response = requests.post(
+                    url=config["webhook_url"],
+                    json=payload,
+                    headers=self.build_headers(change, payload),
+                    timeout=15,
+                )
+            except requests.exceptions.ConnectionError as error:
+                raise MessageNotDeliveredError from error
+
+            if not 200 <= response.status_code <= 299:
+                raise MessageNotDeliveredError
 
     def build_webhook_payload(self, change) -> dict:
         from weblate.trans.models import Change
@@ -85,10 +100,6 @@ class WebhookAddon(ChangeBaseAddon):
             "webhook-id": webhook_id,
             "webhook-signature": wh.sign(webhook_id, attempt_time, json.dumps(payload)),
         }
-
-
-class WebhookVerificationError(Exception):
-    pass
 
 
 class StandardWebhooksUtils:
