@@ -64,7 +64,7 @@ from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
 from .tasks import cleanup_addon_activity_log, daily_addons
-from .webhooks import WebhookAddon
+from .webhooks import StandardWebhooksUtils, WebhookAddon, WebhookVerificationError
 from .xml import XMLCustomizeAddon
 from .yaml import YAMLCustomizeAddon
 
@@ -1600,14 +1600,6 @@ class WebhookAddonsTest(ViewTestCase):
         self.do_translation_added_test(response_code=200)
 
     @responses.activate
-    def test_with_secret(self) -> None:
-        self.default_addon_configuration["secret"] = "secret-string"
-        self.do_translation_added_test(response_code=200)
-        self.assertEqual(
-            json.loads(responses.calls[0].request.body)["secret"], "secret-string"
-        )
-
-    @responses.activate
     def test_component_scopes(self) -> None:
         # install on component level, check changes in another component don't trigger webhook
         component1 = self.component
@@ -1725,3 +1717,63 @@ class WebhookAddonsTest(ViewTestCase):
         # create translation for unit and similar units across project
         self.change_unit("Nazdar svete!\n", "Hello, world!\n", "cs")
         self.assertEqual(len(responses.calls), 2)
+
+    @responses.activate
+    def test_webhook_signature(self):
+        self.default_addon_configuration["secret"] = "secret-string"
+        self.do_translation_added_test(response_code=200)
+
+        wh_request = responses.calls[0].request
+        wh_utils = StandardWebhooksUtils("secret-string")
+
+        # valid request
+        wh_utils.verify(wh_request.body, wh_request.headers)
+
+        wh_headers = dict(wh_request.headers)
+
+        # valid request with multiple signatures (space separated)
+        new_headers = wh_headers.copy()
+        new_headers["webhook-signature"] += (
+            " v2,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc="
+        )
+        wh_utils.verify(wh_request.body, new_headers)
+
+        #  "Invalid Signature Headers"
+        with self.assertRaises(WebhookVerificationError):
+            new_headers = wh_headers.copy()
+            new_headers["webhook-signature"] = (
+                new_headers["webhook-signature"][:-5] + "xxxxx"
+            )
+            wh_utils.verify(wh_request.body, new_headers)
+
+        #  "Missing required headers"
+        with self.assertRaises(WebhookVerificationError):
+            new_headers = wh_headers.copy()
+            del new_headers["webhook-signature"]
+            wh_utils.verify(wh_request.body, new_headers)
+
+        #  "Invalid secret"
+        with self.assertRaises(WebhookVerificationError):
+            StandardWebhooksUtils("xxxxxxxx").verify(wh_request.body, wh_headers)
+
+        #  "Invalid format of timestamp"
+        with self.assertRaises(WebhookVerificationError):
+            new_headers = wh_headers.copy()
+            new_headers["webhook-timestamp"] = "NaN"
+            wh_utils.verify(wh_request.body, new_headers)
+
+        #  "Outdated headers timestamp"
+        with self.assertRaises(WebhookVerificationError):
+            new_headers = wh_headers.copy()
+            new_headers["webhook-timestamp"] = str(
+                (timezone.now() - timedelta(minutes=6)).timestamp
+            )
+            wh_utils.verify(wh_request.body, new_headers)
+
+        #  "Invalid future timestamp"
+        with self.assertRaises(WebhookVerificationError):
+            new_headers = wh_headers.copy()
+            new_headers["webhook-timestamp"] = str(
+                (timezone.now() + timedelta(minutes=6)).timestamp
+            )
+            wh_utils.verify(wh_request.body, new_headers)
