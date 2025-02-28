@@ -36,7 +36,7 @@ class URLMixin(BaseURLMixin):
 class LoggerMixin(BaseURLMixin):
     """Mixin for models with logging."""
 
-    def log_hook(self, level, msg, *args) -> None:
+    def log_hook(self, level: str, msg: str, *args) -> None:
         return
 
     def log_debug(self, msg, *args):

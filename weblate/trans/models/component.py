@@ -1150,7 +1150,8 @@ class Component(
             cache.set(f"task-log-{current_task.request.id}", self.logs, 2 * 3600)
 
     def log_hook(self, level, msg, *args) -> None:
-        self.store_log(self.full_slug, msg, *args)
+        if level != "DEBUG":
+            self.store_log(self.full_slug, msg, *args)
 
     def get_progress(self):
         task = self.background_task
