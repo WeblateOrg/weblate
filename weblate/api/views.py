@@ -1138,7 +1138,7 @@ class ProjectViewSet(
 
         return download_multi(
             cast("AuthenticatedHttpRequest", request),
-            translations,
+            translations.prefetch_meta(),
             [instance],
             requested_format,
             name=instance.slug,
@@ -1528,7 +1528,7 @@ class ComponentViewSet(
         requested_format = request.query_params.get("format", "zip")
         return download_multi(
             cast("AuthenticatedHttpRequest", request),
-            instance.translation_set.all(),
+            instance.translation_set.prefetch_meta(),
             [instance],
             requested_format,
             name=instance.full_slug.replace("/", "-"),
