@@ -10,6 +10,7 @@ Weblate 5.10.3
 .. rubric:: Bug fixes
 
 * Improved performance of API download endpoints.
+* Reduced notifications overhead.
 
 .. rubric:: Compatibility
 
