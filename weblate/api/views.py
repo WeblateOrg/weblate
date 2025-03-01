@@ -2225,6 +2225,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     @extend_schema(
         description="Disassociate a component from the component list.",
         methods=["delete"],
+        parameters=[OpenApiParameter("component_slug", str, OpenApiParameter.PATH)],
     )
     @action(
         detail=True,
