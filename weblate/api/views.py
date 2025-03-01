@@ -649,7 +649,11 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
-    @extend_schema(description="Delete a language from a group.", methods=["delete"])
+    @extend_schema(
+        description="Delete a language from a group.",
+        methods=["delete"],
+        parameters=[OpenApiParameter("language_code", str, OpenApiParameter.PATH)]
+    )
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
