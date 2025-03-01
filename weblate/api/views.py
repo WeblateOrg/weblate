@@ -2383,9 +2383,6 @@ class Search(APIView):
         return Response(results)
 
 
-@extend_schema_view(
-    list=extend_schema(description="Listing of the tasks is currently not available.")
-)
 class TasksViewSet(ViewSet):
     def get_task(
         self, request, pk, permission: str | None = None
