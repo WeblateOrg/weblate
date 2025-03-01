@@ -2330,6 +2330,8 @@ class Metrics(APIView):
 class Search(APIView):
     """Site-wide search endpoint."""
 
+    serializer_class = None
+
     def get(self, request: Request, format=None):  # noqa: A002
         """Return site-wide search results as a list."""
         user = request.user
