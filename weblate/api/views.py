@@ -2384,6 +2384,10 @@ class Search(APIView):
 
 
 class TasksViewSet(ViewSet):
+    # Task-related data is handled and queried to Celery.
+    # There is no Django model associated with tasks.
+    serializer_class = None
+
     def get_task(
         self, request, pk, permission: str | None = None
     ) -> tuple[AsyncResult, Component | None]:
