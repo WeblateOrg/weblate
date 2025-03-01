@@ -1504,6 +1504,7 @@ class ComponentViewSet(
     @extend_schema(
         description="Remove association of a project with a component.",
         methods=["delete"],
+        parameters=[OpenApiParameter("project_slug", str, OpenApiParameter.PATH)]
     )
     @action(detail=True, methods=["delete"], url_path="links/(?P<project_slug>[^/.]+)")
     def delete_links(self, request: Request, project__slug, slug, project_slug):
