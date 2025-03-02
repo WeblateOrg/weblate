@@ -804,50 +804,50 @@ class SearchForm(forms.Form):
             self.cleaned_data["offset"] = 1
         return self.cleaned_data["offset"]
 
-    def items(self):
-        items = []
-        # Skip checksum and offset as these change
-        ignored = {"offset", "checksum"}
-        for param in sorted(self.cleaned_data):
-            value = self.cleaned_data[param]
-            # We don't care about empty values or ignored ones
-            if value is None or param in ignored:
-                continue
-            if isinstance(value, bool):
-                # Only store true values
-                if value:
-                    items.append((param, "1"))
-            elif isinstance(value, int):
-                # Avoid storing 0 values
-                if value > 0:
-                    items.append((param, str(value)))
-            elif isinstance(value, datetime):
-                # Convert date to string
-                items.append((param, value.date().isoformat()))
-            elif isinstance(value, list):
-                items.extend((param, val) for val in value)
-            elif isinstance(value, User):
-                items.append((param, value.username))
-            elif value:
-                # It should be a string here
-                items.append((param, value))
-        return items
+    # def items(self):
+    #     items = []
+    #     # Skip checksum and offset as these change
+    #     ignored = {"offset", "checksum"}
+    #     for param in sorted(self.cleaned_data):
+    #         value = self.cleaned_data[param]
+    #         # We don't care about empty values or ignored ones
+    #         if value is None or param in ignored:
+    #             continue
+    #         if isinstance(value, bool):
+    #             # Only store true values
+    #             if value:
+    #                 items.append((param, "1"))
+    #         elif isinstance(value, int):
+    #             # Avoid storing 0 values
+    #             if value > 0:
+    #                 items.append((param, str(value)))
+    #         elif isinstance(value, datetime):
+    #             # Convert date to string
+    #             items.append((param, value.date().isoformat()))
+    #         elif isinstance(value, list):
+    #             items.extend((param, val) for val in value)
+    #         elif isinstance(value, User):
+    #             items.append((param, value.username))
+    #         elif value:
+    #             # It should be a string here
+    #             items.append((param, value))
+    #     return items
 
-    def urlencode(self):
-        return urlencode(self.items())
+    # def urlencode(self):
+    #     return urlencode(self.items())
 
-    def reset_offset(self):
-        """
-        Reset form offset.
+    # def reset_offset(self):
+    #     """
+    #     Reset form offset.
 
-        This is needed to avoid issues when using the form as the default for
-        any new search.
-        """
-        data = copy.copy(self.data)  # pylint: disable=access-member-before-definition
-        data["offset"] = "1"
-        data["checksum"] = ""
-        self.data = data
-        return self
+    #     This is needed to avoid issues when using the form as the default for
+    #     any new search.
+    #     """
+    #     data = copy.copy(self.data)  # pylint: disable=access-member-before-definition
+    #     data["offset"] = "1"
+    #     data["checksum"] = ""
+    #     self.data = data
+    #     return self
 
 
 class PositionSearchForm(SearchForm):
