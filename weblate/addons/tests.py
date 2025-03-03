@@ -9,7 +9,9 @@ import os
 from datetime import timedelta
 from io import StringIO
 from typing import TYPE_CHECKING
+from unittest.mock import patch
 
+import jsonschema.exceptions
 import requests
 import responses
 from django.core.management import call_command
@@ -1569,7 +1571,7 @@ class TasksTest(TestCase):
 
 
 class WebhookAddonsTest(ViewTestCase):
-    default_addon_configuration = {
+    addon_configuration = {
         "webhook_url": "https://example.com/webhooks",
         "events": [
             Change.ACTION_NEW,
@@ -1579,7 +1581,7 @@ class WebhookAddonsTest(ViewTestCase):
     def do_translation_added_test(
         self, response_code=None, expected_calls: int = 1, **responses_kwargs
     ):
-        WebhookAddon.create(configuration=self.default_addon_configuration)
+        WebhookAddon.create(configuration=self.addon_configuration)
         if response_code:
             responses_kwargs |= {"status": response_code}
         responses.add(
@@ -1597,7 +1599,11 @@ class WebhookAddonsTest(ViewTestCase):
 
     @responses.activate
     def test_translation_added(self) -> None:
+        self.addon_configuration["events"].append(Change.ACTION_CHANGE)
         self.do_translation_added_test(response_code=200)
+        responses.calls.reset()
+        self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
+        self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
     def test_component_scopes(self) -> None:
@@ -1606,8 +1612,8 @@ class WebhookAddonsTest(ViewTestCase):
         component2 = self.create_po(
             new_base="po/project.pot", project=self.project, name="Secondary component"
         )
-        config1 = self.default_addon_configuration.copy()
-        config2 = self.default_addon_configuration.copy() | {
+        config1 = self.addon_configuration.copy()
+        config2 = self.addon_configuration.copy() | {
             "webhook_url": "https://example.com/webhooks-2"
         }
 
@@ -1646,8 +1652,8 @@ class WebhookAddonsTest(ViewTestCase):
             new_base="po/project.pot", project=project_b, name="Component B1"
         )
 
-        config_a = self.default_addon_configuration.copy()
-        config_b = self.default_addon_configuration.copy() | {
+        config_a = self.addon_configuration.copy()
+        config_b = self.addon_configuration.copy() | {
             "webhook_url": "https://example.com/webhooks-2"
         }
 
@@ -1683,7 +1689,7 @@ class WebhookAddonsTest(ViewTestCase):
             new_base="po/project.pot", project=project_b, name="Component B1"
         )
 
-        WebhookAddon.create(configuration=self.default_addon_configuration)
+        WebhookAddon.create(configuration=self.addon_configuration)
         responses.add(responses.POST, "https://example.com/webhooks", status=200)
 
         translation_a1 = self.get_translation()
@@ -1701,6 +1707,13 @@ class WebhookAddonsTest(ViewTestCase):
     def test_connection_error(self):
         self.do_translation_added_test(body=requests.ConnectionError())
 
+    def test_jsonschema_error(self):
+        with patch(
+            "weblate.addons.webhooks.validate_schema",
+            side_effect=jsonschema.exceptions.ValidationError("message"),
+        ):
+            self.do_translation_added_test(expected_calls=0)
+
     @responses.activate
     def test_bulk_changes(self):
         """Test bulk change create via the propagate() method."""
@@ -1710,7 +1723,7 @@ class WebhookAddonsTest(ViewTestCase):
         )
 
         WebhookAddon.create(
-            configuration=self.default_addon_configuration, project=self.project
+            configuration=self.addon_configuration, project=self.project
         )
         responses.add(responses.POST, "https://example.com/webhooks", status=200)
 
@@ -1720,7 +1733,7 @@ class WebhookAddonsTest(ViewTestCase):
 
     @responses.activate
     def test_webhook_signature(self):
-        self.default_addon_configuration["secret"] = "secret-string"
+        self.addon_configuration["secret"] = "secret-string"
         self.do_translation_added_test(response_code=200)
 
         wh_request = responses.calls[0].request
@@ -1754,7 +1767,7 @@ class WebhookAddonsTest(ViewTestCase):
 
         #  "Invalid secret"
         with self.assertRaises(WebhookVerificationError):
-            StandardWebhooksUtils("xxxxxxxx").verify(wh_request.body, wh_headers)
+            StandardWebhooksUtils("xxxx-xxxx-xxxx").verify(wh_request.body, wh_headers)
 
         #  "Invalid format of timestamp"
         with self.assertRaises(WebhookVerificationError):
@@ -1777,3 +1790,66 @@ class WebhookAddonsTest(ViewTestCase):
                 (timezone.now() + timedelta(minutes=6)).timestamp
             )
             wh_utils.verify(wh_request.body, new_headers)
+
+    def test_form(self):
+        self.user.is_superuser = True
+        self.user.save()
+        # Missing params
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhooks",
+                "form": "1",
+            },
+            follow=True,
+        )
+        self.assertNotContains(response, "Installed 1 add-on")
+
+        # empty secret
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhooks",
+                "form": "1",
+                "webhook_url": "https://example.com/webhooks",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+
+        # delete addon
+        addon_id = Addon.objects.get(component=self.component).id
+        response = self.client.post(
+            reverse("addon-detail", kwargs={"pk": addon_id}),
+            {"delete": "weblate.webhook.webhooks"},
+            follow=True,
+        )
+        self.assertContains(response, "No add-ons currently installed")
+
+        # invalid secret
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhooks",
+                "form": "1",
+                "webhook_url": "https://example.com/webhooks",
+                "events": [Change.ACTION_NEW],
+                "secret": "xxxx-xx",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Invalid base64 encoded string")
+
+        # valid secret
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhooks",
+                "form": "1",
+                "webhook_url": "https://example.com/webhooks",
+                "secret": "xxxx-xxxx-xxxx",
+                "events": [Change.ACTION_NEW],
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")

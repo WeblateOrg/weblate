@@ -9,9 +9,11 @@ import json
 from datetime import UTC, datetime, timedelta
 from math import floor
 
+import jsonschema.exceptions
 import requests
 from django.utils import timezone as dj_timezone
 from django.utils.translation import gettext_lazy
+from weblate_schemas import validate_schema
 
 from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import WebhooksAddonForm
@@ -31,7 +33,7 @@ class MessageNotDeliveredError(Exception):
 
 
 class WebhookAddon(ChangeBaseAddon):
-    name = "weblate.webhook.webhook"
+    name = "weblate.webhook.webhooks"
     # TODO: improve description
     verbose = gettext_lazy("Webhooks")
     description = gettext_lazy("some desc")
@@ -42,7 +44,14 @@ class WebhookAddon(ChangeBaseAddon):
     def change_event(self, change) -> None:
         config = self.instance.configuration
         if change.action in config["events"]:
-            payload = self.build_webhook_payload(change)
+            try:
+                payload = self.build_webhook_payload(change)
+            except (
+                jsonschema.exceptions.ValidationError,
+                jsonschema.exceptions.SchemaError,
+            ) as error:
+                raise MessageNotDeliveredError from error
+
             try:
                 response = requests.post(
                     url=config["webhook_url"],
@@ -62,15 +71,18 @@ class WebhookAddon(ChangeBaseAddon):
         # reload change with prefetched content
         change = Change.objects.prefetch_for_get().get(pk=change.pk)
         data = {
-            "id": change.id,
+            "change_id": change.id,
             "action": change.get_action_display(),
+            "timestamp": change.timestamp.isoformat(),
         }
-        if url := change.get_absolute_url():
-            data["url"] = url
         if change.target:
             data["target"] = split_plural(change.target)
         if change.old:
             data["old"] = split_plural(change.old)
+        if change.unit:
+            data["source"] = split_plural(change.unit.source)
+        if url := change.get_absolute_url():
+            data["url"] = url
         if change.author:
             data["author"] = change.author.username
         if change.user:
@@ -81,15 +93,9 @@ class WebhookAddon(ChangeBaseAddon):
             data["component"] = change.component.slug
         if change.translation:
             data["translation"] = change.translation.language.code
-        if change.unit:
-            data["source"] = split_plural(change.unit.source)
-            data["context"] = change.unit.context
 
-        return {
-            "type": change.get_type(),
-            "timestamp": change.timestamp.isoformat(),
-            "data": data,
-        }
+        validate_schema(data, "weblate-messaging.schema.json")
+        return data
 
     def build_headers(self, change, payload: dict) -> dict:
         wh = StandardWebhooksUtils(self.instance.configuration.get("secret", ""))

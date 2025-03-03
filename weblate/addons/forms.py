@@ -25,7 +25,11 @@ from weblate.utils.forms import (
     WeblateServiceURLField,
 )
 from weblate.utils.render import validate_render, validate_render_translation
-from weblate.utils.validators import validate_filename, validate_re
+from weblate.utils.validators import (
+    validate_base64_encoded_string,
+    validate_filename,
+    validate_re,
+)
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -674,4 +678,10 @@ class WebhooksAddonForm(ChangeBaseAddonForm):
         label=gettext_lazy("Webhook URL"),
         required=True,
     )
-    secret = forms.CharField(label=gettext_lazy("Secret"), required=False)
+    secret = forms.CharField(
+        label=gettext_lazy("Secret"),
+        validators=[
+            validate_base64_encoded_string,
+        ],
+        required=False,
+    )
