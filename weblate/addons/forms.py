@@ -18,8 +18,12 @@ from lxml.cssselect import CSSSelector
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.forms import AutoForm, BulkEditForm
-from weblate.trans.models import Component, Project, Translation
-from weblate.utils.forms import CachedModelChoiceField, ContextDiv
+from weblate.trans.models import Change, Component, Project, Translation
+from weblate.utils.forms import (
+    CachedModelChoiceField,
+    ContextDiv,
+    WeblateServiceURLField,
+)
 from weblate.utils.render import validate_render, validate_render_translation
 from weblate.utils.validators import validate_filename, validate_re
 
@@ -652,3 +656,22 @@ class PropertiesSortAddonForm(BaseAddonForm):
         required=False,
         initial=False,
     )
+
+
+class ChangeBaseAddonForm(BaseAddonForm):
+    # TODO: find nicer labels
+    # allow selecting one or multiple changes to "activate"
+    events = forms.MultipleChoiceField(
+        label=gettext_lazy("Events to send hooks"),
+        choices=Change.ACTION_CHOICES,
+        required=False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
+
+class WebhooksAddonForm(ChangeBaseAddonForm):
+    webhook_url = WeblateServiceURLField(
+        label=gettext_lazy("Webhook URL"),
+        required=True,
+    )
+    secret = forms.CharField(label=gettext_lazy("Secret"), required=False)
