@@ -652,7 +652,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @extend_schema(
         description="Delete a language from a group.",
         methods=["delete"],
-        parameters=[OpenApiParameter("language_code", str, OpenApiParameter.PATH)]
+        parameters=[OpenApiParameter("language_code", str, OpenApiParameter.PATH)],
     )
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
@@ -1504,7 +1504,7 @@ class ComponentViewSet(
     @extend_schema(
         description="Remove association of a project with a component.",
         methods=["delete"],
-        parameters=[OpenApiParameter("project_slug", str, OpenApiParameter.PATH)]
+        parameters=[OpenApiParameter("project_slug", str, OpenApiParameter.PATH)],
     )
     @action(detail=True, methods=["delete"], url_path="links/(?P<project_slug>[^/.]+)")
     def delete_links(self, request: Request, project__slug, slug, project_slug):
