@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-02-25 03:08+0000\n"
+"PO-Revision-Date: 2025-03-03 23:37+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2-dev\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -993,22 +993,20 @@ msgid "Your password can't consist of a single character or only whitespace."
 msgstr "Din adgangskode kan ikke bestå af kun et enkelt tegn eller blanktegn."
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "Denne adgangskode består kun af et enkelt tegn."
-msgstr[1] "Denne adgangskode består kun af et enkelt tegn."
+msgstr[0] "Adgangskoden er for lang. Den må højst indeholde %(max_length)d tegn."
+msgstr[1] "Adgangskoden er for lang. Den må højst indeholde %(max_length)d tegn."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password can't contain repeated words or characters."
+#, python-format
 msgid "Your password must contain at most %(min_length)d character."
 msgid_plural "Your password must contain at most %(min_length)d characters."
-msgstr[0] "Din adgangskode må ikke indeholde gentagne ord eller tegn."
-msgstr[1] "Din adgangskode må ikke indeholde gentagne ord eller tegn."
+msgstr[0] "Din adgangskode må højst indeholde %(min_length)d tegn."
+msgstr[1] "Din adgangskode må højst indeholde %(min_length)d tegn."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
