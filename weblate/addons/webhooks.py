@@ -13,7 +13,8 @@ import jsonschema.exceptions
 import requests
 from django.utils import timezone as dj_timezone
 from django.utils.translation import gettext_lazy
-from weblate_schemas import validate_schema
+from drf_spectacular.utils import OpenApiResponse, OpenApiWebhook, extend_schema
+from weblate_schemas import load_schema, validate_schema
 
 from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import WebhooksAddonForm
@@ -168,3 +169,19 @@ class StandardWebhooksUtils:
             msg = "Message timestamp too new"
             raise WebhookVerificationError(msg)
         return timestamp
+
+
+change_event_webhook = OpenApiWebhook(
+    name="Addon webhook",
+    decorator=extend_schema(
+        summary="A Webhook event for an addon",
+        description="This webhook is used to send an Action event",
+        tags=["webhooks"],
+        request={"application/json": load_schema("weblate-messaging.schema.json")},
+        responses={
+            200: OpenApiResponse("Event was successfully received"),
+            201: OpenApiResponse("Event was successfully received"),
+            202: OpenApiResponse("Event was successfully received"),
+        },
+    ),
+)
