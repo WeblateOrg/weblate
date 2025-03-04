@@ -1571,6 +1571,8 @@ class TasksTest(TestCase):
 
 
 class WebhookAddonsTest(ViewTestCase):
+    """Test for Webhook Addon."""
+
     addon_configuration = {
         "webhook_url": "https://example.com/webhooks",
         "events": [
@@ -1581,6 +1583,7 @@ class WebhookAddonsTest(ViewTestCase):
     def do_translation_added_test(
         self, response_code=None, expected_calls: int = 1, **responses_kwargs
     ):
+        """Install addon, edit unit and assert outgoing calls."""
         WebhookAddon.create(configuration=self.addon_configuration)
         if response_code:
             responses_kwargs |= {"status": response_code}
@@ -1599,6 +1602,7 @@ class WebhookAddonsTest(ViewTestCase):
 
     @responses.activate
     def test_translation_added(self) -> None:
+        """Test translation added and translation edited action change."""
         self.addon_configuration["events"].append(Change.ACTION_CHANGE)
         self.do_translation_added_test(response_code=200)
         responses.calls.reset()
@@ -1607,7 +1611,7 @@ class WebhookAddonsTest(ViewTestCase):
 
     @responses.activate
     def test_component_scopes(self) -> None:
-        # install on component level, check changes in another component don't trigger webhook
+        """Test webhook addon installed at component level."""
         component1 = self.component
         component2 = self.create_po(
             new_base="po/project.pot", project=self.project, name="Secondary component"
@@ -1641,6 +1645,7 @@ class WebhookAddonsTest(ViewTestCase):
 
     @responses.activate
     def test_project_scopes(self) -> None:
+        """Test webhook addon installed at project level."""
         project_a = self.project
         component_a1 = self.component
         component_a2 = self.create_po(
@@ -1684,6 +1689,7 @@ class WebhookAddonsTest(ViewTestCase):
 
     @responses.activate
     def test_site_wide_scope(self) -> None:
+        """Test webhook addon installed site-wide."""
         project_b = self.create_project(name="Test 2", slug="project2")
         component_b1 = self.create_po(
             new_base="po/project.pot", project=project_b, name="Component B1"
@@ -1701,13 +1707,16 @@ class WebhookAddonsTest(ViewTestCase):
 
     @responses.activate
     def test_invalid_response(self):
+        """Test invalid response from client."""
         self.do_translation_added_test(response_code=301)
 
     @responses.activate
     def test_connection_error(self):
+        """Test connection error when during message delivery."""
         self.do_translation_added_test(body=requests.ConnectionError())
 
     def test_jsonschema_error(self):
+        """Test payload schema validation error."""
         with patch(
             "weblate.addons.webhooks.validate_schema",
             side_effect=jsonschema.exceptions.ValidationError("message"),
@@ -1733,6 +1742,7 @@ class WebhookAddonsTest(ViewTestCase):
 
     @responses.activate
     def test_webhook_signature(self):
+        """Test webhook signature features."""
         self.addon_configuration["secret"] = "secret-string"
         self.do_translation_added_test(response_code=200)
 
@@ -1792,6 +1802,7 @@ class WebhookAddonsTest(ViewTestCase):
             wh_utils.verify(wh_request.body, new_headers)
 
     def test_form(self):
+        """Test WebhooksAddonForm."""
         self.user.is_superuser = True
         self.user.save()
         # Missing params

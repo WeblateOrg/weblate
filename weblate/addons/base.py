@@ -464,6 +464,8 @@ class StoreBaseAddon(BaseAddon):
 
 
 class ChangeBaseAddon(BaseAddon):
+    """Base class for add-ons that listen for Change notifications."""
+
     events: set[AddonEvent] = {
         AddonEvent.EVENT_CHANGE,
     }

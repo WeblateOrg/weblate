@@ -663,10 +663,10 @@ class PropertiesSortAddonForm(BaseAddonForm):
 
 
 class ChangeBaseAddonForm(BaseAddonForm):
-    # TODO: find nicer labels
-    # allow selecting one or multiple changes to "activate"
+    """Base form for Change-based addons."""
+
     events = forms.MultipleChoiceField(
-        label=gettext_lazy("Events to send hooks"),
+        label=gettext_lazy("Change events"),
         choices=Change.ACTION_CHOICES,
         required=False,
         widget=forms.CheckboxSelectMultiple(),
@@ -674,6 +674,8 @@ class ChangeBaseAddonForm(BaseAddonForm):
 
 
 class WebhooksAddonForm(ChangeBaseAddonForm):
+    """Form for webhook add-on configuration."""
+
     webhook_url = WeblateServiceURLField(
         label=gettext_lazy("Webhook URL"),
         required=True,

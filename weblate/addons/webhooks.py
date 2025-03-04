@@ -26,7 +26,7 @@ def hmac_data(key: bytes, data: bytes) -> bytes:
 
 
 class WebhookVerificationError(Exception):
-    pass
+    """Exception raised when the payload cannot be validated."""
 
 
 class MessageNotDeliveredError(Exception):
@@ -34,15 +34,19 @@ class MessageNotDeliveredError(Exception):
 
 
 class WebhookAddon(ChangeBaseAddon):
+    """Class for Webhooks Addon."""
+
     name = "weblate.webhook.webhooks"
-    # TODO: improve description
     verbose = gettext_lazy("Webhooks")
-    description = gettext_lazy("some desc")
+    description = gettext_lazy(
+        "Sends notification to external service based on selected events."
+    )
 
     settings_form = WebhooksAddonForm
     icon = "webhook.svg"
 
     def change_event(self, change) -> None:
+        """Deliver notification message."""
         config = self.instance.configuration
         if change.action in config["events"]:
             try:
@@ -67,6 +71,7 @@ class WebhookAddon(ChangeBaseAddon):
                 raise MessageNotDeliveredError
 
     def build_webhook_payload(self, change) -> dict:
+        """Build a Schema-valid payload from change event."""
         from weblate.trans.models import Change
 
         # reload change with prefetched content
@@ -99,6 +104,7 @@ class WebhookAddon(ChangeBaseAddon):
         return data
 
     def build_headers(self, change, payload: dict) -> dict:
+        """Build headers following Standard Webhooks specifications."""
         wh = StandardWebhooksUtils(self.instance.configuration.get("secret", ""))
         webhook_id = change.get_uuid().hex
         attempt_time = dj_timezone.now()
@@ -110,6 +116,8 @@ class WebhookAddon(ChangeBaseAddon):
 
 
 class StandardWebhooksUtils:
+    """Class providing utils for Standard Webhooks specification."""
+
     _SECRET_PREFIX: str = "whsec_"  # noqa: S105
     _whsecret: bytes
 
@@ -122,6 +130,17 @@ class StandardWebhooksUtils:
             self._whsecret = whsecret
 
     def verify(self, data: bytes | str, headers: dict[str, str]):
+        """
+        Verify that the data has not been tempered.
+
+        :param data: The data to verify
+        :param headers: The headers to verify
+
+        :raises weblate.addons.webhooks.WebhookVerificationError: If the request
+            is not verified
+
+        :return: The data as a JSON object if the request is verified
+        """
         data = data if isinstance(data, str) else data.decode()
         headers = {k.lower(): v for (k, v) in headers.items()}
         msg_id = headers.get("webhook-id")
@@ -148,12 +167,14 @@ class StandardWebhooksUtils:
         raise WebhookVerificationError(msg)
 
     def sign(self, msg_id: str, timestamp: datetime, data: str) -> str:
+        """Generate a unique signature for payload."""
         timestamp_str = str(floor(timestamp.replace(tzinfo=UTC).timestamp()))
         to_sign = f"{msg_id}.{timestamp_str}.{data}".encode()
         signature = hmac_data(self._whsecret, to_sign)
         return f"v1,{base64.b64encode(signature).decode('utf-8')}"
 
     def __verify_timestamp(self, timestamp_header: str) -> datetime:
+        """Verify if timestamp from header is valid."""
         webhook_tolerance = timedelta(minutes=5)
         now = datetime.now(tz=UTC)
         try:

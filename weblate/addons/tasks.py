@@ -167,7 +167,15 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
 
 @app.task(trail=True)
 def addon_change(sender, change_ids: list[int], **kwargs) -> None:
-    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_CHANGE)
+    """
+    Process add-on change events for a list of changes.
+
+    This task retrieves add-ons that are subscribed to change events and
+    applies the change event to each relevant add-on.
+    """
+    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_CHANGE).select_related(
+        "component", "project"
+    )
 
     def callback_wrapper(change: Change):
         def addon_callback(addon: Addon, component: Component) -> None:
@@ -181,7 +189,9 @@ def addon_change(sender, change_ids: list[int], **kwargs) -> None:
 
         return addon_callback
 
-    for change in Change.objects.filter(pk__in=change_ids):
+    for change in Change.objects.filter(pk__in=change_ids).select_related(
+        "component", "project"
+    ):
         handle_addon_event(
             AddonEvent.EVENT_CHANGE,
             callback_wrapper(change),

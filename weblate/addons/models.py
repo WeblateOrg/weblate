@@ -538,6 +538,7 @@ def store_post_load_handler(sender, translation: Translation, store, **kwargs) -
 
 @receiver(post_save, sender=Change)
 def change_post_save_handler(sender, instance: Change, created, **kwargs) -> None:
+    """Handle Change post save signal."""
     from weblate.addons.tasks import addon_change
 
     if created:  # ignore Change updates, they should not be updated anyway
@@ -546,6 +547,7 @@ def change_post_save_handler(sender, instance: Change, created, **kwargs) -> Non
 
 @receiver(change_bulk_create)
 def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> None:
+    """Handle Change bulk create signal."""
     from weblate.addons.tasks import addon_change
 
     addon_change(sender, [change.pk for change in instances], **kwargs)
