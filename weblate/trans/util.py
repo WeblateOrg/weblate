@@ -10,7 +10,7 @@ import re
 import sys
 from operator import itemgetter
 from types import GeneratorType
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypeVar
 from urllib.parse import urlparse
 
 import django.shortcuts
@@ -26,7 +26,9 @@ from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 from weblate.utils.data import data_dir
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
+
+    from django.db.models import Model
 
     from weblate.auth.models import User
     from weblate.auth.permissions import PermissionResult
@@ -34,7 +36,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project, Translation, Unit
 
 PLURAL_SEPARATOR = "\x1e\x1e"
-LOCALE_SETUP = True
+USE_STRXFRM = False
 
 PRIORITY_CHOICES = (
     (60, gettext_lazy("Very high")),
@@ -54,7 +56,16 @@ if locale.strxfrm("a") == "a":
     try:
         locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
     except locale.Error:
-        LOCALE_SETUP = False
+        USE_STRXFRM = False
+    else:
+        try:
+            locale.strxfrm("zkouška")
+        except OSError:
+            # Crashes on macOS 15, see
+            # https://github.com/python/cpython/issues/130567
+            USE_STRXFRM = False
+        else:
+            USE_STRXFRM = True
 
 
 def is_plural(text: str) -> bool:
@@ -266,22 +277,29 @@ def path_separator(path: str) -> str:
     return path
 
 
-def sort_unicode(choices, key):
+T = TypeVar("T")
+
+
+def sort_unicode(choices: list[T], key: Callable[[T], str]) -> list[T]:
     """Unicode aware sorting if available."""
-    return sorted(choices, key=lambda tup: locale.strxfrm(key(tup)))
+
+    def sort_strxfrm(item: T) -> str:
+        return locale.strxfrm(key(item))
+
+    return sorted(choices, key=sort_strxfrm if USE_STRXFRM else key)
 
 
-def sort_choices(choices):
+def sort_choices(choices: list[tuple[str, str]]) -> list[tuple[str, str]]:
     """Sort choices alphabetically."""
     return sort_unicode(choices, itemgetter(1))
 
 
-def sort_objects(objects):
+def sort_objects(objects: list[Model]) -> list[Model]:
     """Sort objects alphabetically."""
     return sort_unicode(objects, str)
 
 
-def redirect_next(next_url, fallback):
+def redirect_next(next_url: str | None, fallback: str | Model) -> HttpResponseRedirect:
     """Redirect to next URL from request after validating it."""
     if (
         next_url is None
@@ -292,7 +310,7 @@ def redirect_next(next_url, fallback):
     return HttpResponseRedirect(next_url)
 
 
-def xliff_string_to_rich(string):
+def xliff_string_to_rich(string: str):
     """
     Convert XLIFF string to StringElement.
 

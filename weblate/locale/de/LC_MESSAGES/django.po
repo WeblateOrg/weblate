@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-02-20 17:09+0000\n"
-"Last-Translator: nautilusx <translate@disroot.org>\n"
+"PO-Revision-Date: 2025-02-27 07:31+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.1-dev\n"
+"X-Generator: Weblate 5.10.2-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -1018,22 +1018,24 @@ msgstr ""
 "bestehen."
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "Dieses Passwort besteht nur aus einem einzigen Zeichen."
-msgstr[1] "Dieses Passwort besteht nur aus einem einzigen Zeichen."
+msgstr[0] ""
+"Dieses Passwort ist zu lang. Es darf höchstens %(max_length)d Zeichen "
+"enthalten."
+msgstr[1] ""
+"Dieses Passwort ist zu lang. Es darf höchstens %(max_length)d Zeichen "
+"enthalten."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password can't contain repeated words or characters."
+#, python-format
 msgid "Your password must contain at most %(min_length)d character."
 msgid_plural "Your password must contain at most %(min_length)d characters."
-msgstr[0] "Ihr Passwort darf keine Wort- oder Zeichenwiederholungen enthalten."
-msgstr[1] "Ihr Passwort darf keine Wort- oder Zeichenwiederholungen enthalten."
+msgstr[0] "Ihr Passwort darf höchstens %(min_length)d Zeichen enthalten."
+msgstr[1] "Ihr Passwort darf höchstens %(min_length)d Zeichen enthalten."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -3188,11 +3190,11 @@ msgstr ""
 
 #: weblate/checks/base.py:327
 msgid "The following format strings are missing: {}"
-msgstr "Folgende Formatzeichenketten fehlen: {}"
+msgstr "Die folgenden Formatzeichenketten fehlen: {}"
 
 #: weblate/checks/base.py:332
 msgid "The following format strings are extra: {}"
-msgstr "Folgende Formatzeichenketten sind zusätzlich: {}"
+msgstr "Die folgenden Formatzeichenketten sind zusätzlich: {}"
 
 #: weblate/checks/base.py:341
 msgid "The following errors were found:"
@@ -3431,18 +3433,14 @@ msgid "Consecutive duplicated words"
 msgstr "Aufeinanderfolgende doppelte Wörter"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "Text enthält zweimal hintereinander dasselbe Wort:"
+msgstr "Der Text enthält zweimal hintereinander das gleiche Wort"
 
 #: weblate/checks/duplicate.py:96
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "Die folgenden Komponenten würden erstellt werden"
-msgstr[1] "Die folgenden Komponenten würden erstellt werden"
+msgstr[0] "Das folgende Wort kommt doppelt vor:"
+msgstr[1] "Die folgenden Wörter kommen doppelt vor:"
 
 #: weblate/checks/flags.py:42
 msgid "RST text"
@@ -5986,10 +5984,6 @@ msgstr ""
 "Werten verpflichtet fühlt."
 
 #: weblate/templates/about/donate.html:33
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgctxt "Label on donate page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
@@ -5997,10 +5991,6 @@ msgstr[0] "GitHub-Stern"
 msgstr[1] "GitHub-Sterne"
 
 #: weblate/templates/about/donate.html:39
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "Open issues"
-#| msgid_plural "Open issues"
 msgctxt "Label on donate page"
 msgid "Open issue"
 msgid_plural "Open issues"
@@ -6008,12 +5998,10 @@ msgstr[0] "Offenes Problem"
 msgstr[1] "Offene Probleme"
 
 #: weblate/templates/about/donate.html:45
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on donate page"
 msgid "Recent change"
 msgid_plural "Recent changes"
-msgstr[0] "Letzte Änderungen"
+msgstr[0] "Letzte Änderung"
 msgstr[1] "Letzte Änderungen"
 
 #: weblate/templates/about/index.html:7 weblate/templates/about/index.html:16

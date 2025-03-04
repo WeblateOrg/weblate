@@ -157,7 +157,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             },
             {
                 "name": "tasks",
-                "description": "Added in version 4.4.",
+                "description": "Added in version 4.4.\n\nListing of the tasks is currently not available.",
             },
             {
                 "name": "statistics",

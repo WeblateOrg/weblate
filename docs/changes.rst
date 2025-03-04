@@ -1,9 +1,34 @@
+Weblate 5.10.3
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+.. rubric:: Bug fixes
+
+* Improved performance of API download endpoints.
+* Reduced notifications overhead.
+* Improved handling of components using :ref:`internal-urls`.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.10.3.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/139?closed=1>`__.
+
 Weblate 5.10.2
 --------------
 
 *Released on February 28th 2025.*
-
-.. rubric:: New features
 
 .. rubric:: Improvements
 
@@ -20,6 +45,7 @@ Weblate 5.10.2
 .. rubric:: Compatibility
 
 * Weblate has switched to a different library for zxcvbn integration, as the old one is no longer maintained, see :ref:`password-authentication`.
+* Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP credentials are supplied.
 
 .. rubric:: Upgrading
 

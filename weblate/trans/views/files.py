@@ -181,7 +181,7 @@ def download(request: AuthenticatedHttpRequest, path):
     if isinstance(obj, Component):
         return download_multi(
             request,
-            obj.translation_set.all(),
+            obj.translation_set.prefetch_meta(),
             [obj],
             request.GET.get("format"),
             name=obj.full_slug.replace("/", "-"),

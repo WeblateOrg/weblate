@@ -28,6 +28,7 @@ from django.dispatch import receiver
 from django.utils.functional import cached_property
 from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
+from django.utils.timezone import localtime
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
 
@@ -1146,11 +1147,12 @@ class Component(
             self.linked_component.store_log(slug, msg, *args)
             return
         self.logs.append(f"{slug}: {msg % args}")
-        if current_task:
+        if current_task and current_task.request.id:
             cache.set(f"task-log-{current_task.request.id}", self.logs, 2 * 3600)
 
     def log_hook(self, level, msg, *args) -> None:
-        self.store_log(self.full_slug, msg, *args)
+        if level != "DEBUG":
+            self.store_log(self.full_slug, msg, *args)
 
     def get_progress(self):
         task = self.background_task
@@ -1995,6 +1997,8 @@ class Component(
     @cached_property
     def linked_childs(self) -> ComponentQuerySet:
         """Return list of components which links repository to us."""
+        if self.is_repo_link:
+            return self.component_set.none()
         children = self.component_set.prefetch()
         for child in children:
             child.linked_component = self
@@ -2138,7 +2142,7 @@ class Component(
                 message = render_template(template, **context)
 
             # Actual commit
-            if not self.repository.commit(message, author, timestamp, files):
+            if not self.repository.commit(message, author, localtime(timestamp), files):
                 return False
 
             # Send post commit signal

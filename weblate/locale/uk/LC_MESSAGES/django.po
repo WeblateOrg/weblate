@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-02-21 06:37+0000\n"
+"PO-Revision-Date: 2025-02-27 07:31+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.10.1-dev\n"
+"X-Generator: Weblate 5.10.2-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -1002,26 +1002,26 @@ msgid "Your password can't consist of a single character or only whitespace."
 msgstr "Ваш пароль не може складатися з одного символу або тільки пробілу."
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "Цей пароль складається тільки з одного символу."
-msgstr[1] "Цей пароль складається тільки з одного символу."
-msgstr[2] "Цей пароль складається тільки з одного символу."
-msgstr[3] "Цей пароль складається тільки з одного символу."
+msgstr[0] "Цей пароль задовгий. Він має містити щонайбільше %(max_length)d символ."
+msgstr[1] ""
+"Цей пароль задовгий. Він має містити щонайбільше %(max_length)d символи."
+msgstr[2] ""
+"Цей пароль задовгий. Він має містити щонайбільше %(max_length)d символів."
+msgstr[3] "Цей пароль задовгий. Він має містити щонайбільше %(max_length)d символ."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password can't contain repeated words or characters."
+#, python-format
 msgid "Your password must contain at most %(min_length)d character."
 msgid_plural "Your password must contain at most %(min_length)d characters."
-msgstr[0] "Ваш пароль не може містити повторення слів чи символів."
-msgstr[1] "Ваш пароль не може містити повторення слів чи символів."
-msgstr[2] "Ваш пароль не може містити повторення слів чи символів."
-msgstr[3] "Ваш пароль не може містити повторення слів чи символів."
+msgstr[0] "Ваш пароль має містити щонайбільше %(min_length)d символ."
+msgstr[1] "Ваш пароль має містити щонайбільше %(min_length)d символ."
+msgstr[2] "Ваш пароль має містити щонайбільше %(min_length)d символи."
+msgstr[3] "Ваш пароль має містити щонайбільше %(min_length)d символів."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -3361,20 +3361,16 @@ msgid "Consecutive duplicated words"
 msgstr "Послідовне повторення слів"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "Текст містить те саме слово двічі поспіль:"
+msgstr "Текст містить те саме слово двічі поспіль"
 
 #: weblate/checks/duplicate.py:96
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "Буде створено такі складники"
-msgstr[1] "Буде створено такі складники"
-msgstr[2] "Буде створено такі складники"
-msgstr[3] "Буде створено такі складники"
+msgstr[0] "Дублюється таке слово:"
+msgstr[1] "Дублюються такі слова:"
+msgstr[2] "Дублюється такі слова:"
+msgstr[3] "Дублюється такі слова:"
 
 #: weblate/checks/flags.py:42
 msgid "RST text"
@@ -5876,38 +5872,28 @@ msgstr ""
 "коду."
 
 #: weblate/templates/about/donate.html:33
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgctxt "Label on donate page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "Зірки GitHub"
+msgstr[0] "Зірка GitHub"
 msgstr[1] "Зірки GitHub"
 msgstr[2] "Зірки GitHub"
-msgstr[3] "Зірка GitHub"
+msgstr[3] "Зірки GitHub"
 
 #: weblate/templates/about/donate.html:39
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "Open issues"
-#| msgid_plural "Open issues"
 msgctxt "Label on donate page"
 msgid "Open issue"
 msgid_plural "Open issues"
-msgstr[0] "Незакриті вади"
-msgstr[1] "Незакриті вади"
-msgstr[2] "Незакриті вади"
-msgstr[3] "Незакрита вада"
+msgstr[0] "Відкрите питання"
+msgstr[1] "Відкриті питань"
+msgstr[2] "Відкриті питань"
+msgstr[3] "Відкриті питань"
 
 #: weblate/templates/about/donate.html:45
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on donate page"
 msgid "Recent change"
 msgid_plural "Recent changes"
-msgstr[0] "Останні зміни"
+msgstr[0] "Остання зміна"
 msgstr[1] "Останні зміни"
 msgstr[2] "Останні зміни"
 msgstr[3] "Останні зміни"

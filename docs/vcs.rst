@@ -225,6 +225,14 @@ to users (if even allowed to see the repository URL at all).
 For example the GitHub URL with authentication added might look like:
 ``https://user:your_access_token@github.com/WeblateOrg/weblate.git``.
 
+.. versionchanged:: 5.10.2
+
+   Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP
+   credentials are supplied.
+
+   This makes it possible to access Azure DevOps repositories and makes access
+   to authenticated repositories faster.
+
 .. note::
 
     If your username or password contains special characters, those have to be

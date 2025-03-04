@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
     - name: Add closed question comment
-      uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4
+      uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
       if: |
         github.actor != 'renovate[bot]' &&
         github.event.issue.state_reason == 'completed' &&
@@ -42,7 +42,7 @@ jobs:
           * In case you see a similar problem, please open a separate issue.
           * If you are happy with the outcome, don’t hesitate to support Weblate by making a [donation](https://weblate.org/donate/).
     - name: Add closed issue comment
-      uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4
+      uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
       if: |
         github.actor != 'renovate[bot]' &&
         github.event.issue.state_reason == 'completed' &&

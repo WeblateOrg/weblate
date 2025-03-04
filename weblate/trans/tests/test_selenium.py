@@ -18,7 +18,11 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils.functional import cached_property
 from selenium import webdriver
-from selenium.common.exceptions import ElementNotVisibleException, WebDriverException
+from selenium.common.exceptions import (
+    ElementNotVisibleException,
+    NoSuchElementException,
+    WebDriverException,
+)
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -185,10 +189,14 @@ class SeleniumTests(
 
     def click(self, element="", htmlid=None) -> None:
         """Click on element and scroll it into view."""
-        if htmlid:
-            element = self.driver.find_element(By.ID, htmlid)
-        if isinstance(element, str):
-            element = self.driver.find_element(By.LINK_TEXT, element)
+        try:
+            if htmlid:
+                element = self.driver.find_element(By.ID, htmlid)
+            if isinstance(element, str):
+                element = self.driver.find_element(By.LINK_TEXT, element)
+        except NoSuchElementException:
+            print(self.driver.page_source)  # noqa: T201
+            raise
 
         try:
             element.click()
@@ -202,11 +210,6 @@ class SeleniumTests(
             msg = f"Test file not found: {filename}"
             raise ValueError(msg)
         element.send_keys(filename)
-
-    def clear_field(self, element):
-        element.send_keys(Keys.CONTROL + "a")
-        element.send_keys(Keys.DELETE)
-        return element
 
     def do_login(self, create=True, superuser=False):
         # login page
@@ -566,14 +569,16 @@ class SeleniumTests(
         element = self.driver.find_element(By.ID, "id_name")
         element.send_keys("All components")
         self.click("Add another Automatic component list assignment")
-        self.clear_field(
-            self.driver.find_element(By.ID, "id_autocomponentlist_set-0-project_match")
-        ).send_keys("^.*$")
-        self.clear_field(
-            self.driver.find_element(
-                By.ID, "id_autocomponentlist_set-0-component_match"
-            )
-        ).send_keys("^.*$")
+        element = self.driver.find_element(
+            By.ID, "id_autocomponentlist_set-0-project_match"
+        )
+        element.clear()
+        element.send_keys("^.*$")
+        element = self.driver.find_element(
+            By.ID, "id_autocomponentlist_set-0-component_match"
+        )
+        element.clear()
+        element.send_keys("^.*$")
         self.screenshot("componentlist-add.png")
         with self.wait_for_page_load():
             element.submit()
@@ -676,9 +681,9 @@ class SeleniumTests(
         Select(self.driver.find_element(By.ID, "id_license")).select_by_value(
             "GPL-3.0-or-later"
         )
-        self.clear_field(
-            self.driver.find_element(By.ID, "id_language_regex")
-        ).send_keys(language_regex)
+        element = self.driver.find_element(By.ID, "id_language_regex")
+        element.clear()
+        element.send_keys(language_regex)
         self.screenshot("add-component.png")
         # This takes long
         with self.wait_for_page_load(timeout=1200):
@@ -796,15 +801,15 @@ class SeleniumTests(
         element.send_keys(
             "weblate/locale/(?P<language>[^/]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po"
         )
-        self.clear_field(
-            self.driver.find_element(By.ID, "id_language_regex")
-        ).send_keys(language_regex)
+        element = self.driver.find_element(By.ID, "id_language_regex")
+        element.clear()
+        element.send_keys(language_regex)
         self.driver.find_element(By.ID, "id_new_base_template").send_keys(
             "weblate/locale/{{ component }}.pot"
         )
-        self.clear_field(self.driver.find_element(By.ID, "id_name_template")).send_keys(
-            "{{ component|title }}"
-        )
+        element = self.driver.find_element(By.ID, "id_name_template")
+        element.clear()
+        element.send_keys("{{ component|title }}")
         Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value("po")
         with self.wait_for_page_load():
             element.submit()
@@ -890,15 +895,15 @@ class SeleniumTests(
 
         # Return to original unit
         element = self.driver.find_element(By.ID, "id_q")
-        self.clear_field(element)
+        element.clear()
         element.send_keys("'%(count)s word'")
         with self.wait_for_page_load():
             element.submit()
 
         # Trigger check
-        self.clear_field(self.driver.find_element(By.ID, "id_a2a808c8ccbece08_0"))
+        self.driver.find_element(By.ID, "id_a2a808c8ccbece08_0").clear()
         element = self.driver.find_element(By.ID, "id_a2a808c8ccbece08_1")
-        self.clear_field(element)
+        element.clear()
         element.send_keys("několik slov")
         with self.wait_for_page_load():
             element.submit()
@@ -997,9 +1002,9 @@ class SeleniumTests(
         Select(self.driver.find_element(By.ID, "id_license")).select_by_value(
             "GPL-3.0-or-later"
         )
-        self.clear_field(
-            self.driver.find_element(By.ID, "id_language_regex")
-        ).send_keys("^(cs|he|hu)$")
+        element = self.driver.find_element(By.ID, "id_language_regex")
+        element.clear()
+        element.send_keys("^(cs|he|hu)$")
         self.screenshot("user-add-component.png")
 
     def test_alerts(self) -> None:

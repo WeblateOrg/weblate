@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-02-21 11:48+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-02-27 14:33+0000\n"
+"Last-Translator: Максим Горпиніч <maksimgorpinic2005a@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.10.1-dev\n"
+"X-Generator: Weblate 5.10.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -466,10 +466,8 @@ msgstr ""
 "`Administration` проєкту."
 
 #: ../../admin/access.rst:216
-#, fuzzy
-#| msgid "Project access control"
 msgid "Per-project access tokens"
-msgstr "Керування доступом на рівні проєкту"
+msgstr "Маркери доступу для кожного проекту"
 
 #: ../../admin/access.rst:220
 msgid ""
@@ -477,12 +475,14 @@ msgid ""
 "The API tokens can have expiry date set, and their permissions can be "
 "customized by team memberships same as with users."
 msgstr ""
+"Ви можете визначити маркери доступу в межах проекту на вкладці :guilabel:`"
+"API access`. Для токенів API можна встановити дату закінчення терміну дії, а "
+"їхні дозволи можна налаштувати членами команди так само, як і для "
+"користувачів."
 
 #: ../../admin/access.rst:226
-#, fuzzy
-#| msgid ":ref:`api-rate`"
 msgid ":ref:`api-tokens`"
-msgstr ":ref:`api-rate`"
+msgstr ":ref:`api-tokens`"
 
 #: ../../admin/access.rst:231
 msgid "Site-wide access control"
@@ -5050,42 +5050,33 @@ msgid "Password authentication"
 msgstr "Розпізнавання за паролем"
 
 #: ../../admin/auth.rst:457
-#, fuzzy
-#| msgid ""
-#| "The default :file:`settings.py` comes with a reasonable set of :setting:"
-#| "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS` that ensures that weak passwords are not "
 "allowed. You can customize this setting to match your password policy."
 msgstr ""
-"Типовий :file:`settings.py` постачається із достатнім набором :setting:"
-"`django:AUTH_PASSWORD_VALIDATORS`:"
+"За замовчуванням :file:`settings.py` поставляється з прийнятним набором "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`, який гарантує, що слабкі паролі "
+"не дозволені. Ви можете налаштувати цей параметр відповідно до своєї "
+"політики паролів."
 
 #: ../../admin/auth.rst:461
-#, fuzzy
-#| msgid ""
-#| "Additionally you can also install `django-zxcvbn-password <https://pypi."
-#| "org/project/django-zxcvbn-password/>`_ which gives quite realistic "
-#| "estimates of password difficulty and allows rejecting passwords below a "
-#| "certain threshold."
 msgid ""
 "Additionally you can also install `django-zxcvbn-password-validator <https://"
 "github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ which gives "
 "quite realistic estimates of password difficulty and allows rejecting "
 "passwords below a certain threshold."
 msgstr ""
-"Крім того, ви можете встановити `django-zxcvbn-password <https://pypi.org/"
-"project/django-zxcvbn-password/>`_ — додаток, який дає доволі реалістичну "
-"оцінку складності пароля та надає змогу відмовляти у реєстрації паролів, які "
-"не є достатньо складними."
+"Крім того, ви також можете встановити `django-zxcvbn-password-validator "
+"<https://github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_, "
+"який дає досить реалістичні оцінки складності пароля та дозволяє відхиляти "
+"паролі нижче певного порогу."
 
 #: ../../admin/auth.rst:468
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ""
 ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+msgstr ""
+":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/auth.rst:474
 msgid "SAML authentication"
@@ -7170,16 +7161,12 @@ msgid "Skip the :ref:`check-end-stop` quality check."
 msgstr "Пропустити перевірку якості :ref:`check-end-stop`."
 
 #: ../../admin/checks.rst:255
-#, fuzzy
-#| msgid "``ignore-end-Interrobang``"
 msgid "``ignore-end-interrobang``"
-msgstr "``ignore-end-Interrobang``"
+msgstr "``ignore-end-interrobang``"
 
 #: ../../admin/checks.rst:256
-#, fuzzy
-#| msgid "Skip the :ref:`check-end-stop` quality check."
 msgid "Skip the :ref:`check-end-interrobang` quality check."
-msgstr "Пропустити перевірку якості :ref:`check-end-stop`."
+msgstr "Пропустіть перевірку якості :ref:`check-end-interrobang`."
 
 #: ../../admin/checks.rst:257 ../../user/checks.rst:1256
 msgid "``ignore-end-question``"
@@ -7250,10 +7237,8 @@ msgid "``ignore-rst-syntax``"
 msgstr "``ignore-rst-syntax``"
 
 #: ../../admin/checks.rst:274
-#, fuzzy
-#| msgid "Skip the :ref:`check-md-syntax` quality check."
 msgid "Skip the :ref:`check-rst-syntax` quality check."
-msgstr "Пропустити перевірку якості :ref:`check-md-syntax`."
+msgstr "Пропустіть перевірку якості :ref:`check-rst-syntax`."
 
 #: ../../admin/checks.rst:275 ../../user/checks.rst:1491
 msgid "``ignore-reused``"
@@ -9037,22 +9022,20 @@ msgid "GOOGLE_ANALYTICS_ID"
 msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:967
-#, fuzzy
-#| msgid ""
-#| "Google Analytics ID to turn on monitoring of Weblate using Google "
-#| "Analytics."
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Universal "
 "Analytics."
 msgstr ""
-"Ідентифікатор Google Analytics для вмикання спостереження за Weblate за "
-"допомогою Google Analytics."
+"Google Analytics ID, щоб увімкнути моніторинг Weblate за допомогою Google "
+"Universal Analytics."
 
 #: ../../admin/config.rst:971
 msgid ""
 "Google Analytics 4 integration is currently not available for Weblate, "
 "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgstr ""
+"Інтеграція Google Analytics 4 наразі недоступна для Weblate, див. https://"
+"github.com/WeblateOrg/weblate/issues/14015."
 
 #: ../../admin/config.rst:977
 msgid "HIDE_REPO_CREDENTIALS"
@@ -9534,31 +9517,23 @@ msgstr ""
 
 #: ../../admin/config.rst:1368
 msgid "PASSWORD_MINIMAL_STRENGTH"
-msgstr ""
+msgstr "PASSWORD_MINIMAL_STRENGTH"
 
 #: ../../admin/config.rst:1372
-#, fuzzy
-#| msgid ""
-#| "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
-#| "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
-#| "disable strength checking."
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator."
 msgstr ""
-"Мінімальна оцінка пароля за допомогою засобу оцінки складності пароля "
-"`zxcvbn <https://github.com/dropbox/zxcvbn>`_. Типовою є 3, встановіть 0, "
-"щоб вимкнути перевірку складності."
+"Мінімальна оцінка пароля за допомогою `zxcvbn <https://github.com/dwolfhub/"
+"zxcvbn-python>`_ оцінювача надійності пароля."
 
 #: ../../admin/config.rst:1375
 msgid "Defaults to 0, which means strength checking is disabled."
-msgstr ""
+msgstr "За замовчуванням 0, що означає, що перевірку міцності вимкнено."
 
 #: ../../admin/config.rst:1379
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+msgstr ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/config.rst:1386
 msgid "PRIVACY_URL"
@@ -16385,25 +16360,18 @@ msgstr ""
 "яке значення. Див. :ref:`disable-email-auth`."
 
 #: ../../admin/install/docker.rst:1439
-#, fuzzy
-#| msgid ""
-#| "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
-#| "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
-#| "disable strength checking."
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator. Defaults to 3, set to "
 "0 to disable strength checking."
 msgstr ""
-"Мінімальна оцінка пароля за допомогою засобу оцінки складності пароля "
-"`zxcvbn <https://github.com/dropbox/zxcvbn>`_. Типовою є 3, встановіть 0, "
-"щоб вимкнути перевірку складності."
+"Мінімальна оцінка пароля за допомогою `zxcvbn <https://github.com/dwolfhub/"
+"zxcvbn-python>`_ оцінювача надійності пароля. За замовчуванням 3, встановіть "
+"0, щоб вимкнути перевірку міцності."
 
 #: ../../admin/install/docker.rst:1445
-#, fuzzy
-#| msgid ":ref:`password-authentication`"
 msgid ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
-msgstr ":ref:`password-authentication`"
+msgstr ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
 
 #: ../../admin/install/docker.rst:1450
 msgid "PostgreSQL database setup"
@@ -20838,43 +20806,34 @@ msgid "Automatically imported past translations."
 msgstr "Автоматично імпортовані попередні переклади."
 
 #: ../../admin/memory.rst:13
-#, fuzzy
-#| msgid "Content in the translation memory can be applied one of two ways:"
 msgid ""
 "Content in the translation memory can be applied to strings in several ways:"
-msgstr "Вміст пам'яті перекладів може бути застосовано у один з двох способів:"
+msgstr ""
+"Вміст пам’яті перекладів можна застосувати до рядків кількома способами:"
 
 #: ../../admin/memory.rst:15
-#, fuzzy
-#| msgid "Manually: in the :ref:`machine-translation` view while translating."
 msgid ""
 "User can accept suggestions from the :ref:`machine-translation` tab while "
 "editing the string."
-msgstr "Вручну, на панелі :ref:`machine-translation` під час перекладу."
+msgstr ""
+"Користувач може прийняти пропозиції на вкладці :ref:`machine-translation` "
+"під час редагування рядка."
 
 #: ../../admin/memory.rst:16
-#, fuzzy
-#| msgid ""
-#| "When you have made your changes, use :guilabel:`Upload translation` in "
-#| "the :guilabel:`Files` menu."
 msgid ""
 "The selected strings can be processed using :ref:`auto-translation` from "
 "the :guilabel:`Tools` menu."
 msgstr ""
-"Після внесення бажаних змін поза мережею скористайтеся пунктом :guilabel:"
-"`Вивантажити переклад` з меню :guilabel:`Файли`."
+"Вибрані рядки можна обробити за допомогою :ref:`auto-translation` з меню "
+":guilabel:`Tools`."
 
 #: ../../admin/memory.rst:17
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering "
-#| "for newly added strings."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` add-on can automatically "
 "apply changes to new and existing strings."
 msgstr ""
-"Виправлено вмикання додатка :ref:`addon-weblate.autotranslate.autotranslate` "
-"для нових доданих рядків."
+":ref:`addon-weblate.autotranslate.autotranslate` додаток може автоматично "
+"застосовувати зміни до нових і існуючих рядків."
 
 #: ../../admin/memory.rst:19
 msgid ""
@@ -24976,10 +24935,8 @@ msgstr ""
 "``wlp_``."
 
 #: ../../api.rst:86
-#, fuzzy
-#| msgid ":doc:`tt:formats/properties`, :ref:`ini`, :ref:`islu`"
 msgid ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
-msgstr ":doc:`tt:formats/properties`, :ref:`ini`, :ref:`islu`"
+msgstr ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
 
 #: ../../api.rst:91
 msgid "Authentication examples"
@@ -28005,16 +27962,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.2"
 msgid "Weblate 5.10.2"
-msgstr "Weblate 5.0.2"
+msgstr "Weblate 5.10.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on February 8th 2012.*"
 msgid "*Released on February 28th 2025.*"
-msgstr "*Випущено 8 лютого 2012 року.*"
+msgstr "*Випущено 28 лютого 2025 року.*"
 
 #: ../../changes.rst:7 ../../changes.rst:69 ../../changes.rst:180
 #: ../../changes.rst:322 ../../changes.rst:427 ../../changes.rst:523
@@ -28037,20 +27990,16 @@ msgid "Improvements"
 msgstr "Покращення"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved translation memory matches."
 msgid "Improved :ref:`translation-memory` matching."
-msgstr "Удосконалено встановлення відповідності у пам'яті перекладів."
+msgstr "Покращено відповідність :ref:`translation-memory`."
 
 #: ../../changes.rst:11
 msgid "Visual diff now better highlights whitespace additions."
-msgstr ""
+msgstr "Візуальна різниця тепер краще виділяє додавання пробілів."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of file updates."
 msgid "Improved performance on large projects."
-msgstr "Поліпшено швидкодію оновлення файлів."
+msgstr "Покращена продуктивність у великих проектах."
 
 #: ../../changes.rst:15 ../../changes.rst:48 ../../changes.rst:97
 #: ../../changes.rst:139 ../../changes.rst:161 ../../changes.rst:205
@@ -28069,17 +28018,15 @@ msgstr "Виправлення помилок"
 
 #: ../../changes.rst:16
 msgid "Consistency of :ref:`search-boolean` in :doc:`/user/search`."
-msgstr ""
+msgstr "Узгодженість :ref:`search-boolean` у :doc:`/user/search`."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Fixed some checks triggering on non translated strings."
 msgid "Fixed some :ref:`addons` trigger upon installation."
-msgstr "Виправлено спрацьовування деяких перевірок на неперекладених рядках."
+msgstr "Виправлено деякі тригери :ref:`addons` після встановлення."
 
 #: ../../changes.rst:18
 msgid "Fixed restoring of Git repositories from :ref:`projectbackup`."
-msgstr ""
+msgstr "Виправлено відновлення репозиторіїв Git із :ref:`projectbackup`."
 
 #: ../../changes.rst:21 ../../changes.rst:110 ../../changes.rst:211
 #: ../../changes.rst:351 ../../changes.rst:456 ../../changes.rst:546
@@ -28094,6 +28041,8 @@ msgid ""
 "Weblate has switched to a different library for zxcvbn integration, as the "
 "old one is no longer maintained, see :ref:`password-authentication`."
 msgstr ""
+"Weblate перейшов на іншу бібліотеку для інтеграції zxcvbn, оскільки стара "
+"більше не підтримується, див. :ref:`password-authentication`."
 
 #: ../../changes.rst:25 ../../changes.rst:54 ../../changes.rst:116
 #: ../../changes.rst:146 ../../changes.rst:165 ../../changes.rst:219
@@ -28143,19 +28092,14 @@ msgstr ""
 "instructions` для виконання оновлення."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; please "
 "adjust your settings accordingly."
 msgstr ""
-"До :file:`settings_example.py` внесено декілька змін. Найпомітнішою є зміна "
-"у ``CACHES`` і ``SOCIAL_AUTH_PIPELINE``. Будь ласка, скоригуйте параметри "
-"відповідним чином."
+"Є кілька змін у :file:`settings_example.py`, найбільш помітними є змінені "
+"налаштування ``AUTH_PASSWORD_VALIDATORS`` та ``INSTALLED_APPS``; "
+"відкоригуйте налаштування відповідно."
 
 #: ../../changes.rst:31 ../../changes.rst:58 ../../changes.rst:123
 #: ../../changes.rst:150 ../../changes.rst:169 ../../changes.rst:223
@@ -28166,16 +28110,12 @@ msgid "Contributors"
 msgstr "Учасники"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/137?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/138?"
 "closed=1>`__."
 msgstr ""
-"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/137?"
-"closed=1>`__."
+"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/"
+"138?closed=1>`__."
 
 #: ../../changes.rst:37
 msgid "Weblate 5.10.1"
@@ -28203,10 +28143,8 @@ msgid ":ref:`search-strings` supports searching by source string state."
 msgstr ":ref:`search-strings` підтримує пошук за станом вихідного рядка."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid ":ref:`download` performs faster and project and language scopes."
 msgid ":ref:`download` performs faster on project and language scopes."
-msgstr ":ref:`download` працює швидше, проект і мова."
+msgstr ":ref:`download` працює швидше в межах проекту та мови."
 
 #: ../../changes.rst:50
 msgid ""
@@ -49968,10 +49906,8 @@ msgid "Consecutive duplicated words"
 msgstr "Послідовне повторення слів"
 
 #: ../../user/checks.rst:144
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "Текст містить те саме слово двічі поспіль:"
+msgstr "Текст містить те саме слово двічі поспіль"
 
 #: ../../user/checks.rst:146
 msgid "``weblate.checks.duplicate.DuplicateCheck``"
@@ -52097,10 +52033,8 @@ msgid "The string starts with a prohibited character in CSV"
 msgstr "Рядок починається із забороненого символу в CSV"
 
 #: ../../user/checks.rst:1386
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "glossary strings"
-msgstr "Сусідні рядки"
+msgstr "рядки глосарію"
 
 #: ../../user/checks.rst:1387
 msgid "``weblate.checks.glossary.ProhibitedInitialCharacterCheck``"
@@ -52117,6 +52051,11 @@ msgid ""
 "being evaluated as an expression. This also affects :ref:`glossary-mt` where "
 "many services use CSV for synchronizing glossaries and reject such strings."
 msgstr ""
+"Глосарій часто використовується як CSV, і використання деяких символів на "
+"початку обмежено багатьма програмами, оскільки це може призвести до того, що "
+"текст буде оцінено як вираз. Це також впливає на :ref:`glossary-mt`, де "
+"багато служб використовують CSV для синхронізації глосаріїв і відхиляють "
+"такі рядки."
 
 #: ../../user/checks.rst:1401
 msgid "Missing non breakable space before double punctuation sign"
@@ -54645,18 +54584,12 @@ msgid "Boolean operators"
 msgstr "Логічні (булеві) оператори"
 
 #: ../../user/search.rst:121
-#, fuzzy
-#| msgid ""
-#| "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
-#| "form complex queries. For example: ``state:translated AND (source:hello "
-#| "OR source:bar)``"
 msgid ""
 "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
 "form complex queries."
 msgstr ""
-"Ви можете поєднувати критерії пошуку за допомогою операторів ``AND``, "
-"``OR``, ``NOT`` та дужок для формування складених запитів. Приклад: ``state:"
-"translated AND (source:hello OR source:bar)``"
+"Ви можете комбінувати пошуки за допомогою ``AND``, ``OR``, ``NOT`` і круглих "
+"дужок для формування складних запитів."
 
 #: ../../user/search.rst:124
 msgid ""
@@ -54664,42 +54597,45 @@ msgid ""
 "``AND`` operator has higher precedence than the ``OR`` operator. You can add "
 "parenthesis to define a precedence of your own."
 msgstr ""
+"Оператор ``NOT`` має вищий пріоритет, ніж оператор ``AND``; оператор ``AND`` "
+"має вищий пріоритет, ніж оператор ``OR``. Ви можете додати дужки, щоб "
+"визначити власний пріоритет."
 
 #: ../../user/search.rst:128
 msgid ""
 "Omitting the operator will make the query behave like the ``AND`` operator "
 "was used."
 msgstr ""
+"Пропущення оператора призведе до того, що запит поводитиметься так, як "
+"використовувався оператор ``І``."
 
 #: ../../user/search.rst:131
-#, fuzzy
-#| msgid "Regular expressions"
 msgid "Equivalent expressions"
-msgstr "Формальні вирази"
+msgstr "Рівносильні вирази"
 
 #: ../../user/search.rst:133
 msgid "``(state:translated AND source:hello) OR source:bar``"
-msgstr ""
+msgstr "``(state:translated AND source:hello) OR source:bar``"
 
 #: ../../user/search.rst:134
 msgid "Parenthesized expression to clearly show the precedence."
-msgstr ""
+msgstr "Вираз у дужках, щоб чітко показати пріоритет."
 
 #: ../../user/search.rst:135
 msgid "``state:translated AND source:hello OR source:bar``"
-msgstr ""
+msgstr "``state:translated AND source:hello OR source:bar``"
 
 #: ../../user/search.rst:136
 msgid "The ``AND`` operator has higher precedence than the ``OR`` operator."
-msgstr ""
+msgstr "Оператор ``І`` має вищий пріоритет, ніж оператор ``АБО``."
 
 #: ../../user/search.rst:137
 msgid "``state:translated source:hello OR source:bar``"
-msgstr ""
+msgstr "``state:translated source:hello OR source:bar``"
 
 #: ../../user/search.rst:138
 msgid "Query using an implicit ``AND`` operator."
-msgstr ""
+msgstr "Запит із використанням неявного оператора ``AND``."
 
 #: ../../user/search.rst:143
 msgid "Field operators"

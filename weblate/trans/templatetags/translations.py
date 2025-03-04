@@ -836,7 +836,11 @@ def naturaltime(
     if isinstance(value, datetime) and not microseconds:
         value = value.replace(microsecond=0)
 
-    return format_html('<span title="{}">{}</span>', value.isoformat(), text)
+    return format_html(
+        '<span title="{}">{}</span>',
+        timezone.localtime(value).isoformat(),
+        text,
+    )
 
 
 def get_stats(obj):
@@ -1586,7 +1590,7 @@ def list_objects_number(
         """,
         url_start=url_start,
         url_end=url_end,
-        css=css,
+        css=css if css is not None else "",
         value=value,
         value_formatted=value_formatted,
     )

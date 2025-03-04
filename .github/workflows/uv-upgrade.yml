@@ -28,15 +28,15 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683                                       # v4
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       if: github.event_name != 'pull_request'
       with:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
 
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683                                       # v4
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       if: github.event_name == 'pull_request'
 
-    - uses: astral-sh/setup-uv@1edb52594c857e2b5b13128931090f0640537287 # v5
+    - uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231 # v5.3.1
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -49,7 +49,7 @@ jobs:
         fi
 
     - name: Set up Python
-      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
+      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
       with:
         python-version: '3.13'
 
@@ -62,14 +62,14 @@ jobs:
 
     - name: Update current branch
       if: ( github.event_name == 'pull_request' && github.actor != 'renovate[bot]' ) || ( github.event_name == 'push' && github.ref_name != 'main' )
-      uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # v5
+      uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # v5.1.0
       with:
         commit_message: 'chore(deps): update lockfile'
 
     - name: Create Pull Request
       id: cpr
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-      uses: peter-evans/create-pull-request@dd2324fc52d5d43c699a5636bcf19fceaa70c284 # v7
+      uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
       with:
         branch: create-pull-request/uv-lock-update
         title: 'chore(deps): update lockfile'

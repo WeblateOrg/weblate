@@ -1237,7 +1237,7 @@ class CategoryStats(ParentAggregatingStats):
             yield from self._object.project.stats.get_update_objects()
 
     def get_child_objects(self):
-        return self._object.component_set.only("id", "category")
+        return self._object.component_set.only("id", "category", "check_flags")
 
     def get_category_objects(self):
         return self._object.category_set.only("id", "category")
@@ -1258,7 +1258,7 @@ class ProjectStats(ParentAggregatingStats):
         return self._object.enable_review
 
     def get_child_objects(self):
-        return self._object.component_set.only("id", "project")
+        return self._object.component_set.only("id", "project", "check_flags")
 
     def get_single_language_stats(self, language):
         return ProjectLanguageStats(ProjectLanguage(self._object, language))

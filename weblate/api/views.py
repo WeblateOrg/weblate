@@ -650,7 +650,11 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
-    @extend_schema(description="Delete a language from a group.", methods=["delete"])
+    @extend_schema(
+        description="Delete a language from a group.",
+        methods=["delete"],
+        parameters=[OpenApiParameter("language_code", str, OpenApiParameter.PATH)],
+    )
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
@@ -1139,7 +1143,7 @@ class ProjectViewSet(
 
         return download_multi(
             cast("AuthenticatedHttpRequest", request),
-            translations,
+            translations.prefetch_meta(),
             [instance],
             requested_format,
             name=instance.slug,
@@ -1501,6 +1505,7 @@ class ComponentViewSet(
     @extend_schema(
         description="Remove association of a project with a component.",
         methods=["delete"],
+        parameters=[OpenApiParameter("project_slug", str, OpenApiParameter.PATH)],
     )
     @action(detail=True, methods=["delete"], url_path="links/(?P<project_slug>[^/.]+)")
     def delete_links(self, request: Request, project__slug, slug, project_slug):
@@ -1529,7 +1534,7 @@ class ComponentViewSet(
         requested_format = request.query_params.get("format", "zip")
         return download_multi(
             cast("AuthenticatedHttpRequest", request),
-            instance.translation_set.all(),
+            instance.translation_set.prefetch_meta(),
             [instance],
             requested_format,
             name=instance.full_slug.replace("/", "-"),
@@ -2221,6 +2226,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     @extend_schema(
         description="Disassociate a component from the component list.",
         methods=["delete"],
+        parameters=[OpenApiParameter("component_slug", str, OpenApiParameter.PATH)],
     )
     @action(
         detail=True,
@@ -2325,6 +2331,8 @@ class Metrics(APIView):
 class Search(APIView):
     """Site-wide search endpoint."""
 
+    serializer_class = None
+
     def get(self, request: Request, format=None):  # noqa: A002
         """Return site-wide search results as a list."""
         user = request.user
@@ -2378,10 +2386,11 @@ class Search(APIView):
         return Response(results)
 
 
-@extend_schema_view(
-    list=extend_schema(description="Listing of the tasks is currently not available.")
-)
 class TasksViewSet(ViewSet):
+    # Task-related data is handled and queried to Celery.
+    # There is no Django model associated with tasks.
+    serializer_class = None
+
     def get_task(
         self, request, pk, permission: str | None = None
     ) -> tuple[AsyncResult, Component | None]:
