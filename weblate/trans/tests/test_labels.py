@@ -22,12 +22,30 @@ class LabelTest(ViewTestCase):
                 "name": "Test label",
                 "description": "Test description for Test Label",
                 "color": "orange",
+                "project": self.project.pk,
             },
             follow=True,
         )
         self.assertRedirects(response, self.labels_url)
         self.assertContains(response, "Test label")
         self.assertTrue(self.project.label_set.filter(name="Test label").exists())
+
+    def test_create_duplicate(self) -> None:
+        self.test_create()
+        response = self.client.post(
+            self.labels_url,
+            {
+                "name": "Test label",
+                "description": "Test description for Test Label",
+                "color": "orange",
+                "project": self.project.pk,
+            },
+            follow=True,
+        )
+        self.assertContains(
+            response, "Label with this Project and Label name already exists."
+        )
+        self.assertEqual(self.project.label_set.filter(name="Test label").count(), 1)
 
     def test_edit_name(self) -> None:
         self.test_create()
@@ -40,6 +58,7 @@ class LabelTest(ViewTestCase):
                 "name": "Renamed label",
                 "description": "Test description for Test Label",
                 "color": "orange",
+                "project": self.project.pk,
             },
             follow=True,
         )
@@ -58,6 +77,7 @@ class LabelTest(ViewTestCase):
                 "name": "Test label",
                 "description": "Edited description for Test Label",
                 "color": "orange",
+                "project": self.project.pk,
             },
             follow=True,
         )

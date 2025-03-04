@@ -502,6 +502,23 @@ class RSTReferencesCheckTest(CheckTestCase):
                 "rst-text",
             ),
         )
+        self.do_test(
+            True,
+            (
+                ":ref:`data volume <docker-volume>`",
+                ":ref:` toirt sonraí <docker-volume>`",
+                "rst-text",
+            ),
+        )
+
+        self.do_test(
+            True,
+            (
+                ":setting:`ENABLE_HTTPS` is now required for WebAuthn support. If you cannot use HTTPS, please silence related check as described in :setting:`ENABLE_HTTPS` documentation.",
+                ":setting:Tá `ENABLE_HTTPS` ag teastáil anois le haghaidh tacaíochta WebAuthn. Mura bhfuil tú in ann HTTPS a úsáid, cuir an seiceáil a bhaineann le do thost mar a thuairiscítear i :setting:`ENABLE_HTTPS` doiciméadú.",
+                "rst-text",
+            ),
+        )
 
     def test_translatable(self) -> None:
         self.do_test(

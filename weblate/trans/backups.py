@@ -11,6 +11,7 @@ import os
 from collections import defaultdict
 from datetime import datetime
 from itertools import chain
+from pathlib import Path
 from shutil import copyfileobj
 from typing import TYPE_CHECKING, Any, BinaryIO, TypedDict
 from zipfile import ZipFile
@@ -75,6 +76,7 @@ class ProjectBackup:
         self.languages_cache: dict[str, Language] = {}
         self.labels_map: dict[str, Label] = {}
         self.user_cache: dict[str, User] = {}
+        self.components_cache: dict[str, Component] = {}
 
     @property
     def supports_restore(self):
@@ -278,6 +280,12 @@ class ProjectBackup:
         # Store VCS repo in case it is present
         if component.is_repo_link:
             return
+
+        # Compact the repository
+        with component.repository.lock:
+            component.repository.compact()
+
+        # Actually perform the backup
         self.backup_dir(
             backupzip,
             component.full_path,
@@ -337,27 +345,49 @@ class ProjectBackup:
         validate_schema(data, "weblate-memory.schema.json")
         return data
 
-    def load_components(self, zipfile, callback: Callable | None = None) -> None:
-        for component in self.list_components(zipfile):
-            with zipfile.open(component) as handle:
-                data = json.load(handle)
-                validate_schema(data, "weblate-component.schema.json")
-                if data["component"]["vcs"] not in VCS_REGISTRY:
-                    msg = f"Component {data['component']['name']} uses unsupported VCS: {data['component']['vcs']}"
+    def load_component(
+        self,
+        zipfile,
+        filename: str,
+        *,
+        skip_linked: bool = False,
+        do_restore: bool = False,
+    ) -> None:
+        with zipfile.open(filename) as handle:
+            data = json.load(handle)
+            validate_schema(data, "weblate-component.schema.json")
+            if skip_linked and data["component"]["repo"].startswith("weblate:"):
+                return False
+            if data["component"]["vcs"] not in VCS_REGISTRY:
+                msg = f"Component {data['component']['name']} uses unsupported VCS: {data['component']['vcs']}"
+                raise ValueError(msg)
+            # Validate translations have unique languages
+            languages = defaultdict(list)
+            for item in data["translations"]:
+                language = self.import_language(item["language_code"])
+                languages[language.code].append(item["language_code"])
+
+            for code, values in languages.items():
+                if len(values) > 1:
+                    msg = f"Several languages from backup map to single language on this server {values} -> {code}"
                     raise ValueError(msg)
-                # Validate translations have unique languages
-                languages = defaultdict(list)
-                for item in data["translations"]:
-                    language = self.import_language(item["language_code"])
-                    languages[language.code].append(item["language_code"])
 
-                for code, values in languages.items():
-                    if len(values) > 1:
-                        msg = f"Several languages from backup map to single language on this server {values} -> {code}"
-                        raise ValueError(msg)
+            if do_restore:
+                self.restore_component(zipfile, data)
+            return True
 
-                if callback is not None:
-                    callback(zipfile, data)
+    def load_components(self, zipfile, *, do_restore: bool = False) -> None:
+        pending: list[str] = []
+        for component in self.list_components(zipfile):
+            processed = self.load_component(
+                zipfile, component, skip_linked=True, do_restore=do_restore
+            )
+            if not processed:
+                pending.append(component)
+        for component in pending:
+            self.load_component(
+                zipfile, component, skip_linked=False, do_restore=do_restore
+            )
 
     def validate(self) -> None:
         if not self.supports_restore:
@@ -412,6 +442,18 @@ class ProjectBackup:
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]
         )
+
+        # Fixup linked components
+        if kwargs["repo"].startswith("weblate:"):
+            old_slug = f"weblate://{self.data['project']['slug']}/"
+            new_slug = f"weblate://{self.project.slug}/"
+            kwargs["repo"] = kwargs["repo"].replace(old_slug, new_slug)
+            # Update linked_component attribute
+            if kwargs["repo"].startswith(new_slug):
+                kwargs["linked_component"] = self.components_cache[
+                    kwargs["repo"].removeprefix("weblate://")
+                ]
+
         component = Component(project=self.project, **kwargs)
         # Trigger pre_save to update git export URL
         pre_save.send(
@@ -485,8 +527,10 @@ class ProjectBackup:
         # Apply metadata
         for unit in chain(source_units, units):
             # Labels
-            for label in unit.import_data["labels"]:
-                unit.labels.add(self.labels_map[label])
+            unit.labels.through.objects.bulk_create(
+                unit.labels.through(unit=unit, label=self.labels_map[label])
+                for label in unit.import_data["labels"]
+            )
 
             # Comments
             if unit.import_data["comments"]:
@@ -550,6 +594,9 @@ class ProjectBackup:
         # Trigger checks update, the implementation might have changed
         component.schedule_update_checks()
 
+        # Update cache
+        self.components_cache[component.full_slug] = component
+
     def import_language(self, code: str):
         if not self.languages_cache:
             self.languages_cache = {lang.code: lang for lang in Language.objects.all()}
@@ -601,30 +648,26 @@ class ProjectBackup:
             )
 
             # Extract VCS
+            project_path = Path(project.full_path)
             for name in zipfile.namelist():
                 if name.startswith(self.VCS_PREFIX):
                     path = name[self.VCS_PREFIX_LEN :]
                     # Skip potentially dangerous paths
                     if path != os.path.normpath(path):
                         continue
-                    targetpath = os.path.join(project.full_path, path)
-                    upperdirs = os.path.dirname(targetpath)
-                    if upperdirs and not os.path.exists(upperdirs):
-                        os.makedirs(upperdirs)
-                    with zipfile.open(name) as source, open(targetpath, "wb") as target:
+                    targetpath = project_path / path
+                    # Make sure the directory exists
+                    targetpath.parent.mkdir(parents=True, exist_ok=True)
+                    with zipfile.open(name) as source, targetpath.open("wb") as target:
                         copyfileobj(source, target)
+                    # Create possibly missing refs directory in .git, this is not restored as
+                    # all references are in packed_refs after `git gc`.
+                    if path.endswith(".git/packed-refs"):
+                        git_refs_dir = targetpath.parent / "refs"
+                        git_refs_dir.mkdir(parents=True, exist_ok=True)
 
             # Create components
-            self.load_components(zipfile, self.restore_component)
-
-        # Fixup linked components
-        old_slug = f"/{self.data['project']['slug']}/"
-        new_slug = f"/{project.slug}/"
-        for component in self.project.component_set.filter(
-            repo__istartswith="weblate:"
-        ):
-            component.repo = component.repo.replace(old_slug, new_slug)
-            component.save()
+            self.load_components(zipfile, do_restore=True)
 
         return self.project
 

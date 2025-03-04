@@ -14,7 +14,12 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.lang.models import Language
 from weblate.trans.defines import CATEGORY_DEPTH, COMPONENT_NAME_LENGTH
-from weblate.trans.mixins import CacheKeyMixin, ComponentCategoryMixin, PathMixin
+from weblate.trans.mixins import (
+    CacheKeyMixin,
+    ComponentCategoryMixin,
+    LockMixin,
+    PathMixin,
+)
 from weblate.trans.models.change import Change
 from weblate.utils.stats import CategoryStats
 from weblate.utils.validators import validate_slug
@@ -43,7 +48,9 @@ class CategoryQuerySet(models.QuerySet):
         return self.order_by("name")
 
 
-class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
+class Category(
+    models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
+):
     name = models.CharField(
         verbose_name=gettext_lazy("Category name"),
         max_length=COMPONENT_NAME_LENGTH,
@@ -69,7 +76,6 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         related_name="category_set",
     )
 
-    is_lockable = False
     remove_permission = "project.edit"
     settings_permission = "project.edit"
 

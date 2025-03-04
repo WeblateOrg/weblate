@@ -185,7 +185,7 @@ class EndStopCheck(TargetCheck):
         # Allow ... to be translated into ellipsis
         if source.endswith("...") and target[-1] == "…":
             return False
-        if unit.translation.language.is_base({"ja"}) and source[-1] in {":", ";"}:
+        if unit.translation.language.is_cjk() and source[-1] in {":", ";"}:
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
             return self.check_chars(source, target, -1, {";", ":", "：", ".", "。"})
@@ -237,7 +237,7 @@ class EndColonCheck(TargetCheck):
             return False
         if unit.translation.language.is_base({"hy"}):
             return self._check_hy(source, target)
-        if unit.translation.language.is_base({"ja"}):
+        if unit.translation.language.is_cjk():
             return self._check_ja(source, target)
         return self.check_chars(source, target, -1, {":", "：", "៖"})
 
@@ -317,7 +317,7 @@ class EndExclamationCheck(TargetCheck):
 class EndInterrobangCheck(TargetCheck):
     """Check for final interrobang expression."""
 
-    check_id = "end_Interrobang"
+    check_id = "end_interrobang"
     name = gettext_lazy("Mismatched interrobang")
     description = gettext_lazy(
         "Source and translation do not both end with an interrobang expression"
@@ -466,7 +466,7 @@ class PunctuationSpacingCheck(TargetCheck):
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if (
-            not unit.translation.language.is_base({"fr", "br"})
+            not unit.translation.language.is_base({"fr"})
             or unit.translation.language.code == "fr_CA"
         ):
             return False

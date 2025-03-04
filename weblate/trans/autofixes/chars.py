@@ -117,7 +117,7 @@ class PunctuationSpacing(AutoFix):
             return f"\u00a0{matchobj.group(2)}"
 
         if (
-            unit.translation.language.is_base({"fr", "br"})
+            unit.translation.language.is_base({"fr"})
             and unit.translation.language.code != "fr_CA"
             and "ignore-punctuation-spacing" not in unit.all_flags
         ):

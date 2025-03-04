@@ -170,16 +170,37 @@ class GitRepository(Repository):
         self.config_update(("push", "default", "current"))
 
     @staticmethod
-    def get_depth():
+    def get_depth() -> Iterator[str]:
         if settings.VCS_CLONE_DEPTH:
-            return ["--depth", str(settings.VCS_CLONE_DEPTH)]
+            yield "--depth"
+            yield str(settings.VCS_CLONE_DEPTH)
+
+    @staticmethod
+    def _get_auth_args(repo: str) -> Iterator[str]:
+        if repo.startswith("http") and "@" in repo:
+            # proactive HTTP authentication, needs Git 2.46
+            yield "-c"
+            yield "http.proactiveAuth=auto"
+
+    def get_auth_args(self) -> list[str]:
+        if self.component:
+            return list(self._get_auth_args(self.component.repo))
         return []
 
     @classmethod
     def _clone(cls, source: str, target: str, branch: str) -> None:
         """Clone repository."""
         cls._popen(
-            ["clone", *cls.get_depth(), "--branch", branch, "--", source, target]
+            [
+                *cls._get_auth_args(source),
+                "clone",
+                *cls.get_depth(),
+                "--branch",
+                branch,
+                "--",
+                source,
+                target,
+            ]
         )
 
     def get_config(self, path):
@@ -206,7 +227,7 @@ class GitRepository(Repository):
             cmd = ["rebase"]
             cmd.extend(self.get_gpg_sign_args())
             cmd.append(self.get_remote_branch_name())
-            self.execute(cmd)
+            self.execute(cmd, environment={"WEBLATE_MERGE_SKIP": "1"})
         self.clean_revision_cache()
 
     def has_git_file(self, name):
@@ -463,6 +484,7 @@ class GitRepository(Repository):
     @classmethod
     def global_setup(cls) -> None:
         """Perform global settings."""
+        home = data_path("home")
         merge_driver = cls.get_merge_driver("po")
         updates = [
             ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
@@ -489,7 +511,7 @@ class GitRepository(Repository):
                 )
             )
 
-        filename = data_path("home") / ".gitconfig"
+        filename = home / ".gitconfig"
         attempts = 0
         while attempts < 5:
             try:
@@ -498,6 +520,12 @@ class GitRepository(Repository):
             except OSError:
                 attempts += 1
                 sleep(attempts * 0.1)
+
+        # Use it for *.po by default
+        configfile = home / ".config" / "git" / "attributes"
+        if configfile.parent.is_dir():
+            configfile.parent.mkdir(parents=True, exist_ok=True)
+            configfile.write_text("*.po merge=weblate-merge-gettext-po\n")
 
     def get_file(self, path, revision) -> str:
         """Return content of file at given revision."""
@@ -527,18 +555,19 @@ class GitRepository(Repository):
 
     def update_remote(self) -> None:
         """Update remote repository."""
-        self.execute(["remote", "prune", "origin"])
+        auth_args = self.get_auth_args()
+        self.execute([*auth_args, "remote", "prune", "origin"])
         if self.list_remote_branches():
             # Updating existing fork
-            self.execute(["fetch", "origin"])
+            self.execute([*auth_args, "fetch", "origin"])
         else:
             # Doing initial fetch
             try:
-                self.execute(["fetch", "origin", *self.get_depth()])
+                self.execute([*auth_args, "fetch", "origin", *self.get_depth()])
             except RepositoryError as error:
                 if error.retcode == 1 and not error.args[0]:
                     # Fetch with --depth fails on blank repo
-                    self.execute(["fetch", "origin"])
+                    self.execute([*auth_args, "fetch", "origin"])
                 else:
                     raise
 
@@ -550,7 +579,7 @@ class GitRepository(Repository):
         self.execute([*self._cmd_push, "origin", refspec])
 
     def unshallow(self) -> None:
-        self.execute(["fetch", "--unshallow"])
+        self.execute([*self.get_auth_args(), "fetch", "--unshallow"])
 
     def parse_changed_files(self, lines: list[str]) -> Iterator[str]:
         """Parse output with changed files."""
@@ -565,6 +594,9 @@ class GitRepository(Repository):
             result.extend(("", gettext("Possible cleanups:"), "", cleanups))
 
         return "\n".join(result)
+
+    def compact(self) -> None:
+        self.execute(["gc"])
 
 
 class GitWithGerritRepository(GitRepository):

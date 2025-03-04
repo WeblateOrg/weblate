@@ -76,6 +76,7 @@ from weblate.utils.forms import (
     UsernameField,
 )
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -1031,7 +1032,7 @@ class AutoForm(forms.Form):
             ("translate", gettext("Add as translation")),
             ("fuzzy", gettext('Add as "Needing edit"')),
         ]
-        if user is not None and user.has_perm("unit.review", obj):
+        if user is not None and (user.has_perm("unit.review", obj) or obj is None):
             choices.append(("approved", gettext("Add as approved translation")))
         self.fields["mode"].choices = choices
 
@@ -2123,7 +2124,13 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                             "You must specify a license for these components "
                             "to make them publicly accessible: %s"
                         )
-                        % ", ".join(unlicensed.values_list("name", flat=True))
+                        % format_html_join_comma(
+                            '<a href="{}">{}</a>',
+                            (
+                                (component.get_absolute_url(), component.name)
+                                for component in unlicensed
+                            ),
+                        )
                     }
                 )
 
@@ -2851,11 +2858,20 @@ class ChangesForm(forms.Form):
 class LabelForm(forms.ModelForm):
     class Meta:
         model = Label
-        fields = ("name", "description", "color")
-        widgets = {"color": ColorWidget()}
+        fields = ("name", "description", "color", "project")
+        widgets = {
+            "color": ColorWidget(),
+            "project": forms.HiddenInput(),
+        }
 
-    def __init__(self, *args, **kwargs) -> None:
+    def clean_project(self):
+        # Ignore any passed value, override by current one
+        return self.project
+
+    def __init__(self, project: Project, *args, **kwargs) -> None:
+        kwargs["initial"] = {"project": project}
         super().__init__(*args, **kwargs)
+        self.project = project
         self.helper = FormHelper(self)
         self.helper.form_tag = False
 

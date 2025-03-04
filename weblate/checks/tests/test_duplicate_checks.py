@@ -85,7 +85,12 @@ class DuplicateCheckTest(CheckTestCase):
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
-            "Text contains the same word twice in a row: lemons, two",
+            "The following words are duplicated: <code>lemons</code>, <code>two</code>",
+        )
+        unit.target = "I have two two"
+        self.assertEqual(
+            self.check.get_description(check),
+            "The following word is duplicated: <code>two</code>",
         )
 
     def test_check_duplicated_language_cleanup(self) -> None:

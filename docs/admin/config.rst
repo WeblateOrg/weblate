@@ -183,20 +183,7 @@ List of automatic fixes to apply when saving a string.
     Provide a fully-qualified path to the Python class that implements the
     autofixer interface.
 
-Available fixes:
-
-``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``
-    Matches whitespace at the start and end of the string to the source.
-``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
-    Replaces trailing dots (...) if the source string has a corresponding ellipsis (…).
-``weblate.trans.autofixes.chars.RemoveZeroSpace``
-    Removes zero-width space characters if the source does not contain any.
-``weblate.trans.autofixes.chars.RemoveControlChars``
-    Removes control characters if the source does not contain any.
-``weblate.trans.autofixes.chars.DevanagariDanda``
-    Replaces sentence full stop in Bangla by the devanagari danda character.
-``weblate.trans.autofixes.html.BleachHTML``
-    Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:`check-safe-html`).
+Available fixes are described at :ref:`autofix`.
 
 You can select which ones to use:
 
@@ -977,7 +964,12 @@ Additional settings not described here can be found at :ref:`settings-credential
 GOOGLE_ANALYTICS_ID
 -------------------
 
-Google Analytics ID to turn on monitoring of Weblate using Google Analytics.
+Google Analytics ID to turn on monitoring of Weblate using Google Universal Analytics.
+
+.. note::
+
+   Google Analytics 4 integration is currently not available for Weblate,
+   please see https://github.com/WeblateOrg/weblate/issues/14015.
 
 .. setting:: HIDE_REPO_CREDENTIALS
 
@@ -1369,6 +1361,23 @@ List for credentials for Pagure servers.
 
    :ref:`vcs-pagure`,
    `Pagure API <https://pagure.io/api/0/>`_
+
+.. setting:: PASSWORD_MINIMAL_STRENGTH
+
+PASSWORD_MINIMAL_STRENGTH
+-------------------------
+
+.. versionadded:: 5.10.2
+
+Minimal password score as evaluated by the `zxcvbn
+<https://github.com/dwolfhub/zxcvbn-python>`_ password strength estimator.
+
+Defaults to 0, which means strength checking is disabled.
+
+.. seealso::
+
+   :ref:`password-authentication`,
+   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
 
 
 .. setting:: PRIVACY_URL

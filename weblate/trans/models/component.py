@@ -8,10 +8,9 @@ import os
 import re
 import time
 from collections import defaultdict
-from copy import copy
 from glob import glob
 from itertools import chain
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypedDict
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
@@ -27,6 +26,9 @@ from django.db.models import Count, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils.functional import cached_property
+from django.utils.html import format_html, format_html_join
+from django.utils.safestring import mark_safe
+from django.utils.timezone import localtime
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
 
@@ -43,7 +45,12 @@ from weblate.trans.defines import (
 )
 from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
-from weblate.trans.mixins import CacheKeyMixin, ComponentCategoryMixin, PathMixin
+from weblate.trans.mixins import (
+    CacheKeyMixin,
+    ComponentCategoryMixin,
+    LockMixin,
+    PathMixin,
+)
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT, Alert, update_alerts
 from weblate.trans.models.change import Change
 from weblate.trans.models.translation import Translation
@@ -93,7 +100,12 @@ from weblate.utils.render import (
     validate_repoweb,
 )
 from weblate.utils.site import get_site_url
-from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_FUZZY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 from weblate.utils.stats import ComponentStats
 from weblate.utils.validators import (
     validate_filename,
@@ -338,7 +350,13 @@ class ComponentQuerySet(models.QuerySet):
         )
 
 
-class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
+class OldComponentSettings(TypedDict):
+    check_flags: str
+
+
+class Component(
+    models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
+):
     name = models.CharField(
         verbose_name=gettext_lazy("Component name"),
         max_length=COMPONENT_NAME_LENGTH,
@@ -818,7 +836,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.needs_cleanup = False
         self.alerts_trigger: dict[str, list[dict]] = {}
         self.updated_sources: dict[int, Unit] = {}
-        self.old_component = copy(self)
+        self.old_component_settings: OldComponentSettings = {
+            "check_flags": self.check_flags
+        }
         self._sources: dict[int, Unit] = {}
         self._sources_prefetched = False
         self.logs: list[str] = []
@@ -851,6 +871,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         changed_setup = False
         changed_template = False
         changed_variant = False
+        changed_enforced_checks = False
         create = True
 
         # Sets the key_filter to blank if the file format is bilingual
@@ -896,6 +917,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             if changed_git:
                 self.drop_repository_cache()
 
+            changed_enforced_checks = (
+                old.enforced_checks != self.enforced_checks and self.enforced_checks
+            )
+
             create = False
         elif self.is_glossary:
             # Creating new glossary
@@ -931,6 +956,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 changed_setup=changed_setup,
                 changed_template=changed_template,
                 changed_variant=changed_variant,
+                changed_enforced_checks=changed_enforced_checks,
                 skip_push=kwargs.get("force_insert", False),
                 create=create,
             )
@@ -941,12 +967,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 changed_setup=changed_setup,
                 changed_template=changed_template,
                 changed_variant=changed_variant,
+                changed_enforced_checks=changed_enforced_checks,
                 skip_push=kwargs.get("force_insert", False),
                 create=create,
             )
             self.store_background_task(task)
 
-        if self.old_component.check_flags != self.check_flags:
+        if self.old_component_settings["check_flags"] != self.check_flags:
             transaction.on_commit(
                 lambda: self.schedule_update_checks(update_state=True)
             )
@@ -1119,11 +1146,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             self.linked_component.store_log(slug, msg, *args)
             return
         self.logs.append(f"{slug}: {msg % args}")
-        if current_task:
+        if current_task and current_task.request.id:
             cache.set(f"task-log-{current_task.request.id}", self.logs, 2 * 3600)
 
     def log_hook(self, level, msg, *args) -> None:
-        self.store_log(self.full_slug, msg, *args)
+        if level != "DEBUG":
+            self.store_log(self.full_slug, msg, *args)
 
     def get_progress(self):
         task = self.background_task
@@ -1968,6 +1996,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @cached_property
     def linked_childs(self) -> ComponentQuerySet:
         """Return list of components which links repository to us."""
+        if self.is_repo_link:
+            return self.component_set.none()
         children = self.component_set.prefetch()
         for child in children:
             child.linked_component = self
@@ -2111,7 +2141,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 message = render_template(template, **context)
 
             # Actual commit
-            if not self.repository.commit(message, author, timestamp, files):
+            if not self.repository.commit(message, author, localtime(timestamp), files):
                 return False
 
             # Send post commit signal
@@ -2460,7 +2490,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 raise InvalidTemplateError(info=str(exc)) from exc
         self._template_check_done = True
 
-    def _create_translations(  # noqa: C901
+    def _create_translations(  # noqa: C901,PLR0915
         self,
         force: bool = False,
         langs: list[str] | None = None,
@@ -2470,6 +2500,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         change: int | None = None,
     ) -> bool:
         """Load translations from VCS."""
+        from weblate.trans.tasks import update_enforced_checks
+
         self.store_background_task()
 
         # Store the revision as add-ons might update it later
@@ -2651,6 +2683,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.processed_revision = current_revision
         # Avoid using save() here
         Component.objects.filter(pk=self.pk).update(processed_revision=current_revision)
+
+        if self.enforced_checks:
+            update_enforced_checks.delay_on_commit(component=self.pk)
 
         self.log_info("updating completed")
         return was_change
@@ -2851,7 +2886,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def clean_files(self, matches) -> None:
         """Validate that translation files can be parsed."""
-        errors = []
+        errors: list[str, Exception] = []
         dir_path = self.full_path
         for match in matches:
             try:
@@ -2860,18 +2895,30 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 )
                 store.check_valid()
             except Exception as error:
-                errors.append(f"{match}: {error}")
+                errors.append((match, error))
         if errors:
-            msg = "{}\n{}".format(
-                ngettext(
-                    "Could not parse %d matched file.",
-                    "Could not parse %d matched files.",
-                    len(errors),
+            if len(errors) == 1:
+                msg = format_html(
+                    gettext("Could not parse {file}: {error}"),
+                    file=format_html("<code>{}</code>", errors[0][0]),
+                    error=errors[0][1],
                 )
-                % len(errors),
-                "\n".join(errors),
-            )
-            raise ValidationError(msg)
+            else:
+                msg = format_html(
+                    "{}<br>{}",
+                    ngettext(
+                        "Could not parse %d matched file.",
+                        "Could not parse %d matched files.",
+                        len(errors),
+                    )
+                    % len(errors),
+                    format_html_join(
+                        mark_safe("<br>"),  # noqa: S308
+                        "<code>{}</code>: {}",
+                        errors,
+                    ),
+                )
+            raise ValidationError({"filemask": msg})
 
     def is_valid_base_for_new(self, errors: list | None = None, fast: bool = False):
         filename = self.get_new_base_filename()
@@ -3183,6 +3230,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         changed_setup: bool,
         changed_template: bool,
         changed_variant: bool,
+        changed_enforced_checks: bool,
         skip_push: bool,
         create: bool,
     ) -> None:
@@ -3211,6 +3259,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Update variants (create_translation does this on change)
         if changed_variant and not was_change:
             self.update_variants()
+
+        # Update changed enforced checks
+        if changed_enforced_checks:
+            self.update_enforced_checks()
 
         self.progress_step(100)
         self.translations_count = None
@@ -3614,14 +3666,18 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.commit_pending("add language", None)
 
             # Create or get translation object
-            translation = self.translation_set.get_or_create(
+            translation, created = self.translation_set.get_or_create(
                 language=language,
                 defaults={
                     "plural": language.plural,
                     "filename": filename,
                     "language_code": code,
                 },
-            )[0]
+            )
+            # Make it clear that there is no change for the newly created translation
+            # to avoid expensive last change lookup in stats while committing changes.
+            if created:
+                Change.store_last_change(translation, None)
 
             # Create the file
             if os.path.exists(fullname):
@@ -3832,8 +3888,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         update_checks.delay_on_commit(self.pk, update_token, update_state=update_state)
 
     @property
-    def all_repo_components(self):
-        if self.is_repo_link:
+    def all_repo_components(self) -> list[Component]:
+        if self.linked_component:
             return [self.linked_component]
         return [self]
 
@@ -3850,6 +3906,28 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return self.repository.status()
         except RepositoryError as error:
             return "{}\n\n{}".format(gettext("Could not get repository status!"), error)
+
+    def update_enforced_checks(self) -> None:
+        from weblate.trans.models import Unit
+
+        units = Unit.objects.filter(
+            check__name__in=self.enforced_checks,
+            translation__component=self,
+            state__in=(STATE_TRANSLATED, STATE_APPROVED),
+        )
+
+        for unit in units.select_for_update():
+            unit.translate(
+                None,
+                unit.target,
+                STATE_FUZZY,
+                change_action=Change.ACTION_ENFORCED_CHECK,
+                propagate=False,
+            )
+
+    @cached_property
+    def api_slug(self):
+        return "%252F".join(self.get_url_path()[1:])
 
 
 @receiver(m2m_changed, sender=Component.links.through)

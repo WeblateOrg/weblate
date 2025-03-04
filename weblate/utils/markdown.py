@@ -72,6 +72,9 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         """
         return self.render_auto_link(token)
 
+    def convert_link(self, link: str) -> str:
+        return link.replace(' href="', ' rel="ugc" target="_blank" href="')
+
     def render_link(self, token: span_token.Link) -> str:
         """
         Render a link token.
@@ -79,8 +82,7 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         If the URL is valid, add the necessary attributes to make it open in a new tab.
         """
         if self.check_url(token.target):
-            result = super().render_link(token)
-            return result.replace(' href="', ' rel="ugc" target="_blank" href="')
+            return self.convert_link(super().render_link(token))
         return self.escape_html_text(f"[{token.title}]({token.target})")
 
     def render_auto_link(self, token: span_token.AutoLink | PlainAutoLink) -> str:
@@ -99,7 +101,7 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
             return bool(pattern.match(email))
 
         if self.check_url(token.target) or valid_email(token.target):
-            return super().render_auto_link(token)
+            return self.convert_link(super().render_auto_link(token))
         return self.escape_html_text(f"<{token.target}>")
 
     def render_image(self, token: span_token.Image) -> str:

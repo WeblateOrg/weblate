@@ -82,5 +82,7 @@ class WeblateConf(AppConf):
     PROJECT_WEB_RESTRICT_HOST = {"localhost"}
     PROJECT_WEB_RESTRICT_NUMERIC = True
 
+    LOCALE_FILTER_FILES = True
+
     class Meta:
         prefix = ""

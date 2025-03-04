@@ -72,14 +72,16 @@
           </div>
         {% endif %}
 
-        {% if not user.profile.hide_source_secondary or not item.secondary %}
-          <div class="form-group">
-            <a href="{{ item.unit.source_unit.get_absolute_url }}"
-               class="language"
-               tabindex="-1">{{ item.unit.translation.component.source_language }}</a>
-            {% include "snippets/note-badge.html" with unit=item.unit %}
-            {% format_unit_source item.unit search_match=search_query glossary=item.glossary show_copy=True %}
-          </div>
+        {% if not item.unit.is_source %}
+          {% if not user.profile.hide_source_secondary or not item.secondary %}
+            <div class="form-group">
+              <a href="{{ item.unit.source_unit.get_absolute_url }}"
+                 class="language"
+                 tabindex="-1">{{ item.unit.translation.component.source_language }}</a>
+              {% include "snippets/note-badge.html" with unit=item.unit %}
+              {% format_unit_source item.unit search_match=search_query glossary=item.glossary show_copy=True %}
+            </div>
+          {% endif %}
         {% endif %}
 
       </td>

@@ -711,12 +711,20 @@ class EditPropagateTest(EditTest):
                 unit.change_set.filter(action=Change.ACTION_STRING_REPO_UPDATE).count(),
                 0,
             )
-            self.assertEqual(
-                unit.change_set.filter(action=Change.ACTION_NEW).count(), 1
-            )
-            self.assertEqual(
-                unit.change_set.filter(action=Change.ACTION_CHANGE).count(), 1
-            )
+            if unit.translation.component.slug == "second":
+                self.assertEqual(
+                    unit.change_set.filter(
+                        action=Change.ACTION_PROPAGATED_EDIT
+                    ).count(),
+                    2,
+                )
+            else:
+                self.assertEqual(
+                    unit.change_set.filter(action=Change.ACTION_NEW).count(), 1
+                )
+                self.assertEqual(
+                    unit.change_set.filter(action=Change.ACTION_CHANGE).count(), 1
+                )
 
 
 class EditTSTest(EditTest):

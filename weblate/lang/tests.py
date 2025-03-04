@@ -294,7 +294,7 @@ class BasicLanguagesTest(TestCase):
 
 
 class LanguageTestSequenceMeta(type):
-    def __new__(mcs, name, bases, dict):  # noqa: N804, A002
+    def __new__(mcs, name, bases, dict):  # noqa: A002
         def gen_test(original, expected, direction, plural, name, create):
             def test(self) -> None:
                 self.run_create(original, expected, direction, plural, name, create)
@@ -856,7 +856,7 @@ class LanguageAliasesChangeTest(ViewTestCase):
 
         self.assertIn(self.old_code, component_language_codes())
         logs: list[str] = []
-        Language.objects.setup(True, logs.append)
+        Language.objects.setup(update=True, logger=logs.append)
         if new_language_created:
             self.assertIn(f"Created language {self.new_code}", logs)
         else:

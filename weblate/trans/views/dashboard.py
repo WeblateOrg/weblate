@@ -254,20 +254,18 @@ def dashboard_user(request: AuthenticatedHttpRequest):
         active_tab_slug = user.profile.dashboard_component_list.tab_slug()
 
     if user.is_authenticated:
-        usersubscriptions = prefetch_stats(
-            user_translations.filter_access(user).filter(
-                component__project__in=user.watched_projects
-            )
+        usersubscriptions = user_translations.filter_access(user).filter(
+            component__project__in=user.watched_projects
         )
 
         if user.profile.hide_completed:
-            usersubscriptions = get_untranslated(usersubscriptions)
+            usersubscriptions = get_untranslated(prefetch_stats(usersubscriptions))
             for componentlist in componentlists:
                 componentlist.translations = get_untranslated(
                     prefetch_stats(componentlist.translations)
                 )
 
-        usersubscriptions = get_paginator(request, usersubscriptions)
+        usersubscriptions = get_paginator(request, usersubscriptions, stats=True)
         usersubscriptions = translation_prefetch_tasks(usersubscriptions)
         owned = user.owned_projects.order()
     else:

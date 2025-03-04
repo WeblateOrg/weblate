@@ -210,6 +210,21 @@ user interface is that you can delegate it to other users without giving them
 the superuser privilege. In order to do so, add them to the `Administration`
 team of the project.
 
+.. _project-api:
+
+Per-project access tokens
++++++++++++++++++++++++++
+
+.. versionadded:: 4.10
+
+You can define project-scoped access tokens in :guilabel:`API access` tab. The
+API tokens can have expiry date set, and their permissions can be customized by
+team memberships same as with users.
+
+.. seealso::
+
+   :ref:`api-tokens`
+
 .. _custom-acl:
 
 Site-wide access control

@@ -6,14 +6,17 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import nh3
 from django.utils.html import format_html, format_html_join
+from django.utils.translation import pgettext
 from html2text import HTML2Text as _HTML2Text
 from lxml.etree import HTMLParser
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from django.utils.safestring import SafeString
     from lxml.etree import ParserTarget
 
@@ -187,4 +190,12 @@ def mail_quote_value(text: str) -> str | SafeString:
         "",
         "{}",
         ((mail_quote_char(part),) for part in re.split(r"([.:])", text)),
+    )
+
+
+def format_html_join_comma(
+    format_string: str, args_generator: Iterable[Iterable[Any]]
+) -> SafeString:
+    return format_html_join(
+        pgettext("Joins a list of values", ", "), format_string, args_generator
     )

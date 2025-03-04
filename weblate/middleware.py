@@ -449,7 +449,9 @@ class CSPBuilder:
                     ]
 
                 for url in urls:
-                    self.add_csp_host(url, "form-action")
+                    domain = self.add_csp_host(url, "form-action")
+                    if domain.endswith(".amazonaws.com"):
+                        self.directives["form-action"].add("*.awsapps.com")
 
 
 class SecurityMiddleware:

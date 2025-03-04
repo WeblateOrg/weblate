@@ -164,7 +164,10 @@
       {% endfor %}
       {% init_unique_row_id %}
       {% for object in objects %}
-        {% get_translate_url object as translate_url %} {% get_browse_url object as browse_url %} {% get_search_url object as search_url %} {% get_unique_row_id object as row_id %}
+        {% get_translate_url object as translate_url %}
+        {% get_browse_url object as browse_url %}
+        {% get_search_url object as search_url %}
+        {% get_unique_row_id object as row_id %}
         <tr id="{{ row_id }}">
           <td class="actions" rowspan="2">
             {% if object.is_ghost %}
@@ -180,7 +183,8 @@
                           class="btn btn-link green">{% icon "plus.svg" %}</button>
                 </form>
               {% else %}
-                <span class="gray" title="{% trans "Cannot add translation right now" %}">{% icon "plus.svg" %}</span>
+                <span class="gray"
+                      title="{% if user_can_add_translation.reason %}{{ user_can_add_translation.reason }}{% else %}{% trans "Cannot add translation right now" %}{% endif %}">{% icon "plus.svg" %}</span>
               {% endif %}
 
             {% else %}
@@ -201,13 +205,9 @@
           </td>
           <th class="object-link">
             {% if name_source == "component_name" or name_source == "translation" %}
-
-              {% include "snippets/component-glossary-badge.html" with object=object.component %}
-
+              {% get_glossary_badge object.component %}
             {% else %}
-
-              {% include "snippets/component-glossary-badge.html" %}
-
+              {% get_glossary_badge object %}
             {% endif %}
 
             {% if object.is_ghost %}

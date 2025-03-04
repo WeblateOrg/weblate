@@ -392,16 +392,16 @@
               </div>
               <div class="panel-body">
                 {% if page_user.profile.has_2fa %}
-                  {% trans "User has two-factor authentication configured." %}
+                  {% trans "The user has two-factor authentication." %}
                 {% else %}
-                  {% trans "User doesn't have two-factor authentication configured." %}
+                  {% trans "The user doesn't have two-factor authentication." %}
                 {% endif %}
               </div>
               {% if page_user.profile.has_2fa %}
                 <div class="panel-footer">
                   <input type="submit"
                          name="remove_2fa"
-                         value="{% trans "Disable two-factor authentication" %}"
+                         value="{% trans "Turn off two-factor authentication" %}"
                          class="btn-danger red">
                 </div>
               {% endif %}

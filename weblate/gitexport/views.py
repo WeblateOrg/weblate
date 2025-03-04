@@ -9,11 +9,11 @@ from base64 import b64decode
 from email import message_from_string
 from functools import partial
 from selectors import EVENT_READ, DefaultSelector
-from typing import BinaryIO, cast
+from typing import TYPE_CHECKING, BinaryIO, cast
 
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.http import Http404, StreamingHttpResponse
-from django.http.response import HttpResponse, HttpResponseServerError
+from django.http.response import HttpResponse, HttpResponseBase, HttpResponseServerError
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.decorators.cache import never_cache
@@ -26,6 +26,9 @@ from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
 from weblate.vcs.models import VCS_REGISTRY
 
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
 
 def response_authenticate():
     """Return 401 response with authenticate header."""
@@ -34,7 +37,7 @@ def response_authenticate():
     return response
 
 
-def authenticate(request: AuthenticatedHttpRequest, auth) -> bool:
+def authenticate(request: AuthenticatedHttpRequest, auth: str) -> bool:
     """Perform authentication with HTTP Basic auth."""
     try:
         method, data = auth.split(None, 1)
@@ -60,7 +63,9 @@ def authenticate(request: AuthenticatedHttpRequest, auth) -> bool:
 
 @never_cache
 @csrf_exempt
-def git_export(request: AuthenticatedHttpRequest, path, git_request):
+def git_export(
+    request: AuthenticatedHttpRequest, path: list[str], git_request: str
+) -> HttpResponseBase:
     """
     Git HTTP server view.
 
@@ -73,7 +78,7 @@ def git_export(request: AuthenticatedHttpRequest, path, git_request):
         raise PermissionDenied(msg)
 
     # HTTP authentication
-    auth = request.headers.get("authorization", b"")
+    auth = request.headers.get("authorization", "")
 
     if auth and not authenticate(request, auth):
         return response_authenticate()
@@ -157,7 +162,7 @@ class GitHTTPBackendWrapper:
             bufsize=0,
         )
 
-    def get_env(self):
+    def get_env(self) -> dict[str, str]:
         result = {
             "REQUEST_METHOD": self.request.method,
             "PATH_TRANSLATED": self.path,
@@ -194,14 +199,14 @@ class GitHTTPBackendWrapper:
             if self.process.poll() is not None or self._headers is not None:
                 break
 
-    def stream(self):
+    def stream(self) -> Iterator[bytes]:
         yield from self._stdout
         yield from iter(
             partial(self.process.stdout.read, 1024),  # type: ignore[union-attr]
             b"",
         )
 
-    def get_response(self):
+    def get_response(self) -> HttpResponseBase:
         # Iniciate select()
         stdout = cast("BinaryIO", self.process.stdout)
         stderr = cast("BinaryIO", self.process.stderr)

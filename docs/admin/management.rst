@@ -531,6 +531,19 @@ Importing Sphinx documentation split to multiple files and directories:
     More detailed examples can be found in the :ref:`starting` chapter,
     alternatively you might want to use :wladmin:`import_json`.
 
+import_projectbackup
+--------------------
+
+.. weblate-admin:: import_projectbackup <project_name> <project_slug> <username> <filename>
+
+.. versionadded:: 5.10
+
+Imports :ref:`projectbackup`.
+
+.. hint::
+
+   Usually it is more comfortable to import project when :ref:`adding-projects`.
+
 importuserdata
 --------------
 

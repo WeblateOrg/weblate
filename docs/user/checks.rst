@@ -26,11 +26,15 @@ it add errors.
 Trailing ellipsis replacer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+:Class name: ``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
+
 Replace trailing dots (``...``) with an ellipsis (``…``) to make it consistent with the source string.
 
 
 Zero-width space removal
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Class name: ``weblate.trans.autofixes.chars.RemoveZeroSpace``
 
 Zero width space is typically not desired in the translation. This fix will
 remove it unless it is present in the source string as well.
@@ -38,21 +42,27 @@ remove it unless it is present in the source string as well.
 Control characters removal
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Removes any control characters from the translation.
+:Class name: ``weblate.trans.autofixes.chars.RemoveControlChars``
+
+Removes control characters if the source does not contain any.
 
 Devanagari danda
 ~~~~~~~~~~~~~~~~
 
-Replaces wrong full stop in Devanagari by Devanagari danda (``।``).
+:Class name: ``weblate.trans.autofixes.chars.DevanagariDanda``
+
+Replaces sentence full stop in Bangla by the Devanagari danda character (``।``).
 
 .. _autofix-punctuation-spacing:
 
 Punctuation spacing
 ~~~~~~~~~~~~~~~~~~~
 
+:Class name: ``weblate.trans.autofixes.chars.PunctuationSpacing``
+
 .. versionadded:: 5.3
 
-Ensures French and Breton use correct punctuation spacing.
+Ensures French uses correct punctuation spacing.
 
 This fixup can be disabled via ``ignore-punctuation-spacing`` flag (which also
 disables :ref:`check-punctuation-spacing`).
@@ -62,7 +72,9 @@ disables :ref:`check-punctuation-spacing`).
 Unsafe HTML cleanup
 ~~~~~~~~~~~~~~~~~~~
 
-When turned on using a ``safe-html`` flag it sanitizes HTML markup.
+:Class name: ``weblate.trans.autofixes.html.BleachHTML``
+
+Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:`check-safe-html`).
 
 .. seealso::
 
@@ -70,6 +82,8 @@ When turned on using a ``safe-html`` flag it sanitizes HTML markup.
 
 Trailing and leading whitespace fixer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Class name: ``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``
 
 Makes leading and trailing whitespace consistent with the source string. The
 behavior can be fine-tuned using ``ignore-begin-space`` and
@@ -127,7 +141,7 @@ Consecutive duplicated words
 
 .. versionadded:: 4.1
 
-:Summary: Text contains the same word twice in a row:
+:Summary: Text contains the same word twice in a row
 :Scope: translated strings
 :Check class: ``weblate.checks.duplicate.DuplicateCheck``
 :Check identifier: ``duplicate``
@@ -369,7 +383,7 @@ Fluent translation syntax
 
 .. versionadded:: 5.0
 
-:Summary: Fluent syntax error in translation
+:Summary: Fluent syntax error in the translation
 :Scope: translated strings
 :Check class: ``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``
 :Check identifier: ``fluent-target-syntax``
@@ -1361,6 +1375,24 @@ You can also have case insensitive placeholders:
 
    :ref:`custom-checks`
 
+.. _check-prohibited-initial-character:
+
+Prohibited initial character
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.9
+
+:Summary: The string starts with a prohibited character in CSV
+:Scope: glossary strings
+:Check class: ``weblate.checks.glossary.ProhibitedInitialCharacterCheck``
+:Check identifier: ``prohibited_initial_character``
+:Flag to ignore: ``ignore-prohibited-initial-character``
+
+The glossary is often shared as CSV and using some characters at the beginning is
+restricted by many applications as these can cause the text being evaluated as
+an expression. This also affects :ref:`glossary-mt` where many services use CSV
+for synchronizing glossaries and reject such strings.
+
 .. _check-punctuation-spacing:
 
 Punctuation spacing
@@ -1372,9 +1404,14 @@ Punctuation spacing
 :Check identifier: ``punctuation_spacing``
 :Flag to ignore: ``ignore-punctuation-spacing``
 
+.. versionchanged:: 5.10
+
+   This check used to apply to Breton language as well, but it was limited to
+   French only.
+
 Checks that there is non breakable space before double punctuation sign
 (exclamation mark, question mark, semicolon and colon). This rule is used only
-in a few selected languages like French or Breton, where space before double
+in a few selected languages like French, where space before double
 punctuation sign is a typographic rule.
 
 .. seealso::
@@ -1394,12 +1431,26 @@ Regular expression
 :Flag to enable: ``regex``
 :Flag to ignore: ``ignore-regex``
 
+.. versionchanged:: 5.10
+
+   Extended support for advanced regular expressions including Unicode codepoint properties.
+
 Translation does not match regular expression. The expression is either extracted from the
 translation file or defined manually using ``regex`` flag:
 
 .. code-block:: text
 
    regex:^foo|bar$
+
+The matching also supports Unicode codepoint properties, including scripts and blocks:
+
+.. code-block:: text
+
+   regex:^[-_\p{L}\p{N}\p{sc=Deva}\p{sc=Thai}]{1,32}$
+
+.. seealso::
+
+   `regex documentation <https://github.com/mrabarnett/mrab-regex>`_
 
 .. _check-rst-syntax:
 
@@ -1832,7 +1883,7 @@ Fluent source syntax
 
 .. versionadded:: 5.0
 
-:Summary: Fluent syntax error in source
+:Summary: Fluent syntax error in the source
 :Scope: source strings
 :Check class: ``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``
 :Check identifier: ``fluent-source-syntax``
@@ -1919,19 +1970,6 @@ There are multiple unnamed variables in the string, making it impossible for
 translators to reorder them.
 
 Consider using named variables instead to allow translators to reorder them.
-
-.. _check-prohibited-initial-character:
-
-Prohibited initial character
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 5.9
-
-:Summary: The string starts with a prohibited character in CSV
-:Scope: source strings
-:Check class: ``weblate.checks.glossary.ProhibitedInitialCharacterCheck``
-:Check identifier: ``prohibited_initial_character``
-:Flag to ignore: ``ignore-prohibited-initial-character``
 
 .. _check-optional-plural:
 

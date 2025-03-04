@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load permissions %}
+{% load translations %}
 
 {% perm 'project.edit' object as user_can_edit_project %}
 <p>{% trans "Version control or files to translate are configured on individual components:" %}</p>
@@ -8,7 +9,7 @@
   {% for component in object.component_set.order %}
     <a class="btn btn-link" href="{% url 'settings' path=component.get_url_path %}">
       {{ component.name }}
-      {% include "snippets/component-glossary-badge.html" with object=component %}
+      {% get_glossary_badge component %}
     </a>
   {% endfor %}
 </p>

@@ -15,3 +15,8 @@ class AuthConfig(AppConfig):
         from weblate.auth.models import sync_create_groups
 
         post_migrate.connect(sync_create_groups, sender=self)
+
+        # Disconnect Django permissions as these are not used
+        post_migrate.disconnect(
+            dispatch_uid="django.contrib.auth.management.create_permissions"
+        )

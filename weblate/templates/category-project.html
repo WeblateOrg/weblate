@@ -75,7 +75,9 @@
   <div class="tab-content">
 
     <div class="tab-pane active" id="overview">
-      {% include "snippets/list-objects.html" with objects=translations list_categories=categories name_source="component_name" label=_("Component") %}
+      {% include "snippets/list-objects.html" with objects=translation_objects list_categories=categories name_source="component_name" label=_("Component") %}
+
+      {% include "paginator.html" with page_obj=translations %}
     </div>
 
     <div class="tab-pane" id="information">

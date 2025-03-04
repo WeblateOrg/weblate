@@ -113,6 +113,8 @@ class WeblateAccountsConf(AppConf):
     SOCIAL_AUTH_SAML_IMAGE = "saml.svg"
     SOCIAL_AUTH_SAML_TITLE = "SAML"
 
+    MAXIMAL_PASSWORD_LENGTH = 72
+
     # Login required URLs
     LOGIN_REQUIRED_URLS = []
     LOGIN_REQUIRED_URLS_EXCEPTIONS = (

@@ -235,3 +235,20 @@ class RegexTest(CheckTestCase):
                 (36, 43, "{foo32}"),
             ],
         )
+
+    def test_unicode_regex(self) -> None:
+        unit = MockUnit(
+            None,
+            r'regex:"((?:@:\(|\{)[-_\p{Lo}\p{Ll}\p{N}]+(?:\)|\}))"',
+            self.default_lang,
+            "@:(你好世界一۲༣) | @:(Hello-World123) | @:(你好世界一۲༣!) | @:(-你好世界一۲༣_) "
+            "| {hello-world123}",
+        )
+        self.assertEqual(
+            list(self.check.check_highlight(unit.source, unit)),
+            [
+                (0, 11, "@:(你好世界一۲༣)"),
+                (50, 63, "@:(-你好世界一۲༣_)"),
+                (66, 82, "{hello-world123}"),
+            ],
+        )

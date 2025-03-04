@@ -61,6 +61,15 @@ class BaseCreateView(CreateView):
         kwargs["request"] = self.request
         return kwargs
 
+    def form_invalid(self, form):
+        messages.error(
+            self.request,
+            gettext(
+                "The supplied configuration is incorrect. Please check the errors below.",
+            ),
+        )
+        return super().form_invalid(form)
+
 
 @method_decorator(login_required, name="dispatch")
 @method_decorator(session_ratelimit_post("project"), name="dispatch")

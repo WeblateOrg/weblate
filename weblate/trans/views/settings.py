@@ -433,7 +433,7 @@ class BackupsDownloadView(BackupsMixin):
                 continue
             # Generate random name for download
             name = os.path.join(
-                PROJECTBACKUP_PREFIX, f"{get_random_identifier(32)}.zip"
+                PROJECTBACKUP_PREFIX, f"{self.obj.slug}-{get_random_identifier(32)}.zip"
             )
             # Copy to static files
             with open(backup["path"], "rb") as handle:

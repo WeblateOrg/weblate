@@ -52,6 +52,12 @@
         <li>
           <a href="#history" data-toggle="tab">{% trans "History" %}</a>
         </li>
+        <li>
+          <a href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=csv">{% trans "Download statistics (CSV)" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=json-flat">{% trans "Download statistics (JSON)" %}</a>
+        </li>
       </ul>
     </li>
     <li class="dropdown">

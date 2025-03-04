@@ -1037,21 +1037,19 @@ $(function () {
     $form.find("input[name=offset]").prop("disabled", false);
     $positionInputEditable.show();
     $positionInputEditableInput.attr("type", "number");
-    $(event.target)
-      .closest(".pagination")
-      .find("#position-input-editable-input")
-      .focus();
+    if ($positionInput.length > 1) {
+      $(event.target).parent().find("#position-input-editable-input").focus();
+    } else {
+      $positionInputEditableInput.focus();
+    }
     document.addEventListener("click", clickedOutsideEditableInput);
     document.addEventListener("keyup", pressedEscape);
   });
   const clickedOutsideEditableInput = (event) => {
     // Check if clicked outside of the input and the editable input
     if (
-      // biome-ignore lint/complexity/useSimplifiedLogicExpression: TODO
-      !$positionInputEditable.is(event.target) &&
-      // biome-ignore lint/style/useExplicitLengthCheck: Done?
-      !($positionInputEditable.has(event.target).length === 0) &&
-      !$positionInput.is(event.target)
+      !$positionInput.is(event.target) &&
+      event.target.id !== "position-input-editable-input"
     ) {
       $positionInput.show();
       $positionInputEditableInput.attr("type", "hidden");

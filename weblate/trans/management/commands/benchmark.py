@@ -64,6 +64,7 @@ class Command(BaseCommand):
             changed_setup=False,
             changed_template=False,
             changed_variant=False,
+            changed_enforced_checks=False,
             skip_push=True,
             create=True,
         )

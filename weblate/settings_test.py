@@ -8,6 +8,7 @@
 
 import os
 import warnings
+from tempfile import TemporaryDirectory
 
 from weblate.settings_example import *  # noqa: F403
 
@@ -60,7 +61,16 @@ if "CI_BASE_DIR" in os.environ:
     BASE_DIR = os.environ["CI_BASE_DIR"]
 else:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 DATA_DIR = os.path.join(BASE_DIR, "data-test")
+
+# Use random data directory when running in parallel
+if "PYTEST_XDIST_TESTRUNUID" in os.environ:
+    if not os.path.exists(DATA_DIR):
+        os.makedirs(DATA_DIR, exist_ok=True)
+    DATA_DIR_TMP = TemporaryDirectory(dir=DATA_DIR, prefix="xdist-")
+    DATA_DIR = DATA_DIR_TMP.name
+
 CACHE_DIR = os.path.join(DATA_DIR, "cache")
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 STATIC_ROOT = os.path.join(DATA_DIR, "static")

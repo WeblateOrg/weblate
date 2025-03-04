@@ -63,6 +63,10 @@ if git merge-file --stdout "$LOCAL" "$BASE" "$OTHER" > "$TEMP_FILE"; then
 fi
 rm "$TEMP_FILE"
 
+if [ -n "$WEBLATE_MERGE_SKIP" ]; then
+    exit 1
+fi
+
 ##########################################################################
 # Fallback when gettext tools are not installed:
 

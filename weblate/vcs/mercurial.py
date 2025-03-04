@@ -10,6 +10,8 @@ import os
 import os.path
 import re
 from configparser import RawConfigParser
+from pathlib import Path
+from shutil import which
 from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext_lazy
@@ -26,7 +28,7 @@ if TYPE_CHECKING:
 class HgRepository(Repository):
     """Repository implementation for Mercurial."""
 
-    _cmd = "hg"
+    _cmd = "rhg" if which("rhg") is not None else "hg"
     _cmd_last_revision = ["log", "--limit", "1", "--template", "{node}"]
     _cmd_last_remote_revision = [
         "log",
@@ -44,7 +46,7 @@ class HgRepository(Repository):
     push_label = gettext_lazy(
         "This will push changes to the upstream Mercurial repository."
     )
-    req_version = "2.8"
+    req_version = "6.8"
     default_branch = "default"
     ref_to_remote = "head() and branch(.) and not closed() - ."
     ref_from_remote = "outgoing()"
@@ -62,18 +64,16 @@ class HgRepository(Repository):
 
     def check_config(self) -> None:
         """Check VCS configuration."""
-        # We directly set config as it takes same time as reading it
-        self.set_config("ui.ssh", SSH_WRAPPER.filename)
+        self.set_config_values(("ui", "ssh", SSH_WRAPPER.filename.as_posix()))
 
     @classmethod
     def _clone(cls, source: str, target: str, branch: str) -> None:
         """Clone repository."""
         cls._popen(["clone", f"--branch={branch}", "--", source, target])
 
-    def get_config(self, path):
+    def get_config(self, section: str, option: str) -> str | None:
         """Read entry from configuration."""
         result = None
-        section, option = path.split(".", 1)
         filename = os.path.join(self.path, ".hg", "hgrc")
         config = RawConfigParser()
         config.read(filename)
@@ -81,30 +81,40 @@ class HgRepository(Repository):
             result = config.get(section, option)
         return result
 
-    def set_config(self, path, value) -> None:
+    def set_config_values(self, *values: tuple[str, str, str]) -> None:
         """Set entry in local configuration."""
         if not self.lock.is_locked:
             msg = "Repository operation without lock held!"
             raise RuntimeError(msg)
-        section, option = path.split(".", 1)
         filename = os.path.join(self.path, ".hg", "hgrc")
+        self.set_config_file(filename, *values)
+
+    @staticmethod
+    def set_config_file(filename: str | Path, *values: tuple[str, str, str]) -> None:
         config = RawConfigParser()
         config.read(filename)
-        if not config.has_section(section):
-            config.add_section(section)
-        if config.has_option(section, option) and config.get(section, option) == value:
-            return
-        config.set(section, option, value)
-        with open(filename, "w") as handle:
-            config.write(handle)
+        changed = False
+        for section, option, value in values:
+            if not config.has_section(section):
+                config.add_section(section)
+            if (
+                config.has_option(section, option)
+                and config.get(section, option) == value
+            ):
+                continue
+            config.set(section, option, value)
+            changed = True
+        if changed:
+            with open(filename, "w") as handle:
+                config.write(handle)
 
     def set_committer(self, name, mail) -> None:
         """Configure committer name."""
-        self.set_config("ui.username", format_address(name, mail))
+        self.set_config_values(("ui", "username", format_address(name, mail)))
 
     def reset(self) -> None:
         """Reset working copy to match remote branch."""
-        self.set_config("extensions.strip", "")
+        self.set_config_values(("extensions", "strip", ""))
         self.execute(["update", "--clean", "remote(.)"])
         if self.needs_push():
             self.execute(["strip", "roots(outgoing())"])
@@ -112,21 +122,35 @@ class HgRepository(Repository):
 
     def configure_merge(self) -> None:
         """Select the correct merge tool."""
-        self.set_config("ui.merge", "internal:merge")
+        updates: list[tuple[str, str, str]] = [
+            ("ui", "merge", "internal:merge"),
+        ]
         merge_driver = self.get_merge_driver("po")
         if merge_driver is not None:
-            self.set_config(
-                "merge-tools.weblate-merge-gettext-po.executable", merge_driver
+            updates.extend(
+                (
+                    (
+                        "merge-tools",
+                        "weblate-merge-gettext-po.executable",
+                        merge_driver,
+                    ),
+                    (
+                        "merge-tools",
+                        "weblate-merge-gettext-po.args",
+                        "$base $local $other $output",
+                    ),
+                    (
+                        "merge-patterns",
+                        "**.po",
+                        "weblate-merge-gettext-po",
+                    ),
+                )
             )
-            self.set_config(
-                "merge-tools.weblate-merge-gettext-po.args",
-                "$base $local $other $output",
-            )
-            self.set_config("merge-patterns.**.po", "weblate-merge-gettext-po")
+        self.set_config_values(*updates)
 
     def rebase(self, abort=False) -> None:
         """Rebase working copy on top of remote branch."""
-        self.set_config("extensions.rebase", "")
+        self.set_config_values(("extensions", "rebase", ""))
         if abort:
             self.execute(["rebase", "--abort"])
         elif self.needs_merge():
@@ -300,21 +324,25 @@ class HgRepository(Repository):
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ) -> None:
         """Configure remote repository."""
-        old_pull = self.get_config("paths.default")
-        old_push = self.get_config("paths.default-push")
+        old_pull = self.get_config("paths", "default")
+        old_push = self.get_config("paths", "default-push")
+
+        updates: list[tuple[str, str, str]] = [
+            # We enable some necessary extensions here
+            ("extensions", "strip", ""),
+            ("extensions", "rebase", ""),
+            ("experimental", "evolution", "all"),
+            ("phases", "publish", "False"),
+        ]
 
         if old_pull != pull_url:
             # No origin existing or URL changed?
-            self.set_config("paths.default", pull_url)
+            updates.append(("paths", "default", pull_url))
 
         if old_push != push_url:
-            self.set_config("paths.default-push", push_url)
+            updates.append(("paths", "default-push", push_url))
 
-        # We also enable some necessary extensions here
-        self.set_config("extensions.strip", "")
-        self.set_config("extensions.rebase", "")
-        self.set_config("experimental.evolution", "all")
-        self.set_config("phases.publish", "False")
+        self.set_config_values(*updates)
 
         self.branch = branch
 
@@ -359,7 +387,7 @@ class HgRepository(Repository):
 
     def cleanup(self) -> None:
         """Remove not tracked files from the repository."""
-        self.set_config("extensions.purge", "")
+        self.set_config_values(("extensions", "purge", ""))
         self.execute(["purge"])
 
     def update_remote(self) -> None:
@@ -380,3 +408,13 @@ class HgRepository(Repository):
                 # Empty revision set
                 return []
             raise
+
+    @classmethod
+    def global_setup(cls) -> None:
+        """Perform global settings."""
+        if cls._cmd == "rhg":
+            cls.set_config_file(
+                Path.home() / ".hgrc",
+                ("rhg", "fallback-executable", "hg"),
+                ("rhg", "on-unsupported", "fallback"),
+            )

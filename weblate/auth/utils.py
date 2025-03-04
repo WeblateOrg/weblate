@@ -78,9 +78,12 @@ def migrate_permissions(model: type[Permission]) -> None:
 def migrate_roles(model: type[Role], perm_model: type[Permission]) -> set[str]:
     """Create roles as defined in the data."""
     result = set()
+    existing: dict[str, Role] = {obj.name: obj for obj in model.objects.all()}
     for role, permissions in ROLES:
-        instance, created = model.objects.get_or_create(name=role)
-        if created:
+        if role in existing:
+            instance = existing[role]
+        else:
+            instance = model.objects.create(name=role)
             result.add(role)
         instance.permissions.set(
             perm_model.objects.filter(codename__in=permissions), clear=True
@@ -92,22 +95,31 @@ def migrate_groups(
     model: type[Group], role_model: type[Role], update: bool = False
 ) -> dict[str, Group]:
     """Create groups as defined in the data."""
-    result: dict[str, Group] = {}
+    result: dict[str, Group] = {
+        obj.name: obj
+        for obj in model.objects.filter(internal=True, defining_project=None)
+    }
     for group, roles, selection in GROUPS:
-        instance, created = model.objects.get_or_create(
-            name=group,
-            internal=True,
-            defining_project=None,
-            defaults={
-                "project_selection": selection,
-                "language_selection": SELECTION_ALL,
-            },
-        )
-        result[group] = instance
-        if update and not created:
-            instance.project_selection = selection
-            instance.language_selection = SELECTION_ALL
-            instance.save()
+        if group in result:
+            instance = result[group]
+            created = False
+            if update and (
+                instance.project_selection != selection
+                or instance.language_selection != SELECTION_ALL
+            ):
+                instance.project_selection = selection
+                instance.language_selection = SELECTION_ALL
+                instance.save(update_fields=["project_selection", "language_selection"])
+        else:
+            instance = model.objects.create(
+                name=group,
+                internal=True,
+                defining_project=None,
+                project_selection=selection,
+                language_selection=SELECTION_ALL,
+            )
+            created = True
+            result[group] = instance
         if created or update:
             instance.roles.set(role_model.objects.filter(name__in=roles), clear=True)
     return result

@@ -106,7 +106,11 @@ class SuggestionsTest(ViewTestCase):
         response = self.client.get(translate_url)
         self.assertNotContains(response, "Suggestion removed")
         # 1st diff occurrence is in the "Suggestions" tab, the 2nd in "History" tab
-        self.assertContains(response, "Nazdar<ins> svete</ins>!", count=2)
+        self.assertContains(
+            response,
+            """Nazdar<ins><span class="hlspace"><span class="space-space"> </span></span>svete</ins>!""",
+            count=2,
+        )
 
         suggestions = self.get_unit().suggestions.values_list("pk", flat=True)
         self.assertEqual(len(suggestions), 1)
@@ -119,7 +123,11 @@ class SuggestionsTest(ViewTestCase):
         self.assertContains(response, "Suggestion added", count=1)
         # both diff occurrence are in "History" tab,
         # as suggestion is no longer visible in the "Suggestion" tab
-        self.assertContains(response, "Nazdar<ins> svete</ins>!", count=2)
+        self.assertContains(
+            response,
+            """Nazdar<ins><span class="hlspace"><span class="space-space"> </span></span>svete</ins>!""",
+            count=2,
+        )
 
     def test_delete_spam(self) -> None:
         self.test_delete(spam="1")

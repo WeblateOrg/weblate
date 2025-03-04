@@ -18,16 +18,16 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.22.2
+  rev: 1.23.1
   hooks:
   - id: django-upgrade
-    args: [--target-version, '5.0']
+    args: [--target-version, '5.1']
 - repo: https://github.com/adrienverge/yamllint
   rev: v1.35.1
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.9.3
+  rev: v0.9.9
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
@@ -50,7 +50,7 @@ repos:
   hooks:
   - id: toml-sort-fix
 - repo: https://github.com/executablebooks/mdformat
-  rev: 0.7.21
+  rev: 0.7.22
   hooks:
   - id: mdformat
     additional_dependencies:
@@ -62,13 +62,6 @@ repos:
   rev: v3.10.0-2
   hooks:
   - id: shfmt
-- repo: https://github.com/awebdeveloper/pre-commit-stylelint
-  rev: 0.0.2
-  hooks:
-  - id: stylelint
-    args: [--formatter=compact]
-    additional_dependencies:
-    - stylelint@16.14.1
 - repo: https://github.com/fsfe/reuse-tool
   rev: v5.0.2
   hooks:
@@ -80,7 +73,7 @@ repos:
     require_serial: true
     args: [-x]
 - repo: https://github.com/biomejs/pre-commit
-  rev: v0.6.1
+  rev: v1.9.4
   hooks:
   - id: biome-check
     additional_dependencies:
@@ -120,6 +113,12 @@ repos:
     files: docs/changes\.rst
     entry: ^ *\* .*[^.]\n$
     language: pygrep
+  - id: py-join-comma
+    name: Localized comma in join
+    types: [python]
+    args: [--multiline]
+    entry: format_html_join\(\s*", "
+    language: pygrep
 - repo: https://github.com/sphinx-contrib/sphinx-lint
   rev: v1.0.0
   hooks:
@@ -132,6 +131,10 @@ repos:
     additional_dependencies:
     - tomli
     exclude: client/yarn.lock
+- repo: https://github.com/rhysd/actionlint
+  rev: v1.7.7
+  hooks:
+  - id: actionlint
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock$
 ci:
   autoupdate_schedule: quarterly

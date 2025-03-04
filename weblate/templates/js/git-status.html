@@ -93,12 +93,13 @@
       {% if object.is_lockable %}
         <li class="list-group-item">
           {% if user_can_lock_component %}
-            {% if object.locked %}
+            {% if object.can_unlock %}
               <a href=""
                  class="pull-right flip btn btn-primary link-post"
                  data-href="{% url "unlock" path=object.get_url_path %}"
                  title="{% trans "Allow changes to the Weblate repository" %}">{% trans "Unlock" %}</a>
-            {% else %}
+            {% endif %}
+            {% if object.can_lock %}
               <a href=""
                  class="pull-right flip btn btn-primary link-post"
                  data-href="{% url "lock" path=object.get_url_path %}"
@@ -106,7 +107,20 @@
             {% endif %}
           {% endif %}
           <h5 class="list-group-item-heading">
-            {% if object.locked %}
+            {% if object.lockable_count %}
+              {% if object.locked_components %}
+                {% blocktranslate count counter=object.locked_components with count=object.locked_components|intcomma %}{{ count }} component is locked{% plural %}{{ count }} components are locked{% endblocktranslate %}
+              {% endif %}
+              {% if object.unlocked_components %}
+                {% if object.locked_components %}
+                  {% translate ", " context "Joins a list of values" %}
+                {% endif %}
+                {% blocktranslate count counter=object.unlocked_components with count=object.unlocked_components|intcomma %}{{ count }} component is unlocked{% plural %}{{ count }} components are unlocked{% endblocktranslate %}
+              {% endif %}
+              {% if not object.locked_components and not object.unlocked_components %}
+                {% trans "Weblate translations are unlocked" %}
+              {% endif %}
+            {% elif object.locked %}
               {% trans "Weblate translations are locked" %}
             {% else %}
               {% trans "Weblate translations are unlocked" %}

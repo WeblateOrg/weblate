@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import os
-from typing import NoReturn
+from typing import ClassVar, NoReturn
 
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -36,7 +36,7 @@ class URLMixin(BaseURLMixin):
 class LoggerMixin(BaseURLMixin):
     """Mixin for models with logging."""
 
-    def log_hook(self, level, msg, *args) -> None:
+    def log_hook(self, level: str, msg: str, *args) -> None:
         return
 
     def log_debug(self, msg, *args):
@@ -152,3 +152,18 @@ class ComponentCategoryMixin:
             ),
             self.name,
         )
+
+
+class LockMixin:
+    is_lockable: ClassVar[bool] = False
+    lockable_count: ClassVar[bool] = False
+
+    @property
+    def locked(self) -> bool:
+        return False
+
+    def can_unlock(self) -> bool:
+        return self.locked
+
+    def can_lock(self) -> bool:
+        return not self.locked

@@ -16,6 +16,7 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.core.mail.backends.smtp import EmailBackend as DjangoSMTPEmailBackend
+from django.db import transaction
 from django.utils.timezone import now
 from social_django.models import Code, Partial
 
@@ -105,6 +106,7 @@ class NotificationFactory:
 
 
 @app.task(trail=False)
+@transaction.atomic
 def notify_changes(change_ids: list[int]) -> None:
     from weblate.trans.models import Change
 
@@ -117,6 +119,7 @@ def notify_changes(change_ids: list[int]) -> None:
         factory.send_queued()
 
 
+@transaction.atomic
 def notify_digest(method) -> None:
     from weblate.accounts.notifications import NOTIFICATIONS
 

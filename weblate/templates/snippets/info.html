@@ -206,10 +206,20 @@
                   </tr>
                 {% endif %}
               {% endwith %}
+              {% if LANGUAGE_CODE != "en" %}
+                <tr>
+                  <th>{% trans "English name of the language" %}</th>
+                  <td colspan="2">{{ language.name }}</td>
+                </tr>
+              {% endif %}
             {% endif %}
             <tr>
               <th>{% trans "Text direction" %}</th>
               <td colspan="2">{{ language.get_direction_display }}</td>
+            </tr>
+            <tr>
+              <th>{% trans "Case sensitivity" %}</th>
+              <td colspan="2">{{ language.get_case_sensitivity_display }}</td>
             </tr>
             {% if language.population %}
               <tr>

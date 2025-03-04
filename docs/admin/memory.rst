@@ -10,11 +10,11 @@ Weblate comes with a built-in translation memory consisting of:
 * Automatically stored translations performed in Weblate (depending on :ref:`memory-scopes`).
 * Automatically imported past translations.
 
-Content in the translation memory can be applied one of two ways:
+Content in the translation memory can be applied to strings in several ways:
 
-* Manually: in the :ref:`machine-translation` view while translating.
-* Automatically: by translating strings using :ref:`auto-translation`, or
-  the :ref:`addon-weblate.autotranslate.autotranslate` add-on.
+* User can accept suggestions from the :ref:`machine-translation` tab while editing the string.
+* The selected strings can be processed using :ref:`auto-translation` from the :guilabel:`Tools` menu.
+* :ref:`addon-weblate.autotranslate.autotranslate` add-on can automatically apply changes to new and existing strings.
 
 For installation tips, see :ref:`mt-weblate-translation-memory`, which is
 turned on by default.

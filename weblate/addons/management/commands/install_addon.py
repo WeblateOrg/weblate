@@ -44,7 +44,7 @@ class Command(WeblateComponentCommand):
             raise CommandError(msg) from error
         try:
             configuration = json.loads(options["configuration"])
-        except ValueError as error:
+        except json.JSONDecodeError as error:
             msg = f"Invalid add-on configuration: {error}"
             raise CommandError(msg) from error
         try:

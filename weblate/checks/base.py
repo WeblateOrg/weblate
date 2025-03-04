@@ -16,6 +16,7 @@ from lxml import etree
 from siphashc import siphash
 
 from weblate.utils.docs import get_doc_url
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
@@ -46,6 +47,7 @@ class BaseCheck:
     source = False
     glossary = False
     ignore_untranslated = True
+    ignore_readonly = True
     default_disabled = False
     propagates: bool = False
     param_type = None
@@ -86,9 +88,14 @@ class BaseCheck:
         # Is this disabled by default
         return bool(self.default_disabled and self.enable_string not in all_flags)
 
+    def ignore_state(self, unit: Unit) -> bool:
+        if unit.readonly and not self.ignore_readonly:
+            return False
+        return self.ignore_untranslated and (not unit.state or unit.readonly)
+
     def should_display(self, unit: Unit) -> bool:
         """Display the check always, not only when failing."""
-        if self.ignore_untranslated and not unit.state:
+        if self.ignore_state(unit):
             return False
         if self.should_skip(unit):
             return False
@@ -98,7 +105,7 @@ class BaseCheck:
     def check_target(self, sources: list[str], targets: list[str], unit: Unit) -> bool:
         """Check target strings."""
         # No checking of untranslated units (but we do check needs editing ones)
-        if self.ignore_untranslated and (not unit.state or unit.readonly):
+        if self.ignore_state(unit):
             return False
         if self.should_skip(unit):
             return False
@@ -309,8 +316,7 @@ class TargetCheck(BaseCheck):
     def get_values_text(self, message: str, values: Iterable[str]) -> StrOrPromise:
         return format_html(
             message,
-            format_html_join(
-                ", ",
+            format_html_join_comma(
                 "{}",
                 ((self.format_value(value),) for value in sorted(values)),
             ),

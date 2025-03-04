@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
 
 from appconf import AppConf
@@ -75,7 +77,7 @@ def validate_service_configuration(
     if isinstance(configuration, str):
         try:
             service_configuration = json.loads(configuration)
-        except ValueError as error:
+        except json.JSONDecodeError as error:
             msg = f"Invalid service configuration ({service_name}): {error}"
             return service, {}, [msg]
     else:

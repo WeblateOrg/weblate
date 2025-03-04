@@ -455,24 +455,17 @@ Password authentication
 -----------------------
 
 The default :file:`settings.py` comes with a reasonable set of
-:setting:`django:AUTH_PASSWORD_VALIDATORS`:
-
-* Passwords can't be too similar to your other personal info.
-* Passwords must contain at least 10 characters.
-* Passwords can't be a commonly used password.
-* Passwords can't be entirely numeric.
-* Passwords can't consist of a single character or only whitespace.
-* Passwords can't match a password you have used in the past.
-
-You can customize this setting to match your password policy.
+:setting:`django:AUTH_PASSWORD_VALIDATORS` that ensures that weak passwords are
+not allowed. You can customize this setting to match your password policy.
 
 Additionally you can also install
-`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password/>`_
+`django-zxcvbn-password-validator <https://github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_
 which gives quite realistic estimates of password difficulty and allows rejecting
 passwords below a certain threshold.
 
 .. seealso::
 
+   :setting:`PASSWORD_MINIMAL_STRENGTH`,
    :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
 
 .. _saml-auth:

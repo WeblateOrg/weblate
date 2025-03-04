@@ -7,7 +7,8 @@
 from django.test.utils import modify_settings
 from django.urls import reverse
 
-from weblate.trans.models import Change, Component, Project
+from weblate.checks.models import Check
+from weblate.trans.models import Change, Component, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing
 
@@ -117,6 +118,7 @@ class SettingsTest(ViewTestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_component(self) -> None:
+        self.assertEqual(Check.objects.filter(name="same").count(), 2)
         self.project.add_user(self.user, "Administration")
         url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
@@ -130,6 +132,11 @@ class SettingsTest(ViewTestCase):
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.license, "MIT")
         self.assertEqual(component.enforced_checks, ["same", "duplicate"])
+        self.assertEqual(Check.objects.filter(name="same").count(), 2)
+        for unit in Unit.objects.filter(check__name="same"):
+            self.assertFalse(
+                unit.translated, f"{unit} should not be marked as translated"
+            )
 
     def test_shared_component(self) -> None:
         self.project.add_user(self.user, "Administration")

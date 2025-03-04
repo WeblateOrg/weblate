@@ -4,6 +4,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+:root {
+  color-scheme: only light;
+  --altcha-color-text: #2a3744;
+  --altcha-border-radius: var(--border-radius);
+  --altcha-color-border: #cccccc;
+}
+
 .avatar {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -225,6 +232,8 @@ ul.legend li {
 .translator .form-group,
 .zen-unit .form-group {
   margin-bottom: 5px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .translator .list-group {
@@ -644,6 +653,10 @@ form + .login-label {
   right: 15px;
   transform: translateY(-100%);
   z-index: 10;
+}
+
+#history {
+  overflow-x: auto;
 }
 
 @media only screen and (max-width: 600px) {
@@ -2308,7 +2321,7 @@ tbody.warning {
 .panel-default > .panel-heading {
   border: var(--border);
 }
-.panel-danger > .panel-heading {
+.panel-heading {
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
 }

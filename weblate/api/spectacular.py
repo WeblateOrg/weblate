@@ -157,7 +157,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             },
             {
                 "name": "tasks",
-                "description": "Added in version 4.4.",
+                "description": "Added in version 4.4.\n\nListing of the tasks is currently not available.",
             },
             {
                 "name": "statistics",
@@ -212,6 +212,7 @@ def get_drf_standardized_errors_sertings() -> dict[str, Any]:
         "ERROR_SCHEMAS": {
             "423": "weblate.api.serializers.ErrorResponse423Serializer",
         },
+        "EXCEPTION_HANDLER_CLASS": "weblate.api.views.WeblateExceptionHandler",
     }
 
 

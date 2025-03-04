@@ -31,7 +31,7 @@ Before proceeding with an installation, make sure you have the following prerequ
 - ``Nodejs`` version 14 or higher.
 - The ``yarn`` package manager is installed on your system.
 - Run ``cd client``.
-- Run ``yarn install``
+- Run ``yarn install``.
 
 Installation
 ++++++++++++

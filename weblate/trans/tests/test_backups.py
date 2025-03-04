@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.management import call_command
 from django.db import connection
 from django.test import skipIfDBFeature, skipUnlessDBFeature
 from django.urls import reverse
@@ -32,6 +33,8 @@ class BackupsTest(ViewTestCase):
     CREATE_GLOSSARIES: bool = True
 
     def test_create_backup(self) -> None:
+        # Create linked component
+        self.create_link_existing()
         # Additional content to test on backups
         label = self.project.label_set.create(name="Label", color="navy")
         unit = self.component.source_translation.unit_set.all()[0]
@@ -115,6 +118,12 @@ class BackupsTest(ViewTestCase):
             set(self.project.label_set.values_list("name", "color")),
             set(restored.label_set.values_list("name", "color")),
         )
+        self.assertEqual(
+            set(self.project.component_set.values_list("slug", flat=True)),
+            set(restored.component_set.values_list("slug", flat=True)),
+        )
+        # Verify that Git operations work on restored repos
+        restored.do_reset()
 
     @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_supported(self) -> None:
@@ -128,9 +137,20 @@ class BackupsTest(ViewTestCase):
     def test_restore_4_14(self) -> None:
         restore = ProjectBackup(TEST_BACKUP)
         restore.validate()
-        restored = restore.restore(
+        restore.restore(
             project_name="Restored", project_slug="restored", user=self.user
         )
+        self.verify_restored()
+
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_cli(self) -> None:
+        call_command(
+            "import_projectbackup", "Restored", "restored", "testuser", TEST_BACKUP
+        )
+        self.verify_restored()
+
+    def verify_restored(self):
+        restored = Project.objects.get(slug="restored")
         self.assertEqual(
             16,
             Unit.objects.filter(translation__component__project=restored).count(),

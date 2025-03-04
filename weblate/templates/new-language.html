@@ -87,7 +87,13 @@
 
     </div>
   {% else %}
-    <p>{% trans "You don't have permission to start a new translation" %}</p>
+    <p>
+      {% if user_can_add_translation.reason %}
+        {{ user_can_add_translation.reason }}
+      {% else %}
+        {% trans "You don't have permission to start a new translation" %}
+      {% endif %}
+    </p>
   {% endif %}
 
 {% endblock %}

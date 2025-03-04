@@ -30,13 +30,13 @@ def project_labels(request: AuthenticatedHttpRequest, project):
         raise PermissionDenied
 
     if request.method == "POST":
-        form = LabelForm(request.POST)
+        form = LabelForm(project=obj, data=request.POST)
         if form.is_valid():
             form.instance.project = obj
             form.save()
             return redirect("labels", project=project)
     else:
-        form = LabelForm()
+        form = LabelForm(project=obj)
 
     return render(
         request,
@@ -61,12 +61,12 @@ def label_edit(request: AuthenticatedHttpRequest, project, pk):
     label = get_object_or_404(Label, pk=pk, project=obj)
 
     if request.method == "POST":
-        form = LabelForm(request.POST, instance=label)
+        form = LabelForm(project=label.project, data=request.POST, instance=label)
         if form.is_valid():
             form.save()
             return redirect("labels", project=project)
     else:
-        form = LabelForm(instance=label)
+        form = LabelForm(project=label.project, instance=label)
 
     return render(
         request,

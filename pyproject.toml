@@ -16,13 +16,13 @@ dev = [
 docs = [
   "furo==2024.8.6",
   "jinja2>=3.1.4",
-  "matplotlib==3.10.0",
+  "matplotlib==3.10.1",
   "Pillow>=10.3.0,<12",
   "Pygments>=2.17.0,<3.0",
   "sphinx-copybutton==0.5.2",
   "sphinx-jsonschema==1.19.1",
   "sphinx-reredirects==0.1.5",
-  "Sphinx==8.1.3",
+  "Sphinx==8.2.3",
   "sphinxcontrib-httpdomain==1.8.1",
   "sphinxext-opengraph==0.9.1"
 ]
@@ -44,30 +44,33 @@ scripts = [
   "tinyunicodeblock==1.3"
 ]
 test = [
-  "coverage==7.6.10",
+  "coverage==7.6.12",
   "pytest-cov==6.0.0",
-  "pytest-django==4.9.0",
+  "pytest-django==4.10.0",
   "pytest-profiling==1.8.1",
-  "pytest==8.3.4",
+  "pytest-xdist==3.6.1",
+  "pytest==8.3.5",
   "responses==0.25.6",
   "respx==0.22.0",
-  "selenium==4.28.1"
+  "selenium==4.29.0"
 ]
 types = [
-  "boto3-stubs==1.36.7",
-  "celery-types==0.22.0",
-  "django-stubs-ext==5.1.2",
-  "django-stubs==5.1.2",
-  "djangorestframework-stubs==3.15.2",
-  "mypy==1.14.1",
-  "types-dateparser==1.2.0.20240420",
+  "boto3-stubs==1.37.5",
+  "celery-types==0.23.0",
+  "django-stubs-ext==5.1.3",
+  "django-stubs==5.1.3",
+  "djangorestframework-stubs==3.15.3",
+  "mypy==1.15.0",
+  "PyGObject-stubs==2.12.0",
+  "types-dateparser==1.2.0.20250208",
   "types-docutils==0.21.0.20241128",
   "types-jsonschema==4.23.0.20241208",
-  "types-lxml==2024.12.13",
+  "types-lxml==2025.3.4",
   "types-openpyxl==3.1.5.20241225",
   "types-Pillow==10.2.0.20240822",
   "types-python-dateutil==2.9.0.20241206",
-  "types-requests==2.32.0.20241016"
+  "types-regex==2024.11.6.20241221",
+  "types-requests==2.32.0.20250301"
 ]
 
 [project]
@@ -100,7 +103,7 @@ dependencies = [
   "borgbackup>=1.2.5,<1.5",
   "celery[redis]>=5.4.0,<5.5",
   "certifi>=2024.8.30",
-  "charset-normalizer>=2.0.12,<4.0",
+  "charset-normalizer>=3.4.0,<4.0",
   "crispy-bootstrap3==2024.1",
   "cryptography>=42.0.4",
   "cssselect>=1.2,<1.3",
@@ -108,13 +111,13 @@ dependencies = [
   "Cython>=3.0.0,<3.1",
   "dateparser>=1.2.0,<1.3.0",
   "diff-match-patch==20241021",
-  "django-appconf>=1.0.3,<1.1",
+  "django-appconf>=1.0.3,<1.2",
   "django-celery-beat>=2.7.0,<2.8",
   "django-compressor>=4.5.1,<5",
-  "django-cors-headers>=4.6.0,<4.7",
+  "django-cors-headers>=4.6.0,<4.8",
   "django-crispy-forms>=2.3,<2.4",
-  "django-filter>=24.3,<24.4",
-  "django-otp-webauthn>=0.4.0,<0.5",
+  "django-filter>=24.3,<25.2",
+  "django-otp-webauthn>=0.4.0,<0.6",
   "django-otp>=1.5.4,<2.0",
   "django-redis>=5.4.0,<6.0",
   "Django[argon2]>=5.1.5,<5.2",
@@ -124,8 +127,8 @@ dependencies = [
   "drf-spectacular[sidecar]>=0.28.0,<0.29",
   "drf-standardized-errors[openapi]>=0.14.1,<0.15",
   "filelock<4,>=3.16.1",
-  "fluent.syntax>=0.18.1,<0.20",
-  "GitPython>=3.1.0,<3.2",
+  "fluent.syntax>=0.19.0,<0.20",
+  "GitPython>=3.1.43,<3.2",
   "hiredis>=2.2.1,<3.2",
   "html2text>=2024.2.25,<2024.2.27",
   "iniparse==0.5",
@@ -139,26 +142,27 @@ dependencies = [
   "Pillow>=10.3.0,<12",
   "pycairo>=1.20.0",
   "Pygments>=2.17.0,<3.0",
-  "PyGObject>=3.40.1",
+  "PyGObject>=3.40.1,<3.51.0",
   "pyicumessageformat>=1.0.0,<1.1",
-  "pyparsing>=3.1.1,<3.3",
+  "pyparsing>=3.2.0,<3.3",
   "python-dateutil>=2.8.2",
   "python-redis-lock[django]>=4,<4.1",
   "qrcode>=7.4.1,<8.1",
-  "rapidfuzz>=3.8.0,<3.12",
+  "rapidfuzz>=3.8.0,<3.13",
   "redis>=5.0.2,<5.3.0",
+  "regex>=2024.11.6,<2026",
   "requests>=2.32.2,<2.33",
-  "ruamel.yaml>=0.17.2,<0.19.0",
+  "ruamel.yaml>=0.18.0,<0.19.0",
   "sentry-sdk>=2.15.0,<3.0",
   "siphashc>=2.1,<3.0",
   "social-auth-app-django>=5.4.2,<6.0.0",
   "social-auth-core>=4.5.4,<5.0.0",
-  "tesserocr>=2.6.1,<2.8.0",
-  "translate-toolkit>=3.14.4,<3.15",
+  "tesserocr>=2.6.1,<2.9.0",
+  "translate-toolkit>=3.14.4,<3.16",
   "translation-finder>=2.18,<3.0",
   "unidecode>=1.3.8,<1.4",
   "user-agents>=2.0,<2.3",
-  "weblate-language-data>=2024.14",
+  "weblate-language-data>=2025.2",
   "weblate-schemas==2024.2"
 ]
 description = "A web-based continuous localization system with tight version control integration"
@@ -173,7 +177,7 @@ keywords = [
 license = {text = "GPLv3+"}
 name = "weblate"
 requires-python = ">=3.11"
-version = "5.10"
+version = "5.10.3"
 
 [project.optional-dependencies]
 alibaba = [
@@ -196,7 +200,7 @@ gerrit = [
   "git-review>=2.4.0,<2.5.0"
 ]
 google = [
-  "google-cloud-storage>=2.18.2,<3.0",
+  "google-cloud-storage>=2.18.2,<3.2",
   "google-cloud-translate>=3.13.0,<4.0"
 ]
 ldap = [
@@ -230,7 +234,7 @@ wsgi = [
   "gunicorn==23.0.0"
 ]
 zxcvbn = [
-  "django-zxcvbn-password==2.1.1"
+  "django-zxcvbn-password-validator>=1.4.5,<1.5"
 ]
 
 [project.readme]
@@ -569,6 +573,3 @@ sort_inline_arrays = true
 sort_inline_tables = true
 sort_table_keys = true
 spaces_before_inline_comment = 2
-
-[tool.uv.sources]
-wlhosted = {editable = true, path = "../hosted"}

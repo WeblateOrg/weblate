@@ -2,9 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from django.conf import settings
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext
+from django.utils.translation import gettext, ngettext
 
 from weblate.accounts.models import AuditLog
 
@@ -31,6 +32,31 @@ class CharsPasswordValidator:
         return gettext(
             "Your password can't consist of a single character or only whitespace."
         )
+
+
+class MaximalLengthValidator:
+    """Validate that the password is of a maximal length."""
+
+    def validate(self, password, user=None):
+        if len(password) > settings.MAXIMAL_PASSWORD_LENGTH:
+            raise ValidationError(
+                ngettext(
+                    "This password is too long. It must contain at most "
+                    "%(max_length)d character.",
+                    "This password is too long. It must contain at most "
+                    "%(max_length)d characters.",
+                    settings.MAXIMAL_PASSWORD_LENGTH,
+                ),
+                code="password_too_long",
+                params={"max_length": settings.MAXIMAL_PASSWORD_LENGTH},
+            )
+
+    def get_help_text(self):
+        return ngettext(
+            "Your password must contain at most %(min_length)d character.",
+            "Your password must contain at most %(min_length)d characters.",
+            settings.MAXIMAL_PASSWORD_LENGTH,
+        ) % {"min_length": settings.MAXIMAL_PASSWORD_LENGTH}
 
 
 class PastPasswordsValidator:

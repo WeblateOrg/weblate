@@ -17,6 +17,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository, SubversionRepository
+from weblate.vcs.mercurial import HgRepository
 from weblate.vcs.ssh import ensure_ssh_key
 
 if TYPE_CHECKING:
@@ -130,12 +131,8 @@ class VCSConfig(AppConfig):
                     SubversionRepository.global_setup()
                 except RepositoryError as error:
                     GIT_ERRORS.append(str(error))
-
-        # Use it for *.po by default
-        configdir = os.path.join(home, ".config", "git")
-        configfile = os.path.join(configdir, "attributes")
-        if not os.path.exists(configfile):
-            if not os.path.exists(configdir):
-                os.makedirs(configdir)
-            with open(configfile, "w") as handle:
-                handle.write("*.po merge=weblate-merge-gettext-po\n")
+            if HgRepository.is_supported():
+                try:
+                    HgRepository.global_setup()
+                except RepositoryError as error:
+                    GIT_ERRORS.append(str(error))

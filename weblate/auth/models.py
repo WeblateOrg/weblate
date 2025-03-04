@@ -60,15 +60,13 @@ from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 if TYPE_CHECKING:
-    from collections.abc import (
-        Iterable,
-        Mapping,
-    )
+    from collections.abc import Iterable, Mapping
 
     from social_core.backends.base import BaseAuth
     from social_django.models import DjangoStorage
     from social_django.strategy import DjangoStrategy
 
+    from weblate.accounts.models import Subscription
     from weblate.auth.permissions import PermissionResult
     from weblate.wladmin.models import SupportStatusDict
 
@@ -539,7 +537,7 @@ class User(AbstractBaseUser):
         self.extra_data: dict[str, str] = {}
         self.cla_cache: dict[tuple[int, int], bool] = {}
         self._permissions: PermissionsDictType = {}
-        self.current_subscription = None
+        self.current_subscription: Subscription | None = None
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
                 self.extra_data[name] = kwargs.pop(name)

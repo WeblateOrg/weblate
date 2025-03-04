@@ -54,7 +54,7 @@ class WidgetsTest(FixtureTestCase):
 
 
 class WidgetsMeta(type):
-    def __new__(mcs, name: str, bases: tuple[type], attrs: dict[str, Any]):  # noqa: N804
+    def __new__(mcs, name: str, bases: tuple[type], attrs: dict[str, Any]):
         def gen_test(widget: str, color: str):
             def test(self: WidgetsRenderTest) -> None:
                 self.perform_test(widget, color)

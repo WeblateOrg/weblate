@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from collections import defaultdict
 from functools import reduce
 from typing import TYPE_CHECKING, Literal
 
@@ -12,9 +13,12 @@ from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.checks.base import BatchCheckMixin, TargetCheck
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.trans.models import Component, Unit
     from weblate.trans.models.unit import UnitQuerySet
 
@@ -110,7 +114,7 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         """Target strings are checked in check_target_unit."""
         return False
 
-    def check_component(self, component: Component):
+    def check_component(self, component: Component) -> Iterable[Unit]:
         from weblate.trans.models import Unit
 
         units = Unit.objects.filter(
@@ -170,8 +174,14 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         from weblate.trans.models import Unit
 
         if target is None:
-            return unit.same_target_units
-        return Unit.objects.same_target(unit, target)
+            result = unit.same_target_units
+        else:
+            result = Unit.objects.same_target(unit, target)
+
+        if not unit.translation.language.is_case_sensitive():
+            result = result.exclude(source__lower=unit.source.lower())
+
+        return result
 
     def should_skip(self, unit: Unit):
         if unit.translation.plural.number <= 1 or not any(unit.get_target_plurals()):
@@ -197,13 +207,15 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
 
         return ngettext(
             "Other source string: %s", "Other source strings: %s", len(other_sources)
-        ) % ", ".join(gettext("“%s”") % source for source in other_sources)
+        ) % format_html_join_comma(
+            "{}", ((gettext("“%s”") % source,) for source in other_sources)
+        )
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
-    def check_component(self, component: Component):
+    def check_component(self, component: Component) -> Iterable[Unit]:
         from weblate.trans.models import Unit
 
         units = Unit.objects.filter(
@@ -217,21 +229,27 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         # List strings with different sources
         # Limit this to 20 strings, otherwise the resulting query is too slow
         matches = (
-            units.values("target__md5", "translation__language", "translation__plural")
+            units.values(
+                "target__lower__md5",
+                "target",
+                "translation__language",
+                "translation__plural",
+            )
             .annotate(source__count=Count("source", distinct=True))
             .filter(source__count__gt=1)
             .order_by("target__md5")[:20]
         )
 
         if not matches:
-            return []
+            return
 
-        return (
+        result = (
             units.filter(
                 reduce(
                     lambda x, y: x
                     | (
-                        Q(target__md5=y["target__md5"])
+                        Q(target__lower__md5=y["target__lower__md5"])
+                        & Q(target=y["target"])
                         & Q(translation__language=y["translation__language"])
                         & Q(translation__plural=y["translation__plural"])
                     ),
@@ -242,6 +260,22 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
             .prefetch()
             .prefetch_bulk()
         )
+
+        # Filter out case differing source for case insensitive languages
+        found: dict[tuple[str, str], set[str]] = defaultdict(set)
+        remaining: list[tuple[str, Unit]] = []
+        for unit in result:
+            if not unit.translation.language.is_case_sensitive():
+                key = (unit.translation.language.code, unit.target)
+                lower_source = unit.source.lower()
+                found[key].add(lower_source)
+                remaining.append((key, unit))
+            else:
+                yield unit
+
+        for key, unit in remaining:
+            if len(found[key]) > 1:
+                yield unit
 
 
 class TranslatedCheck(TargetCheck, BatchCheckMixin):
@@ -319,7 +353,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
             return None
         return [(".*", target, "u")]
 
-    def check_component(self, component: Component):
+    def check_component(self, component: Component) -> Iterable[Unit]:
         from weblate.trans.models import Change, Unit
 
         units = (

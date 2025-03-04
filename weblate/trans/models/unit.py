@@ -1091,7 +1091,13 @@ class Unit(models.Model, LoggerMixin):
 
             # Postprocess changes and generate change objects
             changes = [
-                unit.post_save(user, user, None, check_new=False, save=False)
+                unit.post_save(
+                    user,
+                    user,
+                    change_action=Change.ACTION_PROPAGATED_EDIT,
+                    check_new=False,
+                    save=False,
+                )
                 for unit in to_update
             ]
 
@@ -1115,10 +1121,10 @@ class Unit(models.Model, LoggerMixin):
 
     def save_backend(
         self,
-        user,
+        user: User,
         propagate: bool = True,
         change_action=None,
-        author=None,
+        author: User | None = None,
         run_checks: bool = True,
         request=None,
     ) -> bool:
@@ -1144,7 +1150,7 @@ class Unit(models.Model, LoggerMixin):
                 user, change_action, author=author, request=request
             )
 
-        changed = (
+        unchanged = (
             self.old_unit["state"] == self.state
             and self.old_unit["target"] == self.target
             and self.old_unit["explanation"] == self.explanation
@@ -1152,7 +1158,7 @@ class Unit(models.Model, LoggerMixin):
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
-        if changed and not was_propagated:
+        if unchanged and not was_propagated:
             return False
 
         update_fields = ["target", "state", "original_state", "pending", "explanation"]
@@ -1174,7 +1180,7 @@ class Unit(models.Model, LoggerMixin):
         self.save(
             update_fields=update_fields,
             run_checks=run_checks,
-            propagate_checks=was_propagated or changed,
+            propagate_checks=was_propagated or not unchanged,
         )
 
         # Generate change and process it
@@ -1188,7 +1194,7 @@ class Unit(models.Model, LoggerMixin):
 
     def post_save(
         self,
-        user: User,
+        user: User | None,
         author: User | None,
         change_action: int | None,
         *,
@@ -1210,17 +1216,18 @@ class Unit(models.Model, LoggerMixin):
             # Update translation stats
             self.translation.invalidate_cache()
 
-            # Postpone completed translation detection
-            transaction.on_commit(
-                partial(
-                    self.translation.detect_completed_translation,
-                    change,
-                    old_translated,
+            # Postpone completed translation detection for translated strings
+            if self.state >= STATE_TRANSLATED:
+                transaction.on_commit(
+                    partial(
+                        self.translation.detect_completed_translation,
+                        change,
+                        old_translated,
+                    )
                 )
-            )
 
             # Update user stats
-            if save:
+            if save and change.author and not change.author.is_anonymous:
                 change.author.profile.increase_count("translated")
         return change
 
@@ -1352,7 +1359,7 @@ class Unit(models.Model, LoggerMixin):
         return self.suggestion_set.order()
 
     @cached_property
-    def all_checks(self) -> models.QuerySet[Check]:
+    def all_checks(self) -> Iterable[Check]:
         result = self.check_set.all()
         # Force fetching
         list(result)
@@ -1412,8 +1419,8 @@ class Unit(models.Model, LoggerMixin):
             args = src, tgt, self
         if self.translation.component.is_glossary:
             checks = CHECKS.glossary
-            meth = "check_source"
-            args = src, self
+            meth = "check_target"
+            args = src, tgt, self
 
         # Run all checks
         if propagate is True:
@@ -1454,7 +1461,6 @@ class Unit(models.Model, LoggerMixin):
 
         # Delete no longer failing checks
         if old_checks:
-            propagated_units = Unit.objects.none()
             Check.objects.filter(unit=self, name__in=old_checks).delete()
             for check_name in old_checks:
                 try:
@@ -1624,7 +1630,12 @@ class Unit(models.Model, LoggerMixin):
             self.state = self.original_state = STATE_FUZZY
             self.save(run_checks=False, same_content=True, update_fields=["state"])
 
-        if user and self.target != self.old_unit["target"]:
+        if (
+            user
+            and not user.is_bot
+            and user.is_active
+            and self.target != self.old_unit["target"]
+        ):
             self.update_translation_memory(user)
 
         if change_action == Change.ACTION_AUTO:
@@ -1679,20 +1690,20 @@ class Unit(models.Model, LoggerMixin):
             return "html"
         return "none"
 
-    def get_secondary_units(self, user: User):
+    def get_secondary_units(self, user: User) -> list[Unit]:
         """Return list of secondary units."""
-        secondary_langs = user.profile.secondary_languages.exclude(
-            id__in=[
-                self.translation.language_id,
-                self.translation.component.source_language_id,
-            ]
-        )
+        secondary_langs: set[int] = user.profile.secondary_language_ids - {
+            self.translation.language_id,
+            self.translation.component.source_language_id,
+        }
+        if not secondary_langs:
+            return []
         result = get_distinct_translations(
             self.source_unit.unit_set.filter(
                 Q(translation__language__in=secondary_langs)
                 & Q(state__gte=STATE_TRANSLATED)
                 & Q(state__lt=STATE_READONLY)
-                & ~Q(target="")
+                & ~Q(target__lower__md5=MD5(Value("")))
                 & ~Q(pk=self.pk)
             ).select_related(
                 "source_unit",

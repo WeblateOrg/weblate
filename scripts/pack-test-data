@@ -17,7 +17,15 @@ cd "$WD"
 # Close bare Git repo
 git clone --bare https://github.com/WeblateOrg/test.git test-base-repo.git
 cd test-base-repo.git
-git gc --aggressive
+# Remove origin
+git remote remove origin
+# Delete all tags
+# shellcheck disable=SC2046
+git tag -d $(git tag)
+# Recompress everything and remove stale references
+git gc --aggressive --prune=now
+# Remove hook examples
+rm hooks/*
 cd ..
 
 # Create test data without VCS metadata

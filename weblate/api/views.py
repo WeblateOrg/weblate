@@ -92,6 +92,7 @@ from weblate.lang.models import Language
 from weblate.machinery.models import validate_service_configuration
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
+from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
@@ -104,7 +105,6 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.tasks import (
-    auto_translate,
     category_removal,
     component_removal,
     project_removal,
@@ -125,7 +125,7 @@ from weblate.utils.state import (
 from weblate.utils.stats import GlobalStats, prefetch_stats
 from weblate.utils.views import download_translation_file, zip_download
 
-from .renderers import OpenMetricsRenderer
+from .renderers import FlatJsonRenderer, OpenMetricsRenderer
 
 if TYPE_CHECKING:
     from rest_framework.request import Request
@@ -554,7 +554,11 @@ class UserViewSet(viewsets.ModelViewSet):
         methods=["get"],
         tags=["users", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -645,7 +649,11 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
-    @extend_schema(description="Delete a language from a group.", methods=["delete"])
+    @extend_schema(
+        description="Delete a language from a group.",
+        methods=["delete"],
+        parameters=[OpenApiParameter("language_code", str, OpenApiParameter.PATH)],
+    )
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
@@ -987,7 +995,11 @@ class ProjectViewSet(
         methods=["get"],
         tags=["projects", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -1000,7 +1012,11 @@ class ProjectViewSet(
         methods=["get"],
         tags=["projects", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def languages(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -1126,7 +1142,7 @@ class ProjectViewSet(
 
         return download_multi(
             cast("AuthenticatedHttpRequest", request),
-            translations,
+            translations.prefetch_meta(),
             [instance],
             requested_format,
             name=instance.slug,
@@ -1383,7 +1399,11 @@ class ComponentViewSet(
         methods=["get"],
         tags=["components", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -1484,6 +1504,7 @@ class ComponentViewSet(
     @extend_schema(
         description="Remove association of a project with a component.",
         methods=["delete"],
+        parameters=[OpenApiParameter("project_slug", str, OpenApiParameter.PATH)],
     )
     @action(detail=True, methods=["delete"], url_path="links/(?P<project_slug>[^/.]+)")
     def delete_links(self, request: Request, project__slug, slug, project_slug):
@@ -1512,7 +1533,7 @@ class ComponentViewSet(
         requested_format = request.query_params.get("format", "zip")
         return download_multi(
             cast("AuthenticatedHttpRequest", request),
-            instance.translation_set.all(),
+            instance.translation_set.prefetch_meta(),
             [instance],
             requested_format,
             name=instance.full_slug.replace("/", "-"),
@@ -1579,11 +1600,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         obj = self.get_object()
         user = request.user
         if request.method == "GET":
-            if not user.has_perm("translation.download", obj):
-                raise PermissionDenied
             if obj.get_filename() is None:
                 msg = "No translation file!"
                 raise Http404(msg)
+            if not user.has_perm("translation.download", obj):
+                raise PermissionDenied
             fmt = self.format_kwarg or request.query_params.get("format")
             query_string = request.GET.get("q", "")
             if query_string and not fmt:
@@ -1607,6 +1628,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         serializer.check_perms(request.user, obj)
 
         data = serializer.validated_data
+
+        if obj.get_filename() is None and data["method"] != "source":
+            raise ValidationError(
+                {"method": "No translation file, try using method=source."}
+            )
 
         author_name = None
         author_email = None
@@ -1645,7 +1671,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         methods=["get"],
         tags=["translations", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -1681,16 +1711,17 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             serializer_class = BilingualUnitSerializer
 
         if request.method == "POST":
-            if not (can_add := request.user.has_perm("unit.add", obj)):
-                self.permission_denied(request, can_add.reason)
-            serializer = serializer_class(
-                data=request.data, context={"translation": obj}
-            )
-            serializer.is_valid(raise_exception=True)
+            with transaction.atomic():
+                if not (can_add := request.user.has_perm("unit.add", obj)):
+                    self.permission_denied(request, can_add.reason)
+                serializer = serializer_class(
+                    data=request.data, context={"translation": obj}
+                )
+                serializer.is_valid(raise_exception=True)
 
-            unit = obj.add_unit(request, **serializer.as_kwargs())
-            outserializer = UnitSerializer(unit, context={"request": request})
-            return Response(outserializer.data, status=HTTP_200_OK)
+                unit = obj.add_unit(request, **serializer.as_kwargs())
+                outserializer = UnitSerializer(unit, context={"request": request})
+                return Response(outserializer.data, status=HTTP_200_OK)
 
         query_string = request.GET.get("q", "")
         try:
@@ -1726,19 +1757,21 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
                         errors[field.name] = str(error)
             raise ValidationError(errors)
 
+        auto = AutoTranslate(
+            user=request.user,
+            translation=translation,
+            filter_type=autoform.cleaned_data["filter_type"],
+            mode=autoform.cleaned_data["mode"],
+        )
+        message = auto.perform(
+            auto_source=autoform.cleaned_data["auto_source"],
+            source=autoform.cleaned_data["component"],
+            engines=autoform.cleaned_data["engines"],
+            threshold=autoform.cleaned_data["threshold"],
+        )
+
         return Response(
-            data={
-                "details": auto_translate(
-                    request.user.id,
-                    translation.id,
-                    autoform.cleaned_data["mode"],
-                    autoform.cleaned_data["filter_type"],
-                    autoform.cleaned_data["auto_source"],
-                    autoform.cleaned_data["component"],
-                    autoform.cleaned_data["engines"],
-                    autoform.cleaned_data["threshold"],
-                )
-            },
+            data={"details": message},
             status=HTTP_200_OK,
         )
 
@@ -1794,7 +1827,11 @@ class LanguageViewSet(viewsets.ModelViewSet):
         methods=["get"],
         tags=["languages", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -2188,6 +2225,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     @extend_schema(
         description="Disassociate a component from the component list.",
         methods=["delete"],
+        parameters=[OpenApiParameter("component_slug", str, OpenApiParameter.PATH)],
     )
     @action(
         detail=True,
@@ -2262,7 +2300,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
         methods=["get"],
         tags=["categories", "statistics"],
     )
-    @action(detail=True, methods=["get"])
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -2287,6 +2329,8 @@ class Metrics(APIView):
 
 class Search(APIView):
     """Site-wide search endpoint."""
+
+    serializer_class = None
 
     def get(self, request: Request, format=None):  # noqa: A002
         """Return site-wide search results as a list."""
@@ -2341,10 +2385,11 @@ class Search(APIView):
         return Response(results)
 
 
-@extend_schema_view(
-    list=extend_schema(description="Listing of the tasks is currently not available.")
-)
 class TasksViewSet(ViewSet):
+    # Task-related data is handled and queried to Celery.
+    # There is no Django model associated with tasks.
+    serializer_class = None
+
     def get_task(
         self, request, pk, permission: str | None = None
     ) -> tuple[AsyncResult, Component | None]:

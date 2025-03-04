@@ -8,7 +8,7 @@ import codecs
 import os
 import tempfile
 from itertools import chain
-from typing import TYPE_CHECKING, BinaryIO, NotRequired, TypedDict
+from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict
 
 import sentry_sdk
 from django.core.cache import cache
@@ -33,7 +33,7 @@ from weblate.trans.exceptions import (
     FileParseError,
     PluralFormsMismatchError,
 )
-from weblate.trans.mixins import CacheKeyMixin, LoggerMixin, URLMixin
+from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import Unit
@@ -73,7 +73,14 @@ class NewUnitParams(TypedDict):
 
 class TranslationManager(models.Manager):
     def check_sync(
-        self, component, lang, code, path, force=False, request=None, change=None
+        self,
+        component,
+        lang,
+        code,
+        path,
+        force=False,
+        request: AuthenticatedHttpRequest | None = None,
+        change=None,
     ):
         """Parse translation meta info and updates translation object."""
         translation, _created = component.translation_set.get_or_create(
@@ -146,7 +153,7 @@ class TranslationQuerySet(models.QuerySet):
         )
 
 
-class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
+class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin):
     component = models.ForeignKey(
         "trans.Component", on_delete=models.deletion.CASCADE, db_index=False
     )
@@ -166,7 +173,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     objects = TranslationManager.from_queryset(TranslationQuerySet)()
 
-    is_lockable = False
     remove_permission = "translation.delete"
     settings_permission = "component.edit"
 
@@ -182,10 +188,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.stats = TranslationStats(self)
-        self.addon_commit_files = []
+        self.addon_commit_files: list[str] = []
         self.reason = ""
         self._invalidate_scheduled = False
-        self.update_changes = []
+        self.update_changes: list[Change] = []
         # Project backup integration
         self.original_id = -1
 
@@ -315,7 +321,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         except FileParseError:
             raise
         except Exception as exc:
-            report_error("Translation parse error", project=self.component.project)
+            report_error(
+                "Translation parse error", project=self.component.project, print_tb=True
+            )
             self.component.handle_parse_error(exc, self)
 
     def sync_unit(
@@ -347,7 +355,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         # Store current unit ID
         updated[id_hash] = newunit
 
-    def check_sync(self, force=False, request=None, change=None) -> None:  # noqa: C901
+    def check_sync(  # noqa: C901
+        self,
+        force: bool = False,
+        request: AuthenticatedHttpRequest | None = None,
+        change: int | None = None,
+    ) -> None:
         """Check whether database is in sync with git and possibly updates."""
         with sentry_sdk.start_span(op="translation.check_sync", name=self.full_slug):
             if change is None:
@@ -395,7 +408,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             self.component.check_template_valid()
 
             # List of updated units (used for cleanup and duplicates detection)
-            updated = {}
+            updated: dict[int, Unit] = {}
 
             try:
                 store = self.store
@@ -530,22 +543,22 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         Change.objects.bulk_create(self.update_changes, batch_size=500)
         self.update_changes.clear()
 
-    def do_update(self, request=None, method=None):
+    def do_update(self, request: AuthenticatedHttpRequest | None = None, method=None):
         return self.component.do_update(request, method=method)
 
-    def do_push(self, request=None):
+    def do_push(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_push(request)
 
-    def do_reset(self, request=None):
+    def do_reset(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_reset(request)
 
-    def do_cleanup(self, request=None):
+    def do_cleanup(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_cleanup(request)
 
-    def do_file_sync(self, request=None):
+    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_file_sync(request)
 
-    def do_file_scan(self, request=None):
+    def do_file_scan(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_file_scan(request)
 
     def can_push(self):
@@ -980,10 +993,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self,
         request: AuthenticatedHttpRequest,
         author: User,
-        store2,
-        conflicts: str,
-        method: str,
-        fuzzy: str,
+        store2: TranslationFormat,
+        conflicts: Literal["", "replace-approved", "replace-translated"],
+        method: Literal["fuzzy", "approve", "translate"],
+        fuzzy: Literal["", "process", "approve"],
     ):
         """
         Merge translation unit wise.
@@ -1220,7 +1233,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return (0, 0, self.unit_set.count(), len(store2.content_units))
 
     def handle_add_upload(
-        self, request: AuthenticatedHttpRequest, author: User, store, fuzzy: str = ""
+        self,
+        request: AuthenticatedHttpRequest,
+        author: User,
+        store: TranslationFormat,
+        fuzzy: Literal["", "process", "approve"] = "",
     ):
         component = self.component
         has_template = component.has_template()
@@ -1259,13 +1276,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     @transaction.atomic
     def handle_upload(
         self,
-        request,
+        request: AuthenticatedHttpRequest,
         fileobj: BinaryIO,
-        conflicts: str,
+        conflicts: Literal["", "replace-approved", "replace-translated"],
         author_name: str | None = None,
         author_email: str | None = None,
-        method: str = "translate",
-        fuzzy: str = "",
+        method: Literal["fuzzy", "approve", "translate"] = "translate",
+        fuzzy: Literal["", "process", "approve"] = "",
     ):
         """Top level handler for file uploads."""
         from weblate.auth.models import User
@@ -1447,9 +1464,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         # Trigger post-update signal
         self.component.trigger_post_update(previous_revision, False)
 
-    def get_store_change_translations(self):
+    def get_store_change_translations(self) -> list[Translation]:
         component = self.component
-        result = []
+        result: list[Translation] = []
         if self.is_source:
             result.extend(component.translation_set.exclude(id=self.id))
         # Source is always at the end
@@ -1459,7 +1476,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     @transaction.atomic
     def add_unit(  # noqa: C901,PLR0914,PLR0915
         self,
-        request,
+        request: AuthenticatedHttpRequest | None,
         context: str,
         source: str | list[str],
         target: str | list[str] | None = None,
@@ -1640,7 +1657,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         )
 
     @transaction.atomic
-    def delete_unit(self, request: AuthenticatedHttpRequest, unit) -> None:
+    def delete_unit(self, request: AuthenticatedHttpRequest | None, unit: Unit) -> None:
         from weblate.auth.models import get_anonymous
 
         component = self.component
@@ -1696,6 +1713,22 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
             if cleanup_variants:
                 self.component.update_variants()
+
+            try:
+                alert = self.component.alert_set.get(name="DuplicateString")
+            except ObjectDoesNotExist:
+                pass
+            else:
+                occurrences = [
+                    item
+                    for item in alert.details["occurrences"]
+                    if unit.pk != item["unit_pk"]
+                ]
+                if not occurrences:
+                    alert.delete()
+                elif occurrences != alert.details["occurrences"]:
+                    alert.details["occurrences"] = occurrences
+                    alert.save(update_fields=["details"])
 
             self.handle_store_change(request, user, previous_revision)
 

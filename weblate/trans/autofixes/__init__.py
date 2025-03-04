@@ -19,6 +19,8 @@ from .base import AutoFix
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
+    from weblate.trans.models.unit import Unit
+
 
 class AutofixLoader(ClassLoader):
     def __init__(self) -> None:
@@ -33,7 +35,7 @@ class AutofixLoader(ClassLoader):
 AUTOFIXES = AutofixLoader()
 
 
-def fix_target(target, unit):
+def fix_target(target: list[str], unit: Unit) -> tuple[list[str], list[str]]:
     """Apply each autofix to the target translation."""
     if target == []:
         return target, []

@@ -8,7 +8,6 @@ name: Pre-commit check
 on:
   push:
     branches-ignore:
-    - deepsource-fix-**
     - renovate/**
     - weblate
   pull_request:
@@ -21,27 +20,27 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/cache@v4
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+    - uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
       with:
         path: ~/.cache/pre-commit
         key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: Setup Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
       with:
         python-version: '3.13'
-    - uses: astral-sh/setup-uv@v5
+    - uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231 # v5.3.1
     - name: detect method
       id: detect
       run: |
         if test -f requirements-lint.txt ; then
-          echo "method=requirements" >> $GITHUB_OUTPUT
+          echo "method=requirements" >> "$GITHUB_OUTPUT"
         elif test -f pyproject.toml && grep -q dependency-groups pyproject.toml ; then
-          echo "method=pep735" >> $GITHUB_OUTPUT
+          echo "method=pep735" >> "$GITHUB_OUTPUT"
         elif test -f pyproject.toml && grep -q dependency-groups pyproject.toml ; then
-          echo "method=pyproject" >> $GITHUB_OUTPUT
+          echo "method=pyproject" >> "$GITHUB_OUTPUT"
         else
-          echo "method=uvx" >> $GITHUB_OUTPUT
+          echo "method=uvx" >> "$GITHUB_OUTPUT"
         fi
     - name: pre-commit (PEP 735)
       if: steps.detect.outputs.method == 'pep735'
@@ -60,7 +59,7 @@ jobs:
       run: uv pip install --system -r requirements-lint.txt
     - name: Install dependencies
       if: steps.detect.outputs.method == 'pyproject'
-      run: uv pip install --system $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
+      run: uv pip install --system "$(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)"
     - name: pre-commit (installed)
       if: steps.detect.outputs.method == 'requirements' || steps.detect.outputs.method == 'pyproject'
       run: pre-commit run --all

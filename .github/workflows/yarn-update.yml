@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
 
@@ -57,14 +57,14 @@ jobs:
 
     - name: Update current branch
       if: github.ref != 'refs/heads/main'
-      uses: stefanzweifel/git-auto-commit-action@v5
+      uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # v5.1.0
       with:
         commit_message: 'chore(js): update vendored libraries'
 
     - name: Create Pull Request
       id: cpr
       if: github.ref == 'refs/heads/main'
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
       with:
         branch: create-pull-request/yarn-update
         title: 'chore(js): update vendored libraries'

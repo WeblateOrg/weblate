@@ -107,7 +107,9 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         if authenticated:
             self.authenticate(superuser)
         url = name if name.startswith(("http:", "/")) else reverse(name, kwargs=kwargs)
-        response = getattr(self.client, method)(url, request, format, headers=headers)
+        response = getattr(self.client, method)(
+            url, request, format=format, headers=headers
+        )
         content = response.content if hasattr(response, "content") else "<stream>"
 
         self.assertEqual(
@@ -1057,6 +1059,18 @@ class ProjectAPITest(APIBaseTest):
     def test_languages(self) -> None:
         request = self.do_request("api:project-languages", self.project_kwargs)
         self.assertEqual(len(request.data), 4)
+        response = self.do_request(
+            "api:project-languages",
+            self.project_kwargs,
+            request={
+                "format": "json-flat",
+            },
+        )
+        data = response.json()
+        self.assertIsInstance(data, list)
+        self.assertEqual(len(data), 4)
+        for item in data:
+            self.assertIsInstance(item, dict)
 
     def test_delete(self) -> None:
         self.do_request(
@@ -2366,6 +2380,18 @@ class ComponentAPITest(APIBaseTest):
             data={"count": 4},
             skip=("results", "previous", "next"),
         )
+        response = self.do_request(
+            "api:component-statistics",
+            self.component_kwargs,
+            request={
+                "format": "json-flat",
+            },
+        )
+        data = response.json()
+        self.assertIsInstance(data, list)
+        self.assertEqual(len(data), 4)
+        for item in data:
+            self.assertIsInstance(item, dict)
 
     def test_new_template_404(self) -> None:
         self.do_request("api:component-new-template", self.component_kwargs, code=404)
@@ -2978,15 +3004,28 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_source(self) -> None:
         self.authenticate(True)
+
+        # Upload to translation
         with open(TEST_POT, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
                 {"file": handle, "method": "source"},
             )
         self.assertEqual(response.status_code, 400)
+
+        source_kwargs = copy(self.translation_kwargs)
+        source_kwargs["language__code"] = "en"
+
+        # Upload to source without a method
         with open(TEST_POT, "rb") as handle:
-            source_kwargs = copy(self.translation_kwargs)
-            source_kwargs["language__code"] = "en"
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=source_kwargs),
+                {"file": handle, "method": "translate"},
+            )
+        self.assertEqual(response.status_code, 400)
+
+        # Correct upload
+        with open(TEST_POT, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=source_kwargs),
                 {"file": handle, "method": "source"},
@@ -3324,6 +3363,21 @@ class TranslationAPITest(APIBaseTest):
             format="json",
             request={"key": "plural", "value": ["Source Language", "Source Languages"]},
             code=200,
+        )
+        self.assertEqual(component.source_translation.unit_set.count(), 6)
+        # Duplicate
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "acl",
+            },
+            method="post",
+            superuser=True,
+            format="json",
+            request={"key": "plural", "value": ["Source Language", "Source Languages"]},
+            code=400,
         )
         self.assertEqual(component.source_translation.unit_set.count(), 6)
         self.do_request(
@@ -3914,6 +3968,14 @@ class UnitAPITest(APIBaseTest):
             code=400,
             superuser=True,
             request={"labels": [4000]},
+        )
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=400,
+            superuser=True,
+            request={"labels": ["name"]},
         )
         self.do_request(
             "api:unit-detail",

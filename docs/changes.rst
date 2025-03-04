@@ -1,15 +1,104 @@
+Weblate 5.10.3
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+.. rubric:: Bug fixes
+
+* Improved performance of API download endpoints.
+* Reduced notifications overhead.
+* Improved handling of components using :ref:`internal-urls`.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.10.3.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/139?closed=1>`__.
+
+Weblate 5.10.2
+--------------
+
+*Released on February 28th 2025.*
+
+.. rubric:: Improvements
+
+* Improved :ref:`translation-memory` matching.
+* Visual diff now better highlights whitespace additions.
+* Improved performance on large projects.
+
+.. rubric:: Bug fixes
+
+* Consistency of :ref:`search-boolean` in :doc:`/user/search`.
+* Fixed some :ref:`addons` trigger upon installation.
+* Fixed restoring of Git repositories from :ref:`projectbackup`.
+
+.. rubric:: Compatibility
+
+* Weblate has switched to a different library for zxcvbn integration, as the old one is no longer maintained, see :ref:`password-authentication`.
+* Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP credentials are supplied.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notable are changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.10.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/138?closed=1>`__.
+
+Weblate 5.10.1
+--------------
+
+*Released on February 21st 2025.*
+
+.. rubric:: Improvements
+
+* :ref:`check-multiple-failures` better shows failing checks including links to the strings.
+* Detailed overview of locked components on project repository management.
+* :ref:`search-strings` supports searching by source string state.
+
+.. rubric:: Bug fixes
+
+* :ref:`download` performs faster on project and language scopes.
+* :ref:`zen-mode` does not display the source string twice when editing it.
+* Fixed :ref:`glossary` terms highlighting.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.10.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/137?closed=1>`__.
+
 Weblate 5.10
 ------------
 
-Not yet released.
+*Released on February 14th 2025.*
 
-**New features**
+.. rubric:: New features
 
 * :ref:`check-rst-references` check to validate reStructuredText references.
 * :ref:`check-rst-syntax` check to validate reStructuredText syntax.
 * API can now produce CSV output.
+* New management command :wladmin:`import_projectbackup` to import :ref:`projectbackup`.
 
-**Improvements**
+.. rubric:: Improvements
 
 * Improved error handling in :ref:`machine-translation-setup`.
 * :envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker container.
@@ -23,26 +112,40 @@ Not yet released.
 * Automatically use DeepL API Free endpoint for the DeepL API Free authentication keys in :ref:`mt-deepl`.
 * Compatibility with third-party static files storage backends for Django.
 * Improved language compatibility in :ref:`mt-microsoft-translator`.
+* :ref:`check-reused` check gracefully handles languages which are not case sensitive.
+* :ref:`component-enforced_checks` are now applied on strings imported from the repository.
+* Reduced false positives in :ref:`check-end-colon` and :ref:`check-end-stop` for CJK languages.
+* OpenAPI schema for API includes more information.
+* :ref:`check-regex` supports advanced regular expressions.
+* :ref:`check-same` gracefully deals with case-insensitive languages.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
+* :ref:`check-reused` wrongly triggered after fixing the error.
+* Dark theme behavior in some situations.
+* Translation propagation sometimes did not work as expected.
+* :http:header:`Content-Security-Policy` is now automatically set for AWS.
+* :ref:`machine-translation-setup` sometimes cached results too aggressively.
 * Fixed translations caching in :ref:`machine-translation-setup`.
 * :ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag.
+* :ref:`check-punctuation-spacing` no longer applies to Breton.
+* Fixed :ref:`addon-weblate.git.squash` on linked repositories.
+* :ref:`check-multiple-failures` avoids false positives and better lists related checks.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * Running tests using Django test executor is no longer supported, see :doc:`/contributing/tests`.
 * :ref:`check-bbcode` check is now disabled by default. The `bbcode-text` flag is required to activate this check, see :ref:`custom-checks`.
 * API error responses format has changed, see :ref:`api-errors`.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``REST_FRAMEWORK``, ``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 * PostgreSQL 12 and MariaDB 10.4 are no longer supported.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.10.rst
 
@@ -51,25 +154,25 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.9.2
 -------------
 
-Released on December 19th 2024.
+*Released on December 19th 2024.*
 
-**Improvements**
+.. rubric:: Improvements
 
 * Renamed :ref:`vcs-bitbucket-data-center` to match new product name.
 * :http:get:`/api/users/` supports searching by user ID.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Avoid query parser crash in multi-threaded environments.
 * Avoid :ref:`autofix` crash on multi-value strings.
 * Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are enforced.
 * Captcha solution were sometimes not accepted.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.9.2.rst
 
@@ -78,17 +181,17 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.9.1
 -------------
 
-Released on December 16th 2024.
+*Released on December 16th 2024.*
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Fixed publishing package to PyPI.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.9.1.rst
 
@@ -97,9 +200,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.9
 -----------
 
-Released on December 16th 2024.
+*Released on December 16th 2024.*
 
-**New features**
+.. rubric:: New features
 
 * Per-project :ref:`machine-translation-setup` can now be configured via the Project :ref:`api`.
 
@@ -111,10 +214,10 @@ Released on December 16th 2024.
 * Leading problematic characters in CSV are now checks for :ref:`glossary`, see :ref:`check-prohibited-initial-character`.
 * Logging to :ref:`graylog`.
 
-**Improvements**
+.. rubric:: Improvements
 
 * :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
-* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate Component`).
+* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate this component`).
 * Included username when generating :ref:`credits`.
 * :ref:`bulk-edit` shows a preview of matched strings.
 * :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
@@ -124,13 +227,13 @@ Released on December 16th 2024.
 * Improved :ref:`translation-propagation` performance.
 * More detailed error messages for :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/file/`.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Using the ``has:variant`` field now correctly displays strings that have variants in the search language, see :ref:`search-strings`.
 * Saving newly added strings in some formats.
 * :ref:`check-java-printf-format` gracefully handles escaping.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * :ref:`rollbar-errors` integration no longer includes client-side error collection.
 * Weblate now requires Git 2.28 or newer.
@@ -138,11 +241,11 @@ Released on December 16th 2024.
 * :ref:`fedora-messaging` integration needs to be updated to be compatible with this release.
 * :envvar:`WEB_WORKERS` now configures number of threads instead of processes.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.9.rst
 
@@ -151,23 +254,23 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.8.4
 -------------
 
-Released on November 19th 2024.
+*Released on November 19th 2024.*
 
-**Improvements**
+.. rubric:: Improvements
 
 * :ref:`search-users` can search based on user changes.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Fixed occasional crash in :ref:`rss`.
 * :ref:`check-icu-message-format` gracefully handles plural strings.
 * :ref:`vcs-bitbucket-cloud` correctly generates pull request description.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.8.4.rst
 
@@ -176,19 +279,19 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.8.3
 -------------
 
-Released on November 6th 2024.
+*Released on November 6th 2024.*
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Formatting of some :ref:`audit-log` entries.
 * Fixed XML escaped output in some machine translation integrations.
 * Fixed duplicate listing of newly added glossary terms.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.8.3.rst
 
@@ -197,9 +300,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.8.2
 -------------
 
-Released on November 1st 2024.
+*Released on November 1st 2024.*
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Update outdated plural definitions during the database migration.
 * Reduced number of database queries when updating multiple strings.
@@ -207,11 +310,11 @@ Released on November 1st 2024.
 * Improved :ref:`workflow-customization` performance.
 * Fixed XML escaped output in some machine translation integrations.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.8.2.rst
 
@@ -220,17 +323,17 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.8.1
 -------------
 
-Released on October 15th 2024.
+*Released on October 15th 2024.*
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Use lower case name for the Python package.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.8.1.rst
 
@@ -239,9 +342,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.8
 -----------
 
-Released on October 15th 2024.
+*Released on October 15th 2024.*
 
-**New features**
+.. rubric:: New features
 
 * Added :ref:`component-key_filter` in the component.
 * :doc:`/user/search` now supports filtering by object path and :ref:`date-search`.
@@ -249,7 +352,7 @@ Released on October 15th 2024.
 * :ref:`mt-azure-openai` automatic suggestion service.
 * :ref:`vcs-bitbucket-cloud`.
 
-**Improvements**
+.. rubric:: Improvements
 
 * :ref:`mt-modernmt` supports :ref:`glossary-mt`.
 * :ref:`mt-deepl` now supports specifying translation context.
@@ -264,24 +367,24 @@ Released on October 15th 2024.
 * :ref:`aresource` now support translatable attribute in its strings.
 * Creating component via file upload (Translate document) now supports bilingual files.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Displaying :ref:`workflow-customization` setting in some cases.
 * Users can add component in any language already existing in a project.
 * :ref:`check-unnamed-format` better handles some strings, such as :ref:`check-python-brace-format`.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * Weblate now requires Python 3.11 or newer.
 * :ref:`mt-aws` now requires the `TranslateFullAccess` permission.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS`` and changes in ``REST_FRAMEWORK`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.8.rst
 
@@ -290,24 +393,24 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.7.2
 -------------
 
-Released on September 5th 2024.
+*Released on September 5th 2024.*
 
-**Improvements**
+.. rubric:: Improvements
 
 * :ref:`2fa` remembers last method used by user.
 * Instead of redirecting, the sign-out now displays a page.
 * Improved readability of exception logs.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Updating of translations from the repository in linked components.
 * Improved rendering of digest notification e-mails.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.7.2.rst
 
@@ -316,14 +419,14 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.7.1
 -------------
 
-Released on August 30th 2024.
+*Released on August 30th 2024.*
 
-**Improvements**
+.. rubric:: Improvements
 
 * Updated language names to better describe different scripts and Sintic languages.
 * :ref:`addon-weblate.cleanup.generic` is now automatically installed for formats which need it to update non-translation content in the translated files.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Support for using Docker network names in automatic suggestion settings.
 * Fixed authentication using some third-party providers such as Azure.
@@ -331,11 +434,11 @@ Released on August 30th 2024.
 * QR code for TOTP is now black/white even in dark mode.
 * Fixed TOTP authentication when WebAuthn is also configured for the user.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.7.1.rst
 
@@ -344,9 +447,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.7
 -----------
 
-Released on August 15th 2024.
+*Released on August 15th 2024.*
 
-**New features**
+.. rubric:: New features
 
 * :ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps (TOTP), and recovery codes.
 * :ref:`2fa` can be enforced at the team or project level.
@@ -356,7 +459,7 @@ Released on August 15th 2024.
 * :ref:`mt-openai` now supports custom models and URLs and offers rephrasing of existing strings.
 * :ref:`mt-cyrtranslit` automatic suggestion service.
 
-**Improvements**
+.. rubric:: Improvements
 
 * :ref:`addon-weblate.properties.sort` can now do case-sensitive sorting.
 * The status widgets are now supported site-wide and language-wide, see :ref:`promotion`.
@@ -369,13 +472,13 @@ Released on August 15th 2024.
 * :ref:`check-python-brace-format` detects extra curly braces.
 * Screenshots now can be pasted from the clipboard in :ref:`screenshots`.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Accessibility of keyboard navigation.
 * :ref:`git-exporter` now works with all Git based :ref:`vcs`.
 * :ref:`check-max-size` sometimes failed to render screenshot.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * Weblate now uses mistletoe instead of misaka as a Markdown renderer.
 * :ref:`csp` is now stricter what might block third-party customizations.
@@ -384,14 +487,14 @@ Released on August 15th 2024.
 * Default value for :setting:`SENTRY_SEND_PII` was changed.
 * Translation credit reports in the JSON format now follows a different format for entries.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, ``SOCIAL_AUTH_PIPELINE`` and ``MIDDLEWARE``; please adjust your settings accordingly.
 * :setting:`ENABLE_HTTPS` is now required for WebAuthn support. If you cannot use HTTPS, please silence related check as described in :setting:`ENABLE_HTTPS` documentation.
 
-**Contributors**
+.. rubric:: Contributors
 
 .. include:: changes/contributors/5.7.rst
 
@@ -400,9 +503,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.6.2
 -------------
 
-Released on July 1st 2024.
+*Released on July 1st 2024.*
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Rendering of :ref:`labels` color selection widget.
 * Detection of pending outgoing commits.
@@ -411,7 +514,7 @@ Released on July 1st 2024.
 * Removal of source strings in :ref:`glossary`.
 * Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / GHSA-jfgp-674x-6q4p).
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -420,18 +523,18 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.6.1
 -------------
 
-Released on June 24th 2024.
+*Released on June 24th 2024.*
 
-**Improvements**
+.. rubric:: Improvements
 
 * Docker container accepts :envvar:`WEBLATE_REMOVE_ADDONS` and :envvar:`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` for CORS handling in API.
 * Added OpenMetrics compatibility for :http:get:`/api/metrics/`.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Language aliases in :doc:`/admin/machine`.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -440,14 +543,14 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.6
 -----------
 
-Released on June 19th 2024.
+*Released on June 19th 2024.*
 
-**New features**
+.. rubric:: New features
 
 * :ref:`addons` activity log for tracking add-on activity.
 * Improved date range selection in :ref:`reports`.
 
-**Improvements**
+.. rubric:: Improvements
 
 * :ref:`subscriptions` now include strings which need updating.
 * Improved compatibility with password managers.
@@ -457,7 +560,7 @@ Released on June 19th 2024.
 * :http:get:`/api/changes/(int:id)/` now includes `old` and `details`.
 * Reduced memory usage and increased performance of some views.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Loading of strings with many glossary matches.
 * Fixed behavior of some site-wide :ref:`addons`.
@@ -465,11 +568,11 @@ Released on June 19th 2024.
 * :ref:`check-xml-tags` better handle XML entities.
 * Automatic suggestions could mix up replacements between translated strings.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * Compatibility with Django 5.1.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -478,14 +581,14 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5.5
 -------------
 
-Released on May 13th 2024.
+*Released on May 13th 2024.*
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * False-positive merge failure alert when using push branch.
 * Cleanup of stale repositories.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -494,20 +597,20 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5.4
 -------------
 
-Released on May 10th 2024.
+*Released on May 10th 2024.*
 
-**Improvements**
+.. rubric:: Improvements
 
 * Visually highlight explanation in :ref:`glossary`.
 * Add :ref:`addons` history tab in management.
 * New :ref:`alerts` when :ref:`glossary` might not work as expected.
 * :doc:`/admin/announcements` can be posted on project/language scope.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Improved handling placeables in :ref:`mt-openai`.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -516,19 +619,19 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5.3
 -------------
 
-Released on May 3rd 2024.
+*Released on May 3rd 2024.*
 
-**Improvements**
+.. rubric:: Improvements
 
 * Improved performance of rendering large lists of objects.
 * Component management: added links to manage project/site-wide :ref:`addons`.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Fixed crashes with librsvg older than 2.46.
 * Daily execution of some :ref:`addons`.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -537,13 +640,13 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5.2
 -------------
 
-Released on April 26th 2024.
+*Released on April 26th 2024.*
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Fixed publishing packages to PyPI.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -552,14 +655,14 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5.1
 -------------
 
-Released on April 26th 2024.
+*Released on April 26th 2024.*
 
-**New features**
+.. rubric:: New features
 
 * :doc:`/user/search` supports ``source_changed:DATETIME``.
 * Added several new :ref:`component-language_code_style`.
 
-**Improvements**
+.. rubric:: Improvements
 
 * Display more details on source string change in history.
 * :ref:`mt-microsoft-translator` now supports using custom translators.
@@ -569,7 +672,7 @@ Released on April 26th 2024.
 * More detailed status of outgoing commits.
 * Reduced memory usage.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Fixed skipped component update with some add-ons enabled.
 * Daily execution of project and site wide add-ons.
@@ -578,7 +681,7 @@ Released on April 26th 2024.
 * Fixed project and site wide installation of :ref:`addon-weblate.git.squash` and :ref:`addon-weblate.discovery.discovery` add-ons.
 * Graceful handling of locking errors in the :ref:`api`.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -589,9 +692,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.5
 -----------
 
-Released on April 20th 2024.
+*Released on April 20th 2024.*
 
-**New features**
+.. rubric:: New features
 
 * :ref:`addons` can be now installed project-wide and site-wide.
 
@@ -605,7 +708,7 @@ Released on April 20th 2024.
 
 * Added :ref:`mt-systran` automatic translation support.
 
-**Improvements**
+.. rubric:: Improvements
 
 * Docker container now validates user password strength by default, see :envvar:`WEBLATE_MIN_PASSWORD_SCORE`.
 * Improved error reporting in :ref:`machine-translation-setup`.
@@ -616,7 +719,7 @@ Released on April 20th 2024.
 * :doc:`/devel/reporting` uses specific word count for CJK languages.
 * Team membership changes are now tracked in :ref:`audit-log`.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * :ref:`check-check-glossary` works better for languages not using whitespace.
 * :ref:`alerts` better handle non-latin source languages.
@@ -627,13 +730,13 @@ Released on April 20th 2024.
 * Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`.
 * Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:`auto-translation`.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * Several API calls might be affected by stricter validation of boolean fields by Django REST Framework. For example :http:post:`/api/projects/(string:project)/components/`.
 * Uniqueness of name and slug of a component is now enforced at the database level on PostgreSQL 15+.
 * Docker image now ships Python packages in :file:`/app/venv` and installs using :program:`uv`.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -645,9 +748,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.4.3
 -------------
 
-Released on March 26th 2024.
+*Released on March 26th 2024.*
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Superuser access to components with :ref:`component-restricted`.
 * Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:`manage-appearance`.
@@ -659,7 +762,7 @@ Released on March 26th 2024.
 * Fixed possible data loss when merging gettext PO file changes in Git.
 * Repository operations on project could have skipped some components.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -668,14 +771,14 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.4.2
 -------------
 
-Released on February 22nd 2024.
+*Released on February 22nd 2024.*
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Displaying debugging page in case of database connection issues.
 * Gracefully handle migration with duplicate built-in teams.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -684,14 +787,14 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.4.1
 -------------
 
-Released on February 19th 2024.
+*Released on February 19th 2024.*
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Possible crash on Weblate upgrade check when cached from the previous versions.
 * Gracefully handle migration with duplicate built-in teams.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -700,9 +803,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.4
 -----------
 
-Released on February 15th 2024.
+*Released on February 15th 2024.*
 
-**New features**
+.. rubric:: New features
 
 * :ref:`check-perl-brace-format` quality check.
 * :doc:`/formats/moko`.
@@ -710,7 +813,7 @@ Released on February 15th 2024.
 * Search input is now syntax highlighted, see :doc:`/user/search`.
 * Weblate is now available in தமிழ்.
 
-**Improvements**
+.. rubric:: Improvements
 
 * Better logging in :wladmin:`createadmin`.
 * :ref:`addon-weblate.discovery.discovery` now reports skipped entries.
@@ -725,7 +828,7 @@ Released on February 15th 2024.
 * :http:get:`/api/components/(string:project)/(string:component)/` now includes information about linked component.
 * Improved :ref:`workflow-customization` configuration forms.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Plural forms handling in :doc:`/formats/qt`.
 * Added missing documentation for :setting:`ADMINS_CONTACT`.
@@ -733,12 +836,12 @@ Released on February 15th 2024.
 * Pending changes committing could be omitted under some circumstances.
 * :ref:`addon-weblate.cleanup.blank` now correctly removes blank plurals.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * Last changed timestamp now reflects changes outside Weblate as well. This affects both :ref:`api` and the user interface.
 * Releases are signed by Sigstore instead of PGP, see :ref:`verify`.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -747,13 +850,13 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.3.1
 -------------
 
-Released on December 19th 2023.
+*Released on December 19th 2023.*
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Not updating statistics in some situations.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -762,9 +865,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.3
 -----------
 
-Released on December 14th 2023.
+*Released on December 14th 2023.*
 
-**New features**
+.. rubric:: New features
 
 * :ref:`mt-openai` automatic suggestion service.
 * :ref:`mt-alibaba` automatic suggestion service.
@@ -773,7 +876,7 @@ Released on December 14th 2023.
 * New automatic fixer for :ref:`autofix-punctuation-spacing`.
 * :ref:`mt-google-translate-api-v3` now better honors placeables or line breaks.
 
-**Improvements**
+.. rubric:: Improvements
 
 * Reduced memory usage for statistics.
 * :ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:`glossary-mt`.
@@ -782,16 +885,16 @@ Released on December 14th 2023.
 * Added nested JSON exporter in :ref:`download`.
 * Improved :ref:`git-exporter` performance on huge repositories.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Removing stale VCS directories.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * Dropped Microsoft Terminology service for automatic suggestions, as it is no longer provided by Microsoft.
 * ``labels`` in units API now expose full label info, see :http:get:`/api/units/(int:id)/`.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -800,14 +903,14 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.2.1
 -------------
 
-Released on November 22nd 2023.
+*Released on November 22nd 2023.*
 
-**Improvements**
+.. rubric:: Improvements
 
 * Show search field after no strings found while translating.
 * Added soft hyphen to special-characters toolbar.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Database backups compatibility with Alibaba Cloud Database PolarDB.
 * Crash on loading statistics calculated by previous versions.
@@ -815,7 +918,7 @@ Released on November 22nd 2023.
 * Project level statistics no longer count categorized components twice.
 * Possible discarding pending translations after editing source strings.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -824,13 +927,13 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.2
 -----------
 
-Released on November 16th 2023.
+*Released on November 16th 2023.*
 
-**New features**
+.. rubric:: New features
 
 * :ref:`vcs-azure-devops`.
 
-**Improvements**
+.. rubric:: Improvements
 
 * Faster statistics updates.
 * Better e-mail selection in user profile.
@@ -843,7 +946,7 @@ Released on November 16th 2023.
 * One-click removal of project or component :ref:`subscriptions`.
 * :ref:`api-statistics` now includes character and word counts for more string states.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Fixed creating component within a category by upload.
 * Error handling in organizing components and categories.
@@ -851,12 +954,12 @@ Released on November 16th 2023.
 * Fixed formatting of translation memory search results.
 * Allow non-breaking space character in :ref:`autofix-html`.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * :doc:`/formats/apple` exporter now produces UTF-8 encoded files.
 * Python 3.12 is now supported, though not recommended, see :ref:`python-deps`.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -865,25 +968,21 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.1.1
 -------------
 
-Released on October 25th 2023.
+*Released on October 25th 2023.*
 
-**New features**
-
-**Improvements**
+.. rubric:: Improvements
 
 * :ref:`addon-weblate.consistency.languages` now uses a dedicated user for changes.
 * Added button for sharing on Fediverse.
 * Added validation for VCS integration credentials.
 * Reduced overhead of statistics collection.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Added plurals validation when editing string using the API.
 * Replacing a file using upload when existing is corrupted.
 
-**Compatibility**
-
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -892,9 +991,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.1
 -----------
 
-Released on October 16th 2023.
+*Released on October 16th 2023.*
 
-**New features**
+.. rubric:: New features
 
 * :ref:`mt-yandex-v2` machine translation service.
 * :ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` are now stored with a dedicated user as an author.
@@ -902,7 +1001,7 @@ Released on October 16th 2023.
 * :ref:`download-multi` can now convert file formats.
 * :ref:`workflow-customization` allows to fine-tune localization workflow per language.
 
-**Improvements**
+.. rubric:: Improvements
 
 * :ref:`project-translation_review` also shows the approval percentage in object listings.
 * Project is added to watched upon accepting an invitation.
@@ -917,7 +1016,7 @@ Released on October 16th 2023.
 * Show disabled save button reason more prominently.
 * New string notification can now be triggered for each string.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Improved OCR error handling in :ref:`screenshots`.
 * :ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`.
@@ -926,11 +1025,11 @@ Released on October 16th 2023.
 * Fixed editing :guilabel:`Administration` team.
 * :ref:`addon-weblate.consistency.languages` add-on could miss some languages.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * Categories are now included ``weblate://`` repository URLs.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -943,21 +1042,21 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.0.2
 -------------
 
-Released on September 14th 2023.
+*Released on September 14th 2023.*
 
-**Improvements**
+.. rubric:: Improvements
 
 * Translate page performance.
 * Search now looks for categories as well.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Rendering of release notes on GitHub.
 * Listing of categorized projects.
 * Translating a language inside a category.
 * Categories sorting.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -968,13 +1067,13 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.0.1
 -------------
 
-Released on September 10th 2023.
+*Released on September 10th 2023.*
 
-**New features**
+.. rubric:: New features
 
 * Added :http:get:`/api/component-lists/(str:slug)/components/`.
 
-**Improvements**
+.. rubric:: Improvements
 
 * Related glossary terms lookup is now faster.
 * Logging of failures when creating pull requests.
@@ -983,7 +1082,7 @@ Released on September 10th 2023.
 * Better performance of projects with a lot of components.
 * Added compatibility redirects for some old URLs.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * Creating component within a category.
 * Source strings and state display for converted formats.
@@ -993,12 +1092,12 @@ Released on September 10th 2023.
 * Fixed GitHub Team and Organization authentication in Docker container.
 * GitLab merge requests when using a customized SSH port.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * `pyahocorasick` dependency has been replaced by `ahocorasick_rs`.
 * The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to -1.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -1009,9 +1108,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.0
 -----------
 
-Released on August 24th 2023.
+*Released on August 24th 2023.*
 
-**New features**
+.. rubric:: New features
 
 * :doc:`/formats/markdown` support, thanks to Anders Kaplan.
 * :ref:`category` can now organize components within a project.
@@ -1019,7 +1118,7 @@ Released on August 24th 2023.
 * Inviting users now works with all authentication methods.
 * Docker container supports file backed secrets, see :ref:`docker-secrets`.
 
-**Improvements**
+.. rubric:: Improvements
 
 * Plurals handling in machine translation.
 * :ref:`check-same` check now honors placeholders even in the strict mode.
@@ -1040,7 +1139,7 @@ Released on August 24th 2023.
 * Highlight differences in the source string in automatic suggestions.
 * Visual diff now better understands compositing characters.
 
-**Bug fixes**
+.. rubric:: Bug fixes
 
 * User names handling while committing to Git.
 * :ref:`addon-weblate.cleanup.blank` and :ref:`addon-weblate.cleanup.generic` now remove all strings at once.
@@ -1048,12 +1147,12 @@ Released on August 24th 2023.
 * Reduced false positives of :ref:`check-reused` when fixing the translation.
 * Fixed caching issues after updating screenshots from the repository.
 
-**Compatibility**
+.. rubric:: Compatibility
 
 * Python 3.9 or newer is now required.
 * Several UI URLs have been changed to be able to handle categories.
 
-**Upgrading**
+.. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 

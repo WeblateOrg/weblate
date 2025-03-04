@@ -1062,7 +1062,12 @@ class UnitLabelsSerializer(serializers.RelatedField, LabelSerializer):
 
     def to_internal_value(self, data):
         try:
-            label = self.get_queryset().get(id=data)
+            pk = int(data)
+        except ValueError as err:
+            msg = "Invalid label ID."
+            raise serializers.ValidationError(msg) from err
+        try:
+            label = self.get_queryset().get(id=pk)
         except Label.DoesNotExist as err:
             msg = "Label with this ID was not found in this project."
             raise serializers.ValidationError(msg) from err

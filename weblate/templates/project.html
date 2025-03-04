@@ -57,10 +57,10 @@
           </li>
         {% endif %}
         <li>
-          <a href="{% url 'export_stats' path=object.get_url_path %}?format=csv">{% trans "Download statistics (CSV)" %}</a>
+          <a href="{% url 'api:project-languages' slug=object.slug %}?format=csv">{% trans "Download language statistics (CSV)" %}</a>
         </li>
         <li>
-          <a href="{% url 'export_stats' path=object.get_url_path %}?format=json">{% trans "Download statistics (JSON)" %}</a>
+          <a href="{% url 'api:project-languages' slug=object.slug %}?format=json">{% trans "Download language statistics (JSON)" %}</a>
         </li>
         {% if user.is_authenticated %}
           <li>
