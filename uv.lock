@@ -4020,18 +4020,6 @@ wheels = [
 ]
 
 [[package]]
-name = "types-beautifulsoup4"
-version = "4.12.0.20250204"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "types-html5lib" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/11/6c/00fd71754ac3babe121c73b52e0de7ec05acd627edcb7ee652223c084d69/types_beautifulsoup4-4.12.0.20250204.tar.gz", hash = "sha256:f083d8edcbd01279f8c3995b56cfff2d01f1bb894c3b502ba118d36fbbc495bf", size = 16641 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/b1/ec/9097e9f7f5901e4d7834c7e0bc8f775f9ffa448ae31471457a1ebafeb4c5/types_beautifulsoup4-4.12.0.20250204-py3-none-any.whl", hash = "sha256:57ce9e75717b63c390fd789c787d267a67eb01fa6d800a03b9bdde2e877ed1eb", size = 17061 },
-]
-
-[[package]]
 name = "types-dateparser"
 version = "1.2.0.20250208"
 source = { registry = "https://pypi.org/simple" }
@@ -4072,16 +4060,17 @@ wheels = [
 
 [[package]]
 name = "types-lxml"
-version = "2025.2.24"
+version = "2025.3.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
+    { name = "beautifulsoup4" },
     { name = "cssselect" },
-    { name = "types-beautifulsoup4" },
+    { name = "types-html5lib" },
     { name = "typing-extensions", marker = "python_full_version < '3.13'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a8/b5/7622cd0027f63ff60809cc36a6fc2781a5a929c41a127e7334ac51dd42b7/types_lxml-2025.2.24.tar.gz", hash = "sha256:242e7bfa9cbee363f9d7062e05178b803a6b30aa8cfc30224fa0fbcceadb89c6", size = 129737 }
+sdist = { url = "https://files.pythonhosted.org/packages/78/18/68b393281eecab7fec4aa9452e52217ad0580ba93f1b8f585d1274e95a24/types_lxml-2025.3.4.tar.gz", hash = "sha256:aee7e89b33d9fd3656aa4ef3ea4073fcef82f430e2c02ab7b803abce78fb2f94", size = 141112 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fe/e5/62a511bbf2dc4c66b317c93a08bd9d8b6d62b6e1985a167371755e402e62/types_lxml-2025.2.24-py3-none-any.whl", hash = "sha256:f119a33cb650c9d48ea14b36045b207e794fdbc1485da4d369f204936d56ccc0", size = 85299 },
+    { url = "https://files.pythonhosted.org/packages/32/3a/411f44d0d0256b14aa4f4875563a7fc040ea0d27d9d3c0d6771b25bd59b9/types_lxml-2025.3.4-py3-none-any.whl", hash = "sha256:ef94bd705ca0f4b613ea4c72d614c3d456d833df4034e9b488f9f8ae000bed0e", size = 91543 },
 ]
 
 [[package]]
@@ -4673,7 +4662,7 @@ dev = [
     { name = "types-dateparser", specifier = "==1.2.0.20250208" },
     { name = "types-docutils", specifier = "==0.21.0.20241128" },
     { name = "types-jsonschema", specifier = "==4.23.0.20241208" },
-    { name = "types-lxml", specifier = "==2025.2.24" },
+    { name = "types-lxml", specifier = "==2025.3.4" },
     { name = "types-openpyxl", specifier = "==3.1.5.20241225" },
     { name = "types-pillow", specifier = "==10.2.0.20240822" },
     { name = "types-python-dateutil", specifier = "==2.9.0.20241206" },
@@ -4728,7 +4717,7 @@ types = [
     { name = "types-dateparser", specifier = "==1.2.0.20250208" },
     { name = "types-docutils", specifier = "==0.21.0.20241128" },
     { name = "types-jsonschema", specifier = "==4.23.0.20241208" },
-    { name = "types-lxml", specifier = "==2025.2.24" },
+    { name = "types-lxml", specifier = "==2025.3.4" },
     { name = "types-openpyxl", specifier = "==3.1.5.20241225" },
     { name = "types-pillow", specifier = "==10.2.0.20240822" },
     { name = "types-python-dateutil", specifier = "==2.9.0.20241206" },
