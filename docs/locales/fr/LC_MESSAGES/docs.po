@@ -25,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-02-27 11:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-03-04 21:44+0000\n"
+"Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.10.2-dev\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -12370,7 +12370,7 @@ msgstr ""
 
 #: ../../admin/install.rst:329
 msgid "Pango and Cairo"
-msgstr ""
+msgstr "Pango et Cairo"
 
 #: ../../admin/install.rst:331
 msgid ""
@@ -12390,8 +12390,8 @@ msgid ""
 ":doc:`install/venv-debian`, :doc:`install/venv-suse`, :doc:`install/venv-"
 "redhat`, :doc:`install/venv-macos`"
 msgstr ""
-":doc:`install/docker`, :doc:`install/venv-debian`, :doc:`install/venv-"
-"suse`, :doc:`install/venv-redhat`, :doc:`install/source`"
+":doc:`install/venv-debian`, :doc:`install/venv-suse`, :doc:`install/venv-"
+"redhat`, :doc:`install/venv-macros`"
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
@@ -12406,15 +12406,15 @@ msgstr ""
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "3 GB of RAM"
-msgstr ""
+msgstr "3 Go de RAM"
 
 #: ../../admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
-msgstr ""
+msgstr "processeur à deux coeurs"
 
 #: ../../admin/install/steps/hw.rst:10
 msgid "1 GB of storage space"
-msgstr ""
+msgstr "1 Go d'espace de stockage"
 
 #: ../../admin/install/steps/hw.rst:14
 msgid ""
@@ -12440,20 +12440,18 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/steps/hw.rst:30
-#, fuzzy
-#| msgid "Usage"
 msgid "CPU usage"
-msgstr "Utilisation"
+msgstr "Utilisation du processeur"
 
 #: ../../admin/install/steps/hw.rst:32
 msgid "Many concurrent users increase the amount of needed CPU cores."
 msgstr ""
+"Beaucoup d'utilisateurs concurrents augmentent le nombre nécessaire de "
+"coeurs du processeur."
 
 #: ../../admin/install/steps/hw.rst:35
-#, fuzzy
-#| msgid "Docker usage"
 msgid "Storage usage"
-msgstr "Utilisation de Docker"
+msgstr "Utilisation du stockage"
 
 #: ../../admin/install/steps/hw.rst:37
 msgid ""
@@ -12469,7 +12467,7 @@ msgstr ""
 
 #: ../../admin/install/steps/hw.rst:43
 msgid "Nodes"
-msgstr ""
+msgstr "Noeuds"
 
 #: ../../admin/install/steps/hw.rst:45
 msgid ""
@@ -12485,7 +12483,7 @@ msgstr ""
 
 #: ../../admin/install.rst:349
 msgid "Verifying release signatures"
-msgstr ""
+msgstr "Vérification des signatures des versions"
 
 #: ../../admin/install.rst:351
 msgid ""
@@ -12545,11 +12543,13 @@ msgstr ":ref:`static-files`"
 
 #: ../../admin/install.rst:396
 msgid "Database setup for Weblate"
-msgstr ""
+msgstr "Configuration de la base de données pour Weblate"
 
 #: ../../admin/install.rst:398
 msgid "It is recommended to run Weblate with a PostgreSQL database server."
 msgstr ""
+"Il est recommandé d'exécuter Weblate avec un serveur de base de données "
+"PostgreSQL."
 
 #: ../../admin/install.rst:400
 #, fuzzy
@@ -12577,10 +12577,8 @@ msgstr ""
 "migration`"
 
 #: ../../admin/install.rst:420
-#, fuzzy
-#| msgid "Database latency"
 msgid "Database connections"
-msgstr "Latence de la base de données"
+msgstr "Connexions de la base de données"
 
 #: ../../admin/install.rst:422
 msgid ""
@@ -12593,7 +12591,7 @@ msgstr ""
 
 #: ../../admin/install.rst:428
 msgid "Weblate needs at least the following number of connections:"
-msgstr ""
+msgstr "Weblate nécessite au moins le nombre suivant de connexions :"
 
 #: ../../admin/install.rst:430
 msgid ":math:`(4 \\times \\mathit{nCPUs}) + 2` for Celery processes"
@@ -12652,7 +12650,7 @@ msgstr ":ref:`django:postgresql-notes`"
 
 #: ../../admin/install.rst:468 ../../admin/upgrade.rst:149
 msgid "Creating a database in PostgreSQL"
-msgstr ""
+msgstr "Créer une base de données dans PostgreSQL"
 
 #: ../../admin/install.rst:470
 msgid ""
@@ -12669,7 +12667,7 @@ msgstr ""
 
 #: ../../admin/install.rst:497
 msgid "Configuring Weblate to use PostgreSQL"
-msgstr ""
+msgstr "Configurer Weblate pour utiliser PostgreSQL"
 
 #: ../../admin/install.rst:499
 msgid "The :file:`settings.py` snippet for PostgreSQL:"
@@ -12742,11 +12740,11 @@ msgstr ""
 
 #: ../../admin/install.rst:566
 msgid "Set the isolation level to ``READ COMMITTED``."
-msgstr ""
+msgstr "Initialiser le niveau d'isolation à ``READ COMMITTED``."
 
 #: ../../admin/install.rst:567
 msgid "The SQL mode should be set to ``STRICT_TRANS_TABLES``."
-msgstr ""
+msgstr "Le mode SQL doit être mis à ``STRICT_TRANS_TABLES``."
 
 #: ../../admin/install.rst:569
 msgid ""
@@ -42254,8 +42252,6 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:94
-#, fuzzy
-#| msgid "Updating target language files"
 msgid "Updating target-language files"
 msgstr "Mise à jour des fichiers de langue cible"
 
@@ -43692,6 +43688,8 @@ msgstr ""
 #: ../../faq.rst:353
 msgid "Does Weblate update translation files besides translations?"
 msgstr ""
+"Weblate fait-il la mise à jour des fichiers de traduction en plus des "
+"traductions ?"
 
 #: ../../faq.rst:355
 msgid ""
@@ -43700,6 +43698,10 @@ msgid ""
 "want to keep the file formatted your way, please use a pre-commit hook for "
 "that."
 msgstr ""
+"Weblate essaie de limiter au minimum les modifications des fichiers de "
+"traduction. Pour certains formats de fichiers cela pourrait conduire à un "
+"reformatage. Si vous souhaitez garder le fichier formaté à votre façon, "
+"veuillez utiliser pour cela une accroche avant le commit."
 
 #: ../../faq.rst:361
 msgid ":ref:`updating-target-files`"
@@ -43708,6 +43710,8 @@ msgstr ":ref:`updating-target-files`"
 #: ../../faq.rst:365
 msgid "Where do language definitions come from and how can I add my own?"
 msgstr ""
+"De où viennent les définitions des langues et comment puis-je ajouter la "
+"mienne ?"
 
 #: ../../faq.rst:367
 msgid ""
