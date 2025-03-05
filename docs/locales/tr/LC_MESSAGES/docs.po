@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-02-27 11:48+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-03-05 01:34+0000\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
 "Language: tr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2-dev\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -460,10 +460,8 @@ msgstr ""
 "`Yönetim` ekibine ekleyin."
 
 #: ../../admin/access.rst:216
-#, fuzzy
-#| msgid "Project access control"
 msgid "Per-project access tokens"
-msgstr "Proje erişim denetimi"
+msgstr "Her projeye özel erişim kodları"
 
 #: ../../admin/access.rst:220
 msgid ""
@@ -471,6 +469,10 @@ msgid ""
 "The API tokens can have expiry date set, and their permissions can be "
 "customized by team memberships same as with users."
 msgstr ""
+"Projeye özel erişim kodlarını :guilabel:`API erişimi` sekmesinden "
+"tanımlayabilirsiniz. API kodlarının geçerlilik sonu tarihi ayarlanabilir ve "
+"izinleri, kullanıcılarda olduğu gibi takım üyelikleri tarafından "
+"özelleştirilebilir."
 
 #: ../../admin/access.rst:226
 msgid ":ref:`api-tokens`"
@@ -5035,25 +5037,16 @@ msgid "Password authentication"
 msgstr "Parola ile kimlik doğrulama"
 
 #: ../../admin/auth.rst:457
-#, fuzzy
-#| msgid ""
-#| "The default :file:`settings.py` comes with a reasonable set of :setting:"
-#| "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS` that ensures that weak passwords are not "
 "allowed. You can customize this setting to match your password policy."
 msgstr ""
-"Varsayılan :file:`settings.py` dosyasında mantıklı bir :setting:`django:"
-"AUTH_PASSWORD_VALIDATORS` kümesi bulunur:"
+"Varsayılan :file:`settings.py` dosyasında zayıf parolaların kullanılmasını "
+"engelleyen mantıklı bir :setting:`django:AUTH_PASSWORD_VALIDATORS` kümesi "
+"bulunur. Bu ayarı parola ilkenize uygun olacak şekilde özelleştirebilirsiniz."
 
 #: ../../admin/auth.rst:461
-#, fuzzy
-#| msgid ""
-#| "Additionally you can also install `django-zxcvbn-password <https://pypi."
-#| "org/project/django-zxcvbn-password/>`_ which gives quite realistic "
-#| "estimates of password difficulty and allows rejecting passwords below a "
-#| "certain threshold."
 msgid ""
 "Additionally you can also install `django-zxcvbn-password-validator <https://"
 "github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ which gives "
@@ -5062,15 +5055,14 @@ msgid ""
 msgstr ""
 "Ek olarak, parola zorluğu ile ilgili oldukça gerçekçi öngörüler veren ve "
 "belirli bir eşiğin altında kalan parolaların reddedilmesini sağlayan `django-"
-"zxcvbn-password <https://pypi.org/project/django-zxcvbn-password/>`_ "
-"dosyasını da yükleyebilirsiniz."
+"zxcvbn-password-validator <https://github.com/Pierre-Sassoulas/django-zxcvbn-"
+"password-validator>`_ dosyasını da kurabilirsiniz."
 
 #: ../../admin/auth.rst:468
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ""
 ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+msgstr ""
+":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/auth.rst:474
 msgid "SAML authentication"
@@ -7155,10 +7147,8 @@ msgid "``ignore-end-interrobang``"
 msgstr "``ignore-end-interrobang``"
 
 #: ../../admin/checks.rst:256
-#, fuzzy
-#| msgid "Skip the :ref:`check-end-stop` quality check."
 msgid "Skip the :ref:`check-end-interrobang` quality check."
-msgstr ":ref:`check-end-stop` kalite denetimini atlar."
+msgstr ":ref:`check-end-interrobang` kalite denetimini atlar."
 
 #: ../../admin/checks.rst:257 ../../user/checks.rst:1256
 msgid "``ignore-end-question``"
@@ -7229,10 +7219,8 @@ msgid "``ignore-rst-syntax``"
 msgstr "``ignore-rst-syntax``"
 
 #: ../../admin/checks.rst:274
-#, fuzzy
-#| msgid "Skip the :ref:`check-md-syntax` quality check."
 msgid "Skip the :ref:`check-rst-syntax` quality check."
-msgstr ":ref:`check-md-syntax` kalite denetimini atlar."
+msgstr ":ref:`check-rst-syntax` kalite denetimini atlar."
 
 #: ../../admin/checks.rst:275 ../../user/checks.rst:1491
 msgid "``ignore-reused``"
@@ -9003,21 +8991,20 @@ msgid "GOOGLE_ANALYTICS_ID"
 msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:967
-#, fuzzy
-#| msgid ""
-#| "Google Analytics ID to turn on monitoring of Weblate using Google "
-#| "Analytics."
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Universal "
 "Analytics."
 msgstr ""
-"Google Analytics ile Weblate izlemesini açmak için Google Analytics kimliği."
+"Google Universal Analytics ile Weblate izlemesini açmak için Google "
+"Analytics kimliği."
 
 #: ../../admin/config.rst:971
 msgid ""
 "Google Analytics 4 integration is currently not available for Weblate, "
 "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgstr ""
+"Şu anda Weblate için Google Analytics 4 bütünleştirmesi kullanılamıyor. "
+"Lütfen https://github.com/WeblateOrg/weblate/issues/14015 adresine bakın."
 
 #: ../../admin/config.rst:977
 msgid "HIDE_REPO_CREDENTIALS"
@@ -9498,28 +9485,20 @@ msgid "PASSWORD_MINIMAL_STRENGTH"
 msgstr "PASSWORD_MINIMAL_STRENGTH"
 
 #: ../../admin/config.rst:1372
-#, fuzzy
-#| msgid ""
-#| "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
-#| "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
-#| "disable strength checking."
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator."
 msgstr ""
-"`zxcvbn <https://github.com/dropbox/zxcvbn>`_ parola gücü değerlendirmesi "
-"tarafından belirlenen en düşük parola puanı. Varsayılan 3, güç denetimi "
-"yapılmaması için 0."
+"`zxcvbn <https://github.com/dwolfhub/zxcvbn-python>`_ parola zorluğu "
+"değerlendirmesi tarafından belirlenen en düşük parola puanı."
 
 #: ../../admin/config.rst:1375
 msgid "Defaults to 0, which means strength checking is disabled."
-msgstr ""
+msgstr "Varsayılan değer: 0. Zorluk denetimi kapalıdır."
 
 #: ../../admin/config.rst:1379
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+msgstr ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/config.rst:1386
 msgid "PRIVACY_URL"
@@ -11112,7 +11091,6 @@ msgid "Automatically receiving changes from Gitee Repos"
 msgstr "Gitee depoları değişikliklerini kendiliğinden almak"
 
 #: ../../admin/continuous.rst:320
-#, fuzzy
 msgid ""
 "Weblate has support for Gitee webhooks, add a :guilabel:`WebHook` for :"
 "guilabel:`Push` event with destination to ``/hooks/gitee/`` URL on your "
@@ -11121,9 +11099,10 @@ msgid ""
 "`Management`."
 msgstr ""
 "Weblate, Gitee kancalarını destekler. Weblate kurulumunuza :guilabel:`İtme` "
-"işlemi için hedef olarak ``/hooks/gitee/`` internet kancasını ekleyin "
-"(``https://hosted.weblate.org/hooks/gitee/`` gibi). Bu işlem, :guilabel:"
-"`Yönetim` bölümündeki :guilabel:`Web kancaları` seçeneği ile yapılabilir."
+"işlemi için hedef olarak ``/hooks/gitee/`` :guilabel:`İnternet kancası` "
+"ekleyin (``https://hosted.weblate.org/hooks/gitee/`` gibi). Bu işlem, "
+":guilabel:`Yönetim` bölümündeki :guilabel:`İnternet kancaları` seçeneği ile "
+"yapılabilir."
 
 #: ../../admin/continuous.rst:327
 msgid ""
@@ -16352,25 +16331,18 @@ msgstr ""
 "kaldır. Ayrıntılı bilgi almak için: :ref:`disable-email-auth`."
 
 #: ../../admin/install/docker.rst:1439
-#, fuzzy
-#| msgid ""
-#| "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
-#| "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
-#| "disable strength checking."
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator. Defaults to 3, set to "
 "0 to disable strength checking."
 msgstr ""
-"`zxcvbn <https://github.com/dropbox/zxcvbn>`_ parola gücü değerlendirmesi "
-"tarafından belirlenen en düşük parola puanı. Varsayılan 3, güç denetimi "
-"yapılmaması için 0."
+"`zxcvbn <https://github.com/dwolfhub/zxcvbn-python>`_ parola zorluğu "
+"değerlendirmesi tarafından belirlenen en düşük parola puanı. Varsayılan 3, "
+"zorluk denetiminin yapılmaması için 0."
 
 #: ../../admin/install/docker.rst:1445
-#, fuzzy
-#| msgid ":ref:`password-authentication`"
 msgid ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
-msgstr ":ref:`password-authentication`"
+msgstr ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
 
 #: ../../admin/install/docker.rst:1450
 msgid "PostgreSQL database setup"
@@ -20758,43 +20730,33 @@ msgid "Automatically imported past translations."
 msgstr "Geçmiş çeviriler kendiliğinden içe aktarılır."
 
 #: ../../admin/memory.rst:13
-#, fuzzy
-#| msgid "Content in the translation memory can be applied one of two ways:"
 msgid ""
 "Content in the translation memory can be applied to strings in several ways:"
-msgstr "Çeviri belleğindeki içerik iki yoldan biriyle uygulanabilir:"
+msgstr "Çeviri belleğindeki içerik dizgelere çeşitli şekillerde uygulanabilir:"
 
 #: ../../admin/memory.rst:15
-#, fuzzy
-#| msgid "Manually: in the :ref:`machine-translation` view while translating."
 msgid ""
 "User can accept suggestions from the :ref:`machine-translation` tab while "
 "editing the string."
-msgstr "El ile: Çeviri yapılırken :ref:`machine-translation` görünümünden."
+msgstr ""
+"Kullanıcı dizgeyi düzenlerken :ref:`machine-translation` sekmesindeki "
+"önerileri kabul edebilir."
 
 #: ../../admin/memory.rst:16
-#, fuzzy
-#| msgid ""
-#| "When you have made your changes, use :guilabel:`Upload translation` in "
-#| "the :guilabel:`Files` menu."
 msgid ""
 "The selected strings can be processed using :ref:`auto-translation` from "
 "the :guilabel:`Tools` menu."
 msgstr ""
-"Değişikliklerinizi yaptıktan sonra, :guilabel:`Dosyalar` menüsünden :"
-"guilabel:`Çeviriyi yükle` seçeneğini kullanın."
+"Seçilmiş dizgeler :guilabel:`Araçlar` menüsünden :ref:`auto-translation` "
+"kullanılarak işlenebilir."
 
 #: ../../admin/memory.rst:17
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering "
-#| "for newly added strings."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` add-on can automatically "
 "apply changes to new and existing strings."
 msgstr ""
-"Yeni eklenen dizgelerde :ref:`addon-weblate.autotranslate.autotranslate` "
-"eklentisinin tetiklenmesi sorunu düzeltildi."
+":ref:`addon-weblate.autotranslate.autotranslate` eklentisi, değişiklikleri "
+"yeni ve var olan dizgelere kendiliğinden uygulayabilir."
 
 #: ../../admin/memory.rst:19
 msgid ""
@@ -24877,10 +24839,8 @@ msgstr ""
 "oluşturulabilir. Bu belirteçler ``wlp_`` ön ekiyle anlaşılabilir."
 
 #: ../../api.rst:86
-#, fuzzy
-#| msgid ":doc:`tt:formats/properties`, :ref:`ini`, :ref:`islu`"
 msgid ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
-msgstr ":doc:`tt:formats/properties`, :ref:`ini`, :ref:`islu`"
+msgstr ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
 
 #: ../../api.rst:91
 msgid "Authentication examples"
@@ -27930,16 +27890,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`Vikipedi üzerinde RSS <https://tr.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.2"
 msgid "Weblate 5.10.2"
-msgstr "Weblate 5.0.2"
+msgstr "Weblate 5.10.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on February 8th 2012.*"
 msgid "*Released on February 28th 2025.*"
-msgstr "*8 Şubat 2012 tarihinde yayınlandı.*"
+msgstr "*28 Şubat 2025 tarihinde yayınlandı.*"
 
 #: ../../changes.rst:7 ../../changes.rst:69 ../../changes.rst:180
 #: ../../changes.rst:322 ../../changes.rst:427 ../../changes.rst:523
@@ -27962,20 +27918,17 @@ msgid "Improvements"
 msgstr "İyileştirmeler"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved translation memory matches."
 msgid "Improved :ref:`translation-memory` matching."
-msgstr "Çeviri belleği eşleşmeleri iyileştirildi."
+msgstr ":ref:`translation-memory` eşleşmeleri iyileştirildi."
 
 #: ../../changes.rst:11
 msgid "Visual diff now better highlights whitespace additions."
 msgstr ""
+"Görsel fark denetiminin boşluk eklemelerini daha iyi vurgulaması sağlandı."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of file updates."
 msgid "Improved performance on large projects."
-msgstr "Dosya güncelleme başarımı iyileştirildi."
+msgstr "büyük projelerin başarımı iyileştirildi."
 
 #: ../../changes.rst:15 ../../changes.rst:48 ../../changes.rst:97
 #: ../../changes.rst:139 ../../changes.rst:161 ../../changes.rst:205
@@ -27994,19 +27947,18 @@ msgstr "Hata düzeltmeleri"
 
 #: ../../changes.rst:16
 msgid "Consistency of :ref:`search-boolean` in :doc:`/user/search`."
-msgstr ""
+msgstr ":doc:`/user/search` içinde :ref:`search-boolean` tutarlılığı artırıldı."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Fixed some checks triggering on non translated strings."
 msgid "Fixed some :ref:`addons` trigger upon installation."
 msgstr ""
-"Çevrilmemiş dizgelerde yaşanan bazı denetimlerin tetiklenmesi sorunu "
-"düzeltildi."
+"Kurulum sırasında yaşanan bazı :ref:`addons` tetiklenme sorunları düzeltildi."
 
 #: ../../changes.rst:18
 msgid "Fixed restoring of Git repositories from :ref:`projectbackup`."
 msgstr ""
+"Git depolarının :ref:`projectbackup` üzerinden geri yüklenmesindeki sorun "
+"giderildi."
 
 #: ../../changes.rst:21 ../../changes.rst:110 ../../changes.rst:211
 #: ../../changes.rst:351 ../../changes.rst:456 ../../changes.rst:546
@@ -28021,6 +27973,9 @@ msgid ""
 "Weblate has switched to a different library for zxcvbn integration, as the "
 "old one is no longer maintained, see :ref:`password-authentication`."
 msgstr ""
+"Eski kitaplık artık geliştirilmediğinden, Weblate ile zxcvbn bütünleştirmesi "
+"için kullanılan kitaplık değiştirildi. Ayrıntılı bilgi alın: :ref:`password-"
+"authentication`."
 
 #: ../../changes.rst:25 ../../changes.rst:54 ../../changes.rst:116
 #: ../../changes.rst:146 ../../changes.rst:165 ../../changes.rst:219
@@ -28069,19 +28024,14 @@ msgstr ""
 "Güncellemek için :ref:`generic-upgrade-instructions` adımlarını izleyin."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; please "
 "adjust your settings accordingly."
 msgstr ""
 ":file:`settings_example.py` içinde birkaç değişiklik yapıldı. En önemlileri "
-"``CACHES`` ve ``SOCIAL_AUTH_PIPELINE`` değişiklikleri. Lütfen ayarlarınızı "
-"uygun şekilde güncelleyin."
+"``AUTH_PASSWORD_VALIDATORS`` ve ``INSTALLED_APPS`` değişiklikleri. Lütfen "
+"ayarlarınızı uygun şekilde güncelleyin."
 
 #: ../../changes.rst:31 ../../changes.rst:58 ../../changes.rst:123
 #: ../../changes.rst:150 ../../changes.rst:169 ../../changes.rst:223
@@ -28092,16 +28042,12 @@ msgid "Contributors"
 msgstr "Katılımcılar"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/137?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/138?"
 "closed=1>`__."
 msgstr ""
 "`Ayrıntılı olarak tüm değişiklikler <https://github.com/WeblateOrg/weblate/"
-"milestone/137?closed=1>`__."
+"milestone/138?closed=1>`__."
 
 #: ../../changes.rst:37
 msgid "Weblate 5.10.1"
@@ -28132,8 +28078,6 @@ msgstr ""
 ":ref:`search-strings` için kaynak dizge durumuna göre arama desteği eklendi."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid ":ref:`download` performs faster and project and language scopes."
 msgid ":ref:`download` performs faster on project and language scopes."
 msgstr ""
 ":ref:`download` işlemlerinin proje ve dil kapsamlarında daha hızlı yapılması "
@@ -29697,8 +29641,9 @@ msgid ""
 "Docker container now validates user password strength by default, see :"
 "envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 msgstr ""
-"Docker kapsayıcısının varsayılan olarak kullanıcı parola gücünü doğrulaması "
-"sağlandı. Ayrıntılı bilgi almak için: :envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
+"Docker kapsayıcısının varsayılan olarak kullanıcı parola zorluğunu "
+"doğrulaması sağlandı. Ayrıntılı bilgi almak için: "
+":envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 
 #: ../../changes.rst:688
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
@@ -49738,10 +49683,8 @@ msgid "Consecutive duplicated words"
 msgstr "Art arda yinelenen sözcükler var"
 
 #: ../../user/checks.rst:144
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "Metinde aynı sözcük üst üste iki kez geçiyor:"
+msgstr "Metinde aynı sözcük üst üste iki kez geçiyor"
 
 #: ../../user/checks.rst:146
 msgid "``weblate.checks.duplicate.DuplicateCheck``"
@@ -51863,10 +51806,8 @@ msgid "The string starts with a prohibited character in CSV"
 msgstr "Dizge, CSV için izin verilmeyen bir karakterle başlıyor"
 
 #: ../../user/checks.rst:1386
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "glossary strings"
-msgstr "Yakındaki dizgeler"
+msgstr "sözlük dizgesi"
 
 #: ../../user/checks.rst:1387
 msgid "``weblate.checks.glossary.ProhibitedInitialCharacterCheck``"
@@ -51883,6 +51824,11 @@ msgid ""
 "being evaluated as an expression. This also affects :ref:`glossary-mt` where "
 "many services use CSV for synchronizing glossaries and reject such strings."
 msgstr ""
+"Sözlük genellikle CSV olarak paylaşılır ve başlangıçta bazı karakterlerin "
+"kullanılması, metnin bir ifade olarak değerlendirilmesine neden "
+"olabileceğinden birçok uygulama tarafından engellenir. Bu durum birçok "
+"hizmetin sözlükleri eşzamanlamak için CSV kullandığı ve bu tür dizgeleri "
+"reddettiği :ref:`glossary-mt` özelliğini etkiler."
 
 #: ../../user/checks.rst:1401
 msgid "Missing non breakable space before double punctuation sign"
@@ -54399,18 +54345,12 @@ msgid "Boolean operators"
 msgstr "Boole işlemleri"
 
 #: ../../user/search.rst:121
-#, fuzzy
-#| msgid ""
-#| "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
-#| "form complex queries. For example: ``state:translated AND (source:hello "
-#| "OR source:bar)``"
 msgid ""
 "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
 "form complex queries."
 msgstr ""
 "Karmaşık sorgular oluşturmak için aramaları ``AND``, ``OR``, ``NOT`` ve "
-"parantez kullanarak birleştirebilirsiniz. Örneğin: ``state:translated AND "
-"(source:hello OR source:bar)``"
+"parantez kullanarak birleştirebilirsiniz."
 
 #: ../../user/search.rst:124
 msgid ""
@@ -54418,18 +54358,19 @@ msgid ""
 "``AND`` operator has higher precedence than the ``OR`` operator. You can add "
 "parenthesis to define a precedence of your own."
 msgstr ""
+"``NOT`` işlecinin önceliği ``AND`` işlecinden daha yüksektir. ``AND`` "
+"işlecinin önceliği ``OR`` işlecinden daha yüksektir. Kendi önceliğinizi "
+"tanımlamak için parantez ekleyebilirsiniz."
 
 #: ../../user/search.rst:128
 msgid ""
 "Omitting the operator will make the query behave like the ``AND`` operator "
 "was used."
-msgstr ""
+msgstr "İşleç belirtilmezse, sorgu ``AND`` işleci kullanılmış gibi davranır."
 
 #: ../../user/search.rst:131
-#, fuzzy
-#| msgid "Regular expressions"
 msgid "Equivalent expressions"
-msgstr "Kurallı ifadeler"
+msgstr "Eşdeğer ifadeler"
 
 #: ../../user/search.rst:133
 msgid "``(state:translated AND source:hello) OR source:bar``"
@@ -54437,7 +54378,7 @@ msgstr "``(state:translated AND source:hello) OR source:bar``"
 
 #: ../../user/search.rst:134
 msgid "Parenthesized expression to clearly show the precedence."
-msgstr ""
+msgstr "Önceliği açıkça belirtmek için ifadelerde parantez kullanın."
 
 #: ../../user/search.rst:135
 msgid "``state:translated AND source:hello OR source:bar``"
@@ -54445,7 +54386,7 @@ msgstr "``state:translated AND source:hello OR source:bar``"
 
 #: ../../user/search.rst:136
 msgid "The ``AND`` operator has higher precedence than the ``OR`` operator."
-msgstr ""
+msgstr "``AND`` işlecinin önceliği ``OR`` işlecinden daha yüksektir."
 
 #: ../../user/search.rst:137
 msgid "``state:translated source:hello OR source:bar``"
@@ -54453,7 +54394,7 @@ msgstr "``state:translated source:hello OR source:bar``"
 
 #: ../../user/search.rst:138
 msgid "Query using an implicit ``AND`` operator."
-msgstr ""
+msgstr "Örtük bir ``AND`` işleci ile sorgulayın."
 
 #: ../../user/search.rst:143
 msgid "Field operators"
