@@ -1732,6 +1732,7 @@ class WebhookAddonsTest(ViewTestCase):
         """Test connection error when during message delivery."""
         self.do_translation_added_test(body=requests.ConnectionError())
 
+    @responses.activate
     def test_jsonschema_error(self):
         """Test payload schema validation error."""
         with patch(
@@ -1747,6 +1748,8 @@ class WebhookAddonsTest(ViewTestCase):
         self.create_po(
             new_base="po/project.pot", project=self.project, name="Component B1"
         )
+        # listen to propagate change event
+        self.addon_configuration["events"].append(Change.ACTION_PROPAGATED_EDIT)
 
         WebhookAddon.create(
             configuration=self.addon_configuration, project=self.project
