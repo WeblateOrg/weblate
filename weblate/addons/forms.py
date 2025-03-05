@@ -687,3 +687,5 @@ class WebhooksAddonForm(ChangeBaseAddonForm):
         ],
         required=False,
     )
+
+    field_order = ["webhook_url", "secret", "events"]
