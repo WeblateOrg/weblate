@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-03-01 14:57+0000\n"
+"PO-Revision-Date: 2025-03-05 17:08+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -469,6 +469,10 @@ msgid ""
 "The API tokens can have expiry date set, and their permissions can be "
 "customized by team memberships same as with users."
 msgstr ""
+"Unter dem Reiter :guilabel:`API-Zugang` können Sie projektspezifische "
+"Zugangstoken definieren. Für die API-Tokens kann ein Ablaufdatum festgelegt "
+"werden, und ihre Berechtigungen können wie bei Benutzern durch Team-"
+"Mitgliedschaften angepasst werden."
 
 #: ../../admin/access.rst:226
 msgid ":ref:`api-tokens`"
@@ -5092,17 +5096,15 @@ msgid "Password authentication"
 msgstr "Passwort-Authentifizierung"
 
 #: ../../admin/auth.rst:457
-#, fuzzy
-#| msgid ""
-#| "The default :file:`settings.py` comes with a reasonable set of :setting:"
-#| "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS` that ensures that weak passwords are not "
 "allowed. You can customize this setting to match your password policy."
 msgstr ""
-"Standardmäßig kommt :file:`settings.py` mit einem vernünftigen Satz von :"
-"setting:`django:AUTH_PASSWORD_VALIDATORS`:"
+"Standardmäßig kommt :file:`settings.py` mit einem angemessenen Satz von "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`, der sicherstellt, dass schwache "
+"Passwörter nicht zugelassen werden. Sie können diese Einstellung an Ihre "
+"Passwort-Richtlinien anpassen."
 
 #: ../../admin/auth.rst:461
 msgid ""
@@ -5531,7 +5533,7 @@ msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
 msgstr ""
-"Die Wiederherstellung von Sicherungen wird nur unterstützt, wenn PostgreSQL "
+"Das Wiederherstellen von Sicherungen wird nur unterstützt, wenn PostgreSQL "
 "oder MariaDB 10.5+ als Datenbank verwendet wird."
 
 #: ../../admin/backup.rst:17
@@ -9130,6 +9132,8 @@ msgid ""
 "Google Analytics 4 integration is currently not available for Weblate, "
 "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgstr ""
+"Die Integration von Google Analytics 4 ist aktuell nicht für Weblate "
+"verfügbar, siehe https://github.com/WeblateOrg/weblate/issues/14015."
 
 #: ../../admin/config.rst:977
 msgid "HIDE_REPO_CREDENTIALS"
@@ -9619,7 +9623,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1375
 msgid "Defaults to 0, which means strength checking is disabled."
-msgstr ""
+msgstr "Der Standardwert ist 0, d. h. die Prüfung der Stärke ist deaktiviert."
 
 #: ../../admin/config.rst:1379
 msgid ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
@@ -21010,37 +21014,28 @@ msgstr ""
 "Zeichenketten angewendet werden:"
 
 #: ../../admin/memory.rst:15
-#, fuzzy
-#| msgid "Manually: in the :ref:`machine-translation` view while translating."
 msgid ""
 "User can accept suggestions from the :ref:`machine-translation` tab while "
 "editing the string."
 msgstr ""
-"Manuell: in der Ansicht von :ref:`machine-translation` beim Übersetzen."
+"Benutzer können während dem Bearbeiten der Zeichenkette "
+"Übersetzungsvorschläge unter dem Reiter :ref:`machine-translation` annehmen."
 
 #: ../../admin/memory.rst:16
-#, fuzzy
-#| msgid ""
-#| "When you have made your changes, use :guilabel:`Upload translation` in "
-#| "the :guilabel:`Files` menu."
 msgid ""
 "The selected strings can be processed using :ref:`auto-translation` from "
 "the :guilabel:`Tools` menu."
 msgstr ""
-"Wenn Sie Ihre Änderungen vorgenommen haben, verwenden Sie :guilabel:"
-"`Übersetzung hochladen` im Menü :guilabel:`Dateien`."
+"Die ausgewählten Zeichenketten können mit :ref:`auto-translation` aus dem "
+"Menü :guilabel:`Werkzeuge` bearbeitet werden."
 
 #: ../../admin/memory.rst:17
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering "
-#| "for newly added strings."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` add-on can automatically "
 "apply changes to new and existing strings."
 msgstr ""
-"Die Auslösung der Erweiterung :ref:`addon-weblate.autotranslate."
-"autotranslate` für neu hinzugefügte Zeichenketten korrigiert."
+"Die Erweiterung :ref:`addon-weblate.autotranslate.autotranslate` kann "
+"Änderungen automatisch auf neue und vorhandene Zeichenketten anwenden."
 
 #: ../../admin/memory.rst:19
 msgid ""
@@ -25212,10 +25207,8 @@ msgstr ""
 "``wlp_`` identifiziert werden."
 
 #: ../../api.rst:86
-#, fuzzy
-#| msgid ":doc:`tt:formats/properties`, :ref:`ini`, :ref:`islu`"
 msgid ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
-msgstr ":doc:`tt:formats/properties`, :ref:`ini`, :ref:`islu`"
+msgstr ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
 
 #: ../../api.rst:91
 msgid "Authentication examples"
@@ -28298,20 +28291,16 @@ msgid "Improvements"
 msgstr "Verbesserungen"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved translation memory matches."
 msgid "Improved :ref:`translation-memory` matching."
-msgstr "Verbessertes Zuordnen vom Übersetzungsspeicher."
+msgstr "Verbesserter :ref:`translation-memory`-Abgleich."
 
 #: ../../changes.rst:11
 msgid "Visual diff now better highlights whitespace additions."
-msgstr ""
+msgstr "Visual diff hebt jetzt hinzugefügte Leerzeichen besser hervor."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of file updates."
 msgid "Improved performance on large projects."
-msgstr "Die Leistung von Dateiaktualisierungen verbessert."
+msgstr "Verbesserte Leistung bei großen Projekten."
 
 #: ../../changes.rst:15 ../../changes.rst:48 ../../changes.rst:97
 #: ../../changes.rst:139 ../../changes.rst:161 ../../changes.rst:205
@@ -28330,19 +28319,16 @@ msgstr "Fehlerbehebungen"
 
 #: ../../changes.rst:16
 msgid "Consistency of :ref:`search-boolean` in :doc:`/user/search`."
-msgstr ""
+msgstr "Konsistenz von :ref:`search-boolean` in :doc:`/user/search`."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Fixed some checks triggering on non translated strings."
 msgid "Fixed some :ref:`addons` trigger upon installation."
-msgstr ""
-"Einige Prüfungen korrigiert, die bei nicht übersetzten Zeichenketten "
-"auslösten."
+msgstr "Einige :ref:`addons`-Trigger bei der Installation korrigiert."
 
 #: ../../changes.rst:18
 msgid "Fixed restoring of Git repositories from :ref:`projectbackup`."
 msgstr ""
+"Das Wiederherstellen von Git-Repositorys aus :ref:`projectbackup` korrigiert."
 
 #: ../../changes.rst:21 ../../changes.rst:110 ../../changes.rst:211
 #: ../../changes.rst:351 ../../changes.rst:456 ../../changes.rst:546
@@ -28357,6 +28343,9 @@ msgid ""
 "Weblate has switched to a different library for zxcvbn integration, as the "
 "old one is no longer maintained, see :ref:`password-authentication`."
 msgstr ""
+"Weblate hat auf eine andere Bibliothek für die zxcvbn-Integration "
+"umgestellt, da die alte Bibliothek nicht mehr gepflegt wird, siehe :ref"
+":`password-authentication`."
 
 #: ../../changes.rst:25 ../../changes.rst:54 ../../changes.rst:116
 #: ../../changes.rst:146 ../../changes.rst:165 ../../changes.rst:219
@@ -28406,19 +28395,14 @@ msgstr ""
 "Aktualisierung durchzuführen."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; please "
 "adjust your settings accordingly."
 msgstr ""
 "Es gibt mehrere Änderungen in :file:`settings_example.py`, am bedeutendsten "
-"sind die Änderungen in ``CACHES`` und ``SOCIAL_AUTH_PIPELINE``, bitte passen "
-"Sie Ihre Einstellungen entsprechend an."
+"sind die geänderten Einstellungen ``AUTH_PASSWORD_VALIDATORS`` und "
+"``INSTALLED_APPS``; bitte passen Sie Ihre Einstellungen entsprechend an."
 
 #: ../../changes.rst:31 ../../changes.rst:58 ../../changes.rst:123
 #: ../../changes.rst:150 ../../changes.rst:169 ../../changes.rst:223
@@ -28595,115 +28579,101 @@ msgstr ""
 "Verbesserte Validierungsfehler in :doc:`/api`, siehe :ref:`api-errors`."
 
 #: ../../changes.rst:83
-#, fuzzy
-#| msgid ""
-#| "The language definitions are in the `weblate-language-data repository "
-#| "<https://github.com/WeblateOrg/language-data/>`_."
 msgid ""
 "Any language changed into an alias in `Weblate language data <https://github."
 "com/WeblateOrg/language-data/>`__ is now reflected in all existing "
 "installations."
 msgstr ""
-"Die Sprachdefinitionen sind im `weblate-language-data-Repository <https://"
-"github.com/WeblateOrg/language-data/>`_ zu finden."
+"Jede Sprache, die in einen Alias in `Weblate-Sprachdaten <https://github.com/"
+"WeblateOrg/language-data/>`__ geändert wurde, wird nun in allen bestehenden "
+"Installationen berücksichtigt."
 
 #: ../../changes.rst:84
 msgid ""
 "Blank alias languages (not linked to any translation, profile, "
 "component, ...) are now automatically removed."
 msgstr ""
+"Leere Alias-Sprachen (die nicht mit einer Übersetzung, einem Profil, einer "
+"Komponente, usw. verknüpft sind) werden jetzt automatisch entfernt."
 
 #: ../../changes.rst:85
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-punctuation-spacing` ignores markup such as Markdown or "
-#| "reStructuredText."
 msgid ""
 ":ref:`check-duplicate` better works with markup such as Markdown or "
 "reStructuredText."
 msgstr ""
-":ref:`check-punctuation-spacing` ignoriert Auszeichnungen wie Markdown oder "
-"reStructuredText."
+":ref:`check-duplicate` funktioniert besser mit Auszeichnungen wie Markdown "
+"oder reStructuredText."
 
 #: ../../changes.rst:86
 msgid ""
 "Automatically use DeepL API Free endpoint for the DeepL API Free "
 "authentication keys in :ref:`mt-deepl`."
 msgstr ""
+"Automatisches Verwenden des DeepL-API-Free-Endpunkts für die DeepL-API-Free-"
+"Authentifizierungsschlüssel in :ref:`mt-deepl`."
 
 #: ../../changes.rst:87
-#, fuzzy
-#| msgid "Compatibility with PostgreSQL database backend."
 msgid ""
 "Compatibility with third-party static files storage backends for Django."
-msgstr "Kompatibilität mit dem PostgreSQL-Datenbank-Backend."
+msgstr ""
+"Kompatibilität mit Drittanbieter-Backends zum Speichern statischer Dateien "
+"für Django."
 
 #: ../../changes.rst:88
 msgid "Improved language compatibility in :ref:`mt-microsoft-translator`."
 msgstr "Verbesserte Sprachkompatibilität in :ref:`mt-microsoft-translator`."
 
 #: ../../changes.rst:89
-#, fuzzy
-#| msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgid ""
 ":ref:`check-reused` check gracefully handles languages which are not case "
 "sensitive."
 msgstr ""
-":ref:`check-icu-message-format` verarbeitet problemlos Zeichenketten mit "
-"Pluralformen."
+":ref:`check-reused` verarbeitet problemlos Sprachen, bei denen die Groß- und "
+"Kleinschreibung nicht beachtet wird."
 
 #: ../../changes.rst:90
 msgid ""
 ":ref:`component-enforced_checks` are now applied on strings imported from "
 "the repository."
 msgstr ""
+":ref:`component-enforced_checks` werden nun auf aus dem Repository "
+"importierte Zeichenketten angewendet."
 
 #: ../../changes.rst:91
-#, fuzzy
-#| msgid ""
-#| "Reduced false positives of :ref:`check-reused` when fixing the "
-#| "translation."
 msgid ""
 "Reduced false positives in :ref:`check-end-colon` and :ref:`check-end-stop` "
 "for CJK languages."
 msgstr ""
-"Reduzierung der Fehlalarme von :ref:`check-reused` bei der Korrektur der "
-"Übersetzung."
+"Weniger Fehlalarme in :ref:`check-end-colon` und :ref:`check-end-stop` für "
+"CJK-Sprachen."
 
 #: ../../changes.rst:92
 msgid "OpenAPI schema for API includes more information."
-msgstr ""
+msgstr "Das OpenAPI-Schema für die API enthält weitere Informationen."
 
 #: ../../changes.rst:93
-#, fuzzy
-#| msgid "Generic placeholders check now supports regular expressions."
 msgid ":ref:`check-regex` supports advanced regular expressions."
-msgstr ""
-"Die allgemeine Platzhalterprüfung unterstützt jetzt reguläre Ausdrücke."
+msgstr ":ref:`check-regex` unterstützt erweiterte Reguläre Ausdrücke."
 
 #: ../../changes.rst:94
-#, fuzzy
-#| msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgid ":ref:`check-same` gracefully deals with case-insensitive languages."
 msgstr ""
-":ref:`check-icu-message-format` verarbeitet problemlos Zeichenketten mit "
-"Pluralformen."
+":ref:`check-same` verarbeitet problemlos Sprachen, bei denen die Groß- und "
+"Kleinschreibung nicht beachtet wird."
 
 #: ../../changes.rst:98
-#, fuzzy
-#| msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgid ":ref:`check-reused` wrongly triggered after fixing the error."
-msgstr ":ref:`check-reused` wird nicht mehr für leere Zeichenketten ausgelöst."
+msgstr ""
+":ref:`check-reused` wurde nach Beheben des Fehlers fälschlicherweise "
+"ausgelöst."
 
 #: ../../changes.rst:99
-#, fuzzy
-#| msgid "Not updating statistics in some situations."
 msgid "Dark theme behavior in some situations."
-msgstr "In manchen Situationen wurden Statistiken nicht aktualisiert."
+msgstr "Verhalten des dunklen Designs in einigen Situationen."
 
 #: ../../changes.rst:100
 msgid "Translation propagation sometimes did not work as expected."
-msgstr ""
+msgstr "Die Übersetzungsweitergabe funktionierte manchmal nicht wie erwartet."
 
 #: ../../changes.rst:101
 msgid ""
@@ -28736,21 +28706,16 @@ msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
 msgstr ":ref:`check-punctuation-spacing` gilt nicht mehr für Bretonisch."
 
 #: ../../changes.rst:106
-#, fuzzy
-#| msgid ""
-#| "Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose."
 msgid "Fixed :ref:`addon-weblate.git.squash` on linked repositories."
-msgstr ""
-":ref:`addon-weblate.consistency.languages` umbenannt, um den Zweck zu "
-"verdeutlichen."
+msgstr ":ref:`addon-weblate.git.squash` für verlinkte Repositorys korrigiert."
 
 #: ../../changes.rst:107
-#, fuzzy
-#| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid ""
 ":ref:`check-multiple-failures` avoids false positives and better lists "
 "related checks."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-multiple-failures`."
+msgstr ""
+":ref:`check-multiple-failures` vermeidet Fehlalarme und listet zugehörige "
+"Prüfungen besser auf."
 
 #: ../../changes.rst:111
 msgid ""
@@ -28765,6 +28730,9 @@ msgid ""
 ":ref:`check-bbcode` check is now disabled by default. The `bbcode-text` flag "
 "is required to activate this check, see :ref:`custom-checks`."
 msgstr ""
+"Die Prüfung der :ref:`check-bbcode` ist jetzt standardmäßig deaktiviert. Die "
+"Markierung `bbcode-text` ist erforderlich, um diese Prüfung zu aktivieren, "
+"siehe :ref:`custom-checks`."
 
 #: ../../changes.rst:113
 msgid "API error responses format has changed, see :ref:`api-errors`."
@@ -31194,7 +31162,7 @@ msgstr ""
 
 #: ../../changes.rst:1114
 msgid "Visual diff now better understands compositing characters."
-msgstr "Visual Diff versteht jetzt das Compositing von Zeichen besser."
+msgstr "Visual diff versteht jetzt das Compositing von Zeichen besser."
 
 #: ../../changes.rst:1118
 msgid "User names handling while committing to Git."
@@ -36005,7 +35973,7 @@ msgid ""
 "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
 "accordingly."
 msgstr ""
-"Es gibt mehrere Änderungen in :file:`settings_example.py`, am bedeutesten "
+"Es gibt mehrere Änderungen in :file:`settings_example.py`, am bedeutendsten "
 "ist die Änderung in ``COMPRESS_OFFLINE_CONTEXT``, bitte passen Sie Ihre "
 "Einstellungen entsprechend an."
 
@@ -36635,7 +36603,7 @@ msgstr "Nachverfolgung der Entfernung/Lösung von Kommentaren im Verlauf."
 #: ../../changes/v4.rst:265
 msgid "Fixed restoring project backups with linked components."
 msgstr ""
-"Die Wiederherstellung von Projektsicherungen mit verlinkten Komponenten "
+"Das Wiederherstellen von Projektsicherungen mit verlinkten Komponenten "
 "korrigiert."
 
 #: ../../changes/v4.rst:266
@@ -40325,11 +40293,8 @@ msgid "Translation file wrapper."
 msgstr "Übersetzungsdatei-Wrapper."
 
 #: ../../contributing/addons.rst:45
-#, fuzzy
-#| msgid "Add support for configuring msgmerge add-on."
 msgid "Base form for configuring add-ons."
-msgstr ""
-"Unterstützung für die Konfiguration der msgmerge-Erweiterung hinzugefügt."
+msgstr "Basisformular für das Konfigurieren von Erweiterungen."
 
 #: ../../contributing/addons.rst:47
 msgid "Here is an example add-on:"
@@ -40725,6 +40690,9 @@ msgid ""
 "See :ref:`collecting-errors` for information on setting up Sentry which can "
 "provide useful insights on badly performing operations."
 msgstr ""
+"Unter :ref:`collecting-errors` finden Sie Informationen zum Einrichten von "
+"Sentry, das nützliche Erkenntnisse über schlecht laufende Vorgänge liefern "
+"kann."
 
 #: ../../contributing/debugging.rst:100
 msgid ""
@@ -52760,6 +52728,11 @@ msgid ""
 "being evaluated as an expression. This also affects :ref:`glossary-mt` where "
 "many services use CSV for synchronizing glossaries and reject such strings."
 msgstr ""
+"Das Glossar wird oft als CSV weitergegeben, und das Verwenden einiger "
+"Zeichen am Anfang wird von vielen Anwendungen eingeschränkt, da diese dazu "
+"führen können, dass der Text als Ausdruck ausgewertet wird. Dies betrifft "
+"auch :ref:`glossary-mt`, wo viele Dienste CSV für das Synchronisieren von "
+"Glossaren verwenden und solche Zeichenketten ablehnen."
 
 #: ../../user/checks.rst:1401
 msgid "Missing non breakable space before double punctuation sign"

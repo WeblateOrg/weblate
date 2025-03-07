@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-02-23 15:17+0000\n"
+"PO-Revision-Date: 2025-03-05 01:34+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.1-dev\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -992,22 +992,22 @@ msgid "Your password can't consist of a single character or only whitespace."
 msgstr "Parolanız tek bir karakterden ya da yalnızca boşluktan oluşamaz."
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "Bu parolada yalnızca tek bir karakter var."
-msgstr[1] "Bu parolada yalnızca tek bir karakter var."
+msgstr[0] ""
+"Bu parola çok uzun. En fazla %(max_length)d karakter uzunluğunda olmalıdır."
+msgstr[1] ""
+"Bu parola çok uzun. En fazla %(max_length)d karakter uzunluğunda olmalıdır."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password can't contain repeated words or characters."
+#, python-format
 msgid "Your password must contain at most %(min_length)d character."
 msgid_plural "Your password must contain at most %(min_length)d characters."
-msgstr[0] "Parolanızda yinelenen sözcükler veya karakterler bulunamaz."
-msgstr[1] "Parolanızda yinelenen sözcükler veya karakterler bulunamaz."
+msgstr[0] "Parolanız en fazla %(min_length)d karakter uzunluğunda olmalıdır."
+msgstr[1] "Parolanız en fazla %(min_length)d karakter uzunluğunda olmalıdır."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -3326,18 +3326,14 @@ msgid "Consecutive duplicated words"
 msgstr "Art arda yinelenen sözcükler var"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "Metinde aynı sözcük üst üste iki kez geçiyor:"
+msgstr "Metinde aynı sözcük üst üste iki kez geçiyor"
 
 #: weblate/checks/duplicate.py:96
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "Aşağıdaki bileşenler oluşturulacak"
-msgstr[1] "Aşağıdaki bileşenler oluşturulacak"
+msgstr[0] "Şu sözcük iki kez kullanılmış:"
+msgstr[1] "Şu sözcükler iki kez kullanılmış:"
 
 #: weblate/checks/flags.py:42
 msgid "RST text"
@@ -5829,10 +5825,6 @@ msgstr ""
 "açık kaynak değerlerine bağlı, gizliliğe saygılı yerelleştirme platformu."
 
 #: weblate/templates/about/donate.html:33
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgctxt "Label on donate page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
@@ -5840,10 +5832,6 @@ msgstr[0] "GitHub yıldızı"
 msgstr[1] "GitHub yıldızı"
 
 #: weblate/templates/about/donate.html:39
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "Open issues"
-#| msgid_plural "Open issues"
 msgctxt "Label on donate page"
 msgid "Open issue"
 msgid_plural "Open issues"
@@ -5851,12 +5839,10 @@ msgstr[0] "Açık sorun"
 msgstr[1] "Açık sorunlar"
 
 #: weblate/templates/about/donate.html:45
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on donate page"
 msgid "Recent change"
 msgid_plural "Recent changes"
-msgstr[0] "Son değişiklikler"
+msgstr[0] "Son değişiklik"
 msgstr[1] "Son değişiklikler"
 
 #: weblate/templates/about/index.html:7 weblate/templates/about/index.html:16
