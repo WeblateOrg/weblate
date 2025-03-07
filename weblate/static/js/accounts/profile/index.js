@@ -5,6 +5,8 @@
 $(document).ready(() => {
   const $profileNotificationSettings = $("#notifications");
   const $container = $profileNotificationSettings.find("#div_id_watched");
+  const $selectElement = $profileNotificationSettings.find("#id_watched");
+
   // Make elements link-like except click behavior
   makeElementsLinkLike($container);
   // Watch the container when elements are added and removed
@@ -26,13 +28,15 @@ $(document).ready(() => {
    *                                  elements.
    */
   function makeElementsLinkLike(parentElement) {
+    const slugs = JSON.parse($selectElement.attr("data-project-slugs"));
     parentElement.find("a").each((_index, element) => {
       const $element = $(element);
       const dataValue = $element.attr("data-value");
       if (dataValue) {
         // Encode the data value to prevent unsafe HTML injection
-        const safeDataValue = encodeURIComponent(dataValue); // Encode the value
-        $element.attr("href", `/projects/${safeDataValue}`);
+        const safeDataValue = encodeURIComponent(dataValue);
+        const projectSlug = slugs[safeDataValue];
+        $element.attr("href", `/projects/${projectSlug}`);
         $element.on("click", (event) => event.preventDefault());
       }
     });
