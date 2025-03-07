@@ -42,6 +42,13 @@ Daily
 
 Triggered daily, but add-ons usually split the daily load between components depending on :setting:`BACKGROUND_TASKS`.
 
+.. _addon-event-event-change:
+
+Event change
+------------
+
+Triggered after a Change event is created.
+
 .. _addon-event-repository-post-add:
 
 Repository post-add

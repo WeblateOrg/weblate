@@ -193,16 +193,14 @@ class StandardWebhooksUtils:
 
 
 change_event_webhook = OpenApiWebhook(
-    name="Addon webhook",
+    name="AddonWebhook",
     decorator=extend_schema(
         summary="A Webhook event for an addon",
-        description="This webhook is used to send an Action event",
-        tags=["webhooks"],
+        description="Pushes events to a notification URL. ",
+        tags=["webhooks", "addons"],
         request={"application/json": load_schema("weblate-messaging.schema.json")},
         responses={
-            200: OpenApiResponse("Event was successfully received"),
-            201: OpenApiResponse("Event was successfully received"),
-            202: OpenApiResponse("Event was successfully received"),
+            "2XX": OpenApiResponse("Event was received successfully"),
         },
     ),
 )
