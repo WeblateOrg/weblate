@@ -13,6 +13,21 @@ class StandardPagination(PageNumberPagination):
     page_size_query_param = "page_size"
     max_page_size = 1000
 
+    def get_paginated_response_schema(self, data):
+        """
+        Make the response schema compatible with OpenAPI 3.1 specification.
+
+        As of drf-spectacular[sidecar]>=0.28.0,<0.29, pagination schemas are not
+        compatible by default with OpenAPI 3.1. This method overrides the default.
+        Later updates might fix this issue.
+
+        https://github.com/tfranzel/drf-spectacular/issues/1360
+        """
+        schema = super().get_paginated_response_schema(data)
+        schema["properties"]["next"].pop("nullable")
+        schema["properties"]["previous"].pop("nullable")
+        return schema
+
 
 class LargePagination(StandardPagination):
     page_size = StandardPagination.page_size * 4
