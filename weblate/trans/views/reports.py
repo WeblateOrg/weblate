@@ -55,6 +55,8 @@ def generate_credits(
     end_date,
     language_code: str,
     entity: Project | Component | Category,
+    sort_by: str,
+    sort_order: str,
 ):
     """Generate credits data for given component."""
     result = defaultdict(list)
@@ -77,13 +79,17 @@ def generate_credits(
     if language_code:
         languages = languages.filter(code=language_code)
 
+    order_by = "change_count" if sort_by == "count" else "author__date_joined"
+    if sort_order == "descending":
+        order_by = "-" + order_by
+
     for *author, language in (
         base.filter(language__in=languages, **kwargs)
         .authors_list(
             (start_date, end_date),
-            values_list=("language__name",),
+            values_list=("author__date_joined", "language__name"),
         )
-        .order_by("language__name", "-change_count")
+        .order_by("language__name", order_by)
     ):
         result[language].append(
             {
@@ -91,6 +97,7 @@ def generate_credits(
                 "username": author[1],
                 "full_name": author[2],
                 "change_count": author[3],
+                "date_joined": author[4].isoformat(),
             }
         )
 
@@ -124,6 +131,8 @@ def get_credits(request: AuthenticatedHttpRequest, path=None):
         form.cleaned_data["period"]["end_date"],
         form.cleaned_data["language"],
         obj,
+        form.cleaned_data["sort_by"],
+        form.cleaned_data["sort_order"],
     )
 
     if form.cleaned_data["style"] == "json":
@@ -209,7 +218,7 @@ COUNT_DEFAULTS = dict.fromkeys(
 )
 
 
-def generate_counts(user: User, start_date, end_date, language_code: str, **kwargs):
+def generate_counts(user: User, start_date, end_date, language_code: str, sort_by: str, sort_order: str, **kwargs):
     """Generate credits data for given component."""
     result = {}
     action_map = {Change.ACTION_NEW: "new", Change.ACTION_APPROVE: "approve"}
@@ -226,7 +235,11 @@ def generate_counts(user: User, start_date, end_date, language_code: str, **kwar
         email = change.author.email
 
         if email not in result:
-            result[email] = current = {"name": change.author.full_name, "email": email}
+            result[email] = current = {
+                "name": change.author.full_name,
+                "email": email,
+                "date_joined": change.author.date_joined.isoformat(),
+            }
             current.update(COUNT_DEFAULTS)
         else:
             current = result[email]
@@ -253,7 +266,12 @@ def generate_counts(user: User, start_date, end_date, language_code: str, **kwar
         current["edits_" + suffix] += edits
         current["count_" + suffix] += 1
 
-    return list(result.values())
+    result_list = list(result.values())
+    sort_by_key = "edits" if sort_by == "count" else "date_joined"
+    reverse = sort_order == "descending"
+    result_list.sort(key=lambda x: x[sort_by_key], reverse=reverse)
+
+    return result_list
 
 
 @login_required
@@ -282,6 +300,8 @@ def get_counts(request: AuthenticatedHttpRequest, path=None):
         form.cleaned_data["period"]["start_date"],
         form.cleaned_data["period"]["end_date"],
         form.cleaned_data["language"],
+        form.cleaned_data["sort_by"],
+        form.cleaned_data["sort_order"],
         **kwargs,
     )
 
@@ -291,6 +311,7 @@ def get_counts(request: AuthenticatedHttpRequest, path=None):
     headers = (
         "Name",
         "Email",
+        "Date joined",
         "Count total",
         "Edits total",
         "Source words total",
@@ -358,6 +379,7 @@ def get_counts(request: AuthenticatedHttpRequest, path=None):
                 (
                     (format_html_or_plain(cell_name, item["name"] or "Anonymous"),),
                     (format_html_or_plain(cell_name, item["email"] or ""),),
+                    (format_html_or_plain(cell_name, item["date_joined"] or ""),),
                     (format_html_or_plain(cell_count, item["count"]),),
                     (format_html_or_plain(cell_count, item["edits"]),),
                     (format_html_or_plain(cell_count, item["words"]),),
