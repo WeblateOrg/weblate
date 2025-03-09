@@ -49,6 +49,8 @@ def get_spectacular_settings(
                 },
             },
         },
+        # OpenAPI Specification version: 'webhooks' field is supported from 3.1.0
+        "OAS_VERSION": "3.1.1",
         "SERVERS": [
             {"url": site_url.rstrip("/"), "description": site_title},
         ],
