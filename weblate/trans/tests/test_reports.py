@@ -50,7 +50,9 @@ class BaseReportsTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.full_name = "Weblate <b>Test</b>"
         self.user.save()
-        self.counts_data = [{**COUNTS_DATA[0], "date_joined": self.user.date_joined.isoformat()}]
+        self.counts_data = [
+            {**COUNTS_DATA[0], "date_joined": self.user.date_joined.isoformat()}
+        ]
         self.maxDiff = None
 
     def add_change(self) -> None:
@@ -66,7 +68,7 @@ class ReportsTest(BaseReportsTest):
             "",
             self.component,
             "count",
-            "ascending"
+            "ascending",
         )
         self.assertEqual(data, [])
 
@@ -150,7 +152,12 @@ class ReportsComponentTest(BaseReportsTest):
 
     def get_credits(self, style, follow=False, **kwargs):
         self.add_change()
-        params = {"style": style, "period": "01/01/2000 - 01/01/2100", "sort_by": "count", "sort_order": "descending"}
+        params = {
+            "style": style,
+            "period": "01/01/2000 - 01/01/2100",
+            "sort_by": "count",
+            "sort_order": "descending",
+        }
         params.update(kwargs)
         return self.client.post(
             reverse("credits", kwargs=self.get_kwargs()), params, follow=follow
@@ -238,7 +245,12 @@ class ReportsComponentTest(BaseReportsTest):
 
     def get_counts(self, style, follow=False, **kwargs):
         self.add_change()
-        params = {"style": style, "period": "01/01/2000 - 01/01/2100", "sort_by": "count", "sort_order": "descending"}
+        params = {
+            "style": style,
+            "period": "01/01/2000 - 01/01/2100",
+            "sort_by": "count",
+            "sort_order": "descending",
+        }
         params.update(kwargs)
         return self.client.post(
             reverse("counts", kwargs=self.get_kwargs()), params, follow=follow
@@ -423,14 +435,14 @@ class ReportsComponentTest(BaseReportsTest):
             email="custom-weblate-1@example.org",
             password=TESTPASSWORD,
             full_name="Weblate Test 1",
-            date_joined=timezone.make_aware(datetime(2025, 1, 1))
+            date_joined=timezone.make_aware(datetime(2025, 1, 1)),
         )
         user2 = User.objects.create(
             username="customtestuser2",
             email="custom-weblate-2@example.org",
             password=TESTPASSWORD,
             full_name="Weblate Test 2",
-            date_joined=timezone.make_aware(datetime(2025, 2, 1))
+            date_joined=timezone.make_aware(datetime(2025, 2, 1)),
         )
         user3 = User.objects.create(
             username="customtestuser3",
@@ -482,7 +494,7 @@ class ReportsComponentTest(BaseReportsTest):
             "chars_edit": 14,
             "words_edit": 2,
             "edits_edit": 8,
-            "count_edit": 1
+            "count_edit": 1,
         }
         expected_count2 = {
             "name": "Weblate Test 2",
@@ -511,7 +523,7 @@ class ReportsComponentTest(BaseReportsTest):
             "chars_edit": 42,
             "words_edit": 6,
             "edits_edit": 31,
-            "count_edit": 3
+            "count_edit": 3,
         }
         expected_count3 = {
             "name": "Weblate Test 3",
@@ -540,102 +552,110 @@ class ReportsComponentTest(BaseReportsTest):
             "chars_edit": 14,
             "words_edit": 2,
             "edits_edit": 2,
-            "count_edit": 1
+            "count_edit": 1,
         }
 
         url = reverse("counts", kwargs=self.get_kwargs())
         params = {"style": "json", "period": "01/01/2000 - 01/01/2100"}
 
-        response = self.client.post(url, {**params, "sort_by": "count", "sort_order": "descending"})
+        response = self.client.post(
+            url, {**params, "sort_by": "count", "sort_order": "descending"}
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode(), [
-            expected_count2,
-            expected_count1,
-            expected_count3
-        ])
+        self.assertJSONEqual(
+            response.content.decode(),
+            [expected_count2, expected_count1, expected_count3],
+        )
 
-        response = self.client.post(url, {**params, "sort_by": "count", "sort_order": "ascending"})
+        response = self.client.post(
+            url, {**params, "sort_by": "count", "sort_order": "ascending"}
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode(), [
-            expected_count3,
-            expected_count1,
-            expected_count2
-        ])
+        self.assertJSONEqual(
+            response.content.decode(),
+            [expected_count3, expected_count1, expected_count2],
+        )
 
-        response = self.client.post(url, {**params, "sort_by": "date_joined", "sort_order": "ascending"})
+        response = self.client.post(
+            url, {**params, "sort_by": "date_joined", "sort_order": "ascending"}
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode(), [
-            expected_count1,
-            expected_count2,
-            expected_count3
-        ])
+        self.assertJSONEqual(
+            response.content.decode(),
+            [expected_count1, expected_count2, expected_count3],
+        )
 
-        response = self.client.post(url, {**params, "sort_by": "date_joined", "sort_order": "descending"})
+        response = self.client.post(
+            url, {**params, "sort_by": "date_joined", "sort_order": "descending"}
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode(), [
-            expected_count3,
-            expected_count2,
-            expected_count1
-        ])
+        self.assertJSONEqual(
+            response.content.decode(),
+            [expected_count3, expected_count2, expected_count1],
+        )
 
     def test_credits_sorting(self) -> None:
         self.create_test_sort_data()
         expected_credit1 = {
-            'email': 'custom-weblate-1@example.org',
-            'username': 'customtestuser1',
-            'full_name': 'Weblate Test 1',
-            'change_count': 2,
-            'date_joined': '2025-01-01T00:00:00+00:00'
+            "email": "custom-weblate-1@example.org",
+            "username": "customtestuser1",
+            "full_name": "Weblate Test 1",
+            "change_count": 2,
+            "date_joined": "2025-01-01T00:00:00+00:00",
         }
         expected_credit2 = {
-            'email': 'custom-weblate-2@example.org',
-            'username': 'customtestuser2',
-            'full_name': 'Weblate Test 2',
-            'change_count': 3,
-            'date_joined': '2025-02-01T00:00:00+00:00'
+            "email": "custom-weblate-2@example.org",
+            "username": "customtestuser2",
+            "full_name": "Weblate Test 2",
+            "change_count": 3,
+            "date_joined": "2025-02-01T00:00:00+00:00",
         }
         expected_credit3 = {
-            'email': 'custom-weblate-3@example.org',
-            'username': 'customtestuser3',
-            'full_name': 'Weblate Test 3',
-            'change_count': 1,
-            'date_joined': '2025-03-01T00:00:00+00:00'
+            "email": "custom-weblate-3@example.org",
+            "username": "customtestuser3",
+            "full_name": "Weblate Test 3",
+            "change_count": 1,
+            "date_joined": "2025-03-01T00:00:00+00:00",
         }
 
         url = reverse("credits", kwargs=self.get_kwargs())
         params = {"style": "json", "period": "01/01/2000 - 01/01/2100"}
 
-        response = self.client.post(url, {**params, "sort_by": "count", "sort_order": "descending"})
+        response = self.client.post(
+            url, {**params, "sort_by": "count", "sort_order": "descending"}
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode(), [{'Czech': [
-            expected_credit2,
-            expected_credit1,
-            expected_credit3
-        ]}])
+        self.assertJSONEqual(
+            response.content.decode(),
+            [{"Czech": [expected_credit2, expected_credit1, expected_credit3]}],
+        )
 
-        response = self.client.post(url, {**params, "sort_by": "count", "sort_order": "ascending"})
+        response = self.client.post(
+            url, {**params, "sort_by": "count", "sort_order": "ascending"}
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode(), [{'Czech': [
-            expected_credit3,
-            expected_credit1,
-            expected_credit2
-        ]}])
+        self.assertJSONEqual(
+            response.content.decode(),
+            [{"Czech": [expected_credit3, expected_credit1, expected_credit2]}],
+        )
 
-        response = self.client.post(url, {**params, "sort_by": "date_joined", "sort_order": "ascending"})
+        response = self.client.post(
+            url, {**params, "sort_by": "date_joined", "sort_order": "ascending"}
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode(), [{'Czech': [
-            expected_credit1,
-            expected_credit2,
-            expected_credit3
-        ]}])
+        self.assertJSONEqual(
+            response.content.decode(),
+            [{"Czech": [expected_credit1, expected_credit2, expected_credit3]}],
+        )
 
-        response = self.client.post(url, {**params, "sort_by": "date_joined", "sort_order": "descending"})
+        response = self.client.post(
+            url, {**params, "sort_by": "date_joined", "sort_order": "descending"}
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode(), [{'Czech': [
-            expected_credit3,
-            expected_credit2,
-            expected_credit1
-        ]}])
+        self.assertJSONEqual(
+            response.content.decode(),
+            [{"Czech": [expected_credit3, expected_credit2, expected_credit1]}],
+        )
 
 
 class ReportsProjectTest(ReportsComponentTest):
