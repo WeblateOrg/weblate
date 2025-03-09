@@ -903,7 +903,7 @@ class CreditsMixin:
             language,
             obj,
             "count",
-            "descending"
+            "descending",
         )
         return Response(data=data)
 

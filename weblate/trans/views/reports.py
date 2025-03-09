@@ -218,7 +218,15 @@ COUNT_DEFAULTS = dict.fromkeys(
 )
 
 
-def generate_counts(user: User, start_date, end_date, language_code: str, sort_by: str, sort_order: str, **kwargs):
+def generate_counts(
+    user: User,
+    start_date,
+    end_date,
+    language_code: str,
+    sort_by: str,
+    sort_order: str,
+    **kwargs,
+):
     """Generate credits data for given component."""
     result = {}
     action_map = {Change.ACTION_NEW: "new", Change.ACTION_APPROVE: "approve"}
