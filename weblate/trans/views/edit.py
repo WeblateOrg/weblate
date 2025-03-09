@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
 from django.conf import settings
+from weblate.utils.html import format_html_join_comma
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
@@ -414,7 +415,7 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             gettext(
                 "The translation has been saved, however there "
                 "are some newly failing checks: {0}"
-            ).format(", ".join(str(CHECKS[check].name) for check in newchecks)),
+            ).format(format_html_join_comma("{}", ((str(CHECKS[check].name),) for check in newchecks))),
         )
         # Stay on same entry
         return False
