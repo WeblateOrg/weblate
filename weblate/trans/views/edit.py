@@ -79,7 +79,7 @@ def display_fixups(request: AuthenticatedHttpRequest, fixups) -> None:
     messages.info(
         request,
         gettext("Following fixups were applied to translation: %s")
-        % ", ".join(str(f) for f in fixups),
+        % format_html_join_comma("{}", ((str(f),) for f in fixups)),
     )
 
 
