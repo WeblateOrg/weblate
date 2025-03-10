@@ -116,6 +116,20 @@ class UnitQuerySet(models.QuerySet):
             "translation__component__source_language",
         )
 
+    def prefetch_source(self):
+        from weblate.trans.models import Component
+
+        return self.prefetch_related(
+            "source_unit",
+            "source_unit__translation",
+            models.Prefetch(
+                "source_unit__translation__component",
+                queryset=Component.objects.defer_huge(),
+            ),
+            "source_unit__translation__component__source_language",
+            "source_unit__translation__component__project",
+        )
+
     def prefetch_all_checks(self):
         return self.prefetch_related(
             models.Prefetch(
@@ -128,28 +142,22 @@ class UnitQuerySet(models.QuerySet):
         return self.annotate(Count("screenshots"))
 
     def prefetch_full(self):
-        from weblate.trans.models import Component
-
-        return self.prefetch_all_checks().prefetch_related(
-            "source_unit",
-            "source_unit__translation",
-            models.Prefetch(
-                "source_unit__translation__component",
-                queryset=Component.objects.defer_huge(),
-            ),
-            "source_unit__translation__component__source_language",
-            "source_unit__translation__component__project",
-            "labels",
-            models.Prefetch(
-                "suggestion_set",
-                queryset=Suggestion.objects.order(),
-                to_attr="suggestions",
-            ),
-            models.Prefetch(
-                "comment_set",
-                queryset=Comment.objects.filter(resolved=False),
-                to_attr="unresolved_comments",
-            ),
+        return (
+            self.prefetch_all_checks()
+            .prefetch_source()
+            .prefetch_related(
+                "labels",
+                models.Prefetch(
+                    "suggestion_set",
+                    queryset=Suggestion.objects.order(),
+                    to_attr="suggestions",
+                ),
+                models.Prefetch(
+                    "comment_set",
+                    queryset=Comment.objects.filter(resolved=False),
+                    to_attr="unresolved_comments",
+                ),
+            )
         )
 
     def prefetch_bulk(self):
