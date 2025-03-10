@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from datetime import datetime, timedelta, timezone as dt_timezone
+from datetime import UTC, datetime, timedelta
 
 from django.urls import reverse
 from django.utils import timezone
@@ -435,14 +435,14 @@ class ReportsComponentTest(BaseReportsTest):
             email="custom-weblate-1@example.org",
             password=TESTPASSWORD,
             full_name="Weblate Test 1",
-            date_joined=datetime(2025, 1, 1, tzinfo=dt_timezone.utc),
+            date_joined=datetime(2025, 1, 1, tzinfo=UTC),
         )
         user2 = User.objects.create(
             username="customtestuser2",
             email="custom-weblate-2@example.org",
             password=TESTPASSWORD,
             full_name="Weblate Test 2",
-            date_joined=datetime(2025, 2, 1, tzinfo=dt_timezone.utc),
+            date_joined=datetime(2025, 2, 1, tzinfo=UTC),
         )
         user3 = User.objects.create(
             username="customtestuser3",
@@ -450,7 +450,7 @@ class ReportsComponentTest(BaseReportsTest):
             password=TESTPASSWORD,
             is_superuser=True,
             full_name="Weblate Test 3",
-            date_joined=datetime(2025, 3, 1, tzinfo=dt_timezone.utc)
+            date_joined=datetime(2025, 3, 1, tzinfo=UTC),
         )
 
         self.client.login(username=user1.username, password="testpassword")
