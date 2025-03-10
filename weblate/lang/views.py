@@ -79,17 +79,18 @@ def show_language(request: AuthenticatedHttpRequest, lang):
             return redirect("languages")
 
     last_changes = Change.objects.last_changes(user, language=obj).recent()
-    projects = user.allowed_projects
     projects = prefetch_project_flags(
         get_paginator(
             request,
-            projects.filter(component__translation__language=obj).distinct(),
+            user.allowed_projects.filter(
+                component__translation__language=obj
+            ).distinct(),
             stats=True,
         )
     )
-    projects = [ProjectLanguage(project, obj) for project in projects]
+    project_languages = [ProjectLanguage(project, obj) for project in projects]
 
-    ProjectLanguageStats.prefetch_many([project.stats for project in projects])
+    ProjectLanguageStats.prefetch_many([project.stats for project in project_languages])
 
     return render(
         request,
@@ -100,6 +101,7 @@ def show_language(request: AuthenticatedHttpRequest, lang):
             "last_changes": last_changes,
             "search_form": SearchForm(user, language=obj),
             "projects": projects,
+            "project_languages": project_languages,
         },
     )
 
