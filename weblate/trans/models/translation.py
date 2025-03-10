@@ -1832,6 +1832,15 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         """
         return self.stats.translated == 0 and self.component.repo == "local:"
 
+    def get_glossaries(self) -> TranslationQuerySet:
+        return (
+            Translation.objects.filter(
+                component__in=self.component.project.glossaries, language=self.language
+            )
+            .prefetch()
+            .order()
+        )
+
 
 class GhostTranslation:
     """Ghost translation object used to show missing translations."""
