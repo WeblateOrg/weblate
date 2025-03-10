@@ -84,7 +84,7 @@ def display_fixups(request: AuthenticatedHttpRequest, fixups) -> None:
 
 def get_other_units(unit):
     """Return other units to show while translating."""
-    with sentry_sdk.start_span(op="unit.others", name=unit.pk):
+    with sentry_sdk.start_span(op="unit.others", name=f"{unit.pk}"):
         result: dict[str, Any] = {
             "total": 0,
             "skipped": False,

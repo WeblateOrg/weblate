@@ -1048,7 +1048,7 @@ class Unit(models.Model, LoggerMixin):
         """Propagate current translation to all others."""
         from weblate.auth.permissions import PermissionResult
 
-        with sentry_sdk.start_span(op="unit.propagate"):
+        with sentry_sdk.start_span(op="unit.propagate", name=f"{self.pk}"):
             to_update: list[Unit] = []
             for unit in self.same_source_units.select_for_update():
                 if unit.target == self.target and unit.state == self.state:
@@ -1239,7 +1239,7 @@ class Unit(models.Model, LoggerMixin):
 
         This is needed when editing template translation for monolingual formats.
         """
-        with sentry_sdk.start_span(op="unit.update_source_units"):
+        with sentry_sdk.start_span(op="unit.update_source_units", name=f"{self.pk}"):
             changes = []
 
             # Find relevant units
@@ -1502,7 +1502,7 @@ class Unit(models.Model, LoggerMixin):
         """Return list of nearby messages based on location."""
         if self.position == 0:
             return Unit.objects.none()
-        with sentry_sdk.start_span(op="unit.nearby"):
+        with sentry_sdk.start_span(op="unit.nearby", name=f"{self.pk}"):
             # Limiting the query is needed to avoid issues when unit
             # position is not properly populated
             result = (
@@ -1521,7 +1521,7 @@ class Unit(models.Model, LoggerMixin):
         # Do not show nearby keys on bilingual
         if not self.translation.component.has_template():
             return []
-        with sentry_sdk.start_span(op="unit.nearby_keys"):
+        with sentry_sdk.start_span(op="unit.nearby_keys", name=f"{self.pk}"):
             key = self.translation.keys_cache_key
             key_list = cache.get(key)
             unit_set = self.translation.unit_set
