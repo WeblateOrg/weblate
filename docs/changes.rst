@@ -7,6 +7,8 @@ Weblate 5.10.3
 
 .. rubric:: Improvements
 
+* Weblate now uses OpenAPI Specification 3.1.1 to generate the schema for :ref:`api`.
+
 .. rubric:: Bug fixes
 
 * Improved performance of API download endpoints.
