@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from operator import itemgetter
 from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth.decorators import login_required
@@ -277,7 +278,7 @@ def generate_counts(
     result_list = list(result.values())
     sort_by_key = "edits" if sort_by == "count" else "date_joined"
     reverse = sort_order == "descending"
-    result_list.sort(key=lambda x: x[sort_by_key], reverse=reverse)
+    result_list.sort(key=itemgetter(sort_by_key), reverse=reverse)
 
     return result_list
 
