@@ -18,10 +18,19 @@ from lxml.cssselect import CSSSelector
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.forms import AutoForm, BulkEditForm
-from weblate.trans.models import Component, Project, Translation
-from weblate.utils.forms import CachedModelChoiceField, ContextDiv
+from weblate.trans.models import Change, Component, Project, Translation
+from weblate.utils.forms import (
+    CachedModelChoiceField,
+    ContextDiv,
+    SortedCheckboxSelectMultiple,
+    WeblateServiceURLField,
+)
 from weblate.utils.render import validate_render, validate_render_translation
-from weblate.utils.validators import validate_filename, validate_re
+from weblate.utils.validators import (
+    validate_base64_encoded_string,
+    validate_filename,
+    validate_re,
+)
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -652,3 +661,32 @@ class PropertiesSortAddonForm(BaseAddonForm):
         required=False,
         initial=False,
     )
+
+
+class ChangeBaseAddonForm(BaseAddonForm):
+    """Base form for Change-based addons."""
+
+    events = forms.MultipleChoiceField(
+        label=gettext_lazy("Change events"),
+        required=False,
+        widget=SortedCheckboxSelectMultiple(),
+        choices=Change.ACTION_CHOICES,
+    )
+
+
+class WebhooksAddonForm(ChangeBaseAddonForm):
+    """Form for webhook add-on configuration."""
+
+    webhook_url = WeblateServiceURLField(
+        label=gettext_lazy("Webhook URL"),
+        required=True,
+    )
+    secret = forms.CharField(
+        label=gettext_lazy("Secret"),
+        validators=[
+            validate_base64_encoded_string,
+        ],
+        required=False,
+    )
+
+    field_order = ["webhook_url", "secret", "events"]

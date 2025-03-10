@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+import base64
+import binascii
 import os
 import re
 import sys
@@ -303,6 +305,14 @@ def validate_project_web(value) -> None:
             pass
         else:
             raise ValidationError(gettext("This URL is prohibited"))
+
+
+def validate_base64_encoded_string(value: str) -> None:
+    """Validate that the given string is a valid base64 encoded string."""
+    try:
+        base64.b64decode(value)
+    except binascii.Error as error:
+        raise ValidationError(gettext("Invalid base64 encoded string")) from error
 
 
 class WeblateURLValidator(URLValidator):

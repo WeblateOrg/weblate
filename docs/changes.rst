@@ -5,6 +5,8 @@ Weblate 5.10.3
 
 .. rubric:: New features
 
+* :ref:`addon-weblate.webhook.webhooks` are now available as a add-on.
+
 .. rubric:: Improvements
 
 .. rubric:: Bug fixes
