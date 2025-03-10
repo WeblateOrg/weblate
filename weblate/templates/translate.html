@@ -683,13 +683,11 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              {% with glossaries=unit.translation.component.project.glossaries %}
-                {% for glossary in glossaries %}
-                  <a class="pull-right flip btn btn-link btn-xs btn-{{ glossary.glossary_color }}"
-                     title="{% blocktrans with name=glossary.name %}Browse glossary {{ name }}{% endblocktrans %}"
-                     href="{{ glossary.get_absolute_url }}">{% icon "folder-search-outline.svg" %}</a>
-                {% endfor %}
-              {% endwith %}
+              {% for glossary in unit.translation.get_glossaries %}
+                <a class="pull-right flip btn btn-link btn-xs btn-{{ glossary.component.glossary_color }}"
+                   title="{% blocktrans with name=glossary.component.name %}Browse glossary {{ name }}{% endblocktrans %}"
+                   href="{% url 'browse' glossary.get_url_path %}">{% icon "folder-search-outline.svg" %}</a>
+              {% endfor %}
               {% loading_icon "glossary-add" %}
               {% trans "Glossary" %}
             </h4>
