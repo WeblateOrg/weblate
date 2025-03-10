@@ -67,7 +67,7 @@
 
     <div class="tab-pane active" id="overview">
 
-      {% include "snippets/list-objects.html" with show_admin_badge=True objects=projects name_source="project" label=_("Project") language=object global_base="stats" %}
+      {% include "snippets/list-objects.html" with show_admin_badge=True objects=project_languages name_source="project" label=_("Project") language=object global_base="stats" %}
 
       {% include "paginator.html" with page_obj=projects %}
 
