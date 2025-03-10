@@ -282,7 +282,6 @@ class ComponentQuerySet(models.QuerySet):
 
     def defer_huge(self):
         return self.defer(
-            "agreement",
             "commit_message",
             "add_message",
             "delete_message",
