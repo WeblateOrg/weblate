@@ -10,6 +10,7 @@ Weblate 5.10.3
 .. rubric:: Bug fixes
 
 * Improved performance of API download endpoints.
+* Optimized fetching other translations while translating.
 * Reduced notifications overhead.
 * Improved handling of components using :ref:`internal-urls`.
 
