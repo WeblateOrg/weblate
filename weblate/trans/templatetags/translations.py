@@ -1367,7 +1367,7 @@ def choiceval(boundfield):
         return value
     choices = {str(choice): value for choice, value in boundfield.field.choices}
     if isinstance(value, list):
-        return ", ".join(choices.get(val, val) for val in value)
+        return ", ".join(str(choices.get(val, val)) for val in value)
     return choices.get(value, value)
 
 
