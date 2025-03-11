@@ -13,6 +13,7 @@ Weblate 5.10.3
 * Optimized fetching other translations while translating.
 * Reduced notifications overhead.
 * Improved handling of components using :ref:`internal-urls`.
+* Fixed authenticating with some Git servers.
 
 .. rubric:: Compatibility
 
