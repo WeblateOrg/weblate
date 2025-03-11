@@ -125,6 +125,8 @@ class BatchMachineTranslation:
     is_available = True
     replacement_start = "[X"
     replacement_end = "X]"
+    # Cache results for 30 days
+    cache_expiry = 30 * 24 * 3600
 
     @classmethod
     def get_rank(cls):
@@ -590,7 +592,7 @@ class BatchMachineTranslation:
                     for item in partial:
                         item["original_source"] = original_source
                     if cache_key := cache_keys[text]:
-                        cache.set(cache_key, partial, 30 * 86400)
+                        cache.set(cache_key, partial, self.cache_expiry)
                     if replacements or self.force_uncleanup:
                         self.uncleanup_results(replacements, partial)
                     output[original_source] = partial
