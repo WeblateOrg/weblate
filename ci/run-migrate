@@ -32,6 +32,8 @@ uv venv --python python3.11 ".venv-$TAG"
 check
 # shellcheck source=/dev/null
 . ".venv-$TAG/bin/activate"
+# PyGobject 3.52 needs girepository-2.0
+uv pip install 'pygobject<3.52'
 # Need to keep "ci" as Weblate 5.8 and older have the dependency separately
 uv pip install -e ".[all,ci,mysql]"
 check

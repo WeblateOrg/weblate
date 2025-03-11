@@ -137,6 +137,10 @@ class SeleniumTests(
             os.environ["LANG"] = backup_lang
 
         if cls._driver is not None:
+            # Increase webdriver timeout to avoid occasssional errors
+            # in macos CI
+            cls._driver.command_executor.set_timeout(240)
+
             cls._driver.implicitly_wait(5)
 
         super().setUpClass()

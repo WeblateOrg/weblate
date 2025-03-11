@@ -74,7 +74,7 @@ Unsafe HTML cleanup
 
 :Class name: ``weblate.trans.autofixes.html.BleachHTML``
 
-Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:`check-safe-html`).
+Removes unsafe HTML markup from strings flagged as ``safe-html``.
 
 .. seealso::
 
