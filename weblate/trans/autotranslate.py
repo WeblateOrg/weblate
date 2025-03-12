@@ -77,9 +77,8 @@ class AutoTranslate:
     ) -> None:
         if isinstance(target, str):
             target = [target]
-        if self.mode == "suggest" or any(
-            len(item) > unit.get_max_length() for item in target
-        ):
+        max_length = unit.get_max_length()
+        if self.mode == "suggest" or any(len(item) > max_length for item in target):
             suggestion = Suggestion.objects.add(
                 unit, target, request=None, vote=False, user=user, raise_exception=False
             )
