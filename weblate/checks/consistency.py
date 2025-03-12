@@ -311,10 +311,6 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         # intentional marking as needing edit
         return change.action in {Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT}
 
-    def handle_batch(self, unit: Unit, component: Component) -> Literal[False] | str:  # type: ignore[override]
-        # TODO: this is type annotation hack, instead the check should have a proper return type
-        return super().handle_batch(unit, component)  # type: ignore[return-value]
-
     def check_target_unit(  # type: ignore[override]
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> Literal[False] | str:
@@ -325,7 +321,10 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         component = unit.translation.component
 
         if component.batch_checks:
-            return self.handle_batch(unit, component)
+            if self.handle_batch(unit, component):
+                # This needs to be true-ish value
+                return "present"
+            return False
 
         from weblate.trans.models import Change
 
