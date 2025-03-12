@@ -623,7 +623,7 @@ class Unit(models.Model, LoggerMixin):
         ):
             # We can not exclude current unit here as we need to trigger
             # the updates below
-            for unit in self.unit_set.prefetch().prefetch_bulk():
+            for unit in self.unit_set.select_for_update().prefetch().prefetch_bulk():
                 # Share component instance for locking and possible bulk updates
                 unit.translation.component = self.translation.component
                 unit.update_state()

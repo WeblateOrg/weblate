@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.http import Http404
 from django.http.response import HttpResponseServerError
 from django.shortcuts import get_object_or_404
@@ -26,6 +27,7 @@ if TYPE_CHECKING:
 
 @require_POST
 @login_required
+@transaction.atomic
 def edit_context(request: AuthenticatedHttpRequest, pk):
     unit = get_object_or_404(Unit, pk=pk)
     if not unit.is_source and not unit.translation.component.is_glossary:
