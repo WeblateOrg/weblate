@@ -10,6 +10,7 @@ from functools import lru_cache
 from typing import TYPE_CHECKING, Any, cast
 
 from django.core.exceptions import ValidationError
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 from lxml import etree
 
@@ -25,6 +26,7 @@ from weblate.checks.parser import (
 from weblate.fonts.utils import get_font_weight
 from weblate.trans.autofixes import AUTOFIXES
 from weblate.trans.defines import VARIANT_KEY_LENGTH
+from weblate.utils.html import format_html_join_comma
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -283,7 +285,7 @@ class Flags:
         return (self.format_flag(item) for item in self._items.values())
 
     def format(self) -> str:
-        return ", ".join(sorted(self._format_values()))
+        return format_html_join_comma("{}", ((mark_safe(flag),) for flag in sorted(self._format_values())))
 
     def validate(self) -> None:
         for item in self._items.values():

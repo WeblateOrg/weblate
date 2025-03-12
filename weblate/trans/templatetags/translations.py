@@ -44,6 +44,7 @@ from weblate.trans.util import split_plural, translation_percent
 from weblate.utils.diff import Differ
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.markdown import render_markdown
 from weblate.utils.messages import get_message_kind as get_message_kind_impl
 from weblate.utils.random import get_random_identifier
@@ -967,8 +968,11 @@ def unit_state_title(unit) -> str:
     if checks:
         state.append(
             "{} {}".format(
-                pgettext("String state", "Failing checks:"),
-                ", ".join(str(check) for check in checks),
+            pgettext("String state", "Failing checks:"),
+            format_html_join_comma(
+                "{}",
+                ((str(check),) for check in checks),
+            ),
             )
         )
     checks = unit.dismissed_checks
@@ -976,7 +980,7 @@ def unit_state_title(unit) -> str:
         state.append(
             "{} {}".format(
                 pgettext("String state", "Dismissed checks:"),
-                ", ".join(str(check) for check in checks),
+                format_html_join_comma("{}", ((str(check), ) for check in checks)),
             )
         )
     if unit.has_comment:
@@ -1367,7 +1371,7 @@ def choiceval(boundfield):
         return value
     choices = {str(choice): value for choice, value in boundfield.field.choices}
     if isinstance(value, list):
-        return ", ".join(choices.get(val, val) for val in value)
+        return format_html_join_comma("{}", (choices.get(val, val) for val in value))
     return choices.get(value, value)
 
 

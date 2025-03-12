@@ -25,6 +25,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.util import sort_choices
+from weblate.utils.html import format_html_join_comma
 from weblate.wladmin.models import WeblateModelAdmin
 
 
@@ -84,9 +85,9 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
 
     @admin.display(description=gettext_lazy("Administrators"))
     def list_admins(self, obj):
-        return ", ".join(
-            User.objects.all_admins(obj).values_list("username", flat=True)
-        )
+        return format_html_join_comma("{}", (
+            User.objects.all_admins(obj).values_list("username", flat=False)
+        ))
 
     @admin.display(description=gettext_lazy("Source strings"))
     def get_total(self, obj):

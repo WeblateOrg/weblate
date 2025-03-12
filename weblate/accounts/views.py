@@ -148,6 +148,7 @@ from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.util import redirect_next
 from weblate.utils import messages
 from weblate.utils.errors import add_breadcrumb, report_error
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
@@ -1551,7 +1552,7 @@ def saml_metadata(request: AuthenticatedHttpRequest):
     if errors:
         add_breadcrumb(category="auth", message="SAML errors", errors=errors)
         report_error("SAML metadata", level="error")
-        return HttpResponseServerError(content=", ".join(errors))
+        return HttpResponseServerError(content=format_html_join_comma("{}", ((err, ) for err in errors)))
 
     return HttpResponse(content=metadata, content_type="text/xml")
 
