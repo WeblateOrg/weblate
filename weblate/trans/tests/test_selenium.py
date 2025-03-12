@@ -95,7 +95,13 @@ class SeleniumTests(
     def wait_for_page_load(self, timeout: int = 30) -> Iterator[None]:
         old_page = self.driver.find_element(By.TAG_NAME, "html")
         yield
-        WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
+        try:
+            WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
+        except WebDriverException:
+            # Retry the same condition to workaround issue in Chomedriver/Selenium, see
+            # https://github.com/SeleniumHQ/selenium/issues/15401
+            time.sleep(0.1)
+            WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
 
     @classmethod
     def setUpClass(cls) -> None:
