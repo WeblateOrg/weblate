@@ -605,11 +605,15 @@ class RegistrationForm(EmailForm):
 
     field_order = ["email", "username", "fullname", "captcha"]
 
-    def __init__(self, request=None, data=None, initial=None) -> None:
+    def __init__(
+        self, request=None, data=None, initial=None, hide_captcha: bool = False
+    ) -> None:
         # The 'request' parameter is set for custom auth use by subclasses.
         # The form data comes in via the standard 'data' kwarg.
         self.request = request
-        super().__init__(request=request, data=data, initial=initial)
+        super().__init__(
+            request=request, data=data, initial=initial, hide_captcha=hide_captcha
+        )
 
     def clean(self):
         if not check_rate_limit("registration", self.request):

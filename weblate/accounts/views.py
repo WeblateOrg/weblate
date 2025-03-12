@@ -921,6 +921,9 @@ def register(request: AuthenticatedHttpRequest):
     # Allow registration at all?
     registration_open = settings.REGISTRATION_OPEN or bool(invitation)
 
+    # Hide captcha for invitations
+    hide_captcha = invitation is not None
+
     # Get list of allowed backends
     backends = get_auth_keys()
     if settings.REGISTRATION_ALLOW_BACKENDS and not invitation:
@@ -929,7 +932,9 @@ def register(request: AuthenticatedHttpRequest):
         backends = set()
 
     if request.method == "POST" and "email" in backends:
-        form = RegistrationForm(request=request, data=request.POST)
+        form = RegistrationForm(
+            request=request, data=request.POST, hide_captcha=hide_captcha
+        )
         if form.is_valid():
             if form.cleaned_data["email_user"]:
                 AuditLog.objects.create(
@@ -939,7 +944,9 @@ def register(request: AuthenticatedHttpRequest):
             store_userid(request)
             return social_complete(request, "email")
     else:
-        form = RegistrationForm(request=request, initial=initial)
+        form = RegistrationForm(
+            request=request, initial=initial, hide_captcha=hide_captcha
+        )
 
     # Redirect if there is only one backend
     if len(backends) == 1 and "email" not in backends and not invitation:
