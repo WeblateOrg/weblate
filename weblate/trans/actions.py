@@ -158,6 +158,8 @@ class ActionEvents(IntegerChoices):
     ENFORCED_CHECK = 76, gettext_lazy("Applied enforced check")
     # Translators: Name of event in the history
     PROPAGATED_EDIT = 77, gettext_lazy("Propagated change")
+    # Translators: Name of event in the history
+    EXTRA_FLAGS = 78, gettext_lazy("Extra flags updated")
 
 
 # Actions which can be reverted
@@ -191,6 +193,7 @@ ACTIONS_CONTENT = {
     ActionEvents.PROPAGATED_EDIT,
     ActionEvents.SOURCE_CHANGE,
     ActionEvents.EXPLANATION,
+    ActionEvents.EXTRA_FLAGS,
     ActionEvents.NEW_UNIT,
     ActionEvents.ENFORCED_CHECK,
 }
