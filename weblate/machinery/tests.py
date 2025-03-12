@@ -450,7 +450,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = DummyGlossaryTranslation
 
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
-    def test_translate(self):
+    def test_translate(self) -> None:
         """Test glossary translation."""
         machine = self.get_machine()
         self.assertEqual(machine.list_glossaries(), {})
@@ -476,7 +476,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
         super().test_translate()
         list_glossaries_patcher.stop()
 
-    def test_glossary_cleanup(self):
+    def test_glossary_cleanup(self) -> None:
         """
         Test cleanup of glossary TSV content.
 
@@ -509,7 +509,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
         unit = MockUnit(code="cs", source=":foo", target=":bar")
         self.assertEqual(render_glossary_units_tsv([unit]), ":foo\t:bar")
 
-    def test_glossary_changes_invalidates_result_cache(self):
+    def test_glossary_changes_invalidates_result_cache(self) -> None:
         machine = self.get_machine(cache=True)
         source_text = "Hello, world!"
         unit = MockUnit(code="cs", source=source_text, target="")
@@ -644,7 +644,7 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_validate_settings(self):
+    def test_validate_settings(self) -> None:
         self.mock_response()
         machine = self.get_machine()
         machine.validate_settings()
@@ -718,7 +718,7 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
             json=MICROSOFT_RESPONSE,
         )
 
-    def test_map_codes(self):
+    def test_map_codes(self) -> None:
         machine = self.get_machine()
         self.assertEqual(machine.map_language_code("zh_Hant"), "zh-Hant")
         self.assertEqual(machine.map_language_code("zh_TW"), "zh-Hant")
@@ -1018,10 +1018,10 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         self.addCleanup(get_credentials_patcher.stop)
 
         class MockBlob(MagicMock):
-            def upload_from_string(self, *args, **kwargs):
+            def upload_from_string(self, *args, **kwargs) -> None:
                 """Mock google.cloud.storage.Blob.upload_from_string."""
 
-            def delete(self, *args, **kwargs):
+            def delete(self, *args, **kwargs) -> None:
                 """Mock google.cloud.storage.Blob.delete."""
 
         class MockBucket(MagicMock):
@@ -1407,7 +1407,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
 
         self.mock_list_glossaries()
 
-    def mock_list_glossaries(self, *id_name_date: tuple[int, str, str | None]):
+    def mock_list_glossaries(self, *id_name_date: tuple[int, str, str | None]) -> None:
         """Set up mock responses for list of glossaries in ModernMT."""
         data: list[dict] = [
             {
@@ -2483,7 +2483,7 @@ class CyrTranslitTranslationTest(TransactionsTestMixin, FixtureTestCase):
     def get_machine(self):
         return CyrTranslitTranslation({})
 
-    def test_transliterate(self):
+    def test_transliterate(self) -> None:
         machine = self.get_machine()
 
         # check empty result when source or translation language isn't supported

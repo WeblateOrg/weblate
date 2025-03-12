@@ -29,7 +29,7 @@ def get_akismet():
     )
 
 
-def is_spam(request: AuthenticatedHttpRequest, texts: str | list[str]):
+def is_spam(request: AuthenticatedHttpRequest, texts: str | list[str]) -> bool:
     """Check whether text is considered spam."""
     if not texts or not any(texts):
         return False

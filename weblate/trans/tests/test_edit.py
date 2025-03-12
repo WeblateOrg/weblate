@@ -192,7 +192,7 @@ class EditTest(ViewTestCase):
 
         test_target = "TEST TRANSLATION"
 
-        def check_translated():
+        def check_translated() -> None:
             self.assertTrue(
                 Unit.objects.filter(
                     translation__language__code="cs",

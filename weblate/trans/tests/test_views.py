@@ -39,7 +39,7 @@ from weblate.utils.xml import parse_xml
 class RegistrationTestMixin(TestCase):
     """Helper to share code for registration testing."""
 
-    def assert_registration_mailbox(self, match=None):
+    def assert_registration_mailbox(self, match: str | None = None) -> str:
         if match is None:
             match = "[Weblate] Your registration on Weblate"
         # Check mailbox

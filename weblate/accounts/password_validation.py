@@ -37,7 +37,7 @@ class CharsPasswordValidator:
 class MaximalLengthValidator:
     """Validate that the password is of a maximal length."""
 
-    def validate(self, password, user=None):
+    def validate(self, password, user=None) -> None:
         if len(password) > settings.MAXIMAL_PASSWORD_LENGTH:
             raise ValidationError(
                 ngettext(
