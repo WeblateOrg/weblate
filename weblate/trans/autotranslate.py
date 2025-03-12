@@ -16,6 +16,7 @@ from django.utils.translation import gettext, ngettext
 from weblate.machinery.base import (
     BatchMachineTranslation,
     MachineTranslationError,
+    UnitMemoryResultDict,
 )
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Change, Component, Suggestion, Translation, Unit
@@ -185,7 +186,9 @@ class AutoTranslate:
 
         self.post_process()
 
-    def fetch_mt(self, engines_list: list[str], threshold: int):
+    def fetch_mt(
+        self, engines_list: list[str], threshold: int
+    ) -> dict[int, UnitMemoryResultDict]:
         """Get the translations."""
         units: list[Unit] = list(self.get_units())
         num_units = len(units)
@@ -249,10 +252,10 @@ class AutoTranslate:
                 .prefetch_bulk()
                 .select_for_update()
             ):
-                translation = translations[unit.pk]
+                translation: UnitMemoryResultDict = translations[unit.pk]
                 # Use first existing origin for user
                 # (there can be blanks for missing plurals)
-                user = None
+                user: User | None = None
                 for origin in translation["origin"]:
                     if origin is not None:
                         user = origin.user
