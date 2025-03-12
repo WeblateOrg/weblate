@@ -180,7 +180,7 @@ class GitRepository(Repository):
     def _get_auth_args(repo: str) -> Iterator[str]:
         if repo.startswith("https://"):
             parsed = urlparse(repo)
-            if parsed.username and parsed.password:
+            if parsed.password:
                 # proactive HTTP authentication, needs Git 2.46
                 yield "-c"
                 yield "http.proactiveAuth=auto"
