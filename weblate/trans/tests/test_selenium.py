@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import logging
 import math
 import os
 import time
@@ -142,6 +143,10 @@ class SeleniumTests(
             cls._driver.command_executor.set_timeout(240)
 
             cls._driver.implicitly_wait(5)
+
+        # Configure verbose logging to be shown in case of the test failure
+        logger = logging.getLogger("selenium")
+        logger.setLevel(logging.DEBUG)
 
         super().setUpClass()
 
