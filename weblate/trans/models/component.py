@@ -2952,7 +2952,7 @@ class Component(
         if errors:
             message = gettext(
                 "Could not parse base file for new translations: %s"
-            ) % format_html_join_comma("{}", ((str(error), ) for error in errors))
+            ) % format_html_join_comma("{}", ((str(error),) for error in errors))
             raise ValidationError({"new_base": message})
         raise ValidationError(
             {"new_base": gettext("Unrecognized base file for new translations.")}

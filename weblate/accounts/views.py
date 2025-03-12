@@ -1552,7 +1552,9 @@ def saml_metadata(request: AuthenticatedHttpRequest):
     if errors:
         add_breadcrumb(category="auth", message="SAML errors", errors=errors)
         report_error("SAML metadata", level="error")
-        return HttpResponseServerError(content=format_html_join_comma("{}", ((err, ) for err in errors)))
+        return HttpResponseServerError(
+            content=format_html_join_comma("{}", ((err,) for err in errors))
+        )
 
     return HttpResponse(content=metadata, content_type="text/xml")
 

@@ -1050,7 +1050,9 @@ class _VariantNodesDifference:
     ) -> str:
         if not variant_list:
             return ""
-        return format_html_join_comma("{}", ((variant.name(),) for variant in variant_list))
+        return format_html_join_comma(
+            "{}", ((variant.name(),) for variant in variant_list)
+        )
 
     def _unique_target_nodes(self) -> Iterator[_HTMLNode]:
         unique_nodes: list[_HTMLNode] = []

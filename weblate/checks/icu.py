@@ -453,59 +453,83 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
 
     def format_result(self, result):
         if result.get("syntax"):
-            yield gettext("Syntax error: %s") % format_html_join_comma("{}", (
-                (err.msg, ) if err.msg else ("unknown error", ) for err in result["syntax"]
-            ))
+            yield gettext("Syntax error: %s") % format_html_join_comma(
+                "{}",
+                (
+                    (err.msg,) if err.msg else ("unknown error",)
+                    for err in result["syntax"]
+                ),
+            )
 
         if result.get("extra"):
             yield gettext(
                 "One or more unknown placeholders in the translation: %s"
-            ) % format_html_join_comma("{}", ((placeholder, ) for placeholder in result["extra"]))
+            ) % format_html_join_comma(
+                "{}", ((placeholder,) for placeholder in result["extra"])
+            )
 
         if result.get("missing"):
             yield gettext(
                 "One or more placeholders missing in the translation: %s"
-            ) % format_html_join_comma("{}", ((placeholder, )for placeholder in result["missing"]))
+            ) % format_html_join_comma(
+                "{}", ((placeholder,) for placeholder in result["missing"])
+            )
 
         if result.get("wrong_type"):
             yield gettext(
                 "One or more placeholder types are incorrect: %s"
-            ) % format_html_join_comma("{}", ((placeholder, )for placeholder in result["wrong_type"]))
+            ) % format_html_join_comma(
+                "{}", ((placeholder,) for placeholder in result["wrong_type"])
+            )
 
         if result.get("no_other"):
-            yield gettext("Missing other sub-message for: %s") % format_html_join_comma("{}", ((placeholder, )for placeholder in result["no_other"]))
+            yield gettext("Missing other sub-message for: %s") % format_html_join_comma(
+                "{}", ((placeholder,) for placeholder in result["no_other"])
+            )
 
         if result.get("bad_plural"):
-            yield gettext("Incorrect plural selectors for: %s") % format_html_join_comma("{}", (
-                f"{x[0]} ({', '.join(x[1])})" for x in result["bad_plural"]
-            ))
+            yield gettext(
+                "Incorrect plural selectors for: %s"
+            ) % format_html_join_comma(
+                "{}", (f"{x[0]} ({', '.join(x[1])})" for x in result["bad_plural"])
+            )
 
         if result.get("bad_submessage"):
-            yield gettext("Incorrect sub-message selectors for: %s") % format_html_join_comma("{}", (
-                f"{x[0]} ({', '.join(x[1])})" for x in result["bad_submessage"]
-            ))
+            yield gettext(
+                "Incorrect sub-message selectors for: %s"
+            ) % format_html_join_comma(
+                "{}", (f"{x[0]} ({', '.join(x[1])})" for x in result["bad_submessage"])
+            )
 
         if result.get("should_be_tag"):
             yield gettext(
                 "One or more placeholders should have "
                 "a corresponding XML tag in the translation: %s"
-            ) % format_html_join_comma("{}", ((placeholder, )for placeholder in result["should_be_tag"]))
+            ) % format_html_join_comma(
+                "{}", ((placeholder,) for placeholder in result["should_be_tag"])
+            )
 
         if result.get("not_tag"):
             yield gettext(
                 "One or more placeholders should not be "
                 "an XML tag in the translation: %s"
-            ) % format_html_join_comma("{}", ((placeholder, )for placeholder in result["not_tag"]))
+            ) % format_html_join_comma(
+                "{}", ((placeholder,) for placeholder in result["not_tag"])
+            )
 
         if result.get("tag_not_empty"):
             yield gettext(
                 "One or more XML tags has unexpected content in the translation: %s"
-            ) % format_html_join_comma("{}", ((placeholder, )for placeholder in result["tag_not_empty"]))
+            ) % format_html_join_comma(
+                "{}", ((placeholder,) for placeholder in result["tag_not_empty"])
+            )
 
         if result.get("tag_empty"):
             yield gettext(
                 "One or more XML tags missing content in the translation: %s"
-            ) % format_html_join_comma("{}", ((placeholder, )for placeholder in result["tag_empty"]))
+            ) % format_html_join_comma(
+                "{}", ((placeholder,) for placeholder in result["tag_empty"])
+            )
 
     def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):

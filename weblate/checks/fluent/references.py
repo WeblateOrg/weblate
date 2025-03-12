@@ -446,7 +446,9 @@ class _VariantReferencesDifference:
     ) -> str:
         if not variant_list:
             return ""
-        return format_html_join_comma("{}", ((variant.name(), ) for variant in variant_list))
+        return format_html_join_comma(
+            "{}", ((variant.name(),) for variant in variant_list)
+        )
 
     def _unique_target_refs(self) -> Iterator[_Reference]:
         unique_refs: list[_Reference] = []

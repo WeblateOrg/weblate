@@ -135,7 +135,11 @@ def check_celery(
                     weblate_check(
                         "weblate.E034",
                         "The Celery process is outdated or misconfigured."
-                        " Following items differ: {}".format(format_html_join_comma("{}", ((diff,) for diff in differing))),
+                        " Following items differ: {}".format(
+                            format_html_join_comma(
+                                "{}", ((diff,) for diff in differing)
+                            )
+                        ),
                     )
                 )
         except CeleryTimeoutError:

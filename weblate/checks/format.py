@@ -480,7 +480,9 @@ class BaseFormatCheck(TargetCheck):
         ):
             yield gettext(
                 "The following format strings are in the wrong order: %s"
-            ) % format_html_join_comma("{}", ((self.format_string(x), ) for x in sorted(set(result["missing"]))))
+            ) % format_html_join_comma(
+                "{}", ((self.format_string(x),) for x in sorted(set(result["missing"])))
+            )
         else:
             yield from super().format_result(result)
 

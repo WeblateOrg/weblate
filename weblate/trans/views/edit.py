@@ -10,7 +10,6 @@ from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
 from django.conf import settings
-from weblate.utils.html import format_html_join_comma
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
@@ -58,6 +57,7 @@ from weblate.trans.util import redirect_next, render, split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
@@ -415,7 +415,11 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             gettext(
                 "The translation has been saved, however there "
                 "are some newly failing checks: {0}"
-            ).format(format_html_join_comma("{}", ((str(CHECKS[check].name),) for check in newchecks))),
+            ).format(
+                format_html_join_comma(
+                    "{}", ((str(CHECKS[check].name),) for check in newchecks)
+                )
+            ),
         )
         # Stay on same entry
         return False

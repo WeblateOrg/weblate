@@ -285,7 +285,9 @@ class Flags:
         return (self.format_flag(item) for item in self._items.values())
 
     def format(self) -> str:
-        return format_html_join_comma("{}", ((mark_safe(flag),) for flag in sorted(self._format_values())))
+        return format_html_join_comma(
+            "{}", ((mark_safe(flag),) for flag in sorted(self._format_values()))
+        )
 
     def validate(self) -> None:
         for item in self._items.values():

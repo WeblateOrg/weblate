@@ -21,7 +21,7 @@ class UploadForm(forms.Form):
         label=gettext_lazy("File"),
         validators=[FileExtensionValidator(allowed_extensions=SUPPORTED_FORMATS)],
         help_text=gettext_lazy("You can upload a file of following formats: %s.")
-        % format_html_join_comma("{}", ((fmat, )for fmat in SUPPORTED_FORMATS)),
+        % format_html_join_comma("{}", ((fmat,) for fmat in SUPPORTED_FORMATS)),
     )
     source_language = forms.ModelChoiceField(
         widget=SortedSelect,
