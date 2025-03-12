@@ -148,7 +148,7 @@ class ProhibitedInitialCharacterCheckTest(ViewTestCase):
         unit.all_flags = unit.get_all_flags()
         self.assertFalse(self.check.check_target([term], [term], unit))
 
-    def test_non_glossary(self):
+    def test_non_glossary(self) -> None:
         self.assertEqual(Check.objects.filter(name=self.check.check_id).count(), 0)
         translation = self.get_translation()
         term = self.get_term()

@@ -218,7 +218,7 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
             "variant-glossary-term", [en_glossary, de_glossary], cs_glossary
         )
 
-    def test_search_variant_with_regex_key(self):
+    def test_search_variant_with_regex_key(self) -> None:
         mono_component = self.create_po_mono(project=self.project, name="Monolingual")
 
         # set variant_regex match

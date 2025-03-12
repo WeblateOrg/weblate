@@ -1762,7 +1762,7 @@ class TOTPView(FormView):
 
 
 class SecondFactorMixin(View):
-    def second_factor_completed(self, device: Device):
+    def second_factor_completed(self, device: Device) -> None:
         # Store audit log entry aboute used device and update last used device type
         user = self.get_user()
         user.profile.log_2fa(self.request, device)

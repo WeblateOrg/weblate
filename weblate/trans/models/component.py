@@ -3349,7 +3349,7 @@ class Component(
             variant_regex="", unit_count=0
         ).delete()
 
-    def _update_alerts(self):
+    def _update_alerts(self) -> None:
         self._alerts_scheduled = False
         # Flush alerts case, mostly needed for tests
         self.__dict__.pop("all_alerts", None)

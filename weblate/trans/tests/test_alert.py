@@ -129,7 +129,7 @@ class AlertTest(ViewTestCase):
             component.alert_set.filter(name="MonolingualTranslation").exists()
         )
 
-    def test_duplicate_mask(self):
+    def test_duplicate_mask(self) -> None:
         component = self.component
         self.assertFalse(component.alert_set.filter(name="DuplicateFilemask").exists())
         response = self.client.get(component.get_absolute_url())

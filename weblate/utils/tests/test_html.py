@@ -112,19 +112,19 @@ text text text text text
 
 
 class MailQuoteTestCase(SimpleTestCase):
-    def test_plain(self):
+    def test_plain(self) -> None:
         self.assertEqual(
             mail_quote_value("text"),
             "text",
         )
 
-    def test_dot(self):
+    def test_dot(self) -> None:
         self.assertEqual(
             mail_quote_value("example.com"),
             "example<span>.</span>com",
         )
 
-    def test_url(self):
+    def test_url(self) -> None:
         self.assertEqual(
             mail_quote_value("https://test.example.com"),
             "https<span>:</span>//test<span>.</span>example<span>.</span>com",

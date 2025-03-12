@@ -79,7 +79,7 @@ def cleanup_auditlog() -> None:
 
 
 class NotificationFactory:
-    def __init__(self):
+    def __init__(self) -> None:
         self.perm_cache: dict[int, set[int]] = {}
         self.outgoing: list[OutgoingEmail] = []
         self.instances: dict[str, Notification] = {}

@@ -64,7 +64,7 @@ class ProjectLanguageFactory(UserDict):
     def preload(self):
         return [self[language] for language in self._project.languages]
 
-    def preload_workflow_settings(self):
+    def preload_workflow_settings(self) -> None:
         from weblate.trans.models.workflow import WorkflowSetting
 
         instances = self.preload()

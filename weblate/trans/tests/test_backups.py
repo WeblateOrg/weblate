@@ -149,7 +149,7 @@ class BackupsTest(ViewTestCase):
         )
         self.verify_restored()
 
-    def verify_restored(self):
+    def verify_restored(self) -> None:
         restored = Project.objects.get(slug="restored")
         self.assertEqual(
             16,

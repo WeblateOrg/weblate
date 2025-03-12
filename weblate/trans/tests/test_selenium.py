@@ -11,7 +11,7 @@ import time
 import warnings
 from contextlib import contextmanager
 from datetime import timedelta
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Literal, cast, overload
 
 from django.conf import settings
 from django.core import mail
@@ -27,6 +27,7 @@ from selenium.common.exceptions import (
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.remote.remote_connection import RemoteConnection
 from selenium.webdriver.support.expected_conditions import (
     presence_of_element_located,
     staleness_of,
@@ -36,7 +37,7 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 from weblate.fonts.tests.utils import FONT
 from weblate.lang.models import Language
 from weblate.screenshots.views import ensure_tesseract_language
-from weblate.trans.models import Change, Component, Project, Unit
+from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
@@ -51,7 +52,12 @@ from weblate.vcs.ssh import get_key_data
 from weblate.wladmin.models import ConfigurationError, SupportStatus
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from selenium.webdriver.remote.webdriver import WebDriver
+    from selenium.webdriver.remote.webelement import WebElement
+
+    from weblate.auth.models import User
 
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
@@ -86,7 +92,7 @@ class SeleniumTests(
     site_domain = ""
 
     @contextmanager
-    def wait_for_page_load(self, timeout=30):
+    def wait_for_page_load(self, timeout: int = 30) -> Iterator[None]:
         old_page = self.driver.find_element(By.TAG_NAME, "html")
         yield
         WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
@@ -140,7 +146,8 @@ class SeleniumTests(
         if cls._driver is not None:
             # Increase webdriver timeout to avoid occasssional errors
             # in macos CI
-            cls._driver.command_executor.set_timeout(240)
+            if isinstance(cls._driver.command_executor, RemoteConnection):
+                cls._driver.command_executor.set_timeout(240)
 
             cls._driver.implicitly_wait(5)
 
@@ -151,7 +158,7 @@ class SeleniumTests(
         super().setUpClass()
 
     @cached_property
-    def actions(self):
+    def actions(self) -> webdriver.ActionChains:
         return webdriver.ActionChains(self.driver)
 
     @property
@@ -195,7 +202,7 @@ class SeleniumTests(
         with open(os.path.join(self.image_path, name), "wb") as handle:
             handle.write(self.driver.get_screenshot_as_png())
 
-    def click(self, element="", htmlid=None) -> None:
+    def click(self, element: WebElement | str = "", htmlid: str | None = None) -> None:
         """Click on element and scroll it into view."""
         try:
             if htmlid:
@@ -212,14 +219,14 @@ class SeleniumTests(
             self.actions.move_to_element(element).perform()
             element.click()
 
-    def upload_file(self, element, filename) -> None:
+    def upload_file(self, element: WebElement, filename: str) -> None:
         filename = os.path.abspath(filename)
         if not os.path.exists(filename):
             msg = f"Test file not found: {filename}"
             raise ValueError(msg)
         element.send_keys(filename)
 
-    def do_login(self, create=True, superuser=False):
+    def do_login(self, *, create: bool = True, superuser: bool = False) -> User:
         # login page
         with self.wait_for_page_load():
             self.click(htmlid="login-button")
@@ -248,7 +255,11 @@ class SeleniumTests(
             self.click(self.driver.find_element(By.XPATH, '//input[@value="Sign in"]'))
         return user
 
-    def open_manage(self, login=True):
+    @overload
+    def open_manage(self, *, login: Literal[True] = True) -> User: ...
+    @overload
+    def open_manage(self, *, login: Literal[False]) -> None: ...
+    def open_manage(self, *, login=True):
         # Login as superuser
         user = self.do_login(superuser=True) if login else None
 
@@ -257,8 +268,12 @@ class SeleniumTests(
             self.click(htmlid="admin-button")
         return user
 
-    def open_admin(self, login=True):
-        user = self.open_manage(login)
+    @overload
+    def open_admin(self, *, login: Literal[True] = True) -> User: ...
+    @overload
+    def open_admin(self, *, login: Literal[False]) -> None: ...
+    def open_admin(self, *, login=True):
+        user = self.open_manage(login=login)
         with self.wait_for_page_load():
             self.click("Tools")
         with self.wait_for_page_load():
@@ -298,7 +313,7 @@ class SeleniumTests(
         # We should be back on home page
         self.driver.find_element(By.ID, "dashboard-return")
 
-    def register_user(self):
+    def register_user(self) -> str:
         # registration page
         with self.wait_for_page_load():
             self.click(htmlid="register-button")
@@ -388,7 +403,7 @@ class SeleniumTests(
             self.click("SSH keys")
         self.screenshot("ssh-keys.png")
 
-    def create_component(self):
+    def create_component(self) -> Project:
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
         Component.objects.create(
             name="Language names",
@@ -410,7 +425,7 @@ class SeleniumTests(
         )
         return project
 
-    def create_glossary(self, project, language):
+    def create_glossary(self, project, language) -> Translation:
         glossary = project.glossaries[0].translation_set.get(language=language)
         glossary.add_unit(
             None,

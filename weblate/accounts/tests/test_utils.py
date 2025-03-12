@@ -38,7 +38,7 @@ class TasksTest(TestCase):
     SITE_DOMAIN="example.com",
 )
 class FormatPrivateMainTestCase(SimpleTestCase):
-    def validate_email(self, username: str, expected: str):
+    def validate_email(self, username: str, expected: str) -> None:
         # Make sure username is valid
         if username:
             validate_username(username)
@@ -49,19 +49,19 @@ class FormatPrivateMainTestCase(SimpleTestCase):
         # Make sure it is expected one
         self.assertEqual(email, expected)
 
-    def test_format_private_email(self):
+    def test_format_private_email(self) -> None:
         self.validate_email("testuser", "testuser@users.noreply.example.com")
 
     @override_settings(SITE_DOMAIN="example.com:8080")
-    def test_format_private_email_port(self):
+    def test_format_private_email_port(self) -> None:
         self.validate_email("testuser", "testuser@users.noreply.example.com")
 
-    def test_format_private_email_dot(self):
+    def test_format_private_email_dot(self) -> None:
         self.validate_email("testuser.", "testuser_@users.noreply.example.com")
         self.validate_email("testuser....", "testuser____@users.noreply.example.com")
 
-    def test_format_private_email_blank(self):
+    def test_format_private_email_blank(self) -> None:
         self.validate_email("", "user-99@users.noreply.example.com")
 
-    def test_format_private_email_unicode(self):
+    def test_format_private_email_unicode(self) -> None:
         self.validate_email("zkouška", "zkouska@users.noreply.example.com")

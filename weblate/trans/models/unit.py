@@ -1052,7 +1052,9 @@ class Unit(models.Model, LoggerMixin):
 
         return ret
 
-    def propagate(self, user: User, change_action=None, author=None, request=None):
+    def propagate(
+        self, user: User, change_action=None, author=None, request=None
+    ) -> bool:
         """Propagate current translation to all others."""
         from weblate.auth.permissions import PermissionResult
 
