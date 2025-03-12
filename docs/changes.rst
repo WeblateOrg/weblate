@@ -7,6 +7,8 @@ Weblate 5.10.3
 
 .. rubric:: Improvements
 
+* Captcha is not shown for registrations via :ref:`invite-user`.
+
 .. rubric:: Bug fixes
 
 * Improved performance of API download endpoints.
