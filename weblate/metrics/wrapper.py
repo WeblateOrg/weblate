@@ -46,7 +46,7 @@ class MetricsWrapper:
         # the IN operator with six values.
         metrics = Metric.objects.filter_metric(
             self.scope, self.relation, self.secondary
-        ).filter(date__range=(dates[0], dates[-1]))
+        ).filter(date__range=(dates[-1], dates[0]))
 
         # Fetch the most recent metric for each date
         current = past_30 = past_60 = Metric()
