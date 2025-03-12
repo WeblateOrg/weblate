@@ -14,6 +14,7 @@ Weblate 5.11
 * :ref:`credits` and :ref:`stats` include translator's join date. Additionally, both reports can be sorted either by the join date or the number of strings translated.
 * Widgets show more precise stats.
 * :ref:`upload` is now tracked in history with details.
+* Changes in string flags are now tracked in history.
 
 .. rubric:: Bug fixes
 
