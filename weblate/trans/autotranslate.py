@@ -95,6 +95,7 @@ class AutoTranslate:
 
     def post_process(self) -> None:
         if self.updated > 0:
+            self.translation.log_info("finalizing automatic translation")
             if not self.component_wide:
                 self.translation.component.update_source_checks()
                 self.translation.component.run_batched_checks()
@@ -276,7 +277,8 @@ class AutoTranslate:
         translation = self.translation
         with translation.component.lock:
             translation.log_info(
-                "starting automatic translation %s: %s: %s",
+                "starting automatic translation (%s) %s: %s: %s",
+                self.mode,
                 current_task.request.id
                 if current_task and current_task.request.id
                 else "",
