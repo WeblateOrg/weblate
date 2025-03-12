@@ -13,7 +13,10 @@ from django.db import transaction
 from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, ngettext
 
-from weblate.machinery.base import BatchMachineTranslation, MachineTranslationError
+from weblate.machinery.base import (
+    BatchMachineTranslation,
+    MachineTranslationError,
+)
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Change, Component, Suggestion, Translation, Unit
 from weblate.trans.util import split_plural
@@ -39,11 +42,11 @@ class AutoTranslate:
         mode: str,
         component_wide: bool = False,
     ) -> None:
-        self.user = user
-        self.translation = translation
+        self.user: User | None = user
+        self.translation: Translation = translation
         translation.component.batch_checks = True
-        self.filter_type = filter_type
-        self.mode = mode
+        self.filter_type: str = filter_type
+        self.mode: str = mode
         self.updated = 0
         self.progress_steps = 0
         self.target_state = STATE_TRANSLATED
@@ -51,7 +54,7 @@ class AutoTranslate:
             self.target_state = STATE_FUZZY
         elif mode == "approved" and translation.enable_review:
             self.target_state = STATE_APPROVED
-        self.component_wide = component_wide
+        self.component_wide: bool = component_wide
 
     def get_units(self):
         units = self.translation.unit_set.exclude(state=STATE_READONLY)
@@ -185,7 +188,7 @@ class AutoTranslate:
 
     def fetch_mt(self, engines_list: list[str], threshold: int):
         """Get the translations."""
-        units = self.get_units()
+        units: list[Unit] = list(self.get_units())
         num_units = len(units)
 
         machinery_settings = self.translation.component.project.get_machinery_settings()
