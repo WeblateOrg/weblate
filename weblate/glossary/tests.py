@@ -8,6 +8,7 @@ import csv
 import json
 from io import StringIO
 
+from django.db import transaction
 from django.urls import reverse
 
 from weblate.glossary.models import get_glossary_terms, get_glossary_tsv
@@ -402,9 +403,10 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         self.assertEqual(Unit.objects.count(), start + 2)
 
         # Make it terminology
-        unit.translation.component.unload_sources()
-        unit.extra_flags = "terminology"
-        unit.save()
+        with transaction.atomic():
+            unit.translation.component.unload_sources()
+            unit.extra_flags = "terminology"
+            unit.save()
 
         # Verify it has been added to all languages
         self.assertEqual(Unit.objects.count(), start + 4)
