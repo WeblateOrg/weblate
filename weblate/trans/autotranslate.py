@@ -204,7 +204,8 @@ class AutoTranslate:
         for pos, translation_service in enumerate(engines):
             batch_size = translation_service.batch_size
             self.translation.log_info(
-                "fetching translations from %s, %d per request",
+                "fetching translations for %d units from %s, %d per request",
+                num_units,
                 translation_service.name,
                 batch_size,
             )
