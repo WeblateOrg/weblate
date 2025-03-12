@@ -1896,6 +1896,7 @@ class Unit(models.Model, LoggerMixin):
         self, explanation: str, user: User, save: bool = True
     ) -> None:
         """Update glossary explanation."""
+        old = self.explanation
         self.explanation = explanation
         file_format_support = (
             self.translation.component.file_format_cls.supports_explanation
@@ -1903,7 +1904,7 @@ class Unit(models.Model, LoggerMixin):
         units: Iterable[Unit] = []
         if file_format_support:
             if self.is_source:
-                units = self.unit_set.exclude(id=self.id)
+                units = self.unit_set.exclude(id=self.id).select_for_update()
                 units.update(pending=True)
             else:
                 self.pending = True
@@ -1912,9 +1913,6 @@ class Unit(models.Model, LoggerMixin):
         if save:
             self.save(update_fields=["explanation", "pending"], only_save=True)
 
-        if not file_format_support:
-            return
-
         for unit in units:
             unit.generate_change(
                 user=user,
@@ -1922,6 +1920,8 @@ class Unit(models.Model, LoggerMixin):
                 change_action=Change.ACTION_EXPLANATION,
                 check_new=False,
                 save=True,
+                target=explanation,
+                old=old,
             )
 
     @cached_property
