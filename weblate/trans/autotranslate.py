@@ -49,6 +49,7 @@ class AutoTranslate:
         self.mode: str = mode
         self.updated = 0
         self.progress_steps = 0
+        self.progress_base = 0
         self.target_state = STATE_TRANSLATED
         if mode == "fuzzy":
             self.target_state = STATE_FUZZY
@@ -202,7 +203,9 @@ class AutoTranslate:
             reverse=True,
         )
 
-        self.progress_steps = 2 * (len(engines) + num_units)
+        self.progress_base = len(engines) * num_units
+        # Estimate number of strings to translate, this is adjusted in process_mt
+        self.progress_steps = self.progress_base + num_units
 
         for pos, translation_service in enumerate(engines):
             batch_size = translation_service.batch_size
@@ -214,6 +217,7 @@ class AutoTranslate:
             )
 
             for batch_start in range(0, num_units, batch_size):
+                self.set_progress(pos * num_units + batch_start)
                 try:
                     translation_service.batch_translate(
                         units[batch_start : batch_start + batch_size],
@@ -225,8 +229,8 @@ class AutoTranslate:
                     self.translation.log_error(
                         "failed automatic translation: %s", error
                     )
-                self.set_progress(pos * num_units + batch_start)
 
+        self.set_progress(self.progress_base)
         return {
             unit.id: unit.machinery
             for unit in units
@@ -238,8 +242,7 @@ class AutoTranslate:
         translations = self.fetch_mt(engines, int(threshold))
 
         # Adjust total number to show correct progress
-        offset = self.progress_steps // 2
-        self.progress_steps = offset + len(translations)
+        self.progress_steps = self.progress_base + len(translations)
 
         with transaction.atomic():
             # Perform the translation
@@ -264,7 +267,7 @@ class AutoTranslate:
                     translation["translation"],
                     user=user,
                 )
-                self.set_progress(offset + pos)
+                self.set_progress(self.progress_base + pos + 1)
 
             self.post_process()
 
