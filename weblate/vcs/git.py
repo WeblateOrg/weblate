@@ -17,6 +17,7 @@ from json import JSONDecodeError, dumps
 from pathlib import Path
 from time import sleep, time
 from typing import TYPE_CHECKING, Any, NoReturn, NotRequired, TypedDict, cast
+from urllib.parse import urlparse, urlunparse
 from zipfile import ZipFile
 
 import requests
@@ -177,10 +178,12 @@ class GitRepository(Repository):
 
     @staticmethod
     def _get_auth_args(repo: str) -> Iterator[str]:
-        if repo.startswith("http") and "@" in repo:
-            # proactive HTTP authentication, needs Git 2.46
-            yield "-c"
-            yield "http.proactiveAuth=auto"
+        if repo.startswith("https://"):
+            parsed = urlparse(repo)
+            if parsed.password:
+                # proactive HTTP authentication, needs Git 2.46
+                yield "-c"
+                yield "http.proactiveAuth=auto"
 
     def get_auth_args(self) -> list[str]:
         if self.component:
@@ -853,7 +856,7 @@ class GitMergeRequestBase(GitForcePushRepository):
     ) -> tuple[str | None, str | None, str | None, str, str, str]:
         if repo is None:
             repo = self.component.push or self.component.repo
-        parsed = urllib.parse.urlparse(repo)
+        parsed = urlparse(repo)
         host = parsed.hostname
         scheme: str | None = parsed.scheme
         username: str | None = parsed.username
@@ -1048,8 +1051,8 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def authenticate_url(self, url: str, credentials: GitCredentials) -> str:
         """Inject credentials into URL."""
-        parsed_url = urllib.parse.urlparse(url)
-        return urllib.parse.urlunparse(
+        parsed_url = urlparse(url)
+        return urlunparse(
             (
                 parsed_url[0],
                 "{}:{}@{}".format(

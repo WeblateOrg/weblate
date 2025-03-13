@@ -508,7 +508,7 @@ class CaptchaForm(forms.Form):
         if self.is_bound:
             self["captcha"].label = cast("str", self.fields["captcha"].label)
 
-    def store_challenge(self):
+    def store_challenge(self) -> None:
         self.request.session["captcha_challenge"] = self.challenge.challenge
 
     def clean_captcha(self) -> None:
@@ -605,11 +605,15 @@ class RegistrationForm(EmailForm):
 
     field_order = ["email", "username", "fullname", "captcha"]
 
-    def __init__(self, request=None, data=None, initial=None) -> None:
+    def __init__(
+        self, request=None, data=None, initial=None, hide_captcha: bool = False
+    ) -> None:
         # The 'request' parameter is set for custom auth use by subclasses.
         # The form data comes in via the standard 'data' kwarg.
         self.request = request
-        super().__init__(request=request, data=data, initial=initial)
+        super().__init__(
+            request=request, data=data, initial=initial, hide_captcha=hide_captcha
+        )
 
     def clean(self):
         if not check_rate_limit("registration", self.request):
@@ -1074,7 +1078,7 @@ class TOTPDeviceForm(forms.Form):
         "invalid_token": gettext_lazy("The entered token is not valid."),
     }
 
-    def __init__(self, key, user, metadata=None, **kwargs):
+    def __init__(self, key, user, metadata=None, **kwargs) -> None:
         super().__init__(**kwargs)
         self.key = key
         self.tolerance = 1
@@ -1123,7 +1127,7 @@ class TOTPDeviceForm(forms.Form):
 class WebAuthnTokenForm(forms.Form):
     show_submit = False
 
-    def __init__(self, user, request=None, *args, **kwargs):
+    def __init__(self, user, request=None, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         self.user = user
@@ -1146,7 +1150,7 @@ class OTPTokenForm(DjangoOTPTokenForm):
     )
     device_class: type[Device] = StaticDevice
 
-    def __init__(self, user, request=None, *args, **kwargs):
+    def __init__(self, user, request=None, *args, **kwargs) -> None:
         super().__init__(user, request, *args, **kwargs)
         self.request = request
         self.fields["otp_device"].widget = forms.HiddenInput()
@@ -1159,7 +1163,7 @@ class OTPTokenForm(DjangoOTPTokenForm):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
 
-    def _chosen_device(self, user):
+    def _chosen_device(self, user) -> None:
         return None
 
     @staticmethod
@@ -1204,7 +1208,7 @@ class TOTPTokenForm(OTPTokenForm):
     )
     device_class: type[Device] = TOTPDevice
 
-    def __init__(self, user, request=None, *args, **kwargs):
+    def __init__(self, user, request=None, *args, **kwargs) -> None:
         super().__init__(user, request, *args, **kwargs)
         self.fields["otp_token"].widget.attrs.update(
             {

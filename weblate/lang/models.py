@@ -628,7 +628,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         source: Language,
         target: Language,
         logger: Callable[[str], None] | None = None,
-    ):
+    ) -> None:
         """Migrate all content from one language to anoother."""
         if logger is None:
             logger = dummy_logger

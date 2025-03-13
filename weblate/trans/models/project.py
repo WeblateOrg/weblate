@@ -9,7 +9,7 @@ import os.path
 from collections import UserDict
 from datetime import datetime
 from operator import itemgetter
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.conf import settings
 from django.core.cache import cache
@@ -43,6 +43,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
 
     from weblate.auth.models import User
+    from weblate.machinery.base import SettingsDict
     from weblate.trans.backups import BackupListDict
     from weblate.trans.models.component import Component
     from weblate.trans.models.label import Label
@@ -64,7 +65,7 @@ class ProjectLanguageFactory(UserDict):
     def preload(self):
         return [self[language] for language in self._project.languages]
 
-    def preload_workflow_settings(self):
+    def preload_workflow_settings(self) -> None:
         from weblate.trans.models.workflow import WorkflowSetting
 
         instances = self.preload()
@@ -662,8 +663,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         return get_glossary_automaton(self)
 
-    def get_machinery_settings(self):
-        settings = Setting.objects.get_settings_dict(SettingCategory.MT)
+    def get_machinery_settings(self) -> dict[str, SettingsDict | Project]:
+        settings = cast(
+            "dict[str, SettingsDict]",
+            Setting.objects.get_settings_dict(SettingCategory.MT),
+        )
         for item, value in self.machinery_settings.items():
             if value is None:
                 if item in settings:

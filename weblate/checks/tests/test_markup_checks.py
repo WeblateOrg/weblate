@@ -599,7 +599,7 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
-    def test_broken_links(self):
+    def test_broken_links(self) -> None:
         self.do_test(
             True,
             (
@@ -633,7 +633,7 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
-    def test_extra_backtick(self):
+    def test_extra_backtick(self) -> None:
         self.do_test(
             True,
             (
@@ -699,7 +699,7 @@ class RSTSyntaxCheckTest(CheckTestCase):
             ),
         )
 
-    def test_admindocs_tags(self):
+    def test_admindocs_tags(self) -> None:
         # admindocs registers own parsers which fail without specific settings
         self.assertTrue(docutils_is_available)
         self.do_test(

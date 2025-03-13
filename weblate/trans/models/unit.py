@@ -116,6 +116,20 @@ class UnitQuerySet(models.QuerySet):
             "translation__component__source_language",
         )
 
+    def prefetch_source(self):
+        from weblate.trans.models import Component
+
+        return self.prefetch_related(
+            "source_unit",
+            "source_unit__translation",
+            models.Prefetch(
+                "source_unit__translation__component",
+                queryset=Component.objects.defer_huge(),
+            ),
+            "source_unit__translation__component__source_language",
+            "source_unit__translation__component__project",
+        )
+
     def prefetch_all_checks(self):
         return self.prefetch_related(
             models.Prefetch(
@@ -128,28 +142,22 @@ class UnitQuerySet(models.QuerySet):
         return self.annotate(Count("screenshots"))
 
     def prefetch_full(self):
-        from weblate.trans.models import Component
-
-        return self.prefetch_all_checks().prefetch_related(
-            "source_unit",
-            "source_unit__translation",
-            models.Prefetch(
-                "source_unit__translation__component",
-                queryset=Component.objects.defer_huge(),
-            ),
-            "source_unit__translation__component__source_language",
-            "source_unit__translation__component__project",
-            "labels",
-            models.Prefetch(
-                "suggestion_set",
-                queryset=Suggestion.objects.order(),
-                to_attr="suggestions",
-            ),
-            models.Prefetch(
-                "comment_set",
-                queryset=Comment.objects.filter(resolved=False),
-                to_attr="unresolved_comments",
-            ),
+        return (
+            self.prefetch_all_checks()
+            .prefetch_source()
+            .prefetch_related(
+                "labels",
+                models.Prefetch(
+                    "suggestion_set",
+                    queryset=Suggestion.objects.order(),
+                    to_attr="suggestions",
+                ),
+                models.Prefetch(
+                    "comment_set",
+                    queryset=Comment.objects.filter(resolved=False),
+                    to_attr="unresolved_comments",
+                ),
+            )
         )
 
     def prefetch_bulk(self):
@@ -615,7 +623,7 @@ class Unit(models.Model, LoggerMixin):
         ):
             # We can not exclude current unit here as we need to trigger
             # the updates below
-            for unit in self.unit_set.prefetch().prefetch_bulk():
+            for unit in self.unit_set.select_for_update().prefetch().prefetch_bulk():
                 # Share component instance for locking and possible bulk updates
                 unit.translation.component = self.translation.component
                 unit.update_state()
@@ -1044,11 +1052,13 @@ class Unit(models.Model, LoggerMixin):
 
         return ret
 
-    def propagate(self, user: User, change_action=None, author=None, request=None):
+    def propagate(
+        self, user: User, change_action=None, author=None, request=None
+    ) -> bool:
         """Propagate current translation to all others."""
         from weblate.auth.permissions import PermissionResult
 
-        with sentry_sdk.start_span(op="unit.propagate"):
+        with sentry_sdk.start_span(op="unit.propagate", name=f"{self.pk}"):
             to_update: list[Unit] = []
             for unit in self.same_source_units.select_for_update():
                 if unit.target == self.target and unit.state == self.state:
@@ -1239,7 +1249,7 @@ class Unit(models.Model, LoggerMixin):
 
         This is needed when editing template translation for monolingual formats.
         """
-        with sentry_sdk.start_span(op="unit.update_source_units"):
+        with sentry_sdk.start_span(op="unit.update_source_units", name=f"{self.pk}"):
             changes = []
 
             # Find relevant units
@@ -1502,7 +1512,7 @@ class Unit(models.Model, LoggerMixin):
         """Return list of nearby messages based on location."""
         if self.position == 0:
             return Unit.objects.none()
-        with sentry_sdk.start_span(op="unit.nearby"):
+        with sentry_sdk.start_span(op="unit.nearby", name=f"{self.pk}"):
             # Limiting the query is needed to avoid issues when unit
             # position is not properly populated
             result = (
@@ -1521,7 +1531,7 @@ class Unit(models.Model, LoggerMixin):
         # Do not show nearby keys on bilingual
         if not self.translation.component.has_template():
             return []
-        with sentry_sdk.start_span(op="unit.nearby_keys"):
+        with sentry_sdk.start_span(op="unit.nearby_keys", name=f"{self.pk}"):
             key = self.translation.keys_cache_key
             key_list = cache.get(key)
             unit_set = self.translation.unit_set
@@ -1886,6 +1896,7 @@ class Unit(models.Model, LoggerMixin):
         self, explanation: str, user: User, save: bool = True
     ) -> None:
         """Update glossary explanation."""
+        old = self.explanation
         self.explanation = explanation
         file_format_support = (
             self.translation.component.file_format_cls.supports_explanation
@@ -1893,7 +1904,7 @@ class Unit(models.Model, LoggerMixin):
         units: Iterable[Unit] = []
         if file_format_support:
             if self.is_source:
-                units = self.unit_set.exclude(id=self.id)
+                units = self.unit_set.exclude(id=self.id).select_for_update()
                 units.update(pending=True)
             else:
                 self.pending = True
@@ -1902,9 +1913,6 @@ class Unit(models.Model, LoggerMixin):
         if save:
             self.save(update_fields=["explanation", "pending"], only_save=True)
 
-        if not file_format_support:
-            return
-
         for unit in units:
             unit.generate_change(
                 user=user,
@@ -1912,6 +1920,8 @@ class Unit(models.Model, LoggerMixin):
                 change_action=Change.ACTION_EXPLANATION,
                 check_new=False,
                 save=True,
+                target=explanation,
+                old=old,
             )
 
     @cached_property

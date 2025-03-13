@@ -631,6 +631,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
         Translation.objects.prefetch()
         .filter(component__project=project, language=obj.language)
         .exclude(component__is_glossary=True)
+        .order_by("component__name")
         .exclude(pk=obj.pk)[:10]
     )
     if len(other_translations) == 10:
@@ -646,13 +647,18 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
         # adds quick way to create translations in other components
         existing = {translation.component.slug for translation in other_translations}
         existing.add(component.slug)
-        for test_component in project.child_components:
-            if test_component.slug in existing:
-                continue
-            if test_component.can_add_new_language(user, fast=True):
-                other_translations.append(
-                    GhostTranslation(test_component, obj.language)
-                )
+
+        # Figure out missing components
+        all_components = {c.slug for c in project.child_components}
+        missing = all_components - existing
+        if len(missing) < 5:
+            for test_component in project.child_components:
+                if test_component.slug in existing:
+                    continue
+                if test_component.can_add_new_language(user, fast=True):
+                    other_translations.append(
+                        GhostTranslation(test_component, obj.language)
+                    )
 
     return render(
         request,

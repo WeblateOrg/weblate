@@ -2255,7 +2255,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
     _sets_push = False
     _apihost = "bitbucket.org"
 
-    def mock_responses(self):
+    def mock_responses(self) -> None:
         """
         Mock the successful responses Bitbucket Cloud API.
 

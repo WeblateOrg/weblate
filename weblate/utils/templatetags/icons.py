@@ -17,7 +17,7 @@ ICONS_CACHE: dict[str, str] = {}
 SPIN = '<span class="icon-spin" {} {}>{}</span>'
 
 
-@register.simple_tag()
+@register.simple_tag
 def icon(name: str) -> str:
     """
     Inlines SVG icon.
@@ -27,7 +27,7 @@ def icon(name: str) -> str:
     return mark_safe(load_icon(name).decode())  # noqa: S308
 
 
-@register.simple_tag()
+@register.simple_tag
 def loading_icon(name=None, hidden=True):
     return format_html(
         SPIN,

@@ -13,7 +13,11 @@ from django.db import transaction
 from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, ngettext
 
-from weblate.machinery.base import BatchMachineTranslation, MachineTranslationError
+from weblate.machinery.base import (
+    BatchMachineTranslation,
+    MachineTranslationError,
+    UnitMemoryResultDict,
+)
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Change, Component, Suggestion, Translation, Unit
 from weblate.trans.util import split_plural
@@ -39,19 +43,20 @@ class AutoTranslate:
         mode: str,
         component_wide: bool = False,
     ) -> None:
-        self.user = user
-        self.translation = translation
+        self.user: User | None = user
+        self.translation: Translation = translation
         translation.component.batch_checks = True
-        self.filter_type = filter_type
-        self.mode = mode
+        self.filter_type: str = filter_type
+        self.mode: str = mode
         self.updated = 0
         self.progress_steps = 0
+        self.progress_base = 0
         self.target_state = STATE_TRANSLATED
         if mode == "fuzzy":
             self.target_state = STATE_FUZZY
         elif mode == "approved" and translation.enable_review:
             self.target_state = STATE_APPROVED
-        self.component_wide = component_wide
+        self.component_wide: bool = component_wide
 
     def get_units(self):
         units = self.translation.unit_set.exclude(state=STATE_READONLY)
@@ -74,9 +79,8 @@ class AutoTranslate:
     ) -> None:
         if isinstance(target, str):
             target = [target]
-        if self.mode == "suggest" or any(
-            len(item) > unit.get_max_length() for item in target
-        ):
+        max_length = unit.get_max_length()
+        if self.mode == "suggest" or any(len(item) > max_length for item in target):
             suggestion = Suggestion.objects.add(
                 unit, target, request=None, vote=False, user=user, raise_exception=False
             )
@@ -95,6 +99,7 @@ class AutoTranslate:
 
     def post_process(self) -> None:
         if self.updated > 0:
+            self.translation.log_info("finalizing automatic translation")
             if not self.component_wide:
                 self.translation.component.update_source_checks()
                 self.translation.component.run_batched_checks()
@@ -182,9 +187,11 @@ class AutoTranslate:
 
         self.post_process()
 
-    def fetch_mt(self, engines_list: list[str], threshold: int):
+    def fetch_mt(
+        self, engines_list: list[str], threshold: int
+    ) -> dict[int, UnitMemoryResultDict]:
         """Get the translations."""
-        units = self.get_units()
+        units: list[Unit] = list(self.get_units())
         num_units = len(units)
 
         machinery_settings = self.translation.component.project.get_machinery_settings()
@@ -199,17 +206,21 @@ class AutoTranslate:
             reverse=True,
         )
 
-        self.progress_steps = 2 * (len(engines) + num_units)
+        self.progress_base = len(engines) * num_units
+        # Estimate number of strings to translate, this is adjusted in process_mt
+        self.progress_steps = self.progress_base + num_units
 
         for pos, translation_service in enumerate(engines):
             batch_size = translation_service.batch_size
             self.translation.log_info(
-                "fetching translations from %s, %d per request",
+                "fetching translations for %d units from %s, %d per request",
+                num_units,
                 translation_service.name,
                 batch_size,
             )
 
             for batch_start in range(0, num_units, batch_size):
+                self.set_progress(pos * num_units + batch_start)
                 try:
                     translation_service.batch_translate(
                         units[batch_start : batch_start + batch_size],
@@ -221,8 +232,8 @@ class AutoTranslate:
                     self.translation.log_error(
                         "failed automatic translation: %s", error
                     )
-                self.set_progress(pos * num_units + batch_start)
 
+        self.set_progress(self.progress_base)
         return {
             unit.id: unit.machinery
             for unit in units
@@ -234,8 +245,7 @@ class AutoTranslate:
         translations = self.fetch_mt(engines, int(threshold))
 
         # Adjust total number to show correct progress
-        offset = self.progress_steps // 2
-        self.progress_steps = offset + len(translations)
+        self.progress_steps = self.progress_base + len(translations)
 
         with transaction.atomic():
             # Perform the translation
@@ -245,10 +255,10 @@ class AutoTranslate:
                 .prefetch_bulk()
                 .select_for_update()
             ):
-                translation = translations[unit.pk]
+                translation: UnitMemoryResultDict = translations[unit.pk]
                 # Use first existing origin for user
                 # (there can be blanks for missing plurals)
-                user = None
+                user: User | None = None
                 for origin in translation["origin"]:
                     if origin is not None:
                         user = origin.user
@@ -260,7 +270,7 @@ class AutoTranslate:
                     translation["translation"],
                     user=user,
                 )
-                self.set_progress(offset + pos)
+                self.set_progress(self.progress_base + pos + 1)
 
             self.post_process()
 
@@ -275,7 +285,8 @@ class AutoTranslate:
         translation = self.translation
         with translation.component.lock:
             translation.log_info(
-                "starting automatic translation %s: %s: %s",
+                "starting automatic translation (%s) %s: %s: %s",
+                self.mode,
                 current_task.request.id
                 if current_task and current_task.request.id
                 else "",
