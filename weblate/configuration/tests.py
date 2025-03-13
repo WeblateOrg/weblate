@@ -34,7 +34,7 @@ class SettingsTestCase(TestCase):
         response = self.client.get(reverse("css-custom"))
         self.assertEqual(response.content.decode().strip(), "")
 
-    def test_split_colors(self):
+    def test_split_colors(self) -> None:
         self.assertEqual([None, None], CustomCSSView.split_colors(""))
         self.assertEqual([None, None], CustomCSSView.split_colors(None))
         self.assertEqual(["#ffffff", "#ffffff"], CustomCSSView.split_colors("#ffffff"))

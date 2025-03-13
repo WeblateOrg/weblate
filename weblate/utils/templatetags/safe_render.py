@@ -10,7 +10,7 @@ from django.template.defaulttags import do_for, do_if
 register = template.Library()
 
 
-@register.simple_tag()
+@register.simple_tag
 def replace(value, char, replace_char):
     return value.replace(char, replace_char)
 

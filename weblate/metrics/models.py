@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import datetime
 from itertools import zip_longest
+from typing import cast
 
 from django.core.cache import cache
 from django.db import models, transaction
@@ -22,12 +23,12 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
-    Change,
     Component,
     ComponentList,
     Project,
     Translation,
 )
+from weblate.trans.models.change import Change, ChangeQuerySet
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.stats import (
     BaseStats,
@@ -190,6 +191,7 @@ class MetricManager(models.Manager["Metric"]):
 
         This is used to fill in blanks in a history.
         """
+        changes: ChangeQuerySet
         if obj is None:
             changes = Change.objects.all()
         elif isinstance(
@@ -202,7 +204,7 @@ class MetricManager(models.Manager["Metric"]):
             | ProjectLanguage
             | CategoryLanguage,
         ):
-            changes = obj.change_set.all()
+            changes = cast("ChangeQuerySet", obj.change_set.all())  # type: ignore[misc]
         elif isinstance(obj, ComponentList):
             changes = Change.objects.filter(component__in=obj.components.all())
         elif isinstance(obj, Category):

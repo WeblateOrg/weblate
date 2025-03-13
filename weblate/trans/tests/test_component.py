@@ -1094,7 +1094,7 @@ class ComponentKeyFilterTest(ViewTestCase):
             units = translation.unit_set.all()
             self.assertEqual(len(units), 4)
 
-    def test_bilingual_component(self):
+    def test_bilingual_component(self) -> None:
         project = self.component.project
         component = self.create_po(
             name="Bilingual Test", project=project, key_filter="^tr"

@@ -6,6 +6,7 @@ from __future__ import annotations
 import os.path
 import subprocess
 from base64 import b64decode
+from contextlib import suppress
 from email import message_from_string
 from functools import partial
 from selectors import EVENT_READ, DefaultSelector
@@ -177,7 +178,13 @@ class GitHTTPBackendWrapper:
         return result
 
     def send_body(self) -> None:
-        self.process.stdin.write(self.request.body)  # type: ignore[union-attr]
+        # Fetch request body (it could be streamed)
+        body = self.request.body
+
+        with suppress(BrokenPipeError):
+            # Ignore broken pipe as that can happen when process failed with an error
+            self.process.stdin.write(body)  # type: ignore[union-attr]
+
         self.process.stdin.close()  # type: ignore[union-attr]
 
     def fetch_headers(self) -> None:

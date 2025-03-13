@@ -14,7 +14,7 @@ from weblate.utils.zammad import submit_zammad_ticket
 
 
 class ZammadTest(TestCase):
-    def mock_zammad(self):
+    def mock_zammad(self) -> None:
         submit_url = "https://example.com/api/v1/form_submit"
         responses.add(
             responses.POST,
@@ -27,13 +27,13 @@ class ZammadTest(TestCase):
 
     @override_settings(ZAMMAD_URL=None)
     @responses.activate
-    def test_unconfigured(self):
+    def test_unconfigured(self) -> None:
         with self.assertRaises(ImproperlyConfigured):
             submit_zammad_ticket(title="title", body="body", name="name", email="mail")
 
     @override_settings(ZAMMAD_URL=None)
     @responses.activate
-    def test_unconfigured_override(self):
+    def test_unconfigured_override(self) -> None:
         self.mock_zammad()
         self.assertEqual(
             submit_zammad_ticket(
@@ -48,7 +48,7 @@ class ZammadTest(TestCase):
 
     @override_settings(ZAMMAD_URL="https://example.com")
     @responses.activate
-    def test_configured(self):
+    def test_configured(self) -> None:
         self.mock_zammad()
         self.assertEqual(
             submit_zammad_ticket(title="title", body="body", name="name", email="mail"),

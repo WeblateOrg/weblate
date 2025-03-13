@@ -193,7 +193,7 @@ class EditTest(ViewTestCase):
 
         test_target = "TEST TRANSLATION"
 
-        def check_translated():
+        def check_translated() -> None:
             self.assertTrue(
                 Unit.objects.filter(
                     translation__language__code="cs",
@@ -726,6 +726,32 @@ class EditPropagateTest(EditTest):
                     unit.change_set.filter(action=ActionEvents.CHANGE).count(),
                     1,
                 )
+
+        # Bring strins out of sync
+        unit = self.get_unit()
+        test_edit = "Test edit\n"
+        unit.translate(
+            None,
+            test_edit,
+            STATE_TRANSLATED,
+            change_action=Change.ACTION_AUTO,
+            propagate=False,
+        )
+        self.assertEqual(set(get_targets()), {self.second_target, test_edit})
+        self.assertEqual(
+            {"inconsistent"}, set(unit.check_set.values_list("name", flat=True))
+        )
+
+        # Resync them
+        unit.translate(
+            None,
+            self.second_target,
+            STATE_TRANSLATED,
+            change_action=Change.ACTION_AUTO,
+            propagate=False,
+        )
+        self.assertEqual(set(get_targets()), {self.second_target})
+        self.assertEqual(set(), set(unit.check_set.values_list("name", flat=True)))
 
 
 class EditTSTest(EditTest):

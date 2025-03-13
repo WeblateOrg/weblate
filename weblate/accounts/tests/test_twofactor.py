@@ -28,7 +28,7 @@ class TwoFactorTestCase(FixtureTestCase):
         super().setUp()
         reset_rate_limit("login", address="127.0.0.1")
 
-    def test_recovery_codes(self):
+    def test_recovery_codes(self) -> None:
         user = self.user
         response = self.client.get(reverse("recovery-codes"))
         self.assertContains(response, "Recovery codes")
@@ -48,14 +48,14 @@ class TwoFactorTestCase(FixtureTestCase):
             self.user, None, "twofactor-add", device="", skip_notify=True
         )
 
-    def assert_audit_mail(self):
+    def assert_audit_mail(self) -> None:
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject, "[Weblate] Activity on your account at Weblate"
         )
         mail.outbox.clear()
 
-    def test_audit_maturing(self):
+    def test_audit_maturing(self) -> None:
         audit = self.create_webauthn_audit()
         audit.timestamp = now() - timedelta(minutes=10)
         audit.save()
@@ -63,7 +63,7 @@ class TwoFactorTestCase(FixtureTestCase):
         cleanup_auditlog()
         self.assert_audit_mail()
 
-    def test_webauthn(self):
+    def test_webauthn(self) -> None:
         user = self.user
         test_name = "test webauthn name"
         credential = WebAuthnCredential.objects.create(user=user)
@@ -122,7 +122,7 @@ class TwoFactorTestCase(FixtureTestCase):
         self.assert_audit_mail()
         return device
 
-    def test_totp(self):
+    def test_totp(self) -> None:
         test_name = "test totp name"
 
         device = self.add_totp(test_name)
@@ -137,7 +137,7 @@ class TwoFactorTestCase(FixtureTestCase):
         self.assertFalse(TOTPDevice.objects.all().exists())
         self.assert_audit_mail()
 
-    def test_login_plain(self):
+    def test_login_plain(self) -> None:
         self.client.logout()
         response = self.client.post(
             reverse("login"),
@@ -146,7 +146,7 @@ class TwoFactorTestCase(FixtureTestCase):
         )
         self.assertEqual(response.context["user"], self.user)
 
-    def test_login_totp(self):
+    def test_login_totp(self) -> None:
         device = self.add_totp()
         self.client.logout()
         response = self.client.post(
@@ -173,7 +173,7 @@ class TwoFactorTestCase(FixtureTestCase):
         )
         self.assertEqual(response.context["user"], self.user)
 
-    def test_team_enforced_2fa(self):
+    def test_team_enforced_2fa(self) -> None:
         # Turn on enforcement on all user teams
         self.user.groups.update(enforced_2fa=True)
         url = self.project.get_absolute_url()
@@ -188,7 +188,7 @@ class TwoFactorTestCase(FixtureTestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-    def test_project_enforced_2fa(self):
+    def test_project_enforced_2fa(self) -> None:
         # Turn on enforcement on project and make user an admin
         self.project.add_user(self.user, "Administration")
         self.project.enforced_2fa = True

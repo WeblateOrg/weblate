@@ -85,7 +85,7 @@ def display_fixups(request: AuthenticatedHttpRequest, fixups) -> None:
 
 def get_other_units(unit):
     """Return other units to show while translating."""
-    with sentry_sdk.start_span(op="unit.others", name=unit.pk):
+    with sentry_sdk.start_span(op="unit.others", name=f"{unit.pk}"):
         result: dict[str, Any] = {
             "total": 0,
             "skipped": False,
@@ -128,21 +128,8 @@ def get_other_units(unit):
                 translation__language=translation.language,
             )
             .annotate(matches_current=Count("id", filter=match))
-            .select_related(
-                "source_unit",
-                "translation",
-                "translation__language",
-                "translation__plural",
-                "translation__component",
-                "translation__component__category",
-                "translation__component__category__project",
-                "translation__component__category__category",
-                "translation__component__category__category__project",
-                "translation__component__category__category__category",
-                "translation__component__category__category__category__project",
-                "translation__component__project",
-                "translation__component__source_language",
-            )
+            .prefetch()
+            .prefetch_source()
             .order_by("-matches_current")
         )
 
@@ -176,6 +163,11 @@ def get_other_units(unit):
         result["skipped"] = units_count > max_units
 
         for item in units_limited:
+            # Inject source translation which we already have
+            item.translation.component.project.source_translation = (
+                item.source_unit.translation
+            )
+
             item.allow_merge = item.differently_translated = (
                 item.translated and item.target != unit.target
             )

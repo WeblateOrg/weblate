@@ -966,7 +966,7 @@ class Profile(models.Model):
             for device in self.second_factors
         )
 
-    def log_2fa(self, request: AuthenticatedHttpRequest, device: Device):
+    def log_2fa(self, request: AuthenticatedHttpRequest, device: Device) -> None:
         from weblate.accounts.utils import get_key_name, get_key_type
 
         # Audit log entry

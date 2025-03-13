@@ -161,12 +161,12 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertContains(response, "That was not correct, please try again.")
         self.assertContains(response, "Validation failed, please try again.")
 
-    def solve_altcha(self, response, data: dict):
+    def solve_altcha(self, response, data: dict) -> None:
         form = response.context["form"]
         challenge: Challenge = form.challenge
         data["altcha"] = solve_altcha(challenge)
 
-    def solve_math(self, response, data: dict):
+    def solve_math(self, response, data: dict) -> None:
         form = response.context["form"]
         data["captcha"] = form.mathcaptcha.result
 
