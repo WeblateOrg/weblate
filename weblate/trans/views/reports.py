@@ -26,8 +26,8 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
-# Header, two longer fields for name and email, shorter fields for numbers
-RST_HEADING = " ".join(["=" * 40] * 2 + ["=" * 24] * 20)
+# Header, three longer fields for name, email and date joined, shorter fields for numbers
+RST_HEADING = " ".join(["=" * 40] * 3 + ["=" * 24] * 24)
 
 HTML_HEADING = "<table>\n<tr>{0}</tr>"
 
@@ -364,9 +364,10 @@ def get_counts(request: AuthenticatedHttpRequest, path=None):
     else:
         start = "{0}\n{1} {2}\n{0}".format(
             RST_HEADING,
-            " ".join(f"{h:40}" for h in headers[:2]),
-            " ".join(f"{h:24}" for h in headers[2:]),
+            " ".join(f"{h:40}" for h in headers[:3]),
+            " ".join(f"{h:24}" for h in headers[3:]),
         )
+        print(start)
         row_start = ""
         cell_name = "{0:40} "
         cell_count = "{0:24} "

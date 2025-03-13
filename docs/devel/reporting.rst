@@ -15,7 +15,9 @@ processing of the data.
 
 You can choose predefined periods or enter a custom date range. In that case,
 the contributions are counted at midnight – that means that it includes the
-starting date and excludes the ending date.
+starting date and excludes the ending date. You can sort the contributors in
+the output by their join date or the number of strings they have translated,
+in either ascending or descending order.
 
 .. _num-words:
 
@@ -104,3 +106,5 @@ The following metrics are available for each:
    Amount of words in the translated string.
 `Target characters`
    Amount of characters in the translated string.
+
+The translator's join date is also included in the report.
