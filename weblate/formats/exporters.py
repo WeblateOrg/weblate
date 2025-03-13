@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import re
 from itertools import chain
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.translation import gettext_lazy
 from lxml.etree import XMLSyntaxError
@@ -30,6 +31,10 @@ from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 
 from .base import BaseExporter
 
+if TYPE_CHECKING:
+    from translate.storage.base import TranslationStore
+    from translate.storage.lisa import LISAfile
+
 # Map to remove control characters except newlines and tabs
 # Based on lxml - src/lxml/apihelpers.pxi _is_valid_xml_utf8
 XML_REPLACE_CHARMAP = dict.fromkeys(
@@ -48,7 +53,7 @@ class PoExporter(BaseExporter):
     content_type = "text/x-po"
     extension = "po"
     verbose = gettext_lazy("gettext PO")
-    storage_class = pofile
+    storage_class: ClassVar[type[TranslationStore]] = pofile
 
     def store_flags(self, output, flags) -> None:
         for flag in flags.items():
@@ -78,6 +83,8 @@ class XMLFilterMixin(BaseExporter):
 class XMLExporter(XMLFilterMixin, BaseExporter):
     """Wrapper for XML based exporters to strip control characters."""
 
+    storage_class: ClassVar[type[LISAfile]]
+
     def get_storage(self):
         return self.storage_class(
             sourcelanguage=self.source_language.code,
@@ -94,7 +101,7 @@ class PoXliffExporter(XMLExporter):
     extension = "xlf"
     set_id = True
     verbose = gettext_lazy("XLIFF 1.1 with gettext extensions")
-    storage_class = PoXliffFile
+    storage_class: ClassVar[type[LISAfile]] = PoXliffFile
 
     def store_flags(self, output, flags) -> None:
         if flags.has_value("max-length"):

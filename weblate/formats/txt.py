@@ -17,7 +17,6 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.formats.base import (
     BaseItem,
     BaseStore,
-    InnerStore,
     TranslationFormat,
     TranslationUnit,
 )
@@ -206,7 +205,7 @@ class AppStoreFormat(TranslationFormat):
     store: AppStoreParser
 
     def load(
-        self, storefile: str | BinaryIO, template_store: InnerStore | None
+        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
     ) -> AppStoreParser:
         return AppStoreParser(storefile)
 
