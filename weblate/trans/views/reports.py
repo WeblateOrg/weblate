@@ -276,7 +276,7 @@ def generate_counts(
         current["count_" + suffix] += 1
 
     result_list = list(result.values())
-    sort_by_key = "edits" if sort_by == "count" else "date_joined"
+    sort_by_key = "count" if sort_by == "count" else "date_joined"
     reverse = sort_order == "descending"
     result_list.sort(key=itemgetter(sort_by_key), reverse=reverse)
 
