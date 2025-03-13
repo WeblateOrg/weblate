@@ -10,7 +10,7 @@ import os
 import tempfile
 from copy import copy
 from pathlib import Path
-from typing import TYPE_CHECKING, BinaryIO, NoReturn, TypeAlias
+from typing import TYPE_CHECKING, BinaryIO, ClassVar, TypeAlias
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -27,10 +27,9 @@ from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Sequence
+    from collections.abc import Callable, Iterator, Sequence
 
     from django_stubs_ext import StrOrPromise
-    from translate.storage.base import TranslationStore
 
     from weblate.trans.models import Unit
 
@@ -120,6 +119,10 @@ class UpdateError(Exception):
         self.output = output
 
 
+class MissingTemplateError(TypeError):
+    pass
+
+
 class BaseItem:
     pass
 
@@ -143,14 +146,15 @@ class TranslationUnit:
 
     id_hash_with_source: bool = False
     template: InnerUnit | None
-    unit: InnerUnit
+    unit: InnerUnit | None
     parent: TranslationFormat
     mainunit: InnerUnit
+    empty_unit_ok: ClassVar[bool] = False
 
     def __init__(
         self,
         parent: TranslationFormat,
-        unit: InnerUnit,
+        unit: InnerUnit | None,
         template: InnerUnit | None = None,
     ) -> None:
         """Create wrapper object."""
@@ -159,6 +163,10 @@ class TranslationUnit:
         self.parent = parent
         if template is not None:
             self.mainunit = template
+        elif unit is None and not self.empty_unit_ok:
+            # MultiUnit is just wrapper around more unit objects, does not have
+            # actual main unit
+            raise MissingTemplateError
         else:
             self.mainunit = unit
 
@@ -293,6 +301,8 @@ class TranslationUnit:
         return self.unit is not None
 
     def clone_template(self) -> None:
+        if self.template is None:
+            raise MissingTemplateError
         self.mainunit = self.unit = copy(self.template)
         self._invalidate_target()
 
@@ -387,7 +397,7 @@ class TranslationFormat:
         return [self.storefile.name]
 
     def load(
-        self, storefile: str | BinaryIO, template_store: InnerStore | None
+        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
     ) -> InnerStore:
         raise NotImplementedError
 
@@ -448,7 +458,7 @@ class TranslationFormat:
         return result, add
 
     @cached_property
-    def _unit_index(self):
+    def _unit_index(self) -> dict[int, TranslationUnit]:
         """Context and source based index for units."""
         return {unit.id_hash: unit for unit in self.content_units}
 
@@ -510,7 +520,7 @@ class TranslationFormat:
     @property
     def all_store_units(self) -> list[InnerUnit]:
         """Wrapper for all store units for possible filtering."""
-        return self.store.units
+        return self.store.units  # type: ignore[return-value]
 
     @cached_property
     def template_units(self) -> list[TranslationUnit]:
@@ -527,6 +537,8 @@ class TranslationFormat:
         )
 
     def _get_all_monolingual_units(self) -> list[TranslationUnit]:
+        if self.template_store is None:
+            raise MissingTemplateError
         return [
             self._build_monolingual_unit(unit)
             for unit in self.template_store.template_units
@@ -689,7 +701,9 @@ class TranslationFormat:
         """Handle creation of new translation file."""
         raise NotImplementedError
 
-    def iterate_merge(self, fuzzy: str, only_translated: bool = True):
+    def iterate_merge(
+        self, fuzzy: str, only_translated: bool = True
+    ) -> Iterator[tuple[bool, TranslationUnit]]:
         """
         Iterate over units for merging.
 
@@ -717,7 +731,7 @@ class TranslationFormat:
         key: str,
         source: str | list[str],
         target: str | list[str] | None = None,
-    ) -> TranslationUnit:
+    ) -> InnerUnit:
         raise NotImplementedError
 
     def new_unit(
@@ -725,19 +739,20 @@ class TranslationFormat:
         key: str,
         source: str | list[str],
         target: str | list[str] | None = None,
-    ):
+    ) -> TranslationUnit:
         """Add new unit to monolingual store."""
         # Create backend unit object
         unit = self.create_unit(key, source, target)
 
         # Build an unit object
+        template_unit: InnerUnit | None
         if self.has_template:
             if self.is_template:
                 template_unit = unit
             else:
                 template_unit = self._find_unit_monolingual(
                     key, join_plural(source) if isinstance(source, list) else source
-                )[0]
+                )[0].unit
         else:
             template_unit = None
         result = self.unit_class(self, unit, template_unit)
@@ -762,14 +777,14 @@ class TranslationFormat:
         return result
 
     @classmethod
-    def get_class(cls) -> NoReturn:
+    def get_class(cls) -> InnerStore | None:
         raise NotImplementedError
 
     @classmethod
     def add_breadcrumb(cls, message, **data) -> None:
         add_breadcrumb(category="storage", message=message, **data)
 
-    def delete_unit(self, ttkit_unit) -> str | None:
+    def delete_unit(self, ttkit_unit: InnerUnit) -> str | None:
         raise NotImplementedError
 
     def cleanup_unused(self) -> list[str] | None:
@@ -831,7 +846,7 @@ class TranslationFormat:
         self._invalidate_units()
         return result
 
-    def remove_unit(self, ttkit_unit) -> list[str]:
+    def remove_unit(self, ttkit_unit: InnerUnit) -> list[str]:
         """High level wrapper for unit removal."""
         changed = False
 
@@ -892,7 +907,7 @@ class BaseExporter:
     name = ""
     verbose: StrOrPromise = ""
     set_id = False
-    storage_class: type[TranslationStore]
+    storage_class: ClassVar[type[TranslateToolkitStore]]
 
     def __init__(
         self,
@@ -944,17 +959,17 @@ class BaseExporter:
     def get_storage(self):
         return self.storage_class()
 
-    def add(self, unit, word) -> None:
+    def add(self, unit: TranslateToolkitUnit, word: str) -> None:
         unit.target = word
 
-    def create_unit(self, source):
+    def create_unit(self, source: str) -> TranslateToolkitUnit:
         return self.storage.UnitClass(source)
 
-    def add_units(self, units) -> None:
+    def add_units(self, units: list[Unit]) -> None:
         for unit in units:
             self.add_unit(unit)
 
-    def build_unit(self, unit):
+    def build_unit(self, unit: Unit) -> TranslateToolkitUnit:
         output = self.create_unit(self.handle_plurals(unit.get_source_plurals()))
         # Propagate source language
         if hasattr(output, "setsource"):
@@ -965,7 +980,7 @@ class BaseExporter:
     def add_note(self, output, note: str, origin: str) -> None:
         output.addnote(note, origin=origin)
 
-    def add_unit(self, unit) -> None:
+    def add_unit(self, unit: Unit) -> None:
         output = self.build_unit(unit)
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)

@@ -26,7 +26,7 @@ from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 from weblate.utils.data import data_dir
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterable
+    from collections.abc import Callable, Generator, Iterable
 
     from django.db.models import Model
 
@@ -81,7 +81,9 @@ def join_plural(plurals: Iterable[str]) -> str:
     return PLURAL_SEPARATOR.join(plurals)
 
 
-def get_string(text: str | multistring | list | GeneratorType | None) -> str:
+def get_string(
+    text: str | multistring | list | Generator[str, None, None] | None,
+) -> str:
     """Return correctly formatted string from ttkit unit data."""
     # Check for null target (happens with XLIFF)
     if text is None:
