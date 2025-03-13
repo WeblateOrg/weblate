@@ -1,9 +1,7 @@
 Weblate 5.10.3
 --------------
 
-*Not yet released.*
-
-.. rubric:: New features
+*Released on March 13th 2025.*
 
 .. rubric:: Improvements
 
@@ -16,8 +14,6 @@ Weblate 5.10.3
 * Reduced notifications overhead.
 * Improved handling of components using :ref:`internal-urls`.
 * Fixed authenticating with some Git servers.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
