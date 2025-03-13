@@ -43,7 +43,7 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import using_postgresql, verify_in_transaction
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import (
@@ -1151,6 +1151,7 @@ class Unit(models.Model, LoggerMixin):
         This should be always called in a transaction with updated unit
         locked for update.
         """
+        verify_in_transaction()
         # For case when authorship specified, use user
         author = author or user
 
@@ -1912,6 +1913,7 @@ class Unit(models.Model, LoggerMixin):
         self, explanation: str, user: User, save: bool = True
     ) -> None:
         """Update glossary explanation."""
+        verify_in_transaction()
         old = self.explanation
         self.explanation = explanation
         file_format_support = (
