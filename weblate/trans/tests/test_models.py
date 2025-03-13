@@ -144,7 +144,7 @@ class ProjectTest(RepoTestCase):
             )
             user = create_test_user()
             translation = component.translation_set.get(language_code="cs")
-            unit = translation.unit_set.all()[0]
+            unit = translation.unit_set.get(source="Hello, world!\n")
             suggestion = Suggestion.objects.add(unit, ["Test"], None)
             Vote.objects.create(suggestion=suggestion, value=Vote.POSITIVE, user=user)
         component.project.delete()
@@ -157,7 +157,7 @@ class ProjectTest(RepoTestCase):
             user = create_test_user()
             another_user = create_another_user()
             translation = component.translation_set.get(language_code="cs")
-            unit: Unit = translation.unit_set.all()[0]
+            unit = translation.unit_set.get(source="Hello, world!\n")
 
             unit.translate(user, "Translation of unit ", STATE_TRANSLATED)
 
