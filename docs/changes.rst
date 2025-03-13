@@ -9,6 +9,8 @@ Weblate 5.10.4
 
 .. rubric:: Bug fixes
 
+* Fixed dismissing of checks.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
