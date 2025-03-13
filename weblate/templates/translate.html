@@ -235,14 +235,14 @@
                     </div>
                   {% endif %}
                 {% endwith %}
-                <button class="btn btn-primary"
+                <button class="btn {% if theme == 'dark' %}btn-warning{% else %}btn-primary{% endif %}"
                         type="submit"
                         name="save"
                         {% if locked %} disabled="disabled" {% elif not user_can_translate and not user_can_edit_flags %} disabled="disabled" {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %} disabled="disabled" {% endif %}>
                   {% trans "Save and continue" %}
                 </button>
 
-                <button class="btn btn-warning btn-spaced"
+                <button class="btn {% if theme == 'dark' %}btn-primary{% else %}btn-warning{% endif %} btn-spaced"
                         type="submit"
                         name="save-stay"
                         {% if locked %} disabled="disabled" {% elif not user_can_translate and not user_can_edit_flags %} disabled="disabled" {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %} disabled="disabled" {% endif %}>
@@ -250,7 +250,7 @@
                 </button>
 
                 {% if unit.translation.enable_suggestions %}
-                  <button class="btn btn-warning btn-spaced"
+                  <button class="btn {% if theme == 'dark' %}btn-primary{% else %}btn-warning{% endif %} btn-spaced"
                           type="submit"
                           name="suggest"
                           {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
@@ -258,7 +258,9 @@
                     {% icon "suggest.svg" %} {% trans "Suggest" %}
                   </button>
                 {% endif %}
-                <a class="btn btn-warning btn-spaced skip" href="{{ next_unit_url }}" rel="next">
+                <a class="btn {% if theme == 'dark' %}btn-primary{% else %}btn-warning{% endif %} btn-spaced skip"
+                   href="{{ next_unit_url }}"
+                   rel="next">
                   {% if LANGUAGE_BIDI %}
                     {% icon "rewind.svg" %}
                   {% else %}
