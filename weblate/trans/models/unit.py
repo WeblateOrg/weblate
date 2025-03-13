@@ -208,7 +208,7 @@ class UnitQuerySet(models.QuerySet):
     def same_target(self, unit: Unit, target: str | None = None) -> UnitQuerySet:
         if target is None:
             target = unit.target
-        if not target:
+        if not target or not any(split_plural(target)):
             return self.none()
         translation = unit.translation
         component = translation.component
