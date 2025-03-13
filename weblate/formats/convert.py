@@ -138,7 +138,7 @@ class ConvertFormat(TranslationFormat):
         return False
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationStore | None
+        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
     ) -> TranslationStore:
         # Did we get file or filename?
         if not hasattr(storefile, "read"):

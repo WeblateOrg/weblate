@@ -39,6 +39,7 @@ import weblate.utils.version
 from weblate.checks.flags import Flags
 from weblate.formats.base import (
     BilingualUpdateMixin,
+    MissingTemplateError,
     TranslationFormat,
     TranslationUnit,
     UpdateError,
@@ -196,6 +197,8 @@ class KeyValueUnit(TTKitUnit):
         """Return source string from a Translate Toolkit unit."""
         if self.template is not None:
             return get_string(self.template.source)
+        if self.unit is None:
+            raise MissingTemplateError
         return get_string(self.unit.name)
 
     @cached_property
@@ -265,7 +268,7 @@ class TTKitFormat(TranslationFormat):
             store.setsourcelanguage(self.source_language)
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationStore | None
+        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
     ) -> TranslationStore:
         """Load file using defined loader."""
         if isinstance(storefile, TranslationStore):
@@ -275,7 +278,7 @@ class TTKitFormat(TranslationFormat):
         return self.parse_store(storefile)
 
     @classmethod
-    def get_class(cls):
+    def get_class(cls) -> TranslationStore:
         """Return class for handling this module."""
         # Direct class
         if inspect.isclass(cls.loader):
@@ -1863,7 +1866,7 @@ class INIFormat(TTKitFormat):
         return "ini"
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationStore | None
+        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
     ) -> TranslationStore:
         store = super().load(storefile, template_store)
         # Adjust store to have translations
@@ -2063,6 +2066,7 @@ class TBXFormat(TTKitFormat):
     use_settarget = True
     monolingual = False
     supports_explanation: bool = True
+    store: tbxfile
 
     def __init__(
         self,
