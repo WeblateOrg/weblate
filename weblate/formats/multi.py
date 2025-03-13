@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
@@ -25,6 +25,7 @@ if TYPE_CHECKING:
 class MultiUnit(TranslationUnit):
     units: list[TranslationUnit]
     parent: MultiFormatMixin
+    empty_unit_ok: ClassVar[bool] = True
 
     def __init__(
         self,
