@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import re
 from functools import partial
+from itertools import chain
 from typing import TYPE_CHECKING, Any, TypedDict
 
 import sentry_sdk
@@ -25,6 +26,7 @@ from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
 from weblate.memory.tasks import handle_unit_translation_change
 from weblate.memory.utils import is_valid_memory_entry
+from weblate.trans.actions import ActionEvents
 from weblate.trans.autofixes import fix_target
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
@@ -42,7 +44,7 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import using_postgresql, verify_in_transaction
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import (
@@ -59,6 +61,7 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.formats.base import TranslationUnit
     from weblate.machinery.base import UnitMemoryResultDict
 
 SIMPLE_FILTERS: dict[str, dict[str, Any]] = {
@@ -179,14 +182,14 @@ class UnitQuerySet(models.QuerySet):
             )
         )
 
-    def search(self, query, **context):
+    def search(self, query, **context) -> UnitQuerySet:
         """High level wrapper for searching."""
         from weblate.utils.search import parse_query
 
         result = self.filter(parse_query(query, **context))
         return result.distinct()
 
-    def same(self, unit, exclude=True):
+    def same(self, unit: Unit, exclude: bool = True) -> UnitQuerySet:
         """Get units with same source within same project."""
         translation = unit.translation
         component = translation.component
@@ -203,10 +206,10 @@ class UnitQuerySet(models.QuerySet):
             result = result.exclude(pk=unit.id)
         return result
 
-    def same_target(self, unit: Unit, target: str | None = None):
+    def same_target(self, unit: Unit, target: str | None = None) -> UnitQuerySet:
         if target is None:
             target = unit.target
-        if not target:
+        if not target or not any(split_plural(target)):
             return self.none()
         translation = unit.translation
         component = translation.component
@@ -221,7 +224,7 @@ class UnitQuerySet(models.QuerySet):
             translation__plural__number__gt=1,
         ).exclude(source=unit.source)
 
-    def order_by_request(self, form_data, obj):
+    def order_by_request(self, form_data, obj) -> UnitQuerySet:
         sort_list_request = form_data.get("sort_by", "").split(",")
         available_sort_choices = [
             "priority",
@@ -268,7 +271,7 @@ class UnitQuerySet(models.QuerySet):
             )
         return self.order_by(*sort_list)
 
-    def order_by_count(self, choice, count_filter):
+    def order_by_count(self, choice: str, count_filter) -> UnitQuerySet:
         model = choice.split("__")[0].replace("-", "")
         annotation_name = choice.replace("-", "")
         return self.annotate(
@@ -280,10 +283,10 @@ class UnitQuerySet(models.QuerySet):
         return {(unit.context, unit.source): unit for unit in self}
 
     @cached_property
-    def source_lookup(self):
+    def source_lookup(self) -> dict[str, Unit]:
         return {unit.source: unit for unit in self}
 
-    def get_unit(self, ttunit):
+    def get_unit(self, ttunit: TranslationUnit) -> Unit:
         """
         Find unit matching translate-toolkit unit.
 
@@ -336,7 +339,7 @@ class UnitQuerySet(models.QuerySet):
         """Return list of units ordered by ID."""
         return sorted(self.filter(id__in=ids), key=lambda unit: ids.index(unit.id))
 
-    def select_for_update(self):
+    def select_for_update(self) -> UnitQuerySet:  # type: ignore[override]
         return super().select_for_update(no_key=using_postgresql())
 
     def annotate_stats(self):
@@ -497,12 +500,12 @@ class Unit(models.Model, LoggerMixin):
             # Avoid storing if .only() was used to fetch the query (eg. in stats)
             self.store_old_unit(self)
 
-    def save(
+    def save(  # type: ignore[override]
         self,
         *,
         same_content: bool = False,
         run_checks: bool = True,
-        propagate_checks: bool | None = None,
+        force_propagate_checks: bool = False,
         force_insert: bool = False,
         force_update: bool = False,
         only_save: bool = False,
@@ -546,7 +549,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update checks if content or fuzzy flag has changed
         if run_checks:
-            self.run_checks(propagate_checks)
+            self.run_checks(force_propagate=force_propagate_checks)
         if self.is_source:
             self.source_unit_save()
 
@@ -623,7 +626,7 @@ class Unit(models.Model, LoggerMixin):
         ):
             # We can not exclude current unit here as we need to trigger
             # the updates below
-            for unit in self.unit_set.prefetch().prefetch_bulk():
+            for unit in self.unit_set.select_for_update().prefetch().prefetch_bulk():
                 # Share component instance for locking and possible bulk updates
                 unit.translation.component = self.translation.component
                 unit.update_state()
@@ -932,7 +935,7 @@ class Unit(models.Model, LoggerMixin):
                 self.generate_change(
                     None,
                     None,
-                    Change.ACTION_SOURCE_CHANGE,
+                    ActionEvents.SOURCE_CHANGE,
                     check_new=False,
                     old=source_change,
                     target=self.source,
@@ -983,7 +986,7 @@ class Unit(models.Model, LoggerMixin):
             self.state = self.original_state
             self.save(same_content=True, run_checks=False, update_fields=["state"])
 
-    def update_priority(self, save=True) -> None:
+    def update_priority(self, save: bool = True) -> None:
         if self.all_flags.has_value("priority"):
             priority = self.all_flags.get_value("priority")
         else:
@@ -996,20 +999,20 @@ class Unit(models.Model, LoggerMixin):
                 )
 
     @cached_property
-    def is_plural(self):
+    def is_plural(self) -> bool:
         """Check whether message is plural."""
         return is_plural(self.source) or is_plural(self.target)
 
     @cached_property
-    def is_source(self):
+    def is_source(self) -> bool:
         return self.source_unit_id is None or self.source_unit_id == self.id
 
-    def get_source_plurals(self):
+    def get_source_plurals(self) -> list[str]:
         """Return source plurals in array."""
         return split_plural(self.source)
 
     @cached_property
-    def source_string(self):
+    def source_string(self) -> str:
         """
         Return a single source string.
 
@@ -1022,7 +1025,9 @@ class Unit(models.Model, LoggerMixin):
             return singular
         return plurals[1]
 
-    def adjust_plurals(self, values, plurals=None):
+    def adjust_plurals(
+        self, values: list[str], plurals: int | None = None
+    ) -> list[str]:
         if not self.is_plural:
             plurals = 1
         elif plurals is None:
@@ -1042,7 +1047,7 @@ class Unit(models.Model, LoggerMixin):
 
         return values
 
-    def get_target_plurals(self, plurals=None):
+    def get_target_plurals(self, plurals: int | None = None) -> list[str]:
         """Return target plurals in array."""
         # Split plurals
         ret = split_plural(self.target)
@@ -1052,7 +1057,9 @@ class Unit(models.Model, LoggerMixin):
 
         return ret
 
-    def propagate(self, user: User, change_action=None, author=None, request=None):
+    def propagate(
+        self, user: User | None, change_action=None, author=None, request=None
+    ) -> bool:
         """Propagate current translation to all others."""
         from weblate.auth.permissions import PermissionResult
 
@@ -1102,7 +1109,7 @@ class Unit(models.Model, LoggerMixin):
                 unit.post_save(
                     user,
                     user,
-                    change_action=Change.ACTION_PROPAGATED_EDIT,
+                    change_action=ActionEvents.PROPAGATED_EDIT,
                     check_new=False,
                     save=False,
                 )
@@ -1113,11 +1120,12 @@ class Unit(models.Model, LoggerMixin):
             Change.objects.bulk_create(changes)
 
             # Update user stats
-            user.profile.increase_count("translated", len(to_update))
+            if user is not None:
+                user.profile.increase_count("translated", len(to_update))
 
             return True
 
-    def commit_if_pending(self, author: User) -> None:
+    def commit_if_pending(self, author: User | None) -> None:
         """Commit possible previous changes on this unit."""
         if self.pending:
             change_author = self.get_last_content_change()[0]
@@ -1129,7 +1137,7 @@ class Unit(models.Model, LoggerMixin):
 
     def save_backend(
         self,
-        user: User,
+        user: User | None,
         propagate: bool = True,
         change_action=None,
         author: User | None = None,
@@ -1144,6 +1152,7 @@ class Unit(models.Model, LoggerMixin):
         This should be always called in a transaction with updated unit
         locked for update.
         """
+        verify_in_transaction()
         # For case when authorship specified, use user
         author = author or user
 
@@ -1158,15 +1167,15 @@ class Unit(models.Model, LoggerMixin):
                 user, change_action, author=author, request=request
             )
 
-        unchanged = (
-            self.old_unit["state"] == self.state
-            and self.old_unit["target"] == self.target
-            and self.old_unit["explanation"] == self.explanation
-        )
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
-        if unchanged and not was_propagated:
+        if (
+            self.old_unit["state"] == self.state
+            and self.old_unit["target"] == self.target
+            and self.old_unit["explanation"] == self.explanation
+            and not was_propagated
+        ):
             return False
 
         update_fields = ["target", "state", "original_state", "pending", "explanation"]
@@ -1188,7 +1197,7 @@ class Unit(models.Model, LoggerMixin):
         self.save(
             update_fields=update_fields,
             run_checks=run_checks,
-            propagate_checks=was_propagated or not unchanged,
+            force_propagate_checks=was_propagated,
         )
 
         # Generate change and process it
@@ -1215,9 +1224,9 @@ class Unit(models.Model, LoggerMixin):
         )
 
         if change.action not in {
-            Change.ACTION_UPLOAD,
-            Change.ACTION_AUTO,
-            Change.ACTION_BULK_EDIT,
+            ActionEvents.UPLOAD,
+            ActionEvents.AUTO,
+            ActionEvents.BULK_EDIT,
         }:
             old_translated = self.translation.stats.translated
 
@@ -1240,7 +1249,7 @@ class Unit(models.Model, LoggerMixin):
         return change
 
     def update_source_units(
-        self, previous_source: str, user: User, author: User | None
+        self, previous_source: str, user: User | None, author: User | None
     ) -> None:
         """
         Update source for units within same component.
@@ -1289,7 +1298,7 @@ class Unit(models.Model, LoggerMixin):
                     unit.generate_change(
                         user,
                         author,
-                        Change.ACTION_SOURCE_CHANGE,
+                        ActionEvents.SOURCE_CHANGE,
                         check_new=False,
                         old=previous_source,
                         target=self.target,
@@ -1323,7 +1332,7 @@ class Unit(models.Model, LoggerMixin):
         ):
             self.change_set.create(
                 unit=self,
-                action=Change.ACTION_NEW_CONTRIBUTOR,
+                action=ActionEvents.NEW_CONTRIBUTOR,
                 user=user,
                 author=author,
             )
@@ -1332,16 +1341,16 @@ class Unit(models.Model, LoggerMixin):
         if change_action is not None:
             action = change_action
         elif self.state == STATE_FUZZY:
-            action = Change.ACTION_MARKED_EDIT
+            action = ActionEvents.MARKED_EDIT
         elif self.old_unit["state"] >= STATE_FUZZY:
             if self.state == STATE_APPROVED:
-                action = Change.ACTION_APPROVE
+                action = ActionEvents.APPROVE
             else:
-                action = Change.ACTION_CHANGE
+                action = ActionEvents.CHANGE
         elif self.state == STATE_APPROVED:
-            action = Change.ACTION_APPROVE
+            action = ActionEvents.APPROVE
         else:
-            action = Change.ACTION_NEW
+            action = ActionEvents.NEW
 
         # Create change object
         change = Change(
@@ -1409,7 +1418,9 @@ class Unit(models.Model, LoggerMixin):
             if not comment.resolved and comment.unit_id == self.id
         ]
 
-    def run_checks(self, propagate: bool | None = None) -> None:  # noqa: C901
+    def run_checks(  # noqa: C901
+        self, *, force_propagate: bool = False, skip_propagate: bool = False
+    ) -> None:
         """Update checks for this unit."""
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
@@ -1417,6 +1428,7 @@ class Unit(models.Model, LoggerMixin):
         old_checks = self.all_checks_names
         create = []
 
+        args: tuple[list[str], Unit] | tuple[list[str], list[str], Unit]
         if self.is_source:
             checks = CHECKS.source
             meth = "check_source"
@@ -1430,11 +1442,13 @@ class Unit(models.Model, LoggerMixin):
             meth = "check_target"
             args = src, tgt, self
 
+        # Initial propagation setup
+        propagated_unit_lists: list[UnitQuerySet] = []
+        if force_propagate:
+            # Unit edit was propagated, so need to be the checks
+            propagated_unit_lists.append(self.same_source_units)
+
         # Run all checks
-        if propagate is True:
-            propagated_units = self.same_source_units
-        else:
-            propagated_units = Unit.objects.none()
         for check, check_obj in checks.items():
             # Does the check fire?
             if getattr(check_obj, meth)(*args):
@@ -1446,20 +1460,27 @@ class Unit(models.Model, LoggerMixin):
                     # Create new check
                     create.append(Check(unit=self, dismissed=False, name=check))
                     if check_obj.propagates:
-                        propagated_units |= check_obj.get_propagated_units(self)
+                        propagated_unit_lists.append(
+                            check_obj.get_propagated_units(self)
+                        )
 
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
 
         # Propagate checks which need it (for example consistency)
-        if propagate is not False and propagated_units:
-            for unit in propagated_units:
+        if not skip_propagate and propagated_unit_lists:
+            # Always skip self in case it would appear in the list
+            processed: set[int] = {self.pk}
+            for unit in chain.from_iterable(propagated_unit_lists):
+                if unit.pk in processed:
+                    continue
+                processed.add(unit.pk)
                 try:
                     # Ensure we get a fresh copy of checks
                     # It might be modified meanwhile by propagating to other units
                     unit.clear_checks_cache()
 
-                    unit.run_checks(False)
+                    unit.run_checks(force_propagate=False, skip_propagate=False)
                 except Unit.DoesNotExist:
                     # This can happen in some corner cases like changing
                     # source language of a project - the source language is
@@ -1583,27 +1604,26 @@ class Unit(models.Model, LoggerMixin):
         self.store_old_unit(old_unit)
 
         # Handle simple string units
-        if isinstance(new_target, str):
-            new_target = [new_target]
+        new_target_list = [new_target] if isinstance(new_target, str) else new_target
 
         # Handle managing alternative translations
         if add_alternative:
-            new_target.append("")
+            new_target_list.append("")
         elif component.is_multivalue:
-            new_target = [target for target in new_target if target]
-            if not new_target:
-                new_target = [""]
+            new_target_list = [target for target in new_target_list if target]
+            if not new_target_list:
+                new_target_list = [""]
 
         if not component.is_multivalue:
-            new_target = self.adjust_plurals(new_target)
+            new_target_list = self.adjust_plurals(new_target_list)
 
         # Apply autofixes
         if not self.translation.is_template:
-            new_target, self.fixups = fix_target(new_target, self)
+            new_target_list, self.fixups = fix_target(new_target_list, self)
 
         # Update unit and save it
-        self.target = join_plural(new_target)
-        not_empty = any(new_target)
+        self.target = join_plural(new_target_list)
+        not_empty = any(new_target_list)
 
         # Newlines fixup
         if "dos-eol" in self.all_flags:
@@ -1646,7 +1666,7 @@ class Unit(models.Model, LoggerMixin):
         ):
             self.update_translation_memory(user)
 
-        if change_action == Change.ACTION_AUTO:
+        if change_action == ActionEvents.AUTO:
             self.labels.add(component.project.automatically_translated_label)
         else:
             self.labels.through.objects.filter(
@@ -1745,7 +1765,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
     @cached_property
-    def same_target_units(self):
+    def same_target_units(self) -> UnitQuerySet:
         return Unit.objects.same_target(self)
 
     def get_max_length(self):
@@ -1894,6 +1914,8 @@ class Unit(models.Model, LoggerMixin):
         self, explanation: str, user: User, save: bool = True
     ) -> None:
         """Update glossary explanation."""
+        verify_in_transaction()
+        old = self.explanation
         self.explanation = explanation
         file_format_support = (
             self.translation.component.file_format_cls.supports_explanation
@@ -1901,7 +1923,7 @@ class Unit(models.Model, LoggerMixin):
         units: Iterable[Unit] = []
         if file_format_support:
             if self.is_source:
-                units = self.unit_set.exclude(id=self.id)
+                units = self.unit_set.exclude(id=self.id).select_for_update()
                 units.update(pending=True)
             else:
                 self.pending = True
@@ -1910,16 +1932,15 @@ class Unit(models.Model, LoggerMixin):
         if save:
             self.save(update_fields=["explanation", "pending"], only_save=True)
 
-        if not file_format_support:
-            return
-
         for unit in units:
             unit.generate_change(
                 user=user,
                 author=user,
-                change_action=Change.ACTION_EXPLANATION,
+                change_action=ActionEvents.EXPLANATION,
                 check_new=False,
                 save=True,
+                target=explanation,
+                old=old,
             )
 
     @cached_property

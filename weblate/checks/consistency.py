@@ -13,6 +13,7 @@ from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.checks.base import BatchCheckMixin, TargetCheck
+from weblate.trans.actions import ActionEvents
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -295,25 +296,20 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         return gettext('Previous translation was "%s".') % target
 
     def should_skip_change(self, change, unit: Unit):
-        from weblate.trans.models import Change
-
         # Skip automatic translation entries adding needs editing string
         return (
-            change.action == Change.ACTION_AUTO
+            change.action == ActionEvents.AUTO
             and change.details.get("state", STATE_TRANSLATED) < STATE_TRANSLATED
         )
 
     @staticmethod
     def should_break_changes(change):
-        from weblate.trans.models import Change
-
         # Stop changes processing on source string change or on
         # intentional marking as needing edit
-        return change.action in {Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT}
-
-    def handle_batch(self, unit: Unit, component: Component) -> Literal[False] | str:  # type: ignore[override]
-        # TODO: this is type annotation hack, instead the check should have a proper return type
-        return super().handle_batch(unit, component)  # type: ignore[return-value]
+        return change.action in {
+            ActionEvents.SOURCE_CHANGE,
+            ActionEvents.MARKED_EDIT,
+        }
 
     def check_target_unit(  # type: ignore[override]
         self, sources: list[str], targets: list[str], unit: Unit
@@ -325,7 +321,10 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         component = unit.translation.component
 
         if component.batch_checks:
-            return self.handle_batch(unit, component)
+            if self.handle_batch(unit, component):
+                # This needs to be true-ish value
+                return "present"
+            return False
 
         from weblate.trans.models import Change
 

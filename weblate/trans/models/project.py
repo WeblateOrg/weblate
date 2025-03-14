@@ -9,7 +9,7 @@ import os.path
 from collections import UserDict
 from datetime import datetime
 from operator import itemgetter
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.conf import settings
 from django.core.cache import cache
@@ -26,6 +26,7 @@ from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
+from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.utils.data import data_dir
@@ -43,6 +44,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
 
     from weblate.auth.models import User
+    from weblate.machinery.base import SettingsDict
     from weblate.trans.backups import BackupListDict
     from weblate.trans.models.component import Component
     from weblate.trans.models.label import Label
@@ -64,7 +66,7 @@ class ProjectLanguageFactory(UserDict):
     def preload(self):
         return [self[language] for language in self._project.languages]
 
-    def preload_workflow_settings(self):
+    def preload_workflow_settings(self) -> None:
         from weblate.trans.models.workflow import WorkflowSetting
 
         instances = self.preload()
@@ -326,9 +328,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             import_memory.delay_on_commit(self.id)
 
     def generate_changes(self, old) -> None:
-        from weblate.trans.models.change import Change
-
-        tracked = (("slug", Change.ACTION_RENAME_PROJECT),)
+        tracked = (("slug", ActionEvents.RENAME_PROJECT),)
         for attribute, action in tracked:
             old_value = getattr(old, attribute)
             current_value = getattr(self, attribute)
@@ -516,8 +516,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return any(billing.is_libre_trial for billing in self.billings)
 
     def post_create(self, user: User, billing=None) -> None:
-        from weblate.trans.models import Change
-
         if billing:
             billing.projects.add(self)
             if billing.plan.change_access_control:
@@ -528,7 +526,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if not user.is_superuser:
             self.add_user(user, "Administration")
         self.change_set.create(
-            action=Change.ACTION_CREATE_PROJECT, user=user, author=user
+            action=ActionEvents.CREATE_PROJECT, user=user, author=user
         )
 
     @cached_property
@@ -662,8 +660,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         return get_glossary_automaton(self)
 
-    def get_machinery_settings(self):
-        settings = Setting.objects.get_settings_dict(SettingCategory.MT)
+    def get_machinery_settings(self) -> dict[str, SettingsDict | Project]:
+        settings = cast(
+            "dict[str, SettingsDict]",
+            Setting.objects.get_settings_dict(SettingCategory.MT),
+        )
         for item, value in self.machinery_settings.items():
             if value is None:
                 if item in settings:

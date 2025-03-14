@@ -794,7 +794,7 @@ class LanguageAliasesChangeTest(ViewTestCase):
     old_code = "it"
     new_code = "it_XX"
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Set up test environment."""
         super().setUp()
 
@@ -837,14 +837,14 @@ class LanguageAliasesChangeTest(ViewTestCase):
             patcher = patch(target, new_value)
             patcher.start()
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         """Tear down after tests."""
         super().tearDown()
         patch.stopall()
 
     def do_alias_language_update_and_check(
         self, new_language_created: bool = True, old_language_deleted: bool = True
-    ):
+    ) -> None:
         """Test alias language update."""
 
         def component_language_codes():
@@ -870,11 +870,11 @@ class LanguageAliasesChangeTest(ViewTestCase):
             self.assertIn(self.old_code, component_language_codes())
             self.assertTrue(Language.objects.filter(code=self.old_code).exists())
 
-    def test_update_language_alias(self):
+    def test_update_language_alias(self) -> None:
         """Test simple alias change."""
         self.do_alias_language_update_and_check()
 
-    def test_update_language_alias_no_deletion(self):
+    def test_update_language_alias_no_deletion(self) -> None:
         """Test alias change with no deletion of old language."""
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"

@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.cache import cache_control
@@ -45,6 +46,7 @@ def get_unit_translations(request: AuthenticatedHttpRequest, unit_id):
 
 @require_POST
 @login_required
+@transaction.atomic
 def ignore_check(request: AuthenticatedHttpRequest, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
 
@@ -59,6 +61,7 @@ def ignore_check(request: AuthenticatedHttpRequest, check_id):
 
 @require_POST
 @login_required
+@transaction.atomic
 def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
     unit = obj.unit.source_unit

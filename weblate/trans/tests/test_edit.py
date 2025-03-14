@@ -13,6 +13,7 @@ from django.urls import reverse
 
 from weblate.addons.resx import ResxUpdateAddon
 from weblate.checks.models import Check
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
@@ -192,7 +193,7 @@ class EditTest(ViewTestCase):
 
         test_target = "TEST TRANSLATION"
 
-        def check_translated():
+        def check_translated() -> None:
             self.assertTrue(
                 Unit.objects.filter(
                     translation__language__code="cs",
@@ -705,26 +706,52 @@ class EditPropagateTest(EditTest):
             source=self.source, translation__language_code="cs"
         ):
             self.assertEqual(
-                unit.change_set.filter(action=Change.ACTION_NEW_UNIT_REPO).count(), 1
+                unit.change_set.filter(action=ActionEvents.NEW_UNIT_REPO).count(),
+                1,
             )
             self.assertEqual(
-                unit.change_set.filter(action=Change.ACTION_STRING_REPO_UPDATE).count(),
+                unit.change_set.filter(action=ActionEvents.STRING_REPO_UPDATE).count(),
                 0,
             )
             if unit.translation.component.slug == "second":
                 self.assertEqual(
-                    unit.change_set.filter(
-                        action=Change.ACTION_PROPAGATED_EDIT
-                    ).count(),
+                    unit.change_set.filter(action=ActionEvents.PROPAGATED_EDIT).count(),
                     2,
                 )
             else:
                 self.assertEqual(
-                    unit.change_set.filter(action=Change.ACTION_NEW).count(), 1
+                    unit.change_set.filter(action=ActionEvents.NEW).count(), 1
                 )
                 self.assertEqual(
-                    unit.change_set.filter(action=Change.ACTION_CHANGE).count(), 1
+                    unit.change_set.filter(action=ActionEvents.CHANGE).count(),
+                    1,
                 )
+
+        # Bring strins out of sync
+        unit = self.get_unit()
+        test_edit = "Test edit\n"
+        unit.translate(
+            None,
+            test_edit,
+            STATE_TRANSLATED,
+            change_action=ActionEvents.AUTO,
+            propagate=False,
+        )
+        self.assertEqual(set(get_targets()), {self.second_target, test_edit})
+        self.assertEqual(
+            {"inconsistent"}, set(unit.check_set.values_list("name", flat=True))
+        )
+
+        # Resync them
+        unit.translate(
+            None,
+            self.second_target,
+            STATE_TRANSLATED,
+            change_action=ActionEvents.AUTO,
+            propagate=False,
+        )
+        self.assertEqual(set(get_targets()), {self.second_target})
+        self.assertEqual(set(), set(unit.check_set.values_list("name", flat=True)))
 
 
 class EditTSTest(EditTest):

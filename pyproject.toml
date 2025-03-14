@@ -50,18 +50,18 @@ test = [
   "pytest-profiling==1.8.1",
   "pytest-xdist==3.6.1",
   "pytest==8.3.5",
-  "responses==0.25.6",
+  "responses==0.25.7",
   "respx==0.22.0",
   "selenium==4.29.0"
 ]
 types = [
-  "boto3-stubs==1.37.10",
+  "boto3-stubs==1.37.12",
   "celery-types==0.23.0",
   "django-stubs-ext==5.1.3",
   "django-stubs==5.1.3",
   "djangorestframework-stubs==3.15.3",
   "mypy==1.15.0",
-  "PyGObject-stubs==2.12.0",
+  "PyGObject-stubs==2.13.0",
   "types-dateparser==1.2.0.20250208",
   "types-docutils==0.21.0.20241128",
   "types-jsonschema==4.23.0.20241208",
@@ -177,7 +177,7 @@ keywords = [
 license = {text = "GPLv3+"}
 name = "weblate"
 requires-python = ">=3.11"
-version = "5.10.3"
+version = "5.11"
 
 [project.optional-dependencies]
 alibaba = [
@@ -564,8 +564,9 @@ include-package-data = true
 license-files = []
 zip-safe = false
 
-[tool.setuptools.packages]
-find = {namespaces = false}
+[tool.setuptools.packages.find]
+include = ["weblate*"]
+namespaces = true
 
 [tool.tomlsort]
 ignore_case = true

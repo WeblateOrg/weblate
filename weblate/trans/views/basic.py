@@ -20,6 +20,7 @@ from django.views.generic import RedirectView
 from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import (
     AddCategoryForm,
@@ -631,6 +632,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
         Translation.objects.prefetch()
         .filter(component__project=project, language=obj.language)
         .exclude(component__is_glossary=True)
+        .order_by("component__name")
         .exclude(pk=obj.pk)[:10]
     )
     if len(other_translations) == 10:
@@ -646,13 +648,18 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
         # adds quick way to create translations in other components
         existing = {translation.component.slug for translation in other_translations}
         existing.add(component.slug)
-        for test_component in project.child_components:
-            if test_component.slug in existing:
-                continue
-            if test_component.can_add_new_language(user, fast=True):
-                other_translations.append(
-                    GhostTranslation(test_component, obj.language)
-                )
+
+        # Figure out missing components
+        all_components = {c.slug for c in project.child_components}
+        missing = all_components - existing
+        if len(missing) < 5:
+            for test_component in project.child_components:
+                if test_component.slug in existing:
+                    continue
+                if test_component.can_add_new_language(user, fast=True):
+                    other_translations.append(
+                        GhostTranslation(test_component, obj.language)
+                    )
 
     return render(
         request,
@@ -752,11 +759,11 @@ def new_language(request: AuthenticatedHttpRequest, path):
                             if len(langs) == 1:
                                 result = translation
                             obj.change_set.create(
-                                action=Change.ACTION_ADDED_LANGUAGE, **kwargs
+                                action=ActionEvents.ADDED_LANGUAGE, **kwargs
                             )
                     elif obj.new_lang == "contact":
                         obj.change_set.create(
-                            action=Change.ACTION_REQUESTED_LANGUAGE, **kwargs
+                            action=ActionEvents.REQUESTED_LANGUAGE, **kwargs
                         )
                         messages.success(
                             request,

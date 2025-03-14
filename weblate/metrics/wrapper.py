@@ -46,7 +46,7 @@ class MetricsWrapper:
         # the IN operator with six values.
         metrics = Metric.objects.filter_metric(
             self.scope, self.relation, self.secondary
-        ).filter(date__range=(dates[0], dates[-1]))
+        ).filter(date__range=(dates[-1], dates[0]))
 
         # Fetch the most recent metric for each date
         current = past_30 = past_60 = Metric()
@@ -202,7 +202,8 @@ class MetricsWrapper:
     def trend_60_users(self) -> float:
         return self.calculate_trend("users", self.past_30, self.past_60)
 
-    def get_daily_activity(self, start, days) -> dict[date, int]:
+    def get_daily_activity(self, start: date, days: int) -> dict[date, int]:
+        today = timezone.now().date()
         kwargs = {
             "scope": self.scope,
             "relation": self.relation,
@@ -218,7 +219,8 @@ class MetricsWrapper:
         for offset in range(days):
             current = start - timedelta(days=offset)
             if current not in result:
-                if offset == 0:
+                if current == today:
+                    # Lazily calculate today value (if task is not running)
                     result[current] = Metric.objects.calculate_changes(
                         date=current,
                         obj=self.obj,

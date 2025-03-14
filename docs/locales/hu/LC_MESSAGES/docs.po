@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Balázs Úr <balazs@urbalazs.hu>, 2023, 2024.
+# Balázs Úr <balazs@urbalazs.hu>, 2023, 2024, 2025.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # RViktor <rviktor@ivankapal.com>, 2025.
 msgid ""
@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-02-27 18:05+0000\n"
-"Last-Translator: RViktor <rviktor@ivankapal.com>\n"
+"PO-Revision-Date: 2025-03-13 18:45+0000\n"
+"Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
 "Language: hu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -2566,7 +2566,7 @@ msgstr "Az egynyelvű alapfájlnév meghatározása"
 
 #: ../../admin/addons.rst:296
 msgid "Leave empty for bilingual translation files."
-msgstr "Hagyja üresen a többnyelvű fordítási fájloknál."
+msgstr "Hagyja üresen a kétnyelvű fordítási fájloknál."
 
 #: ../../admin/addons.rst:298
 msgid "``new_base_template``"
@@ -16132,7 +16132,7 @@ msgstr ""
 
 #: ../../admin/licensing.rst:20 ../../admin/projects.rst:654
 msgid "Contributor license agreement"
-msgstr "Hozzájárulói licencszerződés"
+msgstr "Közreműködői licencmegállapodás"
 
 #: ../../admin/licensing.rst:22
 msgid ""
@@ -16428,8 +16428,7 @@ msgstr "Fordítási környezet"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
-"Írja le a fordítás környezetét a fordítás pontosságának javítása érdekében."
+msgstr "Írja le a fordítás környezetét a fordítás pontosságának javításához."
 
 #: ../../admin/machine.rst:155
 msgid ""
@@ -16947,7 +16946,8 @@ msgstr "Azure OpenAI végpont webcíme"
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr ""
-"A példány végpontwebcíme, például https://my-instance.openai.azure.com."
+"A példány végpontjának URL-e, például: https://sajat-"
+"peldany.openai.azure.com."
 
 #: ../../admin/machine.rst:421
 msgid "``deployment``"
@@ -16959,7 +16959,7 @@ msgstr "Azure OpenAI telepítés"
 
 #: ../../admin/machine.rst:421
 msgid "The model's unique deployment name."
-msgstr "A modell egyedi telepítésneve."
+msgstr "A modell egyedi üzembe állítási neve."
 
 #: ../../admin/machine.rst:424
 #, fuzzy
@@ -20023,8 +20023,8 @@ msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"A hozzájárulói licencszerződés, amelyet jóvá kell hagyni, mielőtt egy "
-"felhasználó fordíthatná ezt a komponenst."
+"Közreműködői licencmegállapodás, amelyet jóvá kell hagyni, mielőtt egy "
+"felhasználó lefordíthatja ezt az összetevőt."
 
 #: ../../admin/projects.rst:659
 msgid "Markdown can be used for text formatting or inserting links."
@@ -21868,7 +21868,8 @@ msgstr "``X-RateLimit-Reset``"
 
 #: ../../api.rst:215
 msgid "Number of seconds until the rate-limit window resets"
-msgstr "A korlátozási ablak visszaállításáig hátralévő másodpercek száma"
+msgstr ""
+"A sebességkorlátozás ablakának visszaállításáig hátralévő másodpercek száma"
 
 #: ../../api.rst:220
 msgid "Added ratelimiting status headers."
@@ -43555,7 +43556,7 @@ msgstr ""
 
 #: ../../formats/laravel.rst:4
 msgid "Laravel PHP strings"
-msgstr "Laravel PHP sztringek"
+msgstr "Laravel PHP szövegek"
 
 #: ../../formats/laravel.rst:8
 msgid "The Laravel PHP localization files are supported as well with plurals:"
@@ -43706,7 +43707,7 @@ msgstr "OpenDocument-fájl"
 
 #: ../../formats/php.rst:4
 msgid "PHP strings"
-msgstr "PHP sztringek"
+msgstr "PHP szövegek"
 
 #: ../../formats/php.rst:10
 msgid ""
@@ -45051,7 +45052,7 @@ msgstr "Egymás utáni kettőzött szavak"
 
 #: ../../user/checks.rst:144
 msgid "Text contains the same word twice in a row"
-msgstr "A szöveg ugyanazt a szót kétszer egymás után tartalmazza"
+msgstr "A szöveg ugyanazt a szót tartalmazza egymás után kétszer"
 
 #: ../../user/checks.rst:146
 msgid "``weblate.checks.duplicate.DuplicateCheck``"
@@ -45365,7 +45366,7 @@ msgstr "Fluent-fordítás szintaxisa"
 
 #: ../../user/checks.rst:386
 msgid "Fluent syntax error in the translation"
-msgstr "Hiba a Fluent szintaxisban a fordításban"
+msgstr "Fluent szintaktikai hiba a fordításban"
 
 #: ../../user/checks.rst:388
 msgid "``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``"
@@ -46322,13 +46323,14 @@ msgstr ""
 
 #: ../../user/checks.rst:984
 msgid "Inconsistent reStructuredText references"
-msgstr "Nem egységes reStructuredText hivatkozások"
+msgstr "Következetlen reStructuredText hivatkozások"
 
 #: ../../user/checks.rst:988
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
-"Nem egységes reStructuredText fogalomhivatkozások a fordított üzenetben."
+"Következetlen reStructuredText kifejezés-hivatkozások a lefordított "
+"üzenetben."
 
 #: ../../user/checks.rst:990
 msgid "``weblate.checks.markup.RSTReferencesCheck``"
@@ -46908,7 +46910,7 @@ msgstr "Tiltott kezdőkarakter"
 
 #: ../../user/checks.rst:1385
 msgid "The string starts with a prohibited character in CSV"
-msgstr "A karakterlánc tiltott karakterrel kezdődik a CSV-ben"
+msgstr "A szöveg a CSV-ben tiltott karakterrel kezdődik"
 
 #: ../../user/checks.rst:1386
 #, fuzzy
@@ -47650,7 +47652,7 @@ msgstr "Fluent-forrás szintaxisa"
 
 #: ../../user/checks.rst:1886
 msgid "Fluent syntax error in the source"
-msgstr "Hiba a Fluent szintaxisban a forrás szövegben"
+msgstr "Fluent szintaktikai hiba a forrásban"
 
 #: ../../user/checks.rst:1888
 msgid "``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``"
@@ -49744,7 +49746,7 @@ msgstr ""
 
 #: ../../user/translating.rst:190
 msgid "Navigate to the first translation in the current search."
-msgstr "Navigálás a jelenlegi keresés első fordításához."
+msgstr "Navigálás az aktuális keresésben lévő első fordításhoz."
 
 #: ../../user/translating.rst:192
 msgid ":kbd:`Alt+End`"
@@ -49752,7 +49754,7 @@ msgstr ""
 
 #: ../../user/translating.rst:192
 msgid "Navigate to the last translation in the current search."
-msgstr "Navigálás a jelenlegi keresés utolsó fordításához."
+msgstr "Navigálás az aktuális keresésben lévő utolsó fordításhoz."
 
 #: ../../user/translating.rst:194
 msgid ":kbd:`Alt+PageUp` or"
@@ -49794,7 +49796,7 @@ msgstr ""
 
 #: ../../user/translating.rst:202
 msgid "Navigate to the next translation in the current search."
-msgstr "Navigálás a jelenlegi keresés következő fordításához."
+msgstr "Navigálás az aktuális keresésben lévő következő fordításhoz."
 
 #: ../../user/translating.rst:210
 msgid ":kbd:`Ctrl+Enter` or"
@@ -49820,8 +49822,7 @@ msgstr ""
 
 #: ../../user/translating.rst:214
 msgid "Unmark translation as Needing edit and submit it."
-msgstr ""
-"Fordítás szerkesztést igénylőként jelölésének eltávolítása, és közzététele."
+msgstr "A „Szerkesztést igénylő” jelzés eltávolítása a fordításról és beküldés."
 
 #: ../../user/translating.rst:218
 msgid ":kbd:`Alt+Enter` or"
@@ -49884,7 +49885,7 @@ msgstr ""
 
 #: ../../user/translating.rst:234
 msgid "Copies placeable of a given number from source string."
-msgstr "A forrásszövegből másolható megadott számérték."
+msgstr "Egy adott számú beszúrható szövegrész másolása a forrásszövegből."
 
 #: ../../user/translating.rst:238
 msgid ":kbd:`Ctrl+M` followed by :kbd:`1` to :kbd:`9` or"
@@ -49896,7 +49897,7 @@ msgstr ""
 
 #: ../../user/translating.rst:238
 msgid "Copy the machine translation of a given number to current translation."
-msgstr "Az adott számú gépi fordítás másolása a jelenlegi fordításba."
+msgstr "Egy adott számú gépi fordítás másolása az aktuális fordításba."
 
 #: ../../user/translating.rst:244
 msgid ":kbd:`Ctrl+I` followed by :kbd:`1` to :kbd:`9` or"
@@ -49908,7 +49909,7 @@ msgstr ""
 
 #: ../../user/translating.rst:244
 msgid "Ignore one item in the list of failing checks."
-msgstr "Egy elem figyelmen kívül hagyása a sikertelen ellenőrzések közül."
+msgstr "Egy elem figyelmen kívül hagyása a sikertelen ellenőrzések listájából."
 
 #: ../../user/translating.rst:250
 msgid ":kbd:`Ctrl+J` or"
@@ -49946,7 +49947,7 @@ msgstr ""
 
 #: ../../user/translating.rst:258
 msgid "Copy the source string."
-msgstr "Lemásolja a forrásszöveget."
+msgstr "A forrásszöveg másolása."
 
 #: ../../user/translating.rst:262
 msgid ":kbd:`Ctrl+Y` or"
@@ -49968,7 +49969,7 @@ msgstr ""
 
 #: ../../user/translating.rst:266
 msgid "Browse the next translation string."
-msgstr "Következő fordítási szöveg tallózása."
+msgstr "A következő fordítási szöveg tallózása."
 
 #: ../../user/translating.rst:268
 msgid ":kbd:`←`"
@@ -49976,7 +49977,7 @@ msgstr ""
 
 #: ../../user/translating.rst:268
 msgid "Browse the previous translation string."
-msgstr "Előző fordítási szöveg tallózása."
+msgstr "Az előző fordítási szöveg tallózása."
 
 #: ../../user/translating.rst:274
 msgid "Visual keyboard"

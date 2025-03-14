@@ -6,6 +6,7 @@
 
 import json
 from abc import ABC, abstractmethod
+from typing import Never
 from unittest.mock import patch
 
 from django.test import SimpleTestCase
@@ -1597,7 +1598,7 @@ class HookBackendTestCase(SimpleTestCase, ABC):
         self.assertEqual(expected, result)
 
     @abstractmethod
-    def test_git(self):
+    def test_git(self) -> Never:
         raise NotImplementedError
 
 

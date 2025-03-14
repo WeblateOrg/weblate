@@ -4,11 +4,13 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from django.db import models
 
 
 class SettingQuerySet(models.QuerySet):
-    def get_settings_dict(self, category: int) -> dict:
+    def get_settings_dict(self, category: int) -> dict[str, Any]:
         return dict(self.filter(category=category).values_list("name", "value"))
 
 

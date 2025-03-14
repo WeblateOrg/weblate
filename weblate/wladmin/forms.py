@@ -61,7 +61,7 @@ class FontField(forms.CharField):
 
 
 class ThemeColorWidget(MultiWidget):
-    def __init__(self, attrs=None):
+    def __init__(self, attrs=None) -> None:
         widgets = (
             forms.TextInput(attrs={"type": "color", "class": "light-theme"}),
             forms.TextInput(attrs={"type": "color", "class": "dark-theme"}),
@@ -80,7 +80,7 @@ class ThemeColorWidget(MultiWidget):
 class ThemeColorField(forms.MultiValueField):
     widget = ThemeColorWidget
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         fields = (forms.CharField(required=False), forms.CharField(required=False))
         super().__init__(fields=fields, require_all_fields=False, **kwargs)
 

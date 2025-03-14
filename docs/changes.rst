@@ -1,4 +1,29 @@
-Weblate 5.10.3
+Weblate 5.11
+------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* Weblate now uses OpenAPI Specification 3.1.1 to generate the schema for :ref:`api`.
+
+.. rubric:: Bug fixes
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.11.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/136?closed=1>`__.
+
+Weblate 5.10.4
 --------------
 
 *Not yet released.*
@@ -11,11 +36,36 @@ Weblate 5.10.3
 
 .. rubric:: Bug fixes
 
-* Improved performance of API download endpoints.
-* Reduced notifications overhead.
-* Improved handling of components using :ref:`internal-urls`.
+* Fixed dismissing of checks.
 
 .. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.10.4.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/140?closed=1>`__.
+
+Weblate 5.10.3
+--------------
+
+*Released on March 13th 2025.*
+
+.. rubric:: Improvements
+
+* Captcha is not shown for registrations via :ref:`invite-user`.
+
+.. rubric:: Bug fixes
+
+* Improved performance of API download endpoints.
+* Optimized fetching other translations while translating.
+* Reduced notifications overhead.
+* Improved handling of components using :ref:`internal-urls`.
+* Fixed authenticating with some Git servers.
 
 .. rubric:: Upgrading
 

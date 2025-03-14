@@ -16,7 +16,7 @@ from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 
 
 class CheckLintTestCase(SimpleTestCase):
-    def test_check_id(self):
+    def test_check_id(self) -> None:
         for check in CHECKS.values():
             self.assertRegex(check.check_id, r"^[a-z][a-z0-9_-]*[a-z]$")
 
