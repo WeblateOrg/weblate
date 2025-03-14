@@ -10,6 +10,7 @@ Weblate 5.10.4
 .. rubric:: Bug fixes
 
 * Fixed dismissing of checks.
+* Reduced overhead of rendering other strings while translating.
 
 .. rubric:: Compatibility
 
