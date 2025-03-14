@@ -367,7 +367,6 @@ def get_counts(request: AuthenticatedHttpRequest, path=None):
             " ".join(f"{h:40}" for h in headers[:3]),
             " ".join(f"{h:24}" for h in headers[3:]),
         )
-        print(start)
         row_start = ""
         cell_name = "{0:40} "
         cell_count = "{0:24} "
