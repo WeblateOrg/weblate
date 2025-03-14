@@ -4075,14 +4075,18 @@ class UnitAPITest(APIBaseTest):
         unit = Unit.objects.get(
             translation__language_code="en", source="Thank you for using Weblate."
         )
-        response = self.client.get(reverse("api:unit-translations", kwargs={"pk": unit.pk}))
+        response = self.client.get(
+            reverse("api:unit-translations", kwargs={"pk": unit.pk})
+        )
         # translations units do not include source unit
         self.assertEqual(len(response.data), 3)
 
         unit_cs = Unit.objects.get(
             translation__language_code="cs", source="Thank you for using Weblate."
         )
-        response = self.client.get(reverse("api:unit-translations", kwargs={"pk": unit_cs.pk}))
+        response = self.client.get(
+            reverse("api:unit-translations", kwargs={"pk": unit_cs.pk})
+        )
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data["errors"][0]["code"], "not-a-source-unit")
 

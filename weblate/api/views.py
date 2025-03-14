@@ -38,9 +38,9 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
+    HTTP_400_BAD_REQUEST,
     HTTP_423_LOCKED,
     HTTP_500_INTERNAL_SERVER_ERROR,
-    HTTP_400_BAD_REQUEST,
 )
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
@@ -1985,12 +1985,14 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         user.check_access_component(unit.translation.component)
 
         if unit.pk != unit.source_unit.pk:
-            raise NotSourceUnit()
+            raise NotSourceUnit
 
-        translation_units = unit.source_unit.unit_set.exclude(pk=unit.pk) \
-            .prefetch() \
-            .prefetch_full()
-        serializer = UnitSerializer(translation_units, many=True, context={"request": request})
+        translation_units = (
+            unit.source_unit.unit_set.exclude(pk=unit.pk).prefetch().prefetch_full()
+        )
+        serializer = UnitSerializer(
+            translation_units, many=True, context={"request": request}
+        )
         return Response(serializer.data)
 
 
