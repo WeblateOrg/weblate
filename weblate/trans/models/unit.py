@@ -26,6 +26,7 @@ from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
 from weblate.memory.tasks import handle_unit_translation_change
 from weblate.memory.utils import is_valid_memory_entry
+from weblate.trans.actions import ActionEvents
 from weblate.trans.autofixes import fix_target
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
@@ -934,7 +935,7 @@ class Unit(models.Model, LoggerMixin):
                 self.generate_change(
                     None,
                     None,
-                    Change.ACTION_SOURCE_CHANGE,
+                    ActionEvents.SOURCE_CHANGE,
                     check_new=False,
                     old=source_change,
                     target=self.source,
@@ -1108,7 +1109,7 @@ class Unit(models.Model, LoggerMixin):
                 unit.post_save(
                     user,
                     user,
-                    change_action=Change.ACTION_PROPAGATED_EDIT,
+                    change_action=ActionEvents.PROPAGATED_EDIT,
                     check_new=False,
                     save=False,
                 )
@@ -1223,9 +1224,9 @@ class Unit(models.Model, LoggerMixin):
         )
 
         if change.action not in {
-            Change.ACTION_UPLOAD,
-            Change.ACTION_AUTO,
-            Change.ACTION_BULK_EDIT,
+            ActionEvents.UPLOAD,
+            ActionEvents.AUTO,
+            ActionEvents.BULK_EDIT,
         }:
             old_translated = self.translation.stats.translated
 
@@ -1297,7 +1298,7 @@ class Unit(models.Model, LoggerMixin):
                     unit.generate_change(
                         user,
                         author,
-                        Change.ACTION_SOURCE_CHANGE,
+                        ActionEvents.SOURCE_CHANGE,
                         check_new=False,
                         old=previous_source,
                         target=self.target,
@@ -1331,7 +1332,7 @@ class Unit(models.Model, LoggerMixin):
         ):
             self.change_set.create(
                 unit=self,
-                action=Change.ACTION_NEW_CONTRIBUTOR,
+                action=ActionEvents.NEW_CONTRIBUTOR,
                 user=user,
                 author=author,
             )
@@ -1340,16 +1341,16 @@ class Unit(models.Model, LoggerMixin):
         if change_action is not None:
             action = change_action
         elif self.state == STATE_FUZZY:
-            action = Change.ACTION_MARKED_EDIT
+            action = ActionEvents.MARKED_EDIT
         elif self.old_unit["state"] >= STATE_FUZZY:
             if self.state == STATE_APPROVED:
-                action = Change.ACTION_APPROVE
+                action = ActionEvents.APPROVE
             else:
-                action = Change.ACTION_CHANGE
+                action = ActionEvents.CHANGE
         elif self.state == STATE_APPROVED:
-            action = Change.ACTION_APPROVE
+            action = ActionEvents.APPROVE
         else:
-            action = Change.ACTION_NEW
+            action = ActionEvents.NEW
 
         # Create change object
         change = Change(
@@ -1665,7 +1666,7 @@ class Unit(models.Model, LoggerMixin):
         ):
             self.update_translation_memory(user)
 
-        if change_action == Change.ACTION_AUTO:
+        if change_action == ActionEvents.AUTO:
             self.labels.add(component.project.automatically_translated_label)
         else:
             self.labels.through.objects.filter(
@@ -1935,7 +1936,7 @@ class Unit(models.Model, LoggerMixin):
             unit.generate_change(
                 user=user,
                 author=user,
-                change_action=Change.ACTION_EXPLANATION,
+                change_action=ActionEvents.EXPLANATION,
                 check_new=False,
                 save=True,
                 target=explanation,
