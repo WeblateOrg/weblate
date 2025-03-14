@@ -106,11 +106,18 @@ class TranslationManager(models.Manager):
 
 
 class TranslationQuerySet(models.QuerySet):
-    def prefetch(self):
+    def prefetch(self, *, defer_huge: bool = True):
         from weblate.trans.models import Component
 
+        if defer_huge:
+            component_prefetch = models.Prefetch(
+                "component", queryset=Component.objects.defer_huge()
+            )
+        else:
+            component_prefetch = "component"
+
         return self.prefetch_related(
-            models.Prefetch("component", queryset=Component.objects.defer_huge()),
+            component_prefetch,
             "component__project",
             "component__category",
             "component__category__project",
@@ -135,6 +142,9 @@ class TranslationQuerySet(models.QuerySet):
                 to_attr="all_active_alerts",
             ),
         )
+
+    def prefetch_plurals(self):
+        return self.prefetch_related("language__plural_set")
 
     def filter_access(self, user: User):
         result = self
