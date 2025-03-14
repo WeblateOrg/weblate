@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from glob import glob
 from operator import itemgetter
 from pathlib import Path
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 from celery.schedules import crontab
 from django.conf import settings
@@ -48,6 +48,9 @@ from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import parse_path
 from weblate.vcs.base import RepositoryError
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 @app.task(
@@ -119,11 +122,18 @@ def perform_push(pk, *args, **kwargs) -> None:
 
 
 @app.task(trail=False)
-def commit_pending(hours=None, pks=None, logger=None) -> None:
+def commit_pending(
+    hours: int | None = None,
+    pks: set[int] | None = None,
+    logger: Callable[[str], None] | None = None,
+) -> None:
     if pks is None:
         components = Component.objects.all()
     else:
-        components = Component.objects.filter(translation__pk__in=pks).distinct()
+        components = Component.objects.filter(translation__pk__in=pks)
+
+    # All components with pending units
+    components = components.filter(translation__unit__pending=True).distinct()
 
     for component in prefetch_stats(components.prefetch()):
         age = timezone.now() - timedelta(

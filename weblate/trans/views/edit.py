@@ -149,7 +149,7 @@ def get_other_units(unit):
             units = units.using("memory_db")
 
         max_units = 20
-        units_limited = units[:max_units]
+        units_limited = units[:max_units].fill_in_source_translation()
         units_count = len(units_limited)
 
         # Is it only this unit?
@@ -163,11 +163,6 @@ def get_other_units(unit):
         result["skipped"] = units_count > max_units
 
         for item in units_limited:
-            # Inject source translation which we already have
-            item.translation.component.project.source_translation = (
-                item.source_unit.translation
-            )
-
             item.allow_merge = item.differently_translated = (
                 item.translated and item.target != unit.target
             )

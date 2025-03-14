@@ -125,6 +125,8 @@ class UnitQuerySet(models.QuerySet):
         return self.prefetch_related(
             "source_unit",
             "source_unit__translation",
+            "source_unit__translation__language",
+            "source_unit__translation__plural",
             models.Prefetch(
                 "source_unit__translation__component",
                 queryset=Component.objects.defer_huge(),
@@ -132,6 +134,18 @@ class UnitQuerySet(models.QuerySet):
             "source_unit__translation__component__source_language",
             "source_unit__translation__component__project",
         )
+
+    def fill_in_source_translation(self):
+        """
+        Inject source translation intro component from the source unit.
+
+        This materializes the query.
+
+        This assumes prefetch_source() was called before on the query.
+        """
+        for unit in self:
+            unit.translation.component.source_translation = unit.source_unit.translation
+        return self
 
     def prefetch_all_checks(self):
         return self.prefetch_related(
@@ -1543,8 +1557,7 @@ class Unit(models.Model, LoggerMixin):
                 )[: ((2 * count) + 1)]
             )
             # Force materializing the query
-            list(result)
-            return result
+            return result.fill_in_source_translation()
 
     def nearby_keys(self, count: int) -> Iterable[Unit]:
         # Do not show nearby keys on bilingual
@@ -1561,10 +1574,12 @@ class Unit(models.Model, LoggerMixin):
                 cache.set(key, key_list)
             offset = key_list.index(self.pk)
             nearby = key_list[max(offset - count, 0) : offset + count]
-            result = unit_set.filter(id__in=nearby).prefetch_full().order_by("context")
-            # Force materializing the query
-            list(result)
-            return result
+            return (
+                unit_set.filter(id__in=nearby)
+                .prefetch_full()
+                .order_by("context")
+                .fill_in_source_translation()
+            )
 
     def variants(self) -> Iterable[Unit]:
         if not self.variant:

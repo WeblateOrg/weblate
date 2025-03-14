@@ -36,6 +36,8 @@ Weblate 5.10.4
 .. rubric:: Bug fixes
 
 * Fixed dismissing of checks.
+* Reduced overhead of rendering other strings while translating.
+* Improved performance of some :ref:`api` endpoints.
 
 .. rubric:: Compatibility
 
