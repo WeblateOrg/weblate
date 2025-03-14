@@ -16,4 +16,4 @@ PARSER = etree.XMLParser(strip_cdata=False, resolve_entities=False)
 @lru_cache(maxsize=128)
 def parse_xml(text: str) -> etree._Element:
     """Parse XML without resolving entities."""
-    return etree.fromstring(text, PARSER)  # noqa: S320
+    return etree.fromstring(text, PARSER)
