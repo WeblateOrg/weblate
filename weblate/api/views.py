@@ -903,6 +903,8 @@ class CreditsMixin:
             end_date,
             language,
             obj,
+            "count",
+            "descending",
         )
         return Response(data=data)
 

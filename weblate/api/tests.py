@@ -2626,7 +2626,12 @@ class ComponentAPITest(APIBaseTest):
             self.component_kwargs,
             method="get",
             code=200,
-            request={"start": start.isoformat(), "end": end.isoformat()},
+            request={
+                "start": start.isoformat(),
+                "end": end.isoformat(),
+                "sort_by": "count",
+                "sort_order": "ascending",
+            },
         )
         self.assertEqual(response.data, [])
 
@@ -2635,7 +2640,13 @@ class ComponentAPITest(APIBaseTest):
             self.component_kwargs,
             method="get",
             code=200,
-            request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"},
+            request={
+                "start": start.isoformat(),
+                "end": end.isoformat(),
+                "lang": "fr",
+                "sort_by": "count",
+                "sort_order": "ascending",
+            },
         )
         self.assertEqual(response.data, [])
 

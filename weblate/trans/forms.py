@@ -1327,6 +1327,21 @@ class ReportsForm(forms.Form):
         choices=[("", gettext_lazy("All languages"))],
         required=False,
     )
+    sort_by = forms.ChoiceField(
+        label=gettext_lazy("Sort by"),
+        choices=[
+            ("count", gettext_lazy("Strings translated")),
+            ("date_joined", gettext_lazy("Date joined")),
+        ],
+        required=False,
+    )
+    sort_order = forms.ChoiceField(
+        label=gettext_lazy("Sort order"),
+        choices=[
+            ("descending", gettext_lazy("Descending")),
+            ("ascending", gettext_lazy("Ascending")),
+        ],
+    )
 
     def __init__(self, scope: dict[str, Model], *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -1336,6 +1351,8 @@ class ReportsForm(forms.Form):
             Field("style"),
             Field("period"),
             Field("language"),
+            Field("sort_by"),
+            Field("sort_order"),
         )
         if not scope:
             languages = Language.objects.have_translation()
