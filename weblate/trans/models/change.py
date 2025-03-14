@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING, overload
+from uuid import UUID, uuid5
 
 import sentry_sdk
 from django.conf import settings
@@ -33,6 +34,7 @@ from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
+from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.pii import mask_email
 from weblate.utils.state import StringState
@@ -763,6 +765,10 @@ class Change(models.Model, UserDisplayMixin):
             ActionEvents.SUGGESTION_DELETE,
             ActionEvents.SUGGESTION_CLEANUP,
         }
+
+    def get_uuid(self) -> UUID:
+        """Return uuid for this change."""
+        return uuid5(WEBLATE_UUID_NAMESPACE, f"{self.action}.{self.id}")
 
 
 @receiver(post_save, sender=Change)
