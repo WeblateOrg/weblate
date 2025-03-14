@@ -564,8 +564,9 @@ include-package-data = true
 license-files = []
 zip-safe = false
 
-[tool.setuptools.packages]
-find = {namespaces = false}
+[tool.setuptools.packages.find]
+include = ["weblate*"]
+namespaces = true
 
 [tool.tomlsort]
 ignore_case = true
