@@ -22,8 +22,8 @@ from django.urls import reverse
 from django.utils import timezone
 
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
-    Change,
     Comment,
     Component,
     Suggestion,
@@ -1593,7 +1593,7 @@ class WebhookAddonsTest(ViewTestCase):
     addon_configuration = {
         "webhook_url": "https://example.com/webhooks",
         "events": [
-            Change.ACTION_NEW,
+            ActionEvents.NEW,
         ],
     }
 
@@ -1620,7 +1620,7 @@ class WebhookAddonsTest(ViewTestCase):
     @responses.activate
     def test_translation_added(self) -> None:
         """Test translation added and translation edited action change."""
-        self.addon_configuration["events"].append(Change.ACTION_CHANGE)
+        self.addon_configuration["events"].append(ActionEvents.CHANGE)
         self.do_translation_added_test(response_code=200)
         responses.calls.reset()
         self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
@@ -1749,7 +1749,7 @@ class WebhookAddonsTest(ViewTestCase):
             new_base="po/project.pot", project=self.project, name="Component B1"
         )
         # listen to propagate change event
-        self.addon_configuration["events"].append(Change.ACTION_PROPAGATED_EDIT)
+        self.addon_configuration["events"].append(ActionEvents.PROPAGATED_EDIT)
 
         WebhookAddon.create(
             configuration=self.addon_configuration, project=self.project
@@ -1864,7 +1864,7 @@ class WebhookAddonsTest(ViewTestCase):
                 "name": "weblate.webhook.webhooks",
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
-                "events": [Change.ACTION_NEW],
+                "events": [ActionEvents.NEW],
                 "secret": "xxxx-xx",
             },
             follow=True,
@@ -1879,7 +1879,7 @@ class WebhookAddonsTest(ViewTestCase):
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
                 "secret": "xxxx-xxxx-xxxx",
-                "events": [Change.ACTION_NEW],
+                "events": [ActionEvents.NEW],
             },
             follow=True,
         )

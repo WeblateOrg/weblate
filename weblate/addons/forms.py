@@ -16,9 +16,10 @@ from django.utils.translation import gettext, gettext_lazy
 from lxml.cssselect import CSSSelector
 
 from weblate.formats.models import FILE_FORMATS
+from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.forms import AutoForm, BulkEditForm
-from weblate.trans.models import Change, Component, Project, Translation
+from weblate.trans.models import Component, Project, Translation
 from weblate.utils.forms import (
     CachedModelChoiceField,
     ContextDiv,
@@ -670,7 +671,7 @@ class ChangeBaseAddonForm(BaseAddonForm):
         label=gettext_lazy("Change events"),
         required=False,
         widget=SortedCheckboxSelectMultiple(),
-        choices=Change.ACTION_CHOICES,
+        choices=ActionEvents.choices,
     )
 
 
