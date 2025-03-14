@@ -734,7 +734,7 @@ class EditPropagateTest(EditTest):
             None,
             test_edit,
             STATE_TRANSLATED,
-            change_action=Change.ACTION_AUTO,
+            change_action=ActionEvents.AUTO,
             propagate=False,
         )
         self.assertEqual(set(get_targets()), {self.second_target, test_edit})
@@ -747,7 +747,7 @@ class EditPropagateTest(EditTest):
             None,
             self.second_target,
             STATE_TRANSLATED,
-            change_action=Change.ACTION_AUTO,
+            change_action=ActionEvents.AUTO,
             propagate=False,
         )
         self.assertEqual(set(get_targets()), {self.second_target})
