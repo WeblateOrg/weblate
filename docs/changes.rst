@@ -7,6 +7,8 @@ Weblate 5.11
 
 .. rubric:: Improvements
 
+* Weblate now uses OpenAPI Specification 3.1.1 to generate the schema for :ref:`api`.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
@@ -20,6 +22,31 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 .. include:: changes/contributors/5.11.rst
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/136?closed=1>`__.
+
+Weblate 5.10.4
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+.. rubric:: Bug fixes
+
+* Fixed dismissing of checks.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.10.4.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/140?closed=1>`__.
 
 Weblate 5.10.3
 --------------

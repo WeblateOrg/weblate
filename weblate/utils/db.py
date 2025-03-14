@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import time
 
-from django.db import connections, models
+from django.db import ProgrammingError, connections, models, transaction
 from django.db.models.lookups import PatternLookup, Regex
 
 from .inv_regex import invert_re
@@ -20,6 +20,10 @@ PG_DROP = "DROP INDEX {0}_{1}_fulltext"
 
 MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
 MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
+
+
+class MissingTransactionError(ProgrammingError):
+    pass
 
 
 def using_postgresql():
@@ -166,3 +170,10 @@ def measure_database_latency() -> float:
     start = time.monotonic()
     Project.objects.exists()
     return round(1000 * (time.monotonic() - start))
+
+
+def verify_in_transaction() -> None:
+    """Verify the code is executed inside a transaction."""
+    connection = transaction.get_connection()
+    if not connection.in_atomic_block:
+        raise MissingTransactionError
