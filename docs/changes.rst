@@ -18,6 +18,8 @@ Weblate 5.11
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
+* The database migration updates indexes and this might take considerable time.
+
 .. rubric:: Contributors
 
 .. include:: changes/contributors/5.11.rst
