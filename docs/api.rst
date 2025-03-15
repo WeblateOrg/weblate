@@ -2271,6 +2271,12 @@ and XLIFF.
     :param id: Unit ID
     :type id: int
 
+.. http:get:: /api/units/(int:id)/translations/
+
+   .. versionadded:: 5.11
+
+   Returns a list of all target translation units for the given source translation unit.
+
 Changes
 +++++++
 

@@ -5,6 +5,8 @@ Weblate 5.11
 
 .. rubric:: New features
 
+* Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of all target translation units for the given source translation unit.
+
 .. rubric:: Improvements
 
 * Weblate now uses OpenAPI Specification 3.1.1 to generate the schema for :ref:`api`.
