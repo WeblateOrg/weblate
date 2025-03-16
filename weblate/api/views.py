@@ -641,7 +641,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             role = obj.roles.get(pk=role_id)
         except Role.DoesNotExist as error:
             raise Http404(str(error)) from error
-            
+
         obj.roles.remove(role)
         return Response(status=HTTP_204_NO_CONTENT)
 
