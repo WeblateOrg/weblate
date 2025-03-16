@@ -9,6 +9,7 @@ Weblate 5.11
 
 * Weblate now uses OpenAPI Specification 3.1.1 to generate the schema for :ref:`api`.
 * :ref:`credits` and :ref:`stats` include translator's join date. Additionally, both reports can be sorted either by the join date or the number of strings translated.
+* Widgets show better stats.
 
 .. rubric:: Bug fixes
 
