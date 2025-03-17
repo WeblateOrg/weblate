@@ -26,7 +26,7 @@ from weblate.fonts.utils import configure_fontconfig, render_size
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import number_format
-from weblate.trans.util import sort_unicode
+from weblate.trans.util import sort_unicode, translation_percent
 from weblate.utils.icons import find_static_file
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import (
@@ -35,6 +35,7 @@ from weblate.utils.stats import (
     ProjectLanguage,
     ProjectLanguageStats,
     TranslationStats,
+    get_non_glossary_stats,
 )
 from weblate.utils.views import get_percent_color
 
@@ -87,7 +88,10 @@ class Widget:
         else:
             stats = obj.stats
         self.stats = stats
-        self.percent = stats.translated_percent
+        self.non_glossary_stats = get_non_glossary_stats(stats)
+        self.percent = translation_percent(
+            self.non_glossary_stats["translated"], self.non_glossary_stats["all"]
+        )
 
     def get_color_name(self, color):
         """Return color name based on allowed ones."""
@@ -121,9 +125,9 @@ class BitmapWidget(Widget):
         super().__init__(obj, color, lang)
         # Get object and related params
         if isinstance(self.stats, TranslationStats):
-            self.total = self.stats.all
+            self.total = self.non_glossary_stats["all"]
         else:
-            self.total = self.stats.source_strings
+            self.total = self.non_glossary_stats["source_strings"]
         self.languages = self.stats.languages
         self.params = self.get_text_params()
 
