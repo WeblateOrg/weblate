@@ -38,6 +38,7 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
+    HTTP_400_BAD_REQUEST,
     HTTP_423_LOCKED,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
@@ -151,6 +152,12 @@ class LockedError(APIException):
     status_code = HTTP_423_LOCKED
     default_detail = gettext_lazy("Could not obtain the lock to perform the operation.")
     default_code = "unknown-locked"
+
+
+class NotSourceUnit(APIException):
+    status_code = HTTP_400_BAD_REQUEST
+    default_detail = gettext_lazy("Specified unit id is not a translation source unit.")
+    default_code = "not-a-source-unit"
 
 
 class WeblateExceptionHandler(ExceptionHandler):
@@ -1996,6 +2003,23 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 status=HTTP_500_INTERNAL_SERVER_ERROR,
             )
         return Response(status=HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=["get"])
+    def translations(self, request: Request, *args, **kwargs):
+        unit = self.get_object()
+        user = request.user
+        user.check_access_component(unit.translation.component)
+
+        if not unit.is_source:
+            raise NotSourceUnit
+
+        translation_units = (
+            unit.source_unit.unit_set.exclude(pk=unit.pk).prefetch().prefetch_full()
+        )
+        serializer = UnitSerializer(
+            translation_units, many=True, context={"request": request}
+        )
+        return Response(serializer.data)
 
 
 @extend_schema_view(
