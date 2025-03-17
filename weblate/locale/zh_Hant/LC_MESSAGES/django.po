@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-03-17 09:47+0000\n"
+"PO-Revision-Date: 2025-03-17 10:10+0000\n"
 "Last-Translator: william chen <william.fromtw@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -1445,26 +1445,27 @@ msgstr "每位作者"
 
 #: weblate/addons/forms.py:172
 msgid "Append trailers to squashed commit message"
-msgstr "將額外資訊加入至壓縮送交的訊息"
+msgstr "在將多個提交壓縮（squash）為一個提交時，將某些特定的元資料（trailers）附加到"
+"最終的提交資訊中"
 
 #: weblate/addons/forms.py:176
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
-msgstr ""
-"額外資訊的列看起來類似於 RFC 822 郵件信箱標頭，位於送交訊息的其他自由格式部分"
-"的末尾，例如「Co-authored-by: …」。"
+msgstr "額外資訊的列看起來類似於 RFC 822 "
+"郵件信箱標頭，位於提交訊息的其他自由格式部分的末尾，例如「Co-authored-by: "
+"…」。"
 
 #: weblate/addons/forms.py:182
 msgid "Commit message"
-msgstr "送交訊息"
+msgstr "提交訊息"
 
 #: weblate/addons/forms.py:186
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
-msgstr "此送交訊息將用來取代從壓縮送交組合而成的送交訊息。"
+msgstr "此提交訊息將用來取代從壓縮提交組合而成的提交訊息。"
 
 #: weblate/addons/forms.py:203
 msgid "Sort JSON keys"
@@ -1812,11 +1813,11 @@ msgstr "更新 PO 檔標頭中的評註部分以納入貢獻者姓名及貢獻�
 
 #: weblate/addons/git.py:26
 msgid "Squash Git commits"
-msgstr "匯併 Git 送交"
+msgstr "匯併 Git 提交"
 
 #: weblate/addons/git.py:27
 msgid "Squash Git commits prior to pushing changes."
-msgstr "推送更動前先匯併 Git 送交。"
+msgstr "推送更動前先匯併 Git 提交。"
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
@@ -2243,7 +2244,7 @@ msgstr "存取內部儲存庫"
 #. Translators: Permission name
 #: weblate/auth/data.py:105
 msgid "Commit changes to the internal repository"
-msgstr "將變更送交到內部儲存庫"
+msgstr "將變更提交到內部儲存庫"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:107
@@ -5716,7 +5717,7 @@ msgstr "Weblate 金鑰"
 
 #: weblate/templates/about/keys.html:25
 msgid "Commit signing"
-msgstr "送交簽署"
+msgstr "提交簽署"
 
 #: weblate/templates/about/keys.html:34
 #: weblate/templates/snippets/ssh-key.html:18
@@ -5755,13 +5756,12 @@ msgstr "複製到剪貼簿"
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
-msgstr ""
-"Weblate 採用 GPG 金鑰 %(gpg_key_id)s 簽署所有的送交動作，下方可以查看對應的公"
-"鑰。"
+msgstr "Weblate 採用 GPG 金鑰 %(gpg_key_id)s "
+"簽署所有的提交動作，下方可以查看對應的公鑰。"
 
 #: weblate/templates/about/keys.html:41
 msgid "Commit signing is not configured."
-msgstr "尚未設定送交簽署。"
+msgstr "尚未設定提交簽署。"
 
 #: weblate/templates/about/stats.html:13
 #: weblate/templates/dashboard/user.html:57 weblate/templates/data.html:61
@@ -6362,8 +6362,7 @@ msgid ""
 "By registering you agree to use your name and e-mail in the commits, and "
 "provide your contribution under the license defined by each localization "
 "project."
-msgstr ""
-"一旦註冊，即代表您同意以您的名稱與郵件信箱作為送交資訊，並依各個在地化專案所"
+msgstr "一旦註冊，即代表您同意以您的名稱與郵件信箱作為提交資訊，並依各個在地化專案所"
 "使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/accounts/profile.html:614
@@ -7082,14 +7081,13 @@ msgstr "來源字串"
 #: weblate/templates/addons/squash_help.html:3
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr "來自此儲存庫內組件的 Weblate 送交將會壓縮成一個送交記錄。"
+msgstr "來自此儲存庫內組件的 Weblate 送交將會壓縮成一個提交記錄。"
 
 #: weblate/templates/addons/squash_help.html:5
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" is selected or the commit message is customized to include it."
-msgstr ""
-"會保留原本的送交訊息，但除非選取「每位作者」，或者送交訊息已自訂包括原作者，"
+msgstr "會保留原本的提交訊息，但除非選取「每位作者」，或者提交訊息已自訂包括原作者，"
 "否則原作者資訊會遺失。"
 
 #: weblate/templates/auth/team.html:16
@@ -8453,7 +8451,7 @@ msgstr "儲存庫狀態"
 
 #: weblate/templates/js/git-status.html:29
 msgid "Commit"
-msgstr "送交"
+msgstr "提交"
 
 #: weblate/templates/js/git-status.html:32
 #, python-format
@@ -8475,13 +8473,13 @@ msgstr "推送"
 #, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s 個待送出送交"
+msgstr[0] "%(count)s 個尚未推送的提交"
 
 #: weblate/templates/js/git-status.html:49
 #, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "送交當中缺少%(count)s 個"
+msgstr[0] "(推送分支中缺少 %(count)s 個提交)"
 
 #: weblate/templates/js/git-status.html:60
 msgid "Update"
@@ -8503,7 +8501,7 @@ msgstr "以不快轉合併的方式合併"
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s 個缺少的送交"
+msgstr[0] "%(count)s 個缺少的提交"
 
 #: weblate/templates/js/git-status.html:91
 msgid "This will update the Weblate repository with the upstream changes."
@@ -10315,7 +10313,7 @@ msgstr "儲存庫分支"
 
 #: weblate/templates/snippets/git-info.html:39
 msgid "Last remote commit"
-msgstr "上次遠端送交"
+msgstr "上次遠端提交"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:49
@@ -10326,7 +10324,7 @@ msgstr "%(author)s 製作於 %(date)s"
 
 #: weblate/templates/snippets/git-info.html:59
 msgid "Last commit in Weblate"
-msgstr "Weblate 的上一次送交"
+msgstr "Weblate 的上一次提交"
 
 #: weblate/templates/snippets/git-info.html:79
 msgid "Weblate repository"
@@ -10775,8 +10773,7 @@ msgid ""
 "By registering you agree to use your name and e-mail in version control "
 "system commits and provide your contribution under license defined by each "
 "translated project."
-msgstr ""
-"一旦註冊，即代表您同意以您的名稱與郵件信箱作為版本控制系統的送交資訊，並依各"
+msgstr "一旦註冊，即代表您同意以您的名稱與郵件信箱作為版本控制系統的提交資訊，並依各"
 "個您所翻譯的專案所使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/snippets/login-info.html:32
@@ -10784,8 +10781,7 @@ msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
-msgstr ""
-"一旦註冊，即代表您同意以您的名稱作為版本控制系統的送交資訊，並依各個您所翻譯"
+msgstr "一旦註冊，即代表您同意以您的名稱作為版本控制系統的提交資訊，並依各個您所翻譯"
 "的專案所使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/snippets/plural-formula.html:5
@@ -11303,17 +11299,15 @@ msgid ""
 "You might want to choose Git with force push as version control system in "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
-msgstr ""
-"您可能會想在重定 Weblate 中的送交基底後，在組件設定中將版本控制系統設定為具有"
-"強制推送的 Git，來覆寫遠端的儲存庫。"
+msgstr "您可能會想在重定 Weblate 中的提交基底後，"
+"在組件設定中將版本控制系統設定為具有強制推送的 Git，來覆寫遠端的儲存庫。"
 
 #: weblate/templates/trans/alert/common-repo.html:41
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
-msgstr ""
-"Weblate 儲存庫缺少某些源自上游的送交。或許是因為其未收到遠端儲存庫更新的通"
-"知。"
+msgstr "Weblate "
+"儲存庫缺少某些源自上游的提交。或許是因為其未收到遠端儲存庫更新的通知。"
 
 #: weblate/templates/trans/alert/common-repo.html:46
 msgid ""
@@ -11827,7 +11821,7 @@ msgstr "開啟上游儲存庫的現有 checkout 或執行新的 checkout。"
 #: weblate/templates/trans/merge_instructions.html:11
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
-msgstr "送交 Weblate 所有待送交的變更並鎖定翻譯組件。"
+msgstr "提交 Weblate 所有待提交的變更並鎖定翻譯組件。"
 
 #: weblate/templates/trans/merge_instructions.html:16
 msgid "Add Weblate exported repository as a remote."
@@ -11856,7 +11850,7 @@ msgstr "請見常見問答集 FAQ 瞭解此問題的解決資訊。"
 
 #: weblate/templates/trans/messages_help.html:5
 msgid "You can use Django templates markup in the commit messages."
-msgstr "您可以在送交訊息中使用 Django 模板標記。"
+msgstr "您可以在提交訊息中使用 Django 模板標記。"
 
 #: weblate/templates/trans/other-row.html:16
 msgid "This translation"
@@ -12270,7 +12264,7 @@ msgstr "字串 %(position)s"
 
 #: weblate/templates/translate.html:860
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "未決的更動尚未送交到 Weblate 儲存庫"
+msgstr "尚未提交到 Weblate 倉庫的待處理變更"
 
 #: weblate/templates/translate.html:860
 msgid "pending"
@@ -12526,7 +12520,7 @@ msgstr "退出禪譯模式"
 
 #: weblate/trans/admin.py:32
 msgid "Commit pending changes"
-msgstr "送交未決的更動"
+msgstr "提交待處理的變更"
 
 #: weblate/trans/admin.py:41
 msgid "Update VCS repository"
@@ -13009,7 +13003,7 @@ msgstr "版本控制設定"
 
 #: weblate/trans/forms.py:1598
 msgid "Commit messages"
-msgstr "送交訊息"
+msgstr "提交訊息"
 
 #: weblate/trans/forms.py:1614
 msgid "Translation files"
@@ -14199,7 +14193,7 @@ msgstr "定義是 Weblate 是否應該與上游儲存庫合併，或是將更動
 
 #: weblate/trans/models/component.py:643
 msgid "Commit message when translating"
-msgstr "翻譯時的送交訊息"
+msgstr "翻譯時的提交訊息"
 
 #: weblate/trans/models/component.py:645 weblate/trans/models/component.py:654
 #: weblate/trans/models/component.py:663 weblate/trans/models/component.py:672
@@ -14211,19 +14205,19 @@ msgstr "您可以使用各種資訊的模板語言，請參考說明文件瞭解
 
 #: weblate/trans/models/component.py:652
 msgid "Commit message when adding translation"
-msgstr "加入翻譯時的送交訊息"
+msgstr "加入翻譯時的提交訊息"
 
 #: weblate/trans/models/component.py:661
 msgid "Commit message when removing translation"
-msgstr "移除翻譯時的送交訊息"
+msgstr "移除翻譯時的提交訊息"
 
 #: weblate/trans/models/component.py:670
 msgid "Commit message when merging translation"
-msgstr "合併翻譯時的送交訊息"
+msgstr "合併翻譯時的提交訊息"
 
 #: weblate/trans/models/component.py:679
 msgid "Commit message when add-on makes a change"
-msgstr "當附加元件建立變更時送交訊息"
+msgstr "當附加元件建立變更時提交訊息"
 
 #: weblate/trans/models/component.py:688
 msgid "Merge request message"
@@ -14231,20 +14225,20 @@ msgstr "合併請求訊息"
 
 #: weblate/trans/models/component.py:697
 msgid "Push on commit"
-msgstr "送交時一併推送"
+msgstr "提交時一併推送"
 
 #: weblate/trans/models/component.py:700
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "是否在每次送交到儲存庫時都推送到上游。"
+msgstr "是否在每次提交到儲存庫時都推送到上游。"
 
 #: weblate/trans/models/component.py:704
 msgid "Age of changes to commit"
-msgstr "更動後送交的經過時間"
+msgstr "更動後提交的經過時間"
 
 #: weblate/trans/models/component.py:708
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr "任何未決的更動送交到 VCS 後的時間，以小時計。"
+msgstr "任何未決的更動提交到 VCS 後的時間，以小時計。"
 
 #: weblate/trans/models/component.py:713
 msgid "Lock on error"
@@ -14714,7 +14708,7 @@ msgstr "無法解析 %(file)s 檔案：%(error)s"
 #: weblate/trans/models/translation.py:1316
 #, python-format
 msgid "Could not commit pending changes: %s"
-msgstr "無法送交未決的更動：%s"
+msgstr "無法提交未決的變動：%s"
 
 #: weblate/trans/models/translation.py:1773
 msgid "Plurals are not supported by the file format!"
@@ -15453,7 +15447,7 @@ msgstr "翻譯更新正在進行中。"
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
-msgstr "已送交所有未決的的翻譯。"
+msgstr "已提交所有待處理的的翻譯。"
 
 #: weblate/trans/views/lock.py:34
 msgid "Component is now locked for translation updates!"
@@ -15886,7 +15880,7 @@ msgstr "這會推送更動到 Gerrit 以供審閱。"
 
 #: weblate/vcs/git.py:627
 msgid "This will commit changes to the Subversion repository."
-msgstr "這會將更動送交至 Subversion 儲存庫。"
+msgstr "這會將更動提交至 Subversion 儲存庫。"
 
 #: weblate/vcs/git.py:794
 msgid "Git with force push"
