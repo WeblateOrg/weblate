@@ -2942,3 +2942,9 @@ Changes in translations are exported in RSS feeds.
 .. seealso::
 
    `RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_
+
+OpenAPI
++++++++
+
+.. openapi:: specs/openapi.yaml
+   :group:
