@@ -9,7 +9,7 @@ set -e -x
 if [ "${1:-latest}" = minimal ]; then
     # Adjust deps to force minimal version
     sed -i '/^ *"/ s/>=/==/' pyproject.toml
-    uv sync --no-sources --all-extras --dev
+    uv sync --no-sources --no-binary-package lxml --no-binary-package xmlsec --all-extras --dev
 elif [ "${1:-latest}" = edge ]; then
     # Install from git / pre-release
     mkdir -p build/packages
