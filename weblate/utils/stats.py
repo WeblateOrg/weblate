@@ -133,7 +133,9 @@ def prefetch_stats(queryset):
     return result
 
 
-def get_non_glossary_stats(stats_obj) -> dict[str, int]:
+def get_non_glossary_stats(
+    stats_obj: ProjectLanguageStats | ProjectStats | GlobalStats,
+) -> dict[str, int]:
     """Return a dictionary with all, source_strings, and translated strings count excluding glossary content."""
     result = {
         "all": stats_obj.all,
