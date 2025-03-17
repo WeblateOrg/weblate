@@ -716,7 +716,7 @@ def translate(request: AuthenticatedHttpRequest, path):
             "filter_pos": offset,
             "form": form,
             "comment_form": CommentForm(
-                project,
+                unit.translation,
                 initial={"scope": "global" if unit.is_source else "translation"},
             ),
             "context_form": ContextForm(instance=unit.source_unit, user=user),
@@ -810,7 +810,7 @@ def comment(request: AuthenticatedHttpRequest, pk):
     if not request.user.has_perm("comment.add", unit.translation):
         raise PermissionDenied
 
-    form = CommentForm(component.project, request.POST)
+    form = CommentForm(unit.translation, request.POST)
 
     if form.is_valid():
         # Is this source or target comment?
