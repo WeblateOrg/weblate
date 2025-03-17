@@ -12,6 +12,8 @@ Weblate 5.10.4
 * Fixed dismissing of checks.
 * Reduced overhead of rendering other strings while translating.
 * Improved performance of some :ref:`api` endpoints.
+* Fixed :ref:`language-parsing-codes` in some corner cases.
+* :ref:`search-strings` now now properly does exact match on the component.
 
 .. rubric:: Compatibility
 
