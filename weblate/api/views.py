@@ -1984,7 +1984,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         user = request.user
         user.check_access_component(unit.translation.component)
 
-        if unit.pk != unit.source_unit.pk:
+        if not unit.is_source:
             raise NotSourceUnit
 
         translation_units = (
