@@ -60,3 +60,5 @@ jobs:
         echo "::remove-matcher owner=spectacular::"
     - name: openapi-lint
       run: npx @redocly/cli lint --format github-actions weblate-openapi.yaml
+    - name: Verify OpenAPI spec is up to date
+      run: diff -u docs/specs/openapi.yaml weblate-openapi.yaml

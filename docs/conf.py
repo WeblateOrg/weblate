@@ -94,6 +94,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinxext.opengraph",
     "sphinx_reredirects",
+    "sphinxcontrib.openapi",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
