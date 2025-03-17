@@ -5,8 +5,14 @@
 {% load translations %}
 {% load humanize %}
 
-{% block breadcrumbs_container %}{% endblock %}
-
+{% block breadcrumbs %}
+  <li>
+    <a href="{% url 'about' %}">{% trans "About Weblate" %}</a>
+  </li>
+  <li>
+    <a href="{% url 'donate' %}">{% trans "Support Weblate" %}</a>
+  </li>
+{% endblock %}
 
 {% block content %}
 

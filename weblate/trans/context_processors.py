@@ -83,7 +83,7 @@ def get_bread_image(path) -> str:
         return "language.svg"
     if first == "manage":
         return "wrench.svg"
-    if first in {"about", "stats", "keys", "legal"}:
+    if first in {"about", "stats", "keys", "legal", "donate"}:
         return "weblate.svg"
     if first in {
         "glossaries",
