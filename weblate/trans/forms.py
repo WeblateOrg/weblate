@@ -1111,11 +1111,18 @@ class CommentForm(forms.Form):
         max_length=1000,
     )
 
-    def __init__(self, project, *args, **kwargs) -> None:
+    def __init__(self, translation: Translation, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        remove: set[str] = set()
         # Remove bug-report in case source review is not enabled
-        if not project.source_review:
-            self.fields["scope"].choices = self.fields["scope"].choices[1:]
+        if not translation.component.project.source_review:
+            remove.add("report")
+        # Remove translation comment when commenting on source
+        if translation.is_source:
+            remove.add("translation")
+        self.fields["scope"].choices = [
+            choice for choice in self.fields["scope"].choices if choice[0] not in remove
+        ]
 
 
 class LanguageCodeChoiceField(forms.ModelChoiceField):

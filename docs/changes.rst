@@ -5,10 +5,13 @@ Weblate 5.11
 
 .. rubric:: New features
 
+* Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of all target translation units for the given source translation unit.
+
 .. rubric:: Improvements
 
 * Weblate now uses OpenAPI Specification 3.1.1 to generate the schema for :ref:`api`.
 * :ref:`credits` and :ref:`stats` include translator's join date. Additionally, both reports can be sorted either by the join date or the number of strings translated.
+* Widgets show more precise stats.
 
 .. rubric:: Bug fixes
 
@@ -38,6 +41,8 @@ Weblate 5.10.4
 * Fixed dismissing of checks.
 * Reduced overhead of rendering other strings while translating.
 * Improved performance of some :ref:`api` endpoints.
+* Fixed :ref:`language-parsing-codes` in some corner cases.
+* :ref:`search-strings` now properly finds exact match on the component.
 
 .. rubric:: Compatibility
 
