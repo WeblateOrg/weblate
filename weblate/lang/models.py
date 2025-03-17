@@ -253,8 +253,6 @@ class LanguageQuerySet(models.QuerySet):
             Q(code__iexact=code.replace("-", "_")),
             # Replace plus with underscore (for things as zh+Hant+HK on Android)
             Q(code__iexact=code.replace("+", "_")),
-            # Try using name
-            Q(name__iexact=code) & Q(code__in=data.NO_CODE_LANGUAGES),
         ]
 
         # Country codes used without underscore (ptbr insteat of pt_BR)
@@ -308,6 +306,11 @@ class LanguageQuerySet(models.QuerySet):
                 ret = self.try_get(code=expanded_code[:2])
             if ret is not None:
                 return ret
+
+        # Try using name
+        ret = self.try_get(Q(name__iexact=code) & Q(code__in=data.NO_CODE_LANGUAGES))
+        if ret is not None:
+            return ret
 
         return newcode
 

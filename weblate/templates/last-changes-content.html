@@ -83,7 +83,7 @@
                   {% if change.show_unit_state %}<span class="badge">{{ change.get_state_display }}</span>{% endif %}
                 </label>
                 {% if change.target %}
-                  {% format_unit_target change.unit value=change.target diff=change.old %}
+                  {% format_unit_source change.unit value=change.target diff=change.old %}
                 {% else %}
                   {% format_unit_source change.unit %}
                 {% endif %}

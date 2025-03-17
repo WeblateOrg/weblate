@@ -568,8 +568,8 @@ class RSTSyntaxCheck(RSTBaseCheck):
     def check_single(
         self, source: str, target: str, unit: Unit
     ) -> bool | MissingExtraDict:
-        _errors, source_tags = validate_rst_snippet(source)
-        errors, _target_tags = validate_rst_snippet(target, tuple(source_tags))
+        _errors, source_roles = validate_rst_snippet(source)
+        errors, _target_roles = validate_rst_snippet(target, tuple(source_roles))
 
         if errors:
             return {"errors": errors}
