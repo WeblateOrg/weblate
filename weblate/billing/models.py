@@ -671,7 +671,11 @@ def delete_project_bill(
     from weblate.billing.tasks import billing_check
 
     if isinstance(instance, Translation):
-        instance = instance.component
+        try:
+            instance = instance.component
+        except Component.DoesNotExist:
+            # Happens during component removal
+            return
     if isinstance(instance, Component):
         instance = instance.project
     # This is collected in record_project_bill
