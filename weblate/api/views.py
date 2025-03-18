@@ -1569,7 +1569,9 @@ class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
     def get_queryset(self):
         if not self.request.user.is_superuser:
             self.permission_denied(self.request, "Access not allowed")
-        return Memory.objects.order_by("id")
+        # Use default database connection and not memory_db one (in case
+        # a custom router is used).
+        return Memory.objects.using("default").order_by("id")
 
     def perm_check(self, request: Request, instance) -> None:
         if not request.user.has_perm("memory.delete", instance):
