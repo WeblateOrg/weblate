@@ -10,7 +10,7 @@ from datetime import timedelta
 from celery.schedules import crontab
 from django.conf import settings
 from django.db import transaction
-from django.db.models import F, Q
+from django.db.models import Count, F, Q
 from django.http import HttpRequest
 from django.utils import timezone
 from django.utils.timezone import now
@@ -94,7 +94,14 @@ def language_consistency(
     request = HttpRequest()
     request.user = addon.addon.user
 
-    for component in project.component_set.iterator():
+    # Filter components with missing translation
+    components = project.component_set.annotate(
+        translation_count=Count(
+            "translation", filter=Q(translation__language__in=languages)
+        )
+    ).exclude(translation_count=languages.count())
+
+    for component in components.iterator():
         missing = languages.exclude(
             Q(translation__component=component) | Q(component=component)
         )
