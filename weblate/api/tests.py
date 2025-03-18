@@ -480,11 +480,11 @@ class GroupAPITest(APIBaseTest):
             code=200,
             request={"role_id": role.id},
         )
-        
+
     def test_remove_role(self) -> None:
         role = Role.objects.get(name="Administration")
         group = Group.objects.get(name="Users")
-        
+
         self.do_request(
             "api:group-roles",
             kwargs={"id": group.id},
@@ -493,14 +493,14 @@ class GroupAPITest(APIBaseTest):
             code=200,
             request={"role_id": role.id},
         )
-        
+
         self.do_request(
             "api:group-delete-roles",
             kwargs={"id": group.id, "role_id": role.id},
             method="delete",
             code=403,
         )
-        
+
         self.do_request(
             "api:group-delete-roles",
             kwargs={"id": group.id, "role_id": 99999},
@@ -508,7 +508,7 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             code=404,
         )
-        
+
         self.do_request(
             "api:group-delete-roles",
             kwargs={"id": group.id, "role_id": role.id},
@@ -516,7 +516,7 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        
+
         self.assertEqual(group.roles.filter(pk=role.id).count(), 0)
 
     def test_add_component(self) -> None:
