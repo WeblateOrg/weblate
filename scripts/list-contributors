@@ -53,7 +53,8 @@ def get_diff_categories(diff: list[Diff]) -> set[CategoryType]:
 def get_contributors() -> dict[CategoryType, list[str]]:
     contributors: dict[CategoryType, list[str]] = defaultdict(list)
     repo = Repo.init(ROOT_DIR)
-    recent_tag = repo.tags[-1]
+    tags = sorted(repo.tags, key=lambda tag: tag.commit.committed_date)
+    recent_tag = tags[-1]
     commits = list(repo.iter_commits(f"{recent_tag}..HEAD"))
     previous = recent_tag.object.object
     for commit in reversed(commits):
