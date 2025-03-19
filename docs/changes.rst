@@ -18,6 +18,8 @@ Weblate 5.11
 
 .. rubric:: Bug fixes
 
+* Fixed captcha verification when some time zone was configured.
+
 .. rubric:: Compatibility
 
 * Registration now disallows disposable e-mail domains.
