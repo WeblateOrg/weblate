@@ -1038,9 +1038,13 @@ $(function () {
     $positionInputEditable.show();
     $positionInputEditableInput.attr("type", "number");
     if ($positionInput.length > 1) {
-      $(event.target).parent().find("#position-input-editable-input").focus();
+      $(event.target)
+        .parent()
+        .find("#position-input-editable-input")
+        .focus()
+        .select();
     } else {
-      $positionInputEditableInput.focus();
+      $positionInputEditableInput.focus().select();
     }
     document.addEventListener("click", clickedOutsideEditableInput);
     document.addEventListener("keyup", pressedEscape);
