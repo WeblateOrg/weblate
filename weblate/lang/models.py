@@ -8,7 +8,6 @@ import re
 from collections import defaultdict
 from gettext import c2py
 from itertools import chain
-from operator import itemgetter
 from typing import TYPE_CHECKING
 from weakref import WeakValueDictionary
 
@@ -44,7 +43,7 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import Unit
 
 PLURAL_RE = re.compile(
@@ -408,16 +407,19 @@ class LanguageQuerySet(models.QuerySet):
         cache[code] = language
         return language
 
-    def as_choices(self, use_code: bool = True):
+    def as_choices(self, use_code: bool = True, user: User = None):
+        if user is not None:
+            key = user.profile.get_translation_orderer(request=None)
+        else:
+            key = str
+
+        languages = sort_unicode(self, key)
         return (
-            item[:2]
-            for item in sort_unicode(
-                (
-                    (code if use_code else pk, f"{gettext(name)} ({code})", name)
-                    for pk, name, code in self.values_list("pk", "name", "code")
-                ),
-                itemgetter(2),
+            (
+                language.code if use_code else language.pk,
+                f"{gettext(language.name)} ({language.code})",
             )
+            for language in languages
         )
 
     def get(self, *args, **kwargs):
