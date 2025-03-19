@@ -1,9 +1,7 @@
 Weblate 5.10.4
 --------------
 
-*Not yet released.*
-
-.. rubric:: New features
+*Released on March 19th 2025.*
 
 .. rubric:: Improvements
 
@@ -14,8 +12,6 @@ Weblate 5.10.4
 * Improved performance of some :ref:`api` endpoints.
 * Fixed :ref:`language-parsing-codes` in some corner cases.
 * :ref:`search-strings` now properly finds exact match on the component.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
