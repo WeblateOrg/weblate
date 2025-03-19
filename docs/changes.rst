@@ -3,8 +3,6 @@ Weblate 5.10.4
 
 *Released on March 19th 2025.*
 
-.. rubric:: Improvements
-
 .. rubric:: Bug fixes
 
 * Fixed dismissing of checks.
