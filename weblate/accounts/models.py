@@ -44,19 +44,25 @@ from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
-from weblate.trans.models import Change, ComponentList
+from weblate.trans.models import Change, ComponentList, Translation, Unit
+from weblate.trans.models.translation import GhostTranslation
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField
 from weblate.utils.html import mail_quote_value
 from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
+from weblate.utils.stats import (
+    CategoryLanguageStats,
+    GhostProjectLanguageStats,
+    ProjectLanguageStats,
+)
 from weblate.utils.token import get_token
 from weblate.utils.validators import EMAIL_BLACKLIST, WeblateURLValidator
 from weblate.wladmin.models import get_support_status
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
 
     from django_otp.models import Device
 
@@ -855,25 +861,70 @@ class Profile(models.Model):
     def secondary_language_ids(self) -> set[int]:
         return set(self.secondary_languages.values_list("pk", flat=True))
 
-    def get_translation_orderer(self, request: AuthenticatedHttpRequest):
+    def get_translation_orderer(
+        self, request: AuthenticatedHttpRequest | None
+    ) -> Callable[
+        [
+            Iterable[
+                Unit
+                | Translation
+                | Language
+                | ProjectLanguageStats
+                | CategoryLanguageStats
+                | GhostProjectLanguageStats
+                | GhostTranslation
+            ]
+        ],
+        str,
+    ]:
         """Create a function suitable for ordering languages based on user preferences."""
 
-        def get_translation_order(translation) -> str:
+        def get_translation_order(
+            obj: Unit
+            | Translation
+            | Language
+            | ProjectLanguageStats
+            | CategoryLanguageStats
+            | GhostProjectLanguageStats
+            | GhostTranslation,
+        ) -> str:
             from weblate.trans.models import Unit
 
-            if isinstance(translation, Unit):
-                translation = translation.translation
-            language = translation.language
+            language: Language
+            is_source = False
+            if isinstance(obj, Language):
+                language = obj
+            elif isinstance(obj, Unit):
+                translation = obj.translation
+                language = translation.language
+                is_source = translation.is_source
+            elif isinstance(
+                obj,
+                (
+                    Translation,
+                    ProjectLanguageStats,
+                    CategoryLanguageStats,
+                    GhostProjectLanguageStats,
+                    GhostTranslation,
+                ),
+            ):
+                language = obj.language
+                is_source = obj.is_source
+            else:
+                message = f"{obj.__class__.__name__} is not supported"
+                raise TypeError(message)
 
             if language.pk in self.primary_language_ids:
                 priority = 0
             elif language.pk in self.secondary_language_ids:
                 priority = 1
             elif (
-                not self.primary_language_ids and language == request.accepted_language
+                not self.primary_language_ids
+                and request is not None
+                and language == request.accepted_language
             ):
                 priority = 2
-            elif translation.is_source:
+            elif is_source:
                 priority = 3
             else:
                 priority = 4

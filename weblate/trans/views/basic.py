@@ -710,7 +710,7 @@ def new_language(request: AuthenticatedHttpRequest, path):
     added = False
 
     if request.method == "POST":
-        form = form_class(obj, request.POST)
+        form = form_class(user, obj, request.POST)
 
         if form.is_valid():
             result = obj
@@ -771,7 +771,7 @@ def new_language(request: AuthenticatedHttpRequest, path):
             return redirect(result)
         messages.error(request, gettext("Please fix errors in the form."))
     else:
-        form = form_class(obj)
+        form = form_class(user, obj)
 
     return render(
         request,

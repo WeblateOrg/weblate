@@ -1171,11 +1171,11 @@ class NewLanguageOwnerForm(forms.Form):
             Q(translation__component=self.component) | Q(component=self.component)
         )
 
-    def __init__(self, component, *args, **kwargs) -> None:
+    def __init__(self, user: User, component: Component, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.component = component
         languages = self.get_lang_objects()
-        self.fields["lang"].choices = languages.as_choices()
+        self.fields["lang"].choices = languages.as_choices(user=user)
 
 
 class NewLanguageForm(NewLanguageOwnerForm):
@@ -1203,8 +1203,8 @@ class NewLanguageForm(NewLanguageOwnerForm):
             .distinct()
         )
 
-    def __init__(self, component, *args, **kwargs) -> None:
-        super().__init__(component, *args, **kwargs)
+    def __init__(self, user: User, component: Component, *args, **kwargs) -> None:
+        super().__init__(user, component, *args, **kwargs)
         self.fields["lang"].choices = [
             ("", gettext("Please choose")),
             *self.fields["lang"].choices,
@@ -1215,7 +1215,9 @@ class NewLanguageForm(NewLanguageOwnerForm):
         return [self.cleaned_data["lang"]]
 
 
-def get_new_language_form(request: AuthenticatedHttpRequest, component):
+def get_new_language_form(
+    request: AuthenticatedHttpRequest, component: Component
+) -> type[NewLanguageOwnerForm | NewLanguageForm]:
     """Return new language form for user."""
     if not request.user.has_perm("translation.add", component):
         raise PermissionDenied
