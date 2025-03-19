@@ -1958,6 +1958,31 @@ class Unit(models.Model, LoggerMixin):
                 old=old,
             )
 
+    def update_extra_flags(
+        self, extra_flags: str, user: User, save: bool = True
+    ) -> None:
+        """Update unit extra flags."""
+        old = self.extra_flags
+        self.extra_flags = extra_flags
+        units: Iterable[Unit] = []
+        if self.is_source:
+            units = self.unit_set.select_for_update().exclude(id=self.id)
+        # Always generate change for self
+        units = [*units, self]
+        if save:
+            self.save(update_fields=["extra_flags"], only_save=True)
+
+        for unit in units:
+            unit.generate_change(
+                user=user,
+                author=user,
+                change_action=ActionEvents.EXTRA_FLAGS,
+                check_new=False,
+                save=True,
+                old=old,
+                target=self.extra_flags,
+            )
+
     @cached_property
     def glossary_sort_key(self):
         return (self.translation.component.priority, self.source.lower())
