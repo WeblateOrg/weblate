@@ -1430,6 +1430,7 @@ class GhostProjectLanguageStats(GhostStats):
     language: Language
     component: Component
     is_shared: Project | None
+    is_source: bool = False
 
     def __init__(
         self, component: Component, language: Language, is_shared: Project | None = None
