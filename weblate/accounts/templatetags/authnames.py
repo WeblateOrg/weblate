@@ -89,7 +89,7 @@ def get_auth_params(auth: str) -> dict[str, StrOrPromise]:
     return params
 
 
-auth_name_default_separator = mark_safe("<br />")  # noqa: S308
+auth_name_default_separator = mark_safe("<br />")
 
 
 @register.simple_tag

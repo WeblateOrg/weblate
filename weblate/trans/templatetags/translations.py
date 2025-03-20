@@ -1028,7 +1028,7 @@ def get_location_links(user: User | None, unit):
 
     # Go through all locations separated by comma
     return format_html_join(
-        mark_safe('\n<span class="divisor">•</span>\n'),  # noqa: S308
+        mark_safe('\n<span class="divisor">•</span>\n'),
         "{}",
         (
             (
@@ -1079,7 +1079,7 @@ def active_tab(context: Context, slug):
 @register.simple_tag(takes_context=True)
 def active_link(context: Context, slug):
     if slug == context["active_tab_slug"]:
-        return mark_safe('class="active"')  # noqa: S308
+        return mark_safe('class="active"')
     return ""
 
 
@@ -1322,7 +1322,7 @@ def indicate_alerts(
                 text,
                 text,
                 icon(icon_name),
-                mark_safe("</a>") if url else "",  # noqa: S308
+                mark_safe("</a>") if url else "",
             )
             for icon_name, text, url in get_alerts(
                 context=context,
@@ -1578,7 +1578,7 @@ def list_objects_number(
                 url=translate_url or search_url,
                 query=query,
             )
-            url_end = mark_safe("</a>")  # noqa: S308
+            url_end = mark_safe("</a>")
         value_formatted = intcomma(value)
     return format_html(
         """
@@ -1615,7 +1615,7 @@ def list_objects_percent(
             url=translate_url or search_url,
             query=query,
         )
-        url_end = mark_safe("</a>")  # noqa: S308
+        url_end = mark_safe("</a>")
     else:
         url_start = url_end = ""
 

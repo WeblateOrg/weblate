@@ -334,7 +334,7 @@ class TargetCheck(BaseCheck):
 
     def get_errors_text(self, values: Iterable[str]) -> StrOrPromise:
         return format_html_join(
-            mark_safe("<br />"),  # noqa: S308
+            mark_safe("<br />"),
             "{}",
             (
                 (value,)
