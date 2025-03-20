@@ -248,7 +248,7 @@ class PluralTextarea(forms.Textarea):
                     gettext("Toggle text direction"),
                     rtl_name,
                     "rtl",
-                    mark_safe('checked="checked"'),  # noqa: S308
+                    mark_safe('checked="checked"'),
                     "RTL",
                 ),
                 (
@@ -266,7 +266,7 @@ class PluralTextarea(forms.Textarea):
             GROUP_TEMPLATE,
             [
                 (
-                    mark_safe('data-toggle="buttons"'),  # noqa: S308
+                    mark_safe('data-toggle="buttons"'),
                     rtl_switch,
                 )
             ],  # Only one group.

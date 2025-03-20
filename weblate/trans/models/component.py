@@ -2913,7 +2913,7 @@ class Component(
                     )
                     % len(errors),
                     format_html_join(
-                        mark_safe("<br>"),  # noqa: S308
+                        mark_safe("<br>"),
                         "<code>{}</code>: {}",
                         errors,
                     ),
