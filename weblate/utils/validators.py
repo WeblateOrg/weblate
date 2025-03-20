@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import cast
 from urllib.parse import urlparse
 
+from disposable_email_domains import blocklist
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
@@ -189,11 +190,14 @@ class EmailValidator(EmailValidatorDjango):
         if not re.match(settings.REGISTRATION_EMAIL_MATCH, value):
             raise ValidationError(gettext("This e-mail address is disallowed."))
         try:
-            Address(addr_spec=value)
+            address = Address(addr_spec=value)
         except HeaderDefect as error:
             raise ValidationError(
                 gettext("Invalid e-mail address: {}").format(error)
             ) from error
+
+        if address.domain in blocklist:
+            raise ValidationError(gettext("Disposable e-mail domains are disallowed."))
 
 
 validate_email = EmailValidator()

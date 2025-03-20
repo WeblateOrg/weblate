@@ -17,6 +17,8 @@ Weblate 5.11
 
 .. rubric:: Compatibility
 
+* Registration now disallows disposable e-mail domains.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
