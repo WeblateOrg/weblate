@@ -634,6 +634,24 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
+    @extend_schema(
+        description="Delete a role from a group.",
+        methods=["delete"],
+        parameters=[OpenApiParameter("role_id", int, OpenApiParameter.PATH)],
+    )
+    @action(detail=True, methods=["delete"], url_path="roles/(?P<role_id>[0-9]+)")
+    def delete_roles(self, request: Request, id, role_id):  # noqa: A002
+        obj = self.get_object()
+        self.perm_check(request)
+
+        try:
+            role = obj.roles.get(pk=role_id)
+        except Role.DoesNotExist as error:
+            raise Http404(str(error)) from error
+
+        obj.roles.remove(role)
+        return Response(status=HTTP_204_NO_CONTENT)
+
     @extend_schema(description="Associate languages with a group.", methods=["post"])
     @action(
         detail=True,
