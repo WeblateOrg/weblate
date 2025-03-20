@@ -706,6 +706,12 @@ Generic settings
       :ref:`production-site`,
       :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`
 
+.. envvar:: WEBLATE_INTERLEDGER_PAYMENT_BUILTIN
+
+    .. versionadded:: 5.11
+
+    Configures :setting:`INTERLEDGER_PAYMENT_BUILTIN`.
+
 .. envvar:: WEBLATE_INTERLEDGER_PAYMENT_POINTERS
 
     .. versionadded:: 4.12.1
