@@ -406,6 +406,9 @@
                 </div>
               {% endif %}
             </div>
+          </form>
+          <form method="post">
+            {% csrf_token %}
             <div class="panel panel-danger">
               <div class="panel-heading">
                 <h4 class="panel-title">{% trans "Removal" %}</h4>
