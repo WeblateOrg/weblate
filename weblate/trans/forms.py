@@ -64,6 +64,7 @@ from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.antispam import is_spam
+from weblate.utils.files import FileUploadMethod
 from weblate.utils.forms import (
     CachedModelMultipleChoiceField,
     ColorWidget,
@@ -660,15 +661,7 @@ class SimpleUploadForm(FieldDocsMixin, forms.Form):
     )
     method = forms.ChoiceField(
         label=gettext_lazy("File upload mode"),
-        choices=(
-            ("translate", gettext_lazy("Add as translation")),
-            ("approve", gettext_lazy("Add as approved translation")),
-            ("suggest", gettext_lazy("Add as suggestion")),
-            ("fuzzy", gettext_lazy("Add as translation needing edit")),
-            ("replace", gettext_lazy("Replace existing translation file")),
-            ("source", gettext_lazy("Update source strings")),
-            ("add", gettext_lazy("Add new strings")),
-        ),
+        choices=FileUploadMethod.choices,
         widget=forms.RadioSelect,
         required=True,
     )
