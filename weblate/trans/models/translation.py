@@ -18,12 +18,13 @@ from django.db.models import F, Q
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext
+from django.utils.html import format_html
+from django.utils.translation import gettext, ngettext
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.auto import try_load
-from weblate.formats.base import TranslationFormat, UnitNotFoundError
+from weblate.formats.base import TranslationFormat, TranslationUnit, UnitNotFoundError
 from weblate.formats.helpers import CONTROLCHARS, NamedBytesIO
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
@@ -42,7 +43,9 @@ from weblate.trans.models.variant import Variant
 from weblate.trans.signals import component_post_update, store_post_load, vcs_pre_commit
 from weblate.trans.util import is_plural, join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
+from weblate.utils import messages
 from weblate.utils.errors import report_error
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -1003,6 +1006,38 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
         return result
 
+    def log_upload_not_found(
+        self, not_found_log: list[str], unit: TranslationUnit
+    ) -> None:
+        not_found_log.append(unit.source)
+
+    def show_upload_not_found(
+        self,
+        request: AuthenticatedHttpRequest,
+        not_found_log: list[str],
+        string_limit: int = 8,
+    ) -> None:
+        count = len(not_found_log)
+
+        strings = format_html_join_comma(
+            gettext("“{}”"), ((string,) for string in not_found_log[:string_limit])
+        )
+        if count > string_limit:
+            strings = format_html_join_comma("{}", [(strings,), (gettext("…"),)])
+
+        messages.warning(
+            request,
+            format_html(
+                "{} {}",
+                ngettext(
+                    "Could not find %d string:", "Could not find %d strings:", count
+                )
+                % count,
+                strings,
+            ),
+            fail_silently=True,
+        )
+
     def merge_translations(
         self,
         request: AuthenticatedHttpRequest,
@@ -1017,11 +1052,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
         Needed for template based translations to add new strings.
         """
-        not_found = 0
         skipped = 0
         accepted = 0
         add_fuzzy = method == "fuzzy"
         add_approve = method == "approve"
+        not_found_log: list[str] = []
 
         # Are there any translations to propagate?
         # This is just an optimalization to avoid doing that for every unit.
@@ -1042,7 +1077,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             try:
                 unit = unit_set.get_unit(unit2)
             except Unit.DoesNotExist:
-                not_found += 1
+                self.log_upload_not_found(not_found_log, unit2)
                 continue
 
             state = STATE_TRANSLATED
@@ -1077,15 +1112,18 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             self.invalidate_cache()
             request.user.profile.increase_count("translated", accepted)
 
-        return (not_found, skipped, accepted, len(store2.content_units))
+        if not_found_log:
+            self.show_upload_not_found(request, not_found_log)
+
+        return (len(not_found_log), skipped, accepted, len(store2.content_units))
 
     def merge_suggestions(
         self, request: AuthenticatedHttpRequest, author: User, store, fuzzy
     ):
         """Merge content of translate-toolkit store as a suggestions."""
-        not_found = 0
         skipped = 0
         accepted = 0
+        not_found_log: list[str] = []
 
         unit_set = self.unit_set.all()
 
@@ -1094,7 +1132,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             try:
                 dbunit = unit_set.get_unit(unit)
             except Unit.DoesNotExist:
-                not_found += 1
+                self.log_upload_not_found(not_found_log, unit)
                 continue
 
             # Add suggestion
@@ -1120,7 +1158,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         if accepted > 0:
             self.invalidate_cache()
 
-        return (not_found, skipped, accepted, len(store.content_units))
+        if not_found_log:
+            self.show_upload_not_found(request, not_found_log)
+
+        return (len(not_found_log), skipped, accepted, len(store.content_units))
 
     def drop_store_cache(self) -> None:
         if "store" in self.__dict__:
