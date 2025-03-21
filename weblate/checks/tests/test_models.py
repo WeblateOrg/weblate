@@ -19,6 +19,10 @@ class CheckLintTestCase(SimpleTestCase):
     def test_check_id(self) -> None:
         for check in CHECKS.values():
             self.assertRegex(check.check_id, r"^[a-z][a-z0-9_-]*[a-z]$")
+            self.assertTrue(
+                check.description.endswith("."),
+                f"{check.__class__.__name__} description does not have a stop: {check.description}",
+            )
 
 
 class CheckModelTestCase(FixtureTestCase):
@@ -28,7 +32,7 @@ class CheckModelTestCase(FixtureTestCase):
     def test_check(self) -> None:
         check = self.create_check("same")
         self.assertEqual(
-            str(check.get_description()), "Source and translation are identical"
+            str(check.get_description()), "Source and translation are identical."
         )
         self.assertTrue(check.get_doc_url().endswith("user/checks.html#check-same"))
         self.assertEqual(str(check), "Unchanged translation")

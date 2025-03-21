@@ -29,7 +29,9 @@ class MaxSizeCheck(TargetCheckParametrized):
 
     check_id = "max-size"
     name = gettext_lazy("Maximum size of translation")
-    description = gettext_lazy("Translation rendered text should not exceed given size")
+    description = gettext_lazy(
+        "Translation rendered text should not exceed given size."
+    )
     default_disabled = True
     last_font = None
     always_display = True

@@ -562,7 +562,7 @@ class PythonFormatCheck(BasePrintfCheck):
 
     check_id = "python_format"
     name = gettext_lazy("Python format")
-    description = gettext_lazy("Python format string does not match source")
+    description = gettext_lazy("Python format string does not match source.")
     plural_parameter_regexp = re.compile(r"%\((?:count|number|num|n)\)[a-zA-Z]")
 
 
@@ -571,7 +571,7 @@ class PHPFormatCheck(BasePrintfCheck):
 
     check_id = "php_format"
     name = gettext_lazy("PHP format")
-    description = gettext_lazy("PHP format string does not match source")
+    description = gettext_lazy("PHP format string does not match source.")
 
 
 class CFormatCheck(BasePrintfCheck):
@@ -579,7 +579,7 @@ class CFormatCheck(BasePrintfCheck):
 
     check_id = "c_format"
     name = gettext_lazy("C format")
-    description = gettext_lazy("C format string does not match source")
+    description = gettext_lazy("C format string does not match source.")
 
 
 class PerlBraceFormatCheck(BaseFormatCheck):
@@ -587,7 +587,7 @@ class PerlBraceFormatCheck(BaseFormatCheck):
 
     check_id = "perl_brace_format"
     name = gettext_lazy("Perl brace format")
-    description = gettext_lazy("Perl brace format string does not match source")
+    description = gettext_lazy("Perl brace format string does not match source.")
     regexp = PERL_BRACE_MATCH
     plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
 
@@ -600,7 +600,7 @@ class PerlFormatCheck(CFormatCheck):
 
     check_id = "perl_format"
     name = gettext_lazy("Perl format")
-    description = gettext_lazy("Perl format string does not match source")
+    description = gettext_lazy("Perl format string does not match source.")
 
 
 class JavaScriptFormatCheck(CFormatCheck):
@@ -608,7 +608,7 @@ class JavaScriptFormatCheck(CFormatCheck):
 
     check_id = "javascript_format"
     name = gettext_lazy("JavaScript format")
-    description = gettext_lazy("JavaScript format string does not match source")
+    description = gettext_lazy("JavaScript format string does not match source.")
 
 
 class LuaFormatCheck(BasePrintfCheck):
@@ -616,7 +616,7 @@ class LuaFormatCheck(BasePrintfCheck):
 
     check_id = "lua_format"
     name = gettext_lazy("Lua format")
-    description = gettext_lazy("Lua format string does not match source")
+    description = gettext_lazy("Lua format string does not match source.")
 
 
 class ObjectPascalFormatCheck(BasePrintfCheck):
@@ -624,7 +624,7 @@ class ObjectPascalFormatCheck(BasePrintfCheck):
 
     check_id = "object_pascal_format"
     name = gettext_lazy("Object Pascal format")
-    description = gettext_lazy("Object Pascal format string does not match source")
+    description = gettext_lazy("Object Pascal format string does not match source.")
     regexp = PASCAL_FORMAT_MATCH
 
 
@@ -633,7 +633,7 @@ class SchemeFormatCheck(BasePrintfCheck):
 
     check_id = "scheme_format"
     name = gettext_lazy("Scheme format")
-    description = gettext_lazy("Scheme format string does not match source")
+    description = gettext_lazy("Scheme format string does not match source.")
     normalize_remove = {"~"}
 
     def format_string(self, string: str) -> str:
@@ -645,7 +645,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
 
     check_id = "python_brace_format"
     name = gettext_lazy("Python brace format")
-    description = gettext_lazy("Python brace format string does not match source")
+    description = gettext_lazy("Python brace format string does not match source.")
     regexp = PYTHON_BRACE_MATCH
     plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
     normalize_remove: set[str] = {"{", "}"}
@@ -692,7 +692,7 @@ class CSharpFormatCheck(BaseFormatCheck):
 
     check_id = "c_sharp_format"
     name = gettext_lazy("C# format")
-    description = gettext_lazy("C# format string does not match source")
+    description = gettext_lazy("C# format string does not match source.")
     regexp = C_SHARP_MATCH
 
     def is_position_based(self, string: str):
@@ -707,7 +707,7 @@ class JavaFormatCheck(BasePrintfCheck):
 
     check_id = "java_printf_format"
     name = gettext_lazy("Java format")
-    description = gettext_lazy("Java format string does not match source")
+    description = gettext_lazy("Java format string does not match source.")
 
 
 class JavaMessageFormatCheck(BaseFormatCheck):
@@ -715,7 +715,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
 
     check_id = "java_format"
     name = gettext_lazy("Java MessageFormat")
-    description = gettext_lazy("Java MessageFormat string does not match source")
+    description = gettext_lazy("Java MessageFormat string does not match source.")
     regexp = JAVA_MESSAGE_MATCH
 
     def format_string(self, string: str) -> str:
@@ -761,7 +761,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
 class I18NextInterpolationCheck(BaseFormatCheck):
     check_id = "i18next_interpolation"
     name = gettext_lazy("i18next interpolation")
-    description = gettext_lazy("The i18next interpolation does not match source")
+    description = gettext_lazy("The i18next interpolation does not match source.")
     regexp = I18NEXT_MATCH
     # https://www.i18next.com/translation-function/plurals
     plural_parameter_regexp = re.compile(r"{{count}}")
@@ -775,7 +775,7 @@ class ESTemplateLiteralsCheck(BaseFormatCheck):
 
     check_id = "es_format"
     name = gettext_lazy("ECMAScript template literals")
-    description = gettext_lazy("ECMAScript template literals do not match source")
+    description = gettext_lazy("ECMAScript template literals do not match source.")
     regexp = ES_TEMPLATE_MATCH
     plural_parameter_regexp = re.compile(r"\$\{(?:count|number|num|n)\}")
 
@@ -789,7 +789,7 @@ class ESTemplateLiteralsCheck(BaseFormatCheck):
 class PercentPlaceholdersCheck(BaseFormatCheck):
     check_id = "percent_placeholders"
     name = gettext_lazy("Percent placeholders")
-    description = gettext_lazy("The percent placeholders do not match source")
+    description = gettext_lazy("The percent placeholders do not match source.")
     regexp = PERCENT_MATCH
     plural_parameter_regexp = re.compile(r"%(?:count|number|num|n)%")
 
@@ -797,7 +797,7 @@ class PercentPlaceholdersCheck(BaseFormatCheck):
 class VueFormattingCheck(BaseFormatCheck):
     check_id = "vue_format"
     name = gettext_lazy("Vue I18n formatting")
-    description = gettext_lazy("The Vue I18n formatting does not match source")
+    description = gettext_lazy("The Vue I18n formatting does not match source.")
     regexp = VUE_MATCH
     # https://kazupon.github.io/vue-i18n/guide/pluralization.html
     plural_parameter_regexp = re.compile(r"%?\{(?:count|n)\}")
@@ -808,7 +808,7 @@ class MultipleUnnamedFormatsCheck(SourceCheck):
     name = gettext_lazy("Multiple unnamed variables")
     description = gettext_lazy(
         "There are multiple unnamed variables in the string, "
-        "making it impossible for translators to reorder them"
+        "making it impossible for translators to reorder them."
     )
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
