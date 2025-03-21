@@ -34,6 +34,7 @@ from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.files import FileUploadMethod, get_upload_message
 from weblate.utils.pii import mask_email
 from weblate.utils.state import StringState
 
@@ -626,6 +627,23 @@ class Change(models.Model, UserDisplayMixin):
 
         details = self.details
         action = self.action
+
+        if action == ActionEvents.FILE_UPLOAD:
+            try:
+                method = FileUploadMethod[details["method"].upper()].label
+            except KeyError:
+                method = details["method"]
+            return format_html(
+                "{}<br>{} {}",
+                get_upload_message(
+                    details["not_found"],
+                    details["skipped"],
+                    details["accepted"],
+                    details["total"],
+                ),
+                gettext("File upload mode:"),
+                method,
+            )
 
         if action in {
             ActionEvents.ANNOUNCEMENT,

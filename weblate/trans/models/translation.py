@@ -1295,32 +1295,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         component_post_update.send(sender=self.__class__, component=component)
         return (0, skipped, accepted, len(store.content_units))
 
-    @transaction.atomic
-    def handle_upload(
+    def load_uploaded_file(
         self,
         request: AuthenticatedHttpRequest,
         fileobj: BinaryIO,
-        conflicts: Literal["", "replace-approved", "replace-translated"],
-        author_name: str | None = None,
-        author_email: str | None = None,
-        method: Literal["fuzzy", "approve", "translate"] = "translate",
-        fuzzy: Literal["", "process", "approve"] = "",
-    ) -> UploadResult:
-        """Top level handler for file uploads."""
-        from weblate.auth.models import User
-
+        method: Literal["fuzzy", "approve", "translate"],
+    ) -> TranslationFormat:
         component = self.component
-
-        # Get User object for author
-        author = User.objects.get_author_by_email(
-            author_name, author_email, request.user, request
-        )
-
-        if method == "replace":
-            return self.handle_replace(request, author, fileobj)
-
-        if method == "source":
-            return self.handle_source(request, author, fileobj)
 
         filecopy = fileobj.read()
         fileobj.close()
@@ -1374,18 +1355,64 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             else:
                 if not self.plural.same_plural(number, formula):
                     raise PluralFormsMismatchError
+        return store
 
-        if method in {"translate", "fuzzy", "approve"}:
-            # Merge on units level
-            return self.merge_translations(
-                request, author, store, conflicts, method, fuzzy
-            )
-        if method == "add":
-            with component.lock:
-                return self.handle_add_upload(request, author, store, fuzzy=fuzzy)
+    @transaction.atomic
+    def handle_upload(
+        self,
+        request: AuthenticatedHttpRequest,
+        fileobj: BinaryIO,
+        conflicts: Literal["", "replace-approved", "replace-translated"],
+        author_name: str | None = None,
+        author_email: str | None = None,
+        method: Literal["fuzzy", "approve", "translate"] = "translate",
+        fuzzy: Literal["", "process", "approve"] = "",
+    ) -> UploadResult:
+        """Top level handler for file uploads."""
+        from weblate.auth.models import User
 
-        # Add as suggestions
-        return self.merge_suggestions(request, author, store, fuzzy)
+        component = self.component
+
+        # Get User object for author
+        author = User.objects.get_author_by_email(
+            author_name, author_email, request.user, request
+        )
+        result: UploadResult
+
+        if method == "replace":
+            result = self.handle_replace(request, author, fileobj)
+
+        elif method == "source":
+            result = self.handle_source(request, author, fileobj)
+        else:
+            store = self.load_uploaded_file(request, fileobj, method)
+
+            if method in {"translate", "fuzzy", "approve"}:
+                # Merge on units level
+                result = self.merge_translations(
+                    request, author, store, conflicts, method, fuzzy
+                )
+            elif method == "add":
+                with component.lock:
+                    result = self.handle_add_upload(request, author, store, fuzzy=fuzzy)
+            else:
+                # Add as suggestions
+                result = self.merge_suggestions(request, author, store, fuzzy)
+
+        self.change_set.create(
+            action=ActionEvents.FILE_UPLOAD,
+            user=request.user,
+            author=author,
+            details={
+                "method": method,
+                "not_found": result[0],
+                "skipped": result[1],
+                "accepted": result[2],
+                "total": result[3],
+            },
+        )
+
+        return result
 
     def _invalidate_triger(self) -> None:
         self._invalidate_scheduled = False
