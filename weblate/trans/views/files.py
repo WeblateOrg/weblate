@@ -46,7 +46,7 @@ def download_multi(
 ):
     filenames = set()
     components = set()
-    extra = {}
+    extra: dict[str, str | bytes] = {}
 
     for obj in commit_objs:
         try:

@@ -499,7 +499,7 @@ def zip_download(
     root: str,
     filenames: list[str],
     name: str = "translations",
-    extra: dict[str, bytes] | None = None,
+    extra: dict[str, bytes | str] | None = None,
 ):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w", strict_timestamps=False) as zipfile:

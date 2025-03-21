@@ -60,6 +60,8 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
+UploadResult = tuple[int, int, int, int]
+
 
 class NewUnitParams(TypedDict):
     context: NotRequired[str]
@@ -110,6 +112,7 @@ class TranslationQuerySet(models.QuerySet):
     def prefetch(self, *, defer_huge: bool = True):
         from weblate.trans.models import Component
 
+        component_prefetch: str | models.Prefetch
         if defer_huge:
             component_prefetch = models.Prefetch(
                 "component", queryset=Component.objects.defer_huge()
@@ -1126,7 +1129,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             self.component.drop_template_store_cache()
 
     def handle_upload_store_change(
-        self, request: AuthenticatedHttpRequest, author: User, change_action: int
+        self,
+        request: AuthenticatedHttpRequest,
+        author: User,
+        change_action: ActionEvents,
     ) -> None:
         component = self.component
         if not component.repository.needs_commit(self.filenames):
@@ -1155,7 +1161,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         self.create_unit_change_action = ActionEvents.NEW_UNIT_REPO
         self.update_unit_change_action = ActionEvents.STRING_REPO_UPDATE
 
-    def handle_source(self, request: AuthenticatedHttpRequest, author: User, fileobj):
+    def handle_source(
+        self, request: AuthenticatedHttpRequest, author: User, fileobj: BinaryIO
+    ) -> UploadResult:
         """Replace source translations with uploaded one."""
         from weblate.addons.gettext import GettextCustomizeAddon, MsgmergeAddon
 
@@ -1210,7 +1218,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             )
         return (0, 0, self.unit_set.count(), self.unit_set.count())
 
-    def handle_replace(self, request: AuthenticatedHttpRequest, author: User, fileobj):
+    def handle_replace(
+        self, request: AuthenticatedHttpRequest, author: User, fileobj: BinaryIO
+    ) -> UploadResult:
         """Replace file content with uploaded one."""
         filecopy = fileobj.read()
         fileobj.close()
@@ -1249,12 +1259,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         author: User,
         store: TranslationFormat,
         fuzzy: Literal["", "process", "approve"] = "",
-    ):
+    ) -> UploadResult:
         component = self.component
         has_template = component.has_template()
         skipped = 0
         accepted = 0
         component.start_batched_checks()
+        existing: set[str] | set[tuple[str, str]]
         if has_template:
             existing = set(self.unit_set.values_list("context", flat=True))
         else:
@@ -1294,7 +1305,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         author_email: str | None = None,
         method: Literal["fuzzy", "approve", "translate"] = "translate",
         fuzzy: Literal["", "process", "approve"] = "",
-    ):
+    ) -> UploadResult:
         """Top level handler for file uploads."""
         from weblate.auth.models import User
 
@@ -1455,7 +1466,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
     def handle_store_change(
         self,
-        request: AuthenticatedHttpRequest,
+        request: AuthenticatedHttpRequest | None,
         user: User,
         previous_revision: str,
         change=None,
