@@ -7,6 +7,7 @@ from __future__ import annotations
 import codecs
 import os
 import tempfile
+from datetime import UTC
 from itertools import chain
 from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict
 
@@ -874,7 +875,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         # Update po file header
         now = timezone.now()
         if not timezone.is_aware(now):
-            now = timezone.make_aware(now, timezone.utc)
+            now = timezone.make_aware(now, UTC)
 
         # Prepare headers to update
         headers = {
