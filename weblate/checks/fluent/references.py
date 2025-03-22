@@ -668,7 +668,7 @@ class FluentReferencesCheck(TargetCheck):
 
     check_id = "fluent-references"
     name = gettext_lazy("Fluent references")
-    description = gettext_lazy("Fluent references should match")
+    description = gettext_lazy("Fluent references should match.")
     default_disabled = True
 
     @classmethod

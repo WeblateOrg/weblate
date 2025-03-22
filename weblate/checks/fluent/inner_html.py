@@ -941,7 +941,7 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
 
     check_id = "fluent-source-inner-html"
     name = gettext_lazy("Fluent source inner HTML")
-    description = gettext_lazy("Fluent source should be valid inner HTML")
+    description = gettext_lazy("Fluent source should be valid inner HTML.")
     default_disabled = True
 
     def check_source_unit(self, sources: list[str], unit: TransUnitModel) -> bool:
@@ -1217,7 +1217,7 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
 
     check_id = "fluent-target-inner-html"
     name = gettext_lazy("Fluent translation inner HTML")
-    description = gettext_lazy("Fluent target should be valid inner HTML that matches")
+    description = gettext_lazy("Fluent target should be valid inner HTML that matches.")
     default_disabled = True
 
     @classmethod

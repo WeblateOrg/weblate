@@ -36,7 +36,7 @@ class DuplicateCheck(TargetCheck):
 
     check_id = "duplicate"
     name = gettext_lazy("Consecutive duplicated words")
-    description = gettext_lazy("Text contains the same word twice in a row")
+    description = gettext_lazy("Text contains the same word twice in a row.")
 
     def extract_groups(
         self, text: str, language_code: str

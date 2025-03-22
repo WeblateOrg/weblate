@@ -174,6 +174,12 @@ Here is a list of flags currently accepted:
     Enable the :ref:`check-url` quality check.
 ``ignore-all-checks``
     Ignore all quality checks.
+``fluent-source-inner-html``
+    Enable the :ref:`check-fluent-source-inner-html` quality check.
+``fluent-source-syntax``
+    Enable the :ref:`check-fluent-source-syntax` quality check.
+``icu-message-format``
+    Enable the :ref:`check-icu-message-format-syntax` quality check.
 ``ignore-bbcode``
     Skip the :ref:`check-bbcode` quality check.
 ``ignore-duplicate``
@@ -182,6 +188,14 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-check-glossary` quality check.
 ``ignore-double-space``
     Skip the :ref:`check-double-space` quality check.
+``ignore-fluent-parts``
+    Skip the :ref:`check-fluent-parts` quality check.
+``ignore-fluent-references``
+    Skip the :ref:`check-fluent-references` quality check.
+``ignore-fluent-target-inner-html``
+    Skip the :ref:`check-fluent-target-inner-html` quality check.
+``ignore-fluent-target-syntax``
+    Skip the :ref:`check-fluent-target-syntax` quality check.
 ``ignore-angularjs-format``
     Skip the :ref:`check-angularjs-format` quality check.
 ``ignore-c-format``
@@ -230,6 +244,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-translated` quality check.
 ``ignore-inconsistent``
     Skip the :ref:`check-inconsistent` quality check.
+``ignore-rst-references``
+    Skip the :ref:`check-rst-references` quality check.
 ``ignore-kashida``
     Skip the :ref:`check-kashida` quality check.
 ``ignore-md-link``
@@ -298,7 +314,11 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-zero-width-space` quality check.
 ``ignore-ellipsis``
     Skip the :ref:`check-ellipsis` quality check.
-``ignore-icu-message-format-syntax``
+``ignore-fluent-source-inner-html``
+    Skip the :ref:`check-fluent-source-inner-html` quality check.
+``ignore-fluent-source-syntax``
+    Skip the :ref:`check-fluent-source-syntax` quality check.
+``ignore-icu-message-format``
     Skip the :ref:`check-icu-message-format-syntax` quality check.
 ``ignore-long-untranslated``
     Skip the :ref:`check-long-untranslated` quality check.

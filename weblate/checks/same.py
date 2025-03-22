@@ -150,7 +150,7 @@ class SameCheck(TargetCheck):
 
     check_id = "same"
     name = gettext_lazy("Unchanged translation")
-    description = gettext_lazy("Source and translation are identical")
+    description = gettext_lazy("Source and translation are identical.")
 
     def should_ignore(self, source: str, unit: Unit) -> bool:
         """Check whether given unit should be ignored."""

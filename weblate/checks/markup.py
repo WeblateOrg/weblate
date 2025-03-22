@@ -109,7 +109,7 @@ class BBCodeCheck(TargetCheck):
 
     check_id = "bbcode"
     name = gettext_lazy("BBCode markup")
-    description = gettext_lazy("BBCode in translation does not match source")
+    description = gettext_lazy("BBCode in translation does not match source.")
     default_disabled = True
 
     def __init__(self) -> None:
@@ -193,7 +193,7 @@ class XMLValidityCheck(BaseXMLCheck):
 
     check_id = "xml-invalid"
     name = gettext_lazy("XML syntax")
-    description = gettext_lazy("The translation is not valid XML")
+    description = gettext_lazy("The translation is not valid XML.")
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # Check if source is XML
@@ -218,7 +218,7 @@ class XMLTagsCheck(BaseXMLCheck):
 
     check_id = "xml-tags"
     name = gettext_lazy("XML markup")
-    description = gettext_lazy("XML tags in translation do not match source")
+    description = gettext_lazy("XML tags in translation do not match source.")
 
     def check_single(self, source: str, target: str, unit: Unit):
         # Check if source is XML
@@ -277,7 +277,7 @@ class MarkdownBaseCheck(TargetCheck):
 class MarkdownRefLinkCheck(MarkdownBaseCheck):
     check_id = "md-reflink"
     name = gettext_lazy("Markdown references")
-    description = gettext_lazy("Markdown link references do not match source")
+    description = gettext_lazy("Markdown link references do not match source.")
 
     def check_single(self, source: str, target: str, unit: Unit):
         src_match = MD_REFLINK.findall(source)
@@ -294,7 +294,7 @@ class MarkdownRefLinkCheck(MarkdownBaseCheck):
 class MarkdownLinkCheck(MarkdownBaseCheck):
     check_id = "md-link"
     name = gettext_lazy("Markdown links")
-    description = gettext_lazy("Markdown links do not match source")
+    description = gettext_lazy("Markdown links do not match source.")
 
     def check_single(self, source: str, target: str, unit: Unit):
         src_match = MD_LINK.findall(source)
@@ -323,7 +323,7 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
 class MarkdownSyntaxCheck(MarkdownBaseCheck):
     check_id = "md-syntax"
     name = gettext_lazy("Markdown syntax")
-    description = gettext_lazy("Markdown syntax does not match source")
+    description = gettext_lazy("Markdown syntax does not match source.")
 
     @staticmethod
     def extract_match(match):
@@ -356,7 +356,7 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
 class URLCheck(TargetCheck):
     check_id = "url"
     name = gettext_lazy("URL")
-    description = gettext_lazy("The translation does not contain an URL")
+    description = gettext_lazy("The translation does not contain an URL.")
     default_disabled = True
 
     @cached_property
@@ -376,7 +376,7 @@ class URLCheck(TargetCheck):
 class SafeHTMLCheck(TargetCheck):
     check_id = "safe-html"
     name = gettext_lazy("Unsafe HTML")
-    description = gettext_lazy("The translation uses unsafe HTML markup")
+    description = gettext_lazy("The translation uses unsafe HTML markup.")
     default_disabled = True
 
     def check_single(self, source: str, target: str, unit: Unit):

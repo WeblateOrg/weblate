@@ -88,7 +88,7 @@ class GlossaryCheck(TargetCheck):
 class ProhibitedInitialCharacterCheck(TargetCheck):
     check_id = "prohibited_initial_character"
     name = gettext_lazy("Prohibited initial character")
-    description = gettext_lazy("The string starts with a prohibited character in CSV")
+    description = gettext_lazy("The string starts with a prohibited character in CSV.")
     # Process readonly (source) strings
     ignore_readonly = False
     glossary = True

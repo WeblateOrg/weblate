@@ -110,7 +110,7 @@ class FluentPartsCheck(TargetCheck):
 
     check_id = "fluent-parts"
     name = gettext_lazy("Fluent parts")
-    description = gettext_lazy("Fluent parts should match")
+    description = gettext_lazy("Fluent parts should match.")
     default_disabled = True
 
     @classmethod

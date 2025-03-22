@@ -29,7 +29,7 @@ class PluralsCheck(TargetCheck):
 
     check_id = "plurals"
     name = gettext_lazy("Missing plurals")
-    description = gettext_lazy("Some plural forms are untranslated")
+    description = gettext_lazy("Some plural forms are untranslated.")
 
     def should_skip(self, unit: Unit):
         if unit.translation.component.is_multivalue:
@@ -56,7 +56,7 @@ class SamePluralsCheck(TargetCheck):
 
     check_id = "same-plurals"
     name = gettext_lazy("Same plurals")
-    description = gettext_lazy("Some plural forms are translated in the same way")
+    description = gettext_lazy("Some plural forms are translated in the same way.")
 
     def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
         # Is this plural?
@@ -284,7 +284,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
 
     check_id = "translated"
     name = gettext_lazy("Has been translated")
-    description = gettext_lazy("This string has been translated in the past")
+    description = gettext_lazy("This string has been translated in the past.")
     ignore_untranslated = False
     skip_suggestions = True
 
