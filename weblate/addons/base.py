@@ -295,6 +295,10 @@ class BaseAddon:
         """Event handler for component update."""
         # To be implemented in a subclass
 
+    def change_event(self, change) -> None:
+        """Event handler for change event."""
+        # To be implemented in a subclass
+
     def execute_process(
         self, component: Component, cmd: list[str], env: dict[str, str] | None = None
     ) -> None:
@@ -457,3 +461,13 @@ class StoreBaseAddon(BaseAddon):
         AddonEvent.EVENT_STORE_POST_LOAD,
     }
     icon = "wrench.svg"
+
+
+class ChangeBaseAddon(BaseAddon):
+    """Base class for add-ons that listen for Change notifications."""
+
+    events: set[AddonEvent] = {
+        AddonEvent.EVENT_CHANGE,
+    }
+
+    icon = "pencil.svg"
