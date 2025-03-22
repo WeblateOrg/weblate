@@ -1618,6 +1618,25 @@ class WebhookAddonsTest(ViewTestCase):
         self.assertEqual(len(responses.calls), expected_calls)
 
     @responses.activate
+    def test_bulk_changes(self):
+        """Test bulk change create via the propagate() method."""
+        # create another component in project with same units as self.component
+        self.create_po(
+            new_base="po/project.pot", project=self.project, name="Component B1"
+        )
+        # listen to propagate change event
+        self.addon_configuration["events"].append(ActionEvents.PROPAGATED_EDIT)
+
+        WebhookAddon.create(
+            configuration=self.addon_configuration, project=self.project
+        )
+        responses.add(responses.POST, "https://example.com/webhooks", status=200)
+
+        # create translation for unit and similar units across project
+        self.change_unit("Nazdar svete!\n", "Hello, world!\n", "cs")
+        self.assertEqual(len(responses.calls), 2)
+
+    @responses.activate
     def test_translation_added(self) -> None:
         """Test translation added and translation edited action change."""
         self.addon_configuration["events"].append(ActionEvents.CHANGE)
@@ -1740,25 +1759,6 @@ class WebhookAddonsTest(ViewTestCase):
             side_effect=jsonschema.exceptions.ValidationError("message"),
         ):
             self.do_translation_added_test(expected_calls=0)
-
-    @responses.activate
-    def test_bulk_changes(self):
-        """Test bulk change create via the propagate() method."""
-        # create another component in project with same units as self.component
-        self.create_po(
-            new_base="po/project.pot", project=self.project, name="Component B1"
-        )
-        # listen to propagate change event
-        self.addon_configuration["events"].append(ActionEvents.PROPAGATED_EDIT)
-
-        WebhookAddon.create(
-            configuration=self.addon_configuration, project=self.project
-        )
-        responses.add(responses.POST, "https://example.com/webhooks", status=200)
-
-        # create translation for unit and similar units across project
-        self.change_unit("Nazdar svete!\n", "Hello, world!\n", "cs")
-        self.assertEqual(len(responses.calls), 2)
 
     @responses.activate
     def test_webhook_signature(self):
