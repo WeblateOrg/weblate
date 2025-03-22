@@ -922,6 +922,23 @@ Vue I18n formatting
    `Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting.html>`_,
    `Vue I18n Linked locale messages <https://kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_
 
+.. _check-automattic-components-format:
+
+Automattic components formatting
+********************************
+
+:Summary: The Automattic components' placeholders do not match the source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.AutomatticComponentsCheck``
+:Check identifier: ``automattic_components_format``
+:Flag to enable: ``automattic-components-format``
+:Flag to ignore: ``ignore-automattic-components-format``
+:Simple format string example: ``They bought {{strong}}apples{{/strong}}.``
+
+.. seealso::
+
+   :ref:`check-formats`
+
 .. _check-translated:
 
 Has been translated

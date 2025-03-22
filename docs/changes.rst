@@ -7,6 +7,7 @@ Weblate 5.11
 
 * Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of all target translation units for the given source translation unit.
 * Added :http:delete:`/api/groups/(int:id)/roles/(int:role_id)` to delete a role from a group.
+* :ref:`check-automattic-components-format` check to validate placeholders in Automattic components.
 
 .. rubric:: Improvements
 
