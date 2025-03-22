@@ -9,6 +9,7 @@ from __future__ import annotations
 from django.test import SimpleTestCase
 
 from weblate.checks.format import (
+    AutomatticComponentsCheck,
     BaseFormatCheck,
     CFormatCheck,
     CSharpFormatCheck,
@@ -1600,6 +1601,55 @@ class VueFormattingCheckTest(CheckTestCase):
         )
         self.assertTrue(
             self.check.check_format("{foo} string", "{bar} string", False, None)
+        )
+
+
+class AutomatticComponentsCheckTest(CheckTestCase):
+    check = AutomatticComponentsCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.test_highlight = (
+            "automattic-components-format",
+            "{{ strong }} hello, world {{/strong}}, {{ languages /}}",
+            [
+                (0, 12, "{{ strong }}"),
+                (26, 37, "{{/strong}}"),
+                (39, 55, "{{ languages /}}"),
+            ],
+        )
+
+    def test_no_format(self) -> None:
+        self.assertFalse(self.check.check_format("strins", "string", False, None))
+
+    def test_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "{{foo}} string {{/foo}}", "{{foo}} string {{/foo}}", False, None
+            )
+        )
+        self.assertFalse(
+            self.check.check_format("{{foo/}} string", "{{foo/}} string", False, None)
+        )
+
+    def test_missing_format(self) -> None:
+        self.assertTrue(
+            self.check.check_format("{{foo}} string", "string", False, None)
+        )
+        self.assertTrue(
+            self.check.check_format(
+                "{{foo}} string {{/foo}}", "{{foo}} string", False, None
+            )
+        )
+
+    def test_wrong_format(self) -> None:
+        self.assertTrue(
+            self.check.check_format(
+                "{{foo}} string {{/foo}}", "{{foo}} string {{/bar}}", False, None
+            )
+        )
+        self.assertTrue(
+            self.check.check_format("{{foo/}} string", "{{baz/}} string", False, None)
         )
 
 

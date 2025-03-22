@@ -236,6 +236,9 @@ VUE_MATCH = re.compile(
 
 WHITESPACE = re.compile(r"\s+")
 
+# See https://github.com/Automattic/wp-calypso/blob/899d4cba090893f5a62012a08a6d0a4e8d028d98/packages/interpolate-components/src/tokenize.js#L30
+AUTOMATTIC_COMPONENTS_MATCH = re.compile(r"(\{\{/?\s*\w+\s*/?}})")
+
 
 def c_format_is_position_based(string: str):
     return "$" not in string and string != "%"
@@ -255,6 +258,10 @@ def python_format_is_position_based(string: str):
 
 def name_format_is_position_based(string: str) -> bool:  # noqa: FURB118
     return not string
+
+
+def format_not_position_based(string: str):
+    return False
 
 
 def extract_string_simple(match: re.Match) -> str:
@@ -328,6 +335,11 @@ FLAG_RULES: dict[
     "java-printf-format": (
         JAVA_MATCH,
         c_format_is_position_based,
+        extract_string_simple,
+    ),
+    "automattic-components-format": (
+        AUTOMATTIC_COMPONENTS_MATCH,
+        format_not_position_based,
         extract_string_simple,
     ),
 }
@@ -469,7 +481,7 @@ class BaseFormatCheck(TargetCheck):
             return
         match_objects = self.regexp.finditer(source)
         for match in match_objects:
-            yield (match.start(), match.end(), match.group())
+            yield match.start(), match.end(), match.group()
 
     def format_result(self, result: MissingExtraDict) -> Iterable[StrOrPromise]:
         if (
@@ -801,6 +813,26 @@ class VueFormattingCheck(BaseFormatCheck):
     regexp = VUE_MATCH
     # https://kazupon.github.io/vue-i18n/guide/pluralization.html
     plural_parameter_regexp = re.compile(r"%?\{(?:count|n)\}")
+
+
+class AutomatticComponentsCheck(BaseFormatCheck):
+    check_id = "automattic_components_format"
+    name = gettext_lazy("Automattic Components")
+    description = gettext_lazy(
+        "The Automattic components' placeholders do not match the source"
+    )
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.regexp, self._is_position_based, self._extract_string = FLAG_RULES[
+            self.enable_string
+        ]
+
+    def is_position_based(self, string: str) -> bool:
+        return self._is_position_based(string)
+
+    def extract_string(self, match: re.Match) -> str:
+        return self._extract_string(match)
 
 
 class MultipleUnnamedFormatsCheck(SourceCheck):

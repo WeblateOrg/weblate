@@ -78,6 +78,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.format.VueFormattingCheck",
         "weblate.checks.format.I18NextInterpolationCheck",
         "weblate.checks.format.ESTemplateLiteralsCheck",
+        "weblate.checks.format.AutomatticComponentsCheck",
         "weblate.checks.angularjs.AngularJSInterpolationCheck",
         "weblate.checks.icu.ICUMessageFormatCheck",
         "weblate.checks.icu.ICUSourceCheck",
