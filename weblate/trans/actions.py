@@ -158,6 +158,8 @@ class ActionEvents(IntegerChoices):
     ENFORCED_CHECK = 76, gettext_lazy("Applied enforced check")
     # Translators: Name of event in the history
     PROPAGATED_EDIT = 77, gettext_lazy("Propagated change")
+    # Translators: Name of event in the history
+    FILE_UPLOAD = 78, gettext_lazy("File uploaded")
 
 
 # Actions which can be reverted
@@ -208,6 +210,7 @@ ACTIONS_REPOSITORY = {
     ActionEvents.LOCK,
     ActionEvents.UNLOCK,
     ActionEvents.HOOK,
+    ActionEvents.FILE_UPLOAD,
 }
 
 # Actions where target is rendered as translation string

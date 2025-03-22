@@ -9,7 +9,7 @@ set -e -x
 if [ "${1:-latest}" = minimal ]; then
     # Adjust deps to force minimal version
     sed -i '/^ *"/ s/>=/==/' pyproject.toml
-    uv sync --no-sources --all-extras --dev
+    uv sync --no-sources --no-binary-package lxml --no-binary-package xmlsec --all-extras --dev
 elif [ "${1:-latest}" = edge ]; then
     # Install from git / pre-release
     mkdir -p build/packages
@@ -24,12 +24,10 @@ elif [ "${1:-latest}" = edge ]; then
     # Allow pre-repeases
     uv add --no-sources --no-binary-package lxml --no-binary-package xmlsec --prerelease allow Django
     uv sync --no-sources --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
-elif python -c 'import sys; sys.exit(0 if sys.version_info >= (3,13) else 1)'; then
+else
     # TODO: lxml can use wheels once xmlsec has one
     # see https://github.com/xmlsec/python-xmlsec/issues/327
     uv sync --no-sources --frozen --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
-else
-    uv sync --no-sources --frozen --all-extras --dev
 fi
 
 # Verify that deps are consistent

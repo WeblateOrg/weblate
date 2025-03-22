@@ -15,6 +15,7 @@ from drf_spectacular.extensions import OpenApiSerializerExtension
 from drf_spectacular.plumbing import build_basic_type, build_object_type
 from drf_spectacular.utils import (
     OpenApiExample,
+    extend_schema_field,
     extend_schema_serializer,
     inline_serializer,
 )
@@ -265,6 +266,7 @@ class BasicUserSerializer(serializers.ModelSerializer[User]):
         )
 
 
+@extend_schema_field(str)
 class PermissionSerializer(serializers.RelatedField[Permission, str, str]):
     class Meta:
         model = Permission

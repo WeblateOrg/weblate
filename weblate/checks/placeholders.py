@@ -127,7 +127,7 @@ class PlaceholderCheck(TargetCheckParametrized):
             errors.append(self.get_extra_text(result["extra"]))
 
         return format_html_join(
-            mark_safe("<br />"),  # noqa: S308
+            mark_safe("<br />"),
             "{}",
             ((error,) for error in errors),
         )

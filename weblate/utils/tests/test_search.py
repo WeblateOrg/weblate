@@ -314,8 +314,15 @@ class UnitQueryParserTest(SearchTestCase):
     def test_component(self) -> None:
         self.assert_query(
             "component:hello",
-            Q(translation__component__slug__iexact="hello")
+            Q(translation__component__slug__icontains="hello")
             | Q(translation__component__name__icontains="hello"),
+        )
+
+    def test_component_exact(self) -> None:
+        self.assert_query(
+            "component:=hello",
+            Q(translation__component__slug__iexact="hello")
+            | Q(translation__component__name__iexact="hello"),
         )
 
     def test_path(self) -> None:

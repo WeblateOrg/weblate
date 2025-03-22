@@ -64,6 +64,7 @@ from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.antispam import is_spam
+from weblate.utils.files import FileUploadMethod
 from weblate.utils.forms import (
     CachedModelMultipleChoiceField,
     ColorWidget,
@@ -248,7 +249,7 @@ class PluralTextarea(forms.Textarea):
                     gettext("Toggle text direction"),
                     rtl_name,
                     "rtl",
-                    mark_safe('checked="checked"'),  # noqa: S308
+                    mark_safe('checked="checked"'),
                     "RTL",
                 ),
                 (
@@ -266,7 +267,7 @@ class PluralTextarea(forms.Textarea):
             GROUP_TEMPLATE,
             [
                 (
-                    mark_safe('data-toggle="buttons"'),  # noqa: S308
+                    mark_safe('data-toggle="buttons"'),
                     rtl_switch,
                 )
             ],  # Only one group.
@@ -660,15 +661,7 @@ class SimpleUploadForm(FieldDocsMixin, forms.Form):
     )
     method = forms.ChoiceField(
         label=gettext_lazy("File upload mode"),
-        choices=(
-            ("translate", gettext_lazy("Add as translation")),
-            ("approve", gettext_lazy("Add as approved translation")),
-            ("suggest", gettext_lazy("Add as suggestion")),
-            ("fuzzy", gettext_lazy("Add as translation needing edit")),
-            ("replace", gettext_lazy("Replace existing translation file")),
-            ("source", gettext_lazy("Update source strings")),
-            ("add", gettext_lazy("Add new strings")),
-        ),
+        choices=FileUploadMethod.choices,
         widget=forms.RadioSelect,
         required=True,
     )
@@ -1111,11 +1104,18 @@ class CommentForm(forms.Form):
         max_length=1000,
     )
 
-    def __init__(self, project, *args, **kwargs) -> None:
+    def __init__(self, translation: Translation, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        remove: set[str] = set()
         # Remove bug-report in case source review is not enabled
-        if not project.source_review:
-            self.fields["scope"].choices = self.fields["scope"].choices[1:]
+        if not translation.component.project.source_review:
+            remove.add("report")
+        # Remove translation comment when commenting on source
+        if translation.is_source:
+            remove.add("translation")
+        self.fields["scope"].choices = [
+            choice for choice in self.fields["scope"].choices if choice[0] not in remove
+        ]
 
 
 class LanguageCodeChoiceField(forms.ModelChoiceField):
@@ -1164,11 +1164,11 @@ class NewLanguageOwnerForm(forms.Form):
             Q(translation__component=self.component) | Q(component=self.component)
         )
 
-    def __init__(self, component, *args, **kwargs) -> None:
+    def __init__(self, user: User, component: Component, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.component = component
         languages = self.get_lang_objects()
-        self.fields["lang"].choices = languages.as_choices()
+        self.fields["lang"].choices = languages.as_choices(user=user)
 
 
 class NewLanguageForm(NewLanguageOwnerForm):
@@ -1196,8 +1196,8 @@ class NewLanguageForm(NewLanguageOwnerForm):
             .distinct()
         )
 
-    def __init__(self, component, *args, **kwargs) -> None:
-        super().__init__(component, *args, **kwargs)
+    def __init__(self, user: User, component: Component, *args, **kwargs) -> None:
+        super().__init__(user, component, *args, **kwargs)
         self.fields["lang"].choices = [
             ("", gettext("Please choose")),
             *self.fields["lang"].choices,
@@ -1208,7 +1208,9 @@ class NewLanguageForm(NewLanguageOwnerForm):
         return [self.cleaned_data["lang"]]
 
 
-def get_new_language_form(request: AuthenticatedHttpRequest, component):
+def get_new_language_form(
+    request: AuthenticatedHttpRequest, component: Component
+) -> type[NewLanguageOwnerForm | NewLanguageForm]:
     """Return new language form for user."""
     if not request.user.has_perm("translation.add", component):
         raise PermissionDenied
@@ -1327,6 +1329,21 @@ class ReportsForm(forms.Form):
         choices=[("", gettext_lazy("All languages"))],
         required=False,
     )
+    sort_by = forms.ChoiceField(
+        label=gettext_lazy("Sort by"),
+        choices=[
+            ("count", gettext_lazy("Strings translated")),
+            ("date_joined", gettext_lazy("Date joined")),
+        ],
+        required=False,
+    )
+    sort_order = forms.ChoiceField(
+        label=gettext_lazy("Sort order"),
+        choices=[
+            ("descending", gettext_lazy("Descending")),
+            ("ascending", gettext_lazy("Ascending")),
+        ],
+    )
 
     def __init__(self, scope: dict[str, Model], *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -1336,6 +1353,8 @@ class ReportsForm(forms.Form):
             Field("style"),
             Field("period"),
             Field("language"),
+            Field("sort_by"),
+            Field("sort_order"),
         )
         if not scope:
             languages = Language.objects.have_translation()

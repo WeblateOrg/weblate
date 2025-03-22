@@ -8,7 +8,7 @@ import json
 import os
 from datetime import timedelta
 from io import StringIO
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 from unittest.mock import patch
 
 import jsonschema.exceptions
@@ -1590,12 +1590,17 @@ class TasksTest(TestCase):
 class WebhookAddonsTest(ViewTestCase):
     """Test for Webhook Addon."""
 
-    addon_configuration = {
+    addon_configuration: ClassVar[dict] = {
         "webhook_url": "https://example.com/webhooks",
-        "events": [
-            ActionEvents.NEW,
-        ],
+        "events": [],
     }
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.reset_addon_configuration()
+
+    def reset_addon_configuration(self):
+        self.addon_configuration["events"] = [ActionEvents.NEW]
 
     def do_translation_added_test(
         self, response_code=None, expected_calls: int = 1, **responses_kwargs

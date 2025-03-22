@@ -149,7 +149,7 @@ def get_other_units(unit):
             units = units.using("memory_db")
 
         max_units = 20
-        units_limited = units[:max_units]
+        units_limited = units[:max_units].fill_in_source_translation()
         units_count = len(units_limited)
 
         # Is it only this unit?
@@ -163,11 +163,6 @@ def get_other_units(unit):
         result["skipped"] = units_count > max_units
 
         for item in units_limited:
-            # Inject source translation which we already have
-            item.translation.component.project.source_translation = (
-                item.source_unit.translation
-            )
-
             item.allow_merge = item.differently_translated = (
                 item.translated and item.target != unit.target
             )
@@ -721,7 +716,7 @@ def translate(request: AuthenticatedHttpRequest, path):
             "filter_pos": offset,
             "form": form,
             "comment_form": CommentForm(
-                project,
+                unit.translation,
                 initial={"scope": "global" if unit.is_source else "translation"},
             ),
             "context_form": ContextForm(instance=unit.source_unit, user=user),
@@ -815,7 +810,7 @@ def comment(request: AuthenticatedHttpRequest, pk):
     if not request.user.has_perm("comment.add", unit.translation):
         raise PermissionDenied
 
-    form = CommentForm(component.project, request.POST)
+    form = CommentForm(unit.translation, request.POST)
 
     if form.is_valid():
         # Is this source or target comment?

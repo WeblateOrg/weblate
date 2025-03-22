@@ -1062,7 +1062,7 @@ class BaseExporter:
 
         return response
 
-    def serialize(self):
+    def serialize(self) -> bytes:
         """Return storage content."""
         from weblate.formats.ttkit import TTKitFormat
 

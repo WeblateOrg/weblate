@@ -500,7 +500,7 @@ class BaseFormatCheck(TargetCheck):
             errors.extend(self.format_result(results))
         if errors:
             return format_html_join(
-                mark_safe("<br />"),  # noqa: S308
+                mark_safe("<br />"),
                 "{}",
                 ((error,) for error in errors),
             )

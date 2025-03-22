@@ -9,7 +9,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Literal
 
-from git import Repo
+from git import Commit, Repo
 from git.diff import Diff
 
 import weblate.utils.version
@@ -19,11 +19,14 @@ ROOT_DIR = Path(__file__).parent.parent
 
 CategoryType = Literal["code", "translations", "docs"]
 
+IGNORE_AUTHORS: set[str] = {"GitHub", "Anonymous", "Hosted Weblate"}
+
 CATEGORIES: dict[CategoryType, str] = {
     "code": "Code contributions",
     "translations": "Translations contributions",
     "docs": "Documentation contributions",
 }
+
 TEMPLATE = """
 {label}
     .. only:: not gettext
@@ -50,24 +53,42 @@ def get_diff_categories(diff: list[Diff]) -> set[CategoryType]:
     return categories
 
 
+def is_valid_author(author: str) -> bool:
+    return (
+        "(bot)" not in author
+        and "[bot]" not in author
+        and "add-on" not in author
+        and author not in IGNORE_AUTHORS
+    )
+
+
+def get_commit_authors(commit: Commit) -> set[str]:
+    authors: list[str] = [str(commit.author)]
+    if commit.committer:
+        authors.append(str(commit.committer))
+    authors.extend(
+        line[15:].split("<")[0].strip()
+        for line in str(commit.message).splitlines()
+        if line.lower().startswith("co-authored-by:")
+    )
+    return {author for author in authors if is_valid_author(author)}
+
+
 def get_contributors() -> dict[CategoryType, list[str]]:
     contributors: dict[CategoryType, list[str]] = defaultdict(list)
     repo = Repo.init(ROOT_DIR)
-    recent_tag = repo.tags[-1]
+    tags = sorted(repo.tags, key=lambda tag: tag.commit.committed_date)
+    recent_tag = tags[-1]
     commits = list(repo.iter_commits(f"{recent_tag}..HEAD"))
     previous = recent_tag.object.object
     for commit in reversed(commits):
-        author = str(commit.author)
-        if (
-            "(bot)" not in author
-            and "[bot]" not in author
-            and "add-on" not in author
-            and author != "Anonymous"
-        ):
+        authors = get_commit_authors(commit)
+        if authors:
             diff = previous.diff(commit.tree)
             for category in get_diff_categories(diff):
-                if author not in contributors[category]:
-                    contributors[category].append(author)
+                for author in authors:
+                    if author not in contributors[category]:
+                        contributors[category].append(author)
         previous = commit.tree
     return contributors
 

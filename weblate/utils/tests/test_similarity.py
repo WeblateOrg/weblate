@@ -16,6 +16,7 @@ class ComparerTest(SimpleTestCase):
         self.assertEqual(Comparer().similarity("a", "a"), 100)
 
     def test_unicode(self) -> None:
-        # Test fallback to Python implementation in jellyfish
-        # for unicode strings
-        self.assertEqual(Comparer().similarity("NICHOLASŸ", "NICHOLAS"), 88)
+        self.assertEqual(Comparer().similarity("NICHOLASŸ", "NICHOLAS"), 94)
+
+    def test_emoji(self) -> None:
+        self.assertEqual(Comparer().similarity("Weblate 😀", "Weblate 😍"), 88)

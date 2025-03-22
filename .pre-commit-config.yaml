@@ -23,11 +23,11 @@ repos:
   - id: django-upgrade
     args: [--target-version, '5.1']
 - repo: https://github.com/adrienverge/yamllint
-  rev: v1.36.0
+  rev: v1.36.2
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.10.0
+  rev: v0.11.2
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
@@ -79,7 +79,7 @@ repos:
     additional_dependencies:
     - '@biomejs/biome@1.9.4'
 - repo: https://github.com/abravalheri/validate-pyproject
-  rev: v0.24
+  rev: v0.24.1
   hooks:
   - id: validate-pyproject
 - repo: https://github.com/djlint/djLint

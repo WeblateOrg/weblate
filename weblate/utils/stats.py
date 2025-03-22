@@ -133,6 +133,42 @@ def prefetch_stats(queryset):
     return result
 
 
+def get_non_glossary_stats(
+    stats_obj: ProjectLanguageStats | ProjectStats | GlobalStats,
+) -> dict[str, int]:
+    """Return a dictionary with all, source_strings, and translated strings count excluding glossary content."""
+    result = {
+        "all": stats_obj.all,
+        "translated": stats_obj.translated,
+        "source_strings": getattr(stats_obj, "source_strings", stats_obj.all),
+    }
+
+    if isinstance(stats_obj, ProjectLanguageStats):
+        from weblate.trans.models import Translation
+
+        glossaries = Translation.objects.filter(
+            language=stats_obj.language, component__in=stats_obj.project.glossaries
+        ).prefetch()
+    elif isinstance(stats_obj, ProjectStats):
+        glossaries = stats_obj._object.glossaries  # noqa: SLF001
+    elif isinstance(stats_obj, GlobalStats):
+        from weblate.trans.models import Component
+
+        glossaries = Component.objects.filter(is_glossary=True)
+    else:
+        # other stat types do not concern glossaries
+        return result
+
+    for glossary in prefetch_stats(glossaries):
+        result["all"] -= glossary.stats.all
+        result["translated"] -= glossary.stats.translated
+        result["source_strings"] -= getattr(
+            glossary.stats, "source_strings", glossary.stats.all
+        )
+
+    return result
+
+
 class BaseStats:
     """Caching statistics calculator."""
 
@@ -1394,6 +1430,7 @@ class GhostProjectLanguageStats(GhostStats):
     language: Language
     component: Component
     is_shared: Project | None
+    is_source: bool = False
 
     def __init__(
         self, component: Component, language: Language, is_shared: Project | None = None

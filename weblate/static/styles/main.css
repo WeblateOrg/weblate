@@ -7,7 +7,7 @@
 :root {
   color-scheme: only light;
   --altcha-color-text: #2a3744;
-  --altcha-border-radius: var(--border-radius);
+  --altcha-border-radius: var(--border-radius-sm);
   --altcha-color-border: #cccccc;
 }
 
@@ -2347,4 +2347,14 @@ tbody.warning {
 
 .panel-title .pull-right.text-muted {
   padding: 0 0.5em;
+}
+
+table.table-simple tbody#glossary-terms {
+  table-layout: fixed;
+  width: 100%;
+}
+
+table.table-simple tbody#glossary-terms td {
+  word-break: break-word;
+  white-space: normal;
 }
