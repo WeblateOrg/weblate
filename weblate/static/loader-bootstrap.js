@@ -687,12 +687,6 @@ $(function () {
     }
   });
 
-  /* Widgets selector */
-  $(".select-tab").on("change", function (_e) {
-    $(this).parent().find(".tab-pane").removeClass("active");
-    $(`#${$(this).val()}`).addClass("active");
-  });
-
   /* Code samples (on widgets page) */
   $(".code-example").focus(function () {
     $(this).select();

@@ -72,6 +72,7 @@ CSP_DIRECTIVES: CSP_TYPE = {
 INLINE_PATHS = {
     "social:begin",
     "djangosaml2idp:saml_login_process",
+    "widgets"
 }
 
 
