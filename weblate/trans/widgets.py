@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 import cairo
 import gi
 from django.conf import settings
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.html import format_html
 from django.utils.translation import (
@@ -42,7 +42,7 @@ from weblate.utils.stats import (
 from weblate.utils.views import get_percent_color
 
 if TYPE_CHECKING:
-    from django.http import HttpResponse
+    from django.http import HttpRequest, HttpResponse
     from django_stubs_ext import StrOrPromise
 
 gi.require_version("PangoCairo", "1.0")
@@ -546,10 +546,14 @@ class LanguageBadgeWidget(BaseSVGBadgeWidget):
         try:
             threshold = int(request.GET.get("threshold", 0))
         except ValueError as e:
-            messages.error(request, gettext("Error in parameter %(field)s: %(error)s") % {
-                "field": "threshold",
-                "error": str(e),
-            })
+            messages.error(
+                request,
+                gettext("Error in parameter %(field)s: %(error)s")
+                % {
+                    "field": "threshold",
+                    "error": str(e),
+                },
+            )
             threshold = 0
 
         languages: list[BaseStats | ProjectLanguage]
@@ -563,8 +567,7 @@ class LanguageBadgeWidget(BaseSVGBadgeWidget):
             languages = self.stats.get_language_stats()
 
         language_count = sum(
-            1 for lang in languages
-            if lang.translated_percent >= threshold
+            1 for lang in languages if lang.translated_percent >= threshold
         )
         languages_text = gettext("languages")
 

@@ -76,7 +76,10 @@
       <div class="widget-card bg-white p-3">
         <h4>Live Preview</h4>
         <div class="preview-box" id="preview">
-          <img id="widgetImage" src="{{ image_src }}" alt="{% trans "Translation status" %}" style="max-width: 500px;" />
+          <img id="widgetImage"
+               src="{{ image_src }}"
+               alt="{% trans "Translation status" %}"
+               style="max-width: 500px" />
         </div>
       </div>
 
@@ -91,8 +94,6 @@
 {% endblock %}
 
 {% block extra_script %}
-  <script type="application/json" id="widgets-data">
-    {{ widgets_json|safe }}
-  </script>
+  <script type="application/json" id="widgets-data">{{ widgets_json|safe }}</script>
   <script defer data-cfasync="false" src="{% static "js/widgets.js" %}{{ cache_param }}"></script>
 {% endblock %}

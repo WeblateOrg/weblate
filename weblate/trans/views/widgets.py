@@ -65,7 +65,9 @@ def widgets(request: AuthenticatedHttpRequest, path: list[str]):
     )
     engage_link = format_html('<a href="{0}" id="engage-link">{0}</a>', engage_url)
 
-    engage_base_url = get_site_url(reverse("engage", kwargs={"path": project.get_url_path()}))
+    engage_base_url = get_site_url(
+        reverse("engage", kwargs={"path": project.get_url_path()})
+    )
     widget_base_url = f"{get_site_url()}/widget/{'/'.join(project.get_url_path())}"
 
     widget_list = []
@@ -78,9 +80,7 @@ def widgets(request: AuthenticatedHttpRequest, path: list[str]):
             "colors": widget_class.colors,
             "extra_parameters": widget_class.extra_parameters,
         }
-        widget_list.append(
-            {"name": widget_name, "verbose": widget_class.verbose}
-        )
+        widget_list.append({"name": widget_name, "verbose": widget_class.verbose})
 
     return render(
         request,
@@ -91,15 +91,20 @@ def widgets(request: AuthenticatedHttpRequest, path: list[str]):
             "object": obj,
             "project": project,
             "form": form,
-            "widgets_json": json.dumps({
-                "widget_base_url": widget_base_url,
-                "engage_base_url": engage_base_url,
-                "language": lang.code if lang else None,
-                "component": component.id if component else None,
-                "components": [{"id": c.id, "slug": c.slug} for c in form.fields["component"].queryset],
-                "translation_status": gettext("Translation status"),
-                "widgets": widgets_json,
-            }),
+            "widgets_json": json.dumps(
+                {
+                    "widget_base_url": widget_base_url,
+                    "engage_base_url": engage_base_url,
+                    "language": lang.code if lang else None,
+                    "component": component.id if component else None,
+                    "components": [
+                        {"id": c.id, "slug": c.slug}
+                        for c in form.fields["component"].queryset
+                    ],
+                    "translation_status": gettext("Translation status"),
+                    "widgets": widgets_json,
+                }
+            ),
         },
     )
 
