@@ -76,6 +76,7 @@ def widgets(request: AuthenticatedHttpRequest, path: list[str]):
             "name": widget_name,
             "extension": widget_class.extension,
             "colors": widget_class.colors,
+            "extra_parameters": widget_class.extra_parameters,
         }
         widget_list.append(
             {"name": widget_name, "verbose": widget_class.verbose}
@@ -190,7 +191,7 @@ def render_widget(
 
     # Render widget
     response = HttpResponse(content_type=widget_obj.content_type)
-    widget_obj.render(response)
+    widget_obj.render(request, response)
     return response
 
 
@@ -202,5 +203,5 @@ def render_og(request: AuthenticatedHttpRequest):
 
     # Render widget
     response = HttpResponse(content_type=widget_obj.content_type)
-    widget_obj.render(response)
+    widget_obj.render(request, response)
     return response
