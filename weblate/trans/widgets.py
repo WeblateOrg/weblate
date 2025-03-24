@@ -40,6 +40,7 @@ from weblate.utils.stats import (
 from weblate.utils.views import get_percent_color
 
 if TYPE_CHECKING:
+    from django.http import HttpResponse
     from django_stubs_ext import StrOrPromise
 
 gi.require_version("PangoCairo", "1.0")
@@ -375,45 +376,51 @@ class OpenGraphWidget(NormalWidget):
         PangoCairo.show_layout(ctx, layout)
 
 
-@register_widget
-class SVGBadgeWidget(SVGWidget):
-    name = "svg"
+class BaseSVGBadgeWidget(SVGWidget):
     colors: tuple[str, ...] = ("badge",)
-    order = 80
     template_name = "svg/badge.svg"
+
+    def render_badge(
+        self, response: HttpResponse, label: str, value: str, color: str
+    ) -> None:
+        label_width = render_size(f"   {label}   ")[0].width
+        value_width = render_size(f"  {value}  ")[0].width
+
+        response.write(
+            render_to_string(
+                self.template_name,
+                {
+                    "label": label,
+                    "value": value,
+                    "label_width": label_width,
+                    "value_width": value_width,
+                    "width": label_width + value_width,
+                    "color": color,
+                    "translated_offset": label_width // 2,
+                    "percent_offset": label_width + value_width // 2,
+                    "lang": get_language(),
+                    "fonts_cdn_url": settings.FONTS_CDN_URL,
+                },
+            )
+        )
+
+
+@register_widget
+class SVGBadgeWidget(BaseSVGBadgeWidget):
+    name = "svg"
+    order = 80
     verbose = gettext_lazy("SVG status badge")
 
-    def render(self, response) -> None:
+    def render(self, response: HttpResponse) -> None:
         translated_text = gettext("translated")
-        translated_width = render_size(f"   {translated_text}   ")[0].width
-
         percent_text = self.get_percent_text()
-        percent_width = render_size(f"  {percent_text}  ")[0].width
-
         if self.percent >= 90:
             color = "#4c1"
         elif self.percent >= 75:
             color = "#dfb317"
         else:
             color = "#e05d44"
-
-        response.write(
-            render_to_string(
-                self.template_name,
-                {
-                    "translated_text": translated_text,
-                    "percent_text": percent_text,
-                    "translated_width": translated_width,
-                    "percent_width": percent_width,
-                    "width": translated_width + percent_width,
-                    "color": color,
-                    "translated_offset": translated_width // 2,
-                    "percent_offset": translated_width + percent_width // 2,
-                    "lang": get_language(),
-                    "fonts_cdn_url": settings.FONTS_CDN_URL,
-                },
-            )
-        )
+        self.render_badge(response, translated_text, percent_text, color)
 
 
 @register_widget
@@ -510,3 +517,26 @@ class HorizontalMultiLanguageWidget(MultiLanguageWidget):
     order = 82
     template_name = "svg/multi-language-badge-horizontal.svg"
     verbose = pgettext_lazy("Status widget name", "Horizontal language bar chart")
+
+
+@register_widget
+class LanguageBadgeWidget(BaseSVGBadgeWidget):
+    name = "language"
+    order = 83
+    verbose = gettext_lazy("Language count badge")
+
+    def render(self, response: HttpResponse) -> None:
+        languages: list[BaseStats | ProjectLanguage]
+        if isinstance(self.stats, ProjectLanguageStats | TranslationStats):
+            languages = [self.stats]
+        elif isinstance(self.obj, ProjectLanguage):
+            languages = [self.obj]
+        elif isinstance(self.obj, Language):
+            languages = [self.obj.stats]
+        else:
+            languages = self.stats.get_language_stats()
+
+        language_count = sum(1 for _ in languages)
+        languages_text = gettext("languages")
+
+        self.render_badge(response, languages_text, str(language_count), "#3fed48")
