@@ -136,6 +136,7 @@ class WeblateAccountsConf(AppConf):
         r"{URL_PREFIX}/contact/$",  # Optional for contact form
         r"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
         r"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
+        r"{URL_PREFIX}/site.webmanifest$",  # The request for the manifest is made without credentials
     )
 
     class Meta:
