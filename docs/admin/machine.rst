@@ -28,6 +28,8 @@ Per-project automatic suggestion can also be configured via the :ref:`api`.
 
    :ref:`machine-translation`
 
+.. _mt-translation-services-priority:
+
 Priority of machine translation and translation memory services
 ----------------------------------------------------------------
 :ref:`_mt-weblate-translation-memory` matches with 100% score take priority over machine translation services. If 100% match in translation memory is found, no machine translation is performed. If several 100% matches occur, the first one returned by the database is used.
