@@ -69,10 +69,7 @@ CSP_DIRECTIVES: CSP_TYPE = {
 }
 
 # URLs requiring inline javascript
-INLINE_PATHS = {
-    "social:begin",
-    "djangosaml2idp:saml_login_process",
-}
+INLINE_PATHS = {"social:begin", "djangosaml2idp:saml_login_process", "widgets"}
 
 
 class ProxyMiddleware:
