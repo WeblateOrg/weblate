@@ -104,12 +104,11 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         if component.batch_checks:
             return self.handle_batch(unit, component)
 
-        for other in self.get_propagated_units(unit):
-            if unit.target == other.target:
-                continue
-            if unit.translated or other.translated:
-                return True
-        return False
+        others = self.get_propagated_units(unit).exclude(target=unit.target)
+        if not unit.translated:
+            # Look only for translated units
+            others = others.filter(state__gte=STATE_TRANSLATED)
+        return others.exists()
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Target strings are checked in check_target_unit."""
