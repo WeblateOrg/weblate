@@ -179,7 +179,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
             result = Unit.objects.same_target(unit, target)
 
         if not unit.translation.language.is_case_sensitive():
-            result = result.exclude(source__lower=unit.source.lower())
+            result = result.exclude(source__lower__md5=MD5(Lower(Value(unit.source))))
 
         return result
 
@@ -224,7 +224,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
             state__gte=STATE_TRANSLATED,
         )
         # Lower has no effect here, but we want to utilize index
-        units = units.exclude(target__lower__md5=MD5(Lower(Value(""))))
+        units = units.exclude(target__lower__md5=MD5(Value("")))
 
         # List strings with different sources
         # Limit this to 20 strings, otherwise the resulting query is too slow
