@@ -54,6 +54,7 @@ class BaseCheck:
     always_display = False
     batch_project_wide = False
     skip_suggestions = False
+    extra_enable_strings: list[str] = []
 
     def get_identifier(self) -> str:
         return self.check_id
@@ -76,7 +77,13 @@ class BaseCheck:
             return True
 
         # Is this disabled by default
-        return bool(self.default_disabled and self.enable_string not in all_flags)
+        if self.default_disabled:
+            return not all_flags.has_any(
+                {self.enable_string, *self.extra_enable_strings}
+            )
+
+        # Enabled by default
+        return False
 
     def ignore_state(self, unit: Unit) -> bool:
         if unit.readonly and not self.ignore_readonly:
