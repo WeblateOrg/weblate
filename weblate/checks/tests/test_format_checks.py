@@ -678,6 +678,8 @@ class CSharpFormatCheckTest(CheckTestCase):
             "{0}string{1}",
             [(0, 3, "{0}"), (9, 12, "{1}")],
         )
+        self.test_failure_1 = ("{0} string", "0 string", "c-sharp-format")
+        self.test_failure_2 = ("{0} string", "0 string", "csharp-format")
 
     def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))

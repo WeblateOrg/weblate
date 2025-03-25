@@ -253,7 +253,7 @@ class Flags:
     def __iter__(self):
         return self._items.__iter__()
 
-    def __contains__(self, key) -> bool:
+    def __contains__(self, key: str) -> bool:
         return key in self._items
 
     def __bool__(self) -> bool:
@@ -315,3 +315,6 @@ class Flags:
 
     def set_value(self, name: str, value: str) -> None:
         self._items[name] = (name, value)
+
+    def has_any(self, flags: set[str]) -> bool:
+        return bool(flags & set(self._items.keys()))

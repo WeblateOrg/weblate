@@ -483,7 +483,7 @@ C# format
 :Scope: translated strings
 :Check class: ``weblate.checks.format.CSharpFormatCheck``
 :Check identifier: ``c_sharp_format``
-:Flag to enable: ``c-sharp-format``
+:Flag to enable: ``c-sharp-format``, ``csharp-format``
 :Flag to ignore: ``ignore-c-sharp-format``
 :Position format string example: ``There are {0} apples``
 

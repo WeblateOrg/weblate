@@ -694,6 +694,7 @@ class CSharpFormatCheck(BaseFormatCheck):
     name = gettext_lazy("C# format")
     description = gettext_lazy("C# format string does not match source.")
     regexp = C_SHARP_MATCH
+    extra_enable_strings = ["csharp-format"]
 
     def is_position_based(self, string: str):
         return name_format_is_position_based(string)
