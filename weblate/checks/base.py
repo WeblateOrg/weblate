@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
 import sentry_sdk
 from django.http import Http404
@@ -49,7 +49,7 @@ class BaseCheck:
     ignore_untranslated = True
     ignore_readonly = True
     default_disabled = False
-    propagates: bool = False
+    propagates: Literal["source", "target"] | None = None
     param_type = None
     always_display = False
     batch_project_wide = False
@@ -57,16 +57,6 @@ class BaseCheck:
 
     def get_identifier(self) -> str:
         return self.check_id
-
-    def get_propagated_value(self, unit: Unit) -> str | None:
-        return None
-
-    def get_propagated_units(
-        self, unit: Unit, target: str | None = None
-    ) -> Iterable[Unit]:
-        from weblate.trans.models import Unit
-
-        return Unit.objects.none()
 
     def __init__(self) -> None:
         id_dash = self.check_id.replace("_", "-")
