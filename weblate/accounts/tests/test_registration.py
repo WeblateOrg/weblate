@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import TYPE_CHECKING
 from urllib.parse import parse_qs, urlparse
 
@@ -737,6 +738,12 @@ class RegistrationTest(BaseRegistrationTest):
         },
     )
     def test_saml(self) -> None:
+        try:
+            pass
+        except Exception as error:
+            if "CI_SKIP_SAML" in os.environ:
+                self.skipTest(f"xmlsec error: {error}")
+            raise
         url = reverse("social:saml-metadata")
         response = self.client.get(url)
         self.assertContains(response, url)
