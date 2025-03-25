@@ -9,7 +9,7 @@ from functools import reduce
 from typing import TYPE_CHECKING, Literal
 
 from django.db.models import Count, Prefetch, Q, Value
-from django.db.models.functions import MD5, Lower
+from django.db.models.functions import MD5
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.checks.base import BatchCheckMixin, TargetCheck
@@ -21,7 +21,6 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
 
     from weblate.trans.models import Component, Unit
-    from weblate.trans.models.unit import UnitQuerySet
 
 
 class PluralsCheck(TargetCheck):
@@ -81,17 +80,9 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         "or is untranslated in some components."
     )
     ignore_untranslated = False
-    propagates = True
+    propagates = "source"
     batch_project_wide = True
     skip_suggestions = True
-
-    def get_propagated_value(self, unit: Unit) -> str | None:
-        return unit.target
-
-    def get_propagated_units(
-        self, unit: Unit, target: str | None = None
-    ) -> UnitQuerySet:
-        return unit.same_source_units
 
     def check_target_unit(
         self, sources: list[str], targets: list[str], unit: Unit
@@ -104,7 +95,7 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         if component.batch_checks:
             return self.handle_batch(unit, component)
 
-        others = self.get_propagated_units(unit).exclude(target=unit.target)
+        others = unit.propagated_units.exclude(target=unit.target)
         if not unit.translated:
             # Look only for translated units
             others = others.filter(state__gte=STATE_TRANSLATED)
@@ -163,25 +154,9 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
     check_id = "reused"
     name = gettext_lazy("Reused translation")
     description = gettext_lazy("Different strings are translated the same.")
-    propagates = True
+    propagates = "target"
     batch_project_wide = True
     skip_suggestions = True
-
-    def get_propagated_value(self, unit: Unit):
-        return unit.source
-
-    def get_propagated_units(self, unit: Unit, target: str | None = None):
-        from weblate.trans.models import Unit
-
-        if target is None:
-            result = unit.same_target_units
-        else:
-            result = Unit.objects.same_target(unit, target)
-
-        if not unit.translation.language.is_case_sensitive():
-            result = result.exclude(source__lower__md5=MD5(Lower(Value(unit.source))))
-
-        return result
 
     def should_skip(self, unit: Unit):
         if unit.translation.plural.number <= 1 or not any(unit.get_target_plurals()):
@@ -189,6 +164,8 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         return super().should_skip(unit)
 
     def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
+        from weblate.trans.models import Unit
+
         translation = unit.translation
         component = translation.component
 
@@ -196,11 +173,13 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         if component.batch_checks:
             return self.handle_batch(unit, component)
 
-        return self.get_propagated_units(unit).exists()
+        return Unit.objects.same_target(unit).exists()
 
     def get_description(self, check_obj):
+        from weblate.trans.models import Unit
+
         other_sources = (
-            self.get_propagated_units(check_obj.unit)
+            Unit.objects.same_target(check_obj.unit)
             .values_list("source", flat=True)
             .distinct()
         )

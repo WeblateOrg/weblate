@@ -20,6 +20,7 @@ Weblate 5.11
 .. rubric:: Bug fixes
 
 * Fixed captcha verification when some time zone was configured.
+* Improved translation propagation performance.
 
 .. rubric:: Compatibility
 

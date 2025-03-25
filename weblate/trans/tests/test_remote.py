@@ -114,14 +114,14 @@ class MultiRepoTest(ViewTestCase):
         # Propagate edit
         unit = self.get_unit()
         self.assertEqual(len(unit.all_checks), 0)
-        self.assertEqual(len(unit.same_source_units), 1)
+        self.assertEqual(len(unit.propagated_units), 1)
         unit.translate(self.user, [new_text], STATE_TRANSLATED)
 
         # Verify new content
         unit = self.get_unit()
         self.assertEqual(unit.target, new_text)
-        self.assertEqual(len(unit.same_source_units), 1)
-        other_unit = unit.same_source_units[0]
+        self.assertEqual(len(unit.propagated_units), 1)
+        other_unit = unit.propagated_units[0]
         self.assertEqual(other_unit.target, new_text)
 
         # There should be no checks on both
