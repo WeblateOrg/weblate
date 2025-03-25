@@ -972,7 +972,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update translation memory if needed
         if created or not same_source or not same_target:
-            self.update_translation_memory()
+            self.update_translation_memory(needs_user_check=False)
 
     def update_state(self) -> None:
         """
@@ -1105,6 +1105,8 @@ class Unit(models.Model, LoggerMixin):
                 unit.pending = True
 
                 to_update.append(unit)
+
+                unit.update_translation_memory(user)
 
             if not to_update:
                 return False
@@ -1673,13 +1675,7 @@ class Unit(models.Model, LoggerMixin):
             self.state = self.original_state = STATE_FUZZY
             self.save(run_checks=False, same_content=True, update_fields=["state"])
 
-        if (
-            user
-            and not user.is_bot
-            and user.is_active
-            and self.target != self.old_unit["target"]
-        ):
-            self.update_translation_memory(user)
+        self.update_translation_memory(user)
 
         if change_action == ActionEvents.AUTO:
             self.labels.add(component.project.automatically_translated_label)
@@ -1987,7 +1983,17 @@ class Unit(models.Model, LoggerMixin):
     def glossary_sort_key(self):
         return (self.translation.component.priority, self.source.lower())
 
-    def update_translation_memory(self, user: User | None = None) -> None:
+    def update_translation_memory(
+        self, user: User | None = None, *, needs_user_check: bool = True
+    ) -> None:
+        if needs_user_check and (
+            not user
+            or user.is_bot
+            or not user.is_active
+            or self.target == self.old_unit["target"]
+        ):
+            return
+
         translation = self.translation
         component = translation.component
         if (
