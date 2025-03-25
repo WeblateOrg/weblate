@@ -937,7 +937,8 @@ Automattic components formatting
 
 .. seealso::
 
-   :ref:`check-formats`
+   :ref:`check-formats`,
+   `Interpolate Components <https://github.com/Automattic/wp-calypso/tree/trunk/packages/interpolate-components>`_
 
 .. _check-translated:
 
