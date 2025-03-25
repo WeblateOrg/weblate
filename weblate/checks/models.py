@@ -193,11 +193,19 @@ class Check(models.Model):
             return self.check_obj.get_doc_url(user=user)
         return ""
 
-    def set_dismiss(self, state=True) -> None:
+    def set_dismiss(self, *, state: bool = True, recurse: bool = True) -> None:
         """Set ignore flag."""
-        self.dismissed = state
-        self.save(update_fields=["dismissed"])
-        self.unit.translation.invalidate_cache()
+        if self.dismissed != state:
+            self.dismissed = state
+            self.save(update_fields=["dismissed"])
+            self.unit.translation.invalidate_cache()
+        if recurse:
+            for child in Check.objects.filter(
+                name=self.name,
+                unit__in=self.unit.propagated_units,
+                dismissed=not state,
+            ).select_for_update():
+                child.set_dismiss(state=state, recurse=False)
 
 
 def get_display_checks(unit: Unit):

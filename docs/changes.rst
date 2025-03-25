@@ -16,6 +16,7 @@ Weblate 5.11
 * :ref:`upload` is now tracked in history with details.
 * Changes in string flags are now tracked in history.
 * :ref:`addon-weblate.discovery.discovery` better handles hundredths of matches.
+* Dismissing :ref:`checks` automatically updates propagated strings.
 
 .. rubric:: Bug fixes
 
