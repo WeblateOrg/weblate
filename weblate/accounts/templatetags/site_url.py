@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Provide user friendly names for social authentication methods."""
+"""Convert any links in HTML to absolute."""
 
 from io import StringIO
 
@@ -28,8 +28,15 @@ def add_site_url(content):
         url = link.get("src")
         if url.startswith("/"):
             link.set("src", get_site_url(url))
+
+    body = tree.find("body")
     return mark_safe(  # noqa: S308
-        etree.tostring(
-            tree.getroot(), pretty_print=True, method="html", encoding="unicode"
+        "".join(
+            [
+                etree.tostring(
+                    child, pretty_print=True, method="html", encoding="unicode"
+                )
+                for child in body.iterchildren()
+            ]
         )
     )
