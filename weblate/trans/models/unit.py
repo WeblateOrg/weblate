@@ -1673,7 +1673,11 @@ class Unit(models.Model, LoggerMixin):
             and self.all_checks_names & set(component.enforced_checks)
         ):
             self.state = self.original_state = STATE_FUZZY
-            self.save(run_checks=False, same_content=True, update_fields=["state"])
+            self.save(
+                run_checks=False,
+                same_content=True,
+                update_fields=["state", "original_state"],
+            )
 
         self.update_translation_memory(user)
 
