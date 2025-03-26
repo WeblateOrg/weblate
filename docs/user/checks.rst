@@ -454,6 +454,24 @@ AngularJS interpolation string
    :ref:`check-formats`,
    `AngularJS text interpolation <https://angular.io/guide/interpolation>`_
 
+.. _check-automattic-components-format:
+
+Automattic components formatting
+********************************
+
+:Summary: The Automattic components' placeholders do not match the source.
+:Scope: translated strings
+:Check class: ``weblate.checks.format.AutomatticComponentsCheck``
+:Check identifier: ``automattic_components_format``
+:Flag to enable: ``automattic-components-format``
+:Flag to ignore: ``ignore-automattic-components-format``
+:Simple format string example: ``They bought {{strong}}apples{{/strong}}.``
+
+.. seealso::
+
+   :ref:`check-formats`,
+   `Interpolate Components <https://github.com/Automattic/wp-calypso/tree/trunk/packages/interpolate-components>`_
+
 .. _check-c-format:
 
 C format
