@@ -819,7 +819,7 @@ class AutomatticComponentsCheck(BaseFormatCheck):
     check_id = "automattic_components_format"
     name = gettext_lazy("Automattic Components")
     description = gettext_lazy(
-        "The Automattic components' placeholders do not match the source"
+        "The Automattic components' placeholders do not match the source."
     )
 
     def __init__(self) -> None:

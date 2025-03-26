@@ -458,7 +458,7 @@ AngularJS interpolation string
 Automattic components formatting
 ********************************
 
-:Summary: The Automattic components' placeholders do not match the source
+:Summary: The Automattic components' placeholders do not match the source.
 :Scope: translated strings
 :Check class: ``weblate.checks.format.AutomatticComponentsCheck``
 :Check identifier: ``automattic_components_format``
