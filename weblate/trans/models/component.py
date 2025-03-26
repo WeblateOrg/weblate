@@ -3730,21 +3730,29 @@ class Component(
 
     def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
         """Lock or unlock component."""
-        from weblate.trans.tasks import perform_commit
-
         if self.locked == lock:
             return
 
         self.locked = lock
         # We avoid save here because it has unwanted side effects
         Component.objects.filter(pk=self.pk).update(locked=lock)
-        self.change_set.create(
+        change = self.get_lock_change(user=user, lock=lock, auto=auto)
+        change.save()
+
+    def get_lock_change(
+        self, *, user: User, lock: bool = True, auto: bool = False
+    ) -> Change:
+        from weblate.trans.tasks import perform_commit
+
+        change = Change(
+            component=self,
             user=user,
             action=ActionEvents.LOCK if lock else ActionEvents.UNLOCK,
             details={"auto": auto},
         )
         if lock and not auto:
-            perform_commit.delay(self.pk, "lock", None)
+            perform_commit.delay_on_commit(self.pk, "lock", None)
+        return change
 
     @cached_property
     def libre_license(self) -> bool:
