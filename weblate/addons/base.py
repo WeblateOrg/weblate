@@ -182,7 +182,8 @@ class BaseAddon:
 
         if project := self.instance.project:
             for component in project.component_set.iterator():
-                self.post_configure_run_component(component)
+                if self.can_install(component, None):
+                    self.post_configure_run_component(component)
 
     def post_configure_run_component(self, component: Component) -> None:
         # Trigger post configure event for a VCS component
