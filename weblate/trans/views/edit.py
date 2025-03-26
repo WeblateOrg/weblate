@@ -79,7 +79,7 @@ def display_fixups(request: AuthenticatedHttpRequest, fixups) -> None:
     messages.info(
         request,
         gettext("Following fixups were applied to translation: %s")
-        % format_html_join_comma("{}", ((str(f),) for f in fixups)),
+        % format_html_join_comma("{}", ((f,) for f in fixups)),
     )
 
 
@@ -415,11 +415,7 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             gettext(
                 "The translation has been saved, however there "
                 "are some newly failing checks: {0}"
-            ).format(
-                format_html_join_comma(
-                    "{}", ((str(CHECKS[check].name),) for check in newchecks)
-                )
-            ),
+            ).format(format_html_join_comma("{}", ((CHECKS[check].name,) for check in newchecks))),
         )
         # Stay on same entry
         return False
