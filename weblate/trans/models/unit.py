@@ -18,7 +18,7 @@ from django.db.models import Count, Max, Q, Sum, Value
 from django.db.models.functions import MD5, Length, Lower
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import gettext, gettext_lazy, ngettext
 from pyparsing import ParseException
 
 from weblate.checks.flags import Flags
@@ -1077,6 +1077,8 @@ class Unit(models.Model, LoggerMixin):
         """Propagate current translation to all others."""
         from weblate.auth.permissions import PermissionResult
 
+        warnings: list[str] = []
+
         with sentry_sdk.start_span(op="unit.propagate", name=f"{self.pk}"):
             to_update: list[Unit] = []
             for unit in self.same_source_units.select_for_update():
@@ -1087,8 +1089,7 @@ class Unit(models.Model, LoggerMixin):
                 ):
                     component = unit.translation.component
                     if request and isinstance(denied, PermissionResult):
-                        messages.warning(
-                            request,
+                        warnings.append(
                             gettext(
                                 "String could not be propagated to %(component)s: %(reason)s"
                             )
@@ -1108,6 +1109,20 @@ class Unit(models.Model, LoggerMixin):
 
                 unit.update_translation_memory(user)
 
+            if warnings:
+                if len(warnings) > 10:
+                    messages.warning(
+                        request,
+                        ngettext(
+                            "String could not be propagated to %d component.",
+                            "String could not be propagated to %d components.",
+                            len(warnings),
+                        )
+                        % len(warnings),
+                    )
+                else:
+                    for warning in warnings:
+                        messages.warning(request, warning)
             if not to_update:
                 return False
 
