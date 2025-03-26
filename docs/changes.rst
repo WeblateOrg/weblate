@@ -15,6 +15,7 @@ Weblate 5.11
 * Widgets show more precise stats.
 * :ref:`upload` is now tracked in history with details.
 * Changes in string flags are now tracked in history.
+* :ref:`addon-weblate.discovery.discovery` better handles hundredths of matches.
 
 .. rubric:: Bug fixes
 
