@@ -130,6 +130,7 @@ from weblate.accounts.utils import (
     SESSION_WEBAUTHN_AUDIT,
     DeviceType,
     get_key_name,
+    lock_user,
     remove_user,
 )
 from weblate.auth.forms import UserEditForm
@@ -683,6 +684,10 @@ class UserPage(UpdateView):
                 key_name = get_key_name(device)
                 device.delete()
                 AuditLog.objects.create(user, None, "twofactor-remove", device=key_name)
+            return HttpResponseRedirect(self.get_success_url() + "#edit")
+
+        if "disable_password" in request.POST:
+            lock_user(user, "admin-locked")
             return HttpResponseRedirect(self.get_success_url() + "#edit")
 
         return super().post(request, *args, **kwargs)
