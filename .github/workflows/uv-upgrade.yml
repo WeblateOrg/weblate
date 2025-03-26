@@ -49,7 +49,7 @@ jobs:
         fi
 
     - name: Set up Python
-      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+      uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
       with:
         python-version: '3.13'
 
@@ -81,6 +81,7 @@ jobs:
 
     - name: Enable Pull Request Automerge
       if: steps.cpr.outputs.pull-request-operation && steps.cpr.outputs.pull-request-operation != 'none'
-      run: gh pr merge --rebase --auto "${{ steps.cpr.outputs.pull-request-number }}"
+      run: gh pr merge --rebase --auto "$PR_NUMBER"
       env:
         GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}
+        PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}

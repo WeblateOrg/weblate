@@ -18,7 +18,7 @@ from django.db.models import Count, Max, Q, Sum, Value
 from django.db.models.functions import MD5, Length, Lower
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import gettext, gettext_lazy, ngettext
 from pyparsing import ParseException
 
 from weblate.checks.flags import Flags
@@ -354,7 +354,11 @@ class UnitQuerySet(models.QuerySet):
         return sorted(self.filter(id__in=ids), key=lambda unit: ids.index(unit.id))
 
     def select_for_update(self) -> UnitQuerySet:  # type: ignore[override]
-        return super().select_for_update(no_key=using_postgresql())
+        if using_postgresql():
+            # Use weaker locking and limit locking to Unit table only
+            return super().select_for_update(no_key=True, of=("self",))
+        # Discard any select_related to avoid locking additional tables
+        return super().select_for_update().select_related(None)
 
     def annotate_stats(self):
         return self.annotate(
@@ -972,7 +976,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update translation memory if needed
         if created or not same_source or not same_target:
-            self.update_translation_memory()
+            self.update_translation_memory(needs_user_check=False)
 
     def update_state(self) -> None:
         """
@@ -1077,6 +1081,8 @@ class Unit(models.Model, LoggerMixin):
         """Propagate current translation to all others."""
         from weblate.auth.permissions import PermissionResult
 
+        warnings: list[str] = []
+
         with sentry_sdk.start_span(op="unit.propagate", name=f"{self.pk}"):
             to_update: list[Unit] = []
             for unit in self.same_source_units.select_for_update():
@@ -1087,8 +1093,7 @@ class Unit(models.Model, LoggerMixin):
                 ):
                     component = unit.translation.component
                     if request and isinstance(denied, PermissionResult):
-                        messages.warning(
-                            request,
+                        warnings.append(
                             gettext(
                                 "String could not be propagated to %(component)s: %(reason)s"
                             )
@@ -1106,6 +1111,22 @@ class Unit(models.Model, LoggerMixin):
 
                 to_update.append(unit)
 
+                unit.update_translation_memory(user)
+
+            if warnings:
+                if len(warnings) > 10:
+                    messages.warning(
+                        request,
+                        ngettext(
+                            "String could not be propagated to %d component.",
+                            "String could not be propagated to %d components.",
+                            len(warnings),
+                        )
+                        % len(warnings),
+                    )
+                else:
+                    for warning in warnings:
+                        messages.warning(request, warning)
             if not to_update:
                 return False
 
@@ -1671,15 +1692,13 @@ class Unit(models.Model, LoggerMixin):
             and self.all_checks_names & set(component.enforced_checks)
         ):
             self.state = self.original_state = STATE_FUZZY
-            self.save(run_checks=False, same_content=True, update_fields=["state"])
+            self.save(
+                run_checks=False,
+                same_content=True,
+                update_fields=["state", "original_state"],
+            )
 
-        if (
-            user
-            and not user.is_bot
-            and user.is_active
-            and self.target != self.old_unit["target"]
-        ):
-            self.update_translation_memory(user)
+        self.update_translation_memory(user)
 
         if change_action == ActionEvents.AUTO:
             self.labels.add(component.project.automatically_translated_label)
@@ -1958,11 +1977,46 @@ class Unit(models.Model, LoggerMixin):
                 old=old,
             )
 
+    def update_extra_flags(
+        self, extra_flags: str, user: User, save: bool = True
+    ) -> None:
+        """Update unit extra flags."""
+        old = self.extra_flags
+        self.extra_flags = extra_flags
+        units: Iterable[Unit] = []
+        if self.is_source:
+            units = self.unit_set.select_for_update().exclude(id=self.id)
+        # Always generate change for self
+        units = [*units, self]
+        if save:
+            self.save(update_fields=["extra_flags"], only_save=True)
+
+        for unit in units:
+            unit.generate_change(
+                user=user,
+                author=user,
+                change_action=ActionEvents.EXTRA_FLAGS,
+                check_new=False,
+                save=True,
+                old=old,
+                target=self.extra_flags,
+            )
+
     @cached_property
     def glossary_sort_key(self):
         return (self.translation.component.priority, self.source.lower())
 
-    def update_translation_memory(self, user: User | None = None) -> None:
+    def update_translation_memory(
+        self, user: User | None = None, *, needs_user_check: bool = True
+    ) -> None:
+        if needs_user_check and (
+            not user
+            or user.is_bot
+            or not user.is_active
+            or self.target == self.old_unit["target"]
+        ):
+            return
+
         translation = self.translation
         component = translation.component
         if (

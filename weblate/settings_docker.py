@@ -1323,6 +1323,7 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
         rf"{URL_PREFIX}/contact/$",  # Optional for contact form
         rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
         rf"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
+        rf"{URL_PREFIX}/site.webmanifest$",  # The request for the manifest is made without credentials
     ],
 )
 modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS")
@@ -1498,9 +1499,8 @@ AKISMET_API_KEY = get_env_str("WEBLATE_AKISMET_API_KEY")
 ZAMMAD_URL = get_env_str("WEBLATE_ZAMMAD_URL")
 
 # Web Monetization
-INTERLEDGER_PAYMENT_POINTERS = get_env_list(
-    "WEBLATE_INTERLEDGER_PAYMENT_POINTERS", ["$ilp.uphold.com/ENU7fREdeZi9"]
-)
+INTERLEDGER_PAYMENT_POINTERS = get_env_list("WEBLATE_INTERLEDGER_PAYMENT_POINTERS", [])
+INTERLEDGER_PAYMENT_BUILTIN = get_env_bool("WEBLATE_INTERLEDGER_PAYMENT_BUILTIN", True)
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"
 if os.path.exists(ADDITIONAL_CONFIG):

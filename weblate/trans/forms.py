@@ -1260,6 +1260,9 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
         self.instance.update_explanation(
             self.cleaned_data["explanation"], self.user, save=False
         )
+        self.instance.update_extra_flags(
+            self.cleaned_data["extra_flags"], self.user, save=False
+        )
         if commit:
             self.instance.save(same_content=True)
             self._save_m2m()

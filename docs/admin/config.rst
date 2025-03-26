@@ -1006,6 +1006,20 @@ does not prevent an attacker from figuring out version by probing behavior.
 
     This is turned off by default.
 
+.. setting:: INTERLEDGER_PAYMENT_BUILTIN
+
+INTERLEDGER_PAYMENT_BUILTIN
+---------------------------
+
+.. versionadded:: 5.11
+
+Toggles built-in Interledger Payment Pointer for funding Weblate.
+
+.. seealso::
+
+   :setting:`INTERLEDGER_PAYMENT_POINTERS`
+
+
 .. setting:: INTERLEDGER_PAYMENT_POINTERS
 
 INTERLEDGER_PAYMENT_POINTERS
@@ -1022,7 +1036,13 @@ Please check <https://webmonetization.org/> for more details.
 
 .. hint::
 
-   The default value lets users fund Weblate itself.
+   A pointer to fund Weblate itself is automatically added unless turned off
+   by :setting:`INTERLEDGER_PAYMENT_BUILTIN`.
+
+
+.. seealso::
+
+   :setting:`INTERLEDGER_PAYMENT_BUILTIN`
 
 .. setting:: IP_BEHIND_REVERSE_PROXY
 

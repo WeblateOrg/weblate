@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, ClassVar, cast
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Count, F, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
@@ -706,9 +706,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def enable_review(self):
         return self.translation_review or self.source_review
 
+    @transaction.atomic
     def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
-        for component in self.component_set.iterator():
-            component.do_lock(user, lock=lock, auto=auto)
+        from weblate.trans.models.change import Change
+
+        actionable = self.component_set.exclude(locked=lock)
+        changes = [
+            component.get_lock_change(user=user, lock=lock, auto=auto)
+            for component in actionable
+        ]
+        actionable.update(locked=lock)
+        Change.objects.bulk_create(changes, batch_size=500)
 
     @property
     def can_add_category(self) -> bool:

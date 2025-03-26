@@ -36,6 +36,7 @@ class Command(BaseCommand):
             self.stdout.write("-" * len(obj.name))
             self.stdout.write("\n")
             self.stdout.write(f":Service ID: ``{obj.get_identifier()}``")
+            self.stdout.write(f":Maximal score: {obj.max_score}")
             if obj.settings_form:
                 form = obj.settings_form(obj)
                 table = [
