@@ -354,7 +354,11 @@ class UnitQuerySet(models.QuerySet):
         return sorted(self.filter(id__in=ids), key=lambda unit: ids.index(unit.id))
 
     def select_for_update(self) -> UnitQuerySet:  # type: ignore[override]
-        return super().select_for_update(no_key=using_postgresql())
+        if using_postgresql():
+            # Use weaker locking and limit locking to Unit table only
+            return super().select_for_update(no_key=True, of=("self",))
+        # Discard any select_related to avoid locking additional tables
+        return super().select_for_update().select_related(None)
 
     def annotate_stats(self):
         return self.annotate(
