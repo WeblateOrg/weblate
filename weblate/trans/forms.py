@@ -2535,7 +2535,7 @@ class GlossaryAddMixin(NewUnitBaseForm):
             result.append("forbidden")
         if self.cleaned_data.get("read_only"):
             result.append("read-only")
-        return format_html_join_comma("{}", ((flag,) for flag in result))
+        return ", ".join(result)
 
     def clean(self) -> None:
         if not self.can_edit_terminology() and self.cleaned_data.get("terminology"):
