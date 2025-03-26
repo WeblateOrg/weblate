@@ -7,7 +7,6 @@ import re
 from itertools import chain
 
 from django.core.exceptions import ValidationError
-from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext
@@ -193,7 +192,17 @@ class ComponentDiscovery:
         else:
             LOGGER.info(*args)
 
-    def create_component(self, main, match, background=False, preview=False, **kwargs):
+    def create_component(
+        self,
+        main: Component | None,
+        match,
+        *,
+        background: bool = False,
+        preview: bool = False,
+        existing_slugs: set[str],
+        existing_names: set[str],
+        **kwargs,
+    ):
         max_length = COMPONENT_NAME_LENGTH
 
         def get_val(key, extra=0):
@@ -217,13 +226,12 @@ class ComponentDiscovery:
 
         # Fill in repository
         if "repo" not in kwargs:
+            if main is None:
+                raise ValueError
             kwargs["repo"] = main.get_repo_link_url()
 
         # Deal with duplicate name or slug in the same (or none) category
-        components = kwargs["project"].component_set.filter(
-            category=main.category if main is not None else None
-        )
-        if components.filter(Q(slug__iexact=slug) | Q(name__iexact=name)).exists():
+        if slug.lower() in existing_slugs or name.lower() in existing_names:
             base_name = get_val("name", 4)
             base_slug = get_val("slug", 4)
 
@@ -231,11 +239,11 @@ class ComponentDiscovery:
                 name = f"{base_name} {i}"
                 slug = f"{base_slug}-{i}"
 
-                if components.filter(
-                    Q(slug__iexact=slug) | Q(name__iexact=name)
-                ).exists():
+                if slug.lower() in existing_slugs or name.lower() in existing_names:
                     continue
                 break
+        existing_slugs.add(slug.lower())
+        existing_names.add(name.lower())
 
         # Fill in remaining attributes
         kwargs.update(
@@ -270,10 +278,10 @@ class ComponentDiscovery:
         # This might raise an exception
         component.full_clean()
 
-        self.log("Creating component %s", name)
-
         if preview:
             return component
+
+        self.log("Creating component %s", name)
 
         # Can't pass objects, pass only IDs
         kwargs["project"] = kwargs["project"].pk
@@ -330,6 +338,16 @@ class ComponentDiscovery:
         processed = set()
 
         main = self.component
+        category_components = main.project.component_set.filter(category=main.category)
+        existing_childs: dict[str, Component] = {
+            component.filemask: component for component in main.linked_childs.all()
+        }
+        existing_slugs: set[str] = {
+            slug.lower() for slug in category_components.values_list("slug", flat=True)
+        }
+        existing_names: set[str] = {
+            name.lower() for name in category_components.values_list("name", flat=True)
+        }
 
         for match in self.matched_components.values():
             # Skip invalid matches
@@ -339,22 +357,30 @@ class ComponentDiscovery:
                 continue
 
             try:
-                found = main.linked_childs.filter(filemask=match["mask"])[0]
-                # Component exists
-                matched.append((match, found))
-                processed.add(found.id)
-            except IndexError:
+                found = existing_childs[match["mask"]]
+            except KeyError:
                 # Create new component
                 try:
                     component = self.create_component(
-                        main, match, background=background, preview=preview
+                        main,
+                        match,
+                        background=background,
+                        preview=preview,
+                        existing_slugs=existing_slugs,
+                        existing_names=existing_names,
                     )
                 except ValidationError as error:
                     skipped.append((match, str(error)))
                 else:
+                    # Correctly created
                     if component is not None and component.id:
                         processed.add(component.id)
                     created.append((match, component))
+                    existing_childs[match["mask"]] = component
+            else:
+                # Component already exists
+                matched.append((match, found))
+                processed.add(found.id)
 
         if remove:
             deleted = self.cleanup(main, processed, preview)
