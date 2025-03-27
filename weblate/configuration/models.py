@@ -20,7 +20,7 @@ class SettingCategory(models.IntegerChoices):
 
 
 class Setting(models.Model):
-    category = models.IntegerField(choices=SettingCategory.choices)
+    category = models.IntegerField(choices=SettingCategory)
     name = models.CharField(max_length=100)
     value = models.JSONField()
 
