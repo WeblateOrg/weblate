@@ -128,6 +128,7 @@ Learn more about :ref:`contributing`.
     contributing/start
     contributing/code
     contributing/debugging
+    contributing/documentation
     contributing/internals
     contributing/addons
     contributing/frontend
