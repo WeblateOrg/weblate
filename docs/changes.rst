@@ -15,7 +15,7 @@ Weblate 5.11
 * Widgets show more precise stats.
 * :ref:`upload` is now tracked in history with details.
 * Changes in string flags are now tracked in history.
-* :doc:`machine-translation-setup` documentation extended.
+* :doc:`/admin/machine` documentation extended.
 
 .. rubric:: Bug fixes
 
