@@ -7,6 +7,7 @@ Weblate 5.11
 
 * Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of all target translation units for the given source translation unit.
 * Added :http:delete:`/api/groups/(int:id)/roles/(int:role_id)` to delete a role from a group.
+* :ref:`check-automattic-components-format` check to validate placeholders in Automattic components.
 
 .. rubric:: Improvements
 
@@ -14,12 +15,16 @@ Weblate 5.11
 * :ref:`credits` and :ref:`stats` include translator's join date. Additionally, both reports can be sorted either by the join date or the number of strings translated.
 * Widgets show more precise stats.
 * :ref:`upload` is now tracked in history with details.
+* :ref:`check-c-sharp-format` now supports ``csharp-format`` flag for compatibility with GNU gettext.
 * Changes in string flags are now tracked in history.
 * :doc:`/admin/machine` documentation extended.
+* :ref:`addon-weblate.discovery.discovery` better handles hundredths of matches.
+* Dismissing :ref:`checks` automatically updates propagated strings.
 
 .. rubric:: Bug fixes
 
 * Fixed captcha verification when some time zone was configured.
+* Improved translation propagation performance.
 
 .. rubric:: Compatibility
 

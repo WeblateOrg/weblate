@@ -91,6 +91,10 @@ class MetricsWrapper:
     def contributors(self) -> int:
         return self.current.get("contributors", 0)
 
+    @property
+    def contributors_total(self) -> int:
+        return self.current.get("contributors_total", 0)
+
     def calculate_trend_percent(
         self, key, modkey, base: Metric, origin: Metric
     ) -> float:

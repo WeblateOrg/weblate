@@ -13,6 +13,7 @@ from django.utils import timezone
 from django.utils.html import format_html
 
 from weblate.auth.models import User
+from weblate.checks.flags import Flags
 from weblate.checks.tests.test_checks import MockLanguage, MockUnit
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
@@ -271,7 +272,7 @@ class TranslationFormatTestCase(FixtureTestCase):
 
     def test_diff_github_9821(self) -> None:
         unit = Unit(translation=self.translation)
-        unit.all_flags = {"python-brace-format"}
+        unit.all_flags = Flags("python-brace-format")
         self.assertHTMLEqual(
             format_translation(
                 ["由 {username} 邀请至 {project} 项目。"],
@@ -536,7 +537,7 @@ glosář [glossary]">glossary</span>
 
     def test_glossary_format(self) -> None:
         unit = Unit(translation=self.translation)
-        unit.all_flags = {"php-format"}
+        unit.all_flags = Flags("php-format")
         self.assertHTMLEqual(
             format_translation(
                 ["%3$sHow"],

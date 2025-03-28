@@ -14,6 +14,7 @@ from django.test import SimpleTestCase
 from translate.lang.data import languages
 
 from weblate.checks.flags import Flags
+from weblate.checks.format import BaseFormatCheck
 from weblate.lang.models import Language, Plural
 
 if TYPE_CHECKING:
@@ -176,6 +177,8 @@ class CheckTestCase(SimpleTestCase, ABC):
     ) -> None:
         """Perform single check if we have data to test."""
         if data is None:
+            self.skipTest("Not supported")
+        if isinstance(self.check, BaseFormatCheck):
             self.skipTest("Not supported")
         if lang is None:
             lang = self.default_lang

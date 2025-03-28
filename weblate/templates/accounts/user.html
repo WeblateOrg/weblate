@@ -383,6 +383,9 @@
                 <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
               </div>
             </div>
+          </form>
+          <form method="post">
+            {% csrf_token %}
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
@@ -406,9 +409,18 @@
                 </div>
               {% endif %}
             </div>
-          </form>
-          <form method="post">
-            {% csrf_token %}
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <h4 class="panel-title">{% trans "Password reset" %}</h4>
+              </div>
+              <div class="panel-body">{% trans "Disables password authentication for the user." %}</div>
+              <div class="panel-footer">
+                <input type="submit"
+                       name="disable_password"
+                       value="{% trans "Disable password" %}"
+                       class="btn-danger red">
+              </div>
+            </div>
             <div class="panel panel-danger">
               <div class="panel-heading">
                 <h4 class="panel-title">{% trans "Removal" %}</h4>

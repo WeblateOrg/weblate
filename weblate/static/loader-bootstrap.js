@@ -1027,7 +1027,9 @@ $(function () {
     }
   }
   const sortByLabelObserver = new MutationObserver(updateSearchSortBy);
-  sortByLabelObserver.observe($("#id_sort_by")[0], { attributes: true });
+  if ($("#id_sort_by")[0]) {
+    sortByLabelObserver.observe($("#id_sort_by")[0], { attributes: true });
+  }
 
   /* Branch loading */
   $(".branch-loader select[name=component]").change(function () {
