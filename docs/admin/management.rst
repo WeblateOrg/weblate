@@ -627,7 +627,7 @@ To install :ref:`mt-deepl`:
 
 .. code-block:: shell
 
-   weblate install_service --service deepl --configuration '{"key": "x", "url": "https://api.deepl.com/v2/"}' --update
+   weblate install_machinery --service deepl --configuration '{"key": "x", "url": "https://api.deepl.com/v2/"}' --update
 
 .. seealso::
 

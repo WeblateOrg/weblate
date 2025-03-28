@@ -48,13 +48,13 @@ def get_unit_translations(request: AuthenticatedHttpRequest, unit_id):
 @login_required
 @transaction.atomic
 def ignore_check(request: AuthenticatedHttpRequest, check_id):
-    obj = get_object_or_404(Check, pk=int(check_id))
+    obj = get_object_or_404(Check.objects.select_for_update(), pk=int(check_id))
 
     if not request.user.has_perm("unit.check", obj):
         raise PermissionDenied
 
     # Mark check for ignoring
-    obj.set_dismiss("revert" not in request.GET)
+    obj.set_dismiss(state="revert" not in request.GET)
     # response for AJAX
     return HttpResponse("ok")
 

@@ -1015,6 +1015,22 @@ $(function () {
     }
   }
 
+  function updateSearchSortBy() {
+    const sortValue = $("#id_sort_by").val();
+    const label = $(".sort-field li a")
+      .filter(function () {
+        return $(this).data("sort") === sortValue;
+      })
+      .text();
+    if (label !== "") {
+      $("#query-sort-dropdown span.search-label").text(gettext(label));
+    }
+  }
+  const sortByLabelObserver = new MutationObserver(updateSearchSortBy);
+  if ($("#id_sort_by")[0]) {
+    sortByLabelObserver.observe($("#id_sort_by")[0], { attributes: true });
+  }
+
   /* Branch loading */
   $(".branch-loader select[name=component]").change(function () {
     const $this = $(this);
@@ -1126,6 +1142,21 @@ $(function () {
       }
     });
     $input.val(sortParams.join(","));
+    // Toggle active class on icons
+    $this.find(".search-icon").toggleClass("active");
+    // Ensure only one icon is active at a time
+    $this
+      .find(".search-icon.asc")
+      .toggleClass(
+        "active",
+        !$this.find(".search-icon.desc").hasClass("active"),
+      );
+    $this
+      .find(".search-icon.desc")
+      .toggleClass(
+        "active",
+        !$this.find(".search-icon.asc").hasClass("active"),
+      );
     if ($this.closest(".result-page-form").length > 0) {
       $this.closest("form").submit();
     }

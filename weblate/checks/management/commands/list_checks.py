@@ -70,7 +70,11 @@ class Command(BaseCommand):
                 )
             )
             if check.default_disabled:
-                lines.append(f":Flag to enable: ``{check.enable_string}``")
+                flags = ", ".join(
+                    f"``{flag}``"
+                    for flag in [check.enable_string, *check.extra_enable_strings]
+                )
+                lines.append(f":Flag to enable: {flags}")
             lines.extend((f":Flag to ignore: ``{check.ignore_string}``", "\n"))
 
             self.flush_lines(lines)

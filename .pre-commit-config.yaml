@@ -18,12 +18,12 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.23.1
+  rev: 1.24.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '5.1']
 - repo: https://github.com/adrienverge/yamllint
-  rev: v1.36.2
+  rev: v1.37.0
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit

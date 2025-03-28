@@ -136,6 +136,7 @@ class WeblateAccountsConf(AppConf):
         r"{URL_PREFIX}/contact/$",  # Optional for contact form
         r"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
         r"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
+        r"{URL_PREFIX}/site.webmanifest$",  # The request for the manifest is made without credentials
     )
 
     class Meta:
@@ -226,6 +227,7 @@ ACCOUNT_ACTIVITY = {
     ),
     "failed-auth": gettext_lazy("Could not sign in using {method} ({name})."),
     "locked": gettext_lazy("Account locked due to many failed sign in attempts."),
+    "admin-locked": gettext_lazy("Account locked by the site administrator."),
     "removed": gettext_lazy("Account and all private data removed."),
     "removal-request": gettext_lazy("Account removal confirmation sent to {email}."),
     "tos": gettext_lazy("Agreement with General Terms and Conditions {date}."),
@@ -438,12 +440,12 @@ class AuditLog(models.Model):
 
     def check_rate_limit(self, request: AuthenticatedHttpRequest) -> bool:
         """Check whether the activity should be rate limited."""
+        from weblate.accounts.utils import lock_user
+
         if self.activity == "failed-auth" and self.user.has_usable_password():
             failures = AuditLog.objects.get_after(self.user, "login", "failed-auth")
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
-                self.user.set_unusable_password()
-                self.user.save(update_fields=["password"])
-                AuditLog.objects.create(self.user, request, "locked")
+                lock_user(self.user, "locked", request)
                 return True
 
         elif self.activity == "reset-request":
