@@ -200,7 +200,7 @@ change_event_webhook = OpenApiWebhook(
         tags=["webhooks", "addons"],
         request={"application/json": load_schema("weblate-messaging.schema.json")},
         responses={
-            "2XX": OpenApiResponse("Event was received successfully"),
+            "2XX": OpenApiResponse(),
         },
     ),
 )
