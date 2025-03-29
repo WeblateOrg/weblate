@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # AegisTTN <gamemastermine042004@gmail.com>, 2024.
 # ssantos <ssantos@web.de>, 2024.
-# Manuela Silva <mmsrs@sky.com>, 2024.
+# Manuela Silva <mmsrs@sky.com>, 2024, 2025.
 # Francielle Souza <fransoonerorlater@gmail.com>, 2024.
 # Gedyane Ribeiro dos Santos <geddyzion@outlook.com>, 2024.
 # Horus68 <horus68@users.noreply.hosted.weblate.org>, 2024, 2025.
@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-02-24 15:26+0000\n"
-"Last-Translator: Horus68 <horus68@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2025-03-29 18:49+0000\n"
+"Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
 "Language: pt\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.1-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -1002,24 +1002,24 @@ msgstr ""
 "branco."
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "Esta palavra-passe contém apenas um carácter."
-msgstr[1] "Esta palavra-passe contém apenas um carácter."
+msgstr[0] ""
+"Esta palavra-passe é muito longa. Esta deve ter apenas %(max_length)d "
+"caráter."
+msgstr[1] ""
+"Esta palavra-passe é muito longa. Esta deve ter apenas %(max_length)d "
+"carateres."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password can't contain repeated words or characters."
+#, python-format
 msgid "Your password must contain at most %(min_length)d character."
 msgid_plural "Your password must contain at most %(min_length)d characters."
-msgstr[0] ""
-"A sua palavra-passe não pode conter palavras ou carateres repetidos."
-msgstr[1] ""
-"A sua palavra-passe não pode conter palavras ou carateres repetidos."
+msgstr[0] "A sua palavra-passe deve ter apenas %(min_length)d caráter."
+msgstr[1] "A sua palavra-passe deve ter apenas %(min_length)d carateres."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -2165,7 +2165,7 @@ msgstr "Ver informação de faturação"
 #. Translators: Permission name
 #: weblate/auth/data.py:23
 msgid "Download changes"
-msgstr "Descarregar alterações"
+msgstr "Transferir alterações"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:25
@@ -2245,7 +2245,7 @@ msgstr "Gerir acesso do projeto"
 #. Translators: Permission name
 #: weblate/auth/data.py:55
 msgid "Download reports"
-msgstr "Descarregar relatórios"
+msgstr "Transferir relatórios"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:57 weblate/templates/translate.html:753
@@ -2342,7 +2342,7 @@ msgstr "Apagar tradução existente"
 #. Translators: Permission name
 #: weblate/auth/data.py:93
 msgid "Download translation file"
-msgstr "Descarregar ficheiro de tradução"
+msgstr "Transferir ficheiro de tradução"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:95
@@ -3360,18 +3360,14 @@ msgid "Consecutive duplicated words"
 msgstr "Palavras duplicadas consecutivamente"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "O texto contém a mesma palavra duas vezes seguidas:"
+msgstr "O texto contém a mesma palavra duas vezes seguidas"
 
 #: weblate/checks/duplicate.py:96
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "Os componentes seguintes seriam criados"
-msgstr[1] "Os componentes seguintes seriam criados"
+msgstr[0] "A palavra seguinte está em duplicado:"
+msgstr[1] "As palavras seguintes estão em duplicado:"
 
 #: weblate/checks/flags.py:42
 msgid "RST text"
@@ -5877,10 +5873,6 @@ msgstr ""
 "valores do código aberto."
 
 #: weblate/templates/about/donate.html:33
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgctxt "Label on donate page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
@@ -5888,10 +5880,6 @@ msgstr[0] "Estrela do GitHub"
 msgstr[1] "Estrelas do GitHub"
 
 #: weblate/templates/about/donate.html:39
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "Open issues"
-#| msgid_plural "Open issues"
 msgctxt "Label on donate page"
 msgid "Open issue"
 msgid_plural "Open issues"
@@ -5899,12 +5887,10 @@ msgstr[0] "Problema aberto"
 msgstr[1] "Problemas abertos"
 
 #: weblate/templates/about/donate.html:45
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on donate page"
 msgid "Recent change"
 msgid_plural "Recent changes"
-msgstr[0] "Alterações recentes"
+msgstr[0] "Alteração recente"
 msgstr[1] "Alterações recentes"
 
 #: weblate/templates/about/index.html:7 weblate/templates/about/index.html:16
@@ -6507,11 +6493,11 @@ msgstr "Dados do utilizador"
 
 #: weblate/templates/accounts/profile.html:357
 msgid "You can download all your private data."
-msgstr "Pode descarregar todos os seus dados privados."
+msgstr "Pode transferir todos os seus dados privados."
 
 #: weblate/templates/accounts/profile.html:360
 msgid "Download user data"
-msgstr "Descarregar dados do utilizador"
+msgstr "Transferir dados do utilizador"
 
 #: weblate/templates/accounts/profile.html:368
 #: weblate/templates/accounts/user.html:411
@@ -6709,7 +6695,7 @@ msgid ""
 "When you generate new recovery codes, you must download or print the new "
 "codes."
 msgstr ""
-"Quando gerar novos códigos de recuperação, tem de descarregar ou imprimir os "
+"Quando cria novos códigos de recuperação, tem de transferir ou imprimir os "
 "códigos novos."
 
 #: weblate/templates/accounts/recovery-codes.html:59
@@ -7738,7 +7724,7 @@ msgstr "Valor da fatura"
 
 #: weblate/templates/billing/detail.html:85
 msgid "Download invoice"
-msgstr "Descarregar fatura"
+msgstr "Transferir fatura"
 
 #: weblate/templates/billing/detail.html:99
 #: weblate/templates/snippets/info.html:168
@@ -7991,13 +7977,13 @@ msgstr "Ficheiros"
 #: weblate/templates/project.html:83 weblate/templates/project.html:87
 #: weblate/templates/project.html:91
 msgid "Download for offline translation."
-msgstr "Transfira para traduzir off-line."
+msgstr "Transfira para traduzir ''off-line''."
 
 #: weblate/templates/category-project.html:42
 #: weblate/templates/component-list.html:32
 #: weblate/templates/language-project.html:55
 msgid "Download original translation files as ZIP file"
-msgstr "Descarregar os ficheiros de tradução originais como ficheiro ZIP"
+msgstr "Transferir os ficheiros de tradução originais como ficheiro ZIP"
 
 #: weblate/templates/category-project.html:48
 #: weblate/templates/category.html:87 weblate/templates/component.html:95
@@ -8062,22 +8048,22 @@ msgstr "Relatórios de tradução"
 #: weblate/templates/category.html:69 weblate/templates/component.html:77
 #: weblate/templates/project.html:79
 msgid "Download translation files as ZIP file"
-msgstr "Descarregar os ficheiros de tradução como ficheiro ZIP"
+msgstr "Transferir os ficheiros de tradução como ficheiro ZIP"
 
 #: weblate/templates/category.html:73 weblate/templates/component.html:81
 #: weblate/templates/language-project.html:59 weblate/templates/project.html:83
 msgid "Download translations as CSV in a ZIP file"
-msgstr "Descarregar traduções como CSV num ficheiro ZIP"
+msgstr "Transferir traduções como CSV num ficheiro ZIP"
 
 #: weblate/templates/category.html:77 weblate/templates/component.html:85
 #: weblate/templates/language-project.html:63 weblate/templates/project.html:87
 msgid "Download translations as XLIFF 1.1 in a ZIP file"
-msgstr "Descarregar traduções como XLIFF 1.1 num ficheiro ZIP"
+msgstr "Transferir traduções como XLIFF 1.1 num ficheiro ZIP"
 
 #: weblate/templates/category.html:81 weblate/templates/component.html:89
 #: weblate/templates/language-project.html:67 weblate/templates/project.html:91
 msgid "Download translations as XLSX in a ZIP file"
-msgstr "Descarregar traduções como XLSX num ficheiro ZIP"
+msgstr "Transferir traduções como XLSX num ficheiro ZIP"
 
 #: weblate/templates/category.html:113 weblate/templates/project.html:142
 msgid "Add new category"
@@ -8235,11 +8221,11 @@ msgstr "Alertas"
 
 #: weblate/templates/component.html:58 weblate/templates/project.html:60
 msgid "Download language statistics (CSV)"
-msgstr "Descarregar estatísticas de idioma (CSV)"
+msgstr "Transferir estatísticas de idioma (CSV)"
 
 #: weblate/templates/component.html:61 weblate/templates/project.html:63
 msgid "Download language statistics (JSON)"
-msgstr "Descarregar estatísticas de idioma (JSON)"
+msgstr "Transferir estatísticas de idioma (JSON)"
 
 #: weblate/templates/component.html:109 weblate/templates/data.html:12
 #: weblate/templates/project.html:111 weblate/templates/translation.html:104
@@ -10132,7 +10118,7 @@ msgstr "Chave SSH"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:29
 msgid "Download private key"
-msgstr "Descarregar a chave privada"
+msgstr "Transferir a chave privada"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:30
 msgid "The private key is needed to access the remote backup repository."
@@ -10753,7 +10739,7 @@ msgstr "Compre um pacote de apoio"
 
 #: weblate/templates/snippets/donate.html:14
 msgid "Give to Weblate"
-msgstr "Donativo ao Weblate"
+msgstr "Doe ao Weblate"
 
 #: weblate/templates/snippets/editor.html:11
 msgid ""
@@ -11601,7 +11587,7 @@ msgstr ""
 #: weblate/templates/snippets/ssh-key.html:29
 #, python-format
 msgid "Download %(key_type)s private key"
-msgstr "Descarregar chave privada %(key_type)s"
+msgstr "Transferir chave privada %(key_type)s"
 
 #: weblate/templates/snippets/ssh-key.html:42
 msgid "IP addresses"
@@ -12210,7 +12196,7 @@ msgstr "Alterações"
 #: weblate/templates/trans/change_list.html:37
 #: weblate/templates/trans/change_list.html:41
 msgid "Download latest changes as CSV"
-msgstr "Descarregar as últimas alterações como CSV"
+msgstr "Transferir as últimas alterações como CSV"
 
 #: weblate/templates/trans/change_list.html:46
 msgid "Follow using RSS"
@@ -12966,19 +12952,19 @@ msgstr "Adicionar uma nova variante para \"%(existing)s\""
 
 #: weblate/templates/translation.html:56
 msgid "Download statistics (CSV)"
-msgstr "Descarregar estatísticas (CSV)"
+msgstr "Transferir estatísticas (CSV)"
 
 #: weblate/templates/translation.html:59
 msgid "Download statistics (JSON)"
-msgstr "Descarregar estatísticas (JSON)"
+msgstr "Transferir estatísticas (JSON)"
 
 #: weblate/templates/translation.html:70
 msgid "Download translation"
-msgstr "Descarregar tradução"
+msgstr "Transferir tradução"
 
 #: weblate/templates/translation.html:74 weblate/templates/translation.html:469
 msgid "Customize download"
-msgstr "Personalizar descarregamento"
+msgstr "Personalizar transferência"
 
 #: weblate/templates/translation.html:78
 msgid "Upload translation"
@@ -13055,7 +13041,7 @@ msgstr ""
 
 #: weblate/templates/translation.html:423
 msgid "Quick downloads"
-msgstr "Descarregamentos rápidos"
+msgstr "Transferências rápidas"
 
 #: weblate/templates/translation.html:430
 msgid "File in original format as translated in the repository"
