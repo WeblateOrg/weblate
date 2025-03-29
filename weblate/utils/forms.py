@@ -169,10 +169,6 @@ class SortedSelectMultiple(SortedSelect, forms.SelectMultiple):
     """Wrapper class to sort choices alphabetically."""
 
 
-class SortedCheckboxSelectMultiple(SortedChoiceWidget, forms.CheckboxSelectMultiple):
-    """Wrapper class to sort choices alphabetically."""
-
-
 class ContextDiv(Div):
     def __init__(self, *fields, **kwargs) -> None:
         self.context = kwargs.pop("context", {})

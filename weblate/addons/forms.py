@@ -23,7 +23,7 @@ from weblate.trans.models import Component, Project, Translation
 from weblate.utils.forms import (
     CachedModelChoiceField,
     ContextDiv,
-    SortedCheckboxSelectMultiple,
+    SortedSelectMultiple,
     WeblateServiceURLField,
 )
 from weblate.utils.render import validate_render, validate_render_translation
@@ -670,7 +670,7 @@ class ChangeBaseAddonForm(BaseAddonForm):
     events = forms.MultipleChoiceField(
         label=gettext_lazy("Change events"),
         required=False,
-        widget=SortedCheckboxSelectMultiple(),
+        widget=SortedSelectMultiple(),
         choices=ActionEvents.choices,
     )
 

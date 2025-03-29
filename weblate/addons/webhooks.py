@@ -126,7 +126,7 @@ class StandardWebhooksUtils:
             whsecret = whsecret.removeprefix(self._SECRET_PREFIX)
             self._whsecret = base64.b64decode(whsecret)
 
-        if isinstance(whsecret, bytes):
+        elif isinstance(whsecret, bytes):
             self._whsecret = whsecret
 
     def verify(self, data: bytes | str, headers: dict[str, str]):

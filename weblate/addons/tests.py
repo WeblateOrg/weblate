@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import base64
 import json
 import os
 from datetime import timedelta
@@ -1777,6 +1778,11 @@ class WebhookAddonsTest(ViewTestCase):
         # valid request
         wh_utils.verify(wh_request.body, wh_request.headers)
 
+        # valid request with bytes
+        StandardWebhooksUtils(base64.b64decode("secret-string")).verify(
+            wh_request.body, wh_request.headers
+        )
+
         wh_headers = dict(wh_request.headers)
 
         # valid request with multiple signatures (space separated)
@@ -1814,7 +1820,7 @@ class WebhookAddonsTest(ViewTestCase):
         with self.assertRaises(WebhookVerificationError):
             new_headers = wh_headers.copy()
             new_headers["webhook-timestamp"] = str(
-                (timezone.now() - timedelta(minutes=6)).timestamp
+                (timezone.now() - timedelta(minutes=6)).timestamp()
             )
             wh_utils.verify(wh_request.body, new_headers)
 
@@ -1822,7 +1828,7 @@ class WebhookAddonsTest(ViewTestCase):
         with self.assertRaises(WebhookVerificationError):
             new_headers = wh_headers.copy()
             new_headers["webhook-timestamp"] = str(
-                (timezone.now() + timedelta(minutes=6)).timestamp
+                (timezone.now() + timedelta(minutes=6)).timestamp()
             )
             wh_utils.verify(wh_request.body, new_headers)
 
