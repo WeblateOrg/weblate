@@ -18,13 +18,14 @@
 # kowih83264 <kowih83264@inikale.com>, 2024.
 # Michal Čihař <michal@weblate.org>, 2025.
 # leyakid803 <leyakid803@minduls.com>, 2025.
+# dedakir923 <dedakir923@exoular.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-03-20 02:51+0000\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"PO-Revision-Date: 2025-03-29 18:49+0000\n"
+"Last-Translator: dedakir923 <dedakir923@exoular.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -2110,7 +2111,7 @@ msgstr "``filter_type``"
 
 #: ../../admin/addons.rst:136
 msgid "Search filter"
-msgstr "Filtro de pesquisa"
+msgstr "Filtro de busca"
 
 #: ../../admin/addons.rst:136
 msgid ""
@@ -2997,7 +2998,7 @@ msgstr "Rotula novos textos automaticamente"
 #: ../../admin/addons.rst:473 ../../admin/addons.rst:481
 #: ../../admin/addons.rst:490
 msgid "Search query"
-msgstr "Consulta de pesquisa"
+msgstr "Solicitação de busca"
 
 #: ../../admin/addons.rst:474
 msgid "``NOT has:label``"
@@ -5257,8 +5258,9 @@ msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
-"Se você não puder usar associação direta para autenticação, você precisará "
-"usar a pesquisa e fornecer um usuário para associar à pesquisa. Por exemplo:"
+"Se não for possível usar a associação direta para autenticação, será "
+"necessário usar a busca e fornecer um usuário para associar à busca. Por "
+"exemplo:"
 
 #: ../../admin/auth.rst:646
 msgid "Active Directory integration"
@@ -8954,10 +8956,10 @@ msgid ""
 "permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-"
 "permissions/>`_"
 msgstr ""
-":ref:`vcs-bitbucket-cloud`, `Create an App password <https://support."
-"atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `App password "
-"permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-"
-"permissions/>`_"
+":ref:`vcs-bitbucket-cloud`, `Criar uma senha do aplicativo <https://"
+"support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `"
+"Permissões de senha do aplicativo <https://support.atlassian.com/"
+"bitbucket-cloud/docs/app-password-permissions/>`_"
 
 #: ../../admin/config.rst:923
 msgid "AZURE_DEVOPS_CREDENTIALS"
@@ -10493,8 +10495,8 @@ msgid ""
 "under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
 "ref:`gpg-sign` for more details."
 msgstr ""
-"O chaveiro GPG do Weblate é pesquisado por uma chave correspondente (:file:"
-"`home/.gnupg` em :setting:`DATA_DIR`). Se não for encontrado, uma chave é "
+"O chaveiro GPG do Weblate é buscado por uma chave correspondente (:file:`"
+"home/.gnupg` em :setting:`DATA_DIR`). Se não for encontrado, uma chave é "
 "gerada. Consulte :ref:`gpg-sign` para mais detalhes."
 
 #: ../../admin/config.rst:2168 ../../admin/install/docker.rst:861
@@ -11612,10 +11614,10 @@ msgid ""
 "lib/python3.12/site-packages/`) or in the Weblate directory, which is also "
 "added to the interpreter search path."
 msgstr ""
-"Para escrever um arquivo com código Python personalizado (chamado de "
-"módulo), é necessário um lugar para armazená-lo, seja no caminho do sistema "
-"(geralmente algo como :file:`/usr/lib/python3.12/site-packages/`) ou no "
-"diretório Weblate, que também é adicionado ao caminho de pesquisa do "
+"Para escrever um arquivo com código Python personalizado (chamado de módulo)"
+", é necessário um lugar para armazená-lo, seja no caminho do sistema ("
+"geralmente algo como :file:`/usr/lib/python3.12/site-packages/`) ou no "
+"diretório Weblate, que também é adicionado ao caminho de busca do "
 "interpretador."
 
 #: ../../admin/customize.rst:40
@@ -12897,7 +12899,7 @@ msgid ""
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
 "Alguns recursos do Weblate terão melhor desempenho com :ref:`postgresql`. "
-"Isso inclui a memória de pesquisa e tradução, que ambos utilizam recursos de "
+"Isso inclui a memória de busca e tradução, que ambos utilizam recursos de "
 "texto completo no banco de dados e a implementação do PostgreSQL é superior."
 
 #: ../../admin/install.rst:555
@@ -13858,7 +13860,7 @@ msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
-"O contêiner do Weblate não o inclui no caminho de pesquisa; é necessário "
+"O contêiner do Weblate não o inclui no caminho de busca; é necessário "
 "especificar o caminho completo para executá-lo. Por exemplo:"
 
 #: ../../admin/install.rst:1253
@@ -14175,8 +14177,8 @@ msgstr ""
 "Para executar o servidor web de produção, use o wrapper WSGI instalado com "
 "Weblate (no caso de ambiente virtual é instalado como :file:`~/weblate-env/"
 "lib/python3.9/site-packages/weblate/wsgi.py`). Não se esqueça de definir o "
-"caminho de pesquisa Python para seu virtualenv também (por exemplo, usando "
-"``virtualenv = /home/user/weblate-env`` no uWSGI)."
+"caminho de busca Python para seu virtualenv também (por exemplo, usando ``"
+"virtualenv = /home/user/weblate-env`` no uWSGI)."
 
 #: ../../admin/install.rst:1442
 msgid ""
@@ -16124,15 +16126,15 @@ msgstr "**Exemplo para vinculação direta:**"
 
 #: ../../admin/install/docker.rst:1220
 msgid "**Example for search and bind:**"
-msgstr "**Exemplo para pesquisa e vinculação:**"
+msgstr "**Exemplo para busca e vinculação:**"
 
 #: ../../admin/install/docker.rst:1232
 msgid "**Example for union search and bind:**"
-msgstr "**Exemplo para vinculação e pesquisa de união:**"
+msgstr "**Exemplo para vinculação e busca de união:**"
 
 #: ../../admin/install/docker.rst:1244
 msgid "**Example with search and bind against Active Directory:**"
-msgstr "**Exemplo com pesquisar e vincular ao Active Directory:**"
+msgstr "**Exemplo como buscar e vincular ao Active Directory:**"
 
 #: ../../admin/install/docker.rst:1259
 msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
@@ -18145,9 +18147,9 @@ msgid ""
 "software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
 "Rules by the Unicode Consortium`_"
 msgstr ""
-":ref:`plurals`, `GNU gettext utilities: Plural forms <https://www.gnu.org/"
-"software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
-"Rules by the Unicode Consortium`_"
+":ref:`plurals`, `Utilitários GNU gettext: Formas plurais <https://"
+"www.gnu.org/software/gettext/manual/html_node/Plural-forms.html>`_, `Regras "
+"para plural de idiomas do Unicode Consortium`_"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
@@ -18849,8 +18851,8 @@ msgid ""
 "translator>`_"
 msgstr ""
 "`Watson Language Translator <https://www.ibm.com/products/natural-language-"
-"processing>`_, `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-"
-"translator>`_"
+"processing>`_, `Documentação da IBM Cloud API <https://cloud.ibm.com/apidocs/"
+"language-translator>`_"
 
 #: ../../admin/machine.rst:313
 msgid "LibreTranslate"
@@ -18884,8 +18886,8 @@ msgid ""
 "`LibreTranslate website <https://libretranslate.com/>`_, `LibreTranslate "
 "repository <https://github.com/LibreTranslate/LibreTranslate>`_"
 msgstr ""
-"`LibreTranslate website <https://libretranslate.com/>`_, `LibreTranslate "
-"repository <https://github.com/LibreTranslate/LibreTranslate>`_"
+"`Site LibreTranslate <https://libretranslate.com/>`_, `Repositório "
+"LibreTranslate <https://github.com/LibreTranslate/LibreTranslate>`_"
 
 #: ../../admin/machine.rst:339
 msgid "Azure AI Translator"
@@ -19384,8 +19386,8 @@ msgid ""
 "`What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/sap-"
 "translation-hub/what-is-sap-translation-hub>`_"
 msgstr ""
-"`What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/sap-"
-"translation-hub/what-is-sap-translation-hub>`_"
+"`Saiba mais sobre SAP Translation Hub <https://help.sap.com/docs/"
+"translation-hub/sap-translation-hub/what-is-sap-translation-hub>`_"
 
 #: ../../admin/machine.rst:595
 msgid ""
@@ -24983,11 +24985,11 @@ msgstr ""
 
 #: ../../api.rst:288
 msgid "Username to search for"
-msgstr "Usuário a ser pesquisado"
+msgstr "Usuário a ser buscado"
 
 #: ../../api.rst:289
 msgid "User ID to search for"
-msgstr "ID de usuário a ser pesquisado"
+msgstr "ID de usuário a ser buscado"
 
 #: ../../api.rst:293
 msgid ""
@@ -25872,7 +25874,7 @@ msgstr "Registro de data e hora ISO 8601 de limite superior (obrigatório)"
 
 #: ../../api.rst:1254 ../../api.rst:1857
 msgid "Language code to search for"
-msgstr "Código do idioma a ser pesquisado"
+msgstr "Código do idioma a ser buscado"
 
 #: ../../api.rst:1256 ../../api.rst:1859
 msgid "Email of the contributor"
@@ -26543,7 +26545,7 @@ msgstr "Retorna uma lista de unidades de tradução."
 
 #: ../../api.rst:2017 ../../api.rst:2185
 msgid "Search query string :doc:`/user/search` (optional)"
-msgstr "Texto de consulta de pesquisa; veja :doc:`/user/search` (opcional)"
+msgstr "Texto de consulta de busca; veja :doc:`/user/search` (opcional)"
 
 #: ../../api.rst:2019
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
@@ -27465,14 +27467,14 @@ msgstr "Nome do servidor configurado"
 
 #: ../../api.rst:2678
 msgid "Search"
-msgstr "Pesquisar"
+msgstr "Buscar"
 
 #: ../../api.rst:2684
 msgid ""
 "Returns site-wide search results as a list. There is no pagination on the "
 "result set, only first few matches are returned for each category."
 msgstr ""
-"Retorna os resultados da pesquisa em todo o site como uma lista. Não há "
+"Retorna os resultados da busca em todo o site como uma lista. Não há "
 "paginação no conjunto de resultados, apenas as primeiras correspondências "
 "são retornadas para cada categoria."
 
@@ -28013,7 +28015,7 @@ msgstr ""
 
 #: ../../changes.rst:45
 msgid ":ref:`search-strings` supports searching by source string state."
-msgstr ":ref:`search-strings` suporta pesquisar por estado do texto fonte."
+msgstr ":ref:`search-strings` suporta buscar por estado do texto fonte."
 
 #: ../../changes.rst:49
 msgid ":ref:`download` performs faster on project and language scopes."
@@ -28342,7 +28344,7 @@ msgstr ""
 
 #: ../../changes.rst:136
 msgid ":http:get:`/api/users/` supports searching by user ID."
-msgstr ":http:get:`/api/users/` suporta pesquisar por ID do usuário."
+msgstr ":http:get:`/api/users/` suporta buscar por ID do usuário."
 
 #: ../../changes.rst:140
 msgid "Avoid query parser crash in multi-threaded environments."
@@ -28503,7 +28505,7 @@ msgid ""
 "variants in the search language, see :ref:`search-strings`."
 msgstr ""
 "O uso do campo ``has:variant`` agora exibe corretamente textos que possuem "
-"variantes no idioma de pesquisa, consulte :ref:`search-strings`."
+"variantes no idioma de busca, consulte :ref:`search-strings`."
 
 #: ../../changes.rst:207
 msgid "Saving newly added strings in some formats."
@@ -28565,7 +28567,7 @@ msgstr "*Lançado em 19 de novembro de 2024.*"
 
 #: ../../changes.rst:235
 msgid ":ref:`search-users` can search based on user changes."
-msgstr ":ref:`search-users` pode pesquisar com base nas alterações do usuário."
+msgstr ":ref:`search-users` pode buscar com base nas alterações do usuário."
 
 #: ../../changes.rst:239
 msgid "Fixed occasional crash in :ref:`rss`."
@@ -29799,7 +29801,7 @@ msgstr ":doc:`/formats/formatjs`."
 #: ../../changes.rst:787
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
 msgstr ""
-"A entrada de pesquisa agora é destacada pela sintaxe, consulte :doc:`/user/"
+"A entrada de busca agora é destacada pela sintaxe, consulte :doc:`/user/"
 "search`."
 
 #: ../../changes.rst:788
@@ -30043,7 +30045,7 @@ msgstr "*Lançado em 22 de novembro de 2023.*"
 #: ../../changes.rst:884
 msgid "Show search field after no strings found while translating."
 msgstr ""
-"Mostra campo de pesquisa após nenhum texto ser encontrado durante a tradução."
+"Mostra campo de busca após nenhum texto ser encontrado durante a tradução."
 
 #: ../../changes.rst:885
 msgid "Added soft hyphen to special-characters toolbar."
@@ -30167,8 +30169,7 @@ msgstr "Correção da movimentação de categorias entre projetos."
 
 #: ../../changes.rst:928
 msgid "Fixed formatting of translation memory search results."
-msgstr ""
-"Corrigida a formatação dos resultados de pesquisa da memória de tradução."
+msgstr "Corrigida a formatação dos resultados de busca da memória de tradução."
 
 #: ../../changes.rst:929
 msgid "Allow non-breaking space character in :ref:`autofix-html`."
@@ -30471,7 +30472,7 @@ msgstr "Adicionado :http:get:`/api/component-lists/(str:slug)/components/`."
 
 #: ../../changes.rst:1052
 msgid "Related glossary terms lookup is now faster."
-msgstr "A pesquisa de termos de glossário relacionados agora é mais rápida."
+msgstr "A busca de termos de glossário relacionados agora é mais rápida."
 
 #: ../../changes.rst:1053
 msgid "Logging of failures when creating pull requests."
@@ -30830,7 +30831,7 @@ msgstr "*Lançado em 3 de abril de 2012.*"
 
 #: ../../changes/v0.rst:30
 msgid "Replaced own full text search with Whoosh."
-msgstr "Substituída a própria pesquisa de texto completo por Whoosh."
+msgstr "Substituída a própria busca de texto completo por Whoosh."
 
 #: ../../changes/v0.rst:31
 msgid "Various fixes and improvements to checks."
@@ -30929,7 +30930,7 @@ msgstr "Exibe textos semelhantes durante a tradução."
 
 #: ../../changes/v0.rst:56
 msgid "Improved searching for string."
-msgstr "Melhorada pesquisa de texto."
+msgstr "Melhorada busca de texto."
 
 #: ../../changes/v0.rst:59
 msgid "Weblate 0.6"
@@ -31279,7 +31280,7 @@ msgstr "Várias otimizações sobre páginas usadas com frequência."
 
 #: ../../changes/v1.rst:66
 msgid "Highlights searched phrase in search results."
-msgstr "Realça frases pesquisadas em resultados de pesquisa."
+msgstr "Realça frases buscadas em resultados de busca."
 
 #: ../../changes/v1.rst:67
 msgid "Support for automatic fixups while saving the message."
@@ -31385,7 +31386,7 @@ msgstr ""
 
 #: ../../changes/v1.rst:95
 msgid "Rewritten search for better performance and user experience."
-msgstr "Reescrita a pesquisa para melhor desempenho e experiência do usuário."
+msgstr "Reescrita a busca para melhor desempenho e experiência do usuário."
 
 #: ../../changes/v1.rst:96
 msgid "New interface for machine translations."
@@ -31399,7 +31400,7 @@ msgstr "Adicionado suporte para arquivos po monolíngues."
 msgid "Extend amount of cached metadata to improve speed of various searches."
 msgstr ""
 "Estende a quantidade de metadados armazenados em cache para melhorar a "
-"velocidade de várias pesquisas."
+"velocidade de várias buscas."
 
 #: ../../changes/v1.rst:99
 msgid "Now shows word counts as well."
@@ -31486,7 +31487,7 @@ msgstr "Suporte para mostrar alterações do texto fonte anterior."
 
 #: ../../changes/v1.rst:122
 msgid "Added support for substring search."
-msgstr "Adicionado suporte para pesquisa de subtexto."
+msgstr "Adicionado suporte para busca de subtexto."
 
 #: ../../changes/v1.rst:124
 msgid "Support for per project ACL."
@@ -31768,7 +31769,7 @@ msgstr "Adicionado suporte para baixar apenas textos que necessitam ação."
 
 #: ../../changes/v2.rst:12
 msgid "Added support for searching in several languages at once."
-msgstr "Adicionado suporte para pesquisa em vários idiomas ao mesmo tempo."
+msgstr "Adicionado suporte para busca em vários idiomas ao mesmo tempo."
 
 #: ../../changes/v2.rst:13
 msgid "New add-on to configure gettext output wrapping."
@@ -31887,7 +31888,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:44
 msgid "Improved glossary lookup speed for large strings."
-msgstr "Melhorada a velocidade de pesquisa de glossário para textos grandes."
+msgstr "Melhorada a velocidade de busca de glossário para textos grandes."
 
 #: ../../changes/v2.rst:45
 msgid "Compatibility with django_auth_ldap 1.3.0."
@@ -32039,18 +32040,17 @@ msgstr "Os usuários agora podem excluir seus próprios comentários."
 
 #: ../../changes/v2.rst:92
 msgid "Added preview step to search and replace feature."
-msgstr ""
-"Adicionada etapa de visualização para o recurso de pesquisar e substituir."
+msgstr "Adicionada etapa de visualização para a função de busca e substituição."
 
 #: ../../changes/v2.rst:93
 msgid "Client side persistence of settings in search and upload forms."
 msgstr ""
-"Persistência das configurações do lado do cliente em formulários de pesquisa "
-"e envio."
+"Persistência das configurações do lado do cliente em formulários de busca e "
+"envio."
 
 #: ../../changes/v2.rst:94 ../../changes/v3.rst:138
 msgid "Extended search capabilities."
-msgstr "Capacidades de pesquisa estendidos."
+msgstr "Capacidades de busca estendidos."
 
 #: ../../changes/v2.rst:95
 msgid "More fine grained per project ACL configuration."
@@ -32119,7 +32119,7 @@ msgstr "Várias limpezas de interface do usuário."
 
 #: ../../changes/v2.rst:115
 msgid "Fixed component/project/site wide search for translations."
-msgstr "Corrigida a pesquisa em componente /projeto/tido o site por traduções."
+msgstr "Corrigida a busca em componente /projeto/tido o site por traduções."
 
 #: ../../changes/v2.rst:118
 msgid "Weblate 2.15"
@@ -32179,7 +32179,7 @@ msgstr "*Lançado em 24 de maio de 2017.*"
 
 #: ../../changes/v2.rst:138
 msgid "Fixed possible error when paginating search results."
-msgstr "Corrigido um possível erro ao paginar os resultados da pesquisa."
+msgstr "Corrigido um possível erro ao paginar os resultados da busca."
 
 #: ../../changes/v2.rst:139
 msgid "Fixed migrations from older versions in some corner cases."
@@ -32277,7 +32277,7 @@ msgstr "Há uma nova verificação de qualidade para o ponto-e-vírgula à direi
 
 #: ../../changes/v2.rst:164
 msgid "Ensure that search links can be shared."
-msgstr "Garante que os links de pesquisa podem ser compartilhados."
+msgstr "Garante que os links de busca podem ser compartilhados."
 
 #: ../../changes/v2.rst:165
 msgid "Included source string information and screenshots in the API."
@@ -32353,7 +32353,7 @@ msgstr "Melhor relatório de erros ao adicionar uma nova tradução."
 
 #: ../../changes/v2.rst:191
 msgid "Added per language search within project."
-msgstr "Adicionado pesquisa por idioma dentro do projeto."
+msgstr "Adicionado busca por idioma dentro do projeto."
 
 #: ../../changes/v2.rst:192
 msgid "Group ACLs can now be limited to certain permissions."
@@ -32389,15 +32389,15 @@ msgstr "Adicionado suporte à API do Yandex Translate."
 
 #: ../../changes/v2.rst:204
 msgid "Improved speed of site wide search."
-msgstr "Maior velocidade de pesquisa em todo o site."
+msgstr "Maior velocidade de busca em todo o site."
 
 #: ../../changes/v2.rst:205
 msgid "Added project and component wide search."
-msgstr "Adicionada pesquisa ampla de projeto e componente."
+msgstr "Adicionada busca ampla de projeto e componente."
 
 #: ../../changes/v2.rst:206
 msgid "Added project and component wide search and replace."
-msgstr "Adicionada pesquisa e substituição em todo o projeto e componente."
+msgstr "Adicionada busca e substituição em todo o projeto e componente."
 
 #: ../../changes/v2.rst:207
 msgid "Improved rendering of inconsistent translations."
@@ -32649,7 +32649,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:278
 msgid "Added search and replace feature."
-msgstr "Adicionado recurso de pesquisa e substituição."
+msgstr "Adicionado recurso de busca e substituição."
 
 #: ../../changes/v2.rst:279
 msgid ""
@@ -32715,7 +32715,7 @@ msgstr "Adiciona uma dica de ferramenta mostrando a hora exata das alterações.
 #: ../../changes/v2.rst:298
 msgid "Add option to select filters and search from translation page."
 msgstr ""
-"Adiciona uma opção para selecionar filtros e pesquisar na página de tradução."
+"Adiciona uma opção para selecionar filtros e buscar na página de tradução."
 
 #: ../../changes/v2.rst:299
 msgid "Added UI for translation removal."
@@ -32846,7 +32846,7 @@ msgstr "Adicionado suporte para gerar estatísticas de colaboradores."
 
 #: ../../changes/v2.rst:343
 msgid "Site wide search can search only in one language."
-msgstr "A pesquisa em todo o site pode pesquisar apenas em um idioma."
+msgstr "A busca em todo o site pode procurar apenas em um idioma."
 
 #: ../../changes/v2.rst:344
 msgid "Improve quality checks for Armenian."
@@ -32871,7 +32871,7 @@ msgstr "Melhorias de desempenho para verificações de qualidade."
 
 #: ../../changes/v2.rst:349
 msgid "Fixed site wide search for failing checks."
-msgstr "Corrigida a pesquisa para todo o site por verificações com falha."
+msgstr "Corrigida a busca para todo o site por verificações com falha."
 
 #: ../../changes/v2.rst:350
 msgid "Added option to specify source language."
@@ -32891,7 +32891,7 @@ msgstr "Suporte para tradução automática entre projetos."
 
 #: ../../changes/v2.rst:355
 msgid "Optimized fulltext search index."
-msgstr "Otimizado o índice de pesquisa de texto completo."
+msgstr "Otimizado o índice de busca de texto completo."
 
 #: ../../changes/v2.rst:356
 msgid "Added management command for auto translation."
@@ -33348,7 +33348,7 @@ msgstr "Os projetos com ACL agora têm gerenciamento de usuários."
 
 #: ../../changes/v2.rst:485
 msgid "Extended search possibilities."
-msgstr "Estendidas as possibilidades de pesquisa."
+msgstr "Estendidas as possibilidades de busca."
 
 #: ../../changes/v2.rst:486
 msgid "Give more hints to translators about plurals."
@@ -33389,7 +33389,7 @@ msgstr "*Lançado em 11 de março de 2020.*"
 
 #: ../../changes/v3.rst:9
 msgid "Fixed searching for fields with certain priority."
-msgstr "Corrigida a pesquisa de campos com certa prioridade."
+msgstr "Corrigida a busca de campos com certa prioridade."
 
 #: ../../changes/v3.rst:10
 msgid "Fixed predefined query for recently added strings."
@@ -33397,7 +33397,7 @@ msgstr "Corrigida a consulta predefinida para textos adicionados recentemente."
 
 #: ../../changes/v3.rst:11
 msgid "Fixed searching returning duplicate matches."
-msgstr "Corrigida a pesquisa que retornava correspondências duplicadas."
+msgstr "Corrigida a busca que retornava correspondências duplicadas."
 
 #: ../../changes/v3.rst:12
 msgid "Fixed notifications rendering in Gmail."
@@ -33449,7 +33449,7 @@ msgstr "Corrigida a invalidação de estatísticas em alguns casos complexos."
 
 #: ../../changes/v3.rst:24
 msgid "Fixed searching for certain string states."
-msgstr "Corrigida a pesquisa de determinados estados de texto."
+msgstr "Corrigida a busca de determinados estados de texto."
 
 #: ../../changes/v3.rst:25
 msgid "Improved format string checks behavior on missing percent."
@@ -33660,7 +33660,7 @@ msgstr "Corrigido erro CSS que causava cintilação em alguns navegadores web."
 
 #: ../../changes/v3.rst:93
 msgid "Fixed searching on systems with non-English locales."
-msgstr "Corrigida a pesquisa em sistemas com localidades diferentes do inglês."
+msgstr "Corrigida a busca em sistemas com localidades diferentes do inglês."
 
 #: ../../changes/v3.rst:94
 msgid "Improved repository matching for GitHub and Bitbucket hooks."
@@ -33697,7 +33697,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:101
 msgid "Fixed regex search on some fields."
-msgstr "Corrigida pesquisa por expressões regulares em alguns campos."
+msgstr "Corrigida busca por expressões regulares em alguns campos."
 
 #: ../../changes/v3.rst:104
 msgid "Weblate 3.10.1"
@@ -33795,7 +33795,7 @@ msgstr "Melhorado desempenho de busca do repositório Git."
 
 #: ../../changes/v3.rst:133
 msgid "Add search lookup for age of string."
-msgstr "Adicionada pesquisa pela idade do texto."
+msgstr "Adicionada busca pela idade do texto."
 
 #: ../../changes/v3.rst:134
 msgid "Show source language for all translations."
@@ -33878,7 +33878,7 @@ msgstr "Corrigido o limitador de taxa de acerto de remoção de conta."
 
 #: ../../changes/v3.rst:158
 msgid "Added search based on priority."
-msgstr "Adicionada pesquisa baseada em prioridade."
+msgstr "Adicionada busca baseada em prioridade."
 
 #: ../../changes/v3.rst:159
 msgid "Fixed possible crash on adding strings to JSON file."
@@ -34028,7 +34028,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:195
 msgid "Added advanced search capabilities."
-msgstr "Adicionados recursos de pesquisa avançada."
+msgstr "Adicionados recursos de busca avançada."
 
 #: ../../changes/v3.rst:196
 msgid "Allow users to download their own reports."
@@ -34180,8 +34180,7 @@ msgstr ""
 #: ../../changes/v3.rst:234
 msgid "Added separate view for translation memory with search capability."
 msgstr ""
-"Adicionada visão separada para memória de tradução com capacidade de "
-"pesquisa."
+"Adicionada visão separada para memória de tradução com capacidade de busca."
 
 #: ../../changes/v3.rst:237
 msgid "Weblate 3.7.1"
@@ -34847,8 +34846,7 @@ msgstr "Weblate agora usa Celery para descarregar algum processamento."
 #: ../../changes/v3.rst:432
 msgid "Improved search capabilities and added regular expression search."
 msgstr ""
-"Melhorados os recursos de pesquisa e adicionada a pesquisa de expressão "
-"regular."
+"Melhorados os recursos de busca e adicionada a busca de expressão regular."
 
 #: ../../changes/v3.rst:433
 msgid "Added support for Youdao Zhiyun API machine translation."
@@ -35193,7 +35191,7 @@ msgstr "Adicionado suporte para ordenar textos pela última atualização."
 
 #: ../../changes/v4.rst:39
 msgid "Extended search capabilities for finding users."
-msgstr "Estendidos os recursos de pesquisa para encontrar usuários."
+msgstr "Estendidos os recursos de busca para encontrar usuários."
 
 #: ../../changes/v4.rst:40
 msgid "Support for automatic update of screenshots from a repository."
@@ -35241,7 +35239,7 @@ msgstr ""
 #: ../../changes/v4.rst:48
 msgid "Added site-wide search for projects, components, languages and users."
 msgstr ""
-"Adicionada pesquisa em todo o site para projetos, componentes, idiomas e "
+"Adicionada busca em todo o site para projetos, componentes, idiomas e "
 "usuários."
 
 #: ../../changes/v4.rst:49
@@ -35331,7 +35329,7 @@ msgstr "Reescrito armazenamento de métricas."
 
 #: ../../changes/v4.rst:76
 msgid "Added support for searching strings by position."
-msgstr "Adicionado suporte para pesquisar textos por posição."
+msgstr "Adicionado suporte para buscar textos por posição."
 
 #: ../../changes/v4.rst:78
 msgid ""
@@ -35452,7 +35450,7 @@ msgstr "*Lançado em 8 de março de 2023.*"
 
 #: ../../changes/v4.rst:133
 msgid "Fixed searching in the translation memory."
-msgstr "Corrigida a pesquisa na memória de tradução."
+msgstr "Corrigida a busca na memória de tradução."
 
 #: ../../changes/v4.rst:134
 msgid "Fixed automatic translation with more services."
@@ -35515,7 +35513,7 @@ msgstr ""
 #: ../../changes/v4.rst:156
 msgid "Improved search performance for some specially formatted strings."
 msgstr ""
-"Melhorado o desempenho da pesquisa para alguns textos formatados de forma "
+"Melhorado o desempenho da busca para alguns textos formatados de forma "
 "especial."
 
 #: ../../changes/v4.rst:157
@@ -35979,7 +35977,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:287
 msgid "Added searching support in units API."
-msgstr "Adicionado suporte de pesquisa em API de unidades."
+msgstr "Adicionado suporte de busca em API de unidades."
 
 #: ../../changes/v4.rst:288
 msgid ""
@@ -36068,7 +36066,7 @@ msgstr "Adicionado suporte para backups em nível de projeto."
 #: ../../changes/v4.rst:313
 msgid "Improved performance and memory usage of translation memory lookups."
 msgstr ""
-"Melhorado o desempenho e uso de memória de pesquisas de memória de tradução."
+"Melhorado o desempenho e uso de memória de buscas de memória de tradução."
 
 #: ../../changes/v4.rst:315
 msgid ""
@@ -36637,7 +36635,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:488
 msgid "Added support for searching for resolved comments."
-msgstr "Adicionado suporte para pesquisar para comentários resolvidos."
+msgstr "Foi adicionado suporte à busca de comentários resolvidos."
 
 #: ../../changes/v4.rst:489
 msgid "Added support for borgbackup 1.2."
@@ -36745,12 +36743,12 @@ msgid ""
 "Bulk edit and search-and-replace are now available on project and language "
 "level."
 msgstr ""
-"A edição em massa e a pesquisa e substituição agora estão disponíveis no "
-"nível do projeto e do idioma."
+"A edição em massa e a busca e substituição agora estão disponíveis no nível "
+"do projeto e do idioma."
 
 #: ../../changes/v4.rst:527
 msgid "Added filtering to search and replace."
-msgstr "Adicionada filtragem para pesquisa e substituição."
+msgstr "Adicionada filtragem para busca e substituição."
 
 #: ../../changes/v4.rst:528
 msgid ""
@@ -37088,7 +37086,7 @@ msgstr "Adicionado suporte para o formato stringsdict da Apple."
 #: ../../changes/v4.rst:628
 msgid "The exact search operator is now case-sensitive with PostgreSQL."
 msgstr ""
-"O operador de pesquisa exato agora diferencia maiúsculas de minúsculas com o "
+"O operador de busca exato agora diferencia maiúsculas de minúsculas com o "
 "PostgreSQL."
 
 #: ../../changes/v4.rst:629
@@ -37148,7 +37146,7 @@ msgstr "Suporta mais apelidos de idioma a serem configurados em um projeto."
 
 #: ../../changes/v4.rst:654
 msgid "Fixed search string validation in API."
-msgstr "Corrigida a validação de texto de pesquisa na API."
+msgstr "Corrigida a validação de texto de busca na API."
 
 #: ../../changes/v4.rst:655
 msgid "Fixed Git exporter URLs after a domain change."
@@ -37516,7 +37514,7 @@ msgstr "Corrigido o salvamento do estado de texto para XLIFF."
 
 #: ../../changes/v4.rst:762
 msgid "Added language-wide search."
-msgstr "Adicionada pesquisa para todo idioma."
+msgstr "Adicionada busca para todo idioma."
 
 #: ../../changes/v4.rst:763
 msgid "Initial support for :ref:`docker-scaling` the Docker deployment."
@@ -37572,7 +37570,7 @@ msgstr "Corrigido possível travamento ao adicionar textos."
 
 #: ../../changes/v4.rst:784
 msgid "Improved search query examples."
-msgstr "Melhorados os exemplos de consulta de pesquisa."
+msgstr "Melhorados os exemplos de consulta de busca."
 
 #: ../../changes/v4.rst:785
 msgid "Fixed possible loss of newly added strings on replace upload."
@@ -37767,7 +37765,7 @@ msgstr "Aprimorado o desempenho de memória de tradução para textos longos."
 
 #: ../../changes/v4.rst:840
 msgid "Added support for searching in explanations."
-msgstr "Adicionado suporte para pesquisar em explicações."
+msgstr "Adicionado suporte para buscar em explicações."
 
 #: ../../changes/v4.rst:841
 msgid "Strings can now be added and removed in bilingual formats as well."
@@ -38030,7 +38028,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:919
 msgid "Extended search capabilities for changes in history."
-msgstr "Estendidos os recursos de pesquisa para mudanças no histórico."
+msgstr "Estendidos os recursos de busca para mudanças no histórico."
 
 #: ../../changes/v4.rst:920
 msgid "Improved billing detail pages and Libre hosting workflow."
@@ -38546,7 +38544,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1075
 msgid "Improved query search parser."
-msgstr "Melhorado o analisador de pesquisa de consulta."
+msgstr "Melhorado o analisador de busca de consulta."
 
 #: ../../changes/v4.rst:1076
 msgid "Improved user feedback from format strings checks."
@@ -38630,7 +38628,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1092
 msgid "Add support for searching by component and project."
-msgstr "Adiciona suporte para pesquisar componente e projeto."
+msgstr "Adiciona suporte para buscar componentes e projetos."
 
 #: ../../changes/v4.rst:1100
 msgid ""
@@ -38761,15 +38759,15 @@ msgstr ""
 
 #: ../../changes/v4.rst:1130
 msgid "Added support for searching source strings with screenshot."
-msgstr "Adicionado suporte para pesquisar textos fonte com captura de tela."
+msgstr "Adicionado suporte para buscar textos fonte com captura de tela."
 
 #: ../../changes/v4.rst:1131
 msgid "Extended info available in the stats insights."
-msgstr "Estendidas as informações disponíveis nos insights de estatísticas."
+msgstr "Estendidas as informações disponíveis para estatísticas de colaboração."
 
 #: ../../changes/v4.rst:1132
 msgid "Improved search editing on \"Translate\" pages."
-msgstr "Melhorada a edição de pesquisa nas páginas \"Traduzir\"."
+msgstr "Melhorada a edição de busca nas páginas \"Traduzir\"."
 
 #: ../../changes/v4.rst:1133
 msgid "Improve handling of concurrent repository updates."
@@ -38795,7 +38793,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1138
 msgid "Improved lookup of related terms in glossary."
-msgstr "Melhorada a pesquisa de termos relacionados no glossário."
+msgstr "Melhorada a busca de termos relacionados no glossário."
 
 #: ../../changes/v4.rst:1139
 msgid "Improved translation memory matches."
@@ -39189,7 +39187,7 @@ msgstr "Reimplementado backend da memória de tradução."
 
 #: ../../changes/v4.rst:1253
 msgid "Added support for several ``is:`` lookups in :doc:`/user/search`."
-msgstr "Adicionado suporte a várias pesquisa ``is:`` em :doc:`/user/search`."
+msgstr "Adicionado suporte a várias buscas ``is:`` em :doc:`/user/search`."
 
 #: ../../changes/v4.rst:1254
 msgid "Allow to make :ref:`check-same` avoid the built-in words exceptions."
@@ -41193,7 +41191,7 @@ msgstr "padrão"
 
 #: ../../contributing/schemas.rst:9
 msgid "**origin**"
-msgstr "**origin**"
+msgstr "**origem**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The String Origin*"
@@ -41234,7 +41232,7 @@ msgstr "minLength"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source\\_language**"
-msgstr "**source\\_language**"
+msgstr "**idioma\\_ fonte**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Source Language*"
@@ -41258,7 +41256,7 @@ msgstr "^[^ ]+$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target**"
-msgstr "**target**"
+msgstr "**destino**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Target String*"
@@ -41270,7 +41268,7 @@ msgstr "Ahoj"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target\\_language**"
-msgstr "**target\\_language**"
+msgstr "**idioma\\_de\\_destino**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Target Language*"
@@ -41311,7 +41309,7 @@ msgstr "https://weblate.org/schemas/weblate-userdata.schema.json"
 
 #: ../../contributing/schemas.rst:19
 msgid "**basic**"
-msgstr "**basic**"
+msgstr "**básico**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Basic*"
@@ -41363,7 +41361,7 @@ msgstr "e-mail"
 
 #: ../../contributing/schemas.rst:19
 msgid "**date\\_joined**"
-msgstr "**date\\_joined**"
+msgstr "**data\\_de\\_entrada**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Date joined*"
@@ -41379,7 +41377,7 @@ msgstr "data-hora"
 
 #: ../../contributing/schemas.rst:19
 msgid "**profile**"
-msgstr "**profile**"
+msgstr "**perfil**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Profile*"
@@ -41387,7 +41385,7 @@ msgstr "*Perfil*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**language**"
-msgstr "**language**"
+msgstr "**idioma**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Language*"
@@ -41399,7 +41397,7 @@ msgstr "^[^ ]\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**suggested**"
-msgstr "**suggested**"
+msgstr "**sugerido**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Number of suggested strings*"
@@ -41407,7 +41405,7 @@ msgstr "*Quantidade de textos sugeridos*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**translated**"
-msgstr "**translated**"
+msgstr "**traduzido**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Number of translated strings*"
@@ -41419,7 +41417,7 @@ msgstr "24"
 
 #: ../../contributing/schemas.rst:19
 msgid "**uploaded**"
-msgstr "**uploaded**"
+msgstr "**enviado**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Number of uploaded screenshots*"
@@ -41427,7 +41425,7 @@ msgstr "*Quantidade de capturas de tela enviadas*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_completed**"
-msgstr "**hide\\_completed**"
+msgstr "**ocultar\\_concluído**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Hide completed translations on the dashboard*"
@@ -41443,7 +41441,7 @@ msgstr "True"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_in\\_zen**"
-msgstr "**secondary\\_in\\_zen**"
+msgstr "**secundário\\_em\\_zen**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Show secondary translations in the Zen mode*"
@@ -41451,7 +41449,7 @@ msgstr "*Mostra as traduções secundárias no modo Zen*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_source\\_secondary**"
-msgstr "**hide\\_source\\_secondary**"
+msgstr "**ocultar\\_fonte\\_secundária**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Hide source if a secondary translation exists*"
@@ -41471,7 +41469,7 @@ msgstr "^.\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**translate\\_mode**"
-msgstr "**translate\\_mode**"
+msgstr "**modo\\_de\\_tradução**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Translation editor mode*"
@@ -41487,7 +41485,7 @@ msgstr "*Modo editor Zen*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**special\\_chars**"
-msgstr "**special\\_chars**"
+msgstr "**carateres\\_especiais**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Special characters*"
@@ -41539,7 +41537,7 @@ msgstr "*null*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**languages**"
-msgstr "**languages**"
+msgstr "**idiomas**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Translated languages*"
@@ -41551,7 +41549,7 @@ msgstr "*Código do idioma*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_languages**"
-msgstr "**secondary\\_languages**"
+msgstr "**idiomas\\_secundários**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Secondary languages*"
@@ -41563,7 +41561,7 @@ msgstr "sk"
 
 #: ../../contributing/schemas.rst:19
 msgid "**watched**"
-msgstr "**watched**"
+msgstr "**monitorando**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Watched projects*"
@@ -41579,7 +41577,7 @@ msgstr "weblate"
 
 #: ../../contributing/schemas.rst:19
 msgid "**auditlog**"
-msgstr "**auditlog**"
+msgstr "**registro\\_de\\_auditoria**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Audit log*"
@@ -41615,7 +41613,7 @@ msgstr "PC / Linux / Firefox 70.0"
 
 #: ../../contributing/schemas.rst:19 ../../contributing/schemas.rst:29
 msgid "**timestamp**"
-msgstr "**timestamp**"
+msgstr "**registro\\_de\\_data\\_e\\_hora**"
 
 #: ../../contributing/schemas.rst:19 ../../contributing/schemas.rst:29
 msgid "*Timestamp*"
@@ -41627,7 +41625,7 @@ msgstr "2019-11-18T18:58:30.845Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "**activity**"
-msgstr "**activity**"
+msgstr "**atividade**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Activity*"
@@ -41655,7 +41653,7 @@ msgstr "Esquema para Weblate Fedora Messaging"
 
 #: ../../contributing/schemas.rst:29
 msgid "**change\\_id**"
-msgstr "**change\\_id**"
+msgstr "**ID\\_de\\_alteração**"
 
 #: ../../contributing/schemas.rst:29
 msgid "*Change ID*"
@@ -43941,8 +43939,8 @@ msgid ""
 msgstr ""
 "Os recursos de relatório fornecem uma visão do progresso de tradução em um "
 "determinado período. É fornecido um resumo das contribuições para qualquer "
-"componente ao longo do tempo. A ferramenta de relatório é encontrada no "
-"menu :guilabel:`Insights` do painel, qualquer componente de tradução ou "
+"componente ao longo do tempo. A ferramenta de relatório é encontrada no menu "
+":guilabel:`Colaborações` do painel, qualquer componente de tradução ou "
 "projeto:"
 
 #: ../../devel/reporting.rst:11
@@ -44057,7 +44055,7 @@ msgstr "Número geral de todos os textos editados."
 
 #: ../../devel/reporting.rst:86
 msgid "`New`"
-msgstr "`New`"
+msgstr "`Nova`"
 
 #: ../../devel/reporting.rst:87
 msgid ""
@@ -44067,7 +44065,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:88
 msgid "`Approved`"
-msgstr "`Approved`"
+msgstr "`Aprovado`"
 
 #: ../../devel/reporting.rst:89
 msgid "Amount of strings approved in the review workflow (see :ref:`reviews`)."
@@ -44077,7 +44075,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:90
 msgid "`Edited`"
-msgstr "`Edited`"
+msgstr "`Editado`"
 
 #: ../../devel/reporting.rst:91
 msgid "Amount of edited strings which had a translation before."
@@ -44089,7 +44087,7 @@ msgstr "As seguintes métricas estão disponíveis para cada um:"
 
 #: ../../devel/reporting.rst:95
 msgid "`Count`"
-msgstr "`Count`"
+msgstr "`Contar`"
 
 #: ../../devel/reporting.rst:96
 msgid "Amount of strings."
@@ -44097,7 +44095,7 @@ msgstr "Quantidade de textos."
 
 #: ../../devel/reporting.rst:97
 msgid "`Edits`"
-msgstr "`Edits`"
+msgstr "`Edições`"
 
 #: ../../devel/reporting.rst:98
 msgid ""
@@ -44109,7 +44107,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:99
 msgid "`Source words`"
-msgstr "`Source words`"
+msgstr "`Palavras fontes`"
 
 #: ../../devel/reporting.rst:100
 msgid "Amount of words in the source string."
@@ -44117,7 +44115,7 @@ msgstr "Quantidade de palavras na texto fonte."
 
 #: ../../devel/reporting.rst:101
 msgid "`Source characters`"
-msgstr "`Source characters`"
+msgstr "`Caracteres da fonte`"
 
 #: ../../devel/reporting.rst:102
 msgid "Amount of characters in the source string."
@@ -44125,7 +44123,7 @@ msgstr "Quantidade de caracteres no texto fonte."
 
 #: ../../devel/reporting.rst:103
 msgid "`Target words`"
-msgstr "`Target words`"
+msgstr "`Palavras de destino`"
 
 #: ../../devel/reporting.rst:104
 msgid "Amount of words in the translated string."
@@ -44133,7 +44131,7 @@ msgstr "Quantidade de palavras no texto traduzido."
 
 #: ../../devel/reporting.rst:105
 msgid "`Target characters`"
-msgstr "`Target characters`"
+msgstr "`Caracteres de destino`"
 
 #: ../../devel/reporting.rst:106
 msgid "Amount of characters in the translated string."
@@ -44168,8 +44166,8 @@ msgid ""
 "More reports are accessible on the :guilabel:`Insights` tab, selecting :"
 "guilabel:`Translation reports`."
 msgstr ""
-"Mais relatórios estão acessíveis na aba :guilabel:`Insights`, selecionando :"
-"guilabel:`Relatórios de tradução`."
+"Mais relatórios estão acessíveis na aba :guilabel:`Colaborações`, "
+"selecionando :guilabel:`Relatórios de tradução`."
 
 #: ../../devel/review.rst:21
 msgid ""
@@ -44654,7 +44652,7 @@ msgid ""
 "`Weblate Translation Provider for Symfony Translation <https://github.com/"
 "m2mtech/weblate-translation-provider/>`_"
 msgstr ""
-"`Weblate Translation Provider for Symfony Translation <https://github.com/"
+"`Provedor de tradução Weblate para tradução Symfony <https://github.com/"
 "m2mtech/weblate-translation-provider/>`_"
 
 #: ../../devel/third-party.rst:8
@@ -48483,9 +48481,9 @@ msgid ""
 "ons/WebExtensions/Internationalization>`_"
 msgstr ""
 ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
-"docs/extensions/reference/api/i18n>`_, `Mozilla Extensions "
-"Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/Add-"
-"ons/WebExtensions/Internationalization>`_"
+"docs/extensions/reference/api/i18n>`_, ` Extensões de tradução do Mozilla "
+"<https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/"
+"Internationalization>`_"
 
 #: ../../formats/webextension.rst:31
 msgid "``_locales/*/messages.json``"
@@ -50152,9 +50150,9 @@ msgid ""
 "c_002dformat.html>`_, `C printf format <https://en.wikipedia.org/wiki/"
 "Printf_format_string>`_"
 msgstr ""
-"`C format strings <https://www.gnu.org/software/gettext/manual/html_node/"
-"c_002dformat.html>`_, `C printf format <https://en.wikipedia.org/wiki/"
-"Printf_format_string>`_"
+"`Textos de formatação C <https://www.gnu.org/software/gettext/manual/"
+"html_node/c_002dformat.html>`_, `Formatação printf C <https://"
+"en.wikipedia.org/wiki/Printf_format_string>`_"
 
 #: ../../user/checks.rst:479
 msgid "C# format"
@@ -50522,7 +50520,7 @@ msgid ""
 ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
+":ref:`check-formats`, `Textos de formatação JavaScript <https://www.gnu.org/"
 "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:675
@@ -50546,8 +50544,8 @@ msgid ""
 ":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/software/"
 "gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 msgstr ""
-":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/software/"
-"gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
+":ref:`check-formats`, `Textos de formatação Lua <https://www.gnu.org/"
+"software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 
 #: ../../user/checks.rst:693
 msgid "Object Pascal format"
@@ -50574,12 +50572,12 @@ msgid ""
 "formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
 "System.SysUtils.Format>`_"
 msgstr ""
-":ref:`check-formats`, `Object Pascal formatting strings <https://www.gnu.org/"
-"software/gettext/manual/html_node/object_002dpascal_002dformat."
-"html#object_002dpascal_002dformat>`_, `Free Pascal formatting strings "
-"<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Delphi "
-"formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
-"System.SysUtils.Format>`_"
+":ref:`check-formats`, `Textos de formatação Object Pascal <https://"
+"www.gnu.org/software/gettext/manual/html_node/"
+"object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_, `Textos "
+"de formatação Free Pascal <https://www.freepascal.org/docs-html/rtl/sysutils/"
+"format.html>`_ `Delphi formatting strings <https://docwiki.embarcadero.com/"
+"Libraries/Sydney/en/System.SysUtils.Format>`_"
 
 #: ../../user/checks.rst:713
 msgid "Percent placeholders"
@@ -50652,7 +50650,7 @@ msgid ""
 "manual/html_node/perl_002dformat.html>`_"
 msgstr ""
 ":ref:`check-formats`, `Perl sprintf <https://perldoc.perl.org/functions/"
-"sprintf>`_, `Perl Format Strings <https://www.gnu.org/software/gettext/"
+"sprintf>`_, `Textos de formatação Perl <https://www.gnu.org/software/gettext/"
 "manual/html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:770
@@ -53836,7 +53834,7 @@ msgid ""
 "Advanced queries using boolean operations, parentheses, or field specific "
 "lookup can be used to find the strings you want."
 msgstr ""
-"Consultas avançadas usando operações booleanas, parênteses ou pesquisas "
+"Consultas avançadas usando operações booleanas, parênteses ou buscas "
 "específicas de campo podem ser usadas para encontrar os textos que você "
 "deseja."
 
@@ -53845,8 +53843,8 @@ msgid ""
 "When no field is defined, the lookup happens on source, target, and context "
 "strings."
 msgstr ""
-"Quando nenhum campo é definido, a pesquisa acontece em textos fonte, destino "
-"e de contexto."
+"Quando nenhum campo é definido, a busca acontece em textos fonte, destino e "
+"de contexto."
 
 #: ../../user/search.rst:17
 msgid "Simple search"
@@ -53859,11 +53857,11 @@ msgid ""
 "into quotes (both single (``'``) and double (``\"``) quotes will work): "
 "``\"this is a quoted string\"`` or ``'another quoted string'``."
 msgstr ""
-"Qualquer frase digitada na caixa de pesquisa é dividida em palavras. Os "
-"textos que contêm todas elas são mostrados. Para procurar uma frase exata, "
-"coloque \"a frase de pesquisa\" entre aspas (ambas aspas simples (``'``) e "
-"duplas (``\"``) funcionarão: ``\"este é um texto entre aspas\"`` ou ``'outro "
-"texto entre aspas'``."
+"Qualquer frase digitada na caixa de busca é dividida em palavras. Os textos "
+"que contêm todas elas são mostrados. Para procurar uma frase exata, coloque "
+"\"a frase de busca\" entre aspas (ambas aspas simples (``'``) e duplas (``"
+"\"``) funcionarão: ``\"este é um texto entre aspas\"`` ou ``'outro texto "
+"entre aspas'``."
 
 #: ../../user/search.rst:25
 msgid "Fields"
@@ -54076,7 +54074,7 @@ msgid ""
 "Component slug or name case-insensitive search, see :ref:`component-slug` "
 "and :ref:`component-name`."
 msgstr ""
-"URL amigável de componente ou pesquisa que não diferencia maiúsculas de "
+"URL amigável de componente ou busca que não diferencia maiúsculas de "
 "minúsculas, veja :ref:`component-slug` e :ref:`component-name`."
 
 #: ../../user/search.rst:76
@@ -54096,8 +54094,8 @@ msgid ""
 "Path to the object to limit searching inside component, category, project, "
 "or translation."
 msgstr ""
-"Caminho para o objeto para limitar a pesquisa dentro do componente, "
-"categoria, projeto ou tradução."
+"Caminho para o objeto para limitar a busca dentro do componente, categoria, "
+"projeto ou tradução."
 
 #: ../../user/search.rst:80
 msgid "``changed_by:TEXT``"
@@ -54252,8 +54250,8 @@ msgid ""
 "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
 "form complex queries."
 msgstr ""
-"Você pode combinar pesquisas usando ``AND``, ``OR``, ``NOT`` e parênteses "
-"para formar consultas complexas."
+"Você pode combinar buscas usando ``AND``, ``OR``, ``NOT`` e parênteses para "
+"formar consultas complexas."
 
 #: ../../user/search.rst:124
 msgid ""
@@ -54310,8 +54308,8 @@ msgid ""
 "You can specify operators, ranges or partial lookups for date or numeric "
 "searches:"
 msgstr ""
-"Você pode especificar operadores, intervalos ou pesquisas parciais para "
-"pesquisas de data ou numéricas:"
+"Você pode especificar operadores, intervalos ou buscas parciais para buscas "
+"de data ou numéricas:"
 
 #: ../../user/search.rst:147
 msgid "``state:>=translated``"
@@ -54359,10 +54357,10 @@ msgid ""
 msgstr ""
 "Você pode fazer uma consulta de correspondência exata em diferentes campos "
 "de texto usando o operador ``=``. Por exemplo, para procurar por todos os "
-"textos fonte que correspondem exatamente a ``hello world``, use: ``source:"
-"=\"hello world\"``. Para pesquisar por expressões de uma única palavra, você "
-"não precisa de aspas. Por exemplo, para procurar por todos os textos fonte "
-"que correspondam a ``hello``, você pode utilizar: ``source:=hello``."
+"textos fonte que correspondem exatamente a ``hello world``, use: ``source:="
+"\"hello world\"``. Para buscar por expressões de uma única palavra, você não "
+"precisa de aspas. Por exemplo, para procurar por todos os textos fonte que "
+"correspondam a ``hello``, você pode utilizar: ``source:=hello``."
 
 #: ../../user/search.rst:167
 msgid "Searching for changes"
@@ -54373,7 +54371,7 @@ msgid ""
 "Searching for history events can be done using ``change_action`` and "
 "``change_time`` operators."
 msgstr ""
-"A pesquisa por eventos do histórico pode ser feita utilizando os operadores "
+"A busca por eventos do histórico pode ser feita utilizando os operadores "
 "``change_action`` e ``change_time``."
 
 #: ../../user/search.rst:174
@@ -54382,7 +54380,7 @@ msgid ""
 "``change_time:2018 AND change_action:marked-for-edit`` or ``change_time:2018 "
 "AND change_action:\"Marked for edit\"``."
 msgstr ""
-"Por exemplo, uma pesquisa por textos marcados para edição em 2018 pode ser "
+"Por exemplo, uma busca por textos marcados para edição em 2018 pode ser "
 "inserida como ``change_time:2018 AND change_action:marked-for-edit`` ou "
 "``change_time:2018 AND change_action:\"Marked for edit\"``."
 
@@ -54403,8 +54401,8 @@ msgid ""
 "For example, to search for all source strings which contain any digit "
 "between 2 and 5, use ``source:r\"[2-5]\"``."
 msgstr ""
-"Por exemplo, para pesquisar por todos os textos que contenham qualquer "
-"dígito entre 2 e 5, utilize ``source:r\"[2-5]\"``."
+"Por exemplo, para buscar por todos os textos que contenham qualquer dígito "
+"entre 2 e 5, utilize ``source:r\"[2-5]\"``."
 
 #: ../../user/search.rst:189
 msgid ""
@@ -54451,8 +54449,8 @@ msgid ""
 "You can select out of predefined queries on the search page, this allows you "
 "to quickly access the most frequent searches:"
 msgstr ""
-"Pode selecionar entre as consultas predefinidas na página de pesquisa, o que "
-"lhe permite acessar rapidamente as pesquisas mais frequentes:"
+"Pode selecionar entre as consultas predefinidas na página de busca, o que "
+"lhe permite acessar rapidamente as buscas mais frequentes:"
 
 #: ../../user/search.rst:205
 msgid "Ordering the results"
@@ -54469,7 +54467,7 @@ msgstr "Pesquisando por usuários"
 
 #: ../../user/search.rst:218
 msgid "The user browsing has similar search abilities:"
-msgstr "A navegação por usuário tem recursos de pesquisa semelhantes:"
+msgstr "A navegação por usuário tem recursos de busca semelhantes:"
 
 #: ../../user/search.rst:220
 msgid "``username:TEXT``"
@@ -54537,7 +54535,7 @@ msgstr "``is:bot``"
 
 #: ../../user/search.rst:244
 msgid "Search for bots (used for project scoped tokens)."
-msgstr "Pesquisar por bots (usado para tokens no escopo de projeto)."
+msgstr "Buscar por bots (usado para tokens no escopo de projeto)."
 
 #: ../../user/search.rst:245
 msgid "``is:active``"
@@ -54913,7 +54911,7 @@ msgstr ":kbd:`Alt+Home`"
 
 #: ../../user/translating.rst:190
 msgid "Navigate to the first translation in the current search."
-msgstr "Navegue até a primeira tradução na pesquisa atual."
+msgstr "Navegue até a primeira tradução na busca atual."
 
 #: ../../user/translating.rst:192
 msgid ":kbd:`Alt+End`"
@@ -54921,7 +54919,7 @@ msgstr ":kbd:`Alt+End`"
 
 #: ../../user/translating.rst:192
 msgid "Navigate to the last translation in the current search."
-msgstr "Navegue até a última tradução na pesquisa atual."
+msgstr "Navegue até a última tradução na busca atual."
 
 #: ../../user/translating.rst:194
 msgid ":kbd:`Alt+PageUp` or"
@@ -54941,7 +54939,7 @@ msgstr ":kbd:`Cmd+↑`"
 
 #: ../../user/translating.rst:194
 msgid "Navigate to the previous translation in the current search."
-msgstr "Navega para a tradução anterior na pesquisa atual."
+msgstr "Navega para a tradução anterior na busca atual."
 
 #: ../../user/translating.rst:202
 msgid ":kbd:`Alt+PageDown` or"
@@ -54961,7 +54959,7 @@ msgstr ":kbd:`Cmd+↓`"
 
 #: ../../user/translating.rst:202
 msgid "Navigate to the next translation in the current search."
-msgstr "Navegue até a próxima tradução na pesquisa atual."
+msgstr "Navegue até a próxima tradução na busca atual."
 
 #: ../../user/translating.rst:210
 msgid ":kbd:`Ctrl+Enter` or"
@@ -55105,7 +55103,7 @@ msgstr ":kbd:`Cmd+S`"
 
 #: ../../user/translating.rst:254
 msgid "Focus on search field."
-msgstr "Focar no campo de pesquisa."
+msgstr "Focar no campo de busca."
 
 #: ../../user/translating.rst:258
 msgid ":kbd:`Ctrl+O` or"
@@ -55351,7 +55349,7 @@ msgstr ""
 msgid ""
 "You can also perform a concordance search on the :ref:`translation-memory`."
 msgstr ""
-"Você também pode realizar uma pesquisa de concordância na :ref:`translation-"
+"Você também pode realizar uma busca de concordância na :ref:`translation-"
 "memory`."
 
 #: ../../user/translating.rst:356
@@ -55430,7 +55428,7 @@ msgid ""
 "the operation again."
 msgstr ""
 "Para evitar abusos na interface, uma limitação de taxa é aplicada a várias "
-"operações como pesquisa, envio de formulários de contato ou tradução. Se "
+"operações como busca, envio de formulários de contato ou tradução. Se "
 "afetado por isto, você fica bloqueado por um certo período até que você "
 "possa executar a operação novamente."
 
@@ -55444,7 +55442,7 @@ msgstr ""
 
 #: ../../user/translating.rst:410
 msgid "Search and replace"
-msgstr "Pesquisar e substituir"
+msgstr "Buscar e substituir"
 
 #: ../../user/translating.rst:412
 msgid ""
@@ -55452,7 +55450,7 @@ msgid ""
 "guilabel:`Search and replace` in the :guilabel:`Tools` menu."
 msgstr ""
 "Altere a terminologia efetivamente ou execute a correção em massa dos textos "
-"usando :guilabel:`Pesquisar e substituir` no menu :guilabel:`Ferramentas`."
+"usando :guilabel:`Buscar e substituir` no menu :guilabel:`Ferramentas`."
 
 #: ../../user/translating.rst:417
 msgid ""
@@ -55469,8 +55467,8 @@ msgid ""
 "Supported operations:"
 msgstr ""
 "A edição em massa permite executar uma operação para vários textos. Defina "
-"textos pesquisando-os e ações a serem executadas nas correspondentes. "
-"Operações suportadas:"
+"textos buscando-os e ações a serem executadas nas correspondentes. Operações "
+"suportadas:"
 
 #: ../../user/translating.rst:429
 msgid "Change string state (for example to approve all unreviewed strings)."
@@ -55610,9 +55608,9 @@ msgid ""
 "Weblate instances. Searching by e-mail ``hosted@weblate.org`` is recommended "
 "to find the correct user for Hosted Weblate."
 msgstr ""
-"Pode haver mais usuários Weblate nas plataformas, designados para outras "
-"instâncias Weblate. É recomendável pesquisar por e-mail ``hosted@weblate."
-"org`` para encontrar o usuário correto para Hosted Weblate."
+"Pode haver mais usuários do Weblate nas plataformas, designados para outras "
+"instâncias Weblate. É recomendável buscar por e-mail ``hosted@weblate.org`` "
+"para encontrar o usuário correto para Hosted Weblate."
 
 #: ../../vcs.rst:37
 msgid ""
@@ -56124,9 +56122,9 @@ msgid ""
 msgstr ""
 "Neste momento, os auxiliares de Bazaar e Mercurial estão disponíveis em "
 "repositórios separados no GitHub: `git-remote-hg`_ e `git-remote-bzr`_. "
-"Baixe-os manualmente e coloque em algum lugar em seu caminho de pesquisa "
-"(por exemplo, :file:`~/bin`). Certifique-se de ter os sistemas de controle "
-"de versão correspondentes instalados."
+"Baixe-os manualmente e coloque em algum lugar em seu caminho de busca (por "
+"exemplo, :file:`~/bin`). Certifique-se de ter os sistemas de controle de "
+"versão correspondentes instalados."
 
 #: ../../vcs.rst:308
 msgid ""
