@@ -856,6 +856,15 @@ wheels = [
 ]
 
 [[package]]
+name = "deepmerge"
+version = "2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a8/3a/b0ba594708f1ad0bc735884b3ad854d3ca3bdc1d741e56e40bbda6263499/deepmerge-2.0.tar.gz", hash = "sha256:5c3d86081fbebd04dd5de03626a0607b809a98fb6ccba5770b62466fe940ff20", size = 19890 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2d/82/e5d2c1c67d19841e9edc74954c827444ae826978499bde3dfc1d007c8c11/deepmerge-2.0-py3-none-any.whl", hash = "sha256:6de9ce507115cff0bed95ff0ce9ecc31088ef50cbdf09bc90a09349a318b3d00", size = 13475 },
+]
+
+[[package]]
 name = "defusedxml"
 version = "0.7.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2245,6 +2254,15 @@ wheels = [
 ]
 
 [[package]]
+name = "mistune"
+version = "3.1.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/80/f7/f6d06304c61c2a73213c0a4815280f70d985429cda26272f490e42119c1a/mistune-3.1.2.tar.gz", hash = "sha256:733bf018ba007e8b5f2d3a9eb624034f6ee26c4ea769a98ec533ee111d504dff", size = 94613 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/12/92/30b4e54c4d7c48c06db61595cffbbf4f19588ea177896f9b78f0fbe021fd/mistune-3.1.2-py3-none-any.whl", hash = "sha256:4b47731332315cdca99e0ded46fc0004001c1299ff773dfb48fbe1fd226de319", size = 53696 },
+]
+
+[[package]]
 name = "msgpack"
 version = "1.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2495,6 +2513,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/77/de/f7fcf9c0ceffe60798ef4ff0dd0456ca97f047db559e08c9e6d3715556c9/phply-1.2.6.tar.gz", hash = "sha256:0b27774d285f507a3445805a05f8fb2998f56d709270f78b89208b65b0d84917", size = 73083 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/eb/3c/f179164e3720780c4bed19a8527e3299648f5e7ca038aa0f176563a447a1/phply-1.2.6-py2.py3-none-any.whl", hash = "sha256:0b394ebc71b603de8ed157873ac4a828a34ecc74483fa4b3837faf84045ca176", size = 74625 },
+]
+
+[[package]]
+name = "picobox"
+version = "4.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0f/b1/830714dd6778c1cb45826722b4e9bd21c94b33cca5df9ef2cc0b80c81b25/picobox-4.0.0.tar.gz", hash = "sha256:114da1b5606b2f615e8b0eb68d04198ad9de75af5adbcf5b36fe4f664ab927b6", size = 22666 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2d/c6/fd64ffd75d47c4fcf6c65808cc5c5c75e5d4357c197d3741ee1339e91257/picobox-4.0.0-py3-none-any.whl", hash = "sha256:4c27eb689fe45dabd9e64c382e04418147d0b746d155b4e80057dbb7ff82027e", size = 11641 },
 ]
 
 [[package]]
@@ -3792,6 +3819,21 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/9c/3f/559d054f977596c5535edfeeab1f3a278f3bbb81bada2a1cb3cadbf7bb67/sphinx-jsonschema-1.19.1.tar.gz", hash = "sha256:b2385fe1c7acf2e759152aefed0cb17c920645b2a75c9934000c9c528e7d53c1", size = 18599 }
 
 [[package]]
+name = "sphinx-mdinclude"
+version = "0.6.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "docutils" },
+    { name = "mistune" },
+    { name = "pygments" },
+    { name = "sphinx" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b6/a7/c9a7888bb2187fdb06955d71e75f6f266b7e179b356ac76138d160a5b7eb/sphinx_mdinclude-0.6.2.tar.gz", hash = "sha256:447462e82cb8be61404a2204227f920769eb923d2f57608e3325f3bb88286b4c", size = 65257 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/42/3d/6b41fe1637cd53c4b10d56e0e6f396546f837973dabf9c4b2a1de44620ac/sphinx_mdinclude-0.6.2-py3-none-any.whl", hash = "sha256:648e78edb067c0e4bffc22943278d49d54a0714494743592032fa3ad82a86984", size = 16911 },
+]
+
+[[package]]
 name = "sphinx-reredirects"
 version = "0.1.6"
 source = { registry = "https://pypi.org/simple" }
@@ -3850,6 +3892,24 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/b2/e8/9ed3830aeed71f17c026a07a5097edcf44b692850ef215b161b8ad875729/sphinxcontrib-jsmath-1.0.1.tar.gz", hash = "sha256:a9925e4a4587247ed2191a22df5f6970656cb8ca2bd6284309578f2153e0c4b8", size = 5787 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c2/42/4c8646762ee83602e3fb3fbe774c2fac12f317deb0b5dbeeedd2d3ba4b77/sphinxcontrib_jsmath-1.0.1-py2.py3-none-any.whl", hash = "sha256:2ec2eaebfb78f3f2078e73666b1415417a116cc848b72e5172e596c871103178", size = 5071 },
+]
+
+[[package]]
+name = "sphinxcontrib-openapi"
+version = "0.8.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "deepmerge" },
+    { name = "jsonschema" },
+    { name = "picobox" },
+    { name = "pyyaml" },
+    { name = "sphinx" },
+    { name = "sphinx-mdinclude" },
+    { name = "sphinxcontrib-httpdomain" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c0/a7/66a5c9aba7dbbb0c2b050f60e71402818cbf5f127ace13ed971029cc745e/sphinxcontrib-openapi-0.8.4.tar.gz", hash = "sha256:df883808a5b5e4b4113ad697185c43a3f42df3dce70453af78ba7076907e9a20", size = 71848 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d5/c3/ee00486f38d78309a60ee0d6031b2545b22ac5f0007d841dd174abc68774/sphinxcontrib_openapi-0.8.4-py3-none-any.whl", hash = "sha256:50911c18d452d9390ee3a384ef8dc8bde6135f542ba55691f81e1fbc0b71014e", size = 34510 },
 ]
 
 [[package]]
@@ -4497,6 +4557,7 @@ dev = [
     { name = "sphinx-jsonschema" },
     { name = "sphinx-reredirects" },
     { name = "sphinxcontrib-httpdomain" },
+    { name = "sphinxcontrib-openapi" },
     { name = "sphinxext-opengraph" },
     { name = "tinyunicodeblock" },
     { name = "types-dateparser" },
@@ -4520,6 +4581,7 @@ docs = [
     { name = "sphinx-jsonschema" },
     { name = "sphinx-reredirects" },
     { name = "sphinxcontrib-httpdomain" },
+    { name = "sphinxcontrib-openapi" },
     { name = "sphinxext-opengraph" },
 ]
 lint = [
@@ -4696,6 +4758,7 @@ dev = [
     { name = "sphinx-jsonschema", specifier = "==1.19.1" },
     { name = "sphinx-reredirects", specifier = "==0.1.6" },
     { name = "sphinxcontrib-httpdomain", specifier = "==1.8.1" },
+    { name = "sphinxcontrib-openapi", specifier = "==0.8.4" },
     { name = "sphinxext-opengraph", specifier = "==0.9.1" },
     { name = "tinyunicodeblock", specifier = "==1.3" },
     { name = "types-dateparser", specifier = "==1.2.0.20250208" },
@@ -4719,6 +4782,7 @@ docs = [
     { name = "sphinx-jsonschema", specifier = "==1.19.1" },
     { name = "sphinx-reredirects", specifier = "==0.1.6" },
     { name = "sphinxcontrib-httpdomain", specifier = "==1.8.1" },
+    { name = "sphinxcontrib-openapi", specifier = "==0.8.4" },
     { name = "sphinxext-opengraph", specifier = "==0.9.1" },
 ]
 lint = [
