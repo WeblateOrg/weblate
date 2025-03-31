@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-03-31 21:02+0000\n"
+"PO-Revision-Date: 2025-03-31 22:21+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -734,6 +734,12 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"Ha a csapat megad bármilyen :guilabel:`Component list`, akkor a csapat "
+"tagjainak adott összes jogosultság érvényes lesz a listában szereplő összes "
+"komponensre, valamint az ezekhez a komponensekhez tartozó projektekhez is "
+"hozzáférést kapnak – további jogosultságok nélkül. A :guilabel:`Components` "
+"és :guilabel:`Projects` beállításokat ilyenkor figyelmen kívül hagyja a "
+"rendszer."
 
 #: ../../admin/access.rst:388
 msgid ""
@@ -757,6 +763,12 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
+"Egyéb esetben, ha a csapat megad bármilyen :guilabel:`Projects`, akár "
+"közvetlen felsorolással, akár úgy, hogy a :guilabel:`Projects selection` "
+"értéke például :guilabel:`All public projects`, akkor ezekre a projektekre "
+"érvényesülnek a jogosultságok – ezáltal a felhasználók hozzáférést kapnak "
+"minden olyan projekthez, amely :ref:`unrestricted components <component-"
+"restricted>`."
 
 #: ../../admin/access.rst:402
 msgid ""
@@ -17957,7 +17969,9 @@ msgstr ""
 msgid ""
 "There are multiple options to download the translation memory of the whole "
 "instance."
-msgstr "Egy szolgáltatás JSON formátumú konfigurációja."
+msgstr ""
+"Több lehetőség is rendelkezésre áll az egész példány fordítási memóriájának "
+"letöltésére."
 
 #: ../../admin/memory.rst:88
 msgid ""
@@ -17972,7 +17986,7 @@ msgstr ":ref:`schema-memory`"
 
 #: ../../admin/memory.rst:97
 msgid "You can search for translations in the view built for this."
-msgstr "A meglévő szolgáltatás konfigurációjának frissítése."
+msgstr "A fordítások keresésére kialakított nézetben kereshet."
 
 #: ../../admin/memory.rst:100
 #, fuzzy
@@ -21733,20 +21747,16 @@ msgid "Delete componentlist from a group."
 msgstr ""
 
 #: ../../api.rst:650
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to team admins."
-msgstr "Felhasználó hozzáadása egy csoporthoz"
+msgstr "Felhasználó hozzáadása a csapat adminisztrátoraihoz."
 
 #: ../../api.rst:654 ../../api.rst:664
 msgid "The user's ID"
 msgstr ""
 
 #: ../../api.rst:660
-#, fuzzy
-#| msgid "Remove user from this group"
 msgid "Delete user from team admins."
-msgstr "Felhasználó eltávolítása ebből a csoportból"
+msgstr "Felhasználó törlése a csapat adminisztrátorai közül."
 
 #: ../../api.rst:674
 msgid ""
@@ -21772,10 +21782,8 @@ msgid "List of codenames of permissions"
 msgstr ""
 
 #: ../../api.rst:692
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about the role."
-msgstr "További információk a Weblate programról"
+msgstr "Visszaadja a szerepkör adatait."
 
 #: ../../api.rst:694 ../../api.rst:716 ../../api.rst:725 ../../api.rst:734
 msgid "Role's ID"
@@ -21812,10 +21820,8 @@ msgid "Language plural formula and number"
 msgstr ""
 
 #: ../../api.rst:766
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about the language."
-msgstr "További információk a Weblate programról"
+msgstr "Visszaadja a nyelv adatait."
 
 #: ../../api.rst:773
 msgid "Object of language plural information"
@@ -21838,10 +21844,8 @@ msgid "Language plural details"
 msgstr ""
 
 #: ../../api.rst:828
-#, fuzzy
-#| msgid "Delete glossary entry"
 msgid "Deletes the language."
-msgstr "Szójegyzék-bejegyzés törlése"
+msgstr "Törli a nyelvet."
 
 #: ../../api.rst:835
 msgid "Returns statistics for a language."
@@ -21867,10 +21871,8 @@ msgid "Creates a new project."
 msgstr ""
 
 #: ../../api.rst:869
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about the project."
-msgstr "További információk a Weblate programról"
+msgstr "Visszaadja a projekt adatait."
 
 #: ../../api.rst:871 ../../api.rst:905 ../../api.rst:916 ../../api.rst:923
 #: ../../api.rst:931 ../../api.rst:941 ../../api.rst:953 ../../api.rst:975
@@ -22191,10 +22193,8 @@ msgid "string"
 msgstr "Szövegek"
 
 #: ../../api.rst:1223
-#, fuzzy
-#| msgid "Checks listing"
 msgid "Returns labels for a project."
-msgstr "Ellenőrzések listája"
+msgstr "Visszaadja egy projekt címkéit."
 
 #: ../../api.rst:0
 msgid ">json int id"
@@ -22223,10 +22223,8 @@ msgid "color of the label"
 msgstr ""
 
 #: ../../api.rst:1235
-#, fuzzy
-#| msgid "Create project"
 msgid "Creates a label for a project."
-msgstr "Projekt létrehozása"
+msgstr "Címke létrehozása egy projekthez."
 
 #: ../../api.rst:0
 msgid "<json string name"
@@ -22237,10 +22235,8 @@ msgid "<json string color"
 msgstr "<json string color"
 
 #: ../../api.rst:1244 ../../api.rst:1847
-#, fuzzy
-#| msgid "Checks listing"
 msgid "Returns contributor credits for a project."
-msgstr "Ellenőrzések listája"
+msgstr "Hozzájárulói kredit visszaadása egy projekthez."
 
 #: ../../api.rst:1250 ../../api.rst:1853
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
@@ -22281,16 +22277,13 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1269
-#, fuzzy
-#| msgid "Specify configuration manually"
 msgid "Configuration for all installed services."
-msgstr "Beállítások kézi megadása"
+msgstr "Az összes telepített szolgáltatás konfigurációja."
 
 #: ../../api.rst:1276
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Create or update the service configuration for a project."
-msgstr "Hibás beállítás"
+msgstr ""
+"Szolgáltatás konfigurációjának létrehozása vagy frissítése egy projekthez."
 
 #: ../../api.rst:1280
 #, fuzzy
@@ -22321,10 +22314,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1301
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about the translation component."
-msgstr "További információk a Weblate programról"
+msgstr "Visszaadja a fordítási komponens adatait."
 
 #: ../../api.rst:1307
 msgid ""
@@ -22649,10 +22640,8 @@ msgid "Boolean whether to lock or not."
 msgstr ""
 
 #: ../../api.rst:1621 ../../api.rst:2114
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about the VCS repository status."
-msgstr "További információk a Weblate programról"
+msgstr "Visszaadja a VCS-tároló állapotát."
 
 #: ../../api.rst:1623
 msgid ""
@@ -22724,20 +22713,18 @@ msgid "Returns paginated statistics for all translations within component."
 msgstr ""
 
 #: ../../api.rst:1810
-#, fuzzy
-#| msgid "Return to the component"
 msgid "Returns projects linked with a component."
-msgstr "Vissza az összetevőhöz"
+msgstr ""
+"Visszaadja azokat a projekteket, amelyek össze vannak kapcsolva egy "
+"komponenssel."
 
 #: ../../api.rst:1818
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
 
 #: ../../api.rst:1822
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Associate project with a component."
-msgstr "Projektek összetevők nélkül"
+msgstr "Projekt társítása egy komponenssel."
 
 #: ../../api.rst:1834
 #, fuzzy
@@ -22746,10 +22733,8 @@ msgid "Remove association of a project with a component."
 msgstr "Kerülje azokat az éveket, amelyek Önhöz köthetők."
 
 #: ../../api.rst:1842
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "Slug of the project to remove"
-msgstr "A projekt nyelve el lett távolítva."
+msgstr "A törlendő projekt slug azonosítója"
 
 #: ../../api.rst:1868
 msgid "Returns a list of translations."
@@ -22762,10 +22747,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1876
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about the translation."
-msgstr "További információk a Weblate programról"
+msgstr "Visszaadja a fordítás adatait."
 
 #: ../../api.rst:1882 ../../api.rst:1990 ../../api.rst:2002 ../../api.rst:2015
 #: ../../api.rst:2029 ../../api.rst:2052 ../../api.rst:2083 ../../api.rst:2094
@@ -22824,10 +22807,8 @@ msgid "number of strings with suggestion"
 msgstr ""
 
 #: ../../api.rst:1894
-#, fuzzy
-#| msgid "The translation uses monolingual files."
 msgid "whether the translation has a monolingual base"
-msgstr "A fordítás egynyelvű fájlokat használ."
+msgstr "hogy a fordítás rendelkezik-e egynyelvű alappal"
 
 #: ../../api.rst:1896
 msgid ""
@@ -22902,10 +22883,8 @@ msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
 
 #: ../../api.rst:2023
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new unit."
-msgstr "Új felhasználó hozzáadása"
+msgstr "Új egység hozzáadása."
 
 #: ../../api.rst:2031
 #, fuzzy
@@ -22920,16 +22899,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2033
-#, fuzzy
-#| msgid ""
-#| "Suggestions with one vote are automatically accepted as translations."
-#| msgid_plural ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s votes."
 msgid "*Bilingual translations:* Context of a translation unit"
-msgstr ""
-"Az egy szavazattal rendelkező javaslatok automatikusan elfogadottak lesznek "
-"fordításként."
+msgstr "*Kétnyelvű fordítások:* Egy fordítási egység kontextusa"
 
 #: ../../api.rst:2034
 msgid ""
@@ -22952,10 +22923,8 @@ msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
 
 #: ../../api.rst:2041
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
-msgstr "Összetevő neve"
+msgstr ":ref:`component-manage_units`, :ref:`adding-new-strings`"
 
 #: ../../api.rst:2046
 msgid "Trigger automatic translation."
@@ -23062,10 +23031,8 @@ msgid "Memory"
 msgstr "Memória"
 
 #: ../../api.rst:2163
-#, fuzzy
-#| msgid "Checks listing"
 msgid "Returns a list of memory results."
-msgstr "Ellenőrzések listája"
+msgstr "Visszaad egy listát a fordítási memória találatairól."
 
 #: ../../api.rst:2167
 #, fuzzy
@@ -23107,10 +23074,8 @@ msgid "The ``last_updated`` attribute is now exposed."
 msgstr "Az észlelt fájlformátum nem támogatott."
 
 #: ../../api.rst:2203
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about the translation unit."
-msgstr "További információk a Weblate programról"
+msgstr "Visszaadja a fordítási egység adatait."
 
 #: ../../api.rst:2205 ../../api.rst:2243 ../../api.rst:2257 ../../api.rst:2271
 #: ../../api.rst:2365
@@ -23253,10 +23218,8 @@ msgid "last string update"
 msgstr "Szöveg életkora"
 
 #: ../../api.rst:2241
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs partial update on translation unit."
-msgstr "Automatikus fordítás végrehajtása"
+msgstr "Részleges módosítást hajt végre a fordítási egységen."
 
 #: ../../api.rst:2245 ../../api.rst:2259
 msgid ""
@@ -23269,16 +23232,12 @@ msgid "labels, available on source units"
 msgstr ""
 
 #: ../../api.rst:2255
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs full update on translation unit."
-msgstr "Automatikus fordítás végrehajtása"
+msgstr "Teljes módosítást hajt végre a fordítási egységen."
 
 #: ../../api.rst:2269
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Deletes a translation unit."
-msgstr "Fordítási memória törlése"
+msgstr "Töröl egy fordítási egységet."
 
 #: ../../api.rst:2281
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -23311,10 +23270,8 @@ msgid "ISO 8601 formatted timestamp to list changes before"
 msgstr ""
 
 #: ../../api.rst:2296
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about the translation change."
-msgstr "További információk a Weblate programról"
+msgstr "Visszaadja a fordítás változásának adatait."
 
 #: ../../api.rst:2298
 msgid "Change ID"
@@ -23380,10 +23337,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2326
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about the screenshot."
-msgstr "További információk a Weblate programról"
+msgstr "Visszaadja a képernyőkép adatait."
 
 #: ../../api.rst:2328 ../../api.rst:2339 ../../api.rst:2346 ../../api.rst:2363
 #: ../../api.rst:2375 ../../api.rst:2398 ../../api.rst:2409 ../../api.rst:2420
@@ -23420,10 +23375,8 @@ msgid "Associate source string with screenshot."
 msgstr ""
 
 #: ../../api.rst:2373
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Remove source string association with screenshot."
-msgstr "Forrásszövegek felülvizsgálata itt: %s"
+msgstr "A forráskarakterlánc társításának eltávolítása a képernyőképről."
 
 #: ../../api.rst:2377
 #, fuzzy
@@ -23440,28 +23393,20 @@ msgid "Screenshot name"
 msgstr "Képernyőkép neve"
 
 #: ../../api.rst:2396
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit partial information about screenshot."
-msgstr "További információk a Weblate programról"
+msgstr "A képernyőkép részleges adatainak szerkesztése."
 
 #: ../../api.rst:2407
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit full information about screenshot."
-msgstr "További információk a Weblate programról"
+msgstr "A képernyőkép teljes adatainak szerkesztése."
 
 #: ../../api.rst:2418
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Delete screenshot."
-msgstr "Képernyőkép törlése"
+msgstr "Képernyőkép törlése."
 
 #: ../../api.rst:2432
-#, fuzzy
-#| msgid "Checks listing"
 msgid "Returns a list of add-ons."
-msgstr "Ellenőrzések listája"
+msgstr "Visszaad egy listát a bővítményekről."
 
 #: ../../api.rst:2436
 msgid ""
@@ -23469,10 +23414,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2440
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about add-on information."
-msgstr "További információk a Weblate programról"
+msgstr "Visszaadja a bővítmény adatait."
 
 #: ../../api.rst:2444 ../../api.rst:2458
 #, fuzzy
@@ -23491,28 +23434,20 @@ msgid ":doc:`/admin/addons`"
 msgstr ":doc:`/admin/addons`"
 
 #: ../../api.rst:2454
-#, fuzzy
-#| msgid "Create new glossary"
 msgid "Creates a new add-on."
-msgstr "Új szójegyzék létrehozása"
+msgstr "Új bővítmény létrehozása."
 
 #: ../../api.rst:2463
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit partial information about add-on."
-msgstr "További információk a Weblate programról"
+msgstr "A bővítmény részleges adatainak szerkesztése."
 
 #: ../../api.rst:2471
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit full information about add-on."
-msgstr "További információk a Weblate programról"
+msgstr "A bővítmény teljes adatainak szerkesztése."
 
 #: ../../api.rst:2479
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete add-on."
-msgstr "Megjegyzés törlése"
+msgstr "Bővítmény törlése."
 
 #: ../../api.rst:2488
 msgid "Component lists"
@@ -23562,10 +23497,8 @@ msgid "Deletes the component list."
 msgstr ""
 
 #: ../../api.rst:2543
-#, fuzzy
-#| msgid "Return to the component"
 msgid "List components in a component list."
-msgstr "Vissza az összetevőhöz"
+msgstr "Komponensek listázása egy komponenslistában."
 
 #: ../../api.rst:0
 msgid "param slug"
@@ -23616,10 +23549,8 @@ msgid "Listing of the tasks is currently not available."
 msgstr "A szolgáltatás jelenleg nem érhető el."
 
 #: ../../api.rst:2586
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about a task."
-msgstr "További információk a Weblate programról"
+msgstr "Visszaadja egy feladat adatait."
 
 #: ../../api.rst:2588
 msgid "Task UUID"
@@ -23921,10 +23852,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2687
-#, fuzzy
-#| msgid "Name of generated file"
 msgid "Name of the matched item."
-msgstr "Előállított fájl neve"
+msgstr "A talált elem neve."
 
 #: ../../api.rst:2688
 msgid "Web URL of the matched item."
@@ -23960,16 +23889,12 @@ msgid "Category ID"
 msgstr "Kategória"
 
 #: ../../api.rst:2712
-#, fuzzy
-#| msgid "Rename project"
 msgid "Name of category."
-msgstr "Projekt átnevezése"
+msgstr "Kategória neve."
 
 #: ../../api.rst:2713
-#, fuzzy
-#| msgid "Category"
 msgid "Slug of category."
-msgstr "Kategória"
+msgstr "A kategória slug azonosítója."
 
 #: ../../api.rst:2714
 msgid "Link to a project."
@@ -23980,10 +23905,8 @@ msgid "Link to a parent category."
 msgstr ""
 
 #: ../../api.rst:2721
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit partial information about category."
-msgstr "További információk a Weblate programról"
+msgstr "A kategória részleges adatainak szerkesztése."
 
 #: ../../api.rst:0
 msgid "param id"
@@ -24006,22 +23929,16 @@ msgid "Optional category configuration"
 msgstr "Hibás beállítás"
 
 #: ../../api.rst:2731
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit full information about category."
-msgstr "További információk a Weblate programról"
+msgstr "A kategória teljes adatainak szerkesztése."
 
 #: ../../api.rst:2741
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete category."
-msgstr "Megjegyzés törlése"
+msgstr "Kategória törlése."
 
 #: ../../api.rst:2750
-#, fuzzy
-#| msgid "Checks listing"
 msgid "Returns statistics for a category."
-msgstr "Ellenőrzések listája"
+msgstr "Statisztikák visszaadása egy kategóriához."
 
 #: ../../api.rst:2762
 msgid "Notification hooks"
@@ -24291,20 +24208,16 @@ msgid "Improvements"
 msgstr "Összetevők"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Improved :ref:`translation-memory` matching."
-msgstr ":ref:`workflow-customization`"
+msgstr "Továbbfejlesztett :ref:`translation-memory` egyezés."
 
 #: ../../changes.rst:11
 msgid "Visual diff now better highlights whitespace additions."
 msgstr ""
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Performance overview"
 msgid "Improved performance on large projects."
-msgstr "Teljesítmény áttekintés"
+msgstr "Jobb teljesítmény nagy projektek esetén."
 
 #: ../../changes.rst:15 ../../changes.rst:48 ../../changes.rst:97
 #: ../../changes.rst:139 ../../changes.rst:161 ../../changes.rst:205
@@ -24430,12 +24343,12 @@ msgid "*Released on February 21st 2025.*"
 msgstr ""
 
 #: ../../changes.rst:43
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid ""
 ":ref:`check-multiple-failures` better shows failing checks including links "
 "to the strings."
-msgstr "A JavaScript formátumszöveg nem egyezik a forrással"
+msgstr ""
+"A(z) :ref:`check-multiple-failures` jobban megjeleníti a hibás "
+"ellenőrzéseket, beleértve a karakterláncokra mutató hivatkozásokat is."
 
 #: ../../changes.rst:44
 #, fuzzy
@@ -24447,21 +24360,21 @@ msgstr ""
 "tárolót."
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`search-strings` supports searching by source string state."
-msgstr "Forrásszöveg helye"
+msgstr ""
+"A(z) :ref:`search-strings` támogatja a keresést a forráskarakterlánc "
+"állapota alapján."
 
 #: ../../changes.rst:49
 msgid ":ref:`download` performs faster on project and language scopes."
 msgstr ""
 
 #: ../../changes.rst:50
-#, fuzzy
-#| msgid "Source string location"
 msgid ""
 ":ref:`zen-mode` does not display the source string twice when editing it."
-msgstr "Forrásszöveg helye"
+msgstr ""
+"A :ref:`zen-mode` nem jeleníti meg kétszer a forráskarakterláncot "
+"szerkesztés közben."
 
 #: ../../changes.rst:51
 msgid "Fixed :ref:`glossary` terms highlighting."
@@ -24502,10 +24415,8 @@ msgstr "Közreműködéssel rendelkező fordítások"
 #: ../../changes/contributors/5.9.1.rst:7
 #: ../../changes/contributors/5.9.2.rst:12
 #: ../../changes/contributors/5.9.rst:11
-#, fuzzy
-#| msgid "Documentation for plurals."
 msgid "Documentation contributions"
-msgstr "Többes számok dokumentációja."
+msgstr "Dokumentációs hozzájárulások"
 
 #: ../../changes.rst:61
 msgid ""
@@ -24543,10 +24454,9 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:77
-#, fuzzy
-#| msgid ":ref:`machine-translation`"
 msgid "Improved error handling in :ref:`machine-translation-setup`."
-msgstr ":ref:`machine-translation`"
+msgstr ""
+"Továbbfejlesztett hibaellenőrzés a :ref:`machine-translation-setup` részben."
 
 #: ../../changes.rst:78
 msgid ""
@@ -24605,18 +24515,18 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:88
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator`"
 msgid "Improved language compatibility in :ref:`mt-microsoft-translator`."
-msgstr ":ref:`mt-microsoft-translator`"
+msgstr ""
+"Továbbfejlesztett nyelvi kompatibilitás a :ref:`mt-microsoft-translator` "
+"esetén."
 
 #: ../../changes.rst:89
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid ""
 ":ref:`check-reused` check gracefully handles languages which are not case "
 "sensitive."
-msgstr "A JavaScript formátumszöveg nem egyezik a forrással"
+msgstr ""
+"A :ref:`check-reused` ellenőrzés megfelelően kezeli a kis- és "
+"nagybetűérzékenységet nem alkalmazó nyelveket."
 
 #: ../../changes.rst:90
 msgid ""
@@ -24639,10 +24549,10 @@ msgid ":ref:`check-regex` supports advanced regular expressions."
 msgstr ""
 
 #: ../../changes.rst:94
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid ":ref:`check-same` gracefully deals with case-insensitive languages."
-msgstr "A JavaScript formátumszöveg nem egyezik a forrással"
+msgstr ""
+"A :ref:`check-same` megfelelően kezeli a kis- és nagybetűérzékenységet nem "
+"alkalmazó nyelveket."
 
 #: ../../changes.rst:98
 msgid ":ref:`check-reused` wrongly triggered after fixing the error."
@@ -24669,10 +24579,10 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:103
-#, fuzzy
-#| msgid ":ref:`machine-translation`"
 msgid "Fixed translations caching in :ref:`machine-translation-setup`."
-msgstr ":ref:`machine-translation`"
+msgstr ""
+"Javítva a fordítások gyorsítótárazása a :ref:`machine-translation-setup` "
+"részben."
 
 #: ../../changes.rst:104
 msgid ""
@@ -24680,22 +24590,22 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:105
-#, fuzzy
-#| msgid "Trailing exclamation mark"
 msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
-msgstr "Lezáró felkiáltójel"
+msgstr ""
+"A :ref:`check-punctuation-spacing` ellenőrzés többé nem vonatkozik a breton "
+"nyelvre."
 
 #: ../../changes.rst:106
 msgid "Fixed :ref:`addon-weblate.git.squash` on linked repositories."
 msgstr ""
 
 #: ../../changes.rst:107
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid ""
 ":ref:`check-multiple-failures` avoids false positives and better lists "
 "related checks."
-msgstr "A JavaScript formátumszöveg nem egyezik a forrással"
+msgstr ""
+"A :ref:`check-multiple-failures` elkerüli a téves találatokat, és jobban "
+"felsorolja a kapcsolódó ellenőrzéseket."
 
 #: ../../changes.rst:111
 msgid ""
@@ -24742,10 +24652,9 @@ msgid "*Released on December 19th 2024.*"
 msgstr ""
 
 #: ../../changes.rst:135
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-data-center`"
 msgid "Renamed :ref:`vcs-bitbucket-data-center` to match new product name."
-msgstr ":ref:`vcs-bitbucket-data-center`"
+msgstr ""
+"A :ref:`vcs-bitbucket-data-center` átnevezve az új terméknévnek megfelelően."
 
 #: ../../changes.rst:136
 msgid ":http:get:`/api/users/` supports searching by user ID."
@@ -24836,11 +24745,11 @@ msgid "Logging to :ref:`graylog`."
 msgstr ""
 
 #: ../../changes.rst:193
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ""
 ":ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional)."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ""
+"A :ref:`mt-google-translate-api-v3` mostantól támogatja a :ref:`glossary-mt` "
+"funkciót (opcionális)."
 
 #: ../../changes.rst:194
 msgid ""
@@ -24867,20 +24776,16 @@ msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
 msgstr ""
 
 #: ../../changes.rst:199
-#, fuzzy
-#| msgid "Component name"
 msgid "Added page navigation while :ref:`translating`."
-msgstr "Összetevő neve"
+msgstr "Oldalnavigáció hozzáadva a :ref:`translating` során."
 
 #: ../../changes.rst:200
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
 msgstr ""
 
 #: ../../changes.rst:201
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Improved :ref:`translation-propagation` performance."
-msgstr ":ref:`workflow-customization`"
+msgstr "Továbbfejlesztett :ref:`translation-propagation` teljesítmény."
 
 #: ../../changes.rst:202
 msgid ""
@@ -24895,16 +24800,13 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:207
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Saving newly added strings in some formats."
-msgstr "Lefordított szövegek"
+msgstr "Újonnan hozzáadott karakterláncok mentése bizonyos formátumokban."
 
 #: ../../changes.rst:208
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid ":ref:`check-java-printf-format` gracefully handles escaping."
-msgstr "A JavaScript formátumszöveg nem egyezik a forrással"
+msgstr ""
+"A :ref:`check-java-printf-format` megfelelően kezeli a karakterek kódolását."
 
 #: ../../changes.rst:212
 msgid ""
@@ -24953,20 +24855,14 @@ msgid ":ref:`search-users` can search based on user changes."
 msgstr ""
 
 #: ../../changes.rst:239
-#, fuzzy
-#| msgid ""
-#| "Weblate user management is turned off, you can change permissions in the "
-#| "Django admin interface."
 msgid "Fixed occasional crash in :ref:`rss`."
-msgstr ""
-"A Weblate felhasználókezelés ki van kapcsolva. A jogosultságokat a Django "
-"adminisztrációs felületén változtathatja meg."
+msgstr "Javítva az alkalmi összeomlás a :ref:`rss` modulban."
 
 #: ../../changes.rst:240
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
-msgstr "A JavaScript formátumszöveg nem egyezik a forrással"
+msgstr ""
+"A :ref:`check-icu-message-format` megfelelően kezeli a többes számú "
+"karakterláncokat."
 
 #: ../../changes.rst:241
 msgid ""
@@ -24998,10 +24894,9 @@ msgid "Fixed XML escaped output in some machine translation integrations."
 msgstr ""
 
 #: ../../changes.rst:262
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Fixed duplicate listing of newly added glossary terms."
-msgstr "Lefordított szövegek"
+msgstr ""
+"Javítva az újonnan hozzáadott szószedeti kifejezések ismétlődő listázása."
 
 #: ../../changes.rst:272
 msgid ""
@@ -25034,10 +24929,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:284
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Improved :ref:`workflow-customization` performance."
-msgstr ":ref:`workflow-customization`"
+msgstr "Továbbfejlesztett :ref:`workflow-customization` teljesítmény."
 
 #: ../../changes.rst:295
 msgid ""
@@ -25072,10 +24965,8 @@ msgid "Weblate 5.8"
 msgstr "Weblate kulcsok"
 
 #: ../../changes.rst:323
-#, fuzzy
-#| msgid "Component name"
 msgid "Added :ref:`component-key_filter` in the component."
-msgstr "Összetevő neve"
+msgstr "A :ref:`component-key_filter` hozzáadásra került a komponensben."
 
 #: ../../changes.rst:324
 msgid ""
@@ -25090,34 +24981,24 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:326
-#, fuzzy
-#| msgid "Configured automatic suggestion services"
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
-msgstr "Beállított automatikus javaslati szolgáltatások"
+msgstr ":ref:`mt-azure-openai` automatikus javaslattevő szolgáltatás."
 
 #: ../../changes.rst:327
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-data-center`"
 msgid ":ref:`vcs-bitbucket-cloud`."
-msgstr ":ref:`vcs-bitbucket-data-center`"
+msgstr ":ref:`vcs-bitbucket-cloud`."
 
 #: ../../changes.rst:331
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr "A :ref:`mt-modernmt` támogatja a :ref:`glossary-mt` funkciót."
 
 #: ../../changes.rst:332
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`mt-deepl` now supports specifying translation context."
-msgstr "Forrásszöveg helye"
+msgstr "A :ref:`mt-deepl` mostantól támogatja a fordítási kontextus megadását."
 
 #: ../../changes.rst:333
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-aws` now supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr "A :ref:`mt-aws` mostantól támogatja a :ref:`glossary-mt` funkciót."
 
 #: ../../changes.rst:334
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
@@ -25162,10 +25043,9 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:346
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Displaying :ref:`workflow-customization` setting in some cases."
-msgstr ":ref:`workflow-customization`"
+msgstr ""
+"A :ref:`workflow-customization` beállítás megjelenítése bizonyos esetekben."
 
 #: ../../changes.rst:347
 #, fuzzy
@@ -25236,10 +25116,8 @@ msgstr ""
 "tárolóból."
 
 #: ../../changes.rst:381
-#, fuzzy
-#| msgid "Component wide notifications"
 msgid "Improved rendering of digest notification e-mails."
-msgstr "Összetevőszintű értesítések"
+msgstr "Az összefoglaló értesítő e-mailek megjelenítésének javítása."
 
 #: ../../changes.rst:391
 msgid ""
@@ -25329,10 +25207,10 @@ msgid ":ref:`labels` now include description to explain them."
 msgstr ""
 
 #: ../../changes.rst:432
-#, fuzzy
-#| msgid "There are some alerts on this component"
 msgid "New :ref:`subscriptions` for completed translation and component."
-msgstr "Van néhány riasztás ezen az összetevőn"
+msgstr ""
+"Új :ref:`subscriptions` elérhető a lefordított karakterláncokhoz és "
+"komponensekhez."
 
 #: ../../changes.rst:433
 msgid ""
@@ -25341,10 +25219,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:434
-#, fuzzy
-#| msgid "Available automatic suggestion services"
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
-msgstr "Elérhető automatikus javaslati szolgáltatások"
+msgstr "A :ref:`mt-cyrtranslit` automatikus javaslattevő szolgáltatás."
 
 #: ../../changes.rst:438
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
@@ -25361,10 +25237,8 @@ msgid ":ref:`reports` are now available for categories."
 msgstr ""
 
 #: ../../changes.rst:441
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Highlight newlines in the editor."
-msgstr "Fókuszálás a fordításszerkesztőre"
+msgstr "Új sorok kiemelése a szerkesztőben."
 
 #: ../../changes.rst:442
 msgid ":doc:`/formats/csv` better handle files with two fields only."
@@ -25388,16 +25262,15 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:446
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
-msgstr "A JavaScript formátumszöveg nem egyezik a forrással"
+msgstr ""
+"A :ref:`check-python-brace-format` ellenőrzés kiszűri a felesleges kapcsos "
+"zárójeleket."
 
 #: ../../changes.rst:447
-#, fuzzy
-#| msgid "There are some uncommitted changes!"
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
-msgstr "Van néhány nem véglegesített változtatás!"
+msgstr ""
+"Képernyőképek már beilleszthetők a vágólapról a :ref:`screenshots` felületen."
 
 #: ../../changes.rst:451
 msgid "Accessibility of keyboard navigation."
@@ -25477,27 +25350,22 @@ msgid "Rendering of :ref:`labels` color selection widget."
 msgstr ""
 
 #: ../../changes.rst:485
-#, fuzzy
-#| msgid "%(count)s outgoing commit"
-#| msgid_plural "%(count)s outgoing commits"
 msgid "Detection of pending outgoing commits."
-msgstr "%(count)s kimenő véglegesítés"
+msgstr "Függőben lévő kimenő commitok felismerése."
 
 #: ../../changes.rst:486
 msgid ":ref:`addons` button layout."
 msgstr ""
 
 #: ../../changes.rst:487
-#, fuzzy
-#| msgid ":ref:`addon-weblate.discovery.discovery`"
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
-msgstr ":ref:`addon-weblate.discovery.discovery`"
+msgstr ""
+"Összeomlás a :ref:`addon-weblate.discovery.discovery` bővítmény "
+"telepítésekor."
 
 #: ../../changes.rst:488
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Removal of source strings in :ref:`glossary`."
-msgstr "Forrásszövegek felülvizsgálata itt: %s"
+msgstr "Forráskarakterláncok eltávolítása a :ref:`glossary` részből."
 
 #: ../../changes.rst:489
 msgid ""
@@ -25533,10 +25401,8 @@ msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr ""
 
 #: ../../changes.rst:509
-#, fuzzy
-#| msgid ":doc:`/admin/machine`"
 msgid "Language aliases in :doc:`/admin/machine`."
-msgstr ":doc:`/admin/machine`"
+msgstr "Nyelvi aliasok a következő oldalon: :doc:`/admin/machine`."
 
 #: ../../changes.rst:515
 msgid ""
@@ -25559,10 +25425,8 @@ msgid ":ref:`addons` activity log for tracking add-on activity."
 msgstr ""
 
 #: ../../changes.rst:525
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Improved date range selection in :ref:`reports`."
-msgstr "Jóváhagyott fordítás a(z) %(translation)s fordításban"
+msgstr "Dátumtartomány-választó továbbfejlesztése a :ref:`reports` felületen."
 
 #: ../../changes.rst:529
 msgid ":ref:`subscriptions` now include strings which need updating."
@@ -25573,10 +25437,8 @@ msgid "Improved compatibility with password managers."
 msgstr ""
 
 #: ../../changes.rst:531
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid "Improved tracking of uploaded changes."
-msgstr "Gépi fordítási szolgáltatások használata"
+msgstr "Feltöltött módosítások nyomon követésének javítása."
 
 #: ../../changes.rst:532
 msgid ""
@@ -25597,22 +25459,19 @@ msgid "Reduced memory usage and increased performance of some views."
 msgstr ""
 
 #: ../../changes.rst:539
-#, fuzzy
-#| msgid "Number of failing checks"
 msgid "Loading of strings with many glossary matches."
-msgstr "Sikertelen ellenőrzések száma"
+msgstr ""
+"Olyan karakterláncok betöltése, amelyekhez sok szószedeti egyezés tartozik."
 
 #: ../../changes.rst:540
-#, fuzzy
-#| msgid "Source string description"
 msgid "Fixed behavior of some site-wide :ref:`addons`."
-msgstr "Forrásszöveg leírása"
+msgstr "Bizonyos rendszer-szintű :ref:`addons` működésének javítása."
 
 #: ../../changes.rst:541
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
-msgstr "Gépi fordítási szolgáltatások használata"
+msgstr ""
+"Szerkesztést igénylő karakterláncok mentése a következő formátumba: :doc:`/"
+"formats/winrc`."
 
 #: ../../changes.rst:542
 msgid ":ref:`check-xml-tags` better handle XML entities."
@@ -25648,10 +25507,8 @@ msgid "False-positive merge failure alert when using push branch."
 msgstr ""
 
 #: ../../changes.rst:563
-#, fuzzy
-#| msgid "Status of repositories"
 msgid "Cleanup of stale repositories."
-msgstr "Tárolók állapota"
+msgstr "Elavult tárolók törlése."
 
 #: ../../changes.rst:569
 msgid ""
@@ -25686,10 +25543,9 @@ msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr ""
 
 #: ../../changes.rst:585
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Improved handling placeables in :ref:`mt-openai`."
-msgstr "Jóváhagyott fordítás a(z) %(translation)s fordításban"
+msgstr ""
+"Helyettesíthető elemek jobb kezelése a :ref:`mt-openai` szolgáltatásban."
 
 #: ../../changes.rst:591
 msgid ""
@@ -25708,10 +25564,8 @@ msgid "*Released on May 3rd 2024.*"
 msgstr ""
 
 #: ../../changes.rst:600
-#, fuzzy
-#| msgid "Performance overview"
 msgid "Improved performance of rendering large lists of objects."
-msgstr "Teljesítmény áttekintés"
+msgstr "Nagy objektumlisták megjelenítésének teljesítményjavítása."
 
 #: ../../changes.rst:601
 msgid ""
@@ -25759,10 +25613,8 @@ msgid "Weblate 5.5.1"
 msgstr "Weblate kulcsok"
 
 #: ../../changes.rst:636
-#, fuzzy
-#| msgid "``source_changed:DATETIME``"
 msgid ":doc:`/user/search` supports ``source_changed:DATETIME``."
-msgstr "``source_changed:DATETIME``"
+msgstr "A :doc:`/user/search` támogatja a ``source_changed:DATETIME`` szűrést."
 
 #: ../../changes.rst:637
 #, fuzzy
@@ -26128,16 +25980,12 @@ msgid ":ref:`check-perl-brace-format` quality check."
 msgstr "A JavaScript formátumszöveg nem egyezik a forrással"
 
 #: ../../changes.rst:785
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid ":doc:`/formats/moko`."
-msgstr ":ref:`formats`"
+msgstr ":doc:`/formats/moko`."
 
 #: ../../changes.rst:786
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid ":doc:`/formats/formatjs`."
-msgstr ":ref:`formats`"
+msgstr ":doc:`/formats/formatjs`."
 
 #: ../../changes.rst:787
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
@@ -36775,10 +36623,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/issues.rst:19
-#, fuzzy
-#| msgid "How to report a security issue?"
 msgid "Reporting security issues"
-msgstr "Hogyan lehet biztonsági problémát jelenteni?"
+msgstr "Biztonsági problémák jelentése"
 
 #: ../../contributing/issues.rst:21
 msgid ""
@@ -41043,10 +40889,8 @@ msgid ""
 msgstr ""
 
 #: ../../faq.rst:417
-#, fuzzy
-#| msgid "How to handle requests for creating new translations."
 msgid "How to handle renaming translation files?"
-msgstr "Hogyan kell kezelni az új fordítások létrehozásának kéréseit."
+msgstr "Hogyan kell kezelni a fordítási fájlok átnevezését?"
 
 #: ../../faq.rst:419
 msgid ""
@@ -43910,10 +43754,8 @@ msgid ""
 msgstr ""
 
 #: ../../index.rst:32
-#, fuzzy
-#| msgid "First"
 msgid "First time here?"
-msgstr "Első"
+msgstr "Először van itt?"
 
 #: ../../index.rst:33
 msgid "Read the :doc:`user/basic` to get an overview of what Weblate does."
@@ -46043,10 +45885,10 @@ msgid "Mismatched \\\\n"
 msgstr "Nem egyező \\n"
 
 #: ../../user/checks.rst:1159
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\\\n literals in translation does not match source"
-msgstr "Az új sorok száma a fordításban nem egyezik a forrással"
+msgstr ""
+"A fordításban szereplő\\\\n"
+" literálok száma nem egyezik meg a forrásban szereplőkkel"
 
 #: ../../user/checks.rst:1161
 msgid "``weblate.checks.chars.EscapedNewlineCountingCheck``"
@@ -46211,10 +46053,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1270
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang mark"
-msgstr "Nem egyező \\n"
+msgstr "Nem egyező felkiáltó-kérdőjel jelzés"
 
 #: ../../user/checks.rst:1272
 #, fuzzy
@@ -46849,7 +46689,8 @@ msgstr "Hármaspont"
 
 #: ../../user/checks.rst:1731
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
-msgstr "A szöveg három pontot (...) használ a hármaspont karakter (…) helyett"
+msgstr ""
+"A karakterlánc három pontot (...) használ az ellipszis karakter (…) helyett"
 
 #: ../../user/checks.rst:1732 ../../user/checks.rst:1754
 #: ../../user/checks.rst:1887 ../../user/checks.rst:1912
@@ -49811,6 +49652,10 @@ msgid ""
 "mail ``hosted@weblate.org``, and a name or profile description :guilabel:"
 "`Weblate push user`)."
 msgstr ""
+"A Hosted Weblate esetén külön „push” felhasználó van regisztrálva a GitHub, "
+"Bitbucket, Codeberg és GitLab rendszerekben (felhasználónév: "
+":guilabel:`weblate`, e-mail: ``hosted@weblate.org``, és a név vagy profil "
+"leírás: :guilabel:`Weblate push user`)."
 
 #: ../../vcs.rst:33
 msgid ""
