@@ -5,7 +5,7 @@
 (() => {
   const EditorBase = WLT.Editor.Base;
 
-  const tmServiceName = "weblate-translation-memory";
+  const _tmServiceName = "weblate-translation-memory";
 
   const $window = $(window);
 
@@ -60,7 +60,7 @@
         $deleteEntriesDialog.find(".modal-body").append(modalBody);
       });
 
-      this.$editor.on("hide.bs.modal", "#delete-url-modal", (e) => {
+      this.$editor.on("hide.bs.modal", "#delete-url-modal", (_e) => {
         $deleteEntriesDialog = null;
       });
 
@@ -82,27 +82,27 @@
       });
     });
 
-    Mousetrap.bindGlobal("alt+end", (e) => {
+    Mousetrap.bindGlobal("alt+end", (_e) => {
       window.location = $("#button-end").attr("href");
       return false;
     });
-    Mousetrap.bindGlobal(["alt+pagedown", "mod+down", "alt+down"], (e) => {
+    Mousetrap.bindGlobal(["alt+pagedown", "mod+down", "alt+down"], (_e) => {
       window.location = $("#button-next").attr("href");
       return false;
     });
-    Mousetrap.bindGlobal(["alt+pageup", "mod+up", "alt+up"], (e) => {
+    Mousetrap.bindGlobal(["alt+pageup", "mod+up", "alt+up"], (_e) => {
       window.location = $("#button-prev").attr("href");
       return false;
     });
-    Mousetrap.bindGlobal("alt+home", (e) => {
+    Mousetrap.bindGlobal("alt+home", (_e) => {
       window.location = $("#button-first").attr("href");
       return false;
     });
-    Mousetrap.bindGlobal("mod+o", (e) => {
+    Mousetrap.bindGlobal("mod+o", (_e) => {
       $(".source-language-group [data-clone-value]").click();
       return false;
     });
-    Mousetrap.bindGlobal("mod+y", (e) => {
+    Mousetrap.bindGlobal("mod+y", (_e) => {
       $('input[name="fuzzy"]').click();
       return false;
     });
@@ -117,21 +117,21 @@
       this.$translationArea.get(0).focus();
       return false;
     });
-    Mousetrap.bindGlobal("mod+s", (e) => {
+    Mousetrap.bindGlobal("mod+s", (_e) => {
       $("#search-dropdown").click();
       $('textarea[name="q"]').focus();
       return false;
     });
-    Mousetrap.bindGlobal("mod+u", (e) => {
+    Mousetrap.bindGlobal("mod+u", (_e) => {
       $('.nav [href="#comments"]').click();
       $('textarea[name="comment"]').focus();
       return false;
     });
-    Mousetrap.bindGlobal("mod+j", (e) => {
+    Mousetrap.bindGlobal("mod+j", (_e) => {
       $('.nav [href="#nearby"]').click();
       return false;
     });
-    Mousetrap.bindGlobal("mod+m", (e) => {
+    Mousetrap.bindGlobal("mod+m", (_e) => {
       $('.nav [href="#machinery"]').click();
       return false;
     });
@@ -259,7 +259,7 @@
       success: () => {
         addAlert(gettext("Translation memory entry removed."));
       },
-      error: (jqXhr, textStatus, errorThrown) => {
+      error: (_jqXhr, _textStatus, errorThrown) => {
         addAlert(errorThrown);
       },
     });
@@ -385,7 +385,7 @@
         data: {
           csrfmiddlewaretoken: this.csrfToken,
         },
-        error: (jqXhr, textStatus, errorThrown) => {
+        error: (_jqXhr, _textStatus, errorThrown) => {
           addAlert(errorThrown);
         },
         success: (data) => {
@@ -410,7 +410,7 @@
       const fixups = $el.data("check-fixup");
       this.$translationArea.each(function () {
         const $this = $(this);
-        $.each(fixups, (key, value) => {
+        $.each(fixups, (_key, value) => {
           const re = new RegExp(value[0], value[2]);
           $this.replaceValue($this.val().replace(re, value[1]));
         });
@@ -451,7 +451,7 @@
         }
         $number.html($("<kbd/>").attr("title", title).text(key));
 
-        Mousetrap.bindGlobal([`mod+i ${key}`, `mod+i mod+${key}`], (e) => {
+        Mousetrap.bindGlobal([`mod+i ${key}`, `mod+i mod+${key}`], (_e) => {
           $this.find(".check-dismiss-single").click();
           return false;
         });
@@ -536,7 +536,7 @@
             addAlert(data.responseDetails);
           }
         },
-        error: (xhr, textStatus, errorThrown) => {
+        error: (_xhr, _textStatus, errorThrown) => {
           addAlert(errorThrown);
           decreaseLoading("glossary-add");
         },
@@ -550,7 +550,7 @@
   };
 
   class Machinery {
-    constructor(initialState = {}) {
+    constructor(_initialState = {}) {
       this.state = {
         translations: [],
         weblateTranslationMemory: new Set(),
@@ -616,7 +616,7 @@
       if (typeof el.origin !== "undefined") {
         service.append(" (");
         let origin;
-        const deleteUrl = false;
+        const _deleteUrl = false;
         if (typeof el.origin_detail !== "undefined") {
           origin = $("<abbr/>").text(el.origin).attr("title", el.origin_detail);
         } else if (typeof el.origin_url !== "undefined") {
@@ -671,7 +671,7 @@
         let done = false;
 
         /* This is the merging and insert sort logic */
-        $translations.children("tr").each(function (idx) {
+        $translations.children("tr").each(function (_idx) {
           const $this = $(this);
           const base = $this.data("raw");
           if (
