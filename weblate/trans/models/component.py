@@ -1740,10 +1740,7 @@ class Component(
 
         if result:
             # create translation objects for all files
-            try:
-                self.create_translations(request=request, run_async=True)
-            except FileParseError:
-                result = False
+            self.create_translations(request=request, run_async=True)
 
             # Push after possible merge
             self.push_if_needed(do_update=False)
@@ -1941,10 +1938,7 @@ class Component(
             self.trigger_post_update(previous_head, False)
 
             # create translation objects for all files
-            try:
-                self.create_translations(request=request, force=True, run_async=True)
-            except FileParseError:
-                return False
+            self.create_translations(request=request, force=True, run_async=True)
             return True
 
     @perform_on_link
@@ -1985,10 +1979,8 @@ class Component(
     @transaction.atomic
     def do_file_scan(self, request=None):
         self.commit_pending("file-scan", request.user if request else None)
-        try:
-            return self.create_translations(request=request, force=True, run_async=True)
-        except FileParseError:
-            return False
+        self.create_translations(request=request, force=True, run_async=True)
+        return True
 
     def get_repo_link_url(self):
         return "weblate://{}".format("/".join(self.get_url_path()))
@@ -3714,10 +3706,9 @@ class Component(
                 )
 
         # Trigger parsing of the newly added file
-        if create_translations and not self.create_translations(
-            request=request, run_async=True
-        ):
-            messages.warning(
+        if create_translations:
+            self.create_translations(request=request, run_async=True)
+            messages.info(
                 request,
                 gettext("The translation will be updated in the background."),
                 fail_silently=True,
