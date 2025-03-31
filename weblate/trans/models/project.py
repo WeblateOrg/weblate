@@ -313,7 +313,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if old is not None:
             # Update alerts if needed
             if old.web != self.web:
-                component_alerts.delay(
+                component_alerts.delay_on_commit(
                     list(self.component_set.values_list("id", flat=True))
                 )
 

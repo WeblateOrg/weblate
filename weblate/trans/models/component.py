@@ -961,7 +961,7 @@ class Component(
                 create=create,
             )
         else:
-            task = component_after_save.delay(
+            component_after_save.delay_on_commit(
                 self.pk,
                 changed_git=changed_git,
                 changed_setup=changed_setup,
@@ -971,7 +971,6 @@ class Component(
                 skip_push=kwargs.get("force_insert", False),
                 create=create,
             )
-            self.store_background_task(task)
 
         if self.old_component_settings["check_flags"] != self.check_flags:
             transaction.on_commit(
@@ -2445,18 +2444,14 @@ class Component(
         from weblate.trans.tasks import perform_load
 
         self.log_info("scheduling update in background")
-        # We skip request here as it is not serializable
-        task = perform_load.apply_async(
-            args=(self.pk,),
-            kwargs={
-                "force": force,
-                "langs": langs,
-                "changed_template": changed_template,
-                "from_link": from_link,
-                "change": change,
-            },
+        perform_load.delay_on_commit(
+            pk=self.pk,
+            force=force,
+            langs=langs,
+            changed_template=changed_template,
+            from_link=from_link,
+            change=change,
         )
-        self.store_background_task(task)
         return False
 
     def create_translations_task(
@@ -3822,10 +3817,10 @@ class Component(
         from weblate.glossary.tasks import sync_glossary_languages, sync_terminology
 
         if self.is_glossary:
-            sync_terminology.delay(self.pk)
+            sync_terminology.delay_on_commit(self.pk)
         else:
             for glossary in self.project.glossaries:
-                sync_glossary_languages.delay(glossary.pk)
+                sync_glossary_languages.delay_on_commit(glossary.pk)
 
     def get_unused_enforcements(self) -> Iterable[dict | BaseCheck]:
         from weblate.trans.models import Unit

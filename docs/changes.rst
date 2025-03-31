@@ -24,6 +24,7 @@ Weblate 5.11
 
 * Fixed captcha verification when some time zone was configured.
 * Improved translation propagation performance.
+* Fixed background parsing of newly added translation files.
 
 .. rubric:: Compatibility
 
