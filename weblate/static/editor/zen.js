@@ -71,15 +71,15 @@
     $document.on("change", ".fuzzy_checkbox", handleTranslationChange);
     $document.on("change", ".review_radio", handleTranslationChange);
 
-    Mousetrap.bindGlobal("mod+end", (e) => {
+    Mousetrap.bindGlobal("mod+end", (_e) => {
       $(".zen-unit:last").find(".translation-editor:first").focus();
       return false;
     });
-    Mousetrap.bindGlobal("mod+home", (e) => {
+    Mousetrap.bindGlobal("mod+home", (_e) => {
       $(".zen-unit:first").find(".translation-editor:first").focus();
       return false;
     });
-    Mousetrap.bindGlobal("mod+pagedown", (e) => {
+    Mousetrap.bindGlobal("mod+pagedown", (_e) => {
       const focus = $(":focus");
 
       if (focus.length === 0) {
@@ -93,7 +93,7 @@
       }
       return false;
     });
-    Mousetrap.bindGlobal("mod+pageup", (e) => {
+    Mousetrap.bindGlobal("mod+pageup", (_e) => {
       const focus = $(":focus");
 
       if (focus.length === 0) {
@@ -174,13 +174,13 @@
       url: form.attr("action"),
       data: payload,
       dataType: "json",
-      error: (jqXhr, textStatus, errorThrown) => {
+      error: (_jqXhr, _textStatus, errorThrown) => {
         addAlert(errorThrown);
       },
       success: (data) => {
         statusdiv.attr("class", `unit-state-cell ${data.unit_state_class}`);
         statusdiv.attr("title", data.unit_state_title);
-        $.each(data.messages, (i, val) => {
+        $.each(data.messages, (_i, val) => {
           addAlert(val.text, val.kind);
         });
         $row.removeClass("translation-modified").addClass("translation-saved");
