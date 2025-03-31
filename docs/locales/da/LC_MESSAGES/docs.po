@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-03-31 17:54+0000\n"
+"PO-Revision-Date: 2025-03-31 18:37+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "documentation/da/>\n"
@@ -3162,7 +3162,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:699
 msgid "Contributors in comment"
-msgstr "Bidragsydere i kommentar"
+msgstr "Bidragydere i kommentar"
 
 #: ../../admin/addons.rst:701
 msgid "``weblate.gettext.authors``"
@@ -3174,7 +3174,7 @@ msgid ""
 "and years of contributions."
 msgstr ""
 "Opdaterer kommentardelen af PO-filens overskrift for at inkludere "
-"bidragsydernes navne og bidragsår."
+"bidragydernes navne og bidragsår."
 
 #: ../../admin/addons.rst:708
 msgid "The PO file header will look like this:"
@@ -18573,6 +18573,12 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
+"Opret et oversættelsesprojekt, og føj derefter en ny komponent til "
+"oversættelse. Projektet fungerer som en hylde, hvor de faktiske "
+"oversættelser opbevares. Alle komponenter i samme projekt deler forslag og "
+"ordbog, og oversættelser udbredes automatisk til alle komponenter i "
+"projektet (medmindre det er deaktiveret i komponentens konfiguration); se "
+":ref:`memory`."
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:289
 msgid ":doc:`/devel/integration`"
@@ -24115,7 +24121,7 @@ msgstr ""
 #: ../../changes.rst:311 ../../changes.rst:362 ../../changes.rst:388
 #: ../../changes.rst:416 ../../changes.rst:472
 msgid "Contributors"
-msgstr "Bidragsydere"
+msgstr "Bidragydere"
 
 #: ../../changes.rst:34
 msgid ""
@@ -38269,6 +38275,11 @@ msgid ""
 "disabled per :ref:`component` using :ref:`component-"
 "allow_translation_propagation` in case the translations should diverge."
 msgstr ""
+"Internt har hvert projekt som standard oversættelser af fælles strenge, der "
+"automatisk udbredes til andre komponenter. Dette reducerer behovet for "
+"gentagne og mangfoldige oversættelser. Udbredelsen kan deaktiveres pr. "
+":ref:`component` med :ref:`component-allow_translation_propagation`, hvis "
+"oversættelserne skal afvige."
 
 #: ../../snippets/basics.rst:24
 msgid "Repository integration"
@@ -38648,7 +38659,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:72
 msgid "Contributor stats"
-msgstr "Bidragsyderstatistik"
+msgstr "Bidragyderstatistik"
 
 #: ../../devel/reporting.rst:74
 msgid ""
@@ -39594,6 +39605,11 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
+"Weblate understøtter push af oversættelsesændringer inden for ét "
+":ref:`project`. For hver :ref:`component`, hvor det er aktiveret (som "
+"standard), udbredes ændringer automatisk til andre. Dette sikrer "
+"synkroniserede oversættelser, selv hvis branchene er markant divergerede, og "
+"oversættelsesændringer ikke kan flettes direkte."
 
 #: ../../faq.rst:164
 msgid ""
