@@ -436,9 +436,9 @@ You can also specify a custom category to use `custom translator <https://learn.
 
    `Cognitive Services - Text Translation API <https://azure.microsoft.com/en-us/products/ai-services/ai-translator>`_,
    `Microsoft Azure Portal <https://portal.azure.com/>`_,
-   `Base URLs <https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_,
-   `"Authenticating with a Multi-service resource" <https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_
-   `"Authenticating with an access token" section <https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference#authenticating-with-an-access-token>`_
+   `Base URLs <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#base-urls>`_,
+   `"Authenticating with a Multi-service resource" <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#authenticating-with-a-multi-service-resource>`_
+   `"Authenticating with an access token" section <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#authenticating-with-an-access-token>`_
 
 
 .. _mt-modernmt:

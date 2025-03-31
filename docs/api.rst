@@ -2832,7 +2832,7 @@ update individual repositories; see
 
         :ref:`gitlab-setup`
             For instruction on setting up GitLab integration
-        https://docs.gitlab.com/ee/user/project/integrations/webhooks.html
+        https://docs.gitlab.com/user/project/integrations/webhooks/
             Generic information about GitLab Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate

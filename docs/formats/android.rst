@@ -60,7 +60,7 @@ Weblate does following escaping of strings:
 .. seealso::
 
     `Android string resources documentation <https://developer.android.com/guide/topics/resources/string-resource>`_,
-    `JetBrains Compose Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html>`_,
+    `JetBrains Compose Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_,
     :doc:`tt:formats/android`
 
 Weblate configuration for Android resource strings
