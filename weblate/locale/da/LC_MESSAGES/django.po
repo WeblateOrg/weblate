@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-03-31 18:37+0000\n"
+"PO-Revision-Date: 2025-03-31 19:26+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -2888,16 +2888,12 @@ msgid "The string is read-only."
 msgstr "Strengen er skrivebeskyttet."
 
 #: weblate/auth/permissions.py:286
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Kun anmeldere kan ændre godkendte strenge. Tilføj venligst et forslag, hvis "
-"du mener, at strengen bør ændres."
+"Kun korrekturlæsere kan ændre godkendte strenge. Tilføj venligst et forslag, "
+"hvis du mener, at strengen bør ændres."
 
 #: weblate/auth/permissions.py:292
 msgid "The translation is read-only."
@@ -8345,16 +8341,12 @@ msgid "Notification hooks"
 msgstr "Underretningshægter"
 
 #: weblate/templates/data.html:109
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous localization."
 msgid ""
 "With notification hooks, Weblate automatically imports changes made by your "
 "developers, allowing continuous localization."
 msgstr ""
-"Med underretningshægter vil Weblate automatisk importere ændringer foretaget "
-"af dine udviklere og give mulighed for løbende lokalisering."
+"Med notifikationshooks importerer Weblate automatisk udviklernes ændringer, "
+"hvilket muliggør kontinuerlig lokalisering."
 
 #: weblate/templates/data.html:126 weblate/templates/data.html:134
 msgid "Hook"
@@ -8758,13 +8750,11 @@ msgstr[0] "%(count)s udgående commit"
 msgstr[1] "%(count)s udgående commits"
 
 #: weblate/templates/js/git-status.html:49
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "%(count)s stemme"
-msgstr[1] "%(count)s stemmer"
+msgstr[0] "(%(count)s mangler i push-branchen)"
+msgstr[1] "(%(count)s mangler i push-branchen)"
 
 #: weblate/templates/js/git-status.html:60
 msgid "Update"
@@ -8772,19 +8762,15 @@ msgstr "Opdater"
 
 #: weblate/templates/js/git-status.html:73
 msgid "Update with merge"
-msgstr ""
+msgstr "Opdater med merge"
 
 #: weblate/templates/js/git-status.html:78
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "Opdater kvalitetstjek"
+msgstr "Opdater med rebase"
 
 #: weblate/templates/js/git-status.html:83
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Update with merge without fast-forward"
-msgstr "Hent ændringer fra fjernarkivet"
+msgstr "Opdater med merge uden fast-forward"
 
 #: weblate/templates/js/git-status.html:89
 #, python-format
@@ -9013,6 +8999,8 @@ msgid ""
 "Submit current form; this works the same as pressing Save and continue while "
 "editing translation."
 msgstr ""
+"Indsend den aktuelle formular; dette svarer til at trykke på "
+"\"Gem og fortsæt\" under oversættelsesredigering."
 
 #: weblate/templates/keyboard-shortcuts.html:90
 msgid "Unmark translation as Needing edit and submit it."
@@ -9934,13 +9922,11 @@ msgstr "Webserver"
 
 #: weblate/templates/manage/performance.html:144
 msgid "Celery worker"
-msgstr ""
+msgstr "Celery-worker"
 
 #: weblate/templates/manage/performance.html:149
-#, fuzzy
-#| msgid "Filename"
 msgid "Filenames encoding"
-msgstr "Filnavn"
+msgstr "Filnavnskodning"
 
 #: weblate/templates/manage/performance.html:155
 #: weblate/templates/manage/performance.html:166
@@ -9948,10 +9934,8 @@ msgid "Unknown encoding"
 msgstr "Ukendt indkodning"
 
 #: weblate/templates/manage/performance.html:160
-#, fuzzy
-#| msgid "Component locking"
 msgid "Content encoding"
-msgstr "Komponentlåsning"
+msgstr "Indholdskodning"
 
 #: weblate/templates/manage/performance.html:178
 msgid "Connectivity"
@@ -9963,13 +9947,11 @@ msgstr "Databaseforsinkelse"
 
 #: weblate/templates/manage/performance.html:188
 msgid "Cache latency"
-msgstr ""
+msgstr "Cache-latenstid"
 
 #: weblate/templates/manage/performance.html:192
-#, fuzzy
-#| msgid "Database backend"
 msgid "Celery latency"
-msgstr "Databasemotor"
+msgstr "Celery-latenstid"
 
 #: weblate/templates/manage/performance.html:197
 msgid "Not yet measured"
@@ -10228,7 +10210,7 @@ msgstr[1] ""
 #: weblate/templates/memory/index.html:189
 #: weblate/templates/memory/index.html:214
 msgid "Rebuild"
-msgstr ""
+msgstr "Genopbyg"
 
 #: weblate/templates/memory/index.html:117
 #: weblate/templates/memory/index.html:211
@@ -11048,7 +11030,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:16
 msgid "Non-code projects (such as books or graphic content) are also welcome."
-msgstr ""
+msgstr "Ikke-kodeprojekter (som bøger eller grafisk indhold) er også velkomne."
 
 #: weblate/templates/snippets/libre-basic.html:19
 msgid "Project approval"
@@ -11714,6 +11696,9 @@ msgid ""
 "forge author permissions for the repository/branch or have to use the squash "
 "addon on this component in Weblate."
 msgstr ""
+"Gerrit har forhindret denne push. Du skal muligvis have en Gerrit-konto med "
+"forge-forfatterrettigheder for repositoriet/branchen eller bruge squash-"
+"tilføjelsen på denne komponent i Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:20
 msgid ""
@@ -11741,6 +11726,9 @@ msgid ""
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
+"Du bør vælge Git med force push som versionskontrolsystem i "
+"komponentkonfigurationen for at overskrive det eksterne repository efter "
+"rebase af commits i Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:41
 msgid ""
@@ -12326,6 +12314,7 @@ msgstr "Typisk arbejdsgang for at løse fletningskonflikter"
 msgid ""
 "Open an existing checkout of the upstream repository or perform a fresh one."
 msgstr ""
+"Åbn en eksisterende checkout af det oprindelige repository eller udfør en ny."
 
 #: weblate/templates/trans/merge_instructions.html:11
 msgid ""
@@ -12342,10 +12331,10 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "Flet Weblate-ændringer og løs eventuelle konflikter."
 
 #: weblate/templates/trans/merge_instructions.html:27
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Skub lokale ændringer til fjernarkivet"
+msgstr ""
+"Rebase Weblate-ændringerne på det oprindelige repository og løs eventuelle "
+"konflikter."
 
 #: weblate/templates/trans/merge_instructions.html:33
 msgid "Push changes into upstream repository."
@@ -12707,7 +12696,7 @@ msgstr "For alle sprog"
 
 #: weblate/templates/translate.html:624
 msgid "Selecting this option will set the corresponding ignore flag."
-msgstr ""
+msgstr "Valg af denne mulighed indstiller det tilsvarende ignoreringsflag."
 
 #: weblate/templates/translate.html:655
 #, python-format
@@ -13064,7 +13053,7 @@ msgstr "Afslut Zen"
 
 #: weblate/trans/admin.py:32
 msgid "Commit pending changes"
-msgstr "Indsend afventende ændringer"
+msgstr "Commit afventende ændringer"
 
 #: weblate/trans/admin.py:41
 msgid "Update VCS repository"
@@ -16717,18 +16706,12 @@ msgid "This will push changes and create a Bitbucket Data Center pull request."
 msgstr "Ugyldig fletteanmodning!"
 
 #: weblate/vcs/git.py:2211
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Bitbucket Cloud merge request"
-msgstr "Ugyldig fletteanmodning!"
+msgstr "Bitbucket Cloud-fletningsanmodning"
 
 #: weblate/vcs/mercurial.py:47
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr ""
-"Weblate kunne ikke hente opstrømsændringer ved opdatering af softwarekilden."
+msgstr "Dette vil pushe ændringer til det oprindelige Mercurial-repository."
 
 #: weblate/vcs/ssh.py:48
 msgctxt "SSH key type"
@@ -16743,7 +16726,7 @@ msgstr "Ed25519"
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:87
 msgid "[hostname hashed]"
-msgstr "[værtsnavn hashed]"
+msgstr "[værtsnavn hashet]"
 
 #: weblate/vcs/ssh.py:187
 #, python-format
