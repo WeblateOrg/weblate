@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-03-31 19:26+0000\n"
+"PO-Revision-Date: 2025-03-31 21:02+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -12777,10 +12777,9 @@ msgid "string %(position)s"
 msgstr "streng %(position)s"
 
 #: weblate/templates/translate.html:860
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Indsend afventende ændringer til det lokale arkiv"
+msgstr ""
+"Afventende ændringer, der endnu ikke er committet til Weblate-repositoriet"
 
 #: weblate/templates/translate.html:860
 msgid "pending"
@@ -12799,7 +12798,7 @@ msgstr "<code>%(flags)s</code> blev udtrukket fra %(filename)s."
 #: weblate/templates/translate.html:918
 #, python-format
 msgid "<code>%(flags)s</code> is inherited from %(object)s."
-msgstr ""
+msgstr "<code>%(flags)s</code> er nedarvet fra %(object)s."
 
 #: weblate/templates/translate.html:953
 #, python-format
@@ -13037,7 +13036,7 @@ msgstr "Åbn i fuld editor"
 
 #: weblate/templates/zen-units.html:100
 msgid "Collapse"
-msgstr ""
+msgstr "Minimer"
 
 #: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:636
 msgid "The translation has come to an end."
@@ -13085,7 +13084,7 @@ msgstr "Kontroltegn"
 
 #: weblate/trans/autofixes/chars.py:82
 msgid "Devanagari danda"
-msgstr ""
+msgstr "Devanagari danda"
 
 #: weblate/trans/autofixes/custom.py:31
 msgid "Apostrophes in Java MessageFormat"
@@ -13341,7 +13340,7 @@ msgstr "Importér som oversat"
 
 #: weblate/trans/forms.py:704
 msgid "Conflict handling"
-msgstr ""
+msgstr "Konflikthåndtering"
 
 #: weblate/trans/forms.py:706
 msgid ""
@@ -13424,16 +13423,12 @@ msgid "Score threshold"
 msgstr "Pointgrænse"
 
 #: weblate/trans/forms.py:987
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Sikrer at et konsistent sæt af sprog anvendes for alle komponenter indenfor "
-"et projekt."
+"Indtast slug for en komponent til brug som kilde, eller lad den være tom for "
+"at bruge alle komponenter i det aktuelle projekt."
 
 #: weblate/trans/forms.py:998
 msgid "All components in current project"
@@ -13480,10 +13475,8 @@ msgid "Allow user to add or remove users from a team."
 msgstr "Lad bruger tilføje eller fjerne brugere fra et team."
 
 #: weblate/trans/forms.py:1294
-#, fuzzy
-#| msgid "Location"
 msgid "Block duration"
-msgstr "Placering"
+msgstr "Blokeringsvarighed"
 
 #: weblate/trans/forms.py:1296
 msgid "Block the user until I unblock"
@@ -13535,7 +13528,7 @@ msgstr "Upstream-links"
 
 #: weblate/trans/forms.py:1546
 msgid "Listing and access"
-msgstr ""
+msgstr "Liste og adgang"
 
 #: weblate/trans/forms.py:1567
 msgid "Translation settings"
@@ -13630,7 +13623,7 @@ msgstr "Søgestreng"
 
 #: weblate/trans/forms.py:2336
 msgid "Case-sensitive string to search for and replace."
-msgstr ""
+msgstr "Versalfølsom streng at søge efter og erstatte."
 
 #: weblate/trans/forms.py:2339
 msgid "Replacement string"
@@ -13720,10 +13713,8 @@ msgid "I accept the contributor license agreement"
 msgstr "Jeg accepterer licensaftalen for bidragydere"
 
 #: weblate/trans/forms.py:2710
-#, fuzzy
-#| msgid "The translation name does not match the one to delete!"
 msgid "The slug does not match the one marked for deletion!"
-msgstr "Oversættelsesnavnet er ikke magen til det der er ved at blive slettet!"
+msgstr "Slug'en matcher ikke den, der er markeret til sletning!"
 
 #: weblate/trans/forms.py:2716 weblate/trans/forms.py:2735
 #: weblate/trans/forms.py:2746 weblate/trans/forms.py:2762
@@ -13732,40 +13723,28 @@ msgid "Removal confirmation"
 msgstr "Bekræftelse af fjernelse"
 
 #: weblate/trans/forms.py:2718
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full slug of the translation to confirm."
-msgstr "Skriv venligst navnet på oversættelsen for at bekræfte."
+msgstr "Indtast venligst hele oversættelsens slug for at bekræfte."
 
 #: weblate/trans/forms.py:2737
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full slug of the component to confirm."
-msgstr "Skriv venligst navnet på oversættelsen for at bekræfte."
+msgstr "Indtast venligst hele komponentens slug for at bekræfte."
 
 #: weblate/trans/forms.py:2747
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the slug of the project to confirm."
-msgstr "Skriv venligst navnet på oversættelsen for at bekræfte."
+msgstr "Indtast venligst projektets slug for at bekræfte."
 
 #: weblate/trans/forms.py:2763
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the slug of the category to confirm."
-msgstr "Skriv venligst navnet på oversættelsen for at bekræfte."
+msgstr "Indtast venligst kategoriens slug for at bekræfte."
 
 #: weblate/trans/forms.py:2773
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Skriv venligst navnet på oversættelsen for at bekræfte."
+msgstr "Indtast venligst slug'en for projektet og sproget for at bekræfte."
 
 #: weblate/trans/forms.py:2784
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the slug of the category and language to confirm."
-msgstr "Skriv venligst navnet på oversættelsen for at bekræfte."
+msgstr "Indtast venligst slug'en for kategorien og sproget for at bekræfte."
 
 #: weblate/trans/forms.py:2811
 msgid "Author username"
@@ -13792,6 +13771,9 @@ msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
 msgstr ""
+"Oversættelsesarbejdsgangen konfigureres på projekt- og komponentniveau. Ved "
+"at aktivere tilpasning her tilsidesætter du disse indstillinger for dette "
+"sprog."
 
 #: weblate/trans/forms.py:2992
 msgid "Customize translation workflow for this language in this project"
@@ -13814,14 +13796,15 @@ msgstr "Integration af versionskontrol"
 #: weblate/trans/guide.py:81
 msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr ""
+"Konfigurer repository-hooks for automatiseret opdateringsflow til Weblate."
 
 #: weblate/trans/guide.py:102
 msgid "Configure push URL for automated flow of translations from Weblate."
-msgstr ""
+msgstr "Konfigurer push-URL for automatiseret oversættelsesflow fra Weblate."
 
 #: weblate/trans/guide.py:116
 msgid "Building community"
-msgstr ""
+msgstr "Opbygning af fællesskab"
 
 #: weblate/trans/guide.py:125
 msgid "Define translation instructions to give translators a guideline."
@@ -13944,10 +13927,8 @@ msgstr "Ikke-understøttet komponentkonfiguration"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:513
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Broken repository browser URL"
-msgstr "Arkiv browser"
+msgstr "Defekt repository-browser-URL"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:557
@@ -14062,13 +14043,11 @@ msgstr "For dyb indlejring af kategorier!"
 
 #: weblate/trans/models/category.py:177
 msgid "Parent category has to be in the same project!"
-msgstr ""
+msgstr "Overordnet kategori skal være i samme projekt!"
 
 #: weblate/trans/models/category.py:182
-#, fuzzy
-#| msgid "First and last name should be different!"
 msgid "Parent category has to be different!"
-msgstr "For- og efternavn skal være forskellige!"
+msgstr "Overordnet kategori skal være forskellig!"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:448
@@ -14132,17 +14111,13 @@ msgstr "Komponent låst op"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:474
-#, fuzzy
-#| msgid "Change word"
 msgid "Changes committed"
-msgstr "Rediger ord"
+msgstr "Ændringer committet"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:476
-#, fuzzy
-#| msgid "Change password"
 msgid "Changes pushed"
-msgstr "Skift adgangskode"
+msgstr "Ændringer pushet"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:478
@@ -14151,38 +14126,28 @@ msgstr "Repository nulstillet"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:480
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository merged"
-msgstr "Ændringer for arkiv"
+msgstr "Repository flettet"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:482
-#, fuzzy
-#| msgid "Repository details"
 msgid "Repository rebased"
-msgstr "Detaljer for arkiv"
+msgstr "Repository rebaset"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:484
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository merge failed"
-msgstr "arkiv operation"
+msgstr "Repository-fletning mislykkedes"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:486
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository rebase failed"
-msgstr "arkiv operation"
+msgstr "Repository-rebase mislykkedes"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:488
-#, fuzzy
-#| msgid "Repository failure"
 msgid "Repository push failed"
-msgstr "Arkiv fejl"
+msgstr "Repository-push mislykkedes"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:490
@@ -14420,10 +14385,8 @@ msgstr "Streng opdateret i uploaden"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:590
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "Translation updated by source upload"
-msgstr "Oversættelsen blev uploadet"
+msgstr "Oversættelse opdateret ved kildeupload"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:592
@@ -14456,10 +14419,9 @@ msgstr "%(action)s %(time)s på %(translation)s af %(user)s"
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:772
-#, fuzzy, python-format
-#| msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s per %(time)s på %(translation)s af %(user)s"
+msgstr "%(action)s %(time)s på %(translation)s"
 
 #: weblate/trans/models/change.py:949
 msgid "The “{}” file was changed."
@@ -14584,7 +14546,7 @@ msgstr "Flyt forgreningspunkt (rebase)"
 
 #: weblate/trans/models/component.py:177
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Flet uden fast-forward"
 
 #: weblate/trans/models/component.py:387
 msgid ""
@@ -14617,17 +14579,14 @@ msgid "Repository browser"
 msgstr "Repository-browser"
 
 #: weblate/trans/models/component.py:422
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Link til arkiv-browser, brug {{branch}} for forgrening, {{filename}} og "
-"{{line}} som filnavn og pladsholdere for linjer."
+"Link til repository-browser. Brug {{branch}} for branch, {{filename}} og "
+"{{line}} som pladsholdere for filnavn og linje. Du kan fjerne den indledende "
+"mappe ved at bruge {{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:430
 msgid "Exported repository URL"
@@ -14654,14 +14613,13 @@ msgid "Repository branch to translate"
 msgstr "Repository branch at oversætte"
 
 #: weblate/trans/models/component.py:453
-#, fuzzy
-#| msgid "Git branch"
 msgid "Push branch"
-msgstr "Git-forgrening"
+msgstr "Push branch"
 
 #: weblate/trans/models/component.py:456
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
+"Branch til at pushe ændringer. Lad være tom for at bruge repository-branch"
 
 #: weblate/trans/models/component.py:466
 msgid ""
@@ -14672,16 +14630,16 @@ msgstr ""
 "stedet for sprogkode, f.eks.: po/*.po eller locale/*/LC_MESSAGES/django.po."
 
 #: weblate/trans/models/component.py:472
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "Skærmbilleddetaljer"
+msgstr "Skærmbillede filmaske"
 
 #: weblate/trans/models/component.py:477
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
+"Sti til skærmbilleder relativt til repository-roden, f.eks. docs/screenshots/"
+"*.png."
 
 #: weblate/trans/models/component.py:486
 msgid ""
@@ -14843,14 +14801,12 @@ msgid "Commit message when merging translation"
 msgstr "Commit-besked ved fletning af oversættelse"
 
 #: weblate/trans/models/component.py:679
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Commit message when add-on makes a change"
-msgstr "Indsendelsesmeddelelse når der tilføjes en oversættelse"
+msgstr "Commit-besked, når tilføjelse foretager en ændring"
 
 #: weblate/trans/models/component.py:688
 msgid "Merge request message"
-msgstr ""
+msgstr "Fletningsanmodningbesked"
 
 #: weblate/trans/models/component.py:697
 msgid "Push on commit"
