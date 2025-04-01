@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-01-20 13:43+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-04-01 14:21+0000\n"
+"Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
 "Language: et\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -80,10 +80,8 @@ msgid "Public e-mail"
 msgstr "Avalik e-posti aadress"
 
 #: weblate/accounts/forms.py:233
-#, fuzzy
-#| msgid "This e-mail address is not allowed."
 msgid "Hide e-mail address from public view"
-msgstr "See e-posti aadress ei ole lubatud."
+msgstr "Peida e-posti aadress avalikust vatest"
 
 #: weblate/accounts/forms.py:339
 #, python-format
@@ -385,10 +383,8 @@ msgid "Verify the code from the app"
 msgstr ""
 
 #: weblate/accounts/forms.py:1074
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "The entered token is not valid."
-msgstr "Soovitatud tõlked"
+msgstr "Sisestatud tunnusluba pole kehtiv."
 
 #: weblate/accounts/forms.py:1142
 msgid "Recovery token"
@@ -2649,10 +2645,8 @@ msgid "Billing"
 msgstr "Arveldamine"
 
 #: weblate/auth/forms.py:90 weblate/auth/views.py:183
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "Aktiveerimis e-kiri saadetakse siia."
+msgstr "Kasutaja kutse e-kirjana saadetakse siia."
 
 #: weblate/auth/forms.py:142
 msgid "Cannot change this on a built-in team."
@@ -2675,7 +2669,7 @@ msgstr "Nimi"
 
 #: weblate/auth/models.py:112
 msgid "Choose permissions granted to this role."
-msgstr ""
+msgstr "Vali sellele rollile antavad õigused."
 
 #: weblate/auth/models.py:133 weblate/templates/accounts/profile.html:426
 #: weblate/templates/auth/team.html:61 weblate/templates/manage/teams.html:30
@@ -2685,7 +2679,7 @@ msgstr "Rollid"
 
 #: weblate/auth/models.py:135
 msgid "Choose roles granted to this team."
-msgstr ""
+msgstr "Vali selle tiimi rollid."
 
 #: weblate/auth/models.py:147
 msgid "Project selection"
@@ -2697,11 +2691,11 @@ msgstr ""
 
 #: weblate/auth/models.py:150 weblate/templates/auth/teams-projects.html:4
 msgid "All projects"
-msgstr ""
+msgstr "Kõik projektid"
 
 #: weblate/auth/models.py:151 weblate/templates/auth/teams-projects.html:6
 msgid "All public projects"
-msgstr ""
+msgstr "Kõik avalikud projektid"
 
 #: weblate/auth/models.py:152 weblate/templates/auth/teams-projects.html:8
 msgid "All protected projects"
@@ -2864,15 +2858,15 @@ msgstr ""
 
 #: weblate/auth/models.py:951 weblate/trans/forms.py:1288
 msgid "User to block"
-msgstr ""
+msgstr "Blokeeritav kasutaja"
 
 #: weblate/auth/models.py:958
 msgid "Block expiry"
-msgstr ""
+msgstr "Blokeerimise kestus"
 
 #: weblate/auth/models.py:1128 weblate/trans/forms.py:1269
 msgid "User to add"
-msgstr ""
+msgstr "Lisatav kasutaja"
 
 #: weblate/auth/models.py:1130 weblate/trans/forms.py:1272
 #: weblate/trans/forms.py:1290
@@ -15993,10 +15987,9 @@ msgid "Could not find any matching language, please check the file mask."
 msgstr "Ei õnnestunud laida ühtegi sobivat keelt, palun kontrolli failimaski."
 
 #: weblate/trans/models/component.py:2898
-#, fuzzy, python-brace-format
-#| msgid "Could not parse translation base file: %s"
+#, python-brace-format
 msgid "Could not parse {file}: {error}"
-msgstr "Ei õnnestunud sirvida tõlke alusfaili: %s"
+msgstr "Ei õnnestunud töödelda {file} faili: {error}"
 
 #: weblate/trans/models/component.py:2906
 #, python-format
