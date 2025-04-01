@@ -481,6 +481,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
         Test cleanup of glossary TSV content.
 
         Any problematic leading character is removed from term
+        Leading and trailing whitespaces are stripped
         """
         unit = MockUnit(code="cs", source="foo", target="bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
@@ -499,11 +500,19 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
         unit = MockUnit(code="cs", source="%foo", target="%bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
-        # # multiple prohibited characters are cleaned
+        # multiple prohibited characters are cleaned
         unit = MockUnit(code="cs", source="==foo", target="==bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
-        # # no character cleaned
+        # whitespace correctly stripped
+        unit = MockUnit(code="cs", source=" foo  ", target=" bar  ")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+
+        # whitespaces after prohibited characters correctly stripp
+        unit = MockUnit(code="cs", source="% foo  ", target="% bar  ")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+
+        # no character cleaned
         unit = MockUnit(code="cs", source="foo=", target="bar=")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo=\tbar=")
         unit = MockUnit(code="cs", source=":foo", target=":bar")
