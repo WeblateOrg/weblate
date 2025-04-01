@@ -12,8 +12,8 @@ from weblate.trans.util import (
     count_words,
     get_string,
     join_plural,
+    list_to_tuples,
     translation_percent,
-    list_to_tuples
 )
 
 
