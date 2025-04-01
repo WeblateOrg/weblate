@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from functools import reduce
+from itertools import chain
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
@@ -84,7 +84,7 @@ class ApertiumAPYTranslation(ResponseStatusMachineTranslation):
     @property
     def all_langs(self):
         """Return all language codes known to service."""
-        return reduce(lambda acc, x: acc.union(x), self.supported_languages, set())
+        return set(chain.from_iterable(self.supported_languages))
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
