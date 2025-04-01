@@ -10,7 +10,6 @@ from functools import lru_cache
 from typing import TYPE_CHECKING, Any, cast
 
 from django.core.exceptions import ValidationError
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 from lxml import etree
 
@@ -26,7 +25,6 @@ from weblate.checks.parser import (
 from weblate.fonts.utils import get_font_weight
 from weblate.trans.autofixes import AUTOFIXES
 from weblate.trans.defines import VARIANT_KEY_LENGTH
-from weblate.utils.html import format_html_join_comma
 
 if TYPE_CHECKING:
     from collections.abc import Iterator

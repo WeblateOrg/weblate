@@ -148,7 +148,6 @@ from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.util import redirect_next
 from weblate.utils import messages
 from weblate.utils.errors import add_breadcrumb, report_error
-from weblate.utils.html import format_html_join_comma
 from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats

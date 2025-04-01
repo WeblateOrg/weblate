@@ -415,7 +415,11 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             gettext(
                 "The translation has been saved, however there "
                 "are some newly failing checks: {0}"
-            ).format(format_html_join_comma("{}", ((CHECKS[check].name,) for check in newchecks))),
+            ).format(
+                format_html_join_comma(
+                    "{}", ((CHECKS[check].name,) for check in newchecks)
+                )
+            ),
         )
         # Stay on same entry
         return False

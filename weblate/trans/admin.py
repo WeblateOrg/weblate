@@ -85,9 +85,9 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
 
     @admin.display(description=gettext_lazy("Administrators"))
     def list_admins(self, obj):
-        return format_html_join_comma("{}", (
-            User.objects.all_admins(obj).values_list("username")
-        ))
+        return format_html_join_comma(
+            "{}", (User.objects.all_admins(obj).values_list("username"))
+        )
 
     @admin.display(description=gettext_lazy("Source strings"))
     def get_total(self, obj):

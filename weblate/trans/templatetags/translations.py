@@ -968,11 +968,11 @@ def unit_state_title(unit) -> str:
     if checks:
         state.append(
             "{} {}".format(
-            pgettext("String state", "Failing checks:"),
-            format_html_join_comma(
-                "{}",
-                ((check,) for check in checks),
-            ),
+                pgettext("String state", "Failing checks:"),
+                format_html_join_comma(
+                    "{}",
+                    ((check,) for check in checks),
+                ),
             )
         )
     checks = unit.dismissed_checks
@@ -980,7 +980,7 @@ def unit_state_title(unit) -> str:
         state.append(
             "{} {}".format(
                 pgettext("String state", "Dismissed checks:"),
-                format_html_join_comma("{}", ((check, ) for check in checks)),
+                format_html_join_comma("{}", ((check,) for check in checks)),
             )
         )
     if unit.has_comment:
