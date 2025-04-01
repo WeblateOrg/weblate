@@ -570,7 +570,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         own = filter_callback(self.component_set.defer_huge())
         if self.has_shared_components:
             shared = filter_callback(self.shared_components.defer_huge())
-            return own.union(shared)
+            return own | shared
         return own
 
     @cached_property
