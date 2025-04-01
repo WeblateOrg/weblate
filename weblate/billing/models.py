@@ -30,6 +30,7 @@ from weblate.trans.models import Alert, Component, Project, Translation
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.stats import prefetch_stats
+from weblate.trans.util import list_to_tuples
 
 
 class LibreCheck:
@@ -204,11 +205,12 @@ class Billing(models.Model):
     def __str__(self) -> str:
         projects = self.projects_display
         owners = self.owners.order()
+        owners_visible_names_tuples = list_to_tuples([x.get_visible_name() for x in owners])
         if projects:
             base = projects
         elif owners:
             base = format_html_join_comma(
-                "{}", ((x.get_visible_name(),) for x in owners)
+                "{}", (x for x in owners_visible_names_tuples)
             )
         else:
             base = "Unassigned"
@@ -252,7 +254,7 @@ class Billing(models.Model):
 
     @cached_property
     def projects_display(self):
-        return format_html_join_comma("{}", ((x,) for x in self.all_projects))
+        return format_html_join_comma("{}", (x for x in list_to_tuples(self.all_projects)))
 
     @property
     def is_trial(self):
@@ -627,7 +629,7 @@ class Invoice(models.Model):
 
         if overlapping.exists():
             msg = "Overlapping invoices exist: {}".format(
-                format_html_join_comma("{}", ((x,) for x in overlapping))
+                format_html_join_comma("{}", (x for x in list_to_tuples(overlapping)))
             )
             raise ValidationError(msg)
 
