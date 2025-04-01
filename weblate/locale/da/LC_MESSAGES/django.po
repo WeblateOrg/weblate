@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-03-31 21:02+0000\n"
+"PO-Revision-Date: 2025-04-01 09:20+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -6883,7 +6883,7 @@ msgstr "Område"
 
 #: weblate/templates/accounts/user.html:268
 msgid "Frequency"
-msgstr ""
+msgstr "Frekvens"
 
 #: weblate/templates/accounts/user.html:271
 msgid "One-time"
@@ -7161,7 +7161,7 @@ msgstr "Status"
 
 #: weblate/templates/addons/addon_logs.html:39
 msgid "Event"
-msgstr ""
+msgstr "Hændelse"
 
 #: weblate/templates/addons/addon_logs.html:40
 msgid "Details"
@@ -14847,20 +14847,12 @@ msgstr ""
 "filmaske."
 
 #: weblate/trans/models/component.py:737
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Variants regular expression"
-msgstr "E-mail regulært udtryk"
+msgstr "Varianter regulært udtryk"
 
 #: weblate/trans/models/component.py:743
-#, fuzzy
-#| msgid ""
-#| "Regular expression which is used to filter translation when scanning for "
-#| "file mask."
 msgid "Regular expression used to determine variants of a string."
-msgstr ""
-"Regulært udtryk, som bruges til at filtrere oversættelse ved scanning til "
-"filmaske."
+msgstr "Regulært udtryk brugt til at bestemme varianter af en streng."
 
 #: weblate/trans/models/component.py:752
 msgid "Components with higher priority are offered first to translators."
@@ -14874,6 +14866,8 @@ msgstr "Begrænset komponent"
 msgid ""
 "Restrict access to the component to only those explicitly given permission."
 msgstr ""
+"Begræns adgangen til komponenten til kun dem, der eksplicit har fået "
+"tilladelse."
 
 #: weblate/trans/models/component.py:767
 msgid "Share in projects"
@@ -14881,7 +14875,7 @@ msgstr "Del i projekter"
 
 #: weblate/trans/models/component.py:771
 msgid "Choose additional projects where this component will be listed."
-msgstr ""
+msgstr "Vælg yderligere projekter, hvor denne komponent skal vises."
 
 #: weblate/trans/models/component.py:777
 msgid "Use as a glossary"
@@ -14916,6 +14910,8 @@ msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
+"Repositoriet kræver godkendelse. Angiv legitimationsoplysninger i URL'en, "
+"eller brug SSH-adgang i stedet."
 
 #: weblate/trans/models/component.py:1579
 #, python-format
@@ -14929,10 +14925,9 @@ msgid "File does not exist."
 msgstr "Fil findes ikke."
 
 #: weblate/trans/models/component.py:1834
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not push %(component)s: %(error_text)s"
-msgstr "Kunne ikke fortolke filen %(file)s: %(error)s"
+msgstr "Kunne ikke pushe %(component)s: %(error_text)s"
 
 #: weblate/trans/models/component.py:1861
 #, python-format
@@ -15092,10 +15087,10 @@ msgid "Could not update repository: %s"
 msgstr "Kunne ikke opdatere repository: %s"
 
 #: weblate/trans/models/component.py:3076
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pull and push branches cannot be the same when using merge requests."
-msgstr "Ugyldig fletteanmodning!"
+msgstr ""
+"Pull- og push-branches kan ikke være de samme ved brug af "
+"fletningsanmodninger."
 
 #: weblate/trans/models/component.py:3089
 msgid ""
@@ -15121,7 +15116,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:3171
 msgid "To use the key filter, the file format must be monolingual."
-msgstr ""
+msgstr "For at bruge nøglefilteret skal filformatet være ensproget."
 
 #: weblate/trans/models/component.py:3563
 msgid "Could not add new translation file."
@@ -15209,10 +15204,8 @@ msgid "Component list to assign"
 msgstr "Komponentliste at tildele"
 
 #: weblate/trans/models/label.py:28
-#, fuzzy
-#| msgid "Description"
 msgid "Label description"
-msgstr "Beskrivelse"
+msgstr "Etiketbeskrivelse"
 
 #: weblate/trans/models/project.py:155
 msgid "Public"
@@ -15358,6 +15351,7 @@ msgstr "Tomme strenge kræver en tom tilstand."
 #: weblate/trans/models/translation.py:1790
 msgid "Approved state is not available as reviews are not enabled."
 msgstr ""
+"Godkendt tilstand er ikke tilgængelig, da gennemgange ikke er aktiveret."
 
 #: weblate/trans/models/translation.py:1798
 msgid "This string seems to already exist."
@@ -15430,26 +15424,20 @@ msgid "Insert character {0}"
 msgstr "Indsæt tegn {0}"
 
 #: weblate/trans/specialchars.py:271
-#, fuzzy
-#| msgid "Opening double quote"
 msgid "Main opening quote"
-msgstr "Dobbelt begyndelsesanførselstegn"
+msgstr "Hovedåbningsanførselstegn"
 
 #: weblate/trans/specialchars.py:272
-#, fuzzy
-#| msgid "Closing single quote"
 msgid "Main closing quote"
-msgstr "Enkelt afsluttendeanførselstegn"
+msgstr "Hovedafslutningsanførselstegn"
 
 #: weblate/trans/specialchars.py:273
 msgid "Alternative opening quote"
-msgstr ""
+msgstr "Alternativt åbningsanførselstegn"
 
 #: weblate/trans/specialchars.py:274
-#, fuzzy
-#| msgid "Opening single quote"
 msgid "Alternative closing quote"
-msgstr "Enkelt begyndelsesanførselstegn"
+msgstr "Alternativt afslutningsanførselstegn"
 
 #: weblate/trans/specialchars.py:278
 msgid "Hyphen"
@@ -16271,7 +16259,7 @@ msgstr "PNG-statusbadge"
 #: weblate/trans/widgets.py:427
 msgctxt "Status widget name"
 msgid "Vertical language bar chart"
-msgstr ""
+msgstr "Lodret sprogsøjlediagram"
 
 #: weblate/trans/widgets.py:508
 msgctxt "Status widget name"
@@ -16510,7 +16498,7 @@ msgstr "Dette navn er forbudt"
 
 #: weblate/utils/validators.py:271
 msgid "Syntax error in language aliases."
-msgstr ""
+msgstr "Syntaksfejl i sprogaliasser."
 
 #: weblate/utils/validators.py:287 weblate/utils/validators.py:296
 #: weblate/utils/validators.py:305
@@ -16547,20 +16535,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Fejl i parameter %(field)s: %(error)s"
 
 #: weblate/vcs/base.py:71
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid "This will push changes to the upstream repository."
-msgstr ""
-"Weblate kunne ikke hente opstrømsændringer ved opdatering af softwarekilden."
+msgstr "Dette vil pushe ændringer til det oprindelige repository."
 
 #: weblate/vcs/git.py:87
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr ""
-"Weblate kunne ikke hente opstrømsændringer ved opdatering af softwarekilden."
+msgstr "Dette vil pushe ændringer til det oprindelige Git-repository."
 
 #: weblate/vcs/git.py:572
 msgid "Possible cleanups:"
@@ -16568,17 +16548,15 @@ msgstr "Mulige oprydninger:"
 
 #: weblate/vcs/git.py:583
 msgid "This will push changes to Gerrit for a review."
-msgstr ""
+msgstr "Dette vil pushe ændringer til Gerrit for gennemgang."
 
 #: weblate/vcs/git.py:627
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "Indsend ændringer til det interne arkiv"
+msgstr "Dette vil commit ændringer til Subversion-repositoriet."
 
 #: weblate/vcs/git.py:794
 msgid "Git with force push"
-msgstr ""
+msgstr "Git med force push"
 
 #: weblate/vcs/git.py:798
 #, fuzzy
