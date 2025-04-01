@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-04-01 14:30+0000\n"
+"PO-Revision-Date: 2025-04-01 15:22+0000\n"
 "Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
@@ -1023,12 +1023,11 @@ msgstr[1] ""
 "tähemärki."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid "Your password must contain at most %(min_length)d character."
 msgid_plural "Your password must contain at most %(min_length)d characters."
-msgstr[0] "Selle salasõna pikkus on vaid üks tähemärk."
-msgstr[1] "Selle salasõna pikkus on vaid üks tähemärk."
+msgstr[0] "Sinu salasõnas võib olla kuni %(min_length)d tähemärk."
+msgstr[1] "Sinu salasõnas võib olla kuni %(min_length)d tähemärki."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1082,10 +1081,9 @@ msgid "Security key (%s)"
 msgstr ""
 
 #: weblate/accounts/utils.py:181
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Tõendamine"
+msgstr "Autentimisrakendus (%s)"
 
 #: weblate/accounts/views.py:205 weblate/accounts/views.py:1053
 #: weblate/accounts/views.py:1110 weblate/templates/accounts/reset.html:9
@@ -2998,16 +2996,12 @@ msgid "The file format does not support this."
 msgstr "Seda tõlget pole veel olemas."
 
 #: weblate/auth/permissions.py:372
-#, fuzzy
-#| msgid "Component list"
 msgid "Adding new translations is turned off in the component configuration."
-msgstr "Komponentide nimekiri"
+msgstr "Uute tõlgete lisamine on selle osise seadistustes keelatud."
 
 #: weblate/auth/permissions.py:376
-#, fuzzy
-#| msgid "Translation key"
 msgid "This component is currently locked."
-msgstr "Tõlke võti"
+msgstr "See osis on hetkel lukustatud."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3020,10 +3014,9 @@ msgid "User invitation was removed."
 msgstr "Aktiveerimis e-kiri saadetakse siia."
 
 #: weblate/auth/views.py:225
-#, fuzzy, python-format
-#| msgid "Administration"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "Haldamine"
+msgstr "Nõustusid liitumiskutsega %s tiimi."
 
 #: weblate/billing/admin.py:80 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:131
@@ -3127,10 +3120,8 @@ msgstr[0] "Koosneb ühest projektist"
 msgstr[1] "Sisaldab %d projekti"
 
 #: weblate/billing/models.py:476
-#, fuzzy
-#| msgid "Project website"
 msgid "Project website missing!"
-msgstr "Projekti veebisait"
+msgstr "Projekti veebisait on puudu!"
 
 #: weblate/billing/models.py:480
 msgid "Only public projects are allowed"
@@ -3398,11 +3389,8 @@ msgid "Reused translation"
 msgstr "Palu uut tõlget"
 
 #: weblate/checks/consistency.py:165
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgid "Different strings are translated the same."
-msgstr "Uus tõlkimist ootav lausend"
+msgstr "Erinevad tõlketekstid on tõlgitud identselt."
 
 #: weblate/checks/consistency.py:209
 #, python-format
@@ -5744,10 +5732,8 @@ msgid "Monolingual format not supported for memory upload"
 msgstr ""
 
 #: weblate/memory/models.py:384
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Ainukeelne aluskeele fail"
+msgstr "Lähte- või sihtkeel on failist puudu!"
 
 #: weblate/memory/models.py:477
 msgctxt "Translation memory category"
@@ -6087,13 +6073,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/about/donate.html:45
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on donate page"
 msgid "Recent change"
 msgid_plural "Recent changes"
-msgstr[0] "Viimased muudatused"
-msgstr[1] "Viimased muudatused"
+msgstr[0] "Hiljutine muudatus"
+msgstr[1] "Hiljutised muudatused"
 
 #: weblate/templates/about/index.html:7 weblate/templates/about/index.html:16
 #: weblate/templates/about/keys.html:9 weblate/templates/about/stats.html:10
@@ -6774,10 +6758,8 @@ msgid "User agent"
 msgstr "Kasutajaprogramm"
 
 #: weblate/templates/accounts/profile.html:505
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent activity found."
-msgstr "Hiljutist tegevust ei leidunud!"
+msgstr "Hiljutist tegevust ei leidunud."
 
 #: weblate/templates/accounts/profile.html:511
 msgid "Report suspicious activity"
@@ -7142,10 +7124,8 @@ msgid "Edit"
 msgstr ""
 
 #: weblate/templates/accounts/user.html:201
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "Hiljutist tegevust ei leidunud!"
+msgstr "Hiljutist kaastööd ei leidunud."
 
 #: weblate/templates/accounts/user.html:203
 #, fuzzy
@@ -9240,12 +9220,11 @@ msgid "Lock"
 msgstr "Lukusta"
 
 #: weblate/templates/js/git-status.html:112
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "%(count)s component is locked"
 msgid_plural "%(count)s components are locked"
-msgstr[0] "%(component)s osis lukustati"
-msgstr[1] "%(component)s osis lukustati"
+msgstr[0] "%(count)s osis on lukus"
+msgstr[1] "%(count)s osist on lukus"
 
 #: weblate/templates/js/git-status.html:116 weblate/utils/html.py:200
 msgctxt "Joins a list of values"
@@ -9253,12 +9232,11 @@ msgid ", "
 msgstr ""
 
 #: weblate/templates/js/git-status.html:118
-#, fuzzy, python-format
-#| msgid "Component %(component)s was unlocked"
+#, python-format
 msgid "%(count)s component is unlocked"
 msgid_plural "%(count)s components are unlocked"
-msgstr[0] "%(component)s osise lukustus eemaldati"
-msgstr[1] "%(component)s osise lukustus eemaldati"
+msgstr[0] "%(count)s osise lukustus on eemaldatud"
+msgstr[1] "%(count)s osise lukustus on eemaldatud"
 
 #: weblate/templates/js/git-status.html:121
 #: weblate/templates/js/git-status.html:126
@@ -10266,10 +10244,9 @@ msgid "Translations in all languages have been completed in %(component)s"
 msgstr "Mitme keele tõlgetes leidub mitu loogilise kontrolliga tuvastatud viga"
 
 #: weblate/templates/mail/translated_language_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translation comment has been resolved."
+#, python-format
 msgid "%(translation)s has been completed"
-msgstr "Tõlkele lisatud kommentaar on leidnud lahenduse."
+msgstr "Tõlge on valmis: %(translation)s"
 
 #: weblate/templates/manage/alerts.html:11
 #, fuzzy
@@ -11234,10 +11211,8 @@ msgid "Purchase a support package"
 msgstr ""
 
 #: weblate/templates/snippets/donate.html:14
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Give to Weblate"
-msgstr "Anneta Weblatele"
+msgstr "Anneta Weblate'ile"
 
 #: weblate/templates/snippets/editor.html:11
 msgid ""
@@ -11571,11 +11546,9 @@ msgid "Needs editing"
 msgstr "Vajab toimetamist"
 
 #: weblate/templates/snippets/info.html:352
-#, fuzzy
-#| msgid "Translated"
 msgctxt "Number of strings"
 msgid "Read-only"
-msgstr "Tõlgitud"
+msgstr "Vaid lugemisõigusega"
 
 #: weblate/templates/snippets/info.html:361
 msgctxt "Number of strings"
@@ -14594,10 +14567,8 @@ msgid "Change period"
 msgstr "Vaheta salasõna"
 
 #: weblate/trans/forms.py:2826
-#, fuzzy
-#| msgid "Could not find template file."
 msgid "Could not find matching user!"
-msgstr "Ei leidnud malli faili."
+msgstr "Ei leidnud vastavat kasutajat!"
 
 #: weblate/trans/forms.py:2908
 msgid "Expiry cannot be in the past."
@@ -14811,10 +14782,8 @@ msgid "Inexistent files."
 msgstr ""
 
 #: weblate/trans/models/alert.py:686
-#, fuzzy
-#| msgid "Component not found!"
 msgid "Component seems unused."
-msgstr "Osist ei leidu!"
+msgstr "Osis ei tundu olema kasutusel."
 
 #: weblate/trans/models/alert.py:714
 #, fuzzy
@@ -16141,10 +16110,8 @@ msgid "Add new translation string"
 msgstr "Tõlgitud"
 
 #: weblate/trans/models/component.py:3904
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Ei saa ühitada varamuid."
+msgstr "Ei suuda tuvastada koodihoidla olekut!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -16283,10 +16250,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/suggestion.py:159
-#, fuzzy
-#| msgid "Could not complete registration."
 msgid "Could not accept suggestion!"
-msgstr "Registreerimist ei õnnestunud lõpetada."
+msgstr "Soovitusega ei olnud võimalik nõustuda!"
 
 #: weblate/trans/models/translation.py:245
 #, python-format
@@ -16310,10 +16275,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "Ootel olevate muudatuste laadimine repositooriumi ei õnnestunud: %s"
 
 #: weblate/trans/models/translation.py:1773
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "Faili formaati ei toetata."
+msgstr "Selles failivormingus pole mitmus toetatud!"
 
 #: weblate/trans/models/translation.py:1778 weblate/trans/models/unit.py:721
 #: weblate/utils/forms.py:126
@@ -17017,10 +16980,8 @@ msgstr ""
 
 #: weblate/trans/views/edit.py:778 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:219
-#, fuzzy
-#| msgid "Could not push the repository."
 msgid "Could not process form!"
-msgstr "Ei saa panustada varamusse."
+msgstr "Vormi töötlemine ei õnnestu!"
 
 #: weblate/trans/views/edit.py:808
 #, fuzzy
@@ -17039,11 +17000,8 @@ msgid "Posted new comment"
 msgstr ""
 
 #: weblate/trans/views/edit.py:850
-#, fuzzy
-#| msgid "%(count)s screenshot"
-#| msgid_plural "%(count)s screenshots"
 msgid "Could not add comment!"
-msgstr "%(count)s kuvatõmmis"
+msgstr "Kommentaari ei õnnestu lisada!"
 
 #: weblate/trans/views/edit.py:870
 #, fuzzy
