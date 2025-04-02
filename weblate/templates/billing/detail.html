@@ -143,13 +143,12 @@
                              class="btn btn-primary"
                              name="approve"
                              value="{% trans "Approve as libre" %}" />
-                    {% else %}
-                      {{ hosting_form|crispy }}
-                      <input type="submit"
-                             class="btn btn-primary"
-                             name="request"
-                             value="{% trans "Request approval for Libre hosting" %}" />
                     {% endif %}
+                    {{ hosting_form|crispy }}
+                    <input type="submit"
+                           class="btn btn-primary"
+                           name="request"
+                           value="{% trans "Request approval for Libre hosting" %}" />
                   {% endif %}
                 {% else %}
                   <p>
