@@ -511,6 +511,8 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
         # whitespaces after prohibited characters correctly stripp
         unit = MockUnit(code="cs", source="% foo  ", target="% bar  ")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="% foo  ", target="% % bar  ")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
         # no character cleaned
         unit = MockUnit(code="cs", source="foo=", target="bar=")

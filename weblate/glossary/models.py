@@ -204,8 +204,15 @@ def render_glossary_units_tsv(units) -> str:
         """
         text = text.translate(CONTROLCHARS_TRANS).strip()
         if text and text[0] in PROHIBITED_INITIAL_CHARS:
-            text = text.lstrip("".join(PROHIBITED_INITIAL_CHARS))
-        return text.strip()
+            text = text.lstrip(
+                "".join(
+                    PROHIBITED_INITIAL_CHARS
+                    | set(
+                        " ",
+                    )
+                )
+            )
+        return text
 
     # We can get list or iterator as well
     if hasattr(units, "prefetch_related"):
