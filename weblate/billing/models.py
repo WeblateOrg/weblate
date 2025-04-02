@@ -253,7 +253,9 @@ class Billing(models.Model):
 
     @cached_property
     def projects_display(self):
-        return format_html_join_comma("{}", list_to_tuples(x for x in self.all_projects))
+        return format_html_join_comma(
+            "{}", list_to_tuples(x for x in self.all_projects)
+        )
 
     @property
     def is_trial(self):
