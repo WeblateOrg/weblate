@@ -15,6 +15,8 @@ if TYPE_CHECKING:
 
 class ContributorAgreementManager(models.Manager):
     def has_agreed(self, user: User, component: Component):
+        if user.is_anonymous:
+            return False
         cache_key = (user.pk, component.pk)
         if cache_key not in user.cla_cache:
             user.cla_cache[cache_key] = self.filter(
