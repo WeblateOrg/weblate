@@ -12,7 +12,6 @@ from weblate.trans.util import (
     count_words,
     get_string,
     join_plural,
-    list_to_tuples,
     translation_percent,
 )
 
@@ -148,17 +147,3 @@ class WordCountTestCase(SimpleTestCase):
             ),
             118,
         )
-
-
-class TypeConversionTestCase(SimpleTestCase):
-    def test_list_to_tuples(self) -> None:
-        self.assertEqual(
-            list_to_tuples(["string1", "string2", "string3"]),
-            [("string1",), ("string2",), ("string3",)],
-        )
-
-    def test_empty_list(self) -> None:
-        self.assertEqual(list_to_tuples([]), [])
-
-    def test_single_element_list(self) -> None:
-        self.assertEqual(list_to_tuples(["only_one"]), [("only_one",)])

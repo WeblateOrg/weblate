@@ -199,3 +199,8 @@ def format_html_join_comma(
     return format_html_join(
         pgettext("Joins a list of values", ", "), format_string, args_generator
     )
+
+
+def list_to_tuples(strings: Iterable[str]) -> list[tuple[str]]:
+    """Convert a list of strings into a list of single-element tuples."""
+    return [(s,) for s in strings]

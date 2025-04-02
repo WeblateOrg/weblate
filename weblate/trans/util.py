@@ -395,8 +395,3 @@ def count_words(string: str, language: Language | None = None) -> int:
                 even = not even
         return count
     return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
-
-
-def list_to_tuples(strings: list[str]) -> list[tuple]:
-    """Convert a list of strings into a list of single-element tuples."""
-    return [(s,) for s in strings]
