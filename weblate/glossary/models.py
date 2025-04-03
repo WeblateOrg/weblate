@@ -206,9 +206,7 @@ def render_glossary_units_tsv(units) -> str:
         if text and text[0] in PROHIBITED_INITIAL_CHARS:
             text = text.lstrip(
                 "".join(
-                    PROHIBITED_INITIAL_CHARS
-                    | {" "},
-
+                    PROHIBITED_INITIAL_CHARS | {" "},
                 )
             )
         return text
