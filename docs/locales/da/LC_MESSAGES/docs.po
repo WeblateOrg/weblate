@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-03-24 11:14+0000\n"
+"PO-Revision-Date: 2025-04-01 19:55+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "documentation/da/>\n"
@@ -227,7 +227,7 @@ msgstr "Godkende oversættelser under gennemgang."
 
 #: ../../admin/access.rst:105
 msgid "Available only if :ref:`review workflow <reviews>` is on."
-msgstr ""
+msgstr "Kun tilgængelig, hvis :ref:`review workflow <reviews>` er slået til."
 
 #: ../../admin/access.rst:107
 msgid "For `Protected` and `Private` projects only:"
@@ -2012,16 +2012,12 @@ msgid "``component``"
 msgstr "``component``"
 
 #: ../../admin/addons.rst:158
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Sikrer at et konsistent sæt af sprog anvendes for alle komponenter indenfor "
-"et projekt."
+"Indtast slug for en komponent til brug som kilde, eller lad den være tom for "
+"at bruge alle komponenter i det aktuelle projekt."
 
 #: ../../admin/addons.rst:160
 msgid "``engines``"
@@ -2372,8 +2368,7 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"Filnavn, der bruges til at oprette nye oversættelser. For gettext vælges ."
-"pot-fil."
+"Filnavn brugt til at oprette nye oversættelser. Vælg en .pot-fil for gettext."
 
 #: ../../admin/addons.rst:300
 msgid "``intermediate_template``"
@@ -2807,7 +2802,7 @@ msgstr ":ref:`addon-event-install`, :ref:`addon-event-component-update`"
 
 #: ../../admin/addons.rst:466
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Masserediger flag, etiketter eller strenges tilstand."
+msgstr "Masserediger flag, etiketter eller strengtilstande."
 
 #: ../../admin/addons.rst:468 ../../admin/config.rst:1801
 msgid "**Examples:**"
@@ -2874,9 +2869,9 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Når en ny oversættelig streng importeres fra VCS, og den matcher en "
-"kildestreng, markeres den som en, der skal redigeres i Weblate. Det er især "
-"nyttigt for filformater, der indeholder kildestrenge for uoversatte strenge."
+"Når en ny oversættelig streng importeres fra VCS og matcher en kildestreng, "
+"markeres den som \"Skal redigeres\" i Weblate. Især nyttigt for filformater, "
+"der inkluderer kildestrenge for uoversatte strenge."
 
 #: ../../admin/addons.rst:517
 msgid ""
@@ -2903,9 +2898,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Når en ny kildestreng importeres fra VCS, markeres den som en, der skal "
-"redigeres i Weblate. På den måde kan du nemt filtrere og redigere "
-"kildestrenge, som udviklerne har skrevet."
+"Når en ny kildestreng importeres fra VCS, markeres den som \"Skal redigeres\""
+" i Weblate. På den måde kan du nemt filtrere og redigere kildestrenge "
+"skrevet af udviklerne."
 
 #: ../../admin/addons.rst:544
 msgid "Flag new translations as \"Needs editing\""
@@ -2921,9 +2916,9 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Når en ny oversættelig streng importeres fra VCS, markeres den som en, der "
-"skal redigeres i Weblate. På den måde kan du nemt filtrere og redigere "
-"oversættelser, som udviklerne har lavet."
+"Når en ny oversættelig streng importeres fra VCS, markeres den som "
+"\"Skal redigeres\" i Weblate. På den måde kan du nemt filtrere og redigere "
+"oversættelser oprettet af udviklerne."
 
 #: ../../admin/addons.rst:561
 msgid "Fill read-only strings with source"
@@ -3163,7 +3158,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:699
 msgid "Contributors in comment"
-msgstr "Bidragsydere i kommentar"
+msgstr "Bidragydere i kommentar"
 
 #: ../../admin/addons.rst:701
 msgid "``weblate.gettext.authors``"
@@ -3175,7 +3170,7 @@ msgid ""
 "and years of contributions."
 msgstr ""
 "Opdaterer kommentardelen af PO-filens overskrift for at inkludere "
-"bidragsydernes navne og bidragsår."
+"bidragydernes navne og bidragsår."
 
 #: ../../admin/addons.rst:708
 msgid "The PO file header will look like this:"
@@ -3242,7 +3237,7 @@ msgstr ":ref:`addon-event-storage-post-load`"
 #: ../../admin/addons.rst:748
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
-msgstr "Tillader tilpasning af gettext-outputadfærd, fx linjeombrydning."
+msgstr "Tillader tilpasning af gettext-outputadfærd, f.eks. linjeombrydning."
 
 #: ../../admin/addons.rst:750
 msgid "It offers the following options:"
@@ -3417,7 +3412,7 @@ msgstr "``append_trailers``"
 
 #: ../../admin/addons.rst:839
 msgid "Append trailers to squashed commit message"
-msgstr "Vedhæft trailers til squashed commit-besked"
+msgstr "Vedhæft slutlinjer til squashed commit-besked"
 
 #: ../../admin/addons.rst:839
 msgid ""
@@ -3541,11 +3536,11 @@ msgstr "``tabs`` -- Tabulatorer"
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr ""
-"Tillader justering af JSON-outputadfærd, fx indrykning eller sortering."
+"Tillader justering af JSON-outputadfærd, f.eks. indrykning eller sortering."
 
 #: ../../admin/addons.rst:889
 msgid "Format the Java properties file"
-msgstr "Formatér Java properties-filen"
+msgstr "Formatér Java Properties-filen"
 
 #: ../../admin/addons.rst:891
 msgid "``weblate.properties.sort``"
@@ -3561,7 +3556,7 @@ msgstr "Aktivér sortering mellem store og små bogstaver"
 
 #: ../../admin/addons.rst:897
 msgid "Formats and sorts the Java properties file."
-msgstr "Formaterer og sorterer Java properties-filen."
+msgstr "Formaterer og sorterer Java Properties-filen."
 
 #: ../../admin/addons.rst:899
 msgid "Consolidates newlines to Unix ones."
@@ -3690,7 +3685,7 @@ msgstr "Inkluder lukketag for tomme XML-tags"
 
 #: ../../admin/addons.rst:975
 msgid "Allows adjusting XML output behavior, for example closing tags."
-msgstr "Lader dig justere XML-outputadfærd, fx at lukke tags."
+msgstr "Lader dig justere XML-outputadfærd, f.eks. at lukke tags."
 
 #: ../../admin/addons.rst:980
 msgid "Customize YAML output"
@@ -3747,7 +3742,8 @@ msgstr ""
 #: ../../admin/addons.rst:1008
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
-msgstr "Lader dig justere YAML-outputadfærd, fx linjelængde eller linjeskift."
+msgstr ""
+"Lader dig justere YAML-outputadfærd, f.eks. linjelængde eller linjeskift."
 
 #: ../../admin/addons.rst:1012
 #, fuzzy
@@ -18500,10 +18496,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:72
-#, fuzzy
-#| msgid "Additional message"
 msgid "Additional branch"
-msgstr "Yderligere besked"
+msgstr "Ekstra branch"
 
 #: ../../admin/projects.rst:73
 msgid ""
@@ -18576,6 +18570,12 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
+"Opret et oversættelsesprojekt, og føj derefter en ny komponent til "
+"oversættelse. Projektet fungerer som en hylde, hvor de faktiske "
+"oversættelser opbevares. Alle komponenter i samme projekt deler forslag og "
+"ordbog, og oversættelser udbredes automatisk til alle komponenter i "
+"projektet (medmindre det er deaktiveret i komponentens konfiguration); se "
+":ref:`memory`."
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:289
 msgid ":doc:`/devel/integration`"
@@ -18887,7 +18887,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:362
 msgid "Repository push URL"
-msgstr "Arkiv push URL"
+msgstr "Repository push URL"
 
 #: ../../admin/projects.rst:364
 msgid ""
@@ -18910,7 +18910,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:378
 msgid "Repository browser"
-msgstr "Arkiv browser"
+msgstr "Repository-browser"
 
 #: ../../admin/projects.rst:380
 msgid ""
@@ -18935,7 +18935,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:394
 msgid "Exported repository URL"
-msgstr "Eksporterede arkiv URL"
+msgstr "Eksporterede repository-URL"
 
 #: ../../admin/projects.rst:396
 msgid ""
@@ -18947,7 +18947,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:404
 msgid "Repository branch"
-msgstr "Arkivgren"
+msgstr "Repository branch"
 
 #: ../../admin/projects.rst:406
 msgid ""
@@ -18955,10 +18955,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:413
-#, fuzzy
-#| msgid "Git branch"
 msgid "Push branch"
-msgstr "Git-forgrening"
+msgstr "Push branch"
 
 #: ../../admin/projects.rst:415
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
@@ -19019,10 +19017,8 @@ msgid ":ref:`bimono`, :ref:`faq-duplicate-files`"
 msgstr ""
 
 #: ../../admin/projects.rst:452
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "Skærmbilleddetaljer"
+msgstr "Skærmbillede filmaske"
 
 #: ../../admin/projects.rst:454
 msgid ""
@@ -19098,7 +19094,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:496
 msgid "Edit base file"
-msgstr "Rediger grundfil"
+msgstr "Rediger basisfil"
 
 #: ../../admin/projects.rst:498
 msgid "Whether to allow editing strings in the :ref:`component-template`."
@@ -19442,10 +19438,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:728
-#, fuzzy
-#| msgid "Language codes"
 msgid "Language code style"
-msgstr "Sprogkoder"
+msgstr "Sprogkodestil"
 
 #: ../../admin/projects.rst:730
 msgid ""
@@ -19471,7 +19465,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:740
 msgid "POSIX style using underscore as a separator"
-msgstr ""
+msgstr "POSIX-stil med understregning som separator"
 
 #: ../../admin/projects.rst:741 ../../admin/projects.rst:744
 msgid ""
@@ -19595,7 +19589,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:784
 msgid "Merge style"
-msgstr "Flette-stil"
+msgstr "Flettestil"
 
 #: ../../admin/projects.rst:786
 msgid ""
@@ -19638,7 +19632,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:804
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Flet uden fast-forward"
 
 #: ../../admin/projects.rst:805
 msgid ""
@@ -19671,7 +19665,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:831
 msgid "Push on commit"
-msgstr "Skub under indsendelse"
+msgstr "Push ved commit"
 
 #: ../../admin/projects.rst:833
 msgid ""
@@ -19683,7 +19677,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:842
 msgid "Age of changes to commit"
-msgstr "Alder på ændringer der vil blive sendt"
+msgstr "Alder på ændringer, der skal committes"
 
 #: ../../admin/projects.rst:844
 msgid ""
@@ -19723,7 +19717,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:871
 msgid "Source language"
-msgstr "Kildesproget"
+msgstr "Kildesprog"
 
 #: ../../admin/projects.rst:873
 msgid ""
@@ -19858,10 +19852,8 @@ msgstr ""
 "Dette filter er kun tilgængeligt for komponenter med ensprogede filformater."
 
 #: ../../admin/projects.rst:947
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Variants regular expression"
-msgstr "E-mail regulært udtryk"
+msgstr "Varianter regulært udtryk"
 
 #: ../../admin/projects.rst:949
 msgid ""
@@ -24120,7 +24112,7 @@ msgstr ""
 #: ../../changes.rst:311 ../../changes.rst:362 ../../changes.rst:388
 #: ../../changes.rst:416 ../../changes.rst:472
 msgid "Contributors"
-msgstr "Bidragsydere"
+msgstr "Bidragydere"
 
 #: ../../changes.rst:34
 msgid ""
@@ -38274,6 +38266,11 @@ msgid ""
 "disabled per :ref:`component` using :ref:`component-"
 "allow_translation_propagation` in case the translations should diverge."
 msgstr ""
+"Internt har hvert projekt som standard oversættelser af fælles strenge, der "
+"automatisk udbredes til andre komponenter. Dette reducerer behovet for "
+"gentagne og mangfoldige oversættelser. Udbredelsen kan deaktiveres pr. "
+":ref:`component` med :ref:`component-allow_translation_propagation`, hvis "
+"oversættelserne skal afvige."
 
 #: ../../snippets/basics.rst:24
 msgid "Repository integration"
@@ -38653,7 +38650,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:72
 msgid "Contributor stats"
-msgstr "Bidragsyderstatistik"
+msgstr "Bidragyderstatistik"
 
 #: ../../devel/reporting.rst:74
 msgid ""
@@ -39599,6 +39596,11 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
+"Weblate understøtter push af oversættelsesændringer inden for ét "
+":ref:`project`. For hver :ref:`component`, hvor det er aktiveret (som "
+"standard), udbredes ændringer automatisk til andre. Dette sikrer "
+"synkroniserede oversættelser, selv hvis branchene er markant divergerede, og "
+"oversættelsesændringer ikke kan flettes direkte."
 
 #: ../../faq.rst:164
 msgid ""
@@ -43113,7 +43115,7 @@ msgstr ""
 
 #: ../../user/checks.rst:50
 msgid "Devanagari danda"
-msgstr ""
+msgstr "Devanagari danda"
 
 #: ../../user/checks.rst:52
 msgid "``weblate.trans.autofixes.chars.DevanagariDanda``"
@@ -43696,11 +43698,11 @@ msgstr ""
 
 #: ../../user/checks.rst:441
 msgid "AngularJS interpolation string"
-msgstr "AngularJS interpolation streng"
+msgstr "AngularJS interpolationsstreng"
 
 #: ../../user/checks.rst:443
 msgid "AngularJS interpolation strings do not match source"
-msgstr "AngularJS interpolation strenge matcher ikke kilden"
+msgstr "AngularJS interpolationsstrenge matcher ikke kilden"
 
 #: ../../user/checks.rst:445
 msgid "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
@@ -44500,7 +44502,7 @@ msgstr ""
 
 #: ../../user/checks.rst:942
 msgid "Inconsistent"
-msgstr "Inkonsekvent"
+msgstr "Inkonsistent"
 
 #: ../../user/checks.rst:944
 msgid ""
@@ -45158,7 +45160,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1401
 msgid "Missing non breakable space before double punctuation sign"
-msgstr "Mangler ikke-brydeligt mellemrum før dobbelt tegnsætningstegn"
+msgstr "Manglende ikke-brydende mellemrum før dobbelt tegnsætning"
 
 #: ../../user/checks.rst:1403
 msgid "``weblate.checks.chars.PunctuationSpacingCheck``"
@@ -46760,7 +46762,7 @@ msgstr ":ref:`componentlists`"
 
 #: ../../user/profile.rst:128
 msgid "Editor link"
-msgstr "Link til editor"
+msgstr "Editor-link"
 
 #: ../../user/profile.rst:130
 msgid ""
@@ -48772,7 +48774,7 @@ msgstr ""
 
 #: ../../vcs.rst:276
 msgid "Git with force push"
-msgstr ""
+msgstr "Git med force push"
 
 #: ../../vcs.rst:278
 msgid ""
@@ -49662,7 +49664,7 @@ msgstr ""
 
 #: ../../workflows.rst:66
 msgid "Needs editing"
-msgstr "Kræver redigering"
+msgstr "Skal redigeres"
 
 #: ../../workflows.rst:67
 msgid ""

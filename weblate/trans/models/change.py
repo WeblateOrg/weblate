@@ -474,14 +474,44 @@ class Change(models.Model, UserDisplayMixin):
     class Meta:
         app_label = "trans"
         indexes = [
-            models.Index(fields=["timestamp", "action"]),
-            models.Index(fields=["project", "action", "timestamp"]),
-            models.Index(fields=["language", "action", "timestamp"]),
-            models.Index(fields=["project", "language", "action", "timestamp"]),
-            models.Index(fields=["component", "action", "timestamp"]),
-            models.Index(fields=["translation", "action", "timestamp"]),
-            models.Index(fields=["unit", "action", "timestamp"]),
-            models.Index(fields=["user", "action", "timestamp"]),
+            models.Index(
+                fields=["-timestamp", "action"],
+                name="trans_change_action_idx",
+            ),
+            models.Index(
+                fields=["project", "-timestamp", "action"],
+                condition=Q(project__isnull=False),
+                name="trans_change_project_idx",
+            ),
+            models.Index(
+                fields=["language", "-timestamp", "action"],
+                condition=Q(language__isnull=False),
+                name="trans_change_language_idx",
+            ),
+            models.Index(
+                fields=["project", "language", "-timestamp", "action"],
+                condition=Q(project__isnull=False) & Q(language__isnull=False),
+                name="trans_change_prj_language_idx",
+            ),
+            models.Index(
+                fields=["component", "-timestamp", "action"],
+                condition=Q(component__isnull=False),
+                name="trans_change_component_idx",
+            ),
+            models.Index(
+                fields=["translation", "-timestamp", "action"],
+                condition=Q(translation__isnull=False),
+                name="trans_change_translation_idx",
+            ),
+            models.Index(
+                fields=["unit", "-timestamp", "action"],
+                condition=Q(unit__isnull=False),
+                name="trans_change_unit_idx",
+            ),
+            models.Index(
+                fields=["user", "-timestamp", "action"],
+                name="trans_change_user_idx",
+            ),
         ]
         verbose_name = "history event"
         verbose_name_plural = "history events"

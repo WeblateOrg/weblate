@@ -1119,7 +1119,7 @@ class ProjectLanguage(BaseURLMixin):
         all_langs = self.language.translation_set.prefetch()
         result = all_langs.filter(component__project=self.project)
         if self.project.has_shared_components:
-            result = result.union(all_langs.filter(component__links=self.project))
+            result |= all_langs.filter(component__links=self.project)
         for item in result:
             item.is_shared = (
                 None

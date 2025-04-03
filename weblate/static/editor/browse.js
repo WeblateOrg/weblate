@@ -4,20 +4,20 @@
 
 (() => {
   function ProjectStringsBrowser() {
-    Mousetrap.bindGlobal("right", (e) => {
+    Mousetrap.bindGlobal("right", (_e) => {
       const nextButton = $("#button-next");
       const nextLocation = nextButton.attr("href");
-      if (nextButton.length && !nextButton.hasClass("disabled")) {
+      if (nextButton.length > 0 && !nextButton.hasClass("disabled")) {
         if (nextLocation !== undefined) {
           window.location.href = nextLocation;
         }
       }
       return false;
     });
-    Mousetrap.bindGlobal("left", (e) => {
+    Mousetrap.bindGlobal("left", (_e) => {
       const prevButton = $("#button-prev");
       const prevLocation = prevButton.attr("href");
-      if (prevButton.length && !prevButton.hasClass("disabled")) {
+      if (prevButton.length > 0 && !prevButton.hasClass("disabled")) {
         if (prevLocation !== undefined) {
           window.location.href = prevLocation;
         }

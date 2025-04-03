@@ -9,7 +9,7 @@ $(document).ready(() => {
   const $screenshotFileInput = $("#screenshot-form-container input#id_image");
 
   // Check if the browser supports the Clipboard API
-  if (!navigator.clipboard || !navigator.clipboard.read) {
+  if (!navigator.clipboard?.read) {
     $pasteScreenshotBtn.remove();
   }
 
@@ -52,9 +52,8 @@ $(document).ready(() => {
       if (!imageFound) {
         showInfo("warning", gettext("No image found in clipboard"));
       }
-    } catch (err) {
+    } catch (_err) {
       showInfo("danger", gettext("Something went wrong!"));
-      console.error("Failed to read clipboard contents: ", err);
     }
   });
 });

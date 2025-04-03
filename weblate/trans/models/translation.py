@@ -1531,7 +1531,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             author=user,
         )
         if not self.component.is_glossary:
-            cleanup_stale_glossaries.delay(self.component.project.id)
+            cleanup_stale_glossaries.delay_on_commit(self.component.project.id)
 
     def handle_store_change(
         self,

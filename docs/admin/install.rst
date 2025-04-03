@@ -1731,7 +1731,7 @@ and profiles for defined percentage of operations. This can be configured using
 
 .. seealso::
 
-   `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_,
+   `Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/performance-monitoring/>`_,
    `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
 
 .. _rollbar-errors:
