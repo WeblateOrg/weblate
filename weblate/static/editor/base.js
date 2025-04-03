@@ -33,10 +33,11 @@ WLT.Utils = (() => ({
    * @returns {void}
    */
   indicateChanges: () => {
-    const $warning = $("<span class='text-warning m-1'/>");
+    const $warning = $("<span class='text-warning'/>");
     $warning.text(gettext("Unsaved changes!"));
     if ($(".translation-editor").next(".text-warning").length === 0) {
       $warning.insertAfter($(".translation-editor"));
+      $(".translation-editor").addClass("has-changes");
     }
   },
 }))();
