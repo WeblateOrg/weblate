@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, overload
 import sentry_sdk
 from appconf import AppConf
 from django.db import Error as DjangoDatabaseError
-from django.db import models, transaction
+from django.db import connection, models, transaction
 from django.db.models import Q, QuerySet
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -553,7 +553,16 @@ def change_post_save_handler(sender, instance: Change, created, **kwargs) -> Non
     """Handle Change post save signal."""
     from weblate.addons.tasks import addon_change
 
-    if created:  # ignore Change updates, they should not be updated anyway
+    ignore_list = []
+    if not connection.features.can_return_rows_from_bulk_insert:
+        # when condition is falsy, ActionEvents.PROPAGATED_EDIT changes
+        # are inidividually created in the ChangeQuerySet.bulk_create handler,
+        # and generate an unwanted post_save signal
+        ignore_list.append(ActionEvents.PROPAGATED_EDIT)
+
+    if (
+        created and instance.action not in ignore_list
+    ):  # ignore Change updates, they should not be updated anyway
         addon_change(sender, [instance.pk], **kwargs)
 
 
