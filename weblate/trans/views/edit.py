@@ -351,7 +351,7 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
     )
     # Make sure explanation is saved
     if change_explanation:
-        unit.update_explanation(form.cleaned_data["explanation"], user)
+        saved |= unit.update_explanation(form.cleaned_data["explanation"], user)
 
     # Warn about applied fixups
     if unit.fixups:
