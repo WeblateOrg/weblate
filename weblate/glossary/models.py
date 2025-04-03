@@ -207,9 +207,8 @@ def render_glossary_units_tsv(units) -> str:
             text = text.lstrip(
                 "".join(
                     PROHIBITED_INITIAL_CHARS
-                    | set(
-                        " ",
-                    )
+                    | {" "},
+
                 )
             )
         return text
