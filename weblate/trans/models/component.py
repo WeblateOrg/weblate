@@ -961,7 +961,7 @@ class Component(
                 create=create,
             )
         else:
-            task = component_after_save.delay(
+            component_after_save.delay_on_commit(
                 self.pk,
                 changed_git=changed_git,
                 changed_setup=changed_setup,
@@ -971,7 +971,6 @@ class Component(
                 skip_push=kwargs.get("force_insert", False),
                 create=create,
             )
-            self.store_background_task(task)
 
         if self.old_component_settings["check_flags"] != self.check_flags:
             transaction.on_commit(
@@ -1740,10 +1739,7 @@ class Component(
 
         if result:
             # create translation objects for all files
-            try:
-                self.create_translations(request=request, run_async=True)
-            except FileParseError:
-                result = False
+            self.create_translations(request=request, run_async=True)
 
             # Push after possible merge
             self.push_if_needed(do_update=False)
@@ -1941,10 +1937,7 @@ class Component(
             self.trigger_post_update(previous_head, False)
 
             # create translation objects for all files
-            try:
-                self.create_translations(request=request, force=True, run_async=True)
-            except FileParseError:
-                return False
+            self.create_translations(request=request, force=True, run_async=True)
             return True
 
     @perform_on_link
@@ -1985,10 +1978,8 @@ class Component(
     @transaction.atomic
     def do_file_scan(self, request=None):
         self.commit_pending("file-scan", request.user if request else None)
-        try:
-            return self.create_translations(request=request, force=True, run_async=True)
-        except FileParseError:
-            return False
+        self.create_translations(request=request, force=True, run_async=True)
+        return True
 
     def get_repo_link_url(self):
         return "weblate://{}".format("/".join(self.get_url_path()))
@@ -2445,18 +2436,14 @@ class Component(
         from weblate.trans.tasks import perform_load
 
         self.log_info("scheduling update in background")
-        # We skip request here as it is not serializable
-        task = perform_load.apply_async(
-            args=(self.pk,),
-            kwargs={
-                "force": force,
-                "langs": langs,
-                "changed_template": changed_template,
-                "from_link": from_link,
-                "change": change,
-            },
+        perform_load.delay_on_commit(
+            pk=self.pk,
+            force=force,
+            langs=langs,
+            changed_template=changed_template,
+            from_link=from_link,
+            change=change,
         )
-        self.store_background_task(task)
         return False
 
     def create_translations_task(
@@ -3714,10 +3701,9 @@ class Component(
                 )
 
         # Trigger parsing of the newly added file
-        if create_translations and not self.create_translations(
-            request=request, run_async=True
-        ):
-            messages.warning(
+        if create_translations:
+            self.create_translations(request=request, run_async=True)
+            messages.info(
                 request,
                 gettext("The translation will be updated in the background."),
                 fail_silently=True,
@@ -3822,10 +3808,10 @@ class Component(
         from weblate.glossary.tasks import sync_glossary_languages, sync_terminology
 
         if self.is_glossary:
-            sync_terminology.delay(self.pk)
+            sync_terminology.delay_on_commit(self.pk)
         else:
             for glossary in self.project.glossaries:
-                sync_glossary_languages.delay(glossary.pk)
+                sync_glossary_languages.delay_on_commit(glossary.pk)
 
     def get_unused_enforcements(self) -> Iterable[dict | BaseCheck]:
         from weblate.trans.models import Unit

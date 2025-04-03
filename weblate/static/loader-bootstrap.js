@@ -571,7 +571,7 @@ $(function () {
       if ($content.find(".panel-body").length > 0) {
         $content = $content.find(".panel-body");
       }
-      $content.load($target.data("href"), (responseText, status, xhr) => {
+      $content.load($target.data("href"), (_responseText, status, xhr) => {
         if (status !== "success") {
           const msg = gettext("Error while loading page:");
           $content.html(
@@ -580,7 +580,6 @@ $(function () {
               </div>
             `,
           );
-          console.error(xhr.statusText, xhr.status, responseText);
         }
         $target.data("loaded", 1);
         loadTableSorting();

@@ -135,11 +135,9 @@ def get_other_units(unit):
 
         units = base.filter(query)
         if unit.target:
-            units = units.union(
-                base.filter(
-                    Q(target__lower__md5=MD5(Lower(Value(unit.target))))
-                    & Q(state__gte=STATE_TRANSLATED)
-                )
+            units |= base.filter(
+                Q(target__lower__md5=MD5(Lower(Value(unit.target))))
+                & Q(state__gte=STATE_TRANSLATED)
             )
 
         # Use memory_db for the query in case it exists. This is supposed

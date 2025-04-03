@@ -159,6 +159,9 @@ from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
+AUTHID_SALT = "weblate.authid"
+AUTHID_MAX_AGE = 600
+
 CONTACT_TEMPLATE = """
 Message from %(name)s <%(email)s>:
 
@@ -1329,15 +1332,17 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
     except MissingBackend:
         msg = "Backend not found"
         raise Http404(msg) from None
-    # Store session ID for OpenID based auth. The session cookies will not be sent
-    # on returning POST request due to SameSite cookie policy
-    if isinstance(request.backend, OpenIdAuth):
+
+    # Store session ID for OpenID or SAML based auth. The session cookies will
+    # not be sent on returning POST request due to SameSite cookie policy
+    if isinstance(request.backend, OpenIdAuth) or backend == "saml":
         request.backend.redirect_uri += "?authid={}".format(
             dumps(
                 (request.session.session_key, get_ip_address(request)),
-                salt="weblate.authid",
+                salt=AUTHID_SALT,
             )
         )
+
     try:
         return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
     except AuthException as error:
@@ -1394,7 +1399,7 @@ def handle_missing_parameter(
         return auth_fail(request, " ".join(messages))
     if error.parameter in {"email", "user", "expires"}:
         return auth_redirect_token(request)
-    if error.parameter in {"state", "code"}:
+    if error.parameter in {"state", "code", "RelayState"}:
         return auth_redirect_state(request)
     if error.parameter == "disabled":
         return auth_fail(request, gettext("New registrations are turned off."))
@@ -1417,7 +1422,9 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
     if "authid" in request.GET:
         try:
             session_key, ip_address = loads(
-                request.GET["authid"], max_age=600, salt="weblate.authid"
+                request.GET["authid"],
+                max_age=AUTHID_MAX_AGE,
+                salt=AUTHID_SALT,
             )
         except (BadSignature, SignatureExpired):
             return auth_redirect_token(request)
