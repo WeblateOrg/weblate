@@ -1787,8 +1787,10 @@ class WebhookAddonsTest(ViewTestCase):
 
         # valid request with multiple signatures (space separated)
         new_headers = wh_headers.copy()
-        new_headers["webhook-signature"] += (
-            " v2,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc="
+        new_headers["webhook-signature"] = (
+            "v1,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc= "
+            "v2,Gur4pLd03kjn8RYtBm5eJ1aZx/CbVfSdTq/2gNhA8= "
+            + new_headers["webhook-signature"]
         )
         wh_utils.verify(wh_request.body, new_headers)
 

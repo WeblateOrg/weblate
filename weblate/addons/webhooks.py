@@ -120,6 +120,7 @@ class StandardWebhooksUtils:
 
     _SECRET_PREFIX: str = "whsec_"  # noqa: S105
     _whsecret: bytes
+    SIG_VERSION: str = "v1"
 
     def __init__(self, whsecret: str | bytes):
         if isinstance(whsecret, str):
@@ -158,7 +159,7 @@ class StandardWebhooksUtils:
         passed_sigs = msg_signature.split(" ")
         for versioned_sig in passed_sigs:
             (version, signature) = versioned_sig.split(",")
-            if version != "v1":
+            if version != self.SIG_VERSION:
                 continue
             sig_bytes = base64.b64decode(signature)
             if hmac.compare_digest(expected_sig, sig_bytes):
@@ -171,7 +172,7 @@ class StandardWebhooksUtils:
         timestamp_str = str(floor(timestamp.replace(tzinfo=UTC).timestamp()))
         to_sign = f"{msg_id}.{timestamp_str}.{data}".encode()
         signature = hmac_data(self._whsecret, to_sign)
-        return f"v1,{base64.b64encode(signature).decode('utf-8')}"
+        return f"{self.SIG_VERSION},{base64.b64encode(signature).decode('utf-8')}"
 
     def __verify_timestamp(self, timestamp_header: str) -> datetime:
         """Verify if timestamp from header is valid."""
