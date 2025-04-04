@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-04-01 19:55+0000\n"
+"PO-Revision-Date: 2025-04-03 16:00+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -2823,7 +2823,8 @@ msgstr "Kan ikke udføre denne handling uden en e-mailadresse."
 msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
-msgstr "Dette projekt kræver tofaktorgodkendelse; konfigurer det i din profil."
+msgstr ""
+"Dette projekt kræver to-faktor-godkendelse; konfigurer det i din profil."
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:192
 #: weblate/templates/translate.html:257
@@ -2912,7 +2913,7 @@ msgstr "Tilføjelse af strenge er deaktiveret i komponentkonfigurationen."
 #: weblate/auth/permissions.py:328
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
-msgstr "Kan ikke fjerne terminologioversættelsen. Fjern kildeteksten i stedet."
+msgstr "Kan ikke fjerne terminologioversættelsen. Fjern kildestrengen i stedet."
 
 #: weblate/auth/permissions.py:340 weblate/auth/permissions.py:357
 msgid "The file format does not support this."
@@ -2947,7 +2948,7 @@ msgstr "Ejere"
 
 #: weblate/billing/forms.py:13
 msgid "Additional message"
-msgstr "Yderligere besked"
+msgstr "Ekstra besked"
 
 #: weblate/billing/forms.py:18
 msgid ""
@@ -3010,7 +3011,7 @@ msgstr "Antal ændringer"
 
 #: weblate/billing/models.py:300 weblate/wladmin/models.py:215
 msgid "Hosted strings"
-msgstr "Hosted strenge"
+msgstr "Hostet strenge"
 
 #: weblate/billing/models.py:312 weblate/trans/admin.py:95
 msgid "Source words"
@@ -3288,7 +3289,7 @@ msgstr[1] "Andre kildestrenge: %s"
 #: weblate/checks/consistency.py:211
 #, python-format
 msgid "“%s”"
-msgstr "“%s”"
+msgstr "\"%s\""
 
 #: weblate/checks/consistency.py:285
 msgid "Has been translated"
@@ -3371,7 +3372,7 @@ msgstr "Ignorer alle tjek"
 
 #: weblate/checks/flags.py:56
 msgid "Use case insensitive placeholders"
-msgstr "Brug store/småbogstavs-ufølsomme pladsholdere"
+msgstr "Brug pladsholdere uden versalfølsomhed"
 
 #: weblate/checks/flags.py:58 weblate/fonts/models.py:24
 #: weblate/templates/fonts/font_detail.html:29
@@ -3414,7 +3415,7 @@ msgstr "Strengvariant"
 
 #: weblate/checks/flags.py:80
 msgid "Fluent type"
-msgstr "Flydende type"
+msgstr "Fluent-type"
 
 #: weblate/checks/flags.py:299
 #, python-format
@@ -3442,7 +3443,7 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
-"Flydende reference i {sequence} kan udvides til et HTML-tag. Brug eventuelt "
+"Fluent-referencen i {sequence} kan udvides til et HTML-tag. Brug eventuelt "
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:143
@@ -3451,7 +3452,7 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
-"Flydende reference i {sequence} kan udvides til en HTML-tegnreference. Brug "
+"Fluent-referencen i {sequence} kan udvides til en HTML-tegnreference. Brug "
 "eventuelt {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:171
@@ -3461,8 +3462,7 @@ msgid ""
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
 "Sekvensen {sequence} begynder med et HTML-lukketag, men navnet eller "
-"syntaksen er ikke gyldig. Hvis du ikke ønsker et lukketag, så brug "
-"{suggestion}."
+"syntaksen er ugyldig. Hvis du ikke ønsker et lukketag, så brug {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3470,8 +3470,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
-"Sekvensen {sequence} begynder med et HTML-tag, men navnet er ikke gyldigt. "
-"Hvis du ikke vil begynde med et HTML-tag, så brug {suggestion}."
+"Sekvensen {sequence} begynder med et HTML-tag, men navnet er ugyldigt. Hvis "
+"du ikke vil begynde med et HTML-tag, så brug {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -3487,8 +3487,7 @@ msgstr ""
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
-"Flydende indre HTML bør ikke indeholde {sequence}. Brug eventuelt "
-"{suggestion}."
+"Fluent indre HTML bør ikke indeholde {sequence}. Brug eventuelt {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3561,16 +3560,16 @@ msgstr "Sekvensen {sequence} er ikke en gyldig HTML-tegnreference."
 
 #: weblate/checks/fluent/inner_html.py:943
 msgid "Fluent source inner HTML"
-msgstr "Flydende kilde i indre HTML"
+msgstr "Fluent-kilde i indre HTML"
 
 #: weblate/checks/fluent/inner_html.py:944
 msgid "Fluent source should be valid inner HTML"
-msgstr "Flydende kilde skal være gyldig indre HTML"
+msgstr "Fluent-kilde skal være gyldig indre HTML"
 
 #: weblate/checks/fluent/inner_html.py:1015
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr "Flydende værdi mangler et HTML {tag}-tag."
+msgstr "Fluent-værdi mangler et HTML {tag}-tag."
 
 #: weblate/checks/fluent/inner_html.py:1020
 #, python-brace-format
@@ -3578,13 +3577,13 @@ msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
-"Flydende værdi mangler et HTML {tag}-tag for følgende varianter: "
+"Fluent-værdi mangler et HTML {tag}-tag for følgende varianter: "
 "{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1034
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr "Flydende værdi har et uventet ekstra HTML {tag}-tag."
+msgstr "Fluent-værdi har et uventet ekstra HTML {tag}-tag."
 
 #: weblate/checks/fluent/inner_html.py:1039
 #, python-brace-format
@@ -3592,7 +3591,7 @@ msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
-"Flydende værdi har et uventet ekstra HTML {tag}-tag for følgende varianter: "
+"Fluent-værdi har et uventet ekstra HTML {tag}-tag for følgende varianter: "
 "{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1116
@@ -3602,17 +3601,16 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
-"Følgende varianter i den oprindelige flydende værdi har ikke mindst én "
-"matchende variant i oversættelsen med det samme sæt HTML-elementer: "
-"{variant_list}."
+"Følgende varianter i den originale Fluent-værdi har ikke mindst én matchende "
+"variant i oversættelsen med det samme sæt HTML-elementer: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1131
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
 msgstr ""
-"Den oversatte flydende værdi har ikke en tilsvarende variant i originalen "
-"med det samme sæt HTML-elementer."
+"Den oversatte Fluent-værdi har ikke en tilsvarende variant i originalen med "
+"det samme sæt HTML-elementer."
 
 #: weblate/checks/fluent/inner_html.py:1138
 #, python-brace-format
@@ -3620,48 +3618,47 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
-"Følgende varianter i den oversatte flydende værdi har ikke en matchende "
+"Følgende varianter i den oversatte Fluent-værdi har ikke en matchende "
 "variant i originalen med det samme sæt HTML-elementer: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1219
 msgid "Fluent translation inner HTML"
-msgstr "Flydende oversættelse af indre HTML"
+msgstr "Fluent-oversættelse af indre HTML"
 
 #: weblate/checks/fluent/inner_html.py:1220
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr "Flydende mål skal være gyldig indre HTML, der matcher"
+msgstr "Fluent-mål skal være gyldig indre HTML, der matcher"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
-msgstr "Flydende værdi er tom."
+msgstr "Fluent-værdi er tom."
 
 #: weblate/checks/fluent/parts.py:65
 msgid "Fluent value should be empty."
-msgstr "Flydende værdi skal være tom."
+msgstr "Fluent-værdi skal være tom."
 
 #: weblate/checks/fluent/parts.py:71
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr "Manglende Flydende egenskab: {hint}"
+msgstr "Manglende Fluent-egenskab: {hint}"
 
 #: weblate/checks/fluent/parts.py:80
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr "Uventet Flydende egenskab: {hint}"
+msgstr "Uventet Fluent-egenskab: {hint}"
 
 #: weblate/checks/fluent/parts.py:112
 msgid "Fluent parts"
-msgstr "Flydende dele"
+msgstr "Fluent-dele"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
-msgstr "Flydende dele skal matche"
+msgstr "Fluent-dele skal matche"
 
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
 msgid "Fluent {attribute} attribute is missing a {reference} Fluent reference."
-msgstr ""
-"Flydende {attribute} egenskab mangler en {reference} Flydende reference."
+msgstr "Fluent-egenskaben {attribute} mangler en {reference} Fluent-reference."
 
 #: weblate/checks/fluent/references.py:381
 #, python-brace-format
@@ -3669,13 +3666,13 @@ msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
 msgstr ""
-"Flydende {attribute} egenskab mangler en {reference} Flydende reference for "
+"Fluent-egenskaben {attribute} mangler en {reference} Fluent-reference for "
 "følgende varianter: {variant_list}."
 
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr "Flydende værdi mangler en {reference} Flydende reference."
+msgstr "Fluent-værdi mangler en {reference} Fluent-reference."
 
 #: weblate/checks/fluent/references.py:395
 #, python-brace-format
@@ -3683,8 +3680,8 @@ msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
 msgstr ""
-"Flydende værdi mangler en {reference} Flydende reference for følgende "
-"varianter: {variant_list}."
+"Fluent-værdi mangler en {reference} Fluent-reference for følgende varianter: "
+"{variant_list}."
 
 #: weblate/checks/fluent/references.py:411
 #, python-brace-format
@@ -3692,7 +3689,7 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
 msgstr ""
-"Flydende {attribute} egenskab har en uventet ekstra {reference} Flydende "
+"Fluent-egenskaben {attribute} har en uventet ekstra {reference} Fluent-"
 "reference."
 
 #: weblate/checks/fluent/references.py:419
@@ -3701,13 +3698,13 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
-"Flydende {attribute} egenskab har en uventet ekstra {reference} Flydende "
+"Fluent-egenskaben {attribute} har en uventet ekstra {reference} Fluent-"
 "reference for følgende varianter: {variant_list}."
 
 #: weblate/checks/fluent/references.py:429
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
-msgstr "Flydende værdi har en uventet ekstra {reference} Flydende reference."
+msgstr "Fluent-værdi har en uventet ekstra {reference} Fluent-reference."
 
 #: weblate/checks/fluent/references.py:435
 #, python-brace-format
@@ -3715,8 +3712,8 @@ msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
 msgstr ""
-"Flydende værdi har en uventet ekstra {reference} Flydende reference for "
-"følgende varianter: {variant_list}."
+"Fluent-værdi har en uventet ekstra {reference} Fluent-reference for følgende "
+"varianter: {variant_list}."
 
 #: weblate/checks/fluent/references.py:524
 #, python-brace-format
@@ -3725,8 +3722,8 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
-"Følgende varianter i den oprindelige Flydende {attribute} egenskab har ikke "
-"mindst én matchende variant i oversættelsen med det samme sæt Flydende "
+"Følgende varianter i den originale Fluent-egenskab {attribute} har ikke "
+"mindst én matchende variant i oversættelsen med det samme sæt Fluent-"
 "referencer: {variant_list}."
 
 #: weblate/checks/fluent/references.py:534
@@ -3736,9 +3733,8 @@ msgid ""
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
-"Følgende varianter i den originale Flydende værdi har ikke mindst én "
-"matchende variant i oversættelsen med det samme sæt Flydende referencer: "
-"{variant_list}."
+"Følgende varianter i den originale Fluent-værdi har ikke mindst én matchende "
+"variant i oversættelsen med det samme sæt Fluent-referencer: {variant_list}."
 
 #: weblate/checks/fluent/references.py:550
 #, python-brace-format
@@ -3746,8 +3742,8 @@ msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
 msgstr ""
-"Den oversatte Flydende {attribute} egenskab har ikke en matchende variant i "
-"originalen med det samme sæt Flydende referencer."
+"Den oversatte Fluent-egenskab {attribute} har ikke en matchende variant i "
+"originalen med det samme sæt Fluent-referencer."
 
 #: weblate/checks/fluent/references.py:558
 #, python-brace-format
@@ -3756,8 +3752,8 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
-"Følgende varianter i den oversatte Flydende {attribute} egenskab har ikke en "
-"matchende variant i originalen med det samme sæt Flydende referencer: "
+"Følgende varianter i den oversatte Fluent-egenskab {attribute} har ikke en "
+"matchende variant i originalen med det samme sæt Fluent-referencer: "
 "{variant_list}."
 
 #: weblate/checks/fluent/references.py:569
@@ -3765,8 +3761,8 @@ msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
 msgstr ""
-"Den oversatte Flydende værdi har ikke en matchende variant i originalen med "
-"det samme sæt Flydende referencer."
+"Den oversatte Fluent-værdi har ikke en matchende variant i originalen med "
+"det samme sæt Fluent-referencer."
 
 #: weblate/checks/fluent/references.py:576
 #, python-brace-format
@@ -3775,25 +3771,25 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
-"Følgende varianter i den oversatte Flydende værdi har ikke en matchende "
-"variant i originalen med det samme sæt Flydende referencer: {variant_list}."
+"Følgende varianter i den oversatte Fluent-værdi har ikke en matchende "
+"variant i originalen med det samme sæt Fluent-referencer: {variant_list}."
 
 #: weblate/checks/fluent/references.py:670
 msgid "Fluent references"
-msgstr "Flydende referencer"
+msgstr "Fluent-referencer"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
-msgstr "Flydende referencer skal matche"
+msgstr "Fluent-referencer skal matche"
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr "Flydende syntaksfejl: {error}."
+msgstr "Fluent-syntaksfejl: {error}."
 
 #: weblate/checks/fluent/syntax.py:46
 msgid "Fluent source syntax"
-msgstr "Flydende kildesyntaks"
+msgstr "Fluent-kildesyntaks"
 
 #: weblate/checks/fluent/syntax.py:47
 msgid "Fluent syntax error in the source"
@@ -3801,7 +3797,7 @@ msgstr "Fluent-syntaksfejl i kilden"
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
-msgstr "Flydende oversættelsessyntaks"
+msgstr "Fluent-oversættelsessyntaks"
 
 #: weblate/checks/fluent/syntax.py:64
 msgid "Fluent syntax error in the translation"
@@ -3942,11 +3938,11 @@ msgstr "ECMAScript-skabelonliteraler matcher ikke kilden"
 
 #: weblate/checks/format.py:791
 msgid "Percent placeholders"
-msgstr "Procent pladsholdere"
+msgstr "Procentpladsholdere"
 
 #: weblate/checks/format.py:792
 msgid "The percent placeholders do not match source"
-msgstr "Procent pladsholderne matcher ikke kilden"
+msgstr "Procentpladsholderne matcher ikke kilden"
 
 #: weblate/checks/format.py:799
 msgid "Vue I18n formatting"
@@ -4384,7 +4380,7 @@ msgstr "RC-fil"
 
 #: weblate/formats/convert.py:540
 msgid "Plain text file"
-msgstr "Plain text-fil"
+msgstr "Ren tekstfil"
 
 #: weblate/formats/convert.py:577
 msgid "DokuWiki text file"
@@ -4641,7 +4637,7 @@ msgstr "Stringsdict-fil"
 
 #: weblate/formats/ttkit.py:2169
 msgid "Fluent file"
-msgstr "Flydende fil"
+msgstr "Fluent-fil"
 
 #: weblate/formats/txt.py:90
 msgid "Should be a directory with metadata files!"
@@ -5359,7 +5355,7 @@ msgid ""
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
 "Beskriv oversætterens persona for at forbedre nøjagtigheden af "
-"oversættelsen. For eksempel: “Du er en egernopdrætter.”"
+"oversættelsen. For eksempel: \"Du er en egernopdrætter.\""
 
 #: weblate/machinery/forms.py:343
 msgctxt "Automatic suggestion service configuration"
@@ -5369,7 +5365,7 @@ msgstr "Oversætterens stil"
 #: weblate/machinery/forms.py:347
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr "Beskriv oversættelsens stil. For eksempel: “Brug uformelt sprog.”"
+msgstr "Beskriv oversættelsens stil. For eksempel: \"Brug uformelt sprog.\""
 
 #: weblate/machinery/forms.py:356
 msgctxt "OpenAI model selection"
