@@ -34,7 +34,7 @@ from weblate.checks.qt import QtFormatCheck, QtPluralCheck
 from weblate.checks.ruby import RubyFormatCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 from weblate.lang.models import Language
-from weblate.trans.models import Component, Translation, Unit
+from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.util import join_plural
 
@@ -162,6 +162,7 @@ class PythonFormatCheckTest(CheckTestCase):
                 component=Component(
                     file_format="po",
                     source_language=Language(code="en"),
+                    project=Project(),
                 )
             ),
         )
@@ -186,6 +187,7 @@ class PythonFormatCheckTest(CheckTestCase):
                 component=Component(
                     file_format="po",
                     source_language=Language(code="en"),
+                    project=Project(),
                 )
             ),
         )
@@ -529,6 +531,7 @@ class PerlBraceFormatCheckTest(CheckTestCase):
                 component=Component(
                     file_format="po",
                     source_language=Language(code="en"),
+                    project=Project(),
                 )
             ),
         )
@@ -634,6 +637,7 @@ class PythonBraceFormatCheckTest(CheckTestCase):
                 component=Component(
                     file_format="po",
                     source_language=Language("en"),
+                    project=Project(),
                 )
             ),
         )
@@ -656,6 +660,7 @@ class PythonBraceFormatCheckTest(CheckTestCase):
                 component=Component(
                     file_format="po",
                     source_language=Language("en"),
+                    project=Project(),
                 )
             ),
         )
@@ -938,6 +943,7 @@ class JavaMessageFormatCheckTest(CheckTestCase):
                 component=Component(
                     file_format="po",
                     source_language=Language("en"),
+                    project=Project(),
                 ),
                 language=Language("cs"),
             ),
@@ -1177,6 +1183,7 @@ class PluralTest(FixtureTestCase):
             component=Component(
                 file_format="po",
                 source_language=Language("en"),
+                project=Project(),
             ),
         )
         # Singular, correct format string
@@ -1208,6 +1215,7 @@ class PluralTest(FixtureTestCase):
             component=Component(
                 file_format="po",
                 source_language=Language("en"),
+                project=Project(),
             ),
         )
         self.assertTrue(
@@ -1232,6 +1240,7 @@ class PluralTest(FixtureTestCase):
             component=Component(
                 file_format="po",
                 source_language=Language("en"),
+                project=Project(),
             ),
         )
         self.assertFalse(
@@ -1247,6 +1256,7 @@ class PluralTest(FixtureTestCase):
             component=Component(
                 file_format="aresource",
                 source_language=Language("en"),
+                project=Project(),
             ),
         )
         self.assertTrue(
@@ -1265,6 +1275,7 @@ class PluralTest(FixtureTestCase):
             component=Component(
                 file_format="po",
                 source_language=Language("en"),
+                project=Project(),
             ),
         )
         self.assertFalse(
@@ -1297,6 +1308,7 @@ class PluralTest(FixtureTestCase):
             component=Component(
                 file_format="po",
                 source_language=Language("en"),
+                project=Project(),
             ),
         )
         self.assertFalse(
@@ -1329,6 +1341,7 @@ class PluralTest(FixtureTestCase):
             component=Component(
                 file_format="po",
                 source_language=Language("en"),
+                project=Project(),
             ),
         )
         self.assertTrue(
@@ -1347,6 +1360,7 @@ class PluralTest(FixtureTestCase):
             component=Component(
                 file_format="po",
                 source_language=Language("en"),
+                project=Project(),
             ),
         )
         self.assertFalse(
@@ -1365,6 +1379,7 @@ class PluralTest(FixtureTestCase):
             component=Component(
                 file_format="po",
                 source_language=Language("en"),
+                project=Project(),
             ),
         )
         self.assertFalse(
@@ -1489,6 +1504,7 @@ class ESTemplateLiteralsCheckTest(CheckTestCase):
                 component=Component(
                     file_format="po",
                     source_language=Language("en"),
+                    project=Project(),
                 )
             ),
         )

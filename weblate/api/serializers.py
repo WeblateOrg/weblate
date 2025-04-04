@@ -422,6 +422,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "web",
             "web_url",
             "url",
+            "check_flags",
             "components_list_url",
             "repository_url",
             "statistics_url",

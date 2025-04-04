@@ -29,6 +29,7 @@ from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
+from weblate.trans.validators import validate_check_flags
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
@@ -264,6 +265,15 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         null=True,
         related_name="project_secondary_languages",
         on_delete=models.deletion.CASCADE,
+    )
+    check_flags = models.TextField(
+        verbose_name=gettext_lazy("Translation flags"),
+        default="",
+        help_text=gettext_lazy(
+            "Additional comma-separated flags to influence Weblate behavior."
+        ),
+        validators=[validate_check_flags],
+        blank=True,
     )
 
     machinery_settings = models.JSONField(default=dict, blank=True)

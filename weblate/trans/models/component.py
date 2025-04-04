@@ -3550,7 +3550,7 @@ class Component(
     @cached_property
     def all_flags(self):
         """Return parsed list of flags."""
-        return Flags(self.file_format_flags, self.check_flags)
+        return Flags(self.project.check_flags, self.file_format_flags, self.check_flags)
 
     @property
     def is_multivalue(self):

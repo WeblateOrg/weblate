@@ -291,6 +291,15 @@ Optionally, it can be also used as a source for the machine translation.
    :ref:`secondary-languages`,
    :ref:`mt-sources`
 
+.. _project-check_flags:
+
+Translation flags
++++++++++++++++++
+
+.. versionadded:: 5.11
+
+Customization of quality checks and other Weblate behavior, see :ref:`custom-checks`.
+
 
 .. _component:
 

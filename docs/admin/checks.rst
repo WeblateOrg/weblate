@@ -40,6 +40,7 @@ The flags are merged from following sources:
 * Translation flags (currently only ``read-only`` flag for bilingual source string).
 * File-format specific flags.
 * :ref:`component` (:ref:`component-check_flags`).
+* :ref:`project` (:ref:`project-check_flags`).
 
 The flags are comma-separated; if they have parameters, they are separated
 with colon. You can use quotes to include whitespaces or special characters
