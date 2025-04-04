@@ -19,6 +19,7 @@ Weblate 5.11
 * Changes in string flags are now tracked in history.
 * :ref:`addon-weblate.discovery.discovery` better handles hundredths of matches.
 * Dismissing :ref:`checks` automatically updates propagated strings.
+* :ref:`project-check_flags` can now also be configured on the project level.
 
 .. rubric:: Bug fixes
 

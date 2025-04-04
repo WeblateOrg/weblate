@@ -8,7 +8,7 @@ from weblate.checks.duplicate import DuplicateCheck
 from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 from weblate.lang.models import Language
-from weblate.trans.models import Component, Translation, Unit
+from weblate.trans.models import Component, Project, Translation, Unit
 
 
 class DuplicateCheckTest(CheckTestCase):
@@ -79,7 +79,9 @@ class DuplicateCheckTest(CheckTestCase):
             target="I have two two lemons lemons",
             translation=Translation(
                 language=Language("cs"),
-                component=Component(source_language=Language("en"), file_format="po"),
+                component=Component(
+                    source_language=Language("en"), file_format="po", project=Project()
+                ),
             ),
         )
         check = Check(unit=unit)
