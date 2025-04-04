@@ -245,18 +245,16 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
             # Dispatch notifications
             dispatch_changes_notifications(changes)
+
+            # Executes post save to ensure messages are sent to fedora messaging
+            change_bulk_create.send(Change, instances=changes)
         else:
             # bulk_create doesn't set the .pk of instance with MySQL
             # Save each instance individually in order to set it
             changes = []
             for change in args[0]:
-                # will trigger a post_save signal, unwanted behaviors needs to be addressed
-                # in the receiver function
                 change.save()
                 changes.append(change)
-
-        # Executes post save to ensure messages are sent to fedora messaging
-        change_bulk_create.send(Change, instances=changes)
 
         # Store last content change in cache for improved performance
         translations = set()
