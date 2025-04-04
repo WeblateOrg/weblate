@@ -2108,6 +2108,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
             "enforced_2fa",
             "translation_review",
             "source_review",
+            "check_flags",
         )
         widgets = {
             "access_control": forms.RadioSelect,
@@ -2218,6 +2219,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                     "set_language_team",
                     "use_shared_tm",
                     "contribute_shared_tm",
+                    "check_flags",
                     "enable_hooks",
                     "language_aliases",
                     "secondary_language",

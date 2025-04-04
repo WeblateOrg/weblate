@@ -21,6 +21,7 @@ Weblate 5.11
 * :doc:`/admin/machine` documentation extended.
 * :ref:`addon-weblate.discovery.discovery` better handles hundredths of matches.
 * Dismissing :ref:`checks` automatically updates propagated strings.
+* :ref:`project-check_flags` can now also be configured on the project level.
 * Improved rendering of :ref:`additional-flags` and :ref:`additional-explanation` changes in history.
 * :ref:`mt-cyrtranslit` now automatically transliterates from a matching translation instead of the source strings.
 

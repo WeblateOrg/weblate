@@ -288,6 +288,15 @@ Additional language to show together with the source language while translating.
 
    :ref:`secondary-languages`
 
+.. _project-check_flags:
+
+Translation flags
++++++++++++++++++
+
+.. versionadded:: 5.11
+
+Customization of quality checks and other Weblate behavior, see :ref:`custom-checks`.
+
 
 .. _component:
 
