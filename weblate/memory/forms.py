@@ -11,6 +11,7 @@ from django.utils.translation import gettext_lazy
 from weblate.lang.models import Language
 from weblate.memory.models import SUPPORTED_FORMATS
 from weblate.utils.forms import SortedSelect
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 
 class UploadForm(forms.Form):
@@ -20,7 +21,7 @@ class UploadForm(forms.Form):
         label=gettext_lazy("File"),
         validators=[FileExtensionValidator(allowed_extensions=SUPPORTED_FORMATS)],
         help_text=gettext_lazy("You can upload a file of following formats: %s.")
-        % ", ".join(SUPPORTED_FORMATS),
+        % format_html_join_comma("{}", list_to_tuples(SUPPORTED_FORMATS)),
     )
     source_language = forms.ModelChoiceField(
         widget=SortedSelect,
