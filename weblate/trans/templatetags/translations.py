@@ -1371,7 +1371,9 @@ def choiceval(boundfield):
         return value
     choices = {str(choice): value for choice, value in boundfield.field.choices}
     if isinstance(value, list):
-        return format_html_join_comma("{}", list_to_tuples(choices.get(val, val) for val in value))
+        return format_html_join_comma(
+            "{}", list_to_tuples(choices.get(val, val) for val in value)
+        )
     return choices.get(value, value)
 
 

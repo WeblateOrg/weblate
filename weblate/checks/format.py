@@ -481,7 +481,10 @@ class BaseFormatCheck(TargetCheck):
             yield gettext(
                 "The following format strings are in the wrong order: %s"
             ) % format_html_join_comma(
-                "{}", list_to_tuples(self.format_string(x) for x in sorted(set(result["missing"])))
+                "{}",
+                list_to_tuples(
+                    self.format_string(x) for x in sorted(set(result["missing"]))
+                ),
             )
         else:
             yield from super().format_result(result)

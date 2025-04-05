@@ -136,9 +136,7 @@ def check_celery(
                         "weblate.E034",
                         "The Celery process is outdated or misconfigured."
                         " Following items differ: {}".format(
-                            format_html_join_comma(
-                                "{}", list_to_tuples(differing)
-                            )
+                            format_html_join_comma("{}", list_to_tuples(differing))
                         ),
                     )
                 )

@@ -1099,7 +1099,9 @@ class Plural(models.Model):
         return format_html(
             PLURAL_TITLE,
             name=self.get_plural_name(idx),
-            examples=format_html_join_comma("{}", list_to_tuples(self.examples.get(idx, []))),
+            examples=format_html_join_comma(
+                "{}", list_to_tuples(self.examples.get(idx, []))
+            ),
             title=gettext("Example counts for this plural form."),
         )
 
@@ -1119,7 +1121,9 @@ class Plural(models.Model):
             yield {
                 "index": i,
                 "name": self.get_plural_name(i),
-                "examples": format_html_join_comma("{}", list_to_tuples(self.examples.get(i, []))),
+                "examples": format_html_join_comma(
+                    "{}", list_to_tuples(self.examples.get(i, []))
+                ),
             }
 
 
