@@ -168,7 +168,8 @@ Automatically translates strings using machine translation or other components.
 .. seealso::
 
    :ref:`auto-translation`,
-   :ref:`translation-consistency`
+   :ref:`translation-consistency`,
+   :ref:`mt-translation-services-priority`
 
 .. _addon-weblate.cdn.cdnjs:
 

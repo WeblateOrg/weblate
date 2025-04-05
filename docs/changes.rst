@@ -17,6 +17,7 @@ Weblate 5.11
 * :ref:`upload` is now tracked in history with details.
 * :ref:`check-c-sharp-format` now supports ``csharp-format`` flag for compatibility with GNU gettext.
 * Changes in string flags are now tracked in history.
+* :doc:`/admin/machine` documentation extended.
 * :ref:`addon-weblate.discovery.discovery` better handles hundredths of matches.
 * Dismissing :ref:`checks` automatically updates propagated strings.
 * Improved rendering of :ref:`additional-flags` and :ref:`additional-explanation` changes in history.
