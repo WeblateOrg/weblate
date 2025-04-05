@@ -26,6 +26,20 @@ WLT.Utils = (() => ({
     /* Review workflow */
     $el.find('input[name="review"][value="20"]').prop("checked", true);
   },
+
+  /**
+   * Indicate that the translation has changed
+   * by appending a warning before the editor.
+   * @returns {void}
+   */
+  indicateChanges: () => {
+    const $warning = $("<span class='text-warning'/>");
+    $warning.text(gettext("Unsaved changes!"));
+    if ($(".translation-editor").next(".text-warning").length === 0) {
+      $warning.insertAfter($(".translation-editor"));
+      $(".translation-editor").addClass("has-changes");
+    }
+  },
 }))();
 
 WLT.Editor = (() => {
@@ -41,6 +55,7 @@ WLT.Editor = (() => {
 
     this.$editor.on("input", translationAreaSelector, (e) => {
       WLT.Utils.markTranslated($(e.target).closest("form"));
+      WLT.Utils.indicateChanges();
       hasChanges = true;
     });
 
@@ -105,6 +120,7 @@ WLT.Editor = (() => {
         });
       }
       WLT.Utils.markFuzzy($this.closest("form"));
+      WLT.Utils.indicateChanges();
       hasChanges = true;
       return false;
     });
@@ -117,6 +133,7 @@ WLT.Editor = (() => {
 
       container.find(".translation-editor").attr("dir", direction);
       container.find(".highlighted-output").attr("dir", direction);
+      WLT.Utils.indicateChanges();
       hasChanges = true;
     });
 
@@ -130,6 +147,7 @@ WLT.Editor = (() => {
         .find(".translation-editor")
         .insertAtCaret(text);
       e.preventDefault();
+      WLT.Utils.indicateChanges();
       hasChanges = true;
     });
 
@@ -137,6 +155,14 @@ WLT.Editor = (() => {
     this.init();
 
     this.$translationArea[0].focus();
+
+    // Show confirmation dialog if changes have been madae
+    onbeforeunload = (e) => {
+      if (hasChanges) {
+        e.preventDefault();
+        return true; // Backwards compatibility
+      }
+    };
 
     // Skip confirmation
     this.$editor.on("click", ".skip", (_e) => {
@@ -159,6 +185,7 @@ WLT.Editor = (() => {
       const $this = $(this);
       insertEditor(this.getAttribute("data-value"), $this);
       e.preventDefault();
+      WLT.Utils.indicateChanges();
       hasChanges = true;
     });
 
