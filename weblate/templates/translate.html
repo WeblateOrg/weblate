@@ -922,6 +922,11 @@
                         {% blocktrans with object=unit.translation.component.file_format_name flags=unit.translation.component.file_format_flags.format %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktrans %}
                       </p>
                     {% endif %}
+                    {% if unit.translation.component.project.check_flags %}
+                      <p>
+                        {% blocktrans with object=unit.translation.component.project flags=unit.translation.component.project.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktrans %}
+                      </p>
+                    {% endif %}
                   </div>
                 </div>
               {% endif %}

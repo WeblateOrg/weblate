@@ -275,6 +275,14 @@ Using non standard code: ``ia_FOO:ia``
     :ref:`language-code`,
     :ref:`language-parsing-codes`
 
+.. _project-check_flags:
+
+Translation flags
++++++++++++++++++
+
+Customization of quality checks and other Weblate behavior, see :ref:`custom-checks`.
+
+
 .. _component:
 
 Component configuration
