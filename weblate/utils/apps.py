@@ -26,7 +26,7 @@ from django.db.models.lookups import Lookup, Regex
 from django.utils import timezone
 from packaging.version import Version
 
-from weblate.utils.html import format_html_join_comma
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 from .celery import is_celery_queue_long
 from .checks import weblate_check
@@ -137,7 +137,7 @@ def check_celery(
                         "The Celery process is outdated or misconfigured."
                         " Following items differ: {}".format(
                             format_html_join_comma(
-                                "{}", ((diff,) for diff in differing)
+                                "{}", list_to_tuples(differing)
                             )
                         ),
                     )

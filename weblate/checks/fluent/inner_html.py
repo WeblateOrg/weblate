@@ -19,7 +19,7 @@ from weblate.checks.fluent.utils import (
     translation_from_check,
     variant_name,
 )
-from weblate.utils.html import format_html_join_comma
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -1051,7 +1051,7 @@ class _VariantNodesDifference:
         if not variant_list:
             return ""
         return format_html_join_comma(
-            "{}", ((variant.name(),) for variant in variant_list)
+            "{}", list_to_tuples(variant.name() for variant in variant_list)
         )
 
     def _unique_target_nodes(self) -> Iterator[_HTMLNode]:

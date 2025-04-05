@@ -12,7 +12,7 @@ from pyicumessageformat import Parser
 
 from weblate.checks.base import SourceCheck
 from weblate.checks.format import BaseFormatCheck
-from weblate.utils.html import format_html_join_comma
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
@@ -455,9 +455,8 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
         if result.get("syntax"):
             yield gettext("Syntax error: %s") % format_html_join_comma(
                 "{}",
-                (
-                    (err.msg,) if err.msg else ("unknown error",)
-                    for err in result["syntax"]
+                list_to_tuples(
+                    err.msg or "unknown error" for err in result["syntax"]
                 ),
             )
 
@@ -465,26 +464,26 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
             yield gettext(
                 "One or more unknown placeholders in the translation: %s"
             ) % format_html_join_comma(
-                "{}", ((placeholder,) for placeholder in result["extra"])
+                "{}", list_to_tuples(result["extra"])
             )
 
         if result.get("missing"):
             yield gettext(
                 "One or more placeholders missing in the translation: %s"
             ) % format_html_join_comma(
-                "{}", ((placeholder,) for placeholder in result["missing"])
+                "{}", list_to_tuples(result["missing"])
             )
 
         if result.get("wrong_type"):
             yield gettext(
                 "One or more placeholder types are incorrect: %s"
             ) % format_html_join_comma(
-                "{}", ((placeholder,) for placeholder in result["wrong_type"])
+                "{}", list_to_tuples(result["wrong_type"])
             )
 
         if result.get("no_other"):
             yield gettext("Missing other sub-message for: %s") % format_html_join_comma(
-                "{}", ((placeholder,) for placeholder in result["no_other"])
+                "{}", list_to_tuples(result["no_other"])
             )
 
         if result.get("bad_plural"):
@@ -506,7 +505,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
                 "One or more placeholders should have "
                 "a corresponding XML tag in the translation: %s"
             ) % format_html_join_comma(
-                "{}", ((placeholder,) for placeholder in result["should_be_tag"])
+                "{}", list_to_tuples(result["should_be_tag"])
             )
 
         if result.get("not_tag"):
@@ -514,21 +513,21 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
                 "One or more placeholders should not be "
                 "an XML tag in the translation: %s"
             ) % format_html_join_comma(
-                "{}", ((placeholder,) for placeholder in result["not_tag"])
+                "{}", list_to_tuples(result["not_tag"])
             )
 
         if result.get("tag_not_empty"):
             yield gettext(
                 "One or more XML tags has unexpected content in the translation: %s"
             ) % format_html_join_comma(
-                "{}", ((placeholder,) for placeholder in result["tag_not_empty"])
+                "{}", list_to_tuples(result["tag_not_empty"])
             )
 
         if result.get("tag_empty"):
             yield gettext(
                 "One or more XML tags missing content in the translation: %s"
             ) % format_html_join_comma(
-                "{}", ((placeholder,) for placeholder in result["tag_empty"])
+                "{}", list_to_tuples(result["tag_empty"])
             )
 
     def check_highlight(self, source: str, unit: Unit):

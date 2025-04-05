@@ -37,7 +37,7 @@ from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.util import sort_objects, sort_unicode
-from weblate.utils.html import format_html_join_comma
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.validators import validate_plural_formula
 
 if TYPE_CHECKING:
@@ -1099,7 +1099,7 @@ class Plural(models.Model):
         return format_html(
             PLURAL_TITLE,
             name=self.get_plural_name(idx),
-            examples=format_html_join_comma("{}", self.examples.get(idx, [])),
+            examples=format_html_join_comma("{}", list_to_tuples(self.examples.get(idx, []))),
             title=gettext("Example counts for this plural form."),
         )
 
@@ -1119,7 +1119,7 @@ class Plural(models.Model):
             yield {
                 "index": i,
                 "name": self.get_plural_name(i),
-                "examples": format_html_join_comma("{}", self.examples.get(i, [])),
+                "examples": format_html_join_comma("{}", list_to_tuples(self.examples.get(i, []))),
             }
 
 

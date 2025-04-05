@@ -84,7 +84,7 @@ from weblate.utils.colors import ColorChoices
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField
-from weblate.utils.html import format_html_join_comma
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.licenses import (
     get_license_choices,
     get_license_name,
@@ -2952,7 +2952,7 @@ class Component(
         if errors:
             message = gettext(
                 "Could not parse base file for new translations: %s"
-            ) % format_html_join_comma("{}", ((error,) for error in errors))
+            ) % format_html_join_comma("{}", list_to_tuples(errors))
             raise ValidationError({"new_base": message})
         raise ValidationError(
             {"new_base": gettext("Unrecognized base file for new translations.")}
@@ -3492,7 +3492,6 @@ class Component(
             source_language=self.source_language.code,
         )
         if self.pk:
-            print(store)
             store_post_load.send(
                 sender=self.__class__,
                 translation=self.source_translation,
@@ -3522,7 +3521,6 @@ class Component(
                 is_template=True,
             )
             if self.pk:
-                print(store)
                 store_post_load.send(
                     sender=self.__class__,
                     translation=self.source_translation,
