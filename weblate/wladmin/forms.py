@@ -103,7 +103,7 @@ class AppearanceForm(forms.Form):
         label=gettext_lazy("Navigation color (Light, Dark)"), initial="#1fa385,#0f9375"
     )
     focus_color = ThemeColorField(
-        label=gettext_lazy("Focus color (Light, Dark)"), initial="#2eccaa,#1ebc9a"
+        label=gettext_lazy("Focus color (Light, Dark)"), initial="#2eccaa,#25303b"
     )
     hover_color = ThemeColorField(
         label=gettext_lazy("Hover color (Light, Dark)"), initial="#144d3f,#0a3d2f"
