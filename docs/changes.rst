@@ -25,6 +25,7 @@ Weblate 5.11
 
 * Fixed captcha verification when some time zone was configured.
 * Improved translation propagation performance.
+* Leading and trailing whitespace are now correctly stripped in glossary strings that also contain a :ref:`check-prohibited-initial-character`.
 * Fixed background parsing of newly added translation files.
 
 .. rubric:: Compatibility
