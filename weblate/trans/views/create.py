@@ -50,6 +50,8 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.models.component import ComponentQuerySet
 
+SESSION_CREATE_KEY = "session_component"
+
 
 class BaseCreateView(CreateView):
     def __init__(self, **kwargs) -> None:
@@ -243,7 +245,10 @@ class CreateComponent(BaseCreateView):
                 result.pop("data", None)
                 result.pop("files", None)
             if self.has_all_fields() and not self.empty_form:
-                result["data"] = self.request.GET
+                if SESSION_CREATE_KEY in self.request.session:
+                    result["data"] = self.request.session[SESSION_CREATE_KEY]
+                else:
+                    result["data"] = self.request.GET
         return result
 
     def get_success_url(self):
@@ -388,8 +393,13 @@ class CreateComponent(BaseCreateView):
         else:
             self.projects = request.user.managed_projects
         self.initial = {}
+        session_data = {}
+        if SESSION_CREATE_KEY in request.GET and SESSION_CREATE_KEY in request.session:
+            session_data = request.session[SESSION_CREATE_KEY]
         for field in self.basic_fields:
-            if field in request.GET:
+            if field in session_data:
+                self.initial[field] = session_data[field]
+            elif field in request.GET:
                 self.initial[field] = request.GET[field]
 
         try:
@@ -398,8 +408,15 @@ class CreateComponent(BaseCreateView):
             self.duplicate_existing_component = None
 
     def has_all_fields(self):
+        session_data = {}
+        if (
+            SESSION_CREATE_KEY in self.request.GET
+            and SESSION_CREATE_KEY in self.request.session
+        ):
+            session_data = self.request.session[SESSION_CREATE_KEY]
         return self.stage == "init" and all(
-            field in self.request.GET for field in self.basic_fields
+            field in session_data or field in self.request.GET
+            for field in self.basic_fields
         )
 
     def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
@@ -564,8 +581,13 @@ class CreateComponentSelection(CreateComponent):
         return ComponentSelectForm
 
     def redirect_create(self, **kwargs):
+        # Store params in session
+        self.request.session[SESSION_CREATE_KEY] = kwargs
+
         return redirect(
-            "{}?{}".format(reverse("create-component-vcs"), urlencode(kwargs))
+            "{}?{}".format(
+                reverse("create-component-vcs"), urlencode({SESSION_CREATE_KEY: 1})
+            )
         )
 
     def form_valid(self, form):
