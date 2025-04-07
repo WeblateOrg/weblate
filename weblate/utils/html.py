@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+import threading
 from collections import defaultdict
 from typing import TYPE_CHECKING, Any
 
@@ -75,6 +76,7 @@ CLEAN_CONTENT_TAGS = {"script", "style"}
 # Allow some chars:
 # - non breakable space
 SANE_CHARS = re.compile(r"[\xa0]")
+NH3_LOCK = threading.Lock()
 
 
 class MarkupExtractor(ParserTarget):
@@ -117,13 +119,14 @@ class HTMLSanitizer:
 
         tags, attributes = extract_html_tags(source)
 
-        text = nh3.clean(
-            text,
-            link_rel=None,
-            tags=tags,
-            attributes=attributes,
-            clean_content_tags=CLEAN_CONTENT_TAGS - tags,
-        )
+        with NH3_LOCK:
+            text = nh3.clean(
+                text,
+                link_rel=None,
+                tags=tags,
+                attributes=attributes,
+                clean_content_tags=CLEAN_CONTENT_TAGS - tags,
+            )
 
         return self.add_back_special(text)
 
