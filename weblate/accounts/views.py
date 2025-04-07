@@ -271,6 +271,11 @@ def mail_admins_contact(
             )
         except ZammadError as error:
             messages.error(request, str(error))
+        except OSError:
+            report_error("Could not create ticket")
+            messages.error(
+                request, gettext("Could not open a ticket, please try again later.")
+            )
         else:
             messages.success(
                 request,

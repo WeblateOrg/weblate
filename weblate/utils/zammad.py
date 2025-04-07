@@ -74,6 +74,7 @@ def submit_zammad_ticket(
             "body": body,
             "email": email,
         },
+        timeout=10,
     )
     data = process_zammad_response(response)
 
