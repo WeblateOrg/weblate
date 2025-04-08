@@ -458,6 +458,9 @@ DJANGO_SETTINGS_MODULE = "weblate.settings_test"
 FAIL_INVALID_TEMPLATE_VARS = true
 python_files = ["test_*.py", "tests.py"]
 
+[tool.ruff.format]
+docstring-code-format = true
+
 [tool.ruff.lint]
 extend-safe-fixes = [
   "ANN",
