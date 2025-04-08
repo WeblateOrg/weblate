@@ -671,6 +671,7 @@
         let done = false;
 
         /* This is the merging and insert sort logic */
+        // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
         $translations.children("tr").each(function (_idx) {
           const $this = $(this);
           const base = $this.data("raw");
