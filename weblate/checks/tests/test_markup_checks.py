@@ -643,6 +643,19 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
+    def test_references_space(self) -> None:
+        result = self.do_test(
+            True,
+            (
+                "If the team specifies any :guilabel:`Component list`, all the permissions given to members of that team are granted for all the components in the component lists attached to the team, and an access with no additional permissions is granted for all the projects these components are in. :guilabel:`Components` and :guilabel:`Projects` are ignored.",
+                "Als het team een :guilabel:`Onderdelenlijst`specificeert , worden alle rechten, die aan leden van dat team zijn toegekend, voor alle componenten in de onderdelen lijsten gekoppeld aan het team, en toegang zonder aanvullende rechten wordt toegewezen voor alle projecten waar deze onderdelen in staan. :guilabel:`Onderdelen ` en :guilabel:`Projecten` worden genegeerd.",  # codespell:ignore
+                "rst-text",
+            ),
+        )
+        self.assertEqual(
+            result, {"errors": [], "extra": [], "missing": [":guilabel:", ":guilabel:"]}
+        )
+
 
 class RSTSyntaxCheckTest(CheckTestCase):
     check = RSTSyntaxCheck()
