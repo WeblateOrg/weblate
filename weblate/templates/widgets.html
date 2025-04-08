@@ -34,7 +34,7 @@
 
   <div class="row mt-4">
     <div class="col-md-4">
-      <div class="widget-card bg-white p-3">
+      <div class="widget-card p-3">
         <h4>Widget Settings</h4>
         <label for="widget_type" class="form-label mt-2">{% translate "Widget" %}</label>
         <select id="widget_type" class="select-tab form-control">
@@ -72,14 +72,17 @@
     </div>
 
     <div class="col-md-8">
-      <div class="widget-card bg-white p-3">
+      <div class="widget-card p-3">
         <h4>Live Preview</h4>
         <div class="preview-box" id="preview">
-          <img id="widgetImage" src="{{ image_src }}" alt="{% translate "Translation status" %}" style="max-width: 500px;" />
+          <img id="widget-image"
+               src="data:,"
+               alt="{% translate "Translation status" %}"
+               style="max-width: 500px" />
         </div>
       </div>
 
-      <div class="widget-card bg-white p-3">
+      <div class="widget-card p-3">
         <h4>Embed Code</h4>
         <textarea id="embedCode" class="code-example form-control" rows="3" readonly>
         </textarea>
@@ -90,8 +93,6 @@
 {% endblock content %}
 
 {% block extra_script %}
-  <script type="application/json" id="widgets-data">
-    {{ widgets_json|safe }}
-  </script>
+  <script type="application/json" id="widgets-data" data-json="{{ widgets_json }}"></script>
   <script defer data-cfasync="false" src="{% static "js/widgets.js" %}{{ cache_param }}"></script>
 {% endblock %}
