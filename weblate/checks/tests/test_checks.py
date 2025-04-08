@@ -174,7 +174,7 @@ class CheckTestCase(SimpleTestCase, ABC):
 
     def do_test(
         self, expected: bool, data: tuple[str, str, str] | None, lang: str | None = None
-    ) -> None:
+    ):
         """Perform single check if we have data to test."""
         if data is None:
             self.skipTest("Not supported")
@@ -192,7 +192,7 @@ class CheckTestCase(SimpleTestCase, ABC):
             self.assertFalse(should_skip, msg=f"Check should not skip for {params}")
         elif should_skip:
             # There is nothing to test here
-            return
+            return None
 
         # Verify check logic
         result = self.check.check_single(
@@ -202,6 +202,7 @@ class CheckTestCase(SimpleTestCase, ABC):
             self.assertTrue(result, msg=f"Check did not fire for {params}")
         else:
             self.assertFalse(result, msg=f"Check did fire for {params}")
+        return result
 
     def test_single_good_matching(self) -> None:
         self.do_test(False, self.test_good_matching)
